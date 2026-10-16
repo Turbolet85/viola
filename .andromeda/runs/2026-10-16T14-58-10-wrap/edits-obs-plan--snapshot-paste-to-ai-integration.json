@@ -1,0 +1,6 @@
+{"file": ".andromeda/registries/contracts/obs-plan/snapshot-paste-to-ai-integration.md",
+ "ops": [
+  {"line": 5, "find": "`state`, `last_error` closed enum, `api_sessions_equal_list`", "replace": "`state` and `last_error` closed enum", "why": "W-CLAUSE /api/sessions equality (test-plan Status shape)"}
+ ],
+ "beyond_named": []
+}

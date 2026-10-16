@@ -1,0 +1,26 @@
+{
+ "file": ".andromeda/registries/contracts/architecture/crate-dependency-direction.md",
+ "ops": [
+  {
+   "line": 5,
+   "find": "shared by CLI `list`, `mcp` and `ui`)",
+   "replace": "shared by CLI `list` and `mcp`)",
+   "why": "W-CLAUSE ui"
+  },
+  {
+   "line": 5,
+   "find": ", and notify with tailing;",
+   "replace": ";",
+   "why": "W-CLAUSE ui fan-out tailing"
+  },
+  {
+   "start": 8,
+   "end": 8,
+   "expect_start": "- `viola-ui` →",
+   "expect_end": "- `viola-ui` →",
+   "payload": [],
+   "why": "W row viola-ui crate (named)"
+  }
+ ],
+ "beyond_named": []
+}

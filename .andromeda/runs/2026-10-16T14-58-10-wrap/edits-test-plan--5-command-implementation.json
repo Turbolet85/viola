@@ -1,0 +1,207 @@
+{
+ "file": ".andromeda/registries/contracts/test-plan/5-command-implementation.md",
+ "ops": [
+  {
+   "line": 4,
+   "find": " [--ui]",
+   "replace": "",
+   "why": "W-CLAUSE boot --ui (not in tree)"
+  },
+  {
+   "line": 4,
+   "find": " and `--ui` is implied",
+   "replace": "",
+   "why": "W-CLAUSE boot --ui"
+  },
+  {
+   "line": 4,
+   "find": ", and the UI is then started only if `--ui` is given (Paths 2 and 7, E4, the Playwright session fixture; `--perf` boots without it)",
+   "replace": "",
+   "why": "W-CLAUSE boot --ui"
+  },
+  {
+   "start": 10,
+   "end": 12,
+   "expect_start": "  6. With `--ui`, the supervisor also st",
+   "expect_end": "- **Embedded-asset freshness:** the page",
+   "payload": [],
+   "why": "W boot steps 6-7 (viola ui, token exchange) + Embedded-asset freshness"
+  },
+  {
+   "start": 17,
+   "end": 18,
+   "expect_start": "",
+   "expect_end": "  For the UI, `GET /health` must return ",
+   "payload": [],
+   "why": "W UI readiness"
+  },
+  {
+   "line": 19,
+   "find": "|\"ui-not-ready\"|\"ui-port-taken\"|\"stale-embedded-assets\"|\"token-exchange-failed\"",
+   "replace": "",
+   "why": "W-CLAUSE reasons not in tree"
+  },
+  {
+   "line": 19,
+   "find": " `token-exchange-failed` means boot step 7 got a status other than 303, or a `Set-Cookie` without `HttpOnly` or `SameSite=Strict`. `missing` then names the failed attribute, and the cookie value is never printed.",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 20,
+   "find": ", and 10 s for the UI",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 21,
+   "end": 21,
+   "expect_start": "- UI port race: the port `boot` step 6 t",
+   "expect_end": "- UI port race: the port `boot` step 6 t",
+   "payload": [],
+   "why": "W UI port race"
+  },
+  {
+   "line": 27,
+   "find": "|http|sse",
+   "replace": "",
+   "why": "W-CLAUSE http_/sse_ (not in tree)"
+  },
+  {
+   "line": 28,
+   "find": "|http|sse",
+   "replace": "",
+   "why": "W-CLAUSE http_/sse_"
+  },
+  {
+   "line": 32,
+   "find": ", E4",
+   "replace": "",
+   "why": "W-CLAUSE E4 stubbed"
+  },
+  {
+   "start": 71,
+   "end": 72,
+   "expect_start": "  - if the UI is booted, `GET /ready` (u",
+   "expect_end": "  - `GET /api/sessions` with the stored ",
+   "payload": [],
+   "why": "W status HTTP reads (not in tree)"
+  },
+  {
+   "start": 76,
+   "end": 77,
+   "expect_start": "  - UI: `checks.{viola_home,event_tail,c",
+   "expect_end": "  - derived: `api_sessions_equal_list`, ",
+   "payload": [
+    "  - `ui` and `api_sessions_equal_list`: `null`"
+   ],
+   "why": "W polled UI checks cut; null members kept (a)"
+  },
+  {
+   "line": 80,
+   "find": " or 503",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 85,
+   "find": ", and `viola ui` shuts down gracefully",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 89,
+   "end": 89,
+   "expect_start": "  5. `127.0.0.1:<port>` must be bindable",
+   "expect_end": "  5. `127.0.0.1:<port>` must be bindable",
+   "payload": [],
+   "why": "W cleanup step 5 port/url-file check (not in tree)"
+  },
+  {
+   "line": 90,
+   "find": "  6. It removes",
+   "replace": "  5. It removes",
+   "why": "renumber after step 5 cut"
+  },
+  {
+   "line": 92,
+   "find": "; `port_free` and `url_file_removed` are `null` until their surfaces exist",
+   "replace": "; `port_free` and `url_file_removed` stay `null`",
+   "why": "W-CLAUSE; null keys kept (a)"
+  },
+  {
+   "line": 92,
+   "find": " It does fail the `url_file_removed` check for the UI, because that file is removed only on graceful shutdown.",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 102,
+   "find": "(`cleanup` step 6)",
+   "replace": "(`cleanup` step 5)",
+   "why": "renumber cite"
+  },
+  {
+   "line": 107,
+   "find": ", `ui` flag and port",
+   "replace": "",
+   "why": "W-CLAUSE (supervise has no ui)"
+  },
+  {
+   "line": 108,
+   "find": "boot steps 5–6",
+   "replace": "boot step 5",
+   "why": "W-CLAUSE step 6 cut"
+  },
+  {
+   "line": 109,
+   "find": "|\"ui\"",
+   "replace": "",
+   "why": "W-CLAUSE (supervise has no ui)"
+  },
+  {
+   "start": 111,
+   "end": 114,
+   "expect_start": "- **`ui-restart --session <id>`** (overs",
+   "expect_end": "  - It prints one JSON document, `{\"v\":1",
+   "payload": [
+    "- **`ui-restart --session <id>`**: the shims forward it unchanged; `viola-harness` implements no such subcommand."
+   ],
+   "why": "W ui-restart body cut; shim forwarding kept (a)"
+  },
+  {
+   "line": 161,
+   "find": ", `ready-503`",
+   "replace": "",
+   "why": "W-CLAUSE (b)"
+  },
+  {
+   "line": 161,
+   "find": ", `sessions-<http status>`, `sessions-mismatch`, `ui-unreachable`",
+   "replace": "",
+   "why": "W-CLAUSE (b)"
+  }
+ ],
+ "beyond_named": [
+  {
+   "op": 3,
+   "reason": "a vs b: Embedded-asset freshness is not in boot code, but the shims keep a stale-embedded-assets comment"
+  },
+  {
+   "op": 5,
+   "reason": "a vs b: stale-embedded-assets named only in a shim comment"
+  },
+  {
+   "op": 13,
+   "reason": "a vs b: status.rs emits ui / api_sessions_equal_list null"
+  },
+  {
+   "op": 18,
+   "reason": "a vs b: cleanup.rs null keys kept, product half cut"
+  },
+  {
+   "op": 24,
+   "reason": "a vs b: shims forward ui-restart, harness has none"
+  }
+ ]
+}

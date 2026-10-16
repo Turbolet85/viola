@@ -1,0 +1,33 @@
+{"file": ".andromeda/layout-templates.md",
+ "ops": [
+  {"start": 7, "end": 9, "expect_start": "_Auth UX and security-gated", "expect_end": "(Phase 5 / 5a / 6), and specific", "payload": ["_The security tier has already shaped the design system foundation", "(Phase 5 / 5a / 6)._"], "why": "preamble: cut the web auth-screen part only"},
+  {"start": 18, "end": 322, "expect_start": "**Tooling context:** Framework React", "expect_end": "  - The later phone view reuses", "payload": ["The frontend is deferred to 0.2.0; its technology is not chosen."], "why": "W-SECTION Surface: web-spa body -> stub (L17/L323 blanks kept)"},
+  {"line": 330, "find": " (same names as web-spa)", "replace": "", "why": "CROSS to cut web-spa token table"},
+  {"line": 341, "find": ", right where the web prints them", "replace": "", "why": "W-CLAUSE"},
+  {"line": 342, "find": "Inside one field, ` - ` replaces the web's `·`", "replace": "Inside one field, ` - ` is the separator", "why": "W-CLAUSE"},
+  {"line": 345, "find": "serves both surfaces: the web resolves it to the CSS aliases in `/assets/app.css`, the cli to the SGR tokens, the terminal default foreground or \"not used\". The differences are platform mechanics only: ", "replace": "resolves on the cli to the SGR tokens, the terminal default foreground or \"not used\". Its platform mechanics are ", "why": "W-CLAUSE + CROSS /assets/app.css (one op: medit cannot sort two ops on one line)"},
+  {"start": 365, "end": 365, "expect_start": "- `viola ui` prints one unstyled launch line", "expect_end": "- `viola ui` prints one unstyled launch line", "payload": [], "why": "web-only bullet: viola ui launch line"},
+  {"line": 380, "find": ", the same slots as the web racks", "replace": "", "why": "W-CLAUSE"},
+  {"line": 406, "find": "shapes are identical to `/api/sessions`.", "replace": "shapes are the `list` payload contract (architecture §Standard Contracts).", "why": "CROSS /api/sessions -> list --json payload"},
+  {"line": 513, "find": "list, ui", "replace": "list", "why": "W-CLAUSE help group"},
+  {"line": 560, "find": " It is the web ATIS without `VIOLA`, without the address, without `resets` times and without the TAPE cell.", "replace": "", "why": "W-CLAUSE + CROSS web ATIS"},
+  {"line": 568, "find": ", just as they are text-only on the web", "replace": "", "why": "W-CLAUSE"},
+  {"line": 569, "find": "`viola list` (and `viola ui`) show the whole bay", "replace": "`viola list` shows the whole bay", "why": "W-CLAUSE"},
+  {"line": 576, "find": ", like the web's send line with its box at the far right", "replace": "", "why": "W-CLAUSE"},
+  {"line": 583, "find": ", identical to the web strip's fields and words", "replace": "", "why": "W-CLAUSE"},
+  {"line": 601, "find": "hints, errors and the `viola ui` launch line go to stderr", "replace": "hints and errors go to stderr", "why": "W-CLAUSE"},
+  {"line": 608, "find": " and on the web page", "replace": "", "why": "W-CLAUSE"},
+  {"line": 613, "find": "(the same string the web prints in the Callsign cell, never case-transformed)", "replace": "(never case-transformed)", "why": "W-CLAUSE"},
+  {"line": 614, "find": "Adding a human column would break the six-column parity with the web strip, so it is a design change", "replace": "Adding a human column is a design change", "why": "W-CLAUSE"},
+  {"start": 615, "end": 621, "expect_start": "- **Multi-surface coordination:**", "expect_end": "  - The web page never offers an action.", "payload": [
+    "- **Shared vocabulary:**",
+    "  - The six captions, words and slot order are fixed, and a future page reuses them.",
+    "  - The readback vocabulary is `open`, `read back`, `unable`, `unconfirmable`. The CLI brackets the box.",
+    "  - ` - ` separates inside a CLI field, and an arrow is `->`. There is no CLI inbound `<-` form.",
+    "  - Amber means `DIALOG` and nothing else. `stale` is SGR dim in the terminal.",
+    "  - The CLI is where every action lives."
+   ], "why": "page halves cut, one parity-intent line kept, heading renamed (one surface left)"}
+ ],
+ "beyond_named": [{"op": 6,"reason": "wholly-web bullet (`viola ui` launch line) in cli Primary screens, outside the named sections"}],
+ "marker_op": null
+}

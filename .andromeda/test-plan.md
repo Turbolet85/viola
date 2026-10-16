@@ -20,10 +20,10 @@ boundary tests / mocks._
 ## 1. Test Scope Summary
 
 **Test tier:** `Comprehensive (2)`
-_Justification: The passed security tier is Minimal, but the security excerpt adds targeted elevations and 9 attack vectors, each needing negative tests. It also explicitly hands 7 parser surfaces to tests for property/fuzz coverage. Test-scope Sec 2 has 8 agent-driven surface entries (cli verbs, hook exec, tui passthrough, the IPC channel, MCP stdio, the GUI HTTP API, web-spa and library crates) across 3 required OSes. Test-scope Sec 1 has 18 entities and Sec 4 has 7 critical paths that cross surfaces. Five drivers beyond the Standard baseline push the tier to Comprehensive:_
+_Justification: The passed security tier is Minimal, but the security excerpt adds targeted elevations and 9 attack vectors, each needing negative tests. It also explicitly hands 7 parser surfaces to tests for property/fuzz coverage. Test-scope Sec 2 has 6 agent-driven surface entries (cli verbs, hook exec, tui passthrough, the IPC channel, MCP stdio and library crates) across 3 required OSes. Test-scope Sec 1 has 15 entities and Sec 4 has 7 critical paths that cross surfaces. Five drivers beyond the Standard baseline push the tier to Comprehensive:_
 - _the creator brief requires multi-platform CI (Founder Direction 4, D3)_
 - _crash-safe self-healing state needs chaos tests_
-- _hook deadlines and SSE keep-alive need performance-budget tests_
+- _hook deadlines need performance-budget tests_
 - _multi-version CLI fixtures need compat tests_
 - _the founder mandates mutation testing: per chunk from chunk 1, and since 2026-09-28 at the epoch boundary through `/andromeda-code-audit` (the founder's ruling, 2026-09-28 17:59)_
 
@@ -61,16 +61,10 @@ _The one Comprehensive component that does not apply is compliance verification:
 - **Entity:** `viola-mcp`: rmcp 3.4.1 stdio server with tools `send · wait · last · answer · list`, `isError` mapping, and server-side re-validation of `target`, `dialog_id`, `response` and `text`
   - **Source:** arch excerpt, Stack and Standard Contracts (MCP); security excerpt, Vector 5
   - **Testability:** testable
-- **Entity:** `viola-ui`: axum GET + SSE, the Host allowlist, token exchange and cookie gate, security headers, Problem Details, and `Last-Event-ID` resume
-  - **Source:** arch excerpt, Standard Contracts (GUI HTTP); security excerpt, Vector 3
-  - **Testability:** testable
-- **Entity:** web page (React + TypeScript `viola-*` components in a built bundle, embedded `/` and `/assets/*`; the toolchain is OPEN, owned by the route's frontend-toolchain entry): the ATIS header, WRAPPED / UNWRAPPED · READ-ONLY racks, transfer markers, the event tape, readback boxes, the cocked strip and the state strips
-  - **Source:** design excerpt, Surfaces (web-spa) and Brand Identity Anchors; layout excerpt, web-spa layout types and Signature Placements
-  - **Testability:** testable
 - **Entity:** `viola hook <event>` and `viola hook statusline`: exec-form Claude Code hooks. They always exit 0, never write stderr, emit decision bodies, and write `rate_limits` → `budget.json` (only when the payload holds a `rate_limits` object) before passing the statusline through (the pass-through on Unix only; on Windows the arm runs no command)
   - **Source:** arch excerpt, Standard Contracts (Hooks); security excerpt, Vector 4
   - **Testability:** testable
-- **Entity:** CLI verbs and the `--json` / exit-code contract (`run · revive · send · wait · last · list · answer · pause · release · link · unlink · ui · verify · plugin install`, global `--home`, exits 0/1/2/10–14/20/21; `revive` takes no `--json`, and its exits are 0, 1 for a refusal (the strict-modes check ahead of the log, or a preflight reading) and 2 for a clap usage error, a malformed `--id` included), plus the human TTY output (k9s-style `viola list`, the readback mirror, C0/C1 escaping)
+- **Entity:** CLI verbs and the `--json` / exit-code contract (`run · revive · send · wait · last · list · answer · pause · release · link · unlink · verify · plugin install`, global `--home`, exits 0/1/2/10–14/20/21; `revive` takes no `--json`, and its exits are 0, 1 for a refusal (the strict-modes check ahead of the log, or a preflight reading) and 2 for a clap usage error, a malformed `--id` included), plus the human TTY output (k9s-style `viola list`, the readback mirror, C0/C1 escaping)
   - **Source:** arch excerpt, Standard Contracts (CLI); design excerpt, Surfaces (cli); layout excerpt, cli Signature Placements
   - **Testability:** testable
 - **Entity:** on-disk event log `instances/<name>/events.ndjson` (prompts and assistant output, high classification) plus the design cross-lane CL-1 `send-issued` / `send-refused` events
@@ -80,15 +74,12 @@ _The one Comprehensive component that does not apply is compliance verification:
   - **Source:** arch excerpt, On-disk (Snapshot envelope, Instance snapshot, Other files); security excerpt, Data Classifications (Config and code-bearing state) and Vector 7
   - **Testability:** partially-testable
   - **Reason if not fully testable:** same Windows DACL limitation as `viola-state`. Everything else is testable in a temp home.
-- **Entity:** GUI per-launch token: 32 getrandom bytes, `ui/<port>.url` (0600, removed on graceful shutdown), the `viola_<port>` cookie, constant-time compare
-  - **Source:** security excerpt, Vector 3 (Token exchange) and Data Classifications (GUI per-launch token)
-  - **Testability:** testable (constant-time behaviour is asserted by a static source-scan test (§4, §12), not by a timing measurement)
 - **Entity:** inherited credentials strip (`CLAUDE_CODE_MESSAGING_TOKEN` / `_SOCKET` and every other inherited `CLAUDE*` name under the R8 prefix rule, except persistent-environment names — Windows registry `Environment` value names, Unix `config.json` `claude_env_keep` — and always the 11-name identity floor measured on the Windows host; a differing Linux dev-host reading on `claude` 2.1.287 stands beside it and moves nothing, §4 viola-agent-claude)
   - **Source:** security excerpt, Data Classifications (Inherited credentials); creator excerpt, Must-Work (R8/S6)
   - **Testability:** partially-testable
   - **Reason if not fully testable:** a stub child that reports its env can prove the strip happened. Whether the real `claude` then registers as a session of its own can only be observed in local `viola verify` / live tests.
 - **Entity:** liveness enrichment (sysinfo 0.39.6 + `claude agents --json`: unwrapped rows, idle/busy status)
-  - **Source:** arch excerpt, Stack (sysinfo + `claude agents --json`) and GUI HTTP (`/api/sessions` unwrapped row)
+  - **Source:** arch excerpt, Stack (sysinfo + `claude agents --json`)
   - **Testability:** partially-testable
   - **Reason if not fully testable:** the parser and row mapping are testable with a stub `claude` on PATH that emits recorded JSON. The real subcommand's output shape is reachable only locally.
 - **Entity:** budget data source (statusline `rate_limits.five_hour|seven_day.used_percentage`, `resets_at`)
@@ -103,13 +94,10 @@ _The one Comprehensive component that does not apply is compliance verification:
   - Cross-OS-user attacks (a second local user squatting or connecting to the endpoint, reading the home). Hosted runners provide one account (security excerpt, Vectors 1 and 7).
   - Windows volumes without persistent ACLs and foreign-owner SIDs on hosted runners (security excerpt, Vector 7 and Data Classifications).
   - macOS local runs. Security excerpt, Context: "macOS is CI-only in v1".
-- **N/A (deferred, not in v1 scope):**
-  - Mobile / phone view (arch excerpt, Surfaces, Deferred; layout excerpt: "<760 not laid out in v1").
-  - v1.x `POST /api/sessions/{name}/pause|unlink` and the brake buttons (arch excerpt, GUI HTTP "Reserved, not served in v1"). The only v1 assertion is that non-GET returns 405.
 
 **Surfaces under test:**
 
-- **Surface:** cli (`viola` verbs: `send · wait · last · list · answer · pause · release · link · unlink · verify · plugin install · ui · run` and `revive` launch semantics; `revive` has the human signal only: exit 0 / 1 / 2, on a refusal one `unable:` line and a last-line `hint:` on stderr with empty stdout, for `--list` one `<ts>  <cause>  <id>` row per logged session on stdout, and no JSON document)
+- **Surface:** cli (`viola` verbs: `send · wait · last · list · answer · pause · release · link · unlink · verify · plugin install · run` and `revive` launch semantics; `revive` has the human signal only: exit 0 / 1 / 2, on a refusal one `unable:` line and a last-line `hint:` on stderr with empty stdout, for `--list` one `<ts>  <cause>  <id>` row per logged session on stdout, and no JSON document)
   - **Driver:** subprocess + `assert_cmd` / `Command::cargo_bin("viola")`, with `--home <per-test temp>` and `--json`
   - **Signal:** exit code (0, 1, 2, 10–14, 20, 21) plus one JSON document on stdout (`{"v":1,"ok":…}` / `{"v":1,"refusal":…,"detail":…}` / `{"v":1,"error":…}`). Human mode is checked by stdout/stderr line match: `[RB] read back … cursor <n>`, `unable  <name>  <reason>  <detail>` + last-line `hint:`, `stamped <ver>  <n> pass  <n> fail`. There must be no SGR under non-TTY / `NO_COLOR` / `TERM=dumb`.
   - **Boundary:** cross-surface (verbs talk to the `run` wrapper over the IPC channel, and read disk for `list`)
@@ -139,25 +127,7 @@ _The one Comprehensive component that does not apply is compliance verification:
   - **Boundary:** cross-surface (MCP → wrapper channel → run wrapper → fake agent)
   - **Notes:** traced to arch excerpt, MCP and security excerpt, Vector 5. Schemas are advisory, so negative inputs must be sent that violate the advertised schema.
 
-- **Surface:** api-service (GUI HTTP GET routes on `127.0.0.1:<port>`: `/health`, `/ready`, `/api/info`, `/api/sessions`, `/api/links`, SSE `/api/events`, `/`, `/assets/*`)
-  - **Driver:** language-native HTTP client (reqwest) + curl for raw Host-header / method probes. The SSE client parses the `event:` / `data:` / `id:` fields.
-  - **Signal:** HTTP status plus a JSON body check. Examples: `/health` `{"v":1,"status":"ok",…}`, `/ready` `status` + `checks{viola_home,event_tail,claude_agents}`, the `/api/sessions` envelope incl. `skipped` and `budget`, and the Problem Details URNs. The header set is checked too: CSP, `nosniff`, `no-referrer`, CORP, `no-store`, no `Access-Control-*`, SSE not compressed. For SSE, the `id:` `<ViolaName>:<offset>` list is matched against the file offsets.
-  - **Boundary:** cross-surface (reads disk written by `run` / `hook`)
-  - **Notes:** traced to arch excerpt, GUI HTTP and security excerpt, Vector 3. The test obtains the token by reading `ui/<port>.url` from the temp home, then exchanges it at `GET /?t=<token>` for the cookie.
-
-- **Surface:** web-spa (the `viola ui` single page, "strip bay")
-  - **Driver:** Playwright headless (Chromium) on all three CI OSes (the browser pipe, founder ruling W125). The design excerpt's render and contrast checks (DejaVu fonts) stay judged on the ubuntu leg.
-  - **Signal:**
-    - DOM state through role-based queries: `role="table"` racks, `role="row"` strips, `role="columnheader"` captions NAME · LIVE · STATUS · WHEEL · DIALOG · CLI, `role="log"` tape, `role="status"` live region
-    - `data-*` attributes: `data-dialog="pending"`, `data-liveness="stale"`, `data-wrapped="false"`, `viola-readback[data-rb=open|read|refused|unconfirmable]`
-    - `document.title` (`DIALOG <name> · viola` / `viola`)
-    - the fixed state-strip copy
-    - `scrollWidth <= clientWidth` at 1024 and 760–1023 widths
-    - the console free of CSP / Trusted Types violations
-  - **Boundary:** cross-surface (page ← SSE / `api/*` ← disk ← `run` / `hook` / cli)
-  - **Notes:** traced to design excerpt, Surfaces and Brand Identity Anchors, and layout excerpt, Signature Placements. Assertions are DOM / attribute / text only, with no screenshot diffing. `<760px` is not laid out in v1 (N/A).
-
-- **Surface:** library-only (workspace crates `viola-core`, `viola-pty`, `viola-channel`, `viola-state`, `viola-agent-claude`, `viola-mcp`, `viola-ui` at the unit level)
+- **Surface:** library-only (workspace crates `viola-core`, `viola-pty`, `viola-channel`, `viola-state`, `viola-agent-claude`, `viola-mcp` at the unit level)
   - **Driver:** language-native test runner only (`cargo test` per crate / workspace)
   - **Signal:** process exit code plus libtest per-test result lines
   - **Boundary:** single-surface
@@ -170,9 +140,8 @@ Inherited pattern: arch excerpt, Test Harness Commitment ("Development Style: ag
 - **5-command requirements:**
   - `boot`:
     - Builds `viola` and creates a fresh temp home, passed as `--home` (arch excerpt, Per-test isolation).
-    - Starts one or more `viola run <name> -- <fake agent> <args>` wrappers and optionally `viola ui --home <tmp> --port <free port>`.
+    - Starts one or more `viola run <name> -- <fake agent> <args>` wrappers.
     - Readiness, per instance: `instances/<name>/snapshot.json` exists with `pid`, `started_at`, `child_pid` and `endpoint`. The `heartbeat` mtime is under 5 s old. The log has a start `wheel` and a `budget-gate` event, followed by `session-start` once "Verify-stamped test homes and harness" (the `boot` step-4 owner) joins it to harness readiness.
-    - Readiness, UI: `GET /health` returns 200 `"status":"ok"` and `GET /ready` returns 200 `"status":"ready"` (arch GUI readiness).
     - On readiness failure it exits non-zero with a JSON reason on stdout. A `run` refusal to start (exit 1: a `live` or `stale` name, a tampered pinned copy, or a `.cmd`/`.bat` child) is surfaced verbatim.
   - `run`:
     - Invokes, in order:
@@ -183,13 +152,12 @@ Inherited pattern: arch excerpt, Test Harness Commitment ("Development Style: ag
     - Exit 0 only if every suite passes and no mutant survives. Non-zero otherwise, with a JSON summary on stdout (suite, passed, failed, survived).
     - Local-only mode adds `viola verify` against the real CLI. It must never run in CI (arch excerpt, CI/CD).
   - `status`:
-    - Queries `viola list --json --home <tmp>` (no cookie needed) and, if the UI is booted, `GET /ready` and cookie-authenticated `GET /api/sessions`.
+    - Queries `viola list --json --home <tmp>`.
     - The agent polls per item: `name`, `wrapped`, `liveness`, `status`, `wheel`, `budget_paused`, `dialog_pending`, `cli_verified`.
     - It also polls the envelope `skipped{unknown_kinds, unknown_fields, torn_lines}` and `budget`.
   - `cleanup`:
-    - Stops every wrapper and the UI process started by `boot`. Exit is confirmed on the process handle, not EOF.
+    - Stops every wrapper started by `boot`. Exit is confirmed on the process handle, not EOF.
     - Deletes the temp home and verifies the endpoint is gone: a CLI verb against the name returns exit 21, and the Unix socket file or pipe no longer exists.
-    - Verifies the UI port is free and `ui/<port>.url` was removed.
     - Must be idempotent: a second run exits 0 and reports nothing to clean.
   - `logs`:
     - Prints, as JSON lines, the structured per-process logs of `run` / `hook` / `mcp` / `ui` in the §3 log format (Founder Direction 3; the exact field set is not in the distilled excerpt, so Phase 3 pins it).
@@ -197,18 +165,14 @@ Inherited pattern: arch excerpt, Test Harness Commitment ("Development Style: ag
     - Filterable by instance and kind.
     - Retention is the lifetime of the temp home: events are never truncated (arch excerpt, Event line), and `cleanup` deletes the home.
 - **Status endpoint shape:**
-  - `GET /health`: `{"v":1,"status":"ok","name":"viola","version":"0.1.0","ts":<RFC3339 ms Z>}`.
-  - `GET /ready`: `{"v":1,"status":"ready"|"not-ready", …, "checks":{"viola_home":"ok"|"unavailable"|"error","event_tail":…,"claude_agents":…}}` (503 when not-ready; `claude_agents` failing alone keeps 200). The check values are `ok` / `unavailable` / `error`; the top-level success word is `ready`, never `ok`.
-  - `GET /api/sessions` (cookie-authenticated): `{v, generated_at, items:[{name, wrapped, liveness:"live"|"stale", status:"idle"|"busy"|"unknown", wheel?:"human"|"driver", budget_paused?, dialog_pending, cli_version?, cli_verified?}], skipped:{unknown_kinds, unknown_fields, torn_lines}, budget:{five_hour:{used_percentage,resets_at}, seven_day:{…}, read_at, paused}|"unknown"}`.
-  - `viola list --json`: `{"v":1,"ok":{items, budget, skipped}}`, with the same item, `budget` and `skipped` shapes as `/api/sessions` and no `generated_at`. Its items are read at `.ok.items` (arch: `list` `ok` payload; CLI `--json` mirrors the channel `result`).
-  - Source: arch excerpt, GUI HTTP.
+  - `viola list --json`: `{"v":1,"ok":{items:[{name, wrapped, liveness:"live"|"stale", status:"idle"|"busy"|"unknown", wheel?:"human"|"driver", budget_paused?, dialog_pending, cli_version?, cli_verified?}], budget:{five_hour:{used_percentage,resets_at}, seven_day:{…}, read_at, paused}|"unknown", skipped:{unknown_kinds, unknown_fields, torn_lines}}}`. Its items are read at `.ok.items` (arch: `list` `ok` payload; CLI `--json` mirrors the channel `result`).
+  - Source: arch excerpt, CLI.
 - **Log format:**
   - Events: JSON-per-line ndjson `{"v":1,"ts","instance","kind","source":"hook|wrapper|cli","data"}` (arch excerpt, Event line).
   - Process logs: structured JSON lines per Founder Direction 3, parseable with `jq`.
   - Logs must never contain the token, the `Cookie` header, `?t=`, or stripped `CLAUDE*` values (security excerpt, Error-sanitization).
 - **PID file location:**
   - There is no standalone pid file. The wrapper `pid`, `started_at` and `child_pid` live in `<home>/instances/<name>/snapshot.json`, with liveness in `<home>/instances/<name>/heartbeat` (touched every 1 s): when pid + start time no longer name a running process the instance is `gone` whatever the beat's age; otherwise a beat at most 5 s old is `live`, and an older or absent one `stale`.
-  - The UI process is discovered through `<home>/ui/<port>.url` and `GET /api/info` (`pid`, `bind`).
   - Source: arch excerpt, Instance snapshot / Other files.
 - **Test data strategy:**
   - Self-bootstrapping per test: a fresh `--home` temp dir.
@@ -223,7 +187,7 @@ Inherited pattern: arch excerpt, Test Harness Commitment ("Development Style: ag
 **Critical paths:**
 
 - **Path:** `run` start sequence. Collision check, pinned copy and plugin folder, the ConPTY sideload (Windows x64, fail-open: any failure leaves the child on the inbox ConPTY), version gate, exclusive endpoint bind, first snapshot and heartbeat, start `wheel` and `budget-gate` events, and only then the child spawn. A second `run` of the same name, or a squatted endpoint, exits 1.
-  - **Surfaces involved:** tui (`viola run`) + ipc-internal + cli (`list --json`) + api-service
+  - **Surfaces involved:** tui (`viola run`) + ipc-internal + cli (`list --json`)
   - **Verification signal:**
     - `events.ndjson` order is `wheel{cause:"start"}` → `budget-gate` → the fake agent's `session-start{source:"hook"}` (landed with "Hooks to normalised events").
     - `snapshot.json` has `pinned_bin`, `pid`, `started_at`, `child_pid` (`endpoint` from "Wrapper channel" on); `plugin/` is rewritten, and on Unix the instance's `settings.json` (the statusline override: 0600, the absolute pinned path, only for a pinned path of plain characters); on Windows no `settings.json` is written.
@@ -231,36 +195,33 @@ Inherited pattern: arch excerpt, Test Harness Commitment ("Development Style: ag
     - A duplicate `run` exits 1. A tampered pinned exe (hash mismatch) exits 1.
   - **Source:** arch excerpt, Project Intent, Critical paths hint 1; security excerpt, Vector 7 (pinned exe)
 - **Path:** confirmed `send` with CL-1 events. Driver `send` is accepted, then `send-issued (cursor, from)` is logged, one bracketed paste + Enter is written, and the matching `prompt-submitted{origin:"driver"}` confirms it. If no match arrives in the window, the result is `not-delivered`/`no-prompt-submitted` and `send-refused` is logged. A text is validated as received and then typed with every CR LF pair and every other CR as one LF and without its trailing CR and LF characters, every one of them in any order (the typed text holds no CR, and nothing else changes), and that typed text is what is classified, pasted and matched: a `send` whose text ends in LF, CR or CRLF, or holds a CR or a CR LF inside, is confirmed like any other and the driver keeps the wheel (chunk 2026-10-07-a-send-ending-in-a-newline-is-confirmed for LF, chunk 2026-10-09-epoch-3-cleanup for CR and CRLF at the end, chunk 2026-10-09-inner-cr-and-crlf-in-a-sent-text for a CR or a CR LF inside). A text whose typed text is empty is refused `not-delivered`/`empty-text` (exit 13) right after `control-character` and before anything is issued, by the client before any frame and by the wrapper. `send` consumes the ledger's compiled local-command list by exact equality of the typed text (nothing else trimmed, no case folding, never a leading-slash test; chunk 2026-10-06-local-command-send-outcomes), so a listed command followed by LF, CR or CRLF is that command. A listed command with no measured post-condition, or any listed command on an unverified CLI, yields `ok` `{confirmed:false, detail:"unconfirmable", cursor}` at once, with no confirmation window. `/clear` on a verified CLI waits for its post-condition only (a `session-start` with cause `clear` and a new session id) and is never claimed by a `prompt-submitted`; a missed post-condition is `not-delivered`/`no-prompt-submitted`. A local command is never presumed delivered. Multi-line text arrives as one prompt.
-  - **Surfaces involved:** cli + ipc-internal (MCP `send`) + tui (fake agent receipt) + api-service (SSE) + web-spa
+  - **Surfaces involved:** cli + ipc-internal (MCP `send`) + tui (fake agent receipt)
   - **Verification signal:**
     - CLI `--json` exit 0 with `{submitted_at, cursor}`, where `cursor` equals the pre-paste `events.ndjson` end offset.
     - The log shows `send-issued` then `prompt-submitted`.
     - The fake agent reports one prompt with its inner LFs intact and each inner CR or CR LF as one LF, no CR, no trailing LF and no ESC.
-    - The web tape `viola-readback` goes `data-rb="open"` → `"read"`.
-    - With the fake agent suppressing UserPromptSubmit, the CLI exits 13 with detail `no-prompt-submitted`, `send-refused` is logged, and the readback shows `data-rb="refused"`.
+    - With the fake agent suppressing UserPromptSubmit, the CLI exits 13 with detail `no-prompt-submitted`, `send-refused` is logged.
     - An MCP `send` gives `isError:false` with the same `structuredContent`.
   - **Source:** arch excerpt, Critical paths hint 2; creator excerpt, R3/S1, M3/M4, M5, Founder Direction 5
-- **Path:** `wait` / `last` event-driven readback, including the §6 live flow (overseer sends to builder, waits for `Stop`, reads the dashboard). `wait` wakes only on `turn-ended` / `question` / `permission` / `plan` / `session-end`, returns at once if the event is already logged at or after `after`, and times out with `{timed_out:true}`.
-  - **Surfaces involved:** cli + ipc-internal (channel + MCP `wait` / `last`) + api-service + web-spa
+- **Path:** `wait` / `last` event-driven readback, including the §6 live flow (overseer sends to builder, waits for `Stop`). `wait` wakes only on `turn-ended` / `question` / `permission` / `plan` / `session-end`, returns at once if the event is already logged at or after `after`, and times out with `{timed_out:true}`.
+  - **Surfaces involved:** cli + ipc-internal (channel + MCP `wait` / `last`)
   - **Verification signal:**
     - `wait --after <cursor> --json` returns the `turn-ended` event with its `cursor` after the fake agent fires Stop.
     - `activity` / `wheel` lines do not wake it.
     - `last` returns `{last_assistant_message, ts}` from the newest `turn-ended`.
     - Killing the wrapper mid-wait gives exit 21 / MCP `instance-unreachable`.
-    - `/api/sessions` shows `status` changing busy → idle.
   - **Source:** arch excerpt, Critical paths hint 3; creator excerpt, S5 and §6 first live test
 - **Path:** dialog → `answer` (question / permission / plan). The hook raises `hook.dialog`, exactly one dialog is pending per instance, and the driver answers by `dialog_id`. The hook emits the correct decision body: PreToolUse `allow` + `updatedInput.answers` (incl. `annotations`); PermissionRequest `allow` / `deny`; plan approve via PreToolUse only, revise via PermissionRequest `deny` + `message`.
-  - **Surfaces involved:** cli (`hook` + `answer`) + ipc-internal (channel `hook.dialog` / `answer`, MCP `answer`) + api-service + web-spa
+  - **Surfaces involved:** cli (`hook` + `answer`) + ipc-internal (channel `hook.dialog` / `answer`, MCP `answer`)
   - **Verification signal:**
     - The `question` / `permission` / `plan` event is logged exactly once with a `dialog_id`.
     - `wait` returns it at once.
     - Hook stdout equals the exact decision JSON, exit 0, stderr empty.
     - A second concurrent dialog gets a `null` response.
     - An unknown `dialog_id` yields exit 13 `unknown-dialog`.
-    - Web strip: `data-dialog="pending"`, `DIALOG <kind>`, and `document.title` = `DIALOG <name> · viola` while pending, reverting after the answer.
   - **Source:** arch excerpt, Critical paths hint 4 and Hooks; creator excerpt, S3/S7/S8
 - **Path:** human takes the wheel, automation is refused, `release` returns it. A human editing key in the `run` terminal since the last turn boundary moves the wheel to the human. A driver `send` is refused with `human-typing`. `pause` forces it manually. The wheel returns only via CLI `viola release`, and `release` carrying `from` is rejected.
-  - **Surfaces involved:** tui (outer-PTY keystrokes) + cli + ipc-internal (channel + MCP) + web-spa
+  - **Surfaces involved:** tui (outer-PTY keystrokes) + cli + ipc-internal (channel + MCP)
   - **Verification signal:**
     - The log shows `wheel{holder:"human", cause:"human-input"}`.
     - `send --json` exits 10 with detail `null`. After `pause` the detail is `manual-pause`.
@@ -271,30 +232,27 @@ Inherited pattern: arch excerpt, Test Harness Commitment ("Development Style: ag
     - The human is never blocked: typing still reaches the fake agent.
   - **Source:** arch excerpt, Critical paths hint 5; creator excerpt, R2, M2 and §6 passed run ("the founder typing into the window took the wheel, `send` was refused, `release` returned it")
 - **Path:** budget governor. `viola hook statusline` writes `rate_limits` to `budget.json` (only when the payload holds a `rate_limits` object) and passes the user's statusline stdout through unchanged (on Unix only: on Windows `run` writes no `settings.json` override and the arm runs no command). Crossing `five_hour` ≥ 90 % or `seven_day` ≥ 85 % refuses automated `send` with `budget-paused`, and `release --budget` overrides it.
-  - **Surfaces involved:** cli (`hook statusline`, `send`, `release`) + ipc-internal + api-service + web-spa (ATIS header)
+  - **Surfaces involved:** cli (`hook statusline`, `send`, `release`) + ipc-internal
   - **Verification signal:**
     - `budget.json` holds the fed percentages. A malformed `resets_at` becomes `"unknown"`.
     - Statusline stdout equals the user command's stdout (empty on failure), exit 0. The equality is Unix only; on Windows the arm runs no command and prints nothing.
     - A `budget-gate{paused:true, window}` event is logged.
     - `send` exits 11 with detail `five-hour` / `seven-day`.
-    - `/api/sessions` `budget.paused:true` and the ATIS cell shows `budget-paused`.
     - `release --budget` gives `{budget_paused:false}`, with `override_until` when a pause stood.
   - **Source:** arch excerpt, Critical paths hint 6; creator excerpt, O8 / §7
 - **Path:** unverified CLI version gate. On a version not in the ledger stamps, viola still types, runs the wheel and emits events, but withholds dialog answers, and drivers get `unverified-cli`.
-  - **Surfaces involved:** tui (fake agent reporting an unlisted `--version`) + cli (`hook`, `answer`) + ipc-internal + api-service
+  - **Surfaces involved:** tui (fake agent reporting an unlisted `--version`) + cli (`hook`, `answer`) + ipc-internal
   - **Verification signal:**
     - `send` still confirms (exit 0).
     - `hook.dialog` returns `null` at once, so hook stdout is empty.
     - `answer` exits 12. MCP `answer` gives `isError:true` `"refused: unverified-cli"`.
-    - `/api/sessions` item `cli_verified:false`.
     - `viola verify` against a stamped fixture version ends `stamped <ver>  <n> pass  0 fail`.
   - **Source:** arch excerpt, Critical paths hint 7; security excerpt, Vector 4 ("A non-null dialog decision needs a `viola verify` stamp")
 
 Covered by E2E suite expansion in Phase 3 if needed (beyond the 7):
 - R5: unwrapped session hooks are a silent no-op.
 - R8: the `CLAUDE*` env strip.
-- `link` / `unlink` transfer markers (`/api/links`, `<viola-transfer>` readback).
-- SSE `Last-Event-ID` resume.
+- `link` / `unlink`.
 - Snapshot corruption → replay recovery.
 
 **Coverage triggers:**
@@ -312,20 +270,6 @@ Covered by E2E suite expansion in Phase 3 if needed (beyond the 7):
 - **Trigger type:** security-vector-coverage (paste injection)
   - **Source:** security excerpt, Vector 2
   - **Required test type:** negative tests showing ESC, other C0, DEL and C1 (U+0080–U+009F) in `send.text` and free-text answers are rejected (never stripped) as `not-delivered`/`control-character` before other refusals, at both the client and the wrapper. LF / CR / TAB and multi-byte UTF-8 are accepted.
-- **Trigger type:** security-vector-coverage (loopback GUI)
-  - **Source:** security excerpt, Vector 3
-  - **Required test type:** negative tests covering:
-    - Host missing, wrong-case, trailing-dot or wrong-port → 403 `host-not-allowed` on every route
-    - non-GET → 405
-    - `/api/*` and SSE without cookie → 401
-    - bad `?t=` → 401 with no cookie and `no-store`
-    - good `?t=` → 303 + HttpOnly / SameSite=Strict cookie
-    - no `Access-Control-*` headers
-    - CSP / `nosniff` / `no-referrer` / CORP on every response
-    - SSE uncompressed
-    - one bad `Last-Event-ID` pair drops the whole header
-    - bind is 127.0.0.1 only
-    - event text containing HTML renders as text (no DOM injection) in headless browser
 - **Trigger type:** security-vector-coverage (hook stdin)
   - **Source:** security excerpt, Vector 4; arch excerpt, Hooks
   - **Required test type:** fail-open tests on oversize stdin, malformed JSON, clap error, channel failure, a forced panic (on the real binary, through the `fake-agent`-only `FAKE_AGENT_HOOK_PANIC` seam; see §6 Security sweep), and a missing `VIOLA_NAME`. Each must give exit 0 with empty stderr and no body. `statusline_command` must not run when the home fails strict-modes.
@@ -366,7 +310,6 @@ Covered by E2E suite expansion in Phase 3 if needed (beyond the 7):
   - **Source:** security excerpt, "Parser surfaces for fuzz/property coverage ('tests owns the cases')"
   - **Required test type:** property / fuzz tests on:
     - `validate_paste_text` (decoded chars vs raw bytes)
-    - the `Last-Event-ID` parser
     - channel ndjson framing at the `MAX_FRAME` boundary
     - the hook stdin parser incl. `hook statusline`
     - the `claude agents --json` parser
@@ -381,15 +324,13 @@ Covered by E2E suite expansion in Phase 3 if needed (beyond the 7):
     - endpoint vanishes during `wait`: `instance-unreachable`
     - stale-heartbeat / live-pid distinction
 - **Trigger type:** performance-budget
-  - **Source:** arch excerpt, Hooks (deadlines) and GUI HTTP (SSE keep-alive 15 s, heartbeat 1 s / 5 s)
-  - **Required test type:** timing assertions that spine hooks (SessionStart, UserPromptSubmit, Stop) exit within the spine deadline and SessionEnd within ~1 s, that SSE emits keep-alive within 15 s, and that heartbeat staleness flips at >5 s.
+  - **Source:** arch excerpt, Hooks (deadlines) and Instance snapshot / Other files (heartbeat 1 s / 5 s)
+  - **Required test type:** timing assertions that spine hooks (SessionStart, UserPromptSubmit, Stop) exit within the spine deadline and SessionEnd within ~1 s, and that heartbeat staleness flips at >5 s.
 - **Trigger type:** cross-surface-coordination
-  - **Source:** design excerpt, Layout Categories (the same captions and slot order in the web racks and CLI `viola list`); layout excerpt, Signature Placements (tape readback + transfer-marker readback "flips same frame"); creator excerpt, Founder Direction 5 (CL-1 `send-issued` / `send-refused`)
+  - **Source:** design excerpt, Layout Categories (the same captions and slot order in the web racks and CLI `viola list`); creator excerpt, Founder Direction 5 (CL-1 `send-issued` / `send-refused`)
   - **Required test type:**
-    - one scenario asserts CLI `list --json` == `/api/sessions` items
-    - CLI caption row matches web `columnheader`s NAME · LIVE · STATUS · WHEEL · DIALOG · CLI
-    - a `send` shows `[RB]` on the CLI and `data-rb="read"` on both the tape line and the outbound transfer marker
-    - `send-refused` shows `[/ ]` / exit 10–14 and `data-rb="refused"`
+    - a `send` shows `[RB]` on the CLI
+    - `send-refused` shows `[/ ]` / exit 10–14
     - MCP and CLI return identical `ok` / refusal payloads for the same channel result
 - **Trigger type:** multi-os-compat
   - **Source:** arch excerpt, CI/CD (matrix `[windows-2025, macos-latest, ubuntu-latest]`) and Test-Relevant Conventions ("Every OS-specific branch compiles and is tested on its CI runner"); creator excerpt, Founder Direction 4 and D3
@@ -408,13 +349,13 @@ Covered by E2E suite expansion in Phase 3 if needed (beyond the 7):
   - **Required test type:** a contract suite asserting the fake agent's behaviour matches the recorded `viola verify` fixtures, the spine, the dialog variants, the framing variants and the resume variant (`fake_agent_resume_replay_matches_every_recorded_resume_set`), including forwarding `annotations` (S8). This guards against the fake agent drifting from the real CLI. Live `viola verify` refreshes the spine fixtures and, through its Run C / Run D, the recorded dialog variants, through Run B's four added pastes the framing variants (`paste-<n>`, `clear-<n>`; the newline text recorded as `paste-3`), and through Run B's probe status line (Unix) the two status line variants (`StatusLine.default-1.json`, `StatusLine.rate-limits-1.json`), and through Run E the resume variant (`SessionStart.resume-1.json`), locally.
 - **Trigger type:** security-vector-coverage (error sanitization and secret logging)
   - **Source:** security excerpt, Error-sanitization expectations and Anti-Patterns (Secrets and logging)
-  - **Required test type:** assertions that CLI `--json`, MCP `isError`, Problem Details and channel `error.data` contain no absolute paths, serde paths or values, anyhow chains or tool `input`. `-32603` must be exactly `"internal error"` / `data:null`. A grep of all logs and `diagnostics/` must show no token, `Cookie`, `?t=` or stripped `CLAUDE*` values. `diagnostics/` must be 0600.
+  - **Required test type:** assertions that CLI `--json`, MCP `isError` and channel `error.data` contain no absolute paths, serde paths or values, anyhow chains or tool `input`. `-32603` must be exactly `"internal error"` / `data:null`. A grep of all logs and `diagnostics/` must show no token, `Cookie`, `?t=` or stripped `CLAUDE*` values. `diagnostics/` must be 0600.
 - **Trigger type:** mutation testing (discipline trigger; closest template category is property-test)
   - **Source:** creator excerpt, Founder Direction 1 ("cargo-mutants scoped to each chunk diff, surviving mutants are red; include it in the P2 research catalog")
   - **Required test type:** a mutation run (`run --mutants`, `--file` for the inner loop) that the epoch-boundary code audit runs; any surviving mutant makes that run exit non-zero. It is not part of a chunk's default harness `run`, the pre-push or CI.
 - **Trigger type:** discipline (no screen-content parsing, no blanket approval, no flakes)
   - **Source:** creator excerpt, Test Anti-Patterns (§3.2 / R7, prior-art "Blanket approval", §3.4 "do not flake")
-  - **Required test type:** E2E assertions must use hook events, `events.ndjson`, channel payloads and DOM attributes, never scraped child-screen content. A negative test proves no path auto-approves a dialog without a verify stamp and wheel `driver`. Waits must key on logged events and byte offsets, not sleeps.
+  - **Required test type:** E2E assertions must use hook events, `events.ndjson` and channel payloads, never scraped child-screen content. A negative test proves no path auto-approves a dialog without a verify stamp and wheel `driver`. Waits must key on logged events and byte offsets, not sleeps.
 
 This tier is the SINGLE SOURCE OF TRUTH for how much test rigor downstream
 skills (the phase loop per chunk + cross-cutting reads from obs / a11y / route
@@ -428,11 +369,11 @@ skills (the phase loop per chunk + cross-cutting reads from obs / a11y / route
 
 | Level | Coverage focus | Tier-specific depth (Comprehensive, viola) |
 |-------|---------------|---------------------|
-| Unit | Pure functions, isolated module logic | Inline `#[cfg(test)] mod tests` in all 7 crates plus the root bin. rstest 0.27.0 `#[case]` tables cover the refusal-order matrices, the exit-code table (0/1/2/10–14/20/21), the Host-allowlist table and the per-`<cli-version>` fixture replay. Runs on all 3 OSes, except the two real-cargo-mutants harness tests, compiled out on macOS (§10 Mutation gate). |
-| Integration | Cross-module + IPC + disk state + process boundaries (no DB exists) | Required. Every arch Standard Contract (Wrapper channel, On-disk, Hooks, CLI, MCP, GUI HTTP) has a crate-level `tests/` suite, using a real `interprocess` endpoint, a real tempfile home, axum-test in-process, and assert_cmd against `CARGO_BIN_EXE_viola`. |
-| E2E | Critical user-facing paths via surfaces | Required for all 7 critical paths plus 5 expansion scenarios (Section 6). They run against harness-booted `viola run … -- viola-fake-agent`, using the outer PTY (portable-pty), the rmcp client, reqwest/SSE and Playwright 1.63.0 (headless Chromium on all three OSes, under the pinned Node v24.21.0). |
-| Property-based | Invariant assertions over random inputs | Required. proptest 1.11.0 over all 7 parser surfaces named by the property-test trigger, with `proptest-regressions/` committed. cargo-fuzz 0.13.2 targets run as a time-boxed ubuntu nightly job, plus a corpus replay gate: today `viola_name` (the pre-parser seed target), `channel_frame` (the wrapper channel's ndjson framing), `hook_stdin` (the `viola hook` stdin parser), `vt100_feed` (the vt100 feed under `catch_unwind`) and `paste_text` (`validate_paste_text`), then the remaining parsers as they land. |
-| Performance / Load | Budget assertions on perf-critical paths | Required (performance-budget trigger present). hyperfine 1.20.0 gates the hook deadlines on `max` (the `--perf` arm, the five hyperfine rows — `pre-tool-use` included, on an unstamped perf session — and the per-OS `perf` CI job are built; §10). tokio `test-util` checks the SSE keep-alive with a paused clock, and the heartbeat staleness flip at >5 s is checked by `viola_state::liveness::classify`, a pure function fed the beat's age (no clock). |
+| Unit | Pure functions, isolated module logic | Inline `#[cfg(test)] mod tests` in all 6 crates plus the root bin. rstest 0.27.0 `#[case]` tables cover the refusal-order matrices, the exit-code table (0/1/2/10–14/20/21) and the per-`<cli-version>` fixture replay. Runs on all 3 OSes, except the two real-cargo-mutants harness tests, compiled out on macOS (§10 Mutation gate). |
+| Integration | Cross-module + IPC + disk state + process boundaries (no DB exists) | Required. Every arch Standard Contract (Wrapper channel, On-disk, Hooks, CLI, MCP) has a crate-level `tests/` suite, using a real `interprocess` endpoint, a real tempfile home, and assert_cmd against `CARGO_BIN_EXE_viola`. |
+| E2E | Critical user-facing paths via surfaces | Required for all 7 critical paths plus 4 expansion scenarios (Section 6). They run against harness-booted `viola run … -- viola-fake-agent`, using the outer PTY (portable-pty), the rmcp client and Playwright 1.63.0 (headless Chromium on all three OSes, under the pinned Node v24.21.0). |
+| Property-based | Invariant assertions over random inputs | Required. proptest 1.11.0 over all 6 parser surfaces named by the property-test trigger, with `proptest-regressions/` committed. cargo-fuzz 0.13.2 targets run as a time-boxed ubuntu nightly job, plus a corpus replay gate: today `viola_name` (the pre-parser seed target), `channel_frame` (the wrapper channel's ndjson framing), `hook_stdin` (the `viola hook` stdin parser), `vt100_feed` (the vt100 feed under `catch_unwind`) and `paste_text` (`validate_paste_text`), then the remaining parsers as they land. |
+| Performance / Load | Budget assertions on perf-critical paths | Required (performance-budget trigger present). hyperfine 1.20.0 gates the hook deadlines on `max` (the `--perf` arm, the five hyperfine rows — `pre-tool-use` included, on an unstamped perf session — and the per-OS `perf` CI job are built; §10). The heartbeat staleness flip at >5 s is checked by `viola_state::liveness::classify`, a pure function fed the beat's age (no clock). |
 | Chaos / Fault | Failure injection (process / disk / clock) | Required (chaos trigger present). Faults come from sysinfo 0.39.6 / `std` process and file operations (`File::set_len` truncation of a stopped wrapper's log, the torn append as landed in place of a kill mid-write; snapshot corruption, SIGSTOP heartbeat freeze, a no-EOF child), plus mockall 0.15.0 faults on the `viola-pty` seam. |
 | Mutation | Test-suite strength on changed code | Required (Founder Direction 1), at the epoch boundary: `/andromeda-code-audit` runs cargo-mutants 27.1.0 per unit, `run --mutants` [`--file`] runs it `--in-diff`, and `run --mutants --package <member>` runs it over one whole member (the boundary-tier form), both through `--test-tool=nextest` on demand (named only, never in the default or `--all`). No per-chunk, pre-push or CI mutation gate. Any `missed` outcome the harness does not leave out as host-excluded (§3 `run` step 4, Verdict), any `timeout` outcome, or more `unviable` than `caught` outcomes (`unviable-exceeds-caught`), makes that `run` fail. |
 | Contract | Fake agent vs recorded `viola verify` fixtures: the spine, the dialog tier and the framing tier | Required (contract-test-against-sandbox trigger). insta 1.48.0 in check mode pins decision bodies (the dialog tier). The dialog-tier fixtures are recorded by live `viola verify --record` Runs C and D as `fixtures/claude/<ver>/<Event>.<stem>-<n>.json` variants (stems `questions`, `parallel`, `permission`, `plan`; 12 under each of `2.1.288` and `2.1.287`), scrubbed and `unclean`-checked like the spine. The framing-tier fixtures are recorded the same way by Run B's four added pastes as `UserPromptSubmit.paste-<n>.json`, `SessionEnd.clear-<n>.json` and `SessionStart.clear-<n>.json` (stems `paste`, `clear`; five under `2.1.287` — `paste-1`, `paste-2`, `paste-3`, `clear-1` ×2 — none under `2.1.288`). They supersede `2.1.287`'s four fixtures relayed from the viola-lab prototype (the founder's live ruling, 2026-10-04), which stay committed with their provenance under `RELAYED.md`'s dated "Superseded" section. The fake agent's hook sequences are not snapshots: `contract_fake_agent_drift` compares each hook's stdin bytes (the receipt's `stdin_hex`) byte for byte with the recorded `fixtures/claude/<ver>/<Event>.default.json`, the spine order a test literal, and replays every dialog variant byte for byte under `--dialogs` and every framing variant byte for byte under `--framing`, and compares the `statusline` receipts' `stdin_hex` byte for byte, in order and count, with each recorded set's `StatusLine.default-1.json` then `StatusLine.rate-limits-1.json` under `--framing` (`fake_agent_statusline_replay_matches_every_recorded_statusline_set`, Unix; the synthetic `statusline_drift_names_a_changed_byte_a_swapped_order_and_a_short_replay`); a set that holds no framing variant is run without `--framing` and must exit 1 (its `local-command-clear` row fails on the echo), its dialog tier still compared byte for byte. jsonschema 0.57.0 checks that every `fixtures/claude/*/StatusLine.*.json` status line payload conforms to `schemas/claude-statusline-fixture.v1.json`, every other `fixtures/claude/*/*.json` hook payload to `schemas/claude-fixture.v1.json`, and every `Screen.*.json` screen fixture to `schemas/claude-screen.v1.json`. |
@@ -442,8 +383,8 @@ skills (the phase loop per chunk + cross-cutting reads from obs / a11y / route
 - No human-in-loop verification, no Percy / Chromatic, no manual exploratory steps. Playwright runs only in headless test-runner mode. insta runs only in check mode (`INSTA_UPDATE=no`), and trycmd only in verify mode.
 - Deterministic:
   - no nextest retries (`retries = 0`) and no `std::thread::sleep` / `tokio::time::sleep` used for synchronisation
-  - waits key on `events.ndjson` byte offsets, `viola wait --after <cursor>`, SSE `id:` offsets or Playwright auto-waiting locators
-  - the only network is 127.0.0.1 (`viola ui`), and CI never touches the real `claude`
+  - waits key on `events.ndjson` byte offsets, `viola wait --after <cursor>` or Playwright auto-waiting locators
+  - CI never touches the real `claude`
 - Self-bootstrapping fixtures, with no developer-seeded data:
   - every test creates its own `--home` via tempfile 3.27.0
   - stamps come only from `viola verify` run against the fake agent
@@ -454,8 +395,8 @@ skills (the phase loop per chunk + cross-cutting reads from obs / a11y / route
   - **Unit tests:** inline `#[cfg(test)] mod tests` at the bottom of each source file.
   - **Crate-level integration tests:** `crates/viola-<area>/tests/<topic>.rs`.
   - **Sync (tokio-free) E2E suites:** root `tests/{cli,hook,tui,channel,chaos,contract}_<topic>.rs`, sharing helpers in `tests/support/{home.rs,outer_pty.rs,fake.rs,events.rs,cli.rs,ndjson.rs}`. `events.rs` holds the one `events.ndjson` reader and its wait (`events`, `wait_events`) and the `boot` that waits for the session-start record; `cli.rs` holds the one started-child guard and runner (`Running`, `Ran`, `spawn`, `viola`), with stdout and stderr as two captures beside the exit code. No root test file outside `tests/support/` defines its own copy of the reader, the wait, the guard or the result struct. `ndjson.rs` is the one complete-lines reader: every reader of a live-appended file parses only newline-terminated lines, because a Linux reader can observe an append part-way.
-  - **Tokio-client E2E suites and the harness binary `viola-harness`:** `crates/viola-e2e/` (publish = false). This covers the rmcp client, reqwest/eventsource-client, cross-surface parity and critical-path scenarios, as `tests/{path,mcp,http,sse,cross}_<topic>.rs`.
-  - **Why a test-only crate:** `crates/viola-e2e` hosts `viola-harness` and the tokio-based test clients (rmcp client, reqwest, eventsource-client), so the root package and the sync crates carry no tokio dev-dependency. It is never a root of the tokio ban: the ban runs `deny-sync.toml` once per crate in `scripts/sync-crates.txt`, each as the sole root, so `viola-e2e`'s tokio graph lies outside it with no `wrappers` allowlist and no `--exclude` (an `--exclude` false-fails on a feature-unified optional tokio).
+  - **Tokio-client E2E suites and the harness binary `viola-harness`:** `crates/viola-e2e/` (publish = false). This covers the rmcp client, cross-surface parity and critical-path scenarios, as `tests/{path,mcp,cross}_<topic>.rs`.
+  - **Why a test-only crate:** `crates/viola-e2e` hosts `viola-harness` and the tokio-based test clients (rmcp client), so the root package and the sync crates carry no tokio dev-dependency. It is never a root of the tokio ban: the ban runs `deny-sync.toml` once per crate in `scripts/sync-crates.txt`, each as the sole root, so `viola-e2e`'s tokio graph lies outside it with no `wrappers` allowlist and no `--exclude` (an `--exclude` false-fails on a feature-unified optional tokio).
   - **Fake agent:** `src/bin/viola-fake-agent.rs`, a root-package `[[bin]]` with `required-features = ["fake-agent"]`.
   - **Browser suite:** `e2e-web/tests/*.spec.ts`.
   - **Fuzz targets:** `fuzz/fuzz_targets/<parser>.rs`.
@@ -464,7 +405,7 @@ skills (the phase loop per chunk + cross-cutting reads from obs / a11y / route
   - **insta snapshots:** `tests/snapshots/` and `crates/*/src/snapshots/`.
   - **Harness shims:** `scripts/agent-run.{sh,ps1}`.
 - **File naming:**
-  - Rust integration binaries use a `<surface>_<topic>.rs` prefix so nextest filtersets can select layers: `cli_`, `hook_`, `tui_`, `channel_`, `chaos_`, `contract_` in root; `path_`, `mcp_`, `http_`, `sse_`, `cross_` in `viola-e2e`.
+  - Rust integration binaries use a `<surface>_<topic>.rs` prefix so nextest filtersets can select layers: `cli_`, `hook_`, `tui_`, `channel_`, `chaos_`, `contract_` in root; `path_`, `mcp_`, `cross_` in `viola-e2e`.
   - Fixtures are named `<Event>.<variant>.json`, where `<Event>` is the CLI's own hook event name as `hooks.json` keys it (PascalCase), for example `PreToolUse.ask.json` or `UserPromptSubmit.default.json`. The fake agent looks fixtures up by that name, and no event-to-file mapping table exists on either side.
   - Playwright specs are named `<bay-layout-type>.spec.ts`, for example `bay-steady-state.spec.ts` or `bay-degraded.spec.ts` (layout excerpt layout types). The one exception is the pipe stub `e2e-web/tests/pipe-reachability.spec.ts`, whose test titles take the prefix `pipe:` (it asserts the pipe, not a layout type).
 - **Test function naming:**
@@ -478,7 +419,6 @@ skills (the phase loop per chunk + cross-cutting reads from obs / a11y / route
 |---|---|---|
 | IPC vector (V1) | integration + E2E | §5 Module ↔ IPC; §6 Scenario 1 |
 | Paste injection (V2) | unit (proptest) + integration + E2E | §4 viola-core; §6 Scenario 2 |
-| Loopback GUI (V3) | integration (axum-test) + E2E (reqwest/curl, Playwright) | §5; §6 Scenarios E4 and Security sweep |
 | Hook stdin (V4) | integration (assert_cmd hook) | §5 hook boundary; §6 Security sweep |
 | MCP (V5) | E2E (rmcp client) | §6 Scenarios 2, 5, 7 + Security sweep |
 | CLI and env (V6) | unit + integration | §4 viola-core/root bin; §5 |
@@ -506,8 +446,8 @@ the concrete contract.
 
 **Harness implementation:** `scripts/agent-run.sh` (POSIX) and `scripts/agent-run.ps1` (PowerShell) are identical thin shims. They run `cargo run -q -p viola-e2e --bin viola-harness -- <command> [flags]` and forward its exit code and stdout unchanged. All logic lives once, in Rust, so both shells have byte-identical semantics on all 3 OSes.
 
-- **Session record:** each harness session writes `target/agent-run/<session>/session.json` with `{home, instances:[{name, wrapper_pid, started_at, fake_args}], ui:{port, pid}|null, supervisor_pid, cookie_file}`. The default session is `default`, and `--session <id>` allows parallel sessions (one per Playwright test, per §3 `run` step 3).
-- **Exit codes:** every harness command exits 0 on success, 1 on failure and 2 on usage error. Each prints exactly one JSON document on stdout, starting `{"v":1,"cmd":"<command>","ok":<bool>,…}` (key order held by serde_json `preserve_order`). A usage error carries `reason:"usage"` and a `detail` from `invalid-session-id`, `session-exists`, `invalid-instance`, `arguments`, `no-supervise-spec` and `unknown-suite` (a `gate --require` value outside the nine suites). The grammar grows per chunk: a flag or selector whose surface is not built yet (`boot --ui`, `run --e2e`, …) is a usage error until its chunk lands, never a vacuous pass.
+- **Session record:** each harness session writes `target/agent-run/<session>/session.json` with `{home, instances:[{name, wrapper_pid, started_at, fake_args}], ui:null, supervisor_pid, cookie_file}`. The default session is `default`, and `--session <id>` allows parallel sessions (one per Playwright test, per §3 `run` step 3).
+- **Exit codes:** every harness command exits 0 on success, 1 on failure and 2 on usage error. Each prints exactly one JSON document on stdout, starting `{"v":1,"cmd":"<command>","ok":<bool>,…}` (key order held by serde_json `preserve_order`). A usage error carries `reason:"usage"` and a `detail` from `invalid-session-id`, `session-exists`, `invalid-instance`, `arguments`, `no-supervise-spec` and `unknown-suite` (a `gate --require` value outside the nine suites). The grammar grows per chunk: a flag or selector whose surface is not built yet (`run --e2e`, …) is a usage error until its chunk lands, never a vacuous pass.
 
 Contracts: .andromeda/registries/test-plan-contracts.toml — ask registry.py contracts; read one contracts/test-plan/{key}.md; never whole.
 
@@ -571,12 +511,6 @@ threshold.
 - **viola-mcp:** handler re-validation:
   - a non-`ViolaName` `target`, a non-`u64` `dialog_id`, an open-string `behavior` and control chars in `text` all give `isError:true` with code-only payloads
   - `tools/list` is exactly `send, wait, last, answer, list`
-- **viola-ui:**
-  - The Host-allowlist predicate table: `127.0.0.1:<p>` and `localhost:<p>` pass; missing, `LOCALHOST:<p>`, `localhost.:<p>` and a wrong port fail.
-  - The `Last-Event-ID` parser, where one bad pair drops the whole header.
-  - The Problem Details builder: URNs plus the `v` member, with `state-unreadable` never naming a path.
-  - Token compare function behaviour: match, mismatch, length mismatch. Its constant-time property is covered by a source-scan test; see Decisions Log.
-  - The source-scan test asserts that the GUI token is compared only inside that single compare function. It stands in for a timing measurement; the security plan owns the constant-time primitive.
 - **root bin:**
   - The exit-code mapping from `RefusalReason` / fault to 0/1/2/10–14/20/21. It includes the multi-version-compat case: a wrapper `{"result":{"refusal":"<literal unknown string>","detail":…}}` payload deserialises to the `#[serde(other)] unknown` variant and maps to exit 14 with a `--json` refusal document. It never panics and never maps to 20.
   - The wheel state machine: human editing key → `human`; harness-origin prompt → no flip; `release` only via the CLI path; `release` with `from` → `release-from-driver`.
@@ -607,7 +541,6 @@ threshold.
 
 **Driver(s):**
 - **Wrapper channel:** the `viola-channel` sync client, a raw interprocess 2.4.4 `local_socket::Stream` for malformed frames, and jsonschema 0.57.0 validators built from the product's schemars 1.2.2 schemas.
-- **GUI routes:** axum-test 21.1.0 `TestServer::new(viola_ui::router(state))` in-process, or tower 0.5.3 `ServiceExt::oneshot`.
 - **CLI and hooks:** assert_cmd 2.2.2 + predicates 3.1.4 against `CARGO_BIN_EXE_viola`.
 - **Human-mode layouts:** trycmd 1.2.1 case files, except the `viola list` board, pinned by literal asserts in `tests/cli_list.rs` (chunk 2026-10-11-the-board-viola-list).
 - **PTY:** real portable-pty through `viola-pty`.
@@ -618,12 +551,11 @@ threshold.
 
 | Boundary | Test approach | Tools |
 |----------|---------------|-------|
-| Module ↔ module | Direct calls across crate APIs with shared rstest fixtures. Examples: `viola-agent-claude` hook parse → `viola-core` event kind → `viola-state` append; `viola-state` tail → `viola-ui` SSE frame. | cargo-nextest + rstest 0.27.0 |
+| Module ↔ module | Direct calls across crate APIs with shared rstest fixtures. Examples: `viola-agent-claude` hook parse → `viola-core` event kind → `viola-state` append. | cargo-nextest + rstest 0.27.0 |
 | Module ↔ DB | N/A: arch "There is no database." Replaced by module ↔ on-disk state: real ndjson, snapshots and `.lock` siblings in a tempfile home, with concurrent appenders checking one line per `write`, plus `File::lock` contention. **Concurrent-append check** (obs-plan multi-platform item, all 3 OSes): separate processes append at once to each shared diagnostics file (`hook-<name>.ndjson` from parallel hook processes, `mcp.ndjson` from two `viola mcp`, `cli-<name>.ndjson` from parallel verbs, a colliding second `run` / `ui` on the live `run-<name>` / `ui-<port>` file, and the shared `detail-hook` / `detail-cli` / `detail-mcp` files), including at least one detail line **larger than 4 KiB**. Every line of every file must parse as one JSON object; a torn or interleaved line fails the test. As landed for the hook files: `hook_processes_append_whole_lines_side_by_side` (8 concurrent `viola hook` processes, 16 whole lines in `hook-<name>.ndjson` and 8 in `detail-hook.ndjson`, on all 3 CI OSes), and the >4 KiB half, `hook_panics_append_whole_lines_over_4_kib_side_by_side` (8 concurrent forced-panic `viola hook` processes through the `FAKE_AGENT_HOOK_PANIC` seam: 8 whole role lines and 8 whole `detail-hook.ndjson` lines each over 4 096 B, on all 3 CI OSes) — the panic payload + backtrace is the only hook detail line that large. | tempfile 3.27.0 + serde_json line reads |
 | Module ↔ external API | No outbound HTTP exists (research: no HTTP mocking library applies). The only external boundary is child processes. `claude agents --json` is served by `viola-fake-agent` copied to a test-scoped `PATH` as `claude`, in recorded, oversize and malformed modes. The Windows npm shim is a fixture `.cmd` shim next to a stub `claude.exe`. | std::process + fake-agent binary |
 | Module ↔ IPC | Wrapper channel: real endpoint bound by `viola-channel` server in a temp home, with frames validated by jsonschema. The squatter listener is created first via the interprocess server API, never `try_overwrite`. Unix socket dir 0700 / file 0600 (set by a chmod after the bind) are read back with `std::fs::metadata`. On Windows the pipe DACL is set from `D:P(A;;GA;;;<user-SID>)(A;;GA;;;SY)` and read back as Windows' own canonical SDDL, `D:P(A;;FA;;;<sid>)(A;;FA;;;SY)`: protected, exactly two allow ACEs, the user and SYSTEM. The user SID may render as an alias (`LA` for the built-in Administrator, as measured in CI run 36313377307), so the test compares the canonical form, never the literal it set. | viola-channel client, interprocess 2.4.4, jsonschema 0.57.0, windows-sys 0.61.2 |
 | Module ↔ PTY | Real ConPTY / openpty spawn of `viola-fake-agent` through `viola-pty`. The no-EOF mode checks exit on handle, a resize is propagated — including one that lands between the spawn sizing and the pump's first look, because the pump's resize baseline is the size the PTY was spawned with, never a second host read (`pump_forwards_a_resize_that_lands_before_its_first_look`; the forced-window tui test `tui_host_resize_in_the_pump_start_window_reaches_the_child` via the `fake-agent`-only `FAKE_AGENT_PUMP_DELAY_MS` seam, as measured at chunk 2026-09-26-local-linux-pre-push-gate: 6/6 red before the fix, 6/6 green after) — and a `.cmd` child is refused (`#[cfg(windows)]`). A resize reaches a child that reads no key (`spawn_reports_a_resize_to_a_child_that_reads_no_key`, the child's key-free size watcher). A test that writes a key after a resize sends it only once the child reports the new size (the red test `spawn_runs_a_raw_child_that_sees_its_size_a_resize_and_its_own_exit_code` waits for its `size 120x40` line: 0 of 200 lost on the windows-2025 runner, ci#36529038462). Measured limit these tests do not cover (H2, chunk 2026-09-29-h2-conpty-resize-probe): a key written right after the resize returned was lost in 13 of 200 runner iterations (ci#36527891850), every loss with the resize seen, the key flushed and `dsr-cpr 0` — lost between the ConPTY input-pipe write and the Rust test child's console read, cause within that span not established; whether the real `claude` (Node/libuv, `ReadConsoleInputW`) loses a key typed right after a resize is unmeasured, owned by the working-route entry "Windows-only live measurements", blocked on an interactive Windows host (`.claude/docs/gotchas.md`); the harness's `run --local-live` does not claim it. With and without the sideloaded ConPTY (chunk 2026-09-29-sideloaded-conpty), in one run on the windows-2025 runner (image `windows-2025-vs2026` 20260828.587, ci#36563868040, the measurement-only race of the pre-`dce98ad` shape, removed with its loop before the wrap): sideloaded 0 of 200 lost, inbox 14 of 200 — no rate claimed. On Windows x64 every root test that starts `viola run` hosts its child on the sideloaded `bin/<key>/conpty/OpenConsole.exe` (`pty_backend` `conpty-sideload`); viola-pty's own tests, `tests/support/outer_pty.rs`'s outer PTY and the harness `supervise::spawn_in_pty` stay on the inbox ConPTY. The sideload boundary: the root integration binary `conpty_sideload` (5 cases: the default sideload, planted copies in the CWD and on `PATH`, tampered pinned copies falling back to `System32\conhost.exe`) and viola-pty's two-sided unit test `restrict_dll_search_keeps_planted_conpty_out_of_a_bare_name_load`. Under the sideload the child's start waits for a DA1 answer through viola's pump, so the piped test driver (`tests/support/piped.rs` `Piped`) answers DA1 the way a terminal would, and the forced-window resize test resizes on the wrapper's `process-start{claude-child}` line. | portable-pty `=0.8.1` via viola-pty seam |
-| Module ↔ HTTP (in-process) | Route, header and Problem Details matrix without booting `viola ui`. Every request sets Host explicitly, because the allowlist is the outermost layer. | axum-test 21.1.0, tower 0.5.3 |
 | Hook exec ↔ channel ↔ disk | `viola hook <event>` fed fixture stdin with `VIOLA_NAME`/`VIOLA_DIR` against a live test wrapper. The event line, the `diagnostics/hook-<name>.ndjson` trace and `budget.json` are asserted. | assert_cmd 2.2.2 |
 
 **Setup / teardown lifecycle:** there is a fresh tempfile home per test (the rstest `home` fixture). Like harness homes (§3 `boot` step 2), it is a not-yet-existing `home` path inside a `tempdir_in("<workspace root>/target/e2e-home")` parent, so viola creates it and obs-plan's CI gates, secret scan and upload cover integration runs too. The base is prepared first by `tests/support/home.rs` `prepare_home_base`, called from `TestHome::new` (the harness twin is `Workspace::ensure_e2e_home`, §3 `boot` step 2; §3 Test data bootstrap states the contract), and the statement holds by path: on the Linux dev host `target/e2e-home` is an operator-set symbolic link to the owner-only tmpfs directory `/tmp/viola-e2e-home-<uid>`, so the homes' bytes sit outside the working directory while every home class keeps its path, viola still creates the home itself, and G2, G4 and the secret scan reach it through the link. No CI runner has a link, so CI's homes stay on the runner's disk and the pinned copy still ends in the real `sync_all()`. This is not a third carve-out: unlike `outside_scan()`, these homes stay under the `target/e2e-home` path and inside the scans. One carve-out (Windows x64, chunk 2026-09-29-sideloaded-conpty, the operator's ruling at that wrap): `Wrapper::boot` and every piped or outer-PTY `viola run` start first seed `<home>/bin/<key>/conpty/{OpenConsole.exe,conpty.dll}` through `tests/support/home.rs` `seed_conpty` (hard links, copy fallback, from one per-run copy under `target/conpty-seed/<key>/`, byte-identical to the embedded companions), so for them the test creates the home before viola runs. Such a home fails `hook statusline`'s instance check on Windows (as measured at chunk 2026-10-10-statusline-pass-through, CI run 38080061631, three cases refused; the home's DACL not read), so a case that drives a check-guarded path on every OS starts from `stamped_home` (§7 Seed strategies). The reason for the seed is the first start's companion write, as measured at that chunk on the dev host under a parallel suite: a median 1 193 ms, which pushed first-start tests past their 7 s waits; no bound was raised. The product's first-start write stays covered by the unseeded starts: `tests/conpty_sideload.rs` and `run_viola_unseeded` never seed. When viola sets its own home DACL at creation (the Epoch 6 entry "Home and code-bearing file integrity"), a seeded home skips it, so that entry owns making the seed let viola create the home first (route CARRY). A second carve-out (chunk 2026-10-04-confirmed-send-with-cl-1-records, the founder's ruling, live, 2026-10-04, relayed by the overseer): `tests/chaos_feed_panic.rs` alone boots in `TestHome::outside_scan()`, a home under the system temp dir (`viola-chaos-*`), not under `target/e2e-home`, because its forced vt100 feed panic writes a G2-counted `event:"panic"` line; that home is therefore outside G2 (zero panics), G4 (schema conformance) and the secret scan, and the test asserts its panic line and its `parse-rejected{vt100-feed, panicked}` line present itself. Wrappers started in a test are held in a `Drop` guard that calls `Child::kill()` then `wait()`. Nothing is shared between tests apart from the `fixed-port` group for port 47319.
@@ -645,7 +577,7 @@ threshold.
   - every event kind round-trips `{"v":1,"ts","instance","kind","source","data"}` (`crates/viola-state/tests/`). As landed (chunk 2026-10-10-self-healing-state) that suite is two files. `state_events.rs`: the 15 kinds (the length of `EventKind::ALL`; 13 until `link` and `unlink` joined at chunk 2026-10-10-session-links, each with the `data` keys `driver` and `driven`) round-trip through the crate's writer and reader with zero on all three counts; lines outside the contract are counted while known kinds are still returned, and a line of a kind no build knows is counted and not returned; a log cut short takes the next append on a fresh line. `state_replay.rs`: a written snapshot reads present; a snapshot cut short and one of `v` 99, each made from the writer's own file, are replayed from the log with the file's bytes, its modification time and the directory's file names unchanged; and since chunk 2026-10-10-session-links two link cases: a pair keeps its first `since` until an `unlink` and takes a later one after it, and a snapshot cut short is replayed with the logged link. The root `path2` case and the two `path4` cases read a product-written log back with zero on all three counts
   - `ts` is RFC 3339 UTC with ms and `Z`
   - tailing ignores symlinks and invalid names
-  - strict-modes refusals: exit 1 for `run`/`ui`/`mcp` and for `viola revive` (the start arm and `--list` alike with the state-files `unable:` / `hint:` stderr pair alone and no log line: since chunk 2026-10-10-budget-governor the start arm's check runs before its wrapper log opens, so there is no `process-start` or `process-exit` line, no child, and the home's mode is left as found), hook 0 with no output (the statusline arm reads and opens nothing under the home after a refused check and writes no line, however often it is invoked), CLI 21 for every other verb
+  - strict-modes refusals: exit 1 for `run`/`mcp` and for `viola revive` (the start arm and `--list` alike with the state-files `unable:` / `hint:` stderr pair alone and no log line: since chunk 2026-10-10-budget-governor the start arm's check runs before its wrapper log opens, so there is no `process-start` or `process-exit` line, no child, and the home's mode is left as found), hook 0 with no output (the statusline arm reads and opens nothing under the home after a refused check and writes no line, however often it is invoked), CLI 21 for every other verb
 - **Hooks:** root `tests/hook_*.rs` checks every event name in the arch Hooks list:
   - exit 0 and empty stderr
   - decision body or empty stdout
@@ -668,12 +600,6 @@ threshold.
     - The row ids are written as literals in the test (§11 Unit).
     - The `<n>` in `stamped <ver>  <n> pass  0 fail` must equal the literal row count.
     - The same check runs against the real CLI under `--local-live`.
-- **GUI HTTP:** `crates/viola-ui/tests/` via axum-test checks:
-  - `/health` and `/ready`, including the `checks` matrix where a failing `claude_agents` alone keeps 200
-  - 503 `not-ready` never uses Problem Details
-  - the `/api/sessions` and `/api/links` envelopes, and the unwrapped-row shape
-  - Problem Details URNs 403/405/404/503
-  - the header set on every response
 - **MCP:** adapter-level handler tests in `crates/viola-mcp/tests/` against a test wrapper, using the sync channel client inside the handler under test. The full stdio path is E2E (§6).
 
 (See `## 11. Test Anti-Patterns` § Integration for integration-level
@@ -692,8 +618,6 @@ bans.)
 | tui (`viola run` passthrough) | portable-pty `=0.8.1` outer PTY (`tests/support/outer_pty.rs` over the `viola-pty` seam) | direct (ConPTY / openpty) | Exit only via `child.wait()`, and the master reader is drained on its own thread. Verdicts come from `events.ndjson`, the fake-agent receipt and the exit status. |
 | ipc-internal (wrapper channel) | viola-channel sync client + interprocess 2.4.4 raw stream + jsonschema 0.57.0 | direct | The endpoint is read only from `snapshot.json`. |
 | ipc-internal (MCP stdio) | rmcp 3.4.1 client (`TokioChildProcess` spawning `viola mcp --home <tmp>`) + jsonschema | direct | Lives in `crates/viola-e2e`, and uses dev-dep features `client` and `transport-child-process` only. |
-| api-service (GUI HTTP + SSE) | reqwest 0.13.5 (`no_proxy`, `cookie_store(false)`, `redirect(Policy::none())`, no compression features) + curl raw probes + eventsource-client 0.18.0 (`reconnect(false)`) | direct | curl covers the missing Host (`-H 'Host:'`) and non-GET methods. The raw reqwest line parser covers keep-alive and `Content-Encoding`. |
-| web-spa (strip bay) | Playwright Test 1.63.0, headless Chromium, JSON + JUnit reporters; @axe-core/playwright 4.13.0 once the a11y chunks of Epoch 8 pin it (the pipe stub runs without it) | headless (all three CI OSes; the render and contrast assertions stay judged on the ubuntu leg) | No `webServer`: the harness `boot` starts `viola ui`, and the test navigates to `/?t=<token>` read from `ui/<port>.url`. No `bypassCSP`, no `toHaveScreenshot`, no codegen or UI mode. |
 | library-only | cargo-nextest 0.9.146 + `cargo test --doc` | direct | Covered in §4. |
 
 Skipped as "untestable" per test-scope Sec 1:
@@ -701,26 +625,15 @@ Skipped as "untestable" per test-scope Sec 1:
 - Cross-OS-user peers. Covered by the peer-credential boundary unit test (§4) and same-user SDDL read-back (§5).
 - Non-persistent-ACL volumes and foreign-owner SIDs. Covered by synthetic SDDL descriptor stubs (§4).
 - macOS local runs, which are CI-only.
-- Mobile / `<760px` and v1.x POST routes. N/A, except the 405 assertion.
-
-**Selector strategy:**
-- **Role-based queries** follow the design Brand Identity Anchors: `getByRole('table')` for racks, `'row'` for strips, `'cell'` for strip cells, `'columnheader'` for the six captions, `'log'` for the tape and `'status'` for the live region.
-- **Cell addressing:** a cell is the `cell` in the `row` filtered by the exact NAME text, taken at the index of the `columnheader` whose accessible name is the caption (for example `WHEEL`). That index is resolved at runtime from the header row, never written as a literal `nth()`. If design reorders or adds a column, the lookup still finds the right cell. If a caption is renamed, the lookup fails in one place.
-- **Tape synchronisation:** new tape lines and markers are awaited with auto-waiting locators on `[data-live]` elements filtered by the unique text the test sent, never by a timeout.
-- **`data-*` state attributes** are asserted with `toHaveAttribute`: `viola-session-row[data-dialog="pending"]`, `[data-liveness="stale"]`, `[data-wrapped="false"]`, `viola-readback[data-rb="open|read|refused|unconfirmable"]`.
-- **Component names** (`viola-atis`, `viola-transfer`, `viola-event-feed`) scope text matches. The selector form these and the `viola-*[data-*]` selectors above take (an element, a class or a data attribute) follows how each component maps onto React's output, which is OPEN, owned by the route's frontend-toolchain entry.
-- **Session names** are matched by exact text of the `ViolaName`, never text-transformed.
-- **Never used:** CSS classes (`.band`, `.rb`), inline `style`, or xpath.
-- **axe:** `AxeBuilder({page}).analyze()` runs after each state strip renders (empty, 503, cocked), with `violations` required to be `[]`. The test plan owns only where axe runs and the verdict: an empty `violations` array passes, anything else fails the test. Rule tags, disabled rules and the conformance target come from the a11y plan's configuration, and specs must not add their own `withTags` / `disableRules`. Until the a11y plan names a configuration, axe's default rule set applies unchanged.
 
 **Critical path scenarios** (translated from test-scope Section 4):
 
 #### Scenario: Path 1 — `run` start sequence
 
-- **Surfaces involved:** tui (`viola run`), ipc-internal, cli (`list --json`), api-service
+- **Surfaces involved:** tui (`viola run`), ipc-internal, cli (`list --json`)
 - **Steps:**
   1. rstest `stamped_home` fixture. Spawn `viola run builder --home H -- <viola-fake-agent> …` in an outer PTY, then wait for readiness (the `boot` checks) by tailing `events.ndjson`.
-  2. Read `instances/builder/snapshot.json`. Run `viola list --json --home H`. Boot `viola ui` and `GET /api/sessions` with the cookie.
+  2. Read `instances/builder/snapshot.json`. Run `viola list --json --home H`.
   3. Run a second `viola run builder --home H -- <fake>` with std::process.
   4. Squat: in a new home H2, create a listener on `viola_channel` endpoint name(`builder`, H2) through the interprocess server API, then run `viola run builder --home H2 -- <fake>`.
   5. Tamper and rewrite: stop the first wrapper (Ctrl-C into the outer PTY, `child.wait()`). Overwrite one byte of the file at snapshot `pinned_bin`, and write a sentinel into the instance's `plugin/` hooks.json and `settings.json`. Then run `viola run builder --home H` again.
@@ -728,7 +641,7 @@ Skipped as "untestable" per test-scope Sec 1:
 - **Verification signal:**
   - The first three `events.ndjson` records are `wheel{cause:"start"}`, `budget-gate`, `session-start{source:"hook", data.cause:"startup"}`, in that order. The third record and the M6 check below are asserted by `path1_session_start_is_record_three_through_the_absolute_hook` (the fake agent's `hook` receipt reads `command_absolute:true, ran:true, exit_code:0`); `path1_start_writes_state_before_the_spawn` keeps its no-fixture `[wheel, budget-gate]` chain. The receipt's `started_at` is later than the `budget-gate` `ts`, proving the child spawned only after the events.
   - The snapshot has `pinned_bin`, `pid`, `started_at`, `child_pid`, and `endpoint` from "Wrapper channel" on.
-  - `list --json` item `{wrapped:true, liveness:"live"}`, and it equals the `/api/sessions` item.
+  - `list --json` item `{wrapped:true, liveness:"live"}`.
   - The duplicate `run` exits 1. The squatted endpoint exits 1. The tampered pinned exe exits 1.
   - After restart, `plugin/` hooks.json no longer contains the sentinel, and its hook commands are the absolute `pinned_bin` path, not a PATH lookup (M6).
   - The `settings.json` half of step 5 is Unix's. On Unix the restart rewrites the instance's `settings.json` whole at 0600 as `{"statusLine":{"type":"command","command":"<pinned path> hook statusline"}}` with the absolute pinned path, and only when every character of that path is an ASCII letter, a digit or one of `_ - . / :`. On Windows no `settings.json` is written. Landed as `run_rewrites_the_settings_override_each_start` (`tests/cli_instance_state.rs`, with a `cfg!(windows)` branch) and the unit `statusline_override_of_a_start_is_rewritten_whole_at_owner_only` (`src/cmd/run.rs`).
@@ -736,31 +649,28 @@ Skipped as "untestable" per test-scope Sec 1:
 
 #### Scenario: Path 2 — confirmed `send` with CL-1 events
 
-- **Surfaces involved:** cli, ipc-internal (MCP `send`), tui (fake-agent receipt), api-service (SSE), web-spa. As landed (chunk 2026-10-04-confirmed-send-with-cl-1-records), `tests/cli_send.rs` `path2_send_confirms_with_cl1_events` covers cli, ipc-internal (the wrapper channel) and tui (the receipt) on all three CI OSes; the MCP `send` step and its verification are owed to `:118`, the SSE assertion to `:147`, and the web half with its Playwright check to `:155`. Since chunk 2026-10-04-running-turn-refusal the test boots over `fixtures/fake-scripts/path3.json` and ends its first send's turn (the gated `PostToolUse` and `Stop` released, `turn-ended` awaited) before its second send, which a running turn would refuse `turn-running`; `send_after_a_confirmed_send_is_turn_running_until_turn_ended` covers the driver's own turn: the next `send` exits 13, `[/ ] unable         builder  not-delivered  turn-running` then `hint: a turn is running; viola wait builder first`, until `turn-ended`, then exits 0.
+- **Surfaces involved:** cli, ipc-internal (MCP `send`), tui (fake-agent receipt). As landed (chunk 2026-10-04-confirmed-send-with-cl-1-records), `tests/cli_send.rs` `path2_send_confirms_with_cl1_events` covers cli, ipc-internal (the wrapper channel) and tui (the receipt) on all three CI OSes; the MCP `send` step and its verification are owed to `:118`. Since chunk 2026-10-04-running-turn-refusal the test boots over `fixtures/fake-scripts/path3.json` and ends its first send's turn (the gated `PostToolUse` and `Stop` released, `turn-ended` awaited) before its second send, which a running turn would refuse `turn-running`; `send_after_a_confirmed_send_is_turn_running_until_turn_ended` covers the driver's own turn: the next `send` exits 13, `[/ ] unable         builder  not-delivered  turn-running` then `hint: a turn is running; viola wait builder first`, until `turn-ended`, then exits 0.
 - **Steps:**
-  1. `agent-run boot --session p2 --instance builder --instance mute:--suppress-prompt-submit --instance local:--local-command-mode --ui`.
+  1. `agent-run boot --session p2 --instance builder --instance mute:--suppress-prompt-submit --instance local:--local-command-mode`.
   2. Record L = byte length of `instances/builder/events.ndjson`. Run `viola send builder --json --home H` with stdin `"line one\nline two"` and env `VIOLA_NAME=overseer`.
   3. Send the long text of the recorded `paste-1` variant to a fake agent started with `--framing`, which answers with that recorded prompt, the CLI's own `<pasted_content id=…>` form with its frame (M3; the fake agent has no wrap threshold and builds no wrapper of its own), and a text containing a literal `<pasted_content` (M4; this half is not built yet).
   4. Run `viola send mute --json`. Then send a ledger-listed local command (taken from the compiled ledger rows) to `local`.
-  5. Web half (§3 `run` step 3, cross-runner rule): the `bay-steady-state` test `path2` boots its own session with the same three instances (`builder`, `mute:--suppress-prompt-submit`, `local:--local-command-mode`, `--ui`). It repeats steps 2 and 4 through `child_process` and asserts the Playwright bullets below on that session's tape, each tied to the CLI result of the send it issued. The Rust test never waits on the browser.
-  6. rmcp client: `call_tool("send", {target:"builder", text:"mcp line"})`.
+  5. rmcp client: `call_tool("send", {target:"builder", text:"mcp line"})`.
 - **Verification signal:**
   - Step 2: exit 0, with `ok.cursor == L` and `ok.submitted_at` in RFC 3339 ms Z.
-  - SSE: an eventsource-client stream on `/api/events` (session cookie, `reconnect(false)`), opened before step 2, delivers the `send-issued` and `prompt-submitted` lines after L. Each `id:` is the composite cursor over every tailed instance (`builder`, `mute` and `local`, as `<ViolaName>:<byte offset>` pairs joined by `,`; pair order is not asserted). Its `builder` pair equals the byte offset just after that line, and the `mute` and `local` pairs equal those instances' current offsets (arch SSE feed: every tailed instance is always listed).
   - The records after offset L are `send-issued{cursor:L, from:"overseer"}` and then `prompt-submitted{origin:"driver", text:"line one\nline two"}`.
   - The receipt has exactly one `prompt` entry with `text` containing `\n`, `bare_esc:false`, and a single `\x1b[200~…\x1b[201~` + `\r` framing.
   - Step 3: both confirm with exit 0 through normalisation. The wrapped half is `send_long_text_wrapped_by_the_cli_is_confirmed` (`tests/cli_send.rs`), which read exit 13 with the unwrap keeping the frame's newlines; the literal-tag half is not built yet.
   - A text ending in newlines: `send_text_ending_in_newlines_is_typed_without_them_and_confirmed` (`tests/cli_send.rs`: the one-LF and two-LF cases, and since chunk 2026-10-09-epoch-3-cleanup the CR, CRLF and two-CR tails; on all three CI OSes) ends exit 0 `{submitted_at, cursor}`. The records after its offset are `send-issued`, then `prompt-submitted{origin:"driver"}` whose `text` is the typed text, then `send-confirmed`, with no `send-refused` and no `wheel` record. The receipt's one `prompt` entry does not end in a CR or an LF, the role file's `text_bytes` is the typed text's length, and a second send in human mode prints `[RB] read back` and is not refused `human-typing`. Under the fake agent, which echoes what it is typed, the exit code and the records are a floor: the receipt and the `text` are what prove it. A listed local command followed by LF, CR or CRLF (`/clear` and a newline, or `/clear` and a CRLF, classified as `/clear`) is unit-tier only. As measured on live `claude` 2.1.287 on the Linux dev host at chunk 2026-10-08-first-live-test-and-self-drive (`evidence/live-readings.ndjson`; a local live measurement, no suite): a send ending in two newlines is confirmed, `text_bytes` 31 of 33 sent, the prompt filed `driver`, no `send-refused` and no `wheel` record; `/clear` and one newline is confirmed by a new session. On that build, before chunk 2026-10-09-epoch-3-cleanup, a text of only newlines was issued with `text_bytes` 0, drew no `prompt-submitted` and no `wheel` record, and ended exit 13 `not-delivered`/`no-prompt-submitted`; and a text ending in one CR was issued whole (`text_bytes` 32), the CLI submitted it without the CR, the prompt was filed `origin: human`, a `wheel{holder:"human",cause:"human-input"}` record followed, and the `send` ended exit 13 `not-delivered`/`no-prompt-submitted`. Both stand as records of the earlier build. Since chunk 2026-10-09-epoch-3-cleanup a text whose typed text is empty, the empty text included, is refused at once `not-delivered`/`empty-text`, exit 13, and is never issued: `send_empty_text_is_refused_at_once` (`tests/cli_send.rs`, over the empty text, one LF and one CRLF: the struck mirror line, the hint `the text is empty once its trailing newlines are removed; send a text with content` as the last stderr line, no ESC byte, nothing on stdout; one document under `--json`; no `send-issued`; one client role-file `send-refused` line with `side` `client`) and `send_empty_text_straight_to_the_wrapper_is_refused` (`tests/channel_paste_validation.rs`). A text ending in CR, CRLF or two CRs is typed without the ending and confirmed (the tails of the case above). As measured on live `claude` 2.1.287 on the Linux dev host at that chunk (`evidence/live-run.md`, `evidence/live-readings.ndjson`; a local live measurement, no suite): texts ending in CR, CR LF and CR CR are each filed `driver` and confirmed with no `wheel` record (`after-cr`, `after-crlf`, `after-cr-cr`), and a text of one CR LF is refused by the client, exit 13, with no record in the wrapper (`after-empty-text`). Since chunk 2026-10-09-inner-cr-and-crlf-in-a-sent-text a CR or a CR LF inside a text is typed as one LF, so the send is confirmed and the driver keeps the wheel: `send_text_whose_inner_cr_is_one_lf_is_typed_with_lf_and_confirmed` (`tests/cli_send.rs`, three rstest cases over `path3.json`: one CR LF inside, one lone CR inside, CR LF on every line with a CR LF ending) reads exit 0, one receipt prompt whose bytes hold no CR, `send-issued`, then `prompt-submitted{origin:"driver"}` with the typed text, then `send-confirmed`, with no `wheel` and no `send-refused` record, the role file's `text_bytes` as the typed length, and the one `[RB] read back` line for a second inner-CR send in human mode. As measured on live `claude` 2.1.287 on the Linux dev host at that chunk (`evidence/live-run.md`, `evidence/live-readings.ndjson`; one headless session of six sends, a local live measurement, no suite): texts holding one inner CR LF, one lone inner CR, two CRs in a row, an LF then a CR, and CR LF after two of three lines were each filed `driver` and confirmed with no `wheel` record and no CR in the prompt (`rule-inner-crlf`, `rule-inner-cr`, `rule-inner-cr-cr`, `rule-inner-lf-cr`, `rule-crlf-lines`), after the control that an LF typed inside a bracketed paste is submitted unchanged (`rule-inner-lf`; since chunk 2026-10-13-paste-newline-ledger-row the ledger row `paste-newline` and its `viola verify` probe, Run B's `paste-3` paste, cover that shape, stamped on live `claude` 2.1.287 on the Linux dev host there, `stamped 2.1.287  18 pass  0 fail`; its Windows reading is owed to "Windows-only live measurements"). Before the rule the same inner shapes were typed with the CR, filed `origin: human`, followed by a `wheel{holder:"human",cause:"human-input"}` record, and ended exit 13 `not-delivered`/`no-prompt-submitted` (`after-inner-crlf`, `after-inner-cr`, chunk 2026-10-09-epoch-3-cleanup); both stand as records of the earlier build. Not measured: any CLI version but 2.1.287, a long or wrapped multi-line text, an LF typed inside a paste on Windows, and what the CLI does with a typed CR CR or LF CR (no `send` types one).
   - `mute`: exit 13, `{"refusal":"not-delivered","detail":"no-prompt-submitted"}`, and a `send-refused{refusal:"not-delivered",detail:"no-prompt-submitted"}` record.
   - `local` (a ledger-listed command with no measured post-condition: `/remote-control` and `/compact` on any version, `/clear` on an unverified CLI): exit 0, `--json` `{"v":1,"ok":{"confirmed":false,"detail":"unconfirmable","cursor":<n>}}`, nothing on stderr, the records `send-issued` then `send-confirmed{cursor, confirmed:false}`, no `send-refused`, no confirmation window, and the command's text in no role log line (`send_window_local_command_is_not_presumed_delivered`, both commands under `--json`). `/compact` on a verified CLI is `unconfirmable` at once the same way, `send-issued` then `send-confirmed{confirmed:false}` and no window (`send_compact_on_a_verified_cli_is_unconfirmable_at_once`, chunk 2026-10-14-resume-and-compact-ledger-rows). `/clear` on a verified CLI is confirmed by its post-condition alone, a `session-start` with cause `clear` and a new `agent_session_id`, and ends exit 0 `{submitted_at, cursor}` (`send_clear_on_a_verified_cli_is_confirmed_by_its_new_session`, on the recorded 2.1.287 `clear-1` variants; as measured live on 2.1.287 at chunk 2026-10-08-first-live-test-and-self-drive, `evidence/live-run.ndjson`, a `/clear` was confirmed by a new session and the next send landed in it). A slash text off the compiled list stays exit 13 `not-delivered`/`no-prompt-submitted` (`send_window_slash_text_off_the_list_is_not_delivered`). The forced-window pair `send_under_the_paste_hint_on_a_verified_cli` (two cases) is delivered both while the fake agent holds the paste hint (the gate waits out the 3 000 ms hold) and without the hold. `send_under_the_paste_hint_a_human_key_during_the_gate_wait_wins` writes a key into the outer PTY while a send waits in the gate under the same hold: the `wheel` record stands before the `send-refused` record, the send exits 10 `human-typing` with nothing typed, and the key reaches the child. That case cannot tell `send`'s first wheel read from its second (a key that arrived before the first read would pass it too), so its green is a floor; the second read's own proof is the four unit cases and their remove-the-guard controls. The refusal at the 8.5 s bound is unit-tier only: no end-to-end case blocks to the bound.
-  - Playwright: the builder send line's `viola-readback` goes `data-rb="open"` → `"read"`. The mute line reaches `data-rb="refused"`, with text `unable · not-delivered · no-prompt-submitted`. The local line reaches `data-rb="unconfirmable"`, tied to the `send`'s `{confirmed:false, detail:"unconfirmable"}` result (the web half itself is owed to `:155`).
   - Human mode, verified with trycmd-redacted assert_cmd: stdout `[RB] read back … cursor <n>`, and for mute a stderr `[/ ] unable  mute  not-delivered  no-prompt-submitted` plus a last-line `hint:`. For `local`, one stdout line `[  ] unconfirmable  <name>  local command, no measured post-condition`, exit 0, nothing on stderr (no `unable`, no `hint:`); a `/clear` confirmed by its post-condition prints `[RB] read back` like any confirmed send.
   - MCP: `is_error:false`, and the `structured_content` key set equals the CLI `ok` key set `{submitted_at, cursor}`.
 - **Cleanup:** `agent-run cleanup --session p2`.
 
 #### Scenario: Path 3 — `wait` / `last` event-driven readback (§6 live flow)
 
-- **Surfaces involved:** cli, ipc-internal (channel + MCP `wait`/`last`), api-service, web-spa. As landed (chunk 2026-10-04-wait-and-last), `tests/cli_wait_last.rs` covers cli and ipc-internal (the wrapper channel) on all three CI OSes, over the gated fake script `fixtures/fake-scripts/path3.json` (a gated `PostToolUse`, then a gated `Stop`): `path3_wait_parks_until_turn_ended_then_last_reads_it`, `wait_after_a_send_cursor_returns_the_turn` and `last_survives_a_wrapper_restart`; the vanished-wrapper half is `tests/chaos_wait_vanish.rs` `chaos_wait_parked_wrapper_killed_exits_21`. The MCP `wait` / `last` steps and their verification are owed to `:118`, the `/api/sessions` STATUS transition to `:145`, and the Playwright STATUS cell to `:155`. The end-to-end `question` / `plan` wake witness landed with chunk 2026-10-04-dialog-answers-by-dialog-id (`tests/cli_answer.rs`, Path 4); the `permission` wake witness landed with chunk 2026-10-05-permission-end-to-end (`tests/cli_answer.rs` `path4_permission_is_logged_once_woken_and_answered_by_id`: a parked `wait` returns each `permission`, and the PostToolUse `activity` line between them wakes none).
+- **Surfaces involved:** cli, ipc-internal (channel + MCP `wait`/`last`). As landed (chunk 2026-10-04-wait-and-last), `tests/cli_wait_last.rs` covers cli and ipc-internal (the wrapper channel) on all three CI OSes, over the gated fake script `fixtures/fake-scripts/path3.json` (a gated `PostToolUse`, then a gated `Stop`): `path3_wait_parks_until_turn_ended_then_last_reads_it`, `wait_after_a_send_cursor_returns_the_turn` and `last_survives_a_wrapper_restart`; the vanished-wrapper half is `tests/chaos_wait_vanish.rs` `chaos_wait_parked_wrapper_killed_exits_21`. The MCP `wait` / `last` steps and their verification are owed to `:118`. The end-to-end `question` / `plan` wake witness landed with chunk 2026-10-04-dialog-answers-by-dialog-id (`tests/cli_answer.rs`, Path 4); the `permission` wake witness landed with chunk 2026-10-05-permission-end-to-end (`tests/cli_answer.rs` `path4_permission_is_logged_once_woken_and_answered_by_id`: a parked `wait` returns each `permission`, and the PostToolUse `activity` line between them wakes none).
 - **Steps:**
   1. Boot `overseer` and `builder`. The builder fake script is: on a prompt, fire PostToolUse (activity), then Stop with `last_assistant_message:"done: <prompt>"`, gated on a control line the test writes to the fake agent's control file, so the test orders the events deterministically.
   2. Run `viola send builder --json` as overseer to get cursor C. Spawn `viola wait builder --after C --json --timeout-ms 30000` with std::process.
@@ -769,7 +679,6 @@ Skipped as "untestable" per test-scope Sec 1:
   5. Re-run `viola wait builder --after C --json`. Then run `viola wait builder --after <file end> --timeout-ms 500 --json`.
   6. Run `viola last builder --json`, and rmcp `call_tool("last")`.
   7. Start a new `wait` and kill the wrapper (the chaos helper); run rmcp `wait` on the dead instance.
-  8. Read `/api/sessions` at the offsets of `prompt-submitted` and `turn-ended`.
 - **Verification signal:**
   - Step 3: `try_wait()` is `None`, so activity and wheel records do not wake `wait`.
   - Step 4: `wait` exits 0 with `event.kind:"turn-ended"` and `cursor` ≥ that record's offset.
@@ -777,14 +686,13 @@ Skipped as "untestable" per test-scope Sec 1:
   - `last` gives `{last_assistant_message:"done: …", ts}`, and the MCP `structured_content` is equal.
   - Live MCP `wait` wake: an rmcp `call_tool("wait", {target:"builder", after:C})` is issued after the step 3 `activity` record is logged and before step 4. It resolves with `is_error:false` and the same `turn-ended` event and `cursor` as the CLI `wait`, never with the `activity` record.
   - Step 7: CLI exit 21 with `{"error":"instance-unreachable","detail":null}`; MCP `is_error:true` `{"error":"instance-unreachable"}`.
-  - `/api/sessions` `status` goes `busy` → `idle`. Playwright shows the same STATUS cell transition in the builder row.
 - **Cleanup:** harness `cleanup`; killed wrappers verified gone via sysinfo pid + start time.
 
 #### Scenario: Path 4 — dialog → `answer` (question / permission / plan)
 
-- **Surfaces involved:** cli (`hook` + `answer`), ipc-internal (channel `hook.dialog`/`answer`, MCP `answer`), api-service, web-spa. As landed (chunk 2026-10-04-dialog-answers-by-dialog-id), `tests/cli_answer.rs` over `fixtures/fake-scripts/path4.json` covers cli and ipc-internal (the wrapper channel) on all three CI OSes: question with annotations, plan approve, plan revise through the PermissionRequest repeat, the question's PermissionRequest repeat silent, an empty hook stdout for a second concurrent dialog, and `unknown-dialog` (exit 13). Chunk 2026-10-05-dialog-rows-and-re-probe added the plan first raised by PermissionRequest (`v1-15`). Chunk 2026-10-05-permission-end-to-end added the `permission` kind end to end, over its own gated script `fixtures/fake-scripts/path4-permission.json` replaying the recorded ordinary-tool `PermissionRequest.permission-1.json` / `PostToolUse.permission-1.json` (`fixtures/claude/2.1.287/`): `path4_permission_is_logged_once_woken_and_answered_by_id` (`allow` whose suggestion fields never reach the CLI, `v1-16`; `deny` + `message`; the PostToolUse `activity` line waking no `wait`; a `question` first raised by PermissionRequest logged once, its hook silent, a late `answer` refused exit 13 `unknown-dialog`) and `path4_unstamped_permission_is_left_to_the_human_and_its_allow_refused` (exit 12 `unverified-cli`, no body). The MCP `answer`, `/api/sessions` and Playwright steps are owed to their surface chunks.
+- **Surfaces involved:** cli (`hook` + `answer`), ipc-internal (channel `hook.dialog`/`answer`, MCP `answer`). As landed (chunk 2026-10-04-dialog-answers-by-dialog-id), `tests/cli_answer.rs` over `fixtures/fake-scripts/path4.json` covers cli and ipc-internal (the wrapper channel) on all three CI OSes: question with annotations, plan approve, plan revise through the PermissionRequest repeat, the question's PermissionRequest repeat silent, an empty hook stdout for a second concurrent dialog, and `unknown-dialog` (exit 13). Chunk 2026-10-05-dialog-rows-and-re-probe added the plan first raised by PermissionRequest (`v1-15`). Chunk 2026-10-05-permission-end-to-end added the `permission` kind end to end, over its own gated script `fixtures/fake-scripts/path4-permission.json` replaying the recorded ordinary-tool `PermissionRequest.permission-1.json` / `PostToolUse.permission-1.json` (`fixtures/claude/2.1.287/`): `path4_permission_is_logged_once_woken_and_answered_by_id` (`allow` whose suggestion fields never reach the CLI, `v1-16`; `deny` + `message`; the PostToolUse `activity` line waking no `wait`; a `question` first raised by PermissionRequest logged once, its hook silent, a late `answer` refused exit 13 `unknown-dialog`) and `path4_unstamped_permission_is_left_to_the_human_and_its_allow_refused` (exit 12 `unverified-cli`, no body). The MCP `answer` step is owed to its surface chunk.
 - **Steps:**
-  1. Boot a stamped `builder` with `--ui`. The fake script is: on prompt 1, run `PreToolUse.ask-user-question.json` through the pinned `viola hook pre-tool-use`, blocking on its stdout. On prompt 2, `PermissionRequest.permission-1.json`, the recorded ordinary-tool PermissionRequest; as landed it runs in its own gated script `fixtures/fake-scripts/path4-permission.json` (PermissionRequest `permission-1` → PostToolUse `permission-1` → PermissionRequest `permission-1` → PermissionRequest `ask-user-question` with no PreToolUse before it → Stop), not as prompt 2 of `path4.json`. On prompt 3, `PreToolUse.exit-plan-mode.json` (approve). On prompt 4, `PermissionRequest.exit-plan-mode.json` (revise); the question's repeat is `PermissionRequest.ask-user-question.json`.
+  1. Boot a stamped `builder`. The fake script is: on prompt 1, run `PreToolUse.ask-user-question.json` through the pinned `viola hook pre-tool-use`, blocking on its stdout. On prompt 2, `PermissionRequest.permission-1.json`, the recorded ordinary-tool PermissionRequest; as landed it runs in its own gated script `fixtures/fake-scripts/path4-permission.json` (PermissionRequest `permission-1` → PostToolUse `permission-1` → PermissionRequest `permission-1` → PermissionRequest `ask-user-question` with no PreToolUse before it → Stop), not as prompt 2 of `path4.json`. On prompt 3, `PreToolUse.exit-plan-mode.json` (approve). On prompt 4, `PermissionRequest.exit-plan-mode.json` (revise); the question's repeat is `PermissionRequest.ask-user-question.json`.
   2. After each prompt, run `viola wait builder --after C --json` to get the event and its `dialog_id`.
   3. Answer each dialog:
      - question: `viola answer builder <id> --json` with stdin `{"answers":{"<q>":"free text"},"annotations":{…}}`
@@ -804,14 +712,12 @@ Skipped as "untestable" per test-scope Sec 1:
   - The second concurrent dialog's hook stdout is empty.
   - The unknown id gives exit 13 `{"refusal":"not-delivered","detail":"unknown-dialog"}`.
   - MCP `is_error:false`.
-  - `/api/sessions` item `builder` has `dialog_pending:true` while each dialog is pending and `dialog_pending:false` after its answer.
-  - Playwright: the builder row has `data-dialog="pending"` with cell text `DIALOG question`, and `toHaveTitle('DIALOG builder · viola')`. After the answer, the attribute is gone and the title is `viola`.
   - Step 6: hook stdout is empty and `answer` exits 10. No decision body is ever emitted unless the wheel is `driver` and the version is stamped.
 - **Cleanup:** harness `cleanup`.
 
 #### Scenario: Path 5 — human takes the wheel, refusal, `release`
 
-- **Surfaces involved:** tui (outer-PTY keystrokes), cli, ipc-internal (channel + MCP), web-spa. As landed (chunk 2026-10-04-the-wheel), `tests/tui_wheel.rs` (the outer-PTY steps: `path5_human_takes_the_wheel_and_release_returns_it`, the harness-turn case, `tui_focus_mouse_and_resize_never_take_the_wheel` and `tui_ctrl_z_reaches_the_child_and_later_keys_still_do`) and `tests/cli_wheel.rs` (`pause` / `release`, the `human-typing` refusals with detail `null` | `manual-pause`, hints without `release`, `release-from-driver` exit 20) cover tui, cli and ipc-internal (the wrapper channel) on all three CI OSes; on `windows-2025` the focus case asserts the platform fact of the founder's live ruling F-W3 (an injected mouse report takes the wheel, focus reports are swallowed), Unix the full assertion. As landed (chunk 2026-10-04-running-turn-refusal), the harness-turn case boots over `fixtures/fake-scripts/path3.json` and asserts the `turn-running` refusal during the injected turn and acceptance after its scripted Stop, and `tests/cli_wheel.rs` adds `path5_a_turn_left_running_is_cleared_by_pause_then_release` (a turn left running under a driver-held wheel: a bare `release` changes nothing, `pause` then `release` clears it). As landed (chunk 2026-10-08-first-live-test-and-self-drive), the stdin classifier's closed non-editing list gained seven terminal reply shapes, pinned at the unit tier in `src/run/wheel.rs`: the rstest table `classifier_terminal_reply_is_not_editing` (eight reply cases), the whole-and-split test over the 23 `REPLIES` strings, and 27 negative controls in `classifier_typing_is_editing` that stay typing (the nearest human keys, and a sequence one field or one prefix away from each shape). The list's reading on a real terminal is a local live measurement, not a suite, because the outer-PTY tier writes no terminal reply of its own: as measured on foot 1.28.0 on the Linux dev host at that chunk (`evidence/reply-probe.ndjson`, `evidence/reply-probe-fixed.ndjson`), seven replies were read as typing before the seven joined and none of 23 queries after, and the keys `n`, `t` and `m` typed with `wtype` each took the wheel. The MCP `send` step and its refusal checks are owed to `:118`, and the Playwright WHEEL-cell check to `:155`.
+- **Surfaces involved:** tui (outer-PTY keystrokes), cli, ipc-internal (channel + MCP). As landed (chunk 2026-10-04-the-wheel), `tests/tui_wheel.rs` (the outer-PTY steps: `path5_human_takes_the_wheel_and_release_returns_it`, the harness-turn case, `tui_focus_mouse_and_resize_never_take_the_wheel` and `tui_ctrl_z_reaches_the_child_and_later_keys_still_do`) and `tests/cli_wheel.rs` (`pause` / `release`, the `human-typing` refusals with detail `null` | `manual-pause`, hints without `release`, `release-from-driver` exit 20) cover tui, cli and ipc-internal (the wrapper channel) on all three CI OSes; on `windows-2025` the focus case asserts the platform fact of the founder's live ruling F-W3 (an injected mouse report takes the wheel, focus reports are swallowed), Unix the full assertion. As landed (chunk 2026-10-04-running-turn-refusal), the harness-turn case boots over `fixtures/fake-scripts/path3.json` and asserts the `turn-running` refusal during the injected turn and acceptance after its scripted Stop, and `tests/cli_wheel.rs` adds `path5_a_turn_left_running_is_cleared_by_pause_then_release` (a turn left running under a driver-held wheel: a bare `release` changes nothing, `pause` then `release` clears it). As landed (chunk 2026-10-08-first-live-test-and-self-drive), the stdin classifier's closed non-editing list gained seven terminal reply shapes, pinned at the unit tier in `src/run/wheel.rs`: the rstest table `classifier_terminal_reply_is_not_editing` (eight reply cases), the whole-and-split test over the 23 `REPLIES` strings, and 27 negative controls in `classifier_typing_is_editing` that stay typing (the nearest human keys, and a sequence one field or one prefix away from each shape). The list's reading on a real terminal is a local live measurement, not a suite, because the outer-PTY tier writes no terminal reply of its own: as measured on foot 1.28.0 on the Linux dev host at that chunk (`evidence/reply-probe.ndjson`, `evidence/reply-probe-fixed.ndjson`), seven replies were read as typing before the seven joined and none of 23 queries after, and the keys `n`, `t` and `m` typed with `wtype` each took the wheel. The MCP `send` step and its refusal checks are owed to `:118`.
 - **Steps:**
   1. The test owns the outer PTY: `viola run builder --home H -- <fake>`, stamped. Wait for `session-start`.
   2. Write the editing key `h` into the master.
@@ -830,12 +736,11 @@ Skipped as "untestable" per test-scope Sec 1:
   - Driver-facing hints never suggest `viola release`. With `VIOLA_NAME=overseer` set, the human-mode `send` refusal (`detail:null` and `manual-pause`) ends in a last stderr line matching `^hint: ` that does not contain `release`. The MCP refusal text and `structured_content` do not contain `release` either. Drivers are refused `release` (step 7), so such a hint would send the driver into a -32602 / exit 20 dead end.
   - `release` with `from` gives exit 20, `{"error":"wrapper-fault","detail":{"code":-32602,…}}` carrying `release-from-driver`.
   - The harness-injected turns log `prompt-submitted{origin:"harness"}` and no `wheel` record. While the injected turn runs, `send` exits 13 with `{"v":1,"refusal":"not-delivered","detail":"turn-running"}`, nothing is typed (the receipt holds only the harness `prompt`), and the one record it adds is `send-refused{refusal, detail}` with no `cursor` and no `send-issued`; after the scripted Stop's `turn-ended`, `send` exits 0. With no Stop, a bare `viola release` (a driver-held wheel) leaves the turn and `send` stays 13; `viola pause` then `viola release` clears it.
-  - Playwright (`path5` test, §3 cross-runner rule): the spec has no handle on the outer PTY that the supervisor owns, so it flips the wheel only through CLI steps. After `viola pause builder --json` (step 6) the WHEEL cell reads `human`, and after `viola release builder --json` it reads `driver`. Each state is tied to that command's exit 0. The keystroke-driven flip (steps 2–4) is asserted only by the Rust test, through `events.ndjson`.
 - **Cleanup:** Ctrl-C into the outer PTY, `child.wait()`, TempDir drop.
 
 #### Scenario: Path 6 — budget governor
 
-- **Surfaces involved:** cli (`hook statusline`, `send`, `release`), ipc-internal, api-service, web-spa (ATIS)
+- **Surfaces involved:** cli (`hook statusline`, `send`, `release`), ipc-internal
 - **Steps:**
   1. `agent-run boot --session p6 --statusline-echo`, which boots the default `overseer` and `builder` (§3 `boot`). The user statusline command becomes `viola-fake-agent statusline-echo`, which prints a fixed marker and appends to a marker file. The settings source is named: `<home>/statusline-source.json` (the Claude settings shape; viola only reads it) whenever it exists, else in the default home the user's `.claude/settings.json`, and in any other home none. The pass-through bullets (marker stdout in step 2, the unchanged marker file in step 6) landed at chunk 2026-10-10-statusline-pass-through as root tests on a planted source: `tests/hook_statusline.rs` cases 1 and 5 and `tests/cli_instance_state.rs` `path6_wrapped_statusline_prints_the_user_output_unchanged`, through `tests/support/home.rs` `plant_statusline_source`, `statusline_marker` and `statusline_echo_command`. `agent-run boot --statusline-echo` is not built; it and the harness-session form of this step are owed to the Epoch 5 entry "End-to-end path binary and harness legs" (cut from chunk 2026-10-10-budget-governor at its planning; carried past "The board: viola list", which landed without them, by the review card the founder approved). The budget, refusal and override bullets landed at that chunk on a boot without the flag, as root cases of `tests/cli_budget.rs`.
   2. Pipe fixed synthetic stdin (literal values; randomised `rate_limits` / `resets_at` inputs belong to the §6 Property suite's statusline `resets_at` property, landed at chunk 2026-10-10-statusline-pass-through; the reader takes `resets_at` as epoch seconds or RFC 3339) `{"rate_limits":{"five_hour":{"used_percentage":91,"resets_at":"<RFC3339>"},"seven_day":{"used_percentage":10,…}}}` into `viola hook statusline` with `VIOLA_NAME=builder VIOLA_DIR=…`.
@@ -843,57 +748,49 @@ Skipped as "untestable" per test-scope Sec 1:
   4. Repeat with `five_hour` 89 and `seven_day` 86, with `five_hour` exactly 90, and with a malformed `resets_at`.
   5. Run `viola release builder --budget --json`, then `send`.
   6. Chmod the home to 0770 (Unix) and pipe statusline stdin again.
-  7. Per-instance override: use the session's `overseer` instance. Step 1's `harness_session` boots it alongside `builder`; `harness_session` has no add-instance call, so no wrapper starts mid-session. Re-feed `five_hour` 91 through `viola hook statusline` so the budget is over threshold again. Run `viola release builder --budget --json` only. Read `/api/sessions` and `viola list --json`, then `send` to both instances. Override expiry is not driven here. No in-process clock reaches the separately spawned `viola run builder`, and waiting in real time would break the `sleep(N)` ban. Expiry belongs to the §4 root-bin unit cases of the pure decision, which takes the instant as an argument (`gate_decide_an_expired_override_is_dropped`, `gate_release_override_ends_at_its_instant`): past the override's end the governor again yields `budget-paused` / `five-hour` and the `budget-gate{paused:true}` event value.
+  7. Per-instance override: use the session's `overseer` instance. Step 1's `harness_session` boots it alongside `builder`; `harness_session` has no add-instance call, so no wrapper starts mid-session. Re-feed `five_hour` 91 through `viola hook statusline` so the budget is over threshold again. Run `viola release builder --budget --json` only. Read `viola list --json`, then `send` to both instances. Override expiry is not driven here. No in-process clock reaches the separately spawned `viola run builder`, and waiting in real time would break the `sleep(N)` ban. Expiry belongs to the §4 root-bin unit cases of the pure decision, which takes the instant as an argument (`gate_decide_an_expired_override_is_dropped`, `gate_release_override_ends_at_its_instant`): past the override's end the governor again yields `budget-paused` / `five-hour` and the `budget-gate{paused:true}` event value.
   8. With `VIOLA_NAME=overseer` set, repeat step 3's refused `send` in human mode.
 - **Verification signal:**
   - `budget.json` holds 91. Statusline stdout equals the marker byte-for-byte, with exit 0 and empty stderr. The marker equality is Unix's: there `run` writes the instance's `settings.json` override and the arm runs the recorded command as `/bin/sh -c <command>` under a 5 s bound (PROVISIONAL). On Windows `run` writes no override and the arm runs no command (`override_document` and `shell_argv` return `None` for every input). Exit 0 with empty stderr holds on every OS. `budget.json` is written only when the payload holds a `rate_limits` object.
   - A `budget-gate{paused:true, window}` record is logged.
   - `send` exits 11 with `detail:"five-hour"`; the 86 case gives `"seven-day"`; exactly 90 pauses and 89 does not.
-  - The malformed value gives `resets_at:"unknown"` in `budget.json` and `/api/sessions`.
-  - `/api/sessions` shows `budget.paused:true`, and Playwright `locator('viola-atis')` contains `budget-paused`. After step 5's `release builder --budget`, the envelope `budget.paused` is unchanged, because it only says whether the newest reading crosses a threshold (arch `/api/sessions`: per-instance `budget_paused` vs envelope `budget.paused`). The ATIS therefore does not flip to a global `gate open`; only `builder`'s own item turns `budget_paused:false` (asserted in step 7).
+  - The malformed value gives `resets_at:"unknown"` in `budget.json`.
   - `release --budget` gives `{budget_paused:false, override_until}` when a pause stood (`{budget_paused:false}` alone when none did), and the next `send` exits 0.
   - Step 6: exit 0 with empty stdout, and the marker file is unchanged. `statusline_command` never runs when strict-modes fails.
   - Step 7 (`budget.paused` with a per-instance override):
-    - the top-level `budget.paused` stays `true` in `/api/sessions` (`.budget.paused`) and `list --json` (`.ok.budget.paused`)
+    - the top-level `budget.paused` stays `true` in `list --json` (`.ok.budget.paused`)
     - item `builder` has `budget_paused:false`, and item `overseer` has `budget_paused:true`
     - `builder`'s `snapshot.json` carries `budget_override_until`, and a `budget-gate{paused:false, override_until}` record is logged for `builder` only
     - `send` to `builder` exits 0, and `send` to `overseer` exits 11 with `detail:"five-hour"`
     - the `budget-gate{paused:false}` record's `override_until` is later than that record's `ts` and equals `builder`'s snapshot `budget_override_until`. Expiry itself is asserted only in the §4 root-bin unit (step 7).
-    - Playwright: each strip's budget state matches its `/api/sessions` item; the page never shows the override as a global `gate open`
   - Step 8: the last stderr line matches `^hint: ` and does not contain `release`. The `budget-paused` refusal is driver-facing, and drivers are refused `release` (-32602, exit 20).
-- **As landed (chunk 2026-10-10-budget-governor): landed in part.** The cli and ipc signals are root cases of `tests/cli_budget.rs` (`binary(cli_budget)`, fed through `tests/support/statusline.rs`, each from a stamped home): `path6_a_reading_over_the_threshold_refuses_the_send`, `path6_the_boundaries_and_the_window_word`, `path6_an_unknown_or_passed_reset_does_not_pause`, `path6_release_budget_lifts_the_pause`, `path6_the_refusal_hint_never_names_release`, `path6_a_turn_end_closes_the_gate` and `path6_a_restart_pauses_again`, green on the three CI runners. Three rules they hold go beyond the steps above: a window whose `resets_at` is `"unknown"`, unparseable or passed does not pause; `release --budget` with no pause standing records nothing; an override does not outlive its wrapper, so a restart over the same reading pauses again. Step 6 is `hook_statusline_a_home_another_user_can_write_runs_nothing_however_often` in `tests/hook_statusline.rs` (`cfg(unix)`, two invocations, no role line added). `list --json`'s `budget`, each item's `budget_paused` and the board's cell landed at chunk 2026-10-11-the-board-viola-list as `path6_list_shows_the_reading_and_the_pause` (`tests/cli_budget.rs`), green on all three CI runners, `test (windows-2025)` included. Not asserted yet, each owed by title: the harness-session form and step 7's two-instance leg to "End-to-end path binary and harness legs" (the unit case `gate_release_on_one_instance_leaves_another_paused` holds the leg's rule), `/api/sessions`, the ATIS and the Playwright signal to the Epoch 8 entries, the MCP form of the refusal to "MCP server for drivers". That `answer`, `wait`, `last` and `pause` are not gated is held by one more root case of the same file since chunk 2026-10-10-session-links, `path6_a_closed_gate_leaves_answer_wait_last_and_pause_alone`: under one closed gate an automated `send` is refused exit 11 `budget-paused` / `five-hour` with one `send-refused` record, and `wait`, `last`, `answer` and `pause` each give the exit code and the document they give under an open gate (green on the three CI runners, run 38098238731).
+- **As landed (chunk 2026-10-10-budget-governor): landed in part.** The cli and ipc signals are root cases of `tests/cli_budget.rs` (`binary(cli_budget)`, fed through `tests/support/statusline.rs`, each from a stamped home): `path6_a_reading_over_the_threshold_refuses_the_send`, `path6_the_boundaries_and_the_window_word`, `path6_an_unknown_or_passed_reset_does_not_pause`, `path6_release_budget_lifts_the_pause`, `path6_the_refusal_hint_never_names_release`, `path6_a_turn_end_closes_the_gate` and `path6_a_restart_pauses_again`, green on the three CI runners. Three rules they hold go beyond the steps above: a window whose `resets_at` is `"unknown"`, unparseable or passed does not pause; `release --budget` with no pause standing records nothing; an override does not outlive its wrapper, so a restart over the same reading pauses again. Step 6 is `hook_statusline_a_home_another_user_can_write_runs_nothing_however_often` in `tests/hook_statusline.rs` (`cfg(unix)`, two invocations, no role line added). `list --json`'s `budget`, each item's `budget_paused` and the board's cell landed at chunk 2026-10-11-the-board-viola-list as `path6_list_shows_the_reading_and_the_pause` (`tests/cli_budget.rs`), green on all three CI runners, `test (windows-2025)` included. Not asserted yet, each owed by title: the harness-session form and step 7's two-instance leg to "End-to-end path binary and harness legs" (the unit case `gate_release_on_one_instance_leaves_another_paused` holds the leg's rule), the MCP form of the refusal to "MCP server for drivers". That `answer`, `wait`, `last` and `pause` are not gated is held by one more root case of the same file since chunk 2026-10-10-session-links, `path6_a_closed_gate_leaves_answer_wait_last_and_pause_alone`: under one closed gate an automated `send` is refused exit 11 `budget-paused` / `five-hour` with one `send-refused` record, and `wait`, `last`, `answer` and `pause` each give the exit code and the document they give under an open gate (green on the three CI runners, run 38098238731).
 - **Cleanup:** harness `cleanup`.
 
 #### Scenario: Path 7 — unverified CLI version gate
 
-- **Surfaces involved:** tui (fake agent with unlisted `--version`), cli (`hook`, `answer`), ipc-internal, api-service
+- **Surfaces involved:** tui (fake agent with unlisted `--version`), cli (`hook`, `answer`), ipc-internal
 - **Steps:**
-  1. `agent-run boot --session p7 --unstamped --instance builder --ui` (no stamps at all). Separately, `agent-run boot --session p7-stamped --instance builder:--report-version 0.0.0-unlisted --ui`. Boot step 4 stamps the default fixture version, because the `claude` copy on PATH runs without instance args. `builder` answers `--version` with `0.0.0-unlisted` but replays the stamped version's fixtures (§7 `--report-version`). Steps 2–4 run against both sessions, with the same verdicts.
+  1. `agent-run boot --session p7 --unstamped --instance builder` (no stamps at all). Separately, `agent-run boot --session p7-stamped --instance builder:--report-version 0.0.0-unlisted`. Boot step 4 stamps the default fixture version, because the `claude` copy on PATH runs without instance args. `builder` answers `--version` with `0.0.0-unlisted` but replays the stamped version's fixtures (§7 `--report-version`). Steps 2–3 run against both sessions, with the same verdicts.
   2. Run `viola send builder --json`.
   3. The fake agent fires `PreToolUse.ask-question.json`. Run `viola answer builder <id> --json`, and rmcp `answer`.
-  4. `GET /api/sessions`.
-  5. In a fresh home, run `viola verify --home H3` against the fake agent at a fixture-stamped version.
+  4. In a fresh home, run `viola verify --home H3` against the fake agent at a fixture-stamped version.
 - **Verification signal:**
   - `send` exits 0 (confirmed).
   - The `question` event is logged once. Hook stdout is empty, with exit 0 and returning within the spine deadline.
   - `answer` exits 12 `{"refusal":"unverified-cli","detail":null}`. MCP gives `is_error:true` with text `refused: unverified-cli`.
-  - `/api/sessions` item `cli_verified:false`.
   - `verify` exits 0 with a last line matching `^stamped \S+  \d+ pass  0 fail$`.
 - **Cleanup:** harness `cleanup`; TempDir drop for H3.
 
 #### Scenario: E1 — R5 unwrapped hooks are a silent no-op
 
-- **Surfaces involved:** cli (`hook`), api-service
+- **Surfaces involved:** cli (`hook`)
 - **Steps:**
   1. For every hook event, run `viola hook <event> --home H` with fixture stdin and no `VIOLA_NAME`.
-  2. The `fake_agent_path` fixture puts the fake agent on a test-scoped `PATH` as `claude`. Start `viola ui --home H --port <free port>` as a test-owned child, the same way as Path 1 step 2. Pass it that `PATH` and `FAKE_CLAUDE_AGENTS_MODE=recorded` through `Command::env`, so the stub `claude agents --json` reports one unwrapped session.
-  3. Exchange the token from `H/ui/<port>.url` for the cookie, then call `/api/sessions`.
 - **Verification signal:**
   - Every hook exits 0 with empty stdout and stderr, and no `instances/` dir is created.
-  - The unwrapped row is `{wrapped:false, liveness:"live", dialog_pending:false}` with no `wheel`, `budget_paused` or `cli_*` keys.
-  - Playwright (`e1` test, which boots its own session with `--agents-mode recorded` per the §3 cross-runner rule): the row sits in the `UNWRAPPED · READ-ONLY` rack with `data-wrapped="false"`.
   - A `send` to the unwrapped row's name exits 21: a row `name` is never a target.
-- **Cleanup:** a `Drop` guard stops the `viola ui` child and calls `child.wait()`; then TempDir drop.
+- **Cleanup:** TempDir drop.
 
 #### Scenario: E2 — R8 `CLAUDE*` env strip
 
@@ -908,36 +805,22 @@ Skipped as "untestable" per test-scope Sec 1:
   - The secret-scan test finds none of the random values in any log or `diagnostics/` file.
 - **Cleanup:** TempDir drop.
 
-#### Scenario: E3 — `link` / `unlink` transfer markers
+#### Scenario: E3 — `link` / `unlink`
 
-- **Surfaces involved:** cli, api-service, web-spa
+- **Surfaces involved:** cli
 - **Steps:**
   1. Boot `overseer` and `builder`. Run `viola link overseer builder --json` twice.
   2. Run `viola send builder` with `VIOLA_NAME=overseer`.
   3. Run `viola unlink overseer builder --json`.
 - **Verification signal:**
   - Exactly one `link{driver:"overseer",driven:"builder"}` record exists, because re-linking adds none.
-  - `/api/links` items `[{driver:"overseer",driven:"builder",since}]`.
-  - Playwright shows the outbound `viola-transfer` (`→ builder`) with the word `unknown` before any send.
-  - After the send, the tape line `viola-readback` and the marker `viola-readback` both have `data-rb="read"`, asserted in one `page.waitForFunction` evaluation (the "flips same frame" rule). The `e3` test in `bay-steady-state.spec.ts` runs step 2's send in human mode through `child_process` and, for that same send, asserts stdout `[RB] read back … cursor <n>` before the DOM check. This is the cross-surface-coordination trigger's single-send CLI + tape + marker case.
-  - The inbound marker `← overseer` has no readback element.
-  - After unlink: an `unlink` record exists, `/api/links` items are `[]`, and the marker is gone.
+  - After unlink: an `unlink` record exists.
 - **Cleanup:** harness `cleanup`.
-- **As landed (chunk 2026-10-10-session-links): owed, built in part.** Only the implicit link exists, so steps 1 and 3 cannot run: `viola link` and `viola unlink` are not built (the wrapper answers both methods `-32601`) and are held: their boundary widening is not ratified, and the founder's own answer of 2026-10-13, relayed verbatim by the Viola overseer, builds no explicit verb before Epoch 6 (the Epoch 6 entry "Explicit session links", after "Server verification before any frame", carries the hold; first moved from "The board: viola list" by the review card the founder approved). What step 2 leaves is held by root cases of `tests/cli_links.rs` (`binary(cli_links)`, each from a stamped home): `links_a_send_from_another_instance_links_once` (one `link{driver:"overseer",driven:"builder"}` record with `source: wrapper` directly before that send's `send-issued`, and a second issued send adds none), `links_an_answer_from_another_instance_links`, `links_a_refused_send_and_an_own_name_send_record_none` and `links_survive_a_wrapper_restart`, green on the three CI runners (run 38098238731). No case reads an `unlink` record a product path wrote, because none writes one. `/api/links` and the Playwright signals are owed to the Epoch 8 entries.
+- **As landed (chunk 2026-10-10-session-links): owed, built in part.** Only the implicit link exists, so steps 1 and 3 cannot run: `viola link` and `viola unlink` are not built (the wrapper answers both methods `-32601`) and are held: their boundary widening is not ratified, and the founder's own answer of 2026-10-13, relayed verbatim by the Viola overseer, builds no explicit verb before Epoch 6 (the Epoch 6 entry "Explicit session links", after "Server verification before any frame", carries the hold; first moved from "The board: viola list" by the review card the founder approved). What step 2 leaves is held by root cases of `tests/cli_links.rs` (`binary(cli_links)`, each from a stamped home): `links_a_send_from_another_instance_links_once` (one `link{driver:"overseer",driven:"builder"}` record with `source: wrapper` directly before that send's `send-issued`, and a second issued send adds none), `links_an_answer_from_another_instance_links`, `links_a_refused_send_and_an_own_name_send_record_none` and `links_survive_a_wrapper_restart`, green on the three CI runners (run 38098238731). No case reads an `unlink` record a product path wrote, because none writes one.
 
 #### Scenario: E4 — SSE `Last-Event-ID` resume
 
-- **Surfaces involved:** api-service
-- **Steps:**
-  1. Boot `builder` with the UI. Connect eventsource-client with the cookie, `reconnect(false)` and no `Last-Event-ID`, then trigger a `send`.
-  2. Reconnect with the recorded `id`, with `builder:<offset past EOF>`, with an unknown instance name, and with `BUILDER:12,builder:0` (one bad pair).
-  3. Open the stream with the raw reqwest parser.
-- **Verification signal:**
-  - With no header, the first event received is the new `send-issued`, because the stream starts at file end.
-  - Each `id:` equals `builder:<byte offset>`, matching the file offset after that line, and `data:` equals the ndjson line verbatim.
-  - Resuming with a recorded id replays from that offset. An offset past length replays from 0. A missing instance starts from 0. The bad pair drops the whole header, so the stream starts at end.
-  - The raw stream has no `Content-Encoding` header. Keep-alive is never waited for in real time (§11 Universal). The 15 s cadence is gated only by the paused tokio clock in `viola-ui` tests (§10 Performance budgets).
-- **Cleanup:** harness `cleanup`.
+The frontend is deferred to 0.2.0; its technology is not chosen.
 
 #### Scenario: E5 — snapshot corruption → replay recovery
 
@@ -955,23 +838,11 @@ Skipped as "untestable" per test-scope Sec 1:
 
 **Non-path suites (trigger coverage; run in the E2E layer, except root `hook_*` files such as `hook_fail_open.rs`, which the §3 layer filtersets run in the integration layer):**
 - **Security sweep:** split by runner, because no nextest test drives Chromium (§3 `run` step 3).
-  - The Rust half is `http_security_sweep.rs` in `viola-e2e` (`harness_session`). It runs reqwest and curl over every GUI route, JSON routes included.
-  - The browser half is the `security` test in `bay-steady-state.spec.ts`, which owns the `<img onerror>` bullet below. axe runs only on the `/` page states listed in Selector strategy, never on JSON routes.
   - The MCP schema-violating calls live in `mcp_schema_violations.rs`, and the hook fail-open matrix in root `hook_fail_open.rs` (assert_cmd). As landed it holds the 11-case matrix, the hidden-help test, the 8-process concurrent check and two forced-panic tests on the real `fake-agent` binary: `hook_forced_panic_fails_open_with_one_role_line_and_one_detail_line` (`FAKE_AGENT_HOOK_PANIC=1`: exit 0 under 1 s, empty streams, one payload-free role `panic` line at `src/cmd/hook/seam.rs`, one detail line over 4 KiB with payload + backtrace, both schema-valid, no file holding the stdin canary; 0.414 s on the Windows debug build, as measured at chunk 2026-09-28-hook-perf-gate) and `hook_panics_append_whole_lines_over_4_kib_side_by_side`. The hook's in-process panic path is also covered by unit tests (`exit_code_maps_role_and_outcome`: `hook` × a caught panic → exit 0, `run` → 1; `role_of_skips_the_home_flag_and_its_value`; `panic_lines_for_a_hook_split_the_payload_into_the_detail_file`). The seam `src/cmd/hook/seam.rs` fires only on exactly `1` and compiles only with feature `fake-agent`, so `cargo build --release --bin viola` never contains it; it carries its security-plan Decisions Log entry (`2026-09-28`, the founder's live ratification), and its name is a row in the `cli_controls_not_disableable.rs` table.
-  - wrong-case, trailing-dot, wrong-port and missing Host give 403 with `urn:viola:problem:host-not-allowed`
-  - POST, PUT and DELETE give 405
-  - no cookie gives 401
-  - a bad `?t=` gives 401 with no `Set-Cookie` and with `Cache-Control: no-store`
-  - a good `?t=` gives 303 with `Set-Cookie: viola_<p>=…; HttpOnly; SameSite=Strict`, asserted by this test and not only inside `boot` step 7
-  - CSP, `nosniff`, `no-referrer`, CORP `same-origin` on every response, and no `Access-Control-*`
-  - `/api/info` `bind` starts with `127.0.0.1:`
-  - while `viola ui` runs, `<home>/ui/<port>.url` is 0600 on Unix (`std::fs::metadata` mode `& 0o777 == 0o600`); after graceful shutdown it is absent (cleanup step 5)
-  - the token read from `ui/<port>.url` decodes to exactly 32 bytes in the product's token encoding. After that `viola ui` shuts down gracefully, a second launch on the same home writes a different token, and replaying the first token against it gives 401 with no `Set-Cookie` (§1 GUI per-launch token entity)
-  - a fake-agent prompt containing `<img src=x onerror=…>` renders as literal text in the tape, with no `img` element in the DOM and zero CSP or Trusted Types violations (`page.on('console')`, `page.on('pageerror')`, and a `securitypolicyviolation` listener added via `page.addInitScript`)
 
   The hook fail-open matrix cases are oversize stdin, malformed JSON, clap error, channel failure, forced panic and missing `VIOLA_NAME`. The sweep also covers the `--home` strict-modes refusals.
 - **Error sanitization and secret scan:** after every E2E test, the `events` support helper checks:
-  - CLI `--json`, MCP `isError`, Problem Details and channel `error.data` contain no absolute path (drive letter, `/home/`, `/Users/`, the temp home prefix), no serde path and no `Caused by`
+  - CLI `--json`, MCP `isError` and channel `error.data` contain no absolute path (drive letter, `/home/`, `/Users/`, the temp home prefix), no serde path and no `Caused by`
   - every -32603 is exactly `"internal error"` / `null`
   - every `diagnostics/*` file and log contains no token (read from `ui/<port>.url`), no `Cookie`, no `?t=` and no stripped-var values
   - `diagnostics/` files are 0600 on Unix
@@ -1003,45 +874,36 @@ Skipped as "untestable" per test-scope Sec 1:
   - **Raw-channel `link` / `unlink` name validation** (channel frames). Frames written straight to the endpoint with `driver` / `driven` set to `../x`, `BUILDER`, `a/b`, an empty string and a 33-character name each get `-32602`, and no `link` / `unlink` record is appended.
   - **Windows `--home` outside `%USERPROFILE%`** (`#[cfg(windows)]`, `~/.viola/` access control). `viola run` with a not-yet-existing `--home` under `RUNNER_TEMP` (outside `%USERPROFILE%`) creates it with a protected DACL whose ACEs are exactly the user and SYSTEM (read back with `GetNamedSecurityInfoW`). As landed (chunk 2026-10-04-dialog-answers-by-dialog-id, the creation half pulled forward from the route entry "Home and code-bearing file integrity" by the founder's live ruling): `viola_state::fs::create_private_dir` gives the topmost folder it creates outside the profile the protected `D:P(A;OICI;FA;;;<user>)(A;OICI;FA;;;SY)` DACL and fails the creation when it cannot be set, covered by unit tests on both OSes (Windows on CI) and the integration `tests/cli_version_gate.rs`; the `RUNNER_TEMP` negative case as worded here stays owed to that route entry. A Windows DACL test creates its home where the CI homes live (`target/e2e-home`), never under `%TEMP%`, which lies inside the profile. A pre-existing directory there that inherits a broader ACL (for example `BUILTIN\Users` read) is refused with exit 1.
   - **Umask-independent modes** (`#[cfg(unix)]`). Start `viola run` under `umask 000` (via `sh -c 'umask 000; exec viola run …'`). `events.ndjson`, `snapshot.json` and the other home files are still 0600, directories 0700, and the pinned `bin/<version>-<hash>/viola` is 0700 and never group- or world-writable.
-  - **Single writers** (security anti-patterns). Record the bytes and mtime of `ledger/stamps.json` and `snapshot.json`. With the wrapper stopped (SIGSTOP on Unix; on Windows the wrapper is suspended with the fake agent idle), run every other writer-capable entry point: every `hook <event>` including `hook statusline`, `list`, `wait` / `last` / `send` (which then fail with exit 21), `mcp` tool calls and `viola ui` reads. Neither file changes. `stamps.json` changes only when `viola verify` runs.
-  - **Token absent from error bodies** (token / session storage). Every 401 (missing cookie, bad cookie, bad `?t=`), 403, 404, 405 and 503 Problem body and its headers contain neither the token read from `ui/<port>.url`, nor `?t=`, nor the `.url` path, nor its contents.
-  - **`/assets` path traversal** (static assets). `GET /assets/../ui/<port>.url`, `/assets/%2e%2e/ui/<port>.url`, `/assets/..%2fui%2f<port>.url` and `/assets/..%5cui%5c<port>.url` each return 404 `urn:viola:problem:not-found`, and no response body contains any byte of the `.url` file.
+  - **Single writers** (security anti-patterns). Record the bytes and mtime of `ledger/stamps.json` and `snapshot.json`. With the wrapper stopped (SIGSTOP on Unix; on Windows the wrapper is suspended with the fake agent idle), run every other writer-capable entry point: every `hook <event>` including `hook statusline`, `list`, `wait` / `last` / `send` (which then fail with exit 21) and `mcp` tool calls. Neither file changes. `stamps.json` changes only when `viola verify` runs.
 - **`list` row integrity** (`cross_list_rows.rs`): the stub `claude agents --json` reports unwrapped sessions whose names contain `\n` and `\t` (and one C1 character). `viola list` runs piped, under `NO_COLOR` and `TERM=dumb`, and inside the outer PTY (TTY). Assertions:
   - stdout has exactly header + caption row + one line per item + the `-- UNWRAPPED - READ-ONLY --` separator; no row splits across lines
   - every row's column start offsets equal the caption row's offsets (NAME · LIVE · STATUS · WHEEL · DIALOG · CLI), so the table stays fixed-width
   - the raw `\n`, `\t` and C1 bytes never reach stdout inside a NAME cell
   - `list --json` still carries the original name string, escaped as JSON
 - **Cross-surface parity:**
-  - `list --json` `.ok.items` deep-equals `/api/sessions` `.items` (`cross_list_parity`), and likewise `.ok.budget` / `.ok.skipped` against `.budget` / `.skipped`. `generated_at` exists only on `/api/sessions` and is not compared.
-  - the CLI caption row (the `CAPTION` literal in `tests/cli_list.rs`) equals the Playwright `columnheader` texts NAME · LIVE · STATUS · WHEEL · DIALOG · CLI
   - for the same refusal, the MCP `structured_content` `{refusal, detail}` equals the CLI `--json` `{refusal, detail}`
-- **Bay layout states** (Playwright, specs named for the layout excerpt's web-spa layout types). Each state is produced through harness `boot`, CLI or file steps and the §3 real process and browser-side controls (`ui-restart`, holding `/api/events`, real requests to unknown routes), never by editing the DOM or serving a fake API:
-  - `bay-steady-state.spec.ts` and `bay-narrow.spec.ts`: with two wrapped instances, at viewport widths 1024, 1023 and 760, `scrollWidth <= clientWidth` holds on the document and all six `columnheader`s are visible. Right after load, the tape shows `TAPE live since <time> — no events yet` (time matched as a pattern), because SSE without `Last-Event-ID` starts at file end.
-  - `bay-degraded.spec.ts` (test-scoped session, because both steps are destructive): make the home unreadable to the running `viola ui` with `chmod 000` on the home (ubuntu-only suite; the runner user is not root), so the readable-home check fails, `/ready` returns 503 `"status":"not-ready"`, and the page shows `unable · state-unreadable  viola home could not be read`. A 0770 chmod would not do this: the owner can still read the home, and the strict-modes check runs only when a process starts (security `~/.viola/` access control), not per request. Then restore the home to 0700, run `agent-run cleanup` on that session with the page still open, and the tape shows `TAPE stopped · viola ui not answering`. In a separate test-scoped session, `viola-harness ui-restart` with the page still open produces the 401 access strip (not `TAPE stopped`), and real requests to an unknown route and a wrong method produce the post-render 404 / 405 strips (§3 Internal harness subcommands).
-  - No state shows `Loading…` or a spinner. A missing value renders `unknown`.
 - **Chaos suite** (`chaos_*.rs`, sysinfo 0.39.6 + std):
-  - torn append: `skipped.torn_lines` goes up by 1, and the next append starts on a fresh line. As landed (`tests/chaos_torn_append.rs`, chunk 2026-10-10-self-healing-state): the wrapper is stopped and its log shortened with `File::set_len(len − k)`, in place of a kill mid-append with `Process::kill_with(Signal::Kill)` (the file on disk is the same, and a killed instrumented process can leave a short coverage profile, as measured at chunk 2026-10-07-a-send-ending-in-a-newline-is-confirmed); the count is read through the product reader, 1 before the heal and 1 after it; the next start's first record starts on a fresh line with every earlier byte unchanged; and the wrapper's role file holds one `state-recovered` line, which the case holds to the diag-line schema itself, because a local run removes its test homes. The `skipped.torn_lines` reading on `list --json` landed at chunk 2026-10-11-the-board-viola-list: the case reads `torn_lines` 1 through `viola list --json` and starts from `stamped_home`; the reading on `/api/sessions` and the page is owed to Epoch 8
+  - torn append: `skipped.torn_lines` goes up by 1, and the next append starts on a fresh line. As landed (`tests/chaos_torn_append.rs`, chunk 2026-10-10-self-healing-state): the wrapper is stopped and its log shortened with `File::set_len(len − k)`, in place of a kill mid-append with `Process::kill_with(Signal::Kill)` (the file on disk is the same, and a killed instrumented process can leave a short coverage profile, as measured at chunk 2026-10-07-a-send-ending-in-a-newline-is-confirmed); the count is read through the product reader, 1 before the heal and 1 after it; the next start's first record starts on a fresh line with every earlier byte unchanged; and the wrapper's role file holds one `state-recovered` line, which the case holds to the diag-line schema itself, because a local run removes its test homes. The `skipped.torn_lines` reading on `list --json` landed at chunk 2026-10-11-the-board-viola-list: the case reads `torn_lines` 1 through `viola list --json` and starts from `stamped_home`
   - the no-EOF fake mode: the wrapper detects exit on the handle (`exit_source:"handle-wait"`). Whether the output outlives the session leader is OS-specific, as measured in CI runs 36165685381 / 36166907442: natively on ConPTY; on Linux only while the `--exit-no-eof` holder runs in its own process group (a holder in the leader's foreground group dies by SIGHUP when the leader exits); on macOS the output ends at the leader's exit even with the holder alive in its own group. The held-output half is therefore asserted on Windows + Linux only, and on macOS exit on the handle is shown by the handle wait alone (`tests/tui_pty_seam.rs`) and a `session-end` record is logged
   - endpoint vanishes during `wait`: exit 21
   - SIGSTOP the wrapper (Unix) for over 5 s: `liveness:"stale"`, and a new `run` exits 1; after SIGKILL: omitted as gone
   - forced vt100 panic mode: `send` exits 13 with `input-not-ready`, and human passthrough still reaches the receipt
   - forward-compat lines (`chaos_forward_compat.rs`, multi-version-compat trigger). Append two lines to a product-written `events.ndjson`, under the §7 exception for files the product already wrote: one with an unknown `kind`, and one known-kind line with an extra unknown field. Then:
-    - `list --json` exits 0 and `/api/sessions` returns 200
-    - `skipped.unknown_kinds` and `skipped.unknown_fields` each rise by exactly 1 on both surfaces
+    - `list --json` exits 0
+    - `skipped.unknown_kinds` and `skipped.unknown_fields` each rise by exactly 1
     - the known-kind line still counts toward item state
     - `wait --after <offset before the append>` does not wake on the unknown-kind line
-    - As landed (chunk 2026-10-11-the-board-viola-list), the `list --json` leg alone: `chaos_lines_of_a_newer_build_are_counted_and_the_board_still_reads` (`tests/chaos_forward_compat.rs`, from `stamped_home`) appends the two lines and reads `list --json` exit 0 with `skipped.unknown_kinds` 1 and `skipped.unknown_fields` 1. The `/api/sessions` leg is owed to the Epoch 8 entries; the item-state and `wait` bullets are not asserted by this case.
+    - As landed (chunk 2026-10-11-the-board-viola-list), the `list --json` leg alone: `chaos_lines_of_a_newer_build_are_counted_and_the_board_still_reads` (`tests/chaos_forward_compat.rs`, from `stamped_home`) appends the two lines and reads `list --json` exit 0 with `skipped.unknown_kinds` 1 and `skipped.unknown_fields` 1. The item-state and `wait` bullets are not asserted by this case.
   - `.cmd` child (`#[cfg(windows)]`): `run` exits 1 — landed in `tests/cli_program_resolution.rs` (a `.cmd` and a `.bat` child each exit 1 with no child spawned, `process-exit{subject:"self", exit_code:1, detail:"batch-script-child"}`, exactly the two fixed `unable:`/`hint:` stderr lines; the same binary proves `claude.cmd` → sibling `claude.exe` resolution)
 - **Property suite** (proptest 1.11.0, `cases: 512`):
   - `validate_paste_text` over `any::<String>()` plus injected C0/C1 chars (landed at `cases: 512`, chunk 2026-10-04-confirmed-send-with-cl-1-records)
-  - `Last-Event-ID` pair lists with one mutated pair
   - ndjson framing at `MAX_FRAME` ± 1
   - the hook stdin parser (`viola_agent_claude::hook::normalise` over arbitrary bytes; landed at `cases: 512` with `crates/viola-agent-claude/proptest-regressions/hook.txt` committed); the statusline reader (`viola_agent_claude::statusline::reading` over arbitrary JSON and `resets_at`; landed at `cases: 512` with `crates/viola-agent-claude/proptest-regressions/statusline.txt` committed, chunk 2026-10-10-statusline-pass-through; its strategy draws whole seconds across the date range, because as first written it stayed green on a stub)
   - the `claude agents --json` parser over arbitrary JSON
   - the vt100 feed under `catch_unwind` over arbitrary bytes (landed at `cases: 512`: `screen::tests::feed_prop_a_caught_panic_poisons_until_resize`, sizes 1–30 × 1–120 with interleaved resizes; after a caught panic the poisoned model reads `input-not-ready` and drops further bytes)
   - `prompt-submitted` normalisation round-trip (`<pasted_content` / `<\pasted_content`; landed at `cases: 512`)
 
-  cargo-fuzz 0.13.2 targets live in the separate `fuzz/` cargo workspace and use shared `arbitrary` 1.4.2 inputs. The first is `viola_name` (`ViolaName::try_new` against an independent literal oracle, 18 synthetic seeds): an eighth, pre-parser seed target, so the pipeline runs with a real consumer. The seven parser targets join as their parsers land: `channel_frame` (7 synthetic seeds), `hook_stdin` (the `viola hook` stdin parser and, since chunk 2026-10-10-statusline-pass-through, the statusline reader; 12 synthetic seeds by `ls fuzz/corpus/hook_stdin | wc -l`, the two added `statusline-epoch` and `statusline-absent`) and `vt100_feed` (the vt100 feed under `catch_unwind`, 6 synthetic seeds: three measured panic sizes and three 24×80 lines) and `paste_text` (`validate_paste_text` against an independent per-char oracle over lossy UTF-8, 8 synthetic seeds, kept byte-exact by `.gitattributes` `fuzz/corpus/paste_text/** binary`) have joined. `vt100_feed` installs a silent panic hook once before its first feed: libfuzzer-sys's own hook aborts on every panic, a caught one included, while a panic escaping the target's catch still aborts through libfuzzer-sys's catch around the body (as measured at chunk 2026-10-04-readiness-gate-and-timing-constants: the 24×1 wide-char seed replays green with the hook and crashes without it).
+  cargo-fuzz 0.13.2 targets live in the separate `fuzz/` cargo workspace and use shared `arbitrary` 1.4.2 inputs. The first is `viola_name` (`ViolaName::try_new` against an independent literal oracle, 18 synthetic seeds): a seventh, pre-parser seed target, so the pipeline runs with a real consumer. The six parser targets join as their parsers land: `channel_frame` (7 synthetic seeds), `hook_stdin` (the `viola hook` stdin parser and, since chunk 2026-10-10-statusline-pass-through, the statusline reader; 12 synthetic seeds by `ls fuzz/corpus/hook_stdin | wc -l`, the two added `statusline-epoch` and `statusline-absent`) and `vt100_feed` (the vt100 feed under `catch_unwind`, 6 synthetic seeds: three measured panic sizes and three 24×80 lines) and `paste_text` (`validate_paste_text` against an independent per-char oracle over lossy UTF-8, 8 synthetic seeds, kept byte-exact by `.gitattributes` `fuzz/corpus/paste_text/** binary`) have joined. `vt100_feed` installs a silent panic hook once before its first feed: libfuzzer-sys's own hook aborts on every panic, a caught one included, while a panic escaping the target's catch still aborts through libfuzzer-sys's catch around the body (as measured at chunk 2026-10-04-readiness-gate-and-timing-constants: the 24×1 wide-char seed replays green with the hook and crashes without it).
 - **Contract suite** (`contract_*.rs`):
   - For each `fixtures/claude/<ver>/` set (walked at run time; an empty walk fails), the fake agent's print-mode hook sequence and payloads (captured in the receipt) must equal the recorded fixture order and payloads: the `hook` events equal the spine literal SessionStart → UserPromptSubmit → Stop → SessionEnd, each `ran:true` with `exit_code:0`, and each `stdin_hex` decodes to that event's recorded fixture bytes exactly — compared byte for byte against the recorded fixture files, never an insta snapshot (`tests/contract_fake_agent_drift.rs`; its `drift` comparator names a planted order swap and a planted one-byte fixture difference).
   - The forwarded `annotations` in the question answer path are asserted explicitly (S8) — with "Dialog answers by dialog_id", where the question answer path and its fixtures land.
@@ -1069,8 +931,8 @@ Skipped as "untestable" per test-scope Sec 1:
 | Human-mode expected output | trycmd `tests/cmd/*.toml`, with snapbox redactions for timestamps, cursors and paths | per-suite, read-only |
 | Decision bodies | insta snapshots, regenerated only by the local fixture refresh | per-suite, read-only |
 | Fake-agent hook transcripts | No snapshot of their own: compared byte for byte against the recorded hook payloads above, through the receipt's `stdin_hex` (§6 Contract suite) | per-suite, read-only |
-| Randomized data | proptest strategies (`ViolaName` + invalid neighbours, `Percent` ± range, event lines, `Last-Event-ID` lists, `rate_limits` JSON). Seeds persist in committed `proptest-regressions/`. | seeded per test |
-| Time-sensitive data | mock_instant 0.6.1 `MockClock` (global mode) behind `viola_core::Clock` in the sync crates, and tokio `test-util` `start_paused = true` in `viola-mcp` / `viola-ui`. No manifest names mock_instant yet (as measured at the chunk 2026-10-10-budget-governor wrap: `mock_instant` in no `Cargo.toml`); the budget gate's override expiry takes its instant as a function argument instead | injected per test |
+| Randomized data | proptest strategies (`ViolaName` + invalid neighbours, `Percent` ± range, event lines, `rate_limits` JSON). Seeds persist in committed `proptest-regressions/`. | seeded per test |
+| Time-sensitive data | mock_instant 0.6.1 `MockClock` (global mode) behind `viola_core::Clock` in the sync crates, and tokio `test-util` `start_paused = true` in `viola-mcp`. No manifest names mock_instant yet (as measured at the chunk 2026-10-10-budget-governor wrap: `mock_instant` in no `Cargo.toml`); the budget gate's override expiry takes its instant as a function argument instead | injected per test |
 
 **Fake agent (`viola-fake-agent`, binding contract behaviour):**
 - It answers `--version` in the real CLI's format for `--cli-version <ver>`.
@@ -1106,7 +968,7 @@ Skipped as "untestable" per test-scope Sec 1:
 
 **Self-bootstrapping requirement:**
 - Tests MUST seed their own data; no developer pre-populates a home.
-- The `boot` command creates the home, stamps it via `viola verify`, and starts the wrappers and UI automatically.
+- The `boot` command creates the home, stamps it via `viola verify`, and starts the wrappers automatically.
 
 **Test data lifecycle:**
 - **Per-test:** isolated state. Each test has its own home, so there is no shared endpoint, log or `budget.json`. Env is set per child with `Command::env`, never `std::env::set_var`, which is `unsafe` in edition 2024.
@@ -1122,22 +984,22 @@ Skipped as "untestable" per test-scope Sec 1:
 **What to mock:**
 - External HTTP APIs: none exist. viola makes no outbound HTTP calls, so no HTTP mock library is used.
 - External services not under test: the real `claude` CLI is replaced by the native `viola-fake-agent` binary, both as the PTY child and as `claude` on a test-scoped PATH. Anthropic usage values are replaced by generated statusline stdin. These are fakes, never the real services.
-- Time: sync crates use mock_instant 0.6.1 (global mode) or the injected `viola_core::Clock` for heartbeat 1 s / 5 s and the send confirmation window. `budget_override_until` is no clock-seam case: the budget gate's decision takes `chrono::DateTime<Utc>` as an argument, and its expiry is a pure-function unit case (§4, chunk 2026-10-10-budget-governor). Async crates (`viola-mcp`, `viola-ui`) use `#[tokio::test(start_paused = true)]` from tokio 1.53.1 `test-util` for the SSE keep-alive and for any timer the MCP adapter itself owns. The `wait` `timeout_ms` deadline runs in the wrapper process, and only the injected `viola_core::Clock` in the §4 root-bin case drives it. A paused tokio clock in a test never reaches a spawned wrapper (§11 Universal). `chrono::Utc::now()` is read only through the clock seam, with one exception as landed: the budget gate's three evaluation points read it directly and hand the instant to the pure decision (as read in `src/run/send.rs` and `src/cmd/run.rs` at the chunk 2026-10-10-budget-governor wrap; that read named the gate's call sites only and was no census of `Utc::now()`).
+- Time: sync crates use mock_instant 0.6.1 (global mode) or the injected `viola_core::Clock` for heartbeat 1 s / 5 s and the send confirmation window. `budget_override_until` is no clock-seam case: the budget gate's decision takes `chrono::DateTime<Utc>` as an argument, and its expiry is a pure-function unit case (§4, chunk 2026-10-10-budget-governor). Async crates (`viola-mcp`) use `#[tokio::test(start_paused = true)]` from tokio 1.53.1 `test-util` for any timer the MCP adapter itself owns. The `wait` `timeout_ms` deadline runs in the wrapper process, and only the injected `viola_core::Clock` in the §4 root-bin case drives it. A paused tokio clock in a test never reaches a spawned wrapper (§11 Universal). `chrono::Utc::now()` is read only through the clock seam, with one exception as landed: the budget gate's three evaluation points read it directly and hand the instant to the pure decision (as read in `src/run/send.rs` and `src/cmd/run.rs` at the chunk 2026-10-10-budget-governor wrap; that read named the gate's call sites only and was no census of `Utc::now()`).
 - Filesystem: not mocked. A real tempfile home is used everywhere, because modes, `File::lock`, torn lines and symlink handling are the behaviour under test. Only the Windows foreign-SID / non-persistent-ACL descriptors are stubbed, as synthetic SDDL descriptors fed to the check function.
-- Random sources: proptest seeds are persisted. The GUI token is never mocked; tests read the real token from `ui/<port>.url`.
+- Random sources: proptest seeds are persisted.
 
 **What NOT to mock:**
 - Pure functions in modules under test (`validate_paste_text`, parsers, refusal ordering), which are tested directly.
 - On-disk state at integration level (the arch has no DB). Use real files in a tempfile home.
-- The wrapper channel, PTY, vt100, serde or the axum router in E2E. Code paths the agent must verify end-to-end go in E2E (§6).
+- The wrapper channel, PTY, vt100 or serde in E2E. Code paths the agent must verify end-to-end go in E2E (§6).
 - `viola hook` invocations inside E2E. The fake agent calls the real pinned binary.
 
 **Mocking libraries (specific, from research):**
 
 | Concern | Library | Pattern |
 |---------|---------|---------|
-| HTTP mocking | N/A (no outbound HTTP) | Inbound HTTP is tested against the real router via axum-test 21.1.0 or the real `viola ui` via reqwest 0.13.5 |
-| Time mocking | mock_instant 0.6.1 (in no manifest yet, as measured at the chunk 2026-10-10-budget-governor wrap); tokio 1.53.1 `test-util` | Inject the `Clock` dependency through constructors and call `MockClock::advance(Duration::from_secs(6))`; use `start_paused` + `tokio::time::advance(15s)` for SSE; or hand a pure decision its instant as an argument, as the budget gate's `decide` takes `chrono::DateTime<Utc>` |
+| HTTP mocking | N/A (no outbound HTTP) | none |
+| Time mocking | mock_instant 0.6.1 (in no manifest yet, as measured at the chunk 2026-10-10-budget-governor wrap); tokio 1.53.1 `test-util` | Inject the `Clock` dependency through constructors and call `MockClock::advance(Duration::from_secs(6))`; or hand a pure decision its instant as an argument, as the budget gate's `decide` takes `chrono::DateTime<Utc>` |
 | Process mocking | mockall 0.15.0 on the `viola-pty` `Pty` trait and the liveness / `Clock` traits; native stub binaries (`viola-fake-agent`) | `#[cfg_attr(test, mockall::automock)]` on seam traits only; external processes are real stub executables, resolved through `CARGO_BIN_EXE_viola-fake-agent` in root `tests/` only. `viola-e2e` tests and the harness use the assert_cmd target-dir lookup (§3 boot step 5) |
 | Fake servers | interprocess 2.4.4 server API (squatter listener); `viola-fake-agent` as the fake CLI | The squatter binds the computed endpoint before `run`; no HTTP fake servers |
 
@@ -1152,6 +1014,8 @@ Skipped as "untestable" per test-scope Sec 1:
 **Platform:** GitHub Actions (one `ci.yml` on push and PR, a scheduled `nightly.yml` for fuzz and weekly advisories, and the dispatch-only `windows-mutants.yml` for the boundary audit's Windows mutation leg). There is no deploy stage in v1.
 **Caches:** rust-cache is the only cache, in `ci.yml` only. npm and the Playwright browsers are not cached: no caching action beyond rust-cache was researched, and Node is the pinned official v24.21.0 build that `scripts/install-node.sh` downloads and sha256-checks on every run (no setup-node).
 
+The browser test leg named here (`run --browser` with its `playwright` suite and gate value, Node v24.21.0 and `scripts/install-node.sh`, `npm ci`, `scripts/npm-audit.sh` and `npm-advisories`, Playwright and Chromium, the a11y lint, `e2e-web/`) stands until the route entry "Remove the browser leg" removes it; that entry's wrap amends this text.
+
 **Pipeline structure:**
 
 | Stage | Runs | Parallel | Cache |
@@ -1160,7 +1024,7 @@ Skipped as "untestable" per test-scope Sec 1:
 | Supply-chain | ubuntu job `supply-chain`, fail-closed `shell: bash` steps: `cargo deny --format json check` (`deny.toml`: advisories, licences, sources, bans); `cargo deny --manifest-path fuzz/Cargo.toml --format json check advisories sources` into `target/supply-chain/deny-fuzz.json`, run from the repo root (under `fuzz/`, rustup would demand the fuzz nightly); the tokio ban once per crate in `scripts/sync-crates.txt` as sole root, `cargo deny --config deny-sync.toml --manifest-path crates/<crate>/Cargo.toml check bans`; `bash scripts/deny-probes.sh` (a permanent negative probe per ban + a clean control, last line `deny-probes: 13/13 banned, control clean`); `zizmor --format=json .github/workflows/`. `Node (pinned)`, then `scripts/npm-audit.sh` over `e2e-web/package-lock.json` (`npm audit --package-lock-only --audit-level=low`, any advisory fails, plus every `packages[].resolved` from `https://registry.npmjs.org/`; its `--probe` refuses a minted foreign source), its JSON to `target/npm-audit/`, not uploaded. The deny (root and fuzz) and zizmor JSON go to `target/supply-chain/`, uploaded `if: always()` as artifact `supply-chain` (7 days; admissible by content, obs-plan §8 item 6). Weekly: `nightly.yml` job `advisories` runs `cargo deny check advisories` and `cargo deny --manifest-path fuzz/Cargo.toml check advisories`, and job `npm-advisories` runs `scripts/npm-audit.sh --advisories-only`, on `schedule` + `workflow_dispatch` | single job (+ the weekly job) | rust-cache (`ci.yml` job only; `nightly.yml` none) |
 | Unit | `scripts/agent-run.sh run --unit` (pwsh `scripts/agent-run.ps1 run --unit` on windows) | yes (nextest process-per-test) | rust-cache |
 | Integration | `agent-run run --integration` | yes, except the `fixed-port` group (`max-threads = 1`) | rust-cache |
-| E2E | `agent-run run --e2e` on all 3 OSes; `agent-run run --browser` on all 3 OSes too, in the per-OS `test` job between the harness lifecycle and `Gate tools present` (founder ruling W125): `Node (pinned)` (`scripts/install-node.sh`, no setup-node), `npm ci --prefix e2e-web`, `npx --no --prefix e2e-web playwright install chromium` (`--with-deps` on ubuntu), then `run --browser` through the OS's shim; obs-plan §9's G2 → G4 → capture → scan → uploads → gate order is unchanged. When the a11y lint lands, the ubuntu leg runs these steps in this order (overseer fix pass 3, Z6): (1) `npm ci --prefix e2e-web`; (2) the a11y lint (a11y-plan D-A11Y-14): `npx --prefix e2e-web eslint -c e2e-web/eslint.config.js -f json` (eslint-plugin-jsx-a11y over the `crates/viola-ui/` frontend sources; its version and source glob are OPEN, owned by the route's frontend-toolchain entry) and `npx --prefix e2e-web html-validate --config e2e-web/.htmlvalidate.json --formatter json` on the `assets/index.html` that `viola-ui` embeds, both writing to `e2e-web/test-results/lint/`; (3) `agent-run run --browser`, whose own `npm ci` reinstalls from the same lockfile. The a11y lint adds no harness `suite` value | matrix per OS | rust-cache (npm and browsers are not cached; see Decisions Log) |
+| E2E | `agent-run run --e2e` on all 3 OSes; `agent-run run --browser` on all 3 OSes too, in the per-OS `test` job between the harness lifecycle and `Gate tools present` (founder ruling W125): `Node (pinned)` (`scripts/install-node.sh`, no setup-node), `npm ci --prefix e2e-web`, `npx --no --prefix e2e-web playwright install chromium` (`--with-deps` on ubuntu), then `run --browser` through the OS's shim; obs-plan §9's G2 → G4 → capture → scan → uploads → gate order is unchanged. When the a11y lint lands, the ubuntu leg runs these steps in this order (overseer fix pass 3, Z6): (1) `npm ci --prefix e2e-web`; (2) the a11y lint (a11y-plan D-A11Y-14): `npx --prefix e2e-web eslint -c e2e-web/eslint.config.js -f json` (eslint-plugin-jsx-a11y over the `crates/viola-ui/` frontend sources; its version and source glob are OPEN; their owner was the frontend-toolchain entry, which left 0.1.0 for `.andromeda/residuals.md`) and `npx --prefix e2e-web html-validate --config e2e-web/.htmlvalidate.json --formatter json` on the `assets/index.html` that `viola-ui` embeds, both writing to `e2e-web/test-results/lint/`; (3) `agent-run run --browser`, whose own `npm ci` reinstalls from the same lockfile. The a11y lint adds no harness `suite` value | matrix per OS | rust-cache (npm and browsers are not cached; see Decisions Log) |
 | Coverage report | `agent-run run --coverage` (cargo-llvm-cov 0.9.1 under nextest). In CI this is the per-OS test job; on `windows-2025` its `ConPTY vendor verification` step runs first (`bash scripts/conpty-vendor.sh --verify`: the committed `vendor/conpty/1.24.260710001/x64/` bytes equal the pinned nupkg and carry the Microsoft signer, last line `conpty-vendor: verified <version>`; then `--probe`: four refusals and a control, last line `conpty-vendor probe: 4/4 refused, control clean`), and the coverage run covers the `conpty_sideload` integration binary (`[[test]]`, required-features `fake-agent`) with the rest. Its one instrumented nextest run replaces the Unit, Integration and `run --e2e` rows, which are the local `agent-run` equivalents, and the doctest run follows it. Each job's last step is `viola-harness gate --require <suites>`: the per-OS test job uses `coverage,doctest,playwright`, and the Perf, Fuzz replay and MSRV jobs use `perf`, `fuzz-replay` and `nextest-unit` | per OS | rust-cache |
 | Mutation | no push or pull-request job and no gate since 2026-09-28: mutation testing runs at the epoch boundary through `/andromeda-code-audit`, and on demand through `agent-run run --mutants` [`--file`] (§3 `run` step 4, §10 Mutation gate). The audit's Windows leg is `windows-mutants.yml`: `workflow_dispatch` only, no inputs, ten `mutants (<label>)` jobs on `windows-2025` (`fail-fast: false`, 120 min), one per `matrix.include` item (the count of its `- package:` items; the root package `viola` is five of them, split by file, the fifth `viola-cmd-verify-stop` over `src/cmd/verify/stop.rs` since chunk 2026-10-13-interrupted-verify-cleanup), each running `scripts/agent-run.ps1 run --mutants --package <member> --file …` over that item's Windows-gated files, report-only, no cache or upload | the job log (harness document + outcome lines) | n/a |
 | Perf | `agent-run run --perf` (hyperfine 1.20.0 `--export-json` to `target/agent-run/artifacts/perf-<hook>.json`). The verdict comes from `viola-harness gate` per §10, never from a `jq` binary; CI neither installs nor pins jq. Its own job `perf (${{ matrix.os }})` (`fail-fast: false`, `AGENT_RUN_KEEP_HOMES=1`): checkout, toolchain, rust-cache, `cargo install --locked hyperfine@1.20.0`, `jq --version`, `run --perf`, G2 (probe then check), `schema-check`, `secret-scan`, the scan-gated uploads, then `gate --require perf`. | per OS | rust-cache |
@@ -1244,12 +1108,11 @@ Perf run rules (all inside `agent-run run --perf`):
 | `viola hook session-end` (synthetic payload via `--input`, live wrapper), per OS | mean, median, stddev | `max < 1.0 s` (`jq -e '.results[0].max < 1.0'`) |
 | Spine hooks `session-start`, `user-prompt-submit`, `stop` (same method, `VIOLA_NAME`/`VIOLA_DIR` exported to hyperfine) | mean, median, stddev | `max <` `viola_core::SPINE_DEADLINE` (1.0 s) |
 | `viola hook pre-tool-use` on an unverified CLI (`hook.dialog` → `null` at once), timed by `run --perf` and required by `perf::ROWS` | mean, median, stddev | `max <` `viola_core::SPINE_DEADLINE` (1.0 s) |
-| SSE keep-alive interval (`viola-ui`, tokio paused clock) | n/a | a keep-alive comment is emitted at `advance(15 s)` and not before it. There is no real-time smoke (§11 Universal). |
 | Heartbeat staleness flip (`viola-state` `classify`, injected age) | n/a | same process: 5.0 s → live, 5.1 s → stale; pid or start-time mismatch → gone at any age (exact boundary test) |
 
 Deliberately not in this table:
 - `send` → `prompt-submitted` confirmation latency and `wait` wake latency. Both are bounded by product constants that are still open (arch request 1), so they are asserted as behaviour in Paths 2 and 3, not timed.
-- `boot`'s 20 s / 10 s deadlines. These are harness readiness timeouts, not product budgets.
+- `boot`'s 20 s deadline. This is a harness readiness timeout, not a product budget.
 
 The same deadlines are also asserted at unit speed inside the assert_cmd hook tests, with a `std::time::Instant` bound. criterion 0.8.2 is not a gate (see Decisions Log).
 criterion 0.8.2 is not a gate because it does not exit non-zero on a regression; hyperfine 1.20.0 (the `max` gate above) is the perf gate.
@@ -1272,7 +1135,7 @@ criterion 0.8.2 is not a gate because it does not exit non-zero on a regression;
 ### Test Strategy
 
 - NEVER assert at E2E a case that a lower layer can hold. Parser, refusal-order, threshold and clock cases belong in §4, contract shapes in §5, and §6 asserts only cross-process behaviour (§2 pyramid).
-- NEVER assert a multi-surface critical path on one surface only. Every surface a §6 scenario lists needs its own driver step and transition signal, with web bullets owned per the §3 `run` step 3 cross-runner rule.
+- NEVER assert a multi-surface critical path on one surface only. Every surface a §6 scenario lists needs its own driver step and transition signal.
 - NEVER over-mock at integration level (you stop testing the integration)
 - NEVER run the real `claude` CLI or `viola verify` against the real CLI in CI. The suites reach the real CLI only through `agent-run run --local-live`, which refuses when `CI` is set; a route entry's own live measurement of a real session is local too and never a CI step.
 - NEVER treat a green fake-agent run as proof of real-CLI behaviour. Behaviour changes require a local `viola verify` fixture refresh plus the contract suite, because the fake agent must not drift from the real CLI (S8, §4.2).
@@ -1298,14 +1161,10 @@ criterion 0.8.2 is not a gate because it does not exit non-zero on a regression;
 
 ### E2E
 
-- NEVER use xpath selectors; use role / data-* attributes / text
-- NEVER use `sleep(N)` for synchronization. Wait for an explicit signal: an `events.ndjson` offset, `viola wait --after`, an SSE `id:`, a status field or an element role.
-- NEVER use brittle selectors that drift across iterations, such as CSS class selectors (`.band`, `.rb`) or inline `style`
-- NEVER parse the rendered child screen (the vt100 grid, PTY master output) for content. Verdicts come from hook events, `events.ndjson`, channel payloads, the fake-agent receipt and DOM attributes (R7).
+- NEVER use `sleep(N)` for synchronization. Wait for an explicit signal: an `events.ndjson` offset, `viola wait --after` or a status field.
+- NEVER parse the rendered child screen (the vt100 grid, PTY master output) for content. Verdicts come from hook events, `events.ndjson`, channel payloads and the fake-agent receipt (R7).
 - NEVER detect child exit by reading master EOF; use `child.wait()` on the handle (ConPTY).
 - NEVER use `assert_cmd` `.assert()` on the long-lived `viola run` wrapper. It blocks until exit; use std::process + a `Drop` guard.
-- NEVER set Playwright `bypassCSP`, use `toHaveScreenshot`, or let a test pass while a CSP or Trusted Types violation fired.
-- NEVER enable eventsource-client auto-reconnect in resume tests. It hides the "no header → start at end" behaviour.
 
 ### Test Data
 
@@ -1313,7 +1172,7 @@ criterion 0.8.2 is not a gate because it does not exit non-zero on a regression;
 - NEVER share mutable state across parallel tests
 - NEVER use non-deterministic generators without seed control. Commit `proptest-regressions/`.
 - NEVER hand-write `ledger/stamps.json`, `snapshot.json` or `budget.json`. Stamps come from `viola verify`, snapshots from the wrapper and budget from `viola hook statusline`. The ban binds every booted-wrapper test. A reader's own unit cases may plant a malformed state file only by altering the writer's own bytes: write through the writer, then pad, replace or re-version (the operator's answer at the chunk 2026-10-10-budget-governor wrap, where `budget_read_*` landed in that form).
-- NEVER commit `--home` test dirs, `.env` files, tokens or cookies.
+- NEVER commit `--home` test dirs, `.env` files or tokens.
 
 ### Mocking
 
@@ -1351,9 +1210,9 @@ criterion 0.8.2 is not a gate because it does not exit non-zero on a regression;
 - NEVER use Selenium IDE / Playwright codegen-recorder as test author
   (use as headless runner only)
 - NEVER include "human reviews screenshots" in any test step
-- NEVER use real network calls in tests (use mocks / localhost stubs). The only socket allowed is 127.0.0.1 `viola ui`.
+- NEVER use real network calls in tests (use mocks / localhost stubs).
 - NEVER use real time without injection (use deterministic clocks) in test-side code: no test-owned timer, sleep or elapsed-time verdict. E2E may block on a deadline inside the product that it cannot inject: the send confirmation window behind Path 2's `no-prompt-submitted`, `wait --timeout-ms` in Path 3, and heartbeat staleness in the chaos SIGSTOP case. Two conditions apply: the verdict is the product's own exit code or status field, and the same deadline is clock-driven in a §4 unit case.
-- NEVER use mock_instant `MockClock` (or any in-process clock) to control another process's time. Global mode reaches only threads of the test process, never a spawned `viola run` / `viola ui`. Cross-process expiry is asserted in the §4 unit case, as Path 6 step 7 does.
+- NEVER use mock_instant `MockClock` (or any in-process clock) to control another process's time. Global mode reaches only threads of the test process, never a spawned `viola run`. Cross-process expiry is asserted in the §4 unit case, as Path 6 step 7 does.
 - NEVER accept interactive snapshot review (`cargo insta review`, trycmd overwrite) as a gate step. Snapshots change only through the local `viola verify` fixture refresh, and then get committed.
 - NEVER write a test that auto-approves a dialog (blanket approval), or one that passes when a decision body is emitted without a verify stamp and wheel `driver`.
 - NEVER let a harness command print a human-only message without the JSON document and exit code.

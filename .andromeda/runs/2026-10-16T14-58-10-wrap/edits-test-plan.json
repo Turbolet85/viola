@@ -1,0 +1,1032 @@
+{
+ "file": ".andromeda/test-plan.md",
+ "ops": [
+  {
+   "line": 23,
+   "find": "18 entities",
+   "replace": "15 entities",
+   "why": "count re-derived: §1 entities recounted after the 3 web entities are cut"
+  },
+  {
+   "line": 23,
+   "find": "8 agent-driven surface entries (cli verbs, hook exec, tui passthrough, the IPC channel, MCP stdio, the GUI HTTP API, web-spa and library crates)",
+   "replace": "6 agent-driven surface entries (cli verbs, hook exec, tui passthrough, the IPC channel, MCP stdio and library crates)",
+   "why": "W-CLAUSE; count re-derived by recounting §1 surfaces left"
+  },
+  {
+   "line": 26,
+   "find": " and SSE keep-alive",
+   "replace": "",
+   "why": "W-CLAUSE SSE"
+  },
+  {
+   "start": 64,
+   "end": 69,
+   "expect_start": "- **Entity:** `viola-ui`: axum GET + SSE",
+   "expect_end": "  - **Testability:** testable",
+   "payload": [],
+   "why": "W entities viola-ui + web page"
+  },
+  {
+   "line": 73,
+   "find": "· unlink · ui · verify",
+   "replace": "· unlink · verify",
+   "why": "W-CLAUSE ui verb"
+  },
+  {
+   "start": 83,
+   "end": 85,
+   "expect_start": "- **Entity:** GUI per-launch token: 32 g",
+   "expect_end": "  - **Testability:** testable (constant-",
+   "payload": [],
+   "why": "W entity GUI per-launch token"
+  },
+  {
+   "line": 91,
+   "find": " and GUI HTTP (`/api/sessions` unwrapped row)",
+   "replace": "",
+   "why": "CROSS GUI HTTP"
+  },
+  {
+   "start": 106,
+   "end": 108,
+   "expect_start": "- **N/A (deferred, not in v1 scope):**",
+   "expect_end": "  - v1.x `POST /api/sessions/{name}/paus",
+   "payload": [],
+   "why": "W N/A block: mobile view, v1.x POST routes"
+  },
+  {
+   "line": 112,
+   "find": "· plugin install · ui · run",
+   "replace": "· plugin install · run",
+   "why": "W-CLAUSE ui verb"
+  },
+  {
+   "start": 142,
+   "end": 159,
+   "expect_start": "- **Surface:** api-service (GUI HTTP GET",
+   "expect_end": "",
+   "payload": [],
+   "why": "W surfaces api-service + web-spa"
+  },
+  {
+   "line": 160,
+   "find": ", `viola-ui`",
+   "replace": "",
+   "why": "W-CLAUSE viola-ui crate"
+  },
+  {
+   "line": 173,
+   "find": " and optionally `viola ui --home <tmp> --port <free port>`",
+   "replace": "",
+   "why": "W-CLAUSE boot --ui (not in tree)"
+  },
+  {
+   "start": 175,
+   "end": 175,
+   "expect_start": "    - Readiness, UI: `GET /health` retur",
+   "expect_end": "    - Readiness, UI: `GET /health` retur",
+   "payload": [],
+   "why": "W readiness UI"
+  },
+  {
+   "line": 186,
+   "find": " (no cookie needed) and, if the UI is booted, `GET /ready` and cookie-authenticated `GET /api/sessions`",
+   "replace": "",
+   "why": "W-CLAUSE status HTTP reads (not in tree)"
+  },
+  {
+   "line": 190,
+   "find": " and the UI process",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 192,
+   "end": 192,
+   "expect_start": "    - Verifies the UI port is free and `",
+   "expect_end": "    - Verifies the UI port is free and `",
+   "payload": [],
+   "why": "W cleanup UI port / url file check (not in tree)"
+  },
+  {
+   "start": 200,
+   "end": 204,
+   "expect_start": "  - `GET /health`: `{\"v\":1,\"status\":\"ok\"",
+   "expect_end": "  - Source: arch excerpt, GUI HTTP.",
+   "payload": [
+    "  - `viola list --json`: `{\"v\":1,\"ok\":{items:[{name, wrapped, liveness:\"live\"|\"stale\", status:\"idle\"|\"busy\"|\"unknown\", wheel?:\"human\"|\"driver\", budget_paused?, dialog_pending, cli_version?, cli_verified?}], budget:{five_hour:{used_percentage,resets_at}, seven_day:{…}, read_at, paused}|\"unknown\", skipped:{unknown_kinds, unknown_fields, torn_lines}}}`. Its items are read at `.ok.items` (arch: `list` `ok` payload; CLI `--json` mirrors the channel `result`).",
+    "  - Source: arch excerpt, CLI."
+   ],
+   "why": "W /health,/ready,/api/sessions cut; list --json keeps the item shape it borrowed"
+  },
+  {
+   "start": 211,
+   "end": 211,
+   "expect_start": "  - The UI process is discovered through",
+   "expect_end": "  - The UI process is discovered through",
+   "payload": [],
+   "why": "W UI process discovery"
+  },
+  {
+   "line": 226,
+   "find": " + api-service",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 234,
+   "find": " + api-service (SSE) + web-spa",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 239,
+   "end": 239,
+   "expect_start": "    - The web tape `viola-readback` goes",
+   "expect_end": "    - The web tape `viola-readback` goes",
+   "payload": [],
+   "why": "W web tape"
+  },
+  {
+   "line": 240,
+   "find": ", and the readback shows `data-rb=\"refused\"`",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 243,
+   "find": ", reads the dashboard",
+   "replace": "",
+   "why": "W-CLAUSE dashboard"
+  },
+  {
+   "line": 244,
+   "find": " + api-service + web-spa",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 250,
+   "end": 250,
+   "expect_start": "    - `/api/sessions` shows `status` cha",
+   "expect_end": "    - `/api/sessions` shows `status` cha",
+   "payload": [],
+   "why": "W /api/sessions status"
+  },
+  {
+   "line": 253,
+   "find": " + api-service + web-spa",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 260,
+   "end": 260,
+   "expect_start": "    - Web strip: `data-dialog=\"pending\"`",
+   "expect_end": "    - Web strip: `data-dialog=\"pending\"`",
+   "payload": [],
+   "why": "W web strip"
+  },
+  {
+   "line": 263,
+   "find": " + web-spa",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 274,
+   "find": " + api-service + web-spa (ATIS header)",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 280,
+   "end": 280,
+   "expect_start": "    - `/api/sessions` `budget.paused:tru",
+   "expect_end": "    - `/api/sessions` `budget.paused:tru",
+   "payload": [],
+   "why": "W /api/sessions + ATIS"
+  },
+  {
+   "line": 284,
+   "find": " + api-service",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 289,
+   "end": 289,
+   "expect_start": "    - `/api/sessions` item `cli_verified",
+   "expect_end": "    - `/api/sessions` item `cli_verified",
+   "payload": [],
+   "why": "W /api/sessions cli_verified"
+  },
+  {
+   "line": 296,
+   "find": " transfer markers (`/api/links`, `<viola-transfer>` readback)",
+   "replace": "",
+   "why": "W-CLAUSE E3 page half"
+  },
+  {
+   "start": 297,
+   "end": 297,
+   "expect_start": "- SSE `Last-Event-ID` resume.",
+   "expect_end": "- SSE `Last-Event-ID` resume.",
+   "payload": [],
+   "why": "W SSE resume (E4)"
+  },
+  {
+   "start": 315,
+   "end": 328,
+   "expect_start": "- **Trigger type:** security-vector-cove",
+   "expect_end": "    - event text containing HTML renders",
+   "payload": [],
+   "why": "W trigger loopback GUI"
+  },
+  {
+   "start": 369,
+   "end": 369,
+   "expect_start": "    - the `Last-Event-ID` parser",
+   "expect_end": "    - the `Last-Event-ID` parser",
+   "payload": [],
+   "why": "W Last-Event-ID parser"
+  },
+  {
+   "line": 384,
+   "find": " and GUI HTTP (SSE keep-alive 15 s, heartbeat 1 s / 5 s)",
+   "replace": " and Instance snapshot / Other files (heartbeat 1 s / 5 s)",
+   "why": "CROSS GUI HTTP; heartbeat source as §1 PID file cites it"
+  },
+  {
+   "line": 385,
+   "find": ", that SSE emits keep-alive within 15 s,",
+   "replace": ",",
+   "why": "W-CLAUSE SSE"
+  },
+  {
+   "line": 387,
+   "find": "; layout excerpt, Signature Placements (tape readback + transfer-marker readback \"flips same frame\")",
+   "replace": "",
+   "why": "W-CLAUSE tape/marker"
+  },
+  {
+   "start": 389,
+   "end": 390,
+   "expect_start": "    - one scenario asserts CLI `list --j",
+   "expect_end": "    - CLI caption row matches web `colum",
+   "payload": [],
+   "why": "W list==/api/sessions, web columnheaders"
+  },
+  {
+   "line": 391,
+   "find": " and `data-rb=\"read\"` on both the tape line and the outbound transfer marker",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 392,
+   "find": " and `data-rb=\"refused\"`",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 411,
+   "find": ", Problem Details",
+   "replace": "",
+   "why": "W-CLAUSE Problem Details"
+  },
+  {
+   "line": 417,
+   "find": ", channel payloads and DOM attributes",
+   "replace": " and channel payloads",
+   "why": "W-CLAUSE DOM"
+  },
+  {
+   "line": 431,
+   "find": "all 7 crates",
+   "replace": "all 6 crates",
+   "why": "count re-derived: planned product crates without viola-ui"
+  },
+  {
+   "line": 431,
+   "find": ", the Host-allowlist table",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 432,
+   "find": ", GUI HTTP",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 432,
+   "find": " axum-test in-process,",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 433,
+   "find": ", reqwest/SSE and",
+   "replace": " and",
+   "why": "W-CLAUSE; Playwright (I) kept"
+  },
+  {
+   "line": 433,
+   "find": "plus 5 expansion scenarios",
+   "replace": "plus 4 expansion scenarios",
+   "why": "count re-derived: E4 stubbed"
+  },
+  {
+   "line": 434,
+   "find": "all 7 parser surfaces",
+   "replace": "all 6 parser surfaces",
+   "why": "count re-derived: property-test trigger list without Last-Event-ID"
+  },
+  {
+   "line": 435,
+   "find": "tokio `test-util` checks the SSE keep-alive with a paused clock, and the heartbeat",
+   "replace": "The heartbeat",
+   "why": "W-CLAUSE SSE"
+  },
+  {
+   "line": 445,
+   "find": ", SSE `id:` offsets or",
+   "replace": " or",
+   "why": "W-CLAUSE SSE; Playwright (I) kept"
+  },
+  {
+   "line": 446,
+   "find": "the only network is 127.0.0.1 (`viola ui`), and ",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 457,
+   "find": "reqwest/eventsource-client, ",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 457,
+   "find": "http,sse,",
+   "replace": "",
+   "why": "W-CLAUSE http_/sse_ (not in tree)"
+  },
+  {
+   "line": 458,
+   "find": ", reqwest, eventsource-client",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 467,
+   "find": "`http_`, `sse_`, ",
+   "replace": "",
+   "why": "W-CLAUSE http_/sse_"
+  },
+  {
+   "start": 481,
+   "end": 481,
+   "expect_start": "| Loopback GUI (V3) | integration (axum-",
+   "expect_end": "| Loopback GUI (V3) | integration (axum-",
+   "payload": [],
+   "why": "W row V3 loopback GUI"
+  },
+  {
+   "line": 509,
+   "find": ", ui:{port, pid}|null",
+   "replace": ", ui:null",
+   "why": "W-CLAUSE; harness keeps ui:None (a)"
+  },
+  {
+   "line": 510,
+   "find": "`boot --ui`, ",
+   "replace": "",
+   "why": "W-CLAUSE boot --ui"
+  },
+  {
+   "start": 574,
+   "end": 579,
+   "expect_start": "- **viola-ui:**",
+   "expect_end": "  - The source-scan test asserts that th",
+   "payload": [],
+   "why": "W viola-ui unit tests"
+  },
+  {
+   "start": 610,
+   "end": 610,
+   "expect_start": "- **GUI routes:** axum-test 21.1.0 `Test",
+   "expect_end": "- **GUI routes:** axum-test 21.1.0 `Test",
+   "payload": [],
+   "why": "W GUI routes driver"
+  },
+  {
+   "line": 621,
+   "find": "; `viola-state` tail → `viola-ui` SSE frame.",
+   "replace": ".",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 626,
+   "end": 626,
+   "expect_start": "| Module ↔ HTTP (in-process) | Route, he",
+   "expect_end": "| Module ↔ HTTP (in-process) | Route, he",
+   "payload": [],
+   "why": "W row Module ↔ HTTP"
+  },
+  {
+   "line": 648,
+   "find": "`run`/`ui`/`mcp`",
+   "replace": "`run`/`mcp`",
+   "why": "W-CLAUSE viola ui strict-modes refusal"
+  },
+  {
+   "start": 671,
+   "end": 676,
+   "expect_start": "- **GUI HTTP:** `crates/viola-ui/tests/`",
+   "expect_end": "  - the header set on every response",
+   "payload": [],
+   "why": "W GUI HTTP integration"
+  },
+  {
+   "start": 695,
+   "end": 696,
+   "expect_start": "| api-service (GUI HTTP + SSE) | reqwest",
+   "expect_end": "| web-spa (strip bay) | Playwright Test ",
+   "payload": [],
+   "why": "W driver rows api-service + web-spa"
+  },
+  {
+   "start": 704,
+   "end": 704,
+   "expect_start": "- Mobile / `<760px` and v1.x POST routes",
+   "expect_end": "- Mobile / `<760px` and v1.x POST routes",
+   "payload": [],
+   "why": "W mobile / POST routes"
+  },
+  {
+   "start": 706,
+   "end": 715,
+   "expect_start": "**Selector strategy:**",
+   "expect_end": "",
+   "payload": [],
+   "why": "W Selector strategy (Playwright web selectors, axe)"
+  },
+  {
+   "line": 720,
+   "find": ", api-service",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 723,
+   "find": " Boot `viola ui` and `GET /api/sessions` with the cookie.",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 731,
+   "find": ", and it equals the `/api/sessions` item",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 739,
+   "find": ", api-service (SSE), web-spa",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 739,
+   "find": ", the SSE assertion to `:147`, and the web half with its Playwright check to `:155`",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 741,
+   "find": " --ui`",
+   "replace": "`",
+   "why": "W-CLAUSE boot --ui"
+  },
+  {
+   "start": 745,
+   "end": 745,
+   "expect_start": "  5. Web half (§3 `run` step 3, cross-ru",
+   "expect_end": "  5. Web half (§3 `run` step 3, cross-ru",
+   "payload": [],
+   "why": "W Playwright web half step"
+  },
+  {
+   "line": 746,
+   "find": "  6. rmcp client",
+   "replace": "  5. rmcp client",
+   "why": "renumber after step 5 cut"
+  },
+  {
+   "start": 749,
+   "end": 749,
+   "expect_start": "  - SSE: an eventsource-client stream on",
+   "expect_end": "  - SSE: an eventsource-client stream on",
+   "payload": [],
+   "why": "W SSE signal"
+  },
+  {
+   "start": 756,
+   "end": 756,
+   "expect_start": "  - Playwright: the builder send line's ",
+   "expect_end": "  - Playwright: the builder send line's ",
+   "payload": [],
+   "why": "W Playwright signal"
+  },
+  {
+   "line": 763,
+   "find": ", api-service, web-spa",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 763,
+   "find": ", the `/api/sessions` STATUS transition to `:145`, and the Playwright STATUS cell to `:155`",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 772,
+   "end": 772,
+   "expect_start": "  8. Read `/api/sessions` at the offsets",
+   "expect_end": "  8. Read `/api/sessions` at the offsets",
+   "payload": [],
+   "why": "W step 8 /api/sessions"
+  },
+  {
+   "start": 780,
+   "end": 780,
+   "expect_start": "  - `/api/sessions` `status` goes `busy`",
+   "expect_end": "  - `/api/sessions` `status` goes `busy`",
+   "payload": [],
+   "why": "W /api/sessions + Playwright"
+  },
+  {
+   "line": 785,
+   "find": ", api-service, web-spa",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 785,
+   "find": " The MCP `answer`, `/api/sessions` and Playwright steps are owed to their surface chunks.",
+   "replace": " The MCP `answer` step is owed to its surface chunk.",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 787,
+   "find": " with `--ui`",
+   "replace": "",
+   "why": "W-CLAUSE boot --ui"
+  },
+  {
+   "start": 807,
+   "end": 808,
+   "expect_start": "  - `/api/sessions` item `builder` has `",
+   "expect_end": "  - Playwright: the builder row has `dat",
+   "payload": [],
+   "why": "W /api/sessions + Playwright dialog"
+  },
+  {
+   "line": 814,
+   "find": ", web-spa",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 814,
+   "find": ", and the Playwright WHEEL-cell check to `:155`",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 833,
+   "end": 833,
+   "expect_start": "  - Playwright (`path5` test, §3 cross-r",
+   "expect_end": "  - Playwright (`path5` test, §3 cross-r",
+   "payload": [],
+   "why": "W Playwright path5"
+  },
+  {
+   "line": 838,
+   "find": ", api-service, web-spa (ATIS)",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 846,
+   "find": "`/api/sessions` and ",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 852,
+   "find": " and `/api/sessions`",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 853,
+   "end": 853,
+   "expect_start": "  - `/api/sessions` shows `budget.paused",
+   "expect_end": "  - `/api/sessions` shows `budget.paused",
+   "payload": [],
+   "why": "W /api/sessions + ATIS"
+  },
+  {
+   "line": 857,
+   "find": " in `/api/sessions` (`.budget.paused`) and",
+   "replace": " in",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 862,
+   "end": 862,
+   "expect_start": "    - Playwright: each strip's budget st",
+   "expect_end": "    - Playwright: each strip's budget st",
+   "payload": [],
+   "why": "W Playwright strip"
+  },
+  {
+   "line": 864,
+   "find": " `/api/sessions`, the ATIS and the Playwright signal to the Epoch 8 entries,",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 869,
+   "find": ", api-service",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 871,
+   "find": " --instance builder --ui`",
+   "replace": " --instance builder`",
+   "why": "W-CLAUSE boot --ui"
+  },
+  {
+   "line": 871,
+   "find": "0.0.0-unlisted --ui`",
+   "replace": "0.0.0-unlisted`",
+   "why": "W-CLAUSE boot --ui"
+  },
+  {
+   "line": 871,
+   "find": "Steps 2–4",
+   "replace": "Steps 2–3",
+   "why": "step 4 cut, range corrected"
+  },
+  {
+   "start": 874,
+   "end": 874,
+   "expect_start": "  4. `GET /api/sessions`.",
+   "expect_end": "  4. `GET /api/sessions`.",
+   "payload": [],
+   "why": "W step 4 GET /api/sessions"
+  },
+  {
+   "line": 875,
+   "find": "  5. In a fresh home",
+   "replace": "  4. In a fresh home",
+   "why": "renumber after step 4 cut"
+  },
+  {
+   "start": 880,
+   "end": 880,
+   "expect_start": "  - `/api/sessions` item `cli_verified:f",
+   "expect_end": "  - `/api/sessions` item `cli_verified:f",
+   "payload": [],
+   "why": "W /api/sessions cli_verified"
+  },
+  {
+   "line": 886,
+   "find": ", api-service",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 889,
+   "end": 890,
+   "expect_start": "  2. The `fake_agent_path` fixture puts ",
+   "expect_end": "  3. Exchange the token from `H/ui/<port",
+   "payload": [],
+   "why": "W E1 steps 2-3 viola ui + token"
+  },
+  {
+   "start": 893,
+   "end": 894,
+   "expect_start": "  - The unwrapped row is `{wrapped:false",
+   "expect_end": "  - Playwright (`e1` test, which boots i",
+   "payload": [],
+   "why": "W E1 /api/sessions row + Playwright rack"
+  },
+  {
+   "line": 896,
+   "find": " a `Drop` guard stops the `viola ui` child and calls `child.wait()`; then",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 911,
+   "find": " transfer markers",
+   "replace": "",
+   "why": "W-CLAUSE E3 page half"
+  },
+  {
+   "line": 913,
+   "find": ", api-service, web-spa",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 920,
+   "end": 923,
+   "expect_start": "  - `/api/links` items `[{driver:\"overse",
+   "expect_end": "  - The inbound marker `← overseer` has ",
+   "payload": [],
+   "why": "W E3 page half"
+  },
+  {
+   "line": 924,
+   "find": ", `/api/links` items are `[]`, and the marker is gone",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 926,
+   "find": " `/api/links` and the Playwright signals are owed to the Epoch 8 entries.",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 929,
+   "end": 940,
+   "expect_start": "",
+   "expect_end": "- **Cleanup:** harness `cleanup`.",
+   "payload": [
+    "",
+    "The frontend is deferred to 0.2.0; its technology is not chosen."
+   ],
+   "why": "W-SECTION E4 body → stub"
+  },
+  {
+   "start": 958,
+   "end": 959,
+   "expect_start": "  - The Rust half is `http_security_swee",
+   "expect_end": "  - The browser half is the `security` t",
+   "payload": [],
+   "why": "W security sweep GUI halves"
+  },
+  {
+   "start": 961,
+   "end": 970,
+   "expect_start": "  - wrong-case, trailing-dot, wrong-port",
+   "expect_end": "  - a fake-agent prompt containing `<img",
+   "payload": [],
+   "why": "W security sweep GUI bullets"
+  },
+  {
+   "line": 974,
+   "find": ", Problem Details",
+   "replace": "",
+   "why": "W-CLAUSE Problem Details"
+  },
+  {
+   "line": 1006,
+   "find": ", `mcp` tool calls and `viola ui` reads",
+   "replace": " and `mcp` tool calls",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 1007,
+   "end": 1008,
+   "expect_start": "  - **Token absent from error bodies** (",
+   "expect_end": "  - **`/assets` path traversal** (static",
+   "payload": [],
+   "why": "W token-in-error-bodies, /assets traversal"
+  },
+  {
+   "start": 1015,
+   "end": 1016,
+   "expect_start": "  - `list --json` `.ok.items` deep-equal",
+   "expect_end": "  - the CLI caption row (the `CAPTION` l",
+   "payload": [],
+   "why": "W parity list↔/api/sessions, caption↔columnheader"
+  },
+  {
+   "start": 1018,
+   "end": 1021,
+   "expect_start": "- **Bay layout states** (Playwright, spe",
+   "expect_end": "  - No state shows `Loading…` or a spinn",
+   "payload": [],
+   "why": "W Bay layout states"
+  },
+  {
+   "line": 1023,
+   "find": "; the reading on `/api/sessions` and the page is owed to Epoch 8",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 1029,
+   "find": " and `/api/sessions` returns 200",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 1030,
+   "find": " on both surfaces",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 1033,
+   "find": " The `/api/sessions` leg is owed to the Epoch 8 entries; the item-state",
+   "replace": " The item-state",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 1037,
+   "end": 1037,
+   "expect_start": "  - `Last-Event-ID` pair lists with one ",
+   "expect_end": "  - `Last-Event-ID` pair lists with one ",
+   "payload": [],
+   "why": "W Last-Event-ID property"
+  },
+  {
+   "line": 1044,
+   "find": "an eighth, pre-parser seed target",
+   "replace": "a seventh, pre-parser seed target",
+   "why": "count re-derived: six parser targets + the seed target"
+  },
+  {
+   "line": 1044,
+   "find": "The seven parser targets",
+   "replace": "The six parser targets",
+   "why": "count re-derived: parser surfaces without Last-Event-ID"
+  },
+  {
+   "line": 1072,
+   "find": " `Last-Event-ID` lists,",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 1073,
+   "find": " / `viola-ui`",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 1109,
+   "find": " and UI",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 1125,
+   "find": ", `viola-ui`",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 1125,
+   "find": " for the SSE keep-alive and",
+   "replace": "",
+   "why": "W-CLAUSE SSE"
+  },
+  {
+   "line": 1127,
+   "find": " The GUI token is never mocked; tests read the real token from `ui/<port>.url`.",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 1132,
+   "find": ", serde or the axum router",
+   "replace": " or serde",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 1139,
+   "find": "Inbound HTTP is tested against the real router via axum-test 21.1.0 or the real `viola ui` via reqwest 0.13.5",
+   "replace": "none",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 1140,
+   "find": "; use `start_paused` + `tokio::time::advance(15s)` for SSE",
+   "replace": "",
+   "why": "W-CLAUSE SSE"
+  },
+  {
+   "start": 1154,
+   "end": 1154,
+   "expect_start": "",
+   "expect_end": "",
+   "payload": [
+    "",
+    "The browser test leg named here (`run --browser` with its `playwright` suite and gate value, Node v24.21.0 and `scripts/install-node.sh`, `npm ci`, `scripts/npm-audit.sh` and `npm-advisories`, Playwright and Chromium, the a11y lint, `e2e-web/`) stands until the route entry \"Remove the browser leg\" removes it; that entry's wrap amends this text.",
+    ""
+   ],
+   "why": "browser-leg marker (§9)"
+  },
+  {
+   "start": 1247,
+   "end": 1247,
+   "expect_start": "| SSE keep-alive interval (`viola-ui`, t",
+   "expect_end": "| SSE keep-alive interval (`viola-ui`, t",
+   "payload": [],
+   "why": "W row SSE keep-alive"
+  },
+  {
+   "line": 1252,
+   "find": "`boot`'s 20 s / 10 s deadlines. These are harness readiness timeouts, not product budgets.",
+   "replace": "`boot`'s 20 s deadline. This is a harness readiness timeout, not a product budget.",
+   "why": "W-CLAUSE 10 s UI deadline"
+  },
+  {
+   "line": 1275,
+   "find": ", with web bullets owned per the §3 `run` step 3 cross-runner rule",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 1301,
+   "end": 1301,
+   "expect_start": "- NEVER use xpath selectors; use role / ",
+   "expect_end": "- NEVER use xpath selectors; use role / ",
+   "payload": [],
+   "why": "W page selector ban"
+  },
+  {
+   "line": 1302,
+   "find": ", an SSE `id:`, a status field or an element role",
+   "replace": " or a status field",
+   "why": "W-CLAUSE SSE / element role"
+  },
+  {
+   "start": 1303,
+   "end": 1303,
+   "expect_start": "- NEVER use brittle selectors that drift",
+   "expect_end": "- NEVER use brittle selectors that drift",
+   "payload": [],
+   "why": "W page selector ban"
+  },
+  {
+   "line": 1304,
+   "find": ", the fake-agent receipt and DOM attributes",
+   "replace": " and the fake-agent receipt",
+   "why": "W-CLAUSE DOM"
+  },
+  {
+   "start": 1307,
+   "end": 1308,
+   "expect_start": "- NEVER set Playwright `bypassCSP`, use ",
+   "expect_end": "- NEVER enable eventsource-client auto-r",
+   "payload": [],
+   "why": "W page CSP ban + SSE resume ban"
+  },
+  {
+   "line": 1316,
+   "find": ", tokens or cookies",
+   "replace": " or tokens",
+   "why": "W-CLAUSE GUI cookie"
+  },
+  {
+   "line": 1354,
+   "find": " The only socket allowed is 127.0.0.1 `viola ui`.",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 1356,
+   "find": " / `viola ui`",
+   "replace": "",
+   "why": "W-CLAUSE"
+  }
+ ],
+ "beyond_named": [
+  {
+   "op": 49,
+   "reason": "count: E4 keeps a stub heading — 4 or 5?"
+  },
+  {
+   "op": 59,
+   "reason": "a vs b: session.json ui member exists, always null"
+  },
+  {
+   "op": 146,
+   "reason": "L1307 names Playwright (I) but bans a page-CSP pass; cut as an anti-pattern about the page"
+  }
+ ],
+ "marker_op": 138
+}

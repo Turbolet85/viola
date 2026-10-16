@@ -27,10 +27,10 @@ _[ALL tiers — VERBATIM copy from obs-scope.md]_
 _Justification (verbatim from obs-scope Section 6):_
 
 The structure is Standard-class:
-- 6 telemetry surface entries across 4 process roles (`run` / `hook` / `mcp` / `ui`) and 3 product parts;
-- 7 instrumentable crates plus the embedded frontend;
-- 7 must-trace paths plus 5 edge flows;
-- 19 telemetry triggers, including cross-surface propagation through `corr`, perf budgets, chaos fault telemetry, multi-OS compat, and binding Founder Directions.
+- 5 telemetry surface entries across 4 process roles (`run` / `hook` / `mcp` / `ui`) and 2 product parts;
+- 6 instrumentable crates;
+- 6 must-trace paths plus 4 edge flows;
+- 18 telemetry triggers, including cross-surface propagation through `corr`, perf budgets, chaos fault telemetry, multi-OS compat, and binding Founder Directions.
 
 The tests tier is Comprehensive (2), and obs sits one step below it, within the ±1 band. The security tier is Minimal (the passed variable, and "no compliance triggers"), so there is no Comprehensive driver: no audit-log compliance trail and no PII-scrubbing regime beyond the NEVER-log floor.
 
@@ -68,8 +68,8 @@ Four items need Decisions Log entries or Phase 5 reconciliation:
 - **Instrumentability:** instrumentable
 - **Reason if not fully instrumentable:** N/A. Stack forbids Tokio in this crate's graph unless its feature is enabled, so instrumentation must be sync.
 
-- **Entity:** `viola-state`: ndjson logs, atomic snapshots, `File::lock`, torn-line healing, notify tailing, sysinfo liveness
-- **Source:** arch excerpt, Stack (ndjson + atomic-write-file, notify 8.2.0, sysinfo 0.39.6) and Workspace
+- **Entity:** `viola-state`: ndjson logs, atomic snapshots, `File::lock`, torn-line healing, sysinfo liveness
+- **Source:** arch excerpt, Stack (ndjson + atomic-write-file, sysinfo 0.39.6) and Workspace
 - **Instrumentability:** instrumentable
 - **Reason if not fully instrumentable:** N/A. Stack bans Tokio here, so instrumentation must be sync.
 
@@ -84,23 +84,6 @@ Four items need Decisions Log entries or Phase 5 reconciliation:
 - **Source:** arch excerpt, Stack (rmcp) and Workspace
 - **Instrumentability:** instrumentable
 - **Reason if not fully instrumentable:** N/A. stdout is reserved for MCP frames (arch Stack and Obs-Relevant Conventions), so no telemetry may go to stdout.
-
-- **Entity:** `viola-ui`: axum 0.8.9 GET routes, SSE `/api/events`, Host allowlist
-- **Source:** arch excerpt, Stack (axum + tower-http, SSE `Sse::keep_alive`), Workspace, Standard Contracts (`/health`, `/ready`, `/api/info`, `/api/sessions`, `/api/links`, `/api/events`, `/`, `/assets/*`)
-- **Instrumentability:** instrumentable
-- **Reason if not fully instrumentable:** N/A. It is the HTTP server span surface. Request paths must be logged without the query string (security Vector 3).
-
-- **Entity:** Embedded GUI frontend (Lit 3.3.3 light-DOM `viola-*` elements, served from `/` and `/assets/*`)
-- **Source:** arch excerpt, Standard Contracts (`/`, `/assets/*`); design excerpt, Surfaces (web-spa)
-- **Instrumentability:** boundary-only (in v1)
-- **Reason if not fully instrumentable:** The browser has no telemetry egress path in v1:
-  - Every non-GET method returns 405 (arch Standard Contracts), so there is no ingest route.
-  - Any new listener, including a telemetry endpoint, needs a Security Decisions Log entry (security Anti-Patterns).
-  - There are no outbound network calls (security, Error reporting integration: none).
-
-  What can be observed today:
-  - server-side, the HTTP GET and SSE connection lifecycle in `viola-ui`;
-  - client-side, DOM state words (`TAPE connecting` / `live` / `stopped`, readback `open` / `read back` / `unable` / `unconfirmable`) that the headless browser reads (brief §3.4).
 
 - **Entity:** Wrapped `claude` CLI child process
 - **Source:** arch excerpt, Stack (portable-pty; "hosts the unmodified `claude`"); Project Intent
@@ -127,21 +110,20 @@ Four items need Decisions Log entries or Phase 5 reconciliation:
 - **Instrumentability:** boundary-only
 - **Reason if not fully instrumentable:** A user-written shell command. Instrument the shell-out duration and exit status only. The command string is never logged outside `diagnostics/` (security Data Classifications, `statusline_command`).
 
-- **Entity:** OS APIs: ConPTY / openpty, named pipe / Unix socket, filesystem locks and atomic rename, notify watchers, sysinfo, `TerminateProcess`
+- **Entity:** OS APIs: ConPTY / openpty, named pipe / Unix socket, filesystem locks and atomic rename, sysinfo, `TerminateProcess`
 - **Source:** arch excerpt, Stack
 - **Instrumentability:** boundary-only
 - **Reason if not fully instrumentable:** Instrument viola's call sites (bind, connect, lock, rename, kill-fallback use), not the OS internals.
 
-- **Entity:** Persistent stores under `<viola home>`: `instances/<name>/events.ndjson`, `snapshot.json`, `heartbeat`, `budget.json`, `ledger/stamps.json`, links, `ui/<port>.url`, `config.json`
+- **Entity:** Persistent stores under `<viola home>`: `instances/<name>/events.ndjson`, `snapshot.json`, `heartbeat`, `budget.json`, `ledger/stamps.json`, links, `config.json`
 - **Source:** arch excerpt, Stack (ndjson + snapshots), Standard Contracts (event line, snapshot envelope, heartbeat); security Data Classifications
 - **Instrumentability:** instrumentable (through the `viola-state` call sites)
 - **Reason if not fully instrumentable:** N/A. Scrub rules per store (security Data Classifications):
   - `events.ndjson` is itself the product audit stream (brief §7, "the event log as the audit trail"). Its payload content is never copied into process-log lines.
-  - `ui/<port>.url` contents are never logged.
   - Absolute paths in `snapshot.json` (`endpoint`, `pinned_bin`) and in config values are scrubbed from external output. They are allowed in `diagnostics/`.
   - Operational metadata in `budget.json` (percentages, `resets_at`) may be logged as structured fields.
 
-- **Entity:** `config.json`, plugin `hooks.json` / `.mcp.json`, embedded static assets
+- **Entity:** `config.json`, plugin `hooks.json` / `.mcp.json`
 - **Source:** arch excerpt, Observability Hints (Config management); security Data Classifications (config values)
 - **Instrumentability:** not-instrumentable
 - **Reason if not fully instrumentable:** Static configuration and data. Only the parse at load time is observable, and it is logged through `viola-state` / root bin (skipped-key counts).
@@ -153,13 +135,13 @@ Four items need Decisions Log entries or Phase 5 reconciliation:
 
 **Telemetry surfaces:**
 
-The arch Surfaces product type names three parts: CLI binary, Claude Code plugin (hooks + stdio MCP) and loopback GUI. The design excerpt lists two surfaces, `web-spa` and `cli`. Below they are split by process role, because the tests log contract keys on `process` (`run|hook|mcp|ui`) (tests excerpt, Log format).
+The arch Surfaces product type names two parts: CLI binary and Claude Code plugin (hooks + stdio MCP). The design excerpt's surface is `cli`. Below they are split by process role, because the tests log contract keys on `process` (`run|hook|mcp|ui`) (tests excerpt, Log format).
 
 - **Surface:** cli (short-lived verbs: `send · wait · last · list · answer · pause · release · link · unlink · verify · plugin install · revive --list`)
 - **Backend instrumentation hooks:** Rust `tracing` facade with `#[tracing::instrument]` spans on the dispatch functions, plus a tracing-subscriber JSON structured logger (tests excerpt, Log format: `tracing-subscriber 0.3.23 fmt().json().flatten_event(true).with_current_span(false)`). Each process gets its own panic hook: a `std::panic::set_hook` replacement that writes one line. No HTTP framework is involved, so there is no auto-instrumentation.
 - **Frontend instrumentation hooks:** N/A. The only output is terminal stdout/stderr (design-system.md cli surface: static fixed-column text, with no interactive prompt, TUI or pager).
 - **Exporter:** A file sink only: JSON-per-line to `diagnostics/` when an instance is resolved (security Vector 6: "write the full error only to `diagnostics/` when an instance is resolved"). Without an instance there is no process-log file, and human stderr carries only fixed-message lines (design excerpt, CLI faults). Network OTLP is excluded: security says "viola makes no outbound network calls". The stdout exporter is excluded because stdout carries `--json` results. `viola revive <name> --list` opens no process-log file and writes no line, by plan, until it gains `--json` (the working-route entry "CLI machine contract"). `viola revive`'s start arm is not a short-lived verb: it is the wrapper surface below (`process="run"`, `diagnostics/run-<name>.ndjson`).
-- **Service identity:** `service.name` is hardcoded `"viola"`, the binary name. `service.version` is compile-time `env!("CARGO_PKG_VERSION")`, the same value already used as `sender`, `writer` and `/health.version`. The process role is the `process` field. The instance is `ViolaName` from an explicit argument or `VIOLA_NAME`. `deployment.environment` is N/A: local-only, with no environments (arch Obs-Relevant Conventions, Service identity; arch Surfaces, "no hosting").
+- **Service identity:** `service.name` is hardcoded `"viola"`, the binary name. `service.version` is compile-time `env!("CARGO_PKG_VERSION")`, the same value already used as `sender` and `writer`. The process role is the `process` field. The instance is `ViolaName` from an explicit argument or `VIOLA_NAME`. `deployment.environment` is N/A: local-only, with no environments (arch Obs-Relevant Conventions, Service identity; arch Surfaces, "no hosting").
 - **Notes:**
   - The instance comes from `VIOLA_NAME` or an argument, never from the working directory (arch Instance identity rule).
   - Refusal and fault lines on stderr are fixed strings with no paths, pids, chains or upstream text (design excerpt, CLI refusals / CLI faults).
@@ -205,20 +187,6 @@ The arch Surfaces product type names three parts: CLI binary, Claude Code plugin
   - `isError` results carry codes only: `refusal` / `detail`, `instance-unreachable`, `wrapper-fault` (security Vector 5). Log lines follow the same codes-only rule for rejected calls (tests excerpt, Coverage Triggers, MCP).
   - There is a misalignment between tests and arch; see section 3, Log file location.
 
-- **Surface:** web-spa (`viola ui`: axum 0.8.9 backend on `127.0.0.1:47319` plus the embedded Lit frontend)
-- **Backend instrumentation hooks:** `tracing` spans through tower-http tracing middleware on the axum router (arch Stack: "tower-http tracing middleware can be used here"), emitting `http-request` lines with method, path without its query, status, duration and Problem URN. The SSE connection lifecycle (`/api/events`: open, `Last-Event-ID` resume, keep-alive, close) gets manual spans. Tokio is allowed in this crate.
-- **Frontend instrumentation hooks:** None. design-system.md names no browser telemetry SDK, and in v1 one would have nowhere to send data: GET-only routes, 405 on other methods, a ban on new listeners, and a CSP of `default-src 'none'; script-src 'self'`. Baseline instead:
-  - DOM state words the headless browser reads (brief §3.4; tests excerpt, No screen parsing: "E2E verdicts rely on … DOM attributes");
-  - server-side `http-request` lines as the page-load proxy (page load → first `/api/sessions`; SSE open → first event). This proxy is obs's own derivation, not a design hint.
-
-  Phase 2 should confirm whether any browser SDK path is admissible.
-- **Exporter:** A file sink `diagnostics/ui-<port>.ndjson` (tests excerpt). stderr is also allowed for `ui` (arch Output channel rules). The one-time launch line containing the token is the only token-bearing stderr line, and it must never go into the log file (security Anti-Patterns).
-- **Service identity:** as for the short-lived verbs, with `process="ui"`. `instance` is null because one `ui` serves all instances. `pid` and `started_at` are already exposed through `/api/info`.
-- **Notes:**
-  - Middleware must record `uri.path()` only, never the query (`/?t=<token>`), and never the `Cookie` header (security Vector 3).
-  - Problem `detail` strings are fixed. `state-unreadable` never names a path.
-  - SSE is never compressed and keeps alive every 15 s (arch Standard Contracts, `/api/events`). The 15 s keep-alive is a tests perf gate.
-
 **Observability harness specification:**
 
 - **OTel SDK init:** v1 initialises no OTel SDK exporter. The `tracing` facade plus the tracing-subscriber JSON formatter is the binding pipeline (tests excerpt, Log format; Founder Direction 1: "tests owns them"). The constraints ruling out an exporter:
@@ -237,12 +205,12 @@ The arch Surfaces product type names three parts: CLI binary, Claude Code plugin
   5. Install the subscriber with an explicit writer (never stdout).
   6. Emit `process-start`.
 
-  For `run`, this completes before the start sequence, so the collision check and version gate are logged. For `ui`, it completes before the axum bind. For `mcp`, it completes before the rmcp stdio transport starts.
-- **Service identity:** `service.name` is hardcoded `"viola"`. `service.version` is compile-time `env!("CARGO_PKG_VERSION")`. `deployment.environment` is N/A (local-only). Per line, role and instance are carried by the tests-required fields `process` (`run|hook|mcp|ui`) and `instance` (`ViolaName` or null), matching `sender` / `writer` / `/api/info` (arch Obs-Relevant Conventions, Service identity).
+  For `run`, this completes before the start sequence, so the collision check and version gate are logged. For `mcp`, it completes before the rmcp stdio transport starts.
+- **Service identity:** `service.name` is hardcoded `"viola"`. `service.version` is compile-time `env!("CARGO_PKG_VERSION")`. `deployment.environment` is N/A (local-only). Per line, role and instance are carried by the tests-required fields `process` (`run|hook|mcp|ui`) and `instance` (`ViolaName` or null), matching `sender` / `writer` (arch Obs-Relevant Conventions, Service identity).
 - **Logging stack:** `tracing` with tracing-subscriber 0.3.23, configured as `fmt().json().flatten_event(true).with_current_span(false)` (tests excerpt, verbatim). Version 0.3.23 satisfies the security Vector 9 floor of `>=0.3.20` (RUSTSEC-2025-0055). Sink rules:
   - one file per process role under `diagnostics/`;
   - no stdout sink on any role;
-  - stderr only for `mcp` without `VIOLA_DIR`, and optionally for `ui`.
+  - stderr only for `mcp` without `VIOLA_DIR`.
 
   The writer must emit each formatted line as a single `write` on an append-mode handle (arch Crash-safe disk writes). Concurrent `hook` processes share one file.
 
@@ -254,7 +222,7 @@ The arch Surfaces product type names three parts: CLI binary, Claude Code plugin
 ```markdown
 - **Format:** JSON-per-line. There are two streams:
   - **Event stream:** product events in `instances/<name>/events.ndjson`, exactly the arch Event line `{"v":1,"ts","instance","kind","source":"hook|wrapper|cli","data"}`.
-  - **Process logs:** emitted by tracing-subscriber 0.3.23 `fmt().json().flatten_event(true).with_current_span(false)`, writing to `<home>/diagnostics/{run-<name>,hook-<name>,mcp,ui-<port>}.ndjson`. Files are 0600, dirs 0700, with one `write` per line.
+  - **Process logs:** emitted by tracing-subscriber 0.3.23 `fmt().json().flatten_event(true).with_current_span(false)`, writing to `<home>/diagnostics/{run-<name>,hook-<name>,mcp,ui-<port>}.ndjson` (`ui-<port>`, the `ui` process and the `http-request`, `liveness-changed`, `sse-opened` and `sse-closed` events below: reserved: no emitter in 0.1.0; removed with the code by "Remove the browser leg"). Files are 0600, dirs 0700, with one `write` per line.
 - **Required fields:**
   - For process logs: `timestamp` (RFC 3339 UTC with ms and `Z`), `level` (`DEBUG|INFO|WARN|ERROR`), `target`, and `fields.message` (or the flattened `message`).
   - `event`, a closed kebab-case enum. A new value needs a Decisions Log entry, like the §3 closed enums. Each value fixes what its `corr` holds:
@@ -277,24 +245,21 @@ The arch Surfaces product type names three parts: CLI binary, Claude Code plugin
   - (a) Founder Direction 4 says `release-from-driver` "must log as its own event". It is not in the closed `event` enum, so it needs a Decisions Log entry. The distinct detail codes for exit 21 and exit 1 can be an additive `detail` field.
   - (b) These signals have no `event` value today: heartbeat live→stale transitions, torn-line healing, snapshot replay recovery, the SSE stream open/close lifecycle, readiness-gate `input-not-ready`, and skipped-record counters (tests excerpt, Coverage Triggers: Crash-safe state, Parser surfaces, Child spawn). Phase 3 chooses between an additive field (for example `detail` on `process-*` / `http-request`) and an enum extension.
   - (c) `hook-invoked` is emitted before the wrapper assigns `dialog_id`, so `corr` can only be filled from `hook-decision` onward, or `hook-invoked` must be logged after the `hook.dialog` response.
-- **Log file location:** Tests require `<home>/diagnostics/{run-<name>,hook-<name>,mcp,ui-<port>}.ndjson`. That differs from two upstream statements:
+- **Log file location:** Tests require `<home>/diagnostics/{run-<name>,hook-<name>,mcp,ui-<port>}.ndjson` (`ui-<port>` reserved: no emitter in 0.1.0; removed with the code by "Remove the browser leg"). That differs from two upstream statements:
   - arch Obs-Relevant Conventions (Diagnostics location): `<viola home>/instances/<ViolaName>/diagnostics/`;
   - security Vector 2 and Data Classifications: only `instances/<name>/diagnostics/` may hold user content.
 
-  `ui-<port>` has no instance, so it cannot live under an instance directory. Obs aligns to tests (tests is upstream) on file basenames and on the `logs` wrapper `{"src":"diag","file":<basename>,"record":<line>}`. The directory root (home-level or instance-level) must be reconciled in Phase 3/5 with a Decisions Log entry. If `mcp.ndjson` and `ui-<port>.ndjson` sit at home level, they must never carry user content.
+  Obs aligns to tests (tests is upstream) on file basenames and on the `logs` wrapper `{"src":"diag","file":<basename>,"record":<line>}`. The directory root (home-level or instance-level) must be reconciled in Phase 3/5 with a Decisions Log entry. If `mcp.ndjson` sits at home level, it must never carry user content.
 
   `mcp` without `VIOLA_DIR` logs to stderr (arch). Tests assume a file. Flag this for the same reconciliation.
 
   Every file is 0600 inside a 0700 directory (Windows: home DACL), and the tests secret-scan test enforces it. Retention is the lifetime of the session home (tests excerpt, `logs`); there is no rotation in v1 (security Vector 7).
-- **Snapshot / paste-to-AI integration:** N/A for any pulse-class OTLP receiver; there is none in the stack. The agent-readable consumption path is the tests harness `logs` command (`scripts/agent-run.sh logs` / `.ps1`, via `viola-harness`). It merges `events.ndjson` (`src:"events"`, byte `offset`) with `diagnostics/*.ndjson` (`src:"diag"`), emits torn lines as `{"torn":true}`, and filters by `--instance`, `--kind`, `--process` and `--after`. The output is ndjson on stdout, ready for `jq` or pasting. `agent-run status` provides the aggregate health snapshot: `state`, `last_error` closed enum, and `list` vs `/api/sessions` equality (tests excerpt, Status JSON shape). This matches Founder Direction 2: "the harness `logs` command merges them with events.ndjson".
+- **Snapshot / paste-to-AI integration:** N/A for any pulse-class OTLP receiver; there is none in the stack. The agent-readable consumption path is the tests harness `logs` command (`scripts/agent-run.sh logs` / `.ps1`, via `viola-harness`). It merges `events.ndjson` (`src:"events"`, byte `offset`) with `diagnostics/*.ndjson` (`src:"diag"`), emits torn lines as `{"torn":true}`, and filters by `--instance`, `--kind`, `--process` and `--after`. The output is ndjson on stdout, ready for `jq` or pasting. `agent-run status` provides the aggregate health snapshot: `state` and `last_error` closed enum (tests excerpt, Status JSON shape). This matches Founder Direction 2: "the harness `logs` command merges them with events.ndjson".
 - **Trace context propagation:**
   - **CLI / MCP / hook → wrapper (local socket):** no W3C `traceparent`, because channel `params` declare no trace-context field (arch Standard Contracts). The correlation key is the tests `corr` (JSON-RPC `id`, `dialog_id`, send `cursor`) plus `process` and `instance`. An optional additive envelope field is wire-safe under the mixed-version rule and is left to Phase 3. The per-connection `id` uniqueness gap is in section 2 (ipc-internal channel).
-  - **Wrapper → `events.ndjson` → `ui` SSE → browser:** the correlation key is the byte-offset cursor, carried as the SSE `id:` `<ViolaName>:<offset>` and `Last-Event-ID` (arch Standard Contracts, `/api/events`), with `corr` = send `cursor` joining `send-issued` / `send-confirmed` / `send-refused` to the readback (tests excerpt, Coverage Triggers, Cross-surface coordination).
-  - **Browser → `ui` (same-origin GET):** no propagation header in v1.
   - **Claude Code → hook stdin:** no inbound context. Correlate by `instance` and `dialog_id`.
 - **Heartbeat ticks:**
   - `run`: the existing heartbeat file touched every 1 s is the tick (arch Standard Contracts, Heartbeat). Writing a 1 s log line would grow a never-rotated file without bound (security Vector 7 accepts disk growth as a risk, not as a design target). Log liveness transitions (live → stale → gone) on change only.
-  - `ui`: the SSE keep-alive every 15 s is the protocol tick. It is a tests perf gate ("emitted at `advance(15 s)` and not before"), so its emission is observable.
   - `mcp`: N/A. It is request-driven for the life of the Claude session.
   - Short-lived CLI verbs and `hook`: N/A.
 
@@ -309,7 +274,7 @@ Span names below are internal `tracing` spans in `<area>.<operation>` snake_case
 - **Source:** tests excerpt, Critical Path 1; arch Critical paths hint 1; Founder Direction 4
 
 - **Path:** Confirmed `send` (CL-1) from driver to readback
-- **Surfaces involved:** cli or ipc-internal (mcp) → ipc-internal (channel) → cli (`run`, PTY paste) → cli (`hook` UserPromptSubmit; `hook` SessionStart for a `/clear` confirmed by its new session; no hook for an unconfirmable send) → `events.ndjson` → web-spa (readback)
+- **Surfaces involved:** cli or ipc-internal (mcp) → ipc-internal (channel) → cli (`run`, PTY paste) → cli (`hook` UserPromptSubmit; `hook` SessionStart for a `/clear` confirmed by its new session; no hook for an unconfirmable send) → `events.ndjson`
 - **Must-trace spans:** `send.client` (cli/mcp) › `channel.request` › `run.readiness_gate` (vt100) › `pty.paste_write` › `run.confirm_window` (not opened for an unconfirmable send). Log events: `channel-request`, then `send-issued`, then `hook-invoked` (UserPromptSubmit, or SessionStart for a `/clear` confirmed by its new session; none awaited for an unconfirmable send), then `send-confirmed` or `send-refused`, then `channel-response`.
 - **Required log fields:** `event`, `process`, `instance`, `corr` (the JSON-RPC `id` on channel lines; the send `cursor` on send lines), `from` (self-reported, not an identity), `confirmed`, `refusal`, `detail` (`input-not-ready` / `no-prompt-submitted` / `control-character` / `empty-text` / `turn-running`), `duration_ms`. Sent text never appears.
 - **Source:** tests excerpt, Critical Path 2; arch hint 2; design excerpt, Readback (send → readback latency span); Founder Direction 5; creator must-work "First live test"
@@ -338,12 +303,6 @@ Span names below are internal `tracing` spans in `<area>.<operation>` snake_case
 - **Required log fields:** `event`, `process`, `instance`, `corr`, `window` (`five-hour` / `seven-day`), `used_percentage`, `resets_at`, `paused`, `refusal="budget-paused"`, `exit_code` (11), `shell_exit_status`, `duration_ms`. The `statusline_command` string never appears outside `diagnostics/`.
 - **Source:** tests excerpt, Critical Path 6; arch hint 6; creator must-work "Budget governor"; brief §7 policy
 
-- **Path:** GUI view: page load, sessions and links, live SSE tape with `Last-Event-ID` resume
-- **Surfaces involved:** web-spa (`ui` backend and frontend) + persistent stores (notify tail of `events.ndjson`)
-- **Must-trace spans:** `ui.http_request` for each of `/`, `/api/sessions`, `/api/links`, `/ready` and `/health`, then `ui.sse_stream` (open › resume › keep-alive › close) and `state.tail_notify`. Log events: `process-start` (ui) and `http-request`. The SSE open/close lifecycle event is pending (section 3, gap b).
-- **Required log fields:** `event`, `process="ui"`, `instance=null`, `corr=null`, `method`, `path` (query stripped), `status`, `problem` (URN), `duration_ms`, `last_event_id_present`, `close_cause`, and `skipped` counts (`unknown_kinds`, `unknown_fields`, `torn_lines`). Token, `Cookie` and `?t=` never appear.
-- **Source:** arch hint 7; design-system.md Loading/Error/Empty (the `TAPE connecting` → `TAPE live` → `TAPE stopped` words; the TTI proxy, SSE spans and closed-transition counter are obs's own derivation from those states, not design hints); tests excerpt, E4 SSE `Last-Event-ID` resume; creator must-work "GUI (D5)" and "First live test … reads the dashboard"
-
 Tests E1 (unwrapped hook no-op), E2 (R8 env strip), E3 (`link` / `unlink` transfer markers) and E5 (snapshot corruption → replay) are covered by the section 5 triggers and by E2E tracing expansion in Phase 3 if needed.
 
 **Telemetry triggers:**
@@ -360,13 +319,6 @@ Tests E1 (unwrapped hook no-op), E2 (R8 env strip), E3 (`link` / `unlink` transf
 - **Required telemetry signal:**
   - A never-log rule for `send` text on stderr, `--json`, MCP and every process-log field outside `instances/<name>/diagnostics/`.
   - `send-refused` with detail `control-character` or `empty-text` is emitted by each deciding side, client and wrapper, without the text (tests excerpt, Coverage Triggers, Vector 2).
-
-- **Trigger type:** logging-sensitive
-- **Source:** security plan, Vector 3 (loopback GUI)
-- **Required telemetry signal:**
-  - The `http-request` path attribute is scrubbed to `uri.path()`, and the `Cookie` header is excluded.
-  - The GUI token and the `ui/<port>.url` contents never enter the log.
-  - Problem `detail` strings are fixed.
 
 - **Trigger type:** logging-sensitive
 - **Source:** security plan, Vector 4 (hook stdin)
@@ -406,18 +358,16 @@ Tests E1 (unwrapped hook no-op), E2 (R8 env strip), E3 (`link` / `unlink` transf
 - **Required telemetry signal:** The logger dependency is tracing-subscriber `>=0.3.20` (0.3.23 pinned by tests). Obs dependencies stay Tokio-free in the sync crates and add no C-building crates, and they pass `cargo deny` on all three targets.
 
 - **Trigger type:** cross-surface-trace-propagation
-- **Source:** multi-surface design (arch Surfaces: CLI + plugin + GUI); tests excerpt, Coverage Triggers, Cross-surface coordination
+- **Source:** multi-surface design (arch Surfaces: CLI + plugin); tests excerpt, Coverage Triggers, Cross-surface coordination
 - **Required telemetry signal:**
-  - `corr` = send `cursor` joins `send-issued` / `send-confirmed` / `send-refused` across CLI, MCP, wrapper and the GUI readback.
+  - `corr` = send `cursor` joins `send-issued` / `send-confirmed` / `send-refused` across CLI, MCP and wrapper.
   - `corr` = `dialog_id` joins hook → wrapper → driver.
-  - SSE `id:` byte-offset cursors join `events.ndjson` to the browser tape.
   - The per-connection JSON-RPC `id` needs a discriminator for a merged-log join (section 2).
 
 - **Trigger type:** perf-budget-instruments
-- **Source:** tests excerpt, Coverage Triggers (hook deadlines / SSE keep-alive / heartbeat) and Quality Gates (hyperfine `max`); brief O6 ("hook latency per tool call")
+- **Source:** tests excerpt, Coverage Triggers (hook deadlines / heartbeat) and Quality Gates (hyperfine `max`); brief O6 ("hook latency per tool call")
 - **Required telemetry signal:**
   - `duration_ms` on `hook-decision`, or on `process-exit` for `process="hook"`, per hook event. The budget is `session-end` `max < 1.0 s`, and spine hooks and `pre-tool-use` on an unverified CLI must stay under the spine deadline (provisionally 1.0 s).
-  - The SSE keep-alive emission interval is 15 s.
   - The heartbeat staleness flip happens at >5 s (4.9 s live / 5.1 s stale or gone).
 
   Aggregation into p95/p99 is done by the harness or `jq` over the ndjson, not by an in-process metrics pipeline (no listener, no exporter).
@@ -449,7 +399,7 @@ Tests E1 (unwrapped hook no-op), E2 (R8 env strip), E3 (`link` / `unlink` transf
 
 - **Trigger type:** audit-log-retention
 - **Source:** security plan, Vector 7 (`events.ndjson` never rotated; retention is an open arch item); arch Obs-Relevant Conventions (byte offsets are cursors); tests excerpt, `logs` (retention is the whole lifetime of the session home)
-- **Required telemetry signal:** No rotation of `events.ndjson` or `diagnostics/*.ndjson` in v1. Any future rotation must keep 0600/0700 permissions and keep `wait after`, `send cursor` and `Last-Event-ID` offsets valid. The trigger is operational, not compliance: security tier is Minimal and there are no compliance triggers.
+- **Required telemetry signal:** No rotation of `events.ndjson` or `diagnostics/*.ndjson` in v1. Any future rotation must keep 0600/0700 permissions and keep `wait after` and `send cursor` offsets valid. The trigger is operational, not compliance: security tier is Minimal and there are no compliance triggers.
 
 - **Trigger type:** creator-explicit-telemetry
 - **Source:** Founder Directions 1, 2 and 5; brief R4 ("The bridge carries, logs (ndjson on disk, so it survives restarts on either side)"); brief §7 ("the event log as the audit trail")
@@ -473,9 +423,9 @@ Tests E1 (unwrapped hook no-op), E2 (R8 env strip), E3 (`link` / `unlink` transf
   - Per-parser parse-failure counts: paste validation, `Last-Event-ID`, channel framing at `MAX_FRAME`, hook stdin, `claude agents --json`, vt100 under `catch_unwind`.
 
 - **Trigger type:** creator-explicit-telemetry
-- **Source:** Prior art §4 ("Overclaiming. The GUI shows only what the hooks and the wrapper observed"); brief §3.2 ("Events, not screen-scraping"); tests excerpt, No screen parsing / no flakes
+- **Source:** Prior art §4 ("Overclaiming"); brief §3.2 ("Events, not screen-scraping"); tests excerpt, No screen parsing / no flakes
 - **Required telemetry signal:**
-  - Events are emitted deterministically, keyed on hook events, `events.ndjson` offsets and DOM attributes.
+  - Events are emitted deterministically, keyed on hook events and `events.ndjson` offsets.
   - No telemetry is derived from screen content: vt100 is used for gate outcomes only.
   - No log-based waits on sleeps.
 
@@ -498,7 +448,7 @@ _[ALL tiers — high-level signal pyramid + agent-readable invariants]_
 
 | Signal | Coverage focus | Tier-specific depth (viola v1) |
 |--------|---------------|---------------------|
-| Spans / Traces | The 7 must-trace paths (Section 4) and every crate seam: `viola-pty` spawn/write/wait/kill, `viola-channel` client call and server dispatch, `viola-state` snapshot/heartbeat/tail, `viola-agent-claude` hook parse, `viola-mcp` tool calls, `viola-ui` requests and SSE | Declared in code with tracing 0.1.44 `#[instrument(skip_all, name = "<area>.<operation>", fields(...))]`. They are **not serialized** in v1, because the output sets `with_current_span(false)` + `with_span_list(false)`. They give the code its structure and are ready for the deferred tracing-opentelemetry 0.34.0 bridge. Cross-process joins use `corr` + `conn`, not W3C trace IDs |
+| Spans / Traces | The 6 must-trace paths (Section 4) and every crate seam: `viola-pty` spawn/write/wait/kill, `viola-channel` client call and server dispatch, `viola-state` snapshot/heartbeat/tail, `viola-agent-claude` hook parse, `viola-mcp` tool calls | Declared in code with tracing 0.1.44 `#[instrument(skip_all, name = "<area>.<operation>", fields(...))]`. They are **not serialized** in v1, because the output sets `with_current_span(false)` + `with_span_list(false)`. They give the code its structure and are ready for the deferred tracing-opentelemetry 0.34.0 bridge. Cross-process joins use `corr` + `conn`, not W3C trace IDs |
 | Structured Logs | Every boundary call, state transition, refusal, fault/heal and process lifecycle, as the closed `event` enum (Section 3) | **The primary signal.** tracing-subscriber 0.3.23 JSON-per-line, one file per process role under `<home>/diagnostics/`, merged with `events.ndjson` by `agent-run logs` |
 | Errors | Panics (a one-line `event:"panic"` record), typed thiserror 2.0.20 errors with fixed `Display`, exit codes plus distinct `detail` codes on `process-exit` | No external reporter: security says "no outbound network calls". A hand-written `std::panic::set_hook`, plus `std::panic::catch_unwind` at the main-thread catch site of every role, around `hook` dispatch, in the `run` PTY pump and handle-wait threads, and around the vt100 feed (Section 7) |
 | Metrics | `duration_ms` samples, counts of `event`/`detail` values, `skipped` counts | No in-process instruments and no exporter. Metrics are derived by `jq` over the ndjson; the perf gates run on hyperfine 1.20.0 `--export-json` (Section 5) |
@@ -513,7 +463,7 @@ _[ALL tiers — high-level signal pyramid + agent-readable invariants]_
 - Every cross-surface call carries correlation through the tests `corr` field plus the additive `conn` discriminator (Section 3, Trace context propagation). W3C `traceparent` is not used in v1: no consumer exists and channel `params` declare no trace-context field.
 
 **Naming conventions** (upstream-context Obs-Relevant Conventions + obs-scope Section 4):
-- **Span naming:** `<area>.<operation>` in snake_case. `<area>` is one of `run`, `pty`, `channel`, `state`, `hook`, `statusline`, `send`, `wait`, `last`, `answer`, `pause`, `release`, `cli`, `mcp`, `ui`. `cli.<verb>` names the dispatch span of a short-lived verb that has no dedicated client span (for example `cli.list`, `cli.verify`, `cli.plugin_install`). Examples: `run.version_gate`, `pty.paste_write`, `ui.sse_stream`, `last.client`. Span names are code-internal, not wire contract.
+- **Span naming:** `<area>.<operation>` in snake_case. `<area>` is one of `run`, `pty`, `channel`, `state`, `hook`, `statusline`, `send`, `wait`, `last`, `answer`, `pause`, `release`, `cli`, `mcp`. `cli.<verb>` names the dispatch span of a short-lived verb that has no dedicated client span (for example `cli.list`, `cli.verify`, `cli.plugin_install`). Examples: `run.version_gate`, `pty.paste_write`, `last.client`. Span names are code-internal, not wire contract.
 - **Event naming:** the `event` field is a closed kebab-case enum (the tests list plus the Section 12 extensions). It is compiled in viola-core as `ObsEvent` with a kebab-case `Display`.
 - **Metric naming:** derived metrics (jq-computed, never instruments) are named `viola.<area>.<measure>`, for example `viola.hook.duration_ms` (Section 5).
 - **Log fields:** snake_case field names. Enum values are kebab-case (arch JSON / enum naming). Instants are `*_at` in RFC 3339 UTC with milliseconds and `Z`. Durations are `duration_ms` as an integer.
@@ -525,7 +475,6 @@ _[ALL tiers — high-level signal pyramid + agent-readable invariants]_
 |---------|-----------|
 | logging-sensitive Vector 1 (IPC) | §4 surface table (channel), §6 channel field allow-list, §8 table |
 | logging-sensitive Vector 2 (paste text) | §4 Scenario 2 (`send-refused` `side`), §8 |
-| logging-sensitive Vector 3 (GUI) | §4 Scenario 7, §6 HTTP wrapper, §8, §11 Spans |
 | logging-sensitive Vector 4 (hook stdin) | §3 Logging stack (hook sink), §4 Scenario 4, §6 `hook-decision` `detail` codes. The "missing `VIOLA_NAME`" item is **overridden**: no file and no line, asserted by absence (D-16, §4 E1). The "strict-modes failure" item writes no line as landed either: `viola hook statusline`'s refused instance check leaves no trace, asserted by absence (chunk 2026-10-10-budget-governor) |
 | logging-sensitive Vector 5 (MCP) | §4 surface table (mcp), §6 |
 | logging-sensitive Vector 6 (CLI/env) | §4 Scenario 1 (`env_stripped_*`), §7 fixed messages, §8 |
@@ -556,7 +505,7 @@ The architecture commits to the harness pattern (arch §Cross-cutting Patterns �
 - `run` writes nothing to the terminal except the child's own output, with one exception before any child is spawned: a start refusal (`.cmd`/`.bat` child, live or stale name, tampered pinned copy, squatted endpoint) writes exactly two fixed stderr lines (e.g. `unable: <name>'s command is a .cmd or .bat script` / `hint: pass the real executable, not a .cmd or .bat shim`, no path or pid) through `src/human.rs` `refuse` → `write_refusal`, one `write_all` on the locked stderr, a closed pipe swallowed — the root bin's only human-stderr writer for a start refusal, called by `run` and by `revive`. `viola revive` (its start arm logs as process `run`) adds three refusals to `run`'s four: state files another user could write, no logged session (or an `--id` the log does not hold) and a missing recorded directory; on a live name it prints `run`'s own collision pair. `viola revive --list` writes the pair for its two refusals and nothing else on stderr. While the child runs, neither `run` nor a revived start writes anything of its own.
 - Every role's codes-only process log goes to its home-level role file under `diagnostics/`, and content-bearing detail goes only to the instance's `diagnostics/detail-<role>.ndjson`.
 - `mcp` writes only MCP frames to stdout.
-- `ui` and short-lived CLI verbs may use stderr for their human output.
+- Short-lived CLI verbs may use stderr for their human output.
 - The logger and the format are owned by obs.
 
 This section specifies the concrete contract.
@@ -571,7 +520,7 @@ _[ALL tiers]_
 
 **Span kinds.** Recorded in this plan per span. In v1 they are not emitted; if the deferred tracing-opentelemetry bridge is adopted, they map to the `otel.kind` span field.
 - `CLIENT`: `send.client`, `wait.block`, `last.client`, `answer.client`, `pause.client`, `release.client`, `channel.request` (client side), `statusline.shell_out`, `pty.spawn`.
-- `SERVER`: `channel.dispatch` (wrapper side of every `channel.request`), `ui.http_request`, `ui.sse_stream`, `mcp.tool_call`, `hook.handle`, `hook.statusline`.
+- `SERVER`: `channel.dispatch` (wrapper side of every `channel.request`), `mcp.tool_call`, `hook.handle`, `hook.statusline`.
 - `INTERNAL`: `run.*`, `state.*`, `hook.decision_emit`, `pty.paste_write`.
 
 **Instrumentation per surface** (from obs-research Per-Surface Instrumentation Library):
@@ -583,20 +532,8 @@ _[ALL tiers]_
 | cli (`viola hook`) | none | `hook.handle` › `channel.request` › `hook.decision_emit`. `hook-invoked` / `hook-decision` (except the hidden capture arms, `hook <event> --capture` and `hook statusline --capture`: no obs init, no lines, §4 Edge flows). `std::panic::catch_unwind` around dispatch keeps exit 0. The writer falls back to `std::io::sink` on open failure |
 | ipc-internal (viola-channel) | none (interprocess 2.4.4 emits no `log`/`tracing`) | `channel.request` (client) / `channel.dispatch` (server) spans. `channel-request` / `channel-response` with `method`, `corr`, `conn`, `result_class`, `error_code`, `sender`. Never `params` or result bodies |
 | ipc-internal (viola-mcp) | rmcp 3.4.1 emits native `tracing`, but its target is OFF in the sink (records lack required fields and can carry frame content) | `mcp.tool_call` span per tool (`send · wait · last · answer · list`). Codes-only `send-refused` / `channel-response` on rejects. The writer is always explicit (file; stderr only as a fallback) |
-| web-spa backend (viola-ui) | tower-http 0.7.1 `TraceLayer::new_for_http()` with a **custom** `make_span_with` (`info_span!("ui.http_request", method, path = uri.path())`) and `on_response` → `http-request`. Never `DefaultMakeSpan` and never `.include_headers(true)` | Manual `ui.sse_stream` span with a `Drop` guard inside the stream → `sse-opened` / `sse-closed`. `state.tail_notify` around notify 8.2.0 watcher errors |
-| web-spa frontend (React + TypeScript; toolchain OPEN, owned by the route's frontend-toolchain entry) | none. @opentelemetry/sdk-trace-web 2.11.0 is not admissible (OTLP POST impossible under GET-only/405) | Boundary-only: DOM state words (`TAPE connecting|live|stopped`, readback `open|read back|unable|unconfirmable`) read by Playwright `page.evaluate`, plus `performance.getEntriesByType('navigation'|'resource')` for the TTI proxy. web-vitals 6.2.2 is not vendored in v1 (D-17) |
 
-**Frontend observable boundary** (boundary-only; read by tests' Playwright and used by a11y to derive state and error surfaces; attribute names and announcements stay design/a11y-owned):
-- `<viola-atis>`: the tape connection word `TAPE connecting|live|stopped` and the `skipped N · N · N` counters. Process-log counterparts: `sse-opened` (→ `live`), `sse-closed{close_cause}` (→ `stopped`), `http-request{route:"/api/sessions", skipped}`.
-- `<viola-readback>` (on `<viola-event-feed>` send lines and `<viola-transfer>` markers): `open|read back|unable|unconfirmable`, with `unable · <reason> · <detail>` using the §6 refusal codes. Process-log counterparts, joined by the send `cursor` in `corr`: `send-issued` (open), `send-confirmed{confirmed:true}` (read back), `send-confirmed{confirmed:false}` (unconfirmable), `send-refused{refusal, detail}` (unable).
-- Problem URNs that reach the page, each mirrored by `http-request{status, problem}`:
-  - `urn:viola:problem:state-unreadable` (503, rack strip);
-  - `urn:viola:problem:unauthorized` (401, access strip);
-  - `not-found` (404) and `method-not-allowed` (405), defensive rack strips.
-
-  `host-not-allowed` (403) never renders the page (the browser shows the raw Problem JSON). `cross-origin-forbidden` is v1.x-only.
-
-Skipped as not-instrumentable per obs-scope §1: `viola-core` (it supplies `ObsEvent` / `RefusalReason` values only), `config.json` / plugin files / static assets, and build/CI infrastructure.
+Skipped as not-instrumentable per obs-scope §1: `viola-core` (it supplies `ObsEvent` / `RefusalReason` values only), `config.json` / plugin files, and build/CI infrastructure.
 
 **Must-trace path scenarios** (translated from obs-scope Section 4). "Common fields" means `timestamp`, `level`, `target`, `message`, `event`, `corr`, `process`, `instance` on every line. `trace_id` / `span_id` are **not** emitted (D-12); correlation is `corr` + `conn`.
 
@@ -628,7 +565,7 @@ Skipped as not-instrumentable per obs-scope §1: `viola-core` (it supplies `ObsE
 
 #### Scenario: Confirmed `send` (CL-1) from driver to readback
 
-- **Surfaces involved:** cli (`send`) or ipc-internal (mcp) → ipc-internal (channel) → cli (`run`, PTY paste) → cli (`hook` user-prompt-submit; `hook` session-start for a `/clear` confirmed by its new session; no hook for an unconfirmable send) → `events.ndjson` → web-spa (readback).
+- **Surfaces involved:** cli (`send`) or ipc-internal (mcp) → ipc-internal (channel) → cli (`run`, PTY paste) → cli (`hook` user-prompt-submit; `hook` session-start for a `/clear` confirmed by its new session; no hook for an unconfirmable send) → `events.ndjson`.
 - **Must-trace spans:** `send.client` (CLIENT; `cli` or `mcp.tool_call`) › `channel.request` (CLIENT) → `channel.dispatch` (SERVER, `run`) › `run.readiness_gate` › `pty.paste_write` › `run.confirm_window`. An unconfirmable send ends at `pty.paste_write` and opens no `run.confirm_window`. In the hook process: `hook.handle` › `channel.request(hook.event)`, the user-prompt-submit hook for an ordinary send and the session-start hook for a `/clear` confirmed by its new session. One operation on this path carries no span and no line of its own, as landed (chunk 2026-10-10-session-links): the implicit link record (E3 below). After the second wheel and running-turn reads and directly before the send is issued, a `send` whose `from` is a name other than the wrapper's own records the link, so a new pair's `link` product line stands directly before that send's `send-issued` in `events.ndjson`, whose `cursor` is still the offset its own line starts at; a send refused at any earlier rung, one with no `from` and one under the wrapper's own name record nothing. A record that fails answers `-32603` with nothing issued and nothing typed, so no `send-issued` is written. `driver` and `driven` reach no process-log line.
 - **Required span attributes:**
   - `channel.request` / `channel.dispatch`: `method="send"`, `conn`;
@@ -709,25 +646,13 @@ Skipped as not-instrumentable per obs-scope §1: `viola-core` (it supplies `ObsE
 
 #### Scenario: GUI view: page load, sessions and links, live SSE tape with `Last-Event-ID` resume
 
-- **Surfaces involved:** web-spa (`ui` backend, boundary-only frontend) + persistent stores (notify tail of `events.ndjson`).
-- **Must-trace spans:** `ui.http_request` (SERVER, via the custom TraceLayer) for `/`, `/assets/*`, `/api/sessions`, `/api/links`, `/api/info`, `/ready`, `/health`. `ui.sse_stream` (SERVER, manual, with a `Drop` guard) covering open › resume › close. `state.tail_notify` (INTERNAL).
-- **Required span attributes:**
-  - `ui.http_request`: `method`, `path` (`uri.path()` only, truncated to 256 bytes), `route` (the matched route template or `unmatched`);
-  - `ui.sse_stream`: `last_event_id_present`, `last_event_id_valid`, `resume_instances`.
-- **Required log fields:** common fields with `process="ui"`, `instance` null, `corr` null, plus:
-  - `process-start{subject:"self", port}`;
-  - `http-request{method, path, route, status, problem, duration_ms, skipped}`, where `skipped` = `{unknown_kinds, unknown_fields, torn_lines}` on `/api/sessions`;
-  - `sse-opened{last_event_id_present, last_event_id_valid, resume_instances}`, then `sse-closed{close_cause, events_sent, duration_ms}`, with `close_cause` ∈ `client-gone|server-shutdown|tail-error` (D-04);
-  - `liveness-changed` per watched instance (D-02).
-  - The token, `Cookie`, `?t=` and `ui/<port>.url` contents never appear. The one-time launch line is written to stderr directly, never through the subscriber.
-- **Cleanup:** the `ui.sse_stream` guard's `Drop` emits `sse-closed` exactly once. Browser-side verdicts (TTI proxy, `TAPE` state words, readback states) are read by Playwright from DOM attributes and `performance` entries and joined to server `http-request` / `sse-opened` lines by timestamp.
+The frontend is deferred to 0.2.0; its technology is not chosen.
 
-**Edge flows** (tests E1–E5):
+**Edge flows** (tests E1–E3 and E5):
 - **E1** (unwrapped hook no-op): no `VIOLA_NAME` means no file, no line, exit 0 and empty stdout/stderr, asserted by absence (D-16).
 - **E2** (R8 strip): `env_stripped_count`, `env_stripped_known` (the stripped names) and `env_kept` (the persistent-set names kept) on `process-start{subject:"claude-child"}`; names only, never values (D-34).
   - The strip removes every inherited `CLAUDE*` name (ASCII case-insensitive on Windows, exact on Unix) except the persistent set (Windows `HKCU`/`HKLM` `Environment` value names; Unix `config.json` `claude_env_keep`), and always removes the 11 names of the identity floor `IDENTITY_FLOOR`, measured on the Windows host, whatever the persistent set says (a differing Linux dev-host reading on `claude` 2.1.287 stands beside that origin and moves nothing: architecture §Occupied Resources → Environment variables); beyond the floor there is no compile-time list of known names. `env_stripped_known` names every stripped name and `env_kept` every kept name, each comma-joined; no value is read by the strip, the registry reader or any log, and no env map is passed to a span or event (D-34).
 - **E3** (`link` / `unlink`): `channel-request` / `channel-response{method:"link"|"unlink"}` on the driven wrapper; the product `link` / `unlink` events live in `events.ndjson`. As landed (chunk 2026-10-10-session-links) only the implicit link exists. The driven wrapper records it inside an issued `send` or a taken `answer` whose `from` is a name other than its own: one `link` product line `{driver, driven}` with `source: wrapper` for a new pair, nothing for a pair the set already holds, and nothing for a refused call, a call with no `from` or a `from` equal to the wrapper's own name (each of these shapes is the operator's answer, not ruled by the founder: architecture [Links]). It has no process-log line, no `event` value and no span (`run::links` emits no `obs_event!` and declares no span); its trace is that call's `channel-request` / `channel-response` pair of method `send` or `answer`, the product line and the snapshot's `links`. The `method:"link"|"unlink"` pair above belongs to the explicit methods, which are not built: neither is served (both answer `-32601`), and no product path appends an `unlink` line.
-- **E4** (SSE resume): the `sse-opened` resume fields.
 - **E5** (snapshot corruption): `state-recovered{detail:"snapshot-replayed"|"snapshot-unsupported-v", file:"snapshot.json", v_seen}` (D-03). As landed (chunk 2026-10-10-self-healing-state) the line is written by `viola_state::replay::read_snapshot_or_replay`, at WARN with no `corr`: `snapshot-replayed` for an unreadable snapshot, `snapshot-unsupported-v` with `v_seen` for a newer one, one line per call; none for a present or an absent snapshot, and none when the replay itself fails. Its spans are `state.snapshot_recover` and, for the pass over the log, `state.replay`, both `skip_all` with neither `err` nor `ret`. Its first product caller is `viola revive`'s start arm (the preflight's second reading, the logged session, chunk 2026-10-10-viola-revive; second of three since chunk 2026-10-10-budget-governor): a revive over an unreadable snapshot writes one `state-recovered{detail:"snapshot-replayed"}` line in `run-<name>.ndjson`, and because the replay yields no recorded directory that revive ends `process-exit{exit_code:1, detail:"cwd-missing"}`. Its second product caller is `viola list`'s `viola_state::board::read` (chunk 2026-10-11-the-board-viola-list): under a `VIOLA_NAME` each unreadable or newer snapshot writes one `state-recovered{detail:"snapshot-replayed"|"snapshot-unsupported-v"}` line into `cli-<name>.ndjson`; with no name no log is open and the line goes nowhere; the line carries the caller's instance, never the scanned one (owed to "CLI machine contract", the review card the founder approved). The five other snapshot readers (`src/cmd/client.rs`, `run`'s collision check, `src/cmd/hook.rs` twice, `src/cmd/hook/statusline.rs`; the rule: `read_snapshot(` under `src/`, outside test modules) still call `read_snapshot` and write no `state-recovered` line. `replay::session_chain`, the pass revive reads its session ids from, logs nothing by design. Since chunk 2026-10-10-session-links the replay's one pass over the log also derives the link set, through `viola_state::replay::apply_link_line`, which carries no span and writes nothing, so a replayed snapshot's `links` holds the logged pairs `{driver, driven, since}` and a revive over a replayed snapshot reads them. The `state-recovered` line, the two spans and the skip counts are unchanged by the link half: a link adds no line and no span to a replay.
 - **Torn append** (chaos): `state-recovered{detail:"torn-line-healed", file:"events.ndjson", offset}` (D-03), at WARN with no `corr`, written by the process whose append healed. As landed (chunk 2026-10-10-self-healing-state) the heal is the appender's: an append that finds the log's last byte is not LF writes one LF and its line in a single write, then this line, with `offset` the log's length before the append. One line per heal; an append that did not heal writes none, and `try_append_event` with the lock held writes and heals nothing. The reader neither heals nor logs: its per-read counts (`unknown_kinds`, `unknown_fields`, `torn_lines`) have no process-log carrier.
 - **Capability ledger** (`ledger/stamps.json`, obs-scope §1 persistent stores):
@@ -755,9 +680,9 @@ _[Standard: included. There is no in-process metrics pipeline. Every metric is d
 |------|----------|---------------------|
 | Counter | Occurrences of an `event` / `detail` / `refusal` value | `awk 1 diagnostics/*.ndjson | jq -R -n '[inputs|fromjson?|select(.event=="send-refused")]|group_by([.side,.detail])|map({side:.[0].side,d:.[0].detail,n:length})'`, over home-level role files only (detail files repeat lines; a torn line is skipped as in G2) |
 | Histogram | Latency distribution | Raw `duration_ms` samples per event, with no bucketing; quantiles by sort/index in `jq` |
-| Gauge | Current value | Harness snapshots: `/api/sessions` `skipped`, `budget.read_at`, `liveness` via `agent-run status` |
+| Gauge | Current value | Harness snapshots: `budget.read_at`, `liveness` via `agent-run status` |
 
-**Naming conventions:** `viola.<area>.<measure>` for derived metrics. No OTel semconv instruments exist in v1. If the deferred bridge is ever adopted, `http-request.duration_ms` maps to `http.server.request.duration`.
+**Naming conventions:** `viola.<area>.<measure>` for derived metrics. No OTel semconv instruments exist in v1.
 
 **Per-surface / per-path metrics:**
 
@@ -768,12 +693,9 @@ _[Standard: included. There is no in-process metrics pipeline. Every metric is d
 | Send → readback latency (design readback states `open` → `read back`) | `viola.send.confirm_ms` ← `duration_ms` of the `send-confirmed` lines whose `confirmed` is not `false` (an unconfirmable send's line carries `duration_ms` too, but it had no confirmation window and is no readback). `duration_ms` runs from the send's arrival at the wrapper, so a sample includes the readiness gate's wait, up to architecture's `GATE_MAX_WAIT`, ahead of the window (as read in `src/run/send.rs` at chunk 2026-10-07-send-waits-out-the-paste-hint, not changed there) | histogram | ms | raw samples |
 | Send terminal state (design readback words `read back` / `unable` / `unconfirmable`) | `viola.send.outcome` ← count of `send-confirmed{confirmed}` / `send-refused{refusal,detail,side}` | counter | 1 | n/a |
 | `wait` outcome (design CLI `viola wait`) | `viola.wait.outcome` ← `channel-response{method:"wait"}.outcome` | counter | 1 | n/a |
-| HTTP request latency per `route` | `viola.ui.http.duration_ms` ← `http-request.duration_ms` | histogram | ms | raw samples |
-| HTTP status / Problem URN | `viola.ui.http.problem` ← `http-request.problem` | counter | 1 | n/a |
-| SSE lifecycle (design `TAPE stopped` state) | `viola.ui.sse.closed` ← `sse-closed.close_cause`; `viola.ui.sse.duration_ms` | counter / histogram | 1 / ms | raw samples |
 | Liveness transitions (design `stale` liveness) | `viola.state.liveness_transition` ← `liveness-changed{liveness_to}` | counter | 1 | n/a |
 | Heal / recovery (chaos) | `viola.state.recovered` ← `state-recovered.detail` | counter | 1 | n/a |
-| Skipped records (design ATIS `skipped N · N · N` box) | `viola.parse.skipped` ← `http-request.skipped` on `/api/sessions` and `list --json` `skipped` | gauge | 1 | n/a |
+| Skipped records | `viola.parse.skipped` ← `list --json` `skipped` | gauge | 1 | n/a |
 | Parse rejections per parser (creator-explicit) | `viola.parse.rejected` ← `parse-rejected{parser, detail, count}` | counter | 1 | n/a |
 | `unknown` fallback / higher-`v` rejections | `viola.compat.unknown` ← `send-refused{refusal:"unknown"}`; `viola.compat.v_rejected` ← `channel-response{error_code:-32602}` — over-counts: `-32602` also answers `send`'s invalid params (`ProtocolError::InvalidParams`, `"invalid params"`) and `release` carrying `from`, and the client's `fault_of` labels any `-32602` unsupported-version, until the line tells the causes apart | counter | 1 | n/a |
 | Child / probe exits | `viola.child.exit` ← `process-exit{subject, child_exit_status, exit_source}` | counter | 1 | n/a |
@@ -786,7 +708,7 @@ awk 1 diagnostics/hook-*.ndjson | jq -R -n '[inputs|fromjson?|select(.event=="ho
   |{n:length,p50:.[length/2|floor],p95:.[length*0.95|floor],max:.[-1]}'
 ```
 
-**Metric label cardinality discipline:** grouping keys are closed enums only: `event`, `detail`, `refusal`, `method`, `hook_event`, `route`, `subject`, `parser`, `close_cause`, `liveness_to`, `process`. `path` is never a grouping key (use `route`). `corr`, `conn`, `pid`, `child_pid` and `instance` are join keys, never grouping keys in aggregate reports. Design-excerpt GUI counters (`unknown` per field, empty-state occurrences, tape trims) are DOM-attribute-derived and read by Playwright, with no server-side counter in v1.
+**Metric label cardinality discipline:** grouping keys are closed enums only: `event`, `detail`, `refusal`, `method`, `hook_event`, `route`, `subject`, `parser`, `close_cause`, `liveness_to`, `process`. `path` is never a grouping key (use `route`). `corr`, `conn`, `pid`, `child_pid` and `instance` are join keys, never grouping keys in aggregate reports.
 
 (See `## 11. Obs Anti-Patterns` § Metrics for metric-level bans.)
 
@@ -805,7 +727,7 @@ _[ALL tiers]_
 - `message`: flattened, a static literal equal to the event name
 - `event`: the closed kebab-case enum
 - `corr`: per the tests table; null is represented by key absence (Section 3, Null encoding)
-- `process`: `run|hook|mcp|ui` (+ `cli`, D-06)
+- `process`: `run|hook|mcp|ui` (+ `cli`, D-06; `ui` reserved: no emitter in 0.1.0; removed with the code by "Remove the browser leg")
 - `instance`: `ViolaName` or null
 
 Template fields deliberately **not** emitted (D-12):
@@ -824,12 +746,12 @@ Template fields deliberately **not** emitted (D-12):
 | `send-issued` / `send-confirmed` / `send-refused` | `from`, `from_trust`, `text_bytes` (the typed text's length: the sent text with every CR LF pair and every other CR as one LF, and without its trailing CR and LF characters), `confirmed`, `refusal`, `detail`, `side` (`client|wrapper`), `wheel`, `window`, `used_percentage`, `resets_at`, `paused`, `duration_ms`, `conn` / `srv_conn` and `rpc_id` (wrapper side only: the originating `send` request's connection and JSON-RPC `id`, D-30) |
 | `dialog-raised` / `dialog-answered` | `dialog_kind`, `hook_event`, `from`, `from_trust`, `deadline_hit`, `duration_ms` |
 | `hook-invoked` / `hook-decision` | `hook_event` (`session-start|user-prompt-submit|pre-tool-use|permission-request|stop|session-end|notification|post-tool-use|post-tool-use-failure|statusline`), `stdin_bytes`, `invoked_at`, `decision_emitted`, `deadline_hit`, `budget_written`, `detail`, `duration_ms` |
-| `http-request` | `method`, `path`, `route`, `status`, `problem`, `duration_ms`, `skipped` |
+| `http-request` (reserved: no emitter in 0.1.0; removed with the code by "Remove the browser leg") | `method`, `path`, `route`, `status`, `problem`, `duration_ms`, `skipped` |
 | `panic` | `panic_location` (workspace-relative, or `<crate>-<ver>/src/...` for dependencies), `thread`. Payload and backtrace go to `detail-<process>.ndjson` only |
 | `release-from-driver` (D-01) | `conn`, `from` (only when a valid `ViolaName`), `from_trust` (`self-reported`) |
-| `liveness-changed` (D-02) | `subject_instance`, `liveness_from`, `liveness_to`, `heartbeat_age_ms`, `pid_alive` |
+| `liveness-changed` (D-02; reserved: no emitter in 0.1.0; removed with the code by "Remove the browser leg") | `subject_instance`, `liveness_from`, `liveness_to`, `heartbeat_age_ms`, `pid_alive` |
 | `state-recovered` (D-03) | `detail` (`torn-line-healed|snapshot-replayed|snapshot-unsupported-v`), `file` (basename only: `events.ndjson` on `torn-line-healed`, `snapshot.json` on the two snapshot details), `offset` (`torn-line-healed` only: the log's length before the healing append), `v_seen` (`snapshot-unsupported-v` only) |
-| `sse-opened` / `sse-closed` (D-04) | `last_event_id_present`, `last_event_id_valid`, `resume_instances`, `close_cause`, `events_sent`, `duration_ms` |
+| `sse-opened` / `sse-closed` (D-04; reserved: no emitter in 0.1.0; removed with the code by "Remove the browser leg") | `last_event_id_present`, `last_event_id_valid`, `resume_instances`, `close_cause`, `events_sent`, `duration_ms` |
 | `parse-rejected` (D-05) | `parser` (`claude-agents-json|vt100-feed|config-json|ledger-stamps|last-event-id|hook-stdin|channel-frame|prompt-submitted|paste-text|state-entry`), `detail`, `count` |
 
 **`detail` code catalog** (closed, kebab-case, never a path or pid; Founder Direction 4):
@@ -848,7 +770,7 @@ Template fields deliberately **not** emitted (D-12):
 | `error` | `panic`; `process-exit` with `exit_code` 1 or 20; `channel-response` with `error_code` -32603 |
 | `warn` | `state-recovered`; `parse-rejected`; `liveness-changed` to `stale`/`gone`; `hook-decision` with a fail-open `detail`; `process-exit` exit 21; `http-request` status ≥ 500; `channel-response` with `-32600`/`-32602` |
 | `info` | All other boundary, lifecycle and state-transition events, including refusals, which are normal product outcomes |
-| `debug` | Reserved: per-frame channel framing detail and notify tail cursor advances. Enabled only by `config.json` `diagnostics_level:"debug"`, never by `RUST_LOG`. Same field allow-list |
+| `debug` | Reserved: per-frame channel framing detail. Enabled only by `config.json` `diagnostics_level:"debug"`, never by `RUST_LOG`. Same field allow-list |
 | `trace` | Never emitted (outside the tests `level` enum) |
 
 **Per-module log levels** (a `filter::Targets` built in code; arch declares no convention):
@@ -856,7 +778,7 @@ Template fields deliberately **not** emitted (D-12):
 | Target | Level |
 |--------|-------|
 | `viola`, `viola_pty`, `viola_channel`, `viola_state`, `viola_agent_claude`, `viola_mcp`, `viola_ui` | `INFO` (or `DEBUG` via `diagnostics_level`) |
-| `rmcp`, `axum`, `tower_http`, `hyper`, `portable_pty`, `notify`, `sysinfo`, `interprocess` | `OFF` (D-11; failures are captured at the viola seam as viola events) |
+| `rmcp`, `axum`, `tower_http`, `hyper`, `portable_pty`, `sysinfo`, `interprocess` | `OFF` (D-11; failures are captured at the viola seam as viola events) |
 | everything else | `OFF` |
 
 **Sink configuration** (from Section 3):
@@ -865,7 +787,6 @@ Template fields deliberately **not** emitted (D-12):
 - Agent-mode flag: none. JSON-to-file is the only mode, and there is no stdout pretty sink on any role.
 
 **Boundary-call wrappers** (must-log events):
-- **HTTP request** (viola-ui): `http-request` at response time via TraceLayer `on_response`, with method, `uri.path()`, route, status, Problem URN and `duration_ms`. SSE uses `sse-opened` / `sse-closed`, because TraceLayer sees completion at header send.
 - **IPC invocation** (viola-channel): `channel-request` / `channel-response` with method, `corr`, `conn`, result class, error code and `sender`. **No argument digest**: `params` and result bodies are never recorded, not even hashed.
 - **PTY seam** (viola-pty): spawn gives `process-start{subject:"claude-child"}`. Exit comes from the handle-wait thread; kill-fallback use is logged as `exit_source:"kill-fallback"`. Paste gives `text_bytes` only.
 - **Child / shell spawns:** `process-start` / `process-exit` with `subject` ∈ `version-probe|verify-probe|verify-pty-probe|agents-probe|statusline-shell` (`verify-probe`: `viola verify`'s print-mode probe; `verify-pty-probe`: each of verify's five interactive PTY runs, Run A to Run E; verify logs its seven spawns at the call site, and `run_bounded` itself stays unlogged). `claude agents --json` parse failure gives `parse-rejected{parser:"claude-agents-json"}` and the value `"unknown"`.
@@ -880,7 +801,7 @@ Template fields deliberately **not** emitted (D-12):
 
 _[Standard: included]_
 
-**Platform pick:** **local error capture only, with no external platform.** The mechanism is typed errors with fixed-message `Display` impls — hand-written on `PtyError` (`viola-pty` takes no thiserror), thiserror 2.0.20 on `ChannelError`, `StateError`, `AgentError`, `McpError`, `UiError` and `CoreError`. anyhow 1.0.104 is used at the root-bin dispatch edge and its catch-site reporter (`viola::obs::report_internal_error`) only, plus a hand-written `std::panic::set_hook` and `std::panic::catch_unwind` (obs-research, Error Reporting Platform).
+**Platform pick:** **local error capture only, with no external platform.** The mechanism is typed errors with fixed-message `Display` impls — hand-written on `PtyError` (`viola-pty` takes no thiserror), thiserror 2.0.20 on `ChannelError`, `StateError`, `AgentError`, `McpError` and `CoreError`. anyhow 1.0.104 is used at the root-bin dispatch edge and its catch-site reporter (`viola::obs::report_internal_error`) only, plus a hand-written `std::panic::set_hook` and `std::panic::catch_unwind` (obs-research, Error Reporting Platform).
 - sentry 0.49.3 / sentry-tracing 0.49.3 are **not admissible**. They break the egress ban ("viola makes no outbound network calls"), and their default `reqwest` + `native-tls` + `tokio` transport breaks the cargo-deny C-crate (`openssl-sys`) and Tokio-in-sync-crates bans.
 - tracing-panic 0.1.2 (stale) and human-panic 2.0.8 (writes a human report to stderr) were rejected.
 
@@ -894,7 +815,7 @@ It would also need a security Decisions Log entry for the egress.
 
 **`before_send` scrubbing pattern:** N/A in v1, because no reporter exists. Scrubbing sits at the source instead (Section 8). Scrubbing layers:
 1. fixed `Display` strings on every thiserror type (no fields holding paths or payloads);
-2. at dispatch, an anyhow chain whose source is a `serde_json::Error` / `serde_path_to_error::Error` is replaced by the fixed message `internal error` before it reaches stderr, `--json`, MCP `isError`, Problem Details or channel `error.data`;
+2. at dispatch, an anyhow chain whose source is a `serde_json::Error` / `serde_path_to_error::Error` is replaced by the fixed message `internal error` before it reaches stderr, `--json`, MCP `isError` or channel `error.data`;
 3. the full chain is written as a one-line JSON array `chain:[...]` to `instances/<name>/diagnostics/detail-<process>.ndjson` only, and only when an instance resolves.
 
 **Panic hooks:**
@@ -902,21 +823,21 @@ It would also need a security Decisions Log entry for the egress.
 - It writes **one** JSON line via a single `write_all` on the pre-opened `Arc<File>` held in a `OnceLock`, **not** through the tracing subscriber (no re-entrancy if the panic happened inside formatting). The line is `{"timestamp", "level":"ERROR", "target":"viola::panic", "message":"panic", "event":"panic", "process", "instance", "panic_location", "thread"}`. `corr` is never written, and `instance` is omitted when none resolved (always for `ui`). This is the same key-absence null encoding that `obs_event!` uses (§3 Null encoding, D-26).
 - When an instance resolves, it also writes `{"event":"panic", ..., "panic_payload":"<escaped>", "backtrace":[...frames]}` as one line to `detail-<process>.ndjson`. The backtrace is raw, never-symbolised frames from `src/panic_frames.rs` — `RtlCaptureStackBackTrace` + `GetModuleHandleExW`/`GetModuleFileNameW` on Windows, `libc::backtrace` + `dladdr` on Unix — up to 62 strings `0x<ip> <module path> base=0x<base> +0x<offset>` (or `0x<ip> ?`), enough for an offline resolver against the pinned copy. It is **not** gated by `RUST_BACKTRACE`, because env vars are not a configuration channel. Symbolising in the panic path was retired: `Backtrace::force_capture().to_string()` cost 351.4 ms of a 402.7 ms hook run for 72 frames on the Windows runner and pushed the forced-panic hook to 1.50 s against the 1.0 s spine bound; the raw capture measured 23.7 ms (as measured at chunk 2026-09-28-capability-ledger-and-viola-verify, CI runs 36436266196, 36435153705 and 36448654074).
 - The panic hook only writes. The exit is decided at a catch site:
-  - **Main-thread catch site (every role):** everything after `set_hook` (clap parse, init and role dispatch) runs inside one `std::panic::catch_unwind` in the root bin's `main`. An `Err` maps to the role's exit below, so no role ends through an uncaught unwind (Rust's default exit 101). The role is taken from argv before clap runs: the first argument that is neither a global flag nor a flag's value (for example `--home <path>`) and that names a role subcommand (`run`, `hook`, `mcp`, `ui`; `role_of` in `src/main.rs` names `revive` beside `run`; any other verb is `cli`). `viola revive`'s start arm logs as process `run` (the `run-<name>.ndjson` role file and `run`'s detail sink), opened by the log setup it shares with `run` only after its instance check has passed; a refused check on the start arm is the stderr pair and exit 1 with no process log opened. `viola revive <name> --list` opens no process log and writes no line, so its two refusals (the strict-modes check, `no-session`) are the stderr pair and exit 1 only. So `viola --home <dir> hook stop` is still a `hook`, and a pre-init panic in it still exits 0. Reading `argv[1]` alone would misclassify that form as `cli` and exit 1 (D-28).
+  - **Main-thread catch site (every role):** everything after `set_hook` (clap parse, init and role dispatch) runs inside one `std::panic::catch_unwind` in the root bin's `main`. An `Err` maps to the role's exit below, so no role ends through an uncaught unwind (Rust's default exit 101). The role is taken from argv before clap runs: the first argument that is neither a global flag nor a flag's value (for example `--home <path>`) and that names a role subcommand (`run`, `hook`, `mcp`; `role_of` in `src/main.rs` names `revive` beside `run`; any other verb is `cli`). `viola revive`'s start arm logs as process `run` (the `run-<name>.ndjson` role file and `run`'s detail sink), opened by the log setup it shares with `run` only after its instance check has passed; a refused check on the start arm is the stderr pair and exit 1 with no process log opened. `viola revive <name> --list` opens no process log and writes no line, so its two refusals (the strict-modes check, `no-session`) are the stderr pair and exit 1 only. So `viola --home <dir> hook stop` is still a `hook`, and a pre-init panic in it still exits 0. Reading `argv[1]` alone would misclassify that form as `cli` and exit 1 (D-28).
   - **`run` worker threads:** the PTY pump and handle-wait thread bodies each run inside `catch_unwind`. An `Err` is sent to `main`, which takes the `run` exit path below, because the session cannot continue without either thread. A worker panic that leaves `main` running with no `process-exit` is forbidden. A panic in one channel server connection worker is contained: the `channel.dispatch` `Drop` guard logs `channel-response{result_class:"error", error_code:-32603}`, the connection closes, and `run` continues. The vt100 feed thread (`src/run/gate.rs`, detached) is contained too: its `catch_unwind` wraps each feed and resize, a caught panic poisons the screen model and writes one `parse-rejected`, nothing is sent to `main`, and `run` continues; the ban above covers the PTY pump and the handle-wait thread.
   - **Unwinding is required:** every Cargo profile keeps `panic = "unwind"`. `panic = "abort"` turns every `catch_unwind` into an abort, so `hook` would die by SIGABRT instead of exiting 0. Gate G3 (§9) enforces this.
 - Per-role behaviour after the line:
   - `hook`: `catch_unwind` around dispatch, then exit 0 with empty stdout;
   - short-lived `cli`: when an instance resolves, `process-exit{subject:"self", exit_code:1, detail:"internal-error"}` to `cli-<name>.ndjson` (`obs::internal_error_exit_line` covers `Cli` as well as `Run`), the chain in `detail-cli.ndjson` only; then exactly `error: internal error\n` on stderr in one `write_all`, with no hint, and exit 1;
   - `run`: `process-exit{subject:"self", exit_code:1, detail:"internal-error"}`, then exit 1, and nothing on the terminal while the child runs;
-  - `mcp` / `ui`:
+  - `mcp`:
     - A panic inside a spawned Tokio task is logged by the hook. The runtime contains it at the task boundary, and the process continues.
     - A main-thread panic reaches the main-thread catch site. The process writes `process-exit{subject:"self", exit_code:1, detail:"internal-error"}` and then exits 1. `mcp` writes nothing to stdout on this path.
-- Before step 4 of init, no file exists, so the panic hook writes nothing. This window contains clap parsing and home resolution, the `config.json` parse for `ui`, which needs `<port>` to name its file (§3 init step 3, D-29), and the instance check that `viola revive`'s start arm and `viola hook statusline` run before any role file is opened (chunk 2026-10-10-budget-governor).
+- Before step 4 of init, no file exists, so the panic hook writes nothing. This window contains clap parsing and home resolution, and the instance check that `viola revive`'s start arm and `viola hook statusline` run before any role file is opened (chunk 2026-10-10-budget-governor).
 
 **Error classes captured:**
 - Unhandled panics (always): the one-line `event:"panic"`.
-- Module-boundary errors (Standard+): every typed error that crosses a crate seam ends in a logged `process-exit{detail}`, `channel-response{result_class:"error", error_code}`, `hook-decision{detail}`, `http-request{status, problem}` or `send-refused`. Each carries codes only, at `WARN`/`ERROR` per Section 6.
+- Module-boundary errors (Standard+): every typed error that crosses a crate seam ends in a logged `process-exit{detail}`, `channel-response{result_class:"error", error_code}`, `hook-decision{detail}` or `send-refused`. Each carries codes only, at `WARN`/`ERROR` per Section 6.
 - vt100 panics are caught on `run`'s feed thread (`src/run/gate.rs`) by a `catch_unwind` around each feed and resize, not inside `run.readiness_gate`. Each poisoning episode gives exactly one `parse-rejected{parser:"vt100-feed", count:1}` at `WARN` with no `corr`, its `detail` set by the cause: `panicked` for a caught vt100 panic, `oversize` for a copy the bounded feed queue dropped (a size message carries the drop count at its offer, so a drop after a queued resize poisons the fresh screen again). The model stays poisoned until the host size changes, and `run` continues. `viola_panic_hook` runs before the catch returns, so a panic poisoning also writes the hook's `event:"panic"` role line and its detail line. Witnessed at run level by `tests/chaos_feed_panic.rs` (chunk 2026-10-04-confirmed-send-with-cl-1-records): exactly one `parse-rejected{vt100-feed, panicked}` and one `event:"panic"` line, both asserted present, then `viola send` refused `send-refused{detail:"input-not-ready"}` (exit 13) while a typed key still reaches the child. G2's single seam exemption is unchanged: that test's home lives outside `target/e2e-home` (`TestHome::outside_scan()`), so G2, G4 and the secret scan do not read it (the founder's ruling, live, 2026-10-04, relayed by the overseer).
 - MCP rejects are `isError` codes only, mirrored by codes-only log lines.
 
@@ -936,7 +857,7 @@ _[Standard: included. The Compliance Trace Fields subsection is omitted: securit
 
 | Data type | Classification | Obs handling | Scrubbing mechanism |
 |-----------|---------------|--------------|---------------------|
-| GUI per-launch token, launch URL, `ui/<port>.url` contents, `viola_<port>` cookie / `Cookie` header | Critical | never-log (the only exception is the one-time stderr launch line, written directly and never through the subscriber) | Custom TraceLayer `make_span_with` records `uri.path()` only; `DefaultMakeSpan` and `.include_headers(true)` banned; `?t=` never reachable as a field; secret-scan test over all `diagnostics/` |
+| GUI per-launch token, `viola_<port>` cookie / `Cookie` header | Critical | never-log | secret-scan test over all `diagnostics/` |
 | `CLAUDE_CODE_MESSAGING_TOKEN`, `CLAUDE_CODE_MESSAGING_SOCKET`, other R8-stripped `CLAUDE*` values | Critical | never-log anywhere, including detail files | R8 strip logs `env_stripped_count` + `env_stripped_known` (stripped names) + `env_kept` (kept names), names only, values never read (D-34); env maps never passed to a span or event; secret-scan test with one canary per identity-floor name plus an unknown name |
 | v1.x signing credentials | Critical | never-log | Not present in v1 runtime; CI secrets never echoed into artifacts (Section 9) |
 | Prompt text, assistant output (`prompt-submitted.data.text`, `last_assistant_message`) | High | never in any home-level process-log line; payloads stay in contract payloads and reach an instance `detail-<process>.ndjson` only inside a chain or drift report | `#[instrument(skip_all)]`; veil 0.3.0 `#[derive(Redact)]` with `#[redact]` on `SendParams.text`, `LastResult.last_assistant_message`, `HookEventParams.data`; only `text_bytes` logged |
@@ -944,10 +865,10 @@ _[Standard: included. The Compliance Trace Fields subsection is omitted: securit
 | serde_path_to_error drift reports | High | instance-scoped `detail-<process>.ndjson` only | Replaced by fixed `Display` at the seam; full report is a `drift_report` field in the detail file only |
 | `statusline_command` | High (integrity) | never in home-level logs; detail file only if part of an error chain | `statusline.shell_out` span records `shell_exit_status` + `duration_ms` only |
 | Absolute paths (OS username = only PII in scope), internal type names | Medium | scrub-required in external output; permitted in `diagnostics/` but obs keeps home-level lines path-free | `file` fields are basenames; `panic_location` workspace-relative; `with_file(false)`; paths only in detail files |
-| Config values (thresholds, port), snapshot `endpoint` / `pinned_bin`, ledger versions | Low confidentiality | OK structured; path-valued ones follow the Medium rule | `port`, `cli_version`, thresholds logged; `endpoint` / `pinned_bin` never logged (only `endpoint_kind`) |
-| `pid`, `child_pid`, `agent_session_id`, `started_at`, budget percentages, `resets_at`, `bind` | Low | OK to log structured | Logged as typed fields; never inside `detail` codes (Founder Direction 4) |
+| Config values (thresholds), snapshot `endpoint` / `pinned_bin`, ledger versions | Low confidentiality | OK structured; path-valued ones follow the Medium rule | `cli_version`, thresholds logged; `endpoint` / `pinned_bin` never logged (only `endpoint_kind`) |
+| `pid`, `child_pid`, `agent_session_id`, `started_at`, budget percentages, `resets_at` | Low | OK to log structured | Logged as typed fields; never inside `detail` codes (Founder Direction 4) |
 | `claude agents --json` rows / unwrapped session ids | Low, untrusted | OK structured; C0/C1 escaped in human terminal output | JSON serialization escapes C0 controls in files; rows never logged verbatim, only `parse-rejected` counts |
-| Protocol codes, refusal details, Problem URNs | Low | OK to log structured | Closed kebab-case enums |
+| Protocol codes, refusal details | Low | OK to log structured | Closed kebab-case enums |
 | Recorded fixtures | Medium | scrub-required (security/tests-owned) | Not a telemetry source; obs adds no fixture content |
 
 **Scrubbing libraries** (from obs-research PII Scrubbing Library):
@@ -958,10 +879,9 @@ _[Standard: included. The Compliance Trace Fields subsection is omitted: securit
 **Integration points** (no OTel `SpanProcessor`, no Sentry `before_send`; both are absent in v1):
 1. **Source allow-list (primary):** `#[instrument(skip_all, fields(...))]` plus `obs_event!` with explicit typed fields only. Enforced by three gates: clippy `disallowed-macros` on the tracing level macros, the fail-closed raw-`event!` grep in `scripts/lint-probes.sh` (§3 logger-stack-install), and a grep gate on bare `#[instrument]`.
 2. **Type-level redaction:** veil `Redact` on every channel / hook / MCP payload type, so `Debug` never reveals content.
-3. **HTTP layer:** the tower-http custom `make_span_with` / `on_response` (path only, no headers).
-4. **Error layer:** fixed thiserror `Display`, and serde-sourced chains mapped to fixed messages at dispatch.
-5. **Sink separation:** content-bearing records go only to instance-scoped `detail-<process>.ndjson`.
-6. **Verification:** the tests secret-scan test (token, `Cookie`, `?t=`, `CLAUDE*` values, 0600) over every `diagnostics/` file, run in CI before artifact upload.
+3. **Error layer:** fixed thiserror `Display`, and serde-sourced chains mapped to fixed messages at dispatch.
+4. **Sink separation:** content-bearing records go only to instance-scoped `detail-<process>.ndjson`.
+5. **Verification:** the tests secret-scan test (token, `Cookie`, `?t=`, `CLAUDE*` values, 0600) over every `diagnostics/` file, run in CI before artifact upload.
    - **High classes** (prompt and send text, `last_assistant_message`, tool `input`, dialog answers, drift-report echoes):
      - Every E2E and integration input is synthetic and embeds a fixed canary string.
      - The scan also asserts that the canary never appears in a home-level `diagnostics/*.ndjson`. It may appear only in `detail-*.ndjson`.
@@ -995,14 +915,14 @@ _[Standard: included. The Compliance Trace Fields subsection is omitted: securit
 
 _[ALL tiers]_
 
-**Platform:** GitHub Actions; the single push/PR workflow `.github/workflows/ci.yml` (beside the scheduled `nightly.yml`, which runs the weekly `cargo deny check advisories` and a `fuzz` job: 120 s per target on the `fuzz/rust-toolchain.toml` nightly, uploading `fuzz/artifacts/` on `failure()` only, see §8 item 6, and the dispatch-only `windows-mutants.yml`, the boundary audit's Windows mutation leg, which uploads nothing), native matrix `windows-2025` / `macos-latest` / `ubuntu-latest` (arch CI/CD Platform). No OTLP collector job.
+**Platform:** GitHub Actions; the single push/PR workflow `.github/workflows/ci.yml` (beside the scheduled `nightly.yml`, which runs the weekly `cargo deny check advisories` and a `fuzz` job: 120 s per target on the `fuzz/rust-toolchain.toml` nightly, uploading `fuzz/artifacts/` on `failure()` only, see §8 item 5, and the dispatch-only `windows-mutants.yml`, the boundary audit's Windows mutation leg, which uploads nothing), native matrix `windows-2025` / `macos-latest` / `ubuntu-latest` (arch CI/CD Platform). No OTLP collector job.
 
 **Telemetry artifact handling:**
 
 | Artifact | When | Storage | Agent access |
 |----------|------|---------|--------------|
 | `diagnostics/*.ndjson` + `instances/*/diagnostics/detail-*.ndjson` from `target/e2e-home/**` | every E2E job, `if: always() && steps.secret-scan.outcome == 'success'`. A bare `always()` would also upload after a failed scan | `actions/upload-artifact` v7.0.1 (SHA-pinned), `name: diag-${{ matrix.os }}`, `path: target/e2e-home/**/diagnostics/*.ndjson`, `retention-days: 7` | `gh run download` → `jq` |
-| `agent-run logs` merged ndjson + `agent-run status` JSON, captured to `target/agent-run/{logs.ndjson,status.json}` by an `if: failure()` step that runs **before** the scan, so the scan covers them | on test failure, `if: failure() && steps.secret-scan.outcome == 'success'`. A bare `failure()` is also true when the scan itself failed | its **own** artifact `harness-${{ matrix.os }}` (upload-artifact v7.0.1 SHA-pinned, `path: target/agent-run/` plus `!target/agent-run/chunk.diff` — `run --mutants`' diff, which the scan skips (§8 item 6) — `retention-days: 7`). Not `diag-<os>`: upload-artifact v4+ artifacts are immutable, so a second step uploading the same name fails with a conflict, and `overwrite: true` would replace the raw diagnostics | paste-to-AI directly; `jq` over `record` |
+| `agent-run logs` merged ndjson + `agent-run status` JSON, captured to `target/agent-run/{logs.ndjson,status.json}` by an `if: failure()` step that runs **before** the scan, so the scan covers them | on test failure, `if: failure() && steps.secret-scan.outcome == 'success'`. A bare `failure()` is also true when the scan itself failed | its **own** artifact `harness-${{ matrix.os }}` (upload-artifact v7.0.1 SHA-pinned, `path: target/agent-run/` plus `!target/agent-run/chunk.diff` — `run --mutants`' diff, which the scan skips (§8 item 5) — `retention-days: 7`). Not `diag-<os>`: upload-artifact v4+ artifacts are immutable, so a second step uploading the same name fails with a conflict, and `overwrite: true` would replace the raw diagnostics | paste-to-AI directly; `jq` over `record` |
 | cargo-nextest 0.9.146 JUnit XML (`[profile.ci.junit] path = "junit.xml"` in `.config/nextest.toml` → `target/nextest/ci/junit.xml`), and the browser suite's JUnit (Playwright's junit reporter `e2e-web/pw-junit.xml`, copied by the harness to `target/agent-run/artifacts/junit-playwright.xml`) | every test job, `if: always() && steps.secret-scan.outcome == 'success'`. An `if:` without a status function gets an implicit `success()`, so the bare `steps.secret-scan.outcome == 'success'` would skip this upload on exactly the failing runs | uploaded as `junit-${{ matrix.os }}` (upload-artifact v7.0.1 SHA-pinned, `retention-days: 7`) | failing test ID joined to `diag` lines by time and `instance` |
 | hyperfine `--export-json target/agent-run/artifacts/perf-<hook>.json`, one per row (`session-start`, `user-prompt-submit`, `stop`, `session-end`, `pre-tool-use`), from `run --perf` in the per-OS `perf` job | `if: always() && steps.secret-scan.outcome == 'success'`, so a failing gate still leaves its samples and a failed scan withholds them (timings and repo-relative benchmarked command lines only, no log content) | uploaded as `perf-${{ matrix.os }}`, with the same job's home diagnostics as `diag-perf-${{ matrix.os }}` under the same condition | `jq '.results[0].max'` |
 | OTel trace export | N/A (no exporter in v1) | — | — |
@@ -1015,7 +935,7 @@ _[ALL tiers]_
 | Unit tests | In-memory `Vec<u8>` writer tests parse emitted lines with serde_json against `schemas/diag-line.v1.json` (tests-owned bodies) | nextest JUnit |
 | Integration tests | `diagnostics/*.ndjson` from fake-agent runs. Their viola homes must live under `target/e2e-home/` (the directory layout is tests-owned), so G2, G4, the secret scan and the `diag-<os>` upload cover them. A `hook` panic exits 0, so a home outside that root would hide it. The one carve-out: `tests/chaos_feed_panic.rs`'s `TestHome::outside_scan()` home under the system temp dir, outside G2, G4, the secret scan and the upload, whose deliberate panic line and `parse-rejected` line the test asserts present itself (the founder's ruling, live, 2026-10-04, relayed by the overseer). perf: hyperfine JSON with `max` assertions | uploaded artifacts + G2 / G4 + budget assertion exit codes |
 | E2E tests | `agent-run logs` / `status`; Playwright DOM-attribute reads; zero-`event:"panic"` gate G2 and schema gate G4 (below) | uploaded artifacts + gate exit codes |
-| Mutation | obs code (`obs_event!` call sites, `MillisUtc`, panic hook, TraceLayer closures) under cargo-mutants like product code | no push or pull-request job since 2026-09-28: `agent-run run --mutants` at the epoch boundary through `/andromeda-code-audit`, and on demand. The audit's Windows form is the dispatch-only, report-only `windows-mutants.yml` (`run --mutants --package <member> --file …` on `windows-2025`), whose job `mutants (viola-panic-frames)` scores `src/panic_frames.rs` on its own: 23 tested, 14 caught, 0 unviable, 0 missed, and 9 left out by the harness as `#[cfg(unix)]` twins the Windows build never compiles (that job's `run` document in run 38036448183, the dispatch of 2026-10-10; test-plan §10 Mutation gate). A timed-out obs-code mutant, a missed one the harness does not leave out as host-excluded (test-plan §3 `run` step 4), or unviable outnumbering caught, is red at that run (test-plan §10 Mutation gate) |
+| Mutation | obs code (`obs_event!` call sites, `MillisUtc`, panic hook) under cargo-mutants like product code | no push or pull-request job since 2026-09-28: `agent-run run --mutants` at the epoch boundary through `/andromeda-code-audit`, and on demand. The audit's Windows form is the dispatch-only, report-only `windows-mutants.yml` (`run --mutants --package <member> --file …` on `windows-2025`), whose job `mutants (viola-panic-frames)` scores `src/panic_frames.rs` on its own: 23 tested, 14 caught, 0 unviable, 0 missed, and 9 left out by the harness as `#[cfg(unix)]` twins the Windows build never compiles (that job's `run` document in run 38036448183, the dispatch of 2026-10-10; test-plan §10 Mutation gate). A timed-out obs-code mutant, a missed one the harness does not leave out as host-excluded (test-plan §3 `run` step 4), or unviable outnumbering caught, is red at that run (test-plan §10 Mutation gate) |
 
 **Gate commands.** Each gate is its own `run:` step with `shell: bash` on all three OSes, and is copied verbatim into `ci.yml`:
 - **G1, bare `#[instrument]`.**
@@ -1052,6 +972,8 @@ set +e; rg -n --hidden -g 'Cargo.toml' -g 'config.toml' -g '*.yml' -g '*.yaml' "
 4. The `diag-<os>` / `harness-<os>` / `junit-<os>` uploads, gated on `steps.secret-scan.outcome == 'success'` as in the table (`junit-<os>` carries both JUnit files). On a failed scan the hit report (step 5) names the JUnit file like any other hit.
 5. The hit-report upload `secret-scan-${{ matrix.os }}` (§8), `if: always() && steps.secret-scan.outcome == 'failure'`.
 
+The browser test leg named here (the browser suite in the `test` job with `Node (pinned)`, `npm ci`, the Chromium install and `run --browser`; its Playwright JUnit `junit-playwright.xml` and Playwright's DOM-attribute reads and `retries: 0`; the `<home>/.local/viola-node/bin` entry of the `pre-push` PATH; and the harness `a11y-violation` rows checked against `e2e-web/schemas/a11y-row.v1.json`) stands until the route entry "Remove the browser leg" removes it; that entry's wrap amends this text.
+
 (See `## 11. Obs Anti-Patterns` § CI for CI bans.)
 
 ---
@@ -1064,7 +986,7 @@ _[ALL tiers]_
 - **Zero unlogged panics:** every panic in `run`, `hook`, `mcp`, `ui` and `cli` **after init step 4** produces **exactly one** single-line `level:"ERROR", event:"panic"` record in its home-level role file, with no multi-line backtrace in home-level files, and `hook` still exits 0. Retry-once policies for panic handling are forbidden, in parallel with the tests' `retries = 0`.
   - **Counting rule:** "exactly one", the `viola.panic` counter and gate G2 (§9) count home-level role files only. G2 alone also leaves out the `fake-agent` seam's deliberate panic (a `panic_location` of exactly `src/cmd/hook/seam.rs:<digits>`, §9): that line is still written exactly once — the invariant holds for it — and only its count is exempt. The companion line in `detail-<process>.ndjson` also carries `event:"panic"` and is excluded. In merged `agent-run logs` output, count `select(.record.event=="panic" and (.file|startswith("detail-")|not))`.
   - **Bounded exemptions** (no file exists, so no line can be written):
-    1. the pre-init window before step 4 (§7: clap parse and home resolution, the `ui` `config.json` parse, the instance check of `viola revive`'s start arm and of `viola hook statusline`, and `viola list`'s strict-modes scan, which runs before its `cli` role file opens);
+    1. the pre-init window before step 4 (§7: clap parse and home resolution, the instance check of `viola revive`'s start arm and of `viola hook statusline`, and `viola list`'s strict-modes scan, which runs before its `cli` role file opens);
     2. `cli` without a resolved instance (D-06);
     3. `hook` without `VIOLA_NAME` (D-16);
     4. a failed step-4 role-file open (§3 init step 4). The writer becomes `std::io::sink`, or stderr JSON for `mcp` (D-09), and the panic hook's `OnceLock` stays empty, so it writes nothing, not even to `mcp`'s stderr (D-32).
@@ -1075,10 +997,10 @@ _[ALL tiers]_
     The failure condition "a panic evidenced by an exit code without its line" applies only to processes whose `process-start` is in a home-level role file. For the exemptions the only evidence is the exit status. `hook` still exits 0, so a D-16 panic is unobservable by design (E1).
 
 **Standard+ invariants:**
-- **Liveness signal** (replaces 10–30 s tick lines, D-13): `run` touches `heartbeat` every 1 s. `liveness-changed` fires on every live↔stale↔gone transition the `ui` observes. The flip happens at >5 s (4.9 s live / 5.1 s stale or gone). When no `ui` runs, no `liveness-changed` line exists. The chaos class "stale heartbeat vs live pid" is then gated on the short-lived readers' `liveness` (`list --json`, `/api/sessions`) through `agent-run status` (`state: degraded`) (§3 Heartbeat ticks).
+- **Liveness signal** (replaces 10–30 s tick lines, D-13): `run` touches `heartbeat` every 1 s. `liveness-changed` fires on every live↔stale↔gone transition the `ui` observes. The flip happens at >5 s (4.9 s live / 5.1 s stale or gone). When no `ui` runs, no `liveness-changed` line exists. The chaos class "stale heartbeat vs live pid" is then gated on the short-lived readers' `liveness` (`list --json`) through `agent-run status` (`state: degraded`) (§3 Heartbeat ticks).
 - **Module-boundary error logging:** every typed error that crosses a crate seam is logged once at `WARN`/`ERROR` with a closed `detail` / `error_code`. The full chain goes only to the instance detail file.
 - **Correlation propagation:** every channel call logs `corr` + `conn` on both sides; every send line carries the send `cursor`; every dialog line carries `dialog_id`. W3C traceparent is not used (D-12).
-- **Deterministic emission:** events key on hook events, `events.ndjson` offsets and DOM attributes. Nothing is derived from screen content, and no log-based wait relies on sleeps (creator explicit).
+- **Deterministic emission:** events key on hook events and `events.ndjson` offsets. Nothing is derived from screen content, and no log-based wait relies on sleeps (creator explicit).
 
 **Performance budgets** (perf-budget-instruments trigger; assertions from tests Quality Gates, measured with hyperfine 1.20.0 `--warmup 3 --runs 30 --export-json`). Status: built — `run --perf` times the `session-start`, `user-prompt-submit`, `stop`, `session-end` and `pre-tool-use` rows on an unstamped session in the per-OS `perf` job, and `gate --require perf` requires all five (test-plan §10); the async tier is untimed.
 
@@ -1086,7 +1008,6 @@ _[ALL tiers]_
 |------------------|-----|-----|------------------|
 | `viola hook session-end` | report-only (§5 snippet over `duration_ms`) | report-only | hyperfine `max < 1.0 s` in `target/agent-run/artifacts/perf-session-end.json`, judged by `gate --require perf` (`.results[0].max < 1.0`; the row file is required by name) |
 | Spine hooks (`session-start`, `user-prompt-submit`, `stop`) and `pre-tool-use` on an unverified CLI | report-only | report-only | hyperfine `max <` spine deadline in `target/agent-run/artifacts/perf-<hook>.json`, judged by `gate --require perf` (each spine row and the `pre-tool-use` row required by name; the perf session boots unstamped, so `pre-tool-use` runs on an unverified CLI). The deadline value is tests-owned (provisionally 1.0 s; the hook's own provisional 750 ms connect deadline sits below it); obs requires only that the max sample is gated |
-| SSE keep-alive | n/a | n/a | emitted at `advance(15 s)` and not before (tests-owned) |
 | Heartbeat staleness flip | n/a | n/a | 4.9 s → `live`, 5.1 s → `stale`/`gone`; `liveness-changed.heartbeat_age_ms > 5000` |
 | Obs overhead on `hook` | n/a | n/a | logger init = 1 `open` + appends, inside the same `max < 1.0 s` gate. This holds only if every hyperfine hook command runs with `VIOLA_NAME` set and a home under `target/e2e-home/`; the instance fixture is tests-owned. Without `VIOLA_NAME` it times the D-16 no-op (no open, no channel call), and the gate passes vacuously. The perf job runs G2 over that home, because a hook panic exits 0 and hyperfine cannot see it (D-30) |
 
@@ -1122,7 +1043,7 @@ _[ALL tiers — single source of truth for all obs bans]_
 ### Telemetry Strategy
 
 - NEVER over-instrument hot paths. The PTY pump read loop and the vt100 feed get no per-byte or per-chunk span or event; log gate outcomes only.
-- NEVER skip spans or events on the 7 must-trace paths (Section 4). The agent loses its ability to debug.
+- NEVER skip spans or events on the 6 must-trace paths (Section 4). The agent loses its ability to debug.
 - NEVER let the signal pyramid collapse into free text. Every line carries the closed `event` enum and `corr`.
 - NEVER add an OTel SDK, OTLP exporter or `opentelemetry-stdout` without a Decisions Log entry. The stdout exporter is inadmissible on every role (stdout is reserved), and `opentelemetry-otlp`'s default `reqwest-blocking-client` spins up a Tokio runtime.
 - NEVER derive telemetry from screen content. vt100 is used for readiness and modal gate outcomes only (brief §3.2), and Claude Code transcripts are never read as a contract.
@@ -1132,15 +1053,13 @@ _[ALL tiers — single source of truth for all obs bans]_
 - NEVER include PII or content in span fields. Scrubbing at an exporter stage is too late, and v1 has no exporter stage at all.
 - NEVER use a bare `#[instrument]`. It records every argument with `Debug` and leaks send text, `hook.dialog` payloads and tool `input`. Always use `#[instrument(skip_all, fields(...))]`.
 - NEVER use `#[instrument(err)]` or `#[instrument(ret)]` on functions whose error or return can carry a serde / serde_path_to_error source or user content.
-- NEVER use tower-http `DefaultMakeSpan` (it records the full `uri` including `?t=<token>`), and NEVER call `.include_headers(true)` (it logs `Cookie`).
 - NEVER use high-cardinality span names: no instance names, dialog ids or paths in span names.
-- NEVER leave the SSE span without a `Drop` guard. TraceLayer considers the response done at header send, so `sse-closed` would be lost.
 - NEVER rely on span context to carry `corr` / `conn` / `instance` across threads or tasks. Spans are not serialized, so pass these as explicit values.
 
 ### Metrics
 
 - NEVER create in-process metrics instruments (`opentelemetry` meters, `metrics` 0.24.6). There is no reader, exporter or listener to flush them.
-- NEVER add a `/metrics` or other telemetry endpoint (for example axum-tracing-opentelemetry's `metrics-prometheus`) without a Security Decisions Log entry. It is a new listener.
+- NEVER add a `/metrics` or other telemetry endpoint without a Security Decisions Log entry. It is a new listener.
 - NEVER group derived metrics by unbounded keys (`path`, `corr`, `conn`, `pid`, `instance`). Group by the closed enums only.
 - NEVER report latency without the gate statistic. The `max` from hyperfine is the enforced number; p50/p95 are report-only.
 
@@ -1152,16 +1071,16 @@ _[ALL tiers — single source of truth for all obs bans]_
 - NEVER record `corr` with `?corr` / `%corr`. That stringifies numbers, and `corr` must be copied unchanged as a JSON number or string.
 - NEVER read the level from `RUST_LOG`, enable the `env-filter` feature, or call `EnvFilter::from_default_env`. Env vars are not a configuration channel.
 - NEVER write multi-line stack traces. Panics are one line; backtraces are one-line JSON arrays in the instance detail file only.
-- NEVER log at `info` inside hot loops (PTY pump, notify tail per line). Use counts on the boundary event instead.
+- NEVER log at `info` inside hot loops (PTY pump). Use counts on the boundary event instead.
 - NEVER use tracing-appender `non_blocking`. It drops lines when full, needs a `WorkerGuard` flush, and breaks the hook's exit-0 / `max < 1.0 s` gate and the zero-unlogged-panics invariant.
 - NEVER rename tests fields (for example `corr` → `correlation_id`, `event` → `event_type`) or add `event` values without a Decisions Log entry.
-- NEVER use `print!` / `println!` / `eprint!` / `eprintln!` / `dbg!` in the `hook`, `run` or `mcp` code paths of the product crates (`viola-harness` and the fake agent are exempt, §3 obs-ci-gate-wire). They bypass the file sink and break the Hook contract, the `run` terminal rule and MCP framing. Enforced by `[workspace.lints.clippy]` `print_stdout`, `print_stderr`, `dbg_macro` = `deny` under the §9 clippy step. Only the output modules that own `--json`, human CLI stderr, the hook decision body and the one-time `ui` launch line may carry a local `#[allow]`, and only where they use a print macro — `run`'s and `revive`'s pre-spawn refusals, and `revive --list`'s, write through `src/human.rs` (`refuse` / `write_refusal`, one `write_all` on the locked stderr), which uses no print macro and carries no `#[allow]` — plus the fake agent's crate-level `#![allow]` in `src/bin/viola-fake-agent.rs` (a root-package bin, §3 obs-ci-gate-wire).
+- NEVER use `print!` / `println!` / `eprint!` / `eprintln!` / `dbg!` in the `hook`, `run` or `mcp` code paths of the product crates (`viola-harness` and the fake agent are exempt, §3 obs-ci-gate-wire). They bypass the file sink and break the Hook contract, the `run` terminal rule and MCP framing. Enforced by `[workspace.lints.clippy]` `print_stdout`, `print_stderr`, `dbg_macro` = `deny` under the §9 clippy step. Only the output modules that own `--json`, human CLI stderr and the hook decision body may carry a local `#[allow]`, and only where they use a print macro — `run`'s and `revive`'s pre-spawn refusals, and `revive --list`'s, write through `src/human.rs` (`refuse` / `write_refusal`, one `write_all` on the locked stderr), which uses no print macro and carries no `#[allow]` — plus the fake agent's crate-level `#![allow]` in `src/bin/viola-fake-agent.rs` (a root-package bin, §3 obs-ci-gate-wire).
 - NEVER install `tracing_log::LogTracer` (or any `log` bridge) by hand. D-11 keeps `tracing-log` off, and bridged records lack `event`, `corr`, `process` and `instance` (D-23).
 
 ### Error Reporting
 
 - NEVER add sentry 0.49.3 (or any reporter) in v1. Egress is banned, and its default `native-tls` / `tokio` transport breaks cargo-deny.
-- NEVER print an anyhow chain that still contains a serde_json / serde_path_to_error source to stderr, `--json`, MCP `isError`, Problem Details or channel `error.data`.
+- NEVER print an anyhow chain that still contains a serde_json / serde_path_to_error source to stderr, `--json`, MCP `isError` or channel `error.data`.
 - NEVER call the default panic hook or let it run. Its stderr output breaks `hook` and the `run` terminal.
 - NEVER enable any future reporter by env var or by default. It must be opt-in, use `ureq` + `rustls`, and apply the NEVER-log floor in `before_send`.
 - NEVER treat local logs as optional. The file sink is the only error sink and must work with every other feature off.
@@ -1171,7 +1090,7 @@ _[ALL tiers — single source of truth for all obs bans]_
 - NEVER log any field not named in the Section 6 catalog (default-deny).
 - NEVER enable veil's `toggle` feature (`VEIL_DISABLE_REDACTION` / `veil::disable()`). It is banned in cargo-deny.
 - NEVER let `config.json`, a `VIOLA_*` env var or a CLI flag widen the field allow-list or disable redaction. Verbosity (`diagnostics_level`) changes volume only.
-- NEVER log `CLAUDE*` values, the GUI token, `Cookie`, `?t=` or `ui/<port>.url` contents, at any level, in any file, detail files included. NEVER log `statusline_command`, send text, tool `input` or `last_assistant_message` in any home-level file. They may reach only the instance-scoped `detail-<process>.ndjson`, and only inside a chain or drift report (§8).
+- NEVER log `CLAUDE*` values, the GUI token, `Cookie` or `?t=`, at any level, in any file, detail files included. NEVER log `statusline_command`, send text, tool `input` or `last_assistant_message` in any home-level file. They may reach only the instance-scoped `detail-<process>.ndjson`, and only inside a chain or drift report (§8).
 - NEVER put paths or pids inside `detail` codes (Founder Direction 4). Paths appear only in instance detail files.
 
 ### CI
@@ -1187,7 +1106,7 @@ _[ALL tiers — single source of truth for all obs bans]_
 - NEVER skip the zero-unlogged-panics invariant.
 - NEVER add retry-once policies for panics or flaky telemetry assertions.
 - NEVER define a budget without an exit-code-setting assertion (hyperfine `max` via `jq`).
-- NEVER log a line per heartbeat tick or per SSE keep-alive. Log transitions and lifecycle only, because the files are never rotated.
+- NEVER log a line per heartbeat tick. Log transitions and lifecycle only, because the files are never rotated.
 
 ### Universal (agent-driven specific)
 

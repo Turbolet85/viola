@@ -1,0 +1,36 @@
+{
+ "file": ".andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md",
+ "ops": [
+  {
+   "line": 25,
+   "find": ", reqwest 0.13.5 (no compression features), eventsource-client 0.18.0",
+   "replace": "",
+   "why": "W-CLAUSE GUI test clients (not in tree)"
+  },
+  {
+   "line": 29,
+   "find": " plus 10 s with `--ui`",
+   "replace": "",
+   "why": "W-CLAUSE inside I text: boot --ui"
+  },
+  {
+   "line": 33,
+   "find": " (`/health`, `/ready`, `/api/info`, `/api/sessions`, `viola list --json`)",
+   "replace": " (`viola list --json`)",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 33,
+   "find": ", and the `api_sessions_equal_list` comparison",
+   "replace": "",
+   "why": "W-CLAUSE (b)"
+  },
+  {
+   "line": 72,
+   "find": "the arch GUI HTTP contract",
+   "replace": "the arch CLI contract",
+   "why": "CROSS GUI HTTP"
+  }
+ ],
+ "beyond_named": []
+}

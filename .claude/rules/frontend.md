@@ -6,36 +6,27 @@ paths:
 
 # Frontend Rules
 
-Path-scoped rules for viola's two design surfaces: the `viola ui` strip-bay page (web-spa) and human CLI output (cli). Authoritative sources: `.andromeda/design-system.md` and `.andromeda/layout-templates.md`; output encoding from `.andromeda/security-plan.md` §API Security.
+Path-scoped rules for viola's one built design surface, human CLI output (cli); the web-spa frontend is deferred to 0.2.0, its technology is not chosen, and 0.1.0 renders no page. Authoritative sources: `.andromeda/design-system.md` and `.andromeda/layout-templates.md`.
 
-## Framework (web-spa)
-- **Framework:** React + TypeScript (founder ruling 2026-09-30), a built bundle embedded in `viola`; no component library. The bundler, versions, embedding, CSP needs and npm gates are OPEN, owned by the route's frontend-toolchain entry (Epoch 8's head). Until it lands: no JS build step, and no tsconfig, package manifest or bundler config under `crates/viola-ui/` (architecture Build system guard).
-- **Component model:** plain `viola-*` components over native HTML — no Shadow DOM, no component-scoped or runtime-injected styles in v1. The Lit-era light-DOM custom-element form is retired; how each `viola-*` name maps onto React's output (element, class, data attribute) is OPEN, same owner. The rendered-DOM requirements stand.
-- **Styling:** one hand-written `/assets/app.css` with `@layer tokens, base, components, states, motion`, native nesting, custom properties. State only in `data-*` attributes (`data-rb`, `data-dialog`, `data-liveness`, `data-wrapped`, `data-live`).
-- **Routes:** one page `/`; loads `/api/sessions` + `/api/links`, then tails SSE `/api/events`. No client routes, no query-string state, no history entries.
+## Web-spa (deferred to 0.2.0)
+- **Frontend:** deferred to 0.2.0; its technology is not chosen, and 0.1.0 renders no page. No tsconfig, package manifest or bundler config ever covers `crates/viola-ui/`; a CI-runnable guard lists any such file (architecture Build system guard).
 
-## Output encoding (CSP `default-src 'none'; script-src 'self'; style-src 'self'; … require-trusted-types-for 'script'`)
-- Every event field and unwrapped session name is a text binding (JSX text children). NEVER `innerHTML`, `dangerouslySetInnerHTML`, `style="…"` (React's `style` prop included), inline `<script>`, inline handlers, `eval`, `@font-face`, CDN assets or Markdown rendering.
-- Never display, echo or log the GUI token, launch URL, `?t=`, `.url` path or a cookie value — the 401 strip included — and never render `viola_home`.
-- `require-trusted-types-for 'script'` stands; lit-html's built-in policy no longer satisfies it, and what does under React is OPEN (frontend-toolchain entry). Relaxing any CSP directive is a boundary widening the founder rules live.
-
-## Tokens (the Token Test)
+## Tokens (the Token Test; a 0.2.0 frontend design input, 0.1.0 renders no page)
 - Exactly eight hex values (`--c-*`), read only where a role alias is assigned; components use role aliases (`--surface-*`, `--ink*`, `--rule-*`, `--attention`, `--handoff`, `--focus-ring`, `--rb-*`). Every length is a token or a `ch` track in `--strip-cols` / `--strip-cols-wrapped` / `--tape-cols`; only the `760px` / `1024px` breakpoints are literal.
 - Amber means `dialog_pending` only; blue means handoff only. Lamp-off, amber and blue text never sit on holder `#2A2E33` (they fail AA there).
 - Borders-only depth: no `box-shadow`, `text-shadow`, glow or `drop-shadow`; radius 0 everywhere; dark only.
-- Fonts: installed stacks only (`--font-label` Bahnschrift…, `--font-field` Cascadia Mono…); the Linux DejaVu render is what CI checks.
+- Fonts: installed stacks only (`--font-label` Bahnschrift…, `--font-field` Cascadia Mono…); the Linux DejaVu render is what CI checks, until the route entry "Remove the browser leg" removes that browser leg.
 
-## Motion (expression 0.3 on the page)
-- Exactly two motions: the cock (`translateX(--cock-offset)` over `--cock-dur`, into pending only) and the `--fade-dur` `@starting-style` fade on `data-live` tape lines/markers. Readback fill, strike, stale dimming, return into line, jumps and text swaps are instant. `prefers-reduced-motion` zeroes both durations; the offset stays.
-- Banned: spinners, pulses, blink, shimmer, skeletons, looped/staggered animation, hover colour transitions, "Loading…", toasts, auto-dismissing notices, command palette, shortcuts.
+## Motion (expression 0.3 on the 0.2.0 page; 0.1.0 renders no page)
+- Exactly two motions, each played once on a state change: the cocked-strip `translate` (12px over `--cock-dur`, 160ms ease-out) and a new tape line or transfer marker fading in (opacity over `--fade-dur`, ≤120ms). The readback fill, the strike, `stale` dimming and the return of a strip into line are instant; no hover effects except link underline and focus rings.
 
 ## Components
-- `viola-session-row` strip (six fixed fields NAME · LIVE · STATUS · WHEEL · DIALOG · CLI, stable slot by name, `unknown` for a missing reading, `n/a` absent-by-contract, never blank); `viola-readback` (the signature: `open` / `read` / `refused` / `unconfirmable`, identical drawing in tape and marker); `viola-transfer`; `viola-event-feed` (native `<details>` lines, 2000-line cap, follow only at bottom); `viola-atis`.
+- The web components are 0.2.0 frontend design; 0.1.0 renders no page. The six captions NAME · LIVE · STATUS · WHEEL · DIALOG · CLI, their words and slot order are fixed, and a future page reuses them; the readback vocabulary is `open`, `read back`, `unable`, `unconfirmable`.
 - Nothing is shown as delivered until read back; `turn-ended` never fills a box.
 
 ## CLI surface (`src/cmd/**`)
 - Colour decision order (first match → no colour): `--json` · `viola run` · `viola hook`/`mcp` · `NO_COLOR` · `TERM=dumb` · non-TTY stdout · Windows VT enable failed. SGR only for amber `DIALOG`, dim `stale` rows, bold NAME — always beside its word; never on `unable` / `fail`. As built, `list` prints its uncoloured form on every stream, a TTY included (wrapped rows only, STATUS always `unknown`): the colour layer is owed to "CLI output discipline", the unwrapped rack to "Unwrapped sessions on the board".
-- stdout = results; stderr = `waiting:`, the send issue line, refusals `unable  <name>  <reason>  <detail>` (the exit-1 refusals of `run` / `revive` / `verify`, a `verify` stopped by Ctrl-C or TERM before its rows are checked (stdout empty, no summary), and `list`'s exit-21 strict-modes refusal take the fixed form `unable: <text>`) + one `hint:` line (none under `--json`), errors, the `viola ui` launch block. ASCII only (`->`, `[RB]` / `[  ]` / `[/ ]`, ` - `); no spinner, no redraw, no stack traces, no "done".
+- stdout = results; stderr = `waiting:`, the send issue line, refusals `unable  <name>  <reason>  <detail>` (the exit-1 refusals of `run` / `revive` / `verify`, a `verify` stopped by Ctrl-C or TERM before its rows are checked (stdout empty, no summary), and `list`'s exit-21 strict-modes refusal take the fixed form `unable: <text>`) + one `hint:` line (none under `--json`), errors. ASCII only (`->`, `[RB]` / `[  ]` / `[/ ]`, ` - `); no spinner, no redraw, no stack traces, no "done".
 - `list` rows escape every control character (C0 with `\n`/`\t`, DEL, C1) as two-hex-digit escape text (`escape_row`); `wait`/`last` text escapes C0, DEL and C1 the same way but keeps `\n`/`\t`; nothing is stripped. No hint ever names `viola release`; no hint for `unknown`, `wrapper fault` or `internal error`.
 
 ## Session Additions

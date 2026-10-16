@@ -1,0 +1,41 @@
+{
+ "file": ".claude/rules/api.md",
+ "ops": [
+  {
+   "line": 13,
+   "find": "## Five interfaces, one binary",
+   "replace": "## Four interfaces, one binary",
+   "why": "leaf finding by hand (leaf-architecture+security-plan.md/.claude/rules/api.md:13#1)"
+  },
+  {
+   "line": 38,
+   "find": "## GUI HTTP (`viola ui`)",
+   "replace": "## GUI",
+   "why": "leaf finding by hand (leaf-architecture+security-plan.md/.claude/rules/api.md:38#1)"
+  },
+  {
+   "start": 40,
+   "end": 40,
+   "expect_start": "- `/api/*` and SSE need the `viola_<port",
+   "expect_end": "- `/api/*` and SSE need the `viola_<port",
+   "payload": [],
+   "why": "leaf finding: delete (leaf-architecture+security-plan.md/.claude/rules/api.md:40#1)"
+  },
+  {
+   "start": 41,
+   "end": 41,
+   "expect_start": "- No CORS headers ever; CSP + `nosniff` ",
+   "expect_end": "- No CORS headers ever; CSP + `nosniff` ",
+   "payload": [],
+   "why": "leaf finding: delete (leaf-architecture+security-plan.md/.claude/rules/api.md:41#1)"
+  },
+  {
+   "start": 42,
+   "end": 42,
+   "expect_start": "- Errors are RFC 9457 `application/probl",
+   "expect_end": "- Errors are RFC 9457 `application/probl",
+   "payload": [],
+   "why": "leaf finding: delete (leaf-architecture+security-plan.md/.claude/rules/api.md:42#1)"
+  }
+ ]
+}

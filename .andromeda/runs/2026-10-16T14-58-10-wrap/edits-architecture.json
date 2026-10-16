@@ -1,0 +1,487 @@
+{
+ "file": ".andromeda/architecture.md",
+ "ops": [
+  {
+   "line": 6,
+   "find": "except the long-running `mcp` and `ui`;",
+   "replace": "except the long-running `mcp`;",
+   "why": "W-CLAUSE ui verb"
+  },
+  {
+   "line": 13,
+   "find": ", rmcp 1.88, axum 1.80)",
+   "replace": ", rmcp 1.88)",
+   "why": "W-CLAUSE axum MSRV"
+  },
+  {
+   "line": 14,
+   "find": "built only inside `mcp`, `ui`",
+   "replace": "built only inside `mcp`",
+   "why": "W-CLAUSE ui Tokio"
+  },
+  {
+   "line": 14,
+   "find": "where rmcp and axum require it",
+   "replace": "where rmcp requires it",
+   "why": "W-CLAUSE axum"
+  },
+  {
+   "start": 15,
+   "end": 15,
+   "expect_start": "| HTTP server (GUI)",
+   "expect_end": "| HTTP server (GUI)",
+   "payload": [],
+   "why": "W-SECTION HTTP server row (named)"
+  },
+  {
+   "line": 16,
+   "find": " · mcp · ui · verify",
+   "replace": " · mcp · verify",
+   "why": "W-CLAUSE ui subcommand"
+  },
+  {
+   "line": 29,
+   "find": "; notify 8.2.0 tailing the ndjson logs for fan-out to `ui`",
+   "replace": "",
+   "why": "W-CLAUSE notify ui fan-out"
+  },
+  {
+   "line": 29,
+   "find": "Local IPC and event fan-out without",
+   "replace": "Local IPC without",
+   "why": "W-CLAUSE ui fan-out"
+  },
+  {
+   "start": 30,
+   "end": 30,
+   "expect_start": "| Push / real-time",
+   "expect_end": "| Push / real-time",
+   "payload": [],
+   "why": "W-SECTION SSE row (named)"
+  },
+  {
+   "start": 34,
+   "end": 34,
+   "expect_start": "| Mobile framework",
+   "expect_end": "| Mobile framework",
+   "payload": [
+    "| Mobile framework | N/A | A phone view is a later version, behind authentication |"
+   ],
+   "why": "mobile web row (named): absence kept, web page wording cut"
+  },
+  {
+   "line": 37,
+   "find": "Not a Cargo dependency |",
+   "replace": "Not a Cargo dependency. The browser test leg named here (the Node pin, `scripts/install-node.sh` and the CI workflow's `NODE_PIN_*` lines, `e2e-web/` with `npm ci` and its lockfile audit `scripts/npm-audit.sh`, Playwright and its bundled Chromium, the suite `run --browser` and the native `pre-push` browser stage, the test-side install sites, and the `target/npm-audit/`, `e2e-web/` and `junit-playwright.xml` outputs under Occupied Resources) stands until the route entry \"Remove the browser leg\" removes it; that entry's wrap amends this text. |",
+   "why": "MARKER browser test leg"
+  },
+  {
+   "line": 43,
+   "find": "with no accounts, no hosting and the GUI on 127.0.0.1.",
+   "replace": "with no accounts and no hosting.",
+   "why": "W-CLAUSE GUI loopback"
+  },
+  {
+   "line": 46,
+   "find": "Tokio only in `mcp` and `ui` (KEYSTONE)",
+   "replace": "Tokio only in `mcp` (KEYSTONE)",
+   "why": "W-CLAUSE ui Tokio"
+  },
+  {
+   "line": 46,
+   "find": "rmcp, axum and interprocess-async all require Tokio, so it is confined to the subcommands that use them.",
+   "replace": "rmcp and interprocess-async require Tokio, so it is confined to the subcommand that uses them.",
+   "why": "W-CLAUSE axum/ui"
+  },
+  {
+   "line": 50,
+   "find": "; the page's `/api/sessions` reads the same counts in Epoch 8. The UI rebuilds by replaying and tailing.",
+   "replace": ".",
+   "why": "W-CLAUSE page counts + ui rebuild"
+  },
+  {
+   "line": 70,
+   "find": "It is the CLI twin of the reserved v1.x GUI brake route. ",
+   "replace": "",
+   "why": "W-CLAUSE GUI brake"
+  },
+  {
+   "line": 71,
+   "find": "The link set in the snapshot, and so in `/api/links`, is derived by replaying them. Rationale: D5 asks the GUI to show which sessions are linked, and the log stays the single source of truth for that as it is for everything else.",
+   "replace": "The link set in the snapshot is derived by replaying them. Rationale: the log stays the single source of truth for the link set as it is for everything else.",
+   "why": "W-CLAUSE /api/links + GUI rationale"
+  },
+  {
+   "line": 72,
+   "find": "where `list` and `ui` read it",
+   "replace": "where `list` reads it",
+   "why": "W-CLAUSE ui reader"
+  },
+  {
+   "start": 92,
+   "end": 92,
+   "expect_start": "- **[Real-time Strategy]",
+   "expect_end": "- **[Real-time Strategy]",
+   "payload": [
+    "- **[Real-time Strategy]** The frontend is deferred to 0.2.0; its technology is not chosen."
+   ],
+   "why": "named section: label kept, body -> stub"
+  },
+  {
+   "start": 94,
+   "end": 94,
+   "expect_start": "- **[GUI Control Scope]",
+   "expect_end": "- **[GUI Control Scope]",
+   "payload": [
+    "- **[GUI Control Scope]** The frontend is deferred to 0.2.0; its technology is not chosen. As the 0.2.0 frontend's starting intent, the page shows each session row (wrapped, or read-only unwrapped), its liveness (`live` · `stale`), idle/busy status, wheel holder and any pending dialog. It also shows the budget reading and its age, the link set, the `skipped` counts, and a live event feed."
+   ],
+   "why": "named section: label kept, body -> stub + page-purpose intent minus over SSE"
+  },
+  {
+   "line": 98,
+   "find": "`viola-mcp`, `viola-ui`, plus",
+   "replace": "`viola-mcp`, plus",
+   "why": "W-CLAUSE viola-ui member"
+  },
+  {
+   "line": 98,
+   "find": "Only `viola-mcp` and `viola-ui` list `tokio`",
+   "replace": "Only `viola-mcp` lists `tokio`",
+   "why": "W-CLAUSE viola-ui tokio"
+  },
+  {
+   "start": 104,
+   "end": 104,
+   "expect_start": "- **[Mobile] N/A in v1.**",
+   "expect_end": "- **[Mobile] N/A in v1.**",
+   "payload": [
+    "- **[Mobile] N/A in v1.** Rationale: a phone view comes in a later version, behind authentication."
+   ],
+   "why": "mobile web decision: absence kept, web page wording cut"
+  },
+  {
+   "line": 108,
+   "find": "the frontend framework (design specialist); brake auth and auth generally (security, v1.x);",
+   "replace": "the frontend (deferred to 0.2.0; its technology is not chosen); auth generally (security, v1.x);",
+   "why": "W-CLAUSE frontend + brake auth"
+  },
+  {
+   "line": 113,
+   "find": "**Five interfaces from one binary:**",
+   "replace": "**Four interfaces from one binary:**",
+   "why": "count after GUI cut"
+  },
+  {
+   "line": 113,
+   "find": "the wrapper channel (JSON-RPC 2.0 over ndjson on a local socket), and GUI HTTP GET + SSE.",
+   "replace": "and the wrapper channel (JSON-RPC 2.0 over ndjson on a local socket).",
+   "why": "W-CLAUSE GUI interface"
+  },
+  {
+   "line": 114,
+   "find": "ndjson event line, snapshot and GUI JSON body.",
+   "replace": "ndjson event line and snapshot.",
+   "why": "W-CLAUSE GUI body"
+  },
+  {
+   "line": 115,
+   "find": " `/api/info`'s `proto` is the highest channel and event-line `v` the binary speaks, while its own `v` versions the body.",
+   "replace": "",
+   "why": "W-CLAUSE /api/info"
+  },
+  {
+   "start": 116,
+   "end": 122,
+   "expect_start": "- **GUI routes:**",
+   "expect_end": "  `/ready` answers 503",
+   "payload": [],
+   "why": "W-SECTION GUI routes (Conventions)"
+  },
+  {
+   "line": 149,
+   "find": "(for `list`, the caller-side `{items, budget, skipped}` payload)",
+   "replace": "(for `list`, the caller-side `{items, budget, skipped}` payload, the `list` payload of Standard Contracts)",
+   "why": "CROSS -> re-homed list payload"
+  },
+  {
+   "start": 150,
+   "end": 156,
+   "expect_start": "- **GUI HTTP errors:**",
+   "expect_end": "  - `urn:viola:problem:cross-origin",
+   "payload": [],
+   "why": "W-SECTION GUI HTTP errors (Conventions)"
+  },
+  {
+   "line": 157,
+   "find": ", `UiError`",
+   "replace": "",
+   "why": "W-CLAUSE UiError"
+  },
+  {
+   "line": 176,
+   "find": "`--budget`, `--port`, and",
+   "replace": "`--budget`, and",
+   "why": "W-CLAUSE ui --port"
+  },
+  {
+   "start": 189,
+   "end": 208,
+   "expect_start": "**GUI liveness: `GET /health`**",
+   "expect_end": "",
+   "payload": [
+    "**GUI contracts.** The frontend is deferred to 0.2.0; its technology is not chosen.",
+    ""
+   ],
+   "why": "named GUI contracts block: /health /ready /api/info -> stub"
+  },
+  {
+   "line": 209,
+   "find": "**GUI list envelope** (`/api/sessions`, `/api/links`).",
+   "replace": "**`list` payload** (the `ok` of CLI `list --json`, and MCP `list`'s `structuredContent`).",
+   "why": "RE-HOME list payload"
+  },
+  {
+   "line": 209,
+   "find": "so the page can show them.",
+   "replace": "so the board can show them.",
+   "why": "RE-HOME list payload"
+  },
+  {
+   "line": 210,
+   "find": "- `/api/sessions` item:",
+   "replace": "- `items` entry:",
+   "why": "RE-HOME list payload"
+  },
+  {
+   "line": 211,
+   "find": "The envelope's `budget.paused`",
+   "replace": "The payload's `budget.paused`",
+   "why": "RE-HOME list payload"
+  },
+  {
+   "line": 216,
+   "find": "The `/api/sessions` envelope also carries",
+   "replace": "The payload also carries",
+   "why": "RE-HOME list payload"
+  },
+  {
+   "line": 216,
+   "find": " The page derives the reading's age from `read_at`.",
+   "replace": "",
+   "why": "W-CLAUSE page age"
+  },
+  {
+   "start": 217,
+   "end": 221,
+   "expect_start": "- `/api/links` item",
+   "expect_end": "```",
+   "payload": [],
+   "why": "W: /api/links item + GUI envelope example"
+  },
+  {
+   "start": 223,
+   "end": 236,
+   "expect_start": "**GUI HTTP error** (RFC 9457)",
+   "expect_end": "",
+   "payload": [],
+   "why": "named GUI contracts block: HTTP error + SSE feed"
+  },
+  {
+   "line": 247,
+   "find": "which gives an item for a replayed snapshot",
+   "replace": "which gives a `list` payload item for a replayed snapshot",
+   "why": "CROSS -> re-homed list payload"
+  },
+  {
+   "line": 261,
+   "find": "in `list` and `/api/sessions`.",
+   "replace": "in `list`.",
+   "why": "W-CLAUSE /api/sessions"
+  },
+  {
+   "line": 291,
+   "find": "with the same item, `budget` and `skipped` shapes as `/api/sessions`.",
+   "replace": "with the item, `budget` and `skipped` shapes of the `list` payload above.",
+   "why": "CROSS -> re-homed list payload"
+  },
+  {
+   "line": 309,
+   "find": "the audit trail, the SSE feed and a replay",
+   "replace": "the audit trail and a replay",
+   "why": "W-CLAUSE SSE feed"
+  },
+  {
+   "line": 334,
+   "find": "(`list`, `mcp` and `ui`, through",
+   "replace": "(`list` and `mcp`, through",
+   "why": "W-CLAUSE ui reader"
+  },
+  {
+   "start": 337,
+   "end": 337,
+   "expect_start": "- SSE for the GUI.",
+   "expect_end": "- SSE for the GUI.",
+   "payload": [],
+   "why": "W row SSE (named)"
+  },
+  {
+   "start": 345,
+   "end": 345,
+   "expect_start": "- **TCP `127.0.0.1:47319`:**",
+   "expect_end": "- **TCP `127.0.0.1:47319`:**",
+   "payload": [],
+   "why": "W row port 47319 (named)"
+  },
+  {
+   "line": 346,
+   "find": "no other listening TCP port",
+   "replace": "no listening TCP port",
+   "why": "absence kept; 'other' referred to 47319"
+  },
+  {
+   "start": 348,
+   "end": 354,
+   "expect_start": "**HTTP routes (all GET)**",
+   "expect_end": "",
+   "payload": [],
+   "why": "W-SECTION HTTP routes"
+  },
+  {
+   "line": 363,
+   "find": " `mcp`, `ui`, `verify`",
+   "replace": " `mcp`, `verify`",
+   "why": "W-CLAUSE ui subcommand"
+  },
+  {
+   "line": 376,
+   "find": "`viola-mcp`, `viola-ui`.",
+   "replace": "`viola-mcp`.",
+   "why": "W-CLAUSE viola-ui crate"
+  },
+  {
+   "line": 400,
+   "find": "; GUI port, `diagnostics_level`",
+   "replace": "; `diagnostics_level`",
+   "why": "W-CLAUSE config GUI port"
+  },
+  {
+   "start": 405,
+   "end": 405,
+   "expect_start": "- `ui/<port>.url`",
+   "expect_end": "- `ui/<port>.url`",
+   "payload": [],
+   "why": "W row ui/<port>.url (named)"
+  },
+  {
+   "line": 406,
+   "find": "`mcp.ndjson`, `ui-<port>.ndjson` and",
+   "replace": "`mcp.ndjson` and",
+   "why": "W-CLAUSE ui role log"
+  },
+  {
+   "line": 407,
+   "find": "`wait`'s `after`, `send`'s `cursor` and SSE ids are",
+   "replace": "`wait`'s `after` and `send`'s `cursor` are",
+   "why": "W-CLAUSE SSE ids"
+  },
+  {
+   "line": 408,
+   "find": "and by `list` and `ui` for the envelope's top-level `budget`.",
+   "replace": "and by `list` for its payload's top-level `budget`.",
+   "why": "W-CLAUSE ui + CROSS envelope"
+  },
+  {
+   "line": 411,
+   "find": "Read by `run`'s version gate and by `ui` (`verified_cli_versions`).",
+   "replace": "Read by `run`'s version gate.",
+   "why": "W-CLAUSE ui reader"
+  },
+  {
+   "line": 467,
+   "find": " the GUI port (default 47319),",
+   "replace": "",
+   "why": "W-CLAUSE GUI port setting"
+  },
+  {
+   "line": 474,
+   "find": "Only `viola-mcp` and `viola-ui` may build a runtime.",
+   "replace": "Only `viola-mcp` may build a runtime.",
+   "why": "W-CLAUSE viola-ui"
+  },
+  {
+   "line": 476,
+   "find": "`mcp`, `ui-<port>` or `cli-<name>`",
+   "replace": "`mcp` or `cli-<name>`",
+   "why": "W-CLAUSE ui role log"
+  },
+  {
+   "line": 476,
+   "find": "`ui` and short-lived CLI verbs may use stderr",
+   "replace": "Short-lived CLI verbs may use stderr",
+   "why": "W-CLAUSE ui stderr"
+  },
+  {
+   "line": 484,
+   "find": ", and the GUI stays read-only",
+   "replace": "",
+   "why": "W-CLAUSE GUI read-only"
+  },
+  {
+   "line": 491,
+   "find": "a minimal view-only local web GUI served by the same binary.",
+   "replace": "a minimal view-only frontend, deferred to 0.2.0; its technology is not chosen.",
+   "why": "product-type intent kept, mechanism cut"
+  },
+  {
+   "line": 493,
+   "find": "mcp · ui` around",
+   "replace": "mcp` around",
+   "why": "W-CLAUSE ui crate"
+  },
+  {
+   "start": 497,
+   "end": 498,
+   "expect_start": "  - New GUI views arrive",
+   "expect_end": "  - State-changing GUI routes",
+   "payload": [],
+   "why": "W bullets GUI routes growth"
+  },
+  {
+   "line": 503,
+   "find": "v1.x adds the GUI brake and then public distribution",
+   "replace": "v1.x adds public distribution",
+   "why": "W-CLAUSE GUI brake"
+  },
+  {
+   "line": 508,
+   "find": "Tokio 1.53.1 only in `mcp`/`ui`; axum 0.8.9 for HTTP/SSE;",
+   "replace": "Tokio 1.53.1 only in `mcp`;",
+   "why": "W-CLAUSE ui/axum"
+  },
+  {
+   "line": 511,
+   "find": "view-only GET under `/api/` + SSE `/api/events` on `127.0.0.1:47319`; RFC 9457 Problem Details for HTTP errors; typed",
+   "replace": "typed",
+   "why": "W-CLAUSE GUI API style"
+  }
+ ],
+ "beyond_named": [
+  {
+   "op": 28,
+   "reason": "Conventions 'GUI routes' bullet: wholly web, not in the named list"
+  },
+  {
+   "op": 30,
+   "reason": "Conventions 'GUI HTTP errors' (Problem Details URNs): wholly web, not in the named list"
+  },
+  {
+   "op": 50,
+   "reason": "Occupied Resources 'HTTP routes (all GET)' block: the HTTP server's routes, not named as such"
+  },
+  {
+   "op": 66,
+   "reason": "Project Intent bullets on GUI views / state-changing GUI routes: wholly web, not named"
+  }
+ ],
+ "marker_op": 10
+}

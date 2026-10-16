@@ -1,0 +1,18 @@
+{
+ "file": ".andromeda/registries/contracts/architecture/build-system.md",
+ "ops": [
+  {
+   "line": 15,
+   "find": " (the page has no JS build step)",
+   "replace": "",
+   "why": "W words entangled in the kept ts-plane guard"
+  },
+  {
+   "line": 15,
+   "find": " By founder ruling (2026-09-30) the page becomes a React + TypeScript bundle at the route's frontend-toolchain entry (Epoch 8's head), whose tsconfig puts the frontend sources in this ts plane; that entry replaces this guard, and the widening (npm dependencies and a build step under `crates/viola-ui/`) goes to the founder live there. Until then the guard stands.",
+   "replace": "",
+   "why": "W: page technology ruling superseded (technology not chosen); guard sentence kept"
+  }
+ ],
+ "beyond_named": []
+}

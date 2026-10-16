@@ -1,0 +1,11 @@
+{
+ "file": ".andromeda/test-plan.md",
+ "ops": [
+  {
+   "line": 1027,
+   "find": "are OPEN, owned by the route's frontend-toolchain entry)",
+   "replace": "are OPEN; their owner was the frontend-toolchain entry, which left 0.1.0 for `.andromeda/residuals.md`)",
+   "why": "CROSS: the cited route entry left 0.1.0 (residuals)"
+  }
+ ]
+}

@@ -12,7 +12,7 @@ _Extracted from `.andromeda/architecture.md` §Conventions by `/andromeda-setup-
 - Types UpperCamelCase; functions/variables snake_case; constants SCREAMING_SNAKE_CASE (standard Rust).
 - Env vars: `VIOLA_` prefix (`VIOLA_NAME`, `VIOLA_DIR`, `VIOLA_BIN`) — wrapper-to-child plumbing only, never configuration. Test-harness-only variables use `AGENT_RUN_` (`AGENT_RUN_CHUNK_BASE`, `AGENT_RUN_KEEP_HOMES`, `AGENT_RUN_KEEP_FAILED` — read by `viola-harness`, the root test chain `tests/support/home.rs` and/or viola-e2e's `tests/harness_lifecycle.rs` `Booted` guard) and are never read by `viola`. The two ratified exceptions are the test seams `FAKE_AGENT_PUMP_DELAY_MS` (u64 ms capped at 5 000; security-plan Decisions Log 2026-09-27) and `FAKE_AGENT_HOOK_PANIC` (fires only on exactly `1`, a forced fail-open `hook` panic; Decisions Log 2026-09-28), neither prefix: each read only by a `viola` built with the `fake-agent` feature, absent from release builds, configuring nothing (arch §Occupied Resources → Environment variables).
 - Product/binary/identifiers use `viola`; `BRIDGE_NAME` / `BridgeName` from earlier artifacts are superseded.
-- Error enums: one enum per crate named `<Crate>Error` (`PtyError`, `ChannelError`, `StateError`, `AgentError`, `McpError`, `UiError`, `CoreError`), each `thiserror` except `PtyError`, whose `Display`/`Error` are hand-written with fixed messages (`viola-pty` takes no thiserror). `viola-agent-claude`'s `AgentError` (crate root) holds `Malformed` (the hook payload) and `StampsMalformed` (the stamps envelope). One open divergence, not an exception: the crate's pre-existing `Refusal` (`resolve_program`) beside `AgentError` (arch [Error Handling]).
+- Error enums: one enum per crate named `<Crate>Error` (`PtyError`, `ChannelError`, `StateError`, `AgentError`, `McpError`, `CoreError`), each `thiserror` except `PtyError`, whose `Display`/`Error` are hand-written with fixed messages (`viola-pty` takes no thiserror). `viola-agent-claude`'s `AgentError` (crate root) holds `Malformed` (the hook payload) and `StampsMalformed` (the stamps envelope). One open divergence, not an exception: the crate's pre-existing `Refusal` (`resolve_program`) beside `AgentError` (arch [Error Handling]).
 
 ## Data model conventions (no database)
 - Instance key: `ViolaName` — ASCII `[a-z0-9-]`, 1–32 chars, starts with a letter, enforced by nutype. No UUID/serial keys.
@@ -24,25 +24,25 @@ _Extracted from `.andromeda/architecture.md` §Conventions by `/andromeda-setup-
 
 ## Wire formats
 - JSON field names snake_case (Claude's own `last_assistant_message`, `resets_at`, `used_percentage` kept); enum values kebab-case (`#[serde(rename_all = "kebab-case")]`).
-- Integer `v` in every channel `params`, event line, snapshot and GUI JSON body; `sender` (`CARGO_PKG_VERSION`) in every `params`; snapshot `writer`.
+- Integer `v` in every channel `params`, event line and snapshot; `sender` (`CARGO_PKG_VERSION`) in every `params`; snapshot `writer`.
 - Channel methods lower-case, dot-namespaced for hooks (`hook.dialog`, `hook.event`); JSON-RPC ids integers, monotonic per connection.
-- GUI routes unversioned under `/api/`; `application/json`, `application/problem+json` (with `v`), `text/event-stream`.
+- GUI contracts: none in v1; the frontend is deferred to 0.2.0 and its technology is not chosen.
 
 ## Error handling
 - Channel: refusal is a normal `result.refusal` + `detail`; `error` only for protocol faults (`-32700/-32600/-32601/-32602/-32603`).
 - CLI exit codes: 0 · 1 · 2 · 10 human-typing · 11 budget-paused · 12 unverified-cli · 13 not-delivered · 14 unknown · 20 wrapper fault · 21 instance unreachable (also `viola list`'s refused strict-modes check of the home, `instances/` or any one instance, which refuses the whole board, no log opened); `viola hook` always 0. `viola revive` exits 0, 1 for a refused strict-modes check (ahead of the wrapper log: the stderr pair, no log line) or a preflight refusal (`already-live` · `no-session` · `cwd-missing`, read in that order, each one `process-exit` line) or 2 for a usage error, and takes no `--json` yet.
 - `anyhow` only in the root bin: `main`, dispatch and the catch-site reporter `viola::obs::report_internal_error`, which records the chain only in the instance detail file; typed thiserror errors elsewhere, with fixed `Display` messages (no paths/payloads).
-- GUI: RFC 9457 Problem Details with `urn:viola:problem:*` types (`host-not-allowed` 403, `method-not-allowed` 405, `not-found` 404, `state-unreadable` 503, `unauthorized` 401, `cross-origin-forbidden` 403 v1.x).
+- GUI: no HTTP error contract in v1; the frontend is deferred to 0.2.0.
 - Full detail only to `instances/<name>/diagnostics/detail-<process>.ndjson`.
 
 ## CLI
-- Flags kebab-case long options (`--json`, `--file`, `--budget`, `--port`, global `--home`); subcommands single lower-case words (`plugin install` the one two-word verb).
+- Flags kebab-case long options (`--json`, `--file`, `--budget`, global `--home`); subcommands single lower-case words (`plugin install` the one two-word verb).
 - Arguments mirror channel params: `viola send <target>` (text from stdin or `--file`), `viola wait <target> [--after <cursor>] [--timeout-ms <n>]`, `viola last <target>`, `viola answer <target> <dialog_id>` (response JSON from stdin/`--file`), `viola pause <target>`, `viola release <target> [--budget]`, `viola link|unlink <driver> <driven>`; `viola revive <name> [--id <ID>] [--fork] [-- <child args>]` and `viola revive <name> --list` send no channel frame.
 - Human text by default, `--json` for agents; the CLI adds `from` from its own `VIOLA_NAME`.
 
 ## Configuration
 - Precedence: CLI flags > `<viola home>/config.json` > built-in defaults. Home resolution: `--home` → grandparent of `VIOLA_DIR` → `~/.viola/` (as landed, the CLI verbs take `--home`, else the default, and only `hook` takes the `VIOLA_DIR` step; that step for the CLI verbs is owed to the route entry "CLI machine contract").
-- `config.json` is parsed tolerantly (unknown keys skipped and counted) and carries `v`; keys: the budget thresholds `five_hour` / `seven_day` (whole numbers into `Percent`, defaults 90 / 85, read once at the wrapper's start and by `viola list` at each run; a bad value takes that key's default with one `parse-rejected` line per key, and no value switches the gate off), GUI port (47319), `diagnostics_level` (`info` by default, or `debug`; obs D-15), `claude_env_keep` (the Unix R8 pass-list of `CLAUDE*` names, default empty).
+- `config.json` is parsed tolerantly (unknown keys skipped and counted) and carries `v`; keys: the budget thresholds `five_hour` / `seven_day` (whole numbers into `Percent`, defaults 90 / 85, read once at the wrapper's start and by `viola list` at each run; a bad value takes that key's default with one `parse-rejected` line per key, and no value switches the gate off), `diagnostics_level` (`info` by default, or `debug`; obs D-15), `claude_env_keep` (the Unix R8 pass-list of `CLAUDE*` names, default empty).
 
 ## Logging
 See `.claude/rules/observability.md` for logging rules that apply when editing product code. This doc contains the *conventions*; the rule file is the *enforcement*.
@@ -51,7 +51,7 @@ See `.claude/rules/observability.md` for logging rules that apply when editing p
 See `.claude/rules/testing.md` for testing rules. This doc describes *conventions* (test naming, structure); the rule file has *enforcement* for path-matched files.
 
 ## Imports / module organization
-- Crate dependency direction is enforced by manifests: `viola-core` depends on no viola crate; `viola-pty` knows no agent; only `viola-agent-claude` knows Claude payload shapes; only `viola-mcp` / `viola-ui` list tokio; the root bin depends on all members.
+- Crate dependency direction is enforced by manifests: `viola-core` depends on no viola crate; `viola-pty` knows no agent; only `viola-agent-claude` knows Claude payload shapes; only `viola-mcp` lists tokio; the root bin depends on all members.
 - Shared third-party versions come from `[workspace.dependencies]`; every member sets `publish = false`, `version.workspace = true` and `license.workspace = true` (`MIT OR Apache-2.0`; `fuzz/Cargo.toml` carries the literal).
 
 ## Cross-references

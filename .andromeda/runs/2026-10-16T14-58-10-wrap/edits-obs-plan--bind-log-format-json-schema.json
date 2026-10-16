@@ -1,0 +1,11 @@
+{
+ "file": ".andromeda/registries/contracts/obs-plan/log-format-json-schema.md",
+ "ops": [
+  {
+   "line": 8,
+   "find": "  - **Process logs:** emitted by tracing-subscriber 0.3.23 `fmt().json().flatten_event(true).with_current_span(false)`, writing codes-only lines to `<home>/diagnostics/{run-<name>,hook-<name>,mcp,ui-<port>,cli-<name>}.ndjson`. Content-bearing detail (chains, drift reports, panic payload and backtrace) goes only to `<home>/instances/<name>/diagnostics/detail-<process>.ndjson` (obs-plan D-08). Files are 0600, dirs 0700, with one `write` per line.",
+   "replace": "  - **Process logs:** emitted by tracing-subscriber 0.3.23 `fmt().json().flatten_event(true).with_current_span(false)`, writing codes-only lines to `<home>/diagnostics/{run-<name>,hook-<name>,mcp,ui-<port>,cli-<name>}.ndjson` (`ui-<port>`, the `ui` process and the `http-request`, `liveness-changed`, `sse-opened` and `sse-closed` events below: reserved: no emitter in 0.1.0; removed with the code by \"Remove the browser leg\"). Content-bearing detail (chains, drift reports, panic payload and backtrace) goes only to `<home>/instances/<name>/diagnostics/detail-<process>.ndjson` (obs-plan D-08). Files are 0600, dirs 0700, with one `write` per line.",
+   "why": "BIND test-plan §3 log-format L5"
+  }
+ ]
+}

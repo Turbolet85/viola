@@ -1,0 +1,45 @@
+{
+ "file": ".claude/docs/a11y-summary.md",
+ "ops": [
+  {
+   "start": 26,
+   "end": 26,
+   "expect_start": "- **a11y-p1 — founder reads the bay and ",
+   "expect_end": "- **a11y-p1 — founder reads the bay and ",
+   "payload": [],
+   "why": "leaf finding: delete (leaf-a11y-plan.md/.claude/docs/a11y-summary.md:26#1)"
+  },
+  {
+   "start": 30,
+   "end": 30,
+   "expect_start": "- **a11y-p5 — degraded and access states",
+   "expect_end": "- **a11y-p5 — degraded and access states",
+   "payload": [],
+   "why": "leaf finding: delete (leaf-a11y-plan.md/.claude/docs/a11y-summary.md:30#1)"
+  },
+  {
+   "start": 54,
+   "end": 54,
+   "expect_start": "- D-A11Y-03 — the tape keeps `role=\"log\"",
+   "expect_end": "- D-A11Y-03 — the tape keeps `role=\"log\"",
+   "payload": [],
+   "why": "leaf finding: delete (leaf-a11y-plan.md/.claude/docs/a11y-summary.md:54#1)"
+  },
+  {
+   "start": 55,
+   "end": 55,
+   "expect_start": "- D-A11Y-06 — the announcer scope: cocks",
+   "expect_end": "- D-A11Y-06 — the announcer scope: cocks",
+   "payload": [],
+   "why": "leaf finding: delete (leaf-a11y-plan.md/.claude/docs/a11y-summary.md:55#1)"
+  },
+  {
+   "start": 56,
+   "end": 56,
+   "expect_start": "- D-A11Y-07 — initial focus stays on `<b",
+   "expect_end": "- D-A11Y-07 — initial focus stays on `<b",
+   "payload": [],
+   "why": "leaf finding: delete (leaf-a11y-plan.md/.claude/docs/a11y-summary.md:56#1)"
+  }
+ ]
+}

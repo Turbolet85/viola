@@ -1,0 +1,47 @@
+# Route adaptation — Viola 0.1.0 becomes pure CLI; the frontend moves to 0.2.0
+
+For a 0-pending `/andromeda-wrap-session` (operator-requested adaptation), run after
+`2026-10-14-resume-and-compact-ledger-rows` is wrapped. Measured at `880b056` + that chunk's take-up,
+2026-10-16T06:32Z; line numbers are hypotheses to re-read — the entry TITLES are the anchors.
+
+## The founder's ruling (his own words, this overseer's session and dialog, 2026-10-16)
+
+«давай тогда фронт задачи полностью переносим на 0.2.0 и там уже будем посмотреть, возможно подождем когда эшер будет
+больше готов к работе, но наша задача сечас перестроить наши планы так чтоб в 0.1.0 был чисто CLI а уже во второй части
+будем думать как нам построить фронт». By dialog the same day, his chosen options: finish the pending chunk first, then this
+adaptation · the masters' web sections cut to a stub · the browser infrastructure removed by a 0.1.0 chunk.
+
+Why: escher (a fork of Blitz, an agent-first UI framework) is under active work and is the candidate frontend technology;
+which technology Viola's frontend uses is decided in 0.2.0, not now. What the page is FOR — the strip-bay, the ATIS header,
+the readback box, parity with the CLI board (intent F-49, design-system's brand and concept) — is unchanged and is the
+0.2.0 frontend's starting intent.
+
+## Items, each for disposition at route-resolve
+
+1. **Epoch 8's web entries leave 0.1.0** — as `open` entries of `.andromeda/residuals.md`, each carried VERBATIM with its
+   freight (the 0.2.0 route intakes them): Frontend toolchain · viola ui loopback server · Resumable SSE feed · Web test
+   toolchain and a11y harness · Design token bundle and bay layout · Strip and readback primitives · Strip-bay live page ·
+   Access and error strips · Contrast, forced colours, reduced motion · A11y verdict across page states
+   (`working-route.md:175-193` at the measure). The epoch header loses "Web UI"; "Version done-check" stays, its
+   screen-reader pass clause carried to residuals with the rest.
+2. **Web clauses inside CLI entries are cut and carried**: "CLI machine contract" (the `config.json` port), "Bounded inputs
+   at every boundary" (the Last-Event-ID clause, v1-46), "Sanitised error surfaces" (no GUI token or cookie in errors) —
+   each clause to residuals verbatim, the rest of the entry standing.
+3. **A new 0.1.0 entry, at the head of the markerless tail: "Remove the browser leg"** — e2e-web/ deleted; Node, npm,
+   Playwright and npm audit out of CI (`ci.yml`, `nightly.yml`, `windows-mutants.yml`), the pre-push and the harness
+   (`crates/viola-e2e/src/harness/run/browser.rs` and its callers); `scripts/install-node.sh`, `scripts/npm-audit.sh`;
+   the ts code-graph plane if nothing else feeds it; the `viola_ui`/tokio-in-viola-ui leftovers in deny.toml, Cargo.toml and
+   the obs filter. Its acceptance: every gate green with no Node on the host, and no browser step in any workflow.
+4. **The ledger**: the six capabilities that are wholly the web page — v1-22, v1-48, v1-49, v1-50, v1-51, v1-52 — become
+   `deferred`, each with a dated text naming this ruling. The thirteen that carry one web clause — v1-02, v1-04, v1-05,
+   v1-09, v1-10, v1-11, v1-36, v1-37, v1-40, v1-46, v1-47 (planned) and v1-08, v1-23 (verified) — keep their CLI half; the
+   web clause leaves by the ledger's own channel (refine or a dated note), never by weakening a CLI acceptance.
+5. **The masters' web sections become a stub** — "The frontend is deferred to 0.2.0; its technology is not chosen." — in
+   a11y-plan (the web entities, harness, ARIA, contrast, CI), layout-templates (Surface: web-spa), design-system
+   (Surface: web-spa, web motion and bans; Brand Identity and the concept STAY), security-plan (Local HTTP on loopback,
+   token and cookie auth, API security, the npm part of dependency security, the ui token file), test-plan (web-spa surface,
+   Playwright, SSE E3/E4, the CI browser job), obs-plan (viola-ui entity, web-spa surface, SSE correlation, the GUI view
+   scenario), architecture (HTTP server, SSE, mobile web, browser e2e rows; Real-time Strategy, GUI Control Scope; the GUI
+   contracts block; port 47319, the viola-ui crate, ui/<port>.url, Node/npm/e2e-web) and the matching registries key files.
+   Each lands as an amendment whose sidecar entry carries the ruling; the old text lives in the sidecar history and git.
+   The cascade re-derives CLAUDE.md and the leaves; a rule file that is web-only is named for the operator.

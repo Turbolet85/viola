@@ -16,8 +16,8 @@ Path-scoped rules for test authoring (what tests assert, fixtures, coverage). Lo
 
 ## Framework
 - **Unit:** libtest `#[cfg(test)] mod tests` inline in every crate + root `src/`, run through cargo-nextest 0.9.146; rstest 0.27 `#[case]` tables, proptest 1.11.0 (`cases: 512`), insta 1.48.0 (check mode only), mockall 0.15.0 only on seam traits the product defines (`Pty`, liveness probe, `Clock`).
-- **Integration:** crate `tests/<topic>.rs` + root `tests/{cli,hook,tui,channel,chaos,contract}_<topic>.rs` (sync, tokio-free; shared helpers in `tests/support/` — the `events.ndjson` reader, its wait and the session-start boot in `events.rs`, the started-child guard and runner in `cli.rs`, the one complete-lines reader in `ndjson.rs` (every reader of a live-appended file parses only newline-terminated lines), and a root test file defines no copy of its own) with assert_cmd 2.2.2, trycmd 1.2.1, axum-test 21.1.0, jsonschema 0.57.0.
-- **E2E:** `crates/viola-e2e/tests/{path,mcp,http,sse,cross}_<topic>.rs` (rmcp client, reqwest, eventsource-client) + Playwright 1.63.0 specs `e2e-web/tests/<bay-layout-type>.spec.ts` (the pipe stub `pipe-reachability.spec.ts`, titles `pipe:`, is the one exception) on all three CI OSes; render, contrast and a11y verdicts are judged on the ubuntu leg.
+- **Integration:** crate `tests/<topic>.rs` + root `tests/{cli,hook,tui,channel,chaos,contract}_<topic>.rs` (sync, tokio-free; shared helpers in `tests/support/` — the `events.ndjson` reader, its wait and the session-start boot in `events.rs`, the started-child guard and runner in `cli.rs`, the one complete-lines reader in `ndjson.rs` (every reader of a live-appended file parses only newline-terminated lines), and a root test file defines no copy of its own) with assert_cmd 2.2.2, trycmd 1.2.1, jsonschema 0.57.0.
+- **E2E:** `crates/viola-e2e/tests/{path,mcp,cross}_<topic>.rs` (rmcp client) + Playwright 1.63.0 specs `e2e-web/tests/<bay-layout-type>.spec.ts` (the pipe stub `pipe-reachability.spec.ts`, titles `pipe:`, is the one exception) on all three CI OSes; the a11y lint runs in the ubuntu leg of the `test` job.
 - **Doctests:** `cargo test --workspace --doc` (nextest cannot run them); examples that must not run use `no_run` / `text`, never `ignore`.
 
 ## Naming
@@ -25,7 +25,7 @@ Path-scoped rules for test authoring (what tests assert, fixtures, coverage). Lo
 - Fixtures `fixtures/claude/<cli-version>/<Event>.<variant>.json` (the CLI's PascalCase hook event name, e.g. `PreToolUse.ask.json`; no mapping table); fake scripts `fixtures/fake-scripts/<scenario>.json` (schema `schemas/fake-script.v1.json`).
 
 ## Determinism (zero-flake budget)
-- NEVER `sleep` for synchronization — wait on an `events.ndjson` byte offset, `viola wait --after`, an SSE `id:`, a status field or an auto-waiting locator. nextest `retries = 0`, Playwright `retries: 0`; no `#[ignore]` / `test.skip` / `test.fixme` as a parking place.
+- NEVER `sleep` for synchronization — wait on an `events.ndjson` byte offset, `viola wait --after`, a status field or an auto-waiting locator. nextest `retries = 0`, Playwright `retries: 0`; no `#[ignore]` / `test.skip` / `test.fixme` as a parking place.
 - Time only through the injected `viola_core::Clock` / mock_instant (sync; in no manifest yet), `start_paused` (Tokio), or an instant handed to a pure decision as an argument (the budget gate's `decide`); never use an in-process clock to control another process's time.
 - NEVER `std::env::set_var` (unsafe in edition 2024) — `Command::env` per child; `.env_clear()` must re-add `LLVM_PROFILE_FILE`.
 - Commit `proptest-regressions/`; chaos faults only from explicit process/file operations or mockall seams.
@@ -36,11 +36,10 @@ Path-scoped rules for test authoring (what tests assert, fixtures, coverage). Lo
 - Fixtures are synthetic probe text only, scrubbed of absolute paths and usernames; a `workspace.repo` naming this repository's own remote is kept (the `StatusLine` variants' `workspace.repo.owner`, neither rewritten by the scrub nor refused by the hygiene walk; nothing else widens); every input embeds the tests-owned canary string.
 
 ## What to assert
-- Never parse the rendered child screen; verdicts come from hook events, `events.ndjson`, channel payloads, the fake-agent receipt, exit codes and DOM attributes.
+- Never parse the rendered child screen; verdicts come from hook events, `events.ndjson`, channel payloads, the fake-agent receipt and exit codes.
 - Oracles are literals in the test (the 11 identity-floor names, refusal order, exit codes) — never import the product's own `IDENTITY_FLOOR`; compare kebab-case serde values and integer exits, never `Debug` strings.
 - A multi-surface path asserts every surface it lists; a lower-layer case (parser, refusal order, threshold, clock) belongs in unit tests, not E2E.
 - No test auto-approves a dialog; a decision body without a verify stamp and wheel `driver` fails the test.
-- Web selectors: roles + `data-*` + exact text; never CSS classes (`.band`, `.rb`), inline `style` or xpath; never `bypassCSP` or `toHaveScreenshot`.
 
 ## Running tests
 - **Everything:** `scripts/agent-run.sh run --all` · **one Rust test:** `scripts/agent-run.sh run --integration --filter 'test(/path2_send_confirms/)'` (a whole root test file: `binary(<stem>)`; `--e2e` is a usage error, exit 2, until the first E2E binary lands)

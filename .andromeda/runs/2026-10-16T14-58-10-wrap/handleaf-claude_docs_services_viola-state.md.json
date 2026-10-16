@@ -1,0 +1,11 @@
+{
+ "file": ".claude/docs/services/viola-state.md",
+ "ops": [
+  {
+   "line": 29,
+   "find": "- Tailing only `instances/<name>/events.ndjson` where `<name>` passes `ViolaName::try_new`; symlinks ignored (`parse-rejected{parser:\"state-entry\", detail:\"symlink-ignored\"}`).",
+   "replace": "- Symlinks under `instances/` are ignored: `viola list` logs one `parse-rejected{parser:\"state-entry\", detail:\"symlink-ignored\"|\"malformed\", count}` per nonzero scan count, naming no entry.",
+   "why": "leaf finding by hand (leaf-architecture-2.md/.claude/docs/services/viola-state.md:29#1)"
+  }
+ ]
+}

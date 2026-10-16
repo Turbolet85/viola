@@ -1,0 +1,7 @@
+{"file": ".andromeda/registries/contracts/obs-plan/log-format-json-schema.md",
+ "ops": [
+  {"line": 39, "find": "`corr` = null (D-02)", "replace": "`corr` = null (D-02; reserved: no emitter in 0.1.0; removed with the code by \"Remove the browser leg\")", "why": "RESERVED mark: accepted value liveness-changed kept (ObsEvent::LivenessChanged, schema block)"},
+  {"line": 41, "find": "`corr` = null (D-04)", "replace": "`corr` = null (D-04; reserved: no emitter in 0.1.0; removed with the code by \"Remove the browser leg\")", "why": "RESERVED mark: accepted values sse-opened/closed kept (ObsEvent::SseOpened/SseClosed, schema blocks)"}
+ ],
+ "beyond_named": []
+}

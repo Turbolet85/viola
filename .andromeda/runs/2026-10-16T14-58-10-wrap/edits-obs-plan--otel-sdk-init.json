@@ -1,0 +1,7 @@
+{"file": ".andromeda/registries/contracts/obs-plan/otel-sdk-init.md",
+ "ops": [
+  {"start": 15, "end": 15, "expect_start": "     - `ui`: no instance.", "expect_end": "     - `ui`: no instance.", "payload": [], "why": "W-SECTION ui port resolution / 47319 (no such parse in src/obs.rs)"},
+  {"start": 22, "end": 22, "expect_start": "  - `ui`: before `axum::serve`", "expect_end": "  - `ui`: before `axum::serve`", "payload": [], "why": "W-SECTION axum bind anchor"}
+ ],
+ "beyond_named": []
+}

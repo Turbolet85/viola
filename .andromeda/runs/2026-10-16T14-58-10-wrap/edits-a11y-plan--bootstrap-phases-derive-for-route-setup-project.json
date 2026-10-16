@@ -1,0 +1,38 @@
+{
+ "file": ".andromeda/registries/contracts/a11y-plan/bootstrap-phases-derive-for-route-setup-project.md",
+ "ops": [
+  {
+   "line": 11,
+   "find": " (how the components map onto React's output is OPEN, owned by the frontend-toolchain entry)",
+   "replace": "",
+   "why": "ruling g: React clause"
+  },
+  {
+   "line": 12,
+   "find": " at runtime (native `:focus-visible`, `<details>`/`<summary>`, fragment links)",
+   "replace": "",
+   "why": "W product runtime focus"
+  },
+  {
+   "line": 12,
+   "find": " The v1.x Raised-3 confirmation, if built, uses native `<dialog>.showModal()` with no library.",
+   "replace": "",
+   "why": "W v1.x brake dialog"
+  },
+  {
+   "line": 13,
+   "find": "none. Native HTML plus WAI-ARIA APG patterns, rendered by the page's React + TypeScript components (founder ruling 2026-09-30).",
+   "replace": "none. The frontend is deferred to 0.2.0; its technology is not chosen.",
+   "why": "ruling g: React + TS superseded"
+  },
+  {
+   "start": 17,
+   "end": 17,
+   "expect_start": "  - `a11y/sr-pass/TEMPLATE.json` with on",
+   "expect_end": "  - `a11y/sr-pass/TEMPLATE.json` with on",
+   "payload": [],
+   "why": "W sr-pass TEMPLATE (founder's web SR pass)"
+  }
+ ],
+ "beyond_named": []
+}

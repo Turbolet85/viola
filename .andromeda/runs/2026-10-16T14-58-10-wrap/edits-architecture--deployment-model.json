@@ -1,0 +1,12 @@
+{
+ "file": ".andromeda/registries/contracts/architecture/deployment-model.md",
+ "ops": [
+  {
+   "line": 3,
+   "find": " `viola ui` is started by hand and serves 127.0.0.1.",
+   "replace": "",
+   "why": "W-CLAUSE viola ui"
+  }
+ ],
+ "beyond_named": []
+}

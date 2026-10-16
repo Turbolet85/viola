@@ -1,0 +1,12 @@
+{
+ "file": ".andromeda/registries/contracts/test-plan/test-data-bootstrap.md",
+ "ops": [
+  {
+   "line": 17,
+   "find": "(§3 `cleanup` step 6)",
+   "replace": "(§3 `cleanup` step 5)",
+   "why": "renumber cite (cleanup step 5 cut)"
+  }
+ ],
+ "beyond_named": []
+}

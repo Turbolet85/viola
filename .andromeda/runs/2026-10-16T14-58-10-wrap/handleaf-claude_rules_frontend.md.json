@@ -1,0 +1,87 @@
+{
+ "file": ".claude/rules/frontend.md",
+ "ops": [
+  {
+   "line": 11,
+   "find": "## Framework (web-spa)",
+   "replace": "## Web-spa (deferred to 0.2.0)",
+   "why": "leaf finding by hand (leaf-architecture+security-plan+design-system+layout-templates.md/.claude/rules/frontend.md:11#1)"
+  },
+  {
+   "start": 13,
+   "end": 13,
+   "expect_start": "- **Component model:** plain `viola-*` c",
+   "expect_end": "- **Component model:** plain `viola-*` c",
+   "payload": [],
+   "why": "leaf finding: delete (leaf-architecture+security-plan+design-system+layout-templates.md/.claude/rules/frontend.md:13#1)"
+  },
+  {
+   "start": 14,
+   "end": 14,
+   "expect_start": "- **Styling:** one hand-written `/assets",
+   "expect_end": "- **Styling:** one hand-written `/assets",
+   "payload": [],
+   "why": "leaf finding: delete (leaf-architecture+security-plan+design-system+layout-templates.md/.claude/rules/frontend.md:14#1)"
+  },
+  {
+   "start": 15,
+   "end": 15,
+   "expect_start": "- **Routes:** one page `/`; loads `/api/",
+   "expect_end": "- **Routes:** one page `/`; loads `/api/",
+   "payload": [],
+   "why": "leaf finding: delete (leaf-architecture+security-plan+design-system+layout-templates.md/.claude/rules/frontend.md:15#1)"
+  },
+  {
+   "start": 17,
+   "end": 17,
+   "expect_start": "## Output encoding (CSP `default-src 'no",
+   "expect_end": "## Output encoding (CSP `default-src 'no",
+   "payload": [],
+   "why": "leaf finding: delete (leaf-architecture+security-plan+design-system+layout-templates.md/.claude/rules/frontend.md:17#1)"
+  },
+  {
+   "start": 18,
+   "end": 18,
+   "expect_start": "- Every event field and unwrapped sessio",
+   "expect_end": "- Every event field and unwrapped sessio",
+   "payload": [],
+   "why": "leaf finding: delete (leaf-architecture+security-plan+design-system+layout-templates.md/.claude/rules/frontend.md:18#1)"
+  },
+  {
+   "start": 19,
+   "end": 19,
+   "expect_start": "- Never display, echo or log the GUI tok",
+   "expect_end": "- Never display, echo or log the GUI tok",
+   "payload": [],
+   "why": "leaf finding: delete (leaf-architecture+security-plan+design-system+layout-templates.md/.claude/rules/frontend.md:19#1)"
+  },
+  {
+   "start": 20,
+   "end": 20,
+   "expect_start": "- `require-trusted-types-for 'script'` s",
+   "expect_end": "- `require-trusted-types-for 'script'` s",
+   "payload": [],
+   "why": "leaf finding: delete (leaf-architecture+security-plan+design-system+layout-templates.md/.claude/rules/frontend.md:20#1)"
+  },
+  {
+   "line": 22,
+   "find": "## Tokens (the Token Test)",
+   "replace": "## Tokens (the Token Test; a 0.2.0 frontend design input, 0.1.0 renders no page)",
+   "why": "leaf finding by hand (leaf-architecture+security-plan+design-system+layout-templates.md/.claude/rules/frontend.md:22#1)"
+  },
+  {
+   "line": 28,
+   "find": "## Motion (expression 0.3 on the page)",
+   "replace": "## Motion (expression 0.3 on the 0.2.0 page; 0.1.0 renders no page)",
+   "why": "leaf finding by hand (leaf-architecture+security-plan+design-system+layout-templates.md/.claude/rules/frontend.md:28#1)"
+  },
+  {
+   "start": 30,
+   "end": 30,
+   "expect_start": "- Banned: spinners, pulses, blink, shimm",
+   "expect_end": "- Banned: spinners, pulses, blink, shimm",
+   "payload": [],
+   "why": "leaf finding: delete (leaf-architecture+security-plan+design-system+layout-templates.md/.claude/rules/frontend.md:30#1)"
+  }
+ ]
+}

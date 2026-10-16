@@ -1,0 +1,30 @@
+{
+ "file": ".andromeda/registries/contracts/a11y-plan/screen-reader-test-pattern.md",
+ "ops": [
+  {
+   "start": 3,
+   "end": 12,
+   "expect_start": "- **Automated proxy (gating):** @guidepu",
+   "expect_end": "  - **DOM assertions alongside the proxy",
+   "payload": [],
+   "why": "W automated proxy (VSR)"
+  },
+  {
+   "start": 14,
+   "end": 14,
+   "expect_start": "  - web-spa: NVDA 2026.2 + Edge/Chrome (",
+   "expect_end": "  - web-spa: NVDA 2026.2 + Edge/Chrome (",
+   "payload": [],
+   "why": "W web-spa manual SR targets"
+  },
+  {
+   "start": 17,
+   "end": 19,
+   "expect_start": "- **Manual pass spec format:** one JSON ",
+   "expect_end": "- **Real-AT automation stays out of CI:*",
+   "payload": [],
+   "why": "W sr-pass format (web-spa), supplemental, real-AT CI (holds nested browser-leg words)"
+  }
+ ],
+ "beyond_named": []
+}

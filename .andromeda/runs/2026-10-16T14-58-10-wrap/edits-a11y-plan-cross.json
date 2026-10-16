@@ -1,0 +1,11 @@
+{
+ "file": ".andromeda/a11y-plan.md",
+ "ops": [
+  {
+   "line": 325,
+   "find": "(owned by the route's frontend-toolchain entry)",
+   "replace": "(its owner was the frontend-toolchain entry, which left 0.1.0 for `.andromeda/residuals.md`)",
+   "why": "CROSS: the cited route entry left 0.1.0 (residuals)"
+  }
+ ]
+}

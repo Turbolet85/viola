@@ -1,0 +1,17 @@
+{
+ "file": ".claude/docs/commands.md",
+ "ops": [
+  {
+   "line": 40,
+   "find": "`& !binary(/^(path|tui|mcp|http|sse|cross|chaos|contract)_/)`",
+   "replace": "`& !binary(/^(path|tui|mcp|cross|chaos|contract)_/)`",
+   "why": "leaf finding by hand (leaf-architecture+test-plan+obs-plan.md/.claude/docs/commands.md:40#1)"
+  },
+  {
+   "line": 41,
+   "find": "-E 'binary(/^(path|tui|mcp|http|sse|cross|chaos|contract)_/)'",
+   "replace": "-E 'binary(/^(path|tui|mcp|cross|chaos|contract)_/)'",
+   "why": "leaf finding by hand (leaf-architecture+test-plan+obs-plan.md/.claude/docs/commands.md:41#1)"
+  }
+ ]
+}

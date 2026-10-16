@@ -1,0 +1,6 @@
+{"file": ".andromeda/registries/obs-plan-contracts.toml",
+ "ops": [
+  {"line": 44, "find": "\"HTTP boundaries\", ", "replace": "", "why": "label of the cut trace-context-propagation HTTP boundaries block"}
+ ],
+ "beyond_named": []
+}

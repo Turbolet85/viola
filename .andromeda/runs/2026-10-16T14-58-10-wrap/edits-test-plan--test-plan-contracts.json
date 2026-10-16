@@ -1,0 +1,17 @@
+{
+ "file": ".andromeda/registries/test-plan-contracts.toml",
+ "ops": [
+  {
+   "line": 9,
+   "find": "\"Embedded-asset freshness\", ",
+   "replace": "",
+   "why": "label of cut block"
+  }
+ ],
+ "beyond_named": [
+  {
+   "op": 0,
+   "reason": "a vs b: follows the Embedded-asset freshness cut"
+  }
+ ]
+}

@@ -1,0 +1,91 @@
+{
+ "file": ".claude/rules/a11y.md",
+ "ops": [
+  {
+   "line": 14,
+   "find": "## Semantic HTML first, ARIA second",
+   "replace": "## The frontend (deferred to 0.2.0)",
+   "why": "leaf finding by hand (leaf-a11y-plan.md/.claude/rules/a11y.md:14#1)"
+  },
+  {
+   "start": 16,
+   "end": 16,
+   "expect_start": "- Racks are native `<table>` + `<caption",
+   "expect_end": "- Racks are native `<table>` + `<caption",
+   "payload": [],
+   "why": "leaf finding: delete (leaf-a11y-plan.md/.claude/rules/a11y.md:16#1)"
+  },
+  {
+   "start": 17,
+   "end": 17,
+   "expect_start": "- The only ARIA roles: `log` (the tape, ",
+   "expect_end": "- The only ARIA roles: `log` (the tape, ",
+   "payload": [],
+   "why": "leaf finding: delete (leaf-a11y-plan.md/.claude/rules/a11y.md:17#1)"
+  },
+  {
+   "start": 18,
+   "end": 18,
+   "expect_start": "- Only the readback `.rb` square is `ari",
+   "expect_end": "- Only the readback `.rb` square is `ari",
+   "payload": [],
+   "why": "leaf finding: delete (leaf-a11y-plan.md/.claude/rules/a11y.md:18#1)"
+  },
+  {
+   "start": 19,
+   "end": 19,
+   "expect_start": "- Tape lines are native `<details>`/`<su",
+   "expect_end": "- Tape lines are native `<details>`/`<su",
+   "payload": [],
+   "why": "leaf finding: delete (leaf-a11y-plan.md/.claude/rules/a11y.md:19#1)"
+  },
+  {
+   "start": 21,
+   "end": 21,
+   "expect_start": "## Announcements (exactly these)",
+   "expect_end": "## Announcements (exactly these)",
+   "payload": [],
+   "why": "leaf finding: delete (leaf-a11y-plan.md/.claude/rules/a11y.md:21#1)"
+  },
+  {
+   "start": 22,
+   "end": 22,
+   "expect_start": "- A strip turning cocked · a readback re",
+   "expect_end": "- A strip turning cocked · a readback re",
+   "payload": [],
+   "why": "leaf finding: delete (leaf-a11y-plan.md/.claude/rules/a11y.md:22#1)"
+  },
+  {
+   "start": 26,
+   "end": 26,
+   "expect_start": "- Initial focus stays on `<body>`; no au",
+   "expect_end": "- Initial focus stays on `<body>`; no au",
+   "payload": [],
+   "why": "leaf finding: delete (leaf-a11y-plan.md/.claude/rules/a11y.md:26#1)"
+  },
+  {
+   "start": 27,
+   "end": 27,
+   "expect_start": "- `:focus-visible` uses `--focus-ring` /",
+   "expect_end": "- `:focus-visible` uses `--focus-ring` /",
+   "payload": [],
+   "why": "leaf finding: delete (leaf-a11y-plan.md/.claude/rules/a11y.md:27#1)"
+  },
+  {
+   "start": 31,
+   "end": 31,
+   "expect_start": "- Text spacing (SC 1.4.12): fixed-height",
+   "expect_end": "- Text spacing (SC 1.4.12): fixed-height",
+   "payload": [],
+   "why": "leaf finding: delete (leaf-a11y-plan.md/.claude/rules/a11y.md:31#1)"
+  },
+  {
+   "start": 35,
+   "end": 35,
+   "expect_start": "- Verdict per state: `violations: []` an",
+   "expect_end": "- Verdict per state: `violations: []` an",
+   "payload": [],
+   "why": "leaf finding: delete (leaf-a11y-plan.md/.claude/rules/a11y.md:35#1)"
+  }
+ ]
+}

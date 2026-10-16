@@ -1,0 +1,658 @@
+{
+ "file": ".andromeda/security-plan.md",
+ "ops": [
+  {
+   "line": 12,
+   "find": " a stdio MCP server, a Claude Code hook contract and a loopback-only view GUI.",
+   "replace": " a stdio MCP server and a Claude Code hook contract.",
+   "why": "W-CLAUSE GUI in stack line"
+  },
+  {
+   "line": 12,
+   "find": " The web controls below cover only the loopback GUI (`viola-ui`).",
+   "replace": "",
+   "why": "W-CLAUSE web controls sentence"
+  },
+  {
+   "line": 21,
+   "find": "a plain Minimal profile in three ways.",
+   "replace": "a plain Minimal profile in two ways.",
+   "why": "count after GUI cut"
+  },
+  {
+   "line": 21,
+   "find": "Second, the loopback HTTP GUI streams persistent, never-rotated prompt and assistant content, including raw tool arguments, to any local process without authentication, renders that untrusted text in a browser, and gains state-changing routes in v1.x. Third, ",
+   "replace": "Second, ",
+   "why": "W-CLAUSE GUI elevation; Third->Second"
+  },
+  {
+   "line": 21,
+   "find": "`send.text`, GUI output encoding, GUI cross-user and cross-origin readability, v1.x per-launch brake auth, and integrity",
+   "replace": "`send.text`, and integrity",
+   "why": "W-CLAUSE GUI elevation items"
+  },
+  {
+   "line": 25,
+   "find": "The same lines go out verbatim over SSE `/api/events` (`data:` is the event line), over MCP `wait`/`last` and over CLI `wait`/`last` (Standard Contracts: event `data` per kind, SSE feed. Occupied",
+   "replace": "The same lines go out verbatim over MCP `wait`/`last` and over CLI `wait`/`last` (Standard Contracts: event `data` per kind. Occupied",
+   "why": "W-CLAUSE SSE + CROSS SSE feed"
+  },
+  {
+   "line": 28,
+   "find": "logged to `events.ndjson`, streamed over SSE, and sent",
+   "replace": "logged to `events.ndjson` and sent",
+   "why": "W-CLAUSE SSE"
+  },
+  {
+   "line": 32,
+   "find": "holds budget thresholds and the GUI port.",
+   "replace": "holds budget thresholds.",
+   "why": "W-CLAUSE GUI port"
+  },
+  {
+   "start": 47,
+   "end": 47,
+   "expect_start": "    - `/api/info` exposes `pid`, `bind`,",
+   "expect_end": "    - `/api/info` exposes `pid`, `bind`,",
+   "payload": [],
+   "why": "W-SECTION /api/info item"
+  },
+  {
+   "start": 50,
+   "end": 50,
+   "expect_start": "    - `/api/sessions` shows unwrapped se",
+   "expect_end": "    - `/api/sessions` shows unwrapped se",
+   "payload": [],
+   "why": "W-SECTION /api/sessions item"
+  },
+  {
+   "line": 51,
+   "find": "Standard Contracts (Service info, GUI list envelope, Instance snapshot)",
+   "replace": "Standard Contracts (Instance snapshot)",
+   "why": "CROSS web contracts"
+  },
+  {
+   "start": 79,
+   "end": 93,
+   "expect_start": "- **Vector:** Local HTTP on loopback, vi",
+   "expect_end": "    - For the v1.x POST routes, arch req",
+   "payload": [],
+   "why": "W-SECTION Local HTTP vector"
+  },
+  {
+   "line": 127,
+   "find": "`list`, `mcp` and `ui` spawn",
+   "replace": "`list` and `mcp` spawn",
+   "why": "W-CLAUSE ui"
+  },
+  {
+   "line": 145,
+   "find": " The GUI is view-only.",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 148,
+   "end": 151,
+   "expect_start": "  - The loopback HTTP GUI currently has ",
+   "expect_end": "  - There are no user accounts, so sessi",
+   "payload": [],
+   "why": "W-SECTION GUI principal + v1.x brake approach"
+  },
+  {
+   "line": 152,
+   "find": " identity SDK: axum and tower-http are listed without any auth layer.",
+   "replace": " identity SDK.",
+   "why": "W-CLAUSE axum/tower-http"
+  },
+  {
+   "line": 153,
+   "find": " Per-launch for the v1.x brake token.",
+   "replace": "",
+   "why": "W-CLAUSE brake token"
+  },
+  {
+   "start": 160,
+   "end": 160,
+   "expect_start": "  - TCP loopback `127.0.0.1:47319`, neve",
+   "expect_end": "  - TCP loopback `127.0.0.1:47319`, neve",
+   "payload": [],
+   "why": "W-SECTION TCP loopback 47319"
+  },
+  {
+   "line": 164,
+   "find": "Occupied Resources (Network, IPC endpoints)",
+   "replace": "Occupied Resources (IPC endpoints)",
+   "why": "CROSS Network"
+  },
+  {
+   "line": 188,
+   "find": "Threat Model Sec 3 also defines a per-launch local secret (API-key style), and Sec 6 elevates",
+   "replace": "Threat Model Sec 6 elevates",
+   "why": "W-CLAUSE per-launch secret"
+  },
+  {
+   "line": 188,
+   "find": "\"IPC endpoint access control and server impersonation\", \"GUI cross-user and cross-origin readability\" and \"v1.x per-launch brake auth\".",
+   "replace": "\"IPC endpoint access control and server impersonation\".",
+   "why": "W-CLAUSE GUI elevations"
+  },
+  {
+   "line": 188,
+   "find": "is either OS-level (IPC, filesystem) or this per-launch secret (GUI).",
+   "replace": "is OS-level (IPC, filesystem).",
+   "why": "W-CLAUSE GUI secret"
+  },
+  {
+   "start": 190,
+   "end": 192,
+   "expect_start": "**Auth approach:** Two parts:",
+   "expect_end": "- A per-launch secret (API-key style) fo",
+   "payload": [
+    "**Auth approach:** OS-user ambient trust, enforced per OS, on the IPC endpoints and `~/.viola/`."
+   ],
+   "why": "W-SECTION GUI part; two parts -> one"
+  },
+  {
+   "start": 196,
+   "end": 196,
+   "expect_start": "- GUI: getrandom 0.4.3 (token), constant",
+   "expect_end": "- GUI: getrandom 0.4.3 (token), constant",
+   "payload": [],
+   "why": "W-SECTION GUI library"
+  },
+  {
+   "line": 198,
+   "find": " plus a per-launch local token",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 203,
+   "end": 204,
+   "expect_start": "| Token / session storage | **Token:** `",
+   "expect_end": "| Session / token rotation | A new token",
+   "payload": [],
+   "why": "W-SECTION token storage/rotation rows"
+  },
+  {
+   "line": 205,
+   "find": " or the cookie check (GUI)",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 206,
+   "end": 207,
+   "expect_start": "| GUI principal check (v1 reads) | Order",
+   "expect_end": "| GUI principal check (v1.x brake: `POST",
+   "payload": [],
+   "why": "W-SECTION GUI principal check rows"
+  },
+  {
+   "line": 213,
+   "find": "cases only), `ui`, `mcp`, every",
+   "replace": "cases only), `mcp`, every",
+   "why": "W-CLAUSE ui entry point"
+  },
+  {
+   "line": 213,
+   "find": "`plugin/`, `ledger/` or `ui/`, the",
+   "replace": "`plugin/` or `ledger/`, the",
+   "why": "W-CLAUSE ui/ dir"
+  },
+  {
+   "line": 213,
+   "find": "the home, `instances/<name>/` or `ui/` grants",
+   "replace": "the home or `instances/<name>/` grants",
+   "why": "W-CLAUSE ui/ read rule"
+  },
+  {
+   "line": 213,
+   "find": "cannot expose `events.ndjson`, `diagnostics/` or `ui/<port>.url`.",
+   "replace": "cannot expose `events.ndjson` or `diagnostics/`.",
+   "why": "W-CLAUSE ui token file"
+  },
+  {
+   "line": 213,
+   "find": "On failure `run`, `ui` and `mcp` exit 1",
+   "replace": "On failure `run` and `mcp` exit 1",
+   "why": "W-CLAUSE ui"
+  },
+  {
+   "line": 213,
+   "find": "`plugin/`, `ledger/`, `ui/`, the",
+   "replace": "`plugin/`, `ledger/`, the",
+   "why": "W-CLAUSE Windows ui/"
+  },
+  {
+   "line": 213,
+   "find": "on the home, `instances/<name>/`, `instances/<name>/diagnostics/` and `ui/`, and on each",
+   "replace": "on the home, `instances/<name>/` and `instances/<name>/diagnostics/`, and on each",
+   "why": "W-CLAUSE Windows read rule ui/"
+  },
+  {
+   "line": 213,
+   "find": "exposes `events.ndjson`, `diagnostics/` and `ui/<port>.url` (the GUI token).",
+   "replace": "exposes `events.ndjson` and `diagnostics/`.",
+   "why": "W-CLAUSE ui token file"
+  },
+  {
+   "start": 215,
+   "end": 215,
+   "expect_start": "_Authentication Recovery Flows: omitted,",
+   "expect_end": "_Authentication Recovery Flows: omitted,",
+   "payload": [],
+   "why": "W-SECTION recovery-flow note"
+  },
+  {
+   "start": 232,
+   "end": 234,
+   "expect_start": "| SSE `Last-Event-ID` header | Split on ",
+   "expect_end": "| v1.x brake path param `{name}` | `Viol",
+   "payload": [],
+   "why": "W-SECTION Last-Event-ID / Host / brake rows"
+  },
+  {
+   "line": 243,
+   "find": " (Standard Contracts: GUI list envelope)",
+   "replace": "",
+   "why": "CROSS GUI list envelope"
+  },
+  {
+   "line": 245,
+   "find": "`list`, `mcp` and `ui` resolve",
+   "replace": "`list` and `mcp` resolve",
+   "why": "W-CLAUSE ui"
+  },
+  {
+   "line": 245,
+   "find": "in CLI `list`, the MCP `list` tool or `/api/sessions`. The GUI renders it as text only, and human-mode CLI `list` escapes",
+   "replace": "in CLI `list` or the MCP `list` tool. Human-mode CLI `list` escapes",
+   "why": "W-CLAUSE /api/sessions + GUI render"
+  },
+  {
+   "line": 254,
+   "find": ", the `Last-Event-ID` parser",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 262,
+   "find": " does not apply (loopback-only plain HTTP), and",
+   "replace": " does not apply, and",
+   "why": "W-CLAUSE loopback HTTP"
+  },
+  {
+   "line": 265,
+   "find": "N/A. The GUI binds only `127.0.0.1` (never `0.0.0.0` or `::`), the IPC channel is",
+   "replace": "N/A. The IPC channel is",
+   "why": "W-CLAUSE GUI bind"
+  },
+  {
+   "line": 265,
+   "find": "depends on the loopback bind plus the GUI cookie check and the IPC ACLs",
+   "replace": "depends on the IPC ACLs",
+   "why": "W-CLAUSE GUI cookie"
+  },
+  {
+   "line": 266,
+   "find": "N/A (plain HTTP on loopback, per tower-http research).",
+   "replace": "N/A.",
+   "why": "W-CLAUSE loopback HTTP"
+  },
+  {
+   "line": 290,
+   "find": "There are no keys at rest; the GUI token lives in memory for one launch.",
+   "replace": "There are no keys at rest.",
+   "why": "W-CLAUSE GUI token"
+  },
+  {
+   "line": 293,
+   "find": "another local user can hold GUI connections or SSE streams open (v1 has no connection or stream bound), and until",
+   "replace": "until",
+   "why": "W-CLAUSE GUI/SSE availability"
+  },
+  {
+   "line": 293,
+   "find": "(the human's view and the disk)",
+   "replace": "(the disk)",
+   "why": "W-CLAUSE GUI view"
+  },
+  {
+   "start": 299,
+   "end": 312,
+   "expect_start": "_Applies to the loopback GUI (`viola-ui`",
+   "expect_end": "| Static assets | Served from `include_b",
+   "payload": [
+    "The frontend is deferred to 0.2.0; its technology is not chosen.",
+    "",
+    "_Applies to the MCP transport feature set. The IPC channel's controls are in Authentication & Authorization and Input Validation._",
+    "",
+    "| Control | Configuration | Stack reference |",
+    "|---------|--------------|-----------------|"
+   ],
+   "why": "named section: stub + intro trimmed; GUI rows cut, MCP row kept"
+  },
+  {
+   "line": 327,
+   "find": "(P4 operator fork, 2026-09-27).",
+   "replace": "(P4 operator fork, 2026-09-27). The browser test leg named here (the `e2e-web/` npm lockfile and its `scripts/npm-audit.sh` audit, the pinned Node and `scripts/install-node.sh`, Playwright and its Chromium, and their CI and pre-push steps) stands until the route entry \"Remove the browser leg\" removes it; that entry's wrap amends this text.",
+   "why": "marker sentence (browser test leg stays)"
+  },
+  {
+   "line": 407,
+   "find": " and the two Problem Details URNs",
+   "replace": "",
+   "why": "W-CLAUSE GUI URNs"
+  },
+  {
+   "line": 407,
+   "find": "Amendment 3's two URNs are folded into architecture §Conventions (GUI HTTP errors) at the 2026-10-01 0-pending wrap; its",
+   "replace": "Its",
+   "why": "W-CLAUSE GUI URNs fold"
+  },
+  {
+   "start": 410,
+   "end": 410,
+   "expect_start": "  - Amendments 1 (v1 GUI cookie) and 5 (",
+   "expect_end": "  - Amendments 1 (v1 GUI cookie) and 5 (",
+   "payload": [],
+   "why": "W-SECTION amendments 1 and 5 (GUI cookie, ui/<port>.url)"
+  },
+  {
+   "line": 415,
+   "find": "read rule on the home, `instances/<name>/` and `ui/`;",
+   "replace": "read rule on the home and `instances/<name>/`;",
+   "why": "W-CLAUSE ui/"
+  },
+  {
+   "start": 418,
+   "end": 418,
+   "expect_start": "  - `viola-ui`: the outermost Host allow",
+   "expect_end": "  - `viola-ui`: the outermost Host allow",
+   "payload": [],
+   "why": "W-SECTION viola-ui bootstrap"
+  },
+  {
+   "line": 420,
+   "find": ", the `Last-Event-ID` parser and the notify path filter",
+   "replace": " and the notify path filter",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 424,
+   "find": " Only the GUI per-launch token file `<viola home>/ui/<port>.url` (0600) and its cleanup on shutdown.",
+   "replace": "",
+   "why": "W-CLAUSE ui token file"
+  },
+  {
+   "start": 429,
+   "end": 429,
+   "expect_start": "  - `UiError` maps to fixed Problem Deta",
+   "expect_end": "  - `UiError` maps to fixed Problem Deta",
+   "payload": [],
+   "why": "W-SECTION UiError"
+  },
+  {
+   "line": 433,
+   "find": "Never write the GUI token, the launch URL or `.url` contents, the `Cookie` header, `CLAUDE_CODE_MESSAGING_TOKEN`",
+   "replace": "Never write `CLAUDE_CODE_MESSAGING_TOKEN`",
+   "why": "W-CLAUSE GUI secrets (R8 floor kept)"
+  },
+  {
+   "line": 433,
+   "find": " This includes the token inside a request URI: `GET /?t=<token>` carries it until the 303 redirect, so any HTTP request or span logging in `viola-ui` records the path without its query string. The only exception is the launch URL that `viola ui` prints once to stderr at start and writes to the 0600 `.url` file (Authentication & Authorization, Token / session storage). No other stderr line carries it.",
+   "replace": "",
+   "why": "W-CLAUSE GUI token in URI + launch-line exception"
+  },
+  {
+   "line": 434,
+   "find": ", SSE `/api/events`",
+   "replace": "",
+   "why": "W-CLAUSE SSE"
+  },
+  {
+   "line": 434,
+   "find": "results, Problem Details or channel",
+   "replace": "results or channel",
+   "why": "W-CLAUSE Problem Details"
+  },
+  {
+   "line": 435,
+   "find": "results, Problem Details or channel",
+   "replace": "results or channel",
+   "why": "W-CLAUSE Problem Details"
+  },
+  {
+   "line": 435,
+   "find": " The only intended path disclosure is the cookie-gated `/api/info` `viola_home`.",
+   "replace": "",
+   "why": "W-CLAUSE /api/info"
+  },
+  {
+   "start": 459,
+   "end": 459,
+   "expect_start": "  - The only secret viola creates is the",
+   "expect_end": "  - The only secret viola creates is the",
+   "payload": [],
+   "why": "W-SECTION GUI token storage"
+  },
+  {
+   "line": 461,
+   "find": ", and each `viola ui` under test generates its own token",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 463,
+   "end": 463,
+   "expect_start": "- **Production / dev separation:** Every",
+   "expect_end": "- **Production / dev separation:** Every",
+   "payload": [],
+   "why": "W-SECTION token separation"
+  },
+  {
+   "line": 482,
+   "find": "N/A (loopback HTTP).",
+   "replace": "N/A.",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 483,
+   "end": 484,
+   "expect_start": "- **GUI per-launch token:** rotated on e",
+   "expect_end": "- **Per-incident:** suspected token expo",
+   "payload": [],
+   "why": "W-SECTION GUI token rotation"
+  },
+  {
+   "line": 486,
+   "find": " The token file's access control is its 0600 mode on Unix and, on Windows, the home DACL enforced by the owner + DACL startup check (Authentication & Authorization, `~/.viola/` access control).",
+   "replace": "",
+   "why": "W-CLAUSE token file"
+  },
+  {
+   "start": 489,
+   "end": 490,
+   "expect_start": "- The GUI per-launch token and the launc",
+   "expect_end": "- The `viola_<port>` cookie value.",
+   "payload": [],
+   "why": "W-SECTION GUI token/cookie secrets"
+  },
+  {
+   "line": 502,
+   "find": ", MCP drivers and GUI clients)",
+   "replace": " and MCP drivers)",
+   "why": "W-CLAUSE GUI clients"
+  },
+  {
+   "start": 504,
+   "end": 504,
+   "expect_start": "- `/api/info`'s `viola_home` is the only",
+   "expect_end": "- `/api/info`'s `viola_home` is the only",
+   "payload": [],
+   "why": "W-SECTION /api/info viola_home"
+  },
+  {
+   "line": 505,
+   "find": "`McpError`, `UiError` and `CoreError`",
+   "replace": "`McpError` and `CoreError`",
+   "why": "W-CLAUSE UiError"
+  },
+  {
+   "line": 510,
+   "find": "or, for `ui` and short-lived CLI verbs, to stderr",
+   "replace": "or, for short-lived CLI verbs, to stderr",
+   "why": "W-CLAUSE ui"
+  },
+  {
+   "line": 510,
+   "find": " The one-time `viola ui` launch line is that floor's only exception.",
+   "replace": "",
+   "why": "W-CLAUSE launch line"
+  },
+  {
+   "start": 514,
+   "end": 517,
+   "expect_start": "- **GUI:** RFC 9457 Problem Details (`ap",
+   "expect_end": "- `urn:viola:problem:state-unreadable` m",
+   "payload": [],
+   "why": "W-SECTION GUI Problem Details"
+  },
+  {
+   "start": 539,
+   "end": 540,
+   "expect_start": "- NEVER compare the GUI token or cookie ",
+   "expect_end": "- NEVER issue the `viola_<port>` cookie ",
+   "payload": [],
+   "why": "W-SECTION GUI token/cookie bans"
+  },
+  {
+   "line": 546,
+   "find": "(`Last-Event-ID`, MCP `target`, `link`/`unlink` params, notify events, the brake `{name}`)",
+   "replace": "(MCP `target`, `link`/`unlink` params, notify events)",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 547,
+   "end": 547,
+   "expect_start": "- NEVER parse `Last-Event-ID` pair by pa",
+   "expect_end": "- NEVER parse `Last-Event-ID` pair by pa",
+   "payload": [],
+   "why": "W-SECTION Last-Event-ID ban"
+  },
+  {
+   "start": 563,
+   "end": 564,
+   "expect_start": "- NEVER bind `viola ui` to `0.0.0.0` or ",
+   "expect_end": "- NEVER derive the GUI token from anythi",
+   "payload": [],
+   "why": "W-SECTION viola ui bind / token bans"
+  },
+  {
+   "start": 569,
+   "end": 575,
+   "expect_start": "- NEVER add `tower_http::cors::CorsLayer",
+   "expect_end": "- NEVER render event fields or unwrapped",
+   "payload": [],
+   "why": "W-SECTION API web bans (MCP rows kept)"
+  },
+  {
+   "line": 577,
+   "find": ", body rejection on v1.x POSTs",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 582,
+   "end": 583,
+   "expect_start": "- NEVER print or log the GUI token outsi",
+   "expect_end": "- NEVER keep a credential in a URL beyon",
+   "payload": [],
+   "why": "W-SECTION GUI token log/URL bans"
+  },
+  {
+   "start": 586,
+   "end": 586,
+   "expect_start": "- NEVER share one GUI token across `viol",
+   "expect_end": "- NEVER share one GUI token across `viol",
+   "payload": [],
+   "why": "W-SECTION GUI token sharing ban"
+  },
+  {
+   "line": 590,
+   "find": "into Problem Details `detail`, MCP `structuredContent`",
+   "replace": "into MCP `structuredContent`",
+   "why": "W-CLAUSE Problem Details"
+  },
+  {
+   "line": 595,
+   "find": " other than `/api/info`'s `viola_home` (cookie-gated)",
+   "replace": "",
+   "why": "W-CLAUSE /api/info"
+  },
+  {
+   "start": 601,
+   "end": 601,
+   "expect_start": "- NEVER use the cookie as anything but a",
+   "expect_end": "- NEVER use the cookie as anything but a",
+   "payload": [],
+   "why": "W-SECTION cookie ban"
+  },
+  {
+   "line": 612,
+   "find": "IPC/GUI controls",
+   "replace": "IPC controls",
+   "why": "W-CLAUSE (listener ban kept)"
+  },
+  {
+   "start": 615,
+   "end": 615,
+   "expect_start": "- NEVER assume the same-OS-user boundary",
+   "expect_end": "- NEVER assume the same-OS-user boundary",
+   "payload": [],
+   "why": "W-SECTION loopback GUI ban"
+  },
+  {
+   "line": 620,
+   "find": " the home strict-modes check, the GUI Host allowlist, the GUI cookie check or `validate_paste_text`",
+   "replace": " the home strict-modes check or `validate_paste_text`",
+   "why": "W-CLAUSE GUI controls"
+  }
+ ],
+ "beyond_named": [
+  {
+   "op": 51,
+   "reason": "axum http2 ban sits in Dependency Security's deny.toml list, outside the npm part the ruling named; it mirrors a live deny.toml line that stays while viola-ui's axum dep is in the tree"
+  }
+ ],
+ "marker_op": 50,
+ "dropped": [
+  {
+   "op": 51,
+   "start": 336,
+   "end": 336,
+   "expect_start": "  - `axum` denies `http2`.",
+   "expect_end": "  - `axum` denies `http2`.",
+   "payload": [],
+   "why": "W-SECTION axum http2 ban"
+  },
+  {
+   "op": 59,
+   "line": 425,
+   "find": " (it trips `?t=` whenever it touches the scan's own patterns)",
+   "replace": " (it trips the scan's own patterns whenever it touches them)",
+   "why": "W-CLAUSE ?t="
+  },
+  {
+   "op": 70,
+   "start": 471,
+   "end": 473,
+   "expect_start": "- `?t=`;",
+   "expect_end": "- the GUI token read from each home's `u",
+   "payload": [],
+   "why": "W-SECTION secret-scan GUI classes"
+  }
+ ]
+}

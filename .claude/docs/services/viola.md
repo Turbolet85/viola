@@ -11,7 +11,7 @@ The `viola` binary. It holds the clap 4.6.7 dispatch (`src/main.rs`, one module 
 Every workspace member; clap, anyhow, tracing-subscriber, chrono (direct, for `MillisUtc`), windows-sys (Windows only: VT enable, console width, the registry value-name reader for the R8 persistent set in `src/run/env.rs`, and `RtlCaptureStackBackTrace` / `GetModuleHandleExW` / `GetModuleFileNameW` for `src/panic_frames.rs`, and `SetConsoleCtrlHandler` (`Win32_System_Console`) for `src/cmd/verify/stop.rs`'s console routine, where Ctrl-C and Ctrl-Break set verify's stop and every other event keeps the OS default); libc (Unix only: `backtrace` + `dladdr` for the raw panic frames, and `sigaction` for `src/cmd/verify/stop.rs`'s `SIGINT` / `SIGTERM` handler, `SA_RESTART`; neither stop role added a dependency or a feature); tempfile (`=3.27.0`, workspace-pinned: `viola verify`'s Run A temp dir only).
 
 ### Publishes to
-Users (human CLI), drivers (`--json`, exit codes), Claude Code (hook decision bodies via `viola hook`, the MCP server via `viola mcp`), the page (`viola ui`).
+Users (human CLI), drivers (`--json`, exit codes), Claude Code (hook decision bodies via `viola hook`, the MCP server via `viola mcp`).
 
 ### Dependencies
 The root package also declares `[[bin]] viola-fake-agent` (`required-features = ["fake-agent"]`) — never in `cargo build --release --bin viola`.

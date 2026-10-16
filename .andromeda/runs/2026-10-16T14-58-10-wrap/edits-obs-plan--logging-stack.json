@@ -1,0 +1,12 @@
+{"file": ".andromeda/registries/contracts/obs-plan/logging-stack.md",
+ "ops": [
+  {"line": 12, "find": "`run-<name>.ndjson` and `ui-<port>.ndjson`, briefly", "replace": "`run-<name>.ndjson`, briefly", "why": "W-CLAUSE ui-<port> file collision prose"},
+  {"line": 12, "find": ", or `viola ui` on a live port,", "replace": ",", "why": "W-CLAUSE viola ui collision"},
+  {"line": 28, "find": "`ui`: `<home>/diagnostics/ui-<port>.ndjson`;", "replace": "`ui`: `<home>/diagnostics/ui-<port>.ndjson` (reserved: no emitter in 0.1.0; removed with the code by \"Remove the browser leg\");", "why": "RESERVED mark: role-file list mirrors the process enum (src/obs.rs role_file_name keeps ui-{port})"},
+  {"line": 39, "find": "`notify`, ", "replace": "", "why": "W-CLAUSE notify target (no notify crate)"},
+  {"line": 40, "find": " and notify 8.2.0", "replace": "", "why": "W-CLAUSE notify (no notify crate)"},
+  {"line": 40, "find": "; a notify watcher error reaches the handler as `Err(notify::Error)` and surfaces through `state.tail_notify` as `sse-closed{close_cause:\"tail-error\"}`", "replace": "", "why": "W-CLAUSE notify watcher / SSE tail"},
+  {"line": 40, "find": "The chaos cases \"child exit without EOF\" and \"notify watcher error\" must each find a viola line", "replace": "The chaos case \"child exit without EOF\" must find a viola line", "why": "W-CLAUSE notify chaos case; recount: cases left 1"}
+ ],
+ "beyond_named": []
+}

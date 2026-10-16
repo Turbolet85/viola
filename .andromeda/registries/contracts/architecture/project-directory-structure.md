@@ -23,7 +23,7 @@ viola/
 │   │                           #   escape.rs: the message-mode escaper (`escape_message`) and the row-mode escaper (`escape_row`); board.rs: the two state refusal pairs (`instance_state_pair`, `home_state_pair`) and the board writers (`BayBudget`, `bay_line`, `board_rows`, `write_board`);
 │   │                           #   wait.rs: the `wait` / `last` lines; verbs.rs: the `answer` line, the `pause` / `release` lines and the budget lift / open lines; hints.rs: the hints (`HUMAN_TYPING_HINT`, `answer_hint`, `send_hint`)
 │   ├── cmd/                    # one module per subcommand: run, revive, send, wait, last, list,
-│   │                           #   answer, hook, mcp, ui, verify, pause, release, link, unlink, plugin;
+│   │                           #   answer, hook, mcp, verify, pause, release, link, unlink, plugin;
 │   │                           #   revive.rs: the strict-modes check ahead of the wrapper log, the three-reading preflight and the `--list` rows; its child shapes come from `viola-agent-claude`;
 │   │                           #   list.rs: the caller-side board (the strict-modes scan before any log, then the `--json` document or the human board as one stdout write; exits 0 / 21 / 1);
 │   │                           #   hook/statusline.rs: the `hook statusline` arm (the instance check, the `budget.json` write, the bounded shell-out);
@@ -65,7 +65,7 @@ viola/
 │   │                           #   and its checked read (`budget.rs`: `write_budget`, `read_budget_stamped`, and `read_budget`, which wraps it),
 │   │                           #   the board read model (`board.rs`, read by `viola list`: `scan` / `read`, `Board`, `Item`,
 │   │                           #   `SkippedTotal`, `RowLiveness`, `SessionStatus`, `ScanRefused`; sync, std only, no Claude shape; no type
-│   │                           #   holds `endpoint`, `pinned_bin`, `cwd`, `statusline_command`, `pid`, `started_at` or `links`), tailing (with `ui`)
+│   │                           #   holds `endpoint`, `pinned_bin`, `cwd`, `statusline_command`, `pid`, `started_at` or `links`)
 │   │                           #   (+ tests/, the crate-level suite: `state_events.rs`, `state_replay.rs`)
 │   ├── viola-agent-claude/     # hook parsing, dialog mapping, R8 strip, shim resolution,
 │   │                           #   capability ledger, the vt100 screen model (`screen`), the pure `statusline` module
@@ -73,10 +73,6 @@ viola/
 │   │                           #   (+ proptest-regressions/, committed seeds; src/snapshots/, the insta
 │   │                           #   snapshots of the dialog decision bodies)
 │   ├── viola-mcp/              # rmcp 3.4.1 stdio server, thin adapter over viola-channel
-│   ├── viola-ui/               # axum 0.8.9 GET routes + SSE, Host allowlist
-│   │   └── assets/             # embedded page: index.html, app.css (the single stylesheet); no JS build step
-│   │                           #   and no tsconfig until the frontend-toolchain entry brings the React + TypeScript
-│   │                           #   bundle (founder ruling 2026-09-30; its source and bundle layout OPEN)
 │   └── viola-e2e/              # test-only: viola-harness (agent-run boot/run/status/cleanup/logs, plus the
 │                               #   internal subcommands incl. `gate` and `pre-push`: harness::pre_push; the `#[cfg]`
 │                               #   reader behind `run --mutants`' host exclusion: harness::run::mutants::host)
@@ -121,8 +117,6 @@ viola/
 │   ├── schemas/a11y-row.v1.json  # tests-owned a11y violation-row schema (not obs schemas/)
 │   ├── a11y/sc-coverage.json   # per-SC coverage map
 │   └── test-results/           # gitignored outputs (a11y/, lint/)
-├── a11y/
-│   └── sr-pass/                # manual screen-reader passes: TEMPLATE.json, <date>-<at>.json
 ├── .github/
 │   └── workflows/
 │       ├── ci.yml              # push + PR: 3-OS test (+ the browser suite)/perf (hyperfine rows + gate --require

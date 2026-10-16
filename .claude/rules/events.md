@@ -22,7 +22,7 @@ Path-scoped rules for viola's event log and state: the normalised event kinds, t
 - Harness turns (a prompt whose raw start is `<agent-message from=`, `<task-notification>`, `<\cross-session-message` or `<cross-session-message`) are `origin:"harness"` and never flip the wheel. The escaped cross-session form is the one escaped tag that classifies, so a human typing it at a prompt's start is filed `harness` (founder-ratified, 2026-09-29). As measured on 2.1.287, a human who types `<task-notification>` at a prompt's start is filed `harness` too.
 
 ## Cursors and retention
-- `wait after`, the `send` `cursor` and SSE ids are byte offsets into the instance's `events.ndjson`: never truncate, rotate or rewrite it; instance dirs are reused and appended to.
+- `wait after` and the `send` `cursor` are byte offsets into the instance's `events.ndjson`: never truncate, rotate or rewrite it; instance dirs are reused and appended to.
 - The link set is derived by replaying `link`/`unlink`; a repeated pair adds no line. As landed only the implicit link is built: the driven wrapper appends `link` (`source: wrapper`, `{driver, driven}`) once per new pair, for an issued `send` (directly before its `send-issued`) or a taken `answer` whose `from` is another instance's name; a refused call, a call with no `from` and one under the wrapper's own name link nothing (the operator's answers, the founder not having ruled). `since` is that line's `ts`, and the wrapper restores the set from the log at every start (`src/run/links.rs`). No product path appends `unlink`, and the `link` / `unlink` methods and verbs are not built (the wrapper answers both `-32601`).
 
 ## Snapshots and liveness

@@ -1,0 +1,104 @@
+[
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-16T14:58:19Z",
+"argv": [
+"snap",
+"--no-chunk",
+"--source",
+"~/dev/projects/additional/viola-overseer/restructure-cli-only.md",
+"--kind",
+"relay",
+"--why",
+"the founder ruling (2026-10-16): viola 0.1.0 becomes pure CLI and the frontend moves to 0.2.0; five items for disposition at route-resolve",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run: would snap I1 · copy no-repo · ../additional/viola-overseer/restructure-cli-only.md"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/restructure-cli-only.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "c84e7e92145f042dc2a5cf3f311a467b88ebbb1e964df5dd122227dbbb2a9142",
+"copy": "I1-restructure-cli-only.md.txt",
+"link": false,
+"read_at": "2026-10-16T14:58:19Z",
+"step": "wrap",
+"why": "the founder ruling (2026-10-16): viola 0.1.0 becomes pure CLI and the frontend moves to 0.2.0; five items for disposition at route-resolve"
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-16T14:58:22Z",
+"argv": [
+"snap",
+"--no-chunk",
+"--source",
+"~/dev/projects/additional/viola-overseer/restructure-cli-only.md",
+"--kind",
+"relay",
+"--why",
+"the founder ruling (2026-10-16): viola 0.1.0 becomes pure CLI and the frontend moves to 0.2.0; five items for disposition at route-resolve",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy no-repo · ../additional/viola-overseer/restructure-cli-only.md",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-restructure-cli-only.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/restructure-cli-only.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "c84e7e92145f042dc2a5cf3f311a467b88ebbb1e964df5dd122227dbbb2a9142",
+"copy": "I1-restructure-cli-only.md.txt",
+"link": false,
+"read_at": "2026-10-16T14:58:22Z",
+"step": "wrap",
+"why": "the founder ruling (2026-10-16): viola 0.1.0 becomes pure CLI and the frontend moves to 0.2.0; five items for disposition at route-resolve"
+}
+}
+]

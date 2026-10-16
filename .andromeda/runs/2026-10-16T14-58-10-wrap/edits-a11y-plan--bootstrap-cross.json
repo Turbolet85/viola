@@ -1,0 +1,11 @@
+{
+ "file": ".andromeda/registries/contracts/a11y-plan/bootstrap-phases-derive-for-route-setup-project.md",
+ "ops": [
+  {
+   "line": 9,
+   "find": "OPEN, owned by the route's frontend-toolchain entry)",
+   "replace": "OPEN; its owner was the frontend-toolchain entry, which left 0.1.0 for `.andromeda/residuals.md`)",
+   "why": "CROSS: the cited route entry left 0.1.0 (residuals)"
+  }
+ ]
+}

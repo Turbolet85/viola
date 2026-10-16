@@ -1,0 +1,21 @@
+{
+ "file": ".claude/docs/stack.md",
+ "ops": [
+  {
+   "start": 11,
+   "end": 11,
+   "expect_start": "| HTTP server (GUI) | axum 0.8.9 (featur",
+   "expect_end": "| HTTP server (GUI) | axum 0.8.9 (featur",
+   "payload": [],
+   "why": "leaf finding: delete (leaf-architecture-2.md/.claude/docs/stack.md:11#1)"
+  },
+  {
+   "start": 26,
+   "end": 26,
+   "expect_start": "| Push / real-time | SSE through axum 0.",
+   "expect_end": "| Push / real-time | SSE through axum 0.",
+   "payload": [],
+   "why": "leaf finding: delete (leaf-architecture-2.md/.claude/docs/stack.md:26#1)"
+  }
+ ]
+}

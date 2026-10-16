@@ -1,0 +1,29 @@
+{
+ "file": ".claude/rules/security.md",
+ "ops": [
+  {
+   "start": 7,
+   "end": 7,
+   "expect_start": "- HTTP logging records `uri.path()` only",
+   "expect_end": "- HTTP logging records `uri.path()` only",
+   "payload": [],
+   "why": "leaf finding: delete (leaf-security-plan.md/.claude/rules/security.md:7#1)"
+  },
+  {
+   "start": 9,
+   "end": 9,
+   "expect_start": "- Compare the token/cookie only with `co",
+   "expect_end": "- Compare the token/cookie only with `co",
+   "payload": [],
+   "why": "leaf finding: delete (leaf-security-plan.md/.claude/rules/security.md:9#1)"
+  },
+  {
+   "start": 27,
+   "end": 27,
+   "expect_start": "- `Last-Event-ID`: parse every pair with",
+   "expect_end": "- `Last-Event-ID`: parse every pair with",
+   "payload": [],
+   "why": "leaf finding: delete (leaf-security-plan.md/.claude/rules/security.md:27#1)"
+  }
+ ]
+}

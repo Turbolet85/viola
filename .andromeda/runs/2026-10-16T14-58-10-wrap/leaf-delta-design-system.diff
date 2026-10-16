@@ -1,0 +1,488 @@
+--- a/.andromeda/design-system.md
++++ b/.andromeda/design-system.md
+@@ -82,2 +82,5 @@
+ ### Surface Scale (elevation hierarchy)
++
++A 0.2.0 frontend design input; 0.1.0 renders no page.
++
+ | Level | Value | Usage |
+@@ -91,2 +94,5 @@
+ ### Text Hierarchy
++
++A 0.2.0 frontend design input; 0.1.0 renders no page.
++
+ | Level | Value | Usage |
+@@ -100,2 +106,4 @@
+ ### Semantic Colors
++A 0.2.0 frontend design input; 0.1.0 renders no page.
++
+ Generic UI feedback states (baseline, all four kept). viola deliberately carries them with **ink, fill, rule, strike and a printed word, never with a green/yellow/red hue**. Hue is spent only on the cocked strip (amber) and the handoff (blue).
+@@ -111,3 +119,3 @@
+ 
+-**Domain status colors.** These cover every enum in architecture.md's data model and contracts that gets a visual, one row per variant. The fifth column holds the printed word and the treatment. Colour never stands alone.
++**Domain status colors.** A 0.2.0 frontend design input; 0.1.0 renders no page. These cover every enum in architecture.md's data model and contracts that gets a visual, one row per variant. The fifth column holds the printed word and the treatment. Colour never stands alone.
+ 
+@@ -211,2 +219,5 @@
+ ### Border Progression
++
++A 0.2.0 frontend design input; 0.1.0 renders no page.
++
+ | Intensity | Value | Usage |
+@@ -225,2 +236,4 @@
+ ## Typography
++
++A 0.2.0 frontend design input; 0.1.0 renders no page.
+ 
+@@ -257,2 +270,4 @@
+ 
++The browser test leg named here (the headless GUI render and contrast checks judged on the ubuntu CI leg, and the DejaVu families the CI image provides) stands until the route entry "Remove the browser leg" removes it; that entry's wrap amends this text.
++
+ **cli:** Terminal monospace (the user's configured font). The brand shows through the fixed-column structure and the phraseology words (`open`, `RB`, `unable`, `DIALOG`, `stale`). The readback mirror is `[RB]` / `[  ]` / `[/ ]`. Bold is used only for the NAME column. SGR dim marks `stale` rows, and amber the `DIALOG` word. Output is ASCII only, and density is high.
+@@ -262,2 +277,4 @@
+ ## Spacing
++
++A 0.2.0 frontend design input; 0.1.0 renders no page.
+ 
+@@ -284,2 +301,4 @@
+ 
++A 0.2.0 frontend design input; 0.1.0 renders no page.
++
+ **Chosen approach:** borders-only.
+@@ -304,2 +323,4 @@
+ 
++A 0.2.0 frontend design input; 0.1.0 renders no page.
++
+ | Token | Value | Usage |
+@@ -318,6 +339,2 @@
+ All motion decisions flow from the expression level set in Brand Identity.
+-
+-**Easing:**
+-- The cock uses `cubic-bezier(0.2, 0, 0, 1)` (ease-out): a hand pushes the strip out, and it stops against the finger.
+-- The fade uses `linear`.
+ 
+@@ -333,17 +350,2 @@
+ 
+-**This project's values:**
+-- **Micro-interactions (hover, focus):** 0ms. The focus ring appears instantly. Hover on links is an underline only, with no colour change and no transition.
+-- **Transitions (panel open, page change):** 0ms. It is a single page with no panels. A native `<details>` tape line expands instantly.
+-- **Entrance animations:** only newly arrived tape lines and newly created transfer markers. They fade in with opacity 0 → 1 over 120ms linear, via `@starting-style`, and only on elements the page marks `data-live` (SSE arrivals after first paint). The initial load renders instantly.
+-- **Scroll effects:** none. The tape follows the bottom only while the reader is already at the bottom. Otherwise a static line `N new lines below` is printed and nothing jumps. Auto-follow and the `#tape-end` anchor jump are instant (`scroll-behavior: auto`, never `smooth`). Text-only updates (the per-minute `read 4m ago` age, `document.title` and ATIS cell words) are instant text swaps with no transition.
+-
+-**High-impact moments** (max 1, on web-spa too: the cock. The readback close is listed only because it is deliberately not animated. The web surface's two motions from the Brand Identity table are the cock and the ambient tape-line / marker fade under Entrance animations above, and nothing more. The 0.3–0.4 row of the duration scale is overridden for viola, as logged in the Design Decisions Log: its 150ms hover and 200ms page fade are banned (0ms hover, no page transition), and its Entrance `none` is replaced by the one 120ms fade. Where that row and this section disagree, this section wins):
+-- **The cock.** When a strip's `dialog_pending` turns true, `<viola-session-row data-dialog="pending">` moves `translateX(12px)` over 160ms ease-out, once. The amber band and `DIALOG <kind>` appear with it. The transition is declared only on the `pending` selector, so the return into line is instant: the controller squares the strip once it is dealt with.
+-- **The readback close.** This moment is deliberately not animated. Outline to filled `RB`, or outline to strike, happens in 0ms, because acknowledgement is discrete. There is no transition, flash or glow.
+-
+-**Hard limits for this expression level:**
+-- **Banned:** spinners, pulses, blinking, skeleton shimmer, looped animation, staggered entrances, hover colour transitions, parallax, spring physics, 3D transforms, scroll-driven animation, canvas/WebGL, and any animation library (framer-motion / GSAP / Lottie / Motion One).
+-- **Banned triggers:** motion on `busy`, on `stale`, on `turn-ended`, or on any success before it is confirmed.
+-- **Reduced motion.** `@media (prefers-reduced-motion: reduce)` sets `--cock-dur` and `--fade-dur` to `0ms`. The 12px offset position and the amber band remain, because they are state, not decoration.
+-
+ ---
+@@ -351,2 +353,4 @@
+ ## Iconography
++
++A 0.2.0 frontend design input; 0.1.0 renders no page.
+ 
+@@ -369,313 +373,3 @@
+ 
+-**Platform:**
+-- The `viola ui` page on `http://127.0.0.1:47319` (loopback only).
+-- Windows 11 / 10 first (Edge / Chrome), plus macOS and Linux (Chromium, Firefox, Safari 17.5+).
+-- The primary viewport is ≥1024px wide, beside two terminals.
+-- The page is verified in a headless browser by default.
+-
+-**Toolkit / Framework (from tooling-decisions.md):**
+-- React + TypeScript, by founder ruling (2026-09-30): 0.2.0 renders the session hierarchy as a node graph, which a build-less Lit page does not fit. A build step bundles the page and the bundle is embedded in `viola`. The bundler and its version, the React version, how the bundle is embedded, the CSP the bundle needs and the npm supply-chain gates are OPEN, owned by the route's frontend-toolchain entry (Epoch 8's head), whose wrap writes the measured facts here. Until that entry lands the page has no JS build step, and architecture §Infrastructure Patterns → Build system keeps its no-bundler guard.
+-- Hand-written modern CSS (native nesting, `@layer`, custom properties) in `/assets/app.css`.
+-- No component library: plain `viola-*` components over semantic HTML.
+-- Styling is `/assets/app.css` alone under `style-src 'self'`: no Shadow DOM, no component-scoped or runtime-injected styles in v1. The Lit-era host form (light-DOM `viola-*` custom elements via `createRenderRoot(){ return this; }`, role-less `display: contents` hosts) is retired with Lit. How each `viola-*` name maps onto React's output (an element, a class, a data attribute) is OPEN, owned by the frontend-toolchain entry. Below, `viola-*` names and selectors name components; the rendered-DOM requirements they state (native `<table>` / `<tr>` / `<td>`, roles, `data-*` state) stand unchanged.
+-
+-### Tokens (platform-specific)
+-
+-```css
+-/* /assets/app.css — served from include_str!, style-src 'self' */
+-@layer tokens, base, components, states, motion;
+-
+-@layer tokens {
+-  :root {
+-    color-scheme: dark;                      /* dark only (Q6): no prefers-color-scheme switch */
+-
+-    /* Color World — the only eight hex values in the codebase */
+-    --c-anthracite: #1E2124;                 /* console laminate: bay, gap, tape, inset */
+-    --c-holder:     #2A2E33;                 /* holder boot: lit wrapped strip */
+-    --c-rail:       #4A5057;                 /* rack rail: decorative rules only */
+-    --c-buff:       #E6D8AE;                 /* strip paper: ink, info borders, RB fill, focus */
+-    --c-graphite:   #3B3A36;                 /* pencil: text on buff only */
+-    --c-lampoff:    #9C9278;                 /* lamp moved off: secondary ink on anthracite, field grid, stale */
+-    --c-amber:      #D97706;                 /* arrival holder: dialog_pending ONLY */
+-    --c-departure:  #5B8DB8;                 /* departure holder: transfer markers ONLY */
+-
+-    /* role aliases (components use these, never --c-*) */
+-    --surface-bay:    var(--c-anthracite);
+-    --surface-strip:  var(--c-holder);
+-    --surface-inset:  var(--c-anthracite);
+-    --ink:            var(--c-buff);
+-    --ink-dim:        var(--c-lampoff);     /* only on anthracite */
+-    --ink-on-paper:   var(--c-graphite);
+-    --rule-deco:      var(--c-rail);
+-    --rule-field:     var(--c-lampoff);
+-    --rule-info:      var(--c-buff);
+-    --attention:      var(--c-amber);        /* text only on anthracite */
+-    --handoff:        var(--c-departure);    /* text only on anthracite */
+-    --focus-ring:     var(--c-buff);
+-
+-    /* typography — installed faces only, no web fonts (font-src 'none').
+-       per-OS order: Windows → macOS → Linux (the CI render) → generic */
+-    --font-label: "Bahnschrift", "DIN Alternate", "Avenir Next Condensed", "DejaVu Sans Condensed", sans-serif;
+-    --font-field: "Cascadia Mono", Consolas, "SF Mono", Menlo, "DejaVu Sans Mono", monospace;
+-    --fs-display: 16px;  --fs-callsign: 15px;  --fs-field: 13px;  --fs-code: 12px;  --fs-label: 11px;
+-    --fw-regular: 400;   --fw-strong: 600;
+-    --track-display: 0.08em; --track-rack: 0.12em; --track-label: 0.06em; --track-callsign: 0.02em;
+-    --stretch-label: 87.5%;
+-    --lh-display: 24px;  --lh-label: 16px;   /* Display 24px; Heading + Label 16px (also the wrapped caption header lines);
+-                                                Body, Data, Code use --line-h; Callsign uses --strip-h */
+-
+-    /* spacing (base 4px) + strip geometry */
+-    --space-micro: 4px;  --space-xs: 8px;  --space-sm: 12px;
+-    --space-md: 16px;    --space-lg: 24px; --space-xl: 32px;
+-    --strip-h: 32px;  --line-h: 20px;  --band-w: 4px;
+-    /* each fixed track = longest printed word + 2 × --space-xs (≈2ch at 13px) + 1px --rule-field, rounded up:
+-       LIVE `stale` 5→8ch · STATUS `unknown` 7→10ch · DIALOG `DIALOG permission` 17→20ch ·
+-       WHEEL `driver · budget-paused` / CLI `2.1.281 unverified-cli` 22→25ch.
+-       Sum of maxima 120ch ≈ 940px in DejaVu Sans Mono (the widest case) + 4px band
+-       + 2 × 16px page margin + 12px --cock-offset ≈ 988px < 1024px: no horizontal scroll. */
+-    --strip-cols: var(--band-w) minmax(16ch, 32ch) 8ch 10ch minmax(10ch, 25ch) 20ch minmax(10ch, 25ch);
+-    /*            band           NAME            LIVE STATUS WHEEL             DIALOG CLI */
+-    /* 760–1023px (Navigation → Width): the strip wraps to two lines and uses these instead of --strip-cols / --strip-h.
+-       Row 1 = band NAME LIVE STATUS DIALOG at --strip-h (the callsign line); row 2 = WHEEL under NAME + LIVE and
+-       CLI under STATUS + DIALOG at --line-h; the band spans both rows. Sum of maxima 70ch ≈ 548px in DejaVu Sans Mono
+-       + 4px band + 2 × 16px page margin + 12px --cock-offset ≈ 596px < 760px, so NAME always resolves to 32ch,
+-       WHEEL gets 32 + 8 = 40ch and CLI gets 10 + 20 = 30ch: both hold their 22ch words plus padding. */
+-    --strip-cols-wrapped:  var(--band-w) minmax(16ch, 32ch) 8ch 10ch 20ch;
+-    --strip-rows-wrapped:  var(--strip-h) var(--line-h);     /* 52px wrapped strip block-size */
+-    --strip-areas-wrapped: "band name  live  status dialog" "band wheel wheel cli cli";
+-    /* tape cells have no inline padding: tracks are separated by column-gap var(--space-xs). TIME 12ch holds
+-       `HH:MM:SS.mmm` exactly; KIND 17ch holds `prompt · harness` (16ch); word / reason 46ch holds the longest typed
+-       refusal `unable · not-delivered · no-prompt-submitted` (44ch). At 1024px: 91ch ≈ 713px in DejaVu Sans Mono
+-       + 16px RB box + 5 × 8px gaps + 2 × 16px page margin ≈ 801px, so TEXT gets ≈ 28ch. TEXT never drops below 12ch;
+-       when the word / reason track resolves narrower than its word (760–1023px, or an opaque `unknown` detail), the
+-       cell ends in an ellipsis and the full `unable · <reason> · <detail>` is printed in the line's expanded body. */
+-    --tape-cols: 12ch minmax(8ch, 16ch) 17ch minmax(12ch, 1fr) var(--rb-size) minmax(8ch, 46ch);
+-    /*           TIME INSTANCE          KIND TEXT            RB box         word / reason */
+-
+-    /* depth + radius */
+-    --rule: 1px;  --rule-strong: 2px;  --shadow: none;  --radius: 0px;
+-
+-    /* motion (Q4 budget) */
+-    --cock-offset: 12px;  --cock-dur: 160ms;  --cock-ease: cubic-bezier(0.2, 0, 0, 1);
+-    --fade-dur: 120ms;    --fade-ease: linear;
+-
+-    /* the readback box (signature) */
+-    --rb-size: 16px;
+-    --rb-rule: var(--c-buff);
+-    --rb-fill: var(--c-buff);
+-    --rb-ink:  var(--c-graphite);
+-    --rb-strike: var(--c-buff);
+-
+-    /* focus */
+-    --focus-w: 2px;  --focus-offset: 2px;
+-  }
+-  @media (prefers-reduced-motion: reduce) {
+-    :root { --cock-dur: 0ms; --fade-dur: 0ms; }
+-  }
+-}
+-
+-@layer base {
+-  html { background: var(--surface-bay); color: var(--ink);
+-         font: var(--fw-regular) var(--fs-field)/var(--line-h) var(--font-field); }
+-  :focus-visible { outline: var(--focus-w) solid var(--focus-ring);
+-                   outline-offset: var(--focus-offset); border-radius: var(--radius); }
+-  a { color: inherit; text-decoration: none; }
+-  a:hover, a:focus-visible { text-decoration: underline; }
+-}
+-
+-@layer components {
+-  viola-readback { display: inline-grid; grid-template-columns: var(--rb-size) auto;
+-                   gap: var(--space-micro); align-items: center; }
+-  viola-readback .rb { inline-size: var(--rb-size); block-size: var(--rb-size);
+-                       border: var(--rule) solid var(--rb-rule); background: var(--surface-inset);
+-                       font: var(--fw-strong) var(--fs-label)/1 var(--font-field);
+-                       display: grid; place-items: center; }
+-}
+-
+-@layer states {
+-  /* instant: no transition anywhere in this layer */
+-  viola-readback[data-rb="read"] .rb    { background: var(--rb-fill); color: var(--rb-ink); }
+-  viola-readback[data-rb="refused"] .rb { background:
+-      linear-gradient(to bottom right,          /* isoline runs bottom-left → top-right = "/" */
+-        transparent calc(50% - var(--rule) / 2), var(--rb-strike) calc(50% - var(--rule) / 2),
+-        var(--rb-strike) calc(50% + var(--rule) / 2), transparent calc(50% + var(--rule) / 2)),
+-      var(--surface-inset); }
+-  /* data-rb="open" and data-rb="unconfirmable": base outline only */
+-
+-  viola-session-row[data-liveness="stale"] { --surface-strip: var(--c-anthracite);   /* data-live is reserved for SSE arrivals (@layer motion) */
+-      --ink: var(--c-lampoff); --rule-field: var(--c-rail); }
+-  /* the host is display: contents (component 1 Semantics), so layout, transform and transition sit on its <tr>;
+-     the custom properties above still inherit through the host */
+-  viola-session-row[data-dialog="pending"] > tr { transform: translateX(var(--cock-offset)); }
+-  viola-session-row[data-dialog="pending"] .band { background: var(--attention); }
+-  viola-session-row[data-dialog="pending"] .f-dialog { background: var(--surface-inset); }
+-  viola-session-row[data-dialog="pending"] .f-dialog .word { color: var(--attention); font-weight: var(--fw-strong); }
+-}
+-
+-@layer motion {
+-  viola-session-row[data-dialog="pending"] > tr {        /* into pending only; return is instant */
+-    transition: transform var(--cock-dur) var(--cock-ease); }
+-  .tape-line[data-live], viola-transfer[data-live] > tr {
+-    transition: opacity var(--fade-dur) var(--fade-ease);
+-    @starting-style { opacity: 0; } }
+-}
+-
+-@media (forced-colors: active) {
+-  viola-readback[data-rb="refused"] .rb { border-style: dashed; }   /* gradient strike is dropped; the word still says "unable" */
+-  viola-session-row[data-dialog="pending"] .band { background: Highlight; forced-color-adjust: none; }
+-}
+-```
+-
+-State lives only in `data-*` attributes set by the page's components. The following are never used: `style="…"` (React's `style` prop included), and runtime `<style>` injection (CSP `style-src 'self'`).
+-
+-### Component Patterns
+-
+-**1. `<viola-session-row>`: the flight-progress strip** (primitive; bootstrap first)
+-- **Anatomy:** set on the `<tr>` the host renders, because the host itself is `display: contents` and cannot carry layout, transform or transition (Semantics below): `display: grid; grid-template-columns: var(--strip-cols); block-size: var(--strip-h);` on the holder surface (`--surface-strip`), with a 1px `--rule-deco` outer edge and 1px `--rule-field` dividers between cells. At 760–1023px (Navigation → Width) the strip instead uses `grid-template-columns: var(--strip-cols-wrapped); grid-template-rows: var(--strip-rows-wrapped); grid-template-areas: var(--strip-areas-wrapped);` (52px block, band spanning both rows), and the `--rule-field` divider also runs between the two rows.
+-  - Cell 1 is the 4px `.band` slot, which is rail normally and amber when cocked.
+-  - NAME is callsign type (Bahnschrift 600 15px, buff, as typed).
+-  - The other cells are Cascadia 13px buff values with 8px inline padding.
+-- **Values printed:**
+-  - LIVE: `live` | `stale`
+-  - STATUS: `idle` | `busy` | `unknown`
+-  - WHEEL: `driver` | `human` (600), with ` · budget-paused` appended when the instance's `budget_paused` is true
+-  - DIALOG: `none` | `DIALOG question` / `DIALOG permission` / `DIALOG plan`
+-  - CLI: `<version> verified` | `<version> unverified-cli` | `unknown`
+-- **Never blank.** An absent reading prints `unknown`. Absent-by-contract fields on unwrapped rows print `n/a`.
+-- **Column captions** appear once per rack, in a header row on anthracite: Bahnschrift 11px uppercase, lamp-off, native `<th scope="col">` cells in the rack table's header row (exposed as `columnheader`). They are never repeated inside strips, because lamp-off on holder fails AA. The header row uses the same grid as the strips under it: `--strip-cols` at ≥1024px, and at 760–1023px `--strip-cols-wrapped` with `--strip-areas-wrapped` on two Label lines (11px / 16px): NAME · LIVE · STATUS · DIALOG, then WHEEL under NAME + LIVE and CLI under STATUS + DIALOG. The band track stays empty, and captions take the field cells' `space-xs` inline padding, so every caption starts where its value starts. The gap between the caption row and the first strip is the rack's row gap, `space-xs`, the same gap strips and transfer markers already use; there is no separate token for it.
+-- **States:**
+-  - Default (live, lit).
+-  - `stale`: an instant lamp-off swap (see the `states` layer).
+-  - Cocked: `data-dialog="pending"`.
+-  - Cocked + `stale`: the cock wins for the offset, the amber band, the inset DIALOG cell and the amber `DIALOG` word. The kind word follows the `stale` `--ink` swap and prints lamp-off (5.2:1 on the inset anthracite), like every other cell. This is the one exception to the `DialogPending::true` kind colour #E6D8AE.
+-  - Hover: none.
+-  - Active: n/a.
+-  - Focus: the row is not focusable in v1. There are no controls.
+-  - Disabled: n/a.
+-- **Unwrapped variant:** `data-wrapped="false"`. Anthracite surface, 1px dashed rail outline, no band slot. The name renders as a text binding only, never as a link or a target. A name wider than the NAME track ends in an ellipsis (`text-overflow: ellipsis`), matching the CLI's `...` for unwrapped NAMEs. It is the only strip cell that truncates. A wrapped `ViolaName` (the callsign) is never clipped.
+-- **Semantics:** semantic HTML first (a11y-plan D-A11Y-02). Each rack is a native `<table>` whose `<caption>` holds the rack's `<h2>` label. The `viola-session-row` component renders a native `<tr>` with `<td>` cells; any element left between `<tbody>` and that `<tr>` is role-less with `display: contents`. No ARIA role is set on a row by script (no `setAttribute`, no imperative role); roles come from the native elements. The table exposes `table` / `row` / `columnheader` / `cell` natively, and the visual grid above is unchanged. Text bindings only (JSX text children, never an HTML sink).
+-  - A grid `<tr>` still exposes `row`: the a11y plan's aria snapshot asserts `table` / `row` / `cell` in every state.
+-
+-**2. `<viola-readback>`: the readback box** (signature; bootstrap first)
+-- **Anatomy:** a 16px square `.rb` (1px buff rule, `aria-hidden="true"`) plus a word cell (Cascadia 13px buff on anthracite). It always sits at the far right of its line: issue on the left, readback on the right, read as one unit.
+-- **`data-rb` values:**
+-
+-  | `data-rb` | Box | Word cell |
+-  |---|---|---|
+-  | `open` | Empty outline on anthracite | `open` |
+-  | `read` | Solid buff with `RB` in graphite, 11px 600 | `read back` |
+-  | `refused` | Outline + 1px `/` strike | `unable · <reason> · <detail>` |
+-  | `unconfirmable` | The open drawing | `unconfirmable` |
+-
+-- Every change is instant, with no transition.
+-- **Sources:**
+-  - `open` ← CL-1 `send-issued`.
+-  - `read` ← the next `prompt-submitted` with origin `driver` in that instance's log, or `session-start` cause `clear` with a new session id for a `/clear` send. At most one send is in flight per instance, because a send during a running turn is refused `turn-running`.
+-  - `refused` ← CL-1 `send-refused` (`refusal` + `detail`).
+-  - `unconfirmable` ← the send's `ok` payload with `confirmed:false`.
+-- **Accessible name:** carried by the word cell. The whole send line reads, for example, "send to builder, read back".
+-- **Data dependency:** `unconfirmable`, and the `from` needed for the outbound marker, must be carried by the CL-1 events (`send-issued` with `cursor` and `from`, `send-refused`, plus an outcome record for `ok`/`confirmed:false`). This extends cross-lane follow-up CL-1 and is recorded for wrap's reconcile.
+-- **Until CL-1 lands:** the page can show only `read` boxes. It prints `unknown` in the marker's last-send word cell rather than inventing an `open`.
+-
+-**3. `<viola-transfer>`: the transfer marker** (handoff)
+-- **Anatomy:** a 20px (`--line-h`) line in the rack gap on anthracite, directly under the driver's strip. The host is `display: contents` and renders one `<tr>` with a single spanning `<td>`, so the line box, the tick and the `data-live` fade sit on that `<tr>`. It is its own item in the rack's flow, so the rack's `space-xs` gap applies above and below it (strip · 8px · marker · 8px · next marker or strip). The inbound twin follows the same rule. When a marker appears or is removed, the strips below shift instantly by that amount and their order never changes. It is indented by `--band-w + --space-xs` and has a 2px departure-blue left tick. There is one marker per link, ordered by driven name.
+-- **Content:**
+-  - `→ builder`, with the arrow and name in `--handoff` (departure blue).
+-  - `since 19:43:58Z` in lamp-off tabular-nums.
+-  - The last send's `<viola-readback>` at the far right. Before any send is seen since page open: no box, and the word `unknown`.
+-- **Inbound twin:** the driven strip gets `← overseer` (blue) with no box. It is its own 20px line in the rack gap on anthracite, directly under the driven strip, with the same indent and 2px left tick as the outbound marker. It is never printed inside the strip, because blue on holder is 3.9:1 and fails AA.
+-- **Behaviour:** a new marker fades in at ≤120ms, and an `unlink` removes it instantly. There is no node graph and no drawn edge between strips.
+-
+-**4. `<viola-event-feed>`: the tower tape**
+-- **Anatomy:** a `role="log"` panel with an explicit `aria-live="off"` on anthracite. A `log` is an implicit polite live region, so `off` keeps the whole tape from being announced; only the separate status region speaks (a11y-plan D-A11Y-03). Each line is a `<details class="tape-line">` (the `.tape-line` that `@layer motion` fades). Its `<summary>` carries `display: grid; grid-template-columns: var(--tape-cols); column-gap: var(--space-xs)` and the 20px (`--line-h`) row, so the cells below are grid items of the summary. The expanded body sits under the summary across the full line width. The summary's default disclosure marker is not drawn, and no replacement glyph is added.
+-  - TIME: `HH:MM:SS.mmm` UTC, lamp-off, tabular-nums. The panel header says `UTC`.
+-  - INSTANCE: buff, truncated with an ellipsis at 16ch.
+-  - KIND: the event-kind word.
+-  - TEXT: the first line of the content, one line with `text-overflow: ellipsis`.
+-  - The RB box and word or reason, on send lines only. The whole `<viola-readback>` is one grid item spanning the last two tracks (`grid-column: -3 / -1`). Its own inline-grid (`var(--rb-size) auto`, `space-micro` gap) puts the box at the start of the `--rb-size` track and the word `space-micro` (4px) after the box. The word therefore starts 4px before the word / reason track (the tape's column-gap is `space-xs`) and has that track plus 4px. Send-line words align with one another. The tape box is the same element, drawing and box-to-word gap as the transfer-marker box. Other lines let TEXT span to the end.
+-- **Per-kind treatment:** see the domain status table.
+-- **Order:** oldest at the top, new lines appended at the bottom (tape order). A 1px rail rule marks each minute boundary.
+-- **Expanded body.** Opening a line's `<summary>` (keyboard: Enter/Space) shows the full text in Code type with `white-space: pre-wrap` on the inset well: prompt text, `last_assistant_message`, plan text, question options, permission `input` as JSON text, and `source`. It is always a text binding (JSX text children) and never Markdown.
+-- **Empty:** `TAPE live since 19:40:02Z — no events yet`. The SSE stream starts at each file's current end, so the tape holds only events after page open.
+-- **Line cap.** The component keeps at most 2000 lines in the DOM. Beyond that it prints `older lines trimmed from view: N — the full tape is events.ndjson` at the top.
+-- **Follow rule.** The tape auto-follows only while scrolled to the bottom. Otherwise it prints the static line `N new lines below`, a link-styled button-less anchor to `#tape-end`.
+-
+-**5. `<viola-atis>`: the ATIS / fuel-state header**
+-- **Anatomy:** a sticky header at the top on anthracite, with a 1px rail rule below. Cells keep the fixed order below and are separated by 12px (`space-sm`). Only `BAY`, `5H`, `7D` and `TAPE` are Label type. Figures (percentages, times, ages, counts, the address) are Data type. The phraseology words (`resets`, `expired`, `read … ago`, `gate open`, `budget-paused`, `live` / `connecting` / `stopped · viola ui not answering`, `skipped`) are Body type and are never uppercased.
+-- **Wrapping:** cells wrap onto a further line only at a cell boundary, never inside a cell, with no row gap. Each line is as tall as its tallest cell: 24px on the line that carries `VIOLA`, 20px (`--line-h`) otherwise. The nominal content is about 112ch of Body/Data (about 877px in DejaVu Sans Mono). With seven 12px gaps, the labels and `VIOLA` it comes to about 1090px, more than the 992px inside the page margins at 1024px. So the header takes two lines at ≥1024px, and more when `expired`, `TAPE stopped · viola ui not answering` or a nonzero `skipped` are printed. The header grows downward, cells never truncate or scroll horizontally, and the `space-xl` top margin sits under its last line.
+-- **Content:**
+-  - `VIOLA` (Display)
+-  - `BAY 127.0.0.1:47319`
+-  - `5H 62 %` with `resets 21:00Z`, and `7D 41 %` with `resets Mon 09:00Z`, each followed by `expired` once its `resets_at` has passed. `expired` is boxed like `budget-paused` and a nonzero `skipped` count, but with a 1px lamp-off (#9C9278) rule (the `Window::expired` border). The figure keeps its buff ink.
+-  - `read 4m ago`: always printed, computed from `read_at`, updated each minute without motion
+-  - `gate open` or a boxed `budget-paused`
+-  - `TAPE live since 19:40:02Z` (as the `TapeConnection::open` row prints it; the time is Data) / `TAPE connecting` (lamp-off) / `TAPE stopped · viola ui not answering`. `TAPE stopped` is boxed with a 1px buff rule like `budget-paused` (the `TapeConnection::closed` border), because the stopped tape is a declared state.
+-  - `skipped 0 · 0 · 0`, boxed in buff when nonzero
+-- **Semantics** (a11y-plan D-A11Y-02): `VIOLA` is the page's `<h1>`, and the cells after it form one native `<dl>` of `<dt>` / `<dd>` pairs in the order above.
+-  - The printed labels are the `<dt>`s: `BAY`, `5H`, `7D`, `TAPE`, and the word `skipped`, whose counts are its `<dd>`.
+-  - The two cells with no printed label get a visually hidden `<dt>`: `budget read` before `read 4m ago`, and `budget gate` before `gate open` / `budget-paused`.
+-  - Visible text, order, type roles and boxes are unchanged.
+-- **Not shown:** `viola_home` from `/api/info`. It carries the OS username, which is the only PII in scope, and the page has no need for it.
+-
+-**6. Access and error strips** (security UX)
+-- **Anatomy:** a full-width strip in the rack position. Anthracite surface, 1px buff rule, Cascadia 13px buff, with a phraseology first word and one plain instruction line.
+-- **401 `unauthorized`:**
+-  - Line 1: `UNAUTHORIZED  this page has no session for 127.0.0.1:47319`.
+-  - Line 2: `open the launch line printed by "viola ui" at start, or restart viola ui`.
+-  - It never shows or echoes the token, the launch URL, the `?t=` query, the `ui/<port>.url` path or its contents, or any cookie value. It never reads or prints `location.search`.
+-  - There is no "retry with token" control and no input field. The page has no credential fields at all in v1.
+-- **503 `state-unreadable`:** `unable · state-unreadable  viola home could not be read`.
+-- **Tape closed:** the ATIS `TAPE stopped` cell plus a strip at the top of the tape. The strips keep their last values, and the ATIS age keeps growing.
+-- **Initial read** (before `/api/sessions` answers, typically under 100ms locally): each rack prints one ruled line `sessions: no reading yet`, and the ATIS fields print `unknown`. There is no skeleton and no spinner.
+-- **Empty rack:** `no wrapped sessions — start one with  viola run <name> -- claude`, with the command in Code type.
+-
+-**7. Reserved v1.x brake controls** (not built in v1; tokens only)
+-- **Controls:** two ruled rectangular `<button>`s, `I HAVE CONTROL` (POST pause) and `UNLINK`. They use Label type, uppercase, with a 1px buff outline, radius 0, the standard focus ring and a `--strip-h` (32px) minimum height.
+-- **Pressed:** no fill, because a buff fill means "read back". The confirmation is the resulting `wheel` / `unlink` tape line and strip value.
+-- **Surface:** the confirmation surface is Raised-3.
+-- **Security:** no token is exposed in markup. The requests use the same-origin `SameSite=Strict` cookie, and no amber is used.
+-- **Scope:** "view-only" and "never on this page" are v1 statements. This component, Raised-3, the `radius-sm` brake usage and `Problem::cross-origin-forbidden` are v1.x reservations and do not contradict the v1 bans.
+-
+-### Navigation Pattern
+-- **One page, one bay, no routes and no nav chrome.** The vertical order is:
+-  1. the sticky `<viola-atis>` header
+-  2. the WRAPPED rack
+-  3. the UNWRAPPED · READ-ONLY rack
+-  4. the TAPE
+-- **Slots are stable.** Each rack orders strips by `ViolaName` ascending, the same order as CLI `list`. State never changes order. Only a session starting or ending changes slots.
+-- **Content jumping (UX guideline 5, #19) is met for order, not for pixel position.** When a transfer marker appears or is removed, the content below moves instantly by the 20px marker line plus its `space-xs` gap. When the sticky ATIS header gains a line (`expired`, `TAPE stopped`, a nonzero `skipped`), it moves by one `--line-h`. No strip ever changes order or slot, and nothing animates the shift. Only the cock stays out of flow (`transform`), because it is the one state change the eye must not lose.
+-- **Keyboard:**
+-  - A visible-on-focus skip link, `skip to tape`, is the first tab stop.
+-  - Tab then moves through tape `<summary>` elements and the `new lines below` anchor.
+-  - There are no command palette and no shortcuts. In v1, taking the wheel is spoken in the CLI (`viola pause`) or by a human keystroke in the terminal, never on this page. The reserved v1.x brake (web-spa component 7, `I HAVE CONTROL`) is the only planned page control for it (see the Design Decisions Log).
+-- **Attention outside the tab:**
+-  - `document.title` becomes `DIALOG builder · viola` (the first cocked strip by slot, plus `+N` when there are more). It returns to `viola` when none are cocked.
+-  - A visually hidden `role="status" aria-live="polite"` region announces only these (a11y-plan D-A11Y-06):
+-    - strips turning cocked ("builder: dialog pending, permission");
+-    - readback refusals ("send to builder unable, not-delivered, no-prompt-submitted");
+-    - `TAPE stopped`;
+-    - the 401 access strip, which after a `viola ui` restart is announced instead of `TAPE stopped`;
+-    - 503 / 404 / 405 rack strips that appear after first render.
+-
+-    The whole tape is never a live region.
+-- **Width:**
+-  - ≥1024px: primary.
+-  - 760–1023px: a strip wraps to two lines (band · NAME · LIVE · STATUS · DIALOG / WHEEL · CLI).
+-  - Below 760px: reserved for the later phone view.
+-  - Never horizontal scroll. The rack reserves `--cock-offset` of end padding.
+-
+-### Platform-Specific Notes
+-- **CSP** (`default-src 'none'; script-src 'self'; style-src 'self'; … require-trusted-types-for 'script'`):
+-  - `require-trusted-types-for 'script'` stands. The Lit-era claim that lit-html's built-in policy satisfies it is retired with Lit; what satisfies it under React (a named policy, a `trusted-types` allowlist directive, or no sink use at all) is OPEN, owned by the frontend-toolchain entry, and any relaxation of a directive is a boundary widening the founder rules live.
+-  - Banned: `dangerouslySetInnerHTML`, `innerHTML` and `style="…"` (React's `style` prop included).
+-  - Every event field and unwrapped session name is a text binding (JSX text children).
+-  - Assistant Markdown is never rendered. Code-like content shows as plain pre-wrapped text.
+-- **Fonts:**
+-  - Per-OS stacks exactly as the `--font-label` / `--font-field` tokens in Typography → Per-OS fallback stacks. No web fonts.
+-  - Bahnschrift ships on Windows 10 1709+. Cascadia Mono ships with Windows Terminal on Windows 11; on Windows 10 without it, the field stack falls to Consolas, which is on every Windows.
+-  - **Linux is the CI render.** The headless GUI checks' render and contrast assertions are judged on the ubuntu leg (the browser suite runs on all three CI OSes), so they must hold with DejaVu Sans Condensed + DejaVu Sans Mono resolved. The check asserts the resolved family (not a banned face, not an unlisted fontconfig substitute), and the CI image provides the DejaVu families.
+-- **Forced colors (Windows High Contrast):** borders survive, and the strike gradient is dropped (dashed outline fallback plus the word `unable`). The cock band maps to `Highlight`.
+-- **URL hygiene:** after the `/?t=` exchange the server's 303 leaves the address bar at `/`. The page never writes the token into history, title, storage or DOM.
+-- **Constructable stylesheets:** not used in v1, so `/assets/app.css` is the single stylesheet. Revisit them only after the headless CSP check passes.
+-- **`@starting-style`:** Chromium 117+, Firefox 129+, Safari 17.5+. Older engines show new lines without the fade, which is acceptable at 0.3.
++The frontend is deferred to 0.2.0; its technology is not chosen.
+ 
+@@ -701,3 +395,3 @@
+ | attention (arrival amber #D97706) | `\x1b[38;2;217;119;6m` | `\x1b[38;5;172m` | `\x1b[33m` | The `DIALOG` word only, always followed by the kind word |
+-| stale (lamp-off) | `\x1b[2m` (SGR dim) | `\x1b[2m` | `\x1b[2m` | A whole `stale` row. The word `stale` is always in LIVE. On a row that is also cocked, only the `DIALOG` word is amber and not dim (the cock wins for `DIALOG`, as in web-spa component 1). The kind word and the rest of the row stay dim. |
++| stale (lamp-off) | `\x1b[2m` (SGR dim) | `\x1b[2m` | `\x1b[2m` | A whole `stale` row. The word `stale` is always in LIVE. On a row that is also cocked, only the `DIALOG` word is amber and not dim (the cock wins for `DIALOG`). The kind word and the rest of the row stay dim. |
+ | callsign | `\x1b[1m` (bold) | `\x1b[1m` | `\x1b[1m` | NAME column values |
+@@ -723,3 +417,3 @@
+ - stdout: results and data (tables, send/wait results, `last` text).
+-- stderr: context lines (`waiting: <name>`, the issue line of a send), refusals (`unable  <name>  <reason>  <detail>`, two-space separated; `viola send` prefixes the `[/ ]` mirror and pads `unable` to the readback-word column, as in its sample; the exit-code table omits the `<name>` field; only the exit-1 refusals of `viola run`, `viola revive` and `viola verify`, and `viola list`'s exit-21 strict-modes refusal (chunk 2026-10-11-the-board-viola-list, the founder's own answer, 2026-10-13, relayed verbatim by the Viola overseer; the operator's answer superseded 2026-10-13), use the fixed message form, `unable: <text>`, as in `unable: <name> is already live`), each refusal's `hint:` line directly after it, errors (`error: …`), and the `viola ui` launch line.
++- stderr: context lines (`waiting: <name>`, the issue line of a send), refusals (`unable  <name>  <reason>  <detail>`, two-space separated; `viola send` prefixes the `[/ ]` mirror and pads `unable` to the readback-word column, as in its sample; the exit-code table omits the `<name>` field; only the exit-1 refusals of `viola run`, `viola revive` and `viola verify`, and `viola list`'s exit-21 strict-modes refusal (chunk 2026-10-11-the-board-viola-list, the founder's own answer, 2026-10-13, relayed verbatim by the Viola overseer; the operator's answer superseded 2026-10-13), use the fixed message form, `unable: <text>`, as in `unable: <name> is already live`), each refusal's `hint:` line directly after it, and errors (`error: …`).
+ - For `--json`, the whole result, including refusals and `error` objects, is one JSON document on stdout with the typed exit code. No `hint:` line is printed under `--json`: the typed `refusal` / `error` fields are the whole answer.
+@@ -733,3 +427,3 @@
+ 
+-**1. `viola list`: the k9s strip table** (the same columns and words as the web strip)
++**1. `viola list`: the k9s strip table**
+ ```
+@@ -744,4 +438,4 @@
+ - NAME is bold, `DIALOG` is amber, and the `scratch` row is dim.
+-- Rows are ordered by name, the same as the web racks.
+-- The BAY line is the web ATIS without `VIOLA` and the `127.0.0.1:47319` address (the board is not the `viola ui` page), without `resets` times (those are printed by `viola release <name> --budget`) and without a TAPE cell (the CLI has no tape). A window whose `resets_at` has passed still prints `expired` after its figure (`5H 62 % expired`), exactly as on the web, because old information is shown as old.
++- Rows are ordered by name.
++- The BAY line is the ATIS without `resets` times (those are printed by `viola release <name> --budget`) and without a TAPE cell (the CLI has no tape). A window whose `resets_at` has passed still prints `expired` after its figure (`5H 62 % expired`), because old information is shown as old.
+ - Every field of `claude agents --json` origin (unwrapped names) has C0/C1 controls escaped as `\x1B`-style hex text (security plan). In `list` table rows, `\n` and `\t` are escaped too (`\x0A`, `\x09`), so every row stays one fixed-width line. The security plan's "keeping `\n` and `\t`" is a floor, and this is stricter (T5, ratified). `wait` / `last` message text keeps `\n` and `\t`.
+@@ -809,10 +503,4 @@
+ 
+-**5. `viola verify` / `viola ui` / `viola run`**
++**5. `viola verify` / `viola run`**
+ - **`verify`:** a step counter (the project's one progress pattern) with static appended stdout lines, one per relied ledger row: `[01/22] shim-resolution claude resolves to a real executable  pass` / `... fail` (`MM` is the relied count, `LedgerRow::relied()`: 22 on Unix, 19 on Windows, where the three statusline rows are not relied because the status line is not wrapped there; the members of `LedgerRow::ALL` in its order, after the six spine and four screen and timing rows the dialog rows, the framing rows, the newline row, on Unix the statusline rows, then the resume row, relied on every OS: `question-answer` a question answered through PreToolUse takes effect · `plan-approve-revise` a plan revise and approve each take effect · `question-notes` free text and notes reach the question · `dialog-concurrency` two parallel questions each raise a dialog · `long-paste-wrapper` a long paste unwraps to the text as pasted · `tag-escaping` tag-like text un-escapes to the text as pasted · `local-command-clear` /clear starts a new session and submits no prompt · `paste-newline` an LF inside a paste stays inside the one prompt submitted · `statusline-override` a --settings statusLine runs in the status line's place · `statusline-shell` a statusline command runs through /bin/sh · `statusline-rate-limits` the statusline payload carries two whole-number rate_limits windows · `resume-session` --resume <id> reopens the session under that id; the count grows as owning chunks land their rows). Then the last stdout line, a summary, n + m equal to `MM`: `stamped 2.1.287  22 pass  0 fail` on Unix. The word `fail` is uncoloured. `viola verify --help` carries one static ASCII paragraph naming no path: run it from a folder you trust in Claude Code, and an unapproved external CLAUDE.md import blocks the probe. A run stopped by Ctrl-C or TERM before its rows are checked prints no step line and no summary: stderr carries exactly `unable: verify was stopped before it finished` then `hint: run viola verify again to stamp this CLI` (pattern 2's fixed form, plain ASCII, no path or pid), and it exits 1. The pair is a planning form on the operator's word (chunk 2026-10-13-interrupted-verify-cleanup); the founder's wording is owed.
+-- **`ui`:** the launch line goes to stderr exactly once. It is unstyled even on a TTY: no colour, no bold, no OSC 8 hyperlink. The URL sits whole on its own line with no leading indent and no trailing punctuation, so terminal link detection and copy take exactly the URL:
+-  ```
+-  viola ui  127.0.0.1:47319
+-  http://127.0.0.1:47319/?t=<64 hex characters>
+-  ```
+-  No other line, from any verb, ever prints the token, the URL or the `.url` path.
+ - **`run`:** prints nothing once the child starts. A start refusal (exit 1) prints its cause's fixed-message line, for example `unable: builder is already live`, then that cause's hint (`hint: viola list`). The per-cause lines are listed under the send hints above. None of them shows a path or a pid.
+@@ -836,5 +524,5 @@
+ ### Navigation Pattern
+-- Flat verbs, one lower-case word each: `run · revive · send · wait · last · list · answer · verify · pause · release · link · unlink · ui · plugin install`.
++- Flat verbs, one lower-case word each: `run · revive · send · wait · last · list · answer · verify · pause · release · link · unlink · plugin install`.
+ - `viola list` is the board and the other verbs act on one strip. There is no interactive prompt, no TUI mode and no pager.
+-- `viola --help` groups verbs as `board: list, ui` / `traffic: send, wait, last, answer` / `wheel: pause, release` / `handoff: link, unlink` / `setup: run, revive, verify, plugin install` (`revive` beside `run`: the operator's answer at the chunk 2026-10-10-viola-revive wrap).
++- `viola --help` groups verbs as `board: list` / `traffic: send, wait, last, answer` / `wheel: pause, release` / `handoff: link, unlink` / `setup: run, revive, verify, plugin install` (`revive` beside `run`: the operator's answer at the chunk 2026-10-10-viola-revive wrap).
+ 
+@@ -851,6 +539,2 @@
+ ### Universal Bans
+-- **NEVER use generic font families: Inter, Roboto, Arial, Helvetica, system-ui default.** viola's face is DIN (Bahnschrift) because strip forms and transport signage are set in it. A generic UI face erases the strip-bay reading. Open Sans, Lato, Space Grotesk and `-apple-system` are banned for the same reason.
+-- **NEVER use purple-gradient-on-white as a color scheme.** The page is a night strip bay: dark only, flat, gradient-free except for the one readback strike.
+-- **NEVER use cookie-cutter card grids without adapting card internals to content.** Sessions are fixed-field strips in racks, not cards. A card grid breaks the stable-slot muscle memory.
+-- **NEVER use the same layout for different information types.** Strips (current state), transfer markers (handoffs) and the tape (history) each have their own geometry: `--strip-cols`, the 20px marker line and `--tape-cols`.
+ - **NEVER use color purely for decoration. Every color communicates meaning.** Amber means `dialog_pending` and nothing else. Blue means handoff and nothing else. Any third hue has no domain meaning.
+@@ -861,25 +545,8 @@
+ - **Optimistic "Sending…" spinner, then a green "Sent ✓" or a toast.** Rejected because a clearance does not count until it is read back. The readback box stays `open` until the matching `prompt-submitted` (for `/clear`, its new-session post-condition), then fills instantly or is struck with `unable` plus the typed reason. There is no green, no toast and no presumption.
+-- **A node-graph canvas of sessions and arrows.** Rejected because handoffs are transfer markers between strips in the bay (`→ builder since …` in departure blue). The strips keep their rack slots and the page stays text.
+ - **Auto-sorting "needs input" or recent sessions to the top.** Rejected because a controller cocks a strip in place. Re-ranking breaks the founder's "where builder lives" memory, and the cock (12px offset plus amber band) already says "needs you".
+-- **A chat-transcript feed** (bubbles, avatars, Markdown-rendered replies, code blocks). Rejected because the feed is the tower tape: one fixed-column line per event, sends paired with their readback, all text as plain text. The security plan also bans Markdown-to-HTML and `innerHTML`.
+ - **Budget as circular rings or green/yellow/red bars.** Rejected because fuel state is figures in ruled fields (`5H 62 %  7D 41 %`), always with the ATIS age (`read 4m ago`). `budget-paused` is a phraseology word, not a colour.
+-- **Robot and person icons or emoji for the wheel, and a clickable-looking toggle.** Rejected because the WHEEL field prints `human` / `driver`. The v1 page is view-only, and taking control is spoken (`viola pause`, "I have control"), never implied by a GUI switch.
+-- **Skeleton shimmer and a terminal-green or neon-glow "hacker" theme.** Rejected because nothing glows in a tower cab unless the lamp is on it. Missing values print `unknown` in their box at once, and the ground is lit anthracite, not an OLED void.
++- **Robot and person icons or emoji for the wheel, and a clickable-looking toggle.** Rejected because the WHEEL field prints `human` / `driver`. Taking control is spoken (`viola pause`, "I have control"), never implied by a switch.
++- **Skeleton shimmer and a terminal-green or neon-glow "hacker" theme.** Rejected because nothing glows in a tower cab unless the lamp is on it. Missing values print `unknown` in their box at once.
+ 
+ ### Per-Surface Bans
+-
+-**web-spa**
+-- **NEVER use any Tailwind or Bootstrap palette value (blue-500, #0d6efd, gray-100…).** The only hex values are the eight Color World tokens. Blue exists solely as departure-holder #5B8DB8.
+-- **NEVER put lamp-off, amber or blue text on holder #2A2E33.** They measure 4.4, 4.3 and 3.9:1 there and fail AA. Those inks live on anthracite, which is why captions sit in the rack header, the cocked DIALOG cell is inset and markers sit in the rack gap.
+-- **NEVER use `box-shadow`, `text-shadow`, glow or `filter: drop-shadow`.** The depth strategy is borders-only, and shadows read as glow on dark.
+-- **NEVER use a radius other than 0.** Strips, boxes and boots are ruled rectangles, and a round element reads as a status dot.
+-- **NEVER ship loading as "Loading…", a spinner or a skeleton.** Initial state is phraseology with context (`sessions: no reading yet`, fields `unknown`). This overrides the shortlist's UX guideline 8, Loading Indicators (#78, "spinner or skeleton"), per the exploration (see the Design Decisions Log).
+-- **NEVER animate `busy`, `stale`, `turn-ended`, the readback fill or the strip's return into line.** Only the cock (160ms) and new-line/new-marker fades (≤120ms) move. Motion → Hard limits is the canonical list of banned effects. This bullet names only the banned triggers.
+-- **NEVER add a command palette, keyboard shortcuts, toasts, auto-dismissing notices or auto-refresh indicators.** The shortlist takes only the Terminal half of #81 and rejects the Real-Time Monitoring (#31) effect set. The page appends tape lines and changes field words in place, and nothing announces itself visually.
+-- **NEVER use hover colour changes or add hover-only information.** There are no controls in v1. Hover is a link underline only, and every piece of information is visible or reachable by keyboard (`<details>`). The one exception is the tail of an over-long unwrapped name (web-spa component 1), and that is never exposed on hover either.
+-- **NEVER use `innerHTML`, `dangerouslySetInnerHTML`, `style="…"` (React's `style` prop included), inline `<script>`, inline handlers, `eval`, `@font-face`, CDN assets or Markdown rendering.** The CSP (`style-src 'self'`, `font-src 'none'`, `require-trusted-types-for 'script'`) and the GUI output-encoding elevation forbid them, and event text is untrusted upstream content.
+-- **NEVER display, echo or log the GUI token, the launch URL, the `?t=` query, the `.url` path, or a cookie value on the page, including in the 401 strip.** The security plan treats all of them as secrets, and recovery is only the launch line or a restart. No credential input field exists in v1.
+-- **NEVER render `viola_home` from `/api/info`.** It contains the OS username, the only PII in scope, and the bay has no use for it.
+-- **NEVER put the whole tape in an `aria-live` region.** Announce only cocks, refusals, `TAPE stopped`, the 401 access strip and the 503 / 404 / 405 rack strips that appear after first render (a11y-plan D-A11Y-06). Anything else floods a screen reader for hours.
+-- **NEVER text-transform session names.** A `ViolaName` is the case-sensitive `target` the founder types.
+ 
+@@ -890,4 +557,3 @@
+ - **NEVER use a spinner, progress bar or live-redrawing dashboard.** `wait` prints one static `waiting:` line and `verify` prints step-counter lines, because a spinner is progress presumed before it is confirmed.
+-- **NEVER mix data and messages.** Results go to stdout. `waiting:`, refusals and their `hint:` lines, errors and the launch line go to stderr.
+-- **NEVER print the token or launch URL anywhere but the single `viola ui` launch line, and never style or OSC-8-wrap that line.** Styling or hyperlinking risks terminal-history or copy leakage and breaks exact copy.
++- **NEVER mix data and messages.** Results go to stdout. `waiting:`, refusals and their `hint:` lines, and errors go to stderr.
+ - **NEVER print upstream text, paths, pids or anyhow chains with serde sources in errors or hints.** This is the security plan's NEVER-log floor, and human output of `last` / `list` escapes C0/C1 controls.
+@@ -917,2 +583,4 @@
+ ### 4. Token Test
++A 0.2.0 frontend design input; 0.1.0 renders no page.
++
+ Every colour traces to one of the eight `--c-*` values (#1E2124, #2A2E33, #4A5057, #E6D8AE, #9C9278, #3B3A36, #D97706, #5B8DB8). `--c-*` is read only where a role alias is assigned or reassigned (`@layer tokens`, and the `stale` swap in `@layer states`). Components use the role aliases (`--surface-*`, `--ink*`, `--rule-*`, `--attention`, `--handoff`, `--focus-ring`, `--rb-*`) and never `--c-*`. Every length traces to a token (`--space-*`, `--fs-*`, `--track-*` (em), `--lh-display`, `--lh-label`, `--strip-h`, `--line-h`, `--band-w`, `--rb-size`, `--rule`, `--rule-strong`, `--radius`, `--cock-offset`, `--focus-w`, `--focus-offset`) or to a `ch` track in `--strip-cols` / `--strip-cols-wrapped` / `--tape-cols`, with the wrapped strip's rows in `--strip-rows-wrapped`. Every duration is `--cock-dur` or `--fade-dur`. The only literal lengths allowed are the two Navigation → Width breakpoints (`760px`, `1024px`), because `@media` conditions cannot read custom properties. A ninth hex value or any other untokened px value signals no system.

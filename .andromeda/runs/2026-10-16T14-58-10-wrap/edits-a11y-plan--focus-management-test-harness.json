@@ -1,0 +1,17 @@
+{
+ "file": ".andromeda/registries/contracts/a11y-plan/focus-management-test-harness.md",
+ "ops": [
+  {
+   "start": 2,
+   "end": 10,
+   "expect_start": "",
+   "expect_end": "  - **Modal patterns:** no focus trap en",
+   "payload": [
+    "",
+    "The frontend is deferred to 0.2.0; its technology is not chosen."
+   ],
+   "why": "wholly-web key file → stub"
+  }
+ ],
+ "beyond_named": []
+}

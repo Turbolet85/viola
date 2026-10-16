@@ -1,0 +1,48 @@
+{
+ "file": ".andromeda/registries/a11y-plan-contracts.toml",
+ "ops": [
+  {
+   "line": 9,
+   "find": "labels = [\"Primary tool per surface\", \"Configuration\"]",
+   "replace": "labels = [\"Primary tool per surface\"]",
+   "why": "STALE label Configuration"
+  },
+  {
+   "line": 14,
+   "find": "labels = [\"Tier coverage (Standard)\", \"Below 760 CSS px\", \"Per-SC verification map\", \"Levels\", \"Compliance trigger override\"]",
+   "replace": "labels = []",
+   "why": "all labels gone (stub file)"
+  },
+  {
+   "line": 19,
+   "find": "labels = [\"Emission location\", \"Row shape\", \"Binding fields\", \"Additive fields\", \"Scrubbing (Error sanitization trigger)\", \"Agent parsing\", \"cli / tui\"]",
+   "replace": "labels = [\"cli / tui\"]",
+   "why": "only cli / tui stays"
+  },
+  {
+   "line": 24,
+   "find": "labels = [\"Driver\", \"Library\", \"Pattern\"]",
+   "replace": "labels = []",
+   "why": "all labels gone (stub file)"
+  },
+  {
+   "line": 29,
+   "find": "labels = [\"Sequences per ARIA pattern (only patterns present in v1)\", \"Tooling\"]",
+   "replace": "labels = [\"Tooling\"]",
+   "why": "Sequences label gone"
+  },
+  {
+   "line": 34,
+   "find": "labels = [\"Automated proxy (gating)\", \"Per-surface test spec (supplemental, founder-owned)\", \"Manual pass spec format\", \"Supplemental to automated\", \"Real-AT automation stays out of CI\"]",
+   "replace": "labels = [\"Per-surface test spec (supplemental, founder-owned)\"]",
+   "why": "web labels gone"
+  },
+  {
+   "line": 39,
+   "find": "labels = [\"Source-of-truth tokens\", \"Verification tool\", \"WCAG SC mapping\"]",
+   "replace": "labels = []",
+   "why": "all labels gone (stub file)"
+  }
+ ],
+ "beyond_named": []
+}

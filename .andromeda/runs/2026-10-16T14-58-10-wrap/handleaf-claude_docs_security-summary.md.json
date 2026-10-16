@@ -1,0 +1,35 @@
+{
+ "file": ".claude/docs/security-summary.md",
+ "ops": [
+  {
+   "start": 17,
+   "end": 17,
+   "expect_start": "- **Another local user reads the feed ov",
+   "expect_end": "- **Another local user reads the feed ov",
+   "payload": [],
+   "why": "leaf finding: delete (leaf-security-plan.md/.claude/docs/security-summary.md:17#1)"
+  },
+  {
+   "start": 36,
+   "end": 36,
+   "expect_start": "- NEVER assume loopback TCP is same-user",
+   "expect_end": "- NEVER assume loopback TCP is same-user",
+   "payload": [],
+   "why": "leaf finding: delete (leaf-security-plan.md/.claude/docs/security-summary.md:36#1)"
+  },
+  {
+   "line": 44,
+   "find": "1. v1 GUI cookie on `/api/*` + SSE. 2. Unix endpoint in a per-user 0700 dir. 3. `not-delivered`/`control-character` + URNs `unauthorized` / `cross-origin-forbidden`. 4. `release` with `from` → `-32602 release-from-driver`. 5. `<home>/ui/<port>.url` (0600). 6. `MAX_FRAME` = 16 MiB in `viola-core`. 7. Ledger row \"largest hook payload seen\". 8. `<hash>` = truncated SHA-256 (16 hex). Amendments 1, 5 and amendment 3's two URNs were folded into architecture at the 2026-10-01 0-pending wrap; amendment 3's `control-character` detail lands with the route's \"Confirmed send\" entry.",
+   "replace": "2. Unix endpoint in a per-user 0700 dir. 3. `not-delivered`/`control-character`. 4. `release` with `from` → `-32602 release-from-driver`. 6. `MAX_FRAME` = 16 MiB in `viola-core`. 7. Ledger row \"largest hook payload seen\". 8. `<hash>` = truncated SHA-256 (16 hex). Amendment 3's `control-character` detail lands with the route's \"Confirmed send\" entry.",
+   "why": "leaf finding by hand (leaf-security-plan.md/.claude/docs/security-summary.md:44#1)"
+  },
+  {
+   "start": 66,
+   "end": 66,
+   "expect_start": "- GUI cookie is per-port (`viola_<port>`",
+   "expect_end": "- GUI cookie is per-port (`viola_<port>`",
+   "payload": [],
+   "why": "leaf finding: delete (leaf-security-plan.md/.claude/docs/security-summary.md:66#1)"
+  }
+ ]
+}

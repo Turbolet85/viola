@@ -1,0 +1,14 @@
+{
+ "file": ".andromeda/registries/contracts/a11y-plan/ci-integration.md",
+ "ops": [
+  {
+   "start": 13,
+   "end": 13,
+   "expect_start": "  - Per-PR new-violation diff: the verdi",
+   "expect_end": "  - Per-PR new-violation diff: the verdi",
+   "payload": [],
+   "why": "W per-PR axe violation diff"
+  }
+ ],
+ "beyond_named": []
+}

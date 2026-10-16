@@ -1,0 +1,1886 @@
+[
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T15:05:41Z",
+"argv": [
+"defer",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-22",
+"--text-file",
+".andromeda/runs/2026-10-16T14-58-10-wrap/defer-v1-22.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"defer v1-22 · status planned → deferred",
+"notes: +676 chars (total 676)",
+"dry-run: nothing written",
+"done-test: NO — 36 not verified|deferred · unclaimed 36"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-22",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "viola ui started on an OS-assigned port reports the bound port through its launch file, and a headless boot never races … (149 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-22",
+"chunk": null,
+"status": "deferred",
+"method": "integration",
+"ref": "null",
+"acceptance": "viola ui started on an OS-assigned port reports the bound port through its launch file, and a headless boot never races … (149 chars)",
+"notes_chars": 676
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T15:05:41Z",
+"argv": [
+"defer",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-48",
+"--text-file",
+".andromeda/runs/2026-10-16T14-58-10-wrap/defer-v1-48.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"defer v1-48 · status planned → deferred",
+"notes: +730 chars (total 730)",
+"dry-run: nothing written",
+"done-test: NO — 36 not verified|deferred · unclaimed 36"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-48",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "viola ui binds loopback only, rejects any Host but its own and serves only GETs (anything else 405); it answers health, … (519 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-48",
+"chunk": null,
+"status": "deferred",
+"method": "e2e",
+"ref": "null",
+"acceptance": "viola ui binds loopback only, rejects any Host but its own and serves only GETs (anything else 405); it answers health, … (519 chars)",
+"notes_chars": 730
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T15:05:41Z",
+"argv": [
+"defer",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-49",
+"--text-file",
+".andromeda/runs/2026-10-16T14-58-10-wrap/defer-v1-49.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"defer v1-49 · status planned → deferred",
+"notes: +725 chars (total 725)",
+"dry-run: nothing written",
+"done-test: NO — 36 not verified|deferred · unclaimed 36"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-49",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "One page shows the budget header with age, gate, tape and skipped state, a wrapped rack and an unwrapped read-only rack … (671 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-49",
+"chunk": null,
+"status": "deferred",
+"method": "e2e",
+"ref": "null",
+"acceptance": "One page shows the budget header with age, gate, tape and skipped state, a wrapped rack and an unwrapped read-only rack … (671 chars)",
+"notes_chars": 725
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T15:05:41Z",
+"argv": [
+"defer",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-50",
+"--text-file",
+".andromeda/runs/2026-10-16T14-58-10-wrap/defer-v1-50.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"defer v1-50 · status planned → deferred",
+"notes: +712 chars (total 712)",
+"dry-run: nothing written",
+"done-test: NO — 36 not verified|deferred · unclaimed 36"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-50",
+"chunk": null,
+"status": "planned",
+"method": "a11y",
+"ref": "null",
+"acceptance": "Every web page state (steady, narrow, empty, expanded line, scrolled up, trimmed, cocked, refused, unconfirmable, human … (641 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-50",
+"chunk": null,
+"status": "deferred",
+"method": "a11y",
+"ref": "null",
+"acceptance": "Every web page state (steady, narrow, empty, expanded line, scrolled up, trimmed, cocked, refused, unconfirmable, human … (641 chars)",
+"notes_chars": 712
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T15:05:41Z",
+"argv": [
+"defer",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-51",
+"--text-file",
+".andromeda/runs/2026-10-16T14-58-10-wrap/defer-v1-51.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"defer v1-51 · status planned → deferred",
+"notes: +707 chars (total 707)",
+"dry-run: nothing written",
+"done-test: NO — 36 not verified|deferred · unclaimed 36"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-51",
+"chunk": null,
+"status": "planned",
+"method": "a11y",
+"ref": "null",
+"acceptance": "Every design token pair used for text meets 4.5:1 and every non-text state pair meets 3:1 on the rendered Linux fallback… (344 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-51",
+"chunk": null,
+"status": "deferred",
+"method": "a11y",
+"ref": "null",
+"acceptance": "Every design token pair used for text meets 4.5:1 and every non-text state pair meets 3:1 on the rendered Linux fallback… (344 chars)",
+"notes_chars": 707
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T15:05:41Z",
+"argv": [
+"defer",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-52",
+"--text-file",
+".andromeda/runs/2026-10-16T14-58-10-wrap/defer-v1-52.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"defer v1-52 · status planned → deferred",
+"notes: +657 chars (total 657)",
+"dry-run: nothing written",
+"done-test: NO — 36 not verified|deferred · unclaimed 36"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-52",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "After viola ui restarts, a page whose cookie no longer matches shows the access strip in place of the stopped tape, anno… (248 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-52",
+"chunk": null,
+"status": "deferred",
+"method": "e2e",
+"ref": "null",
+"acceptance": "After viola ui restarts, a page whose cookie no longer matches shows the access strip in place of the stopped tape, anno… (248 chars)",
+"notes_chars": 657
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T15:05:41Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-02",
+"--text-file",
+".andromeda/runs/2026-10-16T14-58-10-wrap/note-v1-02.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-02: +697 chars (total 697) · status planned · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-02",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "On each of the three OSes an agent drives a product session through boot, run, status, cleanup and logs via identical sh… (387 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-02",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "On each of the three OSes an agent drives a product session through boot, run, status, cleanup and logs via identical sh… (387 chars)",
+"notes_chars": 697
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T15:05:41Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-04",
+"--text-file",
+".andromeda/runs/2026-10-16T14-58-10-wrap/note-v1-04.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-04: +669 chars (total 1106) · status planned · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-04",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "Every process role writes one-line JSON records carrying the grepped fields under the closed event vocabulary; a null co… (417 chars)",
+"notes_chars": 435
+},
+"after": {
+"id": "v1-04",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "Every process role writes one-line JSON records carrying the grepped fields under the closed event vocabulary; a null co… (417 chars)",
+"notes_chars": 1106
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T15:05:41Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-05",
+"--text-file",
+".andromeda/runs/2026-10-16T14-58-10-wrap/note-v1-05.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-05: +674 chars (total 2930) · status planned · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-05",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "A panic after log initialisation leaves exactly one error line and the hook still ends successfully; every home-level an… (431 chars)",
+"notes_chars": 2254
+},
+"after": {
+"id": "v1-05",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "A panic after log initialisation leaves exactly one error line and the hook still ends successfully; every home-level an… (431 chars)",
+"notes_chars": 2930
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T15:05:41Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-09",
+"--text-file",
+".andromeda/runs/2026-10-16T14-58-10-wrap/note-v1-09.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-09: +750 chars (total 750) · status planned · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-09",
+"chunk": null,
+"status": "planned",
+"method": "by-construction",
+"ref": "null",
+"acceptance": "The architecture states all eight security amendments: the per-launch GUI cookie, the owner-only per-user Unix endpoint … (379 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-09",
+"chunk": null,
+"status": "planned",
+"method": "by-construction",
+"ref": "null",
+"acceptance": "The architecture states all eight security amendments: the per-launch GUI cookie, the owner-only per-user Unix endpoint … (379 chars)",
+"notes_chars": 750
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T15:05:41Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-10",
+"--text-file",
+".andromeda/runs/2026-10-16T14-58-10-wrap/note-v1-10.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-10: +731 chars (total 1664) · status planned · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-10",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "For every send a wrapper accepts, the instance's event log alone lets a reader recover both the issue and its outcome (r… (327 chars)",
+"notes_chars": 931
+},
+"after": {
+"id": "v1-10",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "For every send a wrapper accepts, the instance's event log alone lets a reader recover both the issue and its outcome (r… (327 chars)",
+"notes_chars": 1664
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T15:05:41Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-11",
+"--text-file",
+".andromeda/runs/2026-10-16T14-58-10-wrap/note-v1-11.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-11: +750 chars (total 750) · status planned · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-11",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "Without polling, an open page learns when a pending dialog clears and when liveness, status or the budget reading change… (210 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-11",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "Without polling, an open page learns when a pending dialog clears and when liveness, status or the budget reading change… (210 chars)",
+"notes_chars": 750
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T15:05:41Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-36",
+"--text-file",
+".andromeda/runs/2026-10-16T14-58-10-wrap/note-v1-36.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-36: +756 chars (total 1626) · status planned · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-36",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "A send or answer from inside a wrapped session to another instance records the driver-to-driven link once; link and unli… (265 chars)",
+"notes_chars": 868
+},
+"after": {
+"id": "v1-36",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "A send or answer from inside a wrapped session to another instance records the driver-to-driven link once; link and unli… (265 chars)",
+"notes_chars": 1626
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T15:05:41Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-37",
+"--text-file",
+".andromeda/runs/2026-10-16T14-58-10-wrap/note-v1-37.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-37: +652 chars (total 2120) · status planned · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-37",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "list works with no live wrapper and shows each wrapped session's liveness (live or stale, gone omitted), idle or busy st… (439 chars)",
+"notes_chars": 1466
+},
+"after": {
+"id": "v1-37",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "list works with no live wrapper and shows each wrapped session's liveness (live or stale, gone omitted), idle or busy st… (439 chars)",
+"notes_chars": 2120
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T15:05:42Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-39",
+"--text-file",
+".andromeda/runs/2026-10-16T14-58-10-wrap/note-v1-39.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-39: +890 chars (total 890) · status planned · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-39",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "Every verb has a machine-readable form mirroring the channel result and a typed exit status from the documented set; hum… (424 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-39",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "Every verb has a machine-readable form mirroring the channel result and a typed exit status from the documented set; hum… (424 chars)",
+"notes_chars": 890
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T15:05:42Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-40",
+"--text-file",
+".andromeda/runs/2026-10-16T14-58-10-wrap/note-v1-40.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-40: +600 chars (total 2242) · status planned · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-40",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "On all three OSes CLI output is linear and static (one waiting line on a TTY only, no redraw or cursor movement) and car… (540 chars)",
+"notes_chars": 1640
+},
+"after": {
+"id": "v1-40",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "On all three OSes CLI output is linear and static (one waiting line on a TTY only, no redraw or cursor movement) and car… (540 chars)",
+"notes_chars": 2242
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T15:05:42Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-46",
+"--text-file",
+".andromeda/runs/2026-10-16T14-58-10-wrap/note-v1-46.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-46: +823 chars (total 823) · status planned · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-46",
+"chunk": null,
+"status": "planned",
+"method": "unit",
+"ref": "null",
+"acceptance": "Every external reader is size-capped, depth-limited and closed-typed; names are validated before any path join; a malfor… (323 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-46",
+"chunk": null,
+"status": "planned",
+"method": "unit",
+"ref": "null",
+"acceptance": "Every external reader is size-capped, depth-limited and closed-typed; names are validated before any path join; a malfor… (323 chars)",
+"notes_chars": 823
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T15:05:42Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-47",
+"--text-file",
+".andromeda/runs/2026-10-16T14-58-10-wrap/note-v1-47.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-47: +913 chars (total 1629) · status planned · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-47",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "CLI machine-readable errors, MCP errors, problem responses and channel errors carry only codes and fixed messages; no lo… (387 chars)",
+"notes_chars": 714
+},
+"after": {
+"id": "v1-47",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "CLI machine-readable errors, MCP errors, problem responses and channel errors carry only codes and fixed messages; no lo… (387 chars)",
+"notes_chars": 1629
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T15:05:42Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-08",
+"--text-file",
+".andromeda/runs/2026-10-16T14-58-10-wrap/note-v1-08.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-08: +711 chars (total 711) · status verified · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-08",
+"chunk": "2026-09-27-browser-verdict-reachability",
+"status": "verified",
+"method": "manual",
+"ref": "viola-0.1.0/chunks/2026-09-27-browser-verdict-reachability/evidence/code-graph-planes.md (gate entries 32-34: tree-refre… (206 chars)",
+"acceptance": "After setup the code-graph health check is green (health.py check 11 ✓, read at this chunk's session start with planes r… (686 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-08",
+"chunk": "2026-09-27-browser-verdict-reachability",
+"status": "verified",
+"method": "manual",
+"ref": "viola-0.1.0/chunks/2026-09-27-browser-verdict-reachability/evidence/code-graph-planes.md (gate entries 32-34: tree-refre… (206 chars)",
+"acceptance": "After setup the code-graph health check is green (health.py check 11 ✓, read at this chunk's session start with planes r… (686 chars)",
+"notes_chars": 711
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T15:05:42Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-23",
+"--text-file",
+".andromeda/runs/2026-10-16T14-58-10-wrap/note-v1-23.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-23: +649 chars (total 1233) · status verified · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-23",
+"chunk": "2026-09-24-workspace-tree-and-code-graph-planes",
+"status": "verified",
+"method": "by-construction",
+"ref": "by-construction: (a) scripts/release-check.sh — `--probe` prints \"release-check probes: 3/3 refused, control clean\", def… (746 chars)",
+"acceptance": "By construction, three parts, all required:⏎⏎(a) The release build contains no test-only binary.⏎- `bash scripts/release… (1540 chars)",
+"notes_chars": 582
+},
+"after": {
+"id": "v1-23",
+"chunk": "2026-09-24-workspace-tree-and-code-graph-planes",
+"status": "verified",
+"method": "by-construction",
+"ref": "by-construction: (a) scripts/release-check.sh — `--probe` prints \"release-check probes: 3/3 refused, control clean\", def… (746 chars)",
+"acceptance": "By construction, three parts, all required:⏎⏎(a) The release build contains no test-only binary.⏎- `bash scripts/release… (1540 chars)",
+"notes_chars": 1233
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T15:05:47Z",
+"argv": [
+"defer",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-22",
+"--text-file",
+".andromeda/runs/2026-10-16T14-58-10-wrap/defer-v1-22.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"defer v1-22 · status planned → deferred",
+"notes: +676 chars (total 676)",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed",
+"done-test: NO — 36 not verified|deferred · unclaimed 36"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-22",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "viola ui started on an OS-assigned port reports the bound port through its launch file, and a headless boot never races … (149 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-22",
+"chunk": null,
+"status": "deferred",
+"method": "integration",
+"ref": "null",
+"acceptance": "viola ui started on an OS-assigned port reports the bound port through its launch file, and a headless boot never races … (149 chars)",
+"notes_chars": 676
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T15:05:47Z",
+"argv": [
+"defer",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-48",
+"--text-file",
+".andromeda/runs/2026-10-16T14-58-10-wrap/defer-v1-48.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"defer v1-48 · status planned → deferred",
+"notes: +730 chars (total 730)",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed",
+"done-test: NO — 35 not verified|deferred · unclaimed 35"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-48",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "viola ui binds loopback only, rejects any Host but its own and serves only GETs (anything else 405); it answers health, … (519 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-48",
+"chunk": null,
+"status": "deferred",
+"method": "e2e",
+"ref": "null",
+"acceptance": "viola ui binds loopback only, rejects any Host but its own and serves only GETs (anything else 405); it answers health, … (519 chars)",
+"notes_chars": 730
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T15:05:48Z",
+"argv": [
+"defer",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-49",
+"--text-file",
+".andromeda/runs/2026-10-16T14-58-10-wrap/defer-v1-49.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"defer v1-49 · status planned → deferred",
+"notes: +725 chars (total 725)",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed",
+"done-test: NO — 34 not verified|deferred · unclaimed 34"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-49",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "One page shows the budget header with age, gate, tape and skipped state, a wrapped rack and an unwrapped read-only rack … (671 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-49",
+"chunk": null,
+"status": "deferred",
+"method": "e2e",
+"ref": "null",
+"acceptance": "One page shows the budget header with age, gate, tape and skipped state, a wrapped rack and an unwrapped read-only rack … (671 chars)",
+"notes_chars": 725
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T15:05:48Z",
+"argv": [
+"defer",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-50",
+"--text-file",
+".andromeda/runs/2026-10-16T14-58-10-wrap/defer-v1-50.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"defer v1-50 · status planned → deferred",
+"notes: +712 chars (total 712)",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed",
+"done-test: NO — 33 not verified|deferred · unclaimed 33"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-50",
+"chunk": null,
+"status": "planned",
+"method": "a11y",
+"ref": "null",
+"acceptance": "Every web page state (steady, narrow, empty, expanded line, scrolled up, trimmed, cocked, refused, unconfirmable, human … (641 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-50",
+"chunk": null,
+"status": "deferred",
+"method": "a11y",
+"ref": "null",
+"acceptance": "Every web page state (steady, narrow, empty, expanded line, scrolled up, trimmed, cocked, refused, unconfirmable, human … (641 chars)",
+"notes_chars": 712
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T15:05:48Z",
+"argv": [
+"defer",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-51",
+"--text-file",
+".andromeda/runs/2026-10-16T14-58-10-wrap/defer-v1-51.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"defer v1-51 · status planned → deferred",
+"notes: +707 chars (total 707)",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed",
+"done-test: NO — 32 not verified|deferred · unclaimed 32"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-51",
+"chunk": null,
+"status": "planned",
+"method": "a11y",
+"ref": "null",
+"acceptance": "Every design token pair used for text meets 4.5:1 and every non-text state pair meets 3:1 on the rendered Linux fallback… (344 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-51",
+"chunk": null,
+"status": "deferred",
+"method": "a11y",
+"ref": "null",
+"acceptance": "Every design token pair used for text meets 4.5:1 and every non-text state pair meets 3:1 on the rendered Linux fallback… (344 chars)",
+"notes_chars": 707
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T15:05:48Z",
+"argv": [
+"defer",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-52",
+"--text-file",
+".andromeda/runs/2026-10-16T14-58-10-wrap/defer-v1-52.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"defer v1-52 · status planned → deferred",
+"notes: +657 chars (total 657)",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed",
+"done-test: NO — 31 not verified|deferred · unclaimed 31"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-52",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "After viola ui restarts, a page whose cookie no longer matches shows the access strip in place of the stopped tape, anno… (248 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-52",
+"chunk": null,
+"status": "deferred",
+"method": "e2e",
+"ref": "null",
+"acceptance": "After viola ui restarts, a page whose cookie no longer matches shows the access strip in place of the stopped tape, anno… (248 chars)",
+"notes_chars": 657
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T15:05:48Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-02",
+"--text-file",
+".andromeda/runs/2026-10-16T14-58-10-wrap/note-v1-02.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-02: +697 chars (total 697) · status planned · ref/acceptance untouched",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-02",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "On each of the three OSes an agent drives a product session through boot, run, status, cleanup and logs via identical sh… (387 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-02",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "On each of the three OSes an agent drives a product session through boot, run, status, cleanup and logs via identical sh… (387 chars)",
+"notes_chars": 697
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T15:05:48Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-04",
+"--text-file",
+".andromeda/runs/2026-10-16T14-58-10-wrap/note-v1-04.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-04: +669 chars (total 1106) · status planned · ref/acceptance untouched",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-04",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "Every process role writes one-line JSON records carrying the grepped fields under the closed event vocabulary; a null co… (417 chars)",
+"notes_chars": 435
+},
+"after": {
+"id": "v1-04",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "Every process role writes one-line JSON records carrying the grepped fields under the closed event vocabulary; a null co… (417 chars)",
+"notes_chars": 1106
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T15:05:48Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-05",
+"--text-file",
+".andromeda/runs/2026-10-16T14-58-10-wrap/note-v1-05.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-05: +674 chars (total 2930) · status planned · ref/acceptance untouched",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-05",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "A panic after log initialisation leaves exactly one error line and the hook still ends successfully; every home-level an… (431 chars)",
+"notes_chars": 2254
+},
+"after": {
+"id": "v1-05",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "A panic after log initialisation leaves exactly one error line and the hook still ends successfully; every home-level an… (431 chars)",
+"notes_chars": 2930
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T15:05:48Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-09",
+"--text-file",
+".andromeda/runs/2026-10-16T14-58-10-wrap/note-v1-09.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-09: +750 chars (total 750) · status planned · ref/acceptance untouched",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-09",
+"chunk": null,
+"status": "planned",
+"method": "by-construction",
+"ref": "null",
+"acceptance": "The architecture states all eight security amendments: the per-launch GUI cookie, the owner-only per-user Unix endpoint … (379 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-09",
+"chunk": null,
+"status": "planned",
+"method": "by-construction",
+"ref": "null",
+"acceptance": "The architecture states all eight security amendments: the per-launch GUI cookie, the owner-only per-user Unix endpoint … (379 chars)",
+"notes_chars": 750
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T15:05:48Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-10",
+"--text-file",
+".andromeda/runs/2026-10-16T14-58-10-wrap/note-v1-10.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-10: +731 chars (total 1664) · status planned · ref/acceptance untouched",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-10",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "For every send a wrapper accepts, the instance's event log alone lets a reader recover both the issue and its outcome (r… (327 chars)",
+"notes_chars": 931
+},
+"after": {
+"id": "v1-10",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "For every send a wrapper accepts, the instance's event log alone lets a reader recover both the issue and its outcome (r… (327 chars)",
+"notes_chars": 1664
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T15:05:48Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-11",
+"--text-file",
+".andromeda/runs/2026-10-16T14-58-10-wrap/note-v1-11.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-11: +750 chars (total 750) · status planned · ref/acceptance untouched",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-11",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "Without polling, an open page learns when a pending dialog clears and when liveness, status or the budget reading change… (210 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-11",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "Without polling, an open page learns when a pending dialog clears and when liveness, status or the budget reading change… (210 chars)",
+"notes_chars": 750
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T15:05:48Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-36",
+"--text-file",
+".andromeda/runs/2026-10-16T14-58-10-wrap/note-v1-36.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-36: +756 chars (total 1626) · status planned · ref/acceptance untouched",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-36",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "A send or answer from inside a wrapped session to another instance records the driver-to-driven link once; link and unli… (265 chars)",
+"notes_chars": 868
+},
+"after": {
+"id": "v1-36",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "A send or answer from inside a wrapped session to another instance records the driver-to-driven link once; link and unli… (265 chars)",
+"notes_chars": 1626
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T15:05:48Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-37",
+"--text-file",
+".andromeda/runs/2026-10-16T14-58-10-wrap/note-v1-37.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-37: +652 chars (total 2120) · status planned · ref/acceptance untouched",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-37",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "list works with no live wrapper and shows each wrapped session's liveness (live or stale, gone omitted), idle or busy st… (439 chars)",
+"notes_chars": 1466
+},
+"after": {
+"id": "v1-37",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "list works with no live wrapper and shows each wrapped session's liveness (live or stale, gone omitted), idle or busy st… (439 chars)",
+"notes_chars": 2120
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T15:05:48Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-39",
+"--text-file",
+".andromeda/runs/2026-10-16T14-58-10-wrap/note-v1-39.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-39: +890 chars (total 890) · status planned · ref/acceptance untouched",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-39",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "Every verb has a machine-readable form mirroring the channel result and a typed exit status from the documented set; hum… (424 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-39",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "Every verb has a machine-readable form mirroring the channel result and a typed exit status from the documented set; hum… (424 chars)",
+"notes_chars": 890
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T15:05:48Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-40",
+"--text-file",
+".andromeda/runs/2026-10-16T14-58-10-wrap/note-v1-40.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-40: +600 chars (total 2242) · status planned · ref/acceptance untouched",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-40",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "On all three OSes CLI output is linear and static (one waiting line on a TTY only, no redraw or cursor movement) and car… (540 chars)",
+"notes_chars": 1640
+},
+"after": {
+"id": "v1-40",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "On all three OSes CLI output is linear and static (one waiting line on a TTY only, no redraw or cursor movement) and car… (540 chars)",
+"notes_chars": 2242
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T15:05:48Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-46",
+"--text-file",
+".andromeda/runs/2026-10-16T14-58-10-wrap/note-v1-46.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-46: +823 chars (total 823) · status planned · ref/acceptance untouched",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-46",
+"chunk": null,
+"status": "planned",
+"method": "unit",
+"ref": "null",
+"acceptance": "Every external reader is size-capped, depth-limited and closed-typed; names are validated before any path join; a malfor… (323 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-46",
+"chunk": null,
+"status": "planned",
+"method": "unit",
+"ref": "null",
+"acceptance": "Every external reader is size-capped, depth-limited and closed-typed; names are validated before any path join; a malfor… (323 chars)",
+"notes_chars": 823
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T15:05:49Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-47",
+"--text-file",
+".andromeda/runs/2026-10-16T14-58-10-wrap/note-v1-47.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-47: +913 chars (total 1629) · status planned · ref/acceptance untouched",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-47",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "CLI machine-readable errors, MCP errors, problem responses and channel errors carry only codes and fixed messages; no lo… (387 chars)",
+"notes_chars": 714
+},
+"after": {
+"id": "v1-47",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "CLI machine-readable errors, MCP errors, problem responses and channel errors carry only codes and fixed messages; no lo… (387 chars)",
+"notes_chars": 1629
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T15:05:49Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-08",
+"--text-file",
+".andromeda/runs/2026-10-16T14-58-10-wrap/note-v1-08.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-08: +711 chars (total 711) · status verified · ref/acceptance untouched",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-08",
+"chunk": "2026-09-27-browser-verdict-reachability",
+"status": "verified",
+"method": "manual",
+"ref": "viola-0.1.0/chunks/2026-09-27-browser-verdict-reachability/evidence/code-graph-planes.md (gate entries 32-34: tree-refre… (206 chars)",
+"acceptance": "After setup the code-graph health check is green (health.py check 11 ✓, read at this chunk's session start with planes r… (686 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-08",
+"chunk": "2026-09-27-browser-verdict-reachability",
+"status": "verified",
+"method": "manual",
+"ref": "viola-0.1.0/chunks/2026-09-27-browser-verdict-reachability/evidence/code-graph-planes.md (gate entries 32-34: tree-refre… (206 chars)",
+"acceptance": "After setup the code-graph health check is green (health.py check 11 ✓, read at this chunk's session start with planes r… (686 chars)",
+"notes_chars": 711
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T15:05:49Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-23",
+"--text-file",
+".andromeda/runs/2026-10-16T14-58-10-wrap/note-v1-23.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-58-10-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-23: +649 chars (total 1233) · status verified · ref/acceptance untouched",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-23",
+"chunk": "2026-09-24-workspace-tree-and-code-graph-planes",
+"status": "verified",
+"method": "by-construction",
+"ref": "by-construction: (a) scripts/release-check.sh — `--probe` prints \"release-check probes: 3/3 refused, control clean\", def… (746 chars)",
+"acceptance": "By construction, three parts, all required:⏎⏎(a) The release build contains no test-only binary.⏎- `bash scripts/release… (1540 chars)",
+"notes_chars": 582
+},
+"after": {
+"id": "v1-23",
+"chunk": "2026-09-24-workspace-tree-and-code-graph-planes",
+"status": "verified",
+"method": "by-construction",
+"ref": "by-construction: (a) scripts/release-check.sh — `--probe` prints \"release-check probes: 3/3 refused, control clean\", def… (746 chars)",
+"acceptance": "By construction, three parts, all required:⏎⏎(a) The release build contains no test-only binary.⏎- `bash scripts/release… (1540 chars)",
+"notes_chars": 1233
+}
+}
+]

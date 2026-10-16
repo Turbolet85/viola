@@ -1,0 +1,22 @@
+{
+ "file": ".andromeda/registries/contracts/a11y-plan/a11y-testing-tool-pick.md",
+ "ops": [
+  {
+   "start": 4,
+   "end": 10,
+   "expect_start": "  - **web-spa:** `@axe-core/playwright` ",
+   "expect_end": "    - eslint-plugin-jsx-a11y at lint tim",
+   "payload": [],
+   "why": "W web-spa tool"
+  },
+  {
+   "start": 14,
+   "end": 26,
+   "expect_start": "  - **Rejected:** `lighthouse` 13.5.0, `",
+   "expect_end": "  - **Verdict per `analyze()`:** `violat",
+   "payload": [],
+   "why": "W rejected web tools + Configuration (makeAxeBuilder)"
+  }
+ ],
+ "beyond_named": []
+}

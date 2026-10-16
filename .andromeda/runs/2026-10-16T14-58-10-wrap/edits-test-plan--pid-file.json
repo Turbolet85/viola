@@ -1,0 +1,12 @@
+{
+ "file": ".andromeda/registries/contracts/test-plan/pid-file.md",
+ "ops": [
+  {
+   "line": 3,
+   "find": " The UI pid comes from `GET /api/info` `pid` and `<home>/ui/<port>.url`.",
+   "replace": "",
+   "why": "W-CLAUSE"
+  }
+ ],
+ "beyond_named": []
+}

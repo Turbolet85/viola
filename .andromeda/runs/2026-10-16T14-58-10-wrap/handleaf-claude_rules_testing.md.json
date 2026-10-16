@@ -1,0 +1,13 @@
+{
+ "file": ".claude/rules/testing.md",
+ "ops": [
+  {
+   "start": 43,
+   "end": 43,
+   "expect_start": "- Web selectors: roles + `data-*` + exac",
+   "expect_end": "- Web selectors: roles + `data-*` + exac",
+   "payload": [],
+   "why": "leaf finding: delete (leaf-test-plan.md/.claude/rules/testing.md:43#1)"
+  }
+ ]
+}

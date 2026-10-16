@@ -1,0 +1,39 @@
+{
+ "file": ".andromeda/registries/contracts/architecture/project-directory-structure.md",
+ "ops": [
+  {
+   "line": 26,
+   "find": "mcp, ui, verify",
+   "replace": "mcp, verify",
+   "why": "W-CLAUSE ui cmd module"
+  },
+  {
+   "line": 68,
+   "find": ", tailing (with `ui`)",
+   "replace": "",
+   "why": "W-CLAUSE ui tailing"
+  },
+  {
+   "start": 76,
+   "end": 79,
+   "expect_start": "│   ├── viola-ui/",
+   "expect_end": "│   │                           #   bundle (founder ruling",
+   "payload": [],
+   "why": "W viola-ui crate tree (named)"
+  },
+  {
+   "start": 124,
+   "end": 125,
+   "expect_start": "├── a11y/",
+   "expect_end": "│   └── sr-pass/",
+   "payload": [],
+   "why": "W web a11y manual SR passes"
+  }
+ ],
+ "beyond_named": [
+  {
+   "op": 3,
+   "reason": "a11y/sr-pass/ (web a11y screen-reader records, dir absent from tree): not in the named list"
+  }
+ ]
+}

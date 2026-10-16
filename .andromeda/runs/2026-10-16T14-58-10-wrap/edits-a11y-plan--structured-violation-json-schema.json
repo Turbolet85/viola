@@ -1,0 +1,18 @@
+{
+ "file": ".andromeda/registries/contracts/a11y-plan/structured-violation-json-schema.md",
+ "ops": [
+  {
+   "start": 2,
+   "end": 31,
+   "expect_start": "",
+   "expect_end": "- **Agent parsing:** `jq -c 'select(.eve",
+   "payload": [
+    "",
+    "The frontend is deferred to 0.2.0; its technology is not chosen.",
+    ""
+   ],
+   "why": "web violation schema → stub; cli / tui line stays"
+  }
+ ],
+ "beyond_named": []
+}

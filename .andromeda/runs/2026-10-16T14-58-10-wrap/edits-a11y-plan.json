@@ -1,0 +1,966 @@
+{
+ "file": ".andromeda/a11y-plan.md",
+ "ops": [
+  {
+   "start": 12,
+   "end": 20,
+   "expect_start": "_**Agent-driven invariant:** every WCAG ",
+   "expect_end": "",
+   "payload": [],
+   "why": "W preamble: agent-driven WCAG invariant (axe/pa11y/Lighthouse, semantic HTML)"
+  },
+  {
+   "line": 28,
+   "find": "web-spa carries about 11 assertable entities (inside Standard's 5–15 band) across three surfaces with a11y reach (web-spa full axe reach, cli output discipline, tui boundary only), and there are six must-be-accessible paths, above Minimal's 2–5 band. The security tier is Minimal with no compliance regime, but the tests tier is Comprehensive (it already mandates an axe `violations: []` verdict per state strip) and the obs tier is Standard. Standard is the lowest tier inside the tests ±1 band, and it is the lowest tier that asserts the AA contracts design already binds (SC 1.4.3 / 1.4.11 token pairs, SC 1.4.12 spacing tokens, SC 2.5.8, SC 2.3.1, forced colours, reduced motion). Comprehensive is ruled out: no regime, no WCAG target or disability-user signal in the creator brief, and no multi-language or cognitive trigger. The Standard label applies to web-spa only; ",
+   "replace": "",
+   "why": "W-CLAUSE tier justification (tier itself not re-decided)"
+  },
+  {
+   "start": 32,
+   "end": 86,
+   "expect_start": "**Web-spa entities (`viola ui`, one rout",
+   "expect_end": "  - **Reason:** These are not built in v",
+   "payload": [
+    "The frontend is deferred to 0.2.0; its technology is not chosen."
+   ],
+   "why": "W-SECTION Web-spa entities"
+  },
+  {
+   "line": 90,
+   "find": "`unlink`, `ui`, `revive`",
+   "replace": "`unlink`, `revive`",
+   "why": "W-CLAUSE ui verb"
+  },
+  {
+   "start": 104,
+   "end": 108,
+   "expect_start": "- **Entity:** GUI HTTP API: `/api/*`, SS",
+   "expect_end": "",
+   "payload": [],
+   "why": "W GUI HTTP API entity"
+  },
+  {
+   "start": 119,
+   "end": 123,
+   "expect_start": "- **Entity:** Phone / remote view",
+   "expect_end": "",
+   "payload": [],
+   "why": "W Phone / remote view entity"
+  },
+  {
+   "line": 124,
+   "find": "none on web-spa. The security excerpt reports \"no login forms… no captcha\". The enforced CSP (`frame-ancestors 'none'`, `default-src 'none'`, and only `'self'` for script, style, connect and img) blocks third-party iframes and widgets. The only",
+   "replace": "the only",
+   "why": "W-CLAUSE web-spa vendor zones/CSP"
+  },
+  {
+   "start": 130,
+   "end": 161,
+   "expect_start": "- **Surface:** web-spa (`viola ui` strip",
+   "expect_end": "",
+   "payload": [],
+   "why": "W Surface: web-spa"
+  },
+  {
+   "start": 196,
+   "end": 197,
+   "expect_start": "  - **web-spa:** `@axe-core/playwright` ",
+   "expect_end": "  - [resolved: Lighthouse and pa11y are ",
+   "payload": [],
+   "why": "W tool pick web-spa + resolved"
+  },
+  {
+   "start": 200,
+   "end": 252,
+   "expect_start": "- **WCAG criteria mapping (tier Standard",
+   "expect_end": "",
+   "payload": [],
+   "why": "W WCAG mapping, violation schema, focus harness"
+  },
+  {
+   "start": 254,
+   "end": 255,
+   "expect_start": "  - **web-spa:** `page.keyboard.press()`",
+   "expect_end": "  - Arrow keys and Escape have no contra",
+   "payload": [],
+   "why": "W keyboard harness web-spa"
+  },
+  {
+   "start": 260,
+   "end": 263,
+   "expect_start": "  - **Automated proxy (web-spa):**",
+   "expect_end": "    - assert `document.title` (`DIALOG <",
+   "payload": [],
+   "why": "W SR automated proxy"
+  },
+  {
+   "line": 264,
+   "find": "NVDA (Windows, Edge/Chrome and Windows Terminal), VoiceOver (macOS) and Orca (Linux) on every Section 4 path",
+   "replace": "NVDA (Windows Terminal), VoiceOver (macOS) and Orca (Linux) on Section 4 P4 and P6",
+   "why": "W-CLAUSE browser + web paths"
+  },
+  {
+   "start": 266,
+   "end": 273,
+   "expect_start": "- **Contrast verification harness:**",
+   "expect_end": "",
+   "payload": [],
+   "why": "W contrast harness"
+  },
+  {
+   "start": 278,
+   "end": 278,
+   "expect_start": "  - **Axe verdict:** `violations` must e",
+   "expect_end": "  - **Axe verdict:** `violations` must e",
+   "payload": [],
+   "why": "W axe verdict"
+  },
+  {
+   "start": 284,
+   "end": 295,
+   "expect_start": "**1. Founder reads the bay and navigates",
+   "expect_end": "",
+   "payload": [],
+   "why": "W Path 1 (its viola list caption clause moves to Path 6)"
+  },
+  {
+   "line": 297,
+   "find": "web-spa (tape send line and transfer marker `<viola-readback>`) and cli",
+   "replace": "cli",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 298,
+   "end": 300,
+   "expect_start": "- **Required ARIA roles:** `log`, `statu",
+   "expect_end": "- **Required WCAG SC coverage per tier:*",
+   "payload": [],
+   "why": "W Path 2 roles/focus/SC"
+  },
+  {
+   "start": 302,
+   "end": 304,
+   "expect_start": "  - Tests excerpt, Critical Path 2 (`dat",
+   "expect_end": "  - Design excerpt, User-Facing Error Su",
+   "payload": [],
+   "why": "W Path 2 web sources"
+  },
+  {
+   "line": 308,
+   "find": "web-spa (cocked strip) and cli",
+   "replace": "cli",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 309,
+   "end": 311,
+   "expect_start": "- **Required ARIA roles:** `row` / `cell",
+   "expect_end": "- **Required WCAG SC coverage per tier:*",
+   "payload": [],
+   "why": "W Path 3 roles/focus/SC"
+  },
+  {
+   "line": 313,
+   "find": "Critical Path 4 (`data-dialog=\"pending\"`, `DIALOG <kind>`, the `document.title` revert) and Path 7",
+   "replace": "Critical Path 7",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 314,
+   "end": 314,
+   "expect_start": "  - Design excerpt, Loading/Error/Empty ",
+   "expect_end": "  - Design excerpt, Loading/Error/Empty ",
+   "payload": [],
+   "why": "W Path 3 cocked-strip source"
+  },
+  {
+   "line": 318,
+   "find": "(boundary-only), cli",
+   "replace": "(boundary-only) and cli",
+   "why": "grammar after the cut below"
+  },
+  {
+   "line": 318,
+   "find": " and web-spa (WHEEL column)",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 319,
+   "find": "web: `cell` for WHEEL, with the word `human` carrying the state. ",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 322,
+   "end": 322,
+   "expect_start": "  - web: no focus change on a wheel chan",
+   "expect_end": "  - web: no focus change on a wheel chan",
+   "payload": [],
+   "why": "W Path 4 web focus"
+  },
+  {
+   "line": 323,
+   "find": ", 1.4.1 (the word `human` in strong weight, not colour), 1.3.1.",
+   "replace": ".",
+   "why": "W-CLAUSE web SCs"
+  },
+  {
+   "start": 330,
+   "end": 345,
+   "expect_start": "**5. Degraded and access states: 503, `T",
+   "expect_end": "",
+   "payload": [],
+   "why": "W Path 5"
+  },
+  {
+   "line": 346,
+   "find": ", verify and launch-line output",
+   "replace": " and verify output",
+   "why": "W-CLAUSE launch line"
+  },
+  {
+   "line": 347,
+   "find": "- **Surfaces involved:** cli.",
+   "replace": "- **Surfaces involved:** cli (`viola list` must use the same captions and slot order as the deferred 0.2.0 page).",
+   "why": "KEEP L286 moved here (ruling e)"
+  },
+  {
+   "line": 349,
+   "find": ", and `viola ui` prints one launch line to stderr [resolved: design's launch block is two lines, printed once; Section 4 P6]",
+   "replace": "",
+   "why": "W-CLAUSE launch line"
+  },
+  {
+   "line": 357,
+   "find": "tui/ipc-internal/api-service",
+   "replace": "tui/ipc-internal",
+   "why": "W-CLAUSE api-service"
+  },
+  {
+   "line": 357,
+   "find": "covered by Paths 1, 4 and 5",
+   "replace": "covered by Path 4",
+   "why": "CROSS cut Paths 1 and 5"
+  },
+  {
+   "line": 364,
+   "find": "State color tokens. There are seven state encodings, none carried by hue alone: success / error / warning / info / attention / stale, plus the CLI amber and dim SGR.",
+   "replace": "State color tokens: the CLI amber and dim SGR, none carried by hue alone.",
+   "why": "W-CLAUSE web state encodings"
+  },
+  {
+   "line": 364,
+   "find": " on both CLI and web",
+   "replace": " on the CLI",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 366,
+   "end": 368,
+   "expect_start": "    - axe `color-contrast` rule plus the",
+   "expect_end": "    - forced-colors emulation keeps each",
+   "payload": [],
+   "why": "W visual-discrimination web assertions"
+  },
+  {
+   "start": 377,
+   "end": 378,
+   "expect_start": "    - a scripted Tab/Shift+Tab walk of t",
+   "expect_end": "    - SC 2.1.1, 2.1.2 and 2.4.7 checked ",
+   "payload": [],
+   "why": "W keyboard-only web assertions"
+  },
+  {
+   "line": 383,
+   "find": " Design excerpt, Status announcer (a limited polite announcement scope). Overseer Direction 4 (the 401 strip is announced).",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 383,
+   "find": "announcement correctness and ",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 385,
+   "end": 386,
+   "expect_start": "    - automated status-region text asser",
+   "expect_end": "    - resolve the implicit `aria-live` o",
+   "payload": [],
+   "why": "W SR-priority web assertions"
+  },
+  {
+   "line": 387,
+   "find": "Section 4 Paths 1–6",
+   "replace": "Section 4 P4 and P6",
+   "why": "CROSS: terminal SR paths (as L803)"
+  },
+  {
+   "line": 393,
+   "find": " Auth has no login form and no session timeout (security excerpt), so SC 3.3.7 / 3.3.8 have no surface.",
+   "replace": "",
+   "why": "W-CLAUSE GUI auth"
+  },
+  {
+   "line": 394,
+   "find": "Motion tokens `--cock-dur`, `--fade-dur`, `--cock-ease` and `--fade-ease` are present, but the creator brief never mentions vestibular issues. The design's own contract (reduced-motion override, no flash sources, no looped animation) is still asserted through `prefers-reduced-motion` emulation under SC 2.3.1 / 2.2.2. There is no SC 2.3.3 AAA escalation.",
+   "replace": "viola's own output is static, with no spinner or redraw.",
+   "why": "W-CLAUSE motion tokens"
+  },
+  {
+   "line": 395,
+   "find": " SC 3.1.1 page `lang` stays in the AA baseline. [resolved: SC 3.1.2 for tape content of unknown language — Section 7 → Language of page and parts.]",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 396,
+   "find": ", and the phone view is deferred (arch excerpt, Surfaces). The SC 2.5.8 check on `--line-h` for summary hit height is carried as a design-bound AA addition in Section 3, not as this trigger. Re-evaluate when the phone view or the v1.x brake buttons (`--strip-h`, 44×44) land.",
+   "replace": ".",
+   "why": "W-CLAUSE phone view / --line-h"
+  },
+  {
+   "line": 408,
+   "find": "Standard-tier depth on web-spa (cli/tui in brackets)",
+   "replace": "Standard-tier depth (cli/tui in brackets)",
+   "why": "W-CLAUSE header"
+  },
+  {
+   "line": 410,
+   "find": "Token-pair contrast (SC 1.4.3 / 1.4.11), state carried by printed words (SC 1.4.1), `aria-hidden` readback box named by its word (SC 1.1.1), native table/log/list structure (SC 1.3.1), reflow at 1024 and 760–1023 (SC 1.4.10), text spacing on fixed-height tokens (SC 1.4.12), forced colours | axe 4.13.0 `color-contrast` + `incomplete` gate, colorjs.io 0.7.1 token checker, Playwright 1.63.0 `forcedColors`/`reducedMotion` emulation, aria snapshots. ",
+   "replace": "— | ",
+   "why": "W-CLAUSE web coverage + tools"
+  },
+  {
+   "line": 411,
+   "find": "Single tab sequence (SC 2.1.1 / 2.4.3), skip link to `#tape-end` (SC 2.4.1), `:focus-visible` ring (SC 2.4.7), sticky header never covers focus (SC 2.4.11), `<summary>` hit height (SC 2.5.8), no trap (SC 2.1.2), no focus theft on SSE (SC 3.2.1), one-shot motion (SC 2.2.2 / 2.3.1) | Playwright keyboard walk + tabbable 6.5.0 oracle + bounding-rect checks + axe `target-size`. ",
+   "replace": "— | ",
+   "why": "W-CLAUSE web coverage + tools"
+  },
+  {
+   "line": 412,
+   "find": "`lang=\"en\"` (SC 3.1.1), error words in text (SC 3.3.1), plain recovery instruction on the 401 strip (SC 3.3.3), consistent readback words across tape and transfer marker (SC 3.2.4) | axe `html-has-lang`, Playwright text assertions per state strip. ",
+   "replace": "— | ",
+   "why": "W-CLAUSE web coverage + tools"
+  },
+  {
+   "start": 413,
+   "end": 413,
+   "expect_start": "| Robust | Native HTML first (SC 4.1.2),",
+   "expect_end": "| Robust | Native HTML first (SC 4.1.2),",
+   "payload": [],
+   "why": "W Robust row (no cli bracket)"
+  },
+  {
+   "line": 414,
+   "find": " v1 scope is what has a surface: no time limits (SC 2.2.1), plain error and recovery text (SC 3.3.1 / 3.3.3), consistent identification and predictability (SC 3.2.1–3.2.4), and no inputs or auth form (SC 3.3.7 / 3.3.8 absent) | Section 8: Playwright aria snapshot / `toHaveText` / `toHaveAccessibleName`, the virtual-screen-reader phrase log, trycmd / assert_cmd, and the `surface-absence` spec. ",
+   "replace": " | ",
+   "why": "W-CLAUSE web coverage + tools"
+  },
+  {
+   "start": 415,
+   "end": 480,
+   "expect_start": "",
+   "expect_end": "  absence-row tags (Section 9 → Aggregat",
+   "payload": [],
+   "why": "W agent-runnable invariants + naming conventions"
+  },
+  {
+   "line": 487,
+   "find": " / and emit machine-parseable violation JSON.",
+   "replace": ".",
+   "why": "W-CLAUSE violation JSON"
+  },
+  {
+   "start": 497,
+   "end": 497,
+   "expect_start": "| web-spa | `banner` (native `<header>` ",
+   "expect_end": "| web-spa | `banner` (native `<header>` ",
+   "payload": [],
+   "why": "W landmark web-spa row"
+  },
+  {
+   "start": 501,
+   "end": 521,
+   "expect_start": "**Heading structure (web-spa):** `<h1>` ",
+   "expect_end": "",
+   "payload": [],
+   "why": "W heading structure + component catalog"
+  },
+  {
+   "line": 522,
+   "find": "403 page, v1.x brakes, GUI HTTP API, plugin/IPC, internal crates, phone view",
+   "replace": "plugin/IPC, internal crates",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 526,
+   "end": 526,
+   "expect_start": "| web-spa | assertable | `@axe-core/play",
+   "expect_end": "| web-spa | assertable | `@axe-core/play",
+   "payload": [],
+   "why": "W tool reach web-spa row"
+  },
+  {
+   "start": 532,
+   "end": 544,
+   "expect_start": "- **P1 — Founder reads the bay and navig",
+   "expect_end": "  - **SCs:** 1.3.1, 1.3.2, 1.4.1, 1.4.3,",
+   "payload": [],
+   "why": "W P1 (cli mirror L543 moves to P6)"
+  },
+  {
+   "line": 545,
+   "find": "(web-spa + cli)",
+   "replace": "(cli)",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 546,
+   "end": 555,
+   "expect_start": "  - **Roles:** `log` → `listitem` → disc",
+   "expect_end": "    - focus is unchanged.",
+   "payload": [],
+   "why": "W P2 web roles/focus/tests"
+  },
+  {
+   "start": 557,
+   "end": 557,
+   "expect_start": "  - **SCs:** 1.1.1, 1.3.1, 1.4.1, 1.4.11",
+   "expect_end": "  - **SCs:** 1.1.1, 1.3.1, 1.4.1, 1.4.11",
+   "payload": [],
+   "why": "W P2 SCs"
+  },
+  {
+   "line": 558,
+   "find": "(web-spa + cli)",
+   "replace": "(cli)",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 559,
+   "end": 569,
+   "expect_start": "  - **Roles:** the DIALOG `cell` holds `",
+   "expect_end": "  - **SCs:** 1.4.1, 1.4.3, 1.4.11, 2.2.2",
+   "payload": [
+    "  - **cli:** `viola answer` refusal `unverified-cli` text on the CLI."
+   ],
+   "why": "W P3 web lines; L568 kept as the cli line"
+  },
+  {
+   "line": 570,
+   "find": "(tui boundary + cli + web-spa)",
+   "replace": "(tui boundary + cli)",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 571,
+   "end": 571,
+   "expect_start": "  - **web:** `a11y-p4` asserts the WHEEL",
+   "expect_end": "  - **web:** `a11y-p4` asserts the WHEEL",
+   "payload": [],
+   "why": "W P4 web line"
+  },
+  {
+   "line": 574,
+   "find": "1.3.1, 1.4.1, 2.1.1",
+   "replace": "2.1.1",
+   "why": "W-CLAUSE web SCs"
+  },
+  {
+   "start": 575,
+   "end": 586,
+   "expect_start": "- **P5 — Degraded and access states** (w",
+   "expect_end": "  - **SCs:** 1.3.1, 1.4.1, 1.4.11, 3.3.1",
+   "payload": [],
+   "why": "W P5"
+  },
+  {
+   "line": 587,
+   "find": ", launch line**",
+   "replace": "**",
+   "why": "W-CLAUSE launch line"
+  },
+  {
+   "start": 590,
+   "end": 590,
+   "expect_start": "  - the `viola ui` launch block on stder",
+   "expect_end": "  - the `viola ui` launch block on stder",
+   "payload": [
+    "  - **cli mirror:** a literal pins the caption order the deferred 0.2.0 page must share (NAME · LIVE · STATUS · WHEEL · DIALOG · CLI), not a trycmd case: the `CAPTION` literal in the root case `list_human_board_is_the_literal_rows` (`tests/cli_list.rs`) and the unit case `board_row_caption_and_default_row_are_the_literals` (`src/human/board.rs`), chunk 2026-10-11-the-board-viola-list."
+   ],
+   "why": "W launch block cut; KEEP L543 moved here (ruling e)"
+  },
+  {
+   "start": 599,
+   "end": 605,
+   "expect_start": "**Naming convention:** ARIA role names p",
+   "expect_end": "",
+   "payload": [],
+   "why": "W ARIA naming convention + §11 ARIA pointer"
+  },
+  {
+   "start": 610,
+   "end": 622,
+   "expect_start": "**Focus order per layout** (upstream-con",
+   "expect_end": "- **After skip-link activation:** focus ",
+   "payload": [
+    "The frontend is deferred to 0.2.0; its technology is not chosen.",
+    ""
+   ],
+   "why": "W web focus order; cli/tui bullets stay"
+  },
+  {
+   "start": 626,
+   "end": 648,
+   "expect_start": "**Skip links:**",
+   "expect_end": "",
+   "payload": [],
+   "why": "W skip links/trap/restoration/shortcuts/harness"
+  },
+  {
+   "start": 655,
+   "end": 726,
+   "expect_start": "**Source-of-truth:** design token names ",
+   "expect_end": "  - Under `forcedColors: 'active'`: `--r",
+   "payload": [
+    "The frontend is deferred to 0.2.0; its technology is not chosen.",
+    ""
+   ],
+   "why": "W §6 web body; CLI equivalent L727 stays"
+  },
+  {
+   "start": 729,
+   "end": 745,
+   "expect_start": "### Typography tokens (readability)",
+   "expect_end": "",
+   "payload": [],
+   "why": "W typography tokens"
+  },
+  {
+   "start": 752,
+   "end": 795,
+   "expect_start": "### Live regions",
+   "expect_end": "",
+   "payload": [
+    "The frontend is deferred to 0.2.0; its technology is not chosen.",
+    ""
+   ],
+   "why": "W §7 live regions..language"
+  },
+  {
+   "start": 800,
+   "end": 802,
+   "expect_start": "| web-spa (Windows, live target) | NVDA ",
+   "expect_end": "| web-spa (Linux) | Orca (GNOME 50 cycle",
+   "payload": [],
+   "why": "W SR table web-spa rows"
+  },
+  {
+   "start": 805,
+   "end": 808,
+   "expect_start": "",
+   "expect_end": "(See `## 11. A11y Anti-Patterns` § Scree",
+   "payload": [],
+   "why": "W VSR proxy line + pointer to cut §11 SR"
+  },
+  {
+   "line": 814,
+   "find": ", and asserts the absence of the rest",
+   "replace": "",
+   "why": "W-CLAUSE surface-absence"
+  },
+  {
+   "start": 819,
+   "end": 821,
+   "expect_start": "  - The GUI cookie is a browser-session ",
+   "expect_end": "  - The page never forces a reload.",
+   "payload": [],
+   "why": "W GUI cookie / meta refresh / reload"
+  },
+  {
+   "line": 822,
+   "find": " The v1.x brakes add no timer either.",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 824,
+   "end": 828,
+   "expect_start": "- **WCAG SC:** SC 2.2.1 Timing Adjustabl",
+   "expect_end": "  - SC 2.2.6 (AAA) is not claimed.",
+   "payload": [],
+   "why": "W SC 2.2.1 web checks"
+  },
+  {
+   "line": 832,
+   "find": " There is no in-page recovery control in v1, because recovery happens in the terminal.",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 833,
+   "end": 837,
+   "expect_start": "  - **Readback refusal:** `unable · <rea",
+   "expect_end": "  - **`TAPE stopped · viola ui not answe",
+   "payload": [],
+   "why": "W web error strips"
+  },
+  {
+   "start": 839,
+   "end": 839,
+   "expect_start": "- **Per-field error:** N/A, because ther",
+   "expect_end": "- **Per-field error:** N/A, because ther",
+   "payload": [],
+   "why": "W per-field error"
+  },
+  {
+   "line": 840,
+   "find": " (AA; the 401 instruction line)",
+   "replace": " (AA)",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 842,
+   "end": 842,
+   "expect_start": "  - **web:** `a11y-p2` / `a11y-p5` check",
+   "expect_end": "  - **web:** `a11y-p2` / `a11y-p5` check",
+   "payload": [],
+   "why": "W web verification"
+  },
+  {
+   "line": 849,
+   "find": "`sessions: no reading yet`, ",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 849,
+   "find": "`TAPE live since <time> — no events yet`, ",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 849,
+   "find": "`unknown`, `n/a`, and the strip texts above",
+   "replace": "`unknown` and `n/a`",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 850,
+   "find": ", and next to its full text in the `<details>` body",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 851,
+   "find": "Page and CLI never show a Problem URN, stack trace",
+   "replace": "The CLI never shows a stack trace",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 853,
+   "find": "Playwright `toHaveText` pins every fixed web string per state, and trycmd",
+   "replace": "trycmd",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 854,
+   "end": 854,
+   "expect_start": "  - A DOM assertion confirms that no `ur",
+   "expect_end": "  - A DOM assertion confirms that no `ur",
+   "payload": [],
+   "why": "W no Problem URN in page text"
+  },
+  {
+   "line": 859,
+   "find": "The web `columnheader`s, read with `getByRole('columnheader')` in DOM order, equal `NAME · LIVE · STATUS · WHEEL · DIALOG · CLI`, and the `CAPTION` literal",
+   "replace": "The `CAPTION` literal",
+   "why": "W-CLAUSE web columnheaders"
+  },
+  {
+   "line": 859,
+   "find": "pins the same caption order for",
+   "replace": "pins the caption order `NAME · LIVE · STATUS · WHEEL · DIALOG · CLI` for",
+   "why": "W-CLAUSE same→named order"
+  },
+  {
+   "start": 860,
+   "end": 867,
+   "expect_start": "  - The readback word for one `corr` is ",
+   "expect_end": "  - SSE arrivals, cocking, refusal and s",
+   "payload": [],
+   "why": "W readback parity / navigation / help / on focus"
+  },
+  {
+   "line": 868,
+   "find": "Playwright aria snapshot / `toHaveText` / `toBeFocused`, trycmd, and the virtual-screen-reader phrase log",
+   "replace": "trycmd",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 870,
+   "end": 881,
+   "expect_start": "### Redundant entry avoidance",
+   "expect_end": "",
+   "payload": [],
+   "why": "W redundant entry + accessible authentication"
+  },
+  {
+   "start": 889,
+   "end": 889,
+   "expect_start": "",
+   "expect_end": "",
+   "payload": [
+    "",
+    "The browser test leg named here (the lint, E2E and aggregation stages below, `scripts/agent-run.* run --browser`, the `playwright` suite and `gate --require … playwright`, `e2e-web/`, `npm ci` and Chromium, the `e2e-web/test-results/` upload, and the same items in Section 1 → CI integration, Section 10 and Section 11 → Strategy and CI) stands until the route entry \"Remove the browser leg\" removes it; that entry's wrap amends this text.",
+    ""
+   ],
+   "why": "MARKER (ruling d)"
+  },
+  {
+   "line": 903,
+   "find": " → `/?t=<token>` from `ui/<port>.url`",
+   "replace": "",
+   "why": "I entangled: GUI token/launch file words only"
+  },
+  {
+   "start": 907,
+   "end": 908,
+   "expect_start": "- Per-PR diff: the binary verdict (`viol",
+   "expect_end": "- WCAG criterion coverage report: `sc-co",
+   "payload": [],
+   "why": "W per-PR axe diff, sc coverage per web-spa"
+  },
+  {
+   "start": 910,
+   "end": 914,
+   "expect_start": "**CI-specific resource attributes** (obs",
+   "expect_end": "",
+   "payload": [],
+   "why": "W CI resource attributes (violation rows, GET /health)"
+  },
+  {
+   "start": 923,
+   "end": 929,
+   "expect_start": "**Always-required SLO invariant (every t",
+   "expect_end": "",
+   "payload": [],
+   "why": "W zero WCAG AA violations on web-spa"
+  },
+  {
+   "start": 931,
+   "end": 932,
+   "expect_start": "- Zero new violations per PR (regression",
+   "expect_end": "- WCAG SC coverage report: every row of ",
+   "payload": [],
+   "why": "W Standard+ web invariants"
+  },
+  {
+   "start": 936,
+   "end": 936,
+   "expect_start": "- axe `analyze()` < 30 s per state rende",
+   "expect_end": "- axe `analyze()` < 30 s per state rende",
+   "payload": [],
+   "why": "W axe analyze budget"
+  },
+  {
+   "start": 938,
+   "end": 938,
+   "expect_start": "- Timing claims key on DOM signals and l",
+   "expect_end": "- Timing claims key on DOM signals and l",
+   "payload": [],
+   "why": "W timing on sse events"
+  },
+  {
+   "line": 940,
+   "find": " matches a11y's zero-violation invariant. Both reflect",
+   "replace": " reflects",
+   "why": "W-CLAUSE"
+  },
+  {
+   "start": 943,
+   "end": 943,
+   "expect_start": "- Any axe violation, contrast `incomplet",
+   "expect_end": "- Any axe violation, contrast `incomplet",
+   "payload": [],
+   "why": "W failure: axe on web-spa state"
+  },
+  {
+   "start": 945,
+   "end": 945,
+   "expect_start": "- Any applicable SC with zero passing ta",
+   "expect_end": "- Any applicable SC with zero passing ta",
+   "payload": [],
+   "why": "W failure: SC tagged tests"
+  },
+  {
+   "start": 947,
+   "end": 949,
+   "expect_start": "- A CSP / Trusted Types console violatio",
+   "expect_end": "- a11y CI duration > 50 % over the budge",
+   "payload": [],
+   "why": "W failure: CSP/TT, scrub, a11y CI duration"
+  },
+  {
+   "start": 959,
+   "end": 961,
+   "expect_start": "- NEVER leave a POUR row of the Section ",
+   "expect_end": "  default rules) without explicit Decisi",
+   "payload": [],
+   "why": "W strategy bans"
+  },
+  {
+   "start": 963,
+   "end": 963,
+   "expect_start": "- NEVER label web-spa \"WCAG 2.2 AA\" or c",
+   "expect_end": "- NEVER label web-spa \"WCAG 2.2 AA\" or c",
+   "payload": [],
+   "why": "W WCAG 2.2 label ban"
+  },
+  {
+   "start": 965,
+   "end": 965,
+   "expect_start": "- NEVER let a spec call `withTags` / `di",
+   "expect_end": "- NEVER let a spec call `withTags` / `di",
+   "payload": [],
+   "why": "W makeAxeBuilder ban"
+  },
+  {
+   "start": 967,
+   "end": 979,
+   "expect_start": "### ARIA",
+   "expect_end": "",
+   "payload": [],
+   "why": "W §11 ARIA subsection"
+  },
+  {
+   "start": 982,
+   "end": 989,
+   "expect_start": "- NEVER create keyboard traps (modal wit",
+   "expect_end": "- NEVER use smooth scrolling for the `#t",
+   "payload": [],
+   "why": "W keyboard bans (L990 wheel stays)"
+  },
+  {
+   "start": 996,
+   "end": 1000,
+   "expect_start": "- NEVER use foreground/background pairs ",
+   "expect_end": "- NEVER inject test stylesheets as inlin",
+   "payload": [],
+   "why": "W visual bans"
+  },
+  {
+   "start": 1003,
+   "end": 1015,
+   "expect_start": "### Screen Reader",
+   "expect_end": "",
+   "payload": [],
+   "why": "W §11 Screen Reader subsection"
+  },
+  {
+   "line": 1018,
+   "find": ": the GUI cookie stays session-scoped with no timed expiry, and no notice auto-dismisses.",
+   "replace": ".",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 1019,
+   "find": "The 401 access strip always carries its plain instruction line, and every human-mode",
+   "replace": "Every human-mode",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 1020,
+   "find": " and its full text in the `<details>` body",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 1021,
+   "find": "render a Problem URN (`urn:viola:problem:*`), stack trace or bare HTTP status as the only error text in the page or the CLI",
+   "replace": "render a stack trace as the only error text in the CLI",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 1022,
+   "find": "drift between CLI `viola list` and the web `columnheader`s (NAME · LIVE · STATUS · WHEEL · DIALOG · CLI), or let the readback word differ between the tape line and the transfer marker",
+   "replace": "of CLI `viola list` (NAME · LIVE · STATUS · WHEEL · DIALOG · CLI) drift from its `CAPTION` literal",
+   "why": "W-CLAUSE; caption agreement kept"
+  },
+  {
+   "start": 1023,
+   "end": 1024,
+   "expect_start": "- NEVER change context (navigate, reload",
+   "expect_end": "- NEVER add an in-page token-entry field",
+   "payload": [],
+   "why": "W context-change / 401 token-entry bans"
+  },
+  {
+   "start": 1028,
+   "end": 1032,
+   "expect_start": "- NEVER autoplay motion without `prefers",
+   "expect_end": "- NEVER use motion as ONLY signal (must ",
+   "payload": [],
+   "why": "W motion bans"
+  },
+  {
+   "line": 1033,
+   "find": "NEVER loop, pulse, blink, shimmer, stagger or scroll-drive any animation, and never add spinners or skeletons (design ban; SC 2.2.2 / 2.3.1).",
+   "replace": "NEVER add spinners (design ban).",
+   "why": "W-CLAUSE; CLI no-spinner kept"
+  },
+  {
+   "start": 1034,
+   "end": 1035,
+   "expect_start": "- NEVER animate the cock return or remov",
+   "expect_end": "- NEVER animate hover colour transitions",
+   "payload": [],
+   "why": "W motion bans"
+  },
+  {
+   "start": 1043,
+   "end": 1043,
+   "expect_start": "- NEVER run a11y specs with `bypassCSP`,",
+   "expect_end": "- NEVER run a11y specs with `bypassCSP`,",
+   "payload": [],
+   "why": "W bypassCSP / axe locale ban"
+  },
+  {
+   "start": 1046,
+   "end": 1046,
+   "expect_start": "- NEVER attach raw axe results. Scrub `u",
+   "expect_end": "- NEVER attach raw axe results. Scrub `u",
+   "payload": [],
+   "why": "W raw axe results ban"
+  },
+  {
+   "start": 1054,
+   "end": 1057,
+   "expect_start": "- NEVER skip per-PR diff (regression det",
+   "expect_end": "- NEVER park an a11y spec with `test.ski",
+   "payload": [],
+   "why": "W per-PR diff / fingerprint / waitForTimeout / test.skip in a11y specs"
+  },
+  {
+   "start": 1065,
+   "end": 1068,
+   "expect_start": "- NEVER use inaccessible captcha / paywa",
+   "expect_end": "  (the `@axe-core/playwright` 4.13.0 axe",
+   "payload": [],
+   "why": "W captcha/modal; WCAG conformance via axe (holds nested run --browser words)"
+  },
+  {
+   "start": 1070,
+   "end": 1071,
+   "expect_start": "- NEVER write a11y violation rows into `",
+   "expect_end": "- NEVER overclaim in the GUI: the page s",
+   "payload": [],
+   "why": "W violation rows; GUI overclaim"
+  }
+ ],
+ "beyond_named": [],
+ "marker_op": 99
+}

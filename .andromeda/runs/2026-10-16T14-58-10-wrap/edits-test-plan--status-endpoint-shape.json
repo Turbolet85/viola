@@ -1,0 +1,71 @@
+{
+ "file": ".andromeda/registries/contracts/test-plan/status-endpoint-shape.md",
+ "ops": [
+  {
+   "line": 3,
+   "find": "Its nested `list` and `ui` members are verbatim product shapes from the arch GUI HTTP contract (see Section 1, Status endpoint shape).",
+   "replace": "Its nested `list` member is the verbatim `viola list --json` document (see Section 1, Status endpoint shape); `ui` stays `null`.",
+   "why": "W-CLAUSE; ui null kept (a)"
+  },
+  {
+   "start": 9,
+   "end": 10,
+   "expect_start": "  \"pid\": \"<viola ui pid from /api/info, ",
+   "expect_end": "  \"uptime_ms\": \"<now - /api/info.started",
+   "payload": [
+    "  \"pid\": null,",
+    "  \"uptime_ms\": null,"
+   ],
+   "why": "W /api/info pid/uptime cut; null members kept (a)"
+  },
+  {
+   "line": 11,
+   "find": "ready-503, list-exit-21, sessions-mismatch",
+   "replace": "list-exit-21",
+   "why": "W-CLAUSE (b)"
+  },
+  {
+   "start": 13,
+   "end": 14,
+   "expect_start": "  \"ui\": { \"ready\": \"<GET /ready body>\", ",
+   "expect_end": "  \"api_sessions_equal_list\": true,",
+   "payload": [
+    "  \"ui\": null,",
+    "  \"api_sessions_equal_list\": null,"
+   ],
+   "why": "W ui member shapes cut; null members kept (a)"
+  },
+  {
+   "line": 19,
+   "find": " and `viola ui` is unbuilt",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 19,
+   "find": " and `/ready` is 200",
+   "replace": "",
+   "why": "W-CLAUSE"
+  },
+  {
+   "line": 19,
+   "find": ", `/ready` is 503, or `api_sessions_equal_list` is false",
+   "replace": "",
+   "why": "W-CLAUSE"
+  }
+ ],
+ "beyond_named": [
+  {
+   "op": 0,
+   "reason": "a vs b: status.rs emits ui null"
+  },
+  {
+   "op": 1,
+   "reason": "a vs b: status.rs emits pid / uptime_ms null"
+  },
+  {
+   "op": 3,
+   "reason": "a vs b: status.rs emits ui / api_sessions_equal_list null"
+  }
+ ]
+}

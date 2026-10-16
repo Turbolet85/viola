@@ -6,7 +6,7 @@ section = "## 3. Test Harness Contract"
 [[row]]
 key = "5-command implementation"
 file = "contracts/test-plan/5-command-implementation.md"
-labels = ["boot", "Embedded-asset freshness", "run", "status", "cleanup", "logs", "Internal harness subcommands", "supervise --session <id>", "ui-restart --session <id>", "schema-check", "secret-scan", "Browser-side controls", "gate --require <suite>[,<suite>…] [--artifacts <dir>]", "pre-push", "Closed enums"]
+labels = ["boot", "run", "status", "cleanup", "logs", "Internal harness subcommands", "supervise --session <id>", "ui-restart --session <id>", "schema-check", "secret-scan", "Browser-side controls", "gate --require <suite>[,<suite>…] [--artifacts <dir>]", "pre-push", "Closed enums"]
 
 [[row]]
 key = "Status endpoint shape"

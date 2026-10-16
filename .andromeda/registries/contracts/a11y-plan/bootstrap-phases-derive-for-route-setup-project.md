@@ -6,15 +6,14 @@ combine, setup-project may add stack-specific intermediate steps.
 
 - **a11y-tooling-install:**
   - Add `@axe-core/playwright@4.13.0` to `e2e-web/package.json`. Tests declared only `@playwright/test@1.63.0` when the browser pipe landed (chunk 2026-09-27-browser-verdict-reachability); the axe pin is this phase's.
-  - Add the devDependencies `colorjs.io@0.7.1`, `tabbable@6.5.0`, `@guidepup/virtual-screen-reader@0.33.0`, `html-validate@11.16.0` and `eslint-plugin-jsx-a11y` (its version OPEN, owned by the route's frontend-toolchain entry), plus its `eslint` core peer, pinned exactly through the lockfile (Decisions Log → Resolved questions → ESLint core version).
+  - Add the devDependencies `colorjs.io@0.7.1`, `tabbable@6.5.0`, `@guidepup/virtual-screen-reader@0.33.0`, `html-validate@11.16.0` and `eslint-plugin-jsx-a11y` (its version OPEN; its owner was the frontend-toolchain entry, which left 0.1.0 for `.andromeda/residuals.md`), plus its `eslint` core peer, pinned exactly through the lockfile (Decisions Log → Resolved questions → ESLint core version).
   - Create `e2e-web/fixtures/a11y.ts` with `makeAxeBuilder` (tags `['wcag2a','wcag2aa','wcag21a','wcag21aa','wcag22aa']` + the five best-practice rules by id), the scrubber, and the violation-row writer.
-  - Create the html-validate config declaring any `viola-*` elements the rendered page carries (how the components map onto React's output is OPEN, owned by the frontend-toolchain entry).
-- **focus-management-library-install:** none at runtime (native `:focus-visible`, `<details>`/`<summary>`, fragment links). The only install is the test-side oracle `tabbable@6.5.0`. The v1.x Raised-3 confirmation, if built, uses native `<dialog>.showModal()` with no library.
-- **aria-component-library-install:** none. Native HTML plus WAI-ARIA APG patterns, rendered by the page's React + TypeScript components (founder ruling 2026-09-30).
+  - Create the html-validate config declaring any `viola-*` elements the rendered page carries.
+- **focus-management-library-install:** none. The only install is the test-side oracle `tabbable@6.5.0`.
+- **aria-component-library-install:** none. The frontend is deferred to 0.2.0; its technology is not chosen.
 - **contrast-verification-harness-setup:** the `a11y-tokens` test in `e2e-web/tests/bay-steady-state.spec.ts`, using colorjs.io over the Section 6 token-pair list, with the forced-colors and negative-placement DOM walk.
 - **screen-reader-test-spec-setup:**
   - VSR route plus import helper in `e2e-web/fixtures/a11y.ts`, with the MutationObserver fallback helper.
-  - `a11y/sr-pass/TEMPLATE.json` with one row per Section 4 path step for NVDA 2026.2 / VoiceOver / Orca.
 - **a11y-ci-gate-wire:**
   - a11y specs are tagged `@a11y` + `@sc-*` inside the `playwright` suite, and `gate --require playwright` is unchanged.
   - `ci.yml` ubuntu leg gets a lint step before `run --browser`: `npx --prefix e2e-web eslint -c e2e-web/eslint.config.js -f json` over the JSX/TSX sources of the `viola-ui` crate (`crates/viola-ui/`, following the workspace `crates/<name>` layout; the exact source glob is the config's `files` entry). `eslint.config.js` lives in `e2e-web/` so `eslint-plugin-jsx-a11y` resolves from `e2e-web/node_modules`. The step also runs `npx --prefix e2e-web html-validate --config e2e-web/.htmlvalidate.json --formatter json` on the `assets/index.html` that `viola-ui` embeds. Both write to `e2e-web/test-results/lint/`.

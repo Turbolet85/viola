@@ -1,8 +1,5 @@
 ### Trace context propagation
 
-- **HTTP boundaries:** no W3C `traceparent` in v1. The browser sends no propagation header (obs-scope §3), and axum-tracing-opentelemetry 0.39.1 is rejected: it needs the deferred SDK, its W3C `traceparent` extraction has no sender, and its optional `/metrics` route would be a new listener. (Its MSRV 1.91 fits the raised 1.96 workspace floor, D-22, so MSRV is no longer a reason.)
-  - Correlation on the `ui` side runs on the SSE `id:` cursor `<ViolaName>:<offset>` and `Last-Event-ID`.
-  - `sse-opened` records `last_event_id_present` / `last_event_id_valid` and `resume_instances` (a count).
 - **gRPC boundaries:** N/A (there is no gRPC in the stack).
 - **IPC boundaries** (viola-channel JSON-RPC over interprocess 2.4.4 local sockets):
   - `corr` carries the JSON-RPC `id` on channel lines, `dialog_id` on dialog and hook lines, and the send `cursor` on send lines (tests).
@@ -19,6 +16,6 @@
   - JSON-RPC notifications (`hook.event`) have no `id`, so their `channel-request` has a null `corr`. They join through `hook_event` + `instance` + `timestamp`.
 - **Claude Code → hook stdin:** there is no inbound context. Correlate by `instance` + `dialog_id` (dialog hooks) or `instance` + `hook_event` + `timestamp`.
 - **Internal async boundaries:**
-  - `viola-ui` / `viola-mcp` (Tokio): spawned futures use `tracing::Instrument::instrument(span)` / `.in_current_span()`.
+  - `viola-mcp` (Tokio): spawned futures use `tracing::Instrument::instrument(span)` / `.in_current_span()`.
   - `run` std threads (PTY pump, handle-wait thread, channel server workers): the thread closure takes a cloned `tracing::Span` and runs inside `span.in_scope(...)`.
   - Because spans are not serialized, `corr`, `conn` and `instance` are always passed as **explicit values** into the thread or task and set on each `obs_event!`. They are never recovered from span context.

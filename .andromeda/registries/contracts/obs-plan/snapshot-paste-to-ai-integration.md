@@ -2,7 +2,7 @@
 
 N/A: there is no pulse-class receiver in the stack. The paste-to-AI workflow runs through the tests harness instead of a tail of a single log file:
 - `scripts/agent-run.sh logs` / `scripts/agent-run.ps1 logs` merges `events.ndjson` (`{"src":"events","instance","offset","record"}`) with every `diagnostics/*.ndjson` (`{"src":"diag","file","record"}`) and every instance detail line from `instances/*/diagnostics/detail-*.ndjson` (`{"src":"diag","file","instance","record"}`; the added `instance` tells apart the same `detail-<process>.ndjson` basename across instances, per tests `logs`). Torn lines appear as `{"torn":true,"offset":n}`. The merged output is filterable by `--instance`, `--kind`, `--process`, `--after`.
-- `agent-run status` is the aggregate health snapshot: `state`, `last_error` closed enum, `api_sessions_equal_list`.
+- `agent-run status` is the aggregate health snapshot: `state` and `last_error` closed enum.
 - Canonical agent queries:
   - To follow one send across every side: `agent-run logs | jq -c 'select(.record.instance=="B" and (.record.event|IN("send-issued","send-confirmed","send-refused")) and .record.corr==412)'`, where `B` is the send's target.
     - A send `cursor` is a byte offset into the target's own `events.ndjson`, so it is unique per target instance only. Two wrappers with identical start sequences (common in E2E) can both hold a send at 412, so `corr` alone mixes sends.

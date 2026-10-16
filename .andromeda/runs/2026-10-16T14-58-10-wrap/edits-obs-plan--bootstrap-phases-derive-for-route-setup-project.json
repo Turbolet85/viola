@@ -1,0 +1,11 @@
+{"file": ".andromeda/registries/contracts/obs-plan/bootstrap-phases-derive-for-route-setup-project.md",
+ "ops": [
+  {"line": 9, "find": "viola-agent-claude, viola-mcp and viola-ui", "replace": "viola-agent-claude and viola-mcp", "why": "W-CLAUSE viola-ui crate"},
+  {"start": 11, "end": 11, "expect_start": "  - Add tower-http 0.7.1 feature `trace` to viola-ui.", "expect_end": "  - Add tower-http 0.7.1 feature `trace` to viola-ui.", "payload": [], "why": "W-SECTION tower-http trace to viola-ui"},
+  {"line": 22, "find": "`sender`, `writer` and `/health.version`", "replace": "`sender` and `writer`", "why": "W-CLAUSE /health route"},
+  {"start": 25, "end": 25, "expect_start": "- **heartbeat-tick-wire:**", "expect_end": "- **heartbeat-tick-wire:**", "payload": ["- **heartbeat-tick-wire:** the `liveness-changed` and `sse-opened` / `sse-closed` emitters (D-02, D-04) are reserved: no emitter in 0.1.0; removed with the code by \"Remove the browser leg\"."], "why": "heartbeat-tick-wire's ui part (viola-ui sessions reader, /api/events guard) cut; phase name, route order and label kept; RESERVED mark"},
+  {"start": 29, "end": 29, "expect_start": "  - the tower-http custom `make_span_with`", "expect_end": "  - the tower-http custom `make_span_with`", "payload": [], "why": "W-SECTION HTTP layer scrub"},
+  {"line": 41, "find": " the TraceLayer `make_span_with`,", "replace": "", "why": "W-CLAUSE TraceLayer ownership"}
+ ],
+ "beyond_named": []
+}

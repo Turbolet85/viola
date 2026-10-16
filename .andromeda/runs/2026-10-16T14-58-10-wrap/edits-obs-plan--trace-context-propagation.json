@@ -1,0 +1,7 @@
+{"file": ".andromeda/registries/contracts/obs-plan/trace-context-propagation.md",
+ "ops": [
+  {"start": 3, "end": 5, "expect_start": "- **HTTP boundaries:**", "expect_end": "  - `sse-opened` records", "payload": [], "why": "W-SECTION HTTP boundaries (browser, SSE correlation)"},
+  {"line": 22, "find": "`viola-ui` / `viola-mcp` (Tokio)", "replace": "`viola-mcp` (Tokio)", "why": "W-CLAUSE viola-ui"}
+ ],
+ "beyond_named": []
+}

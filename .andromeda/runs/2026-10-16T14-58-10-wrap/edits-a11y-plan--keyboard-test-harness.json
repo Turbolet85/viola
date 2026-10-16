@@ -1,0 +1,20 @@
+{
+ "file": ".andromeda/registries/contracts/a11y-plan/keyboard-test-harness.md",
+ "ops": [
+  {
+   "start": 3,
+   "end": 7,
+   "expect_start": "- **Sequences per ARIA pattern (only pat",
+   "expect_end": "  - Global: no single-key shortcuts (SC ",
+   "payload": [],
+   "why": "W sequences per ARIA pattern"
+  },
+  {
+   "line": 8,
+   "find": "Playwright `page.keyboard.press('Tab' | 'Shift+Tab' | 'Enter' | 'Space')` and `expect(locator).toBeFocused()`. ",
+   "replace": "",
+   "why": "W-CLAUSE web keyboard tooling"
+  }
+ ],
+ "beyond_named": []
+}

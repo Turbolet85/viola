@@ -1,0 +1,7 @@
+{"file": ".andromeda/registries/contracts/obs-plan/log-file-location.md",
+ "ops": [
+  {"line": 3, "find": ",ui-<port>,cli-<name>}.ndjson`.", "replace": ",ui-<port>,cli-<name>}.ndjson` (`ui-<port>` reserved: no emitter in 0.1.0; removed with the code by \"Remove the browser leg\").", "why": "RESERVED mark: role-file list mirrors the process enum (src/obs.rs role_file_name keeps ui-{port})"},
+  {"line": 8, "find": "`wait after`, `send cursor` and `Last-Event-ID` cursors", "replace": "`wait after` and `send cursor` cursors", "why": "W-CLAUSE SSE Last-Event-ID cursor"}
+ ],
+ "beyond_named": []
+}

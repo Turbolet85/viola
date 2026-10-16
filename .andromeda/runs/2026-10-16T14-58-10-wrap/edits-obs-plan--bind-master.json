@@ -1,0 +1,11 @@
+{
+ "file": ".andromeda/obs-plan.md",
+ "ops": [
+  {
+   "line": 225,
+   "find": "mcp,ui-<port>}.ndjson`.",
+   "replace": "mcp,ui-<port>}.ndjson` (`ui-<port>`, the `ui` process and the `http-request`, `liveness-changed`, `sse-opened` and `sse-closed` events below: reserved: no emitter in 0.1.0; removed with the code by \"Remove the browser leg\").",
+   "why": "BIND test-plan §3 reserved mark (this copy already lagged test-plan before this wrap)"
+  }
+ ]
+}

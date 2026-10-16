@@ -1,0 +1,296 @@
+{
+ "file": ".andromeda/design-system.md",
+ "ops": [
+  {
+   "start": 82,
+   "end": 82,
+   "expect_start": "### Surface Scale (elevation hierarchy)",
+   "expect_end": "### Surface Scale (elevation hierarchy)",
+   "payload": [
+    "### Surface Scale (elevation hierarchy)",
+    "",
+    "A 0.2.0 frontend design input; 0.1.0 renders no page.",
+    ""
+   ],
+   "why": "note: Surface Scale is a 0.2.0 design input"
+  },
+  {
+   "start": 91,
+   "end": 91,
+   "expect_start": "### Text Hierarchy",
+   "expect_end": "### Text Hierarchy",
+   "payload": [
+    "### Text Hierarchy",
+    "",
+    "A 0.2.0 frontend design input; 0.1.0 renders no page.",
+    ""
+   ],
+   "why": "note: Text Hierarchy is a 0.2.0 design input"
+  },
+  {
+   "start": 100,
+   "end": 100,
+   "expect_start": "### Semantic Colors",
+   "expect_end": "### Semantic Colors",
+   "payload": [
+    "### Semantic Colors",
+    "A 0.2.0 frontend design input; 0.1.0 renders no page.",
+    ""
+   ],
+   "why": "note: Semantic Colors is a 0.2.0 design input"
+  },
+  {
+   "line": 112,
+   "find": "**Domain status colors.** ",
+   "replace": "**Domain status colors.** A 0.2.0 frontend design input; 0.1.0 renders no page. ",
+   "why": "note: the domain-status table's intro"
+  },
+  {
+   "start": 211,
+   "end": 211,
+   "expect_start": "### Border Progression",
+   "expect_end": "### Border Progression",
+   "payload": [
+    "### Border Progression",
+    "",
+    "A 0.2.0 frontend design input; 0.1.0 renders no page.",
+    ""
+   ],
+   "why": "note: Border Progression is a 0.2.0 design input"
+  },
+  {
+   "start": 225,
+   "end": 225,
+   "expect_start": "## Typography",
+   "expect_end": "## Typography",
+   "payload": [
+    "## Typography",
+    "",
+    "A 0.2.0 frontend design input; 0.1.0 renders no page."
+   ],
+   "why": "note: Typography is a 0.2.0 design input"
+  },
+  {
+   "start": 257,
+   "end": 257,
+   "expect_start": "",
+   "expect_end": "",
+   "payload": [
+    "",
+    "The browser test leg named here (the headless GUI render and contrast checks judged on the ubuntu CI leg, and the DejaVu families the CI image provides) stands until the route entry \"Remove the browser leg\" removes it; that entry's wrap amends this text.",
+    ""
+   ],
+   "why": "marker: the browser test leg (L230/L248/L256) stands until 'Remove the browser leg'"
+  },
+  {
+   "start": 262,
+   "end": 262,
+   "expect_start": "## Spacing",
+   "expect_end": "## Spacing",
+   "payload": [
+    "## Spacing",
+    "",
+    "A 0.2.0 frontend design input; 0.1.0 renders no page."
+   ],
+   "why": "note: Spacing is a 0.2.0 design input"
+  },
+  {
+   "start": 283,
+   "end": 283,
+   "expect_start": "## Depth Strategy",
+   "expect_end": "## Depth Strategy",
+   "payload": [
+    "## Depth Strategy",
+    "",
+    "A 0.2.0 frontend design input; 0.1.0 renders no page."
+   ],
+   "why": "note: Depth Strategy is a 0.2.0 design input"
+  },
+  {
+   "start": 303,
+   "end": 303,
+   "expect_start": "## Border Radius",
+   "expect_end": "## Border Radius",
+   "payload": [
+    "## Border Radius",
+    "",
+    "A 0.2.0 frontend design input; 0.1.0 renders no page."
+   ],
+   "why": "note: Border Radius is a 0.2.0 design input"
+  },
+  {
+   "start": 320,
+   "end": 323,
+   "expect_start": "**Easing:**",
+   "expect_end": "",
+   "payload": [],
+   "why": "W-SECTION web easing"
+  },
+  {
+   "start": 334,
+   "end": 348,
+   "expect_start": "**This project's values:**",
+   "expect_end": "",
+   "payload": [],
+   "why": "W-SECTION web motion values, moments, limits"
+  },
+  {
+   "start": 351,
+   "end": 351,
+   "expect_start": "## Iconography",
+   "expect_end": "## Iconography",
+   "payload": [
+    "## Iconography",
+    "",
+    "A 0.2.0 frontend design input; 0.1.0 renders no page."
+   ],
+   "why": "note: Iconography's page rows are a 0.2.0 design input"
+  },
+  {
+   "start": 369,
+   "end": 681,
+   "expect_start": "",
+   "expect_end": "",
+   "payload": [
+    "",
+    "The frontend is deferred to 0.2.0; its technology is not chosen.",
+    ""
+   ],
+   "why": "W-SECTION Surface: web-spa body -> stub"
+  },
+  {
+   "line": 702,
+   "find": ", as in web-spa component 1",
+   "replace": "",
+   "why": "CROSS web-spa component 1"
+  },
+  {
+   "line": 724,
+   "find": "after it, errors (`error: …`), and the `viola ui` launch line.",
+   "replace": "after it, and errors (`error: …`).",
+   "why": "W-CLAUSE launch line"
+  },
+  {
+   "line": 734,
+   "find": " (the same columns and words as the web strip)",
+   "replace": "",
+   "why": "W-CLAUSE web strip parity"
+  },
+  {
+   "line": 745,
+   "find": ", the same as the web racks",
+   "replace": "",
+   "why": "W-CLAUSE web racks"
+  },
+  {
+   "line": 746,
+   "find": "The BAY line is the web ATIS without `VIOLA` and the `127.0.0.1:47319` address (the board is not the `viola ui` page), without",
+   "replace": "The BAY line is the ATIS without",
+   "why": "W-CLAUSE web ATIS, port, viola ui page"
+  },
+  {
+   "line": 746,
+   "find": ", exactly as on the web,",
+   "replace": ",",
+   "why": "W-CLAUSE as on the web"
+  },
+  {
+   "line": 810,
+   "find": " / `viola ui`",
+   "replace": "",
+   "why": "W-CLAUSE viola ui in heading"
+  },
+  {
+   "start": 812,
+   "end": 817,
+   "expect_start": "- **`ui`:** the launch line goes to stde",
+   "expect_end": "  No other line, from any verb, ever pri",
+   "payload": [],
+   "why": "W-SECTION viola ui launch line"
+  },
+  {
+   "line": 837,
+   "find": " · ui",
+   "replace": "",
+   "why": "W-CLAUSE ui verb"
+  },
+  {
+   "line": 839,
+   "find": "board: list, ui",
+   "replace": "board: list",
+   "why": "W-CLAUSE ui verb in help groups"
+  },
+  {
+   "start": 852,
+   "end": 855,
+   "expect_start": "- **NEVER use generic font families: Int",
+   "expect_end": "- **NEVER use the same layout for differ",
+   "payload": [],
+   "why": "W-SECTION web-only universal bans (fonts, gradient, card grid, layout)"
+  },
+  {
+   "start": 862,
+   "end": 862,
+   "expect_start": "- **A node-graph canvas of sessions and ",
+   "expect_end": "- **A node-graph canvas of sessions and ",
+   "payload": [],
+   "why": "W-SECTION rejected default: node-graph canvas (web)"
+  },
+  {
+   "start": 864,
+   "end": 864,
+   "expect_start": "- **A chat-transcript feed** (bubbles, a",
+   "expect_end": "- **A chat-transcript feed** (bubbles, a",
+   "payload": [],
+   "why": "W-SECTION rejected default: chat-transcript feed (web tape)"
+  },
+  {
+   "line": 866,
+   "find": "The v1 page is view-only, and taking control is spoken (`viola pause`, \"I have control\"), never implied by a GUI switch.",
+   "replace": "Taking control is spoken (`viola pause`, \"I have control\"), never implied by a switch.",
+   "why": "W-CLAUSE v1 page view-only"
+  },
+  {
+   "line": 867,
+   "find": ", and the ground is lit anthracite, not an OLED void",
+   "replace": "",
+   "why": "W-CLAUSE page ground"
+  },
+  {
+   "start": 871,
+   "end": 885,
+   "expect_start": "**web-spa**",
+   "expect_end": "",
+   "payload": [],
+   "why": "W-SECTION web-spa per-surface bans"
+  },
+  {
+   "line": 891,
+   "find": "lines, errors and the launch line go",
+   "replace": "lines, and errors go",
+   "why": "W-CLAUSE launch line"
+  },
+  {
+   "start": 892,
+   "end": 892,
+   "expect_start": "- **NEVER print the token or launch URL ",
+   "expect_end": "- **NEVER print the token or launch URL ",
+   "payload": [],
+   "why": "W-SECTION cli ban on the viola ui launch line"
+  },
+  {
+   "start": 917,
+   "end": 917,
+   "expect_start": "### 4. Token Test",
+   "expect_end": "### 4. Token Test",
+   "payload": [
+    "### 4. Token Test",
+    "A 0.2.0 frontend design input; 0.1.0 renders no page.",
+    ""
+   ],
+   "why": "note: Token Test is a 0.2.0 design input"
+  }
+ ],
+ "beyond_named": [],
+ "marker_op": 6
+}

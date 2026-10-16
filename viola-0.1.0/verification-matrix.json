@@ -29,7 +29,8 @@
         "ref": null,
         "status": "planned"
       },
-      "chunk": null
+      "chunk": null,
+      "notes": "2026-10-16 (the 2026-10-16T14-58-10 0-pending wrap, an operator-requested route adaptation): The founder ruled on 2026-10-16 (his own words, relayed verbatim by the Viola overseer; this wrap's snapshot `.andromeda/runs/2026-10-16T14-58-10-wrap/inputs/` I1) that 0.1.0 is a pure CLI and the whole frontend moves to 0.2.0, its technology not chosen; its web clauses leave 0.1.0 — «ports and token files» in what cleanup proves gone (the `viola ui` port and its `ui/<port>.url`), and «status shows the CLI board and the GUI sessions agree» (no GUI in 0.1.0). The CLI half stands unweakened: the claiming chunk concretizes and proves the rest with this clause out of scope, never a weaker CLI outcome."
     },
     {
       "id": "v1-03",
@@ -57,7 +58,7 @@
         "status": "planned"
       },
       "chunk": null,
-      "notes": "2026-09-24 (2026-09-24-diagnostics-plane, phase P5): not claimed. This chunk builds the closed event vocabulary, obs_event!, the run role's schema-true lines (null as key absence) and the logs detail source with torn-line marking. The acceptance still needs the hook/mcp/ui/cli roles (no producer yet), the hook stderr/exit guarantee, the events source and the --kind filter. It stays pooled for the chunk that lands the last of those."
+      "notes": "2026-09-24 (2026-09-24-diagnostics-plane, phase P5): not claimed. This chunk builds the closed event vocabulary, obs_event!, the run role's schema-true lines (null as key absence) and the logs detail source with torn-line marking. The acceptance still needs the hook/mcp/ui/cli roles (no producer yet), the hook stderr/exit guarantee, the events source and the --kind filter. It stays pooled for the chunk that lands the last of those.\n\n2026-10-16 (the 2026-10-16T14-58-10 0-pending wrap, an operator-requested route adaptation): The founder ruled on 2026-10-16 (his own words, relayed verbatim by the Viola overseer; this wrap's snapshot `.andromeda/runs/2026-10-16T14-58-10-wrap/inputs/` I1) that 0.1.0 is a pure CLI and the whole frontend moves to 0.2.0, its technology not chosen; its web clauses leave 0.1.0 — the `ui` process role and the `sse-opened`/`sse-closed` events; the `run`, `hook`, `mcp` and `cli` roles, the other events and the `logs` view stand. The CLI half stands unweakened: the claiming chunk concretizes and proves the rest with this clause out of scope, never a weaker CLI outcome."
     },
     {
       "id": "v1-05",
@@ -71,7 +72,7 @@
         "status": "planned"
       },
       "chunk": null,
-      "notes": "2026-09-24 (2026-09-24-diagnostics-plane, phase P5): not claimed. This chunk commits both line schemas and routes the panic payload to the detail file, leaving one payload-free error line (proven in-process). The acceptance still needs the hook exit-0 path, CI schema conformance of every line (G4), the canary secret scan, and the print and raw-log lint bans. Those belong to Observability gates and the hook chunk.\n\n2026-09-24 (2026-09-24-observability-gates, phase P5): not claimed. This chunk lands:\n- the print/dbg and raw-tracing lint bans with both-ways probes, and the member-list assertion;\n- the panic-hook-first witness;\n- G2 zero-panic, G4 schema conformance (`viola-harness schema-check`) and the canary secret scan (`viola-harness secret-scan`) over every CI test home, each before any upload.\n\nThe acceptance still needs a subject that does not exist at HEAD:\n- \"the hook still ends successfully\": `viola hook` does not exist yet. It belongs to the Hooks to normalised events chunk, which also owns the panic-in-hook exit-0 case.\n- \"no setting disables redaction\": there is no config key that touches redaction yet. It belongs to the chunk that adds the first redaction-bearing setting.\n\n2026-09-27 (2026-09-27-hooks-to-normalised-events, phase P5): not claimed. This chunk lands the hook exit-0 path and proves a hook panic exits 0 in-process (catch-site table + panic-line writer, one role line + a schema-valid detail line). The acceptance still needs \"no setting disables redaction\" (no redaction-bearing setting exists) and the forced panic on the real binary, whose fake-agent-only trigger is an unratified boundary widening carried to the Hook perf gate entry.\n\n2026-09-28 (2026-09-28-hook-perf-gate, phase P5): not claimed. This chunk lands the forced panic on the real binary: the ratified fake-agent-only `FAKE_AGENT_HOOK_PANIC=1` seam makes `viola hook` panic after log init; it exits 0 with empty streams, leaving one payload-free role line and one schema-valid detail line, and CI's G2 exempts exactly the seam's file with a probe proving any other location still fails. The acceptance still needs \"no setting disables redaction\": no redaction-bearing setting exists at HEAD, so it waits for the chunk that adds the first one."
+      "notes": "2026-09-24 (2026-09-24-diagnostics-plane, phase P5): not claimed. This chunk commits both line schemas and routes the panic payload to the detail file, leaving one payload-free error line (proven in-process). The acceptance still needs the hook exit-0 path, CI schema conformance of every line (G4), the canary secret scan, and the print and raw-log lint bans. Those belong to Observability gates and the hook chunk.\n\n2026-09-24 (2026-09-24-observability-gates, phase P5): not claimed. This chunk lands:\n- the print/dbg and raw-tracing lint bans with both-ways probes, and the member-list assertion;\n- the panic-hook-first witness;\n- G2 zero-panic, G4 schema conformance (`viola-harness schema-check`) and the canary secret scan (`viola-harness secret-scan`) over every CI test home, each before any upload.\n\nThe acceptance still needs a subject that does not exist at HEAD:\n- \"the hook still ends successfully\": `viola hook` does not exist yet. It belongs to the Hooks to normalised events chunk, which also owns the panic-in-hook exit-0 case.\n- \"no setting disables redaction\": there is no config key that touches redaction yet. It belongs to the chunk that adds the first redaction-bearing setting.\n\n2026-09-27 (2026-09-27-hooks-to-normalised-events, phase P5): not claimed. This chunk lands the hook exit-0 path and proves a hook panic exits 0 in-process (catch-site table + panic-line writer, one role line + a schema-valid detail line). The acceptance still needs \"no setting disables redaction\" (no redaction-bearing setting exists) and the forced panic on the real binary, whose fake-agent-only trigger is an unratified boundary widening carried to the Hook perf gate entry.\n\n2026-09-28 (2026-09-28-hook-perf-gate, phase P5): not claimed. This chunk lands the forced panic on the real binary: the ratified fake-agent-only `FAKE_AGENT_HOOK_PANIC=1` seam makes `viola hook` panic after log init; it exits 0 with empty streams, leaving one payload-free role line and one schema-valid detail line, and CI's G2 exempts exactly the seam's file with a probe proving any other location still fails. The acceptance still needs \"no setting disables redaction\": no redaction-bearing setting exists at HEAD, so it waits for the chunk that adds the first one.\n\n2026-10-16 (the 2026-10-16T14-58-10 0-pending wrap, an operator-requested route adaptation): The founder ruled on 2026-10-16 (his own words, relayed verbatim by the Viola overseer; this wrap's snapshot `.andromeda/runs/2026-10-16T14-58-10-wrap/inputs/` I1) that 0.1.0 is a pure CLI and the whole frontend moves to 0.2.0, its technology not chosen; its web clause leaves 0.1.0 — the GUI «token, cookie» in the never-in-any-artifact rule; the stripped `CLAUDE*` values, the canary, the panic and schema gates and the print bans stand. The CLI half stands unweakened: the claiming chunk concretizes and proves the rest with this clause out of scope, never a weaker CLI outcome."
     },
     {
       "id": "v1-06",
@@ -112,7 +113,8 @@
         "ref": "viola-0.1.0/chunks/2026-09-27-browser-verdict-reachability/evidence/code-graph-planes.md (gate entries 32-34: tree-refresh[rust] + tree-refresh[ts], both tree.db present, health.py check 11 planes rust, ts)",
         "status": "verified"
       },
-      "chunk": "2026-09-27-browser-verdict-reachability"
+      "chunk": "2026-09-27-browser-verdict-reachability",
+      "notes": "2026-10-16 (the 2026-10-16T14-58-10 0-pending wrap, an operator-requested route adaptation): The founder ruled on 2026-10-16 (his own words, relayed verbatim by the Viola overseer; this wrap's snapshot `.andromeda/runs/2026-10-16T14-58-10-wrap/inputs/` I1) that 0.1.0 is a pure CLI and the whole frontend moves to 0.2.0, its technology not chosen; the ts code-graph plane this capability verified is fed only by `e2e-web/tsconfig.json`, and `e2e-web/` leaves 0.1.0 with the route entry \"Remove the browser leg\" (placed at the head of the markerless tail by the same ruling); the status stays `verified` as the record of what was measured, and that entry's wrap records the plane's end. No acceptance is changed."
     },
     {
       "id": "v1-09",
@@ -125,7 +127,8 @@
         "ref": null,
         "status": "planned"
       },
-      "chunk": null
+      "chunk": null,
+      "notes": "2026-10-16 (the 2026-10-16T14-58-10 0-pending wrap, an operator-requested route adaptation): The founder ruled on 2026-10-16 (his own words, relayed verbatim by the Viola overseer; this wrap's snapshot `.andromeda/runs/2026-10-16T14-58-10-wrap/inputs/` I1) that 0.1.0 is a pure CLI and the whole frontend moves to 0.2.0, its technology not chosen; its web amendments leave 0.1.0 — (1) the per-launch cookie on `/api/*` and SSE, (3)'s `unauthorized` and `cross-origin-forbidden` problem URNs, and (5) the `ui/<port>.url` file; (2), (3)'s `not-delivered`/`control-character` order, (4), (6), (7) and (8) stand. The CLI half stands unweakened: the claiming chunk concretizes and proves the rest with this clause out of scope, never a weaker CLI outcome."
     },
     {
       "id": "v1-10",
@@ -139,7 +142,7 @@
         "status": "planned"
       },
       "chunk": null,
-      "notes": "2026-10-04 (2026-10-04-confirmed-send-with-cl-1-records, phase P5): not claimed. This chunk adds the `send-issued{cursor, from?}` · `send-confirmed{cursor}` · `send-refused{refusal, detail, cursor?}` event kinds to `events.ndjson` and the client-side `send-refused{side:\"client\"}` line in `cli-<name>.ndjson`. The acceptance still needs \"these records never wake a waiting driver\" (no `wait` until :76) and \"the page and the tests read the same records\" (the page is :147). The cap stays pooled.\n\n2026-10-06 (2026-10-06-local-command-send-outcomes, phase P5): not claimed. This chunk adds the outcome record the cap's third outcome lacked: an unconfirmable send appends `send-confirmed {cursor, confirmed:false}` to `events.ndjson`, so read back, refused and unconfirmable are each recoverable from the log alone. The acceptance still needs \"the page and the tests read the same records\": the page is Epoch 8. The cap stays pooled."
+      "notes": "2026-10-04 (2026-10-04-confirmed-send-with-cl-1-records, phase P5): not claimed. This chunk adds the `send-issued{cursor, from?}` · `send-confirmed{cursor}` · `send-refused{refusal, detail, cursor?}` event kinds to `events.ndjson` and the client-side `send-refused{side:\"client\"}` line in `cli-<name>.ndjson`. The acceptance still needs \"these records never wake a waiting driver\" (no `wait` until :76) and \"the page and the tests read the same records\" (the page is :147). The cap stays pooled.\n\n2026-10-06 (2026-10-06-local-command-send-outcomes, phase P5): not claimed. This chunk adds the outcome record the cap's third outcome lacked: an unconfirmable send appends `send-confirmed {cursor, confirmed:false}` to `events.ndjson`, so read back, refused and unconfirmable are each recoverable from the log alone. The acceptance still needs \"the page and the tests read the same records\": the page is Epoch 8. The cap stays pooled.\n\n2026-10-16 (the 2026-10-16T14-58-10 0-pending wrap, an operator-requested route adaptation): The founder ruled on 2026-10-16 (his own words, relayed verbatim by the Viola overseer; this wrap's snapshot `.andromeda/runs/2026-10-16T14-58-10-wrap/inputs/` I1) that 0.1.0 is a pure CLI and the whole frontend moves to 0.2.0, its technology not chosen; its web clause leaves 0.1.0 — «the page and the tests read the same records» reads, in 0.1.0, that the tests read the logged records; issue and outcome recoverable from the log alone, no wake of `wait` and the client-side refusal line stand. The CLI half stands unweakened: the claiming chunk concretizes and proves the rest with this clause out of scope, never a weaker CLI outcome."
     },
     {
       "id": "v1-11",
@@ -152,7 +155,8 @@
         "ref": null,
         "status": "planned"
       },
-      "chunk": null
+      "chunk": null,
+      "notes": "2026-10-16 (the 2026-10-16T14-58-10 0-pending wrap, an operator-requested route adaptation): The founder ruled on 2026-10-16 (his own words, relayed verbatim by the Viola overseer; this wrap's snapshot `.andromeda/runs/2026-10-16T14-58-10-wrap/inputs/` I1) that 0.1.0 is a pure CLI and the whole frontend moves to 0.2.0, its technology not chosen; its web clause leaves 0.1.0 — the open page, the strip bay and the SSE feed that carries the update to it; what stands is the log half: a pending dialog's clearing and a liveness, status or budget change are recorded where a reader learns them without polling. The CLI half stands unweakened: the claiming chunk concretizes and proves the rest with this clause out of scope, never a weaker CLI outcome."
     },
     {
       "id": "v1-12",
@@ -298,9 +302,10 @@
         "method": "integration",
         "acceptance": "viola ui started on an OS-assigned port reports the bound port through its launch file, and a headless boot never races another process for its port.",
         "ref": null,
-        "status": "planned"
+        "status": "deferred"
       },
-      "chunk": null
+      "chunk": null,
+      "notes": "2026-10-16 (the 2026-10-16T14-58-10 0-pending wrap, an operator-requested route adaptation): deferred to 0.2.0. The founder ruled on 2026-10-16 (his own words, relayed verbatim by the Viola overseer; this wrap's snapshot `.andromeda/runs/2026-10-16T14-58-10-wrap/inputs/` I1) that 0.1.0 is a pure CLI and the whole frontend moves to 0.2.0, its technology not chosen; this capability is wholly the web page (`viola ui` and its launch file are the web server's). Its route entries \"viola ui loopback server\" left 0.1.0 whole for `.andromeda/residuals.md` (origin `2026-10-16T14-58-10-wrap`), which the 0.2.0 route intakes. The list of six is the overseer's item 4 of that relay."
     },
     {
       "id": "v1-23",
@@ -314,7 +319,7 @@
         "status": "verified"
       },
       "chunk": "2026-09-24-workspace-tree-and-code-graph-planes",
-      "notes": "2026-09-24 (2026-09-24-workspace-tree-and-code-graph-planes, phase P5): claimed with the overseer's (founder-delegated) witness condition. Two readings gate the `verified` flip:\n(1) the wrap re-runs the inventory gate after its own architecture amendment, and it reads last line 0;\n(2) the three `release (…)` legs read `success` on the pushed sha.\nUntil both have been read, the cap stays `implemented`, and there is no verified flip ahead of its witness. Part (c) is realized by the wrap amendment. /implement's by-construction argument for it is the artifact inventory it writes."
+      "notes": "2026-09-24 (2026-09-24-workspace-tree-and-code-graph-planes, phase P5): claimed with the overseer's (founder-delegated) witness condition. Two readings gate the `verified` flip:\n(1) the wrap re-runs the inventory gate after its own architecture amendment, and it reads last line 0;\n(2) the three `release (…)` legs read `success` on the pushed sha.\nUntil both have been read, the cap stays `implemented`, and there is no verified flip ahead of its witness. Part (c) is realized by the wrap amendment. /implement's by-construction argument for it is the artifact inventory it writes.\n\n2026-10-16 (the 2026-10-16T14-58-10 0-pending wrap, an operator-requested route adaptation): The founder ruled on 2026-10-16 (his own words, relayed verbatim by the Viola overseer; this wrap's snapshot `.andromeda/runs/2026-10-16T14-58-10-wrap/inputs/` I1) that 0.1.0 is a pure CLI and the whole frontend moves to 0.2.0, its technology not chosen; the web artifacts in part (c)'s inventory leave 0.1.0 — `viola-ui/assets/index.html` and `a11y/sr-pass/` with the frontend, `e2e-web/*` with the route entry \"Remove the browser leg\"; parts (a) and (b) stand, and the status stays `verified` as the record of what was measured. No acceptance is changed."
     },
     {
       "id": "v1-24",
@@ -492,7 +497,7 @@
         "status": "planned"
       },
       "chunk": null,
-      "notes": "2026-10-11 (2026-10-10-session-links, phase P5): not claimed, only partly advanced. The acceptance ends \"shown identically by the board and the page\", two surfaces this chunk does not build (\"The board: viola list\", the Epoch 8 page entries), so this chunk cannot prove it whole. Its Part A plans what the sentence's first and third clauses rest on: an issued `send` or a taken `answer` from another instance records the driver-to-driven link once (a refused call and an own-name `from` record none, the operator's fork answer, this chunk's `inputs#I2`), and the link set with its first-linked time is derived from the log by one rule, in the replay and in the wrapper's snapshot, restored at every start. The second clause, explicit `link` and `unlink`, is the plan's Part B, held behind its step 11 for the founder's word; until that word is relayed it is not built."
+      "notes": "2026-10-11 (2026-10-10-session-links, phase P5): not claimed, only partly advanced. The acceptance ends \"shown identically by the board and the page\", two surfaces this chunk does not build (\"The board: viola list\", the Epoch 8 page entries), so this chunk cannot prove it whole. Its Part A plans what the sentence's first and third clauses rest on: an issued `send` or a taken `answer` from another instance records the driver-to-driven link once (a refused call and an own-name `from` record none, the operator's fork answer, this chunk's `inputs#I2`), and the link set with its first-linked time is derived from the log by one rule, in the replay and in the wrapper's snapshot, restored at every start. The second clause, explicit `link` and `unlink`, is the plan's Part B, held behind its step 11 for the founder's word; until that word is relayed it is not built.\n\n2026-10-16 (the 2026-10-16T14-58-10 0-pending wrap, an operator-requested route adaptation): The founder ruled on 2026-10-16 (his own words, relayed verbatim by the Viola overseer; this wrap's snapshot `.andromeda/runs/2026-10-16T14-58-10-wrap/inputs/` I1) that 0.1.0 is a pure CLI and the whole frontend moves to 0.2.0, its technology not chosen; its web clause leaves 0.1.0 — «and the page» in «shown identically by the board and the page»; the link recorded once, the log-derived link set with its first-linked time and the board's view of it stand (explicit `link`/`unlink` still waits for the founder's word). The CLI half stands unweakened: the claiming chunk concretizes and proves the rest with this clause out of scope, never a weaker CLI outcome."
     },
     {
       "id": "v1-37",
@@ -506,7 +511,7 @@
         "status": "planned"
       },
       "chunk": null,
-      "notes": "2026-09-27 (2026-09-27-instance-state-and-start-order, phase P5): not claimed. This chunk produces the state `list` will read: the snapshot with pid, started_at, wheel, budget_paused and cli_verified, the 1 s heartbeat file, and the live/stale/gone classifier in viola-state. The `list` verb, the board rendering and `claude agents --json` enrichment belong to later entries, so the acceptance is not provable by this chunk.\n\n2026-10-11 (2026-10-11-the-board-viola-list, phase P5): not claimed, advanced and not proven. This chunk plans `viola list` for wrapped sessions: it works with no live wrapper, shows liveness (live or stale, gone omitted), the wheel holder with any budget pause, the pending dialog kind and the CLI verdict, as the fixed six-column board with its BAY line, every row one line with controls (newline and tab included) escaped, and `--json` as `{items, budget, skipped}`. Still owed: idle or busy status, which has no on-disk source and comes only from `claude agents --json` (every row reads `unknown` until then); the unwrapped read-only rows, from the same read; and the equality with the GUI sessions envelope, whose surface is not built. The `claude agents --json` join-field ledger row, its probe and the fake agent's stub are the founder's matters, owned on the card by \"Paste newline ledger row\" and a new entry at the head of Epoch 5. Approved on the founder's word relayed by the operator at the P5 review (the chunk's `inputs#I3`)."
+      "notes": "2026-09-27 (2026-09-27-instance-state-and-start-order, phase P5): not claimed. This chunk produces the state `list` will read: the snapshot with pid, started_at, wheel, budget_paused and cli_verified, the 1 s heartbeat file, and the live/stale/gone classifier in viola-state. The `list` verb, the board rendering and `claude agents --json` enrichment belong to later entries, so the acceptance is not provable by this chunk.\n\n2026-10-11 (2026-10-11-the-board-viola-list, phase P5): not claimed, advanced and not proven. This chunk plans `viola list` for wrapped sessions: it works with no live wrapper, shows liveness (live or stale, gone omitted), the wheel holder with any budget pause, the pending dialog kind and the CLI verdict, as the fixed six-column board with its BAY line, every row one line with controls (newline and tab included) escaped, and `--json` as `{items, budget, skipped}`. Still owed: idle or busy status, which has no on-disk source and comes only from `claude agents --json` (every row reads `unknown` until then); the unwrapped read-only rows, from the same read; and the equality with the GUI sessions envelope, whose surface is not built. The `claude agents --json` join-field ledger row, its probe and the fake agent's stub are the founder's matters, owned on the card by \"Paste newline ledger row\" and a new entry at the head of Epoch 5. Approved on the founder's word relayed by the operator at the P5 review (the chunk's `inputs#I3`).\n\n2026-10-16 (the 2026-10-16T14-58-10 0-pending wrap, an operator-requested route adaptation): The founder ruled on 2026-10-16 (his own words, relayed verbatim by the Viola overseer; this wrap's snapshot `.andromeda/runs/2026-10-16T14-58-10-wrap/inputs/` I1) that 0.1.0 is a pure CLI and the whole frontend moves to 0.2.0, its technology not chosen; its web clause leaves 0.1.0 — «`--json` equals the GUI sessions envelope»; the board's own machine form (`{items, budget, skipped}`) and every board clause stand. The CLI half stands unweakened: the claiming chunk concretizes and proves the rest with this clause out of scope, never a weaker CLI outcome."
     },
     {
       "id": "v1-38",
@@ -532,7 +537,8 @@
         "ref": null,
         "status": "planned"
       },
-      "chunk": null
+      "chunk": null,
+      "notes": "2026-10-16 (the 2026-10-16T14-58-10 0-pending wrap, an operator-requested route adaptation): The founder ruled on 2026-10-16 (his own words, relayed verbatim by the Viola overseer; this wrap's snapshot `.andromeda/runs/2026-10-16T14-58-10-wrap/inputs/` I1) that 0.1.0 is a pure CLI and the whole frontend moves to 0.2.0, its technology not chosen; its web clause leaves 0.1.0 — «port» in «`config.json` sets thresholds, port and diagnostics level» (the port is `viola ui`'s); thresholds, diagnostics level and no setting switching off a control stand. This note was added by the overseer's answer at this wrap (founder-delegated): the relay's list of thirteen missed v1-39, which carries the same clause the route entry \"CLI machine contract\" lost. The CLI half stands unweakened: the claiming chunk concretizes and proves the rest with this clause out of scope, never a weaker CLI outcome."
     },
     {
       "id": "v1-40",
@@ -546,7 +552,7 @@
         "status": "planned"
       },
       "chunk": null,
-      "notes": "2026-09-28 (2026-09-28-cli-output-tokens, phase P5): not claimed. This chunk makes clap's own help and usage output plain (the `color` feature is off, so no SGR on a terminal or under a forced-colour pipe) and routes `run`'s start refusals through one stderr writer. The acceptance still needs `wait`/`last`/`list` output escaping, the `waiting:` line and the colour spans beside their words, `verify` step lines, the `ui` launch line, and the `run` wheel and key behaviour. None of those verbs exists yet; the tokens, colour decision and escapers were carried to Confirmed send, wait and last, and The board: viola list.\n\n2026-10-04 (2026-10-04-the-wheel, phase P5): not claimed. This chunk lands the \"focus, mouse and resize never move the wheel\" clause (`tests/tui_wheel.rs`, a11y-plan §3 case (3), all three OSes). Zero wrapper bytes, unblocked human keys during a driver send, grouped `--help`, `list` / `ui` output and the `waiting:` line remain, owned by `:108` and the board / ui entries, so the cap stays pooled.\n\n2026-10-04 (2026-10-04-the-wheel, wrap P7.3): the \"focus, mouse and resize never move the wheel\" clause landed as measured. On Linux and macOS it holds in full. On `windows-2025` the resize holds, the inbox ConPTY swallows focus reports, and an injected mouse report under win32-input-mode arrives as typed keys and takes the wheel: a platform fact the founder ruled live (F-W3, 2026-10-04, relayed by the overseer), so the P5 note's \"all three OSes\" reads Unix-full, Windows by that clause. A real Windows terminal's mouse report is measured at `:90`. The rest of the cap remains with its owners, so it stays pooled."
+      "notes": "2026-09-28 (2026-09-28-cli-output-tokens, phase P5): not claimed. This chunk makes clap's own help and usage output plain (the `color` feature is off, so no SGR on a terminal or under a forced-colour pipe) and routes `run`'s start refusals through one stderr writer. The acceptance still needs `wait`/`last`/`list` output escaping, the `waiting:` line and the colour spans beside their words, `verify` step lines, the `ui` launch line, and the `run` wheel and key behaviour. None of those verbs exists yet; the tokens, colour decision and escapers were carried to Confirmed send, wait and last, and The board: viola list.\n\n2026-10-04 (2026-10-04-the-wheel, phase P5): not claimed. This chunk lands the \"focus, mouse and resize never move the wheel\" clause (`tests/tui_wheel.rs`, a11y-plan §3 case (3), all three OSes). Zero wrapper bytes, unblocked human keys during a driver send, grouped `--help`, `list` / `ui` output and the `waiting:` line remain, owned by `:108` and the board / ui entries, so the cap stays pooled.\n\n2026-10-04 (2026-10-04-the-wheel, wrap P7.3): the \"focus, mouse and resize never move the wheel\" clause landed as measured. On Linux and macOS it holds in full. On `windows-2025` the resize holds, the inbox ConPTY swallows focus reports, and an injected mouse report under win32-input-mode arrives as typed keys and takes the wheel: a platform fact the founder ruled live (F-W3, 2026-10-04, relayed by the overseer), so the P5 note's \"all three OSes\" reads Unix-full, Windows by that clause. A real Windows terminal's mouse report is measured at `:90`. The rest of the cap remains with its owners, so it stays pooled.\n\n2026-10-16 (the 2026-10-16T14-58-10 0-pending wrap, an operator-requested route adaptation): The founder ruled on 2026-10-16 (his own words, relayed verbatim by the Viola overseer; this wrap's snapshot `.andromeda/runs/2026-10-16T14-58-10-wrap/inputs/` I1) that 0.1.0 is a pure CLI and the whole frontend moves to 0.2.0, its technology not chosen; its web clause leaves 0.1.0 — «`ui` prints its launch line once»; every other output-discipline clause stands. The CLI half stands unweakened: the claiming chunk concretizes and proves the rest with this clause out of scope, never a weaker CLI outcome."
     },
     {
       "id": "v1-41",
@@ -626,7 +632,8 @@
         "ref": null,
         "status": "planned"
       },
-      "chunk": null
+      "chunk": null,
+      "notes": "2026-10-16 (the 2026-10-16T14-58-10 0-pending wrap, an operator-requested route adaptation): The founder ruled on 2026-10-16 (his own words, relayed verbatim by the Viola overseer; this wrap's snapshot `.andromeda/runs/2026-10-16T14-58-10-wrap/inputs/` I1) that 0.1.0 is a pure CLI and the whole frontend moves to 0.2.0, its technology not chosen; its web clause leaves 0.1.0 — «a bad `Last-Event-ID` pair drops the whole header» (the acceptance's resume-cursor clause), carried to `.andromeda/residuals.md` (origin `2026-10-16T14-58-10-wrap`), which the 0.2.0 route intakes; the size caps, depth limits, closed types, name validation, paste rule and terminal-parser degrade stand. The CLI half stands unweakened: the claiming chunk concretizes and proves the rest with this clause out of scope, never a weaker CLI outcome."
     },
     {
       "id": "v1-47",
@@ -640,7 +647,7 @@
         "status": "planned"
       },
       "chunk": null,
-      "notes": "2026-09-24 (2026-09-24-log-redaction-and-never-log-floor, phase P5): not claimed. This chunk routes the root bin's anyhow chain only to the owner-only instance detail file (`process-exit` + `chain`), keeps `run` silent on the terminal, and proves planted `CLAUDE*` canary values reach no home file or output stream (clean run, catch-site error, `diagnostics_level: debug`). The acceptance still needs CLI `--json` errors, MCP errors, Problem Details and channel error data, whose crates and verbs do not exist yet; drift reports, which have no producer at HEAD; and the secret scan after every E2E test. Those belong to Wrapper channel, Hooks to normalised events, Sanitised error surfaces and Observability gates."
+      "notes": "2026-09-24 (2026-09-24-log-redaction-and-never-log-floor, phase P5): not claimed. This chunk routes the root bin's anyhow chain only to the owner-only instance detail file (`process-exit` + `chain`), keeps `run` silent on the terminal, and proves planted `CLAUDE*` canary values reach no home file or output stream (clean run, catch-site error, `diagnostics_level: debug`). The acceptance still needs CLI `--json` errors, MCP errors, Problem Details and channel error data, whose crates and verbs do not exist yet; drift reports, which have no producer at HEAD; and the secret scan after every E2E test. Those belong to Wrapper channel, Hooks to normalised events, Sanitised error surfaces and Observability gates.\n\n2026-10-16 (the 2026-10-16T14-58-10 0-pending wrap, an operator-requested route adaptation): The founder ruled on 2026-10-16 (his own words, relayed verbatim by the Viola overseer; this wrap's snapshot `.andromeda/runs/2026-10-16T14-58-10-wrap/inputs/` I1) that 0.1.0 is a pure CLI and the whole frontend moves to 0.2.0, its technology not chosen; its web clauses leave 0.1.0 — the GUI token, cookie and launch URL in the never-log list, the a11y artifact, and Problem Details («problem responses») as an error surface, carried to `.andromeda/residuals.md` (origin `2026-10-16T14-58-10-wrap`), which the 0.2.0 route intakes; codes and fixed messages on CLI `--json`, MCP and channel errors, the stripped `CLAUDE*` floor, owner-only detail files and the secret scan stand. The CLI half stands unweakened: the claiming chunk concretizes and proves the rest with this clause out of scope, never a weaker CLI outcome."
     },
     {
       "id": "v1-48",
@@ -651,9 +658,10 @@
         "method": "e2e",
         "acceptance": "viola ui binds loopback only, rejects any Host but its own and serves only GETs (anything else 405); it answers health, readiness and info, the sessions and links envelopes and a resumable feed of verbatim event lines; all content sits behind a per-launch token exchanged once for a strict same-site cookie; security headers and the content security policy are on every response; the feed is never compressed; only embedded assets are served; request paths are logged without query strings; the launch line prints once.",
         "ref": null,
-        "status": "planned"
+        "status": "deferred"
       },
-      "chunk": null
+      "chunk": null,
+      "notes": "2026-10-16 (the 2026-10-16T14-58-10 0-pending wrap, an operator-requested route adaptation): deferred to 0.2.0. The founder ruled on 2026-10-16 (his own words, relayed verbatim by the Viola overseer; this wrap's snapshot `.andromeda/runs/2026-10-16T14-58-10-wrap/inputs/` I1) that 0.1.0 is a pure CLI and the whole frontend moves to 0.2.0, its technology not chosen; this capability is wholly the web page (`viola ui`, its HTTP routes, cookie gate and resumable feed are the web server's). Its route entries \"viola ui loopback server\" and \"Resumable SSE feed\" left 0.1.0 whole for `.andromeda/residuals.md` (origin `2026-10-16T14-58-10-wrap`), which the 0.2.0 route intakes. The list of six is the overseer's item 4 of that relay."
     },
     {
       "id": "v1-49",
@@ -664,9 +672,10 @@
         "method": "e2e",
         "acceptance": "One page shows the budget header with age, gate, tape and skipped state, a wrapped rack and an unwrapped read-only rack of fixed-field strips in stable name order as native tables, a cocked strip for a pending dialog, transfer markers for links, and a tape that never announces arrivals with a readback box on every send that changes only on the logged outcome; upstream text renders as text; no horizontal scroll at the supported widths on the Linux font fallback; no spinner or loading text; out-of-view attention comes through the title and polite announcements; focus never moves or is lost on live updates or trimming; the CLI board and the page agree cell for cell.",
         "ref": null,
-        "status": "planned"
+        "status": "deferred"
       },
-      "chunk": null
+      "chunk": null,
+      "notes": "2026-10-16 (the 2026-10-16T14-58-10 0-pending wrap, an operator-requested route adaptation): deferred to 0.2.0. The founder ruled on 2026-10-16 (his own words, relayed verbatim by the Viola overseer; this wrap's snapshot `.andromeda/runs/2026-10-16T14-58-10-wrap/inputs/` I1) that 0.1.0 is a pure CLI and the whole frontend moves to 0.2.0, its technology not chosen; this capability is wholly the web page (it is the strip-bay page itself). Its route entries \"Strip-bay live page\", \"Strip and readback primitives\" and \"Design token bundle and bay layout\" left 0.1.0 whole for `.andromeda/residuals.md` (origin `2026-10-16T14-58-10-wrap`), which the 0.2.0 route intakes. The list of six is the overseer's item 4 of that relay."
     },
     {
       "id": "v1-50",
@@ -677,9 +686,10 @@
         "method": "a11y",
         "acceptance": "Every web page state (steady, narrow, empty, expanded line, scrolled up, trimmed, cocked, refused, unconfirmable, human wheel, degraded, access) passes the accessibility configuration with zero violations and zero contrast-incomplete items; the keyboard sequence equals the oracle with no trap and focus is never obscured by the sticky header; only the defined messages are announced, each once; every applicable success criterion has at least one passing tagged test; lint errors in the page templates fail the build; violation rows land only in scrubbed test artifacts, with no content-security or trusted-types violation during any check.",
         "ref": null,
-        "status": "planned"
+        "status": "deferred"
       },
-      "chunk": null
+      "chunk": null,
+      "notes": "2026-10-16 (the 2026-10-16T14-58-10 0-pending wrap, an operator-requested route adaptation): deferred to 0.2.0. The founder ruled on 2026-10-16 (his own words, relayed verbatim by the Viola overseer; this wrap's snapshot `.andromeda/runs/2026-10-16T14-58-10-wrap/inputs/` I1) that 0.1.0 is a pure CLI and the whole frontend moves to 0.2.0, its technology not chosen; this capability is wholly the web page (it is the page's accessibility verdict). Its route entries \"A11y verdict across page states\" and \"Web test toolchain and a11y harness\" left 0.1.0 whole for `.andromeda/residuals.md` (origin `2026-10-16T14-58-10-wrap`), which the 0.2.0 route intakes. The list of six is the overseer's item 4 of that relay."
     },
     {
       "id": "v1-51",
@@ -690,9 +700,10 @@
         "method": "a11y",
         "acceptance": "Every design token pair used for text meets 4.5:1 and every non-text state pair meets 3:1 on the rendered Linux fallback; no failing ink is ever placed on the holder surface; under forced colours every state border, strike and band stays distinguishable; under reduced motion both motions drop to zero while the cocked position and band remain.",
         "ref": null,
-        "status": "planned"
+        "status": "deferred"
       },
-      "chunk": null
+      "chunk": null,
+      "notes": "2026-10-16 (the 2026-10-16T14-58-10 0-pending wrap, an operator-requested route adaptation): deferred to 0.2.0. The founder ruled on 2026-10-16 (his own words, relayed verbatim by the Viola overseer; this wrap's snapshot `.andromeda/runs/2026-10-16T14-58-10-wrap/inputs/` I1) that 0.1.0 is a pure CLI and the whole frontend moves to 0.2.0, its technology not chosen; this capability is wholly the web page (it is the page's contrast, forced-colours and reduced-motion check). Its route entries \"Contrast, forced colours, reduced motion\" left 0.1.0 whole for `.andromeda/residuals.md` (origin `2026-10-16T14-58-10-wrap`), which the 0.2.0 route intakes. The list of six is the overseer's item 4 of that relay."
     },
     {
       "id": "v1-52",
@@ -703,9 +714,10 @@
         "method": "e2e",
         "acceptance": "After viola ui restarts, a page whose cookie no longer matches shows the access strip in place of the stopped tape, announces it once, tells the user in plain words how to recover, and never shows or echoes the token, URL, token query or file path.",
         "ref": null,
-        "status": "planned"
+        "status": "deferred"
       },
-      "chunk": null
+      "chunk": null,
+      "notes": "2026-10-16 (the 2026-10-16T14-58-10 0-pending wrap, an operator-requested route adaptation): deferred to 0.2.0. The founder ruled on 2026-10-16 (his own words, relayed verbatim by the Viola overseer; this wrap's snapshot `.andromeda/runs/2026-10-16T14-58-10-wrap/inputs/` I1) that 0.1.0 is a pure CLI and the whole frontend moves to 0.2.0, its technology not chosen; this capability is wholly the web page (it is the page's 401 access strip). Its route entries \"Access and error strips\" left 0.1.0 whole for `.andromeda/residuals.md` (origin `2026-10-16T14-58-10-wrap`), which the 0.2.0 route intakes. The list of six is the overseer's item 4 of that relay."
     },
     {
       "id": "v1-53",

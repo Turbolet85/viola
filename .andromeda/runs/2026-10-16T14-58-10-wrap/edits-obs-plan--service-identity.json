@@ -1,0 +1,7 @@
+{"file": ".andromeda/registries/contracts/obs-plan/service-identity.md",
+ "ops": [
+  {"line": 3, "find": ", already served as `\"name\":\"viola\"` by `/health` and `/api/info`", "replace": "", "why": "W-CLAUSE /health, /api/info"},
+  {"line": 4, "find": "channel `sender`, snapshot `writer` and `/health.version`", "replace": "channel `sender` and snapshot `writer`", "why": "W-CLAUSE /health.version"}
+ ],
+ "beyond_named": []
+}

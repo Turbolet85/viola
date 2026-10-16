@@ -22,15 +22,15 @@ combine them, and setup-project may add stack-specific intermediate steps.
   - Dev-deps:
     - rstest 0.27, tempfile 3.27, assert_cmd 2.2.2, predicates 3.1.4, trycmd 1.2.1, insta 1.48.0, jsonschema 0.57.0, proptest 1.11.0, mockall 0.15.0, mock_instant 0.6.1 (in no manifest yet, as measured at the chunk 2026-10-10-budget-governor wrap)
     - windows-sys 0.61.2 with `Win32_Security_Authorization` (cfg windows)
-    - in `viola-e2e`: rmcp `=3.4.1` with `client` and `transport-child-process`, reqwest 0.13.5 (no compression features), eventsource-client 0.18.0, tokio 1.53.1 with `test-util`; since chunk 2026-10-10-windows-mutation-grade also syn `=2.0.119` (`full`, `parsing`, `printing`, `visit`, no default features) and proc-macro2 `=1.0.107` (`span-locations`), ordinary dependencies of the harness (the `#[cfg]` reader behind `run --mutants`' host exclusion)
+    - in `viola-e2e`: rmcp `=3.4.1` with `client` and `transport-child-process`, tokio 1.53.1 with `test-util`; since chunk 2026-10-10-windows-mutation-grade also syn `=2.0.119` (`full`, `parsing`, `printing`, `visit`, no default features) and proc-macro2 `=1.0.107` (`span-locations`), ordinary dependencies of the harness (the `#[cfg]` reader behind `run --mutants`' host exclusion)
   - Node side: `e2e-web/package.json` pinning `@playwright/test@1.63.0` exactly (the committed `package-lock.json` resolves `playwright` and `playwright-core` 1.63.0, all from registry.npmjs.org; `@axe-core/playwright@4.13.0` joins with the a11y chunks of Epoch 8), `e2e-web/tsconfig.json` (`noEmit`, `strict`), plus `e2e-web/playwright.config.ts` (catalog configuration):
       - `use: { headless: true }` and a single `chromium` project
       - `retries: 0` and `forbidOnly: true` (a stray `test.only` would silently skip the rest)
-      - the test-scoped session fixture (§3 `run` step 3) declares its own fixture `timeout`. It is computed from boot's deadlines (20 s per `--instance` plus 10 s with `--ui`), plus a fixed margin for boot steps 1 and 4 and for teardown `cleanup` (10 s supervisor deadline). Boot time therefore never counts against the test body's timeout. A fixture timeout is a failure, never retried.
+      - the test-scoped session fixture (§3 `run` step 3) declares its own fixture `timeout`. It is computed from boot's deadlines (20 s per `--instance`), plus a fixed margin for boot steps 1 and 4 and for teardown `cleanup` (10 s supervisor deadline). Boot time therefore never counts against the test body's timeout. A fixture timeout is a failure, never retried.
       - no `webServer`, and `globalSetup` limited to boot step 1 (§3 `run` step 3)
       - `reporter: [['json',{outputFile:'pw.json'}],['junit',{outputFile:'pw-junit.xml'}]]`, the two files `run` and `gate` read
 - **5-command-discipline-wire:** wire `scripts/agent-run.{sh,ps1}` as shims over `viola-harness` (boot / run / status / cleanup / logs), as specified in 5-command implementation above. Binding contract: both shell variants must expose identical semantics.
-- **status-endpoint-implement:** the product side (`/health`, `/ready`, `/api/info`, `/api/sessions`, `viola list --json`) is arch-owned. This phase implements the `agent-run status` aggregation per the Status endpoint shape above, and the `api_sessions_equal_list` comparison.
+- **status-endpoint-implement:** the product side (`viola list --json`) is arch-owned. This phase implements the `agent-run status` aggregation per the Status endpoint shape above.
 - **log-format-bind-with-obs:** implement §3 Log format above as the single source of truth.
   - The test plan owns the harness-grepped fields (`timestamp`, `level`, `target`, `message`, `event`, `process`, `instance`, `corr`) and the `logs` wrapper shape.
   - obs-plan §3 is a downstream reader. It may add fields, but renaming or removing one needs a Decisions Log entry in this plan first.
@@ -69,7 +69,7 @@ quality-gate-config-emit). setup-project uses this list to materialize
 each phase's bootstrap script + dependency list + verification
 command. Ownership:
 - This plan is the binding source for the harness-grepped log fields and the `agent-run status` shape.
-- The nested product shapes inside `status` come from the arch GUI HTTP contract.
+- The nested product shapes inside `status` come from the arch CLI contract.
 - obs-plan §3 reads both and may extend them but not redefine them.
 
 ---

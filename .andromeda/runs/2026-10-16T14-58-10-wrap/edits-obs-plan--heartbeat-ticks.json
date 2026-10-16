@@ -1,0 +1,8 @@
+{"file": ".andromeda/registries/contracts/obs-plan/heartbeat-ticks.md",
+ "ops": [
+  {"start": 7, "end": 7, "expect_start": "  - `ui`: `Sse::keep_alive` every", "expect_end": "  - `ui`: `Sse::keep_alive` every", "payload": [], "why": "W-SECTION SSE keep-alive tick"},
+  {"line": 10, "find": "pid + start-time check).", "replace": "pid + start-time check). Reserved: no emitter in 0.1.0; removed with the code by \"Remove the browser leg\".", "why": "RESERVED mark: liveness-changed kept (ObsEvent::LivenessChanged, schema block)"},
+  {"line": 11, "find": " and `/api/sessions`", "replace": "", "why": "W-CLAUSE /api/sessions"}
+ ],
+ "beyond_named": []
+}

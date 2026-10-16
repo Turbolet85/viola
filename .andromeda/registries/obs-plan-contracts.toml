@@ -41,7 +41,7 @@ labels = []
 [[row]]
 key = "Trace context propagation"
 file = "contracts/obs-plan/trace-context-propagation.md"
-labels = ["HTTP boundaries", "gRPC boundaries", "IPC boundaries", "Claude Code → hook stdin", "Internal async boundaries"]
+labels = ["gRPC boundaries", "IPC boundaries", "Claude Code → hook stdin", "Internal async boundaries"]
 
 [[row]]
 key = "Heartbeat ticks"

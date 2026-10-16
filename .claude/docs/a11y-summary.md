@@ -4,56 +4,51 @@ _Distilled from `.andromeda/a11y-plan.md` by `/andromeda-setup-project`. wrap-se
 
 ## A11y tier
 
-**Tier:** Standard (1) — applies to web-spa only; cli and tui get output-discipline and boundary assertions with no conformance claim.
+**Tier:** Standard (1) — cli and tui get output-discipline and boundary assertions plus manual screen-reader passes, with no WCAG conformance claim; the frontend is deferred to 0.2.0 and its technology is not chosen.
 
-**WCAG target:** WCAG 2.1 AA + SC 2.4.11 + SC 2.5.8 (WCAG 2.2 AA), with one documented exception: SC 1.4.10 below 760 CSS px (no v1 layout there). No AAA escalation: no trigger fired.
+**WCAG target:** none in 0.1.0: the frontend is deferred to 0.2.0 (its technology is not chosen), and the cli and the `viola run` TUI make no conformance claim. No AAA escalation: no trigger fired.
 
 ## Harness contract (§3)
 
-The a11y harness runs inside the tests' Playwright driver (no second browser stack) and emits violation rows that reuse the obs field names. See `.claude/rules/a11y.md` for path-scoped enforcement.
+The a11y harness checks cli and tui output discipline with assert_cmd / trycmd / portable-pty and emits no a11y rows (failures surface only as nextest failures in `suites[].failures[]`); the frontend's harness is deferred to 0.2.0. See `.claude/rules/a11y.md` for path-scoped enforcement.
 
 - **Automated tools per surface:**
-  - **web-spa:** `@axe-core/playwright` 4.13.0 via one shared `makeAxeBuilder` fixture (tags `wcag2a wcag2aa wcag21a wcag21aa wcag22aa` + five best-practice rules by id), plus Playwright aria snapshots / `toHaveAccessibleName` / `forcedColors` / `reducedMotion`, html-validate 11.16.0, colorjs.io 0.7.1 token pairs, tabbable 6.5.0 tab-order oracle, @guidepup/virtual-screen-reader 0.33.0 announcement proxy, eslint-plugin-jsx-a11y (lint stage; version OPEN, owned by the route's frontend-toolchain entry)
+  - **web-spa:** none in 0.1.0: the frontend is deferred to 0.2.0 and its technology is not chosen
   - **Mobile:** N/A (phone view deferred)
   - **CLI / TUI:** assert_cmd + trycmd + portable-pty outer-PTY output-discipline checks on all three OSes; manual NVDA / VoiceOver / Orca passes supplemental only
 - **WCAG criteria mapping:**
-  - **AA base SCs:** every row of the a11y-plan §3 per-SC map, each needing ≥ 1 passing `@sc-<id>`-tagged test (`sc-coverage.json` → `sc-coverage-report.json`); absence rows met by the `surface-absence` spec
+  - **AA base SCs:** none in 0.1.0 (the frontend is deferred to 0.2.0); cli / tui output-discipline assertions stand in for SC 1.3.2, 1.4.1 and 3.3.1 with no conformance claim
   - **AAA escalations:** none
-- **Structured violation JSON:** harness-only rows in `e2e-web/test-results/a11y/<test-id>.ndjson` (`event:"a11y-violation"`, `process:"ui"`, plus `wcag_criterion`, `violation_type`, `severity`, `surface`, `selector`, `remediation`, `check_source`), validated by `e2e-web/schemas/a11y-row.v1.json`, scrubbed; never in `diagnostics/`.
+- **Structured violation JSON:** the frontend is deferred to 0.2.0; cli / tui write no a11y rows, and output-discipline failures surface only as nextest failures in `suites[].failures[]`.
 
 ## Critical paths (must-be-accessible)
 
-- **a11y-p1 — founder reads the bay and navigates the tape** — web-spa (+ cli caption parity)
-- **a11y-p2 — confirmed send and readback, or refusal** — web-spa + cli readback mirror
-- **a11y-p3 — dialog pending, then `answer`** — web-spa cocked strip + cli refusal text
-- **a11y-p4 — human takes the wheel** — tui boundary + cli + web WHEEL cell
-- **a11y-p5 — degraded and access states** (503, 404/405, `TAPE stopped`, stale, 401 after a `viola ui` restart) — web-spa
-- **P6 — CLI board, wait/last, verify, launch line** — cli output discipline
+- **P2 — confirmed send and readback, or refusal** — cli (`viola send` readback mirror `[RB]`)
+- **P3 — dialog pending, then `answer`** — cli (`viola answer`, `unverified-cli` refusal)
+- **P4 — human takes the wheel** — tui boundary + cli (`pause`, `release`, `send` refused with `human-typing`)
+- **P6 — CLI board, wait/last, verify** — cli output discipline; `viola list`'s `CAPTION` literal pins the caption order the deferred 0.2.0 page must share
 
 ## Bootstrap phases (§3)
 
 1. **a11y-tooling-install** — `@axe-core/playwright@4.13.0` into `e2e-web/package.json` (the axe pin is this phase's), devDependencies (colorjs.io, tabbable, virtual-screen-reader, html-validate, eslint-plugin-jsx-a11y + eslint), `e2e-web/fixtures/a11y.ts` (`makeAxeBuilder`, scrubber, row writer), html-validate config declaring any `viola-*` elements the rendered page carries
 2. **focus-management-library-install** — none at runtime; tabbable test-side only
-3. **aria-component-library-install** — none (native HTML + WAI-ARIA APG, rendered by the page's React + TypeScript components)
+3. **aria-component-library-install** — none; the frontend is deferred to 0.2.0 and its technology is not chosen
 4. **contrast-verification-harness-setup** — the `a11y-tokens` test in `bay-steady-state.spec.ts`
-5. **screen-reader-test-spec-setup** — VSR route + import helper (MutationObserver fallback) + `a11y/sr-pass/TEMPLATE.json`
-6. **a11y-ci-gate-wire** — `@a11y` + `@sc-*` tags, ubuntu lint step before `run --browser`, `sc-coverage.json` + post-gate aggregation (`if: always()`)
+5. **screen-reader-test-spec-setup** — VSR route + import helper in `e2e-web/fixtures/a11y.ts` (MutationObserver fallback)
+6. **a11y-ci-gate-wire** — `@a11y` + `@sc-*` tags, ubuntu lint step before `run --browser`, `sc-coverage.json` + post-gate aggregation (`if: always()`); the browser leg (lint, E2E, aggregation, `run --browser`, `e2e-web/`) stands until the route entry "Remove the browser leg" removes it
 7. **violation-json-emission-wire** — the row writer in the fixture
 
 ## Universal anti-patterns
 
-- NEVER use manual screen-reader / keyboard / contrast passes as the only evidence — every SC needs a passing tagged test.
-- NEVER claim WCAG conformance for the cli or the `viola run` TUI, or label web-spa "WCAG 2.2 AA".
+- NEVER use manual screen-reader / keyboard / contrast passes as the only method — they are supplemental to automated checks.
+- NEVER claim WCAG conformance for the cli or the `viola run` TUI, whether `viola run` or a passed `viola revive` started it.
 - NEVER add a second browser automation stack (Lighthouse, pa11y) beside Playwright.
 - NEVER parse the rendered `claude` TUI or take screenshots as a11y evidence.
-- NEVER write a11y rows into `<home>/diagnostics/` or rename an obs binding field.
+- NEVER block, refuse or delay a human keystroke in `viola run`, or in a start a passed `viola revive` made, past the current atomic paste, and never count focus / mouse / resize sequences or terminal replies as editing.
 
 ## Critical decisions
 
-- D-A11Y-02 — semantic HTML first: native `<header>`/`<main>`/`<table>`/`<caption>`/`<dl>`, headings `VIOLA` (h1) + three h2; row hosts are role-less `display: contents` rendering native `<tr>` (overrides design's `role="row"` on the host).
-- D-A11Y-03 — the tape keeps `role="log"` with explicit `aria-live="off"`; only the single polite `role="status"` region speaks.
-- D-A11Y-06 — the announcer scope: cocks, refusals, `TAPE stopped`, the 401 access strip, and post-render 503/404/405 strips; no `alert`.
-- D-A11Y-07 — initial focus stays on `<body>`; the skip link targets `#tape-end` (`tabindex="-1"`, visually hidden "end of tape").
+- The frontend is deferred to 0.2.0 and its technology is not chosen, so no page structure, live-region, announcer or focus decision binds in 0.1.0.
 - D-A11Y-05 — Lighthouse / pa11y / WAVE dropped (second client, stale, or unable to reach loopback).
 - The statusline-bearing start (as landed, chunk 2026-10-10-statusline-pass-through): `passthrough_with_a_statusline_source_adds_no_viola_bytes` (`tests/tui_passthrough.rs`) is its reading of the zero-viola-bytes clause, green on the three CI runners. `viola hook statusline`'s 5 s PROVISIONAL bound falls on the user's own command, never on a keystroke or the human.
 - The budget pause (as landed, chunk 2026-10-10-budget-governor) is a bound on the driver only: an automated `send` is refused `budget-paused` (exit 11) until the window's reset or `viola release <name> --budget`, and no key is blocked, refused or delayed. Its reading: `path6_a_reading_over_the_threshold_refuses_the_send` (`tests/cli_budget.rs`) — a human key reaches the child under a closed gate and the outer PTY holds none of viola's literals, green on the three CI runners. `answer`, `wait`, `last` and `pause` are not gated: read in the diff, and held since chunk 2026-10-10-session-links by `path6_a_closed_gate_leaves_answer_wait_last_and_pause_alone` (each gives under a closed gate the exit code and document it gives under an open one).

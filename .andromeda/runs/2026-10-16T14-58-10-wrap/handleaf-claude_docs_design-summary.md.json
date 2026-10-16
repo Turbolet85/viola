@@ -1,0 +1,57 @@
+{
+ "file": ".claude/docs/design-summary.md",
+ "ops": [
+  {
+   "line": 13,
+   "find": "## Key design tokens",
+   "replace": "## Key design tokens (a 0.2.0 frontend design input; 0.1.0 renders no page)",
+   "why": "leaf finding by hand (leaf-design-system+layout-templates.md/.claude/docs/design-summary.md:13#1)"
+  },
+  {
+   "start": 43,
+   "end": 43,
+   "expect_start": "- **Reduce-motion override:** `prefers-r",
+   "expect_end": "- **Reduce-motion override:** `prefers-r",
+   "payload": [],
+   "why": "leaf finding: delete (leaf-design-system+layout-templates.md/.claude/docs/design-summary.md:43#1)"
+  },
+  {
+   "start": 51,
+   "end": 51,
+   "expect_start": "- **Bay, narrow (760–1023px)** — strips ",
+   "expect_end": "- **Bay, narrow (760–1023px)** — strips ",
+   "payload": [],
+   "why": "leaf finding: delete (leaf-design-system+layout-templates.md/.claude/docs/design-summary.md:51#1)"
+  },
+  {
+   "start": 52,
+   "end": 52,
+   "expect_start": "- **Bay, first reading / empty** — `sess",
+   "expect_end": "- **Bay, first reading / empty** — `sess",
+   "payload": [],
+   "why": "leaf finding: delete (leaf-design-system+layout-templates.md/.claude/docs/design-summary.md:52#1)"
+  },
+  {
+   "start": 53,
+   "end": 53,
+   "expect_start": "- **Bay, degraded** — `TAPE stopped · vi",
+   "expect_end": "- **Bay, degraded** — `TAPE stopped · vi",
+   "payload": [],
+   "why": "leaf finding: delete (leaf-design-system+layout-templates.md/.claude/docs/design-summary.md:53#1)"
+  },
+  {
+   "start": 54,
+   "end": 54,
+   "expect_start": "- **Tape line, expanded** — native `<det",
+   "expect_end": "- **Tape line, expanded** — native `<det",
+   "payload": [],
+   "why": "leaf finding: delete (leaf-design-system+layout-templates.md/.claude/docs/design-summary.md:54#1)"
+  },
+  {
+   "line": 57,
+   "find": "## Component patterns",
+   "replace": "## Component patterns (web-spa: a 0.2.0 design input; 0.1.0 renders no page)",
+   "why": "leaf finding by hand (leaf-design-system+layout-templates.md/.claude/docs/design-summary.md:57#1)"
+  }
+ ]
+}

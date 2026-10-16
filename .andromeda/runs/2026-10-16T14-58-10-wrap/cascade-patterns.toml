@@ -1,0 +1,43 @@
+[[pattern]]
+id = "viola-ui"
+regex = '''viola[ _-]ui\b|`ui`|\bui-<port>|ui/<port>\.url|ui/\*\.url'''
+
+[[pattern]]
+id = "gui"
+regex = '''\bGUI\b'''
+
+[[pattern]]
+id = "sse"
+regex = '''\bSSE\b|/api/events|EventSource|eventsource-client|keep-alive|Last-Event-ID|sse-opened|sse-closed'''
+
+[[pattern]]
+id = "http-routes"
+regex = '''/api/(sessions|links|info|events)|GET /health|GET /ready|`/health`|`/ready`|http-request|\baxum\b|tower-http|TraceLayer'''
+
+[[pattern]]
+id = "gui-auth"
+regex = '''[Cc]ookie|launch (URL|line|file)|\?t=|per-launch (token|secret)|getrandom|constant_time_eq|Host allowlist'''
+
+[[pattern]]
+id = "port"
+regex = '''47319|GUI port|`--port`'''
+
+[[pattern]]
+id = "web-spa"
+regex = '''web-spa|strip[- ]bay|<viola-[a-z]+>|the page\b|web page|web strip|web racks'''
+
+[[pattern]]
+id = "problem"
+regex = '''Problem Details|urn:viola:problem|RFC 9457|UiError'''
+
+[[pattern]]
+id = "web-a11y"
+regex = '''\baxe\b|@axe-core|WCAG|ARIA\b|screen[- ]reader|sr-pass|forced[- ]colou?rs|reduced[- ]motion'''
+
+[[pattern]]
+id = "browser-leg"
+regex = '''Playwright|Chromium|e2e-web|\bnpm\b|\bNode\b|NODE_PIN|install-node|npm-audit|run --browser'''
+
+[[pattern]]
+id = "frontend-tech"
+regex = '''React|TypeScript|\bLit\b|frontend-toolchain|Frontend toolchain|Epoch 8'''

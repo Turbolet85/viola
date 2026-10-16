@@ -1,0 +1,17 @@
+{
+ "file": ".andromeda/registries/contracts/a11y-plan/contrast-verification-harness.md",
+ "ops": [
+  {
+   "start": 2,
+   "end": 17,
+   "expect_start": "",
+   "expect_end": "- **WCAG SC mapping:** SC 1.4.3 (AA 4.5:",
+   "payload": [
+    "",
+    "The frontend is deferred to 0.2.0; its technology is not chosen."
+   ],
+   "why": "wholly-web key file → stub"
+  }
+ ],
+ "beyond_named": []
+}

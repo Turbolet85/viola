@@ -10,4 +10,3 @@
 - **Artifact:**
   - Playwright JSON report at the suite `artifact` path, with `attachments[]` holding scrubbed axe JSON, token-pair JSON, html-validate JSON, VSR phrase logs and the `a11y-violations` NDJSON.
   - `e2e-web/test-results/` is uploaded by `actions/upload-artifact` v7.0.1, SHA-pinned per zizmor.
-  - Per-PR new-violation diff: the verdict is binary (`violations: []` on base and head), so every violation on a PR is new by construction and fails. No fingerprint baseline file exists.
