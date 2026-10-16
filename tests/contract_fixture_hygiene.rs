@@ -530,6 +530,39 @@ fn claude_framing_variants_are_walked_for_every_framing_set() {
     }
 }
 
+/// Every set recorded with a resume variant holds the one Run E records, walked by
+/// `claude_fixtures_pass_hygiene`; the 2.1.287 set is one of them.
+#[test]
+fn claude_resume_variants_are_walked_for_every_resume_set() {
+    let walked: Vec<PathBuf> = claude_fixtures(&workspace_path("fixtures/claude"));
+    let variant = |p: &PathBuf| {
+        p.file_name().and_then(|n| n.to_str()).is_some_and(|n| {
+            n.split('.')
+                .nth(1)
+                .unwrap_or_default()
+                .starts_with("resume-")
+        })
+    };
+    let mut sets: Vec<&Path> = walked
+        .iter()
+        .filter(|p| variant(p))
+        .filter_map(|p| p.parent())
+        .collect();
+    sets.dedup();
+    assert!(
+        sets.iter().any(|s| s.ends_with("2.1.287")),
+        "the 2.1.287 set holds no resume variant"
+    );
+    for set in sets {
+        let names: Vec<String> = walked
+            .iter()
+            .filter(|p| p.parent() == Some(set) && variant(p))
+            .filter_map(|p| p.file_name()?.to_str().map(str::to_owned))
+            .collect();
+        assert_eq!(names, ["SessionStart.resume-1.json"], "{}", set.display());
+    }
+}
+
 #[test]
 fn planted_claude_username_is_rejected() {
     let bytes = claude_payload(

@@ -1,0 +1,193 @@
+[
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-14T07:32:10Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-14-resume-and-compact-ledger-rows",
+"--message-file",
+".andromeda/runs/2026-10-14T07-11-44-phase/relay-1.md",
+"--origin",
+"the operator, relaying the founder live from the overseer dialog, 2026-10-14T07:31:48Z",
+"--kind",
+"relay",
+"--why",
+"the founder answers P4 forks 1-3: resume row and /compact listed unconfirmable; Run E sixth start ratified; cap 12 live starts",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-10-14T07-11-44-phase",
+"--marker",
+"2026-10-14-resume-and-compact-ledger-rows"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy message · message: the operator, relaying the founder live from the overseer dialog, 2026-10-14T07:31:48Z",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, relaying the founder live from the overseer dialog, 2026-10-14T07:31:48Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "089746c84459640f048e9699da6c567bc12c94bc1fcac210ca053239597ac0a8",
+"copy": "I1-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-14T07:32:10Z",
+"step": "phase:P4",
+"why": "the founder answers P4 forks 1-3: resume row and /compact listed unconfirmable; Run E sixth start ratified; cap 12 live starts"
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-16T06:35:34Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-14-resume-and-compact-ledger-rows",
+"--run-dir",
+".andromeda/runs/2026-10-14T07-11-44-phase",
+"--marker",
+"2026-10-14-resume-and-compact-ledger-rows"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, relaying the founder live from the overseer dialog, 2026-10-14T07:31:48Z",
+"I1 cited plan.md:8 · plan.md:137 · plan.md:232 (in fence) · plan.md:260 (in fence) · plan.md:379 · plan.md:397 · plan.md:412 · plan.md:427 · plan.md:431 · plan.md:440",
+"inputs: 1 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 1,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-16T06:42:37Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-14-resume-and-compact-ledger-rows",
+"--run-dir",
+".andromeda/runs/2026-10-14T07-11-44-phase",
+"--marker",
+"2026-10-14-resume-and-compact-ledger-rows"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, relaying the founder live from the overseer dialog, 2026-10-14T07:31:48Z",
+"I1 cited scope.md:113 · plan.md:8 · plan.md:140 · plan.md:236 (in fence) · plan.md:264 (in fence) · plan.md:391 · plan.md:409 · plan.md:424 · plan.md:439 · plan.md:443 · plan.md:452",
+"inputs: 1 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 1,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-16T06:44:18Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-14-resume-and-compact-ledger-rows",
+"--message-file",
+".andromeda/runs/2026-10-14T07-11-44-phase/relay-2.md",
+"--origin",
+"the operator, given here in the resumed phase session, 2026-10-16T06:44Z",
+"--kind",
+"relay",
+"--why",
+"the P5 word yes on .andromeda/runs/2026-10-14T07-11-44-phase/p5-card-1.md (its two Beyond-the-plan rows included); the operator, 2026-10-16, given here",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-10-14T07-11-44-phase",
+"--marker",
+"2026-10-14-resume-and-compact-ledger-rows"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy message · message: the operator, given here in the resumed phase session, 2026-10-16T06:44Z",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, given here in the resumed phase session, 2026-10-16T06:44Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "f82927fe04f603bfc83f529b6e22b7ef6fe51a64706812c804530f04ecd0dafd",
+"copy": "I2-relay-2.md.txt",
+"link": false,
+"read_at": "2026-10-16T06:44:18Z",
+"step": "phase:P5",
+"why": "the P5 word yes on .andromeda/runs/2026-10-14T07-11-44-phase/p5-card-1.md (its two Beyond-the-plan rows included); the operator, 2026-10-16, given here"
+}
+}
+]

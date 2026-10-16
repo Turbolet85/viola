@@ -1,4 +1,4 @@
-//! `viola verify`'s four interactive runs of the CLI under a PTY at a fixed 80×24 (architecture
+//! `viola verify`'s five interactive runs of the CLI under a PTY at a fixed 80×24 (architecture
 //! [Screen Model]). The untrusted run (A) starts in a fresh dir under the OS temp dir, records its
 //! first settled screen (`modal`) and is ended by a kill. The trusted run (B) starts in
 //! `<cwd>/.viola-verify-<pid>/`, records its settled input box (`ready`), types the probe prompt as
@@ -8,8 +8,10 @@
 //! `<cwd>/.viola-verify-<pid>-dialogs/`) pastes the three dialog prompts, each after the previous
 //! turn's Stop; the plan run (D, in `<cwd>/.viola-verify-<pid>-plan/`, plan mode) pastes the plan
 //! prompt. In C and D the probe's capture hook answers each dialog (the founder's ruling,
-//! 2026-10-05); both are ended by a kill. No run ever types into a dialog: the untrusted run's input
-//! is empty, a trusted start that shows a modal is killed, and only prompts are pasted. Every wait
+//! 2026-10-05); both are ended by a kill. The resume run (E, in `<cwd>/.viola-verify-<pid>-resume/`)
+//! resumes Run B's first session by its id, waits for its SessionStart and is ended by a kill. No
+//! run ever types into a dialog: the untrusted and resume runs' input is empty, a trusted start that
+//! shows a modal is killed, and only prompts are pasted. Every wait
 //! but the pump's after a kill ends at the stop; a stopped run is ended by a kill, pastes nothing
 //! more, and no later run starts.
 
@@ -51,8 +53,8 @@ pub(super) struct RunDirs<'a> {
 }
 
 /// What the runs need from `verify`: the resolved CLI and its leading arguments, verify's cwd, the
-/// R8 strip, the stop, the trusted, dialog and plan runs' plugins and capture dirs, and the trusted
-/// run's statusline probe settings where the status line is wrapped.
+/// R8 strip, the stop, the trusted, dialog, plan and resume runs' plugins and capture dirs, and the
+/// trusted run's statusline probe settings where the status line is wrapped.
 pub(super) struct Inputs<'a> {
     pub(super) program: &'a Path,
     pub(super) program_args: &'a [OsString],
@@ -63,12 +65,13 @@ pub(super) struct Inputs<'a> {
     pub(super) statusline_settings: Option<&'a Path>,
     pub(super) questions: RunDirs<'a>,
     pub(super) plan: RunDirs<'a>,
+    pub(super) resume: RunDirs<'a>,
 }
 
-/// One of the four runs, adding what it measured.
+/// One of the five runs, adding what it measured.
 type RunStep<'a> = dyn Fn(&mut TypedRun) -> anyhow::Result<()> + 'a;
 
-/// The four runs in order; every dir any run used is gone on return. Run C and Run D leave only
+/// The five runs in order; every dir any run used is gone on return. Runs C, D and E leave only
 /// their captures, which `verify` reads. `None` when the stop was set before a run would start:
 /// the run it ended has been killed and its dir removed.
 pub(super) fn measure(
@@ -78,11 +81,12 @@ pub(super) fn measure(
     let mut typed = TypedRun::default();
     let mut args = inputs.program_args.to_vec();
     args.extend(["--model", "haiku"].map(OsString::from));
-    let runs: [&RunStep<'_>; 4] = [
+    let runs: [&RunStep<'_>; 5] = [
         &|typed| untrusted_run(clock, inputs, &args, typed),
         &|typed| trusted_run(clock, inputs, &args, typed),
         &|_| dialog_run(clock, inputs, &args),
         &|_| plan_run(clock, inputs, &args),
+        &|_| resume_run(clock, inputs, &args),
     ];
     for run in runs {
         if (inputs.stop)() {
@@ -224,6 +228,39 @@ fn plan_run(clock: &Arc<dyn Clock>, inputs: &Inputs<'_>, args: &[OsString]) -> a
     }
     run.end_by_kill();
     drop(keys);
+    drop(dir);
+    Ok(())
+}
+
+/// Run E: Run B's first session resumed by its id (`ledger::resume_target`; none, and no child
+/// starts) in its own dir, until one SessionStart is captured and the screen settles after it; ended
+/// by a kill with no key typed.
+fn resume_run(
+    clock: &Arc<dyn Clock>,
+    inputs: &Inputs<'_>,
+    args: &[OsString],
+) -> anyhow::Result<()> {
+    let trusted = super::read_captures(inputs.trusted.captures);
+    let Some(id) = ledger::resume_target(&trusted) else {
+        return Ok(());
+    };
+    let dir = TrustedDir::create(inputs.cwd, "-resume")?;
+    let mut args = args.to_vec();
+    args.push(PLUGIN_DIR_FLAG.into());
+    args.push(inputs.resume.plugin.as_os_str().to_owned());
+    args.extend(viola_agent_claude::resume_args(id, false));
+    let run = Run::spawn(clock, inputs, &args, &dir.0, Box::new(io::empty()))?;
+    let started = wait_capture(
+        inputs.resume.captures,
+        HookEvent::SessionStart,
+        clock.as_ref(),
+        probe_until(clock.as_ref()),
+        run.stop,
+    );
+    if let Some(started) = started {
+        run.settle(started);
+    }
+    run.end_by_kill();
     drop(dir);
     Ok(())
 }

@@ -841,5 +841,41 @@
 "unparsed": 0,
 "widening_without_word": 0
 }
+},
+{
+"tool": "gate",
+"v": "1.18",
+"sha8": "fb28dd29",
+"ts": "2026-10-16T06:38:34Z",
+"argv": [
+"show",
+"--run-dir",
+".andromeda/runs/2026-10-14T06-37-54-wrap",
+"--marker",
+"2026-10-13-owed-ledger-rows",
+"--n",
+"5",
+"--tail",
+"5"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"5 unit green",
+"run (c5d2a008): bash scripts/agent-run.sh run --unit",
+"  exit 0 ✓",
+"  contains '\"ok\":true' ✓",
+"log $TMPDIR/andromeda-gate/2026-10-13-owed-ledger-rows/wrap-2026-10-14T06-37-54/5.log · 271984 B · ec942404 · $TMPDIR = /tmp",
+"--- no anchored failure; last 5 non-empty lines ---",
+"running 0 tests",
+"test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+"running 0 tests",
+"test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+"{\"v\":1,\"cmd\":\"run\",\"ok\":true,\"suites\":[{\"suite\":\"nextest-unit\",\"passed\":2075,\"failed\":0,\"skipped\":0,\"survived\":0,\"artifact\":\"./target/agent-run/artifacts/junit-nextest-unit.xml\",\"failures\":[]},{\"suite\":\"doctest\",\"passed\":0,\"failed\":0,\"skipped\":0,\"survived\":0,\"artifact\":null,\"failures\":[]}],\"archived\":\"target/run-archive/1266\"}"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
 }
 ]

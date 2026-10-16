@@ -23,10 +23,12 @@ pub const TRUST_ROW: &str = "   Yes, I trust this folder";
 
 pub const CANARY: &str = "canary-chain-value-5c1e";
 pub const SPINE: [&str; 4] = ["SessionStart", "UserPromptSubmit", "Stop", "SessionEnd"];
+/// The synthetic session id every payload carries, of the session-id shape: Run E resumes it.
+pub const SESSION_ID: &str = "5e55a0b1-0c0d-4e0f-8a1b-2c3d4e5f6a7b";
 
 /// The payload a clean print-mode turn hands `event`'s hook.
 pub fn spine_payload(event: &str) -> Value {
-    let mut body = json!({"hook_event_name": event, "session_id": "s-verify-1", "note": CANARY});
+    let mut body = json!({"hook_event_name": event, "session_id": SESSION_ID, "note": CANARY});
     match event {
         "SessionStart" => body["source"] = json!("startup"),
         "UserPromptSubmit" => body["prompt"] = json!("replaced by the fake agent"),
@@ -94,7 +96,7 @@ pub fn framing_set() -> Vec<(&'static str, &'static str, Value)> {
     let mut started = spine_payload("SessionStart");
     started["source"] = json!("clear");
     started["session_id"] = json!("s-verify-2");
-    let status = json!({"session_id": "s-verify-1", "model": {"id": "m"}, "note": CANARY});
+    let status = json!({"session_id": SESSION_ID, "model": {"id": "m"}, "note": CANARY});
     let mut limited = status.clone();
     limited["rate_limits"] = json!({
         "five_hour": {"used_percentage": 23, "resets_at": 1_760_400_000},
@@ -136,7 +138,7 @@ fn one_question(text: &str) -> Value {
 
 /// One synthetic tool payload: the event, tool and id, and `extra`'s fields.
 pub fn tool_payload(event: &str, tool: &str, id: Option<&str>, extra: Value) -> Value {
-    let mut body = json!({"hook_event_name": event, "tool_name": tool, "session_id": "s-verify-1",
+    let mut body = json!({"hook_event_name": event, "tool_name": tool, "session_id": SESSION_ID,
         "note": CANARY});
     if let Some(id) = id {
         body["tool_use_id"] = json!(id);
@@ -467,9 +469,10 @@ pub struct StartedVerify {
 }
 
 /// `verify` as `verify_with` builds it but without `--turn-stop`, started and not waited: Run B
-/// pastes its prompt and waits for a Stop that never comes. It runs in `cwd`, the fake agent's
-/// trusted root, with `tmp` as the OS temp dir (`TMPDIR`, `TMP`, `TEMP`) and `name` as
-/// `VIOLA_NAME`; the receipt is `<home's parent>/stop.receipt.ndjson`.
+/// pastes its prompt and waits for a Stop that never comes, unless `after` (the fake agent's last
+/// arguments) gives `--turn-stop`. It runs in `cwd`, the fake agent's trusted root, with `tmp` as
+/// the OS temp dir (`TMPDIR`, `TMP`, `TEMP`) and `name` as `VIOLA_NAME`; the receipt is
+/// `<home's parent>/stop.receipt.ndjson`.
 pub fn verify_started(
     home: &Path,
     fixtures: &Path,
@@ -477,6 +480,7 @@ pub fn verify_started(
     cwd: &Path,
     tmp: &Path,
     name: &str,
+    after: &[&str],
 ) -> StartedVerify {
     let receipt = home
         .parent()
@@ -487,6 +491,7 @@ pub fn verify_started(
     args.push(cwd.into());
     args.push("--receipt".into());
     args.push(receipt.clone().into());
+    args.extend(after.iter().map(OsString::from));
     let child = Command::new(VIOLA)
         .args(&args)
         .current_dir(cwd)

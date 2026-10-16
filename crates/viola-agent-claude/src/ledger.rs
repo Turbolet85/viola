@@ -40,10 +40,11 @@ pub enum LedgerRow {
     StatusLineOverride,
     StatusLineShell,
     StatusLineRateLimits,
+    ResumeSession,
 }
 
 impl LedgerRow {
-    pub const ALL: [Self; 21] = [
+    pub const ALL: [Self; 22] = [
         Self::ShimResolution,
         Self::SpineHooks,
         Self::SessionStartFields,
@@ -65,6 +66,7 @@ impl LedgerRow {
         Self::StatusLineOverride,
         Self::StatusLineShell,
         Self::StatusLineRateLimits,
+        Self::ResumeSession,
     ];
 
     /// The kebab-case id, the key under a stamped version's `rows`.
@@ -91,6 +93,7 @@ impl LedgerRow {
             Self::StatusLineOverride => "statusline-override",
             Self::StatusLineShell => "statusline-shell",
             Self::StatusLineRateLimits => "statusline-rate-limits",
+            Self::ResumeSession => "resume-session",
         }
     }
 
@@ -122,6 +125,7 @@ impl LedgerRow {
             Self::StatusLineRateLimits => {
                 "the statusline payload carries two whole-number rate_limits windows"
             }
+            Self::ResumeSession => "--resume <id> reopens the session under that id",
         }
     }
 
@@ -190,9 +194,10 @@ pub enum PostCondition {
 
 /// The known built-in local commands, which fire no UserPromptSubmit, each with its delivery
 /// post-condition or none (architecture [Delivery Confirmation]).
-pub const LOCAL_COMMANDS: [(&str, Option<PostCondition>); 2] = [
+pub const LOCAL_COMMANDS: [(&str, Option<PostCondition>); 3] = [
     ("/clear", Some(PostCondition::NewSession)),
     ("/remote-control", None),
+    ("/compact", None),
 ];
 /// The local command Run B pastes: the list's entry that has a post-condition.
 pub const PROBE_LOCAL_COMMAND: &str = LOCAL_COMMANDS[0].0;
@@ -635,8 +640,8 @@ pub struct StatusLineCapture {
     pub shell: ShellVerdict,
 }
 
-/// Every measurement one `viola verify` run makes; `trusted` is Run B's captures in claim order and
-/// `statusline` its status line's in `k` order.
+/// Every measurement one `viola verify` run makes; `trusted` is Run B's captures in claim order,
+/// `statusline` its status line's in `k` order and `resumed` Run E's in claim order.
 #[derive(Debug, Clone, PartialEq)]
 pub struct Probes {
     pub print: ProbeRun,
@@ -644,6 +649,7 @@ pub struct Probes {
     pub trusted: Vec<Capture>,
     pub dialogs: DialogRuns,
     pub statusline: Vec<StatusLineCapture>,
+    pub resumed: Vec<Capture>,
 }
 
 const ASK: &str = "AskUserQuestion";
@@ -833,6 +839,39 @@ pub fn framing_variants(trusted: &[Capture]) -> Vec<(&'static str, &Capture)> {
     out
 }
 
+/// The session Run E resumes: the `session_id` of Run B's first SessionStart, the session that holds
+/// the probe turn and the pastes, only when it has a session id's shape.
+pub fn resume_target(trusted: &[Capture]) -> Option<&str> {
+    trusted
+        .iter()
+        .find(|c| c.event == HookEvent::SessionStart)
+        .and_then(|c| c.field("session_id"))
+        .filter(|id| crate::is_session_id(id))
+}
+
+/// Run E's first SessionStart, when it has one.
+fn resumed_start(resumed: &[Capture]) -> Option<&Capture> {
+    resumed.iter().find(|c| c.event == HookEvent::SessionStart)
+}
+
+/// Run E's first SessionStart has source `resume` and the id of the session it resumed.
+fn session_resumed(trusted: &[Capture], resumed: &[Capture]) -> bool {
+    let Some(target) = resume_target(trusted) else {
+        return false;
+    };
+    resumed_start(resumed).is_some_and(|c| {
+        c.field("source") == Some("resume") && c.field("session_id") == Some(target)
+    })
+}
+
+/// Run E's captures named for `--record`: its first SessionStart as `resume-1`.
+pub fn resume_variants(resumed: &[Capture]) -> Vec<(&'static str, &Capture)> {
+    resumed_start(resumed)
+        .map(|c| ("resume-1", c))
+        .into_iter()
+        .collect()
+}
+
 fn any_row(rows: Option<&Vec<String>>, literals: &[&str]) -> bool {
     rows.is_some_and(|rows| rows.iter().any(|r| literals.iter().any(|l| r.contains(l))))
 }
@@ -892,6 +931,7 @@ pub fn check(row: LedgerRow, probes: &Probes) -> bool {
             .statusline
             .iter()
             .any(|c| whole_rate_limits(&c.bytes)),
+        LedgerRow::ResumeSession => session_resumed(&probes.trusted, &probes.resumed),
     }
 }
 
@@ -1371,7 +1411,7 @@ mod tests {
     use rstest::rstest;
 
     #[test]
-    fn ledger_rows_are_the_twenty_one_measured_behaviours_in_order() {
+    fn ledger_rows_are_the_twenty_two_measured_behaviours_in_order() {
         let ids: Vec<&str> = LedgerRow::ALL.iter().map(|r| r.id()).collect();
         assert_eq!(
             ids,
@@ -1397,6 +1437,7 @@ mod tests {
                 "statusline-override",
                 "statusline-shell",
                 "statusline-rate-limits",
+                "resume-session",
             ]
         );
         let words: Vec<&str> = LedgerRow::ALL.iter().map(|r| r.words()).collect();
@@ -1424,6 +1465,7 @@ mod tests {
                 "a --settings statusLine runs in the status line's place",
                 "a statusline command runs through /bin/sh",
                 "the statusline payload carries two whole-number rate_limits windows",
+                "--resume <id> reopens the session under that id",
             ]
         );
         assert!(words.iter().all(|w| w.is_ascii()));
@@ -1438,15 +1480,17 @@ mod tests {
                 .map(LedgerRow::id)
                 .collect()
         };
-        assert_eq!(ids(true).len(), 21);
-        assert_eq!(ids(false).len(), 18);
-        assert_eq!(ids(false).last(), Some(&"paste-newline"));
+        assert_eq!(ids(true).len(), 22);
+        assert_eq!(ids(false).len(), 19);
+        assert_eq!(ids(false)[17], "paste-newline");
+        assert_eq!(ids(false).last(), Some(&"resume-session"));
+        assert_eq!(ids(true).last(), Some(&"resume-session"));
         assert!(!ids(false).iter().any(|id| id.starts_with("statusline-")));
         let here: Vec<&str> = LedgerRow::relied().into_iter().map(LedgerRow::id).collect();
         #[cfg(unix)]
-        assert_eq!(here.len(), 21);
+        assert_eq!(here.len(), 22);
         #[cfg(windows)]
-        assert_eq!(here.len(), 18);
+        assert_eq!(here.len(), 19);
         assert_eq!(here, ids(cfg!(unix)));
     }
 
@@ -1689,6 +1733,7 @@ mod tests {
             trusted: clean_trusted(),
             dialogs: clean_dialogs(),
             statusline: clean_statusline(),
+            resumed: clean_resumed(),
         }
     }
 
@@ -1709,7 +1754,7 @@ mod tests {
 
     #[test]
     fn check_passes_every_row_on_a_clean_probe() {
-        assert_eq!(verdicts(&clean_run()), [true; 21]);
+        assert_eq!(verdicts(&clean_run()), [true; 22]);
     }
 
     #[test]
@@ -1864,7 +1909,7 @@ mod tests {
                         "long-paste-wrapper": "pass", "tag-escaping": "pass",
                         "local-command-clear": "pass", "paste-newline": "pass",
                         "statusline-override": "pass", "statusline-shell": "pass",
-                        "statusline-rate-limits": "pass",
+                        "statusline-rate-limits": "pass", "resume-session": "pass",
                     },
                     "measured": {
                         "largest_hook_payload": {"SessionStart": 120, "Stop": 90},
@@ -1986,9 +2031,10 @@ mod tests {
         assert_eq!(verified(&short, "2.1.0"), Ok(false), "a missing row");
     }
 
-    /// A stamp written before the three framing rows holds the fourteen older ids alone, and one
-    /// written before the newline row every id but that one: each `pass`, and the version still
-    /// reads unverified until the newline row passes too.
+    /// A stamp written before the three framing rows holds the fourteen older ids alone, one written
+    /// before the newline row every id but that one, and one written before the resume row the
+    /// twenty-one rows before it: each `pass`, and the version reads unverified until every row
+    /// relied on here passes.
     #[test]
     fn verified_reads_a_fourteen_row_stamp_as_unverified() {
         let rows: Map<String, Value> = [
@@ -2023,8 +2069,15 @@ mod tests {
         stamp["data"]["versions"]["2.1.0"]["rows"]["paste-newline"] = json!("pass");
         assert_eq!(
             verified(stamp.to_string().as_bytes(), "2.1.0"),
-            Ok(cfg!(windows)),
+            Ok(false),
             "the eighteen rows before the statusline rows"
+        );
+        let mut nineteen = stamp.clone();
+        nineteen["data"]["versions"]["2.1.0"]["rows"]["resume-session"] = json!("pass");
+        assert_eq!(
+            verified(nineteen.to_string().as_bytes(), "2.1.0"),
+            Ok(cfg!(windows)),
+            "the eighteen rows and the resume row"
         );
         for id in [
             "statusline-override",
@@ -2033,6 +2086,12 @@ mod tests {
         ] {
             stamp["data"]["versions"]["2.1.0"]["rows"][id] = json!("pass");
         }
+        assert_eq!(
+            verified(stamp.to_string().as_bytes(), "2.1.0"),
+            Ok(false),
+            "the twenty-one rows before the resume row"
+        );
+        stamp["data"]["versions"]["2.1.0"]["rows"]["resume-session"] = json!("pass");
         assert_eq!(verified(stamp.to_string().as_bytes(), "2.1.0"), Ok(true));
     }
 
@@ -2174,6 +2233,7 @@ mod tests {
                 trusted: clean_trusted(),
                 dialogs: clean_dialogs(),
                 statusline: clean_statusline(),
+                resumed: clean_resumed(),
             },
         )
     }
@@ -2193,7 +2253,7 @@ mod tests {
             six,
             [
                 true, true, true, true, true, true, false, false, false, false, true, true, true,
-                true, true, true, true, true, true, true, true
+                true, true, true, true, true, true, true, true, true
             ]
         );
     }
@@ -2583,6 +2643,7 @@ mod tests {
                 trusted: clean_trusted(),
                 dialogs,
                 statusline: clean_statusline(),
+                resumed: clean_resumed(),
             },
         )
     }
@@ -2647,7 +2708,7 @@ mod tests {
     fn clean_trusted() -> Vec<Capture> {
         let stop = capture(HookEvent::Stop, json!({"last_assistant_message": "ok"}));
         vec![
-            session_start("startup", "s-1"),
+            session_start("startup", RUN_B_ID),
             prompted(PROBE_PROMPT),
             stop.clone(),
             prompted(&wrapped(PROBE_LONG_PASTE)),
@@ -2660,6 +2721,140 @@ mod tests {
             session_start("clear", "s-2"),
             session_end("prompt_input_exit"),
         ]
+    }
+
+    /// Run B's first session id, of the session-id shape the CLI gives one.
+    const RUN_B_ID: &str = "3f2b9c1e-7a4d-4e8b-9c0f-1d2e3a4b5c6d";
+
+    /// Run E as the live probe records it: the one SessionStart of the resumed session before the
+    /// kill.
+    fn clean_resumed() -> Vec<Capture> {
+        vec![session_start("resume", RUN_B_ID)]
+    }
+
+    fn resume_check(trusted: Vec<Capture>, resumed: Vec<Capture>) -> bool {
+        check(
+            LedgerRow::ResumeSession,
+            &Probes {
+                print: clean_run(),
+                typed: clean_typed(),
+                trusted,
+                dialogs: clean_dialogs(),
+                statusline: clean_statusline(),
+                resumed,
+            },
+        )
+    }
+
+    #[test]
+    fn check_resume_session_passes_on_the_recorded_shape() {
+        assert!(resume_check(clean_trusted(), clean_resumed()));
+        let upper = vec![session_start(
+            "resume",
+            "3F2B9C1E-7A4D-4E8B-9C0F-1D2E3A4B5C6D",
+        )];
+        let trusted = with_trusted(|t| t[0] = session_start("startup", &RUN_B_ID.to_uppercase()));
+        assert!(resume_check(trusted, upper), "either hex case");
+        let ended = vec![
+            session_start("resume", RUN_B_ID),
+            session_end("prompt_input_exit"),
+        ];
+        assert!(
+            resume_check(clean_trusted(), ended),
+            "a SessionEnd after it"
+        );
+    }
+
+    #[test]
+    fn check_resume_session_fails_on_another_source() {
+        for source in ["startup", "clear", "compact", ""] {
+            let resumed = vec![session_start(source, RUN_B_ID)];
+            assert!(!resume_check(clean_trusted(), resumed), "{source}");
+        }
+        let unnamed = vec![capture(
+            HookEvent::SessionStart,
+            json!({"session_id": RUN_B_ID}),
+        )];
+        assert!(!resume_check(clean_trusted(), unnamed), "no source");
+        let resume_second = vec![
+            session_start("startup", RUN_B_ID),
+            session_start("resume", RUN_B_ID),
+        ];
+        assert!(
+            !resume_check(clean_trusted(), resume_second),
+            "the first SessionStart decides"
+        );
+    }
+
+    #[test]
+    fn check_resume_session_fails_on_another_id() {
+        for id in ["3f2b9c1e-7a4d-4e8b-9c0f-1d2e3a4b5c6e", "s-2", ""] {
+            let resumed = vec![session_start("resume", id)];
+            assert!(!resume_check(clean_trusted(), resumed), "{id:?}");
+        }
+        let no_id = vec![capture(
+            HookEvent::SessionStart,
+            json!({"source": "resume"}),
+        )];
+        assert!(!resume_check(clean_trusted(), no_id), "no session_id");
+        let cleared = with_trusted(|t| t[10] = session_start("clear", RUN_B_ID));
+        let after_clear = vec![session_start("resume", "s-2")];
+        assert!(
+            !resume_check(cleared, after_clear),
+            "the id after the local command is not the target"
+        );
+    }
+
+    #[test]
+    fn check_resume_session_fails_with_no_run_e_capture() {
+        assert!(!resume_check(clean_trusted(), Vec::new()), "no capture");
+        let ended = vec![session_end("prompt_input_exit")];
+        assert!(!resume_check(clean_trusted(), ended), "no SessionStart");
+    }
+
+    #[test]
+    fn check_resume_session_fails_when_run_b_first_id_is_off_the_session_id_shape() {
+        for id in [
+            "s-1",
+            "",
+            "3f2b9c1e-7a4d-4e8b-9c0f-1d2e3a4b5c6",
+            "3f2b9c1e-7a4d-4e8b-9c0f-1d2e3a4b5c6dd",
+            "3f2b9c1e_7a4d-4e8b-9c0f-1d2e3a4b5c6d",
+            "3f2b9c1e-7a4d-4e8b-9c0f-1d2e3a4b5c6g",
+        ] {
+            let trusted = with_trusted(|t| t[0] = session_start("startup", id));
+            let resumed = vec![session_start("resume", id)];
+            assert!(!resume_check(trusted, resumed), "{id:?}");
+        }
+        assert!(!resume_check(Vec::new(), clean_resumed()), "no Run B");
+        let resume_first = with_trusted(|t| t.insert(0, session_start("startup", "s-0")));
+        assert!(
+            !resume_check(resume_first, clean_resumed()),
+            "Run B's first SessionStart decides the target"
+        );
+    }
+
+    #[test]
+    fn resume_target_is_run_b_first_session_id_of_the_shape() {
+        assert_eq!(resume_target(&clean_trusted()), Some(RUN_B_ID));
+        assert_eq!(resume_target(&[]), None);
+        let off = with_trusted(|t| t[0] = session_start("startup", "s-1"));
+        assert_eq!(resume_target(&off), None);
+    }
+
+    #[test]
+    fn resume_variants_name_run_e_first_session_start_resume_1() {
+        let resumed = vec![
+            session_end("other"),
+            session_start("resume", RUN_B_ID),
+            session_start("startup", "s-9"),
+        ];
+        let variants = resume_variants(&resumed);
+        assert_eq!(variants.len(), 1);
+        assert_eq!(variants[0].0, "resume-1");
+        assert_eq!(variants[0].1, &resumed[1]);
+        assert!(resume_variants(&[session_end("other")]).is_empty());
+        assert!(resume_variants(&[]).is_empty());
     }
 
     const FRAMING_ROWS: [LedgerRow; 4] = [
@@ -2678,6 +2873,7 @@ mod tests {
                 trusted,
                 dialogs: clean_dialogs(),
                 statusline: clean_statusline(),
+                resumed: clean_resumed(),
             },
         )
     }
@@ -2776,7 +2972,7 @@ mod tests {
         assert!(!framing_check(row, no_start), "no clear SessionStart");
         let other_source = with_trusted(|t| t[10] = session_start("resume", "s-2"));
         assert!(!framing_check(row, other_source), "another source");
-        let same_session = with_trusted(|t| t[10] = session_start("clear", "s-1"));
+        let same_session = with_trusted(|t| t[10] = session_start("clear", RUN_B_ID));
         assert!(!framing_check(row, same_session), "the first session_id");
         let empty_session = with_trusted(|t| t[10] = session_start("clear", ""));
         assert!(!framing_check(row, empty_session), "an empty session_id");
@@ -2843,6 +3039,7 @@ mod tests {
                 trusted: clean_trusted(),
                 dialogs: clean_dialogs(),
                 statusline,
+                resumed: clean_resumed(),
             },
         )
     }
@@ -2875,6 +3072,7 @@ mod tests {
             trusted: Vec::new(),
             dialogs: DialogRuns::default(),
             statusline: Vec::new(),
+            resumed: Vec::new(),
         };
         assert!(!check(LedgerRow::StatusLineOverride, &none));
     }
@@ -3129,19 +3327,20 @@ mod tests {
         assert_eq!(framing_stem(PROBE_TAG_PASTE), Some("paste-2"));
         assert_eq!(framing_stem(PROBE_NEWLINE_PASTE), Some("paste-3"));
         assert_eq!(framing_stem("/clear"), Some("clear-1"));
-        for other in [PROBE_PROMPT, "/remote-control", "/clear ", ""] {
+        for other in [PROBE_PROMPT, "/remote-control", "/compact", "/clear ", ""] {
             assert_eq!(framing_stem(other), None, "{other}");
         }
         assert_eq!(dialog_stem(PROBE_LONG_PASTE), None);
     }
 
     #[test]
-    fn local_commands_are_the_two_known_ones_and_only_clear_is_probed() {
+    fn local_commands_are_the_three_known_ones_and_only_clear_is_probed() {
         assert_eq!(
             LOCAL_COMMANDS,
             [
                 ("/clear", Some(PostCondition::NewSession)),
-                ("/remote-control", None)
+                ("/remote-control", None),
+                ("/compact", None)
             ]
         );
         assert_eq!(PROBE_LOCAL_COMMAND, "/clear");

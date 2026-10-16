@@ -257,12 +257,12 @@ mod tests {
         )
     }
 
-    /// The verdict needs the dialog rows (R2 closed), the framing rows, the newline row and, where
-    /// the status line is wrapped, the three statusline rows: a stamp written before any of them
-    /// landed (the ten spine and screen rows, those and the four dialog rows, every row but the
-    /// newline one, or the eighteen before the statusline rows) and one whose relied row failed all
-    /// leave the version unverified; every relied row passing verifies it. On Windows the eighteen
-    /// are every relied row.
+    /// The verdict needs the dialog rows (R2 closed), the framing rows, the newline row, the resume
+    /// row and, where the status line is wrapped, the three statusline rows: a stamp written before
+    /// any of them landed (the ten spine and screen rows, those and the four dialog rows, every row
+    /// but the newline one, the eighteen before the statusline rows, or the twenty-one before the
+    /// resume row) and one whose relied row failed all leave the version unverified; every relied row
+    /// passing verifies it. On Windows the eighteen and the resume row are every relied row.
     #[test]
     fn stamps_verdict_needs_the_dialog_rows() {
         let ten = [
@@ -307,17 +307,24 @@ mod tests {
             "the rows of an older stamp, all but the newline row"
         );
         all.push((LedgerRow::PasteNewline, true));
-        #[cfg(unix)]
         assert_eq!(
             stamps_verdict(Ok(Some(stamp_of(&all))), "2.1.0"),
             (false, None),
             "the eighteen rows of an older stamp"
         );
+        let mut nineteen = all.clone();
+        nineteen.push((LedgerRow::ResumeSession, true));
+        #[cfg(unix)]
+        assert_eq!(
+            stamps_verdict(Ok(Some(stamp_of(&nineteen))), "2.1.0"),
+            (false, None),
+            "the eighteen rows and the resume row"
+        );
         #[cfg(windows)]
         assert_eq!(
-            stamps_verdict(Ok(Some(stamp_of(&all))), "2.1.0"),
+            stamps_verdict(Ok(Some(stamp_of(&nineteen))), "2.1.0"),
             (true, None),
-            "the eighteen rows are every row relied on here"
+            "the eighteen rows and the resume row are every row relied on here"
         );
         let statusline = [
             LedgerRow::StatusLineOverride,
@@ -327,12 +334,18 @@ mod tests {
         all.extend(statusline.iter().map(|r| (*r, true)));
         assert_eq!(
             stamps_verdict(Ok(Some(stamp_of(&all))), "2.1.0"),
+            (false, None),
+            "the twenty-one rows of an older stamp"
+        );
+        all.push((LedgerRow::ResumeSession, true));
+        assert_eq!(
+            stamps_verdict(Ok(Some(stamp_of(&all))), "2.1.0"),
             (true, None)
         );
         for failing in dialogs
             .into_iter()
             .chain(framing)
-            .chain([LedgerRow::PasteNewline])
+            .chain([LedgerRow::PasteNewline, LedgerRow::ResumeSession])
             .chain(statusline.into_iter().filter(|_| cfg!(unix)))
         {
             let rows: Vec<(LedgerRow, bool)> =

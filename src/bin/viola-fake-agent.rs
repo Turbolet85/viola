@@ -37,6 +37,8 @@ const STOP_RECEIPT_HOLD_CAP_MS: u64 = 1000;
 const PASTE_HINT_CAP_MS: u64 = 10_000;
 /// The session a `--resume` with `--fork-session` reports: an id no recorded fixture holds.
 const FORK_SESSION_ID: &str = "0f0e0d0c-0b0a-4908-8706-050403020100";
+/// The recorded SessionStart a `--resume` launch fires, where the set holds it.
+const RESUME_VARIANT: &str = "resume-1";
 /// The word of a statusline command the real CLI's shell expands to the shell's own name.
 const SHELL_NAME_WORD: &str = "\"$0\"";
 /// The mode word, as the first argument: a user's statusline command for tests.
@@ -153,8 +155,9 @@ impl Opts {
             .is_some_and(|root| under_root(&cwd, root))
     }
 
-    /// What `--resume <id>` sets on the SessionStart fired at launch: the source, and the id it was
-    /// given, or with `--fork-session` beside it the compiled fork id. Nothing without the option.
+    /// What `--resume <id>` sets on the SessionStart fired at launch (the set's recorded `resume-1`,
+    /// else its `default`): the source, and the id it was given, or with `--fork-session` beside it
+    /// the compiled fork id. Nothing without the option.
     fn resume_fields(&self) -> Vec<(&'static str, &str)> {
         let Some(id) = self.resume.as_deref() else {
             return Vec::new();
@@ -428,6 +431,16 @@ impl Agent {
             Fired::NoHooks => "no-hooks",
             Fired::NoFixture => "no-fixture",
             Fired::Ran { .. } => "fired",
+        }
+    }
+
+    /// The variant of the SessionStart fired at launch: under `--resume`, the set's recorded
+    /// `resume-1` when it holds one, else `default`.
+    fn launch_variant(&self) -> &'static str {
+        if self.opts.resume.is_some() && self.fixture("SessionStart", RESUME_VARIANT).is_some() {
+            RESUME_VARIANT
+        } else {
+            "default"
         }
     }
 
@@ -945,7 +958,11 @@ fn main() -> ExitCode {
     // The real CLI fires SessionStart at launch; with no registered hook or no fixture, nothing runs.
     // An untrusted folder has no status line either.
     if trusted {
-        agent.fire("SessionStart", "default", &agent.opts.resume_fields());
+        agent.fire(
+            "SessionStart",
+            agent.launch_variant(),
+            &agent.opts.resume_fields(),
+        );
         agent.run_statusline();
         agent.replay_statusline(STATUSLINE_DEFAULT);
     }
@@ -1334,6 +1351,30 @@ mod tests {
                 .expect("json");
         assert_eq!(out["session_id"], "0f0e0d0c-0b0a-4908-8706-050403020100");
         assert_eq!(out["source"], "resume");
+    }
+
+    /// Under `--resume` the launch fires the set's `resume-1` where it is recorded, else `default`;
+    /// without `--resume` always `default`.
+    #[test]
+    fn fake_resume_launches_on_the_recorded_resume_variant_when_the_set_holds_one() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let set = tmp.path().join("3.0.0");
+        fs::create_dir_all(&set).expect("set");
+        let variant = |extra: &[&str]| {
+            let mut list = vec![
+                "--cli-version".to_owned(),
+                "3.0.0".to_owned(),
+                "--fixtures".to_owned(),
+                tmp.path().to_str().expect("utf-8").to_owned(),
+            ];
+            list.extend(extra.iter().map(|a| (*a).to_owned()));
+            Agent::new(Opts::parse(&list)).launch_variant()
+        };
+        let id = "11111111-2222-4333-8444-555555555555";
+        assert_eq!(variant(&["--resume", id]), "default", "no variant recorded");
+        fs::write(set.join("SessionStart.resume-1.json"), b"{}\n").expect("variant");
+        assert_eq!(variant(&["--resume", id]), "resume-1");
+        assert_eq!(variant(&[]), "default", "no --resume");
     }
 
     /// Without `--resume` nothing is set, `--fork-session` alone included: the recorded bytes.

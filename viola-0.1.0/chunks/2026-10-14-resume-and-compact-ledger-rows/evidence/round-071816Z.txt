@@ -1,0 +1,3 @@
+  7 probe       green · exit 0 · 0.0s · 0 B → 7.log · test -x "$HOME/.local/share/mise/installs/claude/2.1.287/c… (64 chars)
+  8 build       green · exit 0 · 52.67s · 1767 B → 8.log · h="target/e2e-home/viola-record-$(date -u +%Y%m%dT%H%M%SZ)… (321 chars)
+round: COMPLETE · legs fired 1/1 · entries 26 · green 2 · red 0 · recorded 0 · timeout 0 · indeterminate 0 · not-run 24

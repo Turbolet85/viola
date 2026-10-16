@@ -3,8 +3,9 @@
 //! and hands each hook exactly its recorded fixture's bytes; and every set recorded with its dialog
 //! tier replays that tier, through `viola verify` against `--dialogs`, byte for byte and in the
 //! recorded order, and so does every set recorded with its framing variants, against `--framing`,
-//! and, where the status line is wrapped, its two status line variants. The recorded sets are walked at run time, not by `#[files]`, and an empty walk
-//! fails.
+//! and, where the status line is wrapped, its two status line variants; every set recorded with its
+//! resume variant replays it under `--resume`. The recorded sets are walked at run time, not by
+//! `#[files]`, and an empty walk fails.
 //! andromeda:walks-tree — it reads every set under `fixtures/claude/`, named or not.
 
 #[allow(dead_code)]
@@ -12,7 +13,7 @@ mod support;
 
 use std::fs;
 use std::path::Path;
-use std::process::Command;
+use std::process::{Command, Stdio};
 
 use serde_json::{Value, json};
 use support::fake::{self, FAKE, of_kind, unhex};
@@ -378,6 +379,58 @@ fn framing_drift_names_a_changed_byte_a_doubled_variant_and_a_swapped_order() {
         ["UserPromptSubmit.paste-1"]
     );
     assert!(framing_replay(&home.scratch().join("missing")).is_empty());
+}
+
+/// The bytes the fake agent, started with `--resume <id>` over `version`'s set and given an EOF
+/// once its first hook is receipted, hands its first hook, and that hook's event.
+fn resume_launch(root: &Path, version: &str, id: &str) -> (String, Vec<u8>) {
+    let home = TestHome::new();
+    let plugin = home.scratch().join("plugin");
+    write_spine_plugin(&plugin);
+    let receipt = fake::receipt_path(home.path(), "resume");
+    let mut child = Command::new(FAKE)
+        .args(["--cli-version", version, "--resume", id, "--fixtures"])
+        .arg(root)
+        .arg("--plugin-dir")
+        .arg(&plugin)
+        .arg("--receipt")
+        .arg(&receipt)
+        .stdin(Stdio::piped())
+        .stdout(Stdio::null())
+        .stderr(Stdio::null())
+        .spawn()
+        .expect("fake agent");
+    let lines = fake::wait_for(&receipt, "the launch hook", |l| {
+        !of_kind(l, "hook").is_empty()
+    });
+    drop(child.stdin.take());
+    assert_eq!(child.wait().expect("exit").code(), Some(0), "{version}");
+    let first = &of_kind(&lines, "hook")[0];
+    (
+        first["event"].as_str().unwrap_or_default().to_owned(),
+        first["stdin_hex"].as_str().map(unhex).unwrap_or_default(),
+    )
+}
+
+/// Every set recorded with its resume variant replays it byte for byte: the fake agent started with
+/// `--resume` and the variant's own `session_id` hands its launch SessionStart hook exactly the
+/// recorded bytes.
+#[test]
+fn fake_agent_resume_replay_matches_every_recorded_resume_set() {
+    let root = workspace_path("fixtures/claude");
+    let mut compared = 0;
+    for version in recorded_versions(&root) {
+        let Ok(recorded) = fs::read(root.join(&version).join("SessionStart.resume-1.json")) else {
+            continue;
+        };
+        let doc: Value = serde_json::from_slice(&recorded).expect("the resume variant's JSON");
+        let id = doc["session_id"].as_str().expect("a recorded session id");
+        let (event, offered) = resume_launch(&root, &version, id);
+        assert_eq!(event, "SessionStart", "{version}");
+        assert!(offered == recorded, "{version}: resume drift");
+        compared += 1;
+    }
+    assert!(compared >= 1, "resume sets compared: {compared}");
 }
 
 /// The status line variants in replay order, as test literals: the launch's payload, then the first

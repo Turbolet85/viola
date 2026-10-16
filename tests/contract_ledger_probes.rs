@@ -1,6 +1,6 @@
 //! The capability-ledger probes over the committed fixture sets (test-plan §5 CLI): `viola verify`
 //! against the fake agent at each stamped `fixtures/claude/<version>/` passes every row relied on
-//! this OS (twenty-one on Unix, eighteen on Windows), each literal row id once. Every recorded set is on exactly one literal list: stamped, or kept for the byte-drift
+//! this OS (twenty-two on Unix, nineteen on Windows), each literal row id once. Every recorded set is on exactly one literal list: stamped, or kept for the byte-drift
 //! contract only. The recorded sets are walked at run time, not by `#[files]`, and an empty walk
 //! fails.
 //! andromeda:walks-tree — it reads every set under `fixtures/claude/`, named or not.
@@ -14,7 +14,7 @@ use support::home::{TestHome, workspace_path};
 use support::verify::verify;
 
 #[cfg(unix)]
-const ROW_IDS: [&str; 21] = [
+const ROW_IDS: [&str; 22] = [
     "shim-resolution",
     "spine-hooks",
     "session-start-fields",
@@ -36,9 +36,10 @@ const ROW_IDS: [&str; 21] = [
     "statusline-override",
     "statusline-shell",
     "statusline-rate-limits",
+    "resume-session",
 ];
 #[cfg(windows)]
-const ROW_IDS: [&str; 18] = [
+const ROW_IDS: [&str; 19] = [
     "shim-resolution",
     "spine-hooks",
     "session-start-fields",
@@ -57,9 +58,10 @@ const ROW_IDS: [&str; 18] = [
     "tag-escaping",
     "local-command-clear",
     "paste-newline",
+    "resume-session",
 ];
-/// The sets recorded whole (spine, screens, dialog, framing and status line variants): each stamps
-/// every relied row.
+/// The sets recorded whole (spine, screens, dialog, framing, status line and resume variants): each
+/// stamps every relied row.
 const STAMPED: [&str; 1] = ["2.1.287"];
 /// The sets kept only for the byte-drift contract, never stamped: 2.1.283 carries no screen, and
 /// 2.1.288 none of the framing variants.
@@ -127,8 +129,8 @@ fn contract_ledger_probes_pass_over_every_stamped_set() {
             );
         }
         #[cfg(unix)]
-        assert_eq!(*last, format!("stamped {version}  21 pass  0 fail"));
+        assert_eq!(*last, format!("stamped {version}  22 pass  0 fail"));
         #[cfg(windows)]
-        assert_eq!(*last, format!("stamped {version}  18 pass  0 fail"));
+        assert_eq!(*last, format!("stamped {version}  19 pass  0 fail"));
     }
 }

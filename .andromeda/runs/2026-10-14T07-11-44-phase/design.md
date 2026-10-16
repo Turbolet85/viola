@@ -1,0 +1,32 @@
+# design extract
+
+## Relevance
+partial — no web-spa token, type, spacing or motion work; the chunk touches the cli surface's phraseology (`viola verify`'s step-counter lines and summary, `viola send`'s readback mirror for a `/compact` send) and the readback signature's confirmation sources, which today name only `/clear`.
+
+## Constraints
+- `viola verify` prints one static appended stdout line per relied ledger row in the form `[NN/MM] <row-id> <one-line description>  pass|fail`, with `MM` the relied count (`LedgerRow::relied()`, per OS) and the members in `LedgerRow::ALL`'s order, then the one summary line `stamped <ver>  <n> pass  <m> fail` with n + m equal to `MM`; each new row (the `--resume` row, the `/compact` row) adds its own id and description to that enumeration and moves `MM` on every OS where it is relied (per design-system §Surface: cli → Component Patterns, pattern 5 `verify`).
+- The word `fail` stays uncoloured, and verify output is ASCII only, with no spinner, progress bar or redraw; the step counter is the project's one progress pattern (per design-system §Surface: cli → Component Patterns, pattern 5 `verify`).
+- A send counts only once read back: by the matching `prompt-submitted` or, for a local command, by its measured post-condition; otherwise it is `unable` plus a typed reason. The plan names the post-condition only for `/clear` (a new session), so a `/compact` read back on a `session-start` of cause `compact` with the SAME id is a widening this plan does not yet carry (per design-system §Brand Identity, Domain anchors → Readback, and Signature element).
+- `viola send`'s CLI mirror prints `[RB] read back` (stdout, exit 0) on a met post-condition, `[  ] unconfirmable  <name>  local command, no measured post-condition` (stdout, exit 0) for a local command with none, and `[/ ] unable  <name>  not-delivered  no-prompt-submitted` plus its fixed `hint:` (stderr, exit 13) on a refusal. Which line a `/compact` send prints today against HEAD is research's question; the live measurement in the scope shows exit 13 (per design-system §Surface: cli → Component Patterns, pattern 2 `viola send`).
+- The cli surface colours only `DIALOG` (amber) and `stale` rows (dim). verify, send and revive lines carry no SGR, and no hint quotes upstream text, a path, a pid or a logged session id (per design-system §Anti-Patterns → Per-Surface Bans → cli).
+- `viola revive --list` prints one static plain-ASCII stdout line per logged session, `<time>  <cause>  <session id>`. `resume` and `compact` are SessionStartCause words, printed as words and never as colour (per design-system §Surface: cli → Component Patterns, pattern 5 `revive`; per design-system §Color Palette → Semantic Colors, the SessionStartCause rows).
+
+## Patterns to follow
+- The `local-command-clear` row's line in the verify enumeration (`/clear starts a new session and submits no prompt`) is the model for a `/compact` row's description: name the command, the post-condition, and that no prompt is submitted (per design-system §Surface: cli → Component Patterns, pattern 5 `verify`).
+- The web readback box's `read` source is a single named post-condition per local command (`session-start` cause `clear` with a new session id). A `/compact` source would sit beside it as cause `compact` with the same id (per design-system §Surface: web-spa → Component Patterns, component 2 `<viola-readback>`, Sources).
+- A refusal prints its typed reason, its detail and one `hint:` line keyed by reason · detail, in the fixed hint forms; a new refusal path reuses an existing key and adds no free text (per design-system §Surface: cli → Component Patterns, pattern 2 `viola send`, hint list).
+
+## Anti-patterns to avoid
+- No presumed confirmation. A `/compact` send is never shown as read back on `turn-ended`, on elapsed time or on any session-start other than its measured post-condition, and never as a green tick or a "done" or "success" word (per design-system §Anti-Patterns → Rejected Defaults, the "Optimistic Sending… spinner" row; per design-system §Anti-Patterns → Per-Surface Bans → cli).
+- No colour, glyph or spinner in verify's new row lines or summary (per design-system §Anti-Patterns → Per-Surface Bans → cli).
+
+## Contract bindings
+- design ↔ architecture (capability ledger): the verify enumeration's row ids, order and per-OS `MM` must match `LedgerRow::ALL` / `LedgerRow::relied()`. The relied count printed in design-system §Surface: cli → pattern 5 (21 Unix / 18 Windows) is a count literal that moves with this chunk's rows (per design-system §Surface: cli → Component Patterns, pattern 5 `verify`).
+- design ↔ obs/events: the readback `read` source for a local command binds to the `session-start` event's cause and session id. A `compact` post-condition binds to the event catalog's cause `compact` with the same id (per design-system §Surface: web-spa → Component Patterns, component 2 `<viola-readback>`, Sources).
+- design ↔ a11y: the readback state's accessible name is the word cell ("send to builder, read back"), so any new confirmation path keeps the word and does not rely on the box drawing alone (per design-system §Surface: web-spa → Component Patterns, component 2 `<viola-readback>`, Accessible name).
+- design ↔ tests: the verify step lines and the summary are fixed text that the harness's verify output assertions read (per design-system §Surface: cli → Component Patterns, pattern 5 `verify`).
+
+## Acceptance criteria contributions
+- (design) `viola verify` prints exactly `MM` step lines, one per relied row in `LedgerRow::ALL` order, each new row with its own id and description, then `stamped <ver>  <n> pass  <m> fail` with n + m = `MM` on the host OS; all plain ASCII with no SGR (per design-system §Surface: cli → Component Patterns, pattern 5 `verify`).
+- (design) The plan's verify enumeration and its relied-count literal are amended to the new rows and per-OS counts in the same chunk that lands them (per design-system §Surface: cli → Component Patterns, pattern 5 `verify`).
+- (design) If `/compact` gains a post-condition, a `/compact` send prints `[RB] read back` only when that post-condition is met, else the `[/ ] unable` line with its fixed hint. The readback anchor and the `<viola-readback>` sources then name `/compact` beside `/clear` (per design-system §Brand Identity, Signature element; per design-system §Surface: web-spa → Component Patterns, component 2 `<viola-readback>`, Sources).

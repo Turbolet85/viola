@@ -1,7 +1,7 @@
 //! `viola verify [--record <dir>] [-- <program> [args…]]`: measures the capability ledger against
 //! the local `claude` (or the program after `--`) with one print-mode probe through a capture
-//! plugin and four interactive PTY runs (`typed`: untrusted, trusted, dialogs, plan — the last two
-//! answered by their own capture hook), prints one step line per row and the `stamped`
+//! plugin and five interactive PTY runs (`typed`: untrusted, trusted, dialogs, plan — those two
+//! answered by their own capture hook — and resume), prints one step line per row and the `stamped`
 //! summary on stdout, and writes the stamps as their only writer (security-plan §Data Protection;
 //! architecture [CLI Version Compatibility]). With `--record`, a clean run's payloads become
 //! scrubbed fixtures and its screens signature-only `Screen.<phase>.json` fixtures. Stopped by
@@ -211,8 +211,13 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<Ended> {
         captures: read_captures(&probe.captures()),
     };
     let clock: Arc<dyn Clock> = Arc::new(SystemClock);
-    let [trusted, questions, plan] = [probe.typed(), probe.questions(), probe.plan()]
-        .map(|root| (root.join("plugin"), root.join("captures")));
+    let [trusted, questions, plan, resume] = [
+        probe.typed(),
+        probe.questions(),
+        probe.plan(),
+        probe.resume(),
+    ]
+    .map(|root| (root.join("plugin"), root.join("captures")));
     let statusline_settings = probe.statusline_settings();
     let typed = typed::measure(
         &clock,
@@ -228,6 +233,7 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<Ended> {
                 .then_some(statusline_settings.as_path()),
             questions: dirs(&questions),
             plan: dirs(&plan),
+            resume: dirs(&resume),
         },
     )?;
     let Some(typed) = typed else {
@@ -243,6 +249,7 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<Ended> {
         trusted: read_captures(&trusted.1),
         dialogs,
         statusline: read_statusline(&probe.statusline_captures()),
+        resumed: read_captures(&resume.1),
     };
     drop(probe);
     if stop::stopped() {
@@ -279,10 +286,10 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<Ended> {
 
 /// `<home>/ledger/probes/<pid>/` (0700) with the capture plugin in `plugin/` and an empty
 /// `captures/`, the same pair under `typed/` for the trusted interactive run with its empty
-/// `statusline/` and, where the status line is wrapped, its probe settings `statusline.json`, and
-/// under `questions/` and `plan/` a dialog plugin, its captures and its `answers/` (written from the
-/// compiled answer table) for the dialog and plan runs; removed whole when dropped, on every exit
-/// path.
+/// `statusline/` and, where the status line is wrapped, its probe settings `statusline.json`, under
+/// `questions/` and `plan/` a dialog plugin, its captures and its `answers/` (written from the
+/// compiled answer table) for the dialog and plan runs, and under `resume/` the capture plugin and
+/// its captures for the resume run; removed whole when dropped, on every exit path.
 struct ProbeDir {
     dir: PathBuf,
 }
@@ -304,7 +311,7 @@ impl ProbeDir {
             .join(std::process::id().to_string());
         let _ = std::fs::remove_dir_all(&dir);
         let probe = Self { dir };
-        for root in [probe.dir.clone(), probe.typed()] {
+        for root in [probe.dir.clone(), probe.typed(), probe.resume()] {
             write_plugin(&root, pinned_bin_fwd, None)?;
         }
         let statusline = probe.statusline_captures();
@@ -345,6 +352,10 @@ impl ProbeDir {
 
     fn plan(&self) -> PathBuf {
         self.dir.join("plan")
+    }
+
+    fn resume(&self) -> PathBuf {
+        self.dir.join("resume")
     }
 
     fn plugin(&self) -> PathBuf {
@@ -470,8 +481,9 @@ fn step_line(n: usize, total: usize, row: LedgerRow, pass: bool) -> String {
 /// The first capture of each spine event, scrubbed of the user's home and name, written as
 /// `<dir>/<version>/<Event>.default.json`; each dialog run's captures the same way as
 /// `<Event>.<variant>.json` (`ledger::dialog_variants`), and so the trusted run's paste prompts and
-/// the hooks its local command fired (`ledger::framing_variants`) and its status line's two payloads
-/// (`ledger::statusline_variants`); and each recorded screen as
+/// the hooks its local command fired (`ledger::framing_variants`), its status line's two payloads
+/// (`ledger::statusline_variants`) and the resume run's SessionStart (`ledger::resume_variants`); and
+/// each recorded screen as
 /// `Screen.<phase>.json` holding only its signature rows. One payload that stays unclean after the
 /// scrub, or one screen whose kept rows or their seams hold a path, the username or an email,
 /// refuses the whole recording before any file is written; the refusal names the file and the
@@ -500,8 +512,8 @@ fn record(dir: &Path, version: &str, probes: &Probes) -> anyhow::Result<u8> {
 type Recorded = (String, serde_json::Value);
 
 /// The payloads `record` names, in file order: the spine's first of each event, each dialog run's
-/// variants, the trusted run's framing variants and its status line variants. A payload that does
-/// not parse is left out.
+/// variants, the trusted run's framing variants, its status line variants and the resume run's
+/// variant. A payload that does not parse is left out.
 fn named_payloads(probes: &Probes) -> Vec<(String, serde_json::Value)> {
     let mut payloads: Vec<(String, Option<serde_json::Value>)> = Vec::new();
     let mut add = |name: String, capture: &Capture| payloads.push((name, capture.payload.clone()));
@@ -524,6 +536,12 @@ fn named_payloads(probes: &Probes) -> Vec<(String, serde_json::Value)> {
     }
     for (name, bytes) in ledger::statusline_variants(&probes.statusline) {
         payloads.push((name, serde_json::from_slice(bytes).ok()));
+    }
+    for (variant, capture) in ledger::resume_variants(&probes.resumed) {
+        payloads.push((
+            format!("{}.{variant}.json", ledger::event_name(capture.event)),
+            capture.payload.clone(),
+        ));
     }
     payloads
         .into_iter()
@@ -638,8 +656,8 @@ mod tests {
         );
     }
 
-    /// The counter's total is the relied count: twenty-one rows on Unix, the first eighteen on
-    /// Windows, where the status line is not wrapped.
+    /// The counter's total is the relied count: twenty-two rows on Unix, nineteen on Windows, where
+    /// the status line is not wrapped.
     #[test]
     fn step_lines_count_to_the_relied_total() {
         let probes = Probes {
@@ -652,26 +670,37 @@ mod tests {
             trusted: Vec::new(),
             dialogs: DialogRuns::default(),
             statusline: Vec::new(),
+            resumed: Vec::new(),
         };
         let results = check_rows(&probes);
         #[cfg(unix)]
         {
-            assert_eq!(results.len(), 21);
+            assert_eq!(results.len(), 22);
             assert_eq!(
-                step_line(19, 21, LedgerRow::StatusLineOverride, false),
-                "[19/21] statusline-override a --settings statusLine runs in the status line's place  fail"
+                step_line(19, 22, LedgerRow::StatusLineOverride, false),
+                "[19/22] statusline-override a --settings statusLine runs in the status line's place  fail"
             );
             assert_eq!(
-                step_line(20, 21, LedgerRow::StatusLineShell, true),
-                "[20/21] statusline-shell a statusline command runs through /bin/sh  pass"
+                step_line(20, 22, LedgerRow::StatusLineShell, true),
+                "[20/22] statusline-shell a statusline command runs through /bin/sh  pass"
             );
             assert_eq!(
-                step_line(21, 21, LedgerRow::StatusLineRateLimits, true),
-                "[21/21] statusline-rate-limits the statusline payload carries two whole-number rate_limits windows  pass"
+                step_line(21, 22, LedgerRow::StatusLineRateLimits, true),
+                "[21/22] statusline-rate-limits the statusline payload carries two whole-number rate_limits windows  pass"
+            );
+            assert_eq!(
+                step_line(22, 22, LedgerRow::ResumeSession, false),
+                "[22/22] resume-session --resume <id> reopens the session under that id  fail"
             );
         }
         #[cfg(windows)]
-        assert_eq!(results.len(), 18);
+        {
+            assert_eq!(results.len(), 19);
+            assert_eq!(
+                step_line(19, 19, LedgerRow::ResumeSession, true),
+                "[19/19] resume-session --resume <id> reopens the session under that id  pass"
+            );
+        }
         let rows: Vec<LedgerRow> = results.iter().map(|(row, _)| *row).collect();
         assert_eq!(rows, LedgerRow::relied());
         // No capture is over the frame cap, so only the largest-payload row passes an empty probe.

@@ -732,6 +732,42 @@ fn send_window_local_command_is_not_presumed_delivered() {
     wrapper.stop();
 }
 
+/// `/compact` is a listed local command with no post-condition: on a verified CLI it is typed once
+/// and answered `unconfirmable` at once, never refused `no-prompt-submitted` while it runs. The log
+/// holds `send-issued` then `send-confirmed` with `confirmed:false`, and no `send-refused` and no
+/// `prompt-submitted`.
+#[rstest]
+fn send_compact_on_a_verified_cli_is_unconfirmable_at_once(stamped_home: StampedHome) {
+    let wrapper = boot_on(stamped_home, None, &["--local-command-mode"]);
+    let dir = wrapper.instance_dir();
+    let home = wrapper.home().to_path_buf();
+    let l = end_offset(&dir);
+    let sent = send(&home, &["builder"], "/compact");
+    assert_eq!(sent.code, Some(0), "stderr: {}", sent.stderr);
+    assert_eq!(
+        sent.stdout,
+        "[  ] unconfirmable  builder  local command, no measured post-condition\n"
+    );
+    assert!(sent.stderr.is_empty(), "{}", sent.stderr);
+    let records = records_after(&dir, l);
+    let kinds: Vec<&Value> = records.iter().map(|r| &r["kind"]).collect();
+    assert_eq!(kinds, ["send-issued", "send-confirmed"]);
+    assert_eq!(records[1]["data"], json!({"cursor": l, "confirmed": false}));
+    let typed = prompts_at_least(&wrapper.receipt(), 1);
+    assert_eq!(typed.len(), 1, "typed once");
+    assert_eq!(typed[0]["text"], "/compact");
+    assert_eq!(typed[0]["submit"], "local-command");
+    let role = support::ndjson::read_lines(&home.join("diagnostics").join("run-builder.ndjson"));
+    assert!(!role.iter().any(|r| r["event"] == "send-refused"));
+    let confirmed: Vec<&Value> = role
+        .iter()
+        .filter(|r| r["event"] == "send-confirmed" && r["corr"] == l)
+        .collect();
+    assert_eq!(confirmed.len(), 1);
+    assert_eq!(confirmed[0]["confirmed"], false);
+    wrapper.stop();
+}
+
 /// `/clear` on a verified CLI is confirmed by its measured post-condition (test-plan §6 Path 2).
 /// With `--framing` the fake agent answers it with the recorded SessionEnd and SessionStart and no
 /// prompt; the new session's id differs from the boot's, and the send reads back like any other.

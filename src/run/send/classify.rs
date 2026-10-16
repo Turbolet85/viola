@@ -47,6 +47,8 @@ mod tests {
     #[case::no_post_condition_on_a_verified_version("/remote-control", true)]
     #[case::no_post_condition_on_an_unverified_version("/remote-control", false)]
     #[case::post_condition_not_measured_on_this_version("/clear", false)]
+    #[case::compact_on_a_verified_version("/compact", true)]
+    #[case::compact_on_an_unverified_version("/compact", false)]
     fn send_local_command_without_a_measured_post_condition_is_unconfirmable(
         #[case] text: &str,
         #[case] verified: bool,
@@ -195,6 +197,8 @@ mod tests {
     #[case::a_leading_space(" /clear")]
     #[case::another_case("/CLEAR")]
     #[case::a_slash_text_off_the_list("/andromeda-arch")]
+    #[case::compact_and_more("/compactx")]
+    #[case::compact_after_a_leading_space(" /compact")]
     fn send_local_command_decision_is_exact_text_never_a_leading_slash(#[case] text: &str) {
         let tmp = tempfile::tempdir().expect("tempdir");
         let base = Instant::now();
@@ -243,13 +247,17 @@ mod tests {
         );
     }
 
-    /// The listed command with no post-condition, followed by a newline ending, on a verified
+    /// A listed command with no post-condition, followed by a newline ending, on a verified
     /// version: typed as the command and answered `unconfirmable` at once.
     #[rstest]
-    #[case::lf("\n")]
-    #[case::cr("\r")]
-    #[case::crlf("\r\n")]
+    #[case::lf("/remote-control", "\n")]
+    #[case::cr("/remote-control", "\r")]
+    #[case::crlf("/remote-control", "\r\n")]
+    #[case::compact_lf("/compact", "\n")]
+    #[case::compact_cr("/compact", "\r")]
+    #[case::compact_crlf("/compact", "\r\n")]
     fn send_local_command_without_a_post_condition_and_a_trailing_newline_is_unconfirmable(
+        #[case] command: &str,
         #[case] tail: &str,
     ) {
         let tmp = tempfile::tempdir().expect("tempdir");
@@ -257,9 +265,9 @@ mod tests {
         let slot = SendSlot::new(JumpClock(Mutex::new(base)), true, Arc::default());
         let (pastes, _pasted) = Pastes::new();
         slot.attach(pastes.paste_fn(), quiet_gate(base));
-        let params = json!({"v": 1, "text": format!("/remote-control{tail}")});
+        let params = json!({"v": 1, "text": format!("{command}{tail}")});
         let reply = send(&slot, &name(), tmp.path(), &call(&params, 1)).expect("answered");
-        assert_eq!(pastes.all(), ["/remote-control"]);
+        assert_eq!(pastes.all(), [command]);
         assert_eq!(
             reply,
             json!({"ok": {"confirmed": false, "detail": "unconfirmable", "cursor": 0}})

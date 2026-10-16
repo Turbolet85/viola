@@ -483,8 +483,8 @@ fn offered(lines: &[Value]) -> Vec<(String, Vec<u8>)> {
 }
 
 /// The SessionStart bytes the fake agent offers its hook at launch over the committed set, and that
-/// set's recorded payload.
-fn launch_session_start(extra: &[&str]) -> (Vec<u8>, Vec<u8>) {
+/// set's recorded `SessionStart.<variant>.json`.
+fn launch_session_start(extra: &[&str], variant: &str) -> (Vec<u8>, Vec<u8>) {
     let tmp = TestHome::new();
     let plugin = spine_plugin(&tmp);
     let committed = workspace_path("fixtures/claude");
@@ -501,7 +501,7 @@ fn launch_session_start(extra: &[&str]) -> (Vec<u8>, Vec<u8>) {
     let recorded = std::fs::read(
         committed
             .join(fake::RECORDED_CLI_VERSION)
-            .join("SessionStart.default.json"),
+            .join(format!("SessionStart.{variant}.json")),
     )
     .expect("the recorded payload");
     (offered, recorded)
@@ -510,7 +510,6 @@ fn launch_session_start(extra: &[&str]) -> (Vec<u8>, Vec<u8>) {
 /// The recorded payload with its `source` and `session_id` set, its trailing newline kept.
 fn resumed(recorded: &[u8], session_id: &str) -> Vec<u8> {
     let mut payload: Value = serde_json::from_slice(recorded).expect("json");
-    assert_eq!(payload["source"], "startup");
     payload["source"] = json!("resume");
     payload["session_id"] = json!(session_id);
     let mut bytes = payload.to_string().into_bytes();
@@ -518,17 +517,51 @@ fn resumed(recorded: &[u8], session_id: &str) -> Vec<u8> {
     bytes
 }
 
-/// `--resume <id>`: the SessionStart fired at launch is the recorded payload with `source`
-/// `resume` and the given id, every other byte as recorded. Without the option it is the recorded
-/// bytes.
+/// `--resume <id>`: the SessionStart fired at launch is the set's recorded resume variant with
+/// `source` `resume` and the given id, every other byte as recorded. Without the option it is the
+/// recorded default's bytes.
 #[test]
 fn fake_agent_resume_reports_the_given_session_on_the_recorded_session_start() {
     let id = "11111111-2222-4333-8444-555555555555";
-    let (offered, recorded) = launch_session_start(&["--resume", id]);
+    let (offered, recorded) = launch_session_start(&["--resume", id], "resume-1");
     assert_eq!(offered, resumed(&recorded, id));
     assert!(recorded.ends_with(b"\n") && !recorded.windows(id.len()).any(|w| w == id.as_bytes()));
-    let (plain, recorded) = launch_session_start(&[]);
+    let (plain, recorded) = launch_session_start(&[], "default");
     assert_eq!(plain, recorded);
+}
+
+/// Under `--resume` over the committed set the launch SessionStart carries the recorded resume
+/// variant's ten key names, not the default's five, with `source` `resume` and the given id.
+#[test]
+fn fake_agent_resume_launches_on_the_recorded_resume_variant() {
+    let id = "11111111-2222-4333-8444-555555555555";
+    let (offered, recorded) = launch_session_start(&["--resume", id], "resume-1");
+    let offered: Value = serde_json::from_slice(&offered).expect("json");
+    let recorded: Value = serde_json::from_slice(&recorded).expect("json");
+    let keys = |v: &Value| {
+        let mut keys: Vec<String> = v.as_object().expect("object").keys().cloned().collect();
+        keys.sort();
+        keys
+    };
+    assert_eq!(
+        keys(&offered),
+        [
+            "context_tokens",
+            "cwd",
+            "estimated_cache_write_usd",
+            "hook_event_name",
+            "prompt_cache_likely_expired",
+            "scratchpad_dir",
+            "seconds_since_last_response",
+            "session_id",
+            "source",
+            "transcript_path",
+        ]
+    );
+    assert_eq!(keys(&offered), keys(&recorded));
+    assert_eq!(offered["session_id"], id);
+    assert_eq!(offered["source"], "resume");
+    assert_eq!(recorded["source"], "resume");
 }
 
 /// `--fork-session` beside `--resume`: the session reported is the compiled fork id, which no
@@ -537,9 +570,10 @@ fn fake_agent_resume_reports_the_given_session_on_the_recorded_session_start() {
 fn fake_agent_fork_session_reports_the_compiled_fork_id() {
     let fork = "0f0e0d0c-0b0a-4908-8706-050403020100";
     let asked = "11111111-2222-4333-8444-555555555555";
-    let (offered, recorded) = launch_session_start(&["--resume", asked, "--fork-session"]);
+    let (offered, recorded) =
+        launch_session_start(&["--resume", asked, "--fork-session"], "resume-1");
     assert_eq!(offered, resumed(&recorded, fork));
-    let (alone, recorded) = launch_session_start(&["--fork-session"]);
+    let (alone, recorded) = launch_session_start(&["--fork-session"], "default");
     assert_eq!(alone, recorded);
 }
 
