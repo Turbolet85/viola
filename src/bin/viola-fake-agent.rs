@@ -435,12 +435,16 @@ impl Agent {
         }
     }
 
-    /// The `session_id` the launch SessionStart carries: the recorded variant's, or the resumed id.
-    fn launch_session_id(&self) -> Option<String> {
+    /// The `session_id` the launch SessionStart carries (the recorded variant's, or the resumed id)
+    /// and its recorded `cwd`, `~` when it holds none: the registry row replays recorded, scrubbed
+    /// values, never this host's directory, which a `--record` would carry into a fixture.
+    fn launch_session(&self) -> Option<(String, String)> {
         let fixture = self.fixture("SessionStart", self.launch_variant())?;
         let fired = payload(fixture, &self.opts.resume_fields());
         let doc: Value = serde_json::from_slice(&fired).ok()?;
-        doc["session_id"].as_str().map(str::to_owned)
+        let id = doc["session_id"].as_str()?.to_owned();
+        let cwd = doc["cwd"].as_str().unwrap_or("~").to_owned();
+        Some((id, cwd))
     }
 
     /// The registry row's status: `busy` once a prompt is submitted, `idle` again at its Stop.
@@ -753,16 +757,15 @@ struct Registry {
 }
 
 impl Registry {
-    fn open(dir: &Path, session_id: &str) -> Option<Self> {
+    fn open(dir: &Path, session_id: &str, cwd: &str) -> Option<Self> {
         let pid = std::process::id();
         let started = process_start_time(pid)?;
         let sessions = dir.join(SESSIONS);
         fs::create_dir_all(&sessions).ok()?;
-        let cwd = std::env::current_dir().ok()?;
         let registry = Self {
             path: sessions.join(format!("{pid}.json")),
             row: Mutex::new(json!({
-                "cwd": cwd.to_string_lossy(),
+                "cwd": cwd,
                 "kind": "interactive",
                 "name": SESSION_NAME,
                 "pid": pid,
@@ -1118,8 +1121,8 @@ fn main() -> ExitCode {
     if trusted {
         // The row first: whoever reads the session-start line already finds the session listed.
         let registered = exe_dir()
-            .zip(agent.launch_session_id())
-            .and_then(|(dir, id)| Registry::open(&dir, &id));
+            .zip(agent.launch_session())
+            .and_then(|(dir, (id, cwd))| Registry::open(&dir, &id, &cwd));
         if let Some(registry) = registered {
             let _ = agent.registry.set(registry);
         }
@@ -1867,7 +1870,7 @@ mod tests {
             agents_output(Some("recorded"), Some(tmp.path())),
             format!("{planted}\n").into_bytes()
         );
-        let live = Registry::open(tmp.path(), "s-live").expect("this process registers");
+        let live = Registry::open(tmp.path(), "s-live", "~/w").expect("this process registers");
         live.set_status("busy");
         let listed: Value =
             serde_json::from_slice(&agents_output(None, Some(tmp.path()))).expect("json");
@@ -1875,11 +1878,48 @@ mod tests {
         assert_eq!(listed[1]["status"], "busy");
         assert_eq!(listed[1]["pid"], std::process::id());
         assert_eq!(listed[1]["name"], SESSION_NAME);
+        assert_eq!(listed[1]["cwd"], "~/w");
         assert_eq!(listed.as_array().map(Vec::len), Some(2));
         live.remove();
         assert_eq!(
             agents_output(None, Some(tmp.path())),
             format!("{planted}\n").into_bytes()
+        );
+    }
+
+    /// The registry row's id and cwd come from the launch SessionStart as recorded, `~` for a
+    /// recording without a cwd; with no launch fixture there is no row.
+    #[test]
+    fn launch_session_replays_the_recorded_id_and_cwd() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let set = tmp.path().join("9.9.9");
+        fs::create_dir_all(&set).expect("set");
+        let root = tmp.path().to_str().expect("utf-8").to_owned();
+        let agent = |extra: &[&str]| {
+            let mut a = vec!["--fixtures", root.as_str(), "--cli-version", "9.9.9"];
+            a.extend_from_slice(extra);
+            Agent::new(Opts::parse(&args(&a)))
+        };
+        assert_eq!(agent(&[]).launch_session(), None);
+        fs::write(
+            set.join("SessionStart.default.json"),
+            br#"{"session_id":"s-1","cwd":"~/rec"}"#,
+        )
+        .expect("launch");
+        assert_eq!(
+            agent(&[]).launch_session(),
+            Some(("s-1".to_owned(), "~/rec".to_owned()))
+        );
+        let resumed = agent(&["--resume", "s-9"]).launch_session();
+        assert_eq!(resumed, Some(("s-9".to_owned(), "~/rec".to_owned())));
+        fs::write(
+            set.join("SessionStart.default.json"),
+            br#"{"session_id":"s-1"}"#,
+        )
+        .expect("launch");
+        assert_eq!(
+            agent(&[]).launch_session(),
+            Some(("s-1".to_owned(), "~".to_owned()))
         );
     }
 

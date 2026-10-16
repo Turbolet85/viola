@@ -28,3 +28,14 @@ ledgered with `date -u` before it is made (`live-starts.md` in this run dir). A 
   20 runs after it; its cause stays not known and it stays open in the report.
 - 2026-10-16T21:06Z · `--only 11`: green (11.3.log, 54.32 s).
 - 2026-10-16T21:07Z · the Windows target's clippy, check only, `CARGO_TARGET_DIR=target/wincheck`, backgrounded.
+  Read: exit 0. `tests/cross_list_rows.rs`' Windows terminal case strengthened; `--only 1,2,11` green.
+- 2026-10-16T21:10Z–21:12Z · the P4 / P12 leg, 2 live starts (7 and 8 of 8), `evidence/live-p4.md`.
+- 2026-10-16T21:15Z · operator pass: `pre-push` green (21.4); hygiene clean; pre-CI commit `de9ee3f`; entry 23 pushed
+  (92264a7f→de9ee3f9).
+- 2026-10-16T21:17:45Z · entry 24, `ci.py conclusion --sha HEAD --wait 1800`, fired as written, backgrounded.
+  Read: `de9ee3f96eeb verdict: red · checks 15/15 · first-fail +520 s test (windows-2025)` (`ci#38968360744`):
+  7 `cli_verify` cases, each `a recorded fixture is not clean: Agents.recorded-1.json absolute-path` — the fake
+  agent's registry row carried the runner's real cwd (`D:\a\…`, outside the user home), which `--record` refuses.
+  Fix: the row replays the launch SessionStart fixture's recorded `cwd` (`~` without one); guard in
+  `contract_fake_agent_drift` (red with the real cwd put back, green restored) and a fake-agent unit case.
+- 2026-10-16T21:26Z · P2 firing: the whole block on the fix, backgrounded.

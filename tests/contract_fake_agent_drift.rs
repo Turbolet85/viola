@@ -513,6 +513,14 @@ fn fake_agent_agents_replay_matches_every_recorded_agents_set() {
             shape(recorded_row),
             "{version}: registry row shape"
         );
+        let launch: Value = serde_json::from_slice(
+            &fs::read(root.join(&version).join("SessionStart.default.json")).expect("the launch"),
+        )
+        .expect("the launch's JSON");
+        assert_eq!(
+            row["cwd"], launch["cwd"],
+            "{version}: the row replays the recorded cwd, never this host's directory"
+        );
         drop(child.stdin.take());
         assert_eq!(child.wait().expect("exit").code(), Some(0), "{version}");
         assert!(!row_path.exists(), "{version}: the row outlived its agent");

@@ -1,6 +1,9 @@
 # Implement outcome — 2026-10-16-unwrapped-sessions-on-the-board
 
 **Outcome: green + smoke** (smoke ran as P2 gates), with **one red left open** (below). v1-37 is `implemented`.
+The operator pass ran (`chunks/{marker}/evidence/operator-pass.md`): pre-CI commit `de9ee3f`, its CI read red on
+`windows-2025` (seven `--record` cases — deviation 12), fixed, the block green again; the fix commit and its CI
+read follow in that record.
 Next → the **operator pass**: entries 22 (`gate.py hygiene`), then the pre-CI commit, 23 (the push), 24
 (`ci.py conclusion`), then `/andromeda-wrap-session`.
 
@@ -90,6 +93,10 @@ kill line 19 `binary(…)` names.
     by a `viola send` the fake submits and never stops, not a script. `cross_list_rows`' Windows terminal case reads
     each escaped name as text under a 200-column terminal (ConPTY re-renders the stream with escapes of its own;
     the no-ESC assertion is Unix-only).
+12. **Step 13, after the first CI read (red on `windows-2025`):** the fake's registry row carries the launch
+    SessionStart fixture's recorded `cwd` (`~` without one), not its real working directory: the real one leaked the
+    runner's checkout path into `verify --record`'s kept row, which `--record` refused (`absolute-path`), seven
+    `cli_verify` cases. Guarded in `contract_fake_agent_drift` (red with the real cwd, green restored).
 11. **The plan's integration filter** did not select `cli_answer`, whose `tests/support/home.rs` `dialogless_home`
     pinned `18 pass  4 fail`; only `pre-push` found it (now `19 pass  4 fail`, `16` on Windows).
 
