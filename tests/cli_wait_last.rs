@@ -380,7 +380,15 @@ fn wait_human_lines_are_linear() {
     ];
     let mut pty = OuterPty::spawn(Path::new(VIOLA), &args, &[]);
     assert_eq!(pty.wait_exit(EXIT_WITHIN), 0);
-    let screen = String::from_utf8_lossy(&pty.finish()).into_owned();
+    let stream = pty.finish();
+    // A Unix terminal adds CR before each LF and nothing else: no escape sequence, no `\r` redraw.
+    // ConPTY adds cursor bytes of its own.
+    #[cfg(unix)]
+    {
+        assert!(!stream.contains(&0x1b), "{stream:?}");
+        assert_eq!(support::sgr::redraws(&stream), 0, "{stream:?}");
+    }
+    let screen = String::from_utf8_lossy(&stream).into_owned();
     assert_eq!(screen.matches("waiting: builder").count(), 1, "{screen:?}");
     assert!(screen.contains("timed out  builder  200 ms"), "{screen:?}");
 

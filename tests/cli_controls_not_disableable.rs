@@ -134,6 +134,10 @@ fn assert_send_paste_control_holds(setting: Option<(&str, &str)>) {
         .arg(tmp.path())
         .args(["send", "builder"])
         .env_remove("VIOLA_NAME")
+        // The colour variables come only from a case, never from the host's terminal.
+        .env_remove("NO_COLOR")
+        .env_remove("TERM")
+        .env_remove("COLORTERM")
         .stdin(Stdio::piped())
         .stdout(Stdio::piped())
         .stderr(Stdio::piped());
@@ -180,6 +184,9 @@ fn assert_send_paste_control_holds(setting: Option<(&str, &str)>) {
 #[case::hook_panic_seam_false(Some(("FAKE_AGENT_HOOK_PANIC", "false")))]
 #[case::hook_panic_seam_off(Some(("FAKE_AGENT_HOOK_PANIC", "off")))]
 #[case::hook_panic_seam_empty(Some(("FAKE_AGENT_HOOK_PANIC", "")))]
+#[case::no_color(Some(("NO_COLOR", "1")))]
+#[case::term_dumb(Some(("TERM", "dumb")))]
+#[case::colorterm_truecolor(Some(("COLORTERM", "truecolor")))]
 fn setting_does_not_disable_the_send_paste_control(#[case] setting: Option<(&str, &str)>) {
     assert_send_paste_control_holds(setting);
 }

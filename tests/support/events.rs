@@ -31,6 +31,24 @@ pub fn wait_events(instance_dir: &Path, what: &str, pred: impl Fn(&[Value]) -> b
     }
 }
 
+/// Raises the next gated step and waits for its dialog line: its `dialog_id`.
+pub fn raise(wrapper: &Wrapper, kind: &str, nth: usize) -> u64 {
+    wrapper.release();
+    let of_kind = |lines: &[Value]| -> Vec<Value> {
+        lines
+            .iter()
+            .filter(|l| l["kind"] == kind)
+            .cloned()
+            .collect()
+    };
+    let lines = wait_events(&wrapper.instance_dir(), "the dialog line", |l| {
+        of_kind(l).len() >= nth
+    });
+    of_kind(&lines)[nth - 1]["data"]["dialog_id"]
+        .as_u64()
+        .expect("a dialog_id")
+}
+
 /// A `builder` wrapper on `stamped` over the committed hook fixtures (then `extra`, and `script`),
 /// its SessionStart record landed.
 pub fn boot(stamped: StampedHome, script: Option<&str>, extra: &[&str]) -> Wrapper {

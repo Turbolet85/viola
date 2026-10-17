@@ -1,0 +1,11 @@
+# Journal — 2026-10-17-cli-output-discipline implement run
+
+- 2026-10-17T08:3xZ · P1 · remove-the-guard batch started in the background: `python3 $TMPDIR/{scratchpad}/controls.py`
+  (13 controls; each applies one neutralisation, runs its filtered `agent-run.sh run`, restores the file byte for byte
+  and checks the restore); its log `$TMPDIR/{scratchpad}/controls.log`, its readings copied to
+  `chunks/2026-10-17-cli-output-discipline/evidence/red-03-remove-the-guard.txt`.
+- 2026-10-17T08:0xZ · batch done: 13 controls red on their own cases; the paste control's first firing read all 8
+  cases red (host COLORTERM inherited), the helper fixed, the second firing read the 3 new cases red.
+- 2026-10-17T08:0xZ · P2 · the whole block started in the background: `gate.py run --plan
+  viola-0.1.0/chunks/2026-10-17-cli-output-discipline/plan.md --run-dir .andromeda/runs/2026-10-17T07-44-20-implement
+  --marker 2026-10-17-cli-output-discipline` (21 entries, 3 operator entries not fired; pre-push bounded 7200 s).

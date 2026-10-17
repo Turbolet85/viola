@@ -38,7 +38,7 @@ jobs:
             files: src/cmd/run.rs
           - package: viola
             label: viola-main
-            files: src/main.rs src/conpty.rs
+            files: src/main.rs src/conpty.rs src/human/style.rs
           - package: viola
             label: viola-run-env
             files: src/run/env.rs

@@ -12,6 +12,9 @@ use std::process::{Command, Output};
 
 use support::home::VIOLA;
 use support::outer_pty::{EXIT_WITHIN, OuterPty};
+#[cfg(unix)]
+use support::sgr::redraws;
+use support::sgr::{sets_a_foreground, sgr_attributes};
 
 const ESC: u8 = 0x1B;
 
@@ -31,41 +34,8 @@ fn escapes(bytes: &[u8]) -> usize {
     bytes.iter().filter(|&&b| b == ESC).count()
 }
 
-/// The parameters of every `ESC [ params m` sequence, an empty list read as `0`. Extended colour
-/// sub-parameters (`38;5;n`, `38;2;r;g;b`) are skipped, so their values never read as attributes.
-fn sgr_attributes(stream: &[u8]) -> Vec<u32> {
-    let mut attributes = Vec::new();
-    let mut i = 0;
-    while i + 1 < stream.len() {
-        if stream[i] != ESC || stream[i + 1] != b'[' {
-            i += 1;
-            continue;
-        }
-        let start = i + 2;
-        let mut end = start;
-        while end < stream.len() && (stream[end].is_ascii_digit() || stream[end] == b';') {
-            end += 1;
-        }
-        if end < stream.len() && stream[end] == b'm' {
-            let params = std::str::from_utf8(&stream[start..end]).expect("ascii");
-            let mut values = params.split(';').map(|p| p.parse::<u32>().unwrap_or(0));
-            while let Some(value) = values.next() {
-                if matches!(value, 38 | 48 | 58) {
-                    let _ = match values.next() {
-                        Some(5) => values.next(),
-                        Some(2) => values.nth(2),
-                        _ => None,
-                    };
-                    continue;
-                }
-                attributes.push(value);
-            }
-        }
-        i = end;
-    }
-    attributes
-}
-
+/// The support reader's self-check, run once here rather than in every binary that declares
+/// `mod support`.
 #[test]
 fn sgr_attributes_reads_bold_and_underline_but_not_colour_values() {
     assert_eq!(
@@ -76,6 +46,67 @@ fn sgr_attributes_reads_bold_and_underline_but_not_colour_values() {
         sgr_attributes(b"\x1b[38;5;1mx\x1b[38;2;1;4;1;22my\x1b[?25l"),
         [22]
     );
+    assert!(sets_a_foreground(b"\x1b[38;5;172mDIALOG\x1b[0m"));
+    assert!(sets_a_foreground(b"\x1b[1;33mDIALOG"));
+    assert!(!sets_a_foreground(b"\x1b[1m\x1b[48;5;33m\x1b[2m\x1b[0m"));
+}
+
+/// `viola --help` is the grouped verb table: the served verbs under their group labels, then the
+/// options (layout-templates §Output structure — `viola --help`).
+const HELP: &str = concat!(
+    "Usage: viola [--home <dir>] <verb> [args]\n",
+    "\n",
+    "board:    list\n",
+    "traffic:  send, wait, last, answer\n",
+    "wheel:    pause, release\n",
+    "setup:    run, revive, verify\n",
+    "\n",
+    "Options:\n",
+    "      --home <HOME>  The viola home (default: <user home>/.viola)\n",
+    "  -h, --help         Print help\n",
+    "  -V, --version      Print version\n",
+);
+
+#[test]
+fn help_is_the_grouped_verb_table() {
+    let out = forced_into_a_pipe(&["--help"]);
+    assert_eq!(out.status.code(), Some(0));
+    assert!(out.stderr.is_empty(), "{:?}", out.stderr);
+    assert_eq!(String::from_utf8(out.stdout).expect("utf-8"), HELP);
+}
+
+/// Every verb the table lists answers its own `--help`; the table offers no verb that exits 2.
+#[test]
+fn help_lists_only_served_verbs() {
+    let served = [
+        "list", "send", "wait", "last", "answer", "pause", "release", "run", "revive", "verify",
+    ];
+    for verb in served {
+        let out = forced_into_a_pipe(&[verb, "--help"]);
+        assert_eq!(out.status.code(), Some(0), "{verb}");
+        assert!(
+            String::from_utf8_lossy(&out.stdout).contains(&format!("Usage: viola {verb}")),
+            "{verb}"
+        );
+    }
+    let table = forced_into_a_pipe(&["--help"]);
+    let rows: Vec<String> = String::from_utf8(table.stdout)
+        .expect("utf-8")
+        .lines()
+        .take_while(|line| *line != "Options:")
+        .map(str::to_owned)
+        .collect();
+    let words: Vec<&str> = rows
+        .iter()
+        .filter_map(|row| row.split_once(':').map(|(_, verbs)| verbs))
+        .flat_map(|verbs| verbs.split(','))
+        .map(str::trim)
+        .filter(|word| !word.is_empty() && !word.contains(' '))
+        .collect();
+    assert_eq!(words, served, "{rows:?}");
+    for unserved in ["hook", "help", "link", "unlink", "plugin"] {
+        assert!(!words.contains(&unserved), "{unserved} in {rows:?}");
+    }
 }
 
 #[test]
@@ -106,4 +137,8 @@ fn help_is_plain_on_a_terminal() {
         !attributes.iter().any(|&a| a == 1 || a == 4),
         "bold or underline in {attributes:?}"
     );
+    // A Unix terminal adds CR before each LF and nothing else: no `\r` redraw. ConPTY adds cursor
+    // bytes of its own.
+    #[cfg(unix)]
+    assert_eq!(redraws(&stream), 0, "{stream:?}");
 }

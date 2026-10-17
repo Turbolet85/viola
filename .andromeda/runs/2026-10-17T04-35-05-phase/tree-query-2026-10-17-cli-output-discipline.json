@@ -1,0 +1,208 @@
+[
+{
+"sql": "SELECT callee_name, caller_name, file, line FROM calls WHERE callee_name IN ('write_board','refuse','write_refusal','escape_row','board_row','result','internal_error') AND callee_kind = 'fn' AND callee_file LIKE 'src/human%' ORDER BY callee_name, file, line",
+"rows": 33,
+"result": [
+{
+"callee_name": "escape_row",
+"caller_name": "board",
+"file": "src/human/board.rs",
+"line": 12
+},
+{
+"callee_name": "escape_row",
+"caller_name": "cli_cell",
+"file": "src/human/board.rs",
+"line": 129
+},
+{
+"callee_name": "escape_row",
+"caller_name": "board_rows",
+"file": "src/human/board.rs",
+"line": 150
+},
+{
+"callee_name": "escape_row",
+"caller_name": "escape_row_shows_every_control_character_as_hex_text",
+"file": "src/human/escape.rs",
+"line": 64
+},
+{
+"callee_name": "internal_error",
+"caller_name": "main",
+"file": "src/main.rs",
+"line": 72
+},
+{
+"callee_name": "refuse",
+"caller_name": "refuse",
+"file": "src/cmd/list.rs",
+"line": 74
+},
+{
+"callee_name": "refuse",
+"caller_name": "refuse",
+"file": "src/cmd/list.rs",
+"line": 78
+},
+{
+"callee_name": "refuse",
+"caller_name": "write",
+"file": "src/cmd/revive.rs",
+"line": 106
+},
+{
+"callee_name": "refuse",
+"caller_name": "refuse_batch_script",
+"file": "src/cmd/run.rs",
+"line": 679
+},
+{
+"callee_name": "refuse",
+"caller_name": "refuse_live",
+"file": "src/cmd/run.rs",
+"line": 687
+},
+{
+"callee_name": "refuse",
+"caller_name": "refuse_stale",
+"file": "src/cmd/run.rs",
+"line": 692
+},
+{
+"callee_name": "refuse",
+"caller_name": "refuse_tampered_pin",
+"file": "src/cmd/run.rs",
+"line": 699
+},
+{
+"callee_name": "refuse",
+"caller_name": "refuse_squatted",
+"file": "src/cmd/run.rs",
+"line": 708
+},
+{
+"callee_name": "refuse",
+"caller_name": "verify",
+"file": "src/cmd/verify.rs",
+"line": 73
+},
+{
+"callee_name": "refuse",
+"caller_name": "measure",
+"file": "src/cmd/verify.rs",
+"line": 142
+},
+{
+"callee_name": "refuse",
+"caller_name": "measure",
+"file": "src/cmd/verify.rs",
+"line": 149
+},
+{
+"callee_name": "refuse",
+"caller_name": "measure",
+"file": "src/cmd/verify.rs",
+"line": 184
+},
+{
+"callee_name": "refuse",
+"caller_name": "refuse_recording",
+"file": "src/cmd/verify.rs",
+"line": 607
+},
+{
+"callee_name": "result",
+"caller_name": "list",
+"file": "src/cmd/revive.rs",
+"line": 261
+},
+{
+"callee_name": "result",
+"caller_name": "measure",
+"file": "src/cmd/verify.rs",
+"line": 275
+},
+{
+"callee_name": "result",
+"caller_name": "check_step",
+"file": "src/cmd/verify.rs",
+"line": 468
+},
+{
+"callee_name": "write_board",
+"caller_name": "list",
+"file": "src/cmd/list.rs",
+"line": 59
+},
+{
+"callee_name": "write_board",
+"caller_name": "human",
+"file": "src/human.rs",
+"line": 13
+},
+{
+"callee_name": "write_board",
+"caller_name": "board_row_the_empty_board_is_three_lines_in_one_write",
+"file": "src/human/board.rs",
+"line": 499
+},
+{
+"callee_name": "write_board",
+"caller_name": "board_row_the_separator_and_an_unwrapped_row_are_the_literals",
+"file": "src/human/board.rs",
+"line": 544
+},
+{
+"callee_name": "write_board",
+"caller_name": "board_row_an_empty_wrapped_rack_with_unwrapped_rows_keeps_the_empty_board_line",
+"file": "src/human/board.rs",
+"line": 590
+},
+{
+"callee_name": "write_board",
+"caller_name": "board_row_no_separator_without_an_unwrapped_row",
+"file": "src/human/board.rs",
+"line": 606
+},
+{
+"callee_name": "write_board",
+"caller_name": "board_row_a_board_is_one_write_of_printable_ascii_and_lf",
+"file": "src/human/board.rs",
+"line": 619
+},
+{
+"callee_name": "write_board",
+"caller_name": "board_row_a_board_is_one_write_of_printable_ascii_and_lf",
+"file": "src/human/board.rs",
+"line": 629
+},
+{
+"callee_name": "write_refusal",
+"caller_name": "refuse",
+"file": "src/human.rs",
+"line": 38
+},
+{
+"callee_name": "write_refusal",
+"caller_name": "write_refusal_writes_the_pair_in_one_write",
+"file": "src/human.rs",
+"line": 107
+},
+{
+"callee_name": "write_refusal",
+"caller_name": "write_refusal_puts_the_hint_last",
+"file": "src/human.rs",
+"line": 123
+},
+{
+"callee_name": "write_refusal",
+"caller_name": "write_refusal_returns_the_writer_error",
+"file": "src/human.rs",
+"line": 139
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

@@ -1,0 +1,25 @@
+Steps 5, 8, 10 red reading on stubs (testing.md 2026-09-25, extended 2026-10-10): `src/human/style.rs` with
+`decide` returning `None`, every token "" and `vt_mode` returning its input; `board_rows` / `write_board` taking the
+width and the depth and ignoring both (`let _ = (width, depth);`).
+Command: bash scripts/agent-run.sh run --unit --filter 'test(/board_row_|colour_/)'  (run-archive 1448)
+Result: 81 tests run, 34 failed (read from target/run-archive/1448/junit-nextest-unit.xml)
+
+FAIL board_row_style_a_live_row_bolds_its_name_and_ambers_the_dialog_word (3 depths)
+FAIL board_row_style_a_stale_row_is_dim_end_to_end_and_only_dialog_is_amber (3 depths)
+FAIL board_row_style_an_escaped_control_reads_the_same_at_every_depth (the 3 depth cases; `none` passes: unchanged)
+FAIL board_row_style_an_unwrapped_row_bolds_only_its_name
+FAIL board_row_style_keeps_the_plain_boards_columns (3 depths)
+FAIL board_row_width_cuts_an_unwrapped_name_to_fit_the_width
+  left:  "0b7c9f4e-1d2a-4c3b-8e5f-6a7b8c9d0e1f  live   busy ..." (whole), right: "0b7c9f4e-1d2...  live   busy ..."
+FAIL board_row_width_never_cuts_inside_an_escape
+FAIL board_row_width_too_small_keeps_the_captions_four_columns
+  left:  "s-123456  live   idle ...", right: "s...  live   idle ..."
+FAIL colour_decision_a_terminal_with_every_rung_passing_is_coloured  (left: None, right: Some(Ansi16))
+FAIL colour_decision_picks_the_depth (all 11 cases; left: None)
+FAIL colour_tokens_are_the_design_bytes (3 depths)
+FAIL colour_vt_mode_adds_only_the_processing_bit (from_zero, kept_bits, newline_bit_untouched; already_on passes)
+
+Passing on the stubs, as designed (absence or unchanged cases; their remove-the-guard readings are taken on the
+product, evidence/red-03-*): colour_decision_each_rung_switches_colour_off (6 rungs), board_row_width_none_cuts_nothing,
+board_row_width_never_cuts_a_wrapped_name, board_row_width_an_unwrapped_name_that_fits_is_never_cut,
+board_row_style_the_context_lines_carry_no_sgr, the standing board_row_ units.

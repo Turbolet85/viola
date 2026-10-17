@@ -57,7 +57,18 @@ pub(crate) fn list(home: &Path, args: &ListArgs) -> anyhow::Result<ExitCode> {
             reading: &budget.stamped,
             paused: budget.paused,
         });
-        let _ = human::write_board(&mut io::stdout().lock(), bay.as_ref(), &board, now);
+        // The terminal's columns from stdout itself, never `COLUMNS`: a piped board reads none and
+        // cuts nothing. `colour` holds the Windows VT enable until the board is written.
+        let width = viola_pty::host_size().map(|size| usize::from(size.cols));
+        let colour = human::read_colour(false, false);
+        let _ = human::write_board(
+            &mut io::stdout().lock(),
+            bay.as_ref(),
+            &board,
+            now,
+            width,
+            colour.depth,
+        );
     }
     run::log_self_exit(0, None);
     Ok(ExitCode::SUCCESS)

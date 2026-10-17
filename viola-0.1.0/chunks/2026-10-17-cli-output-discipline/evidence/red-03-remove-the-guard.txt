@@ -1,0 +1,25 @@
+Remove-the-guard readings (testing.md 2026-09-25, extended 2026-10-10), taken on the product after steps 1-18.
+Each control applied ONE neutralisation through a scratch script, read back that the edit landed, ran its filtered
+`bash scripts/agent-run.sh run …`, restored the file byte for byte and read the restore back (`restored True` on every
+control; `git status` of src/cmd/send.rs clean after both batches). Failures read from the run's JUnit.
+Host environment for these runs: COLORTERM='truecolor' TERM='xterm-256color' NO_COLOR unset.
+
+| control (the guard removed) | file | run | reading |
+|---|---|---|---|
+| rung 1 `json` removed | src/human/style.rs | --unit test(/colour_decision_each_rung_switches_colour_off/) | 5 passed 1 failed: case_1_json |
+| rung 2 `passthrough` removed | src/human/style.rs | same | 5 passed 1 failed: case_2_passthrough |
+| rung 4 `no_color` removed | src/human/style.rs | same | 5 passed 1 failed: case_3_no_color |
+| rung 5 `TERM == dumb` removed | src/human/style.rs | same | 5 passed 1 failed: case_4_dumb |
+| rung 6 `!stdout_tty` removed | src/human/style.rs | same | 5 passed 1 failed: case_5_not_a_terminal |
+| rung 7 `vt == Some(false)` removed | src/human/style.rs | same | 5 passed 1 failed: case_6_vt_enable_failed |
+| `mode \| VT_PROCESSING` → `^` | src/human/style.rs | --unit test(/colour_vt_mode_adds_only_the_processing_bit/) | 3 passed 1 failed: case_3_already_on |
+| with no width, unwrapped names capped at 15 | src/human/board.rs | --unit test(/board_row_width_none_cuts_nothing/) | 0 passed 1 failed |
+| wrapped names capped and cut like unwrapped ones | src/human/board.rs | --unit test(/board_row_width_never_cuts_a_wrapped_name/) | 0 passed 1 failed |
+| the cut taken at `>=` the column (a name that fits) | src/human/board.rs | --unit test(/board_row_width_an_unwrapped_name_that_fits_is_never_cut/) | 0 passed 1 failed |
+| the caption row given the spans | src/human/board.rs | --unit test(/board_row_style_the_context_lines_carry_no_sgr/) | 0 passed 1 failed |
+| `list`'s width and depth forced to `None` (step 20: steps 14 and 17) | src/cmd/list.rs | --e2e binary(cross_list_rows) | 2 passed 2 failed: cross_list_rows_style_each_span_beside_its_word_on_a_terminal, cross_list_rows_truncate_an_unwrapped_name_only_on_a_terminal_too_narrow_for_it (the standing escaped-rows case and the no-SGR case stay green: absence cases) |
+| step 15 forced on: `NO_COLOR` present, `TERM=dumb` or `COLORTERM=truecolor` skips `validate_paste_text` in `refusal_of` | src/cmd/send.rs | --integration test(/setting_does_not_disable_the_send_paste_control/) | FIRST FIRING: 0 passed 8 failed — every case, `no_setting` included: the helper inherited the host's COLORTERM=truecolor, so the control could not tell the cases apart. Cause removed in the test (listed file): `assert_send_paste_control_holds` now removes NO_COLOR, TERM and COLORTERM before setting the case's one. SECOND FIRING: 5 passed 3 failed: case_6_no_color, case_7_term_dumb, case_8_colorterm_truecolor |
+
+The absence cases of step 14's no-SGR test (`cross_list_rows_print_no_sgr_under_no_color_dumb_piped_or_json`) are the
+decision's rungs read through the binary; the rungs' own removals above read red at the unit tier, where the
+decision lives (testing.md 2026-09-24: the decision in a plain function).

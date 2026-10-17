@@ -8,6 +8,7 @@ mod board;
 mod escape;
 mod hints;
 mod mirror;
+mod style;
 mod verbs;
 mod wait;
 
@@ -18,6 +19,7 @@ pub(crate) use mirror::{
     write_read_back, write_send_open, write_send_unable, write_send_unconfirmable, write_unable,
     write_wrapper_fault,
 };
+pub(crate) use style::read as read_colour;
 pub(crate) use verbs::{
     override_end, write_answered, write_budget_lifted, write_budget_open, write_paused,
     write_released,

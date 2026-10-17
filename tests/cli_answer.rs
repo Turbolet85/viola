@@ -22,7 +22,7 @@ use std::time::Instant;
 use rstest::rstest;
 use serde_json::{Value, json};
 use support::cli::{Ran, Running, spawn};
-use support::events::{events, wait_events};
+use support::events::{events, raise, wait_events};
 use support::fake::{self, of_kind};
 use support::home::{StampedHome, TestHome, VIOLA, Wrapper, stamped_home, workspace_path};
 use support::hygiene::load_schema;
@@ -161,17 +161,6 @@ fn assert_reads_clean(instance_dir: &Path) {
         }
     );
     assert_eq!(returned.len(), events(instance_dir).len());
-}
-
-/// Raises the next gated step and waits for its dialog line: its `dialog_id`.
-fn raise(wrapper: &Wrapper, kind: &str, nth: usize) -> u64 {
-    wrapper.release();
-    let lines = wait_events(&wrapper.instance_dir(), "the dialog line", |l| {
-        of_event_kind(l, kind).len() >= nth
-    });
-    of_event_kind(&lines, kind)[nth - 1]["data"]["dialog_id"]
-        .as_u64()
-        .expect("a dialog_id")
 }
 
 /// test-plan §6 Path 4: question (S3 + S8 annotations), the question's PermissionRequest repeat,

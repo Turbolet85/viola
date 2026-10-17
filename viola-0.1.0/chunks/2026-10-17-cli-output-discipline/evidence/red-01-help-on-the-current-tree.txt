@@ -1,0 +1,17 @@
+Step 1 / step 2 red reading on the current tree (clap's `Commands:` help, no product change yet).
+Command: bash scripts/agent-run.sh run --integration --filter 'binary(cli_output_plain)'  (run-archive 1446)
+Result: 6 tests run: 4 passed, 2 failed
+
+FAIL viola::cli_output_plain help_is_the_grouped_verb_table
+  panicked at tests/cli_output_plain.rs:73:5: assertion `left == right` failed
+  left:  "Drive one Claude Code session from another\n\nUsage: viola [OPTIONS] <COMMAND>\n\nCommands:\n  run      Wrap a program as the named instance\n ... help     Print this message or the help of the given subcommand(s)\n\nOptions:\n      --home <HOME>  The viola home (default: <user home>/.viola)\n  -h, --help         Print help\n  -V, --version      Print version\n"
+  Cause: the built help is clap's ordered `Commands:` list (the expected cause).
+  A second cause read in the same output: the test's own literal, written with `\n\` continuations, lost the
+  leading spaces of the `Options:` lines (right: "Options:\n--home <HOME> ..."); the literal was rewritten with
+  `concat!` before any product change. The `Options:` lines are clap's, copied from this output.
+
+FAIL viola::cli_output_plain help_lists_only_served_verbs
+  panicked at tests/cli_output_plain.rs:104:5: assertion `left == right` failed
+  left:  ["wheel"]   (the only `label: verbs` word clap's help yields, from `release`'s about text)
+  right: ["list", "send", "wait", "last", "answer", "pause", "release", "run", "revive", "verify"]
+  Cause: no grouped table is built (the expected cause).

@@ -1,0 +1,49 @@
+[
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "9243c8cf",
+"ts": "2026-10-17T08:00:44Z",
+"argv": [
+"implement",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-17-cli-output-discipline",
+"--id",
+"v1-40",
+"--ref-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-17T07-44-20-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"implement v1-40 · status planned → implemented · ref (1) tests/cli_wait_last.rs::wait_human_lines_are_linear, tests/cli_output_plain.… (1396 chars)",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-40",
+"chunk": "2026-10-17-cli-output-discipline",
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "On ubuntu-latest, macos-latest and windows-2025 every human-mode CLI output keeps the terminal discipline, each clause h… (2580 chars)",
+"notes_chars": 2955
+},
+"after": {
+"id": "v1-40",
+"chunk": "2026-10-17-cli-output-discipline",
+"status": "implemented",
+"method": "integration",
+"ref": "(1) tests/cli_wait_last.rs::wait_human_lines_are_linear, tests/cli_output_plain.rs::help_is_plain_on_a_terminal · (2) te… (1396 chars)",
+"acceptance": "On ubuntu-latest, macos-latest and windows-2025 every human-mode CLI output keeps the terminal discipline, each clause h… (2580 chars)",
+"notes_chars": 2955
+}
+}
+]

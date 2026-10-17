@@ -22,11 +22,26 @@ use viola_core::obs::ObsProcess;
 
 use crate::obs::DetailSink;
 
+/// `viola --help`: the served verbs under their group labels, then the options (layout-templates
+/// §Output structure — `viola --help`). A verb joins its row only once clap serves it.
+const HELP_TEMPLATE: &str = "\
+{usage-heading} {usage}
+
+board:    list
+traffic:  send, wait, last, answer
+wheel:    pause, release
+setup:    run, revive, verify
+
+Options:
+{options}";
+
 #[derive(Parser)]
 #[command(
     name = "viola",
     version,
-    about = "Drive one Claude Code session from another"
+    about = "Drive one Claude Code session from another",
+    override_usage = "viola [--home <dir>] <verb> [args]",
+    help_template = HELP_TEMPLATE
 )]
 pub(crate) struct Cli {
     /// The viola home (default: <user home>/.viola)
