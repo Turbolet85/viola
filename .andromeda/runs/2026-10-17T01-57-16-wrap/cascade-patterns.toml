@@ -1,0 +1,46 @@
+# Cascade step 2 — the retired wording and mechanism of every amendment this pass applied.
+
+[[pattern]]
+id = 'old-regex'
+regex = '\(path\|tui\|mcp|\{path,mcp,cross\}|\bpath\|tui\b'
+
+[[pattern]]
+id = 'e2e-unbuilt'
+regex = 'until the first E2E|first E2E-prefixed binary|selects nothing yet|--e2e`? (is|stays) a usage error|E2E binary lands|kind\(test\)` until'
+
+[[pattern]]
+id = 'flags-unbuilt'
+regex = '(statusline-echo|agents-mode)[^.]{0,120}not built|not built[^.]{0,120}(statusline-echo|agents-mode)|still not built'
+
+[[pattern]]
+id = 'session-fixture'
+regex = 'fixture-owned thread|rstest `?harness_session`? fixture|harness_session` fixture|until that fixture exists'
+
+[[pattern]]
+id = 'status-interim'
+regex = 'runs no `?viola list|Interim, while|list`?,? `?pid`? and `?uptime_ms`? are `?null|degraded`?( when|:)[^.]{0,40}`?stale`?|when every recorded wrapper is alive'
+
+[[pattern]]
+id = 'last-error'
+regex = 'list-exit'
+
+[[pattern]]
+id = 'nextest-0133'
+regex = '0\.9\.133'
+
+[[pattern]]
+id = 'verify-driven'
+regex = 'verify-driven binaries|eighteen verify'
+
+[[pattern]]
+id = 'keep-readers'
+regex = 'AGENT_RUN_KEEP_(FAILED|HOMES)'
+
+[[pattern]]
+id = 'agents-file'
+regex = 'agents-mode` file|agents_mode|bin/agents-mode'
+
+[[pattern]]
+id = 'owner-title'
+fixed = 'End-to-end path binary and harness legs'
+ignore_case = true

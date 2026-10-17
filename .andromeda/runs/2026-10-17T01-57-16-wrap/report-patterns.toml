@@ -1,0 +1,39 @@
+# Wrap P1 site sweep — one pattern per moved fact (its wording + its name token), then the two owner patterns.
+
+[[pattern]]
+id = 'e2e-regex'
+regex = '(path\|tui\|mcp\|cross\|chaos\|contract)|path\[0-9\]|\{path,(mcp,)?(tui,)?cross|E2E[ -]prefix|E2E regex|E2E-prefixed'
+
+[[pattern]]
+id = 'e2e-selector'
+regex = '--e2e|nextest-e2e|selects nothing yet|kind\(test\) & !binary'
+
+[[pattern]]
+id = 'boot-flags'
+regex = 'statusline-echo|agents-mode|agents_mode'
+
+[[pattern]]
+id = 'status-list'
+regex = 'list-exit|Status endpoint shape|"list": ?null|`list` (member )?(is|stays) `?null|status`? runs (no )?`?viola list'
+
+[[pattern]]
+id = 'harness-session'
+regex = 'harness_session|fixture-owned (supervisor )?thread'
+
+[[pattern]]
+id = 'path-binaries'
+regex = 'path1_run_start|path6_budget_harness|viola_e2e::fixtures|first E2E consumer|first `?path_`? (E2E )?binary'
+
+[[pattern]]
+id = 'carry5-keeper'
+regex = 'remove_session_home_removes_a_boot_created_parent|create_dir_all.{0,40}dangling'
+
+[[pattern]]
+id = 'owner-title'
+fixed = 'End-to-end path binary and harness legs'
+ignore_case = true
+
+[[pattern]]
+id = 'owner-generic'
+regex = 'owned by a (route entry|CARRY)'
+ignore_case = true

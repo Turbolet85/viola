@@ -1,0 +1,44 @@
+[
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-17T01:57:33Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs",
+"--run-dir",
+".andromeda/runs/2026-10-17T01-57-16-wrap",
+"--marker",
+"2026-10-17-end-to-end-path-binary-and-harness-legs"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the overseer as the founders delegate, in the P4 dialog, 2026-10-17T00:36:38Z",
+"I1 cited scope.md:30 · research.md:7 · research.md:60 · research.md:96 · plan.md:24 · plan.md:28 · plan.md:423 · plan.md:426 · plan.md:428 · plan.md:461 · plan.md:467",
+"I2 n/a — a message has no live source · copy message · message: the Viola overseer (technical, founder-delegated), answering implement P2 E2E-naming question, 2026-10-17",
+"I2 UNCITED",
+"inputs: 2 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 1 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 1,
+"unparsed": 0
+}
+}
+]

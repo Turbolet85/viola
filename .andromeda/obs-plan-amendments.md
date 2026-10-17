@@ -581,3 +581,9 @@ Each superseded mark stands as the operator's answer, superseded 2026-10-13.
 - `run_bounded` and `run_capped` stay unlogged; `run::agents::read_logged` writes the `agents-probe` pair for `list` (into `cli-<name>.ndjson`, only under a parsed `VIOLA_NAME`), for `revive`'s reading (into `run-<name>.ndjson`) and for verify's Run B.
 **Why:** `revive`'s reading and refusal are the founder's own answer to P4 fork 3 and Run B's read his answer to fork 1 (`inputs#I1`, relayed verbatim by the operator); the card confirm provisional (delegate viola-overseer), superseded by his own word at the Epoch 5 boundary. §1 is a verbatim upstream copy kept current (the founder's 2026-10-04 ruling).
 **Ref:** .andromeda/runs/2026-10-16T22-30-02-wrap/
+
+## 2026-10-17-end-to-end-path-binary-and-harness-legs — obs: stall detection reads an absent instance as degraded
+**Section:** §3 → Heartbeat ticks (Stall detection)
+**Change:** `agent-run status` reads `state: degraded` when a booted instance's item is `stale` or absent, a gone instance being omitted from `list` (was: when any item is `stale`).
+**Why:** The test-plan §3 ↔ obs-plan §3 bind: `status` now runs `viola list` and derives its state from it.
+**Ref:** .andromeda/runs/2026-10-17T01-57-16-wrap/

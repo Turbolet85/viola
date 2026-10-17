@@ -110,8 +110,16 @@ session scratchpad.
 - Two journal stamps were written as approximations before the clock was read and corrected after (01:33Z → 01:32Z
   for the witness; `01:3x/4x/5x` placeholders replaced).
 
+## Operator pass (done, on the operator's word)
+
+- Entry 19 re-run on the final uncommitted tree: green, 2666 passed; the watched `cli_send` case green (reading 3 — the
+  chunk's tally is 3 green, 0 red).
+- Entry 20 `gate.py hygiene`: `hygiene: clean`.
+- Pre-CI commit `ae21376`; entry 21 pushed it (`history moved: … origin/build/viola-0.1.0 6042af63→ae213762`).
+- Entry 22 `ci.py conclusion`: `ae2137622b3a verdict: green · checks 15/15 · wall 549 s · runs ci#38992234808
+  completed/success` — `v1-02`'s three-runner witness.
+- Record: `evidence/operator-pass.md`. The evidence and this run dir's late files ride the wrap's commit.
+
 ## Next
 
-The OPERATOR PASS (plan §Test Commands, `leg = 'operator'`): entry 20 (`gate.py hygiene`, before the pre-CI commit),
-the pre-CI commit, entry 21 (the push), entry 22 (`ci.py conclusion --sha HEAD --wait 1800`) — then
 `/andromeda-wrap-session`.

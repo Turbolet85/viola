@@ -8,10 +8,10 @@ This is the `agent-run status` document. Its nested `list` member is the verbati
   "state": "ready | degraded | down",
   "pid": null,
   "uptime_ms": null,
-  "last_error": "null | <harness code, e.g. list-exit-21>",
+  "last_error": "null | <harness code: list-exit-<code> (e.g. list-exit-21) | list-exit-none>",
   "list": "<viola list --json document>",
   "instances": [{ "name": "<ViolaName>", "wrapper_pid": "<pid>", "alive": "<pid + start-time liveness>" }]
 }
 ```
 
-Interim, while `status` runs no `viola list` (built at chunk 2026-10-11-the-board-viola-list; the harness reading it is owed to the Epoch 5 entry "End-to-end path binary and harness legs"): `list`, `pid` and `uptime_ms` are `null`, and `state` is `ready` when every recorded wrapper is alive, else `degraded`. `state` is `ready` when every booted instance has `liveness:"live"`. It is `degraded` when any item is `stale`. It is `down` when `list` exits non-zero. `ok` is true only for `ready`. The agent polls this document through the `status` command to verify state transitions during E2E scenarios.
+`status` runs `viola list` since chunk 2026-10-17-end-to-end-path-binary-and-harness-legs (5-command `status`). `state` is `ready` when `list` exits 0 and every booted instance is an item `wrapped:true, liveness:"live"` (an unwrapped item is ignored; a session that booted none reads `ready`). It is `degraded` when a booted instance is `stale` or absent (a gone instance is omitted from `list`), or the document holds no `items`. It is `down` when `list` exits non-zero (`last_error` `list-exit-<code>`), gives no exit code, cannot be spawned or has no `supervise.json` to run from (`list-exit-none`), or exits 0 with no JSON object on stdout (`list-exit-0`, `list:null`). `list` is the parsed document, the exit-21 error document included; `pid` and `uptime_ms` stay `null`; `instances` keeps the pid + start-time `alive`. `ok` is true only for `ready`; the exit is 0 for `ready`, 1 otherwise, 2 for an unknown session. The agent polls this document through the `status` command to verify state transitions during E2E scenarios.
