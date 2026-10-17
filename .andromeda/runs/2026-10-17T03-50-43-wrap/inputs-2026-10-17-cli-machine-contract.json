@@ -1,0 +1,229 @@
+[
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-17T03:50:57Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-17-cli-machine-contract",
+"--run-dir",
+".andromeda/runs/2026-10-17T03-50-43-wrap",
+"--marker",
+"2026-10-17-cli-machine-contract"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, in this phase session, 2026-10-17T02:33Z",
+"I1 cited scope.md:11 · scope.md:22 · scope.md:117 · research.md:7 · plan.md:20 · plan.md:328 · plan.md:380",
+"I2 n/a — a message has no live source · copy message · message: the Viola overseer, technical, founder-delegated, answering the P4 dialog in this session, 2026-10-17T02:40Z",
+"I2 cited plan.md:16 · plan.md:61 · plan.md:88 · plan.md:332 · plan.md:380 · plan.md:396 · plan.md:413 · plan.md:424",
+"inputs: 2 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-17T03:56:41Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-17-cli-machine-contract",
+"--run-dir",
+".andromeda/runs/2026-10-17T03-50-43-wrap",
+"--marker",
+"2026-10-17-cli-machine-contract"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, in this phase session, 2026-10-17T02:33Z",
+"I1 cited scope.md:11 · scope.md:22 · scope.md:117 · research.md:7 · plan.md:20 · plan.md:328 · plan.md:380",
+"I2 n/a — a message has no live source · copy message · message: the Viola overseer, technical, founder-delegated, answering the P4 dialog in this session, 2026-10-17T02:40Z",
+"I2 cited plan.md:16 · plan.md:61 · plan.md:88 · plan.md:332 · plan.md:380 · plan.md:396 · plan.md:413 · plan.md:424 · report.md:186",
+"inputs: 2 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-17T04:05:57Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-17-cli-machine-contract",
+"--message-file",
+".andromeda/runs/2026-10-17T03-50-43-wrap/relay-1.md",
+"--origin",
+"the Viola overseer, answering the wrap P2 escalation dialog in this session, 2026-10-17T04:05:25Z",
+"--kind",
+"relay",
+"--why",
+"the P2 escalation answers: Q1 the CLI VIOLA_DIR home step and canonicalisation recorded as landed, NOT ratified; Q2 v1-39 un-claimed, the post-preflight revive documents a CARRY on Exit-cause code catalogue; Q3 revive --json and the --list cli log applied as routine",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-17T03-50-43-wrap",
+"--marker",
+"2026-10-17-cli-machine-contract"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy message · message: the Viola overseer, answering the wrap P2 escalation dialog in this session, 2026-10-17T04:05:25Z",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "message: the Viola overseer, answering the wrap P2 escalation dialog in this session, 2026-10-17T04:05:25Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "9a3cada8fceff7b40ed4781e4de04e46b5fcb5a4d59b70cc10201884f492c0b6",
+"copy": "I3-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-17T04:05:57Z",
+"step": "wrap",
+"why": "the P2 escalation answers: Q1 the CLI VIOLA_DIR home step and canonicalisation recorded as landed, NOT ratified; Q2 v1-39 un-claimed, the post-preflight revive documents a CARRY on Exit-cause code catalogue; Q3 revive --json and the --list cli log applied as routine"
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-17T04:06:05Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-17-cli-machine-contract",
+"--run-dir",
+".andromeda/runs/2026-10-17T03-50-43-wrap",
+"--marker",
+"2026-10-17-cli-machine-contract"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, in this phase session, 2026-10-17T02:33Z",
+"I1 cited scope.md:11 · scope.md:22 · scope.md:117 · research.md:7 · plan.md:20 · plan.md:328 · plan.md:380",
+"I2 n/a — a message has no live source · copy message · message: the Viola overseer, technical, founder-delegated, answering the P4 dialog in this session, 2026-10-17T02:40Z",
+"I2 cited plan.md:16 · plan.md:61 · plan.md:88 · plan.md:332 · plan.md:380 · plan.md:396 · plan.md:413 · plan.md:424 · report.md:186",
+"I3 n/a — a message has no live source · copy message · message: the Viola overseer, answering the wrap P2 escalation dialog in this session, 2026-10-17T04:05:25Z",
+"I3 UNCITED",
+"inputs: 3 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 1 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 3,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 3
+},
+"uncited": 1,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-17T04:06:21Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-17-cli-machine-contract",
+"--run-dir",
+".andromeda/runs/2026-10-17T03-50-43-wrap",
+"--marker",
+"2026-10-17-cli-machine-contract"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, in this phase session, 2026-10-17T02:33Z",
+"I1 cited scope.md:11 · scope.md:22 · scope.md:117 · research.md:7 · plan.md:20 · plan.md:328 · plan.md:380",
+"I2 n/a — a message has no live source · copy message · message: the Viola overseer, technical, founder-delegated, answering the P4 dialog in this session, 2026-10-17T02:40Z",
+"I2 cited plan.md:16 · plan.md:61 · plan.md:88 · plan.md:332 · plan.md:380 · plan.md:396 · plan.md:413 · plan.md:424 · report.md:186",
+"I3 n/a — a message has no live source · copy message · message: the Viola overseer, answering the wrap P2 escalation dialog in this session, 2026-10-17T04:05:25Z",
+"I3 cited report.md:378",
+"inputs: 3 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 3,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 3
+},
+"uncited": 0,
+"unparsed": 0
+}
+}
+]

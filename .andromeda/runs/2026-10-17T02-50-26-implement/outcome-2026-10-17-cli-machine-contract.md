@@ -1,8 +1,9 @@
 # Implement outcome — 2026-10-17-cli-machine-contract
 
 **Outcome: surfaced** — the block is green (18 of 18 non-leg entries, `pre-push` included), smoke ✓, and one
-spec↔reality gap is surfaced (below). Nothing was authored in a spec. The operator pass follows (entries 19-21),
-run on the operator's word in this session's invocation.
+spec↔reality gap is surfaced (below). Nothing was authored in a spec. The operator pass ran on the operator's word
+in this session's invocation: CI on the final HEAD `f738cbc` reads `verdict: green · checks 15/15`
+(`ci#38999642102`), `test (ubuntu-latest)` among them.
 
 ## Gates
 - Whole block, second firing: `entries 21 · green 18 · red 0 · recorded 0 · timeout 0 · not-run 3` (19-21
@@ -29,6 +30,18 @@ run on the operator's word in this session's invocation.
   `stamped_home_concurrent_verify_runs_each_stamp_the_home` read green 20/20 before the fix and 20/20 after
   (4.27-4.29 s, under the 10 s mutants kill): it does not open the window on this host's tmpfs home base. Its
   red-on-revert reading is unobtainable here by measurement; the runner leg is the operator pass's CI read.
+
+## Operator pass (record: `chunks/2026-10-17-cli-machine-contract/evidence/operator-pass.md`)
+- Entry 18 `pre-push` green (75.77 s) → entry 19 hygiene clean → pre-CI commit `e248533` → entry 20 push
+  (`f6bcce5b→e2485333`) → entry 21 `ci#38998933306`: **red**, `test (windows-2025)` only, one unit,
+  `cmd::tests::canonical_home_resolves_an_existing_home_and_keeps_a_new_one_absolute` (`src\cmd\mod.rs:347`): its
+  oracle took Windows' raw `\\?\` canonical form where the product correctly returns the plain drive form. On that
+  run `test (ubuntu-latest)` completed success.
+- Fix in the test (the oracle through `plain_drive`, plus a no-prefix assertion); units, entries 1-3 and entry 18
+  (74.38 s) green; hygiene clean after one runner drive path in the evidence was respelt; fix commit `f738cbc`; entry
+  20 push (`e2485333→f738cbc0`); entry 21: `f738cbc0f307 verdict: green · checks 15/15 · wall 542 s · runs
+  ci#38999642102 completed/success`.
+- Part A's acceptance, last half: `test (ubuntu-latest)` green on the final HEAD.
 
 ## Files changed
 - Product: `src/cmd/mod.rs` (`Instance` / `instance_of` moved here; `resolve_home` in the documented order with its
@@ -82,7 +95,7 @@ run on the operator's word in this session's invocation.
 | process | started by | final state |
 |---|---|---|
 | the smoke session `p-cli-smoke` (supervisor, wrapper, fake agent) | a leg (entries 13, 17) | terminated — entry 17 `processes_gone:true`, `endpoint_gone:true` |
-| every test-started `viola` / fake agent | this run (nextest) | terminated — `ps` at 2026-10-17T03:26Z lists no process whose `/proc/<pid>/exe` is under this repository |
+| every test-started `viola` / fake agent (the block, `pre-push` ×3) | this run (nextest) | terminated — `ps` at 2026-10-17T03:26Z lists no process whose `/proc/<pid>/exe` is under this repository |
 | `viola` processes of `viola-lab/prototype` and the host's `claude` | not this run | left running — the overseer pair's and the operator's; not this run's to stop |
 
 ## Decisions & corrections
@@ -99,4 +112,5 @@ run on the operator's word in this session's invocation.
   operator, 2026-10-17, in this session. No live `claude` start was made.
 
 ## Next
-The operator pass (entries 19 hygiene, the pre-CI commit, 20 push, 21 CI read), then `/andromeda-wrap-session`.
+`/andromeda-wrap-session` — the operator pass is done (HEAD `f738cbc`, pushed, CI green). Uncommitted for the wrap's
+commit: this run dir's last records (journal, outcome, evolve) and `evidence/operator-pass.md`'s CI section.

@@ -37,7 +37,7 @@ Path-scoped rules for test authoring (what tests assert, fixtures, coverage). Lo
 
 ## What to assert
 - Never parse the rendered child screen; verdicts come from hook events, `events.ndjson`, channel payloads, the fake-agent receipt and exit codes.
-- Oracles are literals in the test (the 11 identity-floor names, refusal order, exit codes) — never import the product's own `IDENTITY_FLOOR`; compare kebab-case serde values and integer exits, never `Debug` strings.
+- Oracles are literals in the test (the 11 identity-floor names, refusal order, exit codes) — never import the product's own `IDENTITY_FLOOR`; compare kebab-case serde values and integer exits, never `Debug` strings. A test-started `viola` drops `VIOLA_NAME`, `VIOLA_DIR` and `VIOLA_BIN` (`tests/support/home.rs` `UNWRAPPED`), and a path oracle compares `resolved(home)`, never `TestHome::path()`.
 - A multi-surface path asserts every surface it lists; a lower-layer case (parser, refusal order, threshold, clock) belongs in unit tests, not E2E.
 - No test auto-approves a dialog; a decision body without a verify stamp and wheel `driver` fails the test.
 
@@ -95,3 +95,4 @@ _This section is owned by `/wrap-session`. setup-project preserves content added
 - 2026-10-16: A test fixture's synthetic session id has the real session-id shape (`viola_agent_claude::is_session_id`): a filter on that shape (`ledger::resume_target`) drops an off-shape id silently, so the probe it feeds never starts and only its ledger row reads `fail`.
 - 2026-10-16: An oracle literal for a list or a count the plan names (a call bound, a document's key order) is copied from the first run's output, never typed from the plan's prose: a plan writes keys sorted and leaves a bound unnamed, while the document keeps insertion order.
 - 2026-10-17: A new test binary's nextest layer is proven by the layers' own selection counts (`run --e2e`, and `run --integration --filter 'binary(<stem>)'` reading `nextest-exit-4`), never read off its stem: a numbered `path1_` stem reads as E2E-prefixed by eye yet missed the `^(path|…)_` regex and ran as an integration test.
+- 2026-10-17: Under a parsed `VIOLA_NAME`, `viola list` (and `viola revive --list`) opens its `cli` log and so creates the home it resolved: an oracle that "the default home was not made" is false with a name set, so witness which home resolved by where `cli-<name>.ndjson` landed.

@@ -41,3 +41,17 @@ running 1: oldest test (macos-latest) 498 s
 ```
  18 probe       green · exit 0 · 74.38s · 356125 B → 18.4.log · bash scripts/agent-run.sh pre-push
 ```
+
+## The fix commit, entry 20 again, and entry 21 on the final HEAD
+- `f738cbc fix(2026-10-17-cli-machine-contract): the canonical-home unit's oracle is the plain drive form on Windows`
+  (hygiene clean before it, after one drive path in this file was respelt by hand).
+```
+ 20 probe       green · exit 0 · 1.55s · 90 B → 20.2.log · history moved: refs/remotes/origin/HEAD e2485333→f738cbc0; refs/remotes/origin/build/viola-0.1.0 e2485333→f738cbc0 · git diff --quiet && git diff --cached --quiet && git push … (69 chars)
+```
+```
+f738cbc0f307 verdict: green · checks 15/15 · wall 542 s · runs ci#38999642102 completed/success
+runs: ci#38999642102 push completed/success
+checks: fuzz-replay · lint (macos-latest) · lint (ubuntu-latest) · lint (windows-2025) · msrv · perf (macos-latest)
+  perf (ubuntu-latest) · perf (windows-2025) · release (macos-latest) · release (ubuntu-latest) · release (windows-2025)
+  supply-chain · test (macos-latest) · test (ubuntu-latest) · test (windows-2025)
+```

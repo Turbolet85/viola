@@ -30,3 +30,4 @@ One line per long run, written before the wait.
   Read: verdict red · test (windows-2025) — one unit, canonical_home_resolves_an_existing_home_and_keeps_a_new_one_absolute (src/cmd/mod.rs:347, oracle took the raw \\?\ form); test (ubuntu-latest) green. Fixed in the test; units and lints 1-3 green.
 - 2026-10-17T03:38:02Z · operator pass · entry 18 (`pre-push`) before the fix commit, backgrounded.
   Read: green, 74.38 s. Hygiene refused 1 (a runner drive path quoted in evidence/operator-pass.md), respelt by hand, then clean.
+- 2026-10-17T03:49:19Z · operator pass · fix commit f738cbc, pushed (entry 20, e2485333→f738cbc0); entry 21 on it: verdict green, 15/15, ci#38999642102.

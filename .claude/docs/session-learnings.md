@@ -8,6 +8,15 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
+## 2026-10-17 — A capture-then-write file is not a capture until its bytes land
+`viola verify`'s capture arm claims a capture's name with an empty file and renames the written bytes over it after a
+`sync_all`. A waiter that tests for the NAME reads the empty claim on a slow disk and settles early — on CI this read an
+empty SessionStart capture, so `resume-session` failed and `stamped_home` cases went red, while the tmpfs-backed dev host
+(a sync costs nothing) never opened the window. A waiter over such a writer tests for content (a non-empty file), never
+for the name; a window the host cannot open is forced at the decision (plant the empty claim in a unit case), never sampled.
+
+---
+
 ## 2026-10-16 — A moved relied-row count stales the masters' quoted summary literals too
 When the ledger's relied set grows, every `stamped <ver>  N pass  M fail` literal a master quotes from a test moves with
 it, not only the stated counts (`22 / 19`, `[22/22]`): a dialog-less or framing-less run gains the new row as a pass.

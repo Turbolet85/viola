@@ -1,60 +1,64 @@
 # Session Handoff
 
-**Last Updated:** 2026-10-17T02:19:29Z
+**Last Updated:** 2026-10-17T04:26:30Z
 **Branch:** build/viola-0.1.0 · 0 ahead of origin/build/viola-0.1.0 as read at this wrap's Setup (the wrap commit pushes after this file)
 **Status:** clean
-**Last Commit:** 2026-10-17-end-to-end-path-binary-and-harness-legs — run --e2e, boot --statusline-echo and --agents-mode, status over viola list, Path 1 as one flow and Path 6's harness leg
+**Last Commit:** 2026-10-17-cli-machine-contract — revive --json on both arms, the CLI home's VIOLA_DIR step and canonicalisation, the completeness case, state-recovered.scanned, and the verify capture-wait fix
 
 ## Position
-- Done: **2026-10-17-end-to-end-path-binary-and-harness-legs** — `run --e2e` (suite `nextest-e2e`, the integration layer
-  its complement, the E2E regex widened to `^(path[0-9]*|…)_`), `boot --statusline-echo` / `--agents-mode`, `status`
-  nesting `viola list --json`, `harness_session`, root `tests/path1_run_start.rs` and
-  `crates/viola-e2e/tests/path6_budget_harness.rs`; `v1-02` verified. Wrapped in `.andromeda/runs/2026-10-17T01-57-16-wrap/`.
-- Next: **CLI machine contract** (the first markerless entry) → `/andromeda-phase`.
+- Done: **2026-10-17-cli-machine-contract** — `viola revive --json` (both arms; the five-code exit-1 document, `--list`'s
+  `ok.sessions`), `revive --list` logging as `cli` (obs-plan §10 exemption 6 retired), the CLI home resolution
+  (`--home` → the `VIOLA_DIR` grandparent → default, canonicalised once it exists), `state-recovered.scanned`,
+  `schemas/config.v1.json` and the completeness case, the per-verb witness; the folded CI red's cause removed
+  (`count_of` counts a non-empty capture). Wrapped in `.andromeda/runs/2026-10-17T03-50-43-wrap/`.
+- Next: **CLI output discipline** (the first markerless entry) → `/andromeda-phase`.
 
 ## Work done
-- Implement green in two fix rounds; the operator pass's pre-CI commit `ae21376`, CI green 15/15 (`ci#38992234808`).
-  No live `claude` start was made.
+- Implement green; the operator pass's pre-CI commit `e248533` (CI red on `test (windows-2025)`, a test oracle), its fix
+  `f738cbc`, CI green 15/15 (`ci#38999642102`). No live `claude` start was made.
 
 ## Drift resolved
-- 20 fan-out proposals (17 test-plan, 3 architecture) applied, 0 rejected, 0 escalated; the step-2 sweep folded in
-  obs-plan's heartbeat-ticks bind (an absent instance reads `degraded`); 16 leaf findings over 6 leaves. Record:
-  `fanout-results.md`, `cascade-dispositions.md`.
+- 47 amendments over all seven masters (42 fan-out proposals less 1 with no site, 2 raised by the wrap for
+  design-system, 4 sweep folds); 3 escalations resolved on the Viola overseer's answers (`inputs#I3`); 25 leaf findings
+  written by the tool, 2 by hand, 1 declined. Record: `fanout-results.md`, `cascade-dispositions.md`.
 
 ## Notes
-- **Provisional, for the founder's own word at the Epoch 5 boundary batch:**
-  - this chunk: fork 1 (Path 1 on the root chain) and fork 2 (`harness_session` keeps the spawned `supervise`), the
-    overseer as his delegate (`inputs#I1`); the E2E regex widening to `^(path[0-9]*|…)_`, the overseer's technical
-    answer, founder-delegated (`inputs#I2`), amended into test-plan §2 / §3 and the testing.md leaf;
-  - carried: the unwrapped-sessions answer-card confirm (forks 1, 3, 4; delegate viola-overseer), the
-    resume-and-compact answer-card confirm of fork 2, the owed-ledger-rows fork-3 card confirm and the paste-newline
-    fifth-paste card confirm.
-- **WATCH retired:** `cli_send` `send_under_the_paste_hint_a_human_key_during_the_gate_wait_wins` — 3 green runs
-  (implement's two pre-push runs and the operator pass's re-run), CI green on all three runners.
-- **Every home stamped before chunk 2026-10-16-unwrapped-sessions-on-the-board reads `cli_verified:false`** until its next
-  `viola verify` (a 22-id Unix or 19-id Windows stamp is not the relied set of 23 / 20).
-- **For the founder's desk (left on disk, not removed):** `target/carry5-witness/` (this chunk's CARRY 5 witness build);
-  carried: `target/control-92264a7/`, `target/p4-live-20261016T211033Z/`, `target/agents-scale-214213/`,
-  `target/e2e-home/viola-record-20261016T204612Z/` (tmpfs), and an earlier session scratchpad's `control/`,
-  `control.tar`, `p4-rig/` (a recursive `rm` refused by the host's deny rule).
-- **Epoch growth:** Epoch 5 holds 15 entries (5 markerless). The founder ruled no boundary inside Epoch 5.
-- **For the founder, his next batch (carried):**
-  - the GUI scan forms and the axum `http2` ban left on the overseer's P4 answers (technical, founder-delegated);
-  - `.claude/rules/a11y.md`, `testing.md` and `api.md` / `frontend.md` still glob `e2e-web/**` and `crates/viola-ui/**`
-    in their `paths:` frontmatter;
-  - obs-plan §3's Log-format copy still differs from test-plan's in two older places (the `D-07` spelling, the
-    `diag-line` `corr` rule's place);
-  - `run` step 3 reads "none in 0.1.0" so the code's citations of `run` step 4 hold;
-  - Brand Identity's L41 / L45 / L16 / L21 cite cut material; a11y-plan's tier `Standard (1)` is his;
-  - the interrupted pair's wording; the Windows event set; a refused strict-modes check writes no line on `revive`'s
-    start arm; the checked `budget.json` read writes no line on a refusal; `list`'s exit-1 shapes and per-instance
-    no-row; the five implicit-link shapes; a link line with no string `ts`; a `--home` session shows no user status
-    line until `statusline-source.json` is planted; `viola revive --list` opens no process log; the switch from the
-    prototype not made, `v1-33` unclaimed; one CLI plan file (2026-10-08) in his user directory.
+- **NOT ratified — for the founder's own word at his next batch:** every CLI verb (`run` and `revive` included) now
+  takes the `VIOLA_DIR` home step and canonicalises the home — a boundary widening, written into the masters as built
+  and marked NOT ratified (the overseer, a delegate, `inputs#I3` Q1; the P4 fork answer `inputs#I2` was a delegate's
+  too). The overseer carries it to the founder.
+- **`v1-39` un-claimed** (the overseer's ledger call, `inputs#I3` Q2): `revive --json` after a passed preflight
+  (`batch-script-child`, `pinned-hash-mismatch`, `squatted-name`, `internal-error`) prints no document; pinned as a
+  CARRY on "Exit-cause code catalogue", which claims `v1-39` with the gap closed. `matrix.py unclaim` kept its status
+  `implemented` (with its ref), so `v1-39` is NOT in the UNCLAIMED pool listing (that reads `planned`): the CARRY
+  naming it is what holds it owned.
+- **Provisional, for the founder's own word at the Epoch 5 boundary batch (carried):** this chunk's P4 fork answers
+  (`inputs#I2`, the overseer as his delegate); the end-to-end chunk's forks 1 and 2 and its E2E regex widening; the
+  unwrapped-sessions answer-card confirm (forks 1, 3, 4), the resume-and-compact fork 2 confirm, the owed-ledger-rows
+  fork 3 confirm and the paste-newline fifth-paste confirm.
+- **Recurrence-despite-learning (for the pipeline's owners):** the plan sampled a timing window (testing.md 2026-09-27
+  says force it); a remove-the-guard `sed` anchored on pre-rustfmt text matched nothing (testing.md 2026-09-25's
+  extension); a TOML pattern written through `printf` landed a doubled backslash (host-linux.md Transports, 2026-09-28).
+- **Every home stamped before chunk 2026-10-16-unwrapped-sessions-on-the-board reads `cli_verified:false`** until its
+  next `viola verify` (a 22-id Unix or 19-id Windows stamp is not the relied set of 23 / 20).
+- **For the founder's desk (left on disk, not removed):** `target/ci-38994749835/` (this chunk's CI artifacts);
+  carried: `target/carry5-witness/`, `target/control-92264a7/`, `target/p4-live-20261016T211033Z/`,
+  `target/agents-scale-214213/`, `target/e2e-home/viola-record-20261016T204612Z/` (tmpfs), and an earlier session
+  scratchpad's `control/`, `control.tar`, `p4-rig/` (a recursive `rm` refused by the host's deny rule).
+- **Epoch growth:** Epoch 5 holds 15 entries (4 markerless). The founder ruled no boundary inside Epoch 5.
+- **For the founder, his next batch (carried):** the GUI scan forms and the axum `http2` ban left on the overseer's P4
+  answers; `.claude/rules/a11y.md`, `testing.md` and `api.md` / `frontend.md` still glob `e2e-web/**` and
+  `crates/viola-ui/**`; obs-plan §3's Log-format copy differs from test-plan's in two older places; `run` step 3 reads
+  "none in 0.1.0"; Brand Identity's L41 / L45 / L16 / L21 cite cut material; a11y-plan's tier `Standard (1)`; the
+  interrupted pair's wording; the Windows event set; a refused strict-modes check writes no line on `revive`'s arms;
+  the checked `budget.json` read writes no line on a refusal; `list`'s exit-1 shapes and per-instance no-row; the five
+  implicit-link shapes; a link line with no string `ts`; a `--home` session shows no user status line until
+  `statusline-source.json` is planted; the switch from the prototype not made, `v1-33` unclaimed; one CLI plan file
+  (2026-10-08) in his user directory.
 - **For whoever runs the Epoch 5 boundary audit (carried):** `verify_window_without_screens_fails_every_interactive_row`
   reads 42.98 s against the mutants profile's 45 s kill; CARRY 2's grading of `src/bin/viola-fake-agent.rs` and
-  `src/cmd/verify.rs`; CARRY 3's three `viola-state` retry-loop mutants; this chunk's new `viola-e2e` code
-  (`harness::session`, `status::derive`, the boot flags) is scored there (no chunk mutation entry).
+  `src/cmd/verify.rs`; CARRY 3's three `viola-state` retry-loop mutants; the end-to-end chunk's `viola-e2e` code and
+  this chunk's `src/cmd/mod.rs` home helpers and `src/cmd/revive.rs` `--json` arms are scored there.
 - **Owed, no entry minted (the founder, 2026-10-07T09:43Z, carried):** `v1-34`'s harness-prefix row and its R8
   identity-floor row; `v1-34` stays unclaimed.
 - **For the operator's word (carried):** the link rule takes a logged `driver` / `driven` as a string;
@@ -71,8 +75,8 @@
   - Read `hyprctl locked` before any step that focuses a window or types a key.
   - Before a census run (`bash scripts/profraw-census.sh 4800 48`), write the operator one line.
   - After a `cargo clean`, re-make `ln -s /tmp/viola-e2e-home-<uid> target/e2e-home`.
-  - The Bash guard refuses a pipeline tool piped into a filter or sent to a file, a `cd` that moves the cwd, and a
-    heredoc to a file.
+  - The Bash guard refuses a pipeline tool piped into a filter or sent to a file, a `cd` that moves the cwd, a heredoc
+    to a file, and a bare `grep` with a bounded repetition (use `/usr/bin/grep`).
   - A scripted `.rs` write runs rustfmt in the same call.
 - **Deferred learnings (carried):** `~/.claude/CLAUDE.md` Shell (a bounded repetition sent to the embedded grep);
   `host-linux.md` Transports (one inline python heredoc carrying document text).
@@ -82,6 +86,3 @@
   `~/.viola-record-20261004T142325Z`; the CLI's own transcripts. Yours to delete: `target/e2e-home.disk` and
   `target/profraw-census/`.
 - **Last failed command:** none.
-
-## Session End Status
-Completed normally at 2026-10-17 04:49:26

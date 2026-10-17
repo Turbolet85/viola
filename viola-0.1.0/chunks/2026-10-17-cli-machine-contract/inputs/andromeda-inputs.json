@@ -34,5 +34,23 @@
     "read_at": "2026-10-17T02:40:37Z",
     "step": "phase:P4",
     "why": "P4 forks: revive --json exit-1 documents are {\"v\":1,\"error\":\"<code>\",\"detail\":null}; --home and the VIOLA_DIR-derived home are canonicalised now (plain drive form on Windows)"
+  },
+  {
+    "id": "I3",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: the Viola overseer, answering the wrap P2 escalation dialog in this session, 2026-10-17T04:05:25Z",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "9a3cada8fceff7b40ed4781e4de04e46b5fcb5a4d59b70cc10201884f492c0b6",
+    "copy": "I3-relay-1.md.txt",
+    "link": false,
+    "read_at": "2026-10-17T04:05:57Z",
+    "step": "wrap",
+    "why": "the P2 escalation answers: Q1 the CLI VIOLA_DIR home step and canonicalisation recorded as landed, NOT ratified; Q2 v1-39 un-claimed, the post-preflight revive documents a CARRY on Exit-cause code catalogue; Q3 revive --json and the --list cli log applied as routine"
   }
 ]

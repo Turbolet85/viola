@@ -1,0 +1,147 @@
+[
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-17T04:31:16Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-39",
+"--text-file",
+".andromeda/runs/2026-10-17T03-50-43-wrap/note-v1-39.md",
+"--run-dir",
+".andromeda/runs/2026-10-17T03-50-43-wrap",
+"--marker",
+"2026-10-17-cli-machine-contract"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-39: +1169 chars (total 2672) · status implemented · ref/acceptance untouched",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-39",
+"chunk": "2026-10-17-cli-machine-contract",
+"status": "implemented",
+"method": "integration",
+"ref": "tests/cli_machine_contract.rs::every_verb_prints_one_document_and_its_literal_exit_over_a_wrapper_s_life + ::verbs_over_… (707 chars)",
+"acceptance": "Every driver-facing verb (send, wait, last, answer, list, pause, release, and revive with --list) has a --json form prin… (1472 chars)",
+"notes_chars": 1501
+},
+"after": {
+"id": "v1-39",
+"chunk": "2026-10-17-cli-machine-contract",
+"status": "implemented",
+"method": "integration",
+"ref": "tests/cli_machine_contract.rs::every_verb_prints_one_document_and_its_literal_exit_over_a_wrapper_s_life + ::verbs_over_… (707 chars)",
+"acceptance": "Every driver-facing verb (send, wait, last, answer, list, pause, release, and revive with --list) has a --json form prin… (1472 chars)",
+"notes_chars": 2672
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-17T04:31:16Z",
+"argv": [
+"unclaim",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-39",
+"--run-dir",
+".andromeda/runs/2026-10-17T03-50-43-wrap",
+"--marker",
+"2026-10-17-cli-machine-contract"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"unclaim v1-39: chunk 2026-10-17-cli-machine-contract → null · status implemented kept",
+"status implemented retained — NOT in the UNCLAIMED pool (the guard's predicate is planned)",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed",
+"pool: unclaimed 28 [v1-01 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-13 v1-17 v1-18 v1-21 v1-24 v1-26 v1-27 v1-33 v1-34 v1-35 v1-36 v1-38 v1-40 v1-41 v1-42 v1-44 v1-45 v1-46 v1-47 v1-53]"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-39",
+"chunk": "2026-10-17-cli-machine-contract",
+"status": "implemented",
+"method": "integration",
+"ref": "tests/cli_machine_contract.rs::every_verb_prints_one_document_and_its_literal_exit_over_a_wrapper_s_life + ::verbs_over_… (707 chars)",
+"acceptance": "Every driver-facing verb (send, wait, last, answer, list, pause, release, and revive with --list) has a --json form prin… (1472 chars)",
+"notes_chars": 2672
+},
+"after": {
+"id": "v1-39",
+"chunk": null,
+"status": "implemented",
+"method": "integration",
+"ref": "tests/cli_machine_contract.rs::every_verb_prints_one_document_and_its_literal_exit_over_a_wrapper_s_life + ::verbs_over_… (707 chars)",
+"acceptance": "Every driver-facing verb (send, wait, last, answer, list, pause, release, and revive with --list) has a --json form prin… (1472 chars)",
+"notes_chars": 2672
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-17T04:31:27Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-17-cli-machine-contract",
+"--run-dir",
+".andromeda/runs/2026-10-17T03-50-43-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed 0 — gate no-op (no entry carries chunk 2026-10-17-cli-machine-contract)",
+"pool: unclaimed 28 [v1-01 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-13 v1-17 v1-18 v1-21 v1-24 v1-26 v1-27 v1-33 v1-34 v1-35 v1-36 v1-38 v1-40 v1-41 v1-42 v1-44 v1-45 v1-46 v1-47 v1-53]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-17T04:31:27Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-17-cli-machine-contract",
+"--run-dir",
+".andromeda/runs/2026-10-17T03-50-43-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed 0 — gate no-op (no entry carries chunk 2026-10-17-cli-machine-contract)",
+"pool: unclaimed 28 [v1-01 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-13 v1-17 v1-18 v1-21 v1-24 v1-26 v1-27 v1-33 v1-34 v1-35 v1-36 v1-38 v1-40 v1-41 v1-42 v1-44 v1-45 v1-46 v1-47 v1-53]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

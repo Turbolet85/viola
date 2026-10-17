@@ -1,0 +1,88 @@
+# Wrap P1 site sweep — 2026-10-17-cli-machine-contract. One pattern per moved fact, its name token beside its wording.
+
+[[pattern]]
+id = 'owner-title'
+fixed = 'CLI machine contract'
+ignore_case = true
+
+[[pattern]]
+id = 'owner-generic'
+regex = 'owned by a (route entry|CARRY)'
+ignore_case = true
+
+# revive takes no --json → --json on both arms
+[[pattern]]
+id = 'revive-nojson'
+regex = 'takes no .?--json|revive[^\n]{0,120}(none|no machine form|without a machine form)'
+ignore_case = true
+
+# revive's exit-1 document {"v":1,"error":"<code>","detail":null}
+[[pattern]]
+id = 'revive-doc'
+regex = 'error.{0,4}<code>|exit-1 (refusal )?document|refused_document'
+ignore_case = true
+
+# revive --list opens no process log (obs-plan §10 exemption 6) → it logs as cli under a VIOLA_NAME
+[[pattern]]
+id = 'list-nolog'
+regex = '--list[^\n]{0,60}(opens no|no process log)|sixth (bounded )?exemption|exemption 6'
+ignore_case = true
+
+# role_of files revive as Other → revive --list as Cli
+[[pattern]]
+id = 'role-of'
+regex = 'role_of|revive[^\n]{0,30}is a wrapper beside'
+ignore_case = true
+
+# state-recovered carries the caller's instance, never the scanned one → `scanned`
+[[pattern]]
+id = 'scanned'
+regex = 'scanned (one|instance)|never the scanned|scanned_name|\bscanned\b'
+ignore_case = true
+
+# home canonicalised (owed) → canonical_home
+[[pattern]]
+id = 'canonical'
+regex = 'canonicali[sz]|canonical_home|without canonicali'
+ignore_case = true
+
+# the VIOLA_DIR-grandparent step for CLI verbs (owed) → resolve_home
+[[pattern]]
+id = 'viola-dir-step'
+regex = 'grandparent|resolve_home|resolution order'
+ignore_case = true
+
+# the config schema test-plan §5 reads → schemas/config.v1.json
+[[pattern]]
+id = 'config-schema'
+regex = 'config schema|config\.v1\.json|CONFIG_KEYS'
+ignore_case = true
+
+# the completeness case over every flag, VIOLA_* variable and config key
+[[pattern]]
+id = 'completeness'
+regex = 'completeness case|every_flag_variable'
+ignore_case = true
+
+# the per-verb witness file
+[[pattern]]
+id = 'machine-file'
+fixed = 'cli_machine_contract'
+
+# Run E's capture wait: a capture counts once its bytes landed (count_of)
+[[pattern]]
+id = 'capture-wait'
+regex = 'count_of|wait_capture|captured\(|empty claim|claims? (its|the) name'
+ignore_case = true
+
+# the concurrent-start stamp witness
+[[pattern]]
+id = 'concurrent'
+regex = 'stamped_home_concurrent|concurrent verify'
+ignore_case = true
+
+# obs-plan §10's bounded panic-line exemptions: the sixth (revive --list) retires
+[[pattern]]
+id = 'exempt-count'
+regex = '(six|seven|eight) (bounded )?exemptions|(sixth|seventh) (bounded )?exemption|exemptions? [1-8]\b'
+ignore_case = true

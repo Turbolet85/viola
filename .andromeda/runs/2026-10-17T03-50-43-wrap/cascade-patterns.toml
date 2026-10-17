@@ -1,0 +1,73 @@
+# Cascade step-2 sweep — 2026-10-17-cli-machine-contract. One pattern per retired claim, its verbs beside its name token.
+
+# the owed clauses this chunk discharged
+[[pattern]]
+id = 'owner-title'
+fixed = 'CLI machine contract'
+ignore_case = true
+
+# revive takes no --json / has no machine form
+[[pattern]]
+id = 'revive-nojson'
+regex = 'takes no .?--json|revive[^\n]{0,120}(takes none|no machine form|without a machine form)|no machine form'
+ignore_case = true
+
+# revive's refusals asserted as the human pair alone / no JSON document
+[[pattern]]
+id = 'human-only'
+regex = 'human signal only|human (lines|form) only|no JSON document|stderr pair alone|pair and exit 1 only|assert no .?--json'
+ignore_case = true
+
+# revive --list opens no process log; exemption 6
+[[pattern]]
+id = 'list-nolog'
+regex = '--list[^\n]{0,80}(opens no|no process log|writes no line)|exemption 6|exemptions 2 and 5'
+ignore_case = true
+
+# role_of files revive (every arm) beside run
+[[pattern]]
+id = 'role-of'
+regex = 'role_of|revive[^\n]{0,40}beside .?run'
+ignore_case = true
+
+# state-recovered carries the caller's instance, never the scanned one
+[[pattern]]
+id = 'scanned'
+regex = 'never the scanned|scanned one|\bscanned\b'
+ignore_case = true
+
+# the home made absolute and not canonicalised (owed)
+[[pattern]]
+id = 'canonical'
+regex = 'canonicali[sz]|canonical_home|std::path::absolute'
+ignore_case = true
+
+# only hook reads VIOLA_DIR; the CLI verbs take --home else the default
+[[pattern]]
+id = 'viola-dir'
+regex = 'grandparent|resolve_home|resolved_home|only reader|do not read it yet|VIOLA_DIR. step|else the default'
+ignore_case = true
+
+# the budget-gate table's three rows
+[[pattern]]
+id = 'budget-rows'
+regex = 'three rows|setting_does_not_disable_the_budget_gate'
+ignore_case = true
+
+# the completeness case and the config schema (owed → landed)
+[[pattern]]
+id = 'completeness'
+regex = 'completeness case|config schema|config\.v1\.json|CONFIG_KEYS|still to join'
+ignore_case = true
+
+# revive's strict-modes refusal stated as the state-files pair
+[[pattern]]
+id = 'strict-pair'
+regex = 'state-files .unable:. / .hint:. pair'
+ignore_case = true
+
+# revive's exit-1 document (new text this pass)
+[[pattern]]
+id = 'revive-doc'
+regex = 'error.{0,4}<code>|refused_document|strict-modes-failed'
+ignore_case = true

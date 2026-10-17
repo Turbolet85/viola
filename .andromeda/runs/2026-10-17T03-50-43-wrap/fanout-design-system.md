@@ -1,0 +1,2 @@
+proposals: []
+note: D-design-tokens holds — every new surface in the report's Coverage of new surfaces (revive --json, revive --list cli log, VIOLA_DIR home resolution, state-recovered.scanned, schemas/config.v1.json) reads tokens n/a and none is hardcoded✗; the design-system §Surface: cli sites the report lists (revive-nojson design-system.md:506, pattern 5, Exit-code phraseology) are carried by the report's Master sites, outside this detector's invariant.

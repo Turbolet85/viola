@@ -1229,3 +1229,23 @@ Each superseded mark is kept in the body as the operator's word, superseded 2026
 - `target/agent-run/<session>/` holds `bin/agents-mode` beside the session's `bin/claude[.exe]` copy: `boot --agents-mode`'s value (0600), a stale one removed before the stamp and the new one written after it, before `supervise.json`; `session.json` and `supervise.json` carry `agents_mode` (serde default).
 **Why:** The registry lists each variable's readers and each harness-written file, so the new reader and file are named where they stand.
 **Ref:** .andromeda/runs/2026-10-17T01-57-16-wrap/
+
+## 2026-10-17-cli-machine-contract — architecture: revive takes --json on both arms; revive --list is a cli producer
+**Section:** §Established Decisions [CLI Conventions]; §Standard Contracts CLI `--json` output; §Conventions CLI exit codes (exit 1, `role_of`); §Occupied Resources subcommands row, Filesystem `diagnostics/` and `instances/` rows, Repository (`schemas/config.v1.json`); §Infrastructure Patterns → Project directory structure (`schemas/` row)
+**Change:**
+- `viola revive` takes `--json` on both arms (was: "takes no `--json`", owed to "CLI machine contract"). A refused strict-modes check or a preflight refusal prints `{"v":1,"error":"<code>","detail":null}` (exit 1, stderr empty; `strict-modes-failed` · `already-live` · `no-session` · `session-live` · `cwd-missing`; `client::refused_document`, codes only), the same log lines; `<name> --list --json` prints `{"v":1,"ok":{"sessions":[{"ts","cause","id"},…]}}` in log order, or the `no-session` document with exit 1. Without `--json` the pairs and rows are byte-identical.
+- A refusal `run`'s start makes after a passed preflight (`batch-script-child`, `pinned-hash-mismatch`, `squatted-name`, a `claude` not on `PATH` as `internal-error`) prints no document; that document is owed to "Exit-cause code catalogue".
+- `role_of` files `revive` followed (after any `--home` pair) by `--list` before a `--` under `cli`; every other `revive` stays beside `run`. `revive --list` joins the `cli` producers: under a parsed `VIOLA_NAME`, after its strict-modes check, `process-start` / `process-exit{subject:"self"}` (`exit_code` 0, or 1 `detail:"no-session"`) in the caller's `cli-<VIOLA_NAME>.ndjson`; no name, no log; a refused check on either arm opens none (was: `--list` opens no process log).
+- `schemas/config.v1.json` registered: the tolerant `config.json` schema (`v`, `diagnostics_level`, `claude_env_keep`, `five_hour`, `seven_day` — the five `CONFIG_KEYS`), test-side.
+**Why:** the chunk landed revive's machine form and its `cli` log. The post-preflight gap is the overseer's ledger call (`v1-39` un-claimed, its documents a CARRY on "Exit-cause code catalogue"); the `--list` log is the `cli` role's existing rule after the check (the overseer, technical).
+**Ref:** .andromeda/runs/2026-10-17T03-50-43-wrap/
+
+## 2026-10-17-cli-machine-contract — architecture: the CLI verbs take the VIOLA_DIR step and canonicalise the home (not ratified)
+**Section:** §Occupied Resources Environment variables (`VIOLA_DIR`); §Cross-cutting Patterns Config management (Viola home, the statusline source rule)
+**Change:**
+- `VIOLA_DIR` is read by `hook` and every CLI verb, `run` and `revive` included (was: "`hook` is its only reader: the CLI verbs do not read it yet"); the `mcp` verb is not built.
+- `resolve_home(flag, name, dir, user_home)` (`src/cmd/mod.rs`) resolves `--home` as given, else the `instance_of` home when `VIOLA_NAME` and `VIOLA_DIR` pass the one shape check, else `<user home>/.viola`, a failing pair falling through, never refusing; `resolved_home` reads the two variables and `std::env::home_dir()` once at every verb arm (was: the CLI verbs take `--home`, else the default; the step owed to "CLI machine contract").
+- `canonical_home` canonicalises a home that exists (`std::fs::canonicalize`; Windows `\\?\C:\…` written back as `C:\…`, other verbatim forms kept) and keeps `std::path::absolute`'s spelling for one that does not, creating nothing; `run`'s start canonicalises after its wrapper log created the home, before the collision check, the pin and the bind.
+- The statusline source's default-home test is `canonical_home(default_home(user_home))`; a home named by `--home` or reached through `VIOLA_DIR` reads no user settings; the `home_dir()` read is `resolved_home`'s.
+**Why:** a boundary widening (a CLI verb's home is chosen by an environment variable) landed as built and NOT ratified: the Viola overseer's answers (P4 `inputs#I2`, this wrap's Q1 `inputs#I3`) are a delegate's, so the founder's own word is owed at his next batch.
+**Ref:** .andromeda/runs/2026-10-17T03-50-43-wrap/

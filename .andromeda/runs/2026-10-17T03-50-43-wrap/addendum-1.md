@@ -1,0 +1,6 @@
+## Addendum — resumed 2026-10-17
+- inputs#I3 · inputs/ · copy message · n/a — the Viola overseer's answers to this wrap's P2 escalation dialog (2026-10-17T04:05:25Z; `relay-1.md`): Q1 the CLI verbs' `VIOLA_DIR` home step and the canonicalisation are written as landed, NOT ratified, the founder's own word owed at his next batch; Q2 `matrix#v1-39` is un-claimed (back to the pool with a dated note naming the gap) and the post-preflight `revive --json` documents are a CARRY on the route entry "Exit-cause code catalogue", which then claims `v1-39` with the gap closed; Q3 `revive --json` on both arms and `--list`'s `cli` log are applied as routine (overseer, technical)
+  - bears on **Spec claims disproved by measurement**: adds to it — the gap's owner is "Exit-cause code catalogue" (a CARRY), and `v1-39`'s disposition is un-claim, not a flip or a refine
+  - bears on **Outcome**: supersedes «its flip at P7.3 carries the gap» — `v1-39` is un-claimed at P7.3, `chunk:null`, status kept
+- inputs.py verify, re-fired: inputs: 3 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 1 · unparsed 0; moved since the report: uncited 0 → 1 (I3, cited by this addendum)
+

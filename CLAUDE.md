@@ -124,4 +124,5 @@ _This section is curated by `/wrap-session`. It accumulates universal (Tier 1) r
 - A count written into a master carries the rule that produced it (the pattern or the named list) beside the number, and a count found without one is read back to the sidecar entry that wrote it before it is amended. Extended 2026-10-16: a master states no test-case count at all — it names the functions, and the code's `#[case]` rows are the count.
 - A missing test for a clause a chunk landed is folded into the next chunk, never pinned on a later route entry.
 - A planned step or master amendment that departs from a founder ruling is never a decisive lean or a card-confirm item: plan up to it, hold it behind a stop rule naming what counts as his word, and raise it at P4 as a fork; his answer covers only what the question shown to him named, never the wider item its number points to.
+- A capability whose built surface falls short of its claimed acceptance is un-claimed with a dated note naming the gap and the route entry that owns it, never refined down to what was built so that it reads verified.
 <!-- USER:session-learnings end -->
