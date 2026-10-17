@@ -25,3 +25,8 @@ One line per long run, written before the wait.
   green; the block green 18, red 0, not-run 3 (the operator's).
 - 2026-10-17T03:27:04Z · operator pass · entry 18 (`pre-push`) re-run on the tree the pre-CI commit carries,
   backgrounded.
+  Read: green, 75.77 s. Then hygiene clean, the pre-CI commit e248533, the push (entry 20, history moved f6bcce5b→e2485333).
+- 2026-10-17T03:28:52Z · operator pass · entry 21 (`ci.py conclusion --sha HEAD --wait 1800`), fired as written, backgrounded.
+  Read: verdict red · test (windows-2025) — one unit, canonical_home_resolves_an_existing_home_and_keeps_a_new_one_absolute (src/cmd/mod.rs:347, oracle took the raw \\?\ form); test (ubuntu-latest) green. Fixed in the test; units and lints 1-3 green.
+- 2026-10-17T03:38:02Z · operator pass · entry 18 (`pre-push`) before the fix commit, backgrounded.
+  Read: green, 74.38 s. Hygiene refused 1 (a runner drive path quoted in evidence/operator-pass.md), respelt by hand, then clean.

@@ -341,7 +341,9 @@ mod tests {
     #[test]
     fn canonical_home_resolves_an_existing_home_and_keeps_a_new_one_absolute() {
         let tmp = tempfile::tempdir().expect("tempdir");
-        let real = std::fs::canonicalize(tmp.path()).expect("canonical");
+        // Canonical, and on Windows in the plain drive form (`plain_drive`'s own literal table).
+        let real = plain_drive(std::fs::canonicalize(tmp.path()).expect("canonical"));
+        assert!(!real.to_string_lossy().starts_with(r"\\?\"), "{real:?}");
         let through = tmp.path().join("x").join("..");
         std::fs::create_dir(tmp.path().join("x")).expect("x");
         assert_eq!(canonical_home(&through), real);
