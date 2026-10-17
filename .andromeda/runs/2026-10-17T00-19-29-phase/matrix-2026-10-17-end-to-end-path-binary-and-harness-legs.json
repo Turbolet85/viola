@@ -1,0 +1,254 @@
+[
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-17T00:47:44Z",
+"argv": [
+"coverage",
+"--dir",
+"viola-0.1.0",
+"--run-dir",
+".andromeda/runs/2026-10-17T00-19-29-phase",
+"--marker",
+"2026-10-17-end-to-end-path-binary-and-harness-legs"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"verified 17/53 · deferred 6 · planned 30 · implemented 0 · unclaimed 30",
+"unclaimed: v1-01 v1-02 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-13 v1-17 v1-18 v1-21 v1-24 v1-26 v1-27",
+"          v1-33 v1-34 v1-35 v1-36 v1-38 v1-39 v1-40 v1-41 v1-42 v1-44 v1-45 v1-46 v1-47 v1-53",
+"claimed-unfinished: none",
+"done-test: NO — 30 not verified|deferred · unclaimed 30",
+"chunks referenced: 17 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-17T00:48:06Z",
+"argv": [
+"claim",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-02",
+"--chunk",
+"2026-10-17-end-to-end-path-binary-and-harness-legs",
+"--acceptance-file",
+".andromeda/runs/2026-10-17T00-19-29-phase/acceptance-v1-02.md",
+"--method",
+"e2e",
+"--run-dir",
+".andromeda/runs/2026-10-17T00-19-29-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claim v1-02 → chunk 2026-10-17-end-to-end-path-binary-and-harness-legs (was null; status planned kept)",
+"acceptance: On each of the three OSes an agent drives a product session through bo… (387 chars)",
+"         → On each of the three CI OSes (the run the chunk's `ci.py conclusion` e… (842 chars)",
+"method: e2e → e2e",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed",
+"pool: unclaimed 29 [v1-01 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-13 v1-17 v1-18 v1-21 v1-24 v1-26 v1-27 v1-33 v1-34 v1-35 v1-36 v1-38 v1-39 v1-40 v1-41 v1-42 v1-44 v1-45 v1-46 v1-47 v1-53]"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-02",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "On each of the three OSes an agent drives a product session through boot, run, status, cleanup and logs via identical sh… (387 chars)",
+"notes_chars": 697
+},
+"after": {
+"id": "v1-02",
+"chunk": "2026-10-17-end-to-end-path-binary-and-harness-legs",
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "On each of the three CI OSes (the run the chunk's `ci.py conclusion` entry reads), the `scripts/agent-run.*` shims drive… (842 chars)",
+"notes_chars": 697
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-17T00:48:06Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-35",
+"--text-file",
+".andromeda/runs/2026-10-17T00-19-29-phase/note-v1-35.md",
+"--run-dir",
+".andromeda/runs/2026-10-17T00-19-29-phase",
+"--marker",
+"2026-10-17-end-to-end-path-binary-and-harness-legs"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-35: +511 chars (total 1383) · status planned · ref/acceptance untouched",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-35",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "Wrapped sessions record usage readings without touching the user's statusline configuration or output; crossing a thresh… (393 chars)",
+"notes_chars": 870
+},
+"after": {
+"id": "v1-35",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "Wrapped sessions record usage readings without touching the user's statusline configuration or output; crossing a thresh… (393 chars)",
+"notes_chars": 1383
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-17T00:48:06Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-24",
+"--text-file",
+".andromeda/runs/2026-10-17T00-19-29-phase/note-v1-24.md",
+"--run-dir",
+".andromeda/runs/2026-10-17T00-19-29-phase",
+"--marker",
+"2026-10-17-end-to-end-path-binary-and-harness-legs"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-24: +445 chars (total 1300) · status planned · ref/acceptance untouched",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-24",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "The source of the user's statusline command is named, is never written by viola, and can be redirected per test home; a … (188 chars)",
+"notes_chars": 853
+},
+"after": {
+"id": "v1-24",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "The source of the user's statusline command is named, is never written by viola, and can be redirected per test home; a … (188 chars)",
+"notes_chars": 1300
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-17T00:48:06Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-53",
+"--text-file",
+".andromeda/runs/2026-10-17T00-19-29-phase/note-v1-53.md",
+"--run-dir",
+".andromeda/runs/2026-10-17T00-19-29-phase",
+"--marker",
+"2026-10-17-end-to-end-path-binary-and-harness-legs"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-53: +353 chars (total 353) · status planned · ref/acceptance untouched",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-53",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "On Linux and macOS the same end-to-end suite passes against the fake agent, covering the PTY, the per-user socket direct… (306 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-53",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "On Linux and macOS the same end-to-end suite passes against the fake agent, covering the PTY, the per-user socket direct… (306 chars)",
+"notes_chars": 353
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-17T00:48:07Z",
+"argv": [
+"audit",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-17-end-to-end-path-binary-and-harness-legs",
+"--plan",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-17T00-19-29-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-10-17-end-to-end-path-binary-and-harness-legs: 1 · ## Acceptance Criteria: line 363, 48 lines",
+"v1-02: cited in ## Acceptance Criteria (line 364)",
+"  shape v1-02: method e2e · no interaction verb",
+"pool: unclaimed 29 [v1-01 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-13 v1-17 v1-18 v1-21 v1-24 v1-26 v1-27 v1-33 v1-34 v1-35 v1-36 v1-38 v1-39 v1-40 v1-41 v1-42 v1-44 v1-45 v1-46 v1-47 v1-53]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

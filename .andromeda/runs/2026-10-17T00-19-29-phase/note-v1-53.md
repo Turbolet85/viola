@@ -1,0 +1,1 @@
+2026-10-17 (2026-10-17-end-to-end-path-binary-and-harness-legs, phase P5): not claimed. This chunk adds two `path_` E2E binaries that run on Linux and macOS against the fake agent, but the cap's parity suite, its macOS gap record and its one live Linux `viola run` belong to the route entry "Linux and macOS parity", so it is not provable by this chunk.

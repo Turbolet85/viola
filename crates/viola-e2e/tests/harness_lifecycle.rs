@@ -4,7 +4,7 @@
 use std::path::Path;
 use std::time::{Duration, Instant};
 
-use viola_e2e::harness::boot::{BootOptions, DEFAULT_CLI_VERSION, InstanceSpec, boot};
+use viola_e2e::harness::boot::{AgentsMode, BootOptions, DEFAULT_CLI_VERSION, InstanceSpec, boot};
 use viola_e2e::harness::cleanup::{Target, cleanup};
 use viola_e2e::harness::logs::{Filter, logs};
 use viola_e2e::harness::status::status;
@@ -24,7 +24,16 @@ fn options(session: &str, names: &[&str], bin_dir: &Path) -> BootOptions {
         cli_version: DEFAULT_CLI_VERSION.to_owned(),
         build: false,
         stamp: true,
+        statusline_echo: false,
+        agents_mode: AgentsMode::Recorded,
     }
+}
+
+/// The `list` item `status` nested for `name`.
+fn listed<'a>(st: &'a serde_json::Value, name: &str) -> Option<&'a serde_json::Value> {
+    st["list"]["ok"]["items"]
+        .as_array()
+        .and_then(|items| items.iter().find(|i| i["name"] == name))
 }
 
 /// The instance snapshot's `cli_verified`, as the wrapper's version gate recorded it.
@@ -108,7 +117,16 @@ fn harness_session_boots_reports_logs_and_tears_down() {
     let st = status(&ws, &session);
     assert_eq!(st.code, 0, "{}", st.doc);
     assert_eq!(st.doc["state"], "ready");
-    assert!(st.doc["list"].is_null());
+    assert!(st.doc["last_error"].is_null());
+    for name in ["builder", "overseer"] {
+        let item = listed(&st.doc, name).unwrap_or_else(|| panic!("{name} in {}", st.doc));
+        assert_eq!(item["wrapped"], true, "{name}");
+        assert_eq!(item["liveness"], "live", "{name}");
+        assert!(
+            item["status"] == "idle" || item["status"] == "busy",
+            "{name}: the session claude answers the join under the recorded mode: {item}"
+        );
+    }
 
     let only_builder = Filter {
         instance: Some("builder"),
@@ -175,7 +193,46 @@ fn harness_session_with_a_dead_wrapper_reads_degraded() {
     let st = status(&ws, &session);
     assert_eq!(st.code, 1);
     assert_eq!(st.doc["state"], "degraded");
+    assert!(st.doc["last_error"].is_null());
+    assert!(st.doc["list"]["ok"]["items"].is_array(), "{}", st.doc);
+    assert!(
+        listed(&st.doc, "builder").is_none(),
+        "a gone instance is absent from the board"
+    );
     assert_eq!(st.doc["instances"][0]["alive"], false);
+
+    let out = cleanup(&ws, Target::Session(&session), true);
+    assert_eq!(out.code, 0, "{}", out.doc);
+}
+
+/// A malformed agents answer leaves the board as read: `status` stays `ready`, the item's STATUS
+/// `unknown`, and the mode is the file beside the session `claude` and in both records.
+#[test]
+fn harness_session_with_a_malformed_agents_mode_reads_ready_and_unknown() {
+    let session = session_id("malformed");
+    let opts = BootOptions {
+        agents_mode: AgentsMode::Malformed,
+        ..options(&session, &["builder"], &bins())
+    };
+    let ws = opts.ws.clone();
+    let booted = boot(&opts);
+    assert_eq!(booted.code, 0, "{}", booted.doc);
+    let _guard = Booted::new(&ws, &session);
+
+    let dir = ws.session_dir(&session);
+    let mode = std::fs::read_to_string(dir.join("bin").join("agents-mode")).expect("agents-mode");
+    assert_eq!(mode, "malformed");
+    for file in ["session.json", "supervise.json"] {
+        let doc: serde_json::Value = read_json(&dir.join(file)).expect(file);
+        assert_eq!(doc["agents_mode"], "malformed", "{file}");
+    }
+
+    let st = status(&ws, &session);
+    assert_eq!(st.code, 0, "{}", st.doc);
+    assert_eq!(st.doc["state"], "ready");
+    let item = listed(&st.doc, "builder").expect("builder listed");
+    assert_eq!(item["liveness"], "live");
+    assert_eq!(item["status"], "unknown");
 
     let out = cleanup(&ws, Target::Session(&session), true);
     assert_eq!(out.code, 0, "{}", out.doc);

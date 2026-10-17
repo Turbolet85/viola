@@ -11,6 +11,7 @@ pub mod hygiene;
 pub mod ndjson;
 pub mod outer_pty;
 pub mod piped;
+pub mod start;
 pub mod statusline;
 pub mod verify;
 pub mod watch;

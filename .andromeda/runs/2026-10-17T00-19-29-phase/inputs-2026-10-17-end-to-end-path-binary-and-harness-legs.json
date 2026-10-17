@@ -1,0 +1,179 @@
+[
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-17T00:37:07Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs",
+"--message-file",
+".andromeda/runs/2026-10-17T00-19-29-phase/relay-1.md",
+"--origin",
+"the overseer as the founders delegate, in the P4 dialog, 2026-10-17T00:36:38Z",
+"--kind",
+"relay",
+"--why",
+"P4 forks 1 and 2 answered: Path 1 as a root tests/path1_ flow; harness_session keeps the spawned supervise (delegate, provisional)",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-10-17T00-19-29-phase",
+"--marker",
+"2026-10-17-end-to-end-path-binary-and-harness-legs"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy message · message: the overseer as the founders delegate, in the P4 dialog, 2026-10-17T00:36:38Z",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "message: the overseer as the founders delegate, in the P4 dialog, 2026-10-17T00:36:38Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "1f99df3f231b149a4093b48ada96729ea7783e3dd53cddc9a932e204866f1f10",
+"copy": "I1-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-17T00:37:07Z",
+"step": "phase:P4",
+"why": "P4 forks 1 and 2 answered: Path 1 as a root tests/path1_ flow; harness_session keeps the spawned supervise (delegate, provisional)"
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-17T00:42:07Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs",
+"--run-dir",
+".andromeda/runs/2026-10-17T00-19-29-phase",
+"--marker",
+"2026-10-17-end-to-end-path-binary-and-harness-legs"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the overseer as the founders delegate, in the P4 dialog, 2026-10-17T00:36:38Z",
+"I1 cited scope.md:141 · research.md:7 · research.md:60 · research.md:96 · plan.md:24 · plan.md:28 · plan.md:409 · plan.md:412 · plan.md:414 · plan.md:447 · plan.md:453",
+"UNPARSED: inputs#I2 — no entry (scope.md:142)",
+"inputs: 1 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 0 · unparsed 1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 1,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 0,
+"unparsed": 1
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-17T00:42:41Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs",
+"--run-dir",
+".andromeda/runs/2026-10-17T00-19-29-phase",
+"--marker",
+"2026-10-17-end-to-end-path-binary-and-harness-legs"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the overseer as the founders delegate, in the P4 dialog, 2026-10-17T00:36:38Z",
+"I1 cited research.md:7 · research.md:60 · research.md:96 · plan.md:24 · plan.md:28 · plan.md:409 · plan.md:412 · plan.md:414 · plan.md:447 · plan.md:453",
+"inputs: 1 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 1,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-17T00:46:17Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs",
+"--run-dir",
+".andromeda/runs/2026-10-17T00-19-29-phase",
+"--marker",
+"2026-10-17-end-to-end-path-binary-and-harness-legs"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the overseer as the founders delegate, in the P4 dialog, 2026-10-17T00:36:38Z",
+"I1 cited scope.md:30 · research.md:7 · research.md:60 · research.md:96 · plan.md:24 · plan.md:28 · plan.md:423 · plan.md:426 · plan.md:428 · plan.md:461 · plan.md:467",
+"inputs: 1 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 1,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 0,
+"unparsed": 0
+}
+}
+]

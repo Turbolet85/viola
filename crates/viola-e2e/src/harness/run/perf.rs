@@ -9,7 +9,9 @@ use std::process::Command;
 
 use serde_json::{Value, json};
 
-use super::super::boot::{BootOptions, DEFAULT_CLI_VERSION, InstanceSpec, boot, instance_dir};
+use super::super::boot::{
+    AgentsMode, BootOptions, DEFAULT_CLI_VERSION, InstanceSpec, boot, instance_dir,
+};
 use super::super::cleanup::{Target, cleanup};
 use super::super::{Outcome, Workspace};
 use super::{Refusal, Runner, Suite};
@@ -176,6 +178,8 @@ pub(super) fn perf(
         // Unverified: the `pre-tool-use` row's `hook.dialog` is answered `null` at once, and the
         // spine rows' hook path reads no stamps.
         stamp: false,
+        statusline_echo: false,
+        agents_mode: AgentsMode::Recorded,
     });
     let home = match booted_home(&booted.doc) {
         Ok(home) => home,

@@ -7,9 +7,12 @@ use std::process::Command;
 use super::{Runner, Suite, Workspace};
 
 pub(super) const UNIT: &str = "kind(lib) | kind(bin)";
-// test-plan §3 also excludes the E2E binaries (`path_`, `tui_`, …); nextest rejects a `binary()`
-// operator that matches no binary, so that exclusion arrives with the first E2E binary and `--e2e`.
-pub(super) const INTEGRATION: &str = "kind(test)";
+// The E2E prefixes, a numbered `path<N>_` naming its test-plan §6 Path. nextest 0.9.146 still fails
+// to parse a `binary()` regex that matches no binary; this one matches the root `chaos_`,
+// `contract_`, `cross_`, `tui_` and `path<N>_` binaries, so both layers always parse.
+pub(super) const INTEGRATION: &str =
+    "kind(test) & !binary(/^(path[0-9]*|tui|mcp|cross|chaos|contract)_/)";
+pub(super) const E2E: &str = "binary(/^(path[0-9]*|tui|mcp|cross|chaos|contract)_/)";
 
 /// nextest keeps its store under `<workspace root>/target/nextest` whatever the target dir, and
 /// under `cargo llvm-cov nextest` too (measured: llvm-cov 0.9.1, nextest 0.9.133).
@@ -130,6 +133,19 @@ mod tests {
         assert_eq!((s.passed, s.failed, s.skipped), (2, 2, 1));
         assert_eq!(s.failures, vec!["viola-e2e a::bad", "viola-e2e a::err"]);
         assert_eq!(parse_junit("<testsuites/>"), Suite::default());
+    }
+
+    #[test]
+    fn e2e_layer_is_the_e2e_prefix_regex() {
+        assert_eq!(E2E, "binary(/^(path[0-9]*|tui|mcp|cross|chaos|contract)_/)");
+    }
+
+    #[test]
+    fn e2e_layer_is_excluded_from_the_integration_layer() {
+        assert_eq!(
+            INTEGRATION,
+            "kind(test) & !binary(/^(path[0-9]*|tui|mcp|cross|chaos|contract)_/)"
+        );
     }
 
     #[test]

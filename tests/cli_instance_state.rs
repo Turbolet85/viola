@@ -8,32 +8,26 @@ mod support;
 
 use std::fs;
 use std::path::{Path, PathBuf};
-use std::process::{Command, Output, Stdio};
+use std::process::{Command, Stdio};
 use std::time::Duration;
 
 use rstest::rstest;
 use serde_json::{Value, json};
 use support::events::events;
-use support::fake::{self, FAKE, of_kind};
+use support::fake::{self, of_kind};
 #[cfg(unix)]
 use support::home::{STATUSLINE_ECHO_OUTPUT, statusline_echo_command, statusline_marker};
 use support::home::{
     StampedHome, TestHome, VIOLA, Wrapper, beat_age, booted_wrapper, home, plant_statusline_source,
     prepare_home_base, process_start, snapshot_data, stamped_home, sweep_gone_owners, write_owner,
 };
-use support::piped::Piped;
-use viola_core::ViolaName;
+use support::start::{
+    child_starts, endpoint_of, last_plugin_dir, refused_with, role_lines, run_refused,
+};
 
 const LIVE: &str = "unable: builder is already live\nhint: viola list\n";
 const SQUATTED: &str = "unable: the endpoint for builder is held by another process\n\
                         hint: another process holds this name's endpoint; stop it or pick another name\n";
-
-/// The endpoint `viola run builder` computes for `home` (its golden vectors are viola-channel's).
-fn endpoint_of(home: &Path) -> String {
-    let home = std::path::absolute(home).expect("absolute home");
-    let name = ViolaName::try_new("builder".to_owned()).expect("valid");
-    viola_channel::endpoint_path(&name, &home).expect("endpoint")
-}
 
 /// `\\.\pipe\viola-<h12>` on Windows, `<dir>/viola-<h12>.sock` on Unix.
 fn assert_endpoint_shape(endpoint: &str) {
@@ -56,54 +50,6 @@ fn assert_endpoint_shape(endpoint: &str) {
 }
 const TAMPERED: &str = "unable: the pinned viola copy failed its integrity check\n\
                         hint: the pinned copy was changed after it was written, so viola will not run it\n";
-
-fn lines(path: &Path) -> Vec<Value> {
-    support::ndjson::read_lines(path)
-}
-
-fn role_lines(home: &Path) -> Vec<Value> {
-    lines(&home.join("diagnostics").join("run-builder.ndjson"))
-}
-
-fn child_starts(home: &Path) -> usize {
-    role_lines(home)
-        .iter()
-        .filter(|l| l["event"] == "process-start" && l["subject"] == "claude-child")
-        .count()
-}
-
-/// A second `viola run builder` outside any terminal. A start that is (wrongly) not refused gets
-/// Ctrl-C at once, so the call still ends.
-fn run_refused(home: &Path) -> Output {
-    let piped = Piped::spawn(
-        Command::new(VIOLA)
-            .arg("--home")
-            .arg(home)
-            .args(["run", "builder", "--", FAKE]),
-    );
-    piped.write(b"\x03");
-    piped.finish()
-}
-
-fn refused_with(home: &Path, detail: &str) -> bool {
-    role_lines(home).iter().any(|l| {
-        l["event"] == "process-exit"
-            && l["subject"] == "self"
-            && l["level"] == "ERROR"
-            && l["exit_code"] == 1
-            && l["detail"] == detail
-    })
-}
-
-fn last_plugin_dir(wrapper: &Wrapper) -> PathBuf {
-    let receipt = fake::receipt(&wrapper.receipt());
-    let start = of_kind(&receipt, "start")
-        .last()
-        .copied()
-        .cloned()
-        .expect("start receipt");
-    PathBuf::from(start["plugin_dir"].as_str().expect("plugin_dir"))
-}
 
 #[rstest]
 fn path1_start_writes_state_before_the_spawn(booted_wrapper: Wrapper) {

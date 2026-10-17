@@ -1,0 +1,561 @@
+[
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "b987de6a",
+"ts": "2026-10-17T00:25:41Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/architecture-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-17T00-19-29-phase",
+"--marker",
+"2026-10-17-end-to-end-path-binary-and-harness-legs"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"bytes 228903 · whole-read bound 120000 · OVER",
+"entries 115 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 228903,
+"entries": 115,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "b987de6a",
+"ts": "2026-10-17T00:25:42Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-17T00-19-29-phase",
+"--marker",
+"2026-10-17-end-to-end-path-binary-and-harness-legs"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"bytes 120323 · whole-read bound 120000 · OVER",
+"entries 69 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 120323,
+"entries": 69,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "b987de6a",
+"ts": "2026-10-17T00:25:42Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/design-system-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-17T00-19-29-phase",
+"--marker",
+"2026-10-17-end-to-end-path-binary-and-harness-legs"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"bytes 27271 · whole-read bound 120000 · within",
+"entries 23 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 27271,
+"entries": 23,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "b987de6a",
+"ts": "2026-10-17T00:25:42Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/layout-templates-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-17T00-19-29-phase",
+"--marker",
+"2026-10-17-end-to-end-path-binary-and-harness-legs"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"bytes 24410 · whole-read bound 120000 · within",
+"entries 22 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 24410,
+"entries": 22,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "b987de6a",
+"ts": "2026-10-17T00:25:42Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-17T00-19-29-phase",
+"--marker",
+"2026-10-17-end-to-end-path-binary-and-harness-legs"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"bytes 172785 · whole-read bound 120000 · OVER",
+"entries 100 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 172785,
+"entries": 100,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "b987de6a",
+"ts": "2026-10-17T00:25:42Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-17T00-19-29-phase",
+"--marker",
+"2026-10-17-end-to-end-path-binary-and-harness-legs"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"bytes 89112 · whole-read bound 120000 · within",
+"entries 65 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 89112,
+"entries": 65,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "b987de6a",
+"ts": "2026-10-17T00:25:42Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/a11y-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-17T00-19-29-phase",
+"--marker",
+"2026-10-17-end-to-end-path-binary-and-harness-legs"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"bytes 32126 · whole-read bound 120000 · within",
+"entries 25 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 32126,
+"entries": 25,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "b987de6a",
+"ts": "2026-10-17T00:25:48Z",
+"argv": [
+"index",
+"--file",
+".andromeda/architecture-amendments.md",
+"--out",
+".andromeda/runs/2026-10-17T00-19-29-phase/arch-history-index.md",
+"--run-dir",
+".andromeda/runs/2026-10-17T00-19-29-phase",
+"--marker",
+"2026-10-17-end-to-end-path-binary-and-harness-legs"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"wrote .andromeda/runs/2026-10-17T00-19-29-phase/arch-history-index.md · 115 entries · 0 unparsed · 41350 B (the sidecar is 228903 B)"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-10-17T00-19-29-phase/arch-history-index.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "b987de6a",
+"ts": "2026-10-17T00:25:48Z",
+"argv": [
+"index",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--out",
+".andromeda/runs/2026-10-17T00-19-29-phase/security-history-index.md",
+"--run-dir",
+".andromeda/runs/2026-10-17T00-19-29-phase",
+"--marker",
+"2026-10-17-end-to-end-path-binary-and-harness-legs"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"wrote .andromeda/runs/2026-10-17T00-19-29-phase/security-history-index.md · 69 entries · 0 unparsed · 23063 B (the sidecar is 120323 B)"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-10-17T00-19-29-phase/security-history-index.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "b987de6a",
+"ts": "2026-10-17T00:25:48Z",
+"argv": [
+"index",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--out",
+".andromeda/runs/2026-10-17T00-19-29-phase/tests-history-index.md",
+"--run-dir",
+".andromeda/runs/2026-10-17T00-19-29-phase",
+"--marker",
+"2026-10-17-end-to-end-path-binary-and-harness-legs"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"wrote .andromeda/runs/2026-10-17T00-19-29-phase/tests-history-index.md · 100 entries · 0 unparsed · 34287 B (the sidecar is 172785 B)"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-10-17T00-19-29-phase/tests-history-index.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "b987de6a",
+"ts": "2026-10-17T00:29:12Z",
+"argv": [
+"cites",
+"--file",
+".andromeda/architecture-amendments.md",
+"--history",
+".andromeda/runs/2026-10-17T00-19-29-phase/arch-history.md",
+"--run-dir",
+".andromeda/runs/2026-10-17T00-19-29-phase",
+"--marker",
+"2026-10-17-end-to-end-path-binary-and-harness-legs"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"not a marker: **2026-10-16T14-58-10-wrap** — history:27",
+"cites: 29 · resolved 29 · UNRESOLVED 0 · not a marker 1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"resolved": 29,
+"UNRESOLVED": 0,
+"not a marker": 1,
+"cites": 29
+}
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "b987de6a",
+"ts": "2026-10-17T00:29:12Z",
+"argv": [
+"cites",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--history",
+".andromeda/runs/2026-10-17T00-19-29-phase/security-history.md",
+"--run-dir",
+".andromeda/runs/2026-10-17T00-19-29-phase",
+"--marker",
+"2026-10-17-end-to-end-path-binary-and-harness-legs"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"cites: 31 · resolved 31 · UNRESOLVED 0 · not a marker 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"resolved": 31,
+"UNRESOLVED": 0,
+"not a marker": 0,
+"cites": 31
+}
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "b987de6a",
+"ts": "2026-10-17T00:29:12Z",
+"argv": [
+"cites",
+"--file",
+".andromeda/design-system-amendments.md",
+"--history",
+".andromeda/runs/2026-10-17T00-19-29-phase/design-history.md",
+"--run-dir",
+".andromeda/runs/2026-10-17T00-19-29-phase",
+"--marker",
+"2026-10-17-end-to-end-path-binary-and-harness-legs"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"not a marker: **2026-10-16T14-58-10-wrap** — history:9",
+"cites: 7 · resolved 7 · UNRESOLVED 0 · not a marker 1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"resolved": 7,
+"UNRESOLVED": 0,
+"not a marker": 1,
+"cites": 7
+}
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "b987de6a",
+"ts": "2026-10-17T00:29:12Z",
+"argv": [
+"cites",
+"--file",
+".andromeda/layout-templates-amendments.md",
+"--history",
+".andromeda/runs/2026-10-17T00-19-29-phase/layouts-history.md",
+"--run-dir",
+".andromeda/runs/2026-10-17T00-19-29-phase",
+"--marker",
+"2026-10-17-end-to-end-path-binary-and-harness-legs"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"not a marker: **2026-10-16T14-58-10-wrap** — history:18",
+"cites: 6 · resolved 6 · UNRESOLVED 0 · not a marker 1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"resolved": 6,
+"UNRESOLVED": 0,
+"not a marker": 1,
+"cites": 6
+}
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "b987de6a",
+"ts": "2026-10-17T00:29:12Z",
+"argv": [
+"cites",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--history",
+".andromeda/runs/2026-10-17T00-19-29-phase/tests-history.md",
+"--run-dir",
+".andromeda/runs/2026-10-17T00-19-29-phase",
+"--marker",
+"2026-10-17-end-to-end-path-binary-and-harness-legs"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"not a marker: **2026-10-16T14-58-10-wrap** — history:40",
+"cites: 41 · resolved 41 · UNRESOLVED 0 · not a marker 1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"resolved": 41,
+"UNRESOLVED": 0,
+"not a marker": 1,
+"cites": 41
+}
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "b987de6a",
+"ts": "2026-10-17T00:29:12Z",
+"argv": [
+"cites",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--history",
+".andromeda/runs/2026-10-17T00-19-29-phase/obs-history.md",
+"--run-dir",
+".andromeda/runs/2026-10-17T00-19-29-phase",
+"--marker",
+"2026-10-17-end-to-end-path-binary-and-harness-legs"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"not a marker: **2026-10-16T14-58-10-wrap** — history:26",
+"cites: 26 · resolved 26 · UNRESOLVED 0 · not a marker 1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"resolved": 26,
+"UNRESOLVED": 0,
+"not a marker": 1,
+"cites": 26
+}
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "b987de6a",
+"ts": "2026-10-17T00:29:12Z",
+"argv": [
+"cites",
+"--file",
+".andromeda/a11y-plan-amendments.md",
+"--history",
+".andromeda/runs/2026-10-17T00-19-29-phase/a11y-history.md",
+"--run-dir",
+".andromeda/runs/2026-10-17T00-19-29-phase",
+"--marker",
+"2026-10-17-end-to-end-path-binary-and-harness-legs"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"not a marker: **2026-10-16T14-58-10-wrap** — history:16",
+"cites: 16 · resolved 16 · UNRESOLVED 0 · not a marker 1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"resolved": 16,
+"UNRESOLVED": 0,
+"not a marker": 1,
+"cites": 16
+}
+}
+]

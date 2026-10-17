@@ -128,6 +128,11 @@ name = "conpty_sideload"
 path = "tests/conpty_sideload.rs"
 required-features = ["fake-agent"]
 
+[[test]]
+name = "path1_run_start"
+path = "tests/path1_run_start.rs"
+required-features = ["fake-agent"]
+
 [dependencies]
 viola-core = { path = "crates/viola-core" }
 viola-pty = { path = "crates/viola-pty" }

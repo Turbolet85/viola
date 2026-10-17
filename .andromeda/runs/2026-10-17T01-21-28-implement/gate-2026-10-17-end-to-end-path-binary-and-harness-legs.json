@@ -1,0 +1,2501 @@
+[
+{
+"tool": "gate",
+"v": "1.19",
+"sha8": "457c1da1",
+"ts": "2026-10-17T01:36:14Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-17T01-21-28-implement",
+"--marker",
+"2026-10-17-end-to-end-path-binary-and-harness-legs"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-17-end-to-end-path-binary-and-harness-legs · entries 22",
+"logs $TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28 · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 52 · rust 17 · unmapped 5",
+"walk-class rust 3 (tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, tests/contract_ledger_probes.rs) · uncommitted 74",
+"prose L200-207: The standing lint and unit entries come first, then the new unit cases by name. Next come … (839 chars)",
+"  1 lint        green · exit 0 · 0.91s · 0 B → 1.log · cargo fmt --all --check",
+"  2 lint        green · exit 0 · 0.21s · 72 B → 2.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 lint        green · exit 0 · 2.51s · 664 B → 3.log · CARGO_TARGET_DIR=target/wincheck cargo clippy --workspace … (140 chars)",
+"  4 lint        green · exit 1 · 0.01s · 0 B → 4.log · rg -n -U --pcre2 --type rust '#\\[(tracing::)?instrument\\b(… (79 chars)",
+"  5 lint        green · exit 0 · 0.59s · 286 B → 5.log · bash scripts/lint-probes.sh",
+"  6 unit        green · exit 0 · 15.18s · 285455 B → 6.log · bash scripts/agent-run.sh run --unit",
+"  7 unit        green · exit 0 · 0.7s · 3112 B → 7.log · bash scripts/agent-run.sh run --unit --filter 'test(/e2e_l… (95 chars)",
+"  8 probe       green · exit 0 · 0.01s · 0 B → 8.log · test -z \"$( (git diff --name-only 6042af635c3e -- src crat… (399 chars)",
+"  9 integration red · exit 0 ✗ (exit 1) · exit 1 · 40.18s · 9942 B → 9.log · bash scripts/agent-run.sh run --integration --filter 'bina… (164 chars)",
+" 10 e2e         green · exit 0 · 8.99s · 19922 B → 10.log · bash scripts/agent-run.sh run --e2e",
+" 11 e2e         red · exit 0 ✗ (exit 1) · exit 1 · 0.3s · 644 B → 11.log · bash scripts/agent-run.sh run --e2e --filter 'binary(path1… (102 chars)",
+" 12 probe       red · exit 1 ✗ (exit 0) · exit 0 · 5.34s · 1705 B → 12.log · bash scripts/agent-run.sh run --integration --filter 'bina… (79 chars)",
+" 13 smoke       green · exit 0 · 0.09s · 47 B → 13.log · bash scripts/agent-run.sh cleanup --session p-e2e-smoke",
+" 14 smoke       green · exit 0 · 6.08s · 424 B → 14.log · bash scripts/agent-run.sh boot --session p-e2e-smoke --sta… (93 chars)",
+" 15 smoke       green · exit 0 · 0.24s · 678 B → 15.log · bash scripts/agent-run.sh status --session p-e2e-smoke",
+" 16 probe       green · exit 0 · 0.01s · 10 B → 16.log · bash scripts/g2-zero-panics.sh",
+" 17 probe       green · exit 0 · 0.12s · 106 B → 17.log · bash scripts/agent-run.sh schema-check",
+" 18 smoke       green · exit 0 · 0.3s · 135 B → 18.log · bash scripts/agent-run.sh cleanup --session p-e2e-smoke",
+" 19 probe       red · exit 0 ✗ (exit 1) · exit 1 · 70.71s · 348218 B → 19.log · bash scripts/agent-run.sh pre-push",
+" 20 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (90 chars)",
+" 21 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (69 chars)",
+" 22 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (114 chars)",
+"entries 22 · green 15 · red 4 (9,11,12,19) · recorded 0 · timeout 0 · not-run 3"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-17-end-to-end-path-binary-and-harness-legs",
+"plan": "./viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-10-16T22-30-02-wrap/evolve-2026-10-16-unwrapped-sessions-on-the-board.json",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-16T22-30-02-wrap/health-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/a11y-history.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/a11y.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/acceptance-v1-02.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/arch-contracts.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/arch-history-index.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/arch-history.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/arch.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/design-history.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/design.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/evolve-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/gate-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/inputs-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/layouts-history.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/layouts.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/master-record.txt",
+".andromeda/runs/2026-10-17T00-19-29-phase/matrix-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/note-v1-24.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/note-v1-35.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/note-v1-53.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/obs-contracts.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/obs-history.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/obs.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/p5-card-1.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/p5-controls.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/planlint-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/registry-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/relay-1.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/route-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/route-no-marker.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/security-history-index.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/security-history.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/security.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/sidecar-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/tests-contracts.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/tests-history-index.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/tests-history.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/tests.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/tree-query-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T01-21-28-implement/evolve-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T01-21-28-implement/journal.md",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/evidence/carry5-dangling-link.md",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/plan.md",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/research.md",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/scope.md"
+],
+"rust": [
+"Cargo.toml",
+"crates/viola-e2e/src/bin/viola-harness.rs",
+"crates/viola-e2e/src/harness/boot.rs",
+"crates/viola-e2e/src/harness/cleanup.rs",
+"crates/viola-e2e/src/harness/mod.rs",
+"crates/viola-e2e/src/harness/run.rs",
+"crates/viola-e2e/src/harness/run/nextest.rs",
+"crates/viola-e2e/src/harness/run/perf.rs",
+"crates/viola-e2e/src/harness/status.rs",
+"crates/viola-e2e/tests/cli.rs",
+"crates/viola-e2e/tests/harness_lifecycle.rs",
+"tests/cli_instance_state.rs",
+"tests/support/mod.rs",
+"crates/viola-e2e/src/harness/session.rs",
+"crates/viola-e2e/tests/path6_budget_harness.rs",
+"tests/path1_run_start.rs",
+"tests/support/start.rs"
+]
+},
+"unmapped": [
+".config/nextest.toml",
+"viola-0.1.0/verification-matrix.json",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/inputs/.gitattributes",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/inputs/I1-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/inputs/andromeda-inputs.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 74,
+"problem": null
+},
+"prose": [
+{
+"from": 200,
+"to": 207,
+"text": "The standing lint and unit entries come first, then the new unit cases by name. Next come the integration binaries this chunk touches, then the E2E layer whole and the two new binaries by name, then the harness smoke with the new boot flag. The operator pass reads CI for `v1-02` on the three runners. No live leg exists: every case runs against the fake agent. No mutation entry is listed (testing.md, 2026-10-04): the new `viola-e2e` code is scored at the Epoch 5 boundary audit. The git guard names its base `6042af635c3e` (HEAD at P4). Two records come from implement's one-shot steps, not from any entry, and no criterion but their own rests on them: `evidence/carry5-dangling-link.md` (step 6's red-before / green-after pair over a scratch workspace, which mutates nothing in the tree) and `evidence/walls.md` (step 12's wall times)."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.91,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/2.log",
+"bytes": 72,
+"log_sha8": "2b346967",
+"exit": 0,
+"seconds": 0.21,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "lint",
+"run": "CARGO_TARGET_DIR=target/wincheck cargo clippy --workspace --all-targets --features fake-agent --target x86_64-pc-windows-msvc -- -D warnings",
+"run_sha8": "4f11616c",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/3.log",
+"bytes": 664,
+"log_sha8": "3bcc2aed",
+"exit": 0,
+"seconds": 2.51,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "rg -n -U --pcre2 --type rust '#\\[(tracing::)?instrument\\b(?!\\(\\s*skip_all\\b)' .",
+"run_sha8": "d8c83432",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/4.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.01,
+"readings": [
+"exit 1 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "lint",
+"run": "bash scripts/lint-probes.sh",
+"run_sha8": "4811ad1f",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/5.log",
+"bytes": 286,
+"log_sha8": "99be9959",
+"exit": 0,
+"seconds": 0.59,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/6.log",
+"bytes": 285455,
+"log_sha8": "701a839c",
+"exit": 0,
+"seconds": 15.18,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/e2e_layer_|status_derives_|boot_flags_/)' ",
+"run_sha8": "9793a21b",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"lacks \"suite\":\"nextest-unit\",\"passed\":0,"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/7.log",
+"bytes": 3112,
+"log_sha8": "14fc820a",
+"exit": 0,
+"seconds": 0.7,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"lacks '\"suite\":\"nextest-unit\",\"passed\":0,' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "test -z \"$( (git diff --name-only 6042af635c3e -- src crates/viola-core crates/viola-pty crates/viola-channel crates/viola-state crates/viola-agent-claude crates/viola-mcp plugin fixtures schemas; git ls-files --others --exclude-standard -- src crates/viola-core crates/viola-pty crates/viola-channel crates/viola-state crates/viola-agent-claude crates/viola-mcp plugin fixtures schemas) | sort -u)\"",
+"run_sha8": "340b937d",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/8.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(harness_lifecycle) | binary(cli) | binary(cli_instance_state) | binary(cli_list) | binary(cli_budget)' ",
+"run_sha8": "6ba63cf8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"lacks \"suite\":\"nextest-integration\",\"passed\":0,"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/9.log",
+"bytes": 9942,
+"log_sha8": "0705f908",
+"exit": 1,
+"seconds": 40.18,
+"readings": [
+"exit 0 ✗ (exit 1)",
+"contains '\"ok\":true' ✗",
+"lacks '\"suite\":\"nextest-integration\",\"passed\":0,' ✓"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 1)"
+},
+{
+"n": 10,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh run --e2e",
+"run_sha8": "55ff1d5e",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"suite\":\"nextest-e2e\"",
+"lacks \"suite\":\"nextest-e2e\",\"passed\":0,"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/10.log",
+"bytes": 19922,
+"log_sha8": "194c443e",
+"exit": 0,
+"seconds": 8.99,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"contains '\"suite\":\"nextest-e2e\"' ✓",
+"lacks '\"suite\":\"nextest-e2e\",\"passed\":0,' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh run --e2e --filter 'binary(path1_run_start) | binary(path6_budget_harness)' ",
+"run_sha8": "1dcf31c0",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"suite\":\"nextest-e2e\"",
+"lacks \"suite\":\"nextest-e2e\",\"passed\":0,"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/11.log",
+"bytes": 644,
+"log_sha8": "5e20c73d",
+"exit": 1,
+"seconds": 0.3,
+"readings": [
+"exit 0 ✗ (exit 1)",
+"contains '\"ok\":true' ✗",
+"contains '\"suite\":\"nextest-e2e\"' ✓",
+"lacks '\"suite\":\"nextest-e2e\",\"passed\":0,' ✗"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 1)"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(path1_run_start)' ",
+"run_sha8": "84efef98",
+"expect": [
+"exit 1",
+"contains nextest-exit-4"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/12.log",
+"bytes": 1705,
+"log_sha8": "2125509a",
+"exit": 0,
+"seconds": 5.34,
+"readings": [
+"exit 1 ✗ (exit 0)",
+"contains 'nextest-exit-4' ✗"
+],
+"survivors": [],
+"outcome": "red · exit 1 ✗ (exit 0)"
+},
+{
+"n": 13,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-e2e-smoke",
+"run_sha8": "29624a30",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/13.log",
+"bytes": 47,
+"log_sha8": "91854d6e",
+"exit": 0,
+"seconds": 0.09,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-e2e-smoke --statusline-echo --agents-mode recorded",
+"run_sha8": "7b087aac",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/14.log",
+"bytes": 424,
+"log_sha8": "c8a8556a",
+"exit": 0,
+"seconds": 6.08,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-e2e-smoke",
+"run_sha8": "d87c1a35",
+"expect": [
+"exit 0",
+"contains \"state\":\"ready\"",
+"lacks \"list\":null",
+"contains \"last_error\":null"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/15.log",
+"bytes": 678,
+"log_sha8": "1bd4e44f",
+"exit": 0,
+"seconds": 0.24,
+"readings": [
+"exit 0 ✓",
+"contains '\"state\":\"ready\"' ✓",
+"lacks '\"list\":null' ✓",
+"contains '\"last_error\":null' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "bash scripts/g2-zero-panics.sh",
+"run_sha8": "b1637f71",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/16.log",
+"bytes": 10,
+"log_sha8": "6736cedd",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/17.log",
+"bytes": 106,
+"log_sha8": "b2b0323a",
+"exit": 0,
+"seconds": 0.12,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 18,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-e2e-smoke",
+"run_sha8": "29624a30",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/18.log",
+"bytes": 135,
+"log_sha8": "02b41f4f",
+"exit": 0,
+"seconds": 0.3,
+"readings": [
+"exit 0 ✓",
+"contains '\"processes_gone\":true' ✓",
+"contains '\"endpoint_gone\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/19.log",
+"bytes": 348218,
+"log_sha8": "d9f70f04",
+"exit": 1,
+"seconds": 70.71,
+"readings": [
+"exit 0 ✗ (exit 1)",
+"contains '\"ok\":true' ✗",
+"contains '\"stage\":\"linux-tests\"' ✓"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 1)"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "451237e0",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "2377245a",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.19",
+"sha8": "457c1da1",
+"ts": "2026-10-17T01:36:22Z",
+"argv": [
+"show",
+"--run-dir",
+".andromeda/runs/2026-10-17T01-21-28-implement",
+"--marker",
+"2026-10-17-end-to-end-path-binary-and-harness-legs",
+"--n",
+"11"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"11 e2e red · exit 0 ✗ (exit 1)",
+"run (1dcf31c0): bash scripts/agent-run.sh run --e2e --filter 'binary(path1_run_start) | binary(path6_budget_harness)' ",
+"  exit 0 ✗ (exit 1)",
+"  contains '\"ok\":true' ✗",
+"  contains '\"suite\":\"nextest-e2e\"' ✓",
+"  lacks '\"suite\":\"nextest-e2e\",\"passed\":0,' ✗",
+"log $TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/11.log · 644 B · 5e20c73d · $TMPDIR = /tmp",
+"--- failing block from L7 ---",
+"error: no tests to run",
+"(hint: use `--no-tests` to customize)",
+"{\"v\":1,\"cmd\":\"run\",\"ok\":false,\"suites\":[{\"suite\":\"nextest-e2e\",\"passed\":0,\"failed\":1,\"skipped\":0,\"survived\":0,\"artifact\":\"./target/agent-run/artifacts/junit-nextest-e2e.xml\",\"failures\":[\"nextest-exit-4\"]}]}",
+""
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "gate",
+"v": "1.19",
+"sha8": "457c1da1",
+"ts": "2026-10-17T01:36:47Z",
+"argv": [
+"show",
+"--run-dir",
+".andromeda/runs/2026-10-17T01-21-28-implement",
+"--marker",
+"2026-10-17-end-to-end-path-binary-and-harness-legs",
+"--n",
+"9"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"9 integration red · exit 0 ✗ (exit 1)",
+"run (6ba63cf8): bash scripts/agent-run.sh run --integration --filter 'binary(harness_lifecycle) | binary(cli) | binary(cli_instance_state) | binary(cli_list) | binary(cli_budget)' ",
+"  exit 0 ✗ (exit 1)",
+"  contains '\"ok\":true' ✗",
+"  lacks '\"suite\":\"nextest-integration\",\"passed\":0,' ✓",
+"log $TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/9.log · 9942 B · 0705f908 · $TMPDIR = /tmp",
+"--- failing block from L63 ---",
+"        FAIL [   4.216s] (59/69) viola-e2e::harness_lifecycle harness_session_with_a_malformed_agents_mode_reads_ready_and_unknown",
+"  stdout ───",
+"",
+"    running 1 test",
+"    test harness_session_with_a_malformed_agents_mode_reads_ready_and_unknown ... FAILED",
+"",
+"    failures:",
+"",
+"    failures:",
+"        harness_session_with_a_malformed_agents_mode_reads_ready_and_unknown",
+"",
+"    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 8 filtered out; finished in 4.20s",
+"",
+"  stderr ───",
+"",
+"    thread 'harness_session_with_a_malformed_agents_mode_reads_ready_and_unknown' (88407) panicked at crates/viola-e2e/tests/harness_lifecycle.rs:219:5:",
+"    assertion `left == right` failed: {\"v\":1,\"cmd\":\"boot\",\"ok\":false,\"reason\":\"verify-failed\",\"instance\":null,\"exit_code\":1,\"missing\":[]}",
+"      left: 1",
+"     right: 0",
+"    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "gate",
+"v": "1.19",
+"sha8": "457c1da1",
+"ts": "2026-10-17T01:37:06Z",
+"argv": [
+"show",
+"--run-dir",
+".andromeda/runs/2026-10-17T01-21-28-implement",
+"--marker",
+"2026-10-17-end-to-end-path-binary-and-harness-legs",
+"--n",
+"19",
+"--tail",
+"40"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"19 probe red · exit 0 ✗ (exit 1)",
+"run (4da4c5c8): bash scripts/agent-run.sh pre-push",
+"  exit 0 ✗ (exit 1)",
+"  contains '\"ok\":true' ✗",
+"  contains '\"stage\":\"linux-tests\"' ✓",
+"log $TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/19.log · 348218 B · d9f70f04 · $TMPDIR = /tmp",
+"--- failing block from L2684 ---",
+"        FAIL [   4.218s] (2654/2666) viola-e2e::harness_lifecycle harness_session_with_a_malformed_agents_mode_reads_ready_and_unknown",
+"  stdout ───",
+"",
+"    running 1 test",
+"    test harness_session_with_a_malformed_agents_mode_reads_ready_and_unknown ... FAILED",
+"",
+"    failures:",
+"",
+"    failures:",
+"        harness_session_with_a_malformed_agents_mode_reads_ready_and_unknown",
+"",
+"    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 8 filtered out; finished in 4.21s",
+"",
+"  stderr ───",
+"",
+"    thread 'harness_session_with_a_malformed_agents_mode_reads_ready_and_unknown' (123158) panicked at crates/viola-e2e/tests/harness_lifecycle.rs:219:5:",
+"    assertion `left == right` failed: {\"v\":1,\"cmd\":\"boot\",\"ok\":false,\"reason\":\"verify-failed\",\"instance\":null,\"exit_code\":1,\"missing\":[]}",
+"      left: 1",
+"     right: 0",
+"    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace",
+"",
+"        PASS [   3.504s] (2655/2666) viola-state heartbeat::tests::heartbeat_thread_refreshes_the_beat",
+"        PASS [   4.673s] (2656/2666) viola-e2e::harness_lifecycle cleanup_force_kills_a_recorded_process_that_outlives_the_stop",
+"        PASS [   4.760s] (2657/2666) viola-e2e::cli cleanup_keeps_the_home_under_agent_run_keep_homes",
+"        PASS [   4.748s] (2658/2666) viola-e2e::harness_lifecycle harness_session_with_a_dead_wrapper_reads_degraded",
+"        PASS [   5.087s] (2659/2666) viola-e2e harness::cleanup::tests::cleanup_waits_its_deadline_for_a_target_that_outlives_its_kill",
+"        PASS [   4.849s] (2660/2666) viola-e2e::cli status_logs_and_cleanup_drive_a_booted_session",
+"        PASS [   4.956s] (2661/2666) viola-e2e::harness_lifecycle harness_session_boots_reports_logs_and_tears_down",
+"        PASS [   5.216s] (2662/2666) viola-e2e::path6_budget_harness path6_two_instance_release_over_a_harness_session",
+"        PASS [  13.349s] (2663/2666) viola::cli_verify verify_window_paste_hint_past_the_gate_maximum_still_stamps",
+"        SLOW [> 20.000s] (─────────) viola::cli_verify verify_window_without_screens_fails_every_interactive_row",
+"        SLOW [> 20.000s] (─────────) viola-e2e::harness_lifecycle verify_window_boot_with_an_unknown_cli_version_is_verify_failed",
+"        PASS [  20.526s] (2664/2666) viola-e2e::harness_lifecycle boot_that_never_gets_ready_times_out_and_stops_its_supervisor",
+"        SLOW [> 40.000s] (─────────) viola::cli_verify verify_window_without_screens_fails_every_interactive_row",
+"        PASS [  34.498s] (2665/2666) viola-e2e::harness_lifecycle verify_window_boot_with_an_unknown_cli_version_is_verify_failed",
+"        PASS [  42.950s] (2666/2666) viola::cli_verify verify_window_without_screens_fails_every_interactive_row",
+"────────────",
+"     Summary [  57.310s] 2666 tests run: 2665 passed (5 slow), 1 failed, 0 skipped",
+"        FAIL [   4.218s] (2654/2666) viola-e2e::harness_lifecycle harness_session_with_a_malformed_agents_mode_reads_ready_and_unknown",
+"error: test run failed"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "gate",
+"v": "1.19",
+"sha8": "457c1da1",
+"ts": "2026-10-17T01:38:29Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-17T01-21-28-implement",
+"--marker",
+"2026-10-17-end-to-end-path-binary-and-harness-legs",
+"--only",
+"9"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-17-end-to-end-path-binary-and-harness-legs · entries 22",
+"logs $TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28 · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 54 · rust 17 · unmapped 5",
+"walk-class rust 3 (tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, tests/contract_ledger_probes.rs) · uncommitted 76",
+"prose L200-207: The standing lint and unit entries come first, then the new unit cases by name. Next come … (839 chars)",
+"  9 integration green · exit 0 · 42.39s · 9000 B → 9.2.log · bash scripts/agent-run.sh run --integration --filter 'bina… (164 chars)",
+"not run — excluded · 21: 1-8,10-22",
+"entries 22 · green 1 · red 0 · recorded 0 · timeout 0 · not-run 21"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-17-end-to-end-path-binary-and-harness-legs",
+"plan": "./viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-10-16T22-30-02-wrap/evolve-2026-10-16-unwrapped-sessions-on-the-board.json",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-16T22-30-02-wrap/health-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/a11y-history.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/a11y.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/acceptance-v1-02.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/arch-contracts.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/arch-history-index.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/arch-history.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/arch.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/design-history.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/design.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/evolve-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/gate-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/inputs-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/layouts-history.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/layouts.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/master-record.txt",
+".andromeda/runs/2026-10-17T00-19-29-phase/matrix-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/note-v1-24.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/note-v1-35.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/note-v1-53.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/obs-contracts.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/obs-history.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/obs.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/p5-card-1.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/p5-controls.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/planlint-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/registry-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/relay-1.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/route-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/route-no-marker.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/security-history-index.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/security-history.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/security.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/sidecar-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/tests-contracts.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/tests-history-index.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/tests-history.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/tests.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/tree-query-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T01-21-28-implement/evolve-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T01-21-28-implement/gate-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T01-21-28-implement/journal.md",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/evidence/carry5-dangling-link.md",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/evidence/watch-cli-send.md",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/plan.md",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/research.md",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/scope.md"
+],
+"rust": [
+"Cargo.toml",
+"crates/viola-e2e/src/bin/viola-harness.rs",
+"crates/viola-e2e/src/harness/boot.rs",
+"crates/viola-e2e/src/harness/cleanup.rs",
+"crates/viola-e2e/src/harness/mod.rs",
+"crates/viola-e2e/src/harness/run.rs",
+"crates/viola-e2e/src/harness/run/nextest.rs",
+"crates/viola-e2e/src/harness/run/perf.rs",
+"crates/viola-e2e/src/harness/status.rs",
+"crates/viola-e2e/tests/cli.rs",
+"crates/viola-e2e/tests/harness_lifecycle.rs",
+"tests/cli_instance_state.rs",
+"tests/support/mod.rs",
+"crates/viola-e2e/src/harness/session.rs",
+"crates/viola-e2e/tests/path6_budget_harness.rs",
+"tests/path1_run_start.rs",
+"tests/support/start.rs"
+]
+},
+"unmapped": [
+".config/nextest.toml",
+"viola-0.1.0/verification-matrix.json",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/inputs/.gitattributes",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/inputs/I1-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/inputs/andromeda-inputs.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 76,
+"problem": null
+},
+"prose": [
+{
+"from": 200,
+"to": 207,
+"text": "The standing lint and unit entries come first, then the new unit cases by name. Next come the integration binaries this chunk touches, then the E2E layer whole and the two new binaries by name, then the harness smoke with the new boot flag. The operator pass reads CI for `v1-02` on the three runners. No live leg exists: every case runs against the fake agent. No mutation entry is listed (testing.md, 2026-10-04): the new `viola-e2e` code is scored at the Epoch 5 boundary audit. The git guard names its base `6042af635c3e` (HEAD at P4). Two records come from implement's one-shot steps, not from any entry, and no criterion but their own rests on them: `evidence/carry5-dangling-link.md` (step 6's red-before / green-after pair over a scratch workspace, which mutates nothing in the tree) and `evidence/walls.md` (step 12's wall times)."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "lint",
+"run": "CARGO_TARGET_DIR=target/wincheck cargo clippy --workspace --all-targets --features fake-agent --target x86_64-pc-windows-msvc -- -D warnings",
+"run_sha8": "4f11616c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "rg -n -U --pcre2 --type rust '#\\[(tracing::)?instrument\\b(?!\\(\\s*skip_all\\b)' .",
+"run_sha8": "d8c83432",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "lint",
+"run": "bash scripts/lint-probes.sh",
+"run_sha8": "4811ad1f",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/e2e_layer_|status_derives_|boot_flags_/)' ",
+"run_sha8": "9793a21b",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"lacks \"suite\":\"nextest-unit\",\"passed\":0,"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "test -z \"$( (git diff --name-only 6042af635c3e -- src crates/viola-core crates/viola-pty crates/viola-channel crates/viola-state crates/viola-agent-claude crates/viola-mcp plugin fixtures schemas; git ls-files --others --exclude-standard -- src crates/viola-core crates/viola-pty crates/viola-channel crates/viola-state crates/viola-agent-claude crates/viola-mcp plugin fixtures schemas) | sort -u)\"",
+"run_sha8": "340b937d",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(harness_lifecycle) | binary(cli) | binary(cli_instance_state) | binary(cli_list) | binary(cli_budget)' ",
+"run_sha8": "6ba63cf8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"lacks \"suite\":\"nextest-integration\",\"passed\":0,"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/9.2.log",
+"bytes": 9000,
+"log_sha8": "f98eba43",
+"exit": 0,
+"seconds": 42.39,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"lacks '\"suite\":\"nextest-integration\",\"passed\":0,' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh run --e2e",
+"run_sha8": "55ff1d5e",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"suite\":\"nextest-e2e\"",
+"lacks \"suite\":\"nextest-e2e\",\"passed\":0,"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh run --e2e --filter 'binary(path1_run_start) | binary(path6_budget_harness)' ",
+"run_sha8": "1dcf31c0",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"suite\":\"nextest-e2e\"",
+"lacks \"suite\":\"nextest-e2e\",\"passed\":0,"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(path1_run_start)' ",
+"run_sha8": "84efef98",
+"expect": [
+"exit 1",
+"contains nextest-exit-4"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-e2e-smoke",
+"run_sha8": "29624a30",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-e2e-smoke --statusline-echo --agents-mode recorded",
+"run_sha8": "7b087aac",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-e2e-smoke",
+"run_sha8": "d87c1a35",
+"expect": [
+"exit 0",
+"contains \"state\":\"ready\"",
+"lacks \"list\":null",
+"contains \"last_error\":null"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "bash scripts/g2-zero-panics.sh",
+"run_sha8": "b1637f71",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-e2e-smoke",
+"run_sha8": "29624a30",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "451237e0",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "2377245a",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.19",
+"sha8": "457c1da1",
+"ts": "2026-10-17T01:41:41Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-17T01-21-28-implement",
+"--marker",
+"2026-10-17-end-to-end-path-binary-and-harness-legs"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-17-end-to-end-path-binary-and-harness-legs · entries 22",
+"logs $TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28 · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 56 · rust 17 · unmapped 6",
+"walk-class rust 3 (tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, tests/contract_ledger_probes.rs) · uncommitted 79",
+"prose L200-207: The standing lint and unit entries come first, then the new unit cases by name. Next come … (839 chars)",
+"  1 lint        green · exit 0 · 0.92s · 0 B → 1.2.log · cargo fmt --all --check",
+"  2 lint        green · exit 0 · 0.64s · 155 B → 2.2.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 lint        green · exit 0 · 0.68s · 155 B → 3.2.log · CARGO_TARGET_DIR=target/wincheck cargo clippy --workspace … (140 chars)",
+"  4 lint        green · exit 1 · 0.01s · 0 B → 4.2.log · rg -n -U --pcre2 --type rust '#\\[(tracing::)?instrument\\b(… (79 chars)",
+"  5 lint        green · exit 0 · 0.59s · 286 B → 5.2.log · bash scripts/lint-probes.sh",
+"  6 unit        green · exit 0 · 8.88s · 285394 B → 6.2.log · bash scripts/agent-run.sh run --unit",
+"  7 unit        green · exit 0 · 0.71s · 3113 B → 7.2.log · bash scripts/agent-run.sh run --unit --filter 'test(/e2e_l… (95 chars)",
+"  8 probe       green · exit 0 · 0.01s · 0 B → 8.2.log · test -z \"$( (git diff --name-only 6042af635c3e -- src crat… (399 chars)",
+"  9 integration green · exit 0 · 40.21s · 8917 B → 9.3.log · bash scripts/agent-run.sh run --integration --filter 'bina… (164 chars)",
+" 10 e2e         green · exit 0 · 9.0s · 20131 B → 10.2.log · bash scripts/agent-run.sh run --e2e",
+" 11 e2e         green · exit 0 · 5.34s · 767 B → 11.2.log · bash scripts/agent-run.sh run --e2e --filter 'binary(path1… (102 chars)",
+" 12 probe       green · exit 1 · 0.69s · 1699 B → 12.2.log · bash scripts/agent-run.sh run --integration --filter 'bina… (79 chars)",
+" 13 smoke       green · exit 0 · 0.09s · 47 B → 13.2.log · bash scripts/agent-run.sh cleanup --session p-e2e-smoke",
+" 14 smoke       green · exit 0 · 5.27s · 428 B → 14.2.log · bash scripts/agent-run.sh boot --session p-e2e-smoke --sta… (93 chars)",
+" 15 smoke       green · exit 0 · 0.24s · 680 B → 15.2.log · bash scripts/agent-run.sh status --session p-e2e-smoke",
+" 16 probe       green · exit 0 · 0.01s · 10 B → 16.2.log · bash scripts/g2-zero-panics.sh",
+" 17 probe       green · exit 0 · 0.11s · 106 B → 17.2.log · bash scripts/agent-run.sh schema-check",
+" 18 smoke       green · exit 0 · 0.3s · 135 B → 18.2.log · bash scripts/agent-run.sh cleanup --session p-e2e-smoke",
+" 19 probe       green · exit 0 · 72.98s · 346879 B → 19.2.log · bash scripts/agent-run.sh pre-push",
+" 20 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (90 chars)",
+" 21 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (69 chars)",
+" 22 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (114 chars)",
+"entries 22 · green 19 · red 0 · recorded 0 · timeout 0 · not-run 3"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-17-end-to-end-path-binary-and-harness-legs",
+"plan": "./viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-10-16T22-30-02-wrap/evolve-2026-10-16-unwrapped-sessions-on-the-board.json",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-16T22-30-02-wrap/health-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/a11y-history.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/a11y.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/acceptance-v1-02.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/arch-contracts.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/arch-history-index.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/arch-history.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/arch.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/design-history.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/design.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/evolve-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/gate-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/inputs-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/layouts-history.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/layouts.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/master-record.txt",
+".andromeda/runs/2026-10-17T00-19-29-phase/matrix-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/note-v1-24.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/note-v1-35.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/note-v1-53.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/obs-contracts.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/obs-history.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/obs.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/p5-card-1.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/p5-controls.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/planlint-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/registry-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/relay-1.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/route-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/route-no-marker.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/security-history-index.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/security-history.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/security.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/sidecar-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/tests-contracts.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/tests-history-index.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/tests-history.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/tests.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/tree-query-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T01-21-28-implement/evolve-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T01-21-28-implement/gate-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T01-21-28-implement/inputs-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T01-21-28-implement/journal.md",
+".andromeda/runs/2026-10-17T01-21-28-implement/relay-1.md",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/evidence/carry5-dangling-link.md",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/evidence/watch-cli-send.md",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/plan.md",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/research.md",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/scope.md"
+],
+"rust": [
+"Cargo.toml",
+"crates/viola-e2e/src/bin/viola-harness.rs",
+"crates/viola-e2e/src/harness/boot.rs",
+"crates/viola-e2e/src/harness/cleanup.rs",
+"crates/viola-e2e/src/harness/mod.rs",
+"crates/viola-e2e/src/harness/run.rs",
+"crates/viola-e2e/src/harness/run/nextest.rs",
+"crates/viola-e2e/src/harness/run/perf.rs",
+"crates/viola-e2e/src/harness/status.rs",
+"crates/viola-e2e/tests/cli.rs",
+"crates/viola-e2e/tests/harness_lifecycle.rs",
+"tests/cli_instance_state.rs",
+"tests/support/mod.rs",
+"crates/viola-e2e/src/harness/session.rs",
+"crates/viola-e2e/tests/path6_budget_harness.rs",
+"tests/path1_run_start.rs",
+"tests/support/start.rs"
+]
+},
+"unmapped": [
+".config/nextest.toml",
+"viola-0.1.0/verification-matrix.json",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/inputs/.gitattributes",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/inputs/I1-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/inputs/I2-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/inputs/andromeda-inputs.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 79,
+"problem": null
+},
+"prose": [
+{
+"from": 200,
+"to": 207,
+"text": "The standing lint and unit entries come first, then the new unit cases by name. Next come the integration binaries this chunk touches, then the E2E layer whole and the two new binaries by name, then the harness smoke with the new boot flag. The operator pass reads CI for `v1-02` on the three runners. No live leg exists: every case runs against the fake agent. No mutation entry is listed (testing.md, 2026-10-04): the new `viola-e2e` code is scored at the Epoch 5 boundary audit. The git guard names its base `6042af635c3e` (HEAD at P4). Two records come from implement's one-shot steps, not from any entry, and no criterion but their own rests on them: `evidence/carry5-dangling-link.md` (step 6's red-before / green-after pair over a scratch workspace, which mutates nothing in the tree) and `evidence/walls.md` (step 12's wall times)."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/1.2.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.92,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/2.2.log",
+"bytes": 155,
+"log_sha8": "291621a6",
+"exit": 0,
+"seconds": 0.64,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "lint",
+"run": "CARGO_TARGET_DIR=target/wincheck cargo clippy --workspace --all-targets --features fake-agent --target x86_64-pc-windows-msvc -- -D warnings",
+"run_sha8": "4f11616c",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/3.2.log",
+"bytes": 155,
+"log_sha8": "1f6c7fd9",
+"exit": 0,
+"seconds": 0.68,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "rg -n -U --pcre2 --type rust '#\\[(tracing::)?instrument\\b(?!\\(\\s*skip_all\\b)' .",
+"run_sha8": "d8c83432",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/4.2.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.01,
+"readings": [
+"exit 1 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "lint",
+"run": "bash scripts/lint-probes.sh",
+"run_sha8": "4811ad1f",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/5.2.log",
+"bytes": 286,
+"log_sha8": "99be9959",
+"exit": 0,
+"seconds": 0.59,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/6.2.log",
+"bytes": 285394,
+"log_sha8": "ee751169",
+"exit": 0,
+"seconds": 8.88,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/e2e_layer_|status_derives_|boot_flags_/)' ",
+"run_sha8": "9793a21b",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"lacks \"suite\":\"nextest-unit\",\"passed\":0,"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/7.2.log",
+"bytes": 3113,
+"log_sha8": "efa45062",
+"exit": 0,
+"seconds": 0.71,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"lacks '\"suite\":\"nextest-unit\",\"passed\":0,' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "test -z \"$( (git diff --name-only 6042af635c3e -- src crates/viola-core crates/viola-pty crates/viola-channel crates/viola-state crates/viola-agent-claude crates/viola-mcp plugin fixtures schemas; git ls-files --others --exclude-standard -- src crates/viola-core crates/viola-pty crates/viola-channel crates/viola-state crates/viola-agent-claude crates/viola-mcp plugin fixtures schemas) | sort -u)\"",
+"run_sha8": "340b937d",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/8.2.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(harness_lifecycle) | binary(cli) | binary(cli_instance_state) | binary(cli_list) | binary(cli_budget)' ",
+"run_sha8": "6ba63cf8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"lacks \"suite\":\"nextest-integration\",\"passed\":0,"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/9.3.log",
+"bytes": 8917,
+"log_sha8": "385dbd56",
+"exit": 0,
+"seconds": 40.21,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"lacks '\"suite\":\"nextest-integration\",\"passed\":0,' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh run --e2e",
+"run_sha8": "55ff1d5e",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"suite\":\"nextest-e2e\"",
+"lacks \"suite\":\"nextest-e2e\",\"passed\":0,"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/10.2.log",
+"bytes": 20131,
+"log_sha8": "536357af",
+"exit": 0,
+"seconds": 9.0,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"contains '\"suite\":\"nextest-e2e\"' ✓",
+"lacks '\"suite\":\"nextest-e2e\",\"passed\":0,' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh run --e2e --filter 'binary(path1_run_start) | binary(path6_budget_harness)' ",
+"run_sha8": "1dcf31c0",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"suite\":\"nextest-e2e\"",
+"lacks \"suite\":\"nextest-e2e\",\"passed\":0,"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/11.2.log",
+"bytes": 767,
+"log_sha8": "db268b5f",
+"exit": 0,
+"seconds": 5.34,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"contains '\"suite\":\"nextest-e2e\"' ✓",
+"lacks '\"suite\":\"nextest-e2e\",\"passed\":0,' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(path1_run_start)' ",
+"run_sha8": "84efef98",
+"expect": [
+"exit 1",
+"contains nextest-exit-4"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/12.2.log",
+"bytes": 1699,
+"log_sha8": "f994e85b",
+"exit": 1,
+"seconds": 0.69,
+"readings": [
+"exit 1 ✓",
+"contains 'nextest-exit-4' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-e2e-smoke",
+"run_sha8": "29624a30",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/13.2.log",
+"bytes": 47,
+"log_sha8": "91854d6e",
+"exit": 0,
+"seconds": 0.09,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-e2e-smoke --statusline-echo --agents-mode recorded",
+"run_sha8": "7b087aac",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/14.2.log",
+"bytes": 428,
+"log_sha8": "bad757a5",
+"exit": 0,
+"seconds": 5.27,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-e2e-smoke",
+"run_sha8": "d87c1a35",
+"expect": [
+"exit 0",
+"contains \"state\":\"ready\"",
+"lacks \"list\":null",
+"contains \"last_error\":null"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/15.2.log",
+"bytes": 680,
+"log_sha8": "df280bb6",
+"exit": 0,
+"seconds": 0.24,
+"readings": [
+"exit 0 ✓",
+"contains '\"state\":\"ready\"' ✓",
+"lacks '\"list\":null' ✓",
+"contains '\"last_error\":null' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "bash scripts/g2-zero-panics.sh",
+"run_sha8": "b1637f71",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/16.2.log",
+"bytes": 10,
+"log_sha8": "6736cedd",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/17.2.log",
+"bytes": 106,
+"log_sha8": "b2b0323a",
+"exit": 0,
+"seconds": 0.11,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 18,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-e2e-smoke",
+"run_sha8": "29624a30",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/18.2.log",
+"bytes": 135,
+"log_sha8": "02b41f4f",
+"exit": 0,
+"seconds": 0.3,
+"readings": [
+"exit 0 ✓",
+"contains '\"processes_gone\":true' ✓",
+"contains '\"endpoint_gone\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/19.2.log",
+"bytes": 346879,
+"log_sha8": "b9529b11",
+"exit": 0,
+"seconds": 72.98,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"contains '\"stage\":\"linux-tests\"' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "451237e0",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "2377245a",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.19",
+"sha8": "457c1da1",
+"ts": "2026-10-17T01:43:04Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs",
+"--run-dir",
+".andromeda/runs/2026-10-17T01-21-28-implement",
+"--marker",
+"2026-10-17-end-to-end-path-binary-and-harness-legs"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base HEAD (no pre-CI commit) · lists new 4 · modify 17 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"scope: clean — changed 18 · listed 18 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 63"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "HEAD",
+"base_why": "no pre-CI commit",
+"counts": {
+"changed": 18,
+"listed": 18,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 63,
+"unparsed": 0,
+"widening_without_word": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.19",
+"sha8": "457c1da1",
+"ts": "2026-10-17T01:45:27Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-17T01-21-28-implement",
+"--marker",
+"2026-10-17-end-to-end-path-binary-and-harness-legs",
+"--only",
+"19"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-17-end-to-end-path-binary-and-harness-legs · entries 22",
+"logs $TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28 · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 59 · rust 17 · unmapped 6",
+"walk-class rust 3 (tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, tests/contract_ledger_probes.rs) · uncommitted 82",
+"prose L200-207: The standing lint and unit entries come first, then the new unit cases by name. Next come … (839 chars)",
+" 19 probe       green · exit 0 · 72.99s · 346879 B → 19.3.log · bash scripts/agent-run.sh pre-push",
+"not run — excluded · 21: 1-18,20-22",
+"entries 22 · green 1 · red 0 · recorded 0 · timeout 0 · not-run 21"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-17-end-to-end-path-binary-and-harness-legs",
+"plan": "./viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-10-16T22-30-02-wrap/evolve-2026-10-16-unwrapped-sessions-on-the-board.json",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-16T22-30-02-wrap/health-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/a11y-history.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/a11y.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/acceptance-v1-02.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/arch-contracts.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/arch-history-index.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/arch-history.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/arch.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/design-history.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/design.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/evolve-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/gate-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/inputs-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/layouts-history.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/layouts.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/master-record.txt",
+".andromeda/runs/2026-10-17T00-19-29-phase/matrix-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/note-v1-24.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/note-v1-35.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/note-v1-53.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/obs-contracts.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/obs-history.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/obs.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/p5-card-1.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/p5-controls.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/planlint-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/registry-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/relay-1.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/route-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/route-no-marker.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/security-history-index.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/security-history.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/security.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/sidecar-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T00-19-29-phase/tests-contracts.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/tests-history-index.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/tests-history.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/tests.md",
+".andromeda/runs/2026-10-17T00-19-29-phase/tree-query-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T01-21-28-implement/evolve-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T01-21-28-implement/gate-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T01-21-28-implement/inputs-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T01-21-28-implement/journal.md",
+".andromeda/runs/2026-10-17T01-21-28-implement/matrix-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+".andromeda/runs/2026-10-17T01-21-28-implement/outcome-2026-10-17-end-to-end-path-binary-and-harness-legs.md",
+".andromeda/runs/2026-10-17T01-21-28-implement/relay-1.md",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/evidence/carry5-dangling-link.md",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/evidence/walls.md",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/evidence/watch-cli-send.md",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/plan.md",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/research.md",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/scope.md"
+],
+"rust": [
+"Cargo.toml",
+"crates/viola-e2e/src/bin/viola-harness.rs",
+"crates/viola-e2e/src/harness/boot.rs",
+"crates/viola-e2e/src/harness/cleanup.rs",
+"crates/viola-e2e/src/harness/mod.rs",
+"crates/viola-e2e/src/harness/run.rs",
+"crates/viola-e2e/src/harness/run/nextest.rs",
+"crates/viola-e2e/src/harness/run/perf.rs",
+"crates/viola-e2e/src/harness/status.rs",
+"crates/viola-e2e/tests/cli.rs",
+"crates/viola-e2e/tests/harness_lifecycle.rs",
+"tests/cli_instance_state.rs",
+"tests/support/mod.rs",
+"crates/viola-e2e/src/harness/session.rs",
+"crates/viola-e2e/tests/path6_budget_harness.rs",
+"tests/path1_run_start.rs",
+"tests/support/start.rs"
+]
+},
+"unmapped": [
+".config/nextest.toml",
+"viola-0.1.0/verification-matrix.json",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/inputs/.gitattributes",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/inputs/I1-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/inputs/I2-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/inputs/andromeda-inputs.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 82,
+"problem": null
+},
+"prose": [
+{
+"from": 200,
+"to": 207,
+"text": "The standing lint and unit entries come first, then the new unit cases by name. Next come the integration binaries this chunk touches, then the E2E layer whole and the two new binaries by name, then the harness smoke with the new boot flag. The operator pass reads CI for `v1-02` on the three runners. No live leg exists: every case runs against the fake agent. No mutation entry is listed (testing.md, 2026-10-04): the new `viola-e2e` code is scored at the Epoch 5 boundary audit. The git guard names its base `6042af635c3e` (HEAD at P4). Two records come from implement's one-shot steps, not from any entry, and no criterion but their own rests on them: `evidence/carry5-dangling-link.md` (step 6's red-before / green-after pair over a scratch workspace, which mutates nothing in the tree) and `evidence/walls.md` (step 12's wall times)."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "lint",
+"run": "CARGO_TARGET_DIR=target/wincheck cargo clippy --workspace --all-targets --features fake-agent --target x86_64-pc-windows-msvc -- -D warnings",
+"run_sha8": "4f11616c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "rg -n -U --pcre2 --type rust '#\\[(tracing::)?instrument\\b(?!\\(\\s*skip_all\\b)' .",
+"run_sha8": "d8c83432",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "lint",
+"run": "bash scripts/lint-probes.sh",
+"run_sha8": "4811ad1f",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/e2e_layer_|status_derives_|boot_flags_/)' ",
+"run_sha8": "9793a21b",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"lacks \"suite\":\"nextest-unit\",\"passed\":0,"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "test -z \"$( (git diff --name-only 6042af635c3e -- src crates/viola-core crates/viola-pty crates/viola-channel crates/viola-state crates/viola-agent-claude crates/viola-mcp plugin fixtures schemas; git ls-files --others --exclude-standard -- src crates/viola-core crates/viola-pty crates/viola-channel crates/viola-state crates/viola-agent-claude crates/viola-mcp plugin fixtures schemas) | sort -u)\"",
+"run_sha8": "340b937d",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(harness_lifecycle) | binary(cli) | binary(cli_instance_state) | binary(cli_list) | binary(cli_budget)' ",
+"run_sha8": "6ba63cf8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"lacks \"suite\":\"nextest-integration\",\"passed\":0,"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh run --e2e",
+"run_sha8": "55ff1d5e",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"suite\":\"nextest-e2e\"",
+"lacks \"suite\":\"nextest-e2e\",\"passed\":0,"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh run --e2e --filter 'binary(path1_run_start) | binary(path6_budget_harness)' ",
+"run_sha8": "1dcf31c0",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"suite\":\"nextest-e2e\"",
+"lacks \"suite\":\"nextest-e2e\",\"passed\":0,"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(path1_run_start)' ",
+"run_sha8": "84efef98",
+"expect": [
+"exit 1",
+"contains nextest-exit-4"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-e2e-smoke",
+"run_sha8": "29624a30",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-e2e-smoke --statusline-echo --agents-mode recorded",
+"run_sha8": "7b087aac",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-e2e-smoke",
+"run_sha8": "d87c1a35",
+"expect": [
+"exit 0",
+"contains \"state\":\"ready\"",
+"lacks \"list\":null",
+"contains \"last_error\":null"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "bash scripts/g2-zero-panics.sh",
+"run_sha8": "b1637f71",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-e2e-smoke",
+"run_sha8": "29624a30",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-end-to-end-path-binary-and-harness-legs/implement-2026-10-17T01-21-28/19.3.log",
+"bytes": 346879,
+"log_sha8": "c5318a95",
+"exit": 0,
+"seconds": 72.99,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"contains '\"stage\":\"linux-tests\"' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "451237e0",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "2377245a",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+}
+]

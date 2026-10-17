@@ -1,0 +1,8 @@
+# test-plan.md ## 3. Test Harness Contract — the keyed contracts, one row per key (U35): key · file · bytes · labels. Read one file whole when the chunk turns on its key; never the set.
+
+- 5-command implementation · .andromeda/registries/contracts/test-plan/5-command-implementation.md · 56497 B · labels: boot, run, status, cleanup, logs, Internal harness subcommands, supervise --session <id>, schema-check, secret-scan, gate --require <suite>[,<suite>…] [--artifacts <dir>], pre-push, Closed enums
+- Status endpoint shape · .andromeda/registries/contracts/test-plan/status-endpoint-shape.md · 1121 B
+- Log format · .andromeda/registries/contracts/test-plan/log-format.md · 4195 B · labels: Format, Required fields, Constraints, Agent parsing
+- PID file · .andromeda/registries/contracts/test-plan/pid-file.md · 643 B · labels: Location, Lifecycle
+- Test data bootstrap · .andromeda/registries/contracts/test-plan/test-data-bootstrap.md · 5174 B · labels: Strategy, Mechanism, Per-test isolation, Cleanup
+- Bootstrap phases (derive for route / setup-project) · .andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md · 14678 B · labels: test-runner-install, 5-command-discipline-wire, status-endpoint-implement, log-format-bind-with-obs, pid-file-commitment-wire, test-data-bootstrap-wire, coverage-tooling-install, ci-tool-install, quality-gate-config-emit

@@ -176,6 +176,7 @@ fn remove_session_home(ws: &Workspace, home: &Path) -> bool {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::harness::boot::AgentsMode;
 
     #[test]
     fn cleanup_without_a_session_is_ok_and_empty() {
@@ -274,6 +275,7 @@ mod tests {
             }],
             supervisor_pid: dead.pid,
             supervisor_started_at: dead.started_at,
+            agents_mode: AgentsMode::Recorded,
         };
         fs::create_dir_all(ws.session_dir("s")).expect("mkdir");
         super::super::write_json(&session_record_path(&ws, "s"), &record).expect("write");
@@ -319,6 +321,7 @@ mod tests {
             }],
             supervisor_pid: dead.pid,
             supervisor_started_at: dead.started_at,
+            agents_mode: AgentsMode::Recorded,
         };
         let begun = Instant::now();
         let report = cleanup_one(&ws, "s", &record, true);
@@ -359,7 +362,7 @@ mod tests {
     #[test]
     fn remove_session_home_removes_a_boot_created_parent() {
         let ws = Workspace::from_build();
-        fs::create_dir_all(ws.e2e_home()).expect("mkdir");
+        ws.ensure_e2e_home().expect("e2e home");
         let parent = tempfile::Builder::new()
             .prefix("viola-session-")
             .tempdir_in(ws.e2e_home())

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "I1",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: the overseer as the founders delegate, in the P4 dialog, 2026-10-17T00:36:38Z",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "1f99df3f231b149a4093b48ada96729ea7783e3dd53cddc9a932e204866f1f10",
+    "copy": "I1-relay-1.md.txt",
+    "link": false,
+    "read_at": "2026-10-17T00:37:07Z",
+    "step": "phase:P4",
+    "why": "P4 forks 1 and 2 answered: Path 1 as a root tests/path1_ flow; harness_session keeps the spawned supervise (delegate, provisional)"
+  },
+  {
+    "id": "I2",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: the Viola overseer (technical, founder-delegated), answering implement P2 E2E-naming question, 2026-10-17",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "0c44797bfac2941336199ace3eb51ab1b3bd137ba93283d0446358eee9cbce84",
+    "copy": "I2-relay-1.md.txt",
+    "link": false,
+    "read_at": "2026-10-17T01:38:54Z",
+    "step": "implement",
+    "why": "widen the harness E2E regex to ^(path[0-9]*|tui|mcp|cross|chaos|contract)_; the wrap amends test-plan §3 and the testing.md / a11y copies"
+  }
+]

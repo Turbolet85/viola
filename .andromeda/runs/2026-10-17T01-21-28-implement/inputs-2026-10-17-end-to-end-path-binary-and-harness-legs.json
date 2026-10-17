@@ -1,0 +1,57 @@
+[
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-17T01:38:54Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs",
+"--message-file",
+".andromeda/runs/2026-10-17T01-21-28-implement/relay-1.md",
+"--origin",
+"the Viola overseer (technical, founder-delegated), answering implement P2 E2E-naming question, 2026-10-17",
+"--kind",
+"relay",
+"--why",
+"widen the harness E2E regex to ^(path[0-9]*|tui|mcp|cross|chaos|contract)_; the wrap amends test-plan §3 and the testing.md / a11y copies",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-10-17T01-21-28-implement",
+"--marker",
+"2026-10-17-end-to-end-path-binary-and-harness-legs"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy message · message: the Viola overseer (technical, founder-delegated), answering implement P2 E2E-naming question, 2026-10-17",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "message: the Viola overseer (technical, founder-delegated), answering implement P2 E2E-naming question, 2026-10-17",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "0c44797bfac2941336199ace3eb51ab1b3bd137ba93283d0446358eee9cbce84",
+"copy": "I2-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-17T01:38:54Z",
+"step": "implement",
+"why": "widen the harness E2E regex to ^(path[0-9]*|tui|mcp|cross|chaos|contract)_; the wrap amends test-plan §3 and the testing.md / a11y copies"
+}
+}
+]

@@ -1,0 +1,49 @@
+[
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-17T01:42:17Z",
+"argv": [
+"implement",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-17-end-to-end-path-binary-and-harness-legs",
+"--id",
+"v1-02",
+"--ref-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-17T01-21-28-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"implement v1-02 · status planned → implemented · ref crates/viola-e2e/tests/cli.rs::status_logs_and_cleanup_drive_a_booted_session · … (394 chars)",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-02",
+"chunk": "2026-10-17-end-to-end-path-binary-and-harness-legs",
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "On each of the three CI OSes (the run the chunk's `ci.py conclusion` entry reads), the `scripts/agent-run.*` shims drive… (842 chars)",
+"notes_chars": 697
+},
+"after": {
+"id": "v1-02",
+"chunk": "2026-10-17-end-to-end-path-binary-and-harness-legs",
+"status": "implemented",
+"method": "e2e",
+"ref": "crates/viola-e2e/tests/cli.rs::status_logs_and_cleanup_drive_a_booted_session · crates/viola-e2e/tests/harness_lifecycle… (394 chars)",
+"acceptance": "On each of the three CI OSes (the run the chunk's `ci.py conclusion` entry reads), the `scripts/agent-run.*` shims drive… (842 chars)",
+"notes_chars": 697
+}
+}
+]

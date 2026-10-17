@@ -6,7 +6,7 @@ use std::path::PathBuf;
 use std::process::ExitCode;
 
 use clap::{Args, Parser, Subcommand};
-use viola_e2e::harness::boot::{BootOptions, DEFAULT_CLI_VERSION, InstanceSpec, boot};
+use viola_e2e::harness::boot::{AgentsMode, BootOptions, DEFAULT_CLI_VERSION, InstanceSpec, boot};
 use viola_e2e::harness::cleanup::{Target, cleanup};
 use viola_e2e::harness::gate::{gate, parse_require};
 use viola_e2e::harness::logs::{Query, query};
@@ -37,6 +37,12 @@ enum Cmd {
         /// Skip boot step 4: the home is not stamped through `viola verify`.
         #[arg(long)]
         unstamped: bool,
+        /// Plant the stamped home's statusline source naming the fake agent's `statusline-echo`.
+        #[arg(long, conflicts_with = "unstamped")]
+        statusline_echo: bool,
+        /// How the session's fake agent answers `claude agents --json`.
+        #[arg(long, value_enum, default_value_t = AgentsMode::Recorded)]
+        agents_mode: AgentsMode,
     },
     Run(RunArgs),
     Status {
@@ -81,6 +87,8 @@ struct RunArgs {
     #[arg(long)]
     integration: bool,
     #[arg(long)]
+    e2e: bool,
+    #[arg(long)]
     mutants: bool,
     #[arg(long)]
     coverage: bool,
@@ -121,14 +129,21 @@ fn emit(outcome: Outcome) -> ExitCode {
     ExitCode::from(outcome.code)
 }
 
+/// The boot flags past the session and its instances.
+struct BootFlags {
+    cli_version: String,
+    unstamped: bool,
+    statusline_echo: bool,
+    agents_mode: AgentsMode,
+}
+
 /// No `--instance` boots the overseer + builder pair; `--unstamped` skips the stamp. `None` when an
 /// instance does not parse.
 fn boot_options(
     ws: Workspace,
     session: String,
     instances: Vec<String>,
-    cli_version: String,
-    unstamped: bool,
+    flags: BootFlags,
 ) -> Option<BootOptions> {
     let raw = if instances.is_empty() {
         vec!["overseer".to_owned(), "builder".to_owned()]
@@ -144,20 +159,16 @@ fn boot_options(
         ws,
         session,
         instances,
-        cli_version,
+        cli_version: flags.cli_version,
         build: true,
-        stamp: !unstamped,
+        stamp: !flags.unstamped,
+        statusline_echo: flags.statusline_echo,
+        agents_mode: flags.agents_mode,
     })
 }
 
-fn boot_cmd(
-    ws: Workspace,
-    session: String,
-    instances: Vec<String>,
-    cli_version: String,
-    unstamped: bool,
-) -> ExitCode {
-    match boot_options(ws, session, instances, cli_version, unstamped) {
+fn boot_cmd(ws: Workspace, session: String, instances: Vec<String>, flags: BootFlags) -> ExitCode {
+    match boot_options(ws, session, instances, flags) {
         Some(opts) => emit(boot(&opts)),
         None => emit(Outcome::usage(Some("boot"), "invalid-instance")),
     }
@@ -167,6 +178,7 @@ fn run_cmd(ws: &Workspace, args: RunArgs) -> ExitCode {
     let named = Selection {
         unit: args.unit,
         integration: args.integration,
+        e2e: args.e2e,
         mutants: args.mutants,
         coverage: args.coverage,
         fuzz_replay: args.fuzz_replay,
@@ -236,7 +248,17 @@ fn main() -> ExitCode {
             instances,
             cli_version,
             unstamped,
-        } => boot_cmd(ws, session, instances, cli_version, unstamped),
+            statusline_echo,
+            agents_mode,
+        } => {
+            let flags = BootFlags {
+                cli_version,
+                unstamped,
+                statusline_echo,
+                agents_mode,
+            };
+            boot_cmd(ws, session, instances, flags)
+        }
         Cmd::Run(args) => run_cmd(&ws, args),
         Cmd::Status { session } => emit(status(&ws, &session)),
         Cmd::Cleanup { session, all } => cleanup_cmd(&ws, session.as_deref(), all),
@@ -323,15 +345,58 @@ mod tests {
                 instances,
                 cli_version,
                 unstamped,
+                statusline_echo,
+                agents_mode,
             } => boot_options(
                 Workspace::from_build(),
                 session,
                 instances,
-                cli_version,
-                unstamped,
+                BootFlags {
+                    cli_version,
+                    unstamped,
+                    statusline_echo,
+                    agents_mode,
+                },
             ),
             _ => panic!("not boot"),
         }
+    }
+
+    #[test]
+    fn boot_flags_agents_mode_parses_and_defaults_to_recorded() {
+        assert_eq!(
+            boot_opts(&[]).expect("options").agents_mode,
+            AgentsMode::Recorded
+        );
+        for (word, mode) in [
+            ("recorded", AgentsMode::Recorded),
+            ("oversize", AgentsMode::Oversize),
+            ("malformed", AgentsMode::Malformed),
+        ] {
+            let opts = boot_opts(&["--agents-mode", word]).expect("options");
+            assert_eq!(opts.agents_mode, mode, "{word}");
+        }
+        let argv = ["viola-harness", "boot", "--agents-mode", "loud"];
+        assert!(Cli::try_parse_from(argv).is_err(), "an unknown mode");
+    }
+
+    #[test]
+    fn boot_flags_statusline_echo_parses() {
+        assert!(!boot_opts(&[]).expect("options").statusline_echo);
+        let opts = boot_opts(&["--statusline-echo"]).expect("options");
+        assert!(opts.statusline_echo && opts.stamp);
+    }
+
+    #[test]
+    fn boot_flags_statusline_echo_with_unstamped_is_refused() {
+        let argv = ["viola-harness", "boot", "--statusline-echo", "--unstamped"];
+        assert!(Cli::try_parse_from(argv).is_err());
+    }
+
+    #[test]
+    fn run_e2e_is_a_flag_of_its_own() {
+        assert!(run_args(&["--e2e"]).expect("parsed").e2e);
+        assert!(!run_args(&["--all"]).expect("parsed").e2e);
     }
 
     #[test]

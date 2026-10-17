@@ -4,7 +4,7 @@
 use std::process::{Command, Output};
 
 use serde_json::Value;
-use viola_e2e::harness::boot::{BootOptions, DEFAULT_CLI_VERSION, InstanceSpec, boot};
+use viola_e2e::harness::boot::{AgentsMode, BootOptions, DEFAULT_CLI_VERSION, InstanceSpec, boot};
 use viola_e2e::harness::cleanup::{Target, cleanup};
 use viola_e2e::harness::{SessionRecord, Workspace, bin_dir_from_exe, read_json};
 
@@ -172,6 +172,8 @@ fn booted(label: &str) -> (Booted, SessionRecord) {
         cli_version: DEFAULT_CLI_VERSION.to_owned(),
         build: false,
         stamp: true,
+        statusline_echo: false,
+        agents_mode: AgentsMode::Recorded,
     };
     let guard = Booted { ws, session };
     let out = boot(&opts);
@@ -187,7 +189,18 @@ fn status_logs_and_cleanup_drive_a_booted_session() {
     let session = guard.session.clone();
     let status = harness(&["status", "--session", &session]);
     assert_eq!(status.status.code(), Some(0));
-    assert_eq!(document(&status)["state"], "ready");
+    let doc = document(&status);
+    assert_eq!(doc["state"], "ready");
+    assert_eq!(doc["list"]["v"], 1, "{doc}");
+    let items = doc["list"]["ok"]["items"]
+        .as_array()
+        .expect("the list items");
+    assert!(
+        items
+            .iter()
+            .any(|i| i["name"] == "builder" && i["wrapped"] == true && i["liveness"] == "live"),
+        "{doc}"
+    );
 
     let logs = harness(&[
         "logs",

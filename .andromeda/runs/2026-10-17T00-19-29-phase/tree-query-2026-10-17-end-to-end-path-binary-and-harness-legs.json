@@ -1,0 +1,335 @@
+[
+{
+"sql": "SELECT callee_name, file, line FROM refs WHERE callee_name IN ('BootOptions','status','ensure_e2e_home','from_flags','test_suites','SessionRecord','SuperviseSpec') AND callee_crate = 'viola-e2e' ORDER BY callee_name, file, line",
+"rows": 65,
+"result": [
+{
+"callee_name": "BootOptions",
+"file": "crates/viola-e2e/src/bin/viola-harness.rs",
+"line": 8
+},
+{
+"callee_name": "BootOptions",
+"file": "crates/viola-e2e/src/bin/viola-harness.rs",
+"line": 131
+},
+{
+"callee_name": "BootOptions",
+"file": "crates/viola-e2e/src/bin/viola-harness.rs",
+"line": 141
+},
+{
+"callee_name": "BootOptions",
+"file": "crates/viola-e2e/src/bin/viola-harness.rs",
+"line": 317
+},
+{
+"callee_name": "BootOptions",
+"file": "crates/viola-e2e/src/harness/boot.rs",
+"line": 100
+},
+{
+"callee_name": "BootOptions",
+"file": "crates/viola-e2e/src/harness/boot.rs",
+"line": 115
+},
+{
+"callee_name": "BootOptions",
+"file": "crates/viola-e2e/src/harness/boot.rs",
+"line": 187
+},
+{
+"callee_name": "BootOptions",
+"file": "crates/viola-e2e/src/harness/boot.rs",
+"line": 755
+},
+{
+"callee_name": "BootOptions",
+"file": "crates/viola-e2e/src/harness/boot.rs",
+"line": 782
+},
+{
+"callee_name": "BootOptions",
+"file": "crates/viola-e2e/src/harness/boot.rs",
+"line": 799
+},
+{
+"callee_name": "BootOptions",
+"file": "crates/viola-e2e/src/harness/run/perf.rs",
+"line": 11
+},
+{
+"callee_name": "BootOptions",
+"file": "crates/viola-e2e/src/harness/run/perf.rs",
+"line": 34
+},
+{
+"callee_name": "BootOptions",
+"file": "crates/viola-e2e/src/harness/run/perf.rs",
+"line": 42
+},
+{
+"callee_name": "BootOptions",
+"file": "crates/viola-e2e/src/harness/run/perf.rs",
+"line": 165
+},
+{
+"callee_name": "BootOptions",
+"file": "crates/viola-e2e/src/harness/run/perf.rs",
+"line": 226
+},
+{
+"callee_name": "BootOptions",
+"file": "crates/viola-e2e/src/harness/run/perf.rs",
+"line": 243
+},
+{
+"callee_name": "BootOptions",
+"file": "crates/viola-e2e/tests/cli.rs",
+"line": 6
+},
+{
+"callee_name": "BootOptions",
+"file": "crates/viola-e2e/tests/cli.rs",
+"line": 166
+},
+{
+"callee_name": "BootOptions",
+"file": "crates/viola-e2e/tests/harness_lifecycle.rs",
+"line": 6
+},
+{
+"callee_name": "BootOptions",
+"file": "crates/viola-e2e/tests/harness_lifecycle.rs",
+"line": 14
+},
+{
+"callee_name": "BootOptions",
+"file": "crates/viola-e2e/tests/harness_lifecycle.rs",
+"line": 15
+},
+{
+"callee_name": "BootOptions",
+"file": "crates/viola-e2e/tests/harness_lifecycle.rs",
+"line": 238
+},
+{
+"callee_name": "BootOptions",
+"file": "crates/viola-e2e/tests/harness_lifecycle.rs",
+"line": 267
+},
+{
+"callee_name": "BootOptions",
+"file": "crates/viola-e2e/tests/harness_lifecycle.rs",
+"line": 289
+},
+{
+"callee_name": "SessionRecord",
+"file": "crates/viola-e2e/src/harness/boot.rs",
+"line": 17
+},
+{
+"callee_name": "SessionRecord",
+"file": "crates/viola-e2e/src/harness/boot.rs",
+"line": 162
+},
+{
+"callee_name": "SessionRecord",
+"file": "crates/viola-e2e/src/harness/cleanup.rs",
+"line": 12
+},
+{
+"callee_name": "SessionRecord",
+"file": "crates/viola-e2e/src/harness/cleanup.rs",
+"line": 41
+},
+{
+"callee_name": "SessionRecord",
+"file": "crates/viola-e2e/src/harness/cleanup.rs",
+"line": 88
+},
+{
+"callee_name": "SessionRecord",
+"file": "crates/viola-e2e/src/harness/cleanup.rs",
+"line": 262
+},
+{
+"callee_name": "SessionRecord",
+"file": "crates/viola-e2e/src/harness/cleanup.rs",
+"line": 307
+},
+{
+"callee_name": "SessionRecord",
+"file": "crates/viola-e2e/src/harness/mod.rs",
+"line": 262
+},
+{
+"callee_name": "SessionRecord",
+"file": "crates/viola-e2e/src/harness/mod.rs",
+"line": 276
+},
+{
+"callee_name": "SessionRecord",
+"file": "crates/viola-e2e/tests/cli.rs",
+"line": 8
+},
+{
+"callee_name": "SessionRecord",
+"file": "crates/viola-e2e/tests/cli.rs",
+"line": 163
+},
+{
+"callee_name": "SessionRecord",
+"file": "crates/viola-e2e/tests/harness_lifecycle.rs",
+"line": 11
+},
+{
+"callee_name": "SessionRecord",
+"file": "crates/viola-e2e/tests/harness_lifecycle.rs",
+"line": 44
+},
+{
+"callee_name": "SuperviseSpec",
+"file": "crates/viola-e2e/src/harness/boot.rs",
+"line": 139
+},
+{
+"callee_name": "SuperviseSpec",
+"file": "crates/viola-e2e/src/harness/boot.rs",
+"line": 425
+},
+{
+"callee_name": "SuperviseSpec",
+"file": "crates/viola-e2e/src/harness/supervise.rs",
+"line": 14
+},
+{
+"callee_name": "SuperviseSpec",
+"file": "crates/viola-e2e/src/harness/supervise.rs",
+"line": 53
+},
+{
+"callee_name": "ensure_e2e_home",
+"file": "crates/viola-e2e/src/harness/boot.rs",
+"line": 127
+},
+{
+"callee_name": "ensure_e2e_home",
+"file": "crates/viola-e2e/src/harness/mod.rs",
+"line": 343
+},
+{
+"callee_name": "ensure_e2e_home",
+"file": "crates/viola-e2e/src/harness/mod.rs",
+"line": 346
+},
+{
+"callee_name": "ensure_e2e_home",
+"file": "crates/viola-e2e/src/harness/mod.rs",
+"line": 387
+},
+{
+"callee_name": "ensure_e2e_home",
+"file": "crates/viola-e2e/src/harness/mod.rs",
+"line": 395
+},
+{
+"callee_name": "ensure_e2e_home",
+"file": "crates/viola-e2e/src/harness/mod.rs",
+"line": 417
+},
+{
+"callee_name": "ensure_e2e_home",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 376
+},
+{
+"callee_name": "from_flags",
+"file": "crates/viola-e2e/src/bin/viola-harness.rs",
+"line": 179
+},
+{
+"callee_name": "from_flags",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 539
+},
+{
+"callee_name": "from_flags",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 792
+},
+{
+"callee_name": "from_flags",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 794
+},
+{
+"callee_name": "from_flags",
+"file": "crates/viola-e2e/src/harness/run/coverage.rs",
+"line": 117
+},
+{
+"callee_name": "from_flags",
+"file": "crates/viola-e2e/src/harness/run/perf.rs",
+"line": 549
+},
+{
+"callee_name": "from_flags",
+"file": "crates/viola-e2e/src/harness/run/perf.rs",
+"line": 550
+},
+{
+"callee_name": "from_flags",
+"file": "crates/viola-e2e/src/harness/run/perf.rs",
+"line": 551
+},
+{
+"callee_name": "status",
+"file": "crates/viola-e2e/src/bin/viola-harness.rs",
+"line": 16
+},
+{
+"callee_name": "status",
+"file": "crates/viola-e2e/src/bin/viola-harness.rs",
+"line": 16
+},
+{
+"callee_name": "status",
+"file": "crates/viola-e2e/src/bin/viola-harness.rs",
+"line": 240
+},
+{
+"callee_name": "status",
+"file": "crates/viola-e2e/src/harness/mod.rs",
+"line": 8
+},
+{
+"callee_name": "status",
+"file": "crates/viola-e2e/tests/harness_lifecycle.rs",
+"line": 9
+},
+{
+"callee_name": "status",
+"file": "crates/viola-e2e/tests/harness_lifecycle.rs",
+"line": 9
+},
+{
+"callee_name": "status",
+"file": "crates/viola-e2e/tests/harness_lifecycle.rs",
+"line": 107
+},
+{
+"callee_name": "status",
+"file": "crates/viola-e2e/tests/harness_lifecycle.rs",
+"line": 174
+},
+{
+"callee_name": "test_suites",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 143
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

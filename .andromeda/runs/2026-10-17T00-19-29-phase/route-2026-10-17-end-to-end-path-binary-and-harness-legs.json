@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "8fc13695",
+"ts": "2026-10-17T00:21:24Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-10-17-end-to-end-path-binary-and-harness-legs",
+"--expect-prefix",
+"End-to-end path binary and harness legs",
+"--record-file",
+".andromeda/runs/2026-10-17T00-19-29-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-10-17T00-19-29-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"stamp viola-0.1.0/working-route.md:144 - [2026-10-17-end-to-end-path-binary-and-harness-legs]",
+"record master-route.md:75 - appended under `## viola-0.1.0`",
+"promoted 2026-10-17-end-to-end-path-binary-and-harness-legs - viola-0.1.0/working-route.md:144 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/working-route.md",
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+}
+]

@@ -1,4 +1,4 @@
-//! `run`: the built suites (unit · integration · doctest · coverage · fuzz-replay · perf)
+//! `run`: the built suites (unit · integration · e2e · doctest · coverage · fuzz-replay · perf)
 //! and the mutation arm kept for the epoch-boundary audit, one JSON summary, merged by suite into
 //! `target/agent-run/artifacts/run-summary.json` (test-plan §3 `run`).
 
@@ -36,6 +36,8 @@ pub type Runner<'r> = dyn FnMut(&mut Command) -> (Option<i32>, String) + 'r;
 pub struct Selection {
     pub unit: bool,
     pub integration: bool,
+    /// `--e2e`: the E2E-prefixed binaries, the layer the integration run leaves out.
+    pub e2e: bool,
     pub mutants: bool,
     pub coverage: bool,
     pub fuzz_replay: bool,
@@ -49,7 +51,7 @@ pub struct Selection {
 }
 
 impl Selection {
-    /// No selector, or `--all`, selects unit and integration. `--coverage` replaces the nextest
+    /// No selector, or `--all`, selects unit, integration and e2e. `--coverage` replaces the nextest
     /// runs, `--fuzz-replay` is Linux-only, `--perf` needs hyperfine and a release build,
     /// `--mutants` is the epoch-boundary audit's, and `--local-live` drives the real CLI, so none of
     /// them joins the default.
@@ -58,6 +60,7 @@ impl Selection {
         Self {
             unit: named.unit || all || none,
             integration: named.integration || all || none,
+            e2e: named.e2e || all || none,
             ..named
         }
     }
@@ -257,6 +260,15 @@ fn test_suites(
                 ws,
                 "nextest-integration",
                 nextest::INTEGRATION,
+                filter,
+                runner,
+            ));
+        }
+        if sel.e2e {
+            suites.push(nextest::nextest(
+                ws,
+                "nextest-e2e",
+                nextest::E2E,
                 filter,
                 runner,
             ));
@@ -755,6 +767,7 @@ mod tests {
         let default = Selection {
             unit: true,
             integration: true,
+            e2e: true,
             ..Selection::default()
         };
         assert_eq!(flags(false, false, false, false), default);
@@ -799,8 +812,73 @@ mod tests {
             },
             true,
         );
-        assert!(with_all.unit && with_all.integration && with_all.coverage);
+        assert!(with_all.unit && with_all.integration && with_all.e2e && with_all.coverage);
         assert!(!with_all.mutants && !with_all.fuzz_replay);
+    }
+
+    #[test]
+    fn e2e_layer_joins_the_default_and_all_selections() {
+        assert!(flags(false, false, false, false).e2e);
+        assert!(flags(true, false, false, true).e2e);
+        assert!(!flags(true, true, false, false).e2e);
+    }
+
+    #[test]
+    fn e2e_layer_named_alone_selects_only_itself() {
+        let named = Selection {
+            e2e: true,
+            ..Selection::default()
+        };
+        assert_eq!(Selection::from_flags(named.clone(), false), named);
+    }
+
+    /// The E2E layer runs third, after unit and integration, through the same nextest shape and
+    /// target dir, and a filter intersects it as it does the others.
+    #[test]
+    fn e2e_layer_runs_third_as_suite_nextest_e2e() {
+        let (_tmp, ws) = scratch();
+        let mut exprs = Vec::new();
+        let out = run_with(
+            &ws,
+            flags(false, false, false, false),
+            Some("test(/x/)"),
+            None,
+            false,
+            &mut |cmd: &mut Command| {
+                let args = test_support::args_of(cmd);
+                if let Some(at) = args.iter().position(|a| a == "-E") {
+                    exprs.push(args[at + 1].clone());
+                    assert!(
+                        cmd.get_envs()
+                            .any(|(k, v)| k == "CARGO_TARGET_DIR" && v.is_some())
+                    );
+                }
+                (Some(0), String::new())
+            },
+        );
+        assert_eq!(
+            exprs,
+            [
+                format!("({}) & (test(/x/))", nextest::UNIT),
+                format!("({}) & (test(/x/))", nextest::INTEGRATION),
+                format!("({}) & (test(/x/))", nextest::E2E),
+            ]
+        );
+        let names: Vec<&str> = out.doc["suites"]
+            .as_array()
+            .expect("suites")
+            .iter()
+            .filter_map(|s| s["suite"].as_str())
+            .collect();
+        assert_eq!(
+            names,
+            [
+                "nextest-unit",
+                "nextest-integration",
+                "nextest-e2e",
+                "doctest"
+            ]
+        );
     }
 
     #[test]
@@ -847,6 +925,7 @@ mod tests {
     #[test]
     fn run_reports_unit_integration_and_doctest_suites() {
         let (_tmp, ws) = mini(GOOD_LIB);
+        with_an_e2e_binary(&ws);
         let sel = flags(true, true, false, false);
         let out = run(&ws, sel, None, None);
         assert_eq!(out.code, 0, "{}", out.doc);
@@ -857,6 +936,16 @@ mod tests {
         let summary: Value = read_json(&ws.artifacts().join("run-summary.json")).expect("summary");
         assert_eq!(summary["suites"].as_array().map(Vec::len), Some(3));
         assert!(out.doc.get("mutants").is_none());
+    }
+
+    /// nextest refuses to parse a `binary()` regex that matches no binary, so a throwaway
+    /// workspace whose integration layer runs carries one E2E-prefixed binary the layer leaves out.
+    fn with_an_e2e_binary(ws: &Workspace) {
+        fs::write(
+            ws.root.join("tests").join("path_it.rs"),
+            "#[test]\nfn path_it_passes() {}\n",
+        )
+        .expect("write");
     }
 
     #[test]
@@ -878,6 +967,7 @@ mod tests {
     #[test]
     fn run_with_a_filter_matching_nothing_is_red() {
         let (_tmp, ws) = mini(GOOD_LIB);
+        with_an_e2e_binary(&ws);
         let out = run(
             &ws,
             flags(false, true, false, false),

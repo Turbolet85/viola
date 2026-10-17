@@ -25,11 +25,11 @@
       "observed_gap": "no harness exists; the prototype's three tests were run by hand and not mutation-checked (H:59).",
       "verification": {
         "method": "e2e",
-        "acceptance": "On each of the three OSes an agent drives a product session through boot, run, status, cleanup and logs via identical shell shims, each command emitting exactly one JSON document and a typed exit status; boot reaches readiness or names the unmet check; cleanup run twice succeeds and proves endpoints, ports and token files gone; status shows the CLI board and the GUI sessions agreeing.",
-        "ref": null,
-        "status": "planned"
+        "acceptance": "On each of the three CI OSes (the run the chunk's `ci.py conclusion` entry reads), the `scripts/agent-run.*` shims drive a fake-agent session through `boot`, `run`, `status`, `cleanup` and `logs`, each command printing exactly one JSON document and exiting 0, 1 or 2; `boot` reaches readiness or names its unmet check; `status` exits 0 with `state:\"ready\"` and a `list` member that is the `viola list --json` document naming the booted instance `wrapped:true, liveness:\"live\"`; `cleanup` run twice exits 0 with `processes_gone` and `endpoint_gone` true — witnessed by `ci.yml`'s harness lifecycle step on the three runners and by `crates/viola-e2e/tests/cli.rs` / `harness_lifecycle.rs` under `run --coverage`. The «ports and token files» and «GUI sessions agree» clauses are out of 0.1.0 by the founder's 2026-10-16 ruling (this cap's note).",
+        "ref": "crates/viola-e2e/tests/cli.rs::status_logs_and_cleanup_drive_a_booted_session · crates/viola-e2e/tests/harness_lifecycle.rs::harness_session_boots_reports_logs_and_tears_down (status nests the viola list document; both under run --coverage) · .github/workflows/ci.yml harness lifecycle step (boot -> status -> logs -> cleanup x2) on the three runners, read by the chunk's ci.py conclusion entry",
+        "status": "implemented"
       },
-      "chunk": null,
+      "chunk": "2026-10-17-end-to-end-path-binary-and-harness-legs",
       "notes": "2026-10-16 (the 2026-10-16T14-58-10 0-pending wrap, an operator-requested route adaptation): The founder ruled on 2026-10-16 (his own words, relayed verbatim by the Viola overseer; this wrap's snapshot `.andromeda/runs/2026-10-16T14-58-10-wrap/inputs/` I1) that 0.1.0 is a pure CLI and the whole frontend moves to 0.2.0, its technology not chosen; its web clauses leave 0.1.0 — «ports and token files» in what cleanup proves gone (the `viola ui` port and its `ui/<port>.url`), and «status shows the CLI board and the GUI sessions agree» (no GUI in 0.1.0). The CLI half stands unweakened: the claiming chunk concretizes and proves the rest with this clause out of scope, never a weaker CLI outcome."
     },
     {
@@ -333,7 +333,7 @@
         "status": "planned"
       },
       "chunk": null,
-      "notes": "2026-10-10 (2026-10-10-statusline-pass-through, phase P5): not claimed, only partly advanced. This chunk plans the named source (the home's `statusline-source.json` when present, else the user's `~/.claude/settings.json` for the default home only), never writes it, makes it redirectable per test home, and proves under the fake agent on Linux and macOS that a wrapped statusline prints the user's output unchanged. The acceptance names no OS, and the Windows half (the override and the shell-out) is cut provisionally to the route entry \"Windows-only live measurements\" (the chunk's `inputs#I3`), so the acceptance is not provable by this chunk. Nothing is measured on the real CLI. The founder's word on the three widenings and on relying on the CLI's statusline behaviours with no ledger row is owed before implement starts (the plan's stop rule S1)."
+      "notes": "2026-10-10 (2026-10-10-statusline-pass-through, phase P5): not claimed, only partly advanced. This chunk plans the named source (the home's `statusline-source.json` when present, else the user's `~/.claude/settings.json` for the default home only), never writes it, makes it redirectable per test home, and proves under the fake agent on Linux and macOS that a wrapped statusline prints the user's output unchanged. The acceptance names no OS, and the Windows half (the override and the shell-out) is cut provisionally to the route entry \"Windows-only live measurements\" (the chunk's `inputs#I3`), so the acceptance is not provable by this chunk. Nothing is measured on the real CLI. The founder's word on the three widenings and on relying on the CLI's statusline behaviours with no ledger row is owed before implement starts (the plan's stop rule S1).\n\n2026-10-17 (2026-10-17-end-to-end-path-binary-and-harness-legs, phase P5): not claimed, only advanced. This chunk builds `agent-run boot --statusline-echo`, which plants the named source per harness session home, and asserts the wrapped statusline's pass-through on Unix through it. The Windows half (the override and the shell-out) stays owed to the route entry \"Windows-only live measurements\", so the acceptance is not provable by this chunk."
     },
     {
       "id": "v1-25",
@@ -483,7 +483,7 @@
         "status": "planned"
       },
       "chunk": null,
-      "notes": "2026-10-10 (2026-10-10-budget-governor, phase P5): not claimed, only partly advanced. This chunk plans the gate (two thresholds from `config.json`, evaluated at start, at a `send`'s arrival and at each `turn-ended`; the `budget-paused` refusal with its window word; the lift at the crossed window's reset or by a per-instance `release --budget`) and proves it under the fake agent. Two clauses of the acceptance are not provable by this chunk: readings recorded \"without touching the user's statusline configuration or output\" hold on Unix only (the Windows half is owed to the route entry \"Windows-only live measurements\"), and \"missing readings show as unknown with their age\" has no showing surface before the route entry \"The board: viola list\". Nothing is measured on the real CLI, and the `rate_limits` ledger row waits for the founder's word (the plan's step 15)."
+      "notes": "2026-10-10 (2026-10-10-budget-governor, phase P5): not claimed, only partly advanced. This chunk plans the gate (two thresholds from `config.json`, evaluated at start, at a `send`'s arrival and at each `turn-ended`; the `budget-paused` refusal with its window word; the lift at the crossed window's reset or by a per-instance `release --budget`) and proves it under the fake agent. Two clauses of the acceptance are not provable by this chunk: readings recorded \"without touching the user's statusline configuration or output\" hold on Unix only (the Windows half is owed to the route entry \"Windows-only live measurements\"), and \"missing readings show as unknown with their age\" has no showing surface before the route entry \"The board: viola list\". Nothing is measured on the real CLI, and the `rate_limits` ledger row waits for the founder's word (the plan's step 15).\n\n2026-10-17 (2026-10-17-end-to-end-path-binary-and-harness-legs, phase P5): not claimed, only advanced. This chunk lands Path 6's harness-session form and step 7's two-instance leg under the fake agent (a per-instance override lifts one instance's pause while the other stays paused). The acceptance's \"without touching the user's statusline configuration or output\" still holds on Unix only; its Windows half is owed to the route entry \"Windows-only live measurements\", so the cap is not provable by this chunk."
     },
     {
       "id": "v1-36",
@@ -730,7 +730,8 @@
         "ref": null,
         "status": "planned"
       },
-      "chunk": null
+      "chunk": null,
+      "notes": "2026-10-17 (2026-10-17-end-to-end-path-binary-and-harness-legs, phase P5): not claimed. This chunk adds two `path_` E2E binaries that run on Linux and macOS against the fake agent, but the cap's parity suite, its macOS gap record and its one live Linux `viola run` belong to the route entry \"Linux and macOS parity\", so it is not provable by this chunk."
     }
   ]
 }

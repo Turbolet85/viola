@@ -6,6 +6,7 @@ pub mod pre_push;
 pub mod run;
 pub mod schema_check;
 pub mod secret_scan;
+pub mod session;
 pub mod status;
 pub mod supervise;
 
@@ -258,6 +259,8 @@ pub struct SessionRecord {
     pub instances: Vec<InstanceRecord>,
     pub supervisor_pid: u32,
     pub supervisor_started_at: u64,
+    #[serde(default)]
+    pub agents_mode: boot::AgentsMode,
 }
 
 impl SessionRecord {

@@ -1,0 +1,12 @@
+# Implement journal — 2026-10-17-end-to-end-path-binary-and-harness-legs
+
+One line per long run, written before the wait; its result appended when read.
+
+- 01:31:11Z · P1 compile check: `cargo clippy --workspace --all-targets --features fake-agent -- -D warnings` (by hand, before the gate block; output in the session scratchpad `$TMPDIR/claude-1000/…/scratchpad/clippy1.txt`) — result: rc 101, `tests/cli_instance_state.rs:17:27: error: unused import: FAKE` (the moved `run_refused` took its only use); import dropped
+- 01:31:35Z · the same clippy re-run — result: rc 0, no diagnostic
+- 01:32Z · step 6 witness, red-before: `cargo nextest run -p viola-e2e --lib` selecting `remove_session_home_removes_a_boot_created_parent` in a scratch workspace exported from HEAD 6042af6 (`git archive`), its `target/e2e-home` a dangling link to an absent absolute dir, built under `target/carry5-witness` — result: exit 100, panicked at cleanup.rs:362:43 `AlreadyExists` (journal stamp corrected from 01:33Z: the clock read 01:32:10Z after it)
+- 01:32:25Z · step 6 witness, green-after: the same case with the fix applied in the scratch copy — result: exit 0, 1 passed; record `evidence/carry5-dangling-link.md`
+- 01:33:37Z · P2 block run 1: `gate.py run --plan … --run-dir … --marker …`, backgrounded (entries 1-19; 20-22 are `leg = 'operator'`); pre-push (entry 19, timeout 7200) runs `run --coverage`, which runs the watched `cli_send` case — result: summary `entries 22 · green 15 · red 4 (9,11,12,19) · recorded 0 · timeout 0 · not-run 3`; 9 and 19: the malformed-agents lifecycle case's boot reads verify-failed (Run B's agents read goes through the session claude); 11 and 12: the E2E regex `^(path|…)_` does not match `path1_`/`path6_`, so both new binaries sit in the integration layer; watched cli_send green in 19
+- 01:37Z · P2 re-run 1: `--only 9` after the agents-mode file moved after the stamp — result: entry 9 green, 42.39 s (9.2.log)
+- 01:39:14Z · regex widened to `^(path[0-9]*|tui|mcp|cross|chaos|contract)_` on the overseer's answer (`inputs#I2`); P2 block run 2 (full), backgrounded — result: `entries 22 · green 19 · red 0 · recorded 0 · timeout 0 · not-run 3`; run --e2e 157 tests / 20 binaries; entry 12 nextest-exit-4; pre-push 2666 passed; watched cli_send green (reading 2)
+- 01:44:14Z · operator pass: entry 19 (`pre-push`) re-run on the final uncommitted tree before the pre-CI commit (`--only 19`) — result: green, 72.99 s (19.3.log), 2666 passed; watched cli_send green (reading 3)
