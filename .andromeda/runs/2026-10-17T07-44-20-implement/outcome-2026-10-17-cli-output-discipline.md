@@ -11,6 +11,12 @@ Next → the OPERATOR PASS (`.claude/rules/ci.md`): entry 19 (`gate.py hygiene`,
 entry 20 (the push, through `gate.py run --operator 20`), entry 21 (`ci.py conclusion`, as written); then
 `/andromeda-wrap-session`.
 
+**The operator pass, first round:** pre-push green, hygiene clean, pre-CI commit `94a3d25`, pushed; CI `ci#39015978414`
+red on `test (windows-2025)` alone (14 of 15 jobs green): `help_lists_only_served_verbs`, a test oracle
+(`evidence/red-04-ci-windows-help-oracle.txt`: a verb's own usage line names the program `viola.exe` on Windows). The
+oracle now reads the program word with `.exe` taken off and the verb as the next word; entries 1, 2, 3, 8 re-ran
+green; the pass repeats from step 1 for the fix commit (`evidence/operator-pass.md` carries every step).
+
 ## Files changed (14, all on research's lists; `gate.py scope`: clean — changed 14 · listed 14 · recorded 0)
 - New: `src/human/style.rs` (tokens, `Depth`, `Facts`, `decide`, the fact reader, the Windows VT enable and its
   restoring guard, the `colour_` units); `tests/support/sgr.rs` (`sgr_attributes` moved, plus `redraws` and
@@ -53,7 +59,11 @@ entry 20 (the push, through `gate.py run --operator 20`), entry 21 (`ci.py concl
    testing.md 2026-09-27). `vt_mode` and its constant are `cfg(any(windows, test))`, so no dead code on Unix and no
    `#[allow]`.
 6. **`Colour` re-export.** `human.rs` re-exports only `read_colour`; `Colour` is never named outside `human`.
-7. **The terminal values** are read with `to_string_lossy` (a non-UTF-8 `TERM` reads as its lossy text, never as
+7. **Step 2's usage reading.** `help_lists_only_served_verbs` reads each verb's usage line as its program word
+   (`viola`, or `viola.exe` on Windows) then the verb, after the first CI round read the Windows form
+   (`evidence/red-04-ci-windows-help-oracle.txt`). The plan's own words for step 2 (exit 0 per verb, no unserved
+   verb in the table) are unchanged.
+8. **The terminal values** are read with `to_string_lossy` (a non-UTF-8 `TERM` reads as its lossy text, never as
    `dumb` or `256color` unless it holds them).
 
 ## Surfaced

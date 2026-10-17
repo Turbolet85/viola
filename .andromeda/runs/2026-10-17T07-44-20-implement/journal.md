@@ -9,3 +9,7 @@
 - 2026-10-17T08:0xZ · P2 · the whole block started in the background: `gate.py run --plan
   viola-0.1.0/chunks/2026-10-17-cli-output-discipline/plan.md --run-dir .andromeda/runs/2026-10-17T07-44-20-implement
   --marker 2026-10-17-cli-output-discipline` (21 entries, 3 operator entries not fired; pre-push bounded 7200 s).
+- 2026-10-17T08:00Z · block done: green 18 · red 0 · not-run 3 (operator). P3 smoke by hand, cleaned. Outcome written.
+- 2026-10-17T08:04Z · operator pass: pre-push green, hygiene clean, pre-CI commit 94a3d25, entry 20 pushed
+  (origin/build/viola-0.1.0 6d8b662c→94a3d25e, written after the push). CI read (entry 21) started in the background:
+  `ci.py conclusion --sha HEAD --wait 1800`.

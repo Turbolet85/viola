@@ -1,0 +1,20 @@
+CI red on the pre-CI commit 94a3d25 (ci#39015978414, `ci.py conclusion --sha HEAD --wait 1800`: verdict red ·
+checks 15/15 · first-fail +547 s test (windows-2025)). The run completed failure with 14 of 15 jobs green; the one red
+job is `test (windows-2025)` (job 117348052760).
+
+Read from the job log (gh api --allow-escape-sequences repos/Turbolet85/viola/actions/jobs/117348052760/logs, escapes
+stripped):
+  FAIL [   0.049s] ( 155/2771) viola::cli_output_plain help_lists_only_served_verbs
+  thread 'help_lists_only_served_verbs' (8312) panicked at tests\cli_output_plain.rs:87:9:
+  list
+  Summary [ 319.603s] 2771 tests run: 2770 passed (5 slow), 1 failed, 0 skipped
+
+Cause: a test oracle. tests/cli_output_plain.rs:87 asserted each verb's own help holds `Usage: viola <verb>`. On
+Windows clap names the binary by its executable, so a verb's usage line reads `Usage: viola.exe <verb> …`; the
+grouped help's line is the `override_usage` literal and reads `viola` on every OS. The product is as the plan binds it
+(step 3: each verb's own help stays clap's per-verb usage), so the oracle is corrected, never the product: the usage
+line's program word is read with a trailing `.exe` taken off, and its next word is the verb.
+
+The other new Windows-run cases passed in this run (2770 passed), among them
+cross_list_rows_style_each_span_beside_its_word_on_a_terminal and
+cross_list_rows_print_no_sgr_under_no_color_dumb_piped_or_json under ConPTY.

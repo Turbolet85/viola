@@ -84,10 +84,23 @@ fn help_lists_only_served_verbs() {
     for verb in served {
         let out = forced_into_a_pipe(&[verb, "--help"]);
         assert_eq!(out.status.code(), Some(0), "{verb}");
-        assert!(
-            String::from_utf8_lossy(&out.stdout).contains(&format!("Usage: viola {verb}")),
-            "{verb}"
+        // A verb's own usage names the program by its executable: `viola.exe` on Windows.
+        let text = String::from_utf8_lossy(&out.stdout).into_owned();
+        let usage: Vec<&str> = text
+            .lines()
+            .find_map(|line| line.strip_prefix("Usage: "))
+            .unwrap_or_default()
+            .split_whitespace()
+            .take(2)
+            .collect();
+        assert_eq!(
+            usage
+                .first()
+                .map(|program| program.trim_end_matches(".exe")),
+            Some("viola"),
+            "{verb}: {text:?}"
         );
+        assert_eq!(usage.get(1).copied(), Some(verb), "{verb}: {text:?}");
     }
     let table = forced_into_a_pipe(&["--help"]);
     let rows: Vec<String> = String::from_utf8(table.stdout)
