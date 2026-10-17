@@ -41,11 +41,9 @@ impl Client {
         busy_until: Instant,
     ) -> Result<Self, ChannelError> {
         let stream = open_by(endpoint, busy_until).map_err(ChannelError::Connect)?;
-        let n = CONNECTIONS.fetch_add(1, Ordering::Relaxed) + 1;
-        let conn = format!("{process}-{}-{}-{n}", std::process::id(), t0_ms());
         Ok(Self {
             reader: BufReader::new(stream),
-            conn,
+            conn: next_conn(process),
             next_id: 1,
         })
     }
@@ -60,43 +58,17 @@ impl Client {
     pub fn request(
         &mut self,
         method: &str,
-        mut params: Map<String, Value>,
+        params: Map<String, Value>,
     ) -> Result<Value, ChannelError> {
         let started = Instant::now();
         let id = self.next_id;
         self.next_id += 1;
-        params.insert("v".to_owned(), PROTOCOL_V.into());
-        params.insert("sender".to_owned(), VERSION.into());
-        params.insert("conn".to_owned(), self.conn.clone().into());
-        let label = method_label(method);
-        let frame = json!({"jsonrpc": "2.0", "id": id, "method": method, "params": params});
-        let (after, timeout_ms) = wait_bounds(label, &frame["params"]);
-        obs_event!(
-            INFO,
-            ObsEvent::ChannelRequest,
-            corr = id,
-            conn = self.conn.as_str(),
-            method = label,
-            sender = VERSION,
-            v = PROTOCOL_V,
-            after = after,
-            timeout_ms = timeout_ms,
-        );
+        let (frame, label) = request_frame(id, &self.conn, method, params);
         let mut logged = ResponseLine::client(started, id, &self.conn, label);
         let mut writer = self.reader.get_ref();
         let exchanged =
             write_frame(&mut writer, &frame).and_then(|()| read_frame(&mut self.reader));
-        let line = match exchanged {
-            Ok(line) => line,
-            Err(error) => {
-                logged.outcome = unreachable_outcome(label, &error);
-                return Err(error);
-            }
-        };
-        let reply: Value = serde_json::from_slice(&line).map_err(ChannelError::Parse)?;
-        logged.class = reply_class(&reply);
-        logged.outcome = wait_outcome(label, &reply["result"]);
-        Ok(reply)
+        reply_from(&mut logged, label, exchanged)
     }
 
     /// [`Client::request`] bounded at `deadline`: the exchange runs on its own thread, and a reply
@@ -144,6 +116,60 @@ impl Client {
         let mut writer = self.reader.get_ref();
         write_frame(&mut writer, &frame)
     }
+}
+
+/// `<process>-<pid>-<t0>-<n>`, `n` counted over every connection this process opens, through either
+/// client.
+pub(crate) fn next_conn(process: &str) -> String {
+    let n = CONNECTIONS.fetch_add(1, Ordering::Relaxed) + 1;
+    format!("{process}-{}-{}-{n}", std::process::id(), t0_ms())
+}
+
+/// Request `id`'s frame, its `params` stamped with `v`, `sender` and `conn`, and its
+/// `channel-request` line; the method's closed label comes back for the response line.
+pub(crate) fn request_frame(
+    id: u64,
+    conn: &str,
+    method: &str,
+    mut params: Map<String, Value>,
+) -> (Value, Option<&'static str>) {
+    params.insert("v".to_owned(), PROTOCOL_V.into());
+    params.insert("sender".to_owned(), VERSION.into());
+    params.insert("conn".to_owned(), conn.into());
+    let label = method_label(method);
+    let frame = json!({"jsonrpc": "2.0", "id": id, "method": method, "params": params});
+    let (after, timeout_ms) = wait_bounds(label, &frame["params"]);
+    obs_event!(
+        INFO,
+        ObsEvent::ChannelRequest,
+        corr = id,
+        conn = conn,
+        method = label,
+        sender = VERSION,
+        v = PROTOCOL_V,
+        after = after,
+        timeout_ms = timeout_ms,
+    );
+    (frame, label)
+}
+
+/// The reply line an exchange read, parsed, its class and `wait` outcome recorded on `logged`.
+pub(crate) fn reply_from(
+    logged: &mut ResponseLine<'_>,
+    label: Option<&'static str>,
+    exchanged: Result<Vec<u8>, ChannelError>,
+) -> Result<Value, ChannelError> {
+    let line = match exchanged {
+        Ok(line) => line,
+        Err(error) => {
+            logged.outcome = unreachable_outcome(label, &error);
+            return Err(error);
+        }
+    };
+    let reply: Value = serde_json::from_slice(&line).map_err(ChannelError::Parse)?;
+    logged.class = reply_class(&reply);
+    logged.outcome = wait_outcome(label, &reply["result"]);
+    Ok(reply)
 }
 
 /// A `wait` whose reply never arrived: the wrapper vanished under it (obs-plan §4 Scenario `wait` /
@@ -208,7 +234,7 @@ fn retry_busy(error: &io::Error, now: Instant, until: Instant) -> bool {
 const BUSY_WITHIN: std::time::Duration = std::time::Duration::from_secs(2);
 
 /// When an open that started at `start` stops waiting for a busy pipe.
-fn busy_deadline(start: Instant) -> Instant {
+pub(crate) fn busy_deadline(start: Instant) -> Instant {
     start + BUSY_WITHIN
 }
 
@@ -220,11 +246,23 @@ pub(crate) fn open(endpoint: &str) -> io::Result<Stream> {
 
 #[cfg(windows)]
 fn open_by(endpoint: &str, busy_until: Instant) -> io::Result<Stream> {
+    use interprocess::os::windows::named_pipe::local_socket::Stream as PipeStream;
+    PipeStream::try_from(open_handle(endpoint, busy_until)?)
+        .map(Stream::from)
+        .map_err(|_| io::Error::from(io::ErrorKind::InvalidData))
+}
+
+/// The client end of the pipe `endpoint`, opened with SQOS Identification and overlapped, for
+/// either client to adopt. A busy pipe is waited for in 100 ms steps until `busy_until`.
+#[cfg(windows)]
+pub(crate) fn open_handle(
+    endpoint: &str,
+    busy_until: Instant,
+) -> io::Result<std::os::windows::io::OwnedHandle> {
     use std::os::windows::ffi::OsStrExt as _;
     use std::os::windows::io::{FromRawHandle as _, OwnedHandle};
     use std::ptr;
 
-    use interprocess::os::windows::named_pipe::local_socket::Stream as PipeStream;
     use windows_sys::Win32::Foundation::INVALID_HANDLE_VALUE;
     use windows_sys::Win32::Storage::FileSystem::{CreateFileW, OPEN_EXISTING};
     use windows_sys::Win32::System::Pipes::WaitNamedPipeW;
@@ -260,10 +298,7 @@ fn open_by(endpoint: &str, busy_until: Instant) -> io::Result<Stream> {
         unsafe { WaitNamedPipeW(wide.as_ptr(), BUSY_WAIT_MS) };
     };
     // SAFETY: a valid handle this call just opened; nothing else owns it.
-    let owned = unsafe { OwnedHandle::from_raw_handle(handle) };
-    PipeStream::try_from(owned)
-        .map(Stream::from)
-        .map_err(|_| io::Error::from(io::ErrorKind::InvalidData))
+    Ok(unsafe { OwnedHandle::from_raw_handle(handle) })
 }
 
 /// A Unix socket has no busy state to wait out: `busy_until` is unused.

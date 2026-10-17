@@ -1,0 +1,256 @@
+[
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "d4492939",
+"ts": "2026-10-17T09:29:48Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-17-mcp-server-for-drivers",
+"--message-file",
+".andromeda/runs/2026-10-17T09-28-44-phase/relay-1.md",
+"--origin",
+"the operator, the /andromeda-phase invocation, 2026-10-17T09:28Z",
+"--kind",
+"relay",
+"--why",
+"P4 forks are raised as dialogs; a boundary widening, a live claude start cap and the v1-33 switch question are the founder own word",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-10-17T09-28-44-phase",
+"--marker",
+"2026-10-17-mcp-server-for-drivers"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy message · message: the operator, the /andromeda-phase invocation, 2026-10-17T09:28Z",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, the /andromeda-phase invocation, 2026-10-17T09:28Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "559e29aca8be281a5a399a2babd635fadcd30409ae1eb1608fca27819322caca",
+"copy": "I1-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-17T09:29:48Z",
+"step": "phase:P1",
+"why": "P4 forks are raised as dialogs; a boundary widening, a live claude start cap and the v1-33 switch question are the founder own word"
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "d4492939",
+"ts": "2026-10-17T11:19:12Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-17-mcp-server-for-drivers",
+"--message-file",
+".andromeda/runs/2026-10-17T09-28-44-phase/relay-2.md",
+"--origin",
+"the founder, live in the overseer dialog, relayed by the overseer, 2026-10-17T11:18Z",
+"--kind",
+"relay",
+"--why",
+"founder own answers to the four P4 forks: Q1 eighth dated gap plus the agents read (widening ratified), Q2 one live claude 2.1.287 start, Q3 group 2 only before the switch, Q4 a new switch entry after the gap entries, v1-33 not claimed here",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-10-17T09-28-44-phase",
+"--marker",
+"2026-10-17-mcp-server-for-drivers"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy message · message: the founder, live in the overseer dialog, relayed by the overseer, 2026-10-17T11:18Z",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "message: the founder, live in the overseer dialog, relayed by the overseer, 2026-10-17T11:18Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "fea11d6d1e4a72efc943883894544667614574ad8337f84fba04d952cc19111e",
+"copy": "I2-relay-2.md.txt",
+"link": false,
+"read_at": "2026-10-17T11:19:12Z",
+"step": "phase:P4",
+"why": "founder own answers to the four P4 forks: Q1 eighth dated gap plus the agents read (widening ratified), Q2 one live claude 2.1.287 start, Q3 group 2 only before the switch, Q4 a new switch entry after the gap entries, v1-33 not claimed here"
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "d4492939",
+"ts": "2026-10-17T11:25:48Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-17-mcp-server-for-drivers",
+"--run-dir",
+".andromeda/runs/2026-10-17T09-28-44-phase",
+"--marker",
+"2026-10-17-mcp-server-for-drivers"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase invocation, 2026-10-17T09:28Z",
+"I1 cited scope.md:8 · scope.md:45 · scope.md:96 · scope.md:135 · research.md:15 · research.md:115 · research.md:116 · research.md:117",
+"I2 n/a — a message has no live source · copy message · message: the founder, live in the overseer dialog, relayed by the overseer, 2026-10-17T11:18Z",
+"I2 cited plan.md:9 · plan.md:27 · plan.md:30 · plan.md:40 · plan.md:43 · plan.md:116 · plan.md:229 · plan.md:503 · plan.md:544 · plan.md:548 · plan.md:568 · plan.md:591 · plan.md:593",
+"UNPARSED: inputs#I3 — no entry (scope.md:83)",
+"UNPARSED: inputs#I7 — no entry (scope.md:83)",
+"UNPARSED: inputs#I8 — no entry (scope.md:83)",
+"UNPARSED: inputs#I9 — no entry (scope.md:84)",
+"inputs: 2 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 0 · unparsed 4"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 0,
+"unparsed": 4
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "d4492939",
+"ts": "2026-10-17T11:29:19Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-17-mcp-server-for-drivers",
+"--run-dir",
+".andromeda/runs/2026-10-17T09-28-44-phase",
+"--marker",
+"2026-10-17-mcp-server-for-drivers"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase invocation, 2026-10-17T09:28Z",
+"I1 cited scope.md:8 · scope.md:45 · scope.md:97 · scope.md:136 · research.md:15 · research.md:115 · research.md:116 · research.md:117",
+"I2 n/a — a message has no live source · copy message · message: the founder, live in the overseer dialog, relayed by the overseer, 2026-10-17T11:18Z",
+"I2 cited plan.md:9 · plan.md:27 · plan.md:30 · plan.md:40 · plan.md:43 · plan.md:116 · plan.md:229 · plan.md:530 · plan.md:571 · plan.md:575 · plan.md:595 · plan.md:618 · plan.md:620",
+"inputs: 2 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "d4492939",
+"ts": "2026-10-17T11:30:58Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-17-mcp-server-for-drivers",
+"--message-file",
+".andromeda/runs/2026-10-17T09-28-44-phase/relay-3.md",
+"--origin",
+"the operator, in the session, 11:30Z on 2026-10-17",
+"--kind",
+"relay",
+"--why",
+"the P5 word yes on .andromeda/runs/2026-10-17T09-28-44-phase/p5-card-1.md, the operator authority: approves the plan, its four Beyond-the-plan rows and seven confirm-class leans",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-10-17T09-28-44-phase",
+"--marker",
+"2026-10-17-mcp-server-for-drivers"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy message · message: the operator, in the session, 11:30Z on 2026-10-17",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-3.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, in the session, 11:30Z on 2026-10-17",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "53f65f97fe6acd231e4678ca409ef79b8451dacf356949e8f70f8bf04729c789",
+"copy": "I3-relay-3.md.txt",
+"link": false,
+"read_at": "2026-10-17T11:30:58Z",
+"step": "phase:P5",
+"why": "the P5 word yes on .andromeda/runs/2026-10-17T09-28-44-phase/p5-card-1.md, the operator authority: approves the plan, its four Beyond-the-plan rows and seven confirm-class leans"
+}
+}
+]

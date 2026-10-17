@@ -334,6 +334,10 @@ jobs:
         if: runner.os == 'Linux'
         shell: bash
         run: bash scripts/lint-probes.sh
+      # Beside deny.toml's [[bans.features]] gate: rmcp present, then exactly these two features.
+      - name: rmcp features (exactly server + transport-io, non-vacuous)
+        shell: bash
+        run: bash scripts/rmcp-features.sh
       # taiki-e/install-action has no cargo-modules manifest; its fallback would fetch an unpinned binary.
       - name: Install cargo-modules
         run: cargo install --locked cargo-modules@0.27.0
@@ -400,6 +404,8 @@ jobs:
         run: |
           mkdir -p target/supply-chain
           cargo deny --manifest-path fuzz/Cargo.toml --format json check advisories sources 2> target/supply-chain/deny-fuzz.json || { cat target/supply-chain/deny-fuzz.json; exit 1; }
+      # viola-channel is not in the list: its `tokio` feature unifies into a sole-root deny run, so its
+      # own normal graph is read through the tree form, which resolves its own features alone.
       - name: Tokio ban per sync crate (sole root)
         shell: bash
         run: |
@@ -407,6 +413,7 @@ jobs:
           while read -r crate; do
             cargo deny --config deny-sync.toml --manifest-path "crates/$crate/Cargo.toml" check bans
           done < scripts/sync-crates.txt
+          bash scripts/channel-tokio-free.sh
       - name: Ban probes
         shell: bash
         run: bash scripts/deny-probes.sh

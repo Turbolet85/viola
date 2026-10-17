@@ -1,19 +1,15 @@
-//! What `send`, `wait` and `last` share as channel clients: the `cli` obs start, the liveness-only
-//! endpoint (security-plan §Authentication & Authorization: no server identity and no strict-modes
-//! until Epoch 6, a dated gap), the reply shapes, and the outputs every verb writes the same way —
-//! one `--json` document, exit 20's wrapper fault and exit 21's unreachable line.
+//! What `send`, `wait` and `last` share as channel clients: the `cli` obs start, the reply shapes,
+//! and the outputs every verb writes the same way — one `--json` document, exit 20's wrapper fault
+//! and exit 21's unreachable line. Their liveness-only endpoint read, a dated gap, is
+//! `viola_state::liveness::live_endpoint`.
 
 use std::io::{self, Write as _};
 use std::path::{Path, PathBuf};
-use std::time::SystemTime;
 
 use serde_json::{Value, json};
 use viola_channel::ChannelError;
 use viola_core::obs::{ObsEvent, ObsProcess};
 use viola_core::{ViolaName, obs_event};
-use viola_state::heartbeat::beat_age;
-use viola_state::liveness::{Liveness, classify, same_process};
-use viola_state::snapshot::read_snapshot;
 
 use crate::{human, obs, run};
 
@@ -88,17 +84,6 @@ pub(crate) fn answer_of(
     };
     let reply = reply_of(&frame).ok_or_else(|| anyhow::anyhow!("malformed reply"))?;
     Ok(Ok(reply))
-}
-
-/// The endpoint of a live instance: its snapshot names one, and its recorded pid + start time and
-/// heartbeat read `live`. Strict-modes and the server's identity are not checked here.
-pub(crate) fn live_endpoint(instance_dir: &Path) -> Option<String> {
-    let snapshot = read_snapshot(instance_dir)?;
-    let age = beat_age(instance_dir, SystemTime::now());
-    if classify(age, same_process(&snapshot)) != Liveness::Live {
-        return None;
-    }
-    snapshot.endpoint
 }
 
 /// The sender's own instance name, self-reported.
@@ -238,11 +223,5 @@ mod tests {
     fn clock_part_is_the_time_of_day() {
         assert_eq!(clock_part("2026-09-23T19:45:05.912Z"), "19:45:05.912Z");
         assert_eq!(clock_part("no-t"), "no-t");
-    }
-
-    #[test]
-    fn live_endpoint_without_a_snapshot_is_none() {
-        let tmp = tempfile::tempdir().expect("tempdir");
-        assert_eq!(live_endpoint(tmp.path()), None);
     }
 }

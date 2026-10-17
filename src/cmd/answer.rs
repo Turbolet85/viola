@@ -17,7 +17,9 @@ use viola_agent_claude::dialog::Response;
 use viola_channel::{ChannelError, Client};
 use viola_core::{MAX_FRAME, RefusalReason, ViolaName};
 
-use super::client::{self, Reply, live_endpoint, own_name};
+use viola_state::liveness::live_endpoint;
+
+use super::client::{self, Reply, own_name};
 use super::send::{exit_of, reason_of};
 use crate::{human, run};
 

@@ -66,6 +66,31 @@ for probe in "${probes[@]}"; do
   fi
 done
 
+# viola-channel leaves the deny-sync loop for its own tree form (scripts/channel-tokio-free.sh), run
+# here from a throwaway workspace's copy: a normal tokio edge planted in viola-channel must fail it,
+# and the same edge behind a `tokio` feature (the control) must pass it.
+make_channel_workspace() {
+  local dir=$1 features=$2 dep=$3
+  mkdir -p "$dir/scripts" "$dir/crates/viola-channel/src"
+  cp "$root/scripts/channel-tokio-free.sh" "$dir/scripts/"
+  : > "$dir/crates/viola-channel/src/lib.rs"
+  printf '[workspace]\nmembers = ["crates/*"]\nresolver = "3"\n' > "$dir/Cargo.toml"
+  printf '[package]\nname = "viola-channel"\nversion = "0.0.0"\nedition = "2024"\npublish = false\n\n[features]\n%s\n\n[dependencies]\n%s\n' "$features" "$dep" > "$dir/crates/viola-channel/Cargo.toml"
+}
+
+total=$((total + 1))
+planted="$scratch/channel-tokio-edge"
+make_channel_workspace "$planted" 'tokio = []' 'tokio = { version = "1", default-features = false }'
+rc=0
+bash "$planted/scripts/channel-tokio-free.sh" > "$planted/tree.log" 2>&1 || rc=$?
+if [ "$rc" -ne 0 ] && grep -qF "channel-tokio-free: FAILED — viola-channel reaches tokio without its feature" "$planted/tree.log"; then
+  banned=$((banned + 1))
+  echo "banned  channel-tokio-edge"
+else
+  failing+=("channel-tokio-edge")
+  echo "FAILED  channel-tokio-edge (exit $rc) — $planted/tree.log"
+fi
+
 control="$scratch/control"
 make_project "$control" ""
 control_ok=1
@@ -77,6 +102,15 @@ for config in deny.toml deny-sync.toml; do
     echo "FAILED  control under $config (exit $rc) — $control/deny.log"
   fi
 done
+
+channel_control="$scratch/channel-control"
+make_channel_workspace "$channel_control" 'tokio = ["dep:tokio"]' 'tokio = { version = "1", default-features = false, optional = true }'
+rc=0
+bash "$channel_control/scripts/channel-tokio-free.sh" > "$channel_control/tree.log" 2>&1 || rc=$?
+if [ "$rc" -ne 0 ] || ! grep -qxF "channel-tokio-free: ok" "$channel_control/tree.log"; then
+  control_ok=0
+  echo "FAILED  channel control (exit $rc) — $channel_control/tree.log"
+fi
 
 if [ "$banned" -eq "$total" ] && [ "$control_ok" -eq 1 ]; then
   echo "deny-probes: $banned/$total banned, control clean"

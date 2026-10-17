@@ -13,7 +13,9 @@ use tracing::instrument;
 use viola_channel::{ChannelError, Client};
 use viola_core::ViolaName;
 
-use super::client::{self, Reply, live_endpoint, own_name};
+use viola_state::liveness::live_endpoint;
+
+use super::client::{self, Reply, own_name};
 use crate::{human, run};
 
 #[derive(clap::Args)]

@@ -117,7 +117,7 @@ fn help_lists_only_served_verbs() {
         .filter(|word| !word.is_empty() && !word.contains(' '))
         .collect();
     assert_eq!(words, served, "{rows:?}");
-    for unserved in ["hook", "help", "link", "unlink", "plugin"] {
+    for unserved in ["hook", "mcp", "help", "link", "unlink", "plugin"] {
         assert!(!words.contains(&unserved), "{unserved} in {rows:?}");
     }
 }

@@ -1,6 +1,7 @@
 //! The wrapper channel (architecture §Established Decisions [API Style], [Message Broker / IPC];
 //! §Standard Contracts "Wrapper channel frames"): JSON-RPC 2.0, one frame per line, over the
-//! per-instance interprocess local socket. Sync only: the Tokio client joins with `viola-mcp`.
+//! per-instance interprocess local socket. Sync, but for the Tokio client behind the `tokio`
+//! feature, which only `viola-mcp` enables.
 
 mod client;
 mod endpoint;
@@ -8,6 +9,8 @@ mod frame;
 mod server;
 #[cfg(any(test, feature = "test-support"))]
 pub mod test_support;
+#[cfg(feature = "tokio")]
+pub mod tokio_client;
 
 use std::io;
 

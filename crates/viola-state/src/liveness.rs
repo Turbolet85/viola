@@ -2,12 +2,14 @@
 //! bare pid (architecture §Standard Contracts → Session liveness).
 
 use std::collections::HashMap;
-use std::time::Duration;
+use std::path::Path;
+use std::time::{Duration, SystemTime};
 
 use chrono::DateTime;
 use sysinfo::{Pid, ProcessStatus, ProcessesToUpdate, System};
 
-use crate::snapshot::InstanceSnapshot;
+use crate::heartbeat::beat_age;
+use crate::snapshot::{InstanceSnapshot, read_snapshot};
 
 pub const STALE_AFTER: Duration = Duration::from_secs(5);
 
@@ -64,6 +66,18 @@ pub fn same_process(snapshot: &InstanceSnapshot) -> bool {
         .ok()
         .and_then(|t| u64::try_from(t.timestamp()).ok());
     recorded.is_some_and(|secs| process_start_time(snapshot.pid) == Some(secs))
+}
+
+/// The endpoint of a live instance: its snapshot names one, and its recorded pid + start time and
+/// heartbeat read `live`. Strict-modes and the server's identity are not checked here: the clients'
+/// liveness-only pre-check, a dated gap (security-plan §Authentication & Authorization).
+pub fn live_endpoint(instance_dir: &Path) -> Option<String> {
+    let snapshot = read_snapshot(instance_dir)?;
+    let age = beat_age(instance_dir, SystemTime::now());
+    if classify(age, same_process(&snapshot)) != Liveness::Live {
+        return None;
+    }
+    snapshot.endpoint
 }
 
 #[cfg(test)]
@@ -131,6 +145,12 @@ mod tests {
         assert!(table.len() > 1, "{} processes", table.len());
         assert_eq!(table.get(&me).copied(), process_start_time(me));
         assert!(table.contains_key(&me));
+    }
+
+    #[test]
+    fn live_endpoint_without_a_snapshot_is_none() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        assert_eq!(live_endpoint(tmp.path()), None);
     }
 
     #[test]

@@ -1,0 +1,156 @@
+[
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "9243c8cf",
+"ts": "2026-10-17T11:31:03Z",
+"argv": [
+"coverage",
+"--dir",
+"viola-0.1.0",
+"--run-dir",
+".andromeda/runs/2026-10-17T09-28-44-phase",
+"--marker",
+"2026-10-17-mcp-server-for-drivers"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"verified 19/53 · deferred 6 · planned 27 · implemented 1 · unclaimed 27",
+"unclaimed: v1-01 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-13 v1-17 v1-18 v1-21 v1-24 v1-26 v1-27 v1-33",
+"          v1-34 v1-35 v1-36 v1-38 v1-41 v1-42 v1-44 v1-45 v1-46 v1-47 v1-53",
+"claimed-unfinished: none",
+"done-test: NO — 28 not verified|deferred · unclaimed 27",
+"chunks referenced: 19 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "9243c8cf",
+"ts": "2026-10-17T11:31:17Z",
+"argv": [
+"claim",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-38",
+"--chunk",
+"2026-10-17-mcp-server-for-drivers",
+"--acceptance-file",
+".andromeda/runs/2026-10-17T09-28-44-phase/acceptance-v1-38.md",
+"--run-dir",
+".andromeda/runs/2026-10-17T09-28-44-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claim v1-38 → chunk 2026-10-17-mcp-server-for-drivers (was null; status planned kept)",
+"acceptance: A wrapped driver session gets send, wait, last, answer and list as MCP… (348 chars)",
+"         → A wrapped driver session gets send, wait, last, answer and list as MCP… (1479 chars)",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed",
+"pool: unclaimed 26 [v1-01 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-13 v1-17 v1-18 v1-21 v1-24 v1-26 v1-27 v1-33 v1-34 v1-35 v1-36 v1-41 v1-42 v1-44 v1-45 v1-46 v1-47 v1-53]"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-38",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "A wrapped driver session gets send, wait, last, answer and list as MCP tools with the same results and refusals as the C… (348 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-38",
+"chunk": "2026-10-17-mcp-server-for-drivers",
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "A wrapped driver session gets send, wait, last, answer and list as MCP tools with the same results and refusals as the C… (1479 chars)",
+"notes_chars": 0
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "9243c8cf",
+"ts": "2026-10-17T11:31:17Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-33",
+"--text-file",
+".andromeda/runs/2026-10-17T09-28-44-phase/note-v1-33.md",
+"--run-dir",
+".andromeda/runs/2026-10-17T09-28-44-phase",
+"--marker",
+"2026-10-17-mcp-server-for-drivers"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-33: +833 chars (total 3224) · status planned · ref/acceptance untouched",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-33",
+"chunk": null,
+"status": "planned",
+"method": "manual",
+"ref": "null",
+"acceptance": "With the product binary on the founder's Windows host, an overseer session sends a pipeline skill to a builder session, … (318 chars)",
+"notes_chars": 2389
+},
+"after": {
+"id": "v1-33",
+"chunk": null,
+"status": "planned",
+"method": "manual",
+"ref": "null",
+"acceptance": "With the product binary on the founder's Windows host, an overseer session sends a pipeline skill to a builder session, … (318 chars)",
+"notes_chars": 3224
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "9243c8cf",
+"ts": "2026-10-17T11:31:17Z",
+"argv": [
+"audit",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-17-mcp-server-for-drivers",
+"--plan",
+"viola-0.1.0/chunks/2026-10-17-mcp-server-for-drivers/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-17T09-28-44-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-10-17-mcp-server-for-drivers: 1 · ## Acceptance Criteria: line 499, 39 lines",
+"v1-38: cited in ## Acceptance Criteria (line 536)",
+"pool: unclaimed 26 [v1-01 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-13 v1-17 v1-18 v1-21 v1-24 v1-26 v1-27 v1-33 v1-34 v1-35 v1-36 v1-41 v1-42 v1-44 v1-45 v1-46 v1-47 v1-53]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

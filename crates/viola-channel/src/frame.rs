@@ -24,6 +24,12 @@ fn read_frame_within(reader: &mut impl BufRead, cap: u64) -> Result<Vec<u8>, Cha
     io::Read::take(&mut *reader, cap)
         .read_until(b'\n', &mut line)
         .map_err(ChannelError::Io)?;
+    framed(line, cap)
+}
+
+/// What a bounded read of up to `cap` bytes ending at the first `\n` gave: a frame, `Oversize`, or
+/// `Closed`. The sync and the Tokio readers judge their line here alike.
+pub(crate) fn framed(line: Vec<u8>, cap: u64) -> Result<Vec<u8>, ChannelError> {
     if line.last() == Some(&b'\n') {
         Ok(line)
     } else if u64::try_from(line.len()).is_ok_and(|len| len >= cap) {

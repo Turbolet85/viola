@@ -19,7 +19,9 @@ use viola_channel::{ChannelError, Client};
 use viola_core::obs::ObsEvent;
 use viola_core::{MAX_FRAME, NotDelivered, RefusalReason, ViolaName, obs_event};
 
-use super::client::{self, Reply, clock_part, live_endpoint, own_name};
+use viola_state::liveness::live_endpoint;
+
+use super::client::{self, Reply, clock_part, own_name};
 use crate::{human, run};
 
 #[derive(clap::Args)]

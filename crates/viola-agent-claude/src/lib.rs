@@ -150,8 +150,8 @@ const VERSION: &str = env!("CARGO_PKG_VERSION");
 const VERSION_TOKEN: &str = "@@VIOLA_VERSION@@";
 const BIN_TOKEN: &str = "@@VIOLA_BIN@@";
 
-/// The embedded plugin, relative path → template. `mcpServers` stays empty until the `mcp` verb
-/// exists: a registered command that exits 2 blocks Claude Code.
+/// The embedded plugin, relative path → template. `.mcp.json` registers the server `viola` as the
+/// pinned binary's `mcp` verb, by its absolute path, never a PATH lookup.
 const PLUGIN_FILES: [(&str, &str); 3] = [
     (
         ".claude-plugin/plugin.json",
@@ -603,7 +603,13 @@ mod tests {
         );
         assert_eq!(files[1].1, HOOKS_JSON);
         assert!(!files[1].1.contains("\"command\": \"viola"));
-        assert_eq!(files[2].1, "{\n  \"mcpServers\": {}\n}\n");
+        assert_eq!(
+            files[2].1,
+            "{\n  \"mcpServers\": {\n    \"viola\": {\n      \"command\": \
+             \"C:/h/bin/0.1.0-0123456789abcdef/viola.exe\",\n      \"args\": [\"mcp\"]\n    \
+             }\n  }\n}\n"
+        );
+        assert!(files.iter().all(|(_, content)| !content.contains("@@")));
         assert_eq!(PLUGIN_DIR_FLAG, "--plugin-dir");
     }
 

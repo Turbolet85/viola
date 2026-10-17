@@ -31,6 +31,9 @@ syn.workspace = true
 sysinfo.workspace = true
 tempfile.workspace = true
 thiserror.workspace = true
+# The stdio MCP E2E (`tests/mcp_tools.rs`): an rmcp client over a `viola mcp` child the test owns.
+rmcp = { workspace = true, features = ["client"] }
+tokio = { workspace = true, features = ["rt", "process"] }
 
 # viola-harness prints its JSON document by design: no workspace print bans here (obs-plan B5).
 [lints.rust]

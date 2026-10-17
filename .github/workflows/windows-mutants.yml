@@ -26,7 +26,7 @@ jobs:
             files: crates/viola-pty/src/lib.rs crates/viola-pty/src/sideload.rs
           - package: viola-channel
             label: viola-channel
-            files: crates/viola-channel/src/client.rs crates/viola-channel/src/endpoint.rs crates/viola-channel/src/server.rs crates/viola-channel/src/server/win.rs crates/viola-channel/src/test_support.rs
+            files: crates/viola-channel/src/client.rs crates/viola-channel/src/endpoint.rs crates/viola-channel/src/server.rs crates/viola-channel/src/server/win.rs crates/viola-channel/src/test_support.rs crates/viola-channel/src/tokio_client.rs
           - package: viola-state
             label: viola-state
             files: crates/viola-state/src/pin.rs crates/viola-state/src/fs.rs crates/viola-state/src/strict.rs

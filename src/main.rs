@@ -79,13 +79,15 @@ fn main() -> ExitCode {
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum Role {
     Hook,
+    /// `viola mcp`: its failure prints nothing, stdout being the MCP frames.
+    Mcp,
     /// A verb whose failure prints `error: internal error` (`send`, `wait`, `last`, `verify`).
     Cli,
     Other,
 }
 
 /// The first argument that is neither the global `--home` nor its value names the role, so
-/// `viola --home <dir> hook stop` is still a `hook`. `run` and `hook` are named roles, and `revive`
+/// `viola --home <dir> hook stop` is still a `hook`. `run`, `hook` and `mcp` are named roles, and `revive`
 /// is a wrapper beside `run` but for its `--list` (anywhere after the verb), which starts nothing
 /// and is `cli`; any other verb is `cli` (obs-plan §7), and a flag in its place (`--help`) names no
 /// verb.
@@ -97,6 +99,8 @@ fn role_of(args: impl IntoIterator<Item = OsString>) -> Role {
         } else if !arg.to_str().is_some_and(|a| a.starts_with("--home=")) {
             return if arg == "hook" {
                 Role::Hook
+            } else if arg == "mcp" {
+                Role::Mcp
             } else if arg == "revive" {
                 // After `--` a word is the child's, never the flag.
                 if args.take_while(|a| a != "--").any(|a| a == "--list") {
@@ -129,10 +133,11 @@ enum Outcome {
 fn exit_code(role: Role, outcome: Outcome) -> ExitCode {
     match (role, outcome) {
         (Role::Hook, _) => ExitCode::SUCCESS,
-        (Role::Cli | Role::Other, Outcome::Done(code)) => code,
-        (Role::Cli | Role::Other, Outcome::Unparsed | Outcome::Failed | Outcome::Panicked) => {
-            ExitCode::from(1)
-        }
+        (Role::Mcp | Role::Cli | Role::Other, Outcome::Done(code)) => code,
+        (
+            Role::Mcp | Role::Cli | Role::Other,
+            Outcome::Unparsed | Outcome::Failed | Outcome::Panicked,
+        ) => ExitCode::from(1),
     }
 }
 
@@ -350,6 +355,11 @@ mod tests {
     #[case::list(&["list", "--json"], Role::Cli)]
     #[case::list_after_home(&["--home", "C:/h", "list"], Role::Cli)]
     #[case::version(&["--version"], Role::Other)]
+    #[case::mcp(&["mcp"], Role::Mcp)]
+    #[case::mcp_after_home(&["--home", "C:/h", "mcp"], Role::Mcp)]
+    #[case::mcp_after_home_equals(&["--home=C:/h", "mcp"], Role::Mcp)]
+    #[case::home_named_mcp(&["--home", "mcp", "list"], Role::Cli)]
+    #[case::later_mcp(&["send", "mcp"], Role::Cli)]
     fn role_of_skips_the_home_flag_and_its_value(#[case] args: &[&str], #[case] role: Role) {
         assert_eq!(role_of(argv(args)), role);
     }
@@ -367,6 +377,10 @@ mod tests {
     #[case::cli_unparsed(Role::Cli, Outcome::Unparsed, ExitCode::from(1))]
     #[case::cli_failed(Role::Cli, Outcome::Failed, ExitCode::from(1))]
     #[case::cli_panicked(Role::Cli, Outcome::Panicked, ExitCode::from(1))]
+    #[case::mcp_done(Role::Mcp, Outcome::Done(ExitCode::from(3)), ExitCode::from(3))]
+    #[case::mcp_unparsed(Role::Mcp, Outcome::Unparsed, ExitCode::from(1))]
+    #[case::mcp_failed(Role::Mcp, Outcome::Failed, ExitCode::from(1))]
+    #[case::mcp_panicked(Role::Mcp, Outcome::Panicked, ExitCode::from(1))]
     fn exit_code_maps_role_and_outcome(
         #[case] role: Role,
         #[case] outcome: Outcome,
@@ -384,6 +398,8 @@ mod tests {
     #[case::run_panicked(Role::Other, Outcome::Panicked, false)]
     #[case::hook_failed(Role::Hook, Outcome::Failed, false)]
     #[case::hook_panicked(Role::Hook, Outcome::Panicked, false)]
+    #[case::mcp_failed(Role::Mcp, Outcome::Failed, false)]
+    #[case::mcp_panicked(Role::Mcp, Outcome::Panicked, false)]
     fn prints_internal_error_only_for_a_cli_failure(
         #[case] role: Role,
         #[case] outcome: Outcome,

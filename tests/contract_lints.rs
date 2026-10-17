@@ -76,10 +76,9 @@ fn workspace_members_inherit_the_lint_table_except_the_harness_crate() {
         }
         checked.push(name);
     }
-    assert!(
-        checked.iter().any(|n| n == "viola-core"),
-        "checked {checked:?}"
-    );
+    for member in ["viola-core", "viola-mcp"] {
+        assert!(checked.iter().any(|n| n == member), "checked {checked:?}");
+    }
     assert!(
         checked.iter().any(|n| n == "viola-e2e"),
         "checked {checked:?}"

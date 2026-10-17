@@ -7,16 +7,19 @@ license.workspace = true
 publish.workspace = true
 
 [features]
-# No code behind it: it exists so that a `--features fake-agent` build scoped to this package
-# (cargo-mutants) resolves.
-fake-agent = []
+# A `--features fake-agent` build scoped to this package (cargo-mutants) resolves, and builds and
+# tests the `tokio` client it mutates; the release build never carries it.
+fake-agent = ["tokio"]
 # The shared test helpers (`test_support`); enabled only by the root package's `[dev-dependencies]`.
 test-support = []
+# The Tokio client (`tokio_client`), for viola-mcp alone: without it this crate's normal graph holds
+# no tokio (scripts/channel-tokio-free.sh).
+tokio = ["dep:tokio", "interprocess/tokio"]
 
 [dependencies]
 viola-core = { path = "../viola-core" }
-# The sync API only: the Tokio client lands behind a feature with its first consumer, viola-mcp.
 interprocess.workspace = true
+tokio = { workspace = true, optional = true, features = ["io-util"] }
 serde.workspace = true
 serde_json.workspace = true
 thiserror.workspace = true
@@ -33,6 +36,8 @@ libc.workspace = true
 proptest.workspace = true
 rstest.workspace = true
 tempfile.workspace = true
+# The `tokio_client` unit cases' runtime (built only with the `tokio` feature).
+tokio = { workspace = true, features = ["rt"] }
 tracing-subscriber.workspace = true
 
 [lints]

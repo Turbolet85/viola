@@ -3,6 +3,7 @@ mod client;
 mod hook;
 mod last;
 mod list;
+mod mcp;
 mod pause;
 mod release;
 mod revive;
@@ -80,6 +81,9 @@ enum Command {
     /// Hand a Claude Code hook's payload to the wrapper (run by the plugin, never by a person)
     #[command(hide = true)]
     Hook(hook::HookArgs),
+    /// Serve the MCP tools to a Claude Code session (run by the plugin, never by a person)
+    #[command(hide = true)]
+    Mcp,
 }
 
 /// A dispatch error and, once the home and the instance resolved, where its chain may go.
@@ -162,6 +166,16 @@ pub(crate) fn dispatch(cli: Cli) -> Result<ExitCode, Failure> {
             let home = resolved_home(cli.home)?;
             let sink = cli_sink(&home, &args.name);
             release::release(&home, &args).map_err(|error| Failure { error, sink })
+        }
+        // The server's chain goes to its own instance's detail file, when it runs in one.
+        Command::Mcp => {
+            let home = resolved_home(cli.home)?;
+            let sink = client::own_name().map(|instance| DetailSink {
+                home: home.clone(),
+                instance,
+                process: ObsProcess::Mcp,
+            });
+            mcp::mcp(&home).map_err(|error| Failure { error, sink })
         }
         Command::Verify(args) => {
             let home = resolved_home(cli.home)?;

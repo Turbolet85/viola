@@ -74,10 +74,28 @@ pub(crate) fn list(home: &Path, args: &ListArgs) -> anyhow::Result<ExitCode> {
     Ok(ExitCode::SUCCESS)
 }
 
+/// The board of `home` as `list --json` prints it, read now: the scan, then the read, then the one
+/// document, or the refusal document when the scan refuses. The `mcp` process's `list` tool reads
+/// it; CLI `list` runs the same three pieces with its own log opened between the scan and the read.
+pub(crate) fn board_document(home: &Path) -> anyhow::Result<Value> {
+    Ok(match board::scan(home)? {
+        Ok(scan) => {
+            let (board, budget, _) = read(home, &scan, true);
+            document(&board, budget.as_ref())
+        }
+        Err(_) => refused_document(),
+    })
+}
+
+/// Exit 21's `--json` document: a home or instance another user could write refuses the whole board.
+fn refused_document() -> Value {
+    json!({"v": 1, "error": "instance-unreachable", "detail": null})
+}
+
 /// Exit 21's output: the one `--json` document, or the pair for what failed.
 fn refuse(json: bool, refused: &ScanRefused) {
     if json {
-        client::document(&json!({"v": 1, "error": "instance-unreachable", "detail": null}));
+        client::document(&refused_document());
         return;
     }
     match refused {
