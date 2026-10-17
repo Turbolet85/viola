@@ -1,0 +1,87 @@
+[
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "a81d3633",
+"ts": "2026-10-17T08:49:33Z",
+"argv": [
+"route.py",
+"cursor",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-17T08-28-14-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"version viola-0.1.0 · dir present · master master-route.md",
+"version dir viola-0.1.0/ — at --root, beside .andromeda/, never inside it",
+"records 67 · complete 66 · pending 1 · 2026-10-17-cli-output-discipline · gated 0",
+"done 2026-10-17-cli-machine-contract",
+"next viola-0.1.0/working-route.md:150 · MCP server for drivers · markerless 14 of 81 entries",
+"BLOCKED-ON at an annotation position · viola-0.1.0/working-route.md:176 · BLOCKED-ON: an interactive Windows host (none exists at the … (399 chars) — take-up or skip is the letter's, not the tool's",
+"half-promote 0 of 67 stamped lines vs 67 master records (anchored `{marker} · `, whole file)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "a81d3633",
+"ts": "2026-10-17T08:49:33Z",
+"argv": [
+"route.py",
+"epoch",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-17T08-28-14-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"viola-0.1.0/working-route.md · 9 epoch headers · 81 entries · freeze state joined to 67 master records",
+"10 · Epoch 1 — Foundation · entries 8 · markerless 0 · frozen complete 8 · pending 0",
+"27 · Epoch 2 — Windows slice I: wrapper, events,… · entries 7 · markerless 0 · frozen complete 7 · pending 0",
+"42 · Epoch 2b — Windows slice I b: events and le… · entries 11 · markerless 0 · frozen complete 11 · pending 0",
+"65 · Epoch 3 — Windows slice II: driving verbs a… · entries 19 · markerless 0 · frozen complete 19 · pending 0",
+"104 · Epoch 4 — Session state & governance · entries 10 · markerless 0 · frozen complete 10 · pending 0",
+"125 · Epoch 5 — Driver surface · entries 15 · markerless 3 · frozen complete 11 · pending 1",
+"156 · Epoch 6 — Security hardening · entries 7 · markerless 7 · frozen complete 0 · pending 0",
+"171 · Epoch 7 — Cross-OS completion · entries 3 · markerless 3 · frozen complete 0 · pending 0",
+"178 · Epoch 8 — Polish & ship · entries 1 · markerless 1 · frozen complete 0 · pending 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "a81d3633",
+"ts": "2026-10-17T08:49:37Z",
+"argv": [
+"route.py",
+"blocked",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-17T08-28-14-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"master-route.md · pending 1 · gated 0 · markerless 14 · BLOCKED-ON blocks 1 · each printed WHOLE",
+"markerless · viola-0.1.0/working-route.md:176 · 399 chars · BLOCKED-ON: an interactive Windows host (none exists at the 2026-10-07 0-pending wrap: the dev host is Linux since 2026-10-03, and `uname` read Linux there; by the founder's ruling R-L1, live, 2026-10-07T05:43Z, relayed by the overseer, `d94-route-adaptation.md`, Windows live behaviour stays proven on the CI runner under the fake agent until one exists; nothing in this entry is doable without it)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

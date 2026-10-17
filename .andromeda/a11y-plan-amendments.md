@@ -208,3 +208,13 @@
 - Error recovery: revive's fixed-message pair is the human form; under `--json` the document carries no hint (`revive_json_*`, `tests/cli_revive.rs`).
 **Why:** the chunk landed revive's machine form; the output-discipline clauses already name `--json` mode, so no other a11y clause moves.
 **Ref:** .andromeda/runs/2026-10-17T03-50-43-wrap/
+
+## 2026-10-17-cli-output-discipline — the colour spans built and checked; --help group labels built
+**Section:** §1 A11y Scope Summary (cli Notes; Critical path 6, Required ARIA roles); §4 ARIA Patterns & Roles (P6; landmark inventory, cli row); §6 Visual Design Verification (CLI equivalent); §8 Cognitive Accessibility (Plain language, Verification)
+**Change:**
+- §1 Notes and §6: was "`viola list` prints words only / emits no SGR and reads no `NO_COLOR` / `TERM` / `COLORTERM` … owed to 'CLI output discipline'"; now on a terminal bold every NAME value, amber only on the `DIALOG` word of a wrapped row with a pending dialog (kind plain), a wrapped `stale` row dim end to end (NAME dim and bold, `DIALOG` amber and not dim), the BAY line, caption, empty line and separator plain, each state still carried by its word; the decision reads `NO_COLOR` (empty included), `TERM`, `COLORTERM` and stdout's terminal state, none under `--json` or a passthrough role, depth truecolor / 256 / 16 (Windows after a VT enable restored afterwards); on a narrow terminal an unwrapped NAME cut with `...`, never inside an escape, the width from `viola_pty::host_size()`.
+- §4 P6: was "no check until the colour layer lands"; now checked under the outer PTY (`cross_list_rows_style_each_span_beside_its_word_on_a_terminal`) and by the `board_row_style_*` units; dim only on stale rows at the unit tier only, its outer-PTY witness a CARRY on "Linux and macOS parity"; `viola wait` and `viola --help` carry no ESC and no lone CR on Unix.
+- §4 landmark row and §1 critical path 6: was "the `--help` group labels … not built"; now built over the served verbs (board / traffic / wheel / setup, then `Options:`), the `handoff:` row owned by "Explicit session links", `plugin install` by "Optional plugin install".
+- §8: `viola --help` joins `viola list` as pinned by literal (`help_is_the_grouped_verb_table`, `help_lists_only_served_verbs`).
+**Why:** the chunk built the layer and the table. The three reads are the founder's own answer «Читать их» to P4 fork Q1 (relayed verbatim by the operator; card confirm a delegate's, the Viola overseer, PROVISIONAL). The width source and served verbs only are the overseer's technical answers to Q2 and Q3, PROVISIONAL. The stale-dim owner is the halt's answer (the overseer, a delegate).
+**Ref:** .andromeda/runs/2026-10-17T08-28-14-wrap/

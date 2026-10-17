@@ -52,5 +52,41 @@
     "read_at": "2026-10-17T07:42:16Z",
     "step": "phase:P5",
     "why": "the P5 word yes on the card .andromeda/runs/2026-10-17T04-35-05-phase/p5-card-1.md (four Beyond-the-plan rows); authority: the operator in this session"
+  },
+  {
+    "id": "I4",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: the operator, typed in this session at the wrap invocation, 2026-10-17",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "6296b0a6de66ab1851321b5f94f4cce6f12d93bfd45e224d2018279b9495e4df",
+    "copy": "I4-relay-1.md.txt",
+    "link": false,
+    "read_at": "2026-10-17T08:31:42Z",
+    "step": "wrap",
+    "why": "the P5 direction: the integration-level witness of dim only on stale rows (v1-40) gets an owner at P5, a CARRY onto its real first consumer or the armed orphan halt; the env-read widening restated as the founder own word, inputs#I2"
+  },
+  {
+    "id": "I5",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: the Viola overseer (a delegate), answering the P2 halt in this session, 2026-10-17",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "d4c02368859f10aca18b6f77bd0d2ea3111e9df086675badb3d960271e6ee694",
+    "copy": "I5-relay-2.md.txt",
+    "link": false,
+    "read_at": "2026-10-17T08:38:56Z",
+    "step": "wrap",
+    "why": "the P2 halt answers: the answer card confirmed (a delegate confirm, PROVISIONAL; the ratification stays the founder answer inputs#I2); the stale-dim integration witness CARRY onto Linux and macOS parity; the pre-existing trycmd family CARRY onto Version done-check"
   }
 ]

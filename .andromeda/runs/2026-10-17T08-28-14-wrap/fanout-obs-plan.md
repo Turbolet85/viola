@@ -1,0 +1,17 @@
+proposals:
+  - detector: D-obs-stack
+    severity: warning
+    section: §3 Observability Harness Contract (intro, the `run` diagnostic-output bullet)
+    change: "Replace the tail \"the root bin's only human-stderr writer for a start refusal, called by `run` and by `revive`\" with: `src/human.rs` `refuse` → `write_refusal` (one `write_all` on the locked stderr, a closed pipe swallowed) is the root bin's human-stderr refusal writer, called by `run` (5 sites), `verify` (5), `list` (2) and `revive` (1) — re-derived by `grep -rcE 'human::refuse\\(' src` (chunk 2026-10-17-cli-output-discipline, CARRY 1); the `list` colour layer adds no stderr writer and its `unable` / `hint:` pair carries no SGR."
+    sidecar: "§3 intro: the human-stderr refusal writer `refuse` → `write_refusal` is named with all four caller verbs (run 5 · verify 5 · list 2 · revive 1), not run and revive alone; the colour layer adds no stderr writer (CARRY 1, chunk 2026-10-17-cli-output-discipline)."
+    rationale: "Report Changes → Expected amendments, the obs-plan bullet (CARRY 1): `human::refuse` → `write_refusal` is called by `run` (5), `verify` (5), `list` (2) and `revive` (1), re-derived on the final tree; pattern `stderr-writer` names obs :505. The §3 harness contract's output-channel claim that the writer is called by `run` and `revive` only no longer matches the built tree. Symbols / APIs (list.rs): `unable` / `hint:` carry no SGR."
+    basis: ".andromeda/obs-plan.md:505"
+  - detector: D-obs-stack
+    severity: warning
+    section: §11 Obs Anti-Patterns → Logs (the print-macro ban bullet)
+    change: "Replace \"`run`'s and `revive`'s pre-spawn refusals, and `revive --list`'s, write through `src/human.rs` (`refuse` / `write_refusal` …)\" with: `run`'s and `revive`'s pre-spawn refusals, `revive --list`'s, `verify`'s and `list`'s refusals write through `src/human.rs` (`refuse` / `write_refusal`, one `write_all` on the locked stderr; callers run 5 · verify 5 · list 2 · revive 1), which uses no print macro and carries no `#[allow]`."
+    sidecar: "§11 Logs: the print-macro ban's list of refusals routed through `refuse` / `write_refusal` adds `verify`'s and `list`'s (CARRY 1, chunk 2026-10-17-cli-output-discipline)."
+    rationale: "Same retired claim restated in the §11 ban: the report's CARRY 1 bullet names obs :1071 under pattern `stderr-writer` and gives the four caller verbs with their site counts; the ban lists only run's, revive's and revive --list's refusals."
+    basis: ".andromeda/obs-plan.md:1071"
+    dependent-of: D-obs-stack
+note: "D-obs-instrumentation and D-obs-pii read no drift: the `list` colour spans and width cut add no line (`cli.list` span unchanged), `src/human/style.rs` is uninstrumented by design and its NO_COLOR / TERM / COLORTERM facts reach no log line, error or refusal, and NAMEs are escaped before layout; D-obs-stack finds no logging dependency added (Dependencies: none). For the orchestrator's env-exceptions sweep (no obs detector owns it, the report's `colour-env` / `env-exceptions` patterns list 0 obs-plan hits): obs-plan still words env reads absolutely in its §11 CI ban (\"The product never reads env as configuration\"), its §1 scope (\"env vars are not a configuration channel\") and the service-identity key — each sits in a logging / identity context the founder-ratified colour reads (`inputs#I2`) do not touch, but the CI-ban sentence reads unqualified."

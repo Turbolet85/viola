@@ -15,7 +15,11 @@ entry 20 (the push, through `gate.py run --operator 20`), entry 21 (`ci.py concl
 red on `test (windows-2025)` alone (14 of 15 jobs green): `help_lists_only_served_verbs`, a test oracle
 (`evidence/red-04-ci-windows-help-oracle.txt`: a verb's own usage line names the program `viola.exe` on Windows). The
 oracle now reads the program word with `.exe` taken off and the verb as the next word; entries 1, 2, 3, 8 re-ran
-green; the pass repeats from step 1 for the fix commit (`evidence/operator-pass.md` carries every step).
+green; the pass repeated from step 1 for the fix commit (`evidence/operator-pass.md` carries every step).
+
+**The operator pass, second round:** pre-push green, hygiene clean, fix commit `4a8a0ca` on top, pushed; CI
+`ci#39016750772` (run_attempt 1) **verdict: green · checks 15/15 · wall 545 s**. The chunk stands ready for
+`/andromeda-wrap-session`.
 
 ## Files changed (14, all on research's lists; `gate.py scope`: clean — changed 14 · listed 14 · recorded 0)
 - New: `src/human/style.rs` (tokens, `Depth`, `Facts`, `decide`, the fact reader, the Windows VT enable and its

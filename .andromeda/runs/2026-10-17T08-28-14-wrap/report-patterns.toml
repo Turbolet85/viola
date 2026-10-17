@@ -1,0 +1,47 @@
+# The P1 site sweep: one pattern per moved fact, its own wording beside the fact's name token.
+
+[[pattern]]
+id = 'colour-env'
+regex = '''NO_COLOR|COLORTERM|TERM=dumb|`TERM`'''
+
+[[pattern]]
+id = 'env-exceptions'
+regex = '''ratified exceptions|exhaustive env|only env vars outside|FAKE_AGENT_PUMP_DELAY_MS'''
+
+[[pattern]]
+id = 'colour-layer'
+regex = '''colour layer|uncoloured|emits no SGR|no SGR yet|style\.rs|SGR module'''
+
+[[pattern]]
+id = 'width'
+regex = '''COLUMNS|GetConsoleScreenBufferInfo|never truncated|truncat|host_size'''
+
+[[pattern]]
+id = 'help'
+regex = '''grouped verb table|viola --help|clap's ordered list|override_usage|help_template'''
+
+[[pattern]]
+id = 'trycmd'
+regex = '''trycmd|viola-help'''
+
+[[pattern]]
+id = 'stderr-writer'
+regex = '''human-stderr writer|human::refuse|write_refusal'''
+
+[[pattern]]
+id = 'sgr-parser'
+regex = '''sgr_attributes|support/sgr|cli_output_plain'''
+
+[[pattern]]
+id = 'win-mutants'
+regex = '''viola-main|windows-mutants'''
+
+[[pattern]]
+id = 'owner-title'
+fixed = 'CLI output discipline'
+ignore_case = true
+
+[[pattern]]
+id = 'owner-generic'
+regex = '''owned by a (route entry|CARRY)'''
+ignore_case = true

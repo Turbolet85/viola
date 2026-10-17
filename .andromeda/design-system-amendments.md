@@ -199,3 +199,13 @@ Each superseded mark stands in the body as the operator's word, superseded 2026-
 - Exit 1's `--json` cell names revive's document; every other exit 1 has none (was: "no `--json` document until arch amends it"). The hints bullet: arch fixes exit 1's document for revive only; revive's strict-modes refusal is the stderr pair or, under `--json`, the `strict-modes-failed` document.
 **Why:** the chunk landed revive's machine form; the plan's expected amendment, raised by the wrap where no detector reached it.
 **Ref:** .andromeda/runs/2026-10-17T03-50-43-wrap/
+
+## 2026-10-17-cli-output-discipline — the colour layer and the width cut built; --help groups the served verbs
+**Section:** §Component Patterns pattern 1 (As built); §Surface: cli Width; §Navigation Pattern; §Tokens (platform-specific)
+**Change:**
+- Pattern 1 As built: was "uncoloured … owed to 'CLI output discipline'" and unwrapped NAMEs "never truncated"; now on a terminal that takes colour every NAME bold, the `DIALOG` word of a wrapped row with a pending dialog in the attention token with its kind word plain, a wrapped `stale` row dim end to end (NAME dim and bold; with a dialog only `DIALOG` amber and not dim), the BAY line, caption, empty-board line and separator plain, spans over the escaped padded cells, one write; on a terminal whose width is known NAME's column is the largest of 4, the longest wrapped NAME and the longest unwrapped NAME capped at the width less 65, an unwrapped NAME longer than it cut to the column less 3 plus `...`, never splitting an escape; a wrapped NAME never cut; pipe and `--json` whole.
+- Width: was `COLUMNS` off Windows; now stdout's own size by `viola_pty::host_size()` (`TIOCGWINSZ` / `GetConsoleScreenBufferInfo`), `COLUMNS` not read, a piped stdout no width.
+- Navigation: as built `--help` lists the served verbs only — board / traffic / wheel / setup, then `Options:`; `handoff:` joins with "Explicit session links", `plugin install` with "Optional plugin install"; the five-group target row kept.
+- Tokens: rung 4 reads `NO_COLOR` present, an empty value included; on a stale row NAME is dim and bold, every span opening dim again after its reset.
+**Why:** the chunk built the layer. The `NO_COLOR` read is inside the founder's own answer «Читать их» to P4 fork Q1 (relayed verbatim by the operator; card confirm a delegate's, the Viola overseer, PROVISIONAL). The width source and served-verbs-only are the Viola overseer's technical answers to Q2 and Q3, a delegate's — PROVISIONAL, the founder's own word owed at his next batch.
+**Ref:** .andromeda/runs/2026-10-17T08-28-14-wrap/

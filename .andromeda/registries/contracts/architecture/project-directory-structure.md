@@ -20,7 +20,7 @@ viola/
 │   ├── conpty.rs               # Windows x64: the embedded ConPTY companions and their four pins (the vendor script parses this text)
 │   ├── human.rs                # the `human` module root (human-facing text): the refusal and internal-error stderr writers and the stdout result writer (`write_refusal` / `refuse`, `write_internal_error` / `internal_error`, `write_result` / `result`), and `pub(crate) use` re-exports of its children's names, so every caller keeps its path; called by `run`, `revive`, `verify`, `send`, `wait`, `last`, `list`, `answer`, `pause`, `release` and the `main` catch site
 │   ├── human/                  # the human module's phases: mirror.rs: `send`'s readback mirror (`[  ] open` / `[RB] read back` / `[  ] unconfirmable` with its one fixed note / `[/ ] unable`), `write_wrapper_fault`, `write_unable`;
-│   │                           #   escape.rs: the message-mode escaper (`escape_message`) and the row-mode escaper (`escape_row`); board.rs: the two state refusal pairs (`instance_state_pair`, `home_state_pair`) and the board writers (`BayBudget`, `bay_line`, `board_rows`, `write_board`);
+│   │                           #   escape.rs: the message-mode escaper (`escape_message`) and the row-mode escaper (`escape_row`); board.rs: the two state refusal pairs (`instance_state_pair`, `home_state_pair`) and the board writers (`BayBudget`, `bay_line`, `board_rows`, `write_board`: with a known terminal width the unwrapped NAME cut, at a colour depth the spans); style.rs: the colour layer (`Depth`, `Tokens`, `Facts`, `decide`, `read`, the Windows VT enable and its restoring guard);
 │   │                           #   wait.rs: the `wait` / `last` lines; verbs.rs: the `answer` line, the `pause` / `release` lines and the budget lift / open lines; hints.rs: the hints (`HUMAN_TYPING_HINT`, `answer_hint`, `send_hint`)
 │   ├── cmd/                    # one module per subcommand: run, revive, send, wait, last, list,
 │   │                           #   answer, hook, mcp, verify, pause, release, link, unlink, plugin;
@@ -47,7 +47,7 @@ viola/
 ├── tests/                      # root integration tests (sync)
 │   ├── cmd/*.toml              # trycmd cases: human-mode expected output (snapbox redactions)
 │   ├── snapshots/              # insta snapshots (check mode only)
-│   └── support/                # the sync root fixture chain + fixture-hygiene checker
+│   └── support/                # the sync root fixture chain + fixture-hygiene checker; sgr.rs: the SGR reader of a terminal stream (`sgr_attributes`, `redraws`, `sets_a_foreground`)
 ├── schemas/                    # JSON schemas: fake-script.v1.json, claude-fixture.v1.json, claude-statusline-fixture.v1.json, claude-agents-fixture.v1.json, claude-screen.v1.json and config.v1.json (test-side), diag-line/diag-detail.v1.json (obs line contracts)
 ├── crates/
 │   ├── viola-core/             # normalised events, RefusalReason + NotDelivered, HumanTyping, WheelCause, validate_paste_text, ViolaName, Percent, `v` constants,

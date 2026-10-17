@@ -1,0 +1,202 @@
+[
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "d4492939",
+"ts": "2026-10-17T08:28:26Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-17-cli-output-discipline",
+"--run-dir",
+".andromeda/runs/2026-10-17T08-28-14-wrap",
+"--marker",
+"2026-10-17-cli-output-discipline"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the Viola overseer (a delegate), dialog answers at 2026-10-17T04:47:12Z",
+"I1 cited research.md:78 · plan.md:33 · plan.md:36 · plan.md:43 · plan.md:84 · plan.md:424 · plan.md:433 · plan.md:479 · plan.md:493 · plan.md:495 · plan.md:543 · plan.md:546",
+"I2 n/a — a message has no live source · copy message · message: the founder's own word, live in the Viola overseer's dialog at 2026-10-17T07:31:27Z, relayed verbatim by the operator",
+"I2 cited scope.md:65 · research.md:54 · research.md:78 · plan.md:8 · plan.md:38 · plan.md:119 · plan.md:478 · plan.md:500 · plan.md:526 · plan.md:533 · plan.md:538",
+"I3 n/a — a message has no live source · copy message · message: the operator, typed in this session at 2026-10-17T07:42:16Z",
+"I3 UNCITED",
+"inputs: 3 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 1 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 3,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 3
+},
+"uncited": 1,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "d4492939",
+"ts": "2026-10-17T08:31:42Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-17-cli-output-discipline",
+"--message-file",
+".andromeda/runs/2026-10-17T08-28-14-wrap/relay-1.md",
+"--origin",
+"the operator, typed in this session at the wrap invocation, 2026-10-17",
+"--kind",
+"relay",
+"--why",
+"the P5 direction: the integration-level witness of dim only on stale rows (v1-40) gets an owner at P5, a CARRY onto its real first consumer or the armed orphan halt; the env-read widening restated as the founder own word, inputs#I2",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-17T08-28-14-wrap",
+"--marker",
+"2026-10-17-cli-output-discipline"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy message · message: the operator, typed in this session at the wrap invocation, 2026-10-17",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, typed in this session at the wrap invocation, 2026-10-17",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "6296b0a6de66ab1851321b5f94f4cce6f12d93bfd45e224d2018279b9495e4df",
+"copy": "I4-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-17T08:31:42Z",
+"step": "wrap",
+"why": "the P5 direction: the integration-level witness of dim only on stale rows (v1-40) gets an owner at P5, a CARRY onto its real first consumer or the armed orphan halt; the env-read widening restated as the founder own word, inputs#I2"
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "d4492939",
+"ts": "2026-10-17T08:31:49Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-17-cli-output-discipline",
+"--run-dir",
+".andromeda/runs/2026-10-17T08-28-14-wrap",
+"--marker",
+"2026-10-17-cli-output-discipline"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the Viola overseer (a delegate), dialog answers at 2026-10-17T04:47:12Z",
+"I1 cited research.md:78 · plan.md:33 · plan.md:36 · plan.md:43 · plan.md:84 · plan.md:424 · plan.md:433 · plan.md:479 · plan.md:493 · plan.md:495 · plan.md:543 · plan.md:546 · report.md:15 · report.md:37 · report.md:43 · report.md:49 · report.md:55 · report.md:56 · report.md:79 · report.md:90 · report.md:93",
+"I2 n/a — a message has no live source · copy message · message: the founder's own word, live in the Viola overseer's dialog at 2026-10-17T07:31:27Z, relayed verbatim by the operator",
+"I2 cited scope.md:65 · research.md:54 · research.md:78 · plan.md:8 · plan.md:38 · plan.md:119 · plan.md:478 · plan.md:500 · plan.md:526 · plan.md:533 · plan.md:538 · report.md:19 · report.md:38 · report.md:44 · report.md:51 · report.md:52 · report.md:53 · report.md:78 · report.md:78",
+"I3 n/a — a message has no live source · copy message · message: the operator, typed in this session at 2026-10-17T07:42:16Z",
+"I3 cited report.md:39",
+"I4 n/a — a message has no live source · copy message · message: the operator, typed in this session at the wrap invocation, 2026-10-17",
+"I4 cited report.md:44",
+"inputs: 4 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 4 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 4,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 4
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "d4492939",
+"ts": "2026-10-17T08:38:56Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-17-cli-output-discipline",
+"--message-file",
+".andromeda/runs/2026-10-17T08-28-14-wrap/relay-2.md",
+"--origin",
+"the Viola overseer (a delegate), answering the P2 halt in this session, 2026-10-17",
+"--kind",
+"relay",
+"--why",
+"the P2 halt answers: the answer card confirmed (a delegate confirm, PROVISIONAL; the ratification stays the founder answer inputs#I2); the stale-dim integration witness CARRY onto Linux and macOS parity; the pre-existing trycmd family CARRY onto Version done-check",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-17T08-28-14-wrap",
+"--marker",
+"2026-10-17-cli-output-discipline"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I5 · copy message · message: the Viola overseer (a delegate), answering the P2 halt in this session, 2026-10-17",
+"cite: inputs#I5"
+],
+"stderr": null,
+"wrote": [
+"inputs/I5-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I5",
+"kind": "relay",
+"repo": null,
+"path": "message: the Viola overseer (a delegate), answering the P2 halt in this session, 2026-10-17",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "d4c02368859f10aca18b6f77bd0d2ea3111e9df086675badb3d960271e6ee694",
+"copy": "I5-relay-2.md.txt",
+"link": false,
+"read_at": "2026-10-17T08:38:56Z",
+"step": "wrap",
+"why": "the P2 halt answers: the answer card confirmed (a delegate confirm, PROVISIONAL; the ratification stays the founder answer inputs#I2); the stale-dim integration witness CARRY onto Linux and macOS parity; the pre-existing trycmd family CARRY onto Version done-check"
+}
+}
+]

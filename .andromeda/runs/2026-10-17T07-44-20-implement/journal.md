@@ -13,3 +13,6 @@
 - 2026-10-17T08:04Z · operator pass: pre-push green, hygiene clean, pre-CI commit 94a3d25, entry 20 pushed
   (origin/build/viola-0.1.0 6d8b662c→94a3d25e, written after the push). CI read (entry 21) started in the background:
   `ci.py conclusion --sha HEAD --wait 1800`.
+- 2026-10-17T08:13Z · CI ci#39015978414 red on test (windows-2025) alone: help_lists_only_served_verbs (the
+  `viola.exe` usage word). Oracle fixed; entries 1,2,3,8 green; pre-push green; hygiene clean; fix commit 4a8a0ca pushed.
+- 2026-10-17T08:26Z · CI ci#39016750772 green 15/15. Ready for the wrap.

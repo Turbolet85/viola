@@ -1,0 +1,29 @@
+# The cascade sweep: each retired claim by its wording and its mechanism.
+
+[[pattern]]
+id = 'env-exhaustive'
+regex = '''only other variables|two ratified exceptions|Two ratified exceptions|two variables outside|two carve-outs|only env vars outside|never reads env|not a configuration channel|reads no `NO_COLOR`'''
+
+[[pattern]]
+id = 'uncoloured'
+regex = '''uncoloured|emits no SGR|no SGR yet|prints words only|no styling|no bold NAME|colour layer is owed|colour layer lands'''
+
+[[pattern]]
+id = 'owed-cod'
+fixed = 'owed to "CLI output discipline"'
+
+[[pattern]]
+id = 'truncation'
+regex = '''never truncated \(|nothing is truncated|no truncation|clipping is not built|COLUMNS'''
+
+[[pattern]]
+id = 'help-built'
+regex = '''clap's ordered list|grouped verb table \(not built|handoff: link|handoff:  link|group labels \(board / traffic / wheel / handoff'''
+
+[[pattern]]
+id = 'viola-help'
+regex = '''viola-help|`viola --help`'''
+
+[[pattern]]
+id = 'stderr-writer'
+regex = '''only human-stderr writer|called by `run` and by `revive`|pre-spawn refusals, and `revive --list`'''

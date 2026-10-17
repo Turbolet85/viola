@@ -1,0 +1,11 @@
+
+## 2026-10-17-cli-output-discipline — viola --help built as the grouped table; viola list styled and cut on a terminal
+**Section:** §Primary screens (commands); §Output structure — `viola --help`; §Component — Primary navigation (Discoverability); §Output structure — `viola list` (piped) As built; §Component — Primary content block 1 (As built)
+**Change:**
+- Primary screens: was "not built: the built help is clap's ordered list"; now the grouped verb table is built over the served verbs.
+- `viola --help` As built: exactly `Usage: viola [--home <dir>] <verb> [args]`, a blank line, `board:    list` · `traffic:  send, wait, last, answer` · `wheel:    pause, release` · `setup:    run, revive, verify`, a blank line, `Options:` and clap's options; no about line, no `Commands:` list; `viola help` the same; pinned by the `HELP` literal; the usage line is the override literal on every OS, while `viola <verb> --help` stays clap's per-verb usage, naming `viola.exe` on Windows. The wireframe's `handoff:` row joins with "Explicit session links", `plugin install` with "Optional plugin install".
+- Discoverability: the built groups are board / traffic / wheel / setup.
+- `viola list` As built: was "uncoloured on every stream, a TTY included … owed to 'CLI output discipline'", "never truncated", "nothing is truncated"; now uncoloured under `--json`, a pipe, `NO_COLOR` (empty included), `TERM=dumb` or a failed VT enable, else styled (bold NAME, `DIALOG` amber with its kind plain, a stale row dim end to end with only `DIALOG` amber and not dim, depth from `COLORTERM` / `TERM`); with the width known (`viola_pty::host_size()`, never `COLUMNS`) an unwrapped NAME over its column (largest of 4, longest wrapped, longest unwrapped capped at width less 65) cut to the column less 3 plus `...`, never inside an escape; with no width nothing truncated.
+- Block 1: was "no styling, no truncation"; now the spans and the unwrapped cut as above. The 2026-10-16-unwrapped-sessions-on-the-board entry's Kept (line 284's truncation owed to "CLI output discipline") is discharged.
+**Why:** the chunk built both. Served verbs only and the width source are the Viola overseer's technical answers to P4 forks Q3 and Q2, a delegate's — PROVISIONAL, the founder's own word owed at his next batch.
+**Ref:** .andromeda/runs/2026-10-17T08-28-14-wrap/

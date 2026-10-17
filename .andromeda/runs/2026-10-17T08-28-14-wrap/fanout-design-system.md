@@ -1,0 +1,2 @@
+proposals: []
+note: D-design-tokens holds — the report's Coverage flags every new UI surface tokens n/a (viola --help), design-token✓ (viola list colour spans, pinned by colour_tokens_are_the_design_bytes) or ✓ (src/human/style.rs); no hardcoded✗. The report's Expected amendments for design-system (§Component Patterns pattern 1 As built :441, §Surface: cli Width :420, §Navigation Pattern :526, §Tokens (platform-specific) :404 / :394) are content moves outside this detector's invariant and are left to the sweep / cascade, not proposed here.
