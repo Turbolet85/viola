@@ -111,6 +111,8 @@ fn start(
         .arg(home)
         .args(args)
         .env_remove("VIOLA_NAME")
+        .env_remove("VIOLA_DIR")
+        .env_remove("VIOLA_BIN")
         .stdin(if stdin.is_some() {
             Stdio::piped()
         } else {

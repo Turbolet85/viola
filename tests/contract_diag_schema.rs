@@ -213,6 +213,30 @@ fn diag_line_schema_takes_only_catalogued_spawn_subjects(
     assert_eq!(validator.is_valid(&exit), valid);
 }
 
+/// A replayed snapshot's `state-recovered` line, with and without the scanned instance: `scanned`
+/// is a `ViolaName` or absent, never a path or a literal null.
+#[rstest]
+#[case::without_scanned(None, true)]
+#[case::scanned_a_name(Some(json!("builder")), true)]
+#[case::scanned_a_path(Some(json!("/home/u/.viola/instances/builder")), false)]
+#[case::scanned_no_name(Some(json!("Not-A-Name")), false)]
+#[case::scanned_null(Some(Value::Null), false)]
+fn diag_line_schema_takes_a_state_recovered_line_with_and_without_scanned(
+    #[case] scanned: Option<Value>,
+    #[case] valid: bool,
+) {
+    let validator = jsonschema::validator_for(&line_schema()).expect("valid schema");
+    let mut line = json!({
+        "timestamp": "2026-10-17T03:12:07.412Z", "level": "WARN", "target": "viola_state::replay",
+        "message": "state-recovered", "event": "state-recovered", "process": "cli",
+        "instance": "overseer", "detail": "snapshot-replayed", "file": "snapshot.json"
+    });
+    if let Some(scanned) = scanned {
+        line["scanned"] = scanned;
+    }
+    assert_eq!(validator.is_valid(&line), valid, "{line}");
+}
+
 #[test]
 fn diag_detail_schema_allows_content_fields_only_there() {
     let detail = json!({

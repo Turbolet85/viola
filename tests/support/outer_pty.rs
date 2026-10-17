@@ -52,6 +52,18 @@ impl OuterPty {
         size: Size,
         cwd: &Path,
     ) -> Self {
+        Self::spawn_without(program, args, env, &[], size, cwd)
+    }
+
+    /// `spawn_in` with the `remove` names taken out of the child's inherited environment.
+    pub fn spawn_without(
+        program: &Path,
+        args: &[OsString],
+        env: &[(&str, &str)],
+        remove: &[&str],
+        size: Size,
+        cwd: &Path,
+    ) -> Self {
         let spec = SpawnSpec {
             program: program.to_path_buf(),
             args: args.to_vec(),
@@ -60,7 +72,7 @@ impl OuterPty {
                 .iter()
                 .map(|(k, v)| (OsString::from(k), OsString::from(v)))
                 .collect(),
-            env_remove: Vec::new(),
+            env_remove: remove.iter().map(OsString::from).collect(),
             size,
         };
         let mut pty = viola_pty::spawn(&spec).expect("outer pty spawn");

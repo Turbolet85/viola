@@ -6,7 +6,7 @@ use std::path::Path;
 
 use serde_json::{Value, json};
 use viola_core::obs::ObsEvent;
-use viola_core::{EventKind, obs_event};
+use viola_core::{EventKind, ViolaName, obs_event};
 
 use crate::StateError;
 use crate::events::{Skipped, read_from};
@@ -159,14 +159,25 @@ pub fn read_snapshot_or_replay(instance_dir: &Path) -> Result<Recovered, StateEr
         ReplayCause::Unreadable => ("snapshot-replayed", None),
         ReplayCause::Unsupported { v_seen } => ("snapshot-unsupported-v", Some(v_seen)),
     };
+    let scanned = scanned_name(instance_dir);
     obs_event!(
         WARN,
         ObsEvent::StateRecovered,
         detail = detail,
         file = SNAPSHOT,
         v_seen = v_seen,
+        scanned = scanned,
     );
     Ok(Recovered::Replayed { cause, state })
+}
+
+/// The scanned instance's name: `instance_dir`'s own last component when it is a `ViolaName`, so
+/// a line names the instance it replayed beside the caller's own, and never a path.
+fn scanned_name(instance_dir: &Path) -> Option<&str> {
+    instance_dir
+        .file_name()
+        .and_then(|name| name.to_str())
+        .filter(|name| ViolaName::try_new((*name).to_owned()).is_ok())
 }
 
 #[cfg(test)]
@@ -176,9 +187,9 @@ mod tests {
     use crate::snapshot::write_snapshot;
     use crate::test_capture::capture;
     use chrono::{TimeZone as _, Utc};
+    use rstest::rstest;
     use serde_json::json;
     use std::fs;
-    use viola_core::ViolaName;
 
     const NONE_SKIPPED: Skipped = Skipped {
         unknown_kinds: 0,
@@ -449,6 +460,36 @@ mod tests {
                 "level": "WARN",
             })]
         );
+    }
+
+    /// The line names the scanned instance by its directory's own name when that is a
+    /// `ViolaName`, and carries no `scanned` key otherwise; never a path.
+    #[rstest]
+    #[case::a_viola_name("builder", Some("builder"))]
+    #[case::a_name_that_is_no_name("Not-A-Name", None)]
+    #[case::a_dot_name(".tmp-dir", None)]
+    fn state_recovered_names_the_scanned_instance(
+        #[case] dir_name: &str,
+        #[case] scanned: Option<&str>,
+    ) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let dir = tmp.path().join(dir_name);
+        fs::create_dir(&dir).expect("the instance dir");
+        full_log(&dir);
+        fs::write(dir.join("snapshot.json"), "not json").expect("seed");
+        let (recovered, lines) = capture(|| read_snapshot_or_replay(&dir));
+        assert!(matches!(recovered, Ok(Recovered::Replayed { .. })));
+        let mut want = json!({
+            "event": "state-recovered",
+            "detail": "snapshot-replayed",
+            "file": "snapshot.json",
+            "message": "state-recovered",
+            "level": "WARN",
+        });
+        if let Some(scanned) = scanned {
+            want["scanned"] = json!(scanned);
+        }
+        assert_eq!(lines, [want]);
     }
 
     #[test]

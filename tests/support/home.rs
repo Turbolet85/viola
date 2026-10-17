@@ -18,6 +18,10 @@ use super::watch::{WITHIN, Watch};
 
 pub const VIOLA: &str = env!("CARGO_BIN_EXE_viola");
 
+/// What `viola run` sets in its child: a test-started `viola` runs with none of them, or a verb
+/// with no `--home` would take the home of the wrapped session the test runner itself runs in.
+pub const UNWRAPPED: [&str; 3] = ["VIOLA_NAME", "VIOLA_DIR", "VIOLA_BIN"];
+
 /// Keep a test's home for the CI gates (`AGENT_RUN_KEEP_HOMES=1`) or for a failing test's
 /// post-mortem (`AGENT_RUN_KEEP_FAILED=1`); remove it otherwise.
 pub fn keep_decision(keep_homes: bool, keep_failed: bool, panicking: bool) -> bool {
@@ -308,6 +312,23 @@ pub fn statusline_echo_command(marker: &Path, extra: &[&str]) -> String {
     words.join(" ")
 }
 
+/// The spelling viola gives a home once it exists: canonical, a Windows verbatim drive path
+/// (`\\?\C:\…`) in its plain drive form (`C:\…`); a home not there yet is spelt as `run` will
+/// have created it, its own name under its parent's spelling. A test oracle, never the product's
+/// helper.
+pub fn resolved(home: &Path) -> PathBuf {
+    if !home.exists() {
+        let parent = home.parent().expect("a home has a parent");
+        return resolved(parent).join(home.file_name().expect("a home has a name"));
+    }
+    let canonical = std::fs::canonicalize(home).expect("an existing home");
+    let text = canonical.to_str().expect("a utf-8 home");
+    let plain = text
+        .strip_prefix(r"\\?\")
+        .filter(|rest| rest.as_bytes().get(1) == Some(&b':'));
+    PathBuf::from(plain.unwrap_or(text))
+}
+
 /// A workspace-relative path resolved against the root package's manifest dir.
 pub fn workspace_path(rel: &str) -> PathBuf {
     Path::new(env!("CARGO_MANIFEST_DIR")).join(rel)
@@ -574,7 +595,9 @@ impl Wrapper {
             .user_home
             .map(|dir| dir.to_str().expect("utf-8 user home"));
         let env: Vec<(&str, &str)> = user_home.iter().map(|dir| (USER_HOME_VAR, *dir)).collect();
-        let pty = OuterPty::spawn_in(Path::new(VIOLA), &args, &env, size, &cwd);
+        // A start with no `--home` would take a wrapped session's home from these, the test
+        // runner's own when it runs inside one.
+        let pty = OuterPty::spawn_without(Path::new(VIOLA), &args, &env, &UNWRAPPED, size, &cwd);
         let mut wrapper = Self {
             stamped,
             name: name.to_owned(),
@@ -750,6 +773,9 @@ pub fn revive_command(home: &TestHome, dir: &Path, args: &[&str]) -> std::proces
         .arg("revive")
         .args(args)
         .current_dir(dir)
+        .env_remove(UNWRAPPED[0])
+        .env_remove(UNWRAPPED[1])
+        .env_remove(UNWRAPPED[2])
         .env("PATH", path_with(&claude_dir(home.scratch())))
         .stdin(std::process::Stdio::null())
         .stdout(std::process::Stdio::piped())

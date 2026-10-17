@@ -19,7 +19,8 @@ use support::fake::{self, of_kind};
 use support::home::{STATUSLINE_ECHO_OUTPUT, statusline_echo_command, statusline_marker};
 use support::home::{
     StampedHome, TestHome, VIOLA, Wrapper, beat_age, booted_wrapper, home, plant_statusline_source,
-    prepare_home_base, process_start, snapshot_data, stamped_home, sweep_gone_owners, write_owner,
+    prepare_home_base, process_start, resolved, snapshot_data, stamped_home, sweep_gone_owners,
+    write_owner,
 };
 use support::start::{
     child_starts, endpoint_of, last_plugin_dir, refused_with, role_lines, run_refused,
@@ -321,7 +322,7 @@ fn bytes_and_mtime(path: &Path) -> (Vec<u8>, std::time::SystemTime) {
 #[test]
 fn run_rewrites_the_settings_override_each_start() {
     let stamped = started_once(StampedHome::unstamped(TestHome::new()));
-    let home = std::path::absolute(stamped.home.path()).expect("absolute home");
+    let home = resolved(stamped.home.path());
     let dir = home.join("instances").join("builder");
     let file = dir.join("settings.json");
     if cfg!(windows) {
@@ -414,6 +415,12 @@ fn run_in_the_default_home_reads_the_user_settings() {
     assert_eq!(wrapper.home(), user_home.join(".viola"));
     let snapshot = snapshot_data(&wrapper.instance_dir()).expect("the snapshot");
     assert_eq!(snapshot["statusline_command"], "user-line --default");
+    // The wrapper spelt its default home canonically: the pinned copy lives under that spelling.
+    let pinned = PathBuf::from(snapshot["pinned_bin"].as_str().expect("pinned_bin"));
+    assert!(
+        pinned.starts_with(resolved(&user_home.join(".viola"))),
+        "{pinned:?}"
+    );
     let (stopped, _home) = wrapper.stop_keep();
     assert_eq!(stopped.code(), Some(0));
     assert_eq!(bytes_and_mtime(&settings), before);

@@ -117,6 +117,12 @@ pub(crate) fn document(doc: &Value) {
     let _ = io::stdout().lock().write_all(format!("{doc}\n").as_bytes());
 }
 
+/// An exit-1 refusal's `--json` document: its closed code, no detail (architecture §Standard
+/// Contracts, CLI `--json` output; `viola revive`'s refusals).
+pub(crate) fn refused_document(code: &str) {
+    document(&json!({"v": 1, "error": code, "detail": null}));
+}
+
 /// Exit 20: the wrapper-fault document, or `error: wrapper fault  <code>` with no hint.
 pub(crate) fn fault(json: bool, detail: &Value) -> u8 {
     if json {

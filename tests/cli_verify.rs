@@ -1564,3 +1564,50 @@ fn hook_capture_into_a_relative_or_missing_dir_writes_nothing() {
     }
     assert_eq!(fs::read_dir(tmp.path()).expect("dir").count(), 0);
 }
+
+/// Three `viola verify` runs the stamped-home fixture makes, each over its own fresh home, released
+/// together by one barrier: each must stamp every row, whatever the others load the disk with (the
+/// `resume-session` row read an empty Run E capture on a loaded runner, `ci#38994749835`).
+#[test]
+fn stamped_home_concurrent_verify_runs_each_stamp_the_home() {
+    const RUNS: usize = 3;
+    let barrier = std::sync::Arc::new(std::sync::Barrier::new(RUNS));
+    let runs: Vec<_> = (0..RUNS)
+        .map(|_| {
+            let barrier = std::sync::Arc::clone(&barrier);
+            std::thread::spawn(move || {
+                let home = TestHome::new();
+                barrier.wait();
+                let ran = verify(
+                    home.path(),
+                    &workspace_path("fixtures/claude"),
+                    fake::RECORDED_CLI_VERSION,
+                    &[],
+                    &[],
+                    &[],
+                );
+                (ran, home)
+            })
+        })
+        .collect();
+    let mut failures = Vec::new();
+    for (n, run) in runs.into_iter().enumerate() {
+        let (ran, _home) = run.join().expect("a verify thread");
+        let stdout = ran.stdout_text();
+        let last = stdout.lines().last().unwrap_or_default();
+        let stamped = last.starts_with(&format!("stamped {}  ", fake::RECORDED_CLI_VERSION))
+            && last.ends_with("pass  0 fail");
+        if ran.code != Some(0) || !stamped {
+            let failing: Vec<&str> = stdout
+                .lines()
+                .filter(|l| l.starts_with('[') && l.ends_with("  fail"))
+                .filter_map(|l| l.split(' ').nth(1))
+                .collect();
+            failures.push(format!(
+                "run {n}: exit {:?}, failing rows {failing:?}",
+                ran.code
+            ));
+        }
+    }
+    assert!(failures.is_empty(), "{failures:?}");
+}

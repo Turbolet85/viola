@@ -312,7 +312,9 @@ fn wait_for(
     poll_until(clock, until, &stopped, |now| done().then_some(now))
 }
 
-/// How many captures of `event` `dir` holds, by name.
+/// How many captures of `event` `dir` holds, by name, counting only those whose bytes landed: the
+/// capture arm claims its name empty and renames the payload over it after a sync, so an empty
+/// name is a capture still being written, which a run ended on it would read as nothing.
 fn count_of(dir: &Path, event: HookEvent) -> usize {
     std::fs::read_dir(dir)
         .into_iter()
@@ -324,6 +326,7 @@ fn count_of(dir: &Path, event: HookEvent) -> usize {
                 .to_str()
                 .and_then(ledger::parse_capture_file_name)
                 .is_some_and(|(e, _)| e == event)
+                && entry.metadata().is_ok_and(|meta| meta.len() > 0)
         })
         .count()
 }
@@ -1091,6 +1094,20 @@ mod tests {
         assert!(captured(tmp.path(), HookEvent::UserPromptSubmit));
         assert!(!captured(tmp.path(), HookEvent::Stop));
         assert!(!captured(&tmp.path().join("missing"), HookEvent::Stop));
+    }
+
+    /// The capture arm claims its name empty and only then renames the bytes over it, so a run
+    /// ended on the claim reads a payload that never landed (Run E, `ci#38994749835`).
+    #[test]
+    fn captured_reads_no_capture_while_the_claim_is_empty() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let claim = tmp.path().join("SessionStart.1.json");
+        std::fs::write(&claim, b"").expect("the empty claim");
+        assert!(!captured(tmp.path(), HookEvent::SessionStart));
+        assert_eq!(count_of(tmp.path(), HookEvent::SessionStart), 0);
+        std::fs::write(&claim, b"{}").expect("the bytes");
+        assert!(captured(tmp.path(), HookEvent::SessionStart));
+        assert_eq!(count_of(tmp.path(), HookEvent::SessionStart), 1);
     }
 
     fn plant(dir: &Path, event: &str, n: usize) {

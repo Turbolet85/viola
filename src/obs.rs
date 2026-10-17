@@ -332,6 +332,26 @@ mod tests {
         ViolaName::try_new(raw.to_owned()).expect("valid")
     }
 
+    /// The keys the readers know are the config schema's properties, no more and no fewer: a key
+    /// added to one side alone reads as unknown on the other.
+    #[test]
+    fn config_keys_are_the_config_schema_properties() {
+        let schema: serde_json::Value =
+            serde_json::from_str(include_str!("../schemas/config.v1.json")).expect("the schema");
+        let properties: std::collections::BTreeSet<&str> = schema["properties"]
+            .as_object()
+            .expect("properties")
+            .keys()
+            .map(String::as_str)
+            .collect();
+        let known: std::collections::BTreeSet<&str> = CONFIG_KEYS.into_iter().collect();
+        assert_eq!(known, properties);
+        assert_eq!(
+            schema["additionalProperties"], true,
+            "the schema is tolerant"
+        );
+    }
+
     #[test]
     fn timestamp_is_rfc3339_utc_millis_with_z() {
         let at = Utc

@@ -8,11 +8,13 @@ use std::ffi::OsString;
 use std::path::{Path, PathBuf};
 use std::process::ExitCode;
 
+use serde_json::{Value, json};
 use viola_agent_claude::{PROGRAM, RESUME_FLAG, is_session_id, resume_args};
 use viola_core::ViolaName;
 use viola_state::replay::{Recovered, SessionLink, read_snapshot_or_replay, session_chain};
 use viola_state::strict::check_instance;
 
+use super::client;
 use super::run::{Launch, Started, collision_check, open_wrapper_log, pump_child, refused, start};
 use crate::human;
 
@@ -29,7 +31,10 @@ pub(crate) struct ReviveArgs {
     fork: bool,
     /// Print the instance's logged sessions, oldest first, and start nothing
     #[arg(long, conflicts_with_all = ["id", "fork", "extra"])]
-    list: bool,
+    pub(super) list: bool,
+    /// Print one JSON document on stdout instead of the rows or a refusal's lines
+    #[arg(long)]
+    json: bool,
     /// Extra arguments for the child, after `--`
     #[arg(last = true)]
     extra: Vec<OsString>,
@@ -93,20 +98,25 @@ impl Refusal {
         }
     }
 
-    fn write(self, name: &ViolaName) {
-        let (unable, hint) = self.pair(name.as_ref());
-        human::refuse(&unable, &hint);
+    /// The stderr pair, or with `json` the one document naming the closed code.
+    fn write(self, name: &ViolaName, json: bool) {
+        if json {
+            client::refused_document(self.detail());
+        } else {
+            let (unable, hint) = self.pair(name.as_ref());
+            human::refuse(&unable, &hint);
+        }
     }
 }
 
 pub(crate) fn revive(home: &Path, args: ReviveArgs) -> anyhow::Result<ExitCode> {
     if args.list {
-        return list(home, &args.name);
+        return list(home, &args.name, args.json);
     }
     // Before the log opens: opening it narrows the home to its owner, which would erase the very
     // state this check refuses. A refused check opens nothing under the home and writes no line.
     if !trusted(home, &args.name)? {
-        Refusal::StrictModes.write(&args.name);
+        Refusal::StrictModes.write(&args.name, args.json);
         return Ok(ExitCode::from(1));
     }
     let persistent = open_wrapper_log(home, &args.name)?;
@@ -162,14 +172,15 @@ fn preflight(home: &Path, args: ReviveArgs) -> anyhow::Result<Result<Launch, Sta
     let name = &args.name;
     let home = std::path::absolute(home)?;
     let instance_dir = home.join("instances").join(AsRef::<str>::as_ref(name));
+    let json = args.json;
     let refuse = |refusal: Refusal| {
-        refusal.write(name);
+        refusal.write(name, json);
         refused(refusal.detail())
     };
     let fork = args.fork;
     let cwd = std::env::current_dir()?;
     let passed = preflight_order(
-        || collision_check(name, &instance_dir),
+        || collision_check(name, &instance_dir, json),
         || {
             let recovered = read_snapshot_or_replay(&instance_dir)?;
             let chain = session_chain(&instance_dir)?;
@@ -221,46 +232,75 @@ fn recorded_dir(recovered: &Recovered) -> Option<PathBuf> {
     }
 }
 
-/// `--list`: one stdout line per logged session, oldest first. It starts nothing and opens no
-/// process log.
-fn list(home: &Path, name: &ViolaName) -> anyhow::Result<ExitCode> {
+/// `--list`: one stdout line per logged session, oldest first, or with `json` one document of
+/// them. It starts nothing. Once the strict-modes check has passed, and under a `VIOLA_NAME`, it
+/// logs its start and exit as a `cli` verb; a refused check opens nothing and writes no line.
+fn list(home: &Path, name: &ViolaName, json: bool) -> anyhow::Result<ExitCode> {
     if !trusted(home, name)? {
-        Refusal::StrictModes.write(name);
+        Refusal::StrictModes.write(name, json);
         return Ok(ExitCode::from(1));
     }
     let home = std::path::absolute(home)?;
+    if let Some(own) = client::own_name() {
+        client::start(&home, &own)?;
+    }
     let instance_dir = home.join("instances").join(AsRef::<str>::as_ref(name));
     let rows = list_rows(&session_chain(&instance_dir)?.links);
     if rows.is_empty() {
-        Refusal::NoSession.write(name);
+        Refusal::NoSession.write(name, json);
+        crate::run::log_self_exit(1, Some(Refusal::NoSession.detail()));
         return Ok(ExitCode::from(1));
     }
-    for row in rows {
-        human::result(&row);
+    if json {
+        let sessions: Vec<Value> = rows
+            .iter()
+            .map(|row| json!({"ts": row.ts, "cause": row.cause, "id": row.id}))
+            .collect();
+        client::document(&json!({"v": 1, "ok": {"sessions": sessions}}));
+    } else {
+        for row in &rows {
+            human::result(&row.line());
+        }
     }
+    crate::run::log_self_exit(0, None);
     Ok(ExitCode::SUCCESS)
 }
 
-/// `<ts>  <cause>  <id>` per link whose id has the session-id shape, in log order.
-fn list_rows(links: &[SessionLink]) -> Vec<String> {
+/// One `--list` row: the escaped timestamp, the cause word, the session-shaped id.
+#[derive(Debug, PartialEq)]
+struct ListRow {
+    ts: String,
+    cause: &'static str,
+    id: String,
+}
+
+impl ListRow {
+    /// `<ts>  <cause>  <id>`, two spaces apart.
+    fn line(&self) -> String {
+        format!("{}  {}  {}", self.ts, self.cause, self.id)
+    }
+}
+
+/// A row per link whose id has the session-id shape, in log order.
+fn list_rows(links: &[SessionLink]) -> Vec<ListRow> {
     links
         .iter()
         .filter(|link| is_session_id(&link.agent_session_id))
-        .map(|link| {
-            format!(
-                "{}  {}  {}",
-                human::escape_message(&link.ts),
-                cause_word(&link.cause),
-                link.agent_session_id
-            )
+        .map(|link| ListRow {
+            ts: human::escape_message(&link.ts),
+            cause: cause_word(&link.cause),
+            id: link.agent_session_id.clone(),
         })
         .collect()
 }
 
 /// A logged cause is printed only when it is one of the four the hook map names.
-fn cause_word(cause: &str) -> &str {
+fn cause_word(cause: &str) -> &'static str {
     match cause {
-        "startup" | "clear" | "resume" | "compact" => cause,
+        "startup" => "startup",
+        "clear" => "clear",
+        "resume" => "resume",
+        "compact" => "compact",
         _ => "unknown",
     }
 }
@@ -551,7 +591,16 @@ mod tests {
             link("compact", SECOND),
         ]);
         assert_eq!(
-            rows,
+            rows[1],
+            ListRow {
+                ts: "t\\x1B[31m".to_owned(),
+                cause: "unknown",
+                id: SECOND.to_owned(),
+            }
+        );
+        let lines: Vec<String> = rows.iter().map(ListRow::line).collect();
+        assert_eq!(
+            lines,
             [
                 format!("2026-10-10T01:02:03.000Z  startup  {FIRST}"),
                 format!("t\\x1B[31m  unknown  {SECOND}"),

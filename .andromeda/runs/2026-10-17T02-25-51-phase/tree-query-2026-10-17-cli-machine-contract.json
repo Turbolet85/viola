@@ -1,0 +1,676 @@
+[
+{
+"sql": "SELECT callee_name, caller_name, file, line FROM calls WHERE callee_name IN ('resolve_home','default_home','document','unreachable','fault','read_thresholds','read_diagnostics_level','log_config_rejection','refuse','role_of','stamp_home','stamped_home') AND callee_kind = 'fn' ORDER BY callee_name, file, line",
+"rows": 111,
+"result": [
+{
+"callee_name": "default_home",
+"caller_name": "resolve_home",
+"file": "src/cmd/mod.rs",
+"line": 177
+},
+{
+"callee_name": "default_home",
+"caller_name": "default_home_is_dot_viola_under_the_user_home",
+"file": "src/cmd/mod.rs",
+"line": 190
+},
+{
+"callee_name": "default_home",
+"caller_name": "statusline_source",
+"file": "src/cmd/run.rs",
+"line": 490
+},
+{
+"callee_name": "document",
+"caller_name": "run_with",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 154
+},
+{
+"callee_name": "document",
+"caller_name": "cleanup_of_an_unknown_session_is_ok_and_empty",
+"file": "crates/viola-e2e/tests/cli.rs",
+"line": 41
+},
+{
+"callee_name": "document",
+"caller_name": "status_and_logs_of_an_unknown_session_are_exit_2",
+"file": "crates/viola-e2e/tests/cli.rs",
+"line": 51
+},
+{
+"callee_name": "document",
+"caller_name": "unknown_selectors_and_unknown_commands_are_usage",
+"file": "crates/viola-e2e/tests/cli.rs",
+"line": 69
+},
+{
+"callee_name": "document",
+"caller_name": "run_local_live_under_ci_is_refused",
+"file": "crates/viola-e2e/tests/cli.rs",
+"line": 90
+},
+{
+"callee_name": "document",
+"caller_name": "gate_usage_errors_and_the_retired_leg_flags_are_exit_2",
+"file": "crates/viola-e2e/tests/cli.rs",
+"line": 115
+},
+{
+"callee_name": "document",
+"caller_name": "gate_over_an_empty_artifacts_dir_names_the_missing_suite",
+"file": "crates/viola-e2e/tests/cli.rs",
+"line": 128
+},
+{
+"callee_name": "document",
+"caller_name": "boot_with_an_invalid_instance_name_is_usage_before_any_build",
+"file": "crates/viola-e2e/tests/cli.rs",
+"line": 140
+},
+{
+"callee_name": "document",
+"caller_name": "status_logs_and_cleanup_drive_a_booted_session",
+"file": "crates/viola-e2e/tests/cli.rs",
+"line": 191
+},
+{
+"callee_name": "document",
+"caller_name": "status_logs_and_cleanup_drive_a_booted_session",
+"file": "crates/viola-e2e/tests/cli.rs",
+"line": 228
+},
+{
+"callee_name": "document",
+"caller_name": "cleanup_keeps_the_home_under_agent_run_keep_homes",
+"file": "crates/viola-e2e/tests/cli.rs",
+"line": 244
+},
+{
+"callee_name": "document",
+"caller_name": "answered",
+"file": "src/cmd/answer.rs",
+"line": 64
+},
+{
+"callee_name": "document",
+"caller_name": "unable",
+"file": "src/cmd/answer.rs",
+"line": 71
+},
+{
+"callee_name": "document",
+"caller_name": "fault",
+"file": "src/cmd/client.rs",
+"line": 122
+},
+{
+"callee_name": "document",
+"caller_name": "unreachable",
+"file": "src/cmd/client.rs",
+"line": 135
+},
+{
+"callee_name": "document",
+"caller_name": "last",
+"file": "src/cmd/last.rs",
+"line": 47
+},
+{
+"callee_name": "document",
+"caller_name": "list",
+"file": "src/cmd/list.rs",
+"line": 53
+},
+{
+"callee_name": "document",
+"caller_name": "list",
+"file": "src/cmd/list.rs",
+"line": 53
+},
+{
+"callee_name": "document",
+"caller_name": "refuse",
+"file": "src/cmd/list.rs",
+"line": 68
+},
+{
+"callee_name": "document",
+"caller_name": "list_document_with_a_reading_is_the_contract_envelope",
+"file": "src/cmd/list.rs",
+"line": 206
+},
+{
+"callee_name": "document",
+"caller_name": "list_document_without_a_reading_has_the_budget_word_unknown",
+"file": "src/cmd/list.rs",
+"line": 220
+},
+{
+"callee_name": "document",
+"caller_name": "wheel_call",
+"file": "src/cmd/pause.rs",
+"line": 73
+},
+{
+"callee_name": "document",
+"caller_name": "read_back",
+"file": "src/cmd/send.rs",
+"line": 131
+},
+{
+"callee_name": "document",
+"caller_name": "unconfirmable",
+"file": "src/cmd/send.rs",
+"line": 147
+},
+{
+"callee_name": "document",
+"caller_name": "unable",
+"file": "src/cmd/send.rs",
+"line": 154
+},
+{
+"callee_name": "document",
+"caller_name": "wait",
+"file": "src/cmd/wait.rs",
+"line": 66
+},
+{
+"callee_name": "document",
+"caller_name": "path1_list_shows_a_booted_wrapper",
+"file": "tests/cli_list.rs",
+"line": 88
+},
+{
+"callee_name": "document",
+"caller_name": "list_human_board_is_the_literal_rows",
+"file": "tests/cli_list.rs",
+"line": 118
+},
+{
+"callee_name": "document",
+"caller_name": "list_after_a_pause_reads_the_human_wheel",
+"file": "tests/cli_list.rs",
+"line": 130
+},
+{
+"callee_name": "document",
+"caller_name": "list_of_a_stopped_wrapper_is_an_empty_board",
+"file": "tests/cli_list.rs",
+"line": 151
+},
+{
+"callee_name": "document",
+"caller_name": "list_of_a_home_that_does_not_exist_creates_nothing",
+"file": "tests/cli_list.rs",
+"line": 176
+},
+{
+"callee_name": "document",
+"caller_name": "list_logs_its_start_and_exit_only_under_a_name",
+"file": "tests/cli_list.rs",
+"line": 185
+},
+{
+"callee_name": "document",
+"caller_name": "list_logs_its_start_and_exit_only_under_a_name",
+"file": "tests/cli_list.rs",
+"line": 188
+},
+{
+"callee_name": "document",
+"caller_name": "e5_list_reads_a_live_wrapper_through_the_replay",
+"file": "tests/cli_list.rs",
+"line": 236
+},
+{
+"callee_name": "document",
+"caller_name": "status_on",
+"file": "tests/cli_list.rs",
+"line": 274
+},
+{
+"callee_name": "document",
+"caller_name": "list_prints_planted_rows_as_unwrapped_rows",
+"file": "tests/cli_list.rs",
+"line": 336
+},
+{
+"callee_name": "document",
+"caller_name": "e1_send_naming_an_unwrapped_row_is_unreachable",
+"file": "tests/cli_list.rs",
+"line": 369
+},
+{
+"callee_name": "document",
+"caller_name": "list_under_a_name_logs_the_agents_read",
+"file": "tests/cli_list.rs",
+"line": 427
+},
+{
+"callee_name": "document",
+"caller_name": "list_without_a_name_logs_no_agents_read",
+"file": "tests/cli_list.rs",
+"line": 475
+},
+{
+"callee_name": "fault",
+"caller_name": "screen_fault_names_the_row_the_seam_and_the_check",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 2535
+},
+{
+"callee_name": "fault",
+"caller_name": "screen_fault_names_the_row_the_seam_and_the_check",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 2537
+},
+{
+"callee_name": "fault",
+"caller_name": "screen_fault_names_the_row_the_seam_and_the_check",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 2545
+},
+{
+"callee_name": "fault",
+"caller_name": "screen_fault_names_the_row_the_seam_and_the_check",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 2553
+},
+{
+"callee_name": "fault",
+"caller_name": "screen_fault_names_the_row_the_seam_and_the_check",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 2561
+},
+{
+"callee_name": "fault",
+"caller_name": "screen_fault_names_the_row_the_seam_and_the_check",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 2569
+},
+{
+"callee_name": "fault",
+"caller_name": "screen_fault_names_the_row_the_seam_and_the_check",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 2577
+},
+{
+"callee_name": "fault",
+"caller_name": "deliver",
+"file": "src/cmd/answer.rs",
+"line": 135
+},
+{
+"callee_name": "fault",
+"caller_name": "last",
+"file": "src/cmd/last.rs",
+"line": 42
+},
+{
+"callee_name": "fault",
+"caller_name": "wheel_call",
+"file": "src/cmd/pause.rs",
+"line": 65
+},
+{
+"callee_name": "fault",
+"caller_name": "deliver",
+"file": "src/cmd/send.rs",
+"line": 242
+},
+{
+"callee_name": "fault",
+"caller_name": "wait",
+"file": "src/cmd/wait.rs",
+"line": 61
+},
+{
+"callee_name": "log_config_rejection",
+"caller_name": "start",
+"file": "src/cmd/client.rs",
+"line": 26
+},
+{
+"callee_name": "log_config_rejection",
+"caller_name": "read",
+"file": "src/cmd/list.rs",
+"line": 99
+},
+{
+"callee_name": "log_config_rejection",
+"caller_name": "open_wrapper_log",
+"file": "src/cmd/run.rs",
+"line": 183
+},
+{
+"callee_name": "log_config_rejection",
+"caller_name": "open_wrapper_log",
+"file": "src/cmd/run.rs",
+"line": 187
+},
+{
+"callee_name": "log_config_rejection",
+"caller_name": "start",
+"file": "src/cmd/run.rs",
+"line": 258
+},
+{
+"callee_name": "log_config_rejection",
+"caller_name": "verify",
+"file": "src/cmd/verify.rs",
+"line": 67
+},
+{
+"callee_name": "log_config_rejection",
+"caller_name": "measure",
+"file": "src/cmd/verify.rs",
+"line": 166
+},
+{
+"callee_name": "log_config_rejection",
+"caller_name": "log_config_rejection_writes_one_warn_line",
+"file": "src/obs.rs",
+"line": 684
+},
+{
+"callee_name": "read_diagnostics_level",
+"caller_name": "start",
+"file": "src/cmd/client.rs",
+"line": 22
+},
+{
+"callee_name": "read_diagnostics_level",
+"caller_name": "hook",
+"file": "src/cmd/hook.rs",
+"line": 125
+},
+{
+"callee_name": "read_diagnostics_level",
+"caller_name": "statusline",
+"file": "src/cmd/hook/statusline.rs",
+"line": 58
+},
+{
+"callee_name": "read_diagnostics_level",
+"caller_name": "open_wrapper_log",
+"file": "src/cmd/run.rs",
+"line": 179
+},
+{
+"callee_name": "read_diagnostics_level",
+"caller_name": "verify",
+"file": "src/cmd/verify.rs",
+"line": 63
+},
+{
+"callee_name": "read_diagnostics_level",
+"caller_name": "level_of",
+"file": "src/obs.rs",
+"line": 407
+},
+{
+"callee_name": "read_diagnostics_level",
+"caller_name": "read_diagnostics_level_unreadable_config_is_reported",
+"file": "src/obs.rs",
+"line": 461
+},
+{
+"callee_name": "read_diagnostics_level",
+"caller_name": "read_diagnostics_level_file_as_home_is_unreadable",
+"file": "src/obs.rs",
+"line": 490
+},
+{
+"callee_name": "read_thresholds",
+"caller_name": "read",
+"file": "src/cmd/list.rs",
+"line": 97
+},
+{
+"callee_name": "read_thresholds",
+"caller_name": "start",
+"file": "src/cmd/run.rs",
+"line": 256
+},
+{
+"callee_name": "read_thresholds",
+"caller_name": "thresholds_read_the_home_config_file",
+"file": "src/run/budget.rs",
+"line": 451
+},
+{
+"callee_name": "read_thresholds",
+"caller_name": "thresholds_read_the_home_config_file",
+"file": "src/run/budget.rs",
+"line": 455
+},
+{
+"callee_name": "read_thresholds",
+"caller_name": "thresholds_read_the_home_config_file",
+"file": "src/run/budget.rs",
+"line": 460
+},
+{
+"callee_name": "refuse",
+"caller_name": "list",
+"file": "src/cmd/list.rs",
+"line": 44
+},
+{
+"callee_name": "refuse",
+"caller_name": "refuse",
+"file": "src/cmd/list.rs",
+"line": 74
+},
+{
+"callee_name": "refuse",
+"caller_name": "refuse",
+"file": "src/cmd/list.rs",
+"line": 78
+},
+{
+"callee_name": "refuse",
+"caller_name": "write",
+"file": "src/cmd/revive.rs",
+"line": 97
+},
+{
+"callee_name": "refuse",
+"caller_name": "refuse_batch_script",
+"file": "src/cmd/run.rs",
+"line": 670
+},
+{
+"callee_name": "refuse",
+"caller_name": "refuse_live",
+"file": "src/cmd/run.rs",
+"line": 678
+},
+{
+"callee_name": "refuse",
+"caller_name": "refuse_stale",
+"file": "src/cmd/run.rs",
+"line": 683
+},
+{
+"callee_name": "refuse",
+"caller_name": "refuse_tampered_pin",
+"file": "src/cmd/run.rs",
+"line": 690
+},
+{
+"callee_name": "refuse",
+"caller_name": "refuse_squatted",
+"file": "src/cmd/run.rs",
+"line": 699
+},
+{
+"callee_name": "refuse",
+"caller_name": "verify",
+"file": "src/cmd/verify.rs",
+"line": 73
+},
+{
+"callee_name": "refuse",
+"caller_name": "measure",
+"file": "src/cmd/verify.rs",
+"line": 142
+},
+{
+"callee_name": "refuse",
+"caller_name": "measure",
+"file": "src/cmd/verify.rs",
+"line": 149
+},
+{
+"callee_name": "refuse",
+"caller_name": "measure",
+"file": "src/cmd/verify.rs",
+"line": 184
+},
+{
+"callee_name": "refuse",
+"caller_name": "refuse_recording",
+"file": "src/cmd/verify.rs",
+"line": 607
+},
+{
+"callee_name": "refuse",
+"caller_name": "send",
+"file": "src/run/send.rs",
+"line": 96
+},
+{
+"callee_name": "refuse",
+"caller_name": "send",
+"file": "src/run/send.rs",
+"line": 132
+},
+{
+"callee_name": "refuse",
+"caller_name": "not_delivered",
+"file": "src/run/send.rs",
+"line": 248
+},
+{
+"callee_name": "resolve_home",
+"caller_name": "dispatch",
+"file": "src/cmd/mod.rs",
+"line": 79
+},
+{
+"callee_name": "resolve_home",
+"caller_name": "dispatch",
+"file": "src/cmd/mod.rs",
+"line": 92
+},
+{
+"callee_name": "resolve_home",
+"caller_name": "dispatch",
+"file": "src/cmd/mod.rs",
+"line": 104
+},
+{
+"callee_name": "resolve_home",
+"caller_name": "dispatch",
+"file": "src/cmd/mod.rs",
+"line": 109
+},
+{
+"callee_name": "resolve_home",
+"caller_name": "dispatch",
+"file": "src/cmd/mod.rs",
+"line": 114
+},
+{
+"callee_name": "resolve_home",
+"caller_name": "dispatch",
+"file": "src/cmd/mod.rs",
+"line": 119
+},
+{
+"callee_name": "resolve_home",
+"caller_name": "dispatch",
+"file": "src/cmd/mod.rs",
+"line": 125
+},
+{
+"callee_name": "resolve_home",
+"caller_name": "dispatch",
+"file": "src/cmd/mod.rs",
+"line": 134
+},
+{
+"callee_name": "resolve_home",
+"caller_name": "dispatch",
+"file": "src/cmd/mod.rs",
+"line": 139
+},
+{
+"callee_name": "resolve_home",
+"caller_name": "dispatch",
+"file": "src/cmd/mod.rs",
+"line": 144
+},
+{
+"callee_name": "role_of",
+"caller_name": "main",
+"file": "src/main.rs",
+"line": 52
+},
+{
+"callee_name": "role_of",
+"caller_name": "role_of_skips_the_home_flag_and_its_value",
+"file": "src/main.rs",
+"line": 341
+},
+{
+"callee_name": "unreachable",
+"caller_name": "deliver",
+"file": "src/cmd/answer.rs",
+"line": 112
+},
+{
+"callee_name": "unreachable",
+"caller_name": "last",
+"file": "src/cmd/last.rs",
+"line": 32
+},
+{
+"callee_name": "unreachable",
+"caller_name": "wheel_call",
+"file": "src/cmd/pause.rs",
+"line": 56
+},
+{
+"callee_name": "unreachable",
+"caller_name": "unreachable",
+"file": "src/cmd/send.rs",
+"line": 167
+},
+{
+"callee_name": "unreachable",
+"caller_name": "deliver",
+"file": "src/cmd/send.rs",
+"line": 217
+},
+{
+"callee_name": "unreachable",
+"caller_name": "deliver",
+"file": "src/cmd/send.rs",
+"line": 227
+},
+{
+"callee_name": "unreachable",
+"caller_name": "wait",
+"file": "src/cmd/wait.rs",
+"line": 41
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

@@ -556,3 +556,221 @@ fn revive_with_fork_reports_the_fork_session(stamped_home: StampedHome) {
     assert_eq!(started[0]["data"]["agent_session_id"], FORK_SESSION);
     assert_eq!(second.stop().code(), Some(0));
 }
+
+/// `--json`'s exit-1 document (architecture §Standard Contracts, CLI `--json` output): the closed
+/// code, no detail.
+fn refused_document(code: &str) -> String {
+    format!("{{\"v\":1,\"error\":\"{code}\",\"detail\":null}}\n")
+}
+
+/// `ran` is exactly `code`'s document: one line on stdout, nothing on stderr, exit 1.
+fn assert_refused_document(ran: &Ran, code: &str) {
+    assert_eq!(ran.code, Some(1), "{code}: stderr {}", ran.stderr);
+    assert_eq!(ran.stdout, refused_document(code));
+    assert_eq!(ran.stderr, "", "--json writes nothing on stderr");
+}
+
+/// Each exit-1 refusal under `--json`, its process-log line as without the flag.
+#[rstest]
+fn revive_json_on_a_live_name_is_the_already_live_document(booted_wrapper: Wrapper) {
+    let home = booted_wrapper.home().to_path_buf();
+    let before = role_lines(&home).len();
+    let ran = revive(
+        &booted_wrapper.stamped.home,
+        booted_wrapper.stamped.home.scratch(),
+        &["builder", "--json"],
+    );
+    assert_refused_document(&ran, "already-live");
+    assert_refused(&home, before, "already-live");
+    assert_eq!(booted_wrapper.stop().code(), Some(0));
+}
+
+#[rstest]
+fn revive_json_of_a_name_never_started_is_the_no_session_document(stamped_home: StampedHome) {
+    let home = &stamped_home.home;
+    let ran = revive(home, home.scratch(), &["builder", "--json"]);
+    assert_refused_document(&ran, "no-session");
+    assert_refused(home.path(), 0, "no-session");
+}
+
+#[rstest]
+fn revive_json_with_an_id_the_log_does_not_hold_is_the_no_session_document(
+    stamped_home: StampedHome,
+) {
+    let (stamped, _dir, before) = stopped_life(stamped_home);
+    let home = &stamped.home;
+    let ran = revive(
+        home,
+        home.scratch(),
+        &["builder", "--id", ANOTHER_SESSION, "--json"],
+    );
+    assert_refused_document(&ran, "no-session");
+    assert_refused(home.path(), before, "no-session");
+}
+
+#[rstest]
+fn revive_json_of_a_session_open_in_another_claude_is_the_session_live_document(
+    stamped_home: StampedHome,
+) {
+    let (stamped, _dir, before) = stopped_life(stamped_home);
+    let home = &stamped.home;
+    plant_agents(home, None, &listed(FIXTURE_SESSION));
+    let started = starts(home);
+    let ran = revive(home, home.scratch(), &["builder", "--json"]);
+    assert_refused_document(&ran, "session-live");
+    assert_refused(home.path(), before, "session-live");
+    assert_eq!(starts(home), started);
+}
+
+#[rstest]
+fn revive_json_of_a_snapshot_with_no_cwd_is_the_cwd_missing_document(stamped_home: StampedHome) {
+    let (stamped, _dir, before) = stopped_life(stamped_home);
+    let home = &stamped.home;
+    let snapshot = instance_dir(home).join("snapshot.json");
+    let whole = fs::metadata(&snapshot).expect("the snapshot").len();
+    OpenOptions::new()
+        .write(true)
+        .open(&snapshot)
+        .expect("the snapshot")
+        .set_len(whole / 2)
+        .expect("shorten");
+    let ran = revive(home, home.scratch(), &["builder", "--json"]);
+    assert_refused_document(&ran, "cwd-missing");
+    assert_refused(home.path(), before, "cwd-missing");
+}
+
+/// The strict-modes refusal under `--json`, on both arms: its document, and still no line and the
+/// widened directory left as found.
+#[cfg(unix)]
+#[rstest]
+fn revive_json_refuses_state_another_user_could_write_on_both_arms(stamped_home: StampedHome) {
+    use std::os::unix::fs::PermissionsExt as _;
+    let (stamped, _dir, before) = stopped_life(stamped_home);
+    let home = &stamped.home;
+    fs::set_permissions(instance_dir(home), fs::Permissions::from_mode(0o770)).expect("chmod");
+    for args in [
+        &["builder", "--json"][..],
+        &["builder", "--list", "--json"][..],
+    ] {
+        let child = revive_command(home, home.scratch(), args)
+            .env("VIOLA_NAME", "driver")
+            .spawn()
+            .expect("viola");
+        let ran = Running::over(child).finish();
+        assert_refused_document(&ran, "strict-modes-failed");
+        assert_eq!(role_lines(home.path()).len(), before, "{args:?} logged");
+        assert!(
+            !cli_file(home.path()).exists(),
+            "{args:?} opened the cli log"
+        );
+        assert_eq!(mode_of(&instance_dir(home)), 0o770);
+    }
+}
+
+/// `--list --json`: the logged chain as one document, each row's three fields in their order.
+#[rstest]
+fn revive_list_json_prints_the_logged_chain(stamped_home: StampedHome) {
+    let (stamped, _dir, before) = stopped_life(stamped_home);
+    let home = &stamped.home;
+    let ran = revive(home, home.scratch(), &["builder", "--list", "--json"]);
+    assert_eq!(ran.code, Some(0), "stderr {}", ran.stderr);
+    assert_eq!(ran.stderr, "");
+    assert_eq!(ran.stdout.lines().count(), 1, "one document");
+    let doc: Value = serde_json::from_str(&ran.stdout).expect("a document");
+    assert_eq!(doc["v"], 1);
+    let sessions = doc["ok"]["sessions"].as_array().expect("sessions");
+    assert_eq!(sessions.len(), 1, "one logged session");
+    let fields: Vec<&str> = sessions[0]
+        .as_object()
+        .expect("a row")
+        .keys()
+        .map(String::as_str)
+        .collect();
+    assert_eq!(fields, ["ts", "cause", "id"]);
+    let ts = sessions[0]["ts"].as_str().expect("ts").as_bytes();
+    assert!(ts.len() == 24 && ts[10] == b'T' && ts[23] == b'Z');
+    assert_eq!(sessions[0]["cause"], "startup");
+    assert_eq!(sessions[0]["id"], FIXTURE_SESSION);
+    let human = revive(home, home.scratch(), &["builder", "--list"]);
+    let ts = sessions[0]["ts"].as_str().expect("ts");
+    assert_eq!(human.stdout, format!("{ts}  startup  {FIXTURE_SESSION}\n"));
+    assert_eq!(role_lines(home.path()).len(), before);
+}
+
+#[rstest]
+fn revive_list_json_of_a_name_never_started_is_the_no_session_document(stamped_home: StampedHome) {
+    let home = &stamped_home.home;
+    let ran = revive(home, home.scratch(), &["builder", "--list", "--json"]);
+    assert_refused_document(&ran, "no-session");
+    assert!(!role_file(home.path()).exists(), "--list opened a run log");
+}
+
+/// The caller's `cli` role file: `revive --list` is a `cli` verb.
+fn cli_file(home: &Path) -> PathBuf {
+    home.join("diagnostics").join("cli-driver.ndjson")
+}
+
+/// `revive --list` under a `VIOLA_NAME`, once its check has passed: one `process-start` and one
+/// `process-exit` of its own in the caller's `cli` role file, exit 0 with no detail, exit 1 with
+/// `no-session`; with no name it opens no log at all.
+#[rstest]
+fn revive_list_under_a_name_logs_its_start_and_exit(stamped_home: StampedHome) {
+    let (stamped, _dir, before) = stopped_life(stamped_home);
+    let home = &stamped.home;
+    let listed_as = |args: &[&str], from: Option<&str>| {
+        let mut command = revive_command(home, home.scratch(), args);
+        if let Some(from) = from {
+            command.env("VIOLA_NAME", from);
+        }
+        Running::over(command.spawn().expect("viola")).finish()
+    };
+    let unnamed = listed_as(&["builder", "--list"], None);
+    assert_eq!(unnamed.code, Some(0));
+    assert!(!cli_file(home.path()).exists(), "no name, no log");
+
+    let named = listed_as(&["builder", "--list", "--json"], Some("driver"));
+    assert_eq!(named.code, Some(0));
+    let empty = listed_as(&["ghost", "--list"], Some("driver"));
+    assert_eq!(empty.code, Some(1));
+    assert_eq!(empty.stderr, NO_SESSION.replace("builder", "ghost"));
+
+    let lines = support::ndjson::read_lines(&cli_file(home.path()));
+    let own: Vec<(&str, &str)> = lines
+        .iter()
+        .filter(|l| l["subject"] == "self")
+        .map(|l| {
+            (
+                l["event"].as_str().expect("event"),
+                l["process"].as_str().expect("process"),
+            )
+        })
+        .collect();
+    assert_eq!(
+        own,
+        [
+            ("process-start", "cli"),
+            ("process-exit", "cli"),
+            ("process-start", "cli"),
+            ("process-exit", "cli"),
+        ]
+    );
+    let exits: Vec<&Value> = lines
+        .iter()
+        .filter(|l| l["event"] == "process-exit")
+        .collect();
+    assert_eq!(exits[0]["exit_code"], 0);
+    assert!(exits[0].get("detail").is_none());
+    assert_eq!(exits[1]["exit_code"], 1);
+    assert_eq!(exits[1]["detail"], "no-session");
+    assert!(lines.iter().all(|l| l["instance"] == "driver"));
+    let schema = load_schema(&workspace_path("schemas/diag-line.v1.json"));
+    let validator = jsonschema::validator_for(&schema).expect("valid schema");
+    for line in &lines {
+        assert!(validator.is_valid(line), "{line}");
+    }
+    assert_eq!(
+        role_lines(home.path()).len(),
+        before,
+        "--list wrote a run line"
+    );
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "viola config.json v1",
+  "description": "Tolerant: unknown keys are allowed, skipped and counted by the readers (architecture §Cross-cutting Patterns, Config management). No key switches off a control.",
+  "type": "object",
+  "properties": {
+    "v": { "const": 1 },
+    "diagnostics_level": { "enum": ["info", "debug"] },
+    "claude_env_keep": {
+      "type": "array",
+      "maxItems": 32,
+      "items": { "type": "string", "pattern": "^CLAUDE[A-Z0-9_]*$" }
+    },
+    "five_hour": { "type": "integer", "minimum": 0, "maximum": 100 },
+    "seven_day": { "type": "integer", "minimum": 0, "maximum": 100 }
+  },
+  "additionalProperties": true
+}

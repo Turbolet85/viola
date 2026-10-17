@@ -1,10 +1,12 @@
 //! No setting disables a control (test-plan §5 CLI and env, Vector 6; security-plan §Security
 //! Anti-Patterns → Universal): each row sets a variable to a disabling-shaped value and re-runs the
-//! controls on its path, which must give the same verdict as without it. Interim shape: the rows
-//! cover the hook-path controls, `send`'s paste control, `answer` on an unstamped CLI, `send`
-//! under a human wheel or during a running turn, and the budget gate under a threshold key that is
-//! no percentage; the other verb negative (a 0770 `--home`) and the completeness case join with
-//! their chunks.
+//! controls on its path, which must give the same verdict as without it. The rows cover the
+//! hook-path controls, `send`'s paste control (under the hook seam and the `VIOLA_*` variables),
+//! `answer` on an unstamped CLI, `send` under a human wheel or during a running turn, the budget
+//! gate under a threshold key that is no percentage, the home scan under `VIOLA_DIR`, and the
+//! identity strip under the `diagnostics_level` and `claude_env_keep` keys; the completeness case
+//! keeps every flag `viola --help` lists, every `VIOLA_*` variable the product reads and every
+//! `schemas/config.v1.json` key a row of `SETTINGS`.
 
 #[allow(dead_code)]
 mod support;
@@ -18,6 +20,7 @@ use std::time::Instant;
 use rstest::rstest;
 use serde_json::{Value, json};
 use support::home::{StampedHome, TestHome, VIOLA, Wrapper, stamped_home, workspace_path};
+use support::outer_pty::{EXIT_WITHIN, OuterPty};
 use support::statusline::{feed, usage};
 use support::watch::{WITHIN, Watch};
 
@@ -342,27 +345,32 @@ fn setting_does_not_disable_the_send_turn_running_control() {
     wrapper.stop();
 }
 
-/// No value of a threshold key switches the budget gate off (test-plan §5 Vector 6): with
-/// `five_hour` set to a value that is no whole percentage, the key falls back to its default, the
-/// start says so once, and a `send` after a five-hour reading of 91 is still refused (exit 11).
+/// No value of a threshold key, and no `v`, switches the budget gate off (test-plan §5 Vector 6):
+/// a threshold that is no whole percentage falls back to its default and a `v` other than 1 drops
+/// the whole document to the defaults, the start says so once, and a `send` after a reading of 91
+/// in that window is still refused (exit 11). The `v` row's own threshold, 95, would have let 91
+/// through had the document been read.
 #[rstest]
-#[case::over_one_hundred("101")]
-#[case::negative("-1")]
-#[case::a_string("\"90\"")]
-fn setting_does_not_disable_the_budget_gate(stamped_home: StampedHome, #[case] value: &str) {
+#[case::over_one_hundred(r#"{"v":1,"five_hour":101}"#, (91, 10), "five-hour")]
+#[case::negative(r#"{"v":1,"five_hour":-1}"#, (91, 10), "five-hour")]
+#[case::a_string(r#"{"v":1,"five_hour":"90"}"#, (91, 10), "five-hour")]
+#[case::seven_day_over_one_hundred(r#"{"v":1,"seven_day":101}"#, (10, 91), "seven-day")]
+#[case::v_two(r#"{"v":2,"five_hour":95}"#, (91, 10), "five-hour")]
+fn setting_does_not_disable_the_budget_gate(
+    stamped_home: StampedHome,
+    #[case] config: &str,
+    #[case] reading: (u64, u64),
+    #[case] window: &str,
+) {
     let home = stamped_home.home.path().to_path_buf();
-    std::fs::write(
-        home.join("config.json"),
-        format!("{{\"v\":1,\"five_hour\":{value}}}"),
-    )
-    .expect("config.json");
+    std::fs::write(home.join("config.json"), config).expect("config.json");
     let wrapper = support::events::boot(stamped_home, None, &[]);
-    feed(&wrapper.instance_dir(), usage(91, 10));
+    feed(&wrapper.instance_dir(), usage(reading.0, reading.1));
     assert_send_control_holds(
         &wrapper,
         None,
         11,
-        "{\"v\":1,\"refusal\":\"budget-paused\",\"detail\":\"five-hour\"}\n",
+        &format!("{{\"v\":1,\"refusal\":\"budget-paused\",\"detail\":\"{window}\"}}\n"),
     );
     let rejected: Vec<Value> =
         support::ndjson::read_lines(&home.join("diagnostics").join("run-builder.ndjson"))
@@ -373,4 +381,231 @@ fn setting_does_not_disable_the_budget_gate(stamped_home: StampedHome, #[case] v
     assert_eq!(rejected[0]["parser"], "config-json");
     assert_eq!(rejected[0]["detail"], "malformed");
     wrapper.stop();
+}
+
+/// Every setting a run can carry, beside the case that tries it against a control. A literal
+/// table: the completeness case below fails on a flag, variable or key it does not name.
+const SETTINGS: [(&str, &str); 9] = [
+    (
+        "--home",
+        "cli_list::list_refuses_a_home_another_user_could_write",
+    ),
+    (
+        "VIOLA_NAME",
+        "viola_variable_does_not_disable_the_send_paste_control",
+    ),
+    ("VIOLA_DIR", "viola_dir_does_not_disable_the_home_scan"),
+    (
+        "VIOLA_BIN",
+        "viola_variable_does_not_disable_the_send_paste_control",
+    ),
+    ("v", "setting_does_not_disable_the_budget_gate"),
+    (
+        "diagnostics_level",
+        "config_key_does_not_disable_the_identity_strip",
+    ),
+    (
+        "claude_env_keep",
+        "config_key_does_not_disable_the_identity_strip",
+    ),
+    ("five_hour", "setting_does_not_disable_the_budget_gate"),
+    ("seven_day", "setting_does_not_disable_the_budget_gate"),
+];
+
+/// clap's own flags, which carry no setting.
+const CLAP_FLAGS: [&str; 2] = ["--help", "--version"];
+
+fn named(setting: &str) -> bool {
+    SETTINGS.iter().any(|(name, _)| *name == setting)
+}
+
+/// Every `--<word>` that starts a line of `viola --help`'s options.
+fn long_flags(help: &str) -> Vec<String> {
+    help.lines()
+        .skip_while(|line| *line != "Options:")
+        .filter_map(|line| {
+            let flag = line
+                .trim_start()
+                .split([' ', ',', '=', '<'])
+                .find(|w| w.starts_with("--"))?;
+            Some(flag.to_owned())
+        })
+        .collect()
+}
+
+/// Every `"VIOLA_<NAME>"` string literal in the product sources (the root package's `src/` and each
+/// library crate's, the test-only harness left out): the variables a build can read.
+// andromeda:walks-tree
+fn product_variables() -> Vec<String> {
+    let mut roots = vec![workspace_path("src")];
+    for crate_dir in std::fs::read_dir(workspace_path("crates")).expect("crates") {
+        let crate_dir = crate_dir.expect("a crate").path();
+        if crate_dir.file_name().is_some_and(|n| n != "viola-e2e") {
+            roots.push(crate_dir.join("src"));
+        }
+    }
+    let mut found = Vec::new();
+    for file in roots
+        .iter()
+        .filter(|r| r.is_dir())
+        .flat_map(|r| files_under(r))
+    {
+        if file.extension().is_none_or(|e| e != "rs") {
+            continue;
+        }
+        let text = std::fs::read_to_string(&file).expect("a utf-8 source");
+        for (at, _) in text.match_indices("\"VIOLA_") {
+            let name: String = text[at + 1..]
+                .chars()
+                .take_while(|c| c.is_ascii_uppercase() || c.is_ascii_digit() || *c == '_')
+                .collect();
+            if !found.contains(&name) {
+                found.push(name);
+            }
+        }
+    }
+    found
+}
+
+/// test-plan §5 Cross-module patterns (CLI): no flag, `VIOLA_*` variable or `config.json` key is
+/// left out of the table, so none goes untried against a control.
+#[test]
+fn every_flag_variable_and_config_key_is_a_row_of_the_table() {
+    let help = Command::new(VIOLA)
+        .arg("--help")
+        .env_remove("VIOLA_NAME")
+        .output()
+        .expect("viola --help");
+    assert_eq!(help.status.code(), Some(0));
+    let flags = long_flags(&String::from_utf8_lossy(&help.stdout));
+    assert!(flags.iter().any(|f| f == "--home"), "{flags:?}");
+    for flag in &flags {
+        assert!(
+            named(flag) || CLAP_FLAGS.contains(&flag.as_str()),
+            "{flag} is in no row"
+        );
+    }
+    let variables = product_variables();
+    assert!(!variables.is_empty(), "no VIOLA_* literal read");
+    for variable in &variables {
+        assert!(named(variable), "{variable} is in no row");
+    }
+    let schema: Value = serde_json::from_str(
+        &std::fs::read_to_string(workspace_path("schemas/config.v1.json")).expect("the schema"),
+    )
+    .expect("json");
+    let keys = schema["properties"].as_object().expect("properties");
+    assert!(!keys.is_empty());
+    for key in keys.keys() {
+        assert!(named(key), "{key} is in no row");
+    }
+}
+
+/// `VIOLA_DIR` choosing the home: `viola list` with no `--home` scans the home the variable names,
+/// and a home another user could write refuses the whole board (exit 21), the variable no way
+/// around the scan.
+#[cfg(unix)]
+#[test]
+fn viola_dir_does_not_disable_the_home_scan() {
+    use std::os::unix::fs::PermissionsExt as _;
+    let tmp = TestHome::new();
+    let home = tmp.path().to_path_buf();
+    let dir = home.join("instances").join("builder");
+    std::fs::create_dir_all(&dir).expect("the instance dir");
+    for path in [&home, &home.join("instances"), &dir] {
+        std::fs::set_permissions(path, std::fs::Permissions::from_mode(0o700)).expect("chmod");
+    }
+    std::fs::set_permissions(&home, std::fs::Permissions::from_mode(0o770)).expect("chmod");
+    let empty = support::fake::empty_bin(tmp.scratch());
+    let out = Command::new(VIOLA)
+        .args(["list", "--json"])
+        .env("VIOLA_NAME", "builder")
+        .env("VIOLA_DIR", &dir)
+        .env_remove("VIOLA_BIN")
+        .env("PATH", &empty)
+        .stdin(Stdio::null())
+        .output()
+        .expect("viola list");
+    std::fs::set_permissions(&home, std::fs::Permissions::from_mode(0o700)).expect("chmod back");
+    assert_eq!(out.status.code(), Some(21));
+    assert!(out.stderr.is_empty(), "stderr: {} bytes", out.stderr.len());
+    assert_eq!(
+        String::from_utf8_lossy(&out.stdout),
+        "{\"v\":1,\"error\":\"instance-unreachable\",\"detail\":null}\n"
+    );
+    assert!(
+        !home.join("diagnostics").exists(),
+        "a refused scan opened a log"
+    );
+}
+
+#[rstest]
+#[case::name_empty(("VIOLA_NAME", ""))]
+#[case::name_off(("VIOLA_NAME", "off"))]
+#[case::name_zero(("VIOLA_NAME", "0"))]
+#[case::bin_empty(("VIOLA_BIN", ""))]
+#[case::bin_off(("VIOLA_BIN", "off"))]
+#[case::bin_a_shell(("VIOLA_BIN", "/bin/sh"))]
+fn viola_variable_does_not_disable_the_send_paste_control(#[case] setting: (&str, &str)) {
+    assert_send_paste_control_holds(Some(setting));
+}
+
+/// The identity floor's names, one per family: the oracle, written out here.
+const FLOOR: [(&str, &str); 2] = [
+    ("CLAUDE_CODE_MESSAGING_TOKEN", "canary-token-value-7f3a"),
+    ("CLAUDE_CODE_SESSION_ID", "canary-session-value-d4a0"),
+];
+
+/// `config.json` holding `config` (with `v` 1), then `viola run builder -- <fake agent>` with a
+/// floor name in its environment: the names the child received.
+fn child_names_under(config: &str) -> Vec<String> {
+    let tmp = TestHome::new();
+    let home = tmp.path();
+    std::fs::create_dir_all(home).expect("home");
+    std::fs::write(home.join("config.json"), format!("{{\"v\":1,{config}}}")).expect("config");
+    let receipt = tmp.scratch().join("strip.receipt.ndjson");
+    let args: Vec<OsString> = vec![
+        "--home".into(),
+        home.into(),
+        "run".into(),
+        "builder".into(),
+        "--".into(),
+        support::fake::FAKE.into(),
+        "--receipt".into(),
+        receipt.clone().into(),
+    ];
+    support::home::seed_conpty(home);
+    let mut pty = OuterPty::spawn(Path::new(VIOLA), &args, &FLOOR);
+    let lines = support::fake::wait_for(&receipt, "env", |l| {
+        !support::fake::of_kind(l, "env").is_empty()
+    });
+    pty.write(b"\x03");
+    assert_eq!(pty.wait_exit(EXIT_WITHIN), 0);
+    support::fake::of_kind(&lines, "env")[0]["names"]
+        .as_array()
+        .expect("names")
+        .iter()
+        .map(|n| n.as_str().expect("name").to_owned())
+        .collect()
+}
+
+/// `diagnostics_level` and `claude_env_keep` at disabling-shaped values: the identity floor is
+/// stripped from the child all the same.
+#[rstest]
+#[case::level_off(r#""diagnostics_level":"off""#)]
+#[case::level_a_list(r#""diagnostics_level":"debug,trace""#)]
+#[case::keep_an_empty_name(r#""claude_env_keep":[""]"#)]
+#[case::keep_a_wildcard(r#""claude_env_keep":["*"]"#)]
+#[case::keep_a_floor_name(
+    r#""claude_env_keep":["CLAUDE_CODE_MESSAGING_TOKEN","CLAUDE_CODE_SESSION_ID"]"#
+)]
+fn config_key_does_not_disable_the_identity_strip(#[case] config: &str) {
+    let names = child_names_under(config);
+    assert!(
+        names.iter().any(|n| n.eq_ignore_ascii_case("PATH")),
+        "{names:?}"
+    );
+    for (name, _) in FLOOR {
+        assert!(!names.iter().any(|n| n == name), "{name} reached the child");
+    }
 }

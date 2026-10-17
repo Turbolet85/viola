@@ -23,12 +23,12 @@ use viola_agent_claude::ledger::{
 use viola_agent_claude::statusline::BIN_SH;
 use viola_channel::{ChannelError, Client};
 use viola_core::obs::{ObsEvent, ObsProcess};
-use viola_core::{DIALOG_DEADLINE, MAX_FRAME, ViolaName, obs_event};
+use viola_core::{DIALOG_DEADLINE, MAX_FRAME, obs_event};
 use viola_state::events::{EventLine, Source, try_append_event};
 use viola_state::fs::{FILE_MODE, create_private_new, replace_private};
 use viola_state::snapshot::read_snapshot;
 
-use super::Failure;
+use super::{Failure, Instance, instance_of};
 use crate::obs::{self, DetailSink};
 
 mod seam;
@@ -67,33 +67,6 @@ const REPLY_GRACE: Duration = Duration::from_secs(5);
 /// A dialog hook stops waiting here even if the wrapper never answers.
 fn dialog_deadline(started: Instant) -> Instant {
     started + DIALOG_DEADLINE + REPLY_GRACE
-}
-
-/// The wrapped session this process belongs to.
-#[derive(Debug, PartialEq, Eq)]
-struct Instance {
-    name: ViolaName,
-    dir: PathBuf,
-    home: PathBuf,
-}
-
-/// `VIOLA_NAME` and `VIOLA_DIR` as `viola run` sets them in its child: a valid name, and an
-/// absolute dir that is `<home>/instances/<name>`. Anything else is not a wrapped session.
-fn instance_of(name: Option<OsString>, dir: Option<OsString>) -> Option<Instance> {
-    let name = ViolaName::try_new(name?.into_string().ok()?).ok()?;
-    let dir = PathBuf::from(dir?);
-    if !dir.is_absolute() {
-        return None;
-    }
-    let own: &str = name.as_ref();
-    let instances = dir
-        .parent()
-        .filter(|_| dir.file_name() == Some(OsStr::new(own)))?;
-    let home = instances
-        .parent()
-        .filter(|_| instances.file_name() == Some(OsStr::new("instances")))?
-        .to_path_buf();
-    Some(Instance { name, dir, home })
 }
 
 pub(crate) fn hook(args: &HookArgs) -> Result<ExitCode, Failure> {
@@ -572,6 +545,7 @@ mod tests {
     use rstest::rstest;
     use std::fs;
     use std::path::Path;
+    use viola_core::ViolaName;
 
     fn os(s: &str) -> Option<OsString> {
         Some(OsString::from(s))

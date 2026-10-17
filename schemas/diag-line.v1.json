@@ -81,7 +81,8 @@
       "panic_location": { "type": "string" }, "thread": { "type": "string" } } } },
     { "if": { "properties": { "event": { "const": "state-recovered" } } }, "then": { "properties": {
       "detail": { "enum": ["torn-line-healed", "snapshot-replayed", "snapshot-unsupported-v"] },
-      "file": { "type": "string" }, "offset": { "$ref": "#/$defs/count" }, "v_seen": { "type": "integer" } } } },
+      "file": { "type": "string" }, "offset": { "$ref": "#/$defs/count" }, "v_seen": { "type": "integer" },
+      "scanned": { "type": "string", "pattern": "^[a-z][a-z0-9-]{0,31}$" } } } },
     { "if": { "properties": { "event": { "const": "parse-rejected" } } }, "then": { "properties": {
       "parser": { "enum": ["claude-agents-json", "vt100-feed", "config-json", "ledger-stamps", "hook-stdin", "channel-frame", "prompt-submitted", "paste-text", "state-entry"] },
       "detail": { "enum": ["malformed", "unreadable", "oversize", "unknown-keys", "panicked", "control-character", "symlink-ignored", "strict-modes-failed"] },

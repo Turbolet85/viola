@@ -229,9 +229,11 @@ pub(super) fn start(
         Err(Refusal::NotFound) => return Ok(refused("internal-error")),
     };
 
-    let home = std::path::absolute(home)?;
+    // The log's open created the home, so this is its one canonical spelling: the endpoint, the
+    // child's `VIOLA_DIR` and every path below are built over it.
+    let home = super::canonical_home(home);
     let instance_dir = home.join("instances").join(name_str(name));
-    if let Some(refusal) = collision_check(name, &instance_dir) {
+    if let Some(refusal) = collision_check(name, &instance_dir, false) {
         return Ok(refusal);
     }
     let Some((pinned, plugin_dir)) = pin_and_plugin(&home)? else {
@@ -359,9 +361,14 @@ pub(super) fn refused(detail: &'static str) -> Started {
     Started::Refused(ExitCode::from(1))
 }
 
-/// A `live` or `stale` name refuses before anything is written; a `gone` one is taken over.
+/// A `live` or `stale` name refuses before anything is written; a `gone` one is taken over. With
+/// `json` the refusal is the `already-live` document on stdout in place of the stderr pair.
 #[instrument(skip_all, name = "run.collision_check", fields(outcome = tracing::field::Empty))]
-pub(super) fn collision_check(name: &ViolaName, instance_dir: &Path) -> Option<Started> {
+pub(super) fn collision_check(
+    name: &ViolaName,
+    instance_dir: &Path,
+    json: bool,
+) -> Option<Started> {
     let taken = read_snapshot(instance_dir).map(|snapshot| {
         let age = beat_age(instance_dir, SystemTime::now());
         classify(age, same_process(&snapshot))
@@ -373,6 +380,7 @@ pub(super) fn collision_check(name: &ViolaName, instance_dir: &Path) -> Option<S
     tracing::Span::current().record("outcome", outcome);
     match taken? {
         Liveness::Gone => return None,
+        Liveness::Live | Liveness::Stale if json => super::client::refused_document("already-live"),
         Liveness::Live => refuse_live(name),
         Liveness::Stale => refuse_stale(name),
     }
@@ -479,16 +487,17 @@ const STATUSLINE_SOURCE: &str = "statusline-source.json";
 /// The per-session settings override, in the instance directory.
 const SETTINGS_OVERRIDE: &str = "settings.json";
 
-/// Which file names the user's statusline command for a start in `home` (absolute): the home's own
-/// source when it exists; else, for the default home alone, the user-scope settings file; else
-/// none, so a home named by `--home` never reads the user's settings.
+/// Which file names the user's statusline command for a start in `home` (canonical, and the
+/// default home compared in the same spelling): the home's own source when it exists; else, for
+/// the default home alone, the user-scope settings file; else none, so a home named by `--home`
+/// never reads the user's settings.
 fn statusline_source(home: &Path, user_home: Option<&Path>) -> Option<PathBuf> {
     let own = home.join(STATUSLINE_SOURCE);
     if own.exists() {
         return Some(own);
     }
     let user_home = user_home?;
-    let default = std::path::absolute(super::default_home(user_home)).ok()?;
+    let default = super::canonical_home(&super::default_home(user_home));
     (default == home).then(|| {
         statusline::USER_SETTINGS
             .iter()

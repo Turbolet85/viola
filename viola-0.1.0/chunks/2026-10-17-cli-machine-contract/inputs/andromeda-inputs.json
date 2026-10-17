@@ -1,0 +1,38 @@
+[
+  {
+    "id": "I1",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: the operator, in this phase session, 2026-10-17T02:33Z",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "9f34d14aea5ccab6b8705f8236aa80fd19fa576b4c4281b848c794423a70e7d4",
+    "copy": "I1-relay-1.md.txt",
+    "link": false,
+    "read_at": "2026-10-17T02:33:40Z",
+    "step": "phase:P3",
+    "why": "operator word: fold the red CI ci#38994749835 on f6bcce5 (test ubuntu-latest, 2 budget-gate control cases, verify Run E resume-session failing under the fake agent) into this chunk as a runner-only bullet with its own acceptance and witness"
+  },
+  {
+    "id": "I2",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: the Viola overseer, technical, founder-delegated, answering the P4 dialog in this session, 2026-10-17T02:40Z",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "6315fcfcb29e0ebbf4ad7df63814899438ed58b5564a6a433b3bfa2b5b6992e0",
+    "copy": "I2-relay-2.md.txt",
+    "link": false,
+    "read_at": "2026-10-17T02:40:37Z",
+    "step": "phase:P4",
+    "why": "P4 forks: revive --json exit-1 documents are {\"v\":1,\"error\":\"<code>\",\"detail\":null}; --home and the VIOLA_DIR-derived home are canonicalised now (plain drive form on Windows)"
+  }
+]

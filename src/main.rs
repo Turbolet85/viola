@@ -86,8 +86,9 @@ enum Role {
 
 /// The first argument that is neither the global `--home` nor its value names the role, so
 /// `viola --home <dir> hook stop` is still a `hook`. `run` and `hook` are named roles, and `revive`
-/// is a wrapper beside `run`; any other verb is `cli` (obs-plan §7), and a flag in its place
-/// (`--help`) names no verb.
+/// is a wrapper beside `run` but for its `--list` (anywhere after the verb), which starts nothing
+/// and is `cli`; any other verb is `cli` (obs-plan §7), and a flag in its place (`--help`) names no
+/// verb.
 fn role_of(args: impl IntoIterator<Item = OsString>) -> Role {
     let mut args = args.into_iter().skip(1);
     while let Some(arg) = args.next() {
@@ -96,10 +97,14 @@ fn role_of(args: impl IntoIterator<Item = OsString>) -> Role {
         } else if !arg.to_str().is_some_and(|a| a.starts_with("--home=")) {
             return if arg == "hook" {
                 Role::Hook
-            } else if arg == "run"
-                || arg == "revive"
-                || arg.to_str().is_some_and(|a| a.starts_with('-'))
-            {
+            } else if arg == "revive" {
+                // After `--` a word is the child's, never the flag.
+                if args.take_while(|a| a != "--").any(|a| a == "--list") {
+                    Role::Cli
+                } else {
+                    Role::Other
+                }
+            } else if arg == "run" || arg.to_str().is_some_and(|a| a.starts_with('-')) {
                 Role::Other
             } else {
                 Role::Cli
@@ -318,7 +323,14 @@ mod tests {
     #[case::run(&["run", "builder", "--", "claude"], Role::Other)]
     #[case::run_after_home(&["--home", "C:/h", "run", "b"], Role::Other)]
     #[case::revive(&["revive", "builder"], Role::Other)]
-    #[case::revive_list(&["revive", "builder", "--list"], Role::Other)]
+    #[case::revive_list(&["revive", "builder", "--list"], Role::Cli)]
+    #[case::revive_list_first(&["revive", "--list", "builder"], Role::Cli)]
+    #[case::revive_list_json(&["revive", "builder", "--json", "--list"], Role::Cli)]
+    #[case::revive_list_after_home(&["--home", "x", "revive", "--list"], Role::Cli)]
+    #[case::revive_list_after_home_equals(&["--home=x", "revive", "b", "--list"], Role::Cli)]
+    #[case::revive_builder(&["revive", "builder"], Role::Other)]
+    #[case::revive_child_word_list(&["revive", "builder", "--", "--list"], Role::Other)]
+    #[case::list_before_revive(&["--list", "revive", "builder"], Role::Other)]
     #[case::revive_after_home(&["--home", "C:/h", "revive", "b"], Role::Other)]
     #[case::revive_after_home_equals(&["--home=C:/h", "revive", "b"], Role::Other)]
     #[case::later_revive(&["send", "revive"], Role::Cli)]

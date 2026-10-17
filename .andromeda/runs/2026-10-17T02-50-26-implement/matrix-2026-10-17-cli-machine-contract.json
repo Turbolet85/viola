@@ -1,0 +1,49 @@
+[
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-17T03:25:28Z",
+"argv": [
+"implement",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-17-cli-machine-contract",
+"--id",
+"v1-39",
+"--ref-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-17T02-50-26-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"implement v1-39 · status planned → implemented · ref tests/cli_machine_contract.rs::every_verb_prints_one_document_and_its_literal_ex… (707 chars)",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-39",
+"chunk": "2026-10-17-cli-machine-contract",
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "Every driver-facing verb (send, wait, last, answer, list, pause, release, and revive with --list) has a --json form prin… (1472 chars)",
+"notes_chars": 1501
+},
+"after": {
+"id": "v1-39",
+"chunk": "2026-10-17-cli-machine-contract",
+"status": "implemented",
+"method": "integration",
+"ref": "tests/cli_machine_contract.rs::every_verb_prints_one_document_and_its_literal_exit_over_a_wrapper_s_life + ::verbs_over_… (707 chars)",
+"acceptance": "Every driver-facing verb (send, wait, last, answer, list, pause, release, and revive with --list) has a --json form prin… (1472 chars)",
+"notes_chars": 1501
+}
+}
+]

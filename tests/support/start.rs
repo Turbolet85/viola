@@ -49,9 +49,10 @@ pub fn refused_with(home: &Path, detail: &str) -> bool {
     })
 }
 
-/// The endpoint `viola run builder` computes for `home` (its golden vectors are viola-channel's).
+/// The endpoint `viola run builder` computes for `home` (its golden vectors are viola-channel's),
+/// over the home's canonical spelling, which `run` hashes once the home exists.
 pub fn endpoint_of(home: &Path) -> String {
-    let home = std::path::absolute(home).expect("absolute home");
+    let home = super::home::resolved(home);
     let name = ViolaName::try_new("builder".to_owned()).expect("valid");
     viola_channel::endpoint_path(&name, &home).expect("endpoint")
 }

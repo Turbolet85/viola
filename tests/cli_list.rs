@@ -249,6 +249,12 @@ fn e5_list_reads_a_live_wrapper_through_the_replay(
     assert_eq!(recovered.len(), 1, "{recovered:?}");
     assert_eq!(recovered[0]["detail"], detail);
     assert_eq!(recovered[0]["file"], "snapshot.json");
+    // The caller's own instance, and beside it the one the board scanned (obs-plan §4 E5).
+    assert_eq!(recovered[0]["instance"], "overseer");
+    assert_eq!(recovered[0]["scanned"], "builder");
+    let schema = load_schema(&workspace_path("schemas/diag-line.v1.json"));
+    let validator = jsonschema::validator_for(&schema).expect("valid schema");
+    assert!(validator.is_valid(&recovered[0]), "{}", recovered[0]);
     assert_eq!(std::fs::read(&path).expect("the snapshot"), altered);
 
     std::fs::write(&path, &written).expect("restored before the stop");
