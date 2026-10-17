@@ -1,0 +1,11 @@
+
+## 2026-10-17-mcp-server-for-drivers — the MCP tests as landed
+**Section:** §1 Test Scope Summary (ipc-internal MCP surface, Signal); §5 Integration Test Strategy (MCP; Wrapper channel impostor bullet); §6 E2E Test Strategy (Drivers per surface, MCP stdio row; Path 2, 3, 4, 5, 6 As landed; Path 3 step 7; Non-path suites → Security sweep)
+**Change:**
+- §1 Signal: was `{"error":"instance-unreachable"|"wrapper-fault"}`; now `instance-unreachable` with `detail: null`, `wrapper-fault` with `{code,message,data}`, `invalid-params` with a closed field word and no frame, each text `refused: <code>`; an internal handler fault JSON-RPC `-32603` `internal error`, `data: null`, an unknown tool `-32602`; `tools/list` exactly the five tools with `ttlMs` 0 and `cacheScope` `private`.
+- §5 MCP: was "using the sync channel client inside the handler under test"; now `crates/viola-mcp/tests/handlers.rs` drives the transport-free `viola_mcp::Tools` against a `viola_channel::Server` test wrapper (snapshot through `write_snapshot`), the handlers using the Tokio client. Impostor bullet and Path 3 step 7: the MCP body carries `detail: null`, equal to the CLI's less `v`.
+- §6 Drivers row: was `TokioChildProcess` and dev-dep features `client` + `transport-child-process`; now the rmcp client over a test-owned `viola mcp` child, stdin closed and its exit awaited (the transport killed the server 3 s after a close and truncated a coverage profile), `viola-e2e` taking rmcp `client` only as a normal dependency.
+- Paths 2–6: was "owed"; the MCP steps landed in `crates/viola-e2e/tests/mcp_tools.rs` — `mcp_tools_path2_path3_send_wait_last_match_the_cli`, `mcp_tools_path4_path5_answer_by_id_and_a_paused_send`, `mcp_tools_path6_budget_paused_send` — each compared with the CLI's `--json` less `v`; the `wait` clamp by `handlers_wait_sends_the_clamped_bound_and_maps_a_timeout`.
+- Security sweep: was `mcp_schema_violations.rs`; now `handlers_schema_violations_write_no_frame`, the unit `tool_inputs_are_revalidated_before_any_frame` and `mcp_tools_list_is_exactly_the_five_tools_and_list_matches_the_cli`.
+**Why:** the chunk built the MCP surface and its tests; the child-process transport was measured to truncate a coverage profile.
+**Ref:** .andromeda/runs/2026-10-17T14-19-45-wrap/

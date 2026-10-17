@@ -204,3 +204,11 @@ Each superseded mark stands as the operator's word, superseded 2026-10-13.
 - Block 1: was "no styling, no truncation"; now the spans and the unwrapped cut as above. The 2026-10-16-unwrapped-sessions-on-the-board entry's Kept (line 284's truncation owed to "CLI output discipline") is discharged.
 **Why:** the chunk built both. Served verbs only and the width source are the Viola overseer's technical answers to P4 forks Q3 and Q2, a delegate's — PROVISIONAL, the founder's own word owed at his next batch.
 **Ref:** .andromeda/runs/2026-10-17T08-28-14-wrap/
+
+## 2026-10-17-mcp-server-for-drivers — viola mcp in --help and as the driver's machine view
+**Section:** §Surface: cli → Output structure — `viola --help` (As built); Primary screens (commands)
+**Change:**
+- `--help` As built: `viola mcp` is a hidden verb (no argument but `--home`), run only by the plugin (`.mcp.json` registers the pinned path with `["mcp"]`); it appears in no row and the `HELP` literal is unchanged.
+- Primary screens: `viola mcp` is no screen; its five tools are a driver's machine view of those verbs — each success and refusal the CLI verb's `--json` document less `v`, a refusal `isError: true` with text `refused: <code>`, bodies codes only (`invalid-params` with a closed field word), and no tool, description or result naming `release`, `pause`, `link` or `unlink`.
+**Why:** the chunk built the hidden verb and its tools; `layout-templates.md`'s "no human surface" stays true.
+**Ref:** .andromeda/runs/2026-10-17T14-19-45-wrap/

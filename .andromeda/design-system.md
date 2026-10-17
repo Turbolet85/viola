@@ -528,7 +528,7 @@ hint: builder did not submit the prompt; check it, then send again
 ### Platform-Specific Notes
 - **Git Bash on Windows** rewrites leading-slash arguments. Prompt text therefore comes only from stdin or `--file`. The warning for a rewritten-path argument is one plain stderr line, `warning: argument looks like a Git Bash rewritten path`.
 - **conhost without VT** falls back to no colour. The words already carry every state, so nothing is lost.
-- **`hook`** writes nothing to stderr and always exits 0. **`mcp`** writes only MCP frames on stdout. Neither has a human design surface.
+- **`hook`** writes nothing to stderr and always exits 0. **`mcp`** writes only MCP frames on stdout. Neither has a human design surface. `mcp` is a hidden verb (chunk 2026-10-17-mcp-server-for-drivers): run by the plugin, never by a person, it appears in no `viola --help` row.
 - **Stack traces** never print. Errors are fixed messages, and full detail goes only to `instances/<name>/diagnostics/`.
 
 ---

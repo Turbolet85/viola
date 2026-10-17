@@ -606,3 +606,18 @@ Each superseded mark stands as the operator's answer, superseded 2026-10-13.
 - §11 Logs: the refusals routed through `refuse` / `write_refusal` add `verify`'s and `list`'s to `run`'s, `revive`'s and `revive --list`'s.
 **Why:** a carried correction (the 2026-10-09-epoch-3-cleanup-ii wrap): the two sentences named the writer's callers too narrowly; both now name the set by verb with the rule that counts it.
 **Ref:** .andromeda/runs/2026-10-17T08-28-14-wrap/
+
+## 2026-10-17-mcp-server-for-drivers — the mcp sink is always mcp.ndjson
+**Section:** §1 Obs Scope Summary (ipc-internal `viola mcp`: Exporter, Notes; Logging stack sink rules; Log file location; Obs tier justification items; the closing note)
+**Change:** was "a file sink `diagnostics/mcp.ndjson` when `VIOLA_DIR` is set, otherwise stderr", the "stderr only for `mcp` without `VIOLA_DIR`" sink rule, the open misalignment flag and the reconciliation item; now `viola mcp` always writes `<home>/diagnostics/mcp.ndjson` (D-09), its home resolved through `resolved_home` and checked with `diagnostics/` before the sink opens, stderr JSON only when the file cannot be opened; the item reads reconciled; the closing note drops the `mcp` sink from the differences where §3, §6 and §12 win.
+**Why:** the chunk built the verb on the D-09 form; §1 is a verbatim copy kept current (the founder's ruling of 2026-10-04), its label kept.
+**Ref:** .andromeda/runs/2026-10-17T14-19-45-wrap/
+
+## 2026-10-17-mcp-server-for-drivers — the mcp list tool's lines, the refused home check, invalid-params
+**Section:** §6 Log Coverage (Boundary-call wrappers → Child / shell spawns; `detail` catalog → Filesystem refusals, the `state-entry` call site); §4 E5; §3 → OTel SDK init (steps 5–6); §3 → Logging stack (`mcp.ndjson`); §7 (the pre-step-4 window); §10 Zero unlogged panics → Bounded exemptions (items 1 and 7); §1 (Vector 5 trigger; `viola mcp` Notes)
+**Change:**
+- The `agents-probe` pair adds a writer: `viola mcp`'s `list` tool, into `mcp.ndjson`; the board read's `parse-rejected{parser:"state-entry"}`, `state-recovered` and per-key `config-json` lines go into `mcp.ndjson` for that tool — was `cli-<name>.ndjson` under a `VIOLA_NAME` only; the Logging stack key lists `mcp.ndjson`'s lines.
+- §7 and exemption 1: the pre-init window adds `viola mcp`'s check of its home and `diagnostics/`; exemption 7 adds its refused check (exit 1, nothing printed, no role file, no line), the plan's lean approved by the operator at P5.
+- Vector 5 and the mcp Notes: the codes-only set adds `invalid-params`, its `detail` a closed field word.
+**Why:** the chunk landed the `list` tool (its agents read the founder's own answer to P4 fork Q1) and the start-time home check; no line carries row text, a path or user content.
+**Ref:** .andromeda/runs/2026-10-17T14-19-45-wrap/

@@ -1,2 +1,4 @@
 {"kind": "start", "n": 1, "cap": 1, "instance": "driver", "cli_version": "2.1.287", "verb": "run driver -- claude --model haiku --allowedTools mcp__plugin_viola_viola", "rig": "live-pty.py", "by": "implement", "written_at": "2026-10-17T12:20:50Z"}
 {"kind": "census", "live_starts": 1, "cap": 1, "processes_left": 0, "scope": "exe or cwd under the repository, the live home or the session dirs", "written_at": "2026-10-17T12:22:47Z"}
+{"kind": "start", "n": 2, "cap": 2, "instance": "driver", "cli_version": "2.1.287", "verb": "run driver -- claude --model haiku --allowedTools mcp__plugin_viola_viola", "rig": "live-pty.py", "by": "implement", "authority": "inputs#I4", "written_at": "2026-10-17T14:15:52Z"}
+{"kind": "census", "live_starts": 2, "cap": 2, "processes_left": 0, "scope": "exe or cwd under the repository, the live home or the session dirs", "written_at": "2026-10-17T14:17:38Z"}

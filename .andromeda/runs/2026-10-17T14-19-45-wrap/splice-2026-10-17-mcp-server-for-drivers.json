@@ -1,0 +1,786 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5b243943",
+"ts": "2026-10-17T14:24:05Z",
+"argv": [
+"append",
+"--file",
+"viola-0.1.0/chunks/2026-10-17-mcp-server-for-drivers/report.md",
+"--payload-file",
+".andromeda/runs/2026-10-17T14-19-45-wrap/new-text.md",
+"--lines",
+"392",
+"--if-absent-prefix",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-10-17T14-19-45-wrap",
+"--marker",
+"2026-10-17-mcp-server-for-drivers"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append report.md:+392 at line 403 · lines 402→794 · bytes 38270→59092 · term lf",
+"last line now:   - 79-81 «for member in [\"viola-core\", \"viola-mcp\"] {»"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/chunks/2026-10-17-mcp-server-for-drivers/report.md"
+],
+"before": {
+"lines": 402,
+"bytes": 38270,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 794,
+"bytes": 59092
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5b243943",
+"ts": "2026-10-17T14:45:38Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-17T14-19-45-wrap/architecture-entry-1.md",
+"--lines",
+"13",
+"--run-dir",
+".andromeda/runs/2026-10-17T14-19-45-wrap",
+"--marker",
+"2026-10-17-mcp-server-for-drivers"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+13 at line 1263 · lines 1262→1275 · bytes 236507→238987 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-17T14-19-45-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 1262,
+"bytes": 236507,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 1275,
+"bytes": 238987
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5b243943",
+"ts": "2026-10-17T14:45:38Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-17T14-19-45-wrap/architecture-entry-2.md",
+"--lines",
+"10",
+"--run-dir",
+".andromeda/runs/2026-10-17T14-19-45-wrap",
+"--marker",
+"2026-10-17-mcp-server-for-drivers"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+10 at line 1276 · lines 1275→1285 · bytes 238987→240611 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-17T14-19-45-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 1275,
+"bytes": 238987,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 1285,
+"bytes": 240611
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5b243943",
+"ts": "2026-10-17T14:45:38Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-17T14-19-45-wrap/architecture-entry-3.md",
+"--lines",
+"13",
+"--run-dir",
+".andromeda/runs/2026-10-17T14-19-45-wrap",
+"--marker",
+"2026-10-17-mcp-server-for-drivers"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+13 at line 1286 · lines 1285→1298 · bytes 240611→243242 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-17T14-19-45-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 1285,
+"bytes": 240611,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 1298,
+"bytes": 243242
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5b243943",
+"ts": "2026-10-17T14:45:38Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-17T14-19-45-wrap/architecture-entry-4.md",
+"--lines",
+"9",
+"--run-dir",
+".andromeda/runs/2026-10-17T14-19-45-wrap",
+"--marker",
+"2026-10-17-mcp-server-for-drivers"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+9 at line 1299 · lines 1298→1307 · bytes 243242→244819 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-17T14-19-45-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 1298,
+"bytes": 243242,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 1307,
+"bytes": 244819
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5b243943",
+"ts": "2026-10-17T14:45:38Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-17T14-19-45-wrap/architecture-entry-5.md",
+"--lines",
+"6",
+"--run-dir",
+".andromeda/runs/2026-10-17T14-19-45-wrap",
+"--marker",
+"2026-10-17-mcp-server-for-drivers"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+6 at line 1308 · lines 1307→1313 · bytes 244819→245581 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-17T14-19-45-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 1307,
+"bytes": 244819,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 1313,
+"bytes": 245581
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5b243943",
+"ts": "2026-10-17T14:46:17Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-17T14-19-45-wrap/security-plan-entry-1.md",
+"--lines",
+"10",
+"--run-dir",
+".andromeda/runs/2026-10-17T14-19-45-wrap",
+"--marker",
+"2026-10-17-mcp-server-for-drivers"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+10 at line 694 · lines 693→703 · bytes 124290→126174 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-17T14-19-45-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 693,
+"bytes": 124290,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 703,
+"bytes": 126174
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5b243943",
+"ts": "2026-10-17T14:46:17Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-17T14-19-45-wrap/security-plan-entry-2.md",
+"--lines",
+"6",
+"--run-dir",
+".andromeda/runs/2026-10-17T14-19-45-wrap",
+"--marker",
+"2026-10-17-mcp-server-for-drivers"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+6 at line 704 · lines 703→709 · bytes 126174→127314 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-17T14-19-45-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 703,
+"bytes": 126174,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 709,
+"bytes": 127314
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5b243943",
+"ts": "2026-10-17T14:46:17Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-17T14-19-45-wrap/security-plan-entry-3.md",
+"--lines",
+"9",
+"--run-dir",
+".andromeda/runs/2026-10-17T14-19-45-wrap",
+"--marker",
+"2026-10-17-mcp-server-for-drivers"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+9 at line 710 · lines 709→718 · bytes 127314→128976 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-17T14-19-45-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 709,
+"bytes": 127314,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 718,
+"bytes": 128976
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5b243943",
+"ts": "2026-10-17T14:46:17Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-17T14-19-45-wrap/security-plan-entry-4.md",
+"--lines",
+"10",
+"--run-dir",
+".andromeda/runs/2026-10-17T14-19-45-wrap",
+"--marker",
+"2026-10-17-mcp-server-for-drivers"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+10 at line 719 · lines 718→728 · bytes 128976→130453 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-17T14-19-45-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 718,
+"bytes": 128976,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 728,
+"bytes": 130453
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5b243943",
+"ts": "2026-10-17T14:46:17Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-17T14-19-45-wrap/security-plan-entry-5.md",
+"--lines",
+"6",
+"--run-dir",
+".andromeda/runs/2026-10-17T14-19-45-wrap",
+"--marker",
+"2026-10-17-mcp-server-for-drivers"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+6 at line 729 · lines 728→734 · bytes 130453→131188 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-17T14-19-45-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 728,
+"bytes": 130453,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 734,
+"bytes": 131188
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5b243943",
+"ts": "2026-10-17T14:47:09Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-17T14-19-45-wrap/test-plan-entry-1.md",
+"--lines",
+"11",
+"--run-dir",
+".andromeda/runs/2026-10-17T14-19-45-wrap",
+"--marker",
+"2026-10-17-mcp-server-for-drivers"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+11 at line 1058 · lines 1057→1068 · bytes 182751→185046 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-17T14-19-45-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 1057,
+"bytes": 182751,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 1068,
+"bytes": 185046
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5b243943",
+"ts": "2026-10-17T14:47:09Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-17T14-19-45-wrap/test-plan-entry-2.md",
+"--lines",
+"9",
+"--run-dir",
+".andromeda/runs/2026-10-17T14-19-45-wrap",
+"--marker",
+"2026-10-17-mcp-server-for-drivers"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+9 at line 1069 · lines 1068→1077 · bytes 185046→186430 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-17T14-19-45-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 1068,
+"bytes": 185046,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 1077,
+"bytes": 186430
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5b243943",
+"ts": "2026-10-17T14:47:09Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-17T14-19-45-wrap/test-plan-entry-3.md",
+"--lines",
+"9",
+"--run-dir",
+".andromeda/runs/2026-10-17T14-19-45-wrap",
+"--marker",
+"2026-10-17-mcp-server-for-drivers"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+9 at line 1078 · lines 1077→1086 · bytes 186430→187897 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-17T14-19-45-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 1077,
+"bytes": 186430,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 1086,
+"bytes": 187897
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5b243943",
+"ts": "2026-10-17T14:47:10Z",
+"argv": [
+"append",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-17T14-19-45-wrap/obs-plan-entry-1.md",
+"--lines",
+"6",
+"--run-dir",
+".andromeda/runs/2026-10-17T14-19-45-wrap",
+"--marker",
+"2026-10-17-mcp-server-for-drivers"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append obs-plan-amendments.md:+6 at line 609 · lines 608→614 · bytes 92584→93569 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-17T14-19-45-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/obs-plan-amendments.md"
+],
+"before": {
+"lines": 608,
+"bytes": 92584,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 614,
+"bytes": 93569
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5b243943",
+"ts": "2026-10-17T14:47:10Z",
+"argv": [
+"append",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-17T14-19-45-wrap/obs-plan-entry-2.md",
+"--lines",
+"9",
+"--run-dir",
+".andromeda/runs/2026-10-17T14-19-45-wrap",
+"--marker",
+"2026-10-17-mcp-server-for-drivers"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append obs-plan-amendments.md:+9 at line 615 · lines 614→623 · bytes 93569→94965 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-17T14-19-45-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/obs-plan-amendments.md"
+],
+"before": {
+"lines": 614,
+"bytes": 93569,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 623,
+"bytes": 94965
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5b243943",
+"ts": "2026-10-17T14:47:10Z",
+"argv": [
+"append",
+"--file",
+".andromeda/design-system-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-17T14-19-45-wrap/design-system-entry-1.md",
+"--lines",
+"6",
+"--run-dir",
+".andromeda/runs/2026-10-17T14-19-45-wrap",
+"--marker",
+"2026-10-17-mcp-server-for-drivers"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append design-system-amendments.md:+6 at line 212 · lines 211→217 · bytes 30590→31009 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-17T14-19-45-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/design-system-amendments.md"
+],
+"before": {
+"lines": 211,
+"bytes": 30590,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 217,
+"bytes": 31009
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5b243943",
+"ts": "2026-10-17T14:47:10Z",
+"argv": [
+"append",
+"--file",
+".andromeda/layout-templates-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-17T14-19-45-wrap/layout-templates-entry-1.md",
+"--lines",
+"8",
+"--run-dir",
+".andromeda/runs/2026-10-17T14-19-45-wrap",
+"--marker",
+"2026-10-17-mcp-server-for-drivers"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append layout-templates-amendments.md:+8 at line 207 · lines 206→214 · bytes 28132→29098 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-17T14-19-45-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/layout-templates-amendments.md"
+],
+"before": {
+"lines": 206,
+"bytes": 28132,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 214,
+"bytes": 29098
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5b243943",
+"ts": "2026-10-17T14:47:10Z",
+"argv": [
+"append",
+"--file",
+".andromeda/a11y-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-17T14-19-45-wrap/a11y-plan-entry-1.md",
+"--lines",
+"6",
+"--run-dir",
+".andromeda/runs/2026-10-17T14-19-45-wrap",
+"--marker",
+"2026-10-17-mcp-server-for-drivers"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append a11y-plan-amendments.md:+6 at line 221 · lines 220→226 · bytes 35611→36340 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-17T14-19-45-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/a11y-plan-amendments.md"
+],
+"before": {
+"lines": 220,
+"bytes": 35611,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 226,
+"bytes": 36340
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5b243943",
+"ts": "2026-10-17T14:58:02Z",
+"argv": [
+"append",
+"--file",
+"viola-0.1.0/chunks/2026-10-17-mcp-server-for-drivers/report.md",
+"--payload-file",
+".andromeda/runs/2026-10-17T14-19-45-wrap/addendum-1.md",
+"--lines",
+"6",
+"--before-line",
+"403",
+"--run-dir",
+".andromeda/runs/2026-10-17T14-19-45-wrap",
+"--marker",
+"2026-10-17-mcp-server-for-drivers"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append report.md:+6 at line 403 · lines 794→800 · bytes 59092→59904 · term lf",
+"last line now:   - 79-81 «for member in [\"viola-core\", \"viola-mcp\"] {»"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/chunks/2026-10-17-mcp-server-for-drivers/report.md"
+],
+"before": {
+"lines": 794,
+"bytes": 59092,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 800,
+"bytes": 59904
+}
+}
+]

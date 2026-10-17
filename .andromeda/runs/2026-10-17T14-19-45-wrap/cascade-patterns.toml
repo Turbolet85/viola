@@ -1,0 +1,95 @@
+[[pattern]]
+id = 'list-unbuilt'
+regex = '''`list` is not built|`mcp` spawns none|mcp spawns none'''
+
+[[pattern]]
+id = 'mcp-json-empty'
+regex = '''Until the `mcp` verb exists|"mcpServers": \{\}'''
+
+[[pattern]]
+id = 'mcp-verb-unbuilt'
+regex = '''`mcp` verb is not built|mcp verb is not built'''
+
+[[pattern]]
+id = 'conn-only-rpc'
+fixed = 'Only faults on the MCP connection'
+
+[[pattern]]
+id = 'child-transport'
+regex = 'TokioChildProcess|transport-child-process'
+
+[[pattern]]
+id = 'sync-client-mcp'
+fixed = 'sync channel client inside the handler'
+
+[[pattern]]
+id = 'probes-12'
+regex = '12/12 banned|twelve bans'
+
+[[pattern]]
+id = 'no-subject'
+fixed = 'has no subject until'
+
+[[pattern]]
+id = 'owed-mcp'
+regex = '''owed to `:118`|owed to its surface chunk|owed by title: the MCP'''
+
+[[pattern]]
+id = 'schema-file'
+fixed = 'mcp_schema_violations'
+
+[[pattern]]
+id = 'mcp-stderr'
+regex = '''mcp`? without `?VIOLA_DIR|`VIOLA_DIR` is unset|when `VIOLA_DIR` is set, otherwise stderr'''
+
+[[pattern]]
+id = 'gap-count'
+regex = 'seventh dated gap overall|none of the six earlier gaps|the seven dated|seven dated gaps'
+
+[[pattern]]
+id = 'channel-sync'
+regex = '''`viola-pty`, `viola-channel`|`viola-state`, `viola-channel`|`viola-channel` without its feature|viola-channel`?, `?viola-agent-claude` and `?viola-state`? are sync'''
+
+[[pattern]]
+id = 'sync-roots'
+fixed = 'covered through the sync roots'
+
+[[pattern]]
+id = 'rmcp-tilde'
+regex = '''pinned as `~3\.4`'''
+
+[[pattern]]
+id = 'only-mcp-tokio'
+regex = '''feature only `viola-mcp` enables|Tokio flavour only in `viola-mcp`|Only `viola-mcp` lists `tokio`'''
+
+[[pattern]]
+id = 'kill-twenty'
+fixed = 'twenty verify-driven'
+
+[[pattern]]
+id = 'one-divergence'
+regex = 'the one open divergence|is an open divergence'
+
+[[pattern]]
+id = 'wait-open'
+regex = '`timeout_ms` for MCP `wait` is an open item|MCP `wait` default is'
+
+[[pattern]]
+id = 'paused-tokio'
+fixed = 'start_paused = true'
+
+[[pattern]]
+id = 'unreach-nodetail'
+regex = '''"instance-unreachable"\}|"instance-unreachable"\|"wrapper-fault"\}|instance-unreachable \| wrapper-fault\)'''
+
+[[pattern]]
+id = 'stamp-true'
+fixed = 'with `stamp:true`'
+
+[[pattern]]
+id = 'mcp-lands'
+fixed = 'MCP when it lands'
+
+[[pattern]]
+id = 'misalign'
+fixed = 'misalignment between tests and arch'

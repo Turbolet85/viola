@@ -1,0 +1,242 @@
+[
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "d4492939",
+"ts": "2026-10-17T14:20:12Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-17-mcp-server-for-drivers",
+"--message-file",
+".andromeda/runs/2026-10-17T14-19-45-wrap/relay-1.md",
+"--origin",
+"the operator, the /andromeda-wrap-session invocation, 2026-10-17T14:19Z",
+"--kind",
+"relay",
+"--why",
+"wrap in the two-window form, P1 only; every curation candidate into Decisions & corrections; the pin_exe race needs an owner at P5",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-17T14-19-45-wrap",
+"--marker",
+"2026-10-17-mcp-server-for-drivers"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I5 · copy message · message: the operator, the /andromeda-wrap-session invocation, 2026-10-17T14:19Z",
+"cite: inputs#I5"
+],
+"stderr": null,
+"wrote": [
+"inputs/I5-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I5",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, the /andromeda-wrap-session invocation, 2026-10-17T14:19Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "432c7f9c16f26ec96d4a5ecc3b6e0ede5867126e7917300c6c6f5e5f6f7801a4",
+"copy": "I5-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-17T14:20:12Z",
+"step": "wrap",
+"why": "wrap in the two-window form, P1 only; every curation candidate into Decisions & corrections; the pin_exe race needs an owner at P5"
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "d4492939",
+"ts": "2026-10-17T14:20:12Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-17-mcp-server-for-drivers",
+"--run-dir",
+".andromeda/runs/2026-10-17T14-19-45-wrap",
+"--marker",
+"2026-10-17-mcp-server-for-drivers"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase invocation, 2026-10-17T09:28Z",
+"I1 cited scope.md:8 · scope.md:45 · scope.md:97 · scope.md:136 · research.md:15 · research.md:115 · research.md:116 · research.md:117",
+"I2 n/a — a message has no live source · copy message · message: the founder, live in the overseer dialog, relayed by the overseer, 2026-10-17T11:18Z",
+"I2 cited plan.md:9 · plan.md:27 · plan.md:30 · plan.md:40 · plan.md:43 · plan.md:116 · plan.md:229 · plan.md:530 · plan.md:571 · plan.md:575 · plan.md:595 · plan.md:618 · plan.md:620",
+"I3 n/a — a message has no live source · copy message · message: the operator, in the session, 11:30Z on 2026-10-17",
+"I3 UNCITED",
+"I4 n/a — a message has no live source · copy message · message: the founder, live in the overseer dialog, relayed verbatim by the operator in the /andromeda-implement invocation, 2026-10-17T14:14Z",
+"I4 UNCITED",
+"I5 n/a — a message has no live source · copy message · message: the operator, the /andromeda-wrap-session invocation, 2026-10-17T14:19Z",
+"I5 UNCITED",
+"inputs: 5 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 5 · uncited 3 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 5,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 5
+},
+"uncited": 3,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "d4492939",
+"ts": "2026-10-17T14:57:32Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-17-mcp-server-for-drivers",
+"--message-file",
+".andromeda/runs/2026-10-17T14-19-45-wrap/relay-2.md",
+"--origin",
+"the operator, the /andromeda-wrap-session resume invocation, 2026-10-17T14:3xZ",
+"--kind",
+"relay",
+"--why",
+"the resume direction: the live-start count 2 is the founder raised cap, not an unmet criterion; the pin_exe race owner at P5 is a CARRY on Home and code-bearing file integrity",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-17T14-19-45-wrap",
+"--marker",
+"2026-10-17-mcp-server-for-drivers"
+],
+"cwd": ".",
+"exit": 2,
+"stdout": [],
+"stderr": "--origin: 14:3xZ is not a time anyone read — a placeholder stands where a digit would",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "d4492939",
+"ts": "2026-10-17T14:57:38Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-17-mcp-server-for-drivers",
+"--message-file",
+".andromeda/runs/2026-10-17T14-19-45-wrap/relay-2.md",
+"--origin",
+"the operator, the /andromeda-wrap-session resume invocation, received before the first clock read of that session (2026-10-17T14:36:02Z)",
+"--kind",
+"relay",
+"--why",
+"the resume direction: the live-start count 2 is the founder raised cap, not an unmet criterion; the pin_exe race owner at P5 is a CARRY on Home and code-bearing file integrity",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-17T14-19-45-wrap",
+"--marker",
+"2026-10-17-mcp-server-for-drivers"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I6 · copy message · message: the operator, the /andromeda-wrap-session resume invocation, received before the first clock read of that session (2026-10-17T14:36:02Z)",
+"cite: inputs#I6"
+],
+"stderr": null,
+"wrote": [
+"inputs/I6-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I6",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, the /andromeda-wrap-session resume invocation, received before the first clock read of that session (2026-10-17T14:36:02Z)",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "e6dfe00dbe805906e3a0c253aa1239d8168b295afdf0d5f100ea7759b0dfac4e",
+"copy": "I6-relay-2.md.txt",
+"link": false,
+"read_at": "2026-10-17T14:57:38Z",
+"step": "wrap",
+"why": "the resume direction: the live-start count 2 is the founder raised cap, not an unmet criterion; the pin_exe race owner at P5 is a CARRY on Home and code-bearing file integrity"
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "d4492939",
+"ts": "2026-10-17T14:57:49Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-17-mcp-server-for-drivers",
+"--run-dir",
+".andromeda/runs/2026-10-17T14-19-45-wrap",
+"--marker",
+"2026-10-17-mcp-server-for-drivers"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase invocation, 2026-10-17T09:28Z",
+"I1 cited scope.md:8 · scope.md:45 · scope.md:97 · scope.md:136 · research.md:15 · research.md:115 · research.md:116 · research.md:117",
+"I2 n/a — a message has no live source · copy message · message: the founder, live in the overseer dialog, relayed by the overseer, 2026-10-17T11:18Z",
+"I2 cited plan.md:9 · plan.md:27 · plan.md:30 · plan.md:40 · plan.md:43 · plan.md:116 · plan.md:229 · plan.md:530 · plan.md:571 · plan.md:575 · plan.md:595 · plan.md:618 · plan.md:620 · report.md:101 · report.md:145 · report.md:149 · report.md:184 · report.md:321",
+"I3 n/a — a message has no live source · copy message · message: the operator, in the session, 11:30Z on 2026-10-17",
+"I3 cited report.md:142 · report.md:326",
+"I4 n/a — a message has no live source · copy message · message: the founder, live in the overseer dialog, relayed verbatim by the operator in the /andromeda-implement invocation, 2026-10-17T14:14Z",
+"I4 cited report.md:104 · report.md:157 · report.md:266 · report.md:322 · report.md:363",
+"I5 n/a — a message has no live source · copy message · message: the operator, the /andromeda-wrap-session invocation, 2026-10-17T14:19Z",
+"I5 cited report.md:160 · report.md:297 · report.md:325",
+"I6 n/a — a message has no live source · copy message · message: the operator, the /andromeda-wrap-session resume invocation, received before the first clock read of that session (2026-10-17T14:36:02Z)",
+"I6 UNCITED",
+"inputs: 6 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 6 · uncited 1 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 6,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 6
+},
+"uncited": 1,
+"unparsed": 0
+}
+}
+]

@@ -1,0 +1,7 @@
+--- a/.andromeda/design-system.md
++++ b/.andromeda/design-system.md
+@@ -530,3 +530,3 @@
+ - **conhost without VT** falls back to no colour. The words already carry every state, so nothing is lost.
+-- **`hook`** writes nothing to stderr and always exits 0. **`mcp`** writes only MCP frames on stdout. Neither has a human design surface.
++- **`hook`** writes nothing to stderr and always exits 0. **`mcp`** writes only MCP frames on stdout. Neither has a human design surface. `mcp` is a hidden verb (chunk 2026-10-17-mcp-server-for-drivers): run by the plugin, never by a person, it appears in no `viola --help` row.
+ - **Stack traces** never print. Errors are fixed messages, and full detail goes only to `instances/<name>/diagnostics/`.

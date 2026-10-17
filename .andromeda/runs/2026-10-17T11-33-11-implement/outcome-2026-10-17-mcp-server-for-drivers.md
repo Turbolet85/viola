@@ -1,5 +1,8 @@
 # /implement outcome — 2026-10-17-mcp-server-for-drivers
 
+> Superseded on its live criterion by the re-entry at step 15 (`.andromeda/runs/2026-10-17T14-14-49-implement/`): the
+> second live start, on the founder's word (`inputs#I4`), read green, and `v1-38` is `implemented`.
+
 **SURFACED.** The block is green (fifth firing: green 23 · red 0 · the three `operator` entries not run; trail
 `.andromeda/runs/2026-10-17T11-33-11-implement/gate-2026-10-17-mcp-server-for-drivers.json`). The one live `claude`
 2.1.287 start (the founder's cap) was made and read negative: Claude Code refused the server's `tools/list` result
@@ -7,6 +10,11 @@ on the negotiated protocol `2026-07-28` (no `ttlMs`, no `cacheScope`), so no too
 and pinned after the leg, but the start was not re-fired, so the plan's live criterion and `v1-38`'s acceptance
 (a default `wait` returning between 50 and 60 s on the live CLI) stay unproven. `v1-38` keeps `planned` and no ref
 (the acceptance is not met as written). A second live start needs the founder's word.
+
+**The operator pass ran after this report** (`chunks/2026-10-17-mcp-server-for-drivers/evidence/operator-pass.md`):
+pre-push and the Windows-target lint green on the final tree, `hygiene: clean`, pre-CI commit `a902e6e4`, pushed,
+CI green 15/15 on it (`ci#39033242394`, attempt 1). Next → `/andromeda-wrap-session`, with the live criterion and
+`v1-38` for the founder's word.
 
 ## Files changed
 

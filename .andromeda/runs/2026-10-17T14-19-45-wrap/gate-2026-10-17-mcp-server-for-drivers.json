@@ -1,0 +1,1006 @@
+[
+{
+"tool": "gate",
+"v": "1.19",
+"sha8": "bebab50b",
+"ts": "2026-10-17T14:20:03Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-17-mcp-server-for-drivers",
+"--run-dir",
+".andromeda/runs/2026-10-17T14-19-45-wrap",
+"--marker",
+"2026-10-17-mcp-server-for-drivers"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base 574ad969 (the parent of the oldest pre-CI commit a902e6e4) · lists new 11 · modify 18 · derived 0 · record 9",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"recorded in-intent crates/viola-channel/src/client.rs",
+"recorded in-intent crates/viola-channel/src/frame.rs",
+"recorded in-intent crates/viola-e2e/src/harness/session.rs",
+"recorded companion .github/workflows/windows-mutants.yml",
+"recorded companion src/cmd/answer.rs",
+"recorded companion src/cmd/last.rs",
+"recorded companion src/cmd/pause.rs",
+"recorded companion src/cmd/send.rs",
+"recorded companion src/cmd/wait.rs",
+"list viola-0.1.0/chunks/2026-10-17-mcp-server-for-drivers/evidence/ (dir) ×0",
+"scope: clean — changed 37 · listed 28 · recorded 9 (companion 6 · mechanical 0 · in-intent 3 · widening 0) · absorbed 0 · excluded 74"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "574ad969d6fc0f3c28a8c54409bd2d884078d187",
+"base_why": "the parent of the oldest pre-CI commit a902e6e4",
+"counts": {
+"changed": 37,
+"listed": 28,
+"recorded": 9,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 6,
+"mechanical": 0,
+"in-intent": 3,
+"widening": 0
+},
+"excluded": 74,
+"unparsed": 0,
+"widening_without_word": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.19",
+"sha8": "bebab50b",
+"ts": "2026-10-17T15:00:14Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-10-17T14-19-45-wrap",
+"--marker",
+"2026-10-17-mcp-server-for-drivers"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust · base 574ad969 (the parent of the oldest pre-CI commit a902e6e4)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust — each fired on its synthetic known positive",
+"P1 .andromeda/runs/2026-10-17T14-19-45-wrap/leaf-apply.sh:6 ×1 · home",
+"hygiene: refused 1 files — P1 1 · P2 0 · P3 0 · read 139 (runs 123 · evidence 8 · inputs 8) · trails 27 not read · copies 6 not read by P1 — 0 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust"
+],
+"rows": [
+"P1 .andromeda/runs/2026-10-17T14-19-45-wrap/leaf-apply.sh:6 ×1 · home"
+],
+"counts": {
+"P1": 1,
+"P2": 0,
+"P3": 0,
+"runs": 123,
+"evidence": 8,
+"inputs": 8,
+"trails": 27,
+"copies": 6,
+"kept": 0,
+"binary": 0,
+"in_root": 0
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.19",
+"sha8": "bebab50b",
+"ts": "2026-10-17T15:00:27Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-10-17T14-19-45-wrap",
+"--marker",
+"2026-10-17-mcp-server-for-drivers"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust · base 574ad969 (the parent of the oldest pre-CI commit a902e6e4)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust — each fired on its synthetic known positive",
+"hygiene: clean — read 138 (runs 122 · evidence 8 · inputs 8) · trails 27 not read · copies 6 not read by P1 — 0 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 122,
+"evidence": 8,
+"inputs": 8,
+"trails": 27,
+"copies": 6,
+"kept": 0,
+"binary": 0,
+"in_root": 0
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.19",
+"sha8": "bebab50b",
+"ts": "2026-10-17T15:03:19Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-17-mcp-server-for-drivers/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-17T14-19-45-wrap",
+"--marker",
+"2026-10-17-mcp-server-for-drivers"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-17-mcp-server-for-drivers · entries 26",
+"logs $TMPDIR/andromeda-gate/2026-10-17-mcp-server-for-drivers/wrap-2026-10-17T14-19-45 · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 129 · unmapped 6",
+"walk-class rust 4 (tests/cli_controls_not_disableable.rs, tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, +1 in the trail) · uncommitted 135",
+"prose L304-307: The standing lint, deny and unit entries run first. The two new scripts follow, then the n… (427 chars)",
+"prose L309-315: The two scripts of steps 3 and 4 are instruments this chunk builds, and their verdict line… (680 chars)",
+"  1 lint        green · exit 0 · 1.05s · 0 B → 1.log · cargo fmt --all --check",
+"  2 lint        green · exit 0 · 0.2s · 72 B → 2.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 lint        green · exit 0 · 0.23s · 72 B → 3.log · CARGO_TARGET_DIR=target/wincheck cargo clippy --workspace … (140 chars)",
+"  4 lint        green · exit 1 · 0.01s · 0 B → 4.log · rg -n -U --pcre2 --type rust '#\\[(tracing::)?instrument\\b(… (79 chars)",
+"  5 lint        green · exit 0 · 0.7s · 286 B → 5.log · bash scripts/lint-probes.sh",
+"  6 lint        green · exit 0 · 0.14s · 35 B → 6.log · bash scripts/rmcp-features.sh",
+"  7 probe       green · exit 0 · 0.14s · 102 B → 7.log · bash scripts/channel-tokio-free.sh",
+"  8 probe       green · exit 0 · 0.85s · 13322 B → 8.log · cargo deny check",
+"  9 probe       green · exit 0 · 1.22s · 4561 B → 9.log · test -s scripts/sync-crates.txt && while read -r crate; do… (189 chars)",
+" 10 probe       green · exit 0 · 6.47s · 354 B → 10.log · bash scripts/deny-probes.sh",
+" 11 unit        green · exit 0 · 7.33s · 305030 B → 11.log · bash scripts/agent-run.sh run --unit",
+" 12 unit        green · exit 0 · 0.93s · 15017 B → 12.log · bash scripts/agent-run.sh run --unit --filter 'package(vio… (117 chars)",
+" 13 integration green · exit 0 · 13.21s · 10236 B → 13.log · bash scripts/agent-run.sh run --integration --filter 'pack… (209 chars)",
+" 14 integration green · exit 0 · 61.28s · 46263 B → 14.log · bash scripts/agent-run.sh run --integration",
+" 15 e2e         green · exit 0 · 6.01s · 1171 B → 15.log · bash scripts/agent-run.sh run --e2e --filter 'binary(mcp_t… (65 chars)",
+" 16 e2e         green · exit 0 · 10.02s · 21926 B → 16.log · bash scripts/agent-run.sh run --e2e",
+" 17 smoke       green · exit 0 · 0.11s · 47 B → 17.log · bash scripts/agent-run.sh cleanup --session p-mcp-smoke",
+" 18 smoke       green · exit 0 · 4.73s · 349 B → 18.log · bash scripts/agent-run.sh boot --session p-mcp-smoke",
+" 19 smoke       green · exit 0 · 0.27s · 682 B → 19.log · bash scripts/agent-run.sh status --session p-mcp-smoke",
+" 20 probe       green · exit 0 · 0.02s · 10 B → 20.log · bash scripts/g2-zero-panics.sh",
+" 21 probe       green · exit 0 · 0.16s · 106 B → 21.log · bash scripts/agent-run.sh schema-check",
+" 22 smoke       green · exit 0 · 0.33s · 135 B → 22.log · bash scripts/agent-run.sh cleanup --session p-mcp-smoke",
+" 23 probe       green · exit 0 · 85.31s · 373768 B → 23.log · bash scripts/agent-run.sh pre-push",
+" 24 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (90 chars)",
+" 25 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (69 chars)",
+" 26 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (114 chars)",
+"entries 26 · green 23 · red 0 · recorded 0 · timeout 0 · not-run 3"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-17-mcp-server-for-drivers",
+"plan": "./viola-0.1.0/chunks/2026-10-17-mcp-server-for-drivers/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-17-mcp-server-for-drivers/wrap-2026-10-17T14-19-45",
+"delta": {
+"docs": [
+".andromeda/a11y-plan-amendments.md",
+".andromeda/a11y-plan.md",
+".andromeda/architecture-amendments.md",
+".andromeda/architecture.md",
+".andromeda/design-system-amendments.md",
+".andromeda/design-system.md",
+".andromeda/friction-log.ndjson",
+".andromeda/layout-templates-amendments.md",
+".andromeda/layout-templates.md",
+".andromeda/obs-plan-amendments.md",
+".andromeda/obs-plan.md",
+".andromeda/registries/contracts/architecture/build-system.md",
+".andromeda/registries/contracts/architecture/ci-cd-approach.md",
+".andromeda/registries/contracts/architecture/crate-dependency-direction.md",
+".andromeda/registries/contracts/architecture/project-directory-structure.md",
+".andromeda/registries/contracts/obs-plan/logging-stack.md",
+".andromeda/registries/contracts/obs-plan/otel-sdk-init.md",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md",
+".andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md",
+".andromeda/runs/2026-10-17T11-33-11-implement/journal.md",
+".andromeda/runs/2026-10-17T11-33-11-implement/outcome-2026-10-17-mcp-server-for-drivers.md",
+".andromeda/security-plan-amendments.md",
+".andromeda/security-plan.md",
+".andromeda/state.yaml",
+".andromeda/test-plan-amendments.md",
+".andromeda/test-plan.md",
+".claude/docs/a11y-summary.md",
+".claude/docs/commands.md",
+".claude/docs/conventions.md",
+".claude/docs/obs-summary.md",
+".claude/docs/security-summary.md",
+".claude/docs/services/viola-agent-claude.md",
+".claude/docs/services/viola-channel.md",
+".claude/docs/services/viola-core.md",
+".claude/docs/services/viola-mcp.md",
+".claude/docs/services/viola-state.md",
+".claude/docs/services/viola.md",
+".claude/docs/session-learnings.md",
+".claude/docs/stack.md",
+".claude/docs/tests-summary.md",
+".claude/rules/api.md",
+".claude/rules/frontend.md",
+".claude/rules/observability.md",
+".claude/rules/security.md",
+".claude/rules/testing.md",
+".claude/rules/verification-harness.md",
+".claude/session-handoff.md",
+"CLAUDE.md",
+"viola-0.1.0/chunks/2026-10-17-mcp-server-for-drivers/evidence/live-mcp.md",
+"viola-0.1.0/chunks/2026-10-17-mcp-server-for-drivers/evidence/operator-pass.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-17T14-14-49-implement/evolve-2026-10-17-mcp-server-for-drivers.json",
+".andromeda/runs/2026-10-17T14-14-49-implement/inputs-2026-10-17-mcp-server-for-drivers.json",
+".andromeda/runs/2026-10-17T14-14-49-implement/journal.md",
+".andromeda/runs/2026-10-17T14-14-49-implement/matrix-2026-10-17-mcp-server-for-drivers.json",
+".andromeda/runs/2026-10-17T14-14-49-implement/outcome-2026-10-17-mcp-server-for-drivers.md",
+".andromeda/runs/2026-10-17T14-14-49-implement/relay-1.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/a11y-plan-contracts.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/a11y-plan-entry-1.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/addendum-1.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/answer-card.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/architecture-contracts.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/architecture-entry-1.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/architecture-entry-2.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/architecture-entry-3.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/architecture-entry-4.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/architecture-entry-5.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/cascade-2026-10-17-mcp-server-for-drivers-pre-pass.json",
+".andromeda/runs/2026-10-17T14-19-45-wrap/cascade-2026-10-17-mcp-server-for-drivers.json",
+".andromeda/runs/2026-10-17T14-19-45-wrap/cascade-dispositions.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/cascade-patterns.toml",
+".andromeda/runs/2026-10-17T14-19-45-wrap/citation-dispositions.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/cites-2026-10-17-mcp-server-for-drivers.json",
+".andromeda/runs/2026-10-17T14-19-45-wrap/curation.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/design-system-entry-1.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/evolve-2026-10-17-mcp-server-for-drivers.json",
+".andromeda/runs/2026-10-17T14-19-45-wrap/fanout-a11y-plan.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/fanout-architecture.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/fanout-design-system.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/fanout-layout-templates.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/fanout-obs-plan.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/fanout-results.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/fanout-security-plan.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/fanout-test-plan.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/gate-2026-10-17-mcp-server-for-drivers.json",
+".andromeda/runs/2026-10-17T14-19-45-wrap/inputs-2026-10-17-mcp-server-for-drivers.json",
+".andromeda/runs/2026-10-17T14-19-45-wrap/layout-templates-entry-1.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/leaf-a11y-plan.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/leaf-apply.sh",
+".andromeda/runs/2026-10-17T14-19-45-wrap/leaf-architecture+design-system+layout-templates.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/leaf-architecture+security-plan.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/leaf-architecture+test-plan+obs-plan.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/leaf-architecture-1.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/leaf-architecture-2.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/leaf-architecture-3.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/leaf-delta-a11y-plan.diff",
+".andromeda/runs/2026-10-17T14-19-45-wrap/leaf-delta-architecture.diff",
+".andromeda/runs/2026-10-17T14-19-45-wrap/leaf-delta-design-system.diff",
+".andromeda/runs/2026-10-17T14-19-45-wrap/leaf-delta-layout-templates.diff",
+".andromeda/runs/2026-10-17T14-19-45-wrap/leaf-delta-obs-plan.diff",
+".andromeda/runs/2026-10-17T14-19-45-wrap/leaf-delta-security-plan.diff",
+".andromeda/runs/2026-10-17T14-19-45-wrap/leaf-delta-test-plan.diff",
+".andromeda/runs/2026-10-17T14-19-45-wrap/leaf-design-system+layout-templates.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/leaf-masters.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/leaf-obs-plan.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/leaf-security-plan+obs-plan.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/leaf-security-plan.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/leaf-test-plan+obs-plan.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/leaf-test-plan.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/new-text.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/obs-plan-contracts.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/obs-plan-entry-1.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/obs-plan-entry-2.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/registry-2026-10-17-mcp-server-for-drivers.json",
+".andromeda/runs/2026-10-17T14-19-45-wrap/relay-1.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/relay-2.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/report-patterns.toml",
+".andromeda/runs/2026-10-17T14-19-45-wrap/route-no-marker.json",
+".andromeda/runs/2026-10-17T14-19-45-wrap/security-plan-entry-1.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/security-plan-entry-2.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/security-plan-entry-3.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/security-plan-entry-4.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/security-plan-entry-5.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/splice-2026-10-17-mcp-server-for-drivers.json",
+".andromeda/runs/2026-10-17T14-19-45-wrap/test-plan-contracts.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/test-plan-entry-1.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/test-plan-entry-2.md",
+".andromeda/runs/2026-10-17T14-19-45-wrap/test-plan-entry-3.md",
+"viola-0.1.0/chunks/2026-10-17-mcp-server-for-drivers/report.md"
+]
+},
+"unmapped": [
+"viola-0.1.0/chunks/2026-10-17-mcp-server-for-drivers/evidence/live-sessions.ndjson",
+"viola-0.1.0/chunks/2026-10-17-mcp-server-for-drivers/inputs/andromeda-inputs.json",
+"viola-0.1.0/verification-matrix.json",
+"viola-0.1.0/chunks/2026-10-17-mcp-server-for-drivers/inputs/I4-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-17-mcp-server-for-drivers/inputs/I5-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-17-mcp-server-for-drivers/inputs/I6-relay-2.md.txt"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/cli_controls_not_disableable.rs",
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 135,
+"problem": null
+},
+"prose": [
+{
+"from": 304,
+"to": 307,
+"text": "The standing lint, deny and unit entries run first. The two new scripts follow, then the new cases by name, then each layer whole. Then the booted smoke, the pre-push gate and the operator's CI entries. The live leg (step 15, one start) is an attended rig measurement, not an entry. No entry produces `evidence/live-mcp.md`, and only its own criterion rests on it. No mutation entry, witness run or workflow dispatch is listed."
+},
+{
+"from": 309,
+"to": 315,
+"text": "The two scripts of steps 3 and 4 are instruments this chunk builds, and their verdict lines are their own. Before either script's first graded use, implement runs its known-verdict controls once and records the readings in `chunks/2026-10-17-mcp-server-for-drivers/evidence/instrument-controls.md`: - `channel-tokio-free.sh`: a must-pass input (the tree as built), and a must-fail input (a scratch clone with a   normal `tokio` edge planted in `viola-channel` outside the feature). - `rmcp-features.sh`: a must-pass input (the tree as built), and two must-fail inputs (a scratch clone with an extra   rmcp feature, and one with rmcp absent, which must read the vacuity guard red)."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-17-mcp-server-for-drivers/wrap-2026-10-17T14-19-45/1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 1.05,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-17-mcp-server-for-drivers/wrap-2026-10-17T14-19-45/2.log",
+"bytes": 72,
+"log_sha8": "a4105156",
+"exit": 0,
+"seconds": 0.2,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "lint",
+"run": "CARGO_TARGET_DIR=target/wincheck cargo clippy --workspace --all-targets --features fake-agent --target x86_64-pc-windows-msvc -- -D warnings",
+"run_sha8": "4f11616c",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-17-mcp-server-for-drivers/wrap-2026-10-17T14-19-45/3.log",
+"bytes": 72,
+"log_sha8": "4f27ac38",
+"exit": 0,
+"seconds": 0.23,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "rg -n -U --pcre2 --type rust '#\\[(tracing::)?instrument\\b(?!\\(\\s*skip_all\\b)' .",
+"run_sha8": "d8c83432",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-mcp-server-for-drivers/wrap-2026-10-17T14-19-45/4.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.01,
+"readings": [
+"exit 1 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "lint",
+"run": "bash scripts/lint-probes.sh",
+"run_sha8": "4811ad1f",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-17-mcp-server-for-drivers/wrap-2026-10-17T14-19-45/5.log",
+"bytes": 286,
+"log_sha8": "99be9959",
+"exit": 0,
+"seconds": 0.7,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "lint",
+"run": "bash scripts/rmcp-features.sh",
+"run_sha8": "f75a2b48",
+"expect": [
+"exit 0",
+"last line rmcp-features: server transport-io"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-mcp-server-for-drivers/wrap-2026-10-17T14-19-45/6.log",
+"bytes": 35,
+"log_sha8": "bab0b725",
+"exit": 0,
+"seconds": 0.14,
+"readings": [
+"exit 0 ✓",
+"last line 'rmcp-features: server transport-io' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "bash scripts/channel-tokio-free.sh",
+"run_sha8": "bb2f25ea",
+"expect": [
+"exit 0",
+"last line channel-tokio-free: ok"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-mcp-server-for-drivers/wrap-2026-10-17T14-19-45/7.log",
+"bytes": 102,
+"log_sha8": "2be612fa",
+"exit": 0,
+"seconds": 0.14,
+"readings": [
+"exit 0 ✓",
+"last line 'channel-tokio-free: ok' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "cargo deny check",
+"run_sha8": "2708b9d9",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-17-mcp-server-for-drivers/wrap-2026-10-17T14-19-45/8.log",
+"bytes": 13322,
+"log_sha8": "488bf9df",
+"exit": 0,
+"seconds": 0.85,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "test -s scripts/sync-crates.txt && while read -r crate; do cargo deny --config deny-sync.toml --manifest-path \"crates/$crate/Cargo.toml\" check bans || exit 1; done < scripts/sync-crates.txt",
+"run_sha8": "d32a7e5d",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-17-mcp-server-for-drivers/wrap-2026-10-17T14-19-45/9.log",
+"bytes": 4561,
+"log_sha8": "2fd8526a",
+"exit": 0,
+"seconds": 1.22,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "bash scripts/deny-probes.sh",
+"run_sha8": "6ea4a0e7",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-17-mcp-server-for-drivers/wrap-2026-10-17T14-19-45/10.log",
+"bytes": 354,
+"log_sha8": "afa3ec44",
+"exit": 0,
+"seconds": 6.47,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-mcp-server-for-drivers/wrap-2026-10-17T14-19-45/11.log",
+"bytes": 305030,
+"log_sha8": "a52d49d5",
+"exit": 0,
+"seconds": 7.33,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'package(viola-mcp) | test(/role_of_|exit_code_maps_|live_endpoint_/)' ",
+"run_sha8": "8acd1520",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"lacks \"suite\":\"nextest-unit\",\"passed\":0,"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-mcp-server-for-drivers/wrap-2026-10-17T14-19-45/12.log",
+"bytes": 15017,
+"log_sha8": "285816da",
+"exit": 0,
+"seconds": 0.93,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"lacks '\"suite\":\"nextest-unit\",\"passed\":0,' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'package(viola-mcp) | binary(cli_output_plain) | binary(contract_lints) | binary(cli_list) | binary(cli_send) | binary(cli_wait_last) | binary(cli_answer)' ",
+"run_sha8": "3cc78e87",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"lacks \"suite\":\"nextest-integration\",\"passed\":0,"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-mcp-server-for-drivers/wrap-2026-10-17T14-19-45/13.log",
+"bytes": 10236,
+"log_sha8": "94b7c30b",
+"exit": 0,
+"seconds": 13.21,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"lacks '\"suite\":\"nextest-integration\",\"passed\":0,' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration",
+"run_sha8": "03525807",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-mcp-server-for-drivers/wrap-2026-10-17T14-19-45/14.log",
+"bytes": 46263,
+"log_sha8": "afaa095d",
+"exit": 0,
+"seconds": 61.28,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh run --e2e --filter 'binary(mcp_tools)' ",
+"run_sha8": "527d573f",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"lacks \"suite\":\"nextest-e2e\",\"passed\":0,"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-mcp-server-for-drivers/wrap-2026-10-17T14-19-45/15.log",
+"bytes": 1171,
+"log_sha8": "d2402e3b",
+"exit": 0,
+"seconds": 6.01,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"lacks '\"suite\":\"nextest-e2e\",\"passed\":0,' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh run --e2e",
+"run_sha8": "55ff1d5e",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"suite\":\"nextest-e2e\""
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-mcp-server-for-drivers/wrap-2026-10-17T14-19-45/16.log",
+"bytes": 21926,
+"log_sha8": "029c46ad",
+"exit": 0,
+"seconds": 10.02,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"contains '\"suite\":\"nextest-e2e\"' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-mcp-smoke",
+"run_sha8": "0e36ef92",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-mcp-server-for-drivers/wrap-2026-10-17T14-19-45/17.log",
+"bytes": 47,
+"log_sha8": "91854d6e",
+"exit": 0,
+"seconds": 0.11,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 18,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-mcp-smoke",
+"run_sha8": "379618e3",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-mcp-server-for-drivers/wrap-2026-10-17T14-19-45/18.log",
+"bytes": 349,
+"log_sha8": "e7a69782",
+"exit": 0,
+"seconds": 4.73,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 19,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-mcp-smoke",
+"run_sha8": "f363de37",
+"expect": [
+"exit 0",
+"contains \"state\":\"ready\"",
+"contains \"last_error\":null"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-mcp-server-for-drivers/wrap-2026-10-17T14-19-45/19.log",
+"bytes": 682,
+"log_sha8": "7137cbd2",
+"exit": 0,
+"seconds": 0.27,
+"readings": [
+"exit 0 ✓",
+"contains '\"state\":\"ready\"' ✓",
+"contains '\"last_error\":null' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "bash scripts/g2-zero-panics.sh",
+"run_sha8": "b1637f71",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-17-mcp-server-for-drivers/wrap-2026-10-17T14-19-45/20.log",
+"bytes": 10,
+"log_sha8": "6736cedd",
+"exit": 0,
+"seconds": 0.02,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-mcp-server-for-drivers/wrap-2026-10-17T14-19-45/21.log",
+"bytes": 106,
+"log_sha8": "bfe5e4d5",
+"exit": 0,
+"seconds": 0.16,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 22,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-mcp-smoke",
+"run_sha8": "0e36ef92",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-mcp-server-for-drivers/wrap-2026-10-17T14-19-45/22.log",
+"bytes": 135,
+"log_sha8": "a34c9ef8",
+"exit": 0,
+"seconds": 0.33,
+"readings": [
+"exit 0 ✓",
+"contains '\"processes_gone\":true' ✓",
+"contains '\"endpoint_gone\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-17-mcp-server-for-drivers/wrap-2026-10-17T14-19-45/23.log",
+"bytes": 373768,
+"log_sha8": "32d93f9a",
+"exit": 0,
+"seconds": 85.31,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"contains '\"stage\":\"linux-tests\"' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 24,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "451237e0",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 25,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 26,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "2377245a",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.19",
+"sha8": "bebab50b",
+"ts": "2026-10-17T15:03:32Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-10-17T14-19-45-wrap",
+"--marker",
+"2026-10-17-mcp-server-for-drivers"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust · base 574ad969 (the parent of the oldest pre-CI commit a902e6e4)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust — each fired on its synthetic known positive",
+"hygiene: clean — read 138 (runs 122 · evidence 8 · inputs 8) · trails 27 not read · copies 6 not read by P1 — 0 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 122,
+"evidence": 8,
+"inputs": 8,
+"trails": 27,
+"copies": 6,
+"kept": 0,
+"binary": 0,
+"in_root": 0
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.19",
+"sha8": "bebab50b",
+"ts": "2026-10-17T15:03:33Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-17-mcp-server-for-drivers",
+"--run-dir",
+".andromeda/runs/2026-10-17T14-19-45-wrap",
+"--marker",
+"2026-10-17-mcp-server-for-drivers"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base 574ad969 (the parent of the oldest pre-CI commit a902e6e4) · lists new 11 · modify 18 · derived 0 · record 9",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"recorded in-intent crates/viola-channel/src/client.rs",
+"recorded in-intent crates/viola-channel/src/frame.rs",
+"recorded in-intent crates/viola-e2e/src/harness/session.rs",
+"recorded companion .github/workflows/windows-mutants.yml",
+"recorded companion src/cmd/answer.rs",
+"recorded companion src/cmd/last.rs",
+"recorded companion src/cmd/pause.rs",
+"recorded companion src/cmd/send.rs",
+"recorded companion src/cmd/wait.rs",
+"list viola-0.1.0/chunks/2026-10-17-mcp-server-for-drivers/evidence/ (dir) ×0",
+"scope: clean — changed 37 · listed 28 · recorded 9 (companion 6 · mechanical 0 · in-intent 3 · widening 0) · absorbed 0 · excluded 192"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "574ad969d6fc0f3c28a8c54409bd2d884078d187",
+"base_why": "the parent of the oldest pre-CI commit a902e6e4",
+"counts": {
+"changed": 37,
+"listed": 28,
+"recorded": 9,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 6,
+"mechanical": 0,
+"in-intent": 3,
+"widening": 0
+},
+"excluded": 192,
+"unparsed": 0,
+"widening_without_word": 0
+}
+}
+]

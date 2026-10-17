@@ -209,3 +209,9 @@ Each superseded mark stands in the body as the operator's word, superseded 2026-
 - Tokens: rung 4 reads `NO_COLOR` present, an empty value included; on a stale row NAME is dim and bold, every span opening dim again after its reset.
 **Why:** the chunk built the layer. The `NO_COLOR` read is inside the founder's own answer «Читать их» to P4 fork Q1 (relayed verbatim by the operator; card confirm a delegate's, the Viola overseer, PROVISIONAL). The width source and served-verbs-only are the Viola overseer's technical answers to Q2 and Q3, a delegate's — PROVISIONAL, the founder's own word owed at his next batch.
 **Ref:** .andromeda/runs/2026-10-17T08-28-14-wrap/
+
+## 2026-10-17-mcp-server-for-drivers — viola mcp, a hidden verb
+**Section:** §Surface: cli → Platform-Specific Notes
+**Change:** the `mcp` note adds that `mcp` is a hidden verb: run by the plugin, never by a person, it appears in no `viola --help` row.
+**Why:** the chunk built `viola mcp` with `#[command(hide = true)]`; `--help` stays the served verbs' table.
+**Ref:** .andromeda/runs/2026-10-17T14-19-45-wrap/

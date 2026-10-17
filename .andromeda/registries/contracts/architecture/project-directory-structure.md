@@ -25,14 +25,15 @@ viola/
 │   ├── cmd/                    # one module per subcommand: run, revive, send, wait, last, list,
 │   │                           #   answer, hook, mcp, verify, pause, release, link, unlink, plugin;
 │   │                           #   revive.rs: the strict-modes check ahead of the wrapper log, the four-reading preflight (its third the `session-live` agents read) and the `--list` rows; its child shapes come from `viola-agent-claude`;
-│   │                           #   list.rs: the caller-side board (the strict-modes scan before any log, then one `claude agents --json` read joined into it — STATUS idle/busy, the unwrapped rows — then the `--json` document or the human board as one stdout write; exits 0 / 21 / 1);
+│   │                           #   list.rs: the caller-side board (the strict-modes scan before any log, then one `claude agents --json` read joined into it — STATUS idle/busy, the unwrapped rows — then the `--json` document or the human board as one stdout write; exits 0 / 21 / 1), and `board_document`, the `mcp` `list` tool's provider;
+│   │                           #   mcp.rs: the hidden `viola mcp` (the home and `diagnostics/` through `check_path` before anything opens, exit 1 on a refusal; then `viola_mcp::serve`);
 │   │                           #   hook/statusline.rs: the `hook statusline` arm (the instance check, the `budget.json` write, the bounded shell-out);
 │   │                           #   client.rs (a helper, no subcommand): the channel client send / wait / last share;
 │   │                           #   verify/typed.rs: verify's five interactive PTY runs (Run A untrusted, Run B trusted, Run C dialogs, Run D plan, Run E resume),
 │   │                           #   the settle rule, Run B's wait for the input box after an added turn, and the signature-only screen recording;
 │   │                           #   verify/stop.rs: verify's Ctrl-C / TERM stop (Unix SIGINT / SIGTERM, Windows Ctrl-C / Ctrl-Break)
 │   ├── run/                    # PTY pump, wheel, budget governor; gate.rs: the pump-output tee + bounded vt100 feed + Gate;
-│   │                           #   agents.rs: the bounded `claude agents --json` read (`read_logged`, `read_here`) shared by `list`, `revive` and verify's Run B;
+│   │                           #   agents.rs: the bounded `claude agents --json` read (`read_logged`, `read_here`) shared by `list`, `revive`, verify's Run B and the `mcp` `list` tool (through `list::board_document`);
 │   │                           #   send.rs: the `send` module root: the wrapper's `send` method on `Ctx` with its refusal order, re-exporting `SendSlot`, `append_hook_event` and `parse_from` so every caller keeps its path; its phases under send/:
 │   │                           #     slot.rs: the one-in-flight slot (`SendSlot`) with the remembered session id, `append_hook_event` with the driver relabel, and the `session-start` post-condition claim;
 │   │                           #     classify.rs: the local-command decision over `LOCAL_COMMANDS` (`classify`); params.rs: `parse` / `parse_from`; budget.rs: `Ctx::budget_paused`;
@@ -57,9 +58,10 @@ viola/
 │   │                           #   PasteHandle: the child's input writer shared by the human copy and the one-write bracketed paste;
 │   │                           #   host_stdin(): the host stdin (Windows console: viola's own ReadConsoleW reader, every 0x1A kept);
 │   │                           #   `sideload` (Windows): the System32 DLL-search restriction + the absolute-path conpty.dll pre-load)
-│   ├── viola-channel/          # JSON-RPC 2.0 ndjson over interprocess local sockets
+│   ├── viola-channel/          # JSON-RPC 2.0 ndjson over interprocess local sockets; tokio_client.rs: the Tokio client behind the `tokio` feature
 │   ├── viola-state/            # ndjson logs (the append heals a torn last line), atomic snapshots, File::lock, the events
 │   │                           #   reader (`events::read_from`: counts unknown kinds, unknown fields and torn lines), the
+│   │                           #   liveness-only endpoint read (`liveness::live_endpoint`, shared by the CLI frame verbs and viola-mcp's frame tools), the
 │   │                           #   classified snapshot read, the log replay and the session chain (`replay.rs`; read by `viola revive` and `board::read`),
 │   │                           #   the link rule (`replay::apply_link_line`, public: applied by the replay's one pass and by the root bin's `LinkSet`),
 │   │                           #   the instance strict-modes check (`strict::check_instance`), the budget reading's write
@@ -82,7 +84,9 @@ viola/
 │   ├── agent-run.{sh,ps1}      # identical shims over viola-harness
 │   ├── conpty-vendor.sh        # re-vendor vendor/conpty/ from the pinned nupkg (+ --verify: sha256 + byte compare + signer; --probe)
 │   ├── sync-crates.txt         # the single sync-crate list (CI job 3 + the sole-root tokio ban)
-│   ├── deny-probes.sh          # negative probe per cargo-deny ban + a clean control
+│   ├── deny-probes.sh          # negative probe per cargo-deny ban + a clean control, and the channel tree form's probe + control
+│   ├── channel-tokio-free.sh   # viola-channel's normal graph without its feature reads no `tokio v` line, its `--features tokio` control one (CI supply-chain)
+│   ├── rmcp-features.sh        # viola's release graph requests rmcp features exactly `server transport-io`, rmcp present (CI lint job)
 │   ├── lint-probes.sh          # each clippy ban fires, controls pass, fail-closed raw-event! grep
 │   ├── release-check.sh        # target job 6: the release build carries `viola` only, no test-only feature (+ --probe)
 │   ├── orphans-check.sh        # cargo modules orphans --deny per lib/bin target (+ --probe)

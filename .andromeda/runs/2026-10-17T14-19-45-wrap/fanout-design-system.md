@@ -1,0 +1,2 @@
+proposals: []
+note: D-design-tokens holds — every new surface in the report's Coverage of new surfaces (viola mcp stdio server, TokioClient, viola mcp's start-time home check, the two scripts) reads `tokens n/a`, none `hardcoded✗`. Outside this detector, the report's Expected amendments name design-system §Surface: cli · Platform-Specific Notes for `viola --help` (`mcp` a hidden plugin-run verb; pattern `mcp-hidden`, design-system.md:403 stated true, not saying hidden); the orchestrator may route that one, which no design-system detector covers.

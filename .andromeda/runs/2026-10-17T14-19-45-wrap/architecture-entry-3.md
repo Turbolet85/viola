@@ -1,0 +1,13 @@
+
+## 2026-10-17-mcp-server-for-drivers — the Tokio client and viola-channel's tree-form ban
+**Section:** §Occupied Resources Workspace crates; §Established Decisions [Module Boundaries], [Concurrency / Backend Framework]; §Stack and Technologies (Wrapper IPC row); §Infrastructure Patterns → Build system, Crate dependency direction, CI/CD approach, Project directory structure
+**Change:**
+- Workspace crates: every member landed, `viola-mcp` included; the sync crates of `scripts/sync-crates.txt` are four (`viola-core`, `viola-pty`, `viola-state`, `viola-agent-claude`) — was five with `viola-channel`; `viola-channel` declares `tokio = ["dep:tokio", "interprocess/tokio"]` and `fake-agent = ["tokio"]`.
+- [Module Boundaries]: was "only `viola-mcp` lists `tokio` … a feature only `viola-mcp` enables"; now only `viola-mcp` enables tokio (`rt`) among product crates, the channel lists it optional behind its feature, enabled by `viola-mcp` and by its own test-only `fake-agent`; `viola-e2e` `rt` + `process`.
+- [Concurrency] and Wrapper IPC: the Tokio flavour sits in `viola-channel`'s feature-gated `TokioClient`, used by `viola-mcp` alone through the shared SQOS `client::open_handle`; `viola-channel` is off the sole-root list, its no-feature graph proven by `scripts/channel-tokio-free.sh`.
+- Build system: was "covered through the sync roots that depend on it" (premise false: no listed crate depends on `viola-channel`); now the tree form (`cargo tree -p viola-channel -e normal --target all -i tokio`, absence read from the printed `tokio v` line, its `--features tokio` control), in CI supply-chain, proven by `deny-probes.sh`'s `channel-tokio-edge` probe and control (13/13); the rmcp release-graph check landed as `scripts/rmcp-features.sh` in the lint job; rmcp pinned `>=3.4.1, <3.5` (was `~3.4`); the rust plane indexes `viola-mcp`.
+- Crate dependency direction: `viola-channel`'s `TokioClient` and its shared helpers; `viola-state` hosts `liveness::live_endpoint`; `viola-mcp`'s edges as landed (+ serde, serde_json, thiserror, tracing; tokio `rt`; `fake-agent = []`).
+- CI/CD approach: job 3's set is four; supply-chain runs the tree form after the loop; lint runs `rmcp features` after `Lint probes` on every OS.
+- Directory structure: the two scripts, `tokio_client.rs`, `liveness::live_endpoint`.
+**Why:** the chunk's CARRY 1 premise was corrected by measurement. The test-only `fake-agent` enabler is written as built on the Viola overseer's answer at this wrap, a delegate's — PROVISIONAL; the release graph stays tokio-free outside `viola-mcp`.
+**Ref:** .andromeda/runs/2026-10-17T14-19-45-wrap/

@@ -1,0 +1,99 @@
+[
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "9243c8cf",
+"ts": "2026-10-17T15:00:08Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-17-mcp-server-for-drivers",
+"--run-dir",
+".andromeda/runs/2026-10-17T14-19-45-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-10-17-mcp-server-for-drivers: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v1-38 → verified — A wrapped driver session gets send, wait, last, answer and list as MCP tools wit… (1479 chars)",
+"dry-run: nothing written",
+"version: verified 20/53"
+],
+"stderr": null,
+"wrote": [],
+"before": [
+{
+"id": "v1-38",
+"chunk": "2026-10-17-mcp-server-for-drivers",
+"status": "implemented",
+"method": "integration",
+"ref": "crates/viola-e2e/tests/mcp_tools.rs::mcp_tools_list_is_exactly_the_five_tools_and_list_matches_the_cli + ::mcp_tools_pat… (974 chars)",
+"acceptance": "A wrapped driver session gets send, wait, last, answer and list as MCP tools with the same results and refusals as the C… (1479 chars)",
+"notes_chars": 0
+}
+],
+"after": [
+{
+"id": "v1-38",
+"chunk": "2026-10-17-mcp-server-for-drivers",
+"status": "verified",
+"method": "integration",
+"ref": "crates/viola-e2e/tests/mcp_tools.rs::mcp_tools_list_is_exactly_the_five_tools_and_list_matches_the_cli + ::mcp_tools_pat… (974 chars)",
+"acceptance": "A wrapped driver session gets send, wait, last, answer and list as MCP tools with the same results and refusals as the C… (1479 chars)",
+"notes_chars": 0
+}
+]
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "9243c8cf",
+"ts": "2026-10-17T15:03:27Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-17-mcp-server-for-drivers",
+"--run-dir",
+".andromeda/runs/2026-10-17T14-19-45-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-10-17-mcp-server-for-drivers: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v1-38 → verified — A wrapped driver session gets send, wait, last, answer and list as MCP tools wit… (1479 chars)",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed",
+"version: verified 20/53"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": [
+{
+"id": "v1-38",
+"chunk": "2026-10-17-mcp-server-for-drivers",
+"status": "implemented",
+"method": "integration",
+"ref": "crates/viola-e2e/tests/mcp_tools.rs::mcp_tools_list_is_exactly_the_five_tools_and_list_matches_the_cli + ::mcp_tools_pat… (974 chars)",
+"acceptance": "A wrapped driver session gets send, wait, last, answer and list as MCP tools with the same results and refusals as the C… (1479 chars)",
+"notes_chars": 0
+}
+],
+"after": [
+{
+"id": "v1-38",
+"chunk": "2026-10-17-mcp-server-for-drivers",
+"status": "verified",
+"method": "integration",
+"ref": "crates/viola-e2e/tests/mcp_tools.rs::mcp_tools_list_is_exactly_the_five_tools_and_list_matches_the_cli + ::mcp_tools_pat… (974 chars)",
+"acceptance": "A wrapped driver session gets send, wait, last, answer and list as MCP tools with the same results and refusals as the C… (1479 chars)",
+"notes_chars": 0
+}
+]
+}
+]

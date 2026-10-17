@@ -1,0 +1,1 @@
+resume in .andromeda/runs/2026-10-17T14-19-45-wrap/ from Phase 2. The 85 % and 90 % alarms are expected: finish, stop only at 95 %. The live-start count 2 is the founder's own raised cap (inputs#I4), a recorded ruling, not an unmet criterion. pin_exe race owner at P5: a CARRY on "Home and code-bearing file integrity" (it owns the home copy of the binary).

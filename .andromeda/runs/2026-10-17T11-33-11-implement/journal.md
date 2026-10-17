@@ -16,3 +16,7 @@ One line per long run, written before waiting on it.
   Read: green 22 · red 1 (23): every test passed; `llvm-profdata` refused one truncated `viola` profile
   (114688 B against 7361 siblings of 141984 B). The E2E client now owns the server child and never kills it.
 - 2026-10-17T12:29:04Z · P2 · the whole block a fifth time, after that fix.
+  Read: green 23 · red 0.
+- 2026-10-17T12:37:08Z · operator pass · pre-CI commit `a902e6e4`, pushed (entry 25 green); then
+  `ci.py conclusion --sha HEAD --wait 1800`, backgrounded; the verdict is its own line.
+  Read: `verdict: green · checks 15/15 · wall 871 s · runs ci#39033242394 completed/success`, attempt 1.

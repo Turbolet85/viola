@@ -1,0 +1,89 @@
+[[pattern]]
+id = 'channel-cover'
+regex = '''covered through the sync roots|channel-tokio-free|viola-channel[^\n]{0,80}(deny-sync|sole root|sync-crates)'''
+
+[[pattern]]
+id = 'sync-crates'
+regex = '''sync-crates\.txt|five sync crates|sync crates? as (its |their )?sole root'''
+
+[[pattern]]
+id = 'rmcp-features'
+regex = '''rmcp-features|release-graph (check|assertion)|rmcp[^\n]{0,60}server` \+ `transport-io'''
+
+[[pattern]]
+id = 'mcp-list-built'
+regex = '''list` is not built|its `list` is not built|`mcp` spawns none'''
+
+[[pattern]]
+id = 'wait-cap'
+regex = '''50 ?000 ?ms|tool-call timeout|timeout_ms = min'''
+
+[[pattern]]
+id = 'invalid-params'
+fixed = 'invalid-params'
+
+[[pattern]]
+id = 'mcp-fault'
+regex = '''MCP[^\n]{0,80}-32603|-32603[^\n]{0,80}MCP|internal handler fault'''
+
+[[pattern]]
+id = 'dated-gap'
+regex = '''seven dated|seventh dated|borrows? none of the|dated exceptions?'''
+
+[[pattern]]
+id = 'role-mcp'
+regex = '''role_of|Role::Mcp|run\|hook\|mcp'''
+
+[[pattern]]
+id = 'tokio-client'
+regex = '''Tokio client|sync channel client|tokio_client'''
+
+[[pattern]]
+id = 'live-endpoint'
+fixed = 'live_endpoint'
+
+[[pattern]]
+id = 'kill-line'
+regex = '''20 s kill|verify-driven binar|twenty verify-driven'''
+
+[[pattern]]
+id = 'win-mutants'
+regex = '''windows-mutants\.yml|Windows-gated sources'''
+
+[[pattern]]
+id = 'ttl-scope'
+regex = '''ttlMs|cacheScope|2026-07-28|SEP-2549'''
+
+[[pattern]]
+id = 'e2e-client'
+regex = '''transport-child-process|rmcp (3\.4 )?client'''
+
+[[pattern]]
+id = 'harness-session'
+regex = '''harness_session|SessionOptions'''
+
+[[pattern]]
+id = 'mcp-json'
+regex = '''\.mcp\.json|mcpServers'''
+
+[[pattern]]
+id = 'mcp-hidden'
+regex = '''viola mcp`|`mcp` is hidden|hidden plugin-run'''
+
+[[pattern]]
+id = 'mcp-ndjson'
+fixed = 'mcp.ndjson'
+
+[[pattern]]
+id = 'pin-race'
+regex = '''pin_exe|concurrent first start|two first starts'''
+
+[[pattern]]
+id = 'owner-title'
+fixed = 'MCP server for drivers'
+ignore_case = true
+
+[[pattern]]
+id = 'owner-generic'
+regex = '''owned by a (route entry|CARRY)'''
+ignore_case = true

@@ -1,0 +1,1 @@
+Run P1 only, then stop (the two-window form: your context is 71.9 %). Put every curation candidate into the report's Decisions & corrections. Name in the report, for route-resolve: the pin_exe race (two first viola runs on a fresh home can lose a first hook, 6 of 24) needs an owner at P5.

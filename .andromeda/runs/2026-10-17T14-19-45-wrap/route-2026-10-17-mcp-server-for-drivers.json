@@ -1,0 +1,125 @@
+[
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "a81d3633",
+"ts": "2026-10-17T15:03:37Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-10-17-mcp-server-for-drivers",
+"--run-dir",
+".andromeda/runs/2026-10-17T14-19-45-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"flip master-route.md:78 - 2026-10-17-mcp-server-for-drivers pending -> complete"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "a81d3633",
+"ts": "2026-10-17T15:03:37Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-17-mcp-server-for-drivers",
+"--date",
+"2026-10-17",
+"--run-dir",
+".andromeda/runs/2026-10-17T14-19-45-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :150 strip CARRY: 396ch \"CARRY: chunk 2026-09-24-supply-chain-and\"",
+"pin :150 strip CARRY: 529ch \"CARRY: chunk 2026-09-24-workspace-tree-a\"",
+"pin :150 strip CARRY: 331ch \"CARRY: chunk 2026-10-04-wait-and-last: `\"",
+"pin :150 strip CARRY: 324ch \"CARRY: chunk 2026-10-10-budget-governor \"",
+"pin :150 strip CARRY: 1425ch \"CARRY: re-pinned from \"The board: viola \"",
+"pin next markerless :152 holds CARRY:×3",
+"150 · 2026-10-17-mcp-server-for-drivers · strip 5 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 150,
+"marker": "2026-10-17-mcp-server-for-drivers",
+"blocks": 5,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "a81d3633",
+"ts": "2026-10-17T15:03:41Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-17-mcp-server-for-drivers",
+"--date",
+"2026-10-17",
+"--run-dir",
+".andromeda/runs/2026-10-17T14-19-45-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :150 strip CARRY: 396ch \"CARRY: chunk 2026-09-24-supply-chain-and\"",
+"pin :150 strip CARRY: 529ch \"CARRY: chunk 2026-09-24-workspace-tree-a\"",
+"pin :150 strip CARRY: 331ch \"CARRY: chunk 2026-10-04-wait-and-last: `\"",
+"pin :150 strip CARRY: 324ch \"CARRY: chunk 2026-10-10-budget-governor \"",
+"pin :150 strip CARRY: 1425ch \"CARRY: re-pinned from \"The board: viola \"",
+"pin next markerless :152 holds CARRY:×3",
+"150 · 2026-10-17-mcp-server-for-drivers · strip 5 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/route-archive.md",
+"./viola-0.1.0/working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 150,
+"marker": "2026-10-17-mcp-server-for-drivers",
+"blocks": 5,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]

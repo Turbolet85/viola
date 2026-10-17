@@ -8,6 +8,23 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
+## 2026-10-17 — Where Claude Code logs a plugin MCP server
+Claude Code writes one log per MCP server it starts at
+`~/.cache/claude-cli-nodejs/<the session's cwd, every / as ->/mcp-logs-plugin-<plugin>-<server>/<timestamp>.jsonl`: the
+connect, the negotiated protocol version and every `tools/list` failure with its reason. When a wrapped session shows
+none of viola's tools, read that file first — one read named the missing `ttlMs` / `cacheScope` cause that 23 green
+gates and a green CI (whose rmcp client accepts the same result) could not see.
+
+---
+
+## 2026-10-17 — An absence check over `cargo tree -i` reads the printed line, never the exit
+`cargo tree -i <crate>` exits 101 "did not match any packages" while the crate is absent from `Cargo.lock`, and exits 0
+"nothing to print" once another workspace member pulls it into the lock. A script that proves a crate is absent from one
+package's graph therefore tests for the printed `<crate> v` line and takes both absent forms, never the exit code alone —
+a reading measured before the lock changed goes stale the moment a sibling adds the dependency.
+
+---
+
 ## 2026-10-17 — A capture-then-write file is not a capture until its bytes land
 `viola verify`'s capture arm claims a capture's name with an empty file and renames the written bytes over it after a
 `sync_all`. A waiter that tests for the NAME reads the empty claim on a slow disk and settles early — on CI this read an

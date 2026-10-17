@@ -1055,3 +1055,32 @@ Each was then killed by a case in `typed.rs`'s `mod tests`, shown red under its 
 **Why:** measured this chunk — no manifest holds trycmd and no `tests/cmd/` exists; the help is pinned by literal. The stale-dim witness's owner is the halt's answer (a delegate's, the Viola overseer). The other trycmd claims are carried to "Version done-check", not amended here.
 **Kept:** the remaining trycmd / assert_cmd tooling claims (§3, §5, §6, §7, §10) stand until "Version done-check" decides tool or text.
 **Ref:** .andromeda/runs/2026-10-17T08-28-14-wrap/
+
+## 2026-10-17-mcp-server-for-drivers — the MCP tests as landed
+**Section:** §1 Test Scope Summary (ipc-internal MCP surface, Signal); §5 Integration Test Strategy (MCP; Wrapper channel impostor bullet); §6 E2E Test Strategy (Drivers per surface, MCP stdio row; Path 2, 3, 4, 5, 6 As landed; Path 3 step 7; Non-path suites → Security sweep)
+**Change:**
+- §1 Signal: was `{"error":"instance-unreachable"|"wrapper-fault"}`; now `instance-unreachable` with `detail: null`, `wrapper-fault` with `{code,message,data}`, `invalid-params` with a closed field word and no frame, each text `refused: <code>`; an internal handler fault JSON-RPC `-32603` `internal error`, `data: null`, an unknown tool `-32602`; `tools/list` exactly the five tools with `ttlMs` 0 and `cacheScope` `private`.
+- §5 MCP: was "using the sync channel client inside the handler under test"; now `crates/viola-mcp/tests/handlers.rs` drives the transport-free `viola_mcp::Tools` against a `viola_channel::Server` test wrapper (snapshot through `write_snapshot`), the handlers using the Tokio client. Impostor bullet and Path 3 step 7: the MCP body carries `detail: null`, equal to the CLI's less `v`.
+- §6 Drivers row: was `TokioChildProcess` and dev-dep features `client` + `transport-child-process`; now the rmcp client over a test-owned `viola mcp` child, stdin closed and its exit awaited (the transport killed the server 3 s after a close and truncated a coverage profile), `viola-e2e` taking rmcp `client` only as a normal dependency.
+- Paths 2–6: was "owed"; the MCP steps landed in `crates/viola-e2e/tests/mcp_tools.rs` — `mcp_tools_path2_path3_send_wait_last_match_the_cli`, `mcp_tools_path4_path5_answer_by_id_and_a_paused_send`, `mcp_tools_path6_budget_paused_send` — each compared with the CLI's `--json` less `v`; the `wait` clamp by `handlers_wait_sends_the_clamped_bound_and_maps_a_timeout`.
+- Security sweep: was `mcp_schema_violations.rs`; now `handlers_schema_violations_write_no_frame`, the unit `tool_inputs_are_revalidated_before_any_frame` and `mcp_tools_list_is_exactly_the_five_tools_and_list_matches_the_cli`.
+**Why:** the chunk built the MCP surface and its tests; the child-process transport was measured to truncate a coverage profile.
+**Ref:** .andromeda/runs/2026-10-17T14-19-45-wrap/
+
+## 2026-10-17-mcp-server-for-drivers — the CI gates: the channel tree form, rmcp features, deny-probes 13/13
+**Section:** §9 CI Integration (Pipeline structure, Lint and Supply-chain rows; Pipeline fails on, Lint and Supply-chain errors)
+**Change:**
+- Lint row: the sync-crate `cargo check` target set is four (`viola-core`, `viola-pty`, `viola-state`, `viola-agent-claude`) — was five with `viola-channel`; was "the rmcp release-graph assertion … has no subject until `viola-mcp` exists"; now the per-OS step `rmcp features (exactly server + transport-io, non-vacuous)` runs `bash scripts/rmcp-features.sh` after `Lint probes`, last line `rmcp-features: server transport-io`.
+- Supply-chain row: after the sole-root loop, `bash scripts/channel-tokio-free.sh` in the same step (no `tokio v` line without the feature, read from the printed line never the exit; its control one; `channel-tokio-free: ok`); `deny-probes.sh` ends `13/13 banned, control clean` — was `12/12`: the twelve bans plus `channel-tokio-edge` with its channel control.
+- Fails on: a lint error adds a red `rmcp-features.sh`; a supply-chain error adds a red `channel-tokio-free.sh`, and the deny-probes line reads 13/13.
+**Why:** the chunk landed both scripts and the probe; `viola-channel` left the sole-root list because no listed crate depends on it.
+**Ref:** .andromeda/runs/2026-10-17T14-19-45-wrap/
+
+## 2026-10-17-mcp-server-for-drivers — harness keys and the time mechanism
+**Section:** §3 → Bootstrap phases (derive for route / setup-project); §3 → 5-command implementation (`harness_session`); §7 Test Data & Fixtures (Time-sensitive data); §8 Mocking & Stubbing Discipline (Time mocking)
+**Change:**
+- Bootstrap phases: the `ci` profile's 20 s kill line holds twenty-one verify-driven binaries (the named list on that filter line, `mcp_tools` joined; its cases read 0.01–5.9 s; `path6_budget_harness` not on it) — was twenty; `viola-e2e` takes rmcp `>=3.4.1, <3.5` with `client` only and tokio `=1.53.1` `rt` + `process` — was `client` + `transport-child-process` and tokio `test-util`.
+- 5-command implementation: was "`harness_session` … with `stamp:true`"; now `stamp: !opts.unstamped`, `SessionOptions::unstamped` default false (the in-test form of `boot --unstamped`; Path 7's MCP leg boots an unstamped `builder` alone).
+- §7 and §8: no manifest names tokio `test-util` (as landed: `viola-mcp` `rt`, `viola-channel` `io-util` and dev `rt`, `viola-e2e` `rt` + `process`); `viola-mcp` owns no timer — its `wait` bound is the pure `wait_timeout`, a unit case — so no `start_paused` test exists.
+**Why:** the counted list is the filter line's names (the count's rule); the unstamped option serves the Path 7 MCP leg; the time qualifier keeps a planned mechanism from reading as built.
+**Ref:** .andromeda/runs/2026-10-17T14-19-45-wrap/

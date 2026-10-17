@@ -1260,3 +1260,54 @@ Each superseded mark is kept in the body as the operator's word, superseded 2026
 - Project directory structure: `src/human/style.rs` (the colour layer); the `board.rs` gloss names the width cut and the spans; `tests/support/sgr.rs` (the SGR reader).
 **Why:** a boundary widening ratified by the founder's own answer «Читать их» to P4 fork Q1 (relayed verbatim by the operator); the answer card confirmed by a delegate, the Viola overseer — PROVISIONAL, superseded by his own word at the Epoch 5 boundary batch. Precedent: any further environment read, or a colour fact reaching a control, needs its own ratification.
 **Ref:** .andromeda/runs/2026-10-17T08-28-14-wrap/
+
+## 2026-10-17-mcp-server-for-drivers — the MCP tools' contract as landed
+**Section:** §Established Decisions [MCP], [Delivery Confirmation]; §Stack and Technologies (MCP server row); §Conventions Error handling schema (MCP bullet), CLI exit codes; §Occupied Resources Claude Code integration names, Binary, subcommands and exit codes
+**Change:**
+- [MCP]: was "the default `timeout_ms` for MCP `wait` is an open item"; now `wait` sends `timeout_ms` = `min(given, 50 000)` (`WAIT_CAP`, `wait_timeout`), 50 000 ms by default, `after` as given; the bound sits below claude 2.1.287's stdio tool-call default, which exceeds 50 s (measured live; the exact default unmeasured). `from` only when the server has a name. Each handler re-validates its raw arguments: a schema violation is `invalid-params`, an internal handler fault JSON-RPC `-32603` `internal error`, `data: null`.
+- [Delivery Confirmation]: the MCP client's tool-call timeout exceeds 50 s on 2.1.287, above the 18.5 s send total.
+- Conventions, MCP bullet: was "only faults on the MCP connection itself are JSON-RPC errors"; now `instance-unreachable` carries `detail: null`, `wrapper-fault` the fault's `{code,message,data}`, `invalid-params` a closed field word (`target` · `text` · `after` · `timeout_ms` · `dialog_id` · `response`) with no frame; every `isError` text `refused: <code>`; JSON-RPC errors are the connection's faults, an unknown tool (`-32602`) and an internal handler fault (`-32603`); `tools/list` carries `ttlMs` 0 and `cacheScope` `private`, without which 2.1.287 (protocol `2026-07-28`) drops every tool.
+- CLI exit codes: `role_of` excludes `mcp` from `cli`; `Role::Mcp` exits like `Other` and never prints `error: internal error`.
+- Integration names: tools reach a session as `mcp__plugin_viola_viola__<tool>`; `--allowedTools mcp__plugin_viola_viola` allowed them with no dialog; they load deferred, through `ToolSearch`.
+- Subcommands: `mcp` hidden from `--help`, no argument but `--home`, exit 1 printing nothing when its home or `diagnostics/` fails `check_path`.
+- MCP server row: release graph rmcp exactly `server` + `transport-io` (`scripts/rmcp-features.sh`); `viola-e2e` takes rmcp `client` alone, never `transport-child-process`.
+**Why:** the chunk built `viola mcp`; the `ttlMs` / `cacheScope` requirement and the over-50 s client default were measured at its two live starts (the second on the founder's own raised cap).
+**Ref:** .andromeda/runs/2026-10-17T14-19-45-wrap/
+
+## 2026-10-17-mcp-server-for-drivers — MCP list builds the board and reads agents
+**Section:** §Standard Contracts Session liveness, Channel methods (`list`); §Established Decisions [MCP] (its `list` clause); §Infrastructure Patterns → Project directory structure (`run/agents.rs`, `cmd/list.rs`, `cmd/mcp.rs`)
+**Change:**
+- Session liveness: was "`mcp`'s `list` is not built"; now the `mcp` process's `list` tool makes the same one `claude agents --json` read on each call — provider `list::board_document` (scan → read with the agents read and join → document) on a blocking thread, its `agents-probe` pair in `mcp.ndjson`, the board's refusal returned as `instance-unreachable`; the spawner list names it beside CLI `list`, `revive`'s preflight and verify's Run B.
+- Channel methods `list`: MCP `list` builds the same board through `board_document` and returns the document's `ok`; CLI `list` keeps its own order (scan, its log opened, read, document).
+- [MCP]: `list` builds the CLI's board and makes its one agents read.
+- Directory structure: `run/agents.rs` also serves the `mcp` `list` tool; `cmd/list.rs` holds `board_document`; `cmd/mcp.rs` the hidden verb.
+**Why:** a boundary widening (a new process spawning `claude`), ratified by the founder's own answer to P4 fork Q1, «Восьмой gap + agents», live in the overseer's dialog, relayed verbatim by the overseer. The wrap's answer-card confirm that these sections lie inside it is a delegate's (the Viola overseer) — PROVISIONAL, superseded by his own word at the Epoch 5 boundary batch.
+**Ref:** .andromeda/runs/2026-10-17T14-19-45-wrap/
+
+## 2026-10-17-mcp-server-for-drivers — the Tokio client and viola-channel's tree-form ban
+**Section:** §Occupied Resources Workspace crates; §Established Decisions [Module Boundaries], [Concurrency / Backend Framework]; §Stack and Technologies (Wrapper IPC row); §Infrastructure Patterns → Build system, Crate dependency direction, CI/CD approach, Project directory structure
+**Change:**
+- Workspace crates: every member landed, `viola-mcp` included; the sync crates of `scripts/sync-crates.txt` are four (`viola-core`, `viola-pty`, `viola-state`, `viola-agent-claude`) — was five with `viola-channel`; `viola-channel` declares `tokio = ["dep:tokio", "interprocess/tokio"]` and `fake-agent = ["tokio"]`.
+- [Module Boundaries]: was "only `viola-mcp` lists `tokio` … a feature only `viola-mcp` enables"; now only `viola-mcp` enables tokio (`rt`) among product crates, the channel lists it optional behind its feature, enabled by `viola-mcp` and by its own test-only `fake-agent`; `viola-e2e` `rt` + `process`.
+- [Concurrency] and Wrapper IPC: the Tokio flavour sits in `viola-channel`'s feature-gated `TokioClient`, used by `viola-mcp` alone through the shared SQOS `client::open_handle`; `viola-channel` is off the sole-root list, its no-feature graph proven by `scripts/channel-tokio-free.sh`.
+- Build system: was "covered through the sync roots that depend on it" (premise false: no listed crate depends on `viola-channel`); now the tree form (`cargo tree -p viola-channel -e normal --target all -i tokio`, absence read from the printed `tokio v` line, its `--features tokio` control), in CI supply-chain, proven by `deny-probes.sh`'s `channel-tokio-edge` probe and control (13/13); the rmcp release-graph check landed as `scripts/rmcp-features.sh` in the lint job; rmcp pinned `>=3.4.1, <3.5` (was `~3.4`); the rust plane indexes `viola-mcp`.
+- Crate dependency direction: `viola-channel`'s `TokioClient` and its shared helpers; `viola-state` hosts `liveness::live_endpoint`; `viola-mcp`'s edges as landed (+ serde, serde_json, thiserror, tracing; tokio `rt`; `fake-agent = []`).
+- CI/CD approach: job 3's set is four; supply-chain runs the tree form after the loop; lint runs `rmcp features` after `Lint probes` on every OS.
+- Directory structure: the two scripts, `tokio_client.rs`, `liveness::live_endpoint`.
+**Why:** the chunk's CARRY 1 premise was corrected by measurement. The test-only `fake-agent` enabler is written as built on the Viola overseer's answer at this wrap, a delegate's — PROVISIONAL; the release graph stays tokio-free outside `viola-mcp`.
+**Ref:** .andromeda/runs/2026-10-17T14-19-45-wrap/
+
+## 2026-10-17-mcp-server-for-drivers — the plugin registers viola mcp, its log and its home
+**Section:** §Established Decisions [Deployment / Distribution]; §Occupied Resources Filesystem (`diagnostics/`), Environment variables (`VIOLA_DIR`)
+**Change:**
+- [Deployment / Distribution]: was "until the `mcp` verb exists, `.mcp.json` ships `{"mcpServers": {}}`"; now `.mcp.json` registers `{"mcpServers": {"viola": {"command": "@@VIOLA_BIN@@", "args": ["mcp"]}}}`, the pinned path substituted at every start; whether a registered `viola mcp` that exits 1 blocks the CLI's start is unmeasured.
+- Filesystem: `mcp.ndjson` has a producer — once its home and `diagnostics/` pass `check_path` (a refusal opens no role file): `process-start{subject:"self"}`, the Tokio client's `channel-*` lines, one client-side `send-refused` per refused text, the `list` tool's `agents-probe` pair and the board's `state-recovered` / `parse-rejected` lines (`config-json` included), and `process-exit` on stdin EOF — none when Claude Code ends it by a signal (measured live on 2.1.287).
+- Environment variables: was "the `mcp` verb is not built"; now `viola mcp` resolves its home through the same `resolved_home` and reads `VIOLA_NAME` for its own name.
+**Why:** the chunk built the verb. Its home step through `resolved_home` (the `VIOLA_DIR` step and the canonicalisation) is written as built and is NOT ratified, on the Viola overseer's answer at this wrap, a delegate's; it joins the carried CLI-verbs item for the founder's own word.
+**Ref:** .andromeda/runs/2026-10-17T14-19-45-wrap/
+
+## 2026-10-17-mcp-server-for-drivers — ServeError, a second open divergence
+**Section:** §Established Decisions [Error Handling]; §Conventions Rust error types; §Inherited Defaults (Errors)
+**Change:** was one open divergence (`viola-agent-claude`'s `Refusal`); now two: `viola-mcp` holds `ServeError` (`Runtime`, `Initialize`, `Session`; fixed messages, returned by `serve`) beside `McpError` (`Internal`, Display `internal error`). The one-enum-per-crate rule stands; the fold or ratification of each is open.
+**Why:** the chunk landed two enums in one crate. Recorded as an open divergence, not an exception, on the Viola overseer's answer at this wrap (a delegate's, PROVISIONAL), with no route work.
+**Ref:** .andromeda/runs/2026-10-17T14-19-45-wrap/
