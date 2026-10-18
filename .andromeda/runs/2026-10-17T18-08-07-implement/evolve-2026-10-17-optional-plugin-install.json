@@ -1,0 +1,202 @@
+[
+{
+"tool": "evolve",
+"v": "1.1",
+"sha8": "364eac66",
+"ts": "2026-10-17T18:14:34Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-17T18-08-07-implement",
+"--marker",
+"2026-10-17-optional-plugin-install"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"appended 2 record(s) · friction-log.ndjson lines 2132→2134 · bytes 2141424→2143074 · term lf",
+"ts 2026-10-17T18:14:26Z · clock 2026-10-17T18:14:34Z · bound 2026-10-17T18:07:32Z (line 2132)",
+"ids 2026-10-17T18:14:26Z-a … 2026-10-17T18:14:26Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 2132,
+"bytes": 2141424,
+"terminator": "LF",
+"bound": "2026-10-17T18:07:32Z"
+},
+"after": {
+"lines": 2134,
+"bytes": 2143074
+}
+},
+{
+"tool": "evolve",
+"v": "1.1",
+"sha8": "364eac66",
+"ts": "2026-10-17T18:23:43Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-17T18-08-07-implement",
+"--marker",
+"2026-10-17-optional-plugin-install"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"appended 2 record(s) · friction-log.ndjson lines 2134→2136 · bytes 2143074→2145230 · term lf",
+"ts 2026-10-17T18:23:32Z · clock 2026-10-17T18:23:43Z · bound 2026-10-17T18:14:26Z (line 2134)",
+"ids 2026-10-17T18:23:32Z-a … 2026-10-17T18:23:32Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 2134,
+"bytes": 2143074,
+"terminator": "LF",
+"bound": "2026-10-17T18:14:26Z"
+},
+"after": {
+"lines": 2136,
+"bytes": 2145230
+}
+},
+{
+"tool": "evolve",
+"v": "1.1",
+"sha8": "364eac66",
+"ts": "2026-10-17T18:24:01Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"/tmp/claude-1000/~-dev-projects-viola/aaa3c892-92cb-41d8-93e4-37115bb05285/scratchpad/smoke-rec.ndjson",
+"--run-dir",
+".andromeda/runs/2026-10-17T18-08-07-implement",
+"--marker",
+"2026-10-17-optional-plugin-install"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"appended 1 record(s) · friction-log.ndjson lines 2136→2137 · bytes 2145230→2146003 · term lf",
+"ts 2026-10-17T18:24:01Z · clock 2026-10-17T18:24:01Z · bound 2026-10-17T18:23:32Z (line 2136)",
+"ids 2026-10-17T18:24:01Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 2136,
+"bytes": 2145230,
+"terminator": "LF",
+"bound": "2026-10-17T18:23:32Z"
+},
+"after": {
+"lines": 2137,
+"bytes": 2146003
+}
+},
+{
+"tool": "evolve",
+"v": "1.1",
+"sha8": "364eac66",
+"ts": "2026-10-18T01:49:04Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-17T18-08-07-implement",
+"--marker",
+"2026-10-17-optional-plugin-install"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"appended 1 record(s) · friction-log.ndjson lines 2137→2138 · bytes 2146003→2146840 · term lf",
+"ts 2026-10-18T01:49:04Z · clock 2026-10-18T01:49:04Z · bound 2026-10-17T18:24:01Z (line 2137)",
+"ids 2026-10-18T01:49:04Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 2137,
+"bytes": 2146003,
+"terminator": "LF",
+"bound": "2026-10-17T18:24:01Z"
+},
+"after": {
+"lines": 2138,
+"bytes": 2146840
+}
+},
+{
+"tool": "evolve",
+"v": "1.1",
+"sha8": "364eac66",
+"ts": "2026-10-18T02:20:52Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-17T18-08-07-implement",
+"--marker",
+"2026-10-17-optional-plugin-install"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"appended 1 record(s) · friction-log.ndjson lines 2138→2139 · bytes 2146840→2147603 · term lf",
+"ts 2026-10-18T02:20:52Z · clock 2026-10-18T02:20:52Z · bound 2026-10-18T01:49:04Z (line 2138)",
+"ids 2026-10-18T02:20:52Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 2138,
+"bytes": 2146840,
+"terminator": "LF",
+"bound": "2026-10-18T01:49:04Z"
+},
+"after": {
+"lines": 2139,
+"bytes": 2147603
+}
+}
+]

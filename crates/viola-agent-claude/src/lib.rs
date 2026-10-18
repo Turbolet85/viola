@@ -5,6 +5,7 @@ pub mod agents;
 pub mod dialog;
 pub mod hook;
 pub mod ledger;
+pub mod marketplace;
 pub mod screen;
 pub mod statusline;
 

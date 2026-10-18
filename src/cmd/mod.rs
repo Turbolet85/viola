@@ -5,6 +5,7 @@ mod last;
 mod list;
 mod mcp;
 mod pause;
+mod plugin;
 mod release;
 mod revive;
 mod run;
@@ -31,7 +32,7 @@ const HELP_TEMPLATE: &str = "\
 board:    list
 traffic:  send, wait, last, answer
 wheel:    pause, release
-setup:    run, revive, verify
+setup:    run, revive, verify, plugin install
 
 Options:
 {options}";
@@ -78,6 +79,8 @@ enum Command {
     /// which inherits that trust. An unapproved external CLAUDE.md import blocks the probe: its
     /// dialog shows in the subfolder, and verify never answers it.
     Verify(verify::VerifyArgs),
+    /// Write viola's MCP-only plugin for an unwrapped driver
+    Plugin(plugin::PluginArgs),
     /// Hand a Claude Code hook's payload to the wrapper (run by the plugin, never by a person)
     #[command(hide = true)]
     Hook(hook::HookArgs),
@@ -166,6 +169,16 @@ pub(crate) fn dispatch(cli: Cli) -> Result<ExitCode, Failure> {
             let home = resolved_home(cli.home)?;
             let sink = cli_sink(&home, &args.name);
             release::release(&home, &args).map_err(|error| Failure { error, sink })
+        }
+        // The install names no instance: its chain goes to the caller's own, when it has one.
+        Command::Plugin(args) => {
+            let home = resolved_home(cli.home)?;
+            let sink = client::own_name().map(|instance| DetailSink {
+                home: home.clone(),
+                instance,
+                process: ObsProcess::Cli,
+            });
+            plugin::plugin(&home, &args).map_err(|error| Failure { error, sink })
         }
         // The server's chain goes to its own instance's detail file, when it runs in one.
         Command::Mcp => {

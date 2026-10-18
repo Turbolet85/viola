@@ -1,4 +1,5 @@
-//! The lines of a taken `answer`, `pause`, `release` and `release --budget`.
+//! The lines of a taken `answer`, `pause`, `release` and `release --budget`, and of a written
+//! `plugin install`.
 
 use std::io::{self, Write};
 
@@ -51,6 +52,49 @@ pub(crate) fn write_budget_lifted(
 /// `<name>  budget gate open  wheel <holder>`: a `release --budget` with no pause standing.
 pub(crate) fn write_budget_open(out: &mut impl Write, name: &str, holder: &str) -> io::Result<()> {
     out.write_all(format!("{name}  budget gate open  wheel {holder}\n").as_bytes())
+}
+
+/// `viola@viola  written  <dir>` and the CLI's two commands that add it, as one write on stdout:
+/// `dir` is the marketplace dir as the commands take it ([`command_word`]).
+pub(crate) fn write_plugin_installed(out: &mut impl Write, dir: &str) -> io::Result<()> {
+    out.write_all(
+        format!(
+            concat!(
+                "viola@viola  written  {dir}\n",
+                "run these to add it to Claude Code:\n",
+                "  claude plugin marketplace add {dir}\n",
+                "  claude plugin install viola@viola\n",
+            ),
+            dir = dir
+        )
+        .as_bytes(),
+    )
+}
+
+/// `path` as one word a shell takes: on this host's shell family.
+pub(crate) fn command_word(path: &str) -> String {
+    shell_word(path, cfg!(windows))
+}
+
+/// Unix: bare when every character is an ASCII letter, a digit or one of `_ - . / :`, else in
+/// single quotes with each `'` written `'\''`. Windows: bare unless it holds a space, else in
+/// double quotes.
+fn shell_word(path: &str, windows: bool) -> String {
+    if windows {
+        return if path.contains(' ') {
+            format!("\"{path}\"")
+        } else {
+            path.to_owned()
+        };
+    }
+    let plain = path
+        .chars()
+        .all(|c| c.is_ascii_alphanumeric() || matches!(c, '_' | '-' | '.' | '/' | ':'));
+    if plain {
+        path.to_owned()
+    } else {
+        format!("'{}'", path.replace('\'', r"'\''"))
+    }
 }
 
 #[cfg(test)]
@@ -116,5 +160,50 @@ mod tests {
         write_answered(&mut out, "builder", 7).expect("written");
         assert_eq!(out.bytes, b"answered  builder  dialog 7\n");
         assert_eq!(out.calls, 1);
+    }
+
+    #[test]
+    fn write_plugin_installed_is_the_planning_form_in_one_write() {
+        assert_eq!(
+            one_write(|o| write_plugin_installed(o, "/h/.viola/marketplace")),
+            concat!(
+                "viola@viola  written  /h/.viola/marketplace\n",
+                "run these to add it to Claude Code:\n",
+                "  claude plugin marketplace add /h/.viola/marketplace\n",
+                "  claude plugin install viola@viola\n",
+            )
+        );
+        assert!(write_plugin_installed(&mut Broken, "/h").is_err());
+    }
+
+    #[rstest]
+    #[case::plain_unix(
+        "/home/u-1/.viola_x/marketplace",
+        false,
+        "/home/u-1/.viola_x/marketplace"
+    )]
+    #[case::a_drive_colon("C:/h", false, "C:/h")]
+    #[case::a_space_unix("/home/a b/m", false, "'/home/a b/m'")]
+    #[case::a_quote_unix("/home/o'k/m", false, r"'/home/o'\''k/m'")]
+    #[case::a_dollar_unix("/home/$x/m", false, "'/home/$x/m'")]
+    #[case::non_ascii_unix("/home/\u{e9}/m", false, "'/home/\u{e9}/m'")]
+    #[case::plain_windows(
+        r"C:\Users\u\.viola\marketplace",
+        true,
+        r"C:\Users\u\.viola\marketplace"
+    )]
+    #[case::a_space_windows(r"C:\Users\a b\m", true, r#""C:\Users\a b\m""#)]
+    #[case::a_quote_windows("C:/o'k", true, "C:/o'k")]
+    fn shell_word_quotes_only_what_the_shell_would_split(
+        #[case] path: &str,
+        #[case] windows: bool,
+        #[case] word: &str,
+    ) {
+        assert_eq!(shell_word(path, windows), word);
+    }
+
+    #[test]
+    fn command_word_takes_this_host_family() {
+        assert_eq!(command_word("a b"), shell_word("a b", cfg!(windows)));
     }
 }

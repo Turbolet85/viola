@@ -59,7 +59,7 @@ const HELP: &str = concat!(
     "board:    list\n",
     "traffic:  send, wait, last, answer\n",
     "wheel:    pause, release\n",
-    "setup:    run, revive, verify\n",
+    "setup:    run, revive, verify, plugin install\n",
     "\n",
     "Options:\n",
     "      --home <HOME>  The viola home (default: <user home>/.viola)\n",
@@ -75,14 +75,28 @@ fn help_is_the_grouped_verb_table() {
     assert_eq!(String::from_utf8(out.stdout).expect("utf-8"), HELP);
 }
 
-/// Every verb the table lists answers its own `--help`; the table offers no verb that exits 2.
+/// Every verb the table lists answers its own `--help`; the table offers no verb that exits 2. A
+/// verb is its path of words: `plugin install` is one entry.
 #[test]
 fn help_lists_only_served_verbs() {
     let served = [
-        "list", "send", "wait", "last", "answer", "pause", "release", "run", "revive", "verify",
+        "list",
+        "send",
+        "wait",
+        "last",
+        "answer",
+        "pause",
+        "release",
+        "run",
+        "revive",
+        "verify",
+        "plugin install",
     ];
     for verb in served {
-        let out = forced_into_a_pipe(&[verb, "--help"]);
+        let words: Vec<&str> = verb.split(' ').collect();
+        let mut args = words.clone();
+        args.push("--help");
+        let out = forced_into_a_pipe(&args);
         assert_eq!(out.status.code(), Some(0), "{verb}");
         // A verb's own usage names the program by its executable: `viola.exe` on Windows.
         let text = String::from_utf8_lossy(&out.stdout).into_owned();
@@ -91,7 +105,7 @@ fn help_lists_only_served_verbs() {
             .find_map(|line| line.strip_prefix("Usage: "))
             .unwrap_or_default()
             .split_whitespace()
-            .take(2)
+            .take(1 + words.len())
             .collect();
         assert_eq!(
             usage
@@ -100,12 +114,13 @@ fn help_lists_only_served_verbs() {
             Some("viola"),
             "{verb}: {text:?}"
         );
-        assert_eq!(usage.get(1).copied(), Some(verb), "{verb}: {text:?}");
+        assert_eq!(usage.get(1..), Some(&words[..]), "{verb}: {text:?}");
     }
     let table = forced_into_a_pipe(&["--help"]);
     let rows: Vec<String> = String::from_utf8(table.stdout)
         .expect("utf-8")
         .lines()
+        .skip_while(|line| line.starts_with("Usage: "))
         .take_while(|line| *line != "Options:")
         .map(str::to_owned)
         .collect();
@@ -114,7 +129,7 @@ fn help_lists_only_served_verbs() {
         .filter_map(|row| row.split_once(':').map(|(_, verbs)| verbs))
         .flat_map(|verbs| verbs.split(','))
         .map(str::trim)
-        .filter(|word| !word.is_empty() && !word.contains(' '))
+        .filter(|word| !word.is_empty())
         .collect();
     assert_eq!(words, served, "{rows:?}");
     for unserved in ["hook", "mcp", "help", "link", "unlink", "plugin"] {

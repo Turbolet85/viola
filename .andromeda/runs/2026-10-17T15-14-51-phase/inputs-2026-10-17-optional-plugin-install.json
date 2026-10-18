@@ -1,0 +1,296 @@
+[
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "d4492939",
+"ts": "2026-10-17T15:16:03Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-17-optional-plugin-install",
+"--message-file",
+".andromeda/runs/2026-10-17T15-14-51-phase/relay-1.md",
+"--origin",
+"the operator, the /andromeda-phase invocation, 2026-10-17 15:14Z",
+"--kind",
+"relay",
+"--why",
+"the P4 forks are raised as dialogs; a boundary widening and a live claude start cap are the founder own word",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-10-17T15-14-51-phase",
+"--marker",
+"2026-10-17-optional-plugin-install"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy message · message: the operator, the /andromeda-phase invocation, 2026-10-17 15:14Z",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, the /andromeda-phase invocation, 2026-10-17 15:14Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "bb942a6a29dbea62a9cd82b2a275c92e8190896bae4e12eef08ea57e74565367",
+"copy": "I1-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-17T15:16:03Z",
+"step": "phase:P1",
+"why": "the P4 forks are raised as dialogs; a boundary widening and a live claude start cap are the founder own word"
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "d4492939",
+"ts": "2026-10-17T17:50:53Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-17-optional-plugin-install",
+"--message-file",
+".andromeda/runs/2026-10-17T15-14-51-phase/relay-2.md",
+"--origin",
+"the founder, live in the overseer dialog, relayed verbatim by the Viola overseer, 2026-10-17T17:50Z",
+"--kind",
+"relay",
+"--why",
+"the founder own answers to the four P4 forks: Q1 write + print, Q2 one live round with no 24th row, Q3 local scope in a rig under target/, Q4 two starts",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-10-17T15-14-51-phase",
+"--marker",
+"2026-10-17-optional-plugin-install"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy message · message: the founder, live in the overseer dialog, relayed verbatim by the Viola overseer, 2026-10-17T17:50Z",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "message: the founder, live in the overseer dialog, relayed verbatim by the Viola overseer, 2026-10-17T17:50Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "30f5561d5823db7f5d87c36447171c8f4b97f4ce6f0afaa1982e1224e8ab9f3e",
+"copy": "I2-relay-2.md.txt",
+"link": false,
+"read_at": "2026-10-17T17:50:53Z",
+"step": "phase:P4",
+"why": "the founder own answers to the four P4 forks: Q1 write + print, Q2 one live round with no 24th row, Q3 local scope in a rig under target/, Q4 two starts"
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "d4492939",
+"ts": "2026-10-17T17:59:47Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-17-optional-plugin-install",
+"--run-dir",
+".andromeda/runs/2026-10-17T15-14-51-phase",
+"--marker",
+"2026-10-17-optional-plugin-install"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase invocation, 2026-10-17 15:14Z",
+"I1 cited scope.md:38 · scope.md:44 · scope.md:47 · scope.md:78 · research.md:7 · research.md:66 · plan.md:494",
+"I2 n/a — a message has no live source · copy message · message: the founder, live in the overseer dialog, relayed verbatim by the Viola overseer, 2026-10-17T17:50Z",
+"I2 cited scope.md:30 · research.md:69 · plan.md:9 · plan.md:28 · plan.md:40 · plan.md:47 · plan.md:119 · plan.md:182 · plan.md:207 · plan.md:213 · plan.md:232 · plan.md:254 · plan.md:260 · plan.md:290 · plan.md:455 · plan.md:464 · plan.md:495 · plan.md:513 · plan.md:514 · plan.md:517 · plan.md:519 · plan.md:532 · plan.md:550 · plan.md:552 · plan.md:562 · plan.md:564",
+"UNPARSED: inputs#I3 — no entry (scope.md:26)",
+"UNPARSED: inputs#I4 — no entry (scope.md:30)",
+"inputs: 2 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 0 · unparsed 2"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 0,
+"unparsed": 2
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "d4492939",
+"ts": "2026-10-17T18:00:01Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-17-optional-plugin-install",
+"--run-dir",
+".andromeda/runs/2026-10-17T15-14-51-phase",
+"--marker",
+"2026-10-17-optional-plugin-install"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase invocation, 2026-10-17 15:14Z",
+"I1 cited scope.md:40 · scope.md:46 · scope.md:49 · scope.md:80 · research.md:7 · research.md:66 · plan.md:494",
+"I2 n/a — a message has no live source · copy message · message: the founder, live in the overseer dialog, relayed verbatim by the Viola overseer, 2026-10-17T17:50Z",
+"I2 cited research.md:69 · plan.md:9 · plan.md:28 · plan.md:40 · plan.md:47 · plan.md:119 · plan.md:182 · plan.md:207 · plan.md:213 · plan.md:232 · plan.md:254 · plan.md:260 · plan.md:290 · plan.md:455 · plan.md:464 · plan.md:495 · plan.md:513 · plan.md:514 · plan.md:517 · plan.md:519 · plan.md:532 · plan.md:550 · plan.md:552 · plan.md:562 · plan.md:564",
+"inputs: 2 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "d4492939",
+"ts": "2026-10-17T18:03:27Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-17-optional-plugin-install",
+"--run-dir",
+".andromeda/runs/2026-10-17T15-14-51-phase",
+"--marker",
+"2026-10-17-optional-plugin-install"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase invocation, 2026-10-17 15:14Z",
+"I1 cited scope.md:43 · scope.md:49 · scope.md:52 · scope.md:85 · research.md:7 · research.md:66 · plan.md:502",
+"I2 n/a — a message has no live source · copy message · message: the founder, live in the overseer dialog, relayed verbatim by the Viola overseer, 2026-10-17T17:50Z",
+"I2 cited scope.md:24 · scope.md:43 · scope.md:54 · research.md:69 · plan.md:9 · plan.md:28 · plan.md:40 · plan.md:47 · plan.md:119 · plan.md:182 · plan.md:207 · plan.md:213 · plan.md:232 · plan.md:254 · plan.md:260 · plan.md:290 · plan.md:463 · plan.md:472 · plan.md:503 · plan.md:521 · plan.md:522 · plan.md:525 · plan.md:527 · plan.md:540 · plan.md:558 · plan.md:560 · plan.md:570 · plan.md:572",
+"inputs: 2 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "d4492939",
+"ts": "2026-10-17T18:05:31Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-17-optional-plugin-install",
+"--message-file",
+".andromeda/runs/2026-10-17T15-14-51-phase/relay-3.md",
+"--origin",
+"the operator, in this session, 2026-10-17T18:05Z",
+"--kind",
+"relay",
+"--why",
+"the P5 word yes on .andromeda/runs/2026-10-17T15-14-51-phase/p5-card-1.md, the operator own word: the plan, the v1-42 claim and the two Beyond-the-plan rows",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-10-17T15-14-51-phase",
+"--marker",
+"2026-10-17-optional-plugin-install"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy message · message: the operator, in this session, 2026-10-17T18:05Z",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-3.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, in this session, 2026-10-17T18:05Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "453e4a8eb954f9c8f0a31c2ae23b9c602ee0649c6d37fb87b01a4388f65384fa",
+"copy": "I3-relay-3.md.txt",
+"link": false,
+"read_at": "2026-10-17T18:05:31Z",
+"step": "phase:P5",
+"why": "the P5 word yes on .andromeda/runs/2026-10-17T15-14-51-phase/p5-card-1.md, the operator own word: the plan, the v1-42 claim and the two Beyond-the-plan rows"
+}
+}
+]

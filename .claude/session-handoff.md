@@ -87,3 +87,10 @@
   `~/.viola-record-20261004T142325Z`; the CLI's own transcripts. Yours to delete: `target/e2e-home.disk` and
   `target/profraw-census/`.
 - **Last failed command:** none.
+
+## Session End Status
+Completed normally at 2026-10-17 20:06:42
+
+## AUTO-COMPACT 2026-10-17 19:24 (unattended)
+- Context at compact: 389k / 1.00M (39%); alarm level reached before it: none.
+- The pre-compact ritual did NOT run. Post-compact instance: re-verify the END STATE of every in-flight edit (phrase/hash probe per planned site), refresh the handoff, then continue.

@@ -1,6 +1,7 @@
 //! `viola::human`: the root bin's human-facing text (design-system §Streams). Refusals and their
 //! `hint:` line go to stderr, the hint last, as does the `cli` catch site's `error:` line; result
-//! lines go to stdout, the board of `viola list` among them.
+//! lines go to stdout, the board of `viola list` and the commands `plugin install` prints among
+//! them.
 
 use std::io::{self, Write};
 
@@ -21,8 +22,8 @@ pub(crate) use mirror::{
 };
 pub(crate) use style::read as read_colour;
 pub(crate) use verbs::{
-    override_end, write_answered, write_budget_lifted, write_budget_open, write_paused,
-    write_released,
+    command_word, override_end, write_answered, write_budget_lifted, write_budget_open,
+    write_paused, write_plugin_installed, write_released,
 };
 pub(crate) use wait::{
     write_last_turn, write_message, write_no_message, write_timed_out, write_waiting, write_woken,

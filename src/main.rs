@@ -354,6 +354,8 @@ mod tests {
     #[case::last_after_home(&["--home", "C:/h", "last", "builder"], Role::Cli)]
     #[case::list(&["list", "--json"], Role::Cli)]
     #[case::list_after_home(&["--home", "C:/h", "list"], Role::Cli)]
+    #[case::plugin_install(&["plugin", "install"], Role::Cli)]
+    #[case::plugin_install_after_home(&["--home", "C:/h", "plugin", "install"], Role::Cli)]
     #[case::version(&["--version"], Role::Other)]
     #[case::mcp(&["mcp"], Role::Mcp)]
     #[case::mcp_after_home(&["--home", "C:/h", "mcp"], Role::Mcp)]
