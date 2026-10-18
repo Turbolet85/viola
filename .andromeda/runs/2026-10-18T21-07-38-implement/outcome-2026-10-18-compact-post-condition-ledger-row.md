@@ -6,7 +6,9 @@ in-intent), and the acceptance line "no file outside the modify set changes (the
 not met as written. Nothing was authored in any spec or plan. **The word (`inputs#I6`, the Viola overseer):**
 «Accept, run the pass» — "both edits are recorded companion/in-intent per scope-record.md; entry 15 red on exactly
 those two files is the wrap's to reconcile against the modify set (the operator accepts it at the light gate). Name
-both in the report." Next: the operator pass (entries 24, 25, 26), then `/andromeda-wrap-session`.
+both in the report." **The operator pass ran** (`chunks/…/evidence/operator-pass.md`): hygiene clean, pre-CI commit
+`3d5ae39`, pushed, `ci#39169321430` `verdict: green · checks 15/15 · wall 658 s`. Next: `/andromeda-wrap-session`,
+whose light gate reads entry 15 red on the two recorded files (the operator accepts it there, `inputs#I6`).
 
 ## Gates (run dir `.andromeda/runs/2026-10-18T21-07-38-implement/`, trail `gate-2026-10-18-compact-post-condition-ledger-row.json`)
 - Firing 1 (`--only 1,2,3,4,5,6,14,15,16`): `entries 26 · green 9 · red 0` — the unit gates green before any start;

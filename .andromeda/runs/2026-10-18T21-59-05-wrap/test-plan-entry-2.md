@@ -1,0 +1,6 @@
+
+## 2026-10-18-compact-post-condition-ledger-row — /compact's same-session confirmation and its own window at the unit and E2E tiers
+**Section:** §1 Critical paths; §4 (the local-command decision, the trailing-newline cases); §6 Path 2
+**Change:** `/compact` on a verified CLI waits only for a `session-start` of cause `compact` and the remembered (same) id, inside `COMPACT_CONFIRM_WINDOW` (40 s, PROVISIONAL), never claimed by a `prompt-submitted`; twelve `send_local_command_` functions in `src/run/send/classify.rs` (four `…_compact_*` added) and `send_compact_confirm_window_is_its_own_bound`; eight `trailing_newline` tests, four in classify.rs, four local-command cases; Path 2: `send_compact_on_a_verified_cli_is_confirmed_by_its_same_session` (on the recorded `compact-1`) and `send_compact_on_an_unverified_cli_is_unconfirmable_at_once`; the `local` outcome lists `/compact` only on an unverified CLI; a confirmed `/compact` prints `[RB] read back`. Was: `/compact` unconfirmable at once on any version (`send_compact_on_a_verified_cli_is_unconfirmable_at_once`, retired), eight functions, seven tests, three local-command cases.
+**Why:** the chunk built the claim arm and the window (report Symbols / APIs, Retired); the counts re-derived from the tree at this wrap.
+**Ref:** .andromeda/runs/2026-10-18T21-59-05-wrap/

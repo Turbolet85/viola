@@ -1,0 +1,92 @@
+[
+{
+"tool": "classify",
+"v": "1.0",
+"sha8": "ffb0db15",
+"ts": "2026-10-18T22:20:43Z",
+"argv": [
+"check",
+"--file",
+".andromeda/architecture.md",
+"--type",
+"architecture",
+"--mode",
+"structure",
+"--run-dir",
+".andromeda/runs/2026-10-18T21-59-05-wrap",
+"--marker",
+"2026-10-18-compact-post-condition-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+".andromeda/architecture.md · architecture · structure · groups 0 · subjects used 0 · no subject line",
+"units 0 · groups 0 · subjects — · place — · absence —",
+"VERDICT: PASS"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "classify",
+"v": "1.0",
+"sha8": "ffb0db15",
+"ts": "2026-10-18T22:20:43Z",
+"argv": [
+"check",
+"--file",
+".andromeda/design-system.md",
+"--type",
+"design-system",
+"--mode",
+"structure",
+"--run-dir",
+".andromeda/runs/2026-10-18T21-59-05-wrap",
+"--marker",
+"2026-10-18-compact-post-condition-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+".andromeda/design-system.md · design-system · structure · groups 0 · subjects used 0 · no subject line",
+"units 0 · groups 0 · subjects — · place — · absence —",
+"VERDICT: PASS"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "classify",
+"v": "1.0",
+"sha8": "ffb0db15",
+"ts": "2026-10-18T22:20:43Z",
+"argv": [
+"check",
+"--file",
+".andromeda/obs-plan.md",
+"--type",
+"obs-plan",
+"--mode",
+"structure",
+"--run-dir",
+".andromeda/runs/2026-10-18T21-59-05-wrap",
+"--marker",
+"2026-10-18-compact-post-condition-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+".andromeda/obs-plan.md · obs-plan · structure · groups 0 · subjects used 0 · no subject line",
+"units 0 · groups 0 · subjects — · place — · absence —",
+"VERDICT: PASS"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

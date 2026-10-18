@@ -43,7 +43,7 @@ One token vocabulary (`color-*`, `space-*`, `radius-*`, the typography roles) re
 
 **Signature placement:** the readback mirror `[RB]` / `[  ]` / `[/ ]` is the first column of `viola send` output, in two components:
 1. The issue line `[  ] open …`, on stderr and only on a TTY. It is printed when the request goes to the wrapper.
-2. The outcome line: `[RB] read back …` on stdout with exit 0 when the send is confirmed, by the matching `prompt-submitted` or, for `/clear` on a verified CLI version, by its new-session post-condition (a `session-start` with cause `clear` and a new session id); `[/ ] unable …` on stderr with exit 13 (or 10/11/12/14) when the wrapper returns a refusal, or with exit 13 when the client itself refuses the text before any frame (`not-delivered` with `control-character` or `empty-text`); `[  ] unconfirmable …` on stdout with exit 0 for an unmeasured local command.
+2. The outcome line: `[RB] read back …` on stdout with exit 0 when the send is confirmed, by the matching `prompt-submitted` or, on a verified CLI version, for `/clear` by its new-session post-condition (a `session-start` with cause `clear` and a new session id) and for `/compact` by its compacted-session post-condition (a `session-start` with cause `compact` and the session's own id, inside its own 40 s PROVISIONAL window, else `not-delivered` / `no-prompt-submitted`); `[/ ] unable …` on stderr with exit 13 (or 10/11/12/14) when the wrapper returns a refusal, or with exit 13 when the client itself refuses the text before any frame (`not-delivered` with `control-character` or `empty-text`); `[  ] unconfirmable …` on stdout with exit 0 for a local command with no measured post-condition (`/remote-control`, and `/compact` or `/clear` on an unverified CLI version).
 
 The word half of the box (`unable` plus `reason  detail`) is also the first-word column of every other verb's refusal line (`viola answer`, `viola pause`, `viola release`, and `viola wait` / `viola last` for exit 21). So the struck-box vocabulary is shared, while the glyph itself belongs to `send`. Under `--json` the mirror is replaced by the typed `ok` / `refusal` document. The supporting attention element, the amber `DIALOG` word, appears only in `viola list`.
 
@@ -169,37 +169,38 @@ hint: that dialog is not pending; viola list shows the current DIALOG
 ### Output structure — `viola verify`
 
 ```
-$ viola verify                                             (a Unix host: 23 relied rows)
-[01/23] shim-resolution claude resolves to a real executable  pass
+$ viola verify                                             (a Unix host: 24 relied rows)
+[01/24] shim-resolution claude resolves to a real executable  pass
 ...
-[06/23] largest-hook-payload every hook payload fits the frame cap  pass
-[07/23] modal-signature an untrusted start shows a compiled modal literal  pass
+[06/24] largest-hook-payload every hook payload fits the frame cap  pass
+[07/24] modal-signature an untrusted start shows a compiled modal literal  pass
 ...
-[10/23] confirm-window the typed prompt reaches UserPromptSubmit within the window  pass
-[11/23] question-answer a question answered through PreToolUse takes effect  pass
+[10/24] confirm-window the typed prompt reaches UserPromptSubmit within the window  pass
+[11/24] question-answer a question answered through PreToolUse takes effect  pass
 ...
-[14/23] dialog-concurrency two parallel questions each raise a dialog  pass
-[15/23] long-paste-wrapper a long paste unwraps to the text as pasted  pass
-[16/23] tag-escaping tag-like text un-escapes to the text as pasted  pass
-[17/23] local-command-clear /clear starts a new session and submits no prompt  pass
-[18/23] paste-newline an LF inside a paste stays inside the one prompt submitted  pass
-[19/23] statusline-override a --settings statusLine runs in the status line's place  pass
-[20/23] statusline-shell a statusline command runs through /bin/sh  pass
-[21/23] statusline-rate-limits the statusline payload carries two whole-number rate_limits windows  pass
-[22/23] resume-session --resume <id> reopens the session under that id  pass
-[23/23] agents-join claude agents --json names the live session by pid and session id  pass
-stamped 2.1.287  23 pass  0 fail                           <- last stdout line; `fail` is never coloured
+[14/24] dialog-concurrency two parallel questions each raise a dialog  pass
+[15/24] long-paste-wrapper a long paste unwraps to the text as pasted  pass
+[16/24] tag-escaping tag-like text un-escapes to the text as pasted  pass
+[17/24] local-command-clear /clear starts a new session and submits no prompt  pass
+[18/24] paste-newline an LF inside a paste stays inside the one prompt submitted  pass
+[19/24] statusline-override a --settings statusLine runs in the status line's place  pass
+[20/24] statusline-shell a statusline command runs through /bin/sh  pass
+[21/24] statusline-rate-limits the statusline payload carries two whole-number rate_limits windows  pass
+[22/24] resume-session --resume <id> reopens the session under that id  pass
+[23/24] agents-join claude agents --json names the live session by pid and session id  pass
+[24/24] local-command-compact /compact keeps the session id and submits no prompt  pass
+stamped 2.1.287  24 pass  0 fail                           <- last stdout line; `fail` is never coloured
 
 $ viola verify
 ...
-stamped 2.1.287  21 pass  2 fail                           <- a failing row: exit 1, the stamp still written
+stamped 2.1.287  22 pass  2 fail                           <- a failing row: exit 1, the stamp still written
 
 $ viola verify                                             (stopped by Ctrl-C or TERM before its rows are checked)
 unable: verify was stopped before it finished              <- stderr; stdout empty, no step line, no summary
 hint: run viola verify again to stamp this CLI             <- the last stderr line: exit 1, no stamp written
 ```
 
-Usage: `viola verify [--record <DIR>] [-- <program> [args…]]` (program default `claude`). One stdout step line per relied ledger row, `[NN/MM] <row id> <row words>  pass|fail`, in ledger order (`shim-resolution` · `spine-hooks` · `session-start-fields` · `prompt-verbatim` · `stop-message` · `largest-hook-payload` · `modal-signature` · `input-box-signature` · `quiet-period` · `confirm-window` · `question-answer` · `plan-approve-revise` · `question-notes` · `dialog-concurrency` · `long-paste-wrapper` · `tag-escaping` · `local-command-clear` · `paste-newline` · `statusline-override` · `statusline-shell` · `statusline-rate-limits` · `resume-session` · `agents-join`; `MM` is the relied count, `LedgerRow::relied()`'s length: 23 on Unix, 20 on Windows, where the relied set skips the three statusline rows because the status line is not wrapped there and ends at `agents-join`; it grows as owning chunks land their rows), then the `stamped <ver>  <n> pass  <m> fail` summary as the last stdout line. Exit 0 when every relied row passes, 1 on a failing row, a refusal (the `unable:`/`hint:` pairs, Primary content block 2) or a stop: a run stopped by Ctrl-C or TERM (Unix `SIGINT` / `SIGTERM`, Windows Ctrl-C / Ctrl-Break) before its rows are checked prints only that plain ASCII pair, with no name, path or pid, and writes no stamp (a planning form on the operator's word, the founder's wording owed, chunk 2026-10-13-interrupted-verify-cleanup). `--record` adds no human line. Plain ASCII, no colour. Each step line is appended once, with no progress bar and no redraw. `viola verify --help` adds one static ASCII paragraph naming no path: run it from a folder you trust in Claude Code (the input-box probe runs in a subfolder there, which inherits that trust), and an unapproved external CLAUDE.md import blocks the probe (its dialog shows in the subfolder, and verify never answers it).
+Usage: `viola verify [--record <DIR>] [-- <program> [args…]]` (program default `claude`). One stdout step line per relied ledger row, `[NN/MM] <row id> <row words>  pass|fail`, in ledger order (`shim-resolution` · `spine-hooks` · `session-start-fields` · `prompt-verbatim` · `stop-message` · `largest-hook-payload` · `modal-signature` · `input-box-signature` · `quiet-period` · `confirm-window` · `question-answer` · `plan-approve-revise` · `question-notes` · `dialog-concurrency` · `long-paste-wrapper` · `tag-escaping` · `local-command-clear` · `paste-newline` · `statusline-override` · `statusline-shell` · `statusline-rate-limits` · `resume-session` · `agents-join` · `local-command-compact`; `MM` is the relied count, `LedgerRow::relied()`'s length: 24 on Unix, 21 on Windows, where the relied set skips the three statusline rows because the status line is not wrapped there and ends at `local-command-compact`; it grows as owning chunks land their rows), then the `stamped <ver>  <n> pass  <m> fail` summary as the last stdout line. Exit 0 when every relied row passes, 1 on a failing row, a refusal (the `unable:`/`hint:` pairs, Primary content block 2) or a stop: a run stopped by Ctrl-C or TERM (Unix `SIGINT` / `SIGTERM`, Windows Ctrl-C / Ctrl-Break) before its rows are checked prints only that plain ASCII pair, with no name, path or pid, and writes no stamp (a planning form on the operator's word, the founder's wording owed, chunk 2026-10-13-interrupted-verify-cleanup). `--record` adds no human line. Plain ASCII, no colour. Each step line is appended once, with no progress bar and no redraw. `viola verify --help` adds one static ASCII paragraph naming no path: run it from a folder you trust in Claude Code (the input-box probe runs in a subfolder there, which inherits that trust), and an unapproved external CLAUDE.md import blocks the probe (its dialog shows in the subfolder, and verify never answers it).
 
 ### Output structure — `viola --help`
 

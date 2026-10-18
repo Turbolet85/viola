@@ -1,0 +1,77 @@
+[[pattern]]
+id = 'rows-count'
+regex = 'twenty-three|twenty-two|\b23 rows|\b23 on Unix|twenty on Windows|\b20 on Windows|/23\]|/20\]|23 pass|20 pass  0|LedgerRow::(ALL|relied)|relied set'
+
+[[pattern]]
+id = 'compact'
+regex = '/compact|local-command-compact|CompactedSession'
+
+[[pattern]]
+id = 'runb-pastes'
+regex = '(five|four|six) (compiled |added |framing )?pastes|fifth paste|sixth paste|Run B.s (five|four|six)|PROBE_COMPACT_COMMAND|PROBE_LOCAL_COMMAND'
+
+[[pattern]]
+id = 'windows'
+regex = 'CONFIRM_WINDOW_FALLBACK|COMPACT_CONFIRM_WINDOW|48\.5|41\.5|confirm window'
+
+[[pattern]]
+id = 'mcp-ceiling'
+regex = '50 ?012|tool-call timeout'
+
+[[pattern]]
+id = 'set-287'
+regex = 'fixtures/claude/2\.1\.287|2\.1\.287 set|thirty-three files|33 files'
+
+[[pattern]]
+id = 'transcripts'
+regex = 'two per (real-CLI )?verify|Run B / C / D transcripts|CLI.s own Run B'
+
+[[pattern]]
+id = 'send-tests'
+regex = 'send_compact_on_a_verified_cli_is_unconfirmable_at_once|send_clear_on_a_verified_cli_is_confirmed_by_its_new_session|send_local_command_'
+
+[[pattern]]
+id = 'framing-var'
+regex = 'clear-<n>|clear-1|paste-<n>|FRAMING_TURNS|framing variants?'
+
+[[pattern]]
+id = 'ledger-lits'
+regex = 'LEDGER_ROWS|LIVE_PASS|STEPS_PASS|ROW_IDS'
+
+[[pattern]]
+id = 'typed-probe'
+regex = 'typed_probe|compact_latency_ms|prompt_latency_ms'
+
+[[pattern]]
+id = 'older-stamp'
+regex = 'older stamp|stamps_verdict_needs_the_dialog_rows'
+
+[[pattern]]
+id = 'dialogless'
+regex = '19 pass  4 fail|16 pass  4 fail|dialogless_home'
+
+[[pattern]]
+id = 'tui-fds'
+regex = 'tui_channel_fds|/proc/<pid>/fd'
+
+[[pattern]]
+id = 'owner-title'
+fixed = 'Compact post-condition ledger row'
+ignore_case = true
+
+[[pattern]]
+id = 'owner-generic'
+regex = 'owned by a (route entry|CARRY)'
+ignore_case = true
+
+[[pattern]]
+id = 'cl1'
+regex = 'window_ms|run\.confirm_window|CL-1'
+
+[[pattern]]
+id = 'readback'
+regex = '\[RB\]|read back|unconfirmable'
+
+[[pattern]]
+id = 'timeout-ext'
+regex = 'Timeout extensions|confirm(ation)? window|delivery-confirmation window'

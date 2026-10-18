@@ -1,0 +1,161 @@
+[
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "0c159d7d",
+"ts": "2026-10-18T21:59:22Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-18-compact-post-condition-ledger-row",
+"--message-file",
+".andromeda/runs/2026-10-18T21-59-05-wrap/relay-1.md",
+"--origin",
+"the operator, the /andromeda-wrap-session invocation, read 2026-10-18T21:59:05Z",
+"--kind",
+"relay",
+"--why",
+"the light gate notes entry 15 red on the two recorded files (inputs#I6), not a halt; a WATCH pin at P5 for send_budget_paused case_4; the new entry Plugin precedence live readings written from the P5 card row 1; finish the wrap, stopping only at 95 % context",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-18T21-59-05-wrap",
+"--marker",
+"2026-10-18-compact-post-condition-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I7 · copy message · message: the operator, the /andromeda-wrap-session invocation, read 2026-10-18T21:59:05Z",
+"cite: inputs#I7"
+],
+"stderr": null,
+"wrote": [
+"inputs/I7-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I7",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, the /andromeda-wrap-session invocation, read 2026-10-18T21:59:05Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "4a6989908b532c06aa1fc134270f3d156d0966cbfb6d80dd444522b6b4d2f330",
+"copy": "I7-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-18T21:59:22Z",
+"step": "wrap",
+"why": "the light gate notes entry 15 red on the two recorded files (inputs#I6), not a halt; a WATCH pin at P5 for send_budget_paused case_4; the new entry Plugin precedence live readings written from the P5 card row 1; finish the wrap, stopping only at 95 % context"
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "0c159d7d",
+"ts": "2026-10-18T21:59:26Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-18-compact-post-condition-ledger-row",
+"--run-dir",
+".andromeda/runs/2026-10-18T21-59-05-wrap",
+"--marker",
+"2026-10-18-compact-post-condition-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, this session, 2026-10-18T03:25Z",
+"I1 cited scope.md:13 · scope.md:59 · scope.md:83 · scope.md:88 · research.md:7 · plan.md:444",
+"I2 n/a — a message has no live source · copy message · message: the Viola overseer, this session P4 dialog, 2026-10-18T03:43Z",
+"I2 cited research.md:7 · research.md:89 · research.md:90 · plan.md:444",
+"I3 n/a — a message has no live source · copy message · message: the founder, live in the Viola overseer dialog, relayed by the operator, 2026-10-18T20:39Z",
+"I3 cited scope.md:69 · scope.md:89 · research.md:89 · research.md:90 · plan.md:23 · plan.md:25 · plan.md:32 · plan.md:135 · plan.md:148 · plan.md:181 · plan.md:250 (in fence) · plan.md:402 · plan.md:410 · plan.md:445 · plan.md:474 · plan.md:475 · plan.md:477 · plan.md:504 · plan.md:510",
+"I4 n/a — a message has no live source · copy message · message: the operator, this session, 2026-10-18T20:50Z",
+"I4 UNCITED",
+"I5 n/a — a message has no live source · copy message · message: the operator, the /andromeda-implement invocation, 2026-10-18T21:07Z",
+"I5 UNCITED",
+"I6 n/a — a message has no live source · copy message · message: the Viola overseer, answering this implement run's AskUserQuestion, read 2026-10-18T21:45:50Z",
+"I6 UNCITED",
+"I7 n/a — a message has no live source · copy message · message: the operator, the /andromeda-wrap-session invocation, read 2026-10-18T21:59:05Z",
+"I7 UNCITED",
+"inputs: 7 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 7 · uncited 4 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 7,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 7
+},
+"uncited": 4,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "0c159d7d",
+"ts": "2026-10-18T22:04:09Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-18-compact-post-condition-ledger-row",
+"--run-dir",
+".andromeda/runs/2026-10-18T21-59-05-wrap",
+"--marker",
+"2026-10-18-compact-post-condition-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, this session, 2026-10-18T03:25Z",
+"I1 cited scope.md:13 · scope.md:59 · scope.md:83 · scope.md:88 · research.md:7 · plan.md:444",
+"I2 n/a — a message has no live source · copy message · message: the Viola overseer, this session P4 dialog, 2026-10-18T03:43Z",
+"I2 cited research.md:7 · research.md:89 · research.md:90 · plan.md:444",
+"I3 n/a — a message has no live source · copy message · message: the founder, live in the Viola overseer dialog, relayed by the operator, 2026-10-18T20:39Z",
+"I3 cited scope.md:69 · scope.md:89 · research.md:89 · research.md:90 · plan.md:23 · plan.md:25 · plan.md:32 · plan.md:135 · plan.md:148 · plan.md:181 · plan.md:250 (in fence) · plan.md:402 · plan.md:410 · plan.md:445 · plan.md:474 · plan.md:475 · plan.md:477 · plan.md:504 · plan.md:510 · report.md:55 · report.md:57 · report.md:68 · report.md:69 · report.md:94 · report.md:114",
+"I4 n/a — a message has no live source · copy message · message: the operator, this session, 2026-10-18T20:50Z",
+"I4 cited report.md:54 · report.md:95",
+"I5 n/a — a message has no live source · copy message · message: the operator, the /andromeda-implement invocation, 2026-10-18T21:07Z",
+"I5 cited report.md:58 · report.md:96",
+"I6 n/a — a message has no live source · copy message · message: the Viola overseer, answering this implement run's AskUserQuestion, read 2026-10-18T21:45:50Z",
+"I6 cited report.md:59 · report.md:91 · report.md:97 · report.md:121 · report.md:127",
+"I7 n/a — a message has no live source · copy message · message: the operator, the /andromeda-wrap-session invocation, read 2026-10-18T21:59:05Z",
+"I7 cited report.md:60 · report.md:91 · report.md:97 · report.md:103 · report.md:121 · report.md:127 · report.md:134",
+"inputs: 7 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 7 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 7,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 7
+},
+"uncited": 0,
+"unparsed": 0
+}
+}
+]

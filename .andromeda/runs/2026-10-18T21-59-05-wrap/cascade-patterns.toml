@@ -1,0 +1,36 @@
+[[pattern]]
+id = 'old-rows'
+regex = 'twenty-three rows|twenty-three on Unix|\b23 on Unix|\b23 rows|\b20 on Windows|twenty on Windows|elsewhere twenty\b|/23\]|/20\]|\[&str; 23\]|\[&str; 20\]|23 pass  0 fail|20 pass  0 fail|counter `/23`|counter `/20`|20-id form'
+
+[[pattern]]
+id = 'old-pastes'
+regex = 'four added (compiled )?pastes|five bracketed pastes|five compiled pastes|four added ones|Run B.s four|four added turns'
+
+[[pattern]]
+id = 'old-framing'
+regex = 'five recorded framing|five framing variants|5 framing variants|five under `2\.1\.287`|five today|stems `paste`, `clear`'
+
+[[pattern]]
+id = 'old-set'
+regex = '33 files'
+
+[[pattern]]
+id = 'old-transcr'
+regex = 'two per real-CLI verify|leaves two per'
+
+[[pattern]]
+id = 'old-owner'
+fixed = 'Compact post-condition ledger row'
+ignore_case = true
+
+[[pattern]]
+id = 'old-compact'
+regex = '`/compact` with none|/compact` (on every version|on any version|today)|has none either|no probe types it|unconfirmable` at once on a verified|send_compact_on_a_verified_cli_is_unconfirmable_at_once|needs no row under the ruled limit'
+
+[[pattern]]
+id = 'old-counts'
+regex = 'eight `send_local_command_`|seven tests whose names|three local-command cases|19 pass  4 fail|16 pass  4 fail|21 pass  2 fail|18 pass  2 fail|19 pass  1 fail|24th row|thirty-eight'
+
+[[pattern]]
+id = 'old-window'
+regex = 'the 18\.5 s total|The confirmation window is the compiled'

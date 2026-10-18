@@ -15,4 +15,8 @@ Long runs, each with its UTC time from `date -u` in the call before it.
   `tui_channel_fds_the_child_holds_nothing_of_violas` (`fd target: NotFound`: an fd listed under `/proc/<child>/fd`
   closed before its link was read). The fd red passed 15/15 standalone; a harness fd sampler showed fds that vanish
   between listing and `readlink` while the fake agent works. Both fixed, recorded in `scope-record.md`.
-- 2026-10-18T21:39:56Z — gate firing 4: the whole block again, backgrounded.
+- 2026-10-18T21:39:56Z — gate firing 4: the whole block again, backgrounded. Read: `green 17 · red 1 (15)` —
+  `pre-push` green; entry 15 red on the two recorded files; accepted by the overseer (`inputs#I6`).
+- 2026-10-18T21:45:50Z — the operator pass: hygiene clean (after one respelled evidence line), pre-CI commit
+  `3d5ae39`, pushed (entry 25), `ci#39169321430` green 15/15, wall 658 s (entry 26, polled 684 s). Record:
+  `chunks/…/evidence/operator-pass.md`.

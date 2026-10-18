@@ -106,5 +106,23 @@
     "read_at": "2026-10-18T21:45:55Z",
     "step": "implement",
     "why": "acceptance of the two recorded out-of-list edits (tests/support/home.rs, tests/tui_channel_fds.rs) and of entry 15 red on them, for the wrap to reconcile; the operator pass to run"
+  },
+  {
+    "id": "I7",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: the operator, the /andromeda-wrap-session invocation, read 2026-10-18T21:59:05Z",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "4a6989908b532c06aa1fc134270f3d156d0966cbfb6d80dd444522b6b4d2f330",
+    "copy": "I7-relay-1.md.txt",
+    "link": false,
+    "read_at": "2026-10-18T21:59:22Z",
+    "step": "wrap",
+    "why": "the light gate notes entry 15 red on the two recorded files (inputs#I6), not a halt; a WATCH pin at P5 for send_budget_paused case_4; the new entry Plugin precedence live readings written from the P5 card row 1; finish the wrap, stopping only at 95 % context"
   }
 ]

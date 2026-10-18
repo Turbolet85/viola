@@ -1,0 +1,6 @@
+
+## 2026-10-18-compact-post-condition-ledger-row — /compact read back by its same-session post-condition; twenty-four verify rows
+**Section:** Brand Identity (the Readback anchor; the Signature element's `RB` state); Color Palette → Semantic Colors (`SessionStartCause::compact`); Anti-Patterns → Rejected Defaults (the spinner bullet); §Surface: cli → Component Patterns (`verify`)
+**Change:** a `/compact` send on a verified CLI is read back once its measured post-condition, a `session-start` of cause `compact` carrying the session's own id, lands — beside `/clear`'s new session; on an unverified CLI it stays `unconfirmable`; the `SessionStartCause::compact` row names that readback role. `verify`'s step lines read `[NN/24]`, `MM` 24 on Unix and 21 on Windows, the row list ending `local-command-compact /compact keeps the session id and submits no prompt`, the summary `stamped 2.1.287  24 pass  0 fail`. Was: `/clear` the only post-condition read back; `[01/23]`, 23 / 20, `23 pass  0 fail`.
+**Why:** the chunk built the compact post-condition and the 24th row (report Symbols / APIs, Retired); the unconfirmable line stays for `/remote-control` and an unverified CLI.
+**Ref:** .andromeda/runs/2026-10-18T21-59-05-wrap/
