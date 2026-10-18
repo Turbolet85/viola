@@ -1,0 +1,2 @@
+- `tests/support/home.rs` · companion · serves step 10 · self
+- `tests/tui_channel_fds.rs` · in-intent · serves step 13 · self

@@ -16,8 +16,8 @@ use std::time::Duration;
 
 use serde_json::{Value, json};
 use viola_agent_claude::ledger::{
-    PROBE_LOCAL_COMMAND, PROBE_LONG_PASTE, PROBE_TAG_PASTE, STATUSLINE_DEFAULT,
-    STATUSLINE_RATE_LIMITS, dialog_stem, framing_stem,
+    PROBE_COMPACT_COMMAND, PROBE_LOCAL_COMMAND, PROBE_LONG_PASTE, PROBE_TAG_PASTE,
+    STATUSLINE_DEFAULT, STATUSLINE_RATE_LIMITS, dialog_stem, framing_stem,
 };
 use viola_agent_claude::statusline::BIN_SH;
 use viola_core::MAX_FRAME;
@@ -422,6 +422,8 @@ struct Agent {
     stopped_once: AtomicBool,
     /// This agent's row in the registry beside its executable, once its launch SessionStart fired.
     registry: OnceLock<Registry>,
+    /// The `session_id` of the last SessionStart fired: the launch one, or a replayed clear's.
+    session: Mutex<Option<String>>,
 }
 
 impl Agent {
@@ -432,6 +434,7 @@ impl Agent {
             hooks: Mutex::new(false),
             stopped_once: AtomicBool::new(false),
             registry: OnceLock::new(),
+            session: Mutex::new(None),
         }
     }
 
@@ -470,6 +473,14 @@ impl Agent {
     /// moves first, so a line the hook leads to is never read ahead of the status it implies.
     fn fire(&self, event: &str, variant: &str, set: &[(&str, &str)]) -> &'static str {
         self.mark(event);
+        // A SessionStart with no fixture fires nothing, and leaves the session as it was.
+        let start = (event == "SessionStart").then(|| self.fixture(event, variant));
+        if let Some(fixture) = start.flatten() {
+            let id = serde_json::from_slice::<Value>(&payload(fixture, set))
+                .ok()
+                .and_then(|doc| doc["session_id"].as_str().map(str::to_owned));
+            *self.session.lock().unwrap_or_else(PoisonError::into_inner) = id;
+        }
         match self.fire_answered(event, variant, set) {
             Fired::NoHooks => "no-hooks",
             Fired::NoFixture => "no-fixture",
@@ -648,9 +659,10 @@ impl Agent {
 
     /// With `--framing`, a text that is one of the verify probe's compiled pastes replays its recorded
     /// variant: a paste text fires that variant's UserPromptSubmit with its bytes unchanged (the
-    /// recorded prompt, not the typed text), and the probed local command fires its recorded
-    /// SessionEnd and SessionStart and no UserPromptSubmit. A set without a variant fires nothing
-    /// for it. With `--paste-hint-ms` beside it, the long text's turn ends on a cleared screen and the
+    /// recorded prompt, not the typed text), `/compact` fires its recorded SessionStart with
+    /// `session_id` set to the last SessionStart's (the recorded id belongs to the recorded session),
+    /// and the probed local command fires its recorded SessionEnd and SessionStart; neither command
+    /// fires a UserPromptSubmit. A set without a variant fires nothing for it. With `--paste-hint-ms` beside it, the long text's turn ends on a cleared screen and the
     /// `turn` screen is drawn only after the hold: the real CLI shows a paste hint in the input-box
     /// literal's place for seconds after a long paste. With `--tag-turn-screen <phase>` beside it,
     /// the tag-like text's turn, and no other, ends on that phase's screen in place of `turn`.
@@ -658,10 +670,23 @@ impl Agent {
         let text = String::from_utf8_lossy(bytes);
         let framing = framing_stem(&text).filter(|_| self.opts.framing);
         let local = framing.filter(|stem| framing_stem(PROBE_LOCAL_COMMAND) == Some(*stem));
+        let compact = framing.filter(|stem| framing_stem(PROBE_COMPACT_COMMAND) == Some(*stem));
         let submit = if self.opts.suppress_prompt_submit {
             "suppressed"
         } else if self.opts.local_command_mode && text.starts_with('/') {
             "local-command"
+        } else if let Some(stem) = compact {
+            let session = self
+                .session
+                .lock()
+                .unwrap_or_else(PoisonError::into_inner)
+                .clone();
+            let set: Vec<(&str, &str)> = session
+                .as_deref()
+                .map(|id| ("session_id", id))
+                .into_iter()
+                .collect();
+            self.fire("SessionStart", stem, &set)
         } else if let Some(stem) = local {
             self.fire("SessionEnd", stem, &[]);
             self.fire("SessionStart", stem, &[])
@@ -1891,6 +1916,92 @@ mod tests {
 
     /// The registry row's id and cwd come from the launch SessionStart as recorded, `~` for a
     /// recording without a cwd; with no launch fixture there is no row.
+    /// Under `--framing`, `/compact` fires its recorded SessionStart with the last fired
+    /// SessionStart's `session_id` (the launch one, then a replayed clear's) and nothing else
+    /// changed; a set without the variant fires nothing for it.
+    #[test]
+    fn fake_compact_replay_carries_the_last_fired_session_id() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let set = tmp.path().join("fixtures").join("3.0.0");
+        fs::create_dir_all(&set).expect("set");
+        let write = |name: &str, body: &str| fs::write(set.join(name), body).expect("fixture");
+        write(
+            "SessionStart.default.json",
+            r#"{"session_id":"s-launch","source":"startup"}"#,
+        );
+        write("SessionEnd.clear-1.json", r#"{"reason":"clear"}"#);
+        write(
+            "SessionStart.clear-1.json",
+            r#"{"session_id":"s-clear","source":"clear"}"#,
+        );
+        let hooks = tmp.path().join("plugin").join("hooks");
+        fs::create_dir_all(&hooks).expect("hooks dir");
+        let group = json!([{"hooks": [{"type": "command", "command": whoami()}]}]);
+        let doc = json!({"hooks": {"SessionStart": group, "SessionEnd": group}});
+        fs::write(hooks.join("hooks.json"), doc.to_string()).expect("hooks.json");
+        let receipt = tmp.path().join("receipt.ndjson");
+        let utf8 = |p: PathBuf| p.to_str().expect("utf-8").to_owned();
+        let list = [
+            "--cli-version".to_owned(),
+            "3.0.0".to_owned(),
+            "--fixtures".to_owned(),
+            utf8(tmp.path().join("fixtures")),
+            "--plugin-dir".to_owned(),
+            utf8(tmp.path().join("plugin")),
+            "--receipt".to_owned(),
+            utf8(receipt.clone()),
+            "--framing".to_owned(),
+        ];
+        let agent = Agent::new(Opts::parse(&list));
+        agent.fire("SessionStart", "default", &[]);
+        agent.submit(b"/compact", "driver");
+        write(
+            "SessionStart.compact-1.json",
+            "{\"session_id\":\"s-recorded\",\"source\":\"compact\",\"cwd\":\"~/rec\"}\n",
+        );
+        agent.submit(b"/compact", "driver");
+        agent.submit(b"/clear", "driver");
+        agent.submit(b"/compact", "driver");
+        let lines: Vec<Value> = fs::read_to_string(&receipt)
+            .expect("receipt")
+            .lines()
+            .filter_map(|l| serde_json::from_str::<Value>(l).ok())
+            .collect();
+        let submits: Vec<&str> = lines
+            .iter()
+            .filter(|l| l["kind"] == "prompt")
+            .map(|l| l["submit"].as_str().unwrap_or(""))
+            .collect();
+        assert_eq!(submits, ["no-fixture", "fired", "fired", "fired"]);
+        let starts: Vec<Value> = lines
+            .iter()
+            .filter(|l| l["kind"] == "hook" && l["event"] == "SessionStart")
+            .map(|l| {
+                let stdin = l["stdin_hex"].as_str().expect("stdin_hex");
+                let bytes: Vec<u8> = (0..stdin.len())
+                    .step_by(2)
+                    .map(|i| u8::from_str_radix(&stdin[i..i + 2], 16).expect("hex"))
+                    .collect();
+                serde_json::from_slice(&bytes).expect("json")
+            })
+            .collect();
+        assert_eq!(
+            starts,
+            [
+                json!({"session_id": "s-launch", "source": "startup"}),
+                json!({"session_id": "s-launch", "source": "compact", "cwd": "~/rec"}),
+                json!({"session_id": "s-clear", "source": "clear"}),
+                json!({"session_id": "s-clear", "source": "compact", "cwd": "~/rec"}),
+            ]
+        );
+        assert!(
+            !lines
+                .iter()
+                .any(|l| l["kind"] == "hook" && l["event"] == "UserPromptSubmit"),
+            "no UserPromptSubmit"
+        );
+    }
+
     #[test]
     fn launch_session_replays_the_recorded_id_and_cwd() {
         let tmp = tempfile::tempdir().expect("tempdir");

@@ -578,8 +578,9 @@ fn fake_agent_fork_session_reports_the_compiled_fork_id() {
 }
 
 /// With `--framing` a compiled paste text replays its recorded variant with the bytes unchanged,
-/// and the local command fires its recorded SessionEnd and SessionStart and no UserPromptSubmit;
-/// any other text is echoed as before. Without the option every text is echoed as typed, and a set
+/// `/compact` fires its recorded SessionStart with the launch session's id, and the local command
+/// fires its recorded SessionEnd and SessionStart, neither command a UserPromptSubmit; any other
+/// text is echoed as before. Without the option every text is echoed as typed, and a set
 /// that lacks a variant fires nothing for it.
 #[test]
 fn fake_agent_framing_replays_the_recorded_shapes() {
@@ -602,12 +603,21 @@ fn fake_agent_framing_replays_the_recorded_shapes() {
     let mut agent = Direct::spawn(&tmp, &args, &[]);
     agent.send(&paste(&long));
     agent.send(&paste(support::verify::TAG_PASTE));
+    agent.send(&paste("/compact"));
     agent.send(&paste("/clear"));
     agent.send(&paste("hello"));
     let lines = agent.finish();
     let mut echoed: Value =
         serde_json::from_slice(&read("UserPromptSubmit.default.json")).expect("json");
     echoed["prompt"] = json!("hello");
+    let launch: Value = serde_json::from_slice(&read("SessionStart.default.json")).expect("json");
+    let recorded = read("SessionStart.compact-1.json");
+    let mut compacted: Value = serde_json::from_slice(&recorded).expect("json");
+    compacted["session_id"] = launch["session_id"].clone();
+    let mut compacted = compacted.to_string().into_bytes();
+    if recorded.ends_with(b"\n") {
+        compacted.push(b'\n');
+    }
     assert_eq!(
         offered(&lines),
         [
@@ -622,6 +632,7 @@ fn fake_agent_framing_replays_the_recorded_shapes() {
                 read("UserPromptSubmit.paste-2.json")
             ),
             ("Stop".to_owned(), read("Stop.default.json")),
+            ("SessionStart".to_owned(), compacted),
             ("SessionEnd".to_owned(), read("SessionEnd.clear-1.json")),
             ("SessionStart".to_owned(), read("SessionStart.clear-1.json")),
             (
@@ -635,7 +646,7 @@ fn fake_agent_framing_replays_the_recorded_shapes() {
         .iter()
         .filter_map(|p| p["submit"].as_str())
         .collect();
-    assert_eq!(submits, ["fired", "fired", "fired", "fired"]);
+    assert_eq!(submits, ["fired", "fired", "fired", "fired", "fired"]);
     assert_eq!(prompts(&lines)[0]["text"], long.as_str());
 
     let plain = TestHome::new();
@@ -675,6 +686,7 @@ fn fake_agent_framing_replays_the_recorded_shapes() {
     ];
     let mut agent = Direct::spawn(&bare, &lacking, &[]);
     agent.send(&paste(&long));
+    agent.send(&paste("/compact"));
     agent.send(&paste("/clear"));
     let lines = agent.finish();
     let events: Vec<String> = offered(&lines).into_iter().map(|(e, _)| e).collect();
@@ -683,7 +695,7 @@ fn fake_agent_framing_replays_the_recorded_shapes() {
         .iter()
         .filter_map(|p| p["submit"].as_str())
         .collect();
-    assert_eq!(submits, ["no-fixture", "no-fixture"]);
+    assert_eq!(submits, ["no-fixture", "no-fixture", "no-fixture"]);
 }
 
 /// `--tag-turn-screen <phase>`: under `--framing --turn-stop` the tag-like text's turn ends on the

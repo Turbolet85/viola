@@ -80,9 +80,9 @@ pub fn wrapped(text: &str) -> String {
     format!("\n\n<pasted_content id=\"7ccf\">\n{text}\n</pasted_content id=\"7ccf\">\n")
 }
 
-/// The five framing variants a clean trusted run records, the shapes of the live 2.1.287 probe:
-/// the wrapped long prompt, the escaped tag-like prompt, the newline prompt, and the two hooks the
-/// local command fired; and its status line's two payloads, before and after the first turn, the
+/// The six framing variants a clean trusted run records, the shapes of the live 2.1.287 probe:
+/// the wrapped long prompt, the escaped tag-like prompt, the newline prompt, the SessionStart
+/// `/compact` fired under the set's first session id, and the two hooks the local command fired; and its status line's two payloads, before and after the first turn, the
 /// second with both `rate_limits` windows in whole numbers.
 pub fn framing_set() -> Vec<(&'static str, &'static str, Value)> {
     let mut long = spine_payload("UserPromptSubmit");
@@ -91,6 +91,9 @@ pub fn framing_set() -> Vec<(&'static str, &'static str, Value)> {
     tag["prompt"] = json!(TAG_PROMPT);
     let mut newline = spine_payload("UserPromptSubmit");
     newline["prompt"] = json!(NEWLINE_PASTE);
+    let mut compacted = spine_payload("SessionStart");
+    compacted["source"] = json!("compact");
+    compacted["session_id"] = json!(SESSION_ID);
     let mut ended = spine_payload("SessionEnd");
     ended["reason"] = json!("clear");
     let mut started = spine_payload("SessionStart");
@@ -106,6 +109,7 @@ pub fn framing_set() -> Vec<(&'static str, &'static str, Value)> {
         ("UserPromptSubmit", "paste-1", long),
         ("UserPromptSubmit", "paste-2", tag),
         ("UserPromptSubmit", "paste-3", newline),
+        ("SessionStart", "compact-1", compacted),
         ("SessionEnd", "clear-1", ended),
         ("SessionStart", "clear-1", started),
         ("StatusLine", "default-1", status),

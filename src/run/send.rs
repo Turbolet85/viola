@@ -7,7 +7,7 @@
 //! paste, `text_bytes` and the exact match all read that one typed text, which holds no CR,
 //! and a typed text with nothing in it is refused `empty-text` before the wheel is read. A text that is
 //! exactly a compiled local command fires no prompt: one with a post-condition measured on this
-//! CLI version is confirmed by it inside the same window, any other is `unconfirmable` at once.
+//! CLI version is confirmed by it inside its window, any other is `unconfirmable` at once.
 //! Each outcome is an `events.ndjson` record and a codes-only `send-*` line; the text reaches
 //! neither.
 
@@ -20,7 +20,7 @@ use serde_json::{Value, json};
 use tracing::instrument;
 use viola_agent_claude::hook::typed_text;
 use viola_agent_claude::ledger::{LOCAL_COMMANDS, PostCondition};
-use viola_agent_claude::screen::{CONFIRM_WINDOW_FALLBACK, Readiness};
+use viola_agent_claude::screen::{COMPACT_CONFIRM_WINDOW, CONFIRM_WINDOW_FALLBACK, Readiness};
 use viola_channel::{Call, ProtocolError};
 use viola_core::obs::ObsEvent;
 use viola_core::{

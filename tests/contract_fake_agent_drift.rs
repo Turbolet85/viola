@@ -4,7 +4,8 @@
 //! tier replays that tier, through `viola verify` against `--dialogs`, byte for byte and in the
 //! recorded order, and so does every set recorded with its framing variants, against `--framing`,
 //! and, where the status line is wrapped, its two status line variants; every set recorded with its
-//! resume variant replays it under `--resume`; every set recorded with its agents read is answered
+//! resume variant replays it under `--resume`, and every set recorded with its compact variant replays
+//! it under `--framing` once resumed into the variant's own session; every set recorded with its agents read is answered
 //! byte for byte by the fake agent's `agents --json` over that read, and the fake agent's own
 //! registry row carries the read's key set and types. The recorded sets are walked at run time, not
 //! by `#[files]`, and an empty walk fails.
@@ -433,6 +434,73 @@ fn fake_agent_resume_replay_matches_every_recorded_resume_set() {
         compared += 1;
     }
     assert!(compared >= 1, "resume sets compared: {compared}");
+}
+
+/// The bytes the fake agent, started with `--framing --resume <id>` over `version`'s set and handed
+/// one bracketed `/compact` paste once its launch hook is receipted, hands the hook it fires for
+/// the paste, and that hook's event.
+fn compact_replay(root: &Path, version: &str, id: &str) -> (String, Vec<u8>) {
+    use std::io::Write as _;
+    let home = TestHome::new();
+    let plugin = home.scratch().join("plugin");
+    write_spine_plugin(&plugin);
+    let receipt = fake::receipt_path(home.path(), "compact");
+    let mut child = Command::new(FAKE)
+        .args(["--cli-version", version, "--framing", "--resume", id])
+        .arg("--fixtures")
+        .arg(root)
+        .arg("--plugin-dir")
+        .arg(&plugin)
+        .arg("--receipt")
+        .arg(&receipt)
+        .stdin(Stdio::piped())
+        .stdout(Stdio::null())
+        .stderr(Stdio::null())
+        .spawn()
+        .expect("fake agent");
+    fake::wait_for(&receipt, "the launch hook", |l| {
+        !of_kind(l, "hook").is_empty()
+    });
+    let mut stdin = child.stdin.take().expect("stdin");
+    stdin
+        .write_all(b"\x1b[200~/compact\x1b[201~\r")
+        .expect("the paste");
+    let lines = fake::wait_for(&receipt, "the compact hook", |l| {
+        of_kind(l, "hook").len() >= 2
+    });
+    drop(stdin);
+    assert_eq!(child.wait().expect("exit").code(), Some(0), "{version}");
+    let hooks = of_kind(&lines, "hook");
+    assert_eq!(hooks.len(), 2, "{version}: one hook for the paste");
+    (
+        hooks[1]["event"].as_str().unwrap_or_default().to_owned(),
+        hooks[1]["stdin_hex"]
+            .as_str()
+            .map(unhex)
+            .unwrap_or_default(),
+    )
+}
+
+/// Every set recorded with its compact variant replays it byte for byte: the fake agent resumed
+/// into the variant's own `session_id` hands the SessionStart hook `/compact` fires exactly the
+/// recorded bytes.
+#[test]
+fn fake_agent_compact_replay_matches_every_recorded_compact_set() {
+    let root = workspace_path("fixtures/claude");
+    let mut compared = 0;
+    for version in recorded_versions(&root) {
+        let Ok(recorded) = fs::read(root.join(&version).join("SessionStart.compact-1.json")) else {
+            continue;
+        };
+        let doc: Value = serde_json::from_slice(&recorded).expect("the compact variant's JSON");
+        assert_eq!(doc["source"], "compact", "{version}");
+        let id = doc["session_id"].as_str().expect("a recorded session id");
+        let (event, offered) = compact_replay(&root, &version, id);
+        assert_eq!(event, "SessionStart", "{version}");
+        assert!(offered == recorded, "{version}: compact drift");
+        compared += 1;
+    }
+    assert!(compared >= 1, "compact sets compared: {compared}");
 }
 
 /// The recorded agents read, as a test literal name.

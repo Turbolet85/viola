@@ -99,21 +99,26 @@ impl SendSlot {
 
     /// A `session-start` about to be appended, its `data` read as fields that may be absent or
     /// `null`. Its id is the remembered one from here on, whatever its cause. The line is the
-    /// in-flight send's when that send waits for a new session, the cause is `clear`, and the id
-    /// is a string that differs from the one remembered before: it is then claimed, as by
-    /// [`SendSlot::claim`].
+    /// in-flight send's when its id is a string and either that send waits for a new session, the
+    /// cause is `clear` and the id differs from the one remembered before, or it waits for its
+    /// compacted session, the cause is `compact` and the id equals the one remembered before (with
+    /// nothing remembered, nothing equals it): it is then claimed, as by [`SendSlot::claim`].
     fn session_started(&self, data: &Value) -> bool {
         let id = data["agent_session_id"].as_str();
         let mut flight = self.flight();
-        let new = id.is_some_and(|id| flight.session.as_deref() != Some(id));
-        flight.session = id.map(str::to_owned);
+        let prior = std::mem::replace(&mut flight.session, id.map(str::to_owned));
+        let post = id.and_then(|id| match data["cause"].as_str() {
+            Some("clear") if prior.as_deref() != Some(id) => Some(PostCondition::NewSession),
+            Some("compact") if prior.as_deref() == Some(id) => {
+                Some(PostCondition::CompactedSession)
+            }
+            _ => None,
+        });
         match flight.send.as_mut() {
             Some(f)
-                if new
-                    && data["cause"] == "clear"
-                    && matches!(
-                        (f.confirms, &f.state),
-                        (Confirms::Post(PostCondition::NewSession), Match::Waiting)
+                if matches!(f.state, Match::Waiting)
+                    && post.is_some_and(
+                        |post| matches!(f.confirms, Confirms::Post(p) if p == post),
                     ) =>
             {
                 f.state = Match::Claimed;
@@ -139,9 +144,9 @@ impl SendSlot {
     /// The window: `Some(submitted_at)` on a match, `None` once it expires unclaimed. The send is
     /// closed under the same lock, so a line after the expiry is never claimed; the slot itself
     /// is emptied only by the send's `Reserved` guard, once its outcome is recorded.
-    #[instrument(skip_all, name = "run.confirm_window", fields(window_ms = window_ms()))]
+    #[instrument(skip_all, name = "run.confirm_window", fields(window_ms = window_ms(self.window())))]
     pub(super) fn confirm(&self, opened: Instant) -> Option<String> {
-        let deadline = opened + CONFIRM_WINDOW_FALLBACK;
+        let deadline = opened + self.window();
         let mut flight = self.flight();
         loop {
             match flight.send.as_ref().map(|f| &f.state) {
@@ -162,6 +167,15 @@ impl SendSlot {
                 .wait_timeout(flight, STEP)
                 .unwrap_or_else(PoisonError::into_inner)
                 .0;
+        }
+    }
+
+    /// The in-flight send's window: [`COMPACT_CONFIRM_WINDOW`] for a send that waits for its
+    /// compacted session, [`CONFIRM_WINDOW_FALLBACK`] for every other.
+    fn window(&self) -> Duration {
+        match self.flight().send.as_ref().map(|f| f.confirms) {
+            Some(Confirms::Post(PostCondition::CompactedSession)) => COMPACT_CONFIRM_WINDOW,
+            _ => CONFIRM_WINDOW_FALLBACK,
         }
     }
 }
@@ -224,8 +238,8 @@ fn close(flight: &mut Option<InFlight>) {
     }
 }
 
-fn window_ms() -> u64 {
-    u64::try_from(CONFIRM_WINDOW_FALLBACK.as_millis()).unwrap_or(u64::MAX)
+fn window_ms(window: Duration) -> u64 {
+    u64::try_from(window.as_millis()).unwrap_or(u64::MAX)
 }
 
 /// Empties the slot on every path out of a send that reserved it, a panic included.
@@ -556,6 +570,30 @@ mod tests {
 
     #[test]
     fn send_confirm_window_is_the_fallback() {
-        assert_eq!(window_ms(), 10_000);
+        let slot = SendSlot::new(FixedClock(Instant::now()), true, Arc::default());
+        assert_eq!(window_ms(slot.window()), 10_000, "no send in flight");
+        slot.flight().send = Some(InFlight {
+            text: "hello".to_owned(),
+            confirms: Confirms::Prompt,
+            state: Match::Waiting,
+        });
+        assert_eq!(window_ms(slot.window()), 10_000);
+    }
+
+    /// A `/compact` send on a verified CLI waits its own 40 s window; a `/clear` send and an
+    /// ordinary send keep the 10 s fallback.
+    #[rstest]
+    #[case::compact("/compact", 40_000)]
+    #[case::clear("/clear", 10_000)]
+    #[case::ordinary("hello", 10_000)]
+    fn send_compact_confirm_window_is_its_own_bound(#[case] text: &str, #[case] ms: u64) {
+        let slot = SendSlot::new(FixedClock(Instant::now()), true, Arc::default());
+        slot.flight().send = Some(InFlight {
+            text: text.to_owned(),
+            confirms: classify(text, true),
+            state: Match::Waiting,
+        });
+        assert_eq!(window_ms(slot.window()), ms);
+        assert_eq!(slot.window(), Duration::from_millis(ms));
     }
 }

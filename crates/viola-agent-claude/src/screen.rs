@@ -19,6 +19,12 @@ pub const GATE_MAX_WAIT: Duration = Duration::from_millis(8500);
 /// per CLI version by the `confirm-window` row.
 pub const CONFIRM_WINDOW_FALLBACK: Duration = Duration::from_secs(10);
 
+/// The delivery-confirmation window of a `/compact` send alone, which waits for the compacted
+/// session's SessionStart (one compaction measured at 18.8 s on 2.1.287). PROVISIONAL: compiled, and
+/// validated per CLI version by the `local-command-compact` row. Its ceiling: `GATE_MAX_WAIT`, the
+/// paste and this window together stay under the MCP client's tool-call timeout.
+pub const COMPACT_CONFIRM_WINDOW: Duration = Duration::from_secs(40);
+
 /// Compiled screen signatures, never built from screen or upstream text: a ready screen has a row
 /// holding one `input_box` literal and no row holding any `modals` literal.
 #[derive(Debug, Clone, Copy)]
@@ -188,6 +194,7 @@ mod tests {
         assert_eq!(QUIET_PERIOD, Duration::from_millis(300));
         assert_eq!(GATE_MAX_WAIT, Duration::from_millis(8500));
         assert_eq!(CONFIRM_WINDOW_FALLBACK, Duration::from_secs(10));
+        assert_eq!(COMPACT_CONFIRM_WINDOW, Duration::from_secs(40));
     }
 
     #[test]

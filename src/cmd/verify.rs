@@ -664,7 +664,7 @@ mod tests {
         );
     }
 
-    /// The counter's total is the relied count: twenty-three rows on Unix, twenty on Windows, where
+    /// The counter's total is the relied count: twenty-four rows on Unix, twenty-one on Windows, where
     /// the status line is not wrapped.
     #[test]
     fn step_lines_count_to_the_relied_total() {
@@ -684,38 +684,46 @@ mod tests {
         let results = check_rows(&probes);
         #[cfg(unix)]
         {
-            assert_eq!(results.len(), 23);
+            assert_eq!(results.len(), 24);
             assert_eq!(
-                step_line(19, 23, LedgerRow::StatusLineOverride, false),
-                "[19/23] statusline-override a --settings statusLine runs in the status line's place  fail"
+                step_line(19, 24, LedgerRow::StatusLineOverride, false),
+                "[19/24] statusline-override a --settings statusLine runs in the status line's place  fail"
             );
             assert_eq!(
-                step_line(20, 23, LedgerRow::StatusLineShell, true),
-                "[20/23] statusline-shell a statusline command runs through /bin/sh  pass"
+                step_line(20, 24, LedgerRow::StatusLineShell, true),
+                "[20/24] statusline-shell a statusline command runs through /bin/sh  pass"
             );
             assert_eq!(
-                step_line(21, 23, LedgerRow::StatusLineRateLimits, true),
-                "[21/23] statusline-rate-limits the statusline payload carries two whole-number rate_limits windows  pass"
+                step_line(21, 24, LedgerRow::StatusLineRateLimits, true),
+                "[21/24] statusline-rate-limits the statusline payload carries two whole-number rate_limits windows  pass"
             );
             assert_eq!(
-                step_line(22, 23, LedgerRow::ResumeSession, false),
-                "[22/23] resume-session --resume <id> reopens the session under that id  fail"
+                step_line(22, 24, LedgerRow::ResumeSession, false),
+                "[22/24] resume-session --resume <id> reopens the session under that id  fail"
             );
             assert_eq!(
-                step_line(23, 23, LedgerRow::AgentsJoin, false),
-                "[23/23] agents-join claude agents --json names the live session by pid and session id  fail"
+                step_line(23, 24, LedgerRow::AgentsJoin, false),
+                "[23/24] agents-join claude agents --json names the live session by pid and session id  fail"
+            );
+            assert_eq!(
+                step_line(24, 24, LedgerRow::LocalCommandCompact, false),
+                "[24/24] local-command-compact /compact keeps the session id and submits no prompt  fail"
             );
         }
         #[cfg(windows)]
         {
-            assert_eq!(results.len(), 20);
+            assert_eq!(results.len(), 21);
             assert_eq!(
-                step_line(19, 20, LedgerRow::ResumeSession, true),
-                "[19/20] resume-session --resume <id> reopens the session under that id  pass"
+                step_line(19, 21, LedgerRow::ResumeSession, true),
+                "[19/21] resume-session --resume <id> reopens the session under that id  pass"
             );
             assert_eq!(
-                step_line(20, 20, LedgerRow::AgentsJoin, true),
-                "[20/20] agents-join claude agents --json names the live session by pid and session id  pass"
+                step_line(20, 21, LedgerRow::AgentsJoin, true),
+                "[20/21] agents-join claude agents --json names the live session by pid and session id  pass"
+            );
+            assert_eq!(
+                step_line(21, 21, LedgerRow::LocalCommandCompact, true),
+                "[21/21] local-command-compact /compact keeps the session id and submits no prompt  pass"
             );
         }
         let rows: Vec<LedgerRow> = results.iter().map(|(row, _)| *row).collect();

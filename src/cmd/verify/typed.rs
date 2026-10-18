@@ -3,8 +3,8 @@
 //! first settled screen (`modal`) and is ended by a kill. The trusted run (B) starts in
 //! `<cwd>/.viola-verify-<pid>/`, records its settled input box (`ready`), types the probe prompt as
 //! one bracketed paste, times the turn and records its end (`turn`), reads `claude agents --json`
-//! once while its session is live, then pastes the long text, the tag-like text, the newline text
-//! and the probed local command, each into the settled input box.
+//! once while its session is live, then pastes the long text, the tag-like text, the newline text,
+//! `/compact` and the probed local command, each into the settled input box.
 //! The dialog run (C, in
 //! `<cwd>/.viola-verify-<pid>-dialogs/`) pastes the three dialog prompts, each after the previous
 //! turn's Stop; the plan run (D, in `<cwd>/.viola-verify-<pid>-plan/`, plan mode) pastes the plan
@@ -29,8 +29,8 @@ use std::time::{Duration, Instant};
 use viola_agent_claude::hook::HookEvent;
 use viola_agent_claude::ledger::{
     self, AgentsCapture, DIALOG_PROMPT_PARALLEL, DIALOG_PROMPT_PERMISSION, DIALOG_PROMPT_QUESTIONS,
-    DIALOG_SETTINGS, PLAN_PROMPT, PROBE_LOCAL_COMMAND, PROBE_LONG_PASTE, PROBE_NEWLINE_PASTE,
-    PROBE_PROMPT, PROBE_TAG_PASTE, TypedRun,
+    DIALOG_SETTINGS, PLAN_PROMPT, PROBE_COMPACT_COMMAND, PROBE_LOCAL_COMMAND, PROBE_LONG_PASTE,
+    PROBE_NEWLINE_PASTE, PROBE_PROMPT, PROBE_TAG_PASTE, TypedRun,
 };
 use viola_agent_claude::screen::{GATE_MAX_WAIT, QUIET_PERIOD, SIGNATURES, Screen};
 use viola_agent_claude::statusline::SETTINGS_FLAG;
@@ -118,7 +118,7 @@ fn untrusted_run(
     Ok(())
 }
 
-/// Run B: the settled input box, one typed turn, the agents read once that turn settled, the four
+/// Run B: the settled input box, one typed turn, the agents read once that turn settled, the five
 /// framing pastes, then Ctrl-C; its status line runs the probe settings' capture command where they
 /// were written.
 fn trusted_run(
@@ -154,7 +154,7 @@ fn trusted_run(
         .is_some()
         .then(|| agents_read(&run, inputs, &trusted.0))
         .flatten();
-    framing_turns(&run, inputs.trusted.captures, typed.turn.clone());
+    typed.compact_latency_ms = framing_turns(&run, inputs.trusted.captures, typed.turn.clone());
     run.end_by_ctrl_c(&keys);
     drop(keys);
     drop(trusted);
@@ -378,38 +378,50 @@ fn agents_read(run: &Run, inputs: &Inputs<'_>, dir: &Path) -> Option<AgentsCaptu
     })
 }
 
-/// Run B's four added pastes, each only into the settled input box the turn before it left
+/// Run B's five added pastes, each only into the settled input box the turn before it left
 /// (`rows`, first the `turn` screen): the long, the tag-like and the newline texts, each until one more
 /// UserPromptSubmit and one more Stop are captured and the input box is back (`Run::box_wait`),
-/// then the probed local command until a new SessionStart or a new UserPromptSubmit is captured
-/// and the screen settles. The first wait that fails ends them.
-fn framing_turns(run: &Run, captures: &Path, mut rows: Option<Vec<String>>) {
+/// then `/compact` until a new SessionStart or a new UserPromptSubmit is captured and the input box
+/// is back, then the probed local command until the same and the screen settles. The first wait
+/// that fails ends them. The ms from the `/compact` paste to the instant its answer was read, once
+/// it was.
+fn framing_turns(run: &Run, captures: &Path, mut rows: Option<Vec<String>>) -> Option<u64> {
     let clock = run.clock.as_ref();
     let count = |event| count_of(captures, event);
     for text in [PROBE_LONG_PASTE, PROBE_TAG_PASTE, PROBE_NEWLINE_PASTE] {
         if !input_box_up(rows.as_deref()) {
-            return;
+            return None;
         }
         let prompts = count(HookEvent::UserPromptSubmit);
         let stops = count(HookEvent::Stop);
         if !run.paste_text(text) {
-            return;
+            return None;
         }
         let stopped = wait_for(clock, probe_until(clock), run.stop, || {
             added_turn_ended(captures, prompts, stops)
-        });
-        let Some(stopped) = stopped else {
-            return;
-        };
+        })?;
         rows = run.box_wait(stopped);
     }
     if !input_box_up(rows.as_deref()) {
-        return;
+        return None;
+    }
+    let starts = count(HookEvent::SessionStart);
+    let prompts = count(HookEvent::UserPromptSubmit);
+    let pasted = clock.now();
+    if !run.paste_text(PROBE_COMPACT_COMMAND) {
+        return None;
+    }
+    let compacted = wait_for(clock, probe_until(clock), run.stop, || {
+        local_command_answered(captures, starts, prompts)
+    })?;
+    let latency = Some(ms(compacted.saturating_duration_since(pasted)));
+    if !input_box_up(run.box_wait(compacted).as_deref()) {
+        return latency;
     }
     let starts = count(HookEvent::SessionStart);
     let prompts = count(HookEvent::UserPromptSubmit);
     if !run.paste_text(PROBE_LOCAL_COMMAND) {
-        return;
+        return latency;
     }
     let answered = wait_for(clock, probe_until(clock), run.stop, || {
         local_command_answered(captures, starts, prompts)
@@ -417,6 +429,7 @@ fn framing_turns(run: &Run, captures: &Path, mut rows: Option<Vec<String>>) {
     if let Some(answered) = answered {
         run.settle(answered);
     }
+    latency
 }
 
 /// One more UserPromptSubmit and one more Stop than `prompts` and `stops`: an added paste's turn ended.
@@ -425,7 +438,7 @@ fn added_turn_ended(captures: &Path, prompts: usize, stops: usize) -> bool {
         && count_of(captures, HookEvent::Stop) > stops
 }
 
-/// One more SessionStart than `starts` or one more UserPromptSubmit than `prompts`: the probed local
+/// One more SessionStart than `starts` or one more UserPromptSubmit than `prompts`: a pasted local
 /// command was answered.
 fn local_command_answered(captures: &Path, starts: usize, prompts: usize) -> bool {
     count_of(captures, HookEvent::SessionStart) > starts

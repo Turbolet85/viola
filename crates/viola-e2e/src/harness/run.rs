@@ -320,7 +320,7 @@ fn tool_arms(
 /// The capability-ledger rows `viola verify` prints, as literals: the live run checks each once.
 /// The three statusline rows are relied on only where the status line is wrapped (Unix).
 #[cfg(unix)]
-const LEDGER_ROWS: [&str; 23] = [
+const LEDGER_ROWS: [&str; 24] = [
     "shim-resolution",
     "spine-hooks",
     "session-start-fields",
@@ -344,9 +344,10 @@ const LEDGER_ROWS: [&str; 23] = [
     "statusline-rate-limits",
     "resume-session",
     "agents-join",
+    "local-command-compact",
 ];
 #[cfg(not(unix))]
-const LEDGER_ROWS: [&str; 20] = [
+const LEDGER_ROWS: [&str; 21] = [
     "shim-resolution",
     "spine-hooks",
     "session-start-fields",
@@ -367,6 +368,7 @@ const LEDGER_ROWS: [&str; 20] = [
     "paste-newline",
     "resume-session",
     "agents-join",
+    "local-command-compact",
 ];
 
 /// Suite `local-live`: the harness build, then one `viola verify` against the real `claude` (the
@@ -996,52 +998,54 @@ mod tests {
     }
 
     #[cfg(unix)]
-    const LIVE_PASS: &str = "[01/23] shim-resolution claude resolves  pass\n\
-        [02/23] spine-hooks spine hooks fire  pass\n\
-        [03/23] session-start-fields fields  pass\n\
-        [04/23] prompt-verbatim prompt  pass\n\
-        [05/23] stop-message message  pass\n\
-        [06/23] largest-hook-payload payload  pass\n\
-        [07/23] modal-signature modal  pass\n\
-        [08/23] input-box-signature input box  pass\n\
-        [09/23] quiet-period quiet  pass\n\
-        [10/23] confirm-window window  pass\n\
-        [11/23] question-answer question  pass\n\
-        [12/23] plan-approve-revise plan  pass\n\
-        [13/23] question-notes notes  pass\n\
-        [14/23] dialog-concurrency concurrency  pass\n\
-        [15/23] long-paste-wrapper wrapper  pass\n\
-        [16/23] tag-escaping escaping  pass\n\
-        [17/23] local-command-clear clear  pass\n\
-        [18/23] paste-newline newline  pass\n\
-        [19/23] statusline-override override  pass\n\
-        [20/23] statusline-shell shell  pass\n\
-        [21/23] statusline-rate-limits limits  pass\n\
-        [22/23] resume-session resume  pass\n\
-        [23/23] agents-join join  pass\n\
-        stamped 2.1.287  23 pass  0 fail\n";
+    const LIVE_PASS: &str = "[01/24] shim-resolution claude resolves  pass\n\
+        [02/24] spine-hooks spine hooks fire  pass\n\
+        [03/24] session-start-fields fields  pass\n\
+        [04/24] prompt-verbatim prompt  pass\n\
+        [05/24] stop-message message  pass\n\
+        [06/24] largest-hook-payload payload  pass\n\
+        [07/24] modal-signature modal  pass\n\
+        [08/24] input-box-signature input box  pass\n\
+        [09/24] quiet-period quiet  pass\n\
+        [10/24] confirm-window window  pass\n\
+        [11/24] question-answer question  pass\n\
+        [12/24] plan-approve-revise plan  pass\n\
+        [13/24] question-notes notes  pass\n\
+        [14/24] dialog-concurrency concurrency  pass\n\
+        [15/24] long-paste-wrapper wrapper  pass\n\
+        [16/24] tag-escaping escaping  pass\n\
+        [17/24] local-command-clear clear  pass\n\
+        [18/24] paste-newline newline  pass\n\
+        [19/24] statusline-override override  pass\n\
+        [20/24] statusline-shell shell  pass\n\
+        [21/24] statusline-rate-limits limits  pass\n\
+        [22/24] resume-session resume  pass\n\
+        [23/24] agents-join join  pass\n\
+        [24/24] local-command-compact compact  pass\n\
+        stamped 2.1.287  24 pass  0 fail\n";
     #[cfg(not(unix))]
-    const LIVE_PASS: &str = "[01/20] shim-resolution claude resolves  pass\n\
-        [02/20] spine-hooks spine hooks fire  pass\n\
-        [03/20] session-start-fields fields  pass\n\
-        [04/20] prompt-verbatim prompt  pass\n\
-        [05/20] stop-message message  pass\n\
-        [06/20] largest-hook-payload payload  pass\n\
-        [07/20] modal-signature modal  pass\n\
-        [08/20] input-box-signature input box  pass\n\
-        [09/20] quiet-period quiet  pass\n\
-        [10/20] confirm-window window  pass\n\
-        [11/20] question-answer question  pass\n\
-        [12/20] plan-approve-revise plan  pass\n\
-        [13/20] question-notes notes  pass\n\
-        [14/20] dialog-concurrency concurrency  pass\n\
-        [15/20] long-paste-wrapper wrapper  pass\n\
-        [16/20] tag-escaping escaping  pass\n\
-        [17/20] local-command-clear clear  pass\n\
-        [18/20] paste-newline newline  pass\n\
-        [19/20] resume-session resume  pass\n\
-        [20/20] agents-join join  pass\n\
-        stamped 2.1.287  20 pass  0 fail\n";
+    const LIVE_PASS: &str = "[01/21] shim-resolution claude resolves  pass\n\
+        [02/21] spine-hooks spine hooks fire  pass\n\
+        [03/21] session-start-fields fields  pass\n\
+        [04/21] prompt-verbatim prompt  pass\n\
+        [05/21] stop-message message  pass\n\
+        [06/21] largest-hook-payload payload  pass\n\
+        [07/21] modal-signature modal  pass\n\
+        [08/21] input-box-signature input box  pass\n\
+        [09/21] quiet-period quiet  pass\n\
+        [10/21] confirm-window window  pass\n\
+        [11/21] question-answer question  pass\n\
+        [12/21] plan-approve-revise plan  pass\n\
+        [13/21] question-notes notes  pass\n\
+        [14/21] dialog-concurrency concurrency  pass\n\
+        [15/21] long-paste-wrapper wrapper  pass\n\
+        [16/21] tag-escaping escaping  pass\n\
+        [17/21] local-command-clear clear  pass\n\
+        [18/21] paste-newline newline  pass\n\
+        [19/21] resume-session resume  pass\n\
+        [20/21] agents-join join  pass\n\
+        [21/21] local-command-compact compact  pass\n\
+        stamped 2.1.287  21 pass  0 fail\n";
 
     /// `LIVE_PASS` without the step line of `row`.
     fn without(row: &str) -> String {
@@ -1084,17 +1088,18 @@ mod tests {
         (out, calls)
     }
 
-    /// The live proof reads every relied row: twenty-three on Unix, twenty on Windows, the agents
-    /// row last, after the resume row.
+    /// The live proof reads every relied row: twenty-four on Unix, twenty-one on Windows, the compact
+    /// row last, after the resume and agents rows.
     #[test]
     fn run_local_live_reads_the_relied_rows() {
         #[cfg(unix)]
-        assert_eq!(LEDGER_ROWS.len(), 23);
+        assert_eq!(LEDGER_ROWS.len(), 24);
         #[cfg(not(unix))]
-        assert_eq!(LEDGER_ROWS.len(), 20);
+        assert_eq!(LEDGER_ROWS.len(), 21);
         assert_eq!(LEDGER_ROWS[17], "paste-newline");
-        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 2], "resume-session");
-        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 1], "agents-join");
+        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 3], "resume-session");
+        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 2], "agents-join");
+        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 1], "local-command-compact");
         assert_eq!(LIVE_PASS.lines().count(), LEDGER_ROWS.len() + 1);
         assert!(live_rows_pass(LIVE_PASS));
         assert!(!live_rows_pass(&without(
@@ -1145,7 +1150,7 @@ mod tests {
         let no_framing_row = without("tag-escaping");
         let no_newline_row = without("paste-newline");
         // The rows after the newline row: the statusline rows, relied on (so read) only where the
-        // status line is wrapped, and the resume row.
+        // status line is wrapped, the resume, agents and compact rows.
         let statusline = LEDGER_ROWS[18..].iter().map(|row| without(row));
         let cases = [
             missing,

@@ -1,0 +1,33 @@
+# layouts extract
+
+## Relevance
+partial — the chunk renders on the cli surface in two existing outputs only (the `viola send` readback mirror's outcome for `/compact`, and `viola verify`'s step lines and summary); it adds no verb, column, header or screen, and CARRY 2's plugin readings touch no layout.
+
+## Constraints
+- A `send` of `/compact` that the new post-condition confirms ends on the filled-box outcome line `[RB] read back …` on stdout with exit 0, the form layout-templates §Surface: cli (Signature placement, item 2) requires today for `/clear`'s new-session post-condition; `[  ] unconfirmable …` (stdout, exit 0) stays the form only for a local command with no measured post-condition, and §Surface: cli (Signature placement, item 2) names `/clear` alone as the post-condition case, so the `/compact` case is an addition to that sentence. Whether a `/compact` confirmation fills the same fields (time, `cursor`) as a `prompt-submitted` read-back is research's question.
+- The mirror's word column stays the closed four words `open` / `read back` / `unable` / `unconfirmable`, padded so they line up and the name starts in one column, the issue line kept and the outcome appended under it, never redrawn (per layout-templates §Output structure — `viola send`); a longer `/compact` confirm window adds no progress, spinner or elapsed-time line while the outcome is awaited (per layout-templates §Component — Hero / signature output line (the `viola send` readback mirror): no `Sending…` spinner, no `✓`, no `done`).
+- `viola send --json` prints only the typed document — `ok` with `submitted_at` + `cursor`, `ok` with `confirmed:false` + `unconfirmable`, or `refusal` + `detail` — with no glyph and no hint (per layout-templates §Component — Hero / signature output line (the `viola send` readback mirror)); a confirmed `/compact` moves from the `confirmed:false` document to the confirmed form, and a new human field would go into `--json` first (per layout-templates §IA notes: "Output as a contract").
+- `viola verify` prints one stdout step line per relied ledger row, `[NN/MM] <row id> <row words>  pass|fail`, in ledger order, `MM` being `LedgerRow::relied()`'s length, which "grows as owning chunks land their rows" (per layout-templates §Output structure — `viola verify`); a 24th relied row moves `MM` (Unix 23 → 24, Windows 20 → 21 if relied on every OS) and takes its ledger-order slot in the step list and in that section's row-id enumeration.
+- The new row's words are a short plain-ASCII clause in the existing row-words register, each step line appended once, no colour, no progress bar, no redraw, and the last stdout line stays `stamped <ver>  <n> pass  <m> fail` with `fail` never coloured (per layout-templates §Output structure — `viola verify`).
+- A verify stopped by Ctrl-C or TERM before its rows are checked, including during a compacting probe, still prints only the plain `unable: verify was stopped before it finished` / `hint: run viola verify again to stamp this CLI` pair on stderr with stdout empty and no stamp (per layout-templates §Output structure — `viola verify`); no new `unable:` line names a path, pid or name (per layout-templates §Component — Primary content block 2: refusal lines and the `unable` column).
+- `viola revive --list` already prints the logged cause `compact` as one of its closed cause words (per layout-templates §Output structure — `viola revive`); the chunk changes no word there.
+
+## Patterns to follow
+- `/clear`'s confirmation as the precedent: a verified-CLI local command confirmed by a ledger post-condition prints the same `[RB] read back` outcome as a submitted prompt (layout-templates §Surface: cli, Signature placement item 2).
+- The `viola verify` wireframe's numbered step lines (`[17/23] local-command-clear /clear starts a new session and submits no prompt  pass`) as the model for the new row's id + words line (layout-templates §Output structure — `viola verify`).
+- The `[  ] unconfirmable  builder  local command, no measured post-condition` line as the form that remains for an unverified CLI or any local command without a stamped row (layout-templates §Output structure — `viola send`).
+
+## Anti-patterns to avoid
+- Colouring the mirror or a verify verdict: `read back` is never green, `unable` never red, `fail` never coloured — colour on the cli is reserved for `DIALOG` and `stale` (per layout-templates §Component — Hero / signature output line (the `viola send` readback mirror) and §Output structure — `viola verify`).
+- Reporting `turn-ended`, or a waiting/progress line, as a send outcome while the longer compact window runs (per layout-templates §Component — Hero / signature output line (the `viola send` readback mirror)).
+
+## Contract bindings
+- send mirror ↔ architecture §Standard Contracts / §Conventions: the `--json` `ok` shapes and exit codes the mirror's machine view carries (layout-templates §Component — Hero / signature output line defers the document shape there).
+- verify step lines ↔ the capability ledger (`LedgerRow::ALL` / `LedgerRow::relied()`): the row id, its order and the `MM` count are read from the ledger, so the layout's row enumeration follows the ledger's insertion point.
+- send mirror ↔ `viola mcp`'s `send` tool: each tool result is the CLI verb's `--json` document less `v` (layout-templates §Surface: cli, Primary screens), so a confirmed `/compact` reads the same in both.
+
+## Acceptance criteria contributions
+- (layouts) On a verified CLI, `viola send <name>` of `/compact` whose SessionStart of cause `compact` with the same session id arrives inside its window prints the `[RB] read back` outcome on stdout with exit 0, never `[  ] unconfirmable` (per layout-templates §Surface: cli, Signature placement item 2).
+- (layouts) On an unverified CLI (or a stamp lacking the new row) the same send prints `[  ] unconfirmable  <name>  local command, no measured post-condition` on stdout, exit 0, and `--json` the `confirmed:false` + `unconfirmable` document (per layout-templates §Output structure — `viola send`).
+- (layouts) `viola verify` prints the new row as one `[NN/MM] <row id> <row words>  pass|fail` line in ledger order with `MM` equal to `LedgerRow::relied()`'s length on that OS, and its summary `stamped <ver>  <n> pass  <m> fail` counts it (per layout-templates §Output structure — `viola verify`).
+- (layouts) The `viola verify` section's wireframe and row-id enumeration name the new row, and the send Signature placement sentence names `/compact`'s post-condition beside `/clear`'s, once the chunk lands (per layout-templates §Output structure — `viola verify` and §Surface: cli).

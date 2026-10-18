@@ -1,6 +1,6 @@
 //! The capability-ledger probes over the committed fixture sets (test-plan §5 CLI): `viola verify`
 //! against the fake agent at each stamped `fixtures/claude/<version>/` passes every row relied on
-//! this OS (twenty-two on Unix, nineteen on Windows), each literal row id once. Every recorded set is on exactly one literal list: stamped, or kept for the byte-drift
+//! this OS (twenty-four on Unix, twenty-one on Windows), each literal row id once. Every recorded set is on exactly one literal list: stamped, or kept for the byte-drift
 //! contract only. The recorded sets are walked at run time, not by `#[files]`, and an empty walk
 //! fails.
 //! andromeda:walks-tree — it reads every set under `fixtures/claude/`, named or not.
@@ -14,7 +14,7 @@ use support::home::{TestHome, workspace_path};
 use support::verify::verify;
 
 #[cfg(unix)]
-const ROW_IDS: [&str; 23] = [
+const ROW_IDS: [&str; 24] = [
     "shim-resolution",
     "spine-hooks",
     "session-start-fields",
@@ -38,9 +38,10 @@ const ROW_IDS: [&str; 23] = [
     "statusline-rate-limits",
     "resume-session",
     "agents-join",
+    "local-command-compact",
 ];
 #[cfg(windows)]
-const ROW_IDS: [&str; 20] = [
+const ROW_IDS: [&str; 21] = [
     "shim-resolution",
     "spine-hooks",
     "session-start-fields",
@@ -61,6 +62,7 @@ const ROW_IDS: [&str; 20] = [
     "paste-newline",
     "resume-session",
     "agents-join",
+    "local-command-compact",
 ];
 /// The sets recorded whole (spine, screens, dialog, framing, status line and resume variants): each
 /// stamps every relied row.
@@ -131,8 +133,8 @@ fn contract_ledger_probes_pass_over_every_stamped_set() {
             );
         }
         #[cfg(unix)]
-        assert_eq!(*last, format!("stamped {version}  23 pass  0 fail"));
+        assert_eq!(*last, format!("stamped {version}  24 pass  0 fail"));
         #[cfg(windows)]
-        assert_eq!(*last, format!("stamped {version}  20 pass  0 fail"));
+        assert_eq!(*last, format!("stamped {version}  21 pass  0 fail"));
     }
 }

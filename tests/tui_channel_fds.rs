@@ -52,18 +52,38 @@ fn tui_channel_fds_the_child_holds_nothing_of_violas(booted_wrapper: Wrapper) {
         let endpoint = Path::new(endpoint);
         let lock = endpoint.with_extension("lock");
         let child = snapshot["child_pid"].as_u64().expect("child_pid");
-        let mut table: Vec<(u64, PathBuf)> = std::fs::read_dir(format!("/proc/{child}/fd"))
-            .expect("the child's fd table")
-            .map(|e| {
-                let entry = e.expect("fd");
-                let fd = entry
-                    .file_name()
-                    .to_string_lossy()
-                    .parse()
-                    .expect("fd number");
-                (fd, std::fs::read_link(entry.path()).expect("fd target"))
-            })
-            .collect();
+        // After its `fds` receipt the agent's launch still opens and closes files of its own (its
+        // registry row, `hooks.json`), so a descriptor listed can be closed before its link is
+        // read: such a read is no consistent table and is taken again, as `fake::wait_for` spins.
+        let read_table = || -> Option<Vec<(u64, PathBuf)>> {
+            std::fs::read_dir(format!("/proc/{child}/fd"))
+                .expect("the child's fd table")
+                .map(|e| {
+                    let entry = e.expect("fd");
+                    let fd = entry
+                        .file_name()
+                        .to_string_lossy()
+                        .parse()
+                        .expect("fd number");
+                    match std::fs::read_link(entry.path()) {
+                        Ok(target) => Some((fd, target)),
+                        Err(e) if e.kind() == std::io::ErrorKind::NotFound => None,
+                        Err(e) => panic!("fd target: {e:?}"),
+                    }
+                })
+                .collect()
+        };
+        let deadline = std::time::Instant::now() + std::time::Duration::from_secs(2);
+        let mut table = loop {
+            if let Some(table) = read_table() {
+                break table;
+            }
+            assert!(
+                std::time::Instant::now() < deadline,
+                "no consistent fd table within 2 s"
+            );
+            std::thread::yield_now();
+        };
         table.sort();
         for (fd, target) in &table {
             let shown = target.to_string_lossy();

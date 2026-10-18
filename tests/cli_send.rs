@@ -732,13 +732,53 @@ fn send_window_local_command_is_not_presumed_delivered() {
     wrapper.stop();
 }
 
-/// `/compact` is a listed local command with no post-condition: on a verified CLI it is typed once
-/// and answered `unconfirmable` at once, never refused `no-prompt-submitted` while it runs. The log
-/// holds `send-issued` then `send-confirmed` with `confirmed:false`, and no `send-refused` and no
-/// `prompt-submitted`.
+/// `/compact` on a verified CLI is confirmed by its measured post-condition: with `--framing` the
+/// fake agent answers it with the recorded compact SessionStart under the boot's own session id and
+/// no prompt, and the send reads back like any other. The log holds `send-issued`, that
+/// `session-start` and `send-confirmed`, and no `prompt-submitted`.
 #[rstest]
-fn send_compact_on_a_verified_cli_is_unconfirmable_at_once(stamped_home: StampedHome) {
-    let wrapper = boot_on(stamped_home, None, &["--local-command-mode"]);
+fn send_compact_on_a_verified_cli_is_confirmed_by_its_same_session(stamped_home: StampedHome) {
+    let wrapper = boot_on(stamped_home, None, &["--framing"]);
+    let dir = wrapper.instance_dir();
+    let booted = records_after(&dir, 0)
+        .into_iter()
+        .find(|r| r["kind"] == "session-start")
+        .expect("the boot's session-start");
+    let id = booted["data"]["agent_session_id"].clone();
+    assert!(id.is_string(), "{booted}");
+    let l = end_offset(&dir);
+    let sent = send(wrapper.home(), &["builder"], "/compact");
+    assert_eq!(sent.code, Some(0), "stderr: {}", sent.stderr);
+    assert!(sent.stderr.is_empty(), "{}", sent.stderr);
+    let lines: Vec<&str> = sent.stdout.lines().collect();
+    assert_eq!(lines.len(), 1, "{}", sent.stdout);
+    assert!(
+        lines[0].starts_with("[RB] read back      builder  "),
+        "{}",
+        lines[0]
+    );
+    assert!(lines[0].ends_with(&format!("  cursor {l}")), "{}", lines[0]);
+
+    let records = records_after(&dir, l);
+    let kinds: Vec<&Value> = records.iter().map(|r| &r["kind"]).collect();
+    assert_eq!(kinds, ["send-issued", "session-start", "send-confirmed"]);
+    assert_eq!(
+        records[1]["data"],
+        json!({"cause": "compact", "agent_session_id": id})
+    );
+    assert_eq!(records[2]["data"], json!({"cursor": l}));
+    let typed = prompts_at_least(&wrapper.receipt(), 1);
+    assert_eq!(typed.len(), 1, "typed once");
+    assert_eq!(typed[0]["text"], "/compact");
+    wrapper.stop();
+}
+
+/// `/compact` on an unverified CLI is `unconfirmable` at once: typed once and answered with no
+/// window, never refused `no-prompt-submitted` while it runs. The log holds `send-issued` then
+/// `send-confirmed` with `confirmed:false`, and no `send-refused` and no `prompt-submitted`.
+#[test]
+fn send_compact_on_an_unverified_cli_is_unconfirmable_at_once() {
+    let wrapper = boot(None, &["--local-command-mode"]);
     let dir = wrapper.instance_dir();
     let home = wrapper.home().to_path_buf();
     let l = end_offset(&dir);

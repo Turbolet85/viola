@@ -13,7 +13,7 @@ use viola_core::MAX_FRAME;
 use crate::AgentError;
 use crate::dialog::{Permit, Response, Verdict, decision_body};
 use crate::hook::{HookEvent, prompt_text};
-use crate::screen::{CONFIRM_WINDOW_FALLBACK, GATE_MAX_WAIT, SIGNATURES};
+use crate::screen::{COMPACT_CONFIRM_WINDOW, CONFIRM_WINDOW_FALLBACK, GATE_MAX_WAIT, SIGNATURES};
 use crate::statusline::WRAPPED_HERE;
 
 /// One measured behaviour, in the order `viola verify` checks and prints it.
@@ -42,10 +42,11 @@ pub enum LedgerRow {
     StatusLineRateLimits,
     ResumeSession,
     AgentsJoin,
+    LocalCommandCompact,
 }
 
 impl LedgerRow {
-    pub const ALL: [Self; 23] = [
+    pub const ALL: [Self; 24] = [
         Self::ShimResolution,
         Self::SpineHooks,
         Self::SessionStartFields,
@@ -69,6 +70,7 @@ impl LedgerRow {
         Self::StatusLineRateLimits,
         Self::ResumeSession,
         Self::AgentsJoin,
+        Self::LocalCommandCompact,
     ];
 
     /// The kebab-case id, the key under a stamped version's `rows`.
@@ -97,6 +99,7 @@ impl LedgerRow {
             Self::StatusLineRateLimits => "statusline-rate-limits",
             Self::ResumeSession => "resume-session",
             Self::AgentsJoin => "agents-join",
+            Self::LocalCommandCompact => "local-command-compact",
         }
     }
 
@@ -130,6 +133,7 @@ impl LedgerRow {
             }
             Self::ResumeSession => "--resume <id> reopens the session under that id",
             Self::AgentsJoin => "claude agents --json names the live session by pid and session id",
+            Self::LocalCommandCompact => "/compact keeps the session id and submits no prompt",
         }
     }
 
@@ -194,6 +198,8 @@ pub const PROBE_NEWLINE_PASTE: &str = "viola verify probe: this paste holds one 
 pub enum PostCondition {
     /// A SessionStart with source `clear` and a new `session_id`.
     NewSession,
+    /// A SessionStart with source `compact` and the session's own `session_id`.
+    CompactedSession,
 }
 
 /// The known built-in local commands, which fire no UserPromptSubmit, each with its delivery
@@ -201,16 +207,19 @@ pub enum PostCondition {
 pub const LOCAL_COMMANDS: [(&str, Option<PostCondition>); 3] = [
     ("/clear", Some(PostCondition::NewSession)),
     ("/remote-control", None),
-    ("/compact", None),
+    ("/compact", Some(PostCondition::CompactedSession)),
 ];
-/// The local command Run B pastes: the list's entry that has a post-condition.
+/// The local command Run B pastes last: the list's `/clear` entry.
 pub const PROBE_LOCAL_COMMAND: &str = LOCAL_COMMANDS[0].0;
+/// The local command Run B pastes before `/clear`: the list's `/compact` entry.
+pub const PROBE_COMPACT_COMMAND: &str = LOCAL_COMMANDS[2].0;
 
-/// Run B's four added pastes in paste order, each with the stem its recorded variants carry.
-pub const FRAMING_TURNS: [(&str, &str); 4] = [
+/// Run B's five added pastes in paste order, each with the stem its recorded variants carry.
+pub const FRAMING_TURNS: [(&str, &str); 5] = [
     (PROBE_LONG_PASTE, "paste-1"),
     (PROBE_TAG_PASTE, "paste-2"),
     (PROBE_NEWLINE_PASTE, "paste-3"),
+    (PROBE_COMPACT_COMMAND, "compact-1"),
     (PROBE_LOCAL_COMMAND, "clear-1"),
 ];
 
@@ -601,6 +610,8 @@ pub struct TypedRun {
     pub turn_settle_ms: Option<u64>,
     pub prompt_latency_ms: Option<u64>,
     pub max_turn_gap_ms: Option<u64>,
+    /// From Run B's `/compact` paste to the instant its answer was read.
+    pub compact_latency_ms: Option<u64>,
 }
 
 /// The captures of the two dialog runs, each in claim order: Run C's and Run D's.
@@ -827,15 +838,42 @@ fn local_command_cleared(trusted: &[Capture]) -> bool {
     new_session && pasted(trusted, PROBE_LOCAL_COMMAND).is_none()
 }
 
+/// The index of the SessionStart the probed `/compact` fired: the first one with source `compact`
+/// captured after the newline turn's prompt.
+fn compact_start(trusted: &[Capture]) -> Option<usize> {
+    let from = pasted(trusted, PROBE_NEWLINE_PASTE)?;
+    trusted[from..]
+        .iter()
+        .position(|c| c.event == HookEvent::SessionStart && c.field("source") == Some("compact"))
+        .map(|at| from + at)
+}
+
+/// The probed `/compact` started its SessionStart under Run B's first, non-empty `session_id`
+/// within the compact window, and no UserPromptSubmit carried the command.
+fn local_command_compacted(trusted: &[Capture], typed: &TypedRun) -> bool {
+    let first = trusted
+        .iter()
+        .find(|c| c.event == HookEvent::SessionStart)
+        .and_then(|c| c.field("session_id"));
+    let same_session = compact_start(trusted)
+        .and_then(|at| trusted[at].field("session_id"))
+        .is_some_and(|id| !id.is_empty() && Some(id) == first);
+    same_session
+        && pasted(trusted, PROBE_COMPACT_COMMAND).is_none()
+        && within(typed.compact_latency_ms, COMPACT_CONFIRM_WINDOW)
+}
+
 /// Run B's captures named for `--record`: the long, the tag-like and the newline prompts as
-/// `paste-1`, `paste-2` and `paste-3`, and as `clear-1` the hooks the probed local command fired,
-/// the SessionEnd captured directly before its SessionStart and that SessionStart. The exit's
-/// SessionEnd, captured after it, is not one of them.
+/// `paste-1`, `paste-2` and `paste-3`, as `compact-1` the SessionStart the probed `/compact` fired,
+/// and as `clear-1` the hooks the probed local command fired, the SessionEnd captured directly
+/// before its SessionStart and that SessionStart. The exit's SessionEnd, captured after it, is not
+/// one of them.
 pub fn framing_variants(trusted: &[Capture]) -> Vec<(&'static str, &Capture)> {
     let [
         (long, long_stem),
         (tag, tag_stem),
         (newline, newline_stem),
+        (_, compact_stem),
         (_, clear_stem),
     ] = FRAMING_TURNS;
     let mut out = Vec::new();
@@ -843,6 +881,9 @@ pub fn framing_variants(trusted: &[Capture]) -> Vec<(&'static str, &Capture)> {
         if let Some(at) = pasted(trusted, text) {
             out.push((stem, &trusted[at]));
         }
+    }
+    if let Some(at) = compact_start(trusted) {
+        out.push((compact_stem, &trusted[at]));
     }
     // The tag-like turn's prompt precedes it, so `at` is never 0.
     if let Some(at) = clear_start(trusted) {
@@ -995,6 +1036,7 @@ pub fn check(row: LedgerRow, probes: &Probes) -> bool {
             .any(|c| whole_rate_limits(&c.bytes)),
         LedgerRow::ResumeSession => session_resumed(&probes.trusted, &probes.resumed),
         LedgerRow::AgentsJoin => agents_joined(&probes.trusted, probes.agents.as_ref()),
+        LedgerRow::LocalCommandCompact => local_command_compacted(&probes.trusted, typed),
     }
 }
 
@@ -1116,6 +1158,7 @@ pub fn merge_stamp(
                 "turn_settle_ms": typed.turn_settle_ms,
                 "prompt_latency_ms": typed.prompt_latency_ms,
                 "max_turn_gap_ms": typed.max_turn_gap_ms,
+                "compact_latency_ms": typed.compact_latency_ms,
             },
             "dialog_probe": {
                 "parallel_both_before_first_post": parallel_both_before_first_post,
@@ -1474,7 +1517,7 @@ mod tests {
     use rstest::rstest;
 
     #[test]
-    fn ledger_rows_are_the_twenty_three_measured_behaviours_in_order() {
+    fn ledger_rows_are_the_twenty_four_measured_behaviours_in_order() {
         let ids: Vec<&str> = LedgerRow::ALL.iter().map(|r| r.id()).collect();
         assert_eq!(
             ids,
@@ -1502,6 +1545,7 @@ mod tests {
                 "statusline-rate-limits",
                 "resume-session",
                 "agents-join",
+                "local-command-compact",
             ]
         );
         let words: Vec<&str> = LedgerRow::ALL.iter().map(|r| r.words()).collect();
@@ -1531,6 +1575,7 @@ mod tests {
                 "the statusline payload carries two whole-number rate_limits windows",
                 "--resume <id> reopens the session under that id",
                 "claude agents --json names the live session by pid and session id",
+                "/compact keeps the session id and submits no prompt",
             ]
         );
         assert!(words.iter().all(|w| w.is_ascii()));
@@ -1545,18 +1590,19 @@ mod tests {
                 .map(LedgerRow::id)
                 .collect()
         };
-        assert_eq!(ids(true).len(), 23);
-        assert_eq!(ids(false).len(), 20);
+        assert_eq!(ids(true).len(), 24);
+        assert_eq!(ids(false).len(), 21);
         assert_eq!(ids(false)[17], "paste-newline");
         assert_eq!(ids(false)[18], "resume-session");
-        assert_eq!(ids(false).last(), Some(&"agents-join"));
-        assert_eq!(ids(true).last(), Some(&"agents-join"));
+        assert_eq!(ids(false)[19], "agents-join");
+        assert_eq!(ids(false).last(), Some(&"local-command-compact"));
+        assert_eq!(ids(true).last(), Some(&"local-command-compact"));
         assert!(!ids(false).iter().any(|id| id.starts_with("statusline-")));
         let here: Vec<&str> = LedgerRow::relied().into_iter().map(LedgerRow::id).collect();
         #[cfg(unix)]
-        assert_eq!(here.len(), 23);
+        assert_eq!(here.len(), 24);
         #[cfg(windows)]
-        assert_eq!(here.len(), 20);
+        assert_eq!(here.len(), 21);
         assert_eq!(here, ids(cfg!(unix)));
     }
 
@@ -1785,6 +1831,7 @@ mod tests {
             turn_settle_ms: Some(314),
             prompt_latency_ms: Some(31),
             max_turn_gap_ms: Some(224),
+            compact_latency_ms: Some(18_779),
         }
     }
 
@@ -1821,7 +1868,7 @@ mod tests {
 
     #[test]
     fn check_passes_every_row_on_a_clean_probe() {
-        assert_eq!(verdicts(&clean_run()), [true; 23]);
+        assert_eq!(verdicts(&clean_run()), [true; 24]);
     }
 
     #[test]
@@ -1977,13 +2024,14 @@ mod tests {
                         "local-command-clear": "pass", "paste-newline": "pass",
                         "statusline-override": "pass", "statusline-shell": "pass",
                         "statusline-rate-limits": "pass", "resume-session": "pass",
-                        "agents-join": "pass",
+                        "agents-join": "pass", "local-command-compact": "pass",
                     },
                     "measured": {
                         "largest_hook_payload": {"SessionStart": 120, "Stop": 90},
                         "typed_probe": {
                             "ready_settle_ms": 1084, "turn_settle_ms": 314,
                             "prompt_latency_ms": 31, "max_turn_gap_ms": 224,
+                            "compact_latency_ms": 18_779,
                         },
                         "dialog_probe": {"parallel_both_before_first_post": false},
                     },
@@ -2029,6 +2077,7 @@ mod tests {
             json!({"largest_hook_payload": {}, "typed_probe": {
                 "ready_settle_ms": null, "turn_settle_ms": null,
                 "prompt_latency_ms": null, "max_turn_gap_ms": null,
+                "compact_latency_ms": null,
             }, "dialog_probe": {"parallel_both_before_first_post": null}})
         );
         assert_eq!(verified(&bytes, "2.1.0"), Ok(false));
@@ -2150,8 +2199,14 @@ mod tests {
         nineteen["data"]["versions"]["2.1.0"]["rows"]["agents-join"] = json!("pass");
         assert_eq!(
             verified(nineteen.to_string().as_bytes(), "2.1.0"),
+            Ok(false),
+            "the eighteen rows, the resume row and the agents row, before the compact row"
+        );
+        nineteen["data"]["versions"]["2.1.0"]["rows"]["local-command-compact"] = json!("pass");
+        assert_eq!(
+            verified(nineteen.to_string().as_bytes(), "2.1.0"),
             Ok(cfg!(windows)),
-            "the eighteen rows, the resume row and the agents row"
+            "the eighteen rows, the resume row, the agents row and the compact row"
         );
         for id in [
             "statusline-override",
@@ -2172,6 +2227,12 @@ mod tests {
             "the twenty-two rows before the agents row"
         );
         stamp["data"]["versions"]["2.1.0"]["rows"]["agents-join"] = json!("pass");
+        assert_eq!(
+            verified(stamp.to_string().as_bytes(), "2.1.0"),
+            Ok(false),
+            "the twenty-three rows of an older stamp"
+        );
+        stamp["data"]["versions"]["2.1.0"]["rows"]["local-command-compact"] = json!("pass");
         assert_eq!(verified(stamp.to_string().as_bytes(), "2.1.0"), Ok(true));
     }
 
@@ -2326,6 +2387,7 @@ mod tests {
             LedgerRow::InputBoxSignature,
             LedgerRow::QuietPeriod,
             LedgerRow::ConfirmWindow,
+            LedgerRow::LocalCommandCompact,
         ] {
             assert!(!typed_check(row, TypedRun::default()), "{}", row.id());
         }
@@ -2334,7 +2396,7 @@ mod tests {
             six,
             [
                 true, true, true, true, true, true, false, false, false, false, true, true, true,
-                true, true, true, true, true, true, true, true, true, true
+                true, true, true, true, true, true, true, true, true, true, false
             ]
         );
     }
@@ -2785,8 +2847,8 @@ mod tests {
          the next line ends it. Reply with the single word ok";
 
     /// Run B as the live 2.1.287 probe recorded it, in claim order: the first turn, the long, the
-    /// tag-like and the newline turns, the two hooks the local command fired, then the exit's
-    /// SessionEnd.
+    /// tag-like and the newline turns, the SessionStart `/compact` fired, the two hooks the local
+    /// command fired, then the exit's SessionEnd.
     fn clean_trusted() -> Vec<Capture> {
         let stop = capture(HookEvent::Stop, json!({"last_assistant_message": "ok"}));
         vec![
@@ -2799,6 +2861,7 @@ mod tests {
             stop.clone(),
             prompted(NEWLINE_PROMPT),
             stop,
+            session_start("compact", RUN_B_ID),
             session_end("clear"),
             session_start("clear", "s-2"),
             session_end("prompt_input_exit"),
@@ -3035,7 +3098,7 @@ mod tests {
             json!({"source": "resume"}),
         )];
         assert!(!resume_check(clean_trusted(), no_id), "no session_id");
-        let cleared = with_trusted(|t| t[10] = session_start("clear", RUN_B_ID));
+        let cleared = with_trusted(|t| t[11] = session_start("clear", RUN_B_ID));
         let after_clear = vec![session_start("resume", "s-2")];
         assert!(
             !resume_check(cleared, after_clear),
@@ -3095,11 +3158,12 @@ mod tests {
         assert!(resume_variants(&[]).is_empty());
     }
 
-    const FRAMING_ROWS: [LedgerRow; 4] = [
+    const FRAMING_ROWS: [LedgerRow; 5] = [
         LedgerRow::LongPasteWrapper,
         LedgerRow::TagEscaping,
         LedgerRow::LocalCommandClear,
         LedgerRow::PasteNewline,
+        LedgerRow::LocalCommandCompact,
     ];
 
     fn framing_check(row: LedgerRow, trusted: Vec<Capture>) -> bool {
@@ -3206,23 +3270,23 @@ mod tests {
     fn check_local_command_clear_fails_on_each_broken_post_condition() {
         let row = LedgerRow::LocalCommandClear;
         let no_start = with_trusted(|t| {
-            t.remove(10);
+            t.remove(11);
         });
         assert!(!framing_check(row, no_start), "no clear SessionStart");
-        let other_source = with_trusted(|t| t[10] = session_start("resume", "s-2"));
+        let other_source = with_trusted(|t| t[11] = session_start("resume", "s-2"));
         assert!(!framing_check(row, other_source), "another source");
-        let same_session = with_trusted(|t| t[10] = session_start("clear", RUN_B_ID));
+        let same_session = with_trusted(|t| t[11] = session_start("clear", RUN_B_ID));
         assert!(!framing_check(row, same_session), "the first session_id");
-        let empty_session = with_trusted(|t| t[10] = session_start("clear", ""));
+        let empty_session = with_trusted(|t| t[11] = session_start("clear", ""));
         assert!(!framing_check(row, empty_session), "an empty session_id");
         let no_session = with_trusted(|t| {
-            t[10] = capture(HookEvent::SessionStart, json!({"source": "clear"}));
+            t[11] = capture(HookEvent::SessionStart, json!({"source": "clear"}));
         });
         assert!(!framing_check(row, no_session), "no session_id");
-        let submitted = with_trusted(|t| t.insert(9, prompted(PROBE_LOCAL_COMMAND)));
+        let submitted = with_trusted(|t| t.insert(10, prompted(PROBE_LOCAL_COMMAND)));
         assert!(!framing_check(row, submitted), "the command as a prompt");
         let before_the_tag_turn = with_trusted(|t| {
-            let start = t.remove(10);
+            let start = t.remove(11);
             t.insert(5, start);
         });
         assert!(
@@ -3234,6 +3298,91 @@ mod tests {
         });
         assert!(!framing_check(row, no_tag_turn), "no tag-like turn");
         assert!(!framing_check(row, Vec::new()), "no run");
+    }
+
+    fn compact_check(trusted: Vec<Capture>, typed: TypedRun) -> bool {
+        check(
+            LedgerRow::LocalCommandCompact,
+            &Probes {
+                print: clean_run(),
+                typed,
+                trusted,
+                dialogs: clean_dialogs(),
+                statusline: clean_statusline(),
+                resumed: clean_resumed(),
+                agents: Some(clean_agents()),
+            },
+        )
+    }
+
+    #[test]
+    fn check_local_command_compact_passes_on_the_recorded_shape() {
+        assert!(compact_check(clean_trusted(), clean_typed()));
+        let at_the_bound = TypedRun {
+            compact_latency_ms: Some(40_000),
+            ..clean_typed()
+        };
+        assert!(compact_check(clean_trusted(), at_the_bound), "at the bound");
+    }
+
+    #[test]
+    fn check_local_command_compact_fails_on_each_broken_post_condition() {
+        let typed = clean_typed;
+        let other_id = with_trusted(|t| t[9] = session_start("compact", "s-2"));
+        assert!(!compact_check(other_id, typed()), "another session_id");
+        let empty_id = with_trusted(|t| t[9] = session_start("compact", ""));
+        assert!(!compact_check(empty_id, typed()), "an empty session_id");
+        let no_id = with_trusted(|t| {
+            t[9] = capture(HookEvent::SessionStart, json!({"source": "compact"}));
+        });
+        assert!(!compact_check(no_id, typed()), "no session_id");
+        let cleared = with_trusted(|t| t[9] = session_start("clear", RUN_B_ID));
+        assert!(!compact_check(cleared, typed()), "source clear");
+        let submitted = with_trusted(|t| t.insert(9, prompted(PROBE_COMPACT_COMMAND)));
+        assert!(
+            !compact_check(submitted, typed()),
+            "the command as a prompt"
+        );
+        let before_the_newline_turn = with_trusted(|t| {
+            let start = t.remove(9);
+            t.insert(7, start);
+        });
+        assert!(
+            !compact_check(before_the_newline_turn, typed()),
+            "a compaction before the newline turn"
+        );
+        let past = TypedRun {
+            compact_latency_ms: Some(40_001),
+            ..clean_typed()
+        };
+        assert!(
+            !compact_check(clean_trusted(), past),
+            "a latency past the bound"
+        );
+        let unmeasured = TypedRun {
+            compact_latency_ms: None,
+            ..clean_typed()
+        };
+        assert!(!compact_check(clean_trusted(), unmeasured), "no latency");
+    }
+
+    #[test]
+    fn check_local_command_compact_fails_without_a_capture() {
+        let no_start = with_trusted(|t| {
+            t.remove(9);
+        });
+        assert!(
+            !compact_check(no_start, clean_typed()),
+            "no compact SessionStart"
+        );
+        let no_newline_turn = with_trusted(|t| {
+            t.remove(7);
+        });
+        assert!(
+            !compact_check(no_newline_turn, clean_typed()),
+            "no newline turn"
+        );
+        assert!(!compact_check(Vec::new(), clean_typed()), "no run");
     }
 
     /// A status line payload as 2.1.287 hands one over after a turn: both windows, whole numbers.
@@ -3501,21 +3650,35 @@ mod tests {
                 ("paste-1", 3),
                 ("paste-2", 5),
                 ("paste-3", 7),
-                ("clear-1", 9),
-                ("clear-1", 10)
+                ("compact-1", 9),
+                ("clear-1", 10),
+                ("clear-1", 11)
             ]
         );
-        assert_eq!(trusted[9].event, HookEvent::SessionEnd);
-        assert_eq!(trusted[10].event, HookEvent::SessionStart);
+        assert_eq!(trusted[9].event, HookEvent::SessionStart);
+        assert_eq!(trusted[10].event, HookEvent::SessionEnd);
+        assert_eq!(trusted[11].event, HookEvent::SessionStart);
 
-        let no_end = with_trusted(|t| t[9] = capture(HookEvent::Stop, json!({})));
+        let no_end = with_trusted(|t| t[10] = capture(HookEvent::Stop, json!({})));
         let stems: Vec<&str> = framing_variants(&no_end).iter().map(|v| v.0).collect();
-        assert_eq!(stems, ["paste-1", "paste-2", "paste-3", "clear-1"]);
+        assert_eq!(
+            stems,
+            ["paste-1", "paste-2", "paste-3", "compact-1", "clear-1"]
+        );
+        let no_compact = with_trusted(|t| {
+            t.remove(9);
+        });
+        let stems: Vec<&str> = framing_variants(&no_compact).iter().map(|v| v.0).collect();
+        assert_eq!(
+            stems,
+            ["paste-1", "paste-2", "paste-3", "clear-1", "clear-1"]
+        );
         let echoed = vec![
             session_start("startup", "s-1"),
             prompted(PROBE_LONG_PASTE),
             prompted(PROBE_TAG_PASTE),
             prompted(PROBE_NEWLINE_PASTE),
+            prompted(PROBE_COMPACT_COMMAND),
             prompted(PROBE_LOCAL_COMMAND),
         ];
         let stems: Vec<&str> = framing_variants(&echoed).iter().map(|v| v.0).collect();
@@ -3567,30 +3730,32 @@ mod tests {
         assert_eq!(framing_stem(PROBE_LONG_PASTE), Some("paste-1"));
         assert_eq!(framing_stem(PROBE_TAG_PASTE), Some("paste-2"));
         assert_eq!(framing_stem(PROBE_NEWLINE_PASTE), Some("paste-3"));
+        assert_eq!(framing_stem("/compact"), Some("compact-1"));
         assert_eq!(framing_stem("/clear"), Some("clear-1"));
-        for other in [PROBE_PROMPT, "/remote-control", "/compact", "/clear ", ""] {
+        for other in [PROBE_PROMPT, "/remote-control", "/compact ", "/clear ", ""] {
             assert_eq!(framing_stem(other), None, "{other}");
         }
         assert_eq!(dialog_stem(PROBE_LONG_PASTE), None);
     }
 
     #[test]
-    fn local_commands_are_the_three_known_ones_and_only_clear_is_probed() {
+    fn local_commands_are_the_three_known_ones_and_clear_and_compact_are_probed() {
         assert_eq!(
             LOCAL_COMMANDS,
             [
                 ("/clear", Some(PostCondition::NewSession)),
                 ("/remote-control", None),
-                ("/compact", None)
+                ("/compact", Some(PostCondition::CompactedSession))
             ]
         );
         assert_eq!(PROBE_LOCAL_COMMAND, "/clear");
+        assert_eq!(PROBE_COMPACT_COMMAND, "/compact");
         let probed: Vec<&str> = LOCAL_COMMANDS
             .iter()
             .filter(|(_, post)| post.is_some())
             .map(|(command, _)| *command)
             .collect();
-        assert_eq!(probed, [PROBE_LOCAL_COMMAND]);
+        assert_eq!(probed, ["/clear", "/compact"]);
     }
 
     fn with_questions(edit: impl FnOnce(&mut Vec<Capture>)) -> DialogRuns {
