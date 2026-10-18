@@ -1,0 +1,123 @@
+[
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "9923497e",
+"ts": "2026-10-18T03:15:07Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-10-17-optional-plugin-install",
+"--desc-file",
+".andromeda/runs/2026-10-18T02-36-56-wrap/master-desc.txt",
+"--run-dir",
+".andromeda/runs/2026-10-18T02-36-56-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"flip master-route.md:79 - 2026-10-17-optional-plugin-install pending -> complete - desc REWRITTEN from --desc-file"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "9923497e",
+"ts": "2026-10-18T03:15:07Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-17-optional-plugin-install",
+"--date",
+"2026-10-18",
+"--run-dir",
+".andromeda/runs/2026-10-18T02-36-56-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :152 strip CARRY: 155ch \"CARRY: chunk 2026-09-28-capability-ledge\"",
+"pin :152 strip CARRY: 322ch \"CARRY: chunk 2026-10-17-cli-output-disci\"",
+"pin :152 strip CARRY: 462ch \"CARRY: chunk 2026-10-17-mcp-server-for-d\"",
+"pin next markerless :154 holds CARRY:×2",
+"152 · 2026-10-17-optional-plugin-install · strip 3 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 152,
+"marker": "2026-10-17-optional-plugin-install",
+"blocks": 3,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "9923497e",
+"ts": "2026-10-18T03:15:13Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-17-optional-plugin-install",
+"--date",
+"2026-10-18",
+"--run-dir",
+".andromeda/runs/2026-10-18T02-36-56-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :152 strip CARRY: 155ch \"CARRY: chunk 2026-09-28-capability-ledge\"",
+"pin :152 strip CARRY: 322ch \"CARRY: chunk 2026-10-17-cli-output-disci\"",
+"pin :152 strip CARRY: 462ch \"CARRY: chunk 2026-10-17-mcp-server-for-d\"",
+"pin next markerless :154 holds CARRY:×2",
+"152 · 2026-10-17-optional-plugin-install · strip 3 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/route-archive.md",
+"./viola-0.1.0/working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 152,
+"marker": "2026-10-17-optional-plugin-install",
+"blocks": 3,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]

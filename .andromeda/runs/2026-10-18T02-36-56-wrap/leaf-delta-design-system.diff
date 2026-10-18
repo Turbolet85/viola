@@ -1,0 +1,16 @@
+--- a/.andromeda/design-system.md
++++ b/.andromeda/design-system.md
+@@ -501,2 +501,3 @@
+ - `viola answer builder 7 < response.json` → `answered  builder  dialog 7`, or `unable  builder  not-delivered  unknown-dialog`
++- `viola plugin install` → four stdout lines in one write: `viola@viola  written  <dir>` / `run these to add it to Claude Code:` / `  claude plugin marketplace add <dir>` / `  claude plugin install viola@viola`, `<dir>` the marketplace dir, quoted only where the host's shell would split it; plain ASCII, no SGR. A planning form as built, the founder's wording owed.
+ 
+@@ -522,2 +523,4 @@
+ 
++`viola plugin install`'s refused strict-modes check (exit 21) prints the home-state `unable:` / `hint:` pair as `viola list`'s does, or under `--json` the `instance-unreachable` document, stderr empty.
++
+ ### Navigation Pattern
+@@ -525,3 +528,3 @@
+ - `viola list` is the board and the other verbs act on one strip. There is no interactive prompt, no TUI mode and no pager.
+-- `viola --help` groups verbs as `board: list` / `traffic: send, wait, last, answer` / `wheel: pause, release` / `handoff: link, unlink` / `setup: run, revive, verify, plugin install` (`revive` beside `run`: the operator's answer at the chunk 2026-10-10-viola-revive wrap). As built (chunk 2026-10-17-cli-output-discipline) it lists the served verbs only: `board: list` / `traffic: send, wait, last, answer` / `wheel: pause, release` / `setup: run, revive, verify`, then `Options:`; the `handoff:` row joins when "Explicit session links" serves `link` and `unlink`, and `plugin install` when "Optional plugin install" serves it (served verbs only is the Viola overseer's technical answer, `inputs#I1` Q3 of that chunk, a delegate's — PROVISIONAL, the founder's own word owed).
++- `viola --help` groups verbs as `board: list` / `traffic: send, wait, last, answer` / `wheel: pause, release` / `handoff: link, unlink` / `setup: run, revive, verify, plugin install` (`revive` beside `run`: the operator's answer at the chunk 2026-10-10-viola-revive wrap). As built (chunk 2026-10-17-cli-output-discipline) it lists the served verbs only: `board: list` / `traffic: send, wait, last, answer` / `wheel: pause, release` / `setup: run, revive, verify, plugin install`, then `Options:`; the `handoff:` row joins when "Explicit session links" serves `link` and `unlink` (served verbs only is the Viola overseer's technical answer, `inputs#I1` Q3 of that chunk, a delegate's — PROVISIONAL, the founder's own word owed).
+ 

@@ -18,15 +18,16 @@ viola/
 ├── src/                        # the `viola` bin: anyhow edge only
 │   ├── main.rs                 # clap 4.6.7 dispatch (Windows: the System32 DLL-search restriction is its second statement)
 │   ├── conpty.rs               # Windows x64: the embedded ConPTY companions and their four pins (the vendor script parses this text)
-│   ├── human.rs                # the `human` module root (human-facing text): the refusal and internal-error stderr writers and the stdout result writer (`write_refusal` / `refuse`, `write_internal_error` / `internal_error`, `write_result` / `result`), and `pub(crate) use` re-exports of its children's names, so every caller keeps its path; called by `run`, `revive`, `verify`, `send`, `wait`, `last`, `list`, `answer`, `pause`, `release` and the `main` catch site
+│   ├── human.rs                # the `human` module root (human-facing text): the refusal and internal-error stderr writers and the stdout result writer (`write_refusal` / `refuse`, `write_internal_error` / `internal_error`, `write_result` / `result`), and `pub(crate) use` re-exports of its children's names, so every caller keeps its path; called by `run`, `revive`, `verify`, `send`, `wait`, `last`, `list`, `answer`, `pause`, `release`, `plugin install` and the `main` catch site
 │   ├── human/                  # the human module's phases: mirror.rs: `send`'s readback mirror (`[  ] open` / `[RB] read back` / `[  ] unconfirmable` with its one fixed note / `[/ ] unable`), `write_wrapper_fault`, `write_unable`;
 │   │                           #   escape.rs: the message-mode escaper (`escape_message`) and the row-mode escaper (`escape_row`); board.rs: the two state refusal pairs (`instance_state_pair`, `home_state_pair`) and the board writers (`BayBudget`, `bay_line`, `board_rows`, `write_board`: with a known terminal width the unwrapped NAME cut, at a colour depth the spans); style.rs: the colour layer (`Depth`, `Tokens`, `Facts`, `decide`, `read`, the Windows VT enable and its restoring guard);
-│   │                           #   wait.rs: the `wait` / `last` lines; verbs.rs: the `answer` line, the `pause` / `release` lines and the budget lift / open lines; hints.rs: the hints (`HUMAN_TYPING_HINT`, `answer_hint`, `send_hint`)
+│   │                           #   wait.rs: the `wait` / `last` lines; verbs.rs: the `answer` line, the `pause` / `release` lines, the budget lift / open lines and `plugin install`'s result lines (`write_plugin_installed`, `command_word`: a Windows-gated source, in `windows-mutants.yml`'s `viola-main` job); hints.rs: the hints (`HUMAN_TYPING_HINT`, `answer_hint`, `send_hint`)
 │   ├── cmd/                    # one module per subcommand: run, revive, send, wait, last, list,
 │   │                           #   answer, hook, mcp, verify, pause, release, link, unlink, plugin;
 │   │                           #   revive.rs: the strict-modes check ahead of the wrapper log, the four-reading preflight (its third the `session-live` agents read) and the `--list` rows; its child shapes come from `viola-agent-claude`;
 │   │                           #   list.rs: the caller-side board (the strict-modes scan before any log, then one `claude agents --json` read joined into it — STATUS idle/busy, the unwrapped rows — then the `--json` document or the human board as one stdout write; exits 0 / 21 / 1), and `board_document`, the `mcp` `list` tool's provider;
 │   │                           #   mcp.rs: the hidden `viola mcp` (the home and `diagnostics/` through `check_path` before anything opens, exit 1 on a refusal; then `viola_mcp::serve`);
+│   │                           #   plugin.rs: `plugin install` (`check_path` on the home and the four `marketplace/` tree dirs before any write or log, exit 21 on a refusal; then the tree, the `ok` document or the two printed commands);
 │   │                           #   hook/statusline.rs: the `hook statusline` arm (the instance check, the `budget.json` write, the bounded shell-out);
 │   │                           #   client.rs (a helper, no subcommand): the channel client send / wait / last share;
 │   │                           #   verify/typed.rs: verify's five interactive PTY runs (Run A untrusted, Run B trusted, Run C dialogs, Run D plan, Run E resume),
@@ -73,7 +74,8 @@ viola/
 │   │                           #   (+ tests/, the crate-level suite: `state_events.rs`, `state_replay.rs`)
 │   ├── viola-agent-claude/     # hook parsing, dialog mapping, R8 strip, shim resolution,
 │   │                           #   capability ledger, the vt100 screen model (`screen`), the pure `agents` module (the `claude agents --json` parse), the pure `statusline` module
-│   │                           #   (the payload reading, the settings reader, the override document, the shell argv)
+│   │                           #   (the payload reading, the settings reader, the override document, the shell argv), the pure
+│   │                           #   `marketplace` module (`plugin install`'s three documents, `NAME`, `PLUGIN_REF`)
 │   │                           #   (+ proptest-regressions/, committed seeds; src/snapshots/, the insta
 │   │                           #   snapshots of the dialog decision bodies)
 │   ├── viola-mcp/              # rmcp 3.4.1 stdio server, thin adapter over viola-channel

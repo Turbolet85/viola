@@ -21,3 +21,5 @@ Long runs, one line each at the start and at the verdict (UTC, `date -u`).
 - 2026-10-18T02:20Z · start 3 HELD for the founder (the same dialog would meet it); the plugin left installed at `proj/`'s local scope, commands 3-4 unrun; the operator pass not started
 - 2026-10-18T02:21:49Z · `inputs#I7` snapped (the overseer: close the round as it stands)
 - 2026-10-18T02:22:00Z – 02:22:46Z · commands 3-4 from rig 2's `proj/`, both exit 0 `ok`; the plugins diff read (the orphaned `cache/viola/viola/0.1.0/`, 3 files); census 0; ledger row `round-closed`
+- 2026-10-18T02:23:04Z · the operator pass: `--only 3,18` green (pre-push 82.87 s, breaches []); hygiene clean ×2; pre-CI commit `43c64109`; push (entry 20) green, origin 9afbff44→43c64109
+- 2026-10-18T02:25:11Z – 02:35Z · `ci.py conclusion`: verdict green, checks 15/15, wall 586 s, `ci#39090008812` attempt 1 (`evidence/operator-pass.md`)

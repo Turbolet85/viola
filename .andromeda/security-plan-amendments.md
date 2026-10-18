@@ -732,3 +732,18 @@ The superseded marks stand in the body as the operator's word, superseded 2026-1
 **Change:** the hidden `viola mcp` resolves its home through the same `resolved_home` as every CLI verb (`--home`; else the `instance_of` home from `VIOLA_NAME` / `VIOLA_DIR`; else the default; then `canonical_home`). Its use of the `VIOLA_DIR` step and the canonicalisation is written as built and is NOT ratified.
 **Why:** a boundary widening of the class already carried for the CLI verbs; written on the Viola overseer's answer at this wrap (a delegate's), it joins that carried item, the founder's own word owed.
 **Ref:** .andromeda/runs/2026-10-17T14-19-45-wrap/
+
+## 2026-10-17-optional-plugin-install — plugin install's tree, its check and the marketplace .mcp.json
+**Section:** §Authentication & Authorization (the `~/.viola/` access-control row); §Data Protection (At rest → Code-bearing artefacts); Threat Model Summary (Data classification → config; Attack surface → Filesystem state under `~/.viola/`)
+**Change:**
+- Access control: `viola plugin install` checks only its home and each existing `marketplace/` tree dir through `check_path` before anything under the home is created, written or opened; a refusal exits 21 (`instance-unreachable` under `--json`), nothing created, no log opened. `marketplace/` is no trusted file (viola never reads it back); the installed `command` gets no re-hash.
+- Code-bearing artefacts: `marketplace/` is written only by the verb — two manifests and `viola/.mcp.json`, whose `mcpServers.viola` `command` is the canonical exe that ran the install and whose `args` are `["--home", <the canonical home>, "mcp"]`, built by `serde_json`, no hooks; each file rewritten whole at 0600, each dir 0700, any other entry left as found. viola spawns no `claude` and writes nothing under `~/.claude`.
+- Threat Model: `marketplace/viola/.mcp.json` joins the config files holding an exec path and the code-bearing entry points.
+**Why:** the chunk built the verb; write + print with no `claude` child is the founder's own answer to P4 fork Q1, relayed verbatim by the Viola overseer. The unpinned `command` is the standing design ([Deployment / Distribution]). The tree's integrity against a same-user writer is owned by the route entry "Home and code-bearing file integrity", on the operator's word at P5.
+**Ref:** .andromeda/runs/2026-10-18T02-36-56-wrap/
+
+## 2026-10-17-optional-plugin-install — the live round's residual under ~/.claude
+**Section:** §Data Protection (an accepted residual)
+**Change:** a live round that installs the plugin runs the CLI's own four commands (`claude plugin marketplace add` / `install` / `uninstall` / `marketplace remove`) at `--scope local` from a rig dir under `target/` that is its own git repo, since the CLI takes the local scope's project from the git work tree root. The CLI's writes under `~/.claude` are its own: after the removal its orphaned plugin cache `~/.claude/plugins/cache/viola/viola/<version>/` stays, `installed_plugins.json` and `known_marketplaces.json` back as before (as measured on claude 2.1.287 at this chunk). viola itself writes nothing under `~/.claude`.
+**Why:** a boundary widening (the round writes the CLI's own configuration), ratified by the founder's own answer to P4 fork Q3 «Local scope в стенде», relayed verbatim by the Viola overseer, and his later answer to the same fork «proj/ — свой git-репо», relayed verbatim by the operator. The wrap's answer-card confirm that this entry lies inside them is a delegate's (the Viola overseer) — PROVISIONAL, superseded by his own word at the Epoch 5 boundary batch.
+**Ref:** .andromeda/runs/2026-10-18T02-36-56-wrap/

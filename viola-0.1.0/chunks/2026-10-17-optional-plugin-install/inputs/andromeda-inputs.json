@@ -124,5 +124,23 @@
     "read_at": "2026-10-18T02:21:49Z",
     "step": "implement",
     "why": "the live round closed as it stands, start 3 unspent; plugin commands 3 and 4 run now from rig 2 proj/; no key, no ~/.claude.json write, no root local scope; then the operator pass with the ci.py read; outcome surfaced, v1-42 planned"
+  },
+  {
+    "id": "I8",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: the operator, the /andromeda-wrap-session invocation, 2026-10-18, relaying the Viola overseer (PROVISIONAL; the founder asleep)",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "8e5cc71230800a78f04843927f3d6c27222289f7aa4bce6f97853a401471c23f",
+    "copy": "I8-relay-1.md.txt",
+    "link": false,
+    "read_at": "2026-10-18T02:37:22Z",
+    "step": "wrap",
+    "why": "route-resolve: v1-42 un-claimed at P7.3 with a dated note; the two unread readings and the trust-dialog method a CARRY on \"Compact post-condition ledger row\"; a boundary widening found now HELD for the founder"
   }
 ]

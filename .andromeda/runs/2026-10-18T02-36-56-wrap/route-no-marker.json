@@ -1,0 +1,58 @@
+[
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "9923497e",
+"ts": "2026-10-18T03:07:28Z",
+"argv": [
+"route.py",
+"blocked",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-18T02-36-56-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"master-route.md · pending 1 · gated 0 · markerless 14 · BLOCKED-ON blocks 1 · each printed WHOLE",
+"markerless · viola-0.1.0/working-route.md:180 · 399 chars · BLOCKED-ON: an interactive Windows host (none exists at the 2026-10-07 0-pending wrap: the dev host is Linux since 2026-10-03, and `uname` read Linux there; by the founder's ruling R-L1, live, 2026-10-07T05:43Z, relayed by the overseer, `d94-route-adaptation.md`, Windows live behaviour stays proven on the CI runner under the fake agent until one exists; nothing in this entry is doable without it)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "9923497e",
+"ts": "2026-10-18T03:08:50Z",
+"argv": [
+"route.py",
+"epoch",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-18T02-36-56-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"viola-0.1.0/working-route.md · 9 epoch headers · 83 entries · freeze state joined to 69 master records",
+"10 · Epoch 1 — Foundation · entries 8 · markerless 0 · frozen complete 8 · pending 0",
+"27 · Epoch 2 — Windows slice I: wrapper, events,… · entries 7 · markerless 0 · frozen complete 7 · pending 0",
+"42 · Epoch 2b — Windows slice I b: events and le… · entries 11 · markerless 0 · frozen complete 11 · pending 0",
+"65 · Epoch 3 — Windows slice II: driving verbs a… · entries 19 · markerless 0 · frozen complete 19 · pending 0",
+"104 · Epoch 4 — Session state & governance · entries 10 · markerless 0 · frozen complete 10 · pending 0",
+"125 · Epoch 5 — Driver surface · entries 17 · markerless 3 · frozen complete 13 · pending 1",
+"160 · Epoch 6 — Security hardening · entries 7 · markerless 7 · frozen complete 0 · pending 0",
+"175 · Epoch 7 — Cross-OS completion · entries 3 · markerless 3 · frozen complete 0 · pending 0",
+"182 · Epoch 8 — Polish & ship · entries 1 · markerless 1 · frozen complete 0 · pending 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

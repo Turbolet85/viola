@@ -25,3 +25,31 @@ The Windows-target lint was read on the host before the push (ci.md, 2026-10-10)
 ```
 hygiene: clean — read 64 (runs 49 · evidence 6 · inputs 9) · trails 15 not read · copies 7 not read by P1 — 0 host paths kept · binary 0 not read by P1
 ```
+
+Read again right before the commit, after this file was first written: `hygiene: clean — read 65 (runs 49 ·
+evidence 7 · inputs 9) …`.
+
+## 3. The pre-CI commit
+
+`43c64109ff05457d53e8c6da0c8a8a4acca86e15`: `chore(2026-10-17-optional-plugin-install): operator pre-CI commit, for the
+run this chunk's verdict reads`, the whole tree. `git status --short` was empty after it.
+
+## 4. The push (entry 20, `gate.py run … --operator 20`)
+
+```
+operator entry 20 · history tripwire: git
+ 20 probe       green · exit 0 · 2.33s · 90 B → 20.log · history moved: refs/remotes/origin/HEAD 9afbff44→43c64109; refs/remotes/origin/build/viola-0.1.0 9afbff44→43c64109 · git diff --quiet && git diff --cached --quiet && git push … (69 chars)
+```
+
+## 5. The CI read (entry 21, fired as written, with the commit's full sha in place of `HEAD`: the same commit)
+
+2026-10-18T02:25:11Z:
+
+```
+ci v1.3 · b795b622
+repo Turbolet85/viola (the push remote `origin`) · polled 20× over 589 s
+43c64109ff05 verdict: green · checks 15/15 · wall 586 s · runs ci#39090008812 completed/success
+```
+
+The run itself (`gh run view 39090008812`): `attempt` 1, `conclusion` `success`, `event` `push`, `headSha`
+`43c64109ff05457d53e8c6da0c8a8a4acca86e15`. No fix commit was needed.

@@ -1084,3 +1084,11 @@ Each was then killed by a case in `typed.rs`'s `mod tests`, shown red under its 
 - §7 and §8: no manifest names tokio `test-util` (as landed: `viola-mcp` `rt`, `viola-channel` `io-util` and dev `rt`, `viola-e2e` `rt` + `process`); `viola-mcp` owns no timer — its `wait` bound is the pure `wait_timeout`, a unit case — so no `start_paused` test exists.
 **Why:** the counted list is the filter line's names (the count's rule); the unstamped option serves the Path 7 MCP leg; the time qualifier keeps a planned mechanism from reading as built.
 **Ref:** .andromeda/runs/2026-10-17T14-19-45-wrap/
+
+## 2026-10-17-optional-plugin-install — the plugin install suite and the reshaped help pin
+**Section:** §5 Integration Test Strategy → Cross-module patterns covered → CLI
+**Change:**
+- `help_lists_only_served_verbs`: was "each served verb answers `--help` exit 0 … no `plugin` in the table"; now each served verb path answers (`plugin install --help` included), its usage the program then the verb's words, the table's words read from the group rows alone (`plugin install` one entry of `setup:`), no bare `plugin`.
+- New: `tests/cli_plugin_install.rs` pins `viola plugin install [--json]` against `CARGO_BIN_EXE_viola`, each case in a fresh home (the tree and its `.mcp.json`, the re-run, the modes under `umask 000`, the `ok` document, the planning form, no escape byte, the widened-home refusal, the self pair, `viola plugin` exit 2), its units in `marketplace.rs`, `src/cmd/plugin.rs` and `src/human/verbs.rs` named.
+**Why:** the chunk added the verb and moved the help pin; the master names the functions and states no case count.
+**Ref:** .andromeda/runs/2026-10-18T02-36-56-wrap/

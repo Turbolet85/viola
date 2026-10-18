@@ -1,0 +1,219 @@
+[
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "3f25895d",
+"ts": "2026-10-18T02:37:22Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-17-optional-plugin-install",
+"--message-file",
+".andromeda/runs/2026-10-18T02-36-56-wrap/relay-1.md",
+"--origin",
+"the operator, the /andromeda-wrap-session invocation, 2026-10-18, relaying the Viola overseer (PROVISIONAL; the founder asleep)",
+"--kind",
+"relay",
+"--why",
+"route-resolve: v1-42 un-claimed at P7.3 with a dated note; the two unread readings and the trust-dialog method a CARRY on \"Compact post-condition ledger row\"; a boundary widening found now HELD for the founder",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-18T02-36-56-wrap",
+"--marker",
+"2026-10-17-optional-plugin-install"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I8 · copy message · message: the operator, the /andromeda-wrap-session invocation, 2026-10-18, relaying the Viola overseer (PROVISIONAL; the founder asleep)",
+"cite: inputs#I8"
+],
+"stderr": null,
+"wrote": [
+"inputs/I8-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I8",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, the /andromeda-wrap-session invocation, 2026-10-18, relaying the Viola overseer (PROVISIONAL; the founder asleep)",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "8e5cc71230800a78f04843927f3d6c27222289f7aa4bce6f97853a401471c23f",
+"copy": "I8-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-18T02:37:22Z",
+"step": "wrap",
+"why": "route-resolve: v1-42 un-claimed at P7.3 with a dated note; the two unread readings and the trust-dialog method a CARRY on \"Compact post-condition ledger row\"; a boundary widening found now HELD for the founder"
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "3f25895d",
+"ts": "2026-10-18T02:37:22Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-17-optional-plugin-install",
+"--run-dir",
+".andromeda/runs/2026-10-18T02-36-56-wrap",
+"--marker",
+"2026-10-17-optional-plugin-install"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase invocation, 2026-10-17 15:14Z",
+"I1 cited scope.md:45 · scope.md:51 · scope.md:54 · scope.md:87 · research.md:7 · research.md:66 · plan.md:502",
+"I2 n/a — a message has no live source · copy message · message: the founder, live in the overseer dialog, relayed verbatim by the Viola overseer, 2026-10-17T17:50Z",
+"I2 cited scope.md:26 · scope.md:45 · scope.md:56 · research.md:69 · plan.md:9 · plan.md:28 · plan.md:40 · plan.md:47 · plan.md:119 · plan.md:182 · plan.md:207 · plan.md:213 · plan.md:232 · plan.md:254 · plan.md:260 · plan.md:290 · plan.md:463 · plan.md:472 · plan.md:503 · plan.md:521 · plan.md:522 · plan.md:525 · plan.md:527 · plan.md:540 · plan.md:558 · plan.md:560 · plan.md:570 · plan.md:572",
+"I3 n/a — a message has no live source · copy message · message: the operator, in this session, 2026-10-17T18:05Z",
+"I3 UNCITED",
+"I4 n/a — a message has no live source · copy message · message: the operator, the /andromeda-implement invocation, 2026-10-17T18:08Z, relaying the founder cap of his dialog 2026-10-17T17:50Z",
+"I4 UNCITED",
+"I5 n/a — a message has no live source · copy message · message: the operator, relaying the founder (Q1, Q3, live in the overseer dialog, 2026-10-18T01:42Z) and the overseer (Q2)",
+"I5 UNCITED",
+"I6 n/a — a message has no live source · copy message · message: the operator, relaying the founder (Q1, Q2, live in the overseer dialog, 2026-10-18)",
+"I6 UNCITED",
+"I7 n/a — a message has no live source · copy message · message: the operator, relaying the Viola overseer (the founder asleep, his forks PROVISIONAL), 2026-10-18",
+"I7 UNCITED",
+"I8 n/a — a message has no live source · copy message · message: the operator, the /andromeda-wrap-session invocation, 2026-10-18, relaying the Viola overseer (PROVISIONAL; the founder asleep)",
+"I8 UNCITED",
+"inputs: 8 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 8 · uncited 6 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 8,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 8
+},
+"uncited": 6,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "3f25895d",
+"ts": "2026-10-18T02:41:53Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-17-optional-plugin-install",
+"--run-dir",
+".andromeda/runs/2026-10-18T02-36-56-wrap",
+"--marker",
+"2026-10-17-optional-plugin-install"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase invocation, 2026-10-17 15:14Z",
+"I1 cited scope.md:45 · scope.md:51 · scope.md:54 · scope.md:87 · research.md:7 · research.md:66 · plan.md:502",
+"I2 n/a — a message has no live source · copy message · message: the founder, live in the overseer dialog, relayed verbatim by the Viola overseer, 2026-10-17T17:50Z",
+"I2 cited scope.md:26 · scope.md:45 · scope.md:56 · research.md:69 · plan.md:9 · plan.md:28 · plan.md:40 · plan.md:47 · plan.md:119 · plan.md:182 · plan.md:207 · plan.md:213 · plan.md:232 · plan.md:254 · plan.md:260 · plan.md:290 · plan.md:463 · plan.md:472 · plan.md:503 · plan.md:521 · plan.md:522 · plan.md:525 · plan.md:527 · plan.md:540 · plan.md:558 · plan.md:560 · plan.md:570 · plan.md:572 · report.md:65 · report.md:69 · report.md:70 · report.md:80 · report.md:81 · report.md:122",
+"I3 n/a — a message has no live source · copy message · message: the operator, in this session, 2026-10-17T18:05Z",
+"I3 cited report.md:69 · report.md:83 · report.md:86",
+"I4 n/a — a message has no live source · copy message · message: the operator, the /andromeda-implement invocation, 2026-10-17T18:08Z, relaying the founder cap of his dialog 2026-10-17T17:50Z",
+"I4 UNCITED",
+"I5 n/a — a message has no live source · copy message · message: the operator, relaying the founder (Q1, Q3, live in the overseer dialog, 2026-10-18T01:42Z) and the overseer (Q2)",
+"I5 cited report.md:62 · report.md:81 · report.md:113 · report.md:118",
+"I6 n/a — a message has no live source · copy message · message: the operator, relaying the founder (Q1, Q2, live in the overseer dialog, 2026-10-18)",
+"I6 cited report.md:46 · report.md:63 · report.md:66 · report.md:81 · report.md:103",
+"I7 n/a — a message has no live source · copy message · message: the operator, relaying the Viola overseer (the founder asleep, his forks PROVISIONAL), 2026-10-18",
+"I7 cited report.md:103 · report.md:151",
+"I8 n/a — a message has no live source · copy message · message: the operator, the /andromeda-wrap-session invocation, 2026-10-18, relaying the Viola overseer (PROVISIONAL; the founder asleep)",
+"I8 cited report.md:63 · report.md:67 · report.md:69 · report.md:71 · report.md:134 · report.md:136",
+"inputs: 8 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 8 · uncited 1 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 8,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 8
+},
+"uncited": 1,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "3f25895d",
+"ts": "2026-10-18T02:42:10Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-17-optional-plugin-install",
+"--run-dir",
+".andromeda/runs/2026-10-18T02-36-56-wrap",
+"--marker",
+"2026-10-17-optional-plugin-install"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase invocation, 2026-10-17 15:14Z",
+"I1 cited scope.md:45 · scope.md:51 · scope.md:54 · scope.md:87 · research.md:7 · research.md:66 · plan.md:502",
+"I2 n/a — a message has no live source · copy message · message: the founder, live in the overseer dialog, relayed verbatim by the Viola overseer, 2026-10-17T17:50Z",
+"I2 cited scope.md:26 · scope.md:45 · scope.md:56 · research.md:69 · plan.md:9 · plan.md:28 · plan.md:40 · plan.md:47 · plan.md:119 · plan.md:182 · plan.md:207 · plan.md:213 · plan.md:232 · plan.md:254 · plan.md:260 · plan.md:290 · plan.md:463 · plan.md:472 · plan.md:503 · plan.md:521 · plan.md:522 · plan.md:525 · plan.md:527 · plan.md:540 · plan.md:558 · plan.md:560 · plan.md:570 · plan.md:572 · report.md:65 · report.md:69 · report.md:70 · report.md:80 · report.md:81 · report.md:122",
+"I3 n/a — a message has no live source · copy message · message: the operator, in this session, 2026-10-17T18:05Z",
+"I3 cited report.md:69 · report.md:83 · report.md:86",
+"I4 n/a — a message has no live source · copy message · message: the operator, the /andromeda-implement invocation, 2026-10-17T18:08Z, relaying the founder cap of his dialog 2026-10-17T17:50Z",
+"I4 cited report.md:57",
+"I5 n/a — a message has no live source · copy message · message: the operator, relaying the founder (Q1, Q3, live in the overseer dialog, 2026-10-18T01:42Z) and the overseer (Q2)",
+"I5 cited report.md:62 · report.md:81 · report.md:113 · report.md:118",
+"I6 n/a — a message has no live source · copy message · message: the operator, relaying the founder (Q1, Q2, live in the overseer dialog, 2026-10-18)",
+"I6 cited report.md:46 · report.md:63 · report.md:66 · report.md:81 · report.md:103",
+"I7 n/a — a message has no live source · copy message · message: the operator, relaying the Viola overseer (the founder asleep, his forks PROVISIONAL), 2026-10-18",
+"I7 cited report.md:103 · report.md:151",
+"I8 n/a — a message has no live source · copy message · message: the operator, the /andromeda-wrap-session invocation, 2026-10-18, relaying the Viola overseer (PROVISIONAL; the founder asleep)",
+"I8 cited report.md:63 · report.md:67 · report.md:69 · report.md:71 · report.md:134 · report.md:136",
+"inputs: 8 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 8 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 8,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 8
+},
+"uncited": 0,
+"unparsed": 0
+}
+}
+]

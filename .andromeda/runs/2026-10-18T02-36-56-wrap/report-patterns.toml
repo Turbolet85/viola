@@ -1,0 +1,62 @@
+[[pattern]]
+id = 'title'
+fixed = 'Optional plugin install'
+ignore_case = true
+
+[[pattern]]
+id = 'owner'
+regex = 'owned by a (route entry|CARRY)'
+ignore_case = true
+
+[[pattern]]
+id = 'verb'
+regex = 'plugin install'
+
+[[pattern]]
+id = 'marketplace'
+regex = 'marketplace'
+ignore_case = true
+
+[[pattern]]
+id = 'precedence'
+regex = '[Pp]recedence|which `?viola`? (MCP )?server'
+
+[[pattern]]
+id = 'exit1'
+regex = 'exits 1 blocks|that exits 1'
+
+[[pattern]]
+id = 'setup-row'
+regex = 'run, revive, verify'
+
+[[pattern]]
+id = 'help-pin'
+fixed = 'help_lists_only_served_verbs'
+
+[[pattern]]
+id = 'refuse-census'
+regex = 'human::refuse'
+
+[[pattern]]
+id = 'win-mutants'
+regex = 'viola-main|windows-mutants'
+
+[[pattern]]
+id = 'exemption7'
+regex = 'exemption 7|seventh exemption'
+
+[[pattern]]
+id = 'trust'
+regex = '[Tt]rust dialog|Yes, I trust this folder'
+
+[[pattern]]
+id = 'local-scope'
+regex = 'scope local|--scope local|settings\.local\.json'
+
+[[pattern]]
+id = 'claude-home'
+regex = 'nothing under `?~/\.claude'
+
+[[pattern]]
+id = 'v1-42'
+fixed = 'v1-42'

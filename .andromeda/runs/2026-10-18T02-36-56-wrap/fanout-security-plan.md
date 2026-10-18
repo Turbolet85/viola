@@ -1,0 +1,33 @@
+proposals:
+  - detector: D-security-auth
+    severity: warning
+    section: 'Authentication & Authorization (the `~/.viola/` access control row, its strict-modes entry points)'
+    change: 'After the `mcp` clause of the strict-modes entry points add: `plugin install` (chunk 2026-10-17-optional-plugin-install), which reads none of the trusted files: its `tree_passes` runs `viola_state::strict::check_path` on the home and on each of `marketplace/`, `marketplace/.claude-plugin/`, `marketplace/viola/`, `marketplace/viola/.claude-plugin/` that exists (a dir not there passes, one that cannot be read fails) before anything under the home is created, written or opened; a refusal is exit 21 with nothing created and no log opened (human mode the home-state `unable:` / `hint:` pair, stdout empty; `--json` exactly `{"v":1,"error":"instance-unreachable","detail":null}`, stderr empty); `marketplace/` is not on the trusted-file list (viola never reads it back), and the installed `.mcp.json` `command` (the canonical `current_exe`) gets no re-hash, only the pinned copy is re-hashed; the tree''s integrity against a same-user writer (an unknown entry left as found, no re-hash of the installed `command`) is owed to the route entry "Home and code-bearing file integrity".'
+    sidecar: 'security-plan §Authentication & Authorization `~/.viola/` access control: `plugin install` joins the strict-modes entry points (check_path on the home and the four marketplace dirs before any create, write or log; exit 21 `instance-unreachable`); `marketplace/` off the trusted-file list; the installed command not re-hashed, its integrity owed to "Home and code-bearing file integrity" (chunk 2026-10-17-optional-plugin-install).'
+    rationale: 'The report (Changes, Symbols / APIs, the verb''s order steps 2-3; Expected amendments 7; Coverage of new surfaces) has the new verb use §Authentication''s strict-modes control on five dirs before its write and its log, and records the trusted-file and re-hash position and the integrity remainder owned by "Home and code-bearing file integrity" (`inputs#I3` card row 2). The row''s enumerated entry-point set names `run`, `revive`, `list`, `mcp`, `hook` and the CLI client verbs, not this verb, so the flow the chunk uses is unrecorded where the doc enumerates it.'
+    basis: 'src/cmd/plugin.rs:78-87'
+  - detector: D-security-auth
+    severity: warning
+    section: 'Data Protection (At rest → Files (`~/.viola/`) → Code-bearing artefacts)'
+    change: 'Add a bullet: `viola plugin install` writes `<home>/marketplace/` (its five dirs at 0700 by `create_private_dir`, the home created when absent; three files at 0600 by `replace_private`, each rewritten whole on every run, any other entry in the tree left as found): `.claude-plugin/marketplace.json`, `viola/.claude-plugin/plugin.json` and `viola/.mcp.json`, whose `mcpServers.viola` `command` is the canonical `current_exe` in forward slashes and `args` `["--home", <the home re-canonicalised once it exists>, "mcp"]`, built by `serde_json`, with no `hooks` key in any document; Claude Code runs that command for MCP in a session that installed the plugin; viola never reads the tree back and never re-hashes the command; the verb writes nothing else, spawns no `claude`, and writes nothing under `~/.claude` (the two `claude plugin` commands it prints are the user''s to run).'
+    sidecar: 'security-plan §Data Protection code-bearing artefacts: the `<home>/marketplace/` tree `viola plugin install` writes (0700 / 0600, rewritten whole, MCP-only `.mcp.json` with the canonical exe, never read back, no re-hash; no `claude` spawned, nothing under `~/.claude`) (chunk 2026-10-17-optional-plugin-install).'
+    rationale: 'The report (Changes, Symbols / APIs step 5 and `viola_agent_claude::marketplace`; Schema / config: 5 dirs at 0700, 3 files at 0600, never read back; Expected amendments 6) adds a code-bearing file Claude Code executes for MCP; the code-bearing list enumerates `plugin/`, `instances/<name>/settings.json`, the pinned exe, the ConPTY companions and `ledger/stamps.json` only. The "viola writes nothing under `~/.claude`" claim stands (Expected amendments 6).'
+    basis: 'src/cmd/plugin.rs:102-118'
+    dependent-of: D-security-auth
+  - detector: D-security-auth
+    severity: warning
+    section: 'Threat Model Summary (Data classification → config, its Where list)'
+    change: 'Beside the `plugin/<version>-<hash>/hooks/hooks.json` and `.mcp.json` bullet add: `<home>/marketplace/viola/.mcp.json`, written by `viola plugin install`, holds the absolute exec path (the canonical exe that ran the install) Claude Code runs for MCP in a session that installed the plugin.'
+    sidecar: 'security-plan Threat Model data classification (config): the marketplace `.mcp.json` joins the files holding an exec path Claude Code runs (chunk 2026-10-17-optional-plugin-install).'
+    rationale: 'The same claim restated: the config list names the files that decide what code runs, and the report''s `viola/.mcp.json` (Changes, `viola_agent_claude::marketplace`) is one more such file.'
+    basis: 'crates/viola-agent-claude/src/marketplace.rs:43-47'
+    dependent-of: D-security-auth
+  - detector: D-security-auth
+    severity: warning
+    section: 'Threat Model Summary (Attack surface → Filesystem state under `~/.viola/`, its code-bearing artefacts entry point)'
+    change: 'The code-bearing artefacts bullet also names `<home>/marketplace/viola/.mcp.json` (written by `viola plugin install`, never read back by viola, its `command` not re-hashed), which Claude Code runs for MCP in a session that installed the plugin.'
+    sidecar: 'security-plan Threat Model attack surface (filesystem): the marketplace `.mcp.json` joins the code-bearing artefacts (chunk 2026-10-17-optional-plugin-install).'
+    rationale: 'The same claim restated a third time: the attack-surface entry point lists the code-bearing artefacts as `bin/` and `plugin/` only, and the report adds the marketplace `.mcp.json` (Changes, Symbols / APIs; Expected amendments 7).'
+    basis: 'crates/viola-agent-claude/src/marketplace.rs:43-47'
+    dependent-of: D-security-auth
+note: 'D-security-input: no drift — the verb''s only inputs are `--home` / `VIOLA_*` through `resolved_home` and `--json`, it reads nothing back, and the strict-modes check precedes every write (the CLI arguments row''s per-verb clauses could gain a `plugin install arguments: [--json] only, no name` clause, not a violation); D-security-deps: no dependency added (`Cargo.lock` unchanged); the exec-form ban at security-plan.md:539 already matches as built; the live round''s CLI-owned residual under `~/.claude/plugins/cache/` (Expected amendments 6) has no detector of mine.'

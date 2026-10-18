@@ -29,7 +29,8 @@
   founder's Q3).
 - **Unmet:** the `(manual, live)` criterion and v1-42's live half. **v1-42 stays `planned`, `ref` null**; its
   integration half is green. Record: `evidence/live-round.md`, `evidence/live-sessions.ndjson`.
-- **Next:** the operator pass (its record: `evidence/operator-pass.md`), then `/andromeda-wrap-session`. The outcome stays surfaced, and v1-42 stays planned (`inputs#I7`).
+- **The operator pass:** done. pre-push green, hygiene clean, pre-CI commit `43c64109`, push green; CI green 15/15 on that sha (`ci#39090008812`, attempt 1, wall 586 s). Record: `evidence/operator-pass.md`.
+- **Next:** `/andromeda-wrap-session`. The outcome stays surfaced, and v1-42 stays planned (`inputs#I7`).
 
 ## Files changed
 - New: `crates/viola-agent-claude/src/marketplace.rs`, `src/cmd/plugin.rs`, `tests/cli_plugin_install.rs`;

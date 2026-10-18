@@ -1,0 +1,6 @@
+
+## 2026-10-17-optional-plugin-install — the live round's residual under ~/.claude
+**Section:** §Data Protection (an accepted residual)
+**Change:** a live round that installs the plugin runs the CLI's own four commands (`claude plugin marketplace add` / `install` / `uninstall` / `marketplace remove`) at `--scope local` from a rig dir under `target/` that is its own git repo, since the CLI takes the local scope's project from the git work tree root. The CLI's writes under `~/.claude` are its own: after the removal its orphaned plugin cache `~/.claude/plugins/cache/viola/viola/<version>/` stays, `installed_plugins.json` and `known_marketplaces.json` back as before (as measured on claude 2.1.287 at this chunk). viola itself writes nothing under `~/.claude`.
+**Why:** a boundary widening (the round writes the CLI's own configuration), ratified by the founder's own answer to P4 fork Q3 «Local scope в стенде», relayed verbatim by the Viola overseer, and his later answer to the same fork «proj/ — свой git-репо», relayed verbatim by the operator. The wrap's answer-card confirm that this entry lies inside them is a delegate's (the Viola overseer) — PROVISIONAL, superseded by his own word at the Epoch 5 boundary batch.
+**Ref:** .andromeda/runs/2026-10-18T02-36-56-wrap/

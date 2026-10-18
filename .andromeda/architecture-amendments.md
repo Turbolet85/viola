@@ -1311,3 +1311,24 @@ Each superseded mark is kept in the body as the operator's word, superseded 2026
 **Change:** was one open divergence (`viola-agent-claude`'s `Refusal`); now two: `viola-mcp` holds `ServeError` (`Runtime`, `Initialize`, `Session`; fixed messages, returned by `serve`) beside `McpError` (`Internal`, Display `internal error`). The one-enum-per-crate rule stands; the fold or ratification of each is open.
 **Why:** the chunk landed two enums in one crate. Recorded as an open divergence, not an exception, on the Viola overseer's answer at this wrap (a delegate's, PROVISIONAL), with no route work.
 **Ref:** .andromeda/runs/2026-10-17T14-19-45-wrap/
+
+## 2026-10-17-optional-plugin-install — plugin install as built; the precedence and the exit-1 start not measured
+**Section:** §Established Decisions [Plugin Scope], [CLI Version Compatibility], [Deployment / Distribution]
+**Change:**
+- [Plugin Scope]: was "which `viola` MCP server a wrapped session then uses, is a capability-ledger row"; now it is no ledger row (no `send` relies on it, the ruled limit) and is not measured, owed to the route entry "Compact post-condition ledger row", its Windows leg to "Windows-only live measurements". As built, `viola plugin install` writes only `<home>/marketplace/` and spawns no `claude`; its `.mcp.json` registers `viola` as `{"command": <the canonical current_exe, forward slashes>, "args": ["--home", <the canonical home, forward slashes>, "mcp"]}`, each document built by `serde_json` (`viola_agent_claude::marketplace::marketplace_files`).
+- [CLI Version Compatibility]: the ledger-row bullet "Plugin precedence" is removed; was "plugin precedence stays owed"; now "plugin precedence is no row ([Plugin Scope])".
+- [Deployment / Distribution]: was "unmeasured (the founder's live-start cap)"; now unmeasured, owed to "Compact post-condition ledger row".
+**Why:** no 24th `LedgerRow` and one live round are the founder's own answer to P4 fork Q2, relayed verbatim by the Viola overseer. The round took none of its readings: inside the work tree the local scope landed at its root, and with `proj/` its own git repo both wrapped starts were held by the folder-trust dialog, start 3 unspent. The owner placement of the unread readings is the Viola overseer's answer at this wrap (`inputs#I8`), a delegate's — PROVISIONAL, for the founder's own word at the Epoch 5 boundary batch.
+**Ref:** .andromeda/runs/2026-10-18T02-36-56-wrap/
+
+## 2026-10-17-optional-plugin-install — plugin install's exits, document, names and files
+**Section:** §Conventions (CLI exit codes 1, 21); §Standard Contracts CLI `--json` output; §Occupied Resources (Binary, subcommands and exit codes; Claude Code integration names; Filesystem `marketplace/`, `diagnostics/`); §Infrastructure Patterns → Project directory structure
+**Change:**
+- Subcommands: `plugin install` takes `[--json]` and nothing else (`viola plugin` alone a usage error; clap's own `viola plugin help` served); exits 0 / 21 (its strict-modes check refusing the home or an existing `marketplace/` tree dir, nothing created, no log opened) / 1 (the `cli` catch site) / 2.
+- Exit 21 gains its refusal (the same document; human mode the home-state pair); exit 1's catch-site verbs gain `plugin install`.
+- `--json`: `{"v":1,"ok":{"marketplace":"viola","plugin":"viola@viola"}}` (exit 0, no path); its refusal the `instance-unreachable` document through `client::refused_document`.
+- Integration names: the local marketplace `viola` (`marketplace::NAME`), one plugin `viola` (source `./viola`), added as `viola@viola` (`PLUGIN_REF`), its `.mcp.json` registering server `viola`, no hooks.
+- Filesystem: was "`marketplace/`: written only by `viola plugin install`"; now with its dirs `.claude-plugin/`, `viola/`, `viola/.claude-plugin/` (0700, `create_private_dir`) and three files (0600, `replace_private`, rewritten whole), after its strict-modes check, any other entry left as found, never read back. `diagnostics/`: `plugin install` writes the self pair into the caller's `cli-<VIOLA_NAME>.ndjson` only under a parsed name and after its check passed.
+- Directory structure: `cmd/plugin.rs`; `human/verbs.rs`'s install lines (`write_plugin_installed`, `command_word`, a Windows-gated source in `windows-mutants.yml`'s `viola-main` job); `human.rs`'s callers gain `plugin install`; `viola-agent-claude`'s pure `marketplace` module.
+**Why:** the chunk built the verb; its argument and exit shape follow `viola list`'s strict-check-before-log order.
+**Ref:** .andromeda/runs/2026-10-18T02-36-56-wrap/

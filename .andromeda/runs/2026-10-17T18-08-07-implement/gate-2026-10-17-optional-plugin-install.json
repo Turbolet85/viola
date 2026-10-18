@@ -2227,5 +2227,55 @@
 }
 ]
 }
+},
+{
+"tool": "gate",
+"v": "1.19",
+"sha8": "bebab50b",
+"ts": "2026-10-18T02:35:22Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-17-optional-plugin-install",
+"--run-dir",
+".andromeda/runs/2026-10-17T18-08-07-implement",
+"--marker",
+"2026-10-17-optional-plugin-install"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base 9afbff44 (the parent of the oldest pre-CI commit 43c64109) · lists new 4 · modify 6 · derived 0 · record 1",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"recorded companion .github/workflows/windows-mutants.yml",
+"list viola-0.1.0/chunks/2026-10-17-optional-plugin-install/evidence/ (dir) ×0",
+"scope: clean — changed 10 · listed 9 · recorded 1 (companion 1 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 74"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "9afbff44442cac187ac3bc8ddc9292deb4305327",
+"base_why": "the parent of the oldest pre-CI commit 43c64109",
+"counts": {
+"changed": 10,
+"listed": 9,
+"recorded": 1,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 1,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 74,
+"unparsed": 0,
+"widening_without_word": 0
+}
 }
 ]

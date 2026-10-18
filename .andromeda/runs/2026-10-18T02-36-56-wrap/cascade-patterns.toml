@@ -1,0 +1,56 @@
+[[pattern]]
+id = 'ledger-row'
+regex = 'capability-ledger row'
+
+[[pattern]]
+id = 'precedence'
+regex = '[Pp]lugin precedence|which `?viola`? (MCP )?server'
+
+[[pattern]]
+id = 'exit1-start'
+regex = 'exits 1 blocks|live-start cap'
+
+[[pattern]]
+id = 'pending-join'
+regex = '`plugin install` (join|when|with)|by "Optional plugin install"|"Optional plugin install" serve'
+
+[[pattern]]
+id = 'setup-row'
+regex = 'revive, verify(`|$|\)| [^p])'
+
+[[pattern]]
+id = 'census'
+regex = 'human::refuse|revive` \(1\)|revive` 1\b'
+
+[[pattern]]
+id = 'catch-site'
+regex = 'revive --list`(\)|;| and)'
+
+[[pattern]]
+id = 'exemption7'
+regex = 'exemption 7|seventh exemption'
+
+[[pattern]]
+id = 'span'
+regex = 'cli\.plugin_install|Dispatch spans'
+
+[[pattern]]
+id = 'marketplace'
+regex = 'marketplace'
+ignore_case = true
+
+[[pattern]]
+id = 'help-pin'
+fixed = 'help_lists_only_served_verbs'
+
+[[pattern]]
+id = 'claude-home'
+regex = 'nothing under `?~/\.claude'
+
+[[pattern]]
+id = 'code-bearing'
+regex = '[Cc]ode-bearing artefacts'
+
+[[pattern]]
+id = 'verb'
+regex = 'plugin install'
