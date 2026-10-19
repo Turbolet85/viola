@@ -53,7 +53,7 @@ fn offset(n: usize) -> u64 {
 }
 
 /// Architecture's per-kind `data` list, one literal body per kind holding every key of its row.
-fn every_kind() -> [(EventKind, &'static str, Value); 15] {
+fn every_kind() -> [(EventKind, &'static str, Value); 16] {
     [
         (
             EventKind::SessionStart,
@@ -122,6 +122,11 @@ fn every_kind() -> [(EventKind, &'static str, Value); 15] {
             "unlink",
             json!({"driver": "overseer", "driven": "builder"}),
         ),
+        (
+            EventKind::DialogExpired,
+            "dialog-expired",
+            json!({"dialog_id": 4, "dialog_kind": "question"}),
+        ),
     ]
 }
 
@@ -133,7 +138,7 @@ fn state_events_every_kind_round_trips_the_six_key_line() {
     }
     let bytes = log(tmp.path());
     let (lines, skipped) = read(tmp.path(), 0);
-    assert_eq!(lines.len(), 15);
+    assert_eq!(lines.len(), 16);
     for (line, (_, name, data)) in lines.iter().zip(every_kind()) {
         let keys: Vec<&str> = line
             .value

@@ -1,13 +1,16 @@
 //! The wrapper's dialog slot (architecture §Standard Contracts `hook.dialog` / `answer`; [Message
 //! Broker / IPC]): every raised dialog is logged once, with a `dialog_id` that never repeats across
 //! restarts, before any reply. At most one is held pending for a driver's answer, until the answer
-//! arrives, `DIALOG_DEADLINE` passes on the injected clock, or the human takes the wheel; any other
-//! is left to the human (`null` at once), and so is every dialog raised while the human holds the
-//! wheel. A PermissionRequest that repeats its PreToolUse's `tool_input` is the same dialog: it is
-//! answered from that dialog's outcome and logs nothing. viola carries the driver's answer; it never
-//! picks one.
+//! arrives, the hold `config.json` sets (`dialog_hold_s`, read once at start) passes on the
+//! injected clock, or the human takes the wheel; any other is left to the human (`null` at once),
+//! and so is every dialog raised while the human holds the wheel. A hold that runs out is left to
+//! the human too, with one `dialog-expired` record that wakes `wait`. A PermissionRequest that
+//! repeats its PreToolUse's `tool_input` is the same dialog: it is answered from that dialog's
+//! outcome and logs nothing. viola carries the driver's answer; it never picks one.
 
-use std::path::PathBuf;
+use std::fs::File;
+use std::io::Read as _;
+use std::path::{Path, PathBuf};
 use std::sync::{Arc, Condvar, Mutex, MutexGuard, OnceLock, PoisonError};
 use std::time::{Duration, Instant};
 
@@ -19,11 +22,13 @@ use viola_agent_claude::hook::HookEvent;
 use viola_channel::{Call, ProtocolError};
 use viola_core::obs::ObsEvent;
 use viola_core::{
-    Clock, DIALOG_DEADLINE, HumanTyping, NotDelivered, RefusalReason, ViolaName, obs_event,
+    Clock, DIALOG_HOLD_DEFAULT, DialogHold, EventKind, HumanTyping, MAX_FRAME, NotDelivered,
+    RefusalReason, ViolaName, obs_event,
 };
-use viola_state::events::{EventLine, LoggedLine, Source, append_event_at};
+use viola_state::events::{EventLine, LoggedLine, Source, append_event, append_event_at};
 use viola_state::snapshot::{PendingDialog, Wheel};
 
+use crate::obs::ConfigRejection;
 use crate::run::links::LinkSet;
 use crate::run::send::parse_from;
 use crate::run::snapshot::Snapshots;
@@ -67,6 +72,7 @@ struct State {
 /// One instance's dialogs.
 pub(crate) struct DialogSlot {
     clock: Box<dyn Clock>,
+    hold: Duration,
     cli_verified: bool,
     name: ViolaName,
     instance_dir: PathBuf,
@@ -144,7 +150,45 @@ fn millis(d: Duration) -> u64 {
     u64::try_from(d.as_millis()).unwrap_or(u64::MAX)
 }
 
+const HOLD_KEY: &str = "dialog_hold_s";
+
+/// The dialog hold from `<home>/config.json`'s `dialog_hold_s`, and one rejection when its value is
+/// not a whole number of seconds from 60 to 3600: the hold is then the default, so no value makes
+/// it zero or unbounded.
+pub(crate) fn read_hold(home: &Path) -> (DialogHold, Vec<ConfigRejection>) {
+    let mut bytes = Vec::new();
+    // An absent, unreadable or malformed document is `read_diagnostics_level`'s to report, once.
+    match File::open(home.join("config.json")) {
+        Ok(file) => match file.take(MAX_FRAME).read_to_end(&mut bytes) {
+            Ok(_) => parse_hold(&bytes),
+            Err(_) => (DialogHold::default(), Vec::new()),
+        },
+        Err(_) => (DialogHold::default(), Vec::new()),
+    }
+}
+
+fn parse_hold(bytes: &[u8]) -> (DialogHold, Vec<ConfigRejection>) {
+    let Ok(Value::Object(map)) = serde_json::from_slice::<Value>(bytes) else {
+        return (DialogHold::default(), Vec::new());
+    };
+    if map.get("v").and_then(Value::as_u64) != Some(1) {
+        return (DialogHold::default(), Vec::new());
+    }
+    match map.get(HOLD_KEY).map(whole_hold) {
+        None => (DialogHold::default(), Vec::new()),
+        Some(Some(hold)) => (hold, Vec::new()),
+        Some(None) => (DialogHold::default(), vec![ConfigRejection::Malformed]),
+    }
+}
+
+fn whole_hold(value: &Value) -> Option<DialogHold> {
+    let whole = u16::try_from(value.as_u64()?).ok()?;
+    DialogHold::try_new(whole).ok()
+}
+
 impl DialogSlot {
+    /// A slot holding each dialog for `DIALOG_HOLD_DEFAULT`; the start sets the configured hold
+    /// with [`DialogSlot::hold_for`].
     pub(crate) fn new(
         clock: impl Clock + 'static,
         cli_verified: bool,
@@ -156,6 +200,7 @@ impl DialogSlot {
     ) -> Self {
         Self {
             clock: Box::new(clock),
+            hold: DIALOG_HOLD_DEFAULT,
             cli_verified,
             name,
             instance_dir,
@@ -169,6 +214,12 @@ impl DialogSlot {
             }),
             answered: Condvar::new(),
         }
+    }
+
+    /// The hold each dialog is held for, read once at the start.
+    pub(crate) fn hold_for(mut self, hold: Duration) -> Self {
+        self.hold = hold;
+        self
     }
 
     /// The first call wins; the start calls it once, before the endpoint serves.
@@ -270,15 +321,16 @@ impl DialogSlot {
         Ok(dialog_id)
     }
 
-    /// Held until an answer arrives, the deadline passes or the dialog is handed back; each way the
-    /// pending dialog is cleared, and the PreToolUse arm learns the outcome.
+    /// Held until an answer arrives, the hold passes or the dialog is handed back; each way the
+    /// pending dialog is cleared, and the PreToolUse arm learns the outcome. A hold that ran out is
+    /// recorded once, and the reply stays `null`: the dialog is left to the human.
     #[instrument(
         skip_all,
         name = "run.dialog_await",
-        fields(deadline_ms = millis(DIALOG_DEADLINE), deadline_hit = tracing::field::Empty)
+        fields(deadline_ms = millis(self.hold), deadline_hit = tracing::field::Empty)
     )]
     fn await_answer(&self, mut state: MutexGuard<'_, State>, dialog_id: u64) -> Value {
-        let deadline = self.clock.now() + DIALOG_DEADLINE;
+        let deadline = self.clock.now() + self.hold;
         let (answer, deadline_hit) = loop {
             if let Some(answer) = state.pending.as_mut().and_then(|p| p.answer.take()) {
                 break (Some(answer), false);
@@ -296,15 +348,42 @@ impl DialogSlot {
                 .0;
         };
         tracing::Span::current().record("deadline_hit", deadline_hit);
-        state.pending = None;
+        let expired = state.pending.take().filter(|_| deadline_hit);
         self.feed.dialog_settled();
         self.write_pending(None);
+        if let Some(pending) = expired {
+            self.record_expiry(&pending);
+        }
         if let Some(arm) = state.arms.iter_mut().find(|a| a.dialog_id == dialog_id) {
             arm.outcome = answer
                 .clone()
                 .map_or(Outcome::Unanswered, Outcome::Answered);
         }
         reply(dialog_id, answer.as_ref())
+    }
+
+    /// One `dialog-expired` line through the wait feed, so a parked `wait` wakes on it, and the
+    /// wrapper's `dialog-answered` with `deadline_hit` (obs-plan §4). A failed append changes
+    /// nothing else: the reply is `null` either way.
+    fn record_expiry(&self, pending: &Pending) {
+        let line = EventLine::new(
+            &self.name,
+            EventKind::DialogExpired,
+            Source::Wrapper,
+            json!({"dialog_id": pending.dialog_id, "dialog_kind": pending.kind.as_str()}),
+            Utc::now(),
+        );
+        let _ = self
+            .feed
+            .appending(&line, || append_event(&self.instance_dir, &line));
+        obs_event!(
+            INFO,
+            ObsEvent::DialogAnswered,
+            corr = pending.dialog_id,
+            dialog_kind = pending.kind.as_str(),
+            deadline_hit = true,
+            duration_ms = millis(self.clock.now().saturating_duration_since(pending.raised)),
+        );
     }
 
     /// `snapshot.json` with `pending_dialog` set or cleared, through the wrapper's one snapshot
@@ -484,6 +563,24 @@ mod tests {
         wheel: Arc<WheelSlot>,
         snapshots: Arc<Snapshots>,
     ) -> DialogSlot {
+        held_slot_on(
+            dir,
+            clock,
+            viola_core::DIALOG_HOLD_DEFAULT,
+            verified,
+            wheel,
+            snapshots,
+        )
+    }
+
+    fn held_slot_on(
+        dir: &Path,
+        clock: impl Clock + 'static,
+        hold: Duration,
+        verified: bool,
+        wheel: Arc<WheelSlot>,
+        snapshots: Arc<Snapshots>,
+    ) -> DialogSlot {
         let feed = Arc::new(WaitFeed::new(JumpClock(Mutex::new(Instant::now()))));
         DialogSlot::new(
             clock,
@@ -494,6 +591,7 @@ mod tests {
             wheel,
             snapshots,
         )
+        .hold_for(hold)
     }
 
     fn slot(dir: &Path, clock: impl Clock + 'static, verified: bool) -> DialogSlot {
@@ -655,6 +753,205 @@ mod tests {
             slot.answer(&call(&late)),
             Ok(json!({"refusal": "not-delivered", "detail": "unknown-dialog"}))
         );
+    }
+
+    fn hold_of(config: Option<&str>) -> (u64, Vec<ConfigRejection>) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        if let Some(config) = config {
+            std::fs::write(tmp.path().join("config.json"), config).expect("write");
+        }
+        let (hold, rejections) = read_hold(tmp.path());
+        (hold.duration().as_secs(), rejections)
+    }
+
+    #[rstest]
+    #[case::absent_document(None, 60)]
+    #[case::absent_key(Some(r#"{"v":1}"#), 60)]
+    #[case::sixty(Some(r#"{"v":1,"dialog_hold_s":60}"#), 60)]
+    #[case::six_hundred(Some(r#"{"v":1,"dialog_hold_s":600}"#), 600)]
+    #[case::the_ceiling(Some(r#"{"v":1,"dialog_hold_s":3600}"#), 3600)]
+    #[case::another_version(Some(r#"{"v":2,"dialog_hold_s":600}"#), 60)]
+    fn read_hold_takes_a_whole_number_of_seconds_in_range(
+        #[case] config: Option<&str>,
+        #[case] secs: u64,
+    ) {
+        assert_eq!(hold_of(config), (secs, Vec::new()));
+    }
+
+    #[rstest]
+    #[case::zero("0")]
+    #[case::fifty_nine("59")]
+    #[case::past_the_ceiling("3601")]
+    #[case::negative("-1")]
+    #[case::a_fraction("600.5")]
+    #[case::a_string("\"600\"")]
+    #[case::null("null")]
+    #[case::a_bool("true")]
+    fn read_hold_falls_back_to_sixty_with_one_rejection(#[case] bad: &str) {
+        let config = format!(r#"{{"v":1,"dialog_hold_s":{bad}}}"#);
+        assert_eq!(
+            hold_of(Some(&config)),
+            (60, vec![ConfigRejection::Malformed]),
+            "{config}"
+        );
+    }
+
+    /// Stands where the case puts it, and counts its readings.
+    #[derive(Default)]
+    struct Stepped {
+        at: Mutex<Option<Instant>>,
+        reads: std::sync::atomic::AtomicUsize,
+    }
+
+    #[derive(Clone)]
+    struct StepClock(Arc<Stepped>, Instant);
+
+    impl StepClock {
+        fn at(base: Instant) -> Self {
+            Self(Arc::default(), base)
+        }
+
+        fn set(&self, past_base: Duration) {
+            *self.0.at.lock().expect("clock") = Some(self.1 + past_base);
+        }
+
+        fn reads(&self) -> usize {
+            self.0.reads.load(std::sync::atomic::Ordering::SeqCst)
+        }
+    }
+
+    impl Clock for StepClock {
+        fn now(&self) -> Instant {
+            let at = self.0.at.lock().expect("clock").unwrap_or(self.1);
+            self.0
+                .reads
+                .fetch_add(1, std::sync::atomic::Ordering::SeqCst);
+            at
+        }
+    }
+
+    /// Waits until the held dialog has read `clock` twice more: the second reading came after the
+    /// case moved the clock.
+    fn read_twice_more(clock: &StepClock) {
+        let seen = clock.reads();
+        while clock.reads() < seen + 2 {
+            std::thread::yield_now();
+        }
+    }
+
+    #[test]
+    fn hook_dialog_holds_until_the_configured_hold_on_the_injected_clock() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let clock = StepClock::at(Instant::now());
+        let slot = held_slot_on(
+            tmp.path(),
+            clock.clone(),
+            Duration::from_secs(120),
+            true,
+            Arc::default(),
+            seeded_snapshots(tmp.path()),
+        );
+        std::thread::scope(|s| {
+            let raising = s.spawn(|| slot.hook_dialog(&permission()));
+            while slot.state().pending.is_none() {
+                std::thread::yield_now();
+            }
+            clock.set(Duration::from_secs(120) - STEP);
+            read_twice_more(&clock);
+            assert!(slot.state().pending.is_some(), "held one step before");
+            assert!(pending_on_disk(tmp.path()).is_some());
+            clock.set(Duration::from_secs(120));
+            let raised = raising.join().expect("thread");
+            assert_eq!(
+                raised,
+                Ok(json!({"ok": {"dialog_id": 1, "response": null}}))
+            );
+        });
+        assert!(slot.state().pending.is_none());
+        assert_eq!(pending_on_disk(tmp.path()), None);
+    }
+
+    /// Every line the calling thread emits, its fields as JSON.
+    #[derive(Clone, Default)]
+    struct Lines(Arc<Mutex<Vec<Value>>>);
+
+    impl<S: tracing::Subscriber> tracing_subscriber::Layer<S> for Lines {
+        fn on_event(
+            &self,
+            event: &tracing::Event<'_>,
+            _: tracing_subscriber::layer::Context<'_, S>,
+        ) {
+            let mut fields = viola_channel::test_support::JsonFields::default();
+            event.record(&mut fields);
+            self.0.lock().expect("lines").push(Value::Object(fields.0));
+        }
+    }
+
+    fn capture_lines<R>(f: impl FnOnce() -> R) -> (R, Vec<Value>) {
+        use tracing_subscriber::layer::SubscriberExt as _;
+        let lines = Lines::default();
+        let subscriber = tracing_subscriber::registry().with(lines.clone());
+        let out = tracing::subscriber::with_default(subscriber, f);
+        let got = lines.0.lock().expect("lines").clone();
+        (out, got)
+    }
+
+    #[test]
+    fn hook_dialog_expiry_writes_one_dialog_expired_line_and_one_answered_line() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let slot = slot(tmp.path(), JumpClock(Mutex::new(Instant::now())), true);
+        let (got, lines) = capture_lines(|| slot.hook_dialog(&question("pre-tool-use", false)));
+        assert_eq!(got, Ok(json!({"ok": {"dialog_id": 1, "response": null}})));
+        let logged = events(tmp.path());
+        assert_eq!(kinds(tmp.path()), ["question", "dialog-expired"]);
+        let expired = &logged[1];
+        assert_eq!(expired["source"], "wrapper");
+        assert_eq!(expired["instance"], "builder");
+        assert_eq!(
+            expired["data"],
+            json!({"dialog_id": 1, "dialog_kind": "question"})
+        );
+        assert_eq!(expired["data"]["dialog_id"], logged[0]["data"]["dialog_id"]);
+        assert_eq!(expired["data"]["dialog_kind"], logged[0]["kind"]);
+        let answered: Vec<&Value> = lines
+            .iter()
+            .filter(|l| l["event"] == "dialog-answered")
+            .collect();
+        assert_eq!(answered.len(), 1, "{lines:?}");
+        assert_eq!(answered[0]["corr"], 1);
+        assert_eq!(answered[0]["dialog_kind"], "question");
+        assert_eq!(answered[0]["deadline_hit"], true);
+        assert!(answered[0].get("from").is_none(), "{:?}", answered[0]);
+        let late =
+            json!({"v": 1, "dialog_id": 1, "response": {"answers": {"Which color?": "red"}}});
+        assert_eq!(
+            slot.answer(&call(&late)),
+            Ok(json!({"refusal": "not-delivered", "detail": "unknown-dialog"}))
+        );
+    }
+
+    #[test]
+    fn hook_dialog_hand_back_writes_no_dialog_expired_line() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let slot = slot(tmp.path(), FixedClock(Instant::now()), true);
+        std::thread::scope(|s| {
+            let raising = s.spawn(|| slot.hook_dialog(&permission()));
+            while slot.state().pending.is_none() {
+                std::thread::yield_now();
+            }
+            slot.hand_back();
+            assert_eq!(
+                raising.join().expect("thread"),
+                Ok(json!({"ok": {"dialog_id": 1, "response": null}}))
+            );
+        });
+        raise_and_answer(
+            &slot,
+            tmp.path(),
+            &plan("pre-tool-use", false),
+            json!({"behavior": "approve"}),
+        );
+        assert_eq!(kinds(tmp.path()), ["permission", "plan"]);
     }
 
     /// The plan revise rides the PermissionRequest that repeats the PreToolUse; the repeat logs

@@ -13,10 +13,18 @@ pub const MAX_FRAME: u64 = 16 * 1024 * 1024;
 /// The bound every spine hook process meets, read by the perf gate (test-plan §10 Spine deadline).
 pub const SPINE_DEADLINE: Duration = Duration::from_secs(1);
 
-/// How long the wrapper holds a pending dialog for a driver's answer before it leaves the dialog to
-/// the human; the embedded `hooks.json` dialog `timeout` exceeds it, so viola, never Claude Code, ends
-/// the wait (architecture [Hook Contract]). PROVISIONAL, unmeasured.
-pub const DIALOG_DEADLINE: Duration = Duration::from_secs(60);
+/// How long the wrapper holds a pending dialog for a driver's answer when `config.json` names no
+/// `dialog_hold_s`, before it leaves the dialog to the human (architecture [Hook Contract]).
+/// PROVISIONAL.
+pub const DIALOG_HOLD_DEFAULT: Duration = Duration::from_secs(60);
+
+/// The shortest hold `config.json`'s `dialog_hold_s` may set. PROVISIONAL.
+pub const DIALOG_HOLD_MIN: Duration = Duration::from_secs(60);
+
+/// The longest hold any `dialog_hold_s` sets: the hook's own bound and the embedded `hooks.json`
+/// dialog `timeout` exceed it, so viola, never Claude Code, ends the wait (architecture [Hook
+/// Contract]). PROVISIONAL: measured live only to about 660 s.
+pub const DIALOG_HOLD_MAX: Duration = Duration::from_secs(3600);
 
 /// The injected time source: sync code takes its instants from here, so a test drives time
 /// without the wall clock (test-plan §8 Time).
@@ -62,11 +70,12 @@ pub enum EventKind {
     Plan,
     Link,
     Unlink,
+    DialogExpired,
 }
 
 impl EventKind {
     /// Every kind, in declaration order.
-    pub const ALL: [Self; 15] = [
+    pub const ALL: [Self; 16] = [
         Self::SessionStart,
         Self::PromptSubmitted,
         Self::TurnEnded,
@@ -82,16 +91,18 @@ impl EventKind {
         Self::Plan,
         Self::Link,
         Self::Unlink,
+        Self::DialogExpired,
     ];
 
     /// The kinds that end a `wait` (architecture §Standard Contracts); every other kind is
     /// log-only.
-    pub const WAIT_WAKE: [Self; 5] = [
+    pub const WAIT_WAKE: [Self; 6] = [
         Self::TurnEnded,
         Self::Question,
         Self::Permission,
         Self::Plan,
         Self::SessionEnd,
+        Self::DialogExpired,
     ];
 
     /// The kind `name` spells in kebab case; `None` for any other text.
@@ -117,6 +128,7 @@ impl EventKind {
             Self::Permission => &["dialog_id", "tool", "input"],
             Self::Plan => &["dialog_id", "plan"],
             Self::Link | Self::Unlink => &["driver", "driven"],
+            Self::DialogExpired => &["dialog_id", "dialog_kind"],
         }
     }
 
@@ -137,6 +149,7 @@ impl EventKind {
             Self::Plan => "plan",
             Self::Link => "link",
             Self::Unlink => "unlink",
+            Self::DialogExpired => "dialog-expired",
         }
     }
 }
@@ -231,6 +244,30 @@ impl BudgetWindowKind {
     derive(Debug, Clone, Copy, PartialEq, Eq)
 )]
 pub struct Percent(u8);
+
+/// How long the wrapper holds a dialog for a driver, in whole seconds from `DIALOG_HOLD_MIN` to
+/// `DIALOG_HOLD_MAX` (architecture §Cross-cutting Patterns, Config management). The only way to
+/// build one is `DialogHold::try_new`, so no value makes the hold zero or unbounded.
+#[nutype(
+    validate(greater_or_equal = 60, less_or_equal = 3600),
+    derive(Debug, Clone, Copy, PartialEq, Eq)
+)]
+pub struct DialogHold(u16);
+
+impl DialogHold {
+    pub fn duration(self) -> Duration {
+        Duration::from_secs(u64::from(self.into_inner()))
+    }
+}
+
+impl Default for DialogHold {
+    fn default() -> Self {
+        u16::try_from(DIALOG_HOLD_DEFAULT.as_secs())
+            .ok()
+            .and_then(|secs| Self::try_new(secs).ok())
+            .expect("the compiled default is a hold")
+    }
+}
 
 /// Why the wheel holder last changed: the `cause` of a `wheel` event.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
@@ -437,8 +474,22 @@ mod tests {
     }
 
     #[test]
-    fn dialog_deadline_is_sixty_seconds() {
-        assert_eq!(DIALOG_DEADLINE.as_secs(), 60);
+    fn dialog_hold_bounds_are_sixty_and_thirty_six_hundred_seconds() {
+        assert_eq!(DIALOG_HOLD_DEFAULT.as_secs(), 60);
+        assert_eq!(DIALOG_HOLD_MIN.as_secs(), 60);
+        assert_eq!(DIALOG_HOLD_MAX.as_secs(), 3600);
+        assert_eq!(DialogHold::default().duration().as_secs(), 60);
+    }
+
+    #[test]
+    fn dialog_hold_takes_whole_seconds_from_sixty_to_thirty_six_hundred() {
+        for ok in [60u16, 61, 3599, 3600] {
+            let hold = DialogHold::try_new(ok).expect("in range");
+            assert_eq!(hold.duration().as_secs(), u64::from(ok));
+        }
+        for bad in [0u16, 59, 3601, u16::MAX] {
+            assert!(DialogHold::try_new(bad).is_err(), "{bad} must be rejected");
+        }
     }
 
     #[test]
@@ -466,7 +517,7 @@ mod tests {
     }
 
     #[test]
-    fn event_kind_wait_wake_is_the_five_driver_relevant_kinds() {
+    fn event_kind_wait_wake_is_the_six_driver_relevant_kinds() {
         let wake: Vec<&str> = EventKind::WAIT_WAKE.iter().map(|k| k.as_str()).collect();
         assert_eq!(
             wake,
@@ -475,13 +526,14 @@ mod tests {
                 "question",
                 "permission",
                 "plan",
-                "session-end"
+                "session-end",
+                "dialog-expired"
             ]
         );
     }
 
     /// Architecture's per-kind `data` list, written out as the oracle, in declaration order.
-    const KIND_TABLE: [(EventKind, &str, &[&str]); 15] = [
+    const KIND_TABLE: [(EventKind, &str, &[&str]); 16] = [
         (
             EventKind::SessionStart,
             "session-start",
@@ -525,6 +577,11 @@ mod tests {
         (EventKind::Plan, "plan", &["dialog_id", "plan"]),
         (EventKind::Link, "link", &["driver", "driven"]),
         (EventKind::Unlink, "unlink", &["driver", "driven"]),
+        (
+            EventKind::DialogExpired,
+            "dialog-expired",
+            &["dialog_id", "dialog_kind"],
+        ),
     ];
 
     #[test]
@@ -550,7 +607,7 @@ mod tests {
     }
 
     #[test]
-    fn kind_table_all_is_the_fifteen_kinds_in_declaration_order() {
+    fn kind_table_all_is_the_sixteen_kinds_in_declaration_order() {
         let all: Vec<&str> = EventKind::ALL.iter().map(|k| k.as_str()).collect();
         assert_eq!(
             all,
@@ -570,6 +627,7 @@ mod tests {
                 "plan",
                 "link",
                 "unlink",
+                "dialog-expired",
             ]
         );
     }

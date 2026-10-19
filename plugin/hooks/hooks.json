@@ -7,10 +7,10 @@
       {"hooks": [{"type": "command", "command": "@@VIOLA_BIN@@", "args": ["hook", "user-prompt-submit"], "timeout": 5}]}
     ],
     "PreToolUse": [
-      {"matcher": "AskUserQuestion|ExitPlanMode", "hooks": [{"type": "command", "command": "@@VIOLA_BIN@@", "args": ["hook", "pre-tool-use"], "timeout": 75}]}
+      {"matcher": "AskUserQuestion|ExitPlanMode", "hooks": [{"type": "command", "command": "@@VIOLA_BIN@@", "args": ["hook", "pre-tool-use"], "timeout": 3615}]}
     ],
     "PermissionRequest": [
-      {"hooks": [{"type": "command", "command": "@@VIOLA_BIN@@", "args": ["hook", "permission-request"], "timeout": 75}]}
+      {"hooks": [{"type": "command", "command": "@@VIOLA_BIN@@", "args": ["hook", "permission-request"], "timeout": 3615}]}
     ],
     "Stop": [
       {"hooks": [{"type": "command", "command": "@@VIOLA_BIN@@", "args": ["hook", "stop"], "timeout": 5}]}

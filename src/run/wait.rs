@@ -361,6 +361,7 @@ mod tests {
     #[case::permission("permission")]
     #[case::plan("plan")]
     #[case::session_end("session-end")]
+    #[case::dialog_expired("dialog-expired")]
     fn wait_each_wake_kind_wakes(#[case] kind: &str) {
         let tmp = tempfile::tempdir().expect("tempdir");
         let end = seed_raw(tmp.path(), kind);

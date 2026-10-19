@@ -561,10 +561,10 @@ mod tests {
       {"hooks": [{"type": "command", "command": "C:/h/bin/0.1.0-0123456789abcdef/viola.exe", "args": ["hook", "user-prompt-submit"], "timeout": 5}]}
     ],
     "PreToolUse": [
-      {"matcher": "AskUserQuestion|ExitPlanMode", "hooks": [{"type": "command", "command": "C:/h/bin/0.1.0-0123456789abcdef/viola.exe", "args": ["hook", "pre-tool-use"], "timeout": 75}]}
+      {"matcher": "AskUserQuestion|ExitPlanMode", "hooks": [{"type": "command", "command": "C:/h/bin/0.1.0-0123456789abcdef/viola.exe", "args": ["hook", "pre-tool-use"], "timeout": 3615}]}
     ],
     "PermissionRequest": [
-      {"hooks": [{"type": "command", "command": "C:/h/bin/0.1.0-0123456789abcdef/viola.exe", "args": ["hook", "permission-request"], "timeout": 75}]}
+      {"hooks": [{"type": "command", "command": "C:/h/bin/0.1.0-0123456789abcdef/viola.exe", "args": ["hook", "permission-request"], "timeout": 3615}]}
     ],
     "Stop": [
       {"hooks": [{"type": "command", "command": "C:/h/bin/0.1.0-0123456789abcdef/viola.exe", "args": ["hook", "stop"], "timeout": 5}]}
@@ -615,9 +615,9 @@ mod tests {
     }
 
     /// viola, never Claude Code, ends a dialog's wait: each dialog-tier hook's `timeout` outlasts
-    /// `DIALOG_DEADLINE` by at least 10 s (architecture [Hook Contract]).
+    /// the longest hold, `DIALOG_HOLD_MAX`, by at least 10 s (architecture [Hook Contract]).
     #[test]
-    fn hooks_json_dialog_timeouts_outlast_the_dialog_deadline() {
+    fn hooks_json_dialog_timeouts_outlast_the_longest_hold() {
         let files = plugin_files("C:/h/viola.exe");
         let doc: serde_json::Value = serde_json::from_str(&files[1].1).expect("json");
         for event in ["PreToolUse", "PermissionRequest"] {
@@ -625,8 +625,8 @@ mod tests {
                 .as_u64()
                 .expect("a timeout");
             let margin = std::time::Duration::from_secs(timeout)
-                .checked_sub(viola_core::DIALOG_DEADLINE)
-                .expect("past the deadline");
+                .checked_sub(viola_core::DIALOG_HOLD_MAX)
+                .expect("past the longest hold");
             assert!(margin >= std::time::Duration::from_secs(10), "{event}");
         }
         assert_eq!(

@@ -12,7 +12,8 @@
       "items": { "type": "string", "pattern": "^CLAUDE[A-Z0-9_]*$" }
     },
     "five_hour": { "type": "integer", "minimum": 0, "maximum": 100 },
-    "seven_day": { "type": "integer", "minimum": 0, "maximum": 100 }
+    "seven_day": { "type": "integer", "minimum": 0, "maximum": 100 },
+    "dialog_hold_s": { "type": "integer", "minimum": 60, "maximum": 3600 }
   },
   "additionalProperties": true
 }

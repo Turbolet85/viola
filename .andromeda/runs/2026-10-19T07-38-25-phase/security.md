@@ -1,0 +1,36 @@
+# security extract
+
+## Relevance
+partial — the chunk adds no listener, no channel method and no dependency, but it changes a bounded wait on the hook's reply read, may add a `config.json` key, a new `events.ndjson` kind and a refusal path, and touches the code-bearing `hooks.json`.
+
+## Constraints
+- A configurable hold may not come through an environment variable: env vars are not a configuration channel, and any new non-`VIOLA_*` read, or any new seam, needs its own Decisions Log entry. No `config.json` key, `VIOLA_*` variable or CLI flag may switch off a control, so a hold value that means "never expire" or "no bound" is banned (per security-plan §Security Anti-Patterns → Universal).
+- If the hold becomes a `config.json` key, security-plan §Input Validation (Configuration values row) requires a tolerant parse with `v` checked, the read capped at `MAX_FRAME`, the value parsed into a bounded type (the way `five_hour` / `seven_day` go into `Percent`), and a bad value falling back to that key's default with one `parse-rejected{parser:"config-json"}` line. Whether the existing `read_thresholds` read can carry a new key under the same rule is a question for research.
+- security-plan §Input Validation (Hook stdin row) requires the dialog hook's reply read to be bounded (today at `DIALOG_DEADLINE + 5 s`), and every failure to fail open: exit 0, no body. A longer hold moves this bound but must keep it finite. security-plan §Error Handling also requires that `hook` never writes stderr and never exits non-zero, a timeout at expiry included.
+- security-plan §Security Anti-Patterns → Universal bans a non-`null` `hook.dialog` decision unless `ledger/stamps.json` holds a `viola verify` stamp read through `read_stamps_strict`. So any viola-built reply at expiry (for example the prototype's deny) is a gated non-`null` decision. security-plan §Security Anti-Patterns → Code Patterns (R1: upstream text is never a command) and → Universal (a refusal never blocks the human; refusals go only to automation) also apply. A late `answer` refusal reaches only the automation caller, and a human key still takes the dialog back.
+- security-plan §Security Anti-Patterns → Input requires the new expired-hold record to carry `dialog_id` as an integer and the dialog kind as a closed enum, never a free `String`. If it is a new kind on the channel side, the wrapper's re-validation of hook-relayed kinds is the closed list in security-plan §Input Validation (Channel frames row, `hook.event` re-validation). Whether the record goes through that path or is written by the wrapper itself is a question for research.
+- security-plan §Data Protection (At rest → Code-bearing artefacts) requires `plugin/<version>-<hash>/` files, `hooks.json` among them, to be rewritten at every start through `replace_private_shared`. A failed replace counts as done only when the file already holds exactly the rendered bytes, which a concurrent start of the same version writes. A per-start (configurable) `timeout` rendered into that shared, version-keyed directory would break the byte-identical premise. security-plan §Security Anti-Patterns → Universal requires every exec-form `command` in that file to stay the absolute pinned path.
+- security-plan §Error Handling requires every external result for the expired or late path (the CLI `--json` result, MCP `isError`, channel `error.data`) to carry fixed codes only: no absolute path and no upstream dialog text (question, plan, tool `input`). security-plan §Bootstrap phases (`logging-redaction-wire`) keeps that content off every log and error line outside the contract payloads.
+
+## Patterns to follow
+- The bounded config value: a whole number parsed through a `viola-core` nutype with a closed range, with a per-key default on rejection. This is the `Percent` / `read_thresholds` shape (per security-plan §Input Validation, Configuration values row).
+- Fail-open hook ending: exit 0, empty stdout and stderr, one codes-only `hook-decision` detail in `diagnostics/` (per security-plan §Error Handling).
+- Closed refusal codes on the late `answer` (today `unknown-dialog`), in the `refused: <code>` MCP text and the codes-only `structuredContent` (per security-plan §Error Handling).
+- Code-bearing plugin files rendered from compiled templates and rewritten whole each start, never trusted from disk (per security-plan §Data Protection, At rest → Code-bearing artefacts).
+
+## Anti-patterns to avoid
+- A `VIOLA_*` or other environment variable, or a flag, that sets or lifts the hold, or any hold value read as "forever" or "disable" (per security-plan §Security Anti-Patterns → Universal).
+- viola deciding an unanswered dialog (a deny or allow at expiry) on an unverified CLI, or as built-in policy (per security-plan §Security Anti-Patterns → Universal and → Code Patterns).
+- Printing the new expired-hold line in human-mode `wait` without escaping C0/C1 controls (per security-plan §Security Anti-Patterns → Logging).
+
+## Contract bindings
+- The new event kind binds obs-plan's event catalog and architecture §Standard Contracts (the event line) to security-plan §Input Validation (closed kinds, integer `dialog_id`) and to the human `wait` escaping ban (security-plan §Security Anti-Patterns → Logging).
+- A hold key in `config.json` binds architecture §Conventions and the config contract to security-plan §Input Validation (Configuration values row), and to obs's `parse-rejected{parser:"config-json"}` line.
+- The `hooks.json` dialog `timeout` and the hook's reply bound bind architecture's Hook Contract and the test `hooks_json_dialog_timeouts_outlast_the_dialog_deadline` (`crates/viola-agent-claude/src/lib.rs`) to security-plan §Input Validation (Hook stdin row).
+- If the CLI's long-timeout behaviour becomes a capability-ledger row with a `viola verify` probe, it binds to the verify PTY-child rules in security-plan §Threat Model Summary. They forbid any byte typed into a dialog, and probe dialogs are answered only by the hidden `--answers` arm. It also binds to the stamp gate in security-plan §Security Anti-Patterns → Universal, where the relied set and its counts move.
+
+## Acceptance criteria contributions
+- A `config.json` hold value that is out of range, fractional, negative, a string or `null` takes the default with one `parse-rejected{parser:"config-json"}` line, and no accepted value makes the hold unbounded or switches it off (per security-plan §Input Validation, Configuration values row; §Security Anti-Patterns → Universal).
+- A dialog hook whose hold expires exits 0 with empty stdout (no decision body) and empty stderr, and its reply read ends within the finite hold-plus-grace bound (per security-plan §Input Validation, Hook stdin row; §Error Handling).
+- The expired-hold `events.ndjson` line carries `dialog_id` as an integer and a closed dialog kind, with no question, plan or tool `input` text. A late `answer` on it returns a closed refusal code with no path or upstream text over CLI `--json` and MCP (per security-plan §Security Anti-Patterns → Input; §Error Handling).
+- On a home without a passing stamp for the child's CLI version, expiry produces no non-`null` decision. The dialog stays the human's (per security-plan §Security Anti-Patterns → Universal).

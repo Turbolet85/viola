@@ -905,6 +905,10 @@ mod tests {
                 EventKind::Unlink,
                 json!({"driver": "overseer", "driven": "builder"}),
             ),
+            (
+                EventKind::DialogExpired,
+                json!({"dialog_id": 4, "dialog_kind": "question"}),
+            ),
         ];
         for (kind, data) in rows {
             let line = EventLine::new(&name(), kind, Source::Wrapper, data, at());
@@ -929,6 +933,7 @@ mod tests {
                 "plan",
                 "link",
                 "unlink",
+                "dialog-expired",
             ]
         );
         assert_eq!(skipped, NONE_SKIPPED);

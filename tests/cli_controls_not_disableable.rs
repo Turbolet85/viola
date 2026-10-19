@@ -4,7 +4,8 @@
 //! hook-path controls, `send`'s paste control (under the hook seam and the `VIOLA_*` variables),
 //! `answer` on an unstamped CLI, `send` under a human wheel or during a running turn, the budget
 //! gate under a threshold key that is no percentage, the home scan under `VIOLA_DIR`, and the
-//! identity strip under the `diagnostics_level` and `claude_env_keep` keys; the completeness case
+//! identity strip under the `diagnostics_level` and `claude_env_keep` keys, and the dialog hold
+//! under a `dialog_hold_s` that is no whole number of seconds in range; the completeness case
 //! keeps every flag `viola --help` lists, every `VIOLA_*` variable the product reads and every
 //! `schemas/config.v1.json` key a row of `SETTINGS`.
 
@@ -390,9 +391,35 @@ fn setting_does_not_disable_the_budget_gate(
     wrapper.stop();
 }
 
+/// No value of `dialog_hold_s` makes the dialog hold zero or unbounded: a value that is no whole
+/// number of seconds from 60 to 3600 is refused once at the wrapper's start, with one
+/// `parse-rejected{parser:"config-json", detail:"malformed"}`, and the hold falls back to its 60 s
+/// default. A booted case cannot read the hold in force without waiting it out (test-plan §11
+/// Universal): the value each falls back to is proven by `read_hold`'s unit cases.
+#[rstest]
+#[case::zero(r#"{"v":1,"dialog_hold_s":0}"#)]
+#[case::past_the_ceiling(r#"{"v":1,"dialog_hold_s":3601}"#)]
+#[case::negative(r#"{"v":1,"dialog_hold_s":-1}"#)]
+#[case::a_string(r#"{"v":1,"dialog_hold_s":"3600"}"#)]
+#[case::a_bool(r#"{"v":1,"dialog_hold_s":false}"#)]
+fn setting_does_not_unbound_the_dialog_hold(stamped_home: StampedHome, #[case] config: &str) {
+    let home = stamped_home.home.path().to_path_buf();
+    std::fs::write(home.join("config.json"), config).expect("config.json");
+    let wrapper = support::events::boot(stamped_home, None, &[]);
+    let rejected: Vec<Value> =
+        support::ndjson::read_lines(&home.join("diagnostics").join("run-builder.ndjson"))
+            .into_iter()
+            .filter(|l| l["event"] == "parse-rejected")
+            .collect();
+    assert_eq!(rejected.len(), 1, "{rejected:?}");
+    assert_eq!(rejected[0]["parser"], "config-json");
+    assert_eq!(rejected[0]["detail"], "malformed");
+    wrapper.stop();
+}
+
 /// Every setting a run can carry, beside the case that tries it against a control. A literal
 /// table: the completeness case below fails on a flag, variable or key it does not name.
-const SETTINGS: [(&str, &str); 9] = [
+const SETTINGS: [(&str, &str); 10] = [
     (
         "--home",
         "cli_list::list_refuses_a_home_another_user_could_write",
@@ -417,6 +444,7 @@ const SETTINGS: [(&str, &str); 9] = [
     ),
     ("five_hour", "setting_does_not_disable_the_budget_gate"),
     ("seven_day", "setting_does_not_disable_the_budget_gate"),
+    ("dialog_hold_s", "setting_does_not_unbound_the_dialog_hold"),
 ];
 
 /// clap's own flags, which carry no setting.

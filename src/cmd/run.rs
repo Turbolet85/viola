@@ -260,6 +260,10 @@ pub(super) fn start(
     for rejection in rejections {
         obs::log_config_rejection(rejection);
     }
+    let (hold, rejections) = run::dialog::read_hold(&home);
+    for rejection in rejections {
+        obs::log_config_rejection(rejection);
+    }
     let budget = Arc::new(BudgetGate::new(
         name.clone(),
         instance_dir.clone(),
@@ -281,15 +285,18 @@ pub(super) fn start(
     links.restore()?;
     send.links_with(Arc::clone(&links));
     send.snapshots_with(Arc::clone(&snapshots));
-    let dialogs = Arc::new(DialogSlot::new(
-        SystemClock,
-        gate.cli_verified,
-        name.clone(),
-        instance_dir.clone(),
-        Arc::clone(&wait),
-        Arc::clone(&wheel),
-        Arc::clone(&snapshots),
-    ));
+    let dialogs = Arc::new(
+        DialogSlot::new(
+            SystemClock,
+            gate.cli_verified,
+            name.clone(),
+            instance_dir.clone(),
+            Arc::clone(&wait),
+            Arc::clone(&wheel),
+            Arc::clone(&snapshots),
+        )
+        .hold_for(hold.duration()),
+    );
     dialogs.restore(highest_dialog);
     dialogs.links_with(Arc::clone(&links));
     wheel.record_with(Recorder {

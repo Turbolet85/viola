@@ -29,12 +29,13 @@ const VIOLA_TARGETS: [&str; 7] = [
     "viola_mcp",
 ];
 
-const CONFIG_KEYS: [&str; 5] = [
+const CONFIG_KEYS: [&str; 6] = [
     "v",
     "diagnostics_level",
     "claude_env_keep",
     "five_hour",
     "seven_day",
+    "dialog_hold_s",
 ];
 
 static STARTED: OnceLock<Instant> = OnceLock::new();

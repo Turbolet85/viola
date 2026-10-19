@@ -33,8 +33,12 @@ pub(crate) struct WaitArgs {
     json: bool,
 }
 
-/// The kinds a dialog wakes `wait` with: their line names the dialog, not the time.
-const DIALOG_KINDS: [&str; 3] = ["question", "permission", "plan"];
+/// The kinds that carry a `dialog_id`: their line names the dialog, not the time.
+const DIALOG_KINDS: [&str; 4] = ["question", "permission", "plan", "dialog-expired"];
+
+fn dialog_form(kind: &str) -> bool {
+    DIALOG_KINDS.contains(&kind)
+}
 
 pub(crate) fn wait(home: &Path, args: &WaitArgs) -> anyhow::Result<ExitCode> {
     let home = client::start(home, &args.name)?;
@@ -94,7 +98,7 @@ fn show(name: &str, ok: &Value, timeout_ms: Option<u64>) {
     let event = &ok["event"];
     let kind = event["kind"].as_str().unwrap_or("unknown");
     let cursor = ok["cursor"].as_u64().unwrap_or_default();
-    if DIALOG_KINDS.contains(&kind) {
+    if dialog_form(kind) {
         let dialog = event["data"]["dialog_id"]
             .as_u64()
             .map_or_else(|| "unknown".to_owned(), |id| id.to_string());
@@ -102,5 +106,20 @@ fn show(name: &str, ok: &Value, timeout_ms: Option<u64>) {
     } else {
         let at = clock_part(event["ts"].as_str().unwrap_or("unknown"));
         let _ = human::write_woken(&mut out, kind, name, at, cursor);
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn wait_line_form_dialog_expired_takes_the_dialog_form() {
+        for kind in ["dialog-expired", "question", "permission", "plan"] {
+            assert!(dialog_form(kind), "{kind}");
+        }
+        for kind in ["turn-ended", "session-end"] {
+            assert!(!dialog_form(kind), "{kind}");
+        }
     }
 }

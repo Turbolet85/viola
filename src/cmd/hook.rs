@@ -23,7 +23,7 @@ use viola_agent_claude::ledger::{
 use viola_agent_claude::statusline::BIN_SH;
 use viola_channel::{ChannelError, Client};
 use viola_core::obs::{ObsEvent, ObsProcess};
-use viola_core::{DIALOG_DEADLINE, MAX_FRAME, obs_event};
+use viola_core::{DIALOG_HOLD_MAX, MAX_FRAME, obs_event};
 use viola_state::events::{EventLine, Source, try_append_event};
 use viola_state::fs::{FILE_MODE, create_private_new, replace_private};
 use viola_state::snapshot::read_snapshot;
@@ -61,12 +61,13 @@ fn spine_deadline(started: Instant) -> Instant {
 /// command and prints nothing. PROVISIONAL, unmeasured.
 const STATUSLINE_DEADLINE: Duration = Duration::from_secs(5);
 
-/// How long past `DIALOG_DEADLINE` a dialog hook still waits for the wrapper's reply.
+/// How long past `DIALOG_HOLD_MAX` a dialog hook still waits for the wrapper's reply.
 const REPLY_GRACE: Duration = Duration::from_secs(5);
 
-/// A dialog hook stops waiting here even if the wrapper never answers.
+/// A dialog hook stops waiting here even if the wrapper never answers: past the longest hold any
+/// `dialog_hold_s` sets, since the wrapper replies at its own hold's end.
 fn dialog_deadline(started: Instant) -> Instant {
-    started + DIALOG_DEADLINE + REPLY_GRACE
+    started + DIALOG_HOLD_MAX + REPLY_GRACE
 }
 
 pub(crate) fn hook(args: &HookArgs) -> Result<ExitCode, Failure> {
@@ -693,18 +694,18 @@ mod tests {
     }
 
     #[test]
-    fn dialog_deadline_is_the_dialog_deadline_plus_the_reply_grace() {
+    fn dialog_deadline_is_the_longest_hold_plus_the_reply_grace() {
         let start = Instant::now();
         assert_eq!(
             dialog_deadline(start).saturating_duration_since(start),
-            viola_core::DIALOG_DEADLINE + Duration::from_secs(5)
+            viola_core::DIALOG_HOLD_MAX + Duration::from_secs(5)
         );
     }
 
-    /// The hook gives up before Claude Code would: below the 75 s `hooks.json` timeout.
+    /// The hook gives up before Claude Code would: below the 3615 s `hooks.json` timeout.
     #[test]
     fn dialog_deadline_ends_before_the_hooks_json_timeout() {
-        assert!(viola_core::DIALOG_DEADLINE + REPLY_GRACE < Duration::from_secs(75));
+        assert!(viola_core::DIALOG_HOLD_MAX + REPLY_GRACE < Duration::from_secs(3615));
     }
 
     const QUESTION: &str = r#"{"hook_event_name":"PreToolUse","tool_name":"AskUserQuestion","tool_input":{"questions":[{"question":"Which color?","options":[{"label":"red"}]}]}}"#;

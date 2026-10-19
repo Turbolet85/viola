@@ -81,6 +81,10 @@ mod tests {
             "question  builder  dialog 7  cursor 49310\n"
         );
         assert_eq!(
+            one_write(|o| write_woken_dialog(o, "dialog-expired", "builder", "7", 49400)),
+            "dialog-expired  builder  dialog 7  cursor 49400\n"
+        );
+        assert_eq!(
             one_write(|o| write_timed_out(o, "builder", 30000)),
             "timed out  builder  30000 ms\n"
         );
