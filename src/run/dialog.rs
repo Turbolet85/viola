@@ -275,7 +275,8 @@ impl DialogSlot {
     }
 
     /// The dialog event, appended through the wait feed before any reply, and the `pending_dialog`
-    /// snapshot field when it is held.
+    /// snapshot field when it is held, written before the event so whoever sees the line on disk
+    /// already sees the held dialog; cleared again when the append fails.
     #[instrument(
         skip_all,
         name = "run.dialog_register",
@@ -292,11 +293,21 @@ impl DialogSlot {
             Value::Object(data),
             Utc::now(),
         );
-        self.feed
-            .appending_dialog(hold, || {
-                append_event_at(&self.instance_dir, |_| line.clone())
-            })
-            .map_err(|_| ProtocolError::Internal)?;
+        if hold {
+            self.write_pending(Some(PendingDialog {
+                dialog_id,
+                kind: raise.kind.as_str().to_owned(),
+            }));
+        }
+        let appended = self.feed.appending_dialog(hold, || {
+            append_event_at(&self.instance_dir, |_| line.clone())
+        });
+        if appended.is_err() {
+            if hold {
+                self.write_pending(None);
+            }
+            return Err(ProtocolError::Internal);
+        }
         state.next_id = dialog_id.saturating_add(1);
         obs_event!(
             INFO,
@@ -313,10 +324,6 @@ impl DialogSlot {
                 answer: None,
                 handed_back: false,
             });
-            self.write_pending(Some(PendingDialog {
-                dialog_id,
-                kind: raise.kind.as_str().to_owned(),
-            }));
         }
         Ok(dialog_id)
     }
@@ -1209,6 +1216,65 @@ mod tests {
             Err(ProtocolError::Internal)
         );
         assert!(slot.state().pending.is_none());
+    }
+
+    /// A held dialog's append that fails leaves no `pending_dialog` behind on the snapshot it was
+    /// first written to.
+    #[test]
+    fn hook_dialog_append_that_failed_clears_the_pending_dialog() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let slot = slot_on(
+            &tmp.path().join("missing"),
+            FixedClock(Instant::now()),
+            true,
+            Arc::default(),
+            seeded_snapshots(tmp.path()),
+        );
+        assert_eq!(
+            slot.hook_dialog(&permission()),
+            Err(ProtocolError::Internal)
+        );
+        assert_eq!(pending_on_disk(tmp.path()), None);
+        assert!(slot.state().pending.is_none());
+    }
+
+    /// What `pending_dialog` read on disk at each `dialog-raised` line the calling thread emits.
+    #[derive(Clone)]
+    struct RaisedReads(PathBuf, Arc<Mutex<Vec<Option<PendingDialog>>>>);
+
+    impl<S: tracing::Subscriber> tracing_subscriber::Layer<S> for RaisedReads {
+        fn on_event(
+            &self,
+            event: &tracing::Event<'_>,
+            _: tracing_subscriber::layer::Context<'_, S>,
+        ) {
+            let mut fields = viola_channel::test_support::JsonFields::default();
+            event.record(&mut fields);
+            if fields.0.get("event").and_then(Value::as_str) == Some("dialog-raised") {
+                let held = pending_on_disk(&self.0);
+                self.1.lock().expect("reads").push(held);
+            }
+        }
+    }
+
+    /// Whoever sees a held dialog's line on disk already sees `pending_dialog` on the snapshot: it
+    /// is written before the line, so the `dialog-raised` line that follows the append reads it.
+    #[test]
+    fn hook_dialog_held_is_on_the_snapshot_when_its_line_is_logged() {
+        use tracing_subscriber::layer::SubscriberExt as _;
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let slot = slot(tmp.path(), JumpClock(Mutex::new(Instant::now())), true);
+        let reads = RaisedReads(tmp.path().to_path_buf(), Arc::default());
+        let subscriber = tracing_subscriber::registry().with(reads.clone());
+        let got = tracing::subscriber::with_default(subscriber, || slot.hook_dialog(&permission()));
+        assert_eq!(got, Ok(json!({"ok": {"dialog_id": 1, "response": null}})));
+        assert_eq!(
+            *reads.1.lock().expect("reads"),
+            [Some(PendingDialog {
+                dialog_id: 1,
+                kind: "permission".to_owned()
+            })]
+        );
     }
 
     /// The human takes the wheel (a `pause`, recorded through the wheel's thread) while a dialog

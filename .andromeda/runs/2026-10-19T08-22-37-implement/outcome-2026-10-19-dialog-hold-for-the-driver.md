@@ -13,6 +13,13 @@ true at 300 s. Reds 0, none re-fired. No key was typed into any dialog.
 Next → the OPERATOR PASS (plan entries 21 hygiene, 22 push, 23 `ci.py conclusion`; `.claude/rules/ci.md` order),
 then `/andromeda-wrap-session`.
 
+**Operator pass, rewritten after it moved:** the pre-CI commit `3def5b5b` read CI **red** on `test (macos-latest)`
+(ci#39226239371, attempt 1). One case failed, `cross_list_rows_style_each_span_beside_its_word_on_a_terminal`: the
+board read `DIALOG none` on a held dialog. The cause, read from the code: `register` (`src/run/dialog.rs`)
+appended the dialog line before writing `pending_dialog`, a pre-existing order (events.md 2026-10-16), not reproduced
+on this host. It is folded into this chunk and fixed in that listed file (Deviation 4), and the block is green again
+(third firing). The pass repeats from step 1 under a fix commit: `evidence/operator-pass.md` §5–§6.
+
 ## Files changed (14, all on research's Files to modify) + new
 
 - `crates/viola-core/src/lib.rs`: `DIALOG_HOLD_DEFAULT` / `DIALOG_HOLD_MIN` / `DIALOG_HOLD_MAX` (60 / 60 / 3600 s,
@@ -60,6 +67,13 @@ then `/andromeda-wrap-session`.
    rstest** (step 1). `crates/viola-core` has no rstest dev-dependency, and the preservation guard forbids a
    manifest edit. The case holds the same 8 values (60, 61, 3599 and 3600 accepted; 0, 59, 3601 and `u16::MAX`
    refused), in the form of its neighbour `percent_admits_zero_to_one_hundred_and_nothing_else`.
+4. **`register` writes `pending_dialog` before the dialog's line** (a CI red met during the chunk, outside the plan's
+   steps but in a listed file). It writes it back to none when the append fails. New unit cases:
+   `hook_dialog_held_is_on_the_snapshot_when_its_line_is_logged` and
+   `hook_dialog_append_that_failed_clears_the_pending_dialog`. Remove-the-guard: the old order is red 3 of 3, and
+   the clear removed is red; both were restored (`cmp` 0). A first, `wait`-based form of the order case stayed green
+   12 of 12 on the old order. It was replaced and is not counted. The live round ran on the build before this fix,
+   which does not touch what the round read.
 3. **The live round's census** keyed first on the bare text `target/debug/viola` and listed the overseer pair's
    prototype bridge (another tree's build of the same name). It was re-keyed on this repository's path, which read
    none running before and after. Nothing was done to the other tree's processes.

@@ -1974,5 +1974,602 @@
 }
 ]
 }
+},
+{
+"tool": "gate",
+"v": "1.21",
+"sha8": "e2f3ad5e",
+"ts": "2026-10-19T09:13:32Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-19-dialog-hold-for-the-driver/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-19T08-22-37-implement",
+"--marker",
+"2026-10-19-dialog-hold-for-the-driver"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-19-dialog-hold-for-the-driver · entries 23",
+"logs $TMPDIR/andromeda-gate/2026-10-19-dialog-hold-for-the-driver/implement-2026-10-19T08-22-37 · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 1 · rust 1",
+"walk-class rust 4 (tests/cli_controls_not_disableable.rs, tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, +1 in the trail) · uncommitted 2",
+"prose L235-239: The standing lint entries run first; clippy closes the PREREQ deferred since chunk 2026-10… (491 chars)",
+"prose L241-243: The live round (steps 12-13) is an attended rig measurement, not an entry: its starts are … (350 chars)",
+"  1 lint        green · exit 0 · 1.01s · 0 B → 1.3.log · cargo fmt --all --check",
+"  2 lint        green · exit 0 · 2.4s · 134 B → 2.3.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 lint        green · exit 1 · 0.01s · 0 B → 3.3.log · rg -n -U --pcre2 --type rust '#\\[(tracing::)?instrument\\b(… (79 chars)",
+"  4 lint        green · exit 0 · 0.62s · 286 B → 4.3.log · bash scripts/lint-probes.sh",
+"  5 unit        green · exit 0 · 8.8s · 312889 B → 5.3.log · bash scripts/agent-run.sh run --unit",
+"  6 unit        green · exit 0 · 1.99s · 4561 B → 6.3.log · bash scripts/agent-run.sh run --unit --filter 'test(/dialo… (226 chars)",
+"  7 integration green · exit 0 · 63.5s · 47941 B → 7.3.log · bash scripts/agent-run.sh run --integration",
+"  8 integration green · exit 0 · 6.21s · 8308 B → 8.3.log · bash scripts/agent-run.sh run --integration --filter 'bina… (115 chars)",
+"  9 e2e         green · exit 0 · 10.59s · 22205 B → 9.3.log · bash scripts/agent-run.sh run --e2e",
+" 10 probe       green · exit 0 · 0.02s · 2 B → 10.3.log · python3 -c 'import pathlib; print(sum(p.read_text().count(… (155 chars)",
+" 11 probe       green · exit 0 · 0.02s · 0 B → 11.3.log · git diff --quiet 55699c4f2d26 -- . ':!crates/viola-core/sr… (629 chars)",
+" 12 probe       green · exit 0 · 0.9s · 13322 B → 12.3.log · cargo deny check",
+" 13 build       green · exit 0 · 1.09s · 134 B → 13.3.log · cargo build --bin viola",
+" 14 smoke       green · exit 0 · 0.11s · 47 B → 14.3.log · bash scripts/agent-run.sh cleanup --session p-dhd-smoke",
+" 15 smoke       green · exit 0 · 5.87s · 347 B → 15.3.log · bash scripts/agent-run.sh boot --session p-dhd-smoke --ins… (71 chars)",
+" 16 smoke       green · exit 0 · 0.26s · 451 B → 16.3.log · bash scripts/agent-run.sh status --session p-dhd-smoke",
+" 17 probe       green · exit 0 · 0.03s · 10 B → 17.3.log · bash scripts/g2-zero-panics.sh",
+" 18 probe       green · exit 0 · 0.18s · 106 B → 18.3.log · bash scripts/agent-run.sh schema-check",
+" 19 smoke       green · exit 0 · 0.32s · 135 B → 19.3.log · bash scripts/agent-run.sh cleanup --session p-dhd-smoke",
+" 20 probe       green · exit 0 · 85.55s · 383551 B → 20.4.log · bash scripts/agent-run.sh pre-push",
+" 21 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (90 chars)",
+" 22 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (69 chars)",
+" 23 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (114 chars)",
+"entries 23 · green 20 · red 0 · recorded 0 · timeout 0 · not-run 3"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-19-dialog-hold-for-the-driver",
+"plan": "./viola-0.1.0/chunks/2026-10-19-dialog-hold-for-the-driver/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-19-dialog-hold-for-the-driver/implement-2026-10-19T08-22-37",
+"delta": {
+"rust": [
+"src/run/dialog.rs"
+],
+"docs": [
+"viola-0.1.0/chunks/2026-10-19-dialog-hold-for-the-driver/evidence/operator-pass.md"
+]
+},
+"unmapped": [],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/cli_controls_not_disableable.rs",
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 2,
+"problem": null
+},
+"prose": [
+{
+"from": 235,
+"to": 239,
+"text": "The standing lint entries run first; clippy closes the PREREQ deferred since chunk 2026-10-18-plugin-precedence-live-readings. Next come the unit layer and then the new cases by name, then the integration and E2E layers. A count entry guards `DIALOG_DEADLINE`'s removal and a preservation guard guards the modify list. The build the live round uses comes next, then the booted smoke, G2 and G4, then `pre-push`, then the operator pass. The guards name their base `55699c4f2d26` (HEAD at P4)."
+},
+{
+"from": 241,
+"to": 243,
+"text": "The live round (steps 12-13) is an attended rig measurement, not an entry: its starts are the founder's cap, which a light-gate re-run must never spend. No entry produces `evidence/live-round.md`; only the live criterion rests on it, and the wrap re-verifies it from `evidence/`. No mutation entry is listed (test-plan §10: the epoch-boundary audit)."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-19-dialog-hold-for-the-driver/implement-2026-10-19T08-22-37/1.3.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 1.01,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-19-dialog-hold-for-the-driver/implement-2026-10-19T08-22-37/2.3.log",
+"bytes": 134,
+"log_sha8": "541da3ab",
+"exit": 0,
+"seconds": 2.4,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "lint",
+"run": "rg -n -U --pcre2 --type rust '#\\[(tracing::)?instrument\\b(?!\\(\\s*skip_all\\b)' .",
+"run_sha8": "d8c83432",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-dialog-hold-for-the-driver/implement-2026-10-19T08-22-37/3.3.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.01,
+"readings": [
+"exit 1 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "bash scripts/lint-probes.sh",
+"run_sha8": "4811ad1f",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-19-dialog-hold-for-the-driver/implement-2026-10-19T08-22-37/4.3.log",
+"bytes": 286,
+"log_sha8": "99be9959",
+"exit": 0,
+"seconds": 0.62,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-dialog-hold-for-the-driver/implement-2026-10-19T08-22-37/5.3.log",
+"bytes": 312889,
+"log_sha8": "d23b81c9",
+"exit": 0,
+"seconds": 8.8,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/dialog_hold_|read_hold_|hook_dialog_holds_until_|hook_dialog_expiry_|hook_dialog_hand_back_writes_no_|wait_line_form_|hooks_json_dialog_timeouts_outlast_the_longest_hold/)' ",
+"run_sha8": "0f51063a",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-dialog-hold-for-the-driver/implement-2026-10-19T08-22-37/6.3.log",
+"bytes": 4561,
+"log_sha8": "747977a1",
+"exit": 0,
+"seconds": 1.99,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration",
+"run_sha8": "03525807",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-dialog-hold-for-the-driver/implement-2026-10-19T08-22-37/7.3.log",
+"bytes": 47941,
+"log_sha8": "87051951",
+"exit": 0,
+"seconds": 63.5,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(cli_controls_not_disableable) | binary(state_events)' ",
+"run_sha8": "072ed6f6",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"lacks \"suite\":\"nextest-integration\",\"passed\":0,"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-dialog-hold-for-the-driver/implement-2026-10-19T08-22-37/8.3.log",
+"bytes": 8308,
+"log_sha8": "2cad6e5b",
+"exit": 0,
+"seconds": 6.21,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"lacks '\"suite\":\"nextest-integration\",\"passed\":0,' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh run --e2e",
+"run_sha8": "55ff1d5e",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"suite\":\"nextest-e2e\""
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-dialog-hold-for-the-driver/implement-2026-10-19T08-22-37/9.3.log",
+"bytes": 22205,
+"log_sha8": "647b0ec9",
+"exit": 0,
+"seconds": 10.59,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"contains '\"suite\":\"nextest-e2e\"' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "python3 -c 'import pathlib; print(sum(p.read_text().count(\"DIALOG_DEADLINE\") for d in (\"src\", \"crates\", \"tests\") for p in pathlib.Path(d).rglob(\"*.rs\")))' ",
+"run_sha8": "e48238d6",
+"expect": [
+"exit 0",
+"last line 0"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-dialog-hold-for-the-driver/implement-2026-10-19T08-22-37/10.3.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 0,
+"seconds": 0.02,
+"readings": [
+"exit 0 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "git diff --quiet 55699c4f2d26 -- . ':!crates/viola-core/src/lib.rs' ':!src/run/dialog.rs' ':!src/cmd/run.rs' ':!src/cmd/hook.rs' ':!plugin/hooks/hooks.json' ':!crates/viola-agent-claude/src/lib.rs' ':!src/obs.rs' ':!schemas/config.v1.json' ':!src/cmd/wait.rs' ':!src/human/wait.rs' ':!src/run/wait.rs' ':!crates/viola-state/tests/state_events.rs' ':!crates/viola-state/src/events.rs' ':!tests/cli_controls_not_disableable.rs' ':!.andromeda' ':!viola-0.1.0' ':!.claude' ':!CLAUDE.md' && test -z \"$(git ls-files --others --exclude-standard -- src crates tests schemas plugin scripts fixtures .github .config Cargo.toml Cargo.lock)\"",
+"run_sha8": "6a89751a",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-19-dialog-hold-for-the-driver/implement-2026-10-19T08-22-37/11.3.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.02,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "cargo deny check",
+"run_sha8": "2708b9d9",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-19-dialog-hold-for-the-driver/implement-2026-10-19T08-22-37/12.3.log",
+"bytes": 13322,
+"log_sha8": "488bf9df",
+"exit": 0,
+"seconds": 0.9,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "build",
+"run": "cargo build --bin viola",
+"run_sha8": "436d4861",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-19-dialog-hold-for-the-driver/implement-2026-10-19T08-22-37/13.3.log",
+"bytes": 134,
+"log_sha8": "739abbce",
+"exit": 0,
+"seconds": 1.09,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-dhd-smoke",
+"run_sha8": "bd8df246",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-dialog-hold-for-the-driver/implement-2026-10-19T08-22-37/14.3.log",
+"bytes": 47,
+"log_sha8": "91854d6e",
+"exit": 0,
+"seconds": 0.11,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-dhd-smoke --instance builder",
+"run_sha8": "67630973",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-dialog-hold-for-the-driver/implement-2026-10-19T08-22-37/15.3.log",
+"bytes": 347,
+"log_sha8": "d407bfe3",
+"exit": 0,
+"seconds": 5.87,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-dhd-smoke",
+"run_sha8": "e182a018",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-dialog-hold-for-the-driver/implement-2026-10-19T08-22-37/16.3.log",
+"bytes": 451,
+"log_sha8": "aca1154e",
+"exit": 0,
+"seconds": 0.26,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "bash scripts/g2-zero-panics.sh",
+"run_sha8": "b1637f71",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-19-dialog-hold-for-the-driver/implement-2026-10-19T08-22-37/17.3.log",
+"bytes": 10,
+"log_sha8": "6736cedd",
+"exit": 0,
+"seconds": 0.03,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-dialog-hold-for-the-driver/implement-2026-10-19T08-22-37/18.3.log",
+"bytes": 106,
+"log_sha8": "9e8cb9dc",
+"exit": 0,
+"seconds": 0.18,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 19,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-dhd-smoke",
+"run_sha8": "bd8df246",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-dialog-hold-for-the-driver/implement-2026-10-19T08-22-37/19.3.log",
+"bytes": 135,
+"log_sha8": "becc9841",
+"exit": 0,
+"seconds": 0.32,
+"readings": [
+"exit 0 ✓",
+"contains '\"processes_gone\":true' ✓",
+"contains '\"endpoint_gone\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-dialog-hold-for-the-driver/implement-2026-10-19T08-22-37/20.4.log",
+"bytes": 383551,
+"log_sha8": "a66c6e6e",
+"exit": 0,
+"seconds": 85.55,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"contains '\"stage\":\"linux-tests\"' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "451237e0",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "2377245a",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.21",
+"sha8": "e2f3ad5e",
+"ts": "2026-10-19T09:13:45Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-19-dialog-hold-for-the-driver",
+"--run-dir",
+".andromeda/runs/2026-10-19T08-22-37-implement",
+"--marker",
+"2026-10-19-dialog-hold-for-the-driver"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base 55699c4f (the parent of the oldest pre-CI commit 3def5b5b) · lists new 1 · modify 14 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"list viola-0.1.0/chunks/2026-10-19-dialog-hold-for-the-driver/evidence/ (dir) ×0",
+"scope: clean — changed 14 · listed 14 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 61"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "55699c4f2d262be479b0be59962b62b33c11aeb0",
+"base_why": "the parent of the oldest pre-CI commit 3def5b5b",
+"counts": {
+"changed": 14,
+"listed": 14,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 61,
+"unparsed": 0,
+"widening_without_word": 0
+}
 }
 ]
