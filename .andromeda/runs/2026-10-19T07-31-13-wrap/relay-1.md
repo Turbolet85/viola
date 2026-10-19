@@ -1,0 +1,3 @@
+# Relay 1 — the operator's invocation of this 0-pending wrap (verbatim)
+
+0-pending, an operator-requested adaptation (route-resolve: «A requirement wrong in what it says»): the founder ruled live in the overseer's dialog 2026-10-19T05:06Z «Исправить на Linux-хост» — v1-33's text is wrong (it names the founder's Windows host, gone since 2026-10-03). Re-word its title and acceptance to the Linux dev host and a key typed in the session terminal, by `matrix.py refine --unclaimed` (v1-33 is planned and unclaimed), in every artifact that carries the old text; snapshot his word as an input. Commit and push.

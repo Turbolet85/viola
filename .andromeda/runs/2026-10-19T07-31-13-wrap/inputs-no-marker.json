@@ -1,0 +1,57 @@
+[
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "0c159d7d",
+"ts": "2026-10-19T07:31:25Z",
+"argv": [
+"snap",
+"--no-chunk",
+"--message-file",
+".andromeda/runs/2026-10-19T07-31-13-wrap/relay-1.md",
+"--origin",
+"the founder, live in the overseer dialog 2026-10-19T05:06Z, relayed by the operator at this wrap 2026-10-19T07:30Z",
+"--kind",
+"relay",
+"--why",
+"the founder's ruling «Исправить на Linux-хост»: v1-33's title and acceptance re-worded to the Linux dev host and a key typed in the session terminal",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-19T07-31-13-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy message · message: the founder, live in the overseer dialog 2026-10-19T05:06Z, relayed by the operator at this wrap 2026-10-19T07:30Z",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "message: the founder, live in the overseer dialog 2026-10-19T05:06Z, relayed by the operator at this wrap 2026-10-19T07:30Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "c5892b81f61af4d9d0cdc71468b569c8929104a10690a12a20bcdab776c3b975",
+"copy": "I1-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-19T07:31:25Z",
+"step": "wrap",
+"why": "the founder's ruling «Исправить на Linux-хост»: v1-33's title and acceptance re-worded to the Linux dev host and a key typed in the session terminal"
+}
+}
+]

@@ -1,31 +1,30 @@
 # Session Handoff
 
-**Last Updated:** 2026-10-19T07:21:28Z
-**Branch:** build/viola-0.1.0 · 0 ahead of origin/build/viola-0.1.0 as read at this wrap's Setup (the pre-CI commit `2a3d5691` was pushed by the operator pass; the wrap commit pushes after this file)
+**Last Updated:** 2026-10-19T07:33:54Z
+**Branch:** build/viola-0.1.0 · 0 ahead of origin/build/viola-0.1.0 as read at this wrap's Setup (the adaptation commit pushes after this file)
 **Status:** clean
-**Last Commit:** 2026-10-18-plugin-precedence-live-readings — the two plugin readings on claude 2.1.287: the `--plugin-dir` server alone starts and answers; an exit-1 `viola mcp` does not block the start; v1-42 verified
+**Last Commit:** 0-pending wrap — chore(route): operator-requested adaptation — v1-33 re-worded to the Linux dev host and a key typed in the session terminal
 
 ## Position
-- Done: **2026-10-18-plugin-precedence-live-readings** — 3 of the founder's 3 starts (`inputs#I2` F2), 1 red never
-  re-fired. Start 2 (wrapped): one `viola` MCP server, the `--plugin-dir` one, starts and answers `list`; the installed
-  `viola@viola` never starts; one SessionStart hook process. Start 3 (unwrapped, home 0770): `idle` — an exit-1
-  `viola mcp` does not block the CLI. The trust dialog passed by the arrow rule (F1; default pointer one row above the
-  trust row). v1-42 verified. Wrapped in `.andromeda/runs/2026-10-19T07-00-05-wrap/`.
+- Done: **2026-10-18-plugin-precedence-live-readings** (last chunk, v1-42 verified). Since then a 0-pending wrap
+  (`.andromeda/runs/2026-10-19T07-31-13-wrap/`) re-worded v1-33 on the founder's ruling «Исправить на Linux-хост»
+  (live, 2026-10-19T05:06Z, relayed by the operator, `inputs#I1` of that run): its title and acceptance now name the
+  Linux dev host and a key typed in the session terminal (`matrix.py refine --unclaimed`; planned, unclaimed).
 - Next: **Dialog hold for the driver** (Epoch 5, carries the clippy PREREQ and the migrated WATCH) → `/andromeda-phase`.
 
 ## Work done
-- Implement `.andromeda/runs/2026-10-19T05-23-09-implement/` (outcome file); the rig `evidence/live-pty-arrow.py` +
-  `rig-controls.py` (10 of 10); the round `evidence/live-round.md`; operator pass `evidence/operator-pass.md`: pre-CI
-  commit `2a3d5691`, `ci#39209618442` green 15/15. Rig A (in-tree `proj/`) met the external-imports modal at start 1;
-  the founder ruled the rig outside the repo («Стенд вне репо», `inputs#I4`) and starts 2–3 ran there.
+- `viola-0.1.0/verification-matrix.json#v1-33` (title, acceptance, a `rewritten 2026-10-19 by inputs#I1` note),
+  `requirements.md:48` (title span), `working-route.md` "Overseer switch to viola" (the clause now says the text is
+  re-worded). Record: `adaptation-record.md`.
 
 ## Drift resolved
-- 7 master edits (architecture ×4, security-plan ×2, test-plan ×1; 0 fan-out proposals — all raised by Validate check
-  5), 5 sidecar entries, 13 leaf findings over 8 leaves; one halt (3 questions): the answer card (F1/F2 part of the
-  residual), the rig place ratified by `inputs#I4`, and the `VIOLA_DIR` home step's NOT-ratified marks LIFTED (the
-  founder's «Ратифицировать», `inputs#I2`/`#I3`). Record: `fanout-results.md`, `answer-card.md`, `cascade-dispositions.md`.
+- none — no chunk wrapped, no fan-out; the requirement rewrite is the adaptation above.
 
 ## Notes
+- **New this wrap:** `viola-0.1.0/vision.md:52` still reads «On the founder's Windows host, the overseer drives a
+  builder…» — left by the card's word (the overseer: vision.md is route Phase A's, no wrap door writes it), for the
+  founder or the next `/andromeda-route` Phase A. `intent.md:31` / `:340` keep the old host by design (never written).
+  The card answers this wrap (approve as shown; route clause updated; vision left) were the overseer's.
 - **PROVISIONAL, for the founder's own word at the Epoch 5 boundary batch (new this wrap):** the answer-card confirm
   (the Viola overseer's fit check) of security-plan §Data Protection's F1 / F2 part.
 - **The founder's own words this chunk:** `inputs#I2` (F1 «Стрелка + Enter» · F2 «3 старта» · «Ратифицировать» for
@@ -72,7 +71,7 @@
   `src/bin/viola-fake-agent.rs` and `src/cmd/verify.rs`; CARRY 3's `viola-state` retry-loop mutants; the end-to-end,
   machine-contract, output-discipline, mcp, plugin and compact chunks' code (no mutation run, the founder's cap).
 - **For the operator's word (carried):** the link rule takes a logged `driver` / `driven` as a string; `docs/conventions.md`
-  and `docs/stack.md` list `viola link|unlink`; `v1-33`'s title and `requirements.md:48` say "on Windows"; ledger notes cite
+  and `docs/stack.md` list `viola link|unlink`; ledger notes cite
   a bare `:90`; seven budget-governor plan sentences word the old hold; a live `claude` session ending in this tree
   rewrites this file's last section; whether `viola-mcp` inherits `license.workspace`; test-plan §1's entity list and the
   `marketplace/` tree; the plan template's preservation guard reads red on any recorded companion edit.

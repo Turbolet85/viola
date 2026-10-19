@@ -1,0 +1,1 @@
+With the product binary on the Linux dev host, an overseer session sends a pipeline skill to a builder session, waits for the turn, reads the final text, answers a review and clears between skills, and a key typed in the session terminal takes the wheel; afterwards the overseer drives through viola instead of the prototype.
