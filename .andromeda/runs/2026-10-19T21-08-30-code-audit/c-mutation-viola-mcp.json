@@ -1,0 +1,38 @@
+{
+ "unit": "viola-mcp",
+ "unit_state": "complete 76/76",
+ "score": 92.68,
+ "counts": {
+  "mutants": 76,
+  "caught": 38,
+  "missed": 3,
+  "not_measured": 0,
+  "timeout": 0,
+  "unviable": 35
+ },
+ "survivors": [
+  [
+   "crates/viola-mcp/src/lib.rs:66:5",
+   "replace serve -> Result<(), ServeError> with Ok(())"
+  ],
+  [
+   "crates/viola-mcp/src/tools.rs:196:9",
+   "replace <impl ServerHandler for Server>::get_info -> ServerConfig with Default::default()"
+  ],
+  [
+   "crates/viola-mcp/src/tools.rs:205:9",
+   "replace <impl ServerHandler for Server>::list_tools -> Result<ListToolsResult, ErrorData> with Ok(Default::default())"
+  ]
+ ],
+ "not_measured": [],
+ "timing": {
+  "scope": "unit",
+  "planned": 76,
+  "tested": 76,
+  "wall_s": 60,
+  "jobs": 2,
+  "cap_s": 1800
+ },
+ "score_formula": "caught/(caught+missed)",
+ "tool_missed_tally": 3
+}

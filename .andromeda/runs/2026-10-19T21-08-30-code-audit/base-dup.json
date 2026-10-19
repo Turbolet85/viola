@@ -1,0 +1,73 @@
+{
+ "pct": 3.12,
+ "duplicated_lines": 2132,
+ "total_lines": 68257,
+ "clones": 256,
+ "top": [
+  [
+   "tests/cli_budget.rs:71",
+   "tests/cli_wheel.rs:46",
+   25
+  ],
+  [
+   "crates/viola-core/src/obs.rs:175",
+   "tests/contract_diag_schema.rs:20",
+   21
+  ],
+  [
+   "crates/viola-e2e/src/harness/mod.rs:367",
+   "tests/cli_instance_state.rs:648",
+   20
+  ],
+  [
+   "tests/hook_fail_open.rs:465",
+   "tests/hook_fail_open.rs:536",
+   20
+  ],
+  [
+   "src/run/dialog.rs:456",
+   "src/run/wheel.rs:793",
+   19
+  ],
+  [
+   "tests/channel_sqos_open.rs:90",
+   "tests/security_negatives_channel.rs:72",
+   19
+  ],
+  [
+   "tests/cli_answer.rs:110",
+   "tests/cli_wait_last.rs:141",
+   19
+  ],
+  [
+   "crates/viola-channel/src/test_support.rs:13",
+   "crates/viola-state/src/lib.rs:49",
+   18
+  ],
+  [
+   "src/run/links.rs:120",
+   "src/run/snapshot.rs:58",
+   18
+  ],
+  [
+   "src/run/links.rs:120",
+   "src/run/wheel.rs:926",
+   18
+  ]
+ ],
+ "split": {
+  "src": {
+   "pairs": 118,
+   "lines": 1077
+  },
+  "test": {
+   "pairs": 121,
+   "lines": 1146
+  },
+  "mixed": {
+   "pairs": 17,
+   "lines": 165
+  }
+ },
+ "split_rule": "test = both files carry a (^|/)tests/ path segment; src = neither; mixed = one"
+}

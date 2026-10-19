@@ -1,0 +1,38 @@
+{
+ "unit": "viola-agent-claude",
+ "unit_state": "complete 648/648",
+ "score": 99.48,
+ "counts": {
+  "mutants": 648,
+  "caught": 574,
+  "missed": 3,
+  "not_measured": 0,
+  "timeout": 0,
+  "unviable": 71
+ },
+ "survivors": [
+  [
+   "crates/viola-agent-claude/src/ledger.rs:143:9",
+   "replace LedgerRow::relied_here -> bool with true"
+  ],
+  [
+   "crates/viola-agent-claude/src/statusline.rs:118:5",
+   "replace probe_document -> Option<String> with Some(\"xyzzy\".into())"
+  ],
+  [
+   "crates/viola-agent-claude/src/statusline.rs:118:5",
+   "replace probe_document -> Option<String> with Some(String::new())"
+  ]
+ ],
+ "not_measured": [],
+ "timing": {
+  "scope": "unit",
+  "planned": 648,
+  "tested": 648,
+  "wall_s": 576,
+  "jobs": 2,
+  "cap_s": 1800
+ },
+ "score_formula": "caught/(caught+missed)",
+ "tool_missed_tally": 3
+}

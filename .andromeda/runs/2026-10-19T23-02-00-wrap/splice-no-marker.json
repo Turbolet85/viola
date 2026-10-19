@@ -1,0 +1,90 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "447df23e",
+"ts": "2026-10-19T23:03:25Z",
+"argv": [
+"append",
+"--file",
+"viola-0.1.0/working-route.md",
+"--payload-file",
+".andromeda/runs/2026-10-19T23-02-00-wrap/route-entry.txt",
+"--lines",
+"2",
+"--after-line",
+"163",
+"--expect-last-prefix",
+"Newer claude CLI rows — ",
+"--if-absent-prefix",
+"Epoch 5 cleanup — ",
+"--dry-run",
+"--run-dir",
+".andromeda/runs/2026-10-19T23-02-00-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would write working-route.md · lines 187→189 · bytes 54852→58259"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"lines": 187,
+"bytes": 54852,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 189,
+"bytes": 58259
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "447df23e",
+"ts": "2026-10-19T23:03:29Z",
+"argv": [
+"append",
+"--file",
+"viola-0.1.0/working-route.md",
+"--payload-file",
+".andromeda/runs/2026-10-19T23-02-00-wrap/route-entry.txt",
+"--lines",
+"2",
+"--after-line",
+"163",
+"--expect-last-prefix",
+"Newer claude CLI rows — ",
+"--if-absent-prefix",
+"Epoch 5 cleanup — ",
+"--run-dir",
+".andromeda/runs/2026-10-19T23-02-00-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append working-route.md:+2 at line 164 · lines 187→189 · bytes 54852→58259 · term lf",
+"last line now: Version done-check — every gate green on three OSes, masters agree, fix-pass i"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/working-route.md"
+],
+"before": {
+"lines": 187,
+"bytes": 54852,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 189,
+"bytes": 58259
+}
+}
+]

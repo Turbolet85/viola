@@ -1,0 +1,25 @@
+{
+ "unit": "viola-core",
+ "unit_state": "complete 55/55",
+ "score": 100.0,
+ "counts": {
+  "mutants": 55,
+  "caught": 49,
+  "missed": 0,
+  "not_measured": 0,
+  "timeout": 0,
+  "unviable": 6
+ },
+ "survivors": [],
+ "not_measured": [],
+ "timing": {
+  "scope": "unit",
+  "planned": 55,
+  "tested": 55,
+  "wall_s": 32,
+  "jobs": 2,
+  "cap_s": 1800
+ },
+ "score_formula": "caught/(caught+missed)",
+ "tool_missed_tally": 0
+}

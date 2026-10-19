@@ -1,0 +1,104 @@
+{
+ "unused_deps": [
+  [
+   "viola-mcp (crates/viola-mcp/Cargo.toml)",
+   "serde"
+  ],
+  [
+   "viola-fuzz (fuzz/Cargo.toml, own workspace)",
+   "arbitrary"
+  ]
+ ],
+ "zero_ref_candidates": 0,
+ "top": [],
+ "classing": {
+  "raw": 2023,
+  "stage1_tests_excluded": 1946,
+  "stage2_classes": {
+   "trait-impl method (dispatch)": 59,
+   "entry point": 3,
+   "test-only helper (test crate / test-support)": 2
+  },
+  "residual_reviewed_fp": [
+   {
+    "symbol": "tools/SendInput#target.",
+    "file": "crates/viola-mcp/src/tools.rs:80",
+    "family": "derive/attr-invoked",
+    "witness": "crates/viola-mcp/src/tools.rs:76 #[derive(JsonSchema)] (advertised MCP input schema; never deserialised into, line 74)"
+   },
+   {
+    "symbol": "tools/SendInput#text.",
+    "file": "crates/viola-mcp/src/tools.rs:82",
+    "family": "derive/attr-invoked",
+    "witness": "crates/viola-mcp/src/tools.rs:76 #[derive(JsonSchema)] (advertised MCP input schema; never deserialised into, line 74)"
+   },
+   {
+    "symbol": "tools/WaitInput#target.",
+    "file": "crates/viola-mcp/src/tools.rs:89",
+    "family": "derive/attr-invoked",
+    "witness": "crates/viola-mcp/src/tools.rs:76 #[derive(JsonSchema)] (advertised MCP input schema; never deserialised into, line 74)"
+   },
+   {
+    "symbol": "tools/WaitInput#after.",
+    "file": "crates/viola-mcp/src/tools.rs:91",
+    "family": "derive/attr-invoked",
+    "witness": "crates/viola-mcp/src/tools.rs:76 #[derive(JsonSchema)] (advertised MCP input schema; never deserialised into, line 74)"
+   },
+   {
+    "symbol": "tools/WaitInput#timeout_ms.",
+    "file": "crates/viola-mcp/src/tools.rs:93",
+    "family": "derive/attr-invoked",
+    "witness": "crates/viola-mcp/src/tools.rs:76 #[derive(JsonSchema)] (advertised MCP input schema; never deserialised into, line 74)"
+   },
+   {
+    "symbol": "tools/LastInput#target.",
+    "file": "crates/viola-mcp/src/tools.rs:100",
+    "family": "derive/attr-invoked",
+    "witness": "crates/viola-mcp/src/tools.rs:76 #[derive(JsonSchema)] (advertised MCP input schema; never deserialised into, line 74)"
+   },
+   {
+    "symbol": "tools/AnswerInput#target.",
+    "file": "crates/viola-mcp/src/tools.rs:107",
+    "family": "derive/attr-invoked",
+    "witness": "crates/viola-mcp/src/tools.rs:76 #[derive(JsonSchema)] (advertised MCP input schema; never deserialised into, line 74)"
+   },
+   {
+    "symbol": "tools/AnswerInput#dialog_id.",
+    "file": "crates/viola-mcp/src/tools.rs:109",
+    "family": "derive/attr-invoked",
+    "witness": "crates/viola-mcp/src/tools.rs:76 #[derive(JsonSchema)] (advertised MCP input schema; never deserialised into, line 74)"
+   },
+   {
+    "symbol": "tools/AnswerInput#response.",
+    "file": "crates/viola-mcp/src/tools.rs:112",
+    "family": "derive/attr-invoked",
+    "witness": "crates/viola-mcp/src/tools.rs:76 #[derive(JsonSchema)] (advertised MCP input schema; never deserialised into, line 74)"
+   },
+   {
+    "symbol": "events/kind_str().",
+    "file": "crates/viola-state/src/events.rs:40",
+    "family": "derive/attr-invoked",
+    "witness": "crates/viola-state/src/events.rs:35 #[serde(serialize_with = \"kind_str\")]"
+   },
+   {
+    "symbol": "StateError#Encode#",
+    "file": "crates/viola-state/src/lib.rs:25",
+    "family": "derive/attr-invoked",
+    "witness": "crates/viola-state/src/lib.rs:26 Encode(#[from] serde_json::Error) (#[from] variant)"
+   },
+   {
+    "symbol": "cmd/send/SendArgs#text.",
+    "file": "src/cmd/send.rs:40",
+    "family": "derive/attr-invoked",
+    "witness": "src/cmd/send.rs:41 #[arg(hide = true, value_parser = refuse_text_argument)] (clap derive)"
+   },
+   {
+    "symbol": "human/mirror/MIRROR_WORD.",
+    "file": "src/human/mirror.rs:5",
+    "family": "inline format-string capture",
+    "witness": "src/human/mirror.rs:9 format!(\"{word:<MIRROR_WORD$}\")"
+   }
+  ]
+ },
+ "note": "candidates, never dead; recipe = recipes.dead (the baseline record), reused verbatim"
+}

@@ -1,0 +1,57 @@
+# The Epoch 5 boundary wrap — the operator's directions
+
+A 0-pending `/andromeda-wrap-session` at the Epoch 5 boundary, Viola at `b6ddc198` (the switch chunk's flip; the
+diagnosis run dir `.andromeda/runs/2026-10-19T20-57-02-evolve-diagnose/` and the audit run dir
+`.andromeda/runs/2026-10-19T21-08-30-code-audit/` are untracked and ride this wrap's commit, with the audit's
+`code-metrics.ndjson` line). This wrap carries the boundary's route adaptation and one curation candidate. The founder's
+batch of Epoch 5's PROVISIONAL marks is NOT in it: he is away, and the batch comes with his own word later.
+
+## 1. Route adaptation: one corrective entry (for disposition)
+The boundary's audit and diagnosis leave this work. Word each item by what the NEXT boundary's audit will read; no
+mutation run, witness run or workflow dispatch inside the chunk (the founder's standing direction).
+
+From the audit:
+1. The root package's unmutated baseline cannot pass the nextest `mutants` profile's 10 s kill at HEAD:
+   `contract_fake_agent_drift fake_agent_dialog_replay_matches_every_recorded_dialog_set` runs 10.577 s unkilled, and
+   `cli_send send_under_the_paste_hint_a_human_key_during_the_gate_wait_wins` and `…_on_a_verified_cli::case_1_hint`
+   run 9.0–9.3 s. So neither CARRY 2 nor the root `src/` code of eight Epoch 5 chunks was graded. Remedy: a profile
+   override like `verify_window_` / `send_window_`, or a faster replay. CARRY 2's grading moves to the next boundary.
+2. `verify_window_without_screens_fails_every_interactive_row` runs 42.95 s against its 45 s kill. It needs headroom.
+3. The Windows mutation leg's baselines (run 39326811932). On Windows, `viola-e2e`
+   `wipe_scratch_takes_an_instance_tree_the_check_accepts_where_a_plain_dir_does_not` fails (`Ok(())` against
+   `Err(Writable)`), and `cli_budget path6_the_boundaries_and_the_window_word` hits the 10 s kill. `viola-pty` built
+   78 unviable mutants against 11 caught.
+4. The 16 survivors listed in the audit's Informational section. The three `viola-mcp` ones are likely killed only by
+   `crates/viola-e2e/tests/mcp_tools.rs`, outside the package run; that is an inference and needs measuring.
+5. Size:
+   - `crates/viola-agent-claude/src/ledger.rs` is 3732 lines, three quarters of its growth the in-file test module;
+     move that module to its own file.
+   - Split `src/cmd/verify/typed.rs` (1199) and `src/human/board.rs` (949) by concern.
+   - `viola-mcp` → `serde` is an unused-dependency candidate.
+
+From the diagnosis:
+6. `tests/support/home.rs` `dialogless_home` derives its summary from `LedgerRow::relied()`, never from a literal. It
+   was red only at pre-push in three chunks.
+7. An E2E contract case that replays a recorded live `tools/list` exchange, so the gate sees the class only the live
+   start saw (`ttlMs` / `cacheScope`).
+8. The chronic truncated `viola hook` `.profraw` at the coverage merge, seen since Epoch 3. The fix is a cause-finding
+   item (who kills the profile writer). The WATCH on "Newer claude CLI rows" stands until this item owns it.
+9. A headroom read before the gates that boot stamped homes. Each parallel test home pins a ~100 MB debug `viola` on
+   the `/tmp` usrquota tmpfs, and the switch wrap's light gate went red on EDQUOT.
+
+**Placement: ONE entry, "Epoch 5 cleanup", in Epoch 6, directly after "Newer claude CLI rows".** That entry stays the
+head, as the founder placed it this evening. Phase sizes the cleanup against one window and proposes a split if it
+does not fit. Pin only the anchor: every other placement this wrap creates stays the dialogue's.
+
+Authority: the overseer's direction as the founder's delegate while he is away, PROVISIONAL until his word. It is
+reversible: the entry is markerless.
+
+## 2. Judgment-base growth (for the cleanup chunk's own wrap, not this one)
+The drift-base gains a design-system detector over the cli wording passages (As-built clauses, refusal pairs, output
+wording). The recurring step-2 sweep classes (cli_verify count literals, retired surface names) move into detector
+scope. Carry this as the entry's freight, so its wrap proposes them.
+
+## 3. Curation candidate
+- testing: the `run --unit` document always carries the doctest suite object with `passed 0`, so an atom
+  `lacks "passed":0` can never pass. A probe word that the right implementation also writes is no oracle. Measured
+  twice this epoch at P5 check 4 (9), in unwrapped and compact.

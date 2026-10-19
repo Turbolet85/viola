@@ -1,0 +1,3980 @@
+[
+ {
+  "key": "phase/validate/contract.mechanical-check",
+  "n": 23,
+  "weight": 44,
+  "with_halt": 0,
+  "rate": "23/19",
+  "above": true,
+  "chunks": [
+   "2026-10-13-epoch-4-cleanup",
+   "2026-10-13-epoch-4-survivors-ii",
+   "2026-10-13-interrupted-verify-cleanup",
+   "2026-10-13-owed-ledger-rows",
+   "2026-10-13-paste-newline-ledger-row",
+   "2026-10-14-resume-and-compact-ledger-rows",
+   "2026-10-16-remove-the-browser-leg",
+   "2026-10-16-unwrapped-sessions-on-the-board",
+   "2026-10-17-cli-machine-contract",
+   "2026-10-17-cli-output-discipline",
+   "2026-10-17-end-to-end-path-binary-and-harness-legs",
+   "2026-10-17-mcp-server-for-drivers",
+   "2026-10-17-optional-plugin-install",
+   "2026-10-18-compact-post-condition-ledger-row",
+   "2026-10-19-overseer-switch-to-viola"
+  ],
+  "impact": {
+   "iterations": 15,
+   "retries": 6,
+   "reformulations": 0,
+   "dialogue_rounds": 0,
+   "extra_reads": 5,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-13T08:56:20Z-b",
+    "chunk": "2026-10-13-epoch-4-cleanup",
+    "skill": "phase",
+    "step": "validate",
+    "type": "contract.mechanical-check",
+    "what": "check 9 read REQUIRED-RESOLUTION: research's runner-only Windows-baseline bullet stood beside a 'Platform issues consulted: none' slot; two web searches were run and the slot filled (no runner-images source found, the ci#37214281447 measurement stands)",
+    "impact": {
+     "extra_reads": 2
+    },
+    "evidence": "viola-0.1.0/chunks/2026-10-13-epoch-4-cleanup/research.md",
+    "artifacts": [
+     "research.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-13T08:56:20Z-c",
+    "chunk": "2026-10-13-epoch-4-cleanup",
+    "skill": "phase",
+    "step": "validate",
+    "type": "contract.mechanical-check",
+    "what": "check 4 (9): entry 10 (the tokei sizes read) baselined red because tokei exits with an error and no JSON on a path that does not exist yet (the split dirs), so its red on the untouched tree is absent input, not the subject; a must-fail and a must-pass control in a scratch clone were run to show it reads the subject",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-13T07-07-28-phase/p5-controls.md",
+    "artifacts": [
+     "plan.md",
+     "p5-controls.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-13T17:45:43Z-b",
+    "chunk": "2026-10-13-epoch-4-survivors-ii",
+    "skill": "phase",
+    "step": "validate",
+    "type": "contract.mechanical-check",
+    "what": "check 4 (9): the cargo deny check entry, copied byte-equal from the previous plan, reads an advisory database no commit pins and so is new every chunk; the baseline listing read it seen green, and P5 set new = true and baselined it by the letter's rule",
+    "impact": {
+     "iterations": 0
+    },
+    "evidence": null,
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-13-epoch-4-survivors-ii/plan.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-13T18:47:17Z-b",
+    "chunk": "2026-10-13-interrupted-verify-cleanup",
+    "skill": "phase",
+    "step": "validate",
+    "type": "contract.mechanical-check",
+    "what": "check 10 (inputs.py verify) read UNPARSED inputs#I4 and inputs#I5 at scope.md:25 and :74 (and the same I4 at plan.md:364, which verify did not list): another chunk's snapshot written in this chunk's citation form while folding CARRY text; re-worded to those chunks' inputs/ file paths and the set re-run",
+    "impact": {
+     "retries": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-13-interrupted-verify-cleanup/scope.md:25",
+     "viola-0.1.0/chunks/2026-10-13-interrupted-verify-cleanup/scope.md:74",
+     "viola-0.1.0/chunks/2026-10-13-interrupted-verify-cleanup/plan.md:364"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-13T21:20:33Z-b",
+    "chunk": "2026-10-13-paste-newline-ledger-row",
+    "skill": "phase",
+    "step": "validate",
+    "type": "contract.mechanical-check",
+    "what": "check 10 (inputs.py verify) printed UNPARSED for inputs#I6 and inputs#I8 in scope.md: two other chunks' snapshot ids copied verbatim from the folded CARRY freight at P1; reworded to those chunks' inputs/ paths",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-13T20-31-55-phase/",
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-13-paste-newline-ledger-row/scope.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-13T21:20:33Z-c",
+    "chunk": "2026-10-13-paste-newline-ledger-row",
+    "skill": "phase",
+    "step": "validate",
+    "type": "contract.mechanical-check",
+    "what": "check 11 (a) host reach: the live entry's stop and census patterns, copied from the 2026-10-06 precedent round, matched any .viola-verify-* or viola-verify-* cwd (an older run's leftover included); narrowed to the repo root and /tmp before the prompt",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-13T20-31-55-phase/p5-card-1.md",
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-13-paste-newline-ledger-row/plan.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-13T23:04:13Z-b",
+    "chunk": "2026-10-13-owed-ledger-rows",
+    "skill": "phase",
+    "step": "validate",
+    "type": "contract.mechanical-check",
+    "what": "check 10 (inputs.py verify) read UNPARSED for inputs#I2, I6 and I8 in scope.md: P1 copied earlier chunks' bare inputs#I citations from the CARRY text, which read as this chunk's own",
+    "impact": {
+     "retries": 3
+    },
+    "evidence": ".andromeda/runs/2026-10-13T22-31-54-phase",
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-13-owed-ledger-rows/scope.md:18",
+     "viola-0.1.0/chunks/2026-10-13-owed-ledger-rows/scope.md:36",
+     "viola-0.1.0/chunks/2026-10-13-owed-ledger-rows/scope.md:71"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-16T06:45:00Z-b",
+    "chunk": "2026-10-14-resume-and-compact-ledger-rows",
+    "skill": "phase",
+    "step": "validate",
+    "type": "contract.mechanical-check",
+    "what": "check 11 (a): both live stop forms carried a $TMPDIR/viola-verify-* arm, a kill by name over a dir pattern every viola verify on the host shares (another tree's bridge included); arm dropped, the round's pid census left to end a Run A survivor",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-14T07-11-44-phase/p5-card-1.md",
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-14-resume-and-compact-ledger-rows/plan.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-16T06:45:00Z-c",
+    "chunk": "2026-10-14-resume-and-compact-ledger-rows",
+    "skill": "phase",
+    "step": "validate",
+    "type": "contract.mechanical-check",
+    "what": "check 12 (a): step 12 read the integration entry's timings before and after with no anchor, while the entry reads the fixture step 13's record round lands; re-anchored to the P5 baseline and a firing after step 13",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-14T07-11-44-phase/p5-card-1.md",
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-14-resume-and-compact-ledger-rows/plan.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-16T06:45:00Z-d",
+    "chunk": "2026-10-14-resume-and-compact-ledger-rows",
+    "skill": "phase",
+    "step": "validate",
+    "type": "contract.mechanical-check",
+    "what": "check 8 read: step 5 told implement to make read_captures pub(super), but typed is verify's child module and already reaches the private fn; the visibility change was dropped",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-14T07-11-44-phase/p5-card-1.md",
+    "artifacts": [
+     "src/cmd/verify.rs:383",
+     "src/cmd/verify/typed.rs"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-16T15:59:57Z-b",
+    "chunk": "2026-10-16-remove-the-browser-leg",
+    "skill": "phase",
+    "step": "validate",
+    "type": "contract.mechanical-check",
+    "what": "check 10 (inputs.py verify) listed scope.md:11 citing inputs#I1 where the text meant the adaptation wrap's I1, not this chunk's P4 snapshot; reworded to that wrap's path before the review",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-16T15-37-36-phase/inputs-2026-10-16-remove-the-browser-leg.json",
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-16-remove-the-browser-leg/scope.md:11"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-16T20:05:29Z-b",
+    "chunk": "2026-10-16-unwrapped-sessions-on-the-board",
+    "skill": "phase",
+    "step": "validate",
+    "type": "contract.mechanical-check",
+    "what": "check 4 (9): entry 6's atom lacks \"passed\":0, could never pass because the run --unit document always carries the doctest suite object with passed 0; found by reading the baseline log, re-spelt as lacks \"suite\":\"nextest-unit\",\"passed\":0,",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-16T18-50-06-phase/p5-controls.md",
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/plan.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-16T20:05:29Z-c",
+    "chunk": "2026-10-16-unwrapped-sessions-on-the-board",
+    "skill": "phase",
+    "step": "validate",
+    "type": "contract.mechanical-check",
+    "what": "check 10: inputs.py verify read UNPARSED inputs#I5 at scope.md:126, a citation of the revive chunk's snapshot written in this chunk's own form at P1; re-pointed to that chunk's inputs/I5-relay-1.md.txt after reading it",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/scope.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-16T20:05:29Z-d",
+    "chunk": "2026-10-16-unwrapped-sessions-on-the-board",
+    "skill": "phase",
+    "step": "validate",
+    "type": "contract.mechanical-check",
+    "what": "check 11 (a): plan step 13 let the fake agent skip dead registry entries without saying how liveness is read, leaving kill(pid, 0) open; the step now reads the process table and signals nothing",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/plan.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-17T00:48:14Z-b",
+    "chunk": "2026-10-17-end-to-end-path-binary-and-harness-legs",
+    "skill": "phase",
+    "step": "validate",
+    "type": "contract.mechanical-check",
+    "what": "check 10 (inputs.py verify) read UNPARSED inputs#I2 at scope.md:142: the folded CARRY 6 text cited the previous chunk's own inputs#I1 / inputs#I2 as bare ids, which read as this chunk's; re-pointed to that chunk's inputs/ file paths",
+    "impact": {
+     "retries": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-17T00-19-29-phase/ (inputs trail)",
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/scope.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-17T02:49:06Z-b",
+    "chunk": "2026-10-17-cli-machine-contract",
+    "skill": "phase",
+    "step": "validate",
+    "type": "contract.mechanical-check",
+    "what": "check 10 (inputs.py verify) printed UNPARSED for inputs#I3 and inputs#I8 in scope.md: verbatim CARRY freight citing two earlier chunks' snapshots in the this-chunk form; the take-up fold copied them as they stood",
+    "impact": {
+     "retries": 1,
+     "extra_reads": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-17T02-25-51-phase/",
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-17-cli-machine-contract/scope.md:44",
+     "viola-0.1.0/chunks/2026-10-17-cli-machine-contract/scope.md:107"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-17T07:42:49Z-b",
+    "chunk": "2026-10-17-cli-output-discipline",
+    "skill": "phase",
+    "step": "validate",
+    "type": "contract.mechanical-check",
+    "what": "check 3 fired: the plan read NO_COLOR, TERM and COLORTERM without naming the architecture env-var registries (Occupied Resources Environment variables, Naming :104, Conventions :157) in its expected amendments; one plan edit added them and the whole set re-ran",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-17-cli-output-discipline/plan.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-17T07:42:49Z-c",
+    "chunk": "2026-10-17-cli-output-discipline",
+    "skill": "phase",
+    "step": "validate",
+    "type": "contract.mechanical-check",
+    "what": "check 10 fired: scope.md carried four bare inputs#I3/I7/I8/I9 citations copied verbatim from the CARRY freight at P1, which name chunk 2026-10-11-the-board-viola-list's snapshots; re-spelt by that chunk's inputs paths and inputs.py verify re-run",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-17-cli-output-discipline/scope.md:47",
+     "viola-0.1.0/chunks/2026-10-17-cli-output-discipline/scope.md:58"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-17T11:31:27Z-b",
+    "chunk": "2026-10-17-mcp-server-for-drivers",
+    "skill": "phase",
+    "step": "validate",
+    "type": "contract.mechanical-check",
+    "what": "check 10 (inputs.py verify) printed 4 UNPARSED citations: scope.md's CARRY 5 fold cited the board chunk's snapshots as inputs#I3/I7/I8/I9, this chunk's own form; re-worded to that chunk's inputs/ paths",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-17-mcp-server-for-drivers/scope.md:83",
+     "viola-0.1.0/chunks/2026-10-17-mcp-server-for-drivers/scope.md:99"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-17T11:31:27Z-c",
+    "chunk": "2026-10-17-mcp-server-for-drivers",
+    "skill": "phase",
+    "step": "validate",
+    "type": "contract.mechanical-check",
+    "what": "check 6 (size) warned: 461 lines of plan prose against ~400 (642 total, fence 181), under the >50% band; check 4 (9) also set new on 3 NOT SEEN entries (cargo deny check, the sole-root loop, deny-probes) the P4 author had not marked",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-17-mcp-server-for-drivers/plan.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-17T18:06:04Z-b",
+    "chunk": "2026-10-17-optional-plugin-install",
+    "skill": "phase",
+    "step": "validate",
+    "type": "contract.mechanical-check",
+    "what": "check 10 (inputs.py verify) printed UNPARSED for inputs#I3 (scope.md:26) and inputs#I4 (scope.md:30): P1's scope cited other chunks' snapshots in this chunk's form; re-worded to those chunks' inputs/ file paths and re-verified 0 unparsed",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-17T15-14-51-phase/inputs-2026-10-17-optional-plugin-install.json",
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-17-optional-plugin-install/scope.md:26",
+     "viola-0.1.0/chunks/2026-10-17-optional-plugin-install/scope.md:30"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-18T20:51:05Z-b",
+    "chunk": "2026-10-18-compact-post-condition-ledger-row",
+    "skill": "phase",
+    "step": "validate",
+    "type": "contract.mechanical-check",
+    "what": "check 4 (9)'s baseline reads corrected two P4-authored entries: the literal probe counted the word twenty-three and version_gate.rs, which step 9 writes correctly, so it could never read 0 after a right implementation; the new-cases filter carried a contains \"failed\":0 atom the doctest suite always satisfies; both re-spelt and the whole set re-run before the card",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-18T03-26-43-phase/p5-controls.md",
+    "artifacts": [
+     "plan.md entry 6",
+     "plan.md entry 14"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-19T10:52:14Z-b",
+    "chunk": "2026-10-19-overseer-switch-to-viola",
+    "skill": "phase",
+    "step": "validate",
+    "type": "contract.mechanical-check",
+    "what": "check 4 (6) and check 8 read as REQUIRED-RESOLUTION: a security criterion cited a step-10 read the step did not make, and an a11y criterion rested on a live terminal read no step made; step 10 gained the command-path count and the a11y criterion was re-worded to the existing passthrough cases, then the whole set re-ran",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/plan.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "wrap-session/reconcile/contract.in-pass-correction",
+  "n": 12,
+  "weight": 31,
+  "with_halt": 0,
+  "rate": "12/19",
+  "above": true,
+  "chunks": [
+   "(null)",
+   "2026-10-13-epoch-4-cleanup",
+   "2026-10-13-owed-ledger-rows",
+   "2026-10-13-paste-newline-ledger-row",
+   "2026-10-16-remove-the-browser-leg",
+   "2026-10-17-cli-machine-contract",
+   "2026-10-17-cli-output-discipline",
+   "2026-10-17-mcp-server-for-drivers",
+   "2026-10-17-optional-plugin-install",
+   "2026-10-18-plugin-precedence-live-readings",
+   "2026-10-19-dialog-hold-for-the-driver"
+  ],
+  "impact": {
+   "iterations": 12,
+   "retries": 7,
+   "reformulations": 0,
+   "dialogue_rounds": 0,
+   "extra_reads": 0,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-13T07:00:53Z-c",
+    "chunk": null,
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "contract.in-pass-correction",
+    "what": "three first writes corrected before commit: the new playbook rule said 'two' card-confirm entries (three; caught by re-read); security-plan-entry-1 carried a Supersedes of a partly standing entry (caught by re-reading sidecar-contract, moved into Change); the Leaves table carried a backticked pipe that split a cell (caught by re-read)",
+    "impact": {
+     "iterations": 3
+    },
+    "evidence": null,
+    "artifacts": [
+     ".andromeda/playbook.md",
+     ".andromeda/runs/2026-10-13T06-38-35-wrap/security-plan-entry-1.md",
+     ".andromeda/runs/2026-10-13T06-38-35-wrap/cascade-dispositions.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-13T11:04:28Z-b",
+    "chunk": "2026-10-13-epoch-4-cleanup",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "contract.in-pass-correction",
+    "what": "the test-plan §9 Lint row addition first said a chunk whose cfg(windows) code the host does not build carries the Windows-target clippy (a prescription past the measurement); a re-read before the sweep rewrote it to: a chunk plan may list it, first listed by this chunk",
+    "impact": {
+     "retries": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-13T10-47-05-wrap/fanout-results.md",
+    "artifacts": [
+     ".andromeda/test-plan.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-13T22:12:27Z-b",
+    "chunk": "2026-10-13-paste-newline-ledger-row",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "contract.in-pass-correction",
+    "what": "architecture.md:49 first write changed the earlier chunk's measured clause 'every text was under 100 bytes' to 'under 120 bytes' as if the old measurement had moved; caught on re-reading the edit and rewritten to state the union (the probe's 113-byte text included)",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     ".andromeda/architecture.md:49"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-14T07:02:56Z-d",
+    "chunk": "2026-10-13-owed-ledger-rows",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "contract.in-pass-correction",
+    "what": "fanout-results.md's architecture section was first written with 28 numbered dispositions and a skipped 19; a count of the file's `- detector:` items (29) caught it and the section was rewritten in the file's order before the halt",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     ".andromeda/runs/2026-10-14T06-37-54-wrap/fanout-results.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-16T18:40:25Z-c",
+    "chunk": "2026-10-16-remove-the-browser-leg",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "contract.in-pass-correction",
+    "what": "5 first writes wrong, caught before commit: obs-plan proposals 16/17 (§1 run|hook|mcp|ui at L138, L209) and test-plan proposal 9 (§7 cookie file, L972) dispositioned apply but not edited — caught by the step-2 sweep; a deleted Log format block left its index label — caught by registry.py check STALE; the new corr rule cited 'obs-plan D-02 … D-05' — caught by re-reading the copy",
+    "impact": {
+     "iterations": 2
+    },
+    "evidence": ".andromeda/runs/2026-10-16T17-15-05-wrap/cascade-dispositions.md",
+    "artifacts": [
+     ".andromeda/obs-plan.md",
+     ".andromeda/test-plan.md",
+     ".andromeda/registries/test-plan-contracts.toml"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-17T04:21:36Z-e",
+    "chunk": "2026-10-17-cli-machine-contract",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "contract.in-pass-correction",
+    "what": "3 first writes corrected before commit: security-plan.md:203's home resolution first sat under the list-arguments label (re-read; relabelled Home resolution); obs-plan-entry.md had Kept before Why (sidecar.py check OFF-FORM; reordered); fanout-results.md's summary said 44 amendments (re-count; 47)",
+    "impact": {
+     "iterations": 3
+    },
+    "evidence": ".andromeda/runs/2026-10-17T03-50-43-wrap/",
+    "artifacts": [
+     "security-plan.md:203",
+     "obs-plan-entry.md",
+     "fanout-results.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-17T08:47:35Z-b",
+    "chunk": "2026-10-17-cli-output-discipline",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "contract.in-pass-correction",
+    "what": "architecture.md §Conventions → Environment variables: the apply added 'A third ratified exception' after the standing 'The two ratified exceptions are the test seams', a self-contradiction; the cascade sweep's edited row (env-exhaustive, architecture.md:157) caught it, re-worded 'Two of the ratified exceptions are'",
+    "impact": {
+     "retries": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-17T08-28-14-wrap/cascade-dispositions.md",
+    "artifacts": [
+     ".andromeda/architecture.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-17T14:55:18Z-d",
+    "chunk": "2026-10-17-mcp-server-for-drivers",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "contract.in-pass-correction",
+    "what": "two first writes corrected before the commit: the viola-state liveness line inserted inside the phrase 'the events / reader' in project-directory-structure.md (caught by a re-read), and fanout-results.md's tally reading 5 escalations and 5 raised for 4 and 4 (caught by a re-read)",
+    "impact": {
+     "retries": 2
+    },
+    "evidence": ".andromeda/registries/contracts/architecture/project-directory-structure.md",
+    "artifacts": null,
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-18T03:06:09Z-c",
+    "chunk": "2026-10-17-optional-plugin-install",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "contract.in-pass-correction",
+    "what": "the project-directory-structure key edit first placed the marketplace module between the statusline module and its own parenthetical; the read-back caught it and the line was reordered before the sweep",
+    "impact": {
+     "retries": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     ".andromeda/registries/contracts/architecture/project-directory-structure.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-19T07:18:49Z-b",
+    "chunk": "2026-10-18-plugin-precedence-live-readings",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "contract.in-pass-correction",
+    "what": "answer-card.md first listed the inputs#I4 rig place as a card item; the playbook rule's note (a word that answered no P4 fork is no card item) caught it on a read before the halt, and I4 became its own plain question",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     ".andromeda/runs/2026-10-19T07-00-05-wrap/answer-card.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-19T07:18:49Z-c",
+    "chunk": "2026-10-18-plugin-precedence-live-readings",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "contract.in-pass-correction",
+    "what": "cascade-dispositions.md first wrote 'no change 12'; a recount of the 22 rows by class caught it (11) before any sidecar entry landed",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     ".andromeda/runs/2026-10-19T07-00-05-wrap/cascade-dispositions.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-19T09:53:39Z-b",
+    "chunk": "2026-10-19-dialog-hold-for-the-driver",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "contract.in-pass-correction",
+    "what": "two lines this pass wrote failed classify.py's provenance arm on first write: architecture.md:77 said the ceiling stays PROVISIONAL 'until then' (rewritten to 'is PROVISIONAL'), and otel-sdk-init.md:17's rewritten clause kept the standing stamp '(chunk 2026-10-10-budget-governor)' (dropped); both caught by classify.py check --mode standing before the sidecar entries",
+    "impact": {
+     "retries": 2
+    },
+    "evidence": null,
+    "artifacts": [
+     ".andromeda/architecture.md:77",
+     ".andromeda/registries/contracts/obs-plan/otel-sdk-init.md:17"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "*/*/recall.corpus-recurrence",
+  "n": 11,
+  "weight": 21,
+  "with_halt": 0,
+  "rate": null,
+  "above": true,
+  "chunks": [
+   "2026-10-13-epoch-4-cleanup",
+   "2026-10-13-owed-ledger-rows",
+   "2026-10-13-paste-newline-ledger-row",
+   "2026-10-14-resume-and-compact-ledger-rows",
+   "2026-10-16-unwrapped-sessions-on-the-board",
+   "2026-10-17-cli-machine-contract",
+   "2026-10-17-optional-plugin-install",
+   "2026-10-19-dialog-hold-for-the-driver"
+  ],
+  "impact": {
+   "iterations": 5,
+   "retries": 5,
+   "reformulations": 0,
+   "dialogue_rounds": 0,
+   "extra_reads": 2,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-13T11:05:16Z-b",
+    "chunk": "2026-10-13-epoch-4-cleanup",
+    "skill": "wrap-session",
+    "step": "curation",
+    "type": "recall.corpus-recurrence",
+    "what": "the phase run quoted the CI runner's scratch as a Windows drive path in two run-dir notes and the operator pass's hygiene read refused both; the Tier 3 entry on gate.py hygiene already says the read takes a quoted Windows drive path for a host path (its 2026-10-06 extension)",
+    "impact": {
+     "retries": 1
+    },
+    "evidence": "viola-0.1.0/chunks/2026-10-13-epoch-4-cleanup/evidence/operator.md",
+    "artifacts": [
+     ".claude/docs/session-learnings.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-13T22:13:47Z-b",
+    "chunk": "2026-10-13-paste-newline-ledger-row",
+    "skill": "wrap-session",
+    "step": "curation",
+    "type": "recall.corpus-recurrence",
+    "what": "testing.md 2026-10-07 (a moved bound: list the cases by the function the bound decides, never by its literals) was already curated; research swept the row count's literals anyway and five readers of LedgerRow::ALL and the fixture set read red at the unit, integration and pre-push gates",
+    "impact": {
+     "iterations": 2
+    },
+    "evidence": null,
+    "artifacts": [
+     ".claude/rules/testing.md",
+     "viola-0.1.0/chunks/2026-10-13-paste-newline-ledger-row/research.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-14T07:04:34Z-b",
+    "chunk": "2026-10-13-owed-ledger-rows",
+    "skill": "wrap-session",
+    "step": "curation",
+    "type": "recall.corpus-recurrence",
+    "what": "testing.md 2026-10-07 (list a moved bound's cases by the function it decides) did not prevent research missing merge_stamp's literal row-set envelope oracle when LedgerRow::ALL grew; the same entry also recurred in the 2026-10-13 paste-newline chunk",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": "viola-0.1.0/chunks/2026-10-13-owed-ledger-rows/report.md (Deviations 3)",
+    "artifacts": [
+     ".claude/rules/testing.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-16T14:44:40Z-b",
+    "chunk": "2026-10-14-resume-and-compact-ledger-rows",
+    "skill": "wrap-session",
+    "step": "curation",
+    "type": "recall.corpus-recurrence",
+    "what": "testing.md 2026-10-07 (a moved bound: list the cases by the function it decides) recurred a third time: Run E moved verify's run count and its readers were swept by literal, ten readers outside the plan's list, one (an integer-built summary line) reaching pre-push and a plan revision",
+    "impact": {
+     "retries": 1
+    },
+    "evidence": "viola-0.1.0/chunks/2026-10-14-resume-and-compact-ledger-rows/report.md",
+    "artifacts": [
+     ".claude/rules/testing.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-16T23:39:19Z-b",
+    "chunk": "2026-10-16-unwrapped-sessions-on-the-board",
+    "skill": "wrap-session",
+    "step": "curation",
+    "type": "recall.corpus-recurrence",
+    "what": "a moved count again escaped the chunk's planned test selection (the integration filter missed cli_answer, whose shared helper pinned the summary) despite testing.md's 2026-10-07 moved-bound entry; landed as that entry's extension, its fourth recurrence",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-16T22-30-02-wrap/curation.md",
+    "artifacts": [
+     ".claude/rules/testing.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-17T04:24:20Z-c",
+    "chunk": "2026-10-17-cli-machine-contract",
+    "skill": "wrap-session",
+    "step": "curation",
+    "type": "recall.corpus-recurrence",
+    "what": "the plan's Part A step 2 sampled a timing window over 20 firings although testing.md 2026-09-27 says a timing window is forced, never sampled; the forced unit case found it",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-17T03-50-43-wrap/curation.md",
+    "artifacts": [
+     ".claude/rules/testing.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-17T04:24:20Z-d",
+    "chunk": "2026-10-17-cli-machine-contract",
+    "skill": "wrap-session",
+    "step": "curation",
+    "type": "recall.corpus-recurrence",
+    "what": "a remove-the-guard sed anchored on pre-rustfmt text matched nothing and its green proved nothing, past testing.md 2026-09-25's extension",
+    "impact": {
+     "retries": 1
+    },
+    "evidence": "viola-0.1.0/chunks/2026-10-17-cli-machine-contract/evidence/guards.md",
+    "artifacts": [
+     ".claude/rules/testing.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-17T04:24:20Z-e",
+    "chunk": "2026-10-17-cli-machine-contract",
+    "skill": "wrap-session",
+    "step": "curation",
+    "type": "recall.corpus-recurrence",
+    "what": "a TOML pattern written through printf landed a doubled backslash, past host-linux.md Transports (never build a document through shell quoting) and its 2026-09-28 addition; fixed through Edit",
+    "impact": {
+     "retries": 1
+    },
+    "evidence": "viola-0.1.0/chunks/2026-10-17-cli-machine-contract/report.md",
+    "artifacts": [
+     ".claude/rules/host-linux.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-18T03:06:56Z-b",
+    "chunk": "2026-10-17-optional-plugin-install",
+    "skill": "wrap-session",
+    "step": "curation",
+    "type": "recall.corpus-recurrence",
+    "what": "host-linux.md Paths (anchor cross-call paths absolutely, cd only in a subshell) stood correct, and a cd X 2>/dev/null; prefix still moved the session cwd for one call this window",
+    "impact": {
+     "retries": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     ".claude/rules/host-linux.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-19T09:54:55Z-b",
+    "chunk": "2026-10-19-dialog-hold-for-the-driver",
+    "skill": "wrap-session",
+    "step": "curation",
+    "type": "recall.corpus-recurrence",
+    "what": "host-linux.md 2026-10-07 (a process named viola is not this repository's by its name; pgrep -x reads the overseer bridge) stood correct, and the implement run's first census by gate.py census --args target/debug/viola listed the bridge's 11 processes anyway; extended with the census form",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     ".claude/rules/host-linux.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-19T09:54:55Z-c",
+    "chunk": "2026-10-19-dialog-hold-for-the-driver",
+    "skill": "wrap-session",
+    "step": "curation",
+    "type": "recall.corpus-recurrence",
+    "what": "events.md 2026-10-16 (a snapshot field a reader expects once a line is visible is written before the line) stood correct, and DialogSlot::register wrote pending_dialog after the dialog line; met as a macOS-only CI red at 3def5b5b, fixed at d146c50c",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": "ci#39226239371",
+    "artifacts": [
+     ".claude/rules/events.md",
+     "src/run/dialog.rs"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "implement/code/input.plan-step-ambiguous",
+  "n": 12,
+  "weight": 17,
+  "with_halt": 0,
+  "rate": "12/18",
+  "above": true,
+  "chunks": [
+   "2026-10-13-epoch-4-cleanup",
+   "2026-10-13-owed-ledger-rows",
+   "2026-10-16-unwrapped-sessions-on-the-board",
+   "2026-10-17-cli-machine-contract",
+   "2026-10-17-end-to-end-path-binary-and-harness-legs",
+   "2026-10-17-optional-plugin-install",
+   "2026-10-18-compact-post-condition-ledger-row",
+   "2026-10-18-plugin-precedence-live-readings",
+   "2026-10-19-dialog-hold-for-the-driver"
+  ],
+  "impact": {
+   "iterations": 2,
+   "retries": 0,
+   "reformulations": 3,
+   "dialogue_rounds": 0,
+   "extra_reads": 5,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-13T09:05:51Z-b",
+    "chunk": "2026-10-13-epoch-4-cleanup",
+    "skill": "implement",
+    "step": "code",
+    "type": "input.plan-step-ambiguous",
+    "what": "step 4 did not place the human tests' shared writers (Recorder, Broken, one_write), and step 5 listed a PasteFn re-export no caller outside the module uses (an unused pub(crate) use fails -D warnings); settled from the scratch.rs super::super::tests precedent and by leaving PasteFn un-re-exported, both reported",
+    "impact": {
+     "extra_reads": 2
+    },
+    "evidence": null,
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-13-epoch-4-cleanup/plan.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-13T23:18:46Z-d",
+    "chunk": "2026-10-13-owed-ledger-rows",
+    "skill": "implement",
+    "step": "code",
+    "type": "input.plan-step-ambiguous",
+    "what": "plan step 2 fixes the row-case count at nine (the gate atom passed 9) while naming no broken post-condition for the override row; a ninth case was chosen and is surfaced in the report",
+    "impact": {
+     "reformulations": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-13-owed-ledger-rows/plan.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-16T20:44:30Z-b",
+    "chunk": "2026-10-16-unwrapped-sessions-on-the-board",
+    "skill": "implement",
+    "step": "code",
+    "type": "input.plan-step-ambiguous",
+    "what": "plan step 4 said the snapshot write lands after the session-start line is appended; every test helper that waits on that line then read the snapshot mid-rewrite (cli_list path1 and e5 red)",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     "src/run/send/slot.rs",
+     "tests/cli_list.rs"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-16T20:44:30Z-c",
+    "chunk": "2026-10-16-unwrapped-sessions-on-the-board",
+    "skill": "implement",
+    "step": "code",
+    "type": "input.plan-step-ambiguous",
+    "what": "plan step 11 pinned the agents read before the /clear paste, so a run that stops pasting early failed the agents row as well; the read moved to right after the first turn settles",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     "src/cmd/verify/typed.rs",
+     "tests/cli_verify.rs"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-17T01:32:56Z-b",
+    "chunk": "2026-10-17-end-to-end-path-binary-and-harness-legs",
+    "skill": "implement",
+    "step": "code",
+    "type": "input.plan-step-ambiguous",
+    "what": "the re-cut INTEGRATION layer would fail to parse in run.rs's throwaway mini workspace (no E2E-prefixed binary): measured exit 94 'operator didn't match any binary names' on a scratch crate, fixed by planting tests/path_it.rs in the two mini cases whose integration layer runs",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     "crates/viola-e2e/src/harness/run.rs",
+     "crates/viola-e2e/src/harness/run/nextest.rs"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-17T01:32:56Z-c",
+    "chunk": "2026-10-17-end-to-end-path-binary-and-harness-legs",
+    "skill": "implement",
+    "step": "code",
+    "type": "input.plan-step-ambiguous",
+    "what": "step 7's drop rule ('cleanup keeping homes under AGENT_RUN_KEEP_HOMES=1, then removes the home parent unless KEEP_FAILED and panicking') reads two ways; implemented as keep = KEEP_HOMES or (KEEP_FAILED and panicking), surfaced in the report",
+    "impact": {},
+    "evidence": null,
+    "artifacts": [
+     "crates/viola-e2e/src/harness/session.rs"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-17T03:15:06Z-c",
+    "chunk": "2026-10-17-cli-machine-contract",
+    "skill": "implement",
+    "step": "code",
+    "type": "input.plan-step-ambiguous",
+    "what": "plan step 12 says revive --list opens cli-<name>.ndjson under a parsed VIOLA_NAME without saying whether <name> is the caller's or the revived instance's; settled by obs-plan §4's cli row (list and verify log under the caller's name) and pinned by a case using VIOLA_NAME=driver",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     "src/cmd/revive.rs",
+     "tests/cli_revive.rs"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-17T03:15:06Z-d",
+    "chunk": "2026-10-17-cli-machine-contract",
+    "skill": "implement",
+    "step": "code",
+    "type": "input.plan-step-ambiguous",
+    "what": "plan step 16 asks one rstest row per outcome on a stamped home; outcomes in sequence over one live wrapper (pause then refused send then release, then the stopped instance) cannot be independent rstest rows, so they became a labelled case table per world, each assertion naming its label",
+    "impact": {},
+    "evidence": null,
+    "artifacts": [
+     "tests/cli_machine_contract.rs"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-17T18:14:26Z-b",
+    "chunk": "2026-10-17-optional-plugin-install",
+    "skill": "implement",
+    "step": "code",
+    "type": "input.plan-step-ambiguous",
+    "what": "plan step 2 names the home argument as the resolved canonical home, but resolved_home canonicalises before the home exists, so a fresh home under the linked target/e2e-home would be spelt through the link and miss the resolved(home) oracle; settled by re-canonicalising after the dirs are created (run's own pattern) and surfaced for the P4 report",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     "src/cmd/plugin.rs",
+     "src/cmd/run.rs:232-234"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-18T21:22:56Z-b",
+    "chunk": "2026-10-18-compact-post-condition-ledger-row",
+    "skill": "implement",
+    "step": "code",
+    "type": "input.plan-step-ambiguous",
+    "what": "plan step 10 'the statusline slice LEDGER_ROWS[18..] reads the same three rows only if it is bounded to them — bound it so' does not say which three rows the slice read (it read five on Unix, two on Windows)",
+    "impact": {
+     "reformulations": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-18-compact-post-condition-ledger-row/plan.md",
+     "crates/viola-e2e/src/harness/run.rs"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-19T05:27:21Z-b",
+    "chunk": "2026-10-18-plugin-precedence-live-readings",
+    "skill": "implement",
+    "step": "code",
+    "type": "input.plan-step-ambiguous",
+    "what": "plan step 1's key-rule verdicts (selected · pointer-above/below · unreached · other-modal · absent) name no word for a trust row with zero or several pointer rows; the rig reads it `unselected`, no key and red, per inputs#I2 F1 'anything else no key and red' — surfaced in the report",
+    "impact": {
+     "iterations": 0
+    },
+    "evidence": null,
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/plan.md",
+     "viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/evidence/live-pty-arrow.py"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-19T08:27:44Z-c",
+    "chunk": "2026-10-19-dialog-hold-for-the-driver",
+    "skill": "implement",
+    "step": "code",
+    "type": "input.plan-step-ambiguous",
+    "what": "plan step 1 asks for an rstest in crates/viola-core, which has no rstest dev-dependency while the plan's preservation guard forbids a manifest edit; written as a literal table test under the planned name",
+    "impact": {
+     "reformulations": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     "crates/viola-core/src/lib.rs",
+     "crates/viola-core/Cargo.toml"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "*/*/contract.premise-falsified",
+  "n": 8,
+  "weight": 20,
+  "with_halt": 3,
+  "rate": null,
+  "above": true,
+  "chunks": [
+   "2026-10-14-resume-and-compact-ledger-rows",
+   "2026-10-17-mcp-server-for-drivers",
+   "2026-10-17-optional-plugin-install",
+   "2026-10-18-plugin-precedence-live-readings",
+   "2026-10-19-overseer-switch-to-viola"
+  ],
+  "impact": {
+   "iterations": 1,
+   "retries": 0,
+   "reformulations": 0,
+   "dialogue_rounds": 1,
+   "extra_reads": 2,
+   "halted": 3,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-14T07:22:25Z-b",
+    "chunk": "2026-10-14-resume-and-compact-ledger-rows",
+    "skill": "phase",
+    "step": "research",
+    "type": "contract.premise-falsified",
+    "what": "the folded CARRY priced /compact as a ledger row plus one Run B paste; research found the send's single 10 s confirm window ends before the measured 18.8 s compaction post-condition, so a window of its own is also needed",
+    "impact": {
+     "iterations": 0
+    },
+    "evidence": "viola-0.1.0/chunks/2026-10-14-resume-and-compact-ledger-rows/research.md",
+    "artifacts": [
+     "viola-0.1.0/working-route.md:138",
+     "crates/viola-agent-claude/src/screen.rs:20"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-16T06:59:33Z-b",
+    "chunk": "2026-10-14-resume-and-compact-ledger-rows",
+    "skill": "implement",
+    "step": "code",
+    "type": "contract.premise-falsified",
+    "what": "plan step touchpoints said tests/support/verify.rs changes only if the stamped-home fixture names the run count or dirs; its synthetic session id s-verify-1 is off the session-id shape, so Run E would never start under it and the id had to take the shape",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": "viola-0.1.0/chunks/2026-10-14-resume-and-compact-ledger-rows/plan.md",
+    "artifacts": [
+     "tests/support/verify.rs",
+     "plan.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-17T11:55:13Z-b",
+    "chunk": "2026-10-17-mcp-server-for-drivers",
+    "skill": "implement",
+    "step": "code",
+    "type": "contract.premise-falsified",
+    "what": "plan step 3 / research: cargo tree -p viola-channel -i tokio exits 101 'did not match'; once rmcp/tokio enter Cargo.lock it exits 0 'nothing to print', so the script reads presence by a 'tokio v' line and accepts both absent forms",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": "viola-0.1.0/chunks/2026-10-17-mcp-server-for-drivers/evidence/instrument-controls.md",
+    "artifacts": [
+     "scripts/channel-tokio-free.sh",
+     "viola-0.1.0/chunks/2026-10-17-mcp-server-for-drivers/research.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-17T18:23:32Z-b",
+    "chunk": "2026-10-17-optional-plugin-install",
+    "skill": "implement",
+    "step": "fix-loop",
+    "type": "contract.premise-falsified",
+    "what": "plan step 7 premised that claude plugin marketplace add --scope local run from target/plugin-live-*/proj/ writes proj/.claude/settings.local.json; on 2.1.287 it wrote the git work tree root's .claude/settings.local.json; the plan's guard caught it after command 1, the removal ran, no start was made",
+    "impact": {
+     "halted": 1
+    },
+    "evidence": "viola-0.1.0/chunks/2026-10-17-optional-plugin-install/evidence/live-round.md",
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-17-optional-plugin-install/plan.md",
+     ".claude/settings.local.json"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-18T01:49:04Z-a",
+    "chunk": "2026-10-17-optional-plugin-install",
+    "skill": "implement",
+    "step": "fix-loop",
+    "type": "contract.premise-falsified",
+    "what": "rig 2 (inputs#I5 Q1, proj/ its own git repo) passed the local-scope guard, but start 1 from proj/ was held by a modal before SessionStart (no session-start, no viola mcp, child exit 1 at the stop); proj/ became its own project root with no trust record in ~/.claude.json; start 1 red, start 2 held for the founder",
+    "impact": {
+     "halted": 1
+    },
+    "evidence": "viola-0.1.0/chunks/2026-10-17-optional-plugin-install/evidence/live-sessions.ndjson",
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-17-optional-plugin-install/evidence/live-round.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-18T02:20:52Z-a",
+    "chunk": "2026-10-17-optional-plugin-install",
+    "skill": "implement",
+    "step": "fix-loop",
+    "type": "contract.premise-falsified",
+    "what": "the one-Enter trust answer (inputs#I6 Q1) premised that the folder-trust dialog shows its confirm row selected; the rig read the row on screen without the selection pointer (unselected), typed no key, start 2 red; start 3 held for the founder",
+    "impact": {
+     "halted": 1
+    },
+    "evidence": "viola-0.1.0/chunks/2026-10-17-optional-plugin-install/evidence/live-round.md",
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-17-optional-plugin-install/evidence/live-pty-trust.py"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-19T06:19:25Z-b",
+    "chunk": "2026-10-18-plugin-precedence-live-readings",
+    "skill": "implement",
+    "step": "fix-loop",
+    "type": "contract.premise-falsified",
+    "what": "the plan's premise that a start passes once the trust dialog is accepted was falsified: from proj/ inside the work tree the CLI showed the external-imports modal next (inferred cause: the repository CLAUDE.md's @.claude/session-handoff.md import outside proj/'s git root), costing start 1 of the cap 3 and one dialogue round",
+    "impact": {
+     "dialogue_rounds": 1,
+     "retries": 0
+    },
+    "evidence": "viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/evidence/live-sessions.ndjson",
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/plan.md",
+     "viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/evidence/live-round.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-19T11:12:09Z-c",
+    "chunk": "2026-10-19-overseer-switch-to-viola",
+    "skill": "implement",
+    "step": "fix-loop",
+    "type": "contract.premise-falsified",
+    "what": "plan step 8 expects stat ~/.viola to read 700 after the verify because the product's log open narrows it; it read 755: viola verify opens no home log without a VIOLA_NAME, so the narrowing comes only with the first run start",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": "viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/evidence/switch-round.md",
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/plan.md",
+     "src/obs.rs"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "implement/fix-loop/contract.test-expectation",
+  "n": 7,
+  "weight": 17,
+  "with_halt": 0,
+  "rate": "7/19",
+  "above": true,
+  "chunks": [
+   "2026-10-13-owed-ledger-rows",
+   "2026-10-14-resume-and-compact-ledger-rows",
+   "2026-10-16-remove-the-browser-leg",
+   "2026-10-16-unwrapped-sessions-on-the-board",
+   "2026-10-17-cli-machine-contract",
+   "2026-10-17-end-to-end-path-binary-and-harness-legs",
+   "2026-10-18-compact-post-condition-ledger-row"
+  ],
+  "impact": {
+   "iterations": 10,
+   "retries": 0,
+   "reformulations": 0,
+   "dialogue_rounds": 0,
+   "extra_reads": 0,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-13T23:30:43Z-c",
+    "chunk": "2026-10-13-owed-ledger-rows",
+    "skill": "implement",
+    "step": "fix-loop",
+    "type": "contract.test-expectation",
+    "what": "the new step_lines_count_to_the_relied_total case asserted every row fails an empty probe; largest-hook-payload passes over no capture by design, so the case's own oracle was wrong and was corrected",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     "src/cmd/verify.rs"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-16T07:26:50Z-b",
+    "chunk": "2026-10-14-resume-and-compact-ledger-rows",
+    "skill": "implement",
+    "step": "fix-loop",
+    "type": "contract.test-expectation",
+    "what": "three iterations fixed stale count oracles the plan's sweep did not list: a second [true; 21] verdict vector (ledger.rs), env 5 / hooks 37 receipts (cli_verify.rs), dialogless_home 17/14 (tests/support/home.rs, outside the integration filter, red only in pre-push)",
+    "impact": {
+     "iterations": 3
+    },
+    "evidence": null,
+    "artifacts": [
+     "crates/viola-agent-claude/src/ledger.rs",
+     "tests/cli_verify.rs",
+     "tests/support/home.rs"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-16T17:04:06Z-b",
+    "chunk": "2026-10-16-remove-the-browser-leg",
+    "skill": "implement",
+    "step": "fix-loop",
+    "type": "contract.test-expectation",
+    "what": "two test oracles written at P1 from the plan's literals were wrong for reality: pre_push_every_native_call_carries_only_home_and_path kept a > 10 call bound (the pass now makes 9) and the linux key list is insertion-ordered [run, gate], not the plan's [gate, run]; both fixed in one iteration",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-16T16-17-45-implement/gate-2026-10-16-remove-the-browser-leg.json",
+    "artifacts": [
+     "crates/viola-e2e/src/harness/pre_push.rs",
+     "crates/viola-e2e/src/harness/pre_push/linux.rs"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-16T21:09:24Z-c",
+    "chunk": "2026-10-16-unwrapped-sessions-on-the-board",
+    "skill": "implement",
+    "step": "fix-loop",
+    "type": "contract.test-expectation",
+    "what": "tests/support/home.rs dialogless_home asserted 18 pass  4 fail; with the agents row relied the stamp reads 19 pass  4 fail; the plan's integration filter did not select its binary, so only pre-push found it",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     "tests/support/home.rs"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-17T01:42:23Z-c",
+    "chunk": "2026-10-17-end-to-end-path-binary-and-harness-legs",
+    "skill": "implement",
+    "step": "fix-loop",
+    "type": "contract.test-expectation",
+    "what": "boot --agents-mode malformed read verify-failed: the agents-mode file written beside the session claude before the stamp made verify's Run B agents read malformed; fixed by writing it after the stamp (absent file answers recorded)",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-17T01-21-28-implement/gate-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+    "artifacts": [
+     "crates/viola-e2e/src/harness/boot.rs"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-17T03:25:37Z-b",
+    "chunk": "2026-10-17-cli-machine-contract",
+    "skill": "implement",
+    "step": "fix-loop",
+    "type": "contract.test-expectation",
+    "what": "three test-side oracles were wrong on first run: an absolute home compared with the canonical pinned_bin (cli_instance_state), list under a VIOLA_NAME read as creating no home, and viola --help's command descriptions read as options (--file); each fixed in the test, no product change",
+    "impact": {
+     "iterations": 2
+    },
+    "evidence": null,
+    "artifacts": [
+     "tests/cli_instance_state.rs",
+     "tests/cli_machine_contract.rs",
+     "tests/cli_controls_not_disableable.rs"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-18T21:43:15Z-b",
+    "chunk": "2026-10-18-compact-post-condition-ledger-row",
+    "skill": "implement",
+    "step": "fix-loop",
+    "type": "contract.test-expectation",
+    "what": "tests/support/home.rs dialogless_home pinned '19 pass  4 fail' / '16 pass  4 fail'; the 24-row set reads 20 / 17; neither research's lists nor the literal probe's five files named it, so only pre-push's cli_answer read it",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     "tests/support/home.rs",
+     "tests/cli_answer.rs"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "wrap-session/reconcile/contract.cascade-miss",
+  "n": 7,
+  "weight": 9,
+  "with_halt": 0,
+  "rate": "7/19",
+  "above": true,
+  "chunks": [
+   "2026-10-13-owed-ledger-rows",
+   "2026-10-16-remove-the-browser-leg",
+   "2026-10-16-unwrapped-sessions-on-the-board",
+   "2026-10-17-cli-machine-contract",
+   "2026-10-17-end-to-end-path-binary-and-harness-legs",
+   "2026-10-17-optional-plugin-install"
+  ],
+  "impact": {
+   "iterations": 2,
+   "retries": 0,
+   "reformulations": 0,
+   "dialogue_rounds": 0,
+   "extra_reads": 11,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-14T07:02:56Z-c",
+    "chunk": "2026-10-13-owed-ledger-rows",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "contract.cascade-miss",
+    "what": "security-plan.md:291 (accepted risk of verify's trusted runs) restated that Runs B, C and D run the user's own status line; no detector proposed it; the cascade step-2 sweep pattern user-statusline caught it and it was folded as architecture 7's duplicate",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-14T06-37-54-wrap/cascade-dispositions.md",
+    "artifacts": [
+     ".andromeda/security-plan.md:291"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-16T18:40:25Z-b",
+    "chunk": "2026-10-16-remove-the-browser-leg",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "contract.cascade-miss",
+    "what": "no detector proposed 16 sites the plan's expected amendments named or that stated the retired leg: design-system Typography (L243, L261, L269, L271), a11y-plan §1/§3/§9/§10/§11 beyond the obs-schema bind, obs-plan §1 tier basis / enum item / gap (b) / Last-Event-ID, test-plan pid-file and the two index labels; main raised them at check 5",
+    "impact": {
+     "extra_reads": 6
+    },
+    "evidence": ".andromeda/runs/2026-10-16T17-15-05-wrap/fanout-results.md",
+    "artifacts": [
+     "fanout-results.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-16T18:40:25Z-d",
+    "chunk": "2026-10-16-remove-the-browser-leg",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "contract.cascade-miss",
+    "what": "the architecture-2 comparer left stack.md lines no master states (getrandom/constant_time_eq GUI token, npm-audit.sh, tower-http in viola-ui, axum-test/tower/reqwest/eventsource-client, the Node line, the browser a11y libs, DejaVu as the CI render); the post-apply re-sweep found them and they were rewritten by hand",
+    "impact": {
+     "extra_reads": 2
+    },
+    "evidence": ".andromeda/runs/2026-10-16T17-15-05-wrap/cascade-dispositions.md",
+    "artifacts": [
+     ".claude/docs/stack.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-16T23:37:37Z-b",
+    "chunk": "2026-10-16-unwrapped-sessions-on-the-board",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "contract.cascade-miss",
+    "what": "test-plan:586's cli_verify summary literals (18 pass 4 fail / 18 pass 1 fail, 20 pass 2 fail / 17 pass 2 fail) were stale before the pass; no detector proposed them; the step-2 sweep's counts pattern caught them and they were folded in from the chunk's own test literals",
+    "impact": {
+     "extra_reads": 2
+    },
+    "evidence": ".andromeda/runs/2026-10-16T22-30-02-wrap/cascade-dispositions.md",
+    "artifacts": [
+     ".andromeda/test-plan.md:586"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-17T02:16:45Z-c",
+    "chunk": "2026-10-17-end-to-end-path-binary-and-harness-legs",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "contract.cascade-miss",
+    "what": "obs-plan heartbeat-ticks.md:11 restated the status derivation ('degraded when any item is stale'); the test-plan detector's note judged obs-plan §3 still agreeing and no obs proposal came; the step-2 status-interim sweep caught it and the bind fix was folded in",
+    "impact": {},
+    "evidence": null,
+    "artifacts": [
+     ".andromeda/registries/contracts/obs-plan/heartbeat-ticks.md:11"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-17T04:21:36Z-b",
+    "chunk": "2026-10-17-cli-machine-contract",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "contract.cascade-miss",
+    "what": "the step-2 sweep found 4 stale restatements no detector proposed: design-system.md:482 x2 (no exit-1 --json document; the stderr pair only), security-plan.md:214 (resolve_home's home_dir read), obs-plan.md:754 (revive's strict-modes refusal is the stderr pair)",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-17T03-50-43-wrap/cascade-dispositions.md",
+    "artifacts": [
+     "design-system.md:482",
+     "security-plan.md:214",
+     "obs-plan.md:754"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-18T03:06:09Z-b",
+    "chunk": "2026-10-17-optional-plugin-install",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "contract.cascade-miss",
+    "what": "obs-plan.md:466 (span naming) still gave cli.plugin_install as a dispatch-span example the pass retired; no detector proposed it; the cascade sweep caught it and it was amended in the pass",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-18T02-36-56-wrap/cascade-dispositions.md",
+    "artifacts": [
+     ".andromeda/obs-plan.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "wrap-session/report/input.implement-outcome-unsettled",
+  "n": 5,
+  "weight": 10,
+  "with_halt": 0,
+  "rate": "5/19",
+  "above": true,
+  "chunks": [
+   "2026-10-13-owed-ledger-rows",
+   "2026-10-16-unwrapped-sessions-on-the-board",
+   "2026-10-17-cli-machine-contract",
+   "2026-10-17-cli-output-discipline",
+   "2026-10-19-dialog-hold-for-the-driver"
+  ],
+  "impact": {
+   "iterations": 4,
+   "retries": 1,
+   "reformulations": 0,
+   "dialogue_rounds": 0,
+   "extra_reads": 0,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-14T06:41:55Z-b",
+    "chunk": "2026-10-13-owed-ledger-rows",
+    "skill": "wrap-session",
+    "step": "report",
+    "type": "input.implement-outcome-unsettled",
+    "what": "implement's outcome (surfaced, then green+smoke) was superseded by the operator pass: ci.py read red on the pre-CI commit (macOS cli_send race opened by the fake agent's statusline replay; Windows ledger case popping a non-relied row); a fix commit made it green; the basis is the pass's commits and evidence/operator.md",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-13T23-05-48-implement/outcome-2026-10-13-owed-ledger-rows.md",
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-13-owed-ledger-rows/evidence/operator.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-16T23:05:15Z-c",
+    "chunk": "2026-10-16-unwrapped-sessions-on-the-board",
+    "skill": "wrap-session",
+    "step": "report",
+    "type": "input.implement-outcome-unsettled",
+    "what": "the operator pass ended fixed (two CI reds, two fix commits to files implement wrote); the outcome basis was the updated outcome file plus evidence/operator-pass.md",
+    "impact": {
+     "iterations": 2
+    },
+    "evidence": null,
+    "artifacts": [
+     "outcome-2026-10-16-unwrapped-sessions-on-the-board.md",
+     "evidence/operator-pass.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-17T03:55:28Z-b",
+    "chunk": "2026-10-17-cli-machine-contract",
+    "skill": "wrap-session",
+    "step": "report",
+    "type": "input.implement-outcome-unsettled",
+    "what": "implement's outcome (green block, surfaced gap) was moved by the operator pass: CI on the pre-CI commit read red on test (windows-2025), a test oracle implement wrote, fixed by the pass's commit f738cbc; the report's basis is the pass's final HEAD CI run ci#38999642102 with implement's outcome file for what only it holds",
+    "impact": {},
+    "evidence": "ci#38998933306 job 117297543004; ci#38999642102",
+    "artifacts": [
+     "src/cmd/mod.rs",
+     "viola-0.1.0/chunks/2026-10-17-cli-machine-contract/evidence/operator-pass.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-17T08:32:01Z-b",
+    "chunk": "2026-10-17-cli-output-discipline",
+    "skill": "wrap-session",
+    "step": "report",
+    "type": "input.implement-outcome-unsettled",
+    "what": "implement's green was superseded by the operator pass: ci#39015978414 read test (windows-2025) red on help_lists_only_served_verbs (the per-verb usage line names viola.exe on Windows); fixed by 4a8a0ca, ci#39016750772 green 15/15 stood in as the outcome basis",
+    "impact": {
+     "retries": 1
+    },
+    "evidence": "viola-0.1.0/chunks/2026-10-17-cli-output-discipline/evidence/operator-pass.md",
+    "artifacts": [
+     "tests/cli_output_plain.rs"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-19T09:32:45Z-b",
+    "chunk": "2026-10-19-dialog-hold-for-the-driver",
+    "skill": "wrap-session",
+    "step": "report",
+    "type": "input.implement-outcome-unsettled",
+    "what": "implement's green was not the final word: the operator pass read CI red on macOS at 3def5b5b (a pre-existing line-before-snapshot order in register) and a fix commit d146c50c changed src/run/dialog.rs; the report's basis is the pass's final HEAD and its evidence",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": "ci#39226239371, ci#39228538322",
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-19-dialog-hold-for-the-driver/evidence/operator-pass.md",
+     "src/run/dialog.rs"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "implement/fix-loop/contract.spec-reality-gap",
+  "n": 5,
+  "weight": 9,
+  "with_halt": 0,
+  "rate": "5/19",
+  "above": true,
+  "chunks": [
+   "2026-10-13-owed-ledger-rows",
+   "2026-10-14-resume-and-compact-ledger-rows",
+   "2026-10-17-cli-machine-contract",
+   "2026-10-17-end-to-end-path-binary-and-harness-legs",
+   "2026-10-18-compact-post-condition-ledger-row"
+  ],
+  "impact": {
+   "iterations": 2,
+   "retries": 0,
+   "reformulations": 0,
+   "dialogue_rounds": 1,
+   "extra_reads": 0,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-13T23:30:43Z-b",
+    "chunk": "2026-10-13-owed-ledger-rows",
+    "skill": "implement",
+    "step": "fix-loop",
+    "type": "contract.spec-reality-gap",
+    "what": "both recorded StatusLine variants carry workspace.repo.owner (the GitHub owner handle); the record scrub and the hygiene walk read only the OS user as a whole word, so the handle passes; test-plan §7 Fixture hygiene says fixtures are scrubbed of usernames",
+    "impact": {
+     "dialogue_rounds": 0
+    },
+    "evidence": "viola-0.1.0/chunks/2026-10-13-owed-ledger-rows/evidence/live-round.md",
+    "artifacts": [
+     "fixtures/claude/2.1.287/StatusLine.default-1.json",
+     "fixtures/claude/2.1.287/StatusLine.rate-limits-1.json"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-16T07:26:50Z-c",
+    "chunk": "2026-10-14-resume-and-compact-ledger-rows",
+    "skill": "implement",
+    "step": "fix-loop",
+    "type": "contract.spec-reality-gap",
+    "what": "plan entry 15 (preservation guard) reads red on a needed companion edit, tests/support/home.rs, which its exclusion list does not name; surfaced, not authored",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-14-resume-and-compact-ledger-rows/plan.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-17T01:42:23Z-b",
+    "chunk": "2026-10-17-end-to-end-path-binary-and-harness-legs",
+    "skill": "implement",
+    "step": "fix-loop",
+    "type": "contract.spec-reality-gap",
+    "what": "plan-named E2E binaries path1_run_start and path6_budget_harness fall outside test-plan §3's regex ^(path|tui|mcp|cross|chaos|contract)_ (the digit precedes the underscore); run --e2e read 18 binaries and run --integration ran path1; resolved by widening the regex on the overseer's word",
+    "impact": {
+     "iterations": 1,
+     "dialogue_rounds": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-17T01-21-28-implement/gate-2026-10-17-end-to-end-path-binary-and-harness-legs.json",
+    "artifacts": [
+     "crates/viola-e2e/src/harness/run/nextest.rs",
+     "viola-0.1.0/chunks/2026-10-17-end-to-end-path-binary-and-harness-legs/plan.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-17T03:25:37Z-d",
+    "chunk": "2026-10-17-cli-machine-contract",
+    "skill": "implement",
+    "step": "fix-loop",
+    "type": "contract.spec-reality-gap",
+    "what": "v1-39 / plan step 10 close revive --json's exit-1 codes at five; start()'s own refusals reached after a passed preflight (batch-script-child, pinned-hash-mismatch, squatted-name, internal-error for a missing claude) print run's human pair or nothing under --json, with no code in the closed set; surfaced, not authored",
+    "impact": {},
+    "evidence": null,
+    "artifacts": [
+     "src/cmd/run.rs",
+     "src/cmd/revive.rs"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-18T21:43:15Z-e",
+    "chunk": "2026-10-18-compact-post-condition-ledger-row",
+    "skill": "implement",
+    "step": "fix-loop",
+    "type": "contract.spec-reality-gap",
+    "what": "the live round's transcript delta was 5 (a -backup- file written at the compaction, two Run B session transcripts, Runs C and D), against security-plan §Data Protection's accepted 'two per real-CLI verify'",
+    "impact": {},
+    "evidence": null,
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-18-compact-post-condition-ledger-row/evidence/live-round.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "*/*/contract.structural-blind-spot",
+  "n": 4,
+  "weight": 10,
+  "with_halt": 1,
+  "rate": null,
+  "above": true,
+  "chunks": [
+   "2026-10-14-resume-and-compact-ledger-rows",
+   "2026-10-16-unwrapped-sessions-on-the-board",
+   "2026-10-17-cli-machine-contract",
+   "2026-10-17-mcp-server-for-drivers"
+  ],
+  "impact": {
+   "iterations": 1,
+   "retries": 0,
+   "reformulations": 0,
+   "dialogue_rounds": 1,
+   "extra_reads": 4,
+   "halted": 1,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-16T14:51:33Z-b",
+    "chunk": "2026-10-14-resume-and-compact-ledger-rows",
+    "skill": "wrap-session",
+    "step": "gates",
+    "type": "contract.structural-blind-spot",
+    "what": "round entry 12 (the census after the last live leg) had no round-listing line: implement fired the round per leg with --live-legs --entry 11, which runs the round steps before the named leg and none after it, so the trailing census could only be run by hand; the P7.1 ASSERT halted and the overseer accepted the hand record (inputs#I8)",
+    "impact": {
+     "dialogue_rounds": 1,
+     "halted": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-16T14-05-30-wrap/relay-4.md",
+    "artifacts": [
+     "evidence/live-round.md",
+     "evidence/round-071942Z.txt"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-16T23:37:37Z-c",
+    "chunk": "2026-10-16-unwrapped-sessions-on-the-board",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "contract.structural-blind-spot",
+    "what": "the design-system detector set holds only D-design-tokens, so an As-built 'not built / owed' clause and a new refusal pair in cli patterns 1 and 2 drew 0 proposals; the plan's expected-amendments list carried them and Validate check 5 raised four items",
+    "impact": {
+     "extra_reads": 3
+    },
+    "evidence": ".andromeda/runs/2026-10-16T22-30-02-wrap/fanout-results.md",
+    "artifacts": [
+     ".andromeda/drift-base.md",
+     ".andromeda/design-system.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-17T04:21:36Z-d",
+    "chunk": "2026-10-17-cli-machine-contract",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "contract.structural-blind-spot",
+    "what": "design-system's only detector (D-design-tokens) reads Coverage tokens flags, so revive's cli output wording (design-system.md:506, :513) was reachable only by check 5 from the plan's expected amendments",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-17T03-50-43-wrap/fanout-results.md",
+    "artifacts": [
+     "drift-base.md",
+     "design-system.md:506",
+     "design-system.md:513"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-17T12:33:19Z-c",
+    "chunk": "2026-10-17-mcp-server-for-drivers",
+    "skill": "implement",
+    "step": "fix-loop",
+    "type": "contract.structural-blind-spot",
+    "what": "the E2E rmcp client accepts a tools/list result without ttlMs/cacheScope, so every gate read green while claude 2.1.287 (protocol 2026-07-28) dropped every tool; only the one live start could see it",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": "viola-0.1.0/chunks/2026-10-17-mcp-server-for-drivers/evidence/live-mcp.md",
+    "artifacts": [
+     "crates/viola-mcp/src/tools.rs",
+     "crates/viola-e2e/tests/mcp_tools.rs"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "phase/plan/input.research-thin",
+  "n": 4,
+  "weight": 9,
+  "with_halt": 1,
+  "rate": "4/22",
+  "above": true,
+  "chunks": [
+   "2026-10-13-epoch-4-survivors",
+   "2026-10-13-owed-ledger-rows",
+   "2026-10-14-resume-and-compact-ledger-rows",
+   "2026-10-17-cli-machine-contract"
+  ],
+  "impact": {
+   "iterations": 2,
+   "retries": 0,
+   "reformulations": 0,
+   "dialogue_rounds": 0,
+   "extra_reads": 11,
+   "halted": 1,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-13T15:55:43Z-b",
+    "chunk": "2026-10-13-epoch-4-survivors",
+    "skill": "phase",
+    "step": "plan",
+    "type": "input.research-thin",
+    "what": "P3 recorded the PortablePty::resize mutant's pass as cause unknown; writing step 2 at P4 led to reading report_paths and the audit's mut-driver.py (jobs 2, one TMPDIR), which names a likely cause P3 had the files to find",
+    "impact": {
+     "extra_reads": 2
+    },
+    "evidence": null,
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-13-epoch-4-survivors/research.md",
+     "crates/viola-pty/src/lib.rs"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-13T22:59:19Z-b",
+    "chunk": "2026-10-13-owed-ledger-rows",
+    "skill": "phase",
+    "step": "plan",
+    "type": "input.research-thin",
+    "what": "research ran before the P4 cut was answered, so three facts the decided shape turned on (the fake agent's --settings takes a file path only, the fixture schema requires hook_event_name, the status line is not wrapped on Windows) were read at synthesis",
+    "impact": {
+     "extra_reads": 4
+    },
+    "evidence": ".andromeda/runs/2026-10-13T22-31-54-phase/relay-1.md",
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-13-owed-ledger-rows/research.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-16T07:32:45Z-b",
+    "chunk": "2026-10-14-resume-and-compact-ledger-rows",
+    "skill": "phase",
+    "step": "plan",
+    "type": "input.research-thin",
+    "what": "the take-up's research sweep keyed on pass-count literals in tests/cli_verify.rs missed tests/support/home.rs dialogless_home, which builds its summary from an integer; the plan's preservation guard did not exclude it, implement stopped on entry 15 and this plan revision followed",
+    "impact": {
+     "halted": 1,
+     "iterations": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-16T06-46-40-implement/outcome-2026-10-14-resume-and-compact-ledger-rows.md",
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-14-resume-and-compact-ledger-rows/research.md",
+     "tests/support/home.rs"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-17T02:44:48Z-b",
+    "chunk": "2026-10-17-cli-machine-contract",
+    "skill": "phase",
+    "step": "plan",
+    "type": "input.research-thin",
+    "what": "synthesis found research's boundary short: the VIOLA_DIR step reaches test-started children whose env carries VIOLA_DIR on this host, canonicalisation reaches tests/support/start.rs's endpoint hash and run.rs's home creation, and test-plan's 'config schema' had no file; research.md lists, sweeps and scope were amended",
+    "impact": {
+     "extra_reads": 5,
+     "iterations": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-17T02-25-51-phase/",
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-17-cli-machine-contract/research.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "implement/fix-loop/tooling.result-not-run-stable",
+  "n": 3,
+  "weight": 10,
+  "with_halt": 0,
+  "rate": "3/19",
+  "above": true,
+  "chunks": [
+   "2026-10-16-unwrapped-sessions-on-the-board",
+   "2026-10-17-mcp-server-for-drivers",
+   "2026-10-19-overseer-switch-to-viola"
+  ],
+  "impact": {
+   "iterations": 2,
+   "retries": 5,
+   "reformulations": 0,
+   "dialogue_rounds": 0,
+   "extra_reads": 6,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-16T21:09:24Z-b",
+    "chunk": "2026-10-16-unwrapped-sessions-on-the-board",
+    "skill": "implement",
+    "step": "fix-loop",
+    "type": "tooling.result-not-run-stable",
+    "what": "gate entry 11 over an identical tree read green (firing 3), red on one cli_send timing case (firing 5), then green again (firings 6 and 7); 20 two-sided reruns after the red never reproduced it; host load 37 to 41 in every window",
+    "impact": {
+     "retries": 4
+    },
+    "evidence": ".andromeda/runs/2026-10-16T20-14-16-implement/journal.md",
+    "artifacts": [
+     "tests/cli_send.rs"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-17T12:33:19Z-d",
+    "chunk": "2026-10-17-mcp-server-for-drivers",
+    "skill": "implement",
+    "step": "fix-loop",
+    "type": "tooling.result-not-run-stable",
+    "what": "over one tree path7 passed alone and timed out in the full E2E layer; pre-push passed then failed on a truncated profile; both causes read and fixed, the first two-sided (6/24 vs 0/24)",
+    "impact": {
+     "iterations": 2
+    },
+    "evidence": "viola-0.1.0/chunks/2026-10-17-mcp-server-for-drivers/evidence/unstamped-boot-race.md",
+    "artifacts": null,
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-19T11:12:09Z-b",
+    "chunk": "2026-10-19-overseer-switch-to-viola",
+    "skill": "implement",
+    "step": "fix-loop",
+    "type": "tooling.result-not-run-stable",
+    "what": "pre-push over an identical tree read red (coverage merge refused one truncated viola hook .profraw, 2958/2958 tests passed) then green on the next firing; no artifact froze the first number",
+    "impact": {
+     "retries": 1,
+     "extra_reads": 6
+    },
+    "evidence": "viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/evidence/profraw-red.md",
+    "artifacts": [
+     "scripts/agent-run.sh pre-push",
+     "target/llvm-cov-target"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "wrap-session/gates/tooling.light-gate-red",
+  "n": 2,
+  "weight": 13,
+  "with_halt": 1,
+  "rate": "2/18",
+  "above": true,
+  "chunks": [
+   "2026-10-13-paste-newline-ledger-row",
+   "2026-10-19-overseer-switch-to-viola"
+  ],
+  "impact": {
+   "iterations": 0,
+   "retries": 1,
+   "reformulations": 0,
+   "dialogue_rounds": 2,
+   "extra_reads": 14,
+   "halted": 2,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-13T22:18:46Z-b",
+    "chunk": "2026-10-13-paste-newline-ledger-row",
+    "skill": "wrap-session",
+    "step": "gates",
+    "type": "tooling.light-gate-red",
+    "what": "the light gate reproduced implement's two reds exactly (12 last line 1, 13 exit 1); neither is a tree defect and the P7.1 ASSERT names no arm for a red the plan's own wording causes, so the wrap proceeded on the operator's direction rather than an ASSERT arm",
+    "impact": {
+     "retries": 0
+    },
+    "evidence": ".andromeda/runs/2026-10-13T21-52-39-wrap/gate-2026-10-13-paste-newline-ledger-row.json",
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-13-paste-newline-ledger-row/plan.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-19T20:39:26Z-b",
+    "chunk": "2026-10-19-overseer-switch-to-viola",
+    "skill": "wrap-session",
+    "step": "gates",
+    "type": "tooling.light-gate-red",
+    "what": "the light gate re-ran the plan block that implement ran green and read integration, e2e and pre-push red: every stamped-home test failed at viola verify's pinned-copy write with Disk quota exceeded (os error 122) under nextest's parallelism on the /tmp usrquota tmpfs, passing with -j1; then, quota freed, pre-push red on a truncated .profraw (the chunk's open red recurring)",
+    "impact": {
+     "retries": 1,
+     "dialogue_rounds": 2,
+     "halted": 2,
+     "extra_reads": 14
+    },
+    "evidence": ".andromeda/runs/2026-10-19T19-16-36-wrap/gate-2026-10-19-overseer-switch-to-viola.json",
+    "artifacts": [
+     "tests/support/home.rs",
+     "crates/viola-state/src/pin.rs"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "*/*/contract.jointly-contradictory-instructions",
+  "n": 3,
+  "weight": 7,
+  "with_halt": 0,
+  "rate": null,
+  "above": true,
+  "chunks": [
+   "2026-10-13-interrupted-verify-cleanup",
+   "2026-10-13-paste-newline-ledger-row",
+   "2026-10-18-plugin-precedence-live-readings"
+  ],
+  "impact": {
+   "iterations": 2,
+   "retries": 0,
+   "reformulations": 0,
+   "dialogue_rounds": 1,
+   "extra_reads": 1,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-13T19:09:01Z-b",
+    "chunk": "2026-10-13-interrupted-verify-cleanup",
+    "skill": "implement",
+    "step": "fix-loop",
+    "type": "contract.jointly-contradictory-instructions",
+    "what": "plan entry 9's preservation guard (no workflow edit) and the contract test in entry 17's pre-push (every cfg(windows) product file listed in windows-mutants.yml) were jointly unsatisfiable once stop.rs carried its Windows console routine; P5's guard control minted stop.rs without running the contract test; the guard was authored at P4 against a standing test",
+    "impact": {
+     "iterations": 1,
+     "dialogue_rounds": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-13T18-48-52-implement/gate-2026-10-13-interrupted-verify-cleanup.json",
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-13-interrupted-verify-cleanup/plan.md",
+     "tests/contract_windows_mutation_scope.rs",
+     ".github/workflows/windows-mutants.yml"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-13T21:39:27Z-d",
+    "chunk": "2026-10-13-paste-newline-ledger-row",
+    "skill": "implement",
+    "step": "fix-loop",
+    "type": "contract.jointly-contradictory-instructions",
+    "what": "the preservation guard (plan entry 13) refuses any test file outside research's lists, while the fix-loop protocol's Trigger 3 makes a companion test edit (a test pinning the changed data) mandatory and recorded; the integration and pre-push entries needed two such edits, so 13 cannot read green on a tree where they are; authored together in the plan; P5's controls did not try a recorded companion",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-13T21-22-15-implement/gate-2026-10-13-paste-newline-ledger-row.json",
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-13-paste-newline-ledger-row/plan.md",
+     "viola-0.1.0/chunks/2026-10-13-paste-newline-ledger-row/scope-record.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-19T06:19:25Z-c",
+    "chunk": "2026-10-18-plugin-precedence-live-readings",
+    "skill": "implement",
+    "step": "fix-loop",
+    "type": "contract.jointly-contradictory-instructions",
+    "what": "plan step 12 says matrix records are P5's and the wrap's, never implement's, while the implement skill's P2 MUST sets ref + implemented for the chunk's caps on green; the skill's ledger write was made and the conflict surfaced in the report; no mechanical check attempted it; the plan line was authored at phase P4, the skill rule earlier",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/plan.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "*/*/contract.narrow-basis-claim",
+  "n": 3,
+  "weight": 6,
+  "with_halt": 0,
+  "rate": null,
+  "above": true,
+  "chunks": [
+   "2026-10-13-epoch-4-survivors-ii",
+   "2026-10-13-paste-newline-ledger-row",
+   "2026-10-16-unwrapped-sessions-on-the-board"
+  ],
+  "impact": {
+   "iterations": 2,
+   "retries": 1,
+   "reformulations": 0,
+   "dialogue_rounds": 0,
+   "extra_reads": 1,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-13T17:38:06Z-b",
+    "chunk": "2026-10-13-epoch-4-survivors-ii",
+    "skill": "phase",
+    "step": "research",
+    "type": "contract.narrow-basis-claim",
+    "what": "research.md's first draft wrote a sweep as 4 hits plus 2 more before its stated pattern was run; the run of that pattern read 6 hits, and the line was corrected",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-13-epoch-4-survivors-ii/research.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-13T21:39:27Z-c",
+    "chunk": "2026-10-13-paste-newline-ledger-row",
+    "skill": "implement",
+    "step": "fix-loop",
+    "type": "contract.narrow-basis-claim",
+    "what": "research's sweep (75 hits of the seventeen-row literals, 'all six files on the modify list') was the basis for the count move; five sites pinning the row set by shape (a verdict vector, a stamp's rows object, an older-stamp oracle, a dialogless summary `13 pass  4 fail`, a four-variant list) were outside it and read red only at the unit, integration and pre-push gates",
+    "impact": {
+     "iterations": 2
+    },
+    "evidence": ".andromeda/runs/2026-10-13T21-22-15-implement/gate-2026-10-13-paste-newline-ledger-row.json",
+    "artifacts": [
+     "crates/viola-agent-claude/src/ledger.rs",
+     "tests/support/home.rs",
+     "tests/contract_fixture_hygiene.rs"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-16T19:05:10Z-b",
+    "chunk": "2026-10-16-unwrapped-sessions-on-the-board",
+    "skill": "phase",
+    "step": "research",
+    "type": "contract.narrow-basis-claim",
+    "what": "research.md's sweep row first carried 79 files, a figure taken from an earlier listing's length rather than from the stated pattern and filters; re-deriving with the command written beside it gave 84",
+    "impact": {
+     "retries": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/research.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "implement/fix-loop/retry.fix-iterations",
+  "n": 2,
+  "weight": 9,
+  "with_halt": 0,
+  "rate": "2/19",
+  "above": false,
+  "chunks": [
+   "2026-10-17-cli-machine-contract",
+   "2026-10-17-mcp-server-for-drivers"
+  ],
+  "impact": {
+   "iterations": 7,
+   "retries": 0,
+   "reformulations": 0,
+   "dialogue_rounds": 0,
+   "extra_reads": 0,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-17T03:25:37Z-c",
+    "chunk": "2026-10-17-cli-machine-contract",
+    "skill": "implement",
+    "step": "fix-loop",
+    "type": "retry.fix-iterations",
+    "what": "the first whole block read red 3 (imports used only by a cfg(unix) case, unused on the Windows lint) and 11/18 (one case: the test oracle resolved() of a home not created yet); one iteration, test code only",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-17T02-50-26-implement/gate-2026-10-17-cli-machine-contract.json",
+    "artifacts": [
+     "tests/cli_machine_contract.rs",
+     "tests/support/home.rs"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-17T12:33:19Z-b",
+    "chunk": "2026-10-17-mcp-server-for-drivers",
+    "skill": "implement",
+    "step": "fix-loop",
+    "type": "retry.fix-iterations",
+    "what": "five full block firings and six targeted re-runs: two mcp_tools test premises (no unwrapped row, no turn end without a script, no PostToolUse.default fixture), the Windows mutation scope contract, the path7 boot race, the truncated profile",
+    "impact": {
+     "iterations": 6,
+     "retries": 0
+    },
+    "evidence": ".andromeda/runs/2026-10-17T11-33-11-implement/journal.md",
+    "artifacts": null,
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "*/*/contract.grammar-irregularity",
+  "n": 4,
+  "weight": 4,
+  "with_halt": 0,
+  "rate": null,
+  "above": true,
+  "chunks": [
+   "(null)",
+   "2026-10-18-plugin-precedence-live-readings"
+  ],
+  "impact": {
+   "iterations": 0,
+   "retries": 0,
+   "reformulations": 0,
+   "dialogue_rounds": 0,
+   "extra_reads": 0,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-17T00:18:55Z-b",
+    "chunk": null,
+    "skill": "new-session",
+    "step": "orientation",
+    "type": "contract.grammar-irregularity",
+    "what": "route.py pins: 144 · WATCH: · 569 chars · clause UNPARSED",
+    "impact": {},
+    "evidence": "route.py pins --root . (new-session, no run dir)",
+    "artifacts": [
+     "viola-0.1.0/working-route.md:144"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-18T22:38:51Z-b",
+    "chunk": null,
+    "skill": "new-session",
+    "step": "orientation",
+    "type": "contract.grammar-irregularity",
+    "what": "INDETERMINATE: working-route.md:156 — after ONE space — freight or prose, no structural split: 'CARRY:' (pins also printed the line's WATCH: clause UNPARSED)",
+    "impact": {
+     "extra_reads": 0
+    },
+    "evidence": "route.py cursor / markerless / pins / epoch output, this session",
+    "artifacts": [
+     "viola-0.1.0/working-route.md:156"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-18T22:41:58Z-b",
+    "chunk": "2026-10-18-plugin-precedence-live-readings",
+    "skill": "phase",
+    "step": "take-up",
+    "type": "contract.grammar-irregularity",
+    "what": "INDETERMINATE: working-route.md:156 — after ONE space — freight or prose, no structural split: 'CARRY:'; pins also read the line's WATCH: clause UNPARSED (no since/retires/k-of-N form); both folded by hand from the line",
+    "impact": {
+     "extra_reads": 0
+    },
+    "evidence": ".andromeda/runs/2026-10-18T22-39-54-phase/route-2026-10-18-plugin-precedence-live-readings.json",
+    "artifacts": [
+     "viola-0.1.0/working-route.md:156"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-19T05:20:21Z-b",
+    "chunk": null,
+    "skill": "new-session",
+    "step": "orientation",
+    "type": "contract.grammar-irregularity",
+    "what": "INDETERMINATE: working-route.md:156 — after ONE space — freight or prose, no structural split: 'CARRY:'",
+    "impact": {},
+    "evidence": "route.py cursor / markerless / epoch output, this session (no run dir)",
+    "artifacts": [
+     "viola-0.1.0/working-route.md:156"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ],
+  "sites": {
+   "viola-0.1.0/working-route.md:144": 1,
+   "viola-0.1.0/working-route.md:156": 3
+  }
+ },
+ {
+  "key": "wrap-session/reconcile/input.report-insufficient",
+  "n": 3,
+  "weight": 5,
+  "with_halt": 0,
+  "rate": "3/19",
+  "above": true,
+  "chunks": [
+   "(null)",
+   "2026-10-13-interrupted-verify-cleanup",
+   "2026-10-17-mcp-server-for-drivers"
+  ],
+  "impact": {
+   "iterations": 0,
+   "retries": 0,
+   "reformulations": 0,
+   "dialogue_rounds": 1,
+   "extra_reads": 8,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-13T07:00:53Z-b",
+    "chunk": null,
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "input.report-insufficient",
+    "what": "the P1 report's site table, built from four sweep patterns, omitted batch sites worded 'accepted by the operator', 'the operator's answer' outside its patterns, and a third card-confirm site worded 'confirmed the one card'",
+    "impact": {
+     "extra_reads": 6,
+     "dialogue_rounds": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-13T06-38-35-wrap/cascade-dispositions.md",
+    "artifacts": [
+     ".andromeda/runs/2026-10-13T06-38-35-wrap/report.md",
+     ".andromeda/security-plan-amendments.md:499"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-13T20:22:54Z-b",
+    "chunk": "2026-10-13-interrupted-verify-cleanup",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "input.report-insufficient",
+    "what": "the report's Counts bullet dispositioned registries/contracts/architecture/ci-cd-approach.md:2 as a past run's «all nine jobs» only, but the same 3.4 KB line also stated the matrix's present-tense nine-item / root-four count; the architecture detector proposed it",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-13T20-00-28-wrap/fanout-architecture.md",
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-13-interrupted-verify-cleanup/report.md",
+     ".andromeda/registries/contracts/architecture/ci-cd-approach.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-17T14:55:18Z-c",
+    "chunk": "2026-10-17-mcp-server-for-drivers",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "input.report-insufficient",
+    "what": "the report's Counts row named test-plan.md:399 stale and :1021 true for the sync-crates list; the reverse held (:399 names no crate, :1021 listed viola-channel) — caught by the test-plan detector's note and a re-read",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-17T14-19-45-wrap/fanout-results.md",
+    "artifacts": null,
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "*/*/contract.token-proxy-check",
+  "n": 2,
+  "weight": 6,
+  "with_halt": 0,
+  "rate": null,
+  "above": false,
+  "chunks": [
+   "2026-10-13-paste-newline-ledger-row",
+   "2026-10-17-mcp-server-for-drivers"
+  ],
+  "impact": {
+   "iterations": 1,
+   "retries": 3,
+   "reformulations": 0,
+   "dialogue_rounds": 0,
+   "extra_reads": 0,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-13T21:39:27Z-b",
+    "chunk": "2026-10-13-paste-newline-ledger-row",
+    "skill": "implement",
+    "step": "fix-loop",
+    "type": "contract.token-proxy-check",
+    "what": "the literal probe (plan entry 12) counts the token `17 pass` as a stale seventeen-row literal; it matches the correct eighteen-row oracle `stamped 2.1.0  17 pass  1 fail` (17 pass + 1 fail) in tests/cli_verify.rs, a false positive; the truth came from reading the one hit",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-13T21-22-15-implement/gate-2026-10-13-paste-newline-ledger-row.json",
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-13-paste-newline-ledger-row/plan.md",
+     "tests/cli_verify.rs:1093"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-17T14:55:18Z-b",
+    "chunk": "2026-10-17-mcp-server-for-drivers",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "contract.token-proxy-check",
+    "what": "cascade.py leaves --apply read three findings as reshaped ('a table cell boundary added or removed') because their replace-with held | inside backticks on non-table lines (api.md:35, :36, security.md:40); false positive, written by hand without the pipes",
+    "impact": {
+     "retries": 3
+    },
+    "evidence": ".andromeda/runs/2026-10-17T14-19-45-wrap/cascade-dispositions.md",
+    "artifacts": [
+     ".claude/rules/api.md:35",
+     ".claude/rules/api.md:36",
+     ".claude/rules/security.md:40"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "*/*/tooling.host-shell",
+  "n": 2,
+  "weight": 4,
+  "with_halt": 0,
+  "rate": null,
+  "above": false,
+  "chunks": [
+   "2026-10-13-interrupted-verify-cleanup",
+   "2026-10-13-owed-ledger-rows"
+  ],
+  "impact": {
+   "iterations": 0,
+   "retries": 2,
+   "reformulations": 0,
+   "dialogue_rounds": 0,
+   "extra_reads": 0,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-13T18:33:00Z-b",
+    "chunk": "2026-10-13-interrupted-verify-cleanup",
+    "skill": "phase",
+    "step": "distill",
+    "type": "tooling.host-shell",
+    "what": "a grep pattern carrying a backtick fence inside a double-quoted bash argument was parsed as command substitution and the call exited 2 with unexpected EOF",
+    "impact": {
+     "retries": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     "scripts/code-graph-cookbook.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-13T23:04:13Z-d",
+    "chunk": "2026-10-13-owed-ledger-rows",
+    "skill": "phase",
+    "step": "validate",
+    "type": "tooling.host-shell",
+    "what": "check 4 (7)'s git check-ignore on a path under target/e2e-home exited 128 (pathspec beyond a symbolic link: the dev host links it to tmpfs); re-asked on target/e2e-home itself, exit 0",
+    "impact": {
+     "retries": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     "target/e2e-home"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "implement/code/tooling.hook-friction",
+  "n": 2,
+  "weight": 4,
+  "with_halt": 0,
+  "rate": "2/18",
+  "above": false,
+  "chunks": [
+   "2026-10-13-owed-ledger-rows",
+   "2026-10-17-cli-machine-contract"
+  ],
+  "impact": {
+   "iterations": 0,
+   "retries": 2,
+   "reformulations": 0,
+   "dialogue_rounds": 0,
+   "extra_reads": 0,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-13T23:18:46Z-c",
+    "chunk": "2026-10-13-owed-ledger-rows",
+    "skill": "implement",
+    "step": "code",
+    "type": "tooling.hook-friction",
+    "what": "the stamp-ahead PostToolUse hook blocked a scratch edit script because a test-data RFC 3339 literal (a resets_at string case) read as a stamp ahead of the clock; the literal was changed to a past date",
+    "impact": {
+     "retries": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     "~/.claude/hooks/stamp-ahead.py"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-17T03:15:06Z-b",
+    "chunk": "2026-10-17-cli-machine-contract",
+    "skill": "implement",
+    "step": "code",
+    "type": "tooling.hook-friction",
+    "what": "a sed neutralising a SETTINGS row of the completeness case matched nothing because rustfmt had reflowed the tuple over three lines; the remove-the-guard run read green on the unmodified table and was re-done on the reflowed line",
+    "impact": {
+     "retries": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-17T02-50-26-implement/journal.md",
+    "artifacts": [
+     "tests/cli_controls_not_disableable.rs"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "phase/plan/retry.synthesis-rework",
+  "n": 2,
+  "weight": 4,
+  "with_halt": 0,
+  "rate": "2/22",
+  "above": false,
+  "chunks": [
+   "2026-10-13-epoch-4-cleanup",
+   "2026-10-16-remove-the-browser-leg"
+  ],
+  "impact": {
+   "iterations": 2,
+   "retries": 0,
+   "reformulations": 0,
+   "dialogue_rounds": 0,
+   "extra_reads": 0,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-13T07:28:38Z-b",
+    "chunk": "2026-10-13-epoch-4-cleanup",
+    "skill": "phase",
+    "step": "plan",
+    "type": "retry.synthesis-rework",
+    "what": "the plan's send split added src/run/send/budget.rs to keep every split file under the 800-line line, a file research's New files list did not carry; research.md was edited and its lists re-parsed after synthesis",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": "viola-0.1.0/chunks/2026-10-13-epoch-4-cleanup/research.md",
+    "artifacts": [
+     "research.md",
+     "plan.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-16T15:55:20Z-b",
+    "chunk": "2026-10-16-remove-the-browser-leg",
+    "skill": "phase",
+    "step": "plan",
+    "type": "retry.synthesis-rework",
+    "what": "the browser-and-Node absence guard first grepped the bare word playwright and --browser, which the plan's own new test oracles (parse_require_refuses_playwright, a pre-push no---browser assert) would carry; the guard was re-spelt to the leg's shapes and the assert dropped before the self-check",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-16-remove-the-browser-leg/plan.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "wrap-session/reconcile/ambiguity.playbook-no-match",
+  "n": 2,
+  "weight": 4,
+  "with_halt": 0,
+  "rate": "2/19",
+  "above": false,
+  "chunks": [
+   "2026-10-14-resume-and-compact-ledger-rows",
+   "2026-10-19-dialog-hold-for-the-driver"
+  ],
+  "impact": {
+   "iterations": 0,
+   "retries": 0,
+   "reformulations": 0,
+   "dialogue_rounds": 1,
+   "extra_reads": 1,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-16T14:42:58Z-d",
+    "chunk": "2026-10-14-resume-and-compact-ledger-rows",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "ambiguity.playbook-no-match",
+    "what": "the disproved killed-exit claim (architecture 14, obs-plan 6, 7) matched no playbook rule and changes a log-field contract; escalated by unease, settled amend-to-measured on the overseer's delegated word",
+    "impact": {
+     "dialogue_rounds": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-16T14-05-30-wrap/relay-2.md",
+    "artifacts": [
+     "architecture.md:406",
+     "obs-plan.md:739",
+     "obs-plan.md:872"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-19T09:53:39Z-d",
+    "chunk": "2026-10-19-dialog-hold-for-the-driver",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "ambiguity.playbook-no-match",
+    "what": "the design-system detector proposed nothing for the plan's expected amendment (Component Patterns 3: dialog-expired takes the dialog form) because D-design-tokens binds only to token flags; main raised it under Validate check 5, routine, as the plan's P5-approved entry named the change",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     ".andromeda/design-system.md",
+     ".andromeda/drift-base.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "*/*/recall.change-reconstruction",
+  "n": 2,
+  "weight": 2,
+  "with_halt": 0,
+  "rate": null,
+  "above": false,
+  "chunks": [
+   "2026-10-13-epoch-4-cleanup",
+   "2026-10-16-unwrapped-sessions-on-the-board"
+  ],
+  "impact": {
+   "iterations": 0,
+   "retries": 0,
+   "reformulations": 0,
+   "dialogue_rounds": 0,
+   "extra_reads": 7,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-13T10:51:34Z-b",
+    "chunk": "2026-10-13-epoch-4-cleanup",
+    "skill": "wrap-session",
+    "step": "report",
+    "type": "recall.change-reconstruction",
+    "what": "the masters cite moved tests by file; neither implement's outcome nor the compacted window said which split file each cited test landed in, so the Symbols bullet's test-to-file map was re-derived by grep over src/run/send/ and src/human/",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-13T08-58-46-implement/outcome-2026-10-13-epoch-4-cleanup.md",
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-13-epoch-4-cleanup/report.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-16T23:05:15Z-b",
+    "chunk": "2026-10-16-unwrapped-sessions-on-the-board",
+    "skill": "wrap-session",
+    "step": "report",
+    "type": "recall.change-reconstruction",
+    "what": "the report was authored in a window holding no implementing conversation: symbol coordinates and the schema enum were re-read from the tree and the new-text listing",
+    "impact": {
+     "extra_reads": 6
+    },
+    "evidence": ".andromeda/runs/2026-10-16T22-30-02-wrap/p1-progress.md",
+    "artifacts": [
+     "report.md",
+     "new-text.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "implement/code/input.research-files-wrong",
+  "n": 2,
+  "weight": 2,
+  "with_halt": 0,
+  "rate": "2/18",
+  "above": false,
+  "chunks": [
+   "2026-10-16-remove-the-browser-leg",
+   "2026-10-19-dialog-hold-for-the-driver"
+  ],
+  "impact": {
+   "iterations": 0,
+   "retries": 0,
+   "reformulations": 0,
+   "dialogue_rounds": 0,
+   "extra_reads": 1,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-16T16:26:06Z-c",
+    "chunk": "2026-10-16-remove-the-browser-leg",
+    "skill": "implement",
+    "step": "code",
+    "type": "input.research-files-wrong",
+    "what": "research and plan step 1 count five tracked files under e2e-web/; git ls-files lists six (stub/pipe.html)",
+    "impact": {
+     "extra_reads": 0
+    },
+    "evidence": null,
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-16-remove-the-browser-leg/research.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-19T08:27:44Z-b",
+    "chunk": "2026-10-19-dialog-hold-for-the-driver",
+    "skill": "implement",
+    "step": "code",
+    "type": "input.research-files-wrong",
+    "what": "research's Files to modify and Graph impact omitted src/run/wheel.rs, whose test helper calls DialogSlot::new; edited as a companion and recorded in scope-record.md",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     "src/run/wheel.rs",
+     "viola-0.1.0/chunks/2026-10-19-dialog-hold-for-the-driver/research.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "new-session/orientation/input.handoff-git-mismatch",
+  "n": 2,
+  "weight": 2,
+  "with_halt": 0,
+  "rate": "2/41",
+  "above": false,
+  "chunks": [
+   "(null)"
+  ],
+  "impact": {
+   "iterations": 0,
+   "retries": 0,
+   "reformulations": 0,
+   "dialogue_rounds": 0,
+   "extra_reads": 3,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-13T06:37:03Z-b",
+    "chunk": null,
+    "skill": "new-session",
+    "step": "orientation",
+    "type": "input.handoff-git-mismatch",
+    "what": "Handoff Status clean and Position naming the Epoch 4 diagnosis as owed, while git holds uncommitted outputs of that diagnosis and of the Epoch 4 code audit (code-metrics append, two untracked run dirs) plus auto-appended handoff sections; not the friction-append transient",
+    "impact": {
+     "extra_reads": 2
+    },
+    "evidence": null,
+    "artifacts": [
+     ".claude/session-handoff.md",
+     ".andromeda/runs/2026-10-12T06-42-44-evolve-diagnose/",
+     ".andromeda/runs/2026-10-12T06-54-29-code-audit/"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-13T11:16:56Z-b",
+    "chunk": null,
+    "skill": "new-session",
+    "step": "orientation",
+    "type": "input.handoff-git-mismatch",
+    "what": "handoff Status: clean, but the tree holds 3 modified files (friction-log append, the wrap run's evolve trail, a SessionEnd-hook stamp on the handoff) and 1 untracked wrap health trail written after the wrap commit; one git diff read to classify them as bookkeeping",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     ".claude/session-handoff.md",
+     ".andromeda/runs/2026-10-13T10-47-05-wrap/"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "phase/distill/input.spec-source-gap",
+  "n": 2,
+  "weight": 2,
+  "with_halt": 0,
+  "rate": "2/18",
+  "above": false,
+  "chunks": [
+   "2026-10-16-unwrapped-sessions-on-the-board"
+  ],
+  "impact": {
+   "iterations": 0,
+   "retries": 0,
+   "reformulations": 0,
+   "dialogue_rounds": 0,
+   "extra_reads": 0,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-16T18:58:07Z-c",
+    "chunk": "2026-10-16-unwrapped-sessions-on-the-board",
+    "skill": "phase",
+    "step": "distill",
+    "type": "input.spec-source-gap",
+    "what": "obs-plan section 6 maps an over-MAX_FRAME agents read to unknown but its parse-rejected detail catalog admits only malformed for parser claude-agents-json; an oversize code needs a catalog and schema amendment",
+    "impact": {},
+    "evidence": null,
+    "artifacts": [
+     ".andromeda/runs/2026-10-16T18-50-06-phase/obs.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-16T18:58:07Z-d",
+    "chunk": "2026-10-16-unwrapped-sessions-on-the-board",
+    "skill": "phase",
+    "step": "distill",
+    "type": "input.spec-source-gap",
+    "what": "security-plan bounds the --version child reads at 5 s but states no time bound and no R8-strip rule for the claude agents --json child that list and revive spawn; both are plan-side decisions owed at P4",
+    "impact": {},
+    "evidence": null,
+    "artifacts": [
+     ".andromeda/runs/2026-10-16T18-50-06-phase/security.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "wrap-session/curation/ambiguity.tier-routing",
+  "n": 2,
+  "weight": 2,
+  "with_halt": 0,
+  "rate": "2/19",
+  "above": false,
+  "chunks": [
+   "2026-10-17-cli-machine-contract",
+   "2026-10-17-mcp-server-for-drivers"
+  ],
+  "impact": {
+   "iterations": 0,
+   "retries": 0,
+   "reformulations": 0,
+   "dialogue_rounds": 0,
+   "extra_reads": 2,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-17T04:24:20Z-b",
+    "chunk": "2026-10-17-cli-machine-contract",
+    "skill": "wrap-session",
+    "step": "curation",
+    "type": "ambiguity.tier-routing",
+    "what": "the capture-then-write learning's artifact is product code (src/cmd/verify/typed.rs) no rule file's paths cover; demoted to Tier 3",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-17T03-50-43-wrap/curation.md",
+    "artifacts": [
+     ".claude/docs/session-learnings.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-17T14:56:35Z-b",
+    "chunk": "2026-10-17-mcp-server-for-drivers",
+    "skill": "wrap-session",
+    "step": "curation",
+    "type": "ambiguity.tier-routing",
+    "what": "the cargo tree -i absence-check gotcha is about scripts/*.sh, which no rule file's paths: cover (ci.md covers .github/** only); demoted to Tier 3",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-17T14-19-45-wrap/curation.md",
+    "artifacts": null,
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "wrap-session/reconcile/contract.false-positive-proposal",
+  "n": 2,
+  "weight": 2,
+  "with_halt": 0,
+  "rate": "2/19",
+  "above": false,
+  "chunks": [
+   "2026-10-17-cli-machine-contract",
+   "2026-10-17-end-to-end-path-binary-and-harness-legs"
+  ],
+  "impact": {
+   "iterations": 0,
+   "retries": 0,
+   "reformulations": 0,
+   "dialogue_rounds": 0,
+   "extra_reads": 2,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-17T02:16:45Z-b",
+    "chunk": "2026-10-17-end-to-end-path-binary-and-harness-legs",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "contract.false-positive-proposal",
+    "what": "test-plan proposal 6 counted the verify-driven list eighteen → nineteen; the filter line held twenty names after the chunk (cross_list_rows already on it, missing from the master); applied re-derived from the line",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     ".andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md:10",
+     ".config/nextest.toml"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-17T04:21:36Z-c",
+    "chunk": "2026-10-17-cli-machine-contract",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "contract.false-positive-proposal",
+    "what": "obs-plan proposal 8 (D-obs-instrumentation) targeted a section-7 pre-init window bullet the body does not hold; rejected for no site, the fact carried by exemption 1",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-17T03-50-43-wrap/fanout-results.md",
+    "artifacts": [
+     "fanout-obs-plan.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "wrap-session/reconcile/contract.proposal-format",
+  "n": 2,
+  "weight": 2,
+  "with_halt": 0,
+  "rate": "2/19",
+  "above": false,
+  "chunks": [
+   "2026-10-13-owed-ledger-rows",
+   "2026-10-14-resume-and-compact-ledger-rows"
+  ],
+  "impact": {
+   "iterations": 0,
+   "retries": 0,
+   "reformulations": 0,
+   "dialogue_rounds": 0,
+   "extra_reads": 2,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-14T07:02:56Z-b",
+    "chunk": "2026-10-13-owed-ledger-rows",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "contract.proposal-format",
+    "what": "the architecture doc-agent's receipt said proposals: 28 while its file held 29 `- detector:` items; read whole, all 29 dispositioned",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-14T06-37-54-wrap/fanout-results.md",
+    "artifacts": [
+     ".andromeda/runs/2026-10-14T06-37-54-wrap/fanout-architecture.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   },
+   {
+    "id": "2026-10-16T14:42:58Z-c",
+    "chunk": "2026-10-14-resume-and-compact-ledger-rows",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "contract.proposal-format",
+    "what": "the architecture doc-agent's receipt said proposals: 21 while its file held 22 items; the file was read whole as the truth and the mismatch named in fanout-results.md",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-16T14-05-30-wrap/fanout-results.md",
+    "artifacts": [
+     "fanout-architecture.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "*/*/recall.curated-rule-not-applied",
+  "n": 1,
+  "weight": 3,
+  "with_halt": 0,
+  "rate": null,
+  "above": false,
+  "chunks": [
+   "2026-10-18-compact-post-condition-ledger-row"
+  ],
+  "impact": {
+   "iterations": 2,
+   "retries": 0,
+   "reformulations": 0,
+   "dialogue_rounds": 0,
+   "extra_reads": 0,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-18T22:33:38Z-d",
+    "chunk": "2026-10-18-compact-post-condition-ledger-row",
+    "skill": "wrap-session",
+    "step": "curation",
+    "type": "recall.curated-rule-not-applied",
+    "what": "three standing rules recurred this chunk: testing.md 2026-10-17 (a tui_ binary filter selects nothing), testing.md 2026-10-07 Ext. 2026-10-16 (a shared helper's count missed by the gate filter), and the auto-memory rule on a pipeline tool's stdout",
+    "impact": {
+     "iterations": 2
+    },
+    "evidence": null,
+    "artifacts": null,
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "phase/validate/ambiguity.review-cycles",
+  "n": 1,
+  "weight": 3,
+  "with_halt": 0,
+  "rate": "1/19",
+  "above": false,
+  "chunks": [
+   "2026-10-18-plugin-precedence-live-readings"
+  ],
+  "impact": {
+   "iterations": 0,
+   "retries": 0,
+   "reformulations": 0,
+   "dialogue_rounds": 1,
+   "extra_reads": 0,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-19T05:18:45Z-b",
+    "chunk": "2026-10-18-plugin-precedence-live-readings",
+    "skill": "phase",
+    "step": "validate",
+    "type": "ambiguity.review-cycles",
+    "what": "the plan narrowed the founder's relayed ratification to the VIOLA_DIR step by the relay's wording; the operator corrected at the review that the question shown to him described the whole step, canonicalisation included; snapped as inputs#I3, folded, the P5 set re-run, card 2 shown",
+    "impact": {
+     "dialogue_rounds": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-18T22-39-54-phase/relay-3.md",
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/plan.md",
+     ".andromeda/runs/2026-10-18T22-39-54-phase/p5-card-2.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "wrap-session/gates/contract.coverage-hold",
+  "n": 1,
+  "weight": 3,
+  "with_halt": 0,
+  "rate": "1/18",
+  "above": false,
+  "chunks": [
+   "2026-10-17-cli-machine-contract"
+  ],
+  "impact": {
+   "iterations": 0,
+   "retries": 0,
+   "reformulations": 0,
+   "dialogue_rounds": 1,
+   "extra_reads": 0,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-17T04:32:48Z-b",
+    "chunk": "2026-10-17-cli-machine-contract",
+    "skill": "wrap-session",
+    "step": "gates",
+    "type": "contract.coverage-hold",
+    "what": "v1-39's claimed acceptance (every revive exit-1 refusal prints a document) went unmet for run::start's post-preflight refusals; resolved by the un-claim valve, and matrix.py unclaim kept status implemented so the cap sits outside the UNCLAIMED pool listing (its predicate is planned), owned only by the route CARRY naming it",
+    "impact": {
+     "dialogue_rounds": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-17T03-50-43-wrap/relay-1.md",
+    "artifacts": [
+     "viola-0.1.0/verification-matrix.json#v1-39"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "wrap-session/route-resolve/contract.carry-no-owner",
+  "n": 1,
+  "weight": 3,
+  "with_halt": 0,
+  "rate": "1/19",
+  "above": false,
+  "chunks": [
+   "2026-10-17-cli-output-discipline"
+  ],
+  "impact": {
+   "iterations": 0,
+   "retries": 0,
+   "reformulations": 0,
+   "dialogue_rounds": 1,
+   "extra_reads": 0,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-17T08:49:42Z-b",
+    "chunk": "2026-10-17-cli-output-discipline",
+    "skill": "wrap-session",
+    "step": "route-resolve",
+    "type": "contract.carry-no-owner",
+    "what": "the integration-tier witness of dim only on stale rows (v1-40) reached the wrap with no owner (the P5 card's row 3 minted none); the operator's invocation directed a placement, asked at P2's halt and answered CARRY onto Linux and macOS parity",
+    "impact": {
+     "dialogue_rounds": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-17T08-28-14-wrap/relay-2.md",
+    "artifacts": [
+     "viola-0.1.0/working-route.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "implement/None/input.plan-step-ambiguous",
+  "n": 1,
+  "weight": 2,
+  "with_halt": 0,
+  "rate": null,
+  "above": false,
+  "chunks": [
+   "2026-10-13-epoch-4-survivors-ii"
+  ],
+  "impact": {
+   "iterations": 0,
+   "retries": 0,
+   "reformulations": 1,
+   "dialogue_rounds": 0,
+   "extra_reads": 0,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-13T17:51:07Z-b",
+    "chunk": "2026-10-13-epoch-4-survivors-ii",
+    "skill": "implement",
+    "step": null,
+    "type": "input.plan-step-ambiguous",
+    "what": "the plan's kill filter anchors the case name with $, which no rstest table case matches (the case suffix follows the function name); four of the eight new cases are rstest tables",
+    "impact": {
+     "reformulations": 1
+    },
+    "evidence": "the first green run of the new cases listed case_<n>_<label> names",
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-13-epoch-4-survivors-ii/plan.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "implement/fix-loop/ambiguity.scope-pressure",
+  "n": 1,
+  "weight": 2,
+  "with_halt": 0,
+  "rate": "1/19",
+  "above": false,
+  "chunks": [
+   "2026-10-19-dialog-hold-for-the-driver"
+  ],
+  "impact": {
+   "iterations": 1,
+   "retries": 0,
+   "reformulations": 0,
+   "dialogue_rounds": 0,
+   "extra_reads": 0,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-19T08:36:28Z-b",
+    "chunk": "2026-10-19-dialog-hold-for-the-driver",
+    "skill": "implement",
+    "step": "fix-loop",
+    "type": "ambiguity.scope-pressure",
+    "what": "the preservation guard read red on a companion edit the scope record carried (src/run/wheel.rs); the guard cannot see the record, so the cause was removed in the design instead of argued",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-19T08-22-37-implement/gate-2026-10-19-dialog-hold-for-the-driver.json",
+    "artifacts": [
+     "src/run/wheel.rs",
+     "viola-0.1.0/chunks/2026-10-19-dialog-hold-for-the-driver/plan.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "implement/fix-loop/contract.instrument-validity",
+  "n": 1,
+  "weight": 2,
+  "with_halt": 0,
+  "rate": "1/19",
+  "above": false,
+  "chunks": [
+   "2026-10-18-compact-post-condition-ledger-row"
+  ],
+  "impact": {
+   "iterations": 0,
+   "retries": 1,
+   "reformulations": 0,
+   "dialogue_rounds": 0,
+   "extra_reads": 2,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-18T21:43:15Z-c",
+    "chunk": "2026-10-18-compact-post-condition-ledger-row",
+    "skill": "implement",
+    "step": "fix-loop",
+    "type": "contract.instrument-validity",
+    "what": "a 15-run loop of 'agent-run.sh run --integration --filter binary(tui_channel_fds)' read 15 fails that were nextest-exit-4 (nothing selected: tui_ binaries are E2E-layer); read off the run document's failures field, then re-measured with direct cargo nextest (15/15 pass)",
+    "impact": {
+     "retries": 1,
+     "extra_reads": 2
+    },
+    "evidence": null,
+    "artifacts": [
+     "tests/tui_channel_fds.rs"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "implement/fix-loop/contract.vacuous-check-found",
+  "n": 1,
+  "weight": 2,
+  "with_halt": 0,
+  "rate": "1/19",
+  "above": false,
+  "chunks": [
+   "2026-10-17-cli-output-discipline"
+  ],
+  "impact": {
+   "iterations": 0,
+   "retries": 1,
+   "reformulations": 0,
+   "dialogue_rounds": 0,
+   "extra_reads": 0,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-17T08:00:49Z-b",
+    "chunk": "2026-10-17-cli-output-discipline",
+    "skill": "implement",
+    "step": "fix-loop",
+    "type": "contract.vacuous-check-found",
+    "what": "the paste-control remove-the-guard run read all 8 cases of setting_does_not_disable_the_send_paste_control red, no_setting included: the helper inherited the host's COLORTERM=truecolor, so the colour cases could not be told from the rest until the helper removed NO_COLOR, TERM and COLORTERM before setting the case's own",
+    "impact": {
+     "retries": 1
+    },
+    "evidence": "viola-0.1.0/chunks/2026-10-17-cli-output-discipline/evidence/red-03-remove-the-guard.txt",
+    "artifacts": [
+     "tests/cli_controls_not_disableable.rs"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "phase/research/contract.instrument-validity",
+  "n": 1,
+  "weight": 2,
+  "with_halt": 0,
+  "rate": "1/19",
+  "above": false,
+  "chunks": [
+   "2026-10-17-end-to-end-path-binary-and-harness-legs"
+  ],
+  "impact": {
+   "iterations": 0,
+   "retries": 1,
+   "reformulations": 0,
+   "dialogue_rounds": 0,
+   "extra_reads": 0,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-17T00:35:10Z-b",
+    "chunk": "2026-10-17-end-to-end-path-binary-and-harness-legs",
+    "skill": "phase",
+    "step": "research",
+    "type": "contract.instrument-validity",
+    "what": "cargo nextest list --list-type binaries-only ignores -E, so three different filtersets each listed the same 58 binaries; caught because the three counts were identical, re-run as --message-format json counting filter-match per test",
+    "impact": {
+     "retries": 1
+    },
+    "evidence": "research.md Patterns detected (the measured partition and its no-match control)",
+    "artifacts": [
+     "research.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "wrap-session/reconcile/retry.detector-respawn",
+  "n": 1,
+  "weight": 2,
+  "with_halt": 0,
+  "rate": "1/19",
+  "above": false,
+  "chunks": [
+   "2026-10-14-resume-and-compact-ledger-rows"
+  ],
+  "impact": {
+   "iterations": 0,
+   "retries": 1,
+   "reformulations": 0,
+   "dialogue_rounds": 0,
+   "extra_reads": 0,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-16T14:42:58Z-b",
+    "chunk": "2026-10-14-resume-and-compact-ledger-rows",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "retry.detector-respawn",
+    "what": "the design-system+layout-templates leaf comparer's read line said 79 lines for a 78-line leaf; leaves --apply refused the batch and the comparer was re-spawned once in its own snapshot pair (0 findings both times)",
+    "impact": {
+     "retries": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-16T14-05-30-wrap/cascade-dispositions.md",
+    "artifacts": [
+     ".raw-leaf-design-system+layout-templates.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "wrap-session/route-resolve/tooling.long-line-edit",
+  "n": 1,
+  "weight": 2,
+  "with_halt": 0,
+  "rate": "1/19",
+  "above": false,
+  "chunks": [
+   "2026-10-17-mcp-server-for-drivers"
+  ],
+  "impact": {
+   "iterations": 0,
+   "retries": 1,
+   "reformulations": 0,
+   "dialogue_rounds": 0,
+   "extra_reads": 0,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-17T14:58:42Z-b",
+    "chunk": "2026-10-17-mcp-server-for-drivers",
+    "skill": "wrap-session",
+    "step": "route-resolve",
+    "type": "tooling.long-line-edit",
+    "what": "the anchored Edit appending a CARRY to 'Optional plugin install' matched twice: its last clause is repeated verbatim on 'Explicit session links'; re-anchored with a longer prefix",
+    "impact": {
+     "retries": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     "viola-0.1.0/working-route.md:152",
+     "viola-0.1.0/working-route.md:165"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "*/*/tooling.output-cap-overflow",
+  "n": 1,
+  "weight": 1,
+  "with_halt": 0,
+  "rate": null,
+  "above": false,
+  "chunks": [
+   "(null)"
+  ],
+  "impact": {
+   "iterations": 0,
+   "retries": 0,
+   "reformulations": 0,
+   "dialogue_rounds": 0,
+   "extra_reads": 1,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-17T01:20:57Z-b",
+    "chunk": null,
+    "skill": "new-session",
+    "step": "orientation",
+    "type": "tooling.output-cap-overflow",
+    "what": "a grep of architecture.md for the primary language and Development Style matched long table rows and overflowed the tool-result cap (42.7 KB); recovered by one narrower grep for Development Style",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     ".andromeda/architecture.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "implement/fix-loop/tooling.gate-deferral",
+  "n": 1,
+  "weight": 1,
+  "with_halt": 0,
+  "rate": "1/19",
+  "above": false,
+  "chunks": [
+   "2026-10-18-plugin-precedence-live-readings"
+  ],
+  "impact": {
+   "iterations": 0,
+   "retries": 0,
+   "reformulations": 0,
+   "dialogue_rounds": 0,
+   "extra_reads": 0,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 1
+  },
+  "cases": [
+   {
+    "id": "2026-10-19T06:19:25Z-d",
+    "chunk": "2026-10-18-plugin-precedence-live-readings",
+    "skill": "implement",
+    "step": "fix-loop",
+    "type": "tooling.gate-deferral",
+    "what": "the plan deferred five Rust gates on zero Rust delta; gate.py delta voided one (master-route.md read by base.rs) and the walk-class line (4 marked walkers, 60 uncommitted) voided three more; entries 6-9 ran green voided, clippy (5) stayed deferred",
+    "impact": {
+     "deferred": 1
+    },
+    "evidence": ".andromeda/runs/2026-10-19T05-23-09-implement/gate-2026-10-18-plugin-precedence-live-readings.json",
+    "artifacts": null,
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "phase/distill/contract.binding-contradiction",
+  "n": 1,
+  "weight": 1,
+  "with_halt": 0,
+  "rate": "1/18",
+  "above": false,
+  "chunks": [
+   "2026-10-16-unwrapped-sessions-on-the-board"
+  ],
+  "impact": {
+   "iterations": 0,
+   "retries": 0,
+   "reformulations": 0,
+   "dialogue_rounds": 0,
+   "extra_reads": 0,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-16T18:58:07Z-b",
+    "chunk": "2026-10-16-unwrapped-sessions-on-the-board",
+    "skill": "phase",
+    "step": "distill",
+    "type": "contract.binding-contradiction",
+    "what": "check C: arch extract reads the fake agent as argv-only with no env (architecture Occupied Resources), tests extract reads test-plan section 7 seeding FAKE_CLAUDE_AGENTS_MODE as an env var; both read their own plan faithfully, so the masters contradict and the pair goes to P4 as a fork, no re-spawn",
+    "impact": {
+     "retries": 0
+    },
+    "evidence": null,
+    "artifacts": [
+     ".andromeda/runs/2026-10-16T18-50-06-phase/arch.md",
+     ".andromeda/runs/2026-10-16T18-50-06-phase/tests.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "phase/distill/contract.extract-format",
+  "n": 1,
+  "weight": 1,
+  "with_halt": 0,
+  "rate": "1/18",
+  "above": false,
+  "chunks": [
+   "2026-10-18-compact-post-condition-ledger-row"
+  ],
+  "impact": {
+   "iterations": 0,
+   "retries": 0,
+   "reformulations": 0,
+   "dialogue_rounds": 0,
+   "extra_reads": 0,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-18T03:35:51Z-b",
+    "chunk": "2026-10-18-compact-post-condition-ledger-row",
+    "skill": "phase",
+    "step": "distill",
+    "type": "contract.extract-format",
+    "what": "the security history agent wrote its file in two calls (a Write leaving a stray placeholder line with a wrong date, then an Edit removing it) against the prompt's one-call rule; the file validated H1-H3",
+    "impact": {
+     "retries": 0
+    },
+    "evidence": ".andromeda/runs/2026-10-18T03-26-43-phase/security-history.md",
+    "artifacts": [
+     "security-history.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "phase/take-up/input.carry-context-gap",
+  "n": 1,
+  "weight": 1,
+  "with_halt": 0,
+  "rate": "1/18",
+  "above": false,
+  "chunks": [
+   "2026-10-16-unwrapped-sessions-on-the-board"
+  ],
+  "impact": {
+   "iterations": 0,
+   "retries": 0,
+   "reformulations": 0,
+   "dialogue_rounds": 0,
+   "extra_reads": 1,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-16T18:52:00Z-b",
+    "chunk": "2026-10-16-unwrapped-sessions-on-the-board",
+    "skill": "phase",
+    "step": "take-up",
+    "type": "input.carry-context-gap",
+    "what": "CARRY 1 names the join field as coming from 'Paste newline ledger row', a complete entry that never landed it; CARRY 5 (moved later) is the standing owner, so the phrase is a stale coordinate re-verified against LedgerRow::ALL",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": null,
+    "artifacts": [
+     "viola-0.1.0/working-route.md:142",
+     "crates/viola-agent-claude/src/ledger.rs:47"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "wrap-session/None/contract.false-positive-proposal",
+  "n": 1,
+  "weight": 1,
+  "with_halt": 0,
+  "rate": null,
+  "above": false,
+  "chunks": [
+   "2026-10-13-epoch-4-survivors-ii"
+  ],
+  "impact": {
+   "iterations": 0,
+   "retries": 0,
+   "reformulations": 0,
+   "dialogue_rounds": 0,
+   "extra_reads": 0,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-13T18:17:23Z-b",
+    "chunk": "2026-10-13-epoch-4-survivors-ii",
+    "skill": "wrap-session",
+    "step": null,
+    "type": "contract.false-positive-proposal",
+    "what": "D-tests-framework read test-plan §4's 'mockall doubles only for traits the product already defines at its seams' as a mandate for mockall and proposed recording a hand-written seam double at §4 and §8 (one primary, one dependent); rejected as registry over-reach with no body claim false",
+    "impact": {
+     "iterations": 0
+    },
+    "evidence": ".andromeda/runs/2026-10-13T18-08-14-wrap/fanout-results.md",
+    "artifacts": [
+     ".andromeda/runs/2026-10-13T18-08-14-wrap/fanout-test-plan.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ },
+ {
+  "key": "wrap-session/route-resolve/contract.no-sanctioned-channel",
+  "n": 1,
+  "weight": 1,
+  "with_halt": 0,
+  "rate": "1/19",
+  "above": false,
+  "chunks": [
+   "2026-10-18-plugin-precedence-live-readings"
+  ],
+  "impact": {
+   "iterations": 0,
+   "retries": 0,
+   "reformulations": 0,
+   "dialogue_rounds": 0,
+   "extra_reads": 0,
+   "halted": 0,
+   "soft_exit": 0,
+   "deferred": 0
+  },
+  "cases": [
+   {
+    "id": "2026-10-19T07:21:11Z-b",
+    "chunk": "2026-10-18-plugin-precedence-live-readings",
+    "skill": "wrap-session",
+    "step": "route-resolve",
+    "type": "contract.no-sanctioned-channel",
+    "what": "the measured MCPEXIT fact (viola mcp ends with its session writing no process-exit{self} line) matches no master claim and is no owed work for any route entry; carried to the handoff for the founder's desk, no CARRY minted",
+    "impact": {},
+    "evidence": null,
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/report.md"
+    ],
+    "clause_retracted": null,
+    "retracts": null
+   }
+  ]
+ }
+]

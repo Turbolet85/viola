@@ -1,0 +1,84 @@
+{
+ "themes": {
+  "L1 — override — the plan's preservation guard red on recorded companion edits — 4 overridden + 1 unresolved + 1 workaround facts, 4 chunks": {
+   "facts": [
+    "2026-10-13T19:09:01Z-a",
+    "2026-10-13T20:30:06Z-a",
+    "2026-10-13T22:18:46Z-a",
+    "2026-10-18T22:36:37Z-a",
+    "2026-10-18T21:43:15Z-a",
+    "2026-10-19T08:27:44Z-a"
+   ],
+   "frictions": [
+    "2026-10-13T19:09:01Z-b",
+    "2026-10-13T21:39:27Z-d",
+    "2026-10-16T07:26:50Z-c",
+    "2026-10-19T08:27:44Z-c",
+    "2026-10-13T22:18:46Z-b"
+   ]
+  },
+  "L2 — chronic-degrade — a truncated `.profraw` (and other not-run-stable reds) at the coverage merge, recurring across epochs — 3 in-epoch facts + 3 in-epoch frictions": {
+   "facts": [
+    "2026-10-19T11:12:09Z-a",
+    "2026-10-19T20:39:26Z-a",
+    "2026-10-16T21:09:24Z-a"
+   ],
+   "frictions": [
+    "2026-10-16T21:09:24Z-b",
+    "2026-10-17T12:33:19Z-d",
+    "2026-10-19T11:12:09Z-b",
+    "2026-10-19T20:39:26Z-b"
+   ]
+  },
+  "L3 — band-aid — a pipeline tool's output filtered or discarded against the run-bare rule — 9 facts, 8 chunks": {
+   "facts": [
+    "2026-10-13T07:15:41Z-a",
+    "2026-10-13T07:23:36Z-a",
+    "2026-10-13T15:59:51Z-a",
+    "2026-10-17T04:42:07Z-a",
+    "2026-10-17T09:37:18Z-a",
+    "2026-10-17T18:06:04Z-a",
+    "2026-10-18T22:33:38Z-a",
+    "2026-10-19T08:18:14Z-a",
+    "2026-10-19T10:52:14Z-a"
+   ],
+   "frictions": []
+  },
+  "L4 — band-aid — multi-KB single-line edits through scratch python replace scripts — 3 facts in-epoch, 9 in Epoch 4": {
+   "facts": [
+    "2026-10-16T18:40:25Z-a",
+    "2026-10-17T04:21:36Z-a",
+    "2026-10-17T04:25:45Z-a"
+   ],
+   "frictions": [
+    "2026-10-17T14:58:42Z-b"
+   ]
+  },
+  "L5 — band-aid (cross-stream) — `cascade.py` reads a backticked `|` on a non-table line as a table cell — 2 facts + 3 frictions, 4 distinct events in 4 chunks": {
+   "facts": [
+    "2026-10-16T23:37:37Z-a",
+    "2026-10-19T09:53:39Z-a"
+   ],
+   "frictions": [
+    "2026-10-17T14:55:18Z-b",
+    "2026-10-19T09:53:39Z-c",
+    "2026-10-19T19:40:54Z-c"
+   ]
+  }
+ },
+ "signatures": {
+  "band-aid": [
+   "L3",
+   "L4",
+   "L5 (cross-stream)"
+  ],
+  "override": [
+   "L1"
+  ],
+  "chronic-degrade": [
+   "L2"
+  ],
+  "deferred-forever": [],
+  "removed-cause-observation": []
+ }
+}

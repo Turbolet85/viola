@@ -1,0 +1,192 @@
+[
+{
+"tool": "gate",
+"v": "1.21",
+"sha8": "e6b5f42f",
+"ts": "2026-10-19T23:06:39Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-10-19T23-02-00-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust · base HEAD (no --marker)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust — each fired on its synthetic known positive",
+"P1 .andromeda/runs/2026-10-19T20-57-02-evolve-diagnose/proposals.md:31 ×3 · tmp,home",
+"P1 .andromeda/runs/2026-10-19T20-57-02-evolve-diagnose/q-chains.json:901 ×2 · tmp",
+"P1 .andromeda/runs/2026-10-19T20-57-02-evolve-diagnose/q-typed.json:167 ×1 · tmp",
+"P1 .andromeda/runs/2026-10-19T20-57-02-evolve-diagnose/q-untyped.json:196 ×2 · tmp,home",
+"P1 .andromeda/runs/2026-10-19T21-08-30-code-audit/c-windows-mutants.json:210 ×1 · tmp",
+"hygiene: refused 5 files — P1 5 · P2 0 · P3 0 · read 68 (runs 68 · evidence 0 · inputs 0) · trails 6 not read · copies 1 not read by P1 — 0 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust"
+],
+"rows": [
+"P1 .andromeda/runs/2026-10-19T20-57-02-evolve-diagnose/proposals.md:31 ×3 · tmp,home",
+"P1 .andromeda/runs/2026-10-19T20-57-02-evolve-diagnose/q-chains.json:901 ×2 · tmp",
+"P1 .andromeda/runs/2026-10-19T20-57-02-evolve-diagnose/q-typed.json:167 ×1 · tmp",
+"P1 .andromeda/runs/2026-10-19T20-57-02-evolve-diagnose/q-untyped.json:196 ×2 · tmp,home",
+"P1 .andromeda/runs/2026-10-19T21-08-30-code-audit/c-windows-mutants.json:210 ×1 · tmp"
+],
+"counts": {
+"P1": 5,
+"P2": 0,
+"P3": 0,
+"runs": 68,
+"evidence": 0,
+"inputs": 0,
+"trails": 6,
+"copies": 1,
+"kept": 0,
+"binary": 0,
+"in_root": 0
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.21",
+"sha8": "e6b5f42f",
+"ts": "2026-10-19T23:07:19Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-10-19T23-02-00-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust · base HEAD (no --marker)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust — each fired on its synthetic known positive",
+"hygiene: clean — read 69 (runs 69 · evidence 0 · inputs 0) · trails 7 not read · copies 1 not read by P1 — 0 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 69,
+"evidence": 0,
+"inputs": 0,
+"trails": 7,
+"copies": 1,
+"kept": 0,
+"binary": 0,
+"in_root": 0
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.21",
+"sha8": "e6b5f42f",
+"ts": "2026-10-19T23:07:29Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-10-19T23-02-00-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust · base HEAD (no --marker)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust — each fired on its synthetic known positive",
+"P1 .andromeda/runs/2026-10-19T23-02-00-wrap/adaptation-record.md:31 ×2 · tmp,home",
+"hygiene: refused 1 files — P1 1 · P2 0 · P3 0 · read 69 (runs 69 · evidence 0 · inputs 0) · trails 7 not read · copies 1 not read by P1 — 0 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust"
+],
+"rows": [
+"P1 .andromeda/runs/2026-10-19T23-02-00-wrap/adaptation-record.md:31 ×2 · tmp,home"
+],
+"counts": {
+"P1": 1,
+"P2": 0,
+"P3": 0,
+"runs": 69,
+"evidence": 0,
+"inputs": 0,
+"trails": 7,
+"copies": 1,
+"kept": 0,
+"binary": 0,
+"in_root": 0
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.21",
+"sha8": "e6b5f42f",
+"ts": "2026-10-19T23:07:40Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-10-19T23-02-00-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust · base HEAD (no --marker)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust — each fired on its synthetic known positive",
+"hygiene: clean — read 69 (runs 69 · evidence 0 · inputs 0) · trails 7 not read · copies 1 not read by P1 — 0 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 69,
+"evidence": 0,
+"inputs": 0,
+"trails": 7,
+"copies": 1,
+"kept": 0,
+"binary": 0,
+"in_root": 0
+},
+"indeterminate": 0
+}
+}
+]

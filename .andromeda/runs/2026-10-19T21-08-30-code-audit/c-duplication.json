@@ -1,0 +1,73 @@
+{
+ "pct": 3.54,
+ "duplicated_lines": 2917,
+ "total_lines": 82429,
+ "clones": 340,
+ "top": [
+  [
+   "tests/cli_verify.rs:77",
+   "tests/contract_ledger_probes.rs:14",
+   52
+  ],
+  [
+   "crates/viola-e2e/tests/mcp_tools.rs:156",
+   "crates/viola-e2e/tests/path6_budget_harness.rs:46",
+   29
+  ],
+  [
+   "crates/viola-e2e/src/harness/run.rs:323",
+   "tests/cli_verify.rs:79",
+   27
+  ],
+  [
+   "crates/viola-agent-claude/src/ledger.rs:1524",
+   "crates/viola-e2e/src/harness/run.rs:323",
+   26
+  ],
+  [
+   "tests/cli_budget.rs:71",
+   "tests/cli_wheel.rs:46",
+   25
+  ],
+  [
+   "tests/cli_verify.rs:508",
+   "tests/cli_verify.rs:1071",
+   24
+  ],
+  [
+   "crates/viola-e2e/src/harness/run.rs:350",
+   "tests/cli_verify.rs:106",
+   23
+  ],
+  [
+   "src/run/links.rs:120",
+   "src/run/snapshot.rs:58",
+   22
+  ],
+  [
+   "crates/viola-e2e/src/harness/mod.rs:368",
+   "tests/cli_instance_state.rs:601",
+   20
+  ],
+  [
+   "src/run/dialog.rs:542",
+   "src/run/wheel.rs:816",
+   20
+  ]
+ ],
+ "split": {
+  "src": {
+   "pairs": 153,
+   "lines": 1412
+  },
+  "test": {
+   "pairs": 166,
+   "lines": 1619
+  },
+  "mixed": {
+   "pairs": 21,
+   "lines": 226
+  }
+ },
+ "split_rule": "test = both files carry a (^|/)tests/ path segment; src = neither; mixed = one"
+}

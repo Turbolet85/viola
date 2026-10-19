@@ -1,0 +1,53 @@
+{
+ "dup": [
+  0.41999999999999993,
+  13.461538461538458,
+  false
+ ],
+ "cx": [
+  2,
+  4,
+  false
+ ],
+ "dead": false,
+ "cov": false,
+ "cyc": false,
+ "mono": {
+  "duplication.pct": [
+   3.13,
+   3.12,
+   3.54,
+   false
+  ],
+  "complexity.over_ceiling": [
+   4,
+   2,
+   4,
+   false
+  ],
+  "dead.zero_ref_candidates": [
+   0,
+   0,
+   0,
+   false
+  ],
+  "sizes.file_max": [
+   2678,
+   2709,
+   3732,
+   true
+  ],
+  "sizes.over_800": [
+   12,
+   19,
+   22,
+   true
+  ],
+  "coverage.line": [
+   98.12,
+   98.45,
+   98.63,
+   false
+  ]
+ }
+}

@@ -1,0 +1,191 @@
+{
+ "unit": "viola-channel",
+ "unit_state": "complete 200/200",
+ "score": 100.0,
+ "counts": {
+  "mutants": 200,
+  "caught": 148,
+  "missed": 0,
+  "not_measured": 33,
+  "timeout": 0,
+  "unviable": 19
+ },
+ "survivors": [],
+ "not_measured": [
+  [
+   "crates/viola-channel/src/client.rs:230:26",
+   "replace == with != in retry_busy",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/client.rs:230:45",
+   "replace && with || in retry_busy",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/client.rs:230:5",
+   "replace retry_busy -> bool with false",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/client.rs:230:5",
+   "replace retry_busy -> bool with true",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/client.rs:230:52",
+   "replace < with <= in retry_busy",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/client.rs:230:52",
+   "replace < with == in retry_busy",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/client.rs:230:52",
+   "replace < with > in retry_busy",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/client.rs:244:5",
+   "replace open -> io::Result<Stream> with Ok(Default::default())",
+   "cfg(all(windows, test))"
+  ],
+  [
+   "crates/viola-channel/src/client.rs:249:5",
+   "replace open_by -> io::Result<Stream> with Ok(Default::default())",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/client.rs:262:5",
+   "replace open_handle -> io::Result<std::os::windows::io::OwnedHandle> with Ok(Default::default())",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/client.rs:290:19",
+   "replace != with == in open_handle",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/client.rs:294:12",
+   "delete ! in open_handle",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/server.rs:110:25",
+   "replace == with != in listen",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/server.rs:99:5",
+   "replace listen -> Result<(Listener, Guard), ChannelError> with Ok((Default::default(), Default::default()))",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/server/win.rs:21:5",
+   "replace owner_only_sddl -> String with \"xyzzy\".into()",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/server/win.rs:21:5",
+   "replace owner_only_sddl -> String with String::new()",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/server/win.rs:25:5",
+   "replace owner_only_descriptor -> io::Result<SecurityDescriptor> with Ok(Default::default())",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/server/win.rs:30:5",
+   "replace user_sid -> io::Result<String> with Ok(\"xyzzy\".into())",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/server/win.rs:30:5",
+   "replace user_sid -> io::Result<String> with Ok(String::new())",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/server/win.rs:32:82",
+   "replace == with != in user_sid",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/server/win.rs:42:5",
+   "replace token_user_sid -> io::Result<String> with Ok(\"xyzzy\".into())",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/server/win.rs:42:5",
+   "replace token_user_sid -> io::Result<String> with Ok(String::new())",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/server/win.rs:50:15",
+   "replace == with != in token_user_sid",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/server/win.rs:57:68",
+   "replace == with != in token_user_sid",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/server/win.rs:77:5",
+   "replace from_sddl -> io::Result<SecurityDescriptor> with Ok(Default::default())",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/server/win.rs:88:18",
+   "replace == with != in from_sddl",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/test_support.rs:116:9",
+   "replace win::dacl_of -> String with \"xyzzy\".into()",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/test_support.rs:116:9",
+   "replace win::dacl_of -> String with String::new()",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/test_support.rs:66:9",
+   "replace win::canonical_sddl -> String with \"xyzzy\".into()",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/test_support.rs:66:9",
+   "replace win::canonical_sddl -> String with String::new()",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/test_support.rs:93:9",
+   "replace win::user_sid -> String with \"xyzzy\".into()",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/test_support.rs:93:9",
+   "replace win::user_sid -> String with String::new()",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/tokio_client.rs:99:5",
+   "replace open -> io::Result<Stream> with Ok(Default::default())",
+   "cfg(windows)"
+  ]
+ ],
+ "timing": {
+  "scope": "unit",
+  "planned": 200,
+  "tested": 200,
+  "wall_s": 138,
+  "jobs": 2,
+  "cap_s": 1800
+ },
+ "score_formula": "caught/(caught+missed)",
+ "tool_missed_tally": 33
+}

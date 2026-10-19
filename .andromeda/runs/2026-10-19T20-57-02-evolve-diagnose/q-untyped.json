@@ -1,0 +1,946 @@
+{
+ "target": [
+  {
+   "id": "2026-10-13T06:42:24Z-b",
+   "chunk": null,
+   "skill": "wrap-session",
+   "step": "report",
+   "type": null,
+   "what": "Operator directed a split Phase 1 and an inputs snap on a 0-pending wrap; the letter's step-6 path runs no P1 and the inputs channel and report template are chunk-scoped, so the Phase 1 artifact and the snapshot were placed in the run dir by the precedent of the Epoch 3 boundary wrap",
+   "impact": {
+    "extra_reads": 5
+   },
+   "evidence": ".andromeda/runs/2026-10-13T06-38-35-wrap/report.md",
+   "artifacts": [
+    "inputs-contract.md",
+    "report-template.md",
+    "SKILL.md Setup 6"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-13T06:42:24Z-c",
+   "chunk": null,
+   "skill": "wrap-session",
+   "step": "report",
+   "type": null,
+   "what": "The report holds no New text, by line section: no chunk diff exists for cites.py added to list; nothing stood in for the paste",
+   "impact": {},
+   "evidence": ".andromeda/runs/2026-10-13T06-38-35-wrap/report.md",
+   "artifacts": null,
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-13T07:09:23Z-b",
+   "chunk": "2026-10-13-epoch-4-cleanup",
+   "skill": "phase",
+   "step": "take-up",
+   "type": null,
+   "what": "ci.py conclusion's red row for dffad3e printed its runs field clipped to `nightly#38…` beside red-by jobs `mutants (viola-*)` named without their run, so which run owned the four failed jobs took a gh run view read (they were windows-mutants#38215104120's root shards)",
+   "impact": {
+    "extra_reads": 1
+   },
+   "evidence": ".andromeda/runs/2026-10-13T07-07-28-phase/ci-no-marker.json",
+   "artifacts": [
+    "ci.py conclusion"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-13T11:04:28Z-c",
+   "chunk": "2026-10-13-epoch-4-cleanup",
+   "skill": "wrap-session",
+   "step": "reconcile",
+   "type": null,
+   "what": "the citation sweep's dry-run output was redirected through a relative path climbing four levels from the run dir, landing one directory above the repository; noticed at once and moved into the session scratchpad",
+   "impact": {
+    "retries": 1
+   },
+   "evidence": ".andromeda/runs/2026-10-13T10-47-05-wrap/citation-dispositions.md",
+   "artifacts": null,
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-13T16:18:35Z-b",
+   "chunk": "2026-10-13-epoch-4-survivors",
+   "skill": "implement",
+   "step": "code",
+   "type": null,
+   "what": "19 of 29 hand-applied mutant pairs ran under the filter test(=tests::name), which nextest reads as no tests to run (nextest-exit-4) for a test outside a crate-root module; the pairs were re-run under test(/(^|::)tests::name$/)",
+   "impact": {
+    "retries": 19
+   },
+   "evidence": ".andromeda/runs/2026-10-13T16-01-52-implement/journal.md",
+   "artifacts": [
+    ".claude/rules/verification-harness.md",
+    "viola-0.1.0/chunks/2026-10-13-epoch-4-survivors/research.md"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-13T21:56:23Z-b",
+   "chunk": "2026-10-13-paste-newline-ledger-row",
+   "skill": "wrap-session",
+   "step": "report",
+   "type": null,
+   "what": "the site-sweep patterns file was refused twice before it ran (exit 2): a doubled apostrophe inside a TOML literal string (not an escape in TOML), then an inline (?i) flag placed after the first alternative (Python re requires global flags at the start); fixed by a triple-quoted literal and a leading flag",
+   "impact": {
+    "retries": 2
+   },
+   "evidence": null,
+   "artifacts": [
+    ".andromeda/runs/2026-10-13T21-52-39-wrap/report-patterns.toml"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-13T23:04:13Z-c",
+   "chunk": "2026-10-13-owed-ledger-rows",
+   "skill": "phase",
+   "step": "validate",
+   "type": null,
+   "what": "gate.py show was called with --plan, which it does not take, and then showed only the last run's entries; entry 6's red was read from its log file in the gate logs dir instead",
+   "impact": {
+    "retries": 1,
+    "extra_reads": 1
+   },
+   "evidence": null,
+   "artifacts": [
+    "gate.py show"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-13T23:18:46Z-b",
+   "chunk": "2026-10-13-owed-ledger-rows",
+   "skill": "implement",
+   "step": "code",
+   "type": null,
+   "what": "a fourth shape-pinned reader of the row set (merge_stamp_writes_the_envelope_for_a_first_version, a literal rows object) went red at the first unit run; research's sweep listed count literals and five other readers but not it",
+   "impact": {
+    "iterations": 1
+   },
+   "evidence": null,
+   "artifacts": [
+    "crates/viola-agent-claude/src/ledger.rs"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-16T06:45:00Z-e",
+   "chunk": "2026-10-14-resume-and-compact-ledger-rows",
+   "skill": "phase",
+   "step": "validate",
+   "type": null,
+   "what": "the plan put Run E in a new -resume dir (another CLI project dir than Run B's) with cross-directory resume listed open in research; P5 read the 2.1.287 CLI's own code (an id scan over every project dir, single match) to judge the record round would not burn its six starts on a not-found, and noted it in the plan as a code reading, unmeasured live",
+   "impact": {
+    "extra_reads": 4
+   },
+   "evidence": "plan.md Implementation notes, Step 5 second note",
+   "artifacts": [
+    "viola-0.1.0/chunks/2026-10-14-resume-and-compact-ledger-rows/research.md",
+    "viola-0.1.0/chunks/2026-10-14-resume-and-compact-ledger-rows/plan.md"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-16T06:59:33Z-c",
+   "chunk": "2026-10-14-resume-and-compact-ledger-rows",
+   "skill": "implement",
+   "step": "code",
+   "type": null,
+   "what": "recurrence of testing.md 2026-10-07 (list by the deciding function): readers of the verify run count (Run E) were swept by row-count literal only; seven unlisted oracles moved in cli_verify.rs and cli_fake_agent.rs",
+   "impact": {
+    "extra_reads": 3
+   },
+   "evidence": null,
+   "artifacts": [
+    "tests/cli_verify.rs",
+    "tests/cli_fake_agent.rs"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-16T14:10:45Z-b",
+   "chunk": "2026-10-14-resume-and-compact-ledger-rows",
+   "skill": "wrap-session",
+   "step": "report",
+   "type": null,
+   "what": "the site-sweep pattern probe-dirs (-plan/) matched the registries' contracts/{doc}-plan/ paths, 28 of 35 standing rows noise; re-fired anchored on .viola-verify-<pid>",
+   "impact": {
+    "retries": 1
+   },
+   "evidence": ".andromeda/runs/2026-10-16T14-05-30-wrap/cascade-2026-10-14-resume-and-compact-ledger-rows-pre-pass.json",
+   "artifacts": [
+    "report-patterns.toml"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-16T14:51:33Z-c",
+   "chunk": "2026-10-14-resume-and-compact-ledger-rows",
+   "skill": "wrap-session",
+   "step": "gates",
+   "type": null,
+   "what": "the P7.3c hygiene read refused this wrap's own curation.md, whose log quoted the prose glob $TMPDIR/viola-verify-* it was recording as a hazard; the token was rewritten to a <placeholder> and the re-read was clean",
+   "impact": {
+    "retries": 1
+   },
+   "evidence": ".andromeda/runs/2026-10-16T14-05-30-wrap/curation.md",
+   "artifacts": [
+    "curation.md"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-16T16:26:06Z-b",
+   "chunk": "2026-10-16-remove-the-browser-leg",
+   "skill": "implement",
+   "step": "code",
+   "type": null,
+   "what": "a plan step deleting a whole tracked directory could not be executed in-session: the host denies a recursive rm and the classifier denied the sanctioned move-aside; the deletion waits on the operator",
+   "impact": {
+    "retries": 1,
+    "deferred": 1
+   },
+   "evidence": ".andromeda/runs/2026-10-16T16-17-45-implement/journal.md",
+   "artifacts": [
+    "e2e-web/"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-16T18:40:25Z-e",
+   "chunk": "2026-10-16-remove-the-browser-leg",
+   "skill": "wrap-session",
+   "step": "reconcile",
+   "type": null,
+   "what": "two self-inflicted re-runs: splice append refused --lines 11 for a 10-line addendum, and the obs-plan replacement script stopped on a pair whose old text carried a stray backtick (nothing written either time)",
+   "impact": {
+    "retries": 2
+   },
+   "evidence": null,
+   "artifacts": [
+    "report.md",
+    ".andromeda/obs-plan.md"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-16T20:00:05Z-b",
+   "chunk": "2026-10-16-unwrapped-sessions-on-the-board",
+   "skill": "phase",
+   "step": "plan",
+   "type": null,
+   "what": "fork 1's recommended option said the probe adds one verify child (spawn pairs 7 to 8) while its preview drew two agents reads (before and after /clear); synthesis took the narrower one-read reading, inside the founder's answer, and moved the P12 measurement to the P4 leg",
+   "impact": {
+    "iterations": 1
+   },
+   "evidence": null,
+   "artifacts": [
+    ".andromeda/runs/2026-10-16T18-50-06-phase/relay-1.md",
+    "viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/plan.md"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-17T02:34:02Z-b",
+   "chunk": "2026-10-17-cli-machine-contract",
+   "skill": "phase",
+   "step": "distill",
+   "type": null,
+   "what": "sidecar.py cites printed `not a marker` for the 0-pending wrap entry headed `2026-10-16T14-58-10-wrap` in all seven history files; the heading exists in every sidecar, confirmed by a grep",
+   "impact": {
+    "extra_reads": 1
+   },
+   "evidence": ".andromeda/runs/2026-10-17T02-25-51-phase/",
+   "artifacts": [
+    ".andromeda/runs/2026-10-17T02-25-51-phase/arch-history.md:29"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-17T02:38:42Z-b",
+   "chunk": "2026-10-17-cli-machine-contract",
+   "skill": "phase",
+   "step": "research",
+   "type": null,
+   "what": "the first gh api read of the failing job's log omitted --allow-escape-sequences, which the ci.py log line printed; gh refused with exit 1 and the call was re-issued with the flag",
+   "impact": {
+    "retries": 1
+   },
+   "evidence": ".andromeda/runs/2026-10-17T02-25-51-phase/",
+   "artifacts": [
+    "ci#38994749835 job 117284718714"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-17T03:55:28Z-c",
+   "chunk": "2026-10-17-cli-machine-contract",
+   "skill": "wrap-session",
+   "step": "report",
+   "type": null,
+   "what": "a TOML sweep pattern appended through printf landed a doubled backslash (a literal backslash in a TOML literal string, not the regex word boundary); caught by reading the file back and fixed through Edit before the sweep fired",
+   "impact": {
+    "retries": 1
+   },
+   "evidence": null,
+   "artifacts": [
+    ".andromeda/runs/2026-10-17T03-50-43-wrap/report-patterns.toml"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-17T14:55:18Z-e",
+   "chunk": "2026-10-17-mcp-server-for-drivers",
+   "skill": "wrap-session",
+   "step": "reconcile",
+   "type": null,
+   "what": "cascade.py sweep refused the patterns file (exit 2) for a 17-char pattern id over its 16-char bound; renamed and re-fired",
+   "impact": {
+    "retries": 1
+   },
+   "evidence": ".andromeda/runs/2026-10-17T14-19-45-wrap/cascade-patterns.toml",
+   "artifacts": null,
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-17T14:58:42Z-c",
+   "chunk": "2026-10-17-mcp-server-for-drivers",
+   "skill": "wrap-session",
+   "step": "route-resolve",
+   "type": null,
+   "what": "inputs.py snap refused the resume relay's --origin for a placeholder time (14:3xZ); the invocation's arrival was never clock-read, so the origin was re-worded to name the first clock read after it",
+   "impact": {
+    "retries": 1
+   },
+   "evidence": "viola-0.1.0/chunks/2026-10-17-mcp-server-for-drivers/inputs/andromeda-inputs.json",
+   "artifacts": null,
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-18T03:06:09Z-d",
+   "chunk": "2026-10-17-optional-plugin-install",
+   "skill": "wrap-session",
+   "step": "reconcile",
+   "type": null,
+   "what": "a cd into the run dir prefixed a read-only listing command (cd X 2>/dev/null; …) and moved the session cwd for the next calls; the next call cd-ed back to the root",
+   "impact": {
+    "retries": 1
+   },
+   "evidence": null,
+   "artifacts": null,
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-18T03:15:41Z-b",
+   "chunk": "2026-10-17-optional-plugin-install",
+   "skill": "wrap-session",
+   "step": "gates",
+   "type": null,
+   "what": "hygiene P1 refused a leaf-delta diff carrying an example path written into the new layout wireframe (~/.viola, then /h/.viola read as an msys drive); the wireframe took the <home>/marketplace placeholder in the master and the diff",
+   "impact": {
+    "retries": 2
+   },
+   "evidence": null,
+   "artifacts": [
+    ".andromeda/layout-templates.md",
+    ".andromeda/runs/2026-10-18T02-36-56-wrap/leaf-delta-layout-templates.diff"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-18T03:41:19Z-b",
+   "chunk": "2026-10-18-compact-post-condition-ledger-row",
+   "skill": "phase",
+   "step": "research",
+   "type": null,
+   "what": "research.md's first write carried a hand-summed sweep count (74 hits, 13 files) and a TypedRun ref count (34) with no derivation; re-summed from the trace's rows per name before the scope check they read 88 hits in 9 files and 36",
+   "impact": {
+    "retries": 1
+   },
+   "evidence": ".andromeda/runs/2026-10-18T03-26-43-phase/tree-query-2026-10-18-compact-post-condition-ledger-row.json",
+   "artifacts": [
+    "research.md"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-18T21:43:15Z-d",
+   "chunk": "2026-10-18-compact-post-condition-ledger-row",
+   "skill": "implement",
+   "step": "fix-loop",
+   "type": null,
+   "what": "the first tui_channel_fds fix waited for a SessionStart hook receipt that the booted wrapper's fake agent never writes (it runs no hook there): five reds, then the consistent-read retry; one Edit also missed after the formatter reflowed its anchor",
+   "impact": {
+    "iterations": 1,
+    "retries": 2
+   },
+   "evidence": null,
+   "artifacts": [
+    "tests/tui_channel_fds.rs"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-18T22:33:38Z-b",
+   "chunk": "2026-10-18-compact-post-condition-ledger-row",
+   "skill": "wrap-session",
+   "step": "reconcile",
+   "type": null,
+   "what": "the leaf pass fanned out 14 comparers (one group per changed-source set) for a chunk whose master edits were count and wording moves; 49 findings, 0 declined",
+   "impact": {},
+   "evidence": null,
+   "artifacts": null,
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-19T09:53:39Z-c",
+   "chunk": "2026-10-19-dialog-hold-for-the-driver",
+   "skill": "wrap-session",
+   "step": "reconcile",
+   "type": null,
+   "what": "cascade.py replace reads a `|` inside a backtick code span on a non-table list line as a table cell boundary and refuses the block as reshaped (obs-plan.md:593 and :596, wake-kind lists written `turn-ended|question|...`); the whole call wrote nothing until the two blocks were moved to the Edit tool",
+   "impact": {
+    "retries": 1
+   },
+   "evidence": ".andromeda/runs/2026-10-19T09-28-14-wrap/replace-4.md",
+   "artifacts": [
+    ".andromeda/obs-plan.md:593",
+    ".andromeda/obs-plan.md:596"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-19T10:59:58Z-b",
+   "chunk": "2026-10-19-overseer-switch-to-viola",
+   "skill": "implement",
+   "step": "code",
+   "type": null,
+   "what": "plan step 5 names fixtures/claude/2.1.287 Stop.default.json and PreToolUse.ask-user-question.json, which carry no option preview and an empty background_tasks array, so the fixture-driven cases can only read null previews and a count of 0; the non-null values are held by the unit cases alone",
+   "impact": {
+    "extra_reads": 1
+   },
+   "evidence": null,
+   "artifacts": [
+    "fixtures/claude/2.1.287/Stop.default.json",
+    "fixtures/claude/2.1.287/PreToolUse.ask-user-question.json"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-19T18:35:59Z-b",
+   "chunk": "2026-10-19-overseer-switch-to-viola",
+   "skill": "implement",
+   "step": "smoke",
+   "type": null,
+   "what": "claude auto-updated 2.1.296 -> 2.1.302 across a host restart mid-chunk; 2.1.302's verify failed 4 rows (tag-escaping, local-command-clear, paste-newline, local-command-compact), so 7 live starts went past the plan's cap",
+   "impact": {
+    "retries": 2,
+    "dialogue_rounds": 2
+   },
+   "evidence": "viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/inputs (I16)",
+   "artifacts": [
+    "viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/evidence/switch-round.md"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-19T19:40:54Z-b",
+   "chunk": "2026-10-19-overseer-switch-to-viola",
+   "skill": "wrap-session",
+   "step": "reconcile",
+   "type": null,
+   "what": "between the leaf comparers' snapshot pair the orchestrator ran read-only route.py calls with --run-dir, whose trail route-no-marker.json appeared as an extra A line and halted the path check for a ruling",
+   "impact": {
+    "dialogue_rounds": 1,
+    "halted": 1
+   },
+   "evidence": ".andromeda/runs/2026-10-19T19-16-36-wrap/cascade-dispositions.md",
+   "artifacts": [
+    ".andromeda/runs/2026-10-19T19-16-36-wrap/route-no-marker.json"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-19T19:40:54Z-c",
+   "chunk": "2026-10-19-overseer-switch-to-viola",
+   "skill": "wrap-session",
+   "step": "reconcile",
+   "type": null,
+   "what": "cascade.py leaves --apply read a list item's replace-with holding a backticked `a|b` as a table cell boundary and printed reshaped; the finding was written by hand with words in place of the pipe",
+   "impact": {
+    "extra_reads": 1
+   },
+   "evidence": ".andromeda/runs/2026-10-19T19-16-36-wrap/cascade-dispositions.md",
+   "artifacts": [
+    ".claude/rules/api.md:35"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  }
+ ],
+ "previous": [
+  {
+   "id": "2026-10-08T08:31:34Z-b",
+   "chunk": null,
+   "skill": "new-session",
+   "step": "orientation",
+   "type": null,
+   "what": "a pending chunk's live state with a wall-clock bound (its own compositor left standing, to be ended at 10:32Z if no live start is made) is carried by no orientation input; it was found by reading the implement run's answer file and the chunk's evidence/compositor.md, then a process read",
+   "impact": {
+    "extra_reads": 10
+   },
+   "evidence": ".andromeda/runs/2026-10-08T07-13-39-implement/answer-live-stop.md",
+   "artifacts": [
+    "handoff",
+    "evidence/compositor.md",
+    "answer-live-stop.md"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-08T08:41:34Z-b",
+   "chunk": null,
+   "skill": "new-session",
+   "step": "orientation",
+   "type": null,
+   "what": "The pending rung has no arm for a pending chunk whose implement run is live in another session: this session is that run's driven live-test subject (its parent is the chunk's own viola build, instance livetest2), read from the process tree, the run dir's fresh file times and the plan's step list, none of them a standard orientation input.",
+   "impact": {
+    "extra_reads": 7
+   },
+   "evidence": ".andromeda/runs/2026-10-08T08-32-34-implement/ (no closing trail at the read) · viola-0.1.0/chunks/2026-10-08-first-live-test-and-self-drive/evidence/live-sessions.ndjson start 7",
+   "artifacts": [
+    "andromeda-new-session/SKILL.md Phase 2 rung 3"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-08T08:44:32Z-b",
+   "chunk": null,
+   "skill": "new-session",
+   "step": "orientation",
+   "type": null,
+   "what": "the ladder's pending-chunk rung names implement or wrap, but the process list shows the chunk's third implement run alive in the builder session, blocked in a viola wait on this session, which is the run's live start 7; no rung covers a pending chunk whose run is in flight elsewhere, and the suggestion became: start neither skill here",
+   "impact": {
+    "extra_reads": 11
+   },
+   "evidence": "viola-0.1.0/chunks/2026-10-08-first-live-test-and-self-drive/evidence/live-sessions.ndjson (start 7)",
+   "artifacts": [
+    "master-route",
+    "live-sessions.ndjson"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-08T08:44:32Z-c",
+   "chunk": null,
+   "skill": "new-session",
+   "step": "orientation",
+   "type": null,
+   "what": "Setup step 1's chained git call failed whole on its ahead-count member: the call was refused with 'not part of this test', re-fired verbatim once, then split into five single calls of which that member was refused again",
+   "impact": {
+    "retries": 2
+   },
+   "evidence": null,
+   "artifacts": [
+    "git-state"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-09T15:07:26Z-b",
+   "chunk": "2026-10-09-epoch-3-cleanup",
+   "skill": "phase",
+   "step": "take-up",
+   "type": null,
+   "what": "ci.py conclusion printed the red row as runs windows-mutants#… with the run id clipped, in stdout and in its trail alike, and names only the first failed check; the fold needs the run id and each failing job verbatim, so one gh api commits/{full sha}/check-runs read supplied them",
+   "impact": {
+    "extra_reads": 1
+   },
+   "evidence": ".andromeda/runs/2026-10-09T15-03-42-phase/ci-no-marker.json",
+   "artifacts": [
+    "ci-verdict"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-09T16:07:38Z-c",
+   "chunk": "2026-10-09-epoch-3-cleanup",
+   "skill": "implement",
+   "step": "code",
+   "type": null,
+   "what": "a compound call holding one rm -r of a just-made bytecode cache dir beside three read-only commands was denied whole by the permission layer, with no word on which part; it was re-issued as separate read calls and the removal replaced by a move to the scratchpad",
+   "impact": {
+    "retries": 1
+   },
+   "evidence": null,
+   "artifacts": null,
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-09T16:34:31Z-b",
+   "chunk": null,
+   "skill": "new-session",
+   "step": "orientation",
+   "type": null,
+   "what": "Rung 3 names implement or wrap for a master pending chunk and names phase only when the phase run dir holds no matrix trail; the state here was an implement stopped at P2 with gate entries 22 and 23 red by the plan's own artifact key, whose resolution is the phase letter's Revision section. The suggestion came from the operator's invocation argument and one grep of the phase letter, not from the ladder.",
+   "impact": {
+    "extra_reads": 1,
+    "dialogue_rounds": 0
+   },
+   "evidence": ".andromeda/runs/2026-10-09T15-46-10-implement/relay-2.md",
+   "artifacts": [
+    "andromeda-new-session P2 rung 3",
+    "andromeda-phase Revision"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-09T17:32:09Z-e",
+   "chunk": "2026-10-09-epoch-3-cleanup",
+   "skill": "wrap-session",
+   "step": "reconcile",
+   "type": null,
+   "what": "reading a master passage for an anchored edit: the host's GNU grep with an -o extended pattern holding a bounded repetition of 1500 to 2700 characters ran past the 120 s tool bound on one 8 KB line and had to be killed by pid; a 20-line offset-window script replaced it for the rest of the pass",
+   "impact": {
+    "retries": 1
+   },
+   "evidence": null,
+   "artifacts": [
+    ".andromeda/architecture.md:49"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-09T18:38:32Z-b",
+   "chunk": "2026-10-09-inner-cr-and-crlf-in-a-sent-text",
+   "skill": "phase",
+   "step": "research",
+   "type": null,
+   "what": "during the premise closure a scope bullet was written that recorded an operator answer to the P4 card before the card had been asked; it was removed by the next edit, before anything read it",
+   "impact": {
+    "retries": 1
+   },
+   "evidence": null,
+   "artifacts": [
+    "viola-0.1.0/chunks/2026-10-09-inner-cr-and-crlf-in-a-sent-text/scope.md"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-09T19:47:45Z-b",
+   "chunk": "2026-10-09-inner-cr-and-crlf-in-a-sent-text",
+   "skill": "implement",
+   "step": "fix-loop",
+   "type": null,
+   "what": "gh run list --commit given a 12-character sha printed an empty list with exit 0 while the run existed; the full sha listed it",
+   "impact": {
+    "retries": 1
+   },
+   "evidence": null,
+   "artifacts": [
+    "evidence/operator-pass.md"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-09T22:16:23Z-d",
+   "chunk": "2026-10-09-epoch-3-cleanup-ii",
+   "skill": "implement",
+   "step": "code",
+   "type": null,
+   "what": "the new frame-bound case padded its payload with a format width of 16 MiB; the formatter refuses a width past its range at run time, so the case panicked before its assertion and was rewritten with a repeat, one filtered re-run",
+   "impact": {
+    "retries": 1
+   },
+   "evidence": null,
+   "artifacts": [
+    "src/cmd/hook.rs"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-10T01:11:50Z-b",
+   "chunk": "2026-10-09-epoch-3-cleanup-ii",
+   "skill": "implement",
+   "step": "fix-loop",
+   "type": null,
+   "what": "cargo-mutants keeps the per-mutant logs of one earlier run only; three witness runs fired back to back replaced the first run logs before the test that failed under each kill-row mutant was read, so five of fourteen attributions rest on construction and not on a log",
+   "impact": {
+    "extra_reads": 2
+   },
+   "evidence": null,
+   "artifacts": [
+    "viola-0.1.0/chunks/2026-10-09-epoch-3-cleanup-ii/evidence/survivors.md"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-10T01:43:56Z-g",
+   "chunk": "2026-10-09-epoch-3-cleanup-ii",
+   "skill": "wrap-session",
+   "step": "reconcile",
+   "type": null,
+   "what": "two detectors returned proposals: [] with a real stale clause of their own master noted outside their detectors; the flow names no channel for it short of the next report that carries the fact, so each was verified by hand and routed to a route pin",
+   "impact": {
+    "extra_reads": 3,
+    "deferred": 2
+   },
+   "evidence": ".andromeda/runs/2026-10-10T01-25-38-wrap/fanout-results.md",
+   "artifacts": [
+    "obs-plan.md:556",
+    "security-plan.md:165"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-10T02:42:58Z-d",
+   "chunk": "2026-10-10-windows-mutation-grade",
+   "skill": "phase",
+   "step": "validate",
+   "type": null,
+   "what": "gate.py hygiene refused three files this run had written into its run dir for an in-root home path; gate.py respell fixed two and left the third, whose hit was the bare root path with nothing after it, so it was edited by hand",
+   "impact": {
+    "retries": 1
+   },
+   "evidence": null,
+   "artifacts": [
+    ".andromeda/runs/2026-10-10T02-04-59-phase/forecast.py"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-10T07:59:31Z-c",
+   "chunk": null,
+   "skill": "new-session",
+   "step": "orientation",
+   "type": null,
+   "what": "gh run list --commit given the 7-character sha printed an empty list and exit 0 for a commit that holds one completed run; the full sha returned it. An empty list read as no run on the sha would have contradicted the chunk's own record.",
+   "impact": {
+    "retries": 1
+   },
+   "evidence": null,
+   "artifacts": [
+    "gh run list --commit"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-10T10:23:36Z-b",
+   "chunk": null,
+   "skill": "new-session",
+   "step": "orientation",
+   "type": null,
+   "what": "the handoff's carried Operator-desk list names crates/viola-e2e/.viola-verify-2676638-plan/ and .viola-verify-* dirs at the root; a listing matched only crates/viola-e2e/.viola-verify-227786-plan, the one the chunk's inputs#I2 names",
+   "impact": {
+    "extra_reads": 1
+   },
+   "evidence": "viola-0.1.0/chunks/2026-10-10-self-healing-state/inputs/I2-relay-2.md.txt",
+   "artifacts": [
+    ".claude/session-handoff.md"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-10T12:59:43Z-b",
+   "chunk": "2026-10-10-viola-revive",
+   "skill": "phase",
+   "step": "plan",
+   "type": null,
+   "what": "the fork round's dialog returned no answer within 58 minutes and told the session to end its turn; the three answers arrived as a message in the next turn and were snapped from a relay file",
+   "impact": {
+    "dialogue_rounds": 1
+   },
+   "evidence": ".andromeda/runs/2026-10-10T11-35-27-phase/relay-2.md",
+   "artifacts": [
+    "AskUserQuestion"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-10T21:56:00Z-f",
+   "chunk": "2026-10-10-budget-governor",
+   "skill": "implement",
+   "step": "code",
+   "type": null,
+   "what": "viola_channel::test_support::JsonFields records an f64 field as its Debug text, so the first run of the new send-refused line case read red on used_percentage as a string; a local visitor keeps the number",
+   "impact": {
+    "retries": 1
+   },
+   "evidence": null,
+   "artifacts": [
+    "crates/viola-channel/src/test_support.rs",
+    "src/run/send.rs"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-10T22:01:41Z-d",
+   "chunk": "2026-10-10-budget-governor",
+   "skill": "implement",
+   "step": "fix-loop",
+   "type": null,
+   "what": "the pre-push document and its log carry no coverage figure; the three numbers the acceptance names were read from target/agent-run/artifacts/llvm-cov-summary.json after two greps of the log and one of the harness source",
+   "impact": {
+    "extra_reads": 3
+   },
+   "evidence": null,
+   "artifacts": [
+    "scripts/agent-run.sh pre-push",
+    "target/agent-run/artifacts/llvm-cov-summary.json"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-10T23:13:01Z-f",
+   "chunk": "2026-10-10-budget-governor",
+   "skill": "wrap-session",
+   "step": "reconcile",
+   "type": null,
+   "what": "an input snap's --origin text carried a clock time typed without a read of the clock (the minutes written as a placeholder); the clock read at the snap is in the same call's output, 23:03:18Z",
+   "impact": {
+    "iterations": 0
+   },
+   "evidence": "viola-0.1.0/chunks/2026-10-10-budget-governor/inputs/andromeda-inputs.json",
+   "artifacts": [
+    "inputs#I11"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-10T23:30:36Z-b",
+   "chunk": null,
+   "skill": "new-session",
+   "step": "orientation",
+   "type": null,
+   "what": "an added HEAD-against-upstream read given two revisions to one git rev-parse with the short flag exited with Needed a single revision; re-issued as separate calls",
+   "impact": {
+    "retries": 1
+   },
+   "evidence": null,
+   "artifacts": [
+    "git-state"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-10T23:50:54Z-c",
+   "chunk": "2026-10-10-session-links",
+   "skill": "phase",
+   "step": "research",
+   "type": null,
+   "what": "a name sweep given the fuzz directory walked its build output and listed about fifty binary files; the source hits were read from the same output",
+   "impact": {
+    "extra_reads": 1
+   },
+   "evidence": ".andromeda/runs/2026-10-10T23-31-33-phase/tree-query-2026-10-10-session-links.json",
+   "artifacts": [
+    "fuzz/target/"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-11T00:02:22Z-b",
+   "chunk": "2026-10-10-session-links",
+   "skill": "phase",
+   "step": "validate",
+   "type": null,
+   "what": "gate.py show read two of three baseline entries as not run, because each entry was fired by its own call and show reads the last run record; the readings came from a second call with the firing named",
+   "impact": {
+    "extra_reads": 1
+   },
+   "evidence": null,
+   "artifacts": [
+    ".andromeda/runs/2026-10-10T23-31-33-phase/gate-2026-10-10-session-links.json"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-11T07:58:07Z-c",
+   "chunk": "2026-10-11-the-board-viola-list",
+   "skill": "implement",
+   "step": "fix-loop",
+   "type": null,
+   "what": "four times written ahead of or without the clock: three journal lines and one evidence time window were typed, then measured and corrected (one caught by the stamp-ahead hook, three by re-reading the trail and log mtimes)",
+   "impact": {
+    "retries": 4
+   },
+   "evidence": null,
+   "artifacts": [
+    ".andromeda/runs/2026-10-11T07-39-58-implement/journal.md",
+    "viola-0.1.0/chunks/2026-10-11-the-board-viola-list/evidence/red-green.md"
+   ],
+   "clause_retracted": null,
+   "retracts": null
+  },
+  {
+   "id": "2026-10-11T08:55:19Z-b",
+   "chunk": "2026-10-11-the-board-viola-list",
+   "skill": "wrap-session",
+   "step": "gates",
+   "type": null,
+   "what": "the compaction dry-run's output was redirected through a run-dir-relative ../../../../ path that resolved above the repository root, writing a file outside the working tree; it was moved into the scratchpad before the commit",
+   "impact": {
+    "retries": 0
+   },
+   "evidence": null,
+   "artifacts": null,
+   "clause_retracted": null,
+   "retracts": null
+  }
+ ]
+}

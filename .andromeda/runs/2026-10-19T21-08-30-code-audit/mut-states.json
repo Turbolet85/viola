@@ -1,0 +1,31 @@
+{
+ "viola-pty": {
+  "state": "complete 115/115",
+  "exit": 2
+ },
+ "viola-mcp": {
+  "state": "complete 76/76",
+  "exit": 2
+ },
+ "viola-channel": {
+  "state": "complete 200/200",
+  "exit": 2
+ },
+ "viola-agent-claude": {
+  "state": "complete 648/648",
+  "exit": 2
+ },
+ "viola-state": {
+  "state": "complete 384/384",
+  "exit": 2
+ },
+ "viola": {
+  "state": "exited-incomplete",
+  "exit": 4,
+  "wall_s": 100
+ },
+ "viola-e2e": {
+  "state": "complete 799/799",
+  "exit": 2
+ }
+}

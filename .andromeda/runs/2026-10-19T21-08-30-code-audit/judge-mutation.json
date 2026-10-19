@@ -1,0 +1,67 @@
+[
+ [
+  "viola",
+  "unscored",
+  "exited-incomplete"
+ ],
+ [
+  "viola-core",
+  "below",
+  100.0,
+  "unit",
+  100.0,
+  "unit",
+  "Epoch 4 \u2014 Session state & governance"
+ ],
+ [
+  "viola-pty",
+  "below",
+  100.0,
+  "unit",
+  98.51,
+  "unit",
+  "Epoch 4 \u2014 Session state & governance"
+ ],
+ [
+  "viola-channel",
+  "below",
+  100.0,
+  "unit",
+  100.0,
+  "unit",
+  "Epoch 3 \u2014 Windows slice II: driving verbs and live proof"
+ ],
+ [
+  "viola-state",
+  "below",
+  99.31,
+  "unit",
+  96.25,
+  "unit",
+  "Epoch 4 \u2014 Session state & governance"
+ ],
+ [
+  "viola-agent-claude",
+  "below",
+  99.48,
+  "unit",
+  99.57,
+  "unit",
+  "Epoch 4 \u2014 Session state & governance"
+ ],
+ [
+  "viola-mcp",
+  "first",
+  92.68,
+  "unit"
+ ],
+ [
+  "viola-e2e",
+  "below",
+  98.91,
+  "unit",
+  99.73,
+  "unit",
+  "Epoch 4 \u2014 Session state & governance"
+ ]
+]

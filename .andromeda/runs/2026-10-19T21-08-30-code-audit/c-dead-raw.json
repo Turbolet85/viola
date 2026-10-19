@@ -1,0 +1,89 @@
+{
+ "raw": 2023,
+ "stage1_tests_excluded": 1946,
+ "stage2_classes": {
+  "trait-impl method (dispatch)": 59,
+  "entry point": 3,
+  "test-only helper (test crate / test-support)": 2
+ },
+ "residual": [
+  {
+   "symbol": "rust-analyzer cargo viola-mcp 0.1.0 tools/SendInput#target.",
+   "kind": "term",
+   "file": "crates/viola-mcp/src/tools.rs",
+   "def_line": 80
+  },
+  {
+   "symbol": "rust-analyzer cargo viola-mcp 0.1.0 tools/SendInput#text.",
+   "kind": "term",
+   "file": "crates/viola-mcp/src/tools.rs",
+   "def_line": 82
+  },
+  {
+   "symbol": "rust-analyzer cargo viola-mcp 0.1.0 tools/WaitInput#target.",
+   "kind": "term",
+   "file": "crates/viola-mcp/src/tools.rs",
+   "def_line": 89
+  },
+  {
+   "symbol": "rust-analyzer cargo viola-mcp 0.1.0 tools/WaitInput#after.",
+   "kind": "term",
+   "file": "crates/viola-mcp/src/tools.rs",
+   "def_line": 91
+  },
+  {
+   "symbol": "rust-analyzer cargo viola-mcp 0.1.0 tools/WaitInput#timeout_ms.",
+   "kind": "term",
+   "file": "crates/viola-mcp/src/tools.rs",
+   "def_line": 93
+  },
+  {
+   "symbol": "rust-analyzer cargo viola-mcp 0.1.0 tools/LastInput#target.",
+   "kind": "term",
+   "file": "crates/viola-mcp/src/tools.rs",
+   "def_line": 100
+  },
+  {
+   "symbol": "rust-analyzer cargo viola-mcp 0.1.0 tools/AnswerInput#target.",
+   "kind": "term",
+   "file": "crates/viola-mcp/src/tools.rs",
+   "def_line": 107
+  },
+  {
+   "symbol": "rust-analyzer cargo viola-mcp 0.1.0 tools/AnswerInput#dialog_id.",
+   "kind": "term",
+   "file": "crates/viola-mcp/src/tools.rs",
+   "def_line": 109
+  },
+  {
+   "symbol": "rust-analyzer cargo viola-mcp 0.1.0 tools/AnswerInput#response.",
+   "kind": "term",
+   "file": "crates/viola-mcp/src/tools.rs",
+   "def_line": 112
+  },
+  {
+   "symbol": "rust-analyzer cargo viola-state 0.1.0 events/kind_str().",
+   "kind": "fn",
+   "file": "crates/viola-state/src/events.rs",
+   "def_line": 40
+  },
+  {
+   "symbol": "rust-analyzer cargo viola-state 0.1.0 StateError#Encode#",
+   "kind": "type",
+   "file": "crates/viola-state/src/lib.rs",
+   "def_line": 25
+  },
+  {
+   "symbol": "rust-analyzer cargo viola 0.1.0 cmd/send/SendArgs#text.",
+   "kind": "term",
+   "file": "src/cmd/send.rs",
+   "def_line": 40
+  },
+  {
+   "symbol": "rust-analyzer cargo viola 0.1.0 human/mirror/MIRROR_WORD.",
+   "kind": "term",
+   "file": "src/human/mirror.rs",
+   "def_line": 5
+  }
+ ]
+}

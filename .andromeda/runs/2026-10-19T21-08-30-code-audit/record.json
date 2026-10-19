@@ -1,0 +1,1279 @@
+{
+ "ts": "2026-10-19T22:54:35Z",
+ "epoch": "Epoch 5 — Driver surface",
+ "mode": "trend",
+ "sha": "b6ddc19856e55fd9d4083db4400a8196f24f6488",
+ "baseline_sha": "dffad3e02d380362b8040effacc95781ceea8739",
+ "span": 1,
+ "ancestry_broken": false,
+ "head_overshoot": {
+  "boundary_sha": "b6ddc19856e55fd9d4083db4400a8196f24f6488",
+  "commits": 0,
+  "files": [],
+  "note": "at the boundary: HEAD is the flip of 2026-10-19-overseer-switch-to-viola"
+ },
+ "tool_versions": {
+  "jscpd": "5.0.16",
+  "tokei": "14.0.0",
+  "rust-code-analysis": "0.0.25",
+  "cargo-machete": "0.9.2",
+  "cargo-mutants": "27.1.0",
+  "cargo-llvm-cov": "0.9.1",
+  "cargo-nextest": "0.9.146",
+  "rustc": "1.98.1",
+  "code-graph.py": "f22becbb"
+ },
+ "totals": {
+  "loc": 71204,
+  "files": 179,
+  "units": 8
+ },
+ "duplication": {
+  "pct": 3.54,
+  "duplicated_lines": 2917,
+  "total_lines": 82429,
+  "clones": 340,
+  "top": [
+   [
+    "tests/cli_verify.rs:77",
+    "tests/contract_ledger_probes.rs:14",
+    52
+   ],
+   [
+    "crates/viola-e2e/tests/mcp_tools.rs:156",
+    "crates/viola-e2e/tests/path6_budget_harness.rs:46",
+    29
+   ],
+   [
+    "crates/viola-e2e/src/harness/run.rs:323",
+    "tests/cli_verify.rs:79",
+    27
+   ],
+   [
+    "crates/viola-agent-claude/src/ledger.rs:1524",
+    "crates/viola-e2e/src/harness/run.rs:323",
+    26
+   ],
+   [
+    "tests/cli_budget.rs:71",
+    "tests/cli_wheel.rs:46",
+    25
+   ],
+   [
+    "tests/cli_verify.rs:508",
+    "tests/cli_verify.rs:1071",
+    24
+   ],
+   [
+    "crates/viola-e2e/src/harness/run.rs:350",
+    "tests/cli_verify.rs:106",
+    23
+   ],
+   [
+    "src/run/links.rs:120",
+    "src/run/snapshot.rs:58",
+    22
+   ],
+   [
+    "crates/viola-e2e/src/harness/mod.rs:368",
+    "tests/cli_instance_state.rs:601",
+    20
+   ],
+   [
+    "src/run/dialog.rs:542",
+    "src/run/wheel.rs:816",
+    20
+   ]
+  ],
+  "split": {
+   "src": {
+    "pairs": 153,
+    "lines": 1412
+   },
+   "test": {
+    "pairs": 166,
+    "lines": 1619
+   },
+   "mixed": {
+    "pairs": 21,
+    "lines": 226
+   }
+  }
+ },
+ "complexity": {
+  "cyclomatic_p50": 1.0,
+  "cyclomatic_p90": 4.0,
+  "cognitive_p50": 0.0,
+  "cognitive_p90": 2.0,
+  "over_ceiling": 4,
+  "max": {
+   "fn": "main",
+   "file": "src/bin/viola-fake-agent.rs:1102",
+   "val": 17.0
+  },
+  "top": [
+   {
+    "fn": "main",
+    "file": "src/bin/viola-fake-agent.rs:1102",
+    "value": 17.0
+   },
+   {
+    "fn": "role_of",
+    "file": "src/main.rs:94",
+    "value": 17.0
+   },
+   {
+    "fn": "board_line",
+    "file": "src/human/board.rs:156",
+    "value": 16.0
+   },
+   {
+    "fn": "send",
+    "file": "src/run/send.rs:73",
+    "value": 16.0
+   },
+   {
+    "fn": "eval",
+    "file": "crates/viola-e2e/src/harness/run/mutants/host.rs:286",
+    "value": 15.0
+   },
+   {
+    "fn": "read",
+    "file": "crates/viola-state/src/board.rs:264",
+    "value": 15.0
+   },
+   {
+    "fn": "check_screen",
+    "file": "tests/contract_fixture_hygiene.rs:394",
+    "value": 15.0
+   },
+   {
+    "fn": "next_line",
+    "file": "crates/viola-state/src/events.rs:233",
+    "value": 14.0
+   },
+   {
+    "fn": "measure",
+    "file": "src/cmd/verify.rs:125",
+    "value": 14.0
+   },
+   {
+    "fn": "step",
+    "file": "src/run/wheel.rs:398",
+    "value": 14.0
+   }
+  ]
+ },
+ "sizes": {
+  "file_p50": 277,
+  "file_p90": 850,
+  "file_max": 3732,
+  "over_800": 22,
+  "top": [
+   [
+    "crates/viola-agent-claude/src/ledger.rs",
+    3732
+   ],
+   [
+    "src/bin/viola-fake-agent.rs",
+    1797
+   ],
+   [
+    "tests/cli_verify.rs",
+    1470
+   ],
+   [
+    "src/run/dialog.rs",
+    1399
+   ],
+   [
+    "src/cmd/run.rs",
+    1379
+   ],
+   [
+    "src/cmd/verify/typed.rs",
+    1199
+   ],
+   [
+    "src/cmd/hook.rs",
+    1172
+   ],
+   [
+    "crates/viola-pty/src/lib.rs",
+    1149
+   ],
+   [
+    "crates/viola-e2e/src/harness/run.rs",
+    1092
+   ],
+   [
+    "crates/viola-e2e/src/harness/run/mutants.rs",
+    1032
+   ]
+  ]
+ },
+ "graph": {
+  "cycles": 0,
+  "cycle_paths": [],
+  "fan_in_top": [
+   [
+    "rust-analyzer cargo viola 0.1.0 crate/",
+    287
+   ],
+   [
+    "rust-analyzer cargo viola 0.1.0 support/home/TestHome#",
+    177
+   ],
+   [
+    "rust-analyzer cargo viola-agent-claude 0.1.0 hook/HookEvent#",
+    169
+   ],
+   [
+    "rust-analyzer cargo viola-core 0.1.0 __nutype_ViolaName__/ViolaName#",
+    149
+   ],
+   [
+    "rust-analyzer cargo viola 0.1.0 support/home/impl#[TestHome]path().",
+    142
+   ],
+   [
+    "rust-analyzer cargo viola 0.1.0 support/home/StampedHome#",
+    140
+   ],
+   [
+    "rust-analyzer cargo viola-e2e 0.1.0 harness/Workspace#",
+    126
+   ],
+   [
+    "rust-analyzer cargo viola-core 0.1.0 EventKind#",
+    121
+   ],
+   [
+    "rust-analyzer cargo viola-state 0.1.0 crate/",
+    114
+   ],
+   [
+    "rust-analyzer cargo viola 0.1.0 support/fake/",
+    106
+   ],
+   [
+    "rust-analyzer cargo viola 0.1.0 support/home/impl#[TestHome]scratch().",
+    106
+   ],
+   [
+    "rust-analyzer cargo viola-e2e 0.1.0 harness/Outcome#doc.",
+    101
+   ],
+   [
+    "rust-analyzer cargo viola-pty 0.1.0 Size#",
+    97
+   ],
+   [
+    "rust-analyzer cargo viola 0.1.0 support/home/impl#[Wrapper]home().",
+    96
+   ],
+   [
+    "rust-analyzer cargo viola 0.1.0 support/home/impl#[Wrapper]stop().",
+    95
+   ],
+   [
+    "rust-analyzer cargo viola 0.1.0 support/",
+    95
+   ],
+   [
+    "rust-analyzer cargo viola-e2e 0.1.0 harness/Outcome#code.",
+    93
+   ],
+   [
+    "rust-analyzer cargo viola-channel 0.1.0 ProtocolError#",
+    92
+   ],
+   [
+    "rust-analyzer cargo viola 0.1.0 support/home/impl#[TestHome]new().",
+    91
+   ],
+   [
+    "rust-analyzer cargo viola 0.1.0 support/home/impl#[Wrapper]instance_dir().",
+    88
+   ]
+  ],
+  "fan_out": [
+   [
+    "viola",
+    6
+   ],
+   [
+    "viola-mcp",
+    4
+   ],
+   [
+    "viola-e2e",
+    4
+   ],
+   [
+    "viola-agent-claude",
+    1
+   ],
+   [
+    "viola-channel",
+    1
+   ],
+   [
+    "viola-state",
+    1
+   ]
+  ],
+  "cross_unit_edges": 17
+ },
+ "dead": {
+  "unused_deps": [
+   [
+    "viola-mcp (crates/viola-mcp/Cargo.toml)",
+    "serde"
+   ],
+   [
+    "viola-fuzz (fuzz/Cargo.toml, own workspace)",
+    "arbitrary"
+   ]
+  ],
+  "zero_ref_candidates": 0,
+  "top": []
+ },
+ "coverage": {
+  "line": 98.63,
+  "branch": null
+ },
+ "churn": {
+  "pct": 41.93,
+  "files_churned": 56
+ },
+ "hotspots": [
+  [
+   "src/bin/viola-fake-agent.rs",
+   136.0
+  ],
+  [
+   "src/cmd/verify/typed.rs",
+   90.0
+  ],
+  [
+   "src/cmd/verify.rs",
+   84.0
+  ],
+  [
+   "crates/viola-e2e/src/harness/run.rs",
+   77.0
+  ],
+  [
+   "tests/contract_fixture_hygiene.rs",
+   75.0
+  ],
+  [
+   "crates/viola-agent-claude/src/ledger.rs",
+   72.0
+  ],
+  [
+   "tests/contract_fake_agent_drift.rs",
+   70.0
+  ],
+  [
+   "tests/support/home.rs",
+   63.0
+  ],
+  [
+   "src/cmd/hook.rs",
+   55.0
+  ],
+  [
+   "src/main.rs",
+   51.0
+  ]
+ ],
+ "mutation": {
+  "scoped_units": [
+   "viola",
+   "viola-core",
+   "viola-pty",
+   "viola-channel",
+   "viola-state",
+   "viola-agent-claude",
+   "viola-mcp",
+   "viola-e2e"
+  ],
+  "unit_states": {
+   "viola": "exited-incomplete",
+   "viola-core": "complete 55/55",
+   "viola-pty": "complete 115/115",
+   "viola-channel": "complete 200/200",
+   "viola-state": "complete 384/384",
+   "viola-agent-claude": "complete 648/648",
+   "viola-mcp": "complete 76/76",
+   "viola-e2e": "complete 799/799"
+  },
+  "scores": {
+   "viola-core": 100.0,
+   "viola-pty": 100.0,
+   "viola-channel": 100.0,
+   "viola-state": 99.31,
+   "viola-agent-claude": 99.48,
+   "viola-mcp": 92.68,
+   "viola-e2e": 98.91
+  },
+  "counts": {
+   "viola-core": {
+    "mutants": 55,
+    "caught": 49,
+    "missed": 0,
+    "not_measured": 0,
+    "timeout": 0,
+    "unviable": 6
+   },
+   "viola-pty": {
+    "mutants": 115,
+    "caught": 67,
+    "missed": 0,
+    "not_measured": 25,
+    "timeout": 0,
+    "unviable": 23
+   },
+   "viola-channel": {
+    "mutants": 200,
+    "caught": 148,
+    "missed": 0,
+    "not_measured": 33,
+    "timeout": 0,
+    "unviable": 19
+   },
+   "viola-state": {
+    "mutants": 384,
+    "caught": 287,
+    "missed": 2,
+    "not_measured": 69,
+    "timeout": 0,
+    "unviable": 26
+   },
+   "viola-agent-claude": {
+    "mutants": 648,
+    "caught": 574,
+    "missed": 3,
+    "not_measured": 0,
+    "timeout": 0,
+    "unviable": 71
+   },
+   "viola-mcp": {
+    "mutants": 76,
+    "caught": 38,
+    "missed": 3,
+    "not_measured": 0,
+    "timeout": 0,
+    "unviable": 35
+   },
+   "viola-e2e": {
+    "mutants": 799,
+    "caught": 725,
+    "missed": 8,
+    "not_measured": 0,
+    "timeout": 0,
+    "unviable": 66
+   }
+  },
+  "timing": {
+   "viola-core": {
+    "scope": "unit",
+    "planned": 55,
+    "tested": 55,
+    "wall_s": 32,
+    "jobs": 2,
+    "cap_s": 1800
+   },
+   "viola-pty": {
+    "scope": "unit",
+    "planned": 115,
+    "tested": 115,
+    "wall_s": 198,
+    "jobs": 2,
+    "cap_s": 1800
+   },
+   "viola-channel": {
+    "scope": "unit",
+    "planned": 200,
+    "tested": 200,
+    "wall_s": 138,
+    "jobs": 2,
+    "cap_s": 1800
+   },
+   "viola-state": {
+    "scope": "unit",
+    "planned": 384,
+    "tested": 384,
+    "wall_s": 583,
+    "jobs": 2,
+    "cap_s": 1800
+   },
+   "viola-agent-claude": {
+    "scope": "unit",
+    "planned": 648,
+    "tested": 648,
+    "wall_s": 576,
+    "jobs": 2,
+    "cap_s": 1800
+   },
+   "viola-mcp": {
+    "scope": "unit",
+    "planned": 76,
+    "tested": 76,
+    "wall_s": 60,
+    "jobs": 2,
+    "cap_s": 1800
+   },
+   "viola-e2e": {
+    "scope": "unit",
+    "planned": 799,
+    "tested": 799,
+    "wall_s": 3475,
+    "jobs": 2,
+    "cap_s": 4323
+   }
+  },
+  "score_formula": "caught/(caught+missed)",
+  "survivors": [
+   [
+    "crates/viola-state/src/liveness.rs:75:5",
+    "replace live_endpoint -> Option<String> with None"
+   ],
+   [
+    "crates/viola-state/src/liveness.rs:77:47",
+    "replace != with == in live_endpoint"
+   ],
+   [
+    "crates/viola-agent-claude/src/ledger.rs:143:9",
+    "replace LedgerRow::relied_here -> bool with true"
+   ],
+   [
+    "crates/viola-agent-claude/src/statusline.rs:118:5",
+    "replace probe_document -> Option<String> with Some(\"xyzzy\".into())"
+   ],
+   [
+    "crates/viola-agent-claude/src/statusline.rs:118:5",
+    "replace probe_document -> Option<String> with Some(String::new())"
+   ],
+   [
+    "crates/viola-mcp/src/lib.rs:66:5",
+    "replace serve -> Result<(), ServeError> with Ok(())"
+   ],
+   [
+    "crates/viola-mcp/src/tools.rs:196:9",
+    "replace <impl ServerHandler for Server>::get_info -> ServerConfig with Default::default()"
+   ],
+   [
+    "crates/viola-mcp/src/tools.rs:205:9",
+    "replace <impl ServerHandler for Server>::list_tools -> Result<ListToolsResult, ErrorData> with Ok(Default::default())"
+   ],
+   [
+    "crates/viola-e2e/src/harness/run/mutants/scratch.rs:48:5",
+    "replace prepare -> Result<Option<(PathBuf, u64)>, String> with Ok(None)"
+   ],
+   [
+    "crates/viola-e2e/src/harness/run/mutants/scratch.rs:54:8",
+    "delete ! in prepare"
+   ],
+   [
+    "crates/viola-e2e/src/harness/session.rs:112:12",
+    "delete ! in <impl Drop for HarnessSession>::drop"
+   ],
+   [
+    "crates/viola-e2e/src/harness/session.rs:112:9",
+    "replace <impl Drop for HarnessSession>::drop with ()"
+   ],
+   [
+    "crates/viola-e2e/src/harness/session.rs:115:69",
+    "replace == with != in <impl Drop for HarnessSession>::drop"
+   ],
+   [
+    "crates/viola-e2e/src/harness/session.rs:121:12",
+    "delete ! in <impl Drop for HarnessSession>::drop"
+   ],
+   [
+    "crates/viola-e2e/src/harness/status.rs:71:36",
+    "replace + with * in read_list"
+   ],
+   [
+    "crates/viola-e2e/src/harness/status.rs:71:36",
+    "replace + with - in read_list"
+   ]
+  ],
+  "host": "x86_64-unknown-linux-gnu",
+  "not_measured": [
+   [
+    "crates/viola-pty/src/lib.rs:240:5",
+    "replace terminate -> bool with false",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-pty/src/lib.rs:240:5",
+    "replace terminate -> bool with true",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-pty/src/lib.rs:248:46",
+    "replace != with == in terminate",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-pty/src/lib.rs:296:9",
+    "replace HostTerminal::enter -> Option<Self> with None",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-pty/src/lib.rs:296:9",
+    "replace HostTerminal::enter -> Option<Self> with Some(Default::default())",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-pty/src/lib.rs:310:54",
+    "replace != with == in HostTerminal::enter",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-pty/src/lib.rs:310:59",
+    "replace && with || in HostTerminal::enter",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-pty/src/lib.rs:310:95",
+    "replace != with == in HostTerminal::enter",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-pty/src/lib.rs:315:10",
+    "delete ! in HostTerminal::enter",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-pty/src/lib.rs:434:9",
+    "replace console::is_console -> bool with false",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-pty/src/lib.rs:434:9",
+    "replace console::is_console -> bool with true",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-pty/src/lib.rs:436:76",
+    "replace != with == in console::is_console",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-pty/src/lib.rs:444:13",
+    "replace console::<impl super::Utf16Source for Console>::read_units -> io::Result<usize> with Ok(0)",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-pty/src/lib.rs:444:13",
+    "replace console::<impl super::Utf16Source for Console>::read_units -> io::Result<usize> with Ok(1)",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-pty/src/lib.rs:457:19",
+    "replace == with != in console::<impl super::Utf16Source for Console>::read_units",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-pty/src/lib.rs:475:87",
+    "replace == with != in host_size",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-pty/src/sideload.rs:25:5",
+    "replace restrict_dll_search -> bool with false",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-pty/src/sideload.rs:25:5",
+    "replace restrict_dll_search -> bool with true",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-pty/src/sideload.rs:25:86",
+    "replace != with == in restrict_dll_search",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-pty/src/sideload.rs:34:5",
+    "replace search_restricted -> bool with false",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-pty/src/sideload.rs:34:5",
+    "replace search_restricted -> bool with true",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-pty/src/sideload.rs:41:5",
+    "replace preload -> Result<(), PtyError> with Ok(())",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-pty/src/sideload.rs:41:8",
+    "delete ! in preload",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-pty/src/sideload.rs:58:5",
+    "replace preloaded -> bool with false",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-pty/src/sideload.rs:58:5",
+    "replace preloaded -> bool with true",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-channel/src/client.rs:230:26",
+    "replace == with != in retry_busy",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-channel/src/client.rs:230:45",
+    "replace && with || in retry_busy",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-channel/src/client.rs:230:5",
+    "replace retry_busy -> bool with false",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-channel/src/client.rs:230:5",
+    "replace retry_busy -> bool with true",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-channel/src/client.rs:230:52",
+    "replace < with <= in retry_busy",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-channel/src/client.rs:230:52",
+    "replace < with == in retry_busy",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-channel/src/client.rs:230:52",
+    "replace < with > in retry_busy",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-channel/src/client.rs:244:5",
+    "replace open -> io::Result<Stream> with Ok(Default::default())",
+    "cfg(all(windows, test))"
+   ],
+   [
+    "crates/viola-channel/src/client.rs:249:5",
+    "replace open_by -> io::Result<Stream> with Ok(Default::default())",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-channel/src/client.rs:262:5",
+    "replace open_handle -> io::Result<std::os::windows::io::OwnedHandle> with Ok(Default::default())",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-channel/src/client.rs:290:19",
+    "replace != with == in open_handle",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-channel/src/client.rs:294:12",
+    "delete ! in open_handle",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-channel/src/server.rs:110:25",
+    "replace == with != in listen",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-channel/src/server.rs:99:5",
+    "replace listen -> Result<(Listener, Guard), ChannelError> with Ok((Default::default(), Default::default()))",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-channel/src/server/win.rs:21:5",
+    "replace owner_only_sddl -> String with \"xyzzy\".into()",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-channel/src/server/win.rs:21:5",
+    "replace owner_only_sddl -> String with String::new()",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-channel/src/server/win.rs:25:5",
+    "replace owner_only_descriptor -> io::Result<SecurityDescriptor> with Ok(Default::default())",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-channel/src/server/win.rs:30:5",
+    "replace user_sid -> io::Result<String> with Ok(\"xyzzy\".into())",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-channel/src/server/win.rs:30:5",
+    "replace user_sid -> io::Result<String> with Ok(String::new())",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-channel/src/server/win.rs:32:82",
+    "replace == with != in user_sid",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-channel/src/server/win.rs:42:5",
+    "replace token_user_sid -> io::Result<String> with Ok(\"xyzzy\".into())",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-channel/src/server/win.rs:42:5",
+    "replace token_user_sid -> io::Result<String> with Ok(String::new())",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-channel/src/server/win.rs:50:15",
+    "replace == with != in token_user_sid",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-channel/src/server/win.rs:57:68",
+    "replace == with != in token_user_sid",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-channel/src/server/win.rs:77:5",
+    "replace from_sddl -> io::Result<SecurityDescriptor> with Ok(Default::default())",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-channel/src/server/win.rs:88:18",
+    "replace == with != in from_sddl",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-channel/src/test_support.rs:116:9",
+    "replace win::dacl_of -> String with \"xyzzy\".into()",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-channel/src/test_support.rs:116:9",
+    "replace win::dacl_of -> String with String::new()",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-channel/src/test_support.rs:66:9",
+    "replace win::canonical_sddl -> String with \"xyzzy\".into()",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-channel/src/test_support.rs:66:9",
+    "replace win::canonical_sddl -> String with String::new()",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-channel/src/test_support.rs:93:9",
+    "replace win::user_sid -> String with \"xyzzy\".into()",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-channel/src/test_support.rs:93:9",
+    "replace win::user_sid -> String with String::new()",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-channel/src/tokio_client.rs:99:5",
+    "replace open -> io::Result<Stream> with Ok(Default::default())",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/fs.rs:105:9",
+    "replace win::protected_sddl -> String with \"xyzzy\".into()",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/fs.rs:105:9",
+    "replace win::protected_sddl -> String with String::new()",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/fs.rs:110:9",
+    "replace win::profile_dir -> io::Result<PathBuf> with Ok(Default::default())",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/fs.rs:112:86",
+    "replace == with != in win::profile_dir",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/fs.rs:124:19",
+    "replace == with != in win::profile_dir",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/fs.rs:127:46",
+    "replace == with != in win::profile_dir",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/fs.rs:134:9",
+    "replace win::protect_outside_profile -> io::Result<()> with Ok(())",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/fs.rs:142:9",
+    "replace win::protect -> io::Result<()> with Ok(())",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/fs.rs:149:9",
+    "replace win::set_dacl -> io::Result<()> with Ok(())",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/fs.rs:160:17",
+    "replace == with != in win::set_dacl",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/fs.rs:178:23",
+    "replace == with != in win::set_dacl",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/fs.rs:194:9",
+    "replace win::dacl_of -> io::Result<*mut ACL> with Ok(Default::default())",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/fs.rs:197:94",
+    "replace == with != in win::dacl_of",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/fs.rs:198:13",
+    "replace || with && in win::dacl_of",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/fs.rs:99:9",
+    "replace win::wide -> Vec<u16> with vec![0]",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/fs.rs:99:9",
+    "replace win::wide -> Vec<u16> with vec![1]",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/fs.rs:99:9",
+    "replace win::wide -> Vec<u16> with vec![]",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/pin.rs:126:14",
+    "replace < with <= in retry_open",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/pin.rs:126:14",
+    "replace < with == in retry_open",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/pin.rs:126:14",
+    "replace < with > in retry_open",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/pin.rs:126:33",
+    "replace && with || in retry_open",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/pin.rs:126:49",
+    "replace == with != in retry_open",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/pin.rs:126:5",
+    "replace retry_open -> bool with false",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/pin.rs:126:5",
+    "replace retry_open -> bool with true",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/pin.rs:131:5",
+    "replace open_held -> io::Result<File> with Ok(Default::default())",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/pin.rs:140:5",
+    "replace open_held_waiting -> io::Result<File> with Ok(Default::default())",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/pin.rs:142:18",
+    "replace += with *= in open_held_waiting",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/pin.rs:142:18",
+    "replace += with -= in open_held_waiting",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/pin.rs:144:23",
+    "replace match guard retry_open(e.raw_os_error(), attempts) with false in open_held_waiting",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/pin.rs:144:23",
+    "replace match guard retry_open(e.raw_os_error(), attempts) with true in open_held_waiting",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/pin.rs:159:5",
+    "replace pin_companions -> Result<HeldCompanions, PinError> with Ok(Default::default())",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/pin.rs:171:23",
+    "replace match guard e.kind() == io::ErrorKind::NotFound with false in pin_companions",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/pin.rs:171:23",
+    "replace match guard e.kind() == io::ErrorKind::NotFound with true in pin_companions",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/pin.rs:171:32",
+    "replace == with != in pin_companions",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/pin.rs:178:18",
+    "replace != with == in pin_companions",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/strict.rs:189:9",
+    "replace win::wide -> Vec<u16> with vec![0]",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/strict.rs:189:9",
+    "replace win::wide -> Vec<u16> with vec![1]",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/strict.rs:189:9",
+    "replace win::wide -> Vec<u16> with vec![]",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/strict.rs:193:9",
+    "replace win::check -> Result<(), Refused> with Ok(())",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/strict.rs:200:9",
+    "replace win::persistent_acls -> Option<bool> with None",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/strict.rs:200:9",
+    "replace win::persistent_acls -> Option<bool> with Some(false)",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/strict.rs:200:9",
+    "replace win::persistent_acls -> Option<bool> with Some(true)",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/strict.rs:204:81",
+    "replace == with != in win::persistent_acls",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/strict.rs:222:15",
+    "replace != with == in win::persistent_acls",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/strict.rs:227:9",
+    "replace win::owner_and_dacl -> Option<(String, Option<Vec<Allow>>)> with None",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/strict.rs:227:9",
+    "replace win::owner_and_dacl -> Option<(String, Option<Vec<Allow>>)> with Some((\"xyzzy\".into(), None))",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/strict.rs:227:9",
+    "replace win::owner_and_dacl -> Option<(String, Option<Vec<Allow>>)> with Some((\"xyzzy\".into(), Some(vec![Default::default()])))",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/strict.rs:227:9",
+    "replace win::owner_and_dacl -> Option<(String, Option<Vec<Allow>>)> with Some((\"xyzzy\".into(), Some(vec![])))",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/strict.rs:227:9",
+    "replace win::owner_and_dacl -> Option<(String, Option<Vec<Allow>>)> with Some((String::new(), None))",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/strict.rs:227:9",
+    "replace win::owner_and_dacl -> Option<(String, Option<Vec<Allow>>)> with Some((String::new(), Some(vec![Default::default()])))",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/strict.rs:227:9",
+    "replace win::owner_and_dacl -> Option<(String, Option<Vec<Allow>>)> with Some((String::new(), Some(vec![])))",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/strict.rs:245:19",
+    "replace != with == in win::owner_and_dacl",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/strict.rs:252:13",
+    "delete match arm Some((owner, Some(aces))) in win::owner_and_dacl",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/strict.rs:259:9",
+    "replace win::aces -> Option<Option<Vec<Allow>>> with None",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/strict.rs:259:9",
+    "replace win::aces -> Option<Option<Vec<Allow>>> with Some(None)",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/strict.rs:259:9",
+    "replace win::aces -> Option<Option<Vec<Allow>>> with Some(Some(vec![Default::default()]))",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/strict.rs:259:9",
+    "replace win::aces -> Option<Option<Vec<Allow>>> with Some(Some(vec![]))",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/strict.rs:268:53",
+    "replace == with != in win::aces",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/strict.rs:273:31",
+    "replace != with == in win::aces",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/strict.rs:290:9",
+    "replace win::sid_string -> Option<String> with None",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/strict.rs:290:9",
+    "replace win::sid_string -> Option<String> with Some(\"xyzzy\".into())",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/strict.rs:290:9",
+    "replace win::sid_string -> Option<String> with Some(String::new())",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/strict.rs:293:62",
+    "replace == with != in win::sid_string",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/strict.rs:297:65",
+    "replace != with == in win::sid_string",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/strict.rs:313:9",
+    "replace win::user_sid -> Option<String> with None",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/strict.rs:313:9",
+    "replace win::user_sid -> Option<String> with Some(\"xyzzy\".into())",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/strict.rs:313:9",
+    "replace win::user_sid -> Option<String> with Some(String::new())",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/strict.rs:315:86",
+    "replace == with != in win::user_sid",
+    "cfg(windows)"
+   ],
+   [
+    "crates/viola-state/src/strict.rs:327:27",
+    "replace != with == in win::user_sid",
+    "cfg(windows)"
+   ]
+  ]
+ },
+ "commands": {
+  "sizes": "tokei --output json <population>  # population: git ls-tree -r --name-only HEAD minus non-*.rs minus ^(scripts|docs|refs|fuzz|.andromeda|.claude|viola-0.2.0-incubator)/ (179 files); summarizer python3 .andromeda/runs/2026-10-19T21-08-30-code-audit/collect.py sizes . HEAD .andromeda/runs/2026-10-19T21-08-30-code-audit/c-sizes.json",
+  "duplication": "jscpd --reporters json --output .andromeda/runs/2026-10-19T21-08-30-code-audit/jscpd --format rust --silent --ignore \"fuzz/**,scripts/**,.andromeda/**,.claude/**,docs/**,refs/**,e2e-web/**,target/**,viola-0.2.0-incubator/**\" .  # summarizer .andromeda/runs/2026-10-19T21-08-30-code-audit/collect.py dup (split: test = both files carry a (^|/)tests/ segment); report deleted after summarizing",
+  "complexity": "rust-code-analysis-cli -m -O json -o .andromeda/runs/2026-10-19T21-08-30-code-audit/rca -p <each population file>  # population as commands.sizes; per-function (closures included: every space of kind function) cognitive = metrics.cognitive.sum, cyclomatic = metrics.cyclomatic.sum; summarizer .andromeda/runs/2026-10-19T21-08-30-code-audit/collect.py cx",
+  "graph": "python3 scripts/code-graph.py query .andromeda/runs/2026-10-19T21-08-30-code-audit code-audit \"<audit-pass.md canonical CYCLES / FAN-IN / FAN-OUT / edge-count SQL, verbatim, whitespace collapsed to one line>\" rust  # driven by .andromeda/runs/2026-10-19T21-08-30-code-audit/graph_q.py",
+  "dead": "cargo machete ; python3 scripts/code-graph.py query .andromeda/runs/2026-10-19T21-08-30-code-audit code-audit \"SELECT s.symbol, s.kind, s.file, s.def_line FROM symbol s LEFT JOIN refs r ON r.callee = s.symbol WHERE r.callee IS NULL ORDER BY s.file, s.def_line\" rust  # classed by .andromeda/runs/2026-10-19T21-08-30-code-audit/graph_q.py (stages 1-2) + .andromeda/runs/2026-10-19T21-08-30-code-audit/dead.py (stage 3, the hand read); recipes.dead",
+  "coverage": "cargo llvm-cov nextest --workspace --features viola/fake-agent --profile ci --json --summary-only --output-path .andromeda/runs/2026-10-19T21-08-30-code-audit/cov-raw.json --ignore-filename-regex '(viola-fake-agent|crates[/\\\\]viola-e2e|tests[/\\\\]support|fuzz[/\\\\])'  # run by path under env -i HOME PATH: .andromeda/runs/2026-10-19T21-08-30-code-audit/cov.sh; summarizer .andromeda/runs/2026-10-19T21-08-30-code-audit/graph_q.py",
+  "churn": "git log --reverse --numstat --format=@%H dffad3e02d380362b8040effacc95781ceea8739..HEAD -- \"*.rs\"  # minus ^(scripts|docs|refs|fuzz|.andromeda|.claude|viola-0.2.0-incubator)/; .andromeda/runs/2026-10-19T21-08-30-code-audit/collect.py churn",
+  "hotspots": "c-churn per-file commit count x max per-function cognitive in the file (c-complexity)",
+  "head_overshoot": "git log --format=%H -1 -S'2026-10-19-overseer-switch-to-viola · complete' -- .andromeda/master-route.md ; git rev-list --count b6ddc19856e55fd9d4083db4400a8196f24f6488..HEAD ; git diff --numstat b6ddc19856e55fd9d4083db4400a8196f24f6488..HEAD -- '*.rs' minus ^(scripts|docs|refs|fuzz|.andromeda|.claude|viola-0.2.0-incubator)/",
+  "mutation": "TMPDIR=~/dev/projects/viola-mutants-scratch/e5 NEXTEST_PROFILE=mutants AGENT_RUN_KEEP_HOMES=0 AGENT_RUN_KEEP_FAILED=0 CARGO_TARGET_DIR=target/mutants cargo mutants --test-tool=nextest --caught --unviable --build-timeout=400 -j 2 --package {unit} --features fake-agent --copy-target=false --output .andromeda/runs/2026-10-19T21-08-30-code-audit/mutants-{unit}  # one unit at a time via .andromeda/runs/2026-10-19T21-08-30-code-audit/mut_driver.py, under env -i (no VIOLA_* or CLAUDE* value crosses); viola-core without --features fake-agent (its manifest declares none), run by hand first in the same form; summarizer .andromeda/runs/2026-10-19T21-08-30-code-audit/mutsum.py",
+  "mutation:viola": "TMPDIR=~/dev/projects/viola-mutants-scratch/e5 NEXTEST_PROFILE=mutants AGENT_RUN_KEEP_HOMES=0 AGENT_RUN_KEEP_FAILED=0 CARGO_TARGET_DIR=target/mutants cargo mutants --test-tool=nextest --caught --unviable --build-timeout=400 -j 2 --package viola --features fake-agent --copy-target=false --file src/bin/viola-fake-agent.rs --file src/cmd/verify.rs --output .andromeda/runs/2026-10-19T21-08-30-code-audit/mutants-viola  # scope files: CARRY 2's two files, the founder's word at the confirm",
+  "mutation:viola-e2e": "git archive HEAD | tar -x -C .andromeda/runs/2026-10-19T21-08-30-code-audit/x-src ; (cd .andromeda/runs/2026-10-19T21-08-30-code-audit/x-src && CARGO_TARGET_DIR=.andromeda/runs/2026-10-19T21-08-30-code-audit/x-src/target/mutants cargo build --package viola --features fake-agent) ; (cd .andromeda/runs/2026-10-19T21-08-30-code-audit/x-src && TMPDIR=~/dev/projects/viola-mutants-scratch/e5 NEXTEST_PROFILE=mutants AGENT_RUN_KEEP_HOMES=0 AGENT_RUN_KEEP_FAILED=0 CARGO_TARGET_DIR=target/mutants cargo mutants --test-tool=nextest --caught --unviable --build-timeout=400 -j 2 --package viola-e2e --features fake-agent --copy-target=true --output .andromeda/runs/2026-10-19T21-08-30-code-audit/mutants-viola-e2e-x)  # via .andromeda/runs/2026-10-19T21-08-30-code-audit/mut_driver.py"
+ },
+ "recipes": {
+  "dead": "raw = the zero-ref query of commands.dead over the rust plane. Stage 1: strip the SCIP prefix ^rust-analyzer cargo \\S+ \\S+ from the symbol, then exclude a row when (^|/)tests/ matches the stripped SYMBOL path OR the FILE path (the union; a leading segment counts). Stage 2, first match wins: kind == module -> 'module (not a callable; reached by path)'; symbol ends main(). at a path root, or the file is under src/bin/ and the symbol ends main(). -> 'entry point'; symbol matches impl#\\[[^\\]]*\\]\\[[^\\]]+\\] -> 'trait-impl method (dispatch)'; file under crates/viola-e2e/, or test_support in the file or symbol -> 'test-only helper (test crate / test-support)'. Stage 3: each residual is read at HEAD by hand and classed false-positive only into a family collectors.md A5 names (trait declaration reached by dispatch; derive/attr-invoked; inline format-string capture), its witness line recorded in c-dead.json classing.residual_reviewed_fp; what is left is zero_ref_candidates."
+ },
+ "corrections": [],
+ "skips": [
+  {
+   "metric": "coverage.branch",
+   "reason": "declined",
+   "note": "the project coverage command does not instrument branches (as at the two prior records)"
+  },
+  {
+   "metric": "mutation:viola",
+   "reason": "baseline-test-failure",
+   "note": "files scope (CARRY 2's two files, 265 mutants listed): two attempts, both exit 4 at the unmutated baseline under the nextest mutants profile's 10 s kill. 21:50Z (host load avg ~67, another project's sweep): TIMEOUTs in cli_revive / cli_send / cli_verify and 4 send_window_* 'wrapper builder not ready'. 22:51Z (load avg ~4): 3 TIMEOUTs at 10.00 s, contract_fake_agent_drift fake_agent_dialog_replay_matches_every_recorded_dialog_set (10.577 s PASS unkilled in this run's coverage pass) and cli_send send_under_the_paste_hint_a_human_key_during_the_gate_wait_wins / ..._on_a_verified_cli::case_1_hint (9.010 s / 9.346 s unkilled). CARRY 2's grading stays owed."
+  },
+  {
+   "metric": "mutation:viola (outside src/bin/viola-fake-agent.rs and src/cmd/verify.rs: 1278 of 1543 listed)",
+   "reason": "declined",
+   "note": "the founder's word at the attended confirm: the root unit scoped to CARRY 2's two files"
+  }
+ ]
+}

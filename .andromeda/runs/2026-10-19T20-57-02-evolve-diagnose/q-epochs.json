@@ -1,0 +1,123 @@
+{
+ "Epoch 1 - Foundation": {
+  "records": 190,
+  "step": 111,
+  "friction": 79,
+  "chunks": [
+   "2026-09-24-diagnostics-plane",
+   "2026-09-24-fake-agent-and-test-data-fixtures",
+   "2026-09-24-log-redaction-and-never-log-floor",
+   "2026-09-24-observability-gates",
+   "2026-09-24-quality-gates",
+   "2026-09-24-supply-chain-and-workflow-gates",
+   "2026-09-24-three-os-ci-headless-harness-skeleton",
+   "2026-09-24-workspace-tree-and-code-graph-planes"
+  ]
+ },
+ "Epoch 2 - Windows slice I: wrapper, events, ledger": {
+  "records": 220,
+  "step": 114,
+  "friction": 106,
+  "chunks": [
+   "2026-09-24-epoch-1-cleanup",
+   "2026-09-25-pty-wrapper-on-windows",
+   "2026-09-25-security-prerequisites",
+   "2026-09-26-ci-chunk-base-and-union-verdict",
+   "2026-09-26-local-linux-pre-push-gate",
+   "2026-09-27-instance-state-and-start-order",
+   "2026-09-27-wrapper-channel"
+  ]
+ },
+ "Epoch 2b - Windows slice I b: events and ledger": {
+  "records": 335,
+  "step": 171,
+  "friction": 164,
+  "chunks": [
+   "2026-09-27-browser-verdict-reachability",
+   "2026-09-27-epoch-2-cleanup",
+   "2026-09-27-hooks-to-normalised-events",
+   "2026-09-28-capability-ledger-and-viola-verify",
+   "2026-09-28-cli-output-tokens",
+   "2026-09-28-hook-perf-gate",
+   "2026-09-28-mutation-testing-to-the-epoch-boundary",
+   "2026-09-29-fake-agent-drift-contract",
+   "2026-09-29-h2-conpty-resize-probe",
+   "2026-09-29-sideloaded-conpty",
+   "2026-09-29-verify-stamped-test-homes-and-harness"
+  ]
+ },
+ "Epoch 3 - Windows slice II: driving verbs and live proof": {
+  "records": 681,
+  "step": 345,
+  "friction": 336,
+  "chunks": [
+   "2026-10-02-epoch-2b-cleanup",
+   "2026-10-03-mutation-scoring-completion",
+   "2026-10-04-confirmed-send-with-cl-1-records",
+   "2026-10-04-dialog-answers-by-dialog-id",
+   "2026-10-04-readiness-gate-and-timing-constants",
+   "2026-10-04-running-turn-refusal",
+   "2026-10-04-the-wheel",
+   "2026-10-04-wait-and-last",
+   "2026-10-04-windows-boundary-mutation-workflow",
+   "2026-10-05-dialog-rows-and-re-probe",
+   "2026-10-05-permission-end-to-end",
+   "2026-10-05-real-cli-verify-probes",
+   "2026-10-06-local-command-and-paste-framing-rows",
+   "2026-10-06-local-command-send-outcomes",
+   "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+   "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+   "2026-10-07-send-waits-out-the-paste-hint",
+   "2026-10-07-test-homes-off-the-contended-volume",
+   "2026-10-08-first-live-test-and-self-drive"
+  ]
+ },
+ "Epoch 4 - Session state & governance": {
+  "records": 345,
+  "step": 187,
+  "friction": 158,
+  "chunks": [
+   "2026-10-09-epoch-3-cleanup",
+   "2026-10-09-epoch-3-cleanup-ii",
+   "2026-10-09-inner-cr-and-crlf-in-a-sent-text",
+   "2026-10-10-budget-governor",
+   "2026-10-10-self-healing-state",
+   "2026-10-10-session-links",
+   "2026-10-10-statusline-pass-through",
+   "2026-10-10-viola-revive",
+   "2026-10-10-windows-mutation-grade",
+   "2026-10-11-the-board-viola-list"
+  ]
+ },
+ "Epoch 5 - Driver surface": {
+  "records": 478,
+  "step": 288,
+  "friction": 190,
+  "chunks": [
+   "2026-10-13-epoch-4-cleanup",
+   "2026-10-13-epoch-4-survivors",
+   "2026-10-13-epoch-4-survivors-ii",
+   "2026-10-13-interrupted-verify-cleanup",
+   "2026-10-13-owed-ledger-rows",
+   "2026-10-13-paste-newline-ledger-row",
+   "2026-10-14-resume-and-compact-ledger-rows",
+   "2026-10-16-remove-the-browser-leg",
+   "2026-10-16-unwrapped-sessions-on-the-board",
+   "2026-10-17-cli-machine-contract",
+   "2026-10-17-cli-output-discipline",
+   "2026-10-17-end-to-end-path-binary-and-harness-legs",
+   "2026-10-17-mcp-server-for-drivers",
+   "2026-10-17-optional-plugin-install",
+   "2026-10-18-compact-post-condition-ledger-row",
+   "2026-10-18-plugin-precedence-live-readings",
+   "2026-10-19-dialog-hold-for-the-driver",
+   "2026-10-19-overseer-switch-to-viola"
+  ]
+ },
+ "Epoch 6 - Security hardening": {
+  "records": 2,
+  "step": 2,
+  "friction": 0,
+  "chunks": []
+ }
+}

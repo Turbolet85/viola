@@ -1,0 +1,58 @@
+{
+ "unit": "viola-e2e",
+ "unit_state": "complete 799/799",
+ "score": 98.91,
+ "counts": {
+  "mutants": 799,
+  "caught": 725,
+  "missed": 8,
+  "not_measured": 0,
+  "timeout": 0,
+  "unviable": 66
+ },
+ "survivors": [
+  [
+   "crates/viola-e2e/src/harness/run/mutants/scratch.rs:48:5",
+   "replace prepare -> Result<Option<(PathBuf, u64)>, String> with Ok(None)"
+  ],
+  [
+   "crates/viola-e2e/src/harness/run/mutants/scratch.rs:54:8",
+   "delete ! in prepare"
+  ],
+  [
+   "crates/viola-e2e/src/harness/session.rs:112:12",
+   "delete ! in <impl Drop for HarnessSession>::drop"
+  ],
+  [
+   "crates/viola-e2e/src/harness/session.rs:112:9",
+   "replace <impl Drop for HarnessSession>::drop with ()"
+  ],
+  [
+   "crates/viola-e2e/src/harness/session.rs:115:69",
+   "replace == with != in <impl Drop for HarnessSession>::drop"
+  ],
+  [
+   "crates/viola-e2e/src/harness/session.rs:121:12",
+   "delete ! in <impl Drop for HarnessSession>::drop"
+  ],
+  [
+   "crates/viola-e2e/src/harness/status.rs:71:36",
+   "replace + with * in read_list"
+  ],
+  [
+   "crates/viola-e2e/src/harness/status.rs:71:36",
+   "replace + with - in read_list"
+  ]
+ ],
+ "not_measured": [],
+ "timing": {
+  "scope": "unit",
+  "planned": 799,
+  "tested": 799,
+  "wall_s": 3475,
+  "jobs": 2,
+  "cap_s": 4323
+ },
+ "score_formula": "caught/(caught+missed)",
+ "tool_missed_tally": 8
+}

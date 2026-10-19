@@ -1,0 +1,211 @@
+{
+ "run": "39326811932",
+ "url": "https://github.com/Turbolet85/viola/actions/runs/39326811932",
+ "head_sha": "b6ddc19856e55fd9d4083db4400a8196f24f6488",
+ "created": "2026-10-19T21:21:20Z",
+ "updated": "2026-10-19T22:26:52Z",
+ "status": "completed",
+ "conclusion": "failure",
+ "jobs": [
+  {
+   "job": "mutants (viola-panic-frames)",
+   "id": 118314686789,
+   "conclusion": "failure",
+   "baseline": "FAILED   Unmutated baseline in 139s build + 215s test",
+   "tally": null,
+   "baseline_failures": [
+    "TIMEOUT [ 10.010s] ( 421/1568) viola::contract_fake_agent_drift fake_agent_dialog_replay_matches_every_recorded_dialog_set"
+   ],
+   "assertion": [],
+   "harness_verdict": "{\"v\":1,\"cmd\":\"run\",\"ok\":false,\"reason\":\"mutants-exit-4\",\"suites\":[]}",
+   "missed": []
+  },
+  {
+   "job": "mutants (viola-cmd-run)",
+   "id": 118314687131,
+   "conclusion": "success",
+   "baseline": "ok       Unmutated baseline in 119s build + 240s test",
+   "tally": "64 mutants tested in 63m: 1 missed, 49 caught, 14 unviable",
+   "baseline_failures": [],
+   "assertion": [],
+   "harness_verdict": "{\"v\":1,\"cmd\":\"run\",\"ok\":true,\"suites\":[{\"suite\":\"mutants\",\"passed\":49,\"failed\":0,\"skipped\":0,\"survived\":0,\"artifact\":\"mutants.out/outcomes.json\",\"failures\":[]}],\"mutants\":{\"tested\":64,\"verdict\":\"package\",\"package\":\"viola\",\"files\":[\"src/cmd/run.rs\"],\"scratch_bytes\":0,\"host_excluded\":[{\"name\":\"src/cmd/run.rs:471:5: replace sideload_outcome -> (&'static str, Option<viola_state::pin::HeldCompanions>) ",
+   "missed": [
+    [
+     "src/cmd/run.rs:471:5",
+     "replace sideload_outcome -> (&'static str, Option<viola_state::pin::HeldCompanions>) with (\"xyzzy\", None)"
+    ]
+   ]
+  },
+  {
+   "job": "mutants (viola-main)",
+   "id": 118314687168,
+   "conclusion": "failure",
+   "baseline": "FAILED   Unmutated baseline in 123s build + 211s test",
+   "tally": null,
+   "baseline_failures": [
+    "TIMEOUT [ 10.016s] ( 421/1568) viola::contract_fake_agent_drift fake_agent_dialog_replay_matches_every_recorded_dialog_set"
+   ],
+   "assertion": [],
+   "harness_verdict": "{\"v\":1,\"cmd\":\"run\",\"ok\":false,\"reason\":\"mutants-exit-4\",\"suites\":[]}",
+   "missed": []
+  },
+  {
+   "job": "mutants (viola-state)",
+   "id": 118314687171,
+   "conclusion": "success",
+   "baseline": "ok       Unmutated baseline in 48s build + 4s test",
+   "tally": "159 mutants tested in 16m: 7 missed, 141 caught, 11 unviable",
+   "baseline_failures": [],
+   "assertion": [],
+   "harness_verdict": "{\"v\":1,\"cmd\":\"run\",\"ok\":true,\"suites\":[{\"suite\":\"mutants\",\"passed\":141,\"failed\":0,\"skipped\":0,\"survived\":0,\"artifact\":\"mutants.out/outcomes.json\",\"failures\":[]}],\"mutants\":{\"tested\":159,\"verdict\":\"package\",\"package\":\"viola-state\",\"files\":[\"crates/viola-state/src/pin.rs\",\"crates/viola-state/src/fs.rs\",\"crates/viola-state/src/strict.rs\"],\"scratch_bytes\":0,\"host_excluded\":[{\"name\":\"crates/viola-state",
+   "missed": [
+    [
+     "crates/viola-state/src/fs.rs:19:5",
+     "replace restrict -> io::Result<()> with Ok(())"
+    ],
+    [
+     "crates/viola-state/src/strict.rs:149:9",
+     "replace unix::reading -> io::Result<(u32, u32)> with Ok((0, 0))"
+    ],
+    [
+     "crates/viola-state/src/strict.rs:149:9",
+     "replace unix::reading -> io::Result<(u32, u32)> with Ok((0, 1))"
+    ],
+    [
+     "crates/viola-state/src/strict.rs:149:9",
+     "replace unix::reading -> io::Result<(u32, u32)> with Ok((1, 0))"
+    ],
+    [
+     "crates/viola-state/src/strict.rs:149:9",
+     "replace unix::reading -> io::Result<(u32, u32)> with Ok((1, 1))"
+    ],
+    [
+     "crates/viola-state/src/strict.rs:155:9",
+     "replace unix::euid -> u32 with 0"
+    ],
+    [
+     "crates/viola-state/src/strict.rs:155:9",
+     "replace unix::euid -> u32 with 1"
+    ]
+   ],
+   "carry3": [
+    [
+     "crates/viola-state/src/fs.rs:295:18",
+     "replace += with *= in replace_private_retrying",
+     "caught",
+     11
+    ],
+    [
+     "crates/viola-state/src/fs.rs:298:23",
+     "replace match guard attempts < REPLACE_ATTEMPTS && retry(e.error.raw_os_error()) with true in replace_private_retrying",
+     "caught",
+     11
+    ],
+    [
+     "crates/viola-state/src/fs.rs:298:51",
+     "replace && with || in replace_private_retrying",
+     "caught",
+     11
+    ]
+   ]
+  },
+  {
+   "job": "mutants (viola-agent-claude)",
+   "id": 118314687267,
+   "conclusion": "success",
+   "baseline": "ok       Unmutated baseline in 36s build + 3s test",
+   "tally": "47 mutants tested in 6m: 43 caught, 4 unviable",
+   "baseline_failures": [],
+   "assertion": [],
+   "harness_verdict": "{\"v\":1,\"cmd\":\"run\",\"ok\":true,\"suites\":[{\"suite\":\"mutants\",\"passed\":43,\"failed\":0,\"skipped\":0,\"survived\":0,\"artifact\":\"mutants.out/outcomes.json\",\"failures\":[]}],\"mutants\":{\"tested\":47,\"verdict\":\"package\",\"package\":\"viola-agent-claude\",\"files\":[\"crates/viola-agent-claude/src/lib.rs\"],\"scratch_bytes\":0},\"archived\":\"target/run-archive/1\"}",
+   "missed": []
+  },
+  {
+   "job": "mutants (viola-channel)",
+   "id": 118314687288,
+   "conclusion": "success",
+   "baseline": "ok       Unmutated baseline in 27s build + 1s test",
+   "tally": "169 mutants tested in 9m: 5 missed, 144 caught, 20 unviable",
+   "baseline_failures": [],
+   "assertion": [],
+   "harness_verdict": "{\"v\":1,\"cmd\":\"run\",\"ok\":true,\"suites\":[{\"suite\":\"mutants\",\"passed\":144,\"failed\":0,\"skipped\":0,\"survived\":0,\"artifact\":\"mutants.out/outcomes.json\",\"failures\":[]}],\"mutants\":{\"tested\":169,\"verdict\":\"package\",\"package\":\"viola-channel\",\"files\":[\"crates/viola-channel/src/client.rs\",\"crates/viola-channel/src/endpoint.rs\",\"crates/viola-channel/src/server.rs\",\"crates/viola-channel/src/server/win.rs\",\"crat",
+   "missed": [
+    [
+     "crates/viola-channel/src/client.rs:307:5",
+     "replace open_by -> io::Result<Stream> with Ok(Default::default())"
+    ],
+    [
+     "crates/viola-channel/src/endpoint.rs:76:5",
+     "replace host_socket_dir -> PathBuf with Default::default()"
+    ],
+    [
+     "crates/viola-channel/src/server.rs:124:5",
+     "replace listen -> Result<(Listener, Guard), ChannelError> with Ok((Default::default(), Default::default()))"
+    ],
+    [
+     "crates/viola-channel/src/server.rs:91:9",
+     "replace <impl Drop for Guard>::drop with ()"
+    ],
+    [
+     "crates/viola-channel/src/tokio_client.rs:90:5",
+     "replace open -> io::Result<Stream> with Ok(Default::default())"
+    ]
+   ]
+  },
+  {
+   "job": "mutants (viola-pty)",
+   "id": 118314687311,
+   "conclusion": "failure",
+   "baseline": "ok       Unmutated baseline in 11s build + 3s test",
+   "tally": "89 mutants tested in 4m: 11 caught, 78 unviable",
+   "baseline_failures": [],
+   "assertion": [],
+   "harness_verdict": "{\"v\":1,\"cmd\":\"run\",\"ok\":false,\"suites\":[{\"suite\":\"mutants\",\"passed\":11,\"failed\":1,\"skipped\":0,\"survived\":0,\"artifact\":\"mutants.out/outcomes.json\",\"failures\":[\"unviable-exceeds-caught\"]}],\"mutants\":{\"tested\":89,\"verdict\":\"package\",\"package\":\"viola-pty\",\"files\":[\"crates/viola-pty/src/lib.rs\",\"crates/viola-pty/src/sideload.rs\"],\"scratch_bytes\":0},\"archived\":\"target/run-archive/1\"}",
+   "missed": []
+  },
+  {
+   "job": "mutants (viola-cmd-verify-stop)",
+   "id": 118314687380,
+   "conclusion": "failure",
+   "baseline": "FAILED   Unmutated baseline in 146s build + 40s test",
+   "tally": null,
+   "baseline_failures": [
+    "TIMEOUT [ 10.014s] ( 43/1568) viola::cli_budget path6_the_boundaries_and_the_window_word"
+   ],
+   "assertion": [],
+   "harness_verdict": "{\"v\":1,\"cmd\":\"run\",\"ok\":false,\"reason\":\"mutants-exit-4\",\"suites\":[]}",
+   "missed": []
+  },
+  {
+   "job": "mutants (viola-e2e)",
+   "id": 118314687582,
+   "conclusion": "failure",
+   "baseline": "FAILED   Unmutated baseline in 94s build + 5s test",
+   "tally": null,
+   "baseline_failures": [
+    "FAIL [ 0.038s] (119/273) viola-e2e harness::run::mutants::scratch::tests::wipe_scratch_takes_an_instance_tree_the_check_accepts_where_a_plain_dir_does_not"
+   ],
+   "assertion": [
+    "assertion `left == right` failed",
+    "left: Ok(())",
+    "right: Err(Writable)"
+   ],
+   "harness_verdict": "{\"v\":1,\"cmd\":\"run\",\"ok\":false,\"reason\":\"mutants-exit-4\",\"suites\":[]}",
+   "missed": []
+  },
+  {
+   "job": "mutants (viola-run-env)",
+   "id": 118314687739,
+   "conclusion": "failure",
+   "baseline": "FAILED   Unmutated baseline in 156s build + 222s test",
+   "tally": null,
+   "baseline_failures": [
+    "TIMEOUT [ 10.012s] ( 420/1568) viola::contract_fake_agent_drift fake_agent_dialog_replay_matches_every_recorded_dialog_set"
+   ],
+   "assertion": [],
+   "harness_verdict": "{\"v\":1,\"cmd\":\"run\",\"ok\":false,\"reason\":\"mutants-exit-4\",\"suites\":[]}",
+   "missed": []
+  }
+ ],
+ "note": "dispatched at the founder's word (attended confirm 2026-10-19T21:21Z); logs read from $TMPDIR/{scratchpad} (outside the repo), not kept"
+}

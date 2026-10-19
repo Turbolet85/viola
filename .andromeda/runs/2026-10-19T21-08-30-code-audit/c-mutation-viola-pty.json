@@ -1,0 +1,151 @@
+{
+ "unit": "viola-pty",
+ "unit_state": "complete 115/115",
+ "score": 100.0,
+ "counts": {
+  "mutants": 115,
+  "caught": 67,
+  "missed": 0,
+  "not_measured": 25,
+  "timeout": 0,
+  "unviable": 23
+ },
+ "survivors": [],
+ "not_measured": [
+  [
+   "crates/viola-pty/src/lib.rs:240:5",
+   "replace terminate -> bool with false",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:240:5",
+   "replace terminate -> bool with true",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:248:46",
+   "replace != with == in terminate",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:296:9",
+   "replace HostTerminal::enter -> Option<Self> with None",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:296:9",
+   "replace HostTerminal::enter -> Option<Self> with Some(Default::default())",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:310:54",
+   "replace != with == in HostTerminal::enter",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:310:59",
+   "replace && with || in HostTerminal::enter",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:310:95",
+   "replace != with == in HostTerminal::enter",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:315:10",
+   "delete ! in HostTerminal::enter",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:434:9",
+   "replace console::is_console -> bool with false",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:434:9",
+   "replace console::is_console -> bool with true",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:436:76",
+   "replace != with == in console::is_console",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:444:13",
+   "replace console::<impl super::Utf16Source for Console>::read_units -> io::Result<usize> with Ok(0)",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:444:13",
+   "replace console::<impl super::Utf16Source for Console>::read_units -> io::Result<usize> with Ok(1)",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:457:19",
+   "replace == with != in console::<impl super::Utf16Source for Console>::read_units",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:475:87",
+   "replace == with != in host_size",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/sideload.rs:25:5",
+   "replace restrict_dll_search -> bool with false",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/sideload.rs:25:5",
+   "replace restrict_dll_search -> bool with true",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/sideload.rs:25:86",
+   "replace != with == in restrict_dll_search",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/sideload.rs:34:5",
+   "replace search_restricted -> bool with false",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/sideload.rs:34:5",
+   "replace search_restricted -> bool with true",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/sideload.rs:41:5",
+   "replace preload -> Result<(), PtyError> with Ok(())",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/sideload.rs:41:8",
+   "delete ! in preload",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/sideload.rs:58:5",
+   "replace preloaded -> bool with false",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/sideload.rs:58:5",
+   "replace preloaded -> bool with true",
+   "cfg(windows)"
+  ]
+ ],
+ "timing": {
+  "scope": "unit",
+  "planned": 115,
+  "tested": 115,
+  "wall_s": 198,
+  "jobs": 2,
+  "cap_s": 1800
+ },
+ "score_formula": "caught/(caught+missed)",
+ "tool_missed_tally": 25
+}

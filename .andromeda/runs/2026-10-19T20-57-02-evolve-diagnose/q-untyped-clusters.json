@@ -1,0 +1,31 @@
+{
+ "U1 — wrap-session/report (+ reconcile) — 4 cases → proposed type `retry.sweep-pattern-authoring`": [
+  "2026-10-13T21:56:23Z-b",
+  "2026-10-16T14:10:45Z-b",
+  "2026-10-17T03:55:28Z-c",
+  "2026-10-17T14:55:18Z-e"
+ ],
+ "U2 — wrap-session/gates (+ phase/validate) — 2 in-epoch, recurring from Epoch 4 → proposed type `contract.hygiene-self-refusal`": [
+  "2026-10-16T14:51:33Z-c",
+  "2026-10-18T03:15:41Z-b",
+  "2026-10-10T02:42:58Z-d"
+ ],
+ "U3 — phase/take-up — 1 in-epoch, recurring from Epoch 4 → proposed type `tooling.output-clipped`": [
+  "2026-10-13T07:09:23Z-b",
+  "2026-10-09T15:07:26Z-b"
+ ],
+ "U4 — any step (reconcile ×2 in-epoch, gates in Epoch 4) → proposed universal type `tooling.cwd-drift`": [
+  "2026-10-13T11:04:28Z-c",
+  "2026-10-18T03:06:09Z-d",
+  "2026-10-11T08:55:19Z-b"
+ ],
+ "U5 — any step (route-resolve in-epoch, reconcile and fix-loop in Epoch 4) → proposed universal type `contract.unclocked-time`": [
+  "2026-10-17T14:58:42Z-c",
+  "2026-10-10T23:13:01Z-f",
+  "2026-10-11T07:58:07Z-c"
+ ],
+ "U6 — implement/code — 1 in-epoch, recurring from Epoch 4 → proposed type `tooling.removal-denied`": [
+  "2026-10-16T16:26:06Z-b",
+  "2026-10-09T16:07:38Z-c"
+ ]
+}

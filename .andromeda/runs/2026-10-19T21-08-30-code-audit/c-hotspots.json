@@ -1,0 +1,45 @@
+{
+ "hotspots": [
+  [
+   "src/bin/viola-fake-agent.rs",
+   136.0
+  ],
+  [
+   "src/cmd/verify/typed.rs",
+   90.0
+  ],
+  [
+   "src/cmd/verify.rs",
+   84.0
+  ],
+  [
+   "crates/viola-e2e/src/harness/run.rs",
+   77.0
+  ],
+  [
+   "tests/contract_fixture_hygiene.rs",
+   75.0
+  ],
+  [
+   "crates/viola-agent-claude/src/ledger.rs",
+   72.0
+  ],
+  [
+   "tests/contract_fake_agent_drift.rs",
+   70.0
+  ],
+  [
+   "tests/support/home.rs",
+   63.0
+  ],
+  [
+   "src/cmd/hook.rs",
+   55.0
+  ],
+  [
+   "src/main.rs",
+   51.0
+  ]
+ ],
+ "rule": "commits in the churn window x max per-function cognitive in the file"
+}
