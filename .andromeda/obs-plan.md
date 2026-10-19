@@ -607,7 +607,7 @@ Skipped as not-instrumentable per obs-scope §1: `viola-core` (it supplies `ObsE
   - `run.dialog_await`: `deadline_ms` (the hold the slot was started with: `config.json`'s `dialog_hold_s` in ms, 60 000–3 600 000, default 60 000), `deadline_hit`;
   - `hook.decision_emit`: `decision_emitted`.
 - **Required log fields:** common fields plus:
-  - wrapper: `dialog-raised{corr:<dialog_id>, dialog_kind, hook_event}`, then `dialog-answered{corr:<dialog_id>, dialog_kind, from, from_trust, deadline_hit, duration_ms}`, `from` / `from_trust` present on an answer and absent on the expiry line (`deadline_hit:true`);
+  - wrapper: `dialog-raised{corr:<dialog_id>, dialog_kind, hook_event}`, then `dialog-answered{corr:<dialog_id>, dialog_kind, from, from_trust, deadline_hit, duration_ms}`, `from` / `from_trust` present on an answer that carried a `from`, absent on an answer that carried none and on the expiry line (`deadline_hit:true`);
   - hook: `hook-invoked{corr:<dialog_id>, hook_event, stdin_bytes, invoked_at}`, emitted once `dialog_id` is known (D-07), then `hook-decision{corr:<dialog_id>, hook_event, decision_emitted, deadline_hit, detail, duration_ms}`;
   - A dialog hook's `hook-invoked` is written only after the `hook.dialog` response, so its `invoked_at` records the hook's true start instant; non-dialog hooks and fail-open paths before `dialog_id` emit `hook-invoked{corr:null}` immediately, and the wrapper's `dialog-raised` gives live visibility during the wait (D-07).
   - driver-side refusals: `channel-response{result_class:"refusal", refusal:"not-delivered", detail:"unknown-dialog"}` (exit 13), or `refusal:"unverified-cli"` (exit 12, answer withheld).

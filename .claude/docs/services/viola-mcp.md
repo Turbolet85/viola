@@ -29,11 +29,11 @@ Tokio allowed: `viola-mcp` is never a root of the `deny-sync.toml` tokio ban, wh
 
 ## Entry points for modification
 - **Tool handlers:** `crates/viola-mcp/src/` (landed at chunk 2026-10-17-mcp-server-for-drivers); the hidden `viola mcp` verb is `src/cmd/mcp.rs` (the home and `diagnostics/` through `check_path` before anything opens, exit 1 on a refusal; then `viola_mcp::serve`)
-- **Tests:** crate `tests/` (handler re-validation against a test wrapper); stdio E2E in `crates/viola-e2e/tests/mcp_*.rs` with the rmcp client (none in the tree yet: they land with "MCP server for drivers")
+- **Tests:** crate `tests/` (handler re-validation against a test wrapper); stdio E2E in `crates/viola-e2e/tests/mcp_*.rs` with the rmcp client (feature `client` only): `mcp_tools.rs`, landed at chunk 2026-10-17-mcp-server-for-drivers
 
 ## Testing this crate
 - **Unit tests:** `cargo nextest run -p viola-mcp` (`#[tokio::test(start_paused = true)]` for adapter-owned timers)
-- **E2E:** `mcp_schema_violations.rs`, Paths 2–5 MCP legs, `cross_exit_causes.rs` (CLI/MCP parity), none in the tree yet: they land with "MCP server for drivers"
+- **E2E:** `crates/viola-e2e/tests/mcp_tools.rs` (the Paths 2–6 MCP legs, each result compared with the CLI's `--json` document less `v`; `tools/list` exactly the five tools and the schema violations in `mcp_tools_list_is_exactly_the_five_tools_and_list_matches_the_cli`)
 
 ## References
 - `.andromeda/architecture.md` [MCP] · `.claude/rules/api.md`

@@ -24,7 +24,7 @@ Path-scoped rules for product code that logs, spans or handles errors. Authorita
 - Every line goes through `obs_event!` (defined in `viola_core::obs`): it attaches `event`, `process`, `instance` (from `ProcessCtx`); the caller passes `corr` as a typed field on the events that carry one; `message` is a static literal equal to the event name. Raw `tracing::{event,info,warn,error,debug,trace}!` is banned in two halves. Clippy `disallowed-macros` (`clippy.toml`) bans the level macros by path. Raw `event!` is caught by the fail-closed grep in `scripts/lint-probes.sh`, because on clippy 1.98.1 no allow inside `obs_event!` can exempt its inner `::tracing::event!` (obs-plan §3 logger-stack-install, D-33).
 - `event` is a closed kebab-case enum (`ObsEvent`): a new value needs an obs Decisions Log entry and a `schemas/diag-line.v1.json` update.
 - `corr` per event (JSON-RPC `id` · `dialog_id` · send `cursor`), copied as a number or string — never `?corr` / `%corr`, never renamed. A null `corr` / `instance` is key absence, never a literal `null`.
-- Channel lines carry `conn = "<process>-<pid>-<t0>-<n>"`; wrapper `send-*` lines carry `conn` + `rpc_id`; `from` is logged with `from_trust:"self-reported"`.
+- Channel lines carry `conn = "<process>-<pid>-<t0>-<n>"`; wrapper `send-*` lines carry `conn` + `rpc_id`; `from` is logged with `from_trust:"self-reported"`, both absent on a line whose call carried no `from` (a `dialog-answered` for an answer that carried none, as on the hold's expiry line).
 - Log only fields named in obs-plan §6 (default-deny, enforced by G4). `detail` codes are closed kebab-case lists — never a path or pid.
 
 ## Spans

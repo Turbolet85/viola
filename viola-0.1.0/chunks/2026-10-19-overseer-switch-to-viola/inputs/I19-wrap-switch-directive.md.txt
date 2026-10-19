@@ -1,0 +1,23 @@
+# Wrap directive — 2026-10-19-overseer-switch-to-viola
+
+Facts measured by the overseer, 2026-10-19 (each checkable in one command):
+
+1. **Outcome basis.** The operator pass ran: `aa965127` (the pre-CI commit) pushed `f23586fb..aa965127`; CI run
+   39305131020 on it: `success`, attempt 1, 15/15 (`gh run view 39305131020 --json conclusion,attempt`). No fix commit.
+2. **The chunk's own block cleared before this wrap.** Step 14 is recorded (`inputs#I18`, the takeover line in
+   `evidence/switch-readings.ndjson`), entry 25 green through `--void`, v1-33 `implemented` with its dated clearance.
+   So this wrap takes P7's `complete` arm, not the gated arm.
+3. **This chunk is Epoch 5's last entry** (`route.py epoch`: Epoch 5 · markerless 0 · pending 1). P7 step 3b's
+   epoch-close consolidation runs, and the cascade's leaf comparison runs in the WHOLE mode.
+
+Surfaced by implement, for this wrap's disposition (each where its class belongs; none pre-placed here):
+
+- v1-33's acceptance against the logs: `dialog-answered` carries no `from` (the answering process set no
+  `VIOLA_NAME`); `confirmed:true` stands on the run-diagnostics line of `send-confirmed`, not on its events line.
+- The obs acceptance forbidding prompt text under the chunk folder, against the inputs rule that copies relayed
+  directives into `inputs/` (I1, I15, I17).
+- `viola verify` on claude 2.1.302 read `20 pass 4 fail` (fail rows `tag-escaping`, `local-command-clear`,
+  `paste-newline`, `local-command-compact`; output in `inputs#I16`'s relay and
+  `~/dev/projects/additional/viola-overseer/verify-2.1.302-20261019.out`). It has no owner on the route yet.
+
+The founder is at his keyboard this hour: a halt is answered live.

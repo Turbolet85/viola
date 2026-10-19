@@ -1,0 +1,86 @@
+[[pattern]]
+id = 'optdet'
+regex = 'option_details|\{description, ?preview\}|option text|options:\[label\]'
+
+[[pattern]]
+id = 'bgtasks'
+regex = 'background_tasks|background[- ]tasks?'
+ignore_case = true
+
+[[pattern]]
+id = 'turnended'
+regex = 'turn-ended'
+
+[[pattern]]
+id = 'stamp296'
+regex = '2\.1\.296'
+
+[[pattern]]
+id = 'cli302'
+regex = '2\.1\.302'
+
+[[pattern]]
+id = 'driftexp'
+regex = '"expected"|expected[`"]?:? ?[`"]?string'
+
+[[pattern]]
+id = 'confirmed'
+regex = 'send-confirmed\{confirmed|confirmed\?|"confirmed"|confirmed:true'
+
+[[pattern]]
+id = 'dafrom'
+regex = 'dialog-answered[^\n]{0,80}\bfrom\b'
+
+[[pattern]]
+id = 'hold3600'
+regex = '3600 ?s|3600-second|near[- ]ceiling'
+
+[[pattern]]
+id = 'homenarrow'
+regex = 'sets an existing home to 0700|narrows? (the|an existing) home'
+
+[[pattern]]
+id = 'residual'
+regex = 'accepted residual|adds no transcript'
+
+[[pattern]]
+id = 'prototype'
+regex = '\bprototype\b'
+ignore_case = true
+
+[[pattern]]
+id = 'title'
+fixed = 'Overseer switch to viola'
+ignore_case = true
+
+[[pattern]]
+id = 'owner'
+regex = 'owned by a (route entry|CARRY)'
+ignore_case = true
+
+[[pattern]]
+id = 'qdata'
+regex = 'multi_select'
+
+[[pattern]]
+id = 'qtext'
+regex = 'question text|question, plan|plan or tool text|upstream text'
+ignore_case = true
+
+[[pattern]]
+id = 'readback'
+regex = 'event-driven readback|`wait` / `last`'
+ignore_case = true
+
+[[pattern]]
+id = 'paths34'
+regex = 'Path 3\b|Path 4\b|Paths 3'
+
+[[pattern]]
+id = 'takeover'
+regex = 'human-input|takeover|takes the wheel'
+ignore_case = true
+
+[[pattern]]
+id = 'stamp287'
+regex = 'stamped (on )?2\.1\.287|2\.1\.287 \(24|24 pass  0 fail'

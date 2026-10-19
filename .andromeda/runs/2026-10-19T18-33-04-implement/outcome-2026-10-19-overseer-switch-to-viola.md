@@ -1,7 +1,27 @@
-# Implement outcome: 2026-10-19-overseer-switch-to-viola (steps 12–13 under the product; step 14 gated)
+# Implement outcome: 2026-10-19-overseer-switch-to-viola (steps 12–14 under the product; the block cleared)
 
-**Outcome word:** green. Steps 1–13 are done and their readers are green. Step 14, the founder's takeover, stays
-gated: entry 25 was not run, and v1-33 has no ref.
+**Outcome word:** green + smoke. Steps 1–14 are done. Readers 23, 24 and 25 are green, 25 through its void. v1-33
+is `implemented`, with its gated clearance.
+
+## Update after the operator pass (2026-10-19T19:16Z)
+- Operator pass (`evidence/operator-pass.md`):
+  - Entry 20 read `hygiene: clean`.
+  - The pre-CI commit is `aa965127`. Entry 21 pushed it (`f23586fb..aa965127`).
+  - Entry 22 read CI green, 15/15, run `ci#39305131020`.
+- **Step 14** (`inputs#I18`, the overseer's relay `relay-switch-step14.md`):
+  - The founder's own key wrote `wheel{human,human-input}` @26032.
+  - The overseer's send was refused `human-typing` @26181. It exited 10 (the CLI log's `process-exit`), and no
+    `send-issued` followed.
+  - The founder's own `release` exited 0 and wrote `wheel{driver,release}` @26337.
+  - The `takeover` line is in `evidence/switch-readings.ndjson`, and a takeover section is in
+    `evidence/switch-round.md`.
+- **Entry 25:** green, run as `--only 25 --void '25:block cleared — evidence/switch-readings.ndjson takeover line'`.
+- **The matrix:** v1-33 went `planned` → `implemented` through `matrix.py implement --cleared-file
+  .andromeda/runs/2026-10-19T18-33-04-implement/cleared-v1-33.md`.
+  - The `from` gap and the `confirmed:true` reading below are carried into its clearance note. They are surfaced,
+    not resolved.
+
+The text below is the step-13 report, kept as written then.
 
 Earlier runs of this chunk:
 - `.andromeda/runs/2026-10-19T10-56-42-implement/outcome-2026-10-19-overseer-switch-to-viola.md`: Parts A and B,

@@ -1,0 +1,3 @@
+# P7.1 halt answer 2 — 2026-10-19-overseer-switch-to-viola wrap (verbatim, as returned to the session's dialog)
+
+Q (pre-push red on the coverage merge's truncated viola .profraw, 2958/2958 tests passed; a recurrence of the WATCH this wrap pinned): "Not this chunk's, re-watch (Recommended)" — notes: The overseer's technical answer at 2026-10-19T20:37Z: 2958/2958 tests pass; the red is the coverage merge refusing one truncated viola .profraw, the class on record since 2026-10-04; a clean-tree control of a race separates nothing on one pair. The Epoch 5 boundary's diagnosis and audit triage follow this wrap and will weigh a corrective owner for the class.

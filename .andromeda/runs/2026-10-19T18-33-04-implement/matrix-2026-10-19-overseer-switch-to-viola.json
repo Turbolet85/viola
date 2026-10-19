@@ -1,0 +1,52 @@
+[
+{
+"tool": "matrix",
+"v": "1.5",
+"sha8": "49bca268",
+"ts": "2026-10-19T19:15:22Z",
+"argv": [
+"implement",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-19-overseer-switch-to-viola",
+"--id",
+"v1-33",
+"--ref-file",
+"-",
+"--cleared-file",
+".andromeda/runs/2026-10-19T18-33-04-implement/cleared-v1-33.md",
+"--run-dir",
+".andromeda/runs/2026-10-19T18-33-04-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"implement v1-33 · status planned → implemented · ref manual: viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/evidence/switch-r… (309 chars)",
+"cleared: notes +919 chars",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-33",
+"chunk": "2026-10-19-overseer-switch-to-viola",
+"status": "planned",
+"method": "manual",
+"ref": "null",
+"acceptance": "On the Linux dev host, with the product binary (target/release/viola of chunk 2026-10-19-overseer-switch-to-viola's tree… (949 chars)",
+"notes_chars": 5179
+},
+"after": {
+"id": "v1-33",
+"chunk": "2026-10-19-overseer-switch-to-viola",
+"status": "implemented",
+"method": "manual",
+"ref": "manual: viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/evidence/switch-readings.ndjson (the seven ungated acts a… (309 chars)",
+"acceptance": "On the Linux dev host, with the product binary (target/release/viola of chunk 2026-10-19-overseer-switch-to-viola's tree… (949 chars)",
+"notes_chars": 6100
+}
+}
+]

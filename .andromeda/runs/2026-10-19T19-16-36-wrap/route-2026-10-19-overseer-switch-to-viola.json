@@ -1,0 +1,123 @@
+[
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "cc3d30ac",
+"ts": "2026-10-19T20:38:42Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-10-19-overseer-switch-to-viola",
+"--run-dir",
+".andromeda/runs/2026-10-19T19-16-36-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"flip master-route.md:83 - 2026-10-19-overseer-switch-to-viola pending -> complete"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "cc3d30ac",
+"ts": "2026-10-19T20:38:43Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-19-overseer-switch-to-viola",
+"--date",
+"2026-10-19",
+"--run-dir",
+".andromeda/runs/2026-10-19T19-16-36-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :160 strip CARRY: 403ch \"CARRY: minted at the 2026-10-17-mcp-serv\"",
+"pin :160 strip CARRY: 418ch \"CARRY: chunk 2026-10-19-dialog-hold-for-\"",
+"pin :160 strip WATCH: 360ch 0/3 since 2026-10-18-compact-post-condition-ledger-row \"WATCH: `run::send::budget::tests::s…",
+"pin :160 strip BLOCKED-ON: 180ch \"BLOCKED-ON: the founder at his keyboard \"",
+"pin next markerless :163 holds CARRY:×1 · WATCH:×1",
+"160 · 2026-10-19-overseer-switch-to-viola · strip 4 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 160,
+"marker": "2026-10-19-overseer-switch-to-viola",
+"blocks": 4,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "cc3d30ac",
+"ts": "2026-10-19T20:38:48Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-19-overseer-switch-to-viola",
+"--date",
+"2026-10-19",
+"--run-dir",
+".andromeda/runs/2026-10-19T19-16-36-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :160 strip CARRY: 403ch \"CARRY: minted at the 2026-10-17-mcp-serv\"",
+"pin :160 strip CARRY: 418ch \"CARRY: chunk 2026-10-19-dialog-hold-for-\"",
+"pin :160 strip WATCH: 360ch 0/3 since 2026-10-18-compact-post-condition-ledger-row \"WATCH: `run::send::budget::tests::s…",
+"pin :160 strip BLOCKED-ON: 180ch \"BLOCKED-ON: the founder at his keyboard \"",
+"pin next markerless :163 holds CARRY:×1 · WATCH:×1",
+"160 · 2026-10-19-overseer-switch-to-viola · strip 4 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/route-archive.md",
+"./viola-0.1.0/working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 160,
+"marker": "2026-10-19-overseer-switch-to-viola",
+"blocks": 4,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]

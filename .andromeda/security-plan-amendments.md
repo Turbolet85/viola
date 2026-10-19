@@ -773,3 +773,19 @@ The superseded marks stand in the body as the operator's word, superseded 2026-1
 - Hook stdin: the dialog reply read is bounded at `DIALOG_HOLD_MAX + 5 s` (3605 s; the wrapper replies `null` at its own configured hold's end). Was `DIALOG_DEADLINE + 5 s` (65 s), the constant retired.
 **Why:** The key is a validated surface admitting a new input, a boundary widening the founder answered himself to P4 fork Q1, relayed verbatim by the operator (`inputs#I2`). The wrap's answer-card confirm was the Viola overseer's (delegate viola-overseer), PROVISIONAL, superseded by his own word at the Epoch 5 boundary. The hook's bound follows the ceiling so `plugin/<key>/` stays byte-identical across starts.
 **Ref:** .andromeda/runs/2026-10-19T09-28-14-wrap/
+
+## 2026-10-19-overseer-switch-to-viola — question option text crosses into the event and `wait` payloads; `background_tasks` a count
+**Section:** §Input Validation (Hook stdin row, **Question and Stop data**); Threat Model Summary (Data classification, the dialog content's Where); Bootstrap phases → `logging-redaction-wire` (the floor's Scope); Security Anti-Patterns → Code Patterns (R1).
+**Change:**
+- Hook stdin: each question's `option_details` takes an option's `description` and `preview` only as strings, else `null`, never a refusal (`options` keeps its labels); the Stop's `background_tasks` is read as `serde::de::IgnoredAny` elements and carried only as the array's length, `null` when absent, `null` or not an array, a non-array also writing the drift entry `{"path":"background_tasks","expected":"array"}`. The option text crossing into `events.ndjson`, `hook.dialog`, CLI `wait --json` and the MCP `wait` is recorded as the founder's own widening.
+- Data classification: `question` carries questions, options and each option's description and preview text, which also go out over CLI `wait --json` and MCP `wait`. Was "questions and options".
+- The floor's Scope: user content is "prompts, `last_assistant_message`, plan, question and option text". Was "plan and question text".
+- R1: upstream text lists "plan text, question and option text, tool `input`". Was "plan text, tool `input`".
+**Why:** A validated surface admits more upstream content: a boundary widening the founder answered himself at P4 fork Q4 («Строить оба», `inputs#I14`, relayed by the overseer), `background_tasks` count only by the same answer. The wrap's answer-card confirm of these four sections is his own word, relayed by the overseer (`inputs#I21`).
+**Ref:** .andromeda/runs/2026-10-19T19-16-36-wrap/
+
+## 2026-10-19-overseer-switch-to-viola — verify's print-mode probe residual accepted
+**Section:** §Data Protection (Accepted risk: verify's trusted runs).
+**Change:** After "Run A leaves nothing": the print-mode probe leaves the CLI's empty project dir for its cwd `ledger/probes/<pid>/` under `~/.claude/projects/` (a `memory/` dir, no transcript), accepted into the same class, as measured on 2.1.296 and 2.1.302 on the Linux dev host. Was unstated.
+**Why:** Measured at the switch's verify residual count. The founder's own word, live, relayed by the overseer (`inputs#I21`), accepts it into the class of the Run B–D transcripts. viola itself still writes nothing under `~/.claude`: this dir is the CLI's write.
+**Ref:** .andromeda/runs/2026-10-19T19-16-36-wrap/

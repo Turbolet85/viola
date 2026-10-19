@@ -1,0 +1,35 @@
+[[pattern]]
+id = 'c-turnshape'
+regex = '\{last_assistant_message\}|turn-ended[^\n]{0,40}\(`?last_assistant_message`? or `?null`?\)|Stop → `turn-ended` \(`last_assistant_message`'
+
+[[pattern]]
+id = 'c-frame'
+regex = '"data":\{"last_assistant_message":null\}'
+
+[[pattern]]
+id = 'c-qshape'
+regex = 'options:\[<?label>?\]|questions and options|only option labels|option labels'
+
+[[pattern]]
+id = 'c-hold'
+regex = 'first read live at|near the 3600 s ceiling'
+
+[[pattern]]
+id = 'c-from'
+regex = 'present on an answer|`from` / `from_trust`'
+
+[[pattern]]
+id = 'c-upstream'
+regex = 'plan and question text|plan text, tool `input`|`last_assistant_message`, plan text'
+
+[[pattern]]
+id = 'c-residual'
+regex = 'Run A leaves nothing|writes nothing under `~/\.claude`|ledger/probes/<pid>'
+
+[[pattern]]
+id = 'c-takeover'
+regex = 'one live reading|has one live reading'
+
+[[pattern]]
+id = 'c-driftexp'
+regex = 'expected` is always|always `string`'

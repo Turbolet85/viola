@@ -1,0 +1,3 @@
+# P7.1 halt answer — 2026-10-19-overseer-switch-to-viola wrap (verbatim, as returned to the session's dialog)
+
+Q (light gate red, EDQUOT on the /tmp tmpfs user quota): "You free /tmp, I re-run (Recommended)" — notes: The founder's own word in the overseer's dialog; he ran the cleanup himself. Measured by the overseer at 2026-10-19T20:33Z: $TMPDIR 13G used of 32G (41 %), was 24G; $TMPDIR/claude-1000 22G -> 9.9G (six cold session dirs removed). Re-run the light gate's whole block.

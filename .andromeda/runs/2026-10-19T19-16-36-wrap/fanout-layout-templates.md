@@ -1,0 +1,2 @@
+proposals: []
+note: D-layout-surface holds. The report's Changes add no UI surface or region, only two additive data keys (question.data.questions[].option_details, turn-ended.data.background_tasks) on existing event lines, `wait --json` and the MCP `wait` result. The report states that human `wait` lines are unchanged and that no CLI verb, flag or print site changed. Retired: none, so no D-retired sweep applies. The report names layout-templates.md:193 (the verify example line `stamped 2.1.287  24 pass  0 fail`) and :329 (qtext) as no-change.

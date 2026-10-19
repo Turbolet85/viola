@@ -1,0 +1,2 @@
+proposals: []
+note: D-design-tokens unfired — the report's Coverage lists two new surfaces (question.data.questions[].option_details, turn-ended.data.background_tasks), both event data keys with `tokens: n/a`, and states no human line form changed; no new UI element renders. Retired is none, so no D-retired site. The report's own sweep reads design-system.md:506 (the verify wireframe's `stamped 2.1.287  24 pass  0 fail` example) and :178 / :484 / :562 (qtext) as no-change.

@@ -24,7 +24,7 @@ No viola crate. Tokio banned in its graph.
 
 ## Crate-specific gotchas
 - ConPTY does not close the output stream on exit — detect exit only via `wait()`.
-- 0.9.0 has the Windows garbage-read bug (wezterm#6783); the pin is re-decided on current evidence by the PTY chunk (requirements v1-25).
+- 0.9.0 has the Windows garbage-read bug (wezterm#6783); it is excluded, and the swap trigger is portable-pty-psmux 0.9.7 if the O1 stray-spaces artifact reproduces only under `viola run`.
 - `.cmd` / `.bat` children are refused before spawn (portable-pty bypasses std's BatBadBut escaping); the caller passes an absolute program path and an explicit cwd (0.8.1 defaults to `%USERPROFILE%`).
 - `HostTerminal` switches the host terminal to raw input + VT output for the run and restores it on Drop — without it ConPTY line-buffers keys until Enter and swallows Ctrl-C.
 - Keep the ConPTY input writer until the child exits: dropping it makes conhost send `CTRL_CLOSE` (child exit `0xC000013A`).

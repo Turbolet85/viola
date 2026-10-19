@@ -1376,3 +1376,24 @@ Each superseded mark is kept in the body as the operator's word, superseded 2026
 - The live reading of a 671 s hold on claude 2.1.287, Linux, `as measured at` the chunk's `evidence/live-round.md`. A pending group owes the near-ceiling reading to "Overseer switch to viola" and the Windows leg to "Windows-only live measurements".
 **Why:** The founder answered the P4 forks himself, relayed verbatim by the operator (`inputs#I2`). Q1 ratified the key as a boundary widening, Q2 kept `null` at expiry, and Q3 capped the live round. The wrap's answer-card confirm of these proposals was the Viola overseer's (delegate viola-overseer), PROVISIONAL, superseded by his own word at the Epoch 5 boundary. The order fix answers a macOS CI red whose cause predates the chunk, on the operator's word (`inputs#I4`). The hook's bound and the timeout follow the ceiling, not each start's hold, because the wrapper replies at its own hold's end.
 **Ref:** .andromeda/runs/2026-10-19T09-28-14-wrap/
+
+## 2026-10-19-overseer-switch-to-viola — `question` gains `option_details`, `turn-ended` gains `background_tasks`
+**Section:** §Standard Contracts (Event `data` per kind: `turn-ended`, `question`; the `turn-ended` `hook.event` example frame).
+**Change:**
+- `turn-ended` is `{last_assistant_message, background_tasks}`. `background_tasks` is the Stop payload's `background_tasks` array length, a count only (no element read or carried), or `null` when the key is absent, `null` or not an array. Was `{last_assistant_message}`.
+- `question` is `{dialog_id, questions:[{question, header, options:[<label>], option_details:[{description, preview}], multi_select}]}`. `option_details` is parallel to `options`, each field the option's string or `null`, never a refusal; the option text is upstream content carried into `events.ndjson`, `hook.dialog`, CLI `wait --json` and the MCP `wait`, never into a human line. Was `{dialog_id, questions:[{question, options:[<label>], multi_select}]}` (the row also omitted the `header` the data already carried).
+- The `turn-ended` example frame's `data` carries `"background_tasks":null`.
+**Why:** The chunk built both gaps research found for the overseer's driving. The option-text crossing is a boundary widening the founder answered himself at P4 fork Q4 («Строить оба», `inputs#I14`, relayed by the overseer), the count-only form of `background_tasks` by the same answer; the wrap's answer-card confirm is his own word, relayed by the overseer (`inputs#I21`).
+**Ref:** .andromeda/runs/2026-10-19T19-16-36-wrap/
+
+## 2026-10-19-overseer-switch-to-viola — the 3600 s ceiling's first live reading moves to "Version done-check"
+**Section:** §Established Decisions (the dialog-hold `pending` group, `dec-hook-contract`).
+**Change:** A hold near the 3600 s ceiling is first read live at "Version done-check"; the long hold's Windows leg stays at "Windows-only live measurements"; the ceiling stays PROVISIONAL. Was "first read live at "Overseer switch to viola"".
+**Why:** No hold near the ceiling arose naturally in the switch (the one hold measured was 27 345 ms), and a contrived long hold was ruled out by its plan. The re-pin is the P5 review card's row 2, approved by the operator's word (`inputs#I15`), not the founder's.
+**Ref:** .andromeda/runs/2026-10-19T19-16-36-wrap/
+
+## 2026-10-19-overseer-switch-to-viola — verify's print-mode probe leaves an empty CLI project dir
+**Section:** §Established Decisions ([Plugin Scope] rationale, `viola verify`'s transient unwrapped children).
+**Change:** The print-mode probe leaves the CLI's empty project dir for its cwd `ledger/probes/<pid>/` under `~/.claude/projects/` (a `memory/` dir, no transcript), the same accepted residual as Runs B–D's transcripts, as measured on 2.1.296 and 2.1.302 on the Linux dev host. Was unstated (the rationale named Runs B–E's residual only).
+**Why:** The omission was measured at the switch's verify residual count (4 new `~/.claude/projects/` entries per verify, one of them this dir). The founder accepted it into the same class by his own word, live, relayed by the overseer (`inputs#I21`).
+**Ref:** .andromeda/runs/2026-10-19T19-16-36-wrap/

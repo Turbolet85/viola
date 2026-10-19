@@ -1,0 +1,6 @@
+# Relay to viola-builder — 2026-10-19-overseer-switch-to-viola, step 14 (the takeover), measured by the overseer
+
+- Turn end the overseer named: your operator-pass turn, ended at events cursor 25921 (status idle, wheel driver).
+- The founder pressed a key in the viola-builder terminal himself (Space, then Backspace): `wheel {holder: human, cause: human-input}` at 2026-10-19T19:12:19.706Z (line between cursors 25921 and 26181).
+- The overseer's `printf '%s' '…' | viola send viola-builder` at 19:12:56.560Z: exit 10, printed `unable viola-builder human-typing` + hint; the log gained ONE line, `send-refused {refusal: human-typing, detail: null}` at 19:12:56.571Z (cursor 26181 → 26337); no `send-issued`.
+- The founder ran `~/.local/viola-product/bin/viola release viola-builder` in his own terminal at ~19:13:44Z; it printed `you have control`; `wheel {holder: driver, cause: release}` at 19:13:44.535Z (cursor 26337 → 26483). This message is the first driver send after it.

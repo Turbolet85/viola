@@ -1,0 +1,1833 @@
+[
+{
+"tool": "gate",
+"v": "1.21",
+"sha8": "e2f3ad5e",
+"ts": "2026-10-19T19:16:55Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola",
+"--run-dir",
+".andromeda/runs/2026-10-19T19-16-36-wrap",
+"--marker",
+"2026-10-19-overseer-switch-to-viola"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base f23586fb (the parent of the oldest pre-CI commit aa965127) · lists new 2 · modify 6 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"scope: clean — changed 6 · listed 6 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 83"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "f23586fbda777050410c1d68b83207d42dc5c8d4",
+"base_why": "the parent of the oldest pre-CI commit aa965127",
+"counts": {
+"changed": 6,
+"listed": 6,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 83,
+"unparsed": 0,
+"widening_without_word": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.21",
+"sha8": "e2f3ad5e",
+"ts": "2026-10-19T19:19:15Z",
+"argv": [
+"census",
+"--comm",
+"viola-fake-agent",
+"--args",
+"projects/viola/target/debug/viola",
+"--args",
+"projects/viola/target/release/viola",
+"--args",
+"target/harness",
+"--run-dir",
+".andromeda/runs/2026-10-19T19-16-36-wrap",
+"--marker",
+"2026-10-19-overseer-switch-to-viola"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"census · ps · comm viola-fake-agent · args projects/viola/target/debug/viola, projects/viola/target/release/viola, target/harness · own tree excluded: 8",
+"census: none running"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"census": {
+"comm": [
+"viola-fake-agent"
+],
+"args": [
+"projects/viola/target/debug/viola",
+"projects/viola/target/release/viola",
+"target/harness"
+],
+"running": []
+}
+}
+},
+{
+"tool": "gate",
+"v": "1.21",
+"sha8": "e2f3ad5e",
+"ts": "2026-10-19T19:48:50Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-19T19-16-36-wrap",
+"--marker",
+"2026-10-19-overseer-switch-to-viola",
+"--void",
+"25:block cleared — evidence/switch-readings.ndjson takeover line"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-19-overseer-switch-to-viola · entries 25",
+"logs $TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36 · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 97 · unmapped 8",
+"walk-class rust 4 (tests/cli_controls_not_disableable.rs, tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, +1 in the trail) · uncommitted 105",
+"prose L218-221: The standing lint entries run first. Next come the unit layer and then the new cases by na… (374 chars)",
+"prose L223-226: The live acts (steps 8, 10–12, 14) are not entries. Their starts are the founder's cap (`i… (446 chars)",
+"  1 lint        green · exit 0 · 1.13s · 0 B → 1.log · cargo fmt --all --check",
+"  2 lint        green · exit 0 · 0.34s · 72 B → 2.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 lint        green · exit 1 · 0.01s · 0 B → 3.log · rg -n -U --pcre2 --type rust '#\\[(tracing::)?instrument\\b(… (79 chars)",
+"  4 lint        green · exit 0 · 0.65s · 286 B → 4.log · bash scripts/lint-probes.sh",
+"  5 unit        green · exit 0 · 7.3s · 314522 B → 5.log · bash scripts/agent-run.sh run --unit",
+"  6 unit        green · exit 0 · 0.79s · 3413 B → 6.log · bash scripts/agent-run.sh run --unit --filter 'test(/quest… (110 chars)",
+"  7 integration red · exit 0 ✗ (exit 1) · exit 1 · 8.95s · 90119 B → 7.log · bash scripts/agent-run.sh run --integration",
+"  8 integration green · exit 0 · 1.01s · 2940 B → 8.log · bash scripts/agent-run.sh run --integration --filter 'bina… (98 chars)",
+"  9 e2e         red · exit 0 ✗ (exit 1) · exit 1 · 7.62s · 40646 B → 9.log · bash scripts/agent-run.sh run --e2e",
+" 10 probe       green · exit 0 · 0.01s · 0 B → 10.log · git diff --quiet f23586fbda77 -- . ':!crates/viola-agent-c… (449 chars)",
+" 11 probe       green · exit 0 · 0.76s · 13322 B → 11.log · cargo deny check",
+" 12 build       green · exit 0 · 0.11s · 62 B → 12.log · cargo build --release --bin viola",
+" 13 smoke       green · exit 0 · 0.11s · 47 B → 13.log · bash scripts/agent-run.sh cleanup --session p-osv-smoke",
+" 14 smoke       green · exit 0 · 5.0s · 287 B → 14.log · bash scripts/agent-run.sh boot --session p-osv-smoke --ins… (71 chars)",
+" 15 smoke       green · exit 0 · 0.24s · 452 B → 15.log · bash scripts/agent-run.sh status --session p-osv-smoke",
+" 16 probe       green · exit 0 · 0.02s · 10 B → 16.log · bash scripts/g2-zero-panics.sh",
+" 17 probe       green · exit 0 · 0.17s · 106 B → 17.log · bash scripts/agent-run.sh schema-check",
+" 18 smoke       green · exit 0 · 0.22s · 135 B → 18.log · bash scripts/agent-run.sh cleanup --session p-osv-smoke",
+" 19 probe       red · exit 0 ✗ (exit 1) · exit 1 · 25.34s · 125095 B → 19.log · bash scripts/agent-run.sh pre-push",
+" 20 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (90 chars)",
+" 21 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (69 chars)",
+" 22 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (114 chars)",
+" 23 probe       green · exit 0 · 0.0s · 2 B → 23.log · grep -c -E '\"act\":\"(verify-stamped|switched|skill-sent|rev… (199 chars)",
+" 24 probe       green · exit 0 · 0.0s · 2 B → 24.log · grep -c 'stamped 2.1.296  24 pass  0 fail' viola-0.1.0/chu… (122 chars)",
+" 25 probe       green · exit 0 · 0.0s · 2 B → 25.log · void: block cleared — evidence/switch-readings… (61 chars) · grep -c '\"act\":\"takeover\"' viola-0.1.0/chunks/2026-10-19-o… (113 chars)",
+"entries 25 · green 19 · red 3 (7,9,19) · recorded 0 · timeout 0 · not-run 3 · voided 1 (25)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-19-overseer-switch-to-viola",
+"plan": "./viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36",
+"delta": {
+"docs": [
+".andromeda/a11y-plan-amendments.md",
+".andromeda/architecture-amendments.md",
+".andromeda/architecture.md",
+".andromeda/friction-log.ndjson",
+".andromeda/obs-plan-amendments.md",
+".andromeda/obs-plan.md",
+".andromeda/registries/contracts/a11y-plan/keyboard-test-harness.md",
+".andromeda/runs/2026-10-19T18-33-04-implement/gate-2026-10-19-overseer-switch-to-viola.json",
+".andromeda/runs/2026-10-19T18-33-04-implement/inputs-2026-10-19-overseer-switch-to-viola.json",
+".andromeda/runs/2026-10-19T18-33-04-implement/outcome-2026-10-19-overseer-switch-to-viola.md",
+".andromeda/security-plan-amendments.md",
+".andromeda/security-plan.md",
+".andromeda/state.yaml",
+".andromeda/test-plan-amendments.md",
+".andromeda/test-plan.md",
+".claude/docs/a11y-summary.md",
+".claude/docs/commands.md",
+".claude/docs/design-summary.md",
+".claude/docs/security-summary.md",
+".claude/docs/services/viola-agent-claude.md",
+".claude/docs/services/viola-channel.md",
+".claude/docs/services/viola-mcp.md",
+".claude/docs/services/viola-pty.md",
+".claude/docs/stack.md",
+".claude/docs/tests-summary.md",
+".claude/rules/a11y.md",
+".claude/rules/api.md",
+".claude/rules/ci.md",
+".claude/rules/events.md",
+".claude/rules/frontend.md",
+".claude/rules/observability.md",
+".claude/rules/security.md",
+".claude/session-handoff.md",
+"CLAUDE.md",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/evidence/operator-pass.md",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/evidence/switch-round.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-19T18-33-04-implement/cleared-v1-33.md",
+".andromeda/runs/2026-10-19T18-33-04-implement/matrix-2026-10-19-overseer-switch-to-viola.json",
+".andromeda/runs/2026-10-19T19-16-36-wrap/a11y-plan-contracts.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/a11y-plan-entry-1.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/answer-card.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/architecture-contracts.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/architecture-entry-1.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/architecture-entry-2.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/architecture-entry-3.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/cascade-2026-10-19-overseer-switch-to-viola-pre-pass.json",
+".andromeda/runs/2026-10-19T19-16-36-wrap/cascade-2026-10-19-overseer-switch-to-viola.json",
+".andromeda/runs/2026-10-19T19-16-36-wrap/cascade-dispositions.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/cascade-patterns.toml",
+".andromeda/runs/2026-10-19T19-16-36-wrap/citation-dispositions.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/cites-2026-10-19-overseer-switch-to-viola.json",
+".andromeda/runs/2026-10-19T19-16-36-wrap/classify-2026-10-19-overseer-switch-to-viola.json",
+".andromeda/runs/2026-10-19T19-16-36-wrap/curation.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/evolve-2026-10-19-overseer-switch-to-viola.json",
+".andromeda/runs/2026-10-19T19-16-36-wrap/fanout-a11y-plan.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/fanout-architecture.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/fanout-design-system.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/fanout-layout-templates.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/fanout-obs-plan.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/fanout-results.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/fanout-security-plan.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/fanout-test-plan.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/gate-2026-10-19-overseer-switch-to-viola.json",
+".andromeda/runs/2026-10-19T19-16-36-wrap/inputs-2026-10-19-overseer-switch-to-viola.json",
+".andromeda/runs/2026-10-19T19-16-36-wrap/leaf-a11y-plan.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/leaf-architecture+design-system+layout-templates.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/leaf-architecture+security-plan.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/leaf-architecture+test-plan+obs-plan.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/leaf-architecture-1.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/leaf-architecture-2.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/leaf-architecture-3.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/leaf-design-system+layout-templates.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/leaf-masters.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/leaf-obs-plan.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/leaf-security-plan+obs-plan.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/leaf-security-plan.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/leaf-test-plan+obs-plan.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/leaf-test-plan.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/new-text.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/obs-plan-contracts.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/obs-plan-entry-1.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/registry-2026-10-19-overseer-switch-to-viola.json",
+".andromeda/runs/2026-10-19T19-16-36-wrap/relay-1.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/relay-2.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/replace-1.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/replace-2.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/replace-3.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/replace-4.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/report-patterns.toml",
+".andromeda/runs/2026-10-19T19-16-36-wrap/route-no-marker.json",
+".andromeda/runs/2026-10-19T19-16-36-wrap/security-plan-entry-1.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/security-plan-entry-2.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/splice-2026-10-19-overseer-switch-to-viola.json",
+".andromeda/runs/2026-10-19T19-16-36-wrap/test-plan-contracts.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/test-plan-entry-1.md",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/report.md"
+]
+},
+"unmapped": [
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/evidence/switch-readings.ndjson",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/inputs/andromeda-inputs.json",
+"viola-0.1.0/verification-matrix.json",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/inputs/I18-relay-switch-step14.md.txt",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/inputs/I19-wrap-switch-directive.md.txt",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/inputs/I20-verify-2.1.302-20261019.out.txt",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/inputs/I21-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/inputs/I22-relay-2.md.txt"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/cli_controls_not_disableable.rs",
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 105,
+"problem": null
+},
+"prose": [
+{
+"from": 218,
+"to": 221,
+"text": "The standing lint entries run first. Next come the unit layer and then the new cases by name, then the integration and E2E layers. A preservation guard guards the modify list, against base `f23586fbda77` (HEAD at P4). The release build the switch runs on comes next, then the booted smoke, G2, G4 and `pre-push`, then the operator pass. The three evidence readers come last."
+},
+{
+"from": 223,
+"to": 226,
+"text": "The live acts (steps 8, 10–12, 14) are not entries. Their starts are the founder's cap (`inputs#I14`), which a light-gate re-run must never spend, and the overseer drives them. The readers carry no `artifact`: steps 7–14 produce the evidence files, and the wrap re-verifies them from `evidence/`. The takeover reader is the gated criterion's entry, with `defer = \"gated: …\"`. No mutation entry is listed (test-plan §10: the epoch-boundary audit)."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 1.13,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/2.log",
+"bytes": 72,
+"log_sha8": "9a30d54c",
+"exit": 0,
+"seconds": 0.34,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "lint",
+"run": "rg -n -U --pcre2 --type rust '#\\[(tracing::)?instrument\\b(?!\\(\\s*skip_all\\b)' .",
+"run_sha8": "d8c83432",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/3.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.01,
+"readings": [
+"exit 1 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "bash scripts/lint-probes.sh",
+"run_sha8": "4811ad1f",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/4.log",
+"bytes": 286,
+"log_sha8": "99be9959",
+"exit": 0,
+"seconds": 0.65,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/5.log",
+"bytes": 314522,
+"log_sha8": "338e04b3",
+"exit": 0,
+"seconds": 7.3,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/question_option_details_|turn_ended_background_tasks_/)' ",
+"run_sha8": "8e0b38f2",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/6.log",
+"bytes": 3413,
+"log_sha8": "55916109",
+"exit": 0,
+"seconds": 0.79,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration",
+"run_sha8": "03525807",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/7.log",
+"bytes": 90119,
+"log_sha8": "a404cebb",
+"exit": 1,
+"seconds": 8.95,
+"readings": [
+"exit 0 ✗ (exit 1)",
+"contains '\"ok\":true' ✗"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 1)"
+},
+{
+"n": 8,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(state_events) | binary(hook_events)' ",
+"run_sha8": "aad1e6cc",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"lacks \"suite\":\"nextest-integration\",\"passed\":0,"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/8.log",
+"bytes": 2940,
+"log_sha8": "15d8765e",
+"exit": 0,
+"seconds": 1.01,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"lacks '\"suite\":\"nextest-integration\",\"passed\":0,' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh run --e2e",
+"run_sha8": "55ff1d5e",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"suite\":\"nextest-e2e\""
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/9.log",
+"bytes": 40646,
+"log_sha8": "205154b9",
+"exit": 1,
+"seconds": 7.62,
+"readings": [
+"exit 0 ✗ (exit 1)",
+"contains '\"ok\":true' ✗",
+"contains '\"suite\":\"nextest-e2e\"' ✓"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 1)"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "git diff --quiet f23586fbda77 -- . ':!crates/viola-agent-claude/src/dialog.rs' ':!crates/viola-agent-claude/src/hook.rs' ':!crates/viola-core/src/lib.rs' ':!crates/viola-state/tests/state_events.rs' ':!tests/hook_events.rs' ':!src/run/dialog.rs' ':!.andromeda' ':!viola-0.1.0' ':!.claude' ':!CLAUDE.md' && test -z \"$(git ls-files --others --exclude-standard -- src crates tests schemas plugin scripts fixtures .github .config Cargo.toml Cargo.lock)\"",
+"run_sha8": "fca0a9ca",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/10.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "cargo deny check",
+"run_sha8": "2708b9d9",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/11.log",
+"bytes": 13322,
+"log_sha8": "488bf9df",
+"exit": 0,
+"seconds": 0.76,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "build",
+"run": "cargo build --release --bin viola",
+"run_sha8": "6a89e109",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/12.log",
+"bytes": 62,
+"log_sha8": "3997fc67",
+"exit": 0,
+"seconds": 0.11,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-osv-smoke",
+"run_sha8": "4be5ed32",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/13.log",
+"bytes": 47,
+"log_sha8": "91854d6e",
+"exit": 0,
+"seconds": 0.11,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-osv-smoke --instance builder",
+"run_sha8": "bdf5a024",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/14.log",
+"bytes": 287,
+"log_sha8": "8493e7a0",
+"exit": 0,
+"seconds": 5.0,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-osv-smoke",
+"run_sha8": "0b656db5",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/15.log",
+"bytes": 452,
+"log_sha8": "d88bb76d",
+"exit": 0,
+"seconds": 0.24,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "bash scripts/g2-zero-panics.sh",
+"run_sha8": "b1637f71",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/16.log",
+"bytes": 10,
+"log_sha8": "6736cedd",
+"exit": 0,
+"seconds": 0.02,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/17.log",
+"bytes": 106,
+"log_sha8": "75aa1dfd",
+"exit": 0,
+"seconds": 0.17,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 18,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-osv-smoke",
+"run_sha8": "4be5ed32",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/18.log",
+"bytes": 135,
+"log_sha8": "f6bf5fad",
+"exit": 0,
+"seconds": 0.22,
+"readings": [
+"exit 0 ✓",
+"contains '\"processes_gone\":true' ✓",
+"contains '\"endpoint_gone\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/19.log",
+"bytes": 125095,
+"log_sha8": "42bcf555",
+"exit": 1,
+"seconds": 25.34,
+"readings": [
+"exit 0 ✗ (exit 1)",
+"contains '\"ok\":true' ✗",
+"contains '\"stage\":\"linux-tests\"' ✓"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 1)"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "451237e0",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "2377245a",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "grep -c -E '\"act\":\"(verify-stamped|switched|skill-sent|review-answered|turn-waited|final-read|clear-confirmed)\"' viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/evidence/switch-readings.ndjson",
+"run_sha8": "255b2e47",
+"expect": [
+"exit 0",
+"last line 7"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/23.log",
+"bytes": 2,
+"log_sha8": "10159baf",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '7' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 24,
+"role": "probe",
+"run": "grep -c 'stamped 2.1.296  24 pass  0 fail' viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/evidence/switch-round.md",
+"run_sha8": "813e011f",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/24.log",
+"bytes": 2,
+"log_sha8": "4355a46b",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '1' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 25,
+"role": "probe",
+"run": "grep -c '\"act\":\"takeover\"' viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/evidence/switch-readings.ndjson",
+"run_sha8": "6a8477e1",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/25.log",
+"bytes": 2,
+"log_sha8": "4355a46b",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '1' ✓"
+],
+"survivors": [],
+"outcome": "green",
+"void": "block cleared — evidence/switch-readings.ndjson takeover line",
+"defer": "gated: the founder at his keyboard in the viola-builder terminal for his own key and his own viola release (he is away from the builders' terminals at the take-up, inputs#I14)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.21",
+"sha8": "e2f3ad5e",
+"ts": "2026-10-19T19:48:58Z",
+"argv": [
+"show",
+"--run-dir",
+".andromeda/runs/2026-10-19T19-16-36-wrap",
+"--marker",
+"2026-10-19-overseer-switch-to-viola",
+"--n",
+"7"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"7 integration red · exit 0 ✗ (exit 1)",
+"run (03525807): bash scripts/agent-run.sh run --integration",
+"  exit 0 ✗ (exit 1)",
+"  contains '\"ok\":true' ✗",
+"log $TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/7.log · 90119 B · a404cebb · $TMPDIR = /tmp",
+"--- failing block from L10 ---",
+"        FAIL [   0.635s] (  6/397) viola::cli_budget path6_an_unknown_or_passed_reset_does_not_pause::case_2_a_reset_that_has_passed",
+"  stdout ───",
+"",
+"    running 1 test",
+"    test path6_an_unknown_or_passed_reset_does_not_pause::case_2_a_reset_that_has_passed ... FAILED",
+"",
+"    failures:",
+"",
+"    failures:",
+"        path6_an_unknown_or_passed_reset_does_not_pause::case_2_a_reset_that_has_passed",
+"",
+"    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 10 filtered out; finished in 0.63s",
+"",
+"  stderr ───",
+"",
+"    thread 'path6_an_unknown_or_passed_reset_does_not_pause::case_2_a_reset_that_has_passed' (3592004) panicked at tests/support/home.rs:389:5:",
+"    viola verify did not stamp the home: exit Some(1), summary line matched false, failing rows []",
+"    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace",
+"",
+"        FAIL [   0.654s] (  7/397) viola::cli_budget e5_the_replay_reads_what_the_wrapper_wrote"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "gate",
+"v": "1.21",
+"sha8": "e2f3ad5e",
+"ts": "2026-10-19T19:51:05Z",
+"argv": [
+"show",
+"--run-dir",
+".andromeda/runs/2026-10-19T19-16-36-wrap",
+"--marker",
+"2026-10-19-overseer-switch-to-viola",
+"--n",
+"19"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"19 probe red · exit 0 ✗ (exit 1)",
+"run (4da4c5c8): bash scripts/agent-run.sh pre-push",
+"  exit 0 ✗ (exit 1)",
+"  contains '\"ok\":true' ✗",
+"  contains '\"stage\":\"linux-tests\"' ✓",
+"log $TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/19.log · 125095 B · 42bcf555 · $TMPDIR = /tmp",
+"--- failing block from L33 ---",
+"        FAIL [   0.574s] (   5/2958) viola::cli_budget path6_an_unknown_or_passed_reset_does_not_pause::case_1_a_reset_that_is_no_instant",
+"  stdout ───",
+"",
+"    running 1 test",
+"    test path6_an_unknown_or_passed_reset_does_not_pause::case_1_a_reset_that_is_no_instant ... FAILED",
+"",
+"    failures:",
+"",
+"    failures:",
+"        path6_an_unknown_or_passed_reset_does_not_pause::case_1_a_reset_that_is_no_instant",
+"",
+"    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 10 filtered out; finished in 0.57s",
+"",
+"  stderr ───",
+"",
+"    thread 'path6_an_unknown_or_passed_reset_does_not_pause::case_1_a_reset_that_is_no_instant' (3610125) panicked at tests/support/home.rs:389:5:",
+"    viola verify did not stamp the home: exit Some(1), summary line matched false, failing rows []",
+"    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace",
+"",
+"        FAIL [   0.577s] (   6/2958) viola::cli_budget e5_the_replay_reads_what_the_wrapper_wrote"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "gate",
+"v": "1.21",
+"sha8": "e2f3ad5e",
+"ts": "2026-10-19T20:36:48Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-19T19-16-36-wrap",
+"--marker",
+"2026-10-19-overseer-switch-to-viola",
+"--void",
+"25:block cleared — evidence/switch-readings.ndjson takeover line"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-19-overseer-switch-to-viola · entries 25",
+"logs $TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36 · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 100 · unmapped 9",
+"walk-class rust 4 (tests/cli_controls_not_disableable.rs, tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, +1 in the trail) · uncommitted 109",
+"prose L218-221: The standing lint entries run first. Next come the unit layer and then the new cases by na… (374 chars)",
+"prose L223-226: The live acts (steps 8, 10–12, 14) are not entries. Their starts are the founder's cap (`i… (446 chars)",
+"  1 lint        green · exit 0 · 1.06s · 0 B → 1.2.log · cargo fmt --all --check",
+"  2 lint        green · exit 0 · 0.23s · 72 B → 2.2.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 lint        green · exit 1 · 0.01s · 0 B → 3.2.log · rg -n -U --pcre2 --type rust '#\\[(tracing::)?instrument\\b(… (79 chars)",
+"  4 lint        green · exit 0 · 0.63s · 286 B → 4.2.log · bash scripts/lint-probes.sh",
+"  5 unit        green · exit 0 · 7.04s · 314522 B → 5.2.log · bash scripts/agent-run.sh run --unit",
+"  6 unit        green · exit 0 · 0.83s · 3413 B → 6.2.log · bash scripts/agent-run.sh run --unit --filter 'test(/quest… (110 chars)",
+"  7 integration green · exit 0 · 62.33s · 48281 B → 7.2.log · bash scripts/agent-run.sh run --integration",
+"  8 integration green · exit 0 · 1.05s · 2940 B → 8.2.log · bash scripts/agent-run.sh run --integration --filter 'bina… (98 chars)",
+"  9 e2e         green · exit 0 · 10.68s · 22205 B → 9.2.log · bash scripts/agent-run.sh run --e2e",
+" 10 probe       green · exit 0 · 0.01s · 0 B → 10.2.log · git diff --quiet f23586fbda77 -- . ':!crates/viola-agent-c… (449 chars)",
+" 11 probe       green · exit 0 · 0.74s · 13322 B → 11.2.log · cargo deny check",
+" 12 build       green · exit 0 · 0.11s · 62 B → 12.2.log · cargo build --release --bin viola",
+" 13 smoke       green · exit 0 · 0.11s · 47 B → 13.2.log · bash scripts/agent-run.sh cleanup --session p-osv-smoke",
+" 14 smoke       green · exit 0 · 5.03s · 287 B → 14.2.log · bash scripts/agent-run.sh boot --session p-osv-smoke --ins… (71 chars)",
+" 15 smoke       green · exit 0 · 0.25s · 452 B → 15.2.log · bash scripts/agent-run.sh status --session p-osv-smoke",
+" 16 probe       green · exit 0 · 0.02s · 10 B → 16.2.log · bash scripts/g2-zero-panics.sh",
+" 17 probe       green · exit 0 · 0.2s · 106 B → 17.2.log · bash scripts/agent-run.sh schema-check",
+" 18 smoke       green · exit 0 · 0.33s · 135 B → 18.2.log · bash scripts/agent-run.sh cleanup --session p-osv-smoke",
+" 19 probe       red · exit 0 ✗ (exit 1) · exit 1 · 85.47s · 386617 B → 19.2.log · bash scripts/agent-run.sh pre-push",
+" 20 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (90 chars)",
+" 21 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (69 chars)",
+" 22 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (114 chars)",
+" 23 probe       green · exit 0 · 0.01s · 2 B → 23.2.log · grep -c -E '\"act\":\"(verify-stamped|switched|skill-sent|rev… (199 chars)",
+" 24 probe       green · exit 0 · 0.0s · 2 B → 24.2.log · grep -c 'stamped 2.1.296  24 pass  0 fail' viola-0.1.0/chu… (122 chars)",
+" 25 probe       green · exit 0 · 0.0s · 2 B → 25.2.log · void: block cleared — evidence/switch-readings… (61 chars) · grep -c '\"act\":\"takeover\"' viola-0.1.0/chunks/2026-10-19-o… (113 chars)",
+"entries 25 · green 21 · red 1 (19) · recorded 0 · timeout 0 · not-run 3 · voided 1 (25)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-19-overseer-switch-to-viola",
+"plan": "./viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36",
+"delta": {
+"docs": [
+".andromeda/a11y-plan-amendments.md",
+".andromeda/architecture-amendments.md",
+".andromeda/architecture.md",
+".andromeda/friction-log.ndjson",
+".andromeda/obs-plan-amendments.md",
+".andromeda/obs-plan.md",
+".andromeda/registries/contracts/a11y-plan/keyboard-test-harness.md",
+".andromeda/runs/2026-10-19T18-33-04-implement/gate-2026-10-19-overseer-switch-to-viola.json",
+".andromeda/runs/2026-10-19T18-33-04-implement/inputs-2026-10-19-overseer-switch-to-viola.json",
+".andromeda/runs/2026-10-19T18-33-04-implement/outcome-2026-10-19-overseer-switch-to-viola.md",
+".andromeda/security-plan-amendments.md",
+".andromeda/security-plan.md",
+".andromeda/state.yaml",
+".andromeda/test-plan-amendments.md",
+".andromeda/test-plan.md",
+".claude/docs/a11y-summary.md",
+".claude/docs/commands.md",
+".claude/docs/design-summary.md",
+".claude/docs/security-summary.md",
+".claude/docs/services/viola-agent-claude.md",
+".claude/docs/services/viola-channel.md",
+".claude/docs/services/viola-mcp.md",
+".claude/docs/services/viola-pty.md",
+".claude/docs/stack.md",
+".claude/docs/tests-summary.md",
+".claude/rules/a11y.md",
+".claude/rules/api.md",
+".claude/rules/ci.md",
+".claude/rules/events.md",
+".claude/rules/frontend.md",
+".claude/rules/observability.md",
+".claude/rules/security.md",
+".claude/session-handoff.md",
+"CLAUDE.md",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/evidence/operator-pass.md",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/evidence/switch-round.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-19T18-33-04-implement/cleared-v1-33.md",
+".andromeda/runs/2026-10-19T18-33-04-implement/matrix-2026-10-19-overseer-switch-to-viola.json",
+".andromeda/runs/2026-10-19T19-16-36-wrap/a11y-plan-contracts.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/a11y-plan-entry-1.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/acceptance-v1-33.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/answer-card.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/architecture-contracts.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/architecture-entry-1.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/architecture-entry-2.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/architecture-entry-3.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/cascade-2026-10-19-overseer-switch-to-viola-pre-pass.json",
+".andromeda/runs/2026-10-19T19-16-36-wrap/cascade-2026-10-19-overseer-switch-to-viola.json",
+".andromeda/runs/2026-10-19T19-16-36-wrap/cascade-dispositions.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/cascade-patterns.toml",
+".andromeda/runs/2026-10-19T19-16-36-wrap/citation-dispositions.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/cites-2026-10-19-overseer-switch-to-viola.json",
+".andromeda/runs/2026-10-19T19-16-36-wrap/classify-2026-10-19-overseer-switch-to-viola.json",
+".andromeda/runs/2026-10-19T19-16-36-wrap/curation.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/evolve-2026-10-19-overseer-switch-to-viola.json",
+".andromeda/runs/2026-10-19T19-16-36-wrap/fanout-a11y-plan.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/fanout-architecture.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/fanout-design-system.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/fanout-layout-templates.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/fanout-obs-plan.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/fanout-results.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/fanout-security-plan.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/fanout-test-plan.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/gate-2026-10-19-overseer-switch-to-viola.json",
+".andromeda/runs/2026-10-19T19-16-36-wrap/inputs-2026-10-19-overseer-switch-to-viola.json",
+".andromeda/runs/2026-10-19T19-16-36-wrap/leaf-a11y-plan.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/leaf-architecture+design-system+layout-templates.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/leaf-architecture+security-plan.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/leaf-architecture+test-plan+obs-plan.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/leaf-architecture-1.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/leaf-architecture-2.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/leaf-architecture-3.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/leaf-design-system+layout-templates.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/leaf-masters.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/leaf-obs-plan.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/leaf-security-plan+obs-plan.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/leaf-security-plan.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/leaf-test-plan+obs-plan.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/leaf-test-plan.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/new-text.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/obs-plan-contracts.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/obs-plan-entry-1.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/refine-v1-33.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/registry-2026-10-19-overseer-switch-to-viola.json",
+".andromeda/runs/2026-10-19T19-16-36-wrap/relay-1.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/relay-2.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/relay-3.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/replace-1.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/replace-2.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/replace-3.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/replace-4.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/report-patterns.toml",
+".andromeda/runs/2026-10-19T19-16-36-wrap/route-no-marker.json",
+".andromeda/runs/2026-10-19T19-16-36-wrap/security-plan-entry-1.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/security-plan-entry-2.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/splice-2026-10-19-overseer-switch-to-viola.json",
+".andromeda/runs/2026-10-19T19-16-36-wrap/test-plan-contracts.md",
+".andromeda/runs/2026-10-19T19-16-36-wrap/test-plan-entry-1.md",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/report.md"
+]
+},
+"unmapped": [
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/evidence/switch-readings.ndjson",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/inputs/andromeda-inputs.json",
+"viola-0.1.0/verification-matrix.json",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/inputs/I18-relay-switch-step14.md.txt",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/inputs/I19-wrap-switch-directive.md.txt",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/inputs/I20-verify-2.1.302-20261019.out.txt",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/inputs/I21-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/inputs/I22-relay-2.md.txt",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/inputs/I23-relay-3.md.txt"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/cli_controls_not_disableable.rs",
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 109,
+"problem": null
+},
+"prose": [
+{
+"from": 218,
+"to": 221,
+"text": "The standing lint entries run first. Next come the unit layer and then the new cases by name, then the integration and E2E layers. A preservation guard guards the modify list, against base `f23586fbda77` (HEAD at P4). The release build the switch runs on comes next, then the booted smoke, G2, G4 and `pre-push`, then the operator pass. The three evidence readers come last."
+},
+{
+"from": 223,
+"to": 226,
+"text": "The live acts (steps 8, 10–12, 14) are not entries. Their starts are the founder's cap (`inputs#I14`), which a light-gate re-run must never spend, and the overseer drives them. The readers carry no `artifact`: steps 7–14 produce the evidence files, and the wrap re-verifies them from `evidence/`. The takeover reader is the gated criterion's entry, with `defer = \"gated: …\"`. No mutation entry is listed (test-plan §10: the epoch-boundary audit)."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/1.2.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 1.06,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/2.2.log",
+"bytes": 72,
+"log_sha8": "2b346967",
+"exit": 0,
+"seconds": 0.23,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "lint",
+"run": "rg -n -U --pcre2 --type rust '#\\[(tracing::)?instrument\\b(?!\\(\\s*skip_all\\b)' .",
+"run_sha8": "d8c83432",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/3.2.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.01,
+"readings": [
+"exit 1 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "bash scripts/lint-probes.sh",
+"run_sha8": "4811ad1f",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/4.2.log",
+"bytes": 286,
+"log_sha8": "99be9959",
+"exit": 0,
+"seconds": 0.63,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/5.2.log",
+"bytes": 314522,
+"log_sha8": "1e9f7281",
+"exit": 0,
+"seconds": 7.04,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/question_option_details_|turn_ended_background_tasks_/)' ",
+"run_sha8": "8e0b38f2",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/6.2.log",
+"bytes": 3413,
+"log_sha8": "cf504066",
+"exit": 0,
+"seconds": 0.83,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration",
+"run_sha8": "03525807",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/7.2.log",
+"bytes": 48281,
+"log_sha8": "517bdc1c",
+"exit": 0,
+"seconds": 62.33,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(state_events) | binary(hook_events)' ",
+"run_sha8": "aad1e6cc",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"lacks \"suite\":\"nextest-integration\",\"passed\":0,"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/8.2.log",
+"bytes": 2940,
+"log_sha8": "e1555939",
+"exit": 0,
+"seconds": 1.05,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"lacks '\"suite\":\"nextest-integration\",\"passed\":0,' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh run --e2e",
+"run_sha8": "55ff1d5e",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"suite\":\"nextest-e2e\""
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/9.2.log",
+"bytes": 22205,
+"log_sha8": "1a18e7c3",
+"exit": 0,
+"seconds": 10.68,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"contains '\"suite\":\"nextest-e2e\"' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "git diff --quiet f23586fbda77 -- . ':!crates/viola-agent-claude/src/dialog.rs' ':!crates/viola-agent-claude/src/hook.rs' ':!crates/viola-core/src/lib.rs' ':!crates/viola-state/tests/state_events.rs' ':!tests/hook_events.rs' ':!src/run/dialog.rs' ':!.andromeda' ':!viola-0.1.0' ':!.claude' ':!CLAUDE.md' && test -z \"$(git ls-files --others --exclude-standard -- src crates tests schemas plugin scripts fixtures .github .config Cargo.toml Cargo.lock)\"",
+"run_sha8": "fca0a9ca",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/10.2.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "cargo deny check",
+"run_sha8": "2708b9d9",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/11.2.log",
+"bytes": 13322,
+"log_sha8": "488bf9df",
+"exit": 0,
+"seconds": 0.74,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "build",
+"run": "cargo build --release --bin viola",
+"run_sha8": "6a89e109",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/12.2.log",
+"bytes": 62,
+"log_sha8": "3997fc67",
+"exit": 0,
+"seconds": 0.11,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-osv-smoke",
+"run_sha8": "4be5ed32",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/13.2.log",
+"bytes": 47,
+"log_sha8": "91854d6e",
+"exit": 0,
+"seconds": 0.11,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-osv-smoke --instance builder",
+"run_sha8": "bdf5a024",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/14.2.log",
+"bytes": 287,
+"log_sha8": "b178f57b",
+"exit": 0,
+"seconds": 5.03,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-osv-smoke",
+"run_sha8": "0b656db5",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/15.2.log",
+"bytes": 452,
+"log_sha8": "64f255f9",
+"exit": 0,
+"seconds": 0.25,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "bash scripts/g2-zero-panics.sh",
+"run_sha8": "b1637f71",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/16.2.log",
+"bytes": 10,
+"log_sha8": "6736cedd",
+"exit": 0,
+"seconds": 0.02,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/17.2.log",
+"bytes": 106,
+"log_sha8": "04a906c3",
+"exit": 0,
+"seconds": 0.2,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 18,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-osv-smoke",
+"run_sha8": "4be5ed32",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/18.2.log",
+"bytes": 135,
+"log_sha8": "f6bf5fad",
+"exit": 0,
+"seconds": 0.33,
+"readings": [
+"exit 0 ✓",
+"contains '\"processes_gone\":true' ✓",
+"contains '\"endpoint_gone\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/19.2.log",
+"bytes": 386617,
+"log_sha8": "dc4039f0",
+"exit": 1,
+"seconds": 85.47,
+"readings": [
+"exit 0 ✗ (exit 1)",
+"contains '\"ok\":true' ✗",
+"contains '\"stage\":\"linux-tests\"' ✓"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 1)"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "451237e0",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "2377245a",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "grep -c -E '\"act\":\"(verify-stamped|switched|skill-sent|review-answered|turn-waited|final-read|clear-confirmed)\"' viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/evidence/switch-readings.ndjson",
+"run_sha8": "255b2e47",
+"expect": [
+"exit 0",
+"last line 7"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/23.2.log",
+"bytes": 2,
+"log_sha8": "10159baf",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓",
+"last line '7' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 24,
+"role": "probe",
+"run": "grep -c 'stamped 2.1.296  24 pass  0 fail' viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/evidence/switch-round.md",
+"run_sha8": "813e011f",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/24.2.log",
+"bytes": 2,
+"log_sha8": "4355a46b",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '1' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 25,
+"role": "probe",
+"run": "grep -c '\"act\":\"takeover\"' viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/evidence/switch-readings.ndjson",
+"run_sha8": "6a8477e1",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/25.2.log",
+"bytes": 2,
+"log_sha8": "4355a46b",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '1' ✓"
+],
+"survivors": [],
+"outcome": "green",
+"void": "block cleared — evidence/switch-readings.ndjson takeover line",
+"defer": "gated: the founder at his keyboard in the viola-builder terminal for his own key and his own viola release (he is away from the builders' terminals at the take-up, inputs#I14)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.21",
+"sha8": "e2f3ad5e",
+"ts": "2026-10-19T20:36:55Z",
+"argv": [
+"show",
+"--run-dir",
+".andromeda/runs/2026-10-19T19-16-36-wrap",
+"--marker",
+"2026-10-19-overseer-switch-to-viola",
+"--n",
+"19"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"19 probe red · exit 0 ✗ (exit 1)",
+"run (4da4c5c8): bash scripts/agent-run.sh pre-push",
+"  exit 0 ✗ (exit 1)",
+"  contains '\"ok\":true' ✗",
+"  contains '\"stage\":\"linux-tests\"' ✓",
+"firings of entry 19 in this trail: 2 — 1 red · 2 red · shown: 2",
+"log $TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/wrap-2026-10-19T19-16-36/19.2.log · 386617 B · dc4039f0 · $TMPDIR = /tmp",
+"--- failing block from L2997 ---",
+"error: no profile can be merged",
+"error: failed to merge profile data: process didn't exit successfully: `~/.rustup/toolchains/1.98.1-x86_64-unknown-linux-gnu/lib/rustlib/x86_64-unknown-linux-gnu/bin/llvm-profdata merge -sparse -f ./target/llvm-cov-target/viola-profraw-list -o ./target/llvm-cov-target/viola.profdata` (exit status: 1)",
+"warning: ./target/llvm-cov-target/viola-3985552-11199965412932774179_16.profraw: invalid instrumentation profile data (file header is corrupt)",
+"error: no profile can be merged",
+"error: failed to merge profile data: process didn't exit successfully: `~/.rustup/toolchains/1.98.1-x86_64-unknown-linux-gnu/lib/rustlib/x86_64-unknown-linux-gnu/bin/llvm-profdata merge -sparse -f ./target/llvm-cov-target/viola-profraw-list -o ./target/llvm-cov-target/viola.profdata` (exit status: 1)",
+"    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.08s",
+"   Doc-tests viola_agent_claude",
+"   Doc-tests viola_channel",
+"   Doc-tests viola_core",
+"   Doc-tests viola_e2e",
+"   Doc-tests viola_mcp",
+"   Doc-tests viola_pty",
+"   Doc-tests viola_state",
+"",
+"running 0 tests",
+"",
+"test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+"",
+"",
+"running 0 tests"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "gate",
+"v": "1.21",
+"sha8": "e2f3ad5e",
+"ts": "2026-10-19T20:38:28Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-10-19T19-16-36-wrap",
+"--marker",
+"2026-10-19-overseer-switch-to-viola"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust · base f23586fb (the parent of the oldest pre-CI commit aa965127)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust — each fired on its synthetic known positive",
+"P1 .andromeda/runs/2026-10-19T19-16-36-wrap/relay-3.md:3 ×1 · tmp",
+"hygiene: refused 1 files — P1 1 · P2 0 · P3 0 · read 144 (runs 116 · evidence 4 · inputs 24) · trails 29 not read · copies 22 not read by P1 — 2 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust"
+],
+"rows": [
+"P1 .andromeda/runs/2026-10-19T19-16-36-wrap/relay-3.md:3 ×1 · tmp"
+],
+"counts": {
+"P1": 1,
+"P2": 0,
+"P3": 0,
+"runs": 116,
+"evidence": 4,
+"inputs": 24,
+"trails": 29,
+"copies": 22,
+"kept": 2,
+"binary": 0,
+"in_root": 0
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.21",
+"sha8": "e2f3ad5e",
+"ts": "2026-10-19T20:38:36Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-10-19T19-16-36-wrap",
+"--marker",
+"2026-10-19-overseer-switch-to-viola"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust · base f23586fb (the parent of the oldest pre-CI commit aa965127)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust — each fired on its synthetic known positive",
+"hygiene: clean — read 144 (runs 116 · evidence 4 · inputs 24) · trails 29 not read · copies 22 not read by P1 — 2 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 116,
+"evidence": 4,
+"inputs": 24,
+"trails": 29,
+"copies": 22,
+"kept": 2,
+"binary": 0,
+"in_root": 0
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.21",
+"sha8": "e2f3ad5e",
+"ts": "2026-10-19T20:38:36Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola",
+"--run-dir",
+".andromeda/runs/2026-10-19T19-16-36-wrap",
+"--marker",
+"2026-10-19-overseer-switch-to-viola"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base f23586fb (the parent of the oldest pre-CI commit aa965127) · lists new 2 · modify 6 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"scope: clean — changed 6 · listed 6 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 182"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "f23586fbda777050410c1d68b83207d42dc5c8d4",
+"base_why": "the parent of the oldest pre-CI commit aa965127",
+"counts": {
+"changed": 6,
+"listed": 6,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 182,
+"unparsed": 0,
+"widening_without_word": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.21",
+"sha8": "e2f3ad5e",
+"ts": "2026-10-19T20:39:07Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-10-19T19-16-36-wrap",
+"--marker",
+"2026-10-19-overseer-switch-to-viola"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust · base f23586fb (the parent of the oldest pre-CI commit aa965127)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust — each fired on its synthetic known positive",
+"hygiene: clean — read 145 (runs 117 · evidence 4 · inputs 24) · trails 30 not read · copies 22 not read by P1 — 2 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 117,
+"evidence": 4,
+"inputs": 24,
+"trails": 30,
+"copies": 22,
+"kept": 2,
+"binary": 0,
+"in_root": 0
+},
+"indeterminate": 0
+}
+}
+]

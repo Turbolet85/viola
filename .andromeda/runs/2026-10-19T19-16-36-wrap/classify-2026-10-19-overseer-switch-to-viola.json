@@ -1,0 +1,72 @@
+[
+{
+"tool": "classify",
+"v": "1.1",
+"sha8": "4d04a58c",
+"ts": "2026-10-19T19:30:30Z",
+"argv": [
+"check",
+"--file",
+".andromeda/architecture.md",
+"--type",
+"architecture",
+"--mode",
+"standing",
+"--section",
+"Established Decisions",
+"--section",
+"Standard Contracts",
+"--base",
+"auto",
+"--run-dir",
+".andromeda/runs/2026-10-19T19-16-36-wrap",
+"--marker",
+"2026-10-19-overseer-switch-to-viola"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+".andromeda/architecture.md · architecture · standing · groups 2 · subjects used 1 · subject line :475 · added: 5 lines against f23586fb, the parent of the oldest pre-CI commit aa965127",
+"units 0 · groups 0 · subjects 0 · place — · absence — · provenance 0",
+"VERDICT: PASS"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "classify",
+"v": "1.1",
+"sha8": "4d04a58c",
+"ts": "2026-10-19T19:30:30Z",
+"argv": [
+"check",
+"--file",
+".andromeda/obs-plan.md",
+"--type",
+"obs-plan",
+"--mode",
+"standing",
+"--section",
+"4. Span / Trace Coverage",
+"--base",
+"auto",
+"--run-dir",
+".andromeda/runs/2026-10-19T19-16-36-wrap",
+"--marker",
+"2026-10-19-overseer-switch-to-viola"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+".andromeda/obs-plan.md · obs-plan · standing · groups 0 · subjects used 0 · no subject line · added: 1 lines against f23586fb, the parent of the oldest pre-CI commit aa965127",
+"units 0 · groups 0 · subjects 0 · place — · absence — · provenance 0",
+"VERDICT: PASS"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

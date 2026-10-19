@@ -648,3 +648,9 @@ Each superseded mark stands as the operator's answer, superseded 2026-10-13.
 - OTel SDK init: `run`'s start reads `config.json` a third time, for `dialog_hold_s`, writing exactly one `parse-rejected{config-json, malformed}` on a bad value. `CONFIG_KEYS` holds six names. Was five. A clause's chunk stamp was dropped from the key file.
 **Why:** The chunk moved the expiry's record to the wrapper, which knows the hold ended. The hook only sees a `null` reply. The start's new read is the configured hold, a boundary widening the founder answered himself to P4 fork Q1 (`inputs#I2`); the wrap's answer-card confirm was the Viola overseer's (delegate viola-overseer), PROVISIONAL.
 **Ref:** .andromeda/runs/2026-10-19T09-28-14-wrap/
+
+## 2026-10-19-overseer-switch-to-viola — `dialog-answered`'s `from` / `from_trust` only on an answer that carried a `from`
+**Section:** §4 Scenario: Dialog → `answer` (Required log fields, wrapper line).
+**Change:** `from` / `from_trust` are present on an answer that carried a `from`, absent on an answer that carried none and on the expiry line (`deadline_hit:true`). Was "present on an answer and absent on the expiry line".
+**Why:** Measured false live: a product `viola answer` from a process without `VIOLA_NAME` sent no `from`, and its `dialog-answered` line held neither field. The scenario's own Must-trace text already named an answer with no `from`.
+**Ref:** .andromeda/runs/2026-10-19T19-16-36-wrap/

@@ -118,3 +118,14 @@ with 2.1.296). The builder read them; it did not make them.
 
 `event:"panic"` lines in `~/.viola/diagnostics/*.ndjson` (`cli-`, `hook-`, `run-viola-builder.ndjson`, `mcp.ndjson`):
 **0** in each file, read at step 13.
+
+## The takeover (step 14, the founder at his keyboard, `inputs#I18`)
+
+| record (cursor) | at (UTC) | reading |
+|---|---|---|
+| `wheel{holder:human, cause:human-input}` @26032 | 19:12:19.706Z | the founder's own key in the viola-builder terminal, after the named turn end (the line before @25921) |
+| `send-refused{human-typing, detail:null}` @26181 | 19:12:56.571Z | the overseer's `send`: exit 10 (the CLI log's `process-exit` line), and no `send-issued` between @26032 and @26337 |
+| `wheel{holder:driver, cause:release}` @26337 | 19:13:44.535Z | the founder's own `viola release` by full path in his terminal: exit 0, channel 14 ms |
+| `send-issued` @26483 → `prompt-submitted{driver}` @26614 → `send-confirmed` @27237 | 19:14:25.980Z | the first driver send after the release, 65 ms |
+
+No agent typed the key or ran the release.

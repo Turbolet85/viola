@@ -245,3 +245,9 @@
 **Change:** A dialog takes a `viola answer` within the dialog hold: `dialog_hold_s`, whole seconds 60–3600, default 60, a `DialogHold` with PROVISIONAL bounds, under the `hooks.json` dialog `timeout` of 3615 s and the hook's bound of 3605 s. At the hold's end the wrapper replies `null` and appends one `dialog-expired` line that wakes `wait`. The hold bounds the driver, never the human: any human key still hands the held dialog back at once, whatever the hold. Was `DIALOG_DEADLINE`, 60 s, under a 75 s `timeout`.
 **Why:** A longer, configurable hold lets a driver relay a dialog to a person and back. The key is a boundary widening the founder answered himself to P4 fork Q1 (`inputs#I2`); the wrap's answer-card confirm was the Viola overseer's (delegate viola-overseer), PROVISIONAL. No human-facing time limit is added.
 **Ref:** .andromeda/runs/2026-10-19T09-28-14-wrap/
+
+## 2026-10-19-overseer-switch-to-viola — the takeover clause's second live reading, the founder's own key on the product
+**Section:** §3 → Keyboard test harness (the takeover clause).
+**Change:** The takeover clause has two live readings on Linux, supplemental and never gating. The second, on the product binary over a live `claude` 2.1.296 session: a key the founder typed himself in that session's own terminal wrote `wheel{holder:"human",cause:"human-input"}`, the next driver `send` exited 10 `human-typing` with no `send-issued`, and his own `viola release` wrote `wheel{holder:"driver",cause:"release"}`. Was "one live reading" (a `wtype` key on 2.1.287).
+**Why:** The switch's gated step 14 read the takeover against the real terminal and the real CLI, no agent typing the key (the founder's own answer to P4 fork Q3, `inputs#I14`).
+**Ref:** .andromeda/runs/2026-10-19T19-16-36-wrap/
