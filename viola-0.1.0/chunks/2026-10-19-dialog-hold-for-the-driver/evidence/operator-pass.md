@@ -94,3 +94,26 @@ part of the hold, the answer, the hook's bound or the expiry that the round read
 ```
 hygiene: clean — read 3 (runs 2 · evidence 1 · inputs 0) · trails 1 not read · copies 0 not read by P1 — 0 host paths kept · binary 0 not read by P1
 ```
+
+**The fix commit:** `d146c50c6fe2f58164ceece52ecc091773450f30`: `fix(2026-10-19-dialog-hold-for-the-driver): a held
+dialog's pending_dialog is on the snapshot before its line is logged, and cleared when the append fails`, on top of
+`3def5b5b` (no amend). `git status --short` was empty after it.
+
+**The push** (entry 22, `--operator 22`):
+
+```
+operator entry 22 · history tripwire: git
+ 22 probe       green · exit 0 · 1.98s · 92 B → 22.log · history moved: refs/remotes/origin/HEAD 3def5b5b→d146c50c; refs/remotes/origin/build/viola-0.1.0 3def5b5b→d146c50c · git diff --quiet && git diff --cached --quiet && git push … (69 chars)
+```
+
+**The CI read** (entry 23, as written) — GREEN:
+
+```
+ci v1.3 · 2b582a9b
+repo Turbolet85/viola (the push remote `origin`) · polled 23× over 684 s
+d146c50c6fe2 verdict: green · checks 15/15 · wall 652 s · runs ci#39228538322 completed/success
+```
+
+The run itself (`gh run list --commit <full sha>`): `attempt` 1, `conclusion` `success`, `event` `push`, `headSha`
+`d146c50c6fe2f58164ceece52ecc091773450f30`. `test (macos-latest)` is among the 15 green checks. This section's push
+and CI rows were written after the push (ci.md 2026-10-13), so they ride the wrap commit.

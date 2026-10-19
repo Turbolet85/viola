@@ -20,3 +20,13 @@ Times UTC. Paths repository-relative; `<stamp>` = 20261019T083728Z.
 - 08:39:33Z `wait --after 448 --json`: woke on `question`, ts 08:39:30.791Z, dialog_id 1, cursor 1358, 1 question,
   options alpha and beta present. Snapshot `pending_dialog` {dialog_id 1, question}. parse-rejected 0.
 - scheduled (background): `list --json` at 08:44:31Z (300 s); `answer builder 1 --json` at 08:50:41Z (~670 s).
+- 08:44:31Z `list --json` (300 s): builder `dialog_pending` true, `live`, wheel `driver`.
+- 08:50:42.074Z `answer builder 1 --json` (671.3 s): child alive, `pending_dialog` held; exit 0 `{"v":1,"ok":{}}`.
+- 08:50:43.652Z `turn-ended`; `last` equals `beta`. Readings: run `dialog-answered` deadline_hit false 671301 ms; hook
+  `hook-decision` decision_emitted true deadline_hit false 671302 ms; dialog-expired 0; parse-rejected 0; panic 0.
+- 08:51:07Z stop file: 3 presses, exit 0, not killed. Census: none running. 08:51:24Z ledger row `census`.
+- After: `~/.claude/projects/` 111 (+4); `*viola-verify*` transcripts 70 (+5).
+- Operator pass: pre-push green; Windows lint exit 0; hygiene clean; pre-CI commit 3def5b5b; push; CI red
+  (test (macos-latest), cross_list_rows_style_each_span_beside_its_word_on_a_terminal: DIALOG none). Cause read: the
+  dialog line was appended before `pending_dialog` was written. Fix in `register`; block green (3rd firing); fix commit
+  d146c50c; push; CI green ci#39228538322 (attempt 1, 15/15, 652 s).

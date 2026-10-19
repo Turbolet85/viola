@@ -485,8 +485,9 @@ hint: builder did not submit the prompt; check it, then send again
 
 **3. `viola wait` / `viola last`**
 - `wait` prints one static `waiting: builder` line on stderr (TTY only), then one result line on stdout:
-  - `turn-ended  builder  19:44:10.221Z  cursor 49102`; `session-end` and every other non-dialog kind take the same `<kind>  <name>  <time>  cursor <n>` form
+  - `turn-ended  builder  19:44:10.221Z  cursor 49102`; `session-end` and every other kind without a `dialog_id` take the same `<kind>  <name>  <time>  cursor <n>` form
   - `question  builder  dialog 7  cursor 49310` (`DIALOG` is not coloured here: this is a result, not the board); `dialog unknown` when the event carries no `dialog_id`
+  - `dialog-expired  builder  dialog 7  cursor 49400`: an expired hold takes the dialog form, as `question`, `permission` and `plan` do (a planning form; the kind word and the line are the founder's to word)
   - `timed out  builder  30000 ms`
 - There is no spinner and no elapsed-time counter.
 - `last` prints `last  builder  turn-ended 19:44:10.221Z` on stderr (TTY only), then the message text on stdout with C0/C1 escaped, or `no message` on stderr for `null`.

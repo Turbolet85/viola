@@ -2571,5 +2571,48 @@
 "unparsed": 0,
 "widening_without_word": 0
 }
+},
+{
+"tool": "gate",
+"v": "1.21",
+"sha8": "e2f3ad5e",
+"ts": "2026-10-19T09:26:33Z",
+"argv": [
+"census",
+"--args",
+"projects/viola/target/debug/viola",
+"--args",
+"viola-live-hold",
+"--args",
+"hold-live-",
+"--args",
+"p-dhd-smoke",
+"--run-dir",
+".andromeda/runs/2026-10-19T08-22-37-implement",
+"--marker",
+"2026-10-19-dialog-hold-for-the-driver"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"census · ps · comm — · args projects/viola/target/debug/viola, viola-live-hold, hold-live-, p-dhd-smoke · own tree excluded: 8",
+"census: none running"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"census": {
+"comm": [],
+"args": [
+"projects/viola/target/debug/viola",
+"viola-live-hold",
+"hold-live-",
+"p-dhd-smoke"
+],
+"running": []
+}
+}
 }
 ]

@@ -18,7 +18,8 @@ then `/andromeda-wrap-session`.
 board read `DIALOG none` on a held dialog. The cause, read from the code: `register` (`src/run/dialog.rs`)
 appended the dialog line before writing `pending_dialog`, a pre-existing order (events.md 2026-10-16), not reproduced
 on this host. It is folded into this chunk and fixed in that listed file (Deviation 4), and the block is green again
-(third firing). The pass repeats from step 1 under a fix commit: `evidence/operator-pass.md` §5–§6.
+(third firing). The pass repeated from step 1 under the fix commit `d146c50c`, which reads CI **green**
+(ci#39228538322, attempt 1, 15/15, wall 652 s): `evidence/operator-pass.md` §5–§6. **Ready for `/andromeda-wrap-session`.**
 
 ## Files changed (14, all on research's Files to modify) + new
 

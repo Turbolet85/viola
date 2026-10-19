@@ -1,0 +1,9 @@
+--- a/.andromeda/design-system.md
++++ b/.andromeda/design-system.md
+@@ -487,4 +487,5 @@
+ - `wait` prints one static `waiting: builder` line on stderr (TTY only), then one result line on stdout:
+-  - `turn-ended  builder  19:44:10.221Z  cursor 49102`; `session-end` and every other non-dialog kind take the same `<kind>  <name>  <time>  cursor <n>` form
++  - `turn-ended  builder  19:44:10.221Z  cursor 49102`; `session-end` and every other kind without a `dialog_id` take the same `<kind>  <name>  <time>  cursor <n>` form
+   - `question  builder  dialog 7  cursor 49310` (`DIALOG` is not coloured here: this is a result, not the board); `dialog unknown` when the event carries no `dialog_id`
++  - `dialog-expired  builder  dialog 7  cursor 49400`: an expired hold takes the dialog form, as `question`, `permission` and `plan` do (a planning form; the kind word and the line are the founder's to word)
+   - `timed out  builder  30000 ms`

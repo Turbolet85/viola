@@ -1,0 +1,16 @@
+proposals:
+  - detector: D-security-input
+    severity: escalate
+    section: §Input Validation (Configuration values (`config.json`) row)
+    change: "Add the key `dialog_hold_s` to the row: a JSON whole number of seconds into the `viola_core::DialogHold` nutype (60–3600, default 60, `DIALOG_HOLD_DEFAULT` / `_MIN` / `_MAX`), read once at the wrapper's start by `run::dialog::read_hold` right after `read_thresholds`, through its own `take(MAX_FRAME)` read with `v` = 1; an absent, unreadable or malformed document or a `v` other than 1 gives 60 with no rejection, any other value (0, 59, 3601, -1, a fraction, a string, `null`, `true`) gives 60 and exactly one `parse-rejected{parser:\"config-json\", detail:\"malformed\"}`; no value makes the hold zero or unbounded, no env var or flag sets it; a boundary widening the founder answered himself (`inputs#I2` Q1 «Ключ, по умолчанию 60»); and name `src/run/dialog.rs` (`read_hold`) and `DialogHold` (`viola-core`) in the How column."
+    sidecar: "§Input Validation Configuration values row gains `dialog_hold_s` (60–3600 s, default 60, `DialogHold` nutype, `read_hold`, one parse-rejected per bad value), chunk 2026-10-19-dialog-hold-for-the-driver."
+    rationale: "The report's Schema / config bullet adds a new external-input key to `config.json` (`dialog_hold_s`, ratified by inputs#I2 Q1) and its Coverage bullet names its validation (`DialogHold` nutype + `take(MAX_FRAME)` + `v` = 1); the validation is present in code, but security-plan's Configuration values row lists only `five_hour` / `seven_day`, `port`, `diagnostics_level` and `claude_env_keep`, so the new boundary stands undocumented. The report's Expected amendments name this row and say its sweep is the detector's (0 `cfgkeys` hits)."
+    basis: "src/run/dialog.rs:155-168; crates/viola-core/src/lib.rs:248-271; schemas/config.v1.json:15-16"
+  - detector: D-retired
+    severity: warning
+    section: §Input Validation (Hook stdin (all hook events + `hook statusline`) row)
+    change: "Replace 'the reply read is bounded at `DIALOG_DEADLINE + 5 s`' with 'the reply read is bounded at `DIALOG_HOLD_MAX + 5 s` (3605 s; the hook's bound follows the ceiling, the wrapper replying `null` at its own configured hold's end)'."
+    sidecar: "§Input Validation Hook stdin row: the dialog reply bound moves from the retired `DIALOG_DEADLINE + 5 s` (65 s) to `DIALOG_HOLD_MAX + 5 s` (3605 s), chunk 2026-10-19-dialog-hold-for-the-driver."
+    rationale: "The report's Retired bullet names `viola_core::DIALOG_DEADLINE` (its meaning moved to `DIALOG_HOLD_DEFAULT` / `DIALOG_HOLD_MAX`), and Symbols / APIs gives `src/cmd/hook.rs` `dialog_deadline(started)` = `started + DIALOG_HOLD_MAX + REPLY_GRACE` = 3605 s (was 65 s); the Counts bullet marks `security-plan.md:202` stale under patterns `deadline` and `hookbound`."
+    basis: "security-plan.md:202"
+note: "D-security-auth and D-security-deps: no drift (the report touches no identity/token/key handling and lists Dependencies: none). The Threat Model line 'config.json holds budget thresholds' was never an exhaustive key list (it omits port, diagnostics_level, claude_env_keep) and was left; no other security-plan passage names DIALOG_DEADLINE, the 65 s bound or the hooks.json 75 s timeout."

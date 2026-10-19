@@ -1,0 +1,149 @@
+[
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "0c159d7d",
+"ts": "2026-10-19T09:28:53Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-19-dialog-hold-for-the-driver",
+"--message-file",
+".andromeda/runs/2026-10-19T09-28-14-wrap/relay-1.md",
+"--origin",
+"the operator, the /andromeda-wrap-session invocation, 2026-10-19T09:28Z",
+"--kind",
+"relay",
+"--why",
+"the operator directs the wrap: the macOS red at 3def5b5b had an older cause and its fix d146c50c is this chunk deviation; the clippy PREREQ closes; the founder wording for dialog-expired is owed to his Epoch 5 batch; write the card three Beyond-the-plan rows",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-19T09-28-14-wrap",
+"--marker",
+"2026-10-19-dialog-hold-for-the-driver"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy message · message: the operator, the /andromeda-wrap-session invocation, 2026-10-19T09:28Z",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, the /andromeda-wrap-session invocation, 2026-10-19T09:28Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "200f519c07e691e964cb040c253bac47e7edc0a2df274d66abed4c5a4c1562d9",
+"copy": "I4-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-19T09:28:53Z",
+"step": "wrap",
+"why": "the operator directs the wrap: the macOS red at 3def5b5b had an older cause and its fix d146c50c is this chunk deviation; the clippy PREREQ closes; the founder wording for dialog-expired is owed to his Epoch 5 batch; write the card three Beyond-the-plan rows"
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "0c159d7d",
+"ts": "2026-10-19T09:28:53Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-19-dialog-hold-for-the-driver",
+"--run-dir",
+".andromeda/runs/2026-10-19T09-28-14-wrap",
+"--marker",
+"2026-10-19-dialog-hold-for-the-driver"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase invocation, 2026-10-19T07:38Z",
+"I1 cited scope.md:82 · research.md:10 · plan.md:481",
+"I2 n/a — a message has no live source · copy message · message: the founder, live in the overseer dialog 2026-10-19T08:04Z, relayed verbatim by the operator",
+"I2 cited research.md:5 · research.md:131 · research.md:140 · plan.md:16 · plan.md:137 · plan.md:432 · plan.md:447 · plan.md:481 · plan.md:498 · plan.md:502 · plan.md:505 · plan.md:513 · plan.md:519 · plan.md:535 · plan.md:544",
+"I3 n/a — a message has no live source · copy message · message: the operator, in this session, at the P5 review prompt, 2026-10-19",
+"I3 UNCITED",
+"I4 n/a — a message has no live source · copy message · message: the operator, the /andromeda-wrap-session invocation, 2026-10-19T09:28Z",
+"I4 UNCITED",
+"inputs: 4 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 4 · uncited 2 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 4,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 4
+},
+"uncited": 2,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "0c159d7d",
+"ts": "2026-10-19T09:32:28Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-19-dialog-hold-for-the-driver",
+"--run-dir",
+".andromeda/runs/2026-10-19T09-28-14-wrap",
+"--marker",
+"2026-10-19-dialog-hold-for-the-driver"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase invocation, 2026-10-19T07:38Z",
+"I1 cited scope.md:82 · research.md:10 · plan.md:481",
+"I2 n/a — a message has no live source · copy message · message: the founder, live in the overseer dialog 2026-10-19T08:04Z, relayed verbatim by the operator",
+"I2 cited research.md:5 · research.md:131 · research.md:140 · plan.md:16 · plan.md:137 · plan.md:432 · plan.md:447 · plan.md:481 · plan.md:498 · plan.md:502 · plan.md:505 · plan.md:513 · plan.md:519 · plan.md:535 · plan.md:544 · report.md:78 · report.md:213",
+"I3 n/a — a message has no live source · copy message · message: the operator, in this session, at the P5 review prompt, 2026-10-19",
+"I3 cited report.md:66 · report.md:182 · report.md:345",
+"I4 n/a — a message has no live source · copy message · message: the operator, the /andromeda-wrap-session invocation, 2026-10-19T09:28Z",
+"I4 cited report.md:193 · report.md:275 · report.md:289",
+"inputs: 4 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 4 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 4,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 4
+},
+"uncited": 0,
+"unparsed": 0
+}
+}
+]

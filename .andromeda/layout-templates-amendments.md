@@ -229,3 +229,12 @@ Each superseded mark stands as the operator's word, superseded 2026-10-13.
 **Change:** item 2: on a verified CLI `/clear` is read back by its new-session post-condition and `/compact` by its compacted-session one (a `session-start` of cause `compact` with the session's own id, inside its own 40 s PROVISIONAL window, else `not-delivered` / `no-prompt-submitted`); `[  ] unconfirmable …` for `/remote-control` and for `/compact` or `/clear` on an unverified CLI. The verify wireframe shows 24 relied rows (`[NN/24]`, the new last line `[24/24] local-command-compact …`), `stamped 2.1.287  24 pass  0 fail`, the failing example `22 pass  2 fail`; the Usage list ends `local-command-compact`, `MM` 24 / 21. Was: `/clear` alone confirmed by a post-condition; 23 rows, `21 pass  2 fail`, `MM` 23 / 20.
 **Why:** the chunk built the compact post-condition and the 24th row (report Symbols / APIs, Retired, Outcome).
 **Ref:** .andromeda/runs/2026-10-18T21-59-05-wrap/
+
+## 2026-10-19-dialog-hold-for-the-driver — the `viola wait` wireframe gains the `dialog-expired` line
+**Section:** §Surface: cli → Output structure — `viola wait` / `viola last` (the wireframe and the prose under it).
+**Change:**
+- The wireframe gains `dialog-expired  builder  dialog 7  cursor 49400`, annotated as the dialog form.
+- The `session-end` annotation reads "every kind without a dialog_id takes the turn-ended form". Was "every non-dialog kind".
+- The prose says a `wait` woken by `dialog-expired` prints `dialog-expired  <name>  dialog <id>  cursor <n>`, ASCII, no SGR, written once.
+**Why:** The wrapper now records an expired hold as `dialog-expired` `{dialog_id, dialog_kind}`, which wakes `wait`. The line is a planning form, and the founder's wording for the kind word and the line is owed to his Epoch 5 boundary batch (the P5 card's row 3, approved by the operator's word, `inputs#I3`).
+**Ref:** .andromeda/runs/2026-10-19T09-28-14-wrap/

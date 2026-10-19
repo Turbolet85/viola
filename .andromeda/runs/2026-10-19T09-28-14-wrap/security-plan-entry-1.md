@@ -1,0 +1,8 @@
+
+## 2026-10-19-dialog-hold-for-the-driver — `dialog_hold_s` validated into `DialogHold`; the dialog reply bound at the ceiling
+**Section:** §Input Validation (Configuration values (`config.json`) row; Hook stdin (all hook events + `hook statusline`) row).
+**Change:**
+- Configuration values: `dialog_hold_s` is read once at the wrapper's start by `run::dialog::read_hold`, right after the thresholds, through its own `take(MAX_FRAME)` read with `v` = 1. A JSON whole number of seconds that fits `DialogHold` (60–3600, `DialogHold::try_new`; default 60, `DIALOG_HOLD_DEFAULT`) is the hold. Anything else gives 60 and one `parse-rejected{parser:"config-json", detail:"malformed"}` line. A document that is no object, or whose `v` is not 1, gives 60 with no rejection. No value makes the hold zero or unbounded, and no env var or flag sets it. The How column names the hold read in `src/run/dialog.rs`, and `DialogHold` as `viola-core`'s beside `Percent`.
+- Hook stdin: the dialog reply read is bounded at `DIALOG_HOLD_MAX + 5 s` (3605 s; the wrapper replies `null` at its own configured hold's end). Was `DIALOG_DEADLINE + 5 s` (65 s), the constant retired.
+**Why:** The key is a validated surface admitting a new input, a boundary widening the founder answered himself to P4 fork Q1, relayed verbatim by the operator (`inputs#I2`). The wrap's answer-card confirm was the Viola overseer's (delegate viola-overseer), PROVISIONAL, superseded by his own word at the Epoch 5 boundary. The hook's bound follows the ceiling so `plugin/<key>/` stays byte-identical across starts.
+**Ref:** .andromeda/runs/2026-10-19T09-28-14-wrap/

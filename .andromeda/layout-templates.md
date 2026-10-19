@@ -129,8 +129,9 @@ The word column is padded so `open`, `read back`, `unable` and `unconfirmable` l
 $ viola wait builder --after 48213
 waiting: builder                                          <- stderr, TTY only, printed once
 turn-ended  builder  19:44:10.221Z  cursor 49102          <- stdout
-session-end  builder  19:52:03.118Z  cursor 50117         <- stdout (every non-dialog kind takes the turn-ended form)
+session-end  builder  19:52:03.118Z  cursor 50117         <- stdout (every kind without a dialog_id takes the turn-ended form)
 question  builder  dialog 7  cursor 49310                 <- stdout (DIALOG is not coloured: this is a result, not the board)
+dialog-expired  builder  dialog 7  cursor 49400           <- stdout (an expired hold takes the dialog form; planning form, the founder's wording owed)
 timed out  builder  30000 ms                              <- stdout
 
 $ viola last builder
@@ -142,7 +143,7 @@ unable  builder  instance-unreachable                     <- stderr
 hint: builder is not running; viola list shows the live instances   <- stderr, the last line
 ```
 
-There is no spinner and no elapsed-time counter. `waiting:` is printed only when stderr is a terminal and `--json` is not set. A dialog line whose event carries no `dialog_id` reads `dialog unknown`. Under `--json` each verb prints exactly one document on stdout (`{"v":1,"ok":…}`, or the exit-21 / wrapper-fault document) and nothing on stderr. A failure or a caught panic prints `error: internal error` once, exit 1, no hint (Primary content block 2).
+There is no spinner and no elapsed-time counter. `waiting:` is printed only when stderr is a terminal and `--json` is not set. A dialog line whose event carries no `dialog_id` reads `dialog unknown`. A `wait` woken by `dialog-expired` (the wrapper's record of an expired hold, chunk 2026-10-19-dialog-hold-for-the-driver) prints `dialog-expired  <name>  dialog <id>  cursor <n>`, ASCII, no SGR, written once: a planning form, the founder's wording for the kind word and the line owed to his Epoch 5 boundary batch. Under `--json` each verb prints exactly one document on stdout (`{"v":1,"ok":…}`, or the exit-21 / wrapper-fault document) and nothing on stderr. A failure or a caught panic prints `error: internal error` once, exit 1, no hint (Primary content block 2).
 
 ### Output structure — wheel, handoff and dialog verbs
 

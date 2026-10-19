@@ -1,0 +1,44 @@
+[[pattern]]
+id = 'deadline'
+regex = '(DIALOG_DEADLINE|dialog deadline|rest of the deadline|the deadline bounds)'
+ignore_case = true
+
+[[pattern]]
+id = 'timeout75'
+regex = '(timeout[^.\n]{0,40}\b75\b|\b75 ?s\b)'
+ignore_case = true
+
+[[pattern]]
+id = 'hookbound'
+regex = '(DEADLINE \+ 5|\b65 ?s\b)'
+ignore_case = true
+
+[[pattern]]
+id = 'kinds15'
+regex = '(\b15 (normalised |event )?kinds|fifteen (normalised |event )?kinds)'
+ignore_case = true
+
+[[pattern]]
+id = 'wake5'
+regex = 'plan[^a-z]{1,10}session-end(?![^a-z]{1,10}dialog-expired)'
+ignore_case = false
+
+[[pattern]]
+id = 'hookonly'
+regex = '(Only hook lines signal|start records never wake\)\.)'
+ignore_case = true
+
+[[pattern]]
+id = 'cfgfive'
+regex = '(five `?CONFIG_KEYS|CONFIG_KEYS`? holds five|holds five names)'
+ignore_case = true
+
+[[pattern]]
+id = 'ondeadline'
+regex = '(On deadline the hook|on expiry the hook)'
+ignore_case = true
+
+[[pattern]]
+id = 'nondialog'
+regex = 'non-dialog kind'
+ignore_case = true

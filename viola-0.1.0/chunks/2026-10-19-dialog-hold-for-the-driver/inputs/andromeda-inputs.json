@@ -52,5 +52,23 @@
     "read_at": "2026-10-19T08:18:02Z",
     "step": "phase:P5",
     "why": "the operator approves the plan and the Beyond-the-plan rows of .andromeda/runs/2026-10-19T07-38-25-phase/p5-card-1.md (operator word)"
+  },
+  {
+    "id": "I4",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: the operator, the /andromeda-wrap-session invocation, 2026-10-19T09:28Z",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "200f519c07e691e964cb040c253bac47e7edc0a2df274d66abed4c5a4c1562d9",
+    "copy": "I4-relay-1.md.txt",
+    "link": false,
+    "read_at": "2026-10-19T09:28:53Z",
+    "step": "wrap",
+    "why": "the operator directs the wrap: the macOS red at 3def5b5b had an older cause and its fix d146c50c is this chunk deviation; the clippy PREREQ closes; the founder wording for dialog-expired is owed to his Epoch 5 batch; write the card three Beyond-the-plan rows"
   }
 ]

@@ -1,0 +1,69 @@
+[[pattern]]
+id = 'deadline'
+regex = '(DIALOG_DEADLINE|dialog deadline|dialog-deadline)'
+ignore_case = true
+
+[[pattern]]
+id = 'timeout75'
+regex = '(timeout[^.\n]{0,40}\b75\b|\b75 ?s\b|\b75-second)'
+ignore_case = true
+
+[[pattern]]
+id = 'hookbound'
+regex = '(REPLY_GRACE|\b65 ?s\b|dialog_deadline\(|DIALOG_[A-Z_]* ?\+ ?5)'
+ignore_case = true
+
+[[pattern]]
+id = 'kinds15'
+regex = '(fifteen (normalised |event )?kinds|\b15 (normalised |event )?kinds|\[Self; 15\]|EventKind::ALL)'
+ignore_case = true
+
+[[pattern]]
+id = 'wake5'
+regex = '(WAIT_WAKE|wait. wakes only on|five driver-relevant|wake set|wakes only on)'
+ignore_case = true
+
+[[pattern]]
+id = 'logonly'
+regex = '(log-only)'
+ignore_case = true
+
+[[pattern]]
+id = 'cfgkeys'
+regex = '(CONFIG_KEYS|dialog_hold_s|config\.json`?.{0,60}(five_hour|seven_day))'
+ignore_case = true
+
+[[pattern]]
+id = 'expired'
+regex = '(dialog-expired|DialogExpired|expired hold)'
+ignore_case = true
+
+[[pattern]]
+id = 'ctrltable'
+regex = '(cli_controls_not_disableable|SETTINGS|controls table)'
+ignore_case = false
+
+[[pattern]]
+id = 'waitline'
+regex = '(DIALOG_KINDS|dialog <id>)'
+ignore_case = false
+
+[[pattern]]
+id = 'deadlinehit'
+regex = '(deadline_hit)'
+ignore_case = false
+
+[[pattern]]
+id = 'pendingsnap'
+regex = '(pending_dialog)'
+ignore_case = false
+
+[[pattern]]
+id = 'owner-title'
+fixed = 'Dialog hold for the driver'
+ignore_case = true
+
+[[pattern]]
+id = 'owner-generic'
+regex = 'owned by a (route entry|CARRY)'
+ignore_case = true

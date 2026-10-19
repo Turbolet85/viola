@@ -230,3 +230,11 @@ Each superseded mark stands in the body as the operator's word, superseded 2026-
 **Change:** a `/compact` send on a verified CLI is read back once its measured post-condition, a `session-start` of cause `compact` carrying the session's own id, lands — beside `/clear`'s new session; on an unverified CLI it stays `unconfirmable`; the `SessionStartCause::compact` row names that readback role. `verify`'s step lines read `[NN/24]`, `MM` 24 on Unix and 21 on Windows, the row list ending `local-command-compact /compact keeps the session id and submits no prompt`, the summary `stamped 2.1.287  24 pass  0 fail`. Was: `/clear` the only post-condition read back; `[01/23]`, 23 / 20, `23 pass  0 fail`.
 **Why:** the chunk built the compact post-condition and the 24th row (report Symbols / APIs, Retired); the unconfirmable line stays for `/remote-control` and an unverified CLI.
 **Ref:** .andromeda/runs/2026-10-18T21-59-05-wrap/
+
+## 2026-10-19-dialog-hold-for-the-driver — `viola wait`'s `dialog-expired` line takes the dialog form
+**Section:** §Surface: cli §Component Patterns 3 (`viola wait` / `viola last`).
+**Change:**
+- A new example line: `dialog-expired  builder  dialog 7  cursor 49400`. An expired hold takes the dialog form, as `question`, `permission` and `plan` do.
+- The time form is now for "every other kind without a `dialog_id`". Was "every other non-dialog kind", which would have put `dialog-expired` in the time form.
+**Why:** The wrapper's new record of an expired hold carries `dialog_id`, so its `wait` line names the dialog. The line and the kind word are a planning form: the founder's wording is owed to his Epoch 5 boundary batch (the P5 card's row 3, approved by the operator's word, `inputs#I3`). The Domain status colors table gains no row: a colour for the kind is a 0.2.0 frontend decision this chunk did not make.
+**Ref:** .andromeda/runs/2026-10-19T09-28-14-wrap/
