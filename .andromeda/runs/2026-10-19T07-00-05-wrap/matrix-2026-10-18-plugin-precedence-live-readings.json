@@ -1,0 +1,99 @@
+[
+{
+"tool": "matrix",
+"v": "1.5",
+"sha8": "49bca268",
+"ts": "2026-10-19T07:25:19Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-18-plugin-precedence-live-readings",
+"--run-dir",
+".andromeda/runs/2026-10-19T07-00-05-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-10-18-plugin-precedence-live-readings: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v1-42 → verified — `viola plugin install` writes `<home>/marketplace/`: a marketplace `viola` whose… (1131 chars)",
+"dry-run: nothing written",
+"version: verified 21/53"
+],
+"stderr": null,
+"wrote": [],
+"before": [
+{
+"id": "v1-42",
+"chunk": "2026-10-18-plugin-precedence-live-readings",
+"status": "implemented",
+"method": "integration",
+"ref": "tests/cli_plugin_install.rs (binary(cli_plugin_install), gate entry 4 green) + live: chunks/2026-10-18-plugin-precedence… (377 chars)",
+"acceptance": "`viola plugin install` writes `<home>/marketplace/`: a marketplace `viola` whose one plugin `viola` holds only `.claude-… (1131 chars)",
+"notes_chars": 2085
+}
+],
+"after": [
+{
+"id": "v1-42",
+"chunk": "2026-10-18-plugin-precedence-live-readings",
+"status": "verified",
+"method": "integration",
+"ref": "tests/cli_plugin_install.rs (binary(cli_plugin_install), gate entry 4 green) + live: chunks/2026-10-18-plugin-precedence… (377 chars)",
+"acceptance": "`viola plugin install` writes `<home>/marketplace/`: a marketplace `viola` whose one plugin `viola` holds only `.claude-… (1131 chars)",
+"notes_chars": 2085
+}
+]
+},
+{
+"tool": "matrix",
+"v": "1.5",
+"sha8": "49bca268",
+"ts": "2026-10-19T07:25:19Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-18-plugin-precedence-live-readings",
+"--run-dir",
+".andromeda/runs/2026-10-19T07-00-05-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-10-18-plugin-precedence-live-readings: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v1-42 → verified — `viola plugin install` writes `<home>/marketplace/`: a marketplace `viola` whose… (1131 chars)",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed",
+"version: verified 21/53"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": [
+{
+"id": "v1-42",
+"chunk": "2026-10-18-plugin-precedence-live-readings",
+"status": "implemented",
+"method": "integration",
+"ref": "tests/cli_plugin_install.rs (binary(cli_plugin_install), gate entry 4 green) + live: chunks/2026-10-18-plugin-precedence… (377 chars)",
+"acceptance": "`viola plugin install` writes `<home>/marketplace/`: a marketplace `viola` whose one plugin `viola` holds only `.claude-… (1131 chars)",
+"notes_chars": 2085
+}
+],
+"after": [
+{
+"id": "v1-42",
+"chunk": "2026-10-18-plugin-precedence-live-readings",
+"status": "verified",
+"method": "integration",
+"ref": "tests/cli_plugin_install.rs (binary(cli_plugin_install), gate entry 4 green) + live: chunks/2026-10-18-plugin-precedence… (377 chars)",
+"acceptance": "`viola plugin install` writes `<home>/marketplace/`: a marketplace `viola` whose one plugin `viola` holds only `.claude-… (1131 chars)",
+"notes_chars": 2085
+}
+]
+}
+]

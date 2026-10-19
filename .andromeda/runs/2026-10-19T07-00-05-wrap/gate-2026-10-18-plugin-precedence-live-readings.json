@@ -1,0 +1,587 @@
+[
+{
+"tool": "gate",
+"v": "1.21",
+"sha8": "e2f3ad5e",
+"ts": "2026-10-19T07:00:25Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings",
+"--run-dir",
+".andromeda/runs/2026-10-19T07-00-05-wrap",
+"--marker",
+"2026-10-18-plugin-precedence-live-readings"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base bc2e3bf7 (the parent of the oldest pre-CI commit 2a3d5691) · lists new 1 · modify 0 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"list viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/evidence/ (dir) ×0",
+"scope: clean — changed 0 · listed 0 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 69"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "bc2e3bf73bcb943c88e8009ba5d1959022ef7eff",
+"base_why": "the parent of the oldest pre-CI commit 2a3d5691",
+"counts": {
+"changed": 0,
+"listed": 0,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 69,
+"unparsed": 0,
+"widening_without_word": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.21",
+"sha8": "e2f3ad5e",
+"ts": "2026-10-19T07:04:41Z",
+"argv": [
+"census",
+"--args",
+"plugin-live-2026101",
+"--args",
+"viola-live-plugin-2026101",
+"--args",
+"projects/viola/target/debug/viola",
+"--args",
+"live-pty-arrow.py",
+"--run-dir",
+".andromeda/runs/2026-10-19T07-00-05-wrap",
+"--marker",
+"2026-10-18-plugin-precedence-live-readings"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"census · ps · comm — · args plugin-live-2026101, viola-live-plugin-2026101, projects/viola/target/debug/viola, live-pty-arrow.py · own tree excluded: 8",
+"census: none running"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"census": {
+"comm": [],
+"args": [
+"plugin-live-2026101",
+"viola-live-plugin-2026101",
+"projects/viola/target/debug/viola",
+"live-pty-arrow.py"
+],
+"running": []
+}
+}
+},
+{
+"tool": "gate",
+"v": "1.21",
+"sha8": "e2f3ad5e",
+"ts": "2026-10-19T07:25:07Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-19T07-00-05-wrap",
+"--marker",
+"2026-10-18-plugin-precedence-live-readings",
+"--void",
+"6:defer voided — .andromeda/master-route.md read by crates/viola-e2e/src/harness/run/mutants/base.rs,7:walk-class tests/cli_controls_not_disableable.rs — uncommitted,8:walk-class tests/contract_fake_agent_drift.rs — uncommitted,9:walk-class tests/contract_fixture_hygiene.rs — uncommitted"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-18-plugin-precedence-live-readings · entries 12",
+"logs $TMPDIR/andromeda-gate/2026-10-18-plugin-precedence-live-readings/wrap-2026-10-19T07-00-05 · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 70 · unmapped 2",
+"walk-class rust 4 (tests/cli_controls_not_disableable.rs, tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, +1 in the trail) · uncommitted 72",
+"prose L154-157: The rig's controls run first, then the build the round uses, then v1-42's integration half… (399 chars)",
+"prose L159-160: The live round (steps 3–10) is an attended rig measurement, not an entry. No entry produce… (200 chars)",
+"  1 lint        green · exit 0 · 1.05s · 0 B → 1.log · cargo fmt --all --check",
+"  2 unit        green · exit 0 · 0.02s · 1046 B → 2.log · python3 viola-0.1.0/chunks/2026-10-18-plugin-precedence-li… (94 chars)",
+"  3 build       green · exit 0 · 0.16s · 72 B → 3.log · cargo build --bin viola",
+"  4 integration green · exit 0 · 1.29s · 2632 B → 4.log · bash scripts/agent-run.sh run --integration --filter 'bina… (82 chars)",
+"  5 lint        not run — defer (key): zero Rust delta: the chunk writes only i… (88 chars) · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  6 unit        green · exit 0 · 6.93s · 309644 B → 6.log · void: defer voided — .andromeda/master-route.m… (98 chars) · bash scripts/agent-run.sh run --unit",
+"  7 integration green · exit 0 · 62.87s · 47294 B → 7.log · void: walk-class tests/cli_controls_not_disabl… (62 chars) · bash scripts/agent-run.sh run --integration",
+"  8 e2e         green · exit 0 · 10.9s · 22205 B → 8.log · void: walk-class tests/contract_fake_agent_dri… (59 chars) · bash scripts/agent-run.sh run --e2e",
+"  9 probe       green · exit 0 · 83.27s · 379711 B → 9.log · void: walk-class tests/contract_fixture_hygien… (58 chars) · bash scripts/agent-run.sh pre-push",
+" 10 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (90 chars)",
+" 11 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (69 chars)",
+" 12 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (114 chars)",
+"entries 12 · green 8 · red 0 · recorded 0 · timeout 0 · not-run 4 · voided 4 (6,7,8,9)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-18-plugin-precedence-live-readings",
+"plan": "./viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-18-plugin-precedence-live-readings/wrap-2026-10-19T07-00-05",
+"delta": {
+"docs": [
+".andromeda/architecture-amendments.md",
+".andromeda/architecture.md",
+".andromeda/friction-log.ndjson",
+".andromeda/runs/2026-10-19T05-23-09-implement/outcome-2026-10-18-plugin-precedence-live-readings.md",
+".andromeda/security-plan-amendments.md",
+".andromeda/security-plan.md",
+".andromeda/state.yaml",
+".andromeda/test-plan-amendments.md",
+".andromeda/test-plan.md",
+".claude/docs/commands.md",
+".claude/docs/conventions.md",
+".claude/docs/security-summary.md",
+".claude/docs/services/viola-mcp.md",
+".claude/docs/services/viola-state.md",
+".claude/docs/services/viola.md",
+".claude/docs/session-learnings.md",
+".claude/rules/api.md",
+".claude/rules/security.md",
+".claude/session-handoff.md",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/evidence/operator-pass.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-19T07-00-05-wrap/a11y-plan-contracts.md",
+".andromeda/runs/2026-10-19T07-00-05-wrap/answer-card.md",
+".andromeda/runs/2026-10-19T07-00-05-wrap/architecture-contracts.md",
+".andromeda/runs/2026-10-19T07-00-05-wrap/architecture-entry-1.md",
+".andromeda/runs/2026-10-19T07-00-05-wrap/architecture-entry-2.md",
+".andromeda/runs/2026-10-19T07-00-05-wrap/cascade-2026-10-18-plugin-precedence-live-readings-pre-pass.json",
+".andromeda/runs/2026-10-19T07-00-05-wrap/cascade-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-19T07-00-05-wrap/cascade-dispositions.md",
+".andromeda/runs/2026-10-19T07-00-05-wrap/cascade-patterns.toml",
+".andromeda/runs/2026-10-19T07-00-05-wrap/citation-dispositions.md",
+".andromeda/runs/2026-10-19T07-00-05-wrap/cites-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-19T07-00-05-wrap/classify-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-19T07-00-05-wrap/curation.md",
+".andromeda/runs/2026-10-19T07-00-05-wrap/evolve-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-19T07-00-05-wrap/fanout-a11y-plan.md",
+".andromeda/runs/2026-10-19T07-00-05-wrap/fanout-architecture.md",
+".andromeda/runs/2026-10-19T07-00-05-wrap/fanout-design-system.md",
+".andromeda/runs/2026-10-19T07-00-05-wrap/fanout-layout-templates.md",
+".andromeda/runs/2026-10-19T07-00-05-wrap/fanout-obs-plan.md",
+".andromeda/runs/2026-10-19T07-00-05-wrap/fanout-results.md",
+".andromeda/runs/2026-10-19T07-00-05-wrap/fanout-security-plan.md",
+".andromeda/runs/2026-10-19T07-00-05-wrap/fanout-test-plan.md",
+".andromeda/runs/2026-10-19T07-00-05-wrap/gate-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-19T07-00-05-wrap/inputs-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-19T07-00-05-wrap/leaf-architecture+security-plan+test-plan.md",
+".andromeda/runs/2026-10-19T07-00-05-wrap/leaf-architecture+security-plan.md",
+".andromeda/runs/2026-10-19T07-00-05-wrap/leaf-architecture+test-plan.md",
+".andromeda/runs/2026-10-19T07-00-05-wrap/leaf-architecture-1.md",
+".andromeda/runs/2026-10-19T07-00-05-wrap/leaf-architecture-2.md",
+".andromeda/runs/2026-10-19T07-00-05-wrap/leaf-architecture-3.md",
+".andromeda/runs/2026-10-19T07-00-05-wrap/leaf-delta-architecture.diff",
+".andromeda/runs/2026-10-19T07-00-05-wrap/leaf-delta-security-plan.diff",
+".andromeda/runs/2026-10-19T07-00-05-wrap/leaf-delta-test-plan.diff",
+".andromeda/runs/2026-10-19T07-00-05-wrap/leaf-security-plan.md",
+".andromeda/runs/2026-10-19T07-00-05-wrap/leaf-test-plan.md",
+".andromeda/runs/2026-10-19T07-00-05-wrap/new-text.md",
+".andromeda/runs/2026-10-19T07-00-05-wrap/obs-plan-contracts.md",
+".andromeda/runs/2026-10-19T07-00-05-wrap/registry-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-19T07-00-05-wrap/relay-1.md",
+".andromeda/runs/2026-10-19T07-00-05-wrap/replace-1.md",
+".andromeda/runs/2026-10-19T07-00-05-wrap/replace-2.md",
+".andromeda/runs/2026-10-19T07-00-05-wrap/report-patterns.toml",
+".andromeda/runs/2026-10-19T07-00-05-wrap/route-no-marker.json",
+".andromeda/runs/2026-10-19T07-00-05-wrap/security-plan-entry-1.md",
+".andromeda/runs/2026-10-19T07-00-05-wrap/security-plan-entry-2.md",
+".andromeda/runs/2026-10-19T07-00-05-wrap/splice-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-19T07-00-05-wrap/test-plan-contracts.md",
+".andromeda/runs/2026-10-19T07-00-05-wrap/test-plan-entry-1.md",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/report.md"
+]
+},
+"unmapped": [
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/inputs/andromeda-inputs.json",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/inputs/I5-relay-1.md.txt"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/cli_controls_not_disableable.rs",
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 72,
+"problem": null
+},
+"prose": [
+{
+"from": 154,
+"to": 157,
+"text": "The rig's controls run first, then the build the round uses, then v1-42's integration half by binary. The Rust workspace gates are deferred: the chunk's delta is its `evidence/` alone, no `.rs` file (research.md §Files to modify: none). /implement re-checks that reason against the tree. No booted smoke is listed: the booted path over the fake agent is unchanged and no leg of this chunk drives it."
+},
+{
+"from": 159,
+"to": 160,
+"text": "The live round (steps 3–10) is an attended rig measurement, not an entry. No entry produces `evidence/live-round.md`, and only the live criterion rests on it, re-verified by the wrap from `evidence/`."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-18-plugin-precedence-live-readings/wrap-2026-10-19T07-00-05/1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 1.05,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "unit",
+"run": "python3 viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/evidence/rig-controls.py",
+"run_sha8": "14657afa",
+"expect": [
+"exit 0",
+"last line controls: 10 of 10 as expected"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-18-plugin-precedence-live-readings/wrap-2026-10-19T07-00-05/2.log",
+"bytes": 1046,
+"log_sha8": "3d3810eb",
+"exit": 0,
+"seconds": 0.02,
+"readings": [
+"exit 0 ✓",
+"last line 'controls: 10 of 10 as expected' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "build",
+"run": "cargo build --bin viola",
+"run_sha8": "436d4861",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-18-plugin-precedence-live-readings/wrap-2026-10-19T07-00-05/3.log",
+"bytes": 72,
+"log_sha8": "a4105156",
+"exit": 0,
+"seconds": 0.16,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(cli_plugin_install)' ",
+"run_sha8": "734364eb",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"lacks \"suite\":\"nextest-integration\",\"passed\":0,"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-18-plugin-precedence-live-readings/wrap-2026-10-19T07-00-05/4.log",
+"bytes": 2632,
+"log_sha8": "2e8f1067",
+"exit": 0,
+"seconds": 1.29,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"lacks '\"suite\":\"nextest-integration\",\"passed\":0,' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — defer (key): zero Rust delta: the chunk writes only i… (88 chars)"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-18-plugin-precedence-live-readings/wrap-2026-10-19T07-00-05/6.log",
+"bytes": 309644,
+"log_sha8": "119b5a3e",
+"exit": 0,
+"seconds": 6.93,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green",
+"void": "defer voided — .andromeda/master-route.md read by crates/viola-e2e/src/harness/run/mutants/base.rs",
+"defer": "zero Rust delta: the chunk writes only its evidence/ (research.md Files to modify: none)"
+},
+{
+"n": 7,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration",
+"run_sha8": "03525807",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-18-plugin-precedence-live-readings/wrap-2026-10-19T07-00-05/7.log",
+"bytes": 47294,
+"log_sha8": "e983ecaf",
+"exit": 0,
+"seconds": 62.87,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green",
+"void": "walk-class tests/cli_controls_not_disableable.rs — uncommitted",
+"defer": "zero Rust delta: the chunk writes only its evidence/ (research.md Files to modify: none)"
+},
+{
+"n": 8,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh run --e2e",
+"run_sha8": "55ff1d5e",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"suite\":\"nextest-e2e\""
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-18-plugin-precedence-live-readings/wrap-2026-10-19T07-00-05/8.log",
+"bytes": 22205,
+"log_sha8": "492455bf",
+"exit": 0,
+"seconds": 10.9,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"contains '\"suite\":\"nextest-e2e\"' ✓"
+],
+"survivors": [],
+"outcome": "green",
+"void": "walk-class tests/contract_fake_agent_drift.rs — uncommitted",
+"defer": "zero Rust delta: the chunk writes only its evidence/ (research.md Files to modify: none)"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-18-plugin-precedence-live-readings/wrap-2026-10-19T07-00-05/9.log",
+"bytes": 379711,
+"log_sha8": "ee505376",
+"exit": 0,
+"seconds": 83.27,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"contains '\"stage\":\"linux-tests\"' ✓"
+],
+"survivors": [],
+"outcome": "green",
+"void": "walk-class tests/contract_fixture_hygiene.rs — uncommitted",
+"defer": "zero Rust delta: the chunk writes only its evidence/ (research.md Files to modify: none)"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "451237e0",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "2377245a",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.21",
+"sha8": "e2f3ad5e",
+"ts": "2026-10-19T07:25:26Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-10-19T07-00-05-wrap",
+"--marker",
+"2026-10-18-plugin-precedence-live-readings"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust · base bc2e3bf7 (the parent of the oldest pre-CI commit 2a3d5691)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust — each fired on its synthetic known positive",
+"hygiene: clean — read 111 (runs 97 · evidence 7 · inputs 7) · trails 27 not read · copies 5 not read by P1 — 0 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 97,
+"evidence": 7,
+"inputs": 7,
+"trails": 27,
+"copies": 5,
+"kept": 0,
+"binary": 0,
+"in_root": 0
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.21",
+"sha8": "e2f3ad5e",
+"ts": "2026-10-19T07:25:26Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings",
+"--run-dir",
+".andromeda/runs/2026-10-19T07-00-05-wrap",
+"--marker",
+"2026-10-18-plugin-precedence-live-readings"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base bc2e3bf7 (the parent of the oldest pre-CI commit 2a3d5691) · lists new 1 · modify 0 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"list viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/evidence/ (dir) ×0",
+"scope: clean — changed 0 · listed 0 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 136"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "bc2e3bf73bcb943c88e8009ba5d1959022ef7eff",
+"base_why": "the parent of the oldest pre-CI commit 2a3d5691",
+"counts": {
+"changed": 0,
+"listed": 0,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 136,
+"unparsed": 0,
+"widening_without_word": 0
+}
+}
+]

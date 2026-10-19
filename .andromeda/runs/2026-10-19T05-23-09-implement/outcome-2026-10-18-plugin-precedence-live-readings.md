@@ -77,5 +77,10 @@ New, all under `viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/ev
 - `hyprctl locked` read `true` before each start and did not stop the round (the plan's lean: the rig types no desktop
   key; host-linux.md 2026-10-08 stops a step that focuses a window or types with `wtype`).
 
+## The operator pass (done, `evidence/operator-pass.md`)
+pre-push green on the uncommitted tree (entry 9 re-fired, 87.73 s) and the Windows-target lint exit 0 · hygiene
+(entry 10) `clean`, read twice · pre-CI commit `2a3d5691` · push (entry 11) green, `origin/build/viola-0.1.0`
+`bc2e3bf7→2a3d5691` · CI read (entry 12) `verdict: green · checks 15/15 · wall 654 s · runs ci#39209618442`, attempt 1.
+
 ## Next
-The operator pass (plan entries 10–12, `.claude/rules/ci.md` order), then `/andromeda-wrap-session`.
+`/andromeda-wrap-session`.

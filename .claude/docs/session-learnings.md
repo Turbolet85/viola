@@ -8,6 +8,22 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
+## 2026-10-19 — Claude Code 2.1.287's folder-trust dialog: the default pointer sits one row above the trust row
+On 2.1.287 the folder-trust dialog opens with its selection pointer `❯` one row above `Yes, I trust this folder`, so a
+single Enter declines; one down arrow, then Enter on a re-read screen showing the pointer on the trust row, accepts it,
+and the CLI then writes the folder's trust entry in `~/.claude.json` itself. A rig that types these keys reads its own
+pty's screen before each key (security-plan §Data Protection holds the rule, the rig place and the residual).
+
+---
+
+## 2026-10-19 — A live start cap is the current chunk's own word, never a carried figure
+The founder sets the live `claude` start cap per chunk, as his answer to that chunk's P4 fork, recorded in its
+`inputs/`. Read the cap there before naming it; a figure carried in the handoff or from the previous chunk's round is
+not this chunk's (a session dashboard once named the previous chunk's cap, four times this chunk's, and the operator
+corrected it before any start).
+
+---
+
 ## 2026-10-17 — Where Claude Code logs a plugin MCP server
 Claude Code writes one log per MCP server it starts at
 `~/.cache/claude-cli-nodejs/<the session's cwd, every / as ->/mcp-logs-plugin-<plugin>-<server>/<timestamp>.jsonl`: the

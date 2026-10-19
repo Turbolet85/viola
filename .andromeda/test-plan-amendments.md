@@ -1104,3 +1104,9 @@ Each was then killed by a case in `typed.rs`'s `mod tests`, shown red under its 
 **Change:** `/compact` on a verified CLI waits only for a `session-start` of cause `compact` and the remembered (same) id, inside `COMPACT_CONFIRM_WINDOW` (40 s, PROVISIONAL), never claimed by a `prompt-submitted`; twelve `send_local_command_` functions in `src/run/send/classify.rs` (four `…_compact_*` added) and `send_compact_confirm_window_is_its_own_bound`; eight `trailing_newline` tests, four in classify.rs, four local-command cases; Path 2: `send_compact_on_a_verified_cli_is_confirmed_by_its_same_session` (on the recorded `compact-1`) and `send_compact_on_an_unverified_cli_is_unconfirmable_at_once`; the `local` outcome lists `/compact` only on an unverified CLI; a confirmed `/compact` prints `[RB] read back`. Was: `/compact` unconfirmable at once on any version (`send_compact_on_a_verified_cli_is_unconfirmable_at_once`, retired), eight functions, seven tests, three local-command cases.
 **Why:** the chunk built the claim arm and the window (report Symbols / APIs, Retired); the counts re-derived from the tree at this wrap.
 **Ref:** .andromeda/runs/2026-10-18T21-59-05-wrap/
+
+## 2026-10-18-plugin-precedence-live-readings — the VIOLA_DIR home step ratified
+**Section:** §5 Integration Test Strategy (Home resolution and the machine contract)
+**Change:** was "the CLI verbs' `VIOLA_DIR` step and the canonicalisation are NOT ratified, the founder's word owed"; now they are a widening the founder ratified (security-plan §Input Validation).
+**Why:** follows the security-plan ratification of the whole home step by the founder's own word, relayed verbatim by the operator.
+**Ref:** .andromeda/runs/2026-10-19T07-00-05-wrap/

@@ -1,0 +1,42 @@
+[[pattern]]
+id = 'PREC'
+regex = '(which `?viola`? MCP server|both plugins|plugin precedence|holding both)'
+ignore_case = true
+
+[[pattern]]
+id = 'EXIT1'
+regex = '(exits 1 blocks|exit-1|exit 1 blocks|blocks the CLI.s start|blocks an unwrapped start)'
+ignore_case = true
+
+[[pattern]]
+id = 'RESID'
+regex = '(live round of `viola plugin install`|plugin live round|orphaned plugin cache)'
+ignore_case = true
+
+[[pattern]]
+id = 'VDIR'
+regex = '(NOT ratified|VIOLA_DIR. step|canonicalisation)'
+
+[[pattern]]
+id = 'TRUSTKEY'
+regex = '(folder-trust|trust dialog|Одна клавиша|one Enter)'
+ignore_case = true
+
+[[pattern]]
+id = 'EXTIMP'
+regex = 'external imports'
+ignore_case = true
+
+[[pattern]]
+id = 'MCPEXIT'
+regex = '`mcp` main-thread|mcp. always writes'
+
+[[pattern]]
+id = 'TITLE'
+fixed = 'Plugin precedence live readings'
+ignore_case = true
+
+[[pattern]]
+id = 'OWNER'
+regex = 'owned by a (route entry|CARRY)'
+ignore_case = true

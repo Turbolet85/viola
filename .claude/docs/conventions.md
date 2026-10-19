@@ -41,7 +41,7 @@ _Extracted from `.andromeda/architecture.md` §Conventions by `/andromeda-setup-
 - Human text by default, `--json` for agents; the CLI adds `from` from its own `VIOLA_NAME`.
 
 ## Configuration
-- Precedence: CLI flags > `<viola home>/config.json` > built-in defaults. Home resolution: `--home` → grandparent of `VIOLA_DIR` → `~/.viola/` (as landed, `hook` and every CLI verb, `run` and `revive` included, take `--home`, else the `VIOLA_DIR` grandparent when `VIOLA_NAME` and `VIOLA_DIR` pass `instance_of`'s shape check (a failing pair falls through to the default, never refusing), else the default; a home that exists is canonicalised; the CLI verbs' `VIOLA_DIR` step and the canonicalisation are NOT ratified, the founder's own word owed).
+- Precedence: CLI flags > `<viola home>/config.json` > built-in defaults. Home resolution: `--home` → grandparent of `VIOLA_DIR` → `~/.viola/` (as landed, `hook` and every CLI verb, `run` and `revive` included, take `--home`, else the `VIOLA_DIR` grandparent when `VIOLA_NAME` and `VIOLA_DIR` pass `instance_of`'s shape check (a failing pair falls through to the default, never refusing), else the default; a home that exists is canonicalised).
 - `config.json` is parsed tolerantly (unknown keys skipped and counted) and carries `v`; keys: the budget thresholds `five_hour` / `seven_day` (whole numbers into `Percent`, defaults 90 / 85, read once at the wrapper's start and by `viola list` at each run; a bad value takes that key's default with one `parse-rejected` line per key, and no value switches the gate off), `diagnostics_level` (`info` by default, or `debug`; obs D-15), `claude_env_keep` (the Unix R8 pass-list of `CLAUDE*` names, default empty).
 
 ## Logging

@@ -1,0 +1,27 @@
+[[pattern]]
+id = 'PREC'
+regex = '(which `?viola`? MCP server|both plugins|plugin precedence|holding both|same name)'
+ignore_case = true
+
+[[pattern]]
+id = 'EXIT1'
+regex = '(exits 1 blocks|exit 1 blocks|blocks the CLI.s start|blocks an unwrapped start|does not block the CLI)'
+ignore_case = true
+
+[[pattern]]
+id = 'OWEDTITLE'
+fixed = 'Plugin precedence live readings'
+ignore_case = true
+
+[[pattern]]
+id = 'VDIR'
+regex = '(NOT ratified|not ratified|word is owed|word owed|founder.s own word is owed)'
+
+[[pattern]]
+id = 'RIGDIR'
+regex = '(rig dir under `target/`|under `target/` that is its own git repo|own git repo)'
+
+[[pattern]]
+id = 'RESID'
+regex = '(orphaned plugin cache|live round of `viola plugin install`|trust entry)'
+ignore_case = true
