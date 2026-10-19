@@ -5,6 +5,7 @@
 use std::borrow::Cow;
 
 use serde::Deserialize;
+use serde::de::IgnoredAny;
 use serde_json::{Value, json};
 use viola_core::EventKind;
 
@@ -88,7 +89,7 @@ pub struct Normalised {
 }
 
 /// The payload fields viola reads; every other field is skipped. All are strings on the CLI build
-/// the ledger names, so a drift entry's `expected` is always `string`.
+/// the ledger names save `background_tasks`, an array whose elements are counted and never read.
 #[derive(Debug, Default, Deserialize)]
 struct Known {
     #[serde(default)]
@@ -99,6 +100,8 @@ struct Known {
     prompt: Option<String>,
     #[serde(default)]
     last_assistant_message: Option<String>,
+    #[serde(default)]
+    background_tasks: Option<Vec<IgnoredAny>>,
     #[serde(default)]
     tool_name: Option<String>,
 }
@@ -141,7 +144,12 @@ fn known_fields(payload: &mut Value) -> (Known, Vec<Value>) {
         if removed.is_none() {
             return (Known::default(), drift);
         }
-        drift.push(json!({"path": path, "expected": "string"}));
+        let expected = if path == "background_tasks" {
+            "array"
+        } else {
+            "string"
+        };
+        drift.push(json!({"path": path, "expected": expected}));
     }
 }
 
@@ -159,7 +167,10 @@ fn data_of(event: HookEvent, known: Known) -> Value {
             let raw = known.prompt.unwrap_or_default();
             json!({"text": prompt_text(&raw), "origin": prompt_origin(&raw)})
         }
-        HookEvent::Stop => json!({"last_assistant_message": known.last_assistant_message}),
+        HookEvent::Stop => json!({
+            "last_assistant_message": known.last_assistant_message,
+            "background_tasks": known.background_tasks.map(|tasks| tasks.len()),
+        }),
         HookEvent::SessionEnd | HookEvent::PreToolUse | HookEvent::PermissionRequest => json!({}),
         HookEvent::Notification | HookEvent::PostToolUse | HookEvent::PostToolUseFailure => {
             match known.tool_name {
@@ -443,7 +454,10 @@ mod tests {
             HookEvent::Stop,
             &json!({"last_assistant_message": {"n": 1}, "session_id": "kept"}),
         );
-        assert_eq!(got.data, json!({"last_assistant_message": null}));
+        assert_eq!(
+            got.data,
+            json!({"last_assistant_message": null, "background_tasks": null})
+        );
         assert_eq!(
             got.drift,
             [json!({"path": "last_assistant_message", "expected": "string"})]
@@ -462,9 +476,62 @@ mod tests {
     fn stop_carries_the_last_message_or_null() {
         let got = read(HookEvent::Stop, &json!({"last_assistant_message": "done"}));
         assert_eq!(got.kind, EventKind::TurnEnded);
-        assert_eq!(got.data, json!({"last_assistant_message": "done"}));
+        assert_eq!(
+            got.data,
+            json!({"last_assistant_message": "done", "background_tasks": null})
+        );
         let got = read(HookEvent::Stop, &json!({"last_assistant_message": null}));
-        assert_eq!(got.data, json!({"last_assistant_message": null}));
+        assert_eq!(
+            got.data,
+            json!({"last_assistant_message": null, "background_tasks": null})
+        );
+    }
+
+    #[rstest]
+    #[case::empty(json!([]), 0)]
+    #[case::two(json!([
+        {"agent_type": "a", "description": "canary-chain-value-5c1e", "id": "t-1", "status": "running", "type": "agent"},
+        {"id": "t-2"},
+    ]), 2)]
+    #[case::not_objects(json!([1, "x", null]), 3)]
+    fn turn_ended_background_tasks_counts_the_array(#[case] tasks: Value, #[case] count: u64) {
+        let got = read(
+            HookEvent::Stop,
+            &json!({"last_assistant_message": "done", "background_tasks": tasks}),
+        );
+        assert_eq!(
+            got.data,
+            json!({"last_assistant_message": "done", "background_tasks": count})
+        );
+        assert!(got.drift.is_empty());
+        assert!(!got.data.to_string().contains("canary-chain-value-5c1e"));
+    }
+
+    #[rstest]
+    #[case::absent(None, false)]
+    #[case::null(Some(Value::Null), false)]
+    #[case::string(Some(json!("canary-chain-value-5c1e")), true)]
+    #[case::object(Some(json!({"n": 1})), true)]
+    #[case::number(Some(json!(2)), true)]
+    fn turn_ended_background_tasks_is_null_when_absent_or_not_an_array(
+        #[case] tasks: Option<Value>,
+        #[case] drifts: bool,
+    ) {
+        let mut payload = json!({"last_assistant_message": "done"});
+        if let Some(tasks) = tasks {
+            payload["background_tasks"] = tasks;
+        }
+        let got = read(HookEvent::Stop, &payload);
+        assert_eq!(
+            got.data,
+            json!({"last_assistant_message": "done", "background_tasks": null})
+        );
+        let drift: &[Value] = if drifts {
+            &[json!({"path": "background_tasks", "expected": "array"})]
+        } else {
+            &[]
+        };
+        assert_eq!(got.drift, drift);
     }
 
     #[test]

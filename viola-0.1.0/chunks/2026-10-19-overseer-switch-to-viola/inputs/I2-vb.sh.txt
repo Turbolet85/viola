@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# viola-builder, fresh (Linux; replaces vb.ps1). Viola's pinned Node and the code-graph venv go first on PATH
+# (mise's Node 26 would otherwise win; duckdb lives only in the venv). Whether vstart.sh's new window
+# inherits this PATH is unmeasured: check `which node python3` in the builder after the next launch.
+export PATH="$HOME/.local/viola-node/bin:$HOME/.local/viola-venv/bin:$PATH"
+exec "$HOME/dev/projects/additional/andromedaV3/andromeda-overseer/docs/tools/vstart.sh" viola-builder "$HOME/dev/projects/viola" "$@"

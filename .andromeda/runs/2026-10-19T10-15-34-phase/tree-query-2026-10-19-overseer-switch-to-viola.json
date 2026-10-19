@@ -1,0 +1,88 @@
+[
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name IN ('question_data','tool_data','normalise') AND callee_kind = 'fn' AND callee_crate = 'viola-agent-claude' ORDER BY file, line",
+"rows": 12,
+"result": [
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 dialog/classify().",
+"file": "crates/viola-agent-claude/src/dialog.rs",
+"line": 101
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 dialog/tool_data().",
+"file": "crates/viola-agent-claude/src/dialog.rs",
+"line": 128
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 hook/tests/read().",
+"file": "crates/viola-agent-claude/src/hook.rs",
+"line": 299
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 hook/tests/normalise_refuses_a_dialog_event().",
+"file": "crates/viola-agent-claude/src/hook.rs",
+"line": 359
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 hook/tests/normalise_refuses_anything_but_one_object().",
+"file": "crates/viola-agent-claude/src/hook.rs",
+"line": 371
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 hook/tests/prompt_text_prop_round_trips_a_wrapped_paste().",
+"file": "crates/viola-agent-claude/src/hook.rs",
+"line": 833
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 hook/tests/prompt_text_prop_round_trips_a_wrapped_paste().",
+"file": "crates/viola-agent-claude/src/hook.rs",
+"line": 866
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 hook/tests/prompt_text_prop_round_trips_a_wrapped_paste().",
+"file": "crates/viola-agent-claude/src/hook.rs",
+"line": 884
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 hook/tests/prompt_text_prop_round_trips_a_wrapped_paste().",
+"file": "crates/viola-agent-claude/src/hook.rs",
+"line": 887
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 hook/tests/prompt_text_prop_round_trips_a_wrapped_paste().",
+"file": "crates/viola-agent-claude/src/hook.rs",
+"line": 889
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 hook/tests/prompt_text_prop_round_trips_a_wrapped_paste().",
+"file": "crates/viola-agent-claude/src/hook.rs",
+"line": 891
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/hook/handle().",
+"file": "src/cmd/hook.rs",
+"line": 163
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT callee_name, file, line FROM refs WHERE callee_name = 'data_keys' ORDER BY file, line",
+"rows": 2,
+"result": [
+{
+"callee_name": "data_keys",
+"file": "crates/viola-core/src/lib.rs",
+"line": 637
+},
+{
+"callee_name": "data_keys",
+"file": "crates/viola-state/src/events.rs",
+"line": 213
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

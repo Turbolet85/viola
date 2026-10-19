@@ -1,0 +1,35 @@
+# layouts extract
+
+## Relevance
+partial — the chunk adds no surface and no human column; it binds the overseer's own scripts (outside this repo) to the cli surface's existing output forms of `send` · `wait` · `last` · `answer` · `list` · `release`, which any defect fix folded into this chunk must leave unchanged.
+
+## Constraints
+- The human columns and words are a stable contract that LLM drivers read: new fields go into `--json` first, and adding a human column is a design change, not an implementation choice — a defect fix the switch exposes may not reshape a human line to suit the overseer's scripts (per layout-templates §Surface: cli · IA notes).
+- `viola list`'s column 3 is STATUS (`idle` / `busy` / `unknown`) in the order NAME · LIVE · STATUS · WHEEL · DIALOG · CLI, NAME padded to the longest name over both racks, so a reader keyed on the prototype's `list` column 3 or on a fixed byte offset does not carry over; whether the overseer's re-pointed scripts read the human columns or `--json` is the plan's choice (per layout-templates §Surface: cli · Output structure — `viola list` (piped / `NO_COLOR` / `TERM=dumb`)).
+- `viola wait`'s stdout result line takes the closed forms `turn-ended  <name>  <time>  cursor <n>` (every kind without a `dialog_id`, `session-end` included), `<kind>  <name>  dialog <id>  cursor <n>` for a dialog, `dialog-expired  <name>  dialog <id>  cursor <n>` for an expired hold, and `timed out  <name>  <ms> ms`; the prototype's first-line words (`turn-end`, `question`, `plan`, `permission`, `exited`, `held`) are not this vocabulary (per layout-templates §Surface: cli · Output structure — `viola wait` / `viola last`).
+- `viola wait` / `viola last` under `--json` print exactly one document on stdout and nothing on stderr; without `--json` `waiting:` and `last`'s header line are stderr and TTY-only, the message body stdout with C0/C1 escaped (per layout-templates §Surface: cli · Output structure — `viola wait` / `viola last`).
+- `viola send`'s outcome line carries the readback mirror (`[RB] read back` exit 0, `[/ ] unable` stderr with exit 10–14, `[  ] unconfirmable` exit 0); the TTY-only issue line drops when piped, and a `/clear` reads back only on a verified CLI version by its new-session post-condition, else `unconfirmable` (per layout-templates §Surface: cli · Signature placement).
+- Streams never mix: results on stdout; `waiting:`, the issue line, refusals, hints and errors on stderr, the `hint:` line last on stderr, and exit codes 10 `human-typing` · 11 `budget-paused` · 12 `unverified-cli` · 13 `not-delivered` · 14 `unknown` · 20 wrapper fault · 21 `instance-unreachable` are the typed tail the overseer's scripts branch on (per layout-templates §Surface: cli · Component — Primary content block 2: refusal lines and the `unable` column).
+- `viola mcp` has no human surface: each tool result is the CLI verb's `--json` document less `v`, a refusal `isError: true` with text `refused: <code>`, and no tool, description or result names `release`, `pause`, `link` or `unlink` (per layout-templates §Surface: cli · Primary screens (commands)).
+
+## Patterns to follow
+- The wheel verbs' spoken lines: `viola release <name>` prints `<name>  wheel driver  you have control`, `viola pause` `<name>  wheel human  manual-pause  I have control` — the human's release after the takeover key is read by this line (per layout-templates §Surface: cli · Output structure — wheel, handoff and dialog verbs).
+- `viola answer <target> <dialog_id>` prints `answered  <name>  dialog <id>`, its refusal `unable  <name>  not-delivered  unknown-dialog` on stderr with exit 13 and its hint last (per layout-templates §Surface: cli · Output structure — wheel, handoff and dialog verbs).
+- `viola run` / `viola revive` are passthrough: nothing of their own printed while the child holds the terminal; a start refusal is one `unable:` line and one `hint:` line on stderr, exit 1, naming no path, pid or logged id (per layout-templates §Surface: cli · Output structure — `viola revive`).
+- `cursor` is the shared reference across verbs: the byte offset `send` prints and `wait --after` consumes; `<target>` is always a `ViolaName`, never an unwrapped name (per layout-templates §Surface: cli · IA notes).
+
+## Anti-patterns to avoid
+- No hint, tool or driver-facing line names `viola release`: a driver's `release` is refused (`-32602`, exit 20); the switched overseer's procedure must not lean on a hint pointing to it (per layout-templates §Surface: cli · Component — Primary navigation (verb structure)).
+- No spinner, progress counter, `done` / `success` terminator or redraw on any verb; the exit code is the terminator (per layout-templates §Surface: cli · Component — Footer / terminator).
+- A screen read is no product surface: the product stores no screen, so nothing in this repo is built to replace the prototype's `out.raw` (gap-list group 3 is unbuilt) (per layout-templates §Surface: cli · Primary screens (commands)).
+
+## Contract bindings
+- layouts ↔ architecture: the `viola list --json` item / `budget` / `skipped` shapes are the `list` payload contract of architecture §Standard Contracts (per layout-templates §Surface: cli · Output structure — `viola list --json`).
+- layouts ↔ design-system: the `dialog-expired` kind word and its `wait` line are planning forms whose wording is owed to the founder's Epoch 5 boundary batch (design-system cli pattern 3); a hold read live near 3600 s under this chunk adds no new line form (per layout-templates §Surface: cli · Output structure — `viola wait` / `viola last`).
+- layouts ↔ tests: the `HELP` literal in `tests/cli_output_plain.rs` pins `viola --help`; the switch leaves it unchanged (per layout-templates §Surface: cli · Output structure — `viola --help`).
+
+## Acceptance criteria contributions
+- (layouts) The live record shows the overseer's `wait` on the builder ending in a product result line (`turn-ended  <name>  …  cursor <n>`, or a dialog line `<kind>  <name>  dialog <id>  cursor <n>`) or its `--json` document, never a prototype first-line word (per layout-templates §Surface: cli · Output structure — `viola wait` / `viola last`).
+- (layouts) The live `/clear` send between skills reads `[RB] read back` (or the `--json` `ok` with `submitted_at` + `cursor`) on a verified CLI version, and `[  ] unconfirmable` only on an unverified one — whether the builder's CLI version carries a stamp is research's question (per layout-templates §Surface: cli · Signature placement).
+- (layouts) After the takeover key, `viola list` shows the builder's WHEEL `human`, and the human's `viola release builder` prints `builder  wheel driver  you have control` (per layout-templates §Surface: cli · Output structure — wheel, handoff and dialog verbs).
+- (layouts) Any product fix folded into this chunk leaves every human line form and column of `send` · `wait` · `last` · `answer` · `list` · `release` byte-identical, new data going to `--json` only (per layout-templates §Surface: cli · IA notes).

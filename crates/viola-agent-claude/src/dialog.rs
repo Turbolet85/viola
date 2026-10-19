@@ -116,8 +116,8 @@ pub fn classify(event: HookEvent, bytes: &[u8]) -> Result<Option<Dialog>, AgentE
     }))
 }
 
-/// A question's `{questions:[{question, header, options:[label], multi_select}]}`, a plan's
-/// `{plan}`.
+/// A question's `{questions:[{question, header, options:[label], option_details:[{description,
+/// preview}], multi_select}]}`, a plan's `{plan}`.
 fn tool_data(tool: DialogTool, input: &Value) -> Result<Value, AgentError> {
     match tool {
         DialogTool::AskUserQuestion => {
@@ -141,16 +141,24 @@ fn question_data(question: &Value) -> Result<Value, AgentError> {
     let text = question["question"]
         .as_str()
         .ok_or(AgentError::DialogMalformed)?;
-    let options: Vec<&str> = question["options"]
+    let raw = question["options"]
         .as_array()
-        .ok_or(AgentError::DialogMalformed)?
+        .ok_or(AgentError::DialogMalformed)?;
+    let options: Vec<&str> = raw
         .iter()
         .map(|o| o["label"].as_str().ok_or(AgentError::DialogMalformed))
         .collect::<Result<_, _>>()?;
+    let option_details: Vec<Value> = raw
+        .iter()
+        .map(
+            |o| json!({"description": o["description"].as_str(), "preview": o["preview"].as_str()}),
+        )
+        .collect();
     Ok(json!({
         "question": text,
         "header": question["header"].as_str(),
         "options": options,
+        "option_details": option_details,
         "multi_select": question["multiSelect"].as_bool().unwrap_or(false),
     }))
 }
@@ -440,6 +448,13 @@ mod tests {
                 .collect();
             let got: Vec<&Value> = q["options"].as_array().expect("labels").iter().collect();
             assert_eq!(got, labels);
+            let details: Vec<Value> = i["options"]
+                .as_array()
+                .expect("options")
+                .iter()
+                .map(|o| json!({"description": o["description"], "preview": o["preview"]}))
+                .collect();
+            assert_eq!(q["option_details"], json!(details));
         }
         assert_eq!(dialog.data.as_object().map(Map::len), Some(1));
     }
@@ -526,7 +541,47 @@ mod tests {
             .expect("a dialog");
         assert_eq!(
             dialog.data,
-            json!({"questions": [{"question": "q", "header": null, "options": ["a"], "multi_select": false}]})
+            json!({"questions": [{"question": "q", "header": null, "options": ["a"],
+                "option_details": [{"description": null, "preview": null}], "multi_select": false}]})
+        );
+    }
+
+    #[test]
+    fn question_option_details_carry_description_and_preview() {
+        let payload = json!({"tool_name": "AskUserQuestion", "tool_input": {"questions": [
+            {"question": "q", "options": [
+                {"label": "a", "description": "about a", "preview": "a\nshown"},
+                {"label": "b", "description": "about b", "preview": CANARY},
+            ]},
+        ]}});
+        let dialog = classify(HookEvent::PreToolUse, payload.to_string().as_bytes())
+            .expect("classified")
+            .expect("a dialog");
+        let question = &dialog.data["questions"][0];
+        assert_eq!(question["options"], json!(["a", "b"]));
+        assert_eq!(
+            question["option_details"],
+            json!([
+                {"description": "about a", "preview": "a\nshown"},
+                {"description": "about b", "preview": CANARY},
+            ])
+        );
+        assert_eq!(dialog.input, payload["tool_input"]);
+    }
+
+    #[rstest]
+    #[case::absent(json!({"label": "a"}))]
+    #[case::not_strings(json!({"label": "a", "description": 1, "preview": {"text": "p"}}))]
+    #[case::null(json!({"label": "a", "description": null, "preview": null}))]
+    fn question_option_details_are_null_when_absent_or_not_a_string(#[case] option: Value) {
+        let payload = json!({"tool_name": "AskUserQuestion",
+            "tool_input": {"questions": [{"question": "q", "options": [option]}]}});
+        let dialog = classify(HookEvent::PreToolUse, payload.to_string().as_bytes())
+            .expect("never refused")
+            .expect("a dialog");
+        assert_eq!(
+            dialog.data["questions"][0]["option_details"],
+            json!([{"description": null, "preview": null}])
         );
     }
 

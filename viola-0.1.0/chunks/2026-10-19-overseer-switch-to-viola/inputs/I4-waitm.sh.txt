@@ -1,0 +1,51 @@
+#!/bin/sh
+# Wait for a MEANINGFUL builder event: skips short progress-only turn ends ("Iteration N is running").
+# Returns on any dialog, exit, timeout, or a turn end that is long, asks something (? or ▸), or says
+# complete/ready/halt. Prints how many progress turns it skipped.
+V=$HOME/dev/projects/additional/viola-lab/prototype/target/debug/viola
+N=${1:-viola-builder}; skipped=0; i=0
+# One waiter per builder: a newer waitm replaces an older one (duplicates were found 2026-09-25).
+PIDF="$HOME/dev/projects/additional/viola-overseer/.waitm-$N.pid"
+old=$(cat "$PIDF" 2>/dev/null)
+if [ -n "$old" ] && [ "$old" != "$$" ] && kill -0 "$old" 2>/dev/null; then
+  for c in $(ps -ef | awk -v p="$old" '$3==p{print $2}'); do kill "$c" 2>/dev/null; done; kill "$old" 2>/dev/null
+  echo "[waitm: replaced older waiter pid $old]"
+fi
+echo $$ > "$PIDF"
+while [ $i -lt 60 ]; do
+  i=$((i+1))
+  out=$("$V" wait "$N" --timeout 3000)
+  first=$(printf '%s\n' "$out" | head -1)
+  body=$(printf '%s\n' "$out" | sed '1d')
+  if [ "$first" = "turn-end" ] && [ ${#body} -lt 300 ] \
+     && ! printf '%s' "$body" | grep -q -E '\?|▸|[Cc]omplete|[Rr]eady|[Hh]alt|[Ee]rror|[Ff]ail|wheel'; then
+    skipped=$((skipped+1)); last="$body"; continue
+  fi
+  # a longer turn end that only announces background work, with no question and no prompt marker
+  if [ "$first" = "turn-end" ] && printf '%s' "$body" | grep -q -E '⟲|running in the background|is running\.|[Ss]till waiting on|[Ww]aiting on (the )?(last|arch|security|tests|obs|a11y|design|layouts)|detectors? (are|is) back' \
+     && ! printf '%s' "$body" | grep -q -E '\?|▸|[Hh]alt|[Ee]rror|[Ff]ail|wheel'; then
+    skipped=$((skipped+1)); last="$body"; continue
+  fi
+  echo "[skipped $skipped progress turns; last: $(printf '%s' "$last" | head -1)]"
+  echo "[host] $(free -g | awk '/^Mem:/{print "mem_free=" $7 "G"}') $(df -h --output=avail $HOME/dev | tail -1 | tr -d ' ' | sed 's/^/dev_free=/')"
+  printf '%s\n' "$out"
+  # A dialog's preceding text is not in the builder's transcript while it is pending (the jsonl flushes only
+  # after the answer), so the screen travels with the dialog.
+  # An option's `preview` (a route wording, a diff) is not in `viola wait`'s print: read it from the dialog's file.
+  case "$first" in question*)
+    did=$(printf '%s' "$first" | sed -n 's/.*(dialog \([^)]*\)).*/\1/p')
+    [ -n "$did" ] && python3 -c '
+import json,sys
+try: j=json.load(open(sys.argv[1],encoding="utf-8"))
+except Exception as x: sys.exit(0)
+for q in j.get("tool_input",{}).get("questions",[]):
+    for o in q.get("options",[]):
+        if o.get("preview"): print("[preview · "+o.get("label","")+"]\n"+o["preview"])
+' "$HOME/.viola/sessions/$N/dialogs/$did.json" ;;
+  esac
+  case "$first" in question*|plan*)
+    echo "[screen before the dialog]"; sh $HOME/dev/projects/additional/viola-overseer/scr.sh "$N" 60000 4000; echo ;;
+  esac
+  exit 0
+done
+echo "[waitm: 60 progress turns skipped, returning; last: $last]"

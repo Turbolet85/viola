@@ -68,7 +68,7 @@ fn every_kind() -> [(EventKind, &'static str, Value); 16] {
         (
             EventKind::TurnEnded,
             "turn-ended",
-            json!({"last_assistant_message": "done"}),
+            json!({"last_assistant_message": "done", "background_tasks": 2}),
         ),
         (EventKind::SessionEnd, "session-end", json!({})),
         (EventKind::Activity, "activity", json!({"tool": "Bash"})),
@@ -100,7 +100,9 @@ fn every_kind() -> [(EventKind, &'static str, Value); 16] {
         (
             EventKind::Question,
             "question",
-            json!({"dialog_id": 1, "questions": [{"question": "Which?", "options": ["a", "b"], "multi_select": false}]}),
+            json!({"dialog_id": 1, "questions": [{"question": "Which?", "options": ["a", "b"],
+                "option_details": [{"description": "about a", "preview": "a"}, {"description": null, "preview": null}],
+                "multi_select": false}]}),
         ),
         (
             EventKind::Permission,
@@ -258,6 +260,41 @@ fn state_events_a_log_cut_short_takes_the_next_append_on_a_fresh_line() {
     assert_eq!(from_second[0], second);
     let (from_the_cut, _) = read(tmp.path(), cut);
     assert_eq!(from_the_cut, [lines[2].clone()]);
+}
+
+/// A `turn-ended` line with its background task count, null or a number, and a `question` line
+/// with each option's detail: every one is returned whole, and no key is counted as outside the
+/// contract.
+#[test]
+fn state_events_background_tasks_and_option_details_are_known_keys() {
+    let tmp = tempfile::tempdir().expect("tempdir");
+    let written = [
+        (
+            EventKind::TurnEnded,
+            json!({"last_assistant_message": "done", "background_tasks": 3}),
+        ),
+        (
+            EventKind::TurnEnded,
+            json!({"last_assistant_message": null, "background_tasks": null}),
+        ),
+        (
+            EventKind::Question,
+            json!({"dialog_id": 1, "questions": [{"question": "Which?", "header": null,
+                "options": ["a"], "option_details": [{"description": "d", "preview": "p"}],
+                "multi_select": false}]}),
+        ),
+    ];
+    for (kind, data) in &written {
+        append(tmp.path(), *kind, data.clone());
+    }
+    let (lines, skipped) = read(tmp.path(), 0);
+    assert_eq!(kinds(&lines), ["turn-ended", "turn-ended", "question"]);
+    let read_back: Vec<&Value> = lines.iter().map(|l| &l.value["data"]).collect();
+    assert_eq!(
+        read_back,
+        written.iter().map(|(_, data)| data).collect::<Vec<_>>()
+    );
+    assert_eq!(skipped, NONE_SKIPPED);
 }
 
 /// The three shapes a wrapper writes for its budget gate: each is returned with its `data` whole,

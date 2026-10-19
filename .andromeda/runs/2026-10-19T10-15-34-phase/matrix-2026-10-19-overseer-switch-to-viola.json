@@ -1,0 +1,116 @@
+[
+{
+"tool": "matrix",
+"v": "1.5",
+"sha8": "49bca268",
+"ts": "2026-10-19T10:51:30Z",
+"argv": [
+"coverage",
+"--dir",
+"viola-0.1.0",
+"--run-dir",
+".andromeda/runs/2026-10-19T10-15-34-phase",
+"--marker",
+"2026-10-19-overseer-switch-to-viola"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"verified 21/53 · deferred 6 · planned 25 · implemented 1 · unclaimed 25",
+"unclaimed: v1-01 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-13 v1-17 v1-18 v1-21 v1-24 v1-26 v1-27 v1-33",
+"          v1-34 v1-35 v1-36 v1-41 v1-44 v1-45 v1-46 v1-47 v1-53",
+"claimed-unfinished: none",
+"done-test: NO — 26 not verified|deferred · unclaimed 25",
+"chunks referenced: 21 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.5",
+"sha8": "49bca268",
+"ts": "2026-10-19T10:52:04Z",
+"argv": [
+"claim",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-33",
+"--chunk",
+"2026-10-19-overseer-switch-to-viola",
+"--acceptance-file",
+".andromeda/runs/2026-10-19T10-15-34-phase/acceptance-v1-33.md",
+"--note-file",
+".andromeda/runs/2026-10-19T10-15-34-phase/note-v1-33.md",
+"--gated-file",
+".andromeda/runs/2026-10-19T10-15-34-phase/gated-v1-33.md",
+"--run-dir",
+".andromeda/runs/2026-10-19T10-15-34-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claim v1-33 → chunk 2026-10-19-overseer-switch-to-viola (was null; status planned kept)",
+"acceptance: With the product binary on the Linux dev host, an overseer session sen… (325 chars)",
+"         → On the Linux dev host, with the product binary (target/release/viola o… (949 chars)",
+"gated: the founder at his keyboard in the viola-builder terminal for his own key and hi… (168 chars)",
+"notes: +940 chars (total 5179)",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed",
+"pool: unclaimed 24 [v1-01 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-13 v1-17 v1-18 v1-21 v1-24 v1-26 v1-27 v1-34 v1-35 v1-36 v1-41 v1-44 v1-45 v1-46 v1-47 v1-53]"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-33",
+"chunk": null,
+"status": "planned",
+"method": "manual",
+"ref": "null",
+"acceptance": "With the product binary on the Linux dev host, an overseer session sends a pipeline skill to a builder session, waits fo… (325 chars)",
+"notes_chars": 4237
+},
+"after": {
+"id": "v1-33",
+"chunk": "2026-10-19-overseer-switch-to-viola",
+"status": "planned",
+"method": "manual",
+"ref": "null",
+"acceptance": "On the Linux dev host, with the product binary (target/release/viola of chunk 2026-10-19-overseer-switch-to-viola's tree… (949 chars)",
+"notes_chars": 5179
+}
+},
+{
+"tool": "matrix",
+"v": "1.5",
+"sha8": "49bca268",
+"ts": "2026-10-19T10:52:04Z",
+"argv": [
+"audit",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-19-overseer-switch-to-viola",
+"--plan",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-19T10-15-34-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-10-19-overseer-switch-to-viola: 1 · ## Acceptance Criteria: line 408, 38 lines",
+"v1-33: cited in ## Acceptance Criteria (line 436)",
+"  shape v1-33: method manual · interaction verbs ['type']",
+"pool: unclaimed 24 [v1-01 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-13 v1-17 v1-18 v1-21 v1-24 v1-26 v1-27 v1-34 v1-35 v1-36 v1-41 v1-44 v1-45 v1-46 v1-47 v1-53]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

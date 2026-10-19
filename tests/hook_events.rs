@@ -206,7 +206,10 @@ fn hook_every_registered_event_lands_as_one_line_of_its_kind() {
                 "session-start".to_owned(),
                 set(&["agent_session_id", "cause"])
             ),
-            ("turn-ended".to_owned(), set(&["last_assistant_message"])),
+            (
+                "turn-ended".to_owned(),
+                set(&["background_tasks", "last_assistant_message"])
+            ),
         ]
     );
     for line in &hooked {
@@ -232,7 +235,10 @@ fn hook_every_registered_event_lands_as_one_line_of_its_kind() {
         .iter()
         .find(|l| l["kind"] == "turn-ended")
         .expect("stop");
-    assert_eq!(ended["data"], json!({"last_assistant_message": CANARY}));
+    assert_eq!(
+        ended["data"],
+        json!({"last_assistant_message": CANARY, "background_tasks": null})
+    );
     let tools: BTreeSet<&str> = hooked
         .iter()
         .filter_map(|l| l["data"]["tool"].as_str())
@@ -241,6 +247,81 @@ fn hook_every_registered_event_lands_as_one_line_of_its_kind() {
     let (stopped, stamped) = wrapper.stop_keep();
     assert_eq!(stopped.code(), Some(0));
     assert_hook_logs_valid(stamped.home.path());
+}
+
+/// A recorded fixture of the stamped CLI version, read as the fake agent replays it.
+fn recorded(name: &str) -> Value {
+    let path = workspace_path("fixtures/claude")
+        .join(fake::RECORDED_CLI_VERSION)
+        .join(name);
+    serde_json::from_slice(&fs::read(path).expect("recorded fixture")).expect("json")
+}
+
+/// The one line of `kind` the recorded `(event, variant)` hook lands as.
+fn recorded_line(event: &str, variant: &str, kind: &str) -> Value {
+    let stamped = stamped();
+    let steps = script(stamped.home.scratch(), &[(event, variant)]);
+    let fixtures = workspace_path("fixtures/claude");
+    let wrapper = Wrapper::boot(
+        stamped,
+        "builder",
+        None,
+        &[
+            "--fixtures",
+            path_str(&fixtures),
+            "--script",
+            path_str(&steps),
+        ],
+    );
+    let lines = wait_events(&wrapper.instance_dir(), "the recorded hook's line", |l| {
+        l.iter().any(|e| e["kind"] == kind)
+    });
+    let line = lines
+        .into_iter()
+        .find(|e| e["kind"] == kind)
+        .expect("the line");
+    let (stopped, _) = wrapper.stop_keep();
+    assert_eq!(stopped.code(), Some(0));
+    line
+}
+
+/// The recorded Stop lands as `turn-ended` carrying its background task array's length.
+#[test]
+fn hook_a_recorded_stop_carries_its_background_task_count() {
+    let tasks = recorded("Stop.default.json")["background_tasks"]
+        .as_array()
+        .expect("the recorded array")
+        .len();
+    let ended = recorded_line("Stop", "default", "turn-ended");
+    assert_eq!(ended["source"], "hook");
+    assert_eq!(ended["data"]["background_tasks"], json!(tasks));
+    assert_eq!(
+        keys(&ended["data"]),
+        BTreeSet::from([
+            "background_tasks".to_owned(),
+            "last_assistant_message".to_owned()
+        ])
+    );
+}
+
+/// The recorded AskUserQuestion lands as `question` carrying each option's description and preview.
+#[test]
+fn hook_a_recorded_question_carries_its_option_details() {
+    let input = recorded("PreToolUse.ask-user-question.json")["tool_input"].clone();
+    let question = recorded_line("PreToolUse", "ask-user-question", "question");
+    assert_eq!(question["source"], "hook");
+    let asked = input["questions"].as_array().expect("questions");
+    let carried = question["data"]["questions"].as_array().expect("questions");
+    assert_eq!(carried.len(), asked.len());
+    for (carried, asked) in carried.iter().zip(asked) {
+        let details: Vec<Value> = asked["options"]
+            .as_array()
+            .expect("options")
+            .iter()
+            .map(|o| json!({"description": o["description"], "preview": o["preview"]}))
+            .collect();
+        assert_eq!(carried["option_details"], json!(details));
+    }
 }
 
 /// The CLI's own paste pair unwraps; typed tag text only loses its escaping; a harness prefix

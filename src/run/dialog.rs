@@ -622,7 +622,8 @@ mod tests {
 
     fn question(hook: &str, continuation: bool) -> Value {
         json!({"v": 1, "kind": "question", "hook_event": hook, "tool": "AskUserQuestion",
-            "data": {"questions": [{"question": "Which color?", "options": ["red"], "multi_select": false}]},
+            "data": {"questions": [{"question": "Which color?", "options": ["red"],
+                "option_details": [{"description": null, "preview": null}], "multi_select": false}]},
             "input": {"questions": [{"question": "Which color?"}]}, "continuation": continuation})
     }
 

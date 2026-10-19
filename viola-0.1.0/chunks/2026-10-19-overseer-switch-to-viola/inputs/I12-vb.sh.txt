@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# escher-builder: fresh, or `--continue` (its newest transcript), or `--resume <session-id>`
+exec "$HOME/dev/projects/additional/andromedaV3/andromeda-overseer/docs/tools/vstart.sh" escher-builder "$HOME/dev/projects/escher" "$@"

@@ -1,0 +1,63 @@
+#!/bin/sh
+# Wait through an HOURS-LONG builder run (a mutation tier, a workflow dispatch): waitm.sh returns at once on a builder
+# that idles at a turn end waiting for its own background run, and on every long progress turn (V93). This loop waits
+# for the builder to LEAVE idle, then runs waitm.sh, and returns on a dialog, a hold, an exit, or a turn end at which
+# the builder has no background task of its own (it then waits for the driver); a turn end with tasks still running
+# is printed as one progress line and the loop goes on.
+#   sh waitlong.sh [name]      run it in the background with timeout 7200000 (the harness's maximum); restart it when it
+#                              ends without a report (the heartbeat does that).
+V=$HOME/dev/projects/additional/viola-lab/prototype/target/debug/viola
+N=${1:-viola-builder}; D=$HOME/dev/projects/additional/viola-overseer; O="$D/.waitlong-$N.out"
+# The ts_ms of the newest Stop event: a wake turn shorter than one poll (a task notification answered in seconds)
+# leaves idle and returns between two status reads, so a new Stop also ends the wait (2026-10-13: an implement's
+# last turn at 09:36:50Z was missed for 70 minutes).
+last_stop() {
+  python3 - "$HOME/.viola/sessions/$N/events.ndjson" <<'PY'
+import json, sys
+t = '0'
+try:
+    for line in reversed(open(sys.argv[1], encoding='utf-8').read().splitlines()[-400:]):
+        try:
+            e = json.loads(line)
+        except ValueError:
+            continue
+        if (e.get('data') or {}).get('hook_event_name') == 'Stop':
+            t = str(e.get('ts_ms', 0))
+            break
+except OSError:
+    pass
+print(t)
+PY
+}
+while :; do
+  S0=$(last_stop)
+  until [ "$("$V" list | awk -v n="$N" '$1==n{print $3}')" != "idle" ] || [ "$(last_stop)" != "$S0" ]; do sleep 60; done
+  echo "[builder left idle at $(date -u +%FT%TZ)]"
+  sh "$D/waitm.sh" "$N" > "$O" 2>&1
+  # A turn end with NO background task of the builder's own is one that waits for the driver: return on it, whatever
+  # its words (V103, V105: a word list passed over a review card for 21 minutes and a finished wrap for 10). The
+  # Stop event carries the count; a dialog, a hold or an exit returns as before.
+  BG=$(python3 - "$HOME/.viola/sessions/$N/events.ndjson" <<'PY'
+import json, sys
+p = sys.argv[1]
+n = 'unread'
+try:
+    for line in reversed(open(p, encoding='utf-8').read().splitlines()[-400:]):
+        try:
+            d = (json.loads(line).get('data') or {})
+        except ValueError:
+            continue
+        if d.get('hook_event_name') == 'Stop':
+            n = str(len(d.get('background_tasks') or []))
+            break
+except OSError:
+    pass
+print(n)
+PY
+)
+  if [ "$BG" = "0" ] || [ "$BG" = "unread" ] || head -c 3000 "$O" | grep -q -E '^question|^plan|^permission|^exited|^held'; then
+    echo "[background tasks at the last Stop: $BG]"; cat "$O"; exit 0
+  fi
+  echo "[progress turn at $(date -u +%FT%TZ), $BG background task(s): $(sed -n '4p' "$O" | cut -c1-200)]"
+  sleep 30
+done

@@ -1,0 +1,714 @@
+[
+{
+"tool": "gate",
+"v": "1.21",
+"sha8": "e2f3ad5e",
+"ts": "2026-10-19T18:35:32Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-19T18-33-04-implement",
+"--marker",
+"2026-10-19-overseer-switch-to-viola",
+"--only",
+"23,24"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-19-overseer-switch-to-viola · entries 25",
+"logs $TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/implement-2026-10-19T18-33-04 · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 57 · rust 6 · unmapped 19",
+"walk-class rust 4 (tests/cli_controls_not_disableable.rs, tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, +1 in the trail) · uncommitted 82",
+"prose L218-221: The standing lint entries run first. Next come the unit layer and then the new cases by na… (374 chars)",
+"prose L223-226: The live acts (steps 8, 10–12, 14) are not entries. Their starts are the founder's cap (`i… (446 chars)",
+" 23 probe       green · exit 0 · 0.0s · 2 B → 23.log · grep -c -E '\"act\":\"(verify-stamped|switched|skill-sent|rev… (199 chars)",
+" 24 probe       green · exit 0 · 0.0s · 2 B → 24.log · grep -c 'stamped 2.1.296  24 pass  0 fail' viola-0.1.0/chu… (122 chars)",
+"not run — excluded · 23: 1-22,25",
+"entries 25 · green 2 · red 0 · recorded 0 · timeout 0 · not-run 23"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-19-overseer-switch-to-viola",
+"plan": "./viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/implement-2026-10-19T18-33-04",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-10-19T09-28-14-wrap/evolve-2026-10-19-dialog-hold-for-the-driver.json",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-19T10-15-34-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-19T10-15-34-phase/a11y-history.md",
+".andromeda/runs/2026-10-19T10-15-34-phase/a11y.md",
+".andromeda/runs/2026-10-19T10-15-34-phase/acceptance-v1-33.md",
+".andromeda/runs/2026-10-19T10-15-34-phase/arch-contracts.md",
+".andromeda/runs/2026-10-19T10-15-34-phase/arch-history-index.md",
+".andromeda/runs/2026-10-19T10-15-34-phase/arch-history.md",
+".andromeda/runs/2026-10-19T10-15-34-phase/arch.md",
+".andromeda/runs/2026-10-19T10-15-34-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-19T10-15-34-phase/design-history.md",
+".andromeda/runs/2026-10-19T10-15-34-phase/design.md",
+".andromeda/runs/2026-10-19T10-15-34-phase/evolve-2026-10-19-overseer-switch-to-viola.json",
+".andromeda/runs/2026-10-19T10-15-34-phase/gate-2026-10-19-overseer-switch-to-viola.json",
+".andromeda/runs/2026-10-19T10-15-34-phase/gated-v1-33.md",
+".andromeda/runs/2026-10-19T10-15-34-phase/inputs-2026-10-19-overseer-switch-to-viola.json",
+".andromeda/runs/2026-10-19T10-15-34-phase/layouts-history.md",
+".andromeda/runs/2026-10-19T10-15-34-phase/layouts.md",
+".andromeda/runs/2026-10-19T10-15-34-phase/master-record.txt",
+".andromeda/runs/2026-10-19T10-15-34-phase/matrix-2026-10-19-overseer-switch-to-viola.json",
+".andromeda/runs/2026-10-19T10-15-34-phase/note-v1-33.md",
+".andromeda/runs/2026-10-19T10-15-34-phase/obs-contracts.md",
+".andromeda/runs/2026-10-19T10-15-34-phase/obs-history.md",
+".andromeda/runs/2026-10-19T10-15-34-phase/obs.md",
+".andromeda/runs/2026-10-19T10-15-34-phase/p5-card-1.md",
+".andromeda/runs/2026-10-19T10-15-34-phase/p5-controls.md",
+".andromeda/runs/2026-10-19T10-15-34-phase/planlint-2026-10-19-overseer-switch-to-viola.json",
+".andromeda/runs/2026-10-19T10-15-34-phase/registry-2026-10-19-overseer-switch-to-viola.json",
+".andromeda/runs/2026-10-19T10-15-34-phase/relay-1.md",
+".andromeda/runs/2026-10-19T10-15-34-phase/relay-2.md",
+".andromeda/runs/2026-10-19T10-15-34-phase/relay-3.md",
+".andromeda/runs/2026-10-19T10-15-34-phase/route-2026-10-19-overseer-switch-to-viola.json",
+".andromeda/runs/2026-10-19T10-15-34-phase/route-no-marker.json",
+".andromeda/runs/2026-10-19T10-15-34-phase/security-history-index.md",
+".andromeda/runs/2026-10-19T10-15-34-phase/security-history.md",
+".andromeda/runs/2026-10-19T10-15-34-phase/security.md",
+".andromeda/runs/2026-10-19T10-15-34-phase/sidecar-2026-10-19-overseer-switch-to-viola.json",
+".andromeda/runs/2026-10-19T10-15-34-phase/tests-contracts.md",
+".andromeda/runs/2026-10-19T10-15-34-phase/tests-history-index.md",
+".andromeda/runs/2026-10-19T10-15-34-phase/tests-history.md",
+".andromeda/runs/2026-10-19T10-15-34-phase/tests.md",
+".andromeda/runs/2026-10-19T10-15-34-phase/tree-query-2026-10-19-overseer-switch-to-viola.json",
+".andromeda/runs/2026-10-19T10-56-42-implement/evolve-2026-10-19-overseer-switch-to-viola.json",
+".andromeda/runs/2026-10-19T10-56-42-implement/gate-2026-10-19-overseer-switch-to-viola.json",
+".andromeda/runs/2026-10-19T10-56-42-implement/outcome-2026-10-19-overseer-switch-to-viola.md",
+".andromeda/runs/2026-10-19T13-27-50-implement/outcome-2026-10-19-overseer-switch-to-viola.md",
+".andromeda/runs/2026-10-19T18-33-04-implement/inputs-2026-10-19-overseer-switch-to-viola.json",
+".andromeda/runs/2026-10-19T18-33-04-implement/relay-1.md",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/evidence/profraw-red.md",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/evidence/switch-round.md",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/plan.md",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/research.md",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/scope.md"
+],
+"rust": [
+"crates/viola-agent-claude/src/dialog.rs",
+"crates/viola-agent-claude/src/hook.rs",
+"crates/viola-core/src/lib.rs",
+"crates/viola-state/tests/state_events.rs",
+"src/run/dialog.rs",
+"tests/hook_events.rs"
+]
+},
+"unmapped": [
+"viola-0.1.0/verification-matrix.json",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/evidence/switch-readings.ndjson",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/inputs/.gitattributes",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/inputs/I1-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/inputs/I10-vb-pulse.sh.txt",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/inputs/I11-vb-conductor.sh.txt",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/inputs/I12-vb.sh.txt",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/inputs/I13-vw.sh.txt",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/inputs/I14-relay-2.md.txt",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/inputs/I15-relay-3.md.txt",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/inputs/I16-relay-switch-step12.md.txt",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/inputs/I17-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/inputs/I2-vb.sh.txt",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/inputs/I3-vbr.sh.txt",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/inputs/I4-waitm.sh.txt",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/inputs/I5-waitlong.sh.txt",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/inputs/I6-scr.sh.txt",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/inputs/I9-driving-guide.md.txt",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/inputs/andromeda-inputs.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/cli_controls_not_disableable.rs",
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 82,
+"problem": null
+},
+"prose": [
+{
+"from": 218,
+"to": 221,
+"text": "The standing lint entries run first. Next come the unit layer and then the new cases by name, then the integration and E2E layers. A preservation guard guards the modify list, against base `f23586fbda77` (HEAD at P4). The release build the switch runs on comes next, then the booted smoke, G2, G4 and `pre-push`, then the operator pass. The three evidence readers come last."
+},
+{
+"from": 223,
+"to": 226,
+"text": "The live acts (steps 8, 10–12, 14) are not entries. Their starts are the founder's cap (`inputs#I14`), which a light-gate re-run must never spend, and the overseer drives them. The readers carry no `artifact`: steps 7–14 produce the evidence files, and the wrap re-verifies them from `evidence/`. The takeover reader is the gated criterion's entry, with `defer = \"gated: …\"`. No mutation entry is listed (test-plan §10: the epoch-boundary audit)."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "lint",
+"run": "rg -n -U --pcre2 --type rust '#\\[(tracing::)?instrument\\b(?!\\(\\s*skip_all\\b)' .",
+"run_sha8": "d8c83432",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "bash scripts/lint-probes.sh",
+"run_sha8": "4811ad1f",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/question_option_details_|turn_ended_background_tasks_/)' ",
+"run_sha8": "8e0b38f2",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration",
+"run_sha8": "03525807",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(state_events) | binary(hook_events)' ",
+"run_sha8": "aad1e6cc",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"lacks \"suite\":\"nextest-integration\",\"passed\":0,"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh run --e2e",
+"run_sha8": "55ff1d5e",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"suite\":\"nextest-e2e\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "git diff --quiet f23586fbda77 -- . ':!crates/viola-agent-claude/src/dialog.rs' ':!crates/viola-agent-claude/src/hook.rs' ':!crates/viola-core/src/lib.rs' ':!crates/viola-state/tests/state_events.rs' ':!tests/hook_events.rs' ':!src/run/dialog.rs' ':!.andromeda' ':!viola-0.1.0' ':!.claude' ':!CLAUDE.md' && test -z \"$(git ls-files --others --exclude-standard -- src crates tests schemas plugin scripts fixtures .github .config Cargo.toml Cargo.lock)\"",
+"run_sha8": "fca0a9ca",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "cargo deny check",
+"run_sha8": "2708b9d9",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "build",
+"run": "cargo build --release --bin viola",
+"run_sha8": "6a89e109",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-osv-smoke",
+"run_sha8": "4be5ed32",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-osv-smoke --instance builder",
+"run_sha8": "bdf5a024",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-osv-smoke",
+"run_sha8": "0b656db5",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "bash scripts/g2-zero-panics.sh",
+"run_sha8": "b1637f71",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-osv-smoke",
+"run_sha8": "4be5ed32",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "451237e0",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "2377245a",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "grep -c -E '\"act\":\"(verify-stamped|switched|skill-sent|review-answered|turn-waited|final-read|clear-confirmed)\"' viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/evidence/switch-readings.ndjson",
+"run_sha8": "255b2e47",
+"expect": [
+"exit 0",
+"last line 7"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/implement-2026-10-19T18-33-04/23.log",
+"bytes": 2,
+"log_sha8": "10159baf",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '7' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 24,
+"role": "probe",
+"run": "grep -c 'stamped 2.1.296  24 pass  0 fail' viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/evidence/switch-round.md",
+"run_sha8": "813e011f",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-overseer-switch-to-viola/implement-2026-10-19T18-33-04/24.log",
+"bytes": 2,
+"log_sha8": "4355a46b",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '1' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 25,
+"role": "probe",
+"run": "grep -c '\"act\":\"takeover\"' viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/evidence/switch-readings.ndjson",
+"run_sha8": "6a8477e1",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.21",
+"sha8": "e2f3ad5e",
+"ts": "2026-10-19T18:36:22Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola",
+"--run-dir",
+".andromeda/runs/2026-10-19T18-33-04-implement",
+"--marker",
+"2026-10-19-overseer-switch-to-viola"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base HEAD (no pre-CI commit) · lists new 2 · modify 6 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"scope: clean — changed 6 · listed 6 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 78"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "HEAD",
+"base_why": "no pre-CI commit",
+"counts": {
+"changed": 6,
+"listed": 6,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 78,
+"unparsed": 0,
+"widening_without_word": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.21",
+"sha8": "e2f3ad5e",
+"ts": "2026-10-19T18:36:26Z",
+"argv": [
+"census",
+"--comm",
+"viola",
+"--comm",
+"viola-fake-agent",
+"--args",
+"projects/viola/target/debug/viola",
+"--args",
+"projects/viola/target/release/viola",
+"--args",
+"viola-product/bin/viola",
+"--run-dir",
+".andromeda/runs/2026-10-19T18-33-04-implement",
+"--marker",
+"2026-10-19-overseer-switch-to-viola"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"census · ps · comm viola, viola-fake-agent · args projects/viola/target/debug/viola, projects/viola/target/release/viola, viola-product/bin/viola · own tree excluded: 8",
+"  3067283 · ppid 1410 · foot · foot --app-id=overseer.viola-overseer --title=viola-overseer --working-directory=~/dev/projects/additional/viola-overseer -e env -u CLAUDE_CODE_CHILD_SESSION claude -n viola-overseer --continue The host restarted (a reboot, a Claude Code update or an account switch) and up.sh resumed this session with --continue. Before any other work: bring back what you drive — viola-builder, which runs under the Viola PRODUCT ($HOME/dev/projects/additional/viola-overseer/vb.sh --continue; confirm with $HOME/.local/viola-product/bin/viola list, not the prototype's list). A session viola still lists as running is left alone. Confirm with viola list, then tell the founder in 2-4 lines where each project stands. Start no new work without the founder's word. A host record runs here (started by up.sh): when a builder reports a gate red in which no assertion failed on a value, read its window before a re-run - python3 ~/dev/projects/additional/andromedaV3/andromeda-overseer/docs/tools/hostwatch.py read --trail <that gate trail>, or read --last 15.",
+"  3067317 · ppid 3067283 · claude · claude -n viola-overseer --continue The host restarted (a reboot, a Claude Code update or an account switch) and up.sh resumed this session with --continue. Before any other work: bring back what you drive — viola-builder, which runs under the Viola PRODUCT ($HOME/dev/projects/additional/viola-overseer/vb.sh --continue; confirm with $HOME/.local/viola-product/bin/viola list, not the prototype's list). A session viola still lists as running is left alone. Confirm with viola list, then tell the founder in 2-4 lines where each project stands. Start no new work without the founder's word. A host record runs here (started by up.sh): when a builder reports a gate red in which no assertion failed on a value, read its window before a re-run - python3 ~/dev/projects/additional/andromedaV3/andromeda-overseer/docs/tools/hostwatch.py read --trail <that gate trail>, or read --last 15.",
+"  3069673 · ppid 3069651 · viola · ~/dev/projects/additional/viola-lab/prototype/target/debug/viola run pulse-builder --dialog-timeout 3500 -- claude --plugin-dir ~/dev/projects/additional/viola-lab/prototype/plugin --effort high -n pulse-builder --resume c4f6401c-6d92-4cc1-92bd-093b68711cf9",
+"  3071126 · ppid 3071104 · viola · ~/dev/projects/additional/viola-lab/prototype/target/debug/viola run conductor-builder --dialog-timeout 3500 -- claude --plugin-dir ~/dev/projects/additional/viola-lab/prototype/plugin --effort high -n conductor-builder --resume 678b82bd-da70-48d6-8fe3-d62bdcae3ece",
+"  3074107 · ppid 3074085 · viola · ~/dev/projects/additional/viola-lab/prototype/target/debug/viola run andromeda-worker --dialog-timeout 3500 -- claude --plugin-dir ~/dev/projects/additional/viola-lab/prototype/plugin --effort high -n andromeda-worker",
+"  3074872 · ppid 3074847 · viola · ~/dev/projects/additional/viola-lab/prototype/target/debug/viola run escher-builder --dialog-timeout 3500 -- claude --plugin-dir ~/dev/projects/additional/viola-lab/prototype/plugin --effort high -n escher-builder --resume 015ec7b3-905c-4571-aca1-8eea3c4f50c6",
+"  3105384 · ppid 3104869 · viola · ~/.viola/bin/0.1.0-231c0225dac912d9/viola mcp",
+"  3114646 · ppid 3114639 · viola · ~/dev/projects/additional/viola-lab/prototype/target/debug/viola wait escher-builder --timeout 600",
+"  3116975 · ppid 3116974 · viola · ~/.local/viola-product/bin/viola wait viola-builder --after 10260 --timeout-ms 3000000 --json",
+"  3138259 · ppid 3138258 · viola · ~/dev/projects/additional/viola-lab/prototype/target/debug/viola wait andromeda-worker --timeout 60",
+"census: 10 running"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"census": {
+"comm": [
+"viola",
+"viola-fake-agent"
+],
+"args": [
+"projects/viola/target/debug/viola",
+"projects/viola/target/release/viola",
+"viola-product/bin/viola"
+],
+"running": [
+3067283,
+3067317,
+3069673,
+3071126,
+3074107,
+3074872,
+3105384,
+3114646,
+3116975,
+3138259
+]
+}
+}
+}
+]

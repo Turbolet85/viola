@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "cc3d30ac",
+"ts": "2026-10-19T10:18:03Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-10-19-overseer-switch-to-viola",
+"--expect-prefix",
+"Overseer switch to viola",
+"--record-file",
+".andromeda/runs/2026-10-19T10-15-34-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-10-19T10-15-34-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"stamp viola-0.1.0/working-route.md:160 - [2026-10-19-overseer-switch-to-viola]",
+"record master-route.md:83 - appended under `## viola-0.1.0`",
+"promoted 2026-10-19-overseer-switch-to-viola - viola-0.1.0/working-route.md:160 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/working-route.md",
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+}
+]

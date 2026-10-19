@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# viola-builder resumed: vbr.sh <session-id> (Linux; replaces vbr.ps1)
+[ -n "${1:-}" ] || { echo "usage: vbr.sh <session-id>"; exit 2; }
+exec "$HOME/dev/projects/additional/andromedaV3/andromeda-overseer/docs/tools/vstart.sh" viola-builder "$HOME/dev/projects/viola" --resume "$1" "${@:2}"

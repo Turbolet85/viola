@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# andromeda-worker, fresh (Linux; replaces vw.ps1)
+exec "$HOME/dev/projects/additional/andromedaV3/andromeda-overseer/docs/tools/vstart.sh" andromeda-worker "$HOME/dev/projects/additional/andromeda-worker" "$@"

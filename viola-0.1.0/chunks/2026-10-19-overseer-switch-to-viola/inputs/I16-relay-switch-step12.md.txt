@@ -1,0 +1,26 @@
+# Relay to viola-builder — 2026-10-19-overseer-switch-to-viola, between step 11 and step 12
+
+Facts measured by the overseer (each with its time from `date -u` or the events log):
+
+- **turn-waited:** the overseer's `pwait.sh` (product `wait --after 4981 --json`) woke on the `turn-ended` at cursor 7895
+  that closed your step-11 turn (`background_tasks` 0 there).
+- **final-read:** the overseer's `viola last viola-builder` read that turn's text at ~13:31Z.
+- **First /clear try refused:** at 13:31:52.373Z `send-refused {refusal: budget-paused, detail: seven-day}` — the account
+  read seven_day 99 % (resets 2026-10-23T14:00Z). The founder ruled «Держать до смены аккаунта».
+- **Host restart / account switch** (up.sh): the product builder was gone; raised by `vb.sh --continue` at 18:07:33Z
+  (live start 8 of 8), resume of 6e59945a — on claude **2.1.302** (`unverified-cli`).
+- **Founder's word «Verify 2.1.302, +6 стартов»** (cap 8 → 14): the overseer ran `viola verify` (no --home, from the repo
+  root) 18:18:43Z → 18:21:41Z: `stamped 2.1.302  20 pass  4 fail` — fail rows `tag-escaping`, `local-command-clear`,
+  `paste-newline`, `local-command-compact` (starts 9–14). Output kept at
+  `/tmp/claude-1000/-home-turbolet-dev-projects-additional-viola-overseer/f035fca1-08d1-4069-8bd7-47146a35a221/scratchpad/verify-302.out`.
+- **Founder's word «Закрепить 2.1.296, +1 старт»** (cap 14 → 15): a shim `~/.local/viola-claude-pin/bin/claude` →
+  `…/mise/installs/claude/2.1.296/claude`, first on `vb.sh`'s PATH; the 2.1.302 builder ended by SIGTERM to its claude
+  child (session-end 18:26:18Z); raised by `vb.sh --continue` at 18:26:23Z (live start 15 of 15), resume of 6e59945a,
+  `cli_version 2.1.296`, `cli_verified true`.
+- **The founder lifted the budget gate himself:** `viola release --budget viola-builder` →
+  `budget gate lifted until 2026-10-23 14:00:00Z` (`budget-gate {paused:false, override_until …}` at 18:31:54Z).
+- **clear-confirmed:** the overseer's `printf '/clear' | viola send viola-builder` at 18:31:57Z: `send-issued` @9694 →
+  `session-end` → `session-start {cause: clear, agent_session_id: ba538116-…}` → `send-confirmed` @9694.
+
+For the wrap, not this step: the four 2.1.302 red rows are a product finding (the CLI changed paste and local-command
+handling) and want an owner; the CLI pin is the overseer's own driving fact.

@@ -1,0 +1,110 @@
+[
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "0c159d7d",
+"ts": "2026-10-19T18:33:21Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-switch-step12.md",
+"--kind",
+"relay",
+"--why",
+"the overseer measured turn-waited, final-read and clear-confirmed; a host restart onto 2.1.302, the founder verify of 2.1.302 at 20/24, his pin to 2.1.296 and start cap 15 of 15, and his own budget release",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-10-19T18-33-04-implement",
+"--marker",
+"2026-10-19-overseer-switch-to-viola"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I16 · copy no-repo · ../additional/viola-overseer/relay-switch-step12.md",
+"cite: inputs#I16"
+],
+"stderr": null,
+"wrote": [
+"inputs/I16-relay-switch-step12.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I16",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-switch-step12.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "bc0fb52e5253b5c3cbbf6423e0a1e9ba168369c55da0bb24e3d8ef39de9a00d5",
+"copy": "I16-relay-switch-step12.md.txt",
+"link": false,
+"read_at": "2026-10-19T18:33:21Z",
+"step": "implement",
+"why": "the overseer measured turn-waited, final-read and clear-confirmed; a host restart onto 2.1.302, the founder verify of 2.1.302 at 20/24, his pin to 2.1.296 and start cap 15 of 15, and his own budget release"
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "0c159d7d",
+"ts": "2026-10-19T18:33:21Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola",
+"--message-file",
+".andromeda/runs/2026-10-19T18-33-04-implement/relay-1.md",
+"--origin",
+"the overseer, through viola send to viola-builder, 2026-10-19T18:32Z",
+"--kind",
+"relay",
+"--why",
+"the operator directs the re-entry at step 12 under the product: snapshot the step-12 relay, record step 12, go on to step 13",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-10-19T18-33-04-implement",
+"--marker",
+"2026-10-19-overseer-switch-to-viola"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I17 · copy message · message: the overseer, through viola send to viola-builder, 2026-10-19T18:32Z",
+"cite: inputs#I17"
+],
+"stderr": null,
+"wrote": [
+"inputs/I17-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I17",
+"kind": "relay",
+"repo": null,
+"path": "message: the overseer, through viola send to viola-builder, 2026-10-19T18:32Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "b29526814fdae998277975310bc3dcda16ffa8bc2c709247aacc19d3b35bd183",
+"copy": "I17-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-19T18:33:21Z",
+"step": "implement",
+"why": "the operator directs the re-entry at step 12 under the product: snapshot the step-12 relay, record step 12, go on to step 13"
+}
+}
+]

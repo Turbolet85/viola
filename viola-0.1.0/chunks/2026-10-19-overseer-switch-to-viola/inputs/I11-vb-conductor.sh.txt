@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# conductor-builder, fresh (Linux; replaces vb-conductor.ps1)
+exec "$HOME/dev/projects/additional/andromedaV3/andromeda-overseer/docs/tools/vstart.sh" conductor-builder "$HOME/dev/projects/conductor" "$@"

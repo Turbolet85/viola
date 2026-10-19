@@ -1,0 +1,4 @@
+#!/bin/sh
+# Tail of the driven session's terminal, ANSI stripped: catches CLI-native popups the hooks miss.
+# Args: [name] [bytes of out.raw to read] [chars to print, default 900].
+tail -c ${2:-2500} ~/.viola/sessions/${1:-viola-builder}/out.raw | sed 's/\x1b\[[0-9;?<>]*[a-zA-Z~]//g; s/\x1b\][^\x07]*\x07//g; s/\x1b[=>]//g' | tr -s ' \n' | tail -c ${3:-900}
