@@ -1,0 +1,43 @@
+[
+{
+"tool": "ci",
+"v": "1.3",
+"sha8": "2b582a9b",
+"ts": "2026-10-18T22:40:00Z",
+"argv": [
+"conclusion",
+"--sha",
+"bc2e3bf73bcb943c88e8009ba5d1959022ef7eff",
+"--run-dir",
+".andromeda/runs/2026-10-18T22-39-54-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"repo Turbolet85/viola (the push remote `origin`)",
+"bc2e3bf73bcb verdict: in progress · checks 15/15 · runs ci#39172977857 in_progress/-",
+"runs: ci#39172977857 push in_progress/-",
+"running 5: oldest lint (windows-2025) 203 s",
+"run open: ci#39172977857 in_progress"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"repo": "Turbolet85/viola",
+"host": "github.com",
+"repo_source": "the push remote `origin`",
+"names": [],
+"shas": [
+{
+"sha": "bc2e3bf73bcb943c88e8009ba5d1959022ef7eff",
+"word": "in progress",
+"polls": [
+"in progress"
+]
+}
+]
+}
+}
+]

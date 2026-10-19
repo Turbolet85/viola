@@ -1,0 +1,82 @@
+[
+{
+"sql": "SELECT caller, callee_name, file, line FROM calls WHERE callee_name IN ('home_passes', 'board_document', 'marketplace_files', 'mcp') AND callee_kind = 'fn' ORDER BY callee_name, file, line",
+"rows": 12,
+"result": [
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/mcp/mcp().",
+"callee_name": "board_document",
+"file": "src/cmd/mcp.rs",
+"line": 34
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/mcp/mcp().",
+"callee_name": "home_passes",
+"file": "src/cmd/mcp.rs",
+"line": 21
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/mcp/tests/home_passes_a_new_home_and_refuses_an_unreadable_one().",
+"callee_name": "home_passes",
+"file": "src/cmd/mcp.rs",
+"line": 58
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/mcp/tests/home_passes_a_new_home_and_refuses_an_unreadable_one().",
+"callee_name": "home_passes",
+"file": "src/cmd/mcp.rs",
+"line": 61
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/mcp/tests/home_passes_refuses_a_group_writable_home_or_diagnostics_dir().",
+"callee_name": "home_passes",
+"file": "src/cmd/mcp.rs",
+"line": 72
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/mcp/tests/home_passes_refuses_a_group_writable_home_or_diagnostics_dir().",
+"callee_name": "home_passes",
+"file": "src/cmd/mcp.rs",
+"line": 74
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/mcp/tests/home_passes_refuses_a_group_writable_home_or_diagnostics_dir().",
+"callee_name": "home_passes",
+"file": "src/cmd/mcp.rs",
+"line": 78
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 marketplace/tests/marketplace_files_are_the_validated_shape().",
+"callee_name": "marketplace_files",
+"file": "crates/viola-agent-claude/src/marketplace.rs",
+"line": 76
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 marketplace/tests/marketplace_mcp_json_escapes_the_paths().",
+"callee_name": "marketplace_files",
+"file": "crates/viola-agent-claude/src/marketplace.rs",
+"line": 125
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 marketplace/tests/marketplace_files_hold_no_hooks().",
+"callee_name": "marketplace_files",
+"file": "crates/viola-agent-claude/src/marketplace.rs",
+"line": 145
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/plugin/write_tree().",
+"callee_name": "marketplace_files",
+"file": "src/cmd/plugin.rs",
+"line": 113
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/dispatch().",
+"callee_name": "mcp",
+"file": "src/cmd/mod.rs",
+"line": 190
+}
+],
+"db_state": "regenerated",
+"plane": "rust"
+}
+]

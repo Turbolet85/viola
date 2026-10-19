@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "cc3d30ac",
+"ts": "2026-10-18T22:41:49Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-10-18-plugin-precedence-live-readings",
+"--expect-prefix",
+"Plugin precedence live readings",
+"--record-file",
+".andromeda/runs/2026-10-18T22-39-54-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-10-18T22-39-54-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"stamp viola-0.1.0/working-route.md:156 - [2026-10-18-plugin-precedence-live-readings]",
+"record master-route.md:81 - appended under `## viola-0.1.0`",
+"promoted 2026-10-18-plugin-precedence-live-readings - viola-0.1.0/working-route.md:156 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/working-route.md",
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+}
+]

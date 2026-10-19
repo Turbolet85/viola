@@ -1,0 +1,57 @@
+[
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "0c159d7d",
+"ts": "2026-10-19T06:12:11Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings",
+"--message-file",
+".andromeda/runs/2026-10-19T05-23-09-implement/relay-1.md",
+"--origin",
+"the operator, relaying the founder live in the overseer dialog, 2026-10-19T05:36Z",
+"--kind",
+"relay",
+"--why",
+"the founder ruled the rig outside the repository after start 1 met the external-imports modal: fresh proj/ on the e2e-home tmpfs, fresh four plugin commands, the remaining 2 starts for the two readings, the arrow rule kept, old proj/ removal first",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-10-19T05-23-09-implement",
+"--marker",
+"2026-10-18-plugin-precedence-live-readings"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy message · message: the operator, relaying the founder live in the overseer dialog, 2026-10-19T05:36Z",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, relaying the founder live in the overseer dialog, 2026-10-19T05:36Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "085f01c24ca5d2ec67c3cc02506b68bb32f69a07bd9f4f9803c0feaf622ed1a8",
+"copy": "I4-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-19T06:12:11Z",
+"step": "implement",
+"why": "the founder ruled the rig outside the repository after start 1 met the external-imports modal: fresh proj/ on the e2e-home tmpfs, fresh four plugin commands, the remaining 2 starts for the two readings, the arrow rule kept, old proj/ removal first"
+}
+}
+]

@@ -1,0 +1,340 @@
+[
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "0c159d7d",
+"ts": "2026-10-18T22:40:40Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings",
+"--message-file",
+".andromeda/runs/2026-10-18T22-39-54-phase/relay-1.md",
+"--origin",
+"the operator, the /andromeda-phase invocation, 2026-10-18T22:39Z",
+"--kind",
+"relay",
+"--why",
+"the founder asleep: plan through P4, his forks (trust-dialog method, live start cap, any widening) one dialog answered hold-for-the-founder by the overseer; fold the WATCH and name its form for the wrap",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-10-18T22-39-54-phase",
+"--marker",
+"2026-10-18-plugin-precedence-live-readings"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy message · message: the operator, the /andromeda-phase invocation, 2026-10-18T22:39Z",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, the /andromeda-phase invocation, 2026-10-18T22:39Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "56e21d8737369513e60e91a115de10b08620053da578bf7681a394c2f1b0918d",
+"copy": "I1-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-18T22:40:40Z",
+"step": "phase:P1",
+"why": "the founder asleep: plan through P4, his forks (trust-dialog method, live start cap, any widening) one dialog answered hold-for-the-founder by the overseer; fold the WATCH and name its form for the wrap"
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "0c159d7d",
+"ts": "2026-10-19T05:07:10Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings",
+"--message-file",
+".andromeda/runs/2026-10-18T22-39-54-phase/relay-2.md",
+"--origin",
+"the founder, live in the Viola overseer dialog, relayed verbatim by the operator, 2026-10-19T05:06Z",
+"--kind",
+"relay",
+"--why",
+"the founder answers both P4 forks: F1 arrow + Enter on a read screen (at most 2 arrows, 1 Enter, release before the wrapped send; widening his), F2 cap 3 starts, four plugin commands per rig; and ratifies the VIOLA_DIR home step for every CLI verb, mcp included",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-10-18T22-39-54-phase",
+"--marker",
+"2026-10-18-plugin-precedence-live-readings"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy message · message: the founder, live in the Viola overseer dialog, relayed verbatim by the operator, 2026-10-19T05:06Z",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "message: the founder, live in the Viola overseer dialog, relayed verbatim by the operator, 2026-10-19T05:06Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "4ec38ec114317bd2a63627a3d59f542fe67ae1f467fa30b3b2a716d07f5fbe1e",
+"copy": "I2-relay-2.md.txt",
+"link": false,
+"read_at": "2026-10-19T05:07:10Z",
+"step": "phase:P4",
+"why": "the founder answers both P4 forks: F1 arrow + Enter on a read screen (at most 2 arrows, 1 Enter, release before the wrapped send; widening his), F2 cap 3 starts, four plugin commands per rig; and ratifies the VIOLA_DIR home step for every CLI verb, mcp included"
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "0c159d7d",
+"ts": "2026-10-19T05:12:29Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings",
+"--run-dir",
+".andromeda/runs/2026-10-18T22-39-54-phase",
+"--marker",
+"2026-10-18-plugin-precedence-live-readings"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase invocation, 2026-10-18T22:39Z",
+"I1 cited scope.md:18 · scope.md:39 · scope.md:93 · scope.md:96 · research.md:13 · research.md:108 · research.md:110 · plan.md:287 · plan.md:353",
+"I2 n/a — a message has no live source · copy message · message: the founder, live in the Viola overseer dialog, relayed verbatim by the operator, 2026-10-19T05:06Z",
+"I2 cited plan.md:17 · plan.md:20 · plan.md:68 · plan.md:89 · plan.md:127 · plan.md:244 · plan.md:257 · plan.md:288 · plan.md:295 · plan.md:297 · plan.md:305 · plan.md:305 · plan.md:309 · plan.md:311 · plan.md:312 · plan.md:344 · plan.md:349",
+"inputs: 2 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "0c159d7d",
+"ts": "2026-10-19T05:15:01Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings",
+"--run-dir",
+".andromeda/runs/2026-10-18T22-39-54-phase",
+"--marker",
+"2026-10-18-plugin-precedence-live-readings"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase invocation, 2026-10-18T22:39Z",
+"I1 cited scope.md:18 · scope.md:39 · scope.md:93 · scope.md:96 · research.md:13 · research.md:108 · research.md:110 · plan.md:296 · plan.md:362",
+"I2 n/a — a message has no live source · copy message · message: the founder, live in the Viola overseer dialog, relayed verbatim by the operator, 2026-10-19T05:06Z",
+"I2 cited plan.md:17 · plan.md:20 · plan.md:68 · plan.md:89 · plan.md:127 · plan.md:253 · plan.md:266 · plan.md:297 · plan.md:304 · plan.md:306 · plan.md:314 · plan.md:314 · plan.md:318 · plan.md:320 · plan.md:321 · plan.md:353 · plan.md:358",
+"inputs: 2 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "0c159d7d",
+"ts": "2026-10-19T05:16:35Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings",
+"--message-file",
+".andromeda/runs/2026-10-18T22-39-54-phase/relay-3.md",
+"--origin",
+"the operator, at the P5 review in this phase session, 2026-10-19T05:16Z",
+"--kind",
+"relay",
+"--why",
+"the question the founder ratified described the whole home step (VIOLA_DIR when VIOLA_NAME + VIOLA_DIR pass the shape check, else the default, then canonicalised; every CLI verb, run, revive and mcp included): both NOT-ratified marks lift",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-10-18T22-39-54-phase",
+"--marker",
+"2026-10-18-plugin-precedence-live-readings"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy message · message: the operator, at the P5 review in this phase session, 2026-10-19T05:16Z",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-3.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, at the P5 review in this phase session, 2026-10-19T05:16Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "50d9c684eacc4b0b8940ff8e692d8e4b0bc7b4d05471a9b51061130165009903",
+"copy": "I3-relay-3.md.txt",
+"link": false,
+"read_at": "2026-10-19T05:16:35Z",
+"step": "phase:P5",
+"why": "the question the founder ratified described the whole home step (VIOLA_DIR when VIOLA_NAME + VIOLA_DIR pass the shape check, else the default, then canonicalised; every CLI verb, run, revive and mcp included): both NOT-ratified marks lift"
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "0c159d7d",
+"ts": "2026-10-19T05:17:01Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings",
+"--run-dir",
+".andromeda/runs/2026-10-18T22-39-54-phase",
+"--marker",
+"2026-10-18-plugin-precedence-live-readings"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase invocation, 2026-10-18T22:39Z",
+"I1 cited scope.md:18 · scope.md:39 · scope.md:97 · scope.md:100 · research.md:13 · research.md:108 · research.md:110 · plan.md:296 · plan.md:366",
+"I2 n/a — a message has no live source · copy message · message: the founder, live in the Viola overseer dialog, relayed verbatim by the operator, 2026-10-19T05:06Z",
+"I2 cited scope.md:51 · scope.md:102 · scope.md:104 · plan.md:17 · plan.md:20 · plan.md:68 · plan.md:89 · plan.md:127 · plan.md:253 · plan.md:266 · plan.md:297 · plan.md:305 · plan.md:307 · plan.md:315 · plan.md:315 · plan.md:319 · plan.md:321 · plan.md:322 · plan.md:354 · plan.md:361",
+"I3 n/a — a message has no live source · copy message · message: the operator, at the P5 review in this phase session, 2026-10-19T05:16Z",
+"I3 cited scope.md:106 · plan.md:298 · plan.md:362",
+"inputs: 3 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 3,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 3
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "0c159d7d",
+"ts": "2026-10-19T05:17:13Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings",
+"--run-dir",
+".andromeda/runs/2026-10-18T22-39-54-phase",
+"--marker",
+"2026-10-18-plugin-precedence-live-readings"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase invocation, 2026-10-18T22:39Z",
+"I1 cited scope.md:18 · scope.md:39 · scope.md:97 · scope.md:100 · research.md:13 · research.md:108 · research.md:110 · plan.md:296 · plan.md:366",
+"I2 n/a — a message has no live source · copy message · message: the founder, live in the Viola overseer dialog, relayed verbatim by the operator, 2026-10-19T05:06Z",
+"I2 cited scope.md:51 · scope.md:102 · scope.md:104 · plan.md:17 · plan.md:20 · plan.md:68 · plan.md:89 · plan.md:127 · plan.md:253 · plan.md:266 · plan.md:297 · plan.md:305 · plan.md:307 · plan.md:315 · plan.md:315 · plan.md:319 · plan.md:321 · plan.md:322 · plan.md:354 · plan.md:361",
+"I3 n/a — a message has no live source · copy message · message: the operator, at the P5 review in this phase session, 2026-10-19T05:16Z",
+"I3 cited scope.md:106 · plan.md:298 · plan.md:362",
+"inputs: 3 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 3,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 3
+},
+"uncited": 0,
+"unparsed": 0
+}
+}
+]

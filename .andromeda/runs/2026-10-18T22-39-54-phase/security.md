@@ -1,0 +1,35 @@
+# security extract
+
+## Relevance
+partial — the chunk plans no product code, but its two live readings run the code-bearing `marketplace/viola/.mcp.json` command and `viola mcp`'s home check, and its rig touches `~/.claude` and the folder-trust dialog, all of which the plan bounds.
+
+## Constraints
+- security-plan §Security Anti-Patterns → Universal requires every exec-form `command` in `viola plugin install`'s `.mcp.json` and in the embedded `.mcp.json` to be an absolute path (the exe that ran `plugin install`, or the pinned `bin/<version>-<hash>/viola`), never a PATH lookup. The precedence reading names the server that answers `list`. If the reading shows a PATH-resolved `viola` answering, that falsifies a plan claim and lands as a wrap amendment.
+- security-plan §Data Protection (the `marketplace/` bullet) requires `marketplace/` to be written only by `viola plugin install`, with no hooks in any document, files at 0600 and dirs at 0700, and `args` `["--home", <the canonical home>, "mcp"]`. viola itself never reads the tree back, spawns no `claude` and writes nothing under `~/.claude`. The one-`session-start` reading leans on that "no hooks" rule.
+- security-plan §Authentication & Authorization (the `~/.viola/` access control row) requires `viola mcp` to check its home and `diagnostics/` through `viola_state::strict::check_path` before anything under the home opens. On a refusal it exits 1, prints nothing on stdout or stderr, writes no role file, and leaves the home's mode as found. The exit-1 reading (a home at 0770) depends on this. Whether the built `viola mcp` already behaves this way under a CLI-launched start is research's question.
+- security-plan §Data Protection (the accepted residual for a live round of `viola plugin install`) accepts only one residual class: the CLI's own four `claude plugin` commands at `--scope local`, run from a rig under `target/` that is its own git repo, plus their writes under `~/.claude` (the orphaned plugin cache stays; `installed_plugins.json` and `known_marketplaces.json` go back to how they were). Any other residual is outside the accepted class and is a boundary widening for the founder. That includes a trust record in `~/.claude.json`, a write into the repository's `.claude/settings.local.json`, or an added transcript.
+- security-plan §Data Protection (the dev-host prerequisite) sets the only precedent for viola-side work touching `~/.claude.json`: one atomic edit with a backup kept, made on the founder's live ruling and read back after every run. A trust-record method past the folder-trust dialog has no standing without his word.
+- security-plan §Threat Model Summary (child process spawning, the `viola verify` entry) bans `viola verify` from writing any byte into any dialog, the CLI-native trust dialog included. The plan has no rule for a rig's own pty. Whether a key typed into the trust dialog by the rig counts as a widening is the P4 fork, so this extract cites no rule that covers it.
+- security-plan §Secret Management requires inherited `CLAUDE*` values, `CLAUDE_CODE_MESSAGING_TOKEN` / `_SOCKET` above all, to stay out of the child (R8) and out of events, snapshots, diagnostics and the ledger. Separately, §Threat Model Summary (child process spawning) requires the `mcp` process's `agents-probe` pair in `diagnostics/mcp.ndjson` to hold no row text, id, `cwd` or path. Both bound what the readings may copy into `evidence/`.
+
+## Patterns to follow
+- The plugin chunk's live-round discipline from security-plan §Data Protection (the plugin live-round residual): take a before/after diff of the CLI's own `~/.claude` writes, and undo them only through the CLI's own `claude plugin uninstall` / `marketplace remove` commands.
+- The dev-host prerequisite's shape for any `~/.claude.json` change, per security-plan §Data Protection: one atomic edit, a kept backup, a read-back, and the founder's live ruling first.
+- The check-before-log order from security-plan §Authentication & Authorization: a refused home check opens no log, so the rig's 0770 home stays 0770 until the rig itself restores or removes it.
+- Code-only external errors from security-plan §Error Handling: MCP `isError` results carry `refusal`/`detail` or `instance-unreachable` / `wrapper-fault` / `invalid-params`, with the text `refused: <code>`. That is the shape any `list` failure in the precedence reading takes.
+
+## Anti-patterns to avoid
+- Never let a security refusal block the human (per security-plan §Security Anti-Patterns → Universal). The exit-1 reading tests exactly this for a registered `viola mcp` refusing its home. If the failing server blocks an unwrapped start, the finding is against this ban, not only an availability note.
+- Never resolve `viola` through PATH in the installed plugin's `.mcp.json` (per security-plan §Security Anti-Patterns → Universal), including in a rig built only to take the reading.
+- Never write an R8-stripped `CLAUDE*` value, or an absolute path in an external error, into a log, diagnostic or fixture (per security-plan §Security Anti-Patterns → Secrets / → Logging).
+
+## Contract bindings
+- security ↔ obs: `diagnostics/mcp.ndjson` (the source the readings take, in both homes) is obs-formatted (security-plan §Data Protection: "Logging format and fields belong to obs"). Its no-row-text / no-id / no-`cwd` / no-path rule binds to obs-plan's event catalog.
+- security ↔ tests: `evidence/` records taken from live sessions are a parallel to the fixture scrub (security-plan §Data Protection, repository fixtures: home prefix → `~`, the user word → `<user>`, closed refusal codes). Whether `evidence/` is held to that scrub is research's question.
+- security ↔ arch: the plan's Plugin Scope / Deployment citations (security-plan §Threat Model Summary) tie the precedence reading to architecture.md's Plugin Scope. The `marketplace/` tree's integrity (no re-hash of its `command`) is owed to the route entry "Home and code-bearing file integrity", and the Windows legs are owed to "Windows-only live measurements". Neither belongs to this chunk.
+
+## Acceptance criteria contributions
+- A before/after diff of `~/.claude` around the live round shows only the CLI's own writes: `installed_plugins.json` and `known_marketplaces.json` are back to how they were, and viola writes nothing there. No write lands in `~/.claude.json` or in the repository's `.claude/settings.local.json` unless a founder-worded method allows it (per security-plan §Data Protection).
+- The installed `marketplace/viola/.mcp.json` read in the rig holds an absolute canonical-exe `command`, `args` `["--home", <canonical home>, "mcp"]` and no hooks, with files at 0600 and dirs at 0700 (per security-plan §Data Protection).
+- In the exit-1 reading, `viola mcp` under the 0770 home exits 1 with empty stdout and stderr, no role file and no log line, and the home's mode reads 0770 afterwards (per security-plan §Authentication & Authorization).
+- No `evidence/` record holds an R8-stripped `CLAUDE*` value, and no `mcp.ndjson` excerpt copied into it carries agents row text, an id, a `cwd` or a path (per security-plan §Secret Management).

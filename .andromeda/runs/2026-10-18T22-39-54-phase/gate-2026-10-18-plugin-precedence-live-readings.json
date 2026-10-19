@@ -1,0 +1,3026 @@
+[
+{
+"tool": "gate",
+"v": "1.20",
+"sha8": "445f3409",
+"ts": "2026-10-18T22:54:29Z",
+"argv": [
+"scope",
+"--lists-only",
+"--research",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/research.md",
+"--run-dir",
+".andromeda/runs/2026-10-18T22-39-54-phase",
+"--marker",
+"2026-10-18-plugin-precedence-live-readings"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 1 items (new 1 · modify 0 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 1,
+"unparsed": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.20",
+"sha8": "445f3409",
+"ts": "2026-10-19T05:11:27Z",
+"argv": [
+"scope",
+"--lists-only",
+"--research",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/research.md",
+"--run-dir",
+".andromeda/runs/2026-10-18T22-39-54-phase",
+"--marker",
+"2026-10-18-plugin-precedence-live-readings"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 1 items (new 1 · modify 0 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 1,
+"unparsed": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.20",
+"sha8": "445f3409",
+"ts": "2026-10-19T05:12:01Z",
+"argv": [
+"baseline",
+"--plan",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-18T22-39-54-phase",
+"--marker",
+"2026-10-18-plugin-precedence-live-readings"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · marker 2026-10-18-plugin-precedence-live-readings · entries 12",
+"previous 2026-10-18-compact-post-condition-ledger-row · trails 223 run dirs · firings 79 (green 70) · other root 0 · unreadable 0",
+"  1 lint        seen green 2026-10-18T22:35:52Z #1 (wrap) · cargo fmt --all --check",
+"  2 unit        new (key) · python3 viola-0.1.0/chunks/2026-10-18-plugin-precedence-li… (94 chars)",
+"  3 build       NOT SEEN — never fired in 2026-10-18-compact-post-condition-ledger-row · cargo build --bin viola",
+"  4 integration NOT SEEN — never fired in 2026-10-18-compact-post-condition-ledger-row · bash scripts/agent-run.sh run --integration --filter 'bina… (82 chars)",
+"  5 lint        seen green 2026-10-18T22:35:52Z #2 (wrap) · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  6 unit        seen green 2026-10-18T22:35:52Z #5 (wrap) · bash scripts/agent-run.sh run --unit",
+"  7 integration NOT SEEN — never fired in 2026-10-18-compact-post-condition-ledger-row · bash scripts/agent-run.sh run --integration",
+"  8 e2e         NOT SEEN — never fired in 2026-10-18-compact-post-condition-ledger-row · bash scripts/agent-run.sh run --e2e",
+"  9 probe       seen green 2026-10-18T22:35:52Z #23 (wrap) · bash scripts/agent-run.sh pre-push",
+" 10 probe       leg operator — exempt · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (90 chars)",
+" 11 probe       leg operator — exempt · git diff --quiet && git diff --cached --quiet && git push … (69 chars)",
+" 12 probe       leg operator — exempt · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (114 chars)",
+"entries 12 · seen green 4 · not seen 4 · new (key) 1 · leg 3"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-18-plugin-precedence-live-readings",
+"plan": "./viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/plan.md",
+"root": ".",
+"previous": "2026-10-18-compact-post-condition-ledger-row",
+"unreadable": 0,
+"rows": [
+{
+"n": 1,
+"row": "seen green 2026-10-18T22:35:52Z #1 (wrap)",
+"run_sha8": "2d009b4c"
+},
+{
+"n": 2,
+"row": "new (key)",
+"run_sha8": "14657afa"
+},
+{
+"n": 3,
+"row": "NOT SEEN — never fired in 2026-10-18-compact-post-condition-ledger-row",
+"run_sha8": "436d4861"
+},
+{
+"n": 4,
+"row": "NOT SEEN — never fired in 2026-10-18-compact-post-condition-ledger-row",
+"run_sha8": "734364eb"
+},
+{
+"n": 5,
+"row": "seen green 2026-10-18T22:35:52Z #2 (wrap)",
+"run_sha8": "84426f9a"
+},
+{
+"n": 6,
+"row": "seen green 2026-10-18T22:35:52Z #5 (wrap)",
+"run_sha8": "c5d2a008"
+},
+{
+"n": 7,
+"row": "NOT SEEN — never fired in 2026-10-18-compact-post-condition-ledger-row",
+"run_sha8": "03525807"
+},
+{
+"n": 8,
+"row": "NOT SEEN — never fired in 2026-10-18-compact-post-condition-ledger-row",
+"run_sha8": "55ff1d5e"
+},
+{
+"n": 9,
+"row": "seen green 2026-10-18T22:35:52Z #23 (wrap)",
+"run_sha8": "4da4c5c8"
+},
+{
+"n": 10,
+"row": "leg operator — exempt",
+"run_sha8": "451237e0"
+},
+{
+"n": 11,
+"row": "leg operator — exempt",
+"run_sha8": "1776ef30"
+},
+{
+"n": 12,
+"row": "leg operator — exempt",
+"run_sha8": "2377245a"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.20",
+"sha8": "445f3409",
+"ts": "2026-10-19T05:12:10Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-18T22-39-54-phase",
+"--marker",
+"2026-10-18-plugin-precedence-live-readings",
+"--entry",
+"2"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-18-plugin-precedence-live-readings · entries 12",
+"logs $TMPDIR/andromeda-gate/2026-10-18-plugin-precedence-live-readings/phase-2026-10-18T22-39-54 · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 43 · unmapped 4",
+"walk-class rust 4 (tests/cli_controls_not_disableable.rs, tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, +1 in the trail) · uncommitted 47",
+"prose L154-157: The rig's controls run first, then the build the round uses, then v1-42's integration half… (399 chars)",
+"prose L159-160: The live round (steps 3–10) is an attended rig measurement, not an entry. No entry produce… (200 chars)",
+"  2 unit        red · exit 0 ✗ (exit 2) · exit 2 · 0.01s · 185 B → 2.log · python3 viola-0.1.0/chunks/2026-10-18-plugin-precedence-li… (94 chars)",
+"not run — excluded · 11: 1,3-12",
+"entries 12 · green 0 · red 1 (2) · recorded 0 · timeout 0 · not-run 11"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-18-plugin-precedence-live-readings",
+"plan": "./viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-18-plugin-precedence-live-readings/phase-2026-10-18T22-39-54",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-10-18T21-59-05-wrap/evolve-2026-10-18-compact-post-condition-ledger-row.json",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-18T21-59-05-wrap/health-2026-10-18-compact-post-condition-ledger-row.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/a11y-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/a11y.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/arch-contracts.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/arch-history-index.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/arch-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/arch.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/design-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/design.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/evolve-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/gate-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/inputs-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/layouts-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/layouts.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/master-record.txt",
+".andromeda/runs/2026-10-18T22-39-54-phase/obs-contracts.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/obs-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/obs.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/planlint-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/registry-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/relay-1.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/relay-2.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/route-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/route-no-marker.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/security-history-index.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/security-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/security.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/sidecar-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/tests-contracts.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/tests-history-index.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/tests-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/tests.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/tree-query-2026-10-18-plugin-precedence-live-readings.json",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/plan.md",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/research.md",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/scope.md"
+]
+},
+"unmapped": [
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/inputs/.gitattributes",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/inputs/I1-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/inputs/I2-relay-2.md.txt",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/inputs/andromeda-inputs.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/cli_controls_not_disableable.rs",
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 47,
+"problem": null
+},
+"prose": [
+{
+"from": 154,
+"to": 157,
+"text": "The rig's controls run first, then the build the round uses, then v1-42's integration half by binary. The Rust workspace gates are deferred: the chunk's delta is its `evidence/` alone, no `.rs` file (research.md §Files to modify: none). /implement re-checks that reason against the tree. No booted smoke is listed: the booted path over the fake agent is unchanged and no leg of this chunk drives it."
+},
+{
+"from": 159,
+"to": 160,
+"text": "The live round (steps 3–10) is an attended rig measurement, not an entry. No entry produces `evidence/live-round.md`, and only the live criterion rests on it, re-verified by the wrap from `evidence/`."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "unit",
+"run": "python3 viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/evidence/rig-controls.py",
+"run_sha8": "14657afa",
+"expect": [
+"exit 0",
+"last line controls: 10 of 10 as expected"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-18-plugin-precedence-live-readings/phase-2026-10-18T22-39-54/2.log",
+"bytes": 185,
+"log_sha8": "25f27304",
+"exit": 2,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✗ (exit 2)",
+"last line 'controls: 10 of 10 as expected' ✗ (last: \"python3: can't open file '~… (184 chars)\")"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 2)"
+},
+{
+"n": 3,
+"role": "build",
+"run": "cargo build --bin viola",
+"run_sha8": "436d4861",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(cli_plugin_install)' ",
+"run_sha8": "734364eb",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"lacks \"suite\":\"nextest-integration\",\"passed\":0,"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration",
+"run_sha8": "03525807",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh run --e2e",
+"run_sha8": "55ff1d5e",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"suite\":\"nextest-e2e\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "451237e0",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "2377245a",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.20",
+"sha8": "445f3409",
+"ts": "2026-10-19T05:12:19Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-18T22-39-54-phase",
+"--marker",
+"2026-10-18-plugin-precedence-live-readings",
+"--entry",
+"3"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-18-plugin-precedence-live-readings · entries 12",
+"logs $TMPDIR/andromeda-gate/2026-10-18-plugin-precedence-live-readings/phase-2026-10-18T22-39-54 · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 43 · unmapped 4",
+"walk-class rust 4 (tests/cli_controls_not_disableable.rs, tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, +1 in the trail) · uncommitted 47",
+"prose L154-157: The rig's controls run first, then the build the round uses, then v1-42's integration half… (399 chars)",
+"prose L159-160: The live round (steps 3–10) is an attended rig measurement, not an entry. No entry produce… (200 chars)",
+"  3 build       green · exit 0 · 0.13s · 72 B → 3.log · cargo build --bin viola",
+"not run — excluded · 11: 1-2,4-12",
+"entries 12 · green 1 · red 0 · recorded 0 · timeout 0 · not-run 11"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-18-plugin-precedence-live-readings",
+"plan": "./viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-18-plugin-precedence-live-readings/phase-2026-10-18T22-39-54",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-10-18T21-59-05-wrap/evolve-2026-10-18-compact-post-condition-ledger-row.json",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-18T21-59-05-wrap/health-2026-10-18-compact-post-condition-ledger-row.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/a11y-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/a11y.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/arch-contracts.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/arch-history-index.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/arch-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/arch.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/design-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/design.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/evolve-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/gate-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/inputs-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/layouts-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/layouts.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/master-record.txt",
+".andromeda/runs/2026-10-18T22-39-54-phase/obs-contracts.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/obs-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/obs.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/planlint-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/registry-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/relay-1.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/relay-2.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/route-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/route-no-marker.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/security-history-index.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/security-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/security.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/sidecar-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/tests-contracts.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/tests-history-index.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/tests-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/tests.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/tree-query-2026-10-18-plugin-precedence-live-readings.json",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/plan.md",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/research.md",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/scope.md"
+]
+},
+"unmapped": [
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/inputs/.gitattributes",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/inputs/I1-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/inputs/I2-relay-2.md.txt",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/inputs/andromeda-inputs.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/cli_controls_not_disableable.rs",
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 47,
+"problem": null
+},
+"prose": [
+{
+"from": 154,
+"to": 157,
+"text": "The rig's controls run first, then the build the round uses, then v1-42's integration half by binary. The Rust workspace gates are deferred: the chunk's delta is its `evidence/` alone, no `.rs` file (research.md §Files to modify: none). /implement re-checks that reason against the tree. No booted smoke is listed: the booted path over the fake agent is unchanged and no leg of this chunk drives it."
+},
+{
+"from": 159,
+"to": 160,
+"text": "The live round (steps 3–10) is an attended rig measurement, not an entry. No entry produces `evidence/live-round.md`, and only the live criterion rests on it, re-verified by the wrap from `evidence/`."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "unit",
+"run": "python3 viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/evidence/rig-controls.py",
+"run_sha8": "14657afa",
+"expect": [
+"exit 0",
+"last line controls: 10 of 10 as expected"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "build",
+"run": "cargo build --bin viola",
+"run_sha8": "436d4861",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-18-plugin-precedence-live-readings/phase-2026-10-18T22-39-54/3.log",
+"bytes": 72,
+"log_sha8": "59639588",
+"exit": 0,
+"seconds": 0.13,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(cli_plugin_install)' ",
+"run_sha8": "734364eb",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"lacks \"suite\":\"nextest-integration\",\"passed\":0,"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration",
+"run_sha8": "03525807",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh run --e2e",
+"run_sha8": "55ff1d5e",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"suite\":\"nextest-e2e\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "451237e0",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "2377245a",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.20",
+"sha8": "445f3409",
+"ts": "2026-10-19T05:12:43Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-18T22-39-54-phase",
+"--marker",
+"2026-10-18-plugin-precedence-live-readings",
+"--entry",
+"4"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-18-plugin-precedence-live-readings · entries 12",
+"logs $TMPDIR/andromeda-gate/2026-10-18-plugin-precedence-live-readings/phase-2026-10-18T22-39-54 · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 43 · unmapped 4",
+"walk-class rust 4 (tests/cli_controls_not_disableable.rs, tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, +1 in the trail) · uncommitted 47",
+"prose L154-157: The rig's controls run first, then the build the round uses, then v1-42's integration half… (399 chars)",
+"prose L159-160: The live round (steps 3–10) is an attended rig measurement, not an entry. No entry produce… (200 chars)",
+"  4 integration green · exit 0 · 1.31s · 2632 B → 4.log · bash scripts/agent-run.sh run --integration --filter 'bina… (82 chars)",
+"not run — excluded · 11: 1-3,5-12",
+"entries 12 · green 1 · red 0 · recorded 0 · timeout 0 · not-run 11"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-18-plugin-precedence-live-readings",
+"plan": "./viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-18-plugin-precedence-live-readings/phase-2026-10-18T22-39-54",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-10-18T21-59-05-wrap/evolve-2026-10-18-compact-post-condition-ledger-row.json",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-18T21-59-05-wrap/health-2026-10-18-compact-post-condition-ledger-row.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/a11y-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/a11y.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/arch-contracts.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/arch-history-index.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/arch-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/arch.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/design-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/design.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/evolve-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/gate-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/inputs-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/layouts-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/layouts.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/master-record.txt",
+".andromeda/runs/2026-10-18T22-39-54-phase/obs-contracts.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/obs-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/obs.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/planlint-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/registry-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/relay-1.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/relay-2.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/route-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/route-no-marker.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/security-history-index.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/security-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/security.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/sidecar-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/tests-contracts.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/tests-history-index.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/tests-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/tests.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/tree-query-2026-10-18-plugin-precedence-live-readings.json",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/plan.md",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/research.md",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/scope.md"
+]
+},
+"unmapped": [
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/inputs/.gitattributes",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/inputs/I1-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/inputs/I2-relay-2.md.txt",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/inputs/andromeda-inputs.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/cli_controls_not_disableable.rs",
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 47,
+"problem": null
+},
+"prose": [
+{
+"from": 154,
+"to": 157,
+"text": "The rig's controls run first, then the build the round uses, then v1-42's integration half by binary. The Rust workspace gates are deferred: the chunk's delta is its `evidence/` alone, no `.rs` file (research.md §Files to modify: none). /implement re-checks that reason against the tree. No booted smoke is listed: the booted path over the fake agent is unchanged and no leg of this chunk drives it."
+},
+{
+"from": 159,
+"to": 160,
+"text": "The live round (steps 3–10) is an attended rig measurement, not an entry. No entry produces `evidence/live-round.md`, and only the live criterion rests on it, re-verified by the wrap from `evidence/`."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "unit",
+"run": "python3 viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/evidence/rig-controls.py",
+"run_sha8": "14657afa",
+"expect": [
+"exit 0",
+"last line controls: 10 of 10 as expected"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "build",
+"run": "cargo build --bin viola",
+"run_sha8": "436d4861",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(cli_plugin_install)' ",
+"run_sha8": "734364eb",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"lacks \"suite\":\"nextest-integration\",\"passed\":0,"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-18-plugin-precedence-live-readings/phase-2026-10-18T22-39-54/4.log",
+"bytes": 2632,
+"log_sha8": "9773417e",
+"exit": 0,
+"seconds": 1.31,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"lacks '\"suite\":\"nextest-integration\",\"passed\":0,' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration",
+"run_sha8": "03525807",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh run --e2e",
+"run_sha8": "55ff1d5e",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"suite\":\"nextest-e2e\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "451237e0",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "2377245a",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.20",
+"sha8": "445f3409",
+"ts": "2026-10-19T05:12:55Z",
+"argv": [
+"show",
+"--run-dir",
+".andromeda/runs/2026-10-18T22-39-54-phase",
+"--marker",
+"2026-10-18-plugin-precedence-live-readings",
+"--n",
+"4"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"4 integration green",
+"run (734364eb): bash scripts/agent-run.sh run --integration --filter 'binary(cli_plugin_install)' ",
+"  exit 0 ✓",
+"  contains '\"ok\":true' ✓",
+"  lacks '\"suite\":\"nextest-integration\",\"passed\":0,' ✓",
+"log $TMPDIR/andromeda-gate/2026-10-18-plugin-precedence-live-readings/phase-2026-10-18T22-39-54/4.log · 2632 B · 9773417e · $TMPDIR = /tmp",
+"--- no anchored failure; last 20 non-empty lines ---",
+"   Doc-tests viola_core",
+"   Doc-tests viola_e2e",
+"   Doc-tests viola_mcp",
+"   Doc-tests viola_pty",
+"   Doc-tests viola_state",
+"running 0 tests",
+"test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+"running 0 tests",
+"test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+"running 0 tests",
+"test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+"running 0 tests",
+"test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+"running 0 tests",
+"test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+"running 0 tests",
+"test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+"running 0 tests",
+"test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+"{\"v\":1,\"cmd\":\"run\",\"ok\":true,\"suites\":[{\"suite\":\"nextest-integration\",\"passed\":9,\"failed\":0,\"skipped\":0,\"survived\":0,\"artifact\":\"./target/agent-run/artifacts/junit-nextest-integration.xml\",\"failures\":[]},{\"suite\":\"doctest\",\"passed\":0,\"failed\":0,\"skipped\":0,\"survived\":0,\"artifact\":null,\"failures\":[]}],\"archived\":\"target/run-archive/1559\"}"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "gate",
+"v": "1.20",
+"sha8": "445f3409",
+"ts": "2026-10-19T05:13:04Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-18T22-39-54-phase",
+"--marker",
+"2026-10-18-plugin-precedence-live-readings",
+"--entry",
+"7"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-18-plugin-precedence-live-readings · entries 12",
+"logs $TMPDIR/andromeda-gate/2026-10-18-plugin-precedence-live-readings/phase-2026-10-18T22-39-54 · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 43 · unmapped 4",
+"walk-class rust 4 (tests/cli_controls_not_disableable.rs, tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, +1 in the trail) · uncommitted 47",
+"prose L154-157: The rig's controls run first, then the build the round uses, then v1-42's integration half… (399 chars)",
+"prose L159-160: The live round (steps 3–10) is an attended rig measurement, not an entry. No entry produce… (200 chars)",
+"  7 integration not run — defer (key): zero Rust delta: the chunk writes only i… (88 chars) · bash scripts/agent-run.sh run --integration",
+"not run — excluded · 11: 1-6,8-12",
+"entries 12 · green 0 · red 0 · recorded 0 · timeout 0 · not-run 12"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-18-plugin-precedence-live-readings",
+"plan": "./viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-18-plugin-precedence-live-readings/phase-2026-10-18T22-39-54",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-10-18T21-59-05-wrap/evolve-2026-10-18-compact-post-condition-ledger-row.json",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-18T21-59-05-wrap/health-2026-10-18-compact-post-condition-ledger-row.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/a11y-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/a11y.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/arch-contracts.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/arch-history-index.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/arch-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/arch.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/design-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/design.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/evolve-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/gate-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/inputs-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/layouts-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/layouts.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/master-record.txt",
+".andromeda/runs/2026-10-18T22-39-54-phase/obs-contracts.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/obs-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/obs.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/planlint-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/registry-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/relay-1.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/relay-2.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/route-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/route-no-marker.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/security-history-index.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/security-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/security.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/sidecar-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/tests-contracts.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/tests-history-index.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/tests-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/tests.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/tree-query-2026-10-18-plugin-precedence-live-readings.json",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/plan.md",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/research.md",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/scope.md"
+]
+},
+"unmapped": [
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/inputs/.gitattributes",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/inputs/I1-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/inputs/I2-relay-2.md.txt",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/inputs/andromeda-inputs.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/cli_controls_not_disableable.rs",
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 47,
+"problem": null
+},
+"prose": [
+{
+"from": 154,
+"to": 157,
+"text": "The rig's controls run first, then the build the round uses, then v1-42's integration half by binary. The Rust workspace gates are deferred: the chunk's delta is its `evidence/` alone, no `.rs` file (research.md §Files to modify: none). /implement re-checks that reason against the tree. No booted smoke is listed: the booted path over the fake agent is unchanged and no leg of this chunk drives it."
+},
+{
+"from": 159,
+"to": 160,
+"text": "The live round (steps 3–10) is an attended rig measurement, not an entry. No entry produces `evidence/live-round.md`, and only the live criterion rests on it, re-verified by the wrap from `evidence/`."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "unit",
+"run": "python3 viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/evidence/rig-controls.py",
+"run_sha8": "14657afa",
+"expect": [
+"exit 0",
+"last line controls: 10 of 10 as expected"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "build",
+"run": "cargo build --bin viola",
+"run_sha8": "436d4861",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(cli_plugin_install)' ",
+"run_sha8": "734364eb",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"lacks \"suite\":\"nextest-integration\",\"passed\":0,"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration",
+"run_sha8": "03525807",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — defer (key): zero Rust delta: the chunk writes only i… (88 chars)"
+},
+{
+"n": 8,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh run --e2e",
+"run_sha8": "55ff1d5e",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"suite\":\"nextest-e2e\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "451237e0",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "2377245a",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.20",
+"sha8": "445f3409",
+"ts": "2026-10-19T05:13:04Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-18T22-39-54-phase",
+"--marker",
+"2026-10-18-plugin-precedence-live-readings",
+"--entry",
+"8"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-18-plugin-precedence-live-readings · entries 12",
+"logs $TMPDIR/andromeda-gate/2026-10-18-plugin-precedence-live-readings/phase-2026-10-18T22-39-54 · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 43 · unmapped 4",
+"walk-class rust 4 (tests/cli_controls_not_disableable.rs, tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, +1 in the trail) · uncommitted 47",
+"prose L154-157: The rig's controls run first, then the build the round uses, then v1-42's integration half… (399 chars)",
+"prose L159-160: The live round (steps 3–10) is an attended rig measurement, not an entry. No entry produce… (200 chars)",
+"  8 e2e         not run — defer (key): zero Rust delta: the chunk writes only i… (88 chars) · bash scripts/agent-run.sh run --e2e",
+"not run — excluded · 11: 1-7,9-12",
+"entries 12 · green 0 · red 0 · recorded 0 · timeout 0 · not-run 12"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-18-plugin-precedence-live-readings",
+"plan": "./viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-18-plugin-precedence-live-readings/phase-2026-10-18T22-39-54",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-10-18T21-59-05-wrap/evolve-2026-10-18-compact-post-condition-ledger-row.json",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-18T21-59-05-wrap/health-2026-10-18-compact-post-condition-ledger-row.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/a11y-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/a11y.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/arch-contracts.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/arch-history-index.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/arch-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/arch.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/design-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/design.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/evolve-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/gate-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/inputs-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/layouts-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/layouts.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/master-record.txt",
+".andromeda/runs/2026-10-18T22-39-54-phase/obs-contracts.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/obs-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/obs.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/planlint-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/registry-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/relay-1.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/relay-2.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/route-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/route-no-marker.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/security-history-index.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/security-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/security.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/sidecar-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/tests-contracts.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/tests-history-index.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/tests-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/tests.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/tree-query-2026-10-18-plugin-precedence-live-readings.json",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/plan.md",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/research.md",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/scope.md"
+]
+},
+"unmapped": [
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/inputs/.gitattributes",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/inputs/I1-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/inputs/I2-relay-2.md.txt",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/inputs/andromeda-inputs.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/cli_controls_not_disableable.rs",
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 47,
+"problem": null
+},
+"prose": [
+{
+"from": 154,
+"to": 157,
+"text": "The rig's controls run first, then the build the round uses, then v1-42's integration half by binary. The Rust workspace gates are deferred: the chunk's delta is its `evidence/` alone, no `.rs` file (research.md §Files to modify: none). /implement re-checks that reason against the tree. No booted smoke is listed: the booted path over the fake agent is unchanged and no leg of this chunk drives it."
+},
+{
+"from": 159,
+"to": 160,
+"text": "The live round (steps 3–10) is an attended rig measurement, not an entry. No entry produces `evidence/live-round.md`, and only the live criterion rests on it, re-verified by the wrap from `evidence/`."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "unit",
+"run": "python3 viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/evidence/rig-controls.py",
+"run_sha8": "14657afa",
+"expect": [
+"exit 0",
+"last line controls: 10 of 10 as expected"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "build",
+"run": "cargo build --bin viola",
+"run_sha8": "436d4861",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(cli_plugin_install)' ",
+"run_sha8": "734364eb",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"lacks \"suite\":\"nextest-integration\",\"passed\":0,"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration",
+"run_sha8": "03525807",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh run --e2e",
+"run_sha8": "55ff1d5e",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"suite\":\"nextest-e2e\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — defer (key): zero Rust delta: the chunk writes only i… (88 chars)"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "451237e0",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "2377245a",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.20",
+"sha8": "445f3409",
+"ts": "2026-10-19T05:14:15Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-18T22-39-54-phase",
+"--marker",
+"2026-10-18-plugin-precedence-live-readings",
+"--entry",
+"7",
+"--void",
+"7:P5 baseline of a NOT SEEN deferred entry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-18-plugin-precedence-live-readings · entries 12",
+"logs $TMPDIR/andromeda-gate/2026-10-18-plugin-precedence-live-readings/phase-2026-10-18T22-39-54 · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 43 · unmapped 4",
+"walk-class rust 4 (tests/cli_controls_not_disableable.rs, tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, +1 in the trail) · uncommitted 47",
+"prose L154-157: The rig's controls run first, then the build the round uses, then v1-42's integration half… (399 chars)",
+"prose L159-160: The live round (steps 3–10) is an attended rig measurement, not an entry. No entry produce… (200 chars)",
+"  7 integration green · exit 0 · 63.24s · 47294 B → 7.log · void: P5 baseline of a NOT SEEN deferred entry · bash scripts/agent-run.sh run --integration",
+"not run — excluded · 11: 1-6,8-12",
+"entries 12 · green 1 · red 0 · recorded 0 · timeout 0 · not-run 11 · voided 1 (7)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-18-plugin-precedence-live-readings",
+"plan": "./viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-18-plugin-precedence-live-readings/phase-2026-10-18T22-39-54",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-10-18T21-59-05-wrap/evolve-2026-10-18-compact-post-condition-ledger-row.json",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-18T21-59-05-wrap/health-2026-10-18-compact-post-condition-ledger-row.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/a11y-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/a11y.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/arch-contracts.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/arch-history-index.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/arch-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/arch.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/design-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/design.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/evolve-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/gate-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/inputs-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/layouts-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/layouts.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/master-record.txt",
+".andromeda/runs/2026-10-18T22-39-54-phase/obs-contracts.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/obs-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/obs.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/planlint-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/registry-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/relay-1.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/relay-2.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/route-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/route-no-marker.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/security-history-index.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/security-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/security.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/sidecar-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/tests-contracts.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/tests-history-index.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/tests-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/tests.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/tree-query-2026-10-18-plugin-precedence-live-readings.json",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/plan.md",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/research.md",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/scope.md"
+]
+},
+"unmapped": [
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/inputs/.gitattributes",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/inputs/I1-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/inputs/I2-relay-2.md.txt",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/inputs/andromeda-inputs.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/cli_controls_not_disableable.rs",
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 47,
+"problem": null
+},
+"prose": [
+{
+"from": 154,
+"to": 157,
+"text": "The rig's controls run first, then the build the round uses, then v1-42's integration half by binary. The Rust workspace gates are deferred: the chunk's delta is its `evidence/` alone, no `.rs` file (research.md §Files to modify: none). /implement re-checks that reason against the tree. No booted smoke is listed: the booted path over the fake agent is unchanged and no leg of this chunk drives it."
+},
+{
+"from": 159,
+"to": 160,
+"text": "The live round (steps 3–10) is an attended rig measurement, not an entry. No entry produces `evidence/live-round.md`, and only the live criterion rests on it, re-verified by the wrap from `evidence/`."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "unit",
+"run": "python3 viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/evidence/rig-controls.py",
+"run_sha8": "14657afa",
+"expect": [
+"exit 0",
+"last line controls: 10 of 10 as expected"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "build",
+"run": "cargo build --bin viola",
+"run_sha8": "436d4861",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(cli_plugin_install)' ",
+"run_sha8": "734364eb",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"lacks \"suite\":\"nextest-integration\",\"passed\":0,"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration",
+"run_sha8": "03525807",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-18-plugin-precedence-live-readings/phase-2026-10-18T22-39-54/7.log",
+"bytes": 47294,
+"log_sha8": "8b8ae6af",
+"exit": 0,
+"seconds": 63.24,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green",
+"void": "P5 baseline of a NOT SEEN deferred entry",
+"defer": "zero Rust delta: the chunk writes only its evidence/ (research.md Files to modify: none)"
+},
+{
+"n": 8,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh run --e2e",
+"run_sha8": "55ff1d5e",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"suite\":\"nextest-e2e\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "451237e0",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "2377245a",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.20",
+"sha8": "445f3409",
+"ts": "2026-10-19T05:14:26Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-18T22-39-54-phase",
+"--marker",
+"2026-10-18-plugin-precedence-live-readings",
+"--entry",
+"8",
+"--void",
+"8:P5 baseline of a NOT SEEN deferred entry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-18-plugin-precedence-live-readings · entries 12",
+"logs $TMPDIR/andromeda-gate/2026-10-18-plugin-precedence-live-readings/phase-2026-10-18T22-39-54 · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 43 · unmapped 4",
+"walk-class rust 4 (tests/cli_controls_not_disableable.rs, tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, +1 in the trail) · uncommitted 47",
+"prose L154-157: The rig's controls run first, then the build the round uses, then v1-42's integration half… (399 chars)",
+"prose L159-160: The live round (steps 3–10) is an attended rig measurement, not an entry. No entry produce… (200 chars)",
+"  8 e2e         green · exit 0 · 10.61s · 22205 B → 8.log · void: P5 baseline of a NOT SEEN deferred entry · bash scripts/agent-run.sh run --e2e",
+"not run — excluded · 11: 1-7,9-12",
+"entries 12 · green 1 · red 0 · recorded 0 · timeout 0 · not-run 11 · voided 1 (8)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-18-plugin-precedence-live-readings",
+"plan": "./viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-18-plugin-precedence-live-readings/phase-2026-10-18T22-39-54",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-10-18T21-59-05-wrap/evolve-2026-10-18-compact-post-condition-ledger-row.json",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-18T21-59-05-wrap/health-2026-10-18-compact-post-condition-ledger-row.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/a11y-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/a11y.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/arch-contracts.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/arch-history-index.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/arch-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/arch.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/design-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/design.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/evolve-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/gate-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/inputs-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/layouts-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/layouts.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/master-record.txt",
+".andromeda/runs/2026-10-18T22-39-54-phase/obs-contracts.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/obs-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/obs.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/planlint-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/registry-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/relay-1.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/relay-2.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/route-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/route-no-marker.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/security-history-index.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/security-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/security.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/sidecar-2026-10-18-plugin-precedence-live-readings.json",
+".andromeda/runs/2026-10-18T22-39-54-phase/tests-contracts.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/tests-history-index.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/tests-history.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/tests.md",
+".andromeda/runs/2026-10-18T22-39-54-phase/tree-query-2026-10-18-plugin-precedence-live-readings.json",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/plan.md",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/research.md",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/scope.md"
+]
+},
+"unmapped": [
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/inputs/.gitattributes",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/inputs/I1-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/inputs/I2-relay-2.md.txt",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/inputs/andromeda-inputs.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/cli_controls_not_disableable.rs",
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 47,
+"problem": null
+},
+"prose": [
+{
+"from": 154,
+"to": 157,
+"text": "The rig's controls run first, then the build the round uses, then v1-42's integration half by binary. The Rust workspace gates are deferred: the chunk's delta is its `evidence/` alone, no `.rs` file (research.md §Files to modify: none). /implement re-checks that reason against the tree. No booted smoke is listed: the booted path over the fake agent is unchanged and no leg of this chunk drives it."
+},
+{
+"from": 159,
+"to": 160,
+"text": "The live round (steps 3–10) is an attended rig measurement, not an entry. No entry produces `evidence/live-round.md`, and only the live criterion rests on it, re-verified by the wrap from `evidence/`."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "unit",
+"run": "python3 viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/evidence/rig-controls.py",
+"run_sha8": "14657afa",
+"expect": [
+"exit 0",
+"last line controls: 10 of 10 as expected"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "build",
+"run": "cargo build --bin viola",
+"run_sha8": "436d4861",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(cli_plugin_install)' ",
+"run_sha8": "734364eb",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"lacks \"suite\":\"nextest-integration\",\"passed\":0,"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration",
+"run_sha8": "03525807",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh run --e2e",
+"run_sha8": "55ff1d5e",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"suite\":\"nextest-e2e\""
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-18-plugin-precedence-live-readings/phase-2026-10-18T22-39-54/8.log",
+"bytes": 22205,
+"log_sha8": "7fc4fdf6",
+"exit": 0,
+"seconds": 10.61,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"contains '\"suite\":\"nextest-e2e\"' ✓"
+],
+"survivors": [],
+"outcome": "green",
+"void": "P5 baseline of a NOT SEEN deferred entry",
+"defer": "zero Rust delta: the chunk writes only its evidence/ (research.md Files to modify: none)"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "451237e0",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "2377245a",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.20",
+"sha8": "445f3409",
+"ts": "2026-10-19T05:14:31Z",
+"argv": [
+"show",
+"--run-dir",
+".andromeda/runs/2026-10-18T22-39-54-phase",
+"--marker",
+"2026-10-18-plugin-precedence-live-readings",
+"--n",
+"7"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"7 integration not run — excluded",
+"run (03525807): bash scripts/agent-run.sh run --integration",
+"firings of entry 7 in this trail: 1 — 1 green · shown: none — the last run did not fire it"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "gate",
+"v": "1.20",
+"sha8": "445f3409",
+"ts": "2026-10-19T05:14:31Z",
+"argv": [
+"show",
+"--run-dir",
+".andromeda/runs/2026-10-18T22-39-54-phase",
+"--marker",
+"2026-10-18-plugin-precedence-live-readings",
+"--n",
+"8"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"8 e2e green",
+"run (55ff1d5e): bash scripts/agent-run.sh run --e2e",
+"  exit 0 ✓",
+"  contains '\"ok\":true' ✓",
+"  contains '\"suite\":\"nextest-e2e\"' ✓",
+"log $TMPDIR/andromeda-gate/2026-10-18-plugin-precedence-live-readings/phase-2026-10-18T22-39-54/8.log · 22205 B · 7fc4fdf6 · $TMPDIR = /tmp",
+"--- no anchored failure; last 20 non-empty lines ---",
+"        PASS [   5.707s] (157/172) viola::tui_wheel tui_ctrl_z_reaches_the_child_and_later_keys_still_do",
+"        PASS [   5.564s] (158/172) viola-e2e::mcp_tools mcp_tools_path6_budget_paused_send",
+"        PASS [   5.826s] (159/172) viola::tui_wheel path5_harness_turns_never_take_the_wheel",
+"        PASS [   6.087s] (160/172) viola::chaos_revive revive_after_a_killed_wrapper_resumes_the_logged_session_in_the_recorded_directory",
+"        PASS [   5.838s] (161/172) viola::tui_wheel tui_focus_mouse_and_resize_never_take_the_wheel",
+"        PASS [   5.685s] (162/172) viola-e2e::mcp_tools mcp_tools_path4_path5_answer_by_id_and_a_paused_send",
+"        PASS [   6.091s] (163/172) viola::tui_wheel path5_human_takes_the_wheel_and_release_returns_it",
+"        PASS [   6.149s] (164/172) viola-e2e::mcp_tools mcp_tools_list_is_exactly_the_five_tools_and_list_matches_the_cli",
+"        PASS [   6.368s] (165/172) viola::cross_list_rows cross_list_rows_style_each_span_beside_its_word_on_a_terminal",
+"        PASS [   6.386s] (166/172) viola::path1_run_start path1_run_start_one_home_in_order",
+"        PASS [   6.467s] (167/172) viola::cross_list_rows cross_list_rows_truncate_an_unwrapped_name_only_on_a_terminal_too_narrow_for_it",
+"        PASS [   6.503s] (168/172) viola::cross_list_rows cross_list_rows_print_escaped_in_the_captions_columns_in_every_mode",
+"        PASS [   5.983s] (169/172) viola-e2e::path6_budget_harness path6_two_instance_release_over_a_harness_session",
+"        PASS [   6.392s] (170/172) viola-e2e::mcp_tools mcp_tools_path2_path3_send_wait_last_match_the_cli",
+"        PASS [   6.709s] (171/172) viola::cross_list_rows cross_list_rows_print_no_sgr_under_no_color_dumb_piped_or_json",
+"        SLOW [> 10.000s] (───────) viola::contract_fake_agent_drift fake_agent_dialog_replay_matches_every_recorded_dialog_set",
+"        PASS [  10.126s] (172/172) viola::contract_fake_agent_drift fake_agent_dialog_replay_matches_every_recorded_dialog_set",
+"────────────",
+"     Summary [  10.189s] 172 tests run: 172 passed (1 slow), 0 skipped",
+"{\"v\":1,\"cmd\":\"run\",\"ok\":true,\"suites\":[{\"suite\":\"nextest-e2e\",\"passed\":172,\"failed\":0,\"skipped\":0,\"survived\":0,\"artifact\":\"./target/agent-run/artifacts/junit-nextest-e2e.xml\",\"failures\":[]}]}"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "gate",
+"v": "1.20",
+"sha8": "445f3409",
+"ts": "2026-10-19T05:15:01Z",
+"argv": [
+"baseline",
+"--plan",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-18T22-39-54-phase",
+"--marker",
+"2026-10-18-plugin-precedence-live-readings"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · marker 2026-10-18-plugin-precedence-live-readings · entries 12",
+"previous 2026-10-18-compact-post-condition-ledger-row · trails 223 run dirs · firings 79 (green 70) · other root 0 · unreadable 0",
+"  1 lint        seen green 2026-10-18T22:35:52Z #1 (wrap) · cargo fmt --all --check",
+"  2 unit        new (key) · python3 viola-0.1.0/chunks/2026-10-18-plugin-precedence-li… (94 chars)",
+"  3 build       new (key) · cargo build --bin viola",
+"  4 integration new (key) · bash scripts/agent-run.sh run --integration --filter 'bina… (82 chars)",
+"  5 lint        seen green 2026-10-18T22:35:52Z #2 (wrap) · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  6 unit        seen green 2026-10-18T22:35:52Z #5 (wrap) · bash scripts/agent-run.sh run --unit",
+"  7 integration new (key) · bash scripts/agent-run.sh run --integration",
+"  8 e2e         new (key) · bash scripts/agent-run.sh run --e2e",
+"  9 probe       seen green 2026-10-18T22:35:52Z #23 (wrap) · bash scripts/agent-run.sh pre-push",
+" 10 probe       leg operator — exempt · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (90 chars)",
+" 11 probe       leg operator — exempt · git diff --quiet && git diff --cached --quiet && git push … (69 chars)",
+" 12 probe       leg operator — exempt · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (114 chars)",
+"entries 12 · seen green 4 · not seen 0 · new (key) 5 · leg 3"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-18-plugin-precedence-live-readings",
+"plan": "./viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/plan.md",
+"root": ".",
+"previous": "2026-10-18-compact-post-condition-ledger-row",
+"unreadable": 0,
+"rows": [
+{
+"n": 1,
+"row": "seen green 2026-10-18T22:35:52Z #1 (wrap)",
+"run_sha8": "2d009b4c"
+},
+{
+"n": 2,
+"row": "new (key)",
+"run_sha8": "14657afa"
+},
+{
+"n": 3,
+"row": "new (key)",
+"run_sha8": "436d4861"
+},
+{
+"n": 4,
+"row": "new (key)",
+"run_sha8": "734364eb"
+},
+{
+"n": 5,
+"row": "seen green 2026-10-18T22:35:52Z #2 (wrap)",
+"run_sha8": "84426f9a"
+},
+{
+"n": 6,
+"row": "seen green 2026-10-18T22:35:52Z #5 (wrap)",
+"run_sha8": "c5d2a008"
+},
+{
+"n": 7,
+"row": "new (key)",
+"run_sha8": "03525807"
+},
+{
+"n": 8,
+"row": "new (key)",
+"run_sha8": "55ff1d5e"
+},
+{
+"n": 9,
+"row": "seen green 2026-10-18T22:35:52Z #23 (wrap)",
+"run_sha8": "4da4c5c8"
+},
+{
+"n": 10,
+"row": "leg operator — exempt",
+"run_sha8": "451237e0"
+},
+{
+"n": 11,
+"row": "leg operator — exempt",
+"run_sha8": "1776ef30"
+},
+{
+"n": 12,
+"row": "leg operator — exempt",
+"run_sha8": "2377245a"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.20",
+"sha8": "445f3409",
+"ts": "2026-10-19T05:15:01Z",
+"argv": [
+"scope",
+"--lists-only",
+"--research",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/research.md",
+"--run-dir",
+".andromeda/runs/2026-10-18T22-39-54-phase",
+"--marker",
+"2026-10-18-plugin-precedence-live-readings"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 1 items (new 1 · modify 0 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 1,
+"unparsed": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.20",
+"sha8": "445f3409",
+"ts": "2026-10-19T05:17:01Z",
+"argv": [
+"baseline",
+"--plan",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-18T22-39-54-phase",
+"--marker",
+"2026-10-18-plugin-precedence-live-readings"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · marker 2026-10-18-plugin-precedence-live-readings · entries 12",
+"previous 2026-10-18-compact-post-condition-ledger-row · trails 223 run dirs · firings 79 (green 70) · other root 0 · unreadable 0",
+"  1 lint        seen green 2026-10-18T22:35:52Z #1 (wrap) · cargo fmt --all --check",
+"  2 unit        new (key) · python3 viola-0.1.0/chunks/2026-10-18-plugin-precedence-li… (94 chars)",
+"  3 build       new (key) · cargo build --bin viola",
+"  4 integration new (key) · bash scripts/agent-run.sh run --integration --filter 'bina… (82 chars)",
+"  5 lint        seen green 2026-10-18T22:35:52Z #2 (wrap) · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  6 unit        seen green 2026-10-18T22:35:52Z #5 (wrap) · bash scripts/agent-run.sh run --unit",
+"  7 integration new (key) · bash scripts/agent-run.sh run --integration",
+"  8 e2e         new (key) · bash scripts/agent-run.sh run --e2e",
+"  9 probe       seen green 2026-10-18T22:35:52Z #23 (wrap) · bash scripts/agent-run.sh pre-push",
+" 10 probe       leg operator — exempt · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (90 chars)",
+" 11 probe       leg operator — exempt · git diff --quiet && git diff --cached --quiet && git push … (69 chars)",
+" 12 probe       leg operator — exempt · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (114 chars)",
+"entries 12 · seen green 4 · not seen 0 · new (key) 5 · leg 3"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-18-plugin-precedence-live-readings",
+"plan": "./viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/plan.md",
+"root": ".",
+"previous": "2026-10-18-compact-post-condition-ledger-row",
+"unreadable": 0,
+"rows": [
+{
+"n": 1,
+"row": "seen green 2026-10-18T22:35:52Z #1 (wrap)",
+"run_sha8": "2d009b4c"
+},
+{
+"n": 2,
+"row": "new (key)",
+"run_sha8": "14657afa"
+},
+{
+"n": 3,
+"row": "new (key)",
+"run_sha8": "436d4861"
+},
+{
+"n": 4,
+"row": "new (key)",
+"run_sha8": "734364eb"
+},
+{
+"n": 5,
+"row": "seen green 2026-10-18T22:35:52Z #2 (wrap)",
+"run_sha8": "84426f9a"
+},
+{
+"n": 6,
+"row": "seen green 2026-10-18T22:35:52Z #5 (wrap)",
+"run_sha8": "c5d2a008"
+},
+{
+"n": 7,
+"row": "new (key)",
+"run_sha8": "03525807"
+},
+{
+"n": 8,
+"row": "new (key)",
+"run_sha8": "55ff1d5e"
+},
+{
+"n": 9,
+"row": "seen green 2026-10-18T22:35:52Z #23 (wrap)",
+"run_sha8": "4da4c5c8"
+},
+{
+"n": 10,
+"row": "leg operator — exempt",
+"run_sha8": "451237e0"
+},
+{
+"n": 11,
+"row": "leg operator — exempt",
+"run_sha8": "1776ef30"
+},
+{
+"n": 12,
+"row": "leg operator — exempt",
+"run_sha8": "2377245a"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.20",
+"sha8": "445f3409",
+"ts": "2026-10-19T05:17:01Z",
+"argv": [
+"scope",
+"--lists-only",
+"--research",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/research.md",
+"--run-dir",
+".andromeda/runs/2026-10-18T22-39-54-phase",
+"--marker",
+"2026-10-18-plugin-precedence-live-readings"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 1 items (new 1 · modify 0 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 1,
+"unparsed": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.20",
+"sha8": "445f3409",
+"ts": "2026-10-19T05:17:13Z",
+"argv": [
+"baseline",
+"--plan",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-18T22-39-54-phase",
+"--marker",
+"2026-10-18-plugin-precedence-live-readings"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · marker 2026-10-18-plugin-precedence-live-readings · entries 12",
+"previous 2026-10-18-compact-post-condition-ledger-row · trails 223 run dirs · firings 79 (green 70) · other root 0 · unreadable 0",
+"  1 lint        seen green 2026-10-18T22:35:52Z #1 (wrap) · cargo fmt --all --check",
+"  2 unit        new (key) · python3 viola-0.1.0/chunks/2026-10-18-plugin-precedence-li… (94 chars)",
+"  3 build       new (key) · cargo build --bin viola",
+"  4 integration new (key) · bash scripts/agent-run.sh run --integration --filter 'bina… (82 chars)",
+"  5 lint        seen green 2026-10-18T22:35:52Z #2 (wrap) · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  6 unit        seen green 2026-10-18T22:35:52Z #5 (wrap) · bash scripts/agent-run.sh run --unit",
+"  7 integration new (key) · bash scripts/agent-run.sh run --integration",
+"  8 e2e         new (key) · bash scripts/agent-run.sh run --e2e",
+"  9 probe       seen green 2026-10-18T22:35:52Z #23 (wrap) · bash scripts/agent-run.sh pre-push",
+" 10 probe       leg operator — exempt · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (90 chars)",
+" 11 probe       leg operator — exempt · git diff --quiet && git diff --cached --quiet && git push … (69 chars)",
+" 12 probe       leg operator — exempt · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (114 chars)",
+"entries 12 · seen green 4 · not seen 0 · new (key) 5 · leg 3"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-18-plugin-precedence-live-readings",
+"plan": "./viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/plan.md",
+"root": ".",
+"previous": "2026-10-18-compact-post-condition-ledger-row",
+"unreadable": 0,
+"rows": [
+{
+"n": 1,
+"row": "seen green 2026-10-18T22:35:52Z #1 (wrap)",
+"run_sha8": "2d009b4c"
+},
+{
+"n": 2,
+"row": "new (key)",
+"run_sha8": "14657afa"
+},
+{
+"n": 3,
+"row": "new (key)",
+"run_sha8": "436d4861"
+},
+{
+"n": 4,
+"row": "new (key)",
+"run_sha8": "734364eb"
+},
+{
+"n": 5,
+"row": "seen green 2026-10-18T22:35:52Z #2 (wrap)",
+"run_sha8": "84426f9a"
+},
+{
+"n": 6,
+"row": "seen green 2026-10-18T22:35:52Z #5 (wrap)",
+"run_sha8": "c5d2a008"
+},
+{
+"n": 7,
+"row": "new (key)",
+"run_sha8": "03525807"
+},
+{
+"n": 8,
+"row": "new (key)",
+"run_sha8": "55ff1d5e"
+},
+{
+"n": 9,
+"row": "seen green 2026-10-18T22:35:52Z #23 (wrap)",
+"run_sha8": "4da4c5c8"
+},
+{
+"n": 10,
+"row": "leg operator — exempt",
+"run_sha8": "451237e0"
+},
+{
+"n": 11,
+"row": "leg operator — exempt",
+"run_sha8": "1776ef30"
+},
+{
+"n": 12,
+"row": "leg operator — exempt",
+"run_sha8": "2377245a"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.20",
+"sha8": "445f3409",
+"ts": "2026-10-19T05:17:13Z",
+"argv": [
+"scope",
+"--lists-only",
+"--research",
+"viola-0.1.0/chunks/2026-10-18-plugin-precedence-live-readings/research.md",
+"--run-dir",
+".andromeda/runs/2026-10-18T22-39-54-phase",
+"--marker",
+"2026-10-18-plugin-precedence-live-readings"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 1 items (new 1 · modify 0 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 1,
+"unparsed": 0
+}
+}
+]

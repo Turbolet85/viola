@@ -1,0 +1,49 @@
+[
+{
+"tool": "matrix",
+"v": "1.5",
+"sha8": "49bca268",
+"ts": "2026-10-19T06:19:14Z",
+"argv": [
+"implement",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-18-plugin-precedence-live-readings",
+"--id",
+"v1-42",
+"--ref-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-19T05-23-09-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"implement v1-42 · status planned → implemented · ref tests/cli_plugin_install.rs (binary(cli_plugin_install), gate entry 4 green) + l… (377 chars)",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-42",
+"chunk": "2026-10-18-plugin-precedence-live-readings",
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "`viola plugin install` writes `<home>/marketplace/`: a marketplace `viola` whose one plugin `viola` holds only `.claude-… (1131 chars)",
+"notes_chars": 2085
+},
+"after": {
+"id": "v1-42",
+"chunk": "2026-10-18-plugin-precedence-live-readings",
+"status": "implemented",
+"method": "integration",
+"ref": "tests/cli_plugin_install.rs (binary(cli_plugin_install), gate entry 4 green) + live: chunks/2026-10-18-plugin-precedence… (377 chars)",
+"acceptance": "`viola plugin install` writes `<home>/marketplace/`: a marketplace `viola` whose one plugin `viola` holds only `.claude-… (1131 chars)",
+"notes_chars": 2085
+}
+}
+]
