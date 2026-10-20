@@ -8,7 +8,7 @@ The stdio MCP server `viola mcp` (rmcp 3.4.1, features exactly `server` + `trans
 ## Key integrations
 
 ### Consumes from
-`viola-core`, `viola-channel[tokio]`, `viola-state`, `viola-agent-claude`; rmcp (default features off; `server` + `transport-io`), schemars 1.2.2, tokio 1.53.1 (`rt`), serde, serde_json, thiserror, tracing; `[lints] workspace = true`; `fake-agent = []`.
+`viola-core`, `viola-channel[tokio]`, `viola-state`, `viola-agent-claude`; rmcp (default features off; `server` + `transport-io`), schemars 1.2.2, tokio 1.53.1 (`rt`), serde_json, thiserror, tracing (no serde); `[lints] workspace = true`; `fake-agent = []`.
 
 ### Publishes to
 Claude Code driver sessions (the MCP client) via the embedded `.mcp.json`, which registers the server `viola` as `{"mcpServers": {"viola": {"command": "@@VIOLA_BIN@@", "args": ["mcp"]}}}`, the pinned copy's absolute path substituted at every start, and, for an unwrapped driver, the `.mcp.json` of `viola plugin install`'s local marketplace (`viola@viola`, no hooks), which registers `viola` as `{"command": <the canonical current_exe, forward slashes>, "args": ["--home", <the canonical home, forward slashes>, "mcp"]}`; the tools reach a session as `mcp__plugin_viola_viola__<tool>` (as measured live on claude 2.1.287). A wrapped session that also has the installed plugin enabled starts one `viola` MCP server, the `--plugin-dir` plugin's, which answers its tools; the installed plugin's `viola mcp` never starts there (as measured on claude 2.1.287 on the Linux dev host; no capability-ledger row; its Windows leg owed to "Windows-only live measurements").
@@ -24,7 +24,7 @@ Tokio allowed: `viola-mcp` is never a root of the `deny-sync.toml` tokio ban, wh
 - MCP `wait` sends `timeout_ms` = `min(given, 50 000)` (`viola_mcp::WAIT_CAP`, `wait_timeout`), 50 000 ms when none is given, and `after` as given: below claude 2.1.287's stdio tool-call default, which exceeds 50 s (as measured live; the exact default unmeasured).
 
 ## Crate-specific gotchas
-- `tools/list` must be exactly the five tools — the MCP E2E asserts it — and its result carries `ttlMs` 0 and `cacheScope` `private`: claude 2.1.287 negotiates protocol `2026-07-28` and drops every tool of a list result without them (as measured live).
+- `tools/list` must be exactly the five tools — the MCP E2E asserts it — and its result carries `ttlMs` 0 and `cacheScope` `private`: claude 2.1.287 negotiates protocol `2026-07-28` and drops every tool of a list result without them (as measured live); claude 2.1.302 on that protocol opens with `server/discover` (its JSON-RPC id a string) and then `tools/list`, each carrying `_meta`, sends no `initialize` or `notifications/initialized`, and viola's two results each carry `ttlMs` 0 and `cacheScope` `private` (as measured live, `viola-0.1.0/chunks/2026-10-20-epoch-5-cleanup-ii/evidence/live-tap.md`).
 - A main-thread panic → `process-exit{detail:"internal-error"}` then exit 1, nothing on stdout; Tokio task panics are contained.
 
 ## Entry points for modification
@@ -32,8 +32,8 @@ Tokio allowed: `viola-mcp` is never a root of the `deny-sync.toml` tokio ban, wh
 - **Tests:** crate `tests/` (handler re-validation against a test wrapper); stdio E2E in `crates/viola-e2e/tests/mcp_*.rs` with the rmcp client (feature `client` only): `mcp_tools.rs`, landed at chunk 2026-10-17-mcp-server-for-drivers
 
 ## Testing this crate
-- **Unit tests:** `cargo nextest run -p viola-mcp` (`#[tokio::test(start_paused = true)]` for adapter-owned timers)
-- **E2E:** `crates/viola-e2e/tests/mcp_tools.rs` (the Paths 2–6 MCP legs, each result compared with the CLI's `--json` document less `v`; `tools/list` exactly the five tools and the schema violations in `mcp_tools_list_is_exactly_the_five_tools_and_list_matches_the_cli`)
+- **Unit tests:** `cargo nextest run -p viola-mcp` (`#[tokio::test(start_paused = true)]` for adapter-owned timers; the child the unit tests spawn is marked by `MCP_SERVE_TEST_CHILD` through `Command::env`, read only by the crate's `#[cfg(test)]` child entry `serve_child_entry` and by no `viola` build)
+- **E2E:** `crates/viola-e2e/tests/mcp_tools.rs` (the Paths 2–6 MCP legs, each result compared with the CLI's `--json` document less `v`; `tools/list` exactly the five tools and the schema violations in `mcp_tools_list_is_exactly_the_five_tools_and_list_matches_the_cli`); `crates/viola-e2e/tests/mcp_recorded_exchange.rs` replays the recorded exchange `fixtures/claude/2.1.302/Mcp.tools-list-1.json` (recorded by the test-only `viola-mcp-tap`) against `viola mcp`, taking the `tools/list` response by its request's id and holding the served result to the recorded result's key and type shape, its tool names in order
 
 ## References
 - `.andromeda/architecture.md` [MCP] · `.claude/rules/api.md`

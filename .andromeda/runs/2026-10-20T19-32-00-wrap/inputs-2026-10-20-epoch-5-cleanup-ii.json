@@ -1,0 +1,155 @@
+[
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "2da33a09",
+"ts": "2026-10-20T19:32:07Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-20-epoch-5-cleanup-ii",
+"--source",
+"~/dev/projects/additional/viola-overseer/wrap-cleanup2-directive.md",
+"--kind",
+"relay",
+"--why",
+"the wrap directive for 2026-10-20-epoch-5-cleanup-ii: what the report and P2-P7 must carry",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-20T19-32-00-wrap",
+"--marker",
+"2026-10-20-epoch-5-cleanup-ii"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I6 · copy no-repo · ../additional/viola-overseer/wrap-cleanup2-directive.md",
+"cite: inputs#I6"
+],
+"stderr": null,
+"wrote": [
+"inputs/I6-wrap-cleanup2-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I6",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/wrap-cleanup2-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "46ad02d8bd7d08fc38fd6cf954270a1c2fe7cc4ffbbbcda6af9c2971008e079e",
+"copy": "I6-wrap-cleanup2-directive.md.txt",
+"link": false,
+"read_at": "2026-10-20T19:32:07Z",
+"step": "wrap",
+"why": "the wrap directive for 2026-10-20-epoch-5-cleanup-ii: what the report and P2-P7 must carry"
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "2da33a09",
+"ts": "2026-10-20T19:33:17Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-20-epoch-5-cleanup-ii",
+"--run-dir",
+".andromeda/runs/2026-10-20T19-32-00-wrap",
+"--marker",
+"2026-10-20-epoch-5-cleanup-ii"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-cleanup2-directive.md",
+"I1 cited scope.md:18 · scope.md:20 · scope.md:28 · scope.md:64 · scope.md:111 · scope.md:125 · scope.md:130 · research.md:13 · research.md:153 · research.md:155 · plan.md:11 · plan.md:29 · plan.md:38 · plan.md:44 · plan.md:291 · plan.md:301 (in fence) · plan.md:521 · plan.md:579 · plan.md:583",
+"I2 n/a — a message has no live source · copy message · message: the founder himself, live at his keyboard in the Viola overseer dialog, relayed through the P4 fork dialog, 2026-10-20T10:47Z",
+"I2 cited research.md:118 · research.md:154 · research.md:156 · plan.md:9 · plan.md:36 · plan.md:177 · plan.md:208 · plan.md:213 · plan.md:233 · plan.md:549 · plan.md:579 · plan.md:597 · plan.md:604 · plan.md:630",
+"I3 n/a — a message has no live source · copy message · message: the Viola overseer, the founder delegate in the operator seat, in this session dialog, 2026-10-20T11:05Z",
+"I3 UNCITED",
+"I4 n/a — a message has no live source · copy message · message: the operator seat (Viola overseer), /andromeda-implement invocation arguments, 2026-10-20T15:48Z",
+"I4 UNCITED",
+"I5 unchanged · copy no-repo · ../additional/viola-overseer/relay-cleanup2-answers.md",
+"I5 UNCITED",
+"I6 unchanged · copy no-repo · ../additional/viola-overseer/wrap-cleanup2-directive.md",
+"I6 UNCITED",
+"inputs: 6 entries — unchanged 3 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 4 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 6,
+"counts": {
+"unchanged": 3,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 3
+},
+"uncited": 4,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "2da33a09",
+"ts": "2026-10-20T19:39:06Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-20-epoch-5-cleanup-ii",
+"--run-dir",
+".andromeda/runs/2026-10-20T19-32-00-wrap",
+"--marker",
+"2026-10-20-epoch-5-cleanup-ii"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-cleanup2-directive.md",
+"I1 cited scope.md:18 · scope.md:20 · scope.md:28 · scope.md:64 · scope.md:111 · scope.md:125 · scope.md:130 · research.md:13 · research.md:153 · research.md:155 · plan.md:11 · plan.md:29 · plan.md:38 · plan.md:44 · plan.md:291 · plan.md:301 (in fence) · plan.md:521 · plan.md:579 · plan.md:583 · report.md:121",
+"I2 n/a — a message has no live source · copy message · message: the founder himself, live at his keyboard in the Viola overseer dialog, relayed through the P4 fork dialog, 2026-10-20T10:47Z",
+"I2 cited research.md:118 · research.md:154 · research.md:156 · plan.md:9 · plan.md:36 · plan.md:177 · plan.md:208 · plan.md:213 · plan.md:233 · plan.md:549 · plan.md:579 · plan.md:597 · plan.md:604 · plan.md:630 · report.md:123 · report.md:207 · report.md:258",
+"I3 n/a — a message has no live source · copy message · message: the Viola overseer, the founder delegate in the operator seat, in this session dialog, 2026-10-20T11:05Z",
+"I3 cited report.md:125",
+"I4 n/a — a message has no live source · copy message · message: the operator seat (Viola overseer), /andromeda-implement invocation arguments, 2026-10-20T15:48Z",
+"I4 cited report.md:132 · report.md:134 · report.md:263",
+"I5 unchanged · copy no-repo · ../additional/viola-overseer/relay-cleanup2-answers.md",
+"I5 cited report.md:136 · report.md:175 · report.md:207 · report.md:227 · report.md:240 · report.md:245 · report.md:254 · report.md:259 · report.md:261 · report.md:310 · report.md:319 · report.md:335 · report.md:354 · report.md:374 · report.md:375",
+"I6 unchanged · copy no-repo · ../additional/viola-overseer/wrap-cleanup2-directive.md",
+"I6 cited report.md:105 · report.md:139 · report.md:260 · report.md:263 · report.md:375",
+"inputs: 6 entries — unchanged 3 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 6,
+"counts": {
+"unchanged": 3,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 3
+},
+"uncited": 0,
+"unparsed": 0
+}
+}
+]

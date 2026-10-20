@@ -1,0 +1,84 @@
+# Cascade step 2 — the old wording and the retired mechanism of every amendment of this pass.
+
+# architecture 14/16-18, security-plan 2, test-plan 19-21: the single-file typed.rs and its flat paths
+[[pattern]]
+id = 'typed-file'
+regex = 'typed\.rs'
+
+[[pattern]]
+id = 'typed-path'
+regex = 'typed::(agents_read|trusted_args|framing_turns|poll_until|wait_for|SharedPty|ctrl_c_ending|ended_by|measure|RunDirs|Inputs)'
+
+# architecture 15, a11y-plan 1-2, test-plan 19: the single-file board.rs
+[[pattern]]
+id = 'board-file'
+regex = 'human/board\.rs'
+
+# architecture 13: relied_here retired
+[[pattern]]
+id = 'relied-here'
+fixed = 'relied_here'
+
+# architecture 11-12: the viola-mcp -> serde edge, and the shared-pins claim that every crate but viola-pty takes serde
+[[pattern]]
+id = 'mcp-serde'
+regex = 'viola-mcp[^\n]{0,160}serde|serde[^\n]{0,80}viola-mcp'
+ignore_case = true
+
+[[pattern]]
+id = 'shared-pins'
+regex = 'every workspace crate except|by every workspace crate'
+
+# architecture 6-8, security-plan 1, test-plan 6-8: fixtures/claude recorded only by verify --record
+[[pattern]]
+id = 'record-only'
+regex = 'recorded whole by|recorded by (one )?`?viola verify|recorded locally by live `viola verify|is recorded by `viola verify --record`|recorded `viola verify`'
+
+# architecture 7: the 2.1.302 count
+[[pattern]]
+id = 'count-302'
+fixed = '29 files'
+
+# test-plan 1-2: the orphans probe line
+[[pattern]]
+id = 'probe-line'
+regex = '1/1 fired|fires on a planted orphan'
+
+# test-plan 15-16: prepare reachable only on Windows, still missed on Linux
+[[pattern]]
+id = 'prepare-win'
+regex = 'reachable only on a Windows host|still reads? (missed|red by them)|stand as recorded'
+
+# architecture 9: the MCP opening (initialize-flavoured handshake)
+[[pattern]]
+id = 'handshake'
+regex = 'notifications/initialized|`initialize`|initialize request|server/discover|negotiates protocol'
+
+# test-plan 3-5: the hygiene walk and the hook-payload schema enumeration
+[[pattern]]
+id = 'walk'
+regex = 'claude_fixtures|every other `fixtures/claude/\*/\*\.json`|every other hook payload'
+
+# architecture 1-3: viola-e2e's one bin
+[[pattern]]
+id = 'e2e-bin'
+regex = 'bin `viola-harness`|test-only: viola-harness|Test-only binaries'
+
+# architecture 4-5, test-plan 3/5: the schema and class enumerations the Mcp. class joins
+[[pattern]]
+id = 'schema-enum'
+fixed = 'claude-agents-fixture.v1.json'
+
+[[pattern]]
+id = 'class-enum'
+regex = 'Agents\.recorded|Agents\.\*\.json'
+
+# test-plan 9: the MCP stdio suite named as the only home
+[[pattern]]
+id = 'mcp-suite'
+regex = 'mcp_tools\.rs|binary\(mcp_tools\)'
+
+# architecture 10: the env-var rule the test-only marker sits beside
+[[pattern]]
+id = 'env-rule'
+regex = 'only other variables any `viola` build reads|only env vars outside'

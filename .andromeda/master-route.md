@@ -83,4 +83,4 @@ marker = {date}-{slug} (e.g. 2026-06-04-otlp-http-ingest), minted at promotion.
 2026-10-19-overseer-switch-to-viola · complete · Overseer switch to viola — the overseer drives its builder through the product viola instead of the prototype; v1-33 proven live · → viola-0.1.0/chunks/2026-10-19-overseer-switch-to-viola/
 2026-10-19-newer-claude-cli-rows · complete · the four ledger rows claude 2.1.302 fails, re-measured and brought back to a full stamp · → viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/
 2026-10-20-epoch-5-cleanup · complete · the Epoch 5 boundary's ten debts closed so the next audit reads them closed · → viola-0.1.0/chunks/2026-10-20-epoch-5-cleanup/
-2026-10-20-epoch-5-cleanup-ii · pending · the Epoch 5 boundary's three split-off debts (survivors, sizes, recorded tools/list) closed so the next audit reads them closed · → viola-0.1.0/chunks/2026-10-20-epoch-5-cleanup-ii/
+2026-10-20-epoch-5-cleanup-ii · complete · the Epoch 5 boundary's three split-off debts (survivors, sizes, recorded tools/list) closed so the next audit reads them closed · → viola-0.1.0/chunks/2026-10-20-epoch-5-cleanup-ii/

@@ -8,6 +8,16 @@ push), 30 (`ci.py`). Then stop before the wrap (`inputs#I4`).
 An earlier version of this file read STUCK: start 1 had yielded no recording, entry 7 rested on a falsified premise,
 and entry 20 needed a word. It was rewritten whole after `inputs#I5`.
 
+## The operator pass (run here on `inputs#I4`'s word; record `evidence/operator-pass.md`)
+- Entry 28, hygiene: it first refused 2 phase-run P5 records (temp-dir paths). After they were respelled `$TMPDIR/…` it
+  read clean, and it read clean again over the pass record.
+- The pre-CI commit `2cdfb0dd`. Entry 29 pushed it: `origin/build/viola-0.1.0` 844de976→2cdfb0dd.
+- Entry 30: `verdict: red` on ci#39477233397, 13/15 success.
+  - `test (macos-latest)` and `release (macos-latest)` were cancelled, never given a hosted macOS arm64 runner (0 steps;
+    "not acquired by Runner of type hosted"; capacity notices). Not this chunk's.
+  - The macOS readings of the OS-sensitive cases are still owed. A re-run of the two jobs waits for the operator's word.
+  - Stopped before the wrap.
+
 ## Files changed — `gate.py scope`: `clean — changed 30 · listed 29 · recorded 1 (companion 1)`
 - **Item (5):**
   - `crates/viola-agent-claude/src/ledger.rs`: the test module out; `relied_here` gone.

@@ -88,5 +88,23 @@
     "read_at": "2026-10-20T18:27:50Z",
     "step": "implement",
     "why": "dialog 15 answers: Q1 the founder: one more start in the stdin form (cap 2); Q2 the overseer: #[path] ledger/test_cases.rs keeping ledger::tests; Q3 the overseer: entry 20 is the plan wording red"
+  },
+  {
+    "id": "I6",
+    "kind": "relay",
+    "repo": null,
+    "path": "../additional/viola-overseer/wrap-cleanup2-directive.md",
+    "form": "copy",
+    "state": "no-repo",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "46ad02d8bd7d08fc38fd6cf954270a1c2fe7cc4ffbbbcda6af9c2971008e079e",
+    "copy": "I6-wrap-cleanup2-directive.md.txt",
+    "link": false,
+    "read_at": "2026-10-20T19:32:07Z",
+    "step": "wrap",
+    "why": "the wrap directive for 2026-10-20-epoch-5-cleanup-ii: what the report and P2-P7 must carry"
   }
 ]

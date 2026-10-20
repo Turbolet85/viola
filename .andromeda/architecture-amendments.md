@@ -1455,3 +1455,39 @@ Each superseded mark is kept in the body as the operator's word, superseded 2026
 **Why:** the stamped-home gates struck EDQUOT on the dev host's quota'd tmpfs, so a home is now refused before the quota is reached; the quota itself is unreadable from the session's shell. The census's second form is the witness that named the truncated profile's killer, a hangup reaching the fake agent's hooks.
 **Kept:** a plain-directory base (every CI runner) reads no headroom. The boot refusal stays the closed `build-failed`, and `run --local-live`'s stays `verify-exit-none`; no reason was added.
 **Ref:** .andromeda/runs/2026-10-20T09-40-55-wrap/
+
+## 2026-10-20-epoch-5-cleanup-ii — the recorded live MCP exchange: the tap, the `Mcp.` class and its schema
+**Section:** §Occupied Resources (Binary, subcommands and exit codes: the test-only binaries; Workspace crates: `viola-e2e`; Repository: the `fixtures/claude/<cli-version>/` bullet and its `2.1.302` set, `schemas/claude-mcp-fixture.v1.json`) · §Infrastructure Patterns → `project-directory-structure` (the viola-e2e row, `schemas/`, `fixtures/claude/<cli-version>/`)
+**Change:**
+- The test-only binaries gain `viola-mcp-tap`, a `[[bin]]` of `viola-e2e`: `record <capture> <viola exe> <args…>` (a direct spawn, no shell and no PATH lookup; each line through `take(MAX_FRAME)` appended once, tagged with its direction, to a capture created 0600; it exits with the child) and `fixture <capture> <out>` (the client frames up to and including the first `tools/list` request and each request's result keyed by method, through `ledger::scrub` and then `ledger::screen_fault`, refusing with the file name and one closed code `home-path` · `absolute-path` · `username` · `email`, never the content). Was: `viola-e2e`'s one bin `viola-harness`.
+- The `Mcp.<variant>.json` class is recorded by the tap, not by `--record`, validated by `schemas/claude-mcp-fixture.v1.json` (`v` const 1; `client` JSON-RPC 2.0 frames that contain a `tools/list` request with an `id`; `results` keyed by method, `tools/list` required with a `tools` array of named tools, any other key an object), hygiene-walked apart from the hook payloads (`mcp_fixtures_pass_hygiene`) and replayed by `tests/mcp_recorded_exchange.rs`.
+- The `2.1.302` set: was 29 files "recorded whole by one `viola verify --record` round"; now 30 files, its `Mcp.tools-list-1.json` the tap's (the count's rule `ls fixtures/claude/2.1.302 | wc -l`).
+**Why:** item (7) records what the live CLI's MCP client sends, so a replay can hold `viola mcp`'s served result to it. The CLI's MCP client crossing into the test-only tap, its scrubbed frames committed, is a boundary widening the founder answered himself at its P4 fork and again when the cap rose to two starts, each relayed verbatim; at this wrap's answer card he confirmed, relayed verbatim, that these sections lie wholly inside his answers.
+**Ref:** .andromeda/runs/2026-10-20T19-32-00-wrap/
+
+## 2026-10-20-epoch-5-cleanup-ii — the split modules, `relied_here` and the `viola-mcp` serde edge retired
+**Section:** §Established Decisions (the capability-ledger / `viola verify` decision: its interactive runs, `agents_read`, `trusted_args`) · §Infrastructure Patterns → `project-directory-structure` (`human/board.rs`, `verify/typed.rs`, the viola-agent-claude row) · §Infrastructure Patterns → `crate-dependency-direction` (`viola-agent-claude`'s ledger list, `viola-mcp`, the shared pins)
+**Change:**
+- `src/cmd/verify/typed.rs` is the module root (`RunDirs`, `Inputs`, `RunStep`, `measure`, `POLL`) over `src/cmd/verify/typed/`: `runs.rs` (Runs A–E, `trusted_args`, `TrustedDir`), `turns.rs` (`poll_until`, `wait_for`, `turn`, `agents_read`, `framing_turns`, `probe_until`, `wait_capture`), `pty.rs` (`KeyPipe`, `SharedPty`, `Feed`, `Sink`, `settled`, `box_wait`), `run.rs` (`Run`, `ctrl_c_ending`, `ended_by`) and the `#[cfg(test)]` `test_support.rs`; the decision cites `typed::turns::agents_read` and `typed::runs::trusted_args`. Was: one file, `typed::agents_read`, `typed::trusted_args`.
+- `src/human/board.rs` is the module root re-exporting `BayBudget`, `home_state_pair` / `instance_state_pair` and `write_board` over `src/human/board/`: `pairs.rs`, `bay.rs`, `cells.rs`, `rows.rs` and the `#[cfg(test)]` `test_support.rs`. Was: one file.
+- The viola-agent-claude row names `src/ledger/test_cases.rs`, the ledger's unit cases, declared `#[cfg(test)] #[path = "ledger/test_cases.rs"] mod tests`.
+- The ledger's per-OS relied set is `relied()`, filtering on `relied_on(WRAPPED_HERE)`. Was: `relied()`, `relied_here`.
+- `viola-mcp` takes no serde (was `serde` among its edges); the shared pins are taken by the crates that take them, `viola-pty` none and `viola-mcp` no serde. Was: "every workspace crate except `viola-pty`".
+**Why:** the size split moved code with every caller's path kept; `relied_here` had one caller and was folded into `relied()`; the serde edge was unused (`cargo machete crates/viola-mcp` clean).
+**Kept:** viola-e2e's new `viola-agent-claude` path edge takes no row: the key states viola-e2e's dependencies are not listed.
+**Ref:** .andromeda/runs/2026-10-20T19-32-00-wrap/
+
+## 2026-10-20-epoch-5-cleanup-ii — the measured 2.1.302 MCP opening and its recorded replay
+**Section:** §Standard Contracts (the MCP result shape: the `tools/list` result)
+**Change:** claude 2.1.302 on protocol `2026-07-28` opens with `server/discover` (its JSON-RPC id a string) and then `tools/list`, each carrying `_meta` (`io.modelcontextprotocol/protocolVersion`, `…/clientInfo`, `…/clientCapabilities`), and sends no `initialize` or `notifications/initialized`; viola's two results each carry `ttlMs` 0 and `cacheScope` `private`, as measured live (start 2). The recorded exchange `Mcp.tools-list-1.json` is replayed against `viola mcp` by `tests/mcp_recorded_exchange.rs`, which takes the `tools/list` response by its request's id and holds the served result to the recorded result's key and type shape, its tool names in order. Was: only the 2.1.287 reading (the two keys required).
+**Why:** the plan assumed an `initialize`-flavoured handshake; start 2's capture disproved it for 2.1.302, so the body states the measured opening.
+**Ref:** .andromeda/runs/2026-10-20T19-32-00-wrap/
+
+## 2026-10-20-epoch-5-cleanup-ii — the test-only child marker and the orphans probe's two cases
+**Section:** §Occupied Resources (Environment variables) · §Infrastructure Patterns → `build-system` (the orphans gate's `--probe`)
+**Change:**
+- `MCP_SERVE_TEST_CHILD`: a test-only marker `viola-mcp`'s unit tests set by `Command::env` on the child they spawn, read only by that crate's `#[cfg(test)]` child entry `serve_child_entry`; read by no `viola` build, outside the `VIOLA_*` namespace. Was: unregistered.
+- `scripts/orphans-check.sh --probe` fires on each of its two planted orphans. Was: "fires on a planted orphan".
+**Why:** the child entry kills `serve`'s survivor inside its own crate; `VIOLA_*` is product plumbing, so the marker carries no prefix. The probe has held two planted cases since before this chunk; its log reads `2/2 fired`.
+**Kept:** `PTY_SIDELOAD_TEST_CASE`, the precedent the marker follows, stays unregistered here: it is not this chunk's.
+**Ref:** .andromeda/runs/2026-10-20T19-32-00-wrap/

@@ -20,7 +20,7 @@ viola/
 │   ├── conpty.rs               # Windows x64: the embedded ConPTY companions and their four pins (the vendor script parses this text)
 │   ├── human.rs                # the `human` module root (human-facing text): the refusal and internal-error stderr writers and the stdout result writer (`write_refusal` / `refuse`, `write_internal_error` / `internal_error`, `write_result` / `result`), and `pub(crate) use` re-exports of its children's names, so every caller keeps its path; called by `run`, `revive`, `verify`, `send`, `wait`, `last`, `list`, `answer`, `pause`, `release`, `plugin install` and the `main` catch site
 │   ├── human/                  # the human module's phases: mirror.rs: `send`'s readback mirror (`[  ] open` / `[RB] read back` / `[  ] unconfirmable` with its one fixed note / `[/ ] unable`), `write_wrapper_fault`, `write_unable`;
-│   │                           #   escape.rs: the message-mode escaper (`escape_message`) and the row-mode escaper (`escape_row`); board.rs: the two state refusal pairs (`instance_state_pair`, `home_state_pair`) and the board writers (`BayBudget`, `bay_line`, `board_rows`, `write_board`: with a known terminal width the unwrapped NAME cut, at a colour depth the spans); style.rs: the colour layer (`Depth`, `Tokens`, `Facts`, `decide`, `read`, the Windows VT enable and its restoring guard);
+│   │                           #   escape.rs: the message-mode escaper (`escape_message`) and the row-mode escaper (`escape_row`); board.rs: the board module root, re-exporting `BayBudget`, `home_state_pair` / `instance_state_pair` and `write_board` from board/: pairs.rs (the two state refusal pairs), bay.rs (`BayBudget`, `bay_line`), cells.rs (the cells, spans, `board_line`, `cut`), rows.rs (`board_rows`, `write_board`: with a known terminal width the unwrapped NAME cut, at a colour depth the spans), test_support.rs (`#[cfg(test)]`); style.rs: the colour layer (`Depth`, `Tokens`, `Facts`, `decide`, `read`, the Windows VT enable and its restoring guard);
 │   │                           #   wait.rs: the `wait` / `last` lines; verbs.rs: the `answer` line, the `pause` / `release` lines, the budget lift / open lines and `plugin install`'s result lines (`write_plugin_installed`, `command_word`: a Windows-gated source, in `windows-mutants.yml`'s `viola-main` job); hints.rs: the hints (`HUMAN_TYPING_HINT`, `answer_hint`, `send_hint`)
 │   ├── cmd/                    # one module per subcommand: run, revive, send, wait, last, list,
 │   │                           #   answer, hook, mcp, verify, pause, release, link, unlink, plugin;
@@ -30,8 +30,10 @@ viola/
 │   │                           #   plugin.rs: `plugin install` (`check_path` on the home and the four `marketplace/` tree dirs before any write or log, exit 21 on a refusal; then the tree, the `ok` document or the two printed commands);
 │   │                           #   hook/statusline.rs: the `hook statusline` arm (the instance check, the `budget.json` write, the bounded shell-out);
 │   │                           #   client.rs (a helper, no subcommand): the channel client send / wait / last share;
-│   │                           #   verify/typed.rs: verify's five interactive PTY runs (Run A untrusted, Run B trusted, Run C dialogs, Run D plan, Run E resume),
-│   │                           #   the settle rule, Run B's wait for the input box after an added turn, and the signature-only screen recording;
+│   │                           #   verify/typed.rs: the module root (`RunDirs`, `Inputs`, `RunStep`, `measure`, `POLL`) of verify's five interactive PTY runs (Run A untrusted, Run B trusted, Run C dialogs, Run D plan, Run E resume),
+│   │                           #   the settle rule, Run B's wait for the input box after an added turn, and the signature-only screen recording, over verify/typed/:
+│   │                           #     runs.rs (Runs A–E, `trusted_args`, `TrustedDir`); turns.rs (`poll_until`, `wait_for`, `turn`, `agents_read`, `framing_turns`, `probe_until`, `wait_capture`);
+│   │                           #     pty.rs (`KeyPipe`, `SharedPty`, `Feed`, `Sink`, `settled`, `box_wait`); run.rs (`Run`, `ctrl_c_ending`, `ended_by`); test_support.rs (`#[cfg(test)]`);
 │   │                           #   verify/stop.rs: verify's Ctrl-C / TERM stop (Unix SIGINT / SIGTERM, Windows Ctrl-C / Ctrl-Break)
 │   ├── run/                    # PTY pump, wheel, budget governor; gate.rs: the pump-output tee + bounded vt100 feed + Gate;
 │   │                           #   agents.rs: the bounded `claude agents --json` read (`read_logged`, `read_here`) shared by `list`, `revive`, verify's Run B and the `mcp` `list` tool (through `list::board_document`);
@@ -50,7 +52,7 @@ viola/
 │   ├── cmd/*.toml              # trycmd cases: human-mode expected output (snapbox redactions)
 │   ├── snapshots/              # insta snapshots (check mode only)
 │   └── support/                # the sync root fixture chain + fixture-hygiene checker; sgr.rs: the SGR reader of a terminal stream (`sgr_attributes`, `redraws`, `sets_a_foreground`)
-├── schemas/                    # JSON schemas: fake-script.v1.json, claude-fixture.v1.json, claude-statusline-fixture.v1.json, claude-agents-fixture.v1.json, claude-screen.v1.json and config.v1.json (test-side), diag-line/diag-detail.v1.json (obs line contracts)
+├── schemas/                    # JSON schemas: fake-script.v1.json, claude-fixture.v1.json, claude-statusline-fixture.v1.json, claude-agents-fixture.v1.json, claude-mcp-fixture.v1.json, claude-screen.v1.json and config.v1.json (test-side), diag-line/diag-detail.v1.json (obs line contracts)
 ├── crates/
 │   ├── viola-core/             # normalised events, RefusalReason + NotDelivered, HumanTyping, WheelCause, validate_paste_text, ViolaName, Percent, `v` constants,
 │   │                           #   SPINE_DEADLINE, Clock / SystemClock, the budget reading (`Reading`, `BudgetWindow`, `BudgetReading`), `BudgetWindowKind` (`five-hour` · `seven-day`)
@@ -77,11 +79,13 @@ viola/
 │   │                           #   (the payload reading, the settings reader, the override document, the shell argv), the pure
 │   │                           #   `marketplace` module (`plugin install`'s three documents, `NAME`, `PLUGIN_REF`)
 │   │                           #   (+ proptest-regressions/, committed seeds; src/snapshots/, the insta
-│   │                           #   snapshots of the dialog decision bodies)
+│   │                           #   snapshots of the dialog decision bodies; src/ledger/test_cases.rs, the ledger's
+│   │                           #   unit cases, declared `#[cfg(test)] #[path = "ledger/test_cases.rs"] mod tests`)
 │   ├── viola-mcp/              # rmcp 3.4.1 stdio server, thin adapter over viola-channel
 │   └── viola-e2e/              # test-only: viola-harness (agent-run boot/run/status/cleanup/logs, plus the
 │                               #   internal subcommands incl. `gate` and `pre-push`: harness::pre_push; the `#[cfg]`
-│                               #   reader behind `run --mutants`' host exclusion: harness::run::mutants::host)
+│                               #   reader behind `run --mutants`' host exclusion: harness::run::mutants::host),
+│                               #   and viola-mcp-tap (src/bin/viola-mcp-tap.rs: `record` / `fixture`, the live MCP exchange behind the Mcp. fixtures)
 ├── scripts/
 │   ├── agent-run.{sh,ps1}      # identical shims over viola-harness
 │   ├── conpty-vendor.sh        # re-vendor vendor/conpty/ from the pinned nupkg (+ --verify: sha256 + byte compare + signer; --probe)
@@ -106,7 +110,7 @@ viola/
 │   ├── fuzz_targets/{viola_name,channel_frame,hook_stdin,vt100_feed,paste_text,claude_agents_json}.rs
 │   └── corpus/<target>/        # committed synthetic seeds
 ├── fixtures/
-│   ├── claude/<cli-version>/   # hook-payload fixtures and signature-only Screen.<phase>.json screens and <Event>.<stem>-<n>.json dialog and framing variants and StatusLine.<stem>-<n>.json status line variants and Agents.recorded-<n>.json agents variants recorded by `viola verify`, plus superseded relayed dialog fixtures (RELAYED.md)
+│   ├── claude/<cli-version>/   # hook-payload fixtures and signature-only Screen.<phase>.json screens and <Event>.<stem>-<n>.json dialog and framing variants and StatusLine.<stem>-<n>.json status line variants and Agents.recorded-<n>.json agents variants recorded by `viola verify`, Mcp.<variant>.json MCP exchanges recorded by the test-only viola-mcp-tap, plus superseded relayed dialog fixtures (RELAYED.md)
 │   └── fake-scripts/           # committed fake-agent turn scripts (synthetic)
 ├── .github/
 │   └── workflows/

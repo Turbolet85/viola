@@ -1178,3 +1178,28 @@ Each was then killed by a case in `typed.rs`'s `mod tests`, shown red under its 
 - E4 reads «none in 0.1.0» over an `N/A` gap marker (was «SSE `Last-Event-ID` resume»).
 **Why:** the floor stops a run before the quota'd tmpfs's EDQUOT. The census named the truncated profile's killer two-sided. A control made explicitly holds inside cargo-mutants' owner-only copy too. E4 named a retired web scenario.
 **Ref:** .andromeda/runs/2026-10-20T09-40-55-wrap/
+
+## 2026-10-20-epoch-5-cleanup-ii — the `Mcp.` exchange: its walk, its seed row and its replay
+**Section:** §1 Test Scope Summary (the MCP stdio Signal) · §2 Test Strategy (Contract row) · §6 E2E Test Strategy (the MCP stdio driver row) · §7 Test Data & Fixtures (Fixture library; Seed strategies; Fixture hygiene: the walk, its classes, the recorder rule)
+**Change:**
+- §7: a seed row "Recorded MCP exchange" — `Mcp.<variant>.json` (`Mcp.tools-list-1.json` in `2.1.302`) recorded by the test-only `viola-mcp-tap`: `record` between one live `claude -p` start and a direct spawn of `viola mcp`, each line through `take(MAX_FRAME)` into a 0600 capture never committed; `fixture` through the `--record` scrub and refusal (the four closed codes, the file name only). The fixture library names the exchanges. `claude_fixtures` leaves `Mcp.` files out and `mcp_fixtures` walks them against `schemas/claude-mcp-fixture.v1.json` with the path, username and email checks (`mcp_fixtures_pass_hygiene`; planted `planted_clean_mcp_exchange_passes`, `planted_dirty_mcp_exchange_is_rejected`, `planted_mcp_schema_violation_is_rejected`). The recorder rule covers the tap's `fixture` step. Was: `verify --record` the one source.
+- §2: the jsonschema clause checks every `fixtures/claude/*/Mcp.*.json` against `schemas/claude-mcp-fixture.v1.json`. Was: every file but the status line, agents and screen classes against `claude-fixture.v1.json`.
+- §6 / §1: `tests/mcp_recorded_exchange.rs` (`binary(mcp_recorded_exchange)`) writes the recorded client frames to a `viola mcp` child, takes the `tools/list` response by its request's id, and holds the served result to the recorded key and type shape, `ttlMs` and `cacheScope` included, its tool names in order. Was: `tests/mcp_tools.rs` the suite's one case file.
+**Why:** item (7); the tap's recording is the founder's own answer to its P4 widening fork, each answer relayed verbatim, and he confirmed at this wrap's answer card, relayed verbatim, that §7's seed row, library and recorder rule lie wholly inside it.
+**Ref:** .andromeda/runs/2026-10-20T19-32-00-wrap/
+
+## 2026-10-20-epoch-5-cleanup-ii — the moved units re-cited and the orphans probe line
+**Section:** §5 Integration Test Strategy (the `tests/cli_list.rs` board bullet; the `tests/cli_verify.rs` bullet) · §9 CI Integration (Lint row; the Lint errors bullet) · §10 Quality Gates & Coverage Targets (Mutation gate: the Epoch 4 `typed.rs` dispositions)
+**Change:**
+- The board units are the `src/human/board/` units (was `src/human/board.rs`, twice); the stop's unit cases sit in the `src/cmd/verify/typed/` module (was `typed.rs`); the Epoch 4 dispositions name `typed.rs`'s code under `src/cmd/verify/typed/`, "inside that module" and "a case in its unit tests" (was "inside `typed.rs`", "`typed.rs`'s `mod tests`").
+- The orphans probe fires on each of its two planted orphans, last line `orphans-check probes: 2/2 fired, control clean`, and the Lint errors trigger reads `2/2 fired`. Was: `1/1 fired`.
+**Why:** the size split moved code with every case's name kept. The probe line was a stale literal from before this chunk: the script already held two planted cases, and its log reads 2/2.
+**Ref:** .andromeda/runs/2026-10-20T19-32-00-wrap/
+
+## 2026-10-20-epoch-5-cleanup-ii — `prepare` killed on every host, the Epoch 5 survivors disposed
+**Section:** §10 Quality Gates & Coverage Targets (Mutation gate paragraph)
+**Change:**
+- `prepare` takes its host flag from `mutate()` (`scratch::HOST_SCRATCH`), so both arms are reached on every host, and its `Ok(None)` and deleted-`!` mutants read killed on the Linux dev host by its scratch case, as measured at the chunk's survivors ledger. Was: "reachable only on a Windows host, and are recorded not measured here … On the Linux dev host they still read missed". The Epoch 4 note reads the 2 `prepare` rows "stood as recorded (killed on every host since)".
+- The Epoch 5 boundary audit's 16 survivors were each disposed by a nextest case in the package that owns the mutated file, 10 killed and 6 after a behaviour-preserving restatement, each red under its hand-applied mutant and green reverted byte-exact, with no mutation run made and none equivalent or recorded.
+**Why:** item (4) closes the audit's survivors so the next audit reads them closed.
+**Ref:** .andromeda/runs/2026-10-20T19-32-00-wrap/

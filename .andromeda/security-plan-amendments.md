@@ -834,3 +834,15 @@ The superseded marks stand in the body as the operator's word, superseded 2026-1
 **Change:** The two keepers also refuse a linked base whose filesystem reads less than the 9 GiB headroom floor free (`statvfs`). Their refusal stays a fixed message that names no path; the headroom one holds the two counts (free and floor, in MiB). Was: absolute target, a real owner-only directory, no target that is itself a link; now that, and the floor.
 **Why:** a refusal added on the backing the keepers already reach. It reads filesystem metadata only, creates and removes nothing, and widens no boundary. The floor is a compiled constant; no env var, flag or config key sets it.
 **Ref:** .andromeda/runs/2026-10-20T09-40-55-wrap/
+
+## 2026-10-20-epoch-5-cleanup-ii — the `Mcp.` exchange recorded by the test-only tap
+**Section:** §Data Protection (Repository fixtures)
+**Change:** `fixtures/claude/<cli-version>/` is recorded by `viola verify --record`, its `Mcp.` exchanges by the test-only `viola-mcp-tap`. The tap's `record` sits between one live CLI start and a direct spawn of `viola mcp` (no shell, no PATH lookup), reads each line through `take(MAX_FRAME)` and appends it to a 0600 capture in a private directory, never committed; its `fixture` step keeps the client frames up to and including the first `tools/list` request and each request's result keyed by method, applies the same scrub, and refuses through `ledger::screen_fault` with the file name and the same closed codes `home-path` · `absolute-path` · `username` · `email`, never the content. The class is validated by `schemas/claude-mcp-fixture.v1.json` and hygiene-walked. Was: the directory recorded by `verify --record` alone.
+**Why:** a boundary widening — the live CLI's MCP client crosses into a test-only tap and its scrubbed frames are committed — ratified by the founder's own answers to its P4 fork (a cap of one start, then a second start with the prompt on stdin), each relayed verbatim; at this wrap's answer card he confirmed, relayed verbatim, that this section lies wholly inside them.
+**Ref:** .andromeda/runs/2026-10-20T19-32-00-wrap/
+
+## 2026-10-20-epoch-5-cleanup-ii — Run E's `resume_run` re-cited at its module
+**Section:** §Input Validation (the session id as a child argv value)
+**Change:** the row cites `src/cmd/verify/typed/runs.rs` `resume_run` (Run E). Was: `src/cmd/verify/typed.rs`.
+**Why:** `typed.rs` is now a module root; Runs A–E live in `typed/runs.rs`.
+**Ref:** .andromeda/runs/2026-10-20T19-32-00-wrap/

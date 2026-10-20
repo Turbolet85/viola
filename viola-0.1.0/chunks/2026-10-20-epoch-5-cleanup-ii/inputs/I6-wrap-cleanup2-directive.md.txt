@@ -1,0 +1,20 @@
+# Wrap directive — 2026-10-20-epoch-5-cleanup-ii
+
+Facts measured by the overseer, 2026-10-20:
+
+1. **Run P1 only, then stop.** This is the two-window form: the overseer's split call. The builder is at 56.5 %, and
+   the last wrap of a comparable reconcile went 44.5 % → 86 %. P2 onward resumes in a fresh window.
+2. **Outcome basis.** The pre-CI commit is `2cdfb0dd`, read on CI 39477233397.
+   - Attempt 1: `test (macos-latest)` and `release (macos-latest)` were cancelled with 0 steps run ("not acquired by
+     Runner … after multiple attempts").
+   - Attempt 2, re-run by the overseer: `success`, 15/15 (`ci.py conclusion --sha 2cdfb0dd`: green · attempt 2).
+   - No fix commit. The macOS readiness WATCH reads the attempt-2 macOS test job.
+3. **The founder's own words in this chunk:**
+   - Q1 «Один старт», «2.1.302», «Один чанк» (P4).
+   - «Ещё один, промпт через stdin» (dialog 15 Q1; `inputs#I5`, the relay `relay-cleanup2-answers.md`). This is his
+     own answer to the item-(7) boundary fork, which the wrap halts on once, as an answer card.
+4. **The overseer's technical words** (`inputs#I5`):
+   - Q2: `#[path] test_cases.rs`.
+   - Q3: entry 20 reads `red — the plan's wording: 20 against research's two directory items`.
+5. **After this chunk the founder's word stops the loop:** «остальные пусть после чанков встают» (via overseer1,
+   2026-10-20). Route-resolve adapts the tail as usual. No next skill follows this wrap.

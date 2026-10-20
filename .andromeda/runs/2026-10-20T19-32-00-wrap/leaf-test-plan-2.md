@@ -1,0 +1,7 @@
+group: test-plan-2
+read: .claude/rules/verification-harness.md · 71 · «- 2026-10-14: A side effect added to a fake-agent turn (a sp»
+
+- leaf: .claude/rules/verification-harness.md:45   class: omission
+  leaf-text: «with each recorded `Agents.*.json` set (`fake_agent_agents_replay_matches_every_recorded_agents_set`).»
+  source: .andromeda/test-plan.md:937 «recorded by the test-only `viola-mcp-tap` (`crates/viola-e2e`): `record` sits between one live `claude -p` start and a direct spawn of `viola mcp`, one append per direction-tagged line through `take(MAX_FRAME)`»
+  replace-with: «with each recorded `Agents.*.json` set (`fake_agent_agents_replay_matches_every_recorded_agents_set`). The test-only `viola-mcp-tap` (`crates/viola-e2e`, `src/bin/viola-mcp-tap.rs`) records the MCP exchanges `fixtures/claude/<cli-version>/Mcp.<variant>.json` (`Mcp.tools-list-1.json` in `2.1.302`): `record` sits between one live `claude -p` start and a direct spawn of `viola mcp`, one append per direction-tagged line through `take(MAX_FRAME)` into a 0600 capture that is never committed; `fixture` keeps the client frames up to and including the first `tools/list` request and each request's result keyed by method, through the `--record` scrub (the home → `~`, the user word → `<user>`), refusing a dirty exchange whole with the closed codes `home-path` · `absolute-path` · `username` · `email`, naming the file only; the exchanges are validated against `schemas/claude-mcp-fixture.v1.json` and replayed against `viola mcp` by `tests/mcp_recorded_exchange.rs`.»

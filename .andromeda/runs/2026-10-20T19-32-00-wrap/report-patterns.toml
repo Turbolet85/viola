@@ -1,0 +1,114 @@
+# Wrap P1 site sweep — one pattern per moved fact (its wording + its name token), plus the two owner patterns.
+
+[[pattern]]
+id = 'owner-title'
+fixed = 'Epoch 5 cleanup II'
+ignore_case = true
+
+[[pattern]]
+id = 'owner-generic'
+regex = 'owned by a (route entry|CARRY)'
+ignore_case = true
+
+# F1 — src/cmd/verify/typed.rs split into a module root + children
+[[pattern]]
+id = 'typed-split'
+regex = 'verify/typed|typed\.rs|typed::'
+
+# F2 — src/human/board.rs split into a module root + children
+[[pattern]]
+id = 'board-split'
+regex = 'human/board|board\.rs|board::\{|bay_line|board_row'
+
+# F3 — ledger.rs's test module moved out to ledger/test_cases.rs (module path ledger::tests kept)
+[[pattern]]
+id = 'ledger-tests'
+regex = 'ledger/tests\.rs|ledger/test_cases|ledger::tests|ledger\.rs'
+
+# F4 — LedgerRow::relied_here removed; relied() reads relied_on(WRAPPED_HERE)
+[[pattern]]
+id = 'relied-here'
+regex = 'relied_here|relied_on|LedgerRow::relied'
+
+# F5 — viola-mcp's serde edge dropped
+[[pattern]]
+id = 'mcp-serde'
+regex = 'viola-mcp[^\n]{0,160}serde|serde[^\n]{0,80}viola-mcp'
+ignore_case = true
+
+# F6 — viola-e2e gains a viola-agent-claude edge
+[[pattern]]
+id = 'e2e-edges'
+regex = 'viola-e2e[^\n]{0,200}(viola-agent-claude|viola-state|viola-channel|viola-pty)'
+
+# F7 — the test-only viola-mcp-tap [[bin]]
+[[pattern]]
+id = 'mcp-tap'
+regex = 'viola-mcp-tap|viola-harness\b'
+
+# F8 — the Mcp. fixture class and its schema; the recorded classes enumerated
+[[pattern]]
+id = 'fixture-classes'
+regex = 'Mcp\.|claude-mcp-fixture|claude-agents-fixture|Agents\.recorded|Agents\.\*'
+
+# F9 — the replay case mcp_recorded_exchange in the E2E contract suite
+[[pattern]]
+id = 'mcp-replay'
+regex = 'mcp_recorded_exchange|mcp_tools'
+
+# F10 — scratch::prepare(root, host) restated; HOST_SCRATCH passed by mutate()
+[[pattern]]
+id = 'host-scratch'
+regex = 'HOST_SCRATCH|scratch::prepare|prepare\(root'
+
+# F11 — HarnessSession's drop: flag_set and drop_steps
+[[pattern]]
+id = 'session-drop'
+regex = 'flag_set|drop_steps|HarnessSession'
+
+# F12 — status's capped read: capped_document
+[[pattern]]
+id = 'capped-doc'
+regex = 'capped_document|read_list'
+
+# F13 — the orphans gate and the out-of-line cfg(test) module (test_ stem skipped by cargo-modules 0.27)
+[[pattern]]
+id = 'orphans'
+regex = 'orphan|cargo-modules|cargo modules'
+ignore_case = true
+
+# F14 — the measured MCP handshake on 2026-07-28: server/discover, then tools/list
+[[pattern]]
+id = 'mcp-handshake'
+regex = 'server/discover|notifications/initialized|2026-07-28'
+
+# F15 — ttlMs / cacheScope, now under the gate by the replay
+[[pattern]]
+id = 'ttl-cache'
+regex = 'ttlMs|cacheScope|cache_scope'
+
+# F16 — the const-gated survivor rule (restated, never "equivalent"); WRAPPED_HERE
+[[pattern]]
+id = 'const-gated'
+regex = 'WRAPPED_HERE|not measured here|const-gated|behind a const'
+ignore_case = true
+
+# F17 — the fixture hygiene walk's classes
+[[pattern]]
+id = 'hygiene-walk'
+regex = 'contract_fixture_hygiene|Fixture hygiene'
+
+# F18 — the security-plan's repository-fixtures clause (the Mcp. recording through the test-side tap)
+[[pattern]]
+id = 'repo-fixtures'
+regex = 'Repository fixtures|verify --record|`--record`'
+
+# F7b — the tap's name alone
+[[pattern]]
+id = 'tap-name'
+fixed = 'viola-mcp-tap'
+
+# F19 — the 2.1.302 fixture set count (29 -> 30 files, the Mcp. exchange) and its "one --record round" clause
+[[pattern]]
+id = 'set-302-count'
+regex = '29 files|fixtures/claude/2\.1\.302 \| wc|recorded whole by one'
