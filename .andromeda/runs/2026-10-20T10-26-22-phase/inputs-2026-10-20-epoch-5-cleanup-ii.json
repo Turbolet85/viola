@@ -1,0 +1,250 @@
+[
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "2da33a09",
+"ts": "2026-10-20T10:26:58Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-20-epoch-5-cleanup-ii",
+"--source",
+"~/dev/projects/additional/viola-overseer/phase-cleanup2-directive.md",
+"--kind",
+"relay",
+"--why",
+"the overseer phase directive for Epoch 5 cleanup II: no mutation, witness or dispatch run in the chunk, item 4 closed by hand-applied mutants over a scratch clone; item 7 live claude starts are the founder cap, asked at P4 as a dialog with the starts counted; size (4)(5)(7), split proposed at P4 if they do not fit one window; df -h /tmp before stamped-home gates, 9 GiB floor",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-10-20T10-26-22-phase",
+"--marker",
+"2026-10-20-epoch-5-cleanup-ii"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy no-repo · ../additional/viola-overseer/phase-cleanup2-directive.md",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-phase-cleanup2-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/phase-cleanup2-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "9fb6cd728e4120315d6517f4641fa16667d6d1b927d3dcf9c7bd9829fe991167",
+"copy": "I1-phase-cleanup2-directive.md.txt",
+"link": false,
+"read_at": "2026-10-20T10:26:58Z",
+"step": "phase:P1",
+"why": "the overseer phase directive for Epoch 5 cleanup II: no mutation, witness or dispatch run in the chunk, item 4 closed by hand-applied mutants over a scratch clone; item 7 live claude starts are the founder cap, asked at P4 as a dialog with the starts counted; size (4)(5)(7), split proposed at P4 if they do not fit one window; df -h /tmp before stamped-home gates, 9 GiB floor"
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "2da33a09",
+"ts": "2026-10-20T10:48:06Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-20-epoch-5-cleanup-ii",
+"--message-file",
+".andromeda/runs/2026-10-20T10-26-22-phase/relay-1.md",
+"--origin",
+"the founder himself, live at his keyboard in the Viola overseer dialog, relayed through the P4 fork dialog, 2026-10-20T10:47Z",
+"--kind",
+"relay",
+"--why",
+"the P4 forks answered by the founder himself: a live-start cap of 1 for item 7 and his own answer to its boundary widening (the CLI MCP client through the test-only tap, the scrubbed frames committed as a fixture); the recording on 2.1.302; one chunk, (5) then (4) then (7)",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-10-20T10-26-22-phase",
+"--marker",
+"2026-10-20-epoch-5-cleanup-ii"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy message · message: the founder himself, live at his keyboard in the Viola overseer dialog, relayed through the P4 fork dialog, 2026-10-20T10:47Z",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "message: the founder himself, live at his keyboard in the Viola overseer dialog, relayed through the P4 fork dialog, 2026-10-20T10:47Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "4a94275f5fd3676489fa618937977d1f6a5c13133a84685ca5b0a5cfcc6cbdbf",
+"copy": "I2-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-20T10:48:06Z",
+"step": "phase:P4",
+"why": "the P4 forks answered by the founder himself: a live-start cap of 1 for item 7 and his own answer to its boundary widening (the CLI MCP client through the test-only tap, the scrubbed frames committed as a fixture); the recording on 2.1.302; one chunk, (5) then (4) then (7)"
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "2da33a09",
+"ts": "2026-10-20T11:01:00Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-20-epoch-5-cleanup-ii",
+"--run-dir",
+".andromeda/runs/2026-10-20T10-26-22-phase",
+"--marker",
+"2026-10-20-epoch-5-cleanup-ii"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-cleanup2-directive.md",
+"I1 cited scope.md:18 · scope.md:20 · scope.md:28 · scope.md:64 · scope.md:111 · scope.md:125 · scope.md:130 · research.md:13 · research.md:153 · research.md:155 · plan.md:11 · plan.md:29 · plan.md:38 · plan.md:44 · plan.md:288 · plan.md:297 (in fence) · plan.md:499 · plan.md:557 · plan.md:561",
+"I2 n/a — a message has no live source · copy message · message: the founder himself, live at his keyboard in the Viola overseer dialog, relayed through the P4 fork dialog, 2026-10-20T10:47Z",
+"I2 cited research.md:118 · research.md:154 · research.md:156 · plan.md:9 · plan.md:36 · plan.md:174 · plan.md:205 · plan.md:210 · plan.md:230 · plan.md:527 · plan.md:557 · plan.md:575 · plan.md:582 · plan.md:608",
+"inputs: 2 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "2da33a09",
+"ts": "2026-10-20T11:03:19Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-20-epoch-5-cleanup-ii",
+"--run-dir",
+".andromeda/runs/2026-10-20T10-26-22-phase",
+"--marker",
+"2026-10-20-epoch-5-cleanup-ii"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-cleanup2-directive.md",
+"I1 cited scope.md:18 · scope.md:20 · scope.md:28 · scope.md:64 · scope.md:111 · scope.md:125 · scope.md:130 · research.md:13 · research.md:153 · research.md:155 · plan.md:11 · plan.md:29 · plan.md:38 · plan.md:44 · plan.md:291 · plan.md:301 (in fence) · plan.md:521 · plan.md:579 · plan.md:583",
+"I2 n/a — a message has no live source · copy message · message: the founder himself, live at his keyboard in the Viola overseer dialog, relayed through the P4 fork dialog, 2026-10-20T10:47Z",
+"I2 cited research.md:118 · research.md:154 · research.md:156 · plan.md:9 · plan.md:36 · plan.md:177 · plan.md:208 · plan.md:213 · plan.md:233 · plan.md:549 · plan.md:579 · plan.md:597 · plan.md:604 · plan.md:630",
+"inputs: 2 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "2da33a09",
+"ts": "2026-10-20T11:05:20Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-20-epoch-5-cleanup-ii",
+"--message-file",
+".andromeda/runs/2026-10-20T10-26-22-phase/relay-2.md",
+"--origin",
+"the Viola overseer, the founder delegate in the operator seat, in this session dialog, 2026-10-20T11:05Z",
+"--kind",
+"relay",
+"--why",
+"the P5 word on .andromeda/runs/2026-10-20T10-26-22-phase/p5-card-1.md, delegate authority (the Viola overseer): yes; the founder three P4 answers stand as his; Beyond the plan row 1 owned by the founder, who frees /tmp himself before implement; stop after the matrix step",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-10-20T10-26-22-phase",
+"--marker",
+"2026-10-20-epoch-5-cleanup-ii"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy message · message: the Viola overseer, the founder delegate in the operator seat, in this session dialog, 2026-10-20T11:05Z",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "message: the Viola overseer, the founder delegate in the operator seat, in this session dialog, 2026-10-20T11:05Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "d322c4be1b0200f78f33057aaa15b5a3560264cfaa415bfe3976736c2b4402bb",
+"copy": "I3-relay-2.md.txt",
+"link": false,
+"read_at": "2026-10-20T11:05:20Z",
+"step": "phase:P5",
+"why": "the P5 word on .andromeda/runs/2026-10-20T10-26-22-phase/p5-card-1.md, delegate authority (the Viola overseer): yes; the founder three P4 answers stand as his; Beyond the plan row 1 owned by the founder, who frees /tmp himself before implement; stop after the matrix step"
+}
+}
+]

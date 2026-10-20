@@ -467,6 +467,66 @@ mod tests {
         assert_eq!(wire["tools"].as_array().map(Vec::len), Some(5));
     }
 
+    /// The handler itself on the wire: a served `Server` answers `initialize` with the tools
+    /// capability under its own name, then `tools/list` with the five tools and the two SEP-2549
+    /// fields.
+    #[test]
+    fn served_initialize_advertises_tools_and_tools_list_carries_the_five() {
+        use tokio::io::{AsyncBufReadExt as _, AsyncWriteExt as _};
+        let (_home, ctx) = empty_home();
+        let server = Server { ctx: Arc::new(ctx) };
+        let (initialized, listed) = runtime().block_on(async move {
+            let (client, served) = tokio::io::duplex(1 << 16);
+            let serving = tokio::spawn(async move {
+                if let Ok(running) = rmcp::ServiceExt::serve(server, tokio::io::split(served)).await
+                {
+                    let _ = running.waiting().await;
+                }
+            });
+            let (read, mut write) = tokio::io::split(client);
+            let mut lines = tokio::io::BufReader::new(read).lines();
+            let frames = [
+                concat!(
+                    r#"{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"#,
+                    r#""2026-07-28","capabilities":{},"clientInfo":{"name":"t","version":"0"}}}"#,
+                    "\n"
+                ),
+                "{\"jsonrpc\":\"2.0\",\"method\":\"notifications/initialized\"}\n",
+                "{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"tools/list\"}\n",
+            ];
+            let mut answers = Vec::new();
+            for (n, frame) in frames.into_iter().enumerate() {
+                write.write_all(frame.as_bytes()).await.expect("a frame");
+                if n != 1 {
+                    let line = lines.next_line().await.expect("a read").expect("a line");
+                    answers.push(serde_json::from_str::<Value>(&line).expect("a response"));
+                }
+            }
+            write.shutdown().await.expect("the client's end");
+            let [initialized, listed] = <[Value; 2]>::try_from(answers).expect("two responses");
+            serving.await.expect("the served session");
+            (initialized, listed)
+        });
+        assert!(
+            initialized["result"]["capabilities"]["tools"].is_object(),
+            "{initialized}"
+        );
+        assert_eq!(initialized["result"]["serverInfo"]["name"], "viola");
+        let names: Vec<&str> = listed["result"]["tools"]
+            .as_array()
+            .expect("tools")
+            .iter()
+            .filter_map(|tool| tool["name"].as_str())
+            .collect();
+        assert_eq!(
+            names,
+            ["send", "wait", "last", "answer", "list"],
+            "{listed}"
+        );
+        assert_eq!(listed["result"]["ttlMs"], 0);
+        assert_eq!(listed["result"]["cacheScope"], "private");
+    }
+
     #[rstest]
     #[case::absent(None, 50_000)]
     #[case::under(Some(1_000), 1_000)]

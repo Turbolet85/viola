@@ -154,6 +154,23 @@ mod tests {
     }
 
     #[test]
+    fn live_endpoint_of_a_live_instance_is_its_endpoint_and_of_a_stale_one_none() {
+        let me = std::process::id();
+        let mut written = snapshot(me, own_start(me).expect("own start"));
+        written.endpoint = Some("viola-test-endpoint".to_owned());
+        let live = tempfile::tempdir().expect("tempdir");
+        crate::snapshot::write_snapshot(live.path(), &written).expect("the snapshot");
+        crate::heartbeat::touch_heartbeat(live.path()).expect("the heartbeat");
+        assert_eq!(
+            live_endpoint(live.path()).as_deref(),
+            Some("viola-test-endpoint")
+        );
+        let stale = tempfile::tempdir().expect("tempdir");
+        crate::snapshot::write_snapshot(stale.path(), &written).expect("the snapshot");
+        assert_eq!(live_endpoint(stale.path()), None);
+    }
+
+    #[test]
     fn process_start_time_is_none_for_a_dead_pid() {
         let mut child = std::process::Command::new(std::env::current_exe().expect("exe"))
             .arg("--list")

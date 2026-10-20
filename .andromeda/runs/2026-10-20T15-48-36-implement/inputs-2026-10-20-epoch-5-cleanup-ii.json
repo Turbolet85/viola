@@ -1,0 +1,110 @@
+[
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "2da33a09",
+"ts": "2026-10-20T15:49:29Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-20-epoch-5-cleanup-ii",
+"--message-file",
+".andromeda/runs/2026-10-20T15-48-36-implement/relay-1.md",
+"--origin",
+"the operator seat (Viola overseer), /andromeda-implement invocation arguments, 2026-10-20T15:48Z",
+"--kind",
+"relay",
+"--why",
+"the implement directive: /tmp freed, one live start on 2.1.302 ledgered before it runs, no mutation run or dispatch, operator pass then stop before the wrap",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-10-20T15-48-36-implement",
+"--marker",
+"2026-10-20-epoch-5-cleanup-ii"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy message · message: the operator seat (Viola overseer), /andromeda-implement invocation arguments, 2026-10-20T15:48Z",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator seat (Viola overseer), /andromeda-implement invocation arguments, 2026-10-20T15:48Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "bb1a6ac54c0f37a84c21adcf69fcec397a5c2dabaf12a6aeb4ff23600eea1447",
+"copy": "I4-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-20T15:49:29Z",
+"step": "implement",
+"why": "the implement directive: /tmp freed, one live start on 2.1.302 ledgered before it runs, no mutation run or dispatch, operator pass then stop before the wrap"
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "2da33a09",
+"ts": "2026-10-20T18:27:50Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-20-epoch-5-cleanup-ii",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-cleanup2-answers.md",
+"--kind",
+"relay",
+"--why",
+"dialog 15 answers: Q1 the founder: one more start in the stdin form (cap 2); Q2 the overseer: #[path] ledger/test_cases.rs keeping ledger::tests; Q3 the overseer: entry 20 is the plan wording red",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-10-20T15-48-36-implement",
+"--marker",
+"2026-10-20-epoch-5-cleanup-ii"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I5 · copy no-repo · ../additional/viola-overseer/relay-cleanup2-answers.md",
+"cite: inputs#I5"
+],
+"stderr": null,
+"wrote": [
+"inputs/I5-relay-cleanup2-answers.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I5",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-cleanup2-answers.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "55cdf146d0d7d506120a4776b8d725a4c8225f919a22ca907b8713b784f6653e",
+"copy": "I5-relay-cleanup2-answers.md.txt",
+"link": false,
+"read_at": "2026-10-20T18:27:50Z",
+"step": "implement",
+"why": "dialog 15 answers: Q1 the founder: one more start in the stdin form (cap 2); Q2 the overseer: #[path] ledger/test_cases.rs keeping ledger::tests; Q3 the overseer: entry 20 is the plan wording red"
+}
+}
+]

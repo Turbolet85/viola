@@ -1,7 +1,7 @@
 //! The fixture scrub-and-schema walk (test-plan §7 Fixture hygiene): every committed scenario
 //! script, every recorded `fixtures/claude/*/*.json` hook payload, every recorded `StatusLine.*.json`
-//! status line payload, every recorded `Agents.*.json` agents read and every recorded
-//! `Screen.*.json` is scrubbed and schema-valid, each against
+//! status line payload, every recorded `Agents.*.json` agents read, every recorded `Mcp.*.json`
+//! MCP exchange and every recorded `Screen.*.json` is scrubbed and schema-valid, each against
 //! its own schema, and every rejection arm is proven on a planted input. The recorded set is walked at run time, not
 //! by `#[files]`, which refuses to compile over a glob that matches nothing.
 //! andromeda:walks-tree — it reads every file under `fixtures/`, named or not.
@@ -38,6 +38,10 @@ fn agents_schema() -> Value {
     load_schema(&workspace_path("schemas/claude-agents-fixture.v1.json"))
 }
 
+fn mcp_schema() -> Value {
+    load_schema(&workspace_path("schemas/claude-mcp-fixture.v1.json"))
+}
+
 fn named(path: &Path, prefix: &str) -> bool {
     path.file_name()
         .and_then(|n| n.to_str())
@@ -56,13 +60,22 @@ fn is_agents(path: &Path) -> bool {
     named(path, "Agents.")
 }
 
-/// `<root>/*/*.json` but the screens, the status line payloads and the agents reads, sorted: the
-/// recorded hook payloads.
+fn is_mcp(path: &Path) -> bool {
+    named(path, "Mcp.")
+}
+
+/// `<root>/*/*.json` but the screens, the status line payloads, the agents reads and the MCP
+/// exchanges, sorted: the recorded hook payloads.
 fn claude_fixtures(root: &Path) -> Vec<PathBuf> {
     recorded(root)
         .into_iter()
-        .filter(|p| !is_screen(p) && !is_statusline(p) && !is_agents(p))
+        .filter(|p| !is_screen(p) && !is_statusline(p) && !is_agents(p) && !is_mcp(p))
         .collect()
+}
+
+/// `<root>/*/Mcp.*.json`, sorted: the recorded MCP exchanges.
+fn mcp_fixtures(root: &Path) -> Vec<PathBuf> {
+    recorded(root).into_iter().filter(|p| is_mcp(p)).collect()
 }
 
 /// `<root>/*/Agents.*.json`, sorted: the recorded agents reads.
@@ -318,6 +331,7 @@ fn claude_fixtures_walks_every_version_dir_and_only_json_files() {
         ("9.9.9/Screen.ready.json", "{}"),
         ("9.9.9/StatusLine.default-1.json", "{}"),
         ("9.9.9/Agents.recorded-1.json", "[]"),
+        ("9.9.9/Mcp.tools-list-1.json", "{}"),
         ("top.json", "{}"),
     ] {
         let path = tmp.path().join(rel);
@@ -349,7 +363,119 @@ fn claude_fixtures_walks_every_version_dir_and_only_json_files() {
         agents_fixtures(tmp.path()),
         [tmp.path().join("9.9.9").join("Agents.recorded-1.json")]
     );
+    assert_eq!(
+        mcp_fixtures(tmp.path()),
+        [tmp.path().join("9.9.9").join("Mcp.tools-list-1.json")]
+    );
     assert!(claude_fixtures(&tmp.path().join("missing")).is_empty());
+}
+
+/// Why a recorded MCP exchange is refused: the shared walk's class, or an email-shaped token.
+#[derive(Debug, PartialEq, Eq)]
+enum McpViolation {
+    Hygiene(Violation),
+    Email,
+}
+
+fn texts<'a>(value: &'a Value, out: &mut Vec<&'a str>) {
+    match value {
+        Value::String(s) => out.push(s),
+        Value::Array(items) => items.iter().for_each(|v| texts(v, out)),
+        Value::Object(map) => map.iter().for_each(|(k, v)| {
+            out.push(k);
+            texts(v, out);
+        }),
+        _ => {}
+    }
+}
+
+/// An MCP exchange fixture: schema-valid, scrubbed, and no email-shaped token in a string or key.
+fn check_mcp(bytes: &[u8], user: Option<&str>) -> Result<(), McpViolation> {
+    check(bytes, &mcp_schema(), user).map_err(McpViolation::Hygiene)?;
+    let doc: Value =
+        serde_json::from_slice(bytes).map_err(|_| McpViolation::Hygiene(Violation::Schema))?;
+    let mut all = Vec::new();
+    texts(&doc, &mut all);
+    if all.iter().any(|text| has_email(text)) {
+        return Err(McpViolation::Email);
+    }
+    Ok(())
+}
+
+#[test]
+fn mcp_fixtures_pass_hygiene() {
+    let user = host_user();
+    let walked = mcp_fixtures(&workspace_path("fixtures/claude"));
+    assert!(!walked.is_empty(), "no MCP exchange walked");
+    for path in walked {
+        let bytes = std::fs::read(&path).expect("fixture");
+        assert_eq!(
+            check_mcp(&bytes, user.as_deref()),
+            Ok(()),
+            "{}",
+            path.display()
+        );
+    }
+}
+
+/// A synthetic exchange in the recorded class's shape (claude 2.1.302 on protocol `2026-07-28`:
+/// `server/discover`, then `tools/list`, each with its own `_meta`), `client_info` its client's.
+fn mcp_exchange(client_info: &Value) -> Value {
+    let meta = json!({"_meta": {"io.modelcontextprotocol/protocolVersion": "2026-07-28",
+        "io.modelcontextprotocol/clientInfo": client_info}});
+    json!({
+        "v": 1,
+        "client": [
+            {"jsonrpc": "2.0", "id": "d-1", "method": "server/discover", "params": meta},
+            {"jsonrpc": "2.0", "id": 0, "method": "tools/list", "params": meta},
+        ],
+        "results": {
+            "server/discover": {"capabilities": {"tools": {}}, "ttlMs": 0, "cacheScope": "private"},
+            "tools/list": {"tools": [{"name": "send"}], "ttlMs": 0, "cacheScope": "private"},
+        },
+    })
+}
+
+#[test]
+fn planted_clean_mcp_exchange_passes() {
+    let doc = mcp_exchange(&json!({"name": "claude-code", "version": "2.1.302"}));
+    assert_eq!(
+        check_mcp(doc.to_string().as_bytes(), Some("plantuser")),
+        Ok(())
+    );
+}
+
+#[rstest]
+#[case::home_path(json!({"name": "/home/plantuser/bin/claude"}), McpViolation::Hygiene(Violation::AbsolutePath))]
+#[case::user_word(json!({"name": "plantuser's client"}), McpViolation::Hygiene(Violation::Username))]
+#[case::email(json!({"name": "a.b@example.com"}), McpViolation::Email)]
+fn planted_dirty_mcp_exchange_is_rejected(
+    #[case] client_info: Value,
+    #[case] expected: McpViolation,
+) {
+    let doc = mcp_exchange(&client_info);
+    assert_eq!(
+        check_mcp(doc.to_string().as_bytes(), Some("plantuser")),
+        Err(expected)
+    );
+}
+
+#[rstest]
+#[case::wrong_version(json!({"v": 2}))]
+#[case::client_not_array(json!({"client": {}}))]
+#[case::a_frame_without_method(json!({"client": [{"jsonrpc": "2.0", "id": 0}]}))]
+#[case::no_tools_list_frame(json!({"client": [{"jsonrpc": "2.0", "id": "d-1", "method": "server/discover"}]}))]
+#[case::no_list_result(json!({"results": {"server/discover": {"capabilities": {"tools": {}}}}}))]
+#[case::tools_not_array(json!({"results": {"tools/list": {"tools": {}}}}))]
+fn planted_mcp_schema_violation_is_rejected(#[case] change: Value) {
+    let mut doc = mcp_exchange(&json!({"name": "claude-code"}));
+    if let (Some(doc), Some(change)) = (doc.as_object_mut(), change.as_object()) {
+        doc.extend(change.clone());
+    }
+    assert_eq!(
+        check_mcp(doc.to_string().as_bytes(), None),
+        Err(McpViolation::Hygiene(Violation::Schema))
+    );
 }
 
 /// The compiled signature literals, as test literals: the input box's two and the two modals.

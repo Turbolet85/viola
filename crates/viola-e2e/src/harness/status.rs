@@ -2,7 +2,7 @@
 //! `PATH` with no `VIOLA_*` variable, its document is nested as `list`, and `state` is derived from
 //! it; `instances` carries pid + start-time liveness beside it.
 
-use std::io::Read as _;
+use std::io::Read;
 use std::path::Path;
 use std::process::{Command, Stdio};
 
@@ -66,17 +66,21 @@ fn read_list(viola: &Path, home: &Path, session_bin: &Path) -> (Option<i32>, Opt
     let Ok(mut child) = spawned else {
         return (None, None);
     };
-    let mut bytes = Vec::new();
-    if let Some(out) = child.stdout.take() {
-        let _ = out.take(MAX_FRAME + 1).read_to_end(&mut bytes);
-    }
+    let doc = child.stdout.take().and_then(capped_document);
     let code = child.wait().ok().and_then(|s| s.code());
+    (code, doc)
+}
+
+/// `out` read through `take(MAX_FRAME + 1)` and parsed as one JSON object: `None` past `MAX_FRAME`
+/// bytes, or when it is not one.
+fn capped_document(out: impl Read) -> Option<Value> {
+    let mut bytes = Vec::new();
+    let _ = out.take(MAX_FRAME + 1).read_to_end(&mut bytes);
     let within = u64::try_from(bytes.len()).is_ok_and(|n| n <= MAX_FRAME);
-    let doc = within
+    within
         .then(|| serde_json::from_slice::<Value>(&bytes).ok())
         .flatten()
-        .filter(Value::is_object);
-    (code, doc)
+        .filter(Value::is_object)
 }
 
 pub fn status(ws: &Workspace, session: &str) -> Outcome {
@@ -116,6 +120,26 @@ pub fn status(ws: &Workspace, session: &str) -> Outcome {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// A 16 MiB object read whole, and the same object one byte longer refused: the bound's two
+    /// sides, each a labelled case.
+    #[test]
+    fn capped_document_takes_a_document_of_exactly_the_bound_and_refuses_one_byte_more() {
+        const BOUND: usize = 16 * 1024 * 1024;
+        let mut exact = String::with_capacity(BOUND + 1);
+        exact.push_str("{\"a\":\"");
+        exact.push_str(&"x".repeat(BOUND - 8));
+        exact.push_str("\"}");
+        assert_eq!(exact.len(), BOUND);
+        let mut over = exact.clone();
+        over.push('\n');
+        for (label, text, read) in [
+            ("exactly the bound", &exact, true),
+            ("one byte more", &over, false),
+        ] {
+            assert_eq!(capped_document(text.as_bytes()).is_some(), read, "{label}");
+        }
+    }
 
     fn names(list: &[&str]) -> Vec<String> {
         list.iter().map(|n| (*n).to_owned()).collect()

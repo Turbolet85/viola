@@ -15,12 +15,19 @@ fake-agent = []
 name = "viola-harness"
 path = "src/bin/viola-harness.rs"
 
+# Records one live `initialize` / `tools/list` exchange with `viola mcp` and writes its fixture.
+[[bin]]
+name = "viola-mcp-tap"
+path = "src/bin/viola-mcp-tap.rs"
+
 [dependencies]
 viola-core = { path = "../viola-core" }
 viola-pty = { path = "../viola-pty" }
 # `cleanup` proves each recorded endpoint unconnectable with the viola client.
 viola-channel = { path = "../viola-channel" }
 viola-state = { path = "../viola-state" }
+# The recorded `Mcp.` fixture goes through the `--record` scrub and its closed refusal codes.
+viola-agent-claude = { path = "../viola-agent-claude" }
 clap.workspace = true
 jsonschema.workspace = true
 # The pin enables `span-locations`, which the mutation run's host reader takes its spans from.

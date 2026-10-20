@@ -3,6 +3,7 @@
 //! `supervise` process owns the outer PTYs and `cleanup`'s pid + start-time proof stays exact. It
 //! never shells out to `agent-run`.
 
+use std::env::VarError;
 use std::path::{Path, PathBuf};
 
 use super::boot::{AgentsMode, BootOptions, DEFAULT_CLI_VERSION, InstanceSpec, boot, instance_dir};
@@ -34,6 +35,17 @@ impl Default for SessionOptions {
 /// `AGENT_RUN_KEEP_FAILED=1`.
 pub fn keep_home(keep_homes: bool, keep_failed: bool, panicking: bool) -> bool {
     keep_homes || (keep_failed && panicking)
+}
+
+/// A keep flag's read: set only when it is exactly `1`.
+fn flag_set(read: Result<String, VarError>) -> bool {
+    read.is_ok_and(|v| v == "1")
+}
+
+/// The drop's two steps: `cleanup` for a session not cleaned yet, and the home's removal unless it
+/// is kept.
+fn drop_steps(cleaned: bool, keep: bool) -> (bool, bool) {
+    (!cleaned, !keep)
 }
 
 /// A booted session, stamped unless asked otherwise, stopped when dropped even after a failed assertion (a leaked
@@ -109,16 +121,16 @@ impl HarnessSession {
 
 impl Drop for HarnessSession {
     fn drop(&mut self) {
-        if !self.cleaned {
-            let _ = cleanup(&self.ws, Target::Session(&self.session), true);
-        }
-        let flag = |name: &str| std::env::var(name).is_ok_and(|v| v == "1");
         let keep = keep_home(
-            flag("AGENT_RUN_KEEP_HOMES"),
-            flag("AGENT_RUN_KEEP_FAILED"),
+            flag_set(std::env::var("AGENT_RUN_KEEP_HOMES")),
+            flag_set(std::env::var("AGENT_RUN_KEEP_FAILED")),
             std::thread::panicking(),
         );
-        if !keep && let Some(parent) = self.home.parent() {
+        let (clean, remove) = drop_steps(self.cleaned, keep);
+        if clean {
+            let _ = cleanup(&self.ws, Target::Session(&self.session), true);
+        }
+        if remove && let Some(parent) = self.home.parent() {
             let _ = std::fs::remove_dir_all(parent);
         }
     }
@@ -143,6 +155,54 @@ mod tests {
                 "{label}"
             );
         }
+    }
+
+    #[test]
+    fn flag_set_is_exactly_one() {
+        for (label, read, want) in [
+            ("one", Ok("1".to_owned()), true),
+            ("zero", Ok("0".to_owned()), false),
+            ("empty", Ok(String::new()), false),
+            ("true", Ok("true".to_owned()), false),
+            ("unset", Err(VarError::NotPresent), false),
+        ] {
+            assert_eq!(flag_set(read), want, "{label}");
+        }
+    }
+
+    #[test]
+    fn drop_steps_clean_an_uncleaned_session_and_remove_an_unkept_home() {
+        for (label, cleaned, keep, want) in [
+            ("uncleaned, unkept", false, false, (true, true)),
+            ("uncleaned, kept", false, true, (true, false)),
+            ("cleaned, unkept", true, false, (false, true)),
+            ("cleaned, kept", true, true, (false, false)),
+        ] {
+            assert_eq!(drop_steps(cleaned, keep), want, "{label}");
+        }
+    }
+
+    /// The flags are read as the drop reads them, never set: under `AGENT_RUN_KEEP_HOMES=1` (CI) the
+    /// home stays.
+    #[test]
+    fn dropped_session_removes_its_home_unless_kept() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let parent = tmp.path().join("viola-session-dropped");
+        let home = parent.join("home");
+        std::fs::create_dir_all(&home).expect("home");
+        let kept = keep_home(
+            flag_set(std::env::var("AGENT_RUN_KEEP_HOMES")),
+            flag_set(std::env::var("AGENT_RUN_KEEP_FAILED")),
+            false,
+        );
+        drop(HarnessSession {
+            ws: Workspace::from_build(),
+            session: "dropped".to_owned(),
+            home,
+            bin_dir: tmp.path().to_path_buf(),
+            cleaned: true,
+        });
+        assert_eq!(parent.exists(), kept);
     }
 
     #[test]

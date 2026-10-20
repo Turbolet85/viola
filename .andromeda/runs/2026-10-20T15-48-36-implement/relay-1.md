@@ -1,0 +1,1 @@
+Epoch 5 cleanup II (2026-10-20-epoch-5-cleanup-ii): /tmp freed by the founder (15G free at 15:48Z). The founder's P4 words stand: one live start on 2.1.302. No mutation run or dispatch. Ledger the live start before you make it. Then the operator pass as usual; stop before the wrap.

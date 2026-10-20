@@ -450,6 +450,17 @@ mod tests {
     }
 
     #[test]
+    fn statusline_probe_document_on_a_wrapped_host_is_the_capture_command_document() {
+        let expected = cfg!(unix).then_some(
+            r#"{"statusLine":{"type":"command","command":"/h/bin/k/viola hook statusline --capture /h/p/typed/statusline --shell \"$0\""}}"#,
+        );
+        assert_eq!(
+            probe_document("/h/bin/k/viola", "/h/p/typed/statusline").as_deref(),
+            expected
+        );
+    }
+
+    #[test]
     fn statusline_shell_is_bin_sh_with_the_command_as_one_argument() {
         let command = "printf '%s' \"a b\"; exit 3";
         assert_eq!(

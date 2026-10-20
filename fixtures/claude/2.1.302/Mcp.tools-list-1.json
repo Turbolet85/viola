@@ -1,0 +1,199 @@
+{
+  "v": 1,
+  "client": [
+    {
+      "jsonrpc": "2.0",
+      "id": "server-discover-probe-1",
+      "method": "server/discover",
+      "params": {
+        "_meta": {
+          "io.modelcontextprotocol/protocolVersion": "2026-07-28",
+          "io.modelcontextprotocol/clientInfo": {
+            "name": "claude-code",
+            "title": "Claude Code",
+            "version": "2.1.302",
+            "description": "Anthropic's agentic coding tool",
+            "websiteUrl": "https://claude.com/claude-code"
+          },
+          "io.modelcontextprotocol/clientCapabilities": {
+            "roots": {
+              "listChanged": true
+            },
+            "elicitation": {
+              "form": {},
+              "url": {}
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "tools/list",
+      "jsonrpc": "2.0",
+      "id": 0,
+      "params": {
+        "_meta": {
+          "io.modelcontextprotocol/protocolVersion": "2026-07-28",
+          "io.modelcontextprotocol/clientInfo": {
+            "name": "claude-code",
+            "title": "Claude Code",
+            "version": "2.1.302",
+            "description": "Anthropic's agentic coding tool",
+            "websiteUrl": "https://claude.com/claude-code"
+          },
+          "io.modelcontextprotocol/clientCapabilities": {
+            "roots": {
+              "listChanged": true
+            },
+            "elicitation": {
+              "form": {},
+              "url": {}
+            }
+          }
+        }
+      }
+    }
+  ],
+  "results": {
+    "server/discover": {
+      "resultType": "complete",
+      "supportedVersions": [
+        "2024-11-05",
+        "2025-03-26",
+        "2025-06-18",
+        "2025-11-25",
+        "2026-07-28"
+      ],
+      "capabilities": {
+        "tools": {}
+      },
+      "ttlMs": 0,
+      "cacheScope": "private",
+      "_meta": {
+        "io.modelcontextprotocol/serverInfo": {
+          "name": "viola",
+          "version": "0.1.0"
+        }
+      }
+    },
+    "tools/list": {
+      "resultType": "complete",
+      "ttlMs": 0,
+      "cacheScope": "private",
+      "tools": [
+        {
+          "name": "send",
+          "description": "Type a prompt into the named instance and read it back once it is submitted",
+          "inputSchema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "required": [
+              "target",
+              "text"
+            ],
+            "type": "object",
+            "properties": {
+              "target": {
+                "description": "The instance to type into: [a-z0-9-], 1-32 characters, starting with a letter",
+                "type": "string"
+              },
+              "text": {
+                "description": "The prompt text, typed as one bracketed paste and read back after the fact",
+                "type": "string"
+              }
+            }
+          }
+        },
+        {
+          "name": "wait",
+          "description": "Wait for the named instance's next turn end, dialog or session end at or after a cursor",
+          "inputSchema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "required": [
+              "target"
+            ],
+            "type": "object",
+            "properties": {
+              "target": {
+                "description": "The instance to wait on: [a-z0-9-], 1-32 characters, starting with a letter",
+                "type": "string"
+              },
+              "after": {
+                "description": "Return the first event whose line starts at or after this cursor (a byte offset)",
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "format": "uint64",
+                "minimum": 0
+              },
+              "timeout_ms": {
+                "description": "Give up after this many milliseconds; at most and by default 50000",
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "format": "uint64",
+                "minimum": 0
+              }
+            }
+          }
+        },
+        {
+          "name": "last",
+          "description": "Read the named instance's newest turn message",
+          "inputSchema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "required": [
+              "target"
+            ],
+            "type": "object",
+            "properties": {
+              "target": {
+                "description": "The instance to read: [a-z0-9-], 1-32 characters, starting with a letter",
+                "type": "string"
+              }
+            }
+          }
+        },
+        {
+          "name": "answer",
+          "description": "Answer the named instance's pending dialog by its id",
+          "inputSchema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "required": [
+              "target",
+              "dialog_id",
+              "response"
+            ],
+            "type": "object",
+            "properties": {
+              "target": {
+                "description": "The instance whose dialog to answer: [a-z0-9-], 1-32 characters, starting with a letter",
+                "type": "string"
+              },
+              "dialog_id": {
+                "description": "The pending dialog's id, as `wait` returned it",
+                "type": "integer",
+                "format": "uint64",
+                "minimum": 0
+              },
+              "response": {
+                "description": "The answer: {\"behavior\": \"allow\"|\"deny\", \"message\"?} for a permission, {\"behavior\":\n\"approve\"|\"reject\", \"feedback\"?} for a plan, {\"answers\": {...}, \"annotations\"?} for a question",
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        },
+        {
+          "name": "list",
+          "description": "Show every session: its liveness, status, dialog and CLI, and the usage budget",
+          "inputSchema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "type": "object"
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://viola.local/schemas/claude-mcp-fixture.v1.json",
+  "title": "viola recorded claude MCP exchange fixture",
+  "description": "One fixtures/claude/<cli-version>/Mcp.<variant>.json: the frames a live `claude` MCP client sent `viola mcp` through the test-only tap, verbatim and in order up to and including its first `tools/list` request (on protocol 2026-07-28, claude 2.1.302 sends `server/discover` and then `tools/list`, each carrying its own `_meta`), and the result the server answered each request with, keyed by the request's method, scrubbed. Any further key is the CLI's or rmcp's and is allowed (test-plan §7 Fixture hygiene).",
+  "type": "object",
+  "required": ["v", "client", "results"],
+  "properties": {
+    "v": { "const": 1 },
+    "client": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["jsonrpc", "method"],
+        "properties": { "jsonrpc": { "const": "2.0" }, "method": { "type": "string" } }
+      },
+      "contains": {
+        "type": "object",
+        "required": ["id", "method"],
+        "properties": { "method": { "const": "tools/list" } }
+      }
+    },
+    "results": {
+      "type": "object",
+      "required": ["tools/list"],
+      "additionalProperties": { "type": "object" },
+      "properties": {
+        "tools/list": {
+          "type": "object",
+          "required": ["tools"],
+          "properties": {
+            "tools": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "required": ["name"],
+                "properties": { "name": { "type": "string" } }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

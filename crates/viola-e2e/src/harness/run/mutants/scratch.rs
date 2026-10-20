@@ -43,9 +43,10 @@ fn dir_bytes(path: &Path) -> u64 {
 }
 
 /// The scratch for this run, emptied: its dir and the bytes it held before the wipe. `Ok(None)` off
-/// a Windows host, where cargo-mutants keeps the inherited temp dir and `mutants.out/` in the repo.
-pub(super) fn prepare(root: &Path) -> Result<Option<(PathBuf, u64)>, String> {
-    if !HOST_SCRATCH {
+/// the scratch `host` (`HOST_SCRATCH`: a Windows host), where cargo-mutants keeps the inherited temp
+/// dir and `mutants.out/` in the repo.
+pub(super) fn prepare(root: &Path, host: bool) -> Result<Option<(PathBuf, u64)>, String> {
+    if !host {
         return Ok(None);
     }
     let refused = || "scratch-refused".to_owned();
@@ -161,7 +162,9 @@ mod tests {
         fs::create_dir_all(&root).expect("mkdir");
         let scratch = tmp.path().join(SCRATCH_NAME);
         if HOST_SCRATCH {
-            let (fresh, bytes) = prepare(&root).expect("absent").expect("a scratch");
+            let (fresh, bytes) = prepare(&root, HOST_SCRATCH)
+                .expect("absent")
+                .expect("a scratch");
             assert_eq!(
                 (fresh.is_dir(), bytes),
                 (true, 0),
@@ -170,18 +173,43 @@ mod tests {
         }
         fs::create_dir_all(scratch.join("old")).expect("mkdir");
         fs::write(scratch.join("old").join("copy"), [0u8; 5]).expect("write");
-        let prepared = prepare(&root).expect("prepared");
+        let prepared = prepare(&root, HOST_SCRATCH).expect("prepared");
         if HOST_SCRATCH {
             let (dir, bytes) = prepared.expect("a scratch on this host");
             assert_eq!(dir, std::path::absolute(&scratch).expect("abs"));
             assert_eq!(bytes, 5);
             assert!(dir.is_dir());
             assert_eq!(fs::read_dir(&dir).expect("read").count(), 0);
-            assert_eq!(prepare(&root).expect("again"), Some((dir, 0)));
+            assert_eq!(prepare(&root, HOST_SCRATCH).expect("again"), Some((dir, 0)));
         } else {
             assert_eq!(prepared, None);
             assert!(scratch.join("old").join("copy").is_file(), "left alone");
         }
+    }
+
+    /// On the scratch host the scratch beside the repo is laid down and emptied, its bytes reported;
+    /// off it nothing is touched.
+    #[test]
+    fn prepare_on_the_scratch_host_empties_the_scratch_and_off_it_is_none() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let root = tmp.path().join("repo");
+        fs::create_dir_all(&root).expect("mkdir");
+        let scratch = std::path::absolute(tmp.path().join(SCRATCH_NAME)).expect("abs");
+        assert_eq!(
+            prepare(&root, true).expect("absent"),
+            Some((scratch.clone(), 0)),
+            "an absent scratch is created"
+        );
+        assert!(scratch.is_dir());
+        fs::create_dir_all(scratch.join("old")).expect("mkdir");
+        fs::write(scratch.join("old").join("copy"), [0u8; 5]).expect("write");
+        assert_eq!(prepare(&root, false).expect("off the host"), None);
+        assert!(scratch.join("old").join("copy").is_file(), "left alone");
+        assert_eq!(
+            prepare(&root, true).expect("present"),
+            Some((scratch.clone(), 5))
+        );
+        assert_eq!(fs::read_dir(&scratch).expect("read").count(), 0);
     }
 
     /// `wipe` creates an absent scratch and empties a present one.
@@ -224,7 +252,10 @@ mod tests {
         let root = tmp.path().join(SCRATCH_NAME).join(SCRATCH_NAME);
         fs::create_dir_all(&root).expect("mkdir");
         fs::write(root.join("keep"), b"x").expect("write");
-        assert_eq!(prepare(&root), Err("scratch-refused".to_owned()));
+        assert_eq!(
+            prepare(&root, HOST_SCRATCH),
+            Err("scratch-refused".to_owned())
+        );
         assert!(root.join("keep").is_file(), "nothing was wiped");
     }
 
@@ -245,7 +276,10 @@ mod tests {
             .share_mode(0)
             .open(scratch.join("held"))
             .expect("held");
-        assert_eq!(prepare(&root), Err("scratch-wipe-failed".to_owned()));
+        assert_eq!(
+            prepare(&root, HOST_SCRATCH),
+            Err("scratch-wipe-failed".to_owned())
+        );
         drop(held);
     }
 

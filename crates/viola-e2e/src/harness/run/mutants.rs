@@ -221,7 +221,7 @@ fn mutate(
     files: &[String],
     runner: &mut Runner<'_>,
 ) -> Result<Mutation, String> {
-    let scratch = scratch::prepare(&ws.root)?;
+    let scratch = scratch::prepare(&ws.root, scratch::HOST_SCRATCH)?;
     let out_dir = match &scratch {
         Some((dir, _)) => dir.join("mutants.out"),
         None => ws.root.join("mutants.out"),

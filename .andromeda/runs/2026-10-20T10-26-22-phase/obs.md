@@ -1,0 +1,38 @@
+# obs extract
+
+## Relevance
+partial — the chunk adds no product telemetry; obs reaches it through the mutation rule for obs code, the bans a pure-move split must carry unchanged, the fixture scrub class, and the scope of the E2E gates the new contract case runs under.
+
+## Constraints
+- Obs code is scored under cargo-mutants like product code. The plan names obs code as `obs_event!` call sites, `MillisUtc` and the panic hook. A surviving mutant in obs code is a failure condition at a `run --mutants` (per obs-plan §10 Build / deploy failure conditions). So if any of the 16 survivor sites is obs code, "recorded" is not an available ending for it; only "killed" is. Whether any of the 16 lines touches an `obs_event!` call site at HEAD is research's question.
+- A mutant the host never compiles is left out as host-excluded, not counted as survived (per obs-plan §9 Pipeline integration, Mutation row). This applies to item (4)'s readings of `crates/viola-e2e/src/harness/run/mutants/scratch.rs` (#4, #5). The plan states `HOST_SCRATCH = cfg!(windows)`, inert elsewhere, and says the scratch path is never printed, only `scratch_bytes` (per obs-plan §8 PII Scrubbing, integration point 5, "Unscanned uploads"). Whether those two survivors are Linux-inert because of that switch, which would make the reading "recorded" (host-inert) rather than equivalent, is research's question.
+- Homes must stay in place until G2, G4, the secret scan and the scan-gated uploads have read them, under `AGENT_RUN_KEEP_HOMES=1` (per obs-plan §9 Step order and conditions, step 1). Survivors #6 to #9 (`HarnessSession::drop`, `crates/viola-e2e/src/harness/session.rs:112-121`) are recorded as teardown with no observable output. Before that reading stands, research must answer whether those lines are the keep-homes branch. If they are, the mutant has an observable effect: a home deleted before the gates read it, which leaves G2's non-empty scope check red.
+- The pure-move splits of item (5) (`ledger.rs` → `ledger/tests.rs`, `src/cmd/verify/typed.rs` and `src/human/board.rs` → module directories) must keep these intact:
+  - every `#[instrument(skip_all, fields(..))]` exactly as written. G1 scans the whole workspace for a bare `#[instrument]`, `tests/` and `fuzz/` included (per obs-plan §9 Gate commands, G1).
+  - every log call goes through `obs_event!`, and a moved file adds no raw `tracing::{event,info,warn,error,debug,trace}!` (per obs-plan §11 Logs).
+- A split must not spread the print-macro allowance. Only the output modules that own `--json`, human CLI stderr and the hook decision body may carry a local `#[allow]`, and only at a site that uses a print macro (per obs-plan §11 Logs). When `src/human/board.rs` is split, any `#[allow(clippy::print_stdout)]` stays on the one submodule that writes, never on the new parent `mod`.
+- `viola verify` logs each of its eight spawn pairs at the call site (`verify-pty-probe` for Runs A to E, plus Run B's `agents-probe` pair), each `process-exit` carrying `child_exit_status` and `duration_ms`. `run_bounded` and `run_capped` stay unlogged (per obs-plan §6 Log Coverage, Boundary-call wrappers). A split of `typed.rs` moves those call sites without changing their number or their fields.
+- A recorded fixture is classed Medium, scrub-required, and owned by security and tests. It is not a telemetry source, and obs adds no fixture content (per obs-plan §8 PII Scrubbing, Data classification rules). Item (7)'s recorded `tools/list` exchange must not carry any R8-stripped `CLAUDE*` value at any level in any file, including detail files (per obs-plan §11 PII Scrubbing).
+
+## Patterns to follow
+- Integration and E2E homes live under `target/e2e-home/`, so G2, G4, the secret scan and the `diag-<os>` upload all cover them. The only carve-out is `tests/chaos_feed_panic.rs`'s `TestHome::outside_scan()` (per obs-plan §9 Pipeline integration, Integration tests row). Item (7)'s replay case and any new kill test that boots a home follow this rule.
+- Every E2E and integration input is synthetic and embeds the tests-owned canary. A non-synthetic input source must first drop `detail-*.ndjson` and `target/agent-run/` from the upload paths (per obs-plan §8 PII Scrubbing, integration point 5). Research must read whether a replayed recorded live exchange counts as a "non-synthetic input source" under this rule. It is protocol frames, not user content, but it did come from a live start.
+- The heartbeat liveness flip sits at > 5 s (4.9 s live / 5.1 s stale or gone) (per obs-plan §3 Heartbeat ticks, and `.andromeda/registries/contracts/obs-plan/heartbeat-ticks.md`). A kill test for `viola_state::liveness::live_endpoint` (#15, #16) that aims at a stale heartbeat uses these two sides as its boundary values. Whether `live_endpoint`'s `!=` is the heartbeat comparison or the endpoint-presence check is research's question.
+- `viola mcp` writes its lines to `mcp.ndjson`. Its stdout carries MCP frames only (per obs-plan §3 Observability Harness Contract, preamble). A package-local kill for `serve` / `get_info` / `list_tools` (#12 to #14) reads stdout frames only and writes no telemetry to stdout.
+
+## Anti-patterns to avoid
+- NEVER use `print!` / `println!` / `eprint!` / `eprintln!` / `dbg!` in the product crates' `hook` / `run` / `mcp` paths. A moved module inherits the same `[workspace.lints.clippy]` denies (per obs-plan §11 Logs).
+- NEVER add a retry-once policy, and never treat a green re-run as a substitute, for a flaky kill test or telemetry assertion (per obs-plan §11 SLO).
+- NEVER log the recorded exchange's content (tool schemas, `serverInfo`) in a home-level `diagnostics/` line. A field not named in the §6 catalog is default-deny (per obs-plan §11 PII Scrubbing).
+
+## Contract bindings
+- obs ↔ tests §3 `cleanup` step 6: `AGENT_RUN_KEEP_HOMES=1` keeps homes for G2, G4 and the scan (obs-plan §9 Step order). This binds the reading of survivors #6 to #9 in `HarnessSession::drop`.
+- obs ↔ tests §3 Status endpoint shape: `agent-run status` reads `list --json` `liveness` into `state: degraded` (obs-plan §3 Heartbeat ticks). This binds the reading of survivors #10 and #11 (`crates/viola-e2e/src/harness/status.rs:71` `read_list`) and #15 and #16 (`live_endpoint`).
+- obs ↔ security / tests fixture scrub: the committed `tools/list` recording falls in obs-plan §8's "Recorded fixtures" class. The scrub itself (the `--record` codes `home-path` · `absolute-path` · `username` · `email`) belongs to security and tests.
+- obs ↔ tests §10 Mutation gate: an obs-code survivor is red at the audit's `run --mutants` (obs-plan §10).
+
+## Acceptance criteria contributions
+- No moved file under `crates/viola-agent-claude/src/ledger/`, `src/cmd/verify/typed/` or `src/human/board/` holds a bare `#[instrument]`: G1 (`rg -n -U --pcre2 --type rust '#\[(tracing::)?instrument\b(?!\(\s*skip_all\b)' .`) exits 1 after the splits (per obs-plan §9 Gate commands, G1).
+- After the `typed.rs` split, the count of verify's spawn-pair call sites (the `process-start` / `process-exit` `obs_event!` sites with `subject` `verify-pty-probe` · `agents-probe` · `verify-probe`) matches the pre-split count, re-derived by the same grep before and after (per obs-plan §6 Log Coverage, Boundary-call wrappers).
+- Item (7)'s E2E replay case boots its home under `target/e2e-home/`. G2 reads clean, and G4 reports 0 schema-conformance failures over that home's `diagnostics/*.ndjson` and `instances/*/diagnostics/detail-*.ndjson` (per obs-plan §9 Gate commands, G2 / G4).
+- If any of the 16 survivor sites is shown at HEAD to be an `obs_event!` call site, `MillisUtc` or the panic hook, that row ends **killed**, never **recorded** (per obs-plan §10 Build / deploy failure conditions).
