@@ -15,13 +15,13 @@ use rstest::rstest;
 use serde_json::{Value, json};
 use support::events::events;
 use support::fake::{self, of_kind};
+use support::home::{
+    HEADROOM_FLOOR_MIB, StampedHome, TestHome, VIOLA, Wrapper, beat_age, booted_wrapper,
+    headroom_refusal, home, plant_statusline_source, prepare_home_base, process_start, resolved,
+    snapshot_data, stamped_home, sweep_gone_owners, write_owner,
+};
 #[cfg(unix)]
 use support::home::{STATUSLINE_ECHO_OUTPUT, statusline_echo_command, statusline_marker};
-use support::home::{
-    StampedHome, TestHome, VIOLA, Wrapper, beat_age, booted_wrapper, home, plant_statusline_source,
-    prepare_home_base, process_start, resolved, snapshot_data, stamped_home, sweep_gone_owners,
-    write_owner,
-};
 use support::start::{
     child_starts, endpoint_of, last_plugin_dir, refused_with, role_lines, run_refused,
 };
@@ -588,6 +588,38 @@ fn home_base_backing_plain_base_is_created_and_kept() {
     fs::write(base.join("kept"), "x").expect("entry");
     prepare_home_base(&base);
     assert_eq!(fs::read(base.join("kept")).expect("entry kept"), b"x");
+}
+
+const MIB: u64 = 1024 * 1024;
+
+/// A linked backing's free bytes below the floor refuse a home with both counts in MiB and no path.
+#[test]
+fn home_base_headroom_below_the_floor_is_refused_with_both_counts() {
+    assert_eq!(
+        headroom_refusal(9216 * MIB - 1, 9216).as_deref(),
+        Some("e2e-home backing: 9215 MiB free, below the 9216 MiB floor")
+    );
+    assert_eq!(
+        headroom_refusal(0, 9216).as_deref(),
+        Some("e2e-home backing: 0 MiB free, below the 9216 MiB floor")
+    );
+    assert_eq!(
+        headroom_refusal(3 * MIB + 7, 4).as_deref(),
+        Some("e2e-home backing: 3 MiB free, below the 4 MiB floor")
+    );
+}
+
+#[test]
+fn home_base_headroom_at_or_above_the_floor_passes() {
+    assert_eq!(headroom_refusal(9216 * MIB, 9216), None);
+    assert_eq!(headroom_refusal(14_593_085_440, 9216), None);
+    assert_eq!(headroom_refusal(u64::MAX, 9216), None);
+}
+
+/// The floor's basis is the recorded EDQUOT reading (about 8 GiB free) plus one GiB.
+#[test]
+fn home_base_headroom_floor_is_nine_gib() {
+    assert_eq!(HEADROOM_FLOOR_MIB, 9216);
 }
 
 /// The message `prepare_home_base` refuses `base` with.

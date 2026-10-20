@@ -1,0 +1,370 @@
+[
+{
+"tool": "planlint",
+"v": "1.13",
+"sha8": "f25c4b01",
+"ts": "2026-10-20T08:42:22Z",
+"argv": [
+"check",
+"--plan",
+"viola-0.1.0/chunks/2026-10-20-epoch-5-cleanup/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-20T07-58-07-phase",
+"--marker",
+"2026-10-20-epoch-5-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fence: 24 entries · plan: viola-0.1.0/chunks/2026-10-20-epoch-5-cleanup/plan.md · research: viola-0.1.0/chunks/2026-10-…",
+"check 9 · CI-outcome reads: 1 · leg operator exempt: 1 · Platform issues consulted: none · `none — no runner-only bull…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 0 · Harness rules consulted: filled · ``.claude/rules/testing.md` — read in full (…`",
+"check 4 (5) · leg entries with a content atom: 2 · note without `atom from`: 0",
+"check 4 (13) · operator CI-outcome reads: 1 · not ci.py conclusion: 0",
+"check 4 (13) · job-log reads by pattern: 0",
+"check 4 (14) · base-less git change reads outside the operator and round legs: 0",
+"check 4 (15) · grep → wc -l counts asserting exit 0 and last line 0: 0",
+"check 4 (16) · guards whose exclusions leave a new file in: 0 of 0 with an exclusion",
+"check 4 (17) · entries reading a path the wrap writes: 0 of 20 asserting — listed, P5's read",
+"check 4 (17) · a path the wrap writes, read from inside a program an entry runs (a suite, the ledger's tool): not read",
+"check 2 · ledger-note entries (matrix#): 0",
+"check 5 · placeholders outside code: 0",
+"check 12 (c) · step references the plan's steps lack: 0 of 42",
+"check 12 (d) · «unchanged» claims on a name another part of the plan names: 6 of 10 — listed, P5's read",
+"  line 31 · «untouched» · run (step 2) · NEXTEST_PROFILE=mutants (step 3)",
+"  line 116 · «unchanged» · tests/cli_verify.rs (Test Commands) · tests/cli_answer.rs (Test Commands)",
+"  line 143 · «unchanged» · tests/cli_instance_state.rs (Files to modify) · harness/mod.rs (Files to modify)",
+"      crates/viola-e2e/Cargo.toml (step 7)",
+"  line 177 · «unchanged» · tests/contract_fake_agent_drift.rs (step 2)",
+"  line 392 · «unchanged» · LedgerRow::relied() (step 9) · tests/support/home.rs (step 9) · tests/cli_verify.rs (step 9)",
+"  line 408 · «unchanged» · viola-e2e (step 6) · libc (step 11) · pre-push (step 10)",
+"  a claim on a name no other step, Files to modify or Test Commands names is not listed — P5's read",
+"check 4 (4) · criterion evidence paths the plan names nowhere else: 0 of 6",
+"hits: 0 — resolved by its check (validation.md 2 · 5 · 9 · 4 (4) · 4 (5) · 4 (13)–(16) · 12 (c)); 0 is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "none",
+"ci_reads": 1,
+"operator": 1,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 0,
+"hit": false
+},
+"atom": {
+"atomed": 2,
+"bare": []
+},
+"tool": {
+"operator": 1,
+"hand": []
+},
+"log": [],
+"base": {
+"operator": 3,
+"reads": []
+},
+"count": {
+"hits": [],
+"unsplit": []
+},
+"newfiles": {
+"operator": 3,
+"guards": 0,
+"hits": [],
+"abstain": []
+},
+"wrap": {
+"asserting": 20,
+"listed": []
+},
+"check2": {
+"entries": 19,
+"tokens": 0,
+"hits": []
+},
+"check5": {
+"hits": []
+},
+"steps": {
+"steps": 14,
+"refs": 42,
+"hits": []
+},
+"claims": {
+"read": 10,
+"listed": [
+31,
+116,
+143,
+177,
+392,
+408
+]
+},
+"c44": {
+"paths": 6,
+"hits": [],
+"skipped": []
+},
+"hits": 0
+}
+},
+{
+"tool": "planlint",
+"v": "1.13",
+"sha8": "f25c4b01",
+"ts": "2026-10-20T08:44:55Z",
+"argv": [
+"check",
+"--plan",
+"viola-0.1.0/chunks/2026-10-20-epoch-5-cleanup/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-20T07-58-07-phase",
+"--marker",
+"2026-10-20-epoch-5-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fence: 26 entries · plan: viola-0.1.0/chunks/2026-10-20-epoch-5-cleanup/plan.md · research: viola-0.1.0/chunks/2026-10-…",
+"check 9 · CI-outcome reads: 1 · leg operator exempt: 1 · Platform issues consulted: filled · `item (3)'s runner readin…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 0 · Harness rules consulted: filled · ``.claude/rules/testing.md` — read in full (…`",
+"check 4 (5) · leg entries with a content atom: 2 · note without `atom from`: 0",
+"check 4 (13) · operator CI-outcome reads: 1 · not ci.py conclusion: 0",
+"check 4 (13) · job-log reads by pattern: 0",
+"check 4 (14) · base-less git change reads outside the operator and round legs: 0",
+"check 4 (15) · grep → wc -l counts asserting exit 0 and last line 0: 0",
+"check 4 (16) · guards whose exclusions leave a new file in: 0 of 0 with an exclusion",
+"check 4 (17) · entries reading a path the wrap writes: 1 of 22 asserting — listed, P5's read",
+"  gate 13 · grep -rn -E '^  - \"(e2e-web/|crates/viola-ui/)' .claude/rules/",
+"    names .claude/rules/ — the wrap's P2 · P3, before the light gate",
+"check 4 (17) · a path the wrap writes, read from inside a program an entry runs (a suite, the ledger's tool): not read",
+"check 2 · ledger-note entries (matrix#): 0",
+"check 5 · placeholders outside code: 0",
+"check 12 (c) · step references the plan's steps lack: 0 of 43",
+"check 12 (d) · «unchanged» claims on a name another part of the plan names: 6 of 10 — listed, P5's read",
+"  line 32 · «untouched» · evidence/baseline.md (step 2) · run (step 2) · NEXTEST_PROFILE=mutants (step 3)",
+"  line 121 · «unchanged» · tests/cli_verify.rs (Test Commands) · tests/cli_answer.rs (Test Commands)",
+"  line 150 · «unchanged» · tests/cli_instance_state.rs (Files to modify) · harness/mod.rs (Files to modify)",
+"      crates/viola-e2e/Cargo.toml (step 7)",
+"  line 184 · «unchanged» · tests/contract_fake_agent_drift.rs (step 2)",
+"  line 416 · «unchanged» · run (step 1) · tests/cli_verify.rs (step 9)",
+"  line 431 · «unchanged» · viola-e2e (step 6) · libc (step 11) · pre-push (step 10)",
+"  a claim on a name no other step, Files to modify or Test Commands names is not listed — P5's read",
+"check 4 (4) · criterion evidence paths the plan names nowhere else: 0 of 6",
+"hits: 0 — resolved by its check (validation.md 2 · 5 · 9 · 4 (4) · 4 (5) · 4 (13)–(16) · 12 (c)); 0 is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "filled",
+"ci_reads": 1,
+"operator": 1,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 0,
+"hit": false
+},
+"atom": {
+"atomed": 2,
+"bare": []
+},
+"tool": {
+"operator": 1,
+"hand": []
+},
+"log": [],
+"base": {
+"operator": 3,
+"reads": []
+},
+"count": {
+"hits": [],
+"unsplit": []
+},
+"newfiles": {
+"operator": 3,
+"guards": 0,
+"hits": [],
+"abstain": []
+},
+"wrap": {
+"asserting": 22,
+"listed": [
+13
+]
+},
+"check2": {
+"entries": 19,
+"tokens": 0,
+"hits": []
+},
+"check5": {
+"hits": []
+},
+"steps": {
+"steps": 14,
+"refs": 43,
+"hits": []
+},
+"claims": {
+"read": 10,
+"listed": [
+32,
+121,
+150,
+184,
+416,
+431
+]
+},
+"c44": {
+"paths": 6,
+"hits": [],
+"skipped": []
+},
+"hits": 0
+}
+},
+{
+"tool": "planlint",
+"v": "1.13",
+"sha8": "f25c4b01",
+"ts": "2026-10-20T08:53:22Z",
+"argv": [
+"check",
+"--plan",
+"viola-0.1.0/chunks/2026-10-20-epoch-5-cleanup/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-20T07-58-07-phase",
+"--marker",
+"2026-10-20-epoch-5-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fence: 26 entries · plan: viola-0.1.0/chunks/2026-10-20-epoch-5-cleanup/plan.md · research: viola-0.1.0/chunks/2026-10-…",
+"check 9 · CI-outcome reads: 1 · leg operator exempt: 1 · Platform issues consulted: filled · `item (3)'s runner readin…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 0 · Harness rules consulted: filled · ``.claude/rules/testing.md` — read in full (…`",
+"check 4 (5) · leg entries with a content atom: 2 · note without `atom from`: 0",
+"check 4 (13) · operator CI-outcome reads: 1 · not ci.py conclusion: 0",
+"check 4 (13) · job-log reads by pattern: 0",
+"check 4 (14) · base-less git change reads outside the operator and round legs: 0",
+"check 4 (15) · grep → wc -l counts asserting exit 0 and last line 0: 0",
+"check 4 (16) · guards whose exclusions leave a new file in: 0 of 0 with an exclusion",
+"check 4 (17) · entries reading a path the wrap writes: 1 of 22 asserting — listed, P5's read",
+"  gate 13 · grep -rn -E '^  - \"(e2e-web/|crates/viola-ui/)' .claude/rules/",
+"    names .claude/rules/ — the wrap's P2 · P3, before the light gate",
+"check 4 (17) · a path the wrap writes, read from inside a program an entry runs (a suite, the ledger's tool): not read",
+"check 2 · ledger-note entries (matrix#): 0",
+"check 5 · placeholders outside code: 0",
+"check 12 (c) · step references the plan's steps lack: 0 of 44",
+"check 12 (d) · «unchanged» claims on a name another part of the plan names: 7 of 10 — listed, P5's read",
+"  line 32 · «untouched» · evidence/baseline.md (step 2) · run (step 2) · NEXTEST_PROFILE=mutants (step 3)",
+"      d35644a58909 (Test Commands)",
+"  line 66 · «unchanged» · mutants_verify_window_override_stands_before_the_harness_package_override (Test Commands)",
+"  line 121 · «unchanged» · tests/cli_verify.rs (Test Commands) · tests/cli_answer.rs (Test Commands)",
+"  line 153 · «unchanged» · tests/cli_instance_state.rs (Files to modify) · harness/mod.rs (Files to modify)",
+"      crates/viola-e2e/Cargo.toml (step 7)",
+"  line 187 · «unchanged» · tests/contract_fake_agent_drift.rs (step 2)",
+"  line 445 · «unchanged» · run (step 1) · tests/cli_verify.rs (step 9)",
+"  line 460 · «unchanged» · viola-e2e (step 6) · libc (step 11) · pre-push (step 10)",
+"  a claim on a name no other step, Files to modify or Test Commands names is not listed — P5's read",
+"check 4 (4) · criterion evidence paths the plan names nowhere else: 0 of 6",
+"hits: 0 — resolved by its check (validation.md 2 · 5 · 9 · 4 (4) · 4 (5) · 4 (13)–(16) · 12 (c)); 0 is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "filled",
+"ci_reads": 1,
+"operator": 1,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 0,
+"hit": false
+},
+"atom": {
+"atomed": 2,
+"bare": []
+},
+"tool": {
+"operator": 1,
+"hand": []
+},
+"log": [],
+"base": {
+"operator": 3,
+"reads": []
+},
+"count": {
+"hits": [],
+"unsplit": []
+},
+"newfiles": {
+"operator": 3,
+"guards": 0,
+"hits": [],
+"abstain": []
+},
+"wrap": {
+"asserting": 22,
+"listed": [
+13
+]
+},
+"check2": {
+"entries": 19,
+"tokens": 0,
+"hits": []
+},
+"check5": {
+"hits": []
+},
+"steps": {
+"steps": 14,
+"refs": 44,
+"hits": []
+},
+"claims": {
+"read": 10,
+"listed": [
+32,
+66,
+121,
+153,
+187,
+445,
+460
+]
+},
+"c44": {
+"paths": 6,
+"hits": [],
+"skipped": []
+},
+"hits": 0
+}
+}
+]

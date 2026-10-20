@@ -128,6 +128,7 @@ const MUTANTS_FLOOR_SECS: u64 = 20;
 const MUTANTS_OVERRIDES: &str = "[profile.mutants.overrides]";
 const E2E_FILTER: &str = "filter = 'package(viola-e2e)'";
 const VERIFY_WINDOW_FILTER: &str = "filter = 'test(/verify_window_/)'";
+const PASTE_HINT_FILTER: &str = "filter = 'test(/send_under_the_paste_hint_/)'";
 
 /// `period` × `terminate-after` of a table's
 /// `slow-timeout = { period = "<n>s", terminate-after = <n> }` line.
@@ -298,6 +299,20 @@ fn mutants_verify_window_override_stands_before_the_harness_package_override() {
     assert_eq!(override_at(&swapped, E2E_FILTER), Some(0));
     assert_eq!(override_at(&swapped, VERIFY_WINDOW_FILTER), Some(1));
     assert_eq!(override_at(&swapped, "filter = 'none'"), None);
+}
+
+/// A `send_under_the_paste_hint_` test waits out the product's gate under a held hint by design,
+/// within a second of the `mutants` profile's default kill: its override holds the class above it.
+#[test]
+fn mutants_paste_hint_override_holds_the_class_above_the_default_kill() {
+    let nextest = read(&workspace().join(".config").join("nextest.toml"));
+    let default = kill_line(&table(&nextest, "profile.mutants").expect("[profile.mutants]"))
+        .expect("the mutants kill line");
+    let overrides = tables(&nextest, MUTANTS_OVERRIDES);
+    let class = override_at(&overrides, PASTE_HINT_FILTER)
+        .unwrap_or_else(|| panic!("no {PASTE_HINT_FILTER} among {overrides:?}"));
+    let kill = kill_line(&overrides[class]).expect("the paste-hint kill line");
+    assert!(kill > default, "{kill:?} vs the default {default:?}");
 }
 
 /// The check fires on a deadline at the kill line or at the floor and passes one below both, and

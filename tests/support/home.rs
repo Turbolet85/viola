@@ -10,6 +10,7 @@ use rstest::fixture;
 use serde_json::{Value, json};
 use sysinfo::{Pid, ProcessStatus, ProcessesToUpdate, System};
 
+use viola_agent_claude::ledger::LedgerRow;
 use viola_pty::Size;
 
 use super::fake;
@@ -134,10 +135,47 @@ pub fn prepare_home_base(base: &Path) {
                 meta.permissions().mode() & 0o077 == 0,
                 "e2e-home backing: the link's target is not owner-only"
             );
+            if let Some(refused) = headroom_refusal(free_bytes(&target), HEADROOM_FLOOR_MIB) {
+                panic!("{refused}");
+            }
             return;
         }
     }
     fs::create_dir_all(base).expect("e2e-home");
+}
+
+/// The least a linked backing must have free when a test home is made under it. The dev host's
+/// tmpfs struck EDQUOT on its per-user quota at about 8 GiB free by `df` (24 G used of 32 G, a
+/// run's homes in place), and the quota itself is unreadable from the session's shell, so the
+/// filesystem's free bytes stand in for it: a home is refused below 9 GiB, one GiB (about ten
+/// pinned 101 163 992 B debug `viola` copies) above that reading. Equal to the harness keeper's.
+pub const HEADROOM_FLOOR_MIB: u64 = 9 * 1024;
+
+/// Why a backing with `free` bytes is refused under a floor of `floor_mib` MiB, or `None`.
+pub fn headroom_refusal(free: u64, floor_mib: u64) -> Option<String> {
+    let free_mib = free / (1024 * 1024);
+    (free_mib < floor_mib)
+        .then(|| format!("e2e-home backing: {free_mib} MiB free, below the {floor_mib} MiB floor"))
+}
+
+/// The bytes an unprivileged writer may still take on the filesystem under `path`. The conversions
+/// are identities on Linux, where `fsblkcnt_t` is 64 bits, and widen it on macOS, where it is 32.
+#[cfg(unix)]
+#[allow(clippy::useless_conversion)]
+fn free_bytes(path: &Path) -> u64 {
+    use std::os::unix::ffi::OsStrExt as _;
+    let path = std::ffi::CString::new(path.as_os_str().as_bytes()).expect("a path with no NUL");
+    // SAFETY: statvfs fills a struct owned here from a NUL-terminated path that outlives the call.
+    let stat = unsafe {
+        let mut stat: libc::statvfs = std::mem::zeroed();
+        assert_eq!(
+            libc::statvfs(path.as_ptr(), &mut stat),
+            0,
+            "e2e-home backing: statvfs failed"
+        );
+        stat
+    };
+    u64::from(stat.f_bavail) * u64::from(stat.f_frsize)
 }
 
 /// `<workspace>/target/e2e-home/viola-test-*/` with the home at `home/`, which is never created
@@ -398,10 +436,19 @@ pub fn stamped_home(home: TestHome, fake_agent_path: PathBuf) -> StampedHome {
     }
 }
 
+/// The four rows a stamp with no dialog replay fails.
+const DIALOG_ROWS: [LedgerRow; 4] = [
+    LedgerRow::QuestionAnswer,
+    LedgerRow::PlanApproveRevise,
+    LedgerRow::QuestionNotes,
+    LedgerRow::DialogConcurrency,
+];
+
 /// A home whose stamp fails the dialog rows: `viola verify` against the fake agent over the
-/// committed set with no dialog replay, so the spine, screen, framing, newline, resume, agents,
-/// compact and (on Unix) statusline rows pass and the four dialog rows fail (`20 pass  4 fail` on
-/// Unix, `17 pass  4 fail` on Windows, exit 1). `stamped` stays false: the version is not verified.
+/// committed set with no dialog replay, so every other row relied on this OS passes and the four
+/// dialog rows fail (exit 1). The counts come from the relied set, so a row added to it moves this
+/// precondition with it; the oracle stays the literal in `cli_verify`. `stamped` stays false: the
+/// version is not verified.
 pub fn dialogless_home(home: TestHome) -> StampedHome {
     let ran = super::verify::verify_without_dialogs(
         home.path(),
@@ -410,10 +457,14 @@ pub fn dialogless_home(home: TestHome) -> StampedHome {
     );
     let stdout = String::from_utf8_lossy(&ran.stdout);
     let last = stdout.lines().last().unwrap_or_default();
-    let passed = if cfg!(unix) { 20 } else { 17 };
+    let (failed, passed): (Vec<LedgerRow>, Vec<LedgerRow>) = LedgerRow::relied()
+        .into_iter()
+        .partition(|row| DIALOG_ROWS.contains(row));
     let expected = format!(
-        "stamped {}  {passed} pass  4 fail",
-        fake::RECORDED_CLI_VERSION
+        "stamped {}  {} pass  {} fail",
+        fake::RECORDED_CLI_VERSION,
+        passed.len(),
+        failed.len()
     );
     assert!(
         ran.code == Some(1) && last == expected,

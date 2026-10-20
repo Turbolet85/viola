@@ -1,15 +1,11 @@
 ---
 paths:
-  - "crates/viola-ui/assets/**"
   - "src/cmd/**"
 ---
 
 # Frontend Rules
 
 Path-scoped rules for viola's one built design surface, human CLI output (cli); the web-spa frontend is deferred to 0.2.0, its technology is not chosen, and 0.1.0 renders no page. Authoritative sources: `.andromeda/design-system.md` and `.andromeda/layout-templates.md`.
-
-## Web-spa (deferred to 0.2.0)
-- **Frontend:** deferred to 0.2.0; its technology is not chosen, and 0.1.0 renders no page.
 
 ## Tokens (the Token Test; a 0.2.0 frontend design input, 0.1.0 renders no page)
 - Exactly eight hex values (`--c-*`), read only where a role alias is assigned; components use role aliases (`--surface-*`, `--ink*`, `--rule-*`, `--attention`, `--handoff`, `--focus-ring`, `--rb-*`). Every length is a token or a `ch` track in `--strip-cols` / `--strip-cols-wrapped` / `--tape-cols`; only the `760px` / `1024px` breakpoints are literal.

@@ -104,7 +104,7 @@ fn contract_ledger_probes_every_recorded_set_is_on_exactly_one_list() {
 #[test]
 fn contract_ledger_probes_pass_over_every_stamped_set() {
     let root = workspace_path("fixtures/claude");
-    for version in STAMPED {
+    each_set_at_once(&STAMPED, |version| {
         let home = TestHome::new();
         let ran = verify(home.path(), &root, version, &[], &[], &[]);
         let stdout = ran.stdout_text();
@@ -136,5 +136,34 @@ fn contract_ledger_probes_pass_over_every_stamped_set() {
         assert_eq!(*last, format!("stamped {version}  24 pass  0 fail"));
         #[cfg(windows)]
         assert_eq!(*last, format!("stamped {version}  21 pass  0 fail"));
-    }
+    });
+}
+
+/// Runs `each` over every set in `versions` at once, each on a scoped thread of its own. Every set
+/// whose run panicked is named by its version, with its panic message, in one panic.
+fn each_set_at_once(versions: &[&str], each: impl Fn(&str) + Sync) {
+    let each = &each;
+    let outcomes: Vec<(&str, std::thread::Result<()>)> = std::thread::scope(|scope| {
+        let running: Vec<_> = versions
+            .iter()
+            .map(|version| (*version, scope.spawn(move || each(version))))
+            .collect();
+        running
+            .into_iter()
+            .map(|(version, run)| (version, run.join()))
+            .collect()
+    });
+    let failed: Vec<String> = outcomes
+        .iter()
+        .filter_map(|(version, outcome)| {
+            let payload = outcome.as_ref().err()?;
+            let message = payload
+                .downcast_ref::<String>()
+                .map(String::as_str)
+                .or_else(|| payload.downcast_ref::<&str>().copied())
+                .unwrap_or("a panic with no text");
+            Some(format!("{version}: {message}"))
+        })
+        .collect();
+    assert!(failed.is_empty(), "failing sets:\n{}", failed.join("\n"));
 }

@@ -1,7 +1,6 @@
 ---
 paths:
   - "crates/viola-channel/**"
-  - "crates/viola-ui/src/**"
   - "crates/viola-mcp/**"
   - "src/cmd/**"
 ---

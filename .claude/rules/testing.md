@@ -3,7 +3,6 @@ paths:
   - "tests/**"
   - "crates/*/tests/**"
   - "crates/viola-e2e/tests/**"
-  - "e2e-web/tests/**"
   - "fixtures/**"
   - "fuzz/**"
   - "**/proptest-regressions/**"

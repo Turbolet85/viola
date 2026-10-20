@@ -1,0 +1,37 @@
+# arch extract
+
+## Relevance
+partial: most of the ten items are test, harness and gate work. Arch governs where moved code goes (item 5), which files the Windows mutation scope lists, the nextest and pre-push shapes (items 1, 2, 8, 9), the MCP `tools/list` contract (item 7) and the absent web surface (item 10).
+
+## Constraints
+- Item 5's `ledger.rs` split keeps the code inside `viola-agent-claude`'s pure `ledger` module, which reads no I/O, adds no `viola-state` edge and changes no third-party list. A moved test module brings only the existing dev-dependencies (proptest, rstest, insta) (per architecture §Infrastructure Patterns → Crate dependency direction).
+- `viola-mcp` → serde is a planned edge in the crate's declared dependency list, so it is not a removal candidate (per architecture §Infrastructure Patterns → Crate dependency direction).
+- Every new file made by splitting `src/cmd/verify/typed.rs`, `src/human/board.rs` or `ledger.rs` has to be a declared module. `cargo modules orphans --deny` gates each lib/bin target through `scripts/orphans-check.sh` (per architecture §Infrastructure Patterns → Build system).
+- Any product file with a `cfg(windows)` gate must appear in `windows-mutants.yml`'s per-file matrix, as `tests/contract_windows_mutation_scope.rs` enforces. A split that moves a Windows-gated source into a new file changes that list and its labels. Whether `typed.rs` or `board.rs` holds such a gate today is a question for research (per architecture §Infrastructure Patterns → CI/CD approach).
+- Mutation testing runs only through `agent-run run --mutants`. `ci.yml` has no mutation job, and `windows-mutants.yml` is dispatched only at the boundary audit. Items 1, 3 and 4 therefore change only the nextest `mutants` profile, test speed or the harness, and add no workflow job or dispatch (per architecture §Infrastructure Patterns → CI/CD approach).
+- `pre-push` has the fixed stages `tools → linux-tests`, runs every child under `env -i` with HOME and PATH only, and has no mutation stage. A headroom read for item 9, or a coverage-merge change for item 8, placed in `pre-push` changes that stage contract (per architecture §Infrastructure Patterns → CI/CD approach).
+- The dev host's `/tmp/viola-e2e-home-<uid>/` tmpfs behind the `target/e2e-home` link is an environment fact. No variable, flag or config key names it, and `viola` never reads it by that name. The home keepers are `prepare_home_base` and `Workspace::ensure_e2e_home`. `scripts/profraw-census.sh` is a dev-host witness that no CI job, `pre-push` stage or harness command runs (per architecture §Occupied Resources).
+
+## Patterns to follow
+- Module root plus phases, so every caller keeps its path: `src/human.rs` re-exports its children's names with `pub(crate) use`, and `src/run/send.rs` re-exports `SendSlot` / `append_hook_event` / `parse_from` over its `send/` phases. This is the shape for splitting `board.rs` and `typed.rs` by concern (per architecture §Infrastructure Patterns → Project directory structure).
+- A sibling file that holds only test code: `src/run/send/relabel.rs` holds only the `#[cfg(test)]` cases, and `send/test_support.rs` (`#[cfg(test)]`) holds the shared fixtures. This is the precedent for moving `ledger.rs`'s in-file test module out (per architecture §Infrastructure Patterns → Project directory structure).
+- The root package's Windows mutation leg is split by file, one labelled matrix item per Windows-gated source, so each job ends inside its ceiling. A new gated file joins it the way `src/cmd/verify/stop.rs` did (per architecture §Infrastructure Patterns → CI/CD approach).
+- The nextest profiles `ci` and `mutants` live in `.config/nextest.toml`. Item 1's per-test override (like `verify_window_` / `send_window_`) belongs in that file's `mutants` profile (per architecture §Infrastructure Patterns → Project directory structure).
+- The per-OS relied set comes from code: `LedgerRow::relied()` is 24 rows on Unix and 21 on Windows. Item 6's `dialogless_home` summary should be derived from it in the same way, never from a literal (per architecture §Cross-cutting Patterns, Capability ledger).
+
+## Anti-patterns to avoid
+- No new environment variable, config key or flag to switch a gate, name the tmpfs or tune a timeout. Environment variables are not a configuration channel, and a harness-only variable has to be recorded beside `AGENT_RUN_*` (per architecture §Cross-cutting Patterns, Config management; §Occupied Resources).
+- No `viola-ui` crate, `e2e-web/` tree or ts plane may be presumed. The frontend is deferred to 0.2.0 with its technology not chosen, the workspace has seven product crates plus `viola-e2e`, and the ts plane's one input left with the browser leg. Item 10's rule `paths:` that name `crates/viola-ui/**` / `e2e-web/**` point at nothing in arch's tree (per architecture §Established Decisions, [GUI Control Scope] / [Deferred]; §Infrastructure Patterns → Build system).
+- No Tokio and no Claude shape outside their homes while moving code. Tokio stays only in `viola-mcp` (the sole-root `deny-sync.toml` ban covers `viola-agent-claude`), and Claude shapes stay only in `viola-agent-claude` (per architecture §Cross-cutting Patterns, Tokio containment; §Inherited Defaults).
+
+## Contract bindings
+- arch ↔ tests: item 1's nextest `mutants` profile and `run --mutants`' scope bind to test-plan §3 `run` step 4 and §10 Mutation gate. Item 6's `dialogless_home` binds to the ledger's `relied()` count used by `tests/cli_verify.rs` (architecture §Infrastructure Patterns → CI/CD approach, the fake-agent verify bullet).
+- arch ↔ tests/obs: item 7's recorded `tools/list` exchange is a new committed fixture class. Its location, schema and scrub (the NEVER-log floor) need a §Occupied Resources Repository entry at wrap, next to `fixtures/claude/<cli-version>/` and `schemas/`.
+- arch ↔ design/a11y/obs: item 10's master-body edits (design-system Brand Identity, a11y-plan tier, obs-plan §3) rest on arch's statement that no web surface exists in 0.1.0 (architecture §Standard Contracts, GUI contracts).
+- Wrap cascade: if item 5 splits files, the §Infrastructure Patterns → Project directory structure tree has to be amended. That tree names `human/board.rs`'s writers and `cmd/verify/typed.rs`'s five runs per file. `windows-mutants.yml`'s item count (ten, in CI/CD approach) also has to be amended if the matrix changes.
+
+## Acceptance criteria contributions
+- After item 5, `scripts/orphans-check.sh` passes on every lib/bin target. `tests/contract_windows_mutation_scope.rs` is green, with every product file that holds a `cfg(windows)` gate listed in `windows-mutants.yml` (per architecture §Infrastructure Patterns → Build system / CI/CD approach).
+- `viola-agent-claude`'s and `viola-mcp`'s `[dependencies]` are unchanged by the chunk. The sole-root `deny-sync.toml` tokio ban for `viola-agent-claude` still passes (per architecture §Infrastructure Patterns → Crate dependency direction).
+- The item 7 contract case asserts that the replayed `tools/list` result carries `ttlMs` 0 and `cacheScope` `private` for every tool, and fails when either is removed (per architecture §Conventions, MCP).
+- No `viola` build reads a new environment variable, and no harness variable exists outside the §Occupied Resources list unless recorded there at wrap. `ci.yml` gains no mutation job (per architecture §Occupied Resources; §Infrastructure Patterns → CI/CD approach).

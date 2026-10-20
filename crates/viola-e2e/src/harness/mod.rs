@@ -117,6 +117,9 @@ impl Workspace {
                         "e2e-home backing: the link's target is not owner-only",
                     ));
                 }
+                if let Some(low) = headroom_refusal(free_bytes(&target)?, HEADROOM_FLOOR_MIB) {
+                    return Err(io::Error::new(io::ErrorKind::InvalidInput, low));
+                }
                 return Ok(());
             }
         }
@@ -133,6 +136,39 @@ impl Workspace {
     pub fn harness_bins(&self) -> PathBuf {
         self.cargo_target().join("debug")
     }
+}
+
+/// The least a linked backing must have free when a home is made under it. The dev host's tmpfs
+/// struck EDQUOT on its per-user quota at about 8 GiB free by `df` (24 G used of 32 G, a run's
+/// homes in place), and the quota itself is unreadable from the session's shell, so the
+/// filesystem's free bytes stand in for it: a home is refused below 9 GiB, one GiB (about ten
+/// pinned 101 163 992 B debug `viola` copies) above that reading. Equal to the root keeper's.
+pub const HEADROOM_FLOOR_MIB: u64 = 9 * 1024;
+
+/// Why a backing with `free` bytes is refused under a floor of `floor_mib` MiB, or `None`.
+pub fn headroom_refusal(free: u64, floor_mib: u64) -> Option<String> {
+    let free_mib = free / (1024 * 1024);
+    (free_mib < floor_mib)
+        .then(|| format!("e2e-home backing: {free_mib} MiB free, below the {floor_mib} MiB floor"))
+}
+
+/// The bytes an unprivileged writer may still take on the filesystem under `path`. The conversions
+/// are identities on Linux, where `fsblkcnt_t` is 64 bits, and widen it on macOS, where it is 32.
+#[cfg(unix)]
+#[allow(clippy::useless_conversion)]
+fn free_bytes(path: &Path) -> io::Result<u64> {
+    use std::os::unix::ffi::OsStrExt as _;
+    let path = std::ffi::CString::new(path.as_os_str().as_bytes())
+        .map_err(|_| io::Error::from(io::ErrorKind::InvalidInput))?;
+    // SAFETY: statvfs fills a struct owned here from a NUL-terminated path that outlives the call.
+    let stat = unsafe {
+        let mut stat: libc::statvfs = std::mem::zeroed();
+        if libc::statvfs(path.as_ptr(), &mut stat) != 0 {
+            return Err(io::Error::last_os_error());
+        }
+        stat
+    };
+    Ok(u64::from(stat.f_bavail) * u64::from(stat.f_frsize))
 }
 
 /// A session id becomes a directory name, so it is held to a path-safe charset.
@@ -336,6 +372,54 @@ mod tests {
         assert_eq!(ws.artifacts(), ws.root.join("target/agent-run/artifacts"));
         assert_eq!(ws.e2e_home(), ws.root.join("target/e2e-home"));
         assert_eq!(ws.harness_bins(), ws.root.join("target/harness/debug"));
+    }
+
+    /// A linked backing's free bytes below the floor refuse a home with both counts in MiB and no
+    /// path; at or above it nothing is refused.
+    #[test]
+    fn e2e_home_headroom_refuses_below_the_floor_and_passes_at_or_above_it() {
+        const MIB: u64 = 1024 * 1024;
+        let cases: [(&str, u64, u64, Option<&str>); 6] = [
+            (
+                "one byte short",
+                9216 * MIB - 1,
+                9216,
+                Some("e2e-home backing: 9215 MiB free, below the 9216 MiB floor"),
+            ),
+            (
+                "empty",
+                0,
+                9216,
+                Some("e2e-home backing: 0 MiB free, below the 9216 MiB floor"),
+            ),
+            (
+                "a small floor",
+                3 * MIB + 7,
+                4,
+                Some("e2e-home backing: 3 MiB free, below the 4 MiB floor"),
+            ),
+            ("at the floor", 9216 * MIB, 9216, None),
+            ("a fresh reading", 14_593_085_440, 9216, None),
+            ("the most", u64::MAX, 9216, None),
+        ];
+        for (label, free, floor, refused) in cases {
+            assert_eq!(headroom_refusal(free, floor).as_deref(), refused, "{label}");
+        }
+        assert_eq!(HEADROOM_FLOOR_MIB, 9216);
+    }
+
+    /// The keeper's reader takes a real filesystem's free bytes and returns a missing path's error.
+    #[cfg(unix)]
+    #[test]
+    fn e2e_home_headroom_reads_a_real_filesystem() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        assert!(free_bytes(tmp.path()).expect("statvfs") > 0);
+        assert_eq!(
+            free_bytes(&tmp.path().join("missing"))
+                .expect_err("no such path")
+                .kind(),
+            io::ErrorKind::NotFound
+        );
     }
 
     #[test]

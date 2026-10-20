@@ -35,6 +35,10 @@ thiserror.workspace = true
 rmcp = { workspace = true, features = ["client"] }
 tokio = { workspace = true, features = ["rt", "process"] }
 
+# The e2e-home keeper reads a linked backing's free bytes (`statvfs`) before a home is made.
+[target.'cfg(unix)'.dependencies]
+libc.workspace = true
+
 # viola-harness prints its JSON document by design: no workspace print bans here (obs-plan B5).
 [lints.rust]
 unused_must_use = "deny"

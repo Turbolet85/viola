@@ -250,9 +250,10 @@ mod tests {
     }
 
     /// The statusline test's instance tree passes the instance check inside a scratch `wipe` laid
-    /// down, and is refused inside a plain-created sibling on the same drive, whose inherited
-    /// BUILTIN\Users write grants the check refuses (the runner's workspace drive,
-    /// ci#37214281447). A checkout under the profile would read the sibling accepted.
+    /// down, and is refused inside a plain-created sibling on the same drive, whose BUILTIN\Users
+    /// write grant the check refuses (the runner's workspace drive, ci#37214281447). The sibling is
+    /// granted that write explicitly: inside a tree that is itself owner-only (cargo-mutants' copy
+    /// in the host scratch) it would inherit nothing to refuse.
     #[cfg(windows)]
     #[test]
     fn wipe_scratch_takes_an_instance_tree_the_check_accepts_where_a_plain_dir_does_not() {
@@ -267,6 +268,15 @@ mod tests {
         wipe(&scratch).expect("laid down");
         let plain = tmp.path().join("plain");
         fs::create_dir_all(&plain).expect("plain");
+        let root = std::env::var_os("SystemRoot").expect("SystemRoot");
+        let granted =
+            std::process::Command::new(PathBuf::from(root).join("System32").join("icacls.exe"))
+                .arg(&plain)
+                .args(["/grant", "*S-1-5-32-545:(OI)(CI)(W)"])
+                .stdout(std::process::Stdio::null())
+                .status()
+                .expect("icacls");
+        assert_eq!(granted.code(), Some(0), "icacls /grant");
         let checked = |parent: &Path| {
             let inner = tempfile::tempdir_in(parent).expect("tempdir");
             let home = fs::canonicalize(inner.path())

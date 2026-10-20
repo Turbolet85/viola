@@ -38,6 +38,40 @@ fn recorded_versions(root: &Path) -> Vec<String> {
     found
 }
 
+/// Runs `each` over every set in `versions` at once, each on a scoped thread of its own, and
+/// returns how many sets it compared (`each` returns false for a set it skips). Every set whose run
+/// panicked is named by its version, with its panic message, in one panic.
+fn each_set_at_once(versions: &[String], each: impl Fn(&str) -> bool + Sync) -> usize {
+    let each = &each;
+    let outcomes: Vec<(&str, std::thread::Result<bool>)> = std::thread::scope(|scope| {
+        let running: Vec<_> = versions
+            .iter()
+            .map(|version| (version.as_str(), scope.spawn(move || each(version))))
+            .collect();
+        running
+            .into_iter()
+            .map(|(version, run)| (version, run.join()))
+            .collect()
+    });
+    let failed: Vec<String> = outcomes
+        .iter()
+        .filter_map(|(version, outcome)| {
+            let payload = outcome.as_ref().err()?;
+            let message = payload
+                .downcast_ref::<String>()
+                .map(String::as_str)
+                .or_else(|| payload.downcast_ref::<&str>().copied())
+                .unwrap_or("a panic with no text");
+            Some(format!("{version}: {message}"))
+        })
+        .collect();
+    assert!(failed.is_empty(), "failing sets:\n{}", failed.join("\n"));
+    outcomes
+        .iter()
+        .filter(|(_, outcome)| matches!(outcome, Ok(true)))
+        .count()
+}
+
 fn hex(bytes: &[u8]) -> String {
     bytes.iter().map(|b| format!("{b:02x}")).collect()
 }
@@ -106,7 +140,7 @@ fn fake_agent_print_turn_matches_every_recorded_set() {
     let root = workspace_path("fixtures/claude");
     let versions = recorded_versions(&root);
     assert!(!versions.is_empty(), "no recorded fixture set to compare");
-    for version in &versions {
+    each_set_at_once(&versions, |version| {
         let home = TestHome::new();
         let plugin = home.scratch().join("plugin");
         write_spine_plugin(&plugin);
@@ -153,7 +187,8 @@ fn fake_agent_print_turn_matches_every_recorded_set() {
             Vec::<String>::new(),
             "{version}: drift"
         );
-    }
+        true
+    });
 }
 
 /// The dialog-tier hook events, as test literals.
@@ -217,15 +252,14 @@ fn dialog_drift(set: &Path, receipt: &[Value]) -> Vec<String> {
 #[test]
 fn fake_agent_dialog_replay_matches_every_recorded_dialog_set() {
     let root = workspace_path("fixtures/claude");
-    let mut compared = 0;
-    for version in recorded_versions(&root) {
-        if dialog_replay(&root.join(&version)).is_empty() {
-            continue;
+    let compared = each_set_at_once(&recorded_versions(&root), |version| {
+        if dialog_replay(&root.join(version)).is_empty() {
+            return false;
         }
         // A set recorded before the framing variants replays its dialogs with the framing pastes
         // echoed: its local-command row fails, so verify exits 1 with the dialog tier still replayed.
-        let framed = !framing_replay(&root.join(&version)).is_empty();
-        let (lines, ran) = verify_receipt(&root, &version, framed);
+        let framed = !framing_replay(&root.join(version)).is_empty();
+        let (lines, ran) = verify_receipt(&root, version, framed);
         assert_eq!(
             ran.code,
             Some(if framed { 0 } else { 1 }),
@@ -233,12 +267,12 @@ fn fake_agent_dialog_replay_matches_every_recorded_dialog_set() {
             ran.stdout_text()
         );
         assert_eq!(
-            dialog_drift(&root.join(&version), &lines),
+            dialog_drift(&root.join(version), &lines),
             Vec::<String>::new(),
             "{version}: dialog drift"
         );
-        compared += 1;
-    }
+        true
+    });
     assert!(compared >= 2, "dialog sets compared: {compared}");
 }
 
@@ -311,19 +345,18 @@ fn framing_drift(set: &Path, receipt: &[Value]) -> Vec<String> {
 #[test]
 fn fake_agent_framing_replay_matches_every_recorded_framing_set() {
     let root = workspace_path("fixtures/claude");
-    let mut compared = 0;
-    for version in recorded_versions(&root) {
-        let set = root.join(&version);
+    let compared = each_set_at_once(&recorded_versions(&root), |version| {
+        let set = root.join(version);
         let recorded = framing_replay(&set);
         if recorded.is_empty() {
-            continue;
+            return false;
         }
         assert_eq!(
             recorded.len(),
             FRAMING_VARIANTS.len(),
             "{version}: a partial framing set"
         );
-        let (lines, ran) = verify_receipt(&root, &version, true);
+        let (lines, ran) = verify_receipt(&root, version, true);
         assert_eq!(
             ran.code,
             Some(0),
@@ -335,8 +368,8 @@ fn fake_agent_framing_replay_matches_every_recorded_framing_set() {
             Vec::<String>::new(),
             "{version}: framing drift"
         );
-        compared += 1;
-    }
+        true
+    });
     assert!(compared >= 1, "framing sets compared: {compared}");
 }
 
@@ -421,18 +454,17 @@ fn resume_launch(root: &Path, version: &str, id: &str) -> (String, Vec<u8>) {
 #[test]
 fn fake_agent_resume_replay_matches_every_recorded_resume_set() {
     let root = workspace_path("fixtures/claude");
-    let mut compared = 0;
-    for version in recorded_versions(&root) {
-        let Ok(recorded) = fs::read(root.join(&version).join("SessionStart.resume-1.json")) else {
-            continue;
+    let compared = each_set_at_once(&recorded_versions(&root), |version| {
+        let Ok(recorded) = fs::read(root.join(version).join("SessionStart.resume-1.json")) else {
+            return false;
         };
         let doc: Value = serde_json::from_slice(&recorded).expect("the resume variant's JSON");
         let id = doc["session_id"].as_str().expect("a recorded session id");
-        let (event, offered) = resume_launch(&root, &version, id);
+        let (event, offered) = resume_launch(&root, version, id);
         assert_eq!(event, "SessionStart", "{version}");
         assert!(offered == recorded, "{version}: resume drift");
-        compared += 1;
-    }
+        true
+    });
     assert!(compared >= 1, "resume sets compared: {compared}");
 }
 
@@ -487,19 +519,18 @@ fn compact_replay(root: &Path, version: &str, id: &str) -> (String, Vec<u8>) {
 #[test]
 fn fake_agent_compact_replay_matches_every_recorded_compact_set() {
     let root = workspace_path("fixtures/claude");
-    let mut compared = 0;
-    for version in recorded_versions(&root) {
-        let Ok(recorded) = fs::read(root.join(&version).join("SessionStart.compact-1.json")) else {
-            continue;
+    let compared = each_set_at_once(&recorded_versions(&root), |version| {
+        let Ok(recorded) = fs::read(root.join(version).join("SessionStart.compact-1.json")) else {
+            return false;
         };
         let doc: Value = serde_json::from_slice(&recorded).expect("the compact variant's JSON");
         assert_eq!(doc["source"], "compact", "{version}");
         let id = doc["session_id"].as_str().expect("a recorded session id");
-        let (event, offered) = compact_replay(&root, &version, id);
+        let (event, offered) = compact_replay(&root, version, id);
         assert_eq!(event, "SessionStart", "{version}");
         assert!(offered == recorded, "{version}: compact drift");
-        compared += 1;
-    }
+        true
+    });
     assert!(compared >= 1, "compact sets compared: {compared}");
 }
 
@@ -537,10 +568,9 @@ fn shape(row: &Value) -> Vec<(String, &'static str)> {
 #[test]
 fn fake_agent_agents_replay_matches_every_recorded_agents_set() {
     let root = workspace_path("fixtures/claude");
-    let mut compared = 0;
-    for version in recorded_versions(&root) {
-        let Ok(recorded) = fs::read(root.join(&version).join(AGENTS_RECORDED)) else {
-            continue;
+    let compared = each_set_at_once(&recorded_versions(&root), |version| {
+        let Ok(recorded) = fs::read(root.join(version).join(AGENTS_RECORDED)) else {
+            return false;
         };
         let home = TestHome::new();
         let bin = fake::claude_bin(home.scratch(), "claude-bin", None, Some(&recorded));
@@ -559,7 +589,7 @@ fn fake_agent_agents_replay_matches_every_recorded_agents_set() {
         write_spine_plugin(&plugin);
         let receipt = fake::receipt_path(home.path(), "agents");
         let mut child = Command::new(&claude)
-            .args(["--cli-version", &version, "--fixtures"])
+            .args(["--cli-version", version, "--fixtures"])
             .arg(&root)
             .arg("--plugin-dir")
             .arg(&plugin)
@@ -582,7 +612,7 @@ fn fake_agent_agents_replay_matches_every_recorded_agents_set() {
             "{version}: registry row shape"
         );
         let launch: Value = serde_json::from_slice(
-            &fs::read(root.join(&version).join("SessionStart.default.json")).expect("the launch"),
+            &fs::read(root.join(version).join("SessionStart.default.json")).expect("the launch"),
         )
         .expect("the launch's JSON");
         assert_eq!(
@@ -592,8 +622,8 @@ fn fake_agent_agents_replay_matches_every_recorded_agents_set() {
         drop(child.stdin.take());
         assert_eq!(child.wait().expect("exit").code(), Some(0), "{version}");
         assert!(!row_path.exists(), "{version}: the row outlived its agent");
-        compared += 1;
-    }
+        true
+    });
     assert!(compared >= 1, "agents sets compared: {compared}");
 }
 
@@ -638,19 +668,18 @@ fn statusline_drift(set: &Path, receipt: &[Value]) -> Vec<String> {
 #[test]
 fn fake_agent_statusline_replay_matches_every_recorded_statusline_set() {
     let root = workspace_path("fixtures/claude");
-    let mut compared = 0;
-    for version in recorded_versions(&root) {
-        let set = root.join(&version);
+    let compared = each_set_at_once(&recorded_versions(&root), |version| {
+        let set = root.join(version);
         let recorded = statusline_replay(&set);
         if recorded.is_empty() {
-            continue;
+            return false;
         }
         assert_eq!(
             recorded.len(),
             STATUSLINE_VARIANTS.len(),
             "{version}: a partial status line set"
         );
-        let (lines, ran) = verify_receipt(&root, &version, true);
+        let (lines, ran) = verify_receipt(&root, version, true);
         assert_eq!(
             ran.code,
             Some(0),
@@ -662,8 +691,8 @@ fn fake_agent_statusline_replay_matches_every_recorded_statusline_set() {
             Vec::<String>::new(),
             "{version}: status line drift"
         );
-        compared += 1;
-    }
+        true
+    });
     assert!(compared >= 1, "status line sets compared: {compared}");
 }
 

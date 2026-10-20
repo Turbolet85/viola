@@ -628,12 +628,17 @@ impl Agent {
         if *closed {
             return false;
         }
-        let child = Command::new(command)
-            .args(args)
+        let mut cmd = Command::new(command);
+        cmd.args(args)
             .stdin(Stdio::piped())
             .stdout(Stdio::piped())
-            .stderr(Stdio::piped())
-            .spawn();
+            .stderr(Stdio::piped());
+        // On Unix the command leaves the foreground process group, as the stdout holder does: a
+        // hangup of this terminal (a killed wrapper closing its PTY) reaches that group, and a
+        // `viola hook` it reaches mid its exit-time coverage write leaves a cut-short profile.
+        #[cfg(unix)]
+        std::os::unix::process::CommandExt::process_group(&mut cmd, 0);
+        let child = cmd.spawn();
         let output = child.and_then(|mut c| {
             if let Some(mut stdin) = c.stdin.take() {
                 let _ = stdin.write_all(body);

@@ -829,12 +829,11 @@ mod tests {
     }
 
     /// A failed test keeps both reports for the post-mortem, and a killed one never gets here at
-    /// all; a passing test removes them. A child still running is stopped either way.
+    /// all; a passing test removes them. The child is killed either way, whatever `try_wait` reads:
+    /// a guard that trusts it leaves a child running past its test.
     impl Drop for Child {
         fn drop(&mut self) {
-            if matches!(self.pty.try_wait(), Ok(None)) {
-                let _ = self.pty.kill();
-            }
+            let _ = self.pty.kill();
             if std::thread::panicking() {
                 if !self.dsr_reported {
                     self.report_dsr();
@@ -865,6 +864,16 @@ mod tests {
         let _ = std::fs::remove_file(&paths.0);
         let _ = std::fs::remove_file(&paths.1);
         paths
+    }
+
+    /// A copy of this test binary in `dir`, the PTY child's program: a child left running holds
+    /// the copy, never the build's own test binary, which on Windows a running image keeps the next
+    /// build from replacing.
+    fn copied_test_binary(dir: &std::path::Path) -> std::path::PathBuf {
+        let exe = std::env::current_exe().expect("test binary");
+        let copy = dir.join(exe.file_name().expect("a file name"));
+        std::fs::copy(&exe, &copy).expect("a copy of the test binary");
+        copy
     }
 
     const DSR_CPR: &[u8] = b"\x1b[6n";
@@ -898,7 +907,7 @@ mod tests {
         let dir = tempfile::tempdir().expect("tempdir");
         let (report, test_report) = report_paths();
         let spec = SpawnSpec {
-            program: std::env::current_exe().expect("test binary"),
+            program: copied_test_binary(dir.path()),
             args: [
                 "--exact",
                 "tests::pty_child_entry",
@@ -1292,7 +1301,7 @@ mod tests {
         let dir = tempfile::tempdir().expect("tempdir");
         let (report, _) = report_paths();
         let spec = SpawnSpec {
-            program: std::env::current_exe().expect("test binary"),
+            program: copied_test_binary(dir.path()),
             args: ["--exact", "tests::pty_child_entry", "--nocapture"]
                 .map(OsString::from)
                 .to_vec(),

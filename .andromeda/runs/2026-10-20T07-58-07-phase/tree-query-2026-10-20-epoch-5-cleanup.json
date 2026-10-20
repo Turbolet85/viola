@@ -1,0 +1,220 @@
+[
+{
+"sql": "SELECT caller, callee_name, file, line FROM calls WHERE callee_name IN ('dialogless_home','prepare_home_base','ensure_e2e_home','hook_commands','run_hook') AND callee_kind = 'fn' ORDER BY callee_name, file, line",
+"rows": 35,
+"result": [
+{
+"caller": "rust-analyzer cargo viola 0.1.0 path4_a_stamp_failing_the_dialog_rows_leaves_dialogs_to_the_human().",
+"callee_name": "dialogless_home",
+"file": "tests/cli_answer.rs",
+"line": 792
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/boot/start().",
+"callee_name": "ensure_e2e_home",
+"file": "crates/viola-e2e/src/harness/boot.rs",
+"line": 163
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/cleanup/tests/remove_session_home_removes_a_boot_created_parent().",
+"callee_name": "ensure_e2e_home",
+"file": "crates/viola-e2e/src/harness/cleanup.rs",
+"line": 364
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/tests/e2e_home_backing_plain_base_is_created_and_kept().",
+"callee_name": "ensure_e2e_home",
+"file": "crates/viola-e2e/src/harness/mod.rs",
+"line": 346
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/tests/e2e_home_backing_plain_base_is_created_and_kept().",
+"callee_name": "ensure_e2e_home",
+"file": "crates/viola-e2e/src/harness/mod.rs",
+"line": 349
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/tests/refusal().",
+"callee_name": "ensure_e2e_home",
+"file": "crates/viola-e2e/src/harness/mod.rs",
+"line": 390
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/tests/e2e_home_backing_gone_target_is_made_again_owner_only().",
+"callee_name": "ensure_e2e_home",
+"file": "crates/viola-e2e/src/harness/mod.rs",
+"line": 398
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/tests/e2e_home_backing_owner_only_target_is_kept_untouched().",
+"callee_name": "ensure_e2e_home",
+"file": "crates/viola-e2e/src/harness/mod.rs",
+"line": 420
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/local_live().",
+"callee_name": "ensure_e2e_home",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 390
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 mcp_tools_a_widened_home_exits_1_and_prints_nothing().",
+"callee_name": "ensure_e2e_home",
+"file": "crates/viola-e2e/tests/mcp_tools.rs",
+"line": 402
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 impl#[Agent]fire_answered().",
+"callee_name": "hook_commands",
+"file": "src/bin/viola-fake-agent.rs",
+"line": 520
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 impl#[Agent]fire_answered().",
+"callee_name": "hook_commands",
+"file": "src/bin/viola-fake-agent.rs",
+"line": 529
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 tests/hook_commands_take_only_command_entries_for_the_event().",
+"callee_name": "hook_commands",
+"file": "src/bin/viola-fake-agent.rs",
+"line": 1458
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 tests/hook_commands_take_only_command_entries_for_the_event().",
+"callee_name": "hook_commands",
+"file": "src/bin/viola-fake-agent.rs",
+"line": 1464
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 tests/hook_commands_take_only_command_entries_for_the_event().",
+"callee_name": "hook_commands",
+"file": "src/bin/viola-fake-agent.rs",
+"line": 1465
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 tests/hook_commands_evaluate_the_matcher_against_the_tool().",
+"callee_name": "hook_commands",
+"file": "src/bin/viola-fake-agent.rs",
+"line": 1476
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 crate/",
+"callee_name": "prepare_home_base",
+"file": "tests/cli_instance_state.rs",
+"line": 21
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 home_base_backing_plain_base_is_created_and_kept().",
+"callee_name": "prepare_home_base",
+"file": "tests/cli_instance_state.rs",
+"line": 585
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 home_base_backing_plain_base_is_created_and_kept().",
+"callee_name": "prepare_home_base",
+"file": "tests/cli_instance_state.rs",
+"line": 588
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 backing_refusal().",
+"callee_name": "prepare_home_base",
+"file": "tests/cli_instance_state.rs",
+"line": 595
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 home_base_backing_gone_target_is_made_again_owner_only().",
+"callee_name": "prepare_home_base",
+"file": "tests/cli_instance_state.rs",
+"line": 628
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 home_base_backing_owner_only_target_is_kept_untouched().",
+"callee_name": "prepare_home_base",
+"file": "tests/cli_instance_state.rs",
+"line": 652
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 support/home/impl#[TestHome]new().",
+"callee_name": "prepare_home_base",
+"file": "tests/support/home.rs",
+"line": 155
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 impl#[Agent]fire_answered().",
+"callee_name": "run_hook",
+"file": "src/bin/viola-fake-agent.rs",
+"line": 533
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 tests/run_hook_after_close_hooks_runs_nothing().",
+"callee_name": "run_hook",
+"file": "src/bin/viola-fake-agent.rs",
+"line": 1875
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 tests/run_hook_after_close_hooks_runs_nothing().",
+"callee_name": "run_hook",
+"file": "src/bin/viola-fake-agent.rs",
+"line": 1879
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 tests/run_hook_of_a_stop_with_the_receipt_hold_takes_at_least_the_hold().",
+"callee_name": "run_hook",
+"file": "src/bin/viola-fake-agent.rs",
+"line": 1887
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 path4_second_concurrent_dialog_is_left_to_the_human().",
+"callee_name": "run_hook",
+"file": "tests/cli_answer.rs",
+"line": 707
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 hook_fails_open_silently_within_the_spine_bound().",
+"callee_name": "run_hook",
+"file": "tests/hook_fail_open.rs",
+"line": 207
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 hook_dialog_tier_fails_open_silently().",
+"callee_name": "run_hook",
+"file": "tests/hook_fail_open.rs",
+"line": 302
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 hook_capture_arm_answers_only_a_mapped_answer_and_fails_open().",
+"callee_name": "run_hook",
+"file": "tests/hook_fail_open.rs",
+"line": 361
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 hook_capture_arm_answers_only_a_mapped_answer_and_fails_open().",
+"callee_name": "run_hook",
+"file": "tests/hook_fail_open.rs",
+"line": 376
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 hook_statusline_capture_files_the_payload_and_the_shell_verdict().",
+"callee_name": "run_hook",
+"file": "tests/hook_fail_open.rs",
+"line": 410
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 hook_statusline_capture_files_nothing_it_cannot_take().",
+"callee_name": "run_hook",
+"file": "tests/hook_fail_open.rs",
+"line": 459
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 hook_forced_panic_fails_open_with_one_role_line_and_one_detail_line().",
+"callee_name": "run_hook",
+"file": "tests/hook_fail_open.rs",
+"line": 478
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]
