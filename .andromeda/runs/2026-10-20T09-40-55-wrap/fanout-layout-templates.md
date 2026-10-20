@@ -1,0 +1,2 @@
+proposals: []
+note: D-layout-surface holds — the report's Changes add no user-facing surface or region (every symbol is test, harness or test-only fake-agent code; the census --case form is a dev-host script). D-retired holds — none of the Retired items (services/viola-ui.md, obs-plan's GUI view scenario heading, design-system's web-spa rows) is described as standing in layout-templates; its §Surface: web-spa is already the one-line deferral stub («The frontend is deferred to 0.2.0; its technology is not chosen.»), which states current truth.

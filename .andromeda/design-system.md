@@ -13,19 +13,19 @@
 - **Strip holder (plastic boot).** Wrapped instances sit in a holder. Unwrapped sessions are bare strips: another facility's traffic, visible but never a `target`.
 - **Coasting track.** `stale` liveness. The strip is dimmed to lamp-off, never deleted, and keeps its slot.
 - **Fuel state / minimum fuel.** The budget governor: `5H` / `7D` figures, with `budget-paused` as a declared minimum-fuel state that stops new sends while the running turn finishes.
-- **ATIS information with its age.** Every budget reading carries its age (`read 4m ago`). This is the `<viola-atis>` header. Old information is shown as old (`expired`), never as current.
+- **ATIS information with its age.** Every budget reading carries its age (`read 4m ago`). Old information is shown as old (`expired`), never as current.
 - **Verified aircraft type.** A CLI version stamped by `viola verify` prints `verified`. An unstamped build flies transport only as `unverified-cli`.
 - **Pilot-in-command, "I have control".** `human` in WHEEL at weight 600. `viola pause` / `viola release` are the spoken "I have control" / "you have control".
 - **Standard phraseology and "unable" plus a reason.** Short fixed words (`open`, `RB`, `unable`, `human-typing`, `budget-paused`, `not-delivered`) are the vocabulary of every label, CLI column and refusal. There is no filler and no guessing.
 
-**Signature element:** **The readback box.** It is a fixed-width, 1px-ruled square cell at the far right of every send line in `<viola-event-feed>` and of every outbound transfer marker once a send on that link has been seen. It has three drawn states, and each state is printed as a word too:
+**Signature element:** **The readback box.** It is a fixed-width, 1px-ruled square cell; in 0.1.0 its one place is the CLI mirror below, and where a 0.2.0 frontend draws it is that version's to name (its technology is not chosen). It has three drawn states, and each state is printed as a word too:
 - **`open`:** a buff outline on anthracite.
 - **`RB` / `read back`:** filled solid buff, with `RB` in graphite. It fills instantly when the matching `prompt-submitted` lands, or for `/clear` when its `session-start` with cause `clear` does, or for `/compact` on a verified CLI when its `session-start` with cause `compact` and the session's own id does.
 - **`unable`:** the outline plus one 1px `/` strike, with the typed reason in the next cell.
 
 A fourth printed word, `unconfirmable`, reuses the open drawing and is never filled. `turn-ended` never fills the box. The CLI mirrors the box as `[RB]` / `[  ]` / `[/ ]`.
 
-**Supporting attention element:** the cocked strip. On `dialog_pending` the strip translates 12px over 160ms ease-out, once, and keeps its slot. It gets a 4px amber holder band and the word `DIALOG` plus the dialog kind.
+**Supporting attention element:** the cocked strip. On `dialog_pending` the row keeps its slot and shows the word `DIALOG` plus the dialog kind, the word amber on the CLI. The strip's 12px / 160ms translate and its 4px amber holder band are a 0.2.0 frontend design input.
 
 **Expression level:** `0.2` (base). This value governs animation intensity, layout freedom and interaction complexity across the whole project.
 - `0.0-0.2`: static, grid-locked, zero animation, dense
@@ -38,14 +38,15 @@ Per-surface values (quiz Q4):
 
 | Surface | Expression | What it permits |
 |---|---|---|
-| web-spa (`viola ui`) | 0.3 | Exactly two motions, each played once on a state change. (1) The cocked-strip `translate` (12px / 160ms ease-out). (2) A new tape line or new transfer marker fades in (opacity, ≤120ms). The readback fill, the strike, `stale` dimming and the return of a strip into line are all instant. No hover effects except link underline and focus rings. |
 | cli, human TTY | 0.2 | Static k9s-style fixed-column rows and one static context header. Colour is only a second cue: amber `DIALOG` and dim `stale`, always beside the word. Nothing redraws in place and there are no spinners. |
 | cli, `--json` / non-TTY / `NO_COLOR` / `TERM=dumb` / `viola run` passthrough | 0.0 | No colour, no glyphs, no cursor control, no spinner. `viola run` prints nothing at all while the wrapped `claude` TUI runs, and neither does a `viola revive` that passed its preflight. |
 
-This number is the SINGLE SOURCE OF TRUTH for how much motion and visual dynamism downstream phases implement. At 0.2 the duration scale's 0.0–0.2 row applies (0–100ms, no entrance), and viola's cli (0.2 on a TTY, 0.0 otherwise) has no motion at all. viola's web page is 0.3, but its only two motions are the ones in the table above, and Motion's "This project's values" override the 0.3–0.4 row (see the Design Decisions Log).
+N/A — the frontend's expression level: the frontend is deferred to 0.2.0, and its technology is not chosen.
+
+This number is the SINGLE SOURCE OF TRUTH for how much motion and visual dynamism downstream phases implement. At 0.2 the duration scale's 0.0–0.2 row applies (0–100ms, no entrance), and viola's cli (0.2 on a TTY, 0.0 otherwise) has no motion at all.
 
 **Design direction:**
-The page is a control-tower strip bay after dark. Buff paper strips sit in anthracite holder boots on ruled aluminium racks. Every session holds the same slot for its whole life, so the eye goes to where `builder` always is. The only warm light in the bay is the one arrival holder cocked out of line when a session needs you.
+The direction a 0.2.0 frontend inherits (0.1.0 renders no page) is a control-tower strip bay after dark. Buff paper strips sit in anthracite holder boots on ruled aluminium racks. Every session holds the same slot for its whole life, so the eye goes to where `builder` always is. The only warm light in the bay is the one arrival holder cocked out of line when a session needs you.
 
 Nothing announces success before it is confirmed. Sends stay visibly open until they are read back. Missing readings print `unknown` in their box instead of shimmering. Old information always carries its age, like an ATIS letter. The density is the calm density of a strip board, not a monitoring dashboard: fixed fields, tabular numbers, one attention colour and one handoff colour. Everything else is paper and ink.
 **Library shortlist direction:** Precision & Density (primary) with Utility & Function (secondary). The style preset is Minimalism & Swiss Style (#1) without its 200–250ms hover, with E-Ink / Paper (#56) as the surface reference, inverted to buff on anthracite. The rejected presets are Dark Mode (OLED) (#7), Real-Time Monitoring (#31: pulsing dots, blink, toasts) and HUD / Sci-Fi FUI (#51: glow, telemetry animation).
@@ -133,7 +134,7 @@ The domain status rows below are authoritative. This table only summarises them,
 | Wrapped::false | #1E2124 | #4A5057 (1px dashed outline, no band slot) | #E6D8AE (name, live, status) / #9C9278 (`n/a`) | Bare strip, another facility's traffic, in the UNWRAPPED · READ-ONLY rack. The name is shown as text, never as a target. |
 | DialogPending::false | #2A2E33 | #4A5057 band | #E6D8AE | DIALOG prints `none` |
 | DialogPending::(absent, unwrapped) | #1E2124 | #4A5057 (dashed) | #9C9278 | `n/a`: absent by contract on a bare strip, which is never cocked |
-| DialogPending::true | #1E2124 (DIALOG cell inset) | #D97706 (4px holder band) | #D97706 (`DIALOG`) + #E6D8AE (kind; #9C9278 when the strip is also `stale`, per the `stale` `--ink` swap, see web-spa component 1) | Cocked: `translateX(12px)` once over 160ms, amber band, `DIALOG <kind>`. Slot kept. Announced politely. |
+| DialogPending::true | #1E2124 (DIALOG cell inset) | #D97706 (4px holder band) | #D97706 (`DIALOG`) + #E6D8AE (kind; #9C9278 when the strip is also `stale`, per the `stale` `--ink` swap) | Cocked: `translateX(12px)` once over 160ms, amber band, `DIALOG <kind>`. Slot kept. Announced politely. |
 | PendingDialogKind::question | #1E2124 | #D97706 | #D97706 / #E6D8AE | `DIALOG question` |
 | PendingDialogKind::permission | #1E2124 | #D97706 | #D97706 / #E6D8AE | `DIALOG permission` |
 | PendingDialogKind::plan | #1E2124 | #D97706 | #D97706 / #E6D8AE | `DIALOG plan` |
@@ -204,8 +205,8 @@ The domain status rows below are authoritative. This table only summarises them,
 | Skipped::nonzero | #1E2124 | #E6D8AE (1px box around the count) | #E6D8AE | `skipped 2 unknown kinds · 0 · 1 torn line`, kept visible, never auto-cleared |
 | TapeConnection::connecting (derived, EventSource) | #1E2124 | #4A5057 | #9C9278 | `TAPE connecting` |
 | TapeConnection::open | #1E2124 | #4A5057 | #E6D8AE | `TAPE live since 19:40:02Z` |
-| TapeConnection::closed | #1E2124 | #E6D8AE | #E6D8AE | `TAPE stopped · viola ui not answering`. Strips keep the last values, and the ATIS age keeps counting. |
-| Problem::unauthorized (401) | #1E2124 | #E6D8AE | #E6D8AE | Access strip (see web-spa component 6). Never shows the token, the URL or the file path. |
+| TapeConnection::closed | #1E2124 | #E6D8AE | #E6D8AE | `TAPE stopped · not answering`. Strips keep the last values, and the ATIS age keeps counting. |
+| Problem::unauthorized (401) | #1E2124 | #E6D8AE | #E6D8AE | An access refusal. Never shows the token, the URL or the file path. |
 | Problem::state-unreadable (503) | #1E2124 | #E6D8AE | #E6D8AE | Rack strip `unable · state-unreadable` |
 | Problem::not-found (404) | #1E2124 | #E6D8AE | #E6D8AE | Rack strip `unable · not-found`. The page only requests its own routes, so this is defensive. |
 | Problem::method-not-allowed (405) | #1E2124 | #E6D8AE | #E6D8AE | Never produced by the page (GET only). If seen: `unable · method-not-allowed`. |
@@ -244,7 +245,7 @@ A 0.2.0 frontend design input; 0.1.0 renders no page.
 
 | Role | Font | Weight | Size | Tracking | Usage |
 |------|------|--------|------|----------|-------|
-| Display | Bahnschrift stack, semi-condensed | 600 | 16px / 24px line, uppercase | 0.08em | `VIOLA` at the start of the `<viola-atis>` header (there is no hero), rendered as the page's one `<h1>` (a11y-plan D-A11Y-02). The `BAY` after it is Label and `127.0.0.1:47319` is Data, as in the ATIS anatomy |
+| Display | Bahnschrift stack, semi-condensed | 600 | 16px / 24px line, uppercase | 0.08em | `VIOLA` as the board's display word (there is no hero; a 0.2.0 frontend's page markup is that version's). The `BAY` after it is Label and `127.0.0.1:47319` is Data, as in the ATIS anatomy |
 | Heading | Bahnschrift stack, semi-condensed | 600 | 11px / 16px, uppercase | 0.12em | Rack separator labels: `WRAPPED`, `UNWRAPPED · READ-ONLY`, `TAPE`, each rendered as an `<h2>` (a11y-plan D-A11Y-02); the two rack labels sit in their rack table's `<caption>` |
 | Callsign | Bahnschrift stack, normal width | 600 | 15px / 32px (strip height) | 0.02em | The NAME cell. Never text-transformed: a `ViolaName` is lower-case `[a-z0-9-]` and must read exactly as it is typed as a `target`. |
 | Body | Cascadia Mono stack | 400 (600 for `human` in WHEEL and in `prompt · human`, and for the strip's `DIALOG` word) | 13px / 20px | 0 | Field values, tape text, transfer markers, phraseology words |
@@ -332,7 +333,7 @@ A 0.2.0 frontend design input; 0.1.0 renders no page.
 
 ---
 
-## Motion (calibrated to expression level `0.3` on web-spa, base `0.2`)
+## Motion (calibrated to the base expression level `0.2`)
 
 All motion decisions flow from the expression level set in Brand Identity.
 
@@ -581,7 +582,7 @@ anything jump out harshly? Good craft whispers — nothing should scream.
 In viola, `open` and `unconfirmable` readback boxes look identical under the squint (`unconfirmable` reuses the open drawing and is never filled); only the word cell tells them apart. That is intended, not a failed squint.
 
 ### 3. Signature Test
-Point to the readback box in all three required places: (1) the far right of every send line in `<viola-event-feed>`, (2) the far right of every outbound `<viola-transfer>` marker that has seen a send since page open (before its first send, a marker deliberately prints only the word `unknown` and no box, per web-spa component 3; that is not a missing signature), and (3) the `[RB]` / `[  ]` / `[/ ]` column of CLI `viola send`. On the web, places 1 and 2 must render the same `<viola-readback>` element under the same `.rb` rule: a 16px square, a 1px buff outline, a buff fill with `RB` in graphite at 11px 600, and a 1px `/` strike. The tape box and the marker box must therefore be indistinguishable. If any place lacks the box or draws it differently, the signature does not exist. Inject it.
+Point to the readback box in its one 0.1.0 place: the `[RB]` / `[  ]` / `[/ ]` column of CLI `viola send`. If that column lacks the box or draws it differently, the signature does not exist. Inject it. A 0.2.0 frontend's places for the box, and its test, are that version's to name (its technology is not chosen).
 
 ### 4. Token Test
 A 0.2.0 frontend design input; 0.1.0 renders no page.

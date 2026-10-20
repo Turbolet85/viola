@@ -97,7 +97,7 @@ There is no daemon: each wrapper (a `viola run`, or a `viola revive` whose prefl
 On-demand references in `.claude/docs/` (Claude reads when relevant):
 - Specialist summaries: `security-summary.md` / `design-summary.md` / `tests-summary.md` / `obs-summary.md` / `a11y-summary.md`
 - Core: `stack.md` / `conventions.md` / `commands.md` / `gotchas.md` / `workflow.md`
-- `services/{name}.md` — per-crate implementation notes (viola, viola-core, viola-pty, viola-channel, viola-state, viola-agent-claude, viola-mcp, viola-ui)
+- `services/{name}.md` — per-crate implementation notes (viola, viola-core, viola-pty, viola-channel, viola-state, viola-agent-claude, viola-mcp)
 - `session-learnings.md` — curated by /wrap-session
 
 Path-scoped rules in `.claude/rules/` (auto-load when matching files touched):

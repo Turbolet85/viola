@@ -1,0 +1,77 @@
+[[pattern]]
+id = 'own-title'
+fixed = 'Epoch 5 cleanup'
+ignore_case = true
+
+[[pattern]]
+id = 'own-generic'
+regex = 'owned by a (route entry|CARRY)'
+ignore_case = true
+
+[[pattern]]
+id = 'F1-verify-kill'
+regex = 'verify_window_'
+
+[[pattern]]
+id = 'F2-paste-hint'
+regex = 'send_under_the_paste_hint|paste-hint (pair|cases|class|override)'
+ignore_case = true
+
+[[pattern]]
+id = 'F3-mutants-prof'
+regex = 'profile\.mutants|mutants`? profile|NEXTEST_PROFILE=mutants|send_window_'
+
+[[pattern]]
+id = 'F4-replay-walk'
+regex = 'contract_fake_agent_drift|contract_ledger_probes|recorded sets are walked|walks? (every|each) recorded set'
+
+[[pattern]]
+id = 'F5-dialogless'
+regex = 'dialogless_home'
+
+[[pattern]]
+id = 'F6-profraw'
+regex = 'profraw|truncated (coverage )?profile|header is corrupt|exit-time (coverage )?profile'
+ignore_case = true
+
+[[pattern]]
+id = 'F7-hook-group'
+regex = 'process_group|process group|foreground group|hold_inherited_stdout|run_receipted|session leader'
+ignore_case = true
+
+[[pattern]]
+id = 'F8-headroom'
+regex = 'prepare_home_base|ensure_e2e_home|headroom|EDQUOT|statvfs|usrquota'
+ignore_case = true
+
+[[pattern]]
+id = 'F9-libc'
+regex = '\blibc\b'
+
+[[pattern]]
+id = 'F10-pty-guard'
+regex = 'current_exe|impl Drop for Child|copied_test_binary|the test binary itself'
+
+[[pattern]]
+id = 'F11-scratch-win'
+regex = 'wipe_scratch_takes_an_instance_tree|icacls'
+
+[[pattern]]
+id = 'F12-web-left'
+regex = 'viola-ui|e2e-web|web-spa|viola-atis|viola-event-feed'
+
+[[pattern]]
+id = 'F13-census'
+regex = 'profraw-census'
+
+[[pattern]]
+id = 'F14-a11y-tier'
+regex = 'Standard \(1\)'
+
+[[pattern]]
+id = 'F15-gui-view'
+regex = 'GUI view: page load'
+
+[[pattern]]
+id = 'F16-path6'
+regex = 'path6_the_boundaries_and_the_window_word'

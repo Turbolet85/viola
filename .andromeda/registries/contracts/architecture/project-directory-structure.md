@@ -96,7 +96,8 @@ viola/
 │   │                           #   `panic_location` of exactly `src/cmd/hook/seam.rs:<digits>` (fail-closed; + --probe)
 │   ├── install-ripgrep.sh      # pinned, sha256-verified ripgrep 15.2.0 → target/tools/ripgrep
 │   └── profraw-census.sh       # <runs> <workers> [<name>]: dev-host witness, the start test N times on the
-│                               #   instrumented root-bin test binary, each run's profiles counted
+│                               #   instrumented root-bin test binary, each run's profiles counted;
+│                               #   --case <stem> <test> …: one integration case, refused profiles kept
 │                               #   → target/profraw-census/ (no CI job, pre-push stage or harness command)
 ├── vendor/conpty/<version>/x64/ # the committed Microsoft conpty.dll + OpenConsole.exe (binary per .gitattributes)
 ├── .config/nextest.toml        # nextest profiles `ci` and `mutants`

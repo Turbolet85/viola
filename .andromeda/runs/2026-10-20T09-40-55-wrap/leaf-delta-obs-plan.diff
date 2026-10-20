@@ -1,0 +1,14 @@
+--- a/.andromeda/obs-plan.md
++++ b/.andromeda/obs-plan.md
+@@ -537,3 +537,3 @@
+ 
+-**Must-trace path scenarios** (translated from obs-scope Section 4). "Common fields" means `timestamp`, `level`, `target`, `message`, `event`, `corr`, `process`, `instance` on every line. `trace_id` / `span_id` are **not** emitted (D-12); correlation is `corr` + `conn`.
++**Must-trace path scenarios** (translated from obs-scope Section 4). "Common fields" means `timestamp`, `level`, `target`, `message`, `event`, `corr`, `process`, `instance` on every line. `trace_id` / `span_id` are **not** emitted (D-12); correlation is `corr` + `conn`. There is no frontend scenario: the frontend is deferred to 0.2.0, and its technology is not chosen.
+ 
+@@ -646,6 +646,2 @@
+ 
+-#### Scenario: GUI view: page load, sessions and links, live SSE tape with `Last-Event-ID` resume
+-
+-The frontend is deferred to 0.2.0; its technology is not chosen.
+-
+ **Edge flows** (tests E1–E3 and E5):

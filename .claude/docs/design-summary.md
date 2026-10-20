@@ -4,11 +4,11 @@ _Distilled from `.andromeda/design-system.md` + `.andromeda/layout-templates.md`
 
 ## Brand identity
 
-**"Strip-bay handoff, read back."** The page is an air-traffic-control tower strip bay after dark. Buff paper strips sit in anthracite holder boots on ruled aluminium racks, and every session keeps its slot for life. The only warm light is the one amber arrival holder cocked out of line when a session needs you. The voice is standard phraseology: short fixed words (`open`, `RB`, `unable`, `human-typing`, `budget-paused`), no filler, no guessing. Nothing announces success before it is confirmed: a send stays `open` until the matching `prompt-submitted` reads it back (for `/clear`, until its new-session post-condition does; for `/compact` on a verified CLI, until its same-session compact post-condition does, and on an unverified CLI `/compact` stays `unconfirmable`). Missing readings print `unknown`, and old information carries its age (`read 4m ago`, `expired`). It is explicitly NOT a monitoring dashboard: no status dots, toasts, graphs, spinners or glow.
+**"Strip-bay handoff, read back."** The direction a 0.2.0 frontend inherits (0.1.0 renders no page) is an air-traffic-control tower strip bay after dark. Buff paper strips sit in anthracite holder boots on ruled aluminium racks, and every session keeps its slot for life. The only warm light is the one amber arrival holder cocked out of line when a session needs you. The voice is standard phraseology: short fixed words (`open`, `RB`, `unable`, `human-typing`, `budget-paused`), no filler, no guessing. Nothing announces success before it is confirmed: a send stays `open` until the matching `prompt-submitted` reads it back (for `/clear`, until its new-session post-condition does; for `/compact` on a verified CLI, until its same-session compact post-condition does, and on an unverified CLI `/compact` stays `unconfirmable`). Missing readings print `unknown`, and old information carries its age (`read 4m ago`, `expired`). It is explicitly NOT a monitoring dashboard: no status dots, toasts, graphs, spinners or glow.
 
-**Expression:** base 0.2 · web-spa 0.3 (exactly two motions) · CLI TTY 0.2 · `--json`/non-TTY/`NO_COLOR`/`TERM=dumb`/`viola run` and `viola revive` passthrough 0.0.
+**Expression:** base 0.2 · frontend N/A (deferred to 0.2.0, its technology not chosen) · CLI TTY 0.2 · `--json`/non-TTY/`NO_COLOR`/`TERM=dumb`/`viola run` and `viola revive` passthrough 0.0.
 
-**Signature:** the readback box — a 16px ruled square at the far right of every tape send line and every outbound transfer marker once a send on its link has been seen since page open (before that the marker prints only the word `unknown`, no box): `open` (outline) · `RB` / `read back` (solid buff fill, graphite `RB`) · `unable` (1px `/` strike + reason) · `unconfirmable` (open drawing, never filled). CLI mirror `[RB]` / `[  ]` / `[/ ]`. Supporting element: the **cocked strip** (`dialog_pending`: 12px translate over 160ms, once, amber 4px band, `DIALOG <kind>`).
+**Signature:** the readback box — a 16px 1px-ruled square cell whose one 0.1.0 place is the CLI mirror (where a 0.2.0 frontend draws it is that version's to name, its technology not chosen): `open` (outline) · `RB` / `read back` (solid buff fill, graphite `RB`) · `unable` (1px `/` strike + reason) · `unconfirmable` (open drawing, never filled). CLI mirror `[RB]` / `[  ]` / `[/ ]`. Supporting element: the **cocked strip** (`dialog_pending`: the row keeps its slot and shows `DIALOG <kind>`, the word amber on the CLI; its 12px / 160ms translate and 4px amber holder band are a 0.2.0 frontend design input).
 
 ## Key design tokens (a 0.2.0 frontend design input; 0.1.0 renders no page)
 
@@ -39,7 +39,7 @@ Contrast rule: lamp-off, amber and blue fail AA as text on holder → they live 
 
 ### Motion
 
-- **Two motions only:** the cock (`--cock-offset` 12px over `--cock-dur` 160ms, ease-out, once) and the opacity fade of a new tape line or transfer marker (`--fade-dur`, ≤120ms). The readback fill, the strike, `stale` dimming and a strip's return into line are instant.
+- **Calibrated to the base expression 0.2:** the 0.0–0.2 duration row applies (0–100ms, no entrance), and the cli (0.2 on a TTY, 0.0 otherwise) has no motion at all; the cocked strip's 12px / 160ms translate is a 0.2.0 frontend design input.
 
 ### Depth & shape
 - Borders-only (`--shadow: none`); radius 0 everywhere; one gradient (the refused strike).
@@ -52,11 +52,11 @@ Contrast rule: lamp-off, amber and blue fail AA as text on holder → they live 
 ## Component patterns (web-spa: a 0.2.0 design input; 0.1.0 renders no page)
 
 - The flight strip — one per `viola run` instance, fixed fields NAME · LIVE · STATUS · WHEEL · DIALOG · CLI, stable slot, never blank (`unknown` / `n/a`)
-- `<viola-readback>` — the signature box, the same element and drawing on a tape send line and an outbound transfer marker
-- `<viola-transfer>` — outbound `→ builder  since …` and inbound `← overseer` in departure blue, in the rack gap on anthracite
-- `<viola-event-feed>` — the tower tape: the ndjson tape played in order, one line per event, `skipped` counts kept where they happened
-- `<viola-atis>` — sticky header: `BAY`, `5H`, `7D`, `read … ago`, gate, `TAPE`, `skipped`
-- Access/error strips and the reserved v1.x brake buttons and Raised-3 confirmation (not built in v1)
+- The readback box — the signature; in 0.1.0 only the CLI `viola send` mirror, its 0.2.0 places that version's to name
+- Transfer markers — outbound `→ builder  since …` and inbound `← overseer` in departure blue, in the rack gap on anthracite
+- The tower tape — the ndjson tape played in order, one line per event, `skipped` counts kept where they happened
+- The ATIS header — sticky: `BAY`, `5H`, `7D`, `read … ago`, gate, `TAPE`, `skipped`
+- The access refusal, error strips and the reserved v1.x brake buttons and Raised-3 confirmation (not built in v1)
 
 ## Universal bans
 

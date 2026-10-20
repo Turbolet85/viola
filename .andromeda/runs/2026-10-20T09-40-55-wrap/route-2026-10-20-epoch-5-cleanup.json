@@ -1,0 +1,123 @@
+[
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "4f8c0283",
+"ts": "2026-10-20T10:22:23Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-10-20-epoch-5-cleanup",
+"--run-dir",
+".andromeda/runs/2026-10-20T09-40-55-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"flip master-route.md:85 - 2026-10-20-epoch-5-cleanup pending -> complete"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "4f8c0283",
+"ts": "2026-10-20T10:22:23Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-20-epoch-5-cleanup",
+"--date",
+"2026-10-20",
+"--run-dir",
+".andromeda/runs/2026-10-20T09-40-55-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :165 strip CARRY: 3843ch \"CARRY: the Epoch 5 boundary (the Viola o\"",
+"pin :165 strip CARRY: 360ch \"CARRY: the Epoch 5 boundary (the same di\"",
+"pin :165 strip WATCH: 653ch 0/3 since 2026-10-19-newer-claude-cli-rows \"WATCH: the macOS readiness stall, `wrapp\"",
+"pin :165 strip WATCH: 590ch 0/3 since 2026-10-19-newer-claude-cli-rows \"WATCH: a `viola` process's truncated `.p\"",
+"pin next markerless :167 holds CARRY:×1 · WATCH:×1",
+"165 · 2026-10-20-epoch-5-cleanup · strip 4 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 165,
+"marker": "2026-10-20-epoch-5-cleanup",
+"blocks": 4,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "4f8c0283",
+"ts": "2026-10-20T10:23:06Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-20-epoch-5-cleanup",
+"--date",
+"2026-10-20",
+"--run-dir",
+".andromeda/runs/2026-10-20T09-40-55-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :165 strip CARRY: 3843ch \"CARRY: the Epoch 5 boundary (the Viola o\"",
+"pin :165 strip CARRY: 360ch \"CARRY: the Epoch 5 boundary (the same di\"",
+"pin :165 strip WATCH: 653ch 0/3 since 2026-10-19-newer-claude-cli-rows \"WATCH: the macOS readiness stall, `wrapp\"",
+"pin :165 strip WATCH: 590ch 0/3 since 2026-10-19-newer-claude-cli-rows \"WATCH: a `viola` process's truncated `.p\"",
+"pin next markerless :167 holds CARRY:×1 · WATCH:×1",
+"165 · 2026-10-20-epoch-5-cleanup · strip 4 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/route-archive.md",
+"./viola-0.1.0/working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 165,
+"marker": "2026-10-20-epoch-5-cleanup",
+"blocks": 4,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]

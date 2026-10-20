@@ -13,8 +13,8 @@ Path-scoped rules for viola's one built design surface, human CLI output (cli); 
 - Borders-only depth: no `box-shadow`, `text-shadow`, glow or `drop-shadow`; radius 0 everywhere; dark only.
 - Fonts: installed stacks only (`--font-label` Bahnschrift…, `--font-field` Cascadia Mono…); every contrast and render assertion must hold with the Linux DejaVu families resolved (the resolved family, not only the declared stack); 0.1.0 renders no page, so no CI step renders these stacks.
 
-## Motion (expression 0.3 on the 0.2.0 page; 0.1.0 renders no page)
-- Exactly two motions, each played once on a state change: the cocked-strip `translate` (12px over `--cock-dur`, 160ms ease-out) and a new tape line or transfer marker fading in (opacity over `--fade-dur`, ≤120ms). The readback fill, the strike, `stale` dimming and the return of a strip into line are instant; no hover effects except link underline and focus rings.
+## Motion (base expression 0.2; the frontend's level deferred to 0.2.0)
+- At the base expression 0.2 the duration scale's 0.0–0.2 row applies (0–100ms, no entrance), and the cli (0.2 on a TTY, 0.0 otherwise) has no motion at all; the cocked strip's 12px / 160ms translate is a 0.2.0 frontend design input.
 
 ## Components
 - The web components are 0.2.0 frontend design; 0.1.0 renders no page. The six captions NAME · LIVE · STATUS · WHEEL · DIALOG · CLI, their words and slot order are fixed, and a future page reuses them; the readback vocabulary is `open`, `read back`, `unable`, `unconfirmable`.

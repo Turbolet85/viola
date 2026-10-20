@@ -1,0 +1,12 @@
+
+## 2026-10-20-epoch-5-cleanup — the web-surface references cut from Brand Identity, the palette, Typography, Motion and the Signature Test
+**Section:** Brand Identity (ATIS anchor; Signature element; Supporting attention element; the per-surface expression table and the single-source paragraph; Design direction) · Color Palette → Semantic Colors (DialogPending::true, TapeConnection::closed, Problem::unauthorized) · Typography (Display) · Motion (heading) · Self-Validation Protocol → 3. Signature Test
+**Change:**
+- Brand Identity: the ATIS anchor no longer names the `<viola-atis>` header. The readback box's one 0.1.0 place is its CLI mirror; where a 0.2.0 frontend draws it is that version's to name (was: every send line in `<viola-event-feed>` and every outbound transfer marker). The cocked strip keeps its slot and shows `DIALOG` plus the kind, amber on the CLI; its 12px / 160ms translate and 4px holder band are a 0.2.0 frontend design input (was a standing motion). The per-surface table holds the two cli rows, and the frontend's expression level is an `N/A` deferred to 0.2.0. Was a `web-spa (viola ui)` 0.3 row with two motions; «viola's web page is 0.3 …» is cut from the single-source paragraph. The Design direction is what a 0.2.0 frontend inherits (was «The page is …»).
+- Semantic Colors: the pointers to the cut web-spa components 1 and 6 are gone. TapeConnection::closed reads `TAPE stopped · not answering` (was `… viola ui not answering`).
+- Typography Display: `VIOLA` is the board's display word; a 0.2.0 frontend's page markup is that version's (was the `<viola-atis>` header and the page's one `<h1>`).
+- Motion: calibrated to the base expression level `0.2` (was `0.3` on web-spa).
+- Signature Test: one 0.1.0 place, the `[RB]` / `[  ]` / `[/ ]` column of CLI `viola send` (was three places with `<viola-event-feed>`, `<viola-transfer>`, `<viola-readback>`, the `.rb` rule and web-spa component 3).
+**Why:** the founder's own word on item (10), «Вычистить в cleanup»: the restructure's web leftovers are cleaned, and 0.1.0 renders no page. The superseded text stays in this entry for the 0.2.0 frontend.
+**Kept:** `## Surface: web-spa` keeps its heading over its deferral stub. It is the setup grammar's surface slot for the deferred frontend, shared with layout-templates. The sections framed «A 0.2.0 frontend design input» (tokens, status rows, spacing, depth, iconography) stand as that input.
+**Ref:** .andromeda/runs/2026-10-20T09-40-55-wrap/

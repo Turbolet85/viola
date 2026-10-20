@@ -1,0 +1,202 @@
+[
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "2da33a09",
+"ts": "2026-10-20T09:41:19Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-20-epoch-5-cleanup",
+"--source",
+"~/dev/projects/additional/viola-overseer/wrap-cleanup-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the overseer wrap directive: outcome basis 5a3fb42a / ci#39400402749; the founder trajectory word for the Epoch 5 cleanup II insertion; step 7 criterion routed to the next boundary Windows viola-pty leg; the profraw WATCH retire-or-reword; the macOS WATCH count",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-20T09-40-55-wrap",
+"--marker",
+"2026-10-20-epoch-5-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy no-repo · ../additional/viola-overseer/wrap-cleanup-directive.md",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-wrap-cleanup-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/wrap-cleanup-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "3bad23fa7520f748c190e2d1812887c6db54a1f3547b1443dbdb54edfd991d10",
+"copy": "I4-wrap-cleanup-directive.md.txt",
+"link": false,
+"read_at": "2026-10-20T09:41:19Z",
+"step": "wrap",
+"why": "the overseer wrap directive: outcome basis 5a3fb42a / ci#39400402749; the founder trajectory word for the Epoch 5 cleanup II insertion; step 7 criterion routed to the next boundary Windows viola-pty leg; the profraw WATCH retire-or-reword; the macOS WATCH count"
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "2da33a09",
+"ts": "2026-10-20T09:41:37Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-20-epoch-5-cleanup",
+"--run-dir",
+".andromeda/runs/2026-10-20T09-40-55-wrap",
+"--marker",
+"2026-10-20-epoch-5-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-cleanup-directive.md",
+"I1 cited scope.md:15 · scope.md:17 · scope.md:19 · scope.md:21 · scope.md:24 · scope.md:28 · scope.md:31 · scope.md:59 · research.md:24 · plan.md:21 · plan.md:109 · plan.md:233 (in fence) · plan.md:332 (in fence) · plan.md:413 (in fence) · plan.md:475 · plan.md:512",
+"I2 n/a — a message has no live source · copy message · message: the founder, live at his keyboard in the Viola overseer dialog, relayed through the P4 fork dialog, 2026-10-20T08:32Z",
+"I2 cited scope.md:33 · research.md:4 · research.md:26 · plan.md:8 · plan.md:475 · plan.md:536",
+"I3 n/a — a message has no live source · copy message · message: the Viola overseer, the founder delegate in the operator seat, in this session dialog, 2026-10-20T08:54Z",
+"I3 UNCITED",
+"I4 unchanged · copy no-repo · ../additional/viola-overseer/wrap-cleanup-directive.md",
+"I4 UNCITED",
+"inputs: 4 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 2 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 4,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 2,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "2da33a09",
+"ts": "2026-10-20T09:47:07Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-20-epoch-5-cleanup",
+"--run-dir",
+".andromeda/runs/2026-10-20T09-40-55-wrap",
+"--marker",
+"2026-10-20-epoch-5-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-cleanup-directive.md",
+"I1 cited scope.md:15 · scope.md:17 · scope.md:19 · scope.md:21 · scope.md:24 · scope.md:28 · scope.md:31 · scope.md:59 · research.md:24 · plan.md:21 · plan.md:109 · plan.md:233 (in fence) · plan.md:332 (in fence) · plan.md:413 (in fence) · plan.md:475 · plan.md:512",
+"I2 n/a — a message has no live source · copy message · message: the founder, live at his keyboard in the Viola overseer dialog, relayed through the P4 fork dialog, 2026-10-20T08:32Z",
+"I2 cited scope.md:33 · research.md:4 · research.md:26 · plan.md:8 · plan.md:475 · plan.md:536 · report.md:4 · report.md:196 · report.md:200",
+"I3 n/a — a message has no live source · copy message · message: the Viola overseer, the founder delegate in the operator seat, in this session dialog, 2026-10-20T08:54Z",
+"I3 cited report.md:189",
+"I4 unchanged · copy no-repo · ../additional/viola-overseer/wrap-cleanup-directive.md",
+"I4 cited report.md:202 · report.md:212 · report.md:223 · report.md:276 · report.md:298 · report.md:340 · report.md:400 · report.md:402",
+"inputs: 4 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 4,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "2da33a09",
+"ts": "2026-10-20T10:17:16Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-20-epoch-5-cleanup",
+"--message-file",
+".andromeda/runs/2026-10-20T09-40-55-wrap/relay-1.md",
+"--origin",
+"the Viola overseer (Q1) and the founder himself, relayed verbatim through the overseer dialog (Q2), 2026-10-20T10:17Z",
+"--kind",
+"relay",
+"--why",
+"P5 answers: the drift-base growth approved (two detectors, the overseer word); the epoch-growth valve answered no split inside Epoch 6 (the founder own word)",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-20T09-40-55-wrap",
+"--marker",
+"2026-10-20-epoch-5-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I5 · copy message · message: the Viola overseer (Q1) and the founder himself, relayed verbatim through the overseer dialog (Q2), 2026-10-20T10:17Z",
+"cite: inputs#I5"
+],
+"stderr": null,
+"wrote": [
+"inputs/I5-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I5",
+"kind": "relay",
+"repo": null,
+"path": "message: the Viola overseer (Q1) and the founder himself, relayed verbatim through the overseer dialog (Q2), 2026-10-20T10:17Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "a9c1b09ac32577d3f7466f7f6fb452d1cdcbd4390c3fe25bc770f090aef20c92",
+"copy": "I5-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-20T10:17:16Z",
+"step": "wrap",
+"why": "P5 answers: the drift-base growth approved (two detectors, the overseer word); the epoch-growth valve answered no split inside Epoch 6 (the founder own word)"
+}
+}
+]

@@ -62,6 +62,12 @@ for the report to carry it (extend report-template) — never re-derive from git
   check: agent-read — read the Coverage `tokens` flag of each new UI element in the report; `hardcoded✗` is drift against §Color Palette / §Spacing / §Typography.
   severity: warning
 
+- id: D-design-cli-wording
+  doc: design-system | layout-templates
+  invariant: every cli output wording the chunk adds or changes (an `unable:`/`hint:` pair, a printed word, an As-built output clause) is stated as the masters state it, and no master still states a wording the chunk replaced.
+  check: agent-read — for each output literal the report's Changes adds or changes, grep both masters for the old and the new wording; an unstated new or a standing old wording is drift.
+  severity: warning
+
 # — layout-templates —
 - id: D-layout-surface
   doc: layout-templates
@@ -86,6 +92,12 @@ for the report to carry it (extend report-template) — never re-derive from git
   doc: test-plan
   invariant: the 5-command harness / status shape / log format stays consistent between test-plan §3 and obs-plan §3.
   check: agent-read — if the report changes the harness, status endpoint, or log format, confirm §3 ↔ obs-plan §3 still agree; a one-sided change is drift.
+  severity: warning
+
+- id: D-tests-count-literals
+  doc: test-plan
+  invariant: every count literal a master states for a set the chunk changed (the relied rows, `[NN/MM]`, `{n} pass  {m} fail`, `[&str; N]`) matches the report's Counts / qualifiers moved, and no retired surface name stands as current.
+  check: agent-read — for each moved count or retired name, sweep test-plan and its key files for the old literal (the retired shape, never a bare `N pass`); a stale one is drift.
   severity: warning
 
 # — obs-plan —

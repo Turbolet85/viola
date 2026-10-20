@@ -1,0 +1,46 @@
+[[pattern]]
+id = 'C1-mut-kill'
+regex = '45 s|45s kill|period = "15s", terminate-after = 3'
+
+[[pattern]]
+id = 'C2-overrides'
+regex = 'three `?\[\[profile\.mutants\.overrides\]\]`?|three overrides|mutants\.overrides'
+
+[[pattern]]
+id = 'C3-paste-hint'
+regex = 'send_under_the_paste_hint|paste[- ]hint (pair|cases|class)'
+ignore_case = true
+
+[[pattern]]
+id = 'C4-keepers'
+regex = 'prepare_home_base|ensure_e2e_home|owner-only directory|no group or other bit|headroom'
+
+[[pattern]]
+id = 'C5-fg-group'
+regex = 'foreground (process )?group|process group|hang (the group )?up|hangup'
+ignore_case = true
+
+[[pattern]]
+id = 'C6-census'
+regex = 'profraw-census|third K|short S|corrupt-profile|truncated (coverage )?profile|short profile'
+ignore_case = true
+
+[[pattern]]
+id = 'C7-web-comp'
+regex = 'viola-atis|viola-event-feed|viola-transfer|viola-readback|web-spa component|viola ui\b|web page|\.rb rule'
+
+[[pattern]]
+id = 'C8-sse'
+regex = 'Last-Event-ID|SSE tape|live SSE|GUI view'
+
+[[pattern]]
+id = 'C9-plain-sib'
+regex = 'plain-created sibling|plain dir|plain control'
+
+[[pattern]]
+id = 'C10-e2e-deps'
+regex = 'in `viola-e2e`: rmcp|dependencies of the harness'
+
+[[pattern]]
+id = 'C11-motion'
+regex = 'translates? 12px|translateX\(12px\)|0\.3 on web-spa|expression level `0\.3`|holder band'

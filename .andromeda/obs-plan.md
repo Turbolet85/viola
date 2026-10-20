@@ -535,7 +535,7 @@ _[ALL tiers]_
 
 Skipped as not-instrumentable per obs-scope §1: `viola-core` (it supplies `ObsEvent` / `RefusalReason` values only), `config.json` / plugin files, and build/CI infrastructure.
 
-**Must-trace path scenarios** (translated from obs-scope Section 4). "Common fields" means `timestamp`, `level`, `target`, `message`, `event`, `corr`, `process`, `instance` on every line. `trace_id` / `span_id` are **not** emitted (D-12); correlation is `corr` + `conn`.
+**Must-trace path scenarios** (translated from obs-scope Section 4). "Common fields" means `timestamp`, `level`, `target`, `message`, `event`, `corr`, `process`, `instance` on every line. `trace_id` / `span_id` are **not** emitted (D-12); correlation is `corr` + `conn`. There is no frontend scenario: the frontend is deferred to 0.2.0, and its technology is not chosen.
 
 #### Scenario: `viola run` start sequence to child spawn
 
@@ -643,10 +643,6 @@ Skipped as not-instrumentable per obs-scope §1: `viola-core` (it supplies `ObsE
   - no line at all without a valid `VIOLA_NAME` (as landed, chunk 2026-10-10-statusline-pass-through), and none on an instance whose check refuses: the arm returns exit 0 at once with no role file opened, no `hook-invoked` and no `hook-decision` (as landed, chunk 2026-10-10-budget-governor); and none under the hidden `hook statusline --capture` arm, which runs no instance check, no shell-out and no `budget.json` write and opens no role file (§4 Edge flows);
   - `send-refused{corr:<cursor>, refusal:"budget-paused", detail:"five-hour"|"seven-day", window, used_percentage, resets_at, paused:true}` with client `exit_code:11`.
 - **Cleanup:** `statusline.shell_out` closes on child exit or at the bound `STATUSLINE_DEADLINE` (5 s, PROVISIONAL, `src/cmd/hook.rs`); the bound ends in `hook-decision{detail:"deadline", deadline_hit:true}`. The user's stdout passes through unchanged and is never logged. Oversize or malformed stdin prints nothing and runs no shell.
-
-#### Scenario: GUI view: page load, sessions and links, live SSE tape with `Last-Event-ID` resume
-
-The frontend is deferred to 0.2.0; its technology is not chosen.
 
 **Edge flows** (tests E1–E3 and E5):
 - **E1** (unwrapped hook no-op): no `VIOLA_NAME` means no file, no line, exit 0 and empty stdout/stderr, asserted by absence (D-16).
