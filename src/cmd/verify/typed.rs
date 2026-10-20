@@ -154,7 +154,12 @@ fn trusted_run(
         .is_some()
         .then(|| agents_read(&run, inputs, &trusted.0))
         .flatten();
-    typed.compact_latency_ms = framing_turns(&run, inputs.trusted.captures, typed.turn.clone());
+    typed.compact_latency_ms = framing_turns(
+        &run,
+        inputs.trusted.captures,
+        typed.turn.clone(),
+        &mut typed.long_turn,
+    );
     run.end_by_ctrl_c(&keys);
     drop(keys);
     drop(trusted);
@@ -383,9 +388,14 @@ fn agents_read(run: &Run, inputs: &Inputs<'_>, dir: &Path) -> Option<AgentsCaptu
 /// UserPromptSubmit and one more Stop are captured and the input box is back (`Run::box_wait`),
 /// then `/compact` until a new SessionStart or a new UserPromptSubmit is captured and the input box
 /// is back, then the probed local command until the same and the screen settles. The first wait
-/// that fails ends them. The ms from the `/compact` paste to the instant its answer was read, once
-/// it was.
-fn framing_turns(run: &Run, captures: &Path, mut rows: Option<Vec<String>>) -> Option<u64> {
+/// that fails ends them. The rows the input box settled on after the long paste's turn go to
+/// `long_turn`. The ms from the `/compact` paste to the instant its answer was read, once it was.
+fn framing_turns(
+    run: &Run,
+    captures: &Path,
+    mut rows: Option<Vec<String>>,
+    long_turn: &mut Option<Vec<String>>,
+) -> Option<u64> {
     let clock = run.clock.as_ref();
     let count = |event| count_of(captures, event);
     for text in [PROBE_LONG_PASTE, PROBE_TAG_PASTE, PROBE_NEWLINE_PASTE] {
@@ -401,6 +411,9 @@ fn framing_turns(run: &Run, captures: &Path, mut rows: Option<Vec<String>>) -> O
             added_turn_ended(captures, prompts, stops)
         })?;
         rows = run.box_wait(stopped);
+        if text == PROBE_LONG_PASTE {
+            long_turn.clone_from(&rows);
+        }
     }
     if !input_box_up(rows.as_deref()) {
         return None;

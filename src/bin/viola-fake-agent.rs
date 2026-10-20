@@ -96,6 +96,7 @@ struct Opts {
     stop_receipt_hold: Option<Duration>,
     paste_hint: Option<Duration>,
     tag_turn_screen: Option<String>,
+    long_turn_screen: Option<String>,
     resume: Option<String>,
     fork_session: bool,
     settings: Option<PathBuf>,
@@ -140,6 +141,7 @@ impl Opts {
                         .map(|ms| Duration::from_millis(ms.min(PASTE_HINT_CAP_MS)));
                 }
                 "--tag-turn-screen" => o.tag_turn_screen = value(),
+                "--long-turn-screen" => o.long_turn_screen = value(),
                 "--resume" => o.resume = value(),
                 "--fork-session" => o.fork_session = true,
                 "--settings" => o.settings = value().map(PathBuf::from),
@@ -665,7 +667,8 @@ impl Agent {
     /// fires a UserPromptSubmit. A set without a variant fires nothing for it. With `--paste-hint-ms` beside it, the long text's turn ends on a cleared screen and the
     /// `turn` screen is drawn only after the hold: the real CLI shows a paste hint in the input-box
     /// literal's place for seconds after a long paste. With `--tag-turn-screen <phase>` beside it,
-    /// the tag-like text's turn, and no other, ends on that phase's screen in place of `turn`.
+    /// the tag-like text's turn, and no other, ends on that phase's screen in place of `turn`, and
+    /// with `--long-turn-screen <phase>` the long text's turn alone does.
     fn submit(&self, bytes: &[u8], origin: &str) {
         let text = String::from_utf8_lossy(bytes);
         let framing = framing_stem(&text).filter(|_| self.opts.framing);
@@ -716,10 +719,10 @@ impl Agent {
     }
 
     /// The end of a submitted turn under `--turn-stop`: the Stop hook, the `--paste-hint-ms` hold on
-    /// a cleared screen after the long paste, then the turn's screen (`--tag-turn-screen`'s after the
-    /// tag-like paste alone), and after the first Stop alone the rate-limits status line. The status
-    /// line runs last: run before the clear, it left the earlier input box on screen for a gate wait
-    /// to read as settled. `framing` is the turn's framing stem, when it replayed one.
+    /// a cleared screen after the long paste, then the turn's screen (`--long-turn-screen`'s after the
+    /// long paste alone, `--tag-turn-screen`'s after the tag-like paste alone), and after the first
+    /// Stop alone the rate-limits status line. The status line runs last: run before the clear, it
+    /// left the earlier input box on screen for a gate wait to read as settled. `framing` is the turn's framing stem, when it replayed one.
     fn end_turn(&self, framing: Option<&str>) {
         self.fire("Stop", "default", &[]);
         // `framing_stem(PROBE_LONG_PASTE)` is a compiled text's stem, always `Some`, so the equality
@@ -730,7 +733,12 @@ impl Agent {
             std::thread::sleep(hold);
         }
         let tag = framing.is_some() && framing == framing_stem(PROBE_TAG_PASTE);
-        let named = self.opts.tag_turn_screen.as_deref().filter(|_| tag);
+        let named = self
+            .opts
+            .long_turn_screen
+            .as_deref()
+            .filter(|_| long)
+            .or_else(|| self.opts.tag_turn_screen.as_deref().filter(|_| tag));
         write_screen(&self.opts, named.unwrap_or("turn"));
         if !self.stopped_once.swap(true, Ordering::SeqCst) {
             self.replay_statusline(STATUSLINE_RATE_LIMITS);
@@ -1229,6 +1237,8 @@ mod tests {
             "11000",
             "--tag-turn-screen",
             "tagged",
+            "--long-turn-screen",
+            "longed",
             "--resume",
             "c0f0cc23-690b-45dd-bbfb-06d6cfd44942",
             "--fork-session",
@@ -1266,6 +1276,7 @@ mod tests {
         );
         assert_eq!(o.paste_hint, Some(Duration::from_millis(10_000)), "capped");
         assert_eq!(o.tag_turn_screen.as_deref(), Some("tagged"));
+        assert_eq!(o.long_turn_screen.as_deref(), Some("longed"));
         assert_eq!(
             o.resume.as_deref(),
             Some("c0f0cc23-690b-45dd-bbfb-06d6cfd44942")
@@ -1312,6 +1323,22 @@ mod tests {
         assert!(o.settings.is_none() && o.statusline_stdin.is_none());
         assert_eq!(Opts::parse(&args(&["--settings"])).settings, None);
         assert!(!o.trusted(), "no root: every cwd is untrusted");
+    }
+
+    #[test]
+    fn opts_long_turn_screen_takes_the_phase_it_names_alone() {
+        let o = Opts::parse(&args(&["--long-turn-screen", "long-modal"]));
+        assert_eq!(o.long_turn_screen.as_deref(), Some("long-modal"));
+        assert_eq!(o.tag_turn_screen, None);
+    }
+
+    #[test]
+    fn opts_long_turn_screen_defaults_to_none() {
+        assert_eq!(Opts::parse(&[]).long_turn_screen, None);
+        assert_eq!(
+            Opts::parse(&args(&["--long-turn-screen"])).long_turn_screen,
+            None
+        );
     }
 
     #[test]

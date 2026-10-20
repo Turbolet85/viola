@@ -1,0 +1,22 @@
+# Phase directive — "Newer claude CLI rows" (working-route.md:163)
+
+Measured by the overseer, 2026-10-19:
+
+1. **Fold at P1, as an `[inferred]` item with its own acceptance and witness:** a macOS readiness flake on the
+   switch chunk's wrap commit `b6ddc198`. ci#39321117796 attempt 1 read `test (macos-latest)` red, and attempt 2 read
+   it green (`gh run view 39321117796 --json attempt,conclusion`). Two tests failed, both with
+   `wrapper builder not ready` at `tests/support/watch.rs:54` after ~16.7 s, with the watch report
+   `starts w0 c0 r0 snapshot false beat false`:
+   - `cross_list_rows_print_no_sgr_under_no_color_dumb_piped_or_json`
+   - `cross_list_rows_print_escaped_in_the_captions_columns_in_every_mode`
+
+   `b6ddc198` changes no source file against `aa965127`, which was green 15/15. Job log:
+   `gh api --allow-escape-sequences repos/Turbolet85/viola/actions/jobs/118295119002/logs`.
+2. **Live claude starts are the founder's cap, given per chunk.** He is away tonight. The plan names its live round
+   and how many starts it needs. That cap is a P4 fork for his word, written as the skill's away form. No live start
+   runs before his word. Everything that does not need a live start is planned to complete now.
+3. **The host's CLI at this hour.** PATH `claude` is 2.1.302. The builder session runs 2.1.296 through the overseer's
+   pin shim `~/.local/viola-claude-pin/bin/claude`, which is first on the builder's PATH. The overseer's
+   `viola verify` of 2.1.302, at 2026-10-19T18:18:43Z → 18:21:41Z, read `stamped 2.1.302  20 pass  4 fail`. Its
+   output is the switch chunk's `inputs#I16` relay and
+   `~/dev/projects/additional/viola-overseer/verify-2.1.302-20261019.out`.

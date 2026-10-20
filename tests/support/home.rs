@@ -634,8 +634,32 @@ impl Wrapper {
             if let Some(code) = self.pty.try_wait() {
                 panic!("wrapper {} exited before ready: {code}", self.name);
             }
+            if Instant::now() >= deadline {
+                self.note_stall(&watch);
+            }
             watch.deadline_check(deadline, &format!("wrapper {} not ready", self.name));
             std::thread::yield_now();
+        }
+    }
+
+    /// A wrapper not ready at the deadline: its own last role-file event, then what the OS says it
+    /// is doing, appended to the watch report. It reads the process and never signals it.
+    fn note_stall(&self, watch: &Watch) {
+        let role = self
+            .home()
+            .join("diagnostics")
+            .join(format!("run-{}.ndjson", self.name));
+        let lines = super::ndjson::read_lines(&role);
+        let last = lines.last().and_then(|l| l["event"].as_str());
+        watch.note(&format!("stall last event {}", last.unwrap_or("none")));
+        let control = fake::control_path(self.home(), &self.name);
+        let Some(pid) = wrapper_pid(&control) else {
+            watch.note("stall pid unknown");
+            return;
+        };
+        watch.note(&format!("stall pid {pid}"));
+        for line in process_state(pid) {
+            watch.note(&line);
         }
     }
 
@@ -867,6 +891,82 @@ impl Starts {
             receipt: fake::of_kind(&receipt, "start").len(),
         }
     }
+}
+
+/// The pid of the `viola` started with `control` among its arguments (every boot passes the fake
+/// agent its own control file, which the fake agent's own arguments hold too).
+fn wrapper_pid(control: &Path) -> Option<u32> {
+    let mut sys = System::new();
+    sys.refresh_processes(ProcessesToUpdate::All, true);
+    sys.processes()
+        .values()
+        .find(|p| {
+            let viola = p.exe() == Some(Path::new(VIOLA))
+                || p.cmd()
+                    .first()
+                    .is_some_and(|a| Path::new(a) == Path::new(VIOLA));
+            viola && p.cmd().iter().any(|a| Path::new(a) == control)
+        })
+        .map(|p| p.pid().as_u32())
+}
+
+/// `/usr/bin/sample <pid> 1`'s call graph, its stack lines only, bounded: `sample` reads the task
+/// and sends it no signal.
+#[cfg(target_os = "macos")]
+fn process_state(pid: u32) -> Vec<String> {
+    const SAMPLE_WITHIN: Duration = Duration::from_secs(4);
+    const STACK_LINES: usize = 120;
+    let out = std::env::temp_dir()
+        .join("viola-root-watch")
+        .join(format!("stall-{pid}.sample.txt"));
+    let child = std::process::Command::new("/usr/bin/sample")
+        .args([pid.to_string().as_str(), "1", "-mayDie", "-file"])
+        .arg(&out)
+        .stdin(std::process::Stdio::null())
+        .stdout(std::process::Stdio::null())
+        .stderr(std::process::Stdio::null())
+        .spawn();
+    let Ok(mut child) = child else {
+        return vec!["stall sample unstarted".to_owned()];
+    };
+    let deadline = Instant::now() + SAMPLE_WITHIN;
+    while child.try_wait().ok().flatten().is_none() {
+        if Instant::now() >= deadline {
+            let _ = child.kill();
+            let _ = child.wait();
+            return vec!["stall sample timed out".to_owned()];
+        }
+        std::thread::yield_now();
+    }
+    let text = fs::read_to_string(&out).unwrap_or_default();
+    let mut lines = vec!["stall sample".to_owned()];
+    lines.extend(
+        text.lines()
+            .skip_while(|l| !l.starts_with("Call graph:"))
+            .skip(1)
+            .take_while(|l| !l.trim().is_empty())
+            .take(STACK_LINES)
+            .map(|l| format!("stack {}", l.trim_end())),
+    );
+    lines
+}
+
+/// `/proc/<pid>/wchan` and the state field of `/proc/<pid>/stat`.
+#[cfg(target_os = "linux")]
+fn process_state(pid: u32) -> Vec<String> {
+    let proc = Path::new("/proc").join(pid.to_string());
+    let wchan = fs::read_to_string(proc.join("wchan")).unwrap_or_default();
+    let stat = fs::read_to_string(proc.join("stat")).unwrap_or_default();
+    let state = stat
+        .rsplit_once(") ")
+        .and_then(|(_, rest)| rest.split_whitespace().next())
+        .unwrap_or("unknown");
+    vec![format!("stall wchan {} state {state}", wchan.trim())]
+}
+
+#[cfg(not(any(target_os = "macos", target_os = "linux")))]
+fn process_state(_pid: u32) -> Vec<String> {
+    Vec::new()
 }
 
 /// The instance snapshot's `data`, when it parses.

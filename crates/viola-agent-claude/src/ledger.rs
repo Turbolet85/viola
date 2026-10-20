@@ -600,12 +600,14 @@ impl ProbeRun {
 }
 
 /// What the two interactive runs measured: the recorded row text of the `modal` screen (the
-/// untrusted run) and of the `ready` and `turn` screens (the trusted run), and the timings in ms.
+/// untrusted run) and of the `ready` and `turn` screens (the trusted run), the rows Run B's input
+/// box settled on after the long paste's turn (`long_turn`), and the timings in ms.
 #[derive(Debug, Clone, Default, PartialEq, Eq)]
 pub struct TypedRun {
     pub modal: Option<Vec<String>>,
     pub ready: Option<Vec<String>>,
     pub turn: Option<Vec<String>>,
+    pub long_turn: Option<Vec<String>>,
     pub ready_settle_ms: Option<u64>,
     pub turn_settle_ms: Option<u64>,
     pub prompt_latency_ms: Option<u64>,
@@ -1006,7 +1008,9 @@ pub fn check(row: LedgerRow, probes: &Probes) -> bool {
         LedgerRow::LargestHookPayload => run.captures.iter().all(|c| fits_frame(c.bytes)),
         LedgerRow::ModalSignature => any_row(typed.modal.as_ref(), SIGNATURES.modals),
         LedgerRow::InputBoxSignature => {
-            input_box_ready(typed.ready.as_ref()) && input_box_ready(typed.turn.as_ref())
+            input_box_ready(typed.ready.as_ref())
+                && input_box_ready(typed.turn.as_ref())
+                && input_box_ready(typed.long_turn.as_ref())
         }
         LedgerRow::QuietPeriod => {
             within(typed.ready_settle_ms, GATE_MAX_WAIT)
@@ -1827,6 +1831,7 @@ mod tests {
             modal: Some(rows(&["", " ❯ No, exit", "   Yes, I trust this folder"])),
             ready: Some(rows(&["❯ Try it", "  ⏸ manual mode on · ← for agents"])),
             turn: Some(rows(&["● ok", "  ⏸ manual mode on · ← for agents"])),
+            long_turn: Some(rows(&["● long", "  ⏸ manual mode on · ← for agents"])),
             ready_settle_ms: Some(1084),
             turn_settle_ms: Some(314),
             prompt_latency_ms: Some(31),
@@ -2419,6 +2424,46 @@ mod tests {
             ..clean_typed()
         };
         assert_eq!(typed_check(LedgerRow::ModalSignature, typed), expected);
+    }
+
+    #[test]
+    fn check_input_box_signature_long_turn_holding_the_literal_passes() {
+        let long_turn = TypedRun {
+            long_turn: Some(rows(&["● long", "  ⏸ manual mode on · ← for agents"])),
+            ..clean_typed()
+        };
+        assert!(typed_check(LedgerRow::InputBoxSignature, long_turn));
+    }
+
+    #[test]
+    fn check_input_box_signature_long_turn_holding_a_modal_fails() {
+        for modal in [
+            "   Yes, allow external imports",
+            "   Yes, I trust this folder",
+        ] {
+            let long_turn = TypedRun {
+                long_turn: Some(rows(&[modal, "  ← for agents"])),
+                ..clean_typed()
+            };
+            assert!(
+                !typed_check(LedgerRow::InputBoxSignature, long_turn),
+                "{modal}"
+            );
+        }
+    }
+
+    #[test]
+    fn check_input_box_signature_long_turn_of_none_fails() {
+        let long_turn = TypedRun {
+            long_turn: None,
+            ..clean_typed()
+        };
+        assert!(!typed_check(LedgerRow::InputBoxSignature, long_turn));
+        let without = TypedRun {
+            long_turn: Some(rows(&["● long"])),
+            ..clean_typed()
+        };
+        assert!(!typed_check(LedgerRow::InputBoxSignature, without));
     }
 
     #[test]

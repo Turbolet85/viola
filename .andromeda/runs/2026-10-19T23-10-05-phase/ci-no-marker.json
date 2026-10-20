@@ -1,0 +1,50 @@
+[
+{
+"tool": "ci",
+"v": "1.3",
+"sha8": "2b582a9b",
+"ts": "2026-10-19T23:10:11Z",
+"argv": [
+"conclusion",
+"--sha",
+"50e2f76167ee0a58f7e1f45fd0ff99bdc6fd3503",
+"--sha",
+"b6ddc19856e55fd9d4083db4400a8196f24f6488",
+"--run-dir",
+".andromeda/runs/2026-10-19T23-10-05-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"repo Turbolet85/viola (the push remote `origin`)",
+"50e2f76167ee verdict: in progress · checks 15/15 · runs ci#39339625602 queued/-",
+"b6ddc19856e5 verdict: red · checks 25/25 · attempt 2 · first-fail +2896 s mutants (viola-e2e) · wall 6445 s · runs wind… · red by: mutants (viola-e2e)=failure · mutants (viola-cmd-verify-stop)=failure · mutants (viola-pty)=failure · mutants (viola-main)=failure · mutants (viola-panic-frames)=failure · mutants (viola-run-env)=failure · run windows-mutants#39326811932=failure"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"repo": "Turbolet85/viola",
+"host": "github.com",
+"repo_source": "the push remote `origin`",
+"names": [],
+"shas": [
+{
+"sha": "50e2f76167ee0a58f7e1f45fd0ff99bdc6fd3503",
+"word": "in progress",
+"polls": [
+"in progress"
+]
+},
+{
+"sha": "b6ddc19856e55fd9d4083db4400a8196f24f6488",
+"word": "red",
+"polls": [
+"red"
+]
+}
+]
+}
+}
+]

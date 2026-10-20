@@ -1,0 +1,105 @@
+[
+{
+"tool": "matrix",
+"v": "1.5",
+"sha8": "49bca268",
+"ts": "2026-10-19T23:45:56Z",
+"argv": [
+"coverage",
+"--dir",
+"viola-0.1.0",
+"--run-dir",
+".andromeda/runs/2026-10-19T23-10-05-phase",
+"--marker",
+"2026-10-19-newer-claude-cli-rows"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"verified 22/53 · deferred 6 · planned 24 · implemented 1 · unclaimed 24",
+"unclaimed: v1-01 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-13 v1-17 v1-18 v1-21 v1-24 v1-26 v1-27 v1-34",
+"          v1-35 v1-36 v1-41 v1-44 v1-45 v1-46 v1-47 v1-53",
+"claimed-unfinished: none",
+"done-test: NO — 25 not verified|deferred · unclaimed 24",
+"chunks referenced: 22 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.5",
+"sha8": "49bca268",
+"ts": "2026-10-19T23:46:05Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-34",
+"--text-file",
+".andromeda/runs/2026-10-19T23-10-05-phase/note-v1-34.md",
+"--run-dir",
+".andromeda/runs/2026-10-19T23-10-05-phase",
+"--marker",
+"2026-10-19-newer-claude-cli-rows"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-34: +1061 chars (total 12594) · status planned · ref/acceptance untouched",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-34",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "Each relied-on CLI behaviour is a versioned ledger row with a live probe and a post-condition; viola verify probes the l… (386 chars)",
+"notes_chars": 11531
+},
+"after": {
+"id": "v1-34",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "Each relied-on CLI behaviour is a versioned ledger row with a live probe and a post-condition; viola verify probes the l… (386 chars)",
+"notes_chars": 12594
+}
+},
+{
+"tool": "matrix",
+"v": "1.5",
+"sha8": "49bca268",
+"ts": "2026-10-19T23:46:05Z",
+"argv": [
+"audit",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-19-newer-claude-cli-rows",
+"--plan",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-19T23-10-05-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-10-19-newer-claude-cli-rows: 0 · ## Acceptance Criteria: line 504, 58 lines",
+"pool: unclaimed 24 [v1-01 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-13 v1-17 v1-18 v1-21 v1-24 v1-26 v1-27 v1-34 v1-35 v1-36 v1-41 v1-44 v1-45 v1-46 v1-47 v1-53]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

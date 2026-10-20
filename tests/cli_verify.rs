@@ -1483,6 +1483,64 @@ fn verify_pastes_no_local_command_once_the_tag_turn_screen_shows_a_modal(
     assert_eq!(probes_left(home.path()), 0);
 }
 
+/// claude 2.1.302's stop, reproduced: when the screen after the long paste's turn alone shows no
+/// input box the trusted run can type into (here a modal literal beside it, so the settle ends at
+/// once on a compiled literal), none of the tag-like text, the newline text, `/compact` and
+/// `/clear` is pasted. Their four rows fail, and so does `input-box-signature`, which reads that
+/// screen too.
+#[rstest]
+fn verify_pastes_nothing_more_once_the_long_turn_screen_shows_a_modal(
+    #[from(home)] home: TestHome,
+) {
+    write_spine_set(&fixtures(&home), "2.1.0", None);
+    let modal = screen_rows(&[(9, TRUST_ROW), (23, INPUT_BOX_ROW)]);
+    write_screen(&fixtures(&home), "2.1.0", "long-modal", &modal);
+    let receipt = home.scratch().join("receipt.ndjson");
+    let receipt_arg = receipt.to_str().expect("utf-8").to_owned();
+    let after = [
+        "--receipt",
+        receipt_arg.as_str(),
+        "--long-turn-screen",
+        "long-modal",
+    ];
+    let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &after, &[]);
+    assert_eq!(ran.code, Some(1), "stdout {}", ran.stdout_text());
+    let red = [
+        "input-box-signature",
+        "tag-escaping",
+        "local-command-clear",
+        "paste-newline",
+        "local-command-compact",
+    ];
+    let mut expected = steps_failing(|i| red.contains(&ROW_IDS[i]));
+    #[cfg(unix)]
+    expected.push("stamped 2.1.0  19 pass  5 fail".to_owned());
+    #[cfg(windows)]
+    expected.push("stamped 2.1.0  16 pass  5 fail".to_owned());
+    let stdout = ran.stdout_text();
+    assert_eq!(
+        stdout.lines().collect::<Vec<_>>(),
+        expected,
+        "stdout {stdout}"
+    );
+    let rows = &stamps(home.path())["data"]["versions"]["2.1.0"]["rows"];
+    for id in red {
+        assert_eq!(rows[id], "fail", "{id}");
+    }
+    for id in ROW_IDS.iter().filter(|id| !red.contains(id)) {
+        assert_eq!(rows[*id], "pass", "{id}");
+    }
+    let typed = trusted_run_typed(&receipt);
+    assert_eq!(
+        typed,
+        [
+            "viola verify probe: reply with the single word ok",
+            support::verify::long_paste().as_str(),
+        ]
+    );
+    assert_eq!(probes_left(home.path()), 0);
+}
+
 /// After a long paste the real CLI shows a paste hint in the input-box literal's place (8.0 s from
 /// the paste on 2.1.287, measured). With the fake agent holding a cleared screen for 9 s after the
 /// long turn's Stop, past the gate's 8.5 s maximum, a window forced open and never sampled, the

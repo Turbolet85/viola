@@ -1,0 +1,2562 @@
+[
+{
+"tool": "gate",
+"v": "1.21",
+"sha8": "e6b5f42f",
+"ts": "2026-10-19T23:51:04Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-19T23-48-08-implement",
+"--marker",
+"2026-10-19-newer-claude-cli-rows",
+"--only",
+"22"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-19-newer-claude-cli-rows · entries 35",
+"logs $TMPDIR/andromeda-gate/2026-10-19-newer-claude-cli-rows/implement-2026-10-19T23-48-08 · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 47 · rust 4 · unmapped 8",
+"walk-class rust 4 (tests/cli_controls_not_disableable.rs, tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, +1 in the trail) · uncommitted 59",
+"prose L186-187: The lint and unit entries run first, then the new cases by name, the integration and E2E b… (144 chars)",
+"prose L189-200: **The gated live round** sits in one contiguous span (gate-contract §Live round: no non-le… (326 chars)",
+"prose L202-204: Every round entry carries `defer = \"gated: …\"` and fires only through `--void {n}:block cl… (349 chars)",
+"prose L206-209: The round is never re-run by the wrap; it is re-verified from `evidence/live-round.md`, wh… (367 chars)",
+"prose L211-214: Steps 6(b) and 7's macOS readings come from CI artifacts the operator pass produces: `evid… (493 chars)",
+" 22 integration red · exit 0 ✗ (exit 1) · exit 1 · 13.17s · 9091 B → 22.log · bash scripts/agent-run.sh run --integration --filter 'test… (130 chars)",
+"not run — excluded · 34: 1-21,23-35",
+"entries 35 · green 0 · red 1 (22) · recorded 0 · timeout 0 · not-run 34"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-19-newer-claude-cli-rows",
+"plan": "./viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-19-newer-claude-cli-rows/implement-2026-10-19T23-48-08",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/a11y-history.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/a11y.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/arch-contracts.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/arch-history-index.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/arch-history.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/arch.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-19T23-10-05-phase/design-history.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/design.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/evolve-2026-10-19-newer-claude-cli-rows.json",
+".andromeda/runs/2026-10-19T23-10-05-phase/founder-forks.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/gate-2026-10-19-newer-claude-cli-rows.json",
+".andromeda/runs/2026-10-19T23-10-05-phase/inputs-2026-10-19-newer-claude-cli-rows.json",
+".andromeda/runs/2026-10-19T23-10-05-phase/layouts-history.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/layouts.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/master-record.txt",
+".andromeda/runs/2026-10-19T23-10-05-phase/matrix-2026-10-19-newer-claude-cli-rows.json",
+".andromeda/runs/2026-10-19T23-10-05-phase/note-v1-34.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/obs-contracts.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/obs-history.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/obs.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/p5-card-1.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/p5-controls.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/planlint-2026-10-19-newer-claude-cli-rows.json",
+".andromeda/runs/2026-10-19T23-10-05-phase/registry-2026-10-19-newer-claude-cli-rows.json",
+".andromeda/runs/2026-10-19T23-10-05-phase/relay-1.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/relay-2.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/relay-3.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/route-2026-10-19-newer-claude-cli-rows.json",
+".andromeda/runs/2026-10-19T23-10-05-phase/route-no-marker.json",
+".andromeda/runs/2026-10-19T23-10-05-phase/security-history-index.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/security-history.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/security.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/sidecar-2026-10-19-newer-claude-cli-rows.json",
+".andromeda/runs/2026-10-19T23-10-05-phase/tests-contracts.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/tests-history-index.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/tests-history.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/tests.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/tree-query-2026-10-19-newer-claude-cli-rows.json",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/plan.md",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/research.md",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/scope.md"
+],
+"rust": [
+"crates/viola-agent-claude/src/ledger.rs",
+"src/bin/viola-fake-agent.rs",
+"src/cmd/verify/typed.rs",
+"tests/cli_verify.rs"
+]
+},
+"unmapped": [
+"viola-0.1.0/verification-matrix.json",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/inputs/.gitattributes",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/inputs/I1-phase-cli-rows-directive.md.txt",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/inputs/I2-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/inputs/I3-relay-2.md.txt",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/inputs/I4-founder-forks.md.txt",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/inputs/I5-relay-3.md.txt",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/inputs/andromeda-inputs.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/cli_controls_not_disableable.rs",
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 59,
+"problem": null
+},
+"prose": [
+{
+"from": 186,
+"to": 187,
+"text": "The lint and unit entries run first, then the new cases by name, the integration and E2E binaries, the guards, the harness smoke and `pre-push`."
+},
+{
+"from": 189,
+"to": 200,
+"text": "**The gated live round** sits in one contiguous span (gate-contract §Live round: no non-leg entry inside it). Its entries: - the non-priming probe; - the transcript count; - the footer reading; - a census; - the record round; - a census; - the count again; - `--local-live`; - its census; - the option-2 verify and its census."
+},
+{
+"from": 202,
+"to": 204,
+"text": "Every round entry carries `defer = \"gated: …\"` and fires only through `--void {n}:block cleared — {his word}`. Step 8 fires alone (`--entry`) before step 9's code change, step 10 after it, step 12 after step 11. Starts per firing: the footer reading 1, the record round 6, `--local-live` 6, the option-2 verify 6. The probe and counts start nothing."
+},
+{
+"from": 206,
+"to": 209,
+"text": "The round is never re-run by the wrap; it is re-verified from `evidence/live-round.md`, which implement writes from the round entries' logs and `date -u`. No entry produces that file and no entry reads it. The record entry's own `contains stamped 2.1.302  24 pass  0 fail`, the fixture guard and the integration binaries assert the round on every re-run of the block."
+},
+{
+"from": 211,
+"to": 214,
+"text": "Steps 6(b) and 7's macOS readings come from CI artifacts the operator pass produces: `evidence/macos-run-start.md` is written by implement and the pass, and no entry reads it. `evidence/reproduction.md` is written by implement at step 4 from the reproduction case's red-before firing (the `--filter` entry for it, run before step 2's arm lands). No entry produces or reads it; the case itself asserts the green side on every re-run. No mutation entry (test-plan §10: the epoch-boundary audit)."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "lint",
+"run": "CARGO_TARGET_DIR=target/wincheck cargo clippy --workspace --all-targets --features fake-agent --target x86_64-pc-windows-msvc -- -D warnings",
+"run_sha8": "4f11616c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "rg -n -U --pcre2 --type rust '#\\[(tracing::)?instrument\\b(?!\\(\\s*skip_all\\b)' .",
+"run_sha8": "d8c83432",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "lint",
+"run": "bash scripts/lint-probes.sh",
+"run_sha8": "4811ad1f",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/long_turn/)' ",
+"run_sha8": "37349f43",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/resting_footer/)' ",
+"run_sha8": "d21e49ae",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "test -x \"$HOME/.local/share/mise/installs/claude/2.1.302/claude\" && command -v tmux",
+"run_sha8": "9c5927e0",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "find \"$HOME/.claude/projects\" -name '*.jsonl' -path '*-viola-*' | wc -l",
+"run_sha8": "d1834ea1",
+"expect": [],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "bash viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/footer-reading.sh",
+"run_sha8": "548ddce3",
+"expect": [
+"exit 0",
+"last line footer-reading: written"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "for p in $(pgrep -x claude); do case \"$(readlink /proc/$p/cwd)\" in \"$PWD\"/.viola-footer-*|*/target/e2e-home/viola-record-*|\"$PWD\"/.viola-verify-*|/tmp/viola-verify-*) echo \"$p\";; esac; done",
+"run_sha8": "509f2737",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "build",
+"run": "h=\"target/e2e-home/viola-record-$(date -u +%Y%m%dT%H%M%SZ)\" && cargo build -q && env -u VIOLA_NAME -u VIOLA_DIR -u VIOLA_BIN target/debug/viola --home \"$h/vhome\" verify --record \"$h/out\" -- \"$HOME/.local/share/mise/installs/claude/2.1.302/claude\" && mkdir -p fixtures/claude/2.1.302 && cp \"$h\"/out/2.1.302/* fixtures/claude/2.1.302/",
+"run_sha8": "24b90744",
+"expect": [
+"exit 0",
+"contains stamped 2.1.302  24 pass  0 fail"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "for p in $(pgrep -x claude); do case \"$(readlink /proc/$p/cwd)\" in */target/e2e-home/viola-record-*|\"$PWD\"/.viola-verify-*|/tmp/viola-verify-*) echo \"$p\";; esac; done",
+"run_sha8": "6863297a",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "find \"$HOME/.claude/projects\" -name '*.jsonl' -path '*-viola-*' | wc -l",
+"run_sha8": "d1834ea1",
+"expect": [],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "e2e",
+"run": "PATH=\"$HOME/.local/share/mise/installs/claude/2.1.302:$PATH\" bash scripts/agent-run.sh run --local-live",
+"run_sha8": "f94d4069",
+"expect": [
+"exit 0",
+"contains \"suite\":\"local-live\"",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "for p in $(pgrep -x claude); do case \"$(readlink /proc/$p/cwd)\" in */target/e2e-home/viola-live-*|\"$PWD\"/.viola-verify-*|/tmp/viola-verify-*) echo \"$p\";; esac; done",
+"run_sha8": "e544a183",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "e2e",
+"run": "h=\"target/e2e-home/viola-v296-$(date -u +%Y%m%dT%H%M%SZ)\" && env -u VIOLA_NAME -u VIOLA_DIR -u VIOLA_BIN target/debug/viola --home \"$h/vhome\" verify -- \"$HOME/.local/share/mise/installs/claude/2.1.296/claude\"",
+"run_sha8": "b043a7fc",
+"expect": [
+"exit 0",
+"contains stamped 2.1.296  24 pass  0 fail"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "for p in $(pgrep -x claude); do case \"$(readlink /proc/$p/cwd)\" in */target/e2e-home/viola-v296-*|\"$PWD\"/.viola-verify-*|/tmp/viola-verify-*) echo \"$p\";; esac; done",
+"run_sha8": "c578f8c4",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "test -z \"$(git diff --name-only --diff-filter=MD 50e2f76167ee -- fixtures/claude)\" && test -n \"$(ls fixtures/claude/2.1.302/ 2>/dev/null)\"",
+"run_sha8": "ddfa0902",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 21,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(cli_verify) | binary(cli_fake_agent) | binary(cli_version_gate) | binary(cli_send)' ",
+"run_sha8": "8f518298",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 22,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'test(/verify_pastes_nothing_more_once_the_long_turn_screen_shows_a_modal/)' ",
+"run_sha8": "a54c53e2",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-newer-claude-cli-rows/implement-2026-10-19T23-48-08/22.log",
+"bytes": 9091,
+"log_sha8": "cab57f12",
+"exit": 1,
+"seconds": 13.17,
+"readings": [
+"exit 0 ✗ (exit 1)",
+"contains '\"ok\":true' ✗"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 1)"
+},
+{
+"n": 23,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh run --e2e --filter 'binary(contract_ledger_probes) | binary(contract_fake_agent_drift) | binary(contract_fixture_hygiene) | binary(cross_list_rows)' ",
+"run_sha8": "f78d5243",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 24,
+"role": "probe",
+"run": "git diff --quiet 50e2f76167ee -- . ':!crates/viola-agent-claude/src/ledger.rs' ':!crates/viola-agent-claude/src/screen.rs' ':!src/cmd/verify/typed.rs' ':!src/bin/viola-fake-agent.rs' ':!tests/cli_verify.rs' ':!tests/contract_ledger_probes.rs' ':!tests/support/home.rs' ':!crates/viola-state/src/pin.rs' ':!src/cmd/run.rs' ':!.config/nextest.toml' ':!fixtures/claude/2.1.302' ':!.andromeda' ':!viola-0.1.0' ':!.claude' ':!CLAUDE.md' && test -z \"$(git ls-files --others --exclude-standard -- src crates tests schemas plugin scripts .github .config Cargo.toml Cargo.lock)\"",
+"run_sha8": "acf398a6",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 25,
+"role": "probe",
+"run": "cargo deny check",
+"run_sha8": "2708b9d9",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 26,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-ncr-smoke",
+"run_sha8": "90f41c94",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 27,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-ncr-smoke --instance builder",
+"run_sha8": "05a1442c",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 28,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-ncr-smoke",
+"run_sha8": "a5f1249b",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 29,
+"role": "probe",
+"run": "bash scripts/g2-zero-panics.sh",
+"run_sha8": "b1637f71",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 30,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 31,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-ncr-smoke",
+"run_sha8": "90f41c94",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 32,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 33,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "451237e0",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 34,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 35,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 2400",
+"run_sha8": "10a6ad61",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.21",
+"sha8": "e6b5f42f",
+"ts": "2026-10-19T23:51:18Z",
+"argv": [
+"show",
+"--run-dir",
+".andromeda/runs/2026-10-19T23-48-08-implement",
+"--marker",
+"2026-10-19-newer-claude-cli-rows",
+"--n",
+"22"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"22 integration red · exit 0 ✗ (exit 1)",
+"run (a54c53e2): bash scripts/agent-run.sh run --integration --filter 'test(/verify_pastes_nothing_more_once_the_long_turn_screen_shows_a_modal/)' ",
+"  exit 0 ✗ (exit 1)",
+"  contains '\"ok\":true' ✗",
+"log $TMPDIR/andromeda-gate/2026-10-19-newer-claude-cli-rows/implement-2026-10-19T23-48-08/22.log · 9091 B · cab57f12 · $TMPDIR = /tmp",
+"--- failing block from L8 ---",
+"        FAIL [   3.701s] (1/1) viola::cli_verify verify_pastes_nothing_more_once_the_long_turn_screen_shows_a_modal",
+"  stdout ───",
+"",
+"    running 1 test",
+"    test verify_pastes_nothing_more_once_the_long_turn_screen_shows_a_modal ... FAILED",
+"",
+"    failures:",
+"",
+"    failures:",
+"        verify_pastes_nothing_more_once_the_long_turn_screen_shows_a_modal",
+"",
+"    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 34 filtered out; finished in 3.70s",
+"",
+"  stderr ───",
+"",
+"    thread 'verify_pastes_nothing_more_once_the_long_turn_screen_shows_a_modal' (932038) panicked at tests/cli_verify.rs:1521:5:",
+"    assertion `left == right` failed: stdout [01/24] shim-resolution claude resolves to a real executable  pass",
+"    [02/24] spine-hooks spine hooks fire through the plugin dir  pass",
+"    [03/24] session-start-fields SessionStart carries session_id and source  pass",
+"    [04/24] prompt-verbatim UserPromptSubmit carries the prompt as sent  pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "gate",
+"v": "1.21",
+"sha8": "e6b5f42f",
+"ts": "2026-10-19T23:59:39Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-19T23-48-08-implement",
+"--marker",
+"2026-10-19-newer-claude-cli-rows"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-19-newer-claude-cli-rows · entries 35",
+"logs $TMPDIR/andromeda-gate/2026-10-19-newer-claude-cli-rows/implement-2026-10-19T23-48-08 · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 51 · python 1 · rust 5 · unmapped 8",
+"walk-class rust 4 (tests/cli_controls_not_disableable.rs, tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, +1 in the trail) · uncommitted 65",
+"prose L186-187: The lint and unit entries run first, then the new cases by name, the integration and E2E b… (144 chars)",
+"prose L189-200: **The gated live round** sits in one contiguous span (gate-contract §Live round: no non-le… (326 chars)",
+"prose L202-204: Every round entry carries `defer = \"gated: …\"` and fires only through `--void {n}:block cl… (349 chars)",
+"prose L206-209: The round is never re-run by the wrap; it is re-verified from `evidence/live-round.md`, wh… (367 chars)",
+"prose L211-214: Steps 6(b) and 7's macOS readings come from CI artifacts the operator pass produces: `evid… (493 chars)",
+"  1 lint        green · exit 0 · 1.08s · 0 B → 1.log · cargo fmt --all --check",
+"  2 lint        green · exit 0 · 2.6s · 318 B → 2.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 lint        green · exit 0 · 2.97s · 318 B → 3.log · CARGO_TARGET_DIR=target/wincheck cargo clippy --workspace … (140 chars)",
+"  4 lint        green · exit 1 · 0.02s · 0 B → 4.log · rg -n -U --pcre2 --type rust '#\\[(tracing::)?instrument\\b(… (79 chars)",
+"  5 lint        green · exit 0 · 0.64s · 286 B → 5.log · bash scripts/lint-probes.sh",
+"  6 unit        green · exit 0 · 13.08s · 315388 B → 6.log · bash scripts/agent-run.sh run --unit",
+"  7 unit        green · exit 0 · 0.88s · 2352 B → 7.log · bash scripts/agent-run.sh run --unit --filter 'test(/long_… (66 chars)",
+"  8 unit        not run — defer (key): gated: the founder's own word on the liv… (126 chars) · bash scripts/agent-run.sh run --unit --filter 'test(/resti… (71 chars)",
+"  9 probe       not run — leg round (the letter drives it) · test -x \"$HOME/.local/share/mise/installs/claude/2.1.302/c… (83 chars)",
+" 10 probe       not run — leg round (the letter drives it) · find \"$HOME/.claude/projects\" -name '*.jsonl' -path '*-vio… (71 chars)",
+" 11 probe       not run — leg live (the letter drives it) · bash viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/f… (74 chars)",
+" 12 probe       not run — leg round (the letter drives it) · for p in $(pgrep -x claude); do case \"$(readlink /proc/$p/… (189 chars)",
+" 13 build       not run — leg live (the letter drives it) · h=\"target/e2e-home/viola-record-$(date -u +%Y%m%dT%H%M%SZ)… (332 chars)",
+" 14 probe       not run — leg round (the letter drives it) · for p in $(pgrep -x claude); do case \"$(readlink /proc/$p/… (166 chars)",
+" 15 probe       not run — leg round (the letter drives it) · find \"$HOME/.claude/projects\" -name '*.jsonl' -path '*-vio… (71 chars)",
+" 16 e2e         not run — leg live (the letter drives it) · PATH=\"$HOME/.local/share/mise/installs/claude/2.1.302:$PAT… (103 chars)",
+" 17 probe       not run — leg round (the letter drives it) · for p in $(pgrep -x claude); do case \"$(readlink /proc/$p/… (164 chars)",
+" 18 e2e         not run — leg live (the letter drives it) · h=\"target/e2e-home/viola-v296-$(date -u +%Y%m%dT%H%M%SZ)\" … (208 chars)",
+" 19 probe       not run — leg round (the letter drives it) · for p in $(pgrep -x claude); do case \"$(readlink /proc/$p/… (164 chars)",
+" 20 probe       not run — defer (key): gated: the founder's own word on the liv… (126 chars) · test -z \"$(git diff --name-only --diff-filter=MD 50e2f7616… (138 chars)",
+" 21 integration green · exit 0 · 46.59s · 15499 B → 21.log · bash scripts/agent-run.sh run --integration --filter 'bina… (145 chars)",
+" 22 integration green · exit 0 · 4.55s · 1888 B → 22.2.log · bash scripts/agent-run.sh run --integration --filter 'test… (130 chars)",
+" 23 e2e         green · exit 0 · 10.28s · 11615 B → 23.log · bash scripts/agent-run.sh run --e2e --filter 'binary(contr… (175 chars)",
+" 24 probe       green · exit 0 · 0.01s · 0 B → 24.log · git diff --quiet 50e2f76167ee -- . ':!crates/viola-agent-c… (569 chars)",
+" 25 probe       green · exit 0 · 0.76s · 13322 B → 25.log · cargo deny check",
+" 26 smoke       green · exit 0 · 0.11s · 47 B → 26.log · bash scripts/agent-run.sh cleanup --session p-ncr-smoke",
+" 27 smoke       green · exit 0 · 6.76s · 531 B → 27.log · bash scripts/agent-run.sh boot --session p-ncr-smoke --ins… (71 chars)",
+" 28 smoke       green · exit 0 · 0.25s · 451 B → 28.log · bash scripts/agent-run.sh status --session p-ncr-smoke",
+" 29 probe       green · exit 0 · 0.02s · 10 B → 29.log · bash scripts/g2-zero-panics.sh",
+" 30 probe       green · exit 0 · 0.2s · 107 B → 30.log · bash scripts/agent-run.sh schema-check",
+" 31 smoke       green · exit 0 · 0.33s · 135 B → 31.log · bash scripts/agent-run.sh cleanup --session p-ncr-smoke",
+" 32 probe       green · exit 0 · 86.34s · 386334 B → 32.log · bash scripts/agent-run.sh pre-push",
+" 33 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (90 chars)",
+" 34 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (69 chars)",
+" 35 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (114 chars)",
+"entries 35 · green 19 · red 0 · recorded 0 · timeout 0 · not-run 16"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-19-newer-claude-cli-rows",
+"plan": "./viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-19-newer-claude-cli-rows/implement-2026-10-19T23-48-08",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/a11y-history.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/a11y.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/arch-contracts.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/arch-history-index.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/arch-history.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/arch.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-19T23-10-05-phase/design-history.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/design.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/evolve-2026-10-19-newer-claude-cli-rows.json",
+".andromeda/runs/2026-10-19T23-10-05-phase/founder-forks.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/gate-2026-10-19-newer-claude-cli-rows.json",
+".andromeda/runs/2026-10-19T23-10-05-phase/inputs-2026-10-19-newer-claude-cli-rows.json",
+".andromeda/runs/2026-10-19T23-10-05-phase/layouts-history.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/layouts.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/master-record.txt",
+".andromeda/runs/2026-10-19T23-10-05-phase/matrix-2026-10-19-newer-claude-cli-rows.json",
+".andromeda/runs/2026-10-19T23-10-05-phase/note-v1-34.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/obs-contracts.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/obs-history.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/obs.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/p5-card-1.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/p5-controls.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/planlint-2026-10-19-newer-claude-cli-rows.json",
+".andromeda/runs/2026-10-19T23-10-05-phase/registry-2026-10-19-newer-claude-cli-rows.json",
+".andromeda/runs/2026-10-19T23-10-05-phase/relay-1.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/relay-2.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/relay-3.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/route-2026-10-19-newer-claude-cli-rows.json",
+".andromeda/runs/2026-10-19T23-10-05-phase/route-no-marker.json",
+".andromeda/runs/2026-10-19T23-10-05-phase/security-history-index.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/security-history.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/security.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/sidecar-2026-10-19-newer-claude-cli-rows.json",
+".andromeda/runs/2026-10-19T23-10-05-phase/tests-contracts.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/tests-history-index.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/tests-history.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/tests.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/tree-query-2026-10-19-newer-claude-cli-rows.json",
+".andromeda/runs/2026-10-19T23-48-08-implement/evolve-2026-10-19-newer-claude-cli-rows.json",
+".andromeda/runs/2026-10-19T23-48-08-implement/gate-2026-10-19-newer-claude-cli-rows.json",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/evidence/macos-run-start.md",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/evidence/reproduction.md",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/plan.md",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/research.md",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/scope.md"
+],
+"rust": [
+"crates/viola-agent-claude/src/ledger.rs",
+"src/bin/viola-fake-agent.rs",
+"src/cmd/verify/typed.rs",
+"tests/cli_verify.rs",
+"tests/support/home.rs"
+],
+"python": [
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/macos-run-start.py"
+]
+},
+"unmapped": [
+"viola-0.1.0/verification-matrix.json",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/inputs/.gitattributes",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/inputs/I1-phase-cli-rows-directive.md.txt",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/inputs/I2-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/inputs/I3-relay-2.md.txt",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/inputs/I4-founder-forks.md.txt",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/inputs/I5-relay-3.md.txt",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/inputs/andromeda-inputs.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/cli_controls_not_disableable.rs",
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 65,
+"problem": null
+},
+"prose": [
+{
+"from": 186,
+"to": 187,
+"text": "The lint and unit entries run first, then the new cases by name, the integration and E2E binaries, the guards, the harness smoke and `pre-push`."
+},
+{
+"from": 189,
+"to": 200,
+"text": "**The gated live round** sits in one contiguous span (gate-contract §Live round: no non-leg entry inside it). Its entries: - the non-priming probe; - the transcript count; - the footer reading; - a census; - the record round; - a census; - the count again; - `--local-live`; - its census; - the option-2 verify and its census."
+},
+{
+"from": 202,
+"to": 204,
+"text": "Every round entry carries `defer = \"gated: …\"` and fires only through `--void {n}:block cleared — {his word}`. Step 8 fires alone (`--entry`) before step 9's code change, step 10 after it, step 12 after step 11. Starts per firing: the footer reading 1, the record round 6, `--local-live` 6, the option-2 verify 6. The probe and counts start nothing."
+},
+{
+"from": 206,
+"to": 209,
+"text": "The round is never re-run by the wrap; it is re-verified from `evidence/live-round.md`, which implement writes from the round entries' logs and `date -u`. No entry produces that file and no entry reads it. The record entry's own `contains stamped 2.1.302  24 pass  0 fail`, the fixture guard and the integration binaries assert the round on every re-run of the block."
+},
+{
+"from": 211,
+"to": 214,
+"text": "Steps 6(b) and 7's macOS readings come from CI artifacts the operator pass produces: `evidence/macos-run-start.md` is written by implement and the pass, and no entry reads it. `evidence/reproduction.md` is written by implement at step 4 from the reproduction case's red-before firing (the `--filter` entry for it, run before step 2's arm lands). No entry produces or reads it; the case itself asserts the green side on every re-run. No mutation entry (test-plan §10: the epoch-boundary audit)."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-19-newer-claude-cli-rows/implement-2026-10-19T23-48-08/1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 1.08,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-19-newer-claude-cli-rows/implement-2026-10-19T23-48-08/2.log",
+"bytes": 318,
+"log_sha8": "2509efa2",
+"exit": 0,
+"seconds": 2.6,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "lint",
+"run": "CARGO_TARGET_DIR=target/wincheck cargo clippy --workspace --all-targets --features fake-agent --target x86_64-pc-windows-msvc -- -D warnings",
+"run_sha8": "4f11616c",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-19-newer-claude-cli-rows/implement-2026-10-19T23-48-08/3.log",
+"bytes": 318,
+"log_sha8": "6e0325ab",
+"exit": 0,
+"seconds": 2.97,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "rg -n -U --pcre2 --type rust '#\\[(tracing::)?instrument\\b(?!\\(\\s*skip_all\\b)' .",
+"run_sha8": "d8c83432",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-newer-claude-cli-rows/implement-2026-10-19T23-48-08/4.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.02,
+"readings": [
+"exit 1 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "lint",
+"run": "bash scripts/lint-probes.sh",
+"run_sha8": "4811ad1f",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-19-newer-claude-cli-rows/implement-2026-10-19T23-48-08/5.log",
+"bytes": 286,
+"log_sha8": "99be9959",
+"exit": 0,
+"seconds": 0.64,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-newer-claude-cli-rows/implement-2026-10-19T23-48-08/6.log",
+"bytes": 315388,
+"log_sha8": "c790457b",
+"exit": 0,
+"seconds": 13.08,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/long_turn/)' ",
+"run_sha8": "37349f43",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-newer-claude-cli-rows/implement-2026-10-19T23-48-08/7.log",
+"bytes": 2352,
+"log_sha8": "083b7cc8",
+"exit": 0,
+"seconds": 0.88,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/resting_footer/)' ",
+"run_sha8": "d21e49ae",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — defer (key): gated: the founder's own word on the liv… (126 chars)"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "test -x \"$HOME/.local/share/mise/installs/claude/2.1.302/claude\" && command -v tmux",
+"run_sha8": "9c5927e0",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg round (the letter drives it)"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "find \"$HOME/.claude/projects\" -name '*.jsonl' -path '*-viola-*' | wc -l",
+"run_sha8": "d1834ea1",
+"expect": [],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg round (the letter drives it)"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "bash viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/footer-reading.sh",
+"run_sha8": "548ddce3",
+"expect": [
+"exit 0",
+"last line footer-reading: written"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg live (the letter drives it)"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "for p in $(pgrep -x claude); do case \"$(readlink /proc/$p/cwd)\" in \"$PWD\"/.viola-footer-*|*/target/e2e-home/viola-record-*|\"$PWD\"/.viola-verify-*|/tmp/viola-verify-*) echo \"$p\";; esac; done",
+"run_sha8": "509f2737",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg round (the letter drives it)"
+},
+{
+"n": 13,
+"role": "build",
+"run": "h=\"target/e2e-home/viola-record-$(date -u +%Y%m%dT%H%M%SZ)\" && cargo build -q && env -u VIOLA_NAME -u VIOLA_DIR -u VIOLA_BIN target/debug/viola --home \"$h/vhome\" verify --record \"$h/out\" -- \"$HOME/.local/share/mise/installs/claude/2.1.302/claude\" && mkdir -p fixtures/claude/2.1.302 && cp \"$h\"/out/2.1.302/* fixtures/claude/2.1.302/",
+"run_sha8": "24b90744",
+"expect": [
+"exit 0",
+"contains stamped 2.1.302  24 pass  0 fail"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg live (the letter drives it)"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "for p in $(pgrep -x claude); do case \"$(readlink /proc/$p/cwd)\" in */target/e2e-home/viola-record-*|\"$PWD\"/.viola-verify-*|/tmp/viola-verify-*) echo \"$p\";; esac; done",
+"run_sha8": "6863297a",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg round (the letter drives it)"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "find \"$HOME/.claude/projects\" -name '*.jsonl' -path '*-viola-*' | wc -l",
+"run_sha8": "d1834ea1",
+"expect": [],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg round (the letter drives it)"
+},
+{
+"n": 16,
+"role": "e2e",
+"run": "PATH=\"$HOME/.local/share/mise/installs/claude/2.1.302:$PATH\" bash scripts/agent-run.sh run --local-live",
+"run_sha8": "f94d4069",
+"expect": [
+"exit 0",
+"contains \"suite\":\"local-live\"",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg live (the letter drives it)"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "for p in $(pgrep -x claude); do case \"$(readlink /proc/$p/cwd)\" in */target/e2e-home/viola-live-*|\"$PWD\"/.viola-verify-*|/tmp/viola-verify-*) echo \"$p\";; esac; done",
+"run_sha8": "e544a183",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg round (the letter drives it)"
+},
+{
+"n": 18,
+"role": "e2e",
+"run": "h=\"target/e2e-home/viola-v296-$(date -u +%Y%m%dT%H%M%SZ)\" && env -u VIOLA_NAME -u VIOLA_DIR -u VIOLA_BIN target/debug/viola --home \"$h/vhome\" verify -- \"$HOME/.local/share/mise/installs/claude/2.1.296/claude\"",
+"run_sha8": "b043a7fc",
+"expect": [
+"exit 0",
+"contains stamped 2.1.296  24 pass  0 fail"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg live (the letter drives it)"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "for p in $(pgrep -x claude); do case \"$(readlink /proc/$p/cwd)\" in */target/e2e-home/viola-v296-*|\"$PWD\"/.viola-verify-*|/tmp/viola-verify-*) echo \"$p\";; esac; done",
+"run_sha8": "c578f8c4",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg round (the letter drives it)"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "test -z \"$(git diff --name-only --diff-filter=MD 50e2f76167ee -- fixtures/claude)\" && test -n \"$(ls fixtures/claude/2.1.302/ 2>/dev/null)\"",
+"run_sha8": "ddfa0902",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — defer (key): gated: the founder's own word on the liv… (126 chars)"
+},
+{
+"n": 21,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(cli_verify) | binary(cli_fake_agent) | binary(cli_version_gate) | binary(cli_send)' ",
+"run_sha8": "8f518298",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-newer-claude-cli-rows/implement-2026-10-19T23-48-08/21.log",
+"bytes": 15499,
+"log_sha8": "a8237d0a",
+"exit": 0,
+"seconds": 46.59,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 22,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'test(/verify_pastes_nothing_more_once_the_long_turn_screen_shows_a_modal/)' ",
+"run_sha8": "a54c53e2",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-newer-claude-cli-rows/implement-2026-10-19T23-48-08/22.2.log",
+"bytes": 1888,
+"log_sha8": "90c56a75",
+"exit": 0,
+"seconds": 4.55,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 23,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh run --e2e --filter 'binary(contract_ledger_probes) | binary(contract_fake_agent_drift) | binary(contract_fixture_hygiene) | binary(cross_list_rows)' ",
+"run_sha8": "f78d5243",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-newer-claude-cli-rows/implement-2026-10-19T23-48-08/23.log",
+"bytes": 11615,
+"log_sha8": "8737b0dd",
+"exit": 0,
+"seconds": 10.28,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 24,
+"role": "probe",
+"run": "git diff --quiet 50e2f76167ee -- . ':!crates/viola-agent-claude/src/ledger.rs' ':!crates/viola-agent-claude/src/screen.rs' ':!src/cmd/verify/typed.rs' ':!src/bin/viola-fake-agent.rs' ':!tests/cli_verify.rs' ':!tests/contract_ledger_probes.rs' ':!tests/support/home.rs' ':!crates/viola-state/src/pin.rs' ':!src/cmd/run.rs' ':!.config/nextest.toml' ':!fixtures/claude/2.1.302' ':!.andromeda' ':!viola-0.1.0' ':!.claude' ':!CLAUDE.md' && test -z \"$(git ls-files --others --exclude-standard -- src crates tests schemas plugin scripts .github .config Cargo.toml Cargo.lock)\"",
+"run_sha8": "acf398a6",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-19-newer-claude-cli-rows/implement-2026-10-19T23-48-08/24.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 25,
+"role": "probe",
+"run": "cargo deny check",
+"run_sha8": "2708b9d9",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-19-newer-claude-cli-rows/implement-2026-10-19T23-48-08/25.log",
+"bytes": 13322,
+"log_sha8": "488bf9df",
+"exit": 0,
+"seconds": 0.76,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 26,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-ncr-smoke",
+"run_sha8": "90f41c94",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-newer-claude-cli-rows/implement-2026-10-19T23-48-08/26.log",
+"bytes": 47,
+"log_sha8": "91854d6e",
+"exit": 0,
+"seconds": 0.11,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 27,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-ncr-smoke --instance builder",
+"run_sha8": "05a1442c",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-newer-claude-cli-rows/implement-2026-10-19T23-48-08/27.log",
+"bytes": 531,
+"log_sha8": "e6a331b9",
+"exit": 0,
+"seconds": 6.76,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 28,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-ncr-smoke",
+"run_sha8": "a5f1249b",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-newer-claude-cli-rows/implement-2026-10-19T23-48-08/28.log",
+"bytes": 451,
+"log_sha8": "41f1b780",
+"exit": 0,
+"seconds": 0.25,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 29,
+"role": "probe",
+"run": "bash scripts/g2-zero-panics.sh",
+"run_sha8": "b1637f71",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-19-newer-claude-cli-rows/implement-2026-10-19T23-48-08/29.log",
+"bytes": 10,
+"log_sha8": "6736cedd",
+"exit": 0,
+"seconds": 0.02,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 30,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-newer-claude-cli-rows/implement-2026-10-19T23-48-08/30.log",
+"bytes": 107,
+"log_sha8": "73db35d0",
+"exit": 0,
+"seconds": 0.2,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 31,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-ncr-smoke",
+"run_sha8": "90f41c94",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-newer-claude-cli-rows/implement-2026-10-19T23-48-08/31.log",
+"bytes": 135,
+"log_sha8": "45f90bb3",
+"exit": 0,
+"seconds": 0.33,
+"readings": [
+"exit 0 ✓",
+"contains '\"processes_gone\":true' ✓",
+"contains '\"endpoint_gone\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 32,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-newer-claude-cli-rows/implement-2026-10-19T23-48-08/32.log",
+"bytes": 386334,
+"log_sha8": "9a8dff9e",
+"exit": 0,
+"seconds": 86.34,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"contains '\"stage\":\"linux-tests\"' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 33,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "451237e0",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 34,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 35,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 2400",
+"run_sha8": "10a6ad61",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.21",
+"sha8": "e6b5f42f",
+"ts": "2026-10-20T00:00:40Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-19T23-48-08-implement",
+"--marker",
+"2026-10-19-newer-claude-cli-rows",
+"--only",
+"1,2,6,7,22,24"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-19-newer-claude-cli-rows · entries 35",
+"logs $TMPDIR/andromeda-gate/2026-10-19-newer-claude-cli-rows/implement-2026-10-19T23-48-08 · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 51 · python 1 · rust 5 · unmapped 8",
+"walk-class rust 4 (tests/cli_controls_not_disableable.rs, tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, +1 in the trail) · uncommitted 65",
+"prose L186-187: The lint and unit entries run first, then the new cases by name, the integration and E2E b… (144 chars)",
+"prose L189-200: **The gated live round** sits in one contiguous span (gate-contract §Live round: no non-le… (326 chars)",
+"prose L202-204: Every round entry carries `defer = \"gated: …\"` and fires only through `--void {n}:block cl… (349 chars)",
+"prose L206-209: The round is never re-run by the wrap; it is re-verified from `evidence/live-round.md`, wh… (367 chars)",
+"prose L211-214: Steps 6(b) and 7's macOS readings come from CI artifacts the operator pass produces: `evid… (493 chars)",
+"  1 lint        green · exit 0 · 1.08s · 0 B → 1.2.log · cargo fmt --all --check",
+"  2 lint        green · exit 0 · 2.19s · 318 B → 2.2.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  6 unit        green · exit 0 · 13.91s · 315388 B → 6.2.log · bash scripts/agent-run.sh run --unit",
+"  7 unit        green · exit 0 · 0.86s · 2352 B → 7.2.log · bash scripts/agent-run.sh run --unit --filter 'test(/long_… (66 chars)",
+" 22 integration green · exit 0 · 4.56s · 1888 B → 22.3.log · bash scripts/agent-run.sh run --integration --filter 'test… (130 chars)",
+" 24 probe       green · exit 0 · 0.01s · 0 B → 24.2.log · git diff --quiet 50e2f76167ee -- . ':!crates/viola-agent-c… (569 chars)",
+"not run — excluded · 29: 3-5,8-21,23,25-35",
+"entries 35 · green 6 · red 0 · recorded 0 · timeout 0 · not-run 29"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-19-newer-claude-cli-rows",
+"plan": "./viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-19-newer-claude-cli-rows/implement-2026-10-19T23-48-08",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/a11y-history.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/a11y.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/arch-contracts.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/arch-history-index.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/arch-history.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/arch.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-19T23-10-05-phase/design-history.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/design.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/evolve-2026-10-19-newer-claude-cli-rows.json",
+".andromeda/runs/2026-10-19T23-10-05-phase/founder-forks.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/gate-2026-10-19-newer-claude-cli-rows.json",
+".andromeda/runs/2026-10-19T23-10-05-phase/inputs-2026-10-19-newer-claude-cli-rows.json",
+".andromeda/runs/2026-10-19T23-10-05-phase/layouts-history.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/layouts.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/master-record.txt",
+".andromeda/runs/2026-10-19T23-10-05-phase/matrix-2026-10-19-newer-claude-cli-rows.json",
+".andromeda/runs/2026-10-19T23-10-05-phase/note-v1-34.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/obs-contracts.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/obs-history.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/obs.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/p5-card-1.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/p5-controls.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/planlint-2026-10-19-newer-claude-cli-rows.json",
+".andromeda/runs/2026-10-19T23-10-05-phase/registry-2026-10-19-newer-claude-cli-rows.json",
+".andromeda/runs/2026-10-19T23-10-05-phase/relay-1.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/relay-2.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/relay-3.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/route-2026-10-19-newer-claude-cli-rows.json",
+".andromeda/runs/2026-10-19T23-10-05-phase/route-no-marker.json",
+".andromeda/runs/2026-10-19T23-10-05-phase/security-history-index.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/security-history.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/security.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/sidecar-2026-10-19-newer-claude-cli-rows.json",
+".andromeda/runs/2026-10-19T23-10-05-phase/tests-contracts.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/tests-history-index.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/tests-history.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/tests.md",
+".andromeda/runs/2026-10-19T23-10-05-phase/tree-query-2026-10-19-newer-claude-cli-rows.json",
+".andromeda/runs/2026-10-19T23-48-08-implement/evolve-2026-10-19-newer-claude-cli-rows.json",
+".andromeda/runs/2026-10-19T23-48-08-implement/gate-2026-10-19-newer-claude-cli-rows.json",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/evidence/macos-run-start.md",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/evidence/reproduction.md",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/plan.md",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/research.md",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/scope.md"
+],
+"rust": [
+"crates/viola-agent-claude/src/ledger.rs",
+"src/bin/viola-fake-agent.rs",
+"src/cmd/verify/typed.rs",
+"tests/cli_verify.rs",
+"tests/support/home.rs"
+],
+"python": [
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/macos-run-start.py"
+]
+},
+"unmapped": [
+"viola-0.1.0/verification-matrix.json",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/inputs/.gitattributes",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/inputs/I1-phase-cli-rows-directive.md.txt",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/inputs/I2-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/inputs/I3-relay-2.md.txt",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/inputs/I4-founder-forks.md.txt",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/inputs/I5-relay-3.md.txt",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/inputs/andromeda-inputs.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/cli_controls_not_disableable.rs",
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 65,
+"problem": null
+},
+"prose": [
+{
+"from": 186,
+"to": 187,
+"text": "The lint and unit entries run first, then the new cases by name, the integration and E2E binaries, the guards, the harness smoke and `pre-push`."
+},
+{
+"from": 189,
+"to": 200,
+"text": "**The gated live round** sits in one contiguous span (gate-contract §Live round: no non-leg entry inside it). Its entries: - the non-priming probe; - the transcript count; - the footer reading; - a census; - the record round; - a census; - the count again; - `--local-live`; - its census; - the option-2 verify and its census."
+},
+{
+"from": 202,
+"to": 204,
+"text": "Every round entry carries `defer = \"gated: …\"` and fires only through `--void {n}:block cleared — {his word}`. Step 8 fires alone (`--entry`) before step 9's code change, step 10 after it, step 12 after step 11. Starts per firing: the footer reading 1, the record round 6, `--local-live` 6, the option-2 verify 6. The probe and counts start nothing."
+},
+{
+"from": 206,
+"to": 209,
+"text": "The round is never re-run by the wrap; it is re-verified from `evidence/live-round.md`, which implement writes from the round entries' logs and `date -u`. No entry produces that file and no entry reads it. The record entry's own `contains stamped 2.1.302  24 pass  0 fail`, the fixture guard and the integration binaries assert the round on every re-run of the block."
+},
+{
+"from": 211,
+"to": 214,
+"text": "Steps 6(b) and 7's macOS readings come from CI artifacts the operator pass produces: `evidence/macos-run-start.md` is written by implement and the pass, and no entry reads it. `evidence/reproduction.md` is written by implement at step 4 from the reproduction case's red-before firing (the `--filter` entry for it, run before step 2's arm lands). No entry produces or reads it; the case itself asserts the green side on every re-run. No mutation entry (test-plan §10: the epoch-boundary audit)."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-19-newer-claude-cli-rows/implement-2026-10-19T23-48-08/1.2.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 1.08,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-19-newer-claude-cli-rows/implement-2026-10-19T23-48-08/2.2.log",
+"bytes": 318,
+"log_sha8": "9089cea7",
+"exit": 0,
+"seconds": 2.19,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "lint",
+"run": "CARGO_TARGET_DIR=target/wincheck cargo clippy --workspace --all-targets --features fake-agent --target x86_64-pc-windows-msvc -- -D warnings",
+"run_sha8": "4f11616c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "rg -n -U --pcre2 --type rust '#\\[(tracing::)?instrument\\b(?!\\(\\s*skip_all\\b)' .",
+"run_sha8": "d8c83432",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "lint",
+"run": "bash scripts/lint-probes.sh",
+"run_sha8": "4811ad1f",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-newer-claude-cli-rows/implement-2026-10-19T23-48-08/6.2.log",
+"bytes": 315388,
+"log_sha8": "1cf27438",
+"exit": 0,
+"seconds": 13.91,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/long_turn/)' ",
+"run_sha8": "37349f43",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-newer-claude-cli-rows/implement-2026-10-19T23-48-08/7.2.log",
+"bytes": 2352,
+"log_sha8": "c668cb33",
+"exit": 0,
+"seconds": 0.86,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/resting_footer/)' ",
+"run_sha8": "d21e49ae",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "test -x \"$HOME/.local/share/mise/installs/claude/2.1.302/claude\" && command -v tmux",
+"run_sha8": "9c5927e0",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "find \"$HOME/.claude/projects\" -name '*.jsonl' -path '*-viola-*' | wc -l",
+"run_sha8": "d1834ea1",
+"expect": [],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "bash viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/footer-reading.sh",
+"run_sha8": "548ddce3",
+"expect": [
+"exit 0",
+"last line footer-reading: written"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "for p in $(pgrep -x claude); do case \"$(readlink /proc/$p/cwd)\" in \"$PWD\"/.viola-footer-*|*/target/e2e-home/viola-record-*|\"$PWD\"/.viola-verify-*|/tmp/viola-verify-*) echo \"$p\";; esac; done",
+"run_sha8": "509f2737",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "build",
+"run": "h=\"target/e2e-home/viola-record-$(date -u +%Y%m%dT%H%M%SZ)\" && cargo build -q && env -u VIOLA_NAME -u VIOLA_DIR -u VIOLA_BIN target/debug/viola --home \"$h/vhome\" verify --record \"$h/out\" -- \"$HOME/.local/share/mise/installs/claude/2.1.302/claude\" && mkdir -p fixtures/claude/2.1.302 && cp \"$h\"/out/2.1.302/* fixtures/claude/2.1.302/",
+"run_sha8": "24b90744",
+"expect": [
+"exit 0",
+"contains stamped 2.1.302  24 pass  0 fail"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "for p in $(pgrep -x claude); do case \"$(readlink /proc/$p/cwd)\" in */target/e2e-home/viola-record-*|\"$PWD\"/.viola-verify-*|/tmp/viola-verify-*) echo \"$p\";; esac; done",
+"run_sha8": "6863297a",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "find \"$HOME/.claude/projects\" -name '*.jsonl' -path '*-viola-*' | wc -l",
+"run_sha8": "d1834ea1",
+"expect": [],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "e2e",
+"run": "PATH=\"$HOME/.local/share/mise/installs/claude/2.1.302:$PATH\" bash scripts/agent-run.sh run --local-live",
+"run_sha8": "f94d4069",
+"expect": [
+"exit 0",
+"contains \"suite\":\"local-live\"",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "for p in $(pgrep -x claude); do case \"$(readlink /proc/$p/cwd)\" in */target/e2e-home/viola-live-*|\"$PWD\"/.viola-verify-*|/tmp/viola-verify-*) echo \"$p\";; esac; done",
+"run_sha8": "e544a183",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "e2e",
+"run": "h=\"target/e2e-home/viola-v296-$(date -u +%Y%m%dT%H%M%SZ)\" && env -u VIOLA_NAME -u VIOLA_DIR -u VIOLA_BIN target/debug/viola --home \"$h/vhome\" verify -- \"$HOME/.local/share/mise/installs/claude/2.1.296/claude\"",
+"run_sha8": "b043a7fc",
+"expect": [
+"exit 0",
+"contains stamped 2.1.296  24 pass  0 fail"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "for p in $(pgrep -x claude); do case \"$(readlink /proc/$p/cwd)\" in */target/e2e-home/viola-v296-*|\"$PWD\"/.viola-verify-*|/tmp/viola-verify-*) echo \"$p\";; esac; done",
+"run_sha8": "c578f8c4",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "test -z \"$(git diff --name-only --diff-filter=MD 50e2f76167ee -- fixtures/claude)\" && test -n \"$(ls fixtures/claude/2.1.302/ 2>/dev/null)\"",
+"run_sha8": "ddfa0902",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 21,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(cli_verify) | binary(cli_fake_agent) | binary(cli_version_gate) | binary(cli_send)' ",
+"run_sha8": "8f518298",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 22,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'test(/verify_pastes_nothing_more_once_the_long_turn_screen_shows_a_modal/)' ",
+"run_sha8": "a54c53e2",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-19-newer-claude-cli-rows/implement-2026-10-19T23-48-08/22.3.log",
+"bytes": 1888,
+"log_sha8": "f5602a37",
+"exit": 0,
+"seconds": 4.56,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 23,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh run --e2e --filter 'binary(contract_ledger_probes) | binary(contract_fake_agent_drift) | binary(contract_fixture_hygiene) | binary(cross_list_rows)' ",
+"run_sha8": "f78d5243",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 24,
+"role": "probe",
+"run": "git diff --quiet 50e2f76167ee -- . ':!crates/viola-agent-claude/src/ledger.rs' ':!crates/viola-agent-claude/src/screen.rs' ':!src/cmd/verify/typed.rs' ':!src/bin/viola-fake-agent.rs' ':!tests/cli_verify.rs' ':!tests/contract_ledger_probes.rs' ':!tests/support/home.rs' ':!crates/viola-state/src/pin.rs' ':!src/cmd/run.rs' ':!.config/nextest.toml' ':!fixtures/claude/2.1.302' ':!.andromeda' ':!viola-0.1.0' ':!.claude' ':!CLAUDE.md' && test -z \"$(git ls-files --others --exclude-standard -- src crates tests schemas plugin scripts .github .config Cargo.toml Cargo.lock)\"",
+"run_sha8": "acf398a6",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-19-newer-claude-cli-rows/implement-2026-10-19T23-48-08/24.2.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 25,
+"role": "probe",
+"run": "cargo deny check",
+"run_sha8": "2708b9d9",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 26,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-ncr-smoke",
+"run_sha8": "90f41c94",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 27,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-ncr-smoke --instance builder",
+"run_sha8": "05a1442c",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 28,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-ncr-smoke",
+"run_sha8": "a5f1249b",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 29,
+"role": "probe",
+"run": "bash scripts/g2-zero-panics.sh",
+"run_sha8": "b1637f71",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 30,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 31,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-ncr-smoke",
+"run_sha8": "90f41c94",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 32,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 33,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "451237e0",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 34,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 35,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 2400",
+"run_sha8": "10a6ad61",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.21",
+"sha8": "e6b5f42f",
+"ts": "2026-10-20T00:01:46Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows",
+"--run-dir",
+".andromeda/runs/2026-10-19T23-48-08-implement",
+"--marker",
+"2026-10-19-newer-claude-cli-rows"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base HEAD (no pre-CI commit) · lists new 1 · modify 10 · derived 1 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"list fixtures/claude/2.1.302/* (derived by `viola verify --record`) ×0",
+"list viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/evidence/ (dir) ×0",
+"scope: clean — changed 5 · listed 5 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 60"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "HEAD",
+"base_why": "no pre-CI commit",
+"counts": {
+"changed": 5,
+"listed": 5,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 60,
+"unparsed": 0,
+"widening_without_word": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.21",
+"sha8": "e6b5f42f",
+"ts": "2026-10-20T00:01:46Z",
+"argv": [
+"census",
+"--comm",
+"viola",
+"--comm",
+"viola-fake-agent",
+"--comm",
+"claude",
+"--comm",
+"sample",
+"--args",
+"projects/viola/target/",
+"--run-dir",
+".andromeda/runs/2026-10-19T23-48-08-implement",
+"--marker",
+"2026-10-19-newer-claude-cli-rows"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"census · ps · comm viola, viola-fake-agent, claude, sample · args projects/viola/target/ · own tree excluded: 8",
+"  967176 · ppid 967175 · claude · claude -p <role> You are a test plan architect for an agent-driven project. Your output is THE test plan that downstream skills (obs, a11y, route, setup-project) read for cross-cutting test context, the phase loop distills per chunk, and `/andromeda-implement` materializes into actual test code + scripts/agent- run.* harness. Every requirement must trace to test-scope.md findings or test-research.md tools — never to generic test advice.  Missing requirements become test gaps in implementation. Generic phrases become silently-skipped quality bars. Be precise. Every test layer must be runnable end-to-end by an agent reading exit codes and structured output, with no human in the loop. </role>  <instructions> 1. Read the test scope at `/tmp/claude-1000/~-dev-projects-additional-andromeda-worker/32fbb387-2452-41cd-8781-e34f8c14a1b2/scratchpad/c10-tests/probe3/run/test-scope.md` — extract the test    tier (Sec 6), coverage scope (Sec 1), surfaces with placeholder    drivers (Sec 2), test harness requirements (Sec 3), critical paths    (Sec 4), coverage triggers (Sec 5). These define the scope of what    your plan must address. 2. Read the test research at `/tmp/claude-1000/~-dev-projects-additional-andromeda-worker/32fbb387-2452-41cd-8781-e34f8c14a1b2/scratchpad/c10-tests/probe3/run/test-research.md` — these are    the SOURCE TOOLS for your plan. Pick frameworks / drivers / fixture    libs / mock libs from this catalog only; do not introduce tools not    researched. 3. Read distilled upstream context at `/tmp/claude-1000/~-dev-projects-additional-andromeda-worker/32fbb387-2452-41cd-8781-e34f8c14a1b2/scratchpad/c10-tests/probe3/run/upstream-context.md`    — focus on:    - Architecture Excerpt: Stack / Workspace / Standard Contracts /      Surfaces / Test Harness Commitment (verbatim from arch) / CI/CD      Platform / Test-Relevant Conventions    - Security Plan Excerpt: tier / vectors / anti-patterns rejected /      data classifications (cross-input for Compliance Test Coverage      and fixture strategy)    - Design + Layouts Excerpts: surfaces / layout categories / brand      anchors (selector strategy hints for E2E)    - Creator Brief Excerpt: must-work scenarios / risk tolerance / test      anti-patterns the creator explicitly wants avoided 4. Read the output template at `/tmp/claude-1000/~-dev-projects-additional-andromeda-worker/32fbb387-2452-41cd-8781-e34f8c14a1b2/scratchpad/c10-tests/probe3/skill/references/phase-3/output-template.md`.    The template defines all 12 sections + tier markers (which sections    apply per tier). 5. Apply tier filtering per the passed `Standard` variable (Minimal    / Standard / Comprehensive): a unit whose skip rule the tier meets is    its heading (or lead) and ONE line `N/A — {the rule met}`, nothing    else; a unit the tier requires holds its content — each of the    template's leads, tables and records for that unit, and no `N/A` line.    Where the product truly lacks a required unit's subject, that measured    absence IS its content, stated in plain words with its basis, never an    `N/A —` line. 6. Fill the template. For every requirement: name a SPECIFIC tool /    library / version from test-research.md, point at a SPECIFIC test-    scope section (path / surface / trigger / entity), name a SPECIFIC    stack mechanism from upstream-context.md. Return ONLY the filled    template. </instructions>  <context> Files to read: 1. Test scope: `/tmp/claude-1000/~-dev-projects-additional-andromeda-worker/32fbb387-2452-41cd-8781-e34f8c14a1b2/scratchpad/c10-tests/probe3/run/test-scope.md` 2. Test research: `/tmp/claude-1000/~-dev-projects-additional-andromeda-worker/32fbb387-2452-41cd-8781-e34f8c14a1b2/scratchpad/c10-tests/probe3/run/test-research.md` 3. Distilled upstream context: `/tmp/claude-1000/~-dev-projects-additional-andromeda-worker/32fbb387-2452-41cd-8781-e34f8c14a1b2/scratchpad/c10-tests/probe3/run/upstream-context.md` 4. Output template: `/tmp/claude-1000/~-dev-projects-additional-andromeda-worker/32fbb387-2452-41cd-8781-e34f8c14a1b2/scratchpad/c10-tests/probe3/skill/references/phase-3/output-template.md` 5. Classification: `/tmp/claude-1000/~-dev-projects-additional-andromeda-worker/32fbb387-2452-41cd-8781-e34f8c14a1b2/scratchpad/c10-tests/probe3/skill/references/classification-contract.md`  Passed variables: - `test_tier`: Standard (Minimal / Standard / Comprehensive) - `security_tier`: Standard (only relevant for Compliance Test   Coverage subsection gating in Section 10) - `development_style`: agent-driven (always) - `project_name`: tidectl  Phase 3 is the SYNTHESIS phase — takes Phase 0 (distilled upstream) + Phase 1 (test scope) + Phase 2 (research) and produces the test plan that downstream skills (obs / a11y / route / setup-project) depend on. Internal phase chain only; cross-specialist reads not applicable here beyond the upstream context already distilled in Phase 0. </context>  <output_format> Read `/tmp/claude-1000/~-dev-projects-additional-andromeda-worker/32fbb387-2452-41cd-8781-e34f8c14a1b2/scratchpad/c10-tests/probe3/skill/references/phase-3/output-template.md` and follow it exactly. The template defines all section markers — apply tier filtering per the passed `Standard` variable. Start with the title line `# Test Plan — tidectl`. End with `## 12. Test Decisions Log` content. Write every section broad first with the template's labelled groups; the subject line stands above `## 12. Test Decisions Log`. </output_format>  <constraints> MUST: - Pick frameworks / drivers / fixture libs / mock libs from test-research.md   catalog only — every recommendation must trace to a Phase 2 research   finding. - Reference specific stack mechanisms (test runner names, framework   middleware, library function signatures) — not generic patterns. - Address every concern from test-scope.md — every Phase 1 surface   (non-untestable), critical path, and coverage trigger must be covered   by at least one plan section. - Fill the Test Scope Summary VERBATIM from test-scope.md (tier,   coverage scope, surfaces, paths, triggers); the harness requirements   are the template's pointer to §3. - Write Test Harness Contract (Section 3) with concrete 5-command   bodies (boot / run / status / cleanup / logs) — not \"TBD\" or generic   placeholders. Each command must have agent-readable signal mechanism   (exit code / status JSON / log line). - Translate every Phase 1 critical path into a Section 6 E2E scenario   with explicit verification signal (exit code / status field / log   match / DB row check). - Include per-surface E2E driver assignment in Section 6 (skip surfaces   flagged \"untestable\" in test-scope Section 1). - Write each guard once, at its rule; §11 holds only the bans no section   states. At least 5 stack-specific test anti-patterns across the plan;   the template's agent-driven guards kept whole where it states them   (§2's invariants · §7 · §10's flakiness gate · §11 Universal). KEEP the   template's fixed bans whole — every one, in its section and in §11, as   written; «once, at its rule» is never a licence to drop one. A project   guard a fixed ban already states (a creator's «no sleeps» against the   §11 `sleep(N)` ban) is not written again at a rule — the fixed ban   stands for it. - §10 holds one gate record per standing gate (the template's form),   each threshold once, in its record; no reading at birth. A census of   the suite is never written.  MUST NOT: - Write a skipped unit's body — its heading (or lead) and its one `N/A`   line only. - Include full test code blocks > 5 lines — this is a PLAN; brief   illustrative snippets up to 5 lines anchoring a convention are OK;   exhaustive per-feature test cases are not. Specific test code is   written during phase execution by `/andromeda-implement`. Multi-language patterns   banned (> 5 lines):   - JS/TS: `it(...)` / `test(...)` / `describe(...)` / `cy.test(...)`   - Rust: `#[tokio::test]` / `#[test]` / `#[rstest]` + `fn test_*`   - Python: `def test_*` / `class Test*` (pytest convention)   - Go: `func Test*` / `func Benchmark*`   - Java/JVM: `@Test` / `@ParameterizedTest` - Use generic test language (\"use unit tests\", \"follow TDD\", \"best   practices\", \"industry standard\", \"ensure quality\") — every requirement   must be stack-anchored. - Recommend tools not in test-research.md — if research has no   candidate for a need, write it at the section that needs it as   `OPEN — no maintained option found for {need}`; do not invent. - Suggest manual verification, human-in-the-loop checkpoints, retry-   once flakiness budgets, or visual regression with human review —   this is agent-driven only. If a surface CANNOT be driven by an   agent, refer back to its \"untestable\" flag from test-scope Section 1   and plan boundary tests / mocks instead. - Include content owned by OTHER specialists: threat models / security   controls (security), design tokens (design), OTel span schemas   (obs), aria rules / focus order (a11y), specific obs / SIEM / error   reporting platform pick (refers to obs plan). - Leave any `{placeholder}` unfilled. - Add preamble or commentary outside the template structure. </constraints>   Write the filled template (and nothing else) with the Write tool to `/tmp/claude-1000/~-dev-projects-additional-andromeda-worker/32fbb387-2452-41cd-8781-e34f8c14a1b2/scratchpad/c10-tests/probe3/run/test-plan-draft-a3.md`. Then reply with one line: `written`. --output-format stream-json --verbose --no-session-persistence --allowedTools Read Write Glob Grep --max-turns 30",
+"  972966 · ppid 972965 · viola · ~/.local/viola-product/bin/viola wait viola-builder --after 304036 --timeout-ms 3000000 --json",
+"  1003937 · ppid 1003917 · claude · claude -p <role> You are a security architect. Your output is THE security plan that downstream skills (design, tests, obs, a11y, route, setup-project) read for cross-cutting security context, the phase loop distills per chunk, and `/andromeda-implement` materializes into code. Every requirement must trace to threat-assessment.md findings or security-research.md tools — never to generic security advice.  Missing requirements become security gaps in implementation. Generic phrases become silently-skipped requirements. Be precise. </role>  <instructions> 1. Read the threat assessment at `/tmp/claude-1000/~-dev-projects-additional-andromeda-worker/32fbb387-2452-41cd-8781-e34f8c14a1b2/scratchpad/c10-security/probe5/run/threat-assessment.md` — extract    the security tier (Sec 6), data classification (Sec 1), attack surface    (Sec 2), auth model (Sec 3), infrastructure (Sec 4), compliance triggers    (Sec 5). These define the scope of what your plan must address. 2. Read the security research at `/tmp/claude-1000/~-dev-projects-additional-andromeda-worker/32fbb387-2452-41cd-8781-e34f8c14a1b2/scratchpad/c10-security/probe5/run/security-research.md` — these    are the SOURCE TOOLS for your plan. Pick tools/libraries from this    catalog only; do not introduce tools not researched. 3. Read the architecture at `/tmp/claude-1000/~-dev-projects-additional-andromeda-worker/32fbb387-2452-41cd-8781-e34f8c14a1b2/scratchpad/c10-security/probe5/.andromeda/architecture.md` — examine all relevant sections    (Stack, Established Decisions, Conventions, Standard Contracts,    Occupied Resources, Infrastructure Patterns, Cross-cutting Patterns,    Project Intent) for stack and convention context to security-anchor    against. Occupied Resources is critical: exposed ports = attack surface;    env vars = secret management; service names = scope namespace. 4. Read the output template at `/tmp/claude-1000/~-dev-projects-additional-andromeda-worker/32fbb387-2452-41cd-8781-e34f8c14a1b2/scratchpad/c10-security/probe5/skill/references/phase-3/output-template.md`.    The template defines all sections + tier markers (which sections apply    per tier). 5. Apply tier filtering: extract security tier from threat-assessment.md    Sec 6 (Minimal/Standard/Hardened); a unit whose skip rule the tier meets    (per template's `_[SKIP if tier=...]_` and similar markers) is its heading    (or lead) and ONE line `N/A — {the rule met}`, nothing else; a unit the    tier requires holds its content — each of the template's leads, tables    and records for that unit, and no `N/A` line. Where the product truly    lacks a required unit's subject, that measured absence IS its content,    stated in plain words with its basis («no secrets at runtime: the tool    reads no credential — arch §Stack names none»), never an `N/A —` line. 6. Fill the template. For every requirement: name a SPECIFIC tool from    security-research.md, point at a SPECIFIC arch.md section, name a    SPECIFIC stack mechanism, and tie it to the threat model — the tier,    the data class or the attack vector it serves, named in its broad line    or its group. Return ONLY the filled template. </instructions>  <context> Files to read: 1. Threat assessment: `/tmp/claude-1000/~-dev-projects-additional-andromeda-worker/32fbb387-2452-41cd-8781-e34f8c14a1b2/scratchpad/c10-security/probe5/run/threat-assessment.md` 2. Security research: `/tmp/claude-1000/~-dev-projects-additional-andromeda-worker/32fbb387-2452-41cd-8781-e34f8c14a1b2/scratchpad/c10-security/probe5/run/security-research.md` 3. Architecture: `/tmp/claude-1000/~-dev-projects-additional-andromeda-worker/32fbb387-2452-41cd-8781-e34f8c14a1b2/scratchpad/c10-security/probe5/.andromeda/architecture.md` 4. Output template: `/tmp/claude-1000/~-dev-projects-additional-andromeda-worker/32fbb387-2452-41cd-8781-e34f8c14a1b2/scratchpad/c10-security/probe5/skill/references/phase-3/output-template.md` 5. Classification: `/tmp/claude-1000/~-dev-projects-additional-andromeda-worker/32fbb387-2452-41cd-8781-e34f8c14a1b2/scratchpad/c10-security/probe5/skill/references/classification-contract.md`  Phase 3 is the SYNTHESIS phase — takes Phase 1 (threat assessment) + Phase 2 (research) + architecture and produces the security plan that downstream skills depend on. Internal phase chain only; cross-specialist reads not applicable here (security is FIRST specialist per D27 — no other specialist plans yet exist). </context>  <output_format> Read `/tmp/claude-1000/~-dev-projects-additional-andromeda-worker/32fbb387-2452-41cd-8781-e34f8c14a1b2/scratchpad/c10-security/probe5/skill/references/phase-3/output-template.md` and follow it exactly. The template defines all section markers — apply tier filtering per the threat-assessment.md Sec 6 tier (Minimal/Standard/Hardened). End with `## Security Decisions Log` content. Write every section broad first with the template's labelled groups; the subject line stands above `## Security Decisions Log`. </output_format>  <constraints> MUST: - Pick tools/libraries from security-research.md catalog only — every   recommendation must trace to a Phase 2 research finding. - Reference specific stack mechanisms (framework middleware names, config   file paths, library function signatures) — not generic patterns. - Address every concern from threat-assessment.md — every Phase 1 attack   vector and data classification entry must be covered by at least one   plan section. - Fill the Threat Model Summary VERBATIM from threat-assessment.md (tier,   data classification, attack surface, auth model, infrastructure, compliance). - Include at least 5 stack-specific anti-patterns (referencing this stack's   actual pitfalls, not universal bans like \"don't use eval()\"). Write each   guard once, at its rule; the Anti-Patterns hold only the bans no section   states. KEEP the template's fixed bans whole — every one, in its section   and in the Anti-Patterns, as written; «once, at its rule» is never a   licence to drop one. A project guard a fixed ban already states is not   written again at a rule — the fixed ban stands for it. `### Universal` holds at least 5 bans of your own,   project-specific, that no domain subsection and no section states.  MUST NOT: - Write a skipped unit's body — its heading (or lead) and its one `N/A` line only. - Include implementation code blocks — this is a PLAN. Reference snippets,   function signatures, and configuration shapes are OK; runnable code blocks   are not. - Use generic security language (\"best practices\", \"industry standard\",   \"use a good library\", \"ensure security\") — every requirement must be   stack-anchored. - Recommend libraries not in security-research.md — if research has no   candidate for a need, write it at the section that needs it as   `OPEN — no maintained option found for {need}`; do not invent. - Include content owned by OTHER specialists: design tokens (design),   specific test cases (tests / `/andromeda-implement`), observability span schemas   (obs / `/andromeda-implement`), a11y rules (a11y). Security plan stays in lane:   threat controls, policies, verification cues that downstream specialists   read to derive their own concerns. - Leave any `{placeholder}` unfilled. - Add preamble or commentary outside the template structure. </constraints>   Write the filled template — ONLY it, starting at its `# Security Plan — ` title line — to `/tmp/claude-1000/~-dev-projects-additional-andromeda-worker/32fbb387-2452-41cd-8781-e34f8c14a1b2/scratchpad/c10-security/probe5/run/security-plan-draft.md` with the Write tool. The project name is tallyd. Today's date is 2026-10-20.  --output-format stream-json --verbose --no-session-persistence --allowedTools Read Write Glob Grep --max-turns 30",
+"  1075429 · ppid 1075428 · viola · ~/dev/projects/additional/viola-lab/prototype/target/debug/viola wait andromeda-worker --timeout 60",
+"  1076318 · ppid 1076317 · viola · ~/dev/projects/additional/viola-lab/prototype/target/debug/viola wait escher-builder --timeout 60",
+"  3067270 · ppid 3067252 · claude · claude -n overseer1 --continue The host restarted (a reboot, a Claude Code update or an account switch) and up.sh resumed this session with --continue. Before any other work: bring back what you drive — andromeda-worker, ONLY if a slot was in flight ($HOME/dev/projects/additional/andromeda-worker/vw.sh --continue); between slots it starts fresh when the next brief goes. A session viola still lists as running is left alone. Confirm with viola list, then tell the founder in 2-4 lines where each project stands. Start no new work without the founder's word. A host record runs here (started by up.sh): when a builder reports a gate red in which no assertion failed on a value, read its window before a re-run - python3 ~/dev/projects/additional/andromedaV3/andromeda-overseer/docs/tools/hostwatch.py read --trail <that gate trail>, or read --last 15.",
+"  3067317 · ppid 3067283 · claude · claude -n viola-overseer --continue The host restarted (a reboot, a Claude Code update or an account switch) and up.sh resumed this session with --continue. Before any other work: bring back what you drive — viola-builder, which runs under the Viola PRODUCT ($HOME/dev/projects/additional/viola-overseer/vb.sh --continue; confirm with $HOME/.local/viola-product/bin/viola list, not the prototype's list). A session viola still lists as running is left alone. Confirm with viola list, then tell the founder in 2-4 lines where each project stands. Start no new work without the founder's word. A host record runs here (started by up.sh): when a builder reports a gate red in which no assertion failed on a value, read its window before a re-run - python3 ~/dev/projects/additional/andromedaV3/andromeda-overseer/docs/tools/hostwatch.py read --trail <that gate trail>, or read --last 15.",
+"  3067367 · ppid 3067333 · claude · claude -n pc-overseer --continue The host restarted (a reboot, a Claude Code update or an account switch) and up.sh resumed this session with --continue. Before any other work: bring back what you drive — pulse-builder FIRST and then conductor-builder, in that order because the order sets the tiling (Pulse above, Conductor below, both right of you) ($HOME/dev/projects/additional/pc-overseer/vb-pulse.sh --continue, then vb-conductor.sh --continue). A session viola still lists as running is left alone. Confirm with viola list, then tell the founder in 2-4 lines where each project stands. Start no new work without the founder's word. A host record runs here (started by up.sh): when a builder reports a gate red in which no assertion failed on a value, read its window before a re-run - python3 ~/dev/projects/additional/andromedaV3/andromeda-overseer/docs/tools/hostwatch.py read --trail <that gate trail>, or read --last 15.",
+"  3067432 · ppid 3067401 · claude · claude -n escher-overseer --continue The host restarted (a reboot, a Claude Code update or an account switch) and up.sh resumed this session with --continue. Before any other work: bring back what you drive — escher-builder ($HOME/dev/projects/additional/escher-overseer/vb.sh --continue). A session viola still lists as running is left alone. Confirm with viola list, then tell the founder in 2-4 lines where each project stands. Start no new work without the founder's word. A host record runs here (started by up.sh): when a builder reports a gate red in which no assertion failed on a value, read its window before a re-run - python3 ~/dev/projects/additional/andromedaV3/andromeda-overseer/docs/tools/hostwatch.py read --trail <that gate trail>, or read --last 15.",
+"  3069673 · ppid 3069651 · viola · ~/dev/projects/additional/viola-lab/prototype/target/debug/viola run pulse-builder --dialog-timeout 3500 -- claude --plugin-dir ~/dev/projects/additional/viola-lab/prototype/plugin --effort high -n pulse-builder --resume c4f6401c-6d92-4cc1-92bd-093b68711cf9",
+"  3069678 · ppid 3069673 · claude · claude --plugin-dir ~/dev/projects/additional/viola-lab/prototype/plugin --effort high -n pulse-builder --resume c4f6401c-6d92-4cc1-92bd-093b68711cf9",
+"  3069764 · ppid 3069763 · claude · ~/.config/Claude/claude-code/2.1.295/71164c85f9d2/claude --output-format stream-json --verbose --input-format stream-json --model=claude-opus-5-5 --permission-prompt-tool=stdio --allowedTools=mcp__computer-use,mcp__ccd_session__spawn_task,mcp__ccd_session__dismiss_task,mcp__ccd_session__mark_chapter,mcp__ccd_session_mgmt__list_sessions,mcp__ccd_session_mgmt__get_session,mcp__ccd_session_mgmt__get_usage,mcp__ccd_host__get_storage_usage,mcp__ccd_session_mgmt__set_session_title,mcp__ccd_session_mgmt__send_message,mcp__ccd_session_mgmt__detach_session,mcp__ccd_sidebar__list_groups,mcp__ccd_sidebar__create_group,mcp__ccd_sidebar__set_view,mcp__ccd_sidebar__list_sections,mcp__ccd_sidebar__create_section,mcp__ccd_session_mgmt__search_session_transcripts,mcp__ccd_session_mgmt__list_events,mcp__ccd_session_mgmt__export_transcript,mcp__scheduled-tasks__list_task_runs,mcp__ccd_session__read_widget_context,mcp__ccd_session__list_start_targets,mcp__ccd_view__show_pane,mcp__ccd_view__close_pane,mcp__ccd_view__get_layout,mcp__ccd_view__set_transcript_view,mcp__ccd_settings__get_settings,mcp__mcp-registry__search_mcp_registry,mcp__mcp-registry__suggest_connectors,mcp__mcp-registry__list_connectors,mcp__ccd_connectors__session_connectors_status,mcp__ccd_connectors__reconnect_session_connector,mcp__ccd_pr__get_status,mcp__ccd_window__open_session_in,mcp__ccd_window__close_split,mcp__ccd_window__set_sidebar_collapsed,mcp__ccd_window__get_window_layout --disallowedTools=SubscribePR --setting-sources=user,project,local --permission-mode=auto --include-partial-messages --await-initialize --thinking-display omitted --replay-user-messages --settings {\"fastMode\":false,\"deniedMcpServers\":[{\"serverName\":\"Claude Browser\"},{\"serverName\":\"Claude Code Android Emulator\"},{\"serverName\":\"Claude Code iOS Simulator\"},{\"serverName\":\"Claude Preview\"},{\"serverName\":\"Claude_Browser\"},{\"serverName\":\"Claude_Code_Android_Emulator\"},{\"serverName\":\"Claude_Code_iOS_Simulator\"},{\"serverName\":\"Claude_Preview\"},{\"serverName\":\"Claude_for_Chrome\"},{\"serverName\":\"Framebuffer\"},{\"serverName\":\"Window Halo\"},{\"serverName\":\"Window_Halo\"},{\"serverName\":\"ccd_connectors\"},{\"serverName\":\"ccd_directory\"},{\"serverName\":\"ccd_host\"},{\"serverName\":\"ccd_pr\"},{\"serverName\":\"ccd_session\"},{\"serverName\":\"ccd_session_mgmt\"},{\"serverName\":\"ccd_settings\"},{\"serverName\":\"ccd_sidebar\"},{\"serverName\":\"ccd_turn\"},{\"serverName\":\"ccd_view\"},{\"serverName\":\"ccd_window\"},{\"serverName\":\"claude-in-chrome\"},{\"serverName\":\"claude_browser\"},{\"serverName\":\"claude_code_android_emulator\"},{\"serverName\":\"claude_code_ios_simulator\"},{\"serverName\":\"claude_for_chrome\"},{\"serverName\":\"claude_in_chrome\"},{\"serverName\":\"claude_preview\"},{\"serverName\":\"computer-use\"},{\"serverName\":\"computer_use\"},{\"serverName\":\"cowork\"},{\"serverName\":\"cowork-onboarding\"},{\"serverName\":\"cowork_onboarding\"},{\"serverName\":\"dev-debug\"},{\"serverName\":\"dev_debug\"},{\"serverName\":\"dispatch\"},{\"serverName\":\"framebuffer\"},{\"serverName\":\"mcp-registry\"},{\"serverName\":\"mcp_registry\"},{\"serverName\":\"plugins\"},{\"serverName\":\"remote-devices\"},{\"serverName\":\"remote_devices\"},{\"serverName\":\"scheduled-tasks\"},{\"serverName\":\"scheduled_tasks\"},{\"serverName\":\"session_info\"},{\"serverName\":\"skills\"},{\"serverName\":\"window_halo\"}]}",
+"  3071126 · ppid 3071104 · viola · ~/dev/projects/additional/viola-lab/prototype/target/debug/viola run conductor-builder --dialog-timeout 3500 -- claude --plugin-dir ~/dev/projects/additional/viola-lab/prototype/plugin --effort high -n conductor-builder --resume 678b82bd-da70-48d6-8fe3-d62bdcae3ece",
+"  3071131 · ppid 3071126 · claude · claude --plugin-dir ~/dev/projects/additional/viola-lab/prototype/plugin --effort high -n conductor-builder --resume 678b82bd-da70-48d6-8fe3-d62bdcae3ece",
+"  3074107 · ppid 3074085 · viola · ~/dev/projects/additional/viola-lab/prototype/target/debug/viola run andromeda-worker --dialog-timeout 3500 -- claude --plugin-dir ~/dev/projects/additional/viola-lab/prototype/plugin --effort high -n andromeda-worker",
+"  3074112 · ppid 3074107 · claude · claude --plugin-dir ~/dev/projects/additional/viola-lab/prototype/plugin --effort high -n andromeda-worker",
+"  3074872 · ppid 3074847 · viola · ~/dev/projects/additional/viola-lab/prototype/target/debug/viola run escher-builder --dialog-timeout 3500 -- claude --plugin-dir ~/dev/projects/additional/viola-lab/prototype/plugin --effort high -n escher-builder --resume 015ec7b3-905c-4571-aca1-8eea3c4f50c6",
+"  3074879 · ppid 3074872 · claude · claude --plugin-dir ~/dev/projects/additional/viola-lab/prototype/plugin --effort high -n escher-builder --resume 015ec7b3-905c-4571-aca1-8eea3c4f50c6",
+"  3083086 · ppid 3081717 · claude · claude",
+"  3105384 · ppid 3104869 · viola · ~/.viola/bin/0.1.0-231c0225dac912d9/viola mcp",
+"census: 20 running"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"census": {
+"comm": [
+"viola",
+"viola-fake-agent",
+"claude",
+"sample"
+],
+"args": [
+"projects/viola/target/"
+],
+"running": [
+967176,
+972966,
+1003937,
+1075429,
+1076318,
+3067270,
+3067317,
+3067367,
+3067432,
+3069673,
+3069678,
+3069764,
+3071126,
+3071131,
+3074107,
+3074112,
+3074872,
+3074879,
+3083086,
+3105384
+]
+}
+}
+}
+]
