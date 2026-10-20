@@ -789,3 +789,15 @@ The superseded marks stand in the body as the operator's word, superseded 2026-1
 **Change:** After "Run A leaves nothing": the print-mode probe leaves the CLI's empty project dir for its cwd `ledger/probes/<pid>/` under `~/.claude/projects/` (a `memory/` dir, no transcript), accepted into the same class, as measured on 2.1.296 and 2.1.302 on the Linux dev host. Was unstated.
 **Why:** Measured at the switch's verify residual count. The founder's own word, live, relayed by the overseer (`inputs#I21`), accepts it into the class of the Run B–D transcripts. viola itself still writes nothing under `~/.claude`: this dir is the CLI's write.
 **Ref:** .andromeda/runs/2026-10-19T19-16-36-wrap/
+
+## 2026-10-19-newer-claude-cli-rows — the scratch footer reading of a newer CLI accepted
+**Section:** §Data Protection (Accepted residual: a scratch footer reading of a newer CLI).
+**Change:** New. One `viola run` start of the CLI under a tmpfs `--home`, in a detached 80×24 pane, its cwd a fresh `.viola-footer-<pid>/` under the repository root, with no key typed. One `viola list` read. At two instants, the pane's bottom three rows, scrubbed of the home and user word, written to the chunk's `evidence/`, never a row above the footer. The start is then killed and its cwd removed. It left no transcript (no prompt typed), as measured on 2.1.302. It is no product path and no standing permission: another reading needs its own answer.
+**Why:** A new crossing (a subprocess start of the user's CLI, its screen rows into the repository): a boundary widening the founder answered himself to Fork 2 of the chunk's P4 («Один scratch-старт»), relayed by the Viola overseer with his option labels verbatim. The wrap's answer-card confirm is his own word too («Да, внутри»), relayed verbatim by the operator. Earlier scratch answers (2026-10-07) stay spent.
+**Ref:** .andromeda/runs/2026-10-20T05-48-20-wrap/
+
+## 2026-10-19-newer-claude-cli-rows — Run B's pastes go into rows holding an input-box literal
+**Section:** Threat Model Summary (verify's Run B, the six compiled pastes).
+**Change:** Each of the five added pastes goes only into rows that hold *an* input-box literal and no modal literal. It was "the input-box literal". The compiled set now holds two input-box literals (architecture [Screen Model]).
+**Why:** A wording follower of the second compiled literal. The pastes, their order and the start count are unchanged.
+**Ref:** .andromeda/runs/2026-10-20T05-48-20-wrap/

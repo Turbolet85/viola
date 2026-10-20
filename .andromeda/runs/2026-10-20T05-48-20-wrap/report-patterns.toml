@@ -1,0 +1,49 @@
+[[pattern]]
+id = 'F1-literal'
+regex = '''for agents|input-box literal|SIGNATURES|shift\+tab to cycle'''
+ignore_case = true
+
+[[pattern]]
+id = 'F2-ibsig'
+regex = '''input-box-signature|input_box_ready|long_turn|long turn'''
+ignore_case = true
+
+[[pattern]]
+id = 'F3-stamp'
+regex = '''stamped on 2\.1\.287|2\.1\.302|STAMPED|DRIFT_ONLY|stamped list|stamped set'''
+ignore_case = true
+
+[[pattern]]
+id = 'F4-fakeopt'
+regex = '''tag-turn-screen|long-turn-screen'''
+ignore_case = true
+
+[[pattern]]
+id = 'F5-stall'
+regex = '''wait_ready|stall report|not ready'''
+ignore_case = true
+
+[[pattern]]
+id = 'F6-residual'
+regex = '''accepted residual|footer row|scratch (read|measurement|answers)'''
+ignore_case = true
+
+[[pattern]]
+id = 'F7-hygiene'
+regex = '''contract_fixture_hygiene|SIGNATURE_LITERALS|signature row|hygiene walk'''
+ignore_case = true
+
+[[pattern]]
+id = 'F8-repro'
+regex = '''verify_pastes_|reproduction case'''
+ignore_case = true
+
+[[pattern]]
+id = 'owner-title'
+fixed = 'Newer claude CLI rows'
+ignore_case = true
+
+[[pattern]]
+id = 'owner-generic'
+regex = '''owned by a (route entry|CARRY)'''
+ignore_case = true

@@ -118,3 +118,25 @@ NOT NAMED, step 7 stays NOT RUN, and the acceptance criterion reads **unmet**. A
 (plan Acceptance; CLAUDE.md Tier 1: a red stays open until its cause is known). Across the runs read so far, the
 multi-second gap and the stall have appeared on one macOS attempt out of three (ci#39321117796 attempt 1). The
 report now in `wait_ready` is what will name the phase on the next stall.
+
+### ci#39374691224 — the gated round's commit `4eaca1d3`, attempt 1, green 15/15
+
+Read 2026-10-20, before 05:35:37Z (`date -u`). Artifacts `diag-macos-latest` 12242544956 and `junit-macos-latest`
+12243252724, each downloaded into a fresh scratch dir.
+
+`macos-run-start.py`, the summary verbatim. Its 18 `no version-probe` rows each ended `last event process-exit`
+(the refusals the tests make on purpose), so they are not kept:
+
+```
+== ci#39374691224 macos attempt 1
+self starts 265 · with a version-probe start 247 · without 18
+gap ms min 33 · p50 59 · p90 100 · p99 173 · max 269
+near, gap 1 s or less: median 2 · max 23
+```
+
+The JUnit has 2970 testcases. None holds a `failure`, `error`, `rerunFailure` or `flakyFailure`, and none holds a
+`stall ` or `not ready` line. The four `cross_list_rows_*` cases took 5.95–6.38 s.
+
+**Verdict for steps 6(c) and 7: unchanged.** The flake did not occur, so 6(c) stays NOT NAMED, step 7 stays NOT RUN
+and the criterion reads **unmet**. Across the runs read so far, the stall has appeared on one macOS attempt out of
+four.

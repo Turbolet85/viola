@@ -8,6 +8,25 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
+## 2026-10-20 — A live round's census entry sits right after its own leg
+`gate.py run --live-legs --entry N` fires the `round` entries since the previous `live` leg, then leg N. A round
+step placed after leg N therefore fires only together with the NEXT leg. When that next leg is a fork option the
+operator does not take (an option-2 verify under option 1), the census after leg N is unreachable through the tool,
+and its loop has to be run by hand and recorded. Author a census directly after the leg it watches, ahead of any leg
+a fork may skip, or give a fork-conditional leg its own trailing census.
+
+---
+
+## 2026-10-20 — A site-sweep pattern on `stamped` reads identifiers, not claims
+In this repository's masters the token `stamped` also stands inside `stamped_home`, `StampedHome`, `unstamped`,
+`--unstamped`, `read_budget_stamped` and the word "timestamped". A pattern that keys a moved stamp fact on `stamped`
+returns rows that are almost all true claims sharing the token (77 of 80 master rows at one wrap). It still misses
+the restatements that say the fact another way ("`2.1.287` alone today", "under `2.1.287` only", "`2.1.287`'s six"),
+which detectors then caught. Key such a pattern on the version-set wording itself (`alone today`, `only`, the version
+literals) and read the identifier rows as one class.
+
+---
+
 ## 2026-10-19 — Claude Code 2.1.287's folder-trust dialog: the default pointer sits one row above the trust row
 On 2.1.287 the folder-trust dialog opens with its selection pointer `❯` one row above `Yes, I trust this folder`, so a
 single Enter declines; one down arrow, then Enter on a re-read screen showing the pointer on the trust row, accepts it,

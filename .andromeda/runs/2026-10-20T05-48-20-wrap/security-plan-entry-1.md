@@ -1,0 +1,6 @@
+
+## 2026-10-19-newer-claude-cli-rows — the scratch footer reading of a newer CLI accepted
+**Section:** §Data Protection (Accepted residual: a scratch footer reading of a newer CLI).
+**Change:** New. One `viola run` start of the CLI under a tmpfs `--home`, in a detached 80×24 pane, its cwd a fresh `.viola-footer-<pid>/` under the repository root, with no key typed. One `viola list` read. At two instants, the pane's bottom three rows, scrubbed of the home and user word, written to the chunk's `evidence/`, never a row above the footer. The start is then killed and its cwd removed. It left no transcript (no prompt typed), as measured on 2.1.302. It is no product path and no standing permission: another reading needs its own answer.
+**Why:** A new crossing (a subprocess start of the user's CLI, its screen rows into the repository): a boundary widening the founder answered himself to Fork 2 of the chunk's P4 («Один scratch-старт»), relayed by the Viola overseer with his option labels verbatim. The wrap's answer-card confirm is his own word too («Да, внутри»), relayed verbatim by the operator. Earlier scratch answers (2026-10-07) stay spent.
+**Ref:** .andromeda/runs/2026-10-20T05-48-20-wrap/

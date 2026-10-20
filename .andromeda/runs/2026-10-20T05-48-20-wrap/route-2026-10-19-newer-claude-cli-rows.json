@@ -1,0 +1,119 @@
+[
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "cc3d30ac",
+"ts": "2026-10-20T06:54:47Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-10-19-newer-claude-cli-rows",
+"--run-dir",
+".andromeda/runs/2026-10-20T05-48-20-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"flip master-route.md:84 - 2026-10-19-newer-claude-cli-rows pending -> complete"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "cc3d30ac",
+"ts": "2026-10-20T06:54:47Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-19-newer-claude-cli-rows",
+"--date",
+"2026-10-20",
+"--run-dir",
+".andromeda/runs/2026-10-20T05-48-20-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :163 strip CARRY: 584ch \"CARRY: chunk 2026-10-19-overseer-switch-\"",
+"pin :163 strip WATCH: 518ch 0/3 since 2026-10-19-overseer-switch-to-viola \"WATCH: a `viola` process's truncated `.p\"",
+"pin next markerless :165 holds CARRY:×2 · WATCH:×2",
+"163 · 2026-10-19-newer-claude-cli-rows · strip 2 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 163,
+"marker": "2026-10-19-newer-claude-cli-rows",
+"blocks": 2,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "cc3d30ac",
+"ts": "2026-10-20T06:54:52Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-19-newer-claude-cli-rows",
+"--date",
+"2026-10-20",
+"--run-dir",
+".andromeda/runs/2026-10-20T05-48-20-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :163 strip CARRY: 584ch \"CARRY: chunk 2026-10-19-overseer-switch-\"",
+"pin :163 strip WATCH: 518ch 0/3 since 2026-10-19-overseer-switch-to-viola \"WATCH: a `viola` process's truncated `.p\"",
+"pin next markerless :165 holds CARRY:×2 · WATCH:×2",
+"163 · 2026-10-19-newer-claude-cli-rows · strip 2 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/route-archive.md",
+"./viola-0.1.0/working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 163,
+"marker": "2026-10-19-newer-claude-cli-rows",
+"blocks": 2,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]

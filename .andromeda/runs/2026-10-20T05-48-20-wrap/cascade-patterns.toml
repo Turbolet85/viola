@@ -1,0 +1,34 @@
+[[pattern]]
+id = 'C1-literal'
+regex = '''for agents|input-box literal|input_box|shift\+tab to cycle'''
+ignore_case = true
+
+[[pattern]]
+id = 'C2-ibsig'
+regex = '''ready and turn screens|input-box-signature|long.turn'''
+ignore_case = true
+
+[[pattern]]
+id = 'C3-stampset'
+regex = '''2\.1\.287[`]? alone|alone today|under `2\.1\.287` only|`2\.1\.287`'s (six|two|one)|2\.1\.302'''
+ignore_case = true
+
+[[pattern]]
+id = 'C4-fakeopts'
+regex = '''(twelve|thirteen) argv|(eight|nine) serve|(ten|eleven) that follow|(eight|nine) of them|tag-turn-screen|long-turn-screen'''
+ignore_case = true
+
+[[pattern]]
+id = 'C5-sets'
+regex = '''Committed sets|12 under each|six under'''
+ignore_case = true
+
+[[pattern]]
+id = 'C6-residual'
+regex = '''accepted residual|scratch (start|read|measurement|footer)|footer reading'''
+ignore_case = true
+
+[[pattern]]
+id = 'C7-stall'
+regex = '''wait_ready|stall report|readiness stall'''
+ignore_case = true

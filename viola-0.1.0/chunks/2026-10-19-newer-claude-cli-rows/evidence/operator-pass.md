@@ -86,3 +86,44 @@ root . · case exact · planes rust · base HEAD (no --marker)
 control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust — each fired on its synthetic known positive
 hygiene: clean — read 17 (runs 7 · evidence 7 · inputs 3) · trails 3 not read · copies 2 not read by P1 — 0 host paths kept · binary 0 not read by P1
 ```
+
+Clean on its first firing. It was re-fired once after this section was written, so that this file is read too, and
+read clean again with the same counts.
+
+## The commit
+
+`4eaca1d3` — `chore(2026-10-19-newer-claude-cli-rows): operator pre-CI commit, the gated live round, for the run this
+chunk's verdict reads`, made with `git add -A` on top of `3bdcd4a7`. The tree was clean after it.
+
+## Entry 34 — `python -X utf8 {tools_dir}/gate.py run --plan viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/plan.md --operator 34`
+
+The entry's line and the call's summary, verbatim (header left out):
+
+```
+operator entry 34 · history tripwire: git
+ 34 probe       green · exit 0 · 2.19s · 92 B → 34.log · history moved: refs/remotes/origin/HEAD 3bdcd4a7→4eaca1d3; refs/remotes/origin/build/viola-0.1.0 3bdcd4a7→4eaca1d3 · git diff --quiet && git diff --cached --quiet && git push … (69 chars)
+entries 35 · green 1 · red 0 · recorded 0 · timeout 0 · not-run 34
+```
+
+The history move is the push the entry exists to make.
+
+## Entry 35 — `python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 2400`
+
+Fired as written, in the background; it finished before 2026-10-20T05:35:37Z (the `date -u` read after it). Its
+output, verbatim:
+
+```
+ci v1.3 · 2b582a9b
+repo Turbolet85/viola (the push remote `origin`) · polled 23× over 683 s
+4eaca1d3af32 verdict: green · checks 15/15 · wall 653 s · runs ci#39374691224 completed/success
+runs: ci#39374691224 push completed/success
+checks: fuzz-replay · lint (macos-latest) · lint (ubuntu-latest) · lint (windows-2025) · msrv · perf (macos-latest)
+  perf (ubuntu-latest) · perf (windows-2025) · release (macos-latest) · release (ubuntu-latest) · release (windows-2025)
+  supply-chain · test (macos-latest) · test (ubuntu-latest) · test (windows-2025)
+```
+
+`gh run view 39374691224 --json attempt,conclusion,headSha` reads `1 · success · 4eaca1d3af32b3562ef00f58d41684e559100b5d`.
+Every job, `test (macos-latest)` included, was green on attempt 1, so there was no fix commit. The 2.1.302 set ran
+on all three OSes under the contract binaries (`contract_ledger_probes` stamps it; `contract_fake_agent_drift` and the
+hygiene walk read it). The macOS reading for step 6 is in `macos-run-start.md`: no stall, so the phase is still not
+named.

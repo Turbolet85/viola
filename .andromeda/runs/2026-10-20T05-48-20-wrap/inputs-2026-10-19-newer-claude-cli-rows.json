@@ -1,0 +1,219 @@
+[
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "28fe9dcf",
+"ts": "2026-10-20T05:48:50Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows",
+"--source",
+"~/dev/projects/additional/viola-overseer/wrap-cli-rows-directive.md",
+"--kind",
+"relay",
+"--why",
+"the overseer's wrap directive: outcome basis 3bdcd4a7 and 4eaca1d3 both CI green attempt 1; entry 24 red carried as this chunk's own red on a recorded companion, commit and flip proceed, guard text unedited; the remove-the-guard reading over a scratch clone of HEAD; the macOS criterion stays unmet, a WATCH on the next markerless entry; Epoch 5 cleanup stays after this entry on the founder's own word",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-20T05-48-20-wrap",
+"--marker",
+"2026-10-19-newer-claude-cli-rows"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I8 · copy no-repo · ../additional/viola-overseer/wrap-cli-rows-directive.md",
+"cite: inputs#I8"
+],
+"stderr": null,
+"wrote": [
+"inputs/I8-wrap-cli-rows-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I8",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/wrap-cli-rows-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "73774c4fd56e9cfce759d750bc9a47208b294e7b4c6dfbfcac6e849d47e0cd04",
+"copy": "I8-wrap-cli-rows-directive.md.txt",
+"link": false,
+"read_at": "2026-10-20T05:48:50Z",
+"step": "wrap",
+"why": "the overseer's wrap directive: outcome basis 3bdcd4a7 and 4eaca1d3 both CI green attempt 1; entry 24 red carried as this chunk's own red on a recorded companion, commit and flip proceed, guard text unedited; the remove-the-guard reading over a scratch clone of HEAD; the macOS criterion stays unmet, a WATCH on the next markerless entry; Epoch 5 cleanup stays after this entry on the founder's own word"
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "28fe9dcf",
+"ts": "2026-10-20T05:49:12Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows",
+"--run-dir",
+".andromeda/runs/2026-10-20T05-48-20-wrap",
+"--marker",
+"2026-10-19-newer-claude-cli-rows"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-cli-rows-directive.md",
+"I1 cited scope.md:6 · scope.md:14 · scope.md:65 · scope.md:75 · scope.md:84 · research.md:19 · plan.md:32 · plan.md:581",
+"I2 n/a — a message has no live source · copy message · message: the operator seat, the phase invocation message, 2026-10-19T23:10Z",
+"I2 cited scope.md:6 · research.md:21 · plan.md:582",
+"I3 n/a — a message has no live source · copy message · message: the orchestrator, its own P3 reads outside the repository, 2026-10-19T23:25Z",
+"I3 cited scope.md:22 · scope.md:29 · scope.md:39 · scope.md:42 · scope.md:43 · scope.md:73 · scope.md:86 · research.md:22 · research.md:95 · research.md:104 · research.md:105 · research.md:119 · research.md:120 · plan.md:16 · plan.md:22 · plan.md:33 · plan.md:583",
+"I4 n/a — a message has no live source · copy message · message: the Viola overseer as the founder delegate, PROVISIONAL, 2026-10-19T23:31Z",
+"I4 cited plan.md:11 · plan.md:120 · plan.md:584 · plan.md:630",
+"I5 n/a — a message has no live source · copy message · message: the Viola overseer as the founder delegate, PROVISIONAL, the P5 dialog, 2026-10-19T23:45Z",
+"I5 UNCITED",
+"I6 n/a — a message has no live source · copy message · message: the founder, live at his keyboard in the Viola overseer's dialog, read 2026-10-20T04:59:04Z (appended under His answer in .andromeda/runs/2026-10-19T23-10-05-phase/founder-forks.md)",
+"I6 UNCITED",
+"I7 n/a — a message has no live source · copy message · message: the operator seat, the implement invocation message, 2026-10-20T05:01Z",
+"I7 UNCITED",
+"I8 unchanged · copy no-repo · ../additional/viola-overseer/wrap-cli-rows-directive.md",
+"I8 UNCITED",
+"inputs: 8 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 6 · uncited 4 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 8,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 6
+},
+"uncited": 4,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "28fe9dcf",
+"ts": "2026-10-20T06:34:08Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows",
+"--message-file",
+".andromeda/runs/2026-10-20T05-48-20-wrap/relay-1.md",
+"--origin",
+"the founder, live at his keyboard in the Viola overseer's dialog, 2026-10-20T06:33Z, relayed verbatim by the operator in the wrap's P2 halt",
+"--kind",
+"relay",
+"--why",
+"the wrap's P2 halt: the answer card confirmed (S1 inside his Fork 2 answer, «Да, внутри»); the macOS criterion: flip complete, UNMET, a WATCH on Epoch 5 cleanup, the departure from test-plan §10 his own word, §10 not amended («Закрыть + WATCH»)",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-20T05-48-20-wrap",
+"--marker",
+"2026-10-19-newer-claude-cli-rows"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I9 · copy message · message: the founder, live at his keyboard in the Viola overseer's dialog, 2026-10-20T06:33Z, relayed verbatim by the operator in the wrap's P2 halt",
+"cite: inputs#I9"
+],
+"stderr": null,
+"wrote": [
+"inputs/I9-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I9",
+"kind": "relay",
+"repo": null,
+"path": "message: the founder, live at his keyboard in the Viola overseer's dialog, 2026-10-20T06:33Z, relayed verbatim by the operator in the wrap's P2 halt",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "edc7700635e924461551bb2a740de621a6a203b6f426160e9acfcba089485e67",
+"copy": "I9-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-20T06:34:08Z",
+"step": "wrap",
+"why": "the wrap's P2 halt: the answer card confirmed (S1 inside his Fork 2 answer, «Да, внутри»); the macOS criterion: flip complete, UNMET, a WATCH on Epoch 5 cleanup, the departure from test-plan §10 his own word, §10 not amended («Закрыть + WATCH»)"
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "28fe9dcf",
+"ts": "2026-10-20T06:53:57Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows",
+"--message-file",
+".andromeda/runs/2026-10-20T05-48-20-wrap/relay-2.md",
+"--origin",
+"the Viola overseer's technical answer, 2026-10-20T06:53Z, inside the founder's own ruling of 2026-10-20T05:06Z, relayed verbatim by the operator in the wrap's P7.1 halt",
+"--kind",
+"relay",
+"--why",
+"the light gate's pre-push red (truncated .profraw at the coverage merge, 2974/2974 tests passed): re-watch on Epoch 5 cleanup; red not this chunk's, basis the switch chunk's wrap 19.2.log, owner Epoch 5 cleanup item 8; proceed to the flip and commit",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-20T05-48-20-wrap",
+"--marker",
+"2026-10-19-newer-claude-cli-rows"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I10 · copy message · message: the Viola overseer's technical answer, 2026-10-20T06:53Z, inside the founder's own ruling of 2026-10-20T05:06Z, relayed verbatim by the operator in the wrap's P7.1 halt",
+"cite: inputs#I10"
+],
+"stderr": null,
+"wrote": [
+"inputs/I10-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I10",
+"kind": "relay",
+"repo": null,
+"path": "message: the Viola overseer's technical answer, 2026-10-20T06:53Z, inside the founder's own ruling of 2026-10-20T05:06Z, relayed verbatim by the operator in the wrap's P7.1 halt",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "3883d848ead9934d20b1f7feac79f46f30622a58e0953e4b451a404f37e39fbe",
+"copy": "I10-relay-2.md.txt",
+"link": false,
+"read_at": "2026-10-20T06:53:57Z",
+"step": "wrap",
+"why": "the light gate's pre-push red (truncated .profraw at the coverage merge, 2974/2974 tests passed): re-watch on Epoch 5 cleanup; red not this chunk's, basis the switch chunk's wrap 19.2.log, owner Epoch 5 cleanup item 8; proceed to the flip and commit"
+}
+}
+]

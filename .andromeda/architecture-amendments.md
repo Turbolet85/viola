@@ -1397,3 +1397,20 @@ Each superseded mark is kept in the body as the operator's word, superseded 2026
 **Change:** The print-mode probe leaves the CLI's empty project dir for its cwd `ledger/probes/<pid>/` under `~/.claude/projects/` (a `memory/` dir, no transcript), the same accepted residual as Runs B–D's transcripts, as measured on 2.1.296 and 2.1.302 on the Linux dev host. Was unstated (the rationale named Runs B–E's residual only).
 **Why:** The omission was measured at the switch's verify residual count (4 new `~/.claude/projects/` entries per verify, one of them this dir). The founder accepted it into the same class by his own word, live, relayed by the overseer (`inputs#I21`).
 **Ref:** .andromeda/runs/2026-10-19T19-16-36-wrap/
+
+## 2026-10-19-newer-claude-cli-rows — the second input-box literal and the three-screen input-box-signature row
+**Section:** Established Decisions ([Screen Model]; [CLI Version Compatibility]).
+**Change:**
+- [Screen Model] `SIGNATURES.input_box` is `["for agents", "(shift+tab to cycle)"]`. It was `["for agents"]`. The second literal is the resting footer a CLI keeps once it hides the first. On 2.1.302 the footer hint `for agents` is gone 15 s after the start, and the row reads `⏵⏵ auto mode on (shift+tab to cycle)`. Its mode word is the user's permission mode, so the literal is the mode-independent `(shift+tab to cycle)`, which no other CLI text read holds. The readiness rule (a row with an input-box literal and no modal row) is unchanged.
+- [Screen Model] The `input-box-signature` row reads the ready screen, the turn screen and the screen Run B settles on after the long paste's turn, each holding an input-box literal and no modal; a long turn whose screen never settles fails it. It was "the ready and turn screens". Its words are unchanged.
+- [CLI Version Compatibility] Run B's added pastes go only into rows that hold *an* input-box literal (was "the input-box literal"). The re-stamp clause names the stamped versions 2.1.287 and 2.1.302, each `24 pass  0 fail` on the Linux dev host. It was "2.1.287 alone today".
+**Why:** 2.1.302 hides `for agents` once its attacher-caps timer expires, so a two-screen row passed while the literal vanished later, and `run`'s pre-send gate would have refused `send` `input-not-ready` on a verified 2.1.302. The literal was measured live by one scratch footer reading. That crossing is the founder's own answer to Fork 2, relayed by the Viola overseer (security-plan's entry). 2.1.302's full stamp was then recorded live (24/0).
+**Ref:** .andromeda/runs/2026-10-20T05-48-20-wrap/
+
+## 2026-10-19-newer-claude-cli-rows — the 2.1.302 fixture set and the long-turn screen switch
+**Section:** Occupied Resources (Binary, subcommands and exit codes — the test-only binaries; Repository — `fixtures/claude/<cli-version>/`).
+**Change:**
+- The fake agent has thirteen argv options (the count's rule is the list), nine of them serving verify's interactive runs and their tests. It was twelve and eight. The new one is the test-only `--long-turn-screen <phase>`: with `--framing` and `--turn-stop`, after the long paste's turn alone and after its Stop, `Screen.<phase>` of the set is drawn in place of `Screen.turn`. It sits beside `--tag-turn-screen`.
+- The committed sets are `2.1.283`, `2.1.287`, `2.1.288` and `2.1.302`; `2.1.302` is new. `2.1.302` holds 4 spine payloads + 3 screens + 12 dialog variants + 6 framing variants + 2 status line variants + 1 resume variant + 1 agents variant: 29 files, the count's rule `ls fixtures/claude/2.1.302 | wc -l`. It was recorded whole by one `viola verify --record` round. Its `Screen.ready` and `Screen.turn` keep one row holding both input-box literals. It is stamped at the relied set the same way as `2.1.287`; `2.1.288` and `2.1.283` stay drift-only.
+**Why:** The fixtures for the measured literal: CI's fake agent replays a recorded 2.1.302 set, and `contract_ledger_probes` stamps it (its `STAMPED` list). The screen switch reproduces the stop that held Run B after the long paste's turn without a live start.
+**Ref:** .andromeda/runs/2026-10-20T05-48-20-wrap/

@@ -1,0 +1,30 @@
+# Wrap directive — 2026-10-19-newer-claude-cli-rows
+
+Facts measured by the overseer, 2026-10-20:
+
+1. **Outcome basis.** The operator pass ran twice:
+   - `3bdcd4a7`: the non-live steps, CI 39345408847 green 15/15, attempt 1.
+   - `4eaca1d3`: the gated live round, CI 39374691224 green 15/15, attempt 1
+     (`gh run view 39374691224 --json conclusion,attempt`).
+
+   No fix commit. The chunk's block cleared on the founder's own word: `founder-forks.md` «His answer», read
+   2026-10-20T04:59:04Z. Live starts spent: 13 of his 19.
+2. **Entry 24 (the preservation guard) reads red on ONE recorded companion, `tests/contract_fixture_hygiene.rs`.** It is
+   the fixture-hygiene test's own copy of the input-box literals, without which CI refuses the 2.1.302 screens.
+   - The overseer's technical direction: the light gate carries it as this chunk's own red on a recorded companion,
+     recorded in Deviations with `scope-record.md`'s line, not as a not-this-chunk's red.
+   - The commit and the flip proceed on that direction, the guard text unedited.
+   - It is the open class the handoff carries ("the preservation guard reads red on any recorded companion edit").
+3. **The remove-the-guard reading for the new literal is still owed.** The classifier refused the in-tree removal of
+   `(shift+tab to cycle)`.
+   - The overseer's technical direction: take the reading over a SCRATCH CLONE of HEAD, never the tree. Use
+     `gate.py run --entry {n} --project-root {scratch}`, the literal removed in the clone, then the case red, then the
+     clone discarded.
+   - If the classifier refuses that too, the reading is recorded as owed with the refusal quoted.
+   - The pre-fix reproduction (`evidence/reproduction.md`) removed the check arm, not this literal, so it does not stand
+     in for this reading.
+4. **The macOS readiness criterion stays UNMET.** The stall recurred on 1 of 4 macOS attempts read, and its stalled
+   step is still unnamed. Route it to an owner at P5. A WATCH on the next markerless entry is the expected form, with
+   the stall report now in the tests as its witness.
+5. **The founder's ruling at the boundary, for this wrap's P5:** «Epoch 5 cleanup» stays directly after this entry
+   («Оставить после», his own word 2026-10-20T04:59Z). It is no longer the overseer's PROVISIONAL placement.

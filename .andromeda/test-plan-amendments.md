@@ -1131,3 +1131,19 @@ Each was then killed by a case in `typed.rs`'s `mod tests`, shown red under its 
 - Path 4 names `hook_a_recorded_question_carries_its_option_details` (the 2.1.287 fixture holds no `preview`, so previews read `null`) and the live reading on 2.1.296: a `question` with descriptions and previews answered by a product `viola answer`, `dialog-answered{deadline_hit:false}` with no `from`.
 **Why:** The chunk's two additive data keys carry tests at the unit and integration tiers, and the plan asked for the switch's live readings stated as a local measurement, not a suite.
 **Ref:** .andromeda/runs/2026-10-19T19-16-36-wrap/
+
+## 2026-10-19-newer-claude-cli-rows — the long-turn screen, the second literal and the 2.1.302 set in the suite
+**Section:** §4 Unit Test Strategy (viola-agent-claude); §5 Integration Test Strategy (CLI `cli_verify`, `contract_ledger_probes`); §7 Test Data & Fixtures (Fake agent modes; Fixture hygiene walk; Seed strategies, Recorded hook payloads); §2 Test Strategy (the Contract row).
+**Change:**
+- §4: a bullet for the `input-box-signature` arm, which reads three Run B screens (`ready`, `turn`, `long_turn`, `TypedRun::long_turn` never written to `measured`), with the cases `check_input_box_signature_long_turn_holding_the_literal_passes`, `…_holding_a_modal_fails` and `…_of_none_fails`. The `SIGNATURES` bullet names two input-box literals, `for agents` and `(shift+tab to cycle)`, pinned by the `resting_footer` cases (was one, `for agents`).
+- §5 `cli_verify`: the long-turn modal case `verify_pastes_nothing_more_once_the_long_turn_screen_shows_a_modal`, at `19 pass  5 fail` on Unix and `16 pass  5 fail` on Windows, its receipt holding the probe prompt and the long paste only. `contract_ledger_probes`' stamped sets are `2.1.287` and `2.1.302` (was `2.1.287` alone).
+- §7: the fake agent has thirteen argv options, eleven of them after the statusline two, nine for verify's interactive runs (was twelve, ten and eight). `--long-turn-screen <phase>` sits beside `--tag-turn-screen`, with parse cases `opts_long_turn_screen_*`. The hygiene walk and the Recorded hook payloads row include `2.1.302`: its dialog, framing, status line, resume and agents variants and its screens (was `2.1.287` only for framing, status line, resume and agents).
+- §2 Contract row: the dialog variants are 12 under each of `2.1.288`, `2.1.287` and `2.1.302`; the framing variants are six under each of `2.1.287` and `2.1.302`.
+**Why:** The suite now reads what 2.1.302 showed: the long turn's settled screen, a second compiled literal, and a recorded set that CI replays and stamps.
+**Ref:** .andromeda/runs/2026-10-20T05-48-20-wrap/
+
+## 2026-10-19-newer-claude-cli-rows — the readiness stall report in wait_ready
+**Section:** §5 Integration Test Strategy (Readiness stall report).
+**Change:** New. When `tests/support/home.rs` `wait_ready` reaches its deadline, it appends the stalled wrapper's state to the watch report before the panic, so the report reaches the JUnit. The state is the wrapper's last `run-<name>.ndjson` event; on macOS `/usr/bin/sample <pid> 1`'s call-graph stack lines (bounded at 4 s, at most 120); on Linux `/proc/<pid>/wchan` and the `stat` state (`note_stall`, `wrapper_pid`, `process_state` per OS). It signals nothing and adds nothing to a passing boot. It is the witness for the macOS readiness stall inside `run.start`, whose phase is not yet named.
+**Why:** The stall recurred on 1 of 4 macOS attempts read and has not been located. The founder's own word, relayed verbatim by the operator, closes the chunk with the criterion unmet and a route WATCH as its owner, the report as its witness. That is his departure from §10's in-chunk quarantine for this flake; §10 is not amended.
+**Ref:** .andromeda/runs/2026-10-20T05-48-20-wrap/

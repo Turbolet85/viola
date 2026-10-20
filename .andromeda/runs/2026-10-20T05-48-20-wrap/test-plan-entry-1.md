@@ -1,0 +1,10 @@
+
+## 2026-10-19-newer-claude-cli-rows — the long-turn screen, the second literal and the 2.1.302 set in the suite
+**Section:** §4 Unit Test Strategy (viola-agent-claude); §5 Integration Test Strategy (CLI `cli_verify`, `contract_ledger_probes`); §7 Test Data & Fixtures (Fake agent modes; Fixture hygiene walk; Seed strategies, Recorded hook payloads); §2 Test Strategy (the Contract row).
+**Change:**
+- §4: a bullet for the `input-box-signature` arm, which reads three Run B screens (`ready`, `turn`, `long_turn`, `TypedRun::long_turn` never written to `measured`), with the cases `check_input_box_signature_long_turn_holding_the_literal_passes`, `…_holding_a_modal_fails` and `…_of_none_fails`. The `SIGNATURES` bullet names two input-box literals, `for agents` and `(shift+tab to cycle)`, pinned by the `resting_footer` cases (was one, `for agents`).
+- §5 `cli_verify`: the long-turn modal case `verify_pastes_nothing_more_once_the_long_turn_screen_shows_a_modal`, at `19 pass  5 fail` on Unix and `16 pass  5 fail` on Windows, its receipt holding the probe prompt and the long paste only. `contract_ledger_probes`' stamped sets are `2.1.287` and `2.1.302` (was `2.1.287` alone).
+- §7: the fake agent has thirteen argv options, eleven of them after the statusline two, nine for verify's interactive runs (was twelve, ten and eight). `--long-turn-screen <phase>` sits beside `--tag-turn-screen`, with parse cases `opts_long_turn_screen_*`. The hygiene walk and the Recorded hook payloads row include `2.1.302`: its dialog, framing, status line, resume and agents variants and its screens (was `2.1.287` only for framing, status line, resume and agents).
+- §2 Contract row: the dialog variants are 12 under each of `2.1.288`, `2.1.287` and `2.1.302`; the framing variants are six under each of `2.1.287` and `2.1.302`.
+**Why:** The suite now reads what 2.1.302 showed: the long turn's settled screen, a second compiled literal, and a recorded set that CI replays and stamps.
+**Ref:** .andromeda/runs/2026-10-20T05-48-20-wrap/
