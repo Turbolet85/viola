@@ -95,4 +95,26 @@ first attempt would not close it.
 
 ## Operator pass — CI readings
 
-(none yet)
+### ci#39345408847 — the pre-CI commit `3bdcd4a7`, attempt 1, green 15/15
+
+Read 2026-10-20, before 00:16:10Z (`date -u`). Artifacts `diag-macos-latest` 12230928976 and `junit-macos-latest`
+12230729357, each downloaded into a fresh scratch dir. The 6(a) stall report was installed in this tree.
+
+`macos-run-start.py`, verbatim. No row had a gap over 1 s, and every `no version-probe` row ended
+`last event process-exit` (the refusals the tests make on purpose), so none is kept:
+
+```
+== ci#39345408847 macos attempt 1
+self starts 265 · with a version-probe start 247 · without 18
+gap ms min 32 · p50 60 · p90 110 · p99 314 · max 493
+```
+
+The JUnit: 2960 testcases. None holds a `failure`, `error`, `rerunFailure` or `flakyFailure`, and none holds a `stall `
+line or `not ready` in its output. The 6(a) report never fired: no boot stalled. `test (macos-latest)` was green on
+its first attempt (the run's `attempt` reads 1), and the four `cross_list_rows_*` cases took 5.90–6.66 s.
+
+**Verdict for steps 6(c) and 7:** this run does not locate the phase, because the flake did not occur. 6(c) stays
+NOT NAMED, step 7 stays NOT RUN, and the acceptance criterion reads **unmet**. A green first attempt does not close it
+(plan Acceptance; CLAUDE.md Tier 1: a red stays open until its cause is known). Across the runs read so far, the
+multi-second gap and the stall have appeared on one macOS attempt out of three (ci#39321117796 attempt 1). The
+report now in `wait_ready` is what will name the phase on the next stall.

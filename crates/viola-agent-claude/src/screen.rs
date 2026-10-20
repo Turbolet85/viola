@@ -33,10 +33,12 @@ pub struct Signatures {
     pub modals: &'static [&'static str],
 }
 
-/// The measured literals (`viola verify`'s screen probe): the input box's footer hint, and the
-/// confirm labels of the workspace trust dialog and the external CLAUDE.md imports dialog.
+/// The measured literals (`viola verify`'s screen probe): the input box's footer hints, and the
+/// confirm labels of the workspace trust dialog and the external CLAUDE.md imports dialog. The
+/// second input-box literal is the resting footer 2.1.302 keeps once it hides the first; its
+/// parentheses keep it off the CLI's tip text and its dialogs' own "to cycle" hints.
 pub const SIGNATURES: Signatures = Signatures {
-    input_box: &["for agents"],
+    input_box: &["for agents", "(shift+tab to cycle)"],
     modals: &["Yes, I trust this folder", "Yes, allow external imports"],
 };
 
@@ -411,7 +413,7 @@ mod tests {
 
     #[test]
     fn signatures_are_the_measured_literals() {
-        assert_eq!(SIGNATURES.input_box, ["for agents"]);
+        assert_eq!(SIGNATURES.input_box, ["for agents", "(shift+tab to cycle)"]);
         assert_eq!(
             SIGNATURES.modals,
             ["Yes, I trust this folder", "Yes, allow external imports"]
@@ -426,6 +428,50 @@ mod tests {
     #[case::empty("", false)]
     fn holds_any_reads_both_lists(#[case] row: &str, #[case] expected: bool) {
         assert_eq!(SIGNATURES.holds_any(row), expected);
+    }
+
+    /// The footer rows measured on 2.1.302 at ~15 s and ~25 s after its start (identical at both),
+    /// beside the 2.1.287 recorded row, the two modal rows and the CLI's own other "to cycle" texts.
+    #[rstest]
+    #[case::resting_footer_2_1_302("  ⏵⏵ auto mode on (shift+tab to cycle)", true)]
+    #[case::resting_footer_rule_2_1_302(
+        "────────────────────────────────────────────────────────────────────────────────",
+        false
+    )]
+    #[case::resting_footer_blank_2_1_302("", false)]
+    #[case::resting_footer_2_1_287("  ⏸ manual mode on · ← for agents", true)]
+    #[case::resting_footer_trust("   Yes, I trust this folder", true)]
+    #[case::resting_footer_imports("   Yes, allow external imports", true)]
+    #[case::resting_footer_tip(
+        "Hit shift+tab to cycle between manual mode, auto-accept edit mode, and plan mode",
+        false
+    )]
+    #[case::resting_footer_skills_hint("enter/space to cycle, / to search, esc to close", false)]
+    fn holds_any_reads_the_resting_footer(#[case] row: &str, #[case] expected: bool) {
+        assert_eq!(SIGNATURES.holds_any(row), expected);
+    }
+
+    #[test]
+    fn verdict_over_the_2_1_302_resting_footer_alone_is_ready() {
+        let rows = [
+            "────────────────────────────────────────────────────────────────────────────────"
+                .to_owned(),
+            String::new(),
+            "  ⏵⏵ auto mode on (shift+tab to cycle)".to_owned(),
+        ];
+        assert_eq!(verdict_over(&rows), GateStep::Done(Readiness::Ready));
+    }
+
+    #[test]
+    fn verdict_over_the_resting_footer_beside_a_modal_is_input_not_ready() {
+        let rows = [
+            "   Yes, I trust this folder".to_owned(),
+            "  ⏵⏵ auto mode on (shift+tab to cycle)".to_owned(),
+        ];
+        assert_eq!(
+            verdict_over(&rows),
+            GateStep::Done(Readiness::InputNotReady)
+        );
     }
 
     #[test]

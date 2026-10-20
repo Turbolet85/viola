@@ -1,0 +1,5 @@
+  9 probe       green · exit 0 · 0.0s · 14 B → 9.log · void: block cleared — the founder's own answer… (89 chars) · test -x "$HOME/.local/share/mise/installs/claude/2.1.302/c… (83 chars)
+ 10 probe       recorded · exit 0 · 0.03s · 4 B → 10.log · void: block cleared — the founder's own answer… (89 chars) · find "$HOME/.claude/projects" -name '*.jsonl' -path '*-vio… (71 chars)
+ 11 probe       green · exit 0 · 28.9s · 24 B → 11.log · void: block cleared — the founder's own answer… (89 chars) · bash viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows/f… (74 chars)
+not run — excluded · 32: 1-8,12-35
+round: COMPLETE · legs fired 1/1 · entries 35 · green 2 · red 0 · recorded 1 · timeout 0 · indeterminate 0 · not-run 32 · voided 3 (9,10,11)

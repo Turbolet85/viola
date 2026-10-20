@@ -1,0 +1,112 @@
+[
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "28fe9dcf",
+"ts": "2026-10-20T05:02:09Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows",
+"--message-file",
+".andromeda/runs/2026-10-20T05-01-00-implement/relay-1.md",
+"--origin",
+"the founder, live at his keyboard in the Viola overseer's dialog, read 2026-10-20T04:59:04Z (appended under His answer in .andromeda/runs/2026-10-19T23-10-05-phase/founder-forks.md)",
+"--kind",
+"relay",
+"--why",
+"the gated block cleared: Fork 1 option 1, 19 live starts (1 footer reading, 6 record round, 6 --local-live, 6 held for one re-run only on a red record round; step 13 not run); Fork 2 option 1, one scratch start, footer rows only, his own ratification of the crossing; Epoch 5 cleanup stays after this entry",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-10-20T05-01-00-implement",
+"--marker",
+"2026-10-19-newer-claude-cli-rows"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I6 · copy message · message: the founder, live at his keyboard in the Viola overseer's dialog, read 2026-10-20T04:59:04Z (appended under His answer in .andromeda/runs/2026-10-19T23-10-05-phase/founder-forks.md)",
+"cite: inputs#I6"
+],
+"stderr": null,
+"wrote": [
+"inputs/I6-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I6",
+"kind": "relay",
+"repo": null,
+"path": "message: the founder, live at his keyboard in the Viola overseer's dialog, read 2026-10-20T04:59:04Z (appended under His answer in .andromeda/runs/2026-10-19T23-10-05-phase/founder-forks.md)",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "583886b99962a59f7866af5913bd0037e3047bff33d06b039670530576f8ada9",
+"copy": "I6-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-20T05:02:09Z",
+"step": "implement",
+"why": "the gated block cleared: Fork 1 option 1, 19 live starts (1 footer reading, 6 record round, 6 --local-live, 6 held for one re-run only on a red record round; step 13 not run); Fork 2 option 1, one scratch start, footer rows only, his own ratification of the crossing; Epoch 5 cleanup stays after this entry"
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "28fe9dcf",
+"ts": "2026-10-20T05:02:09Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-19-newer-claude-cli-rows",
+"--message-file",
+".andromeda/runs/2026-10-20T05-01-00-implement/relay-2.md",
+"--origin",
+"the operator seat, the implement invocation message, 2026-10-20T05:01Z",
+"--kind",
+"relay",
+"--why",
+"run steps 8-13 on the cleared block; snap the answer first; ledger every live start with the clock time before making it; then the operator pass; stop before the wrap",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-10-20T05-01-00-implement",
+"--marker",
+"2026-10-19-newer-claude-cli-rows"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I7 · copy message · message: the operator seat, the implement invocation message, 2026-10-20T05:01Z",
+"cite: inputs#I7"
+],
+"stderr": null,
+"wrote": [
+"inputs/I7-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I7",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator seat, the implement invocation message, 2026-10-20T05:01Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "60a11d225206830e9f7d15e76edfb08dad649ae556ea32f5fd72095da6b00167",
+"copy": "I7-relay-2.md.txt",
+"link": false,
+"read_at": "2026-10-20T05:02:09Z",
+"step": "implement",
+"why": "run steps 8-13 on the cleared block; snap the answer first; ledger every live start with the clock time before making it; then the operator pass; stop before the wrap"
+}
+}
+]

@@ -352,9 +352,10 @@ fn claude_fixtures_walks_every_version_dir_and_only_json_files() {
     assert!(claude_fixtures(&tmp.path().join("missing")).is_empty());
 }
 
-/// The compiled signature literals, as test literals: the input box and the two modals.
-const SIGNATURE_LITERALS: [&str; 3] = [
+/// The compiled signature literals, as test literals: the input box's two and the two modals.
+const SIGNATURE_LITERALS: [&str; 4] = [
     "for agents",
+    "(shift+tab to cycle)",
     "Yes, I trust this folder",
     "Yes, allow external imports",
 ];

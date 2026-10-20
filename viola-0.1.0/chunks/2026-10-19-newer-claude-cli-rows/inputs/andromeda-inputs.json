@@ -88,5 +88,41 @@
     "read_at": "2026-10-19T23:45:56Z",
     "step": "phase:P5",
     "why": "the P5 word on .andromeda/runs/2026-10-19T23-10-05-phase/p5-card-1.md: yes, delegate the Viola overseer, PROVISIONAL; the two founder forks stay held; the four departures accepted as technical; stop after the matrix step"
+  },
+  {
+    "id": "I6",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: the founder, live at his keyboard in the Viola overseer's dialog, read 2026-10-20T04:59:04Z (appended under His answer in .andromeda/runs/2026-10-19T23-10-05-phase/founder-forks.md)",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "583886b99962a59f7866af5913bd0037e3047bff33d06b039670530576f8ada9",
+    "copy": "I6-relay-1.md.txt",
+    "link": false,
+    "read_at": "2026-10-20T05:02:09Z",
+    "step": "implement",
+    "why": "the gated block cleared: Fork 1 option 1, 19 live starts (1 footer reading, 6 record round, 6 --local-live, 6 held for one re-run only on a red record round; step 13 not run); Fork 2 option 1, one scratch start, footer rows only, his own ratification of the crossing; Epoch 5 cleanup stays after this entry"
+  },
+  {
+    "id": "I7",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: the operator seat, the implement invocation message, 2026-10-20T05:01Z",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "60a11d225206830e9f7d15e76edfb08dad649ae556ea32f5fd72095da6b00167",
+    "copy": "I7-relay-2.md.txt",
+    "link": false,
+    "read_at": "2026-10-20T05:02:09Z",
+    "step": "implement",
+    "why": "run steps 8-13 on the cleared block; snap the answer first; ledger every live start with the clock time before making it; then the operator pass; stop before the wrap"
   }
 ]

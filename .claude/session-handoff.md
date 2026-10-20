@@ -116,4 +116,8 @@
 - **Last failed command:** none.
 
 ## Session End Status
-Completed normally at 2026-10-20 01:46:39
+Completed normally at 2026-10-20 06:59:18
+
+## AUTO-COMPACT 2026-10-20 03:10 (unattended)
+- Context at compact: 385k / 1.00M (38%); alarm level reached before it: none.
+- The pre-compact ritual did NOT run. Post-compact instance: re-verify the END STATE of every in-flight edit (phrase/hash probe per planned site), refresh the handoff, then continue.

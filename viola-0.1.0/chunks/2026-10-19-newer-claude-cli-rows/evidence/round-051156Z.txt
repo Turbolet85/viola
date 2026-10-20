@@ -1,0 +1,4 @@
+ 12 probe       green · exit 0 · 0.05s · 0 B → 12.log · void: block cleared — the founder's own answer… (89 chars) · for p in $(pgrep -x claude); do case "$(readlink /proc/$p/… (189 chars)
+ 13 build       green · exit 0 · 69.2s · 1947 B → 13.log · void: block cleared — the founder's own answer… (89 chars) · h="target/e2e-home/viola-record-$(date -u +%Y%m%dT%H%M%SZ)… (332 chars)
+not run — excluded · 33: 1-11,14-35
+round: COMPLETE · legs fired 1/1 · entries 35 · green 2 · red 0 · recorded 0 · timeout 0 · indeterminate 0 · not-run 33 · voided 2 (12,13)
