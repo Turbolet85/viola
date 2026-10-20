@@ -1414,3 +1414,35 @@ Each superseded mark is kept in the body as the operator's word, superseded 2026
 - The committed sets are `2.1.283`, `2.1.287`, `2.1.288` and `2.1.302`; `2.1.302` is new. `2.1.302` holds 4 spine payloads + 3 screens + 12 dialog variants + 6 framing variants + 2 status line variants + 1 resume variant + 1 agents variant: 29 files, the count's rule `ls fixtures/claude/2.1.302 | wc -l`. It was recorded whole by one `viola verify --record` round. Its `Screen.ready` and `Screen.turn` keep one row holding both input-box literals. It is stamped at the relied set the same way as `2.1.287`; `2.1.288` and `2.1.283` stay drift-only.
 **Why:** The fixtures for the measured literal: CI's fake agent replays a recorded 2.1.302 set, and `contract_ledger_probes` stamps it (its `STAMPED` list). The screen switch reproduces the stop that held Run B after the long paste's turn without a live start.
 **Ref:** .andromeda/runs/2026-10-20T05-48-20-wrap/
+
+## 2026-10-20-t06-58-31-wrap — the founder's Epoch 5 batch: the delegate marks his, the bodies cleared
+**Section:** §Established Decisions ([Hook Contract]; verify's Run B and Run E under the CLI version gate; [Error Handling]; [Module Boundaries]) · §Conventions (exit code 1) · §Occupied Resources (the `instances/<ViolaName>/events.ndjson` bullet)
+**Change:**
+- The statusline capture arm, Run B's probe `--settings`, its agents read, its newline and `/compact` pastes and Run E stand as the founder's own answers; was "the wrap's card confirm … is provisional (delegate viola-overseer), superseded by his own word at the Epoch 5 boundary" on five clauses and "the wrap's card confirm delegate viola-overseer, provisional" on one; now the clauses are gone.
+- `ServeError` stays the second open divergence, its fold or ratification open; was "recorded on the Viola overseer's answer at its wrap, a delegate's"; now the parenthetical names the chunk alone.
+- `viola-channel`'s test-only `fake-agent = ["tokio"]` stands as built; was "written as built on the Viola overseer's answer at its wrap, a delegate's"; now the chunk alone.
+- Exit 1: `viola revive`'s strict-modes refusal writing no line, the interrupted verify's `unable:` / `hint:` pair, and `viola list`'s exit 1 for an `instances/` entry whose type cannot be read and for a failed log start, with no row on a per-instance read error, stand as built; was "the operator's answer at its planning, the founder not having ruled", "a planning form on the operator's word, the founder's wording owed" and "implement's decisions, accepted by the operator … not ruled by him"; now each parenthetical names its chunk alone.
+- `revive`'s start arm writing no line after a refused check: was "the operator's answer at that chunk's planning, and the founder has not ruled on it"; now the sentence is gone.
+**Why:** the founder's own answers to his Epoch 5 batch, 2026-10-20 (ratify every delegate mark of the epoch; accept the refused checks' no-line shapes as built), relayed by the Viola overseer through the operator's directive, and his own word in the same dialog widening it to every Epoch 5 delegate mark, the unreadable-type entry and the interrupted pair included, the axum ban and the GUI scan forms excepted. Each provisional record stands in its own entry, superseded 2026-10-20. The bodies take writing rule 7's form, not the directive's (a `superseded` clause in the body): the overseer's technical answer at this wrap.
+**Ref:** .andromeda/runs/2026-10-20T06-58-31-wrap/
+
+## 2026-10-20-t06-58-31-wrap — the Epoch 5 entries' provisional records, superseded 2026-10-20
+**Section:** none in the body — this file's history: the entries named below
+**Change:** each named entry's provisional mark (a delegate's card confirm, a delegate's technical or halt answer, a wording or a shape owed to the founder) is superseded 2026-10-20 by his own word; every other claim of those entries stands, and none is pruned:
+- 2026-10-13-interrupted-verify-cleanup — verify's Ctrl-C / TERM stop, the owed literals moved, the Windows matrix line (the pair's wording, his)
+- 2026-10-13-paste-newline-ledger-row — eighteen ledger rows, `paste-newline`, Run B's fifth paste, the owed rows moved to "Owed ledger rows"
+- 2026-10-13-owed-ledger-rows — Run B's probe --settings, the statusline capture arm and the moved rows
+- 2026-10-14-resume-and-compact-ledger-rows — the resume row, Run E and /compact listed
+- 2026-10-14-resume-and-compact-ledger-rows — Run E's resources and a killed PTY child's exit status (the exit-status wording and the card, his)
+- 2026-10-16T14-58-10-wrap — 0.1.0 is a pure CLI; the frontend moves to 0.2.0 (the masters kept true to the tree, his)
+- 2026-10-16-unwrapped-sessions-on-the-board — CLI Version Compatibility: the agents-join row and Run B's agents read
+- 2026-10-16-unwrapped-sessions-on-the-board — Session Liveness: revive refuses a session id live elsewhere
+- 2026-10-17-cli-output-discipline — the colour reads NO_COLOR / TERM / COLORTERM; style.rs and the VT enable registered
+- 2026-10-17-mcp-server-for-drivers — MCP list builds the board and reads agents
+- 2026-10-17-mcp-server-for-drivers — the Tokio client and viola-channel's tree-form ban
+- 2026-10-17-mcp-server-for-drivers — ServeError, a second open divergence
+- 2026-10-17-optional-plugin-install — plugin install as built; the precedence and the exit-1 start not measured (the unread readings' owner placement, his)
+- 2026-10-18-compact-post-condition-ledger-row — the twenty-fourth ledger row, local-command-compact, and Run B's sixth paste
+- 2026-10-19-dialog-hold-for-the-driver — the configurable dialog hold and the dialog-expired record
+**Why:** the founder's own word on his Epoch 5 batch, 2026-10-20, relayed by the Viola overseer: every Epoch 5 delegate mark is his. The axum ban of 2026-10-16-remove-the-browser-leg stays a separate founder item; the `VIOLA_DIR` marks were lifted at 2026-10-18-plugin-precedence-live-readings.
+**Ref:** .andromeda/runs/2026-10-20T06-58-31-wrap/

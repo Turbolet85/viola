@@ -1,0 +1,4870 @@
+[
+{
+"tool": "cascade",
+"v": "1.15",
+"sha8": "b3cee12c",
+"ts": "2026-10-20T06:59:54Z",
+"argv": [
+"window",
+"--file",
+".andromeda/architecture.md",
+"--line",
+"101",
+"--at",
+"5871",
+"--run-dir",
+".andromeda/runs/2026-10-20T06-58-31-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"at 5871: 'card confirm of the proposals inside it ' · chars 5671-6071 of 21158 · .andromeda/architecture.md:101",
+"  arguments and no run is added (the founder's own answer to P4 fork 3 of chunk 2026-10-13-owed-ledger-rows, «Run B + ",
+"  --settings», relayed verbatim by the operator, that chunk's `inputs#I1`; the wrap's card confirm of the proposals in",
+"  side it is provisional (delegate viola-overseer), superseded by his own word at the Epoch 5 boundary). It gets six b",
+"  racketed pastes, all compiled texts: `PROBE_PROMPT`,"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "cascade",
+"v": "1.15",
+"sha8": "b3cee12c",
+"ts": "2026-10-20T06:59:54Z",
+"argv": [
+"window",
+"--file",
+".andromeda/architecture.md",
+"--line",
+"66",
+"--at",
+"919",
+"--run-dir",
+".andromeda/runs/2026-10-20T06-58-31-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"at 919: 'card confirm of the proposals inside it ' · chars 719-1119 of 3547 · .andromeda/architecture.md:66",
+"  tten nowhere; nothing printed; the founder's own answer to P4 fork 3 of chunk 2026-10-13-owed-ledger-rows, «Run B + ",
+"  --settings», relayed verbatim by the operator, that chunk's `inputs#I1`; the wrap's card confirm of the proposals in",
+"  side it is provisional (delegate viola-overseer), superseded by his own word at the Epoch 5 boundary): it reads no `",
+"  VIOLA_*`, does no obs init and opens no channel; it "
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "cascade",
+"v": "1.15",
+"sha8": "b3cee12c",
+"ts": "2026-10-20T06:59:55Z",
+"argv": [
+"window",
+"--file",
+".andromeda/security-plan.md",
+"--line",
+"115",
+"--at",
+"1735",
+"--run-dir",
+".andromeda/runs/2026-10-20T06-58-31-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"at 1735: 'card confirm of it provisional (delegate' · chars 1535-1935 of 6756 · .andromeda/security-plan.md:115",
+"  1.json`, through the scrub; no live start added — the founder's own answer to P4 fork 1 of chunk 2026-10-16-unwrappe",
+"  d-sessions-on-the-board (`inputs#I1`, relayed verbatim by the operator), the wrap's card confirm of it provisional (",
+"  delegate viola-overseer), superseded by his own word at the Epoch 5 boundary). Run B gets six bracketed pastes, all ",
+"  compiled literals: `PROBE_PROMPT`, then `PROBE_LONG_"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "cascade",
+"v": "1.15",
+"sha8": "b3cee12c",
+"ts": "2026-10-20T07:07:25Z",
+"argv": [
+"replace",
+"--edits",
+".andromeda/runs/2026-10-20T06-58-31-wrap/replace-1.md",
+"--run-dir",
+".andromeda/runs/2026-10-20T06-58-31-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"applied · .andromeda/architecture.md:66#1",
+"  before @c1001 « provisional (delegate viola-overseer), |superseded 2026-10-20 by his own word, r»",
+"  after @c1093 «e Viola overseer): it reads no `VIOLA_*`|, does no obs init and opens no channel;»",
+"applied · .andromeda/architecture.md:101#1",
+"  before @c4983 «#I1`, relayed verbatim by the operator; |the wrap's card confirm delegate viola-o»",
+"  after @c5121 «d, relayed by the Viola overseer); in CI| the fake agent's `agents` mode answers »",
+"applied · .andromeda/architecture.md:101#2",
+"  before @c5953 « provisional (delegate viola-overseer), |superseded 2026-10-20 by his own word, r»",
+"  after @c6052 « overseer). It gets six bracketed pastes|, all compiled texts: `PROBE_PROMPT`, th»",
+"applied · .andromeda/architecture.md:101#3",
+"  before @c7211 « provisional (delegate viola-overseer), |superseded 2026-10-20 by his own word, r»",
+"  after @c7304 « Viola overseer. The `/compact` paste is| his own answer to P4 fork 1 of chunk 20»",
+"applied · .andromeda/architecture.md:101#4",
+"  before @c7554 «visional (delegate the Viola overseer), |superseded 2026-10-20 by his own word, r»",
+"  after @c7645 «he Viola overseer. It is ended by Ctrl-C|, Ctrl-C again after 500 ms, then a kill»",
+"applied · .andromeda/architecture.md:101#5",
+"  before @c13351 « provisional (delegate viola-overseer), |superseded 2026-10-20 by his own word, r»",
+"  after @c13447 «ola overseer): it reads Run B's captures| and takes the `session_id` of Run B's f»",
+"applied · .andromeda/architecture.md:107#1",
+"  before @c1072 «hunk 2026-10-17-mcp-server-for-drivers; |recorded on the Viola overseer's answer »",
+"  after @c1235 « by the Viola overseer); the rule stands|, and its fold or ratification is open; »",
+"applied · .andromeda/architecture.md:108#1",
+"  before @c986 «hunk 2026-10-17-mcp-server-for-drivers, |written as built on the Viola overseer's»",
+"  after @c1155 «ed by the Viola overseer); the test-only| `viola-e2e` takes `rt` + `process`. No »",
+"applied · .andromeda/architecture.md:142#1",
+"  before @c1224 «ist`; chunk 2026-10-10-budget-governor, |on the operator's answer at its planning»",
+"  after @c1373 «decision, relayed by the Viola overseer)|, and `viola revive` refusing at its pre»",
+"applied · .andromeda/architecture.md:142#2",
+"  before @c5999 «relayed verbatim by the Viola overseer, |the operator's acceptance superseded 202»",
+"  after @c6280 «type cannot be read is not ruled by him)|»",
+"applied · .andromeda/architecture.md:360#1",
+"  before @c3588 «unk's planning, superseded 2026-10-13); |that it writes no line on `revive`'s sta»",
+"  after @c3768 «hunk's planning, superseded 2026-10-20).| `check_instance` has these two product »",
+"applied · .andromeda/security-plan.md:111#1",
+"  before @c652 « provisional (delegate viola-overseer), |superseded 2026-10-20 by his own word, r»",
+"  after @c753 «verseer), and `viola verify`'s Run B one| (below); each spawn pair `agents-probe`»",
+"applied · .andromeda/security-plan.md:115#1",
+"  before @c1144 « provisional (delegate viola-overseer), |superseded 2026-10-20 by his own word, r»",
+"  after @c1234 «the Viola overseer). Once its first turn| has settled, before its framing pastes,»",
+"applied · .andromeda/security-plan.md:115#2",
+"  before @c1793 « provisional (delegate viola-overseer), |superseded 2026-10-20 by his own word, r»",
+"  after @c1878 «d by the Viola overseer). Run B gets six| bracketed pastes, all compiled literals»",
+"applied · .andromeda/security-plan.md:115#3",
+"  before @c2586 «visional (delegate the Viola overseer), |superseded 2026-10-20 by his own word, r»",
+"  after @c2670 «ed by the Viola overseer; it adds no run|, start or spawn pair (verify still make»",
+"applied · .andromeda/security-plan.md:115#4",
+"  before @c4993 « provisional (delegate viola-overseer), |superseded 2026-10-20 by his own word, r»",
+"  after @c5075 «ayed by the Viola overseer. Runs C and D| wait for an input box with no modal bef»",
+"applied · .andromeda/security-plan.md:115#5",
+"  before @c6438 « provisional (delegate viola-overseer), |superseded 2026-10-20 by his own word, r»",
+"  after @c6516 « relayed by the Viola overseer; its wait| for the input box up to the probe deadl»",
+"applied · .andromeda/security-plan.md:185#1",
+"  before @c2100 «nd D, and `evidence/red-green.md` (a)); |that a refused check writes no line is t»",
+"  after @c2277 «lanning, superseded 2026-10-20)), `list`| (chunk 2026-10-11-the-board-viola-list:»",
+"applied · .andromeda/security-plan.md:202#1",
+"  before @c5216 « provisional (delegate viola-overseer), |superseded 2026-10-20 by his own word, r»",
+"  after @c5320 «seer. | `viola-agent-claude` hook parser|, `statusline::reading` and `ledger::pro»",
+"applied · .andromeda/security-plan.md:215#1",
+"  before @c1842 « provisional (delegate viola-overseer), |superseded 2026-10-20 by his own word, r»",
+"  after @c1950 «. | `viola-agent-claude` `is_session_id`| / `resume_args` (the one product home o»",
+"applied · .andromeda/security-plan.md:261#1",
+"  before @c1380 «ed the transcript effect as unmeasured, |the wrap's card confirm provisional (del»",
+"  after @c1528 «layed by the Viola overseer; as measured| on 2.1.287 at chunk 2026-10-18-compact-»",
+"applied · .andromeda/security-plan.md:261#2",
+"  before @c2386 « provisional (delegate viola-overseer), |superseded 2026-10-20 by his own word, r»",
+"  after @c2472 « by the Viola overseer. `plansDirectory`| keeps Run D's plan file out of `~/.clau»",
+"applied · .andromeda/security-plan.md:459#1",
+"  before @c1527 « provisional (delegate viola-overseer), |superseded 2026-10-20 by his own word, r»",
+"  after @c1620 « Viola overseer, on the statusline form)|.»",
+"applied · .andromeda/design-system.md:420#1",
+"  before @c397 « the Viola overseer's technical answer, |`inputs#I1` Q2 of that chunk, a delegate»",
+"  after @c520 «own word, relayed by the Viola overseer)|. The CLI has no tape.»",
+"applied · .andromeda/design-system.md:530#1",
+"  before @c642 « the Viola overseer's technical answer, |`inputs#I1` Q3 of that chunk, a delegate»",
+"  after @c765 «own word, relayed by the Viola overseer)|.»",
+"applied · .andromeda/design-system.md:490#1",
+"  before @c136 « `question`, `permission` and `plan` do |(the kind word and the line are the foun»",
+"  after @c303 « the wording owed superseded 2026-10-20)|»",
+"applied · .andromeda/design-system.md:503#1",
+"  before @c313 «ll would split it; plain ASCII, no SGR. |The founder's wording: a planning form a»",
+"  after @c463 «the wording owed superseded 2026-10-20).|»",
+"applied · .andromeda/layout-templates.md:61#1",
+"  before @c329 « the Viola overseer's technical answer, |`inputs#I1` Q3 of that chunk, a delegate»",
+"  after @c452 «own word, relayed by the Viola overseer)|.»",
+"applied · .andromeda/layout-templates.md:93#1",
+"  before @c2020 «r `COLUMNS`; a piped stdout reads none; |the width source is `inputs#I1` Q2 of ch»",
+"  after @c2160 «ed 2026-10-20 by the founder's own word)| NAME's column is the largest of 4, the »",
+"applied · .andromeda/layout-templates.md:134#1",
+"  before @c68 «log 7  cursor 49400           <- stdout |(an expired hold takes the dialog form; »",
+"  after @c153 «ounder's wording, accepted as it stands)|»",
+"applied · .andromeda/layout-templates.md:146#1",
+"  before @c409 «rsor <n>`, ASCII, no SGR, written once: |the founder's wording for the kind word »",
+"  after @c576 «the wording owed superseded 2026-10-20).| Under `--json` each verb prints exactly»",
+"applied · .andromeda/layout-templates.md:219#1",
+"  before @c525 «literal in `tests/cli_output_plain.rs`. |Served verbs only (the Viola overseer's »",
+"  after @c676 «d 2026-10-20 by the founder's own word):| the wireframe's `handoff:  link, unlink»",
+"applied · .andromeda/layout-templates.md:286#1",
+"  before @c520 «: double-quoted when it holds a space). |The lines are the founder's wording: a p»",
+"  after @c727 «the wording owed superseded 2026-10-20).| Under `--json` it prints the `ok` docum»",
+"applied · .andromeda/layout-templates.md:301#1",
+"  before @c305 «g when its route entry serves its verbs |(`inputs#I1` Q3, a delegate's, supersede»",
+"  after @c384 «ed 2026-10-20 by the founder's own word)|. `hint:` lines point to the next verb b»",
+"applied · .andromeda/layout-templates.md:327#1",
+"  before @c2807 «relayed verbatim by the Viola overseer, |and the failed log start and the no-row »",
+"  after @c2975 «e superseded 2026-10-20 for those two)).|»",
+"applied · .andromeda/test-plan.md:398#1",
+"  before @c573 «contract)_` (§3 5-command `run` step 2; |the Viola overseer, technical, founder-d»",
+"  after @c744 «ed 2026-10-20 by the founder's own word)|.»",
+"applied · .andromeda/test-plan.md:591#1",
+"  before @c1566 «rows, relayed verbatim by the operator; |the wrap's card confirm provisional, del»",
+"  after @c1689 « by his own word) and the identity-strip| case asserting two `statusline` receipt»",
+"applied · .andromeda/test-plan.md:595#1",
+"  before @c569 «plugin_install_prints_the_two_commands` |(the founder's accepted wording by liter»",
+"  after @c612 «e founder's accepted wording by literal)|, `plugin_install_writes_no_escape_byte`»",
+"applied · .andromeda/test-plan.md:652#1",
+"  before @c623 «e::fixtures` copy (fork 1, `inputs#I1`, |the overseer as the founder's delegate, »",
+"  after @c726 «y the founder's own word); its wall read| 4.69 s (5.14 s instrumented) on the Lin»",
+"applied · .andromeda/obs-plan.md:346#1",
+"  before @c925 «d superseded 2026-10-13 for those two); |`viola revive`'s instance check and the »",
+"  after @c1115 «rd superseded 2026-10-20 for those two).|»",
+"applied · .andromeda/obs-plan.md:415#1",
+"  before @c536 «026-10-17-cli-machine-contract), exit 1 |(chunk 2026-10-10-budget-governor, on th»",
+"  after @c696 «decision, relayed by the Viola overseer)|.»",
+"applied · .andromeda/obs-plan.md:667#1",
+"  before @c875 «rows, relayed verbatim by the operator; |the wrap's card confirm provisional, del»",
+"  after @c976 « superseded 2026-10-20 by his own word).|»",
+"applied · .andromeda/obs-plan.md:761#1",
+"  before @c1257 «relayed verbatim by the Viola overseer, |and `revive`'s and `plugin install`'s ar»",
+"  after @c1405 «erator's answer, superseded 2026-10-20))|, `pinned-hash-mismatch` (on `process-ex»",
+"applied · .andromeda/obs-plan.md:990#1",
+"  before @c616 « through `check_path` (chunk 2026-10-17-|optional-plugin-install, its plan's lean»",
+"  after @c742 «026-10-20 by the founder's own decision)|: it opens no role file and writes no li»",
+"applied · .andromeda/obs-plan.md:990#2",
+"  before @c1305 «unks' planning, superseded 2026-10-13). |On `viola revive`'s start arm it is the »",
+"  after @c1614 «the chunk 2026-10-10-viola-revive wrap).|»",
+"applied · .andromeda/a11y-plan.md:134#1",
+"  before @c492 « / wheel / setup over the served verbs, |`inputs#I1` Q3 of that chunk, a delegate»",
+"  after @c603 «e founder's own word; the `handoff:` row| joins with \"Explicit session links\").»",
+"applied · .andromeda/a11y-plan.md:209#1",
+"  before @c690 «` · `setup:` over the served verbs only |(`inputs#I1` Q3 of that chunk, a delegat»",
+"  after @c800 «the founder's own word), then `Options:`|, plain ASCII, pinned by the `HELP` lite»",
+"applied · .andromeda/a11y-plan.md:258#1",
+"  before @c1451 «he width from `viola_pty::host_size()`, |`inputs#I1` Q2, a delegate's, superseded»",
+"  after @c1545 « the founder's own word); a wrapped NAME| is never cut, and piped output and `--j»",
+"applied · .andromeda/registries/contracts/test-plan/5-command-implementation.md:8#1",
+"  before @c985 «rows, relayed verbatim by the operator; |the wrap's card confirm provisional, del»",
+"  after @c1107 «0 by his own word). This requires exit 0| and a last stdout line matching `^stamp»",
+"applied · .andromeda/registries/contracts/test-plan/5-command-implementation.md:22#1",
+"  before @c609 «, and `run --integration` ran `path1`); |the widening is the Viola overseer's tec»",
+"  after @c745 «ed 2026-10-20 by the founder's own word.| 20 binaries / 157 tests at that chunk's»",
+"applied · .andromeda/registries/contracts/test-plan/5-command-implementation.md:26#1",
+"  before @c847 «act (fork 2 of that chunk, `inputs#I1`, |the overseer as the founder's delegate, »",
+"  after @c953 «he founder's own word). `SessionOptions`| defaults to `overseer` + `builder`, no »",
+"applied · .andromeda/registries/contracts/test-plan/5-command-implementation.md:27#1",
+"  before @c824 «nd-to-end-path-binary-and-harness-legs, |`inputs#I1`, a delegate's, superseded 20»",
+"  after @c924 «der's own word). The root `stamped_home`| runs `viola --home <h> verify -- <fake »",
+"dry-run: would write .andromeda/architecture.md: 11 block(s) on 6 line(s)",
+"dry-run: would write .andromeda/security-plan.md: 12 block(s) on 7 line(s)",
+"dry-run: would write .andromeda/design-system.md: 4 block(s) on 4 line(s)",
+"dry-run: would write .andromeda/layout-templates.md: 8 block(s) on 8 line(s)",
+"dry-run: would write .andromeda/test-plan.md: 4 block(s) on 4 line(s)",
+"dry-run: would write .andromeda/obs-plan.md: 6 block(s) on 5 line(s)",
+"dry-run: would write .andromeda/a11y-plan.md: 3 block(s) on 3 line(s)",
+"dry-run: would write .andromeda/registries/contracts/test-plan/5-command-implementation.md: 4 block(s) on 4 line(s)",
+"total · blocks 52 · applied 52 — dry-run, nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"replace": {
+"rows": [
+{
+"id": ".andromeda/architecture.md:66#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:101#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:101#2",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:101#3",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:101#4",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:101#5",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:107#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:108#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:142#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:142#2",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:360#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan.md:111#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan.md:115#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan.md:115#2",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan.md:115#3",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan.md:115#4",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan.md:115#5",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan.md:185#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan.md:202#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan.md:215#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan.md:261#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan.md:261#2",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan.md:459#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/design-system.md:420#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/design-system.md:530#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/design-system.md:490#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/design-system.md:503#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/layout-templates.md:61#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/layout-templates.md:93#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/layout-templates.md:134#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/layout-templates.md:146#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/layout-templates.md:219#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/layout-templates.md:286#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/layout-templates.md:301#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/layout-templates.md:327#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan.md:398#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan.md:591#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan.md:595#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan.md:652#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/obs-plan.md:346#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/obs-plan.md:415#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/obs-plan.md:667#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/obs-plan.md:761#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/obs-plan.md:990#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/obs-plan.md:990#2",
+"status": "applied"
+},
+{
+"id": ".andromeda/a11y-plan.md:134#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/a11y-plan.md:209#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/a11y-plan.md:258#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/registries/contracts/test-plan/5-command-implementation.md:8#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/registries/contracts/test-plan/5-command-implementation.md:22#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/registries/contracts/test-plan/5-command-implementation.md:26#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/registries/contracts/test-plan/5-command-implementation.md:27#1",
+"status": "applied"
+}
+],
+"dry_run": true,
+"written": {}
+}
+}
+},
+{
+"tool": "cascade",
+"v": "1.15",
+"sha8": "b3cee12c",
+"ts": "2026-10-20T07:07:35Z",
+"argv": [
+"replace",
+"--edits",
+".andromeda/runs/2026-10-20T06-58-31-wrap/replace-1.md",
+"--run-dir",
+".andromeda/runs/2026-10-20T06-58-31-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"applied · .andromeda/architecture.md:66#1",
+"applied · .andromeda/architecture.md:101#1",
+"applied · .andromeda/architecture.md:101#2",
+"applied · .andromeda/architecture.md:101#3",
+"applied · .andromeda/architecture.md:101#4",
+"applied · .andromeda/architecture.md:101#5",
+"applied · .andromeda/architecture.md:107#1",
+"applied · .andromeda/architecture.md:108#1",
+"applied · .andromeda/architecture.md:142#1",
+"applied · .andromeda/architecture.md:142#2",
+"applied · .andromeda/architecture.md:360#1",
+"applied · .andromeda/security-plan.md:111#1",
+"applied · .andromeda/security-plan.md:115#1",
+"applied · .andromeda/security-plan.md:115#2",
+"applied · .andromeda/security-plan.md:115#3",
+"applied · .andromeda/security-plan.md:115#4",
+"applied · .andromeda/security-plan.md:115#5",
+"applied · .andromeda/security-plan.md:185#1",
+"applied · .andromeda/security-plan.md:202#1",
+"applied · .andromeda/security-plan.md:215#1",
+"applied · .andromeda/security-plan.md:261#1",
+"applied · .andromeda/security-plan.md:261#2",
+"applied · .andromeda/security-plan.md:459#1",
+"applied · .andromeda/design-system.md:420#1",
+"applied · .andromeda/design-system.md:530#1",
+"applied · .andromeda/design-system.md:490#1",
+"applied · .andromeda/design-system.md:503#1",
+"applied · .andromeda/layout-templates.md:61#1",
+"applied · .andromeda/layout-templates.md:93#1",
+"applied · .andromeda/layout-templates.md:134#1",
+"applied · .andromeda/layout-templates.md:146#1",
+"applied · .andromeda/layout-templates.md:219#1",
+"applied · .andromeda/layout-templates.md:286#1",
+"applied · .andromeda/layout-templates.md:301#1",
+"applied · .andromeda/layout-templates.md:327#1",
+"applied · .andromeda/test-plan.md:398#1",
+"applied · .andromeda/test-plan.md:591#1",
+"applied · .andromeda/test-plan.md:595#1",
+"applied · .andromeda/test-plan.md:652#1",
+"applied · .andromeda/obs-plan.md:346#1",
+"applied · .andromeda/obs-plan.md:415#1",
+"applied · .andromeda/obs-plan.md:667#1",
+"applied · .andromeda/obs-plan.md:761#1",
+"applied · .andromeda/obs-plan.md:990#1",
+"applied · .andromeda/obs-plan.md:990#2",
+"applied · .andromeda/a11y-plan.md:134#1",
+"applied · .andromeda/a11y-plan.md:209#1",
+"applied · .andromeda/a11y-plan.md:258#1",
+"applied · .andromeda/registries/contracts/test-plan/5-command-implementation.md:8#1",
+"applied · .andromeda/registries/contracts/test-plan/5-command-implementation.md:22#1",
+"applied · .andromeda/registries/contracts/test-plan/5-command-implementation.md:26#1",
+"applied · .andromeda/registries/contracts/test-plan/5-command-implementation.md:27#1",
+"wrote .andromeda/architecture.md: 11 block(s) on 6 line(s), read back",
+"wrote .andromeda/security-plan.md: 12 block(s) on 7 line(s), read back",
+"wrote .andromeda/design-system.md: 4 block(s) on 4 line(s), read back",
+"wrote .andromeda/layout-templates.md: 8 block(s) on 8 line(s), read back",
+"wrote .andromeda/test-plan.md: 4 block(s) on 4 line(s), read back",
+"wrote .andromeda/obs-plan.md: 6 block(s) on 5 line(s), read back",
+"wrote .andromeda/a11y-plan.md: 3 block(s) on 3 line(s), read back",
+"wrote .andromeda/registries/contracts/test-plan/5-command-implementation.md: 4 block(s) on 4 line(s), read back",
+"total · blocks 52 · applied 52"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/architecture.md",
+"./.andromeda/security-plan.md",
+"./.andromeda/design-system.md",
+"./.andromeda/layout-templates.md",
+"./.andromeda/test-plan.md",
+"./.andromeda/obs-plan.md",
+"./.andromeda/a11y-plan.md",
+"./.andromeda/registries/contracts/test-plan/5-command-implementation.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"replace": {
+"rows": [
+{
+"id": ".andromeda/architecture.md:66#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:101#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:101#2",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:101#3",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:101#4",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:101#5",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:107#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:108#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:142#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:142#2",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:360#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan.md:111#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan.md:115#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan.md:115#2",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan.md:115#3",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan.md:115#4",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan.md:115#5",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan.md:185#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan.md:202#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan.md:215#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan.md:261#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan.md:261#2",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan.md:459#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/design-system.md:420#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/design-system.md:530#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/design-system.md:490#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/design-system.md:503#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/layout-templates.md:61#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/layout-templates.md:93#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/layout-templates.md:134#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/layout-templates.md:146#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/layout-templates.md:219#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/layout-templates.md:286#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/layout-templates.md:301#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/layout-templates.md:327#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan.md:398#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan.md:591#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan.md:595#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan.md:652#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/obs-plan.md:346#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/obs-plan.md:415#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/obs-plan.md:667#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/obs-plan.md:761#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/obs-plan.md:990#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/obs-plan.md:990#2",
+"status": "applied"
+},
+{
+"id": ".andromeda/a11y-plan.md:134#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/a11y-plan.md:209#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/a11y-plan.md:258#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/registries/contracts/test-plan/5-command-implementation.md:8#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/registries/contracts/test-plan/5-command-implementation.md:22#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/registries/contracts/test-plan/5-command-implementation.md:26#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/registries/contracts/test-plan/5-command-implementation.md:27#1",
+"status": "applied"
+}
+],
+"dry_run": false,
+"written": {
+".andromeda/architecture.md": {
+"lines": {
+"66": [
+"b5e18396ee",
+"b2e08a8036"
+],
+"101": [
+"b6947d1d55",
+"aec128521f"
+],
+"107": [
+"81119fedc3",
+"d004245da4"
+],
+"108": [
+"e6a4b6f73d",
+"5e346ee266"
+],
+"142": [
+"c88062a78c",
+"019b6e23c9"
+],
+"360": [
+"30872cc006",
+"fa30f195b0"
+]
+},
+"blocks": [
+".andromeda/architecture.md:66:6abb765b68:568c8fd12c",
+".andromeda/architecture.md:101:0d85da9c84:a2dc5a6858",
+".andromeda/architecture.md:101:8f42bfb8d2:0a1177289a",
+".andromeda/architecture.md:101:f2f36c2685:3059170b15",
+".andromeda/architecture.md:101:5083594e69:843636efca",
+".andromeda/architecture.md:101:29b42ae1eb:61ea2478cf",
+".andromeda/architecture.md:107:02c8136a6e:a9f2815e3f",
+".andromeda/architecture.md:108:3d4f921c17:feb760660f",
+".andromeda/architecture.md:142:78da694a10:b535dc452c",
+".andromeda/architecture.md:142:091b48aa8a:292a2c7842",
+".andromeda/architecture.md:360:621a1e9b6c:99dcf63de5"
+]
+},
+".andromeda/security-plan.md": {
+"lines": {
+"111": [
+"7ac475235a",
+"a4fa875737"
+],
+"115": [
+"3337505cb5",
+"ba6d8cc156"
+],
+"185": [
+"ed7677bf62",
+"a31539bb83"
+],
+"202": [
+"2e64766279",
+"49cbe19383"
+],
+"215": [
+"008b928e59",
+"926358edb6"
+],
+"261": [
+"ea67b81e54",
+"5f25bbe8cf"
+],
+"459": [
+"22e6c04c98",
+"c0286a9812"
+]
+},
+"blocks": [
+".andromeda/security-plan.md:111:f2ace3b3eb:cfd899c5d0",
+".andromeda/security-plan.md:115:1ac8ba2c30:26124d2eae",
+".andromeda/security-plan.md:115:2428412590:a2499fedef",
+".andromeda/security-plan.md:115:b21dc93962:73395a191a",
+".andromeda/security-plan.md:115:738d6fa591:66b62ce7ed",
+".andromeda/security-plan.md:115:beef29b3cb:4e2155ac5e",
+".andromeda/security-plan.md:185:34a0d2332d:ac94c81268",
+".andromeda/security-plan.md:202:83e7afcffc:3944c86f66",
+".andromeda/security-plan.md:215:14c017f63f:b0551a4f7e",
+".andromeda/security-plan.md:261:fb1d1d1ea1:1371a06f85",
+".andromeda/security-plan.md:261:7f7dd28058:44c7353703",
+".andromeda/security-plan.md:459:23075b6afa:f570dd76dd"
+]
+},
+".andromeda/design-system.md": {
+"lines": {
+"420": [
+"e1620602df",
+"50cafa1886"
+],
+"490": [
+"81af6bf441",
+"fb19b1c9d2"
+],
+"503": [
+"db27546ef5",
+"9227b23a65"
+],
+"530": [
+"4924cbec93",
+"d3c2c7905e"
+]
+},
+"blocks": [
+".andromeda/design-system.md:420:1776e732c7:2a4dcc071c",
+".andromeda/design-system.md:530:9c18995e99:4832923564",
+".andromeda/design-system.md:490:ea1efbf7b9:377abdcde8",
+".andromeda/design-system.md:503:6cb283001e:d718c56b3c"
+]
+},
+".andromeda/layout-templates.md": {
+"lines": {
+"61": [
+"f46bfe5f53",
+"6b87c52379"
+],
+"93": [
+"367eeec741",
+"ea572a77aa"
+],
+"134": [
+"e478f00690",
+"ed77fc66e7"
+],
+"146": [
+"4365c4d3ee",
+"8739b2409f"
+],
+"219": [
+"9567dda126",
+"65ac6a25e8"
+],
+"286": [
+"b1e2fcbc3b",
+"e6544fc055"
+],
+"301": [
+"2c1f2cb273",
+"2c7ac2ce92"
+],
+"327": [
+"c08b3f808d",
+"3fc9d9b0df"
+]
+},
+"blocks": [
+".andromeda/layout-templates.md:61:c8b220880c:4832923564",
+".andromeda/layout-templates.md:93:ae6a1a1787:9032a9b55b",
+".andromeda/layout-templates.md:134:b601334f93:d946559768",
+".andromeda/layout-templates.md:146:5b1ce8c55f:716ea67d52",
+".andromeda/layout-templates.md:219:c0e018b688:38e1c7a8a6",
+".andromeda/layout-templates.md:286:5ad54f3bc3:0175c5b709",
+".andromeda/layout-templates.md:301:0c458cf527:f2389e6432",
+".andromeda/layout-templates.md:327:98c3d99f15:30d356ab08"
+]
+},
+".andromeda/test-plan.md": {
+"lines": {
+"398": [
+"9432c992f8",
+"922aaad661"
+],
+"591": [
+"4e6a5787f8",
+"007f61bf75"
+],
+"595": [
+"2c645aaab4",
+"506c875781"
+],
+"652": [
+"8e5bddf2e6",
+"22a5eda9e5"
+]
+},
+"blocks": [
+".andromeda/test-plan.md:398:02f9d0c449:e6b7b7faec",
+".andromeda/test-plan.md:591:bef0243239:319d8de0d4",
+".andromeda/test-plan.md:595:356ed45f48:0a0e354a44",
+".andromeda/test-plan.md:652:595ba05f56:3336277b44"
+]
+},
+".andromeda/obs-plan.md": {
+"lines": {
+"346": [
+"dfaeb43f1b",
+"189d8c50f9"
+],
+"415": [
+"74d6a5de25",
+"1a8f99e47f"
+],
+"667": [
+"cbf45e4312",
+"0cd90b8968"
+],
+"761": [
+"a1f72ddb62",
+"303a896a79"
+],
+"990": [
+"5cb3fa2852",
+"06f26b35e1"
+]
+},
+"blocks": [
+".andromeda/obs-plan.md:346:ba055638a4:7095200e97",
+".andromeda/obs-plan.md:415:21ae59e631:e9ce4eef27",
+".andromeda/obs-plan.md:667:ddc294cb8f:e795a2afa6",
+".andromeda/obs-plan.md:761:062ce961ad:288f9d1ed3",
+".andromeda/obs-plan.md:990:e75608aa59:f675565f68",
+".andromeda/obs-plan.md:990:74afb0c213:e7fe50bfe6"
+]
+},
+".andromeda/a11y-plan.md": {
+"lines": {
+"134": [
+"f45b2aa238",
+"7268226afe"
+],
+"209": [
+"d47216fa98",
+"b1a6d8d4a0"
+],
+"258": [
+"63c6c595c8",
+"6b1511bc39"
+]
+},
+"blocks": [
+".andromeda/a11y-plan.md:134:b444669923:51aabefa63",
+".andromeda/a11y-plan.md:209:9eb9dfff03:e50e5406af",
+".andromeda/a11y-plan.md:258:d1554561d5:c5edb6ef34"
+]
+},
+".andromeda/registries/contracts/test-plan/5-command-implementation.md": {
+"lines": {
+"8": [
+"e771c34cd7",
+"b2d63c9088"
+],
+"22": [
+"75166eb4a5",
+"49b03a87f0"
+],
+"26": [
+"6c913b0f61",
+"67d7e2ce42"
+],
+"27": [
+"603839286e",
+"9ed5cf2db2"
+]
+},
+"blocks": [
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:8:aa0dbf0cbe:2f09d03783",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:22:4a55b8ac3c:cdc941c237",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:26:38544006d1:ac90b53d2a",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:27:db826c66d1:812584f934"
+]
+}
+}
+}
+}
+},
+{
+"tool": "cascade",
+"v": "1.15",
+"sha8": "b3cee12c",
+"ts": "2026-10-20T07:40:05Z",
+"argv": [
+"replace",
+"--edits",
+".andromeda/runs/2026-10-20T06-58-31-wrap/replace-2.md",
+"--run-dir",
+".andromeda/runs/2026-10-20T06-58-31-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"applied · .andromeda/architecture.md:66#1",
+"applied · .andromeda/architecture.md:101#1",
+"applied · .andromeda/architecture.md:101#2",
+"applied · .andromeda/architecture.md:101#3",
+"applied · .andromeda/architecture.md:101#4",
+"applied · .andromeda/architecture.md:101#5",
+"applied · .andromeda/architecture.md:107#1",
+"applied · .andromeda/architecture.md:108#1",
+"applied · .andromeda/architecture.md:142#1",
+"applied · .andromeda/architecture.md:142#2",
+"applied · .andromeda/architecture.md:142#3",
+"applied · .andromeda/architecture.md:360#1",
+"applied · .andromeda/security-plan.md:111#1",
+"applied · .andromeda/security-plan.md:115#1",
+"applied · .andromeda/security-plan.md:115#2",
+"applied · .andromeda/security-plan.md:115#3",
+"applied · .andromeda/security-plan.md:115#4",
+"applied · .andromeda/security-plan.md:115#5",
+"applied · .andromeda/security-plan.md:185#1",
+"applied · .andromeda/security-plan.md:202#1",
+"applied · .andromeda/security-plan.md:215#1",
+"applied · .andromeda/security-plan.md:261#1",
+"applied · .andromeda/security-plan.md:261#2",
+"applied · .andromeda/security-plan.md:459#1",
+"applied · .andromeda/design-system.md:420#1",
+"applied · .andromeda/design-system.md:530#1",
+"applied · .andromeda/design-system.md:490#1",
+"applied · .andromeda/design-system.md:503#1",
+"applied · .andromeda/design-system.md:506#1",
+"applied · .andromeda/layout-templates.md:61#1",
+"applied · .andromeda/layout-templates.md:93#1",
+"applied · .andromeda/layout-templates.md:134#1",
+"applied · .andromeda/layout-templates.md:146#1",
+"applied · .andromeda/layout-templates.md:204#1",
+"applied · .andromeda/layout-templates.md:219#1",
+"applied · .andromeda/layout-templates.md:286#1",
+"applied · .andromeda/layout-templates.md:301#1",
+"applied · .andromeda/layout-templates.md:327#1",
+"applied · .andromeda/test-plan.md:398#1",
+"applied · .andromeda/test-plan.md:591#1",
+"applied · .andromeda/test-plan.md:595#1",
+"applied · .andromeda/test-plan.md:652#1",
+"applied · .andromeda/obs-plan.md:346#1",
+"applied · .andromeda/obs-plan.md:415#1",
+"applied · .andromeda/obs-plan.md:667#1",
+"applied · .andromeda/obs-plan.md:761#1",
+"applied · .andromeda/obs-plan.md:990#1",
+"applied · .andromeda/obs-plan.md:990#2",
+"applied · .andromeda/a11y-plan.md:134#1",
+"applied · .andromeda/a11y-plan.md:209#1",
+"applied · .andromeda/a11y-plan.md:258#1",
+"applied · .andromeda/registries/contracts/test-plan/5-command-implementation.md:8#1",
+"applied · .andromeda/registries/contracts/test-plan/5-command-implementation.md:22#1",
+"applied · .andromeda/registries/contracts/test-plan/5-command-implementation.md:26#1",
+"applied · .andromeda/registries/contracts/test-plan/5-command-implementation.md:27#1",
+"wrote .andromeda/architecture.md: 12 block(s) on 6 line(s), read back",
+"wrote .andromeda/security-plan.md: 12 block(s) on 7 line(s), read back",
+"wrote .andromeda/design-system.md: 5 block(s) on 5 line(s), read back",
+"wrote .andromeda/layout-templates.md: 9 block(s) on 9 line(s), read back",
+"wrote .andromeda/test-plan.md: 4 block(s) on 4 line(s), read back",
+"wrote .andromeda/obs-plan.md: 6 block(s) on 5 line(s), read back",
+"wrote .andromeda/a11y-plan.md: 3 block(s) on 3 line(s), read back",
+"wrote .andromeda/registries/contracts/test-plan/5-command-implementation.md: 4 block(s) on 4 line(s), read back",
+"total · blocks 55 · applied 55"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/architecture.md",
+"./.andromeda/security-plan.md",
+"./.andromeda/design-system.md",
+"./.andromeda/layout-templates.md",
+"./.andromeda/test-plan.md",
+"./.andromeda/obs-plan.md",
+"./.andromeda/a11y-plan.md",
+"./.andromeda/registries/contracts/test-plan/5-command-implementation.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"replace": {
+"rows": [
+{
+"id": ".andromeda/architecture.md:66#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:101#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:101#2",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:101#3",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:101#4",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:101#5",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:107#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:108#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:142#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:142#2",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:142#3",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:360#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan.md:111#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan.md:115#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan.md:115#2",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan.md:115#3",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan.md:115#4",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan.md:115#5",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan.md:185#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan.md:202#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan.md:215#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan.md:261#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan.md:261#2",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan.md:459#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/design-system.md:420#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/design-system.md:530#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/design-system.md:490#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/design-system.md:503#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/design-system.md:506#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/layout-templates.md:61#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/layout-templates.md:93#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/layout-templates.md:134#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/layout-templates.md:146#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/layout-templates.md:204#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/layout-templates.md:219#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/layout-templates.md:286#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/layout-templates.md:301#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/layout-templates.md:327#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan.md:398#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan.md:591#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan.md:595#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan.md:652#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/obs-plan.md:346#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/obs-plan.md:415#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/obs-plan.md:667#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/obs-plan.md:761#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/obs-plan.md:990#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/obs-plan.md:990#2",
+"status": "applied"
+},
+{
+"id": ".andromeda/a11y-plan.md:134#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/a11y-plan.md:209#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/a11y-plan.md:258#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/registries/contracts/test-plan/5-command-implementation.md:8#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/registries/contracts/test-plan/5-command-implementation.md:22#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/registries/contracts/test-plan/5-command-implementation.md:26#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/registries/contracts/test-plan/5-command-implementation.md:27#1",
+"status": "applied"
+}
+],
+"dry_run": false,
+"written": {
+".andromeda/architecture.md": {
+"lines": {
+"66": [
+"b5e18396ee",
+"3162a634ff"
+],
+"101": [
+"b6947d1d55",
+"e2203a3b05"
+],
+"107": [
+"81119fedc3",
+"f87459fba1"
+],
+"108": [
+"e6a4b6f73d",
+"a972cbdde1"
+],
+"142": [
+"c88062a78c",
+"a5fa1c96b4"
+],
+"360": [
+"30872cc006",
+"2f40c69ae8"
+]
+},
+"blocks": [
+".andromeda/architecture.md:66:f1c5c99124:5427c89b60",
+".andromeda/architecture.md:101:0e3f0c1d3d:025eb6462c",
+".andromeda/architecture.md:101:14c40d464f:705e022fab",
+".andromeda/architecture.md:101:4f76a48c8a:5ce8160a29",
+".andromeda/architecture.md:101:bf49801eba:94ca30820a",
+".andromeda/architecture.md:101:d79f97d68f:298aa3d46f",
+".andromeda/architecture.md:107:efece83b03:03e481de86",
+".andromeda/architecture.md:108:1ff4572136:8d6c917da2",
+".andromeda/architecture.md:142:37274198b8:be76e390ab",
+".andromeda/architecture.md:142:19c2721701:03d1de91eb",
+".andromeda/architecture.md:142:1ec018efa7:2a49a25431",
+".andromeda/architecture.md:360:1b39b76c4d:e82b89ecad"
+]
+},
+".andromeda/security-plan.md": {
+"lines": {
+"111": [
+"7ac475235a",
+"b20eb95b0d"
+],
+"115": [
+"3337505cb5",
+"320b0c7583"
+],
+"185": [
+"ed7677bf62",
+"3a463b3cc5"
+],
+"202": [
+"2e64766279",
+"0d16d8b161"
+],
+"215": [
+"008b928e59",
+"f5fb1c9281"
+],
+"261": [
+"ea67b81e54",
+"a9dceb6133"
+],
+"459": [
+"22e6c04c98",
+"c0e14205b0"
+]
+},
+"blocks": [
+".andromeda/security-plan.md:111:1a98588acb:b781c5134c",
+".andromeda/security-plan.md:115:96cdee274b:f1df640b94",
+".andromeda/security-plan.md:115:db19f0e62e:ff71255076",
+".andromeda/security-plan.md:115:9c3c1a7514:6686277abb",
+".andromeda/security-plan.md:115:c029b9d2ab:7b4a49ae72",
+".andromeda/security-plan.md:115:ac4d2ad892:9935eefe86",
+".andromeda/security-plan.md:185:664404cda7:1ec8c5cd0d",
+".andromeda/security-plan.md:202:416f1c2e07:6e7a0198dd",
+".andromeda/security-plan.md:215:d98ac2b499:40e31f0954",
+".andromeda/security-plan.md:261:31a31c740e:7688f490b4",
+".andromeda/security-plan.md:261:9baee21a47:0e67587613",
+".andromeda/security-plan.md:459:b988373eef:f0debed8fd"
+]
+},
+".andromeda/design-system.md": {
+"lines": {
+"420": [
+"e1620602df",
+"de37cf7d10"
+],
+"490": [
+"81af6bf441",
+"fd437fbe6f"
+],
+"503": [
+"db27546ef5",
+"d36f2df178"
+],
+"506": [
+"cd8fe83cb8",
+"365734f067"
+],
+"530": [
+"4924cbec93",
+"bb243e1a98"
+]
+},
+"blocks": [
+".andromeda/design-system.md:420:09a09dfbf0:0e08226bfd",
+".andromeda/design-system.md:530:fbfdb6dda9:07139e0716",
+".andromeda/design-system.md:490:810cc4af1c:d0815c6d88",
+".andromeda/design-system.md:503:a8ead814dc:b9089a9bce",
+".andromeda/design-system.md:506:80dc4ad2d8:62be5a6a85"
+]
+},
+".andromeda/layout-templates.md": {
+"lines": {
+"61": [
+"f46bfe5f53",
+"5cba1f6dc3"
+],
+"93": [
+"367eeec741",
+"e3c5db7c99"
+],
+"134": [
+"e478f00690",
+"ae2c89838d"
+],
+"146": [
+"4365c4d3ee",
+"76585d672a"
+],
+"204": [
+"a37ba8dc5f",
+"7f2306108f"
+],
+"219": [
+"9567dda126",
+"40c34bcbf5"
+],
+"286": [
+"b1e2fcbc3b",
+"5fce10fb42"
+],
+"301": [
+"2c1f2cb273",
+"efaa8939a8"
+],
+"327": [
+"c08b3f808d",
+"e764abfc82"
+]
+},
+"blocks": [
+".andromeda/layout-templates.md:61:1c871b8de4:a5649535ec",
+".andromeda/layout-templates.md:93:4d9fab5e1d:3eccd682b0",
+".andromeda/layout-templates.md:134:b601334f93:81acf95932",
+".andromeda/layout-templates.md:146:c0aa8faac0:e3e1edca05",
+".andromeda/layout-templates.md:204:50f67e7f3f:0b1c1a8b16",
+".andromeda/layout-templates.md:219:03b5b36278:41c9450b34",
+".andromeda/layout-templates.md:286:5ad54f3bc3:a14694f15c",
+".andromeda/layout-templates.md:301:3728e4cec7:879e2a26b1",
+".andromeda/layout-templates.md:327:b9d4062d9a:70b09c671a"
+]
+},
+".andromeda/test-plan.md": {
+"lines": {
+"398": [
+"9432c992f8",
+"88f1f39360"
+],
+"591": [
+"4e6a5787f8",
+"8026a3bfec"
+],
+"595": [
+"2c645aaab4",
+"dc1702984d"
+],
+"652": [
+"8e5bddf2e6",
+"5a5350808d"
+]
+},
+"blocks": [
+".andromeda/test-plan.md:398:c6874ad789:b11ea05421",
+".andromeda/test-plan.md:591:43b8b05035:ca686d5564",
+".andromeda/test-plan.md:595:356ed45f48:d8def67b75",
+".andromeda/test-plan.md:652:b918856bb0:32de71af00"
+]
+},
+".andromeda/obs-plan.md": {
+"lines": {
+"346": [
+"dfaeb43f1b",
+"1d64499136"
+],
+"415": [
+"74d6a5de25",
+"27b671cbee"
+],
+"667": [
+"cbf45e4312",
+"294158a76a"
+],
+"761": [
+"a1f72ddb62",
+"fa9ece8ba5"
+],
+"990": [
+"5cb3fa2852",
+"f1e4b85472"
+]
+},
+"blocks": [
+".andromeda/obs-plan.md:346:2f7e17cc9a:50c6e467bb",
+".andromeda/obs-plan.md:415:94598ed5cf:402531d3fb",
+".andromeda/obs-plan.md:667:0c72b995b4:86d0a1d18c",
+".andromeda/obs-plan.md:761:a6beaf3782:91746563d2",
+".andromeda/obs-plan.md:990:7f6b4cd7bd:0be888065c",
+".andromeda/obs-plan.md:990:9ec6f6d6b0:7b364eb7a8"
+]
+},
+".andromeda/a11y-plan.md": {
+"lines": {
+"134": [
+"f45b2aa238",
+"db0c3e8f89"
+],
+"209": [
+"d47216fa98",
+"4b97b2f619"
+],
+"258": [
+"63c6c595c8",
+"265fd340a5"
+]
+},
+"blocks": [
+".andromeda/a11y-plan.md:134:ed7b94fabe:d92d769941",
+".andromeda/a11y-plan.md:209:ccd625d51f:e109e64a74",
+".andromeda/a11y-plan.md:258:75b768dca8:e814496405"
+]
+},
+".andromeda/registries/contracts/test-plan/5-command-implementation.md": {
+"lines": {
+"8": [
+"e771c34cd7",
+"3aedabeea1"
+],
+"22": [
+"75166eb4a5",
+"347f489b39"
+],
+"26": [
+"6c913b0f61",
+"0c65ce57ec"
+],
+"27": [
+"603839286e",
+"759c9b49b4"
+]
+},
+"blocks": [
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:8:ca6f6c98f6:75437ddaa0",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:22:84f3e76c7e:2bf3eb24d5",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:26:a346c1f08c:0c88296786",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:27:654324fad6:6b4432199c"
+]
+}
+}
+}
+}
+},
+{
+"tool": "cascade",
+"v": "1.15",
+"sha8": "b3cee12c",
+"ts": "2026-10-20T07:40:36Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-20T06-58-31-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-20T06-58-31-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline 0807ee3c (no pre-CI commit)",
+"cardconfirm · new 0 · standing 0 · leaf 2 · curation 1 · base 1 · control architecture.md:66 (prose)",
+"e5batch · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control architecture.md:66 (prose)",
+"provisional · new 0 · standing 23 · leaf 18 · curation 1 · base 2 · control architecture.md:46 (prose)",
+"delegate · new 0 · standing 2 · leaf 0 · curation 0 · base 4 · control architecture.md:66 (prose)",
+"wordowed · new 0 · standing 4 · leaf 2 · curation 1 · base 1 · control architecture.md:142 (prose)",
+"notruled · new 0 · standing 5 · leaf 3 · curation 1 · base 1 · control architecture.md:82 (prose)",
+"opword · new 0 · standing 23 · leaf 8 · curation 2 · base 5 · control architecture.md:82 (prose)",
+"techanswer · new 0 · standing 2 · leaf 0 · curation 1 · base 0 · control architecture.md:81 (prose)",
+"widthsrc · new 0 · standing 4 · leaf 0 · curation 0 · base 0 · control design-system.md:420 (prose)",
+"noline · new 0 · standing 23 · leaf 8 · curation 0 · base 0 · control architecture.md:359 (prose)",
+"CLAUDE.md:126 cardconfirm curation …never a decisive lean or a card-confirm item: plan up to it, hold it behind a stop …",
+".andromeda/playbook.md:70 cardconfirm base ×3 …-10-10 as the letter's answer card keys it (`amendment-flow.md` §Escalat…",
+".claude/docs/security-summary.md:65 cardconfirm leaf …4 fork 3 of that chunk, the wrap's card confirm of it provisional.",
+".claude/docs/security-summary.md:72 cardconfirm leaf @c3360/4552 …-row, the wrap's card confirm provisional; Run E, res…",
+".andromeda/test-plan.md:1095 e5batch standing @c4925/8153 … none is owed. The Epoch 5 boundary audit's own run is the r…",
+".claude/docs/tests-summary.md:42 e5batch leaf @c2023/3233 …ii, none owed; the Epoch 5 boundary audit's own run is the r…",
+".andromeda/architecture.md:46 provisional standing ×2 @c431,697/15086 …INDOW` = 40 s (PROVISIONAL, validated per CLI ve…",
+".andromeda/architecture.md:61 provisional standing …T_DEADLINE` = 750 ms (provisional), asserted below `SPINE_DEADLINE`…",
+".andromeda/architecture.md:62 provisional standing …hannel under the same provisional 750 ms `CONNECT_DEADLINE`, else a…",
+".andromeda/architecture.md:66 provisional standing edited @c2337/3402 …LOG_HOLD_MAX`, PROVISIONAL, beside `SPINE_DEADLI…",
+".andromeda/architecture.md:77 provisional standing …leg at \"Windows-only live measurements\"; the ceiling is PROVISIONAL.",
+".andromeda/architecture.md:98 provisional standing …ONFIRM_WINDOW` (40 s, PROVISIONAL) beside the 10 s `CONFIRM_WINDOW_…",
+".andromeda/architecture.md:291 provisional standing …LINE_DEADLINE` (5 s, PROVISIONAL, `src/cmd/hook.rs`). This is the …",
+".andromeda/architecture.md:425 provisional standing @c2224/4571 …id, its own 40 s PROVISIONAL `COMPACT_CONFIRM_WINDOW`)…",
+".andromeda/security-plan.md:217 provisional standing …LINE_DEADLINE` (5 s, PROVISIONAL, `src/cmd/hook.rs`; detail `dead…",
+".andromeda/layout-templates.md:46 provisional standing …inside its own 40 s PROVISIONAL window, else `not-delivered` / …",
+".andromeda/test-plan.md:197 provisional standing @c1965/2128 …RM_WINDOW` (40 s, PROVISIONAL); a missed post-condition i…",
+".andromeda/test-plan.md:518 provisional standing @c3680/4030 …RM_WINDOW` (40 s, PROVISIONAL; `CONFIRM_WINDOW_FALLBACK` …",
+".andromeda/test-plan.md:671 provisional standing @c769/2625 …IRM_WINDOW` (40 s, PROVISIONAL) or expiring `not-delivered…",
+".andromeda/test-plan.md:759 provisional standing …>` under a 5 s bound (PROVISIONAL). On Windows `run` writes no overri…",
+".andromeda/test-plan.md:1106 provisional standing …is the crate-private, provisional `CONNECT_DEADLINE` = 750 ms in the…",
+".andromeda/obs-plan.md:168 provisional standing … is bounded by the 5 s PROVISIONAL `STATUSLINE_DEADLINE`, and no `run …",
+".andromeda/obs-plan.md:370 provisional standing …nverified CLI must stay under the spine deadline (provisionally 1.0 s).",
+".andromeda/obs-plan.md:574 provisional standing …MPACT_CONFIRM_WINDOW`, PROVISIONAL), else 10 000 (`CONFIRM_WINDOW_FALL…",
+".andromeda/obs-plan.md:585 provisional standing …CONFIRM_WINDOW` (40 s, PROVISIONAL), every other confirmed send's `CON…",
+".andromeda/obs-plan.md:645 provisional standing …USLINE_DEADLINE` (5 s, PROVISIONAL, `src/cmd/hook.rs`); the bound ends…",
+".andromeda/obs-plan.md:758 provisional standing …on that arm is the 5 s PROVISIONAL bound on the user's command, not a …",
+".andromeda/obs-plan.md:1005 provisional standing ×2 …alue is tests-owned (provisionally 1.0 s; the hook's own provision…",
+".andromeda/a11y-plan.md:285 provisional standing ×3 @c793,2048,2416/4499 …LD_MAX`, each PROVISIONAL; any other value gi…",
+".claude/docs/session-learnings.md:101 provisional curation …one of them reads \"PROVISIONAL\", which hits only two deadli…",
+".andromeda/playbook.md:66 provisional base …swer on such an item is provisional until his own word. The wrap writes eac…",
+".andromeda/playbook.md:70 provisional base … relay not verbatim) is PROVISIONAL, written `delegate {who}` or `relayed b…",
+"CLAUDE.md:42 provisional leaf @c2260/2400 …firm window its own 40 s PROVISIONAL `COMPACT_CONFIRM_WINDOW`, so a `send` o…",
+".claude/rules/frontend.md:29 provisional leaf …s `link` and `unlink` (PROVISIONAL, `inputs#I1` Q3); per-verb `--help` i…",
+".claude/rules/security.md:27 provisional leaf …tderr discarded, a 5 s PROVISIONAL bound, the command in no line or span…",
+".claude/docs/a11y-summary.md:29 provisional leaf …ver the served verbs, PROVISIONAL, `plugin install` built in `setup:`…",
+".claude/docs/a11y-summary.md:53 provisional leaf ×3 @c282,1235,2087/2343 …usline`'s 5 s PROVISIONAL bound falls on the …",
+".claude/docs/gotchas.md:84 provisional leaf …_CONFIRM_WINDOW` (40 s, PROVISIONAL) for a `session-start` of cause `compa…",
+".claude/docs/obs-summary.md:31 provisional leaf …0 s (SessionEnd; spine provisional) — logger init = 1 open + appends |…",
+".claude/docs/obs-summary.md:69 provisional leaf …(its own bound is 5 s, PROVISIONAL). At start, the statusline source r…",
+".claude/docs/security-summary.md:65 provisional leaf …4 fork 3 of that chunk, the wrap's card confirm of it provisional.",
+".claude/docs/security-summary.md:67 provisional leaf …ce), bounded at 5 s (PROVISIONAL), stdout through `take(MAX_FRAME…",
+".claude/docs/security-summary.md:72 provisional leaf @c3373/4552 …p's card confirm provisional; Run E, resuming Run B's…",
+".claude/docs/services/viola-agent-claude.md:11 provisional leaf @c1485/2077 …INDOW` 40 s (PROVISIONAL, a `/compact` sen…",
+".claude/docs/services/viola-agent-claude.md:33 provisional leaf …t`, its own 40 s PROVISIONAL `COMPACT_CONFIRM_WINDOW`)…",
+".claude/docs/services/viola-core.md:6 provisional leaf … s · 60 s · 3600 s, PROVISIONAL: the dialog hold's default and …",
+".claude/docs/services/viola.md:23 provisional leaf …SLINE_DEADLINE` (5 s, PROVISIONAL) and prints its stdout unchanged;…",
+".claude/docs/tests-summary.md:26 provisional leaf @c1060/3858 …RM_WINDOW` (40 s, PROVISIONAL), else `not-delivered`/`no…",
+".claude/docs/tests-summary.md:44 provisional leaf …nnect deadline is the provisional 750 ms `CONNECT_DEADLINE`, asserte…",
+".claude/docs/tests-summary.md:61 provisional leaf …ONFIRM_WINDOW` (40 s, PROVISIONAL), validated per CLI version by the…",
+".andromeda/registries/contracts/obs-plan/log-format-json-schema.md:31 delegate standing … founder-delegated) and carrie…",
+".andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md:10 delegate standing @c2795/4593",
+".andromeda/playbook.md:50 delegate base …erseer ruling, a founder-delegated call) never ratifies it. A founder answer o…",
+".andromeda/playbook.md:66 delegate base …the operator names it: a delegate's answer on such an item is provisional unti…",
+".andromeda/playbook.md:68 delegate base …elayed verbatim, never a delegate's whatever a session calls them) is on recor…",
+".andromeda/playbook.md:70 delegate base ×3 … is not his own word (a delegate's, or a relay not verbatim) is PROVISIONAL…",
+".andromeda/design-system.md:441 wordowed standing @c2358/2928 …ounder's wording: planning forms on the operator's word …",
+".andromeda/design-system.md:499 wordowed standing …he founder's wording: planning forms as built (chunk 2026-10-10-budg…",
+".andromeda/layout-templates.md:93 wordowed standing edited @c2542/2836 … unknown`. The planning forms of design-system …",
+".andromeda/layout-templates.md:168 wordowed standing …e founder's wording: planning forms as built (chunk 2026-10-10-bu…",
+".claude/docs/session-learnings.md:101 wordowed curation … the founder\", \"his wording is owed\", \"not ratified\" and \"acce…",
+".andromeda/playbook.md:66 wordowed base …fied, with the founder's word owed, and carries each on the handoff for him. N…",
+".claude/docs/design-summary.md:50 wordowed leaf ×2 @c1636,1665/2064 … cursor <n>`, a planning form, the founder's wordi…",
+".claude/docs/services/viola.md:24 wordowed leaf ×2 …` and the open line are planning forms, the founder's wording owed).",
+".andromeda/architecture.md:82 notruled standing ×3 @c1360,2157,2509/2849 … word and are not ruled by the founder: a ref…",
+".andromeda/architecture.md:206 notruled standing @c2826/3474 …word, the founder not having ruled on it. `read_snapshot`…",
+".andromeda/test-plan.md:490 notruled standing …pe, it stands on the operator's word and the founder has not ruled on it.",
+".andromeda/test-plan.md:824 notruled standing …r boundary widening is not ratified, and the founder's own answer of 202…",
+".andromeda/obs-plan.md:655 notruled standing … the operator's answer, not ruled by the founder: architecture [Links]). …",
+".claude/docs/session-learnings.md:101 notruled curation ×2 …erator's answer\", \"not ruled\", \"not worded by the founder\",…",
+".andromeda/playbook.md:66 notruled base ×2 …asters as built, marked not ratified, with the founder's word owed, and car…",
+".claude/rules/events.md:26 notruled leaf …r's answers, the founder not having ruled). `since` is that line's `ts`, and …",
+".claude/rules/observability.md:40 notruled leaf … on the start arm the operator's answer, the founder not having ruled).",
+".claude/rules/security.md:26 notruled leaf @c2509/2529 … line is the operator's answer; the founder has not ruled on it.",
+".andromeda/architecture.md:82 opword standing @c1336/2849 …of it stand on the operator's word and are not ruled by the …",
+".andromeda/architecture.md:150 opword standing …he Viola overseer (the operator's answer at chunk 2026-10-11-the-board-…",
+".andromeda/architecture.md:206 opword standing @c2797/3474 …hape stands on the operator's word, the founder not having …",
+".andromeda/architecture.md:360 opword standing edited ×2 @c1725,3520/3876 …overseer (the operator's answer at that chun…",
+".andromeda/architecture.md:361 opword standing @c1982/2136 … had landed on the operator's word, 2026-10-10, which is no…",
+".andromeda/security-plan.md:185 opword standing edited ×3 @c2885,4322,9379/13171 …erseer (the operator's answer at that…",
+".andromeda/design-system.md:416 opword standing …he Viola overseer; the operator's answer superseded 2026-10-13), use t…",
+".andromeda/design-system.md:441 opword standing ×2 @c2274,2380/2928 …a overseer (the operator's acceptance superseded 2…",
+".andromeda/design-system.md:442 opword standing …he Viola overseer; the operator's answer at that chunk's planning, sup…",
+".andromeda/design-system.md:499 opword standing ×2 …dget-governor, on the operator's word) that he confirmed as they we…",
+".andromeda/design-system.md:530 opword standing edited …` beside `run`: the operator's answer at the chunk 2026-10-10-v…",
+".andromeda/layout-templates.md:93 opword standing edited @c2797/2836 …ame answer (the operator's word superseded 2026-1…",
+".andromeda/layout-templates.md:102 opword standing …by the Viola overseer, the operator's answer superseded 2026-10-13).",
+".andromeda/layout-templates.md:168 opword standing ×2 …get-governor, on the operator's word) that he confirmed as they …",
+".andromeda/layout-templates.md:327 opword standing edited @c1558/2624 … overseer, the operator's answer superseded 2026…",
+".andromeda/test-plan.md:490 opword standing …shape, it stands on the operator's word and the founder has not ruled on i…",
+".andromeda/test-plan.md:945 opword standing @c1570/2974 …g newline kept (the operator's word at chunk 2026-10-10-viola-…",
+".andromeda/test-plan.md:1177 opword standing …lace or re-version (the operator's answer at the chunk 2026-10-10-budget-…",
+".andromeda/obs-plan.md:326 opword standing …the Viola overseer, the operator's answer at its planning superseded 2026-1…",
+".andromeda/obs-plan.md:530 opword standing …the Viola overseer; the operator's answer superseded 2026-10-13). `viola pl…",
+".andromeda/obs-plan.md:543 opword standing …og line, by design (the operator's answer at the chunk 2026-10-10-statuslin…",
+".andromeda/obs-plan.md:655 opword standing … of these shapes is the operator's answer, not ruled by the founder: archit…",
+".andromeda/obs-plan.md:990 opword standing edited ×3 …oard-viola-list, the operator's answer at its planning), or `viol…",
+".claude/rules/testing.md:86 opword curation …nux only, PID 1), stays as it is and is no precedent (the operator's word).",
+".claude/docs/session-learnings.md:101 opword curation ×5 …r's batch read \"the operator's word\", \"the operator's answer\"…",
+".andromeda/playbook.md:58 opword base …the 2026-10-10-windows-mutation-grade wrap, on the operator's word (`inputs#I6`).",
+".andromeda/playbook.md:62 opword base …pass-through wrap, on the operator's word (that chunk's `inputs#I5` item 1 and `…",
+".andromeda/playbook.md:64 opword base ×2 …Held items landed on the operator's word — a plan step held the operator pass…",
+".andromeda/playbook.md:66 opword base …26-10-10-budget-governor wrap, on the operator's word (`inputs#I11`, question 2).",
+".andromeda/playbook.md:70 opword base …-10-13T06-38-35-wrap/`), on the operator's word (his directive §3, `relay-1.md`).",
+".claude/rules/ci.md:18 opword leaf …rator fires it, or the implementer does on the operator's word given for that chunk.",
+".claude/rules/events.md:26 opword leaf …wn name link nothing (the operator's answers, the founder not having ruled). `s…",
+".claude/rules/observability.md:40 opword leaf ×3 …err; its plan's lean, approved by the operator at P5), or `viola plug…",
+".claude/rules/security.md:26 opword leaf @c2478/2529 …rites no line is the operator's answer; the founder has not ruled…",
+".claude/rules/security.md:28 opword leaf …er; it had landed on the operator's word, 2026-10-10, which is no ratificatio…",
+".claude/docs/obs-summary.md:69 opword leaf …erseer, superseding the operator's answer). Its lines: `hook-invoked`, `par…",
+".claude/docs/obs-summary.md:71 opword leaf …erseer, superseding the operator's answer); under a `VIOLA_NAME` it writes …",
+".claude/docs/security-summary.md:66 opword leaf … (it had landed on the operator's word, 2026-10-10). The refusal also …",
+".andromeda/architecture.md:81 techanswer standing @c6943/9827 …d (the overseer's technical answer of 2026-10-07T12:10Z …",
+".andromeda/test-plan.md:1095 techanswer standing @c2347/8153 …asurable set (the overseer's ruling, 2026-10-04). Since c…",
+".claude/rules/host-linux.md:51 techanswer curation …er's at the desk (the overseer's direction). Extended 2026-10-16: a…",
+".andromeda/design-system.md:530 widthsrc standing edited …pline) it lists the served verbs only: `board: list` / `traff…",
+".andromeda/layout-templates.md:61 widthsrc standing edited …scipline) with the served verbs only: the board, traffic, w…",
+".andromeda/layout-templates.md:219 widthsrc standing edited …_output_plain.rs`. Served verbs only: the wireframe's `han…",
+".andromeda/a11y-plan.md:209 widthsrc standing edited … · `setup:` over the served verbs only, then `Options:`, plain AS…",
+".andromeda/architecture.md:359 noline standing ×2 @c359,3900/4681 … process log and writes no line), `hook` and the `cl…",
+".andromeda/architecture.md:360 noline standing edited @c3404/3876 …sed check leaves no trace on the statusline arm is t…",
+".andromeda/security-plan.md:185 noline standing edited ×5 @c1526,2701,2785,3758/13171 …o log and writes no line (no `pr…",
+".andromeda/security-plan.md:185 noline @c+4228/13171",
+".andromeda/security-plan.md:210 noline standing @c6064/6459 … is no reading and writes no line. The read never writes `…",
+".andromeda/security-plan.md:216 noline standing … command, and the read writes no log line and no span. The command is …",
+".andromeda/design-system.md:482 noline standing …s strict-modes refusal writes no log line since chunk 2026-10-10-budge…",
+".andromeda/test-plan.md:582 noline standing …ter a refused check and writes no line, however often it is invoked), CLI …",
+".andromeda/test-plan.md:875 noline standing …used strict-modes check writes no line, while after a passed check under a…",
+".andromeda/obs-plan.md:101 noline standing …sion` and MCP tool-call handling. No trace context arrives from Claude Code.",
+".andromeda/obs-plan.md:172 noline standing ×2 …annel `params` declare no trace-context field (arch Standard Contracts, …",
+".andromeda/obs-plan.md:259 noline standing …hannel `params` declare no trace-context field (arch Standard Contracts). T…",
+".andromeda/obs-plan.md:273 noline standing … instance check refuses writes no line: the check precedes the log (chunk 2…",
+".andromeda/obs-plan.md:326 noline standing …ck, and a refused check leaves no line (chunk 2026-10-10-budget-governor; t…",
+".andromeda/obs-plan.md:463 noline standing … v1: no consumer exists and channel `params` declare no trace-context field.",
+".andromeda/obs-plan.md:478 noline standing ×2 …ct-modes failure\" item writes no line as landed either: `viola hook stat…",
+".andromeda/obs-plan.md:530 noline standing ×2 …ens no process log and writes no line. `viola list` (span `cli.list`, ch…",
+".andromeda/obs-plan.md:558 noline standing …ecedes the log init and writes no line when it refuses, then a preflight of…",
+".andromeda/obs-plan.md:665 noline standing … check opens no log and writes no line (exit 21: the stderr pair, or under …",
+".andromeda/obs-plan.md:761 noline standing edited ×3 @c519,712,1008/2083 …refused check leaves no line and the nine hoo…",
+".andromeda/obs-plan.md:823 noline standing … check opens no log and writes no line (the stderr pair, or under `--json` …",
+".andromeda/obs-plan.md:988 noline standing …ole file; a panic there writes no line and the hook still exits 0, as in ex…",
+".andromeda/obs-plan.md:990 noline standing edited ×2 …ens no role file and writes no line (revive: the stderr pair, or …",
+".andromeda/a11y-plan.md:31 noline standing …is that a passed revive writes no line of its own while the child holds the…",
+".claude/rules/observability.md:21 noline leaf …e) and a refused check writes no line and opens no role file (exit 0 at …",
+".claude/rules/observability.md:39 noline leaf …t 21) opens no log and writes no line (obs-plan §10 exemption 7; the fou…",
+".claude/rules/observability.md:40 noline leaf …opens no role file and writes no line (the seventh exemption; on `viola …",
+".claude/rules/security.md:26 noline leaf @c2456/2529 …That a refused check writes no line is the operator's answer; the…",
+".claude/docs/obs-summary.md:66 noline leaf markup - D-12: no `trace_id`/`span_id`; null encoded as key absence.",
+".claude/docs/obs-summary.md:69 noline leaf ×2 …opens no role file and writes no line (chunk 2026-10-10-budget-governor;…",
+".claude/docs/obs-summary.md:71 noline leaf …it 21) opens no log and writes no line (§10 exemption 7, the founder's own …",
+".claude/docs/security-summary.md:67 noline leaf …efused instance leaves no trace), bounded at 5 s (PROVISIONAL), stdout…",
+"cardconfirm · new 0 · standing 0 · leaf 2 · curation 1 · base 1 · control architecture.md:66 (prose)",
+"e5batch · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control architecture.md:66 (prose)",
+"provisional · new 0 · standing 23 · leaf 18 · curation 1 · base 2 · control architecture.md:46 (prose)",
+"delegate · new 0 · standing 2 · leaf 0 · curation 0 · base 4 · control architecture.md:66 (prose)",
+"wordowed · new 0 · standing 4 · leaf 2 · curation 1 · base 1 · control architecture.md:142 (prose)",
+"notruled · new 0 · standing 5 · leaf 3 · curation 1 · base 1 · control architecture.md:82 (prose)",
+"opword · new 0 · standing 23 · leaf 8 · curation 2 · base 5 · control architecture.md:82 (prose)",
+"techanswer · new 0 · standing 2 · leaf 0 · curation 1 · base 0 · control architecture.md:81 (prose)",
+"widthsrc · new 0 · standing 4 · leaf 0 · curation 0 · base 0 · control design-system.md:420 (prose)",
+"noline · new 0 · standing 23 · leaf 8 · curation 0 · base 0 · control architecture.md:359 (prose)",
+"total (10 patterns) · 150 rows over 28 files",
+"per class · new 0/0 · standing 87/9 · leaf 42/15 · curation 7/4 · base 14/1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "0807ee3cebbe4f549adf0c6b41ab1413b2916cfc",
+"how": "no pre-CI commit",
+"counts": {
+"cardconfirm": {
+"new": 0,
+"standing": 0,
+"leaf": 2,
+"curation": 1,
+"base": 1
+},
+"e5batch": {
+"new": 0,
+"standing": 1,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"provisional": {
+"new": 0,
+"standing": 23,
+"leaf": 18,
+"curation": 1,
+"base": 2
+},
+"delegate": {
+"new": 0,
+"standing": 2,
+"leaf": 0,
+"curation": 0,
+"base": 4
+},
+"wordowed": {
+"new": 0,
+"standing": 4,
+"leaf": 2,
+"curation": 1,
+"base": 1
+},
+"notruled": {
+"new": 0,
+"standing": 5,
+"leaf": 3,
+"curation": 1,
+"base": 1
+},
+"opword": {
+"new": 0,
+"standing": 23,
+"leaf": 8,
+"curation": 2,
+"base": 5
+},
+"techanswer": {
+"new": 0,
+"standing": 2,
+"leaf": 0,
+"curation": 1,
+"base": 0
+},
+"widthsrc": {
+"new": 0,
+"standing": 4,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"noline": {
+"new": 0,
+"standing": 23,
+"leaf": 8,
+"curation": 0,
+"base": 0
+}
+},
+"bare": []
+}
+},
+{
+"tool": "cascade",
+"v": "1.15",
+"sha8": "b3cee12c",
+"ts": "2026-10-20T07:41:03Z",
+"argv": [
+"leaves",
+"--run-dir",
+".andromeda/runs/2026-10-20T06-58-31-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline 0807ee3c (no pre-CI commit)",
+"architecture-1 · pass · 5 leaves · 61341 B · 7 source file(s)",
+"  leaf .claude/docs/conventions.md · 9810 B",
+"  leaf .claude/docs/gotchas.md · 20718 B",
+"  leaf .claude/docs/services/viola-agent-claude.md · 18177 B",
+"  leaf .claude/docs/services/viola-channel.md · 7286 B",
+"  leaf .claude/docs/services/viola-core.md · 5350 B",
+"  source .andromeda/architecture.md",
+"  source .andromeda/registries/architecture-contracts.toml",
+"  source .andromeda/registries/contracts/architecture/build-system.md",
+"  source .andromeda/registries/contracts/architecture/ci-cd-approach.md",
+"  source .andromeda/registries/contracts/architecture/crate-dependency-direction.md",
+"  source .andromeda/registries/contracts/architecture/deployment-model.md",
+"  source .andromeda/registries/contracts/architecture/project-directory-structure.md",
+"  delta leaf-delta-architecture.diff",
+"architecture-2 · pass · 5 leaves · 53284 B · 7 source file(s)",
+"  leaf .claude/docs/services/viola-mcp.md · 5916 B",
+"  leaf .claude/docs/services/viola-pty.md · 7555 B",
+"  leaf .claude/docs/services/viola-state.md · 11435 B",
+"  leaf .claude/docs/services/viola-ui.md · 709 B",
+"  leaf .claude/docs/services/viola.md · 27669 B",
+"  source .andromeda/architecture.md",
+"  source .andromeda/registries/architecture-contracts.toml",
+"  source .andromeda/registries/contracts/architecture/build-system.md",
+"  source .andromeda/registries/contracts/architecture/ci-cd-approach.md",
+"  source .andromeda/registries/contracts/architecture/crate-dependency-direction.md",
+"  source .andromeda/registries/contracts/architecture/deployment-model.md",
+"  source .andromeda/registries/contracts/architecture/project-directory-structure.md",
+"  delta leaf-delta-architecture.diff",
+"architecture-3 · pass · 3 leaves · 29206 B · 7 source file(s)",
+"  leaf .claude/docs/stack.md · 14901 B",
+"  leaf .claude/docs/workflow.md · 6460 B",
+"  leaf .claude/rules/events.md · 7845 B",
+"  source .andromeda/architecture.md",
+"  source .andromeda/registries/architecture-contracts.toml",
+"  source .andromeda/registries/contracts/architecture/build-system.md",
+"  source .andromeda/registries/contracts/architecture/ci-cd-approach.md",
+"  source .andromeda/registries/contracts/architecture/crate-dependency-direction.md",
+"  source .andromeda/registries/contracts/architecture/deployment-model.md",
+"  source .andromeda/registries/contracts/architecture/project-directory-structure.md",
+"  delta leaf-delta-architecture.diff",
+"architecture+security-plan · pass · 1 leaves · 11643 B · 8 source file(s)",
+"  leaf .claude/rules/api.md · 11643 B",
+"  source .andromeda/architecture.md",
+"  source .andromeda/registries/architecture-contracts.toml",
+"  source .andromeda/registries/contracts/architecture/build-system.md",
+"  source .andromeda/registries/contracts/architecture/ci-cd-approach.md",
+"  source .andromeda/registries/contracts/architecture/crate-dependency-direction.md",
+"  source .andromeda/registries/contracts/architecture/deployment-model.md",
+"  source .andromeda/registries/contracts/architecture/project-directory-structure.md",
+"  source .andromeda/security-plan.md",
+"  delta leaf-delta-architecture.diff",
+"  delta leaf-delta-security-plan.diff",
+"masters · pass · 1 leaves · 16167 B · 41 source file(s)",
+"  leaf CLAUDE.md · 16167 B",
+"  source .andromeda/architecture.md",
+"  source .andromeda/registries/architecture-contracts.toml",
+"  source .andromeda/registries/contracts/architecture/build-system.md",
+"  source .andromeda/registries/contracts/architecture/ci-cd-approach.md",
+"  source .andromeda/registries/contracts/architecture/crate-dependency-direction.md",
+"  source .andromeda/registries/contracts/architecture/deployment-model.md",
+"  source .andromeda/registries/contracts/architecture/project-directory-structure.md",
+"  source .andromeda/security-plan.md",
+"  source .andromeda/design-system.md",
+"  source .andromeda/layout-templates.md",
+"  source .andromeda/test-plan.md",
+"  source .andromeda/registries/test-plan-contracts.toml",
+"  source .andromeda/registries/contracts/test-plan/5-command-implementation.md",
+"  source .andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md",
+"  source .andromeda/registries/contracts/test-plan/log-format.md",
+"  source .andromeda/registries/contracts/test-plan/pid-file.md",
+"  source .andromeda/registries/contracts/test-plan/status-endpoint-shape.md",
+"  source .andromeda/registries/contracts/test-plan/test-data-bootstrap.md",
+"  source .andromeda/obs-plan.md",
+"  source .andromeda/registries/obs-plan-contracts.toml",
+"  source .andromeda/registries/contracts/obs-plan/bootstrap-phases-derive-for-route-setup-project.md",
+"  source .andromeda/registries/contracts/obs-plan/heartbeat-ticks.md",
+"  source .andromeda/registries/contracts/obs-plan/log-file-location.md",
+"  source .andromeda/registries/contracts/obs-plan/log-format-json-schema.md",
+"  source .andromeda/registries/contracts/obs-plan/logging-stack.md",
+"  source .andromeda/registries/contracts/obs-plan/otel-sdk-init.md",
+"  source .andromeda/registries/contracts/obs-plan/product-mode-normal-vs-inverted-self-observing.md",
+"  source .andromeda/registries/contracts/obs-plan/service-identity.md",
+"  source .andromeda/registries/contracts/obs-plan/snapshot-paste-to-ai-integration.md",
+"  source .andromeda/registries/contracts/obs-plan/trace-context-propagation.md",
+"  source .andromeda/a11y-plan.md",
+"  source .andromeda/registries/a11y-plan-contracts.toml",
+"  source .andromeda/registries/contracts/a11y-plan/a11y-testing-tool-pick.md",
+"  source .andromeda/registries/contracts/a11y-plan/bootstrap-phases-derive-for-route-setup-project.md",
+"  source .andromeda/registries/contracts/a11y-plan/ci-integration.md",
+"  source .andromeda/registries/contracts/a11y-plan/contrast-verification-harness.md",
+"  source .andromeda/registries/contracts/a11y-plan/focus-management-test-harness.md",
+"  source .andromeda/registries/contracts/a11y-plan/keyboard-test-harness.md",
+"  source .andromeda/registries/contracts/a11y-plan/screen-reader-test-pattern.md",
+"  source .andromeda/registries/contracts/a11y-plan/structured-violation-json-schema.md",
+"  source .andromeda/registries/contracts/a11y-plan/wcag-criteria-mapping.md",
+"  delta leaf-delta-architecture.diff",
+"  delta leaf-delta-security-plan.diff",
+"  delta leaf-delta-design-system.diff",
+"  delta leaf-delta-layout-templates.diff",
+"  delta leaf-delta-test-plan.diff",
+"  delta leaf-delta-obs-plan.diff",
+"  delta leaf-delta-a11y-plan.diff",
+"architecture+design-system+layout-templates · pass · 1 leaves · 5896 B · 9 source file(s)",
+"  leaf .claude/rules/frontend.md · 5896 B",
+"  source .andromeda/architecture.md",
+"  source .andromeda/registries/architecture-contracts.toml",
+"  source .andromeda/registries/contracts/architecture/build-system.md",
+"  source .andromeda/registries/contracts/architecture/ci-cd-approach.md",
+"  source .andromeda/registries/contracts/architecture/crate-dependency-direction.md",
+"  source .andromeda/registries/contracts/architecture/deployment-model.md",
+"  source .andromeda/registries/contracts/architecture/project-directory-structure.md",
+"  source .andromeda/design-system.md",
+"  source .andromeda/layout-templates.md",
+"  delta leaf-delta-architecture.diff",
+"  delta leaf-delta-design-system.diff",
+"  delta leaf-delta-layout-templates.diff",
+"architecture+test-plan+obs-plan · pass · 1 leaves · 26063 B · 27 source file(s)",
+"  leaf .claude/docs/commands.md · 26063 B",
+"  source .andromeda/architecture.md",
+"  source .andromeda/registries/architecture-contracts.toml",
+"  source .andromeda/registries/contracts/architecture/build-system.md",
+"  source .andromeda/registries/contracts/architecture/ci-cd-approach.md",
+"  source .andromeda/registries/contracts/architecture/crate-dependency-direction.md",
+"  source .andromeda/registries/contracts/architecture/deployment-model.md",
+"  source .andromeda/registries/contracts/architecture/project-directory-structure.md",
+"  source .andromeda/test-plan.md",
+"  source .andromeda/registries/test-plan-contracts.toml",
+"  source .andromeda/registries/contracts/test-plan/5-command-implementation.md",
+"  source .andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md",
+"  source .andromeda/registries/contracts/test-plan/log-format.md",
+"  source .andromeda/registries/contracts/test-plan/pid-file.md",
+"  source .andromeda/registries/contracts/test-plan/status-endpoint-shape.md",
+"  source .andromeda/registries/contracts/test-plan/test-data-bootstrap.md",
+"  source .andromeda/obs-plan.md",
+"  source .andromeda/registries/obs-plan-contracts.toml",
+"  source .andromeda/registries/contracts/obs-plan/bootstrap-phases-derive-for-route-setup-project.md",
+"  source .andromeda/registries/contracts/obs-plan/heartbeat-ticks.md",
+"  source .andromeda/registries/contracts/obs-plan/log-file-location.md",
+"  source .andromeda/registries/contracts/obs-plan/log-format-json-schema.md",
+"  source .andromeda/registries/contracts/obs-plan/logging-stack.md",
+"  source .andromeda/registries/contracts/obs-plan/otel-sdk-init.md",
+"  source .andromeda/registries/contracts/obs-plan/product-mode-normal-vs-inverted-self-observing.md",
+"  source .andromeda/registries/contracts/obs-plan/service-identity.md",
+"  source .andromeda/registries/contracts/obs-plan/snapshot-paste-to-ai-integration.md",
+"  source .andromeda/registries/contracts/obs-plan/trace-context-propagation.md",
+"  delta leaf-delta-architecture.diff",
+"  delta leaf-delta-test-plan.diff",
+"  delta leaf-delta-obs-plan.diff",
+"security-plan · pass · 2 leaves · 49224 B · 1 source file(s)",
+"  leaf .claude/docs/security-summary.md · 26850 B",
+"  leaf .claude/rules/security.md · 22374 B",
+"  source .andromeda/security-plan.md",
+"  delta leaf-delta-security-plan.diff",
+"security-plan+obs-plan · pass · 1 leaves · 2263 B · 13 source file(s)",
+"  leaf .claude/rules/ci.md · 2263 B",
+"  source .andromeda/security-plan.md",
+"  source .andromeda/obs-plan.md",
+"  source .andromeda/registries/obs-plan-contracts.toml",
+"  source .andromeda/registries/contracts/obs-plan/bootstrap-phases-derive-for-route-setup-project.md",
+"  source .andromeda/registries/contracts/obs-plan/heartbeat-ticks.md",
+"  source .andromeda/registries/contracts/obs-plan/log-file-location.md",
+"  source .andromeda/registries/contracts/obs-plan/log-format-json-schema.md",
+"  source .andromeda/registries/contracts/obs-plan/logging-stack.md",
+"  source .andromeda/registries/contracts/obs-plan/otel-sdk-init.md",
+"  source .andromeda/registries/contracts/obs-plan/product-mode-normal-vs-inverted-self-observing.md",
+"  source .andromeda/registries/contracts/obs-plan/service-identity.md",
+"  source .andromeda/registries/contracts/obs-plan/snapshot-paste-to-ai-integration.md",
+"  source .andromeda/registries/contracts/obs-plan/trace-context-propagation.md",
+"  delta leaf-delta-security-plan.diff",
+"  delta leaf-delta-obs-plan.diff",
+"design-system+layout-templates · pass · 1 leaves · 8065 B · 2 source file(s)",
+"  leaf .claude/docs/design-summary.md · 8065 B",
+"  source .andromeda/design-system.md",
+"  source .andromeda/layout-templates.md",
+"  delta leaf-delta-design-system.diff",
+"  delta leaf-delta-layout-templates.diff",
+"test-plan · pass · 3 leaves · 55269 B · 8 source file(s)",
+"  leaf .claude/docs/tests-summary.md · 26458 B",
+"  leaf .claude/rules/testing.md · 8105 B",
+"  leaf .claude/rules/verification-harness.md · 20706 B",
+"  source .andromeda/test-plan.md",
+"  source .andromeda/registries/test-plan-contracts.toml",
+"  source .andromeda/registries/contracts/test-plan/5-command-implementation.md",
+"  source .andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md",
+"  source .andromeda/registries/contracts/test-plan/log-format.md",
+"  source .andromeda/registries/contracts/test-plan/pid-file.md",
+"  source .andromeda/registries/contracts/test-plan/status-endpoint-shape.md",
+"  source .andromeda/registries/contracts/test-plan/test-data-bootstrap.md",
+"  delta leaf-delta-test-plan.diff",
+"test-plan+obs-plan · pass · 1 leaves · 10815 B · 20 source file(s)",
+"  leaf .claude/rules/observability.md · 10815 B",
+"  source .andromeda/test-plan.md",
+"  source .andromeda/registries/test-plan-contracts.toml",
+"  source .andromeda/registries/contracts/test-plan/5-command-implementation.md",
+"  source .andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md",
+"  source .andromeda/registries/contracts/test-plan/log-format.md",
+"  source .andromeda/registries/contracts/test-plan/pid-file.md",
+"  source .andromeda/registries/contracts/test-plan/status-endpoint-shape.md",
+"  source .andromeda/registries/contracts/test-plan/test-data-bootstrap.md",
+"  source .andromeda/obs-plan.md",
+"  source .andromeda/registries/obs-plan-contracts.toml",
+"  source .andromeda/registries/contracts/obs-plan/bootstrap-phases-derive-for-route-setup-project.md",
+"  source .andromeda/registries/contracts/obs-plan/heartbeat-ticks.md",
+"  source .andromeda/registries/contracts/obs-plan/log-file-location.md",
+"  source .andromeda/registries/contracts/obs-plan/log-format-json-schema.md",
+"  source .andromeda/registries/contracts/obs-plan/logging-stack.md",
+"  source .andromeda/registries/contracts/obs-plan/otel-sdk-init.md",
+"  source .andromeda/registries/contracts/obs-plan/product-mode-normal-vs-inverted-self-observing.md",
+"  source .andromeda/registries/contracts/obs-plan/service-identity.md",
+"  source .andromeda/registries/contracts/obs-plan/snapshot-paste-to-ai-integration.md",
+"  source .andromeda/registries/contracts/obs-plan/trace-context-propagation.md",
+"  delta leaf-delta-test-plan.diff",
+"  delta leaf-delta-obs-plan.diff",
+"obs-plan · pass · 1 leaves · 11734 B · 12 source file(s)",
+"  leaf .claude/docs/obs-summary.md · 11734 B",
+"  source .andromeda/obs-plan.md",
+"  source .andromeda/registries/obs-plan-contracts.toml",
+"  source .andromeda/registries/contracts/obs-plan/bootstrap-phases-derive-for-route-setup-project.md",
+"  source .andromeda/registries/contracts/obs-plan/heartbeat-ticks.md",
+"  source .andromeda/registries/contracts/obs-plan/log-file-location.md",
+"  source .andromeda/registries/contracts/obs-plan/log-format-json-schema.md",
+"  source .andromeda/registries/contracts/obs-plan/logging-stack.md",
+"  source .andromeda/registries/contracts/obs-plan/otel-sdk-init.md",
+"  source .andromeda/registries/contracts/obs-plan/product-mode-normal-vs-inverted-self-observing.md",
+"  source .andromeda/registries/contracts/obs-plan/service-identity.md",
+"  source .andromeda/registries/contracts/obs-plan/snapshot-paste-to-ai-integration.md",
+"  source .andromeda/registries/contracts/obs-plan/trace-context-propagation.md",
+"  delta leaf-delta-obs-plan.diff",
+"a11y-plan · pass · 2 leaves · 10252 B · 11 source file(s)",
+"  leaf .claude/docs/a11y-summary.md · 7819 B",
+"  leaf .claude/rules/a11y.md · 2433 B",
+"  source .andromeda/a11y-plan.md",
+"  source .andromeda/registries/a11y-plan-contracts.toml",
+"  source .andromeda/registries/contracts/a11y-plan/a11y-testing-tool-pick.md",
+"  source .andromeda/registries/contracts/a11y-plan/bootstrap-phases-derive-for-route-setup-project.md",
+"  source .andromeda/registries/contracts/a11y-plan/ci-integration.md",
+"  source .andromeda/registries/contracts/a11y-plan/contrast-verification-harness.md",
+"  source .andromeda/registries/contracts/a11y-plan/focus-management-test-harness.md",
+"  source .andromeda/registries/contracts/a11y-plan/keyboard-test-harness.md",
+"  source .andromeda/registries/contracts/a11y-plan/screen-reader-test-pattern.md",
+"  source .andromeda/registries/contracts/a11y-plan/structured-violation-json-schema.md",
+"  source .andromeda/registries/contracts/a11y-plan/wcag-criteria-mapping.md",
+"  delta leaf-delta-a11y-plan.diff",
+"unmapped .claude/rules/host-linux.md (host)",
+"unmapped .claude/rules/testing-src.md",
+"wrote leaf-delta-architecture.diff · 1 file(s), 0 key file(s) · 87223 B",
+"wrote leaf-delta-security-plan.diff · 1 file(s), 0 key file(s) · 77242 B",
+"wrote leaf-delta-design-system.diff · 1 file(s), 0 key file(s) · 9031 B",
+"wrote leaf-delta-layout-templates.diff · 1 file(s), 0 key file(s) · 24706 B",
+"wrote leaf-delta-test-plan.diff · 2 file(s), 1 key file(s) · 41043 B",
+"wrote leaf-delta-obs-plan.diff · 1 file(s), 0 key file(s) · 14914 B",
+"wrote leaf-delta-a11y-plan.diff · 1 file(s), 0 key file(s) · 9331 B",
+"total · pass · 14 group(s) · 28 leaves · 351222 B · unmapped 2"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-10-20T06-58-31-wrap/leaf-delta-architecture.diff",
+".andromeda/runs/2026-10-20T06-58-31-wrap/leaf-delta-security-plan.diff",
+".andromeda/runs/2026-10-20T06-58-31-wrap/leaf-delta-design-system.diff",
+".andromeda/runs/2026-10-20T06-58-31-wrap/leaf-delta-layout-templates.diff",
+".andromeda/runs/2026-10-20T06-58-31-wrap/leaf-delta-test-plan.diff",
+".andromeda/runs/2026-10-20T06-58-31-wrap/leaf-delta-obs-plan.diff",
+".andromeda/runs/2026-10-20T06-58-31-wrap/leaf-delta-a11y-plan.diff"
+],
+"before": null,
+"after": null,
+"extra": {
+"leaves": {
+"mode": "pass",
+"groups": {
+"architecture-1": {
+"leaves": [
+".claude/docs/conventions.md",
+".claude/docs/gotchas.md",
+".claude/docs/services/viola-agent-claude.md",
+".claude/docs/services/viola-channel.md",
+".claude/docs/services/viola-core.md"
+],
+"sources": [
+"architecture"
+],
+"files": [
+".andromeda/architecture.md",
+".andromeda/registries/architecture-contracts.toml",
+".andromeda/registries/contracts/architecture/build-system.md",
+".andromeda/registries/contracts/architecture/ci-cd-approach.md",
+".andromeda/registries/contracts/architecture/crate-dependency-direction.md",
+".andromeda/registries/contracts/architecture/deployment-model.md",
+".andromeda/registries/contracts/architecture/project-directory-structure.md"
+],
+"deltas": [
+"leaf-delta-architecture.diff"
+],
+"read": {
+".claude/docs/conventions.md": [
+61,
+"- For warnings and gotchas, see `.claude/docs/gotchas.md`"
+],
+".claude/docs/gotchas.md": [
+147,
+"- For architectural decisions and their rationale, see `.andromeda/architecture.md` Established Decisions section"
+],
+".claude/docs/services/viola-agent-claude.md": [
+47,
+"- `.andromeda/architecture.md` [CLI Version Compatibility] · `.claude/rules/events.md` · `.claude/docs/gotchas.md`"
+],
+".claude/docs/services/viola-channel.md": [
+45,
+"- `.andromeda/architecture.md` §Standard Contracts (Wrapper channel frames) · `.claude/rules/api.md` · `.claude/rules/security.md`"
+],
+".claude/docs/services/viola-core.md": [
+43,
+"- `.claude/docs/stack.md` · `.claude/docs/conventions.md` · `.claude/rules/events.md`"
+]
+},
+"lines": {
+".claude/docs/conventions.md": [
+"849780a07c",
+"da39a3ee5e",
+"623412e48e",
+"da39a3ee5e",
+"71af29bb51",
+"163d73b430",
+"37ca91c18a",
+"d8d406bd80",
+"d4542eeb91",
+"da39a3ee5e",
+"7ca4a5d048",
+"3c82db88aa",
+"6ddc2f87dc",
+"008d6127c4",
+"2da4bd7b48",
+"da39a3ee5e",
+"28047742e9",
+"e674dc3c15",
+"bc08dc65a9",
+"4138f294d3",
+"ebaddfb535",
+"00acb3c49d",
+"e2bd356d44",
+"da39a3ee5e",
+"2a66d561f1",
+"7131d03361",
+"5ccb3ad84a",
+"49420f1b05",
+"bda6b13542",
+"da39a3ee5e",
+"5308756353",
+"7a0ccb5526",
+"9107d69160",
+"060f7d8030",
+"60e89ccc01",
+"7595a78d67",
+"da39a3ee5e",
+"b5a2e804b1",
+"4607049cbf",
+"01fb31c7b1",
+"6060fcb902",
+"da39a3ee5e",
+"75d3d50841",
+"2dd9764ebd",
+"d7c0552f8c",
+"da39a3ee5e",
+"8f7f129916",
+"734c14ac1f",
+"da39a3ee5e",
+"07bdf06fa8",
+"96f471d99e",
+"da39a3ee5e",
+"a81ec5d9cc",
+"aa54fddb62",
+"0228977c2f",
+"da39a3ee5e",
+"4136cd20de",
+"069696b00c",
+"036cd4e02e",
+"9d8770ad9f",
+"58b6ad4ac2"
+],
+".claude/docs/gotchas.md": [
+"5b61f88df7",
+"da39a3ee5e",
+"e0eb9c6fe4",
+"da39a3ee5e",
+"296557bbcd",
+"da39a3ee5e",
+"205188a0c8",
+"da39a3ee5e",
+"bbc0aff806",
+"2c236c56e1",
+"3eb22ce912",
+"bbc0aff806",
+"da39a3ee5e",
+"2f83dac004",
+"da39a3ee5e",
+"7f454b076b",
+"f2ed3b07aa",
+"ac36440239",
+"9fe75d1f22",
+"6a382b99e5",
+"da39a3ee5e",
+"7e4fcda494",
+"10480d49b8",
+"51010b5a70",
+"da02163b5a",
+"da39a3ee5e",
+"6841cdedfe",
+"69ac0b00a8",
+"23ce4627a4",
+"b3510030f3",
+"da39a3ee5e",
+"4032809531",
+"9fc3860cca",
+"5c0b09a7df",
+"2e1734bbd0",
+"da39a3ee5e",
+"89ed067255",
+"044532ef77",
+"8ad338fe99",
+"6453efd780",
+"da39a3ee5e",
+"877e7e777b",
+"fe92045066",
+"8896ca6325",
+"312176ec1d",
+"da39a3ee5e",
+"75fe80e976",
+"5c2b966b86",
+"64e402d769",
+"6f9223ca0f",
+"da39a3ee5e",
+"c889a4e463",
+"ceb30fa170",
+"3dbaff504e",
+"65f88bfe85",
+"da39a3ee5e",
+"b416493978",
+"57cf9fbebd",
+"cf8190773d",
+"d647713f36",
+"da39a3ee5e",
+"bccc0a4170",
+"46cebf4a54",
+"62dbe8d000",
+"a6d975e856",
+"da39a3ee5e",
+"bb8a011694",
+"2896de3892",
+"34409248d6",
+"39fa55c437",
+"da39a3ee5e",
+"fceabb0f53",
+"43e577d3e7",
+"062d58c997",
+"bd33c4025a",
+"da39a3ee5e",
+"b6bf5b5d37",
+"69680f4be5",
+"d8b3b83d52",
+"a159d5d605",
+"da39a3ee5e",
+"a2edb0bea0",
+"eb27e3babe",
+"30c7e9a761",
+"cd93d274fe",
+"da39a3ee5e",
+"6e582d24a8",
+"3c2a4a8421",
+"bcb1716099",
+"54c63b9e8c",
+"da39a3ee5e",
+"49712b1985",
+"9059c8e5d9",
+"32711908c8",
+"987985c0b5",
+"da39a3ee5e",
+"58485b45a2",
+"6466a356e1",
+"15160992c4",
+"bb58038948",
+"da39a3ee5e",
+"2e591a2aba",
+"9e7dfab022",
+"b3a948482a",
+"aed7dd87b7",
+"da39a3ee5e",
+"442f4749d9",
+"a6b4102bd9",
+"0319d30bdc",
+"33cfd20bb9",
+"b77c24e4bc",
+"d508dfe865",
+"4d86cb3b1e",
+"da39a3ee5e",
+"ac40186f8e",
+"02ee76f591",
+"c690213f77",
+"5f9119a40f",
+"0d7a8e1889",
+"da39a3ee5e",
+"d11847cbfb",
+"2102a3d449",
+"063f91b7c4",
+"c9996dfa38",
+"da39a3ee5e",
+"c8e9e0787d",
+"f624274c28",
+"f1798f48d3",
+"eb08bfbd85",
+"da39a3ee5e",
+"dee4d834bb",
+"a848b4af51",
+"2a14c0729d",
+"2044563259",
+"436acf6cbb",
+"da39a3ee5e",
+"53de3141db",
+"fb3fcda4a1",
+"25d0ccd935",
+"dd5c9d75c3",
+"0af40a6594",
+"da39a3ee5e",
+"c859397df4",
+"da39a3ee5e",
+"0ce90cb2fe",
+"e596cd2182",
+"4304974916"
+],
+".claude/docs/services/viola-agent-claude.md": [
+"234941e870",
+"da39a3ee5e",
+"058d14ee40",
+"da39a3ee5e",
+"c70c16f6eb",
+"299be8477d",
+"da39a3ee5e",
+"3c9551b01a",
+"da39a3ee5e",
+"6a022646bc",
+"d976353a37",
+"da39a3ee5e",
+"85d665a7e0",
+"605e1a0355",
+"da39a3ee5e",
+"9bf487aa85",
+"d32acfa10d",
+"da39a3ee5e",
+"f1232550fa",
+"c7ca180a40",
+"ab76f5ab76",
+"02c94268bf",
+"a0e686d479",
+"706ae66d22",
+"e6d607a984",
+"45e0a131a8",
+"3d4edae1b9",
+"c41f6c6de2",
+"51a4a8d168",
+"da39a3ee5e",
+"8e80b82eb5",
+"01d5a6333a",
+"f3cdc4def9",
+"10756e183e",
+"da39a3ee5e",
+"a3498830ec",
+"498fc4cfcd",
+"7a0c2e816f",
+"91fecf4009",
+"da39a3ee5e",
+"ceb8d5d66f",
+"60477f594b",
+"049ab3d110",
+"e46c48cb0a",
+"da39a3ee5e",
+"8fa6c6f1a6",
+"3f6ffd620e"
+],
+".claude/docs/services/viola-channel.md": [
+"37db0a87d8",
+"da39a3ee5e",
+"0182560ea8",
+"da39a3ee5e",
+"c70c16f6eb",
+"b8a2353fad",
+"da39a3ee5e",
+"3c9551b01a",
+"da39a3ee5e",
+"6a022646bc",
+"480d08dab4",
+"da39a3ee5e",
+"85d665a7e0",
+"02722f9553",
+"da39a3ee5e",
+"9bf487aa85",
+"ff89bb671c",
+"da39a3ee5e",
+"f1232550fa",
+"3c5106a972",
+"41b816871c",
+"e0c3ceffa7",
+"24ecef85af",
+"65597f81e1",
+"afa8529615",
+"f01e527b9c",
+"c9e467d25e",
+"da39a3ee5e",
+"8e80b82eb5",
+"d14eec5edc",
+"1c08eaf62f",
+"9099499775",
+"da39a3ee5e",
+"a3498830ec",
+"b0cff7fad7",
+"2b932d1333",
+"077a9d8db0",
+"da39a3ee5e",
+"ceb8d5d66f",
+"ecca32c073",
+"30a5a589d4",
+"c8290c2c04",
+"da39a3ee5e",
+"8fa6c6f1a6",
+"42cdad9834"
+],
+".claude/docs/services/viola-core.md": [
+"baf490a58f",
+"da39a3ee5e",
+"2cf29baecb",
+"da39a3ee5e",
+"c70c16f6eb",
+"332233ad0f",
+"da39a3ee5e",
+"3c9551b01a",
+"da39a3ee5e",
+"6a022646bc",
+"8fe094f0b5",
+"da39a3ee5e",
+"85d665a7e0",
+"077c1079fe",
+"da39a3ee5e",
+"9bf487aa85",
+"fdc34fd0f5",
+"da39a3ee5e",
+"f1232550fa",
+"0999e0037b",
+"d740f237bf",
+"30f8f99914",
+"07e0dedfdc",
+"b2676394cc",
+"9872a5e304",
+"da39a3ee5e",
+"8e80b82eb5",
+"47e71c2df9",
+"9a2e957f01",
+"da39a3ee5e",
+"a3498830ec",
+"e2b598dd89",
+"d1d7b7863e",
+"cc6bc1b56d",
+"da39a3ee5e",
+"ceb8d5d66f",
+"9e87cd5834",
+"9d18c0e528",
+"a1b71831e3",
+"da39a3ee5e",
+"8fa6c6f1a6",
+"52109bdb40",
+"9109ca5324"
+]
+}
+},
+"architecture-2": {
+"leaves": [
+".claude/docs/services/viola-mcp.md",
+".claude/docs/services/viola-pty.md",
+".claude/docs/services/viola-state.md",
+".claude/docs/services/viola-ui.md",
+".claude/docs/services/viola.md"
+],
+"sources": [
+"architecture"
+],
+"files": [
+".andromeda/architecture.md",
+".andromeda/registries/architecture-contracts.toml",
+".andromeda/registries/contracts/architecture/build-system.md",
+".andromeda/registries/contracts/architecture/ci-cd-approach.md",
+".andromeda/registries/contracts/architecture/crate-dependency-direction.md",
+".andromeda/registries/contracts/architecture/deployment-model.md",
+".andromeda/registries/contracts/architecture/project-directory-structure.md"
+],
+"deltas": [
+"leaf-delta-architecture.diff"
+],
+"read": {
+".claude/docs/services/viola-mcp.md": [
+39,
+"- `.andromeda/architecture.md` [MCP] · `.claude/rules/api.md`"
+],
+".claude/docs/services/viola-pty.md": [
+47,
+"- `.andromeda/architecture.md` [PTY] · `.claude/docs/gotchas.md` (ConPTY, portable-pty 0.9.0, npm shim)"
+],
+".claude/docs/services/viola-state.md": [
+49,
+"- `.andromeda/architecture.md` §Standard Contracts (snapshot envelope, instance snapshot) · `.claude/rules/events.md` · `.claude/rules/security.md`"
+],
+".claude/docs/services/viola-ui.md": [
+9,
+"None: the `viola_ui` log target in `src/obs.rs`, the reserved `ui` process value and its events in `viola-core` and `schemas/`, and the browser test leg have left the tree."
+],
+".claude/docs/services/viola.md": [
+58,
+"- `.andromeda/architecture.md` · `.claude/rules/api.md` · `.claude/rules/frontend.md` · `.claude/rules/observability.md`"
+]
+},
+"lines": {
+".claude/docs/services/viola-mcp.md": [
+"3f97f9615e",
+"da39a3ee5e",
+"13268af587",
+"da39a3ee5e",
+"c70c16f6eb",
+"a2ed9b520c",
+"da39a3ee5e",
+"3c9551b01a",
+"da39a3ee5e",
+"6a022646bc",
+"40f0066a48",
+"da39a3ee5e",
+"85d665a7e0",
+"05b7e7850a",
+"da39a3ee5e",
+"9bf487aa85",
+"b22959ad45",
+"da39a3ee5e",
+"f1232550fa",
+"c2da7f3493",
+"fe86c0dad2",
+"6df473e28b",
+"7ef9f08110",
+"7a88164b62",
+"da39a3ee5e",
+"8e80b82eb5",
+"16906d014f",
+"d333681bda",
+"da39a3ee5e",
+"a3498830ec",
+"5fe10b0969",
+"5754d055db",
+"da39a3ee5e",
+"ceb8d5d66f",
+"9a2fe37e84",
+"5efc832c00",
+"da39a3ee5e",
+"8fa6c6f1a6",
+"d546f9c7f5"
+],
+".claude/docs/services/viola-pty.md": [
+"61a16cfc27",
+"da39a3ee5e",
+"68e6c01805",
+"da39a3ee5e",
+"c70c16f6eb",
+"15f082896a",
+"da39a3ee5e",
+"3c9551b01a",
+"da39a3ee5e",
+"6a022646bc",
+"a7a9cb0203",
+"da39a3ee5e",
+"85d665a7e0",
+"f575debbe8",
+"da39a3ee5e",
+"9bf487aa85",
+"5e185e53f7",
+"da39a3ee5e",
+"f1232550fa",
+"b677187b21",
+"33d40732d8",
+"3e084f9276",
+"227feb41d1",
+"da39a3ee5e",
+"8e80b82eb5",
+"e999b10542",
+"28fc80f34a",
+"792ea947f7",
+"65cbfbe571",
+"ec7f7335d6",
+"8c2a3470ec",
+"7c4af820bd",
+"8539a06c7d",
+"da39a3ee5e",
+"a3498830ec",
+"af5bdefe3a",
+"53bc570480",
+"fd80fefcf1",
+"fd6f443942",
+"da39a3ee5e",
+"ceb8d5d66f",
+"33f551e291",
+"8caa1b3153",
+"8aa6d28e7b",
+"da39a3ee5e",
+"8fa6c6f1a6",
+"53d7260699"
+],
+".claude/docs/services/viola-state.md": [
+"faa87f1be6",
+"da39a3ee5e",
+"185c09f56a",
+"da39a3ee5e",
+"c70c16f6eb",
+"af30408d16",
+"da39a3ee5e",
+"3c9551b01a",
+"da39a3ee5e",
+"6a022646bc",
+"1bb9e2ec5d",
+"da39a3ee5e",
+"85d665a7e0",
+"7e4ae883cf",
+"da39a3ee5e",
+"9bf487aa85",
+"6541bd78fa",
+"da39a3ee5e",
+"f1232550fa",
+"d8c97b4aec",
+"77971f5759",
+"3142c5c402",
+"78953260a2",
+"cb67c5fa72",
+"9510ddaa49",
+"1bd1f77f87",
+"51382c35f2",
+"ad9165dae2",
+"cf659a1668",
+"41675d21ce",
+"da39a3ee5e",
+"8e80b82eb5",
+"7b7911bb47",
+"5f5a151615",
+"f00d807569",
+"da39a3ee5e",
+"a3498830ec",
+"61df4f3965",
+"413dc9ddc2",
+"e55773a901",
+"da39a3ee5e",
+"ceb8d5d66f",
+"53680bb02f",
+"dd76ede01f",
+"c88261a380",
+"e21d3ab5bc",
+"da39a3ee5e",
+"8fa6c6f1a6",
+"0980cc5d97"
+],
+".claude/docs/services/viola-ui.md": [
+"4250dced23",
+"da39a3ee5e",
+"61aab6ff37",
+"da39a3ee5e",
+"c70c16f6eb",
+"533004c011",
+"da39a3ee5e",
+"babb063caf",
+"561d9cb05f"
+],
+".claude/docs/services/viola.md": [
+"574e1983c4",
+"da39a3ee5e",
+"19613136e7",
+"da39a3ee5e",
+"c70c16f6eb",
+"649c10b1bf",
+"da39a3ee5e",
+"3c9551b01a",
+"da39a3ee5e",
+"6a022646bc",
+"dda31104a4",
+"da39a3ee5e",
+"85d665a7e0",
+"22baa30e00",
+"da39a3ee5e",
+"9bf487aa85",
+"5cbca4b60c",
+"da39a3ee5e",
+"f1232550fa",
+"0e4af36b16",
+"baea8da54e",
+"7d6e07cfae",
+"5370eb7ecb",
+"e760e9d751",
+"334579750e",
+"0ba950718e",
+"2b0f4cd731",
+"6595633c5f",
+"84793d77d4",
+"da39a3ee5e",
+"8e80b82eb5",
+"65d7707fe6",
+"bddd57958e",
+"3ef2f4effa",
+"fde733557d",
+"4c546a4e64",
+"4f530d58c9",
+"da39a3ee5e",
+"a3498830ec",
+"0be22e9fc3",
+"fc00613f21",
+"6d3b377edc",
+"3a8dbfb69b",
+"773d8c4af9",
+"a0a6b8f5bb",
+"34f34692d1",
+"13c5422837",
+"81de99186a",
+"be1363df8f",
+"da39a3ee5e",
+"ceb8d5d66f",
+"6e5ea9914e",
+"8b324f6bde",
+"35c325043e",
+"c4c6ceb0ac",
+"da39a3ee5e",
+"8fa6c6f1a6",
+"0d392808a4"
+]
+}
+},
+"architecture-3": {
+"leaves": [
+".claude/docs/stack.md",
+".claude/docs/workflow.md",
+".claude/rules/events.md"
+],
+"sources": [
+"architecture"
+],
+"files": [
+".andromeda/architecture.md",
+".andromeda/registries/architecture-contracts.toml",
+".andromeda/registries/contracts/architecture/build-system.md",
+".andromeda/registries/contracts/architecture/ci-cd-approach.md",
+".andromeda/registries/contracts/architecture/crate-dependency-direction.md",
+".andromeda/registries/contracts/architecture/deployment-model.md",
+".andromeda/registries/contracts/architecture/project-directory-structure.md"
+],
+"deltas": [
+"leaf-delta-architecture.diff"
+],
+"read": {
+".claude/docs/stack.md": [
+66,
+"5. Commit as `chore: bump {tool} to {version}`"
+],
+".claude/docs/workflow.md": [
+67,
+"This project uses a **reference-based** CLAUDE.md architecture — a thin CLAUDE.md index with deeper content in `.claude/docs/` (on-demand) and `.claude/rules/` (path-scoped). See `section-markers.md` in the Andromeda skills for the ownership convention between generated and user-curated sections."
+],
+".claude/rules/events.md": [
+40,
+"- 2026-10-16: A snapshot field that a reader expects once an event line is visible is written before that line is appended, never after: a reader that waits on the line and then reads the snapshot races a write made after it (the snapshot's `agent_session_id` and the `session-start` line)."
+]
+},
+"lines": {
+".claude/docs/stack.md": [
+"7b063a97f7",
+"da39a3ee5e",
+"fdccd51e78",
+"da39a3ee5e",
+"0f2c009d41",
+"da39a3ee5e",
+"6cacb4bccd",
+"91d220c646",
+"8043a88812",
+"c22fe5a992",
+"baeed700ff",
+"9981a1b9b3",
+"73ffd7c696",
+"060711df15",
+"083fb80684",
+"b3d44afdbb",
+"8a9b98630c",
+"bb94a0f6bb",
+"0f665b4141",
+"a5f0a01304",
+"5a5e9cea9e",
+"4e2fffffc8",
+"ce6d980710",
+"5b074b29cc",
+"016c1ae1b8",
+"429860b649",
+"6f5fc2cab5",
+"8c54d881c3",
+"776376ff61",
+"550b00adc0",
+"8c12395b94",
+"57730336eb",
+"da39a3ee5e",
+"ddd3c3be68",
+"da39a3ee5e",
+"c10a39c275",
+"d970a0411d",
+"f5952ea2e0",
+"0c103836b1",
+"da39a3ee5e",
+"27fa21b8a1",
+"fc58b8bd14",
+"f86a89a909",
+"da39a3ee5e",
+"45d09b1193",
+"6fe0ad6216",
+"83ebeaabfb",
+"da39a3ee5e",
+"7a2fb02f55",
+"149f304de4",
+"da39a3ee5e",
+"4b86742527",
+"bd59078512",
+"da39a3ee5e",
+"a20d05b737",
+"da39a3ee5e",
+"7096b7176c",
+"da39a3ee5e",
+"22c8166a31",
+"da39a3ee5e",
+"e6ef0969a2",
+"35ead5fd8f",
+"b017fe0a93",
+"94c647d9e7",
+"c567e28908",
+"9a76132c79"
+],
+".claude/docs/workflow.md": [
+"412a27c0d5",
+"da39a3ee5e",
+"d595fed2c0",
+"da39a3ee5e",
+"c0549fded5",
+"172a16d6b0",
+"cd68b126f2",
+"ed66125c72",
+"2e3730ce30",
+"58de0314c7",
+"55732cf17c",
+"da39a3ee5e",
+"1e9e60adc3",
+"da39a3ee5e",
+"908fd2e189",
+"da39a3ee5e",
+"e9bb7a71b4",
+"8f7a78a5fc",
+"8ea458a035",
+"d6da108d43",
+"dae7f434fb",
+"da39a3ee5e",
+"70654d6e84",
+"30253c9cf8",
+"472c934149",
+"027ee33c78",
+"c430abe23d",
+"befa5e31d3",
+"da39a3ee5e",
+"96f056b168",
+"da39a3ee5e",
+"fed1060e05",
+"da39a3ee5e",
+"5b15590b9b",
+"23bcfc12de",
+"da39a3ee5e",
+"208b81ab49",
+"48e7f774c8",
+"cc46179362",
+"da39a3ee5e",
+"6eb30c21be",
+"f9396644d4",
+"da39a3ee5e",
+"e6d108db4a",
+"da39a3ee5e",
+"7bcce8ea87",
+"9b09af278f",
+"75fb082633",
+"bcec76658f",
+"8d7acbc645",
+"da39a3ee5e",
+"56fc2d3968",
+"da39a3ee5e",
+"2190236cf6",
+"dc26c0ea35",
+"da39a3ee5e",
+"8115c65c28",
+"b64aa61edf",
+"da39a3ee5e",
+"1a8b0eaaa7",
+"4796357fde",
+"04f6fb08d6",
+"d8f0303b30",
+"da39a3ee5e",
+"ca70c12a84",
+"da39a3ee5e",
+"713ddfaffe"
+],
+".claude/rules/events.md": [
+"58b63e273b",
+"bd88ec853c",
+"416cc7b7e5",
+"f708932693",
+"e3c052012d",
+"6e39cfc1bb",
+"58b63e273b",
+"da39a3ee5e",
+"336af36258",
+"da39a3ee5e",
+"3ceddbe4a1",
+"da39a3ee5e",
+"6c49299ea0",
+"65135f0466",
+"832358c92f",
+"e1ffbc28b8",
+"15642fef08",
+"da39a3ee5e",
+"a47a1bcd19",
+"a2675c2ebb",
+"012242637d",
+"0e87ffda1f",
+"da39a3ee5e",
+"7932a9ac2c",
+"2c9557bb95",
+"d28be7b95d",
+"da39a3ee5e",
+"d8419f9b26",
+"9fc7381031",
+"a96540a320",
+"8ae16cfb7d",
+"da39a3ee5e",
+"9a0fece164",
+"f9cb99004b",
+"daa2c9a86a",
+"7f6723edb0",
+"da39a3ee5e",
+"9bd5a5d679",
+"962b3c14b5",
+"4bc58b590c"
+]
+}
+},
+"architecture+security-plan": {
+"leaves": [
+".claude/rules/api.md"
+],
+"sources": [
+"architecture",
+"security-plan"
+],
+"files": [
+".andromeda/architecture.md",
+".andromeda/registries/architecture-contracts.toml",
+".andromeda/registries/contracts/architecture/build-system.md",
+".andromeda/registries/contracts/architecture/ci-cd-approach.md",
+".andromeda/registries/contracts/architecture/crate-dependency-direction.md",
+".andromeda/registries/contracts/architecture/deployment-model.md",
+".andromeda/registries/contracts/architecture/project-directory-structure.md",
+".andromeda/security-plan.md"
+],
+"deltas": [
+"leaf-delta-architecture.diff",
+"leaf-delta-security-plan.diff"
+],
+"read": {
+".claude/rules/api.md": [
+42,
+"_This section is owned by `/wrap-session`. setup-project preserves content added here on re-run._"
+]
+},
+"lines": {
+".claude/rules/api.md": [
+"58b63e273b",
+"bd88ec853c",
+"b9839ee41b",
+"e567f516db",
+"a17905b75e",
+"1a3d395a04",
+"58b63e273b",
+"da39a3ee5e",
+"a5edda0fda",
+"da39a3ee5e",
+"ab7f7f521c",
+"da39a3ee5e",
+"a6d7cfb8cd",
+"a3f4ee8612",
+"744a6aee60",
+"da39a3ee5e",
+"36ed326a69",
+"cf9c761f47",
+"da39a3ee5e",
+"b6bf636a90",
+"8580e1d57d",
+"b3c77c7758",
+"88317083c7",
+"50d1d13009",
+"c2caef2b3d",
+"b3f110b181",
+"da39a3ee5e",
+"b5a2e804b1",
+"74bb11a95f",
+"9c6bbd8129",
+"1b949792f6",
+"c046c983dc",
+"da39a3ee5e",
+"d372008e65",
+"dfbb9757c2",
+"5078507b5f",
+"da39a3ee5e",
+"6564e245cc",
+"d30be46f4d",
+"da39a3ee5e",
+"9bd5a5d679",
+"962b3c14b5"
+]
+}
+},
+"masters": {
+"leaves": [
+"CLAUDE.md"
+],
+"sources": [
+"architecture",
+"security-plan",
+"design-system",
+"layout-templates",
+"test-plan",
+"obs-plan",
+"a11y-plan"
+],
+"files": [
+".andromeda/architecture.md",
+".andromeda/registries/architecture-contracts.toml",
+".andromeda/registries/contracts/architecture/build-system.md",
+".andromeda/registries/contracts/architecture/ci-cd-approach.md",
+".andromeda/registries/contracts/architecture/crate-dependency-direction.md",
+".andromeda/registries/contracts/architecture/deployment-model.md",
+".andromeda/registries/contracts/architecture/project-directory-structure.md",
+".andromeda/security-plan.md",
+".andromeda/design-system.md",
+".andromeda/layout-templates.md",
+".andromeda/test-plan.md",
+".andromeda/registries/test-plan-contracts.toml",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md",
+".andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md",
+".andromeda/registries/contracts/test-plan/log-format.md",
+".andromeda/registries/contracts/test-plan/pid-file.md",
+".andromeda/registries/contracts/test-plan/status-endpoint-shape.md",
+".andromeda/registries/contracts/test-plan/test-data-bootstrap.md",
+".andromeda/obs-plan.md",
+".andromeda/registries/obs-plan-contracts.toml",
+".andromeda/registries/contracts/obs-plan/bootstrap-phases-derive-for-route-setup-project.md",
+".andromeda/registries/contracts/obs-plan/heartbeat-ticks.md",
+".andromeda/registries/contracts/obs-plan/log-file-location.md",
+".andromeda/registries/contracts/obs-plan/log-format-json-schema.md",
+".andromeda/registries/contracts/obs-plan/logging-stack.md",
+".andromeda/registries/contracts/obs-plan/otel-sdk-init.md",
+".andromeda/registries/contracts/obs-plan/product-mode-normal-vs-inverted-self-observing.md",
+".andromeda/registries/contracts/obs-plan/service-identity.md",
+".andromeda/registries/contracts/obs-plan/snapshot-paste-to-ai-integration.md",
+".andromeda/registries/contracts/obs-plan/trace-context-propagation.md",
+".andromeda/a11y-plan.md",
+".andromeda/registries/a11y-plan-contracts.toml",
+".andromeda/registries/contracts/a11y-plan/a11y-testing-tool-pick.md",
+".andromeda/registries/contracts/a11y-plan/bootstrap-phases-derive-for-route-setup-project.md",
+".andromeda/registries/contracts/a11y-plan/ci-integration.md",
+".andromeda/registries/contracts/a11y-plan/contrast-verification-harness.md",
+".andromeda/registries/contracts/a11y-plan/focus-management-test-harness.md",
+".andromeda/registries/contracts/a11y-plan/keyboard-test-harness.md",
+".andromeda/registries/contracts/a11y-plan/screen-reader-test-pattern.md",
+".andromeda/registries/contracts/a11y-plan/structured-violation-json-schema.md",
+".andromeda/registries/contracts/a11y-plan/wcag-criteria-mapping.md"
+],
+"deltas": [
+"leaf-delta-architecture.diff",
+"leaf-delta-security-plan.diff",
+"leaf-delta-design-system.diff",
+"leaf-delta-layout-templates.diff",
+"leaf-delta-test-plan.diff",
+"leaf-delta-obs-plan.diff",
+"leaf-delta-a11y-plan.diff"
+],
+"read": {
+"CLAUDE.md": [
+128,
+"<!-- USER:session-learnings end -->"
+]
+},
+"lines": {
+"CLAUDE.md": [
+"2c11527327",
+"da39a3ee5e",
+"ac7cd0f1ca",
+"da39a3ee5e",
+"0ade3de42d",
+"ef0f52a471",
+"60bf0b0abf",
+"da39a3ee5e",
+"c99d3128bf",
+"da39a3ee5e",
+"00baf97656",
+"c496ed9ccb",
+"40126fc1c5",
+"154aaf3c92",
+"eb1859cbb4",
+"0f09e114dd",
+"da39a3ee5e",
+"ab9bf2dec0",
+"7862999491",
+"307e835a23",
+"cd32af7772",
+"2afb88077f",
+"0e09f146ec",
+"c5cb2df0b2",
+"fd50a8ef25",
+"3b74aaab5a",
+"4974917b61",
+"b351cc063b",
+"6428ed6152",
+"da39a3ee5e",
+"7a80dc049c",
+"022793ab50",
+"c6a16d3f2a",
+"f71c906a79",
+"9054b3061e",
+"f4c9576244",
+"545d411f20",
+"0a27b53a65",
+"cee6554ba4",
+"2e390fbfbc",
+"0ddfe28560",
+"cb68a44ae6",
+"448c43cd4d",
+"da39a3ee5e",
+"b77946ef92",
+"6241722c36",
+"ea1b11d47b",
+"8272d43233",
+"e59978ae7b",
+"30c2653ce9",
+"f162dcd0df",
+"1a15b52114",
+"a2ea165a6b",
+"0f388330be",
+"baf9c88a7d",
+"3857cf9e01",
+"5503cf4bc6",
+"2e34ffdf35",
+"297613944c",
+"8388ca9002",
+"37297c6967",
+"2bea7b3073",
+"c07871d7cd",
+"085c6af997",
+"783138d8f3",
+"444751b581",
+"da39a3ee5e",
+"a1ea5a8989",
+"5a043c7176",
+"3ccc9e25d4",
+"4deef9eff3",
+"1df0c26c43",
+"c99d5599cf",
+"53780cfe23",
+"67c3112214",
+"da39a3ee5e",
+"907236c8f3",
+"fb793cec58",
+"da39a3ee5e",
+"458937df33",
+"3aaa44b006",
+"f39296c4c4",
+"da39a3ee5e",
+"819ce5dd97",
+"da39a3ee5e",
+"7f92492164",
+"731dda7553",
+"da39a3ee5e",
+"1ab26704f1",
+"f0cc859a47",
+"2638c355dc",
+"da39a3ee5e",
+"0841362b74",
+"da39a3ee5e",
+"2194ca5db3",
+"a67a17604f",
+"b5f8d809fd",
+"f8cbc72892",
+"06c47fbcb3",
+"6727176b03",
+"8dcac46fda",
+"da39a3ee5e",
+"14a4ad642e",
+"92116d0ad9",
+"da39a3ee5e",
+"5513fd8429",
+"16e53c0f94",
+"da39a3ee5e",
+"18e60db170",
+"da39a3ee5e",
+"a4522b9352",
+"fe46b68080",
+"e94274e8a6",
+"da39a3ee5e",
+"e09cd87e6f",
+"584491caa5",
+"14a42888ce",
+"daec860fd3",
+"0e18540a95",
+"84710564df",
+"4bb9c9b73b",
+"0a5efdeb18",
+"41f5c6f8d1",
+"5f2b99f622",
+"cd1115b7c4",
+"60a52698a2",
+"2a35342ace",
+"1837202c42"
+]
+}
+},
+"architecture+design-system+layout-templates": {
+"leaves": [
+".claude/rules/frontend.md"
+],
+"sources": [
+"architecture",
+"design-system",
+"layout-templates"
+],
+"files": [
+".andromeda/architecture.md",
+".andromeda/registries/architecture-contracts.toml",
+".andromeda/registries/contracts/architecture/build-system.md",
+".andromeda/registries/contracts/architecture/ci-cd-approach.md",
+".andromeda/registries/contracts/architecture/crate-dependency-direction.md",
+".andromeda/registries/contracts/architecture/deployment-model.md",
+".andromeda/registries/contracts/architecture/project-directory-structure.md",
+".andromeda/design-system.md",
+".andromeda/layout-templates.md"
+],
+"deltas": [
+"leaf-delta-architecture.diff",
+"leaf-delta-design-system.diff",
+"leaf-delta-layout-templates.diff"
+],
+"read": {
+".claude/rules/frontend.md": [
+33,
+"_This section is owned by `/wrap-session`. setup-project preserves content added here on re-run._"
+]
+},
+"lines": {
+".claude/rules/frontend.md": [
+"58b63e273b",
+"bd88ec853c",
+"a727fe9f13",
+"1a3d395a04",
+"58b63e273b",
+"da39a3ee5e",
+"5f0a33d635",
+"da39a3ee5e",
+"7f13225a1f",
+"da39a3ee5e",
+"7f2c0da4e0",
+"c63eac1739",
+"da39a3ee5e",
+"eeb03a67c0",
+"13f0e02a4b",
+"1607a224d1",
+"206838a948",
+"11c4e6ea69",
+"da39a3ee5e",
+"95da526f88",
+"afeed07d74",
+"da39a3ee5e",
+"cda7981b68",
+"ea5795ec7a",
+"7d1b356e9b",
+"da39a3ee5e",
+"88f28d505c",
+"e3adc92c72",
+"b80ba55f04",
+"c1e011135a",
+"da39a3ee5e",
+"9bd5a5d679",
+"962b3c14b5"
+]
+}
+},
+"architecture+test-plan+obs-plan": {
+"leaves": [
+".claude/docs/commands.md"
+],
+"sources": [
+"architecture",
+"test-plan",
+"obs-plan"
+],
+"files": [
+".andromeda/architecture.md",
+".andromeda/registries/architecture-contracts.toml",
+".andromeda/registries/contracts/architecture/build-system.md",
+".andromeda/registries/contracts/architecture/ci-cd-approach.md",
+".andromeda/registries/contracts/architecture/crate-dependency-direction.md",
+".andromeda/registries/contracts/architecture/deployment-model.md",
+".andromeda/registries/contracts/architecture/project-directory-structure.md",
+".andromeda/test-plan.md",
+".andromeda/registries/test-plan-contracts.toml",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md",
+".andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md",
+".andromeda/registries/contracts/test-plan/log-format.md",
+".andromeda/registries/contracts/test-plan/pid-file.md",
+".andromeda/registries/contracts/test-plan/status-endpoint-shape.md",
+".andromeda/registries/contracts/test-plan/test-data-bootstrap.md",
+".andromeda/obs-plan.md",
+".andromeda/registries/obs-plan-contracts.toml",
+".andromeda/registries/contracts/obs-plan/bootstrap-phases-derive-for-route-setup-project.md",
+".andromeda/registries/contracts/obs-plan/heartbeat-ticks.md",
+".andromeda/registries/contracts/obs-plan/log-file-location.md",
+".andromeda/registries/contracts/obs-plan/log-format-json-schema.md",
+".andromeda/registries/contracts/obs-plan/logging-stack.md",
+".andromeda/registries/contracts/obs-plan/otel-sdk-init.md",
+".andromeda/registries/contracts/obs-plan/product-mode-normal-vs-inverted-self-observing.md",
+".andromeda/registries/contracts/obs-plan/service-identity.md",
+".andromeda/registries/contracts/obs-plan/snapshot-paste-to-ai-integration.md",
+".andromeda/registries/contracts/obs-plan/trace-context-propagation.md"
+],
+"deltas": [
+"leaf-delta-architecture.diff",
+"leaf-delta-test-plan.diff",
+"leaf-delta-obs-plan.diff"
+],
+"read": {
+".claude/docs/commands.md": [
+89,
+"- `scripts/agent-run.sh logs --instance <name> | jq -c 'select(.record.level==\"ERROR\")'` — errors for one instance"
+]
+},
+"lines": {
+".claude/docs/commands.md": [
+"48ef5ab20e",
+"da39a3ee5e",
+"3938018922",
+"da39a3ee5e",
+"a55232a2c6",
+"da39a3ee5e",
+"8443b75994",
+"2f4b35ddbf",
+"bf2aafce06",
+"037ed59fe2",
+"b0a3e05ed7",
+"ade8007cc5",
+"9781c5afe0",
+"7b7bf898ad",
+"d3975133da",
+"f6c556ea2f",
+"da39a3ee5e",
+"1c2ec40f61",
+"d155630baf",
+"d38e4305de",
+"07ee6edcaa",
+"71e2425ed8",
+"aa71e05b97",
+"9348f917f7",
+"da39a3ee5e",
+"3f90c799b3",
+"3fe17d94ec",
+"724fd2602a",
+"5f5620c730",
+"b62b90957f",
+"136f538430",
+"e0545b2df3",
+"bfc6d803e1",
+"da39a3ee5e",
+"07bdf06fa8",
+"b124bebf73",
+"bdb83721bd",
+"e2d9959b44",
+"8aa10c46aa",
+"c5495c18ea",
+"3fbda50c1e",
+"d29953daea",
+"a32c8cd23f",
+"28a9ca2d8c",
+"a4468bd4ca",
+"da39a3ee5e",
+"2b722b2d06",
+"0a1ae19011",
+"01fbdb49a8",
+"e0f41f0017",
+"53780cfe23",
+"3e650a39f8",
+"8429bc3af9",
+"433dbe5477",
+"ec95092b91",
+"bff7c4fa2f",
+"ed5d31eca5",
+"1ffddd71da",
+"35a039f565",
+"16f4089b6d",
+"f644988865",
+"47c071a96a",
+"da39a3ee5e",
+"28fe101bcf",
+"2664e542c7",
+"48baa78165",
+"55c7deebe0",
+"daee4334fb",
+"0e832605bc",
+"aeb6ea9ba8",
+"6d10248065",
+"da39a3ee5e",
+"0b4cb9caac",
+"1dd75181cc",
+"09957d7f26",
+"4723fe8fdb",
+"da39a3ee5e",
+"73afe3ab56",
+"0ea3b93ae3",
+"64736ff508",
+"da39a3ee5e",
+"1de9e236d9",
+"3926c5846b",
+"319ee47251",
+"da39a3ee5e",
+"8f2d9d234a",
+"5526dea3c8",
+"4b05fc84f8",
+"e98bc61474"
+]
+}
+},
+"security-plan": {
+"leaves": [
+".claude/docs/security-summary.md",
+".claude/rules/security.md"
+],
+"sources": [
+"security-plan"
+],
+"files": [
+".andromeda/security-plan.md"
+],
+"deltas": [
+"leaf-delta-security-plan.diff"
+],
+"read": {
+".claude/docs/security-summary.md": [
+77,
+"**Full plan:** `.andromeda/security-plan.md`."
+],
+".claude/rules/security.md": [
+44,
+"_This section is owned by `/wrap-session`. setup-project preserves content added here on re-run. See `section-markers.md` for the convention._"
+]
+},
+"lines": {
+".claude/docs/security-summary.md": [
+"a3ad9e9a9d",
+"da39a3ee5e",
+"7f80a68079",
+"da39a3ee5e",
+"4ed5be3a76",
+"da39a3ee5e",
+"2c959d9b64",
+"da39a3ee5e",
+"53f04336c1",
+"5ce766f1a8",
+"da39a3ee5e",
+"aedcf8b2ab",
+"da39a3ee5e",
+"9479299e42",
+"96e80555d7",
+"58502db2c5",
+"f974ecd6c7",
+"3629cbb5cf",
+"c0d848a2e0",
+"c49ad5c551",
+"da39a3ee5e",
+"685e407f48",
+"da39a3ee5e",
+"c32b8bb8a3",
+"91d220c646",
+"5b25f44265",
+"eb3b794c94",
+"e0ee53b5b3",
+"9e14bd4984",
+"da39a3ee5e",
+"2a3deedff6",
+"da39a3ee5e",
+"59698e4937",
+"7e2b0fa3df",
+"ae5095eb26",
+"92a95a62a0",
+"835ea27256",
+"00efb4f8bc",
+"da39a3ee5e",
+"3cc2c24fd3",
+"da39a3ee5e",
+"f5c6b651e0",
+"da39a3ee5e",
+"2d3481e1e9",
+"da39a3ee5e",
+"93032254d7",
+"56dbd11528",
+"517341e290",
+"da39a3ee5e",
+"9e984794b5",
+"da39a3ee5e",
+"24ae53f248",
+"da39a3ee5e",
+"70b333f26b",
+"da39a3ee5e",
+"073321ac4f",
+"da39a3ee5e",
+"c57515f1c4",
+"da39a3ee5e",
+"e67d253caa",
+"ac5b8f2789",
+"7135a233cd",
+"92bca5e931",
+"8ac86480cf",
+"3efcdf575f",
+"f69a5dd46e",
+"5760e07629",
+"56a5eecb13",
+"9729e90556",
+"1a7eb9cb4a",
+"e434e7f8a0",
+"e9114671f4",
+"39bea9d2fc",
+"da39a3ee5e",
+"58b63e273b",
+"da39a3ee5e",
+"7c141b9fe3"
+],
+".claude/rules/security.md": [
+"0565bd4818",
+"da39a3ee5e",
+"d8bd8e485e",
+"da39a3ee5e",
+"a2ff7aa6b5",
+"e7be872be6",
+"9149b77b5a",
+"da39a3ee5e",
+"4cd1e0bd80",
+"b549854ea2",
+"4dc0488e67",
+"59b9788556",
+"059eebd43d",
+"5abed7861f",
+"11ee7aaf78",
+"6817fe0452",
+"de7f1c80ff",
+"88efd01e45",
+"06698fd34a",
+"da39a3ee5e",
+"5cccf0824b",
+"c396d246eb",
+"a63551c0a3",
+"0c3a363cae",
+"444b15e9d5",
+"1bdfc56c3c",
+"ffd79ceec8",
+"2ae3775d88",
+"da39a3ee5e",
+"a525955563",
+"f78f2a6596",
+"75fe27193b",
+"0a14f1d61d",
+"5b49bf7d38",
+"38cb4fa866",
+"c82b4d7c0e",
+"f72f534e49",
+"da39a3ee5e",
+"5308756353",
+"bdc0eb5c20",
+"ef568b1c50",
+"da39a3ee5e",
+"9bd5a5d679",
+"fa47a4e8fa"
+]
+}
+},
+"security-plan+obs-plan": {
+"leaves": [
+".claude/rules/ci.md"
+],
+"sources": [
+"security-plan",
+"obs-plan"
+],
+"files": [
+".andromeda/security-plan.md",
+".andromeda/obs-plan.md",
+".andromeda/registries/obs-plan-contracts.toml",
+".andromeda/registries/contracts/obs-plan/bootstrap-phases-derive-for-route-setup-project.md",
+".andromeda/registries/contracts/obs-plan/heartbeat-ticks.md",
+".andromeda/registries/contracts/obs-plan/log-file-location.md",
+".andromeda/registries/contracts/obs-plan/log-format-json-schema.md",
+".andromeda/registries/contracts/obs-plan/logging-stack.md",
+".andromeda/registries/contracts/obs-plan/otel-sdk-init.md",
+".andromeda/registries/contracts/obs-plan/product-mode-normal-vs-inverted-self-observing.md",
+".andromeda/registries/contracts/obs-plan/service-identity.md",
+".andromeda/registries/contracts/obs-plan/snapshot-paste-to-ai-integration.md",
+".andromeda/registries/contracts/obs-plan/trace-context-propagation.md"
+],
+"deltas": [
+"leaf-delta-security-plan.diff",
+"leaf-delta-obs-plan.diff"
+],
+"read": {
+".claude/rules/ci.md": [
+35,
+"- 2026-10-13: A CI job that reads `cancelled` with no steps and no runner name never ran: read its cause from the check run's annotations (`gh api …/check-runs/<job id>/annotations`, e.g. \"not acquired by Runner of type hosted\"), since its log download answers 404, and re-run only that job (`gh run rerun <run> --failed`) to measure the leg."
+]
+},
+"lines": {
+".claude/rules/ci.md": [
+"58b63e273b",
+"bd88ec853c",
+"f538cfa75e",
+"58b63e273b",
+"da39a3ee5e",
+"d56c1bcd6e",
+"da39a3ee5e",
+"ab9066e4a8",
+"da39a3ee5e",
+"a8db42e018",
+"4a6330d7c8",
+"c656a115f6",
+"e0128f8a39",
+"da39a3ee5e",
+"ab0e8b4915",
+"da39a3ee5e",
+"26c99b7803",
+"513ce546d1",
+"96f3619e57",
+"3739ed9662",
+"39ce79b9ca",
+"b6233d67c3",
+"632de2fffb",
+"a718f45e79",
+"da39a3ee5e",
+"3560951e39",
+"da39a3ee5e",
+"9bd5a5d679",
+"962b3c14b5",
+"836c300500",
+"9037d0f93d",
+"45030d8bc8",
+"ccc372f920",
+"2b41494503",
+"66158acad7"
+]
+}
+},
+"design-system+layout-templates": {
+"leaves": [
+".claude/docs/design-summary.md"
+],
+"sources": [
+"design-system",
+"layout-templates"
+],
+"files": [
+".andromeda/design-system.md",
+".andromeda/layout-templates.md"
+],
+"deltas": [
+"leaf-delta-design-system.diff",
+"leaf-delta-layout-templates.diff"
+],
+"read": {
+".claude/docs/design-summary.md": [
+73,
+"**Full plans:** `.andromeda/design-system.md` + `.andromeda/layout-templates.md`."
+]
+},
+"lines": {
+".claude/docs/design-summary.md": [
+"d5e6a64102",
+"da39a3ee5e",
+"041dd0a6dc",
+"da39a3ee5e",
+"0a6577b4d0",
+"da39a3ee5e",
+"d8bac5fb29",
+"da39a3ee5e",
+"b6a43b978c",
+"da39a3ee5e",
+"a86b0395bc",
+"da39a3ee5e",
+"7f86a230cf",
+"da39a3ee5e",
+"6c85ff55e6",
+"da39a3ee5e",
+"44ab154d1a",
+"91d220c646",
+"c09852cbf3",
+"5e527a1cb5",
+"b7588cd2ea",
+"c76dbcb92f",
+"bec06c5b4a",
+"32160490c9",
+"4492c9eb14",
+"20318ebfa3",
+"da39a3ee5e",
+"46ba9786ff",
+"da39a3ee5e",
+"18141dff2e",
+"da39a3ee5e",
+"785ecb7e6c",
+"133c34b933",
+"7ab7e32e93",
+"da39a3ee5e",
+"3a32f835de",
+"da39a3ee5e",
+"a500aca7c2",
+"da39a3ee5e",
+"b31238375f",
+"da39a3ee5e",
+"4c17679827",
+"da39a3ee5e",
+"d6efc47af0",
+"72e7f0e1e2",
+"da39a3ee5e",
+"e994dcf47d",
+"da39a3ee5e",
+"f58db12d14",
+"a0e9b6c4fe",
+"da39a3ee5e",
+"4213f95d01",
+"da39a3ee5e",
+"ea2cb17437",
+"9bcebeb76f",
+"352dfa3704",
+"dfc9dc935b",
+"f5be3bc1bf",
+"f9bee46455",
+"da39a3ee5e",
+"0abed3a4e1",
+"da39a3ee5e",
+"5202dd2edf",
+"ab6f93251e",
+"d035d4244d",
+"c2000cbc06",
+"a62ec2fc4f",
+"9b80e58933",
+"7d2b0753b0",
+"da39a3ee5e",
+"58b63e273b",
+"da39a3ee5e",
+"dad07d8ec7"
+]
+}
+},
+"test-plan": {
+"leaves": [
+".claude/docs/tests-summary.md",
+".claude/rules/testing.md",
+".claude/rules/verification-harness.md"
+],
+"sources": [
+"test-plan"
+],
+"files": [
+".andromeda/test-plan.md",
+".andromeda/registries/test-plan-contracts.toml",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md",
+".andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md",
+".andromeda/registries/contracts/test-plan/log-format.md",
+".andromeda/registries/contracts/test-plan/pid-file.md",
+".andromeda/registries/contracts/test-plan/status-endpoint-shape.md",
+".andromeda/registries/contracts/test-plan/test-data-bootstrap.md"
+],
+"deltas": [
+"leaf-delta-test-plan.diff"
+],
+"read": {
+".claude/docs/tests-summary.md": [
+65,
+"**Full plan:** `.andromeda/test-plan.md`. Path-scoped rules: `.claude/rules/testing.md`, `.claude/rules/verification-harness.md`."
+],
+".claude/rules/testing.md": [
+102,
+"- 2026-10-20: A probe word the right implementation also writes is no oracle: the harness's `run --unit` document always carries the doctest suite object with `passed 0`, so an atom `lacks \"passed\":0` can never pass — assert on a token only a wrong run prints."
+],
+".claude/rules/verification-harness.md": [
+71,
+"- 2026-10-14: A side effect added to a fake-agent turn (a spawned command, a replayed hook) goes after that turn's screen write, never between its Stop and the screen it draws: while it runs the earlier input box stays on screen, and a gate wait on a slower runner reads it as settled and types too early."
+]
+},
+"lines": {
+".claude/docs/tests-summary.md": [
+"eec61dba12",
+"da39a3ee5e",
+"ac7f241e99",
+"da39a3ee5e",
+"52b0a40d9f",
+"da39a3ee5e",
+"19670e2aae",
+"da39a3ee5e",
+"80492fc470",
+"da39a3ee5e",
+"2f6f1c5835",
+"da39a3ee5e",
+"5e73481cb3",
+"da39a3ee5e",
+"7a4481c68d",
+"2b6686d807",
+"cc89e2c32b",
+"9ba0099203",
+"aa22bcda73",
+"78f68d55ab",
+"ac4bb8e24e",
+"da39a3ee5e",
+"de16f6951b",
+"da39a3ee5e",
+"eb62ec0d92",
+"828003a7c2",
+"8b6db8933d",
+"2a4ca0ac99",
+"495aa9cddf",
+"f05b319763",
+"66aeec9945",
+"f9e0ae70a9",
+"e05846a77f",
+"da39a3ee5e",
+"966965ad9d",
+"da39a3ee5e",
+"80c6d1fa18",
+"91d220c646",
+"50db5a9e81",
+"3f7f30ec29",
+"0655dda22f",
+"8c72ea8fd8",
+"72e528fa58",
+"24507f9251",
+"cd9ad41edf",
+"da39a3ee5e",
+"2a3deedff6",
+"da39a3ee5e",
+"917cd759e5",
+"5abc02cc3f",
+"cd50420f10",
+"8fd976f043",
+"795ecd2ab4",
+"da39a3ee5e",
+"c57515f1c4",
+"da39a3ee5e",
+"9ed9fe69ed",
+"e172576646",
+"6683dbf879",
+"45dca2cd01",
+"c54e4e40a2",
+"da39a3ee5e",
+"58b63e273b",
+"da39a3ee5e",
+"0a9f1bcd4e"
+],
+".claude/rules/testing.md": [
+"58b63e273b",
+"bd88ec853c",
+"0d8f9e0a30",
+"b418716dc1",
+"1adaf11bf0",
+"3bb47dfa55",
+"584ef409dd",
+"4522ae9a3f",
+"50ea3318f4",
+"f72ff09814",
+"58b63e273b",
+"da39a3ee5e",
+"a8b9620b57",
+"da39a3ee5e",
+"47fce3bd21",
+"da39a3ee5e",
+"bb005d940d",
+"539423dc9d",
+"997cc9cb6f",
+"c45c11f8ed",
+"329720bd48",
+"da39a3ee5e",
+"50fb6f8ef8",
+"1d337f745c",
+"712ee96211",
+"da39a3ee5e",
+"3038c43a5f",
+"f9899fd9a7",
+"0dde47e9cd",
+"8f0aed3265",
+"0861ddbdb0",
+"da39a3ee5e",
+"113dff13f8",
+"43fbac784d",
+"e46811cbb5",
+"53f0da6842",
+"da39a3ee5e",
+"43b1ef98e7",
+"9ab3e192a9",
+"a18cb0d468",
+"28a6f0f4fa",
+"13709607cc",
+"da39a3ee5e",
+"1125cdb35f",
+"dff72a24fa",
+"d2dd6a9bec",
+"91a4df55ea",
+"da39a3ee5e",
+"9bd5a5d679",
+"962b3c14b5",
+"d9b02d540a",
+"be5f46ae71",
+"9062924fc9",
+"18df3d3730",
+"5501dd275a",
+"4fba3b09f6",
+"268e5efa79",
+"6d7fb71892",
+"77e89d08eb",
+"8f2aef1c3f",
+"7142919aea",
+"4681cb1235",
+"f46eba9f8c",
+"0cf2268962",
+"64c9e0303d",
+"e6e1f6ac73",
+"306fd4828c",
+"e2b459583b",
+"1272c712cf",
+"9b8b5fe50b",
+"78547d1962",
+"3340eae07d",
+"46e4d48dde",
+"1f10c82b86",
+"f157503c15",
+"2c7f93da4d",
+"3472103dcb",
+"21c1e8cd24",
+"97955b31ab",
+"ce3c482b04",
+"f38f03faba",
+"99d9601b3c",
+"8720775015",
+"2032aed70a",
+"1fde94db4b",
+"d36e66082b",
+"6dcadeba29",
+"da1f1aa8f1",
+"877444c489",
+"41df42af17",
+"f21992368d",
+"f841c003c8",
+"5811d59cde",
+"8e27b9e5c8",
+"638958f403",
+"94d6cd48dd",
+"b878077068",
+"e2f95a7c61",
+"b6f0b7235f",
+"13a0850eb3",
+"a82498d640",
+"36239b7e2e"
+],
+".claude/rules/verification-harness.md": [
+"58b63e273b",
+"bd88ec853c",
+"ae8548ba2a",
+"5988c4ba9b",
+"eb71c3c1db",
+"f546fc2d78",
+"80281d430b",
+"5c542cb618",
+"58b63e273b",
+"da39a3ee5e",
+"23d18bc4ad",
+"da39a3ee5e",
+"e09f0716d0",
+"da39a3ee5e",
+"a8db42e018",
+"3d95387f8b",
+"5ca46cae5e",
+"da39a3ee5e",
+"bd3e400630",
+"da39a3ee5e",
+"ae1403a451",
+"6ef0dd350f",
+"fe1c1330f5",
+"32b0af0f79",
+"b3eac52450",
+"da39a3ee5e",
+"fcc364807b",
+"cd1500ac64",
+"da00427cc5",
+"111b6e97b6",
+"da39a3ee5e",
+"d72875e4e9",
+"e0fc03a1be",
+"e58216634d",
+"a133bfd5ae",
+"da39a3ee5e",
+"db6264ce7c",
+"01349a9aa0",
+"32d3e3f381",
+"0209628817",
+"8c4c95b1de",
+"cb6f9d8a6c",
+"76aba6f346",
+"a587df1bfe",
+"ba238c503c",
+"da39a3ee5e",
+"0afa9288e3",
+"eee1683b59",
+"da39a3ee5e",
+"8e5a8d46cb",
+"e0a3ff583b",
+"da39a3ee5e",
+"9bd5a5d679",
+"962b3c14b5",
+"904dfb89ff",
+"7d0557e671",
+"c91ecf2a29",
+"be542db44f",
+"dfd74fc27a",
+"020b452d90",
+"cd70c542fe",
+"1b7de4ac34",
+"2a16fa8864",
+"e798dcff4a",
+"195c6521c5",
+"bc19437e37",
+"1a9ee2217d",
+"8b758c7fa3",
+"672a1d15ab",
+"08f3582cf6",
+"55001ae9e2"
+]
+}
+},
+"test-plan+obs-plan": {
+"leaves": [
+".claude/rules/observability.md"
+],
+"sources": [
+"test-plan",
+"obs-plan"
+],
+"files": [
+".andromeda/test-plan.md",
+".andromeda/registries/test-plan-contracts.toml",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md",
+".andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md",
+".andromeda/registries/contracts/test-plan/log-format.md",
+".andromeda/registries/contracts/test-plan/pid-file.md",
+".andromeda/registries/contracts/test-plan/status-endpoint-shape.md",
+".andromeda/registries/contracts/test-plan/test-data-bootstrap.md",
+".andromeda/obs-plan.md",
+".andromeda/registries/obs-plan-contracts.toml",
+".andromeda/registries/contracts/obs-plan/bootstrap-phases-derive-for-route-setup-project.md",
+".andromeda/registries/contracts/obs-plan/heartbeat-ticks.md",
+".andromeda/registries/contracts/obs-plan/log-file-location.md",
+".andromeda/registries/contracts/obs-plan/log-format-json-schema.md",
+".andromeda/registries/contracts/obs-plan/logging-stack.md",
+".andromeda/registries/contracts/obs-plan/otel-sdk-init.md",
+".andromeda/registries/contracts/obs-plan/product-mode-normal-vs-inverted-self-observing.md",
+".andromeda/registries/contracts/obs-plan/service-identity.md",
+".andromeda/registries/contracts/obs-plan/snapshot-paste-to-ai-integration.md",
+".andromeda/registries/contracts/obs-plan/trace-context-propagation.md"
+],
+"deltas": [
+"leaf-delta-test-plan.diff",
+"leaf-delta-obs-plan.diff"
+],
+"read": {
+".claude/rules/observability.md": [
+46,
+"- 2026-09-24: `obs_event!` expands to `::tracing::event!`, so a raw-log census greps `tracing::(info|warn|error|debug|trace)!` — a bare `tracing::` grep reads the sanctioned macro in `viola_core::obs` as a raw call."
+]
+},
+"lines": {
+".claude/rules/observability.md": [
+"58b63e273b",
+"bd88ec853c",
+"5dde914b26",
+"81f863828c",
+"cceaf84b32",
+"7b3c9412f6",
+"58b63e273b",
+"da39a3ee5e",
+"0f9484c290",
+"da39a3ee5e",
+"96f8906948",
+"da39a3ee5e",
+"4eaf6f725f",
+"c7bb911f59",
+"74edc0bd8a",
+"5e49126fa4",
+"da39a3ee5e",
+"55148775aa",
+"0541f1ec36",
+"7d62d6c0cc",
+"1dee028ef7",
+"da39a3ee5e",
+"bd34b71fc9",
+"e77ecdb721",
+"00a763216d",
+"cf495421b2",
+"12a818c7b8",
+"0a0e46f347",
+"da39a3ee5e",
+"19b486ba9d",
+"affb57cc09",
+"6905b7d635",
+"da39a3ee5e",
+"3ef0cef60c",
+"74770b1809",
+"30633f8db3",
+"15a1f41cb5",
+"0f85946d63",
+"b2fad381cb",
+"297067f066",
+"fac3779acf",
+"9184a3a039",
+"da39a3ee5e",
+"9bd5a5d679",
+"962b3c14b5",
+"2a8838492e"
+]
+}
+},
+"obs-plan": {
+"leaves": [
+".claude/docs/obs-summary.md"
+],
+"sources": [
+"obs-plan"
+],
+"files": [
+".andromeda/obs-plan.md",
+".andromeda/registries/obs-plan-contracts.toml",
+".andromeda/registries/contracts/obs-plan/bootstrap-phases-derive-for-route-setup-project.md",
+".andromeda/registries/contracts/obs-plan/heartbeat-ticks.md",
+".andromeda/registries/contracts/obs-plan/log-file-location.md",
+".andromeda/registries/contracts/obs-plan/log-format-json-schema.md",
+".andromeda/registries/contracts/obs-plan/logging-stack.md",
+".andromeda/registries/contracts/obs-plan/otel-sdk-init.md",
+".andromeda/registries/contracts/obs-plan/product-mode-normal-vs-inverted-self-observing.md",
+".andromeda/registries/contracts/obs-plan/service-identity.md",
+".andromeda/registries/contracts/obs-plan/snapshot-paste-to-ai-integration.md",
+".andromeda/registries/contracts/obs-plan/trace-context-propagation.md"
+],
+"deltas": [
+"leaf-delta-obs-plan.diff"
+],
+"read": {
+".claude/docs/obs-summary.md": [
+76,
+"**Full plan:** `.andromeda/obs-plan.md`. Path-scoped rules: `.claude/rules/observability.md`."
+]
+},
+"lines": {
+".claude/docs/obs-summary.md": [
+"ed9ca5612e",
+"da39a3ee5e",
+"9db73f26b5",
+"da39a3ee5e",
+"8c7658064a",
+"da39a3ee5e",
+"86e2b58ca1",
+"da39a3ee5e",
+"2c61f222ec",
+"da39a3ee5e",
+"2f6f1c5835",
+"da39a3ee5e",
+"a09cb02005",
+"da39a3ee5e",
+"7d62df0a4b",
+"9da047f883",
+"a8dead169a",
+"1b5802cd1e",
+"86dfa2f4d8",
+"d9367c1c63",
+"427cecb02a",
+"f82292abd7",
+"da39a3ee5e",
+"90fbb9edd8",
+"da39a3ee5e",
+"27d10d8d62",
+"91d220c646",
+"bf33044a26",
+"75b4699129",
+"7ac47cf1e0",
+"ffe634bb10",
+"08de045a8d",
+"da39a3ee5e",
+"428867f57b",
+"da39a3ee5e",
+"c966f3e7cc",
+"1e6bc6203c",
+"d8b29ccb27",
+"da39a3ee5e",
+"23bc84a959",
+"da39a3ee5e",
+"5cc02f8ba3",
+"da39a3ee5e",
+"303bdbaaf1",
+"da39a3ee5e",
+"09a1ad5571",
+"61b51e7a3a",
+"0478117d1e",
+"c25e814158",
+"17bb8ea540",
+"32660bf56c",
+"da39a3ee5e",
+"2a3deedff6",
+"da39a3ee5e",
+"3e487b4690",
+"d4ae6c2475",
+"7b99b573d9",
+"0761ec9b23",
+"2693792a22",
+"da39a3ee5e",
+"c57515f1c4",
+"da39a3ee5e",
+"de800f2773",
+"58d9e694e2",
+"ca7a9303a2",
+"f41b2f0af6",
+"7483683e72",
+"1d22bd2c22",
+"eb31af49c4",
+"c53102278f",
+"9a427358d7",
+"b0c6882cee",
+"da39a3ee5e",
+"58b63e273b",
+"da39a3ee5e",
+"e36c3c8307"
+]
+}
+},
+"a11y-plan": {
+"leaves": [
+".claude/docs/a11y-summary.md",
+".claude/rules/a11y.md"
+],
+"sources": [
+"a11y-plan"
+],
+"files": [
+".andromeda/a11y-plan.md",
+".andromeda/registries/a11y-plan-contracts.toml",
+".andromeda/registries/contracts/a11y-plan/a11y-testing-tool-pick.md",
+".andromeda/registries/contracts/a11y-plan/bootstrap-phases-derive-for-route-setup-project.md",
+".andromeda/registries/contracts/a11y-plan/ci-integration.md",
+".andromeda/registries/contracts/a11y-plan/contrast-verification-harness.md",
+".andromeda/registries/contracts/a11y-plan/focus-management-test-harness.md",
+".andromeda/registries/contracts/a11y-plan/keyboard-test-harness.md",
+".andromeda/registries/contracts/a11y-plan/screen-reader-test-pattern.md",
+".andromeda/registries/contracts/a11y-plan/structured-violation-json-schema.md",
+".andromeda/registries/contracts/a11y-plan/wcag-criteria-mapping.md"
+],
+"deltas": [
+"leaf-delta-a11y-plan.diff"
+],
+"read": {
+".claude/docs/a11y-summary.md": [
+58,
+"**Full plan:** `.andromeda/a11y-plan.md`. Path-scoped rules: `.claude/rules/a11y.md`."
+],
+".claude/rules/a11y.md": [
+29,
+"_This section is owned by `/wrap-session`. setup-project preserves content added here on re-run._"
+]
+},
+"lines": {
+".claude/docs/a11y-summary.md": [
+"bdfe548f91",
+"da39a3ee5e",
+"c73dea7b3a",
+"da39a3ee5e",
+"0a8f1bea0f",
+"da39a3ee5e",
+"50cef0ed12",
+"da39a3ee5e",
+"ebef86e8de",
+"da39a3ee5e",
+"2f6f1c5835",
+"da39a3ee5e",
+"8a9ff18ac6",
+"da39a3ee5e",
+"fa2776e3e1",
+"9c172e4cc5",
+"3204454c2d",
+"efb54c607a",
+"21031aaa6d",
+"5b031d18c6",
+"610175b429",
+"f0134157b1",
+"da39a3ee5e",
+"92972da9c0",
+"da39a3ee5e",
+"b5ce5208ad",
+"55281b5d3d",
+"4d1a572061",
+"4ef9346c45",
+"da39a3ee5e",
+"7abc273896",
+"da39a3ee5e",
+"59719826d2",
+"b393d7af89",
+"de3fb1da45",
+"85ddee2d1e",
+"a10f7bf0c9",
+"6a79dc4380",
+"9650ce4634",
+"da39a3ee5e",
+"2a3deedff6",
+"da39a3ee5e",
+"3870b4e4ec",
+"b73febfd76",
+"ae57a31701",
+"d590bd4605",
+"d73a0ced2c",
+"da39a3ee5e",
+"c57515f1c4",
+"da39a3ee5e",
+"9d47829ee1",
+"c37747ea61",
+"ab4664ceee",
+"c8dd3225b4",
+"da39a3ee5e",
+"58b63e273b",
+"da39a3ee5e",
+"475cb47b6c"
+],
+".claude/rules/a11y.md": [
+"58b63e273b",
+"bd88ec853c",
+"a727fe9f13",
+"2fecd5c7b8",
+"2491918f9a",
+"5774edbbed",
+"9cf3183832",
+"58b63e273b",
+"da39a3ee5e",
+"e68e03d560",
+"da39a3ee5e",
+"186e8f41e6",
+"da39a3ee5e",
+"98260bee44",
+"039c8e9873",
+"da39a3ee5e",
+"c22470a3e9",
+"951af5b7af",
+"da39a3ee5e",
+"5917867f83",
+"fadbb0d3b6",
+"da39a3ee5e",
+"e1e9771b93",
+"07da50bd12",
+"3c5c673723",
+"55bd67d307",
+"da39a3ee5e",
+"9bd5a5d679",
+"962b3c14b5"
+]
+}
+}
+},
+"unmapped": [
+".claude/rules/host-linux.md",
+".claude/rules/testing-src.md"
+]
+}
+}
+},
+{
+"tool": "cascade",
+"v": "1.15",
+"sha8": "b3cee12c",
+"ts": "2026-10-20T07:47:54Z",
+"argv": [
+"leaves",
+"--apply",
+".andromeda/runs/2026-10-20T06-58-31-wrap/leaf-a11y-plan.md",
+".andromeda/runs/2026-10-20T06-58-31-wrap/leaf-architecture-1.md",
+".andromeda/runs/2026-10-20T06-58-31-wrap/leaf-architecture-2.md",
+".andromeda/runs/2026-10-20T06-58-31-wrap/leaf-architecture-3.md",
+".andromeda/runs/2026-10-20T06-58-31-wrap/leaf-architecture+design-system+layout-templates.md",
+".andromeda/runs/2026-10-20T06-58-31-wrap/leaf-architecture+security-plan.md",
+".andromeda/runs/2026-10-20T06-58-31-wrap/leaf-architecture+test-plan+obs-plan.md",
+".andromeda/runs/2026-10-20T06-58-31-wrap/leaf-design-system+layout-templates.md",
+".andromeda/runs/2026-10-20T06-58-31-wrap/leaf-masters.md",
+".andromeda/runs/2026-10-20T06-58-31-wrap/leaf-obs-plan.md",
+".andromeda/runs/2026-10-20T06-58-31-wrap/leaf-security-plan.md",
+".andromeda/runs/2026-10-20T06-58-31-wrap/leaf-security-plan+obs-plan.md",
+".andromeda/runs/2026-10-20T06-58-31-wrap/leaf-test-plan.md",
+".andromeda/runs/2026-10-20T06-58-31-wrap/leaf-test-plan+obs-plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-20T06-58-31-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"file leaf-a11y-plan.md · group a11y-plan · blocks 1 · receipts ok",
+"file leaf-architecture-1.md · group architecture-1 · blocks 0 · receipts ok",
+"file leaf-architecture-2.md · group architecture-2 · blocks 0 · receipts ok",
+"file leaf-architecture-3.md · group architecture-3 · blocks 0 · receipts ok",
+"file leaf-architecture+design-system+layout-templates.md · group architecture+design-system+layout-templates · blocks 1…",
+"file leaf-architecture+security-plan.md · group architecture+security-plan · blocks 0 · receipts ok",
+"file leaf-architecture+test-plan+obs-plan.md · group architecture+test-plan+obs-plan · blocks 0 · receipts ok",
+"file leaf-design-system+layout-templates.md · group design-system+layout-templates · blocks 1 · receipts ok",
+"file leaf-masters.md · group masters · blocks 0 · receipts ok",
+"file leaf-obs-plan.md · group obs-plan · blocks 0 · receipts ok",
+"file leaf-security-plan.md · group security-plan · blocks 3 · receipts ok",
+"file leaf-security-plan+obs-plan.md · group security-plan+obs-plan · blocks 0 · receipts ok",
+"file leaf-test-plan.md · group test-plan · blocks 0 · receipts ok",
+"file leaf-test-plan+obs-plan.md · group test-plan+obs-plan · blocks 2 · receipts ok",
+"applied · leaf-a11y-plan.md/.claude/docs/a11y-summary.md:29#1 · stale",
+"applied · leaf-architecture+design-system+layout-templates.md/.claude/rules/frontend.md:29#1 · stale",
+"applied · leaf-design-system+layout-templates.md/.claude/docs/design-summary.md:50#1 · stale",
+"applied · leaf-security-plan.md/.claude/docs/security-summary.md:65#1 · retired",
+"applied · leaf-security-plan.md/.claude/docs/security-summary.md:72#1 · retired",
+"applied · leaf-security-plan.md/.claude/rules/security.md:26#1 · retired",
+"applied · leaf-test-plan+obs-plan.md/.claude/rules/observability.md:40#1 · retired",
+"applied · leaf-test-plan+obs-plan.md/.claude/rules/observability.md:40#2 · retired",
+"dry-run: would write .claude/docs/a11y-summary.md: 1 finding(s)",
+"dry-run: would write .claude/rules/frontend.md: 1 finding(s)",
+"dry-run: would write .claude/docs/design-summary.md: 1 finding(s)",
+"dry-run: would write .claude/docs/security-summary.md: 2 finding(s)",
+"dry-run: would write .claude/rules/security.md: 1 finding(s)",
+"dry-run: would write .claude/rules/observability.md: 2 finding(s)",
+"total · blocks 8 · applied 8 — dry-run, nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"apply": [
+{
+"id": "leaf-a11y-plan.md/.claude/docs/a11y-summary.md:29#1",
+"status": "applied",
+"class": "stale"
+},
+{
+"id": "leaf-architecture+design-system+layout-templates.md/.claude/rules/frontend.md:29#1",
+"status": "applied",
+"class": "stale"
+},
+{
+"id": "leaf-design-system+layout-templates.md/.claude/docs/design-summary.md:50#1",
+"status": "applied",
+"class": "stale"
+},
+{
+"id": "leaf-security-plan.md/.claude/docs/security-summary.md:65#1",
+"status": "applied",
+"class": "retired"
+},
+{
+"id": "leaf-security-plan.md/.claude/docs/security-summary.md:72#1",
+"status": "applied",
+"class": "retired"
+},
+{
+"id": "leaf-security-plan.md/.claude/rules/security.md:26#1",
+"status": "applied",
+"class": "retired"
+},
+{
+"id": "leaf-test-plan+obs-plan.md/.claude/rules/observability.md:40#1",
+"status": "applied",
+"class": "retired"
+},
+{
+"id": "leaf-test-plan+obs-plan.md/.claude/rules/observability.md:40#2",
+"status": "applied",
+"class": "retired"
+}
+],
+"applied": false,
+"files": {
+"leaf-a11y-plan.md": "6ba991894d",
+"leaf-architecture-1.md": "f178656551",
+"leaf-architecture-2.md": "a6413f972a",
+"leaf-architecture-3.md": "abbb233189",
+"leaf-architecture+design-system+layout-templates.md": "b51e1214fe",
+"leaf-architecture+security-plan.md": "d48480d40a",
+"leaf-architecture+test-plan+obs-plan.md": "200ae6d45a",
+"leaf-design-system+layout-templates.md": "26b1dcbfb0",
+"leaf-masters.md": "75c7101c5a",
+"leaf-obs-plan.md": "a868398300",
+"leaf-security-plan.md": "5de895edcb",
+"leaf-security-plan+obs-plan.md": "baf8bd441b",
+"leaf-test-plan.md": "261c222f2b",
+"leaf-test-plan+obs-plan.md": "77d7750d6f"
+}
+}
+},
+{
+"tool": "cascade",
+"v": "1.15",
+"sha8": "b3cee12c",
+"ts": "2026-10-20T07:48:10Z",
+"argv": [
+"leaves",
+"--apply",
+".andromeda/runs/2026-10-20T06-58-31-wrap/leaf-a11y-plan.md",
+".andromeda/runs/2026-10-20T06-58-31-wrap/leaf-architecture-1.md",
+".andromeda/runs/2026-10-20T06-58-31-wrap/leaf-architecture-2.md",
+".andromeda/runs/2026-10-20T06-58-31-wrap/leaf-architecture-3.md",
+".andromeda/runs/2026-10-20T06-58-31-wrap/leaf-architecture+design-system+layout-templates.md",
+".andromeda/runs/2026-10-20T06-58-31-wrap/leaf-architecture+security-plan.md",
+".andromeda/runs/2026-10-20T06-58-31-wrap/leaf-architecture+test-plan+obs-plan.md",
+".andromeda/runs/2026-10-20T06-58-31-wrap/leaf-design-system+layout-templates.md",
+".andromeda/runs/2026-10-20T06-58-31-wrap/leaf-masters.md",
+".andromeda/runs/2026-10-20T06-58-31-wrap/leaf-obs-plan.md",
+".andromeda/runs/2026-10-20T06-58-31-wrap/leaf-security-plan.md",
+".andromeda/runs/2026-10-20T06-58-31-wrap/leaf-security-plan+obs-plan.md",
+".andromeda/runs/2026-10-20T06-58-31-wrap/leaf-test-plan.md",
+".andromeda/runs/2026-10-20T06-58-31-wrap/leaf-test-plan+obs-plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-20T06-58-31-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"file leaf-a11y-plan.md · group a11y-plan · blocks 1 · receipts ok",
+"file leaf-architecture-1.md · group architecture-1 · blocks 0 · receipts ok",
+"file leaf-architecture-2.md · group architecture-2 · blocks 0 · receipts ok",
+"file leaf-architecture-3.md · group architecture-3 · blocks 0 · receipts ok",
+"file leaf-architecture+design-system+layout-templates.md · group architecture+design-system+layout-templates · blocks 1…",
+"file leaf-architecture+security-plan.md · group architecture+security-plan · blocks 0 · receipts ok",
+"file leaf-architecture+test-plan+obs-plan.md · group architecture+test-plan+obs-plan · blocks 0 · receipts ok",
+"file leaf-design-system+layout-templates.md · group design-system+layout-templates · blocks 1 · receipts ok",
+"file leaf-masters.md · group masters · blocks 0 · receipts ok",
+"file leaf-obs-plan.md · group obs-plan · blocks 0 · receipts ok",
+"file leaf-security-plan.md · group security-plan · blocks 3 · receipts ok",
+"file leaf-security-plan+obs-plan.md · group security-plan+obs-plan · blocks 0 · receipts ok",
+"file leaf-test-plan.md · group test-plan · blocks 0 · receipts ok",
+"file leaf-test-plan+obs-plan.md · group test-plan+obs-plan · blocks 2 · receipts ok",
+"applied · leaf-a11y-plan.md/.claude/docs/a11y-summary.md:29#1 · stale",
+"applied · leaf-architecture+design-system+layout-templates.md/.claude/rules/frontend.md:29#1 · stale",
+"applied · leaf-design-system+layout-templates.md/.claude/docs/design-summary.md:50#1 · stale",
+"applied · leaf-security-plan.md/.claude/docs/security-summary.md:65#1 · retired",
+"applied · leaf-security-plan.md/.claude/docs/security-summary.md:72#1 · retired",
+"applied · leaf-security-plan.md/.claude/rules/security.md:26#1 · retired",
+"applied · leaf-test-plan+obs-plan.md/.claude/rules/observability.md:40#1 · retired",
+"applied · leaf-test-plan+obs-plan.md/.claude/rules/observability.md:40#2 · retired",
+"wrote .claude/docs/a11y-summary.md: 1 finding(s), read back",
+"wrote .claude/rules/frontend.md: 1 finding(s), read back",
+"wrote .claude/docs/design-summary.md: 1 finding(s), read back",
+"wrote .claude/docs/security-summary.md: 2 finding(s), read back",
+"wrote .claude/rules/security.md: 1 finding(s), read back",
+"wrote .claude/rules/observability.md: 2 finding(s), read back",
+"total · blocks 8 · applied 8"
+],
+"stderr": null,
+"wrote": [
+"./.claude/docs/a11y-summary.md",
+"./.claude/rules/frontend.md",
+"./.claude/docs/design-summary.md",
+"./.claude/docs/security-summary.md",
+"./.claude/rules/security.md",
+"./.claude/rules/observability.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"apply": [
+{
+"id": "leaf-a11y-plan.md/.claude/docs/a11y-summary.md:29#1",
+"status": "applied",
+"class": "stale"
+},
+{
+"id": "leaf-architecture+design-system+layout-templates.md/.claude/rules/frontend.md:29#1",
+"status": "applied",
+"class": "stale"
+},
+{
+"id": "leaf-design-system+layout-templates.md/.claude/docs/design-summary.md:50#1",
+"status": "applied",
+"class": "stale"
+},
+{
+"id": "leaf-security-plan.md/.claude/docs/security-summary.md:65#1",
+"status": "applied",
+"class": "retired"
+},
+{
+"id": "leaf-security-plan.md/.claude/docs/security-summary.md:72#1",
+"status": "applied",
+"class": "retired"
+},
+{
+"id": "leaf-security-plan.md/.claude/rules/security.md:26#1",
+"status": "applied",
+"class": "retired"
+},
+{
+"id": "leaf-test-plan+obs-plan.md/.claude/rules/observability.md:40#1",
+"status": "applied",
+"class": "retired"
+},
+{
+"id": "leaf-test-plan+obs-plan.md/.claude/rules/observability.md:40#2",
+"status": "applied",
+"class": "retired"
+}
+],
+"applied": true,
+"files": {
+"leaf-a11y-plan.md": "6ba991894d",
+"leaf-architecture-1.md": "f178656551",
+"leaf-architecture-2.md": "a6413f972a",
+"leaf-architecture-3.md": "abbb233189",
+"leaf-architecture+design-system+layout-templates.md": "b51e1214fe",
+"leaf-architecture+security-plan.md": "d48480d40a",
+"leaf-architecture+test-plan+obs-plan.md": "200ae6d45a",
+"leaf-design-system+layout-templates.md": "26b1dcbfb0",
+"leaf-masters.md": "75c7101c5a",
+"leaf-obs-plan.md": "a868398300",
+"leaf-security-plan.md": "5de895edcb",
+"leaf-security-plan+obs-plan.md": "baf8bd441b",
+"leaf-test-plan.md": "261c222f2b",
+"leaf-test-plan+obs-plan.md": "77d7750d6f"
+}
+}
+},
+{
+"tool": "cascade",
+"v": "1.15",
+"sha8": "b3cee12c",
+"ts": "2026-10-20T07:51:17Z",
+"argv": [
+"replace",
+"--edits",
+".andromeda/runs/2026-10-20T06-58-31-wrap/replace-3.md",
+"--run-dir",
+".andromeda/runs/2026-10-20T06-58-31-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"applied · viola-0.1.0/working-route.md:165#1",
+"applied · viola-0.1.0/working-route.md:165#2",
+"wrote viola-0.1.0/working-route.md: 2 block(s) on 1 line(s), read back",
+"total · blocks 2 · applied 2"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"replace": {
+"rows": [
+{
+"id": "viola-0.1.0/working-route.md:165#1",
+"status": "applied"
+},
+{
+"id": "viola-0.1.0/working-route.md:165#2",
+"status": "applied"
+}
+],
+"dry_run": false,
+"written": {
+"viola-0.1.0/working-route.md": {
+"lines": {
+"165": [
+"a662aa4947",
+"33daf1c84a"
+]
+},
+"blocks": [
+"viola-0.1.0/working-route.md:165:0793ebb8dd:2e05770494",
+"viola-0.1.0/working-route.md:165:0538cbb277:4b782ca266"
+]
+}
+}
+}
+}
+}
+]

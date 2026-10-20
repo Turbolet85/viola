@@ -26,7 +26,7 @@ The a11y harness checks cli and tui output discipline with assert_cmd / trycmd /
 - **P2 — confirmed send and readback, or refusal** — cli (`viola send` readback mirror `[RB]`)
 - **P3 — dialog pending, then `answer`** — cli (`viola answer`, `unverified-cli` refusal)
 - **P4 — human takes the wheel** — tui boundary + cli (`pause`, `release`, `send` refused with `human-typing`)
-- **P6 — CLI board, wait/last, verify** — cli output discipline; `viola list`'s `CAPTION` literal pins the caption order the deferred 0.2.0 page must share; the `-- UNWRAPPED - READ-ONLY --` separator stands too, printed only when unwrapped rows exist (the `--help` group labels stand too: board / traffic / wheel / setup over the served verbs, PROVISIONAL, `plugin install` built in `setup:` as one entry and a bare `plugin` unserved; the `handoff:` row joins with "Explicit session links")
+- **P6 — CLI board, wait/last, verify** — cli output discipline; `viola list`'s `CAPTION` literal pins the caption order the deferred 0.2.0 page must share; the `-- UNWRAPPED - READ-ONLY --` separator stands too, printed only when unwrapped rows exist (the `--help` group labels stand too: board / traffic / wheel / setup over the served verbs, `plugin install` built in `setup:` as one entry and a bare `plugin` unserved; the `handoff:` row joins with "Explicit session links")
 
 ## Bootstrap phases (§3)
 

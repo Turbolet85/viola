@@ -1,0 +1,54 @@
+# The founder's Epoch 5 batch — a 0-pending wrap (the operator's directions)
+
+Viola at `0807ee3c` (the "Newer claude CLI rows" flip). This wrap writes the founder's own answers on Epoch 5's
+PROVISIONAL marks, and adds one item to "Epoch 5 cleanup". He gave them in the Viola overseer's two dialogs, read
+2026-10-20T05:06:03Z, the option labels he chose verbatim. Snap this file first.
+
+## 1. His ratification: «Ратифицировать всё (Recommended)»
+Every overseer delegate mark of Epoch 5 is now HIS, this date, relayed by the Viola overseer. Rewrite each
+"PROVISIONAL" / "the operator's word" / "not ratified by the founder" mark on them as his, keeping each provisional
+record with `superseded 2026-10-20`. This applies where a master body or a sidecar carries such a mark; the run-dir
+records stay as written.
+- **The answer-card confirms** of the wraps `2026-10-13T21-52-39`, `2026-10-14T06-37-54`, `2026-10-16T14-05-30`,
+  `2026-10-16T22-30-02`, `2026-10-17T08-28-14`, `2026-10-17T14-19-45`, `2026-10-18T02-36-56`, `2026-10-18T21-59-05`,
+  `2026-10-19T07-00-05` and `2026-10-19T09-28-14`, all under `.andromeda/runs/`.
+- **The technical answers:**
+  - the E2E pattern `^(path[0-9]*|tui|mcp|cross|chaos|contract)_`, Path 1 at the root tier, and `harness_session`
+    keeping the spawned supervisor;
+  - `--help` lists served verbs only, and the width comes from `host_size()`;
+  - `ServeError` as a second open divergence, and `fake-agent = ["tokio"]` as built;
+  - the exe's canonical path with `--home`, `marketplace/` off the integrity set, and the plugin round closed unread.
+- **The restructure wrap `b6bbbd6`'s four technical answers** (`.andromeda/runs/2026-10-16T14-58-10-wrap/adaptation-record.md`).
+- **The switch chunk's wrap (`b6ddc198`) rulings:**
+  - `inputs/` exempt from the no-prompt-text criterion;
+  - the leaf path-check breach accepted;
+  - the pre-push truncated-`.profraw` red not that chunk's.
+- **The P5 word on "Newer claude CLI rows"** (`inputs#I5` of that chunk).
+
+## 2. «Принять как есть (Recommended)» — refused checks write no log line, as built
+The behaviours, now his decision:
+- the checked read of `budget.json` writes no log line on a refused check;
+- revive's start arm writes no log line on a refused check;
+- `viola plugin install`'s refused home writes no log line;
+- `list` exits 1 on a failed log start, and shows no row on a per-instance read error.
+
+Sites: arch `:139`, `:407`; security-plan `:213`; obs-plan `:394`, `:465`, `:1072`; the security leaf. Each mark that
+reads "not ratified" or PROVISIONAL becomes his ratification, the relay named.
+
+## 3. Two wordings he accepted as they stand
+- `dialog-expired`: «Оставить dialog-expired (Recommended)». The event word and its `wait` line stand.
+- `viola plugin install`'s success text: «Принять как есть (Recommended)». The PLACEHOLDER mark is dropped, and the
+  text stands as built (`src/human/verbs.rs` `write_plugin_installed`).
+
+## 4. Route adaptation: one item added to "Epoch 5 cleanup" (`working-route.md:165`), on his word
+«Вычистить в cleanup (Recommended)»: the restructure's web leftovers, worded by what the next audit and a reader of the
+masters see:
+- design-system's Brand Identity still cites cut motion values and cut page components (L16, L21, L41, L45);
+- a11y-plan's `Standard (1)` tier rests on the terminal surfaces alone;
+- the web-only `.claude/rules/frontend.md`, `.claude/rules/a11y.md` and `.claude/docs/services/viola-ui.md` (a stub)
+  stand;
+- obs-plan §3's log-format copy is marked reserved;
+- four rule files' `paths:` still name `e2e-web/**` / `crates/viola-ui/**`.
+
+The old text stays in the sidecars for 0.2.0. Also, on the `.profraw` red, «Искать причину (Recommended)»: cleanup
+item 8 stands as the cause-finding item, now his word.

@@ -1,0 +1,49 @@
+[[pattern]]
+id = 'cardconfirm'
+regex = '''card[- ]confirm|answer[- ]card'''
+ignore_case = true
+
+[[pattern]]
+id = 'e5batch'
+regex = '''Epoch 5 (boundary|batch)'''
+ignore_case = true
+
+[[pattern]]
+id = 'provisional'
+regex = '''provisional'''
+ignore_case = true
+
+[[pattern]]
+id = 'delegate'
+regex = '''delegate'''
+ignore_case = true
+
+[[pattern]]
+id = 'wordowed'
+regex = '''word(ing)? (is |still )?owed|planning form|founder's to word'''
+ignore_case = true
+
+[[pattern]]
+id = 'notruled'
+regex = '''not (yet )?ratified|unratified|has not ruled|not having ruled|not ruled'''
+ignore_case = true
+
+[[pattern]]
+id = 'opword'
+regex = '''operator'?s (own )?(word|answer|acceptance)|accepted by the operator|approved by the operator'''
+ignore_case = true
+
+[[pattern]]
+id = 'techanswer'
+regex = '''technical answer|overseer'?s (own )?(answer|direction|call|ruling)'''
+ignore_case = true
+
+[[pattern]]
+id = 'widthsrc'
+regex = '''width source|served verbs only'''
+ignore_case = true
+
+[[pattern]]
+id = 'noline'
+regex = '''(writes|leaves|wrote) no (log )?line|no-line|no trace'''
+ignore_case = true

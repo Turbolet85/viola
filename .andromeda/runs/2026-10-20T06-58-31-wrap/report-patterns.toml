@@ -1,0 +1,34 @@
+[[pattern]]
+id = 'provisional'
+regex = '''provisional'''
+ignore_case = true
+
+[[pattern]]
+id = 'opword'
+regex = '''operator'?s (own )?(word|answer|direction|rule|technical answer)|accepted by the operator'''
+ignore_case = true
+
+[[pattern]]
+id = 'notratified'
+regex = '''not (yet )?ratified|unratified|has not ruled|not having ruled|not ruled|no ratification'''
+ignore_case = true
+
+[[pattern]]
+id = 'delegate'
+regex = '''delegate'''
+ignore_case = true
+
+[[pattern]]
+id = 'cardconfirm'
+regex = '''card[- ]confirm|answer card'''
+ignore_case = true
+
+[[pattern]]
+id = 'wordowed'
+regex = '''word(ing)? (is |still )?owed|not worded by the founder|has not worded|planning form'''
+ignore_case = true
+
+[[pattern]]
+id = 'techanswer'
+regex = '''technical answer|overseer'?s (own )?(answer|direction|call|ruling)'''
+ignore_case = true

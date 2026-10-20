@@ -1,0 +1,10 @@
+
+## 2026-10-20-t06-58-31-wrap — the founder's Epoch 5 batch: served verbs, the width, three wordings and list's exit 1 his
+**Section:** §Surface: cli (Primary screens; Output structure — `viola list`, `viola wait` / `viola last`, `viola verify`, `viola --help`, `viola plugin install`; Component — Primary navigation; Component — Primary content block 2)
+**Change:**
+- `--help`'s served verbs only and the board's width from `host_size()` stand as built; was "the Viola overseer's technical answer, `inputs#I1` Q3 / Q2 … — PROVISIONAL, the founder's own word owed" (four sites); now the marks are gone.
+- The `dialog-expired` line, `viola plugin install`'s lines and verify's interrupted pair stand as worded; was "planning form, the founder's wording owed" (four sites, the wireframe's note included); now the marks are gone and the plugin lines read "as built".
+- `viola list`'s exit 1 for a failed log start and its no row on a per-instance read error stand as built; was "implement's decisions, accepted by the operator; … not ruled by him"; now the clause is gone.
+- In this file's history the provisional marks of these entries are superseded 2026-10-20, their other claims standing, none pruned: 2026-10-13-interrupted-verify-cleanup — verify's interrupted form; 2026-10-16-unwrapped-sessions-on-the-board — viola list's unwrapped rack, revive's fifth pair, verify at 23 rows; 2026-10-17-cli-output-discipline — viola --help built as the grouped table; viola list styled and cut on a terminal; 2026-10-17-optional-plugin-install — Output structure — viola plugin install, and the served setup: row; 2026-10-19-dialog-hold-for-the-driver — the `viola wait` wireframe gains the `dialog-expired` line.
+**Why:** the founder's own answers to his Epoch 5 batch, 2026-10-20 (ratify every delegate mark; keep `dialog-expired`; accept the plugin install text and the refused checks' shapes as built), relayed by the Viola overseer through the operator's directive, and his own word widening it to the interrupted pair. The bodies take writing rule 7's form, by the overseer's technical answer at this wrap.
+**Ref:** .andromeda/runs/2026-10-20T06-58-31-wrap/

@@ -1,0 +1,8 @@
+
+## 2026-10-20-t06-58-31-wrap — the founder's Epoch 5 batch: the card confirms his, revive's no-line refusal his
+**Section:** §Threat Model Summary (the `claude agents --json` children; `viola verify`'s PTY children) · §Authentication & Authorization (`~/.viola/` access control) · §Input Validation (hook stdin; the session id as a child argv value) · §Data Protection (accepted risk: verify's trusted runs) · §Error Handling (`hook` never writes to stderr)
+**Change:**
+- The founder's own answers on `revive`'s agents read, Run B's probe `--settings`, its agents read, its newline and `/compact` pastes and its compaction residual, and Run E, stand as his; was "the wrap's card confirm of it provisional (delegate viola-overseer), superseded by his own word at the Epoch 5 boundary" on ten clauses and "the wrap's card confirm provisional (delegate the Viola overseer)" on one; now the clauses are gone.
+- `viola revive`'s refused strict-modes check opens no log and writes no line as built; was "that a refused check writes no line is the operator's answer at that chunk's planning, and the founder has not ruled on it"; now the clause is gone.
+**Why:** the founder's own answers to his Epoch 5 batch, 2026-10-20 (ratify every delegate mark of the epoch; accept the refused checks' no-line shapes as built), relayed by the Viola overseer through the operator's directive. Each provisional record stands in its own entry, superseded 2026-10-20 (the next entry). The bodies take writing rule 7's form, by the overseer's technical answer at this wrap.
+**Ref:** .andromeda/runs/2026-10-20T06-58-31-wrap/
