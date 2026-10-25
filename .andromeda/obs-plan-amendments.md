@@ -669,3 +669,9 @@ Each superseded mark stands as the operator's answer, superseded 2026-10-13.
 **Change:** The scenario heading «GUI view: page load, sessions and links, live SSE tape with `Last-Event-ID` resume» and its deferral stub are gone. §4's must-trace intro states that there is no frontend scenario: the frontend is deferred to 0.2.0, and its technology is not chosen. §4 holds the six must-trace scenarios and the edge flows.
 **Why:** the founder's own word on item (10), «Вычистить в cleanup»: the heading named a retired web scenario over a stub.
 **Ref:** .andromeda/runs/2026-10-20T09-40-55-wrap/
+
+## 2026-10-25-u55-door — obs-plan: split into its body and 10 category files
+**Section:** (the whole master — the door)
+**Change:** split into its body and 10 category files; the map .andromeda/obs-plan.map.tsv
+**Why:** the operator's word: the founder's standing word of 2026-10-25 for the door on viola's masters (F2), given after three review rounds, the scoped third pass ACCEPT with 0 DISPUTE, at 1.30 M (1.41× its cost guide); relayed by overseer1.
+**Ref:** $TMPDIR/claude-1000/-home-turbolet-dev-projects-additional-andromeda-worker/a2a855dc-9f94-4016-87d5-2f52c0246ab5/scratchpad/obs-plan.card.md

@@ -1,0 +1,10 @@
+# obs-plan · Obs Anti-Patterns
+Read whole. The master's broad view is .andromeda/obs-plan.md; this file holds its Obs Anti-Patterns detail.
+
+## 11. Obs Anti-Patterns (NEVER do these) › ### Logs
+
+<!-- detail: exception · logs -->
+
+- NEVER use `print!` / `println!` / `eprint!` / `eprintln!` / `dbg!` in the `hook`, `run` or `mcp` code paths of the product crates (`viola-harness` and the fake agent are exempt, §3 obs-ci-gate-wire). They bypass the file sink and break the Hook contract, the `run` terminal rule and MCP framing. Enforced by `[workspace.lints.clippy]` `print_stdout`, `print_stderr`, `dbg_macro` = `deny` under the §9 clippy step. Only the output modules that own `--json`, human CLI stderr and the hook decision body may carry a local `#[allow]`, and only where they use a print macro — `run`'s and `revive`'s pre-spawn refusals, `revive --list`'s, `verify`'s, `list`'s and `plugin install`'s refusals write through `src/human.rs` (`refuse` / `write_refusal`, one `write_all` on the locked stderr; callers `run` 5 · `verify` 5 · `list` 2 · `revive` 1 · `plugin install` 1, chunk 2026-10-17-optional-plugin-install), which uses no print macro and carries no `#[allow]` — plus the fake agent's crate-level `#![allow]` in `src/bin/viola-fake-agent.rs` (a root-package bin, §3 obs-ci-gate-wire).
+
+<!-- /detail -->

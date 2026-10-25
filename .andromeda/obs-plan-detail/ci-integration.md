@@ -1,0 +1,61 @@
+# obs-plan · CI Integration
+Read whole. The master's broad view is .andromeda/obs-plan.md; this file holds its CI Integration detail.
+
+## 9. CI Integration
+
+<!-- detail: values · ci -->
+
+| Artifact | When | Storage | Agent access |
+|----------|------|---------|--------------|
+| `diagnostics/*.ndjson` + `instances/*/diagnostics/detail-*.ndjson` from `target/e2e-home/**` | every E2E job, `if: always() && steps.secret-scan.outcome == 'success'`. A bare `always()` would also upload after a failed scan | `actions/upload-artifact` v7.0.1 (SHA-pinned), `name: diag-${{ matrix.os }}`, `path: target/e2e-home/**/diagnostics/*.ndjson`, `retention-days: 7` | `gh run download` → `jq` |
+| `agent-run logs` merged ndjson + `agent-run status` JSON, captured to `target/agent-run/{logs.ndjson,status.json}` by an `if: failure()` step that runs **before** the scan, so the scan covers them | on test failure, `if: failure() && steps.secret-scan.outcome == 'success'`. A bare `failure()` is also true when the scan itself failed | its **own** artifact `harness-${{ matrix.os }}` (upload-artifact v7.0.1 SHA-pinned, `path: target/agent-run/` plus `!target/agent-run/chunk.diff` — `run --mutants`' diff, which the scan skips (§8 item 5) — `retention-days: 7`). Not `diag-<os>`: upload-artifact v4+ artifacts are immutable, so a second step uploading the same name fails with a conflict, and `overwrite: true` would replace the raw diagnostics | paste-to-AI directly; `jq` over `record` |
+| cargo-nextest 0.9.146 JUnit XML (`[profile.ci.junit] path = "junit.xml"` in `.config/nextest.toml` → `target/nextest/ci/junit.xml`) | every test job, `if: always() && steps.secret-scan.outcome == 'success'`. An `if:` without a status function gets an implicit `success()`, so the bare `steps.secret-scan.outcome == 'success'` would skip this upload on exactly the failing runs | uploaded as `junit-${{ matrix.os }}` (upload-artifact v7.0.1 SHA-pinned, `retention-days: 7`) | failing test ID joined to `diag` lines by time and `instance` |
+| hyperfine `--export-json target/agent-run/artifacts/perf-<hook>.json`, one per row (`session-start`, `user-prompt-submit`, `stop`, `session-end`, `pre-tool-use`), from `run --perf` in the per-OS `perf` job | `if: always() && steps.secret-scan.outcome == 'success'`, so a failing gate still leaves its samples and a failed scan withholds them (timings and repo-relative benchmarked command lines only, no log content) | uploaded as `perf-${{ matrix.os }}`, with the same job's home diagnostics as `diag-perf-${{ matrix.os }}` under the same condition | `jq '.results[0].max'` |
+| OTel trace export | N/A (no exporter in v1) | — | — |
+
+<!-- /detail -->
+
+<!-- detail: values · ci -->
+
+| Stage | Telemetry produced | Consumer |
+|-------|---------------------|----------|
+| Lint / typecheck | clippy `-D warnings` incl. `disallowed-macros` (raw `tracing::{info,warn,error,debug,trace}!` outside `viola_core::obs`) and the `print_stdout` / `print_stderr` / `dbg_macro` bans; the fail-closed raw-`event!` grep and both-ways ban probes in `scripts/lint-probes.sh`, Linux leg (mechanism in §3 logger-stack-install); bare-`#[instrument]` gate G1 (below); `cargo check` of sync crates without Tokio; `cargo deny check` (ubuntu) incl. veil `toggle` ban and bans on `opentelemetry-otlp` / `opentelemetry-stdout` / `sentry` / `tracing-appender` / tracing-subscriber `env-filter` feature | CI annotations + job exit code |
+| Unit tests | In-memory `Vec<u8>` writer tests parse emitted lines with serde_json against `schemas/diag-line.v1.json` (tests-owned bodies) | nextest JUnit |
+| Integration tests | `diagnostics/*.ndjson` from fake-agent runs. Their viola homes must live under `target/e2e-home/` (the directory layout is tests-owned), so G2, G4, the secret scan and the `diag-<os>` upload cover them. A `hook` panic exits 0, so a home outside that root would hide it. The one carve-out: `tests/chaos_feed_panic.rs`'s `TestHome::outside_scan()` home under the system temp dir, outside G2, G4, the secret scan and the upload, whose deliberate panic line and `parse-rejected` line the test asserts present itself (the founder's ruling, live, 2026-10-04, relayed by the overseer). perf: hyperfine JSON with `max` assertions | uploaded artifacts + G2 / G4 + budget assertion exit codes |
+| E2E tests | `agent-run logs` / `status`; zero-`event:"panic"` gate G2 and schema gate G4 (below) | uploaded artifacts + gate exit codes |
+| Mutation | obs code (`obs_event!` call sites, `MillisUtc`, panic hook) under cargo-mutants like product code | no push or pull-request job since 2026-09-28: `agent-run run --mutants` at the epoch boundary through `/andromeda-code-audit`, and on demand. The audit's Windows form is the dispatch-only, report-only `windows-mutants.yml` (`run --mutants --package <member> --file …` on `windows-2025`), whose job `mutants (viola-panic-frames)` scores `src/panic_frames.rs` on its own: 23 tested, 14 caught, 0 unviable, 0 missed, and 9 left out by the harness as `#[cfg(unix)]` twins the Windows build never compiles (that job's `run` document in run 38036448183, the dispatch of 2026-10-10; test-plan §10 Mutation gate). A timed-out obs-code mutant, a missed one the harness does not leave out as host-excluded (test-plan §3 `run` step 4), or unviable outnumbering caught, is red at that run (test-plan §10 Mutation gate) |
+
+<!-- /detail -->
+
+<!-- detail: procedure · ci -->
+
+- **G1, bare `#[instrument]`.**
+  - Needs ripgrep built with PCRE2. The runner images do not guarantee `rg`, so a SHA-pinned install step before G1/G3 installs an official ripgrep release binary (release binaries are built with PCRE2) and then runs `rg --pcre2-version` as its own check. Without that step `rg` exits 127, so G1/G3 fail closed on every commit rather than passing.
+  - `-U` lets `\s*` span lines, so an `#[instrument(` with `skip_all` on the next line passes. `skip_all` must be the first argument (the §4 form).
+  - rg exit 1 (no match) passes. Exit 0 (a violation) and exit 2 (a regex or I/O error) both fail the step. This replaces the earlier `(?!.*skip_all)` form: without `--pcre2` it exits 2 with empty stdout, so a "must be empty" check would pass on every commit.
+- **G2, zero panics.** It runs as `scripts/g2-zero-panics.sh` (fail-closed; `tool-missing: jq` without jq), `--probe` first, in the `test` and `perf` jobs; the snippet below is its logic.
+  - `-n` makes `inputs` see every line, including the first, and makes empty input a pass (`true`) rather than exit 4; an empty scope is refused before it.
+  - Scope is the home-level role files only. `detail-*.ndjson` repeats the panic line and is excluded (§10).
+  - One exemption, ratified by the founder live on 2026-09-28 (security-plan Decisions Log): a line whose `panic_location` is exactly `src/cmd/hook/seam.rs:<digits>` — the `fake-agent` seam's forced panic — is not counted; the file is compared as a whole string, never a prefix, suffix, regex or home path. `--probe` proves the seam line alone reads clean and a panic located in another file (`src/cmd/hook.rs`, at the line `scripts/g2-zero-panics.sh` plants), `x/src/cmd/hook/seam.rs:3`, `…/seam.rs.bak:3`, `…/seam.rsx:3`, the seam path without a line, a missing `panic_location` and an empty scope all read red, and a panic line only in a `detail-*` file reads clean.
+- **G4, schema conformance.** §10 counts schema-conformance failures as a build failure. G1–G3 do not measure them, and the Unit tests row checks only in-memory lines, so G4 checks real process output.
+  - Scope: every line in the G2 file scope is checked against `schemas/diag-line.v1.json`, and every `instances/*/diagnostics/detail-*.ndjson` line against `schemas/diag-detail.v1.json` (§8).
+  - It runs as its own step, `id: schema-conformance`, `if: always()` after the last test step. It exits non-zero on any failing line and prints `file`, line number and the failing schema keyword, never the line's content (detail lines carry the canary). The check body and the JSON Schema validator crate are tests-owned; obs owns both schemas.
+  - A line that is not JSON is skipped and counted, as in G2, because chaos cases kill writers mid-line and a restarted writer appends after the torn line. Interleaved writes are caught by the concurrent-append check (§3 Logging stack), not by G4.
+
+```sh
+# G1: whole workspace from its root (root bin `viola` + crates/* + tests/ + fuzz/); target/ is skipped through .gitignore
+set +e; rg -n -U --pcre2 --type rust '#\[(tracing::)?instrument\b(?!\(\s*skip_all\b)' .; test $? -eq 1
+# G2: first fail if no home-level role file exists (an empty scope would pass vacuously); the start point ends in a slash, so a scope that is a link to a directory is descended (the Linux dev host's `target/e2e-home`; on a real directory the walk is the same); `awk 1` ends every file's last line with a newline; -R + fromjson? skip a torn line (not a panic record) instead of failing with jq exit 2
+test -n "$(find target/e2e-home/ -path '*/diagnostics/*.ndjson' ! -name 'detail-*' -print -quit)"
+find target/e2e-home/ -path '*/diagnostics/*.ndjson' ! -name 'detail-*' -exec awk 1 {} + | jq -R -n -e --arg seam src/cmd/hook/seam.rs '[inputs|fromjson?|select(.event=="panic")|select(((.panic_location|type)=="string" and (.panic_location|test(":[0-9]+$")) and ((.panic_location|sub(":[0-9]+$";""))==$seam))|not)]|length==0'
+# G3: no abort panic strategy (profile `panic` key, `-C panic` rustflag, CARGO_PROFILE_*_PANIC env) in Cargo.toml, cargo config or workflows (§7); default regex engine; only rg exit 1 passes
+set +e; rg -n --hidden -g 'Cargo.toml' -g 'config.toml' -g '*.yml' -g '*.yaml' "(panic|_PANIC)\s*[:=]\s*[\"']?abort" .; test $? -eq 1
+```
+
+<!-- /detail -->
+
+<!-- detail: procedure · ci -->
+
+1. Integration and E2E tests (every viola home under `target/e2e-home/` but the one `viola-chaos-*` home of `tests/chaos_feed_panic.rs`, outside G2, G4 and the secret scan by the founder's ruling of 2026-10-04), then G2 and G4, **both** `if: always()`. The hyperfine perf gates do not run in the `test` job: they run in their own per-OS `perf` job (`fail-fast: false`, `AGENT_RUN_KEEP_HOMES=1`), whose steps are `run --perf`, G2 (probe then check), `schema-check` and `secret-scan`, all `if: always()`, the scan-gated `perf-<os>` and `diag-perf-<os>` uploads, `secret-scan-perf-<os>` on a scan failure, and last `gate --require perf`. So G2, G4 and the scan cover the perf home under that job's own artifact names, with no `diag-<os>` collision. A failed test step must not skip G2: failing runs are where panic lines are most likely, and §10 measures panics only through G2's exit code (D-29). **Homes are kept until the gate steps have run** (overseer fix pass 2, B1): `ci.yml` sets `AGENT_RUN_KEEP_HOMES=1`, so neither harness `cleanup` nor a test home's drop deletes a home before G2, G4, the secret scan and the scan-gated uploads have read it (test-plan §3 `cleanup` step 6). Without it, a green run leaves `target/e2e-home/` empty, G2's non-empty check fails, and nothing is scanned.
+
+<!-- /detail -->
