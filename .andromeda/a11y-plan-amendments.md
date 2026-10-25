@@ -265,3 +265,9 @@
 **Change:** the `viola list` literal-pinning units are cited under `src/human/board/`. Was: `src/human/board.rs`.
 **Why:** `board.rs` is now a module root over `board/`; every unit kept its name.
 **Ref:** .andromeda/runs/2026-10-20T19-32-00-wrap/
+
+## 2026-10-25-u55-door — a11y-plan: split into its body and 4 category files
+**Section:** (the whole master — the door)
+**Change:** split into its body and 4 category files; the map .andromeda/a11y-plan.map.tsv
+**Why:** the operator's word: the founder's standing word of 2026-10-25 for the door on viola's masters (F2), the review closed on spec 3b — the reviewer's wording verbatim and lines 307–308 moved — at 1.83× its cost guide, the third pass skipped as it would cross the stop; relayed by overseer1.
+**Ref:** $TMPDIR/claude-1000/-home-turbolet-dev-projects-additional-andromeda-worker/a2a855dc-9f94-4016-87d5-2f52c0246ab5/scratchpad/a11y-plan/
