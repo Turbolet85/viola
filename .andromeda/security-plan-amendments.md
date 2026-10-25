@@ -846,3 +846,9 @@ The superseded marks stand in the body as the operator's word, superseded 2026-1
 **Change:** the row cites `src/cmd/verify/typed/runs.rs` `resume_run` (Run E). Was: `src/cmd/verify/typed.rs`.
 **Why:** `typed.rs` is now a module root; Runs A–E live in `typed/runs.rs`.
 **Ref:** .andromeda/runs/2026-10-20T19-32-00-wrap/
+
+## 2026-10-25-u55-door — security-plan: split into its body and 9 category files
+**Section:** (the whole master — the door)
+**Change:** split into its body and 9 category files; the map .andromeda/security-plan.map.tsv
+**Why:** the operator's word: the founder's standing word of 2026-10-25 for the door on viola's masters (F2), given after three review rounds, the scoped third pass ACCEPT with 0 DISPUTE, at 1.37 M (1.47× its cost guide); relayed by overseer1.
+**Ref:** $TMPDIR/claude-1000/-home-turbolet-dev-projects-additional-andromeda-worker/a2a855dc-9f94-4016-87d5-2f52c0246ab5/scratchpad/security-plan.card.md
