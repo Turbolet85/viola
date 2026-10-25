@@ -1491,3 +1491,9 @@ Each superseded mark is kept in the body as the operator's word, superseded 2026
 **Why:** the child entry kills `serve`'s survivor inside its own crate; `VIOLA_*` is product plumbing, so the marker carries no prefix. The probe has held two planted cases since before this chunk; its log reads `2/2 fired`.
 **Kept:** `PTY_SIDELOAD_TEST_CASE`, the precedent the marker follows, stays unregistered here: it is not this chunk's.
 **Ref:** .andromeda/runs/2026-10-20T19-32-00-wrap/
+
+## 2026-10-25-u55-door — architecture: split into its body and 6 category files
+**Section:** (the whole master — the door)
+**Change:** split into its body and 6 category files; the map .andromeda/architecture.map.tsv
+**Why:** the operator's word: the founder's standing word of 2026-10-25 for the door on viola's masters (F2), given after three review rounds, the scoped third pass ACCEPT with 0 DISPUTE, at 1.46 M (1.00× its cost guide); relayed by overseer1.
+**Ref:** $TMPDIR/claude-1000/-home-turbolet-dev-projects-additional-andromeda-worker/a2a855dc-9f94-4016-87d5-2f52c0246ab5/scratchpad/architecture.card.md
