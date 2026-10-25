@@ -1203,3 +1203,9 @@ Each was then killed by a case in `typed.rs`'s `mod tests`, shown red under its 
 - The Epoch 5 boundary audit's 16 survivors were each disposed by a nextest case in the package that owns the mutated file, 10 killed and 6 after a behaviour-preserving restatement, each red under its hand-applied mutant and green reverted byte-exact, with no mutation run made and none equivalent or recorded.
 **Why:** item (4) closes the audit's survivors so the next audit reads them closed.
 **Ref:** .andromeda/runs/2026-10-20T19-32-00-wrap/
+
+## 2026-10-25-u55-door — test-plan: split into its body and 9 category files
+**Section:** (the whole master — the door)
+**Change:** split into its body and 9 category files; the map .andromeda/test-plan.map.tsv
+**Why:** the operator's word: the founder's standing word of 2026-10-25 for the door on viola's masters (F2), given after two review rounds, the reviewer's wording then applied verbatim on two N rows (README step 3 (a), no third agent pass), at 1.41 M (0.97× its cost guide); relayed by overseer1.
+**Ref:** $TMPDIR/claude-1000/-home-turbolet-dev-projects-additional-andromeda-worker/a2a855dc-9f94-4016-87d5-2f52c0246ab5/scratchpad/test-plan.card.md
