@@ -259,3 +259,9 @@ Each superseded mark stands in the body as the operator's word, superseded 2026-
 **Why:** the founder's own word on item (10), «Вычистить в cleanup»: the restructure's web leftovers are cleaned, and 0.1.0 renders no page. The superseded text stays in this entry for the 0.2.0 frontend.
 **Kept:** `## Surface: web-spa` keeps its heading over its deferral stub. It is the setup grammar's surface slot for the deferred frontend, shared with layout-templates. The sections framed «A 0.2.0 frontend design input» (tokens, status rows, spacing, depth, iconography) stand as that input.
 **Ref:** .andromeda/runs/2026-10-20T09-40-55-wrap/
+
+## 2026-10-25-u55-door — design-system: split into its body and 9 category files
+**Section:** (the whole master — the door)
+**Change:** split into its body and 9 category files; the map .andromeda/design-system.map.tsv
+**Why:** the operator's word: the founder's standing word of 2026-10-25 for the door on viola's masters (F2), the review closed on spec 3m at 1.37× its cost guide, the third pass skipped as it would cross the stop; relayed by overseer1.
+**Ref:** $TMPDIR/claude-1000/-home-turbolet-dev-projects-additional-andromeda-worker/a2a855dc-9f94-4016-87d5-2f52c0246ab5/scratchpad/design-system/
