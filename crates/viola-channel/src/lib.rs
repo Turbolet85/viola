@@ -17,7 +17,7 @@ use std::io;
 use serde_json::{Value, json};
 use viola_core::VERSION;
 
-pub use client::Client;
+pub use client::{Client, SERVER_PID_REPORTED};
 pub use endpoint::{ENDPOINT_KIND, endpoint_name, endpoint_path, socket_dir};
 pub use frame::{
     Params, Request, error_response, ok_response, parse_request, read_frame, write_frame,

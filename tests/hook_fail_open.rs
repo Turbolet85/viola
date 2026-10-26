@@ -3,7 +3,10 @@
 //! bound, a hook outside a wrapped session writes nothing anywhere, the verb stays out of
 //! `viola --help`, and concurrent hook processes share their log files line by line (obs-plan
 //! D-28). The `fake-agent` seam `FAKE_AGENT_HOOK_PANIC=1` forces a real panic, which fails open
-//! too and leaves detail lines over 4 KiB that concurrent processes still append whole.
+//! too and leaves detail lines over 4 KiB that concurrent processes still append whole. On Linux
+//! and Windows an impostor — this test process serving the endpoint while the writer-made snapshot
+//! records the fake agent held as a child — is never sent a frame (security-plan §Authentication &
+//! Authorization, IPC client-side server verification).
 
 #[allow(dead_code)]
 mod support;
@@ -145,6 +148,108 @@ enum Env {
     Stopped,
     DirOnly,
     InvalidName,
+    /// An endpoint this process serves, its snapshot recording another live process.
+    #[cfg(not(target_os = "macos"))]
+    Impostor,
+}
+
+/// The fake agent held alive by its own holder mode: a live process that is not this one, killed
+/// and reaped on drop.
+#[cfg(not(target_os = "macos"))]
+struct Held(std::process::Child);
+
+#[cfg(not(target_os = "macos"))]
+impl Drop for Held {
+    fn drop(&mut self) {
+        let _ = self.0.kill();
+        let _ = self.0.wait();
+    }
+}
+
+/// Every frame the impostor was sent.
+#[cfg(not(target_os = "macos"))]
+#[derive(Default)]
+struct Frames(std::sync::Mutex<Vec<String>>);
+
+#[cfg(not(target_os = "macos"))]
+impl viola_channel::Dispatch for Frames {
+    fn dispatch(&self, method: &str, _: &Value) -> Result<Value, viola_channel::ProtocolError> {
+        self.0.lock().expect("frames").push(method.to_owned());
+        Ok(json!({"ok": {"dialog_id": 1, "response": {"behavior": "allow"}}}))
+    }
+}
+
+/// A process serving `builder`'s endpoint that is not the wrapper its snapshot records: the
+/// snapshot, through the writer, records the held fake agent and its own start time.
+#[cfg(not(target_os = "macos"))]
+struct Impostor {
+    frames: std::sync::Arc<Frames>,
+    _serving: viola_channel::Serving,
+    _socket_dir: tempfile::TempDir,
+    _held: Held,
+}
+
+#[cfg(not(target_os = "macos"))]
+impl Impostor {
+    fn serve(home: &Path, label: &str) -> Self {
+        let held = Held(
+            Command::new(support::fake::FAKE)
+                .arg("--hold-stdout-internal")
+                .stdin(Stdio::null())
+                .stdout(Stdio::null())
+                .stderr(Stdio::null())
+                .spawn()
+                .expect("the held fake agent"),
+        );
+        let instance = home.join("instances").join("builder");
+        viola_state::fs::create_private_dir(&instance).expect("the instance dir");
+        let socket_dir = tempfile::tempdir().expect("the socket dir");
+        let base = format!("viola-test-chan-{}-{label}", std::process::id());
+        let endpoint = if cfg!(windows) {
+            format!(r"\\.\pipe\{base}")
+        } else {
+            socket_dir
+                .path()
+                .join(format!("{base}.sock"))
+                .to_string_lossy()
+                .into_owned()
+        };
+        let frames = std::sync::Arc::new(Frames::default());
+        let serving = viola_channel::Server::bind(&endpoint)
+            .expect("bound")
+            .serve(std::sync::Arc::clone(&frames) as std::sync::Arc<dyn viola_channel::Dispatch>);
+        let recorded = held.0.id();
+        let snapshot = viola_state::snapshot::InstanceSnapshot {
+            endpoint: Some(endpoint),
+            pid: recorded,
+            started_at: viola_state::liveness::own_start(recorded)
+                .expect("a live recorded process"),
+            pinned_bin: String::new(),
+            cli_verified: true,
+            cli_version: None,
+            wheel: viola_state::snapshot::Wheel::Driver,
+            budget_paused: false,
+            budget_override_until: None,
+            links: Vec::new(),
+            child_pid: None,
+            pending_dialog: None,
+            cwd: None,
+            statusline_command: None,
+            agent_session_id: None,
+        };
+        viola_state::snapshot::write_snapshot(&instance, &snapshot).expect("the snapshot");
+        viola_state::heartbeat::touch_heartbeat(&instance).expect("the heartbeat");
+        Self {
+            frames,
+            _serving: serving,
+            _socket_dir: socket_dir,
+            _held: held,
+        }
+    }
+
+    fn frames(&self) -> Vec<String> {
+        self.frames.0.lock().expect("frames").clone()
+    }
 }
 
 #[derive(Clone, Copy, Debug)]
@@ -182,6 +287,7 @@ fn stdin_bytes(stdin: Stdin) -> Vec<u8> {
 #[case::no_snapshot(&["hook", "stop"], Env::Instance, Stdin::Payload, Some("channel-unreachable"))]
 #[case::name_absent(&["hook", "stop"], Env::DirOnly, Stdin::Payload, None)]
 #[case::name_invalid(&["hook", "stop"], Env::InvalidName, Stdin::Payload, None)]
+#[cfg_attr(not(target_os = "macos"), case::impostor(&["hook", "stop"], Env::Impostor, Stdin::Payload, Some("server-verify-failed")))]
 fn hook_fails_open_silently_within_the_spine_bound(
     #[case] args: &[&str],
     #[case] env: Env,
@@ -196,11 +302,17 @@ fn hook_fails_open_silently_within_the_spine_bound(
             stamped
         }
         Env::Instance | Env::DirOnly | Env::InvalidName => stamped,
+        #[cfg(not(target_os = "macos"))]
+        Env::Impostor => stamped,
     };
     let home = stamped.home.path().to_path_buf();
     let dir = home.join("instances").join("builder");
+    #[cfg(not(target_os = "macos"))]
+    let impostor = matches!(env, Env::Impostor).then(|| Impostor::serve(&home, "event"));
     let vars = match env {
         Env::Instance | Env::Stopped => instance_env("builder", &dir),
+        #[cfg(not(target_os = "macos"))]
+        Env::Impostor => instance_env("builder", &dir),
         Env::DirOnly => vec![("VIOLA_DIR", dir.as_os_str().to_owned())],
         Env::InvalidName => instance_env("Builder", &home.join("instances").join("Builder")),
     };
@@ -210,6 +322,10 @@ fn hook_fails_open_silently_within_the_spine_bound(
     assert!(out.stdout.is_empty(), "stdout: {} bytes", out.stdout.len());
     assert!(out.stderr.is_empty(), "stderr: {} bytes", out.stderr.len());
     assert!(out.took < SPINE_BOUND, "took {:?}", out.took);
+    #[cfg(not(target_os = "macos"))]
+    if let Some(impostor) = &impostor {
+        assert!(impostor.frames().is_empty(), "{:?}", impostor.frames());
+    }
 
     let Some(detail) = writes else {
         assert!(
@@ -282,6 +398,14 @@ fn dialog_payload(event: &str) -> Vec<u8> {
     Some(Stdin::Malformed),
     "malformed-json"
 )]
+#[cfg_attr(
+    not(target_os = "macos"),
+    case::question_impostor("pre-tool-use", Env::Impostor, None, "server-verify-failed")
+)]
+#[cfg_attr(
+    not(target_os = "macos"),
+    case::permission_impostor("permission-request", Env::Impostor, None, "server-verify-failed")
+)]
 fn hook_dialog_tier_fails_open_silently(
     #[case] event: &str,
     #[case] env: Env,
@@ -296,15 +420,23 @@ fn hook_dialog_tier_fails_open_silently(
             stamped
         }
         Env::Instance | Env::DirOnly | Env::InvalidName => stamped,
+        #[cfg(not(target_os = "macos"))]
+        Env::Impostor => stamped,
     };
     let home = stamped.home.path().to_path_buf();
     let dir = home.join("instances").join("builder");
+    #[cfg(not(target_os = "macos"))]
+    let impostor = matches!(env, Env::Impostor).then(|| Impostor::serve(&home, event));
     let bytes = stdin.map_or_else(|| dialog_payload(event), stdin_bytes);
     let out = run_hook(&["hook", event], &instance_env("builder", &dir), bytes);
     assert_eq!(out.code, Some(0));
     assert!(out.stdout.is_empty(), "stdout: {} bytes", out.stdout.len());
     assert!(out.stderr.is_empty(), "stderr: {} bytes", out.stderr.len());
     assert!(out.took < SPINE_BOUND, "took {:?}", out.took);
+    #[cfg(not(target_os = "macos"))]
+    if let Some(impostor) = &impostor {
+        assert!(impostor.frames().is_empty(), "{:?}", impostor.frames());
+    }
 
     let lines = role_lines(&home);
     let decision = lines

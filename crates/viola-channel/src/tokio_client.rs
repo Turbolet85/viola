@@ -15,7 +15,7 @@ use tracing::instrument;
 use viola_core::MAX_FRAME;
 
 use crate::ChannelError;
-use crate::client::{next_conn, reply_from, request_frame};
+use crate::client::{next_conn, reply_from, request_frame, server_pid_of};
 use crate::frame::framed;
 use crate::server::ResponseLine;
 
@@ -39,6 +39,11 @@ impl TokioClient {
     /// `<process>-<pid>-<t0>-<n>`: correlation for the logs of both sides, never identity.
     pub fn conn(&self) -> &str {
         &self.conn
+    }
+
+    /// The pid of the process serving this connection, as the sync client reads it.
+    pub fn server_pid(&self) -> Option<u32> {
+        server_pid_of(self.reader.get_ref())
     }
 
     /// One request and its reply, whole. Ids are integers, monotonic per connection.
@@ -168,6 +173,40 @@ mod tests {
                 (json!(5), json!(-32601))
             );
         });
+    }
+
+    #[cfg(not(target_os = "macos"))]
+    #[test]
+    fn tokio_client_server_pid_is_the_serving_process() {
+        let dir = tempfile::tempdir().expect("tempdir");
+        let endpoint = test_endpoint(dir.path(), "tokio-server-pid");
+        let _serving = Server::bind(&endpoint)
+            .expect("bound")
+            .serve(Arc::new(Shapes));
+        let pid = runtime().block_on(async {
+            let client = TokioClient::connect(&endpoint, "mcp")
+                .await
+                .expect("connect");
+            client.server_pid()
+        });
+        assert_eq!(pid, Some(std::process::id()));
+    }
+
+    #[cfg(target_os = "macos")]
+    #[test]
+    fn tokio_client_server_pid_is_none_where_peer_credentials_hold_no_pid() {
+        let dir = tempfile::tempdir().expect("tempdir");
+        let endpoint = test_endpoint(dir.path(), "tokio-server-pid");
+        let _serving = Server::bind(&endpoint)
+            .expect("bound")
+            .serve(Arc::new(Shapes));
+        let pid = runtime().block_on(async {
+            let client = TokioClient::connect(&endpoint, "mcp")
+                .await
+                .expect("connect");
+            client.server_pid()
+        });
+        assert_eq!(pid, None);
     }
 
     #[test]

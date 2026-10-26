@@ -1,8 +1,8 @@
 //! `viola release <name> [--budget] [--json]`: the human hands the named instance's wheel back to
 //! the driver ("you have control"), or with `--budget` lifts that instance's budget pause and
 //! leaves the wheel where it is. A human verb: run with `VIOLA_NAME` set it carries `from`, and
-//! the wrapper refuses it `-32602` `release-from-driver` (exit 20). The same liveness-only
-//! pre-check and reply shapes as `viola pause`.
+//! the wrapper refuses it `-32602` `release-from-driver` (exit 20). The same pre-check, server
+//! check and reply shapes as `viola pause`.
 
 use std::io::{self, Write};
 use std::path::Path;
@@ -11,10 +11,10 @@ use std::process::ExitCode;
 use chrono::Utc;
 use serde_json::{Map, Value};
 use tracing::instrument;
-use viola_channel::{ChannelError, Client};
 use viola_core::ViolaName;
+use viola_state::liveness::LiveEndpoint;
 
-use super::client;
+use super::client::{self, CallError};
 use super::pause::wheel_call;
 use crate::human;
 
@@ -70,13 +70,23 @@ fn write_line(out: &mut impl Write, name: &str, ok: &Value, budget: bool) -> io:
 }
 
 #[instrument(skip_all, name = "release.client")]
-fn request(endpoint: &str, params: Map<String, Value>) -> Result<Value, ChannelError> {
-    Client::connect(endpoint, "cli")?.request("release", params)
+fn request(live: &LiveEndpoint, params: Map<String, Value>) -> Result<Value, CallError> {
+    Ok(client::connect(live)?.request("release", params)?)
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// A server that is not the recorded wrapper is refused inside `release.client`, before any frame
+    /// (obs-plan §4, the must-trace spans).
+    #[cfg(not(target_os = "macos"))]
+    #[test]
+    fn request_refuses_an_unverified_server_inside_its_dispatch_span() {
+        client::refused_inside::assert_refused_inside("release.client", |live| {
+            request(live, Map::new())
+        });
+    }
     use clap::Parser as _;
     use serde_json::json;
 

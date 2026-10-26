@@ -1,0 +1,42 @@
+# security · Error Handling — category read
+
+## Carried
+- (.andromeda/security-plan-detail/error-handling.md:8) The hook client's new server verification must fail open on a mismatch or an unmakeable check: exit 0, no body, stderr empty, so the dialog renders for the human.
+  > `hook` never writes to stderr and never exits non-zero (Hook Contract). A security check failing in `hook` (server verification mismatch, oversized stdin, strict-modes failure) still ends in exit 0 with no body, so the dialog renders for the human.
+- (.andromeda/security-plan-detail/error-handling.md:8) The "as landed" list of the hook's checks and its closed `hook-decision` detail words is the text this chunk's verification joins: server verification lands here (strict-modes stays the boundary question), so the list and its dated pointer are owed an amendment at the wrap, and any new fail-open detail word for a mismatch joins the closed set rather than reusing a free string.
+  > As landed, `viola hook <event>` runs the stdin cap, the `VIOLA_NAME` / `VIOLA_DIR` shape checks and the one-object parse, and fails open with `hook-decision` detail `oversize-stdin` · `malformed-json` · `channel-unreachable`; server verification and strict-modes join at Epoch 6 (Decisions Log `2026-09-28`).
+- (.andromeda/security-plan-detail/error-handling.md:8) The hidden capture arms open no channel, so the verification is not added to them, and their print-nothing, exit-0 outcome stays as it is.
+  > On every failure it prints nothing, its stderr is always empty, and it exits 0
+- (.andromeda/security-plan.md:110) A failed client-side check must reach clients as `instance-unreachable` and fail `hook` open, never as a new error shape.
+  > a failed check refuses `run`, reports `instance-unreachable` to clients and fails `hook` open
+- (.andromeda/security-plan.md:114) The verification must never fall back to a default connect when it cannot be made; the dated interim gaps it closes are named here.
+  > before the first frame of any method, the client verifies the server against the snapshot (Windows: an SQOS identification-level open, then the serving pid and start time; Unix: euid, and pid with start time where available; macOS: euid and the verified socket directory only, a known gap), never falling back to a default connect; the dated interim gaps stand until their two route entries land.
+- (.andromeda/security-plan.md:406) The CLI `--json` and MCP outcome of a mismatch is an external response and must be sanitised.
+  > **External responses** (to channel clients, CLI `--json` and MCP drivers): sanitised.
+- (.andromeda/security-plan.md:407) A verification refusal must carry no anyhow chain, absolute path (the snapshot or endpoint path) or internal type name.
+  > - No anyhow context chains, no absolute paths, no upstream text (prompts, tool `input`, assistant output), no serde_path_to_error paths or values, and no internal type names.
+- (.andromeda/security-plan.md:408) Any new error variant for a server-identity mismatch or an unreadable server pid / start time must keep a fixed `Display`, its pid, start-time and path fields excluded.
+  > - The `Display` impls on `PtyError` (hand-written), `ChannelError`, `StateError`, `AgentError`, `McpError` and `CoreError` (`thiserror`) use fixed messages. Variant fields that hold paths or payloads are excluded from `Display`.
+- (.andromeda/security-plan.md:410) The MCP frame tools must report a mismatch as `instance-unreachable` with `detail: null` and the text `refused: instance-unreachable`, and a verification panic or fault of no known shape as `-32603` `internal error` with `data: null`.
+  > - MCP `isError` results carry only the `structuredContent` codes from Conventions (`refusal`/`detail`, or `error: instance-unreachable | wrapper-fault | invalid-params` — `instance-unreachable` with `detail: null`, `wrapper-fault` with the JSON-RPC fault's `{code,message,data}`, `invalid-params` with a closed field word), and every `isError` text is `refused: <code>`. Any other handler fault, a reply of no known shape or a panicked call is the JSON-RPC error `-32603` `internal error` with `data: null` (chunk 2026-10-17-mcp-server-for-drivers).
+- (.andromeda/security-plan.md:413) The mismatch's full detail (which half failed, the read pid) goes only to `diagnostics/` or a short-lived CLI verb's stderr, never carrying a NEVER-log value.
+  > - Full error detail goes only to `instances/<name>/diagnostics/` (files 0600; format owned by obs) or, for short-lived CLI verbs, to stderr. stderr never carries upstream text, tool `input`, drift-report values or any other value on the NEVER-log floor (Bootstrap phases, `logging-redaction-wire`).
+- (.andromeda/security-plan.md:415) The body's hook rule binds every hook client this chunk changes, `hook.event` and `hook.dialog` alike.
+  > `hook` never writes to stderr and never exits non-zero: a security check failing in `hook` still ends in exit 0 with no body, so the dialog renders for the human; its hidden capture arms print nothing on every failure, their stderr always empty, their exit always 0.
+- (.andromeda/security-plan.md:339) A verification error joined into an anyhow chain for human-mode stderr must be mapped to a fixed message first.
+  > - anyhow chains stop at the `viola` bin's human-mode stderr. A chain printed there never includes a serde_json or serde_path_to_error source, or any other source whose `Display` can quote upstream text (serde errors quote the offending value). Map it to a fixed message before it joins the chain, and write the full error only to `instances/<name>/diagnostics/` when an instance is resolved (NEVER-log floor, `logging-redaction-wire`).
+- (.andromeda/security-plan.md:343) The recorded and the served pid and `started_at` the check compares may reach `diagnostics/` only, never CLI `--json` error output, MCP `isError` or channel `error.data`.
+  > - Operational metadata (TMS §1): absolute paths, which carry the OS username (the only PII in scope), and internal type names never go to CLI `--json` error output, MCP `isError` results or channel `error.data`. Pids, `agent_session_id`, `started_at` and `budget.json` values may be written to `diagnostics/`.
+- (.andromeda/security-plan.md:480) The hook's verification failure path must hold to the stderr and exit-code ban.
+  > - NEVER write to stderr from `viola hook`, and NEVER exit non-zero from it, including on security-check failures.
+- (.andromeda/security-plan.md:484) No verification refusal may name the snapshot, endpoint or socket-directory path.
+  > - NEVER expose absolute paths in any external error.
+- (.andromeda/security-plan.md:507) A verification refusal reaches automation only: the CLI verbs and MCP tools refuse, the hook fails open, and nothing blocks the human.
+  > - NEVER let a security refusal block the human. Refusals go only to automation (`send`/`answer`), and hooks fail open.
+
+## Bindings
+- **hook fail-open on a verification mismatch ↔ body §Authentication & Authorization (client-side server verification)**: the verification the auth row requires before the first frame (.andromeda/security-plan.md:114) ends, in `hook`, in the fail-open outcome of (.andromeda/security-plan-detail/error-handling.md:8) and (.andromeda/security-plan.md:415); in the CLI and MCP clients, in `instance-unreachable` (.andromeda/security-plan.md:110).
+- **the "as landed" hook checks list ↔ obs-plan event catalog (`hook-decision` detail)**: a new fail-open detail word for a mismatch extends the closed list in (.andromeda/security-plan-detail/error-handling.md:8) and the obs catalog's `hook-decision` details together; the dated "join at Epoch 6" text is amended at the wrap for the half this chunk lands.
+- **MCP `instance-unreachable` ↔ architecture §Conventions (refusal codes)**: the MCP tools' mismatch outcome is the Conventions code with `detail: null` (.andromeda/security-plan.md:410); the CLI verbs' exit is the Conventions exit code, not set by this plan.
+- **pids / `started_at` in diagnostics only ↔ obs-plan (`logging-redaction-wire`, diagnostics format)**: the check's compared values go only to obs-owned `diagnostics/` lines (.andromeda/security-plan.md:343), (.andromeda/security-plan.md:413).
+- **fixed `Display` on new error variants ↔ body §Security Anti-Patterns § Logging**: (.andromeda/security-plan.md:408) with (.andromeda/security-plan.md:484) and (.andromeda/security-plan.md:339).

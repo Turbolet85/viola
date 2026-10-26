@@ -1,0 +1,51 @@
+# tests · Mocking & Stubbing Discipline — category read
+
+## Carried
+- (.andromeda/test-plan-detail/mocking-stubbing-discipline.md:18) Any double the server-verification tests use (a liveness or identity probe standing in for the server pid / start-time read) must be a mockall `automock` on a seam trait the product defines, and every external process in them a real stub executable, never a patched call.
+  > mockall 0.15.0 on the `viola-pty` `Pty` trait and the liveness / `Clock` traits; native stub binaries (`viola-fake-agent`) | `#[cfg_attr(test, mockall::automock)]` on seam traits only; external processes are real stub executables, resolved through `CARGO_BIN_EXE_viola-fake-agent` in root `tests/` only. `viola-e2e` tests and the harness use the assert_cmd target-dir lookup (§3 boot step 5)
+- (.andromeda/test-plan-detail/mocking-stubbing-discipline.md:19) The mismatch negatives (a server at the recorded endpoint that is not the recorded wrapper) must be built from the interprocess server API's squatter listener and, on Windows, beside the real `viola_channel::Server::bind` listener; no other fake-server kind and no HTTP fake.
+  > interprocess 2.4.4 server API (squatter listener); `viola-fake-agent` as the fake CLI; windows-sys 0.61.2 `CreateNamedPipeW` (Windows only: test-owned control pipes) | The squatter binds the computed endpoint before `run`; in the listener-admission negatives the test-owned control pipes (accept-remote, reject-remote, the default descriptor) stand beside the real `viola_channel::Server::bind` listener, and `ImpersonateAnonymousToken` stands in for a foreign principal; no HTTP fake servers
+- (.andromeda/test-plan.md:389) A unit case of the verification decision must use mockall doubles only of traits the product already defines at its seams; a new seam added for the server-identity read must be a product trait, not a test-only patch point.
+  > Module logic with mocked dependencies (mockall doubles only for traits the product already defines at its seams: `Pty`, liveness probe, `Clock`)
+- (.andromeda/test-plan.md:376) The server-identity decision must be testable the way the peer-credential decision is: as a decision fed injected values (pids, start times, euids), the cross-user part held at that boundary.
+  > **viola-channel:** the ndjson frame codec at the `MAX_FRAME` boundary, the JSON-RPC error mapping, the FNV-1a endpoint golden vectors, the peer-credential decision with injected euids, and Windows handle non-inheritance.
+- (.andromeda/test-plan.md:707) The strict-modes half the verification's snapshot read rests on must be tested against a real tempfile home, never a mocked filesystem; only the Windows foreign-SID / non-persistent-ACL descriptors may be stubbed, as synthetic SDDL fed to the check function.
+  > - Filesystem: not mocked. A real tempfile home is used everywhere, because modes, `File::lock`, torn lines and symlink handling are the behaviour under test. Only the Windows foreign-SID / non-persistent-ACL descriptors are stubbed, as synthetic SDDL descriptors fed to the check function.
+- (.andromeda/test-plan.md:713) The verification's E2E cases must run over the real wrapper channel and the real pinned `viola hook`, never a stubbed channel or hook.
+  > - The wrapper channel, PTY, vt100 or serde in E2E. Code paths the agent must verify end-to-end go in E2E (§6).
+  > - `viola hook` invocations inside E2E. The fake agent calls the real pinned binary.
+- (.andromeda/test-plan.md:722) The hook, CLI and MCP clients' verification must be exercised with mockall only on seam traits and with real stub executables for processes.
+  > - **Process mocking:** mockall `automock` on seam traits only; external processes are real stub executables (`viola-fake-agent`).
+- (.andromeda/test-plan.md:724) The impostor server of a mismatch case is the interprocess server API's squatter; `viola-fake-agent` stays the only fake CLI.
+  > - **Fake servers:** the interprocess server API binds the squatter before `run`, and `viola-fake-agent` is the fake CLI; no HTTP fake servers.
+- (.andromeda/test-plan.md:726) A test that needs the server pid or start time to differ must get it by dependency injection or by a real second process, never by runtime patching of production code.
+  > **Anti-monkey-patching:** prefer dependency injection over runtime patching of production code. Doubles exist only for traits viola already defines at its seams (research, mockall key detail).
+- (.andromeda/test-plan.md:449) The MCP tools' verification is held at adapter level by `crates/viola-mcp/tests/handlers.rs` against the `viola_channel::Server` `TestWrapper` whose snapshot is written through `write_snapshot`, through the Tokio client, never the sync client.
+  > - **MCP:** adapter-level handler tests in `crates/viola-mcp/tests/handlers.rs` drive the transport-free `viola_mcp::Tools` handle (the same `Server::call` `serve` answers with) against a `viola_channel::Server` test wrapper (`TestWrapper`, its snapshot written through `viola_state::snapshot::write_snapshot`); the handlers under test use the Tokio client (`viola_channel::tokio_client::TokioClient`, `viola-channel`'s `tokio` feature), never the sync client (chunk 2026-10-17-mcp-server-for-drivers). The full stdio path is E2E (§6).
+- (.andromeda/test-plan.md:468) The E2E channel clients, verifying or not, take the endpoint only from `snapshot.json`.
+  > - **ipc-internal (wrapper channel):** the sync client, a raw interprocess stream and jsonschema; the endpoint is read only from `snapshot.json`.
+- (.andromeda/test-plan.md:889) A squatter or impostor endpoint in a mismatch case must never use `try_overwrite` or reuse an endpoint name across tests.
+  > - NEVER use interprocess `try_overwrite`, or reuse an endpoint name across tests. Take the endpoint only from `snapshot.json`.
+- (.andromeda/test-plan.md:886) The verification's snapshot read and strict-modes check must not be tested over mocked on-disk state.
+  > - NEVER mock the on-disk state (the arch has no DB; this is the DB-equivalent rule). Use a real tempfile home.
+- (.andromeda/test-plan.md:905) A mismatch case must not hand-write `snapshot.json` to plant a foreign pid or start time: in a booted-wrapper test the snapshot comes from the wrapper, and a reader's unit case may only alter bytes the writer wrote.
+  > - NEVER hand-write `ledger/stamps.json`, `snapshot.json` or `budget.json`. Stamps come from `viola verify`, snapshots from the wrapper and budget from `viola hook statusline`. The ban binds every booted-wrapper test. A reader's own unit cases may plant a malformed state file only by altering the writer's own bytes: write through the writer, then pad, replace or re-version (the operator's answer at the chunk 2026-10-10-budget-governor wrap, where `budget_read_*` landed in that form).
+- (.andromeda/test-plan.md:910) The sysinfo start-time read and the endpoint's server-pid read (Unix `peer_creds`, the Windows pipe's server process id) are libraries viola does not own: a test double of them needs a product abstraction layer first.
+  > - NEVER mock what you don't own (libraries / language runtime) without
+  >   abstraction layer
+  > - NEVER over-stub (you stop testing real behavior)
+  > - NEVER monkey-patch production code at runtime (use dependency injection)
+- (.andromeda/test-plan.md:914) No failpoint crate may be added to fault the verification in the sync crates; faults come from mockall doubles of existing traits plus process and file faults.
+  > - NEVER introduce a failpoint crate that pulls tokio into the sync crates (for example fail-parallel). Fault seams go through mockall doubles of existing traits plus process and file faults.
+- (.andromeda/test-plan.md:915) The hook client's fail-open-on-mismatch case must be driven in E2E through the real pinned `viola hook` the fake agent invokes from the plugin files, never a stubbed hook.
+  > - NEVER stub `viola hook` in E2E. The fake agent must invoke the real pinned binary through the plugin files `run` wrote.
+- (.andromeda/test-plan.md:949) Any chaos case for the exiting-wrapper window (CARRY 2) or a vanished server must take its fault only from explicit process / file operations or existing mockall seams.
+  > - NEVER run property or chaos tests without deterministic replay: proptest seeds persist in committed `proptest-regressions/`, and chaos faults come only from explicit process / file operations or existing mockall seams (§2 Property-based and Chaos rows).
+
+## Bindings
+- **Fake servers (squatter) ↔ body §1 coverage trigger (IPC)**: the squatter listener is the double behind the required negative "server pid / start-time mismatch vs `snapshot.json` → CLI exit 21 / MCP `instance-unreachable` / hook exit 0 with no body" (.andromeda/test-plan.md:184), built per (.andromeda/test-plan-detail/mocking-stubbing-discipline.md:19) and (.andromeda/test-plan.md:889).
+- **Process mocking on seam traits ↔ body §4 Unit Test Strategy**: the verification decision's unit cases take injected values like the peer-credential decision (.andromeda/test-plan.md:376), doubles only of product seam traits (.andromeda/test-plan.md:389), per (.andromeda/test-plan-detail/mocking-stubbing-discipline.md:18).
+- **No hand-written snapshot ↔ the Test Data & Fixtures category**: the mismatch case's foreign pid / start time comes from a real wrapper or an altered writer's bytes, never a hand-written `snapshot.json` (.andromeda/test-plan.md:905); the same rule is the Test Data category's seed strategy for on-disk state.
+- **Filesystem not mocked ↔ security-plan strict-modes / the entry "Home and code-bearing file integrity"**: whichever half the chunk takes, the "passed strict-modes in the same process" snapshot is tested on a real tempfile home, Windows foreign-SID cases stubbed as synthetic SDDL only (.andromeda/test-plan.md:707).
+- **Real `viola hook` in E2E ↔ body §6 Security sweep (hook fail-open matrix)**: the hook's fail-open on a failed verification joins the fail-open cases driven through the real pinned binary (.andromeda/test-plan.md:915), (.andromeda/test-plan.md:713).
+- **MCP adapter tests ↔ body §5 MCP pattern / architecture (Tokio only in `viola-mcp`)**: the MCP tools' verification is held against the `TestWrapper` through the Tokio client (.andromeda/test-plan.md:449).

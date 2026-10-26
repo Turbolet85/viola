@@ -1,0 +1,33 @@
+# design · cascade read
+
+## Carried
+- (.andromeda/design-system-detail/surface.md:54) A refused server identity check on `send`, `wait`, `last`, `answer`, `pause` or `release` must print the server-verification hint word for word as its cause's `hint:` line; an unreadable or newer `snapshot.json`, held at today's outcome, keeps the not-running hint; and the strict-modes hint applies to these verbs only if the strict-modes half is taken in this chunk (the P4 boundary fork).
+  > - `instance-unreachable` (exit 21) has one hint per cause, because the code is shared (T4):
+  >     - no wrapper is running for the name: `<name> is not running; viola list shows the live instances`
+  >     - the name is an unwrapped session: `<name> is not a wrapped session; only sessions started with viola run take commands`
+  >     - the viola home fails strict-modes: `the viola home is not private to you; <name> is not contacted until that is fixed`
+  >     - server verification fails: `the process on <name>'s endpoint is not its recorded wrapper; it was not contacted`
+  (.andromeda/design-system.md:303)
+  > A refusal prints `unable` plus `reason  detail`, then one `hint:` line per reason, detail or cause;
+- (.andromeda/design-system-detail/surface.md:46) Any hint the chunk adds for a new exit-21 cause must not name `viola release`, because these refusals reach drivers.
+  > - These two refusals reach drivers, and a driver's `release` is refused (`-32602`, `release-from-driver`, exit 20). So no hint ever names `viola release` (T3). `release` stays a human verb, documented under Wheel, link and gate verbs.
+- (.andromeda/design-system-detail/surface.md:73) The new cause's hint must print in human mode only; under `--json` the document keeps arch's `detail: null` shape (no per-cause detail code is added until arch names them); the mismatch's log line carries obs-plan D-20's `server-verify-failed` detail code; and the full mismatch detail (recorded and observed pid, start time) goes only to the instance's `diagnostics/`.
+  > - Hints are human-mode only. Under `--json`, no hint text is printed; the machine view carries the cause as a detail code, never as prose. **Pending an arch amendment:** arch currently fixes `{"v":1,"error":"instance-unreachable","detail":null}` for exit 21, and for exit 1 only `viola revive`'s `{"v":1,"error":"<code>","detail":null}` (its strict-modes and preflight refusals; chunk 2026-10-17-cli-machine-contract). Until arch names the `detail` codes, `--json` keeps arch's shape. obs-plan D-20 already names the log detail codes: `instance-dead`, `strict-modes-failed`, `server-verify-failed`
+  (.andromeda/design-system.md:354)
+  > - **Stack traces** never print. Errors are fixed messages, and full detail goes only to `instances/<name>/diagnostics/`.
+- (.andromeda/design-system-detail/surface.md:74) A server check that cannot be made must be reported as the exit-21 refusal with its cause's hint, never as `error: wrapper fault` or `error: internal error`; those two are faults and must stay hintless.
+  > - No hint line for `unknown` (exit 14), because its detail is opaque and a hint would have to guess. No hint line for `error: wrapper fault` (exit 20) or `error: internal error` (exit 1), because they are faults, not refusals, and their detail goes only to `diagnostics/`.
+- (.andromeda/design-system-detail/surface.md:110) The exit-21 row must list server verification among its causes, keep its human first word `unable  instance-unreachable` with no detail followed by the cause's hint, and keep the one `{"v":1,"error":"instance-unreachable","detail":null}` document with stderr empty for the new cause.
+  > | 21 | `unable  instance-unreachable` (no detail; the name is the omitted `<name>` field, as in every row), then the cause's hint (not running / unwrapped / strict-modes / server verification); `viola list`'s refused strict-modes check prints instead the fixed home-state or instance-state `unable:` / `hint:` pair (pattern 1, Refusal; the founder's own answer, 2026-10-13, relayed verbatim by the Viola overseer) | `{"v":1,"error":"instance-unreachable","detail":null}` (a per-cause `detail` code awaits an arch amendment), `list`'s refusal included, with stderr empty |
+  (.andromeda/design-system.md:338)
+  > 21 `unable  instance-unreachable` then the cause's hint, its `--json` document with stderr empty.
+- (.andromeda/design-system-detail/surface.md:21) The six verbs' new exit-21 cause must print in the two-space `unable  <name>  <reason>` form (not the fixed `unable: <text>` form, which belongs only to the refusals listed here), with `viola send`'s refusal carrying the `[/ ]` mirror prefix and the padded `unable`, and the hint line directly after it.
+  > refusals (`unable  <name>  <reason>  <detail>`, two-space separated; `viola send` prefixes the `[/ ]` mirror and pads `unable` to the readback-word column, as in its sample; the exit-code table omits the `<name>` field; only the exit-1 refusals of `viola run`, `viola revive` and `viola verify`, and `viola list`'s exit-21 strict-modes refusal (chunk 2026-10-11-the-board-viola-list, the founder's own answer, 2026-10-13, relayed verbatim by the Viola overseer; the operator's answer superseded 2026-10-13), use the fixed message form, `unable: <text>`, as in `unable: <name> is already live`), each refusal's `hint:` line directly after it
+  (.andromeda/design-system.md:298)
+  > [/ ] unable         builder  not-delivered  no-prompt-submitted   (stderr, exit 13)
+
+## Bindings
+- **cli-send hints ↔ cli-exit-codes**: the per-cause hint list and the exit-21 row name the same four causes, so the server-verification cause the chunk builds is added to both together, sharing the one `--json` document (.andromeda/design-system-detail/surface.md:58) (.andromeda/design-system-detail/surface.md:110)
+- **cli-send hints ↔ obs-plan**: the human hint holds no pid, start time or path, while the log line carries D-20's closed `server-verify-failed` code and the full detail goes to `diagnostics/` only (.andromeda/design-system-detail/surface.md:73) (.andromeda/design-system.md:354)
+- **cli-output ↔ cli-send hints**: `viola send` prints its new exit-21 cause through the `[/ ]` mirror with the cause's hint directly after; the other five verbs print the plain two-space line and the same hint (.andromeda/design-system-detail/surface.md:21) (.andromeda/design-system-detail/surface.md:58)
+- **cli-send hints ↔ the scope's held forks**: the not-running hint stays the outcome for an unreadable or newer snapshot (CARRY 7's hold), and the strict-modes hint reaches these verbs only if P4 takes the strict-modes half here (.andromeda/design-system-detail/surface.md:55) (.andromeda/design-system-detail/surface.md:57)

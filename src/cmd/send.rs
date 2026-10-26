@@ -15,13 +15,12 @@ use chrono::Utc;
 use serde_json::{Map, Value, json};
 use tracing::instrument;
 use viola_agent_claude::hook::typed_text;
-use viola_channel::{ChannelError, Client};
 use viola_core::obs::ObsEvent;
 use viola_core::{MAX_FRAME, NotDelivered, RefusalReason, ViolaName, obs_event};
 
-use viola_state::liveness::live_endpoint;
+use viola_state::liveness::{LiveEndpoint, live_endpoint};
 
-use super::client::{self, Reply, clock_part, own_name};
+use super::client::{self, CallError, Reply, Unreachable, clock_part, own_name};
 use crate::{human, run};
 
 #[derive(clap::Args)]
@@ -166,9 +165,9 @@ impl Out<'_> {
     }
 
     /// Exit 21, its human form the bracketed mirror.
-    fn unreachable(&self, during: &'static str) -> u8 {
-        client::unreachable(self.json, during, || {
-            let hint = human::send_hint(self.name, "not-running");
+    fn unreachable(&self, cause: Unreachable) -> u8 {
+        client::unreachable(self.json, cause, || {
+            let hint = human::send_hint(self.name, cause.hint_cause());
             let _ = human::write_send_unable(
                 &mut io::stderr().lock(),
                 self.name,
@@ -216,8 +215,8 @@ fn deliver(home: &Path, text: &str, out: &Out<'_>) -> anyhow::Result<u8> {
         return Ok(13);
     }
     let instance_dir = home.join("instances").join(out.name);
-    let Some(endpoint) = live_endpoint(&instance_dir) else {
-        return Ok(out.unreachable("connect"));
+    let Some(live) = live_endpoint(&instance_dir) else {
+        return Ok(out.unreachable(Unreachable::Dead("connect")));
     };
     let mut params = Map::new();
     params.insert("text".to_owned(), text.into());
@@ -225,9 +224,9 @@ fn deliver(home: &Path, text: &str, out: &Out<'_>) -> anyhow::Result<u8> {
         params.insert("from".to_owned(), from.as_ref().into());
     }
     out.open();
-    let reply = match client::answer_of(request(&endpoint, params))? {
+    let reply = match client::answer_of(request(&live, params))? {
         Ok(reply) => reply,
-        Err(during) => return Ok(out.unreachable(during)),
+        Err(cause) => return Ok(out.unreachable(cause)),
     };
     let code = match reply {
         Reply::Ok(ok) => {
@@ -248,9 +247,10 @@ fn deliver(home: &Path, text: &str, out: &Out<'_>) -> anyhow::Result<u8> {
     Ok(code)
 }
 
+/// The connection, its server checked, then the one `send` frame.
 #[instrument(skip_all, name = "send.client")]
-fn request(endpoint: &str, params: Map<String, Value>) -> Result<Value, ChannelError> {
-    Client::connect(endpoint, "cli")?.request("send", params)
+fn request(live: &LiveEndpoint, params: Map<String, Value>) -> Result<Value, CallError> {
+    Ok(client::connect(live)?.request("send", params)?)
 }
 
 fn refused_client_side(detail: NotDelivered) {
@@ -266,6 +266,16 @@ fn refused_client_side(detail: NotDelivered) {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// A server that is not the recorded wrapper is refused inside `send.client`, before any frame
+    /// (obs-plan §4, the must-trace spans).
+    #[cfg(not(target_os = "macos"))]
+    #[test]
+    fn request_refuses_an_unverified_server_inside_its_dispatch_span() {
+        client::refused_inside::assert_refused_inside("send.client", |live| {
+            request(live, Map::new())
+        });
+    }
     use rstest::rstest;
 
     #[rstest]

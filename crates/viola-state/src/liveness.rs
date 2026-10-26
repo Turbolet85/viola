@@ -60,24 +60,103 @@ pub fn own_start(pid: u32) -> Option<String> {
     DateTime::from_timestamp(secs, 0).map(crate::timestamp)
 }
 
+/// A snapshot's `started_at` in whole seconds since the epoch; `None` when it is not RFC 3339.
+fn recorded_secs(started_at: &str) -> Option<u64> {
+    DateTime::parse_from_rfc3339(started_at)
+        .ok()
+        .and_then(|t| u64::try_from(t.timestamp()).ok())
+}
+
 /// Whether the snapshot's pid is still the process that wrote it.
 pub fn same_process(snapshot: &InstanceSnapshot) -> bool {
-    let recorded = DateTime::parse_from_rfc3339(&snapshot.started_at)
-        .ok()
-        .and_then(|t| u64::try_from(t.timestamp()).ok());
-    recorded.is_some_and(|secs| process_start_time(snapshot.pid) == Some(secs))
+    recorded_secs(&snapshot.started_at)
+        .is_some_and(|secs| process_start_time(snapshot.pid) == Some(secs))
+}
+
+/// A live instance's endpoint and the identity its snapshot records for the wrapper serving it,
+/// all from the one snapshot read.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct LiveEndpoint {
+    pub endpoint: String,
+    pub pid: u32,
+    pub started_at: String,
 }
 
 /// The endpoint of a live instance: its snapshot names one, and its recorded pid + start time and
-/// heartbeat read `live`. Strict-modes and the server's identity are not checked here: the clients'
-/// liveness-only pre-check, a dated gap (security-plan §Authentication & Authorization).
-pub fn live_endpoint(instance_dir: &Path) -> Option<String> {
+/// heartbeat read `live`. Strict-modes is not checked here, a dated gap (security-plan
+/// §Authentication & Authorization); the server's identity is checked on the connection, by
+/// [`verify_server`] against the recorded `pid` and `started_at` handed on here.
+pub fn live_endpoint(instance_dir: &Path) -> Option<LiveEndpoint> {
     let snapshot = read_snapshot(instance_dir)?;
     let age = beat_age(instance_dir, SystemTime::now());
     if classify(age, same_process(&snapshot)) != Liveness::Live {
         return None;
     }
-    snapshot.endpoint
+    Some(LiveEndpoint {
+        endpoint: snapshot.endpoint?,
+        pid: snapshot.pid,
+        started_at: snapshot.started_at,
+    })
+}
+
+/// Whether the process serving a connection is the wrapper its snapshot records.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum ServerVerdict {
+    Matches,
+    /// Another pid, or the recorded pid with another start time.
+    Mismatch,
+    /// `started_at` is not RFC 3339, the connection gave no pid where the platform reports one, or
+    /// the serving process is gone.
+    Unverifiable,
+}
+
+/// The server check over its facts: the recorded `pid` and `started_at`, the connection's server
+/// pid and that pid's start time in seconds. Where the platform reports no peer pid (macOS) it
+/// matches with no comparison, the recorded gap (security-plan §Authentication & Authorization).
+pub fn server_verdict(
+    recorded_pid: u32,
+    started_at: &str,
+    observed_pid: Option<u32>,
+    observed_start: Option<u64>,
+    peer_pid_reported: bool,
+) -> ServerVerdict {
+    if !peer_pid_reported {
+        return ServerVerdict::Matches;
+    }
+    let Some(recorded_start) = recorded_secs(started_at) else {
+        return ServerVerdict::Unverifiable;
+    };
+    let Some(observed_pid) = observed_pid else {
+        return ServerVerdict::Unverifiable;
+    };
+    if observed_pid != recorded_pid {
+        return ServerVerdict::Mismatch;
+    }
+    match observed_start {
+        None => ServerVerdict::Unverifiable,
+        Some(start) if start == recorded_start => ServerVerdict::Matches,
+        Some(_) => ServerVerdict::Mismatch,
+    }
+}
+
+/// [`server_verdict`] with the serving process's start time read from the OS (a zombie is gone).
+pub fn verify_server(
+    recorded_pid: u32,
+    started_at: &str,
+    observed_pid: Option<u32>,
+    peer_pid_reported: bool,
+) -> ServerVerdict {
+    let observed_start = match observed_pid {
+        Some(pid) if peer_pid_reported => process_start_time(pid),
+        _ => None,
+    };
+    server_verdict(
+        recorded_pid,
+        started_at,
+        observed_pid,
+        observed_start,
+        peer_pid_reported,
+    )
 }
 
 #[cfg(test)]
@@ -161,13 +240,111 @@ mod tests {
         let live = tempfile::tempdir().expect("tempdir");
         crate::snapshot::write_snapshot(live.path(), &written).expect("the snapshot");
         crate::heartbeat::touch_heartbeat(live.path()).expect("the heartbeat");
-        assert_eq!(
-            live_endpoint(live.path()).as_deref(),
-            Some("viola-test-endpoint")
-        );
+        let found = live_endpoint(live.path()).expect("live");
+        assert_eq!(found.endpoint, "viola-test-endpoint");
+        assert_eq!((found.pid, &found.started_at), (me, &written.started_at));
         let stale = tempfile::tempdir().expect("tempdir");
         crate::snapshot::write_snapshot(stale.path(), &written).expect("the snapshot");
         assert_eq!(live_endpoint(stale.path()), None);
+    }
+
+    /// `1970-01-01T00:01:40.000Z` is 100 s after the epoch.
+    #[rstest]
+    #[case::the_recorded_server(
+        1_000,
+        "1970-01-01T00:01:40.000Z",
+        Some(1_000),
+        Some(100),
+        true,
+        ServerVerdict::Matches
+    )]
+    #[case::another_pid(
+        1_000,
+        "1970-01-01T00:01:40.000Z",
+        Some(2_000),
+        Some(100),
+        true,
+        ServerVerdict::Mismatch
+    )]
+    #[case::another_start_time(
+        1_000,
+        "1970-01-01T00:01:40.000Z",
+        Some(1_000),
+        Some(101),
+        true,
+        ServerVerdict::Mismatch
+    )]
+    #[case::started_at_not_rfc3339(
+        1_000,
+        "s",
+        Some(1_000),
+        Some(100),
+        true,
+        ServerVerdict::Unverifiable
+    )]
+    #[case::no_observed_pid(
+        1_000,
+        "1970-01-01T00:01:40.000Z",
+        None,
+        None,
+        true,
+        ServerVerdict::Unverifiable
+    )]
+    #[case::the_observed_process_gone(
+        1_000,
+        "1970-01-01T00:01:40.000Z",
+        Some(1_000),
+        None,
+        true,
+        ServerVerdict::Unverifiable
+    )]
+    #[case::no_peer_pid_platform(1_000, "s", None, None, false, ServerVerdict::Matches)]
+    #[case::no_peer_pid_platform_compares_nothing(
+        1_000,
+        "1970-01-01T00:01:40.000Z",
+        Some(2_000),
+        Some(7),
+        false,
+        ServerVerdict::Matches
+    )]
+    fn server_verdict_rows(
+        #[case] recorded_pid: u32,
+        #[case] started_at: &str,
+        #[case] observed_pid: Option<u32>,
+        #[case] observed_start: Option<u64>,
+        #[case] reported: bool,
+        #[case] want: ServerVerdict,
+    ) {
+        assert_eq!(
+            server_verdict(
+                recorded_pid,
+                started_at,
+                observed_pid,
+                observed_start,
+                reported
+            ),
+            want
+        );
+    }
+
+    /// The test process as both the recorded and the observed server: its own start time matches,
+    /// a second earlier does not.
+    #[test]
+    fn verify_server_reads_the_observed_start_time_from_the_os() {
+        let me = std::process::id();
+        let start = own_start(me).expect("own start");
+        assert_eq!(
+            verify_server(me, &start, Some(me), true),
+            ServerVerdict::Matches
+        );
+        let secs = DateTime::parse_from_rfc3339(&start)
+            .expect("rfc3339")
+            .timestamp();
+        let earlier = crate::timestamp(DateTime::from_timestamp(secs - 1, 0).expect("time"));
+        assert_eq!(
+            verify_server(me, &earlier, Some(me), true),
+            ServerVerdict::Mismatch
+        );
     }
 
     #[test]

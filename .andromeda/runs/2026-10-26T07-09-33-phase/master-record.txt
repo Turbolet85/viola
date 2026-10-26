@@ -1,0 +1,1 @@
+2026-10-26-server-verification-before-any-frame · pending · every frame-writing client (CLI, hook, MCP) verifies the wrapper's pid and start time first; mismatch reads unreachable, hooks fail open · → viola-0.1.0/chunks/2026-10-26-server-verification-before-any-frame/

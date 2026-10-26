@@ -9,12 +9,11 @@ use std::process::ExitCode;
 
 use serde_json::{Map, Value, json};
 use tracing::instrument;
-use viola_channel::{ChannelError, Client};
 use viola_core::ViolaName;
 
-use viola_state::liveness::live_endpoint;
+use viola_state::liveness::{LiveEndpoint, live_endpoint};
 
-use super::client::{self, Reply, clock_part, own_name};
+use super::client::{self, CallError, Reply, Unreachable, clock_part, own_name};
 use crate::{human, run};
 
 #[derive(clap::Args)]
@@ -44,10 +43,13 @@ pub(crate) fn wait(home: &Path, args: &WaitArgs) -> anyhow::Result<ExitCode> {
     let home = client::start(home, &args.name)?;
     let name: &str = args.name.as_ref();
     let instance_dir = home.join("instances").join(name);
-    let unreachable =
-        |during| client::unreachable(args.json, during, || client::unable_unreachable(name));
-    let Some(endpoint) = live_endpoint(&instance_dir) else {
-        return Ok(ExitCode::from(unreachable("connect")));
+    let unreachable = |cause| {
+        client::unreachable(args.json, cause, || {
+            client::unable_unreachable(name, cause);
+        })
+    };
+    let Some(live) = live_endpoint(&instance_dir) else {
+        return Ok(ExitCode::from(unreachable(Unreachable::Dead("connect"))));
     };
     let mut params = Map::new();
     if let Some(after) = args.after {
@@ -62,12 +64,12 @@ pub(crate) fn wait(home: &Path, args: &WaitArgs) -> anyhow::Result<ExitCode> {
     if !args.json && io::stderr().is_terminal() {
         let _ = human::write_waiting(&mut io::stderr().lock(), name);
     }
-    let sent = request(&endpoint, args.after, args.timeout_ms, params);
+    let sent = request(&live, args.after, args.timeout_ms, params);
     let ok = match client::answer_of(sent)? {
         Ok(Reply::Ok(ok)) => ok,
         Ok(Reply::Fault(detail)) => return Ok(ExitCode::from(client::fault(args.json, &detail))),
         Ok(Reply::Refused { .. }) => anyhow::bail!("wait answered with a refusal"),
-        Err(during) => return Ok(ExitCode::from(unreachable(during))),
+        Err(cause) => return Ok(ExitCode::from(unreachable(cause))),
     };
     if args.json {
         client::document(&json!({"v": 1, "ok": ok}));
@@ -80,12 +82,12 @@ pub(crate) fn wait(home: &Path, args: &WaitArgs) -> anyhow::Result<ExitCode> {
 
 #[instrument(skip_all, name = "wait.block", fields(after = after, timeout_ms = timeout_ms))]
 fn request(
-    endpoint: &str,
+    live: &LiveEndpoint,
     after: Option<u64>,
     timeout_ms: Option<u64>,
     params: Map<String, Value>,
-) -> Result<Value, ChannelError> {
-    Client::connect(endpoint, "cli")?.request("wait", params)
+) -> Result<Value, CallError> {
+    Ok(client::connect(live)?.request("wait", params)?)
 }
 
 /// The result line on stdout (design-system cli Component Patterns 3).
@@ -112,6 +114,16 @@ fn show(name: &str, ok: &Value, timeout_ms: Option<u64>) {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// A server that is not the recorded wrapper is refused inside `wait.block`, before any frame
+    /// (obs-plan §4, the must-trace spans).
+    #[cfg(not(target_os = "macos"))]
+    #[test]
+    fn request_refuses_an_unverified_server_inside_its_dispatch_span() {
+        client::refused_inside::assert_refused_inside("wait.block", |live| {
+            request(live, None, None, Map::new())
+        });
+    }
 
     #[test]
     fn wait_line_form_dialog_expired_takes_the_dialog_form() {

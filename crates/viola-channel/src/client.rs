@@ -9,6 +9,7 @@ use std::sync::atomic::{AtomicU64, Ordering};
 use std::time::{Instant, SystemTime, UNIX_EPOCH};
 
 use interprocess::local_socket::Stream;
+use interprocess::local_socket::traits::StreamCommon;
 use serde_json::{Map, Value, json};
 use tracing::instrument;
 use viola_core::obs::ObsEvent;
@@ -51,6 +52,12 @@ impl Client {
     /// `<process>-<pid>-<t0>-<n>`: correlation for the logs of both sides, never identity.
     pub fn conn(&self) -> &str {
         &self.conn
+    }
+
+    /// The pid of the process serving this connection, from the OS (`None` on macOS, whose peer
+    /// credentials carry no pid: [`SERVER_PID_REPORTED`]). Nothing is written or logged.
+    pub fn server_pid(&self) -> Option<u32> {
+        server_pid_of(self.reader.get_ref())
     }
 
     /// One request and its reply, whole. Ids are integers, monotonic per connection.
@@ -116,6 +123,19 @@ impl Client {
         let mut writer = self.reader.get_ref();
         write_frame(&mut writer, &frame)
     }
+}
+
+/// Whether a connected stream reports its server's pid: Linux (`SO_PEERCRED`) and Windows
+/// (`GetNamedPipeServerProcessId` on the client end) do; macOS's `xucred` holds none.
+pub const SERVER_PID_REPORTED: bool = cfg!(not(target_os = "macos"));
+
+/// The serving process's pid as the stream's peer credentials give it.
+pub(crate) fn server_pid_of(stream: &impl StreamCommon) -> Option<u32> {
+    let pid = stream.peer_creds().ok()?.pid()?;
+    #[cfg(unix)]
+    return u32::try_from(pid).ok();
+    #[cfg(windows)]
+    return Some(pid);
 }
 
 /// `<process>-<pid>-<t0>-<n>`, `n` counted over every connection this process opens, through either
@@ -537,6 +557,23 @@ mod tests {
         assert_eq!(line["sender"], "0.1.0");
         assert_eq!(line["v"], 1);
         assert_eq!(got.span("channel.request")["method"], "hook.event");
+    }
+
+    /// The test process serves the endpoint, so the connection reads its own pid as the server's.
+    #[cfg(not(target_os = "macos"))]
+    #[test]
+    fn client_server_pid_is_the_serving_process() {
+        let (_dir, endpoint, _serving) = served("server-pid");
+        let client = Client::connect(&endpoint, "cli").expect("connect");
+        assert_eq!(client.server_pid(), Some(std::process::id()));
+    }
+
+    #[cfg(target_os = "macos")]
+    #[test]
+    fn client_server_pid_is_none_where_peer_credentials_hold_no_pid() {
+        let (_dir, endpoint, _serving) = served("server-pid");
+        let client = Client::connect(&endpoint, "cli").expect("connect");
+        assert_eq!(client.server_pid(), None);
     }
 
     #[test]

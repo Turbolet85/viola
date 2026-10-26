@@ -1,15 +1,17 @@
 //! What `send`, `wait` and `last` share as channel clients: the `cli` obs start, the reply shapes,
 //! and the outputs every verb writes the same way — one `--json` document, exit 20's wrapper fault
-//! and exit 21's unreachable line. Their liveness-only endpoint read, a dated gap, is
-//! `viola_state::liveness::live_endpoint`.
+//! and exit 21's unreachable line. Their endpoint read is `viola_state::liveness::live_endpoint`
+//! (strict-modes unchecked, a dated gap); their connection is [`connect`], whose server is checked
+//! against the recorded wrapper before the first frame.
 
 use std::io::{self, Write as _};
 use std::path::{Path, PathBuf};
 
 use serde_json::{Value, json};
-use viola_channel::ChannelError;
+use viola_channel::{ChannelError, Client, SERVER_PID_REPORTED};
 use viola_core::obs::{ObsEvent, ObsProcess};
 use viola_core::{ViolaName, obs_event};
+use viola_state::liveness::{LiveEndpoint, ServerVerdict, verify_server};
 
 use crate::{human, obs, run};
 
@@ -70,17 +72,87 @@ pub(crate) fn fault_document(detail: &Value) -> Value {
     json!({"v": 1, "error": "wrapper-fault", "detail": detail})
 }
 
-/// One request's outcome: the reply, or `Err(during)` when the instance could not be reached
-/// (`connect`) or vanished while the call was open (`call`). Any other channel failure, and a
-/// reply of no known shape, is an internal error.
+/// Why exit 21: the instance's wrapper is not there — no live snapshot or no connection
+/// (`connect`), or gone while the call was open (`call`) — or the process serving its endpoint is
+/// not the wrapper its snapshot records.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(crate) enum Unreachable {
+    Dead(&'static str),
+    ServerUnverified,
+}
+
+impl Unreachable {
+    /// The `process-exit` `detail` (obs-plan §6 log-details).
+    fn detail(self) -> &'static str {
+        match self {
+            Self::Dead(_) => "instance-dead",
+            Self::ServerUnverified => "server-verify-failed",
+        }
+    }
+
+    /// The check is part of making the connection, so its failure is `connect`'s.
+    fn during(self) -> &'static str {
+        match self {
+            Self::Dead(during) => during,
+            Self::ServerUnverified => "connect",
+        }
+    }
+
+    /// The `send_hint` cause its human line ends with.
+    pub(crate) fn hint_cause(self) -> &'static str {
+        match self {
+            Self::Dead(_) => "not-running",
+            Self::ServerUnverified => "server-verify",
+        }
+    }
+}
+
+/// A call that ended without a reply: the channel's own failure, or a server that failed its check
+/// before any frame was written.
+#[derive(Debug)]
+pub(crate) enum CallError {
+    Channel(ChannelError),
+    ServerUnverified,
+}
+
+impl From<ChannelError> for CallError {
+    fn from(error: ChannelError) -> Self {
+        Self::Channel(error)
+    }
+}
+
+/// A connection to `live`'s endpoint whose server is the wrapper the snapshot records — its pid
+/// and that pid's start time (security-plan §Authentication & Authorization, IPC client-side
+/// server verification) — checked before the caller writes any frame.
+pub(crate) fn connect(live: &LiveEndpoint) -> Result<Client, CallError> {
+    let client = Client::connect(&live.endpoint, "cli")?;
+    let verdict = verify_server(
+        live.pid,
+        &live.started_at,
+        client.server_pid(),
+        SERVER_PID_REPORTED,
+    );
+    match verdict {
+        ServerVerdict::Matches => Ok(client),
+        ServerVerdict::Mismatch | ServerVerdict::Unverifiable => Err(CallError::ServerUnverified),
+    }
+}
+
+/// One request's outcome: the reply, or why the instance was unreachable. Any other channel
+/// failure, and a reply of no known shape, is an internal error.
 pub(crate) fn answer_of(
-    sent: Result<Value, ChannelError>,
-) -> anyhow::Result<Result<Reply, &'static str>> {
+    sent: Result<Value, CallError>,
+) -> anyhow::Result<Result<Reply, Unreachable>> {
     let frame = match sent {
         Ok(frame) => frame,
-        Err(ChannelError::Connect(_)) => return Ok(Err("connect")),
-        Err(ChannelError::Closed | ChannelError::Io(_)) => return Ok(Err("call")),
-        Err(error) => return Err(error.into()),
+        Err(CallError::ServerUnverified) => return Ok(Err(Unreachable::ServerUnverified)),
+        Err(CallError::Channel(ChannelError::Connect(_))) => {
+            return Ok(Err(Unreachable::Dead("connect")));
+        }
+        Err(CallError::Channel(ChannelError::Closed | ChannelError::Io(_))) => {
+            return Ok(Err(Unreachable::Dead("call")));
+        }
+        Err(CallError::Channel(error)) => return Err(error.into()),
     };
     let reply = reply_of(&frame).ok_or_else(|| anyhow::anyhow!("malformed reply"))?;
     Ok(Ok(reply))
@@ -120,9 +192,9 @@ pub(crate) fn fault(json: bool, detail: &Value) -> u8 {
     20
 }
 
-/// Exit 21: the `--json` document, or the verb's own stderr lines from `human`; its
-/// `process-exit` at WARN (obs-plan §6 Log levels mapping).
-pub(crate) fn unreachable(json: bool, during: &'static str, human: impl FnOnce()) -> u8 {
+/// Exit 21: the `--json` document, the same for every cause, or the verb's own stderr lines from
+/// `human`; its `process-exit` at WARN names the cause (obs-plan §6 Log levels mapping).
+pub(crate) fn unreachable(json: bool, cause: Unreachable, human: impl FnOnce()) -> u8 {
     if json {
         document(&json!({"v": 1, "error": "instance-unreachable", "detail": null}));
     } else {
@@ -133,22 +205,122 @@ pub(crate) fn unreachable(json: bool, during: &'static str, human: impl FnOnce()
         ObsEvent::ProcessExit,
         subject = "self",
         exit_code = 21u8,
-        detail = "instance-dead",
-        during = during,
+        detail = cause.detail(),
+        during = cause.during(),
         duration_ms = obs::duration_ms(),
     );
     21
 }
 
-/// `unable  <name>  instance-unreachable` and its `hint:` line, for `wait` and `last`.
-pub(crate) fn unable_unreachable(name: &str) {
-    let hint = human::send_hint(name, "not-running");
+/// `unable  <name>  instance-unreachable` and its cause's `hint:` line, for `wait`, `last`,
+/// `answer`, `pause` and `release`.
+pub(crate) fn unable_unreachable(name: &str, cause: Unreachable) {
+    let hint = human::send_hint(name, cause.hint_cause());
     let _ = human::write_unable(
         &mut io::stderr().lock(),
         name,
         "instance-unreachable",
         hint.as_deref(),
     );
+}
+
+/// Where an unverified server's refusal is made, for each verb's own case: inside the verb's
+/// dispatch span, before any `channel.request` span or `channel-request` line, and with no frame
+/// written (obs-plan §4, the must-trace spans).
+#[cfg(test)]
+#[cfg(not(target_os = "macos"))]
+pub(crate) mod refused_inside {
+    use std::sync::{Arc, Mutex};
+
+    use serde_json::Value;
+    use tracing_subscriber::layer::{Context, Layer, SubscriberExt as _};
+    use viola_channel::{Dispatch, ProtocolError, Server};
+    use viola_state::liveness::LiveEndpoint;
+
+    use super::CallError;
+
+    /// Every span opened and every line written, in order: `span <name>` and
+    /// `event <event> in <span>`.
+    #[derive(Clone, Default)]
+    pub(crate) struct Seen(pub(crate) Arc<Mutex<Vec<String>>>);
+
+    impl<S> Layer<S> for Seen
+    where
+        S: tracing::Subscriber + for<'a> tracing_subscriber::registry::LookupSpan<'a>,
+    {
+        fn on_new_span(
+            &self,
+            attrs: &tracing::span::Attributes<'_>,
+            _: &tracing::span::Id,
+            _: Context<'_, S>,
+        ) {
+            let name = attrs.metadata().name();
+            self.0.lock().expect("seen").push(format!("span {name}"));
+        }
+
+        fn on_event(&self, event: &tracing::Event<'_>, ctx: Context<'_, S>) {
+            let mut fields = viola_channel::test_support::JsonFields::default();
+            event.record(&mut fields);
+            let within = ctx.event_span(event).map_or("none", |span| span.name());
+            let name = fields.0.get("event").cloned().unwrap_or_default();
+            self.0
+                .lock()
+                .expect("seen")
+                .push(format!("event {name} in {within}"));
+        }
+    }
+
+    /// Every frame the test server was sent.
+    #[derive(Default)]
+    struct Frames(Mutex<Vec<String>>);
+
+    impl Dispatch for Frames {
+        fn dispatch(&self, method: &str, _: &Value) -> Result<Value, ProtocolError> {
+            self.0.lock().expect("frames").push(method.to_owned());
+            Ok(serde_json::json!({"ok": {}}))
+        }
+    }
+
+    /// `request` against a server this process runs while the snapshot's identity records this
+    /// process under a start time a second before its own: refused before any frame, and the one
+    /// span it opened is `span`.
+    pub(crate) fn assert_refused_inside(
+        span: &'static str,
+        request: impl FnOnce(&LiveEndpoint) -> Result<Value, CallError>,
+    ) {
+        let dir = tempfile::tempdir().expect("the socket dir");
+        let base = format!("viola-test-chan-{}-{span}", std::process::id());
+        let endpoint = if cfg!(windows) {
+            format!(r"\\.\pipe\{base}")
+        } else {
+            dir.path()
+                .join(format!("{base}.sock"))
+                .to_string_lossy()
+                .into_owned()
+        };
+        let frames = Arc::new(Frames::default());
+        let _serving = Server::bind(&endpoint)
+            .expect("bound")
+            .serve(Arc::clone(&frames) as Arc<dyn Dispatch>);
+        let me = std::process::id();
+        let start = viola_state::liveness::own_start(me).expect("own start");
+        let secs = chrono::DateTime::parse_from_rfc3339(&start)
+            .expect("rfc3339")
+            .timestamp();
+        let live = LiveEndpoint {
+            endpoint,
+            pid: me,
+            started_at: crate::obs::timestamp(
+                chrono::DateTime::from_timestamp(secs - 1, 0).expect("time"),
+            ),
+        };
+        let seen = Seen::default();
+        let subscriber = tracing_subscriber::registry().with(seen.clone());
+        let sent = crate::test_support::with_scoped_default(subscriber, || request(&live));
+        assert!(matches!(sent, Err(CallError::ServerUnverified)), "{sent:?}");
+        assert_eq!(*seen.0.lock().expect("seen"), [format!("span {span}")]);
+        assert!(frames.0.lock().expect("frames").is_empty());
+    }
 }
 
 #[cfg(test)]
@@ -201,22 +373,103 @@ mod tests {
 
     #[test]
     fn answer_of_splits_unreachable_from_a_fault() {
+        let channel = |error| answer_of(Err(CallError::Channel(error)));
         let reached = answer_of(Ok(json!({"id": 1, "result": {"ok": {}}}))).expect("read");
         assert_eq!(reached, Ok(Reply::Ok(json!({}))));
         let refused = io::Error::from(io::ErrorKind::ConnectionRefused);
-        let connect = answer_of(Err(ChannelError::Connect(refused))).expect("read");
-        assert_eq!(connect, Err("connect"));
+        let connect = channel(ChannelError::Connect(refused)).expect("read");
+        assert_eq!(connect, Err(Unreachable::Dead("connect")));
         assert_eq!(
-            answer_of(Err(ChannelError::Closed)).expect("read"),
-            Err("call")
+            channel(ChannelError::Closed).expect("read"),
+            Err(Unreachable::Dead("call"))
         );
         let reset = io::Error::from(io::ErrorKind::ConnectionReset);
         assert_eq!(
-            answer_of(Err(ChannelError::Io(reset))).expect("read"),
-            Err("call")
+            channel(ChannelError::Io(reset)).expect("read"),
+            Err(Unreachable::Dead("call"))
         );
-        assert!(answer_of(Err(ChannelError::Oversize)).is_err());
+        assert_eq!(
+            answer_of(Err(CallError::ServerUnverified)).expect("read"),
+            Err(Unreachable::ServerUnverified)
+        );
+        assert!(channel(ChannelError::Oversize).is_err());
         assert!(answer_of(Ok(json!({"id": 1}))).is_err());
+    }
+
+    /// Every line the calling thread emits, its fields and its level as JSON.
+    #[derive(Clone, Default)]
+    struct Lines(std::sync::Arc<std::sync::Mutex<Vec<Value>>>);
+
+    impl<S: tracing::Subscriber> tracing_subscriber::Layer<S> for Lines {
+        fn on_event(
+            &self,
+            event: &tracing::Event<'_>,
+            _: tracing_subscriber::layer::Context<'_, S>,
+        ) {
+            let mut fields = viola_channel::test_support::JsonFields::default();
+            event.record(&mut fields);
+            let mut line = fields.0;
+            line.insert("level".to_owned(), event.metadata().level().as_str().into());
+            self.0.lock().expect("lines").push(Value::Object(line));
+        }
+    }
+
+    /// Exit 21's `process-exit` names its cause at WARN, the same document for both, and no pid,
+    /// start time, path or endpoint (obs-plan §6 log-details; architecture §Standard Contracts,
+    /// CLI `--json` output).
+    #[rstest]
+    #[case::dead_at_connect(
+        Unreachable::Dead("connect"),
+        "instance-dead",
+        "connect",
+        "not-running"
+    )]
+    #[case::dead_in_the_call(Unreachable::Dead("call"), "instance-dead", "call", "not-running")]
+    #[case::server_unverified(
+        Unreachable::ServerUnverified,
+        "server-verify-failed",
+        "connect",
+        "server-verify"
+    )]
+    fn unreachable_logs_its_cause(
+        #[case] cause: Unreachable,
+        #[case] detail: &str,
+        #[case] during: &str,
+        #[case] hint: &str,
+    ) {
+        use tracing_subscriber::layer::SubscriberExt as _;
+        let lines = Lines::default();
+        let subscriber = tracing_subscriber::registry().with(lines.clone());
+        let mut human_ran = false;
+        let code = crate::test_support::with_scoped_default(subscriber, || {
+            unreachable(false, cause, || human_ran = true)
+        });
+        assert_eq!((code, human_ran), (21, true));
+        assert_eq!(cause.hint_cause(), hint);
+        let got = lines.0.lock().expect("lines").clone();
+        assert_eq!(got.len(), 1, "{got:?}");
+        let line = got[0].as_object().expect("object");
+        assert_eq!(line["event"], "process-exit");
+        assert_eq!(line["level"], "WARN");
+        assert_eq!(line["subject"], "self");
+        assert_eq!(line["exit_code"], 21);
+        assert_eq!(line["detail"], detail);
+        assert_eq!(line["during"], during);
+        let mut keys: Vec<&str> = line.keys().map(String::as_str).collect();
+        keys.sort_unstable();
+        assert_eq!(
+            keys,
+            [
+                "detail",
+                "duration_ms",
+                "during",
+                "event",
+                "exit_code",
+                "level",
+                "message",
+                "subject"
+            ]
+        );
     }
 
     #[test]

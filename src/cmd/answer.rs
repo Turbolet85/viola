@@ -3,8 +3,9 @@
 //! wrapper, which maps it to the dialog's decision body (architecture §Standard Contracts `answer`).
 //! The response is read into its closed shape and its free text checked here first (client checks
 //! are advisory; the wrapper re-runs them), the instance must be live by its snapshot pid + start
-//! time and heartbeat (the sixth dated gap), then one `answer` request; the reply is one line or one
-//! `--json` document, and a typed exit code.
+//! time and heartbeat (strict-modes unchecked, a dated gap), and the process serving its endpoint
+//! its recorded wrapper, then one `answer` request; the reply is one line or one `--json` document,
+//! and a typed exit code.
 
 use std::fs::File;
 use std::io::{self, Read, Write as _};
@@ -14,12 +15,11 @@ use std::process::ExitCode;
 use serde_json::{Map, Value, json};
 use tracing::instrument;
 use viola_agent_claude::dialog::Response;
-use viola_channel::{ChannelError, Client};
 use viola_core::{MAX_FRAME, RefusalReason, ViolaName};
 
-use viola_state::liveness::live_endpoint;
+use viola_state::liveness::{LiveEndpoint, live_endpoint};
 
-use super::client::{self, Reply, own_name};
+use super::client::{self, CallError, Reply, Unreachable, own_name};
 use super::send::{exit_of, reason_of};
 use crate::{human, run};
 
@@ -111,10 +111,13 @@ fn deliver(home: &Path, dialog_id: u64, response: &Response, out: &Out<'_>) -> a
         return Ok(13);
     }
     let instance_dir = home.join("instances").join(out.name);
-    let unreachable =
-        |during| client::unreachable(out.json, during, || client::unable_unreachable(out.name));
-    let Some(endpoint) = live_endpoint(&instance_dir) else {
-        return Ok(unreachable("connect"));
+    let unreachable = |cause| {
+        client::unreachable(out.json, cause, || {
+            client::unable_unreachable(out.name, cause);
+        })
+    };
+    let Some(live) = live_endpoint(&instance_dir) else {
+        return Ok(unreachable(Unreachable::Dead("connect")));
     };
     let mut params = Map::new();
     params.insert("dialog_id".to_owned(), dialog_id.into());
@@ -122,9 +125,9 @@ fn deliver(home: &Path, dialog_id: u64, response: &Response, out: &Out<'_>) -> a
     if let Some(from) = own_name() {
         params.insert("from".to_owned(), from.as_ref().into());
     }
-    let reply = match client::answer_of(request(&endpoint, params))? {
+    let reply = match client::answer_of(request(&live, params))? {
         Ok(reply) => reply,
-        Err(during) => return Ok(unreachable(during)),
+        Err(cause) => return Ok(unreachable(cause)),
     };
     let code = match reply {
         Reply::Ok(ok) => {
@@ -142,13 +145,23 @@ fn deliver(home: &Path, dialog_id: u64, response: &Response, out: &Out<'_>) -> a
 }
 
 #[instrument(skip_all, name = "answer.client")]
-fn request(endpoint: &str, params: Map<String, Value>) -> Result<Value, ChannelError> {
-    Client::connect(endpoint, "cli")?.request("answer", params)
+fn request(live: &LiveEndpoint, params: Map<String, Value>) -> Result<Value, CallError> {
+    Ok(client::connect(live)?.request("answer", params)?)
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// A server that is not the recorded wrapper is refused inside `answer.client`, before any frame
+    /// (obs-plan §4, the must-trace spans).
+    #[cfg(not(target_os = "macos"))]
+    #[test]
+    fn request_refuses_an_unverified_server_inside_its_dispatch_span() {
+        client::refused_inside::assert_refused_inside("answer.client", |live| {
+            request(live, Map::new())
+        });
+    }
     use rstest::rstest;
 
     #[rstest]

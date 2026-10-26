@@ -21,8 +21,8 @@ pub(crate) fn answer_hint(reason: &str, detail: Option<&str>) -> Option<&'static
 }
 
 /// The design-system cli pattern 2 hint for a `send` cause: a `not-delivered` detail, the
-/// `human-typing` or `budget-paused` reason, or `not-running` for exit 21. Never the sent text, a
-/// path or a pid.
+/// `human-typing` or `budget-paused` reason, or for exit 21 `not-running` or `server-verify`. Never
+/// the sent text, a path or a pid.
 pub(crate) fn send_hint(name: &str, cause: &str) -> Option<String> {
     Some(match cause {
         "human-typing" => HUMAN_TYPING_HINT.to_owned(),
@@ -47,6 +47,9 @@ pub(crate) fn send_hint(name: &str, cause: &str) -> Option<String> {
         }
         "turn-running" => format!("a turn is running; viola wait {name} first"),
         "not-running" => format!("{name} is not running; viola list shows the live instances"),
+        "server-verify" => format!(
+            "the process on {name}'s endpoint is not its recorded wrapper; it was not contacted"
+        ),
         _ => return None,
     })
 }
@@ -78,6 +81,10 @@ mod tests {
         "not-running",
         "builder is not running; viola list shows the live instances"
     )]
+    #[case::server_verify(
+        "server-verify",
+        "the process on builder's endpoint is not its recorded wrapper; it was not contacted"
+    )]
     #[case::human_typing(
         "human-typing",
         "the human has the wheel; send again after the human hands it back"
@@ -106,6 +113,7 @@ mod tests {
             "no-prompt-submitted",
             "turn-running",
             "not-running",
+            "server-verify",
             "human-typing",
             "budget-paused",
             "five-hour",

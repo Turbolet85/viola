@@ -1,7 +1,8 @@
 //! The tool handlers against a test wrapper, with no stdio: this test process stands in for the
 //! wrapper, its snapshot written through `viola_state`'s own writer and its channel a real
 //! `viola_channel::Server`, so each frame tool's request and the reply it maps are read on both
-//! sides. The test wrapper counts every frame it is sent.
+//! sides. The test wrapper counts every frame it is sent. An impostor's snapshot records another
+//! live process, a child of this test binary, while this process serves the endpoint.
 
 use std::path::Path;
 use std::sync::{Arc, Mutex};
@@ -57,6 +58,15 @@ fn endpoint(dir: &Path, label: &str) -> String {
 }
 
 fn booted(label: &str, replies: Vec<(&str, Result<Value, ProtocolError>)>) -> Booted {
+    booted_recording(label, replies, std::process::id())
+}
+
+/// `booted`, its snapshot recording `pid` (and that process's own start time) as the wrapper.
+fn booted_recording(
+    label: &str,
+    replies: Vec<(&str, Result<Value, ProtocolError>)>,
+    pid: u32,
+) -> Booted {
     let dir = tempfile::tempdir().expect("tempdir");
     let home = dir.path().join("home");
     let instance = home.join("instances").join("builder");
@@ -70,7 +80,6 @@ fn booted(label: &str, replies: Vec<(&str, Result<Value, ProtocolError>)>) -> Bo
     let serving = Server::bind(&endpoint)
         .expect("bound")
         .serve(wrapper.clone());
-    let pid = std::process::id();
     let snapshot = InstanceSnapshot {
         endpoint: Some(endpoint),
         pid,
@@ -111,6 +120,55 @@ impl Booted {
     fn frames(&self) -> Vec<(String, Value)> {
         self.wrapper.frames.lock().expect("frames").clone()
     }
+}
+
+/// The held child's marker, set on the child alone (`Command::env`).
+const HELD: &str = "MCP_HANDLERS_TEST_HELD";
+
+/// The child half: a no-op in an ordinary run; spawned by the impostor case, it lives until its
+/// stdin closes.
+#[test]
+fn handlers_held_child_entry() {
+    if std::env::var_os(HELD).is_none() {
+        return;
+    }
+    let _ = std::io::Read::read_to_end(&mut std::io::stdin(), &mut Vec::new());
+}
+
+/// A live process that is not this one, killed and reaped on drop.
+#[cfg(not(target_os = "macos"))]
+struct Held(std::process::Child);
+
+#[cfg(not(target_os = "macos"))]
+impl Held {
+    fn spawn() -> Self {
+        let child = std::process::Command::new(std::env::current_exe().expect("the test binary"))
+            .args(["--exact", "handlers_held_child_entry"])
+            .env(HELD, "1")
+            .stdin(std::process::Stdio::piped())
+            .stdout(std::process::Stdio::null())
+            .stderr(std::process::Stdio::null())
+            .spawn()
+            .expect("the held child");
+        Self(child)
+    }
+}
+
+#[cfg(not(target_os = "macos"))]
+impl Drop for Held {
+    fn drop(&mut self) {
+        let _ = self.0.kill();
+        let _ = self.0.wait();
+    }
+}
+
+#[cfg(not(target_os = "macos"))]
+fn text(result: &CallToolResult) -> String {
+    result
+        .content
+        .iter()
+        .filter_map(|block| block.as_text().map(|t| t.text.clone()))
+        .collect()
 }
 
 fn call(tools: &Tools, name: &str, args: Value) -> Result<CallToolResult, rmcp::model::ErrorData> {
@@ -296,4 +354,50 @@ fn handlers_schema_violations_write_no_frame() {
     let unknown = call(&tools, "release", json!({"target": "builder"})).expect_err("no tool");
     assert_eq!(unknown.code.0, -32602);
     assert!(wrapper.frames().is_empty(), "{:?}", wrapper.frames());
+}
+
+/// The snapshot records a live process that is not the one serving the endpoint: every frame tool
+/// reads `instance-unreachable` and the server is sent no frame. The cases above, whose snapshot
+/// records the serving process, are the control.
+#[cfg(not(target_os = "macos"))]
+#[test]
+fn handlers_frame_tools_write_no_frame_to_a_server_that_is_not_the_recorded_wrapper() {
+    let held = Held::spawn();
+    let wrapper = booted_recording(
+        "impostor",
+        vec![
+            (
+                "send",
+                Ok(json!({"ok": {"submitted_at": "t", "cursor": 1}})),
+            ),
+            ("wait", Ok(json!({"ok": {"timed_out": true}}))),
+            (
+                "last",
+                Ok(json!({"ok": {"last_assistant_message": null, "ts": null}})),
+            ),
+            ("answer", Ok(json!({"ok": {}}))),
+        ],
+        held.0.id(),
+    );
+    let tools = wrapper.tools(Some("driver"));
+    for (name, args) in [
+        ("send", json!({"target": "builder", "text": "x"})),
+        ("wait", json!({"target": "builder", "timeout_ms": 900})),
+        ("last", json!({"target": "builder"})),
+        (
+            "answer",
+            json!({"target": "builder", "dialog_id": 1, "response": {"behavior": "allow"}}),
+        ),
+    ] {
+        let result = call(&tools, name, args).expect("a result");
+        assert_eq!(result.is_error, Some(true), "{name}");
+        assert_eq!(
+            result.structured_content,
+            Some(json!({"error": "instance-unreachable", "detail": null})),
+            "{name}"
+        );
+        assert_eq!(text(&result), "refused: instance-unreachable", "{name}");
+    }
+    assert!(wrapper.frames().is_empty(), "{:?}", wrapper.frames());
+    drop(held);
 }

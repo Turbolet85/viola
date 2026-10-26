@@ -1,0 +1,309 @@
+[
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "ec19b4e7",
+"ts": "2026-10-26T07:10:43Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-26-server-verification-before-any-frame",
+"--source",
+"~/dev/projects/additional/viola-overseer/phase-server-verification-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the overseer directive for this phase: forced sample at P2, evidence kept, stop at a hard cascade failure, the P2 report, the standing rules (a widening held for the founder live word)",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-10-26T07-09-33-phase",
+"--marker",
+"2026-10-26-server-verification-before-any-frame"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy no-repo · ../additional/viola-overseer/phase-server-verification-directive.md",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-phase-server-verification-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/phase-server-verification-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "67c05d7cb5e0ba746d6e898c2148b1094f468701dc1945a24e817c178dedfc78",
+"copy": "I1-phase-server-verification-directive.md.txt",
+"link": false,
+"read_at": "2026-10-26T07:10:43Z",
+"step": "phase:P1",
+"why": "the overseer directive for this phase: forced sample at P2, evidence kept, stop at a hard cascade failure, the P2 report, the standing rules (a widening held for the founder live word)"
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "ec19b4e7",
+"ts": "2026-10-26T07:10:49Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-26-server-verification-before-any-frame",
+"--message-file",
+".andromeda/runs/2026-10-26T07-09-33-phase/relay-1.md",
+"--kind",
+"relay",
+"--origin",
+"the operator, in this session, 2026-10-26T07:09Z",
+"--why",
+"the operator invocation: run the phase on this entry under the directive inputs#I1",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-10-26T07-09-33-phase",
+"--marker",
+"2026-10-26-server-verification-before-any-frame"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy message · message: the operator, in this session, 2026-10-26T07:09Z",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, in this session, 2026-10-26T07:09Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "ca28949b97972703c32cb75b4732e5f676179bd87a8170155f93d98e254d03ff",
+"copy": "I2-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-26T07:10:49Z",
+"step": "phase:P1",
+"why": "the operator invocation: run the phase on this entry under the directive inputs#I1"
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "ec19b4e7",
+"ts": "2026-10-26T08:08:33Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-26-server-verification-before-any-frame",
+"--message-file",
+".andromeda/runs/2026-10-26T07-09-33-phase/founder-forks.md",
+"--kind",
+"relay",
+"--origin",
+"delegate the Viola overseer, 2026-10-26T08:08Z",
+"--why",
+"P4 fork 1 (CARRY 7/8): option 1, keep today outcome, PROVISIONAL delegate answer until the founder own word; the replay move (v1-41, E5 steps 1-3) re-pinned on the P5 card for his word",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-10-26T07-09-33-phase",
+"--marker",
+"2026-10-26-server-verification-before-any-frame"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy message · message: delegate the Viola overseer, 2026-10-26T08:08Z",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-founder-forks.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "message: delegate the Viola overseer, 2026-10-26T08:08Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "0e6bede526d613670d4acf64e575deec45e9fad1a387940c63f9d6022e39cba7",
+"copy": "I3-founder-forks.md.txt",
+"link": false,
+"read_at": "2026-10-26T08:08:33Z",
+"step": "phase:P4",
+"why": "P4 fork 1 (CARRY 7/8): option 1, keep today outcome, PROVISIONAL delegate answer until the founder own word; the replay move (v1-41, E5 steps 1-3) re-pinned on the P5 card for his word"
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "ec19b4e7",
+"ts": "2026-10-26T08:12:36Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-26-server-verification-before-any-frame",
+"--run-dir",
+".andromeda/runs/2026-10-26T07-09-33-phase",
+"--marker",
+"2026-10-26-server-verification-before-any-frame"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-server-verification-directive.md",
+"I1 cited scope.md:6 · scope.md:53 · research.md:7 · plan.md:168 (in fence) · plan.md:370",
+"I2 n/a — a message has no live source · copy message · message: the operator, in this session, 2026-10-26T07:09Z",
+"I2 cited scope.md:6 · research.md:7 · plan.md:370",
+"I3 n/a — a message has no live source · copy message · message: delegate the Viola overseer, 2026-10-26T08:08Z",
+"I3 cited plan.md:29 · plan.md:370 · plan.md:382",
+"inputs: 3 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 3,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "ec19b4e7",
+"ts": "2026-10-26T08:18:15Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-26-server-verification-before-any-frame",
+"--run-dir",
+".andromeda/runs/2026-10-26T07-09-33-phase",
+"--marker",
+"2026-10-26-server-verification-before-any-frame"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-server-verification-directive.md",
+"I1 cited scope.md:6 · scope.md:53 · research.md:7 · plan.md:169 (in fence) · plan.md:389",
+"I2 n/a — a message has no live source · copy message · message: the operator, in this session, 2026-10-26T07:09Z",
+"I2 cited scope.md:6 · research.md:7 · plan.md:389",
+"I3 n/a — a message has no live source · copy message · message: delegate the Viola overseer, 2026-10-26T08:08Z",
+"I3 cited plan.md:29 · plan.md:389 · plan.md:401",
+"inputs: 3 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 3,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "ec19b4e7",
+"ts": "2026-10-26T08:19:40Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-26-server-verification-before-any-frame",
+"--message-file",
+".andromeda/runs/2026-10-26T07-09-33-phase/relay-2.md",
+"--kind",
+"relay",
+"--origin",
+"delegate the Viola overseer, 2026-10-26T08:19Z",
+"--why",
+"the yes on .andromeda/runs/2026-10-26T07-09-33-phase/p5-card-1.md, delegate the Viola overseer (founder-delegated, founder away): approves the plan and the four Beyond-the-plan re-pins; fork 1 stays PROVISIONAL",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-10-26T07-09-33-phase",
+"--marker",
+"2026-10-26-server-verification-before-any-frame"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy message · message: delegate the Viola overseer, 2026-10-26T08:19Z",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "relay",
+"repo": null,
+"path": "message: delegate the Viola overseer, 2026-10-26T08:19Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "e8631a68c8c5abf93548a44279746baeac602bd1ae6b7e9ae778f547dfc27c3d",
+"copy": "I4-relay-2.md.txt",
+"link": false,
+"read_at": "2026-10-26T08:19:40Z",
+"step": "phase:P5",
+"why": "the yes on .andromeda/runs/2026-10-26T07-09-33-phase/p5-card-1.md, delegate the Viola overseer (founder-delegated, founder away): approves the plan and the four Beyond-the-plan re-pins; fork 1 stays PROVISIONAL"
+}
+}
+]

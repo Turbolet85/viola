@@ -9,12 +9,11 @@ use std::process::ExitCode;
 
 use serde_json::{Map, Value, json};
 use tracing::instrument;
-use viola_channel::{ChannelError, Client};
 use viola_core::ViolaName;
 
-use viola_state::liveness::live_endpoint;
+use viola_state::liveness::{LiveEndpoint, live_endpoint};
 
-use super::client::{self, Reply, clock_part, own_name};
+use super::client::{self, CallError, Reply, Unreachable, clock_part, own_name};
 use crate::{human, run};
 
 #[derive(clap::Args)]
@@ -31,20 +30,23 @@ pub(crate) fn last(home: &Path, args: &LastArgs) -> anyhow::Result<ExitCode> {
     let home = client::start(home, &args.name)?;
     let name: &str = args.name.as_ref();
     let instance_dir = home.join("instances").join(name);
-    let unreachable =
-        |during| client::unreachable(args.json, during, || client::unable_unreachable(name));
-    let Some(endpoint) = live_endpoint(&instance_dir) else {
-        return Ok(ExitCode::from(unreachable("connect")));
+    let unreachable = |cause| {
+        client::unreachable(args.json, cause, || {
+            client::unable_unreachable(name, cause);
+        })
+    };
+    let Some(live) = live_endpoint(&instance_dir) else {
+        return Ok(ExitCode::from(unreachable(Unreachable::Dead("connect"))));
     };
     let mut params = Map::new();
     if let Some(from) = own_name() {
         params.insert("from".to_owned(), from.as_ref().into());
     }
-    let ok = match client::answer_of(request(&endpoint, params))? {
+    let ok = match client::answer_of(request(&live, params))? {
         Ok(Reply::Ok(ok)) => ok,
         Ok(Reply::Fault(detail)) => return Ok(ExitCode::from(client::fault(args.json, &detail))),
         Ok(Reply::Refused { .. }) => anyhow::bail!("last answered with a refusal"),
-        Err(during) => return Ok(ExitCode::from(unreachable(during))),
+        Err(cause) => return Ok(ExitCode::from(unreachable(cause))),
     };
     if args.json {
         client::document(&json!({"v": 1, "ok": ok}));
@@ -56,8 +58,8 @@ pub(crate) fn last(home: &Path, args: &LastArgs) -> anyhow::Result<ExitCode> {
 }
 
 #[instrument(skip_all, name = "last.client")]
-fn request(endpoint: &str, params: Map<String, Value>) -> Result<Value, ChannelError> {
-    Client::connect(endpoint, "cli")?.request("last", params)
+fn request(live: &LiveEndpoint, params: Map<String, Value>) -> Result<Value, CallError> {
+    Ok(client::connect(live)?.request("last", params)?)
 }
 
 /// The context line on stderr when it is a terminal, then the message on stdout, or `no message`
@@ -75,5 +77,20 @@ fn show(name: &str, ok: &Value) {
         None => {
             let _ = human::write_no_message(&mut io::stderr().lock());
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// A server that is not the recorded wrapper is refused inside `last.client`, before any frame
+    /// (obs-plan §4, the must-trace spans).
+    #[cfg(not(target_os = "macos"))]
+    #[test]
+    fn request_refuses_an_unverified_server_inside_its_dispatch_span() {
+        client::refused_inside::assert_refused_inside("last.client", |live| {
+            request(live, Map::new())
+        });
     }
 }

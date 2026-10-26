@@ -1,8 +1,9 @@
 //! The five tools and their inputs. A tool's schema is advertised (schemars) but never trusted: each
 //! handler takes its arguments as a JSON object and re-validates every value itself, so no serde
 //! text reaches a result (security-plan §Input Validation, §Error Handling). A frame tool reaches
-//! its instance's wrapper after the liveness-only pre-check, a dated gap closed by "Server
-//! verification before any frame" (security-plan §Authentication & Authorization).
+//! its instance's wrapper after the liveness pre-check (strict-modes unchecked, a dated gap), and
+//! only once the process serving the endpoint is the wrapper the snapshot records (security-plan
+//! §Authentication & Authorization, IPC client-side server verification).
 
 use std::borrow::Cow;
 use std::path::PathBuf;
@@ -20,10 +21,11 @@ use serde_json::{Map, Value};
 use tracing::instrument;
 use viola_agent_claude::dialog::Response;
 use viola_agent_claude::hook::typed_text;
+use viola_channel::SERVER_PID_REPORTED;
 use viola_channel::tokio_client::TokioClient;
 use viola_core::obs::ObsEvent;
 use viola_core::{NotDelivered, RefusalReason, VERSION, ViolaName, obs_event};
-use viola_state::liveness::live_endpoint;
+use viola_state::liveness::{LiveEndpoint, ServerVerdict, live_endpoint, verify_server};
 
 use crate::{ListProvider, McpError, result};
 
@@ -315,7 +317,9 @@ fn params_from(ctx: &Ctx, mut params: Map<String, Value>) -> Map<String, Value> 
     params
 }
 
-/// One request to `target`'s wrapper after the liveness-only pre-check.
+/// One request to `target`'s wrapper after the liveness pre-check, over a connection whose server
+/// is the recorded wrapper; a server that fails the check is `instance-unreachable`, no frame
+/// written.
 async fn frame(
     ctx: &Ctx,
     target: &ViolaName,
@@ -327,14 +331,29 @@ async fn frame(
         .home
         .join("instances")
         .join(AsRef::<str>::as_ref(target));
-    let Some(endpoint) = live_endpoint(&instance_dir) else {
+    let Some(live) = live_endpoint(&instance_dir) else {
         return Ok(result::unreachable());
     };
-    let sent = match TokioClient::connect(&endpoint, "mcp").await {
-        Ok(mut client) => client.request(method, params_from(ctx, params)).await,
-        Err(error) => Err(error),
+    let mut client = match TokioClient::connect(&live.endpoint, "mcp").await {
+        Ok(client) => client,
+        Err(error) => return result::of_reply(Err(error), refusable),
     };
+    if !server_verified(live, client.server_pid()).await? {
+        return Ok(result::unreachable());
+    }
+    let sent = client.request(method, params_from(ctx, params)).await;
     result::of_reply(sent, refusable)
+}
+
+/// Whether the process serving the connection, `observed`, is the recorded wrapper; its start
+/// time is read on a blocking thread.
+async fn server_verified(live: LiveEndpoint, observed: Option<u32>) -> Result<bool, McpError> {
+    let verdict = tokio::task::spawn_blocking(move || {
+        verify_server(live.pid, &live.started_at, observed, SERVER_PID_REPORTED)
+    })
+    .await
+    .map_err(|_| McpError::Internal)?;
+    Ok(verdict == ServerVerdict::Matches)
 }
 
 async fn send(ctx: &Ctx, args: &JsonObject) -> Result<CallToolResult, McpError> {

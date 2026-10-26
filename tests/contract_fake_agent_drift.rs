@@ -15,7 +15,7 @@
 mod support;
 
 use std::fs;
-use std::path::Path;
+use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
 
 use serde_json::{Value, json};
@@ -568,22 +568,33 @@ fn shape(row: &Value) -> Vec<(String, &'static str)> {
 #[test]
 fn fake_agent_agents_replay_matches_every_recorded_agents_set() {
     let root = workspace_path("fixtures/claude");
+    // Every set's `claude` is planted before any set's thread starts. Where the plant is a copy
+    // (no hard link across filesystems, as from the build dir to a tmpfs home), a child another
+    // thread forks while the copy's write handle is open holds that handle until its own exec, and
+    // the copy's exec fails with ETXTBSY.
+    let planted: Vec<(String, TestHome, PathBuf, Vec<u8>)> = recorded_versions(&root)
+        .into_iter()
+        .filter_map(|version| {
+            let recorded = fs::read(root.join(&version).join(AGENTS_RECORDED)).ok()?;
+            let home = TestHome::new();
+            let bin = fake::claude_bin(home.scratch(), "claude-bin", None, Some(&recorded));
+            Some((version, home, bin, recorded))
+        })
+        .collect();
     let compared = each_set_at_once(&recorded_versions(&root), |version| {
-        let Ok(recorded) = fs::read(root.join(version).join(AGENTS_RECORDED)) else {
+        let Some((_, home, bin, recorded)) = planted.iter().find(|(v, ..)| v == version) else {
             return false;
         };
-        let home = TestHome::new();
-        let bin = fake::claude_bin(home.scratch(), "claude-bin", None, Some(&recorded));
-        let claude = fake::claude_in(&bin);
+        let claude = fake::claude_in(bin);
         let answered = Command::new(&claude)
             .args(["agents", "--json"])
             .stdin(Stdio::null())
             .output()
             .expect("agents --json");
         assert_eq!(answered.status.code(), Some(0), "{version}");
-        assert!(answered.stdout == recorded, "{version}: agents drift");
+        assert!(answered.stdout == *recorded, "{version}: agents drift");
 
-        let doc: Value = serde_json::from_slice(&recorded).expect("the agents read's JSON");
+        let doc: Value = serde_json::from_slice(recorded).expect("the agents read's JSON");
         let recorded_row = &doc[0];
         let plugin = home.scratch().join("plugin");
         write_spine_plugin(&plugin);
