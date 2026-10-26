@@ -1,0 +1,2 @@
+proposals: []
+note: the report's Changes add no symbol, hot-path op, logging or telemetry dependency (Symbols / APIs none; Dependencies bumps only tokio =1.53.1 -> =1.53.3, no telemetry crate); obs-plan's body, detail files and keyed contracts hold no tokio version and no RUSTSEC-2026-0386 / owner-title line (the report's tokio-ver and rustsec-0386 sweeps name no obs-plan site), so D-obs-instrumentation, D-obs-stack, D-obs-pii and D-retired find nothing.

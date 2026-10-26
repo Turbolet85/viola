@@ -16,3 +16,10 @@ Run dir `.andromeda/runs/2026-10-26T06-05-40-implement/`. One line per long run,
 - 2026-10-26T06:13Z · step 1 green (88.05 s); step 2 `hygiene: clean`. Next: hygiene re-read, the pre-CI commit, the
   push (entry 26), then the CI read (entry 27, `--wait 2400`, backgrounded) — journaled after the push lands (ci.md
   2026-10-13: nothing written into the tree between the commit and the push).
+- 2026-10-26T06:13Z · pre-CI commit `948f7f01` (hygiene re-read clean before it); push entry 26 green, `history moved:
+  refs/remotes/origin/build/viola-0.1.0 b1249fb1→948f7f01`.
+- 2026-10-26T06:14Z · CI read, entry 27 fired as written, backgrounded:
+  `python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 2400`
+  (HEAD = `948f7f015ba913b112447f1fe7ceb45e11d21e24`; the last wall-clock read was 898 s).
+- 2026-10-26T06:28Z · CI read done: `948f7f015ba9 verdict: green · checks 15/15 · wall 778 s · runs ci#40278510123
+  completed/success`, `run_attempt` 1; `supply-chain` every step success. Operator pass complete; next the wrap.

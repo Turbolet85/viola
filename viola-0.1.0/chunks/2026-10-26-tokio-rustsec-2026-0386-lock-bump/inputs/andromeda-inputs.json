@@ -106,5 +106,23 @@
     "read_at": "2026-10-26T06:06:42Z",
     "step": "implement",
     "why": "the operator word for this chunk: the implementer runs the operator pass (pre-push, hygiene, pre-CI commit, push) and the CI read"
+  },
+  {
+    "id": "I7",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: the operator, live in this session, 2026-10-26T06:27Z (the /andromeda-wrap-session invocation arguments)",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "49b5af0d0b49e2370d00a67c6d83a9e5a4bad51aab5710acc280042712c59fb1",
+    "copy": "I7-relay-1.md.txt",
+    "link": false,
+    "read_at": "2026-10-26T06:28:07Z",
+    "step": "wrap",
+    "why": "the operator word for this wrap: run it whole as an ordinary chunk, no forced sample; the 85 and 90 percent context alarms expected, stop only at 95 percent"
   }
 ]

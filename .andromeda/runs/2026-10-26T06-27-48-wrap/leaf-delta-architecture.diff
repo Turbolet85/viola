@@ -1,0 +1,14 @@
+--- a/.andromeda/architecture.md
++++ b/.andromeda/architecture.md
+@@ -441,3 +441,3 @@
+ 
+-- Framework: Rust 1.98.1, pinned by `rust-toolchain.toml` (MSRV 1.96, edition 2024). A sync std-thread core; Tokio 1.53.1 only in `mcp`; rmcp 3.4.1 for MCP; clap 4.6.7 for the CLI.
++- Framework: Rust 1.98.1, pinned by `rust-toolchain.toml` (MSRV 1.96, edition 2024). A sync std-thread core; Tokio 1.53.3 only in `mcp`; rmcp 3.4.1 for MCP; clap 4.6.7 for the CLI.
+ - Database: none. ndjson append logs + atomic JSON snapshots (tempfile 3.27.0 `persist` through one shared helper) + std `File::lock`, serde_json 1.0.151.
+--- a/.andromeda/architecture-detail/stack-and-technologies.md
++++ b/.andromeda/architecture-detail/stack-and-technologies.md
+@@ -10,3 +10,3 @@
+ | Language / runtime | Rust 1.98.1, pinned exactly by `rust-toolchain.toml` (rustfmt + clippy); workspace `rust-version = "1.96"`, edition 2024 | One native binary `viola` / `viola.exe`. 1.96 is the declared floor (the security toolchain floor; sysinfo 0.39.6 needs 1.95, std `File::lock` 1.89, rmcp 1.88). CI checks the floor in the `msrv` job: 1.96 is installed by `rustup toolchain install 1.96` and selected with `RUSTUP_TOOLCHAIN=1.96`, which outranks `rust-toolchain.toml`, so the pin is untouched. The separate `fuzz/` workspace alone builds on `nightly-2026-09-20`, pinned by `fuzz/rust-toolchain.toml` |
+-| Backend framework (concurrency model) | Hybrid: std threads for `run`, `hook`, `send`, `wait` and every other CLI verb; Tokio 1.53.1 built only inside `mcp` | No async runtime on the hot `hook` path. The async ecosystem is used only where rmcp requires it |
++| Backend framework (concurrency model) | Hybrid: std threads for `run`, `hook`, `send`, `wait` and every other CLI verb; Tokio 1.53.3 built only inside `mcp` | No async runtime on the hot `hook` path. The async ecosystem is used only where rmcp requires it |
+ | CLI parser | clap 4.6.7 (derive; `default-features = false` with `std`, `derive`, `help`, `usage`, `error-context`, `suggestions` — its default set minus `color`, so help and usage output is plain and no colour/terminal crate is in the graph) | Subcommands `run · revive · send · wait · last · list · answer · hook · mcp · verify · pause · release · link · unlink · plugin install` |

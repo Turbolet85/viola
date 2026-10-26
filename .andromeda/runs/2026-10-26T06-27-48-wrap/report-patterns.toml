@@ -1,0 +1,22 @@
+[[pattern]]
+id = 'tokio-ver'
+regex = '''1\.53\.1|[Tt]okio\s*`?=?1\.5\d'''
+
+[[pattern]]
+id = 'rustsec-0386'
+regex = 'RUSTSEC-2026-0386'
+
+[[pattern]]
+id = 'sc-red'
+regex = 'supply-chain[^.\n]{0,80}\bred\b|\bred\b[^.\n]{0,60}supply-chain'
+ignore_case = true
+
+[[pattern]]
+id = 'owner-title'
+fixed = 'tokio RUSTSEC-2026-0386 lock bump'
+ignore_case = true
+
+[[pattern]]
+id = 'owner-generic'
+regex = 'owned by a (route entry|CARRY)'
+ignore_case = true

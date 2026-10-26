@@ -1,0 +1,2 @@
+proposals: []
+note: the report's Changes add or change no cli output wording and no user-facing surface (Symbols / APIs none, Coverage of new surfaces none; the diff is Cargo.toml:242 and Cargo.lock:1633,1635 alone), and layout-templates names neither tokio nor RUSTSEC-2026-0386 (grep tokio|rustsec|supply-chain|advisor: 0 hits), so D-design-cli-wording, D-layout-surface and D-retired find no drift.

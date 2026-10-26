@@ -439,7 +439,7 @@ Detail: .andromeda/architecture-detail/cross-cutting-patterns.md — read whole.
 
 ## Inherited Defaults
 
-- Framework: Rust 1.98.1, pinned by `rust-toolchain.toml` (MSRV 1.96, edition 2024). A sync std-thread core; Tokio 1.53.1 only in `mcp`; rmcp 3.4.1 for MCP; clap 4.6.7 for the CLI.
+- Framework: Rust 1.98.1, pinned by `rust-toolchain.toml` (MSRV 1.96, edition 2024). A sync std-thread core; Tokio 1.53.3 only in `mcp`; rmcp 3.4.1 for MCP; clap 4.6.7 for the CLI.
 - Database: none. ndjson append logs + atomic JSON snapshots (tempfile 3.27.0 `persist` through one shared helper) + std `File::lock`, serde_json 1.0.151.
 - IPC: interprocess 2.4.4 local sockets, one endpoint per `viola run`, JSON-RPC 2.0 over ndjson with `v` + sender version in every `params`.
 - API style: typed `RefusalReason` in `result.refusal`.

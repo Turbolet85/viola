@@ -1,0 +1,161 @@
+[
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "ec19b4e7",
+"ts": "2026-10-26T06:28:07Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-26-tokio-rustsec-2026-0386-lock-bump",
+"--message-file",
+".andromeda/runs/2026-10-26T06-27-48-wrap/relay-1.md",
+"--origin",
+"the operator, live in this session, 2026-10-26T06:27Z (the /andromeda-wrap-session invocation arguments)",
+"--kind",
+"relay",
+"--why",
+"the operator word for this wrap: run it whole as an ordinary chunk, no forced sample; the 85 and 90 percent context alarms expected, stop only at 95 percent",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-26T06-27-48-wrap",
+"--marker",
+"2026-10-26-tokio-rustsec-2026-0386-lock-bump"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I7 · copy message · message: the operator, live in this session, 2026-10-26T06:27Z (the /andromeda-wrap-session invocation arguments)",
+"cite: inputs#I7"
+],
+"stderr": null,
+"wrote": [
+"inputs/I7-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I7",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, live in this session, 2026-10-26T06:27Z (the /andromeda-wrap-session invocation arguments)",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "49b5af0d0b49e2370d00a67c6d83a9e5a4bad51aab5710acc280042712c59fb1",
+"copy": "I7-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-26T06:28:07Z",
+"step": "wrap",
+"why": "the operator word for this wrap: run it whole as an ordinary chunk, no forced sample; the 85 and 90 percent context alarms expected, stop only at 95 percent"
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "ec19b4e7",
+"ts": "2026-10-26T06:28:07Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-26-tokio-rustsec-2026-0386-lock-bump",
+"--run-dir",
+".andromeda/runs/2026-10-26T06-27-48-wrap",
+"--marker",
+"2026-10-26-tokio-rustsec-2026-0386-lock-bump"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, relaying overseer1 call, in-session message 2026-10-26 05:14Z",
+"I1 cited scope.md:7 · research.md:16 · plan.md:9 · plan.md:48 · plan.md:81 (in fence)",
+"I2 unchanged · pointer committed@21d909e4 · ~/.cargo/advisory-dbs/advisory-db-3157b0e258782691:crates/tokio/RUSTSEC-2026-0386.md",
+"I2 cited scope.md:17 · scope.md:32 · research.md:17 · research.md:42 · plan.md:13 · plan.md:314 · plan.md:315",
+"I3 unchanged · copy no-repo · ~/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/Cargo.toml",
+"I3 cited scope.md:26 · research.md:18 · research.md:44 · plan.md:104 (in fence) · plan.md:314 · plan.md:315 · plan.md:329",
+"I4 unchanged · copy no-repo · ~/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/CHANGELOG.md",
+"I4 cited research.md:14 · research.md:19 · research.md:80 · plan.md:29 · plan.md:70 · plan.md:314",
+"I5 n/a — a message has no live source · copy message · message: delegate overseer (founder-delegated), relayed by the operator, 2026-10-26 06:03Z",
+"I5 UNCITED",
+"I6 n/a — a message has no live source · copy message · message: the operator, live in this session, 2026-10-26T06:05Z (the /andromeda-implement invocation arguments)",
+"I6 UNCITED",
+"I7 n/a — a message has no live source · copy message · message: the operator, live in this session, 2026-10-26T06:27Z (the /andromeda-wrap-session invocation arguments)",
+"I7 UNCITED",
+"inputs: 7 entries — unchanged 3 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 4 · uncited 3 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 7,
+"counts": {
+"unchanged": 3,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 4
+},
+"uncited": 3,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "ec19b4e7",
+"ts": "2026-10-26T06:30:33Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-26-tokio-rustsec-2026-0386-lock-bump",
+"--run-dir",
+".andromeda/runs/2026-10-26T06-27-48-wrap",
+"--marker",
+"2026-10-26-tokio-rustsec-2026-0386-lock-bump"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, relaying overseer1 call, in-session message 2026-10-26 05:14Z",
+"I1 cited scope.md:7 · research.md:16 · plan.md:9 · plan.md:48 · plan.md:81 (in fence)",
+"I2 unchanged · pointer committed@21d909e4 · ~/.cargo/advisory-dbs/advisory-db-3157b0e258782691:crates/tokio/RUSTSEC-2026-0386.md",
+"I2 cited scope.md:17 · scope.md:32 · research.md:17 · research.md:42 · plan.md:13 · plan.md:314 · plan.md:315 · report.md:9",
+"I3 unchanged · copy no-repo · ~/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/Cargo.toml",
+"I3 cited scope.md:26 · research.md:18 · research.md:44 · plan.md:104 (in fence) · plan.md:314 · plan.md:315 · plan.md:329 · report.md:11",
+"I4 unchanged · copy no-repo · ~/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/CHANGELOG.md",
+"I4 cited research.md:14 · research.md:19 · research.md:80 · plan.md:29 · plan.md:70 · plan.md:314 · report.md:9",
+"I5 n/a — a message has no live source · copy message · message: delegate overseer (founder-delegated), relayed by the operator, 2026-10-26 06:03Z",
+"I5 cited report.md:31",
+"I6 n/a — a message has no live source · copy message · message: the operator, live in this session, 2026-10-26T06:05Z (the /andromeda-implement invocation arguments)",
+"I6 cited report.md:32 · report.md:53",
+"I7 n/a — a message has no live source · copy message · message: the operator, live in this session, 2026-10-26T06:27Z (the /andromeda-wrap-session invocation arguments)",
+"I7 cited report.md:33 · report.md:54",
+"inputs: 7 entries — unchanged 3 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 4 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 7,
+"counts": {
+"unchanged": 3,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 4
+},
+"uncited": 0,
+"unparsed": 0
+}
+}
+]

@@ -1,0 +1,197 @@
+[
+{
+"tool": "splice",
+"v": "1.1",
+"sha8": "c9138c7a",
+"ts": "2026-10-26T06:30:33Z",
+"argv": [
+"append",
+"--file",
+"viola-0.1.0/chunks/2026-10-26-tokio-rustsec-2026-0386-lock-bump/report.md",
+"--payload-file",
+".andromeda/runs/2026-10-26T06-27-48-wrap/new-text.md",
+"--lines",
+"9",
+"--if-absent-prefix",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-10-26T06-27-48-wrap",
+"--marker",
+"2026-10-26-tokio-rustsec-2026-0386-lock-bump"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append report.md:+9 at line 88 · lines 87→96 · bytes 18571→19038 · term lf",
+"last line now: added: 242"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/chunks/2026-10-26-tokio-rustsec-2026-0386-lock-bump/report.md"
+],
+"before": {
+"lines": 87,
+"bytes": 18571,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 96,
+"bytes": 19038
+}
+},
+{
+"tool": "splice",
+"v": "1.1",
+"sha8": "c9138c7a",
+"ts": "2026-10-26T06:58:09Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-26T06-27-48-wrap/architecture-entries.md",
+"--lines",
+"8",
+"--dry-run",
+"--run-dir",
+".andromeda/runs/2026-10-26T06-27-48-wrap",
+"--marker",
+"2026-10-26-tokio-rustsec-2026-0386-lock-bump"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would write architecture-amendments.md · lines 1508→1516 · bytes 283639→285140"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"lines": 1508,
+"bytes": 283639,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 1516,
+"bytes": 285140
+}
+},
+{
+"tool": "splice",
+"v": "1.1",
+"sha8": "c9138c7a",
+"ts": "2026-10-26T06:58:25Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-26T06-27-48-wrap/architecture-entries.append.md",
+"--lines",
+"9",
+"--run-dir",
+".andromeda/runs/2026-10-26T06-27-48-wrap",
+"--marker",
+"2026-10-26-tokio-rustsec-2026-0386-lock-bump"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+9 at line 1509 · lines 1508→1517 · bytes 283639→285141 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-26T06-27-48-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 1508,
+"bytes": 283639,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 1517,
+"bytes": 285141
+}
+},
+{
+"tool": "splice",
+"v": "1.1",
+"sha8": "c9138c7a",
+"ts": "2026-10-26T06:58:25Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-26T06-27-48-wrap/security-plan-entries.append.md",
+"--lines",
+"16",
+"--run-dir",
+".andromeda/runs/2026-10-26T06-27-48-wrap",
+"--marker",
+"2026-10-26-tokio-rustsec-2026-0386-lock-bump"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+16 at line 873 · lines 872→888 · bytes 155278→157939 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-26T06-27-48-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 872,
+"bytes": 155278,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 888,
+"bytes": 157939
+}
+},
+{
+"tool": "splice",
+"v": "1.1",
+"sha8": "c9138c7a",
+"ts": "2026-10-26T06:58:25Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-26T06-27-48-wrap/test-plan-entries.append.md",
+"--lines",
+"25",
+"--run-dir",
+".andromeda/runs/2026-10-26T06-27-48-wrap",
+"--marker",
+"2026-10-26-tokio-rustsec-2026-0386-lock-bump"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+25 at line 1257 · lines 1256→1281 · bytes 220196→222873 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-26T06-27-48-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 1256,
+"bytes": 220196,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 1281,
+"bytes": 222873
+}
+}
+]

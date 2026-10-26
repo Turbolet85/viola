@@ -1506,3 +1506,12 @@ Each superseded mark is kept in the body as the operator's word, superseded 2026
 **Why:** the chunk landed a new root dev-dependency table with two windows-sys features where the plan's step 5 named one. Measured: windows-sys 0.61.2 gates `NtQueryInformationFile` on `Win32_System_IO` as well as on its module's `Wdk_Storage_FileSystem`. With no dependency added or bumped, the lock unchanged and `cargo deny check bans licenses sources` green. Naming both features is the operator's wrap directive (the overseer, founder-delegated). Trap for later chunks: a windows-sys feature can compile through unification from another crate and still be undeclared, so a dev-dependency declares every feature its test's types need.
 **Kept:** the root bin bullet's text is unchanged. The stack's windows-sys pin and the `viola-test-chan-<pid>-<label>` test-pipe namespace under §Occupied Resources also stand. The dev-dependency's features are recorded once, here.
 **Ref:** .andromeda/runs/2026-10-26T00-17-51-wrap/
+
+## 2026-10-26-tokio-rustsec-2026-0386-lock-bump — the pinned Tokio version moved to 1.53.3
+**Section:** §Stack and Technologies (stack-and-technologies.md: the Backend framework (concurrency model) row) · §Inherited Defaults (architecture.md: the Framework line)
+**Change:**
+- The Backend framework row's Choice cell reads "Tokio 1.53.3 built only inside `mcp`" (was 1.53.1); the rest of the row unchanged.
+- The Inherited Defaults Framework line reads "Tokio 1.53.3 only in `mcp`" (was 1.53.1); Rust 1.98.1, MSRV 1.96, edition 2024, rmcp 3.4.1 and clap 4.6.7 unchanged.
+**Why:** the `[workspace.dependencies]` exact pin moved `tokio` `=1.53.1` → `=1.53.3` (`default-features = false` kept) and the lock resolves 1.53.3, a version RUSTSEC-2026-0386 lists as patched, so `cargo deny check` exits 0 without it and with no ignore widened. The containment both sites state is unmoved: Tokio stays built only in `viola-mcp`, `viola-channel`'s optional `tokio` feature and the test-only `viola-e2e`, with the four sole-root `deny-sync.toml` bans exiting 0 and `channel-tokio-free: ok`.
+**Kept:** the stack table carries the version only, at category grain. It gains no Tokio advisory-floor row, because that advisory's record belongs to security-plan's Dependency Security group. It gains no row for the four `AsyncFd` constructors Tokio 1.53.3 deprecates either: viola calls none of them, and clippy `-D warnings` is the gate that holds that fact.
+**Ref:** .andromeda/runs/2026-10-26T06-27-48-wrap/

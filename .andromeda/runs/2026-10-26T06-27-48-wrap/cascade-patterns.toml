@@ -1,0 +1,17 @@
+[[pattern]]
+id = 'main-rustsec'
+regex = 'RUSTSEC-2026-0386'
+
+[[pattern]]
+id = 'main-owner'
+fixed = 'tokio RUSTSEC-2026-0386 lock bump'
+ignore_case = true
+
+[[pattern]]
+id = 'main-ver'
+regex = '''1\.53\.1|[Tt]okio\s*`?=?1\.53\.1'''
+
+[[pattern]]
+id = 'main-openadv'
+regex = 'open advisory|advisory[^.\n]{0,40}fails[^.\n]{0,40}supply-chain'
+ignore_case = true

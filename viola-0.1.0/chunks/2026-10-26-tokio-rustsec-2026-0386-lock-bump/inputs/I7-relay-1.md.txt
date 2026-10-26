@@ -1,0 +1,1 @@
+please run the wrap per the skill on 2026-10-26-tokio-rustsec-2026-0386-lock-bump, whole, as an ordinary chunk with no forced sample. The 85 % and 90 % context alarms are expected; finish the wrap, stop only at 95 %.

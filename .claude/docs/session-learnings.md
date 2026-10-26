@@ -8,6 +8,11 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
+## 2026-10-26 — A sidecar entry payload needs a leading blank line before it is appended
+The entry writers' `{doc}-entries.md` opens on its `## ` heading, and `splice.py append` adds no separator, so appending the file whole puts the new heading directly under the previous entry's `**Ref:**` line. The append payload is a byte-exact copy with one blank line in front, `{doc}-entries.append.md`, appended with `--lines` one more than the entries file; a `--dry-run` line count equal to the entries file's own count is the tell.
+
+---
+
 ## 2026-10-26 — A windows-sys item needs every feature its signature's types need
 windows-sys gates each function on the feature of every type in its signature, not only on its own module's feature.
 `NtQueryInformationFile` lives in `Wdk::Storage::FileSystem`, yet it is behind `Win32_System_IO` too, because it takes an

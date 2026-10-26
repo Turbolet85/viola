@@ -1,0 +1,108 @@
+[
+{
+"tool": "cascade",
+"v": "1.18",
+"sha8": "2126e8c2",
+"ts": "2026-10-26T06:28:47Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-10-26T06-27-48-wrap/report-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-26T06-27-48-wrap",
+"--marker",
+"2026-10-26-tokio-rustsec-2026-0386-lock-bump"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [
+"baseline 948f7f01 (pre-pass — HEAD)",
+"sc-red · control UNFIRED over the seven masters (bodies and sets) at 948f7f01",
+"owner-generic · control UNFIRED over the seven masters (bodies and sets) at 948f7f01"
+],
+"stderr": "control: sc-red, owner-generic never fired over the seven masters' pre-pass text, bodies and sets (948f7f01) — a sweep runs a positive control or refuses; drop the pattern or control it by hand",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "cascade",
+"v": "1.18",
+"sha8": "2126e8c2",
+"ts": "2026-10-26T06:28:56Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-10-26T06-27-48-wrap/report-patterns.toml",
+"--pattern",
+"tokio-ver",
+"rustsec-0386",
+"owner-title",
+"--run-dir",
+".andromeda/runs/2026-10-26T06-27-48-wrap",
+"--marker",
+"2026-10-26-tokio-rustsec-2026-0386-lock-bump"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline 948f7f01 (pre-pass — HEAD)",
+"tokio-ver · new 0 · standing 8 · leaf 3 · curation 0 · base 0 · control architecture.md:442 (prose)",
+"rustsec-0386 · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control security-plan-detail/dependency-security.md:…",
+"owner-title · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control security-plan-detail/dependency-security.md:5…",
+".andromeda/architecture.md:442 tokio-ver standing …sync std-thread core; Tokio 1.53.1 only in `mcp`; rmcp 3.4.1 for MCP…",
+".andromeda/architecture-detail/stack-and-technologies.md:11 tokio-ver standing …r CLI verb; Tokio 1.53.1 built only ins…",
+".andromeda/security-plan-detail/dependency-security.md:14 tokio-ver standing …okio client (tokio `=1.53.1`, `io-util`) …",
+".andromeda/security-plan-detail/dependency-security.md:58 tokio-ver standing …t the locked tokio `=1.53.1` fails CI's `…",
+".andromeda/test-plan-detail/mocking-stubbing-discipline.md:8 tokio-ver standing …rue)]` from tokio 1.53.1 `test-util` f…",
+".andromeda/test-plan-detail/mocking-stubbing-discipline.md:17 tokio-ver standing …rnor wrap); tokio 1.53.1 `test-util` …",
+".andromeda/test-plan-detail/test-data-fixtures.md:21 tokio-ver standing …r-for-drivers: tokio `=1.53.1` with default fe…",
+".andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md:24 tokio-ver standing …tok…",
+".claude/docs/services/viola-mcp.md:11 tokio-ver leaf …o`), schemars 1.2.2, tokio 1.53.1 (`rt`), serde_json, thiserror, …",
+".claude/docs/stack.md:10 tokio-ver leaf …nd every other CLI verb; Tokio 1.53.1 built only inside `mcp` | No async runti…",
+".claude/docs/stack.md:47 tokio-ver leaf …ansport-child-process`), tokio 1.53.1 (`rt` + `process`, architecture.md's [Mo…",
+".andromeda/security-plan-detail/dependency-security.md:58 rustsec-0386 standing ×2 …n advisory RUSTSEC-2026-0386 (`unso…",
+".andromeda/security-plan-detail/dependency-security.md:58 owner-title standing …oute entry \"tokio RUSTSEC-2026-0386 loc…",
+"by line · 0 lines · 0 offsets",
+"tokio-ver · new 0 · standing 8 · leaf 3 · curation 0 · base 0 · control architecture.md:442 (prose)",
+"rustsec-0386 · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control security-plan-detail/dependency-security.md:…",
+"owner-title · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control security-plan-detail/dependency-security.md:5…",
+"total (3 patterns) · 13 rows over 8 files",
+"per class · new 0/0 · standing 10/6 · leaf 3/2 · curation 0/0 · base 0/0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "948f7f015ba913b112447f1fe7ceb45e11d21e24",
+"how": "pre-pass — HEAD",
+"counts": {
+"tokio-ver": {
+"new": 0,
+"standing": 8,
+"leaf": 3,
+"curation": 0,
+"base": 0
+},
+"rustsec-0386": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"owner-title": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+},
+"bare": []
+}
+}
+]

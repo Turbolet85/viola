@@ -8,7 +8,7 @@ The stdio MCP server `viola mcp` (rmcp 3.4.1, features exactly `server` + `trans
 ## Key integrations
 
 ### Consumes from
-`viola-core`, `viola-channel[tokio]`, `viola-state`, `viola-agent-claude`; rmcp (default features off; `server` + `transport-io`), schemars 1.2.2, tokio 1.53.1 (`rt`), serde_json, thiserror, tracing (no serde); `[lints] workspace = true`; `fake-agent = []`.
+`viola-core`, `viola-channel[tokio]`, `viola-state`, `viola-agent-claude`; rmcp (default features off; `server` + `transport-io`), schemars 1.2.2, tokio 1.53.3 (`rt`), serde_json, thiserror, tracing (no serde); `[lints] workspace = true`; `fake-agent = []`.
 
 ### Publishes to
 Claude Code driver sessions (the MCP client) via the embedded `.mcp.json`, which registers the server `viola` as `{"mcpServers": {"viola": {"command": "@@VIOLA_BIN@@", "args": ["mcp"]}}}`, the pinned copy's absolute path substituted at every start, and, for an unwrapped driver, the `.mcp.json` of `viola plugin install`'s local marketplace (`viola@viola`, no hooks), which registers `viola` as `{"command": <the canonical current_exe, forward slashes>, "args": ["--home", <the canonical home, forward slashes>, "mcp"]}`; the tools reach a session as `mcp__plugin_viola_viola__<tool>` (as measured live on claude 2.1.287). A wrapped session that also has the installed plugin enabled starts one `viola` MCP server, the `--plugin-dir` plugin's, which answers its tools; the installed plugin's `viola mcp` never starts there (as measured on claude 2.1.287 on the Linux dev host; no capability-ledger row; its Windows leg owed to "Windows-only live measurements").

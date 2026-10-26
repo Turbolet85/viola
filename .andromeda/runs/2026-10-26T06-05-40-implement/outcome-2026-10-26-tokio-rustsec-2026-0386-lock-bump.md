@@ -1,7 +1,9 @@
 # Outcome — /andromeda-implement · 2026-10-26-tokio-rustsec-2026-0386-lock-bump
 
-**Outcome: green + smoke** (1 iteration). Next → the OPERATOR PASS (entries 25 hygiene, 26 push, 27 CI read; on the
-operator's word for this chunk, `inputs#I6`), then `/andromeda-wrap-session`.
+**Outcome: green + smoke** (1 iteration). The OPERATOR PASS (entries 24 re-run, 25 hygiene, 26 push, 27 CI read) ran on
+the operator's word for this chunk (`inputs#I6`), record `chunks/2026-10-26-tokio-rustsec-2026-0386-lock-bump/evidence/operator-pass.md`:
+pre-CI commit `948f7f01`, CI `948f7f015ba9 verdict: green · checks 15/15 · wall 778 s · runs ci#40278510123
+completed/success` (run_attempt 1), `supply-chain` green on every step. Next → `/andromeda-wrap-session`.
 
 ## Files changed
 - `Cargo.toml` — line 242, `tokio = { version = "=1.53.1", default-features = false }` → `"=1.53.3"` (step 1)
