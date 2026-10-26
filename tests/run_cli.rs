@@ -631,7 +631,14 @@ fn run_refuses_a_widened_home_tree_before_its_log(
     #[case] pair: &str,
 ) {
     let home = tmp.path().to_path_buf();
-    assert_eq!(run_viola(&home, "builder", FAKE, &["--version"]), Some(0));
+    // Unseeded: a seeded home's companions are hard links to one shared seed file, and the
+    // inheritable grant `widen` puts on the home or `bin/` would reach every other seeded home
+    // through them until it is taken back (measured on windows-2025, ci#40398601594 and
+    // ci#40400887151: one other start fell back `strict-modes-failed` inside this case's window).
+    assert_eq!(
+        run_viola_unseeded(&home, "builder", FAKE, &["--version"]),
+        Some(0)
+    );
     let (before, _) = role_lines(&home, "builder");
     let path = match rel {
         "PINNED" => pinned_copy(&home),

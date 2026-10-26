@@ -62,3 +62,44 @@ the refused entry an inherited `S-1-5-32-545` write ACE), `…_tree_granted_user
 `pin::tests::pin_companions_refuses_a_path_another_user_may_write` (both cases),
 `conpty_sideload run_on_a_companion_another_user_may_write_falls_back_to_conhost`, every `hook_fail_open`,
 `hook_statusline`, `run_cli`, `handlers`, `chaos_snapshot_replay` and strict-modes case of this chunk but the two above.
+
+## The fix push `f65a4ae8` and its CI read
+
+Entry 23 re-fired `green · exit 0 · 100.84s`; hygiene `clean`; entry 25:
+
+```
+ 25 probe       green · exit 0 · 1.94s · 92 B → 25.log · history moved: refs/remotes/origin/HEAD af6c67ef→f65a4ae8; refs/remotes/origin/build/viola-0.1.0 af6c67ef→f65a4ae8 · git diff --quiet && git diff --cached --quiet && git push … (69 chars)
+```
+
+Entry 26, fired as written:
+
+```
+f65a4ae838d9 verdict: red · checks 15/15 · first-fail +630 s test (windows-2025) · runs ci#40400887151 in_progress/-
+runs: ci#40400887151 push in_progress/-
+failed 1: test (windows-2025) (failure)
+running 1: oldest test (macos-latest) 655 s
+run open: ci#40400887151 in_progress
+```
+
+The run completed `failure` (2026-10-26T21:17Z): every job green but `test (windows-2025)`, whose log (job
+121846095523) reads `3175 tests run: 3173 passed (5 slow), 2 failed, 0 skipped`:
+
+- `a_home_viola_makes_outside_the_profile_takes_the_protected_dacl` — the read-back now worked, and the reading is
+  the protected owner-only DACL: `D:PAI(A;OICI;FA;;;LA)(A;OICI;FA;;;SY)`. Canonical SDDL spells the runner's user,
+  the local Administrator account (RID 500, `S-1-5-21-…-500`), with the alias `LA`; the oracle compared the SID.
+  Fixed: the oracle takes `LA` for a user SID ending `-500`. Step 13 (d)'s reading is that line.
+- `run_cli run_rust_log_changes_nothing` — the traced run's child start carried `sideload_fallback`, the plain run's
+  did not. The kept homes' role files (artifact `diag-windows-2025`) read, in BOTH runs, 262 child starts
+  `conpty-sideload`, 3 `hash-mismatch` (the tamper tests) and 2 `strict-modes-failed`: one is
+  `conpty_sideload run_on_a_companion_another_user_may_write_falls_back_to_conhost` (expected); the other starts
+  inside `run_cli run_refuses_a_widened_home_tree_before_its_log::case_3_bin`'s window in both runs —
+  ci#40398601594: case_3 20:54:02.247–02.574, the start 20:54:02.464 (it hit a test that compares nothing on it);
+  ci#40400887151: case_3 21:10:17.012–17.498, the start 21:10:17.486 (`run_rust_log_changes_nothing`'s traced run).
+  Mechanism, read in source and consistent with both windows: that case's first start was SEEDED, so its
+  `bin/<key>/conpty/` companions are hard links to the one shared `target/conpty-seed/<key>/` file; `widen(bin)`
+  (and case_1's `widen(home)`) grants Users write with `(OI)(CI)`, which `icacls` propagates to every existing file
+  below, so the shared seed file — every seeded home's companion — carried the grant until `unwiden`, and a start
+  elsewhere in that window was correctly refused by the new owner/DACL check. Not a product fault: the check did what
+  step 10 asks. Fixed in the test: the case's first start goes through `run_viola_unseeded`, so the product writes
+  this home's own companions and the grant stays inside the home. Confirmation owed to the next run's reading: one
+  `strict-modes-failed` (the companion test's) in the kept homes.

@@ -461,9 +461,15 @@ fn a_home_viola_makes_outside_the_profile_takes_the_protected_dacl(stamped_home:
         .unwrap_or_else(|| panic!("no DACL in {sddl}"));
     let (flags, aces) = dacl.split_at(dacl.find('(').unwrap_or(dacl.len()));
     assert!(flags.contains('P'), "not protected: {sddl}");
+    // Canonical SDDL spells the local Administrator account (RID 500), the runner's user, `LA`.
+    let trustee = if user.ends_with("-500") {
+        "LA"
+    } else {
+        user.as_str()
+    };
     assert_eq!(
         aces,
-        format!("(A;OICI;FA;;;{user})(A;OICI;FA;;;SY)"),
+        format!("(A;OICI;FA;;;{trustee})(A;OICI;FA;;;SY)"),
         "{sddl}"
     );
 }
