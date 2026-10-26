@@ -1,0 +1,26 @@
+# a11y · ARIA Patterns & Roles — category read
+
+## Carried
+- (.andromeda/a11y-plan-detail/aria-patterns-roles.md:18) The strict-modes check this chunk adds before `send`'s snapshot read must leave P4's cli refusal intact: on a home that passes the check, a `send` against a held wheel is still refused `human-typing` on stderr with its typed exit code, asserted by assert_cmd.
+  > - **cli:** `send` refused with `human-typing` on stderr, with a typed exit code (assert_cmd).
+- (.andromeda/a11y-plan-detail/aria-patterns-roles.md:19) `run` gains the check before its role-file open (and, on Windows, the seeded-home question of CARRYs 6/13), so the P4 tui boundary cases, which run over `viola run` homes, must keep passing on all three OS legs.
+  > three portable-pty outer-PTY nextest cases on all three OS legs, one per Section 1 boundary clause (Section 3 → Keyboard test harness → Tooling): (1) zero viola-originated bytes on the outer-PTY stream
+- (.andromeda/a11y-plan-detail/aria-patterns-roles.md:19) `answer` gains the strict-modes check too, and P4's wheel probe rests on it, so on a passing home the probe's typed exits must hold unchanged.
+  > the wheel probed by an `answer` to no pending dialog (exit 13 driver, 10 human)
+- (.andromeda/a11y-plan-detail/aria-patterns-roles.md:19) `send`'s new check comes before the frame, so the readiness-gate case under clause (2) must still read the human's key as taking the wheel, with nothing typed and the key reaching the child.
+  > A further case sits under clause (2): a key written while a verified `send` waits in the readiness gate takes the wheel, the send exits 10 `human-typing` with nothing typed and the key reaches the child
+- (.andromeda/a11y-plan-detail/aria-patterns-roles.md:26) `wait` and `last` gain the strict-modes check, so P6's assertions over them (non-TTY by trycmd / assert_cmd, TTY-only under the outer PTY) must keep passing on all three OS legs.
+  > - **P6 — CLI board, wait/last, verify** (cli). No ARIA. trycmd / assert_cmd assert the non-TTY modes, and the portable-pty outer PTY asserts the TTY-only behaviours, on all three OS legs:
+- (.andromeda/a11y-plan-detail/aria-patterns-roles.md:27) On a passing home `viola wait` must still print `waiting: <name>` exactly once on stderr under the outer PTY, with no redraw, and print none of it under non-TTY.
+  > - linear static output: under the outer PTY, `waiting: <name>` appears exactly once on stderr and the stream contains no `\r` redraw, cursor-movement or erase sequence (no spinner); under non-TTY the `waiting:` line is absent;
+- (.andromeda/a11y-plan-detail/aria-patterns-roles.md:33) The C0/C1 escape cases run human-mode `wait` / `last` against a fake-agent home, so the home those tests make must pass the new check, or the cases stop reaching the escape they assert.
+  > Setup: human-mode `viola wait` / `viola last` run against a `viola-fake-agent` event whose text carries C0 and C1 control bytes (including ESC / CSI)
+- (.andromeda/a11y-plan.md:196) The broad line of P4 across both surfaces holds for every verb this chunk adds a check to: the cli refusal and the three-leg tui outer-PTY cases, SC 2.1.1 as a boundary stand-in.
+  > - **P4 — Human takes the wheel** (tui boundary + cli): on the cli, `send` refused with `human-typing` on stderr with a typed exit code (assert_cmd); on the tui, outer-PTY nextest cases on all three OS legs — zero viola-originated bytes, keystrokes delivered unblocked past the current atomic paste, and focus, mouse and resize sequences not moving the wheel on Linux and macOS, on `windows-2025` the platform fact that an injected mouse report takes the wheel. SC 2.1.1 (boundary stand-in on tui).
+- (.andromeda/a11y-plan.md:334) No check this chunk adds to `run`, `hook` or the wrapper may block, refuse or delay a human keystroke past the current atomic paste: a refusal falls on automation only, and the hook's check fails open.
+  > - NEVER block, refuse or delay a human keystroke in `viola run`, or in a start a passed `viola revive` made, past the current atomic paste, and never count focus / mouse / resize sequences or terminal replies as editing (P4) — a mouse report the Windows ConPTY already turned into win32 key-down records is typing (F-W3).
+
+## Bindings
+- **P4 cli refusal ↔ the body's Cognitive Accessibility § Error recovery**: the `human-typing` refusal (.andromeda/a11y-plan-detail/aria-patterns-roles.md:18) and any new strict-modes refusal the chunk adds to the same verbs share the `unable … hint:` layout and typed exit codes that the error-recovery category governs; the broad P4 line is (.andromeda/a11y-plan.md:196).
+- **P4 tui boundary ↔ the body's Anti-Patterns § Keyboard**: the outer-PTY cases (.andromeda/a11y-plan-detail/aria-patterns-roles.md:19) are the machine witness for the keystroke ban (.andromeda/a11y-plan.md:334); a check added before `run`'s role-file open must keep both.
+- **P6 wait/last ↔ test-plan's fake-agent test homes (CARRYs 6/13 of the scope)**: the C0/C1 and `waiting:` cases (.andromeda/a11y-plan-detail/aria-patterns-roles.md:27, .andromeda/a11y-plan-detail/aria-patterns-roles.md:33) run over homes the tests make, so a test home that the new check refuses turns these a11y stand-ins red; the fix belongs to the test seed and must never widen the check.

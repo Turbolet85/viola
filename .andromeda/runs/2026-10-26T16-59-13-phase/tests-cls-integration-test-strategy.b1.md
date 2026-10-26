@@ -1,0 +1,13 @@
+# Classified — tests · integration-test-strategy.b1
+
+## Answers
+integration-test-strategy#1.1 · yes · the viola-mcp TestWrapper, a shared fixture writing its snapshot through viola-state's write_snapshot, must stand on a check-passing home, and the Windows check_instance cases call the check function directly
+integration-test-strategy#1.2 · yes · the concurrent-append check opens the role and detail files the chunk edits (open_role_file's 0700 narrowing, the Windows owner + DACL check ahead of every detail-*.ndjson or role file), so its whole-line and over-4-KiB oracles must hold on that path
+integration-test-strategy#1.3 · yes · the stamped-home cases (stamps come only from viola verify against viola-fake-agent) and the harness boots that exercise the pin_exe race run viola-fake-agent as claude from a test-scoped PATH; the agents modes and the Windows npm shim are not reached
+integration-test-strategy#1.4 · yes · the chunk's Windows home DACL (protected, user and SYSTEM) is read back in canonical SDDL form, never the literal set, and its Unix modes with std::fs::metadata, as this states for the pipe and socket
+integration-test-strategy#1.5 · yes · src/conpty.rs's Windows companion load joins strict-modes, which the sideloaded-ConPTY root cases bind (conpty_sideload's tampered-copy fallback to System32 conhost.exe and the children hosted on bin/<key>/conpty)
+integration-test-strategy#1.6 · yes · the hook's VIOLA_DIR snapshot read (src/cmd/hook.rs edit), the nine events' strict-modes check ahead of any read, and the fail-open matrix's strict-modes row where statusline_command must not run
+integration-test-strategy#2.0 · yes · the seed_conpty carve-out (a home seeded before the first start, which the chunk edits so viola creates the home first); the fresh-home lifecycle it restates is standing S3 and not carried
+integration-test-strategy#3.1 · yes · the server pid/start-time impostor rows (CLI exit 21, hook exit 0 with no body) and the MCP impostor case bind to the check ahead of every frame verb and to live_endpoint; the paste-validation and Percent rows are not reached
+integration-test-strategy#3.2 · yes · the strict-modes refusals per surface (run, mcp and revive exit 1, hook exit 0 with no output, the other verbs exit 21) and state_replay's snapshot replay cases, since replay.rs is reached whole; the event round-trip and tailing cases are not reached
+integration-test-strategy#4.1 · yes · tests/cli_controls_not_disableable.rs's 0770 --home negative and completeness case (edited units) and tests/cli_plugin_install.rs's marketplace tree-write cases (plugin.rs edited) bind; the viola list rows are not reached

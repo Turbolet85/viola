@@ -292,6 +292,39 @@ fn run_on_a_tampered_conpty_dll_records_the_fallback(stamped_home: StampedHome) 
     assert_nothing_logged(stamped_home.home.path());
 }
 
+/// An intact `OpenConsole.exe` another user may write fails the owner/DACL check before it is
+/// opened: the child runs on System32's `conhost.exe`, the start records `sideload_fallback`
+/// `strict-modes-failed`, nothing reaches the terminal, the run ends as an intact one does and the
+/// grant is left as found.
+#[rstest]
+fn run_on_a_companion_another_user_may_write_falls_back_to_conhost(stamped_home: StampedHome) {
+    let dir = pinned_dir(stamped_home.home.path()).join("conpty");
+    fs::create_dir_all(&dir).expect("conpty dir");
+    let companion = dir.join("OpenConsole.exe");
+    fs::copy(vendored("OpenConsole.exe"), &companion).expect("an intact companion");
+    support::home::widen(&companion);
+    let mut run = launch(&stamped_home, "builder", None, None);
+    let wrapper = run.wait_started();
+    assert_hosted_by(wrapper, &system32("conhost.exe"));
+    let start = run.child_start();
+    assert_eq!(start["pty_backend"], "conpty");
+    assert_eq!(start["sideload_fallback"], "strict-modes-failed");
+    let stream = run.stop_clean();
+    for literal in VIOLA_LITERALS {
+        assert!(!holds(&stream, literal), "viola wrote {literal:?}");
+    }
+    assert!(
+        support::home::still_widened(&companion),
+        "the grant was undone"
+    );
+    assert_eq!(
+        fs::read(&companion).expect("left as found"),
+        fs::read(vendored("OpenConsole.exe")).expect("vendored")
+    );
+    support::home::unwiden(&companion);
+    assert_nothing_logged(stamped_home.home.path());
+}
+
 /// Real copies of both files in the working directory and on `PATH`, the pinned `conpty.dll`
 /// tampered so nothing is pre-loaded: the bare-name load under the search restriction finds
 /// neither copy.

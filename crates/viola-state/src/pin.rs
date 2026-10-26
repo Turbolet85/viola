@@ -18,6 +18,8 @@ use crate::fs::{REPLACE_ATTEMPTS, REPLACE_PAUSE};
 pub enum PinError {
     #[error("the pinned copy failed its integrity check")]
     HashMismatch,
+    #[error("the pinned copy failed the strict-modes check")]
+    StrictModes,
     #[error("the pinned copy could not be written")]
     State(#[from] StateError),
 }
@@ -66,12 +68,22 @@ fn file_key(path: &Path) -> io::Result<String> {
     Ok(hex16(&digest(File::open(path)?)?))
 }
 
+/// `<VERSION>-<16 hex>` of an exe's bytes: the name of its `bin/` and `plugin/` folders.
+pub fn pin_key(bytes: &[u8]) -> String {
+    format!("{VERSION}-{}", content_key(bytes))
+}
+
 /// Copies `exe` to `<home>/bin/<key>/viola(.exe)` (0700) when absent; when present, re-hashes it
 /// and refuses on any difference, leaving the file as found.
 pub fn pin_exe(home: &Path, exe: &Path) -> Result<Pinned, PinError> {
-    let bytes = std::fs::read(exe)?;
-    let hash = content_key(&bytes);
-    let key = format!("{VERSION}-{hash}");
+    pin_bytes(home, &std::fs::read(exe)?)
+}
+
+/// [`pin_exe`] over an exe's bytes already read, so the key a caller checked before is the key
+/// pinned.
+pub fn pin_bytes(home: &Path, bytes: &[u8]) -> Result<Pinned, PinError> {
+    let hash = content_key(bytes);
+    let key = pin_key(bytes);
     let dir = std::path::absolute(home.join("bin").join(&key))?;
     create_private_dir(&dir)?;
     let path = dir.join(format!("viola{}", std::env::consts::EXE_SUFFIX));
@@ -79,7 +91,7 @@ pub fn pin_exe(home: &Path, exe: &Path) -> Result<Pinned, PinError> {
         Ok(found) if found == hash => {}
         Ok(_) => return Err(PinError::HashMismatch),
         Err(e) if e.kind() == io::ErrorKind::NotFound => {
-            replace_private_shared(&path, &bytes, DIR_MODE)?
+            replace_private_shared(&path, bytes, DIR_MODE)?
         }
         Err(e) => return Err(e.into()),
     }
@@ -149,7 +161,8 @@ fn open_held_waiting(path: &Path, pause: &mut dyn FnMut()) -> io::Result<File> {
 
 /// Writes each companion into `bin/<key>/<subdir>/` when absent (never over a present one, like
 /// [`pin_exe`]), then opens it held and compares its whole SHA-256 with the pin. A file that differs
-/// is left as found: [`PinError::HashMismatch`].
+/// is left as found: [`PinError::HashMismatch`]. The folder and each companion that exists pass the
+/// owner/DACL check before they are used: [`PinError::StrictModes`] otherwise, nothing written.
 #[cfg(windows)]
 pub fn pin_companions(
     pinned: &Pinned,
@@ -161,11 +174,13 @@ pub fn pin_companions(
         .parent()
         .ok_or_else(|| io::Error::from(io::ErrorKind::NotFound))?;
     let dir = bin.join(subdir);
+    crate::strict::check_present(&dir).map_err(|_| PinError::StrictModes)?;
     create_private_dir(&dir)?;
     let mut handles = Vec::with_capacity(files.len());
     let mut pause = || std::thread::sleep(REPLACE_PAUSE);
     for file in files {
         let path = dir.join(file.name);
+        crate::strict::check_present(&path).map_err(|_| PinError::StrictModes)?;
         let held = match open_held_waiting(&path, &mut pause) {
             Ok(held) => held,
             Err(e) if e.kind() == io::ErrorKind::NotFound => {
@@ -191,6 +206,11 @@ mod tests {
     use super::*;
     use rstest::rstest;
     use std::fs;
+
+    #[test]
+    fn pin_key_is_the_version_and_the_content_key() {
+        assert_eq!(pin_key(b"abc"), "0.1.0-ba7816bf8f01cfea");
+    }
 
     #[rstest]
     #[case::empty(b"", "e3b0c44298fc1c14")]
@@ -430,6 +450,28 @@ mod tests {
         ));
     }
 
+    /// A companion, or the folder, granted Users write is refused by the owner/DACL check before
+    /// it is opened, and left as found.
+    #[cfg(windows)]
+    #[rstest]
+    #[case::companion("side/a.dll")]
+    #[case::folder("side")]
+    fn pin_companions_refuses_a_path_another_user_may_write(#[case] rel: &str) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let pinned = pinned_in(tmp.path());
+        drop(pin_companions(&pinned, "side", COMPANIONS).expect("first pin"));
+        let path = pinned.path.parent().expect("bin dir").join(rel);
+        icacls(&path, &["/grant", "*S-1-5-32-545:(W)"]);
+        assert!(matches!(
+            pin_companions(&pinned, "side", COMPANIONS),
+            Err(PinError::StrictModes)
+        ));
+        let a = pinned.path.parent().expect("bin dir").join("side/a.dll");
+        assert_eq!(fs::read(&a).expect("left as found"), b"alpha");
+        icacls(&path, &["/remove:g", "*S-1-5-32-545"]);
+        drop(pin_companions(&pinned, "side", COMPANIONS).expect("passes once restored"));
+    }
+
     /// The handles deny a writer from the hash until they drop: Win32 `ERROR_SHARING_VIOLATION`.
     #[cfg(windows)]
     #[test]
@@ -529,6 +571,10 @@ mod tests {
         assert_eq!(
             PinError::HashMismatch.to_string(),
             "the pinned copy failed its integrity check"
+        );
+        assert_eq!(
+            PinError::StrictModes.to_string(),
+            "the pinned copy failed the strict-modes check"
         );
         assert_eq!(
             PinError::from(io::Error::other("C:/x")).to_string(),

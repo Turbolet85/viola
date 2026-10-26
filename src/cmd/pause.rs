@@ -1,9 +1,9 @@
 //! `viola pause <name> [--json]`: the human takes the named instance's wheel without a keystroke
 //! ("I have control"); automated `send` and `answer` are then refused `human-typing` /
-//! `manual-pause` until the human hands it back. The instance must be live by its snapshot pid +
-//! start time and heartbeat (strict-modes unchecked, a dated gap), and the process serving its
-//! endpoint its recorded wrapper, then one `pause` request; the reply is one line or one `--json`
-//! document, and a typed exit code.
+//! `manual-pause` until the human hands it back. The home and the instance's state files must pass
+//! the strict-modes check, the instance must be live by its snapshot pid + start time and
+//! heartbeat, and the process serving its endpoint its recorded wrapper, then one `pause` request;
+//! the reply is one line or one `--json` document, and a typed exit code.
 
 use std::io;
 use std::path::Path;
@@ -29,6 +29,9 @@ pub(crate) struct PauseArgs {
 }
 
 pub(crate) fn pause(home: &Path, args: &PauseArgs) -> anyhow::Result<ExitCode> {
+    if let Some(code) = client::refuse_untrusted(home, &args.name, args.json)? {
+        return Ok(ExitCode::from(code));
+    }
     let home = client::start(home, &args.name)?;
     let code = wheel_call(
         &home,

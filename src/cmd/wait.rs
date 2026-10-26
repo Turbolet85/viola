@@ -40,6 +40,9 @@ fn dialog_form(kind: &str) -> bool {
 }
 
 pub(crate) fn wait(home: &Path, args: &WaitArgs) -> anyhow::Result<ExitCode> {
+    if let Some(code) = client::refuse_untrusted(home, &args.name, args.json)? {
+        return Ok(ExitCode::from(code));
+    }
     let home = client::start(home, &args.name)?;
     let name: &str = args.name.as_ref();
     let instance_dir = home.join("instances").join(name);

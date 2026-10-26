@@ -142,7 +142,7 @@ fn tui_env_viola_names_reach_the_child(#[from(home)] tmp: TestHome) {
 #[cfg(unix)]
 #[rstest]
 fn tui_env_strip_keeps_a_pass_listed_name_on_unix(#[from(home)] tmp: TestHome) {
-    std::fs::create_dir_all(tmp.path()).expect("home");
+    viola_state::fs::create_private_dir(tmp.path()).expect("home");
     std::fs::write(
         tmp.path().join("config.json"),
         r#"{"v":1,"claude_env_keep":["CLAUDE_VIOLA_TEST_KEEP","CLAUDE_PID"]}"#,

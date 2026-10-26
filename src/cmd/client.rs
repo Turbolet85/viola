@@ -1,8 +1,9 @@
-//! What `send`, `wait` and `last` share as channel clients: the `cli` obs start, the reply shapes,
-//! and the outputs every verb writes the same way — one `--json` document, exit 20's wrapper fault
-//! and exit 21's unreachable line. Their endpoint read is `viola_state::liveness::live_endpoint`
-//! (strict-modes unchecked, a dated gap); their connection is [`connect`], whose server is checked
-//! against the recorded wrapper before the first frame.
+//! What the frame verbs share as channel clients: the strict-modes check of the instance before
+//! anything under the home opens ([`refuse_untrusted`]), the `cli` obs start, the reply shapes, and
+//! the outputs every verb writes the same way — one `--json` document, exit 20's wrapper fault and
+//! exit 21's unreachable line. Their endpoint read is `viola_state::liveness::live_endpoint`, after
+//! that check; their connection is [`connect`], whose server is checked against the recorded
+//! wrapper before the first frame.
 
 use std::io::{self, Write as _};
 use std::path::{Path, PathBuf};
@@ -12,8 +13,32 @@ use viola_channel::{ChannelError, Client, SERVER_PID_REPORTED};
 use viola_core::obs::{ObsEvent, ObsProcess};
 use viola_core::{ViolaName, obs_event};
 use viola_state::liveness::{LiveEndpoint, ServerVerdict, verify_server};
+use viola_state::strict::check_instance;
 
 use crate::{human, obs, run};
+
+/// The strict-modes check of the home and `instances/<name>`, before [`start`] opens the role file:
+/// opening it narrows the home to its owner, which would erase the very state this refuses. A
+/// refusal prints the instance's state pair, or under `--json` the `instance-unreachable`
+/// document, opens nothing under the home and writes no line: `Some(21)`.
+pub(crate) fn refuse_untrusted(
+    home: &Path,
+    name: &ViolaName,
+    json: bool,
+) -> anyhow::Result<Option<u8>> {
+    let name: &str = name.as_ref();
+    let absolute = std::path::absolute(home)?;
+    if check_instance(&absolute, &absolute.join("instances").join(name)).is_ok() {
+        return Ok(None);
+    }
+    if json {
+        refused_document("instance-unreachable");
+    } else {
+        let (unable, hint) = human::instance_state_pair(name);
+        human::refuse(&unable, &hint);
+    }
+    Ok(Some(21))
+}
 
 /// The absolute home, with this process's `cli` role file open and its start logged.
 pub(crate) fn start(home: &Path, name: &ViolaName) -> anyhow::Result<PathBuf> {

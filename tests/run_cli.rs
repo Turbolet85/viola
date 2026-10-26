@@ -222,7 +222,7 @@ fn run_appends_to_an_existing_role_file(#[from(home)] tmp: TestHome) {
 }
 
 fn write_config(home: &Path, text: &str) {
-    std::fs::create_dir_all(home).expect("home");
+    viola_state::fs::create_private_dir(home).expect("home");
     std::fs::write(home.join("config.json"), text).expect("config");
 }
 
@@ -389,8 +389,10 @@ fn run_is_silent_on_stdout_and_stderr(
 
 /// A directory where the role file goes makes the role-file open fail inside `run`, after the
 /// instance name and the home have resolved.
+/// A directory where the role file goes, made owner-only as viola makes its folders: the home
+/// passes its check and the role file's open fails.
 fn force_internal_error(home: &Path) {
-    std::fs::create_dir_all(home.join("diagnostics").join("run-builder.ndjson"))
+    viola_state::fs::create_private_dir(&home.join("diagnostics").join("run-builder.ndjson"))
         .expect("a directory where the role file goes");
 }
 
@@ -592,6 +594,76 @@ fn run_creates_home_0700_and_role_file_0600(#[from(home)] tmp: TestHome) {
         mode(&home.join("diagnostics").join("run-builder.ndjson")),
         0o600
     );
+}
+
+const HOME_PAIR: &str = concat!(
+    "unable: the viola home is not private to you\n",
+    "hint: the viola home must be readable only by you; viola does not change its permissions\n",
+);
+const INSTANCE_PAIR: &str = concat!(
+    "unable: builder's state files can be written by another user\n",
+    "hint: viola will not read them; make the viola home and its files owner-only\n",
+);
+
+/// The pinned copy a first start left: the one `bin/<key>/viola(.exe)`.
+fn pinned_copy(home: &Path) -> PathBuf {
+    let mut keys: Vec<PathBuf> = std::fs::read_dir(home.join("bin"))
+        .expect("bin")
+        .map(|entry| entry.expect("entry").path())
+        .collect();
+    assert_eq!(keys.len(), 1, "{keys:?}");
+    keys.remove(0)
+        .join(format!("viola{}", std::env::consts::EXE_SUFFIX))
+}
+
+/// A home another user may write, an instance directory, `bin/` or the pinned copy another user
+/// may write, after one clean start: the next `viola run` is refused before its log opens — exit
+/// 1, the home's or the instance's pair on stderr, stdout empty, no line added to
+/// `run-builder.ndjson`, no child — and the widening is left as found.
+#[rstest]
+#[case::home("", HOME_PAIR)]
+#[case::instance_dir("instances/builder", INSTANCE_PAIR)]
+#[case::bin("bin", HOME_PAIR)]
+#[case::pinned_copy("PINNED", HOME_PAIR)]
+fn run_refuses_a_widened_home_tree_before_its_log(
+    #[from(home)] tmp: TestHome,
+    #[case] rel: &str,
+    #[case] pair: &str,
+) {
+    let home = tmp.path().to_path_buf();
+    assert_eq!(run_viola(&home, "builder", FAKE, &["--version"]), Some(0));
+    let (before, _) = role_lines(&home, "builder");
+    let path = match rel {
+        "PINNED" => pinned_copy(&home),
+        "" => home.clone(),
+        rel => home.join(rel),
+    };
+    support::home::widen(&path);
+    let (dir, fake_args) = receipt_args(FAKE);
+    // Bounded: a start that is not refused would run until its child ends, so the run must exit
+    // within `WITHIN` or the case fails there, and the guard kills what it started.
+    let child = Command::new(VIOLA)
+        .arg("--home")
+        .arg(&home)
+        .args(["run", "builder", "--", FAKE])
+        .args(&fake_args)
+        .env_remove("VIOLA_NAME")
+        .env_remove("VIOLA_DIR")
+        .env_remove("VIOLA_BIN")
+        .stdin(Stdio::null())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .expect("viola run");
+    let out = support::cli::Running::over(child).finish();
+    assert_eq!(out.code, Some(1), "{rel}");
+    assert_eq!(out.stdout, "", "{rel}");
+    assert_eq!(out.stderr, pair, "{rel}");
+    let (after, _) = role_lines(&home, "builder");
+    assert_eq!(after, before, "{rel}: a refused start logged");
+    assert!(!dir.path().join("r.ndjson").exists(), "{rel}: a child ran");
+    assert!(support::home::still_widened(&path), "{rel}");
+    support::home::unwiden(&path);
 }
 
 /// A wrapper terminated from outside (no Ctrl-C, no clean exit) takes its child with it: the

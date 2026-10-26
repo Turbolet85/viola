@@ -280,6 +280,26 @@ fn hook_statusline_a_home_another_user_can_write_runs_nothing_however_often() {
     );
 }
 
+/// An instance directory another user may write, on every OS (Windows by a Users write grant):
+/// nothing is read, run, printed or logged, no reading is written, and the widening is left as
+/// found; narrowed again by its owner, the arm serves it.
+#[rstest]
+fn hook_statusline_a_widened_instance_runs_and_logs_nothing(stamped_home: StampedHome) {
+    let session = session(stamped_home, None);
+    let lines = session.role_lines().len();
+    support::home::widen(&session.dir);
+    let ran = session.hook(reading(33));
+    assert_silent_success(&ran, "");
+    assert!(session.budget().is_none(), "a reading was written");
+    assert_eq!(session.marker(), None);
+    assert_eq!(session.role_lines().len(), lines, "a refused check logged");
+    assert!(support::home::still_widened(&session.dir));
+    support::home::unwiden(&session.dir);
+    assert_silent_success(&session.hook(reading(34)), "");
+    let budget = session.budget().expect("a reading once narrowed");
+    assert_eq!(budget["five_hour"]["used_percentage"].as_f64(), Some(34.0));
+}
+
 #[rstest]
 #[case::oversize(
     {

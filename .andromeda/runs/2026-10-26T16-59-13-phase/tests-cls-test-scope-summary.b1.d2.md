@@ -1,0 +1,18 @@
+# Classified — tests · test-scope-summary.b1
+
+## Answers
+test-scope-summary#1.1 · yes · the pid and start-time server check before every client's first frame and its no-frame impostor witness, which the chunk's strict-modes refusals must precede; the pipe DACL and peer-euid parts are not reached
+test-scope-summary#2.1 · yes · the version gate and the viola verify probes against the fake agent, which give the stamped homes (stamped_home) that verify's update_stamps and run's stamps read under strict-modes need; the parser, R8, shim and screen parts are not reached
+test-scope-summary#3.1 · yes · the exit-code contract (21 for refused frame verbs, 1 for run and revive refusals, the --json refusal documents) is what the chunk's per-surface refusals and the 0770 --home negative (exit 21) assert
+test-scope-summary#4.1 · yes · the cli exit-code and JSON-document signals, including revive's exit-1 strict-modes refusal in its unable and hint or --json form, are the witnesses for the chunk's refusal per surface
+test-scope-summary#5.1 · no · the outer-PTY keystroke driver of viola run's passthrough and its wheel, prompt and screen signals are not reached; the chunk's run refusals and Path 1 checks are headless exit-code and file checks
+test-scope-summary#5.2 · yes · the wrapper channel frames send, wait, last, answer, pause, release, hook.event and hook.dialog, read with the events.ndjson cursor, witness the chunk's no-frame-written rule on a strict-modes refusal
+test-scope-summary#5.3 · yes · the MCP send, wait, last and answer tools refusing instance-unreachable with detail null through live_endpoint on a failed check, with no frame written; the tools/list and recorded-replay parts are not reached
+test-scope-summary#6.1 · yes · boot's fresh per-test --home, which the chunk's scope names as passing the new checks, and its wrapper boot, the base of the one-instance boot the pin_exe race needs
+test-scope-summary#7.1 · yes · stamps only from viola verify on the fake agent (stamped_home), no developer-seeded state, and the test-data ban's carve-outs the chunk names (seed_conpty, chaos corruption, impostor snapshots)
+test-scope-summary#8.1 · yes · run's start sequence the chunk edits: the collision check's snapshot read, the per-start plugin/ rewrite with absolute pinned commands, the pin_exe re-hash with a tampered exe exiting 1, the conpty companion load, and the duplicate-run exit 1
+test-scope-summary#8.2 · no · Path 2's own confirmed-send behaviour (send confirmation, CL-1 events, typed-text and local-command rules) is Not needed, and the chunk adds only the strict-modes check ahead of send's frame, which this path does not state
+test-scope-summary#9.1 · no · Path 5's own wheel, pause and release behaviour (human takeover, manual-pause, release-from-driver, harness turns) is Not needed, and the chunk adds only the check ahead of the pause and release frames, which this path does not state
+test-scope-summary#9.2 · yes · the statusline arm of Path 6, whose statusline_command must not run on a home failing strict-modes (exit 0 as the signal), while the threshold, override and budget-gate parts are Not needed
+test-scope-summary#10.1 · yes · live_endpoint's stale-heartbeat and live-pid distinction and instance-unreachable on a vanished endpoint during wait, both on units the chunk reaches, plus the chaos-corruption test shape the chunk's carve-out names; the snapshot-corruption replay rows wait on the E5 P4 fork
+test-scope-summary#11.1 · no · the fake agent's replay contract against the recorded spine, dialog, framing, resume and compact fixtures is the Not-needed fake-agent replay class, and the chunk changes neither the fake agent nor its fixtures

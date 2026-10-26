@@ -66,7 +66,17 @@ fn name_str(name: &ViolaName) -> &str {
     name.as_ref()
 }
 
-/// `<home>/diagnostics/<role file>`, the dirs 0700 and the file 0600.
+/// The diagnostics folder and the file in it, each that exists, through the strict-modes check
+/// before anything is created, narrowed or opened: a refusal is a failed open.
+fn check_diagnostics(dir: &Path, file: &Path) -> io::Result<()> {
+    [dir, file]
+        .into_iter()
+        .try_for_each(viola_state::strict::check_diagnostics)
+        .map_err(|_| io::Error::from(io::ErrorKind::PermissionDenied))
+}
+
+/// `<home>/diagnostics/<role file>`, the dirs 0700 and the file 0600, once the folder and the
+/// file, each that exists, have passed their check.
 pub(crate) fn open_role_file(
     home: &Path,
     process: ObsProcess,
@@ -74,10 +84,12 @@ pub(crate) fn open_role_file(
 ) -> io::Result<Arc<File>> {
     let name = role_file_name(process, instance)
         .ok_or_else(|| io::Error::from(io::ErrorKind::InvalidInput))?;
-    ensure_private_dir(home)?;
     let dir = home.join("diagnostics");
+    let path = dir.join(name);
+    check_diagnostics(&dir, &path)?;
+    ensure_private_dir(home)?;
     ensure_private_dir(&dir)?;
-    Ok(Arc::new(open_private_append(&dir.join(name))?))
+    Ok(Arc::new(open_private_append(&path)?))
 }
 
 pub(crate) fn timestamp(at: DateTime<Utc>) -> String {
@@ -306,13 +318,14 @@ pub(crate) fn detail_line(
 }
 
 /// One `write_all` into `<home>/instances/<name>/diagnostics/detail-<process>.ndjson`, opened at
-/// first use; every failure drops the line and nothing reaches stderr.
+/// first use once the folder and the file, each that exists, have passed their check; every
+/// failure drops the line and nothing reaches stderr.
 pub(crate) fn write_detail(home: &Path, instance: &ViolaName, process: ObsProcess, line: &str) {
     let path = detail_path(home, instance, process);
     let Some(dir) = path.parent() else {
         return;
     };
-    if ensure_private_dir(dir).is_err() {
+    if check_diagnostics(dir, &path).is_err() || ensure_private_dir(dir).is_err() {
         return;
     }
     if let Ok(mut file) = open_private_append(&path) {
@@ -592,6 +605,71 @@ mod tests {
         fs::write(&home, "not a dir").expect("file");
         write_detail(&home, &name("builder"), ObsProcess::Run, "{}\n");
         assert_eq!(fs::read_to_string(&home).expect("file"), "not a dir");
+    }
+
+    /// A `diagnostics/` another user may read or write, or a role file that is a symlink, is
+    /// refused before anything is created, narrowed or opened: the open fails and the mode is
+    /// left as found.
+    #[cfg(unix)]
+    #[rstest]
+    #[case::dir_group_readable("dir", 0o750)]
+    #[case::dir_other_writable("dir", 0o702)]
+    #[case::file_group_readable("file", 0o640)]
+    fn open_role_file_refuses_a_widened_diagnostics_path_and_leaves_it(
+        #[case] which: &str,
+        #[case] mode: u32,
+    ) {
+        use std::os::unix::fs::PermissionsExt as _;
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let home = tmp.path().join("home");
+        let builder = name("builder");
+        drop(open_role_file(&home, ObsProcess::Run, Some(&builder)).expect("first open"));
+        let dir = home.join("diagnostics");
+        let path = if which == "dir" {
+            dir.clone()
+        } else {
+            dir.join("run-builder.ndjson")
+        };
+        fs::set_permissions(&path, fs::Permissions::from_mode(mode)).expect("chmod");
+        let refused = open_role_file(&home, ObsProcess::Run, Some(&builder));
+        assert_eq!(
+            refused.map(|_| ()).map_err(|e| e.kind()),
+            Err(io::ErrorKind::PermissionDenied)
+        );
+        let found = fs::metadata(&path).expect("meta").permissions().mode() & 0o777;
+        assert_eq!(found, mode, "left as found");
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn open_role_file_refuses_a_symlinked_role_file() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let home = tmp.path().join("home");
+        let dir = home.join("diagnostics");
+        ensure_private_dir(&dir).expect("dir");
+        let elsewhere = tmp.path().join("elsewhere.ndjson");
+        std::os::unix::fs::symlink(&elsewhere, dir.join("run-builder.ndjson")).expect("link");
+        assert!(open_role_file(&home, ObsProcess::Run, Some(&name("builder"))).is_err());
+        assert!(!elsewhere.exists(), "nothing opened through the link");
+    }
+
+    /// An instance `diagnostics/` another user may read drops the detail line before it is
+    /// narrowed, created or opened.
+    #[cfg(unix)]
+    #[test]
+    fn write_detail_refuses_a_widened_diagnostics_folder_and_leaves_it() {
+        use std::os::unix::fs::PermissionsExt as _;
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let home = tmp.path().join("home");
+        let builder = name("builder");
+        let path = detail_path(&home, &builder, ObsProcess::Run);
+        let dir = path.parent().expect("dir").to_path_buf();
+        ensure_private_dir(&dir).expect("dir");
+        fs::set_permissions(&dir, fs::Permissions::from_mode(0o750)).expect("chmod");
+        write_detail(&home, &builder, ObsProcess::Run, "{}\n");
+        assert!(!path.exists());
+        let found = fs::metadata(&dir).expect("meta").permissions().mode() & 0o777;
+        assert_eq!(found, 0o750);
     }
 
     #[derive(Clone, Default)]

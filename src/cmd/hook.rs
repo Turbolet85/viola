@@ -27,7 +27,8 @@ use viola_core::{DIALOG_HOLD_MAX, MAX_FRAME, obs_event};
 use viola_state::events::{EventLine, Source, try_append_event};
 use viola_state::fs::{FILE_MODE, create_private_new, replace_private};
 use viola_state::liveness::{ServerVerdict, verify_server};
-use viola_state::snapshot::read_snapshot;
+use viola_state::replay::{Recovered, read_snapshot_or_replay};
+use viola_state::strict::check_instance;
 
 use super::{Failure, Instance, instance_of};
 use crate::obs::{self, DetailSink};
@@ -71,6 +72,19 @@ fn dialog_deadline(started: Instant) -> Instant {
     started + DIALOG_HOLD_MAX + REPLY_GRACE
 }
 
+/// The wrapped session by its canonical directory: a `VIOLA_DIR` that resolves to anything but
+/// `<home>/instances/<name>` is not one.
+fn canonical(instance: &Instance) -> Option<Instance> {
+    let dir = std::fs::canonicalize(&instance.dir).ok()?;
+    let name: &str = instance.name.as_ref();
+    instance_of(Some(name.into()), Some(dir.into_os_string()))
+}
+
+/// Whether the instance's home and files pass the strict-modes check.
+fn trusted(instance: &Instance) -> bool {
+    check_instance(&instance.home, &instance.dir).is_ok()
+}
+
 pub(crate) fn hook(args: &HookArgs) -> Result<ExitCode, Failure> {
     let started = Instant::now();
     if args.event == statusline::WORD {
@@ -95,7 +109,11 @@ pub(crate) fn hook(args: &HookArgs) -> Result<ExitCode, Failure> {
         std::env::var_os("VIOLA_NAME"),
         std::env::var_os("VIOLA_DIR"),
     );
-    let Some(instance) = instance else {
+    // The check comes before anything under the home is read or opened: opening the log narrows
+    // the home to its owner, which would erase the very state the check refuses. A refused
+    // instance is no wrapped session: no config read, no role file, no stdin read, no line, no
+    // frame and no SessionEnd append.
+    let Some(instance) = instance.as_ref().and_then(canonical).filter(trusted) else {
         return Ok(ExitCode::SUCCESS);
     };
     let (level, _) = obs::read_diagnostics_level(&instance.home);
@@ -199,9 +217,13 @@ impl NotSent {
 /// A connection, by `connect_by`, to the endpoint `snapshot.json` records, whose server is the
 /// wrapper that snapshot records by pid and start time (security-plan §Authentication &
 /// Authorization, IPC client-side server verification); checked before any frame is written. The
-/// snapshot is read without strict-modes, a dated gap.
+/// instance passed its strict-modes check before the hook opened anything; the snapshot is read
+/// through the replay, and a replayed one, which records no endpoint, pid or start time, is
+/// unreachable.
 fn connect(instance: &Instance, connect_by: Instant) -> Result<Client, NotSent> {
-    let snapshot = read_snapshot(&instance.dir).ok_or(NotSent::Unreachable)?;
+    let Ok(Recovered::Snapshot(snapshot)) = read_snapshot_or_replay(&instance.dir) else {
+        return Err(NotSent::Unreachable);
+    };
     let endpoint = snapshot.endpoint.as_deref().ok_or(NotSent::Unreachable)?;
     let client =
         Client::connect_by(endpoint, "hook", connect_by).map_err(|_| NotSent::Unreachable)?;
@@ -599,6 +621,78 @@ mod tests {
         }
     }
 
+    /// Every line the calling thread emits, its fields as JSON.
+    #[derive(Clone, Default)]
+    struct Recorded(std::sync::Arc<std::sync::Mutex<Vec<Value>>>);
+
+    impl<S: tracing::Subscriber> tracing_subscriber::Layer<S> for Recorded {
+        fn on_event(
+            &self,
+            event: &tracing::Event<'_>,
+            _: tracing_subscriber::layer::Context<'_, S>,
+        ) {
+            let mut fields = viola_channel::test_support::JsonFields::default();
+            event.record(&mut fields);
+            self.0.lock().expect("lines").push(Value::Object(fields.0));
+        }
+    }
+
+    /// A live-looking snapshot naming an endpoint, cut short or re-versioned to `v` 99 from the
+    /// writer's own bytes: `connect` takes the replay, which records no endpoint, pid or start
+    /// time, so the instance is unreachable with no connection tried, and the replay writes its one
+    /// `state-recovered` line.
+    #[rstest]
+    #[case::cut_short("cut", "snapshot-replayed")]
+    #[case::unsupported_v("v99", "snapshot-unsupported-v")]
+    fn connect_over_a_replayed_snapshot_is_unreachable(#[case] fault: &str, #[case] detail: &str) {
+        use tracing_subscriber::layer::SubscriberExt as _;
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let instance = instance_in(tmp.path());
+        let me = std::process::id();
+        let snapshot = viola_state::snapshot::InstanceSnapshot {
+            endpoint: Some("viola-test-replayed-endpoint".to_owned()),
+            pid: me,
+            started_at: viola_state::liveness::own_start(me).expect("own start"),
+            pinned_bin: String::new(),
+            cli_verified: true,
+            cli_version: None,
+            wheel: viola_state::snapshot::Wheel::Driver,
+            budget_paused: false,
+            budget_override_until: None,
+            links: Vec::new(),
+            child_pid: None,
+            pending_dialog: None,
+            cwd: None,
+            statusline_command: None,
+            agent_session_id: None,
+        };
+        viola_state::snapshot::write_snapshot(&instance.dir, &snapshot).expect("snapshot");
+        let path = instance.dir.join(viola_state::snapshot::SNAPSHOT);
+        let bytes = fs::read(&path).expect("bytes");
+        let faulted = if fault == "cut" {
+            bytes[..bytes.len() / 2].to_vec()
+        } else {
+            String::from_utf8(bytes)
+                .expect("utf-8")
+                .replacen("\"v\":1", "\"v\":99", 1)
+                .into_bytes()
+        };
+        fs::write(&path, faulted).expect("faulted");
+        let recorded = Recorded::default();
+        let subscriber = tracing_subscriber::registry().with(recorded.clone());
+        let got = crate::test_support::with_scoped_default(subscriber, || {
+            connect(&instance, Instant::now() + CONNECT_DEADLINE).err()
+        });
+        assert_eq!(got, Some(NotSent::Unreachable));
+        let lines = recorded.0.lock().expect("lines").clone();
+        let recovered: Vec<&Value> = lines
+            .iter()
+            .filter(|l| l["event"] == "state-recovered")
+            .collect();
+        assert_eq!(recovered.len(), 1, "{lines:?}");
+        assert_eq!(recovered[0]["detail"], detail);
+    }
+
     #[test]
     fn spine_deadline_is_750_ms_after_the_start() {
         let start = Instant::now();
@@ -989,8 +1083,10 @@ mod tests {
             [
                 "span hook.handle",
                 "event \"hook-invoked\" in hook.handle",
+                "span state.snapshot_recover",
                 "event \"hook-decision\" in none",
                 "span hook.handle",
+                "span state.snapshot_recover",
                 "event \"hook-invoked\" in hook.handle",
                 "event \"hook-decision\" in hook.handle",
             ]

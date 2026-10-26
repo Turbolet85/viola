@@ -1,9 +1,10 @@
 //! The five tools and their inputs. A tool's schema is advertised (schemars) but never trusted: each
 //! handler takes its arguments as a JSON object and re-validates every value itself, so no serde
 //! text reaches a result (security-plan §Input Validation, §Error Handling). A frame tool reaches
-//! its instance's wrapper after the liveness pre-check (strict-modes unchecked, a dated gap), and
-//! only once the process serving the endpoint is the wrapper the snapshot records (security-plan
-//! §Authentication & Authorization, IPC client-side server verification).
+//! its instance's wrapper after the strict-modes check of the home and the instance's state files
+//! and the liveness pre-check, and only once the process serving the endpoint is the wrapper the
+//! snapshot records (security-plan §Authentication & Authorization, IPC client-side server
+//! verification).
 
 use std::borrow::Cow;
 use std::path::PathBuf;
@@ -26,6 +27,7 @@ use viola_channel::tokio_client::TokioClient;
 use viola_core::obs::ObsEvent;
 use viola_core::{NotDelivered, RefusalReason, VERSION, ViolaName, obs_event};
 use viola_state::liveness::{LiveEndpoint, ServerVerdict, live_endpoint, verify_server};
+use viola_state::strict::check_instance;
 
 use crate::{ListProvider, McpError, result};
 
@@ -317,9 +319,10 @@ fn params_from(ctx: &Ctx, mut params: Map<String, Value>) -> Map<String, Value> 
     params
 }
 
-/// One request to `target`'s wrapper after the liveness pre-check, over a connection whose server
-/// is the recorded wrapper; a server that fails the check is `instance-unreachable`, no frame
-/// written.
+/// One request to `target`'s wrapper after the strict-modes check of the home and the instance's
+/// state files and the liveness pre-check, over a connection whose server is the recorded wrapper;
+/// a refused check, a dead instance or a server that fails its check is `instance-unreachable`, no
+/// frame and no line written.
 async fn frame(
     ctx: &Ctx,
     target: &ViolaName,
@@ -331,6 +334,9 @@ async fn frame(
         .home
         .join("instances")
         .join(AsRef::<str>::as_ref(target));
+    if check_instance(&ctx.home, &instance_dir).is_err() {
+        return Ok(result::unreachable());
+    }
     let Some(live) = live_endpoint(&instance_dir) else {
         return Ok(result::unreachable());
     };

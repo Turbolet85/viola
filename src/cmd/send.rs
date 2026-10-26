@@ -187,6 +187,9 @@ pub(crate) fn send(home: &Path, args: &SendArgs) -> anyhow::Result<ExitCode> {
         let _ = io::stderr().lock().write_all(UNUSABLE_TEXT.as_bytes());
         return Ok(ExitCode::from(2));
     };
+    if let Some(code) = client::refuse_untrusted(home, &args.name, args.json)? {
+        return Ok(ExitCode::from(code));
+    }
     let home = client::start(home, &args.name)?;
     let out = Out {
         name: args.name.as_ref(),

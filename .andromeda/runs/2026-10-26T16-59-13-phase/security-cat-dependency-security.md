@@ -1,0 +1,36 @@
+# security · Dependency Security — category read
+
+## Carried
+- (.andromeda/security-plan-detail/dependency-security.md:8) When the chunk adds `bin/<version>-<hash>/conpty/` and both companions to the Windows strict-modes set (CARRY 5), the run-time SHA-256 pin must still be what carries the Microsoft signer: the owner/DACL check is added alongside the re-hash and never replaces it.
+  > The signer is checked there and in CI only: at run time the SHA-256 pin carries it (a hash-pinned blob cannot carry another signature). An own audit, never an exemption (Decisions Log `2026-09-29`).
+- (.andromeda/security-plan-detail/dependency-security.md:26) Any companion re-hash or check the chunk touches must read the four pins from their one textual home, `src/conpty.rs`, adding no second copy and moving no pin.
+  > The vendored ConPTY package is pinned exactly by four pins with one textual home, `src/conpty.rs`: the package version (`1.24.260710001`), the nupkg SHA-256 (`175640566a3b59c4b132070ee96c2c77e5ab7edd2e92732a5eb3610bbf63d90e`), `conpty.dll`'s SHA-256 (`39fba2713e2495117b1591ae8c32a3b904bea7aa66069cf7815e2844c76d75d8`) and `OpenConsole.exe`'s (`b7fd936c2668b87b9ecf7b3366dc6568afc1c6f981874cba3e955a1c35cf8160`); `scripts/conpty-vendor.sh` parses them from that text.
+- (.andromeda/security-plan-detail/dependency-security.md:14) Any dependency or feature the chunk adds for the strict-modes, DACL or re-hash work in a sync crate (`viola-state` among them) must keep the C-building-crate ban and the per-sync-crate `tokio` ban green.
+  > The arch bans stay as they are: C-building crates in `deny.toml`, and `tokio` in the sync crates' graph for three target triples in `deny-sync.toml`, run per sync crate as the sole root over the four crates of `scripts/sync-crates.txt` (arch §Build system).
+- (.andromeda/security-plan-detail/dependency-security.md:14) The live proof of every ban must still read green after any dependency change the chunk makes.
+  > Every ban, the tree form included (probe `channel-tokio-edge` and its channel control, `13/13 banned, control clean`), is proven live by `scripts/deny-probes.sh`.
+- (.andromeda/security-plan.md:252) Any new third-party crate the chunk pulls in must carry an allowed licence. A new per-crate licence exception needs its own Decisions Log entry, so it is a halt, not a decision this plan can make.
+  > `[licenses]`: the `allow` list stays exactly `["MIT", "Apache-2.0", "Zlib", "Unicode-3.0"]` (arch §Build system).
+- (.andromeda/security-plan.md:261) Any third-party version the chunk adds to the root graph must be pinned exactly in `[workspace.dependencies]`, with `Cargo.lock` committed.
+  > `Cargo.lock` and `fuzz/Cargo.lock` are committed. `[workspace.dependencies]` pins every third-party version of the root graph (portable-pty `=0.8.1`)
+- (.andromeda/security-plan.md:274) The chunk must pass CI's `cargo deny check` over all four families on the root lockfile.
+  > Job 4 (ubuntu) runs `cargo deny check` over all four check families, and fails the build on any advisory, yanked crate or unknown source.
+- (.andromeda/security-plan.md:280) The chunk's Windows proof runs on CI's `windows-2025` leg (scope §Boundaries), and its ConPTY companion work must keep this step's two verdicts green.
+  > The per-OS `test` job's `windows-2025`-only step `ConPTY vendor verification` runs `bash scripts/conpty-vendor.sh --verify` and `--probe` before the coverage run (verdicts `conpty-vendor: verified 1.24.260710001` and `conpty-vendor probe: 4/4 refused, control clean`) and fails the build otherwise.
+- (.andromeda/security-plan.md:281) The release-build measurement (CARRY 11: two clean release builds of one tree) must use the release graph exactly as the release job builds it. Any test seam or test-only feature the chunk adds for its strict-modes or `pin_exe` witnesses must stay out of the release artifact.
+  > The per-OS `release` job builds `cargo build --release --locked --bin viola` through `scripts/release-check.sh`. The script judges that build's own `compiler-artifact` records, never a `target/release/` listing. It refuses any executable other than `viola`, and any artifact whose `features` include a test-only feature (`test-support`, `fake-agent`): `release-check: FAILED — test-only feature {feature} in {target}`.
+- (.andromeda/security-plan.md:264) The CARRY 11 rebuild comparison must be made under the exactly pinned product toolchain, so that a hash difference cannot come from a toolchain drift.
+  > The product toolchain is pinned exactly by `rust-toolchain.toml` (`channel = "1.98.1"`, rustfmt + clippy); the native Linux dev host (where `pre-push` runs) and CI install it through rustup.
+- (.andromeda/security-plan.md:285) `viola hook`'s new strict-modes check fails open and must panic nowhere outside the one seam. The chunk adds no G2 exemption.
+  > CI's G2 zero-panics gate has exactly one exemption, a role-file `panic` line whose `panic_location` is exactly the `FAKE_AGENT_HOOK_PANIC` seam's, compared as a whole string, its `--probe` run before every G2 check; any further G2 exemption needs its own Decisions Log entry.
+- (.andromeda/security-plan.md:287) If the chunk edits a workflow (a Windows DACL witness or a build-comparison step), each action it references must be pinned by SHA.
+  > Actions are pinned by full commit SHA with a version comment (the set `ci.yml` uses), `actions/checkout` with `persist-credentials: false`.
+- (.andromeda/security-plan.md:291) Any workflow job the chunk adds or edits must keep the permission floor.
+  > Workflow-level `permissions: {}` and job-level `contents: read`.
+
+## Bindings
+- **ConPTY pins ↔ the body's §Security Anti-Patterns → Data Protection and §Input Validation (DLL row)**: CARRY 5's owner/DACL check on `conpty/` is added beside the full SHA-256 re-hash through a `FILE_SHARE_READ`-only handle against the compiled pins. A failing companion is left as found and the run degrades to the inbox ConPTY. See (.andromeda/security-plan-detail/dependency-security.md:26), (.andromeda/security-plan.md:461) and (.andromeda/security-plan.md:170).
+- **Arch bans ↔ architecture §Build system**: every crate the chunk adds to a sync crate's graph is judged by `deny.toml` / `deny-sync.toml` and `scripts/deny-probes.sh`. See (.andromeda/security-plan-detail/dependency-security.md:14).
+- **G2 ↔ the body's §Error Handling (hook fail-open) and test-plan CI**: a strict-modes refusal in `hook` exits 0 with no body and no panic, and G2 judges it with its one exemption unchanged. See (.andromeda/security-plan.md:285) and (.andromeda/security-plan.md:415).
+- **Release check and toolchain pin ↔ CARRY 11 and the body's v1.x release prerequisites**: the rebuild comparison is made on the `--locked` release graph under the pinned toolchain. Acting on it is the founder's. Attestation and signing stay deferred to v1.x. See (.andromeda/security-plan.md:281), (.andromeda/security-plan.md:264) and (.andromeda/security-plan.md:304).
+- **ConPTY vendor verification ↔ the scope's Windows proof (CI `windows-2025`)**: the chunk's Windows strict-modes witnesses (CARRYs 5, 12 and 13) run on the same leg as the `--verify` / `--probe` step. See (.andromeda/security-plan.md:280).

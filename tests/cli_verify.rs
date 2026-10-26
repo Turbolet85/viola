@@ -248,6 +248,37 @@ fn verify_a_complete_set_prints_every_relied_step_and_stamps_every_row(
     }
 }
 
+/// A `ledger/` another user may write, on a home a first run stamped: the next run is refused
+/// before its log and before any probe — exit 1, no step line or summary on stdout, the home's
+/// pair on stderr — and the stamps stay byte for byte, the widening as found.
+#[rstest]
+fn verify_refuses_a_widened_ledger_before_any_step(#[from(home)] home: TestHome) {
+    write_spine_set(&fixtures(&home), "2.1.0", None);
+    let first = verify(home.path(), &fixtures(&home), "2.1.0", &[], &[], &[]);
+    assert_eq!(first.code, Some(0), "stdout {}", first.stdout_text());
+    let stamped = fs::read(ledger(home.path()).join("stamps.json")).expect("stamps");
+    support::home::widen(&ledger(home.path()));
+
+    let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &[], &[]);
+    assert_eq!(ran.code, Some(1), "stderr {}", ran.stderr_text());
+    assert_eq!(ran.stdout_text(), "");
+    assert_eq!(
+        ran.stderr_text(),
+        concat!(
+            "unable: the viola home is not private to you\n",
+            "hint: the viola home must be readable only by you; viola does not change its ",
+            "permissions\n",
+        )
+    );
+    assert_eq!(
+        fs::read(ledger(home.path()).join("stamps.json")).expect("stamps"),
+        stamped
+    );
+    assert!(support::home::still_widened(&ledger(home.path())));
+    assert!(!home.path().join("diagnostics").exists(), "a log opened");
+    support::home::unwiden(&ledger(home.path()));
+}
+
 /// The trusted run's turn would wait out the probe deadline for a Stop that never comes, so the
 /// fake agent's trust root is moved off the cwd: its trusted, dialog and plan runs start at the
 /// trust dialog and are killed with no key, which fails the three rows a turn measures, the four
@@ -392,12 +423,35 @@ fn verify_runs_the_probe_under_the_identity_strip(#[from(home)] home: TestHome) 
     );
 }
 
+/// A home that cannot be statted — its parent is a regular file — fails the home's check before
+/// anything runs: exit 1, the home's pair, nothing on stdout.
 #[rstest]
-fn verify_under_a_regular_file_prints_only_the_internal_error_line(#[from(home)] home: TestHome) {
+fn verify_under_a_regular_file_refuses_the_home(#[from(home)] home: TestHome) {
     let file = home.scratch().join("file");
     fs::write(&file, b"x").expect("a file where the home's parent should be");
     write_spine_set(&fixtures(&home), "2.1.0", None);
     let ran = verify(&file.join("home"), &fixtures(&home), "2.1.0", &[], &[], &[]);
+    assert_eq!(ran.code, Some(1));
+    assert!(ran.stdout.is_empty());
+    assert_eq!(
+        ran.stderr_text(),
+        concat!(
+            "unable: the viola home is not private to you\n",
+            "hint: the viola home must be readable only by you; viola does not change its ",
+            "permissions\n",
+        )
+    );
+}
+
+/// A home that passes its check but holds a regular file where `ledger/` goes: the probe dir
+/// cannot be made, and the `cli` catch site prints its one line and nothing else.
+#[rstest]
+fn verify_under_a_regular_file_prints_only_the_internal_error_line(#[from(home)] home: TestHome) {
+    viola_state::fs::create_private_dir(home.path()).expect("the home");
+    viola_state::fs::replace_private(&home.path().join("ledger"), b"x", 0o600)
+        .expect("a file where the ledger goes");
+    write_spine_set(&fixtures(&home), "2.1.0", None);
+    let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &[], &[]);
     assert_eq!(ran.code, Some(1));
     assert!(ran.stdout.is_empty());
     assert_eq!(ran.stderr_text(), INTERNAL_ERROR);

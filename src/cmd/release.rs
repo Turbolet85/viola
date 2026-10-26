@@ -32,6 +32,9 @@ pub(crate) struct ReleaseArgs {
 }
 
 pub(crate) fn release(home: &Path, args: &ReleaseArgs) -> anyhow::Result<ExitCode> {
+    if let Some(code) = client::refuse_untrusted(home, &args.name, args.json)? {
+        return Ok(ExitCode::from(code));
+    }
     let home = client::start(home, &args.name)?;
     let code = wheel_call(
         &home,

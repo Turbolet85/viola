@@ -401,3 +401,78 @@ fn handlers_frame_tools_write_no_frame_to_a_server_that_is_not_the_recorded_wrap
     assert!(wrapper.frames().is_empty(), "{:?}", wrapper.frames());
     drop(held);
 }
+
+/// Grants another user write on the instance directory: Unix mode 0770, Windows a Users write
+/// grant through `icacls`, its exit asserted. `grant == false` takes it back.
+fn widened(dir: &Path, grant: bool) {
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::PermissionsExt as _;
+        let mode = if grant { 0o770 } else { 0o700 };
+        std::fs::set_permissions(dir, std::fs::Permissions::from_mode(mode)).expect("chmod");
+    }
+    #[cfg(windows)]
+    {
+        let root = std::env::var_os("SystemRoot").expect("SystemRoot");
+        let args: &[&str] = if grant {
+            &["/grant", "*S-1-5-32-545:(OI)(CI)(W)"]
+        } else {
+            &["/remove:g", "*S-1-5-32-545"]
+        };
+        let status = std::process::Command::new(
+            std::path::PathBuf::from(root)
+                .join("System32")
+                .join("icacls.exe"),
+        )
+        .arg(dir)
+        .args(args)
+        .stdout(std::process::Stdio::null())
+        .status()
+        .expect("icacls");
+        assert!(status.success(), "icacls {args:?}");
+    }
+}
+
+/// An instance directory another user may write, its recorded wrapper serving: every frame tool
+/// reads `instance-unreachable` with `detail: null` before any snapshot read or connection, and the
+/// wrapper is sent no frame; the widening is left as found. Narrowed again, the same wrapper is
+/// reached: the control.
+#[test]
+fn handlers_frame_tools_refuse_a_widened_instance_before_any_frame() {
+    let wrapper = booted(
+        "widened",
+        vec![(
+            "last",
+            Ok(json!({"ok": {"last_assistant_message": null, "ts": null}})),
+        )],
+    );
+    let dir = wrapper.home.join("instances").join("builder");
+    widened(&dir, true);
+    let tools = wrapper.tools(Some("driver"));
+    for (name, args) in [
+        ("send", json!({"target": "builder", "text": "x"})),
+        ("wait", json!({"target": "builder", "timeout_ms": 900})),
+        ("last", json!({"target": "builder"})),
+        (
+            "answer",
+            json!({"target": "builder", "dialog_id": 1, "response": {"behavior": "allow"}}),
+        ),
+    ] {
+        let result = call(&tools, name, args).expect("a result");
+        assert_eq!(result.is_error, Some(true), "{name}");
+        assert_eq!(
+            result.structured_content,
+            Some(json!({"error": "instance-unreachable", "detail": null})),
+            "{name}"
+        );
+    }
+    assert!(wrapper.frames().is_empty(), "{:?}", wrapper.frames());
+    assert!(
+        viola_state::strict::check_instance(&wrapper.home, &dir).is_err(),
+        "the widening was undone"
+    );
+    widened(&dir, false);
+    let control = call(&tools, "last", json!({"target": "builder"})).expect("a result");
+    assert_eq!(control.is_error, Some(false), "{control:?}");
+    assert_eq!(wrapper.frames().len(), 1);
+}

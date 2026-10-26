@@ -1,0 +1,351 @@
+[
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "ec19b4e7",
+"ts": "2026-10-26T16:59:50Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-26-home-and-code-bearing-file-integrity",
+"--source",
+"~/dev/projects/additional/viola-overseer/phase-home-integrity-directive.md",
+"--kind",
+"relay",
+"--why",
+"the operator directive for this phase: forced sample at P2, the two-draw classify first live run, keep evidence, stop on hard cascade failure, the P2 report items, the founder forks (CARRY 7/8 move ruled live at P4, any widening halts for his word), standing rules",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-10-26T16-59-13-phase",
+"--marker",
+"2026-10-26-home-and-code-bearing-file-integrity"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy no-repo · ../additional/viola-overseer/phase-home-integrity-directive.md",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-phase-home-integrity-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/phase-home-integrity-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "93911eb453962fdff5cabbd219d5602803122a5fdd8573a990f0da62841fe0ae",
+"copy": "I1-phase-home-integrity-directive.md.txt",
+"link": false,
+"read_at": "2026-10-26T16:59:50Z",
+"step": "phase:P1",
+"why": "the operator directive for this phase: forced sample at P2, the two-draw classify first live run, keep evidence, stop on hard cascade failure, the P2 report items, the founder forks (CARRY 7/8 move ruled live at P4, any widening halts for his word), standing rules"
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "ec19b4e7",
+"ts": "2026-10-26T16:59:50Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-26-home-and-code-bearing-file-integrity",
+"--source",
+"~/dev/projects/additional/andromedaV3/andromeda-overseer/docs/design-slots/masters-classify-pilot-2026-10-15/rulings.md",
+"--kind",
+"sibling",
+"--why",
+"rulings.md:699: the founder ruled option 1 for viola fork CARRY 7/8 (Server verification before any frame); the move to the log replay stays re-pinned on Home and code-bearing file integrity",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-10-26T16-59-13-phase",
+"--marker",
+"2026-10-26-home-and-code-bearing-file-integrity"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · pointer committed · ../additional/andromedaV3:andromeda-overseer/docs/design-slots/masters-classify-pilot-2026-10-15/rulings.md",
+"commit 333e4934 · ref main · upstream unpushed",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "sibling",
+"repo": "../additional/andromedaV3",
+"path": "andromeda-overseer/docs/design-slots/masters-classify-pilot-2026-10-15/rulings.md",
+"form": "pointer",
+"state": "committed",
+"commit": "333e49347c5e6dcf8d61b990ae145fc04b2b9215",
+"ref": "main",
+"upstream": "unpushed",
+"claimed": null,
+"sha256": "600ea830715fffff932fc682bda049d35b4af1711b10ce1ba748ed268f72892f",
+"copy": null,
+"link": false,
+"read_at": "2026-10-26T16:59:50Z",
+"step": "phase:P1",
+"why": "rulings.md:699: the founder ruled option 1 for viola fork CARRY 7/8 (Server verification before any frame); the move to the log replay stays re-pinned on Home and code-bearing file integrity"
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "ec19b4e7",
+"ts": "2026-10-26T18:11:22Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-26-home-and-code-bearing-file-integrity",
+"--message-file",
+".andromeda/runs/2026-10-26T16-59-13-phase/relay-1.md",
+"--origin",
+"the founder, his own word live by dialog in the overseer session, 2026-10-26T18:11Z, relayed by the overseer",
+"--kind",
+"relay",
+"--why",
+"the founders own answers to the four P4 forks: readers move now (his boundary-widening ratification), no line on a refused check as link, the link instance pair for the six frame verbs, the pin race and reproducible builds carved into a new entry (his route-split word)",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-10-26T16-59-13-phase",
+"--marker",
+"2026-10-26-home-and-code-bearing-file-integrity"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy message · message: the founder, his own word live by dialog in the overseer session, 2026-10-26T18:11Z, relayed by the overseer",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "message: the founder, his own word live by dialog in the overseer session, 2026-10-26T18:11Z, relayed by the overseer",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "0f029096c29b3db95bb29b660c6bc9a67ab551131ce19a72e665ae7286dde4d0",
+"copy": "I3-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-26T18:11:22Z",
+"step": "phase:P4",
+"why": "the founders own answers to the four P4 forks: readers move now (his boundary-widening ratification), no line on a refused check as link, the link instance pair for the six frame verbs, the pin race and reproducible builds carved into a new entry (his route-split word)"
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "ec19b4e7",
+"ts": "2026-10-26T18:17:27Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-26-home-and-code-bearing-file-integrity",
+"--run-dir",
+".andromeda/runs/2026-10-26T16-59-13-phase",
+"--marker",
+"2026-10-26-home-and-code-bearing-file-integrity"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-home-integrity-directive.md",
+"I1 cited scope.md:7 · scope.md:57 · scope.md:60 · research.md:7 · plan.md:176 (in fence)",
+"I2 unchanged · pointer committed@333e4934 · ../additional/andromedaV3:andromeda-overseer/docs/design-slots/masters-classify-pilot-2026-10-15/rulings.md",
+"I2 cited scope.md:60 · scope.md:163 · research.md:7",
+"I3 n/a — a message has no live source · copy message · message: the founder, his own word live by dialog in the overseer session, 2026-10-26T18:11Z, relayed by the overseer",
+"I3 cited scope.md:62 · research.md:7 · research.md:99 · plan.md:21 · plan.md:60 · plan.md:68 · plan.md:356 · plan.md:381 · plan.md:387 · plan.md:409 · plan.md:416 · plan.md:423 · plan.md:426 · plan.md:446 · plan.md:459",
+"inputs: 3 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 3,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "ec19b4e7",
+"ts": "2026-10-26T18:22:14Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-26-home-and-code-bearing-file-integrity",
+"--run-dir",
+".andromeda/runs/2026-10-26T16-59-13-phase",
+"--marker",
+"2026-10-26-home-and-code-bearing-file-integrity"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-home-integrity-directive.md",
+"I1 cited scope.md:7 · scope.md:57 · scope.md:60 · research.md:7 · plan.md:177 (in fence)",
+"I2 unchanged · pointer committed@333e4934 · ../additional/andromedaV3:andromeda-overseer/docs/design-slots/masters-classify-pilot-2026-10-15/rulings.md",
+"I2 cited scope.md:60 · scope.md:163 · research.md:7",
+"I3 n/a — a message has no live source · copy message · message: the founder, his own word live by dialog in the overseer session, 2026-10-26T18:11Z, relayed by the overseer",
+"I3 cited scope.md:62 · research.md:7 · research.md:99 · plan.md:21 · plan.md:60 · plan.md:68 · plan.md:373 · plan.md:398 · plan.md:404 · plan.md:426 · plan.md:433 · plan.md:440 · plan.md:443 · plan.md:463 · plan.md:476",
+"inputs: 3 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 3,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "ec19b4e7",
+"ts": "2026-10-26T18:22:36Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-26-home-and-code-bearing-file-integrity",
+"--run-dir",
+".andromeda/runs/2026-10-26T16-59-13-phase",
+"--marker",
+"2026-10-26-home-and-code-bearing-file-integrity"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-home-integrity-directive.md",
+"I1 cited scope.md:7 · scope.md:57 · scope.md:60 · research.md:7 · plan.md:177 (in fence)",
+"I2 unchanged · pointer committed@333e4934 · ../additional/andromedaV3:andromeda-overseer/docs/design-slots/masters-classify-pilot-2026-10-15/rulings.md",
+"I2 cited scope.md:60 · scope.md:163 · research.md:7",
+"I3 n/a — a message has no live source · copy message · message: the founder, his own word live by dialog in the overseer session, 2026-10-26T18:11Z, relayed by the overseer",
+"I3 cited scope.md:62 · research.md:7 · research.md:99 · plan.md:21 · plan.md:60 · plan.md:68 · plan.md:373 · plan.md:398 · plan.md:404 · plan.md:426 · plan.md:433 · plan.md:440 · plan.md:443 · plan.md:469 · plan.md:480 · plan.md:493",
+"inputs: 3 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 3,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "ec19b4e7",
+"ts": "2026-10-26T18:59:52Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-26-home-and-code-bearing-file-integrity",
+"--message-file",
+".andromeda/runs/2026-10-26T16-59-13-phase/relay-2.md",
+"--origin",
+"the founder, his own word live by dialog in the overseer session, 2026-10-26T18:59Z, relayed by the overseer",
+"--kind",
+"relay",
+"--why",
+"the P5 word yes on .andromeda/runs/2026-10-26T16-59-13-phase/p5-card-1.md, the founders own word: the plan, the v1-45 v1-17 v1-41 concretizations, the leans, Beyond-the-plan rows 1 (new entry Pinned copy race and reproducible builds, CARRYs 11 and 16) and 2 (CARRY 17 closed by ruling)",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-10-26T16-59-13-phase",
+"--marker",
+"2026-10-26-home-and-code-bearing-file-integrity"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy message · message: the founder, his own word live by dialog in the overseer session, 2026-10-26T18:59Z, relayed by the overseer",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "relay",
+"repo": null,
+"path": "message: the founder, his own word live by dialog in the overseer session, 2026-10-26T18:59Z, relayed by the overseer",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "b355394f079a92e32acbb5a0be05ac5a1169d441b19c382bd351c0849afa487b",
+"copy": "I4-relay-2.md.txt",
+"link": false,
+"read_at": "2026-10-26T18:59:52Z",
+"step": "phase:P5",
+"why": "the P5 word yes on .andromeda/runs/2026-10-26T16-59-13-phase/p5-card-1.md, the founders own word: the plan, the v1-45 v1-17 v1-41 concretizations, the leans, Beyond-the-plan rows 1 (new entry Pinned copy race and reproducible builds, CARRYs 11 and 16) and 2 (CARRY 17 closed by ruling)"
+}
+}
+]

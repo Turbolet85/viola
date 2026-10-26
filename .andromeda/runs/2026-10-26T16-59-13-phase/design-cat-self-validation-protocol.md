@@ -1,0 +1,4 @@
+# design · Self-Validation Protocol — category read
+
+## Nothing in scope
+Nearest: (.andromeda/design-system.md:404) the Signature Test, which requires the readback box in the `[RB]` / `[  ]` / `[/ ]` column of CLI `viola send`. The chunk does not reach it. Its strict-modes check before `send`'s snapshot read refuses before any frame, through the existing exit-21 `unable  instance-unreachable` form (.andromeda/design-system.md:338). That form is not the readback mirror, so the chunk adds no send result line and redraws no box. The category file's only detail, the Token Test (.andromeda/design-system-detail/self-validation-protocol.md:8), is "A 0.2.0 frontend design input; 0.1.0 renders no page" (.andromeda/design-system.md:409). The Swap, Squint and Sameness tests read only a rendered design, and this security-hardening chunk adds none.

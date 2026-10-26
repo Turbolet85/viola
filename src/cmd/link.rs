@@ -13,7 +13,6 @@ use serde_json::{Map, Value, json};
 use tracing::instrument;
 use viola_core::ViolaName;
 use viola_state::liveness::{LiveEndpoint, live_endpoint};
-use viola_state::strict::check_instance;
 
 use super::client::{self, CallError, Reply, Unreachable, own_name};
 use crate::{human, run};
@@ -92,17 +91,8 @@ pub(super) fn link_call(
     request: fn(&LiveEndpoint, Map<String, Value>) -> Result<Value, CallError>,
 ) -> anyhow::Result<u8> {
     let (driver, driven): (&str, &str) = (args.driver.as_ref(), args.driven.as_ref());
-    // Before the log opens: opening it narrows the home to its owner, which would erase the very
-    // state this check refuses. A refused check opens nothing under the home and writes no line.
-    let absolute = std::path::absolute(home)?;
-    if check_instance(&absolute, &absolute.join("instances").join(driven)).is_err() {
-        if args.json {
-            client::refused_document("instance-unreachable");
-        } else {
-            let (unable, hint) = human::instance_state_pair(driven);
-            human::refuse(&unable, &hint);
-        }
-        return Ok(21);
+    if let Some(code) = client::refuse_untrusted(home, &args.driven, args.json)? {
+        return Ok(code);
     }
     let home = client::start(home, &args.driven)?;
     let unreachable = |cause| {

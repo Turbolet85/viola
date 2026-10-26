@@ -1,0 +1,14 @@
+# a11y · Visual Design Verification — category read
+
+## Carried
+- (.andromeda/a11y-plan-detail/visual-design-verification.md:9) Every strict-modes refusal this chunk adds to `send` / `wait` / `last` / `answer` / `pause` / `release`, to `run`'s start and to any `revive` read it moves must write no SGR or ESC byte of viola's own (the `unable` line never coloured), and `run`'s new checks before the passthrough must leave viola's own literals absent from the outer-PTY stream on every OS leg, `windows-2025` on both ConPTY backends included.
+  > viola emits zero SGR of its own under non-TTY / `NO_COLOR` / `TERM=dumb` / `--json` / `viola run` / a passed `viola revive`, and the revive refusal pairs and `--list` rows carry no ESC byte. Under `viola run` on Windows the outer-PTY stream also carries the ConPTY host's own SGR, cursor and query bytes (not viola's: the inbox host's as measured at chunk 2026-09-25-pty-wrapper-on-windows research fact 4, the sideloaded `OpenConsole.exe`'s `ESC[1t ESC[c ESC[?1004h ESC[?9001h` as measured at chunk 2026-09-29-sideloaded-conpty), so the windows-2025 `viola run` check is that viola's literals are absent, on both backends. `unable` / `fail` are never coloured. Checked with assert_cmd + portable-pty on `[windows-2025, macos-latest, ubuntu-latest]`.
+- (.andromeda/a11y-plan.md:221) The body's broad line the detail serves: a refusal the chunk's checks produce stays an uncoloured `unable` with no SGR under `viola run` or a passed `viola revive`.
+  > no SGR of viola's own under non-TTY / `NO_COLOR` / `TERM=dumb` / `--json` / `viola run` / a passed `viola revive`; `unable` / `fail` never coloured;
+- (.andromeda/a11y-plan.md:340) The Visual anti-pattern §6 points to bans colouring the new refusal lines and any SGR on the `run` / `revive` paths the chunk's checks enter.
+  > - NEVER colour CLI `unable` / `fail`, and never emit SGR under non-TTY / `NO_COLOR` / `TERM=dumb` / `--json` / `viola run` / a passed `viola revive`.
+
+## Bindings
+- **visual-sgr (no SGR, `unable` never coloured) ↔ a11y body §8 Error recovery (cognitive-accessibility)**: the chunk's new strict-modes refusals keep the `unable  <reason>  <detail>` + final `hint:` stderr layout and carry it uncoloured, (.andromeda/a11y-plan-detail/visual-design-verification.md:9) with (.andromeda/a11y-plan.md:257)
+- **visual-sgr ↔ a11y body §11 Visual**: the detail's zero-SGR rule and the anti-pattern ban are one rule stated twice, (.andromeda/a11y-plan-detail/visual-design-verification.md:9) with (.andromeda/a11y-plan.md:340)
+- **visual-sgr's windows-2025 `viola run` check ↔ the scope's Windows proof on CI's `windows-2025` leg**: `run`'s added home / `bin/` / `conpty/` checks (CARRY 5) run before the passthrough and must not put a viola literal into the outer-PTY stream on either ConPTY backend, (.andromeda/a11y-plan-detail/visual-design-verification.md:9)

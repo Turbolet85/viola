@@ -18,9 +18,11 @@ use viola_pty::{HostTerminal, PasteHandle, PortablePty, PumpEnd, Size, SpawnSpec
 use viola_state::events::{EventLine, Source, append_event};
 use viola_state::fs::{FILE_MODE, create_private_dir, replace_private, replace_private_shared};
 use viola_state::heartbeat::{Heartbeat, beat_age, touch_heartbeat};
-use viola_state::liveness::{Liveness, classify, own_start, same_process};
-use viola_state::pin::{PinError, Pinned, pin_exe};
-use viola_state::snapshot::{InstanceSnapshot, Wheel, read_snapshot};
+use viola_state::liveness::{Liveness, STALE_AFTER, classify, own_start, same_process};
+use viola_state::pin::{PinError, Pinned, pin_bytes, pin_key};
+use viola_state::replay::{Recovered, read_snapshot_or_replay};
+use viola_state::snapshot::{InstanceSnapshot, Wheel};
+use viola_state::strict::{TreeRefused, check_home_tree};
 
 use crate::run::ChildLaunch;
 use crate::run::budget::{self, BudgetGate, Trigger};
@@ -161,6 +163,13 @@ pub(super) struct Launch {
 }
 
 pub(crate) fn run(home: &Path, args: RunArgs) -> anyhow::Result<ExitCode> {
+    let exe = match checked_exe(home, &args.name)? {
+        Ok(exe) => exe,
+        Err(refused) => {
+            refuse_tree(&args.name, refused);
+            return Ok(ExitCode::from(1));
+        }
+    };
     let persistent = open_wrapper_log(home, &args.name)?;
     let mut words = args.program.into_iter();
     let launch = Launch {
@@ -171,9 +180,37 @@ pub(crate) fn run(home: &Path, args: RunArgs) -> anyhow::Result<ExitCode> {
         args: words.collect(),
         spawn_dir: std::env::current_dir()?,
     };
-    match start(home, &launch, &persistent)? {
+    match start(home, &launch, &persistent, &exe)? {
         Started::Launched(launched) => pump_child(*launched),
         Started::Refused(code) => Ok(code),
+    }
+}
+
+/// This exe's bytes, read once, behind the strict-modes check of the home tree a start trusts
+/// (the home, the instance, `ledger/`, `bin/`, `plugin/` and the folders and copy named by the
+/// bytes' key): run before the wrapper log opens, since opening it narrows the home to its owner
+/// and would erase the very state the check refuses.
+pub(super) fn checked_exe(
+    home: &Path,
+    name: &ViolaName,
+) -> anyhow::Result<Result<Vec<u8>, TreeRefused>> {
+    let exe = std::fs::read(std::env::current_exe()?)?;
+    let home = std::path::absolute(home)?;
+    Ok(check_home_tree(&home, Some(name), Some(&pin_key(&exe))).map(|()| exe))
+}
+
+/// A refused tree's stderr pair, the home's or the instance's: nothing under the home opened, no
+/// line written.
+pub(super) fn refuse_tree(name: &ViolaName, refused: TreeRefused) {
+    match refused {
+        TreeRefused::HomeLevel(_) => {
+            let (unable, hint) = human::home_state_pair();
+            human::refuse(unable, hint);
+        }
+        TreeRefused::InstanceLevel(_) => {
+            let (unable, hint) = human::instance_state_pair(name.as_ref());
+            human::refuse(&unable, &hint);
+        }
     }
 }
 
@@ -220,6 +257,7 @@ pub(super) fn start(
     home: &Path,
     launch: &Launch,
     persistent: &[String],
+    exe: &[u8],
 ) -> anyhow::Result<Started> {
     let name = &launch.name;
     let cwd = std::env::current_dir()?;
@@ -236,10 +274,11 @@ pub(super) fn start(
     // child's `VIOLA_DIR` and every path below are built over it.
     let home = super::canonical_home(home);
     let instance_dir = home.join("instances").join(name_str(name));
-    if let Some(refusal) = collision_check(name, &instance_dir, false) {
+    let recovered = read_snapshot_or_replay(&instance_dir).ok();
+    if let Some(refusal) = collision_check(name, &instance_dir, recovered.as_ref(), false) {
         return Ok(refusal);
     }
-    let Some((pinned, plugin_dir)) = pin_and_plugin(&home)? else {
+    let Some((pinned, plugin_dir)) = pin_and_plugin(&home, exe)? else {
         refuse_tampered_pin();
         return Ok(refused("pinned-hash-mismatch"));
     };
@@ -372,18 +411,25 @@ pub(super) fn refused(detail: &'static str) -> Started {
     Started::Refused(ExitCode::from(1))
 }
 
-/// A `live` or `stale` name refuses before anything is written; a `gone` one is taken over. With
+/// A `live` or `stale` name refuses before anything is written; a `gone` one is taken over. The
+/// snapshot is the caller's one read of it through the replay (`None` when that read failed). With
 /// `json` the refusal is the `already-live` document on stdout in place of the stderr pair.
 #[instrument(skip_all, name = "run.collision_check", fields(outcome = tracing::field::Empty))]
 pub(super) fn collision_check(
     name: &ViolaName,
     instance_dir: &Path,
+    recovered: Option<&Recovered>,
     json: bool,
 ) -> Option<Started> {
-    let taken = read_snapshot(instance_dir).map(|snapshot| {
-        let age = beat_age(instance_dir, SystemTime::now());
-        classify(age, same_process(&snapshot))
-    });
+    let age = || beat_age(instance_dir, SystemTime::now());
+    let taken = match recovered {
+        Some(Recovered::Snapshot(snapshot)) => Some(classify(age(), same_process(snapshot))),
+        // A replayed snapshot records no pid: the beat alone says whether a wrapper still runs.
+        Some(Recovered::Replayed { .. }) => age()
+            .is_some_and(|age| age <= STALE_AFTER)
+            .then_some(Liveness::Live),
+        Some(Recovered::Absent) | None => None,
+    };
     let outcome = match taken {
         None | Some(Liveness::Gone) => "free",
         Some(Liveness::Live | Liveness::Stale) => "already-live",
@@ -398,12 +444,11 @@ pub(super) fn collision_check(
     Some(refused("already-live"))
 }
 
-/// The pinned copy of this exe, then `plugin/<key>/` rewritten whole; `None` when the pinned copy
-/// failed its re-hash.
+/// The pinned copy of this exe's bytes, then `plugin/<key>/` rewritten whole; `None` when the
+/// pinned copy failed its re-hash.
 #[instrument(skip_all, name = "run.pin_copy", fields(outcome = tracing::field::Empty))]
-fn pin_and_plugin(home: &Path) -> anyhow::Result<Option<(Pinned, PathBuf)>> {
-    let exe = std::env::current_exe()?;
-    let pinned = match pin_exe(home, &exe) {
+fn pin_and_plugin(home: &Path, exe: &[u8]) -> anyhow::Result<Option<(Pinned, PathBuf)>> {
+    let pinned = match pin_bytes(home, exe) {
         Ok(pinned) => pinned,
         Err(PinError::HashMismatch) => {
             tracing::Span::current().record("outcome", "pinned-hash-mismatch");
@@ -462,6 +507,7 @@ fn sideload_outcome(pinned: &Pinned) -> (&'static str, Option<viola_state::pin::
     let held = match viola_state::pin::pin_companions(pinned, conpty::SUBDIR, conpty::FILES) {
         Ok(held) => held,
         Err(PinError::HashMismatch) => return ("hash-mismatch", None),
+        Err(PinError::StrictModes) => return ("strict-modes-failed", None),
         Err(PinError::State(_)) => return ("unreadable", None),
     };
     match viola_pty::sideload::preload(&held.dir.join(conpty::DLL)) {
@@ -1112,6 +1158,71 @@ mod tests {
         );
     }
 
+    /// Every event line the calling thread emits, its fields as JSON.
+    #[derive(Clone, Default)]
+    struct Events(Arc<Mutex<Vec<Value>>>);
+
+    impl<S: tracing::Subscriber> Layer<S> for Events {
+        fn on_event(&self, event: &tracing::Event<'_>, _: Context<'_, S>) {
+            let mut fields = Fields::default();
+            event.record(&mut fields);
+            self.0.lock().expect("events").push(Value::Object(fields.0));
+        }
+    }
+
+    /// A live wrapper's first snapshot, cut short or re-versioned to `v` 99 from the writer's own
+    /// bytes, its beat aged as given: the check takes the replay, which records no pid, so the beat
+    /// alone decides — over a stale beat the name is free, over a fresh one it is `already-live` —
+    /// and the replay writes its one `state-recovered` line.
+    #[rstest::rstest]
+    #[case::cut_short_stale("cut", 10, "snapshot-replayed", true)]
+    #[case::cut_short_fresh("cut", 0, "snapshot-replayed", false)]
+    #[case::unsupported_v_stale("v99", 10, "snapshot-unsupported-v", true)]
+    #[case::unsupported_v_fresh("v99", 0, "snapshot-unsupported-v", false)]
+    fn collision_check_over_a_replayed_snapshot_reads_the_beat_alone(
+        #[case] fault: &str,
+        #[case] beat_secs: u64,
+        #[case] detail: &str,
+        #[case] free: bool,
+    ) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let dir = tmp.path().join("instances").join("builder");
+        create_private_dir(&dir).expect("instance dir");
+        first_snapshot(&dir, tmp.path());
+        let path = dir.join(viola_state::snapshot::SNAPSHOT);
+        let bytes = std::fs::read(&path).expect("bytes");
+        let faulted = if fault == "cut" {
+            bytes[..bytes.len() / 2].to_vec()
+        } else {
+            String::from_utf8(bytes)
+                .expect("utf-8")
+                .replacen("\"v\":1", "\"v\":99", 1)
+                .into_bytes()
+        };
+        std::fs::write(&path, faulted).expect("faulted");
+        std::fs::OpenOptions::new()
+            .append(true)
+            .open(dir.join("heartbeat"))
+            .expect("the beat")
+            .set_modified(SystemTime::now() - std::time::Duration::from_secs(beat_secs))
+            .expect("mtime");
+        let events = Events::default();
+        let subscriber = tracing_subscriber::registry().with(events.clone());
+        let name = ViolaName::try_new("builder".to_owned()).expect("valid");
+        let taken = crate::test_support::with_scoped_default(subscriber, || {
+            let recovered = read_snapshot_or_replay(&dir).ok();
+            collision_check(&name, &dir, recovered.as_ref(), true).is_some()
+        });
+        assert_eq!(taken, !free);
+        let lines = events.0.lock().expect("events").clone();
+        let recovered: Vec<&Value> = lines
+            .iter()
+            .filter(|l| l["event"] == "state-recovered")
+            .collect();
+        assert_eq!(recovered.len(), 1, "{lines:?}");
+        assert_eq!(recovered[0]["detail"], detail);
+    }
+
     /// The first snapshot `start_state` writes for a child spawned in `spawn_dir`, read back from
     /// the instance directory.
     fn first_snapshot(instance_dir: &Path, spawn_dir: &Path) -> InstanceSnapshot {
@@ -1164,7 +1275,10 @@ mod tests {
             },
         )
         .expect("the start state");
-        assert_eq!(read_snapshot(instance_dir), Some(returned.clone()));
+        assert_eq!(
+            viola_state::snapshot::read_snapshot(instance_dir),
+            Some(returned.clone())
+        );
         returned
     }
 
@@ -1537,7 +1651,9 @@ mod tests {
             args: Vec::new(),
             spawn_dir: std::env::current_dir().expect("cwd"),
         };
-        let (started, spans) = capture_spans(|| start(&tmp.path().join("home"), &launch, &[]));
+        let exe = std::fs::read(std::env::current_exe().expect("exe")).expect("exe bytes");
+        let (started, spans) =
+            capture_spans(|| start(&tmp.path().join("home"), &launch, &[], &exe));
         let Started::Launched(mut launched) = started.expect("started") else {
             panic!("the start was refused");
         };
@@ -1554,20 +1670,25 @@ mod tests {
         } else {
             &[]
         };
-        let expected: Vec<&str> = ["run.start", "run.collision_check", "run.pin_copy"]
-            .iter()
-            .chain(sideload)
-            .chain(&[
-                "run.version_gate",
-                "channel.bind",
-                "run.budget_eval",
-                "state.snapshot_write",
-                "state.heartbeat_start",
-                "pty.spawn",
-                "state.snapshot_write",
-            ])
-            .copied()
-            .collect();
+        let expected: Vec<&str> = [
+            "run.start",
+            "state.snapshot_recover",
+            "run.collision_check",
+            "run.pin_copy",
+        ]
+        .iter()
+        .chain(sideload)
+        .chain(&[
+            "run.version_gate",
+            "channel.bind",
+            "run.budget_eval",
+            "state.snapshot_write",
+            "state.heartbeat_start",
+            "pty.spawn",
+            "state.snapshot_write",
+        ])
+        .copied()
+        .collect();
         assert_eq!(names, expected);
         if cfg!(all(windows, target_arch = "x86_64")) {
             let sideload = field(&spans, "run.conpty_sideload");

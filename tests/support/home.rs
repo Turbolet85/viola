@@ -268,7 +268,9 @@ impl Drop for TestHome {
 /// fresh home finds its ConPTY companions present and only re-hashes them: a first start's two
 /// atomic writes cost ~1.2 s under a parallel run on this host. It creates the home, so a test that
 /// asserts viola creates nothing never calls it, and `tests/conpty_sideload.rs` (the product's own
-/// write path, and tampering that would reach a shared link) never does either. Elsewhere a no-op.
+/// write path, and tampering that would reach a shared link) never does either. The home, the seed
+/// and the companions' folder are made through `viola_state::fs::create_private_dir`, so the home
+/// passes the strict-modes check a start makes. Elsewhere a no-op.
 pub fn seed_conpty(home: &Path) {
     #[cfg(all(windows, target_arch = "x86_64"))]
     {
@@ -282,8 +284,11 @@ pub fn seed_conpty(home: &Path) {
                 viola_state::pin::content_key(&exe)
             )
         });
+        // Both made by viola's own creation, so each takes the protected owner-only DACL outside
+        // the profile, as a home viola makes does: a companion linked from the seed carries the
+        // seed's DACL, and the start's owner/DACL check reads it.
         let seed = workspace_path("target/conpty-seed").join(key);
-        fs::create_dir_all(&seed).expect("seed dir");
+        viola_state::fs::create_private_dir(&seed).expect("seed dir");
         for name in FILES {
             let path = seed.join(name);
             if !path.is_file() {
@@ -295,8 +300,9 @@ pub fn seed_conpty(home: &Path) {
                 let _ = tmp.persist_noclobber(&path);
             }
         }
+        viola_state::fs::create_private_dir(home).expect("the home");
         let dest = home.join("bin").join(key).join("conpty");
-        fs::create_dir_all(&dest).expect("conpty dir");
+        viola_state::fs::create_private_dir(&dest).expect("conpty dir");
         for name in FILES {
             let (from, to) = (seed.join(name), dest.join(name));
             if !to.exists() && fs::hard_link(&from, &to).is_err() {
@@ -306,6 +312,80 @@ pub fn seed_conpty(home: &Path) {
     }
     #[cfg(not(all(windows, target_arch = "x86_64")))]
     let _ = home;
+}
+
+/// `icacls <path> <args…>` from System32, its exit asserted: the grant a witness relies on landed.
+#[cfg(windows)]
+fn icacls(path: &Path, args: &[&str]) {
+    let root = std::env::var_os("SystemRoot").expect("SystemRoot");
+    let status =
+        std::process::Command::new(PathBuf::from(root).join("System32").join("icacls.exe"))
+            .arg(path)
+            .args(args)
+            .stdout(std::process::Stdio::null())
+            .status()
+            .expect("icacls");
+    assert!(status.success(), "icacls {args:?}: {status}");
+}
+
+/// Grants another user write on `path`, the way the strict-modes witnesses widen a tree: on Unix
+/// mode 0770 for a folder, 0660 for a file; on Windows a Users write grant through `icacls`,
+/// inherited below a folder.
+pub fn widen(path: &Path) {
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::PermissionsExt as _;
+        let mode = if path.is_dir() { 0o770 } else { 0o660 };
+        fs::set_permissions(path, fs::Permissions::from_mode(mode)).expect("chmod");
+    }
+    #[cfg(windows)]
+    {
+        let grant = if path.is_dir() {
+            "*S-1-5-32-545:(OI)(CI)(W)"
+        } else {
+            "*S-1-5-32-545:(W)"
+        };
+        icacls(path, &["/grant", grant]);
+    }
+}
+
+/// Grants another user read on the folder `path`: on Unix mode 0750; on Windows a Users read
+/// grant through `icacls`, inherited below it.
+pub fn grant_read(path: &Path) {
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::PermissionsExt as _;
+        fs::set_permissions(path, fs::Permissions::from_mode(0o750)).expect("chmod");
+    }
+    #[cfg(windows)]
+    icacls(path, &["/grant", "*S-1-5-32-545:(OI)(CI)(R)"]);
+}
+
+/// Takes back what [`widen`] or [`grant_read`] granted, so the home can be stopped and removed.
+pub fn unwiden(path: &Path) {
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::PermissionsExt as _;
+        let mode = if path.is_dir() { 0o700 } else { 0o600 };
+        fs::set_permissions(path, fs::Permissions::from_mode(mode)).expect("chmod");
+    }
+    #[cfg(windows)]
+    icacls(path, &["/remove:g", "*S-1-5-32-545"]);
+}
+
+/// Whether `path` still holds the widening a witness made: on Unix its group or other bits as
+/// [`widen`] or [`grant_read`] set them, on Windows a Users grant the strict-modes read rule refuses.
+pub fn still_widened(path: &Path) -> bool {
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::PermissionsExt as _;
+        let mode = fs::metadata(path).expect("meta").permissions().mode() & 0o777;
+        matches!(mode, 0o770 | 0o660 | 0o750)
+    }
+    #[cfg(windows)]
+    {
+        viola_state::strict::check_read(path).is_err()
+    }
 }
 
 /// Plants `<home>/statusline-source.json` naming `command` as the user's statusline command, in

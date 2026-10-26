@@ -1,0 +1,143 @@
+[
+{
+"tool": "matrix",
+"v": "1.5",
+"sha8": "9b024194",
+"ts": "2026-10-26T20:40:44Z",
+"argv": [
+"implement",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-26-home-and-code-bearing-file-integrity",
+"--id",
+"v1-45",
+"--ref-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-26T19-02-07-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"implement v1-45 · status planned → implemented · ref tests/security_negatives_strict_modes.rs::frame_verb_refuses_a_widened_instance_… (1398 chars)",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-45",
+"chunk": "2026-10-26-home-and-code-bearing-file-integrity",
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "On all three OSes a home, instance tree, `ledger/`, `bin/`, `plugin/`, pinned copy or diagnostics file another user coul… (1098 chars)",
+"notes_chars": 1882
+},
+"after": {
+"id": "v1-45",
+"chunk": "2026-10-26-home-and-code-bearing-file-integrity",
+"status": "implemented",
+"method": "integration",
+"ref": "tests/security_negatives_strict_modes.rs::frame_verb_refuses_a_widened_instance_before_any_log (send · wait · last · ans… (1398 chars)",
+"acceptance": "On all three OSes a home, instance tree, `ledger/`, `bin/`, `plugin/`, pinned copy or diagnostics file another user coul… (1098 chars)",
+"notes_chars": 1882
+}
+},
+{
+"tool": "matrix",
+"v": "1.5",
+"sha8": "9b024194",
+"ts": "2026-10-26T20:40:44Z",
+"argv": [
+"implement",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-26-home-and-code-bearing-file-integrity",
+"--id",
+"v1-17",
+"--ref-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-26T19-02-07-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"implement v1-17 · status planned → implemented · ref src/obs.rs::tests::open_role_file_refuses_a_widened_diagnostics_path_and_leaves_… (1002 chars)",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-17",
+"chunk": "2026-10-26-home-and-code-bearing-file-integrity",
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "The architecture names both diagnostics roots and the four role sinks plus the instance detail file (architecture.md:323… (575 chars)",
+"notes_chars": 485
+},
+"after": {
+"id": "v1-17",
+"chunk": "2026-10-26-home-and-code-bearing-file-integrity",
+"status": "implemented",
+"method": "integration",
+"ref": "src/obs.rs::tests::open_role_file_refuses_a_widened_diagnostics_path_and_leaves_it · ::open_role_file_refuses_a_symlinke… (1002 chars)",
+"acceptance": "The architecture names both diagnostics roots and the four role sinks plus the instance detail file (architecture.md:323… (575 chars)",
+"notes_chars": 485
+}
+},
+{
+"tool": "matrix",
+"v": "1.5",
+"sha8": "9b024194",
+"ts": "2026-10-26T20:40:44Z",
+"argv": [
+"implement",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-26-home-and-code-bearing-file-integrity",
+"--id",
+"v1-41",
+"--ref-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-26T19-02-07-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"implement v1-41 · status planned → implemented · ref tests/chaos_snapshot_replay.rs::a_start_over_an_unreadable_snapshot_replays_the_… (829 chars)",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-41",
+"chunk": "2026-10-26-home-and-code-bearing-file-integrity",
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "The landed legs keep their witnesses — the torn-line heal, the three skip counts on `list --json`, `crates/viola-state/t… (749 chars)",
+"notes_chars": 3276
+},
+"after": {
+"id": "v1-41",
+"chunk": "2026-10-26-home-and-code-bearing-file-integrity",
+"status": "implemented",
+"method": "e2e",
+"ref": "tests/chaos_snapshot_replay.rs::a_start_over_an_unreadable_snapshot_replays_the_log (cut short · v 99) · ::a_start_over_… (829 chars)",
+"acceptance": "The landed legs keep their witnesses — the torn-line heal, the three skip counts on `list --json`, `crates/viola-state/t… (749 chars)",
+"notes_chars": 3276
+}
+}
+]

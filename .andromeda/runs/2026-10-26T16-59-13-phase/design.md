@@ -1,0 +1,33 @@
+# design extract
+
+## Relevance
+partial — the chunk is security hardening with no new screen, token or colour; its design tie is the CLI refusal phraseology every newly checked entry point prints (exit 21 for the frame verbs, exit 1 for `run` / `verify`), and the silent surfaces of `hook` / `mcp`.
+
+## Constraints
+- design-system §Surface: cli › Component Patterns (pattern 2, the `instance-unreachable` hints; detail `.andromeda/design-system-detail/surface.md` cli-send) requires exit 21 to carry one hint per cause because the code is shared (T4), and names the strict-modes cause's hint as `the viola home is not private to you; <name> is not contacted until that is fixed`; the strict-modes check this chunk adds to `send`, `wait`, `last`, `answer`, `pause` and `release` takes that cause. Whether the code already prints that hint cause on those verbs (beside the built `not-running` and `server-verify` causes) is research's question.
+- design-system §Surface: cli › Component Patterns (Exit-code phraseology; detail surface.md cli-exit-codes) requires exit 21's human form to be `unable  instance-unreachable` with the omitted `<name>` field, then the cause's hint, and its `--json` form to be exactly `{"v":1,"error":"instance-unreachable","detail":null}` with stderr empty (a per-cause `detail` code awaits an arch amendment, not this chunk's); `viola send` prefixes the `[/ ]` mirror and pads `unable` to the readback-word column (detail surface.md cli-output).
+- design-system §Surface: cli › Component Patterns (pattern 5, `viola verify` / `viola run`; detail surface.md cli-send) requires every `run` start refusal to be one fixed-message `unable:` line plus one `hint:` per cause; the existing causes this chunk touches are `unable: the viola home is not private to you` → `hint: the viola home must be readable only by you; viola does not change its permissions` and `unable: the pinned viola copy failed its integrity check` → `hint: the pinned copy was changed after it was written, so viola will not run it`. design-system names no fixed line for a `run` refusal of `instances/<name>/`, `bin/`, `plugin/`, `ui/` or a `conpty/` companion, nor for a `verify` refusal of `ledger/stamps.json`: a new human refusal line is a design gap to raise, not to invent.
+- design-system §Surface: cli › Component Patterns (pattern 1, Refusal; detail surface.md cli-list) fixes the two shared strict-modes pairs: the home pair above and the instance pair `unable: <name>'s state files can be written by another user` / `hint: viola will not read them; make the viola home and its files owner-only` (`revive`'s, shared by `list`, `link`, `unlink`).
+- design-system §Surface: cli › Platform-Specific Notes requires `hook` to write nothing to stderr and always exit 0, and `mcp` to write only MCP frames on stdout; neither has a human design surface, so the strict-modes check this chunk adds to `hook`'s nine events and `mcp`'s frame tools adds no human output.
+- design-system §Surface: cli › Tokens (platform-specific) (Streams) requires refusals and their `hint:` line on stderr directly after the refusal, results on stdout, and no `hint:` under `--json`.
+
+## Patterns to follow
+- Reuse the shared fixed pairs (design-system §Surface: cli › Component Patterns, pattern 1 Refusal): `list` is the home pair's first writer in source and `revive` the instance pair's; `link` / `unlink` print the instance pair naming the driven instance — one text per pair, never a per-verb rewording.
+- Add a cause to a shared exit code as the server-verification cause was added (design-system §Surface: cli › Component Patterns, detail surface.md cli-send): a hint cause beside `not-running`, printed byte for byte, plain ASCII, no SGR, holding no pid, start time, path or endpoint; the `--json` document unchanged at `detail:null`.
+- Exit-1 refusals read in a fixed order that stops at the first (design-system §Surface: cli › Component Patterns, pattern 5's `revive` list).
+
+## Anti-patterns to avoid
+- Printing a path, pid, start time, endpoint or anyhow chain in a refusal or hint, e.g. naming the offending directory or its mode (design-system §Anti-Patterns › Per-Surface Bans, cli).
+- Colour, a glyph (`✗`) or any SGR on a refusal line; colour is `DIALOG` amber and `stale` dim only (design-system §Anti-Patterns › Per-Surface Bans, cli).
+- A hint under `--json`, or a refusal or hint on stdout (design-system §Anti-Patterns › Per-Surface Bans, cli: "NEVER mix data and messages").
+
+## Contract bindings
+- design ↔ architecture §Conventions / §Standard Contracts: exit 21 `instance-unreachable` and exit 1 are arch's typed codes and documents; a new exit-cause code is the route entry "Exit-cause code catalogue"'s, a per-cause `detail` code an arch amendment's (design-system §Surface: cli › Component Patterns, detail surface.md cli-send "Pending an arch amendment").
+- design ↔ obs-plan D-20: the log detail code `strict-modes-failed` and `pinned-hash-mismatch` named beside the human hint causes; whether a refused strict-modes check writes a line (obs-plan §10 exemption 7, CARRY 14) is obs's and the founder's to rule, not design's (design-system §Surface: cli › Component Patterns, detail surface.md cli-send).
+- design ↔ security-plan NEVER-log floor: the per-surface ban on paths and pids in hints is that floor's human face (design-system §Anti-Patterns › Per-Surface Bans).
+
+## Acceptance criteria contributions
+- A `send` / `wait` / `last` / `answer` / `pause` / `release` against a home failing strict-modes exits 21, writes no frame, prints `unable  <name>  instance-unreachable` (send: behind its `[/ ]` mirror) then exactly `hint: the viola home is not private to you; <name> is not contacted until that is fixed` on stderr with stdout empty, and under `--json` exactly `{"v":1,"error":"instance-unreachable","detail":null}` on stdout with stderr empty (per design-system §Surface: cli › Component Patterns).
+- `viola run` refused by the home strict-modes check exits 1 with exactly `unable: the viola home is not private to you` then its fixed `hint:` line, and a pinned-copy re-hash mismatch with exactly `unable: the pinned viola copy failed its integrity check` then its fixed `hint:` line (per design-system §Surface: cli › Component Patterns).
+- `viola hook` on a home failing strict-modes writes nothing on stderr and exits 0, and `viola mcp`'s frame tools write nothing outside MCP frames on stdout (per design-system §Surface: cli › Platform-Specific Notes).
+- Every refusal and hint line this chunk adds or reaches is plain ASCII with no SGR and holds no path, pid, start time or endpoint (per design-system §Anti-Patterns › Per-Surface Bans).

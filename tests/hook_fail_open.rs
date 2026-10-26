@@ -142,8 +142,11 @@ fn violations(schema: &str, lines: &[Value]) -> Vec<String> {
 
 #[derive(Clone, Copy, Debug)]
 enum Env {
-    /// `VIOLA_NAME` and `VIOLA_DIR` for a home no wrapper ever used.
+    /// `VIOLA_NAME` and `VIOLA_DIR` for a home no wrapper ever used: no instance directory, so no
+    /// wrapped session.
     Instance,
+    /// `VIOLA_NAME` and `VIOLA_DIR` for an instance directory viola made that no wrapper served.
+    Made,
     /// A home whose wrapper stopped: its snapshot still names the endpoint.
     Stopped,
     DirOnly,
@@ -276,15 +279,16 @@ fn stdin_bytes(stdin: Stdin) -> Vec<u8> {
 /// Every fail-open path: exit 0, nothing on stdout or stderr, within the bound. `writes` names
 /// the `hook-decision` detail a resolved instance records; `None` means nothing may be created.
 #[rstest]
-#[case::oversize_stdin(&["hook", "stop"], Env::Instance, Stdin::Oversize, Some("oversize-stdin"))]
-#[case::malformed_json(&["hook", "stop"], Env::Instance, Stdin::Malformed, Some("malformed-json"))]
+#[case::oversize_stdin(&["hook", "stop"], Env::Made, Stdin::Oversize, Some("oversize-stdin"))]
+#[case::malformed_json(&["hook", "stop"], Env::Made, Stdin::Malformed, Some("malformed-json"))]
 #[case::clap_help(&["hook", "--help"], Env::Instance, Stdin::Payload, None)]
 #[case::clap_version(&["hook", "--version"], Env::Instance, Stdin::Payload, None)]
 #[case::clap_missing_event(&["hook"], Env::Instance, Stdin::Payload, None)]
 #[case::clap_extra_argument(&["hook", "stop", "--bogus"], Env::Instance, Stdin::Payload, None)]
 #[case::unknown_event(&["hook", "status-line"], Env::Instance, Stdin::Payload, None)]
 #[case::unreachable_endpoint(&["hook", "stop"], Env::Stopped, Stdin::Payload, Some("channel-unreachable"))]
-#[case::no_snapshot(&["hook", "stop"], Env::Instance, Stdin::Payload, Some("channel-unreachable"))]
+#[case::no_snapshot(&["hook", "stop"], Env::Made, Stdin::Payload, Some("channel-unreachable"))]
+#[case::no_instance_dir(&["hook", "stop"], Env::Instance, Stdin::Payload, None)]
 #[case::name_absent(&["hook", "stop"], Env::DirOnly, Stdin::Payload, None)]
 #[case::name_invalid(&["hook", "stop"], Env::InvalidName, Stdin::Payload, None)]
 #[cfg_attr(not(target_os = "macos"), case::impostor(&["hook", "stop"], Env::Impostor, Stdin::Payload, Some("server-verify-failed")))]
@@ -301,16 +305,19 @@ fn hook_fails_open_silently_within_the_spine_bound(
             assert_eq!(stopped.code(), Some(0));
             stamped
         }
-        Env::Instance | Env::DirOnly | Env::InvalidName => stamped,
+        Env::Instance | Env::Made | Env::DirOnly | Env::InvalidName => stamped,
         #[cfg(not(target_os = "macos"))]
         Env::Impostor => stamped,
     };
     let home = stamped.home.path().to_path_buf();
     let dir = home.join("instances").join("builder");
+    if matches!(env, Env::Made) {
+        viola_state::fs::create_private_dir(&dir).expect("the instance dir");
+    }
     #[cfg(not(target_os = "macos"))]
     let impostor = matches!(env, Env::Impostor).then(|| Impostor::serve(&home, "event"));
     let vars = match env {
-        Env::Instance | Env::Stopped => instance_env("builder", &dir),
+        Env::Instance | Env::Made | Env::Stopped => instance_env("builder", &dir),
         #[cfg(not(target_os = "macos"))]
         Env::Impostor => instance_env("builder", &dir),
         Env::DirOnly => vec![("VIOLA_DIR", dir.as_os_str().to_owned())],
@@ -390,11 +397,11 @@ fn dialog_payload(event: &str) -> Vec<u8> {
 /// `hook-decision` naming why no decision was emitted.
 #[rstest]
 #[case::question_wrapper_stopped("pre-tool-use", Env::Stopped, None, "channel-unreachable")]
-#[case::permission_no_snapshot("permission-request", Env::Instance, None, "channel-unreachable")]
-#[case::question_oversize("pre-tool-use", Env::Instance, Some(Stdin::Oversize), "oversize-stdin")]
+#[case::permission_no_snapshot("permission-request", Env::Made, None, "channel-unreachable")]
+#[case::question_oversize("pre-tool-use", Env::Made, Some(Stdin::Oversize), "oversize-stdin")]
 #[case::permission_malformed(
     "permission-request",
-    Env::Instance,
+    Env::Made,
     Some(Stdin::Malformed),
     "malformed-json"
 )]
@@ -419,12 +426,15 @@ fn hook_dialog_tier_fails_open_silently(
             assert_eq!(stopped.code(), Some(0));
             stamped
         }
-        Env::Instance | Env::DirOnly | Env::InvalidName => stamped,
+        Env::Instance | Env::Made | Env::DirOnly | Env::InvalidName => stamped,
         #[cfg(not(target_os = "macos"))]
         Env::Impostor => stamped,
     };
     let home = stamped.home.path().to_path_buf();
     let dir = home.join("instances").join("builder");
+    if matches!(env, Env::Made) {
+        viola_state::fs::create_private_dir(&dir).expect("the instance dir");
+    }
     #[cfg(not(target_os = "macos"))]
     let impostor = matches!(env, Env::Impostor).then(|| Impostor::serve(&home, event));
     let bytes = stdin.map_or_else(|| dialog_payload(event), stdin_bytes);
@@ -451,6 +461,61 @@ fn hook_dialog_tier_fails_open_silently(
     assert!(lines.iter().any(|l| l["event"] == "hook-invoked"));
     assert!(!lines.iter().any(|l| l.to_string().contains(CANARY)));
     assert!(violations("schemas/diag-line.v1.json", &lines).is_empty());
+}
+
+/// A payload each matrix's events carry: a Stop and a SessionEnd, a question and a permission.
+fn widened_payload(event: &str) -> Vec<u8> {
+    match event {
+        "stop" => stdin_bytes(Stdin::Payload),
+        "session-end" => json!({"hook_event_name": "SessionEnd", "reason": CANARY})
+            .to_string()
+            .into_bytes(),
+        _ => dialog_payload(event),
+    }
+}
+
+/// An instance directory another user may write, while its wrapper runs: every event of both
+/// matrices is refused by the instance check before anything under the home is read or opened —
+/// exit 0 with empty streams inside the spine bound, no frame at the wrapper (its `events.ndjson`
+/// unchanged, so no SessionEnd append either), no line added to `hook-builder.ndjson`, and the
+/// widening left as found (security-plan §Error Handling; the founder's no-line answer).
+#[rstest]
+#[case::stop("stop")]
+#[case::session_end("session-end")]
+#[case::question("pre-tool-use")]
+#[case::permission("permission-request")]
+fn hook_refused_by_the_instance_check_fails_open_and_writes_nothing(#[case] event: &str) {
+    let wrapper = Wrapper::boot(
+        StampedHome::unstamped(TestHome::new()),
+        "builder",
+        None,
+        &[],
+    );
+    let home = wrapper.home().to_path_buf();
+    let dir = home.join("instances").join("builder");
+    let events = dir.join("events.ndjson");
+    let events_before = std::fs::read(&events).expect("events");
+    let role_before = role_lines(&home);
+    support::home::widen(&dir);
+
+    let out = run_hook(
+        &["hook", event],
+        &instance_env("builder", &dir),
+        widened_payload(event),
+    );
+    assert_eq!(out.code, Some(0));
+    assert!(out.stdout.is_empty(), "stdout: {} bytes", out.stdout.len());
+    assert!(out.stderr.is_empty(), "stderr: {} bytes", out.stderr.len());
+    assert!(out.took < SPINE_BOUND, "took {:?}", out.took);
+    assert!(
+        support::home::still_widened(&dir),
+        "the widening was undone"
+    );
+    assert_eq!(std::fs::read(&events).expect("events"), events_before);
+    assert_eq!(role_lines(&home), role_before);
+
+    support::home::unwiden(&dir);
+    wrapper.stop();
 }
 
 /// `viola verify`'s answering capture arm (the founder's ruling, 2026-10-05): `hook <event> --capture
@@ -607,6 +672,8 @@ fn hook_forced_panic_fails_open_with_one_role_line_and_one_detail_line() {
     let tmp = TestHome::new();
     let home = tmp.path().to_path_buf();
     let dir = home.join("instances").join("builder");
+    // The instance directory a wrapper would have made: a hook with none writes nothing.
+    viola_state::fs::create_private_dir(&dir).expect("the instance dir");
 
     let out = run_hook(
         &["hook", "stop"],
@@ -676,6 +743,8 @@ fn hook_processes_append_whole_lines_side_by_side() {
     let tmp = TestHome::new();
     let home = tmp.path().to_path_buf();
     let dir = home.join("instances").join("builder");
+    // The instance directory a wrapper would have made: a hook with none writes nothing.
+    viola_state::fs::create_private_dir(&dir).expect("the instance dir");
     let vars = instance_env("builder", &dir);
     let payload = json!({"session_id": 7, "source": "startup", "transcript_path": CANARY});
     let children: Vec<_> = (0..N)
@@ -747,6 +816,8 @@ fn hook_panics_append_whole_lines_over_4_kib_side_by_side() {
     let tmp = TestHome::new();
     let home = tmp.path().to_path_buf();
     let dir = home.join("instances").join("builder");
+    // The instance directory a wrapper would have made: a hook with none writes nothing.
+    viola_state::fs::create_private_dir(&dir).expect("the instance dir");
     let vars = panic_env(&dir);
     let payload = stdin_bytes(Stdin::Payload);
     let children: Vec<_> = (0..N)

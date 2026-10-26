@@ -1,11 +1,14 @@
 //! The strict-modes check (security-plan §Authentication & Authorization, `~/.viola/` access control),
 //! first wired on `run`'s `ledger/stamps.json` read: a trusted file, or a folder holding one, that
-//! another user could write is refused before it is read (ssh StrictModes style). Unix reads the
-//! owner and the mode; Windows reads the owner and the DACL. The decisions are plain functions
-//! tested on every OS; only the readers are per OS.
+//! another user could write is refused before it is read (ssh StrictModes style); a folder whose
+//! content another user must not read (the home, an instance's directory and its `diagnostics/`) is
+//! held to the read rule as well. Unix reads the owner and the mode; Windows reads the owner and the
+//! DACL. The decisions are plain functions tested on every OS; only the readers are per OS.
 
 use std::io;
 use std::path::{Path, PathBuf};
+
+use viola_core::ViolaName;
 
 use crate::events::EVENTS;
 use crate::snapshot::SNAPSHOT;
@@ -18,6 +21,10 @@ pub enum Refused {
     NotOwner,
     #[error("a trusted state path is writable by another user")]
     Writable,
+    #[error("a trusted state path is readable by another user")]
+    Readable,
+    #[error("a trusted state path is a symbolic link")]
+    Symlink,
     #[error("a trusted state path's permissions could not be read")]
     Unreadable,
     #[error("a trusted state path has a NULL DACL")]
@@ -26,32 +33,123 @@ pub enum Refused {
     NoPersistentAcls,
 }
 
+/// The rule a path is held to: no write by another user, or no access by another user at all.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum Rule {
+    Write,
+    Read,
+}
+
+/// The instance's `diagnostics/` folder.
+pub const DIAGNOSTICS: &str = "diagnostics";
+
+/// `events.ndjson` on Windows takes the read rule: appended across sessions and never replaced, an
+/// explicit ACE on it survives, and bypass-traverse reaches it by its predictable path whatever its
+/// folders grant. On Unix its folders' `0o077` keeps it from other users.
+#[cfg(windows)]
+const EVENTS_RULE: Rule = Rule::Read;
+#[cfg(not(windows))]
+const EVENTS_RULE: Rule = Rule::Write;
+
+/// A diagnostics file on Unix takes the read rule (it is created 0600); on Windows the write rule,
+/// its folder's read rule covering what it inherits.
+#[cfg(unix)]
+const DIAGNOSTICS_FILE_RULE: Rule = Rule::Read;
+#[cfg(not(unix))]
+const DIAGNOSTICS_FILE_RULE: Rule = Rule::Write;
+
 /// `ledger/` and `ledger/stamps.json`, each that exists, in that order: the folder first, since an
 /// entry written by another user between the checks would land through it.
 pub fn check_stamps(home: &Path) -> Result<(), Refused> {
     let dir = ledger_dir(home);
-    check_existing(&[dir.clone(), dir.join(STAMPS)])
+    check_existing(&[(dir.clone(), Rule::Write), (dir.join(STAMPS), Rule::Write)])
 }
 
-/// The home, `instances/`, the instance directory, its `snapshot.json` and its `events.ndjson`,
-/// each that exists, a folder before what it holds: the check a process runs before it uses a
-/// value read from either file.
+/// The home, `instances/`, the instance directory, its `diagnostics/`, its `snapshot.json` and its
+/// `events.ndjson`, each that exists, a folder before what it holds: the check a process runs
+/// before it uses a value read from either file or opens anything under the instance. The home, the
+/// instance directory and `diagnostics/` take the read rule, the rest the write rule.
 pub fn check_instance(home: &Path, instance_dir: &Path) -> Result<(), Refused> {
     check_existing(&[
-        home.to_path_buf(),
-        home.join("instances"),
-        instance_dir.to_path_buf(),
-        instance_dir.join(SNAPSHOT),
-        instance_dir.join(EVENTS),
+        (home.to_path_buf(), Rule::Read),
+        (home.join("instances"), Rule::Write),
+        (instance_dir.to_path_buf(), Rule::Read),
+        (instance_dir.join(DIAGNOSTICS), Rule::Read),
+        (instance_dir.join(SNAPSHOT), Rule::Write),
+        (instance_dir.join(EVENTS), EVENTS_RULE),
     ])
 }
 
-/// Each path that exists, in order; an absent one is skipped, and one that cannot be statted is
-/// refused.
-fn check_existing(paths: &[PathBuf]) -> Result<(), Refused> {
-    for path in paths {
+/// Which side of the home tree [`check_home_tree`] refused: the caller prints the home's pair or
+/// the instance's.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum TreeRefused {
+    HomeLevel(Refused),
+    InstanceLevel(Refused),
+}
+
+/// The tree a starting process trusts, each path that exists: the home (the read rule); with a
+/// name, the instance's set as [`check_instance`] reads it; then `ledger/`, `bin/` and `plugin/`
+/// and, with a pinned copy's key, `bin/<key>/`, the pinned `viola(.exe)`, `plugin/<key>/` and its
+/// `hooks/` and `.claude-plugin/` (the write rule).
+pub fn check_home_tree(
+    home: &Path,
+    name: Option<&ViolaName>,
+    key: Option<&str>,
+) -> Result<(), TreeRefused> {
+    check_existing(&[(home.to_path_buf(), Rule::Read)]).map_err(TreeRefused::HomeLevel)?;
+    if let Some(name) = name {
+        let instance_dir = home.join("instances").join(AsRef::<str>::as_ref(name));
+        check_instance(home, &instance_dir).map_err(TreeRefused::InstanceLevel)?;
+    }
+    let mut code = vec![
+        (ledger_dir(home), Rule::Write),
+        (home.join("bin"), Rule::Write),
+        (home.join("plugin"), Rule::Write),
+    ];
+    if let Some(key) = key {
+        let bin = home.join("bin").join(key);
+        let plugin = home.join("plugin").join(key);
+        code.extend([
+            (bin.clone(), Rule::Write),
+            (
+                bin.join(format!("viola{}", std::env::consts::EXE_SUFFIX)),
+                Rule::Write,
+            ),
+            (plugin.clone(), Rule::Write),
+            (plugin.join("hooks"), Rule::Write),
+            (plugin.join(".claude-plugin"), Rule::Write),
+        ]);
+    }
+    check_existing(&code).map_err(TreeRefused::HomeLevel)
+}
+
+/// A diagnostics folder or file, before it is created or opened: a symlink is refused (an open
+/// through it lands wherever it points), then a folder takes the read rule and a file the write
+/// rule, and on Unix no group or other bit. An absent path passes.
+pub fn check_diagnostics(path: &Path) -> Result<(), Refused> {
+    let meta = match std::fs::symlink_metadata(path) {
+        Ok(meta) => meta,
+        Err(e) if e.kind() == io::ErrorKind::NotFound => return Ok(()),
+        Err(_) => return Err(Refused::Unreadable),
+    };
+    if meta.file_type().is_symlink() {
+        return Err(Refused::Symlink);
+    }
+    let rule = if meta.is_dir() {
+        Rule::Read
+    } else {
+        DIAGNOSTICS_FILE_RULE
+    };
+    check_rule(path, rule)
+}
+
+/// Each path that exists, in order, under its rule; an absent one is skipped, and one that cannot
+/// be statted is refused.
+fn check_existing(paths: &[(PathBuf, Rule)]) -> Result<(), Refused> {
+    for (path, rule) in paths {
         match std::fs::symlink_metadata(path) {
-            Ok(_) => check_path(path)?,
+            Ok(_) => check_rule(path, *rule)?,
             Err(e) if e.kind() == io::ErrorKind::NotFound => {}
             Err(_) => return Err(Refused::Unreadable),
         }
@@ -59,7 +157,19 @@ fn check_existing(paths: &[PathBuf]) -> Result<(), Refused> {
     Ok(())
 }
 
-/// One path through this OS's reader and rule.
+/// The write rule on `path` when it exists; one that cannot be statted is refused.
+pub fn check_present(path: &Path) -> Result<(), Refused> {
+    check_existing(&[(path.to_path_buf(), Rule::Write)])
+}
+
+fn check_rule(path: &Path, rule: Rule) -> Result<(), Refused> {
+    match rule {
+        Rule::Write => check_path(path),
+        Rule::Read => check_read(path),
+    }
+}
+
+/// One path through this OS's reader and the write rule.
 pub fn check_path(path: &Path) -> Result<(), Refused> {
     #[cfg(unix)]
     {
@@ -68,7 +178,20 @@ pub fn check_path(path: &Path) -> Result<(), Refused> {
     }
     #[cfg(windows)]
     {
-        win::check(path)
+        win::check(path, windows_verdict)
+    }
+}
+
+/// One path through this OS's reader and the read rule.
+pub fn check_read(path: &Path) -> Result<(), Refused> {
+    #[cfg(unix)]
+    {
+        let (mode, uid) = unix::reading(path).map_err(|_| Refused::Unreadable)?;
+        unix_read_verdict(mode, uid, unix::euid())
+    }
+    #[cfg(windows)]
+    {
+        win::check(path, windows_read_verdict)
     }
 }
 
@@ -83,11 +206,26 @@ pub fn unix_verdict(mode: u32, uid: u32, euid: u32) -> Result<(), Refused> {
     Ok(())
 }
 
+/// The write rule, then no group or other bit at all (security-plan detail
+/// authentication-authorization.md, the read rule).
+pub fn unix_read_verdict(mode: u32, uid: u32, euid: u32) -> Result<(), Refused> {
+    unix_verdict(mode, uid, euid)?;
+    if mode & 0o077 != 0 {
+        return Err(Refused::Readable);
+    }
+    Ok(())
+}
+
 /// The write rights the Windows rule refuses to any other SID: `FILE_WRITE_DATA` / `FILE_ADD_FILE`
 /// (0x2), `FILE_APPEND_DATA` / `FILE_ADD_SUBDIRECTORY` (0x4), `FILE_DELETE_CHILD` (0x40), `DELETE`
 /// (0x1_0000), `WRITE_DAC` (0x4_0000), `WRITE_OWNER` (0x8_0000), `GENERIC_ALL` (0x1000_0000) and
 /// `GENERIC_WRITE` (0x4000_0000), written as one value (the Windows test pins it to the names).
 pub const WRITE_RIGHTS: u32 = 0x500D_0046;
+
+/// The read rights the Windows read rule refuses to any other SID: `FILE_READ_DATA` /
+/// `FILE_LIST_DIRECTORY` (0x1), `GENERIC_ALL` (0x1000_0000) and `GENERIC_READ` (0x8000_0000), written
+/// as one value (the Windows test pins it to the names).
+pub const READ_RIGHTS: u32 = 0x9000_0001;
 
 /// `SYSTEM`, `Administrators` and `CREATOR OWNER`, the SIDs trusted beside the user's own.
 const TRUSTED_SIDS: [&str; 3] = ["S-1-5-18", "S-1-5-32-544", "S-1-3-0"];
@@ -138,6 +276,25 @@ pub fn windows_verdict(
     Ok(())
 }
 
+/// The write rule, then no allow ACE grants a read right to another SID, an inherit-only ACE's
+/// unmapped generic bits included.
+pub fn windows_read_verdict(
+    owner: &str,
+    user: &str,
+    dacl: Option<&[Allow]>,
+    persistent_acls: bool,
+) -> Result<(), Refused> {
+    windows_verdict(owner, user, dacl, persistent_acls)?;
+    if dacl
+        .unwrap_or_default()
+        .iter()
+        .any(|ace| ace.mask & READ_RIGHTS != 0 && !trusted_sid(&ace.sid, user))
+    {
+        return Err(Refused::Readable);
+    }
+    Ok(())
+}
+
 #[cfg(unix)]
 mod unix {
     use std::io;
@@ -174,7 +331,7 @@ pub(crate) mod win {
     use windows_sys::Win32::System::Threading::{GetCurrentProcess, OpenProcessToken};
     use windows_sys::core::PWSTR;
 
-    use super::{Allow, Refused, volume_keeps_acls, windows_verdict};
+    use super::{Allow, Refused, volume_keeps_acls};
 
     /// `ACCESS_ALLOWED_ACE_TYPE`: the one ACE type that grants (its windows-sys home,
     /// `Win32_System_SystemServices`, is a feature this workspace does not enable).
@@ -189,11 +346,14 @@ pub(crate) mod win {
         path.as_os_str().encode_wide().chain(Some(0)).collect()
     }
 
-    pub(super) fn check(path: &Path) -> Result<(), Refused> {
+    /// The decision a rule makes over one path's reading.
+    pub(super) type Verdict = fn(&str, &str, Option<&[Allow]>, bool) -> Result<(), Refused>;
+
+    pub(super) fn check(path: &Path, verdict: Verdict) -> Result<(), Refused> {
         let user = user_sid().ok_or(Refused::Unreadable)?;
         let persistent = persistent_acls(path).ok_or(Refused::Unreadable)?;
         let (owner, dacl) = owner_and_dacl(path).ok_or(Refused::Unreadable)?;
-        windows_verdict(&owner, &user, dacl.as_deref(), persistent)
+        verdict(&owner, &user, dacl.as_deref(), persistent)
     }
 
     fn persistent_acls(path: &Path) -> Option<bool> {
@@ -359,6 +519,16 @@ pub(crate) mod win {
         }
 
         #[test]
+        fn read_rights_are_the_named_flags() {
+            use windows_sys::Win32::Foundation::{GENERIC_ALL, GENERIC_READ};
+            use windows_sys::Win32::Storage::FileSystem::FILE_READ_DATA;
+            assert_eq!(
+                super::super::READ_RIGHTS,
+                FILE_READ_DATA | GENERIC_ALL | GENERIC_READ
+            );
+        }
+
+        #[test]
         fn owner_and_dacl_is_the_named_flags() {
             use windows_sys::Win32::Security::{
                 DACL_SECURITY_INFORMATION, OWNER_SECURITY_INFORMATION,
@@ -380,7 +550,11 @@ pub(crate) mod win {
                 .expect("a drive letter with no volume");
             let path = Path::new(&unmounted).join("viola").join("ledger");
             assert_eq!(persistent_acls(&path), None, "{unmounted}");
-            assert_eq!(check(&path), Err(Refused::Unreadable), "{unmounted}");
+            assert_eq!(
+                check(&path, super::super::windows_verdict),
+                Err(Refused::Unreadable),
+                "{unmounted}"
+            );
         }
 
         #[test]
@@ -396,7 +570,7 @@ pub(crate) mod win {
         /// each allow ACE (SID, mask, flags, inherited, whether it carries a write right). SIDs and
         /// codes only, never a path.
         fn reading_of(label: &str, path: &Path) -> String {
-            let verdict = check(path);
+            let verdict = check(path, super::super::windows_verdict);
             let user = user_sid();
             let persistent = persistent_acls(path);
             let mut text = format!(
@@ -531,6 +705,129 @@ pub(crate) mod win {
                 readings(&home)
             );
         }
+
+        /// `icacls <path> <args…>`, its exit asserted: a grant the test relies on has landed.
+        fn icacls(path: &Path, args: &[&str]) {
+            let root = std::env::var_os("SystemRoot").expect("SystemRoot");
+            let status = std::process::Command::new(
+                std::path::PathBuf::from(root)
+                    .join("System32")
+                    .join("icacls.exe"),
+            )
+            .arg(path)
+            .args(args)
+            .stdout(std::process::Stdio::null())
+            .status()
+            .expect("icacls");
+            assert!(status.success(), "icacls {args:?}: {status}");
+        }
+
+        /// An instance tree made through `create_private_dir` under the workspace's
+        /// `target/e2e-home` (outside `%USERPROFILE%`, so the protected DACL), with its
+        /// `diagnostics/`, a snapshot-shaped file and a log-shaped file.
+        fn instance_tree() -> (tempfile::TempDir, std::path::PathBuf, std::path::PathBuf) {
+            let base = Path::new(env!("CARGO_MANIFEST_DIR"))
+                .join("..")
+                .join("..")
+                .join("target")
+                .join("e2e-home");
+            std::fs::create_dir_all(&base).expect("e2e-home");
+            let tmp = tempfile::tempdir_in(&base).expect("tempdir");
+            let home = tmp.path().join("home");
+            let instance = home.join("instances").join("builder");
+            crate::fs::create_private_dir(&instance.join(super::super::DIAGNOSTICS))
+                .expect("the tree");
+            crate::fs::replace_private(&instance.join(crate::snapshot::SNAPSHOT), b"{}", 0o600)
+                .expect("snapshot");
+            crate::fs::open_private_append(&instance.join(crate::events::EVENTS)).expect("log");
+            (tmp, home, instance)
+        }
+
+        /// A home a test makes with a plain `create_dir_all` under the workspace's `target/e2e-home`
+        /// (the seeded-home question, CARRY 13): on the runner it inherits a Users write grant from
+        /// the drive, so the check refuses it `Writable` — a home made before viola runs is one the
+        /// product must refuse. The refused entry is named by the assertion; a failure prints
+        /// every ACE of the home.
+        #[test]
+        fn strict_instance_refuses_a_plain_home_made_before_viola_and_names_the_entry() {
+            let base = Path::new(env!("CARGO_MANIFEST_DIR"))
+                .join("..")
+                .join("..")
+                .join("target")
+                .join("e2e-home");
+            std::fs::create_dir_all(&base).expect("e2e-home");
+            let tmp = tempfile::tempdir_in(&base).expect("tempdir");
+            let home = tmp.path().join("home");
+            let instance = home.join("instances").join("builder");
+            std::fs::create_dir_all(&instance).expect("a plain tree");
+            let reading = reading_of("plain home", &home);
+            assert_eq!(
+                super::super::check_instance(&home, &instance),
+                Err(Refused::Writable),
+                "{reading}"
+            );
+            let user = user_sid().expect("user sid");
+            let refused: Vec<Allow> = allows(&home)
+                .expect("the home's DACL")
+                .into_iter()
+                .filter(|ace| {
+                    ace.mask & super::super::WRITE_RIGHTS != 0
+                        && !super::super::trusted_sid(&ace.sid, &user)
+                })
+                .collect();
+            assert!(
+                refused
+                    .iter()
+                    .any(|ace| ace.sid == "S-1-5-32-545" && ace.flags & INHERITED != 0),
+                "{reading}"
+            );
+        }
+
+        /// The tree viola made passes; a sibling tree granted Users write through `icacls` on its
+        /// instance directory is refused `Writable`.
+        #[test]
+        fn strict_instance_refuses_a_tree_granted_users_write_beside_one_that_passes() {
+            let (_tmp, home, instance) = instance_tree();
+            assert_eq!(
+                super::super::check_instance(&home, &instance),
+                Ok(()),
+                "{}",
+                reading_of("instance", &instance)
+            );
+            let (_widened_tmp, widened_home, widened) = instance_tree();
+            icacls(&widened, &["/grant", "*S-1-5-32-545:(OI)(CI)(W)"]);
+            assert_eq!(
+                super::super::check_instance(&widened_home, &widened),
+                Err(Refused::Writable),
+                "{}",
+                reading_of("widened", &widened)
+            );
+        }
+
+        /// A `diagnostics/` granted Users read is refused `Readable` by the read rule, where the
+        /// write rule alone passes it.
+        #[test]
+        fn strict_instance_refuses_a_diagnostics_folder_granted_users_read() {
+            let (_tmp, home, instance) = instance_tree();
+            let diagnostics = instance.join(super::super::DIAGNOSTICS);
+            icacls(&diagnostics, &["/grant", "*S-1-5-32-545:(OI)(CI)(R)"]);
+            assert_eq!(
+                super::super::check_path(&diagnostics),
+                Ok(()),
+                "{}",
+                reading_of("diagnostics", &diagnostics)
+            );
+            assert_eq!(
+                super::super::check_instance(&home, &instance),
+                Err(Refused::Readable),
+                "{}",
+                reading_of("diagnostics", &diagnostics)
+            );
+            assert_eq!(
+                super::super::check_diagnostics(&diagnostics),
+                Err(Refused::Readable)
+            );
+        }
     }
 }
 
@@ -646,6 +943,8 @@ mod tests {
         let messages: Vec<String> = [
             Refused::NotOwner,
             Refused::Writable,
+            Refused::Readable,
+            Refused::Symlink,
             Refused::Unreadable,
             Refused::NullDacl,
             Refused::NoPersistentAcls,
@@ -658,6 +957,8 @@ mod tests {
             [
                 "a trusted state path is not owned by this user",
                 "a trusted state path is writable by another user",
+                "a trusted state path is readable by another user",
+                "a trusted state path is a symbolic link",
                 "a trusted state path's permissions could not be read",
                 "a trusted state path has a NULL DACL",
                 "a trusted state path is on a volume without persistent ACLs",
@@ -805,5 +1106,281 @@ mod tests {
         };
         std::fs::set_permissions(&path, std::fs::Permissions::from_mode(mode)).expect("chmod");
         assert_eq!(check_instance(&home, &instance_dir), Err(Refused::Writable));
+    }
+
+    #[rstest]
+    #[case::owner_dir_0700(0o040_700, 1000, 1000, Ok(()))]
+    #[case::owner_file_0600(0o100_600, 1000, 1000, Ok(()))]
+    #[case::group_read_dir(0o040_740, 1000, 1000, Err(Refused::Readable))]
+    #[case::other_read_dir(0o040_704, 1000, 1000, Err(Refused::Readable))]
+    #[case::group_exec_dir(0o040_710, 1000, 1000, Err(Refused::Readable))]
+    #[case::other_exec_dir(0o040_701, 1000, 1000, Err(Refused::Readable))]
+    #[case::group_read_file(0o100_640, 1000, 1000, Err(Refused::Readable))]
+    #[case::group_write_dir(0o040_770, 1000, 1000, Err(Refused::Writable))]
+    #[case::other_owner(0o040_700, 0, 1000, Err(Refused::NotOwner))]
+    fn unix_read_verdict_needs_the_write_rule_and_no_foreign_bit(
+        #[case] mode: u32,
+        #[case] uid: u32,
+        #[case] euid: u32,
+        #[case] verdict: Result<(), Refused>,
+    ) {
+        assert_eq!(unix_read_verdict(mode, uid, euid), verdict);
+    }
+
+    /// `OBJECT_INHERIT_ACE | CONTAINER_INHERIT_ACE | INHERIT_ONLY_ACE`, as `icacls (OI)(CI)(IO)`
+    /// stores it.
+    const INHERIT_ONLY: u8 = 0x0B;
+
+    /// Each read right granted to `Users` is refused by the read rule, an inherit-only ACE's
+    /// generic bits included, while the write rule passes every one that grants no write.
+    #[rstest]
+    #[case::read_data(0x1, 0, Err(Refused::Readable))]
+    #[case::generic_read(0x8000_0000, 0, Err(Refused::Readable))]
+    #[case::inherit_only_generic_read(0x8000_0000, INHERIT_ONLY, Err(Refused::Readable))]
+    #[case::read_and_execute(0x0012_00A9, 0, Err(Refused::Readable))]
+    #[case::inherit_only_generic_all(0x1000_0000, INHERIT_ONLY, Err(Refused::Writable))]
+    #[case::read_attributes_only(0x80, 0, Ok(()))]
+    fn windows_read_verdict_refuses_any_read_right_to_another_sid(
+        #[case] mask: u32,
+        #[case] flags: u8,
+        #[case] verdict: Result<(), Refused>,
+    ) {
+        let dacl = [
+            allow(USER, 0x001F_01FF),
+            Allow {
+                sid: "S-1-5-32-545".to_owned(),
+                mask,
+                flags,
+            },
+        ];
+        assert_eq!(windows_read_verdict(USER, USER, Some(&dacl), true), verdict);
+        if verdict == Err(Refused::Readable) {
+            assert_eq!(windows_verdict(USER, USER, Some(&dacl), true), Ok(()));
+        }
+    }
+
+    /// The profile's inheritance (the user, SYSTEM, Administrators) and `CREATOR OWNER` pass the
+    /// read rule; the write rule's refusals come first.
+    #[test]
+    fn windows_read_verdict_takes_the_trusted_sids_and_keeps_the_write_rule() {
+        let dacl = [
+            allow(USER, 0x001F_01FF),
+            allow("S-1-5-18", 0x001F_01FF),
+            allow("S-1-5-32-544", 0x001F_01FF),
+            Allow {
+                sid: "S-1-3-0".to_owned(),
+                mask: 0x1000_0000,
+                flags: INHERIT_ONLY,
+            },
+        ];
+        assert_eq!(windows_read_verdict(USER, USER, Some(&dacl), true), Ok(()));
+        assert_eq!(
+            windows_read_verdict("S-1-5-21-9-9-9-1002", USER, Some(&dacl), true),
+            Err(Refused::NotOwner)
+        );
+        assert_eq!(
+            windows_read_verdict(USER, USER, None, true),
+            Err(Refused::NullDacl)
+        );
+        assert_eq!(
+            windows_read_verdict(USER, USER, Some(&dacl), false),
+            Err(Refused::NoPersistentAcls)
+        );
+    }
+
+    /// A home with one instance, a ledger, a pinned copy and a plugin folder, laid down by the
+    /// crate's own writers; its key.
+    fn home_tree_viola_wrote(root: &Path) -> (PathBuf, PathBuf, String) {
+        let (home, instance_dir) = instance_viola_wrote(root);
+        crate::fs::create_private_dir(&instance_dir.join(DIAGNOSTICS)).expect("diagnostics");
+        crate::stamps::update_stamps(&home, |_| b"{}".to_vec()).expect("stamps");
+        let exe = root.join("source-exe");
+        std::fs::write(&exe, b"abc").expect("source");
+        let pinned = crate::pin::pin_exe(&home, &exe).expect("pinned");
+        let plugin = home.join("plugin").join(&pinned.key);
+        for dir in ["hooks", ".claude-plugin"] {
+            crate::fs::create_private_dir(&plugin.join(dir)).expect("plugin");
+        }
+        (home, instance_dir, pinned.key)
+    }
+
+    fn builder() -> ViolaName {
+        ViolaName::try_new("builder".to_owned()).expect("valid")
+    }
+
+    #[test]
+    fn check_home_tree_of_a_tree_viola_wrote_passes() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (home, _, key) = home_tree_viola_wrote(tmp.path());
+        assert_eq!(check_home_tree(&home, Some(&builder()), Some(&key)), Ok(()));
+        assert_eq!(check_home_tree(&home, None, None), Ok(()));
+        assert_eq!(
+            check_home_tree(&tmp.path().join("absent"), Some(&builder()), Some(&key)),
+            Ok(())
+        );
+    }
+
+    /// Each path of the tree widened in turn is refused on its own side; with no name the
+    /// instance's set is not read, with no key the key's folders are not.
+    #[cfg(unix)]
+    #[rstest]
+    #[case::home_group_readable("", 0o750, Some(TreeRefused::HomeLevel(Refused::Readable)))]
+    #[case::home_group_writable("", 0o770, Some(TreeRefused::HomeLevel(Refused::Writable)))]
+    #[case::instances_world_writable(
+        "instances",
+        0o707,
+        Some(TreeRefused::InstanceLevel(Refused::Writable))
+    )]
+    #[case::instance_group_readable(
+        "instances/builder",
+        0o740,
+        Some(TreeRefused::InstanceLevel(Refused::Readable))
+    )]
+    #[case::instance_diagnostics_other_readable(
+        "instances/builder/diagnostics",
+        0o704,
+        Some(TreeRefused::InstanceLevel(Refused::Readable))
+    )]
+    #[case::ledger_group_writable("ledger", 0o770, Some(TreeRefused::HomeLevel(Refused::Writable)))]
+    #[case::bin_group_writable("bin", 0o770, Some(TreeRefused::HomeLevel(Refused::Writable)))]
+    #[case::plugin_world_writable("plugin", 0o707, Some(TreeRefused::HomeLevel(Refused::Writable)))]
+    #[case::bin_key_group_writable(
+        "bin/KEY",
+        0o770,
+        Some(TreeRefused::HomeLevel(Refused::Writable))
+    )]
+    #[case::pinned_copy_group_writable(
+        "bin/KEY/viola",
+        0o770,
+        Some(TreeRefused::HomeLevel(Refused::Writable))
+    )]
+    #[case::plugin_key_group_writable(
+        "plugin/KEY",
+        0o770,
+        Some(TreeRefused::HomeLevel(Refused::Writable))
+    )]
+    #[case::plugin_hooks_group_writable(
+        "plugin/KEY/hooks",
+        0o770,
+        Some(TreeRefused::HomeLevel(Refused::Writable))
+    )]
+    #[case::plugin_manifest_dir_group_writable(
+        "plugin/KEY/.claude-plugin",
+        0o770,
+        Some(TreeRefused::HomeLevel(Refused::Writable))
+    )]
+    #[case::ledger_group_readable_passes("ledger", 0o750, None)]
+    fn check_home_tree_refuses_each_widened_path(
+        #[case] rel: &str,
+        #[case] mode: u32,
+        #[case] refused: Option<TreeRefused>,
+    ) {
+        use std::os::unix::fs::PermissionsExt as _;
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (home, _, key) = home_tree_viola_wrote(tmp.path());
+        let path = rel
+            .split('/')
+            .filter(|part| !part.is_empty())
+            .fold(home.clone(), |path, part| {
+                path.join(if part == "KEY" { key.as_str() } else { part })
+            });
+        std::fs::set_permissions(&path, std::fs::Permissions::from_mode(mode)).expect("chmod");
+        assert_eq!(
+            check_home_tree(&home, Some(&builder()), Some(&key)),
+            refused.map_or(Ok(()), Err)
+        );
+        let instance_side = matches!(refused, Some(TreeRefused::InstanceLevel(_)));
+        let key_side = rel.contains("KEY");
+        if instance_side || key_side {
+            assert_eq!(check_home_tree(&home, None, None), Ok(()), "{rel}");
+        }
+    }
+
+    #[test]
+    fn check_diagnostics_of_what_viola_wrote_or_of_nothing_passes() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let dir = tmp.path().join("home").join(DIAGNOSTICS);
+        assert_eq!(check_diagnostics(&dir), Ok(()));
+        crate::fs::create_private_dir(&dir).expect("dir");
+        let file = dir.join("run-builder.ndjson");
+        crate::fs::open_private_append(&file).expect("file");
+        assert_eq!(check_diagnostics(&dir), Ok(()));
+        assert_eq!(check_diagnostics(&file), Ok(()));
+        assert_eq!(
+            check_diagnostics(Path::new("diag\0dir")),
+            Err(Refused::Unreadable)
+        );
+    }
+
+    #[cfg(unix)]
+    #[rstest]
+    #[case::dir_group_readable(true, 0o750, Refused::Readable)]
+    #[case::dir_group_writable(true, 0o770, Refused::Writable)]
+    #[case::file_group_readable(false, 0o640, Refused::Readable)]
+    #[case::file_other_writable(false, 0o602, Refused::Writable)]
+    fn check_diagnostics_refuses_a_widened_mode(
+        #[case] dir: bool,
+        #[case] mode: u32,
+        #[case] refused: Refused,
+    ) {
+        use std::os::unix::fs::PermissionsExt as _;
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let diagnostics = tmp.path().join(DIAGNOSTICS);
+        crate::fs::create_private_dir(&diagnostics).expect("dir");
+        let file = diagnostics.join("run-builder.ndjson");
+        crate::fs::open_private_append(&file).expect("file");
+        let path = if dir { &diagnostics } else { &file };
+        std::fs::set_permissions(path, std::fs::Permissions::from_mode(mode)).expect("chmod");
+        assert_eq!(check_diagnostics(path), Err(refused));
+    }
+
+    /// A role file reached through a symlink is refused, wherever the link points, and so is a
+    /// symlinked `diagnostics/` folder.
+    #[cfg(unix)]
+    #[test]
+    fn check_diagnostics_refuses_a_symlinked_role_file_and_folder() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let diagnostics = tmp.path().join(DIAGNOSTICS);
+        crate::fs::create_private_dir(&diagnostics).expect("dir");
+        let target = tmp.path().join("elsewhere.ndjson");
+        crate::fs::open_private_append(&target).expect("target");
+        let file = diagnostics.join("run-builder.ndjson");
+        std::os::unix::fs::symlink(&target, &file).expect("symlink");
+        assert_eq!(check_diagnostics(&target), Ok(()));
+        assert_eq!(check_diagnostics(&file), Err(Refused::Symlink));
+        let folder = tmp.path().join("linked-diagnostics");
+        std::os::unix::fs::symlink(&diagnostics, &folder).expect("symlink");
+        assert_eq!(check_diagnostics(&folder), Err(Refused::Symlink));
+    }
+
+    /// The read rule reaches the home, the instance directory and its `diagnostics/`; a
+    /// group-readable `instances/` and snapshot stay under the write rule alone.
+    #[cfg(unix)]
+    #[rstest]
+    #[case::home_group_readable("home", 0o750, Err(Refused::Readable))]
+    #[case::instance_other_readable("instance", 0o705, Err(Refused::Readable))]
+    #[case::diagnostics_group_readable("diagnostics", 0o740, Err(Refused::Readable))]
+    #[case::instances_group_readable("instances", 0o750, Ok(()))]
+    #[case::snapshot_group_readable("snapshot", 0o640, Ok(()))]
+    #[case::events_group_readable("events", 0o640, Ok(()))]
+    fn strict_instance_holds_the_content_folders_to_the_read_rule(
+        #[case] which: &str,
+        #[case] mode: u32,
+        #[case] verdict: Result<(), Refused>,
+    ) {
+        use std::os::unix::fs::PermissionsExt as _;
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (home, instance_dir) = instance_viola_wrote(tmp.path());
+        crate::fs::create_private_dir(&instance_dir.join(DIAGNOSTICS)).expect("diagnostics");
+        let path = match which {
+            "home" => home.clone(),
+            "instances" => home.join("instances"),
+            "instance" => instance_dir.clone(),
+            "diagnostics" => instance_dir.join(DIAGNOSTICS),
+            "snapshot" => instance_dir.join(SNAPSHOT),
+            _ => instance_dir.join(EVENTS),
+        };
+        std::fs::set_permissions(&path, std::fs::Permissions::from_mode(mode)).expect("chmod");
+        assert_eq!(check_instance(&home, &instance_dir), verdict);
     }
 }

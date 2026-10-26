@@ -34,21 +34,40 @@ fn read_capped(path: &Path) -> io::Result<Option<(Vec<u8>, bool)>> {
     Ok(Some((bytes, over)))
 }
 
+/// Why `verify`'s stamps write did not land: fixed messages only.
+#[derive(Debug, thiserror::Error)]
+pub enum StampsError {
+    #[error("the capability stamps failed the strict-modes check")]
+    StrictModes(Refused),
+    #[error("the capability stamps could not be written")]
+    State(#[from] StateError),
+}
+
+impl From<io::Error> for StampsError {
+    fn from(error: io::Error) -> Self {
+        Self::State(StateError::Io(error))
+    }
+}
+
 /// Replaces the stamps with `update(current)` under the lock, for the whole read-modify-write. A
-/// current file over the frame cap reads as absent.
+/// current file over the frame cap reads as absent. `ledger/` and the stamps file are checked before
+/// the folder is made or narrowed, and again under the lock before the read: a path another user
+/// could write is refused with nothing read or written.
 #[tracing::instrument(skip_all, name = "state.ledger_write")]
 pub fn update_stamps(
     home: &Path,
     update: impl FnOnce(Option<&[u8]>) -> Vec<u8>,
-) -> Result<(), StateError> {
+) -> Result<(), StampsError> {
+    strict::check_stamps(home).map_err(StampsError::StrictModes)?;
     let dir = ledger_dir(home);
     create_private_dir(&dir)?;
     let lock = open_private_lock(&dir.join(STAMPS_LOCK))?;
     lock.lock()?;
+    strict::check_stamps(home).map_err(StampsError::StrictModes)?;
     let path = dir.join(STAMPS);
     let current = read_capped(&path)?.filter(|(_, over)| !over);
     let bytes = update(current.as_ref().map(|(b, _)| b.as_slice()));
-    replace_private(&path, &bytes, FILE_MODE)
+    Ok(replace_private(&path, &bytes, FILE_MODE)?)
 }
 
 /// The stamps as they stand, `None` when absent; no lock is taken. More than `MAX_FRAME` bytes is
@@ -258,6 +277,50 @@ mod tests {
         assert!(
             read_stamps(tmp.path()).is_ok(),
             "the plain read still reads it"
+        );
+    }
+
+    /// A `ledger/` or stamps file another user could write is refused before anything is read,
+    /// narrowed or written: the update never runs and both are left as found.
+    #[cfg(unix)]
+    #[test]
+    fn update_stamps_refuses_a_widened_ledger_and_leaves_it() {
+        use std::os::unix::fs::PermissionsExt as _;
+        let tmp = tempfile::tempdir().expect("tempdir");
+        update_stamps(tmp.path(), |_| b"stamped".to_vec()).expect("written");
+        let dir = tmp.path().join("ledger");
+        let mode = |p: &Path| fs::metadata(p).expect("meta").permissions().mode() & 0o777;
+        for (path, widened) in [(dir.clone(), 0o777), (dir.join("stamps.json"), 0o666)] {
+            fs::set_permissions(&path, fs::Permissions::from_mode(widened)).expect("chmod");
+            let mut called = false;
+            let got = update_stamps(tmp.path(), |_| {
+                called = true;
+                b"rewritten".to_vec()
+            });
+            assert!(
+                matches!(got, Err(StampsError::StrictModes(Refused::Writable))),
+                "{got:?}"
+            );
+            assert!(!called);
+            assert_eq!(mode(&path), widened, "left as found");
+            assert_eq!(
+                fs::read(dir.join("stamps.json")).expect("stamps"),
+                b"stamped"
+            );
+            let restore = if path == dir { 0o700 } else { 0o600 };
+            fs::set_permissions(&path, fs::Permissions::from_mode(restore)).expect("chmod");
+        }
+    }
+
+    #[test]
+    fn stamps_error_messages_are_fixed() {
+        assert_eq!(
+            StampsError::StrictModes(Refused::Writable).to_string(),
+            "the capability stamps failed the strict-modes check"
+        );
+        assert_eq!(
+            StampsError::from(std::io::Error::other("C:/secret")).to_string(),
+            "the capability stamps could not be written"
         );
     }
 

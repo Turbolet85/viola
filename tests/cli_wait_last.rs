@@ -440,18 +440,19 @@ fn wait_last_unreachable_exit_21() {
 }
 
 /// A `cli` verb that fails prints exactly one `error: internal error` and no hint: a second
-/// printer reads two lines, an unfiled verb none.
+/// printer reads two lines, an unfiled verb none. The home passes its check (viola made it) and
+/// holds a regular file where `diagnostics/` goes, so the role file cannot open.
 #[test]
 fn cli_verbs_print_internal_error_once() {
     let home = TestHome::new();
-    let scratch = home.scratch().join("home-is-a-file");
-    std::fs::write(&scratch, CANARY).expect("a regular file");
+    viola_state::fs::create_private_dir(home.path()).expect("the home");
+    std::fs::write(home.path().join("diagnostics"), CANARY).expect("a regular file");
     for (args, stdin) in [
         (&["send", "builder"][..], Some("hi")),
         (&["wait", "builder"][..], None),
         (&["last", "builder"][..], None),
     ] {
-        let ran = spawn(&scratch, args, stdin, None).finish();
+        let ran = spawn(home.path(), args, stdin, None).finish();
         assert_eq!(ran.code, Some(1), "{args:?}");
         assert!(ran.stdout.is_empty(), "{args:?}");
         assert_eq!(ran.stderr, "error: internal error\n", "{args:?}");
@@ -465,7 +466,7 @@ fn cli_verbs_print_internal_error_once() {
 #[test]
 fn wait_in_a_home_whose_diagnostics_is_a_file_keeps_the_chain_in_the_detail_file() {
     let home = TestHome::new();
-    std::fs::create_dir(home.path()).expect("the home");
+    viola_state::fs::create_private_dir(home.path()).expect("the home");
     std::fs::write(home.path().join("diagnostics"), b"x").expect("a file where the dir should be");
     let ran = viola(home.path(), &["wait", "builder"], None, None);
     assert_eq!(ran.code, Some(1));

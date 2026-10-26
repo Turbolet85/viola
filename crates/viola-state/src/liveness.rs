@@ -9,7 +9,8 @@ use chrono::DateTime;
 use sysinfo::{Pid, ProcessStatus, ProcessesToUpdate, System};
 
 use crate::heartbeat::beat_age;
-use crate::snapshot::{InstanceSnapshot, read_snapshot};
+use crate::replay::{Recovered, read_snapshot_or_replay};
+use crate::snapshot::InstanceSnapshot;
 
 pub const STALE_AFTER: Duration = Duration::from_secs(5);
 
@@ -83,11 +84,14 @@ pub struct LiveEndpoint {
 }
 
 /// The endpoint of a live instance: its snapshot names one, and its recorded pid + start time and
-/// heartbeat read `live`. Strict-modes is not checked here, a dated gap (security-plan
-/// §Authentication & Authorization); the server's identity is checked on the connection, by
-/// [`verify_server`] against the recorded `pid` and `started_at` handed on here.
+/// heartbeat read `live`. The caller has run the strict-modes check of the home and the instance
+/// first (`crate::strict::check_instance`); the server's identity is checked on the connection, by
+/// [`verify_server`] against the recorded `pid` and `started_at` handed on here. The snapshot is
+/// read through the replay: a replayed one carries no endpoint, pid or start time, so it is `None`.
 pub fn live_endpoint(instance_dir: &Path) -> Option<LiveEndpoint> {
-    let snapshot = read_snapshot(instance_dir)?;
+    let Ok(Recovered::Snapshot(snapshot)) = read_snapshot_or_replay(instance_dir) else {
+        return None;
+    };
     let age = beat_age(instance_dir, SystemTime::now());
     if classify(age, same_process(&snapshot)) != Liveness::Live {
         return None;
@@ -246,6 +250,44 @@ mod tests {
         let stale = tempfile::tempdir().expect("tempdir");
         crate::snapshot::write_snapshot(stale.path(), &written).expect("the snapshot");
         assert_eq!(live_endpoint(stale.path()), None);
+    }
+
+    /// A live instance's snapshot cut short, or re-versioned to `v` 99, from the writer's own
+    /// bytes: the read takes the replay, which writes its one `state-recovered` line, and no
+    /// endpoint is handed on.
+    #[rstest]
+    #[case::cut_short("cut", "snapshot-replayed")]
+    #[case::unsupported_v("v99", "snapshot-unsupported-v")]
+    fn live_endpoint_of_a_replayed_snapshot_is_none_with_its_one_line(
+        #[case] fault: &str,
+        #[case] detail: &str,
+    ) {
+        let me = std::process::id();
+        let mut written = snapshot(me, own_start(me).expect("own start"));
+        written.endpoint = Some("viola-test-endpoint".to_owned());
+        let tmp = tempfile::tempdir().expect("tempdir");
+        crate::snapshot::write_snapshot(tmp.path(), &written).expect("the snapshot");
+        crate::heartbeat::touch_heartbeat(tmp.path()).expect("the heartbeat");
+        assert!(live_endpoint(tmp.path()).is_some(), "live before the fault");
+        let path = tmp.path().join(crate::snapshot::SNAPSHOT);
+        let bytes = std::fs::read(&path).expect("bytes");
+        let faulted = if fault == "cut" {
+            bytes[..bytes.len() / 2].to_vec()
+        } else {
+            String::from_utf8(bytes)
+                .expect("utf-8")
+                .replacen("\"v\":1", "\"v\":99", 1)
+                .into_bytes()
+        };
+        std::fs::write(&path, faulted).expect("faulted");
+        let (found, lines) = crate::test_capture::capture(|| live_endpoint(tmp.path()));
+        assert_eq!(found, None);
+        let recovered: Vec<_> = lines
+            .iter()
+            .filter(|line| line["event"] == "state-recovered")
+            .collect();
+        assert_eq!(recovered.len(), 1, "{lines:?}");
+        assert_eq!(recovered[0]["detail"], detail);
     }
 
     /// `1970-01-01T00:01:40.000Z` is 100 s after the epoch.

@@ -2,10 +2,10 @@
 //! instance's pending dialog, a `response` JSON object from stdin or `--file`, carried to the
 //! wrapper, which maps it to the dialog's decision body (architecture §Standard Contracts `answer`).
 //! The response is read into its closed shape and its free text checked here first (client checks
-//! are advisory; the wrapper re-runs them), the instance must be live by its snapshot pid + start
-//! time and heartbeat (strict-modes unchecked, a dated gap), and the process serving its endpoint
-//! its recorded wrapper, then one `answer` request; the reply is one line or one `--json` document,
-//! and a typed exit code.
+//! are advisory; the wrapper re-runs them), the home and the instance's state files must pass the
+//! strict-modes check, the instance must be live by its snapshot pid + start time and heartbeat,
+//! and the process serving its endpoint its recorded wrapper, then one `answer` request; the reply
+//! is one line or one `--json` document, and a typed exit code.
 
 use std::fs::File;
 use std::io::{self, Read, Write as _};
@@ -91,6 +91,9 @@ pub(crate) fn answer(home: &Path, args: &AnswerArgs) -> anyhow::Result<ExitCode>
         let _ = io::stderr().lock().write_all(UNUSABLE_RESPONSE.as_bytes());
         return Ok(ExitCode::from(2));
     };
+    if let Some(code) = client::refuse_untrusted(home, &args.name, args.json)? {
+        return Ok(ExitCode::from(code));
+    }
     let home = client::start(home, &args.name)?;
     let out = Out {
         name: args.name.as_ref(),

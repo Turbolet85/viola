@@ -33,7 +33,8 @@ use viola_core::obs::{ObsEvent, ObsProcess};
 use viola_core::{Clock, MAX_FRAME, SystemClock, ViolaName, obs_event};
 use viola_state::fs::{FILE_MODE, create_private_dir, replace_private};
 use viola_state::pin::{PinError, pin_exe};
-use viola_state::stamps::{ledger_dir, update_stamps};
+use viola_state::stamps::{StampsError, ledger_dir, update_stamps};
+use viola_state::strict::check_home_tree;
 
 use crate::run::version_gate::{Bounded, VERSION_DEADLINE, run_bounded};
 use crate::{human, obs, run};
@@ -60,6 +61,13 @@ pub(crate) fn verify(
     args: &VerifyArgs,
 ) -> anyhow::Result<ExitCode> {
     let home = std::path::absolute(home)?;
+    // Before the log opens and before any probe: opening the log narrows the home to its owner,
+    // which would erase the very state the check refuses. A refused check prints the home's pair
+    // and nothing else, and writes no line.
+    if check_home_tree(&home, None, None).is_err() {
+        refuse_home();
+        return Ok(ExitCode::from(1));
+    }
     if let Some(name) = instance {
         let (level, rejection) = obs::read_diagnostics_level(&home);
         obs::viola_obs_init(&home, ObsProcess::Cli, Some(name.clone()), level)?;
@@ -82,6 +90,12 @@ pub(crate) fn verify(
         run::log_self_exit(code, detail);
     }
     Ok(ExitCode::from(code))
+}
+
+/// The home's pair: the home or a folder `verify` trusts can be written or read by another user.
+fn refuse_home() {
+    let (unable, hint) = human::home_state_pair();
+    human::refuse(unable, hint);
 }
 
 /// How a measurement ended: with an exit code, or stopped before its rows were checked.
@@ -261,7 +275,7 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<Ended> {
     let results = check_rows(&probes);
     let written_at = obs::timestamp(Utc::now());
     let largest = ledger::largest(&probes.print.captures);
-    update_stamps(home, |existing| {
+    let written = update_stamps(home, |existing| {
         ledger::merge_stamp(
             existing,
             &version,
@@ -271,7 +285,15 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<Ended> {
             ledger::parallel_both_before_first_post(&probes.dialogs.questions),
             &written_at,
         )
-    })?;
+    });
+    match written {
+        Ok(()) => {}
+        Err(StampsError::StrictModes(_)) => {
+            refuse_home();
+            return Ok(Ended::Exit(1));
+        }
+        Err(error) => return Err(error.into()),
+    }
     let failed = results.iter().filter(|(_, pass)| !pass).count();
     human::result(&format!(
         "stamped {version}  {} pass  {failed} fail",

@@ -1,0 +1,4 @@
+# design · Spacing — category read
+
+## Nothing in scope
+Nearest: (.andromeda/design-system.md:153) "CLI spacing is platform-controlled: a fixed-width terminal grid, two spaces between columns." governs the column gap of human CLI lines; this chunk hardens home and code-bearing file integrity (strict-modes before every home read, the DACL check, pinned-binary re-hash, per-start plugin rewrite, single stamp/snapshot writers) and lays out no new CLI column. Its refusals take the existing exit-21 `unable  instance-unreachable` form, which the Surface: cli exit-code phraseology governs. Every token in .andromeda/design-system-detail/spacing.md (space-micro to space-xl, `--strip-h`, `--line-h`, `--band-w`, `--rb-size`) is "A 0.2.0 frontend design input; 0.1.0 renders no page." (.andromeda/design-system.md:147), so the chunk reaches none of them.

@@ -15,7 +15,10 @@ use viola_state::replay::{Recovered, SessionLink, read_snapshot_or_replay, sessi
 use viola_state::strict::check_instance;
 
 use super::client;
-use super::run::{Launch, Started, collision_check, open_wrapper_log, pump_child, refused, start};
+use super::run::{
+    Launch, Started, checked_exe, collision_check, open_wrapper_log, pump_child, refuse_tree,
+    refused, start,
+};
 use crate::human;
 
 #[derive(clap::Args)]
@@ -119,9 +122,20 @@ pub(crate) fn revive(home: &Path, args: ReviveArgs) -> anyhow::Result<ExitCode> 
         Refusal::StrictModes.write(&args.name, args.json);
         return Ok(ExitCode::from(1));
     }
+    let exe = match checked_exe(home, &args.name)? {
+        Ok(exe) => exe,
+        Err(_) if args.json => {
+            Refusal::StrictModes.write(&args.name, true);
+            return Ok(ExitCode::from(1));
+        }
+        Err(refused) => {
+            refuse_tree(&args.name, refused);
+            return Ok(ExitCode::from(1));
+        }
+    };
     let persistent = open_wrapper_log(home, &args.name)?;
     let started = match preflight(home, args)? {
-        Ok(launch) => start(home, &launch, &persistent)?,
+        Ok(launch) => start(home, &launch, &persistent, &exe)?,
         Err(refusal) => refusal,
     };
     match started {
@@ -179,10 +193,16 @@ fn preflight(home: &Path, args: ReviveArgs) -> anyhow::Result<Result<Launch, Sta
     };
     let fork = args.fork;
     let cwd = std::env::current_dir()?;
+    // One read of the snapshot, through the replay, for the holder and the recorded directory
+    // alike: one replay writes one `state-recovered` line.
+    let read = read_snapshot_or_replay(&instance_dir);
     let passed = preflight_order(
-        || collision_check(name, &instance_dir, json),
+        || collision_check(name, &instance_dir, read.as_ref().ok(), json),
         || {
-            let recovered = read_snapshot_or_replay(&instance_dir)?;
+            let recovered = match &read {
+                Ok(recovered) => recovered.clone(),
+                Err(_) => anyhow::bail!("the snapshot could not be read"),
+            };
             let chain = session_chain(&instance_dir)?;
             Ok(pick_session(&chain.links, args.id.as_deref())
                 .map(|id| (id, recovered))

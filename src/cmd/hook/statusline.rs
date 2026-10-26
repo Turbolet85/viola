@@ -17,10 +17,9 @@ use viola_agent_claude::statusline;
 use viola_core::obs::{ObsEvent, ObsProcess};
 use viola_core::{MAX_FRAME, obs_event};
 use viola_state::budget::write_budget;
-use viola_state::snapshot::read_snapshot;
-use viola_state::strict::check_instance;
+use viola_state::replay::{Recovered, read_snapshot_or_replay};
 
-use super::{Instance, STATUSLINE_DEADLINE, instance_of, reject_stdin};
+use super::{Instance, STATUSLINE_DEADLINE, canonical, instance_of, reject_stdin, trusted};
 use crate::cmd::Failure;
 use crate::obs::{self, DetailSink};
 
@@ -31,19 +30,6 @@ const SUBJECT: &str = "statusline-shell";
 
 /// How often the exit of a command that has closed its stdout is looked for.
 const EXIT_POLL: Duration = Duration::from_millis(1);
-
-/// The wrapped session by its canonical directory: a `VIOLA_DIR` that resolves to anything but
-/// `<home>/instances/<name>` is not one.
-fn canonical(instance: &Instance) -> Option<Instance> {
-    let dir = std::fs::canonicalize(&instance.dir).ok()?;
-    let name: &str = instance.name.as_ref();
-    instance_of(Some(name.into()), Some(dir.into_os_string()))
-}
-
-/// Whether the instance's home and files pass the strict-modes check.
-fn trusted(instance: &Instance) -> bool {
-    check_instance(&instance.home, &instance.dir).is_ok()
-}
 
 pub(super) fn statusline(started: Instant) -> Result<ExitCode, Failure> {
     let instance = instance_of(
@@ -139,7 +125,11 @@ fn serve(instance: &Instance, io: Io<'_>) -> anyhow::Result<Outcome> {
     // A payload with no reading writes nothing, so the last reading stands.
     let budget_written =
         reading.is_some_and(|reading| write_budget(&instance.home, &reading, Utc::now()).is_ok());
-    let command = read_snapshot(&instance.dir).and_then(|snapshot| snapshot.statusline_command);
+    // A replayed snapshot records no command, so nothing is run or printed.
+    let command = match read_snapshot_or_replay(&instance.dir) {
+        Ok(Recovered::Snapshot(snapshot)) => snapshot.statusline_command,
+        _ => None,
+    };
     let shell = command
         .as_deref()
         .and_then(statusline::shell_argv)
@@ -312,14 +302,15 @@ mod tests {
     /// Synthetic statusline stdin: a reading beside the tests' canary.
     const PAYLOAD: &str = r#"{"session_id":"canary-chain-value-5c1e","rate_limits":{"five_hour":{"used_percentage":91,"resets_at":1738425600}}}"#;
 
-    /// A wrapped session's directories under `root`, and no snapshot.
+    /// A wrapped session's directories under `root`, made owner-only as viola makes them, and no
+    /// snapshot.
     fn instance_in(root: &Path) -> Instance {
         fs::create_dir_all(root).expect("root");
         let home = fs::canonicalize(root)
             .expect("canonical root")
             .join("vhome");
         let dir = home.join("instances").join("builder");
-        fs::create_dir_all(&dir).expect("instance dir");
+        viola_state::fs::create_private_dir(&dir).expect("instance dir");
         Instance {
             name: ViolaName::try_new("builder".to_owned()).expect("valid"),
             dir,
@@ -528,6 +519,37 @@ mod tests {
             fs::set_permissions(dir, fs::Permissions::from_mode(0o700)).expect("narrowed");
             assert!(trusted(&instance));
         }
+    }
+
+    /// A snapshot that records a printing command, cut short or re-versioned to `v` 99 from the
+    /// writer's own bytes: the read takes the replay, which records no command, so nothing is run
+    /// or printed, the reading is still written and the replay writes its one `state-recovered`.
+    #[rstest::rstest]
+    #[case::cut_short("cut", "snapshot-replayed")]
+    #[case::unsupported_v("v99", "snapshot-unsupported-v")]
+    fn statusline_over_a_replayed_snapshot_runs_nothing(#[case] fault: &str, #[case] detail: &str) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let instance = instance_running(tmp.path(), Some("printf shown"));
+        let path = instance.dir.join(viola_state::snapshot::SNAPSHOT);
+        let bytes = fs::read(&path).expect("bytes");
+        let faulted = if fault == "cut" {
+            bytes[..bytes.len() / 2].to_vec()
+        } else {
+            String::from_utf8(bytes)
+                .expect("utf-8")
+                .replacen("\"v\":1", "\"v\":99", 1)
+                .into_bytes()
+        };
+        fs::write(&path, faulted).expect("faulted");
+        let (out, lines) = handled(&instance, PAYLOAD.as_bytes(), LONG);
+        assert!(out.is_empty(), "{}", String::from_utf8_lossy(&out));
+        assert!(budget(&instance).is_some());
+        let recovered: Vec<&Value> = lines
+            .iter()
+            .filter(|l| l["event"] == "state-recovered")
+            .collect();
+        assert_eq!(recovered.len(), 1, "{lines:?}");
+        assert_eq!(recovered[0]["detail"], detail);
     }
 
     #[test]

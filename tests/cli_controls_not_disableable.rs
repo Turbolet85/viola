@@ -68,12 +68,14 @@ fn files_under(dir: &Path) -> Vec<PathBuf> {
     files
 }
 
-/// `viola hook stop` on a fresh instance with `setting` over the child's environment: the
-/// control's verdict must hold whatever the setting's value.
+/// `viola hook stop` on a fresh instance (its directory made as a wrapper makes it) with
+/// `setting` over the child's environment: the control's verdict must hold whatever the setting's
+/// value.
 fn assert_control_holds(control: Control, setting: (&str, &str)) {
     let tmp = TestHome::new();
     let home = tmp.path().to_path_buf();
     let dir = home.join("instances").join("builder");
+    viola_state::fs::create_private_dir(&dir).expect("the instance dir");
     let mut child = Command::new(VIOLA)
         .args(["hook", "stop"])
         .env("VIOLA_NAME", "builder")
@@ -420,10 +422,7 @@ fn setting_does_not_unbound_the_dialog_hold(stamped_home: StampedHome, #[case] c
 /// Every setting a run can carry, beside the case that tries it against a control. A literal
 /// table: the completeness case below fails on a flag, variable or key it does not name.
 const SETTINGS: [(&str, &str); 10] = [
-    (
-        "--home",
-        "cli_list::list_refuses_a_home_another_user_could_write",
-    ),
+    ("--home", "setting_does_not_disable_the_home_check"),
     (
         "VIOLA_NAME",
         "viola_variable_does_not_disable_the_send_paste_control",
@@ -574,6 +573,73 @@ fn viola_dir_does_not_disable_the_home_scan() {
     );
 }
 
+/// A home another user could write (0770), under each row of `SETTINGS` in turn — the `--home`
+/// flag naming it, each `VIOLA_*` variable set, each `config.json` key at a disabling-shaped value:
+/// `viola send` is refused by the strict-modes check with exit 21 and the instance pair before any
+/// log opens, the home's mode left as found. No setting reaches the check.
+#[cfg(unix)]
+#[test]
+fn setting_does_not_disable_the_home_check() {
+    use std::os::unix::fs::PermissionsExt as _;
+    for (setting, _) in SETTINGS {
+        let tmp = TestHome::new();
+        let home = tmp.path().to_path_buf();
+        let dir = home.join("instances").join("builder");
+        viola_state::fs::create_private_dir(&dir).expect("the instance dir");
+        let mut command = Command::new(VIOLA);
+        command
+            .arg("--home")
+            .arg(&home)
+            .args(["send", "builder"])
+            .env_remove("VIOLA_NAME")
+            .env_remove("VIOLA_DIR")
+            .env_remove("VIOLA_BIN")
+            .stdin(Stdio::piped())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped());
+        match setting {
+            "--home" => {}
+            "VIOLA_NAME" => {
+                command.env(setting, "builder");
+            }
+            "VIOLA_DIR" => {
+                command.env(setting, &dir);
+            }
+            "VIOLA_BIN" => {
+                command.env(setting, "/bin/sh");
+            }
+            "v" => std::fs::write(home.join("config.json"), "{\"v\":\"off\"}").expect("config"),
+            key => std::fs::write(
+                home.join("config.json"),
+                format!("{{\"v\":1,\"{key}\":\"off\"}}"),
+            )
+            .expect("config"),
+        }
+        std::fs::set_permissions(&home, std::fs::Permissions::from_mode(0o770)).expect("chmod");
+        let mut child = command.spawn().expect("viola send");
+        let mut input = child.stdin.take().expect("stdin");
+        input.write_all(b"hello\n").expect("stdin");
+        drop(input);
+        let out = child.wait_with_output().expect("viola send exits");
+        let mode = std::fs::metadata(&home).expect("meta").permissions().mode() & 0o777;
+        std::fs::set_permissions(&home, std::fs::Permissions::from_mode(0o700))
+            .expect("chmod back");
+        assert_eq!(out.status.code(), Some(21), "{setting}");
+        assert!(out.stdout.is_empty(), "{setting}");
+        assert_eq!(
+            String::from_utf8_lossy(&out.stderr),
+            "unable: builder's state files can be written by another user\n\
+             hint: viola will not read them; make the viola home and its files owner-only\n",
+            "{setting}"
+        );
+        assert_eq!(mode, 0o770, "{setting}: the mode was changed");
+        assert!(
+            !home.join("diagnostics").exists(),
+            "{setting}: a refused check opened a log"
+        );
+    }
+}
+
 #[rstest]
 #[case::name_empty(("VIOLA_NAME", ""))]
 #[case::name_off(("VIOLA_NAME", "off"))]
@@ -596,7 +662,7 @@ const FLOOR: [(&str, &str); 2] = [
 fn child_names_under(config: &str) -> Vec<String> {
     let tmp = TestHome::new();
     let home = tmp.path();
-    std::fs::create_dir_all(home).expect("home");
+    viola_state::fs::create_private_dir(home).expect("home");
     std::fs::write(home.join("config.json"), format!("{{\"v\":1,{config}}}")).expect("config");
     let receipt = tmp.scratch().join("strip.receipt.ndjson");
     let args: Vec<OsString> = vec![

@@ -143,6 +143,17 @@ fn remove_dir_once_free(dir: &Path) {
     }
 }
 
+/// The stopped wrapper's heartbeat set ten seconds back, past the liveness bound: a replayed
+/// snapshot records no pid, so the start's collision check reads the beat alone.
+fn age_beat(home: &TestHome) {
+    OpenOptions::new()
+        .append(true)
+        .open(instance_dir(home).join("heartbeat"))
+        .expect("the heartbeat")
+        .set_modified(std::time::SystemTime::now() - std::time::Duration::from_secs(10))
+        .expect("mtime");
+}
+
 fn instance_dir(home: &TestHome) -> PathBuf {
     home.path().join("instances").join("builder")
 }
@@ -252,6 +263,7 @@ fn revive_of_a_snapshot_with_no_cwd_is_cwd_missing(stamped_home: StampedHome) {
         .expect("the snapshot")
         .set_len(whole / 2)
         .expect("shorten");
+    age_beat(home);
     let cut = fs::read(&snapshot).expect("the snapshot");
 
     let ran = revive(home, home.scratch(), &["builder"]);
@@ -634,6 +646,7 @@ fn revive_json_of_a_snapshot_with_no_cwd_is_the_cwd_missing_document(stamped_hom
         .expect("the snapshot")
         .set_len(whole / 2)
         .expect("shorten");
+    age_beat(home);
     let ran = revive(home, home.scratch(), &["builder", "--json"]);
     assert_refused_document(&ran, "cwd-missing");
     assert_refused(home.path(), before, "cwd-missing");
