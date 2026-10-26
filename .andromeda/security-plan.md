@@ -97,7 +97,7 @@ _Included despite v1 auth approach "none". Threat Model Sec 6 elevates "IPC endp
 **Auth approach:** OS-user ambient trust, enforced per OS, on the IPC endpoints and `~/.viola/`.
 
 **Library:**
-- IPC: interprocess 2.4.4 (`ListenerOptionsExt::security_descriptor`, `Stream::peer_creds()`, `PipeStream::server_process_id()`), windows-sys 0.61.2 (`GetTokenInformation(TokenUser)`, `ConvertSidToStringSidW`, the SDDL-to-descriptor conversion under feature `Win32_Security_Authorization`, `CreateFileW` with SQOS flags), std chmod on the bound Unix socket, and sysinfo 0.39.6 (pid + start time). Not used: interprocess `SecurityDescriptor::deserialize` (it needs a `widestring` dependency) and `ListenerOptionsExt::mode` (see IPC access control (Unix)).
+- IPC: interprocess 2.4.4 (`ListenerOptionsExt::security_descriptor`, `Stream::peer_creds()`, its `pid()` also the client's read of the serving process: Linux `SO_PEERCRED`, Windows `GetNamedPipeServerProcessId` on the SQOS-opened client end, none on macOS), windows-sys 0.61.2 (`GetTokenInformation(TokenUser)`, `ConvertSidToStringSidW`, the SDDL-to-descriptor conversion under feature `Win32_Security_Authorization`, `CreateFileW` with SQOS flags), std chmod on the bound Unix socket, and sysinfo 0.39.6 (pid + start time). Not used: interprocess `SecurityDescriptor::deserialize` (it needs a `widestring` dependency) and `ListenerOptionsExt::mode` (see IPC access control (Unix)).
 
 _Adapter note: viola has no passwords and no user store. The rows are adapted to an OS-principal model._
 
@@ -111,7 +111,7 @@ IPC access control (Unix) — the socket lives in a per-user 0700 directory, che
 
 IPC server-side peer check (Unix) — on every accept, a peer whose euid differs from the server's is dropped before a frame is read.
 
-IPC client-side server verification (anti-impersonation) — before the first frame of any method, the client verifies the server against the snapshot (Windows: an SQOS identification-level open, then the serving pid and start time; Unix: euid, and pid with start time where available; macOS: euid and the verified socket directory only, a known gap), never falling back to a default connect; the dated interim gaps stand until their two route entries land.
+IPC client-side server verification (anti-impersonation) — before the first frame of any method, the client verifies the server against its one snapshot read: on Linux and Windows the connected peer's pid (Windows over an SQOS identification-level open) and that process's start time, a mismatch or a check that cannot be made sending no frame, never falling back to a default connect; the snapshot read without the strict-modes check is a dated gap owed to "Home and code-bearing file integrity", and the client euid check and macOS (no peer pid; its euid and verified socket-directory checks) are owed to "Unix endpoint and home hardening".
 
 Driver-originated `release` — the wrapper refuses a `release` whose params carry a string `from` (`-32602`, `release-from-driver`), before any budget is acted on: an affordance-level guard against drivers handing the wheel back to automation, not enforcement, since a same-user process can leave out `from`.
 
@@ -436,7 +436,7 @@ Detail: .andromeda/security-plan-detail/security-anti-patterns.md — read whole
 - NEVER rely on the socket file's 0600 mode as the only Unix control: `unix(7)` says socket permissions may be ignored. NEVER set it with `ListenerOptionsExt::mode`: it returns `Unsupported` on macOS, which fails the bind; chmod after the bind instead.
 - NEVER use Linux abstract-namespace sockets (no filesystem permissions).
 
-- NEVER write any channel frame before verifying the server against a `snapshot.json` that passed the strict-modes check in the same process (the euid check never skipped), except the dated gaps (`hook.event`; the CLI `send`, `wait` / `last`, `answer`, `pause` / `release` frames; `hook.dialog`; `viola mcp`'s tool frames) until the Epoch 6 entries "Server verification before any frame" and "Home and code-bearing file integrity" land; no other frame or process may borrow them.
+- NEVER write any channel frame before verifying the server against a `snapshot.json` that passed the strict-modes check in the same process (the euid check never skipped), except the dated gaps: `hook.event`, `hook.dialog`, the CLI `send`, `wait` / `last`, `answer`, `pause` / `release` frames and `viola mcp`'s tool frames verify the server against a snapshot read without the strict-modes check, owed to "Home and code-bearing file integrity", and every client's euid check and macOS's pid and start-time check (no peer pid) are owed to "Unix endpoint and home hardening"; no other frame or process may borrow them.
 
 - NEVER open a Windows client pipe without `SECURITY_SQOS_PRESENT | SECURITY_IDENTIFICATION` (the default `connect_without_waiting` lets a squatter with SeImpersonatePrivilege impersonate the client).
 - NEVER treat the channel `from` param as an authenticated identity. It is self-reported and serves link records and the `release` affordance guard only.

@@ -1,0 +1,58 @@
+[[pattern]]
+id = 'owner'
+fixed = 'Server verification before any frame'
+ignore_case = true
+
+[[pattern]]
+id = 'owned'
+regex = 'owned by a (route entry|CARRY)'
+ignore_case = true
+
+[[pattern]]
+id = 'gaps'
+regex = 'liveness-only pre-check|until the (same )?Epoch 6 (route )?entries|server[- ]identity|server verification'
+ignore_case = true
+
+[[pattern]]
+id = 'readers'
+regex = 'snapshot readers|src/cmd/client\.rs|read_snapshot\('
+
+[[pattern]]
+id = 'liveep'
+regex = 'live_endpoint|LiveEndpoint'
+
+[[pattern]]
+id = 'svf'
+fixed = 'server-verify-failed'
+
+[[pattern]]
+id = 'hint'
+regex = 'not its recorded wrapper|server[- ]verification hint'
+ignore_case = true
+
+[[pattern]]
+id = 'tests'
+regex = 'cross_exit_causes|security_negatives_server_identity|hook_fail_open|binary\(handlers\)|viola-mcp/tests/handlers'
+
+[[pattern]]
+id = 'hookjoin'
+regex = 'joins? at Epoch 6'
+ignore_case = true
+
+[[pattern]]
+id = 'peerpid'
+regex = 'peer_creds|server_pid|GetNamedPipeServerProcessId|SO_PEERCRED|peer pid'
+
+[[pattern]]
+id = 'macgap'
+regex = 'recorded gap|pid gap'
+ignore_case = true
+
+[[pattern]]
+id = 'etxtbsy'
+regex = 'contract_fake_agent_drift|ETXTBSY'
+
+[[pattern]]
+id = 'matrix11'
+regex = '11-case matrix|hook fail-open matrix'
+ignore_case = true

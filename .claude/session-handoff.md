@@ -1,44 +1,45 @@
 # Session Handoff
 
-**Last Updated:** 2026-10-26T07:03:04Z
-**Branch:** build/viola-0.1.0 · 0 ahead of origin/build/viola-0.1.0 as read at this wrap's Setup (the wrap commit pushes after this file)
+**Last Updated:** 2026-10-26T12:20:31Z
+**Branch:** build/viola-0.1.0 · 0 ahead of origin/build/viola-0.1.0 as read at this wrap's resume (HEAD `7948850a` pushed by the operator pass; the wrap commit pushes after this file)
 **Status:** clean
-**Last Commit:** fix(2026-10-26-tokio-rustsec-2026-0386-lock-bump) — the wrap commit on top of `948f7f01` (the operator pre-CI commit; ci#40278510123: `verdict: green · checks 15/15`, `supply-chain` green on every step)
+**Last Commit:** the wrap commit of 2026-10-26-server-verification-before-any-frame, on `7948850a` fix(2026-10-26-server-verification-before-any-frame) — the fake-agent exit fix (ci#40318429755: `verdict: green · checks 15/15`)
 
 ## Position
-- Done: **2026-10-26-tokio-rustsec-2026-0386-lock-bump** ("tokio RUSTSEC-2026-0386 lock bump", Epoch 6). Report:
-  `viola-0.1.0/chunks/2026-10-26-tokio-rustsec-2026-0386-lock-bump/report.md`; implement run
-  `.andromeda/runs/2026-10-26T06-05-40-implement/` (operator pass fired on the operator's word, `inputs#I6`), wrap run
-  `.andromeda/runs/2026-10-26T06-27-48-wrap/`.
-- Next: **Server verification before any frame** (Epoch 6) → `/andromeda-phase`.
+- Done: **2026-10-26-server-verification-before-any-frame** → `complete` (this wrap, resumed at P7 step 0 from
+  `.andromeda/runs/2026-10-26T09-14-57-wrap/`, `inputs#I16`).
+- Next: the working route's first markerless entry, **"Explicit session links"** (Epoch 6) → `/andromeda-phase`.
 
 ## Work done
-- tokio `=1.53.1` → `=1.53.3` (`Cargo.toml` pin + the lock's tokio entry, 4 lines); `cargo deny check` exits 0 with no
-  RUSTSEC-2026-0386 and no ignore widened. The supply-chain red standing since 2026-10-20 is closed on CI, the four
-  steps it hid green too.
+- Every frame-writing client (the six CLI frame verbs, `viola hook`'s event and dialog paths, `viola mcp`'s four frame
+  tools) checks the serving process's pid and start time against `snapshot.json` before its first frame on Linux and
+  Windows: CLI exit 21 `instance-unreachable` with a new hint, MCP `instance-unreachable`, the hook fails open, each
+  logged `server-verify-failed`. macOS stays on the recorded gap.
+- Two folded test-only fixes: the ETXTBSY fix in the agents drift test (`inputs#I5`), and the wrap's P7.1 red — one
+  cut-short `viola-fake-agent` coverage profile — closed by the fake agent ignoring SIGHUP from its exit's first step
+  (`inputs#I13`; a session leader cannot leave its group, so not the directive's literal wording). Fix commit `7948850a`,
+  pushed from a clean worktree (`inputs#I15`), CI green. Evidence: `chunks/…/evidence/fake-agent-exit-hangup.md`.
 
 ## Drift resolved
-- 8 master sites amended to tokio 1.53.3 / the advisory closed: architecture 2 (Inherited Defaults, the stack row),
-  security-plan 2 (the `deps` pin; the open-advisory group removed by hand — the apply writer cannot empty a group),
-  test-plan 4 (§7, §8 ×2, the §3 Bootstrap phases key file). 6 sidecar entries. 0 escalations; 12 proposals, 2
-  rejected (registry over-reach: an advisory-floor row and an `AsyncFd` row for the stack table). Leaves: 3 applied
-  (`stack.md` ×2, `services/viola-mcp.md`). Citations: 0 moved.
-- Curation: T3 1 (a sidecar entry payload needs a leading blank line before the append).
-- Route: no tail edit; this entry's CARRY discharged.
+- 140 proposals (forced sample): 129 applied across all seven masters, 6 rejected, 5 escalated and resolved
+  (`inputs#I9`); fork CARRY 7 / 8 recorded as the founder's own ruling (`inputs#I10`, `inputs#I11`).
+- At the resume: test-plan §7 (`test-plan.md:670`) gains the fake agent's exit SIGHUP disposition (`inputs#I17`), its
+  sidecar entry and its leaves (rules/verification-harness.md, plus the re-run leaf pass's two stale hook-path fixes in
+  viola-channel.md and rules/events.md and testing.md's ETXTBSY planting rule). 130 amendments in all.
+- Route: the P5 card's four re-pins as CARRYs on "Home and code-bearing file integrity" ×2, "Unix endpoint and home
+  hardening", "Windows-only live measurements".
 
 ## Notes
-- **Owed outside this repo:** the pipeline defects in the friction log for the founder's desk — F350 and F351 from the
-  last wrap, and this wrap's: the entry writers' payload lacks the separator `splice.py append` needs
-  (`contract.skill-reference-drift`, `2026-10-26T07:01:56Z-b`).
-- **Left in the tree:** six listing dirs `cascade-{a11y,arch,design,obs,security,tests}/` in
-  `.andromeda/runs/2026-10-26T06-27-48-wrap/` — written under the phase's prefixes by mistake, unread by the wrap's tools;
-  the host denies a recursive `rm`, so their removal is the founder's at the desk.
-- **Deferred learnings (carried, max-3 cap of an earlier wrap):** the Windows scope contract's `is_windows_gate` reads
-  `cfg!(windows)` as well as `cfg(windows`, so a sweep on `cfg(windows)` alone misses an oracle (confidence 0.8).
-- **Carried from the last handoff:** unchanged — the founder's next batch, the CARRYs, the boundary-audit list, the
-  founder's desk, the operator's-word items, the standing rules (in git at `d35644a5`'s `.claude/session-handoff.md`);
-  the founder's word of 2026-10-20T10:17Z: no epoch boundary inside Epoch 6; read `df -h /tmp` before a stamped-home gate.
-- **Last failed command:** none.
-
-## Session End Status
-Completed normally at 2026-10-26 09:21:13
+- **Owed outside this repo:** the pipeline defects in the friction log for the founder's desk — F350, F351, the
+  2026-10-26T07:01:56Z-b record, this wrap's records `2026-10-26T10:58:26Z-a`…`-j` and `2026-10-26T11:01:39Z-b`…`-d`
+  (among them the check-7 contradiction-against-a-retired-line pattern for overseer1, `inputs#I9`), and implement's
+  `2026-10-26T11:45:44Z-b` (a directive naming a mechanism a session leader cannot take).
+- **Left in the tree:** the six listing dirs `cascade-{a11y,arch,design,obs,security,tests}/` in
+  `.andromeda/runs/2026-10-26T06-27-48-wrap/` — their removal (`git rm -r`, a commit of its own) is ruled for
+  viola-overseer (`rulings.md:697`).
+- **Carried from earlier handoffs:** the founder's next batch, the CARRYs, the boundary-audit list, the founder's desk,
+  the operator's-word items, the standing rules (in git at `d35644a5`'s `.claude/session-handoff.md`); no epoch boundary
+  inside Epoch 6 (the founder's word, 2026-10-20T10:17Z); read `df -h /tmp` before a stamped-home gate.
+- **Host recipe:** the macOS-target check-only clippy (`CARGO_TARGET_DIR=target/maccheck … --target aarch64-apple-darwin`)
+  read green before this pass's push, beside `target/wincheck`.
+- **Last failed command:** none open — the earlier `pre-push` red (entry 21) closed by the fake-agent exit fix.

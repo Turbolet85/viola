@@ -1,0 +1,5 @@
+# The answer to the wrap's test-plan §7 question at the resume (AskUserQuestion), 2026-10-26, verbatim
+
+Question: test-plan.md:670 (the fake agent's behaviour contract, §7) states how the agent exits and that its hooks run in their own process groups, but not that the exit now ignores SIGHUP. Its leaf, verification-harness.md's fake-agent bullet, says the same. The P2 fan-out predates the fix, so no proposal covers this. How should the wrap treat it before the drift = 0 gate?
+Selected: "Amend now (Recommended)" — One proposal through P2's apply path for the one fact: an apply writer for test-plan.md:670, the cascade sweep, its sidecar entry, and a leaf comparer for verification-harness.md. Three small Workflow batches; drift = 0 holds as the skill defines it.
+Note: The overseer's technical answer (founder-delegated), 12:12Z: the exit's SIGHUP disposition is now part of how the fake agent's exit behaves, and the coverage merge depends on it, so the contract should say it. One proposal through P2's apply path, drift = 0 kept.

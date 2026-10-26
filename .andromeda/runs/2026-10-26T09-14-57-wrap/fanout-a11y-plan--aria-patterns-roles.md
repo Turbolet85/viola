@@ -1,0 +1,2 @@
+proposals: []
+note: D-a11y-surface unfired — the report adds no interactive UI element (Coverage of new surfaces: a11y n/a on every row; the new `server-verify` hint is plain-ASCII stderr text, no SGR, asserted); D-a11y-obs-schema unfired — Schema / config reads none changed (server-verify-failed already in diag-line.v1.json's enums), no a11y violation schema touched; no Retired item and no new landmark, P4 or P6 detail falls in .andromeda/a11y-plan-detail/aria-patterns-roles.md.

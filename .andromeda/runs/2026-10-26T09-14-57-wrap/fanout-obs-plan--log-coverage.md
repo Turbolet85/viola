@@ -1,0 +1,20 @@
+proposals:
+  - detector: D-new-detail
+    severity: warning
+    file: .andromeda/obs-plan-detail/log-coverage.md
+    near: 28
+    section: '## 6. Log Coverage'
+    change: '- `process-exit` exit 21: `instance-dead`, `strict-modes-failed`, `server-verify-failed`. As landed (chunk 2026-10-26-server-verification-before-any-frame), `server-verify-failed` is written by this build: each of the six CLI frame verbs (`send`, `wait`, `last`, `answer`, `pause`, `release`) writes one `process-exit{subject:"self", exit_code:21, detail:"server-verify-failed", during:"connect"}` at WARN into `cli-<name>.ndjson` when the process serving the endpoint is not the recorded wrapper (pid and start time against the one snapshot read) or the check cannot be made, with no frame sent and no `channel-request` line; no pid, start time, path or endpoint in the line; `viola mcp` frame tools write no line for the mismatch; on macOS (no peer pid, the recorded gap) the check makes no comparison and no such line is written.'
+    sidecar: 'log-coverage log-details: `process-exit` exit 21 `server-verify-failed` qualified as written by this build (six CLI frame verbs, `during:"connect"`, WARN, `cli-<name>.ndjson`, codes only; MCP no line; macOS not written) — chunk 2026-10-26-server-verification-before-any-frame.'
+    rationale: 'The report Schema / config bullet states this build is the first that WRITES `server-verify-failed` on `process-exit{subject:"self", exit_code:21, during:"connect"}` at WARN into `cli-<name>.ndjson`, with no pid, start time, path or endpoint (asserted) and no MCP line; the Symbols bullets name the six verbs through `client::connect` and the macOS `peer_pid_reported == false` → `Matches` gap; the svf pattern names log-coverage.md:28 a candidate for an «as landed: written by this build» qualifier.'
+    basis: viola-0.1.0/chunks/2026-10-26-server-verification-before-any-frame/report.md:21
+  - detector: D-new-detail
+    severity: warning
+    file: .andromeda/obs-plan-detail/log-coverage.md
+    near: 30
+    section: '## 6. Log Coverage'
+    change: 'Append to the `hook-decision` fail-open codes item: As landed (chunk 2026-10-26-server-verification-before-any-frame), `server-verify-failed` is written by this build: a hook whose shared `connect` (one snapshot read, then the server check) finds the endpoint served by a process that is not the recorded wrapper sends no frame, exits 0 with empty streams and writes `hook-decision{detail:"server-verify-failed"}` at WARN into `hook-<name>.ndjson`; on the dialog path (`pre-tool-use`, `permission-request`) the lines are `hook-invoked{corr:null}` then `hook-decision{corr:null, decision_emitted:false, detail:"server-verify-failed"}`; neither line carries a pid, start time, path or endpoint. `viola hook statusline` keeps its three of the seven.'
+    sidecar: 'log-coverage log-details: `hook-decision` `server-verify-failed` qualified as written by this build (event and dialog paths, WARN, `hook-<name>.ndjson`, the dialog path `corr:null` / `decision_emitted:false`, codes only) — chunk 2026-10-26-server-verification-before-any-frame.'
+    rationale: 'The report Schema / config bullet states `hook-decision{detail:"server-verify-failed"}` at WARN into `hook-<name>.ndjson` is now written, the dialog path as `hook-invoked{corr:null}` then `hook-decision{corr:null, decision_emitted:false, detail:"server-verify-failed"}`, no pid, start time, path or endpoint (asserted); the `src/cmd/hook.rs` Symbols bullet names the shared `connect` used by `deliver` and `ask`; the svf pattern names log-coverage.md:30 a candidate for an «as landed» qualifier.'
+    basis: viola-0.1.0/chunks/2026-10-26-server-verification-before-any-frame/report.md:21
+note: D-obs-instrumentation, D-obs-stack and D-obs-pii hold for this category (new pre-frame refusals log their codes-only outcome lines, no dependency moved, no pid/path/endpoint asserted); no D-retired hit — log-coverage.md:33's «the nine hook events run no instance check» is the strict-modes half, which the report says stands.

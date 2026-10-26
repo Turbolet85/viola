@@ -1,0 +1,2 @@
+proposals: []
+note: D-obs-pii holds — the chunk's only new lines (process-exit and hook-decision `server-verify-failed`, report Schema / config) carry no pid, start time, path or endpoint (asserted), matching rows 18-19 of .andromeda/obs-plan-detail/pii-scrubbing-compliance.md; D-obs-instrumentation / D-obs-stack name nothing in this file; no Retired item stands here (the «cannot occur» sentence is obs-plan.md:361 / span-trace-coverage.md:90, another detector's).

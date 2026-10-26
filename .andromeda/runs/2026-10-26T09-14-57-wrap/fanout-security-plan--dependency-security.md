@@ -1,0 +1,2 @@
+proposals: []
+note: Dependencies none added or bumped (report Changes › Dependencies; interprocess 2.4.4, sysinfo, tokio =1.53.3 pins unchanged, channel-tokio-free.sh green), so D-security-deps holds and dependency-security.md:14 stays true; the host-only `rustup target add aarch64-apple-darwin` (report Changes › Dev-tool versions) is a host lint recipe with no lockfile, CI pin or gate entry, not a dependency-security fact; D-security-input / D-security-auth reach no passage of this category.

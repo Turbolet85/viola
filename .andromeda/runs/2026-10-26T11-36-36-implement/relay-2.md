@@ -1,0 +1,5 @@
+# The answer to implement's push-form question (AskUserQuestion), 2026-10-26, verbatim
+
+Question: The operator pass's push entry is `git diff --quiet && git diff --cached --quiet && git push origin HEAD`, so it refuses a dirty tree. You asked me to leave the wrap's P1–P6 writes uncommitted, and they will still be in the tree when I push. My fix commit would hold only the fix (`src/bin/viola-fake-agent.rs`, `tests/cli_fake_agent.rs`). How should the push run?
+Selected: "Clean worktree (Recommended)" — `git worktree add --detach` a scratch checkout of the fix commit under `target/`, then fire entry 23 as written there through the tool (`--project-root` that worktree). Its guard passes on a clean tree, the same commit gets pushed, and the main tree is never touched. The worktree is removed with `git worktree remove` afterwards.
+Note: The overseer's technical answer (founder-delegated), 11:46Z: the entry runs as written with its guard, the same commit is pushed, and the main tree with the wrap's writes is never touched. Read CI on the pushed sha, and remove the worktree with `git worktree remove` afterwards.

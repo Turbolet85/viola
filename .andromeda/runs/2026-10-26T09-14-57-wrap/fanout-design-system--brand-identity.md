@@ -1,0 +1,2 @@
+proposals: []
+note: brand-identity.md holds only the expression-motion scale and the cli per-surface expression rows (lines 8-12, 18-21); the chunk's one new output (the `server-verify` hint, plain ASCII stderr, no SGR, tokens n/a per report Coverage) adds no colour, glyph, motion or redraw and its wording is surface.md's (report Expected amendments: surface.md:58 byte for byte), and no Retired dated gap is named in this file.

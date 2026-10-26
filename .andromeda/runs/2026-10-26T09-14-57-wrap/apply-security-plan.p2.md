@@ -1,0 +1,30 @@
+# Apply — security-plan · part 2 of 3
+
+## Verdicts
+- fanout-security-plan--cascade.md 2 · already stands · .andromeda/security-plan-detail/authentication-authorization.md:24–24 · «the connected stream's peer pid (the observed server pid, below) must equal the snapshot `pid`»
+- fanout-security-plan--cascade.md 3 · already stands · .andromeda/security-plan-detail/authentication-authorization.md:25–25 · «on Linux and Windows `viola hook` verifies the serving process before its `hook.event` frame»
+- fanout-security-plan--cascade.md 4 · already stands · .andromeda/security-plan-detail/authentication-authorization.md:25–25 · «then, on Linux and Windows, checks the serving process's identity before the frame (`client::connect`»
+- fanout-security-plan--cascade.md 5 · already stands · .andromeda/security-plan-detail/authentication-authorization.md:25–25 · «then, on Linux and Windows, check the serving process's identity before the frame through the same `client::connect`»
+- fanout-security-plan--cascade.md 6 · already stands · .andromeda/security-plan-detail/authentication-authorization.md:26–26 · «on Linux and Windows both check the serving process's identity before the frame (`answer` through `client::connect`»
+- fanout-security-plan--cascade.md 7 · already stands · .andromeda/security-plan-detail/authentication-authorization.md:26–26 · «on Linux and Windows both then check the serving process's identity before the frame through `client::connect`»
+- fanout-security-plan--cascade.md 8 · already stands · .andromeda/security-plan-detail/authentication-authorization.md:27–27 · «each tool then checks the serving process's identity after `TokioClient::connect` and before its frame»
+- fanout-security-plan--cascade.md 9 · already stands · .andromeda/security-plan-detail/authentication-authorization.md:27–27 · «**On mismatch** (or a check that cannot be made): no frame is written»
+- fanout-security-plan--cascade.md 10 · already stands · .andromeda/security-plan-detail/authentication-authorization.md:27–27 · «it opens no connection and writes no frame, so there is no serving process to verify»
+- fanout-security-plan--cascade.md 11 · already stands · .andromeda/security-plan-detail/authentication-authorization.md:60–60 · «The client reads the connected stream's peer pid through `Client::server_pid` / `TokioClient::server_pid`»
+- fanout-security-plan--cascade.md 12 · already stands · .andromeda/security-plan-detail/authentication-authorization.md:63–63 · «The verdict is the closed `viola_state::liveness::ServerVerdict { Matches, Mismatch, Unverifiable }`»
+- fanout-security-plan--cascade.md 13 · already stands · .andromeda/security-plan-detail/authentication-authorization.md:66–66 · «meeting a mismatch, or a check that cannot be made, writes no frame and exits 21»
+- fanout-security-plan--cascade.md 14 · already stands · .andromeda/security-plan-detail/authentication-authorization.md:69–69 · «A hook reaching an exiting wrapper's own Windows pipe passes the check by design»
+- fanout-security-plan--cascade.md 15 · already stands · .andromeda/security-plan-detail/authentication-authorization.md:72–72 · «The macOS server-verification cases, the per-user socket directory loosened to 0755 giving exit 21 and the client euid check, are a CARRY»
+- fanout-security-plan--cascade.md 16 · already stands · .andromeda/security-plan-detail/authentication-authorization.md:28–28 · «`viola-state` liveness (`live_endpoint`, `server_verdict`, `verify_server`)»
+- fanout-security-plan--cascade.md 17 · already stands · .andromeda/security-plan-detail/input-validation.md:30–30 · «resolves the endpoint, `pid` and `started_at` through the liveness pre-check `live_endpoint`»
+- fanout-security-plan--cascade.md 18 · already stands · .andromeda/security-plan-detail/input-validation.md:52–52 · «The three other snapshot readers (`src/cmd/hook.rs`, one read shared by the event and dialog paths»
+- fanout-security-plan--cascade.md 19 · applied · .andromeda/security-plan-detail/input-validation.md:52#1
+- fanout-security-plan--cascade.md 20 · already stands · .andromeda/security-plan-detail/bootstrap-phases.md:15–15 · «the SQOS open (windows-sys `CreateFileW` + `Stream::try_from(OwnedHandle)`) and the peer pid»
+
+## Edits
+- line: .andromeda/security-plan-detail/input-validation.md:52
+  old: «Every snapshot reader stays on `read_snapshot` (option 1, founder-ratified), and»
+  new: «Every snapshot reader stays on `read_snapshot` (option 1), and»
+
+## Patterns
+(none)

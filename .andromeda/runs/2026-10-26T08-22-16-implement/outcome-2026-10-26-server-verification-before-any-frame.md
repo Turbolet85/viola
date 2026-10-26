@@ -1,8 +1,8 @@
 # Implement outcome — 2026-10-26-server-verification-before-any-frame
 
-**Outcome: green + smoke.** Next → the operator pass (plan entries 22 hygiene, 23 push, 24 CI read), fired by the
-implementer on the operator's word at invocation («please run implement per the skill on
-2026-10-26-server-verification-before-any-frame, through its operator pass and the CI read»), then
+**Outcome: green + smoke; operator pass complete, CI green.** Fired by the implementer on the operator's word at
+invocation (`inputs#I6`): pre-CI commit `4aa9def9` (CI red: `lint (macos-latest)`), fix commit `775641fa` →
+`verdict: green · checks 15/15`, ci#40295857215, `run_attempt` 1 (`evidence/operator-pass.md`). Next →
 `/andromeda-wrap-session`.
 
 ## What was built
@@ -86,6 +86,11 @@ until client-side server verification lands».
 7. **Block run 2's red was this run's own:** the new helper module's first gate `#[cfg(all(test, not(macos)))]` put
    its `cfg!(windows)` ahead of the file's first `#[cfg(test)]`, so `contract_windows_mutation_scope` read
    `src/cmd/client.rs` as Windows-gated product code; stacked `#[cfg(test)]` + `#[cfg(not(target_os = "macos"))]`.
+8. **The operator pass's CI red was this run's own:** `lint (macos-latest)` failed on `unused import: super::*` in the
+   new `last.rs` / `pause.rs` test modules, whose one case each is macOS-gated; this host linted Linux and the Windows
+   target only. Fixed by gating both modules whole (fix commit `775641fa`); the host now lints the macOS target
+   (`rustup target add aarch64-apple-darwin`, check only, `CARGO_TARGET_DIR=target/maccheck`), its known-positive
+   control reproducing CI's error line for line. `src/cmd/last.rs` and `src/cmd/pause.rs` are listed files.
 
 ## Surfaced (for the wrap's amendments, none authored here)
 The plan's expected amendments stand as listed (security-plan's dated gaps losing their server-identity half on Linux and
@@ -113,5 +118,9 @@ prototype's and the product's `viola`, `~/.viola/bin/…/viola mcp`), none under
 - Stamp hook: twice a time was written by estimate (the journal's run-1 line, the ETXTBSY evidence's loop times) and
   refused as ahead of the clock; each was re-read (`date -u`, the logs' mtimes) and corrected.
 - Recurrence of the deferred handoff learning on `cfg!(windows)` (deviation 7).
+- A host-reachability gap (deviation 8): a test gated off macOS left a macOS-only unused import no local lint could see
+  until the macOS target was added; the macOS-target clippy is a candidate host recipe beside `target/wincheck`.
+- Host toolchain change: `aarch64-apple-darwin` std added through rustup (check-only lint; reversible with
+  `rustup target remove aarch64-apple-darwin`); `target/maccheck` is a new build dir.
 - Testing learning 2026-10-16 (copy an oracle from the first run's output) recurred: a hand-typed sorted key list, red
   on its first run.

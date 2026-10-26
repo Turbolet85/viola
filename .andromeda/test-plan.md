@@ -282,7 +282,7 @@ Detail: .andromeda/test-plan-detail/test-strategy.md — read whole.
 
 **Test pyramid (per tier):**
 
-- **Unit:** inline `#[cfg(test)] mod tests` in all six crates and the root bin, with rstest `#[case]` tables for the refusal-order, exit-code and fixture-replay matrices, on all three OSes except the two real-cargo-mutants harness tests, compiled out on macOS.
+- **Unit:** inline `#[cfg(test)] mod tests` in all six crates and the root bin, with rstest `#[case]` tables for the refusal-order, exit-code and fixture-replay matrices, on all three OSes except the two real-cargo-mutants harness tests and the server check's captured-span cases, compiled out on macOS.
 
 - **Integration:** required — every arch Standard Contract has a crate-level `tests/` suite over a real `interprocess` endpoint, a real tempfile home and `assert_cmd`.
 
@@ -373,9 +373,9 @@ threshold.
   - `validate_paste_text`: LF/CR/TAB and multi-byte UTF-8 accepted; ESC, other C0, DEL and U+0080–U+009F refused with `control-character`. The check runs on decoded `char`s, and a proptest property shows UTF-8 continuation bytes never trip it.
 - **viola-pty:** exit is reported from `wait()` on the handle, never from reader EOF. Consumers are tested with a `mockall` double of the six-method seam whose reader never returns EOF while `wait()` returns an exit status. The `TerminateProcess` fallback path is `#[cfg(windows)]`.
 
-- **viola-channel:** the ndjson frame codec at the `MAX_FRAME` boundary, the JSON-RPC error mapping, the FNV-1a endpoint golden vectors, the peer-credential decision with injected euids, and Windows handle non-inheritance.
+- **viola-channel:** the ndjson frame codec at the `MAX_FRAME` boundary, the JSON-RPC error mapping, the FNV-1a endpoint golden vectors, the peer-credential decision with injected euids, the connected stream's server pid on each OS, and Windows handle non-inheritance.
 
-- **viola-state:** the one-`write`-per-line writer, the reader's three skip counts (it counts and never panics), the appender's heal, the snapshot envelope's classified read and the replay, the pure liveness classifier fed ages directly (no clock), Unix strict-modes and Windows strict-modes over synthetic SDDL descriptors, and the instance check.
+- **viola-state:** the one-`write`-per-line writer, the reader's three skip counts (it counts and never panics), the appender's heal, the snapshot envelope's classified read and the replay, the pure liveness classifier fed ages directly (no clock), the pure server verdict's decision table, Unix strict-modes and Windows strict-modes over synthetic SDDL descriptors, and the instance check.
 
 - **viola-agent-claude:** hook payload parsing per recorded fixture set (unknown fields counted, not fatal), the insta-pinned dialog mapping, the R8 strip against a literal copy of the identity floor (never imported), npm-shim resolution, the version gate, the statusline and `claude agents --json` parsers, `prompt-submitted` normalisation, the `typed_text` rule, the ledger rows' arms and the screen signatures; content beyond the compiled literals is never asserted.
 
@@ -383,7 +383,7 @@ threshold.
   - a non-`ViolaName` `target`, a non-`u64` `dialog_id`, an open-string `behavior` and control chars in `text` all give `isError:true` with code-only payloads
   - `tools/list` is exactly `send, wait, last, answer, list`
 
-- **root bin:** the exit-code mapping (an unknown refusal maps to exit 14, never a panic and never 20), the wheel state machine, the budget governor's pure decision and override expiry, the send-confirmation matcher and the local-command decision, the clock-driven `wait` handler, the `send` and `answer` refusal ordering, human-mode C0/C1 escaping, and the clock-driven dialog hold.
+- **root bin:** the exit-code mapping (an unknown refusal maps to exit 14, never a panic and never 20), the wheel state machine, the budget governor's pure decision and override expiry, the send-confirmation matcher and the local-command decision, the clock-driven `wait` handler, the `send` and `answer` refusal ordering, the server check refused inside each frame verb's and the hook's span with each closed unreachable cause logged, human-mode C0/C1 escaping, and the clock-driven dialog hold.
 
 - Pure functions
 - Module logic with mocked dependencies (mockall doubles only for traits the product already defines at its seams: `Pty`, liveness probe, `Clock`)
@@ -587,7 +587,7 @@ Detail: .andromeda/test-plan-detail/e2e-test-strategy.md — read whole.
   - `list --json` liveness is `live` and never `stale`.
   - No refusal of start (exit is not 1).
 
-- **As landed: in part.** The replay's product readers (`viola revive`, `viola list`), its budget and link legs and its `list --json` leg are covered; steps 1–3 stay unbuilt while `run`'s collision check calls `read_snapshot`, owed to the route entry "Server verification before any frame".
+- **As landed: in part.** The replay's product readers (`viola revive`, `viola list`), its budget and link legs and its `list --json` leg are covered; steps 1–3 stay unbuilt while `run`'s collision check calls `read_snapshot`: every snapshot reader stays on `read_snapshot` (option 1), and their move onto `read_snapshot_or_replay` stays a CARRY owed to the route entry "Home and code-bearing file integrity".
 
 - Two of the signals above are set against what landed, for the entry that builds it to restate: every start appends `wheel{holder:"driver", cause:"start"}`, so `wheel:"human"` does not hold after step 3, and the replay writes no file, so no snapshot is rebuilt from it.
 
@@ -595,15 +595,15 @@ Detail: .andromeda/test-plan-detail/e2e-test-strategy.md — read whole.
 
 **Non-path suites (trigger coverage; run in the E2E layer, except root `hook_*` files such as `hook_fail_open.rs`, which the §3 layer filtersets run in the integration layer):**
 
-- **Security sweep:** nextest runs the MCP schema-violation cases (each `invalid-params` with its field, no frame written) and the hook fail-open matrix — oversize stdin, malformed JSON, clap error, channel failure, a forced panic and a missing `VIOLA_NAME`, each exit 0 with no body — plus the `--home` strict-modes refusals; the panic seam fires only under the `fake-agent` feature and never reaches the release build.
+- **Security sweep:** nextest runs the MCP schema-violation cases (each `invalid-params` with its field, no frame written) and the hook fail-open matrix — oversize stdin, malformed JSON, clap error, channel failure, a forced panic, a missing `VIOLA_NAME` and, on Linux and Windows, a server that is not the recorded wrapper, each exit 0 with no body — plus the `--home` strict-modes refusals; the panic seam fires only under the `fake-agent` feature and never reaches the release build.
 
 - **Error sanitization and secret scan:** after every E2E test, no absolute path, serde path or `Caused by` in any error payload, every `-32603` exactly `"internal error"` / `null`, no `Cookie` header or stripped-variable value in any log, `diagnostics/` files 0600 on Unix, and the fixed canary in no home-level diagnostics line; a hit is reported by place and class, never the matched bytes.
 
 - **Schema conformance** (the check body behind obs-plan gate G4; obs owns the schemas, tests own the check): after the test steps, every home-level `diagnostics/*.ndjson` line under `target/e2e-home/**` is validated with jsonschema 0.57.0 against obs-plan's `schemas/diag-line.v1.json`, and every `instances/*/diagnostics/detail-*.ndjson` line against `schemas/diag-detail.v1.json`. A line that is not JSON is skipped and counted (chaos cases tear lines by design). Any failing line fails the step, which prints file, line number and the failing schema keyword, never the line's content.
 
-- **Exit-cause matrix** (`cross_exit_causes.rs`): one negative test per cause of exit 21 and of exit 1, each asserting the exit code, the `--json` document and a last `hint:` line that names its cause — a hint shared across causes fails the table; `revive`'s refusals are cases of `tests/cli_revive.rs`; driver-facing hints never contain `release`.
+- **Exit-cause matrix** (`cross_exit_causes.rs`, not built): one negative test per cause of exit 21 and of exit 1, each asserting the exit code, the `--json` document and a last `hint:` line that names its cause — a hint shared across causes fails the table; the server-verification cause is a case of `tests/security_negatives_server_identity.rs` on Linux and Windows (its macOS case owed to the route entry "Unix endpoint and home hardening"), and `revive`'s refusals are cases of `tests/cli_revive.rs`; driver-facing hints never contain `release`.
 
-- **Security control negatives** (`security_negatives_*.rs`): one negative test per security-plan control that had none — the Unix socket directory refusal, Windows client SQOS at the identification level, the Windows listener rejecting remote clients and denying an anonymous open (each beside its controls), raw-channel `link` / `unlink` name validation, a Windows `--home` outside the profile given a protected DACL (its test home never under `%TEMP%`), umask-independent modes, and single writers of `stamps.json` and `snapshot.json`.
+- **Security control negatives** (`security_negatives_*.rs`): one negative test per security-plan control that had none — the Unix socket directory refusal, Windows client SQOS at the identification level, the Windows listener rejecting remote clients and denying an anonymous open (each beside its controls), raw-channel `link` / `unlink` name validation, a Windows `--home` outside the profile given a protected DACL (its test home never under `%TEMP%`), umask-independent modes, single writers of `stamps.json` and `snapshot.json`, and, on Linux and Windows, a CLI frame verb writing no frame to a server that is not the recorded wrapper (`tests/security_negatives_server_identity.rs`, beside its control reaching the recorded wrapper).
 
 - **`list` row integrity** (`cross_list_rows.rs`): unwrapped session names holding `\n`, `\t` or a C1 character print escaped in every mode — no row splits, every row's columns start at the caption row's offsets, the raw bytes never reach a NAME cell, and `list --json` keeps the original name.
 
@@ -628,7 +628,7 @@ Detail: .andromeda/test-plan-detail/test-data-fixtures.md — read whole.
 
 **Seed strategies:**
 
-- **On-disk product state:** produced only by real `viola` runs against the fake agent in a fresh home, never hand-written — except the chaos tests' corruption of files the product already wrote and the Windows x64 `seed_conpty` companions; a case that needs a home viola created starts from `stamped_home`.
+- **On-disk product state:** produced only by real `viola` runs against the fake agent in a fresh home, never hand-written — except the chaos tests' corruption of files the product already wrote, the Windows x64 `seed_conpty` companions and the server-identity impostors' test-built `snapshot.json`; a case that needs a home viola created starts from `stamped_home`.
 
 - **`ledger/stamps.json`:** produced by `viola verify` against the fake agent; no test or harness code writes the file.
 
@@ -667,7 +667,7 @@ Detail: .andromeda/test-plan-detail/test-data-fixtures.md — read whole.
 
 - Modes: `--suppress-prompt-submit`, `--local-command-mode`, `--inject-harness-turn`, `--exit-no-eof`, `--report-version <ver>` and print mode, plus argv options (no env) for the statusline tests, verify's interactive runs, the test-only holds and screen switches and `viola revive`'s `--resume` / `--fork-session`, two mode words (`statusline-echo`, `agents`), and unknown arguments ignored.
 
-- It exits on `\x03` or at stdin EOF. Before it exits it waits for a hook still running and starts no other, and on Unix every command it spawns (each hook, and the status line command) runs in a process group of its own (`process_group(0)`, as the `--exit-no-eof` holder does): its PTY's foreground group is what a hangup of that terminal reaches, at the agent's exit as its session leader or when a killed wrapper closes the PTY, and a `viola hook` reached in its exit-time coverage write leaves a cut-short profile (as measured at `viola-0.1.0/chunks/2026-10-20-epoch-5-cleanup/evidence/profraw-cause.md`).
+- It exits on `\x03` or at stdin EOF. Before it exits it waits for a hook still running and starts no other, and on Unix every command it spawns (each hook, and the status line command) runs in a process group of its own (`process_group(0)`, as the `--exit-no-eof` holder does): its PTY's foreground group is what a hangup of that terminal reaches, at the agent's exit as its session leader or when a killed wrapper closes the PTY, and a `viola hook` reached in its exit-time coverage write leaves a cut-short profile (as measured at `viola-0.1.0/chunks/2026-10-20-epoch-5-cleanup/evidence/profraw-cause.md`). The agent itself, its PTY's session leader, cannot leave that group (`setpgid` refuses a leader), so on Unix its exit ignores SIGHUP from its first step (`\x03` or stdin's end): a hangup that lands while it exits (a killed wrapper, or portable-pty's SIGHUP-first kill) no longer cuts its own exit-time coverage write, and one that lands before the exit begins still ends it (as measured on the Linux dev host at `viola-0.1.0/chunks/2026-10-26-server-verification-before-any-frame/evidence/fake-agent-exit-hangup.md`).
 
 **Fixture hygiene:**
 - One run-time directory walk (`claude_fixtures` in `tests/contract_fixture_hygiene.rs`, with its own walker test; it leaves the `Mcp.` exchanges out, which `mcp_fixtures` walks) does two checks per fixture — not an rstest `#[files(…)]` case, because rstest 0.27 refuses a glob that matches no file at compile time (`rstest_macros-0.27.0/src/parse/rstest/files.rs:635` "No file found", as measured at chunk 2026-09-28-capability-ledger-and-viola-verify):
@@ -738,7 +738,7 @@ Detail: .andromeda/test-plan-detail/ci-integration.md — read whole.
 
 **Pipeline structure:**
 
-- **Lint:** fmt, clippy `-D warnings`, the tokio-free `cargo check` of each listed sync crate, the cargo-modules orphans gate with its probe, and the rmcp release-graph assertion, per OS; the `--acyclic` review and a dev-host Windows-target clippy are not gates.
+- **Lint:** fmt, clippy `-D warnings`, the tokio-free `cargo check` of each listed sync crate, the cargo-modules orphans gate with its probe, and the rmcp release-graph assertion, per OS; the `--acyclic` review and the dev-host Windows- and macOS-target check-only clippy runs are not gates.
 
 - **Supply-chain:** one fail-closed ubuntu job runs cargo deny over the root and fuzz lockfiles, the sole-root tokio ban per sync crate with the channel's tree form, the deny probes and zizmor, uploading their JSON; a weekly nightly job re-runs the advisories.
 

@@ -8,8 +8,18 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
+## 2026-10-26 — A plan's count is re-measured at the wrap, never copied
+A count a plan states for the wrap to write (a list of callers, readers or sites) was taken at the plan's own tree; the implement run that follows can move it (here two read sites merged into one, so the plan's «four» read three at the wrap). Before the report or an amendment states such a count, re-run the rule that produced it against the wrap's tree and write the measured number with that rule beside it.
+
+---
+
+## 2026-10-26 — A wrap direction names the decision, never who ruled it
+A Validate `· as:` direction is the one text the orchestrator authors for an apply writer, and the writer copies its wording into the body. A direction phrased «write it as his ruling» put «the founder's ruling» / «founder-ratified» into four master lines, which the classify read-back then refused as provenance (writing rule 7). Word a direction as the body must read — the decision alone — and leave the authority to the sidecar entry, whose writer reads the disposition lines.
+
+---
+
 ## 2026-10-26 — A sidecar entry payload needs a leading blank line before it is appended
-The entry writers' `{doc}-entries.md` opens on its `## ` heading, and `splice.py append` adds no separator, so appending the file whole puts the new heading directly under the previous entry's `**Ref:**` line. The append payload is a byte-exact copy with one blank line in front, `{doc}-entries.append.md`, appended with `--lines` one more than the entries file; a `--dry-run` line count equal to the entries file's own count is the tell.
+The entry writers' `{doc}-entries.md` opens on its `## ` heading, and `splice.py append` adds no separator unless told, so appending the file whole without a separator puts the new heading directly under the previous entry's `**Ref:**` line. [corrected 2026-10-26: `splice.py append --blank-before` now puts the one blank line in itself where the sidecar's last line is not blank — measured on all seven sidecars at the wrap of 2026-10-26-server-verification-before-any-frame — so the entries file is appended whole with `--blank-before` and no `.append.md` copy is made.]
 
 ---
 

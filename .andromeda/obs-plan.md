@@ -358,7 +358,7 @@ Detail: .andromeda/obs-plan-detail/span-trace-coverage.md — read whole.
 
 - **Surfaces involved:** cli or ipc-internal (mcp) → ipc-internal (channel) → cli (`run`) + persistent store (`events.ndjson` tail).
 
-- `last_assistant_message` never appears, and no result body reaches a line; a mid-call disconnect is logged once, by the client; `strict-modes-failed` / `server-verify-failed` cannot occur on `wait` / `last` until client-side server verification lands, owned by the route entries "Server verification before any frame" and "Home and code-bearing file integrity".
+- `last_assistant_message` never appears, and no result body reaches a line; a mid-call disconnect is logged once, by the client; on Linux and Windows a serving process that is not the recorded wrapper ends a CLI `wait` / `last` before any frame, with one `process-exit{subject:"self", exit_code:21, detail:"server-verify-failed", during:"connect"}` at WARN inside the dispatch span and no `channel-request` line, and MCP's returns `instance-unreachable` with no line (macOS compares no peer pid, the recorded gap); `strict-modes-failed` cannot occur on them, its check owed to the route entry "Home and code-bearing file integrity".
 
 #### Scenario: Dialog → `answer` (question / permission / plan), including the unverified-CLI branch
 
@@ -534,7 +534,7 @@ It would also need a security Decisions Log entry for the egress.
 
 - vt100 panics are caught on `run`'s feed thread by a `catch_unwind` around each feed and resize; each poisoning episode gives exactly one `parse-rejected{parser:"vt100-feed"}` at `WARN`, and `run` continues.
 
-- MCP rejects are `isError` codes only, mirrored by codes-only log lines.
+- MCP rejects are `isError` codes only; a logged reject's line is codes-only, and `instance-unreachable` — the liveness pre-check's, or a frame tool's server-verification mismatch on Linux and Windows — is logged by no line, its outcome kept inside `mcp.tool_call`, the `isError` code its only record.
 
 **Error → span correlation:** errors correlate by `corr` + `conn` + `process` + `instance` (+ `timestamp`), not by `trace_id` / `span_id` (D-12). The detail-file line for a given error carries the same `event`, `corr` and `conn` as its home-level counterpart, so `jq` joins them. There is no Sentry or OTel bridge (both deferred or rejected).
 

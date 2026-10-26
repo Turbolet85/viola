@@ -1,0 +1,11 @@
+proposals:
+  - detector: D-new-detail
+    severity: warning
+    file: .andromeda/test-plan-detail/quality-gates-coverage-targets.md
+    near: 25
+    section: "## 10. Quality Gates & Coverage Targets"
+    change: "Follow the Perf session item with one item: since chunk 2026-10-26-server-verification-before-any-frame every timed hook row's channel path holds the client-side server check before its first frame (one `read_snapshot`, the connect, `verify_server`'s pid + start-time comparison against the snapshot), so `--perf` times the check; its gate run read every hook row `max` 2.2–2.4 ms over 30 runs each against the 1.23–1.6 ms read at that chunk's P5 before the check, far below `viola_core::SPINE_DEADLINE` (1.0 s), with zero panic lines (as measured at implement block run 3 of chunk 2026-10-26-server-verification-before-any-frame, its report's Outcome)."
+    sidecar: "test-plan §10 gate-perf: the timed hook path now includes the server-verification check; its perf reading (hook rows max 2.2–2.4 ms vs 1.23–1.6 ms before) recorded (chunk 2026-10-26-server-verification-before-any-frame)."
+    rationale: "The report's Outcome lists the acceptance criterion «(tests) `run --perf`: every hook row `max < SPINE_DEADLINE`, zero panics, the check in the timed path — MET (hook rows max 2.2–2.4 ms over 30 runs each, against P5's 1.23–1.6 ms; the bound 1 s)» and the Gates row `bash scripts/agent-run.sh run --perf — green (hook rows max 2.2–2.4 ms)`; Symbols / APIs names the hook's shared `connect` (`read_snapshot` → `connect_by` → `verify_server`) used by `deliver` and `ask`. The category's perf-session item says every timed hook takes the real logging and channel path but records no reading of the check it now carries."
+    basis: viola-0.1.0/chunks/2026-10-26-server-verification-before-any-frame/report.md:111
+note: no other drift in this file — its coverage (profile propagation, profraw mechanisms) and mutation passages name nothing this chunk changed, retired or counted; the body's §2 Unit row (test-plan.md:285, «on all three OSes except the two real-cargo-mutants harness tests, compiled out on macOS») no longer holds since this chunk's macOS-gated test modules (report Reverted bullet, deviation 8), but it is test-strategy's category, not this one.

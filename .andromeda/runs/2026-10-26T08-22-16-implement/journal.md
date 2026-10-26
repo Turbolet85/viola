@@ -41,3 +41,10 @@ Long runs, journalled before each wait (the operator's ask at invocation).
   (Linux, Windows target) green.
 - 2026-10-26 08:55Z · operator pass, fix round (ci.md step 6, repeating from step 1): `--entry 21` pre-push on the
   uncommitted fix, then hygiene twice, the fix commit, push entry 23, the CI read again.
+  Pre-push green (88.17 s), hygiene clean twice; fix commit `775641fa`; push entry 23 green, `history moved:
+  refs/remotes/origin/build/viola-0.1.0 4aa9def9→775641fa`.
+- 2026-10-26 08:57Z · CI read on `775641fa58b3f3e5cf2db1a7dfb966e398b92e91`, entry 24 fired as written, backgrounded
+  (`--wait 2400`; the last green wall 778 s).
+- 2026-10-26 09:12Z · CI read done: `775641fa58b3 verdict: green · checks 15/15 · wall 854 s · runs ci#40295857215
+  completed/success`, `run_attempt` 1; the new witnesses PASS on windows-2025 (39), ubuntu (39), macOS (10), 0 FAIL.
+  Operator pass complete; next the wrap.

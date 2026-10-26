@@ -35,9 +35,21 @@ Read whole. The master's broad view is .andromeda/architecture.md; this file hol
 
 <!-- /detail -->
 
+<!-- detail: values · conv-exit-codes -->
+
+- Exit `21` also covers, on `send`, `wait`, `last`, `answer`, `pause` and `release`, a server that is not the recorded wrapper (the connected peer's pid or OS start time is not the snapshot's, or the check cannot be made): no frame is written, and the verb prints the same `{"v":1,"error":"instance-unreachable","detail":null}` under `--json` with stderr empty, or the `unable  <name>  instance-unreachable` line with the server-verify hint last on stderr (its wording: design-system, surface cli-send). The client's own refusals (exit 13) come first, and the cause has no exit code, `--json` code or `RefusalReason` of its own.
+
+<!-- /detail -->
+
 <!-- detail: values · conv-mcp-results -->
 
 - **MCP:** a success is a tool result with `isError: false` and the channel `ok` payload as `structuredContent` (for `list`, the caller-side `{items, budget, skipped}` payload, the `list` payload of Standard Contracts). A refusal is a tool result with `isError: true` and the same `refusal` + `detail` in `structuredContent`. An unreachable instance and a wrapper protocol fault are also `isError: true` tool results. Their `structuredContent` is `{"error":"instance-unreachable"|"wrapper-fault","detail":…}`, the same as CLI `--json` (`instance-unreachable` with `detail: null`; `wrapper-fault` with the JSON-RPC fault's `{code,message,data}`). As landed (chunk 2026-10-17-mcp-server-for-drivers): each handler re-validates its raw argument object (`target` through `ViolaName::try_new`, `text` a string, `after` / `timeout_ms` absent, `null` or a `u64`, `dialog_id` a `u64`, `response` an object through `Response::parse`), and a failure is an `isError: true` result `{"error":"invalid-params","detail":"<field>"}` (the closed field words `target` · `text` · `after` · `timeout_ms` · `dialog_id` · `response`) with no frame written; every `isError` text is `refused: <code>`. JSON-RPC errors are the MCP connection's own faults, an unknown tool name (`-32602`) and an internal handler fault — any other channel error, a reply of no known shape, a `wait` / `last` refusal, a panicked call — which is `-32603` `internal error` with `data: null`. `tools/list`'s result carries `ttlMs` 0 and `cacheScope` `private`: claude 2.1.287 negotiates protocol `2026-07-28` and drops every tool of a list result without them (as measured live at that chunk, `evidence/live-mcp.md` start 1).
  claude 2.1.302 on that protocol opens with `server/discover` (its JSON-RPC id a string) and then `tools/list`, each carrying `_meta` (`io.modelcontextprotocol/protocolVersion`, `…/clientInfo`, `…/clientCapabilities`), and sends no `initialize` or `notifications/initialized`; viola's two results each carry `ttlMs` 0 and `cacheScope` `private` (as measured live at `viola-0.1.0/chunks/2026-10-20-epoch-5-cleanup-ii/evidence/live-tap.md`, start 2). That recorded exchange, `fixtures/claude/2.1.302/Mcp.tools-list-1.json`, is replayed against `viola mcp` by `tests/mcp_recorded_exchange.rs` (`viola-e2e`), which takes the `tools/list` response by its request's id and holds the served result to the recorded result's key and type shape, its tool names in order.
+
+<!-- /detail -->
+
+<!-- detail: values · conv-mcp-results -->
+
+- A frame tool (`send`, `wait`, `last`, `answer`) whose connected server is not the recorded wrapper (its pid or OS start time not the snapshot's, or the check cannot be made; the start time read on `tokio::task::spawn_blocking`) returns the `instance-unreachable` `isError` result, text `refused: instance-unreachable`, with no frame written and no log line.
 
 <!-- /detail -->

@@ -1,0 +1,11 @@
+proposals:
+  - detector: D-new-detail
+    severity: warning
+    file: .andromeda/test-plan-detail/ci-integration.md
+    near: 10
+    section: "## 9. CI Integration"
+    change: "After line 10 (the Lint stage's dev-host Windows-target clippy line), add one line in the same indented form: ` Beside it, a check-only macOS-target clippy on the Linux dev host reaches the `cfg(target_os = \"macos\")` gating CI's `lint (macos-latest)` leg lints and no local lint sees (first used by chunk 2026-10-26-server-verification-before-any-frame's operator pass, where it reproduced CI's `lint (macos-latest)` error line for line; `CARGO_TARGET_DIR=target/maccheck cargo clippy … --target aarch64-apple-darwin`, nothing linked, the target std added as host preparation by `rustup target add aarch64-apple-darwin`, 2026-10-26): a host recipe only — neither a CI step, a `pre-push` stage nor a plan gate entry.`"
+    sidecar: "test-plan §9 CI Integration detail (Lint): the dev-host macOS-target check-only clippy (`target/maccheck`, `aarch64-apple-darwin`) recorded beside the Windows-target one as a host recipe, not a gate (chunk 2026-10-26-server-verification-before-any-frame)."
+    rationale: "The report's Harness / gate surface bullet names 'a host lint recipe used for the first time: the macOS-target clippy (`--target aarch64-apple-darwin`, `target/maccheck`), its known-positive control reproducing CI's `lint (macos-latest)` error line for line — not a plan gate entry'; Dev-tool versions records `rustup target add aarch64-apple-darwin` on 2026-10-26; Deviations 8 and Decisions & corrections name it a candidate host recipe beside `target/wincheck`. The category file's Lint stage records only the Windows-target dev-host clippy (line 10), so the macOS sibling is new detail of the same shape, worded as no gate since the report lists it as none."
+    basis: viola-0.1.0/chunks/2026-10-26-server-verification-before-any-frame/report.md:29
+note: "No other drift in this category: the report changes no `scripts/`, `.github/` or `xtask` file, no tool pin, no dependency and no CI-stated count (`deny-probes 13/13`, `release-check 5/5`, `conpty-vendor 4/4`, `orphans 2/2` unmoved); the body's §9 Lint broad line (test-plan.md:741, «a dev-host Windows-target clippy are not gates») would read the macOS sibling too if the proposal lands — a body edit, outside this file."

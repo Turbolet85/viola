@@ -1,0 +1,6 @@
+## 2026-10-26-server-verification-before-any-frame — the fake agent's exit ignores SIGHUP
+**Section:** §7 Test Data & Fixtures (test-plan.md: the fake agent's exit)
+**Change:** The fake agent's exit gains its own SIGHUP disposition beside its commands' process groups: the agent, its PTY's session leader, cannot leave that group (`setpgid` refuses a leader), so on Unix its exit ignores SIGHUP from its first step (`\x03` or stdin's end); a hangup that lands while it exits (a killed wrapper, or portable-pty's SIGHUP-first kill) no longer cuts its own exit-time coverage write, and one that lands before the exit begins still ends it; as measured on the Linux dev host. Was: the exit stated only its commands' own process groups.
+**Why:** a folded test-only fix of the coverage merge's red (one cut-short fake-agent profile at this wrap's light gate), whose mechanism the hooks' own process groups did not reach; the contract states the exit as it now behaves, on the overseer's founder-delegated answer, delegate the overseer, 2026-10-26.
+**Kept:** the hooks' own process groups and the `--exit-no-eof` holder's per-OS output reading (test-plan-detail/e2e-test-strategy.md) stand as they were: the holder still runs in its own group.
+**Ref:** .andromeda/runs/2026-10-26T09-14-57-wrap/

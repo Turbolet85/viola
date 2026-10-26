@@ -1,0 +1,21 @@
+group: architecture-1
+read: .claude/docs/conventions.md · 61 · «- For warnings and gotchas, see `.claude/docs/gotchas.md`»
+read: .claude/docs/gotchas.md · 147 · «- For architectural decisions and their rationale, see `.and»
+read: .claude/docs/services/viola-agent-claude.md · 47 · «- `.andromeda/architecture.md` [CLI Version Compatibility] ·»
+read: .claude/docs/services/viola-channel.md · 45 · «- `.andromeda/architecture.md` §Standard Contracts (Wrapper »
+read: .claude/docs/services/viola-core.md · 43 · «- `.claude/docs/stack.md` · `.claude/docs/conventions.md` · »
+
+- leaf: .claude/docs/services/viola-channel.md:25   class: stale
+  leaf-text: «Client: open (Windows SQOS Identification), verify server pid + start time (Linux/FreeBSD pid, macOS euid + dir) against the snapshot BEFORE writing any frame; mismatch → CLI/MCP `instance-unreachable`, hook fails open. Interim ratified exception (security-plan Decisions Log `2026-09-28`): `viola hook`'s `hook.event` goes without it until Epoch 6; and CLI `send` / `wait` / `last` / `answer` / `pause` and `viola-mcp`'s frame tools write their frame after only the liveness-only endpoint read (`viola_state::liveness::live_endpoint`), the server check owed to the Epoch 6 entry "Server verification before any frame".»
+  source: .andromeda/architecture-detail/standard-contracts.md:47 «Before its first frame, the client of `send`, `wait`, `last`, `answer`, `pause`, `release`, `hook.event` and `hook.dialog`, and of the MCP `send` / `wait` / `last` / `answer` tools, compares»
+  replace-with: «Client: open (Windows SQOS Identification); `Client::server_pid` / `TokioClient::server_pid` return the connected stream's peer pid through interprocess's `peer_creds().pid()` (Linux `SO_PEERCRED`, Windows `GetNamedPipeServerProcessId` on the SQOS-adopted client end, none on macOS, where `SERVER_PID_REPORTED` is false), writing and logging nothing. Before its first frame every frame-writing client (CLI `send` / `wait` / `last` / `answer` / `pause` / `release`, `viola hook`'s `hook.event` and `hook.dialog`, `viola-mcp`'s four frame tools) takes the liveness-only `viola_state::liveness::live_endpoint` read (`LiveEndpoint`: endpoint, pid, start time from one snapshot read), then compares that peer pid and its OS start time with the snapshot's `pid` / `started_at` (`viola_state::liveness::verify_server` → `ServerVerdict`); a mismatch or a check that cannot be made writes no frame (CLI exit 21 / MCP `instance-unreachable`, the hook fails open with no body). macOS reports no peer pid and stays the recorded gap (`server_verdict` returns `Matches` with no comparison); its client euid and socket-directory checks are owed to the working-route entry "Unix endpoint and home hardening".»
+
+- leaf: .claude/docs/services/viola-channel.md:6   class: stale
+  leaf-text: «the per-OS listener hardening and the client-side server verification.»
+  source: .andromeda/architecture-detail/established-decisions.md:67 «`viola_channel::Client::server_pid` and `tokio_client::TokioClient::server_pid` return the connected stream's peer pid through interprocess's `peer_creds().pid()`: Linux `SO_PEERCRED`, Windows»
+  replace-with: «the per-OS listener hardening and the connected server's peer pid (`Client::server_pid` / `TokioClient::server_pid`; `SERVER_PID_REPORTED` false on macOS) that every frame-writing client's server check (`viola_state::liveness::verify_server`) compares with the snapshot before its first frame.»
+
+- leaf: .claude/docs/conventions.md:33   class: omission
+  leaf-text: «21 instance unreachable (also `viola list`'s refused strict-modes check»
+  source: .andromeda/architecture-detail/conventions.md:40 «Exit `21` also covers, on `send`, `wait`, `last`, `answer`, `pause` and `release`, a server that is not the recorded wrapper (the connected peer's pid or OS start time is not the snapshot's, or the»
+  replace-with: «21 instance unreachable (also, on `send` / `wait` / `last` / `answer` / `pause` / `release`, a server that is not the recorded wrapper — the connected peer's pid or OS start time not the snapshot's, or the check cannot be made — no frame written, `{"v":1,"error":"instance-unreachable","detail":null}` under `--json`, after the client's own exit-13 refusals, with no code or `RefusalReason` of its own; also `viola list`'s refused strict-modes check»

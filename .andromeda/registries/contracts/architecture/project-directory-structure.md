@@ -29,7 +29,7 @@ viola/
 │   │                           #   mcp.rs: the hidden `viola mcp` (the home and `diagnostics/` through `check_path` before anything opens, exit 1 on a refusal; then `viola_mcp::serve`);
 │   │                           #   plugin.rs: `plugin install` (`check_path` on the home and the four `marketplace/` tree dirs before any write or log, exit 21 on a refusal; then the tree, the `ok` document or the two printed commands);
 │   │                           #   hook/statusline.rs: the `hook statusline` arm (the instance check, the `budget.json` write, the bounded shell-out);
-│   │                           #   client.rs (a helper, no subcommand): the channel client send / wait / last share;
+│   │                           #   client.rs (a helper, no subcommand): `connect`, the verified connection every CLI frame verb (send, wait, last, answer, pause, release) opens (the live endpoint, then the server identity check, then the client), the closed `Unreachable` (`instance-dead` · `server-verify-failed`) and `CallError`, and the channel client those verbs share;
 │   │                           #   verify/typed.rs: the module root (`RunDirs`, `Inputs`, `RunStep`, `measure`, `POLL`) of verify's five interactive PTY runs (Run A untrusted, Run B trusted, Run C dialogs, Run D plan, Run E resume),
 │   │                           #   the settle rule, Run B's wait for the input box after an added turn, and the signature-only screen recording, over verify/typed/:
 │   │                           #     runs.rs (Runs A–E, `trusted_args`, `TrustedDir`); turns.rs (`poll_until`, `wait_for`, `turn`, `agents_read`, `framing_turns`, `probe_until`, `wait_capture`);
@@ -64,7 +64,7 @@ viola/
 │   ├── viola-channel/          # JSON-RPC 2.0 ndjson over interprocess local sockets; tokio_client.rs: the Tokio client behind the `tokio` feature
 │   ├── viola-state/            # ndjson logs (the append heals a torn last line), atomic snapshots, File::lock, the events
 │   │                           #   reader (`events::read_from`: counts unknown kinds, unknown fields and torn lines), the
-│   │                           #   liveness-only endpoint read (`liveness::live_endpoint`, shared by the CLI frame verbs and viola-mcp's frame tools), the
+│   │                           #   live-endpoint read (`liveness::live_endpoint` → `LiveEndpoint`: the endpoint, pid and start time from one snapshot read, shared by the CLI frame verbs and viola-mcp's frame tools), the server identity check (`ServerVerdict`, `server_verdict`, `verify_server`: the recorded pid and its start time against the connected server's, made before the first frame by the CLI frame verbs, `viola hook` and viola-mcp's frame tools), the
 │   │                           #   classified snapshot read, the log replay and the session chain (`replay.rs`; read by `viola revive` and `board::read`),
 │   │                           #   the link rule (`replay::apply_link_line`, public: applied by the replay's one pass and by the root bin's `LinkSet`),
 │   │                           #   the instance strict-modes check (`strict::check_instance`), the budget reading's write

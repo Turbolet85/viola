@@ -1,0 +1,45 @@
+### a11y-scope-summary#1.1 · values · scope-entities · ## 1. A11y Scope Summary · lines 8–10
+- **Entity:** CLI verbs (`list`, `send`, `wait`, `last`, `answer`, `verify`, `pause`, `release`, `link`, `unlink`, `revive`, `plugin install`, `--help`) in human TTY, plain (non-TTY / `NO_COLOR` / `TERM=dumb`) and `--json` modes. `revive` takes `--json` on both arms (chunk 2026-10-17-cli-machine-contract): under it each exit-1 refusal of its strict-modes check or its preflight is one document `{"v":1,"error":"<code>","detail":null}` on stdout with empty stderr, `<code>` one of `strict-modes-failed` · `already-live` · `no-session` · `session-live` · `cwd-missing`, and `viola revive <name> --list --json` prints `{"v":1,"ok":{"sessions":[…]}}` in log order (an empty chain the `no-session` document, exit 1); without `--json` `viola revive <name> --list` prints static ASCII rows (`<ts>  <cause>  <id>`, no header, no colour, no ESC byte) and each exit-1 refusal is one `unable:` line and one `hint:` line last on stderr, byte-identical; a refusal `run`'s start makes after a passed preflight prints no document as landed (owed to "Exit-cause code catalogue"); a clap usage error exits 2, and a passed start is the TUI passthrough entity below. A `verify` stopped by Ctrl-C or TERM before its rows are checked prints no step line and no summary, only one `unable: verify was stopped before it finished` line and one `hint: run viola verify again to stamp this CLI` line last on stderr (plain ASCII), and exits 1 (chunk 2026-10-13-interrupted-verify-cleanup). `viola plugin install` (chunk 2026-10-17-optional-plugin-install) prints its four planning-form lines as one plain-ASCII write, no SGR, no ESC or non-ASCII byte piped, under `NO_COLOR` or under `TERM=dumb`; under `--json` exactly `{"v":1,"ok":{"marketplace":"viola","plugin":"viola@viola"}}`; its exit-21 refusal is the home pair with `hint:` last and stdout empty, or under `--json` `{"v":1,"error":"instance-unreachable","detail":null}` with stderr empty; `viola plugin` alone is a clap usage error (exit 2)
+  - **Source:** Arch excerpt, Stack → clap. Design excerpt, Surfaces → cli. Layout excerpt, Layout Types → cli. Creator brief excerpt, Overseer Direction 5.
+  - **Assertability:** assertable. This covers output-discipline assertions on text and streams only. No automated a11y tool reaches a terminal.
+### a11y-scope-summary#2.1 · values · scope-entities · ## 1. A11y Scope Summary · lines 16–22
+- **Entity:** `viola run` TUI passthrough: the unmodified `claude` TUI hosted in ConPTY/openpty, entered by `viola run` and by a `viola revive` whose preflight passed (the same start; the boundary below binds both verbs, and under revive the clause read by a case of its own is that a passed revive writes no line of its own while the child holds the terminal, `tests/chaos_revive.rs`)
+  - **Source:** Arch excerpt, Stack → portable-pty + vt100 ("viola does not own the rendered TUI content"). Tests excerpt, E2E driver → tui ("Tests never parse the rendered child screen for content"). Creator brief excerpt, A11y Anti-Patterns ("Viola parses no screen for content (R7)").
+  - **Assertability:** boundary-only
+  - **Reason:** The rendered content belongs to the vendor (`claude`) and is not traced. The assertion boundary is viola's wrapper:
+    - viola writes zero bytes to the terminal except the child's output;
+    - human keystrokes are never blocked, refused or delayed past the current atomic paste;
+    - focus, mouse and resize sequences and terminal replies (F-W2's closed list) pass through and do not count as human editing; every other byte does. On Windows the platform decides what arrives (F-W3): the ConPTY host swallows focus reports, and under win32-input-mode an injected mouse report reaches viola as typed keys and takes the wheel.
+### a11y-scope-summary#3.1 · values · scope-surfaces · ## 1. A11y Scope Summary · lines 28–48
+- **Surface:** cli (`viola` verbs)
+  - **Automated tool reach:**
+    - No automated a11y verification tool exists for terminal output; a11y tools assume a DOM or native widget tree.
+    - The fallback is output-discipline assertions on the tests' existing CLI drivers: `assert_cmd` 2.2.2 with `predicates` 3.1.4, `trycmd` 1.2.1, and SGR-only checks through the portable-pty outer PTY (tests excerpt, E2E driver → cli). Their pass/fail results are machine-parseable through the harness `run` JSON.
+    - These are not a11y tools. They produce no a11y-tool JSON, so no WCAG conformance claim may rest on them.
+  - **Manual verification (supplemental):**
+    - NVDA with Windows Terminal/conhost (live target).
+    - VoiceOver with Terminal.app.
+    - Orca with GNOME Terminal.
+    - Overseer Direction 5: "keyboard and screen-reader discipline, no fake automation".
+  - **ARIA roles inventory:** N/A (terminal output). The structural equivalents are:
+    - the BAY context line, then uppercase column captions, then the `-- UNWRAPPED - READ-ONLY --` separator (heading-equivalent); as built (chunk 2026-10-11-the-board-viola-list; the rack, chunk 2026-10-16-unwrapped-sessions-on-the-board) the board is the BAY line, the caption row and the wrapped rows (or the BAY line, the caption row and `no wrapped sessions  start one: viola run <name> -- claude`), then, only when the one `claude agents --json` read lists a session no wrapped row joins, the `-- UNWRAPPED - READ-ONLY --` separator and the unwrapped read-only rows (NAME the row's `sessionId` through `escape_row`, `n/a` in WHEEL, DIALOG and CLI); no separator without an unwrapped row, and a failed, oversize or malformed read leaves the board as before;
+    - `--help` group labels: board / traffic / wheel / handoff / setup (layout excerpt, Heading Hierarchy Anchors → cli).
+  - **Service identity tagging:** `service_name:"viola"` and `version`. Obs uses `process:"cli"` for short-lived verbs that have a resolved instance (obs excerpt, Log Format additions). The CLI a11y checks run on all three OSes, so `os` is tagged per matrix leg.
+  - **Notes:**
+    - Required behaviour (design excerpt, Surfaces → cli; Loading/Error/Empty → CLI waiting; security excerpt, C0/C1 escaping):
+      - colour is only a second cue (amber `DIALOG`, dim `stale`, always beside the word); as built (chunk 2026-10-17-cli-output-discipline) `viola list` on a terminal writes amber only on `DIALOG`, dim on stale rows and bold on NAME values, each beside its word, and no SGR under `--json`, a pipe, `NO_COLOR` (an empty value included) or `TERM=dumb`;
+      - there is no SGR, glyph or cursor control under `--json`, non-TTY, `NO_COLOR`, `TERM=dumb`, `viola run` or a passed `viola revive`; `viola revive --list` rows and the revive refusal pairs carry no ESC byte;
+      - output is static and linear, with no spinner or redraw;
+      - C0/C1 control characters are escaped except `\n` and `\t` [resolved: in `list` table rows `\n` / `\t` are escaped too (ratified T5, design cli); `wait` / `last` keep them; Section 4 P6].
+    - This must hold on `[windows-2025, macos-latest, ubuntu-latest]` (tests excerpt, Coverage Triggers → multi-platform).
+### a11y-scope-summary#4.1 · values · scope-surfaces · ## 1. A11y Scope Summary · lines 54–61
+- **Surface:** tui (`viola run` passthrough, entered by a passed `viola revive` too; boundary-only)
+  - **Automated tool reach:**
+    - No automated a11y verification tool applies. The rendered `claude` TUI is vendor content and parsing it is banned (R7).
+    - Boundary assertions run on the tests' portable-pty `=0.8.1` outer-PTY driver (tests excerpt, E2E driver → tui). They check that viola emits zero terminal bytes of its own and that human keystrokes are never blocked or delayed.
+  - **Manual verification (supplemental):** NVDA with Windows Terminal (Windows is the live target), confirming the wrapped TUI reads the same as unwrapped. Creator brief excerpt, Must-Work → O1: "all rendered as without the wrapper".
+  - **ARIA roles inventory:** N/A (terminal).
+  - **Service identity tagging:** `service_name:"viola"`, `process:"run"`, `instance:<ViolaName>`.
+  - **Notes:** viola's diagnostics for `run` go to `diagnostics/`, never to the terminal (arch excerpt, A11y-Relevant Conventions → terminal output discipline). This part of the scope is a boundary guarantee only, not a conformance claim about `claude`'s TUI.
+### a11y-scope-summary#5.1 · values · path-p6-board · ## 1. A11y Scope Summary · lines 67–67
+- **Required ARIA roles:** N/A (terminal). The structural equivalents are the caption line, the `-- UNWRAPPED - READ-ONLY --` separator and the `--help` group labels. As built the caption line and the `-- UNWRAPPED - READ-ONLY --` separator stand (the separator since chunk 2026-10-16-unwrapped-sessions-on-the-board, printed only when unwrapped rows exist); the `--help` group labels stand since chunk 2026-10-17-cli-output-discipline (board / traffic / wheel / setup over the served verbs; the `handoff:` row joins with "Explicit session links").

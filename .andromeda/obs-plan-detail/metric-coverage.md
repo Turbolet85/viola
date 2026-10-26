@@ -33,6 +33,12 @@ Read whole. The master's broad view is .andromeda/obs-plan.md; this file holds i
 
 <!-- detail: values · metrics -->
 
+- `viola.wait.outcome` counts only the `wait` calls answered by a `channel-response`: a `wait` refused before any frame writes none. The CLI's server-verification refusal (Linux and Windows) is one `process-exit{subject:"self", exit_code:21, detail:"server-verify-failed", during:"connect"}` at WARN in `cli-<name>.ndjson`, counted by the Counter row's `detail` grouping; MCP's `wait` tool writes no line for it.
+
+<!-- /detail -->
+
+<!-- detail: values · metrics -->
+
 Canonical quantile snippet (report-only; the gates use `max`):
 ```sh
 # -R + fromjson? skip a torn line as G2 does (jq -s aborts on one); awk 1 ends each file's last line with a newline

@@ -1,0 +1,2 @@
+proposals: []
+note: no drift in .andromeda/a11y-plan-detail/visual-design-verification.md — the chunk adds no interactive UI element and no SGR surface (the new `server-verify` hint is plain ASCII stderr text with no SGR, asserted; report Coverage "a11y n/a"), changes neither the a11y violation schema nor the obs log schema (report Schema / config: `server-verify-failed` already in `schemas/diag-line.v1.json`), and the Retired dated gaps are not named in this file; the `unable` line staying uncoloured is already held by its "`unable` / `fail` are never coloured" clause (:9).

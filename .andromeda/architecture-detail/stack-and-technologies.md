@@ -33,3 +33,15 @@ Read whole. The master's broad view is .andromeda/architecture.md; this file hol
 | Release (v1.x, not v1) | dist (cargo-dist) 0.33.0 + cargo-auditable 0.7.6; later self_update 1.3.0 | Public signed releases and installers once distribution is in scope |
 
 <!-- /detail -->
+
+<!-- detail: values · stack -->
+
+- Wrapper IPC: both clients read the serving process's pid from the connected stream through interprocess's `StreamCommon::peer_creds().pid()` (Linux `SO_PEERCRED`, Windows `GetNamedPipeServerProcessId` on the SQOS-adopted client end, none on macOS), the identity each frame-writing client checks before its first frame (§Standard Contracts, Session liveness).
+
+<!-- /detail -->
+
+<!-- detail: values · stack -->
+
+- Process liveness: sysinfo's process start time is also the observed side of the server check each frame-writing client makes before its first frame (the connected peer's pid and its start time against the snapshot's `pid` and `started_at`; §Standard Contracts, Session liveness).
+
+<!-- /detail -->

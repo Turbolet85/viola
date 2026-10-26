@@ -1,0 +1,2 @@
+proposals: []
+note: the report's Harness / gate surface reads none changed (no `scripts/`, `.github/`, `xtask` file in the diff) and Dependencies none added or bumped, so G1–G4, the artifact table, the stage table and the step order stand; the new test binary `security_negatives_server_identity` adds no CI stage, and the report's Retired gaps and disproved claims sit in no line of .andromeda/obs-plan-detail/ci-integration.md.

@@ -1,0 +1,17 @@
+group: architecture+security-plan
+read: .claude/rules/api.md · 41 · «_This section is owned by `/wrap-session`. setup-project pre»
+
+- leaf: .claude/rules/api.md:23   class: omission
+  leaf-text: «optional additive `conn`.»
+  source: .andromeda/architecture-detail/standard-contracts.md:47 «- Before its first frame, the client of `send`, `wait`, `last`, `answer`, `pause`, `release`, `hook.event` and `hook.dialog`, and of the MCP `send` / `wait` / `last` / `answer` tools, compares»
+  replace-with: «optional additive `conn`. Before its first frame every client (CLI `send` / `wait` / `last` / `answer` / `pause` / `release`, `viola hook`'s `hook.event` and `hook.dialog`, `viola mcp`'s four frame tools) compares, on Linux and Windows, the connected stream's peer pid (`Client::server_pid` / `TokioClient::server_pid`, interprocess `peer_creds().pid()`) and that process's OS start time with the snapshot's `pid` and `started_at` from its one snapshot read (`viola_state::liveness::verify_server` → the closed `ServerVerdict` `Matches` · `Mismatch` · `Unverifiable`; only `Matches` lets a frame be written); a mismatch or a check that cannot be made writes no frame (CLI exit 21 `instance-unreachable`; MCP `instance-unreachable` with `detail: null` and no log line; `viola hook` fails open, exit 0, no body, its `hook-decision` line carrying `server-verify-failed`); macOS reports no peer pid and stays the recorded gap.»
+
+- leaf: .claude/rules/api.md:29   class: omission
+  leaf-text: «14 unknown · 20 wrapper fault · 21 instance unreachable»
+  source: .andromeda/architecture-detail/conventions.md:40 «- Exit `21` also covers, on `send`, `wait`, `last`, `answer`, `pause` and `release`, a server that is not the recorded wrapper (the connected peer's pid or OS start time is not the snapshot's, or the»
+  replace-with: «14 unknown · 20 wrapper fault · 21 instance unreachable (on `send`, `wait`, `last`, `answer`, `pause` and `release` also a server that is not the recorded wrapper, or a server check that cannot be made: no frame written, the same `{"v":1,"error":"instance-unreachable","detail":null}` under `--json` with stderr empty, or the `unable  <name>  instance-unreachable` line with the server-verify hint last on stderr; the client's own exit-13 refusals come first, and the cause has no exit code, `--json` code or `RefusalReason` of its own)»
+
+- leaf: .claude/rules/api.md:30   class: omission
+  leaf-text: «`send`, `wait`, `last`, `answer`, `pause` and `release` read `snapshot.json` without strict-modes after a liveness-only pre-check»
+  source: .andromeda/security-plan.md:114 «the snapshot read without the strict-modes check is a dated gap owed to "Home and code-bearing file integrity", and the client euid check and macOS (no peer pid; its euid and verified socket-directory checks)»
+  replace-with: «`send`, `wait`, `last`, `answer`, `pause` and `release` read `snapshot.json` without strict-modes after a liveness-only pre-check (`live_endpoint` → `LiveEndpoint { endpoint, pid, started_at }` from one `read_snapshot`) and then, on Linux and Windows, verify the serving process against that `pid` and `started_at` before the frame (`cmd::client::connect`; a failed check is exit 21 with one `process-exit{subject:"self", exit_code:21, detail:"server-verify-failed", during:"connect"}` WARN line and no `channel-request`), the gap now only its strict-modes half, owed to "Home and code-bearing file integrity", the client euid check and macOS owed to "Unix endpoint and home hardening"»

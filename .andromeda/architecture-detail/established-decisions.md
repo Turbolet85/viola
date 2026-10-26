@@ -62,6 +62,24 @@ Read whole. The master's broad view is .andromeda/architecture.md; this file hol
 
 <!-- /detail -->
 
+<!-- detail: values · dec-message-broker-ipc -->
+
+- `viola_channel::Client::server_pid` and `tokio_client::TokioClient::server_pid` return the connected stream's peer pid through interprocess's `peer_creds().pid()`: Linux `SO_PEERCRED`, Windows `GetNamedPipeServerProcessId` on the client end the SQOS Identification open adopts, none on macOS, where `SERVER_PID_REPORTED` is false; they write and log nothing. Every frame-writing client compares that pid and the process's OS start time with the snapshot's before its first frame (§Standard Contracts, Channel methods), so on Linux and Windows a squatted or rogue server is never sent a frame either.
+
+<!-- /detail -->
+
+<!-- detail: values · dec-message-broker-ipc -->
+
+- On macOS no peer pid is reported, so `viola_state::liveness::server_verdict` returns `Matches` with no comparison: the recorded gap. The macOS client euid and socket-directory checks, and the 0755-directory exit-cause case, are owed to the working-route entry "Unix endpoint and home hardening".
+
+<!-- /detail -->
+
+<!-- detail: values · dec-message-broker-ipc -->
+
+- A verified client meets an unreadable or newer snapshot as an absent one: every reader stays on `read_snapshot` (§Standard Contracts, Snapshot envelope), and the readers' move onto `read_snapshot_or_replay` is owed to the working-route entry "Home and code-bearing file integrity".
+
+<!-- /detail -->
+
 <!-- detail: values · dec-mcp -->
 
 - **[MCP] rmcp 3.4.1, stdio, tools `send · wait · last · answer · list`. `release` is CLI-only.** Refusals are `isError: true` tool results mapped from `result.refusal`. Rationale: it is the official SDK, tracks spec 2026-07-28, and the pinned minor limits churn from its near-weekly releases. `answer` and `list` are how a driver answers dialogs under R7 and sees sessions, and the prototype driver uses both every session. `release` stays off the driver's tool surface, so a driver is never offered a way to hand the wheel back to automation. This is an affordance, not an enforcement: an agent's Bash tool can still run CLI `viola release` (for example through `VIOLA_BIN`), and the Local endpoint trust boundary accepts it because v1 trusts every process of the same OS user. The wrapper refuses a `release` whose `params` carry a string `from` (`-32602`, `data.reason` `release-from-driver`), so CLI `viola release` run inside a wrapped session (`VIOLA_NAME` set) is refused; `from` is self-reported (`from_trust:"self-reported"`), so this deters rather than enforces. `pause`, `link` and `unlink` are CLI-only for the same reason: they are human controls over the wheel and the link topology, and links made by drivers are already recorded from `from` on `send` and `answer`. Tool inputs:
@@ -80,10 +98,16 @@ Read whole. The master's broad view is .andromeda/architecture.md; this file hol
 - **[Hook Transport] Exec-form `command` hooks: `"command": "<pinned viola copy>", "args": ["hook", "<event>"]`.** Tiers:
   - sync with a decision: PreToolUse with matcher `AskUserQuestion|ExitPlanMode`, plus PermissionRequest.
   - sync with no reply body (the ordering spine): SessionStart, UserPromptSubmit, Stop. Each writes its `hook.event` and exits 0 within viola's spine deadline: one built-in value for every event, below the `timeout` (5 s) those hooks get in `hooks.json`. That value is the product constant `viola_core::SPINE_DEADLINE` = 1 s, the bound the perf gate reads (test-plan §10). The connect deadline `viola hook` passes to `Client::connect_by` is the hook-local, crate-private `CONNECT_DEADLINE` = 750 ms (provisional), asserted below `SPINE_DEADLINE` by a unit test. If the endpoint cannot be reached or written within the deadline, the hook records the failure in `diagnostics/` and exits 0. The event is lost rather than the turn delayed, and a driver recovers through `wait`'s `timeout_ms`.
-  - SessionEnd: sync within viola's own ~1 s budget: the channel under the same provisional 750 ms `CONNECT_DEADLINE`, else a direct `try_lock` append (`viola_state::try_append_event` with `Source::Hook`, which writes nothing while `events.ndjson.lock` is held), else nothing; `hooks.json` gives it no `timeout` key. `run` writes `session-end` from the process exit if no hook arrived.
+  - SessionEnd: sync within viola's own ~1 s budget: the channel under the same provisional 750 ms `CONNECT_DEADLINE`, else, when the endpoint is not reached or its server check fails, a direct `try_lock` append (`viola_state::try_append_event` with `Source::Hook`, which writes nothing while `events.ndjson.lock` is held), else nothing; `hooks.json` gives it no `timeout` key. `run` writes `session-end` from the process exit if no hook arrived.
   - `async: true`, printing nothing: Notification, PostToolUse, PostToolUseFailure.
 
   Rationale: exec form skips Git Bash path rewriting and shell startup. `http` hooks need a fixed URL, which means a central listener and so a daemon. `mcp_tool` is unavailable at SessionStart. The 1.5 s SessionEnd budget is never raised. The tier map is itself a ledger row that `viola verify` re-stamps.
+
+<!-- /detail -->
+
+<!-- detail: values · dec-hook-transport -->
+
+- The event and dialog paths share one connect: `read_snapshot`, then `Client::connect_by`, then `verify_server` (§Standard Contracts, Session liveness). A serving process whose pid or OS start time is not the snapshot's, or a check that cannot be made, gets no frame: the hook records `server-verify-failed` and exits 0 with no body, the event lost as for an unreachable endpoint.
 
 <!-- /detail -->
 
@@ -98,6 +122,7 @@ Read whole. The master's broad view is .andromeda/architecture.md; this file hol
 
 - At the hold's end the wrapper also appends one `dialog-expired` line (`source: wrapper`, `{dialog_id, dialog_kind}`, no question, plan or tool text) through `WaitFeed::appending`, so a parked `wait` wakes and the driver learns the dialog is gone; a hand-back or an answer appends none, and a failed append changes nothing else (its log lines: obs-plan §4, Scenario: Dialog → `answer`).
 - A dialog hook held 671 s returned the driver's `viola answer` decision into claude 2.1.287 on the Linux dev host, as measured at `viola-0.1.0/chunks/2026-10-19-dialog-hold-for-the-driver/evidence/live-round.md`.
+- A dialog hook whose server check fails (the serving process is not the recorded wrapper, or the check cannot be made) sends no `hook.dialog` and exits 0 at once with no body, so the dialog renders for the human (its log lines: §Occupied Resources, `diagnostics/`).
 
 <!-- /detail -->
 
@@ -176,6 +201,7 @@ Read whole. The master's broad view is .andromeda/architecture.md; this file hol
  A revive that passes goes through the same start as `run`, so the collision check runs twice. It resumes the `gone` instance in place: its `events.ndjson` is appended to with the earlier bytes unchanged, no launch is replayed, and its first record is `wheel{holder:"driver", cause:"start"}`, as every start's (the founder's answer, live, 2026-10-10, relayed by the operator: a revived start keeps the wheel at `driver`). Otherwise `run` starts in this order: program resolution (the `.cmd`/`.bat` refusal, which writes nothing), collision check, pinned copy and plugin folder, the ConPTY sideload (Windows x64, fail-open), version gate, exclusive bind of the endpoint (a bind that finds the name taken is an exit-1 refusal, `squatted-name`, so two concurrent starts cannot both win), first snapshot (with `endpoint`, `pinned_bin`, and `statusline_command` when the named source gave a command; `pid`, `started_at`) and heartbeat, the start `wheel` and `budget-gate` events, then the child spawn, after which the snapshot is rewritten with `child_pid`. Between the first snapshot and the spawn `run` also rewrites the per-session settings override (Unix only; §Occupied Resources, Claude Code integration names).
  As landed by 2026-09-28-capability-ledger-and-viola-verify every step has its place (the sideload step added by 2026-09-29-sideloaded-conpty): program resolution → collision → pinned copy and plugin → ConPTY sideload (`run.conpty_sideload`, Windows: `pin_companions` + the absolute-path pre-load; `outcome` `loaded` · `hash-mismatch` · `unreadable` · `load-failed` · `not-built`, never a refusal; its held handles live until `spawn_child` returns) → strip plan → version gate (`run::version_gate`: the bounded `--version` read logged as a `version-probe` `process-start`/`process-exit` pair, the stamps read, `cli_version`/`cli_verified` carried into the first snapshot and the `claude-child` `process-start`; `run` prints nothing on any gate outcome) → endpoint bind → the budget gate at start (span `run.budget_eval` with `trigger: start`; it reads `budget.json`, restores no override and writes nothing; the thresholds were read from `config.json` earlier in the start, each rejection logged then) → first snapshot (its `budget_paused` is that verdict, its `budget_override_until` always absent) → heartbeat → start events (record two, `budget-gate`, carries that verdict's `data`, where it carried the constant `{"paused": false}` before chunk 2026-10-10-budget-governor) → spawn, so the child's first SessionStart hook finds a listening endpoint and a recorded snapshot. Since chunk 2026-10-10-session-links the start also restores the wrapper's link set before the endpoint serves: it reads `events.ndjson` twice there (`WaitFeed::rebuild`, then `LinkSet::restore`), the first snapshot's `links` is the restored set, the start appends no line for links and its start records are unchanged. `viola revive` starts through the same function, so a revived start's first snapshot carries the logged links.
  A gone instance's directory is reused at once, and its `events.ndjson` is appended to, never truncated.
+- The snapshot's `pid` and `started_at` are also the server identity: `viola_state::liveness::live_endpoint` returns them with the endpoint from one `read_snapshot` (`LiveEndpoint`), and every frame-writing client takes the liveness-only pre-check first, then, on Linux and Windows, compares the connected peer's pid and its OS start time with them before its first frame (`verify_server`; §Standard Contracts, Session liveness).
 
 <!-- /detail -->
 

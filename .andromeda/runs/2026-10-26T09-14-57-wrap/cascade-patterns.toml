@@ -1,0 +1,7 @@
+# The resume's own amendment (inputs#I17): test-plan.md:670, the fake agent's exit ignoring SIGHUP.
+# The claim's own words (its hangup, its group, its session leader, its exit-time write) and the name token.
+
+[[pattern]]
+id = 'fakeexit'
+regex = 'session leader|foreground group|process_group\(0\)|exit-time coverage write|SIGHUP|ignore_hangup'
+ignore_case = true

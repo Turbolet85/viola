@@ -258,7 +258,7 @@ Detail: .andromeda/a11y-plan-detail/cognitive-accessibility.md — read whole.
 
 - **WCAG SC:** SC 3.3.1 Error Identification (A) + SC 3.3.3 Error Suggestion (AA).
 
-- **Verification:** trycmd pins the `unable <reason> <detail>` + final `hint:` layout per refusal and assert_cmd the typed exit codes and a hint-free `--json`, on all three OS legs.
+- **Verification:** trycmd pins the `unable <reason> <detail>` + final `hint:` layout per refusal and assert_cmd the typed exit codes and a hint-free `--json`, on all three OS legs (the frame verbs' server-verify refusal on windows-2025 and ubuntu-latest only: macOS reports no peer pid).
 
 ### Plain language
 
@@ -270,7 +270,7 @@ Detail: .andromeda/a11y-plan-detail/cognitive-accessibility.md — read whole.
   - Every kebab-case reason/detail code (`not-delivered`, `human-typing`, `unverified-cli`) always sits beside the plain word `unable`.
   - The CLI never shows a stack trace or bare status number as the only error text.
 
-- **Verification:** every fixed CLI string is pinned, by trycmd or, for `viola list`, `viola --help` and `viola plugin install`, by literal, so any copy change fails CI until the pinned string is updated on purpose.
+- **Verification:** every fixed CLI string is pinned, by trycmd or, for `viola list`, `viola --help`, `viola plugin install` and the server-verify hint, by literal, so any copy change fails CI until the pinned string is updated on purpose.
 
 ### Consistency and predictability
 

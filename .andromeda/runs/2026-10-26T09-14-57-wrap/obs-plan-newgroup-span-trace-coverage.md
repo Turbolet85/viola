@@ -1,0 +1,8 @@
+# New groups — obs-plan · span-trace-coverage
+
+## Verdicts
+- fanout-obs-plan--cascade-g2.md 1 · contradiction · lines 90–90 · «`wait` / `last`, like `send`, use the liveness-only pre-check, so `strict-modes-failed` / `server-verify-failed` cannot occur on them until client-side server verification lands» · the standing line says the frame verbs run only the liveness pre-check and cannot end `server-verify-failed`, while the proposal has all six verify the server and end `process-exit{exit_code:21, detail:"server-verify-failed", during:"connect"}`
+- fanout-obs-plan--cascade-g2.md 2 · distinct · no standing group names the captured-span cases or the `refused_inside` helper asserting the server refusal inside each root span
+- fanout-obs-plan--cascade-g2.md 3 · distinct · no standing group states the hook's shared pre-frame `connect` (read, connect, verify) or its fail-open `hook-decision{detail:"server-verify-failed"}` and SessionEnd direct-append fallback
+- fanout-obs-plan--cascade-g2.md 4 · distinct · no standing group states the MCP frame tools' server check after `TokioClient::connect` inside `mcp.tool_call` or its codes-only `instance-unreachable` with no line
+- cascade-compare-obs-plan.md 4 · contradiction · lines 90–90 · «`wait` / `last`, like `send`, use the liveness-only pre-check, so `strict-modes-failed` / `server-verify-failed` cannot occur on them until client-side server verification lands» · the standing line rules out `server-verify-failed` on the frame verbs, while the proposal has the six CLI verbs end exit 21 `server-verify-failed` (its CLI, hook and MCP halves also twin fanout-obs-plan--cascade-g2.md 1, 3 and 4)
