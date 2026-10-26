@@ -28,3 +28,16 @@ Long runs, journalled before each wait (the operator's ask at invocation).
   under no skill; its line goes into `evidence/operator-pass.md`).
   Step 1 green (87.67 s); step 2 `hygiene: clean`, re-read clean. Next: the pre-CI commit, the push (entry 23), then
   the CI read (entry 24, `--wait 2400`, backgrounded) — journalled after the push lands (ci.md 2026-10-13).
+- 2026-10-26 08:52Z · pre-CI commit `4aa9def9` (hygiene re-read clean before it); push entry 23 green, `history moved:
+  refs/remotes/origin/build/viola-0.1.0 6bdfdda8→4aa9def9`.
+- 2026-10-26 08:52Z · CI read, entry 24 fired as written, backgrounded:
+  `python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 2400`
+  (HEAD = `4aa9def9fc508bf24e1d315e8ce5825d536b3a24`; the last CI wall read was 778 s, ci#40278510123).
+  Result: `verdict: red · checks 15/15 · first-fail +58 s lint (macos-latest) · runs ci#40295285860` — job
+  121479746655: `unused import: super::*` at `src/cmd/last.rs:85:9` and `src/cmd/pause.rs:95:9` (the new test modules
+  held only a macOS-gated case). Fix: both modules gated whole (`#[cfg(test)]` + `#[cfg(not(target_os = "macos"))]`).
+  The host now lints the macOS target, check only (`rustup target add aarch64-apple-darwin`, `CARGO_TARGET_DIR=target/maccheck`):
+  green on the fix; its known-positive control (last.rs in the pushed shape) reads CI's exact error. Host clippy
+  (Linux, Windows target) green.
+- 2026-10-26 08:55Z · operator pass, fix round (ci.md step 6, repeating from step 1): `--entry 21` pre-push on the
+  uncommitted fix, then hygiene twice, the fix commit, push entry 23, the CI read again.
