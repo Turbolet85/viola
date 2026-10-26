@@ -423,8 +423,10 @@ fn verify_runs_the_probe_under_the_identity_strip(#[from(home)] home: TestHome) 
     );
 }
 
-/// A home that cannot be statted — its parent is a regular file — fails the home's check before
-/// anything runs: exit 1, the home's pair, nothing on stdout.
+/// A home whose parent is a regular file: on Unix it cannot be statted (`NotADirectory`), so the
+/// home's check refuses it before anything runs — exit 1, the home's pair; on Windows the same
+/// stat reads `NotFound`, an absent home the check skips, and the home's creation fails at the
+/// `cli` catch site's one line (testing.md 2026-09-24, I/O errors per OS). Nothing on stdout.
 #[rstest]
 fn verify_under_a_regular_file_refuses_the_home(#[from(home)] home: TestHome) {
     let file = home.scratch().join("file");
@@ -433,14 +435,16 @@ fn verify_under_a_regular_file_refuses_the_home(#[from(home)] home: TestHome) {
     let ran = verify(&file.join("home"), &fixtures(&home), "2.1.0", &[], &[], &[]);
     assert_eq!(ran.code, Some(1));
     assert!(ran.stdout.is_empty());
-    assert_eq!(
-        ran.stderr_text(),
+    let expected = if cfg!(windows) {
+        INTERNAL_ERROR
+    } else {
         concat!(
             "unable: the viola home is not private to you\n",
             "hint: the viola home must be readable only by you; viola does not change its ",
             "permissions\n",
         )
-    );
+    };
+    assert_eq!(ran.stderr_text(), expected);
 }
 
 /// A home that passes its check but holds a regular file where `ledger/` goes: the probe dir

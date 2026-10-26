@@ -406,22 +406,43 @@ fn a_home_another_user_may_read_refuses_run(#[from(support::home::home)] tmp: Te
 /// test-plan §6 Security control negatives, Windows `--home` outside the profile: the home `viola
 /// verify` made under `target/e2e-home` carries exactly the protected DACL, the user and SYSTEM,
 /// object- and container-inherit, nothing inherited from the drive (its canonical SDDL read back
-/// through PowerShell's `Get-Acl`).
+/// through `icacls /save`, which writes it to a file as UTF-16).
 #[cfg(windows)]
 #[rstest]
 fn a_home_viola_makes_outside_the_profile_takes_the_protected_dacl(stamped_home: StampedHome) {
     let home = stamped_home.home.path().to_path_buf();
-    let sddl = Command::new("powershell.exe")
-        .args([
-            "-NoProfile",
-            "-NonInteractive",
-            "-Command",
-            "(Get-Acl -LiteralPath $env:VIOLA_TEST_ACL_PATH).Sddl",
-        ])
-        .env("VIOLA_TEST_ACL_PATH", &home)
-        .output()
-        .expect("powershell");
-    let sddl = String::from_utf8_lossy(&sddl.stdout).trim().to_owned();
+    let saved = stamped_home.home.scratch().join("home.acl");
+    let root = std::env::var_os("SystemRoot").expect("SystemRoot");
+    let icacls = Command::new(
+        std::path::PathBuf::from(root)
+            .join("System32")
+            .join("icacls.exe"),
+    )
+    .arg(&home)
+    .arg("/save")
+    .arg(&saved)
+    .output()
+    .expect("icacls");
+    assert!(
+        icacls.status.success(),
+        "icacls /save: {} {}",
+        icacls.status,
+        String::from_utf8_lossy(&icacls.stderr)
+    );
+    let bytes = std::fs::read(&saved).expect("the saved ACL");
+    let units: Vec<u16> = bytes
+        .as_chunks::<2>()
+        .0
+        .iter()
+        .map(|pair| u16::from_le_bytes(*pair))
+        .collect();
+    let text = String::from_utf16_lossy(&units);
+    let sddl = text
+        .lines()
+        .map(|line| line.trim_start_matches('\u{feff}').trim())
+        .find(|line| line.contains("D:"))
+        .unwrap_or_else(|| panic!("no SDDL line in {text:?}"))
+        .to_owned();
     let whoami = Command::new("whoami")
         .args(["/user", "/fo", "csv", "/nh"])
         .output()

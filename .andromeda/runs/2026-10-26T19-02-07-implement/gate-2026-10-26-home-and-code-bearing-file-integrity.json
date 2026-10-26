@@ -6297,5 +6297,1605 @@
 }
 ]
 }
+},
+{
+"tool": "gate",
+"v": "1.22",
+"sha8": "82980b2b",
+"ts": "2026-10-26T20:59:36Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-26-home-and-code-bearing-file-integrity/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-26T19-02-07-implement",
+"--marker",
+"2026-10-26-home-and-code-bearing-file-integrity",
+"--only",
+"2,3,4,8,11"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-26-home-and-code-bearing-file-integrity · entries 26",
+"logs $TMPDIR/andromeda-gate/2026-10-26-home-and-code-bearing-file-integrity/implement-2026-10-26T19-02-07 · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 1 · rust 2",
+"walk-class rust 4 (tests/cli_controls_not_disableable.rs, tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, +1 in the trail) · uncommitted 3",
+"prose L159-162: The block runs in this order: the `/tmp` reading (the stamped-home cases follow); the lint… (413 chars)",
+"prose L164-167: **No live leg.** The chunk drives no external process; its Windows witnesses run in CI's `… (402 chars)",
+"  2 lint        green · exit 0 · 1.19s · 0 B → 2.5.log · cargo fmt --all --check",
+"  3 lint        green · exit 0 · 0.58s · 134 B → 3.4.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  4 lint        red · exit 0 ✗ (exit 101) · exit 101 · 0.52s · 769 B → 4.5.log · CARGO_TARGET_DIR=target/wincheck cargo clippy --workspace … (140 chars)",
+"  8 integration green · exit 0 · 6.29s · 1603 B → 8.4.log · cargo nextest run --workspace --features fake-agent -E 'bi… (97 chars)",
+" 11 integration green · exit 0 · 45.97s · 12834 B → 11.4.log · cargo nextest run --workspace --features fake-agent -E 'bi… (159 chars)",
+"not run — excluded · 21: 1,5-7,9-10,12-26",
+"entries 26 · green 4 · red 1 (4) · recorded 0 · timeout 0 · not-run 21"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-26-home-and-code-bearing-file-integrity",
+"plan": "./viola-0.1.0/chunks/2026-10-26-home-and-code-bearing-file-integrity/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-26-home-and-code-bearing-file-integrity/implement-2026-10-26T19-02-07",
+"delta": {
+"docs": [
+".andromeda/runs/2026-10-26T19-02-07-implement/journal.md"
+],
+"rust": [
+"tests/cli_verify.rs",
+"tests/security_negatives_strict_modes.rs"
+]
+},
+"unmapped": [],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/cli_controls_not_disableable.rs",
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 3,
+"problem": null
+},
+"prose": [
+{
+"from": 159,
+"to": 162,
+"text": "The block runs in this order: the `/tmp` reading (the stamped-home cases follow); the lints (the Windows-target clippy is in because steps 1, 10–14 add `cfg(windows)` code); the unit tier; the binaries this chunk adds or edits, by name; the supply-chain read; the preservation guard; the harness smoke, G2 and G4; the hook perf rows (every hook now runs the instance check); `pre-push`; the operator entries last."
+},
+{
+"from": 164,
+"to": 167,
+"text": "**No live leg.** The chunk drives no external process; its Windows witnesses run in CI's `test (windows-2025)` run, its Unix ones there and on this host. **No mutation entry**: mutation runs at the epoch boundary only (test-plan §10 Mutation gate). **No orphans entry**: no module is added. **macOS:** the strict-modes cases run there (they need no peer pid); only the server-identity rows compile out."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "probe",
+"run": "df -h /tmp",
+"run_sha8": "b8759b03",
+"expect": [],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-26-home-and-code-bearing-file-integrity/implement-2026-10-26T19-02-07/2.5.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 1.19,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-26-home-and-code-bearing-file-integrity/implement-2026-10-26T19-02-07/3.4.log",
+"bytes": 134,
+"log_sha8": "fb223897",
+"exit": 0,
+"seconds": 0.58,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "CARGO_TARGET_DIR=target/wincheck cargo clippy --workspace --all-targets --features fake-agent --target x86_64-pc-windows-msvc -- -D warnings",
+"run_sha8": "4f11616c",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-26-home-and-code-bearing-file-integrity/implement-2026-10-26T19-02-07/4.5.log",
+"bytes": 769,
+"log_sha8": "d0395082",
+"exit": 101,
+"seconds": 0.52,
+"readings": [
+"exit 0 ✗ (exit 101)"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 101)"
+},
+{
+"n": 5,
+"role": "lint",
+"run": "rg -n -U --pcre2 --type rust '#\\[(tracing::)?instrument\\b(?!\\(\\s*skip_all\\b)' .",
+"run_sha8": "d8c83432",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "lint",
+"run": "bash scripts/lint-probes.sh",
+"run_sha8": "4811ad1f",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "integration",
+"run": "cargo nextest run --workspace --features fake-agent -E 'binary(security_negatives_strict_modes)' ",
+"run_sha8": "40377820",
+"expect": [
+"exit 0",
+"contains tests run:"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-26-home-and-code-bearing-file-integrity/implement-2026-10-26T19-02-07/8.4.log",
+"bytes": 1603,
+"log_sha8": "f5feb574",
+"exit": 0,
+"seconds": 6.29,
+"readings": [
+"exit 0 ✓",
+"contains 'tests run:' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "integration",
+"run": "cargo nextest run --workspace --features fake-agent -E 'binary(chaos_snapshot_replay)' ",
+"run_sha8": "265e1e58",
+"expect": [
+"exit 0",
+"contains tests run:"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "integration",
+"run": "cargo nextest run --workspace --features fake-agent -E 'binary(hook_fail_open) | binary(hook_statusline)' ",
+"run_sha8": "08908e3b",
+"expect": [
+"exit 0",
+"contains tests run:"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "integration",
+"run": "cargo nextest run --workspace --features fake-agent -E 'binary(run_cli) | binary(cli_verify) | binary(conpty_sideload) | binary(cli_controls_not_disableable)' ",
+"run_sha8": "8c963db2",
+"expect": [
+"exit 0",
+"contains tests run:"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-26-home-and-code-bearing-file-integrity/implement-2026-10-26T19-02-07/11.4.log",
+"bytes": 12834,
+"log_sha8": "e351f032",
+"exit": 0,
+"seconds": 45.97,
+"readings": [
+"exit 0 ✓",
+"contains 'tests run:' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "integration",
+"run": "cargo nextest run --workspace --features fake-agent -E 'binary(cli_links) | binary(security_negatives_server_identity) | binary(chaos_forward_compat) | binary(cli_list) | binary(cli_revive)' ",
+"run_sha8": "64ffe2c3",
+"expect": [
+"exit 0",
+"contains tests run:"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "integration",
+"run": "cargo nextest run -p viola-mcp -E 'binary(handlers)' ",
+"run_sha8": "6be8f300",
+"expect": [
+"exit 0",
+"contains tests run:"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "cargo deny check",
+"run_sha8": "2708b9d9",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py guard --chunk-dir viola-0.1.0/chunks/2026-10-26-home-and-code-bearing-file-integrity --marker 2026-10-26-home-and-code-bearing-file-integrity --base 99df45362ac6abe3331b215d94890921287fb04e --allow '(crates/viola-state/src/(strict|stamps|liveness|pin)\\.rs|crates/viola-mcp/src/tools\\.rs|crates/viola-mcp/tests/handlers\\.rs|src/cmd/(client|link|send|wait|last|answer|pause|release|hook|run|revive|verify)\\.rs|src/cmd/hook/statusline\\.rs|src/obs\\.rs|schemas/diag-line\\.v1\\.json|tests/(security_negatives_strict_modes|chaos_snapshot_replay|hook_fail_open|hook_statusline|run_cli|cli_verify|conpty_sideload|cli_controls_not_disableable)\\.rs|tests/support/home\\.rs)' -- src crates tests schemas plugin scripts fixtures .github .config Cargo.toml Cargo.lock",
+"run_sha8": "3a818825",
+"expect": [
+"exit 0",
+"last line guard: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-hci-smoke",
+"run_sha8": "74b395be",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-hci-smoke --instance builder",
+"run_sha8": "45311e65",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-hci-smoke",
+"run_sha8": "33f492b3",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "bash scripts/g2-zero-panics.sh",
+"run_sha8": "b1637f71",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 21,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-hci-smoke",
+"run_sha8": "74b395be",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "bash scripts/agent-run.sh run --perf",
+"run_sha8": "025b7250",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 24,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "451237e0",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 25,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 26,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 2400",
+"run_sha8": "10a6ad61",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.22",
+"sha8": "82980b2b",
+"ts": "2026-10-26T20:59:48Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-26-home-and-code-bearing-file-integrity/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-26T19-02-07-implement",
+"--marker",
+"2026-10-26-home-and-code-bearing-file-integrity",
+"--only",
+"2,4"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-26-home-and-code-bearing-file-integrity · entries 26",
+"logs $TMPDIR/andromeda-gate/2026-10-26-home-and-code-bearing-file-integrity/implement-2026-10-26T19-02-07 · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 2 · rust 2",
+"walk-class rust 4 (tests/cli_controls_not_disableable.rs, tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, +1 in the trail) · uncommitted 4",
+"prose L159-162: The block runs in this order: the `/tmp` reading (the stamped-home cases follow); the lint… (413 chars)",
+"prose L164-167: **No live leg.** The chunk drives no external process; its Windows witnesses run in CI's `… (402 chars)",
+"  2 lint        green · exit 0 · 1.17s · 0 B → 2.6.log · cargo fmt --all --check",
+"  4 lint        green · exit 0 · 0.34s · 134 B → 4.6.log · CARGO_TARGET_DIR=target/wincheck cargo clippy --workspace … (140 chars)",
+"not run — excluded · 24: 1,3,5-26",
+"entries 26 · green 2 · red 0 · recorded 0 · timeout 0 · not-run 24"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-26-home-and-code-bearing-file-integrity",
+"plan": "./viola-0.1.0/chunks/2026-10-26-home-and-code-bearing-file-integrity/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-26-home-and-code-bearing-file-integrity/implement-2026-10-26T19-02-07",
+"delta": {
+"docs": [
+".andromeda/runs/2026-10-26T19-02-07-implement/gate-2026-10-26-home-and-code-bearing-file-integrity.json",
+".andromeda/runs/2026-10-26T19-02-07-implement/journal.md"
+],
+"rust": [
+"tests/cli_verify.rs",
+"tests/security_negatives_strict_modes.rs"
+]
+},
+"unmapped": [],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/cli_controls_not_disableable.rs",
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 4,
+"problem": null
+},
+"prose": [
+{
+"from": 159,
+"to": 162,
+"text": "The block runs in this order: the `/tmp` reading (the stamped-home cases follow); the lints (the Windows-target clippy is in because steps 1, 10–14 add `cfg(windows)` code); the unit tier; the binaries this chunk adds or edits, by name; the supply-chain read; the preservation guard; the harness smoke, G2 and G4; the hook perf rows (every hook now runs the instance check); `pre-push`; the operator entries last."
+},
+{
+"from": 164,
+"to": 167,
+"text": "**No live leg.** The chunk drives no external process; its Windows witnesses run in CI's `test (windows-2025)` run, its Unix ones there and on this host. **No mutation entry**: mutation runs at the epoch boundary only (test-plan §10 Mutation gate). **No orphans entry**: no module is added. **macOS:** the strict-modes cases run there (they need no peer pid); only the server-identity rows compile out."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "probe",
+"run": "df -h /tmp",
+"run_sha8": "b8759b03",
+"expect": [],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-26-home-and-code-bearing-file-integrity/implement-2026-10-26T19-02-07/2.6.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 1.17,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "CARGO_TARGET_DIR=target/wincheck cargo clippy --workspace --all-targets --features fake-agent --target x86_64-pc-windows-msvc -- -D warnings",
+"run_sha8": "4f11616c",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-26-home-and-code-bearing-file-integrity/implement-2026-10-26T19-02-07/4.6.log",
+"bytes": 134,
+"log_sha8": "eed2e286",
+"exit": 0,
+"seconds": 0.34,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "lint",
+"run": "rg -n -U --pcre2 --type rust '#\\[(tracing::)?instrument\\b(?!\\(\\s*skip_all\\b)' .",
+"run_sha8": "d8c83432",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "lint",
+"run": "bash scripts/lint-probes.sh",
+"run_sha8": "4811ad1f",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "integration",
+"run": "cargo nextest run --workspace --features fake-agent -E 'binary(security_negatives_strict_modes)' ",
+"run_sha8": "40377820",
+"expect": [
+"exit 0",
+"contains tests run:"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "integration",
+"run": "cargo nextest run --workspace --features fake-agent -E 'binary(chaos_snapshot_replay)' ",
+"run_sha8": "265e1e58",
+"expect": [
+"exit 0",
+"contains tests run:"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "integration",
+"run": "cargo nextest run --workspace --features fake-agent -E 'binary(hook_fail_open) | binary(hook_statusline)' ",
+"run_sha8": "08908e3b",
+"expect": [
+"exit 0",
+"contains tests run:"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "integration",
+"run": "cargo nextest run --workspace --features fake-agent -E 'binary(run_cli) | binary(cli_verify) | binary(conpty_sideload) | binary(cli_controls_not_disableable)' ",
+"run_sha8": "8c963db2",
+"expect": [
+"exit 0",
+"contains tests run:"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "integration",
+"run": "cargo nextest run --workspace --features fake-agent -E 'binary(cli_links) | binary(security_negatives_server_identity) | binary(chaos_forward_compat) | binary(cli_list) | binary(cli_revive)' ",
+"run_sha8": "64ffe2c3",
+"expect": [
+"exit 0",
+"contains tests run:"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "integration",
+"run": "cargo nextest run -p viola-mcp -E 'binary(handlers)' ",
+"run_sha8": "6be8f300",
+"expect": [
+"exit 0",
+"contains tests run:"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "cargo deny check",
+"run_sha8": "2708b9d9",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py guard --chunk-dir viola-0.1.0/chunks/2026-10-26-home-and-code-bearing-file-integrity --marker 2026-10-26-home-and-code-bearing-file-integrity --base 99df45362ac6abe3331b215d94890921287fb04e --allow '(crates/viola-state/src/(strict|stamps|liveness|pin)\\.rs|crates/viola-mcp/src/tools\\.rs|crates/viola-mcp/tests/handlers\\.rs|src/cmd/(client|link|send|wait|last|answer|pause|release|hook|run|revive|verify)\\.rs|src/cmd/hook/statusline\\.rs|src/obs\\.rs|schemas/diag-line\\.v1\\.json|tests/(security_negatives_strict_modes|chaos_snapshot_replay|hook_fail_open|hook_statusline|run_cli|cli_verify|conpty_sideload|cli_controls_not_disableable)\\.rs|tests/support/home\\.rs)' -- src crates tests schemas plugin scripts fixtures .github .config Cargo.toml Cargo.lock",
+"run_sha8": "3a818825",
+"expect": [
+"exit 0",
+"last line guard: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-hci-smoke",
+"run_sha8": "74b395be",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-hci-smoke --instance builder",
+"run_sha8": "45311e65",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-hci-smoke",
+"run_sha8": "33f492b3",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "bash scripts/g2-zero-panics.sh",
+"run_sha8": "b1637f71",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 21,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-hci-smoke",
+"run_sha8": "74b395be",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "bash scripts/agent-run.sh run --perf",
+"run_sha8": "025b7250",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 24,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "451237e0",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 25,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 26,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 2400",
+"run_sha8": "10a6ad61",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.22",
+"sha8": "82980b2b",
+"ts": "2026-10-26T21:01:53Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-26-home-and-code-bearing-file-integrity/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-26T19-02-07-implement",
+"--marker",
+"2026-10-26-home-and-code-bearing-file-integrity",
+"--entry",
+"23"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-26-home-and-code-bearing-file-integrity · entries 26",
+"logs $TMPDIR/andromeda-gate/2026-10-26-home-and-code-bearing-file-integrity/implement-2026-10-26T19-02-07 · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 3 · rust 2",
+"walk-class rust 4 (tests/cli_controls_not_disableable.rs, tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, +1 in the trail) · uncommitted 5",
+"prose L159-162: The block runs in this order: the `/tmp` reading (the stamped-home cases follow); the lint… (413 chars)",
+"prose L164-167: **No live leg.** The chunk drives no external process; its Windows witnesses run in CI's `… (402 chars)",
+" 23 probe       green · exit 0 · 100.84s · 421949 B → 23.5.log · bash scripts/agent-run.sh pre-push",
+"not run — excluded · 25: 1-22,24-26",
+"entries 26 · green 1 · red 0 · recorded 0 · timeout 0 · not-run 25"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-26-home-and-code-bearing-file-integrity",
+"plan": "./viola-0.1.0/chunks/2026-10-26-home-and-code-bearing-file-integrity/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-26-home-and-code-bearing-file-integrity/implement-2026-10-26T19-02-07",
+"delta": {
+"docs": [
+".andromeda/runs/2026-10-26T19-02-07-implement/gate-2026-10-26-home-and-code-bearing-file-integrity.json",
+".andromeda/runs/2026-10-26T19-02-07-implement/journal.md",
+"viola-0.1.0/chunks/2026-10-26-home-and-code-bearing-file-integrity/evidence/operator-pass.md"
+],
+"rust": [
+"tests/cli_verify.rs",
+"tests/security_negatives_strict_modes.rs"
+]
+},
+"unmapped": [],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/cli_controls_not_disableable.rs",
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 5,
+"problem": null
+},
+"prose": [
+{
+"from": 159,
+"to": 162,
+"text": "The block runs in this order: the `/tmp` reading (the stamped-home cases follow); the lints (the Windows-target clippy is in because steps 1, 10–14 add `cfg(windows)` code); the unit tier; the binaries this chunk adds or edits, by name; the supply-chain read; the preservation guard; the harness smoke, G2 and G4; the hook perf rows (every hook now runs the instance check); `pre-push`; the operator entries last."
+},
+{
+"from": 164,
+"to": 167,
+"text": "**No live leg.** The chunk drives no external process; its Windows witnesses run in CI's `test (windows-2025)` run, its Unix ones there and on this host. **No mutation entry**: mutation runs at the epoch boundary only (test-plan §10 Mutation gate). **No orphans entry**: no module is added. **macOS:** the strict-modes cases run there (they need no peer pid); only the server-identity rows compile out."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "probe",
+"run": "df -h /tmp",
+"run_sha8": "b8759b03",
+"expect": [],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "CARGO_TARGET_DIR=target/wincheck cargo clippy --workspace --all-targets --features fake-agent --target x86_64-pc-windows-msvc -- -D warnings",
+"run_sha8": "4f11616c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "lint",
+"run": "rg -n -U --pcre2 --type rust '#\\[(tracing::)?instrument\\b(?!\\(\\s*skip_all\\b)' .",
+"run_sha8": "d8c83432",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "lint",
+"run": "bash scripts/lint-probes.sh",
+"run_sha8": "4811ad1f",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "integration",
+"run": "cargo nextest run --workspace --features fake-agent -E 'binary(security_negatives_strict_modes)' ",
+"run_sha8": "40377820",
+"expect": [
+"exit 0",
+"contains tests run:"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "integration",
+"run": "cargo nextest run --workspace --features fake-agent -E 'binary(chaos_snapshot_replay)' ",
+"run_sha8": "265e1e58",
+"expect": [
+"exit 0",
+"contains tests run:"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "integration",
+"run": "cargo nextest run --workspace --features fake-agent -E 'binary(hook_fail_open) | binary(hook_statusline)' ",
+"run_sha8": "08908e3b",
+"expect": [
+"exit 0",
+"contains tests run:"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "integration",
+"run": "cargo nextest run --workspace --features fake-agent -E 'binary(run_cli) | binary(cli_verify) | binary(conpty_sideload) | binary(cli_controls_not_disableable)' ",
+"run_sha8": "8c963db2",
+"expect": [
+"exit 0",
+"contains tests run:"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "integration",
+"run": "cargo nextest run --workspace --features fake-agent -E 'binary(cli_links) | binary(security_negatives_server_identity) | binary(chaos_forward_compat) | binary(cli_list) | binary(cli_revive)' ",
+"run_sha8": "64ffe2c3",
+"expect": [
+"exit 0",
+"contains tests run:"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "integration",
+"run": "cargo nextest run -p viola-mcp -E 'binary(handlers)' ",
+"run_sha8": "6be8f300",
+"expect": [
+"exit 0",
+"contains tests run:"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "cargo deny check",
+"run_sha8": "2708b9d9",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py guard --chunk-dir viola-0.1.0/chunks/2026-10-26-home-and-code-bearing-file-integrity --marker 2026-10-26-home-and-code-bearing-file-integrity --base 99df45362ac6abe3331b215d94890921287fb04e --allow '(crates/viola-state/src/(strict|stamps|liveness|pin)\\.rs|crates/viola-mcp/src/tools\\.rs|crates/viola-mcp/tests/handlers\\.rs|src/cmd/(client|link|send|wait|last|answer|pause|release|hook|run|revive|verify)\\.rs|src/cmd/hook/statusline\\.rs|src/obs\\.rs|schemas/diag-line\\.v1\\.json|tests/(security_negatives_strict_modes|chaos_snapshot_replay|hook_fail_open|hook_statusline|run_cli|cli_verify|conpty_sideload|cli_controls_not_disableable)\\.rs|tests/support/home\\.rs)' -- src crates tests schemas plugin scripts fixtures .github .config Cargo.toml Cargo.lock",
+"run_sha8": "3a818825",
+"expect": [
+"exit 0",
+"last line guard: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-hci-smoke",
+"run_sha8": "74b395be",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-hci-smoke --instance builder",
+"run_sha8": "45311e65",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-hci-smoke",
+"run_sha8": "33f492b3",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "bash scripts/g2-zero-panics.sh",
+"run_sha8": "b1637f71",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 21,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-hci-smoke",
+"run_sha8": "74b395be",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "bash scripts/agent-run.sh run --perf",
+"run_sha8": "025b7250",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-26-home-and-code-bearing-file-integrity/implement-2026-10-26T19-02-07/23.5.log",
+"bytes": 421949,
+"log_sha8": "d1aa1fa3",
+"exit": 0,
+"seconds": 100.84,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"contains '\"stage\":\"linux-tests\"' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 24,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "451237e0",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 25,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 26,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 2400",
+"run_sha8": "10a6ad61",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
 }
 ]
