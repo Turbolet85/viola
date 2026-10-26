@@ -891,6 +891,92 @@ fn fake_agent_without_exit_no_eof_releases_stdout_at_exit() {
     }
 }
 
+/// `SigIgn` in `/proc/<pid>/status`: a hex mask whose bit 0 is signal 1, SIGHUP.
+#[cfg(target_os = "linux")]
+fn ignores_sighup(pid: u32) -> bool {
+    std::fs::read_to_string(format!("/proc/{pid}/status"))
+        .ok()
+        .and_then(|s| {
+            s.lines()
+                .find_map(|l| l.strip_prefix("SigIgn:").map(|m| m.trim().to_owned()))
+        })
+        .and_then(|mask| u64::from_str_radix(&mask, 16).ok())
+        .is_some_and(|mask| mask & 1 == 1)
+}
+
+/// Waits until `holds` reads true while the agent still runs: an agent that exits first fails at
+/// once, and a wait past the root-watch deadline fails with its report.
+#[cfg(target_os = "linux")]
+fn wait_while_running(agent: &mut Direct, what: &str, holds: impl Fn() -> bool) {
+    let watch = support::watch::Watch::start("exit-hangup");
+    let deadline = Instant::now() + support::watch::WITHIN;
+    while !holds() {
+        let exited = agent.child.try_wait().expect("try_wait");
+        assert!(
+            exited.is_none(),
+            "the agent exited ({exited:?}) before {what}"
+        );
+        watch.note(what);
+        watch.deadline_check(deadline, &format!("timed out waiting for {what}"));
+        std::thread::yield_now();
+    }
+}
+
+/// A hangup that lands while the agent exits no longer ends it: from its exit's first step it
+/// ignores SIGHUP (as its terminal's session leader it cannot leave the group a hangup reaches), so
+/// it finishes the exit, and with it the exit-time coverage write. The exit is held open by the
+/// Stop hook's capped receipt hold, which `\x03` waits out; the disposition is read from `/proc`.
+#[cfg(target_os = "linux")]
+#[test]
+fn fake_agent_exit_outlives_a_hangup_that_lands_while_it_exits() {
+    use std::os::unix::process::ExitStatusExt as _;
+
+    let tmp = TestHome::new();
+    let marker = tmp.scratch().join("stop-hook.marker");
+    let plugin = tmp.scratch().join("plugin");
+    fake::write_plugin(
+        &plugin,
+        "Stop",
+        FAKE,
+        &["statusline-echo", path_str(&marker)],
+    );
+    let script = tmp.scratch().join("stop.json");
+    std::fs::write(&script, r#"{"v":1,"steps":[{"event":"Stop"}]}"#).expect("script");
+    let mut agent = hooked(
+        &tmp,
+        &plugin,
+        ("Stop", "default"),
+        &[
+            "--script",
+            path_str(&script),
+            "--stop-receipt-hold-ms",
+            "1000",
+        ],
+        &[],
+    );
+    let pid = agent.child.id();
+    wait_while_running(&mut agent, "the Stop hook's run", || marker.exists());
+    agent.send(b"\x03");
+    wait_while_running(&mut agent, "the exit ignoring SIGHUP", || {
+        ignores_sighup(pid)
+    });
+    assert!(
+        of_kind(&fake::receipt(&agent.receipt), "hook").is_empty(),
+        "the hangup lands while the exit waits out the Stop hook's hold"
+    );
+    let target = libc::pid_t::try_from(pid).expect("pid");
+    // SAFETY: a plain kill(2) of the child this test spawned and has not yet reaped.
+    assert_eq!(unsafe { libc::kill(target, libc::SIGHUP) }, 0);
+    drop(agent.stdin.take());
+    let status = agent.child.wait().expect("exit");
+    assert_eq!((status.code(), status.signal()), (Some(0), None));
+    let hooks: Vec<String> = of_kind(&fake::receipt(&agent.receipt), "hook")
+        .iter()
+        .map(|h| format!("{}:{}", h["event"], h["ran"]))
+        .collect();
+    assert_eq!(hooks, ["\"Stop\":true"]);
+}
+
 #[rstest]
 fn chain_boots_the_fake_agent_under_viola_with_a_gated_script(stamped_home: StampedHome) {
     assert!(stamped_home.stamped);

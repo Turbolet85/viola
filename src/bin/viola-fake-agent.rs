@@ -1087,6 +1087,17 @@ fn write_panic_bytes() {
     let _ = out.write_all(WIDE_CHAR).and_then(|()| out.flush());
 }
 
+/// On Unix the exit ignores SIGHUP from its first step. The agent is its terminal's session
+/// leader, and a leader cannot leave its process group (`setpgid` refuses it), so a hangup of that
+/// terminal (a killed wrapper closing its PTY, or portable-pty's SIGHUP kill) still reaches it; one
+/// that lands mid its exit-time coverage write leaves a cut-short profile. The `--exit-no-eof`
+/// holder, spawned after this, inherits the disposition outside the group.
+fn ignore_hangup() {
+    #[cfg(unix)]
+    // SAFETY: SIG_IGN installs no handler, and the agent sets no SIGHUP action of its own.
+    let _ = unsafe { libc::signal(libc::SIGHUP, libc::SIG_IGN) };
+}
+
 /// Reads stdin byte by byte until EOF or `\x03`. A Windows console is read the way the wrapper
 /// reads it: std's console read turns a `^Z` typed alone into end of input.
 fn read_stdin(agent: &Agent) -> ExitCode {
@@ -1099,6 +1110,7 @@ fn read_stdin(agent: &Agent) -> ExitCode {
                 Action::Key(b) => agent.receipt.write("key", json!({"hex": hex(&[b])})),
                 Action::Submit(bytes) => agent.submit(&bytes, "human"),
                 Action::Exit => {
+                    ignore_hangup();
                     agent.close_hooks();
                     if agent.opts.exit_no_eof {
                         hold_inherited_stdout(agent.opts.receipt.as_deref());
@@ -1108,6 +1120,7 @@ fn read_stdin(agent: &Agent) -> ExitCode {
             }
         }
     }
+    ignore_hangup();
     agent.close_hooks();
     ExitCode::SUCCESS
 }
