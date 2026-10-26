@@ -1,0 +1,2 @@
+proposals: []
+note: the chunk changed no product file (report Changes: every edit test code or a dev-dependency table; Coverage `tokens n/a` on all three new surfaces; Outcome «no human output, refusal text or SGR byte changed»; Retired none), so D-design-tokens, D-design-cli-wording and D-retired have nothing to read in .andromeda/design-system-detail/self-validation-protocol.md, and no new detail reaches the Token Test.

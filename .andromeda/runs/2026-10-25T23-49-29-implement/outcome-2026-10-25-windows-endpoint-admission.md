@@ -5,9 +5,13 @@ recorded 1 · timeout 0 · not-run 4` (trail `gate-2026-10-25-windows-endpoint-a
 the `operator` entries 21–24. Smoke: the plan's `role = 'smoke'` entries 14–19 (cleanup → boot → status → G2 → G4 →
 cleanup) ran green as P2 gates; no product file changed, so no boot path moved and none was re-driven.
 
-Next → the OPERATOR PASS (operator's word at invocation: «run … through its operator pass and the CI read»): entry 21
-(hygiene, as written) → the pre-CI commit → entry 22 (the push, `--operator 22`) → entry 23 (`test (windows-2025)`,
-as written) → entry 24 (the full row, report-only, as written); then `/andromeda-wrap-session`.
+**Operator pass: done** (on the operator's word at invocation; record `chunks/…/evidence/operator-pass.md`): entry 21
+hygiene `clean` → `pre-push` re-run green (100.13 s) → pre-CI commit `e2bb59c8` → entry 22 pushed
+(`origin/build/viola-0.1.0 b6740d59→e2bb59c8`) → entry 23 `test (windows-2025)` **`verdict: green`** on
+**ci#40247500584**, its JUnit holding all five new cases `passed` → entry 24 the full row `verdict: red · checks 15/15`,
+its one red `supply-chain` (`unsound` RUSTSEC-2026-0386, the expected owner's), the other 14 checks `success`.
+
+Next → `/andromeda-wrap-session`.
 
 ## Files changed (10, all in research's "Files to modify")
 - `tests/security_negatives_channel.rs` — five `#![cfg(windows)]` cases: `security_negative_viola_listener_rejects_remote_clients`,

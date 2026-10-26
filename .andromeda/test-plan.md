@@ -43,7 +43,7 @@ _The one Comprehensive component that does not apply is compliance verification:
   - **Source:** arch excerpt, Stack and Workspace / Modules; creator excerpt, Must-Work (Windows ConPTY EOF)
   - **Testability:** testable
 
-- **Entity:** `viola-channel`: JSON-RPC 2.0 over ndjson on `interprocess` local sockets — partially testable: same-user framing, dispatch, refusal order, server verification and the squatted-name refusal are testable; the cross-user parts (a peer of another euid, remote pipe clients, the Windows pipe DACL) cannot be driven on hosted runners and are asserted at the peer-credential check boundary.
+- **Entity:** `viola-channel`: JSON-RPC 2.0 over ndjson on `interprocess` local sockets — partially testable: same-user framing, dispatch, refusal order, server verification and the squatted-name refusal are testable, and the Windows listener rejecting remote pipe clients and its pipe DACL denying an anonymous open are asserted on `test (windows-2025)`; only the cross-user part (a peer of another euid) cannot be driven on hosted runners and is asserted at the peer-credential check boundary.
 
 - **Entity:** `viola-state`: ndjson logs, atomic snapshots, `File::lock` on `.lock` siblings, torn-line healing, tailing, pid + start-time liveness, rebuild by replay, Unix modes and strict-modes
   - **Source:** arch excerpt, Workspace / Modules and Standard Contracts (On-disk); security excerpt, Vector 7
@@ -603,7 +603,7 @@ Detail: .andromeda/test-plan-detail/e2e-test-strategy.md — read whole.
 
 - **Exit-cause matrix** (`cross_exit_causes.rs`): one negative test per cause of exit 21 and of exit 1, each asserting the exit code, the `--json` document and a last `hint:` line that names its cause — a hint shared across causes fails the table; `revive`'s refusals are cases of `tests/cli_revive.rs`; driver-facing hints never contain `release`.
 
-- **Security control negatives** (`security_negatives_*.rs`): one negative test per security-plan control that had none — the Unix socket directory refusal, Windows client SQOS at the identification level, raw-channel `link` / `unlink` name validation, a Windows `--home` outside the profile given a protected DACL (its test home never under `%TEMP%`), umask-independent modes, and single writers of `stamps.json` and `snapshot.json`.
+- **Security control negatives** (`security_negatives_*.rs`): one negative test per security-plan control that had none — the Unix socket directory refusal, Windows client SQOS at the identification level, the Windows listener rejecting remote clients and denying an anonymous open (each beside its controls), raw-channel `link` / `unlink` name validation, a Windows `--home` outside the profile given a protected DACL (its test home never under `%TEMP%`), umask-independent modes, and single writers of `stamps.json` and `snapshot.json`.
 
 - **`list` row integrity** (`cross_list_rows.rs`): unwrapped session names holding `\n`, `\t` or a C1 character print escaped in every mode — no row splits, every row's columns start at the caption row's offsets, the raw bytes never reach a NAME cell, and `list --json` keeps the original name.
 

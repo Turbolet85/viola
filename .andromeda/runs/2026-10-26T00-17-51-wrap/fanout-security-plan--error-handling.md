@@ -1,0 +1,2 @@
+proposals: []
+note: the chunk is test-only (report Changes: no product file changed, no exit code, refusal word or output line moved; Retired none); no new external-input surface, the auth controls are only asserted (Windows listener negatives, owned by authentication-authorization.md), and the one new dev-dependency table uses the pinned windows-sys =0.61.2 with no lock move, so nothing reaches .andromeda/security-plan-detail/error-handling.md.

@@ -1,0 +1,2 @@
+proposals: []
+note: no product file changed (report Changes, Files); the one obs-adjacent fact, the root bin's test helper `test_support::with_scoped_default` (a pinned Dispatch over a bare tracing_subscriber registry, test code only, every captured line still through `obs_event!`), adds no hot-path operation, no off-spec logger and no user-data line, and is test-plan §4's new detail, not this category's; Retired is none.

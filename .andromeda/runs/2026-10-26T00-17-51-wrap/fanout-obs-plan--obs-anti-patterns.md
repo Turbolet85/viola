@@ -1,0 +1,2 @@
+proposals: []
+note: the category's one item (the print-macro ban and its src/human.rs refusal-writer carve-out, callers run 5 · verify 5 · list 2 · revive 1 · plugin install 1) is untouched — the report's Changes state no product file changed, every edit is test code or a dev-dependency table, Retired is none, and the new witness line and every rerouted scoped capture still go through obs_event! (Coverage of new surfaces; Outcome (obs) met), so D-obs-instrumentation, D-obs-stack and D-obs-pii read no drift here.

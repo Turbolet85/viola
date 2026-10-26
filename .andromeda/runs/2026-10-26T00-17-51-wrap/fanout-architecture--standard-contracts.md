@@ -1,0 +1,2 @@
+proposals: []
+note: the chunk moved no wire contract, payload, snapshot, channel method, event kind or hook statusline shape (report Changes: no product file changed, Retired none); its test pipes sit in the already-registered `viola-test-chan-<pid>-<label>` namespace (Occupied Resources, .andromeda/architecture.md:261) and its windows-sys dev-dependency features belong to Infrastructure Patterns → Crate dependency direction, neither in Standard Contracts.

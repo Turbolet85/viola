@@ -8,6 +8,7 @@ Read whole. The master's broad view is .andromeda/test-plan.md; this file holds 
 - **Level:** Unit
   - **Coverage focus:** Pure functions, isolated module logic
   - **Tier-specific depth (Comprehensive, viola):** Inline `#[cfg(test)] mod tests` in all 6 crates plus the root bin. rstest 0.27.0 `#[case]` tables cover the refusal-order matrices, the exit-code table (0/1/2/10–14/20/21) and the per-`<cli-version>` fixture replay. Runs on all 3 OSes, except the two real-cargo-mutants harness tests, compiled out on macOS (§10 Mutation gate).
+  - **Runner:** nextest is the runner; a plain `cargo test` run (`cargo test --bin viola`) is not supported, and under it the root-bin cases `run::gate::tests::feed_panic_writes_one_parse_rejected_line_until_the_size_changes`, `obs::tests::log_config_rejection_writes_one_warn_line` and `case_2_sigterm` are known-cause reds, recorded with no owner.
 - **Level:** Integration
   - **Coverage focus:** Cross-module + IPC + disk state + process boundaries (no DB exists)
   - **Tier-specific depth (Comprehensive, viola):** Required. Every arch Standard Contract (Wrapper channel, On-disk, Hooks, CLI, MCP) has a crate-level `tests/` suite, using a real `interprocess` endpoint, a real tempfile home, and assert_cmd against `CARGO_BIN_EXE_viola`.
@@ -54,7 +55,7 @@ Read whole. The master's broad view is .andromeda/test-plan.md; this file holds 
 
 | Test-scope Sec 5 trigger | Primary layer(s) | Plan location |
 |---|---|---|
-| IPC vector (V1) | integration + E2E | §5 Module ↔ IPC; §6 Scenario 1 |
+| IPC vector (V1) | integration + E2E | §5 Module ↔ IPC; §6 Scenario 1 + Security control negatives (root `security_negatives_channel.rs`: the Windows listener's remote-client rejection and DACL denial) |
 | Paste injection (V2) | unit (proptest) + integration + E2E | §4 viola-core; §6 Scenario 2 |
 | Hook stdin (V4) | integration (assert_cmd hook) | §5 hook boundary; §6 Security sweep |
 | MCP (V5) | E2E (rmcp client) | §6 Scenarios 2, 5, 7 + Security sweep |

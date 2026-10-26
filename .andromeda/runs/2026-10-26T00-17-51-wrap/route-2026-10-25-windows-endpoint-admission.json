@@ -1,0 +1,121 @@
+[
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "3c37c7b4",
+"ts": "2026-10-26T02:01:54Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-10-25-windows-endpoint-admission",
+"--run-dir",
+".andromeda/runs/2026-10-26T00-17-51-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"flip master-route.md:87 - 2026-10-25-windows-endpoint-admission pending -> complete"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "3c37c7b4",
+"ts": "2026-10-26T02:01:54Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-25-windows-endpoint-admission",
+"--date",
+"2026-10-26",
+"--run-dir",
+".andromeda/runs/2026-10-26T00-17-51-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :169 strip CARRY: 428ch \"CARRY: chunk 2026-09-27-wrapper-channel \"",
+"pin :169 strip CARRY: 570ch \"CARRY: chunk 2026-10-19-overseer-switch-\"",
+"pin :169 strip WATCH: 787ch 2/3 since 2026-10-19-newer-claude-cli-rows \"WATCH: the macOS readiness stall, `wrapp\"",
+"pin next markerless :171 holds CARRY:×1",
+"169 · 2026-10-25-windows-endpoint-admission · strip 3 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 169,
+"marker": "2026-10-25-windows-endpoint-admission",
+"blocks": 3,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "3c37c7b4",
+"ts": "2026-10-26T02:02:00Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-25-windows-endpoint-admission",
+"--date",
+"2026-10-26",
+"--run-dir",
+".andromeda/runs/2026-10-26T00-17-51-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :169 strip CARRY: 428ch \"CARRY: chunk 2026-09-27-wrapper-channel \"",
+"pin :169 strip CARRY: 570ch \"CARRY: chunk 2026-10-19-overseer-switch-\"",
+"pin :169 strip WATCH: 787ch 2/3 since 2026-10-19-newer-claude-cli-rows \"WATCH: the macOS readiness stall, `wrapp\"",
+"pin next markerless :171 holds CARRY:×1",
+"169 · 2026-10-25-windows-endpoint-admission · strip 3 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/route-archive.md",
+"./viola-0.1.0/working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 169,
+"marker": "2026-10-25-windows-endpoint-admission",
+"blocks": 3,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]

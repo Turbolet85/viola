@@ -1,0 +1,2 @@
+proposals: []
+note: no drift for Brand Identity — the report's Changes edit test code and a Windows dev-dependency only ("no product file changed", viola-0.1.0/chunks/2026-10-25-windows-endpoint-admission/report.md:8), every new surface reads `tokens n/a` (:170-175), no output literal is added or changed (:247), and Retired is none (:50), so D-design-tokens, D-design-cli-wording, D-retired and D-new-detail each read clean against .andromeda/design-system-detail/brand-identity.md's expression-motion rows.

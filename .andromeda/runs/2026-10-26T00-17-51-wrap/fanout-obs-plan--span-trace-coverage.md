@@ -1,0 +1,2 @@
+proposals: []
+note: every edit is test code or a dev-dependency table (report Changes, Files; Coverage of new surfaces reads instrumentation n/a, PII n/a); no product span, scenario, edge flow or log line in this category moves; the test-only `test_support::with_scoped_default` and its witness (an `obs_event!` StateRecovered torn-line-healed line in a test) route captures over tracing / tracing-subscriber, the §3 stack, and belong to test-plan §4, not here; Retired: none.

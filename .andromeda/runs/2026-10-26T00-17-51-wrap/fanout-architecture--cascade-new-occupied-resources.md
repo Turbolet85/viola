@@ -1,0 +1,2 @@
+proposals: []
+note: F1 (the root `[target.'cfg(windows)'.dev-dependencies] windows-sys` with `Wdk_Storage_FileSystem` and `Win32_System_IO`) belongs in the key file .andromeda/registries/contracts/architecture/crate-dependency-direction.md (the report's Expected amendments, Infrastructure Patterns → Crate dependency direction; inputs#I7 asks for both features to be named); the body's Workspace crates test-only feature line (.andromeda/architecture.md) is the only Occupied Resources text beside it, and this category file holds no Workspace crates group.

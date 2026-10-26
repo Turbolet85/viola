@@ -1,0 +1,18 @@
+# Operator ruling on the wrap's second halt (overseer1, F351, 2026-10-26): option 1
+
+This is the orchestrator's own ruling on a failed read-back, not a workaround of a refusal. Make exactly two writes and
+nothing else:
+
+1. **The Edit tool on `crate-dependency-direction.md:12`.** Change the label only, to
+   `<!-- detail: values · infra-crate-dependency-direction -->`. The block's text stays untouched.
+2. **A `cascade.py replace` payload** that appends `infra-crate-dependency-direction` to the subject line at
+   `architecture.md:459`. Run it as a dry-run first.
+
+Then:
+- run `classify.py check` on that section, `detail.py check` and `registry check`; all three must PASS;
+- continue with the step-2 sweep, the entry batch, the leaves, the tally, then P3–P7.
+
+Name both writes in the run's batch notes as «operator ruling (overseer1, F351): the apply writer's label fixed by the
+orchestrator; no writer can correct a label it wrote».
+
+If any read-back fails, stop again. The wrap directive still stands.

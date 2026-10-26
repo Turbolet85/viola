@@ -1,0 +1,137 @@
+[
+{
+"tool": "cascade",
+"v": "1.17",
+"sha8": "1eaebed4",
+"ts": "2026-10-26T00:19:42Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-10-26T00-17-51-wrap/report-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-26T00-17-51-wrap",
+"--marker",
+"2026-10-25-windows-endpoint-admission"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [
+"baseline e2bb59c8 (pre-pass — HEAD)",
+"wsys-dev · control UNFIRED over the seven masters (bodies and sets) at e2bb59c8",
+"partly · control UNFIRED over the seven masters (bodies and sets) at e2bb59c8",
+"scoped-cap · control UNFIRED over the seven masters (bodies and sets) at e2bb59c8",
+"case4 · control UNFIRED over the seven masters (bodies and sets) at e2bb59c8",
+"plain-test · control UNFIRED over the seven masters (bodies and sets) at e2bb59c8",
+"tokio-adv · control UNFIRED over the seven masters (bodies and sets) at e2bb59c8",
+"crate-caps · control UNFIRED over the seven masters (bodies and sets) at e2bb59c8",
+"owner-gen · control UNFIRED over the seven masters (bodies and sets) at e2bb59c8"
+],
+"stderr": "control: wsys-dev, partly, scoped-cap, case4, plain-test, tokio-adv, crate-caps, owner-gen never fired over the seven masters' pre-pass text, bodies and sets (e2bb59c8) — a sweep runs a positive control or refuses; drop the pattern or control it by hand",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "cascade",
+"v": "1.17",
+"sha8": "1eaebed4",
+"ts": "2026-10-26T00:19:53Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-10-26T00-17-51-wrap/report-patterns.toml",
+"--pattern",
+"remote-rej",
+"--pattern",
+"dacl-effect",
+"--pattern",
+"untestable",
+"--pattern",
+"neg-file",
+"--pattern",
+"owner-title",
+"--run-dir",
+".andromeda/runs/2026-10-26T00-17-51-wrap",
+"--marker",
+"2026-10-25-windows-endpoint-admission"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline e2bb59c8 (pre-pass — HEAD)",
+"remote-rej · new 0 · standing 3 · leaf 3 · curation 0 · base 0 · control security-plan-detail/authentication-authorizat…",
+"dacl-effect · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control security-plan.md:434 (prose)",
+"untestable · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control test-plan.md:86 (prose)",
+"neg-file · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:261 (prose)",
+"owner-title · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture-detail/established-decisions.md:…",
+".andromeda/security-plan-detail/authentication-authorization.md:15 remote-rej standing ×2 …r. Keep `accept_remote(false…",
+".andromeda/test-plan.md:46 remote-rej standing … peer of another euid, remote pipe clients, the Windows pipe DACL) cann…",
+".andromeda/test-plan-detail/test-scope-summary.md:11 remote-rej standing ×2 …hich have no second OS account: rejecting …",
+".claude/rules/security.md:10 remote-rej leaf …er-SID>)(A;;GA;;;SY)`, `accept_remote(false)`, first-instance, non-inheri…",
+".claude/docs/security-summary.md:14 remote-rej leaf …user SID + SYSTEM), `accept_remote(false)`; Unix 0700 per-user soc…",
+".claude/docs/services/viola-channel.md:22 remote-rej leaf …ssibly an alias), `accept_remote(false)`, first-instance, `i…",
+".andromeda/security-plan.md:434 dacl-effect standing …scriptor`. The default DACL grants read to Everyone and anonymous.",
+".andromeda/test-plan-detail/test-scope-summary.md:11 dacl-effect standing … clients, and denying access through the Win…",
+".andromeda/test-plan.md:86 untestable standing - **Untestable zones:**",
+".andromeda/test-plan-detail/test-scope-summary.md:11 untestable standing …ss-user parts cannot be driven on hosted GitH…",
+".andromeda/architecture.md:261 neg-file standing …_endpoint.rs`, `tests/security_negatives_channel.rs`, the `viola-chan…",
+".andromeda/architecture-detail/established-decisions.md:125 owner-title standing …ks\", after \"Windows endpoint admissio…",
+"by line · 0 lines · 0 offsets",
+"remote-rej · new 0 · standing 3 · leaf 3 · curation 0 · base 0 · control security-plan-detail/authentication-authorizat…",
+"dacl-effect · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control security-plan.md:434 (prose)",
+"untestable · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control test-plan.md:86 (prose)",
+"neg-file · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:261 (prose)",
+"owner-title · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture-detail/established-decisions.md:…",
+"total (5 patterns) · 12 rows over 9 files",
+"per class · new 0/0 · standing 9/6 · leaf 3/3 · curation 0/0 · base 0/0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "e2bb59c8973da741d06b4b83bc54511a61486805",
+"how": "pre-pass — HEAD",
+"counts": {
+"remote-rej": {
+"new": 0,
+"standing": 3,
+"leaf": 3,
+"curation": 0,
+"base": 0
+},
+"dacl-effect": {
+"new": 0,
+"standing": 2,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"untestable": {
+"new": 0,
+"standing": 2,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"neg-file": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"owner-title": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+},
+"bare": []
+}
+}
+]

@@ -52,3 +52,9 @@ Read whole. The master's broad view is .andromeda/security-plan.md; this file ho
   - `actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1`
 
 <!-- /detail -->
+
+<!-- detail: values · deps-supply-chain -->
+
+- The open advisory RUSTSEC-2026-0386 (`unsound`) against the locked tokio `=1.53.1` fails CI's `supply-chain` job. It is owned by the working-route entry "tokio RUSTSEC-2026-0386 lock bump": a lock bump of `tokio` to `>=1.53.3`, with no ignore-list widening, so RUSTSEC-2017-0008 stays the only advisory ignore.
+
+<!-- /detail -->

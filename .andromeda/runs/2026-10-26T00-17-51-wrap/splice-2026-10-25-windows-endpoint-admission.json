@@ -1,0 +1,311 @@
+[
+{
+"tool": "splice",
+"v": "1.1",
+"sha8": "fc7d4385",
+"ts": "2026-10-26T00:22:26Z",
+"argv": [
+"append",
+"--file",
+"viola-0.1.0/chunks/2026-10-25-windows-endpoint-admission/report.md",
+"--payload-file",
+".andromeda/runs/2026-10-26T00-17-51-wrap/new-text.md",
+"--lines",
+"51",
+"--if-absent-prefix",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-10-26T00-17-51-wrap",
+"--marker",
+"2026-10-25-windows-endpoint-admission"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append report.md:+51 at line 291 · lines 290→341 · bytes 29419→32130 · term lf",
+"last line now:   - 264-268 «let opened = thread::spawn(|| {»"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/chunks/2026-10-25-windows-endpoint-admission/report.md"
+],
+"before": {
+"lines": 290,
+"bytes": 29419,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 341,
+"bytes": 32130
+}
+},
+{
+"tool": "splice",
+"v": "1.1",
+"sha8": "fc7d4385",
+"ts": "2026-10-26T01:26:52Z",
+"argv": [
+"append",
+"--file",
+"viola-0.1.0/chunks/2026-10-25-windows-endpoint-admission/report.md",
+"--payload-file",
+".andromeda/runs/2026-10-26T00-17-51-wrap/addendum-1.md",
+"--lines",
+"6",
+"--before-line",
+"291",
+"--run-dir",
+".andromeda/runs/2026-10-26T00-17-51-wrap",
+"--marker",
+"2026-10-25-windows-endpoint-admission"
+],
+"cwd": ".",
+"exit": 2,
+"stdout": [],
+"stderr": "--payload-file: 5 line(s), --lines says 6 — the count is the caller's own assertion",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "splice",
+"v": "1.1",
+"sha8": "fc7d4385",
+"ts": "2026-10-26T01:26:58Z",
+"argv": [
+"append",
+"--file",
+"viola-0.1.0/chunks/2026-10-25-windows-endpoint-admission/report.md",
+"--payload-file",
+".andromeda/runs/2026-10-26T00-17-51-wrap/addendum-1.md",
+"--lines",
+"5",
+"--before-line",
+"291",
+"--run-dir",
+".andromeda/runs/2026-10-26T00-17-51-wrap",
+"--marker",
+"2026-10-25-windows-endpoint-admission"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append report.md:+5 at line 291 · lines 341→346 · bytes 32130→32838 · term lf",
+"last line now:   - 264-268 «let opened = thread::spawn(|| {»"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/chunks/2026-10-25-windows-endpoint-admission/report.md"
+],
+"before": {
+"lines": 341,
+"bytes": 32130,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 346,
+"bytes": 32838
+}
+},
+{
+"tool": "splice",
+"v": "1.1",
+"sha8": "fc7d4385",
+"ts": "2026-10-26T01:43:01Z",
+"argv": [
+"append",
+"--file",
+"viola-0.1.0/chunks/2026-10-25-windows-endpoint-admission/report.md",
+"--payload-file",
+".andromeda/runs/2026-10-26T00-17-51-wrap/addendum-2.md",
+"--lines",
+"7",
+"--before-line",
+"296",
+"--run-dir",
+".andromeda/runs/2026-10-26T00-17-51-wrap",
+"--marker",
+"2026-10-25-windows-endpoint-admission"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append report.md:+7 at line 296 · lines 346→353 · bytes 32838→33744 · term lf",
+"last line now:   - 264-268 «let opened = thread::spawn(|| {»"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/chunks/2026-10-25-windows-endpoint-admission/report.md"
+],
+"before": {
+"lines": 346,
+"bytes": 32838,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 353,
+"bytes": 33744
+}
+},
+{
+"tool": "splice",
+"v": "1.1",
+"sha8": "fc7d4385",
+"ts": "2026-10-26T01:50:36Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-26T00-17-51-wrap/architecture-entries.append.md",
+"--lines",
+"9",
+"--run-dir",
+".andromeda/runs/2026-10-26T00-17-51-wrap",
+"--marker",
+"2026-10-25-windows-endpoint-admission"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+9 at line 1500 · lines 1499→1508 · bytes 281466→283639 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-26T00-17-51-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 1499,
+"bytes": 281466,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 1508,
+"bytes": 283639
+}
+},
+{
+"tool": "splice",
+"v": "1.1",
+"sha8": "fc7d4385",
+"ts": "2026-10-26T01:50:36Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-26T00-17-51-wrap/security-plan-entries.append.md",
+"--lines",
+"18",
+"--run-dir",
+".andromeda/runs/2026-10-26T00-17-51-wrap",
+"--marker",
+"2026-10-25-windows-endpoint-admission"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+18 at line 855 · lines 854→872 · bytes 151982→155278 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-26T00-17-51-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 854,
+"bytes": 151982,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 872,
+"bytes": 155278
+}
+},
+{
+"tool": "splice",
+"v": "1.1",
+"sha8": "fc7d4385",
+"ts": "2026-10-26T01:50:36Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-26T00-17-51-wrap/test-plan-entries.append.md",
+"--lines",
+"45",
+"--run-dir",
+".andromeda/runs/2026-10-26T00-17-51-wrap",
+"--marker",
+"2026-10-25-windows-endpoint-admission"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+45 at line 1212 · lines 1211→1256 · bytes 211746→220196 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-26T00-17-51-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 1211,
+"bytes": 211746,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 1256,
+"bytes": 220196
+}
+},
+{
+"tool": "splice",
+"v": "1.1",
+"sha8": "fc7d4385",
+"ts": "2026-10-26T01:57:59Z",
+"argv": [
+"append",
+"--file",
+"viola-0.1.0/working-route.md",
+"--payload-file",
+".andromeda/runs/2026-10-26T00-17-51-wrap/route-insert-1.md",
+"--lines",
+"2",
+"--after-line",
+"170",
+"--run-dir",
+".andromeda/runs/2026-10-26T00-17-51-wrap",
+"--marker",
+"2026-10-25-windows-endpoint-admission"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append working-route.md:+2 at line 171 · lines 191→193 · bytes 55804→56689 · term lf",
+"last line now: Version done-check — every gate green on three OSes, masters agree, fix-pass i"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/working-route.md"
+],
+"before": {
+"lines": 191,
+"bytes": 55804,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 193,
+"bytes": 56689
+}
+}
+]

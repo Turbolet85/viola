@@ -1,0 +1,2 @@
+proposals: []
+note: the chunk changed no product file (report Changes, Files); its one new obs_event! site, emit_witness_line in src/main.rs 634-637, is test-only and reuses the catalogued `state-recovered{detail:"torn-line-healed"}` with no new field, so the event table, the detail codes and the spawn subjects in .andromeda/obs-plan-detail/log-coverage.md all still hold; D-obs-instrumentation, D-obs-stack and D-obs-pii do not fire (report Coverage of new surfaces: instrumentation n/a, PII n/a; Dependencies: no telemetry crate moved; Retired: none).

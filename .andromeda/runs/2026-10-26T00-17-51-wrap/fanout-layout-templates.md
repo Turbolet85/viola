@@ -1,0 +1,2 @@
+proposals: []
+note: The report's Changes edit test code and one dev-dependency table only, and say "no product file changed, no product behaviour, wire contract, exit code, refusal word or output line moved". Its Outcome reads "(design · layouts · a11y) no human output, refusal text or SGR byte changed". No cli wording is added or replaced (D-design-cli-wording), there is no new user-facing surface or region (D-layout-surface), and Retired is none (D-retired).

@@ -1,0 +1,2 @@
+proposals: []
+note: the chunk is test-only (report Changes: no product file, no env read, no credential or R8 strip touched; Retired none); its one dependency fact (the root Windows dev-dependency windows-sys features) and the tokio RUSTSEC-2026-0386 supply-chain red belong to Dependency Security, and the listener admission witnesses to Authentication & Authorization — nothing lands in .andromeda/security-plan-detail/secret-management.md.

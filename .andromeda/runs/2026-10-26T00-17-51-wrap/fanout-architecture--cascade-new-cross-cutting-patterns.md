@@ -1,0 +1,12 @@
+proposals:
+  - detector: D-new-detail
+    severity: warning
+    fact: F3
+    file: .andromeda/architecture-detail/cross-cutting-patterns.md
+    near: 22
+    section: '## Cross-cutting Patterns'
+    change: 'After line 22, a new detail block `<!-- detail: values · crosscut-endpoint-trust -->` … `<!-- /detail -->` (blank lines as its neighbours) holding one item: - **Local endpoint trust boundary.** On Windows the boundary is asserted on the CI leg `test (windows-2025)` since chunk 2026-10-25-windows-endpoint-admission (ci#40247500584): the viola listener''s pipe reads `FILE_PIPE_REJECT_REMOTE_CLIENTS` set, and an anonymous-token `GENERIC_READ` open of it is denied with `ERROR_ACCESS_DENIED`. Each assertion is checked against test-owned control pipes that tell the outcomes apart (an accept-remote pipe reads the bit clear and a reject-remote pipe reads it set; a default-descriptor pipe admits the same anonymous open), so nothing is owed to "Windows-only live measurements" for them. A peer of another euid and a second OS account stay undriven on hosted runners. How the boundary is enforced per OS stays the security specialist''s (security-plan §Authentication & Authorization, IPC access control (Windows)).'
+    sidecar: 'architecture Cross-cutting Patterns: new detail group for the Local endpoint trust boundary, its Windows remote-client rejection and DACL denial asserted on CI test (windows-2025) against control pipes (chunk 2026-10-25-windows-endpoint-admission).'
+    rationale: 'The report''s Changes, Counts / qualifiers moved (line 55: remote-client rejection and the DACL effect 0 → asserted on test (windows-2025), ci#40247500584), its Symbols / APIs (lines 10-24: the five cases and their controls), Spec claims disproved (lines 130-137: the rest of the clause, a different euid and a second OS account, stands) and Outcome (lines 225-229: the controls tell the outcomes apart, nothing owed to "Windows-only live measurements"); the body''s broad line names the boundary and leaves per-OS enforcement to the security specialist, and the file holds no group for it yet.'
+    basis: viola-0.1.0/chunks/2026-10-25-windows-endpoint-admission/report.md:55
+note: The detail key `crosscut-endpoint-trust` is new; the group binds with security-plan's authentication-authorization detail (the Windows IPC access-control clause the report names), whose own amendment is that master's cascade.

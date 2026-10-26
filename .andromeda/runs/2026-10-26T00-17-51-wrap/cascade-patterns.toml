@@ -1,0 +1,18 @@
+[[pattern]]
+id = 'main-hosted'
+regex = '''cannot be (driven|exercised|tested|asserted) on hosted|hosted (GitHub )?runners?,? which have no second|no second OS account'''
+ignore_case = true
+
+[[pattern]]
+id = 'main-remote'
+regex = '''remote (pipe )?clients?|PIPE_REJECT_REMOTE_CLIENTS|accept_remote'''
+ignore_case = true
+
+[[pattern]]
+id = 'main-dacl'
+regex = '''pipe DACL|DACL'?s effect|partially testable with stubs|anonymous'''
+ignore_case = true
+
+[[pattern]]
+id = 'main-tokio-adv'
+regex = '''RUSTSEC-20[0-9]{2}-[0-9]{4}'''

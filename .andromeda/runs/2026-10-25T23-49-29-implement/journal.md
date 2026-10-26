@@ -16,3 +16,11 @@ the run dir before you wait on it. Keep every subagent and workflow transcript.�
 ## Operator pass (on the operator's word at invocation)
 - 2026-10-26T00:01Z · entry 21, hygiene as written → `hygiene: clean — read 427`.
 - 2026-10-26T00:01Z · the pass's `pre-push` re-run before the push (entry 20, `--entry 20`, no run dir), backgrounded.
+  → green, 100.13 s.
+- 2026-10-26T00:03Z · hygiene re-read → clean; pre-CI commit `e2bb59c8`; entry 22 (`--operator 22`) pushed,
+  `history moved: refs/remotes/origin/build/viola-0.1.0 b6740d59→e2bb59c8`.
+- 2026-10-26T00:04Z · entry 23, `ci.py conclusion --sha HEAD --wait 2400 --name 'test (windows-2025)'` as written,
+  backgrounded (timeout 2580; CI wall ~600–1050 s at the last runs). → `verdict: green`, ci#40247500584, polled 23×
+  over 683 s.
+- entry 24, the full row as written → `verdict: red · checks 15/15`, `failed 1: supply-chain` (RUSTSEC-2026-0386).
+- No subagent or workflow was spawned in this run, so there is no transcript to keep.

@@ -1,0 +1,2 @@
+proposals: []
+note: Conventions holds RefusalReason, CLI exit codes and MCP results; the report's Changes are test-only (no product file, wire contract, exit code or refusal word moved; squatted-name asserted unedited), its test pipes stay in the registered viola-test-chan-<pid>-<label> namespace (Occupied Resources, architecture.md:261), and its windows-sys dev-dependency features are the Infrastructure Patterns crate-dependency fact, not this category's.

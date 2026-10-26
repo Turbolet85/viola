@@ -8,6 +8,16 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
+## 2026-10-26 — A windows-sys item needs every feature its signature's types need
+windows-sys gates each function on the feature of every type in its signature, not only on its own module's feature.
+`NtQueryInformationFile` lives in `Wdk::Storage::FileSystem`, yet it is behind `Win32_System_IO` too, because it takes an
+`IO_STATUS_BLOCK`. A feature can also reach the Windows graph by unification from another crate (mio, interprocess,
+socket2), so code naming the item compiles without the feature being declared, and stops compiling the day that crate
+drops it. When a manifest entry pulls a windows-sys item in, read the item's `#[cfg(feature = …)]` gates in the
+pinned crate's source and declare every one of them, even when the Windows-target clippy is already green.
+
+---
+
 ## 2026-10-20 — A founder-batch directive carries the last batch's body form and line numbers
 The overseer's directive for the Epoch 5 batch asked each master body to keep its provisional record "with `superseded 2026-10-20`". That is the idiom of the Epoch 4 batch, written before `classify.py` existed. Today the form fails the check's provenance arm on every line it touches (138 rows over 8 files), because writing rule 7 keeps who ruled, a date and a superseded value out of the body. The letter wins, as the operator ruled at the wrap: the body drops the mark and states the current truth, and the sidecar entry carries the ratification and names each earlier entry whose provisional record it supersedes. That entry has no `Supersedes` field, so nothing is pruned. The same directive cited sites by the line numbers of the Epoch 4 batch's record (its line number for architecture §Occupied Resources read an empty line). Before writing a batch, run `classify.py check --mode standing` on one edited master. Locate every site by its content, never by a directive's line number.
 

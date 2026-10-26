@@ -12,7 +12,7 @@ _Distilled from `.andromeda/test-plan.md` by `/andromeda-setup-project`. wrap-se
 
 The harness is the agent-driven verification surface. `scripts/agent-run.{sh,ps1}` are thin shims over `cargo run -q -p viola-e2e --bin viola-harness -- <command>`; all logic lives in Rust. See `.claude/rules/verification-harness.md` for path-scoped enforcement.
 
-- **Test runner:** cargo-nextest 0.9.146 (process-per-test, JUnit, `retries = 0`) + `cargo test --doc`
+- **Test runner:** cargo-nextest 0.9.146 (process-per-test, JUnit, `retries = 0`) + `cargo test --doc`; nextest is the runner, and a plain `cargo test` run (`cargo test --bin viola`) is not supported
 - **5-command discipline:** boot / run / status / cleanup / logs — each prints one JSON document `{"v":1,"cmd":…,"ok":…}`, exit 0/1/2
 - **Status:** `agent-run status` runs `<bin dir>/viola --home <home> list --json` (the bin dir and session `bin/` from `supervise.json`, the session `PATH`, `VIOLA_NAME` / `VIOLA_DIR` / `VIOLA_BIN` removed) and aggregates it (`state: ready|degraded|down`; `pid` and `uptime_ms` are `null`): `ready` when `list` exits 0 and every booted instance is an item `wrapped:true, liveness:"live"`, `degraded` when one is `stale` or absent or the document holds no `items`, `down` when `list` exits non-zero (`list-exit-<code>`), gives no exit code, cannot be spawned or has no `supervise.json` (`list-exit-none`), or exits 0 with no JSON object (`list-exit-0`)
 - **PID file:** none as a product file — pids live in `instances/<name>/snapshot.json`; the harness record is `target/agent-run/<session>/session.json`

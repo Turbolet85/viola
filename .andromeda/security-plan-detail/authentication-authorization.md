@@ -42,3 +42,14 @@ Read whole. The master's broad view is .andromeda/security-plan.md; this file ho
   - **Stack reference:** `viola-state` home resolution; tempfile 3.27.0 `persist` via `viola_state::fs::replace_private`; std `OpenOptionsExt`; windows-sys 0.61.2
 
 <!-- /detail -->
+
+<!-- detail: values · auth -->
+
+- **Requirement:** IPC access control (Windows), the remote-client rejection's witness
+  - **Implementation:** The remote-client rejection is asserted on CI's `test (windows-2025)` by `security_negative_viola_listener_rejects_remote_clients`: it opens a client end of a bound `viola_channel::Server::bind` listener and reads its `NamedPipeType` through `NtQueryInformationFile` / `FilePipeLocalInformation`, the `FILE_PIPE_REJECT_REMOTE_CLIENTS` bit (2) set. Two test-owned control pipes tell the bit apart: `security_negative_control_accept_remote_pipe_reads_the_bit_clear` (accept-remote, the bit clear) and `security_negative_control_reject_remote_pipe_reads_the_bit_set` (reject-remote, the bit set).
+  - **Stack reference:** `tests/security_negatives_channel.rs` (Windows only); windows-sys 0.61.2
+- **Requirement:** IPC access control (Windows), the DACL's effect's witness
+  - **Implementation:** The protected user + SYSTEM DACL's effect, beyond its text read-back, is asserted on CI's `test (windows-2025)` by `security_negative_viola_listener_denies_an_anonymous_open`: with the listener bound first, a `GENERIC_READ` open under `ImpersonateAnonymousToken` is denied `ERROR_ACCESS_DENIED` (5). Its control `security_negative_control_default_pipe_admits_an_anonymous_read` shows the same open admitted on a pipe with the default descriptor (null security attributes).
+  - **Stack reference:** `tests/security_negatives_channel.rs` (Windows only); windows-sys 0.61.2
+
+<!-- /detail -->

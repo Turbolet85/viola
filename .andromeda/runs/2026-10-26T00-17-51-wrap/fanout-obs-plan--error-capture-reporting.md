@@ -1,0 +1,2 @@
+proposals: []
+note: the report's Changes are test-only (no product file, panic hook, catch site or feed-thread containment moved; Retired none); `with_scoped_default` re-routes unit-test captures only (Coverage of new surfaces: instrumentation n/a, every line still through `obs_event!`) and its gate.rs:465 capture site leaves the vt100-feed `parse-rejected` contract unchanged, so it is test-plan §4 detail, not this category's.

@@ -1,0 +1,2 @@
+proposals: []
+note: the chunk changed no gate, coverage threshold, ignore regex, mutation verdict or perf row (report Changes, Harness / gate surface: none); its new Windows cases run inside the existing `test (windows-2025)` coverage run, green on ci#40247500584, and no count it moved (scoped captures 9 → 0, Windows admission controls 0 → asserted) has a site in this category; the stale untestable-zone claim (remote pipe clients, the pipe DACL) belongs to test-scope-summary, and the plain `cargo test` reds and the case_4 root cause to unit-test-strategy, not here.

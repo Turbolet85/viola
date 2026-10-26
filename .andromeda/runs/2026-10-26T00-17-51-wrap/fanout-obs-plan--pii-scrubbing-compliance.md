@@ -1,0 +1,2 @@
+proposals: []
+note: the report's Changes are test code and one Windows dev-dependency table only (no product file, no new log field or sink); its Coverage of new surfaces reads PII n/a for all three surfaces, the witness's one line is the codes-only `state-recovered{detail:"torn-line-healed"}` through `obs_event!`, and Retired is none — D-obs-pii, D-obs-instrumentation, D-obs-stack and D-retired find nothing in .andromeda/obs-plan-detail/pii-scrubbing-compliance.md.

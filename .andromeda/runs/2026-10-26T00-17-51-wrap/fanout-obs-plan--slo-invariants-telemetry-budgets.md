@@ -1,0 +1,2 @@
+proposals: []
+note: test-only chunk (report Changes: no product file changed); no new hot-path operation, logger setup or user-data logging, Retired none, and none of its facts (Windows listener negatives, `test_support::with_scoped_default`, the windows-sys dev features) touches the panic invariant, its exemptions, G2 counting or the perf budgets — G2 green and G4 conformant per the report's Outcome (obs) line; the scoped-capture helper's placement is test-plan §4's (Expected amendments), not this category's.

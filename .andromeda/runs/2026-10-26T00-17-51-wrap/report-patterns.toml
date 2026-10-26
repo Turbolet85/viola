@@ -1,0 +1,60 @@
+[[pattern]]
+id = 'wsys-dev'
+regex = '''Wdk_Storage_FileSystem|Win32_System_IO|cfg\(windows\)'?\.dev-dependencies|Windows dev-dependenc'''
+
+[[pattern]]
+id = 'remote-rej'
+regex = '''reject(s|ing)? (a )?remote( \(network\))? (pipe )?client|remote pipe client|PIPE_REJECT_REMOTE_CLIENTS|FILE_PIPE_REJECT_REMOTE_CLIENTS|accept_remote|second OS account|security_negative_viola_listener_rejects_remote_clients'''
+ignore_case = true
+
+[[pattern]]
+id = 'dacl-effect'
+regex = '''anonymous|ImpersonateAnonymousToken|denying access through the Windows pipe DACL|DACL'?s effect|security_negative_viola_listener_denies_an_anonymous_open'''
+ignore_case = true
+
+[[pattern]]
+id = 'untestable'
+regex = '''untestable zone|cannot be driven on hosted GitHub runners'''
+ignore_case = true
+
+[[pattern]]
+id = 'neg-file'
+fixed = 'security_negatives_channel'
+
+[[pattern]]
+id = 'partly'
+fixed = 'partly landed'
+ignore_case = true
+
+[[pattern]]
+id = 'scoped-cap'
+regex = '''with_scoped_default|subscriber::with_default|scoped (tracing )?subscriber|scoped capture|scoped dispatcher|caches a callsite'''
+ignore_case = true
+
+[[pattern]]
+id = 'case4'
+regex = '''case_4|send_budget_paused_is_refused_with_the_window_word'''
+
+[[pattern]]
+id = 'plain-test'
+regex = '''cargo test --bin viola|plain `?cargo test|bare `?cargo test'''
+ignore_case = true
+
+[[pattern]]
+id = 'tokio-adv'
+regex = '''RUSTSEC-2026-0386|tokio RUSTSEC|lock bump'''
+ignore_case = true
+
+[[pattern]]
+id = 'crate-caps'
+regex = '''capture_global|viola-state/src/lib\.rs:87|viola-channel/src/test_support\.rs:184|viola-channel/src/lib\.rs:199'''
+
+[[pattern]]
+id = 'owner-title'
+fixed = 'Windows endpoint admission'
+ignore_case = true
+
+[[pattern]]
+id = 'owner-gen'
+regex = '''owned by a (route entry|CARRY)'''
+ignore_case = true

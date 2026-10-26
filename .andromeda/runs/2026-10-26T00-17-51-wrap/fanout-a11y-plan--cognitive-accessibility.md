@@ -1,0 +1,2 @@
+proposals: []
+note: the report changes test code and a Windows dev-dependency table only (Changes, Files: "no product file changed", no output line, refusal word or exit code moved; Coverage of new surfaces: a11y n/a on every row; Retired: none; Schema / config: none) — no interactive UI element (D-a11y-surface) and no a11y or obs schema change (D-a11y-obs-schema), and no time bound, error/hint text, fixed CLI string or caption in viola-0.1.0/chunks/2026-10-25-windows-endpoint-admission/report.md touches .andromeda/a11y-plan-detail/cognitive-accessibility.md.

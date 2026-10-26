@@ -1,0 +1,2 @@
+proposals: []
+note: test-only chunk (report Changes: no product file, no dependency added, Retired none); the root bin's `test_support::with_scoped_default` routes test captures over tracing 0.1.44 / tracing-subscriber `registry()` already in the §3 stack, every captured line still through `obs_event!` (Coverage of new surfaces) — no new hot-path operation, no off-spec logger, no user-data logging; the scoped-capture fact is test-plan §4's (Expected amendments), not this category's.
