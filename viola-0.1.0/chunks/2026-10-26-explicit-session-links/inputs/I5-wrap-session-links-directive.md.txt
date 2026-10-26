@@ -1,0 +1,25 @@
+# Wrap directive — 2026-10-26-explicit-session-links
+
+The operator's requests to the wrap's orchestrator (the overseer, founder-delegated; the debug loop on viola).
+
+1. **At P2 the operator's word is «forced sample».** Please run the sample with `--force`
+   (`detail.py sample --side wrap --force`).
+2. **Please keep the evidence.** Keep every subagent and Workflow transcript. Leave this wrap's run dir, the phase's
+   (`.andromeda/runs/2026-10-26T12-53-39-phase/`) and implement's (`.andromeda/runs/2026-10-26T14-59-26-implement/`)
+   intact.
+3. **Stop at a hard cascade failure.** If a Workflow launch, a batch, an Apply or a P2 step fails hard, please stop and
+   report it with the run dir. Stop the same way if agents write nothing, or do the orchestrator's work instead of
+   theirs (F352). Do not re-spawn around it.
+4. **At P2 validated, please report:**
+   - check's first-try lines per kind;
+   - the compare headers;
+   - the tally;
+   - the run dir;
+   - whether the strong batch shows `SPLIT` (F357 is now live).
+5. **The founder's own words on this chunk:**
+   - P4 «Сначала instance check (Рекомендую)» (`inputs#I3`);
+   - P5 «Да (Рекомендую)» (`inputs#I4`).
+
+   Carry the card's Beyond-the-plan row (`v1-13` and `v1-36` onto «Version done-check») as approved.
+6. **Size:** a cold start after a clear. Run the wrap whole. The 85 % and 90 % context alarms are expected; finish the
+   wrap, and stop only at 95 %.

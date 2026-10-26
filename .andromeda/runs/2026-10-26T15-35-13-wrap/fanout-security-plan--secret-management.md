@@ -1,0 +1,2 @@
+proposals: []
+note: secret-management.md (Production and Development rows) is untouched by this chunk: the report's Changes add no secret, credential, environment read outside existing VIOLA_* plumbing (the verbs' `from` comes from the existing client::own_name), no dependency (Dependencies: none) and no launcher change; the new link/unlink input surfaces are validated per the report (ViolaName::try_new, own-name, self-pair, -32602) and belong to input-validation.md / authentication-authorization.md, not this file; no Retired item is stated here.

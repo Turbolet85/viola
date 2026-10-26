@@ -1,0 +1,2 @@
+proposals: []
+note: brand-identity.md holds only the cli expression rows (0.2 TTY, 0.0 json/pipe/run), and the chunk's link/unlink result lines are plain in every mode with tokens n/a (report Coverage), so they fit both rows; this file states no hold, -32601 answer or help-row note from the report's Retired bullet, and no output wording, so neither detector fires here; the stale body line design-system.md:348 (handoff row pending) is a Surface: cli matter, owned elsewhere.

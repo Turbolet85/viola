@@ -1,0 +1,11 @@
+proposals:
+  - detector: D-new-detail
+    severity: warning
+    file: .andromeda/obs-plan-detail/error-capture-reporting.md
+    near: 23
+    section: '## 7. Error Capture & Reporting'
+    change: 'Before step 4 of init, no file exists, so the panic hook writes nothing. This window contains clap parsing and home resolution, and the instance check that `viola revive`''s start arm and `viola hook statusline` run before any role file is opened (chunk 2026-10-10-budget-governor), `viola mcp`''s check of its home and `diagnostics/`, also run before any role file is opened (chunk 2026-10-17-mcp-server-for-drivers), and the instance check `viola link` / `viola unlink` run on the driven instance (`viola_state::strict::check_instance` in their shared `link_call`, before `client::start`), whose refusal is exit 21 with the fixed instance-state `unable` / `hint:` pair, or under `--json` exactly `{"v":1,"error":"instance-unreachable","detail":null}` with stderr empty, and no line in any log (chunk 2026-10-26-explicit-session-links).'
+    sidecar: 'error-capture-reporting.md pre-init window: the `viola link` / `viola unlink` instance check (before `client::start`, exit 21, no line in any log) joins the checks run before any role file is opened (chunk 2026-10-26-explicit-session-links).'
+    rationale: 'The report (Changes, Symbols / APIs, the new verbs, step 1) has `link_call` run `check_instance` BEFORE `client::start`, so before any role file or log opens, its refusal exit 21 with the instance-state pair or the `instance-unreachable` document and no line in any log; Expected amendments names obs §10 exemption 7 / the pre-init window (the verbs'' refused check), and Counts (`checkinst`) asks a detector to extend a list of refusing verbs where it finds one. This line enumerates the pre-init checks by verb and names only revive, hook statusline and mcp.'
+    basis: .andromeda/obs-plan-detail/error-capture-reporting.md:23
+note: 'Checked and true by class: line 15 role_of (link / unlink already Role::Cli, no change per the report) and lines 8, 16-17, 29; no Retired item (the link hold, the -32601 answer, LinkSet::remove dead_code) appears in this file; no PII or stack drift (names only, no new logging library).'

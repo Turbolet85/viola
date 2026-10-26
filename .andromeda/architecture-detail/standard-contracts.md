@@ -39,12 +39,16 @@ A snapshot whose `v` is higher than the reader supports, or that fails to parse,
 <!-- detail: values · contract-instance-snapshot -->
 
 - `links` is the set derived by replaying `link`/`unlink` events, as `{driver, driven, since}`. `since` is the `link` line's `ts`. As landed (chunk 2026-10-10-session-links) the wrapper holds the set in memory (`LinkSet`, `src/run/links.rs`, one per wrapper process, under one lock), restores it at every start, a revived one included, by one pass over `events.ndjson` through `events::read_from` and the rule `replay::apply_link_line` before `server.serve`, writes it as the first snapshot's `links` in place of an empty list, and rewrites `links` through `Snapshots::update` at each change, after the line has landed. The restore appends no line and logs nothing. The set follows the log: a failed append leaves it as it was, and a line that landed is in the set even when the snapshot write then fails.
+- The set changes on an implicit link and on a served `link` / `unlink` call: `LinkSet::link` adds the pair through `record`, and `LinkSet::unlink` removes it through `remove`.
+- A `link` of a pair the set holds appends nothing and answers that pair's `since` with `already_linked: true`; a new pair answers its new `link` line's `ts` as `since`, with `already_linked: false`.
+- `unlink` answers `{}` whether or not the set held the pair; an absent pair appends nothing and leaves the set as it was.
+- A `link` or `unlink` answered `-32602` (its causes: §Standard Contracts, Channel methods) writes no line, and a failed record or remove is `-32603`.
 
 <!-- /detail -->
 
 <!-- detail: values · contract-channel-methods -->
 
-- Before its first frame, the client of `send`, `wait`, `last`, `answer`, `pause`, `release`, `hook.event` and `hook.dialog`, and of the MCP `send` / `wait` / `last` / `answer` tools, compares the connected stream's peer pid and that process's OS start time with the snapshot's `pid` and `started_at` from its one snapshot read (Session liveness, below); a mismatch, or a check that cannot be made, writes no frame. macOS reports no peer pid and stays a recorded gap.
+- Before its first frame, the client of `send`, `wait`, `last`, `answer`, `pause`, `release`, `link`, `unlink`, `hook.event` and `hook.dialog`, and of the MCP `send` / `wait` / `last` / `answer` tools, compares the connected stream's peer pid and that process's OS start time with the snapshot's `pid` and `started_at` from its one snapshot read (Session liveness, below); a mismatch, or a check that cannot be made, writes no frame. macOS reports no peer pid and stays a recorded gap.
 
 <!-- /detail -->
 
@@ -56,7 +60,13 @@ A snapshot whose `v` is higher than the reader supports, or that fails to parse,
 
 <!-- detail: values · contract-channel-methods -->
 
-- `wait` `{after?, timeout_ms?, from?}` → `{event:<ndjson event line>, cursor}`, where `cursor` is the end offset of that event's line, or `{timed_out:true}`. `after` and `timeout_ms` are each absent or a non-negative integer that fits `u64` (`null`, a negative, a fraction or a string is `-32602`, `data: null`); unknown fields are ignored. The start offset is `after`, else `events.ndjson`'s end read at the call; a line counts only when it STARTS at or after it. A pending dialog comes first: an `after`-less `wait`, or one whose `after` is at or before the pending dialog's line, returns that dialog at once. Only `turn-ended` · `question` · `permission` · `plan` · `session-end` · `dialog-expired` wake (`viola_core::EventKind::WAIT_WAKE`); the deadline is `now + timeout_ms` through `Instant::checked_add` (an unrepresentable instant is no deadline). The wake (`src/run/wait.rs` `WaitFeed`): one `Mutex` (a generation counter + the newest turn) and one `Condvar`; `WaitFeed::appending` runs each hook line's append inside the lock, then bumps the generation, keeps a `turn-ended` as the newest turn and wakes the parked calls. Hook lines signal, and of the wrapper's own records only `dialog-expired`, appended through `WaitFeed::appending` (the wrapper's `send-*`, `link` and start records never wake). A parked `wait` reads the generation before each scan, re-scans only when it moves, and its 20 ms `wait_timeout` re-reads the injected clock against the deadline, never the file; it holds its connection's worker thread until a wake, its deadline or the wrapper's exit.
+- `wait` `{after?, timeout_ms?, from?}` → `{event:<ndjson event line>, cursor}`, where `cursor` is the end offset of that event's line, or `{timed_out:true}`. `after` and `timeout_ms` are each absent or a non-negative integer that fits `u64` (`null`, a negative, a fraction or a string is `-32602`, `data: null`); unknown fields are ignored. The start offset is `after`, else `events.ndjson`'s end read at the call; a line counts only when it STARTS at or after it. A pending dialog comes first: an `after`-less `wait`, or one whose `after` is at or before the pending dialog's line, returns that dialog at once. Only `turn-ended` · `question` · `permission` · `plan` · `session-end` · `dialog-expired` wake (`viola_core::EventKind::WAIT_WAKE`); the deadline is `now + timeout_ms` through `Instant::checked_add` (an unrepresentable instant is no deadline). The wake (`src/run/wait.rs` `WaitFeed`): one `Mutex` (a generation counter + the newest turn) and one `Condvar`; `WaitFeed::appending` runs each hook line's append inside the lock, then bumps the generation, keeps a `turn-ended` as the newest turn and wakes the parked calls. Hook lines signal, and of the wrapper's own records only `dialog-expired`, appended through `WaitFeed::appending` (the wrapper's `send-*`, `link`, `unlink` and start records never wake). A parked `wait` reads the generation before each scan, re-scans only when it moves, and its 20 ms `wait_timeout` re-reads the injected clock against the deadline, never the file; it holds its connection's worker thread until a wake, its deadline or the wrapper's exit.
+
+<!-- /detail -->
+
+<!-- detail: values · contract-channel-methods -->
+
+- `link` and `unlink` read no `from`: a `from` of any shape changes nothing. Each answers only after its event line and the snapshot write.
 
 <!-- /detail -->
 
@@ -75,6 +85,12 @@ A snapshot whose `v` is higher than the reader supports, or that fails to parse,
 <!-- detail: values · contract-event-data -->
 
 - `prompt-submitted`: `{text, origin}`. `text` is the submitted prompt as it was typed: `viola-agent-claude` removes any `<pasted_content id=…>` long-paste wrapper together with the frame the CLI writes around it (two newlines before the open tag, one after the close tag, and a second after it when text follows that is not the next pair's own frame) and then reverses tag escaping before emitting the event, so for a wrapped paste `text` is the pasted text, and delivery matching compares it directly with the in-flight send's typed text, the sent text with every CR LF pair and every other CR as one LF and without its trailing CR and LF characters ([Delivery Confirmation]). For a `send` whose text ended in CR or LF characters, or held a CR or a CR LF inside, `text` is the text as typed, not as sent. The CLI drops a pasted text's last newline before the hook, wrapped or not (as measured on 2.1.287, chunk 2026-10-07-live-rows-and-paste-shapes-on-the-dev-host, `evidence/scratch-session.md`), so `text` for a pasted text that ended in a newline is one byte short of it. No `send` relies on this: `send` never types a text that ends in a newline. `origin` is `driver` · `human` · `harness`: the hook files only `human` · `harness`, and `driver` is set only by the wrapper's relabel of the in-flight send's own prompt.
+
+<!-- /detail -->
+
+<!-- detail: values · contract-cli-json-output -->
+
+- `viola link <driver> <driven> --json` prints `{"v":1,"ok":{"since":…,"already_linked":…}}` (`since` a string, `already_linked` a boolean) and `viola unlink <driver> <driven> --json` prints `{"v":1,"ok":{}}`, each with exit 0. Their refused strict-modes check on the home and `instances/<driven>`, made before any role file or log opens, prints exactly `{"v":1,"error":"instance-unreachable","detail":null}` on stdout (exit 21), with stderr empty and no line in any log.
 
 <!-- /detail -->
 

@@ -1,0 +1,2 @@
+proposals: []
+note: iconography.md:8 already states the built lines' glyph (ASCII `->`, no inbound form, links printed only as `link` / `unlink` verb output `overseer -> builder`), matching the report's three result lines (src/human/verbs.rs:57-89); no colour or token is used (Coverage tokens n/a), and the retired hold and the pending `handoff:` row (design-system.md:348) sit outside this category.

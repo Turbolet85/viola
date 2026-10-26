@@ -1,0 +1,22 @@
+[[pattern]]
+id = 'm-notbuilt'
+regex = '(link|unlink)[^.;]{0,120}(not built|not served|answers? (both )?(methods )?`-32601`|held for the founder|are held)'
+ignore_case = true
+
+[[pattern]]
+id = 'm-six'
+regex = 'six (CLI )?frame[- ]verbs|the six verbs|six-verb'
+ignore_case = true
+
+[[pattern]]
+id = 'm-twosites'
+fixed = 'two product call sites'
+
+[[pattern]]
+id = 'm-nocaller'
+regex = 'remove`?[^.;]{0,60}no (product )?caller|has no caller until'
+
+[[pattern]]
+id = 'm-owner'
+fixed = 'Explicit session links'
+ignore_case = true

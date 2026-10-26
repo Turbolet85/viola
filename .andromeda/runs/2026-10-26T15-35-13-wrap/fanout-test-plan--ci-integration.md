@@ -1,0 +1,2 @@
+proposals: []
+note: The report's only harness/gate change is `.config/nextest.toml`'s `ci` profile kill-line filter gaining `binary(channel_links)` (report Changes, Harness / gate surface: "no agent-run verb, CI step or status shape changed"); .andromeda/test-plan-detail/ci-integration.md names no kill-line binary, no link/unlink surface and no moved count (deny-probes 13/13, release-check 5/5, conpty-vendor 4/4, orphans 2/2 unchanged; Dev-tool versions none), so no detector fires in this category.

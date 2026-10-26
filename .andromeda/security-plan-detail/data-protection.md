@@ -23,6 +23,18 @@ Read whole. The master's broad view is .andromeda/security-plan.md; this file ho
 
 <!-- detail: values · data-rest -->
 
+- **Logs (`events.ndjson`, the link lines):** the wrapper's served `link` method appends one `link` line through `LinkSet::record`, as an implicit link does, and its served `unlink` method one `unlink` line through `LinkSet::remove`, each to the instance's `events.ndjson` with `data: {driver, driven}`: the two instance names only, no user content. A held pair's second `link` and an absent pair's `unlink` append nothing. The replies carry only `{since, already_linked}` (`link`) and `{}` (`unlink`).
+
+<!-- /detail -->
+
+<!-- detail: values · data-rest -->
+
+- **Logs (the wrapper's process log) and the link verbs' output:** the wrapper's `link` / `unlink` methods open no span and write no process-log line of their own; its `channel-request` / `channel-response` pair carries `method:"link"|"unlink"` and no name, so no driver name reaches the wrapper's process log. `viola link` / `viola unlink` print only their own parsed `ViolaName` arguments, never a name read back from the reply or the log.
+
+<!-- /detail -->
+
+<!-- detail: values · data-rest -->
+
 - **Repository fixtures:** `fixtures/claude/<cli-version>/` is recorded by `viola verify --record` from live sessions and committed, its `Mcp.` exchanges by the test-only `viola-mcp-tap` (below). Probe prompts must be synthetic. Before any write, verify scrubs every string and key (the home prefix, both separator spellings and case-folded on Windows, → `~`; the user word, whole word and case-insensitive, → `<user>`) and refuses the whole recording (exit 1, nothing written) when a drive path at string start, `/home/`, `/Users/`, `\Users\`, the user word or an email-shaped token survives. A screen fixture (`Screen.<phase>.json`) keeps only the rows that hold a compiled signature literal (the rest `""`), and a kept row the scrub would rewrite, or a username split across a row seam, refuses it too. The refusal names the fixture file and a closed check code, never the content: `unable: a recorded fixture is not clean: <file> <code>`, or `<file> row <n>[ seam] <code>` for a screen, with codes `home-path` · `absolute-path` · `username` · `email`. The founder ratified this named form live at this chunk's wrap (2026-10-05, through the overseer's AskUserQuestion, the closed code set and no-content rule shown). It was the fixed `a recorded payload still holds a path or a username`. Review recorded payloads for home paths, usernames and tool `input` before committing. A `workspace.repo` naming this repository's own remote is kept in a fixture: the status line variants' `workspace.repo.owner`, the remote owner's handle, is neither rewritten by the user-word scrub nor refused (the founder's own word, chunk 2026-10-13-owed-ledger-rows `inputs#I3`, given after it was shown to him and relayed verbatim by the operator; its landing here is the overseer's application of it); nothing else in this rule widens.
  The `Mcp.<variant>.json` class (`Mcp.tools-list-1.json` in `2.1.302`) is a live CLI's MCP exchange: the test-only `viola-mcp-tap` `record` sits between one live CLI start and a direct spawn of `viola mcp` (no shell, no PATH lookup), reads each line through `take(MAX_FRAME)` and appends it to a 0600 capture in a private directory, never committed; its `fixture` step keeps the client frames up to and including the first `tools/list` request and each request's result keyed by method, applies the same scrub, and refuses through `ledger::screen_fault` with the file name and the same closed codes, never the content. The class is validated by `schemas/claude-mcp-fixture.v1.json` and hygiene-walked like the rest.
 

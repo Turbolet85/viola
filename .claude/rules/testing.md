@@ -25,7 +25,7 @@ Path-scoped rules for test authoring (what tests assert, fixtures, coverage). Lo
 
 ## Determinism (zero-flake budget)
 - NEVER `sleep` for synchronization — wait on an `events.ndjson` byte offset, `viola wait --after` or a status field. nextest `retries = 0`; no `#[ignore]` as a parking place.
-- Time only through the injected `viola_core::Clock` / mock_instant (sync; in no manifest yet), `start_paused` (Tokio; tokio `test-util` in no manifest yet, and `viola-mcp` owns no timer — its `wait` bound is the pure `wait_timeout(given)`, a unit case), or an instant handed to a pure decision as an argument (the budget gate's `decide`); never use an in-process clock to control another process's time.
+- Time only through the injected `viola_core::Clock` / mock_instant (sync; in no manifest yet), `start_paused` (Tokio; tokio `test-util` in no manifest yet, and `viola-mcp` owns no timer — its `wait` bound is the pure `wait_timeout(given)`, a unit case), or an instant handed to a pure decision as an argument (the budget gate's `decide`); a link line's `since`, which `LinkSet::line` stamps from the wall clock outside the seam, is asserted by its shape only (`is_clock_time` in `tests/cli_links.rs`); never use an in-process clock to control another process's time.
 - NEVER `std::env::set_var` (unsafe in edition 2024) — `Command::env` per child; `.env_clear()` must re-add `LLVM_PROFILE_FILE`.
 - Commit `proptest-regressions/`; chaos faults only from explicit process/file operations or mockall seams.
 

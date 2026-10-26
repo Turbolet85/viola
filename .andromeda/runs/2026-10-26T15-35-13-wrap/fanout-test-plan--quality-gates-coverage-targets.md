@@ -1,0 +1,2 @@
+proposals: []
+note: no drift in this category — the chunk moves no coverage threshold, ignore regex, mutation verdict or perf row; the report's `run --perf` reading (7 passed; max 2.6 ms pre-tool-use) is a later reading beside the dated 2.2–2.4 ms of .andromeda/test-plan-detail/quality-gates-coverage-targets.md:26, which stands as measured at its own chunk; `binary(channel_links)` joins the ci profile's 20 s stamped-home kill list, a different line from the 120 s `[profile.ci]` kill named at :19, which stays true.

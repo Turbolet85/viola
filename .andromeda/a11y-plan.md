@@ -101,7 +101,7 @@ The frontend is deferred to 0.2.0; its technology is not chosen.
 **6. CLI board, wait/last and verify output**
 - **Surfaces involved:** cli (`viola list` must use the same captions and slot order as the deferred 0.2.0 page).
 
-- **Required ARIA roles:** N/A (terminal); the structural equivalents are the caption line, the `-- UNWRAPPED - READ-ONLY --` separator (only when unwrapped rows exist) and the `--help` group labels, whose `handoff:` row is owed to "Explicit session links".
+- **Required ARIA roles:** N/A (terminal); the structural equivalents are the caption line, the `-- UNWRAPPED - READ-ONLY --` separator (only when unwrapped rows exist) and the `--help` group labels.
 
 - **Required focus order:** N/A. Output is linear and static: `waiting: <name>` once on stderr (TTY only), `verify` step lines `[NN/NN] … pass|fail`.
 - **Required WCAG SC coverage per tier:** WCAG does not apply directly to terminal output, so there is no conformance claim. Output-discipline assertions stand in for SC 1.3.2, 1.4.1 and 3.3.1: meaningful linear order, colour never the sole cue, and the refusal reason and detail given in text.
@@ -270,7 +270,7 @@ Detail: .andromeda/a11y-plan-detail/cognitive-accessibility.md — read whole.
   - Every kebab-case reason/detail code (`not-delivered`, `human-typing`, `unverified-cli`) always sits beside the plain word `unable`.
   - The CLI never shows a stack trace or bare status number as the only error text.
 
-- **Verification:** every fixed CLI string is pinned, by trycmd or, for `viola list`, `viola --help`, `viola plugin install` and the server-verify hint, by literal, so any copy change fails CI until the pinned string is updated on purpose.
+- **Verification:** every fixed CLI string is pinned, by trycmd or, for `viola list`, `viola --help`, `viola plugin install`, the server-verify hint and the `viola link` / `viola unlink` result lines, by literal, so any copy change fails CI until the pinned string is updated on purpose.
 
 ### Consistency and predictability
 

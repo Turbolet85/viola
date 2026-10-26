@@ -24,3 +24,12 @@ Each long run is entered here before it is waited on: what was launched, when (U
   (pre-push, about 90 s; no run dir, the pass runs under no skill).
 - Outcome: both lints exit 0; entry 23 `green · exit 0 · 91.57s`. Hygiene (entry 24) `clean`. Record:
   `viola-0.1.0/chunks/2026-10-26-explicit-session-links/evidence/operator-pass.md`.
+- Then the pre-CI commit `743057f9` (parent `8fc3d1df`) and the push (entry 25): `history moved:
+  refs/remotes/origin/build/viola-0.1.0 8fc3d1df→743057f9`.
+
+## 4 · 2026-10-26T15:16Z · operator pass step 5: the CI read
+- Call (entry 26, fired as written, backgrounded): `python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 2400`,
+  HEAD `743057f9`.
+- Why: CI's run on the pushed sha is the verdict of record; the wall at Setup was 670–762 s.
+- Outcome: `743057f925ff verdict: green · checks 15/15 · wall 941 s · runs ci#40347680974 completed/success`
+  (polled 32× over 967 s); `run_attempt` 1. The OS witnesses are in `evidence/operator-pass.md` §5. No fix round.

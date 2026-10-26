@@ -1,0 +1,84 @@
+[[pattern]]
+id = 'title'
+fixed = 'Explicit session links'
+ignore_case = true
+
+[[pattern]]
+id = 'owner'
+regex = 'owned by a (route entry|CARRY)'
+ignore_case = true
+
+[[pattern]]
+id = 'notserved'
+regex = '(link|unlink)[^.;]{0,80}(not served|unserved|not yet served|are not served|held for the founder)|(not served|unserved)[^.;]{0,40}(link|unlink)'
+ignore_case = true
+
+[[pattern]]
+id = 'frameverbs'
+regex = '(six|seven|eight|6|8) (CLI )?frame[- ]verbs|CLI frame verbs|frame[- ]writing (client|verb)s?'
+ignore_case = true
+
+[[pattern]]
+id = 'checkinst'
+regex = 'check_instance|instance check'
+
+[[pattern]]
+id = 'refuse'
+fixed = 'human::refuse'
+
+[[pattern]]
+id = 'connect'
+regex = '(cmd::)?client::connect'
+
+[[pattern]]
+id = 'liveep'
+fixed = 'live_endpoint'
+
+[[pattern]]
+id = 'remove'
+regex = 'LinkSet::remove|LinkSet.{0,40}remove|remove[^.]{0,40}dead_code'
+
+[[pattern]]
+id = 'methods'
+regex = '(seven|nine|7|9) (served )?(channel )?methods|served methods|method_label|dispatch_call'
+ignore_case = true
+
+[[pattern]]
+id = 'handoff'
+regex = 'handoff:'
+
+[[pattern]]
+id = 'e3'
+regex = 'Scenario E3|Edge flows? E3|\bE3\b'
+
+[[pattern]]
+id = 'vrejected'
+fixed = 'v_rejected'
+
+[[pattern]]
+id = 'srvverify'
+fixed = 'server-verify-failed'
+
+[[pattern]]
+id = 'already'
+regex = 'already_linked|already linked'
+
+[[pattern]]
+id = 'spans'
+regex = 'cli\.(un)?link\b|cli\.<verb>'
+
+[[pattern]]
+id = 'killline'
+regex = 'binary\((cli_links|channel_links)\)|channel_links|kill line'
+
+[[pattern]]
+id = 'idtable'
+fixed = 'security_negatives_server_identity'
+
+[[pattern]]
+id = 'instpair'
+regex = 'instance_state_pair|instance-state pair'
+
+[[pattern]]
+id = 'linkverbs'
+regex = '`viola (un)?link`|viola link / unlink|`link` / `unlink`|link`/`unlink'

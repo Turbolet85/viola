@@ -567,7 +567,7 @@ Detail: .andromeda/test-plan-detail/e2e-test-strategy.md — read whole.
   - After unlink: an `unlink` record exists.
 - **Cleanup:** harness `cleanup`.
 
-- **As landed: owed, built in part.** `viola link` and `viola unlink` are not built (the wrapper answers both `-32601`) and are held to the route entry "Explicit session links"; the implicit link that a `send` or `answer` from another instance records is held by root cases of `tests/cli_links.rs`.
+- **As landed: built.** The driven wrapper serves `link` / `unlink`, and the scenario runs as `tests/cli_links.rs` `e3_two_links_and_a_send_leave_one_link_record` from `stamped_home`: the driver `overseer` is a self-reported `VIOLA_NAME` and is not booted, so step 1 boots only `builder`. `links_an_unlink_survives_a_wrapper_restart` holds an `unlink` across a wrapper restart, and the implicit link that a `send` or `answer` from another instance records is held by root cases of the same file.
 
 #### Scenario: E4 — none in 0.1.0
 
@@ -603,7 +603,7 @@ Detail: .andromeda/test-plan-detail/e2e-test-strategy.md — read whole.
 
 - **Exit-cause matrix** (`cross_exit_causes.rs`, not built): one negative test per cause of exit 21 and of exit 1, each asserting the exit code, the `--json` document and a last `hint:` line that names its cause — a hint shared across causes fails the table; the server-verification cause is a case of `tests/security_negatives_server_identity.rs` on Linux and Windows (its macOS case owed to the route entry "Unix endpoint and home hardening"), and `revive`'s refusals are cases of `tests/cli_revive.rs`; driver-facing hints never contain `release`.
 
-- **Security control negatives** (`security_negatives_*.rs`): one negative test per security-plan control that had none — the Unix socket directory refusal, Windows client SQOS at the identification level, the Windows listener rejecting remote clients and denying an anonymous open (each beside its controls), raw-channel `link` / `unlink` name validation, a Windows `--home` outside the profile given a protected DACL (its test home never under `%TEMP%`), umask-independent modes, single writers of `stamps.json` and `snapshot.json`, and, on Linux and Windows, a CLI frame verb writing no frame to a server that is not the recorded wrapper (`tests/security_negatives_server_identity.rs`, beside its control reaching the recorded wrapper).
+- **Security control negatives** (`security_negatives_*.rs`): one negative test per security-plan control that had none — the Unix socket directory refusal, Windows client SQOS at the identification level, the Windows listener rejecting remote clients and denying an anonymous open (each beside its controls), raw-channel `link` / `unlink` name validation (`tests/channel_links.rs`), a Windows `--home` outside the profile given a protected DACL (its test home never under `%TEMP%`), umask-independent modes, single writers of `stamps.json` and `snapshot.json`, and, on Linux and Windows, a CLI frame verb writing no frame to a server that is not the recorded wrapper (`tests/security_negatives_server_identity.rs`, beside its control reaching the recorded wrapper).
 
 - **`list` row integrity** (`cross_list_rows.rs`): unwrapped session names holding `\n`, `\t` or a C1 character print escaped in every mode — no row splits, every row's columns start at the caption row's offsets, the raw bytes never reach a NAME cell, and `list --json` keeps the original name.
 
@@ -650,7 +650,7 @@ Detail: .andromeda/test-plan-detail/test-data-fixtures.md — read whole.
 
 - **Randomized data:** proptest strategies, their seeds persisted in committed `proptest-regressions/`.
 
-- **Time-sensitive data:** injected per test behind `viola_core::Clock`; the budget gate's override expiry takes its instant as an argument, and `viola-mcp` owns no timer.
+- **Time-sensitive data:** injected per test behind `viola_core::Clock`, except a link line's `since`, which the wrapper stamps from the wall clock and root cases assert by its shape only (§8 Time); the budget gate's override expiry takes its instant as an argument, and `viola-mcp` owns no timer.
 
 **Fake agent (`viola-fake-agent`, binding contract behaviour):**
 - It answers `--version` in the real CLI's format for `--cli-version <ver>`.
@@ -702,7 +702,7 @@ Detail: .andromeda/test-plan-detail/mocking-stubbing-discipline.md — read whol
 - External HTTP APIs: none exist. viola makes no outbound HTTP calls, so no HTTP mock library is used.
 - External services not under test: the real `claude` CLI is replaced by the native `viola-fake-agent` binary, both as the PTY child and as `claude` on a test-scoped PATH. Anthropic usage values are replaced by generated statusline stdin. These are fakes, never the real services.
 
-- Time: sync crates use the injected `viola_core::Clock` (or mock_instant) for the heartbeat and the send confirmation window, `viola-mcp` uses tokio's paused clock for a timer it owns, and the budget gate's override expiry is a pure-function case; `chrono::Utc::now()` is read only through the clock seam, except at the budget gate's three evaluation points, and a paused clock in a test never reaches a spawned wrapper.
+- Time: sync crates use the injected `viola_core::Clock` (or mock_instant) for the heartbeat and the send confirmation window, `viola-mcp` uses tokio's paused clock for a timer it owns, and the budget gate's override expiry is a pure-function case; `chrono::Utc::now()` is read only through the clock seam, except at the budget gate's three evaluation points and at `LinkSet::line`, which stamps a link line's `since` (root cases assert it by its shape only, `is_clock_time` in `tests/cli_links.rs`), and a paused clock in a test never reaches a spawned wrapper.
 
 - Filesystem: not mocked. A real tempfile home is used everywhere, because modes, `File::lock`, torn lines and symlink handling are the behaviour under test. Only the Windows foreign-SID / non-persistent-ACL descriptors are stubbed, as synthetic SDDL descriptors fed to the check function.
 - Random sources: proptest seeds are persisted.

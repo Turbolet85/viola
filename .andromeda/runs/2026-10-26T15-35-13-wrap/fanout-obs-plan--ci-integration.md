@@ -1,0 +1,2 @@
+proposals: []
+note: no drift in .andromeda/obs-plan-detail/ci-integration.md — the report's only CI-adjacent change (Harness / gate surface, `.config/nextest.toml:24` `binary(channel_links)` on the `ci` profile's kill list) touches no artifact, stage, gate (G1–G4) or step order this file holds, and no Retired item appears in it; the body's stale lines the report names (obs-plan.md:311 `human::refuse` census, :392 E3, :418 `v_rejected`) sit under other categories' sections, not §9.

@@ -1,0 +1,2 @@
+proposals: []
+note: report Dependencies "none", Crates "no crate added, removed or changed", Dev-tool versions "none" and Harness only `.config/nextest.toml` kill-line (test gate, not supply chain); no Retired item, moved count or new detail reaches this file's groups (ConPTY vendor, arch bans, fuzz exemption, windows-mutants, G2 exemption, action SHAs); D-security-input / D-security-auth surfaces (link/unlink params, check_instance, server check) belong to the input-validation and authentication-authorization categories.

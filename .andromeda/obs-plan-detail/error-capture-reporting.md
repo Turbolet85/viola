@@ -20,7 +20,7 @@ Read whole. The master's broad view is .andromeda/obs-plan.md; this file holds i
 
 <!-- detail: values · errors -->
 
-- Before step 4 of init, no file exists, so the panic hook writes nothing. This window contains clap parsing and home resolution, and the instance check that `viola revive`'s start arm and `viola hook statusline` run before any role file is opened (chunk 2026-10-10-budget-governor), and `viola mcp`'s check of its home and `diagnostics/`, also run before any role file is opened (chunk 2026-10-17-mcp-server-for-drivers).
+- Before step 4 of init, no file exists, so the panic hook writes nothing. This window contains clap parsing and home resolution, and the instance check that `viola revive`'s start arm and `viola hook statusline` run before any role file is opened (chunk 2026-10-10-budget-governor), and `viola mcp`'s check of its home and `diagnostics/`, also run before any role file is opened (chunk 2026-10-17-mcp-server-for-drivers), and the instance check that `viola link` / `viola unlink` run on the driven instance before their `cli` role file opens, whose refusal (exit 21 `instance-unreachable`: the fixed instance-state pair, or under `--json` `{"v":1,"error":"instance-unreachable","detail":null}`) writes no line in any log and leaves the directory's mode as found.
 
 <!-- /detail -->
 

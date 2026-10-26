@@ -258,7 +258,7 @@ Otherwise the depth is chosen once per process, first match wins:
 **Streams:**
 - stdout: results and data (tables, send/wait results, `last` text).
 
-- stderr: context lines, refusals (two-space `unable  <name>  <reason>  <detail>`, or the fixed `unable: <text>` form for the exit-1 refusals of `run`, `revive` and `verify` and `list`'s exit-21 refusal), each refusal's `hint:` line directly after it, and errors.
+- stderr: context lines, refusals (two-space `unable  <name>  <reason>  <detail>`, or the fixed `unable: <text>` form for the exit-1 refusals of `run`, `revive` and `verify` and the exit-21 strict-modes refusals of `list`, `link` and `unlink`), each refusal's `hint:` line directly after it, and errors.
 
 - For `--json`, the whole result, including refusals and `error` objects, is one JSON document on stdout with the typed exit code. No `hint:` line is printed under `--json`: the typed `refusal` / `error` fields are the whole answer.
 
@@ -312,7 +312,7 @@ A refusal prints `unable` plus `reason  detail`, then one `hint:` line per reaso
   - `timed out  builder  30000 ms`
 - There is no spinner and no elapsed-time counter.
 - `last` prints `last  builder  turn-ended 19:44:10.221Z` on stderr (TTY only), then the message text on stdout with C0/C1 escaped, or `no message` on stderr for `null`.
-- Message mode, the escaper both verbs share: over decoded characters every control character (C0, DEL, C1) except `\n` and `\t` prints as `\xHH` text, two uppercase hex digits (ESC → `\x1B`, CR → `\x0D`, DEL → `\x7F`, U+009B → `\x9B`); nothing is stripped. `--json` output stays serde-escaped.
+- Message mode, the escaper `wait` and `last` share and `viola link` uses for a `since` that is no RFC 3339 instant: over decoded characters every control character (C0, DEL, C1) except `\n` and `\t` prints as `\xHH` text, two uppercase hex digits (ESC → `\x1B`, CR → `\x0D`, DEL → `\x7F`, U+009B → `\x9B`); nothing is stripped. `--json` output stays serde-escaped.
 
 **4. Wheel, link and gate verbs** (the phraseology is the design)
 - `viola pause builder` → `builder  wheel human  manual-pause  I have control`
@@ -339,13 +339,15 @@ Each typed exit code has its human stderr form and, where it has one, its `--jso
 
 `viola plugin install`'s refused strict-modes check (exit 21) prints the home-state `unable:` / `hint:` pair as `viola list`'s does, or under `--json` the `instance-unreachable` document, stderr empty.
 
+`viola link` / `viola unlink`'s refused strict-modes check of the driven instance (exit 21) prints the instance-state `unable:` / `hint:` pair naming that instance, as `viola list`'s does, or under `--json` the `instance-unreachable` document, stderr empty.
+
 ### Navigation Pattern
 Detail: .andromeda/design-system-detail/surface.md — read whole.
 
 - Flat verbs, one lower-case word each: `run · revive · send · wait · last · list · answer · verify · pause · release · link · unlink · plugin install`.
 - `viola list` is the board and the other verbs act on one strip. There is no interactive prompt, no TUI mode and no pager.
 
-- `viola --help` lists the served verbs as `board: list` / `traffic: send, wait, last, answer` / `wheel: pause, release` / `setup: run, revive, verify, plugin install`, then `Options:`; the `handoff: link, unlink` row is pending, owner: the route entry "Explicit session links".
+- `viola --help` lists the served verbs as `board: list` / `traffic: send, wait, last, answer` / `wheel: pause, release` / `handoff: link, unlink` / `setup: run, revive, verify, plugin install`, then `Options:`.
 
 ### Platform-Specific Notes
 - **Git Bash on Windows** rewrites leading-slash arguments. Prompt text therefore comes only from stdin or `--file`. The warning for a rewritten-path argument is one plain stderr line, `warning: argument looks like a Git Bash rewritten path`.

@@ -1,0 +1,491 @@
+[
+{
+"tool": "cites",
+"v": "1.7",
+"sha8": "c057e5d2",
+"ts": "2026-10-26T15:35:47Z",
+"argv": [
+"added",
+"--out",
+".andromeda/runs/2026-10-26T15-35-13-wrap/new-text.md",
+"--run-dir",
+".andromeda/runs/2026-10-26T15-35-13-wrap",
+"--marker",
+"2026-10-26-explicit-session-links"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: 8fc3d1df — the parent of the oldest pre-CI commit 743057f9",
+".config/nextest.toml — added 1 line(s) in 1 range(s)",
+"src/cmd/link.rs — new file · 216 line(s)",
+"src/cmd/mod.rs — added 17 line(s) in 5 range(s)",
+"src/cmd/run.rs — added 40 line(s) in 9 range(s)",
+"src/cmd/unlink.rs — new file · 37 line(s)",
+"src/human.rs — added 3 line(s) in 1 range(s)",
+"src/human/verbs.rs — added 71 line(s) in 3 range(s)",
+"src/run/links.rs — added 183 line(s) in 5 range(s)",
+"tests/channel_endpoint.rs — added 6 line(s) in 3 range(s)",
+"tests/channel_links.rs — new file · 88 line(s)",
+"tests/cli_links.rs — added 308 line(s) in 2 range(s)",
+"tests/cli_output_plain.rs — added 4 line(s) in 3 range(s)",
+"tests/security_negatives_server_identity.rs — added 12 line(s) in 4 range(s)",
+"new text: 13 file(s) · 3 new · 39 added range(s) · 986 line(s) · 89 block(s) → .andromeda/runs/2026-10-26T15-35-13-wrap/new-text.md (117 lines) · written"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-10-26T15-35-13-wrap/new-text.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"base": "8fc3d1df12f972d0d39837dd4c99702c8c500074",
+"counts": {
+"files": 13,
+"new": 3,
+"ranges": 39,
+"lines": 986,
+"blocks": 89
+},
+"out": ".andromeda/runs/2026-10-26T15-35-13-wrap/new-text.md",
+"state": "written",
+"lines": 117
+}
+},
+{
+"tool": "cites",
+"v": "1.7",
+"sha8": "c057e5d2",
+"ts": "2026-10-26T15:40:51Z",
+"argv": [
+"apply",
+"--dry-run",
+"--run-dir",
+".andromeda/runs/2026-10-26T15-35-13-wrap",
+"--marker",
+"2026-10-26-explicit-session-links"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: 086320a0 — the previous sweep (2026-10-26T09-14-57-wrap)",
+"sites 6 (bare \":digits\" 356) over 115 file(s) · unmoved 0 · moved 1 · stretched 0 · changed 0",
+"out-of-range 0 · unresolved 4 · new 0 · repointed 0 · hand 0 · held 0 · INDETERMINATE 0 · listed, not written 1",
+"rows: 1 owed a read — the cites batch reads them from this call's trail record",
+"unresolved 4: their rows are `map`'s — another repository's file is never touched",
+"dry-run: would write .andromeda/security-plan-detail/authentication-authorization.md: 1 citation(s)",
+"dry-run: 1 citation(s) in 1 file(s) — nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"mode": "sweep",
+"base": "086320a0cb41ba288668875044735dce922488e2",
+"counts": {
+"unmoved": 0,
+"moved": 1,
+"stretched": 0,
+"changed": 0,
+"out-of-range": 0,
+"unresolved": 4,
+"new": 0,
+"repointed": 0,
+"hand": 0,
+"INDETERMINATE": 0,
+"held": 0,
+"listed": 1
+},
+"rows": [
+{
+"class": "moved",
+"file": ".andromeda/security-plan-detail/authentication-authorization.md",
+"line": 27,
+"col": 1725,
+"path": "src/cmd/run.rs",
+"now": "379",
+"base": "379",
+"to": "383",
+"write": true,
+"listed": null,
+"detail": "",
+"text": "let taken = read_snapshot(instance_dir).map(|snapshot| {",
+"sha": [
+"59cbf5d5f8fd"
+],
+"citing": "cdf327bac0c2",
+"nth": 0,
+"since": null
+},
+{
+"class": "unresolved",
+"file": ".andromeda/test-plan.md",
+"line": 673,
+"col": 317,
+"path": "rstest_macros-0.27.0/src/parse/rstest/files.rs",
+"now": "635",
+"base": "635",
+"to": null,
+"write": false,
+"listed": null,
+"detail": "no such file here at 086320a0",
+"text": "",
+"sha": [],
+"citing": "2f72740da953",
+"nth": 0,
+"since": null
+},
+{
+"class": "unresolved",
+"file": ".andromeda/obs-plan-detail/ci-integration.md",
+"line": 39,
+"col": 462,
+"path": "x/src/cmd/hook/seam.rs",
+"now": "3",
+"base": "3",
+"to": null,
+"write": false,
+"listed": null,
+"detail": "no such file here at 086320a0",
+"text": "",
+"sha": [],
+"citing": "198eb6627f50",
+"nth": 0,
+"since": null
+},
+{
+"class": "unresolved",
+"file": ".andromeda/obs-plan-detail/ci-integration.md",
+"line": 39,
+"col": 492,
+"path": "seam.rs.bak",
+"now": "3",
+"base": "3",
+"to": null,
+"write": false,
+"listed": null,
+"detail": "no such file here at 086320a0",
+"text": "",
+"sha": [],
+"citing": "198eb6627f50",
+"nth": 1,
+"since": null
+},
+{
+"class": "unresolved",
+"file": ".andromeda/obs-plan-detail/ci-integration.md",
+"line": 39,
+"col": 511,
+"path": "seam.rsx",
+"now": "3",
+"base": "3",
+"to": null,
+"write": false,
+"listed": null,
+"detail": "no such file here at 086320a0",
+"text": "",
+"sha": [],
+"citing": "198eb6627f50",
+"nth": 2,
+"since": null
+},
+{
+"class": "moved",
+"file": "viola-0.1.0/working-route.md",
+"line": 190,
+"col": 2551,
+"path": "src/cmd/run.rs",
+"now": "471",
+"base": "471",
+"to": "475",
+"write": false,
+"listed": "route",
+"detail": "",
+"text": "(\"not-built\", None)",
+"sha": [
+"e93d10300616"
+],
+"citing": "b860739fd055",
+"nth": 0,
+"since": null
+}
+],
+"applied": false,
+"owed": [
+{
+"row": "moved viola-0.1.0/working-route.md:190@c2551 src/cmd/run.rs:471 → 475 — listed, not written: route",
+"file": "viola-0.1.0/working-route.md",
+"line": 190,
+"class": "moved",
+"home": "route",
+"listed": "route",
+"path": "src/cmd/run.rs",
+"nth": 0,
+"at": "471"
+}
+]
+}
+},
+{
+"tool": "cites",
+"v": "1.7",
+"sha8": "c057e5d2",
+"ts": "2026-10-26T15:40:55Z",
+"argv": [
+"apply",
+"--run-dir",
+".andromeda/runs/2026-10-26T15-35-13-wrap",
+"--marker",
+"2026-10-26-explicit-session-links"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: 086320a0 — the previous sweep (2026-10-26T09-14-57-wrap)",
+"sites 6 (bare \":digits\" 356) over 115 file(s) · unmoved 0 · moved 1 · stretched 0 · changed 0",
+"out-of-range 0 · unresolved 4 · new 0 · repointed 0 · hand 0 · held 0 · INDETERMINATE 0 · listed, not written 1",
+"rows: 1 owed a read — the cites batch reads them from this call's trail record",
+"unresolved 4: their rows are `map`'s — another repository's file is never touched",
+"wrote .andromeda/security-plan-detail/authentication-authorization.md: 1 citation(s), read back digits-only",
+"re-pointed 1 citation(s) in 1 file(s)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/security-plan-detail/authentication-authorization.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"mode": "sweep",
+"base": "086320a0cb41ba288668875044735dce922488e2",
+"counts": {
+"unmoved": 0,
+"moved": 1,
+"stretched": 0,
+"changed": 0,
+"out-of-range": 0,
+"unresolved": 4,
+"new": 0,
+"repointed": 0,
+"hand": 0,
+"INDETERMINATE": 0,
+"held": 0,
+"listed": 1
+},
+"rows": [
+{
+"class": "moved",
+"file": ".andromeda/security-plan-detail/authentication-authorization.md",
+"line": 27,
+"col": 1725,
+"path": "src/cmd/run.rs",
+"now": "379",
+"base": "379",
+"to": "383",
+"write": true,
+"listed": null,
+"detail": "",
+"text": "let taken = read_snapshot(instance_dir).map(|snapshot| {",
+"sha": [
+"59cbf5d5f8fd"
+],
+"citing": "cdf327bac0c2",
+"nth": 0,
+"since": null
+},
+{
+"class": "unresolved",
+"file": ".andromeda/test-plan.md",
+"line": 673,
+"col": 317,
+"path": "rstest_macros-0.27.0/src/parse/rstest/files.rs",
+"now": "635",
+"base": "635",
+"to": null,
+"write": false,
+"listed": null,
+"detail": "no such file here at 086320a0",
+"text": "",
+"sha": [],
+"citing": "2f72740da953",
+"nth": 0,
+"since": null
+},
+{
+"class": "unresolved",
+"file": ".andromeda/obs-plan-detail/ci-integration.md",
+"line": 39,
+"col": 462,
+"path": "x/src/cmd/hook/seam.rs",
+"now": "3",
+"base": "3",
+"to": null,
+"write": false,
+"listed": null,
+"detail": "no such file here at 086320a0",
+"text": "",
+"sha": [],
+"citing": "198eb6627f50",
+"nth": 0,
+"since": null
+},
+{
+"class": "unresolved",
+"file": ".andromeda/obs-plan-detail/ci-integration.md",
+"line": 39,
+"col": 492,
+"path": "seam.rs.bak",
+"now": "3",
+"base": "3",
+"to": null,
+"write": false,
+"listed": null,
+"detail": "no such file here at 086320a0",
+"text": "",
+"sha": [],
+"citing": "198eb6627f50",
+"nth": 1,
+"since": null
+},
+{
+"class": "unresolved",
+"file": ".andromeda/obs-plan-detail/ci-integration.md",
+"line": 39,
+"col": 511,
+"path": "seam.rsx",
+"now": "3",
+"base": "3",
+"to": null,
+"write": false,
+"listed": null,
+"detail": "no such file here at 086320a0",
+"text": "",
+"sha": [],
+"citing": "198eb6627f50",
+"nth": 2,
+"since": null
+},
+{
+"class": "moved",
+"file": "viola-0.1.0/working-route.md",
+"line": 190,
+"col": 2551,
+"path": "src/cmd/run.rs",
+"now": "471",
+"base": "471",
+"to": "475",
+"write": false,
+"listed": "route",
+"detail": "",
+"text": "(\"not-built\", None)",
+"sha": [
+"e93d10300616"
+],
+"citing": "b860739fd055",
+"nth": 0,
+"since": null
+}
+],
+"applied": true,
+"owed": [
+{
+"row": "moved viola-0.1.0/working-route.md:190@c2551 src/cmd/run.rs:471 → 475 — listed, not written: route",
+"file": "viola-0.1.0/working-route.md",
+"line": 190,
+"class": "moved",
+"home": "route",
+"listed": "route",
+"path": "src/cmd/run.rs",
+"nth": 0,
+"at": "471"
+}
+]
+}
+},
+{
+"tool": "cites",
+"v": "1.7",
+"sha8": "c057e5d2",
+"ts": "2026-10-26T15:41:35Z",
+"argv": [
+"dispositions",
+"--write",
+"--run-dir",
+".andromeda/runs/2026-10-26T15-35-13-wrap",
+"--marker",
+"2026-10-26-explicit-session-links"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dispositions: 1 row(s) · route — P5 1",
+".andromeda/runs/2026-10-26T15-35-13-wrap/citation-dispositions.md (2 lines) · written",
+"hand re-points: 0 written in 0 file(s) · 0 already written"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-10-26T15-35-13-wrap/citation-dispositions.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"rows": 1,
+"tally": {
+"route — P5": 1
+},
+"state": "written"
+}
+},
+{
+"tool": "cites",
+"v": "1.7",
+"sha8": "c057e5d2",
+"ts": "2026-10-26T16:50:24Z",
+"argv": [
+"added",
+"--out",
+".andromeda/runs/2026-10-26T15-35-13-wrap/new-text.md",
+"--run-dir",
+".andromeda/runs/2026-10-26T15-35-13-wrap",
+"--marker",
+"2026-10-26-explicit-session-links"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: 8fc3d1df — the parent of the oldest pre-CI commit 743057f9",
+".config/nextest.toml — added 1 line(s) in 1 range(s)",
+"src/cmd/link.rs — new file · 216 line(s)",
+"src/cmd/mod.rs — added 17 line(s) in 5 range(s)",
+"src/cmd/run.rs — added 40 line(s) in 9 range(s)",
+"src/cmd/unlink.rs — new file · 37 line(s)",
+"src/human.rs — added 3 line(s) in 1 range(s)",
+"src/human/verbs.rs — added 71 line(s) in 3 range(s)",
+"src/run/links.rs — added 183 line(s) in 5 range(s)",
+"tests/channel_endpoint.rs — added 6 line(s) in 3 range(s)",
+"tests/channel_links.rs — new file · 88 line(s)",
+"tests/cli_links.rs — added 308 line(s) in 2 range(s)",
+"tests/cli_output_plain.rs — added 4 line(s) in 3 range(s)",
+"tests/security_negatives_server_identity.rs — added 12 line(s) in 4 range(s)",
+"new text: 13 file(s) · 3 new · 39 added range(s) · 986 line(s) · 89 block(s) → .andromeda/runs/2026-10-26T15-35-13-wrap/new-text.md (117 lines) · unchanged"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"base": "8fc3d1df12f972d0d39837dd4c99702c8c500074",
+"counts": {
+"files": 13,
+"new": 3,
+"ranges": 39,
+"lines": 986,
+"blocks": 89
+},
+"out": ".andromeda/runs/2026-10-26T15-35-13-wrap/new-text.md",
+"state": "unchanged",
+"lines": 117
+}
+}
+]

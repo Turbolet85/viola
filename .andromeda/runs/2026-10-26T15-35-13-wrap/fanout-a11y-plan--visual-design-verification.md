@@ -1,0 +1,2 @@
+proposals: []
+note: no drift in §6 — the chunk adds no interactive UI element (D-a11y-surface: the `link` / `unlink` verbs are non-interactive CLI output, their three result lines plain ASCII with no SGR in every mode per the report's Coverage, consistent with the file's SGR-only-on-`viola list` claims at line 8 and zero-SGR rungs at line 9), changes no a11y violation or obs log schema (D-a11y-obs-schema), the Retired hold appears nowhere in this file, and the report's a11y expected amendments name §1 / §4 / §8, not §6.

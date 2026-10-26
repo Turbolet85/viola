@@ -70,5 +70,41 @@
     "read_at": "2026-10-26T14:57:22Z",
     "step": "phase:P5",
     "why": "the P5 word yes on the card .andromeda/runs/2026-10-26T12-53-39-phase/p5-card-1.md, its leans as written and its Beyond-the-plan row (v1-13 and v1-36 as a CARRY onto Version done-check); authority: the founder's own word, relayed verbatim"
+  },
+  {
+    "id": "I5",
+    "kind": "relay",
+    "repo": null,
+    "path": "../additional/viola-overseer/wrap-session-links-directive.md",
+    "form": "copy",
+    "state": "no-repo",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "aaa6663ab2d3d2e92abec6d28a1745417b3737253c02afd2663d156d4ee49f43",
+    "copy": "I5-wrap-session-links-directive.md.txt",
+    "link": false,
+    "read_at": "2026-10-26T15:35:41Z",
+    "step": "wrap",
+    "why": "the operator's wrap directive (the overseer, founder-delegated): forced sample at P2, keep every transcript and the three run dirs, stop at a hard cascade failure or agents doing the orchestrator's work (F352), the P2-validated report items (check's first-try lines, compare headers, tally, run dir, SPLIT in the strong batch), the founder's words I3 / I4 and the card's Beyond-the-plan row carried as approved, run the wrap whole"
+  },
+  {
+    "id": "I6",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: the overseer (founder-delegated), the P2 halt dialog of this wrap, 2026-10-26T16:27Z",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "0b004614a72d903c19069d4176698b4b02cbb7aaa61cc23ce8e7e541376318f1",
+    "copy": "I6-relay-1.md.txt",
+    "link": false,
+    "read_at": "2026-10-26T16:27:41Z",
+    "step": "wrap",
+    "why": "the P2 halt's answers: Q1 the answer card confirmed (a delegate's confirm, PROVISIONAL; the ratification stays the founder's own inputs#I3), Q2 the nine check-7 contradictions applied with their companions"
   }
 ]

@@ -46,7 +46,7 @@ viola/
 │   │                           #   wheel.rs: the WheelSlot (holder + cause, one lock), its record worker, the stdin observer + classifier;
 │   │                           #   snapshot.rs: Snapshots, the wrapper's one in-process snapshot holder;
 │   │                           #   budget.rs: the thresholds read (`read_thresholds`), the pure decision (`decide`) and the BudgetGate (one per wrapper: `start` / `evaluate` / `lift` / `paused`);
-│   │                           #   links.rs: the LinkSet (one per wrapper, the instance's link set under one lock: `restore` from the log at start, `current`, `record`, and `remove`, which has no product caller yet)
+│   │                           #   links.rs: the LinkSet (one per wrapper, the instance's link set under one lock: `restore` from the log at start, `current`, `record`, `remove` (its product caller the served `unlink` method), and the served `link` / `unlink` channel methods, sharing `driver_of`)
 │   └── bin/viola-fake-agent.rs # test-only stand-in `claude` (feature `fake-agent`)
 ├── tests/                      # root integration tests (sync)
 │   ├── cmd/*.toml              # trycmd cases: human-mode expected output (snapbox redactions)

@@ -1,0 +1,158 @@
+[
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "ec19b4e7",
+"ts": "2026-10-26T15:35:41Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-26-explicit-session-links",
+"--source",
+"../additional/viola-overseer/wrap-session-links-directive.md",
+"--kind",
+"relay",
+"--why",
+"the operator's wrap directive (the overseer, founder-delegated): forced sample at P2, keep every transcript and the three run dirs, stop at a hard cascade failure or agents doing the orchestrator's work (F352), the P2-validated report items (check's first-try lines, compare headers, tally, run dir, SPLIT in the strong batch), the founder's words I3 / I4 and the card's Beyond-the-plan row carried as approved, run the wrap whole",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-26T15-35-13-wrap",
+"--marker",
+"2026-10-26-explicit-session-links"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I5 · copy no-repo · ../additional/viola-overseer/wrap-session-links-directive.md",
+"cite: inputs#I5"
+],
+"stderr": null,
+"wrote": [
+"inputs/I5-wrap-session-links-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I5",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/wrap-session-links-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "aaa6663ab2d3d2e92abec6d28a1745417b3737253c02afd2663d156d4ee49f43",
+"copy": "I5-wrap-session-links-directive.md.txt",
+"link": false,
+"read_at": "2026-10-26T15:35:41Z",
+"step": "wrap",
+"why": "the operator's wrap directive (the overseer, founder-delegated): forced sample at P2, keep every transcript and the three run dirs, stop at a hard cascade failure or agents doing the orchestrator's work (F352), the P2-validated report items (check's first-try lines, compare headers, tally, run dir, SPLIT in the strong batch), the founder's words I3 / I4 and the card's Beyond-the-plan row carried as approved, run the wrap whole"
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "ec19b4e7",
+"ts": "2026-10-26T15:35:46Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-26-explicit-session-links",
+"--run-dir",
+".andromeda/runs/2026-10-26T15-35-13-wrap",
+"--marker",
+"2026-10-26-explicit-session-links"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, typed in this session, 2026-10-26T12:53Z",
+"I1 cited scope.md:9 · research.md:7",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/phase-session-links-directive.md",
+"I2 cited scope.md:9 · scope.md:13 · research.md:7 · research.md:74 · plan.md:186 (in fence)",
+"I3 n/a — a message has no live source · copy message · message: the founder, his own word live by dialog in the overseer session at 2026-10-26T14:41Z, relayed verbatim by the operator through this session P4 dialog",
+"I3 cited plan.md:9 · plan.md:21 · plan.md:398 · plan.md:447 · plan.md:478",
+"I4 n/a — a message has no live source · copy message · message: the founder, his own word live by dialog in the overseer session at 2026-10-26T14:57Z, relayed verbatim by the operator in this session",
+"I4 UNCITED",
+"I5 unchanged · copy no-repo · ../additional/viola-overseer/wrap-session-links-directive.md",
+"I5 UNCITED",
+"inputs: 5 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 2 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 5,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 3
+},
+"uncited": 2,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "ec19b4e7",
+"ts": "2026-10-26T16:27:41Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-26-explicit-session-links",
+"--message-file",
+".andromeda/runs/2026-10-26T15-35-13-wrap/relay-1.md",
+"--origin",
+"the overseer (founder-delegated), the P2 halt dialog of this wrap, 2026-10-26T16:27Z",
+"--kind",
+"relay",
+"--why",
+"the P2 halt's answers: Q1 the answer card confirmed (a delegate's confirm, PROVISIONAL; the ratification stays the founder's own inputs#I3), Q2 the nine check-7 contradictions applied with their companions",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-26T15-35-13-wrap",
+"--marker",
+"2026-10-26-explicit-session-links"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I6 · copy message · message: the overseer (founder-delegated), the P2 halt dialog of this wrap, 2026-10-26T16:27Z",
+"cite: inputs#I6"
+],
+"stderr": null,
+"wrote": [
+"inputs/I6-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I6",
+"kind": "relay",
+"repo": null,
+"path": "message: the overseer (founder-delegated), the P2 halt dialog of this wrap, 2026-10-26T16:27Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "0b004614a72d903c19069d4176698b4b02cbb7aaa61cc23ce8e7e541376318f1",
+"copy": "I6-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-26T16:27:41Z",
+"step": "wrap",
+"why": "the P2 halt's answers: Q1 the answer card confirmed (a delegate's confirm, PROVISIONAL; the ratification stays the founder's own inputs#I3), Q2 the nine check-7 contradictions applied with their companions"
+}
+}
+]

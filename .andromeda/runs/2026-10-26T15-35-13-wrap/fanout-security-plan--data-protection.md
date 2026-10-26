@@ -1,0 +1,2 @@
+proposals: []
+note: no Data Protection drift — the chunk adds no file, mode, code-bearing artefact, probe dir, fixture class or dependency (report Changes: Dependencies none, Schema/config none); its new inputs (link/unlink params, the verbs' check_instance-first order) belong to input-validation.md and authentication-authorization.md, and data-protection.md names neither the link hold nor link/unlink, so no D-retired site exists here.

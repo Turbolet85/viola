@@ -1,0 +1,2 @@
+proposals: []
+note: no Color Palette drift — the chunk renders no colour (Coverage `tokens n/a` on all three new surfaces), its CLI result lines are plain in every mode, the palette's `EventKind::link` / `EventKind::unlink` rows and the Role (handoff) usage name the 0.2.0 web tape lines (not the CLI verb output) and state no hold; the stale `handoff:` pending row (design-system.md:348) and the server-verify verb list (design-system-detail/surface.md:73, :136) are the Surface: cli category's, per the report's Counts.

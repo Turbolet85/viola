@@ -1,0 +1,89 @@
+# architecture — outline (6 files)
+
+## .andromeda/architecture-detail/conventions.md · conventions · 12.6 KB
+- ## Conventions
+  - values · conv-refusal-reason · lines 8–15
+  - values · conv-exit-codes · lines 21–34
+  - values · conv-exit-codes · lines 40–40
+  - values · conv-mcp-results · lines 46–47
+  - values · conv-mcp-results · lines 53–53
+## .andromeda/architecture-detail/cross-cutting-patterns.md · cross-cutting-patterns · 8.5 KB
+- ## Cross-cutting Patterns
+  - values · crosscut-config · lines 8–12
+  - values · crosscut-capability-ledger · lines 18–20
+## .andromeda/architecture-detail/established-decisions.md · established-decisions · 110.8 KB
+- ## Established Decisions
+  - values · dec-concurrency-backend-framework · lines 8–8
+  - values · dec-pty · lines 14–17
+  - values · dec-screen-model · lines 23–25
+  - values · dec-delivery-confirmation · lines 31–40
+  - values · dec-database-state-store · lines 46–47
+  - values · dec-snapshot-writer · lines 53–54
+  - values · dec-message-broker-ipc · lines 60–61
+  - values · dec-message-broker-ipc · lines 67–67
+  - values · dec-message-broker-ipc · lines 73–73
+  - values · dec-message-broker-ipc · lines 79–79
+  - values · dec-mcp · lines 85–92
+  - values · dec-hook-transport · lines 98–104
+  - values · dec-hook-transport · lines 110–110
+  - values · dec-hook-contract · lines 116–117
+  - values · dec-hook-contract · lines 123–125
+  - pending · dec-hook-contract · lines 131–131
+  - values · dec-human-takeover-wheel · lines 137–143
+  - values · dec-links · lines 149–150
+  - values · dec-budget-governor · lines 156–158
+  - values · dec-cli-version-compatibility · lines 164–194
+  - values · dec-session-liveness · lines 200–204
+  - values · dec-error-handling · lines 210–210
+  - values · dec-module-boundaries · lines 216–216
+  - values · dec-deployment-distribution · lines 222–224
+  - values · dec-plugin-scope · lines 230–231
+  - values · dec-cli-conventions · lines 237–237
+## .andromeda/architecture-detail/occupied-resources.md · occupied-resources · 54.8 KB
+- ## Occupied Resources
+  - values · res-ipc-endpoints · lines 8–8
+  - values · res-ipc-endpoints · lines 14–14
+  - values · res-binaries · lines 20–23
+  - values · res-binaries · lines 29–29
+  - values · res-binaries · lines 35–35
+  - values · res-claude-integration · lines 41–41
+  - values · res-claude-integration · lines 47–47
+  - values · res-claude-integration · lines 53–53
+  - values · res-env-vars · lines 59–59
+  - values · res-env-vars · lines 65–66
+  - values · res-env-vars · lines 72–76
+  - values · res-env-vars · lines 82–84
+  - values · res-filesystem · lines 90–90
+  - values · res-filesystem · lines 96–99
+  - values · res-filesystem · lines 105–107
+  - values · res-filesystem · lines 113–114
+  - values · res-filesystem · lines 120–120
+  - values · res-filesystem · lines 126–126
+  - values · res-filesystem · lines 132–132
+  - values · res-filesystem · lines 138–138
+  - values · res-filesystem · lines 144–144
+  - values · res-repository · lines 150–153
+  - values · res-repository · lines 159–159
+  - values · res-repository · lines 165–167
+  - values · res-repository · lines 173–173
+  - values · res-repository · lines 179–180
+## .andromeda/architecture-detail/stack-and-technologies.md · stack-and-technologies · 12.1 KB
+- ## Stack and Technologies
+  - values · stack · lines 8–33
+  - values · stack · lines 39–39
+  - values · stack · lines 45–45
+## .andromeda/architecture-detail/standard-contracts.md · standard-contracts · 22.6 KB
+- ## Standard Contracts
+  - values · contract-list-payload · lines 8–14
+  - values · contract-snapshot-envelope · lines 20–25
+  - values · contract-ledger-stamps · lines 31–35
+  - values · contract-instance-snapshot · lines 41–41
+  - values · contract-channel-methods · lines 47–47
+  - values · contract-channel-methods · lines 53–53
+  - values · contract-channel-methods · lines 59–59
+  - values · contract-channel-methods · lines 65–65
+  - values · contract-channel-methods · lines 71–71
+  - values · contract-event-data · lines 77–77
+  - values · contract-hook-statusline · lines 83–87
+  - values · contract-session-liveness · lines 93–93
+  - values · contract-session-liveness · lines 99–99
