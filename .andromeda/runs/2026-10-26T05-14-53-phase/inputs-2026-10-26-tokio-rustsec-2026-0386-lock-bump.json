@@ -1,0 +1,364 @@
+[
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "ec19b4e7",
+"ts": "2026-10-26T05:16:10Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-26-tokio-rustsec-2026-0386-lock-bump",
+"--message-file",
+".andromeda/runs/2026-10-26T05-14-53-phase/relay-1.md",
+"--origin",
+"the operator, relaying overseer1 call, in-session message 2026-10-26 05:14Z",
+"--kind",
+"relay",
+"--why",
+"the phase directive: an ordinary chunk with no forced sample (overseer1 call); the stub run dir 2026-10-26T02-06-15-phase left as it is; standing: no epoch boundary inside Epoch 6, df -h /tmp before a stamped-home gate, a boundary widening halts for the founder live word",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-10-26T05-14-53-phase",
+"--marker",
+"2026-10-26-tokio-rustsec-2026-0386-lock-bump"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy message · message: the operator, relaying overseer1 call, in-session message 2026-10-26 05:14Z",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, relaying overseer1 call, in-session message 2026-10-26 05:14Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "27640935e4c8cb4e569a5a44e41f817599ba8e730d780ec006fad5de1ca2c01d",
+"copy": "I1-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-26T05:16:10Z",
+"step": "phase:P1",
+"why": "the phase directive: an ordinary chunk with no forced sample (overseer1 call); the stub run dir 2026-10-26T02-06-15-phase left as it is; standing: no epoch boundary inside Epoch 6, df -h /tmp before a stamped-home gate, a boundary widening halts for the founder live word"
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "ec19b4e7",
+"ts": "2026-10-26T05:16:10Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-26-tokio-rustsec-2026-0386-lock-bump",
+"--source",
+"~/.cargo/advisory-dbs/advisory-db-3157b0e258782691/crates/tokio/RUSTSEC-2026-0386.md",
+"--kind",
+"sibling",
+"--why",
+"RUSTSEC-2026-0386 (tokio, unsound, AsyncFd safe constructors): patched >=1.51.6 <1.52.0 and >=1.53.3; from 1.53.3 those four constructors are deprecated in favour of unsafe AsyncFd::register",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-10-26T05-14-53-phase",
+"--marker",
+"2026-10-26-tokio-rustsec-2026-0386-lock-bump"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · pointer committed · ~/.cargo/advisory-dbs/advisory-db-3157b0e258782691:crates/tokio/RUSTSEC-2026-0386.md",
+"commit 21d909e4 · ref main · upstream pushed",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "sibling",
+"repo": "~/.cargo/advisory-dbs/advisory-db-3157b0e258782691",
+"path": "crates/tokio/RUSTSEC-2026-0386.md",
+"form": "pointer",
+"state": "committed",
+"commit": "21d909e4c8bd4e14c7aea58bf980c881a0053ab1",
+"ref": "main",
+"upstream": "pushed",
+"claimed": null,
+"sha256": "f92ab63fc1641af590f81babf9f211d77bdd7db14b82cb53a3a756a16864b520",
+"copy": null,
+"link": false,
+"read_at": "2026-10-26T05:16:10Z",
+"step": "phase:P1",
+"why": "RUSTSEC-2026-0386 (tokio, unsound, AsyncFd safe constructors): patched >=1.51.6 <1.52.0 and >=1.53.3; from 1.53.3 those four constructors are deprecated in favour of unsafe AsyncFd::register"
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "ec19b4e7",
+"ts": "2026-10-26T05:50:50Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-26-tokio-rustsec-2026-0386-lock-bump",
+"--source",
+"~/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/Cargo.toml",
+"--kind",
+"sibling",
+"--why",
+"the published tokio 1.53.3 manifest: rust-version 1.71, its dependency set identical to 1.53.1 (diff: only the version line and two test targets), so the lock moves only the tokio entry",
+"--step",
+"phase:P3",
+"--run-dir",
+".andromeda/runs/2026-10-26T05-14-53-phase",
+"--marker",
+"2026-10-26-tokio-rustsec-2026-0386-lock-bump"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy no-repo · ~/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/Cargo.toml",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-Cargo.toml.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "sibling",
+"repo": null,
+"path": "~/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/Cargo.toml",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "6e6a777fce6800a5ed2a0efb672d7751445556ee40d258157938ba4506b78c35",
+"copy": "I3-Cargo.toml.txt",
+"link": false,
+"read_at": "2026-10-26T05:50:50Z",
+"step": "phase:P3",
+"why": "the published tokio 1.53.3 manifest: rust-version 1.71, its dependency set identical to 1.53.1 (diff: only the version line and two test targets), so the lock moves only the tokio entry"
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "ec19b4e7",
+"ts": "2026-10-26T05:54:41Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-26-tokio-rustsec-2026-0386-lock-bump",
+"--source",
+"~/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/CHANGELOG.md",
+"--kind",
+"sibling",
+"--why",
+"tokio 1.53.2 and 1.53.3 release notes (the whole move from 1.53.1): 1.53.3 deprecates the four AsyncFd constructors and fixes DuplexStream wakers, current_thread paused-time auto-advance and semaphore close wakes; 1.53.2 fixes Windows child-handle wait unregister, blocking-pool and timer lock orders, mpsc and broadcast wakes; the same text as the GitHub release tokio-1.53.3",
+"--step",
+"phase:P3",
+"--run-dir",
+".andromeda/runs/2026-10-26T05-14-53-phase",
+"--marker",
+"2026-10-26-tokio-rustsec-2026-0386-lock-bump"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy no-repo · ~/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/CHANGELOG.md",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-CHANGELOG.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "sibling",
+"repo": null,
+"path": "~/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/CHANGELOG.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "c7b607c14636d6e93020ece27de8ee7e2dc51b1a9b5f8c1135780a0dcee134b0",
+"copy": "I4-CHANGELOG.md.txt",
+"link": false,
+"read_at": "2026-10-26T05:54:40Z",
+"step": "phase:P3",
+"why": "tokio 1.53.2 and 1.53.3 release notes (the whole move from 1.53.1): 1.53.3 deprecates the four AsyncFd constructors and fixes DuplexStream wakers, current_thread paused-time auto-advance and semaphore close wakes; 1.53.2 fixes Windows child-handle wait unregister, blocking-pool and timer lock orders, mpsc and broadcast wakes; the same text as the GitHub release tokio-1.53.3"
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "ec19b4e7",
+"ts": "2026-10-26T06:01:49Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-26-tokio-rustsec-2026-0386-lock-bump",
+"--run-dir",
+".andromeda/runs/2026-10-26T05-14-53-phase",
+"--marker",
+"2026-10-26-tokio-rustsec-2026-0386-lock-bump"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, relaying overseer1 call, in-session message 2026-10-26 05:14Z",
+"I1 cited scope.md:7 · research.md:16 · plan.md:9 · plan.md:48 · plan.md:81 (in fence)",
+"I2 unchanged · pointer committed@21d909e4 · ~/.cargo/advisory-dbs/advisory-db-3157b0e258782691:crates/tokio/RUSTSEC-2026-0386.md",
+"I2 cited scope.md:17 · scope.md:32 · research.md:17 · research.md:42 · plan.md:13 · plan.md:314 · plan.md:315",
+"I3 unchanged · copy no-repo · ~/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/Cargo.toml",
+"I3 cited scope.md:26 · research.md:18 · research.md:44 · plan.md:104 (in fence) · plan.md:314 · plan.md:315 · plan.md:329",
+"I4 unchanged · copy no-repo · ~/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/CHANGELOG.md",
+"I4 cited research.md:14 · research.md:19 · research.md:80 · plan.md:29 · plan.md:70 · plan.md:314",
+"inputs: 4 entries — unchanged 3 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 4,
+"counts": {
+"unchanged": 3,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "ec19b4e7",
+"ts": "2026-10-26T06:02:07Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-26-tokio-rustsec-2026-0386-lock-bump",
+"--run-dir",
+".andromeda/runs/2026-10-26T05-14-53-phase",
+"--marker",
+"2026-10-26-tokio-rustsec-2026-0386-lock-bump"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, relaying overseer1 call, in-session message 2026-10-26 05:14Z",
+"I1 cited scope.md:7 · research.md:16 · plan.md:9 · plan.md:48 · plan.md:81 (in fence)",
+"I2 unchanged · pointer committed@21d909e4 · ~/.cargo/advisory-dbs/advisory-db-3157b0e258782691:crates/tokio/RUSTSEC-2026-0386.md",
+"I2 cited scope.md:17 · scope.md:32 · research.md:17 · research.md:42 · plan.md:13 · plan.md:314 · plan.md:315",
+"I3 unchanged · copy no-repo · ~/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/Cargo.toml",
+"I3 cited scope.md:26 · research.md:18 · research.md:44 · plan.md:104 (in fence) · plan.md:314 · plan.md:315 · plan.md:329",
+"I4 unchanged · copy no-repo · ~/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/CHANGELOG.md",
+"I4 cited research.md:14 · research.md:19 · research.md:80 · plan.md:29 · plan.md:70 · plan.md:314",
+"inputs: 4 entries — unchanged 3 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 4,
+"counts": {
+"unchanged": 3,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "ec19b4e7",
+"ts": "2026-10-26T06:03:23Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-26-tokio-rustsec-2026-0386-lock-bump",
+"--message-file",
+".andromeda/runs/2026-10-26T05-14-53-phase/relay-2.md",
+"--origin",
+"delegate overseer (founder-delegated), relayed by the operator, 2026-10-26 06:03Z",
+"--kind",
+"relay",
+"--why",
+"the P5 word yes on .andromeda/runs/2026-10-26T05-14-53-phase/p5-card-1.md, delegate overseer authority (founder-delegated, the founder asleep); Beyond the plan none",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-10-26T05-14-53-phase",
+"--marker",
+"2026-10-26-tokio-rustsec-2026-0386-lock-bump"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I5 · copy message · message: delegate overseer (founder-delegated), relayed by the operator, 2026-10-26 06:03Z",
+"cite: inputs#I5"
+],
+"stderr": null,
+"wrote": [
+"inputs/I5-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I5",
+"kind": "relay",
+"repo": null,
+"path": "message: delegate overseer (founder-delegated), relayed by the operator, 2026-10-26 06:03Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "2716fe318bff0db8b82638448e377d52a04f752e574a2eb3d7b7d5d8c3d95e6f",
+"copy": "I5-relay-2.md.txt",
+"link": false,
+"read_at": "2026-10-26T06:03:23Z",
+"step": "phase:P5",
+"why": "the P5 word yes on .andromeda/runs/2026-10-26T05-14-53-phase/p5-card-1.md, delegate overseer authority (founder-delegated, the founder asleep); Beyond the plan none"
+}
+}
+]

@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "5a3d7b56",
+"ts": "2026-10-26T05:17:11Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-10-26-tokio-rustsec-2026-0386-lock-bump",
+"--expect-prefix",
+"tokio RUSTSEC-2026-0386 lock bump",
+"--record-file",
+".andromeda/runs/2026-10-26T05-14-53-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-10-26T05-14-53-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"stamp viola-0.1.0/working-route.md:171 - [2026-10-26-tokio-rustsec-2026-0386-lock-bump]",
+"record master-route.md:88 - appended under `## viola-0.1.0`",
+"promoted 2026-10-26-tokio-rustsec-2026-0386-lock-bump - viola-0.1.0/working-route.md:171 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/working-route.md",
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+}
+]

@@ -1,0 +1,226 @@
+[
+{
+"tool": "sidecar",
+"v": "1.5",
+"sha8": "710f5f54",
+"ts": "2026-10-26T05:45:42Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/architecture-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-26T05-14-53-phase",
+"--marker",
+"2026-10-26-tokio-rustsec-2026-0386-lock-bump"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"bytes 283639 · whole-read bound 120000 · OVER",
+"entries 146 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 283639,
+"entries": 146,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.5",
+"sha8": "710f5f54",
+"ts": "2026-10-26T05:45:42Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-26T05-14-53-phase",
+"--marker",
+"2026-10-26-tokio-rustsec-2026-0386-lock-bump"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"bytes 155278 · whole-read bound 120000 · OVER",
+"entries 94 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 155278,
+"entries": 94,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.5",
+"sha8": "710f5f54",
+"ts": "2026-10-26T05:45:42Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-26T05-14-53-phase",
+"--marker",
+"2026-10-26-tokio-rustsec-2026-0386-lock-bump"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"bytes 220196 · whole-read bound 120000 · OVER",
+"entries 128 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 220196,
+"entries": 128,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.5",
+"sha8": "710f5f54",
+"ts": "2026-10-26T05:45:42Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-26T05-14-53-phase",
+"--marker",
+"2026-10-26-tokio-rustsec-2026-0386-lock-bump"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"bytes 104639 · whole-read bound 120000 · within",
+"entries 77 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 104639,
+"entries": 77,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.5",
+"sha8": "710f5f54",
+"ts": "2026-10-26T05:45:48Z",
+"argv": [
+"index",
+"--file",
+".andromeda/architecture-amendments.md",
+"--out",
+".andromeda/runs/2026-10-26T05-14-53-phase/arch-history-index.md",
+"--run-dir",
+".andromeda/runs/2026-10-26T05-14-53-phase",
+"--marker",
+"2026-10-26-tokio-rustsec-2026-0386-lock-bump"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"wrote .andromeda/runs/2026-10-26T05-14-53-phase/arch-history-index.md · 146 entries · 0 unparsed · 50952 B (the sidecar is 283639 B)"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-10-26T05-14-53-phase/arch-history-index.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "sidecar",
+"v": "1.5",
+"sha8": "710f5f54",
+"ts": "2026-10-26T05:45:48Z",
+"argv": [
+"index",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--out",
+".andromeda/runs/2026-10-26T05-14-53-phase/security-history-index.md",
+"--run-dir",
+".andromeda/runs/2026-10-26T05-14-53-phase",
+"--marker",
+"2026-10-26-tokio-rustsec-2026-0386-lock-bump"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"wrote .andromeda/runs/2026-10-26T05-14-53-phase/security-history-index.md · 94 entries · 0 unparsed · 29083 B (the sidecar is 155278 B)"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-10-26T05-14-53-phase/security-history-index.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "sidecar",
+"v": "1.5",
+"sha8": "710f5f54",
+"ts": "2026-10-26T05:45:48Z",
+"argv": [
+"index",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--out",
+".andromeda/runs/2026-10-26T05-14-53-phase/tests-history-index.md",
+"--run-dir",
+".andromeda/runs/2026-10-26T05-14-53-phase",
+"--marker",
+"2026-10-26-tokio-rustsec-2026-0386-lock-bump"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"wrote .andromeda/runs/2026-10-26T05-14-53-phase/tests-history-index.md · 128 entries · 0 unparsed · 42865 B (the sidecar is 220196 B)"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-10-26T05-14-53-phase/tests-history-index.md"
+],
+"before": null,
+"after": null
+}
+]

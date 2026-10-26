@@ -1,0 +1,1 @@
+please run implement per the skill on 2026-10-26-tokio-rustsec-2026-0386-lock-bump, through its operator pass and the CI read; supply-chain is expected to turn green with it. Journal each long run in the run dir before you wait on it.

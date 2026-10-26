@@ -239,7 +239,7 @@ tempfile = "=3.27.0"
 thiserror = "=2.0.20"
 # viola-mcp's runtime and viola-channel's `tokio` client only: every sync crate's own graph stays
 # free of it (deny-sync.toml, scripts/channel-tokio-free.sh). Each user names its features.
-tokio = { version = "=1.53.1", default-features = false }
+tokio = { version = "=1.53.3", default-features = false }
 # `attributes`: `#[instrument(skip_all, name = "<area>.<operation>", fields(..))]`, the only span form (obs-plan §3).
 tracing = { version = "=0.1.44", default-features = false, features = ["attributes", "std"] }
 tracing-subscriber = { version = "=0.3.23", default-features = false, features = ["fmt", "json", "registry", "std"] }

@@ -1,0 +1,54 @@
+[
+{
+"sql": "SELECT from_crate, to_crate FROM crate_edges WHERE to_crate IN ('viola-mcp','viola-channel','viola-e2e') OR from_crate IN ('viola-mcp','viola-e2e') ORDER BY 1, 2",
+"rows": 11,
+"result": [
+{
+"from_crate": "viola",
+"to_crate": "viola-channel"
+},
+{
+"from_crate": "viola",
+"to_crate": "viola-mcp"
+},
+{
+"from_crate": "viola-e2e",
+"to_crate": "viola-agent-claude"
+},
+{
+"from_crate": "viola-e2e",
+"to_crate": "viola-channel"
+},
+{
+"from_crate": "viola-e2e",
+"to_crate": "viola-core"
+},
+{
+"from_crate": "viola-e2e",
+"to_crate": "viola-pty"
+},
+{
+"from_crate": "viola-e2e",
+"to_crate": "viola-state"
+},
+{
+"from_crate": "viola-mcp",
+"to_crate": "viola-agent-claude"
+},
+{
+"from_crate": "viola-mcp",
+"to_crate": "viola-channel"
+},
+{
+"from_crate": "viola-mcp",
+"to_crate": "viola-core"
+},
+{
+"from_crate": "viola-mcp",
+"to_crate": "viola-state"
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]
