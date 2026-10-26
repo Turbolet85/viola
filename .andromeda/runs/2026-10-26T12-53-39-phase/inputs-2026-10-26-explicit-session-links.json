@@ -1,0 +1,309 @@
+[
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "ec19b4e7",
+"ts": "2026-10-26T12:54:31Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-26-explicit-session-links",
+"--message-file",
+".andromeda/runs/2026-10-26T12-53-39-phase/relay-1.md",
+"--origin",
+"the operator, typed in this session, 2026-10-26T12:53Z",
+"--kind",
+"relay",
+"--why",
+"the take-up direction: run the phase on Explicit session links; the founder's word «Взять, жду P4» (take it up, he picks the widening's form himself at P4), relayed by the operator",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-10-26T12-53-39-phase",
+"--marker",
+"2026-10-26-explicit-session-links"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy message · message: the operator, typed in this session, 2026-10-26T12:53Z",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, typed in this session, 2026-10-26T12:53Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "474b9ee63ec401a43f18993a162b3f29317e3516c90e98a01634aac789e7d6c2",
+"copy": "I1-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-26T12:54:31Z",
+"step": "phase:P1",
+"why": "the take-up direction: run the phase on Explicit session links; the founder's word «Взять, жду P4» (take it up, he picks the widening's form himself at P4), relayed by the operator"
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "ec19b4e7",
+"ts": "2026-10-26T12:54:31Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-26-explicit-session-links",
+"--source",
+"../additional/viola-overseer/phase-session-links-directive.md",
+"--kind",
+"relay",
+"--why",
+"the operator's phase directive (the overseer, founder-delegated): forced sample at P2, keep every transcript, stop at a hard cascade failure, the P2 report items, the widening's form asked of the founder live at P4, no epoch boundary inside Epoch 6, df -h /tmp before a stamped-home gate",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-10-26T12-53-39-phase",
+"--marker",
+"2026-10-26-explicit-session-links"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy no-repo · ../additional/viola-overseer/phase-session-links-directive.md",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-phase-session-links-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/phase-session-links-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "697c1b80a20d52d391d7accb7c0e6039e87b2fbb25823ac46148abe0ef5c289f",
+"copy": "I2-phase-session-links-directive.md.txt",
+"link": false,
+"read_at": "2026-10-26T12:54:31Z",
+"step": "phase:P1",
+"why": "the operator's phase directive (the overseer, founder-delegated): forced sample at P2, keep every transcript, stop at a hard cascade failure, the P2 report items, the widening's form asked of the founder live at P4, no epoch boundary inside Epoch 6, df -h /tmp before a stamped-home gate"
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "ec19b4e7",
+"ts": "2026-10-26T14:41:28Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-26-explicit-session-links",
+"--message-file",
+".andromeda/runs/2026-10-26T12-53-39-phase/relay-2.md",
+"--origin",
+"the founder, his own word live by dialog in the overseer session at 2026-10-26T14:41Z, relayed verbatim by the operator through this session P4 dialog",
+"--kind",
+"relay",
+"--why",
+"P4 fork, the widening's form: the founder's own answer «Сначала instance check (Рекомендую)», option 1 of three shown re-stated against HEAD; the ratification of serving link / unlink and the verbs taking check_instance before any log or snapshot read",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-10-26T12-53-39-phase",
+"--marker",
+"2026-10-26-explicit-session-links"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy message · message: the founder, his own word live by dialog in the overseer session at 2026-10-26T14:41Z, relayed verbatim by the operator through this session P4 dialog",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "message: the founder, his own word live by dialog in the overseer session at 2026-10-26T14:41Z, relayed verbatim by the operator through this session P4 dialog",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "f017c5ebe183f2ec15d344aca2d2a8c6534e898203a02f49dfaeadefde417c1b",
+"copy": "I3-relay-2.md.txt",
+"link": false,
+"read_at": "2026-10-26T14:41:28Z",
+"step": "phase:P4",
+"why": "P4 fork, the widening's form: the founder's own answer «Сначала instance check (Рекомендую)», option 1 of three shown re-stated against HEAD; the ratification of serving link / unlink and the verbs taking check_instance before any log or snapshot read"
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "ec19b4e7",
+"ts": "2026-10-26T14:46:30Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-26-explicit-session-links",
+"--run-dir",
+".andromeda/runs/2026-10-26T12-53-39-phase",
+"--marker",
+"2026-10-26-explicit-session-links"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, typed in this session, 2026-10-26T12:53Z",
+"I1 cited scope.md:9 · research.md:7",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/phase-session-links-directive.md",
+"I2 cited scope.md:9 · scope.md:13 · research.md:7 · research.md:74 · plan.md:185 (in fence)",
+"I3 n/a — a message has no live source · copy message · message: the founder, his own word live by dialog in the overseer session at 2026-10-26T14:41Z, relayed verbatim by the operator through this session P4 dialog",
+"I3 cited plan.md:9 · plan.md:21 · plan.md:381 · plan.md:430 · plan.md:461",
+"inputs: 3 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 3,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "ec19b4e7",
+"ts": "2026-10-26T14:51:33Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-26-explicit-session-links",
+"--run-dir",
+".andromeda/runs/2026-10-26T12-53-39-phase",
+"--marker",
+"2026-10-26-explicit-session-links"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, typed in this session, 2026-10-26T12:53Z",
+"I1 cited scope.md:9 · research.md:7",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/phase-session-links-directive.md",
+"I2 cited scope.md:9 · scope.md:13 · research.md:7 · research.md:74 · plan.md:186 (in fence)",
+"I3 n/a — a message has no live source · copy message · message: the founder, his own word live by dialog in the overseer session at 2026-10-26T14:41Z, relayed verbatim by the operator through this session P4 dialog",
+"I3 cited plan.md:9 · plan.md:21 · plan.md:398 · plan.md:447 · plan.md:478",
+"inputs: 3 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 3,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "ec19b4e7",
+"ts": "2026-10-26T14:57:22Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-26-explicit-session-links",
+"--message-file",
+".andromeda/runs/2026-10-26T12-53-39-phase/relay-3.md",
+"--origin",
+"the founder, his own word live by dialog in the overseer session at 2026-10-26T14:57Z, relayed verbatim by the operator in this session",
+"--kind",
+"relay",
+"--why",
+"the P5 word yes on the card .andromeda/runs/2026-10-26T12-53-39-phase/p5-card-1.md, its leans as written and its Beyond-the-plan row (v1-13 and v1-36 as a CARRY onto Version done-check); authority: the founder's own word, relayed verbatim",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-10-26T12-53-39-phase",
+"--marker",
+"2026-10-26-explicit-session-links"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy message · message: the founder, his own word live by dialog in the overseer session at 2026-10-26T14:57Z, relayed verbatim by the operator in this session",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-relay-3.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "relay",
+"repo": null,
+"path": "message: the founder, his own word live by dialog in the overseer session at 2026-10-26T14:57Z, relayed verbatim by the operator in this session",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "a7201a6532efa676911308b3a3399a6de8c4384aefa7d4619cd522be54554d84",
+"copy": "I4-relay-3.md.txt",
+"link": false,
+"read_at": "2026-10-26T14:57:22Z",
+"step": "phase:P5",
+"why": "the P5 word yes on the card .andromeda/runs/2026-10-26T12-53-39-phase/p5-card-1.md, its leans as written and its Beyond-the-plan row (v1-13 and v1-36 as a CARRY onto Version done-check); authority: the founder's own word, relayed verbatim"
+}
+}
+]

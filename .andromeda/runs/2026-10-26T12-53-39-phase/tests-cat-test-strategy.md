@@ -1,0 +1,49 @@
+# tests · Test Strategy — category read
+
+## Carried
+- (.andromeda/test-plan-detail/test-strategy.md:10) The two verbs' and two methods' refusal and exit cases (the `-32602` name and self-link refusals, exit 21) must sit in rstest `#[case]` tables, and if the verbs write their frame through the server check, each verb needs its captured-span case through the shared `cmd::client::refused_inside` helper, compiled out on macOS only.
+  > rstest 0.27.0 `#[case]` tables cover the refusal-order matrices, the exit-code table (0/1/2/10–14/20/21) and the per-`<cli-version>` fixture replay. Runs on all 3 OSes, except the two real-cargo-mutants harness tests (§10 Mutation gate) and the server check's captured-span cases, compiled out on macOS, where the server check reads no peer pid: each frame verb's `request_refuses_an_unverified_server_inside_its_dispatch_span`, `hook_refuses_an_unverified_server_inside_hook_handle`, the test-only `cmd::client::refused_inside` helper they share (under `#[cfg(test)]` + `#[cfg(not(target_os = "macos"))]`) and the `last.rs` and `pause.rs` test modules, gated whole; the decision table `server_verdict_rows` and the macOS `server_pid` case still run there.
+- (.andromeda/test-plan-detail/test-strategy.md:11) The chunk's new tests must pass under nextest, the runner; a plain `cargo test` run is no evidence.
+  > **Runner:** nextest is the runner; a plain `cargo test` run (`cargo test --bin viola`) is not supported
+- (.andromeda/test-plan-detail/test-strategy.md:14) Serving `link` / `unlink` extends the Wrapper channel and CLI Standard Contracts, so each must be held at integration over a real endpoint, a real tempfile home and `assert_cmd` against the built binary.
+  > **Tier-specific depth (Comprehensive, viola):** Required. Every arch Standard Contract (Wrapper channel, On-disk, Hooks, CLI, MCP) has a crate-level `tests/` suite, using a real `interprocess` endpoint, a real tempfile home, and assert_cmd against `CARGO_BIN_EXE_viola`.
+- (.andromeda/test-plan-detail/test-strategy.md:17) Scenario E3 (`link` / `unlink`) is one of the four expansion scenarios whose E2E is required, run against harness-booted wrappers over the fake agent.
+  > **Tier-specific depth (Comprehensive, viola):** Required for all 7 critical paths plus 4 expansion scenarios (Section 6). They run against harness-booted `viola run … -- viola-fake-agent`, using the outer PTY (portable-pty) and the rmcp client.
+- (.andromeda/test-plan-detail/test-strategy.md:42) `tests/channel_links.rs` and any `cli_` link file must take the root sync-suite naming and use the shared `tests/support/` reader, wait, runner and complete-lines reader, never a copy of their own.
+  > **Sync (tokio-free) E2E suites:** root `tests/{cli,hook,tui,channel,chaos,contract,security_negatives}_<topic>.rs`, sharing helpers in `tests/support/{home.rs,outer_pty.rs,fake.rs,events.rs,cli.rs,ndjson.rs}`. `events.rs` holds the one `events.ndjson` reader and its wait (`events`, `wait_events`) and the `boot` that waits for the session-start record; `cli.rs` holds the one started-child guard and runner (`Running`, `Ran`, `spawn`, `viola`), with stdout and stderr as two captures beside the exit code, and `spawn_on` / `viola_on`, which put a planted bin dir on the child's `PATH`; a plain `spawn` of `list` runs with `PATH` set to an empty bin dir, so no test reads the host's `claude` sessions. `fake.rs` holds `empty_bin`, `claude_bin` and `claude_in`, the one place a test plants the fake agent as `claude` (chunk 2026-10-16-unwrapped-sessions-on-the-board). No root test file outside `tests/support/` defines its own copy of the reader, the wait, the guard or the result struct. `ndjson.rs` is the one complete-lines reader: every reader of a live-appended file parses only newline-terminated lines, because a Linux reader can observe an append part-way.
+- (.andromeda/test-plan-detail/test-strategy.md:48) A trycmd case for the three human result lines must live under the trycmd home.
+  > **trycmd cases:** `tests/cmd/*.toml`.
+- (.andromeda/test-plan-detail/test-strategy.md:58) The two new channel methods widen the IPC vector, so the raw-channel name negative and, if the verbs take the server check, their unverified-server negative belong in the root security-negatives suites, off macOS for the server case.
+  > | IPC vector (V1) | integration + E2E | §5 Module ↔ IPC + Wrapper channel (the MCP impostor case, `crates/viola-mcp/tests/handlers.rs`); §6 Scenario 1 + Security control negatives (root `security_negatives_channel.rs`: the Windows listener's remote-client rejection and DACL denial; root `security_negatives_server_identity.rs`, off macOS: a CLI frame verb against a server that is not the recorded wrapper) + Security sweep (the hook fail-open impostor rows, off macOS) |
+- (.andromeda/test-plan-detail/test-strategy.md:62) The verbs' `<driver> <driven>` names and the re-parse of a logged link name through `ViolaName::try_new` are CLI-input cases held at unit and integration.
+  > | CLI and env (V6) | unit + integration | §4 viola-core/root bin; §5 |
+- (.andromeda/test-plan-detail/test-strategy.md:69) The link flow is a cross-surface-coordination case whose primary layer is E2E Scenario E3, plus cross-surface parity for its `--json` result.
+  > | cross-surface-coordination | E2E | §6 Scenarios 2, E3 + Cross-surface parity |
+- (.andromeda/test-plan-detail/test-strategy.md:73) The verbs' `--json` documents and the methods' `error.data` must be covered by the error-sanitization checks at integration and E2E.
+  > | error sanitization / secret logging | integration + E2E | §6 Error sanitization and secret scan; §3 logs |
+- (.andromeda/test-plan-detail/test-strategy.md:75) Every link test must keep the discipline trigger: no screen parsing, no flakes.
+  > | discipline (no screen parsing / no blanket approval / no flakes) | all | §6 Scenario 4 negative; §11 |
+- (.andromeda/test-plan.md:305) Link tests must be deterministic: no retries and no sleep for synchronisation.
+  > no nextest retries (`retries = 0`) and no `std::thread::sleep` / `tokio::time::sleep` used for synchronisation
+- (.andromeda/test-plan.md:306) A wait on the `link` / `unlink` record must key on the log's byte offsets or `viola wait --after`.
+  > waits key on `events.ndjson` byte offsets or `viola wait --after <cursor>`
+- (.andromeda/test-plan.md:308) Each link test must bootstrap its own home and stamps, with no developer-seeded data.
+  > Self-bootstrapping fixtures, with no developer-seeded data:
+  >   - every test creates its own `--home` via tempfile 3.27.0
+  >   - stamps come only from `viola verify` run against the fake agent
+- (.andromeda/test-plan.md:320) New integration binaries must carry a layer prefix (`channel_links.rs`, a `cli_` file) so the nextest filtersets select them.
+  > Rust integration binaries use a `<surface>_<topic>.rs` prefix so nextest filtersets can select layers: `cli_`, `hook_`, `tui_`, `channel_`, `chaos_`, `contract_` in root; `path_`, `mcp_`, `cross_` in `viola-e2e`.
+- (.andromeda/test-plan.md:323) New test functions must follow the snake_case `<subject>_<condition>_<expected>` pattern.
+  > General pattern: snake_case `<subject>_<condition>_<expected>`, for example `send_with_esc_refuses_control_character` or `hook_oversize_stdin_exits_zero_silent`.
+- (.andromeda/test-plan.md:868) The methods' refusal cases (name validation, `driver` equal to `driven`, an absent-pair `unlink`) belong at the lower layers; E3 at E2E asserts only the cross-process behaviour.
+  > NEVER assert at E2E a case that a lower layer can hold. Parser, refusal-order, threshold and clock cases belong in §4, contract shapes in §5, and §6 asserts only cross-process behaviour (§2 pyramid).
+- (.andromeda/test-plan.md:873) The verbs' frame and server-check paths are OS-branched, so a Linux dev-host green is no proof for Windows or macOS; each must be read green on its own CI runner.
+  > NEVER treat a Linux-only local run as proof for Windows or macOS. OS-branch code is verified only on its own runner.
+
+## Bindings
+- **E3 expansion scenario ↔ body §6 Scenario E3**: test-strategy's cross-surface row and E2E tier require E3, whose steps 1 and 3 the body records owed and held to this entry (`viola link overseer builder --json` twice, one `link` record; `unlink` appends an `unlink` record) (.andromeda/test-plan-detail/test-strategy.md:69) (.andromeda/test-plan-detail/test-strategy.md:17)
+- **IPC vector row ↔ body §6 Security control negatives**: the body's list names "raw-channel `link` / `unlink` name validation" and the CLI frame verb against an unrecorded server in `tests/security_negatives_server_identity.rs`; the row places both in root `security_negatives_*` files (.andromeda/test-plan-detail/test-strategy.md:58)
+- **Captured-span cases ↔ body §4 root bin**: §4's "the server check refused inside each frame verb's and the hook's span" extends to `link` / `unlink` when they write their frame through `client::connect`, gated off macOS per the unit tier (.andromeda/test-plan-detail/test-strategy.md:10)
+- **trycmd home ↔ body §5 Human-mode layouts**: §5 makes the human layouts trycmd except `viola --help`, pinned by the `HELP` literal in `tests/cli_output_plain.rs`, which the third CARRY's `handoff:  link, unlink` row moves (.andromeda/test-plan-detail/test-strategy.md:48)
+- **CLI and env row ↔ security-plan §Input validation**: the verbs' names through `ViolaName::try_new` before any path join, and the second CARRY's re-parse of a logged link name, are V6 cases held at unit and integration (.andromeda/test-plan-detail/test-strategy.md:62)
+- **Cross-surface parity ↔ body §1 MCP surface**: `tools/list` is exactly the five tools, never `link` / `unlink`, so the link parity case has no MCP leg unless `v1-13`'s claim reading adds one (.andromeda/test-plan-detail/test-strategy.md:69)

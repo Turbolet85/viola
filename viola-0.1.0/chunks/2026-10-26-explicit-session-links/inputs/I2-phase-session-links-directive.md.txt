@@ -1,0 +1,22 @@
+# Phase directive — "Explicit session links" (Epoch 6)
+
+The operator's requests to the phase's orchestrator (the overseer, founder-delegated). The founder's word of 2026-10-26
+is «Взять, жду P4»: take this entry up, and he picks the boundary widening's form himself at P4.
+
+1. **At P2 the operator's word is «forced sample».** Please run the sample with `--force`
+   (`detail.py sample --side phase --force`).
+2. **Please keep the evidence.** Keep every subagent and Workflow transcript, and leave the run dir intact.
+3. **Stop at a hard cascade failure.** If a Workflow launch, a batch or a P2 step fails hard, please stop and report it
+   with the run dir. Stop the same way if agents write nothing or do the orchestrator's work (F352). Do not re-spawn
+   around it.
+4. **At P2 validated, please report:**
+   - check's first-try lines per kind;
+   - the compare headers;
+   - the tally;
+   - the run dir;
+   - the printout of `fanout.py move` (F355), if it fires.
+5. **At P4, ask the founder the widening's form as a live dialog.** It is one of the three options recorded on the
+   entry. He is present and waiting for it. The relay carries his answer verbatim.
+6. **Standing:**
+   - no epoch boundary inside Epoch 6;
+   - read `df -h /tmp` before a stamped-home gate.

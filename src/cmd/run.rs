@@ -65,9 +65,9 @@ fn hold_pump_start() {
     }
 }
 
-/// The wrapper's answers: `send`, `wait`, `last`, `hook.dialog`, `answer`, `pause`, `release`, and
-/// the `hook.event` notification, which appends its event; every other method is `-32601` until its
-/// chunk lands.
+/// The wrapper's answers: `send`, `wait`, `last`, `hook.dialog`, `answer`, `pause`, `release`,
+/// `link`, `unlink`, and the `hook.event` notification, which appends its event; every other method
+/// is `-32601`.
 pub(crate) struct Methods {
     name: ViolaName,
     instance_dir: PathBuf,
@@ -76,6 +76,7 @@ pub(crate) struct Methods {
     dialogs: Arc<DialogSlot>,
     wheel: Arc<WheelSlot>,
     budget: Arc<BudgetGate>,
+    links: Arc<LinkSet>,
 }
 
 /// The kinds a hook may hand the wrapper.
@@ -140,6 +141,8 @@ impl Dispatch for Methods {
             "answer" => self.dialogs.answer(call),
             "pause" => self.wheel.pause(call),
             "release" => self.wheel.release(call, &self.budget),
+            "link" => self.links.link(call.params),
+            "unlink" => self.links.unlink(call.params),
             _ => self.dispatch(call.method, call.params),
         }
     }
@@ -313,6 +316,7 @@ pub(super) fn start(
         dialogs,
         wheel: Arc::clone(&wheel),
         budget: Arc::clone(&budget),
+        links: Arc::clone(&links),
     }));
     let (beat, snapshot) = start_state(
         name,
@@ -794,10 +798,15 @@ mod tests {
             instance_dir.to_path_buf(),
             instance_dir.to_path_buf(),
             budget::Thresholds::default(),
-            snapshots,
+            Arc::clone(&snapshots),
         ));
         let send = Arc::new(SendSlot::new(SystemClock, false, Arc::clone(&wheel)));
         send.budget_with(Arc::clone(&budget));
+        let links = Arc::new(LinkSet::new(
+            name.clone(),
+            instance_dir.to_path_buf(),
+            snapshots,
+        ));
         Methods {
             name,
             instance_dir: instance_dir.to_path_buf(),
@@ -806,6 +815,7 @@ mod tests {
             dialogs: Arc::new(dialogs),
             wheel,
             budget,
+            links,
         }
     }
 
@@ -820,12 +830,11 @@ mod tests {
     #[test]
     fn methods_answer_method_not_found_for_every_other_method() {
         let tmp = tempfile::tempdir().expect("tempdir");
-        for method in ["link", "unlink", "anything"] {
-            assert_eq!(
-                methods(tmp.path()).dispatch(method, &json!({"v": 1})),
-                Err(ProtocolError::MethodNotFound)
-            );
-        }
+        let params = json!({"v": 1});
+        assert_eq!(
+            methods(tmp.path()).dispatch_call(&call("anything", &params)),
+            Err(ProtocolError::MethodNotFound)
+        );
         assert!(events_in(tmp.path()).is_empty());
     }
 
@@ -837,6 +846,27 @@ mod tests {
             conn: None,
             srv_conn: Some("srv-1"),
         }
+    }
+
+    /// `link` and `unlink` are answered by the link set: one line each, in that order.
+    #[test]
+    fn methods_route_link_and_unlink_to_the_link_set() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let methods = methods(tmp.path());
+        let params = json!({"v": 1, "driver": "overseer", "driven": "builder"});
+        let linked = methods
+            .dispatch_call(&call("link", &params))
+            .expect("linked");
+        assert_eq!(linked["ok"]["already_linked"], false);
+        assert_eq!(
+            methods.dispatch_call(&call("unlink", &params)),
+            Ok(json!({"ok": {}}))
+        );
+        let kinds: Vec<Value> = events_in(tmp.path())
+            .into_iter()
+            .map(|line| line["kind"].clone())
+            .collect();
+        assert_eq!(kinds, [json!("link"), json!("unlink")]);
     }
 
     /// `wait` and `last` are answered by the wait feed, and a `hook.event` line reaches it.

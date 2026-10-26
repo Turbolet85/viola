@@ -1,0 +1,25 @@
+# tests · Test Data & Fixtures — category read
+
+## Carried
+- (.andromeda/test-plan-detail/test-data-fixtures.md:10) The `link` / `unlink` lines in `events.ndjson` and the snapshot's `links` that the verbs' root cases (`tests/channel_links.rs`, Scenario E3 steps 1 and 3) assert on must come from real `viola run` wrappers and the real `link` / `unlink` verbs and channel methods against the fake agent in a fresh home, never from a hand-written log line or snapshot; the only test-built snapshot allowed is the server-identity impostor carve-out.
+  > | On-disk product state (`events.ndjson`, `snapshot.json`, `heartbeat`, `plugin/`, `settings.json`) | Produced only by running real `viola run` / `hook` / CLI verbs against `viola-fake-agent` in a fresh home, never hand-written. Three exceptions: the chaos tests, which corrupt files the product already wrote; the server-identity impostor cases (below);
+- (.andromeda/test-plan-detail/test-data-fixtures.md:17) The three human result lines (`link … since …Z`, `link … already linked`, `unlink …`) must be pinned with their `since` timestamp redacted, and the help row `handoff:  link, unlink` must move the `HELP` literal in `tests/cli_output_plain.rs`, which stays a literal in its test file.
+  > | Human-mode expected output | trycmd `tests/cmd/*.toml`, with snapbox redactions for timestamps, cursors and paths; `viola --help` (the `HELP` literal, `tests/cli_output_plain.rs`) and the `viola list` board (`tests/cli_list.rs`) are literals in their test files | per-suite, read-only |
+- (.andromeda/test-plan-detail/test-data-fixtures.md:27) When the two verbs take the server check through `client::connect`, a case proving that `link` / `unlink` write no frame to a server that is not the recorded wrapper (Linux and Windows) must build its impostor snapshot in exactly this form, which is the only test-written `snapshot.json` allowed.
+  > - The server-identity impostor cases (Linux and Windows: `served` in `tests/security_negatives_server_identity.rs`, `Impostor::serve` in `tests/hook_fail_open.rs`) write an `InstanceSnapshot` themselves, recording a held live process's pid (the fake agent's holder, below) beside an endpoint the test binds, so that a server that is not the recorded wrapper answers the frame-writing clients.
+- (.andromeda/test-plan-detail/test-data-fixtures.md:69) The live process behind an impostor case for the verbs must be the fake agent's `--hold-stdout-internal` holder, spawned directly and killed and reaped by the file's `Held` `Drop` guard.
+  > The `--exit-no-eof` holder's re-exec mode `--hold-stdout-internal` (it sleeps 10 s and writes nothing) is also spawned directly by the server-identity impostor cases (`tests/security_negatives_server_identity.rs`, `tests/hook_fail_open.rs`) as the live process whose pid the impostor's snapshot records, killed and reaped by each file's `Held` `Drop` guard.
+- (.andromeda/test-plan.md:685) The E3 cases (two wrappers, `overseer` and `builder`) must seed their own homes and wrappers; no pre-populated home.
+  > - Tests MUST seed their own data; no developer pre-populates a home.
+- (.andromeda/test-plan.md:689) E3 step 2's `viola send builder` with `VIOLA_NAME=overseer` must set that variable on the one child through `Command::env`, never `std::env::set_var`, and each case keeps its own home.
+  > - **Per-test:** isolated state. Each test has its own home, so there is no shared endpoint, log or `budget.json`. Env is set per child with `Command::env`, never `std::env::set_var`, which is `unsafe` in edition 2024.
+- (.andromeda/test-plan.md:905) No link or unlink case may hand-write `snapshot.json` (or stamps or budget) to set up a link state; the snapshot's `links` come from the wrapper.
+  > - NEVER hand-write `ledger/stamps.json`, `snapshot.json` or `budget.json`. Stamps come from `viola verify`, snapshots from the wrapper and budget from `viola hook statusline`. The ban binds every booted-wrapper test.
+- (.andromeda/test-plan.md:903) The link and unlink cases must not share a home, endpoint or log across parallel tests.
+  > - NEVER share mutable state across parallel tests
+
+## Bindings
+- **On-disk state from real runs ↔ §6 Scenario E3 (body)**: E3's verdict "exactly one `link{driver:"overseer",driven:"builder"}` record" and the `unlink` record are read from a log the real verbs wrote, never planted (.andromeda/test-plan-detail/test-data-fixtures.md:10), (.andromeda/test-plan.md:905)
+- **Impostor carve-out ↔ §6 Security control negatives (body)**: the server-identity negative for any new frame-writing CLI verb uses the impostor's test-built snapshot and the held fake-agent process (.andromeda/test-plan-detail/test-data-fixtures.md:27), (.andromeda/test-plan-detail/test-data-fixtures.md:69)
+- **Human-mode literals ↔ the help-row CARRY and layout-templates §Output structure**: the `HELP` literal and the result lines' expected text move with the served verbs, with timestamps redacted (.andromeda/test-plan-detail/test-data-fixtures.md:17)
+- **Per-test env ↔ §11 Integration `set_var` ban (body)**: `VIOLA_NAME=overseer` on one child only (.andromeda/test-plan.md:689)

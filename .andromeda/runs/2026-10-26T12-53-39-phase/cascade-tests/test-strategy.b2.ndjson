@@ -1,0 +1,3 @@
+{"type": "listing", "schema": 1, "doc": "test-plan", "file": ".andromeda/test-plan-detail/test-strategy.md", "blob": "6d86dd8e6e8f34f8066556428fd7e179aceba234", "tool": "detail v1.12", "entities": 2, "batch": 2, "of": 2}
+{"type": "entity", "id": "test-strategy#3.17", "hash": "df6d7785", "kind": "values", "subject": "strategy", "origin": "## 2. Test Strategy", "lines": [74, 74], "text": "| mutation testing | mutation | \u00a73 `run` step 4; \u00a710 |"}
+{"type": "entity", "id": "test-strategy#3.18", "hash": "9222484c", "kind": "values", "subject": "strategy", "origin": "## 2. Test Strategy", "lines": [75, 75], "text": "| discipline (no screen parsing / no blanket approval / no flakes) | all | \u00a76 Scenario 4 negative; \u00a711 |"}

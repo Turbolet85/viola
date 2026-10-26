@@ -1,0 +1,21 @@
+# Classified — arch · established-decisions.b1
+
+## Answers
+established-decisions#1.1 · yes · the two verbs and the wrapper's two new methods run on the sync client and the std-thread channel server, never a Tokio runtime (Needs: Tokio containment)
+established-decisions#2.1 · no · the PTY seam, portable-pty and ConPTY are not reached and a link types nothing into the child (Not needed: PTY seam)
+established-decisions#3.1 · no · the vt100 readiness gate and its feed thread are not reached and a link types nothing into the child (Not needed: readiness gate)
+established-decisions#4.1 · no · delivery confirmation and the send path are not reached, and the implicit link on send stays as it stands (Not needed: delivery confirmation)
+established-decisions#5.1 · yes · the link and unlink lines are appended one write per line under the .lock sibling without truncating events.ndjson, and the reader returns them as known kinds for LinkSet::restore and the replay (Needs: ndjson append discipline)
+established-decisions#6.1 · yes · the snapshot's links are rewritten on each change through viola_state::fs::replace_private, the one helper, which leaves the target as it was when a write fails (Needs: snapshot links)
+established-decisions#7.1 · yes · the verbs connect only through the Windows SQOS Identification open, never interprocess's default connect, and link and unlink lines stay outside the driver-relevant events that wait returns (Needs: endpoint trust boundary, log-only link events)
+established-decisions#8.1 · yes · each new frame-writing verb compares the connected peer's pid and start time with the snapshot's before its first frame, through the sync client's server_pid (Needs: server identity check)
+established-decisions#9.1 · yes · on macOS server_verdict returns Matches with no comparison, the recorded gap the scope names for the verbs' server check (Needs: macOS the recorded gap)
+established-decisions#10.1 · yes · the verbs' liveness pre-check and server check read the snapshot through read_snapshot and meet an unreadable or newer snapshot as absent, exit 21 (Needs: liveness pre-check)
+established-decisions#11.1 · yes · link and unlink are CLI-only human controls, so no MCP tool is built and the tool list stays send, wait, last, answer, list (Needs: the MCP decision; v1-13's MCP half re-read at P3)
+established-decisions#12.1 · no · the exec-form hook shapes and the tier map are not reached, no hook path changes and the chunk makes no viola verify call (Not needed: hook transport)
+established-decisions#13.1 · yes · the verbs' connect takes the same read_snapshot, connect, verify_server order, and a serving process that fails the check, or a check that cannot be made, gets no frame (client path re-read at P3)
+established-decisions#14.1 · no · the hook exit contract (exit 0, empty stderr, fail open) binds the hook arm only, and the chunk touches no hook path (Not needed: hook contract)
+established-decisions#15.1 · yes · the link and unlink lines are log-only, so their append must avoid WaitFeed::appending, the call that wakes a parked wait (Scope: log-only, never waking wait)
+established-decisions#15.2 · no · a recorded 671 s dialog-hook hold on 2.1.287, a measurement of the dialog hold the chunk neither changes nor re-measures (Not needed: dialog hold)
+established-decisions#15.3 · no · the dialog hook's exit-0 outcome on a failed server check is a hook path the chunk does not touch, and the verbs' no-frame rule comes from the server_pid and connect entries (Not needed: hook contract)
+established-decisions#16.1 · no · a pending live measurement of the 3600 s dialog-hold ceiling, a hold the chunk does not touch (Not needed: dialog hold)

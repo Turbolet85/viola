@@ -1,0 +1,1 @@
+yes — the founder's own word, live by dialog in the overseer session at 14:57Z, on the whole card: its leans as written and the Beyond-the-plan row (v1-13 and v1-36 as a CARRY onto Version done-check).

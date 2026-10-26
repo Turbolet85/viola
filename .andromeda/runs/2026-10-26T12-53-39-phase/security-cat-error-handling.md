@@ -1,0 +1,29 @@
+# security · Error Handling — category read
+
+## Carried
+- (.andromeda/security-plan.md:406) The `link` / `unlink` channel answers and the two verbs' CLI `--json` output are external responses, and they must be sanitised.
+  > **External responses** (to channel clients, CLI `--json` and MCP drivers): sanitised.
+- (.andromeda/security-plan.md:407) No `link` / `unlink` error answer or verb error may carry an anyhow chain, an absolute path (the home, the instance dir, the `endpoint`), upstream text, a serde path or value, or an internal type name.
+  > - No anyhow context chains, no absolute paths, no upstream text (prompts, tool `input`, assistant output), no serde_path_to_error paths or values, and no internal type names.
+- (.andromeda/security-plan.md:408) Any error variant the verbs or the wrapper's `link` / `unlink` handler add to `ChannelError`, `StateError` or `CoreError` must keep a fixed `Display`, with path- or payload-holding fields left out of it.
+  > - The `Display` impls on `PtyError` (hand-written), `ChannelError`, `StateError`, `AgentError`, `McpError` and `CoreError` (`thiserror`) use fixed messages. Variant fields that hold paths or payloads are excluded from `Display`.
+- (.andromeda/security-plan.md:409) A wrapper-side fault in serving `link` / `unlink` (a failed log append included) must answer the fixed `-32603`, never a detailed message.
+  > - Channel `-32603` uses a fixed `message` ("internal error") with `data: null`.
+- (.andromeda/security-plan.md:418) The `-32602` answers of the newly served methods (a `driven` that is not the serving wrapper's name, a `driver` equal to `driven`, a name failing `ViolaName::try_new`) must be JSON-RPC `error` protocol faults in this format, and the channel's error format must name them beside `release`-with-`from` once they are served.
+  > - **Channel:** JSON-RPC `error` for protocol faults, including `-32600` for frames over `MAX_FRAME` and `-32602` for `release`-with-`from`, and `result.refusal` for `not-delivered`/`control-character` and `not-delivered`/`empty-text`.
+- (.andromeda/security-plan.md:413) Full error detail of the verbs goes only to the instance's `diagnostics/` or, for these short-lived CLI verbs, to stderr, and that stderr must hold no value on the NEVER-log floor.
+  > - Full error detail goes only to `instances/<name>/diagnostics/` (files 0600; format owned by obs) or, for short-lived CLI verbs, to stderr. stderr never carries upstream text, tool `input`, drift-report values or any other value on the NEVER-log floor (Bootstrap phases, `logging-redaction-wire`).
+- (.andromeda/security-plan.md:339) The verbs' human-mode stderr may end an anyhow chain, but never one still holding a serde source; a serde fault (a malformed `link` result, a snapshot read) is mapped to a fixed message first.
+  > - anyhow chains stop at the `viola` bin's human-mode stderr. A chain printed there never includes a serde_json or serde_path_to_error source, or any other source whose `Display` can quote upstream text (serde errors quote the offending value). Map it to a fixed message before it joins the chain, and write the full error only to `instances/<name>/diagnostics/` when an instance is resolved (NEVER-log floor, `logging-redaction-wire`).
+- (.andromeda/security-plan.md:343) The verbs' `--json` error documents and the methods' `error.data` must hold no absolute path and no internal type name; the snapshot's `endpoint`, `pid` and `started_at` the verbs read stay out of them.
+  > - Operational metadata (TMS §1): absolute paths, which carry the OS username (the only PII in scope), and internal type names never go to CLI `--json` error output, MCP `isError` results or channel `error.data`. Pids, `agent_session_id`, `started_at` and `budget.json` values may be written to `diagnostics/`.
+- (.andromeda/security-plan.md:479) No anyhow chain or drift report reaches the `link` / `unlink` `error.data`, and no verb prints a chain still holding a serde source.
+  > - NEVER echo serde_path_to_error drift reports or anyhow chains into MCP `structuredContent` or channel `error.data`, and NEVER print an anyhow chain to stderr that still contains a serde_json or serde_path_to_error source (its `Display` quotes input values such as tool `input`).
+- (.andromeda/security-plan.md:484) The verbs' refusals (an unreachable instance, a failed server check, a strict-modes refusal if the founder's form takes one) expose no absolute path.
+  > - NEVER expose absolute paths in any external error.
+
+## Bindings
+- **Channel error format ↔ Universal anti-pattern (new channel method)**: the `-32602` / `-32603` answers of `link` / `unlink` (.andromeda/security-plan.md:418, .andromeda/security-plan.md:409) land only with the Security Decisions Log entry a newly served channel method needs (.andromeda/security-plan.md:506), the founder's P4 word on the widening.
+- **External-error sanitisation ↔ Authentication & Authorization (server verification)**: the verbs' server check through `client::connect` (.andromeda/security-plan.md:114) fails as a sanitised refusal with no pid, start time, path or endpoint (.andromeda/security-plan.md:407, .andromeda/security-plan.md:484).
+- **Error Handling detail (MCP server-check failure) ↔ the `v1-13` claim question**: only if P3 reads that a `link` MCP tool is owed (the scope plans none) does its server-check failure take the `instance-unreachable` form with `detail: null` (.andromeda/security-plan-detail/error-handling.md:10); otherwise the detail file's hook and MCP lines (.andromeda/security-plan-detail/error-handling.md:8, .andromeda/security-plan-detail/error-handling.md:9) stay untouched.
+- **NEVER-log floor ↔ obs (`diagnostics/` format)**: the verbs' full error detail goes to `instances/<name>/diagnostics/` in obs's format (.andromeda/security-plan.md:413).

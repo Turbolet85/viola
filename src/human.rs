@@ -22,8 +22,9 @@ pub(crate) use mirror::{
 };
 pub(crate) use style::read as read_colour;
 pub(crate) use verbs::{
-    command_word, override_end, write_answered, write_budget_lifted, write_budget_open,
-    write_paused, write_plugin_installed, write_released,
+    command_word, override_end, write_already_linked, write_answered, write_budget_lifted,
+    write_budget_open, write_linked, write_paused, write_plugin_installed, write_released,
+    write_unlinked,
 };
 pub(crate) use wait::{
     write_last_turn, write_message, write_no_message, write_timed_out, write_waiting, write_woken,

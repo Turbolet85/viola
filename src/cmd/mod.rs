@@ -2,6 +2,7 @@ mod answer;
 mod client;
 mod hook;
 mod last;
+mod link;
 mod list;
 mod mcp;
 mod pause;
@@ -10,6 +11,7 @@ mod release;
 mod revive;
 mod run;
 mod send;
+mod unlink;
 mod verify;
 mod wait;
 
@@ -32,6 +34,7 @@ const HELP_TEMPLATE: &str = "\
 board:    list
 traffic:  send, wait, last, answer
 wheel:    pause, release
+handoff:  link, unlink
 setup:    run, revive, verify, plugin install
 
 Options:
@@ -73,6 +76,10 @@ enum Command {
     Pause(pause::PauseArgs),
     /// Hand the named instance's wheel back to the driver: the human's verb, refused to a driver
     Release(release::ReleaseArgs),
+    /// Link a driver to the driven instance: its wrapper records the pair
+    Link(link::LinkArgs),
+    /// Remove a driver's link to the driven instance
+    Unlink(link::LinkArgs),
     /// Measure the local claude CLI against the capability ledger and stamp its version
     ///
     /// Run it from a folder you trust in Claude Code: the input-box probe runs in a subfolder there,
@@ -169,6 +176,16 @@ pub(crate) fn dispatch(cli: Cli) -> Result<ExitCode, Failure> {
             let home = resolved_home(cli.home)?;
             let sink = cli_sink(&home, &args.name);
             release::release(&home, &args).map_err(|error| Failure { error, sink })
+        }
+        Command::Link(args) => {
+            let home = resolved_home(cli.home)?;
+            let sink = cli_sink(&home, &args.driven);
+            link::link(&home, &args).map_err(|error| Failure { error, sink })
+        }
+        Command::Unlink(args) => {
+            let home = resolved_home(cli.home)?;
+            let sink = cli_sink(&home, &args.driven);
+            unlink::unlink(&home, &args).map_err(|error| Failure { error, sink })
         }
         // The install names no instance: its chain goes to the caller's own, when it has one.
         Command::Plugin(args) => {

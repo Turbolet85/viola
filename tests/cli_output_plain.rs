@@ -59,6 +59,7 @@ const HELP: &str = concat!(
     "board:    list\n",
     "traffic:  send, wait, last, answer\n",
     "wheel:    pause, release\n",
+    "handoff:  link, unlink\n",
     "setup:    run, revive, verify, plugin install\n",
     "\n",
     "Options:\n",
@@ -87,6 +88,8 @@ fn help_lists_only_served_verbs() {
         "answer",
         "pause",
         "release",
+        "link",
+        "unlink",
         "run",
         "revive",
         "verify",
@@ -132,7 +135,7 @@ fn help_lists_only_served_verbs() {
         .filter(|word| !word.is_empty())
         .collect();
     assert_eq!(words, served, "{rows:?}");
-    for unserved in ["hook", "mcp", "help", "link", "unlink", "plugin"] {
+    for unserved in ["hook", "mcp", "help", "plugin"] {
         assert!(!words.contains(&unserved), "{unserved} in {rows:?}");
     }
 }

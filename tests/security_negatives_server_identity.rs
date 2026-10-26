@@ -67,6 +67,10 @@ impl Dispatch for Frames {
             }
             "pause" => json!({"ok": {"wheel": "human"}}),
             "release" => json!({"ok": {"wheel": "driver", "budget_paused": false}}),
+            "link" => {
+                json!({"ok": {"since": "2026-10-26T00:00:00.000Z", "already_linked": false}})
+            }
+            "unlink" => json!({"ok": {}}),
             _ => json!({"ok": {}}),
         })
     }
@@ -157,6 +161,8 @@ fn verb(name: &str, json: bool) -> (Vec<&'static str>, Option<&'static str>) {
         ),
         "pause" => (vec!["pause", "builder"], None),
         "release" => (vec!["release", "builder"], None),
+        "link" => (vec!["link", "overseer", "builder"], None),
+        "unlink" => (vec!["unlink", "overseer", "builder"], None),
         other => panic!("no verb {other}"),
     };
     if json {
@@ -190,6 +196,10 @@ fn digit_runs(text: &str) -> Vec<&str> {
 #[case::pause_human("pause", false)]
 #[case::release_json("release", true)]
 #[case::release_human("release", false)]
+#[case::link_json("link", true)]
+#[case::link_human("link", false)]
+#[case::unlink_json("unlink", true)]
+#[case::unlink_human("unlink", false)]
 fn security_negative_cli_verb_writes_no_frame_to_a_server_that_is_not_the_recorded_wrapper(
     #[case] name: &str,
     #[case] json: bool,
@@ -271,6 +281,8 @@ fn security_negative_cli_verb_writes_no_frame_to_a_server_that_is_not_the_record
 #[case::answer("answer")]
 #[case::pause("pause")]
 #[case::release("release")]
+#[case::link("link")]
+#[case::unlink("unlink")]
 fn security_negative_cli_verb_reaches_the_recorded_wrapper(#[case] name: &str) {
     let served = served(&format!("{name}-control"), std::process::id());
     for json in [true, false] {

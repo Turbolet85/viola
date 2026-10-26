@@ -1,5 +1,5 @@
-//! The lines of a taken `answer`, `pause`, `release` and `release --budget`, and of a written
-//! `plugin install`.
+//! The lines of a taken `answer`, `pause`, `release`, `release --budget`, `link` and `unlink`, and
+//! of a written `plugin install`.
 
 use std::io::{self, Write};
 
@@ -52,6 +52,40 @@ pub(crate) fn write_budget_lifted(
 /// `<name>  budget gate open  wheel <holder>`: a `release --budget` with no pause standing.
 pub(crate) fn write_budget_open(out: &mut impl Write, name: &str, holder: &str) -> io::Result<()> {
     out.write_all(format!("{name}  budget gate open  wheel {holder}\n").as_bytes())
+}
+
+/// `link    <driver> -> <driven>  since <time>`: a new link the wrapper recorded, on stdout.
+pub(crate) fn write_linked(
+    out: &mut impl Write,
+    driver: &str,
+    driven: &str,
+    since: &str,
+) -> io::Result<()> {
+    let since = link_since(since);
+    out.write_all(format!("link    {driver} -> {driven}  since {since}\n").as_bytes())
+}
+
+/// `link    <driver> -> <driven>  already linked`: a link the wrapper already held, on stdout.
+pub(crate) fn write_already_linked(
+    out: &mut impl Write,
+    driver: &str,
+    driven: &str,
+) -> io::Result<()> {
+    out.write_all(format!("link    {driver} -> {driven}  already linked\n").as_bytes())
+}
+
+/// `unlink  <driver> -> <driven>`: an `unlink` the wrapper took, on stdout.
+pub(crate) fn write_unlinked(out: &mut impl Write, driver: &str, driven: &str) -> io::Result<()> {
+    out.write_all(format!("unlink  {driver} -> {driven}\n").as_bytes())
+}
+
+/// A link's `since` as its line shows it: the UTC clock time and `Z`, never a date. A value that is
+/// no RFC 3339 instant is shown as it came, escaped.
+fn link_since(since: &str) -> String {
+    match DateTime::parse_from_rfc3339(since) {
+        Ok(at) => at.with_timezone(&Utc).format("%H:%M:%SZ").to_string(),
+        Err(_) => escape_message(since),
+    }
 }
 
 /// `viola@viola  written  <dir>` and the CLI's two commands that add it, as one write on stdout:
@@ -129,6 +163,41 @@ mod tests {
         );
         assert!(write_budget_lifted(&mut Broken, "b", "e", "human").is_err());
         assert!(write_budget_open(&mut Broken, "b", "human").is_err());
+    }
+
+    #[test]
+    fn link_verb_lines_are_the_design_lines_in_one_write() {
+        assert_eq!(
+            one_write(|o| write_linked(o, "overseer", "builder", "2026-10-26T14:03:09.512Z")),
+            "link    overseer -> builder  since 14:03:09Z\n"
+        );
+        assert_eq!(
+            one_write(|o| write_already_linked(o, "overseer", "builder")),
+            "link    overseer -> builder  already linked\n"
+        );
+        assert_eq!(
+            one_write(|o| write_unlinked(o, "overseer", "builder")),
+            "unlink  overseer -> builder\n"
+        );
+        assert!(write_linked(&mut Broken, "o", "b", "t").is_err());
+        assert!(write_already_linked(&mut Broken, "o", "b").is_err());
+        assert!(write_unlinked(&mut Broken, "o", "b").is_err());
+    }
+
+    /// Always the time alone, on any date and from any offset; a value that is no instant escaped.
+    #[rstest]
+    #[case::utc("2026-10-26T14:03:09.512Z", "14:03:09Z")]
+    #[case::another_year("2099-01-01T00:00:00.000Z", "00:00:00Z")]
+    #[case::an_offset("2026-10-26T01:00:00+02:00", "23:00:00Z")]
+    #[case::the_restore_word("unknown", "unknown")]
+    #[case::not_an_instant("soon\u{1b}[31m\u{7f}", "soon\\x1B[31m\\x7F")]
+    fn link_since_is_the_utc_time_alone(#[case] since: &str, #[case] shown: &str) {
+        let line = one_write(|o| write_linked(o, "overseer", "builder", since));
+        assert_eq!(
+            line,
+            format!("link    overseer -> builder  since {shown}\n")
+        );
+        assert!(line.is_ascii() && !line.contains('\u{1b}'), "{line:?}");
     }
 
     fn day(year: i32, month: u32, day: u32) -> NaiveDate {

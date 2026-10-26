@@ -2,13 +2,15 @@
 //! this one, as `{driver, driven, since}` items. The set is what the instance's own `link` and
 //! `unlink` lines replay to: restored from the log before the endpoint serves, changed only by
 //! appending such a line, and mirrored to `snapshot.json` at each change. One lock orders the
-//! changes, so a pair is logged once however many calls arrive for it at once.
+//! changes, so a pair is logged once however many calls arrive for it at once. It serves the
+//! `link` and `unlink` channel methods, and records the implicit link of a `send` or an `answer`.
 
 use std::path::PathBuf;
 use std::sync::{Arc, Mutex, MutexGuard, PoisonError};
 
 use chrono::Utc;
 use serde_json::{Value, json};
+use viola_channel::ProtocolError;
 use viola_core::{EventKind, ViolaName};
 use viola_state::StateError;
 use viola_state::events::{EventLine, Source, append_event, read_from};
@@ -65,9 +67,39 @@ impl LinkSet {
         Ok((line.ts, false))
     }
 
+    /// The `link` method: `driver -> driven` recorded, answered `{since, already_linked}` once its
+    /// line and the snapshot have been written.
+    pub(crate) fn link(&self, params: &Value) -> Result<Value, ProtocolError> {
+        let driver = self.driver_of(params)?;
+        let (since, already_linked) = self.record(&driver).map_err(|_| ProtocolError::Internal)?;
+        Ok(json!({"ok": {"since": since, "already_linked": already_linked}}))
+    }
+
+    /// The `unlink` method: `driver -> driven` removed, answered `{}` whether or not the set held it.
+    pub(crate) fn unlink(&self, params: &Value) -> Result<Value, ProtocolError> {
+        let driver = self.driver_of(params)?;
+        self.remove(&driver).map_err(|_| ProtocolError::Internal)?;
+        Ok(json!({"ok": {}}))
+    }
+
+    /// A method's `driver`, once both names are valid, `driven` is this instance and `driver` is
+    /// another one; `from` is never read.
+    fn driver_of(&self, params: &Value) -> Result<ViolaName, ProtocolError> {
+        let named = |key: &str| {
+            params[key]
+                .as_str()
+                .and_then(|name| ViolaName::try_new(name.to_owned()).ok())
+                .ok_or(ProtocolError::InvalidParams)
+        };
+        let (driver, driven) = (named("driver")?, named("driven")?);
+        if driven != self.name || driver == driven {
+            return Err(ProtocolError::InvalidParams);
+        }
+        Ok(driver)
+    }
+
     /// `driver -> this instance`, unlinked: whether the set held the pair. An absent pair writes
-    /// nothing. Called only by the `unlink` channel method, which is not served yet.
-    #[cfg_attr(not(test), allow(dead_code))]
+    /// nothing.
     pub(crate) fn remove(&self, driver: &ViolaName) -> Result<bool, StateError> {
         let mut set = self.set();
         if self.since(&set, driver).is_none() {
@@ -341,6 +373,154 @@ mod tests {
         snapshots.init(first()).expect("snapshot");
         let set = LinkSet::new(name("builder"), tmp.path().join("missing"), snapshots);
         assert!(set.record(&name("overseer")).is_err());
+        assert_eq!(set.current(), Vec::<Value>::new());
+        assert_eq!(on_disk(tmp.path()), Vec::<Value>::new());
+    }
+
+    fn params(driver: Value, driven: Value) -> Value {
+        json!({"v": 1, "driver": driver, "driven": driven})
+    }
+
+    fn overseer_to_builder() -> Value {
+        params(json!("overseer"), json!("builder"))
+    }
+
+    #[test]
+    fn links_set_method_link_twice_writes_one_line_and_answers_the_same_since() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let set = set_on(tmp.path());
+        let first = set.link(&overseer_to_builder()).expect("linked");
+        let lines = events(tmp.path());
+        assert_eq!(lines.len(), 1);
+        assert_eq!(lines[0]["kind"], "link");
+        assert_eq!(lines[0]["source"], "wrapper");
+        assert_eq!(lines[0]["data"], overseer_builder());
+        let since = lines[0]["ts"].clone();
+        assert_eq!(
+            first,
+            json!({"ok": {"since": since, "already_linked": false}})
+        );
+        assert_eq!(
+            on_disk(tmp.path()),
+            [pair("overseer", "builder", since.as_str().expect("ts"))]
+        );
+
+        let second = set.link(&overseer_to_builder()).expect("held");
+        assert_eq!(
+            second,
+            json!({"ok": {"since": since, "already_linked": true}})
+        );
+        assert_eq!(events(tmp.path()), lines);
+    }
+
+    #[test]
+    fn links_set_method_unlink_then_link_takes_a_later_since() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let set = set_on(tmp.path());
+        let first = set.link(&overseer_to_builder()).expect("linked");
+        assert_eq!(
+            set.unlink(&overseer_to_builder()).expect("unlinked"),
+            json!({"ok": {}})
+        );
+        let lines = events(tmp.path());
+        assert_eq!(lines.len(), 2);
+        assert_eq!(lines[1]["kind"], "unlink");
+        assert_eq!(lines[1]["source"], "wrapper");
+        assert_eq!(lines[1]["data"], overseer_builder());
+        assert_eq!(on_disk(tmp.path()), Vec::<Value>::new());
+
+        let again = set.link(&overseer_to_builder()).expect("linked again");
+        assert_eq!(again["ok"]["already_linked"], false);
+        let (first, again) = (
+            first["ok"]["since"].as_str().expect("since"),
+            again["ok"]["since"].as_str().expect("since"),
+        );
+        assert!(again >= first, "{again} after {first}");
+        assert_eq!(events(tmp.path()).len(), 3);
+        assert_eq!(on_disk(tmp.path()), [pair("overseer", "builder", again)]);
+    }
+
+    #[test]
+    fn links_set_method_unlink_of_an_absent_pair_writes_nothing() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let set = set_on(tmp.path());
+        assert_eq!(
+            set.unlink(&overseer_to_builder())
+                .expect("nothing to remove"),
+            json!({"ok": {}})
+        );
+        assert!(!tmp.path().join("events.ndjson").exists());
+        assert_eq!(on_disk(tmp.path()), Vec::<Value>::new());
+    }
+
+    /// Each method refuses `-32602` before anything is written: a name that is no `ViolaName` in
+    /// either param, a `driven` that is not this instance, and a `driver` equal to `driven`.
+    #[rstest::rstest]
+    #[case::driver_traversal(json!("../x"), json!("builder"))]
+    #[case::driver_upper(json!("BUILDER"), json!("builder"))]
+    #[case::driver_slash(json!("a/b"), json!("builder"))]
+    #[case::driver_empty(json!(""), json!("builder"))]
+    #[case::driver_too_long(json!("a".repeat(33)), json!("builder"))]
+    #[case::driver_number(json!(7), json!("builder"))]
+    #[case::driver_absent(Value::Null, json!("builder"))]
+    #[case::driven_traversal(json!("overseer"), json!("../x"))]
+    #[case::driven_upper(json!("overseer"), json!("BUILDER"))]
+    #[case::driven_slash(json!("overseer"), json!("a/b"))]
+    #[case::driven_empty(json!("overseer"), json!(""))]
+    #[case::driven_too_long(json!("overseer"), json!("a".repeat(33)))]
+    #[case::driven_number(json!("overseer"), json!(7))]
+    #[case::driven_absent(json!("overseer"), Value::Null)]
+    #[case::driven_foreign(json!("overseer"), json!("tester"))]
+    #[case::driver_is_driven(json!("builder"), json!("builder"))]
+    fn links_set_method_refuses_a_bad_pair_with_invalid_params(
+        #[case] driver: Value,
+        #[case] driven: Value,
+    ) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let set = set_on(tmp.path());
+        let (since, _) = set.record(&name("other")).expect("recorded");
+        let lines = events(tmp.path());
+        let mut given = params(driver, driven);
+        let object = given.as_object_mut().expect("object");
+        object.retain(|_, value| !value.is_null());
+        assert_eq!(set.link(&given), Err(ProtocolError::InvalidParams));
+        assert_eq!(set.unlink(&given), Err(ProtocolError::InvalidParams));
+        assert_eq!(events(tmp.path()), lines);
+        assert_eq!(on_disk(tmp.path()), [pair("other", "builder", &since)]);
+    }
+
+    /// `from` is never read: whatever it holds, the pair is the params' own.
+    #[rstest::rstest]
+    #[case::a_valid_other_name(json!("tester"))]
+    #[case::the_driven_name(json!("builder"))]
+    #[case::no_name(json!("../x"))]
+    #[case::a_number(json!(1))]
+    #[case::null(Value::Null)]
+    fn links_set_method_a_from_changes_nothing(#[case] from: Value) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let set = set_on(tmp.path());
+        let mut given = overseer_to_builder();
+        given["from"] = from;
+        let linked = set.link(&given).expect("linked");
+        assert_eq!(linked["ok"]["already_linked"], false);
+        let since = linked["ok"]["since"].as_str().expect("since");
+        assert_eq!(set.current(), [pair("overseer", "builder", since)]);
+        assert_eq!(set.unlink(&given).expect("unlinked"), json!({"ok": {}}));
+        let lines = events(tmp.path());
+        assert_eq!(lines.len(), 2);
+        assert!(lines.iter().all(|line| line["data"] == overseer_builder()));
+    }
+
+    #[test]
+    fn links_set_method_an_append_that_fails_is_internal_with_the_set_unchanged() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let snapshots = Arc::new(Snapshots::new(tmp.path().to_path_buf()));
+        snapshots.init(first()).expect("snapshot");
+        let set = LinkSet::new(name("builder"), tmp.path().join("missing"), snapshots);
+        assert_eq!(
+            set.link(&overseer_to_builder()),
+            Err(ProtocolError::Internal)
+        );
         assert_eq!(set.current(), Vec::<Value>::new());
         assert_eq!(on_disk(tmp.path()), Vec::<Value>::new());
     }
