@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "3c37c7b4",
+"ts": "2026-10-25T21:11:51Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-10-25-windows-endpoint-admission",
+"--expect-prefix",
+"Windows endpoint admission",
+"--record-file",
+".andromeda/runs/2026-10-25T21-08-26-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-10-25T21-08-26-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"stamp viola-0.1.0/working-route.md:169 - [2026-10-25-windows-endpoint-admission]",
+"record master-route.md:87 - appended under `## viola-0.1.0`",
+"promoted 2026-10-25-windows-endpoint-admission - viola-0.1.0/working-route.md:169 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/working-route.md",
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+}
+]

@@ -621,7 +621,7 @@ mod tests {
     fn captured(level: Level, emit: impl FnOnce()) -> Vec<Value> {
         let buffer = Buffer::default();
         let writer = buffer.clone();
-        tracing::subscriber::with_default(subscriber(move || writer.clone(), level), emit);
+        crate::test_support::with_scoped_default(subscriber(move || writer.clone(), level), emit);
         buffer.lines()
     }
 

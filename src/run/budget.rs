@@ -856,7 +856,7 @@ mod tests {
     fn eval_spans(f: impl FnOnce()) -> Vec<Value> {
         let spans = Spans::default();
         let subscriber = tracing_subscriber::registry().with(spans.clone());
-        tracing::subscriber::with_default(subscriber, f);
+        crate::test_support::with_scoped_default(subscriber, f);
         let spans = spans.0.lock().expect("spans");
         spans
             .iter()

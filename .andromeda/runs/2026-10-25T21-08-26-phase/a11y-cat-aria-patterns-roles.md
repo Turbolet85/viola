@@ -1,0 +1,4 @@
+# a11y · ARIA Patterns & Roles — category read
+
+## Nothing in scope
+Nearest: (.andromeda/a11y-plan-detail/aria-patterns-roles.md:19) the P4 tui boundary cases (zero viola-originated bytes on the outer-PTY stream, keystrokes unblocked, focus / mouse / resize not moving the wheel, the windows-2025 platform fact) govern the `viola run` passthrough once the child runs; this chunk asserts the Windows named-pipe listener (owner-and-SYSTEM DACL, remote clients rejected, first-pipe-instance, non-inheritable handles), which the body classes as the not-assertable wrapper IPC channel, and its one possible `src/cmd/run.rs` touch is the pre-passthrough `squatted-name` exit-1 start refusal with no wording, exit code or terminal-byte change, so it reaches no landmark-equivalent, no P4 wheel clause and no P6 board line.

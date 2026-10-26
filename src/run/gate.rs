@@ -462,7 +462,7 @@ mod tests {
     fn overflow_poisons_and_writes_one_oversize_line_until_a_resize() {
         let lines = Lines::default();
         let subscriber = tracing_subscriber::registry().with(lines.layer());
-        tracing::subscriber::with_default(subscriber, || {
+        crate::test_support::with_scoped_default(subscriber, || {
             let base = Instant::now();
             let mut model = model(Size::DEFAULT, base);
             model.catch_up(0);

@@ -372,7 +372,7 @@ mod tests {
         let lines = Lines::default();
         let subscriber = tracing_subscriber::registry().with(lines.clone());
         let mut out = Vec::new();
-        tracing::subscriber::with_default(subscriber, || {
+        crate::test_support::with_scoped_default(subscriber, || {
             let io = Io {
                 stdin: &mut stdin,
                 out: &mut out,

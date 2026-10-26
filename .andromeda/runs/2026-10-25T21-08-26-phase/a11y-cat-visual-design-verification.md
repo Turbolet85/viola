@@ -1,0 +1,11 @@
+# a11y · Visual Design Verification — category read
+
+## Carried
+- (.andromeda/a11y-plan-detail/visual-design-verification.md:9) If the chunk touches `src/cmd/run.rs`'s squatted-name start refusal or the Windows listener `viola run` binds, viola must still write no SGR of its own under `viola run` and must not colour `unable`, and the windows-2025 `viola run` check (viola's literals absent, on both ConPTY backends) must stay green on the Windows CI leg.
+  > viola emits zero SGR of its own under non-TTY / `NO_COLOR` / `TERM=dumb` / `--json` / `viola run` / a passed `viola revive`, and the revive refusal pairs and `--list` rows carry no ESC byte. Under `viola run` on Windows the outer-PTY stream also carries the ConPTY host's own SGR, cursor and query bytes (not viola's: the inbox host's as measured at chunk 2026-09-25-pty-wrapper-on-windows research fact 4, the sideloaded `OpenConsole.exe`'s `ESC[1t ESC[c ESC[?1004h ESC[?9001h` as measured at chunk 2026-09-29-sideloaded-conpty), so the windows-2025 `viola run` check is that viola's literals are absent, on both backends. `unable` / `fail` are never coloured. Checked with assert_cmd + portable-pty on `[windows-2025, macos-latest, ubuntu-latest]`.
+- (.andromeda/a11y-plan.md:340) Any refusal text the chunk writes or moves on the `viola run` start path (the `squatted-name` exit-1 refusal included) is a ban target: no colour on `unable`, no SGR under `viola run`.
+  > - NEVER colour CLI `unable` / `fail`, and never emit SGR under non-TTY / `NO_COLOR` / `TERM=dumb` / `--json` / `viola run` / a passed `viola revive`.
+
+## Bindings
+- **No SGR under `viola run`, `unable` never coloured ↔ security-plan §Authentication & Authorization (the Windows pipe listener's squatted-name start refusal, exit 1, refusal word unchanged)**: a start refusal made when the pipe name is already held stays plain text with no SGR, whatever the chunk changes in the listener or `refuse_squatted` (.andromeda/a11y-plan-detail/visual-design-verification.md:9), (.andromeda/a11y-plan.md:340)
+- **The windows-2025 `viola run` SGR-absence check ↔ test-plan (the Windows CI leg's per-OS `test` job, `coverage` suite)**: the chunk's Windows-leg assertions land beside that check and must leave it green on both backends (.andromeda/a11y-plan-detail/visual-design-verification.md:9)

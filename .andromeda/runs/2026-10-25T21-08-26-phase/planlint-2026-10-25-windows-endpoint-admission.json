@@ -1,0 +1,218 @@
+[
+{
+"tool": "planlint",
+"v": "1.14",
+"sha8": "0e8185e5",
+"ts": "2026-10-25T23:41:28Z",
+"argv": [
+"check",
+"--plan",
+"viola-0.1.0/chunks/2026-10-25-windows-endpoint-admission/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-25T21-08-26-phase",
+"--marker",
+"2026-10-25-windows-endpoint-admission"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fence: 24 entries · plan: viola-0.1.0/chunks/2026-10-25-windows-endpoint-admission/plan.md · research: viola-0.1.0/chun…",
+"check 9 · CI-outcome reads: 2 · leg operator exempt: 2 · Platform issues consulted: filled · ``PIPE_REJECT_REMOTE_CLIE…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 0 · Harness rules consulted: none · `none — no live leg in this chunk (its Windows…`",
+"check 4 (5) · leg entries with a content atom: 2 · note without `atom from`: 0",
+"check 4 (13) · operator CI-outcome reads: 2 · not ci.py conclusion: 0",
+"check 4 (13) · job-log reads by pattern: 0",
+"check 4 (14) · base-less git change reads outside the operator and round legs: 0",
+"check 4 (15) · grep → wc -l counts asserting exit 0 and last line 0: 0",
+"check 4 (16) · guards whose exclusions leave a new file in: 0 of 0 with an exclusion",
+"check 4 (17) · entries reading a path the wrap writes: 0 of 19 asserting — listed, P5's read",
+"check 4 (17) · a path the wrap writes, read from inside a program an entry runs (a suite, the ledger's tool): not read",
+"check 2 · ledger-note entries (matrix#): 0",
+"check 5 · placeholders outside code: 0",
+"check 12 (c) · step references the plan's steps lack: 0 of 17",
+"check 12 (d) · «unchanged» claims on a name another part of the plan names: 1 of 10 — listed, P5's read",
+"  line 99 · «untouched» · src/run/gate.rs (step 4)",
+"  a claim on a name no other step, Files to modify or Test Commands names is not listed — P5's read",
+"check 4 (4) · criterion evidence paths the plan names nowhere else: 0 of 2",
+"hits: 0 — resolved by its check (validation.md 2 · 5 · 9 · 4 (4) · 4 (5) · 4 (13)–(16) · 12 (c)); 0 is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "filled",
+"ci_reads": 2,
+"operator": 2,
+"hit": false
+},
+"harness": {
+"slot": "none",
+"live": 0,
+"hit": false
+},
+"atom": {
+"atomed": 2,
+"bare": []
+},
+"tool": {
+"operator": 2,
+"hand": []
+},
+"log": [],
+"base": {
+"operator": 4,
+"reads": []
+},
+"count": {
+"hits": [],
+"unsplit": []
+},
+"newfiles": {
+"operator": 4,
+"guards": 0,
+"hits": [],
+"abstain": []
+},
+"wrap": {
+"asserting": 19,
+"listed": []
+},
+"check2": {
+"entries": 13,
+"tokens": 0,
+"hits": []
+},
+"check5": {
+"hits": []
+},
+"steps": {
+"steps": 9,
+"refs": 17,
+"hits": []
+},
+"claims": {
+"read": 10,
+"listed": [
+99
+]
+},
+"c44": {
+"paths": 2,
+"hits": [],
+"skipped": []
+},
+"hits": 0
+}
+},
+{
+"tool": "planlint",
+"v": "1.14",
+"sha8": "0e8185e5",
+"ts": "2026-10-25T23:45:33Z",
+"argv": [
+"check",
+"--plan",
+"viola-0.1.0/chunks/2026-10-25-windows-endpoint-admission/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-25T21-08-26-phase",
+"--marker",
+"2026-10-25-windows-endpoint-admission"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fence: 24 entries · plan: viola-0.1.0/chunks/2026-10-25-windows-endpoint-admission/plan.md · research: viola-0.1.0/chun…",
+"check 9 · CI-outcome reads: 2 · leg operator exempt: 2 · Platform issues consulted: filled · ``PIPE_REJECT_REMOTE_CLIE…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 0 · Harness rules consulted: none · `none — no live leg in this chunk (its Windows…`",
+"check 4 (5) · leg entries with a content atom: 2 · note without `atom from`: 0",
+"check 4 (13) · operator CI-outcome reads: 2 · not ci.py conclusion: 0",
+"check 4 (13) · job-log reads by pattern: 0",
+"check 4 (14) · base-less git change reads outside the operator and round legs: 0",
+"check 4 (15) · grep → wc -l counts asserting exit 0 and last line 0: 0",
+"check 4 (16) · guards whose exclusions leave a new file in: 0 of 0 with an exclusion",
+"check 4 (17) · entries reading a path the wrap writes: 0 of 19 asserting — listed, P5's read",
+"check 4 (17) · a path the wrap writes, read from inside a program an entry runs (a suite, the ledger's tool): not read",
+"check 2 · ledger-note entries (matrix#): 0",
+"check 5 · placeholders outside code: 0",
+"check 12 (c) · step references the plan's steps lack: 0 of 17",
+"check 12 (d) · «unchanged» claims on a name another part of the plan names: 1 of 10 — listed, P5's read",
+"  line 99 · «untouched» · src/run/gate.rs (step 4)",
+"  a claim on a name no other step, Files to modify or Test Commands names is not listed — P5's read",
+"check 4 (4) · criterion evidence paths the plan names nowhere else: 0 of 2",
+"hits: 0 — resolved by its check (validation.md 2 · 5 · 9 · 4 (4) · 4 (5) · 4 (13)–(16) · 12 (c)); 0 is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "filled",
+"ci_reads": 2,
+"operator": 2,
+"hit": false
+},
+"harness": {
+"slot": "none",
+"live": 0,
+"hit": false
+},
+"atom": {
+"atomed": 2,
+"bare": []
+},
+"tool": {
+"operator": 2,
+"hand": []
+},
+"log": [],
+"base": {
+"operator": 4,
+"reads": []
+},
+"count": {
+"hits": [],
+"unsplit": []
+},
+"newfiles": {
+"operator": 4,
+"guards": 0,
+"hits": [],
+"abstain": []
+},
+"wrap": {
+"asserting": 19,
+"listed": []
+},
+"check2": {
+"entries": 11,
+"tokens": 0,
+"hits": []
+},
+"check5": {
+"hits": []
+},
+"steps": {
+"steps": 9,
+"refs": 17,
+"hits": []
+},
+"claims": {
+"read": 10,
+"listed": [
+99
+]
+},
+"c44": {
+"paths": 2,
+"hits": [],
+"skipped": []
+},
+"hits": 0
+}
+}
+]

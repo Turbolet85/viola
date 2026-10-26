@@ -270,7 +270,22 @@ fn panic_location(file: &Path) -> String {
 /// Helpers shared by this binary's test modules.
 #[cfg(test)]
 pub(crate) mod test_support {
+    use std::sync::OnceLock;
+
     use serde_json::Value;
+
+    /// Runs `f` with `subscriber` as this thread's default while a second, always-interested
+    /// dispatcher stays registered for the process, so a callsite first hit on a thread with no
+    /// subscriber is never cached as disabled while the capture is the only dispatcher
+    /// (`.claude/rules/testing.md` 2026-09-27).
+    pub(crate) fn with_scoped_default<S, R>(subscriber: S, f: impl FnOnce() -> R) -> R
+    where
+        S: tracing::Subscriber + Send + Sync + 'static,
+    {
+        static PINNED: OnceLock<tracing::Dispatch> = OnceLock::new();
+        PINNED.get_or_init(|| tracing::Dispatch::new(tracing_subscriber::registry()));
+        tracing::subscriber::with_default(subscriber, f)
+    }
 
     /// One complete JSON line: a single `\n`, at the end.
     pub(crate) fn one_line(line: &str) -> Value {
@@ -591,5 +606,47 @@ mod tests {
                 .is_some_and(|frames| !frames.is_empty() && frames.iter().all(Value::is_string))
         );
         assert!(diag_detail_validator().is_valid(&d));
+    }
+
+    /// The `event` field of every line the capturing thread emits.
+    #[derive(Clone, Default)]
+    struct Seen(Arc<std::sync::Mutex<Vec<String>>>);
+
+    impl tracing::field::Visit for Seen {
+        fn record_str(&mut self, field: &tracing::field::Field, value: &str) {
+            if field.name() == "event" {
+                self.0.lock().expect("seen").push(value.to_owned());
+            }
+        }
+        fn record_debug(&mut self, _: &tracing::field::Field, _: &dyn std::fmt::Debug) {}
+    }
+
+    impl<S: tracing::Subscriber> tracing_subscriber::Layer<S> for Seen {
+        fn on_event(
+            &self,
+            event: &tracing::Event<'_>,
+            _: tracing_subscriber::layer::Context<'_, S>,
+        ) {
+            event.record(&mut self.clone());
+        }
+    }
+
+    /// The witness's one call site, so both threads hit the same callsite.
+    fn emit_witness_line() {
+        viola_core::obs_event!(INFO, ObsEvent::StateRecovered, detail = "torn-line-healed");
+    }
+
+    #[test]
+    fn scoped_capture_sees_a_line_whose_callsite_another_thread_registered_first() {
+        use tracing_subscriber::layer::SubscriberExt as _;
+        let seen = Seen::default();
+        let subscriber = tracing_subscriber::registry().with(seen.clone());
+        crate::test_support::with_scoped_default(subscriber, || {
+            std::thread::spawn(emit_witness_line)
+                .join()
+                .expect("emitter");
+            emit_witness_line();
+        });
+        assert_eq!(*seen.0.lock().expect("seen"), ["state-recovered"]);
     }
 }

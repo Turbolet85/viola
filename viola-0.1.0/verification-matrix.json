@@ -608,7 +608,8 @@
         "ref": null,
         "status": "planned"
       },
-      "chunk": null
+      "chunk": null,
+      "notes": "2026-10-25 (2026-10-25-windows-endpoint-admission, phase P5): not claimed — not provable by this chunk. The chunk asserts the Windows listener's remote-client rejection (pipe-type read-back) and the DACL's effect (anonymous-token open) on CI's test (windows-2025) leg, beside the already-asserted DACL text, non-inheritance, first-instance and squatted-name cases; the requirement also spans every OS's same-user admission, client-side server verification before any frame and the macOS pid gap, owned by the working-route entries \"Server verification before any frame\", \"Unix endpoint and home hardening\" and \"Linux and macOS parity\". The cap stays pooled for the chunk that completes it."
     },
     {
       "id": "v1-45",

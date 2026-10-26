@@ -899,7 +899,7 @@ mod tests {
         use tracing_subscriber::layer::SubscriberExt as _;
         let lines = Lines::default();
         let subscriber = tracing_subscriber::registry().with(lines.clone());
-        let out = tracing::subscriber::with_default(subscriber, f);
+        let out = crate::test_support::with_scoped_default(subscriber, f);
         let got = lines.0.lock().expect("lines").clone();
         (out, got)
     }
@@ -1267,7 +1267,9 @@ mod tests {
         let slot = slot(tmp.path(), JumpClock(Mutex::new(Instant::now())), true);
         let reads = RaisedReads(tmp.path().to_path_buf(), Arc::default());
         let subscriber = tracing_subscriber::registry().with(reads.clone());
-        let got = tracing::subscriber::with_default(subscriber, || slot.hook_dialog(&permission()));
+        let got = crate::test_support::with_scoped_default(subscriber, || {
+            slot.hook_dialog(&permission())
+        });
         assert_eq!(got, Ok(json!({"ok": {"dialog_id": 1, "response": null}})));
         assert_eq!(
             *reads.1.lock().expect("reads"),

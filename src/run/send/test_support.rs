@@ -418,7 +418,7 @@ impl<S: tracing::Subscriber> Layer<S> for Lines {
 pub(super) fn capture_lines<R>(f: impl FnOnce() -> R) -> (R, Vec<Value>) {
     let lines = Lines::default();
     let subscriber = tracing_subscriber::registry().with(lines.clone());
-    let out = tracing::subscriber::with_default(subscriber, f);
+    let out = crate::test_support::with_scoped_default(subscriber, f);
     let got = lines.0.lock().expect("lines").clone();
     (out, got)
 }

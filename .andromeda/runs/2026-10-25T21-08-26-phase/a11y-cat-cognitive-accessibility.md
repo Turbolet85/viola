@@ -1,0 +1,20 @@
+# a11y · Cognitive Accessibility — category read
+
+## Carried
+- (.andromeda/a11y-plan-detail/cognitive-accessibility.md:19) The `squatted-name` exit-1 start refusal that `viola run` makes on a held pipe name, if the chunk touches `src/cmd/run.rs`'s start refusal, must keep the refusal layout: the word, plain detail, then `hint:` as the last stderr line, with its typed exit code.
+  > **CLI:** `unable  <reason>  <detail>` on stderr, then `hint:` as the last stderr line, with a typed exit code.
+- (.andromeda/a11y-plan.md:257) The same pattern from the body: a `run` start refusal is a printed word with plain detail and a recovery instruction, and `hint:` stays the last stderr line.
+  > every error is a printed word followed by plain detail, and a recovery instruction where recovery exists; on the CLI, `unable  <reason>  <detail>` on stderr (`viola revive`'s exit-1 refusals and `viola verify`'s interrupted pair: one `unable: <text>` line), then `hint:` as the last stderr line, with a typed exit code
+- (.andromeda/a11y-plan.md:345) Any refusal this chunk adds or reshapes on the Windows listener's start path, such as a second-listener or first-instance failure that reaches the human, must end with a `hint:` line. Only `unknown` is exempt.
+  > NEVER show error without recovery suggestion (per SC 3.3.3). Every human-mode CLI refusal except `unknown` (exit 14, opaque detail, design cli) ends with a `hint:` line.
+- (.andromeda/a11y-plan.md:273) The scope says no refusal word or text changes. The squat refusal's fixed text stays pinned, and any change to its copy has to update the pinned string on purpose.
+  > every fixed CLI string is pinned, by trycmd or, for `viola list`, `viola --help` and `viola plugin install`, by literal, so any copy change fails CI until the pinned string is updated on purpose.
+- (.andromeda/a11y-plan-detail/cognitive-accessibility.md:9) The CARRY obligation on `send_budget_paused_is_refused_with_the_window_word_and_no_cursor` (run it three times under plain `cargo test`, or fix its log capture) must keep the budget-pause refusal it asserts: `budget-paused` with the window detail, exit 11, nothing typed.
+  > A budget pause is a bound on the driver only as well (chunk 2026-10-10-budget-governor): while a five-hour or seven-day window stands at or over its threshold (`config.json` `five_hour`, default 90, and `seven_day`, default 85; no value of either switches the gate off) with a known reset still ahead, an automated `viola send` is refused `budget-paused` with detail `five-hour` or `seven-day` (exit 11) and nothing is typed, until that window's reset or a `viola release <name> --budget` for that instance.
+- (.andromeda/a11y-plan-detail/cognitive-accessibility.md:10) A fix to that case's log capture must leave the budget pause a bound on the driver only, so a human key still reaches the child while the gate is closed.
+  > No key is blocked, refused or delayed by it: a key written while the gate is closed reaches the child, and the outer PTY carries none of viola's own literals
+
+## Bindings
+- **Error recovery (refusal layout) ↔ security-plan §Authentication & Authorization (IPC access control, Windows; the squatted name blocks start)**: the start refusal on a held pipe name stays `squatted-name`, exit 1, in the `unable` + final `hint:` form. The scope's "no exit code and no refusal word changes" is the same constraint seen from security. (.andromeda/a11y-plan-detail/cognitive-accessibility.md:19)
+- **Plain language (pinned fixed strings) ↔ test-plan (CI on the three OS legs, the Windows leg this chunk asserts on)**: the squat refusal's pinned text must hold on `windows-2025` as on the other legs. (.andromeda/a11y-plan.md:273)
+- **Timeout extensions (budget pause) ↔ api / obs (the `send` refusal order; the `send-refused` line carrying `window`, `used_percentage`, `resets_at`, `paused:true`)**: the CARRY case's repaired log capture reads that `send-refused` line, and the refusal it pins stays `budget-paused` / `five-hour`|`seven-day`, exit 11, with no key blocked. (.andromeda/a11y-plan-detail/cognitive-accessibility.md:9)

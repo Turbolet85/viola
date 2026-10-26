@@ -165,6 +165,10 @@ viola-channel = { path = "crates/viola-channel", features = ["test-support"] }
 [target.'cfg(windows)'.dependencies]
 windows-sys.workspace = true
 
+# The pipe-type read-back (`NtQueryInformationFile`) in the Windows listener negatives: tests only.
+[target.'cfg(windows)'.dev-dependencies]
+windows-sys = { workspace = true, features = ["Wdk_Storage_FileSystem", "Win32_System_IO"] }
+
 # A panic's raw frames and their modules (`backtrace`, `dladdr`), never symbolised on the panic path.
 [target.'cfg(unix)'.dependencies]
 libc.workspace = true

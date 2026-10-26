@@ -1,0 +1,140 @@
+[
+{
+"tool": "ci",
+"v": "1.3",
+"sha8": "e1a0c23b",
+"ts": "2026-10-25T21:08:50Z",
+"argv": [
+"conclusion",
+"--sha",
+"b6740d59d839f5c094d92af56e0b3ebfc7260466",
+"--sha",
+"d08eeada8a29626feac74c60fbfc40bbc9420cc8",
+"--sha",
+"d6298fbd7bb945c46acd5c1439e45d37eac2ec93",
+"--sha",
+"f1086a2ba62d8f7564bbdb93f79bfc5aa8d1cd8f",
+"--sha",
+"3b1d9e285c1bf8cac544157b3775b2c0c2b67348",
+"--sha",
+"b8014bf40b6cf01e1bf7ac86167c6e0935bdc50b",
+"--sha",
+"6467439b6cc388a5f0040e827be679e74b48220c",
+"--sha",
+"e4aeb25b434d8f7e45170d0e34a633e0999f8b7a",
+"--sha",
+"24eef7482ef7e439232d69eee2baa4d30e229301",
+"--sha",
+"bda69648d226d32ffe30926451979d40cba9f123",
+"--sha",
+"1862fcfb6fb42fdd9c85d796af716c2267622a48",
+"--run-dir",
+".andromeda/runs/2026-10-25T21-08-26-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"repo Turbolet85/viola (the push remote `origin`)",
+"b6740d59d839 verdict: red · checks 15/15 · first-fail +21 s supply-chain · wall 686 s · runs ci#40208779387 completed/f… · red by: supply-chain=failure · run ci#40208779387=failure",
+"d08eeada8a29 verdict: red · checks 15/15 · first-fail +23 s supply-chain · wall 664 s · runs ci#40205704618 completed/f… · red by: supply-chain=failure · run ci#40205704618=failure",
+"d6298fbd7bb9 verdict: red · checks 15/15 · first-fail +32 s supply-chain · wall 585 s · runs ci#40202532073 completed/f… · red by: supply-chain=failure · run ci#40202532073=failure",
+"f1086a2ba62d verdict: red · checks 15/15 · first-fail +25 s supply-chain · wall 675 s · runs ci#40199572471 completed/f… · red by: supply-chain=failure · run ci#40199572471=failure",
+"3b1d9e285c1b verdict: untested — pushed under a later tip",
+"b8014bf40b6c verdict: red · checks 15/15 · first-fail +23 s supply-chain · wall 632 s · runs ci#40192145623 completed/f… · red by: supply-chain=failure · run ci#40192145623=failure",
+"6467439b6cc3 verdict: red · checks 15/15 · first-fail +24 s supply-chain · wall 636 s · runs ci#40190099627 completed/f… · red by: supply-chain=failure · run ci#40190099627=failure",
+"e4aeb25b434d verdict: red · checks 15/15 · first-fail +22 s supply-chain · wall 1055 s · runs ci#40184702804 completed/… · red by: supply-chain=failure · run ci#40184702804=failure",
+"24eef7482ef7 verdict: untested — pushed under a later tip",
+"bda69648d226 verdict: untested — pushed under a later tip",
+"1862fcfb6fb4 verdict: green · checks 15/15 · wall 995 s · runs ci#39493188302 completed/success"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"repo": "Turbolet85/viola",
+"host": "github.com",
+"repo_source": "the push remote `origin`",
+"names": [],
+"shas": [
+{
+"sha": "b6740d59d839f5c094d92af56e0b3ebfc7260466",
+"word": "red",
+"polls": [
+"red"
+]
+},
+{
+"sha": "d08eeada8a29626feac74c60fbfc40bbc9420cc8",
+"word": "red",
+"polls": [
+"red"
+]
+},
+{
+"sha": "d6298fbd7bb945c46acd5c1439e45d37eac2ec93",
+"word": "red",
+"polls": [
+"red"
+]
+},
+{
+"sha": "f1086a2ba62d8f7564bbdb93f79bfc5aa8d1cd8f",
+"word": "red",
+"polls": [
+"red"
+]
+},
+{
+"sha": "3b1d9e285c1bf8cac544157b3775b2c0c2b67348",
+"word": "untested — pushed under a later tip",
+"polls": [
+"none recorded"
+]
+},
+{
+"sha": "b8014bf40b6cf01e1bf7ac86167c6e0935bdc50b",
+"word": "red",
+"polls": [
+"red"
+]
+},
+{
+"sha": "6467439b6cc388a5f0040e827be679e74b48220c",
+"word": "red",
+"polls": [
+"red"
+]
+},
+{
+"sha": "e4aeb25b434d8f7e45170d0e34a633e0999f8b7a",
+"word": "red",
+"polls": [
+"red"
+]
+},
+{
+"sha": "24eef7482ef7e439232d69eee2baa4d30e229301",
+"word": "untested — pushed under a later tip",
+"polls": [
+"none recorded"
+]
+},
+{
+"sha": "bda69648d226d32ffe30926451979d40cba9f123",
+"word": "untested — pushed under a later tip",
+"polls": [
+"none recorded"
+]
+},
+{
+"sha": "1862fcfb6fb42fdd9c85d796af716c2267622a48",
+"word": "green",
+"polls": [
+"green"
+]
+}
+]
+}
+}
+]
