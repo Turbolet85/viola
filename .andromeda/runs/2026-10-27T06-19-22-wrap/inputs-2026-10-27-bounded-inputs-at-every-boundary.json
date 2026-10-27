@@ -1,0 +1,202 @@
+[
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "de829a74",
+"ts": "2026-10-27T06:20:03Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-27-bounded-inputs-at-every-boundary",
+"--source",
+"~/dev/projects/additional/viola-overseer/wrap-bounded-inputs-directive.md",
+"--kind",
+"relay",
+"--why",
+"the operator wrap directive: ordinary chunk with no forced sample, keep every transcript and the phase, implement and wrap run dirs, stop at a hard cascade failure or agents writing nothing, check 7 contradictions escalate as written, owners for the uncovered pre-initialize stdin cut and the five boundary rows whose witness never drives past the cap, the Path 1 WATCH tally at 1/3 green (15.010 s), the P5 approval PROVISIONAL, run whole",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-27T06-19-22-wrap",
+"--marker",
+"2026-10-27-bounded-inputs-at-every-boundary"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy no-repo · ../additional/viola-overseer/wrap-bounded-inputs-directive.md",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-wrap-bounded-inputs-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/wrap-bounded-inputs-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "19bbfc16f03ff169707135a448bc8a98c4804f6cd0266cb274ed0a7a1bc72d27",
+"copy": "I4-wrap-bounded-inputs-directive.md.txt",
+"link": false,
+"read_at": "2026-10-27T06:20:03Z",
+"step": "wrap",
+"why": "the operator wrap directive: ordinary chunk with no forced sample, keep every transcript and the phase, implement and wrap run dirs, stop at a hard cascade failure or agents writing nothing, check 7 contradictions escalate as written, owners for the uncovered pre-initialize stdin cut and the five boundary rows whose witness never drives past the cap, the Path 1 WATCH tally at 1/3 green (15.010 s), the P5 approval PROVISIONAL, run whole"
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "de829a74",
+"ts": "2026-10-27T06:20:07Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-27-bounded-inputs-at-every-boundary",
+"--run-dir",
+".andromeda/runs/2026-10-27T06-19-22-wrap",
+"--marker",
+"2026-10-27-bounded-inputs-at-every-boundary"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-bounded-inputs-directive.md",
+"I1 cited scope.md:83 · scope.md:92 · scope.md:96 · research.md:7 · plan.md:34 · plan.md:161 (in fence) · plan.md:352 (in fence) · plan.md:410",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/phase-bounded-inputs-ruling-g1.md",
+"I2 cited scope.md:22 · scope.md:98 · scope.md:100 · research.md:7 · plan.md:17 · plan.md:410",
+"I3 n/a — a message has no live source · copy message · message: the operator relaying the overseer, overseer1 founder-delegated, 2026-10-27 05:34Z",
+"I3 UNCITED",
+"I4 unchanged · copy no-repo · ../additional/viola-overseer/wrap-bounded-inputs-directive.md",
+"I4 UNCITED",
+"inputs: 4 entries — unchanged 3 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 2 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 4,
+"counts": {
+"unchanged": 3,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 2,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "de829a74",
+"ts": "2026-10-27T06:25:22Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-27-bounded-inputs-at-every-boundary",
+"--run-dir",
+".andromeda/runs/2026-10-27T06-19-22-wrap",
+"--marker",
+"2026-10-27-bounded-inputs-at-every-boundary"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-bounded-inputs-directive.md",
+"I1 cited scope.md:83 · scope.md:92 · scope.md:96 · research.md:7 · plan.md:34 · plan.md:161 (in fence) · plan.md:352 (in fence) · plan.md:410",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/phase-bounded-inputs-ruling-g1.md",
+"I2 cited scope.md:22 · scope.md:98 · scope.md:100 · research.md:7 · plan.md:17 · plan.md:410 · report.md:68 · report.md:76",
+"I3 n/a — a message has no live source · copy message · message: the operator relaying the overseer, overseer1 founder-delegated, 2026-10-27 05:34Z",
+"I3 cited report.md:33 · report.md:71 · report.md:77",
+"I4 unchanged · copy no-repo · ../additional/viola-overseer/wrap-bounded-inputs-directive.md",
+"I4 cited report.md:33 · report.md:35 · report.md:57 · report.md:58 · report.md:77 · report.md:78 · report.md:109",
+"inputs: 4 entries — unchanged 3 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 4,
+"counts": {
+"unchanged": 3,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "de829a74",
+"ts": "2026-10-27T07:05:35Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-27-bounded-inputs-at-every-boundary",
+"--message-file",
+".andromeda/runs/2026-10-27T06-19-22-wrap/relay-1.md",
+"--origin",
+"the overseer as operator (founder-delegated), in the P2 halt dialog, 2026-10-27T07:05Z",
+"--kind",
+"relay",
+"--why",
+"the P2 halt Q1 answer: test-plan cascade 14 (the check-7 contradiction on ci-integration.md:15) applied merged with cascade 13 as one edit; delegate overseer, founder-delegated",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-27T06-19-22-wrap",
+"--marker",
+"2026-10-27-bounded-inputs-at-every-boundary"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I5 · copy message · message: the overseer as operator (founder-delegated), in the P2 halt dialog, 2026-10-27T07:05Z",
+"cite: inputs#I5"
+],
+"stderr": null,
+"wrote": [
+"inputs/I5-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I5",
+"kind": "relay",
+"repo": null,
+"path": "message: the overseer as operator (founder-delegated), in the P2 halt dialog, 2026-10-27T07:05Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "6d170b6ae4c2a037716e869bd997f0d0e9dbf057f4af424942519ff3bf07aae3",
+"copy": "I5-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-27T07:05:34Z",
+"step": "wrap",
+"why": "the P2 halt Q1 answer: test-plan cascade 14 (the check-7 contradiction on ci-integration.md:15) applied merged with cascade 13 as one edit; delegate overseer, founder-delegated"
+}
+}
+]

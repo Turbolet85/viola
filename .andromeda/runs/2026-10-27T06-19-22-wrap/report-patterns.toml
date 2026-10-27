@@ -1,0 +1,72 @@
+[[pattern]]
+id = 'owner-title'
+fixed = 'Bounded inputs at every boundary'
+ignore_case = true
+
+[[pattern]]
+id = 'owner-generic'
+regex = 'owned by a (route entry|CARRY)'
+ignore_case = true
+
+[[pattern]]
+id = 'mcp-stdin'
+regex = 'mcp-stdin|CappedLines|viola mcp`?.s stdin|MCP stdin|mcp[` ]+stdin|stdin of `?viola mcp|transport::stdio|read_until'
+
+[[pattern]]
+id = 'compare-read'
+regex = 'replace_private_shared|holds_exactly'
+
+[[pattern]]
+id = 'depth-ban'
+regex = 'unbounded_depth|recursion limit|default depth'
+
+[[pattern]]
+id = 'probe-count'
+regex = '\b1[34]/1[34]\b|deny-probes[^\n]{0,60}banned|serde_json-unbounded-depth'
+
+[[pattern]]
+id = 'parser-catalog'
+regex = 'channel-frame'
+
+[[pattern]]
+id = 'chaos-panic'
+regex = 'chaos_feed_panic|keeps_passthrough'
+
+[[pattern]]
+id = 'enumeration'
+regex = 'contract_bounded_readers|every external reader|external readers?'
+ignore_case = true
+
+[[pattern]]
+id = 'mcp-e2e'
+regex = 'mcp_tools_a_line_past_max_frame|serve_ends_the_session|mcp_tools\.rs|binary\(mcp_tools\)'
+
+[[pattern]]
+id = 'screen-poison'
+regex = 'poison(ed|s|ing)?'
+ignore_case = true
+
+[[pattern]]
+id = 'own-exe'
+regex = 'checked_exe|pin_exe'
+
+[[pattern]]
+id = 'constants'
+regex = 'Constants'
+
+[[pattern]]
+id = 'path1-watch'
+regex = 'path1_run_start_one_home_in_order|Path 1.s CI timeout'
+
+[[pattern]]
+id = 'parse-counts'
+regex = 'parse-failure|per[- ]parser'
+
+[[pattern]]
+id = 'mcp-surface'
+regex = 'viola mcp'
+
+[[pattern]]
+id = 'passthrough'
+regex = 'passthrough|pass-through'
+ignore_case = true

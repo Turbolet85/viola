@@ -1,0 +1,27 @@
+--- a/.andromeda/a11y-plan.md
++++ b/.andromeda/a11y-plan.md
+@@ -32,3 +32,3 @@
+ 
+-- **Entity:** `viola run` TUI passthrough, entered by `viola run` and by a `viola revive` whose preflight passed — boundary-only: the rendered content belongs to the vendor (`claude`) and is not traced; viola writes zero bytes to the terminal except the child's output, human keystrokes are never blocked, refused or delayed past the current atomic paste, and focus, mouse and resize sequences and terminal replies pass through and do not count as human editing.
++- **Entity:** `viola run` TUI passthrough, entered by `viola run` and by a `viola revive` whose preflight passed — boundary-only: the rendered content belongs to the vendor (`claude`) and is not traced; viola writes zero bytes to the terminal except the child's output, human keystrokes are never blocked, refused or delayed past the current atomic paste, and focus, mouse and resize sequences and terminal replies pass through and do not count as human editing; the boundary still holds after a contained vt100 feed panic (no viola literal on the outer terminal on every OS, the child's own bytes on Unix), its Windows byte reading owed to "Windows-only live measurements".
+ 
+--- a/.andromeda/a11y-plan-detail/a11y-scope-summary.md
++++ b/.andromeda/a11y-plan-detail/a11y-scope-summary.md
+@@ -46,2 +46,17 @@
+     - focus, mouse and resize sequences and terminal replies (F-W2's closed list) pass through and do not count as human editing; every other byte does. On Windows the platform decides what arrives (F-W3): the ConPTY host swallows focus reports, and under win32-input-mode an injected mouse report reaches viola as typed keys and takes the wheel.
++
++<!-- /detail -->
++
++<!-- detail: values · scope-entities -->
++
++- **Entity:** `viola run` TUI passthrough after a contained vt100 feed panic (the boundary of the entity above)
++  - **Source:** `tests/chaos_feed_panic.rs` (`chaos_feed_panic_refuses_send_and_keeps_passthrough`).
++  - **Assertability:** boundary-only
++  - **Reason:** the driver's `send` is refused `not-delivered` / `input-not-ready` (exit 13) while a typed human key still reaches the child; none of `panic`, `parse-rejected`, `vt100`, `unable` or `hint:` reaches the outer terminal, on all three OSes; on Unix the child's own bytes (`e4 b8 ad`) reach it.
++
++<!-- /detail -->
++
++<!-- detail: values · scope-entities -->
++
++- **Owed:** the Windows outer-terminal reading of the child's own bytes (`e4 b8 ad`) after a contained vt100 feed panic — ConPTY re-renders a wide character on a 1-column screen, so windows-2025 reads only viola's literal absence; owed to "Windows-only live measurements".
+ 

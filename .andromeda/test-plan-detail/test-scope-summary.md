@@ -51,7 +51,7 @@ Read whole. The master's broad view is .andromeda/test-plan.md; this file holds 
 
 - **Surface:** tui (`viola run <name> -- <fake agent>` terminal passthrough, i.e. the human's side of the PTY)
   - **Driver:** PEXPECT-class outer-PTY driver. The test spawns `viola run` inside a PTY it owns, writes human keystrokes and bracketed pastes, and resizes. The concrete crate is Phase 2's choice.
-  - **Signal:** `events.ndjson` lines (`wheel {holder:"human", cause:"human-input"}`, `prompt-submitted {origin:"human"}`), the fake agent's own report of what it received (one prompt, newlines inside, no Esc), and process exit code / exit detection on the process handle
+  - **Signal:** `events.ndjson` lines (`wheel {holder:"human", cause:"human-input"}`, `prompt-submitted {origin:"human"}`), the fake agent's own report of what it received (one prompt, newlines inside, no Esc), and process exit code / exit detection on the process handle; for the forced vt100 panic chaos case, a byte search of the outer terminal's drained stream: the child's own bytes (`e4 b8 ad`) arrive on Unix and none of `panic`, `parse-rejected`, `vt100`, `unable`, `hint:` appears on it on every OS (`tests/chaos_feed_panic.rs` `chaos_feed_panic_refuses_send_and_keeps_passthrough`; the Windows byte reading owed to the route entry "Windows-only live measurements"), a byte search, never a parse of the rendered child screen for content
   - **Boundary:** cross-surface (TUI input → wrapper wheel → IPC refusals seen by cli / MCP)
   - **Notes:** traced to arch excerpt, Stack (portable-pty, vt100) and creator excerpt, Must-Work (R2, R3/S1, Windows ConPTY). Assertions must never parse the rendered child screen for content (creator excerpt, Test Anti-Patterns: "Nobody parses the rendered screen for content"). The vt100 readiness gate is tested through its refusal outputs (`input-not-ready`), not by scraping the screen.
 
@@ -68,6 +68,7 @@ Read whole. The master's broad view is .andromeda/test-plan.md; this file holds 
   - **Boundary:** cross-surface (MCP → wrapper channel → run wrapper → fake agent)
   - **Notes:** traced to arch excerpt, MCP and security excerpt, Vector 5. Schemas are advisory, so negative inputs must be sent that violate the advertised schema.
   - **As landed (the instance check):** the frame tools `send`, `wait`, `last` and `answer` run `check_instance` before the liveness pre-check; a refused instance returns `isError:true` `{"error":"instance-unreachable","detail":null}` with no frame and no line (`crates/viola-mcp/tests/handlers.rs` `handlers_frame_tools_refuse_a_widened_instance_before_any_frame`).
+  - **As landed (the stdin line cap):** `viola mcp` reads its stdin through a line reader capped at `MAX_FRAME` (`CappedLines`); a line past the cap passes no byte, is never truncated or skipped, and ends the session as a stdin close does, with one `parse-rejected{parser:"mcp-stdin", detail:"oversize", count:1}` WARN line holding no byte of it; on an initialized session the earlier lines are answered, and `viola mcp` exits 0 with stderr empty and stdout only the earlier frames (`crates/viola-e2e/tests/mcp_tools.rs` `mcp_tools_a_line_past_max_frame_ends_the_session_with_one_line`).
 
 <!-- /detail -->
 

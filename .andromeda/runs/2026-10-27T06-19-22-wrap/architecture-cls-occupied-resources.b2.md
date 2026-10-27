@@ -1,0 +1,18 @@
+# Classified — architecture · occupied-resources.b2
+
+## Answers
+occupied-resources#26.1 · no · the change touches only the fallback compare in fs.rs's replace_private_shared, while the board::scan check_path and check_instance home checks it names live in board and the strict module, which it leaves alone, so the owed reconciliation still stands
+occupied-resources#27.1 · no · budget.json is replaced through replace_private, which the report re-reads as unchanged, and its checked read in viola_state::budget is outside the change
+occupied-resources#28.1 · no · ledger/stamps.json is replaced through replace_private (re-read as unchanged) and read through read_stamps in viola_state::stamps, which the change does not reach, and the ledger-stamps parser value stays in the enum the schema change only extends
+occupied-resources#29.1 · no · the probe dirs and their 0700 and 0600 captures belong to verify and the hook capture arms, none of them reached, and the fs.rs change is confined to replace_private_shared's compare read
+occupied-resources#30.1 · no · verify's interactive probe dirs, their drop-guard removal and the Ctrl-C and TERM stop path are unreached and unchanged, and the change adds no run, dir or stop handler
+occupied-resources#31.1 · yes · stale · the session adds root tests/contract_bounded_readers.rs and changes tests/chaos_feed_panic.rs, either of which may now hold `Instant::now() + WITHIN` waits that move the 28-sites-in-20-files count, which the report does not show still holds
+occupied-resources#32.1 · no · the change moves no home class, keeper or backing (tests/support/home.rs and the target/e2e-home link are unreached), and any home a new E2E binary takes is a viola-test-* home this entry already holds
+occupied-resources#33.1 · no · no fixture is among the reached files, so the fixture sets, their file counts and their walks stand, and the replay against viola mcp is unchanged because the new stdin cut fires only on a line past MAX_FRAME
+occupied-resources#34.1 · no · the harness writers under target/agent-run are unreached and bin/agents-mode is written through replace_private (re-read as unchanged), and the new contract_ binary adds no writer or path outside the per-suite JUnit layout this entry already describes
+occupied-resources#35.1 · no · the one exception it names, the `<temp dir>/viola-chaos-*/home` of tests/chaos_feed_panic.rs, stays where the report places it and the chaos change only adds a passthrough check, so the target/e2e-home homes and keepers are unchanged
+occupied-resources#36.1 · no · seed_conpty's create_private_dir call and its hard-link seed are unchanged, since the report confines the fs.rs change to replace_private_shared's compare read and the new holds_exactly helper
+occupied-resources#37.1 · no · the profraw census script and its start-test runs are unreached and unchanged, and no CI job, pre-push stage or harness command the entry names is touched
+occupied-resources#38.1 · no · the mutants scratch and its create_private_dir re-creation are unchanged, since the fs.rs change is confined to replace_private_shared's compare read, so the protected user and SYSTEM DACL it takes still stands
+occupied-resources#39.1 · no · the protected owner-only DACL a home viola makes outside the profile is read back from the runner, and the change touches no private-dir creation, only replace_private_shared's compare read in fs.rs
+occupied-resources#39.2 · no · the windows-2025 temp-dir ACL is a runner fact read through strict::win::tests, which the session does not reach, and the change adds no ACL or strict check

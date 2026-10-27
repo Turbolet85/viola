@@ -1,6 +1,6 @@
 # Outcome — 2026-10-27-bounded-inputs-at-every-boundary (/andromeda-implement)
 
-**Outcome: green + smoke.** Next: the OPERATOR PASS (entries 24 re-run, 25, 26, 27), then `/andromeda-wrap-session`.
+**Outcome: green + smoke; operator pass done, CI green.** Next: `/andromeda-wrap-session`.
 
 ## Files changed (9: 7 modified, 2 new)
 - new `crates/viola-mcp/src/stdin.rs`: `CappedLines`, the line-capped async reader, plus its unit cases (step 1)
@@ -109,3 +109,20 @@ another tree.
   (+9 min) and it was corrected from `date -u`. A second estimated stamp, written by a python script that fires
   no hook, was corrected after a clock read (+3 min).
 - The `andromeda:walks-tree` token was written into the new census test, since it walks the product sources.
+
+## Operator pass (run by this session on the operator's word: the invocation asked for "its operator pass and the CI read")
+Recorded in `chunks/2026-10-27-bounded-inputs-at-every-boundary/evidence/operator-pass.md`:
+- entry 24 re-run on the uncommitted tree: `pre-push` `ok:true`, coverage 3251 passed, 0 failed, breaches none
+- entry 25 (as written): `hygiene: clean — read 529 (runs 523 · evidence 1 · inputs 5) · …`
+- the pre-CI commit: `607792cb chore(2026-10-27-bounded-inputs-at-every-boundary): operator pre-CI commit, for the run this chunk's verdict reads`
+- entry 26: green, `history moved: refs/remotes/origin/build/viola-0.1.0 4b0bf776→607792cb`
+- entry 27 (as written): `607792cb8178 verdict: green · checks 15/15 · wall 719 s · runs ci#40458923095 completed/success`
+
+On every OS: step 7's case, step 4's case, step 2's case and the census all PASS. Step 7's Unix byte reading is
+covered on ubuntu and macOS; Windows reads the literal absence only, and its byte reading is owed to "Windows-only
+live measurements".
+
+The WATCH on Path 1: green at 15.010 s on `test (ubuntu-latest)`, `SLOW [> 10.000s]`, under the 20 s kill. The
+tally moves 0/3 → 1/3, with no cause claimed for the slower time (the earlier greens were 13.468 s and 8.219 s).
+
+The final census after the pass reads `census: 8 running`, all of them other trees' (as in the Process hygiene table).

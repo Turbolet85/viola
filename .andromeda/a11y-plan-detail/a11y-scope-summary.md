@@ -49,6 +49,21 @@ Read whole. The master's broad view is .andromeda/a11y-plan.md; this file holds 
 
 <!-- detail: values · scope-entities -->
 
+- **Entity:** `viola run` TUI passthrough after a contained vt100 feed panic (the boundary of the entity above)
+  - **Source:** `tests/chaos_feed_panic.rs` (`chaos_feed_panic_refuses_send_and_keeps_passthrough`).
+  - **Assertability:** boundary-only
+  - **Reason:** the driver's `send` is refused `not-delivered` / `input-not-ready` (exit 13) while a typed human key still reaches the child; none of `panic`, `parse-rejected`, `vt100`, `unable` or `hint:` reaches the outer terminal, on all three OSes; on Unix the child's own bytes (`e4 b8 ad`) reach it.
+
+<!-- /detail -->
+
+<!-- detail: values · scope-entities -->
+
+- **Owed:** the Windows outer-terminal reading of the child's own bytes (`e4 b8 ad`) after a contained vt100 feed panic — ConPTY re-renders a wide character on a 1-column screen, so windows-2025 reads only viola's literal absence; owed to "Windows-only live measurements".
+
+<!-- /detail -->
+
+<!-- detail: values · scope-entities -->
+
 - **Entity:** Claude Code plugin against an endpoint whose serving process is not the recorded wrapper: the `viola hook` event and dialog calls and the stdio MCP server's frame tools (`send`, `wait`, `last`, `answer`), off macOS (no peer pid is read there and the check reads as passed: the recorded gap)
   - **Source:** `src/cmd/hook.rs` (`connect`, `NotSent`) and `crates/viola-mcp/src/tools.rs` (`server_verified`); `tests/hook_fail_open.rs` (the impostor rows) and `crates/viola-mcp/tests/handlers.rs` (`handlers_frame_tools_write_no_frame_to_a_server_that_is_not_the_recorded_wrapper`).
   - **Assertability:** not-assertable

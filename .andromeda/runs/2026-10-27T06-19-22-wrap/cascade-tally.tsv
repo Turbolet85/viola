@@ -1,0 +1,7 @@
+side	doc	entities	batches	yes	groups	carried	not_carried	false_yes	sampled	held	lost_classify	lost_strong	cascade_only	no_fit	facts	placed	by_pass	no_home	beside_fact	standing	listed	draws	one_draw_yes
+wrap	architecture	144	11	11	1	6	5	0.455	no	-	-	-	-	0	6	6	1	0	-	-	-	1	-
+wrap	security-plan	94	10	12	1	5	7	0.583	no	-	-	-	-	0	9	9	0	0	-	-	-	1	-
+wrap	design-system	192	14	0	0	0	0	-	no	-	-	-	-	0	0	0	0	0	-	-	-	1	-
+wrap	test-plan	147	12	18	1	9	9	0.500	no	-	-	-	-	0	9	9	1	0	-	-	-	1	-
+wrap	obs-plan	270	15	12	1	8	4	0.333	no	-	-	-	-	0	6	5	0	1	-	-	-	1	-
+wrap	a11y-plan	32	4	4	1	2	2	0.500	no	-	-	-	-	0	3	3	0	0	-	-	-	1	-

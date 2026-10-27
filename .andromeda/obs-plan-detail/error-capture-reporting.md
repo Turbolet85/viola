@@ -29,11 +29,13 @@ Read whole. The master's broad view is .andromeda/obs-plan.md; this file holds i
 <!-- detail: values · errors -->
 
 - vt100 panics are caught on `run`'s feed thread (`src/run/gate.rs`) by a `catch_unwind` around each feed and resize, not inside `run.readiness_gate`. Each poisoning episode gives exactly one `parse-rejected{parser:"vt100-feed", count:1}` at `WARN` with no `corr`, its `detail` set by the cause: `panicked` for a caught vt100 panic, `oversize` for a copy the bounded feed queue dropped (a size message carries the drop count at its offer, so a drop after a queued resize poisons the fresh screen again). The model stays poisoned until the host size changes, and `run` continues. `viola_panic_hook` runs before the catch returns, so a panic poisoning also writes the hook's `event:"panic"` role line and its detail line. Witnessed at run level by `tests/chaos_feed_panic.rs` (chunk 2026-10-04-confirmed-send-with-cl-1-records): exactly one `parse-rejected{vt100-feed, panicked}` and one `event:"panic"` line, both asserted present, then `viola send` refused `send-refused{detail:"input-not-ready"}` (exit 13) while a typed key still reaches the child. G2's single seam exemption is unchanged: that test's home lives outside `target/e2e-home` (`TestHome::outside_scan()`), so G2, G4 and the secret scan do not read it (the founder's ruling, live, 2026-10-04, relayed by the overseer).
+- The same test also witnesses the passthrough after the forced feed panic: none of `panic`, `parse-rejected`, `vt100`, `unable`, `hint:` reaches the outer terminal on any OS, and on Unix the child's bytes `e4 b8 ad` reach it; the Windows byte reading is owed to the route entry "Windows-only live measurements", since ConPTY re-renders a wide character on a 1-column screen.
 
 <!-- /detail -->
 
 <!-- detail: values · errors -->
 
 - MCP rejects on a refused instance check: `viola mcp`'s frame tools (`send`, `wait`, `last`, `answer`) run `check_instance` on the home and the instance directory in `frame` (`crates/viola-mcp/src/tools.rs`) before `live_endpoint`; a refusal returns `instance-unreachable` with `detail: null`, the `isError` code of the liveness pre-check, and writes no frame and no line.
+- A `viola mcp` stdin line past `MAX_FRAME` is no tool reject: it gives no `isError` result and no rmcp line (the reader signals the cut as end of stream, never as an I/O error, and `rmcp` is `OFF` in the sink); the session ends as at a closed stdin, with `process-exit` 0 once `initialize` has completed, or `ServeError::Initialize` (exit 11) when the cut lands before it; its one record is the §6 `parse-rejected{parser:"mcp-stdin", detail:"oversize"}` line.
 
 <!-- /detail -->

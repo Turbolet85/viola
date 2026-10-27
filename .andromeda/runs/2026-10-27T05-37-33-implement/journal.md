@@ -31,3 +31,11 @@ that bounds it (the operator's direction for this run: every test or control tha
 - `timeout 7200 bash scripts/agent-run.sh pre-push`, backgrounded, output to a scratchpad file (read whole).
 - Kill deadline: `timeout 7200` (entry 24's own); inside, nextest's `ci` profile per test (30 s × 4).
 - Spawns: the instrumented suite's wrappers and `viola mcp` children, each test reaping its own.
+- Result: exit 0, `pre-push` `ok:true` at `linux-tests`, coverage 3251 passed, 0 failed, breaches none.
+- Then: hygiene clean; pre-CI commit `607792cb`; entry 26 pushed it (`history moved: refs/remotes/origin/build/viola-0.1.0 4b0bf776→607792cb`).
+
+## 4 · 2026-10-27T06:04:25Z — operator pass: the CI read (entry 27, as written)
+- `python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 2400`,
+  backgrounded; its own wait bound 2400 s (entry 27's `timeout` 2580). Spawns nothing local: it reads GitHub
+  through `gh`.
+- Result: `607792cb8178 verdict: green · checks 15/15 · wall 719 s · runs ci#40458923095 completed/success`; the final census `census: 8 running`, none under this repository's `target/`.

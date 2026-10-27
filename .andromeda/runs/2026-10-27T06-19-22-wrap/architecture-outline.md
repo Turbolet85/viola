@@ -1,0 +1,116 @@
+# architecture — outline (6 files)
+
+## .andromeda/architecture-detail/conventions.md · conventions · 15.7 KB
+- ## Conventions
+  - values · conv-refusal-reason · lines 8–15
+  - values · conv-exit-codes · lines 21–34
+  - values · conv-exit-codes · lines 40–40
+  - values · conv-exit-codes · lines 46–46
+  - values · conv-exit-codes · lines 52–52
+  - values · conv-exit-codes · lines 58–58
+  - values · conv-mcp-results · lines 64–65
+  - values · conv-mcp-results · lines 71–71
+  - values · conv-mcp-results · lines 77–77
+## .andromeda/architecture-detail/cross-cutting-patterns.md · cross-cutting-patterns · 9.1 KB
+- ## Cross-cutting Patterns
+  - values · crosscut-config · lines 8–13
+  - values · crosscut-capability-ledger · lines 19–21
+## .andromeda/architecture-detail/established-decisions.md · established-decisions · 118.0 KB
+- ## Established Decisions
+  - values · dec-concurrency-backend-framework · lines 8–8
+  - values · dec-pty · lines 14–17
+  - values · dec-screen-model · lines 23–25
+  - values · dec-delivery-confirmation · lines 31–40
+  - values · dec-database-state-store · lines 46–47
+  - values · dec-snapshot-writer · lines 53–54
+  - values · dec-snapshot-writer · lines 60–62
+  - values · dec-message-broker-ipc · lines 68–69
+  - values · dec-message-broker-ipc · lines 75–75
+  - values · dec-message-broker-ipc · lines 81–81
+  - values · dec-message-broker-ipc · lines 87–87
+  - values · dec-message-broker-ipc · lines 93–93
+  - values · dec-mcp · lines 99–106
+  - values · dec-mcp · lines 112–112
+  - values · dec-hook-transport · lines 118–124
+  - values · dec-hook-transport · lines 130–130
+  - values · dec-hook-contract · lines 136–137
+  - values · dec-hook-contract · lines 143–146
+  - pending · dec-hook-contract · lines 152–152
+  - values · dec-human-takeover-wheel · lines 158–164
+  - values · dec-links · lines 170–174
+  - values · dec-budget-governor · lines 180–182
+  - values · dec-cli-version-compatibility · lines 188–218
+  - values · dec-cli-version-compatibility · lines 224–224
+  - values · dec-session-liveness · lines 230–237
+  - values · dec-error-handling · lines 243–243
+  - values · dec-module-boundaries · lines 249–249
+  - values · dec-deployment-distribution · lines 255–257
+  - values · dec-deployment-distribution · lines 263–265
+  - values · dec-plugin-scope · lines 271–272
+  - values · dec-cli-conventions · lines 278–278
+## .andromeda/architecture-detail/occupied-resources.md · occupied-resources · 66.1 KB
+- ## Occupied Resources
+  - values · res-ipc-endpoints · lines 8–8
+  - values · res-ipc-endpoints · lines 14–14
+  - values · res-binaries · lines 20–23
+  - values · res-binaries · lines 29–29
+  - values · res-binaries · lines 35–35
+  - values · res-binaries · lines 41–41
+  - values · res-binaries · lines 47–47
+  - values · res-claude-integration · lines 53–53
+  - values · res-claude-integration · lines 59–59
+  - values · res-claude-integration · lines 65–65
+  - values · res-env-vars · lines 71–71
+  - values · res-env-vars · lines 77–77
+  - values · res-env-vars · lines 83–84
+  - values · res-env-vars · lines 90–94
+  - values · res-env-vars · lines 100–102
+  - values · res-filesystem · lines 108–108
+  - values · res-filesystem · lines 114–114
+  - values · res-filesystem · lines 120–123
+  - values · res-filesystem · lines 129–129
+  - values · res-filesystem · lines 135–135
+  - values · res-filesystem · lines 141–143
+  - values · res-filesystem · lines 149–149
+  - values · res-filesystem · lines 155–155
+  - values · res-filesystem · lines 161–161
+  - values · res-filesystem · lines 167–167
+  - values · res-filesystem · lines 173–173
+  - values · res-filesystem · lines 179–180
+  - values · res-filesystem · lines 186–186
+  - values · res-filesystem · lines 192–192
+  - values · res-filesystem · lines 198–198
+  - values · res-filesystem · lines 204–204
+  - values · res-filesystem · lines 210–210
+  - values · res-repository · lines 216–219
+  - values · res-repository · lines 225–225
+  - values · res-repository · lines 231–233
+  - values · res-repository · lines 239–239
+  - values · res-repository · lines 245–245
+  - values · res-repository · lines 251–252
+  - values · res-repository · lines 258–259
+## .andromeda/architecture-detail/stack-and-technologies.md · stack-and-technologies · 12.4 KB
+- ## Stack and Technologies
+  - values · stack · lines 8–33
+  - values · stack · lines 39–39
+  - values · stack · lines 45–45
+## .andromeda/architecture-detail/standard-contracts.md · standard-contracts · 26.2 KB
+- ## Standard Contracts
+  - values · contract-list-payload · lines 8–14
+  - values · contract-snapshot-envelope · lines 20–25
+  - values · contract-ledger-stamps · lines 31–35
+  - values · contract-ledger-stamps · lines 41–41
+  - values · contract-instance-snapshot · lines 47–51
+  - values · contract-channel-methods · lines 57–57
+  - values · contract-channel-methods · lines 63–63
+  - values · contract-channel-methods · lines 69–69
+  - values · contract-channel-methods · lines 75–75
+  - values · contract-channel-methods · lines 81–81
+  - values · contract-channel-methods · lines 87–87
+  - values · contract-channel-methods · lines 93–93
+  - values · contract-event-data · lines 99–99
+  - values · contract-cli-json-output · lines 105–105
+  - values · contract-cli-json-output · lines 111–111
+  - values · contract-hook-statusline · lines 117–121
+  - values · contract-session-liveness · lines 127–127
+  - values · contract-session-liveness · lines 133–133

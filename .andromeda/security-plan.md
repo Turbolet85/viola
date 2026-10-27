@@ -40,7 +40,7 @@ The snapshot's recorded `cwd`, an absolute host path that can carry the OS usern
 
 **Vector:** Hook stdin payloads from Claude Code, exec-form `viola hook <event>`: parsed tolerantly, upstream text treated as content, never as commands, and any failure failing open to the human; `hook statusline` runs `statusline_command` through a shell, its integrity set by filesystem permissions on the viola home.
 
-**Vector:** MCP over stdio, the driver an LLM agent: tool input schemas and the `ViolaName` newtype check the input; the driver model reads untrusted driven-session output and can answer that session's PermissionRequest, the decision resting with it, outside viola; leaving `release`, `pause`, `link` and `unlink` off the tool list is an affordance, not an enforcement.
+**Vector:** MCP over stdio, the driver an LLM agent: tool input schemas and the `ViolaName` newtype check the input; each stdin line is capped at `MAX_FRAME` before rmcp reads it, an over-long line refused whole and ending the session, never dispatched in part; the driver model reads untrusted driven-session output and can answer that session's PermissionRequest, the decision resting with it, outside viola; leaving `release`, `pause`, `link` and `unlink` off the tool list is an affordance, not an enforcement.
 
 **Vector:** CLI arguments, flags and environment: `--home` and `VIOLA_DIR` choose which state tree, snapshot, `endpoint`, `statusline_command` and ledger stamps are used; the trust boundary is same-user invocation, clap parsing, the `ViolaName` nutype and tolerant `config.json` parsing.
 
@@ -139,6 +139,8 @@ Hook stdin (all hook events + `hook statusline`) — capped at `MAX_FRAME`, an o
 
 MCP tool inputs (`target`, `text`, `dialog_id`, `response`, `after`, `timeout_ms`) — the schemars schemas are advisory only, since rmcp does not enforce them: each handler checks the raw arguments itself (`ViolaName`, `u64`, the closed response enums, `validate_paste_text` on text and free-text answers), a failure being `invalid-params` with a closed field word and no frame.
 
+MCP stdin (`viola mcp`'s transport, the driver's JSON-RPC lines) — each line capped at `MAX_FRAME`, its `\n` counted, by the reader viola hands rmcp, which reads stdin lines unbounded; a longer line releases no byte, is refused whole, never truncated or skipped, and ends the session as a stdin close does, recorded as one `parse-rejected` line holding no byte of it.
+
 CLI arguments / stdin — every name through `ViolaName::try_new`; the home resolved, canonicalised and passed through the strict-modes check before any snapshot, `statusline_command` or ledger read, `ledger/stamps.json` checked before `ledger/` is created and again under its lock, a refusal reading and writing nothing; `answer` and `send` input read under `MAX_FRAME`, into the closed enums or through `validate_paste_text`, before any frame; `revive --json` prints codes, closed words and session-shaped ids only, never a path or pid.
 
 Configuration values (`config.json`) — a tolerant parse capped at `MAX_FRAME`, `v` checked; a bad value takes its key's default, or is rejected whole, and is reported as `parse-rejected`; no value switches the budget gate off or makes the dialog hold zero or unbounded, and an identity-floor name in `claude_env_keep` has no effect.
@@ -173,7 +175,7 @@ File upload / webhook / SQL — N/A: no upload, webhook or database surface.
 
 **Parser surfaces (scope for fuzz / property coverage; tests owns the cases):** `validate_paste_text`, channel ndjson framing with `MAX_FRAME`, the hook stdin parser (including `hook statusline`), the `claude agents --json` output parser, and the vt100 feed under `catch_unwind`.
 
-**Constants:** `MAX_FRAME` = 16 MiB, one const in `viola-core`, caps every external read (channel frames, hook stdin, the statusline source and command output, `answer` input, sent text, child output, ndjson lines, `config.json` and the stamps read); it is checked against data: a stamped largest hook payload within a factor of 4 of it is a signal to revisit the cap.
+**Constants:** `MAX_FRAME` = 16 MiB, one const in `viola-core`, caps every external read (channel frames, hook stdin, the statusline source and command output, `answer` input, `viola mcp`'s stdin lines, sent text, child output, ndjson lines, `config.json` and the stamps read; viola's reads of its own executable are no external input); `replace_private_shared`'s fallback compare reads its target through `take(bytes.len() + 1)`, never the whole file; it is checked against data: a stamped largest hook payload within a factor of 4 of it is a signal to revisit the cap.
 
 (See `## Security Anti-Patterns` § Input for input-validation bans.)
 
@@ -252,6 +254,7 @@ The vendored Microsoft ConPTY binaries sit outside every cargo graph, so no lock
 - `[licenses]`: the `allow` list stays exactly `["MIT", "Apache-2.0", "Zlib", "Unicode-3.0"]` (arch §Build system). `0BSD` is admitted only per crate, by `[[licenses.exceptions]]` for `doctest-file` and `recvmsg`, the two 0BSD crates interprocess 2.4.4 pulls in (measured at chunk 2026-09-25-security-prerequisites: `cargo deny` 0.20.2 read `licenses FAILED` without them). It is never added to `allow`, so any other 0BSD crate still fails the gate, and each new exception needs its own Decisions Log entry (operator ratification `2026-09-25`).
 - `[[bans.features]]`:
   - `rmcp` denies `transport-streamable-http-server` and `auth`.
+  - `serde_json` denies `unbounded_depth` (every parse of external bytes keeps serde_json's default recursion limit), its firing proven by `scripts/deny-probes.sh`.
 
 The arch bans stay as they are: C-building crates in `deny.toml`, and `tokio` in the sync crates' graph in `deny-sync.toml`, run per sync crate as the sole root, `viola-channel` covered instead by the `cargo tree` form `scripts/channel-tokio-free.sh`; every ban is proven live by `scripts/deny-probes.sh`.
 
@@ -448,8 +451,8 @@ Detail: .andromeda/security-plan-detail/security-anti-patterns.md — read whole
 - NEVER join `instances/<name>` with a string that did not come out of `ViolaName::try_new` (MCP `target`, `link`/`unlink` params, notify events).
 - NEVER write `send.text` or answer free text into the PTY if it contains any C0 control other than LF, CR and TAB (ESC above all), DEL (U+007F) or any C1 control (U+0080–U+009F), and NEVER strip them silently. Reject with `control-character`. The wrapper's `send` typing every CR LF pair and every other CR inside a text as one LF, and dropping its trailing CR and LF characters, of a text that has already passed `validate_paste_text` is not this stripping: CR and LF are allowed characters, validation runs first on the text as received, and no refused character is ever removed or typed (§Input Validation, Paste text row). Answer free text is typed as validated. NEVER refuse LF, CR or TAB: multi-line relays, plans and answers are normal. Refusing a text whose typed text is empty (`empty-text`) is not a refusal of those characters: there is nothing to type, and a text with content is never refused for holding LF, CR or TAB.
 - NEVER run the control-character check over raw bytes. Check decoded `char`s, or valid UTF-8 continuation bytes (0x80–0xBF) are misread as C1.
-- NEVER call `read_line` on a channel stream or `read_to_end` on hook stdin or child output without `Read::take(MAX_FRAME)`.
-- NEVER enable serde_json's `unbounded_depth` feature.
+- NEVER call `read_line` on a channel stream or `read_to_end` on hook stdin or child output without `Read::take(MAX_FRAME)`, and NEVER hand rmcp a `viola mcp` stdin reader that does not cap each line at `MAX_FRAME`, nor truncate or skip an over-long line instead of ending the session.
+- NEVER enable serde_json's `unbounded_depth` feature; `deny.toml` bans it (§Dependency Security).
 - NEVER model `behavior`, `dialog_id`, the wheel holder or the dialog kind as free `String`s. Use closed enums or integers even under tolerant parsing.
 - NEVER use a `claude agents --json` row `name` as a `ViolaName` or `target`.
 - SQL ban: N/A (no database or query language).
@@ -466,7 +469,7 @@ Detail: .andromeda/security-plan-detail/security-anti-patterns.md — read whole
 ### API
 
 - NEVER enable rmcp's `transport-streamable-http-server` or `auth` features.
-- NEVER skip request size limits: `MAX_FRAME` on the channel.
+- NEVER skip request size limits: `MAX_FRAME` on the channel and on each `viola mcp` stdin line.
 
 ### Secrets
 

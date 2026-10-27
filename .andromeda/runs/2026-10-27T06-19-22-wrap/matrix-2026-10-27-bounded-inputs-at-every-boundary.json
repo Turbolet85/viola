@@ -1,0 +1,99 @@
+[
+{
+"tool": "matrix",
+"v": "1.5",
+"sha8": "6cb09937",
+"ts": "2026-10-27T07:26:43Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-27-bounded-inputs-at-every-boundary",
+"--run-dir",
+".andromeda/runs/2026-10-27T06-19-22-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-10-27-bounded-inputs-at-every-boundary: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v1-46 → verified — Every external reader is size-capped, depth-limited and closed-typed; names are … (1349 chars)",
+"dry-run: nothing written",
+"version: verified 26/53"
+],
+"stderr": null,
+"wrote": [],
+"before": [
+{
+"id": "v1-46",
+"chunk": "2026-10-27-bounded-inputs-at-every-boundary",
+"status": "implemented",
+"method": "unit",
+"ref": "tests/contract_bounded_readers.rs (boundaries_each_name_a_bounded_read_that_stands, product_readers_are_each_bounded_or_… (922 chars)",
+"acceptance": "Every external reader is size-capped, depth-limited and closed-typed; names are validated before any path join; the past… (1349 chars)",
+"notes_chars": 1404
+}
+],
+"after": [
+{
+"id": "v1-46",
+"chunk": "2026-10-27-bounded-inputs-at-every-boundary",
+"status": "verified",
+"method": "unit",
+"ref": "tests/contract_bounded_readers.rs (boundaries_each_name_a_bounded_read_that_stands, product_readers_are_each_bounded_or_… (922 chars)",
+"acceptance": "Every external reader is size-capped, depth-limited and closed-typed; names are validated before any path join; the past… (1349 chars)",
+"notes_chars": 1404
+}
+]
+},
+{
+"tool": "matrix",
+"v": "1.5",
+"sha8": "6cb09937",
+"ts": "2026-10-27T07:26:48Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-27-bounded-inputs-at-every-boundary",
+"--run-dir",
+".andromeda/runs/2026-10-27T06-19-22-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-10-27-bounded-inputs-at-every-boundary: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v1-46 → verified — Every external reader is size-capped, depth-limited and closed-typed; names are … (1349 chars)",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed",
+"version: verified 26/53"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": [
+{
+"id": "v1-46",
+"chunk": "2026-10-27-bounded-inputs-at-every-boundary",
+"status": "implemented",
+"method": "unit",
+"ref": "tests/contract_bounded_readers.rs (boundaries_each_name_a_bounded_read_that_stands, product_readers_are_each_bounded_or_… (922 chars)",
+"acceptance": "Every external reader is size-capped, depth-limited and closed-typed; names are validated before any path join; the past… (1349 chars)",
+"notes_chars": 1404
+}
+],
+"after": [
+{
+"id": "v1-46",
+"chunk": "2026-10-27-bounded-inputs-at-every-boundary",
+"status": "verified",
+"method": "unit",
+"ref": "tests/contract_bounded_readers.rs (boundaries_each_name_a_bounded_read_that_stands, product_readers_are_each_bounded_or_… (922 chars)",
+"acceptance": "Every external reader is size-capped, depth-limited and closed-typed; names are validated before any path join; the past… (1349 chars)",
+"notes_chars": 1404
+}
+]
+}
+]

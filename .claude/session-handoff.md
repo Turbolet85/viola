@@ -1,48 +1,45 @@
 # Session Handoff
 
-**Last Updated:** 2026-10-27T03:56:09Z
-**Branch:** build/viola-0.1.0 · 0 ahead of origin/build/viola-0.1.0 as read at this wrap's Setup (HEAD `6c77eadd`, the operator pass's pre-CI commit; the wrap commit pushes after this file)
+**Last Updated:** 2026-10-27T07:23:30Z
+**Branch:** build/viola-0.1.0 · 0 ahead of origin/build/viola-0.1.0 as read at this wrap's Setup (HEAD `607792cb`, the operator pass's pre-CI commit; the wrap commit pushes after this file)
 **Status:** clean
-**Last Commit:** 2026-10-27-pinned-copy-race-and-reproducible-builds — the wrap commit on `6c77eadd` (ci#40439188053: `verdict: green · checks 15/15`)
+**Last Commit:** 2026-10-27-bounded-inputs-at-every-boundary — the wrap commit on `607792cb` (ci#40458923095: `verdict: green · checks 15/15`)
 
 ## Position
-- Done: **2026-10-27-pinned-copy-race-and-reproducible-builds** → `complete` (this wrap, `.andromeda/runs/2026-10-27T02-51-54-wrap/`).
-- Next: the working route's first markerless entry, **"Bounded inputs at every boundary"** (Epoch 6) → `/andromeda-phase`.
+- Done: **2026-10-27-bounded-inputs-at-every-boundary** → `complete` (this wrap, `.andromeda/runs/2026-10-27T06-19-22-wrap/`).
+- Next: the working route's first markerless entry, **"Sanitised error surfaces"** (Epoch 6) → `/andromeda-phase`.
+  It now carries a PREREQ (the two test gaps below) and the Path 1 WATCH at 1/3.
 
 ## Work done
-- The pinned copy's absent-copy write is a no-clobber placement of a closed temp file (`fs::place_private_new`), so a
-  concurrent first start can no longer exec it open for write (`ETXTBSY`: 4 of 24 two-instance boots before, 0 of 24
-  after); Path 7 back on the default pair; the Windows plain-home oracle reads the write grant by its right.
+- `viola mcp`'s stdin is capped at `MAX_FRAME` per line by viola's own reader. A longer line is refused whole and
+  ends the session with one `parse-rejected{mcp-stdin, oversize}` line.
+- `replace_private_shared`'s compare read is bounded, serde_json's `unbounded_depth` is banned in `deny.toml`
+  (deny-probes 14/14), and the feed-panic passthrough is witnessed on the outer terminal.
+- `tests/contract_bounded_readers.rs` enumerates every boundary and censuses the product readers. v1-46 was claimed.
 
 ## Drift resolved
-- 33 proposals (ordinary chunk, no sample): 32 applied across architecture, security-plan, test-plan and obs-plan
-  (4 merged), 1 rejected (registry over-reach), 0 escalated; 5 check-7 contradictions resolved in-pass (each against
-  a stale line a companion proposal amended). Leaves: 10 applied, 2 declined. Citations: 0 moved.
-- Route: a WATCH on «Bounded inputs at every boundary» (red 1) and a CARRY on «Version done-check» (measurement B),
-  both on the directive (`chunks/2026-10-27-pinned-copy-race-and-reproducible-builds/inputs/I6-…`).
-- Curation: one Tier 3 entry (comparing two builds by section).
-
-## FOR DISCUSSION (the founder's)
-- **Measurement B:** six clean release builds of one tree gave two files (`57bce92d…`, `ff63f38e…`); the loaded
-  sections are equal, the build-id, `.symtab` and `.strtab` differ, so one tree can produce two pin keys. Recorded as
-  measured, no cause claimed; acting on it is his (CARRY on «Version done-check»;
-  `chunks/2026-10-27-pinned-copy-race-and-reproducible-builds/evidence/reproducible-builds.md`).
+- 74 proposals (ordinary chunk, no sample): 70 applied across five masters (4 merged), 4 rejected (3 twins, 1 not
+  this chunk's), 1 check-7 contradiction escalated as written and answered at the P2 halt (`inputs#I5`, the overseer
+  as operator: merged with its companion). 23 sidecar entries. Leaves: 11 written, 5 declined. Citations: 0 moved.
+- Route: a PREREQ and the migrated WATCH (1/3) on «Sanitised error surfaces»; a CARRY on «Windows-only live
+  measurements» (the Windows byte oracle for the feed-panic case).
+- Curation: T1 1 (timestamps from `date -u`, never estimated) · T2 1 (testing.md: a kill deadline on every spawned
+  `viola run` / `viola mcp` / wrapper).
 
 ## Notes
-- **PROVISIONAL, owed the founder's own word:** red 1 read as runner variance with its WATCH (the overseer's
-  technical answer, `inputs#I6` item 3; retires at a recurrence, which reopens the owner question, or 3 green runs);
-  the red-2 fold (`inputs#I4`, `inputs#I5`, delegate overseer1); carried from the last wrap, its P2 halt's three
-  answers (`chunks/2026-10-26-home-and-code-bearing-file-integrity/inputs/I6-relay-1.md.txt`) and the Q3 CARRY on
-  «Unix endpoint and home hardening» resting on them.
+- **PROVISIONAL, owed the founder's own word:** this chunk's P5 approval (delegate overseer1, `inputs#I3`); the Q1
+  answer (`inputs#I5`); the Path 1 WATCH's runner-variance reading; carried from earlier wraps, the red-2 fold
+  (`chunks/2026-10-27-pinned-copy-race-and-reproducible-builds/inputs/I4`, `I5`) and the P2 halt answers of
+  `chunks/2026-10-26-home-and-code-bearing-file-integrity/inputs/I6-relay-1.md.txt` with the Q3 CARRY resting on them.
+- **FOR DISCUSSION (the founder's), carried:** Measurement B — one tree, two release-build files, two pin keys (CARRY
+  on «Version done-check»; `chunks/2026-10-27-pinned-copy-race-and-reproducible-builds/evidence/reproducible-builds.md`).
+- **Two test gaps owned by «Sanitised error surfaces»** (inputs#I4 item 4): the pre-`initialize` stdin cut (exit 11,
+  no test), and five boundary rows whose witness never drives past the cap. Both are stated in test-plan §4 and §6.
 - **Deferred learnings (carried):** `recurrence-despite-learning: testing.md 2026-09-24` · `recurrence-despite-learning:
   testing.md 2026-09-25, Extended 2026-10-04` — a check in the owning step, not a third entry.
-- **Epoch 6 at 12 entries** (3 markerless) — surfaced, no split, by the founder's word of 2026-10-20T10:17Z.
-- **Owed outside this repo (friction log, for the founder's desk):** carried from the last wrap (its records and F350,
-  F351, the items in git at `d35644a5`'s handoff; the CARRY on "Version done-check" `v1-13` / `v1-36`); F363 (the
-  phase's second re-spawn past the one-retry limit, friction-log `2026-10-27T01:28:02Z-b`).
-- **Host recipe:** read `df -h /tmp` before a stamped-home gate; macOS-target check-only clippy under
-  `target/maccheck` beside `target/wincheck`; `target/` reads 294G (a clean is due).
+- **Epoch 6 at 12 entries** (2 markerless) — surfaced, no split, by the founder's word of 2026-10-20T10:17Z.
+- **Host:** python `yaml` is absent on the Linux dev host (new-session check 12 read by eye); read `df -h /tmp`
+  before a stamped-home gate; `target/` reads 297G against 347G free — a clean is due before the next gate-heavy run.
+- **Owed outside this repo (friction log, for the founder's desk):** carried from the last wrap (F350, F351, F363,
+  the CARRY on "Version done-check" `v1-13` / `v1-36`).
 - **Last failed command:** none.
-
-## Session End Status
-Completed normally at 2026-10-27 06:36:19

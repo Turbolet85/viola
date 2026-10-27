@@ -1,0 +1,2 @@
+proposals: []
+note: D-design-cli-wording — the report's Changes add or change no cli output literal (no unable/hint pair, printed word or As-built clause; the `viola mcp` cut ends the session with exit 0 and empty stderr, as at a closed stdin, and writes only a diag line); D-layout-surface — no surface or region added (`viola mcp` stays "no screen", line 58; the chaos test asserts viola's literal absence on the passthrough, matching line 42's 0.0 level); the report's Expected amendments name layout-templates' 3 `passthrough` and 3 `mcp-surface` rows no-change; Retired: none.

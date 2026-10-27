@@ -102,6 +102,13 @@ Read whole. The master's broad view is .andromeda/security-plan.md; this file ho
 
 <!-- /detail -->
 
+<!-- detail: values · boundary-mcp -->
+
+- **Vector:** MCP over stdio, the driver's stdin lines.
+  - **Trust boundary:** Each stdin line reaches rmcp only through viola's `CappedLines` reader at `MAX_FRAME`, its `\n` counted: an over-long line from the driver is refused whole and ends the MCP session after the earlier lines are answered, never truncated, skipped or dispatched in part, with one `parse-rejected{parser:"mcp-stdin", detail:"oversize", count:1}` WARN holding no byte of it.
+
+<!-- /detail -->
+
 <!-- detail: values · boundary-cli -->
 
 - **Vector:** CLI arguments, flags and environment.

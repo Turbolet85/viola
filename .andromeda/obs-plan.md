@@ -122,7 +122,7 @@ The arch Surfaces product type names two parts: CLI binary and Claude Code plugi
 
 - **Exporter:** the log file of whichever process is on each side; propagation is the `corr` field in log lines, since channel `params` declare no trace-context field, and a merged-log join needs `process`, `instance` and a connection discriminator, a gap for Phase 3; `-32603` is `"internal error"` with `data:null`, and the self-reported `from` is never logged as an authenticated identity.
 
-- **Surface:** ipc-internal (`viola mcp`: stdio MCP server, Tokio allowed)
+- **Surface:** ipc-internal (`viola mcp`: stdio MCP server, Tokio allowed; its stdin read in lines of at most `MAX_FRAME`, a longer line refused whole and the session ended as at a closed stdin)
 
 - **Exporter:** always the file sink `<home>/diagnostics/mcp.ndjson`, stderr JSON only when that file cannot be opened; stdout is forbidden because it carries MCP frames, so the writer is set explicitly; `isError` results and the log lines for rejected calls carry codes only.
 

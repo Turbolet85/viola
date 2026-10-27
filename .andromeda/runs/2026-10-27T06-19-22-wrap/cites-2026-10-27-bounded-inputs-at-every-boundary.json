@@ -1,0 +1,373 @@
+[
+{
+"tool": "cites",
+"v": "1.7",
+"sha8": "2a689b40",
+"ts": "2026-10-27T06:20:07Z",
+"argv": [
+"added",
+"--out",
+".andromeda/runs/2026-10-27T06-19-22-wrap/new-text.md",
+"--run-dir",
+".andromeda/runs/2026-10-27T06-19-22-wrap",
+"--marker",
+"2026-10-27-bounded-inputs-at-every-boundary"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: 4b0bf776 — the parent of the oldest pre-CI commit 607792cb",
+"crates/viola-e2e/tests/mcp_tools.rs — added 134 line(s) in 1 range(s)",
+"crates/viola-mcp/src/lib.rs — added 81 line(s) in 9 range(s)",
+"crates/viola-mcp/src/stdin.rs — new file · 241 line(s)",
+"crates/viola-state/src/fs.rs — added 49 line(s) in 4 range(s)",
+"deny.toml — added 5 line(s) in 1 range(s)",
+"schemas/diag-line.v1.json — added 1 line(s) in 1 range(s)",
+"scripts/deny-probes.sh — added 1 line(s) in 1 range(s)",
+"tests/chaos_feed_panic.rs — added 22 line(s) in 1 range(s)",
+"tests/contract_bounded_readers.rs — new file · 774 line(s)",
+"new text: 9 file(s) · 2 new · 20 added range(s) · 1308 line(s) · 125 block(s) → .andromeda/runs/2026-10-27T06-19-22-wrap/new-text.md (146 lines) · written"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-10-27T06-19-22-wrap/new-text.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"base": "4b0bf776d33f6e862d4a3e2b8d5ef0413ef7a930",
+"counts": {
+"files": 9,
+"new": 2,
+"ranges": 20,
+"lines": 1308,
+"blocks": 125
+},
+"out": ".andromeda/runs/2026-10-27T06-19-22-wrap/new-text.md",
+"state": "written",
+"lines": 146
+}
+},
+{
+"tool": "cites",
+"v": "1.7",
+"sha8": "2a689b40",
+"ts": "2026-10-27T06:25:56Z",
+"argv": [
+"apply",
+"--dry-run",
+"--run-dir",
+".andromeda/runs/2026-10-27T06-19-22-wrap",
+"--marker",
+"2026-10-27-bounded-inputs-at-every-boundary"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: 4b0bf776 — the previous sweep (2026-10-27T02-51-54-wrap)",
+"sites 8 (bare \":digits\" 396) over 115 file(s) · unmoved 4 · moved 0 · stretched 0 · changed 0",
+"out-of-range 0 · unresolved 4 · new 0 · repointed 0 · hand 0 · held 0 · INDETERMINATE 0 · listed, not written 0",
+"rows: 0 owed a read — the cites batch reads them from this call's trail record",
+"unresolved 4: their rows are `map`'s — another repository's file is never touched",
+"dry-run: 0 citation(s) in 0 file(s) — nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"mode": "sweep",
+"base": "4b0bf776d33f6e862d4a3e2b8d5ef0413ef7a930",
+"counts": {
+"unmoved": 4,
+"moved": 0,
+"stretched": 0,
+"changed": 0,
+"out-of-range": 0,
+"unresolved": 4,
+"new": 0,
+"repointed": 0,
+"hand": 0,
+"INDETERMINATE": 0,
+"held": 0,
+"listed": 0
+},
+"rows": [
+{
+"class": "unresolved",
+"file": ".andromeda/test-plan.md",
+"line": 676,
+"col": 317,
+"path": "rstest_macros-0.27.0/src/parse/rstest/files.rs",
+"now": "635",
+"base": "635",
+"to": null,
+"write": false,
+"listed": null,
+"detail": "no such file here at 4b0bf776",
+"text": "",
+"sha": [],
+"citing": "2f72740da953",
+"nth": 0,
+"since": null
+},
+{
+"class": "unresolved",
+"file": ".andromeda/obs-plan-detail/ci-integration.md",
+"line": 39,
+"col": 462,
+"path": "x/src/cmd/hook/seam.rs",
+"now": "3",
+"base": "3",
+"to": null,
+"write": false,
+"listed": null,
+"detail": "no such file here at 4b0bf776",
+"text": "",
+"sha": [],
+"citing": "198eb6627f50",
+"nth": 0,
+"since": null
+},
+{
+"class": "unresolved",
+"file": ".andromeda/obs-plan-detail/ci-integration.md",
+"line": 39,
+"col": 492,
+"path": "seam.rs.bak",
+"now": "3",
+"base": "3",
+"to": null,
+"write": false,
+"listed": null,
+"detail": "no such file here at 4b0bf776",
+"text": "",
+"sha": [],
+"citing": "198eb6627f50",
+"nth": 1,
+"since": null
+},
+{
+"class": "unresolved",
+"file": ".andromeda/obs-plan-detail/ci-integration.md",
+"line": 39,
+"col": 511,
+"path": "seam.rsx",
+"now": "3",
+"base": "3",
+"to": null,
+"write": false,
+"listed": null,
+"detail": "no such file here at 4b0bf776",
+"text": "",
+"sha": [],
+"citing": "198eb6627f50",
+"nth": 2,
+"since": null
+}
+],
+"applied": false,
+"owed": []
+}
+},
+{
+"tool": "cites",
+"v": "1.7",
+"sha8": "2a689b40",
+"ts": "2026-10-27T06:26:00Z",
+"argv": [
+"apply",
+"--run-dir",
+".andromeda/runs/2026-10-27T06-19-22-wrap",
+"--marker",
+"2026-10-27-bounded-inputs-at-every-boundary"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: 4b0bf776 — the previous sweep (2026-10-27T02-51-54-wrap)",
+"sites 8 (bare \":digits\" 396) over 115 file(s) · unmoved 4 · moved 0 · stretched 0 · changed 0",
+"out-of-range 0 · unresolved 4 · new 0 · repointed 0 · hand 0 · held 0 · INDETERMINATE 0 · listed, not written 0",
+"rows: 0 owed a read — the cites batch reads them from this call's trail record",
+"unresolved 4: their rows are `map`'s — another repository's file is never touched",
+"re-pointed 0 citation(s) in 0 file(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"mode": "sweep",
+"base": "4b0bf776d33f6e862d4a3e2b8d5ef0413ef7a930",
+"counts": {
+"unmoved": 4,
+"moved": 0,
+"stretched": 0,
+"changed": 0,
+"out-of-range": 0,
+"unresolved": 4,
+"new": 0,
+"repointed": 0,
+"hand": 0,
+"INDETERMINATE": 0,
+"held": 0,
+"listed": 0
+},
+"rows": [
+{
+"class": "unresolved",
+"file": ".andromeda/test-plan.md",
+"line": 676,
+"col": 317,
+"path": "rstest_macros-0.27.0/src/parse/rstest/files.rs",
+"now": "635",
+"base": "635",
+"to": null,
+"write": false,
+"listed": null,
+"detail": "no such file here at 4b0bf776",
+"text": "",
+"sha": [],
+"citing": "2f72740da953",
+"nth": 0,
+"since": null
+},
+{
+"class": "unresolved",
+"file": ".andromeda/obs-plan-detail/ci-integration.md",
+"line": 39,
+"col": 462,
+"path": "x/src/cmd/hook/seam.rs",
+"now": "3",
+"base": "3",
+"to": null,
+"write": false,
+"listed": null,
+"detail": "no such file here at 4b0bf776",
+"text": "",
+"sha": [],
+"citing": "198eb6627f50",
+"nth": 0,
+"since": null
+},
+{
+"class": "unresolved",
+"file": ".andromeda/obs-plan-detail/ci-integration.md",
+"line": 39,
+"col": 492,
+"path": "seam.rs.bak",
+"now": "3",
+"base": "3",
+"to": null,
+"write": false,
+"listed": null,
+"detail": "no such file here at 4b0bf776",
+"text": "",
+"sha": [],
+"citing": "198eb6627f50",
+"nth": 1,
+"since": null
+},
+{
+"class": "unresolved",
+"file": ".andromeda/obs-plan-detail/ci-integration.md",
+"line": 39,
+"col": 511,
+"path": "seam.rsx",
+"now": "3",
+"base": "3",
+"to": null,
+"write": false,
+"listed": null,
+"detail": "no such file here at 4b0bf776",
+"text": "",
+"sha": [],
+"citing": "198eb6627f50",
+"nth": 2,
+"since": null
+}
+],
+"applied": true,
+"owed": []
+}
+},
+{
+"tool": "cites",
+"v": "1.7",
+"sha8": "2a689b40",
+"ts": "2026-10-27T06:26:01Z",
+"argv": [
+"dispositions",
+"--write",
+"--run-dir",
+".andromeda/runs/2026-10-27T06-19-22-wrap",
+"--marker",
+"2026-10-27-bounded-inputs-at-every-boundary"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dispositions: 0 row(s) · ",
+".andromeda/runs/2026-10-27T06-19-22-wrap/citation-dispositions.md (1 lines) · written",
+"hand re-points: 0 written in 0 file(s) · 0 already written"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-10-27T06-19-22-wrap/citation-dispositions.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"rows": 0,
+"tally": {},
+"state": "written"
+}
+},
+{
+"tool": "cites",
+"v": "1.7",
+"sha8": "2a689b40",
+"ts": "2026-10-27T07:23:50Z",
+"argv": [
+"added",
+"--out",
+".andromeda/runs/2026-10-27T06-19-22-wrap/new-text.md",
+"--run-dir",
+".andromeda/runs/2026-10-27T06-19-22-wrap",
+"--marker",
+"2026-10-27-bounded-inputs-at-every-boundary"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: 4b0bf776 — the parent of the oldest pre-CI commit 607792cb",
+"crates/viola-e2e/tests/mcp_tools.rs — added 134 line(s) in 1 range(s)",
+"crates/viola-mcp/src/lib.rs — added 81 line(s) in 9 range(s)",
+"crates/viola-mcp/src/stdin.rs — new file · 241 line(s)",
+"crates/viola-state/src/fs.rs — added 49 line(s) in 4 range(s)",
+"deny.toml — added 5 line(s) in 1 range(s)",
+"schemas/diag-line.v1.json — added 1 line(s) in 1 range(s)",
+"scripts/deny-probes.sh — added 1 line(s) in 1 range(s)",
+"tests/chaos_feed_panic.rs — added 22 line(s) in 1 range(s)",
+"tests/contract_bounded_readers.rs — new file · 774 line(s)",
+"new text: 9 file(s) · 2 new · 20 added range(s) · 1308 line(s) · 125 block(s) → .andromeda/runs/2026-10-27T06-19-22-wrap/new-text.md (146 lines) · unchanged"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"base": "4b0bf776d33f6e862d4a3e2b8d5ef0413ef7a930",
+"counts": {
+"files": 9,
+"new": 2,
+"ranges": 20,
+"lines": 1308,
+"blocks": 125
+},
+"out": ".andromeda/runs/2026-10-27T06-19-22-wrap/new-text.md",
+"state": "unchanged",
+"lines": 146
+}
+}
+]

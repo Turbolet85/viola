@@ -30,7 +30,7 @@ The frontend is deferred to 0.2.0; its technology is not chosen.
 
 - **Owed:** under `viola revive --json`, a refusal `run`'s start makes after a passed preflight prints no document yet — owed to "Exit-cause code catalogue".
 
-- **Entity:** `viola run` TUI passthrough, entered by `viola run` and by a `viola revive` whose preflight passed — boundary-only: the rendered content belongs to the vendor (`claude`) and is not traced; viola writes zero bytes to the terminal except the child's output, human keystrokes are never blocked, refused or delayed past the current atomic paste, and focus, mouse and resize sequences and terminal replies pass through and do not count as human editing.
+- **Entity:** `viola run` TUI passthrough, entered by `viola run` and by a `viola revive` whose preflight passed — boundary-only: the rendered content belongs to the vendor (`claude`) and is not traced; viola writes zero bytes to the terminal except the child's output, human keystrokes are never blocked, refused or delayed past the current atomic paste, and focus, mouse and resize sequences and terminal replies pass through and do not count as human editing; the boundary still holds after a contained vt100 feed panic (no viola literal on the outer terminal on every OS, the child's own bytes on Unix), its Windows byte reading owed to "Windows-only live measurements".
 
 **Not-assertable (no UI surface)**
 

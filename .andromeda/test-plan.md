@@ -99,7 +99,7 @@ _The one Comprehensive component that does not apply is compliance verification:
   - **Boundary:** cross-surface (hook → IPC `hook.dialog` / `hook.event` → wrapper → disk)
   - **Notes:** traced to arch excerpt, Hooks and security excerpt, Vector 4. Deadline checks apply: spine hooks within the spine deadline, SessionEnd ~1 s.
 
-- **Surface:** tui (`viola run` terminal passthrough, the human's side of the PTY) — driven by an outer-PTY driver that writes keystrokes and bracketed pastes and resizes; its signal is `events.ndjson`, the fake agent's receipt and exit detection on the process handle; assertions never parse the rendered child screen for content, and the readiness gate is tested through its refusal outputs.
+- **Surface:** tui (`viola run` terminal passthrough, the human's side of the PTY) — driven by an outer-PTY driver that writes keystrokes and bracketed pastes and resizes; its signal is `events.ndjson`, the fake agent's receipt, exit detection on the process handle and, for the forced vt100 panic case, a byte search of the outer terminal; assertions never parse the rendered child screen for content, and the readiness gate is tested through its refusal outputs.
 
 - **Surface:** ipc-internal (the wrapper channel, JSON-RPC 2.0 over ndjson) — driven by a language-native IPC client with JSON schema assertion; its signal is the success, refusal or protocol-error payload, cross-checked against the `events.ndjson` cursor; cross-user peer rejection is flagged in section 1.
 
@@ -193,7 +193,7 @@ Covered by E2E suite expansion in Phase 3 if needed (beyond the 7):
   - **Required test type:** fail-open tests on oversize stdin, malformed JSON, clap error, channel failure, a forced panic (on the real binary, through the `fake-agent`-only `FAKE_AGENT_HOOK_PANIC` seam; see §6 Security sweep), and a missing `VIOLA_NAME`. Each must give exit 0 with empty stderr and no body. `statusline_command` must not run when the home fails strict-modes.
 - **Trigger type:** security-vector-coverage (MCP)
   - **Source:** security excerpt, Vector 5
-  - **Required test type:** schema-violating tool calls (non-`ViolaName` `target`, non-`u64` `dialog_id`, open-string `behavior`, control chars in `text`) are rejected by the handler. `isError` payloads carry codes only.
+  - **Required test type:** schema-violating tool calls (non-`ViolaName` `target`, non-`u64` `dialog_id`, open-string `behavior`, control chars in `text`) are rejected by the handler. `isError` payloads carry codes only. A `viola mcp` stdin line past `MAX_FRAME` is refused whole and ends the session: the earlier lines answered, exit 0, stderr empty, stdout only the earlier frames, and one `parse-rejected` `mcp-stdin` / `oversize` WARN line holding no byte of it.
 - **Trigger type:** security-vector-coverage (CLI and env)
   - **Source:** security excerpt, Vector 6
   - **Required test type:** negative tests covering:
@@ -224,7 +224,7 @@ Covered by E2E suite expansion in Phase 3 if needed (beyond the 7):
     - oversize / malformed `claude agents --json` → `unknown`
     - row `name` never usable as a `target`
     - human-mode `list` / `wait` / `last` escape C0/C1
-    - forced vt100 panic → `not-delivered`/`input-not-ready` with passthrough continuing
+    - forced vt100 panic → `not-delivered`/`input-not-ready` with passthrough continuing, witnessed on the outer terminal: the child's own bytes reach it on Unix and no viola literal appears on it on every OS (the Windows byte reading owed to the route entry "Windows-only live measurements")
 - **Trigger type:** security-vector-coverage (supply chain)
   - **Source:** security excerpt, Vector 9; arch excerpt, Stack (tokio ban)
   - **Required test type:** CI gates on exit code: `cargo deny check` (only ignore RUSTSEC-2017-0008), `cargo check` of sync crates without tokio, zizmor on workflows, SHA-pinned Actions assertion.
@@ -379,13 +379,15 @@ threshold.
 
 - **viola-channel:** the ndjson frame codec at the `MAX_FRAME` boundary, the JSON-RPC error mapping, the FNV-1a endpoint golden vectors, the peer-credential decision with injected euids, the connected stream's server pid on each OS, and Windows handle non-inheritance.
 
-- **viola-state:** the one-`write`-per-line writer, the reader's three skip counts (it counts and never panics), the appender's heal, the snapshot envelope's classified read and the replay, the pure liveness classifier fed ages directly (no clock), the pure server verdict's decision table, Unix strict-modes and Windows strict-modes (the write and the read rule) over synthetic SDDL descriptors and, on `windows-2025`, real grants, the instance check, the home-tree and diagnostics checks, `live_endpoint` over a replayed snapshot, the stamps and pin strict-modes refusals, and the pinned copy's no-clobber placement (`fs::place_private_new`) and the re-hash of a copy another start placed (`pin::place_absent`).
+- **viola-state:** the one-`write`-per-line writer, the reader's three skip counts (it counts and never panics), the appender's heal, the snapshot envelope's classified read and the replay, the pure liveness classifier fed ages directly (no clock), the pure server verdict's decision table, Unix strict-modes and Windows strict-modes (the write and the read rule) over synthetic SDDL descriptors and, on `windows-2025`, real grants, the instance check, the home-tree and diagnostics checks, `live_endpoint` over a replayed snapshot, the stamps and pin strict-modes refusals, and the pinned copy's no-clobber placement (`fs::place_private_new`) and the re-hash of a copy another start placed (`pin::place_absent`), and the bounded compare read of `replace_private_shared` (at most one byte past the bytes, its outcome a whole-file compare's).
 
 - **viola-agent-claude:** hook payload parsing per recorded fixture set (unknown fields counted, not fatal), the insta-pinned dialog mapping, the R8 strip against a literal copy of the identity floor (never imported), npm-shim resolution, the version gate, the statusline and `claude agents --json` parsers, `prompt-submitted` normalisation, the `typed_text` rule, the ledger rows' arms and the screen signatures; content beyond the compiled literals is never asserted.
 
 - **viola-mcp:** handler re-validation:
   - a non-`ViolaName` `target`, a non-`u64` `dialog_id`, an open-string `behavior` and control chars in `text` all give `isError:true` with code-only payloads
   - `tools/list` is exactly `send, wait, last, answer, list`
+  - the stdin line cap: a line of exactly `MAX_FRAME` bytes, its newline counted, passes whole, and one byte more passes no byte and reads as end of stream across any split of the reads; `serve` ends the session at a line past the cap
+  - not driven by any test: a stdin line past `MAX_FRAME` landing before `initialize` completes ends `serve` with `ServeError::Initialize` (exit 11), as a closed stdin before `initialize` does; owner: the route entry "Sanitised error surfaces", as a PREREQ
 
 - **root bin:** the exit-code mapping (an unknown refusal maps to exit 14, never a panic and never 20), the wheel state machine, the budget governor's pure decision and override expiry, the send-confirmation matcher and the local-command decision, the clock-driven `wait` handler, the `send` and `answer` refusal ordering, the server check refused inside each frame verb's and the hook's span with each closed unreachable cause logged, human-mode C0/C1 escaping, the clock-driven dialog hold, the readers over a replayed snapshot (the collision check reading the beat alone, hook `connect` unreachable, statusline `serve` running nothing), and the diagnostics opens refusing a widened or symlinked path and leaving it as found.
 
@@ -468,7 +470,7 @@ Detail: .andromeda/test-plan-detail/e2e-test-strategy.md — read whole.
 
 - **cli (`viola hook` / `hook statusline`):** assert_cmd with an `Instant` deadline over recorded fixture stdin; `.env_clear()` must re-add `LLVM_PROFILE_FILE`.
 
-- **tui (`viola run` passthrough):** a portable-pty outer PTY over the `viola-pty` seam; exit only via `child.wait()`, the master reader drained on its own thread, verdicts from `events.ndjson`, the receipt and the exit status.
+- **tui (`viola run` passthrough):** a portable-pty outer PTY over the `viola-pty` seam; exit only via `child.wait()`, the master reader drained on its own thread, verdicts from `events.ndjson`, the receipt and the exit status, and for the forced vt100 panic chaos case a byte search of the drained master reader's stream (the child's own bytes on Unix, no viola literal on every OS), never a parse of the rendered screen.
 
 - **ipc-internal (wrapper channel):** the sync client, a raw interprocess stream and jsonschema; the endpoint is read only from `snapshot.json`.
 
@@ -613,11 +615,12 @@ Detail: .andromeda/test-plan-detail/e2e-test-strategy.md — read whole.
 - **Cross-surface parity:**
   - for the same refusal, the MCP `structured_content` `{refusal, detail}` equals the CLI `--json` `{refusal, detail}`
 
-- **Chaos suite** (`chaos_*.rs`): a torn append counted and healed on a fresh line, a no-EOF child's exit detected on the handle, an endpoint vanishing during `wait` (exit 21), a SIGSTOPped wrapper read `stale` and its name refused to a new `run`, a forced vt100 panic refusing `send` `input-not-ready` while passthrough continues, forward-compat lines counted in `skipped`, a start over a truncated or `v:99` snapshot replaying the log and a fresh beat over the replayed snapshot refusing the start `already-live` (`chaos_snapshot_replay.rs`), and a `.cmd` child refused exit 1.
+- **Chaos suite** (`chaos_*.rs`): a torn append counted and healed on a fresh line, a no-EOF child's exit detected on the handle, an endpoint vanishing during `wait` (exit 21), a SIGSTOPped wrapper read `stale` and its name refused to a new `run`, a forced vt100 panic refusing `send` `input-not-ready` while passthrough continues on the outer terminal (§1 security-vector-coverage (child spawn)), forward-compat lines counted in `skipped`, a start over a truncated or `v:99` snapshot replaying the log and a fresh beat over the replayed snapshot refusing the start `already-live` (`chaos_snapshot_replay.rs`), and a `.cmd` child refused exit 1.
 
 - **Property suite** (proptest, `cases: 512`): `validate_paste_text`, ndjson framing at `MAX_FRAME` ± 1, the hook stdin and statusline parsers, the `claude agents --json` parser, the vt100 feed under `catch_unwind` and `prompt-submitted` normalisation; cargo-fuzz targets in the separate `fuzz/` workspace join as their parsers land.
 
-- **Contract suite** (`contract_*.rs`): for each recorded fixture set, walked at run time (an empty walk fails), the fake agent's hook sequence and payloads equal the recorded order and bytes, never an insta snapshot; the forwarded `annotations` are asserted; every fixture is checked against the tolerant parser schema; and the pinned-exe content hash is pinned to its library by literal vectors.
+- **Contract suite** (`contract_*.rs`): for each recorded fixture set, walked at run time (an empty walk fails), the fake agent's hook sequence and payloads equal the recorded order and bytes, never an insta snapshot; the forwarded `annotations` are asserted; every fixture is checked against the tolerant parser schema; the pinned-exe content hash is pinned to its library by literal vectors; and `tests/contract_bounded_readers.rs` holds the bounded-reader enumeration: its `BOUNDARIES` table names each external reader's bounded read and a witness test, its `EXCEPTIONS` table the reads that take no external input, and a census over the product sources reads every reader bounded in-statement or named (`boundaries_each_name_a_bounded_read_that_stands`, `product_readers_are_each_bounded_or_named`, the census's self-check `census_finds_an_unbounded_read_and_passes_a_bounded_one`), beside `serde_json_unbounded_depth_is_banned_in_deny_toml`.
+  - Owed: the enumeration's rows for the status-line command's stdout, the child pipe drain shared by `claude --version` and `claude agents --json`, and the `config.json` readers of the thresholds, the dialog hold and `claude_env_keep` name a witness that reads the bounded read without driving past its cap, so their caps are held by the row's needle and the census alone; owner: the route entry "Sanitised error surfaces", as a PREREQ (a cap-driving case for each row).
 
 (See `## 11. Test Anti-Patterns` § E2E for E2E-level bans.)
 
@@ -791,7 +794,7 @@ The agent reads job conclusions with `gh run view --json jobs` and fetches artif
 - Coverage falls below threshold (Section 10) on any OS
 - A hyperfine budget breach, or a fuzz corpus replay crash
 - Lint errors: fmt, clippy `-D warnings`, a sync crate listed in `scripts/sync-crates.txt` failing to build without tokio (or an empty list), a cargo-modules orphan in any lib/bin target (`scripts/orphans-check.sh` not ending `N/N targets clean`, or its probe not ending `2/2 fired, control clean`), `scripts/rmcp-features.sh` not ending `rmcp-features: server transport-io` (rmcp absent from `viola`'s release graph, or a feature beyond `server` + `transport-io` requested)
-- Supply-chain errors: a cargo deny ban/advisory/licence/source finding, a `fuzz/Cargo.lock` advisory or source finding, a listed sync crate failing the sole-root `deny-sync.toml` tokio ban, `scripts/channel-tokio-free.sh` not ending `channel-tokio-free: ok` (`viola-channel` reaching tokio without its feature, or its control reading none), `scripts/deny-probes.sh` not ending `deny-probes: 13/13 banned, control clean` (one probe per ban, plus the tree form's), a zizmor finding, or the weekly `nightly.yml` advisories run (root and fuzz lockfiles) failing
+- Supply-chain errors: a cargo deny ban/advisory/licence/source finding, a `fuzz/Cargo.lock` advisory or source finding, a listed sync crate failing the sole-root `deny-sync.toml` tokio ban, `scripts/channel-tokio-free.sh` not ending `channel-tokio-free: ok` (`viola-channel` reaching tokio without its feature, or its control reading none), `scripts/deny-probes.sh` not ending `deny-probes: 14/14 banned, control clean` (one probe per ban, plus the tree form's), a zizmor finding, or the weekly `nightly.yml` advisories run (root and fuzz lockfiles) failing
 - Release-build errors: `scripts/release-check.sh` not ending `release-check: viola only`, or its probe not ending `release-check probes: 5/5 refused, control clean`
 - ConPTY vendor errors (`windows-2025`): `scripts/conpty-vendor.sh --verify` not ending `conpty-vendor: verified <version>`, or its `--probe` not ending `conpty-vendor probe: 4/4 refused, control clean`
 - Quality gate check fails
