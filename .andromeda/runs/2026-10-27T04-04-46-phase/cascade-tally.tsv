@@ -1,0 +1,7 @@
+side	doc	entities	batches	yes	groups	carried	not_carried	false_yes	sampled	held	lost_classify	lost_strong	cascade_only	no_fit	facts	placed	by_pass	no_home	beside_fact	standing	listed	draws	one_draw_yes
+phase	architecture	144	11	92	5	83	9	0.098	no	-	-	-	-	-	-	-	-	-	-	6	-	2	11
+phase	security-plan	94	10	58	3	49	9	0.155	no	-	-	-	-	-	-	-	-	-	-	11	-	2	5
+phase	design-system	192	14	58	4	32	26	0.448	no	-	-	-	-	-	-	-	-	-	-	10	-	2	16
+phase	test-plan	147	12	109	8	84	25	0.229	no	-	-	-	-	-	-	-	-	-	-	8	-	2	19
+phase	obs-plan	270	15	205	10	150	55	0.268	no	-	-	-	-	-	-	-	-	-	-	17	-	2	32
+phase	a11y-plan	32	4	20	1	15	5	0.250	no	-	-	-	-	-	-	-	-	-	-	1	-	2	5

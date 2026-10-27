@@ -106,5 +106,27 @@ fn chaos_feed_panic_refuses_send_and_keeps_passthrough() {
         of_kind(l, "key").iter().any(|k| k["hex"] == "6b")
     });
     assert!(of_kind(&receipt, "prompt").is_empty(), "nothing was typed");
+
+    // The child's own output still reaches the human: the very bytes that panicked the feed. Unix
+    // only, where the outer terminal shows the child's bytes as written; ConPTY re-renders them.
+    #[cfg(unix)]
+    {
+        let watch = Watch::start("shown");
+        let deadline = Instant::now() + WITHIN;
+        while !wrapper.shown().windows(3).any(|w| w == [0xe4, 0xb8, 0xad]) {
+            watch.note("the panicking bytes not yet shown");
+            watch.deadline_check(deadline, "timed out waiting for the child's bytes");
+            std::thread::yield_now();
+        }
+    }
+    let shown = wrapper.shown();
+    for literal in ["panic", "parse-rejected", "vt100", "unable", "hint:"] {
+        assert!(
+            !shown
+                .windows(literal.len())
+                .any(|w| w == literal.as_bytes()),
+            "viola's own `{literal}` reached the outer terminal"
+        );
+    }
     wrapper.stop();
 }

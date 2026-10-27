@@ -1,0 +1,112 @@
+[
+{
+"tool": "matrix",
+"v": "1.5",
+"sha8": "6cb09937",
+"ts": "2026-10-27T05:34:57Z",
+"argv": [
+"coverage",
+"--dir",
+"viola-0.1.0",
+"--run-dir",
+".andromeda/runs/2026-10-27T04-04-46-phase",
+"--marker",
+"2026-10-27-bounded-inputs-at-every-boundary"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"verified 25/53 · deferred 6 · planned 21 · implemented 1 · unclaimed 21",
+"unclaimed: v1-01 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-13 v1-18 v1-21 v1-24 v1-26 v1-27 v1-34 v1-35",
+"          v1-36 v1-44 v1-46 v1-47 v1-53",
+"claimed-unfinished: none",
+"done-test: NO — 22 not verified|deferred · unclaimed 21",
+"chunks referenced: 23 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.5",
+"sha8": "6cb09937",
+"ts": "2026-10-27T05:35:25Z",
+"argv": [
+"claim",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-46",
+"--chunk",
+"2026-10-27-bounded-inputs-at-every-boundary",
+"--acceptance-file",
+".andromeda/runs/2026-10-27T04-04-46-phase/acceptance-v1-46.md",
+"--note-file",
+".andromeda/runs/2026-10-27T04-04-46-phase/note-v1-46.md",
+"--run-dir",
+".andromeda/runs/2026-10-27T04-04-46-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claim v1-46 → chunk 2026-10-27-bounded-inputs-at-every-boundary (was null; status planned kept)",
+"acceptance: Every external reader is size-capped, depth-limited and closed-typed; … (323 chars)",
+"         → Every external reader is size-capped, depth-limited and closed-typed; … (1349 chars)",
+"notes: +579 chars (total 1404)",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed",
+"pool: unclaimed 20 [v1-01 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-13 v1-18 v1-21 v1-24 v1-26 v1-27 v1-34 v1-35 v1-36 v1-44 v1-47 v1-53]"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-46",
+"chunk": null,
+"status": "planned",
+"method": "unit",
+"ref": "null",
+"acceptance": "Every external reader is size-capped, depth-limited and closed-typed; names are validated before any path join; a malfor… (323 chars)",
+"notes_chars": 823
+},
+"after": {
+"id": "v1-46",
+"chunk": "2026-10-27-bounded-inputs-at-every-boundary",
+"status": "planned",
+"method": "unit",
+"ref": "null",
+"acceptance": "Every external reader is size-capped, depth-limited and closed-typed; names are validated before any path join; the past… (1349 chars)",
+"notes_chars": 1404
+}
+},
+{
+"tool": "matrix",
+"v": "1.5",
+"sha8": "6cb09937",
+"ts": "2026-10-27T05:35:25Z",
+"argv": [
+"audit",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-27-bounded-inputs-at-every-boundary",
+"--plan",
+"viola-0.1.0/chunks/2026-10-27-bounded-inputs-at-every-boundary/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-27T04-04-46-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-10-27-bounded-inputs-at-every-boundary: 1 · ## Acceptance Criteria: line 355, 36 lines",
+"v1-46: cited in ## Acceptance Criteria (line 356)",
+"pool: unclaimed 20 [v1-01 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-13 v1-18 v1-21 v1-24 v1-26 v1-27 v1-34 v1-35 v1-36 v1-44 v1-47 v1-53]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

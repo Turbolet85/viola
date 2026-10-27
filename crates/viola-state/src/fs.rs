@@ -4,7 +4,7 @@
 //! DACL instead (the same row), and the check is `crate::strict`'s.
 
 use std::fs::{self, File, OpenOptions};
-use std::io::{self, Write as _};
+use std::io::{self, Read as _, Write as _};
 use std::path::{Component, Path};
 use std::time::Duration;
 
@@ -351,9 +351,20 @@ fn place_private_new_with(
 /// open — is still done when the file already holds exactly `bytes`.
 pub fn replace_private_shared(path: &Path, bytes: &[u8], mode: u32) -> Result<(), StateError> {
     match replace_private(path, bytes, mode) {
-        Err(e) if fs::read(path).ok().as_deref() != Some(bytes) => Err(e),
+        Err(e) if !holds_exactly(path, bytes) => Err(e),
         _ => Ok(()),
     }
+}
+
+/// Whether `path` holds exactly `bytes`, read through at most one byte past them: a longer file
+/// differs at that byte, so the outcome is a whole-file compare's without buffering the file.
+fn holds_exactly(path: &Path, bytes: &[u8]) -> bool {
+    let Ok(file) = File::open(path) else {
+        return false;
+    };
+    let cap = u64::try_from(bytes.len()).map_or(u64::MAX, |len| len.saturating_add(1));
+    let mut read = Vec::new();
+    file.take(cap).read_to_end(&mut read).is_ok() && read == bytes
 }
 
 #[cfg(test)]
@@ -369,6 +380,42 @@ mod tests {
         let fresh = tmp.path().join("fresh");
         replace_private_shared(&fresh, b"new", FILE_MODE).expect("written");
         assert_eq!(fs::read(&fresh).expect("read"), b"new");
+    }
+
+    /// The compare reads at most one byte past `bytes`: a target holding `bytes` and more is no
+    /// match, so a failed replace over it stays an error; an equal, a shorter and a different
+    /// target are judged as a whole-file compare judges them.
+    #[test]
+    fn replace_private_shared_reads_no_more_than_one_byte_past_the_bytes() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let path = tmp.path().join("target");
+        let cases: [(&[u8], bool); 4] = [
+            (b"same", true),
+            (b"same+", false),
+            (b"sam", false),
+            (b"diff", false),
+        ];
+        for (seed, expected) in cases {
+            fs::write(&path, seed).expect("seed");
+            assert_eq!(holds_exactly(&path, b"same"), expected, "{seed:?}");
+        }
+        assert!(!holds_exactly(&tmp.path().join("absent"), b"same"));
+        #[cfg(unix)]
+        {
+            use std::os::unix::fs::PermissionsExt as _;
+            let dir = tmp.path().join("held");
+            fs::create_dir(&dir).expect("dir");
+            let held = dir.join("file");
+            fs::write(&held, b"same+").expect("seed");
+            let set_mode = |mode: u32| {
+                fs::set_permissions(&dir, fs::Permissions::from_mode(mode)).expect("chmod")
+            };
+            set_mode(0o500);
+            let refused = replace_private(&held, b"same", FILE_MODE).is_err();
+            let longer = replace_private_shared(&held, b"same", FILE_MODE);
+            set_mode(0o700);
+            assert_eq!(longer.is_err(), refused, "a longer target is no match");
+        }
     }
 
     fn names_in(dir: &Path) -> Vec<std::ffi::OsString> {

@@ -1,0 +1,7 @@
+# tests · picked accounting · group 3 of 8
+
+## Picked
+unit-test-strategy#1.1 · carried · the frame codec at `MAX_FRAME` ± 1 and the JSON-RPC error mapping (-32600 oversize, -32601 / -32602 closed methods and params) are the IPC size-cap and closed-type witnesses the chunk re-asserts; its endpoint, peer-credential, handle and server-pid rows are owed to "Unix endpoint and home hardening"
+unit-test-strategy#1.2 · carried · the `events.ndjson` reader's three skip counts (an over-long line in `torn_lines`), the snapshot's classified read of an unreadable or unsupported file and the pin key's shape are the file-cap, skip-count and pinned-key witnesses the scope names; its strict-modes, liveness, server-verdict and placement rows are owed to other entries
+unit-test-strategy#1.3 · carried · hook payload parsing, the question / Stop data keys, the statusline and `claude agents --json` parsers, the `typed_text` rule and the vt100 feed's `catch_unwind` degrade are each a boundary the scope re-verifies; its R8, dialog-mapping, shim, version-gate, normalisation and ledger rows are not in the chunk's needs
+unit-test-strategy#2.1 · carried · the unknown-refusal exit 14, the `Percent` / `budget_read_*` and `read_hold` config bounds, the paste rule in the send matcher, the `send` / `answer` refusal ordering and the link set's bad-pair `invalid-params` are the closed-type, config-bound, paste-rule and name witnesses the scope re-verifies; its wheel, wait, escaping, capture, server-check and diagnostics rows are owed elsewhere or are output-side

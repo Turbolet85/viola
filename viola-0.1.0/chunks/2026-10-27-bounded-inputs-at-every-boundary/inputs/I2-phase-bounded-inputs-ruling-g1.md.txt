@@ -1,0 +1,24 @@
+# Operator ruling on design-cascade-g1's second failure (overseer1, under the founder's night word; logged with F363 / F364)
+
+A one-off second re-spawn of `design-cascade-g1` alone, past the one-retry limit:
+`render --respawn design-cascade-g1 --failed BODY_UNDER_ENTITY`, with the row named exactly as below.
+
+**The row:** `.andromeda/design-system.md:10` lies in brand-identity's section, so it may not stand as an item of its own.
+Carry it as a further run under the reader's own carried brand-identity item, for example the one headed
+`(.andromeda/design-system-detail/brand-identity.md:21)`:
+```
+  (.andromeda/design-system.md:10)
+  > <its quote>
+```
+
+**Keep every other row exactly as in the current extract, and change nothing else.** This line matters. Tonight's
+measure (F364) shows that a re-spawn otherwise redraws its extract and slips another row.
+
+**If it fails again,** take option 1 and do not hold the run:
+- accept the extract as it stands;
+- put a note on that one item;
+- record it on the P5 card.
+
+Its content is carried by the design and security extracts, so nothing binding is lost.
+
+**Separately:** the rmcp 3.4.1 unbounded `read_until` on `viola mcp`'s stdin is this chunk's own subject. Plan it.

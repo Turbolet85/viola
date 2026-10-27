@@ -1,0 +1,49 @@
+[
+{
+"tool": "matrix",
+"v": "1.5",
+"sha8": "6cb09937",
+"ts": "2026-10-27T05:58:41Z",
+"argv": [
+"implement",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-27-bounded-inputs-at-every-boundary",
+"--id",
+"v1-46",
+"--ref-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-27T05-37-33-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"implement v1-46 · status planned → implemented · ref tests/contract_bounded_readers.rs (boundaries_each_name_a_bounded_read_that_stan… (922 chars)",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-46",
+"chunk": "2026-10-27-bounded-inputs-at-every-boundary",
+"status": "planned",
+"method": "unit",
+"ref": "null",
+"acceptance": "Every external reader is size-capped, depth-limited and closed-typed; names are validated before any path join; the past… (1349 chars)",
+"notes_chars": 1404
+},
+"after": {
+"id": "v1-46",
+"chunk": "2026-10-27-bounded-inputs-at-every-boundary",
+"status": "implemented",
+"method": "unit",
+"ref": "tests/contract_bounded_readers.rs (boundaries_each_name_a_bounded_read_that_stands, product_readers_are_each_bounded_or_… (922 chars)",
+"acceptance": "Every external reader is size-capped, depth-limited and closed-typed; names are validated before any path join; the past… (1349 chars)",
+"notes_chars": 1404
+}
+}
+]

@@ -55,3 +55,8 @@ reason = "the MCP server is stdio-only; every 2026 rmcp advisory sits in these f
 crate = "tracing-subscriber"
 deny = ["env-filter"]
 reason = "log levels come only from config.json; no EnvFilter or RUST_LOG"
+
+[[bans.features]]
+crate = "serde_json"
+deny = ["unbounded_depth"]
+reason = "every parse of external bytes keeps serde_json's default recursion limit"

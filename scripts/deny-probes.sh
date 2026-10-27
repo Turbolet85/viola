@@ -29,6 +29,7 @@ probes=(
   "rmcp-transport-streamable-http-server|deny.toml|error[feature-banned]: feature 'transport-streamable-http-server' for crate 'rmcp = |rmcp = { version = \"3.4\", default-features = false, features = [\"transport-streamable-http-server\"] }"
   "rmcp-auth|deny.toml|error[feature-banned]: feature 'auth' for crate 'rmcp = |rmcp = { version = \"3.4\", default-features = false, features = [\"auth\"] }"
   "tracing-subscriber-env-filter|deny.toml|error[feature-banned]: feature 'env-filter' for crate 'tracing-subscriber = |tracing-subscriber = { version = \"0.3\", default-features = false, features = [\"env-filter\"] }"
+  "serde_json-unbounded-depth|deny.toml|error[feature-banned]: feature 'unbounded_depth' for crate 'serde_json = |serde_json = { version = \"1\", features = [\"unbounded_depth\"] }"
 )
 
 # The empty [workspace] table keeps each probe out of the viola workspace that encloses target/.

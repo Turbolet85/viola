@@ -1,0 +1,37 @@
+# security extract
+
+## Relevance
+relevant — the chunk is the plan's own input-validation floor (size, depth, closed types, names, paste rule, vt100 feed) taken across every boundary at once.
+
+## Constraints
+- Every external reader is capped before it buffers: security-plan §Input Validation (Constants) requires one `MAX_FRAME` const in `viola-core` to cap every external read it lists (channel frames, hook stdin, statusline source and command stdout, `answer` input, sent text, child output, ndjson lines, `config.json`, the stamps read), with the `MAX_FRAME + 1` form where an over-limit read must be detected rather than truncated (hook stdin, `send` text, `claude agents --json`, the events reader, the stamps read). Whether each reader the scope enumerates (the `mcp` stdin, both channel sides, the vt100 feed, `--version`, `snapshot.json`, `budget.json`, `statusline-source.json`, `settings.json`) already reads through one is research's question.
+- An over-limit read has a fixed outcome per boundary: security-plan §Input Validation (Channel frames row; detail `.andromeda/security-plan-detail/input-validation.md`) requires `-32600` and the connection closed on the channel; security-plan §Input Validation (Hook stdin row) requires an over-limit hook payload detected and failed open (exit 0, no body), never silently truncated.
+- Depth: security-plan §Input Validation (Channel frames row) requires serde_json's default recursion limit on every parse of external bytes and never `unbounded_depth`, anywhere in the product graph.
+- Closed types: security-plan §Input Validation (Hook stdin, Channel frames, MCP tool inputs and Configuration values rows) requires the hook event into the closed `HookEvent`, the dialog kind and decision body into closed enums, `behavior` closed and `dialog_id` a `u64`, MCP arguments checked by each handler on the raw argument object (the schemars schemas advisory only), and config values into `Percent` / `DialogHold` / the closed `diagnostics_level` set with a bad value taking its default and reported `parse-rejected`, never switching a control off.
+- Names before path joins: security-plan §Input Validation (CLI arguments / stdin row) requires every name through `ViolaName::try_new`; security-plan §Input Validation (Tailed paths row) requires a tailed `instances/<name>` only for a name that passes it, symlinks ignored; security-plan §Input Validation (Session id as a child argv value row) requires the `--resume` id of the closed session-id shape, built only by `resume_args`; security-plan §Input Validation (Child process output row) requires an unwrapped `claude agents --json` row `name` never to be a `ViolaName` or `target`.
+- Paste rule on both sides: security-plan §Input Validation (Paste text row) requires `validate_paste_text` over decoded `char`s (LF, CR, TAB allowed; other C0, DEL, C1 refused whole, never stripped) client-side before any frame (CLI `send`, MCP `send`) and again, authoritatively, in the wrapper before anything is typed, an empty typed text refused `empty-text`; security-plan §Input Validation (Dialog free text row) requires the same set on `answer` free text, in `viola answer` before any frame and in the wrapper's `answer` handler.
+- Terminal-parser panic: security-plan §Input Validation (PTY output bytes row) requires the vt100 feed under `catch_unwind` with the human's bytes written first, a caught panic or dropped copy poisoning the model to `input-not-ready`, and a bounded feed queue whose full state never blocks passthrough.
+
+## Patterns to follow
+- Shared validators in `viola-core`, called by CLI, MCP and the wrapper alike (per security-plan §Input Validation, Boundary preamble).
+- The `MAX_FRAME + 1` over-size detection read with a closed outcome (e.g. `claude agents --json` into rows or the closed `AgentsFailure` `oversize` · `malformed`, one `parse-rejected` line), per security-plan §Input Validation (Child process output row).
+- Tolerant parse with skip-and-count for viola's own formats: the one `events.ndjson` reader counting `torn_lines` / `unknown_kinds` / `unknown_fields`, per security-plan §Input Validation (Own state files on read row).
+- MCP handlers reading the raw argument object, a failure `invalid-params` with a closed field word and no frame, per security-plan §Input Validation (MCP tool inputs row).
+- CLI name positionals through a clap `value_parser` calling `ViolaName::try_new`, per security-plan §Input Validation (CLI arguments / stdin row).
+
+## Anti-patterns to avoid
+- NEVER call `read_line` on a channel stream or `read_to_end` on hook stdin or child output without `Read::take(MAX_FRAME)`, and NEVER enable serde_json's `unbounded_depth` (per security-plan §Security Anti-Patterns › Input).
+- NEVER trust schemars MCP schemas or client-side CLI checks alone, NEVER join `instances/<name>` with a string that did not come out of `ViolaName::try_new`, and NEVER model `behavior`, `dialog_id`, the wheel holder or the dialog kind as free `String`s (per security-plan §Security Anti-Patterns › Input).
+- NEVER run the control-character check over raw bytes or strip a refused character silently, and NEVER feed vt100 outside `catch_unwind` (per security-plan §Security Anti-Patterns › Input and › Code Patterns).
+
+## Contract bindings
+- security ↔ tests: security-plan §Input Validation (Parser surfaces) names the fuzz / property scope (`validate_paste_text`, channel ndjson framing with `MAX_FRAME`, the hook stdin parser incl. `hook statusline`, the `claude agents --json` parser, the vt100 feed under `catch_unwind`); the test plan owns the cases and the boundary enumeration's witnesses.
+- security ↔ obs: the rejections a capped or tolerant read emits are `parse-rejected{parser:…}` lines (`hook-stdin`, `config-json`, `claude-agents-json`, `vt100-feed`, `ledger-stamps`) per security-plan §Input Validation; their schema and catalog are obs's.
+- security ↔ architecture: `MAX_FRAME` is checked against data, the stamped largest hook payload within a factor of 4 being the signal to revisit the cap (per security-plan §Input Validation, Constants); the ledger row behind it is arch's.
+- security ↔ next entry: the refusal and error bodies these checks produce (`-32600`, `-32602`, `not-delivered` / `control-character` · `empty-text`, `invalid-params`) take their shapes from security-plan §Error Handling (Error format); their sanitisation is the "Sanitised error surfaces" entry's, not this chunk's.
+
+## Acceptance criteria contributions
+- For each enumerated external reader, a payload of `MAX_FRAME + 1` bytes is bounded with that boundary's outcome (channel `-32600` and the connection closed; hook exit 0, no body; `claude agents --json` `oversize`; `send` exit 2 with one fixed line), and the enumeration names every reader with its cap, depth and type rule (per security-plan §Input Validation, Constants).
+- No `unbounded_depth` feature appears in any product manifest or in the product graph of `Cargo.lock` (per security-plan §Security Anti-Patterns › Input).
+- A text holding ESC, DEL or U+009B is refused `not-delivered` / `control-character` with nothing typed at CLI `send`, MCP `send` and a raw channel `send` to the wrapper, while LF/CR/TAB and multi-byte UTF-8 pass (per security-plan §Input Validation, Paste text row).
+- A vt100 input known to panic (a 24×1 screen plus a wide character) leaves the human passthrough byte-intact and readiness `input-not-ready` (per security-plan §Input Validation, PTY output bytes row).

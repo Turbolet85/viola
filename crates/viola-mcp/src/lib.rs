@@ -5,16 +5,19 @@
 //! and the board, and this crate reads no environment variable.
 
 mod result;
+mod stdin;
 mod tools;
 
 use std::io;
 use std::path::PathBuf;
 use std::sync::Arc;
+use std::sync::atomic::Ordering;
 
 use rmcp::ServiceExt as _;
 use rmcp::model::{CallToolResult, ErrorData, JsonObject};
 use serde_json::Value;
-use viola_core::ViolaName;
+use viola_core::obs::ObsEvent;
+use viola_core::{MAX_FRAME, ViolaName, obs_event};
 
 pub use tools::{TOOL_NAMES, WAIT_CAP, wait_timeout};
 
@@ -57,7 +60,8 @@ impl Tools {
     }
 }
 
-/// Serves the five tools over stdin / stdout until stdin closes. stdout carries MCP frames only.
+/// Serves the five tools over stdin / stdout until stdin closes or a stdin line passes
+/// `MAX_FRAME`, which ends the session as a close does. stdout carries MCP frames only.
 pub fn serve(
     home: PathBuf,
     own_name: Option<ViolaName>,
@@ -69,15 +73,32 @@ pub fn serve(
         .map_err(ServeError::Runtime)?;
     runtime.block_on(async move {
         let server = tools::Server::new(home, own_name, list);
-        let running = server
-            .serve(rmcp::transport::stdio())
-            .await
-            .map_err(|_| ServeError::Initialize)?;
-        match running.waiting().await {
-            Ok(rmcp::service::QuitReason::JoinError(_)) | Err(_) => Err(ServeError::Session),
-            Ok(_) => Ok(()),
+        let (stdin, stdout) = rmcp::transport::stdio();
+        let stdin = stdin::CappedLines::new(stdin, MAX_FRAME);
+        let cut = stdin.cut_flag();
+        let served = match server.serve((stdin, stdout)).await {
+            Err(_) => Err(ServeError::Initialize),
+            Ok(running) => match running.waiting().await {
+                Ok(rmcp::service::QuitReason::JoinError(_)) | Err(_) => Err(ServeError::Session),
+                Ok(_) => Ok(()),
+            },
+        };
+        if cut.load(Ordering::Relaxed) {
+            reject_oversize_line();
         }
+        served
     })
+}
+
+/// The one line an over-long stdin line writes: codes only, no byte of the line.
+fn reject_oversize_line() {
+    obs_event!(
+        WARN,
+        ObsEvent::ParseRejected,
+        parser = "mcp-stdin",
+        detail = "oversize",
+        count = 1u64,
+    );
 }
 
 #[cfg(test)]
@@ -106,17 +127,8 @@ mod tests {
         std::process::exit(code);
     }
 
-    /// stdin at EOF before any `initialize`: the session never initializes.
-    #[test]
-    fn serve_on_a_closed_stdin_is_the_initialize_error() {
-        let mut child = Command::new(std::env::current_exe().expect("the test binary"))
-            .args(["--exact", "tests::serve_child_entry"])
-            .env(CHILD, "1")
-            .stdin(Stdio::null())
-            .stdout(Stdio::null())
-            .stderr(Stdio::null())
-            .spawn()
-            .expect("the child");
+    /// The child's exit code, the child killed and `None` past its 5 s bound.
+    fn exit_code_within_bound(child: &mut std::process::Child) -> Option<i32> {
         let until = Instant::now() + Duration::from_secs(5);
         let status = loop {
             if let Some(status) = child.try_wait().expect("try_wait") {
@@ -129,6 +141,54 @@ mod tests {
             }
             std::thread::sleep(Duration::from_millis(10));
         };
-        assert_eq!(status.and_then(|s| s.code()), Some(11));
+        status.and_then(|s| s.code())
+    }
+
+    fn child(stdin: Stdio) -> std::process::Child {
+        Command::new(std::env::current_exe().expect("the test binary"))
+            .args(["--exact", "tests::serve_child_entry"])
+            .env(CHILD, "1")
+            .stdin(stdin)
+            .stdout(Stdio::null())
+            .stderr(Stdio::null())
+            .spawn()
+            .expect("the child")
+    }
+
+    /// stdin at EOF before any `initialize`: the session never initializes.
+    #[test]
+    fn serve_on_a_closed_stdin_is_the_initialize_error() {
+        let mut child = child(Stdio::null());
+        assert_eq!(exit_code_within_bound(&mut child), Some(11));
+    }
+
+    /// An initialized session, then a stdin line past `MAX_FRAME` with stdin still open: the cut
+    /// ends the session as a close would, with `Ok(())`.
+    #[test]
+    fn serve_ends_the_session_at_a_line_past_max_frame() {
+        use std::io::Write as _;
+
+        let mut child = child(Stdio::piped());
+        let mut stdin = child.stdin.take().expect("the child's stdin");
+        let writer = std::thread::spawn(move || {
+            let opening = concat!(
+                r#"{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"#,
+                r#""2025-06-18","capabilities":{},"clientInfo":{"name":"t","version":"0"}}}"#,
+                "\n",
+                r#"{"jsonrpc":"2.0","method":"notifications/initialized"}"#,
+                "\n",
+            );
+            let over = vec![b'a'; usize::try_from(MAX_FRAME).expect("fits") + 1];
+            // Once the reader stops taking stdin the child may exit mid-write: a broken pipe then
+            // is the expected write error, so the outcome is the child's exit alone.
+            let _ = stdin
+                .write_all(opening.as_bytes())
+                .and_then(|()| stdin.write_all(&over))
+                .and_then(|()| stdin.flush());
+            stdin
+        });
+        let code = exit_code_within_bound(&mut child);
+        drop(writer.join().expect("the writer"));
+        assert_eq!(code, Some(10));
     }
 }

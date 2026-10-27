@@ -1,0 +1,22 @@
+# Classified — security · input-validation.b1
+
+## Answers
+input-validation#1.1 · yes · the paste rule the chunk re-verifies at the CLI send, the MCP send and the wrapper's send before the first wheel read, with its control-character and empty-text refusals (Needs: paste rule)
+input-validation#1.2 · yes · the dialog free-text rule (the paste set) the chunk checks in viola answer and in the wrapper's answer handler (Needs: paste rule, answer free text)
+input-validation#1.3 · yes · the channel frame rules on both sides: the MAX_FRAME cap before read_line with -32600, the default depth, the v check, the closed behavior, dialog_id and name types, and the wrapper's per-method -32602 params (Needs: channel frames)
+input-validation#1.4 · yes · the hook stdin rules: the MAX_FRAME+1 cap with fail-open, the closed HookEvent and decision fields, the one-object rule, the option_details and background_tasks reading, and the hidden capture arms' bounds (Needs: hook stdin, capture arms)
+input-validation#1.5 · yes · the MCP tool inputs, checked per handler on the raw arguments (ViolaName, u64, closed response enums, validate_paste_text on text and free text) with invalid-params and no frame (Needs: MCP stdin and tool inputs)
+input-validation#1.6 · yes · the CLI arguments and stdin: the ViolaName value parsers, the strict-modes check before each home read, the send and answer reads under MAX_FRAME, and the session-id parser for revive --id (Needs: CLI input, names, ordering)
+input-validation#1.7 · yes · the config.json read under take(MAX_FRAME) with v checked, the Percent and DialogHold bounds, the default fallback with one parse-rejected per key, and identity-floor names with no effect (Needs: config values)
+input-validation#1.8 · no · the Windows registry name read is no reader the chunk covers (src/run/env.rs is not reached and the scope names no registry read); it decides only the Windows R8 pass-list
+input-validation#1.9 · no · standing S5 · a test-only seam stays out of the release build; a new seam or environment read needs its own Decisions Log entry
+input-validation#1.10 · no · standing S5 · a test-only seam stays out of the release build; a new seam or environment read needs its own Decisions Log entry
+input-validation#1.11 · no · the terminal colour facts decide only whether and how deep SGR bytes are written, in src/human/style.rs, which the chunk does not reach; the scope names no colour fact
+input-validation#1.12 · yes · the own state files on read: the MAX_FRAME line cap with torn-line counting, a reader that never writes, the strict-modes check before each read, the replayed snapshot carrying no endpoint, pid, started_at or statusline_command, and read_budget's take(MAX_FRAME+1) (Needs: own state files)
+input-validation#1.13 · yes · the notify tail filter: only instances/<name>/events.ndjson whose name passes ViolaName::try_new under the canonical home, symlinks ignored (Needs: names before path joins)
+input-validation#1.14 · yes · the child output rules: the claude --version and claude agents --json reads under the cap, the 5 s kill, the fail-open tolerant parse, the unwrapped row name never a target, and verify's PTY output read only against the signature literals (Needs: child process output)
+input-validation#1.15 · yes · the vt100 feed under catch_unwind with the human's bytes written first, the bounded feed queue that never blocks passthrough, and the poisoned model reading input-not-ready (the re-read catch_unwind sites in src/run/gate.rs and screen.rs) (Needs: PTY output)
+input-validation#1.16 · yes · the agents-output bound and the rule that an unwrapped row's name is never a ViolaName or target bind (Needs: child output, names); the program-resolution and recorded-cwd rules name no bound the chunk adds
+input-validation#1.17 · yes · the id after --resume: the is_session_id shape, one argv element built only by resume_args, no-session before any spawn, and no refusal line naming the directory, pid or logged id (Needs: session id as argv)
+input-validation#1.18 · yes · the statusline source read: take(MAX_FRAME) on statusline-source.json and the default-home settings file, the statusLine command shape check, and no write to either source (Needs: statusline source)
+input-validation#1.19 · yes · the statusline shell-out on Unix: stdout under take(MAX_FRAME) printed as-is, stderr discarded, the 5 s bound, and the command reaching no line or span (Needs: statusline shell-out)
