@@ -1,0 +1,21 @@
+# Apply — obs-plan
+
+## Verdicts
+- fanout-obs-plan--cascade.md 1 · applied · .andromeda/obs-plan-detail/span-trace-coverage.md:63+#1
+- fanout-obs-plan--cascade.md 2 · applied · .andromeda/obs-plan-detail/obs-scope-summary.md:398+#1
+
+## Edits
+- after: .andromeda/obs-plan-detail/span-trace-coverage.md:63
+  anchor: «<!-- /detail -->»
+  add: «»
+  add: «<!-- detail: values · scenario-viola-run-start-sequence-to-child-spawn -->»
+  add: «»
+  add: «- **`run.pin_copy` under a concurrent first start:** an absent copy is placed, never replaced: `pin_bytes`' private `place_absent` writes it through `viola_state::fs::place_private_new`, a temp file beside it whose mode is set before any byte, closed, then persisted no-clobber. A start that loses the placement to a concurrent first start re-hashes the copy that stands: an equal copy is reused and `outcome` reads `ok`; a different one is `PinError::HashMismatch`, `outcome` `pinned-hash-mismatch`, the file left as found. The placement opens no span and writes no line or field of its own, and the outcome set stays `ok|pinned-hash-mismatch`.»
+  add: «»
+  add: «<!-- /detail -->»
+- after: .andromeda/obs-plan-detail/obs-scope-summary.md:398
+  anchor: «  - Refusal telemetry for strict-modes failures, pinned-exe hash mismatches and ignored symlinks. As landed a strict-modes failure has a line in two places: the `ledger-stamps` read in `run`'s version gate, and on Windows x64 a refused `conpty/` companion (`PinError::StrictModes`), which `process-start` carries as `sideload_fallback` `strict-modes-failed`, the exit unchanged; a refused `update_stamps` in `viola verify` (`StampsError::StrictModes`) leaves only verify's own `process-exit` (with an instance; exit 1, no `detail`). Every other strict-modes refusal leaves no line: `viola revive`'s instance check, `run`'s and a revived start's home-tree check (`check_home_tree`, exit 1, before the wrapper log opens), `viola verify`'s home-tree check (exit 1), the instance check of every `viola hook` arm but the two `--capture` arms (exit 0), the instance check of `send`, `wait`, `last`, `answer`, `pause` and `release` (`refuse_untrusted`, exit 21), `viola link` / `viola unlink`'s instance check of the driven instance (made before any role file opens; exit 21), the `viola mcp` frame tools' instance check (`instance-unreachable`), the `diagnostics/` opens (`check_diagnostics`: a refusal is a failed open), the checked read of `budget.json` (`read_budget_stamped`, which the budget gate takes through `read_budget` and `viola list` takes directly, where a refused file is no reading) (chunk 2026-10-10-budget-governor), and `viola list`'s scan of the home, `instances/` and each instance, which refuses the whole board with exit 21 (chunk 2026-10-11-the-board-viola-list).»
+  add: «  - A pinned-exe hash mismatch is also reached when a start loses the pinned copy's no-clobber placement to a concurrent first start and the copy that stands re-hashes different (`place_absent`'s `PinError::HashMismatch`, `run.pin_copy` `pinned-hash-mismatch`, the file left as found); that path adds no line, field or `detail` code.»
+
+## Patterns
+(none)

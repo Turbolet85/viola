@@ -1,0 +1,155 @@
+[
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "de829a74",
+"ts": "2026-10-27T02:52:47Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-27-pinned-copy-race-and-reproducible-builds",
+"--source",
+"~/dev/projects/additional/viola-overseer/wrap-pinned-copy-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the operator's wrap directive (the overseer, founder-delegated): ordinary chunk, no forced sample; stop at a hard cascade failure; red 1 as runner variance PROVISIONAL with a WATCH on Bounded inputs at every boundary; measurement B a founder item (FOR DISCUSSION + CARRY on Version done-check); the red-2 fold PROVISIONAL",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-27T02-51-54-wrap",
+"--marker",
+"2026-10-27-pinned-copy-race-and-reproducible-builds"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I6 · copy no-repo · ../additional/viola-overseer/wrap-pinned-copy-directive.md",
+"cite: inputs#I6"
+],
+"stderr": null,
+"wrote": [
+"inputs/I6-wrap-pinned-copy-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I6",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/wrap-pinned-copy-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "fce92918dad395bcd5fa3ea32843c4e8a08a2c7a271be1264e8ec05a3f2663c3",
+"copy": "I6-wrap-pinned-copy-directive.md.txt",
+"link": false,
+"read_at": "2026-10-27T02:52:47Z",
+"step": "wrap",
+"why": "the operator's wrap directive (the overseer, founder-delegated): ordinary chunk, no forced sample; stop at a hard cascade failure; red 1 as runner variance PROVISIONAL with a WATCH on Bounded inputs at every boundary; measurement B a founder item (FOR DISCUSSION + CARRY on Version done-check); the red-2 fold PROVISIONAL"
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "de829a74",
+"ts": "2026-10-27T02:52:54Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-27-pinned-copy-race-and-reproducible-builds",
+"--run-dir",
+".andromeda/runs/2026-10-27T02-51-54-wrap",
+"--marker",
+"2026-10-27-pinned-copy-race-and-reproducible-builds"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-pinned-copy-directive.md",
+"I1 cited scope.md:12 · research.md:7 · plan.md:34 · plan.md:162 (in fence) · plan.md:389",
+"I2 n/a — a message has no live source · copy message · message: overseer1, delegate under the founder night word, by message in this session, 2026-10-27T01:20Z",
+"I2 cited scope.md:89 · research.md:7 · plan.md:27 · plan.md:389",
+"I3 unchanged · copy no-repo · ../additional/viola-overseer/ci-red-99977116.md",
+"I3 cited scope.md:89 · scope.md:94 · research.md:7 · plan.md:389",
+"I4 n/a — a message has no live source · copy message · message: overseer1, delegate (founder-delegated), by question dialog at P4, 2026-10-27T01:48Z",
+"I4 cited scope.md:105 · research.md:7 · research.md:66 · research.md:75 · plan.md:30 · plan.md:390 · plan.md:438",
+"I5 n/a — a message has no live source · copy message · message: overseer1, delegate (founder-delegated), by message in this session, 2026-10-27T02:06Z",
+"I5 UNCITED",
+"I6 unchanged · copy no-repo · ../additional/viola-overseer/wrap-pinned-copy-directive.md",
+"I6 UNCITED",
+"inputs: 6 entries — unchanged 3 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 2 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 6,
+"counts": {
+"unchanged": 3,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 3
+},
+"uncited": 2,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "de829a74",
+"ts": "2026-10-27T03:00:20Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-27-pinned-copy-race-and-reproducible-builds",
+"--run-dir",
+".andromeda/runs/2026-10-27T02-51-54-wrap",
+"--marker",
+"2026-10-27-pinned-copy-race-and-reproducible-builds"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-pinned-copy-directive.md",
+"I1 cited scope.md:12 · research.md:7 · plan.md:34 · plan.md:162 (in fence) · plan.md:389",
+"I2 n/a — a message has no live source · copy message · message: overseer1, delegate under the founder night word, by message in this session, 2026-10-27T01:20Z",
+"I2 cited scope.md:89 · research.md:7 · plan.md:27 · plan.md:389 · report.md:102",
+"I3 unchanged · copy no-repo · ../additional/viola-overseer/ci-red-99977116.md",
+"I3 cited scope.md:89 · scope.md:94 · research.md:7 · plan.md:389 · report.md:38 · report.md:57",
+"I4 n/a — a message has no live source · copy message · message: overseer1, delegate (founder-delegated), by question dialog at P4, 2026-10-27T01:48Z",
+"I4 cited scope.md:105 · research.md:7 · research.md:66 · research.md:75 · plan.md:30 · plan.md:390 · plan.md:438 · report.md:57 · report.md:101",
+"I5 n/a — a message has no live source · copy message · message: overseer1, delegate (founder-delegated), by message in this session, 2026-10-27T02:06Z",
+"I5 cited report.md:44 · report.md:101",
+"I6 unchanged · copy no-repo · ../additional/viola-overseer/wrap-pinned-copy-directive.md",
+"I6 cited report.md:47 · report.md:64 · report.md:85 · report.md:94 · report.md:101 · report.md:127 · report.md:156",
+"inputs: 6 entries — unchanged 3 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 6,
+"counts": {
+"unchanged": 3,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 3
+},
+"uncited": 0,
+"unparsed": 0
+}
+}
+]

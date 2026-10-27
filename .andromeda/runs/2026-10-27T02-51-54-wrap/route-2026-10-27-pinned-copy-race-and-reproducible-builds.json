@@ -1,0 +1,119 @@
+[
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "ef6ddbd7",
+"ts": "2026-10-27T04:00:29Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-10-27-pinned-copy-race-and-reproducible-builds",
+"--run-dir",
+".andromeda/runs/2026-10-27T02-51-54-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"flip master-route.md:92 - 2026-10-27-pinned-copy-race-and-reproducible-builds pending -> complete"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "ef6ddbd7",
+"ts": "2026-10-27T04:00:29Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-27-pinned-copy-race-and-reproducible-builds",
+"--date",
+"2026-10-27",
+"--run-dir",
+".andromeda/runs/2026-10-27T02-51-54-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :179 strip CARRY: 1193ch \"CARRY: chunk 2026-10-09-inner-cr-and-crl\"",
+"pin :179 strip CARRY: 744ch \"CARRY: chunk 2026-10-17-mcp-server-for-d\"",
+"pin next markerless :181 holds WATCH:×1",
+"179 · 2026-10-27-pinned-copy-race-and-reproducible-builds · strip 2 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 179,
+"marker": "2026-10-27-pinned-copy-race-and-reproducible-builds",
+"blocks": 2,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "ef6ddbd7",
+"ts": "2026-10-27T04:00:36Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-27-pinned-copy-race-and-reproducible-builds",
+"--date",
+"2026-10-27",
+"--run-dir",
+".andromeda/runs/2026-10-27T02-51-54-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :179 strip CARRY: 1193ch \"CARRY: chunk 2026-10-09-inner-cr-and-crl\"",
+"pin :179 strip CARRY: 744ch \"CARRY: chunk 2026-10-17-mcp-server-for-d\"",
+"pin next markerless :181 holds WATCH:×1",
+"179 · 2026-10-27-pinned-copy-race-and-reproducible-builds · strip 2 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/route-archive.md",
+"./viola-0.1.0/working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 179,
+"marker": "2026-10-27-pinned-copy-race-and-reproducible-builds",
+"blocks": 2,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]

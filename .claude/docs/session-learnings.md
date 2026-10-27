@@ -8,6 +8,17 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
+## 2026-10-27 — Comparing two builds by section: three tool traps
+A section-by-section comparison of two ELF builds reads equal where it measured nothing unless each section is read from
+the file itself. `objcopy -O binary --only-section=<name>` writes loaded sections only, so `.comment`, `.symtab`,
+`.shstrtab` and `.strtab` come out empty and hash equal whatever they hold; `objcopy --dump-section` refuses `.symtab`;
+and a bare `true` in a script is the shell builtin, so a "compare against another program" control that names it
+compares no file. Read every section at the offset and size `readelf -S -W` prints (NOBITS by its size), cross-check one
+loaded section against `objcopy`, and give a control program by its absolute path. A file-level hash difference alone
+never says which sections differ (verification-harness.md 2026-10-09).
+
+---
+
 ## 2026-10-26 — A plan's count is re-measured at the wrap, never copied
 A count a plan states for the wrap to write (a list of callers, readers or sites) was taken at the plan's own tree; the implement run that follows can move it (here two read sites merged into one, so the plan's «four» read three at the wrap). Before the report or an amendment states such a count, re-run the rule that produced it against the wrap's tree and write the measured number with that rule beside it.
 

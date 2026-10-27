@@ -200,6 +200,7 @@ Read whole. The master's broad view is .andromeda/test-plan.md; this file holds 
   - The `question` event is logged once. Hook stdout is empty, with exit 0 and returning within the spine deadline.
   - `answer` exits 12 `{"refusal":"unverified-cli","detail":null}`. MCP gives `is_error:true` with text `refused: unverified-cli`.
   - `verify` exits 0 with a last line matching `^stamped \S+  \d+ pass  0 fail$`.
+- **As landed:** the MCP leg is `mcp_tools_path7_unverified_cli_answer` (`crates/viola-e2e/tests/mcp_tools.rs`), which boots the default `overseer` + `builder` pair unstamped (`SessionOptions { unstamped: true, ..SessionOptions::default() }`), so it also witnesses two first starts on one fresh unstamped home both landing (green on all three CI OSes, as measured at ci#40439188053).
 - **Cleanup:** harness `cleanup`; TempDir drop for H3.
 
 <!-- /detail -->

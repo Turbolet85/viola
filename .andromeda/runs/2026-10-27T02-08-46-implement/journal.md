@@ -42,4 +42,6 @@ One entry per long run, written before it is waited on: what runs, its kill dead
   its `Drop` guard. The three `operator` entries are not fired by this call. Ended: `entries 25 · green 21 · red 0 ·
   recorded 1 · timeout 0 · not-run 3`.
 - 2026-10-27T02:31:44Z — operator pass: hygiene fired as written (refused 1, this journal's temp-dir path; respelled;
-  then `clean`), then entry 22 `pre-push` re-fired (`--entry 22`, backgrounded, its 7200 s timeout).
+  then `clean`), then entry 22 `pre-push` re-fired (`--entry 22`, backgrounded, its 7200 s timeout). Green 100.64 s;
+  pre-CI commit `6c77eadd`; entry 24 pushed it; entry 25 (`ci.py conclusion --sha HEAD --wait 2400`, backgrounded
+  under `timeout 2580`) read `verdict: green · checks 15/15 · ci#40439188053` after 775 s of polling.

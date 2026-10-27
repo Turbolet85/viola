@@ -104,6 +104,15 @@ Residue (not processes): the 4 failed boots' homes under `target/e2e-home/viola-
 - Recurrence of a standing learning: verification-harness.md 2026-10-09 (a file hash is no proof two builds load the
   same code) — read again, the loaded sections equal while the files differ.
 
+## The operator pass (`evidence/operator-pass.md`)
+- Entry 23 hygiene: refused 1 (this run's journal named a temp-dir path), respelled, then `hygiene: clean`.
+- Entry 22 pre-push re-fired: `green · exit 0 · 100.64s`.
+- Pre-CI commit `6c77eadd`; entry 24: `history moved: … refs/remotes/origin/build/viola-0.1.0 99977116→6c77eadd`.
+- Entry 25: `6c77eadd4db2 verdict: green · checks 15/15 · wall 746 s · runs ci#40439188053 completed/success`. The
+  forced-window case green on `ubuntu-latest` and `macos-latest`, its Windows form green on `windows-2025`, the
+  plain-home oracle green on `windows-2025` (region centralus), Path 7's default-pair unstamped boot green on all three
+  OSes, Path 1 8.219 s on `ubuntu-latest` (13.468 s green / 20.089 s red before).
+
 ## Next
-The operator pass: entry 23 (hygiene), entry 22 re-fired before the push, the pre-CI commit, entry 24 (the push),
-entry 25 (the CI read) — then `/andromeda-wrap-session`.
+`/andromeda-wrap-session`. It carries Red 1's S2 readings (its owner is the operator's call) and measurement B's
+two-file reading (the founder's to act on).

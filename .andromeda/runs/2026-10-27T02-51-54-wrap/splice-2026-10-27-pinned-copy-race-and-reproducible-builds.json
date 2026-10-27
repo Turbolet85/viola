@@ -1,0 +1,207 @@
+[
+{
+"tool": "splice",
+"v": "1.2",
+"sha8": "d1666daf",
+"ts": "2026-10-27T03:00:20Z",
+"argv": [
+"append",
+"--file",
+"viola-0.1.0/chunks/2026-10-27-pinned-copy-race-and-reproducible-builds/report.md",
+"--payload-file",
+".andromeda/runs/2026-10-27T02-51-54-wrap/new-text.md",
+"--lines",
+"28",
+"--if-absent-prefix",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-10-27T02-51-54-wrap",
+"--marker",
+"2026-10-27-pinned-copy-race-and-reproducible-builds"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append report.md:+28 at line 162 · lines 161→189 · bytes 37055→38923 · term lf",
+"last line now: added: 642-644"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/chunks/2026-10-27-pinned-copy-race-and-reproducible-builds/report.md"
+],
+"before": {
+"lines": 161,
+"bytes": 37055,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 189,
+"bytes": 38923
+}
+},
+{
+"tool": "splice",
+"v": "1.2",
+"sha8": "d1666daf",
+"ts": "2026-10-27T03:49:39Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-27T02-51-54-wrap/architecture-entries.md",
+"--lines",
+"35",
+"--blank-before",
+"--run-dir",
+".andromeda/runs/2026-10-27T02-51-54-wrap",
+"--marker",
+"2026-10-27-pinned-copy-race-and-reproducible-builds"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"a blank line put before the block (line 1806 is not blank)",
+"append architecture-amendments.md:+36 at line 1807 · lines 1806→1842 · bytes 340709→348457 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-27T02-51-54-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 1806,
+"bytes": 340709,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 1842,
+"bytes": 348457
+}
+},
+{
+"tool": "splice",
+"v": "1.2",
+"sha8": "d1666daf",
+"ts": "2026-10-27T03:49:39Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-27T02-51-54-wrap/security-plan-entries.md",
+"--lines",
+"34",
+"--blank-before",
+"--run-dir",
+".andromeda/runs/2026-10-27T02-51-54-wrap",
+"--marker",
+"2026-10-27-pinned-copy-race-and-reproducible-builds"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"a blank line put before the block (line 1158 is not blank)",
+"append security-plan-amendments.md:+35 at line 1159 · lines 1158→1193 · bytes 210752→217735 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-27T02-51-54-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 1158,
+"bytes": 210752,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 1193,
+"bytes": 217735
+}
+},
+{
+"tool": "splice",
+"v": "1.2",
+"sha8": "d1666daf",
+"ts": "2026-10-27T03:49:39Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-27T02-51-54-wrap/test-plan-entries.md",
+"--lines",
+"41",
+"--blank-before",
+"--run-dir",
+".andromeda/runs/2026-10-27T02-51-54-wrap",
+"--marker",
+"2026-10-27-pinned-copy-race-and-reproducible-builds"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"a blank line put before the block (line 1597 is not blank)",
+"append test-plan-amendments.md:+42 at line 1598 · lines 1597→1639 · bytes 288182→296698 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-27T02-51-54-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 1597,
+"bytes": 288182,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 1639,
+"bytes": 296698
+}
+},
+{
+"tool": "splice",
+"v": "1.2",
+"sha8": "d1666daf",
+"ts": "2026-10-27T03:49:40Z",
+"argv": [
+"append",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-27T02-51-54-wrap/obs-plan-entries.md",
+"--lines",
+"18",
+"--blank-before",
+"--run-dir",
+".andromeda/runs/2026-10-27T02-51-54-wrap",
+"--marker",
+"2026-10-27-pinned-copy-race-and-reproducible-builds"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"a blank line put before the block (line 938 is not blank)",
+"append obs-plan-amendments.md:+19 at line 939 · lines 938→957 · bytes 154262→157122 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-27T02-51-54-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/obs-plan-amendments.md"
+],
+"before": {
+"lines": 938,
+"bytes": 154262,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 957,
+"bytes": 157122
+}
+}
+]

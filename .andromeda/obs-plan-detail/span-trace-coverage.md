@@ -62,6 +62,12 @@ Read whole. The master's broad view is .andromeda/obs-plan.md; this file holds i
 
 <!-- /detail -->
 
+<!-- detail: values · scenario-viola-run-start-sequence-to-child-spawn -->
+
+- **`run.pin_copy` under a concurrent first start:** an absent copy is placed, never replaced: `pin_bytes`' private `place_absent` writes it through `viola_state::fs::place_private_new`, a temp file beside it whose mode is set before any byte, closed, then persisted no-clobber. A start that loses the placement to a concurrent first start re-hashes the copy that stands: an equal copy is reused and `outcome` reads `ok`; a different one is `PinError::HashMismatch`, `outcome` `pinned-hash-mismatch`, the file left as found. The placement opens no span and writes no line or field of its own, and the outcome set stays `ok|pinned-hash-mismatch`.
+
+<!-- /detail -->
+
 ## 4. Span / Trace Coverage › #### Scenario: Confirmed `send` (CL-1) from driver to readback
 
 <!-- detail: values · scenario-confirmed-send-cl-1-from-driver-to-readback -->

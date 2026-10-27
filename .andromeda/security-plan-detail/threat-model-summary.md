@@ -130,6 +130,13 @@ Read whole. The master's broad view is .andromeda/security-plan.md; this file ho
 
 <!-- /detail -->
 
+<!-- detail: values · boundary-filesystem -->
+
+- **Vector:** Filesystem state under `~/.viola/`, the pinned binary's first placement by concurrent first starts.
+  - **Trust boundary:** The pinned binary is placed once and never replaced. An exec of a copy that another start still holds open for write fails with `ETXTBSY` (raw 26 on Linux), so the placement closes its write handle before the name appears (`viola_state::fs::place_private_new`, § Data Protection): 0 of 24 two-instance boots failed, as measured at viola-0.1.0/chunks/2026-10-27-pinned-copy-race-and-reproducible-builds/report.md.
+
+<!-- /detail -->
+
 <!-- detail: values · boundary-child-spawn -->
 
 - **Vector:** Child process spawning and PATH resolution.

@@ -1,0 +1,2 @@
+proposals: []
+note: D-a11y-surface clean (the report's Changes add no interactive UI element; Coverage of new surfaces marks a11y n/a for place_private_new and spawn_os_error, and Outcome reads no new human output). D-a11y-obs-schema clean (Schema / config none; schemas/diag-line.v1.json unchanged; the structured violation schema untouched). D-retired clean (the retired Path 7 builder-alone workaround is stated nowhere in a11y-plan; a11y-plan.md:86 names Critical Path 7's unverified-CLI withholding only, the report's own no-change site under path7-pair).

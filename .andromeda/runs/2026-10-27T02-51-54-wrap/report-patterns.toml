@@ -1,0 +1,67 @@
+# Wrap P1 site sweep — 2026-10-27-pinned-copy-race-and-reproducible-builds. One pattern per moved fact, each
+# holding the fact's wording and its name token; two owner patterns.
+
+[[pattern]]
+id = 'owner-title'
+fixed = 'Pinned copy race and reproducible builds'
+ignore_case = true
+
+[[pattern]]
+id = 'owner-generic'
+regex = 'owned by a (route entry|CARRY)'
+ignore_case = true
+
+# F1 — the pinned copy's absent-copy write: no-clobber placement of a closed temp file, never a replace.
+[[pattern]]
+id = 'pin-write'
+regex = 'place_private_new|persist_noclobber|replace_private_shared|pin_bytes|no-clobber|copied once'
+ignore_case = true
+
+# F2 — the pin_exe first-start race (ETXTBSY) closed.
+[[pattern]]
+id = 'pin-race'
+regex = 'first-start race|pin_exe. first|ETXTBSY|Text file busy|concurrent first start'
+ignore_case = true
+
+# F3 — the fake agent's hook receipt carries spawn_os_error on a failed spawn.
+[[pattern]]
+id = 'spawn-err'
+regex = 'spawn_os_error|receipt kinds|ran:false|"ran"'
+ignore_case = true
+
+# F4 — Path 7's unstamped session on the default two-instance pair.
+[[pattern]]
+id = 'path7-pair'
+regex = 'mcp_tools_path7|Path 7|unverified_cli_answer'
+ignore_case = true
+
+# F5 — measurement B: two clean release builds of one tree give two files; loaded sections equal.
+[[pattern]]
+id = 'repro-builds'
+regex = 'reproducib|two clean release builds|build-id|\.symtab|clean builds? of one tree'
+ignore_case = true
+
+# F6 — the Windows plain-home oracle read by the write right, whichever SID.
+[[pattern]]
+id = 'plain-home'
+regex = 'plain_home_made_before_viola|plain home|S-1-5-32-545|S-1-5-11|Authenticated Users'
+ignore_case = true
+
+# F1b — the pinned copy's own registry wording (reach control for F1: the Occupied Resources line says "creates if
+# it is absent", which pin-write's wording does not match).
+[[pattern]]
+id = 'pin-copy'
+regex = 'pinned copy|bin/<version>-<hash>/viola|\[Deployment / Distribution\]'
+ignore_case = true
+
+# F8 — test-plan §5: the forced-window placement case among the two-sided witnesses.
+[[pattern]]
+id = 'forced-window'
+regex = 'forced[- ]window|two-sided|placed_copy_execs_at_once'
+ignore_case = true
+
+# F7 — Path 1's timeout (red 1): runner variance, a WATCH; stamped_home dominates.
+[[pattern]]
+id = 'path1-time'
+regex = 'path1_run_start|Path 1|stamped_home|kill line'
+ignore_case = true

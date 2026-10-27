@@ -1,0 +1,5401 @@
+[
+{
+"tool": "cascade",
+"v": "1.18",
+"sha8": "3ca97b67",
+"ts": "2026-10-27T03:37:51Z",
+"argv": [
+"replace",
+"--edits",
+"./.andromeda/runs/2026-10-27T02-51-54-wrap/apply-obs-plan.md",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-27T02-51-54-wrap",
+"--marker",
+"2026-10-27-pinned-copy-race-and-reproducible-builds",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"applied · .andromeda/obs-plan-detail/span-trace-coverage.md:63+#1",
+"  after line 63 «<!-- /detail -->» + 6 line(s), the first «»",
+"applied · .andromeda/obs-plan-detail/obs-scope-summary.md:398+#1",
+"  after line 398 «(chunk 2026-10-11-the-board-viola-list).» + 1 line(s), the first «  - A pinned-exe hash mismatch is a…",
+"dry-run: would write .andromeda/obs-plan-detail/span-trace-coverage.md: 1 block(s) on 0 line(s), 6 line(s) added",
+"dry-run: would write .andromeda/obs-plan-detail/obs-scope-summary.md: 1 block(s) on 0 line(s), 1 line(s) added",
+"total · blocks 2 · applied 2 — dry-run, nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"replace": {
+"rows": [
+{
+"id": ".andromeda/obs-plan-detail/span-trace-coverage.md:63+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/obs-plan-detail/obs-scope-summary.md:398+#1",
+"status": "applied"
+}
+],
+"dry_run": true,
+"written": {}
+}
+}
+},
+{
+"tool": "cascade",
+"v": "1.18",
+"sha8": "3ca97b67",
+"ts": "2026-10-27T03:38:52Z",
+"argv": [
+"replace",
+"--edits",
+"./.andromeda/runs/2026-10-27T02-51-54-wrap/apply-security-plan.md",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-27T02-51-54-wrap",
+"--marker",
+"2026-10-27-pinned-copy-race-and-reproducible-builds",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [
+"applied · .andromeda/security-plan-detail/data-protection.md:12#1",
+"  before @c189 «create_dir_all`) is refused `Writable`, |the refused entry an inherited allow ACE»",
+"  after @c636 «-race-and-reproducible-builds/report.md)|.»",
+"applied · .andromeda/security-plan-detail/data-protection.md:17#1",
+"  before @c214 «erify` calls, delegates to `pin_bytes`. |A concurrent first start's race is close»",
+"  after @c379 «the pinned copy's first placement below.|»",
+"applied · .andromeda/security-plan-detail/data-protection.md:24+#1",
+"  after line 24 «<!-- /detail -->» + 4 line(s), the first «»",
+"applied · .andromeda/security-plan-detail/data-protection.md:24+#2",
+"  after line 24 «<!-- /detail -->» + 1 line(s), the first «  - A present name is never replaced: `A»",
+"applied · .andromeda/security-plan-detail/data-protection.md:24+#3",
+"  after line 24 «<!-- /detail -->» + 1 line(s), the first «  - A lost placement (`Present`: a concu»",
+"applied · .andromeda/security-plan-detail/data-protection.md:24+#4",
+"  after line 24 «<!-- /detail -->» + 3 line(s), the first «  - Clean release builds of one tree can»",
+"applied · .andromeda/security-plan-detail/authentication-authorization.md:33#1",
+"  before @c492 «ch sets the temp file's mode explicitly |(std `set_permissions`: 0600) before any»",
+"  after @c827 «ion, the pinned copy's first placement).| Never rely on the umask or on a mode ca»",
+"applied · .andromeda/security-plan-detail/authentication-authorization.md:34#1",
+"  before @c1213 «agnostics/` granted Users read refused, |a plain home made before viola refused `»",
+"  after @c1364 «th a viola-made-home control)), green on| `windows-2025` as measured at ci#404033»",
+"applied · .andromeda/security-plan-detail/authentication-authorization.md:42#1",
+"  before @c56 «rence:** `viola-state` home resolution; |tempfile 3.27.0 `persist` via `viola_sta»",
+"  after @c222 «:place_private_new` (the pinned `viola`)|; std `OpenOptionsExt`; windows-sys 0.61»",
+"anchor moved · .andromeda/security-plan-detail/threat-model-summary.md:130+#1 · the anchor stands on line 37 and 10 more",
+"total · blocks 10 · applied 9 · anchor moved 1"
+],
+"stderr": "replace: 1 block(s) refused (first .andromeda/security-plan-detail/threat-model-summary.md:130+#1: anchor moved) — all or nothing: nothing written",
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"replace": {
+"rows": [
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:12#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:17#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:24+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:24+#2",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:24+#3",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:24+#4",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/authentication-authorization.md:33#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/authentication-authorization.md:34#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/authentication-authorization.md:42#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/threat-model-summary.md:130+#1",
+"status": "anchor moved"
+}
+],
+"dry_run": true,
+"written": {}
+}
+}
+},
+{
+"tool": "cascade",
+"v": "1.18",
+"sha8": "3ca97b67",
+"ts": "2026-10-27T03:39:09Z",
+"argv": [
+"replace",
+"--edits",
+"./.andromeda/runs/2026-10-27T02-51-54-wrap/apply-security-plan.md",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-27T02-51-54-wrap",
+"--marker",
+"2026-10-27-pinned-copy-race-and-reproducible-builds",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"applied · .andromeda/security-plan-detail/data-protection.md:12#1",
+"  before @c189 «create_dir_all`) is refused `Writable`, |the refused entry an inherited allow ACE»",
+"  after @c636 «-race-and-reproducible-builds/report.md)|.»",
+"applied · .andromeda/security-plan-detail/data-protection.md:17#1",
+"  before @c214 «erify` calls, delegates to `pin_bytes`. |A concurrent first start's race is close»",
+"  after @c379 «the pinned copy's first placement below.|»",
+"applied · .andromeda/security-plan-detail/data-protection.md:24+#1",
+"  after line 24 «<!-- /detail -->» + 4 line(s), the first «»",
+"applied · .andromeda/security-plan-detail/data-protection.md:24+#2",
+"  after line 24 «<!-- /detail -->» + 1 line(s), the first «  - A present name is never replaced: `A»",
+"applied · .andromeda/security-plan-detail/data-protection.md:24+#3",
+"  after line 24 «<!-- /detail -->» + 1 line(s), the first «  - A lost placement (`Present`: a concu»",
+"applied · .andromeda/security-plan-detail/data-protection.md:24+#4",
+"  after line 24 «<!-- /detail -->» + 3 line(s), the first «  - Clean release builds of one tree can»",
+"applied · .andromeda/security-plan-detail/authentication-authorization.md:33#1",
+"  before @c492 «ch sets the temp file's mode explicitly |(std `set_permissions`: 0600) before any»",
+"  after @c827 «ion, the pinned copy's first placement).| Never rely on the umask or on a mode ca»",
+"applied · .andromeda/security-plan-detail/authentication-authorization.md:34#1",
+"  before @c1213 «agnostics/` granted Users read refused, |a plain home made before viola refused `»",
+"  after @c1364 «th a viola-made-home control)), green on| `windows-2025` as measured at ci#404033»",
+"applied · .andromeda/security-plan-detail/authentication-authorization.md:42#1",
+"  before @c56 «rence:** `viola-state` home resolution; |tempfile 3.27.0 `persist` via `viola_sta»",
+"  after @c222 «:place_private_new` (the pinned `viola`)|; std `OpenOptionsExt`; windows-sys 0.61»",
+"applied · .andromeda/security-plan-detail/threat-model-summary.md:131+#1",
+"  after line 131 «<!-- /detail -->» + 6 line(s), the first «»",
+"dry-run: would write .andromeda/security-plan-detail/data-protection.md: 6 block(s) on 2 line(s), 9 line(s) added",
+"dry-run: would write .andromeda/security-plan-detail/authentication-authorization.md: 3 block(s) on 3 line(s)",
+"dry-run: would write .andromeda/security-plan-detail/threat-model-summary.md: 1 block(s) on 0 line(s), 6 line(s) added",
+"total · blocks 10 · applied 10 — dry-run, nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"replace": {
+"rows": [
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:12#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:17#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:24+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:24+#2",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:24+#3",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:24+#4",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/authentication-authorization.md:33#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/authentication-authorization.md:34#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/authentication-authorization.md:42#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/threat-model-summary.md:131+#1",
+"status": "applied"
+}
+],
+"dry_run": true,
+"written": {}
+}
+}
+},
+{
+"tool": "cascade",
+"v": "1.18",
+"sha8": "3ca97b67",
+"ts": "2026-10-27T03:40:35Z",
+"argv": [
+"replace",
+"--edits",
+"./.andromeda/runs/2026-10-27T02-51-54-wrap/apply-architecture.md",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-27T02-51-54-wrap",
+"--marker",
+"2026-10-27-pinned-copy-race-and-reproducible-builds",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"applied · .andromeda/architecture.md:319#1",
+"  before @c38 «- `bin/<version>-<hash>/viola(.exe)`: |the pinned copy of the binary, which `vi»",
+"  after @c168 «obber, and never replaces (0700 on Unix)|, where `<hash>` is the first 16 hex of »",
+"applied · .andromeda/architecture.md:319#2",
+"  before @c197 «ex of the SHA-256 of the exe's content; |an existing copy is re-hashed on every s»",
+"  after @c328 « first, and a mismatch refuses the start| (exit 1, `pinned-hash-mismatch`) and le»",
+"applied · .andromeda/architecture.md:37#1",
+"  before @c2 «- |**[Snapshot writer] tempfile 3.27.0 `per»",
+"  after @c122 «e shared helpers of `viola_state::fs`.**| `viola_state::fs::replace_private` sets»",
+"applied · .andromeda/architecture.md:37#2",
+"  before @c195 «s written, then writes, `sync_all`s and |`persist`s, a failure leaving the target»",
+"  after @c373 «clobber placement of a closed temp file;| no call site carries its own temp + ren»",
+"applied · .andromeda/architecture.md:69#1",
+"  before @c399 «d the plugin can no longer drift apart; |the content hash keys the copy because t»",
+"  after @c660 «orking-route entry \"Version done-check\".|»",
+"applied · .andromeda/architecture-detail/occupied-resources.md:110+#1",
+"  after line 110 «<!-- /detail -->» + 6 line(s), the first «»",
+"applied · .andromeda/architecture-detail/occupied-resources.md:137#1",
+"  before @c248 «ostics/` granted Users read is refused, |and a plain home made before viola is re»",
+"  after @c501 «ured at ci#40439188053, `windows-2025`).|»",
+"applied · .andromeda/architecture-detail/occupied-resources.md:252+#1",
+"  after line 252 «g fails (as measured at ci#40400887151).» + 1 line(s), the first «- On `windows-2025` runners of one …",
+"applied · .andromeda/architecture-detail/established-decisions.md:53#1",
+"  before @c22 «- **[Snapshot writer] |tempfile 3.27.0 `persist` and `persist_n»",
+"  after @c120 «the shared helpers of `viola_state::fs`.|** `viola_state::fs::replace_private` cr»",
+"applied · .andromeda/architecture-detail/established-decisions.md:53#2",
+"  before @c194 «ets its mode before any byte is written |(0600)»",
+"  after @c200 «(0600)|, writes, `sync_all`s and `persist`s; a »",
+"applied · .andromeda/architecture-detail/established-decisions.md:53#3",
+"  before @c1158 «start of one version writes identically |(the plugin files, the Windows x64 ConPT»",
+"  after @c1442 « no-clobber `place_private_new` (below).| The companions' held open (`FILE_SHARE_»",
+"applied · .andromeda/architecture-detail/established-decisions.md:56+#1",
+"  after line 56 «<!-- /detail -->» + 4 line(s), the first «»",
+"applied · .andromeda/architecture-detail/established-decisions.md:56+#2",
+"  after line 56 «<!-- /detail -->» + 1 line(s), the first «- Its body, the private `place_private_n»",
+"applied · .andromeda/architecture-detail/established-decisions.md:56+#3",
+"  after line 56 «<!-- /detail -->» + 3 line(s), the first «- The write handle is closed before the »",
+"applied · .andromeda/architecture-detail/established-decisions.md:256+#1",
+"  after line 256 «ailed`, the exit code unchanged ([PTY]).» + 1 line(s), the first «- One source tree can build two dif…",
+"applied · .andromeda/architecture-detail/stack-and-technologies.md:18#1",
+"  before @c197 «e write, then `sync_all` and `persist`) |for snapshots and every other replaced f»",
+"  after @c450 «y write, placed once and never replaced;| std `File::lock` on separate `.lock` fi»",
+"dry-run: would write .andromeda/architecture.md: 5 block(s) on 3 line(s)",
+"dry-run: would write .andromeda/architecture-detail/occupied-resources.md: 3 block(s) on 1 line(s), 7 line(s) added",
+"dry-run: would write .andromeda/architecture-detail/established-decisions.md: 7 block(s) on 1 line(s), 9 line(s) added",
+"dry-run: would write .andromeda/architecture-detail/stack-and-technologies.md: 1 block(s) on 1 line(s)",
+"total · blocks 16 · applied 16 — dry-run, nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"replace": {
+"rows": [
+{
+"id": ".andromeda/architecture.md:319#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:319#2",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:37#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:37#2",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:69#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/occupied-resources.md:110+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/occupied-resources.md:137#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/occupied-resources.md:252+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/established-decisions.md:53#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/established-decisions.md:53#2",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/established-decisions.md:53#3",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/established-decisions.md:56+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/established-decisions.md:56+#2",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/established-decisions.md:56+#3",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/established-decisions.md:256+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/stack-and-technologies.md:18#1",
+"status": "applied"
+}
+],
+"dry_run": true,
+"written": {}
+}
+}
+},
+{
+"tool": "cascade",
+"v": "1.18",
+"sha8": "3ca97b67",
+"ts": "2026-10-27T03:40:56Z",
+"argv": [
+"replace",
+"--edits",
+"./.andromeda/runs/2026-10-27T02-51-54-wrap/apply-test-plan.md",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-27T02-51-54-wrap",
+"--marker",
+"2026-10-27-pinned-copy-race-and-reproducible-builds",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"applied · .andromeda/test-plan.md:634#1",
+"  before @c573 «y the read rule; on Windows `Writable`, |its refused entry an inherited write gra»",
+"  after @c728 «lds it, as measured on `windows-2025` by| `strict_instance_refuses_a_plain_home_m»",
+"applied · .andromeda/test-plan.md:382#1",
+"  before @c531 «`live_endpoint` over a replayed snapshot|, the stamps and pin strict-modes refusa»",
+"  after @c713 «ther start placed (`pin::place_absent`).|»",
+"applied · .andromeda/test-plan-detail/test-scope-summary.md:117#1",
+"  before @c236 «nix: its 0755 mode fails the read rule; |Windows: an inherited write grant to a S»",
+"  after @c331 « does not trust, whichever SID holds it)|.»",
+"applied · .andromeda/test-plan-detail/unit-test-strategy.md:26#1",
+"  before @c1515 «ade with `create_dir_all` before viola, |its refused entry an inherited write gra»",
+"  after @c1638 «ichever SID holds it (its oracle below).|»",
+"applied · .andromeda/test-plan-detail/unit-test-strategy.md:26+#1",
+"  after line 26 «erited Users (`S-1-5-32-545`) write ACE.» + 1 line(s), the first «  - The plain-home case's Windows or…",
+"applied · .andromeda/test-plan-detail/unit-test-strategy.md:28+#1",
+"  after line 28 «inError::StrictModes`, nothing written).» + 1 line(s), the first «  - The pinned copy's placement (`fs…",
+"applied · .andromeda/test-plan-detail/integration-test-strategy.md:29+#1",
+"  after line 29 «<!-- /detail -->» + 6 line(s), the first «»",
+"applied · .andromeda/test-plan-detail/integration-test-strategy.md:34#1",
+"  before @c141 «ll` before viola is refused `Writable`, |the refused entry an inherited write gra»",
+"  after @c326 «s-2025`: ci#40439188053 for the refusal,| by `strict_instance_refuses_a_plain_hom»",
+"applied · .andromeda/test-plan-detail/integration-test-strategy.md:36+#1",
+"  after line 36 «d; viola sends no DA1 answer of its own.» + 1 line(s), the first «**Runner-inherited grants:** on one …",
+"applied · .andromeda/test-plan-detail/e2e-test-strategy.md:202+#1",
+"  after line 202 «ching `^stamped \\S+  \\d+ pass  0 fail$`.» + 1 line(s), the first «- **As landed:** the MCP leg is `mc…",
+"applied · .andromeda/test-plan-detail/test-data-fixtures.md:10#1",
+"  before @c982 « read rule; on windows-2025 `Writable`, |the refused entry an inherited write gra»",
+"  after @c1213 «e_entry`, as measured at ci#40439188053)|; that home's canonical SDDL is not reco»",
+"applied · .andromeda/test-plan-detail/test-data-fixtures.md:59#1",
+"  before @c155 «xact bytes offered on the hook's stdin) |when it ran, and `spawn_os_error` when t»",
+"  after @c299 « integer, `null` when the OS gives none}|»",
+"applied · .andromeda/test-plan-detail/mocking-stubbing-discipline.md:20+#1",
+"  after line 20 «e unseeded (§7, a widened seeded home) |» + 1 line(s), the first «| Forced-window test parameters | no…",
+"applied · .andromeda/registries/contracts/test-plan/5-command-implementation.md:26#1",
+"  before @c622 «hunk 2026-10-17-mcp-server-for-drivers, |whose Path 7 MCP leg boots the default `»",
+"  after @c765 «ed: true, ..SessionOptions::default() }`|), and the library `boot` spawns the `su»",
+"dry-run: would write .andromeda/test-plan.md: 2 block(s) on 2 line(s)",
+"dry-run: would write .andromeda/test-plan-detail/test-scope-summary.md: 1 block(s) on 1 line(s)",
+"dry-run: would write .andromeda/test-plan-detail/unit-test-strategy.md: 3 block(s) on 1 line(s), 2 line(s) added",
+"dry-run: would write .andromeda/test-plan-detail/integration-test-strategy.md: 3 block(s) on 1 line(s), 7 line(s) added",
+"dry-run: would write .andromeda/test-plan-detail/e2e-test-strategy.md: 1 block(s) on 0 line(s), 1 line(s) added",
+"dry-run: would write .andromeda/test-plan-detail/test-data-fixtures.md: 2 block(s) on 2 line(s)",
+"dry-run: would write .andromeda/test-plan-detail/mocking-stubbing-discipline.md: 1 block(s) on 0 line(s), 1 line(s) added",
+"dry-run: would write .andromeda/registries/contracts/test-plan/5-command-implementation.md: 1 block(s) on 1 line(s)",
+"total · blocks 14 · applied 14 — dry-run, nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"replace": {
+"rows": [
+{
+"id": ".andromeda/test-plan.md:634#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan.md:382#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/test-scope-summary.md:117#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/unit-test-strategy.md:26#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/unit-test-strategy.md:26+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/unit-test-strategy.md:28+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/integration-test-strategy.md:29+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/integration-test-strategy.md:34#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/integration-test-strategy.md:36+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/e2e-test-strategy.md:202+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/test-data-fixtures.md:10#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/test-data-fixtures.md:59#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/mocking-stubbing-discipline.md:20+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/registries/contracts/test-plan/5-command-implementation.md:26#1",
+"status": "applied"
+}
+],
+"dry_run": true,
+"written": {}
+}
+}
+},
+{
+"tool": "cascade",
+"v": "1.18",
+"sha8": "3ca97b67",
+"ts": "2026-10-27T03:41:14Z",
+"argv": [
+"replace",
+"--edits",
+"./.andromeda/runs/2026-10-27T02-51-54-wrap/apply-architecture.md",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-27T02-51-54-wrap",
+"--marker",
+"2026-10-27-pinned-copy-race-and-reproducible-builds",
+"--dry-run",
+"--planned",
+"/tmp/andromeda-planned-fuqwyles"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"applied · .andromeda/architecture.md:319#1",
+"  before @c38 «- `bin/<version>-<hash>/viola(.exe)`: |the pinned copy of the binary, which `vi»",
+"  after @c168 «obber, and never replaces (0700 on Unix)|, where `<hash>` is the first 16 hex of »",
+"applied · .andromeda/architecture.md:319#2",
+"  before @c197 «ex of the SHA-256 of the exe's content; |an existing copy is re-hashed on every s»",
+"  after @c328 « first, and a mismatch refuses the start| (exit 1, `pinned-hash-mismatch`) and le»",
+"applied · .andromeda/architecture.md:37#1",
+"  before @c2 «- |**[Snapshot writer] tempfile 3.27.0 `per»",
+"  after @c122 «e shared helpers of `viola_state::fs`.**| `viola_state::fs::replace_private` sets»",
+"applied · .andromeda/architecture.md:37#2",
+"  before @c195 «s written, then writes, `sync_all`s and |`persist`s, a failure leaving the target»",
+"  after @c373 «clobber placement of a closed temp file;| no call site carries its own temp + ren»",
+"applied · .andromeda/architecture.md:69#1",
+"  before @c399 «d the plugin can no longer drift apart; |the content hash keys the copy because t»",
+"  after @c660 «orking-route entry \"Version done-check\".|»",
+"applied · .andromeda/architecture-detail/occupied-resources.md:110+#1",
+"  after line 110 «<!-- /detail -->» + 6 line(s), the first «»",
+"applied · .andromeda/architecture-detail/occupied-resources.md:137#1",
+"  before @c248 «ostics/` granted Users read is refused, |and a plain home made before viola is re»",
+"  after @c501 «ured at ci#40439188053, `windows-2025`).|»",
+"applied · .andromeda/architecture-detail/occupied-resources.md:252+#1",
+"  after line 252 «g fails (as measured at ci#40400887151).» + 1 line(s), the first «- On `windows-2025` runners of one …",
+"applied · .andromeda/architecture-detail/established-decisions.md:53#1",
+"  before @c22 «- **[Snapshot writer] |tempfile 3.27.0 `persist` and `persist_n»",
+"  after @c120 «the shared helpers of `viola_state::fs`.|** `viola_state::fs::replace_private` cr»",
+"applied · .andromeda/architecture-detail/established-decisions.md:53#2",
+"  before @c194 «ets its mode before any byte is written |(0600)»",
+"  after @c200 «(0600)|, writes, `sync_all`s and `persist`s; a »",
+"applied · .andromeda/architecture-detail/established-decisions.md:53#3",
+"  before @c1158 «start of one version writes identically |(the plugin files, the Windows x64 ConPT»",
+"  after @c1442 « no-clobber `place_private_new` (below).| The companions' held open (`FILE_SHARE_»",
+"applied · .andromeda/architecture-detail/established-decisions.md:56+#1",
+"  after line 56 «<!-- /detail -->» + 4 line(s), the first «»",
+"applied · .andromeda/architecture-detail/established-decisions.md:56+#2",
+"  after line 56 «<!-- /detail -->» + 1 line(s), the first «- Its body, the private `place_private_n»",
+"applied · .andromeda/architecture-detail/established-decisions.md:56+#3",
+"  after line 56 «<!-- /detail -->» + 3 line(s), the first «- The write handle is closed before the »",
+"applied · .andromeda/architecture-detail/established-decisions.md:256+#1",
+"  after line 256 «ailed`, the exit code unchanged ([PTY]).» + 1 line(s), the first «- One source tree can build two dif…",
+"applied · .andromeda/architecture-detail/stack-and-technologies.md:18#1",
+"  before @c197 «e write, then `sync_all` and `persist`) |for snapshots and every other replaced f»",
+"  after @c450 «y write, placed once and never replaced;| std `File::lock` on separate `.lock` fi»",
+"dry-run: would write .andromeda/architecture.md: 5 block(s) on 3 line(s)",
+"dry-run: would write .andromeda/architecture-detail/occupied-resources.md: 3 block(s) on 1 line(s), 7 line(s) added",
+"dry-run: would write .andromeda/architecture-detail/established-decisions.md: 7 block(s) on 1 line(s), 9 line(s) added",
+"dry-run: would write .andromeda/architecture-detail/stack-and-technologies.md: 1 block(s) on 1 line(s)",
+"total · blocks 16 · applied 16 — dry-run, nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"replace": {
+"rows": [
+{
+"id": ".andromeda/architecture.md:319#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:319#2",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:37#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:37#2",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:69#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/occupied-resources.md:110+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/occupied-resources.md:137#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/occupied-resources.md:252+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/established-decisions.md:53#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/established-decisions.md:53#2",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/established-decisions.md:53#3",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/established-decisions.md:56+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/established-decisions.md:56+#2",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/established-decisions.md:56+#3",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/established-decisions.md:256+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/stack-and-technologies.md:18#1",
+"status": "applied"
+}
+],
+"dry_run": true,
+"written": {}
+}
+}
+},
+{
+"tool": "cascade",
+"v": "1.18",
+"sha8": "3ca97b67",
+"ts": "2026-10-27T03:41:14Z",
+"argv": [
+"replace",
+"--edits",
+"./.andromeda/runs/2026-10-27T02-51-54-wrap/apply-security-plan.md",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-27T02-51-54-wrap",
+"--marker",
+"2026-10-27-pinned-copy-race-and-reproducible-builds",
+"--dry-run",
+"--planned",
+"/tmp/andromeda-planned-w8_azwq_"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"applied · .andromeda/security-plan-detail/data-protection.md:12#1",
+"  before @c189 «create_dir_all`) is refused `Writable`, |the refused entry an inherited allow ACE»",
+"  after @c636 «-race-and-reproducible-builds/report.md)|.»",
+"applied · .andromeda/security-plan-detail/data-protection.md:17#1",
+"  before @c214 «erify` calls, delegates to `pin_bytes`. |A concurrent first start's race is close»",
+"  after @c379 «the pinned copy's first placement below.|»",
+"applied · .andromeda/security-plan-detail/data-protection.md:24+#1",
+"  after line 24 «<!-- /detail -->» + 4 line(s), the first «»",
+"applied · .andromeda/security-plan-detail/data-protection.md:24+#2",
+"  after line 24 «<!-- /detail -->» + 1 line(s), the first «  - A present name is never replaced: `A»",
+"applied · .andromeda/security-plan-detail/data-protection.md:24+#3",
+"  after line 24 «<!-- /detail -->» + 1 line(s), the first «  - A lost placement (`Present`: a concu»",
+"applied · .andromeda/security-plan-detail/data-protection.md:24+#4",
+"  after line 24 «<!-- /detail -->» + 3 line(s), the first «  - Clean release builds of one tree can»",
+"applied · .andromeda/security-plan-detail/authentication-authorization.md:33#1",
+"  before @c492 «ch sets the temp file's mode explicitly |(std `set_permissions`: 0600) before any»",
+"  after @c827 «ion, the pinned copy's first placement).| Never rely on the umask or on a mode ca»",
+"applied · .andromeda/security-plan-detail/authentication-authorization.md:34#1",
+"  before @c1213 «agnostics/` granted Users read refused, |a plain home made before viola refused `»",
+"  after @c1364 «th a viola-made-home control)), green on| `windows-2025` as measured at ci#404033»",
+"applied · .andromeda/security-plan-detail/authentication-authorization.md:42#1",
+"  before @c56 «rence:** `viola-state` home resolution; |tempfile 3.27.0 `persist` via `viola_sta»",
+"  after @c222 «:place_private_new` (the pinned `viola`)|; std `OpenOptionsExt`; windows-sys 0.61»",
+"applied · .andromeda/security-plan-detail/threat-model-summary.md:131+#1",
+"  after line 131 «<!-- /detail -->» + 6 line(s), the first «»",
+"dry-run: would write .andromeda/security-plan-detail/data-protection.md: 6 block(s) on 2 line(s), 9 line(s) added",
+"dry-run: would write .andromeda/security-plan-detail/authentication-authorization.md: 3 block(s) on 3 line(s)",
+"dry-run: would write .andromeda/security-plan-detail/threat-model-summary.md: 1 block(s) on 0 line(s), 6 line(s) added",
+"total · blocks 10 · applied 10 — dry-run, nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"replace": {
+"rows": [
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:12#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:17#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:24+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:24+#2",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:24+#3",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:24+#4",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/authentication-authorization.md:33#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/authentication-authorization.md:34#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/authentication-authorization.md:42#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/threat-model-summary.md:131+#1",
+"status": "applied"
+}
+],
+"dry_run": true,
+"written": {}
+}
+}
+},
+{
+"tool": "cascade",
+"v": "1.18",
+"sha8": "3ca97b67",
+"ts": "2026-10-27T03:41:14Z",
+"argv": [
+"replace",
+"--edits",
+"./.andromeda/runs/2026-10-27T02-51-54-wrap/apply-test-plan.md",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-27T02-51-54-wrap",
+"--marker",
+"2026-10-27-pinned-copy-race-and-reproducible-builds",
+"--dry-run",
+"--planned",
+"/tmp/andromeda-planned-a4e3lgwk"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"applied · .andromeda/test-plan.md:634#1",
+"  before @c573 «y the read rule; on Windows `Writable`, |its refused entry an inherited write gra»",
+"  after @c728 «lds it, as measured on `windows-2025` by| `strict_instance_refuses_a_plain_home_m»",
+"applied · .andromeda/test-plan.md:382#1",
+"  before @c531 «`live_endpoint` over a replayed snapshot|, the stamps and pin strict-modes refusa»",
+"  after @c713 «ther start placed (`pin::place_absent`).|»",
+"applied · .andromeda/test-plan-detail/test-scope-summary.md:117#1",
+"  before @c236 «nix: its 0755 mode fails the read rule; |Windows: an inherited write grant to a S»",
+"  after @c331 « does not trust, whichever SID holds it)|.»",
+"applied · .andromeda/test-plan-detail/unit-test-strategy.md:26#1",
+"  before @c1515 «ade with `create_dir_all` before viola, |its refused entry an inherited write gra»",
+"  after @c1638 «ichever SID holds it (its oracle below).|»",
+"applied · .andromeda/test-plan-detail/unit-test-strategy.md:26+#1",
+"  after line 26 «erited Users (`S-1-5-32-545`) write ACE.» + 1 line(s), the first «  - The plain-home case's Windows or…",
+"applied · .andromeda/test-plan-detail/unit-test-strategy.md:28+#1",
+"  after line 28 «inError::StrictModes`, nothing written).» + 1 line(s), the first «  - The pinned copy's placement (`fs…",
+"applied · .andromeda/test-plan-detail/integration-test-strategy.md:29+#1",
+"  after line 29 «<!-- /detail -->» + 6 line(s), the first «»",
+"applied · .andromeda/test-plan-detail/integration-test-strategy.md:34#1",
+"  before @c141 «ll` before viola is refused `Writable`, |the refused entry an inherited write gra»",
+"  after @c326 «s-2025`: ci#40439188053 for the refusal,| by `strict_instance_refuses_a_plain_hom»",
+"applied · .andromeda/test-plan-detail/integration-test-strategy.md:36+#1",
+"  after line 36 «d; viola sends no DA1 answer of its own.» + 1 line(s), the first «**Runner-inherited grants:** on one …",
+"applied · .andromeda/test-plan-detail/e2e-test-strategy.md:202+#1",
+"  after line 202 «ching `^stamped \\S+  \\d+ pass  0 fail$`.» + 1 line(s), the first «- **As landed:** the MCP leg is `mc…",
+"applied · .andromeda/test-plan-detail/test-data-fixtures.md:10#1",
+"  before @c982 « read rule; on windows-2025 `Writable`, |the refused entry an inherited write gra»",
+"  after @c1213 «e_entry`, as measured at ci#40439188053)|; that home's canonical SDDL is not reco»",
+"applied · .andromeda/test-plan-detail/test-data-fixtures.md:59#1",
+"  before @c155 «xact bytes offered on the hook's stdin) |when it ran, and `spawn_os_error` when t»",
+"  after @c299 « integer, `null` when the OS gives none}|»",
+"applied · .andromeda/test-plan-detail/mocking-stubbing-discipline.md:20+#1",
+"  after line 20 «e unseeded (§7, a widened seeded home) |» + 1 line(s), the first «| Forced-window test parameters | no…",
+"applied · .andromeda/registries/contracts/test-plan/5-command-implementation.md:26#1",
+"  before @c622 «hunk 2026-10-17-mcp-server-for-drivers, |whose Path 7 MCP leg boots the default `»",
+"  after @c765 «ed: true, ..SessionOptions::default() }`|), and the library `boot` spawns the `su»",
+"dry-run: would write .andromeda/test-plan.md: 2 block(s) on 2 line(s)",
+"dry-run: would write .andromeda/test-plan-detail/test-scope-summary.md: 1 block(s) on 1 line(s)",
+"dry-run: would write .andromeda/test-plan-detail/unit-test-strategy.md: 3 block(s) on 1 line(s), 2 line(s) added",
+"dry-run: would write .andromeda/test-plan-detail/integration-test-strategy.md: 3 block(s) on 1 line(s), 7 line(s) added",
+"dry-run: would write .andromeda/test-plan-detail/e2e-test-strategy.md: 1 block(s) on 0 line(s), 1 line(s) added",
+"dry-run: would write .andromeda/test-plan-detail/test-data-fixtures.md: 2 block(s) on 2 line(s)",
+"dry-run: would write .andromeda/test-plan-detail/mocking-stubbing-discipline.md: 1 block(s) on 0 line(s), 1 line(s) added",
+"dry-run: would write .andromeda/registries/contracts/test-plan/5-command-implementation.md: 1 block(s) on 1 line(s)",
+"total · blocks 14 · applied 14 — dry-run, nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"replace": {
+"rows": [
+{
+"id": ".andromeda/test-plan.md:634#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan.md:382#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/test-scope-summary.md:117#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/unit-test-strategy.md:26#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/unit-test-strategy.md:26+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/unit-test-strategy.md:28+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/integration-test-strategy.md:29+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/integration-test-strategy.md:34#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/integration-test-strategy.md:36+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/e2e-test-strategy.md:202+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/test-data-fixtures.md:10#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/test-data-fixtures.md:59#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/mocking-stubbing-discipline.md:20+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/registries/contracts/test-plan/5-command-implementation.md:26#1",
+"status": "applied"
+}
+],
+"dry_run": true,
+"written": {}
+}
+}
+},
+{
+"tool": "cascade",
+"v": "1.18",
+"sha8": "3ca97b67",
+"ts": "2026-10-27T03:41:14Z",
+"argv": [
+"replace",
+"--edits",
+"./.andromeda/runs/2026-10-27T02-51-54-wrap/apply-obs-plan.md",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-27T02-51-54-wrap",
+"--marker",
+"2026-10-27-pinned-copy-race-and-reproducible-builds",
+"--dry-run",
+"--planned",
+"/tmp/andromeda-planned-sd6mx14g"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"applied · .andromeda/obs-plan-detail/span-trace-coverage.md:63+#1",
+"  after line 63 «<!-- /detail -->» + 6 line(s), the first «»",
+"applied · .andromeda/obs-plan-detail/obs-scope-summary.md:398+#1",
+"  after line 398 «(chunk 2026-10-11-the-board-viola-list).» + 1 line(s), the first «  - A pinned-exe hash mismatch is a…",
+"dry-run: would write .andromeda/obs-plan-detail/span-trace-coverage.md: 1 block(s) on 0 line(s), 6 line(s) added",
+"dry-run: would write .andromeda/obs-plan-detail/obs-scope-summary.md: 1 block(s) on 0 line(s), 1 line(s) added",
+"total · blocks 2 · applied 2 — dry-run, nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"replace": {
+"rows": [
+{
+"id": ".andromeda/obs-plan-detail/span-trace-coverage.md:63+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/obs-plan-detail/obs-scope-summary.md:398+#1",
+"status": "applied"
+}
+],
+"dry_run": true,
+"written": {}
+}
+}
+},
+{
+"tool": "cascade",
+"v": "1.18",
+"sha8": "3ca97b67",
+"ts": "2026-10-27T03:43:59Z",
+"argv": [
+"replace",
+"--edits",
+"./.andromeda/runs/2026-10-27T02-51-54-wrap/apply-security-plan.md",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-27T02-51-54-wrap",
+"--marker",
+"2026-10-27-pinned-copy-race-and-reproducible-builds",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"applied · .andromeda/security-plan-detail/data-protection.md:12#1",
+"  before @c189 «create_dir_all`) is refused `Writable`, |the refused entry an inherited allow ACE»",
+"  after @c491 «race-and-reproducible-builds/report.md).|»",
+"applied · .andromeda/security-plan-detail/data-protection.md:17#1",
+"  before @c214 «erify` calls, delegates to `pin_bytes`. |An absent copy is placed, never replaced»",
+"  after @c394 « two folders (each in the groups below).|»",
+"applied · .andromeda/security-plan-detail/data-protection.md:24+#1",
+"  after line 24 «<!-- /detail -->» + 6 line(s), the first «»",
+"applied · .andromeda/security-plan-detail/data-protection.md:24+#2",
+"  after line 24 «<!-- /detail -->» + 6 line(s), the first «»",
+"applied · .andromeda/security-plan-detail/data-protection.md:24+#3",
+"  after line 24 «<!-- /detail -->» + 6 line(s), the first «»",
+"applied · .andromeda/security-plan-detail/data-protection.md:24+#4",
+"  after line 24 «<!-- /detail -->» + 6 line(s), the first «»",
+"applied · .andromeda/security-plan-detail/authentication-authorization.md:33#1",
+"  before @c492 «ch sets the temp file's mode explicitly |(std `set_permissions`: 0600) before any»",
+"  after @c908 «over a present name (§ Data Protection).| Never rely on the umask or on a mode ca»",
+"applied · .andromeda/security-plan-detail/authentication-authorization.md:34#1",
+"  before @c1213 «agnostics/` granted Users read refused, |a plain home made before viola refused `»",
+"  after @c1353 «olds it, with a viola-made-home control)|), green on `windows-2025` as measured a»",
+"applied · .andromeda/security-plan-detail/authentication-authorization.md:42#1",
+"  before @c56 «rence:** `viola-state` home resolution; |tempfile 3.27.0 `persist` via `viola_sta»",
+"  after @c222 «:place_private_new` (the pinned `viola`)|; std `OpenOptionsExt`; windows-sys 0.61»",
+"applied · .andromeda/security-plan-detail/threat-model-summary.md:131+#1",
+"  after line 131 «<!-- /detail -->» + 7 line(s), the first «»",
+"dry-run: would write .andromeda/security-plan-detail/data-protection.md: 6 block(s) on 2 line(s), 24 line(s) added",
+"dry-run: would write .andromeda/security-plan-detail/authentication-authorization.md: 3 block(s) on 3 line(s)",
+"dry-run: would write .andromeda/security-plan-detail/threat-model-summary.md: 1 block(s) on 0 line(s), 7 line(s) added",
+"total · blocks 10 · applied 10 — dry-run, nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"replace": {
+"rows": [
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:12#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:17#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:24+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:24+#2",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:24+#3",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:24+#4",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/authentication-authorization.md:33#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/authentication-authorization.md:34#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/authentication-authorization.md:42#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/threat-model-summary.md:131+#1",
+"status": "applied"
+}
+],
+"dry_run": true,
+"written": {}
+}
+}
+},
+{
+"tool": "cascade",
+"v": "1.18",
+"sha8": "3ca97b67",
+"ts": "2026-10-27T03:44:11Z",
+"argv": [
+"replace",
+"--edits",
+"./.andromeda/runs/2026-10-27T02-51-54-wrap/apply-security-plan.md",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-27T02-51-54-wrap",
+"--marker",
+"2026-10-27-pinned-copy-race-and-reproducible-builds",
+"--dry-run",
+"--planned",
+"/tmp/andromeda-planned-gjdi1z5k"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"applied · .andromeda/security-plan-detail/data-protection.md:12#1",
+"  before @c189 «create_dir_all`) is refused `Writable`, |the refused entry an inherited allow ACE»",
+"  after @c491 «race-and-reproducible-builds/report.md).|»",
+"applied · .andromeda/security-plan-detail/data-protection.md:17#1",
+"  before @c214 «erify` calls, delegates to `pin_bytes`. |An absent copy is placed, never replaced»",
+"  after @c394 « two folders (each in the groups below).|»",
+"applied · .andromeda/security-plan-detail/data-protection.md:24+#1",
+"  after line 24 «<!-- /detail -->» + 6 line(s), the first «»",
+"applied · .andromeda/security-plan-detail/data-protection.md:24+#2",
+"  after line 24 «<!-- /detail -->» + 6 line(s), the first «»",
+"applied · .andromeda/security-plan-detail/data-protection.md:24+#3",
+"  after line 24 «<!-- /detail -->» + 6 line(s), the first «»",
+"applied · .andromeda/security-plan-detail/data-protection.md:24+#4",
+"  after line 24 «<!-- /detail -->» + 6 line(s), the first «»",
+"applied · .andromeda/security-plan-detail/authentication-authorization.md:33#1",
+"  before @c492 «ch sets the temp file's mode explicitly |(std `set_permissions`: 0600) before any»",
+"  after @c908 «over a present name (§ Data Protection).| Never rely on the umask or on a mode ca»",
+"applied · .andromeda/security-plan-detail/authentication-authorization.md:34#1",
+"  before @c1213 «agnostics/` granted Users read refused, |a plain home made before viola refused `»",
+"  after @c1353 «olds it, with a viola-made-home control)|), green on `windows-2025` as measured a»",
+"applied · .andromeda/security-plan-detail/authentication-authorization.md:42#1",
+"  before @c56 «rence:** `viola-state` home resolution; |tempfile 3.27.0 `persist` via `viola_sta»",
+"  after @c222 «:place_private_new` (the pinned `viola`)|; std `OpenOptionsExt`; windows-sys 0.61»",
+"applied · .andromeda/security-plan-detail/threat-model-summary.md:131+#1",
+"  after line 131 «<!-- /detail -->» + 7 line(s), the first «»",
+"dry-run: would write .andromeda/security-plan-detail/data-protection.md: 6 block(s) on 2 line(s), 24 line(s) added",
+"dry-run: would write .andromeda/security-plan-detail/authentication-authorization.md: 3 block(s) on 3 line(s)",
+"dry-run: would write .andromeda/security-plan-detail/threat-model-summary.md: 1 block(s) on 0 line(s), 7 line(s) added",
+"total · blocks 10 · applied 10 — dry-run, nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"replace": {
+"rows": [
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:12#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:17#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:24+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:24+#2",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:24+#3",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:24+#4",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/authentication-authorization.md:33#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/authentication-authorization.md:34#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/authentication-authorization.md:42#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/threat-model-summary.md:131+#1",
+"status": "applied"
+}
+],
+"dry_run": true,
+"written": {}
+}
+}
+},
+{
+"tool": "cascade",
+"v": "1.18",
+"sha8": "3ca97b67",
+"ts": "2026-10-27T03:44:17Z",
+"argv": [
+"replace",
+"--edits",
+".andromeda/runs/2026-10-27T02-51-54-wrap/apply-architecture.md",
+"--run-dir",
+".andromeda/runs/2026-10-27T02-51-54-wrap",
+"--marker",
+"2026-10-27-pinned-copy-race-and-reproducible-builds",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"applied · .andromeda/architecture.md:319#1",
+"  before @c38 «- `bin/<version>-<hash>/viola(.exe)`: |the pinned copy of the binary, which `vi»",
+"  after @c168 «obber, and never replaces (0700 on Unix)|, where `<hash>` is the first 16 hex of »",
+"applied · .andromeda/architecture.md:319#2",
+"  before @c197 «ex of the SHA-256 of the exe's content; |an existing copy is re-hashed on every s»",
+"  after @c328 « first, and a mismatch refuses the start| (exit 1, `pinned-hash-mismatch`) and le»",
+"applied · .andromeda/architecture.md:37#1",
+"  before @c2 «- |**[Snapshot writer] tempfile 3.27.0 `per»",
+"  after @c122 «e shared helpers of `viola_state::fs`.**| `viola_state::fs::replace_private` sets»",
+"applied · .andromeda/architecture.md:37#2",
+"  before @c195 «s written, then writes, `sync_all`s and |`persist`s, a failure leaving the target»",
+"  after @c373 «clobber placement of a closed temp file;| no call site carries its own temp + ren»",
+"applied · .andromeda/architecture.md:69#1",
+"  before @c399 «d the plugin can no longer drift apart; |the content hash keys the copy because t»",
+"  after @c660 «orking-route entry \"Version done-check\".|»",
+"applied · .andromeda/architecture-detail/occupied-resources.md:110+#1",
+"  after line 110 «<!-- /detail -->» + 6 line(s), the first «»",
+"applied · .andromeda/architecture-detail/occupied-resources.md:137#1",
+"  before @c248 «ostics/` granted Users read is refused, |and a plain home made before viola is re»",
+"  after @c501 «ured at ci#40439188053, `windows-2025`).|»",
+"applied · .andromeda/architecture-detail/occupied-resources.md:252+#1",
+"  after line 252 «g fails (as measured at ci#40400887151).» + 1 line(s), the first «- On `windows-2025` runners of one …",
+"applied · .andromeda/architecture-detail/established-decisions.md:53#1",
+"  before @c22 «- **[Snapshot writer] |tempfile 3.27.0 `persist` and `persist_n»",
+"  after @c120 «the shared helpers of `viola_state::fs`.|** `viola_state::fs::replace_private` cr»",
+"applied · .andromeda/architecture-detail/established-decisions.md:53#2",
+"  before @c194 «ets its mode before any byte is written |(0600)»",
+"  after @c200 «(0600)|, writes, `sync_all`s and `persist`s; a »",
+"applied · .andromeda/architecture-detail/established-decisions.md:53#3",
+"  before @c1158 «start of one version writes identically |(the plugin files, the Windows x64 ConPT»",
+"  after @c1442 « no-clobber `place_private_new` (below).| The companions' held open (`FILE_SHARE_»",
+"applied · .andromeda/architecture-detail/established-decisions.md:56+#1",
+"  after line 56 «<!-- /detail -->» + 4 line(s), the first «»",
+"applied · .andromeda/architecture-detail/established-decisions.md:56+#2",
+"  after line 56 «<!-- /detail -->» + 1 line(s), the first «- Its body, the private `place_private_n»",
+"applied · .andromeda/architecture-detail/established-decisions.md:56+#3",
+"  after line 56 «<!-- /detail -->» + 3 line(s), the first «- The write handle is closed before the »",
+"applied · .andromeda/architecture-detail/established-decisions.md:256+#1",
+"  after line 256 «ailed`, the exit code unchanged ([PTY]).» + 1 line(s), the first «- One source tree can build two dif…",
+"applied · .andromeda/architecture-detail/stack-and-technologies.md:18#1",
+"  before @c197 «e write, then `sync_all` and `persist`) |for snapshots and every other replaced f»",
+"  after @c450 «y write, placed once and never replaced;| std `File::lock` on separate `.lock` fi»",
+"dry-run: would write .andromeda/architecture.md: 5 block(s) on 3 line(s)",
+"dry-run: would write .andromeda/architecture-detail/occupied-resources.md: 3 block(s) on 1 line(s), 7 line(s) added",
+"dry-run: would write .andromeda/architecture-detail/established-decisions.md: 7 block(s) on 1 line(s), 9 line(s) added",
+"dry-run: would write .andromeda/architecture-detail/stack-and-technologies.md: 1 block(s) on 1 line(s)",
+"total · blocks 16 · applied 16 — dry-run, nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"replace": {
+"rows": [
+{
+"id": ".andromeda/architecture.md:319#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:319#2",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:37#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:37#2",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:69#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/occupied-resources.md:110+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/occupied-resources.md:137#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/occupied-resources.md:252+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/established-decisions.md:53#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/established-decisions.md:53#2",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/established-decisions.md:53#3",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/established-decisions.md:56+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/established-decisions.md:56+#2",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/established-decisions.md:56+#3",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/established-decisions.md:256+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/stack-and-technologies.md:18#1",
+"status": "applied"
+}
+],
+"dry_run": true,
+"written": {}
+}
+}
+},
+{
+"tool": "cascade",
+"v": "1.18",
+"sha8": "3ca97b67",
+"ts": "2026-10-27T03:44:17Z",
+"argv": [
+"replace",
+"--edits",
+".andromeda/runs/2026-10-27T02-51-54-wrap/apply-security-plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-27T02-51-54-wrap",
+"--marker",
+"2026-10-27-pinned-copy-race-and-reproducible-builds",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"applied · .andromeda/security-plan-detail/data-protection.md:12#1",
+"  before @c189 «create_dir_all`) is refused `Writable`, |the refused entry an inherited allow ACE»",
+"  after @c491 «race-and-reproducible-builds/report.md).|»",
+"applied · .andromeda/security-plan-detail/data-protection.md:17#1",
+"  before @c214 «erify` calls, delegates to `pin_bytes`. |An absent copy is placed, never replaced»",
+"  after @c394 « two folders (each in the groups below).|»",
+"applied · .andromeda/security-plan-detail/data-protection.md:24+#1",
+"  after line 24 «<!-- /detail -->» + 6 line(s), the first «»",
+"applied · .andromeda/security-plan-detail/data-protection.md:24+#2",
+"  after line 24 «<!-- /detail -->» + 6 line(s), the first «»",
+"applied · .andromeda/security-plan-detail/data-protection.md:24+#3",
+"  after line 24 «<!-- /detail -->» + 6 line(s), the first «»",
+"applied · .andromeda/security-plan-detail/data-protection.md:24+#4",
+"  after line 24 «<!-- /detail -->» + 6 line(s), the first «»",
+"applied · .andromeda/security-plan-detail/authentication-authorization.md:33#1",
+"  before @c492 «ch sets the temp file's mode explicitly |(std `set_permissions`: 0600) before any»",
+"  after @c908 «over a present name (§ Data Protection).| Never rely on the umask or on a mode ca»",
+"applied · .andromeda/security-plan-detail/authentication-authorization.md:34#1",
+"  before @c1213 «agnostics/` granted Users read refused, |a plain home made before viola refused `»",
+"  after @c1353 «olds it, with a viola-made-home control)|), green on `windows-2025` as measured a»",
+"applied · .andromeda/security-plan-detail/authentication-authorization.md:42#1",
+"  before @c56 «rence:** `viola-state` home resolution; |tempfile 3.27.0 `persist` via `viola_sta»",
+"  after @c222 «:place_private_new` (the pinned `viola`)|; std `OpenOptionsExt`; windows-sys 0.61»",
+"applied · .andromeda/security-plan-detail/threat-model-summary.md:131+#1",
+"  after line 131 «<!-- /detail -->» + 7 line(s), the first «»",
+"dry-run: would write .andromeda/security-plan-detail/data-protection.md: 6 block(s) on 2 line(s), 24 line(s) added",
+"dry-run: would write .andromeda/security-plan-detail/authentication-authorization.md: 3 block(s) on 3 line(s)",
+"dry-run: would write .andromeda/security-plan-detail/threat-model-summary.md: 1 block(s) on 0 line(s), 7 line(s) added",
+"total · blocks 10 · applied 10 — dry-run, nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"replace": {
+"rows": [
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:12#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:17#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:24+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:24+#2",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:24+#3",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:24+#4",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/authentication-authorization.md:33#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/authentication-authorization.md:34#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/authentication-authorization.md:42#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/threat-model-summary.md:131+#1",
+"status": "applied"
+}
+],
+"dry_run": true,
+"written": {}
+}
+}
+},
+{
+"tool": "cascade",
+"v": "1.18",
+"sha8": "3ca97b67",
+"ts": "2026-10-27T03:44:18Z",
+"argv": [
+"replace",
+"--edits",
+".andromeda/runs/2026-10-27T02-51-54-wrap/apply-test-plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-27T02-51-54-wrap",
+"--marker",
+"2026-10-27-pinned-copy-race-and-reproducible-builds",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"applied · .andromeda/test-plan.md:634#1",
+"  before @c573 «y the read rule; on Windows `Writable`, |its refused entry an inherited write gra»",
+"  after @c728 «lds it, as measured on `windows-2025` by| `strict_instance_refuses_a_plain_home_m»",
+"applied · .andromeda/test-plan.md:382#1",
+"  before @c531 «`live_endpoint` over a replayed snapshot|, the stamps and pin strict-modes refusa»",
+"  after @c713 «ther start placed (`pin::place_absent`).|»",
+"applied · .andromeda/test-plan-detail/test-scope-summary.md:117#1",
+"  before @c236 «nix: its 0755 mode fails the read rule; |Windows: an inherited write grant to a S»",
+"  after @c331 « does not trust, whichever SID holds it)|.»",
+"applied · .andromeda/test-plan-detail/unit-test-strategy.md:26#1",
+"  before @c1515 «ade with `create_dir_all` before viola, |its refused entry an inherited write gra»",
+"  after @c1638 «ichever SID holds it (its oracle below).|»",
+"applied · .andromeda/test-plan-detail/unit-test-strategy.md:26+#1",
+"  after line 26 «erited Users (`S-1-5-32-545`) write ACE.» + 1 line(s), the first «  - The plain-home case's Windows or…",
+"applied · .andromeda/test-plan-detail/unit-test-strategy.md:28+#1",
+"  after line 28 «inError::StrictModes`, nothing written).» + 1 line(s), the first «  - The pinned copy's placement (`fs…",
+"applied · .andromeda/test-plan-detail/integration-test-strategy.md:29+#1",
+"  after line 29 «<!-- /detail -->» + 6 line(s), the first «»",
+"applied · .andromeda/test-plan-detail/integration-test-strategy.md:34#1",
+"  before @c141 «ll` before viola is refused `Writable`, |the refused entry an inherited write gra»",
+"  after @c326 «s-2025`: ci#40439188053 for the refusal,| by `strict_instance_refuses_a_plain_hom»",
+"applied · .andromeda/test-plan-detail/integration-test-strategy.md:36+#1",
+"  after line 36 «d; viola sends no DA1 answer of its own.» + 1 line(s), the first «**Runner-inherited grants:** on one …",
+"applied · .andromeda/test-plan-detail/e2e-test-strategy.md:202+#1",
+"  after line 202 «ching `^stamped \\S+  \\d+ pass  0 fail$`.» + 1 line(s), the first «- **As landed:** the MCP leg is `mc…",
+"applied · .andromeda/test-plan-detail/test-data-fixtures.md:10#1",
+"  before @c982 « read rule; on windows-2025 `Writable`, |the refused entry an inherited write gra»",
+"  after @c1213 «e_entry`, as measured at ci#40439188053)|; that home's canonical SDDL is not reco»",
+"applied · .andromeda/test-plan-detail/test-data-fixtures.md:59#1",
+"  before @c155 «xact bytes offered on the hook's stdin) |when it ran, and `spawn_os_error` when t»",
+"  after @c299 « integer, `null` when the OS gives none}|»",
+"applied · .andromeda/test-plan-detail/mocking-stubbing-discipline.md:20+#1",
+"  after line 20 «e unseeded (§7, a widened seeded home) |» + 1 line(s), the first «| Forced-window test parameters | no…",
+"applied · .andromeda/registries/contracts/test-plan/5-command-implementation.md:26#1",
+"  before @c622 «hunk 2026-10-17-mcp-server-for-drivers, |whose Path 7 MCP leg boots the default `»",
+"  after @c765 «ed: true, ..SessionOptions::default() }`|), and the library `boot` spawns the `su»",
+"dry-run: would write .andromeda/test-plan.md: 2 block(s) on 2 line(s)",
+"dry-run: would write .andromeda/test-plan-detail/test-scope-summary.md: 1 block(s) on 1 line(s)",
+"dry-run: would write .andromeda/test-plan-detail/unit-test-strategy.md: 3 block(s) on 1 line(s), 2 line(s) added",
+"dry-run: would write .andromeda/test-plan-detail/integration-test-strategy.md: 3 block(s) on 1 line(s), 7 line(s) added",
+"dry-run: would write .andromeda/test-plan-detail/e2e-test-strategy.md: 1 block(s) on 0 line(s), 1 line(s) added",
+"dry-run: would write .andromeda/test-plan-detail/test-data-fixtures.md: 2 block(s) on 2 line(s)",
+"dry-run: would write .andromeda/test-plan-detail/mocking-stubbing-discipline.md: 1 block(s) on 0 line(s), 1 line(s) added",
+"dry-run: would write .andromeda/registries/contracts/test-plan/5-command-implementation.md: 1 block(s) on 1 line(s)",
+"total · blocks 14 · applied 14 — dry-run, nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"replace": {
+"rows": [
+{
+"id": ".andromeda/test-plan.md:634#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan.md:382#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/test-scope-summary.md:117#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/unit-test-strategy.md:26#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/unit-test-strategy.md:26+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/unit-test-strategy.md:28+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/integration-test-strategy.md:29+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/integration-test-strategy.md:34#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/integration-test-strategy.md:36+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/e2e-test-strategy.md:202+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/test-data-fixtures.md:10#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/test-data-fixtures.md:59#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/mocking-stubbing-discipline.md:20+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/registries/contracts/test-plan/5-command-implementation.md:26#1",
+"status": "applied"
+}
+],
+"dry_run": true,
+"written": {}
+}
+}
+},
+{
+"tool": "cascade",
+"v": "1.18",
+"sha8": "3ca97b67",
+"ts": "2026-10-27T03:44:18Z",
+"argv": [
+"replace",
+"--edits",
+".andromeda/runs/2026-10-27T02-51-54-wrap/apply-obs-plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-27T02-51-54-wrap",
+"--marker",
+"2026-10-27-pinned-copy-race-and-reproducible-builds",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"applied · .andromeda/obs-plan-detail/span-trace-coverage.md:63+#1",
+"  after line 63 «<!-- /detail -->» + 6 line(s), the first «»",
+"applied · .andromeda/obs-plan-detail/obs-scope-summary.md:398+#1",
+"  after line 398 «(chunk 2026-10-11-the-board-viola-list).» + 1 line(s), the first «  - A pinned-exe hash mismatch is a…",
+"dry-run: would write .andromeda/obs-plan-detail/span-trace-coverage.md: 1 block(s) on 0 line(s), 6 line(s) added",
+"dry-run: would write .andromeda/obs-plan-detail/obs-scope-summary.md: 1 block(s) on 0 line(s), 1 line(s) added",
+"total · blocks 2 · applied 2 — dry-run, nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"replace": {
+"rows": [
+{
+"id": ".andromeda/obs-plan-detail/span-trace-coverage.md:63+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/obs-plan-detail/obs-scope-summary.md:398+#1",
+"status": "applied"
+}
+],
+"dry_run": true,
+"written": {}
+}
+}
+},
+{
+"tool": "cascade",
+"v": "1.18",
+"sha8": "3ca97b67",
+"ts": "2026-10-27T03:44:25Z",
+"argv": [
+"replace",
+"--edits",
+".andromeda/runs/2026-10-27T02-51-54-wrap/apply-architecture.md",
+"--run-dir",
+".andromeda/runs/2026-10-27T02-51-54-wrap",
+"--marker",
+"2026-10-27-pinned-copy-race-and-reproducible-builds"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"applied · .andromeda/architecture.md:319#1",
+"applied · .andromeda/architecture.md:319#2",
+"applied · .andromeda/architecture.md:37#1",
+"applied · .andromeda/architecture.md:37#2",
+"applied · .andromeda/architecture.md:69#1",
+"applied · .andromeda/architecture-detail/occupied-resources.md:110+#1",
+"applied · .andromeda/architecture-detail/occupied-resources.md:137#1",
+"applied · .andromeda/architecture-detail/occupied-resources.md:252+#1",
+"applied · .andromeda/architecture-detail/established-decisions.md:53#1",
+"applied · .andromeda/architecture-detail/established-decisions.md:53#2",
+"applied · .andromeda/architecture-detail/established-decisions.md:53#3",
+"applied · .andromeda/architecture-detail/established-decisions.md:56+#1",
+"applied · .andromeda/architecture-detail/established-decisions.md:56+#2",
+"applied · .andromeda/architecture-detail/established-decisions.md:56+#3",
+"applied · .andromeda/architecture-detail/established-decisions.md:256+#1",
+"applied · .andromeda/architecture-detail/stack-and-technologies.md:18#1",
+"wrote .andromeda/architecture.md: 5 block(s) on 3 line(s), read back",
+"wrote .andromeda/architecture-detail/occupied-resources.md: 3 block(s) on 1 line(s), 7 line(s) added, read back",
+"wrote .andromeda/architecture-detail/established-decisions.md: 7 block(s) on 1 line(s), 9 line(s) added, read back",
+"wrote .andromeda/architecture-detail/stack-and-technologies.md: 1 block(s) on 1 line(s), read back",
+"total · blocks 16 · applied 16"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/architecture.md",
+"./.andromeda/architecture-detail/occupied-resources.md",
+"./.andromeda/architecture-detail/established-decisions.md",
+"./.andromeda/architecture-detail/stack-and-technologies.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"replace": {
+"rows": [
+{
+"id": ".andromeda/architecture.md:319#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:319#2",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:37#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:37#2",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture.md:69#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/occupied-resources.md:110+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/occupied-resources.md:137#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/occupied-resources.md:252+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/established-decisions.md:53#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/established-decisions.md:53#2",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/established-decisions.md:53#3",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/established-decisions.md:56+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/established-decisions.md:56+#2",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/established-decisions.md:56+#3",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/established-decisions.md:256+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/architecture-detail/stack-and-technologies.md:18#1",
+"status": "applied"
+}
+],
+"dry_run": false,
+"written": {
+".andromeda/architecture.md": {
+"lines": {
+"37": [
+"f8df03d6c6",
+"23cb1caee2"
+],
+"69": [
+"e003b63b5a",
+"36a479e339"
+],
+"319": [
+"f11eee4eb6",
+"598ed3e5bc"
+]
+},
+"blocks": [
+".andromeda/architecture.md:319:d661fc31e7:900ca73cd7",
+".andromeda/architecture.md:319:90bc435761:2f8d721bb2",
+".andromeda/architecture.md:37:ee8386aba7:afc142db59",
+".andromeda/architecture.md:37:c16e7ccafc:edb539d51f",
+".andromeda/architecture.md:69:e62b1e2f19:80b6b2acd4"
+],
+"added": [],
+"after": "b9abe9281730e3f0f9fcc8ed60d4fe7fc8880e02"
+},
+".andromeda/architecture-detail/occupied-resources.md": {
+"lines": {
+"137": [
+"90d50426da",
+"2b4364e658"
+]
+},
+"blocks": [
+".andromeda/architecture-detail/occupied-resources.md:+110:e6a3629dd0:b3af92458b",
+".andromeda/architecture-detail/occupied-resources.md:137:ee7d2ccc62:244f724419",
+".andromeda/architecture-detail/occupied-resources.md:+252:a98bc99a6c:b55422a244"
+],
+"added": [
+"da39a3ee5e",
+"eedddc749d",
+"da39a3ee5e",
+"b48cb68604",
+"da39a3ee5e",
+"e6a3629dd0",
+"b55422a244"
+],
+"after": "95dab2d4617bf053c2da779c7921ebcfca594ed0"
+},
+".andromeda/architecture-detail/established-decisions.md": {
+"lines": {
+"53": [
+"038c61ae4a",
+"71060611de"
+]
+},
+"blocks": [
+".andromeda/architecture-detail/established-decisions.md:53:8a0c5d3b1b:b791de381d",
+".andromeda/architecture-detail/established-decisions.md:53:f4f733a843:c8f214a308",
+".andromeda/architecture-detail/established-decisions.md:53:7fcfda02cc:752f5173b5",
+".andromeda/architecture-detail/established-decisions.md:+56:e6a3629dd0:b81ab3efc3",
+".andromeda/architecture-detail/established-decisions.md:+56:e6a3629dd0:396688e174",
+".andromeda/architecture-detail/established-decisions.md:+56:e6a3629dd0:1848afd633",
+".andromeda/architecture-detail/established-decisions.md:+256:e8ca1edc35:274902cf57"
+],
+"added": [
+"da39a3ee5e",
+"295611e1db",
+"da39a3ee5e",
+"77076fb512",
+"396688e174",
+"876ae4b9e8",
+"da39a3ee5e",
+"e6a3629dd0",
+"274902cf57"
+],
+"after": "5bc7cf519b4b9f7733cc2dec3fee584d7cf0a04c"
+},
+".andromeda/architecture-detail/stack-and-technologies.md": {
+"lines": {
+"18": [
+"0c0f119fcc",
+"dad656e8ac"
+]
+},
+"blocks": [
+".andromeda/architecture-detail/stack-and-technologies.md:18:d6c12d84e1:d54ef35669"
+],
+"added": [],
+"after": "ab387e3953be9e36c9ffb2cf5dfa19c2f26af985"
+}
+}
+}
+}
+},
+{
+"tool": "cascade",
+"v": "1.18",
+"sha8": "3ca97b67",
+"ts": "2026-10-27T03:44:25Z",
+"argv": [
+"replace",
+"--edits",
+".andromeda/runs/2026-10-27T02-51-54-wrap/apply-security-plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-27T02-51-54-wrap",
+"--marker",
+"2026-10-27-pinned-copy-race-and-reproducible-builds"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"applied · .andromeda/security-plan-detail/data-protection.md:12#1",
+"applied · .andromeda/security-plan-detail/data-protection.md:17#1",
+"applied · .andromeda/security-plan-detail/data-protection.md:24+#1",
+"applied · .andromeda/security-plan-detail/data-protection.md:24+#2",
+"applied · .andromeda/security-plan-detail/data-protection.md:24+#3",
+"applied · .andromeda/security-plan-detail/data-protection.md:24+#4",
+"applied · .andromeda/security-plan-detail/authentication-authorization.md:33#1",
+"applied · .andromeda/security-plan-detail/authentication-authorization.md:34#1",
+"applied · .andromeda/security-plan-detail/authentication-authorization.md:42#1",
+"applied · .andromeda/security-plan-detail/threat-model-summary.md:131+#1",
+"wrote .andromeda/security-plan-detail/data-protection.md: 6 block(s) on 2 line(s), 24 line(s) added, read back",
+"wrote .andromeda/security-plan-detail/authentication-authorization.md: 3 block(s) on 3 line(s), read back",
+"wrote .andromeda/security-plan-detail/threat-model-summary.md: 1 block(s) on 0 line(s), 7 line(s) added, read back",
+"total · blocks 10 · applied 10"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/security-plan-detail/data-protection.md",
+"./.andromeda/security-plan-detail/authentication-authorization.md",
+"./.andromeda/security-plan-detail/threat-model-summary.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"replace": {
+"rows": [
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:12#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:17#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:24+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:24+#2",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:24+#3",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/data-protection.md:24+#4",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/authentication-authorization.md:33#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/authentication-authorization.md:34#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/authentication-authorization.md:42#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/security-plan-detail/threat-model-summary.md:131+#1",
+"status": "applied"
+}
+],
+"dry_run": false,
+"written": {
+".andromeda/security-plan-detail/data-protection.md": {
+"lines": {
+"12": [
+"bd4a7e9141",
+"6d8643d87c"
+],
+"17": [
+"8630ef45f7",
+"2e87b130bb"
+]
+},
+"blocks": [
+".andromeda/security-plan-detail/data-protection.md:12:f139c2feb5:e8eb4ce767",
+".andromeda/security-plan-detail/data-protection.md:17:5736f98b72:56aa897120",
+".andromeda/security-plan-detail/data-protection.md:+24:e6a3629dd0:0ddde89681",
+".andromeda/security-plan-detail/data-protection.md:+24:e6a3629dd0:39504a9654",
+".andromeda/security-plan-detail/data-protection.md:+24:e6a3629dd0:dc9aaa47b7",
+".andromeda/security-plan-detail/data-protection.md:+24:e6a3629dd0:39f3ada2b2"
+],
+"added": [
+"da39a3ee5e",
+"270ce8108d",
+"da39a3ee5e",
+"15140b22dc",
+"da39a3ee5e",
+"e6a3629dd0",
+"da39a3ee5e",
+"270ce8108d",
+"da39a3ee5e",
+"4a885c2961",
+"da39a3ee5e",
+"e6a3629dd0",
+"da39a3ee5e",
+"270ce8108d",
+"da39a3ee5e",
+"c8c12d6a7e",
+"da39a3ee5e",
+"e6a3629dd0",
+"da39a3ee5e",
+"270ce8108d",
+"da39a3ee5e",
+"80857f9d70",
+"da39a3ee5e",
+"e6a3629dd0"
+],
+"after": "d5da9ecbcb24f792b1516ba914147c722b32ef87"
+},
+".andromeda/security-plan-detail/authentication-authorization.md": {
+"lines": {
+"33": [
+"443942f4a0",
+"d8862bbfd5"
+],
+"34": [
+"5423500b07",
+"ca7be3fb95"
+],
+"42": [
+"b3c1fe29f0",
+"4918de19fc"
+]
+},
+"blocks": [
+".andromeda/security-plan-detail/authentication-authorization.md:33:db2bfe4447:3efc9dc846",
+".andromeda/security-plan-detail/authentication-authorization.md:34:233db7c569:89cbc6ca43",
+".andromeda/security-plan-detail/authentication-authorization.md:42:9eebd700f0:c175785505"
+],
+"added": [],
+"after": "b51c4ccec36f3470edf16219dde48cd265b0cd26"
+},
+".andromeda/security-plan-detail/threat-model-summary.md": {
+"lines": {},
+"blocks": [
+".andromeda/security-plan-detail/threat-model-summary.md:+131:e6a3629dd0:f9359ec468"
+],
+"added": [
+"da39a3ee5e",
+"772a53de21",
+"da39a3ee5e",
+"c420a5f4f3",
+"c8012fe404",
+"da39a3ee5e",
+"e6a3629dd0"
+],
+"after": "5919f0adb3f8cf7aad99de5662c80f540984fd4e"
+}
+}
+}
+}
+},
+{
+"tool": "cascade",
+"v": "1.18",
+"sha8": "3ca97b67",
+"ts": "2026-10-27T03:44:26Z",
+"argv": [
+"replace",
+"--edits",
+".andromeda/runs/2026-10-27T02-51-54-wrap/apply-test-plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-27T02-51-54-wrap",
+"--marker",
+"2026-10-27-pinned-copy-race-and-reproducible-builds"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"applied · .andromeda/test-plan.md:634#1",
+"applied · .andromeda/test-plan.md:382#1",
+"applied · .andromeda/test-plan-detail/test-scope-summary.md:117#1",
+"applied · .andromeda/test-plan-detail/unit-test-strategy.md:26#1",
+"applied · .andromeda/test-plan-detail/unit-test-strategy.md:26+#1",
+"applied · .andromeda/test-plan-detail/unit-test-strategy.md:28+#1",
+"applied · .andromeda/test-plan-detail/integration-test-strategy.md:29+#1",
+"applied · .andromeda/test-plan-detail/integration-test-strategy.md:34#1",
+"applied · .andromeda/test-plan-detail/integration-test-strategy.md:36+#1",
+"applied · .andromeda/test-plan-detail/e2e-test-strategy.md:202+#1",
+"applied · .andromeda/test-plan-detail/test-data-fixtures.md:10#1",
+"applied · .andromeda/test-plan-detail/test-data-fixtures.md:59#1",
+"applied · .andromeda/test-plan-detail/mocking-stubbing-discipline.md:20+#1",
+"applied · .andromeda/registries/contracts/test-plan/5-command-implementation.md:26#1",
+"wrote .andromeda/test-plan.md: 2 block(s) on 2 line(s), read back",
+"wrote .andromeda/test-plan-detail/test-scope-summary.md: 1 block(s) on 1 line(s), read back",
+"wrote .andromeda/test-plan-detail/unit-test-strategy.md: 3 block(s) on 1 line(s), 2 line(s) added, read back",
+"wrote .andromeda/test-plan-detail/integration-test-strategy.md: 3 block(s) on 1 line(s), 7 line(s) added, read back",
+"wrote .andromeda/test-plan-detail/e2e-test-strategy.md: 1 block(s) on 0 line(s), 1 line(s) added, read back",
+"wrote .andromeda/test-plan-detail/test-data-fixtures.md: 2 block(s) on 2 line(s), read back",
+"wrote .andromeda/test-plan-detail/mocking-stubbing-discipline.md: 1 block(s) on 0 line(s), 1 line(s) added, read back",
+"wrote .andromeda/registries/contracts/test-plan/5-command-implementation.md: 1 block(s) on 1 line(s), read back",
+"total · blocks 14 · applied 14"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/test-plan.md",
+"./.andromeda/test-plan-detail/test-scope-summary.md",
+"./.andromeda/test-plan-detail/unit-test-strategy.md",
+"./.andromeda/test-plan-detail/integration-test-strategy.md",
+"./.andromeda/test-plan-detail/e2e-test-strategy.md",
+"./.andromeda/test-plan-detail/test-data-fixtures.md",
+"./.andromeda/test-plan-detail/mocking-stubbing-discipline.md",
+"./.andromeda/registries/contracts/test-plan/5-command-implementation.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"replace": {
+"rows": [
+{
+"id": ".andromeda/test-plan.md:634#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan.md:382#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/test-scope-summary.md:117#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/unit-test-strategy.md:26#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/unit-test-strategy.md:26+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/unit-test-strategy.md:28+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/integration-test-strategy.md:29+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/integration-test-strategy.md:34#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/integration-test-strategy.md:36+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/e2e-test-strategy.md:202+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/test-data-fixtures.md:10#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/test-data-fixtures.md:59#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/test-plan-detail/mocking-stubbing-discipline.md:20+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/registries/contracts/test-plan/5-command-implementation.md:26#1",
+"status": "applied"
+}
+],
+"dry_run": false,
+"written": {
+".andromeda/test-plan.md": {
+"lines": {
+"382": [
+"9dab7b020e",
+"5aefac6f2b"
+],
+"634": [
+"a72f77dcf1",
+"d43c25eb44"
+]
+},
+"blocks": [
+".andromeda/test-plan.md:634:9e3f30fbcc:e135a8f687",
+".andromeda/test-plan.md:382:6e6c09ba52:edd8259efe"
+],
+"added": [],
+"after": "45fbd2288aeef66bb5f6f3fa5e4a77812f37ff37"
+},
+".andromeda/test-plan-detail/test-scope-summary.md": {
+"lines": {
+"117": [
+"ffbce4a15a",
+"7476e61611"
+]
+},
+"blocks": [
+".andromeda/test-plan-detail/test-scope-summary.md:117:d0316e66e2:f5e1d029f6"
+],
+"added": [],
+"after": "cca3d3faa964bcbf95129fd5d4a499e3e1b45e3a"
+},
+".andromeda/test-plan-detail/unit-test-strategy.md": {
+"lines": {
+"26": [
+"108428766e",
+"fd4094682c"
+]
+},
+"blocks": [
+".andromeda/test-plan-detail/unit-test-strategy.md:26:a5b4b326f2:ca3b3fcd9c",
+".andromeda/test-plan-detail/unit-test-strategy.md:+26:108428766e:aba945de67",
+".andromeda/test-plan-detail/unit-test-strategy.md:+28:f072a1b228:694483a77f"
+],
+"added": [
+"aba945de67",
+"694483a77f"
+],
+"after": "21be826ae28f595dde66f0917a76967443eb8b2a"
+},
+".andromeda/test-plan-detail/integration-test-strategy.md": {
+"lines": {
+"34": [
+"46a2af5492",
+"265bc50f75"
+]
+},
+"blocks": [
+".andromeda/test-plan-detail/integration-test-strategy.md:+29:e6a3629dd0:ae1ff1a536",
+".andromeda/test-plan-detail/integration-test-strategy.md:34:7b1ab550b1:dd04c0a758",
+".andromeda/test-plan-detail/integration-test-strategy.md:+36:54279a2c42:e7e0a27046"
+],
+"added": [
+"da39a3ee5e",
+"5d01bc19f0",
+"da39a3ee5e",
+"b10b98f648",
+"da39a3ee5e",
+"e6a3629dd0",
+"e7e0a27046"
+],
+"after": "3ceb8cdb04a5019cfc56e76ba9497e59f48f77e2"
+},
+".andromeda/test-plan-detail/e2e-test-strategy.md": {
+"lines": {},
+"blocks": [
+".andromeda/test-plan-detail/e2e-test-strategy.md:+202:0136399c42:382d39622f"
+],
+"added": [
+"382d39622f"
+],
+"after": "150c868eef6e79e01fbeebb91ee796a071b4101e"
+},
+".andromeda/test-plan-detail/test-data-fixtures.md": {
+"lines": {
+"10": [
+"3641fac435",
+"7d66e3d79b"
+],
+"59": [
+"3c5c850f0d",
+"e8ed2b8a8f"
+]
+},
+"blocks": [
+".andromeda/test-plan-detail/test-data-fixtures.md:10:6b1119c4a8:f88c162916",
+".andromeda/test-plan-detail/test-data-fixtures.md:59:6fff05ad88:a57d132a44"
+],
+"added": [],
+"after": "98125bfef78e423c3efe64d34325223166f4d835"
+},
+".andromeda/test-plan-detail/mocking-stubbing-discipline.md": {
+"lines": {},
+"blocks": [
+".andromeda/test-plan-detail/mocking-stubbing-discipline.md:+20:761d8afbca:e76b3d3c94"
+],
+"added": [
+"e76b3d3c94"
+],
+"after": "c7a73b467280078ac67aa47da71e9538e8c754de"
+},
+".andromeda/registries/contracts/test-plan/5-command-implementation.md": {
+"lines": {
+"26": [
+"0c65ce57ec",
+"0bbc2a21d1"
+]
+},
+"blocks": [
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:26:b7e9516ddd:e533ea8dea"
+],
+"added": [],
+"after": "21dbf644d9c94b647cb66ff7b19ebf20f68b865f"
+}
+}
+}
+}
+},
+{
+"tool": "cascade",
+"v": "1.18",
+"sha8": "3ca97b67",
+"ts": "2026-10-27T03:44:26Z",
+"argv": [
+"replace",
+"--edits",
+".andromeda/runs/2026-10-27T02-51-54-wrap/apply-obs-plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-27T02-51-54-wrap",
+"--marker",
+"2026-10-27-pinned-copy-race-and-reproducible-builds"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"applied · .andromeda/obs-plan-detail/span-trace-coverage.md:63+#1",
+"applied · .andromeda/obs-plan-detail/obs-scope-summary.md:398+#1",
+"wrote .andromeda/obs-plan-detail/span-trace-coverage.md: 1 block(s) on 0 line(s), 6 line(s) added, read back",
+"wrote .andromeda/obs-plan-detail/obs-scope-summary.md: 1 block(s) on 0 line(s), 1 line(s) added, read back",
+"total · blocks 2 · applied 2"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/obs-plan-detail/span-trace-coverage.md",
+"./.andromeda/obs-plan-detail/obs-scope-summary.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"replace": {
+"rows": [
+{
+"id": ".andromeda/obs-plan-detail/span-trace-coverage.md:63+#1",
+"status": "applied"
+},
+{
+"id": ".andromeda/obs-plan-detail/obs-scope-summary.md:398+#1",
+"status": "applied"
+}
+],
+"dry_run": false,
+"written": {
+".andromeda/obs-plan-detail/span-trace-coverage.md": {
+"lines": {},
+"blocks": [
+".andromeda/obs-plan-detail/span-trace-coverage.md:+63:e6a3629dd0:8f4c1a9cc8"
+],
+"added": [
+"da39a3ee5e",
+"72c1aec770",
+"da39a3ee5e",
+"5b46c52c26",
+"da39a3ee5e",
+"e6a3629dd0"
+],
+"after": "6db9f3db64f5c43bb2c0dd37bbfc652e3d4513e4"
+},
+".andromeda/obs-plan-detail/obs-scope-summary.md": {
+"lines": {},
+"blocks": [
+".andromeda/obs-plan-detail/obs-scope-summary.md:+398:978c4fc579:1541eec400"
+],
+"added": [
+"1541eec400"
+],
+"after": "96011473bb8c70ec8f4815fb6e4b4e013cd42036"
+}
+}
+}
+}
+},
+{
+"tool": "cascade",
+"v": "1.18",
+"sha8": "3ca97b67",
+"ts": "2026-10-27T03:45:42Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-27T02-51-54-wrap/apply-architecture.md",
+"--patterns-file",
+".andromeda/runs/2026-10-27T02-51-54-wrap/apply-security-plan.md",
+"--patterns-file",
+".andromeda/runs/2026-10-27T02-51-54-wrap/apply-test-plan.md",
+"--patterns-file",
+".andromeda/runs/2026-10-27T02-51-54-wrap/apply-obs-plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-27T02-51-54-wrap",
+"--marker",
+"2026-10-27-pinned-copy-race-and-reproducible-builds"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline 99977116 (the parent of the oldest pre-CI commit 6c77eadd)",
+"arch-01 · new 0 · standing 2 · leaf 1 · curation 0 · base 0 · control architecture.md:37 (prose)",
+"arch-02 · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:319 (prose)",
+"arch-03 · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture-detail/establ…",
+"arch-04 · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture-detail/establ…",
+"arch-05 · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture-detail/occupi…",
+"sec-01 · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan-detail/data-p…",
+"sec-02 · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan-detail/data-p…",
+"sec-03 · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture-detail/establi…",
+"tp-01 · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:634 (prose)",
+"tp-02 · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan-detail/test-scope-…",
+"tp-03 · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan-detail/data-pr…",
+"tp-04 · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan-detail/integration…",
+"tp-05 · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan-detail/integration…",
+"tp-06 · 0 rows (control fired) — a statement about this pattern, not the masters · control registries/contracts/test-pl…",
+".andromeda/architecture.md:445 arch-01 standing …pfile 3.27.0 `persist` through one shared helper) + std `File::lock`, …",
+".andromeda/architecture-detail/stack-and-technologies.md:18 arch-01 standing edited … `persist` through one shared help…",
+".claude/docs/stack.md:17 arch-01 leaf …tempfile 3.27.0 `persist` through one shared helper (`viola_state::fs::replace_p…",
+"arch-01 · new 0 · standing 2 · leaf 1 · curation 0 · base 0 · control architecture.md:37 (prose)",
+"arch-02 · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:319 (prose)",
+"arch-03 · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture-detail/establ…",
+"arch-04 · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture-detail/establ…",
+"arch-05 · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture-detail/occupi…",
+"sec-01 · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan-detail/data-p…",
+"sec-02 · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan-detail/data-p…",
+"sec-03 · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture-detail/establi…",
+"tp-01 · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:634 (prose)",
+"tp-02 · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan-detail/test-scope-…",
+"tp-03 · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan-detail/data-pr…",
+"tp-04 · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan-detail/integration…",
+"tp-05 · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan-detail/integration…",
+"tp-06 · 0 rows (control fired) — a statement about this pattern, not the masters · control registries/contracts/test-pl…",
+"total (14 patterns) · 3 rows over 3 files",
+"per class · new 0/0 · standing 2/2 · leaf 1/1 · curation 0/0 · base 0/0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "99977116182bae621cdbe494d0f09e46e94e29f1",
+"how": "the parent of the oldest pre-CI commit 6c77eadd",
+"counts": {
+"arch-01": {
+"new": 0,
+"standing": 2,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"arch-02": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"arch-03": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"arch-04": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"arch-05": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"sec-01": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"sec-02": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"sec-03": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"tp-01": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"tp-02": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"tp-03": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"tp-04": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"tp-05": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"tp-06": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+},
+"bare": []
+}
+},
+{
+"tool": "cascade",
+"v": "1.18",
+"sha8": "3ca97b67",
+"ts": "2026-10-27T03:49:46Z",
+"argv": [
+"leaves",
+"--run-dir",
+".andromeda/runs/2026-10-27T02-51-54-wrap",
+"--marker",
+"2026-10-27-pinned-copy-race-and-reproducible-builds",
+"--add",
+".claude/docs/stack.md"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline 99977116 (the parent of the oldest pre-CI commit 6c77eadd)",
+"architecture-1 · pass · 4 leaves · 59456 B · 13 source file(s)",
+"  leaf .claude/docs/conventions.md · 11357 B",
+"  leaf .claude/docs/gotchas.md · 20984 B",
+"  leaf .claude/docs/services/viola-agent-claude.md · 18468 B",
+"  leaf .claude/docs/services/viola-channel.md · 8647 B",
+"  source .andromeda/architecture.md",
+"  source .andromeda/architecture-detail/conventions.md",
+"  source .andromeda/architecture-detail/cross-cutting-patterns.md",
+"  source .andromeda/architecture-detail/established-decisions.md",
+"  source .andromeda/architecture-detail/occupied-resources.md",
+"  source .andromeda/architecture-detail/stack-and-technologies.md",
+"  source .andromeda/architecture-detail/standard-contracts.md",
+"  source .andromeda/registries/architecture-contracts.toml",
+"  source .andromeda/registries/contracts/architecture/build-system.md",
+"  source .andromeda/registries/contracts/architecture/ci-cd-approach.md",
+"  source .andromeda/registries/contracts/architecture/crate-dependency-direction.md",
+"  source .andromeda/registries/contracts/architecture/deployment-model.md",
+"  source .andromeda/registries/contracts/architecture/project-directory-structure.md",
+"  delta leaf-delta-architecture.diff",
+"architecture-2 · pass · 4 leaves · 34756 B · 13 source file(s)",
+"  leaf .claude/docs/services/viola-core.md · 5350 B",
+"  leaf .claude/docs/services/viola-mcp.md · 7435 B",
+"  leaf .claude/docs/services/viola-pty.md · 7555 B",
+"  leaf .claude/docs/services/viola-state.md · 14416 B",
+"  source .andromeda/architecture.md",
+"  source .andromeda/architecture-detail/conventions.md",
+"  source .andromeda/architecture-detail/cross-cutting-patterns.md",
+"  source .andromeda/architecture-detail/established-decisions.md",
+"  source .andromeda/architecture-detail/occupied-resources.md",
+"  source .andromeda/architecture-detail/stack-and-technologies.md",
+"  source .andromeda/architecture-detail/standard-contracts.md",
+"  source .andromeda/registries/architecture-contracts.toml",
+"  source .andromeda/registries/contracts/architecture/build-system.md",
+"  source .andromeda/registries/contracts/architecture/ci-cd-approach.md",
+"  source .andromeda/registries/contracts/architecture/crate-dependency-direction.md",
+"  source .andromeda/registries/contracts/architecture/deployment-model.md",
+"  source .andromeda/registries/contracts/architecture/project-directory-structure.md",
+"  delta leaf-delta-architecture.diff",
+"architecture-3 · pass · 3 leaves · 55913 B · 13 source file(s)",
+"  leaf .claude/docs/services/viola.md · 34404 B",
+"  leaf .claude/docs/stack.md · 14954 B",
+"  leaf .claude/docs/workflow.md · 6555 B",
+"  source .andromeda/architecture.md",
+"  source .andromeda/architecture-detail/conventions.md",
+"  source .andromeda/architecture-detail/cross-cutting-patterns.md",
+"  source .andromeda/architecture-detail/established-decisions.md",
+"  source .andromeda/architecture-detail/occupied-resources.md",
+"  source .andromeda/architecture-detail/stack-and-technologies.md",
+"  source .andromeda/architecture-detail/standard-contracts.md",
+"  source .andromeda/registries/architecture-contracts.toml",
+"  source .andromeda/registries/contracts/architecture/build-system.md",
+"  source .andromeda/registries/contracts/architecture/ci-cd-approach.md",
+"  source .andromeda/registries/contracts/architecture/crate-dependency-direction.md",
+"  source .andromeda/registries/contracts/architecture/deployment-model.md",
+"  source .andromeda/registries/contracts/architecture/project-directory-structure.md",
+"  delta leaf-delta-architecture.diff",
+"architecture-4 · pass · 2 leaves · 16385 B · 13 source file(s)",
+"  leaf .claude/rules/events.md · 10306 B",
+"  leaf .claude/rules/frontend.md · 6079 B",
+"  source .andromeda/architecture.md",
+"  source .andromeda/architecture-detail/conventions.md",
+"  source .andromeda/architecture-detail/cross-cutting-patterns.md",
+"  source .andromeda/architecture-detail/established-decisions.md",
+"  source .andromeda/architecture-detail/occupied-resources.md",
+"  source .andromeda/architecture-detail/stack-and-technologies.md",
+"  source .andromeda/architecture-detail/standard-contracts.md",
+"  source .andromeda/registries/architecture-contracts.toml",
+"  source .andromeda/registries/contracts/architecture/build-system.md",
+"  source .andromeda/registries/contracts/architecture/ci-cd-approach.md",
+"  source .andromeda/registries/contracts/architecture/crate-dependency-direction.md",
+"  source .andromeda/registries/contracts/architecture/deployment-model.md",
+"  source .andromeda/registries/contracts/architecture/project-directory-structure.md",
+"  delta leaf-delta-architecture.diff",
+"architecture+security-plan · pass · 1 leaves · 17419 B · 23 source file(s)",
+"  leaf .claude/rules/api.md · 17419 B",
+"  source .andromeda/architecture.md",
+"  source .andromeda/architecture-detail/conventions.md",
+"  source .andromeda/architecture-detail/cross-cutting-patterns.md",
+"  source .andromeda/architecture-detail/established-decisions.md",
+"  source .andromeda/architecture-detail/occupied-resources.md",
+"  source .andromeda/architecture-detail/stack-and-technologies.md",
+"  source .andromeda/architecture-detail/standard-contracts.md",
+"  source .andromeda/registries/architecture-contracts.toml",
+"  source .andromeda/registries/contracts/architecture/build-system.md",
+"  source .andromeda/registries/contracts/architecture/ci-cd-approach.md",
+"  source .andromeda/registries/contracts/architecture/crate-dependency-direction.md",
+"  source .andromeda/registries/contracts/architecture/deployment-model.md",
+"  source .andromeda/registries/contracts/architecture/project-directory-structure.md",
+"  source .andromeda/security-plan.md",
+"  source .andromeda/security-plan-detail/authentication-authorization.md",
+"  source .andromeda/security-plan-detail/bootstrap-phases.md",
+"  source .andromeda/security-plan-detail/data-protection.md",
+"  source .andromeda/security-plan-detail/dependency-security.md",
+"  source .andromeda/security-plan-detail/error-handling.md",
+"  source .andromeda/security-plan-detail/input-validation.md",
+"  source .andromeda/security-plan-detail/secret-management.md",
+"  source .andromeda/security-plan-detail/security-anti-patterns.md",
+"  source .andromeda/security-plan-detail/threat-model-summary.md",
+"  delta leaf-delta-architecture.diff",
+"  delta leaf-delta-security-plan.diff",
+"architecture+security-plan+test-plan+obs-plan · pass · 1 leaves · 18351 B · 62 source file(s)",
+"  leaf CLAUDE.md · 18351 B",
+"  source .andromeda/architecture.md",
+"  source .andromeda/architecture-detail/conventions.md",
+"  source .andromeda/architecture-detail/cross-cutting-patterns.md",
+"  source .andromeda/architecture-detail/established-decisions.md",
+"  source .andromeda/architecture-detail/occupied-resources.md",
+"  source .andromeda/architecture-detail/stack-and-technologies.md",
+"  source .andromeda/architecture-detail/standard-contracts.md",
+"  source .andromeda/registries/architecture-contracts.toml",
+"  source .andromeda/registries/contracts/architecture/build-system.md",
+"  source .andromeda/registries/contracts/architecture/ci-cd-approach.md",
+"  source .andromeda/registries/contracts/architecture/crate-dependency-direction.md",
+"  source .andromeda/registries/contracts/architecture/deployment-model.md",
+"  source .andromeda/registries/contracts/architecture/project-directory-structure.md",
+"  source .andromeda/security-plan.md",
+"  source .andromeda/security-plan-detail/authentication-authorization.md",
+"  source .andromeda/security-plan-detail/bootstrap-phases.md",
+"  source .andromeda/security-plan-detail/data-protection.md",
+"  source .andromeda/security-plan-detail/dependency-security.md",
+"  source .andromeda/security-plan-detail/error-handling.md",
+"  source .andromeda/security-plan-detail/input-validation.md",
+"  source .andromeda/security-plan-detail/secret-management.md",
+"  source .andromeda/security-plan-detail/security-anti-patterns.md",
+"  source .andromeda/security-plan-detail/threat-model-summary.md",
+"  source .andromeda/test-plan.md",
+"  source .andromeda/test-plan-detail/ci-integration.md",
+"  source .andromeda/test-plan-detail/e2e-test-strategy.md",
+"  source .andromeda/test-plan-detail/integration-test-strategy.md",
+"  source .andromeda/test-plan-detail/mocking-stubbing-discipline.md",
+"  source .andromeda/test-plan-detail/quality-gates-coverage-targets.md",
+"  source .andromeda/test-plan-detail/test-data-fixtures.md",
+"  source .andromeda/test-plan-detail/test-scope-summary.md",
+"  source .andromeda/test-plan-detail/test-strategy.md",
+"  source .andromeda/test-plan-detail/unit-test-strategy.md",
+"  source .andromeda/registries/test-plan-contracts.toml",
+"  source .andromeda/registries/contracts/test-plan/5-command-implementation.md",
+"  source .andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md",
+"  source .andromeda/registries/contracts/test-plan/log-format.md",
+"  source .andromeda/registries/contracts/test-plan/pid-file.md",
+"  source .andromeda/registries/contracts/test-plan/status-endpoint-shape.md",
+"  source .andromeda/registries/contracts/test-plan/test-data-bootstrap.md",
+"  source .andromeda/obs-plan.md",
+"  source .andromeda/obs-plan-detail/ci-integration.md",
+"  source .andromeda/obs-plan-detail/error-capture-reporting.md",
+"  source .andromeda/obs-plan-detail/log-coverage.md",
+"  source .andromeda/obs-plan-detail/metric-coverage.md",
+"  source .andromeda/obs-plan-detail/obs-anti-patterns.md",
+"  source .andromeda/obs-plan-detail/obs-scope-summary.md",
+"  source .andromeda/obs-plan-detail/pii-scrubbing-compliance.md",
+"  source .andromeda/obs-plan-detail/slo-invariants-telemetry-budgets.md",
+"  source .andromeda/obs-plan-detail/span-trace-coverage.md",
+"  source .andromeda/obs-plan-detail/telemetry-strategy.md",
+"  source .andromeda/registries/obs-plan-contracts.toml",
+"  source .andromeda/registries/contracts/obs-plan/bootstrap-phases-derive-for-route-setup-project.md",
+"  source .andromeda/registries/contracts/obs-plan/heartbeat-ticks.md",
+"  source .andromeda/registries/contracts/obs-plan/log-file-location.md",
+"  source .andromeda/registries/contracts/obs-plan/log-format-json-schema.md",
+"  source .andromeda/registries/contracts/obs-plan/logging-stack.md",
+"  source .andromeda/registries/contracts/obs-plan/otel-sdk-init.md",
+"  source .andromeda/registries/contracts/obs-plan/product-mode-normal-vs-inverted-self-observing.md",
+"  source .andromeda/registries/contracts/obs-plan/service-identity.md",
+"  source .andromeda/registries/contracts/obs-plan/snapshot-paste-to-ai-integration.md",
+"  source .andromeda/registries/contracts/obs-plan/trace-context-propagation.md",
+"  delta leaf-delta-architecture.diff",
+"  delta leaf-delta-security-plan.diff",
+"  delta leaf-delta-test-plan.diff",
+"  delta leaf-delta-obs-plan.diff",
+"architecture+test-plan+obs-plan · pass · 1 leaves · 27885 B · 52 source file(s)",
+"  leaf .claude/docs/commands.md · 27885 B",
+"  source .andromeda/architecture.md",
+"  source .andromeda/architecture-detail/conventions.md",
+"  source .andromeda/architecture-detail/cross-cutting-patterns.md",
+"  source .andromeda/architecture-detail/established-decisions.md",
+"  source .andromeda/architecture-detail/occupied-resources.md",
+"  source .andromeda/architecture-detail/stack-and-technologies.md",
+"  source .andromeda/architecture-detail/standard-contracts.md",
+"  source .andromeda/registries/architecture-contracts.toml",
+"  source .andromeda/registries/contracts/architecture/build-system.md",
+"  source .andromeda/registries/contracts/architecture/ci-cd-approach.md",
+"  source .andromeda/registries/contracts/architecture/crate-dependency-direction.md",
+"  source .andromeda/registries/contracts/architecture/deployment-model.md",
+"  source .andromeda/registries/contracts/architecture/project-directory-structure.md",
+"  source .andromeda/test-plan.md",
+"  source .andromeda/test-plan-detail/ci-integration.md",
+"  source .andromeda/test-plan-detail/e2e-test-strategy.md",
+"  source .andromeda/test-plan-detail/integration-test-strategy.md",
+"  source .andromeda/test-plan-detail/mocking-stubbing-discipline.md",
+"  source .andromeda/test-plan-detail/quality-gates-coverage-targets.md",
+"  source .andromeda/test-plan-detail/test-data-fixtures.md",
+"  source .andromeda/test-plan-detail/test-scope-summary.md",
+"  source .andromeda/test-plan-detail/test-strategy.md",
+"  source .andromeda/test-plan-detail/unit-test-strategy.md",
+"  source .andromeda/registries/test-plan-contracts.toml",
+"  source .andromeda/registries/contracts/test-plan/5-command-implementation.md",
+"  source .andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md",
+"  source .andromeda/registries/contracts/test-plan/log-format.md",
+"  source .andromeda/registries/contracts/test-plan/pid-file.md",
+"  source .andromeda/registries/contracts/test-plan/status-endpoint-shape.md",
+"  source .andromeda/registries/contracts/test-plan/test-data-bootstrap.md",
+"  source .andromeda/obs-plan.md",
+"  source .andromeda/obs-plan-detail/ci-integration.md",
+"  source .andromeda/obs-plan-detail/error-capture-reporting.md",
+"  source .andromeda/obs-plan-detail/log-coverage.md",
+"  source .andromeda/obs-plan-detail/metric-coverage.md",
+"  source .andromeda/obs-plan-detail/obs-anti-patterns.md",
+"  source .andromeda/obs-plan-detail/obs-scope-summary.md",
+"  source .andromeda/obs-plan-detail/pii-scrubbing-compliance.md",
+"  source .andromeda/obs-plan-detail/slo-invariants-telemetry-budgets.md",
+"  source .andromeda/obs-plan-detail/span-trace-coverage.md",
+"  source .andromeda/obs-plan-detail/telemetry-strategy.md",
+"  source .andromeda/registries/obs-plan-contracts.toml",
+"  source .andromeda/registries/contracts/obs-plan/bootstrap-phases-derive-for-route-setup-project.md",
+"  source .andromeda/registries/contracts/obs-plan/heartbeat-ticks.md",
+"  source .andromeda/registries/contracts/obs-plan/log-file-location.md",
+"  source .andromeda/registries/contracts/obs-plan/log-format-json-schema.md",
+"  source .andromeda/registries/contracts/obs-plan/logging-stack.md",
+"  source .andromeda/registries/contracts/obs-plan/otel-sdk-init.md",
+"  source .andromeda/registries/contracts/obs-plan/product-mode-normal-vs-inverted-self-observing.md",
+"  source .andromeda/registries/contracts/obs-plan/service-identity.md",
+"  source .andromeda/registries/contracts/obs-plan/snapshot-paste-to-ai-integration.md",
+"  source .andromeda/registries/contracts/obs-plan/trace-context-propagation.md",
+"  delta leaf-delta-architecture.diff",
+"  delta leaf-delta-test-plan.diff",
+"  delta leaf-delta-obs-plan.diff",
+"security-plan · pass · 2 leaves · 51458 B · 10 source file(s)",
+"  leaf .claude/docs/security-summary.md · 27766 B",
+"  leaf .claude/rules/security.md · 23692 B",
+"  source .andromeda/security-plan.md",
+"  source .andromeda/security-plan-detail/authentication-authorization.md",
+"  source .andromeda/security-plan-detail/bootstrap-phases.md",
+"  source .andromeda/security-plan-detail/data-protection.md",
+"  source .andromeda/security-plan-detail/dependency-security.md",
+"  source .andromeda/security-plan-detail/error-handling.md",
+"  source .andromeda/security-plan-detail/input-validation.md",
+"  source .andromeda/security-plan-detail/secret-management.md",
+"  source .andromeda/security-plan-detail/security-anti-patterns.md",
+"  source .andromeda/security-plan-detail/threat-model-summary.md",
+"  delta leaf-delta-security-plan.diff",
+"security-plan+obs-plan · pass · 1 leaves · 2263 B · 32 source file(s)",
+"  leaf .claude/rules/ci.md · 2263 B",
+"  source .andromeda/security-plan.md",
+"  source .andromeda/security-plan-detail/authentication-authorization.md",
+"  source .andromeda/security-plan-detail/bootstrap-phases.md",
+"  source .andromeda/security-plan-detail/data-protection.md",
+"  source .andromeda/security-plan-detail/dependency-security.md",
+"  source .andromeda/security-plan-detail/error-handling.md",
+"  source .andromeda/security-plan-detail/input-validation.md",
+"  source .andromeda/security-plan-detail/secret-management.md",
+"  source .andromeda/security-plan-detail/security-anti-patterns.md",
+"  source .andromeda/security-plan-detail/threat-model-summary.md",
+"  source .andromeda/obs-plan.md",
+"  source .andromeda/obs-plan-detail/ci-integration.md",
+"  source .andromeda/obs-plan-detail/error-capture-reporting.md",
+"  source .andromeda/obs-plan-detail/log-coverage.md",
+"  source .andromeda/obs-plan-detail/metric-coverage.md",
+"  source .andromeda/obs-plan-detail/obs-anti-patterns.md",
+"  source .andromeda/obs-plan-detail/obs-scope-summary.md",
+"  source .andromeda/obs-plan-detail/pii-scrubbing-compliance.md",
+"  source .andromeda/obs-plan-detail/slo-invariants-telemetry-budgets.md",
+"  source .andromeda/obs-plan-detail/span-trace-coverage.md",
+"  source .andromeda/obs-plan-detail/telemetry-strategy.md",
+"  source .andromeda/registries/obs-plan-contracts.toml",
+"  source .andromeda/registries/contracts/obs-plan/bootstrap-phases-derive-for-route-setup-project.md",
+"  source .andromeda/registries/contracts/obs-plan/heartbeat-ticks.md",
+"  source .andromeda/registries/contracts/obs-plan/log-file-location.md",
+"  source .andromeda/registries/contracts/obs-plan/log-format-json-schema.md",
+"  source .andromeda/registries/contracts/obs-plan/logging-stack.md",
+"  source .andromeda/registries/contracts/obs-plan/otel-sdk-init.md",
+"  source .andromeda/registries/contracts/obs-plan/product-mode-normal-vs-inverted-self-observing.md",
+"  source .andromeda/registries/contracts/obs-plan/service-identity.md",
+"  source .andromeda/registries/contracts/obs-plan/snapshot-paste-to-ai-integration.md",
+"  source .andromeda/registries/contracts/obs-plan/trace-context-propagation.md",
+"  delta leaf-delta-security-plan.diff",
+"  delta leaf-delta-obs-plan.diff",
+"test-plan · pass · 3 leaves · 60426 B · 17 source file(s)",
+"  leaf .claude/docs/tests-summary.md · 28701 B",
+"  leaf .claude/rules/testing.md · 9983 B",
+"  leaf .claude/rules/verification-harness.md · 21742 B",
+"  source .andromeda/test-plan.md",
+"  source .andromeda/test-plan-detail/ci-integration.md",
+"  source .andromeda/test-plan-detail/e2e-test-strategy.md",
+"  source .andromeda/test-plan-detail/integration-test-strategy.md",
+"  source .andromeda/test-plan-detail/mocking-stubbing-discipline.md",
+"  source .andromeda/test-plan-detail/quality-gates-coverage-targets.md",
+"  source .andromeda/test-plan-detail/test-data-fixtures.md",
+"  source .andromeda/test-plan-detail/test-scope-summary.md",
+"  source .andromeda/test-plan-detail/test-strategy.md",
+"  source .andromeda/test-plan-detail/unit-test-strategy.md",
+"  source .andromeda/registries/test-plan-contracts.toml",
+"  source .andromeda/registries/contracts/test-plan/5-command-implementation.md",
+"  source .andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md",
+"  source .andromeda/registries/contracts/test-plan/log-format.md",
+"  source .andromeda/registries/contracts/test-plan/pid-file.md",
+"  source .andromeda/registries/contracts/test-plan/status-endpoint-shape.md",
+"  source .andromeda/registries/contracts/test-plan/test-data-bootstrap.md",
+"  delta leaf-delta-test-plan.diff",
+"test-plan+obs-plan · pass · 1 leaves · 14740 B · 39 source file(s)",
+"  leaf .claude/rules/observability.md · 14740 B",
+"  source .andromeda/test-plan.md",
+"  source .andromeda/test-plan-detail/ci-integration.md",
+"  source .andromeda/test-plan-detail/e2e-test-strategy.md",
+"  source .andromeda/test-plan-detail/integration-test-strategy.md",
+"  source .andromeda/test-plan-detail/mocking-stubbing-discipline.md",
+"  source .andromeda/test-plan-detail/quality-gates-coverage-targets.md",
+"  source .andromeda/test-plan-detail/test-data-fixtures.md",
+"  source .andromeda/test-plan-detail/test-scope-summary.md",
+"  source .andromeda/test-plan-detail/test-strategy.md",
+"  source .andromeda/test-plan-detail/unit-test-strategy.md",
+"  source .andromeda/registries/test-plan-contracts.toml",
+"  source .andromeda/registries/contracts/test-plan/5-command-implementation.md",
+"  source .andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md",
+"  source .andromeda/registries/contracts/test-plan/log-format.md",
+"  source .andromeda/registries/contracts/test-plan/pid-file.md",
+"  source .andromeda/registries/contracts/test-plan/status-endpoint-shape.md",
+"  source .andromeda/registries/contracts/test-plan/test-data-bootstrap.md",
+"  source .andromeda/obs-plan.md",
+"  source .andromeda/obs-plan-detail/ci-integration.md",
+"  source .andromeda/obs-plan-detail/error-capture-reporting.md",
+"  source .andromeda/obs-plan-detail/log-coverage.md",
+"  source .andromeda/obs-plan-detail/metric-coverage.md",
+"  source .andromeda/obs-plan-detail/obs-anti-patterns.md",
+"  source .andromeda/obs-plan-detail/obs-scope-summary.md",
+"  source .andromeda/obs-plan-detail/pii-scrubbing-compliance.md",
+"  source .andromeda/obs-plan-detail/slo-invariants-telemetry-budgets.md",
+"  source .andromeda/obs-plan-detail/span-trace-coverage.md",
+"  source .andromeda/obs-plan-detail/telemetry-strategy.md",
+"  source .andromeda/registries/obs-plan-contracts.toml",
+"  source .andromeda/registries/contracts/obs-plan/bootstrap-phases-derive-for-route-setup-project.md",
+"  source .andromeda/registries/contracts/obs-plan/heartbeat-ticks.md",
+"  source .andromeda/registries/contracts/obs-plan/log-file-location.md",
+"  source .andromeda/registries/contracts/obs-plan/log-format-json-schema.md",
+"  source .andromeda/registries/contracts/obs-plan/logging-stack.md",
+"  source .andromeda/registries/contracts/obs-plan/otel-sdk-init.md",
+"  source .andromeda/registries/contracts/obs-plan/product-mode-normal-vs-inverted-self-observing.md",
+"  source .andromeda/registries/contracts/obs-plan/service-identity.md",
+"  source .andromeda/registries/contracts/obs-plan/snapshot-paste-to-ai-integration.md",
+"  source .andromeda/registries/contracts/obs-plan/trace-context-propagation.md",
+"  delta leaf-delta-test-plan.diff",
+"  delta leaf-delta-obs-plan.diff",
+"obs-plan · pass · 1 leaves · 13496 B · 22 source file(s)",
+"  leaf .claude/docs/obs-summary.md · 13496 B",
+"  source .andromeda/obs-plan.md",
+"  source .andromeda/obs-plan-detail/ci-integration.md",
+"  source .andromeda/obs-plan-detail/error-capture-reporting.md",
+"  source .andromeda/obs-plan-detail/log-coverage.md",
+"  source .andromeda/obs-plan-detail/metric-coverage.md",
+"  source .andromeda/obs-plan-detail/obs-anti-patterns.md",
+"  source .andromeda/obs-plan-detail/obs-scope-summary.md",
+"  source .andromeda/obs-plan-detail/pii-scrubbing-compliance.md",
+"  source .andromeda/obs-plan-detail/slo-invariants-telemetry-budgets.md",
+"  source .andromeda/obs-plan-detail/span-trace-coverage.md",
+"  source .andromeda/obs-plan-detail/telemetry-strategy.md",
+"  source .andromeda/registries/obs-plan-contracts.toml",
+"  source .andromeda/registries/contracts/obs-plan/bootstrap-phases-derive-for-route-setup-project.md",
+"  source .andromeda/registries/contracts/obs-plan/heartbeat-ticks.md",
+"  source .andromeda/registries/contracts/obs-plan/log-file-location.md",
+"  source .andromeda/registries/contracts/obs-plan/log-format-json-schema.md",
+"  source .andromeda/registries/contracts/obs-plan/logging-stack.md",
+"  source .andromeda/registries/contracts/obs-plan/otel-sdk-init.md",
+"  source .andromeda/registries/contracts/obs-plan/product-mode-normal-vs-inverted-self-observing.md",
+"  source .andromeda/registries/contracts/obs-plan/service-identity.md",
+"  source .andromeda/registries/contracts/obs-plan/snapshot-paste-to-ai-integration.md",
+"  source .andromeda/registries/contracts/obs-plan/trace-context-propagation.md",
+"  delta leaf-delta-obs-plan.diff",
+"unmapped .claude/rules/host-linux.md (host)",
+"unmapped .claude/rules/testing-src.md",
+"wrote leaf-delta-architecture.diff · 4 file(s), 0 key file(s) · 19696 B",
+"wrote leaf-delta-security-plan.diff · 3 file(s), 0 key file(s) · 18930 B",
+"wrote leaf-delta-test-plan.diff · 8 file(s), 1 key file(s) · 31786 B",
+"wrote leaf-delta-obs-plan.diff · 2 file(s), 0 key file(s) · 3056 B",
+"total · pass · 12 group(s) · 24 leaves · 372548 B · unmapped 2"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-10-27T02-51-54-wrap/leaf-delta-architecture.diff",
+".andromeda/runs/2026-10-27T02-51-54-wrap/leaf-delta-security-plan.diff",
+".andromeda/runs/2026-10-27T02-51-54-wrap/leaf-delta-test-plan.diff",
+".andromeda/runs/2026-10-27T02-51-54-wrap/leaf-delta-obs-plan.diff"
+],
+"before": null,
+"after": null,
+"extra": {
+"leaves": {
+"mode": "pass",
+"groups": {
+"architecture-1": {
+"leaves": [
+".claude/docs/conventions.md",
+".claude/docs/gotchas.md",
+".claude/docs/services/viola-agent-claude.md",
+".claude/docs/services/viola-channel.md"
+],
+"sources": [
+"architecture"
+],
+"files": [
+".andromeda/architecture.md",
+".andromeda/architecture-detail/conventions.md",
+".andromeda/architecture-detail/cross-cutting-patterns.md",
+".andromeda/architecture-detail/established-decisions.md",
+".andromeda/architecture-detail/occupied-resources.md",
+".andromeda/architecture-detail/stack-and-technologies.md",
+".andromeda/architecture-detail/standard-contracts.md",
+".andromeda/registries/architecture-contracts.toml",
+".andromeda/registries/contracts/architecture/build-system.md",
+".andromeda/registries/contracts/architecture/ci-cd-approach.md",
+".andromeda/registries/contracts/architecture/crate-dependency-direction.md",
+".andromeda/registries/contracts/architecture/deployment-model.md",
+".andromeda/registries/contracts/architecture/project-directory-structure.md"
+],
+"deltas": [
+"leaf-delta-architecture.diff"
+],
+"read": {
+".claude/docs/conventions.md": [
+61,
+"- For warnings and gotchas, see `.claude/docs/gotchas.md`"
+],
+".claude/docs/gotchas.md": [
+147,
+"- For architectural decisions and their rationale, see `.andromeda/architecture.md` Established Decisions section"
+],
+".claude/docs/services/viola-agent-claude.md": [
+47,
+"- `.andromeda/architecture.md` [CLI Version Compatibility] · `.claude/rules/events.md` · `.claude/docs/gotchas.md`"
+],
+".claude/docs/services/viola-channel.md": [
+45,
+"- `.andromeda/architecture.md` §Standard Contracts (Wrapper channel frames) · `.claude/rules/api.md` · `.claude/rules/security.md`"
+]
+},
+"lines": {
+".claude/docs/conventions.md": [
+"849780a07c",
+"da39a3ee5e",
+"623412e48e",
+"da39a3ee5e",
+"71af29bb51",
+"163d73b430",
+"37ca91c18a",
+"d8d406bd80",
+"d4542eeb91",
+"da39a3ee5e",
+"7ca4a5d048",
+"3c82db88aa",
+"6ddc2f87dc",
+"008d6127c4",
+"38f9bc48f0",
+"da39a3ee5e",
+"28047742e9",
+"e674dc3c15",
+"bc08dc65a9",
+"4138f294d3",
+"ebaddfb535",
+"00acb3c49d",
+"e2bd356d44",
+"da39a3ee5e",
+"2a66d561f1",
+"7131d03361",
+"5ccb3ad84a",
+"49420f1b05",
+"bda6b13542",
+"da39a3ee5e",
+"5308756353",
+"7a0ccb5526",
+"ad7d60246d",
+"060f7d8030",
+"60e89ccc01",
+"7595a78d67",
+"da39a3ee5e",
+"b5a2e804b1",
+"4607049cbf",
+"01fb31c7b1",
+"6060fcb902",
+"da39a3ee5e",
+"75d3d50841",
+"112091e62b",
+"d7c0552f8c",
+"da39a3ee5e",
+"8f7f129916",
+"734c14ac1f",
+"da39a3ee5e",
+"07bdf06fa8",
+"96f471d99e",
+"da39a3ee5e",
+"a81ec5d9cc",
+"aa54fddb62",
+"0228977c2f",
+"da39a3ee5e",
+"4136cd20de",
+"069696b00c",
+"036cd4e02e",
+"9d8770ad9f",
+"58b6ad4ac2"
+],
+".claude/docs/gotchas.md": [
+"5b61f88df7",
+"da39a3ee5e",
+"e0eb9c6fe4",
+"da39a3ee5e",
+"296557bbcd",
+"da39a3ee5e",
+"205188a0c8",
+"da39a3ee5e",
+"bbc0aff806",
+"2c236c56e1",
+"3eb22ce912",
+"bbc0aff806",
+"da39a3ee5e",
+"2f83dac004",
+"da39a3ee5e",
+"7f454b076b",
+"f2ed3b07aa",
+"ac36440239",
+"9fe75d1f22",
+"6a382b99e5",
+"da39a3ee5e",
+"7e4fcda494",
+"10480d49b8",
+"51010b5a70",
+"da02163b5a",
+"da39a3ee5e",
+"6841cdedfe",
+"69ac0b00a8",
+"23ce4627a4",
+"b3510030f3",
+"da39a3ee5e",
+"4032809531",
+"9fc3860cca",
+"5c0b09a7df",
+"2e1734bbd0",
+"da39a3ee5e",
+"89ed067255",
+"044532ef77",
+"8ad338fe99",
+"6453efd780",
+"da39a3ee5e",
+"877e7e777b",
+"fe92045066",
+"8896ca6325",
+"312176ec1d",
+"da39a3ee5e",
+"75fe80e976",
+"5c2b966b86",
+"64e402d769",
+"6f9223ca0f",
+"da39a3ee5e",
+"c889a4e463",
+"ceb30fa170",
+"3dbaff504e",
+"65f88bfe85",
+"da39a3ee5e",
+"b416493978",
+"57cf9fbebd",
+"cf8190773d",
+"d647713f36",
+"da39a3ee5e",
+"bccc0a4170",
+"46cebf4a54",
+"62dbe8d000",
+"a6d975e856",
+"da39a3ee5e",
+"bb8a011694",
+"2896de3892",
+"34409248d6",
+"39fa55c437",
+"da39a3ee5e",
+"fceabb0f53",
+"43e577d3e7",
+"062d58c997",
+"bd33c4025a",
+"da39a3ee5e",
+"b6bf5b5d37",
+"69680f4be5",
+"d8b3b83d52",
+"a159d5d605",
+"da39a3ee5e",
+"a2edb0bea0",
+"eb27e3babe",
+"30c7e9a761",
+"cd93d274fe",
+"da39a3ee5e",
+"6e582d24a8",
+"3c2a4a8421",
+"bcb1716099",
+"54c63b9e8c",
+"da39a3ee5e",
+"49712b1985",
+"9059c8e5d9",
+"32711908c8",
+"987985c0b5",
+"da39a3ee5e",
+"58485b45a2",
+"6466a356e1",
+"15160992c4",
+"bb58038948",
+"da39a3ee5e",
+"2e591a2aba",
+"9e7dfab022",
+"b3a948482a",
+"aed7dd87b7",
+"da39a3ee5e",
+"442f4749d9",
+"a6b4102bd9",
+"0319d30bdc",
+"33cfd20bb9",
+"b77c24e4bc",
+"d508dfe865",
+"4d86cb3b1e",
+"da39a3ee5e",
+"ac40186f8e",
+"02ee76f591",
+"c690213f77",
+"5f9119a40f",
+"0d7a8e1889",
+"da39a3ee5e",
+"d11847cbfb",
+"2102a3d449",
+"063f91b7c4",
+"c9996dfa38",
+"da39a3ee5e",
+"c8e9e0787d",
+"f624274c28",
+"f1798f48d3",
+"eb08bfbd85",
+"da39a3ee5e",
+"dee4d834bb",
+"a848b4af51",
+"74cbcea7fd",
+"2044563259",
+"436acf6cbb",
+"da39a3ee5e",
+"53de3141db",
+"843b52e183",
+"096dee6dab",
+"dd5c9d75c3",
+"0af40a6594",
+"da39a3ee5e",
+"c859397df4",
+"da39a3ee5e",
+"0ce90cb2fe",
+"e596cd2182",
+"4304974916"
+],
+".claude/docs/services/viola-agent-claude.md": [
+"234941e870",
+"da39a3ee5e",
+"058d14ee40",
+"da39a3ee5e",
+"c70c16f6eb",
+"299be8477d",
+"da39a3ee5e",
+"3c9551b01a",
+"da39a3ee5e",
+"6a022646bc",
+"d976353a37",
+"da39a3ee5e",
+"85d665a7e0",
+"dba68a1637",
+"da39a3ee5e",
+"9bf487aa85",
+"d32acfa10d",
+"da39a3ee5e",
+"f1232550fa",
+"c7ca180a40",
+"ab76f5ab76",
+"02c94268bf",
+"a0e686d479",
+"706ae66d22",
+"e6d607a984",
+"3ecff2eb30",
+"3d4edae1b9",
+"c41f6c6de2",
+"51a4a8d168",
+"da39a3ee5e",
+"8e80b82eb5",
+"01d5a6333a",
+"f3cdc4def9",
+"10756e183e",
+"da39a3ee5e",
+"a3498830ec",
+"498fc4cfcd",
+"7a0c2e816f",
+"72473b08cd",
+"da39a3ee5e",
+"ceb8d5d66f",
+"60477f594b",
+"049ab3d110",
+"e46c48cb0a",
+"da39a3ee5e",
+"8fa6c6f1a6",
+"3f6ffd620e"
+],
+".claude/docs/services/viola-channel.md": [
+"37db0a87d8",
+"da39a3ee5e",
+"0182560ea8",
+"da39a3ee5e",
+"c70c16f6eb",
+"87fb3a830c",
+"da39a3ee5e",
+"3c9551b01a",
+"da39a3ee5e",
+"6a022646bc",
+"480d08dab4",
+"da39a3ee5e",
+"85d665a7e0",
+"02722f9553",
+"da39a3ee5e",
+"9bf487aa85",
+"ff89bb671c",
+"da39a3ee5e",
+"f1232550fa",
+"3c5106a972",
+"41b816871c",
+"e0c3ceffa7",
+"24ecef85af",
+"65597f81e1",
+"636650f634",
+"8495b42167",
+"c9e467d25e",
+"da39a3ee5e",
+"8e80b82eb5",
+"d14eec5edc",
+"1c08eaf62f",
+"9099499775",
+"da39a3ee5e",
+"a3498830ec",
+"b0cff7fad7",
+"2b932d1333",
+"077a9d8db0",
+"da39a3ee5e",
+"ceb8d5d66f",
+"ecca32c073",
+"30a5a589d4",
+"c8290c2c04",
+"da39a3ee5e",
+"8fa6c6f1a6",
+"42cdad9834"
+]
+}
+},
+"architecture-2": {
+"leaves": [
+".claude/docs/services/viola-core.md",
+".claude/docs/services/viola-mcp.md",
+".claude/docs/services/viola-pty.md",
+".claude/docs/services/viola-state.md"
+],
+"sources": [
+"architecture"
+],
+"files": [
+".andromeda/architecture.md",
+".andromeda/architecture-detail/conventions.md",
+".andromeda/architecture-detail/cross-cutting-patterns.md",
+".andromeda/architecture-detail/established-decisions.md",
+".andromeda/architecture-detail/occupied-resources.md",
+".andromeda/architecture-detail/stack-and-technologies.md",
+".andromeda/architecture-detail/standard-contracts.md",
+".andromeda/registries/architecture-contracts.toml",
+".andromeda/registries/contracts/architecture/build-system.md",
+".andromeda/registries/contracts/architecture/ci-cd-approach.md",
+".andromeda/registries/contracts/architecture/crate-dependency-direction.md",
+".andromeda/registries/contracts/architecture/deployment-model.md",
+".andromeda/registries/contracts/architecture/project-directory-structure.md"
+],
+"deltas": [
+"leaf-delta-architecture.diff"
+],
+"read": {
+".claude/docs/services/viola-core.md": [
+43,
+"- `.claude/docs/stack.md` · `.claude/docs/conventions.md` · `.claude/rules/events.md`"
+],
+".claude/docs/services/viola-mcp.md": [
+39,
+"- `.andromeda/architecture.md` [MCP] · `.claude/rules/api.md`"
+],
+".claude/docs/services/viola-pty.md": [
+47,
+"- `.andromeda/architecture.md` [PTY] · `.claude/docs/gotchas.md` (ConPTY, portable-pty 0.9.0, npm shim)"
+],
+".claude/docs/services/viola-state.md": [
+49,
+"- `.andromeda/architecture.md` §Standard Contracts (snapshot envelope, instance snapshot) · `.claude/rules/events.md` · `.claude/rules/security.md`"
+]
+},
+"lines": {
+".claude/docs/services/viola-core.md": [
+"baf490a58f",
+"da39a3ee5e",
+"2cf29baecb",
+"da39a3ee5e",
+"c70c16f6eb",
+"332233ad0f",
+"da39a3ee5e",
+"3c9551b01a",
+"da39a3ee5e",
+"6a022646bc",
+"8fe094f0b5",
+"da39a3ee5e",
+"85d665a7e0",
+"077c1079fe",
+"da39a3ee5e",
+"9bf487aa85",
+"fdc34fd0f5",
+"da39a3ee5e",
+"f1232550fa",
+"0999e0037b",
+"d740f237bf",
+"30f8f99914",
+"07e0dedfdc",
+"b2676394cc",
+"9872a5e304",
+"da39a3ee5e",
+"8e80b82eb5",
+"47e71c2df9",
+"9a2e957f01",
+"da39a3ee5e",
+"a3498830ec",
+"e2b598dd89",
+"d1d7b7863e",
+"cc6bc1b56d",
+"da39a3ee5e",
+"ceb8d5d66f",
+"9e87cd5834",
+"9d18c0e528",
+"a1b71831e3",
+"da39a3ee5e",
+"8fa6c6f1a6",
+"52109bdb40",
+"9109ca5324"
+],
+".claude/docs/services/viola-mcp.md": [
+"3f97f9615e",
+"da39a3ee5e",
+"13268af587",
+"da39a3ee5e",
+"c70c16f6eb",
+"a2ed9b520c",
+"da39a3ee5e",
+"3c9551b01a",
+"da39a3ee5e",
+"6a022646bc",
+"34495da983",
+"da39a3ee5e",
+"85d665a7e0",
+"05b7e7850a",
+"da39a3ee5e",
+"9bf487aa85",
+"b22959ad45",
+"da39a3ee5e",
+"f1232550fa",
+"c2da7f3493",
+"fe86c0dad2",
+"2508ee4b1c",
+"7ef9f08110",
+"7a88164b62",
+"da39a3ee5e",
+"8e80b82eb5",
+"2e0c06d367",
+"d333681bda",
+"da39a3ee5e",
+"a3498830ec",
+"5fe10b0969",
+"5754d055db",
+"da39a3ee5e",
+"ceb8d5d66f",
+"d3610f4aca",
+"124bd6ef3b",
+"da39a3ee5e",
+"8fa6c6f1a6",
+"d546f9c7f5"
+],
+".claude/docs/services/viola-pty.md": [
+"61a16cfc27",
+"da39a3ee5e",
+"68e6c01805",
+"da39a3ee5e",
+"c70c16f6eb",
+"15f082896a",
+"da39a3ee5e",
+"3c9551b01a",
+"da39a3ee5e",
+"6a022646bc",
+"a7a9cb0203",
+"da39a3ee5e",
+"85d665a7e0",
+"f575debbe8",
+"da39a3ee5e",
+"9bf487aa85",
+"5e185e53f7",
+"da39a3ee5e",
+"f1232550fa",
+"b677187b21",
+"33d40732d8",
+"3e084f9276",
+"227feb41d1",
+"da39a3ee5e",
+"8e80b82eb5",
+"e999b10542",
+"28fc80f34a",
+"792ea947f7",
+"65cbfbe571",
+"ec7f7335d6",
+"8c2a3470ec",
+"7c4af820bd",
+"8539a06c7d",
+"da39a3ee5e",
+"a3498830ec",
+"af5bdefe3a",
+"53bc570480",
+"fd80fefcf1",
+"fd6f443942",
+"da39a3ee5e",
+"ceb8d5d66f",
+"33f551e291",
+"8caa1b3153",
+"8aa6d28e7b",
+"da39a3ee5e",
+"8fa6c6f1a6",
+"53d7260699"
+],
+".claude/docs/services/viola-state.md": [
+"faa87f1be6",
+"da39a3ee5e",
+"185c09f56a",
+"da39a3ee5e",
+"c70c16f6eb",
+"935caa5119",
+"da39a3ee5e",
+"3c9551b01a",
+"da39a3ee5e",
+"6a022646bc",
+"1bb9e2ec5d",
+"da39a3ee5e",
+"85d665a7e0",
+"7e4ae883cf",
+"da39a3ee5e",
+"9bf487aa85",
+"6541bd78fa",
+"da39a3ee5e",
+"f1232550fa",
+"d8c97b4aec",
+"a9c8fbb82d",
+"5b8205be6d",
+"78953260a2",
+"29d4c8448c",
+"9510ddaa49",
+"1bd1f77f87",
+"51382c35f2",
+"3337873ff9",
+"cf659a1668",
+"41675d21ce",
+"da39a3ee5e",
+"8e80b82eb5",
+"7b7911bb47",
+"5f5a151615",
+"f00d807569",
+"da39a3ee5e",
+"a3498830ec",
+"61df4f3965",
+"413dc9ddc2",
+"e55773a901",
+"da39a3ee5e",
+"ceb8d5d66f",
+"53680bb02f",
+"dd76ede01f",
+"c88261a380",
+"e21d3ab5bc",
+"da39a3ee5e",
+"8fa6c6f1a6",
+"0980cc5d97"
+]
+}
+},
+"architecture-3": {
+"leaves": [
+".claude/docs/services/viola.md",
+".claude/docs/stack.md",
+".claude/docs/workflow.md"
+],
+"sources": [
+"architecture"
+],
+"files": [
+".andromeda/architecture.md",
+".andromeda/architecture-detail/conventions.md",
+".andromeda/architecture-detail/cross-cutting-patterns.md",
+".andromeda/architecture-detail/established-decisions.md",
+".andromeda/architecture-detail/occupied-resources.md",
+".andromeda/architecture-detail/stack-and-technologies.md",
+".andromeda/architecture-detail/standard-contracts.md",
+".andromeda/registries/architecture-contracts.toml",
+".andromeda/registries/contracts/architecture/build-system.md",
+".andromeda/registries/contracts/architecture/ci-cd-approach.md",
+".andromeda/registries/contracts/architecture/crate-dependency-direction.md",
+".andromeda/registries/contracts/architecture/deployment-model.md",
+".andromeda/registries/contracts/architecture/project-directory-structure.md"
+],
+"deltas": [
+"leaf-delta-architecture.diff"
+],
+"read": {
+".claude/docs/services/viola.md": [
+58,
+"- `.andromeda/architecture.md` · `.claude/rules/api.md` · `.claude/rules/frontend.md` · `.claude/rules/observability.md`"
+],
+".claude/docs/stack.md": [
+66,
+"5. Commit as `chore: bump {tool} to {version}`"
+],
+".claude/docs/workflow.md": [
+67,
+"This project uses a **reference-based** CLAUDE.md architecture — a thin CLAUDE.md index with deeper content in `.claude/docs/` (on-demand) and `.claude/rules/` (path-scoped). See `section-markers.md` in the Andromeda skills for the ownership convention between generated and user-curated sections."
+]
+},
+"lines": {
+".claude/docs/services/viola.md": [
+"574e1983c4",
+"da39a3ee5e",
+"19613136e7",
+"da39a3ee5e",
+"c70c16f6eb",
+"afe9e52cfd",
+"da39a3ee5e",
+"3c9551b01a",
+"da39a3ee5e",
+"6a022646bc",
+"dda31104a4",
+"da39a3ee5e",
+"85d665a7e0",
+"22baa30e00",
+"da39a3ee5e",
+"9bf487aa85",
+"5cbca4b60c",
+"da39a3ee5e",
+"f1232550fa",
+"37f307e0dc",
+"7f39d5cca3",
+"7d6e07cfae",
+"bc71c43148",
+"5a2884bc19",
+"12b139ff6d",
+"0ba950718e",
+"2b0f4cd731",
+"6595633c5f",
+"84793d77d4",
+"da39a3ee5e",
+"8e80b82eb5",
+"6b24cd6851",
+"bddd57958e",
+"0db400ff1b",
+"fde733557d",
+"4c546a4e64",
+"4f530d58c9",
+"da39a3ee5e",
+"a3498830ec",
+"0be22e9fc3",
+"fc00613f21",
+"4d93041404",
+"ab373222fd",
+"7dd2bda1c4",
+"7afc93be73",
+"34f34692d1",
+"fbb9e0fdb2",
+"81de99186a",
+"be1363df8f",
+"da39a3ee5e",
+"ceb8d5d66f",
+"6e5ea9914e",
+"8b324f6bde",
+"35c325043e",
+"c4c6ceb0ac",
+"da39a3ee5e",
+"8fa6c6f1a6",
+"0d392808a4"
+],
+".claude/docs/stack.md": [
+"7b063a97f7",
+"da39a3ee5e",
+"fdccd51e78",
+"da39a3ee5e",
+"0f2c009d41",
+"da39a3ee5e",
+"6cacb4bccd",
+"91d220c646",
+"8043a88812",
+"93da7cf8fc",
+"baeed700ff",
+"9981a1b9b3",
+"73ffd7c696",
+"060711df15",
+"083fb80684",
+"b3d44afdbb",
+"8a9b98630c",
+"bb94a0f6bb",
+"0f665b4141",
+"a5f0a01304",
+"5a5e9cea9e",
+"4e2fffffc8",
+"3ae383258c",
+"5b074b29cc",
+"016c1ae1b8",
+"429860b649",
+"6f5fc2cab5",
+"8c54d881c3",
+"776376ff61",
+"550b00adc0",
+"8c12395b94",
+"57730336eb",
+"da39a3ee5e",
+"ddd3c3be68",
+"da39a3ee5e",
+"c10a39c275",
+"d970a0411d",
+"f5952ea2e0",
+"0c103836b1",
+"da39a3ee5e",
+"27fa21b8a1",
+"fc58b8bd14",
+"f86a89a909",
+"da39a3ee5e",
+"45d09b1193",
+"6fe0ad6216",
+"a96d65283c",
+"da39a3ee5e",
+"7a2fb02f55",
+"149f304de4",
+"da39a3ee5e",
+"4b86742527",
+"bd59078512",
+"da39a3ee5e",
+"a20d05b737",
+"da39a3ee5e",
+"7096b7176c",
+"da39a3ee5e",
+"22c8166a31",
+"da39a3ee5e",
+"e6ef0969a2",
+"35ead5fd8f",
+"b017fe0a93",
+"94c647d9e7",
+"c567e28908",
+"9a76132c79"
+],
+".claude/docs/workflow.md": [
+"412a27c0d5",
+"da39a3ee5e",
+"d595fed2c0",
+"da39a3ee5e",
+"c0549fded5",
+"172a16d6b0",
+"cd68b126f2",
+"ed66125c72",
+"2e3730ce30",
+"58de0314c7",
+"55732cf17c",
+"da39a3ee5e",
+"1e9e60adc3",
+"da39a3ee5e",
+"908fd2e189",
+"da39a3ee5e",
+"e9bb7a71b4",
+"8f7a78a5fc",
+"8ea458a035",
+"d6da108d43",
+"dae7f434fb",
+"da39a3ee5e",
+"70654d6e84",
+"30253c9cf8",
+"472c934149",
+"027ee33c78",
+"c430abe23d",
+"befa5e31d3",
+"da39a3ee5e",
+"96f056b168",
+"da39a3ee5e",
+"fed1060e05",
+"da39a3ee5e",
+"5b15590b9b",
+"23bcfc12de",
+"da39a3ee5e",
+"208b81ab49",
+"48e7f774c8",
+"cc46179362",
+"da39a3ee5e",
+"6eb30c21be",
+"f9396644d4",
+"da39a3ee5e",
+"e6d108db4a",
+"da39a3ee5e",
+"7bcce8ea87",
+"9b09af278f",
+"75fb082633",
+"417cf71919",
+"8d7acbc645",
+"da39a3ee5e",
+"56fc2d3968",
+"da39a3ee5e",
+"2190236cf6",
+"dc26c0ea35",
+"da39a3ee5e",
+"8115c65c28",
+"b64aa61edf",
+"da39a3ee5e",
+"1a8b0eaaa7",
+"4796357fde",
+"04f6fb08d6",
+"d8f0303b30",
+"da39a3ee5e",
+"ca70c12a84",
+"da39a3ee5e",
+"713ddfaffe"
+]
+}
+},
+"architecture-4": {
+"leaves": [
+".claude/rules/events.md",
+".claude/rules/frontend.md"
+],
+"sources": [
+"architecture"
+],
+"files": [
+".andromeda/architecture.md",
+".andromeda/architecture-detail/conventions.md",
+".andromeda/architecture-detail/cross-cutting-patterns.md",
+".andromeda/architecture-detail/established-decisions.md",
+".andromeda/architecture-detail/occupied-resources.md",
+".andromeda/architecture-detail/stack-and-technologies.md",
+".andromeda/architecture-detail/standard-contracts.md",
+".andromeda/registries/architecture-contracts.toml",
+".andromeda/registries/contracts/architecture/build-system.md",
+".andromeda/registries/contracts/architecture/ci-cd-approach.md",
+".andromeda/registries/contracts/architecture/crate-dependency-direction.md",
+".andromeda/registries/contracts/architecture/deployment-model.md",
+".andromeda/registries/contracts/architecture/project-directory-structure.md"
+],
+"deltas": [
+"leaf-delta-architecture.diff"
+],
+"read": {
+".claude/rules/events.md": [
+40,
+"- 2026-10-16: A snapshot field that a reader expects once an event line is visible is written before that line is appended, never after: a reader that waits on the line and then reads the snapshot races a write made after it (the snapshot's `agent_session_id` and the `session-start` line)."
+],
+".claude/rules/frontend.md": [
+29,
+"_This section is owned by `/wrap-session`. setup-project preserves content added here on re-run._"
+]
+},
+"lines": {
+".claude/rules/events.md": [
+"58b63e273b",
+"bd88ec853c",
+"416cc7b7e5",
+"f708932693",
+"e3c052012d",
+"6e39cfc1bb",
+"58b63e273b",
+"da39a3ee5e",
+"336af36258",
+"da39a3ee5e",
+"3ceddbe4a1",
+"da39a3ee5e",
+"6c49299ea0",
+"65135f0466",
+"832358c92f",
+"e1ffbc28b8",
+"15642fef08",
+"da39a3ee5e",
+"a47a1bcd19",
+"a2675c2ebb",
+"012242637d",
+"0e87ffda1f",
+"da39a3ee5e",
+"7932a9ac2c",
+"2c9557bb95",
+"a3fad03994",
+"da39a3ee5e",
+"d8419f9b26",
+"9fc7381031",
+"1f2bd11604",
+"e2d1b058e8",
+"da39a3ee5e",
+"9a0fece164",
+"f9cb99004b",
+"daa2c9a86a",
+"7f6723edb0",
+"da39a3ee5e",
+"9bd5a5d679",
+"962b3c14b5",
+"4bc58b590c"
+],
+".claude/rules/frontend.md": [
+"58b63e273b",
+"bd88ec853c",
+"1a3d395a04",
+"58b63e273b",
+"da39a3ee5e",
+"5f0a33d635",
+"da39a3ee5e",
+"7f13225a1f",
+"da39a3ee5e",
+"eeb03a67c0",
+"13f0e02a4b",
+"1607a224d1",
+"206838a948",
+"11c4e6ea69",
+"da39a3ee5e",
+"e7a61b5f74",
+"b338b6c1ec",
+"da39a3ee5e",
+"cda7981b68",
+"ea5795ec7a",
+"7d1b356e9b",
+"da39a3ee5e",
+"88f28d505c",
+"e3adc92c72",
+"37250df85a",
+"2fa3c259c8",
+"da39a3ee5e",
+"9bd5a5d679",
+"962b3c14b5"
+]
+}
+},
+"architecture+security-plan": {
+"leaves": [
+".claude/rules/api.md"
+],
+"sources": [
+"architecture",
+"security-plan"
+],
+"files": [
+".andromeda/architecture.md",
+".andromeda/architecture-detail/conventions.md",
+".andromeda/architecture-detail/cross-cutting-patterns.md",
+".andromeda/architecture-detail/established-decisions.md",
+".andromeda/architecture-detail/occupied-resources.md",
+".andromeda/architecture-detail/stack-and-technologies.md",
+".andromeda/architecture-detail/standard-contracts.md",
+".andromeda/registries/architecture-contracts.toml",
+".andromeda/registries/contracts/architecture/build-system.md",
+".andromeda/registries/contracts/architecture/ci-cd-approach.md",
+".andromeda/registries/contracts/architecture/crate-dependency-direction.md",
+".andromeda/registries/contracts/architecture/deployment-model.md",
+".andromeda/registries/contracts/architecture/project-directory-structure.md",
+".andromeda/security-plan.md",
+".andromeda/security-plan-detail/authentication-authorization.md",
+".andromeda/security-plan-detail/bootstrap-phases.md",
+".andromeda/security-plan-detail/data-protection.md",
+".andromeda/security-plan-detail/dependency-security.md",
+".andromeda/security-plan-detail/error-handling.md",
+".andromeda/security-plan-detail/input-validation.md",
+".andromeda/security-plan-detail/secret-management.md",
+".andromeda/security-plan-detail/security-anti-patterns.md",
+".andromeda/security-plan-detail/threat-model-summary.md"
+],
+"deltas": [
+"leaf-delta-architecture.diff",
+"leaf-delta-security-plan.diff"
+],
+"read": {
+".claude/rules/api.md": [
+41,
+"_This section is owned by `/wrap-session`. setup-project preserves content added here on re-run._"
+]
+},
+"lines": {
+".claude/rules/api.md": [
+"58b63e273b",
+"bd88ec853c",
+"b9839ee41b",
+"a17905b75e",
+"1a3d395a04",
+"58b63e273b",
+"da39a3ee5e",
+"a5edda0fda",
+"da39a3ee5e",
+"ab7f7f521c",
+"da39a3ee5e",
+"a6d7cfb8cd",
+"a3f4ee8612",
+"744a6aee60",
+"da39a3ee5e",
+"36ed326a69",
+"cf9c761f47",
+"da39a3ee5e",
+"b6bf636a90",
+"80f896569d",
+"b3c77c7758",
+"88317083c7",
+"5dffa66335",
+"c2caef2b3d",
+"b3f110b181",
+"da39a3ee5e",
+"b5a2e804b1",
+"f82f3a7662",
+"c2b7ddf21f",
+"2e20b36516",
+"c046c983dc",
+"da39a3ee5e",
+"d372008e65",
+"64375db39a",
+"5078507b5f",
+"da39a3ee5e",
+"6564e245cc",
+"d30be46f4d",
+"da39a3ee5e",
+"9bd5a5d679",
+"962b3c14b5"
+]
+}
+},
+"architecture+security-plan+test-plan+obs-plan": {
+"leaves": [
+"CLAUDE.md"
+],
+"sources": [
+"architecture",
+"security-plan",
+"test-plan",
+"obs-plan"
+],
+"files": [
+".andromeda/architecture.md",
+".andromeda/architecture-detail/conventions.md",
+".andromeda/architecture-detail/cross-cutting-patterns.md",
+".andromeda/architecture-detail/established-decisions.md",
+".andromeda/architecture-detail/occupied-resources.md",
+".andromeda/architecture-detail/stack-and-technologies.md",
+".andromeda/architecture-detail/standard-contracts.md",
+".andromeda/registries/architecture-contracts.toml",
+".andromeda/registries/contracts/architecture/build-system.md",
+".andromeda/registries/contracts/architecture/ci-cd-approach.md",
+".andromeda/registries/contracts/architecture/crate-dependency-direction.md",
+".andromeda/registries/contracts/architecture/deployment-model.md",
+".andromeda/registries/contracts/architecture/project-directory-structure.md",
+".andromeda/security-plan.md",
+".andromeda/security-plan-detail/authentication-authorization.md",
+".andromeda/security-plan-detail/bootstrap-phases.md",
+".andromeda/security-plan-detail/data-protection.md",
+".andromeda/security-plan-detail/dependency-security.md",
+".andromeda/security-plan-detail/error-handling.md",
+".andromeda/security-plan-detail/input-validation.md",
+".andromeda/security-plan-detail/secret-management.md",
+".andromeda/security-plan-detail/security-anti-patterns.md",
+".andromeda/security-plan-detail/threat-model-summary.md",
+".andromeda/test-plan.md",
+".andromeda/test-plan-detail/ci-integration.md",
+".andromeda/test-plan-detail/e2e-test-strategy.md",
+".andromeda/test-plan-detail/integration-test-strategy.md",
+".andromeda/test-plan-detail/mocking-stubbing-discipline.md",
+".andromeda/test-plan-detail/quality-gates-coverage-targets.md",
+".andromeda/test-plan-detail/test-data-fixtures.md",
+".andromeda/test-plan-detail/test-scope-summary.md",
+".andromeda/test-plan-detail/test-strategy.md",
+".andromeda/test-plan-detail/unit-test-strategy.md",
+".andromeda/registries/test-plan-contracts.toml",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md",
+".andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md",
+".andromeda/registries/contracts/test-plan/log-format.md",
+".andromeda/registries/contracts/test-plan/pid-file.md",
+".andromeda/registries/contracts/test-plan/status-endpoint-shape.md",
+".andromeda/registries/contracts/test-plan/test-data-bootstrap.md",
+".andromeda/obs-plan.md",
+".andromeda/obs-plan-detail/ci-integration.md",
+".andromeda/obs-plan-detail/error-capture-reporting.md",
+".andromeda/obs-plan-detail/log-coverage.md",
+".andromeda/obs-plan-detail/metric-coverage.md",
+".andromeda/obs-plan-detail/obs-anti-patterns.md",
+".andromeda/obs-plan-detail/obs-scope-summary.md",
+".andromeda/obs-plan-detail/pii-scrubbing-compliance.md",
+".andromeda/obs-plan-detail/slo-invariants-telemetry-budgets.md",
+".andromeda/obs-plan-detail/span-trace-coverage.md",
+".andromeda/obs-plan-detail/telemetry-strategy.md",
+".andromeda/registries/obs-plan-contracts.toml",
+".andromeda/registries/contracts/obs-plan/bootstrap-phases-derive-for-route-setup-project.md",
+".andromeda/registries/contracts/obs-plan/heartbeat-ticks.md",
+".andromeda/registries/contracts/obs-plan/log-file-location.md",
+".andromeda/registries/contracts/obs-plan/log-format-json-schema.md",
+".andromeda/registries/contracts/obs-plan/logging-stack.md",
+".andromeda/registries/contracts/obs-plan/otel-sdk-init.md",
+".andromeda/registries/contracts/obs-plan/product-mode-normal-vs-inverted-self-observing.md",
+".andromeda/registries/contracts/obs-plan/service-identity.md",
+".andromeda/registries/contracts/obs-plan/snapshot-paste-to-ai-integration.md",
+".andromeda/registries/contracts/obs-plan/trace-context-propagation.md"
+],
+"deltas": [
+"leaf-delta-architecture.diff",
+"leaf-delta-security-plan.diff",
+"leaf-delta-test-plan.diff",
+"leaf-delta-obs-plan.diff"
+],
+"read": {
+"CLAUDE.md": [
+128,
+"<!-- USER:session-learnings end -->"
+]
+},
+"lines": {
+"CLAUDE.md": [
+"2c11527327",
+"da39a3ee5e",
+"ac7cd0f1ca",
+"da39a3ee5e",
+"0ade3de42d",
+"ef0f52a471",
+"60bf0b0abf",
+"da39a3ee5e",
+"c99d3128bf",
+"da39a3ee5e",
+"00baf97656",
+"c496ed9ccb",
+"40126fc1c5",
+"154aaf3c92",
+"b46c1fe64a",
+"0f09e114dd",
+"da39a3ee5e",
+"ab9bf2dec0",
+"7862999491",
+"307e835a23",
+"cd32af7772",
+"bb6a79e62f",
+"702b851f84",
+"c5cb2df0b2",
+"fd50a8ef25",
+"3b74aaab5a",
+"1c6695fc32",
+"73e0e571a4",
+"6428ed6152",
+"da39a3ee5e",
+"7a80dc049c",
+"022793ab50",
+"c6a16d3f2a",
+"f71c906a79",
+"9054b3061e",
+"f4c9576244",
+"545d411f20",
+"0a27b53a65",
+"cee6554ba4",
+"2e390fbfbc",
+"0ddfe28560",
+"cb68a44ae6",
+"448c43cd4d",
+"da39a3ee5e",
+"b77946ef92",
+"6241722c36",
+"ea1b11d47b",
+"8272d43233",
+"e59978ae7b",
+"30c2653ce9",
+"f162dcd0df",
+"1a15b52114",
+"a2ea165a6b",
+"0f388330be",
+"baf9c88a7d",
+"3857cf9e01",
+"5503cf4bc6",
+"2e34ffdf35",
+"297613944c",
+"8388ca9002",
+"37297c6967",
+"2bea7b3073",
+"c07871d7cd",
+"085c6af997",
+"783138d8f3",
+"444751b581",
+"da39a3ee5e",
+"a1ea5a8989",
+"5a043c7176",
+"3ccc9e25d4",
+"4deef9eff3",
+"1df0c26c43",
+"c99d5599cf",
+"53780cfe23",
+"67c3112214",
+"da39a3ee5e",
+"907236c8f3",
+"fb793cec58",
+"da39a3ee5e",
+"458937df33",
+"3aaa44b006",
+"f39296c4c4",
+"da39a3ee5e",
+"819ce5dd97",
+"da39a3ee5e",
+"7f92492164",
+"731dda7553",
+"da39a3ee5e",
+"1ab26704f1",
+"f0cc859a47",
+"2638c355dc",
+"da39a3ee5e",
+"0841362b74",
+"da39a3ee5e",
+"2194ca5db3",
+"a67a17604f",
+"b5f8d809fd",
+"f8cbc72892",
+"06c47fbcb3",
+"b31ec6900e",
+"8dcac46fda",
+"da39a3ee5e",
+"14a4ad642e",
+"92116d0ad9",
+"da39a3ee5e",
+"5513fd8429",
+"16e53c0f94",
+"da39a3ee5e",
+"18e60db170",
+"da39a3ee5e",
+"a4522b9352",
+"fe46b68080",
+"e94274e8a6",
+"da39a3ee5e",
+"e09cd87e6f",
+"584491caa5",
+"14a42888ce",
+"daec860fd3",
+"0e18540a95",
+"84710564df",
+"4bb9c9b73b",
+"0a5efdeb18",
+"41f5c6f8d1",
+"0eacab12a4",
+"cd1115b7c4",
+"60a52698a2",
+"2a35342ace",
+"1837202c42"
+]
+}
+},
+"architecture+test-plan+obs-plan": {
+"leaves": [
+".claude/docs/commands.md"
+],
+"sources": [
+"architecture",
+"test-plan",
+"obs-plan"
+],
+"files": [
+".andromeda/architecture.md",
+".andromeda/architecture-detail/conventions.md",
+".andromeda/architecture-detail/cross-cutting-patterns.md",
+".andromeda/architecture-detail/established-decisions.md",
+".andromeda/architecture-detail/occupied-resources.md",
+".andromeda/architecture-detail/stack-and-technologies.md",
+".andromeda/architecture-detail/standard-contracts.md",
+".andromeda/registries/architecture-contracts.toml",
+".andromeda/registries/contracts/architecture/build-system.md",
+".andromeda/registries/contracts/architecture/ci-cd-approach.md",
+".andromeda/registries/contracts/architecture/crate-dependency-direction.md",
+".andromeda/registries/contracts/architecture/deployment-model.md",
+".andromeda/registries/contracts/architecture/project-directory-structure.md",
+".andromeda/test-plan.md",
+".andromeda/test-plan-detail/ci-integration.md",
+".andromeda/test-plan-detail/e2e-test-strategy.md",
+".andromeda/test-plan-detail/integration-test-strategy.md",
+".andromeda/test-plan-detail/mocking-stubbing-discipline.md",
+".andromeda/test-plan-detail/quality-gates-coverage-targets.md",
+".andromeda/test-plan-detail/test-data-fixtures.md",
+".andromeda/test-plan-detail/test-scope-summary.md",
+".andromeda/test-plan-detail/test-strategy.md",
+".andromeda/test-plan-detail/unit-test-strategy.md",
+".andromeda/registries/test-plan-contracts.toml",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md",
+".andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md",
+".andromeda/registries/contracts/test-plan/log-format.md",
+".andromeda/registries/contracts/test-plan/pid-file.md",
+".andromeda/registries/contracts/test-plan/status-endpoint-shape.md",
+".andromeda/registries/contracts/test-plan/test-data-bootstrap.md",
+".andromeda/obs-plan.md",
+".andromeda/obs-plan-detail/ci-integration.md",
+".andromeda/obs-plan-detail/error-capture-reporting.md",
+".andromeda/obs-plan-detail/log-coverage.md",
+".andromeda/obs-plan-detail/metric-coverage.md",
+".andromeda/obs-plan-detail/obs-anti-patterns.md",
+".andromeda/obs-plan-detail/obs-scope-summary.md",
+".andromeda/obs-plan-detail/pii-scrubbing-compliance.md",
+".andromeda/obs-plan-detail/slo-invariants-telemetry-budgets.md",
+".andromeda/obs-plan-detail/span-trace-coverage.md",
+".andromeda/obs-plan-detail/telemetry-strategy.md",
+".andromeda/registries/obs-plan-contracts.toml",
+".andromeda/registries/contracts/obs-plan/bootstrap-phases-derive-for-route-setup-project.md",
+".andromeda/registries/contracts/obs-plan/heartbeat-ticks.md",
+".andromeda/registries/contracts/obs-plan/log-file-location.md",
+".andromeda/registries/contracts/obs-plan/log-format-json-schema.md",
+".andromeda/registries/contracts/obs-plan/logging-stack.md",
+".andromeda/registries/contracts/obs-plan/otel-sdk-init.md",
+".andromeda/registries/contracts/obs-plan/product-mode-normal-vs-inverted-self-observing.md",
+".andromeda/registries/contracts/obs-plan/service-identity.md",
+".andromeda/registries/contracts/obs-plan/snapshot-paste-to-ai-integration.md",
+".andromeda/registries/contracts/obs-plan/trace-context-propagation.md"
+],
+"deltas": [
+"leaf-delta-architecture.diff",
+"leaf-delta-test-plan.diff",
+"leaf-delta-obs-plan.diff"
+],
+"read": {
+".claude/docs/commands.md": [
+89,
+"- `scripts/agent-run.sh logs --instance <name> | jq -c 'select(.record.level==\"ERROR\")'` — errors for one instance"
+]
+},
+"lines": {
+".claude/docs/commands.md": [
+"48ef5ab20e",
+"da39a3ee5e",
+"3938018922",
+"da39a3ee5e",
+"a55232a2c6",
+"da39a3ee5e",
+"8443b75994",
+"2f4b35ddbf",
+"bf2aafce06",
+"037ed59fe2",
+"b0a3e05ed7",
+"ade8007cc5",
+"9781c5afe0",
+"7b7bf898ad",
+"d3975133da",
+"f6c556ea2f",
+"da39a3ee5e",
+"1c2ec40f61",
+"d155630baf",
+"d38e4305de",
+"07ee6edcaa",
+"71e2425ed8",
+"bde9946d1b",
+"9348f917f7",
+"da39a3ee5e",
+"3f90c799b3",
+"3fe17d94ec",
+"724fd2602a",
+"5f5620c730",
+"b62b90957f",
+"136f538430",
+"e0545b2df3",
+"bfc6d803e1",
+"da39a3ee5e",
+"07bdf06fa8",
+"b124bebf73",
+"bdb83721bd",
+"e2d9959b44",
+"fc7db42154",
+"c5495c18ea",
+"3fbda50c1e",
+"d29953daea",
+"a32c8cd23f",
+"28a9ca2d8c",
+"a4468bd4ca",
+"da39a3ee5e",
+"2b722b2d06",
+"0a1ae19011",
+"6ef80fcbd1",
+"e0f41f0017",
+"53780cfe23",
+"3e650a39f8",
+"cdd205aaa6",
+"433dbe5477",
+"ec95092b91",
+"bff7c4fa2f",
+"ed5d31eca5",
+"1ffddd71da",
+"e104be5cff",
+"16f4089b6d",
+"f644988865",
+"47c071a96a",
+"da39a3ee5e",
+"28fe101bcf",
+"2664e542c7",
+"48baa78165",
+"55c7deebe0",
+"daee4334fb",
+"0e832605bc",
+"aeb6ea9ba8",
+"6d10248065",
+"da39a3ee5e",
+"0b4cb9caac",
+"1dd75181cc",
+"09957d7f26",
+"4723fe8fdb",
+"da39a3ee5e",
+"73afe3ab56",
+"0ea3b93ae3",
+"64736ff508",
+"da39a3ee5e",
+"1de9e236d9",
+"3926c5846b",
+"319ee47251",
+"da39a3ee5e",
+"8f2d9d234a",
+"fdf9ba5aff",
+"4b05fc84f8",
+"e98bc61474"
+]
+}
+},
+"security-plan": {
+"leaves": [
+".claude/docs/security-summary.md",
+".claude/rules/security.md"
+],
+"sources": [
+"security-plan"
+],
+"files": [
+".andromeda/security-plan.md",
+".andromeda/security-plan-detail/authentication-authorization.md",
+".andromeda/security-plan-detail/bootstrap-phases.md",
+".andromeda/security-plan-detail/data-protection.md",
+".andromeda/security-plan-detail/dependency-security.md",
+".andromeda/security-plan-detail/error-handling.md",
+".andromeda/security-plan-detail/input-validation.md",
+".andromeda/security-plan-detail/secret-management.md",
+".andromeda/security-plan-detail/security-anti-patterns.md",
+".andromeda/security-plan-detail/threat-model-summary.md"
+],
+"deltas": [
+"leaf-delta-security-plan.diff"
+],
+"read": {
+".claude/docs/security-summary.md": [
+77,
+"**Full plan:** `.andromeda/security-plan.md`."
+],
+".claude/rules/security.md": [
+44,
+"_This section is owned by `/wrap-session`. setup-project preserves content added here on re-run. See `section-markers.md` for the convention._"
+]
+},
+"lines": {
+".claude/docs/security-summary.md": [
+"a3ad9e9a9d",
+"da39a3ee5e",
+"7f80a68079",
+"da39a3ee5e",
+"4ed5be3a76",
+"da39a3ee5e",
+"2c959d9b64",
+"da39a3ee5e",
+"53f04336c1",
+"5ce766f1a8",
+"da39a3ee5e",
+"aedcf8b2ab",
+"da39a3ee5e",
+"9479299e42",
+"9f3d2c9b5e",
+"58502db2c5",
+"b962604ec2",
+"3629cbb5cf",
+"c0d848a2e0",
+"c49ad5c551",
+"da39a3ee5e",
+"685e407f48",
+"da39a3ee5e",
+"c32b8bb8a3",
+"91d220c646",
+"5b25f44265",
+"eb3b794c94",
+"e0ee53b5b3",
+"9e14bd4984",
+"da39a3ee5e",
+"2a3deedff6",
+"da39a3ee5e",
+"59698e4937",
+"7e2b0fa3df",
+"ae5095eb26",
+"92a95a62a0",
+"835ea27256",
+"00efb4f8bc",
+"da39a3ee5e",
+"3cc2c24fd3",
+"da39a3ee5e",
+"f5c6b651e0",
+"da39a3ee5e",
+"2d3481e1e9",
+"da39a3ee5e",
+"93032254d7",
+"56dbd11528",
+"517341e290",
+"da39a3ee5e",
+"9e984794b5",
+"da39a3ee5e",
+"24ae53f248",
+"da39a3ee5e",
+"70b333f26b",
+"da39a3ee5e",
+"073321ac4f",
+"da39a3ee5e",
+"c57515f1c4",
+"da39a3ee5e",
+"e67d253caa",
+"ac5b8f2789",
+"7135a233cd",
+"92bca5e931",
+"8ac86480cf",
+"593bd44fa8",
+"f69a5dd46e",
+"5760e07629",
+"56a5eecb13",
+"9729e90556",
+"1a7eb9cb4a",
+"e434e7f8a0",
+"7a889e2e50",
+"ac9e3c6f77",
+"da39a3ee5e",
+"58b63e273b",
+"da39a3ee5e",
+"7c141b9fe3"
+],
+".claude/rules/security.md": [
+"0565bd4818",
+"da39a3ee5e",
+"d8bd8e485e",
+"da39a3ee5e",
+"a2ff7aa6b5",
+"e7be872be6",
+"9149b77b5a",
+"da39a3ee5e",
+"4cd1e0bd80",
+"b549854ea2",
+"4dc0488e67",
+"8832c78879",
+"059eebd43d",
+"f562a99c03",
+"11ee7aaf78",
+"6817fe0452",
+"ed5d43ed10",
+"9ee9734511",
+"06698fd34a",
+"da39a3ee5e",
+"5cccf0824b",
+"c396d246eb",
+"a63551c0a3",
+"0c3a363cae",
+"444b15e9d5",
+"377541048f",
+"ffd79ceec8",
+"2ae3775d88",
+"da39a3ee5e",
+"a525955563",
+"f78f2a6596",
+"75fe27193b",
+"0a14f1d61d",
+"5b49bf7d38",
+"38cb4fa866",
+"c82b4d7c0e",
+"f72f534e49",
+"da39a3ee5e",
+"5308756353",
+"bdc0eb5c20",
+"ef568b1c50",
+"da39a3ee5e",
+"9bd5a5d679",
+"fa47a4e8fa"
+]
+}
+},
+"security-plan+obs-plan": {
+"leaves": [
+".claude/rules/ci.md"
+],
+"sources": [
+"security-plan",
+"obs-plan"
+],
+"files": [
+".andromeda/security-plan.md",
+".andromeda/security-plan-detail/authentication-authorization.md",
+".andromeda/security-plan-detail/bootstrap-phases.md",
+".andromeda/security-plan-detail/data-protection.md",
+".andromeda/security-plan-detail/dependency-security.md",
+".andromeda/security-plan-detail/error-handling.md",
+".andromeda/security-plan-detail/input-validation.md",
+".andromeda/security-plan-detail/secret-management.md",
+".andromeda/security-plan-detail/security-anti-patterns.md",
+".andromeda/security-plan-detail/threat-model-summary.md",
+".andromeda/obs-plan.md",
+".andromeda/obs-plan-detail/ci-integration.md",
+".andromeda/obs-plan-detail/error-capture-reporting.md",
+".andromeda/obs-plan-detail/log-coverage.md",
+".andromeda/obs-plan-detail/metric-coverage.md",
+".andromeda/obs-plan-detail/obs-anti-patterns.md",
+".andromeda/obs-plan-detail/obs-scope-summary.md",
+".andromeda/obs-plan-detail/pii-scrubbing-compliance.md",
+".andromeda/obs-plan-detail/slo-invariants-telemetry-budgets.md",
+".andromeda/obs-plan-detail/span-trace-coverage.md",
+".andromeda/obs-plan-detail/telemetry-strategy.md",
+".andromeda/registries/obs-plan-contracts.toml",
+".andromeda/registries/contracts/obs-plan/bootstrap-phases-derive-for-route-setup-project.md",
+".andromeda/registries/contracts/obs-plan/heartbeat-ticks.md",
+".andromeda/registries/contracts/obs-plan/log-file-location.md",
+".andromeda/registries/contracts/obs-plan/log-format-json-schema.md",
+".andromeda/registries/contracts/obs-plan/logging-stack.md",
+".andromeda/registries/contracts/obs-plan/otel-sdk-init.md",
+".andromeda/registries/contracts/obs-plan/product-mode-normal-vs-inverted-self-observing.md",
+".andromeda/registries/contracts/obs-plan/service-identity.md",
+".andromeda/registries/contracts/obs-plan/snapshot-paste-to-ai-integration.md",
+".andromeda/registries/contracts/obs-plan/trace-context-propagation.md"
+],
+"deltas": [
+"leaf-delta-security-plan.diff",
+"leaf-delta-obs-plan.diff"
+],
+"read": {
+".claude/rules/ci.md": [
+35,
+"- 2026-10-13: A CI job that reads `cancelled` with no steps and no runner name never ran: read its cause from the check run's annotations (`gh api …/check-runs/<job id>/annotations`, e.g. \"not acquired by Runner of type hosted\"), since its log download answers 404, and re-run only that job (`gh run rerun <run> --failed`) to measure the leg."
+]
+},
+"lines": {
+".claude/rules/ci.md": [
+"58b63e273b",
+"bd88ec853c",
+"f538cfa75e",
+"58b63e273b",
+"da39a3ee5e",
+"d56c1bcd6e",
+"da39a3ee5e",
+"ab9066e4a8",
+"da39a3ee5e",
+"a8db42e018",
+"4a6330d7c8",
+"c656a115f6",
+"e0128f8a39",
+"da39a3ee5e",
+"ab0e8b4915",
+"da39a3ee5e",
+"26c99b7803",
+"513ce546d1",
+"96f3619e57",
+"3739ed9662",
+"39ce79b9ca",
+"b6233d67c3",
+"632de2fffb",
+"a718f45e79",
+"da39a3ee5e",
+"3560951e39",
+"da39a3ee5e",
+"9bd5a5d679",
+"962b3c14b5",
+"836c300500",
+"9037d0f93d",
+"45030d8bc8",
+"ccc372f920",
+"2b41494503",
+"66158acad7"
+]
+}
+},
+"test-plan": {
+"leaves": [
+".claude/docs/tests-summary.md",
+".claude/rules/testing.md",
+".claude/rules/verification-harness.md"
+],
+"sources": [
+"test-plan"
+],
+"files": [
+".andromeda/test-plan.md",
+".andromeda/test-plan-detail/ci-integration.md",
+".andromeda/test-plan-detail/e2e-test-strategy.md",
+".andromeda/test-plan-detail/integration-test-strategy.md",
+".andromeda/test-plan-detail/mocking-stubbing-discipline.md",
+".andromeda/test-plan-detail/quality-gates-coverage-targets.md",
+".andromeda/test-plan-detail/test-data-fixtures.md",
+".andromeda/test-plan-detail/test-scope-summary.md",
+".andromeda/test-plan-detail/test-strategy.md",
+".andromeda/test-plan-detail/unit-test-strategy.md",
+".andromeda/registries/test-plan-contracts.toml",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md",
+".andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md",
+".andromeda/registries/contracts/test-plan/log-format.md",
+".andromeda/registries/contracts/test-plan/pid-file.md",
+".andromeda/registries/contracts/test-plan/status-endpoint-shape.md",
+".andromeda/registries/contracts/test-plan/test-data-bootstrap.md"
+],
+"deltas": [
+"leaf-delta-test-plan.diff"
+],
+"read": {
+".claude/docs/tests-summary.md": [
+65,
+"**Full plan:** `.andromeda/test-plan.md`. Path-scoped rules: `.claude/rules/testing.md`, `.claude/rules/verification-harness.md`."
+],
+".claude/rules/testing.md": [
+105,
+"- 2026-10-26: An OS-gated test module in product code stacks `#[cfg(test)]` first and the OS gate second, never one `#[cfg(all(test, …))]`: the Windows mutation-scope contract's `is_windows_gate` reads `cfg!(windows)` as well as `cfg(windows`, so a combined gate whose body holds `cfg!(windows)` ahead of the file's first `#[cfg(test)]` reads the file as Windows-gated product code; and a module whose every case is gated off an OS is gated whole, or its `use super::*` is an unused import that OS's lint fails on."
+],
+".claude/rules/verification-harness.md": [
+72,
+"- 2026-10-20: `target/debug/viola` is a hard link cargo re-points per feature set, so a `fake-agent` build between a live rig's setup and its start swaps the binary under it: read the build's hash right before the start, and restore a ledgered build by `ln -f` from its `target/debug/deps/` artifact."
+]
+},
+"lines": {
+".claude/docs/tests-summary.md": [
+"eec61dba12",
+"da39a3ee5e",
+"ac7f241e99",
+"da39a3ee5e",
+"52b0a40d9f",
+"da39a3ee5e",
+"19670e2aae",
+"da39a3ee5e",
+"80492fc470",
+"da39a3ee5e",
+"2f6f1c5835",
+"da39a3ee5e",
+"5e73481cb3",
+"da39a3ee5e",
+"2ec80376af",
+"2b6686d807",
+"cc89e2c32b",
+"9ba0099203",
+"aa22bcda73",
+"48ab003381",
+"9eab23a170",
+"da39a3ee5e",
+"de16f6951b",
+"da39a3ee5e",
+"09f7ebc035",
+"828003a7c2",
+"8b6db8933d",
+"2a4ca0ac99",
+"495aa9cddf",
+"8d95c12c1c",
+"66aeec9945",
+"0d153919fd",
+"e9a95af816",
+"da39a3ee5e",
+"966965ad9d",
+"da39a3ee5e",
+"80c6d1fa18",
+"91d220c646",
+"50db5a9e81",
+"3f7f30ec29",
+"0655dda22f",
+"bfce64bdbd",
+"72e528fa58",
+"24507f9251",
+"cd9ad41edf",
+"da39a3ee5e",
+"2a3deedff6",
+"da39a3ee5e",
+"917cd759e5",
+"5abc02cc3f",
+"cd50420f10",
+"8fd976f043",
+"795ecd2ab4",
+"da39a3ee5e",
+"c57515f1c4",
+"da39a3ee5e",
+"9ed9fe69ed",
+"e172576646",
+"6683dbf879",
+"45dca2cd01",
+"c54e4e40a2",
+"da39a3ee5e",
+"58b63e273b",
+"da39a3ee5e",
+"0a9f1bcd4e"
+],
+".claude/rules/testing.md": [
+"58b63e273b",
+"bd88ec853c",
+"0d8f9e0a30",
+"b418716dc1",
+"1adaf11bf0",
+"584ef409dd",
+"4522ae9a3f",
+"50ea3318f4",
+"f72ff09814",
+"58b63e273b",
+"da39a3ee5e",
+"a8b9620b57",
+"da39a3ee5e",
+"47fce3bd21",
+"da39a3ee5e",
+"bb005d940d",
+"76c23f09ca",
+"965520527b",
+"c45c11f8ed",
+"329720bd48",
+"da39a3ee5e",
+"50fb6f8ef8",
+"1d337f745c",
+"7b8738aa77",
+"da39a3ee5e",
+"3038c43a5f",
+"f9899fd9a7",
+"bba760caf2",
+"8f0aed3265",
+"0861ddbdb0",
+"da39a3ee5e",
+"113dff13f8",
+"4ffecff650",
+"3a0e1cf66a",
+"53f0da6842",
+"da39a3ee5e",
+"43b1ef98e7",
+"9ab3e192a9",
+"a18cb0d468",
+"28a6f0f4fa",
+"13709607cc",
+"da39a3ee5e",
+"1125cdb35f",
+"dff72a24fa",
+"d2dd6a9bec",
+"91a4df55ea",
+"da39a3ee5e",
+"9bd5a5d679",
+"962b3c14b5",
+"d9b02d540a",
+"be5f46ae71",
+"9062924fc9",
+"18df3d3730",
+"5501dd275a",
+"4fba3b09f6",
+"268e5efa79",
+"6d7fb71892",
+"77e89d08eb",
+"c616a46547",
+"7142919aea",
+"4681cb1235",
+"f46eba9f8c",
+"0cf2268962",
+"e46fb894da",
+"e6e1f6ac73",
+"306fd4828c",
+"e2b459583b",
+"1272c712cf",
+"9b8b5fe50b",
+"78547d1962",
+"3340eae07d",
+"46e4d48dde",
+"1f10c82b86",
+"f157503c15",
+"2c7f93da4d",
+"3472103dcb",
+"21c1e8cd24",
+"97955b31ab",
+"ce3c482b04",
+"f38f03faba",
+"99d9601b3c",
+"8720775015",
+"2032aed70a",
+"1fde94db4b",
+"d36e66082b",
+"6dcadeba29",
+"da1f1aa8f1",
+"877444c489",
+"41df42af17",
+"f21992368d",
+"f841c003c8",
+"5811d59cde",
+"8e27b9e5c8",
+"638958f403",
+"94d6cd48dd",
+"b878077068",
+"e2f95a7c61",
+"b6f0b7235f",
+"13a0850eb3",
+"a82498d640",
+"36239b7e2e",
+"876f2b7451",
+"bac898d3b4",
+"32f05b98fd",
+"c9bfc3a31b"
+],
+".claude/rules/verification-harness.md": [
+"58b63e273b",
+"bd88ec853c",
+"ae8548ba2a",
+"5988c4ba9b",
+"eb71c3c1db",
+"f546fc2d78",
+"80281d430b",
+"5c542cb618",
+"58b63e273b",
+"da39a3ee5e",
+"23d18bc4ad",
+"da39a3ee5e",
+"e09f0716d0",
+"da39a3ee5e",
+"a8db42e018",
+"3d95387f8b",
+"5ca46cae5e",
+"da39a3ee5e",
+"bd3e400630",
+"da39a3ee5e",
+"ae1403a451",
+"6ef0dd350f",
+"fe1c1330f5",
+"32b0af0f79",
+"b3eac52450",
+"da39a3ee5e",
+"fcc364807b",
+"4c42b8402f",
+"da00427cc5",
+"111b6e97b6",
+"da39a3ee5e",
+"d72875e4e9",
+"e0fc03a1be",
+"e58216634d",
+"a133bfd5ae",
+"da39a3ee5e",
+"db6264ce7c",
+"01349a9aa0",
+"32d3e3f381",
+"0209628817",
+"0f49b614de",
+"cb6f9d8a6c",
+"76aba6f346",
+"a587df1bfe",
+"ba238c503c",
+"da39a3ee5e",
+"0afa9288e3",
+"eee1683b59",
+"da39a3ee5e",
+"8e5a8d46cb",
+"e0a3ff583b",
+"da39a3ee5e",
+"9bd5a5d679",
+"962b3c14b5",
+"904dfb89ff",
+"7d0557e671",
+"c91ecf2a29",
+"be542db44f",
+"dfd74fc27a",
+"020b452d90",
+"cd70c542fe",
+"1b7de4ac34",
+"2a16fa8864",
+"e798dcff4a",
+"195c6521c5",
+"bc19437e37",
+"1a9ee2217d",
+"8b758c7fa3",
+"4dfbf960bd",
+"08f3582cf6",
+"55001ae9e2",
+"74580ca92a"
+]
+}
+},
+"test-plan+obs-plan": {
+"leaves": [
+".claude/rules/observability.md"
+],
+"sources": [
+"test-plan",
+"obs-plan"
+],
+"files": [
+".andromeda/test-plan.md",
+".andromeda/test-plan-detail/ci-integration.md",
+".andromeda/test-plan-detail/e2e-test-strategy.md",
+".andromeda/test-plan-detail/integration-test-strategy.md",
+".andromeda/test-plan-detail/mocking-stubbing-discipline.md",
+".andromeda/test-plan-detail/quality-gates-coverage-targets.md",
+".andromeda/test-plan-detail/test-data-fixtures.md",
+".andromeda/test-plan-detail/test-scope-summary.md",
+".andromeda/test-plan-detail/test-strategy.md",
+".andromeda/test-plan-detail/unit-test-strategy.md",
+".andromeda/registries/test-plan-contracts.toml",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md",
+".andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md",
+".andromeda/registries/contracts/test-plan/log-format.md",
+".andromeda/registries/contracts/test-plan/pid-file.md",
+".andromeda/registries/contracts/test-plan/status-endpoint-shape.md",
+".andromeda/registries/contracts/test-plan/test-data-bootstrap.md",
+".andromeda/obs-plan.md",
+".andromeda/obs-plan-detail/ci-integration.md",
+".andromeda/obs-plan-detail/error-capture-reporting.md",
+".andromeda/obs-plan-detail/log-coverage.md",
+".andromeda/obs-plan-detail/metric-coverage.md",
+".andromeda/obs-plan-detail/obs-anti-patterns.md",
+".andromeda/obs-plan-detail/obs-scope-summary.md",
+".andromeda/obs-plan-detail/pii-scrubbing-compliance.md",
+".andromeda/obs-plan-detail/slo-invariants-telemetry-budgets.md",
+".andromeda/obs-plan-detail/span-trace-coverage.md",
+".andromeda/obs-plan-detail/telemetry-strategy.md",
+".andromeda/registries/obs-plan-contracts.toml",
+".andromeda/registries/contracts/obs-plan/bootstrap-phases-derive-for-route-setup-project.md",
+".andromeda/registries/contracts/obs-plan/heartbeat-ticks.md",
+".andromeda/registries/contracts/obs-plan/log-file-location.md",
+".andromeda/registries/contracts/obs-plan/log-format-json-schema.md",
+".andromeda/registries/contracts/obs-plan/logging-stack.md",
+".andromeda/registries/contracts/obs-plan/otel-sdk-init.md",
+".andromeda/registries/contracts/obs-plan/product-mode-normal-vs-inverted-self-observing.md",
+".andromeda/registries/contracts/obs-plan/service-identity.md",
+".andromeda/registries/contracts/obs-plan/snapshot-paste-to-ai-integration.md",
+".andromeda/registries/contracts/obs-plan/trace-context-propagation.md"
+],
+"deltas": [
+"leaf-delta-test-plan.diff",
+"leaf-delta-obs-plan.diff"
+],
+"read": {
+".claude/rules/observability.md": [
+46,
+"- 2026-09-24: `obs_event!` expands to `::tracing::event!`, so a raw-log census greps `tracing::(info|warn|error|debug|trace)!` — a bare `tracing::` grep reads the sanctioned macro in `viola_core::obs` as a raw call."
+]
+},
+"lines": {
+".claude/rules/observability.md": [
+"58b63e273b",
+"bd88ec853c",
+"5dde914b26",
+"81f863828c",
+"cceaf84b32",
+"7b3c9412f6",
+"58b63e273b",
+"da39a3ee5e",
+"0f9484c290",
+"da39a3ee5e",
+"96f8906948",
+"da39a3ee5e",
+"4eaf6f725f",
+"c7bb911f59",
+"74edc0bd8a",
+"5e49126fa4",
+"da39a3ee5e",
+"55148775aa",
+"0541f1ec36",
+"0a47fb86cc",
+"e194e68fc9",
+"da39a3ee5e",
+"bd34b71fc9",
+"e77ecdb721",
+"00a763216d",
+"cf495421b2",
+"12a818c7b8",
+"0a0e46f347",
+"da39a3ee5e",
+"19b486ba9d",
+"affb57cc09",
+"6905b7d635",
+"da39a3ee5e",
+"3ef0cef60c",
+"74770b1809",
+"30633f8db3",
+"15a1f41cb5",
+"8a23e27752",
+"5ad392004f",
+"9de262e8de",
+"3b5a511169",
+"9184a3a039",
+"da39a3ee5e",
+"9bd5a5d679",
+"962b3c14b5",
+"2a8838492e"
+]
+}
+},
+"obs-plan": {
+"leaves": [
+".claude/docs/obs-summary.md"
+],
+"sources": [
+"obs-plan"
+],
+"files": [
+".andromeda/obs-plan.md",
+".andromeda/obs-plan-detail/ci-integration.md",
+".andromeda/obs-plan-detail/error-capture-reporting.md",
+".andromeda/obs-plan-detail/log-coverage.md",
+".andromeda/obs-plan-detail/metric-coverage.md",
+".andromeda/obs-plan-detail/obs-anti-patterns.md",
+".andromeda/obs-plan-detail/obs-scope-summary.md",
+".andromeda/obs-plan-detail/pii-scrubbing-compliance.md",
+".andromeda/obs-plan-detail/slo-invariants-telemetry-budgets.md",
+".andromeda/obs-plan-detail/span-trace-coverage.md",
+".andromeda/obs-plan-detail/telemetry-strategy.md",
+".andromeda/registries/obs-plan-contracts.toml",
+".andromeda/registries/contracts/obs-plan/bootstrap-phases-derive-for-route-setup-project.md",
+".andromeda/registries/contracts/obs-plan/heartbeat-ticks.md",
+".andromeda/registries/contracts/obs-plan/log-file-location.md",
+".andromeda/registries/contracts/obs-plan/log-format-json-schema.md",
+".andromeda/registries/contracts/obs-plan/logging-stack.md",
+".andromeda/registries/contracts/obs-plan/otel-sdk-init.md",
+".andromeda/registries/contracts/obs-plan/product-mode-normal-vs-inverted-self-observing.md",
+".andromeda/registries/contracts/obs-plan/service-identity.md",
+".andromeda/registries/contracts/obs-plan/snapshot-paste-to-ai-integration.md",
+".andromeda/registries/contracts/obs-plan/trace-context-propagation.md"
+],
+"deltas": [
+"leaf-delta-obs-plan.diff"
+],
+"read": {
+".claude/docs/obs-summary.md": [
+76,
+"**Full plan:** `.andromeda/obs-plan.md`. Path-scoped rules: `.claude/rules/observability.md`."
+]
+},
+"lines": {
+".claude/docs/obs-summary.md": [
+"ed9ca5612e",
+"da39a3ee5e",
+"9db73f26b5",
+"da39a3ee5e",
+"8c7658064a",
+"da39a3ee5e",
+"86e2b58ca1",
+"da39a3ee5e",
+"2c61f222ec",
+"da39a3ee5e",
+"2f6f1c5835",
+"da39a3ee5e",
+"a09cb02005",
+"da39a3ee5e",
+"7d62df0a4b",
+"9da047f883",
+"78f366cd5e",
+"1b5802cd1e",
+"86dfa2f4d8",
+"d9367c1c63",
+"427cecb02a",
+"f82292abd7",
+"da39a3ee5e",
+"90fbb9edd8",
+"da39a3ee5e",
+"27d10d8d62",
+"91d220c646",
+"bf33044a26",
+"75b4699129",
+"7ac47cf1e0",
+"3f658e246d",
+"08de045a8d",
+"da39a3ee5e",
+"428867f57b",
+"da39a3ee5e",
+"c966f3e7cc",
+"1e6bc6203c",
+"d8b29ccb27",
+"da39a3ee5e",
+"23bc84a959",
+"da39a3ee5e",
+"5cc02f8ba3",
+"da39a3ee5e",
+"303bdbaaf1",
+"da39a3ee5e",
+"09a1ad5571",
+"61b51e7a3a",
+"0478117d1e",
+"c25e814158",
+"17bb8ea540",
+"32660bf56c",
+"da39a3ee5e",
+"2a3deedff6",
+"da39a3ee5e",
+"3e487b4690",
+"d4ae6c2475",
+"7b99b573d9",
+"0761ec9b23",
+"2693792a22",
+"da39a3ee5e",
+"c57515f1c4",
+"da39a3ee5e",
+"de800f2773",
+"58d9e694e2",
+"ca7a9303a2",
+"f41b2f0af6",
+"c840c70b99",
+"1d22bd2c22",
+"eb31af49c4",
+"7711a2613d",
+"9a427358d7",
+"a85f6f0db0",
+"da39a3ee5e",
+"58b63e273b",
+"da39a3ee5e",
+"e36c3c8307"
+]
+}
+}
+},
+"unmapped": [
+".claude/rules/host-linux.md",
+".claude/rules/testing-src.md"
+]
+}
+}
+},
+{
+"tool": "cascade",
+"v": "1.18",
+"sha8": "3ca97b67",
+"ts": "2026-10-27T03:51:41Z",
+"argv": [
+"leaves",
+"--apply",
+".andromeda/runs/2026-10-27T02-51-54-wrap/leaf-architecture-1.md",
+".andromeda/runs/2026-10-27T02-51-54-wrap/leaf-architecture-2.md",
+".andromeda/runs/2026-10-27T02-51-54-wrap/leaf-architecture-3.md",
+".andromeda/runs/2026-10-27T02-51-54-wrap/leaf-architecture-4.md",
+".andromeda/runs/2026-10-27T02-51-54-wrap/leaf-architecture+security-plan.md",
+".andromeda/runs/2026-10-27T02-51-54-wrap/leaf-architecture+security-plan+test-plan+obs-plan.md",
+".andromeda/runs/2026-10-27T02-51-54-wrap/leaf-architecture+test-plan+obs-plan.md",
+".andromeda/runs/2026-10-27T02-51-54-wrap/leaf-obs-plan.md",
+".andromeda/runs/2026-10-27T02-51-54-wrap/leaf-security-plan.md",
+".andromeda/runs/2026-10-27T02-51-54-wrap/leaf-security-plan+obs-plan.md",
+".andromeda/runs/2026-10-27T02-51-54-wrap/leaf-test-plan.md",
+".andromeda/runs/2026-10-27T02-51-54-wrap/leaf-test-plan+obs-plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-27T02-51-54-wrap",
+"--marker",
+"2026-10-27-pinned-copy-race-and-reproducible-builds",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"file leaf-architecture-1.md · group architecture-1 · blocks 0 · receipts ok",
+"file leaf-architecture-2.md · group architecture-2 · blocks 3 · receipts ok",
+"file leaf-architecture-3.md · group architecture-3 · blocks 3 · receipts ok",
+"file leaf-architecture-4.md · group architecture-4 · blocks 0 · receipts ok",
+"file leaf-architecture+security-plan.md · group architecture+security-plan · blocks 0 · receipts ok",
+"file leaf-architecture+security-plan+test-plan+obs-plan.md · group architecture+security-plan+test-plan+obs-plan · bloc…",
+"file leaf-architecture+test-plan+obs-plan.md · group architecture+test-plan+obs-plan · blocks 0 · receipts ok",
+"file leaf-obs-plan.md · group obs-plan · blocks 0 · receipts ok",
+"file leaf-security-plan.md · group security-plan · blocks 2 · receipts ok",
+"file leaf-security-plan+obs-plan.md · group security-plan+obs-plan · blocks 0 · receipts ok",
+"file leaf-test-plan.md · group test-plan · blocks 4 · receipts ok",
+"file leaf-test-plan+obs-plan.md · group test-plan+obs-plan · blocks 0 · receipts ok",
+"applied · leaf-architecture-2.md/.claude/docs/services/viola-state.md:11#1 · omission",
+"applied · leaf-architecture-2.md/.claude/docs/services/viola-state.md:20#1 · stale",
+"applied · leaf-architecture-2.md/.claude/docs/services/viola-state.md:24#1 · omission",
+"applied · leaf-architecture-3.md/.claude/docs/stack.md:17#1 · stale",
+"applied · leaf-architecture-3.md/.claude/docs/services/viola.md:20#1 · omission",
+"applied · leaf-architecture-3.md/.claude/docs/services/viola.md:37#1 · omission",
+"applied · leaf-security-plan.md/.claude/rules/security.md:14#1 · omission",
+"applied · leaf-security-plan.md/.claude/docs/security-summary.md:17#1 · omission",
+"applied · leaf-test-plan.md/.claude/rules/testing.md:33#1 · stale",
+"applied · leaf-test-plan.md/.claude/rules/testing.md:39#1 · omission",
+"applied · leaf-test-plan.md/.claude/rules/verification-harness.md:40#1 · omission",
+"applied · leaf-test-plan.md/.claude/docs/tests-summary.md:31#1 · omission",
+"dry-run: would write .claude/docs/services/viola-state.md: 3 finding(s)",
+"dry-run: would write .claude/docs/stack.md: 1 finding(s)",
+"dry-run: would write .claude/docs/services/viola.md: 2 finding(s)",
+"dry-run: would write .claude/rules/security.md: 1 finding(s)",
+"dry-run: would write .claude/docs/security-summary.md: 1 finding(s)",
+"dry-run: would write .claude/rules/testing.md: 2 finding(s)",
+"dry-run: would write .claude/rules/verification-harness.md: 1 finding(s)",
+"dry-run: would write .claude/docs/tests-summary.md: 1 finding(s)",
+"total · blocks 12 · applied 12 — dry-run, nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"apply": [
+{
+"id": "leaf-architecture-2.md/.claude/docs/services/viola-state.md:11#1",
+"status": "applied",
+"class": "omission"
+},
+{
+"id": "leaf-architecture-2.md/.claude/docs/services/viola-state.md:20#1",
+"status": "applied",
+"class": "stale"
+},
+{
+"id": "leaf-architecture-2.md/.claude/docs/services/viola-state.md:24#1",
+"status": "applied",
+"class": "omission"
+},
+{
+"id": "leaf-architecture-3.md/.claude/docs/stack.md:17#1",
+"status": "applied",
+"class": "stale"
+},
+{
+"id": "leaf-architecture-3.md/.claude/docs/services/viola.md:20#1",
+"status": "applied",
+"class": "omission"
+},
+{
+"id": "leaf-architecture-3.md/.claude/docs/services/viola.md:37#1",
+"status": "applied",
+"class": "omission"
+},
+{
+"id": "leaf-security-plan.md/.claude/rules/security.md:14#1",
+"status": "applied",
+"class": "omission"
+},
+{
+"id": "leaf-security-plan.md/.claude/docs/security-summary.md:17#1",
+"status": "applied",
+"class": "omission"
+},
+{
+"id": "leaf-test-plan.md/.claude/rules/testing.md:33#1",
+"status": "applied",
+"class": "stale"
+},
+{
+"id": "leaf-test-plan.md/.claude/rules/testing.md:39#1",
+"status": "applied",
+"class": "omission"
+},
+{
+"id": "leaf-test-plan.md/.claude/rules/verification-harness.md:40#1",
+"status": "applied",
+"class": "omission"
+},
+{
+"id": "leaf-test-plan.md/.claude/docs/tests-summary.md:31#1",
+"status": "applied",
+"class": "omission"
+}
+],
+"applied": false,
+"files": {
+"leaf-architecture-1.md": "82c88b6035",
+"leaf-architecture-2.md": "d2bf39c9be",
+"leaf-architecture-3.md": "e3d92bbd9f",
+"leaf-architecture-4.md": "a82019ab44",
+"leaf-architecture+security-plan.md": "f1448428c5",
+"leaf-architecture+security-plan+test-plan+obs-plan.md": "f57778b6a4",
+"leaf-architecture+test-plan+obs-plan.md": "200ae6d45a",
+"leaf-obs-plan.md": "a868398300",
+"leaf-security-plan.md": "60708b9e80",
+"leaf-security-plan+obs-plan.md": "1b40440830",
+"leaf-test-plan.md": "2dd369773f",
+"leaf-test-plan+obs-plan.md": "82be8190cc"
+}
+}
+},
+{
+"tool": "cascade",
+"v": "1.18",
+"sha8": "3ca97b67",
+"ts": "2026-10-27T03:52:05Z",
+"argv": [
+"leaves",
+"--apply",
+".andromeda/runs/2026-10-27T02-51-54-wrap/leaf-architecture-1.md",
+".andromeda/runs/2026-10-27T02-51-54-wrap/leaf-architecture-2.md",
+".andromeda/runs/2026-10-27T02-51-54-wrap/leaf-architecture-3.md",
+".andromeda/runs/2026-10-27T02-51-54-wrap/leaf-architecture-4.md",
+".andromeda/runs/2026-10-27T02-51-54-wrap/leaf-architecture+security-plan.md",
+".andromeda/runs/2026-10-27T02-51-54-wrap/leaf-architecture+security-plan+test-plan+obs-plan.md",
+".andromeda/runs/2026-10-27T02-51-54-wrap/leaf-architecture+test-plan+obs-plan.md",
+".andromeda/runs/2026-10-27T02-51-54-wrap/leaf-obs-plan.md",
+".andromeda/runs/2026-10-27T02-51-54-wrap/leaf-security-plan.md",
+".andromeda/runs/2026-10-27T02-51-54-wrap/leaf-security-plan+obs-plan.md",
+".andromeda/runs/2026-10-27T02-51-54-wrap/leaf-test-plan.md",
+".andromeda/runs/2026-10-27T02-51-54-wrap/leaf-test-plan+obs-plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-27T02-51-54-wrap",
+"--marker",
+"2026-10-27-pinned-copy-race-and-reproducible-builds",
+"--only",
+"leaf-architecture-2.md/.claude/docs/services/viola-state.md:11#1",
+"leaf-architecture-2.md/.claude/docs/services/viola-state.md:20#1",
+"leaf-architecture-2.md/.claude/docs/services/viola-state.md:24#1",
+"leaf-architecture-3.md/.claude/docs/stack.md:17#1",
+"leaf-architecture-3.md/.claude/docs/services/viola.md:20#1",
+"leaf-security-plan.md/.claude/rules/security.md:14#1",
+"leaf-security-plan.md/.claude/docs/security-summary.md:17#1",
+"leaf-test-plan.md/.claude/rules/testing.md:33#1",
+"leaf-test-plan.md/.claude/rules/testing.md:39#1",
+"leaf-test-plan.md/.claude/rules/verification-harness.md:40#1"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"file leaf-architecture-1.md · group architecture-1 · blocks 0 · receipts ok",
+"file leaf-architecture-2.md · group architecture-2 · blocks 3 · receipts ok",
+"file leaf-architecture-3.md · group architecture-3 · blocks 3 · receipts ok",
+"file leaf-architecture-4.md · group architecture-4 · blocks 0 · receipts ok",
+"file leaf-architecture+security-plan.md · group architecture+security-plan · blocks 0 · receipts ok",
+"file leaf-architecture+security-plan+test-plan+obs-plan.md · group architecture+security-plan+test-plan+obs-plan · bloc…",
+"file leaf-architecture+test-plan+obs-plan.md · group architecture+test-plan+obs-plan · blocks 0 · receipts ok",
+"file leaf-obs-plan.md · group obs-plan · blocks 0 · receipts ok",
+"file leaf-security-plan.md · group security-plan · blocks 2 · receipts ok",
+"file leaf-security-plan+obs-plan.md · group security-plan+obs-plan · blocks 0 · receipts ok",
+"file leaf-test-plan.md · group test-plan · blocks 4 · receipts ok",
+"file leaf-test-plan+obs-plan.md · group test-plan+obs-plan · blocks 0 · receipts ok",
+"applied · leaf-architecture-2.md/.claude/docs/services/viola-state.md:11#1 · omission",
+"applied · leaf-architecture-2.md/.claude/docs/services/viola-state.md:20#1 · stale",
+"applied · leaf-architecture-2.md/.claude/docs/services/viola-state.md:24#1 · omission",
+"applied · leaf-architecture-3.md/.claude/docs/stack.md:17#1 · stale",
+"applied · leaf-architecture-3.md/.claude/docs/services/viola.md:20#1 · omission",
+"held · leaf-architecture-3.md/.claude/docs/services/viola.md:37#1 · omission",
+"applied · leaf-security-plan.md/.claude/rules/security.md:14#1 · omission",
+"applied · leaf-security-plan.md/.claude/docs/security-summary.md:17#1 · omission",
+"applied · leaf-test-plan.md/.claude/rules/testing.md:33#1 · stale",
+"applied · leaf-test-plan.md/.claude/rules/testing.md:39#1 · omission",
+"applied · leaf-test-plan.md/.claude/rules/verification-harness.md:40#1 · omission",
+"held · leaf-test-plan.md/.claude/docs/tests-summary.md:31#1 · omission",
+"wrote .claude/docs/services/viola-state.md: 3 finding(s), read back",
+"wrote .claude/docs/stack.md: 1 finding(s), read back",
+"wrote .claude/docs/services/viola.md: 1 finding(s), read back",
+"wrote .claude/rules/security.md: 1 finding(s), read back",
+"wrote .claude/docs/security-summary.md: 1 finding(s), read back",
+"wrote .claude/rules/testing.md: 2 finding(s), read back",
+"wrote .claude/rules/verification-harness.md: 1 finding(s), read back",
+"total · blocks 12 · applied 10 · held 2"
+],
+"stderr": null,
+"wrote": [
+"./.claude/docs/services/viola-state.md",
+"./.claude/docs/stack.md",
+"./.claude/docs/services/viola.md",
+"./.claude/rules/security.md",
+"./.claude/docs/security-summary.md",
+"./.claude/rules/testing.md",
+"./.claude/rules/verification-harness.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"apply": [
+{
+"id": "leaf-architecture-2.md/.claude/docs/services/viola-state.md:11#1",
+"status": "applied",
+"class": "omission"
+},
+{
+"id": "leaf-architecture-2.md/.claude/docs/services/viola-state.md:20#1",
+"status": "applied",
+"class": "stale"
+},
+{
+"id": "leaf-architecture-2.md/.claude/docs/services/viola-state.md:24#1",
+"status": "applied",
+"class": "omission"
+},
+{
+"id": "leaf-architecture-3.md/.claude/docs/stack.md:17#1",
+"status": "applied",
+"class": "stale"
+},
+{
+"id": "leaf-architecture-3.md/.claude/docs/services/viola.md:20#1",
+"status": "applied",
+"class": "omission"
+},
+{
+"id": "leaf-architecture-3.md/.claude/docs/services/viola.md:37#1",
+"status": "held",
+"class": "omission"
+},
+{
+"id": "leaf-security-plan.md/.claude/rules/security.md:14#1",
+"status": "applied",
+"class": "omission"
+},
+{
+"id": "leaf-security-plan.md/.claude/docs/security-summary.md:17#1",
+"status": "applied",
+"class": "omission"
+},
+{
+"id": "leaf-test-plan.md/.claude/rules/testing.md:33#1",
+"status": "applied",
+"class": "stale"
+},
+{
+"id": "leaf-test-plan.md/.claude/rules/testing.md:39#1",
+"status": "applied",
+"class": "omission"
+},
+{
+"id": "leaf-test-plan.md/.claude/rules/verification-harness.md:40#1",
+"status": "applied",
+"class": "omission"
+},
+{
+"id": "leaf-test-plan.md/.claude/docs/tests-summary.md:31#1",
+"status": "held",
+"class": "omission"
+}
+],
+"applied": true,
+"files": {
+"leaf-architecture-1.md": "82c88b6035",
+"leaf-architecture-2.md": "d2bf39c9be",
+"leaf-architecture-3.md": "e3d92bbd9f",
+"leaf-architecture-4.md": "a82019ab44",
+"leaf-architecture+security-plan.md": "f1448428c5",
+"leaf-architecture+security-plan+test-plan+obs-plan.md": "f57778b6a4",
+"leaf-architecture+test-plan+obs-plan.md": "200ae6d45a",
+"leaf-obs-plan.md": "a868398300",
+"leaf-security-plan.md": "60708b9e80",
+"leaf-security-plan+obs-plan.md": "1b40440830",
+"leaf-test-plan.md": "2dd369773f",
+"leaf-test-plan+obs-plan.md": "82be8190cc"
+}
+}
+}
+]

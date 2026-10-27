@@ -1,0 +1,53 @@
+[
+{
+"tool": "matrix",
+"v": "1.5",
+"sha8": "6cb09937",
+"ts": "2026-10-27T04:00:01Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-27-pinned-copy-race-and-reproducible-builds",
+"--run-dir",
+".andromeda/runs/2026-10-27T02-51-54-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed 0 — gate no-op (no entry carries chunk 2026-10-27-pinned-copy-race-and-reproducible-builds)",
+"pool: unclaimed 21 [v1-01 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-13 v1-18 v1-21 v1-24 v1-26 v1-27 v1-34 v1-35 v1-36 v1-44 v1-46 v1-47 v1-53]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.5",
+"sha8": "6cb09937",
+"ts": "2026-10-27T04:00:09Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-27-pinned-copy-race-and-reproducible-builds",
+"--run-dir",
+".andromeda/runs/2026-10-27T02-51-54-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed 0 — gate no-op (no entry carries chunk 2026-10-27-pinned-copy-race-and-reproducible-builds)",
+"pool: unclaimed 21 [v1-01 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-13 v1-18 v1-21 v1-24 v1-26 v1-27 v1-34 v1-35 v1-36 v1-44 v1-46 v1-47 v1-53]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

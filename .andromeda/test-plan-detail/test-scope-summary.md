@@ -114,7 +114,7 @@ Read whole. The master's broad view is .andromeda/test-plan.md; this file holds 
     - Fixtures must not come from real prompts and must be checked for absolute paths and usernames (security excerpt, Anti-Patterns: "Fixtures from real prompts, or unchecked for paths and usernames").
     - Open conflict for Phase 3: the arch excerpt (Per-test isolation) says the home's `ledger/stamps.json` "can stamp the fake agent's version". The security excerpt rejects "a non-`verify` process writing `stamps.json`". Stamps must therefore be produced by running `viola verify` against the fake agent, or the conflict must be resolved upstream. Resolved in §12 (initial entry, ratified by User review 1): the first option is used.
     - No developer-seeded state.
-    - A test that makes a home before viola runs makes it through `viola_state::fs::create_private_dir`, never `create_dir_all`: the instance and home-tree checks refuse a `create_dir_all` home (Unix: its 0755 mode fails the read rule; Windows: its inherited Users write ACE).
+    - A test that makes a home before viola runs makes it through `viola_state::fs::create_private_dir`, never `create_dir_all`: the instance and home-tree checks refuse a `create_dir_all` home (Unix: its 0755 mode fails the read rule; Windows: an inherited write grant to a SID strict-modes does not trust, whichever SID holds it).
 
 <!-- /detail -->
 
