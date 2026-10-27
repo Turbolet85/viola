@@ -1,0 +1,40 @@
+# security · Threat Model Summary — category read
+
+## Carried
+- (.andromeda/security-plan-detail/threat-model-summary.md:24) The pinned copy that Part A's concurrent first starts race to write is a classified config artefact, so any change to how the absent copy is written must keep it the one pinned executable at its keyed path.
+  > `bin/<version>-<hash>/viola(.exe)` is the pinned executable.
+- (.andromeda/security-plan-detail/threat-model-summary.md:22) The per-start `plugin/<key>/` rewrite that Part A reads for concurrent-reader failure holds the exec paths Claude Code runs, so a concurrent rewrite must never leave a hook or MCP reader with a partial or missing file.
+  > `plugin/<version>-<hash>/hooks/hooks.json` and `.mcp.json` hold the absolute exec paths Claude Code runs for every hook and for MCP.
+- (.andromeda/security-plan-detail/threat-model-summary.md:26) The race fix is held to the class's integrity-first rating: a fix must not trade integrity of these files (an unchecked or overwritten copy) for start-up concurrency.
+  > These are integrity-sensitive more than confidentiality-sensitive, because several of them decide what code runs.
+- (.andromeda/security-plan-detail/threat-model-summary.md:20) Part B's "which readers key on the hash" includes the snapshot's recorded pinned path: a rebuild that reads as another binary records a different `pinned_bin`.
+  > `snapshot.json` also stores `endpoint`, the socket path clients connect to, and `pinned_bin`.
+- (.andromeda/security-plan-detail/threat-model-summary.md:123) The filesystem boundary's code-bearing artefacts are exactly the race's surface (the pinned exe Claude Code's hook spawn runs, and the plugin files naming it); the spawn that fails in the measured race is this entry point.
+  > Code-bearing artefacts: `bin/<version>-<hash>/viola(.exe)` and `plugin/<version>-<hash>/hooks/hooks.json` / `.mcp.json`. Claude Code runs these on every hook event and for MCP.
+- (.andromeda/security-plan-detail/threat-model-summary.md:128) Neither the race fix nor a Part B finding may delete a pinned folder, a second `bin/<key>/` pinned by a rebuild included.
+  > The pinned binary and plugin folders are never deleted in v1.
+- (.andromeda/security-plan-detail/threat-model-summary.md:129) The home-tree strict-modes check over `bin/<key>/`, the pinned exe and `plugin/<key>/` (and Windows `pin_companions`' check) stands unchanged; the absent-copy write must still leave a tree that passes it, and the content hash in the folder name stays the key.
+  > Beyond the content hash in the folder name, `run` and `revive`'s start hold the home tree to the strict-modes check (Unix owner and mode, Windows owner and DACL) before the wrapper log opens (`check_home_tree`: the home, the instance's files, `ledger/`, `bin/`, `plugin/`, `bin/<version>-<hash>/`, the pinned `viola(.exe)`, `plugin/<version>-<hash>/`, its `hooks/` and `.claude-plugin/`), and on Windows `pin_companions` checks `bin/<version>-<hash>/conpty/` and each companion before the held open; `marketplace/` is off the integrity set.
+- (.andromeda/security-plan-detail/threat-model-summary.md:140) The pinned copy's folder is the child's first PATH entry, so a missing or half-written copy during a concurrent start is reachable by the child's own lookups too, not only the hook spawn.
+  > `run` puts the pinned copy's folder first on the child's PATH.
+- (.andromeda/security-plan-detail/threat-model-summary.md:155) Part B is a measurement inside the supply-chain boundary, not a release step: no release, signing or deploy stage may be added on it, and `Cargo.lock` stays the build's source of truth (the measurement builds `--locked`).
+  > `Cargo.lock`, and `publish = false`.
+- (.andromeda/security-plan-detail/threat-model-summary.md:155) The supply-chain boundary has no release stage in v1, so any build-change Part B's result suggests is the founder's to act on, never a stage this chunk adds.
+  > In v1 there is no release, no signing and no deploy stage.
+- (.andromeda/security-plan-detail/threat-model-summary.md:163) Part B's two clean release builds go through the same release build CI's per-OS job runs, and that build must still refuse any test-only binary.
+  > the per-OS release build (`cargo build --release --locked --bin viola` through `scripts/release-check.sh`, which refuses any test-only binary)
+- (.andromeda/security-plan-detail/threat-model-summary.md:165) A reproducibility finding touches the deferred v1.x release workflow; it records the fact for that workflow and adds none of it in v1.
+  > v1.x adds a dist 0.33.0 release workflow with cargo-auditable 0.7.6, signing, winget/Homebrew/Scoop and `self_update` 1.3.0.
+- (.andromeda/security-plan.md:23) The tier's local-boundary elevation names the pinned binaries and `~/.viola/` integrity, so the race fix is held to that elevation, not to the Minimal baseline.
+  > Second, several state files decide what code runs and whether dialogs are answered: `snapshot.json`'s `statusline_command`, the `hooks.json` exec paths, the pinned binaries and the ledger stamps.
+- (.andromeda/security-plan.md:47) The body's filesystem vector binds both parts: the content-hash key and the strict-modes check before any log opens stand, and no pinned folder is deleted.
+  > **Vector:** Filesystem state under `~/.viola/`, read across processes and holding the code-bearing artefacts Claude Code runs: its trust boundary is OS permissions on the user's home directory; readers tolerate torn lines, the pinned binary and plugin folders are never deleted in v1, and beyond the content hash in the folder name the start holds the home tree, the pinned binary and the plugin folders to the strict-modes check (owner and mode, or owner and DACL) before any log opens.
+- (.andromeda/security-plan.md:53) The body's supply-chain vector bounds Part B: its trust boundary (cargo deny, the tokio bans, `Cargo.lock`) is unchanged by a measurement, and v1 has no release stage to act on it.
+  > **Vector:** Supply chain (build and CI): Cargo dependencies, SHA-pinned third-party GitHub Actions and rustup-installed toolchains; the trust boundary is `cargo deny check`, the sync-crate `tokio` bans, `Cargo.lock` and `publish = false`, the test-only `fuzz/` lockfile audited on its own by a ratified exemption; v1 has no release, no signing and no deploy stage.
+
+## Bindings
+- **Pinned executable integrity ↔ the body's §Security Anti-Patterns (Data Protection)**: the threat model rates the pinned copy integrity-first (.andromeda/security-plan-detail/threat-model-summary.md:26) and the ban requires the re-hash before reuse and a SHA-256 key, so the race fix closes the concurrent absent-copy write without overwriting a present copy that differs or skipping its re-hash (.andromeda/security-plan.md:461).
+- **Code-bearing artefacts ↔ the body's §Security Anti-Patterns (Universal)**: the hook spawn that fails in the measured race is the exec-form `command` that must stay the absolute pinned path; a fix may not fall back to a PATH lookup or another path to dodge the race (.andromeda/security-plan-detail/threat-model-summary.md:123) (.andromeda/security-plan.md:509).
+- **Home mode of the pinned copy ↔ the body's §Security Anti-Patterns (Data Protection)**: whatever write the fix uses keeps the pinned `viola` at 0700 and never group- or world-writable, every other file 0600, never the umask (.andromeda/security-plan-detail/threat-model-summary.md:129) (.andromeda/security-plan.md:459).
+- **Release build ↔ the body's §Dependency Security (CI integration)**: Part B's builds use the release build `scripts/release-check.sh` judges by its own artifact records, refusing a test-only binary or feature (.andromeda/security-plan-detail/threat-model-summary.md:163) (.andromeda/security-plan.md:281).
+- **v1.x release ↔ the body's §Dependency Security (v1.x release prerequisites)**: a reproducibility finding feeds the deferred dist / cargo-auditable / signing prerequisites and adds none of them in v1 (.andromeda/security-plan-detail/threat-model-summary.md:165) (.andromeda/security-plan.md:304).

@@ -1,0 +1,296 @@
+[
+{
+"tool": "planlint",
+"v": "1.14",
+"sha8": "9ee5c3a3",
+"ts": "2026-10-27T01:54:43Z",
+"argv": [
+"check",
+"--plan",
+"viola-0.1.0/chunks/2026-10-27-pinned-copy-race-and-reproducible-builds/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-27T00-24-41-phase",
+"--marker",
+"2026-10-27-pinned-copy-race-and-reproducible-builds"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fence: 25 entries · plan: viola-0.1.0/chunks/2026-10-27-pinned-copy-race-and-reproducible-builds/plan.md · research: vi…",
+"check 9 · CI-outcome reads: 1 · leg operator exempt: 1 · Platform issues consulted: filled · `WebSearch `actions runne…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 0 · Harness rules consulted: filled · ``.claude/rules/verification-harness.md` — r…`",
+"check 4 (5) · leg entries with a content atom: 2 · note without `atom from`: 0",
+"check 4 (13) · operator CI-outcome reads: 1 · not ci.py conclusion: 0",
+"check 4 (13) · job-log reads by pattern: 0",
+"check 4 (14) · base-less git change reads outside the operator and round legs: 0",
+"check 4 (15) · grep → wc -l counts asserting exit 0 and last line 0: 0",
+"check 4 (16) · guards whose exclusions leave a new file in: 0 of 0 with an exclusion",
+"check 4 (17) · entries reading a path the wrap writes: 0 of 21 asserting — listed, P5's read",
+"check 4 (17) · a path the wrap writes, read from inside a program an entry runs (a suite, the ledger's tool): not read",
+"check 2 · ledger-note entries (matrix#): 0",
+"check 5 · placeholders outside code: 0",
+"check 12 (c) · step references the plan's steps lack: 0 of 25",
+"check 12 (d) · «unchanged» claims on a name another part of the plan names: 19 of 22 — listed, P5's read",
+"  line 18 · «unchanged» · fs.rs (step 4) · pin_bytes (step 6)",
+"  line 41 · «unchanged» · spawn_os_error (step 3)",
+"  line 46 · «unchanged» · boot (step 7)",
+"  line 56 · «untouched» · into_temp_path (Test Commands)",
+"  line 66 · «byte-identical» · Present (step 4)",
+"  line 82 · «unchanged» · Ok (step 4) · Present (step 4) · pin_exe (Files to modify) · pin_companions (Files to modify)",
+"  line 84 · «same bytes» · Ok (step 4)",
+"  line 85 · «byte-identical» · Ok (step 4)",
+"  line 116 · «unchanged» · viola (step 1) · .config/nextest.toml (Test Commands)",
+"  line 128 · «unchanged» · [[gate]] (Test Commands)",
+"  line 328 · «byte-identical» · place_private_new_over_a_present_name_is_present_and_leaves_it (step 5)",
+"      Present (step 4) · place_private_new_places_the_bytes_once_at_the_mode_and_leaves_no_temp (step 5)",
+"  line 340 · «unchanged» · src/cmd/run.rs (Files to modify) · src/cmd/verify.rs (Files to modify)",
+"      pin_companions (step 6)",
+"  line 341 · «unchanged» · src/cmd/run.rs (Files to modify) · src/cmd/verify.rs (Files to modify)",
+"      pin_companions (step 6) · replace_private_shared (step 4) · deny-sync.toml (Test Commands) · viola-state (step 4)",
+"  line 344 · «unchanged» · ok (Test Commands)",
+"  line 345 · «unchanged» · ok (Test Commands) · pre-push (Test Commands)",
+"  line 353 · «unchanged» · ubuntu-latest (step 5) · evidence/path1-phases.md (step 10) · .config/nextest.toml (step 10)",
+"  line 395 · «unchanged» · pin_exe (step 6) · pin_bytes (step 6) · src/cmd/verify.rs (Files to modify)",
+"  line 400 · «unchanged» · session-start (step 7) · hook.event (Test Commands)",
+"  line 410 · «unchanged» · scripts/release-check.sh (step 9)",
+"  a claim on a name no other step, Files to modify or Test Commands names is not listed — P5's read",
+"check 4 (4) · criterion evidence paths the plan names nowhere else: 0 of 5",
+"hits: 0 — resolved by its check (validation.md 2 · 5 · 9 · 4 (4) · 4 (5) · 4 (13)–(16) · 12 (c)); 0 is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "filled",
+"ci_reads": 1,
+"operator": 1,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 0,
+"hit": false
+},
+"atom": {
+"atomed": 2,
+"bare": []
+},
+"tool": {
+"operator": 1,
+"hand": []
+},
+"log": [],
+"base": {
+"operator": 3,
+"reads": []
+},
+"count": {
+"hits": [],
+"unsplit": []
+},
+"newfiles": {
+"operator": 3,
+"guards": 0,
+"hits": [],
+"abstain": []
+},
+"wrap": {
+"asserting": 21,
+"listed": []
+},
+"check2": {
+"entries": 14,
+"tokens": 0,
+"hits": []
+},
+"check5": {
+"hits": []
+},
+"steps": {
+"steps": 12,
+"refs": 25,
+"hits": []
+},
+"claims": {
+"read": 22,
+"listed": [
+18,
+41,
+46,
+56,
+66,
+82,
+84,
+85,
+116,
+128,
+328,
+340,
+341,
+344,
+345,
+353,
+395,
+400,
+410
+]
+},
+"c44": {
+"paths": 5,
+"hits": [],
+"skipped": []
+},
+"hits": 0
+}
+},
+{
+"tool": "planlint",
+"v": "1.14",
+"sha8": "9ee5c3a3",
+"ts": "2026-10-27T02:04:49Z",
+"argv": [
+"check",
+"--plan",
+"viola-0.1.0/chunks/2026-10-27-pinned-copy-race-and-reproducible-builds/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-27T00-24-41-phase",
+"--marker",
+"2026-10-27-pinned-copy-race-and-reproducible-builds"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fence: 25 entries · plan: viola-0.1.0/chunks/2026-10-27-pinned-copy-race-and-reproducible-builds/plan.md · research: vi…",
+"check 9 · CI-outcome reads: 1 · leg operator exempt: 1 · Platform issues consulted: filled · `WebSearch `actions runne…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 0 · Harness rules consulted: filled · ``.claude/rules/verification-harness.md` — r…`",
+"check 4 (5) · leg entries with a content atom: 2 · note without `atom from`: 0",
+"check 4 (13) · operator CI-outcome reads: 1 · not ci.py conclusion: 0",
+"check 4 (13) · job-log reads by pattern: 0",
+"check 4 (14) · base-less git change reads outside the operator and round legs: 0",
+"check 4 (15) · grep → wc -l counts asserting exit 0 and last line 0: 0",
+"check 4 (16) · guards whose exclusions leave a new file in: 0 of 0 with an exclusion",
+"check 4 (17) · entries reading a path the wrap writes: 0 of 21 asserting — listed, P5's read",
+"check 4 (17) · a path the wrap writes, read from inside a program an entry runs (a suite, the ledger's tool): not read",
+"check 2 · ledger-note entries (matrix#): 0",
+"check 5 · placeholders outside code: 0",
+"check 12 (c) · step references the plan's steps lack: 0 of 25",
+"check 12 (d) · «unchanged» claims on a name another part of the plan names: 19 of 22 — listed, P5's read",
+"  line 18 · «unchanged» · fs.rs (step 4) · pin_bytes (step 6)",
+"  line 41 · «unchanged» · spawn_os_error (step 3)",
+"  line 46 · «unchanged» · boot (step 7)",
+"  line 56 · «untouched» · into_temp_path (Test Commands)",
+"  line 66 · «byte-identical» · Present (step 4)",
+"  line 82 · «unchanged» · Ok (step 4) · Present (step 4) · pin_exe (Files to modify) · pin_companions (Files to modify)",
+"  line 84 · «same bytes» · Ok (step 4)",
+"  line 85 · «byte-identical» · Ok (step 4)",
+"  line 119 · «unchanged» · viola (step 1) · .config/nextest.toml (Test Commands)",
+"  line 131 · «unchanged» · [[gate]] (Test Commands)",
+"  line 347 · «byte-identical» · place_private_new_over_a_present_name_is_present_and_leaves_it (step 5)",
+"      Present (step 4) · place_private_new_places_the_bytes_once_at_the_mode_and_leaves_no_temp (step 5)",
+"  line 359 · «unchanged» · src/cmd/run.rs (Files to modify) · src/cmd/verify.rs (Files to modify)",
+"      pin_companions (step 6)",
+"  line 360 · «unchanged» · src/cmd/run.rs (Files to modify) · src/cmd/verify.rs (Files to modify)",
+"      pin_companions (step 6) · replace_private_shared (step 4) · deny-sync.toml (Test Commands) · viola-state (step 4)",
+"  line 363 · «unchanged» · ok (Test Commands)",
+"  line 364 · «unchanged» · ok (Test Commands) · pre-push (Test Commands)",
+"  line 372 · «unchanged» · ubuntu-latest (step 5) · evidence/path1-phases.md (step 10) · .config/nextest.toml (step 10)",
+"  line 414 · «unchanged» · pin_exe (step 6) · pin_bytes (step 6) · src/cmd/verify.rs (Files to modify)",
+"  line 419 · «unchanged» · session-start (step 7) · hook.event (Test Commands)",
+"  line 429 · «unchanged» · scripts/release-check.sh (step 9)",
+"  a claim on a name no other step, Files to modify or Test Commands names is not listed — P5's read",
+"check 4 (4) · criterion evidence paths the plan names nowhere else: 0 of 5",
+"hits: 0 — resolved by its check (validation.md 2 · 5 · 9 · 4 (4) · 4 (5) · 4 (13)–(16) · 12 (c)); 0 is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "filled",
+"ci_reads": 1,
+"operator": 1,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 0,
+"hit": false
+},
+"atom": {
+"atomed": 2,
+"bare": []
+},
+"tool": {
+"operator": 1,
+"hand": []
+},
+"log": [],
+"base": {
+"operator": 3,
+"reads": []
+},
+"count": {
+"hits": [],
+"unsplit": []
+},
+"newfiles": {
+"operator": 3,
+"guards": 0,
+"hits": [],
+"abstain": []
+},
+"wrap": {
+"asserting": 21,
+"listed": []
+},
+"check2": {
+"entries": 14,
+"tokens": 0,
+"hits": []
+},
+"check5": {
+"hits": []
+},
+"steps": {
+"steps": 12,
+"refs": 25,
+"hits": []
+},
+"claims": {
+"read": 22,
+"listed": [
+18,
+41,
+46,
+56,
+66,
+82,
+84,
+85,
+119,
+131,
+347,
+359,
+360,
+363,
+364,
+372,
+414,
+419,
+429
+]
+},
+"c44": {
+"paths": 5,
+"hits": [],
+"skipped": []
+},
+"hits": 0
+}
+}
+]

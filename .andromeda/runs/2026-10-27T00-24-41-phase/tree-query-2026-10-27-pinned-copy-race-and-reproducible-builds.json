@@ -1,0 +1,352 @@
+[
+{
+"sql": "SELECT caller_name, callee_name, file, line FROM calls WHERE callee_kind = 'fn' AND ((callee_name IN ('pin_bytes','pin_exe','pin_companions') AND callee_file LIKE '%viola-state/src/pin.rs') OR (callee_name IN ('replace_private_shared','replace_private') AND callee_file LIKE '%viola-state/src/fs.rs')) ORDER BY callee_name, file, line",
+"rows": 57,
+"result": [
+{
+"caller_name": "pin_exe",
+"callee_name": "pin_bytes",
+"file": "crates/viola-state/src/pin.rs",
+"line": 78
+},
+{
+"caller_name": "run",
+"callee_name": "pin_bytes",
+"file": "src/cmd/run.rs",
+"line": 21
+},
+{
+"caller_name": "pin_and_plugin",
+"callee_name": "pin_bytes",
+"file": "src/cmd/run.rs",
+"line": 450
+},
+{
+"caller_name": "pin_exe_copies_then_refuses_a_tampered_copy",
+"callee_name": "pin_exe",
+"file": "crates/viola-state/src/pin.rs",
+"line": 233
+},
+{
+"caller_name": "pin_exe_copies_then_refuses_a_tampered_copy",
+"callee_name": "pin_exe",
+"file": "crates/viola-state/src/pin.rs",
+"line": 256
+},
+{
+"caller_name": "pin_exe_copies_then_refuses_a_tampered_copy",
+"callee_name": "pin_exe",
+"file": "crates/viola-state/src/pin.rs",
+"line": 259
+},
+{
+"caller_name": "pin_exe_copies_then_refuses_a_tampered_copy",
+"callee_name": "pin_exe",
+"file": "crates/viola-state/src/pin.rs",
+"line": 263
+},
+{
+"caller_name": "pin_exe_hashes_a_copy_longer_than_one_read",
+"callee_name": "pin_exe",
+"file": "crates/viola-state/src/pin.rs",
+"line": 274
+},
+{
+"caller_name": "pin_exe_hashes_a_copy_longer_than_one_read",
+"callee_name": "pin_exe",
+"file": "crates/viola-state/src/pin.rs",
+"line": 276
+},
+{
+"caller_name": "pin_exe_hashes_a_copy_longer_than_one_read",
+"callee_name": "pin_exe",
+"file": "crates/viola-state/src/pin.rs",
+"line": 280
+},
+{
+"caller_name": "pin_exe_reports_an_unreadable_source_or_copy",
+"callee_name": "pin_exe",
+"file": "crates/viola-state/src/pin.rs",
+"line": 288
+},
+{
+"caller_name": "pin_exe_reports_an_unreadable_source_or_copy",
+"callee_name": "pin_exe",
+"file": "crates/viola-state/src/pin.rs",
+"line": 297
+},
+{
+"caller_name": "pin_exe_refuses_a_copy_it_cannot_read_and_leaves_it",
+"callee_name": "pin_exe",
+"file": "crates/viola-state/src/pin.rs",
+"line": 355
+},
+{
+"caller_name": "pin_exe_refuses_a_copy_it_cannot_read_and_leaves_it",
+"callee_name": "pin_exe",
+"file": "crates/viola-state/src/pin.rs",
+"line": 358
+},
+{
+"caller_name": "tests",
+"callee_name": "pin_exe",
+"file": "crates/viola-state/src/pin.rs",
+"line": 379
+},
+{
+"caller_name": "home_tree_viola_wrote",
+"callee_name": "pin_exe",
+"file": "crates/viola-state/src/strict.rs",
+"line": 1198
+},
+{
+"caller_name": "verify",
+"callee_name": "pin_exe",
+"file": "src/cmd/verify.rs",
+"line": 34
+},
+{
+"caller_name": "measure",
+"callee_name": "pin_exe",
+"file": "src/cmd/verify.rs",
+"line": 170
+},
+{
+"caller_name": "boot",
+"callee_name": "replace_private",
+"file": "crates/viola-e2e/src/harness/boot.rs",
+"line": 17
+},
+{
+"caller_name": "start",
+"callee_name": "replace_private",
+"file": "crates/viola-e2e/src/harness/boot.rs",
+"line": 177
+},
+{
+"caller_name": "plant_statusline_echo",
+"callee_name": "replace_private",
+"file": "crates/viola-e2e/src/harness/boot.rs",
+"line": 251
+},
+{
+"caller_name": "budget",
+"callee_name": "replace_private",
+"file": "crates/viola-state/src/budget.rs",
+"line": 13
+},
+{
+"caller_name": "write_budget",
+"callee_name": "replace_private",
+"file": "crates/viola-state/src/budget.rs",
+"line": 60
+},
+{
+"caller_name": "replace_private_shared",
+"callee_name": "replace_private",
+"file": "crates/viola-state/src/fs.rs",
+"line": 310
+},
+{
+"caller_name": "replace_private_shared_in_a_read_only_dir_is_done_only_over_the_same_bytes",
+"callee_name": "replace_private",
+"file": "crates/viola-state/src/fs.rs",
+"line": 387
+},
+{
+"caller_name": "replace_private_replaces_the_whole_file",
+"callee_name": "replace_private",
+"file": "crates/viola-state/src/fs.rs",
+"line": 680
+},
+{
+"caller_name": "replace_private_replaces_the_whole_file",
+"callee_name": "replace_private",
+"file": "crates/viola-state/src/fs.rs",
+"line": 681
+},
+{
+"caller_name": "replace_private_leaves_the_target_when_the_rename_fails",
+"callee_name": "replace_private",
+"file": "crates/viola-state/src/fs.rs",
+"line": 697
+},
+{
+"caller_name": "replace_private_under_a_missing_dir_fails",
+"callee_name": "replace_private",
+"file": "crates/viola-state/src/fs.rs",
+"line": 705
+},
+{
+"caller_name": "fs_private_modes_are_explicit",
+"callee_name": "replace_private",
+"file": "crates/viola-state/src/fs.rs",
+"line": 742
+},
+{
+"caller_name": "fs_private_modes_are_explicit",
+"callee_name": "replace_private",
+"file": "crates/viola-state/src/fs.rs",
+"line": 744
+},
+{
+"caller_name": "stamps",
+"callee_name": "replace_private",
+"file": "crates/viola-state/src/stamps.rs",
+"line": 12
+},
+{
+"caller_name": "update_stamps",
+"callee_name": "replace_private",
+"file": "crates/viola-state/src/stamps.rs",
+"line": 69
+},
+{
+"caller_name": "strict",
+"callee_name": "replace_private",
+"file": "crates/viola-state/src/strict.rs",
+"line": 739
+},
+{
+"caller_name": "hook",
+"callee_name": "replace_private",
+"file": "src/cmd/hook.rs",
+"line": 27
+},
+{
+"caller_name": "file_from",
+"callee_name": "replace_private",
+"file": "src/cmd/hook.rs",
+"line": 435
+},
+{
+"caller_name": "capture_statusline",
+"callee_name": "replace_private",
+"file": "src/cmd/hook.rs",
+"line": 466
+},
+{
+"caller_name": "capture_statusline",
+"callee_name": "replace_private",
+"file": "src/cmd/hook.rs",
+"line": 468
+},
+{
+"caller_name": "plugin",
+"callee_name": "replace_private",
+"file": "src/cmd/plugin.rs",
+"line": 13
+},
+{
+"caller_name": "write_tree",
+"callee_name": "replace_private",
+"file": "src/cmd/plugin.rs",
+"line": 114
+},
+{
+"caller_name": "run",
+"callee_name": "replace_private",
+"file": "src/cmd/run.rs",
+"line": 18
+},
+{
+"caller_name": "write_override",
+"callee_name": "replace_private",
+"file": "src/cmd/run.rs",
+"line": 586
+},
+{
+"caller_name": "verify",
+"callee_name": "replace_private",
+"file": "src/cmd/verify.rs",
+"line": 33
+},
+{
+"caller_name": "create",
+"callee_name": "replace_private",
+"file": "src/cmd/verify.rs",
+"line": 343
+},
+{
+"caller_name": "create",
+"callee_name": "replace_private",
+"file": "src/cmd/verify.rs",
+"line": 353
+},
+{
+"caller_name": "write_plugin",
+"callee_name": "replace_private",
+"file": "src/cmd/verify.rs",
+"line": 410
+},
+{
+"caller_name": "verify_under_a_regular_file_prints_only_the_internal_error_line",
+"callee_name": "replace_private",
+"file": "tests/cli_verify.rs",
+"line": 454
+},
+{
+"caller_name": "replace_private_shared_fails_unless_the_bytes_are_already_there",
+"callee_name": "replace_private_shared",
+"file": "crates/viola-state/src/fs.rs",
+"line": 325
+},
+{
+"caller_name": "replace_private_shared_fails_unless_the_bytes_are_already_there",
+"callee_name": "replace_private_shared",
+"file": "crates/viola-state/src/fs.rs",
+"line": 327
+},
+{
+"caller_name": "tests",
+"callee_name": "replace_private_shared",
+"file": "crates/viola-state/src/fs.rs",
+"line": 366
+},
+{
+"caller_name": "replace_private_shared_in_a_read_only_dir_is_done_only_over_the_same_bytes",
+"callee_name": "replace_private_shared",
+"file": "crates/viola-state/src/fs.rs",
+"line": 388
+},
+{
+"caller_name": "replace_private_shared_in_a_read_only_dir_is_done_only_over_the_same_bytes",
+"callee_name": "replace_private_shared",
+"file": "crates/viola-state/src/fs.rs",
+"line": 389
+},
+{
+"caller_name": "pin",
+"callee_name": "replace_private_shared",
+"file": "crates/viola-state/src/pin.rs",
+"line": 12
+},
+{
+"caller_name": "pin_bytes",
+"callee_name": "replace_private_shared",
+"file": "crates/viola-state/src/pin.rs",
+"line": 93
+},
+{
+"caller_name": "pin",
+"callee_name": "replace_private_shared",
+"file": "crates/viola-state/src/pin.rs",
+"line": 186
+},
+{
+"caller_name": "run",
+"callee_name": "replace_private_shared",
+"file": "src/cmd/run.rs",
+"line": 18
+},
+{
+"caller_name": "pin_and_plugin",
+"callee_name": "replace_private_shared",
+"file": "src/cmd/run.rs",
+"line": 463
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

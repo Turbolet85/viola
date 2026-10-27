@@ -1,6 +1,8 @@
 //! `bin/<VERSION>-<hash>/viola(.exe)`: the running exe copied once, keyed by a truncated SHA-256 of
 //! its bytes, and re-hashed before every reuse; a copy that no longer matches is never run or
-//! overwritten (security-plan §Data Protection, Code-bearing artefacts).
+//! overwritten (security-plan §Data Protection, Code-bearing artefacts). The absent copy is placed
+//! through the no-clobber [`crate::fs::place_private_new`]: it appears once, closed, and a copy a
+//! concurrent first start placed first is re-hashed, never replaced.
 
 use std::fs::File;
 use std::io;
@@ -10,7 +12,9 @@ use sha2::{Digest, Sha256};
 use viola_core::VERSION;
 
 use crate::StateError;
-use crate::fs::{DIR_MODE, create_private_dir, replace_private_shared};
+#[cfg(windows)]
+use crate::fs::replace_private_shared;
+use crate::fs::{DIR_MODE, Placed, create_private_dir, place_private_new};
 #[cfg(windows)]
 use crate::fs::{REPLACE_ATTEMPTS, REPLACE_PAUSE};
 
@@ -90,9 +94,7 @@ pub fn pin_bytes(home: &Path, bytes: &[u8]) -> Result<Pinned, PinError> {
     match file_key(&path) {
         Ok(found) if found == hash => {}
         Ok(_) => return Err(PinError::HashMismatch),
-        Err(e) if e.kind() == io::ErrorKind::NotFound => {
-            replace_private_shared(&path, bytes, DIR_MODE)?
-        }
+        Err(e) if e.kind() == io::ErrorKind::NotFound => place_absent(&path, bytes, &hash)?,
         Err(e) => return Err(e.into()),
     }
     let path_fwd = path.to_string_lossy().replace('\\', "/");
@@ -101,6 +103,16 @@ pub fn pin_bytes(home: &Path, bytes: &[u8]) -> Result<Pinned, PinError> {
         path,
         path_fwd,
     })
+}
+
+/// Places the absent copy; when a concurrent start placed one first, that copy is re-hashed like any
+/// present copy: equal is reused, different is [`PinError::HashMismatch`] with the file left as found.
+fn place_absent(path: &Path, bytes: &[u8], hash: &str) -> Result<(), PinError> {
+    match place_private_new(path, bytes, DIR_MODE)? {
+        Placed::Written => Ok(()),
+        Placed::Present if file_key(path)? == hash => Ok(()),
+        Placed::Present => Err(PinError::HashMismatch),
+    }
 }
 
 /// A file pinned in a subdirectory of the pinned dir, with the whole SHA-256 it must carry.
@@ -296,6 +308,41 @@ mod tests {
             .join(if cfg!(windows) { "viola.exe" } else { "viola" });
         fs::create_dir_all(&slot).expect("a dir where the copy should be");
         assert!(matches!(pin_exe(&home, &exe), Err(PinError::State(_))));
+    }
+
+    /// A concurrent first start placed its copy at the path first: the same bytes are reused, other
+    /// bytes are refused, and either way the file stands byte-identical.
+    #[rstest]
+    #[case::same_bytes(b"abc", true)]
+    #[case::other_bytes(b"abd", false)]
+    fn place_absent_over_a_copy_another_start_placed(
+        #[case] standing: &[u8],
+        #[case] reused: bool,
+    ) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let path = tmp.path().join("viola");
+        fs::write(&path, standing).expect("the other start's copy");
+        let placed = place_absent(&path, b"abc", &content_key(b"abc"));
+        if reused {
+            assert!(placed.is_ok(), "{placed:?}");
+        } else {
+            assert!(matches!(placed, Err(PinError::HashMismatch)), "{placed:?}");
+        }
+        assert_eq!(fs::read(&path).expect("left as found"), standing);
+    }
+
+    #[test]
+    fn place_absent_on_a_free_path_writes_the_copy() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let path = tmp.path().join("viola");
+        place_absent(&path, b"abc", &content_key(b"abc")).expect("placed");
+        assert_eq!(fs::read(&path).expect("copy"), b"abc");
+        #[cfg(unix)]
+        {
+            use std::os::unix::fs::PermissionsExt as _;
+            let mode = fs::metadata(&path).expect("meta").permissions().mode() & 0o777;
+            assert_eq!(mode, 0o700);
+        }
     }
 
     /// `path` made unreadable to this user while it stays renamable (a rename over it needs only

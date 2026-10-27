@@ -743,11 +743,29 @@ pub(crate) mod win {
             (tmp, home, instance)
         }
 
+        /// The allow ACEs of `home` that the check refuses it for: inherited, granting a write
+        /// right, to a SID it does not trust.
+        fn inherited_untrusted_writes(home: &Path) -> Vec<Allow> {
+            let user = user_sid().expect("user sid");
+            allows(home)
+                .expect("the home's DACL")
+                .into_iter()
+                .filter(|ace| {
+                    ace.mask & super::super::WRITE_RIGHTS != 0
+                        && ace.flags & INHERITED != 0
+                        && !super::super::trusted_sid(&ace.sid, &user)
+                })
+                .collect()
+        }
+
         /// A home a test makes with a plain `create_dir_all` under the workspace's `target/e2e-home`
-        /// (the seeded-home question, CARRY 13): on the runner it inherits a Users write grant from
-        /// the drive, so the check refuses it `Writable` — a home made before viola runs is one the
-        /// product must refuse. The refused entry is named by the assertion; a failure prints
-        /// every ACE of the home.
+        /// (the seeded-home question, CARRY 13): on the runner it inherits a write grant from the
+        /// drive, so the check refuses it `Writable` — a home made before viola runs is one the
+        /// product must refuse. The oracle reads that grant by its right, whichever SID holds it:
+        /// the runners differ (Users held the write on `ci#40403389629`'s host, Authenticated Users
+        /// `S-1-5-11` on `ci#40425866096`'s, both image `windows-2025-vs2026` 20261021.278.1). Its
+        /// control: a home viola made (the protected DACL) holds no such grant, so the oracle
+        /// cannot pass vacuously. A failure prints every ACE of the home.
         #[test]
         fn strict_instance_refuses_a_plain_home_made_before_viola_and_names_the_entry() {
             let base = Path::new(env!("CARGO_MANIFEST_DIR"))
@@ -766,20 +784,13 @@ pub(crate) mod win {
                 Err(Refused::Writable),
                 "{reading}"
             );
-            let user = user_sid().expect("user sid");
-            let refused: Vec<Allow> = allows(&home)
-                .expect("the home's DACL")
-                .into_iter()
-                .filter(|ace| {
-                    ace.mask & super::super::WRITE_RIGHTS != 0
-                        && !super::super::trusted_sid(&ace.sid, &user)
-                })
-                .collect();
-            assert!(
-                refused
-                    .iter()
-                    .any(|ace| ace.sid == "S-1-5-32-545" && ace.flags & INHERITED != 0),
-                "{reading}"
+            assert!(!inherited_untrusted_writes(&home).is_empty(), "{reading}");
+            let (_made_tmp, made_home, _made) = instance_tree();
+            assert_eq!(
+                inherited_untrusted_writes(&made_home),
+                [],
+                "{}",
+                reading_of("viola-made home", &made_home)
             );
         }
 

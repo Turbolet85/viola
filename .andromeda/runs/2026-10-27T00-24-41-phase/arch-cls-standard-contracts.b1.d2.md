@@ -1,0 +1,25 @@
+# Classified — arch · standard-contracts.b1
+
+## Answers
+standard-contracts#1.1 · no · the list payload's item and budget shapes (Not needed: the list payload and the board)
+standard-contracts#2.0 · yes · the replay leaves `pinned_bin` absent, a reader rule P3 reads for the readers that may or may not key on the hash (Needs: instance snapshot `pinned_bin`)
+standard-contracts#3.0 · yes · the stamps are keyed by CLI version with the literal writer `verify`, never the viola build or its hash, which P3 reads for the reproducible-build impact (Needs: stamps envelope)
+standard-contracts#4.1 · no · update_stamps' check and StampsError are unreached, since verify's only edit is its pin_exe call and the stamps write follows the probes
+standard-contracts#5.1 · no · the link-set restore at start (Not needed: links)
+standard-contracts#5.2 · no · the set's link and unlink changes (Not needed: links)
+standard-contracts#5.3 · no · a repeated link's `already_linked` answer (Not needed: links)
+standard-contracts#5.4 · no · unlink's `{}` answer (Not needed: links)
+standard-contracts#5.5 · no · the link and unlink -32602 and -32603 refusals (Not needed: the wrapper channel)
+standard-contracts#6.1 · no · the frame clients' peer pid and start-time check, which the fix leaves alone because it sends no frame (Not needed: the wrapper channel)
+standard-contracts#7.1 · no · the frame clients' instance strict-modes check and its refusal (Not needed: the wrapper channel)
+standard-contracts#8.1 · no · send's shape, budget gate and link recording (Not needed: the wrapper channel)
+standard-contracts#9.1 · no · wait's shape, wake and deadline rules (Not needed: the wrapper channel)
+standard-contracts#10.1 · no · link and unlink reading no `from` (Not needed: the wrapper channel)
+standard-contracts#11.1 · no · hook.event's send and append, where the failing step is the spawn the channel does not carry (Not needed: the wrapper channel)
+standard-contracts#12.1 · no · `list` is not a channel method and no list read changes (Not needed: the list payload and the board)
+standard-contracts#13.1 · no · prompt-submitted's text and origin (Not needed: the ndjson event line)
+standard-contracts#14.1 · no · the link and unlink `--json` documents (Not needed: the CLI --json error documents)
+standard-contracts#15.1 · no · the frame verbs' instance-unreachable refusal document (Not needed: the CLI --json error documents)
+standard-contracts#16.1 · no · the hook statusline arm and its command run (Not needed: the hook statusline contract)
+standard-contracts#17.1 · no · the server identity read through live_endpoint and server_verdict (Not needed: session liveness and the wrapper channel)
+standard-contracts#18.1 · no · the claude agents --json rows and the join (Not needed: the claude agents --json join)

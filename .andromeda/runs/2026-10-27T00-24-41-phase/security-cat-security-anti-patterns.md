@@ -1,0 +1,35 @@
+# security · Security Anti-Patterns — category read
+
+## Carried
+- (.andromeda/security-plan.md:461) The race fix must keep the present-copy re-hash (a differing copy refused, never overwritten) and the per-start `plugin/` rewrite, and the reproducible-build measurement may move no key off the truncated SHA-256: a concurrent start must never reuse a `bin/<key>/viola` it has not re-hashed, and a `plugin/<key>/` rewrite race must never be answered by skipping the rewrite.
+  > NEVER reuse an existing `bin/<version>-<hash>/viola(.exe)` without re-hashing it (SHA-256, truncated) against `<hash>`, NEVER derive `<hash>` from a non-cryptographic hash (FNV, `DefaultHasher`), and NEVER reuse existing `plugin/` files without rewriting them.
+- (.andromeda/security-plan.md:461) If the exe's Windows arm takes up `pin_companions`' sharing-violation wait, the companion rule stands unchanged: no companion loaded without its held-handle full re-hash, and a failing one never overwritten or deleted.
+  > NEVER load or launch a `bin/<version>-<hash>/conpty/` companion without its full SHA-256 re-hash against the compiled pin through a `FILE_SHARE_READ`-only handle held until the spawn, and NEVER overwrite or delete a companion that fails it (left as found; the child runs on the inbox ConPTY).
+- (.andromeda/security-plan.md:459) Whatever the absent-copy write becomes (a create-new, a lock, a rename-if-absent), the pinned copy is written 0700 by explicit mode, never the umask, and every new file or dir it adds under the home (a lock sibling included) is 0600 / 0700.
+  > NEVER create `~/.viola/`, `--home` or any file under it with the default umask. Directories are 0700 and files 0600 (`OpenOptionsExt::mode`); the only exception is the pinned `bin/<version>-<hash>/viola` at 0700, and NEVER make it group- or world-writable.
+- (.andromeda/security-plan.md:509) While a pin is in flight, the hook and MCP exec paths stay the absolute pinned path: no fix may point `hooks.json` / `.mcp.json` or the statusline override at a PATH-resolved `viola` to dodge the race.
+  > It must be the absolute pinned `bin/<version>-<hash>/viola(.exe)` path, or the absolute path of the exe that ran `plugin install`.
+- (.andromeda/security-plan-detail/security-anti-patterns.md:33) `viola verify` reaches `pin_exe`: any create the fix adds under `bin/` (a lock, a temp, a key dir) must come after `check_home_tree` and before nothing it would narrow.
+  > NEVER run that check after a create, a mode set or a log open that narrows the path it checks (a widened `ledger/` narrowed to 0700 first would pass): `verify` checks its home tree (`check_home_tree`: the home, `ledger/`, `bin/`, `plugin/`) before its `cli` log
+- (.andromeda/security-plan-detail/security-anti-patterns.md:39) A narrower concurrent-pin control that widens the race window through an environment read or test seam needs its own Decisions Log entry and must stay out of every release build; no env var, flag or `config.json` key may switch the re-hash or the strict-modes check off.
+  > NEVER add another such seam or environment read, let these reach a release build, or let a colour fact change a control or reach a log line, error or refusal, without its own Decisions Log entry.
+- (.andromeda/security-plan.md:516) The same ban stated broad: the fix and its witness switch off no control through config, env or flag.
+  > NEVER let `config.json`, a `VIOLA_*` environment variable or a CLI flag switch off any control in this plan (the IPC DACL or socket-directory check, the peer or server verification, the home strict-modes check, `validate_paste_text`): environment variables are not a configuration channel.
+- (.andromeda/security-plan-detail/security-anti-patterns.md:23) The two-sided witness (concurrent two-instance boots, 24 per side) runs on test homes under `target/e2e-home`; its teardown removes only dirs the test side created.
+  > NEVER let a test-side removal under `target/e2e-home` take anything but a dir the test side itself created: the root fixture chain's owner sweep and a test home's drop (by `owner.json` record, by its own `TempDir`) and harness `cleanup` (by the `viola-session-` name).
+- (.andromeda/security-plan-detail/security-anti-patterns.md:23) The witness's repeated boots on the Linux dev host's tmpfs backing must pass the headroom floor, the keepers' refusal naming no path.
+  > a target that is itself a link is refused, so is a backing whose filesystem reads less than the 9 GiB headroom floor free (`statvfs`), and a refusal is a fixed message that names no path (the headroom one holds the two counts).
+- (.andromeda/security-plan.md:484) Any new pin-failure or pin-wait refusal (a timed-out wait, a lost race) names no absolute path in any external error.
+  > NEVER expose absolute paths in any external error.
+- (.andromeda/security-plan.md:507) A wait on another start's in-flight pin must be bounded and never stall the human's start, and the hook keeps failing open.
+  > NEVER let a security refusal block the human. Refusals go only to automation (`send`/`answer`), and hooks fail open.
+- (.andromeda/security-plan.md:494) If P4 puts the reproducible-build measurement on CI's three OSes, any new workflow step references its actions by full SHA only.
+  > NEVER reference a GitHub Action by `@stable`, `@v2` or any mutable ref. Use a full SHA with a version comment.
+
+## Bindings
+- **Pinned-copy re-hash and plugin rewrite ↔ body §Data Protection**: the ban (.andromeda/security-plan.md:461) restates the at-rest rule that the plugin files are rewritten at every start and the pinned binary re-hashed before use (.andromeda/security-plan.md:197); the race fix changes neither side.
+- **Companion re-hash ↔ body §Input Validation**: the companion ban (.andromeda/security-plan.md:461) pairs with the DLL-search and companion row, whose strict-modes check comes before the held open and whose failure degrades to the inbox ConPTY (.andromeda/security-plan.md:170).
+- **Explicit modes ↔ body §Authentication & Authorization**: the umask ban (.andromeda/security-plan.md:459) is the home access-control rule that every replaced file goes through `replace_private` with its mode set before any byte (.andromeda/security-plan.md:118), the helper whose temp-then-persist the race runs through.
+- **Verify's check order ↔ body §Input Validation**: the ordering ban (.andromeda/security-plan-detail/security-anti-patterns.md:33) matches the CLI-arguments row, the home checked before any snapshot or ledger read (.andromeda/security-plan.md:142).
+- **No new seam ↔ body §Input Validation and §Universal**: the seam ban (.andromeda/security-plan-detail/security-anti-patterns.md:39) is stated broad at (.andromeda/security-plan.md:516), and the two existing seams' rows sit at (.andromeda/security-plan.md:148) and (.andromeda/security-plan.md:150).
+- **Action pinning ↔ body §Dependency Security**: the SHA ban (.andromeda/security-plan.md:494) binds the CI side of the measurement, whose release build runs through `scripts/release-check.sh` (.andromeda/security-plan.md:281) and whose actions carry full SHAs (.andromeda/security-plan.md:287).

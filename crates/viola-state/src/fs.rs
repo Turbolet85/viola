@@ -304,9 +304,51 @@ fn replace_private_retrying(
     }
 }
 
-/// `replace_private` for a file every concurrent writer fills with the same bytes (the pinned copy,
-/// the plugin files): a replace that fails — on Windows while another start holds the target open —
-/// is still done when the file already holds exactly `bytes`.
+/// What [`place_private_new`] found at its target.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Placed {
+    /// This call placed the bytes.
+    Written,
+    /// A file already stood at the name; it is left as found.
+    Present,
+}
+
+/// The pinned copy's absent-copy write: a temp file beside `path`, its mode set before any byte is
+/// written, synced and CLOSED, then moved to `path` only if no file stands there (no clobber). The
+/// copy appears once, whole, and never open for write, so a concurrent exec of it cannot meet
+/// `ETXTBSY`, and a copy another start placed first is never replaced ([`Placed::Present`]). Any
+/// failure leaves `path` as it was and removes the temp file. Every other replaced file keeps
+/// [`replace_private`] or [`replace_private_shared`].
+pub fn place_private_new(path: &Path, bytes: &[u8], mode: u32) -> Result<Placed, StateError> {
+    place_private_new_with(path, bytes, mode, &mut |_| {})
+}
+
+/// [`place_private_new`] with `placed` called on `path` right after a `Written` placement, before it
+/// returns: the window in which a racing reader would meet the placed file.
+fn place_private_new_with(
+    path: &Path,
+    bytes: &[u8],
+    mode: u32,
+    placed: &mut dyn FnMut(&Path),
+) -> Result<Placed, StateError> {
+    let parent = path.parent().unwrap_or(Path::new("."));
+    let mut tmp = tempfile::NamedTempFile::new_in(parent)?;
+    restrict(tmp.path(), mode)?;
+    tmp.write_all(bytes)?;
+    tmp.as_file().sync_all()?;
+    match tmp.into_temp_path().persist_noclobber(path) {
+        Ok(()) => {
+            placed(path);
+            Ok(Placed::Written)
+        }
+        Err(e) if e.error.kind() == io::ErrorKind::AlreadyExists => Ok(Placed::Present),
+        Err(e) => Err(e.error.into()),
+    }
+}
+
+/// `replace_private` for a file every concurrent writer fills with the same bytes (the plugin files,
+/// the ConPTY companions): a replace that fails — on Windows while another start holds the target
+/// open — is still done when the file already holds exactly `bytes`.
 pub fn replace_private_shared(path: &Path, bytes: &[u8], mode: u32) -> Result<(), StateError> {
     match replace_private(path, bytes, mode) {
         Err(e) if fs::read(path).ok().as_deref() != Some(bytes) => Err(e),
@@ -327,6 +369,114 @@ mod tests {
         let fresh = tmp.path().join("fresh");
         replace_private_shared(&fresh, b"new", FILE_MODE).expect("written");
         assert_eq!(fs::read(&fresh).expect("read"), b"new");
+    }
+
+    fn names_in(dir: &Path) -> Vec<std::ffi::OsString> {
+        fs::read_dir(dir)
+            .expect("dir")
+            .flatten()
+            .map(|e| e.file_name())
+            .collect()
+    }
+
+    #[test]
+    fn place_private_new_places_the_bytes_once_at_the_mode_and_leaves_no_temp() {
+        for mode in [DIR_MODE, FILE_MODE] {
+            let tmp = tempfile::tempdir().expect("tempdir");
+            let path = tmp.path().join("viola");
+            assert_eq!(
+                place_private_new(&path, b"copy", mode).expect("placed"),
+                Placed::Written
+            );
+            assert_eq!(fs::read(&path).expect("read"), b"copy");
+            assert_eq!(
+                names_in(tmp.path()),
+                ["viola"],
+                "no temp file is left behind"
+            );
+            #[cfg(unix)]
+            {
+                use std::os::unix::fs::PermissionsExt as _;
+                let got = fs::metadata(&path).expect("meta").permissions().mode() & 0o777;
+                assert_eq!(got, mode);
+            }
+        }
+    }
+
+    #[test]
+    fn place_private_new_over_a_present_name_is_present_and_leaves_it() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let path = tmp.path().join("viola");
+        fs::write(&path, b"another start's copy").expect("seed");
+        assert_eq!(
+            place_private_new(&path, b"this start's copy", DIR_MODE).expect("not an error"),
+            Placed::Present
+        );
+        assert_eq!(fs::read(&path).expect("read"), b"another start's copy");
+        assert_eq!(
+            names_in(tmp.path()),
+            ["viola"],
+            "no temp file is left behind"
+        );
+    }
+
+    #[test]
+    fn place_private_new_under_a_missing_dir_fails() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let path = tmp.path().join("missing").join("viola");
+        assert!(place_private_new(&path, b"copy", DIR_MODE).is_err());
+        assert!(names_in(tmp.path()).is_empty(), "nothing was created");
+    }
+
+    /// The placed copy is exec'd from inside the window, right after it appears: it is never open
+    /// for write there, so the spawn runs. With the write handle held across the placement the same
+    /// spawn fails `ETXTBSY` on Linux (the remove-the-guard reading); macOS has no `ETXTBSY`, so
+    /// there the case has no red leg.
+    #[cfg(unix)]
+    #[test]
+    fn place_private_new_placed_copy_execs_at_once() {
+        let program = ["/usr/bin/true", "/bin/true"]
+            .into_iter()
+            .find(|p| Path::new(p).exists())
+            .expect("a host `true`");
+        let bytes = fs::read(program).expect("its bytes");
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let path = tmp.path().join("viola");
+        let mut ran = None;
+        let placed = place_private_new_with(&path, &bytes, DIR_MODE, &mut |at| {
+            ran = Some(std::process::Command::new(at).status());
+        })
+        .expect("placed");
+        assert_eq!(placed, Placed::Written);
+        let status = ran.expect("the hook ran").expect("the placed copy spawned");
+        assert!(status.success(), "{status}");
+    }
+
+    /// The Windows form: the placed copy of `whoami.exe` launched from inside the window. Green on
+    /// the Windows runner only; its red leg is unmeasured (no Windows host).
+    #[cfg(windows)]
+    #[test]
+    fn place_private_new_placed_copy_runs_at_once() {
+        let root = std::env::var_os("SystemRoot").expect("SystemRoot");
+        let program = std::path::PathBuf::from(root)
+            .join("System32")
+            .join("whoami.exe");
+        let bytes = fs::read(program).expect("its bytes");
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let path = tmp.path().join("viola.exe");
+        let mut ran = None;
+        let placed = place_private_new_with(&path, &bytes, DIR_MODE, &mut |at| {
+            ran = Some(
+                std::process::Command::new(at)
+                    .stdout(std::process::Stdio::null())
+                    .stderr(std::process::Stdio::null())
+                    .status(),
+            );
+        })
+        .expect("placed");
+        assert_eq!(placed, Placed::Written);
+        let status = ran.expect("the hook ran").expect("the placed copy spawned");
+        assert!(status.success(), "{status}");
     }
 
     #[test]

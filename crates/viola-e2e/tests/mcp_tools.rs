@@ -670,10 +670,7 @@ fn mcp_tools_path7_unverified_cli_answer() {
     let s = harness_session(
         "mcp_tools",
         "unstamped",
-        // One instance: two first starts on a fresh home pin the binary at once, and one agent's
-        // first hook can then fail to spawn (measured: evidence/unstamped-boot-race.md).
         SessionOptions {
-            instances: vec!["builder".to_owned()],
             unstamped: true,
             ..SessionOptions::default()
         },

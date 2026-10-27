@@ -1,0 +1,38 @@
+# tests extract
+
+## Relevance
+partial — part A (the concurrent first-start `pin_bytes` / `pin_exe` race) needs a two-sided test witness and keeps the start's existing E2E and integration legs green; part B (two clean release builds compared) is a measurement kept in the chunk's `evidence/`, not a test layer. It touches tests only through the §9 Release build stage that the measurement runs against.
+
+## Constraints
+- test-plan §10 Zero-flakiness budget requires `retries = 0` and allows no `#[ignore]` parking. The measured 6-of-24 red on concurrent unstamped two-instance boots is a red the chunk keeps open until its cause is known and fixed in the product. A test that tolerates or reruns past the race is not a fix.
+- test-plan §2 Agent-runnable invariants requires deterministic tests with no `std::thread::sleep` / `tokio::time::sleep` used for synchronisation. Waits key on `events.ndjson` offsets, a status field or a file-state signal, so a concurrent-pin control lines up its two starts by an explicit signal and never by a delay.
+- test-plan §7 Seed strategies requires that on-disk product state comes only from real `viola` runs against the fake agent in a fresh home. That includes the pinned `bin/<key>/viola(.exe)` and `plugin/<key>/`. A case may alter a file only after the product wrote it (the chaos exception), and a test-made home goes through `viola_state::fs::create_private_dir`.
+- test-plan §5 Setup / teardown lifecycle requires a fresh home per test at a not-yet-existing path under `target/e2e-home`, so that obs-plan's gates, the secret scan and the upload cover the run. On Windows x64 the `seed_conpty` carve-out applies to any start in a new race case.
+- test-plan §5 Boundary types covered (Module ↔ DB) sets the concurrency pattern: separate processes acting on one shared on-disk file at once, on all three OSes. A concurrent first-start case follows the same form: separate `viola` processes, never threads inside one test process.
+- test-plan §11 Test Strategy forbids treating a Linux-only local run as proof for Windows or macOS. The exe arm's Windows behaviour (`replace_private_shared`'s same-bytes acceptance against `ERROR_SHARING_VIOLATION`) is verified only on the `windows-2025` runner.
+- test-plan §10 Coverage thresholds requires lines ≥ 85%, functions ≥ 95% and regions ≥ 80%, gated per OS through `cargo llvm-cov nextest`. Any new branch in `crates/viola-state/src/pin.rs` or `fs.rs` is counted on each OS, and the `--ignore-filename-regex` stays unwidened (§11 CI).
+
+## Patterns to follow
+- The two-sided red/green witness through a `fake-agent`-only seam, per test-plan §5 Boundary types covered (Module ↔ PTY), detail `.andromeda/test-plan-detail/integration-test-strategy.md`. The forced-window test `tui_host_resize_in_the_pump_start_window_reaches_the_child` used the `FAKE_AGENT_PUMP_DELAY_MS` seam and read 6/6 red before its fix and 6/6 green after. A narrower concurrent-pin control that must show the race window is reachable takes this form.
+- Concurrent separate-process tests on all three CI OSes, per test-plan §5 Boundary types covered (Module ↔ DB): `hook_processes_append_whole_lines_side_by_side` (8 concurrent `viola hook` processes, every line asserted whole).
+- The pinned-copy regression legs stay in force, per test-plan §6 Path 1 (detail `.andromeda/test-plan-detail/e2e-test-strategy.md`, steps 5–6). A tampered pinned exe exits 1, deleting it restores a clean start, and each restart rewrites `plugin/` with absolute hook commands. These legs hold the unchanged hash-before-reuse rule beside the new absent-copy concurrency.
+- A measured ETXTBSY instance already on record, per test-plan §7 Test Data & Fixtures (detail `.andromeda/test-plan-detail/test-data-fixtures.md`). On the tmpfs `target/e2e-home` a child that one thread forks inherits another thread's open write handle. It was fixed in `tests/contract_fake_agent_drift.rs` by planting every copy before any child starts (0 red of 40). Research reads this as a sibling of the hypothesised mechanism; it is not proof of that mechanism.
+- Probe scripts whose last line names both the refused count and the control (`release-check probes: 5/5 refused, control clean`), per test-plan §9 Build failure conditions. A witness here must not be able to pass vacuously, so it carries a control alongside it in this form.
+
+## Anti-patterns to avoid
+- NEVER add a retry, a retry-once budget or a rerun to absorb the race, in a test or in the harness's boot (test-plan §11 Quality; §10 Zero-flakiness budget).
+- NEVER use `sleep(N)` to widen or line up the race window. Test-side code owns no timer (test-plan §11 E2E; §11 Universal), so a delay belongs only in a `fake-agent`-only product seam (see Contract bindings).
+- NEVER read a Linux dev-host reproduction or fix as proof for the Windows exe arm or for macOS (test-plan §11 Test Strategy).
+
+## Contract bindings
+- tests §3 `boot` (`.andromeda/registries/contracts/test-plan/5-command-implementation.md`) ↔ the race. The default instance list is `overseer` + `builder`. `--unstamped` skips step 4's `viola verify`, which is the step that pins the copy first on a stamped home. The race shows up in boot's readiness stage `start_records` as a missing `<name>:events` (no `session-start` on line 3) or as `readiness-timeout`. Path 7 (`.andromeda/test-plan-detail/e2e-test-strategy.md`) boots `--instance builder` alone, which is the CARRY's test-side workaround. Whether Path 7 goes back to two instances is P4's to decide.
+- tests §7 fake agent (receipt kinds, `hook`) ↔ the CARRY's witness. The failed first hook spawn reads as the receipt's `ran:false`, so a race witness can judge on the fake-agent receipt and `events.ndjson`, never on the child screen (§11 E2E).
+- tests §3 `boot` readiness ↔ obs §6 log format. Readiness reads the `process-start` lines in `diagnostics/run-<name>.ndjson`, and every new diagnostics line must pass the §6 Schema conformance check against `schemas/diag-line.v1.json`.
+- tests §2 / §5 two-sided seam pattern ↔ security-plan §Dependencies and CI. Any new `fake-agent`-only seam or env read (for example a forced pin-write delay) needs a Decisions Log entry before it lands and may never reach a release build. Whether a seam is needed at all is P3's question.
+- tests §9 Release build ↔ part B and security §Dependencies and CI. The measurement builds through `scripts/release-check.sh` (`cargo build --release --locked --bin viola`). Any change to that script keeps its last line `release-check: viola only` and its probe `5/5 refused, control clean`.
+
+## Acceptance criteria contributions
+- (tests) A two-sided race witness: on one rig, the concurrent first-start control reads red before the fix and clean after it, with the single-instance control beside it. The red shows the race window is reachable, and no step uses a retry or a sleep (per test-plan §10 Zero-flakiness budget).
+- (tests) `bash scripts/agent-run.sh run --coverage` followed by `viola-harness gate --require` the chunk set is green on all three CI OSes. This includes Path 1's tampered-pinned-exe exit 1 and plugin rewrite, and the per-OS coverage thresholds (per test-plan §9 Coverage report; §6 Path 1; §10 Coverage thresholds).
+- (tests) Any new concurrency case runs separate `viola` processes on all three CI OSes. The Windows exe arm is read on `windows-2025` and never inferred from Linux (per test-plan §5 Boundary types covered; §11 Test Strategy).
+- (tests) The CI `release` job still ends `release-check: viola only`, with its probe ending `release-check probes: 5/5 refused, control clean`, after any change part B leads to (per test-plan §9 Build failure conditions).

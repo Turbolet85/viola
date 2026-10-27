@@ -639,6 +639,9 @@ impl Agent {
         #[cfg(unix)]
         std::os::unix::process::CommandExt::process_group(&mut cmd, 0);
         let child = cmd.spawn();
+        if let Err(e) = &child {
+            fields.insert("spawn_os_error".to_owned(), json!(e.raw_os_error()));
+        }
         let output = child.and_then(|mut c| {
             if let Some(mut stdin) = c.stdin.take() {
                 let _ = stdin.write_all(body);

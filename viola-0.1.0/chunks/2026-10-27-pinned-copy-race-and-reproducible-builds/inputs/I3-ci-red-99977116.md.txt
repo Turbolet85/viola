@@ -1,0 +1,19 @@
+# CI red on the home-integrity wrap commit 99977116 (ci#40425866096), read by the overseer 2026-10-27
+
+The wrap commit changed no `.rs`, `Cargo.*`, `.config/*` or `.github/*` file against e3468500. The same code was green on
+ci#40403389629, 15/15. Both reds are therefore intermittent on unchanged code.
+
+1. **`test (ubuntu-latest)`:** `viola::path1_run_start path1_run_start_one_home_in_order` TIMEOUT at 20.089 s, the ci
+   profile's kill line.
+   - The other 3219 tests passed.
+   - The test starts `viola run` in one home. A first-start stall is the shape of CARRY 16 (the `pin_exe` first-start
+     race, ETXTBSY hypothesis), which is this chunk's own freight.
+2. **`test (windows-2025)`:** `viola-state strict::win::tests::strict_instance_refuses_a_plain_home_made_before_viola_and_names_the_entry`
+   panicked at `crates/viola-state/src/strict.rs:778`.
+   - The verdict read `Err(Writable)` for user `S-1-5-21-…-500` (the runner's Administrator), with 8 inherited ACEs.
+   - Among them is `allow S-1-5-11` (Authenticated Users) `mask 0x001301BF` write true.
+   - The test's oracle for «a plain home made before viola» depends on the runner temp dir's inherited ACL.
+     e3468500's run read it differently.
+
+Each needs a basis and an owner. The first is a candidate for this chunk's measurement, as CARRY 16 evidence. The
+second is a test oracle that depends on the runner's ACL.

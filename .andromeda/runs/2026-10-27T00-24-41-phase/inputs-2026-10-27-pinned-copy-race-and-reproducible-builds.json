@@ -1,0 +1,366 @@
+[
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "de829a74",
+"ts": "2026-10-27T00:25:45Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-27-pinned-copy-race-and-reproducible-builds",
+"--source",
+"~/dev/projects/additional/viola-overseer/phase-pinned-copy-directive.md",
+"--kind",
+"relay",
+"--why",
+"the operator directive for this phase: ordinary chunk with no forced sample, keep evidence, stop on hard cascade failure or agents doing the orchestrator work, the entry carved by the founder route-split word with CARRYs 11 and 16 verbatim, founder forks asked at P4 and held in the away form with delegate answers PROVISIONAL, no epoch boundary inside Epoch 6, read df -h /tmp before a stamped-home gate",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-10-27T00-24-41-phase",
+"--marker",
+"2026-10-27-pinned-copy-race-and-reproducible-builds"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy no-repo · ../additional/viola-overseer/phase-pinned-copy-directive.md",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-phase-pinned-copy-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/phase-pinned-copy-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "89e548f777656cd8a37472ac957d12f2cd11daf485af5b0c0748249c42628088",
+"copy": "I1-phase-pinned-copy-directive.md.txt",
+"link": false,
+"read_at": "2026-10-27T00:25:45Z",
+"step": "phase:P1",
+"why": "the operator directive for this phase: ordinary chunk with no forced sample, keep evidence, stop on hard cascade failure or agents doing the orchestrator work, the entry carved by the founder route-split word with CARRYs 11 and 16 verbatim, founder forks asked at P4 and held in the away form with delegate answers PROVISIONAL, no epoch boundary inside Epoch 6, read df -h /tmp before a stamped-home gate"
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "de829a74",
+"ts": "2026-10-27T01:29:53Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-27-pinned-copy-race-and-reproducible-builds",
+"--message-file",
+".andromeda/runs/2026-10-27T00-24-41-phase/relay-1.md",
+"--kind",
+"relay",
+"--origin",
+"overseer1, delegate under the founder night word, by message in this session, 2026-10-27T01:20Z",
+"--why",
+"the P2 halt ruling: a second re-spawn of tests-cascade-g3 past the one-retry limit (F363, a one-off, recorded on the P5 card), a third failure taking option 2 without stopping; both CI reds on 99977116 to get a basis and an owner at P3/P4",
+"--step",
+"phase:P3",
+"--run-dir",
+".andromeda/runs/2026-10-27T00-24-41-phase",
+"--marker",
+"2026-10-27-pinned-copy-race-and-reproducible-builds"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy message · message: overseer1, delegate under the founder night word, by message in this session, 2026-10-27T01:20Z",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "message: overseer1, delegate under the founder night word, by message in this session, 2026-10-27T01:20Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "ccc2bef492b86aa50d1432bf54f360aab959df73a4c101a5733197742b23c138",
+"copy": "I2-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-27T01:29:53Z",
+"step": "phase:P3",
+"why": "the P2 halt ruling: a second re-spawn of tests-cascade-g3 past the one-retry limit (F363, a one-off, recorded on the P5 card), a third failure taking option 2 without stopping; both CI reds on 99977116 to get a basis and an owner at P3/P4"
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "de829a74",
+"ts": "2026-10-27T01:29:53Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-27-pinned-copy-race-and-reproducible-builds",
+"--source",
+"~/dev/projects/additional/viola-overseer/ci-red-99977116.md",
+"--kind",
+"relay",
+"--why",
+"the overseer reading of the two reds of ci#40425866096 on 99977116: path1_run_start_one_home_in_order TIMEOUT 20.089 s on test (ubuntu-latest), and the windows-2025 strict::win test strict_instance_refuses_a_plain_home_made_before_viola_and_names_the_entry panicking at strict.rs:778 on Err(Writable); both intermittent on code green at ci#40403389629",
+"--step",
+"phase:P3",
+"--run-dir",
+".andromeda/runs/2026-10-27T00-24-41-phase",
+"--marker",
+"2026-10-27-pinned-copy-race-and-reproducible-builds"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy no-repo · ../additional/viola-overseer/ci-red-99977116.md",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-ci-red-99977116.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/ci-red-99977116.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "2a344ac317403278d115a5dfccc16ec08b06b82b558af107705cb94c98c7ff43",
+"copy": "I3-ci-red-99977116.md.txt",
+"link": false,
+"read_at": "2026-10-27T01:29:53Z",
+"step": "phase:P3",
+"why": "the overseer reading of the two reds of ci#40425866096 on 99977116: path1_run_start_one_home_in_order TIMEOUT 20.089 s on test (ubuntu-latest), and the windows-2025 strict::win test strict_instance_refuses_a_plain_home_made_before_viola_and_names_the_entry panicking at strict.rs:778 on Err(Writable); both intermittent on code green at ci#40403389629"
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "de829a74",
+"ts": "2026-10-27T01:48:44Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-27-pinned-copy-race-and-reproducible-builds",
+"--message-file",
+".andromeda/runs/2026-10-27T00-24-41-phase/relay-2.md",
+"--kind",
+"relay",
+"--origin",
+"overseer1, delegate (founder-delegated), by question dialog at P4, 2026-10-27T01:48Z",
+"--why",
+"the P4 fork answer: red 2 (strict.rs:778 oracle, windows-2025) folds into this chunk as a test-only oracle fix, PROVISIONAL; and test-plan.md:717 is the cited line, :718 blank",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-10-27T00-24-41-phase",
+"--marker",
+"2026-10-27-pinned-copy-race-and-reproducible-builds"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy message · message: overseer1, delegate (founder-delegated), by question dialog at P4, 2026-10-27T01:48Z",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "relay",
+"repo": null,
+"path": "message: overseer1, delegate (founder-delegated), by question dialog at P4, 2026-10-27T01:48Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "83dbfc83b701268ffe8626c8fb23f3598af5273d47c5da3145b53c86cb32e0d3",
+"copy": "I4-relay-2.md.txt",
+"link": false,
+"read_at": "2026-10-27T01:48:44Z",
+"step": "phase:P4",
+"why": "the P4 fork answer: red 2 (strict.rs:778 oracle, windows-2025) folds into this chunk as a test-only oracle fix, PROVISIONAL; and test-plan.md:717 is the cited line, :718 blank"
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "de829a74",
+"ts": "2026-10-27T01:57:40Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-27-pinned-copy-race-and-reproducible-builds",
+"--run-dir",
+".andromeda/runs/2026-10-27T00-24-41-phase",
+"--marker",
+"2026-10-27-pinned-copy-race-and-reproducible-builds"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-pinned-copy-directive.md",
+"I1 cited scope.md:12 · research.md:7 · plan.md:34 · plan.md:161 (in fence) · plan.md:373",
+"I2 n/a — a message has no live source · copy message · message: overseer1, delegate under the founder night word, by message in this session, 2026-10-27T01:20Z",
+"I2 cited scope.md:89 · research.md:7 · plan.md:27 · plan.md:373",
+"I3 unchanged · copy no-repo · ../additional/viola-overseer/ci-red-99977116.md",
+"I3 cited scope.md:89 · scope.md:94 · research.md:7 · plan.md:373",
+"I4 n/a — a message has no live source · copy message · message: overseer1, delegate (founder-delegated), by question dialog at P4, 2026-10-27T01:48Z",
+"I4 cited scope.md:105 · research.md:7 · research.md:66 · research.md:75 · plan.md:30 · plan.md:374 · plan.md:422",
+"inputs: 4 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 4,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "de829a74",
+"ts": "2026-10-27T02:04:49Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-27-pinned-copy-race-and-reproducible-builds",
+"--run-dir",
+".andromeda/runs/2026-10-27T00-24-41-phase",
+"--marker",
+"2026-10-27-pinned-copy-race-and-reproducible-builds"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-pinned-copy-directive.md",
+"I1 cited scope.md:12 · research.md:7 · plan.md:34 · plan.md:162 (in fence) · plan.md:389",
+"I2 n/a — a message has no live source · copy message · message: overseer1, delegate under the founder night word, by message in this session, 2026-10-27T01:20Z",
+"I2 cited scope.md:89 · research.md:7 · plan.md:27 · plan.md:389",
+"I3 unchanged · copy no-repo · ../additional/viola-overseer/ci-red-99977116.md",
+"I3 cited scope.md:89 · scope.md:94 · research.md:7 · plan.md:389",
+"I4 n/a — a message has no live source · copy message · message: overseer1, delegate (founder-delegated), by question dialog at P4, 2026-10-27T01:48Z",
+"I4 cited scope.md:105 · research.md:7 · research.md:66 · research.md:75 · plan.md:30 · plan.md:390 · plan.md:438",
+"inputs: 4 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 4,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "de829a74",
+"ts": "2026-10-27T02:06:29Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-27-pinned-copy-race-and-reproducible-builds",
+"--message-file",
+".andromeda/runs/2026-10-27T00-24-41-phase/relay-3.md",
+"--kind",
+"relay",
+"--origin",
+"overseer1, delegate (founder-delegated), by message in this session, 2026-10-27T02:06Z",
+"--why",
+"the P5 word yes on .andromeda/runs/2026-10-27T00-24-41-phase/p5-card-1.md, delegate overseer1: the plan, its leans and stop rules; the red-2 fold stays PROVISIONAL until the founder own word",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-10-27T00-24-41-phase",
+"--marker",
+"2026-10-27-pinned-copy-race-and-reproducible-builds"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I5 · copy message · message: overseer1, delegate (founder-delegated), by message in this session, 2026-10-27T02:06Z",
+"cite: inputs#I5"
+],
+"stderr": null,
+"wrote": [
+"inputs/I5-relay-3.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I5",
+"kind": "relay",
+"repo": null,
+"path": "message: overseer1, delegate (founder-delegated), by message in this session, 2026-10-27T02:06Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "f8e104938e603f237e2218d05394c8e807aedcf28d553cd8824830e9e1825325",
+"copy": "I5-relay-3.md.txt",
+"link": false,
+"read_at": "2026-10-27T02:06:29Z",
+"step": "phase:P5",
+"why": "the P5 word yes on .andromeda/runs/2026-10-27T00-24-41-phase/p5-card-1.md, delegate overseer1: the plan, its leans and stop rules; the red-2 fold stays PROVISIONAL until the founder own word"
+}
+}
+]

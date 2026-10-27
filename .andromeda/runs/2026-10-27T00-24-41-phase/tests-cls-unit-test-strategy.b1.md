@@ -1,0 +1,7 @@
+# Classified — tests · unit-test-strategy.b1
+
+## Answers
+unit-test-strategy#1.1 · no · the viola-channel codec, JSON-RPC, endpoint, peer-credential, pipe-handle and server-pid rules, which the chunk does not reach (no channel code or frame changes, and Not needed drops the Unix socket hardening, the macOS server check and the bounded-reader cases)
+unit-test-strategy#1.2 · yes · pin.rs's pin_companions_refuses_a_path_another_user_may_write (the Windows companions wait-out the scope names) and pin_key_is_the_version_and_the_content_key (the bin/<key>/ path the fix writes) bind, and check_home_tree_refuses_each_widened_path binds as the home-tree check the chunk re-asserts unchanged
+unit-test-strategy#1.3 · no · the viola-agent-claude parsing, dialog, R8 strip, shim, version-gate, statusline, agents, prompt, typed-text, ledger and screen-gate rules, which rule over surfaces the chunk leaves unchanged (verify's only reached call is pin_exe, and Not needed drops the ledger rows and live probes)
+unit-test-strategy#2.1 · no · the root bin's send, wait, budget, wheel, hook, link, verb, output, dialog-hold and exit-code rules, which rule over paths the chunk leaves unchanged (Paths 2–6, E3 and the hook and output surfaces are Not needed); its run.rs units (budget gate, collision check, link routing) are another job of an edited file, a re-check every change owes, and the scoped-capture helper binds no chunk test because the race witness reads logged events and exit codes, not in-process captures
