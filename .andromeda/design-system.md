@@ -258,7 +258,7 @@ Otherwise the depth is chosen once per process, first match wins:
 **Streams:**
 - stdout: results and data (tables, send/wait results, `last` text).
 
-- stderr: context lines, refusals (two-space `unable  <name>  <reason>  <detail>`, or the fixed `unable: <text>` form for the exit-1 refusals of `run`, `revive` and `verify` and the exit-21 strict-modes refusals of `list`, `link` and `unlink`), each refusal's `hint:` line directly after it, and errors.
+- stderr: context lines, refusals (two-space `unable  <name>  <reason>  <detail>`, or the fixed `unable: <text>` form for the exit-1 refusals of `run`, `revive` and `verify` and the exit-21 strict-modes refusals of `list`, `link`, `unlink`, `send`, `wait`, `last`, `answer`, `pause` and `release`), each refusal's `hint:` line directly after it, and errors.
 
 - For `--json`, the whole result, including refusals and `error` objects, is one JSON document on stdout with the typed exit code. No `hint:` line is printed under `--json`: the typed `refusal` / `error` fields are the whole answer.
 
@@ -300,7 +300,7 @@ hint: builder did not submit the prompt; check it, then send again
 [  ] unconfirmable  builder  local command, no measured post-condition   (stdout, exit 0)
 ```
 
-A refusal prints `unable` plus `reason  detail`, then one `hint:` line per reason, detail or cause; `run`'s and `revive`'s start refusals take a fixed-message `unable:` line and one hint per cause, `revive`'s read in a fixed order that stops at the first. No hint names `viola release`, since a driver's `release` is refused. Under `--json` no hint prints; a per-cause `detail` code is pending, owner: the arch amendment naming them. Faults and `unknown` get no hint.
+A refusal prints `unable` plus `reason  detail`, then one `hint:` line per reason, detail or cause; `run`'s and `revive`'s start refusals take a fixed-message `unable:` line and one hint per cause, `revive`'s read in a fixed order that stops at the first; the exit-21 strict-modes refusal of `send`, `wait`, `last`, `answer`, `pause` and `release` prints the fixed instance-state `unable:` / `hint:` pair (Exit-code phraseology below), not the `[/ ]` mirror. No hint names `viola release`, since a driver's `release` is refused. Under `--json` no hint prints; a per-cause `detail` code is pending, owner: the arch amendment naming them. Faults and `unknown` get no hint.
 
 - A hint never quotes the sent text or any upstream text.
 
@@ -327,7 +327,7 @@ A refusal prints `unable` plus `reason  detail`, then one `hint:` line per reaso
 
 **5. `viola verify` / `viola run`**
 
-`verify` is a step counter, the project's one progress pattern: one static stdout line per relied ledger row (`pass` / `fail`, uncoloured), then a summary line `stamped <ver>  <n> pass  <m> fail`, n + m the relied count; a run stopped by Ctrl-C or TERM before its rows are checked prints no step line and no summary, only its fixed `unable:` / `hint:` pair, and exits 1.
+`verify` is a step counter, the project's one progress pattern: one static stdout line per relied ledger row (`pass` / `fail`, uncoloured), then a summary line `stamped <ver>  <n> pass  <m> fail`, n + m the relied count; a run stopped by Ctrl-C or TERM before its rows are checked, or refused by the strict-modes check of its home tree before its log, prints no step line and no summary, only its fixed `unable:` / `hint:` pair, and exits 1; a `stamps.json` update refused by its strict-modes check prints the home-state pair.
 
 - **`run`:** prints nothing once the child starts. A start refusal (exit 1) prints its cause's fixed-message line, for example `unable: builder is already live`, then that cause's hint (`hint: viola list`). The per-cause lines are listed under the send hints above. None of them shows a path or a pid.
 
@@ -335,11 +335,11 @@ A refusal prints `unable` plus `reason  detail`, then one `hint:` line per reaso
 
 **Exit-code phraseology** (typed codes from architecture.md):
 
-Each typed exit code has its human stderr form and, where it has one, its `--json` document: 0 the result on stdout, 1 `error: internal error` or a fixed-message `unable:` refusal with its hint (a `--json` document only for `viola revive`'s strict-modes and preflight refusals), 2 clap usage, 10 to 14 an `unable` refusal with its reason (a refusal object under `--json`), 20 `error: wrapper fault`, 21 `unable  instance-unreachable` then the cause's hint, its `--json` document with stderr empty.
+Each typed exit code has its human stderr form and, where it has one, its `--json` document: 0 the result on stdout, 1 `error: internal error` or a fixed-message `unable:` refusal with its hint (a `--json` document only for `viola revive`'s strict-modes and preflight refusals), 2 clap usage, 10 to 14 an `unable` refusal with its reason (a refusal object under `--json`), 20 `error: wrapper fault`, 21 `unable  instance-unreachable` then the cause's hint, or for a refused strict-modes check its fixed home-state or instance-state `unable:` / `hint:` pair instead (pattern 1 and the paragraphs below), its `--json` document with stderr empty.
 
 `viola plugin install`'s refused strict-modes check (exit 21) prints the home-state `unable:` / `hint:` pair as `viola list`'s does, or under `--json` the `instance-unreachable` document, stderr empty.
 
-`viola link` / `viola unlink`'s refused strict-modes check of the driven instance (exit 21) prints the instance-state `unable:` / `hint:` pair naming that instance, as `viola list`'s does, or under `--json` the `instance-unreachable` document, stderr empty.
+`viola link` / `viola unlink`'s refused strict-modes check of the driven instance, and that of `viola send`, `wait`, `last`, `answer`, `pause` and `release` on their instance, made before any frame (exit 21), prints the instance-state `unable:` / `hint:` pair naming that instance, as `viola list`'s does, or under `--json` the `instance-unreachable` document, stderr empty; no frame and no line are written.
 
 ### Navigation Pattern
 Detail: .andromeda/design-system-detail/surface.md — read whole.

@@ -53,7 +53,7 @@ Read whole. The master's broad view is .andromeda/security-plan.md; this file ho
       - On Unix with `TMPDIR` unset, the socket sits in world-writable `/tmp`, so another local user can create the path first.
       - On Windows, the named-pipe namespace is shared across the machine.
       - Clients (`hook`, `send`, `mcp`) connect to the `endpoint` recorded in the snapshot and act on whatever server answers there. A process holding that name while the real wrapper is gone could receive `hook.dialog` payloads and send back dialog decisions.
-      - As built, on Linux and Windows every frame-writing client (CLI `send`, `wait`, `last`, `answer`, `pause`, `release`, `link`, `unlink`; `viola hook`'s event and dialog paths; `viola mcp`'s `send` / `wait` / `last` / `answer` tools) compares the connected peer's pid and that process's start time with the snapshot's `pid` and `started_at` before its first frame, and sends no frame on a mismatch or a check it cannot make. The snapshot is read without the strict-modes check (owed to "Home and code-bearing file integrity"), except by CLI `link` / `unlink`, which read it only after `check_instance` passed on the driven instance, and macOS, where the peer reports no pid, stays a recorded gap (owed to "Unix endpoint and home hardening").
+      - As built, on Linux and Windows every frame-writing client (CLI `send`, `wait`, `last`, `answer`, `pause`, `release`, `link`, `unlink`; `viola hook`'s event and dialog paths; `viola mcp`'s `send` / `wait` / `last` / `answer` tools) compares the connected peer's pid and that process's start time with the snapshot's `pid` and `started_at` before its first frame, and sends no frame on a mismatch or a check it cannot make. Each first runs the instance's strict-modes check (`check_instance`: the CLI verbs through `client::refuse_untrusted`, `viola hook` before its obs init, the `viola mcp` tools before `live_endpoint`), a refusal sending no frame, and then reads the snapshot through `read_snapshot_or_replay`, a replayed or absent snapshot giving no endpoint and so no frame; macOS, where the peer reports no pid, stays a recorded gap (owed to "Unix endpoint and home hardening").
       - `run`'s exclusive bind means a squatted name blocks startup (exit 1).
     - Input validation is limited to JSON-RPC parsing, the `v` check (`-32602`) and the `ViolaName` nutype.
     - It is open (arch defers it to security) whether a driver-originated `release` (params carrying `from`) should be refused. Established Decisions (MCP) records that an agent's Bash tool can call CLI `viola release` through `VIOLA_BIN`.
@@ -85,6 +85,7 @@ Read whole. The master's broad view is .andromeda/security-plan.md; this file ho
     - Upstream text is treated as content, never as commands (R1).
     - Any failure fails open to the human: exit 0 with no body.
     - `hook statusline` runs `statusline_command` from `snapshot.json` through a shell. That snapshot is found through `VIOLA_DIR`, so its integrity is set by filesystem permissions on the viola home.
+    - Every hook path (event, dialog and `hook statusline`) runs the instance's strict-modes check on the canonicalised `VIOLA_DIR` instance before anything under the home is read or opened, the `--capture` arms ahead of it; a refused or absent instance exits 0 with no `config.json` read, no role file, no stdin read, no line and no frame. `hook statusline` reads the snapshot through `read_snapshot_or_replay`, and a replayed snapshot carries no `statusline_command`, so nothing runs.
 
 <!-- /detail -->
 
@@ -94,6 +95,7 @@ Read whole. The master's broad view is .andromeda/security-plan.md; this file ho
   - **Entry point:** Tools `send`, `wait`, `last`, `answer` and `list`, called by the driver session's model (Established Decisions: MCP).
   - **Trust boundary:**
     - Tool input schemas (schemars) and the `ViolaName` newtype check the input.
+    - Before its frame, each of `send`, `wait`, `last` and `answer` runs the instance's strict-modes check (`check_instance` on the home and the instance directory) ahead of the liveness pre-check and the server check; a refusal is `instance-unreachable` with `detail: null`, no frame and no line.
     - The driver model reads the driven session's output (`wait`/`last`), which arch classes as untrusted upstream text. The same model can then call `answer` on that session's PermissionRequest.
     - viola does not interpret that text (R1: mechanism, not policy). The decision to allow a permission rests with the driver model, outside viola.
     - Leaving `release`, `pause`, `link` and `unlink` off the MCP tool list is described as an affordance, not an enforcement.
@@ -109,6 +111,7 @@ Read whole. The master's broad view is .andromeda/security-plan.md; this file ho
     - `answer` takes its `response` JSON from stdin or `--file`.
     - `viola run <name> -- <program> <args>` spawns the program as given.
   - **Trust boundary:** Same-user invocation, clap parsing, the `ViolaName` nutype, and tolerant `config.json` parsing.
+    - Before its first read or open under the home, `run`, `revive`'s start and `verify` hold the home tree to the strict-modes check (`check_home_tree`; a refusal exit 1, no log opened), and the frame verbs `send`, `wait`, `last`, `answer`, `pause`, `release`, `link` and `unlink` hold the instance to it (`check_instance`; a refusal exit 21), so a state tree chosen by `--home` or `VIOLA_DIR` that another user can write, or whose home, instance directory or `diagnostics/` another user can read, is refused.
 
 <!-- /detail -->
 
@@ -121,9 +124,9 @@ Read whole. The master's broad view is .andromeda/security-plan.md; this file ho
     - Sources: Occupied Resources (Filesystem); Established Decisions (Deployment / Distribution).
   - **Trust boundary:**
     - OS permissions on the user's home directory.
-    - Readers tolerate torn lines (they skip and count them, and the next append heals a torn last line). The replay of the log for a snapshot that fails to parse, or carries a newer `v`, has two product readers, `viola revive`'s preflight and `viola list` (`viola_state::board::read`, chunk 2026-10-11-the-board-viola-list), each taking it after the strict-modes check on the instance's files; no other product reader takes it (Standard Contracts: Snapshot envelope).
+    - Readers tolerate torn lines (they skip and count them, and the next append heals a torn last line). The replay of the log for a snapshot that fails to parse, or carries a newer `v`, is taken by these product readers: `viola revive`'s preflight, `viola list` (`viola_state::board::read`), `viola_state::liveness::live_endpoint` (the CLI frame verbs and the `viola mcp` tools), `viola hook`'s `connect`, `hook statusline`'s `serve` and `run`'s collision check, each after the strict-modes check on the instance's files; a replayed snapshot carries no `endpoint`, `pid`, `started_at` or `statusline_command`, so it yields no frame and runs no command (Standard Contracts: Snapshot envelope).
     - The pinned binary and plugin folders are never deleted in v1.
-    - Nothing checks integrity beyond the content hash in the folder name.
+    - Beyond the content hash in the folder name, `run` and `revive`'s start hold the home tree to the strict-modes check (Unix owner and mode, Windows owner and DACL) before the wrapper log opens (`check_home_tree`: the home, the instance's files, `ledger/`, `bin/`, `plugin/`, `bin/<version>-<hash>/`, the pinned `viola(.exe)`, `plugin/<version>-<hash>/`, its `hooks/` and `.claude-plugin/`), and on Windows `pin_companions` checks `bin/<version>-<hash>/conpty/` and each companion before the held open; `marketplace/` is off the integrity set.
 
 <!-- /detail -->
 

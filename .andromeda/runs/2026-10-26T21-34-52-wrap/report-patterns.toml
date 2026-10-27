@@ -1,0 +1,103 @@
+[[pattern]]
+id = 'owner-title'
+fixed = 'Home and code-bearing file integrity'
+ignore_case = true
+
+[[pattern]]
+id = 'owner-generic'
+regex = 'owned by a (route entry|CARRY)'
+ignore_case = true
+
+[[pattern]]
+id = 'gap-until'
+regex = 'until (the )?(same )?Epoch 6|until Epoch 6|until the same Epoch 6 entry'
+ignore_case = true
+
+[[pattern]]
+id = 'read-rule'
+regex = '0o077|0o022|read rule|read grant|FILE_READ_DATA|readable by (another|others)|unix_read_verdict|windows_read_verdict'
+
+[[pattern]]
+id = 'check-instance'
+regex = 'check_instance'
+
+[[pattern]]
+id = 'tree-checks'
+regex = 'check_home_tree|check_diagnostics|check_stamps|check_present|TreeRefused|refuse_untrusted'
+
+[[pattern]]
+id = 'read-snapshot'
+regex = 'read_snapshot_or_replay|read_snapshot\b|snapshot-replayed|snapshot-unsupported-v'
+
+[[pattern]]
+id = 'state-recovered'
+regex = 'state-recovered|snapshot_recover'
+
+[[pattern]]
+id = 'sideload-fb'
+regex = 'sideload_fallback'
+
+[[pattern]]
+id = 'instance-pair'
+regex = 'instance_state_pair|state files can be written by another user|instance pair'
+
+[[pattern]]
+id = 'home-pair'
+regex = 'home_state_pair|not private to you|home pair'
+
+[[pattern]]
+id = 'refuse-count'
+regex = 'human::refuse'
+
+[[pattern]]
+id = 'cannot-occur'
+regex = 'strict-modes-failed. cannot occur|cannot occur'
+
+[[pattern]]
+id = 'detail-file'
+regex = 'detail-<process>|detail-\*|detail-\{|detail-<'
+
+[[pattern]]
+id = 'catch-site'
+regex = 'catch-site'
+
+[[pattern]]
+id = 'board-scan'
+regex = 'ScanRefused|board::scan|board\.rs'
+
+[[pattern]]
+id = 'seed'
+regex = 'seed_conpty|seeded home|create_dir_all'
+
+[[pattern]]
+id = 'single-writer'
+regex = 'SIGSTOP|single writer|only the wrapper writes|only .viola verify. writes'
+
+[[pattern]]
+id = 'stamps-err'
+regex = 'StampsError|update_stamps'
+
+[[pattern]]
+id = 'conpty-dacl'
+regex = 'owner/DACL|re-hash alone|pin_companions|PinError'
+
+[[pattern]]
+id = 'pin-race'
+regex = 'pin_exe|pin_bytes|pin_key|reproducib|first-start race|Pinned copy race'
+ignore_case = true
+
+[[pattern]]
+id = 'wheel-human'
+regex = 'wheel:.human.|holder:.driver., cause:.start.'
+
+[[pattern]]
+id = 'no-line'
+regex = 'writes no line|no line written|Vector 7'
+
+[[pattern]]
+id = 'viola-dir-none'
+regex = 'VIOLA_DIR. names no|no existing (instance )?director'
+
+[[pattern]]
+id = 'refused-variants'
+regex = 'Refused::|Readable|Symlink'

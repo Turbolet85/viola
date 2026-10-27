@@ -1,0 +1,20 @@
+# Classified — security-plan · authentication-authorization.b1
+
+## Answers
+authentication-authorization#1.1 · no · the session adds no account or password surface, so the no-accounts stance still holds
+authentication-authorization#1.2 · no · the served method list and the all-or-nothing surface are unchanged; the new checks sit in front of the IPC rows and add no method or role
+authentication-authorization#1.3 · no · the Windows listener SDDL and its accept-remote and inheritance settings live in viola-channel, which the session did not edit
+authentication-authorization#1.4 · no · the Unix socket-directory check and the 0600 chmod live in viola-channel, which the session did not edit; the instance refusal that writes no line (F11) is a separate case
+authentication-authorization#1.5 · no · the per-accept peer euid check lives in viola-channel, which the session did not edit
+authentication-authorization#1.6 · yes · contradict · the dated gaps it names (hook.event, send, wait and last, answer and hook.dialog, pause and release, the mcp tools) are retired by the instance checks in every path (F3, F11, F13), and the collision check and hook connect now read through read_snapshot_or_replay (F10)
+authentication-authorization#1.7 · no · the wrapper's release-from-driver refusal is untouched, and the new instance check (F3) refuses only an unhealthy driven instance, so a driver session on a healthy instance still exits 20
+authentication-authorization#1.8 · yes · contradict · the dated interim gaps it lists are retired (hook, verify's update_stamps, the ConPTY companions, the frame verbs, the mcp tools), the read rule is built on the home, the instance directory, diagnostics and events.ndjson with Readable and Symlink refusals (F4, F5, F6), hook paths check the instance first (F11, F12), and check_home_tree, the list read and the three-OS witnesses widen the set (F1, F2, F16, F21)
+authentication-authorization#2.1 · no · the remote-client rejection witness lives in tests/security_negatives_channel.rs over viola-channel's listener, which the session did not reach
+authentication-authorization#2.2 · no · the anonymous-open witness covers the listener's protected DACL in viola-channel, which the session did not reach or edit
+authentication-authorization#3.1 · no · the server pid is read in viola-channel's client, which the session did not edit, and reading it still writes and logs nothing
+authentication-authorization#3.2 · yes · stale · live_endpoint and the hook shared connect now read the snapshot through read_snapshot_or_replay (F10) rather than one read_snapshot call, so a replayed snapshot yields no endpoint and no frame; the ServerVerdict is unchanged
+authentication-authorization#3.3 · yes · stale · the strict-modes check moved from link.rs into client.rs refuse_untrusted, which runs it first over the widened set (F3, F5), and live_endpoint reads through read_snapshot_or_replay (F10), so the link.rs reading is stale
+authentication-authorization#3.4 · yes · add-to · the strict-modes refusal now comes first in the six frame verbs and in link and unlink through client.rs refuse_untrusted: exit 21 with the instance pair, or instance-unreachable under --json, and no line (F3, F14); an unstattable home is refused the same way on Unix (F15)
+authentication-authorization#3.5 · no · the hook connect still verifies the recorded wrapper's pipe on a healthy instance, F10's replay applies only when the strict-modes read fails, and the terminated-process CARRY is a live Windows measurement this session did not change
+authentication-authorization#3.6 · no · the macOS server-check and client euid CARRY, owed to Unix endpoint and home hardening, is untouched (this session did not touch it), and the negatives stay compiled out on macOS
+authentication-authorization#3.7 · no · the link and unlink tests live in test files the session did not reach, and their assertions still hold on the changed check: a group-writable driven instance is refused before any log, and impostor rows exit 21 with no frame

@@ -70,5 +70,41 @@
     "read_at": "2026-10-26T18:59:52Z",
     "step": "phase:P5",
     "why": "the P5 word yes on .andromeda/runs/2026-10-26T16-59-13-phase/p5-card-1.md, the founders own word: the plan, the v1-45 v1-17 v1-41 concretizations, the leans, Beyond-the-plan rows 1 (new entry Pinned copy race and reproducible builds, CARRYs 11 and 16) and 2 (CARRY 17 closed by ruling)"
+  },
+  {
+    "id": "I5",
+    "kind": "relay",
+    "repo": null,
+    "path": "../additional/viola-overseer/wrap-home-integrity-directive.md",
+    "form": "copy",
+    "state": "no-repo",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "e8bbcc08b432097436cd7799dc32c9b36e16a2083efb2b3db5ce740cefd0b342",
+    "copy": "I5-wrap-home-integrity-directive.md.txt",
+    "link": false,
+    "read_at": "2026-10-26T21:35:39Z",
+    "step": "wrap",
+    "why": "the operator directive for this wrap: forced sample at P2 (detail.py sample --side wrap --force, one classify draw), keep evidence, stop on hard cascade failure, the P2 report items, the founder own words on this chunk (inputs#I3, inputs#I4), the three outcome items to resolve in the masters (architecture.md:323 detail file, three behaviour changes, viola list home check owner), run whole"
+  },
+  {
+    "id": "I6",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: the overseer, founder-delegated, by question dialog at the wrap P2 halt, 2026-10-26T22:43Z",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "98b6158325c3ee04c4e7ef2c630f93fa2970243b5845aae42930c45846e86f82",
+    "copy": "I6-relay-1.md.txt",
+    "link": false,
+    "read_at": "2026-10-26T22:43:37Z",
+    "step": "wrap",
+    "why": "the P2 halt answers, the overseer founder-delegated (PROVISIONAL): Q1 confirm the answer card (51 proposals inside inputs#I3 Q1), Q2 apply the 21 check-7 contradictions with their companions, Q3 the viola list home-check owner a CARRY on Unix endpoint and home hardening"
   }
 ]

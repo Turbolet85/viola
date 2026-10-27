@@ -1,0 +1,6 @@
+# New groups — test-plan · e2e-test-strategy
+
+## Verdicts
+- fanout-test-plan--cascade-g2.md 16 · contradiction · lines 303–303 · «the `RUNNER_TEMP` negative case as worded here stays owed to that route entry» · the proposal's closing sentence places the Windows protected-DACL case in the new `security_negatives_strict_modes.rs` binary, while the standing line still holds that case owed to "Home and code-bearing file integrity"; its six-verb strict-modes refusal itself stands nowhere (line 270 is the unbuilt matrix row, line 271 covers `link` / `unlink` only)
+- fanout-test-plan--cascade-g2.md 17 · distinct · no standing group names the ConPTY companion owner/DACL check or its `sideload_fallback` `strict-modes-failed` fallback
+- fanout-test-plan--cascade-g2.md 19 · contradiction · lines 237–237 · «Steps 1–3 stay unbuilt while `run`'s collision check calls `read_snapshot`; the three other snapshot readers» · the standing E5 lines (236 and 237) hold steps 1–3 unbuilt and `run`'s collision check, hook `connect` and the statusline on `read_snapshot`, with their move onto `read_snapshot_or_replay` a CARRY, while the proposal states them built and replayed in `tests/chaos_snapshot_replay.rs`

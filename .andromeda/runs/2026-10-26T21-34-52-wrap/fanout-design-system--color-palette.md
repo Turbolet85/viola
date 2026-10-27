@@ -1,0 +1,2 @@
+proposals: []
+note: no drift in Color Palette — every Coverage row reads `tokens n/a` (D-design-tokens clean); the chunk's new output wording (the six frame verbs' instance pair, run/verify's home pair, exit 21/1, Count 8/9) is unstyled stderr text owned by the Surface: cli category (surface.md), and none of it, the retired strict-modes gaps, nor the new `sideload_fallback` word `strict-modes-failed` (a log word, never visualised) touches a token, status row or contrast figure in .andromeda/design-system-detail/color-palette.md.

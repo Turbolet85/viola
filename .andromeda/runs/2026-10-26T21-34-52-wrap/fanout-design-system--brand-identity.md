@@ -1,0 +1,2 @@
+proposals: []
+note: brand-identity.md holds only the expression-motion scale and the per-surface expression table (lines 8-12, 18-21); the chunk's Coverage marks every new surface `tokens n/a` and its new cli wordings (Count 8 the six frame verbs' instance pair, Count 9 run/verify's home pair) touch no line here — their sites are the body's §Surface: cli (design-system.md:261, :338, :342) and surface.md, owned by the cli-surface detector.

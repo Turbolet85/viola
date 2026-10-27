@@ -34,6 +34,7 @@ Read whole. The master's broad view is .andromeda/obs-plan.md; this file holds i
 <!-- detail: values · metrics -->
 
 - `viola.wait.outcome` counts only the `wait` calls answered by a `channel-response`: a `wait` refused before any frame writes none. The CLI's server-verification refusal (Linux and Windows) is one `process-exit{subject:"self", exit_code:21, detail:"server-verify-failed", during:"connect"}` at WARN in `cli-<name>.ndjson`, counted by the Counter row's `detail` grouping; MCP's `wait` tool writes no line for it.
+- A CLI `wait` refused by the instance strict-modes check (`client::refuse_untrusted`: exit 21, the instance pair or the `instance-unreachable` document) writes no line at all, neither a `process-exit` nor a `channel-request`, so neither `viola.wait.outcome` nor the Counter row's `detail` grouping counts it; MCP's `wait` tool refused by its `check_instance` (`instance-unreachable`, `detail: null`) writes none either. The exit code or the `isError` code is its only record.
 
 <!-- /detail -->
 

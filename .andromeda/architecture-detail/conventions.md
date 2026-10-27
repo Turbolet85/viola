@@ -37,7 +37,25 @@ Read whole. The master's broad view is .andromeda/architecture.md; this file hol
 
 <!-- detail: values · conv-exit-codes -->
 
-- Exit `21` also covers, on `send`, `wait`, `last`, `answer`, `pause`, `release`, `link` and `unlink`, a server that is not the recorded wrapper (the connected peer's pid or OS start time is not the snapshot's, or the check cannot be made): no frame is written, and the verb prints the same `{"v":1,"error":"instance-unreachable","detail":null}` under `--json` with stderr empty, or the `unable  <name>  instance-unreachable` line with the server-verify hint last on stderr (its wording: design-system, surface cli-send). The client's own refusals (exit 13), and for `link` / `unlink` the instance check of the driven instance (exit 21), come first, before any connect, and the cause has no exit code, `--json` code or `RefusalReason` of its own.
+- Exit `1` also covers `viola run`'s start and `viola revive`'s start arm refusing the home tree, checked before the wrapper log opens (`checked_exe`, then `refuse_tree`, in `src/cmd/run.rs`): the home, the instance's `check_instance` set, `ledger/`, `bin/` and `plugin/`, then for the running binary's pin key `bin/<key>/`, the pinned `viola`, `plugin/<key>/` and its `hooks/` and `.claude-plugin/`, each that exists. A refusal prints the home-state `unable:` / `hint:` pair, or the instance-state pair when the refused path is the instance's, opens no log, writes no line and starts no child; under `viola revive --json` it is the `strict-modes-failed` document.
+
+<!-- /detail -->
+
+<!-- detail: values · conv-exit-codes -->
+
+- Exit `1` also covers `viola verify` refusing the home tree (`check_home_tree` with no name and no key: the home, `ledger/`, `bin/` and `plugin/`, each that exists), checked before its `cli` log opens: the home-state `unable:` / `hint:` pair on stderr, no step line, no summary and no log line. A strict-modes refusal from `update_stamps` (`StampsError::StrictModes`) in its measuring step prints the same pair.
+
+<!-- /detail -->
+
+<!-- detail: values · conv-exit-codes -->
+
+- Exit `21` also covers, on `send`, `wait`, `last`, `answer`, `pause`, `release`, `link` and `unlink`, a server that is not the recorded wrapper (the connected peer's pid or OS start time is not the snapshot's, or the check cannot be made): no frame is written, and the verb prints the same `{"v":1,"error":"instance-unreachable","detail":null}` under `--json` with stderr empty, or the `unable  <name>  instance-unreachable` line with the server-verify hint last on stderr (its wording: design-system, surface cli-send). The client's own refusals (exit 13) and the strict-modes instance check (exit 21, `client::refuse_untrusted`: the target instance for `send`, `wait`, `last`, `answer`, `pause` and `release`, the driven instance for `link` / `unlink`) come first, before any connect, and the cause has no exit code, `--json` code or `RefusalReason` of its own.
+
+<!-- /detail -->
+
+<!-- detail: values · conv-exit-codes -->
+
+- Exit `21` also covers the refused strict-modes check of `send`, `wait`, `last`, `answer`, `pause` and `release` (`client::refuse_untrusted`: `check_instance` on the home and `instances/<name>`, the verb's first step, after its text read for `send`): human mode prints `link`'s instance-state `unable:` / `hint:` pair, and `--json` exactly `{"v":1,"error":"instance-unreachable","detail":null}` with stderr empty; nothing under the home is opened and no line is written.
 
 <!-- /detail -->
 
@@ -51,5 +69,11 @@ Read whole. The master's broad view is .andromeda/architecture.md; this file hol
 <!-- detail: values · conv-mcp-results -->
 
 - A frame tool (`send`, `wait`, `last`, `answer`) whose connected server is not the recorded wrapper (its pid or OS start time not the snapshot's, or the check cannot be made; the start time read on `tokio::task::spawn_blocking`) returns the `instance-unreachable` `isError` result, text `refused: instance-unreachable`, with no frame written and no log line.
+
+<!-- /detail -->
+
+<!-- detail: values · conv-mcp-results -->
+
+- A frame tool (`send`, `wait`, `last`, `answer`) first runs `viola_state::strict::check_instance` on the home and the target instance, before `live_endpoint`: a refusal returns the `instance-unreachable` `isError` result with `detail: null`, text `refused: instance-unreachable`, and writes no frame and no line.
 
 <!-- /detail -->

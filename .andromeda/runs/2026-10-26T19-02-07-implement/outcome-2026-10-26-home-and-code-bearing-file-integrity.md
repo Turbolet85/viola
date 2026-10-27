@@ -1,8 +1,9 @@
 # Implement outcome — 2026-10-26-home-and-code-bearing-file-integrity
 
-**Outcome: green + smoke.** Next → the OPERATOR PASS: entries 24 (`gate.py hygiene`, before the pre-CI commit),
-25 (the push) and 26 (`ci.py conclusion --sha HEAD --wait 2400`, the CI read on all three OSes), then
-`/andromeda-wrap-session`.
+**Outcome: green + smoke, and CI green on all three OSes.** The operator pass ran in this session on the
+operator's own request: pre-CI commit `af6c67ef`, fix commits `f65a4ae8` and `e3468500`, each pushed through entry 25
+after pre-push and hygiene; the last CI read `e346850044ac verdict: green · checks 15/15 · wall 715 s · runs
+ci#40403389629 completed/success`. Next → `/andromeda-wrap-session`.
 
 Run dir `.andromeda/runs/2026-10-26T19-02-07-implement/` · journal `journal.md` beside this file · gate trail
 `gate-2026-10-26-home-and-code-bearing-file-integrity.json` (three full firings, two targeted).
@@ -41,6 +42,16 @@ snapshot while the stopped wrapper's beat was fresh, which the replayed collisio
 All sixteen on this host read red with the guard removed and green with it on, every file restored byte-equal:
 `chunks/2026-10-26-home-and-code-bearing-file-integrity/evidence/remove-the-guard.md`. The Windows-only
 `conpty/` leg's control is not measurable here (CI's `windows-2025` leg runs its witnesses).
+
+## The operator pass and CI (`chunks/{marker}/evidence/operator-pass.md`)
+
+| commit | CI | reading |
+|---|---|---|
+| `af6c67ef` pre-CI | ci#40398601594 `red`, 14/15 | `test (windows-2025)` 2 of 3175: `verify_under_a_regular_file_refuses_the_home` (a path under a regular file stats `NotFound` on Windows); the protected-DACL read-back (`Get-Acl` printed nothing) |
+| `f65a4ae8` fix | ci#40400887151 `red`, 14/15 | `test (windows-2025)` 2 of 3175: the DACL read back `D:PAI(A;OICI;FA;;;LA)(A;OICI;FA;;;SY)` against a SID oracle (`LA` = the runner's local Administrator); `run_rust_log_changes_nothing` (a `strict-modes-failed` fallback leaked from `run_refuses_a_widened_home_tree_before_its_log`'s seeded home — in both runs) |
+| `e3468500` fix | ci#40403389629 `green`, 15/15 | Windows `3175 passed`; kept homes: 264 sideloads loaded, 3 `hash-mismatch`, 1 `strict-modes-failed` (the companion test's own) |
+
+Every red was this chunk's own test code; the product checks read as specified on every leg.
 
 ## Smoke (P3)
 
@@ -108,6 +119,14 @@ Records: `chunks/{marker}/scope-record.md` (5 companion lines), `chunks/{marker}
    before_its_log`, `a_start_over_a_replayed_snapshot_and_a_fresh_beat_refuses_already_live`) spawn through
    `support::cli::Running`, bounded by `WITHIN`, after the remove-the-guard hang (below).
 
+10. **After CI (the two fix commits):** `verify_under_a_regular_file_refuses_the_home` carries a per-OS oracle — the
+    home pair on Unix, the catch-site line on Windows, where a path under a regular file stats `NotFound`, so the home's
+    check skips it as absent (testing.md 2026-09-24); the Windows `--home` DACL read-back goes through `icacls /save`
+    and takes `LA` for a user SID ending `-500`; `run_refuses_a_widened_home_tree_before_its_log` starts its home
+    UNSEEDED — a seeded home's ConPTY companions are hard links to one shared seed file, and `widen`'s inheritable
+    grant on the home or `bin/` reached every seeded home through them (one foreign start fell back
+    `strict-modes-failed` inside that case's window in both red runs; one, the companion test's own, in the green run).
+
 ## Surfaced — for the wrap's reconcile (nothing authored here)
 
 1. **v1-17, the by-construction clause:** `architecture.md:323` (§Occupied Resources) names both diagnostics roots and
@@ -161,5 +180,9 @@ Census at P4 (`gate.py census --comm viola --comm viola-fake-agent --comm viola-
 - Hook refusals: `stamp-ahead.py` refused a guessed journal time (19:45Z written, clock 19:30Z) — corrected from
   `date -u`; `bash-guard.sh` refused two calls carrying a `cat` heredoc with a file target and one `cd` that would
   move the session cwd — each re-issued in the allowed form.
+- Measured on `windows-2025`: an inheritable `icacls` grant on a seeded home's `bin/` (or the home) propagates through
+  `seed_conpty`'s hard links into the shared seed companion, widening every seeded home until it is removed; a test
+  that widens a home tree above `bin/<key>/conpty/` starts that home unseeded.
+- Measured on `windows-2025`: canonical SDDL spells the runner's user (local Administrator, RID 500) `LA`.
 - Remove-the-guard rule (testing.md 2026-09-25) applied: a control whose neutralised guard lets a product process
   start needs a bounded witness (measured: a 27-minute hang under nextest's default profile, which has no kill line).

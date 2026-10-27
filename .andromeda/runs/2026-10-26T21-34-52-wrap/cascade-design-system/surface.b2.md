@@ -1,0 +1,16 @@
+### surface#12.7 · values · cli-exit-codes · ## Surface: cli › ### Component Patterns · lines 127–127
+| 13 | `unable  not-delivered  input-not-ready` / `no-prompt-submitted` / `turn-running` / `unknown-dialog` / `control-character` / `empty-text` | refusal object |
+### surface#12.8 · values · cli-exit-codes · ## Surface: cli › ### Component Patterns · lines 128–128
+| 14 | `unable  unknown  <detail as opaque text>` | refusal object |
+### surface#12.9 · values · cli-exit-codes · ## Surface: cli › ### Component Patterns · lines 129–129
+| 20 | `error: wrapper fault  <code>` | `{"v":1,"error":"wrapper-fault","detail":{…}}` |
+### surface#12.10 · values · cli-exit-codes · ## Surface: cli › ### Component Patterns · lines 130–130
+| 21 | `unable  instance-unreachable` (no detail; the name is the omitted `<name>` field, as in every row), then the cause's hint (not running / unwrapped / strict-modes / server verification); `viola list`'s refused strict-modes check, and `viola link` / `viola unlink`'s of the driven instance, print instead the fixed home-state or instance-state `unable:` / `hint:` pair (pattern 1, Refusal; the founder's own answer, 2026-10-13, relayed verbatim by the Viola overseer) | `{"v":1,"error":"instance-unreachable","detail":null}` (a per-cause `detail` code awaits an arch amendment), the `list`, `link` and `unlink` refusals included, with stderr empty |
+### surface#13.1 · values · cli-exit-codes · ## Surface: cli › ### Component Patterns · lines 136–136
+- Exit 0 under `--json`: `viola link`'s document is `{"v":1,"ok":{"since":<ts>,"already_linked":<bool>}}`, `<ts>` the time the wrapper recorded the link, and `viola unlink`'s is `{"v":1,"ok":{}}`.
+### surface#13.2 · values · cli-exit-codes · ## Surface: cli › ### Component Patterns · lines 137–137
+- Exit 20 is also reached by `viola link` / `viola unlink` on a pair the wrapper refuses (`-32602`; a `driver` equal to `driven`, which the CLI never refuses itself): `error: wrapper fault  <code>`, or under `--json` the `wrapper-fault` document.
+### surface#14.1 · values · cli-exit-codes · ## Surface: cli › ### Component Patterns · lines 143–143
+- Exit 21's server-verification cause is built for `send`, `wait`, `last`, `answer`, `pause`, `release`, `link` and `unlink`: a process on the endpoint that is not the recorded wrapper (its pid or start time differs, or the check cannot be made) gets no frame, and the verb prints `unable  <name>  instance-unreachable` with the server-verification hint last on stderr, or under `--json` the document `{"v":1,"error":"instance-unreachable","detail":null}` with stderr empty.
+### surface#15.1 · values · cli-help · ## Surface: cli › ### Navigation Pattern · lines 151–151
+- `viola --help` groups verbs as `board: list` / `traffic: send, wait, last, answer` / `wheel: pause, release` / `handoff: link, unlink` / `setup: run, revive, verify, plugin install` (`revive` beside `run`: the operator's answer at the chunk 2026-10-10-viola-revive wrap). As built (chunk 2026-10-17-cli-output-discipline) it lists the served verbs only: `board: list` / `traffic: send, wait, last, answer` / `wheel: pause, release` / `handoff: link, unlink` / `setup: run, revive, verify, plugin install`, then `Options:`.

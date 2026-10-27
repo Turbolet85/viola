@@ -1,0 +1,153 @@
+[
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "5a3d7b56",
+"ts": "2026-10-27T00:20:34Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-10-26-home-and-code-bearing-file-integrity",
+"--run-dir",
+".andromeda/runs/2026-10-26T21-34-52-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"flip master-route.md:91 - 2026-10-26-home-and-code-bearing-file-integrity pending -> complete"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "5a3d7b56",
+"ts": "2026-10-27T00:20:41Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-26-home-and-code-bearing-file-integrity",
+"--date",
+"2026-10-27",
+"--run-dir",
+".andromeda/runs/2026-10-26T21-34-52-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :177 strip CARRY: 511ch \"CARRY: chunk 2026-09-28-capability-ledge\"",
+"pin :177 strip CARRY: 759ch \"CARRY: chunk 2026-09-24-three-os-ci-head\"",
+"pin :177 strip CARRY: 453ch \"CARRY: chunk 2026-09-27-hooks-to-normali\"",
+"pin :177 strip CARRY: 337ch \"CARRY: chunk 2026-09-28-hook-perf-gate l\"",
+"pin :177 strip CARRY: 492ch \"CARRY: chunk 2026-09-29-sideloaded-conpt\"",
+"pin :177 strip CARRY: 356ch \"CARRY: chunk 2026-09-29-sideloaded-conpt\"",
+"pin :177 strip CARRY: 385ch \"CARRY: chunk 2026-10-04-confirmed-send-w\"",
+"pin :177 strip CARRY: 291ch \"CARRY: chunk 2026-10-04-wait-and-last (t\"",
+"pin :177 strip CARRY: 299ch \"CARRY: chunk 2026-10-04-dialog-answers-b\"",
+"pin :177 strip CARRY: 303ch \"CARRY: chunk 2026-10-04-the-wheel (the f\"",
+"pin :177 strip CARRY: 1193ch \"CARRY: chunk 2026-10-09-inner-cr-and-crl\"",
+"pin :177 strip CARRY: 672ch \"CARRY: chunk 2026-10-10-viola-revive (it\"",
+"pin :177 strip CARRY: 696ch \"CARRY: chunk 2026-10-10-statusline-pass-\"",
+"pin :177 strip CARRY: 1262ch \"CARRY: chunk 2026-10-10-budget-governor \"",
+"pin :177 strip CARRY: 296ch \"CARRY: chunk 2026-10-17-mcp-server-for-d\"",
+"pin :177 strip CARRY: 744ch \"CARRY: chunk 2026-10-17-mcp-server-for-d\"",
+"pin :177 strip CARRY: 376ch \"CARRY: chunk 2026-10-17-optional-plugin-\"",
+"pin :177 strip CARRY: 619ch \"CARRY: chunk 2026-10-26-server-verificat\"",
+"pin :177 strip CARRY: 917ch \"CARRY: chunk 2026-10-26-server-verificat\"",
+"pin next markerless :179 holds CARRY:×2",
+"177 · 2026-10-26-home-and-code-bearing-file-integrity · strip 19 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 177,
+"marker": "2026-10-26-home-and-code-bearing-file-integrity",
+"blocks": 19,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "5a3d7b56",
+"ts": "2026-10-27T00:20:47Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-26-home-and-code-bearing-file-integrity",
+"--date",
+"2026-10-27",
+"--run-dir",
+".andromeda/runs/2026-10-26T21-34-52-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :177 strip CARRY: 511ch \"CARRY: chunk 2026-09-28-capability-ledge\"",
+"pin :177 strip CARRY: 759ch \"CARRY: chunk 2026-09-24-three-os-ci-head\"",
+"pin :177 strip CARRY: 453ch \"CARRY: chunk 2026-09-27-hooks-to-normali\"",
+"pin :177 strip CARRY: 337ch \"CARRY: chunk 2026-09-28-hook-perf-gate l\"",
+"pin :177 strip CARRY: 492ch \"CARRY: chunk 2026-09-29-sideloaded-conpt\"",
+"pin :177 strip CARRY: 356ch \"CARRY: chunk 2026-09-29-sideloaded-conpt\"",
+"pin :177 strip CARRY: 385ch \"CARRY: chunk 2026-10-04-confirmed-send-w\"",
+"pin :177 strip CARRY: 291ch \"CARRY: chunk 2026-10-04-wait-and-last (t\"",
+"pin :177 strip CARRY: 299ch \"CARRY: chunk 2026-10-04-dialog-answers-b\"",
+"pin :177 strip CARRY: 303ch \"CARRY: chunk 2026-10-04-the-wheel (the f\"",
+"pin :177 strip CARRY: 1193ch \"CARRY: chunk 2026-10-09-inner-cr-and-crl\"",
+"pin :177 strip CARRY: 672ch \"CARRY: chunk 2026-10-10-viola-revive (it\"",
+"pin :177 strip CARRY: 696ch \"CARRY: chunk 2026-10-10-statusline-pass-\"",
+"pin :177 strip CARRY: 1262ch \"CARRY: chunk 2026-10-10-budget-governor \"",
+"pin :177 strip CARRY: 296ch \"CARRY: chunk 2026-10-17-mcp-server-for-d\"",
+"pin :177 strip CARRY: 744ch \"CARRY: chunk 2026-10-17-mcp-server-for-d\"",
+"pin :177 strip CARRY: 376ch \"CARRY: chunk 2026-10-17-optional-plugin-\"",
+"pin :177 strip CARRY: 619ch \"CARRY: chunk 2026-10-26-server-verificat\"",
+"pin :177 strip CARRY: 917ch \"CARRY: chunk 2026-10-26-server-verificat\"",
+"pin next markerless :179 holds CARRY:×2",
+"177 · 2026-10-26-home-and-code-bearing-file-integrity · strip 19 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/route-archive.md",
+"./viola-0.1.0/working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 177,
+"marker": "2026-10-26-home-and-code-bearing-file-integrity",
+"blocks": 19,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]

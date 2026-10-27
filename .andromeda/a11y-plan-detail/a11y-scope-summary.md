@@ -21,6 +21,22 @@ Read whole. The master's broad view is .andromeda/a11y-plan.md; this file holds 
 
 <!-- detail: values · scope-entities -->
 
+- **Entity:** `viola send`, `wait`, `last`, `answer`, `pause` and `release` against an instance that fails the strict-modes check, in the human TTY, plain and `--json` modes: each refuses before any frame or log (`send` after its text read) with exit 21, stdout empty and `link`'s instance-state pair on stderr, `hint:` last, or under `--json` exactly `{"v":1,"error":"instance-unreachable","detail":null}` with stderr empty; no line is written and the mode or ACL is left as found, on all three OSes (the refusal's text: Cognitive Accessibility › Error recovery)
+  - **Source:** `src/cmd/client.rs` (`refuse_untrusted`), `src/cmd/{send,wait,last,answer,pause,release}.rs`; `tests/security_negatives_strict_modes.rs` (`frame_verb_refuses_a_widened_instance_before_any_log`).
+  - **Assertability:** assertable. This covers output-discipline assertions on text and streams only. No automated a11y tool reaches a terminal.
+
+<!-- /detail -->
+
+<!-- detail: values · scope-entities -->
+
+- **Entity:** `viola run`, a `viola revive` start and `viola verify` over a home tree that fails the strict-modes check: each refuses before any log opens with exit 1, stdout empty and the home-state pair on stderr, `hint:` last, and starts no child — `run` and revive's start print the instance-state pair for an instance-level refusal, and revive under `--json` gives its `strict-modes-failed` document (the CLI entity above); `verify` prints no step line and no summary, and its `update_stamps` refusal gives the same home-state pair; on Unix a home under a regular file is this refusal, on Windows (such a path stats `NotFound`) the `cli` catch-site fault line stands (the refusals' text: Cognitive Accessibility › Error recovery)
+  - **Source:** `src/cmd/run.rs` (`checked_exe`, `refuse_tree`), `src/cmd/revive.rs`, `src/cmd/verify.rs` (`refuse_home`); `tests/run_cli.rs` (`run_refuses_a_widened_home_tree_before_its_log`), `tests/cli_verify.rs` (`verify_refuses_a_widened_ledger_before_any_step`, `verify_under_a_regular_file_refuses_the_home`), `tests/security_negatives_strict_modes.rs` (`a_home_another_user_may_read_refuses_run`).
+  - **Assertability:** assertable. This covers output-discipline assertions on text and streams only. No automated a11y tool reaches a terminal.
+
+<!-- /detail -->
+
+<!-- detail: values · scope-entities -->
+
 - **Entity:** `viola run` TUI passthrough: the unmodified `claude` TUI hosted in ConPTY/openpty, entered by `viola run` and by a `viola revive` whose preflight passed (the same start; the boundary below binds both verbs, and under revive the clause read by a case of its own is that a passed revive writes no line of its own while the child holds the terminal, `tests/chaos_revive.rs`)
   - **Source:** Arch excerpt, Stack → portable-pty + vt100 ("viola does not own the rendered TUI content"). Tests excerpt, E2E driver → tui ("Tests never parse the rendered child screen for content"). Creator brief excerpt, A11y Anti-Patterns ("Viola parses no screen for content (R7)").
   - **Assertability:** boundary-only
@@ -37,6 +53,15 @@ Read whole. The master's broad view is .andromeda/a11y-plan.md; this file holds 
   - **Source:** `src/cmd/hook.rs` (`connect`, `NotSent`) and `crates/viola-mcp/src/tools.rs` (`server_verified`); `tests/hook_fail_open.rs` (the impostor rows) and `crates/viola-mcp/tests/handlers.rs` (`handlers_frame_tools_write_no_frame_to_a_server_that_is_not_the_recorded_wrapper`).
   - **Assertability:** not-assertable
   - **Reason:** a hook event or dialog call that meets such a server sends no frame and fails open: exit 0, empty stdout and stderr, under 1.0 s; an MCP frame tool returns `isError` with the code `instance-unreachable` only (text `refused: instance-unreachable`) and sends no frame. Neither writes a human-facing byte, so the entity stays not-assertable and no human keystroke is touched.
+
+<!-- /detail -->
+
+<!-- detail: values · scope-entities -->
+
+- **Entity:** Claude Code plugin against an instance that fails the strict-modes check: the `viola hook` event and dialog calls and the stdio MCP server's frame tools (`send`, `wait`, `last`, `answer`)
+  - **Source:** `src/cmd/hook.rs` (`canonical`, `trusted`) and `crates/viola-mcp/src/tools.rs` (`frame`); `tests/hook_fail_open.rs` (`hook_refused_by_the_instance_check_fails_open_and_writes_nothing`) and `crates/viola-mcp/tests/handlers.rs` (`handlers_frame_tools_refuse_a_widened_instance_before_any_frame`).
+  - **Assertability:** not-assertable
+  - **Reason:** a refused hook event or dialog call returns exit 0 at once with empty stdout and stderr, under 1.0 s — no `config.json` read, no stdin read, no frame, no line, no SessionEnd append — and a `VIOLA_DIR` naming no existing instance directory writes nothing; an MCP frame tool returns `isError` with the code `instance-unreachable` only (`detail: null`) and sends no frame and writes no line. Neither writes a human-facing byte, so the entity stays not-assertable and no human keystroke is touched.
 
 <!-- /detail -->
 

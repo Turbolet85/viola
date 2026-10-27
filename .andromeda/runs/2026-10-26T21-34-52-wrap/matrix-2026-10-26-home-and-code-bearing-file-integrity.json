@@ -1,0 +1,175 @@
+[
+{
+"tool": "matrix",
+"v": "1.5",
+"sha8": "9b024194",
+"ts": "2026-10-27T00:16:45Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-26-home-and-code-bearing-file-integrity",
+"--run-dir",
+".andromeda/runs/2026-10-26T21-34-52-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-10-26-home-and-code-bearing-file-integrity: 3 · to flip 3 · already verified 0 · below 0",
+"flipped v1-17 → verified — The architecture names both diagnostics roots and the four role sinks plus the i… (575 chars)",
+"flipped v1-41 → verified — The landed legs keep their witnesses — the torn-line heal, the three skip counts… (749 chars)",
+"flipped v1-45 → verified — On all three OSes a home, instance tree, `ledger/`, `bin/`, `plugin/`, pinned co… (1098 chars)",
+"dry-run: nothing written",
+"version: verified 25/53"
+],
+"stderr": null,
+"wrote": [],
+"before": [
+{
+"id": "v1-17",
+"chunk": "2026-10-26-home-and-code-bearing-file-integrity",
+"status": "implemented",
+"method": "integration",
+"ref": "src/obs.rs::tests::open_role_file_refuses_a_widened_diagnostics_path_and_leaves_it · ::open_role_file_refuses_a_symlinke… (1002 chars)",
+"acceptance": "The architecture names both diagnostics roots and the four role sinks plus the instance detail file (architecture.md:323… (575 chars)",
+"notes_chars": 485
+},
+{
+"id": "v1-41",
+"chunk": "2026-10-26-home-and-code-bearing-file-integrity",
+"status": "implemented",
+"method": "e2e",
+"ref": "tests/chaos_snapshot_replay.rs::a_start_over_an_unreadable_snapshot_replays_the_log (cut short · v 99) · ::a_start_over_… (829 chars)",
+"acceptance": "The landed legs keep their witnesses — the torn-line heal, the three skip counts on `list --json`, `crates/viola-state/t… (749 chars)",
+"notes_chars": 3276
+},
+{
+"id": "v1-45",
+"chunk": "2026-10-26-home-and-code-bearing-file-integrity",
+"status": "implemented",
+"method": "integration",
+"ref": "tests/security_negatives_strict_modes.rs::frame_verb_refuses_a_widened_instance_before_any_log (send · wait · last · ans… (1398 chars)",
+"acceptance": "On all three OSes a home, instance tree, `ledger/`, `bin/`, `plugin/`, pinned copy or diagnostics file another user coul… (1098 chars)",
+"notes_chars": 1882
+}
+],
+"after": [
+{
+"id": "v1-17",
+"chunk": "2026-10-26-home-and-code-bearing-file-integrity",
+"status": "verified",
+"method": "integration",
+"ref": "src/obs.rs::tests::open_role_file_refuses_a_widened_diagnostics_path_and_leaves_it · ::open_role_file_refuses_a_symlinke… (1002 chars)",
+"acceptance": "The architecture names both diagnostics roots and the four role sinks plus the instance detail file (architecture.md:323… (575 chars)",
+"notes_chars": 485
+},
+{
+"id": "v1-41",
+"chunk": "2026-10-26-home-and-code-bearing-file-integrity",
+"status": "verified",
+"method": "e2e",
+"ref": "tests/chaos_snapshot_replay.rs::a_start_over_an_unreadable_snapshot_replays_the_log (cut short · v 99) · ::a_start_over_… (829 chars)",
+"acceptance": "The landed legs keep their witnesses — the torn-line heal, the three skip counts on `list --json`, `crates/viola-state/t… (749 chars)",
+"notes_chars": 3276
+},
+{
+"id": "v1-45",
+"chunk": "2026-10-26-home-and-code-bearing-file-integrity",
+"status": "verified",
+"method": "integration",
+"ref": "tests/security_negatives_strict_modes.rs::frame_verb_refuses_a_widened_instance_before_any_log (send · wait · last · ans… (1398 chars)",
+"acceptance": "On all three OSes a home, instance tree, `ledger/`, `bin/`, `plugin/`, pinned copy or diagnostics file another user coul… (1098 chars)",
+"notes_chars": 1882
+}
+]
+},
+{
+"tool": "matrix",
+"v": "1.5",
+"sha8": "9b024194",
+"ts": "2026-10-27T00:20:14Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-26-home-and-code-bearing-file-integrity",
+"--run-dir",
+".andromeda/runs/2026-10-26T21-34-52-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-10-26-home-and-code-bearing-file-integrity: 3 · to flip 3 · already verified 0 · below 0",
+"flipped v1-17 → verified — The architecture names both diagnostics roots and the four role sinks plus the i… (575 chars)",
+"flipped v1-41 → verified — The landed legs keep their witnesses — the torn-line heal, the three skip counts… (749 chars)",
+"flipped v1-45 → verified — On all three OSes a home, instance tree, `ledger/`, `bin/`, `plugin/`, pinned co… (1098 chars)",
+"wrote viola-0.1.0/verification-matrix.json · 3 entries changed",
+"version: verified 25/53"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": [
+{
+"id": "v1-17",
+"chunk": "2026-10-26-home-and-code-bearing-file-integrity",
+"status": "implemented",
+"method": "integration",
+"ref": "src/obs.rs::tests::open_role_file_refuses_a_widened_diagnostics_path_and_leaves_it · ::open_role_file_refuses_a_symlinke… (1002 chars)",
+"acceptance": "The architecture names both diagnostics roots and the four role sinks plus the instance detail file (architecture.md:323… (575 chars)",
+"notes_chars": 485
+},
+{
+"id": "v1-41",
+"chunk": "2026-10-26-home-and-code-bearing-file-integrity",
+"status": "implemented",
+"method": "e2e",
+"ref": "tests/chaos_snapshot_replay.rs::a_start_over_an_unreadable_snapshot_replays_the_log (cut short · v 99) · ::a_start_over_… (829 chars)",
+"acceptance": "The landed legs keep their witnesses — the torn-line heal, the three skip counts on `list --json`, `crates/viola-state/t… (749 chars)",
+"notes_chars": 3276
+},
+{
+"id": "v1-45",
+"chunk": "2026-10-26-home-and-code-bearing-file-integrity",
+"status": "implemented",
+"method": "integration",
+"ref": "tests/security_negatives_strict_modes.rs::frame_verb_refuses_a_widened_instance_before_any_log (send · wait · last · ans… (1398 chars)",
+"acceptance": "On all three OSes a home, instance tree, `ledger/`, `bin/`, `plugin/`, pinned copy or diagnostics file another user coul… (1098 chars)",
+"notes_chars": 1882
+}
+],
+"after": [
+{
+"id": "v1-17",
+"chunk": "2026-10-26-home-and-code-bearing-file-integrity",
+"status": "verified",
+"method": "integration",
+"ref": "src/obs.rs::tests::open_role_file_refuses_a_widened_diagnostics_path_and_leaves_it · ::open_role_file_refuses_a_symlinke… (1002 chars)",
+"acceptance": "The architecture names both diagnostics roots and the four role sinks plus the instance detail file (architecture.md:323… (575 chars)",
+"notes_chars": 485
+},
+{
+"id": "v1-41",
+"chunk": "2026-10-26-home-and-code-bearing-file-integrity",
+"status": "verified",
+"method": "e2e",
+"ref": "tests/chaos_snapshot_replay.rs::a_start_over_an_unreadable_snapshot_replays_the_log (cut short · v 99) · ::a_start_over_… (829 chars)",
+"acceptance": "The landed legs keep their witnesses — the torn-line heal, the three skip counts on `list --json`, `crates/viola-state/t… (749 chars)",
+"notes_chars": 3276
+},
+{
+"id": "v1-45",
+"chunk": "2026-10-26-home-and-code-bearing-file-integrity",
+"status": "verified",
+"method": "integration",
+"ref": "tests/security_negatives_strict_modes.rs::frame_verb_refuses_a_widened_instance_before_any_log (send · wait · last · ans… (1398 chars)",
+"acceptance": "On all three OSes a home, instance tree, `ledger/`, `bin/`, `plugin/`, pinned copy or diagnostics file another user coul… (1098 chars)",
+"notes_chars": 1882
+}
+]
+}
+]

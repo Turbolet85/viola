@@ -116,7 +116,7 @@ The arch Surfaces product type names two parts: CLI binary and Claude Code plugi
 
 - **Surface:** cli (`viola hook <event>` and `viola hook statusline`)
 
-- **Exporter:** a file sink only, to `diagnostics/hook-<name>.ndjson`; stderr is forbidden, and stdout carries only the decision body (for `viola hook statusline`, the user's status-line command's output); a failed log write is swallowed and the hook still exits 0; without `VIOLA_NAME` the hook is a silent no-op; each line is one `write` on an append-mode handle, and logger init adds no blocking I/O beyond one file open and append.
+- **Exporter:** a file sink only, to `diagnostics/hook-<name>.ndjson`; stderr is forbidden, and stdout carries only the decision body (for `viola hook statusline`, the user's status-line command's output); a failed log write is swallowed and the hook still exits 0; without `VIOLA_NAME`, on an instance the instance check refuses, or on a `VIOLA_DIR` naming an instance directory that does not exist, the hook is a silent no-op (exit 0, no file opened, no line, no frame); each line is one `write` on an append-mode handle, and logger init adds no blocking I/O beyond one file open and append.
 
 - **Surface:** ipc-internal (`viola-channel`: JSON-RPC 2.0 over ndjson on a named pipe or Unix socket, one endpoint per `viola run`)
 
@@ -212,7 +212,7 @@ Tests E1 (unwrapped hook no-op), E2 (R8 env strip), E3 (`link` / `unlink` transf
 - **Trigger type:** logging-sensitive
 - **Source:** security plan, Vector 7 (filesystem)
 
-- **Required telemetry signal:** `diagnostics/` files are 0600 in 0700 directories (Windows: home DACL), plus refusal telemetry for pinned-exe hash mismatches and ignored symlinks; a strict-modes failure has a line only on the `ledger-stamps` read in `run`'s version gate.
+- **Required telemetry signal:** `diagnostics/` files are 0600 in 0700 directories (Windows: home DACL), plus refusal telemetry for pinned-exe hash mismatches and ignored symlinks; a strict-modes failure has a line only on the `ledger-stamps` read in `run`'s version gate and on a `conpty/` companion its owner/DACL check refuses (`process-start`'s `sideload_fallback:"strict-modes-failed"`, the child on the inbox ConPTY, exit unchanged); a refused `diagnostics/` folder or file is a failed open, its line dropped.
 
 - **Trigger type:** logging-sensitive
 - **Source:** security plan, Vector 8 (child spawn)
@@ -250,7 +250,7 @@ Tests E1 (unwrapped hook no-op), E2 (R8 env strip), E3 (`link` / `unlink` transf
 - **Trigger type:** creator-explicit-telemetry
 - **Source:** Founder Direction 4 (cross-plan audit)
 
-- **Required telemetry signal:** `release-from-driver` is its own logged event, and each cause behind exit 21 and exit 1 gets a distinct `detail` code with no path or pid.
+- **Required telemetry signal:** `release-from-driver` is its own logged event, and each cause behind exit 21 and exit 1 gets a distinct `detail` code with no path or pid, except a strict-modes check refused before any log opens, which writes no line (its cause is the fixed stderr pair or the `--json` document).
 
 - **Trigger type:** creator-explicit-telemetry
 - **Source:** brief §4 ("Design against the installed CLI, measured"); tests excerpt, Coverage Triggers (Multi-version CLI, compat; Parser surfaces)
@@ -308,7 +308,7 @@ identity + snapshot generation]_
 
 The architecture commits to the harness pattern (arch §Cross-cutting Patterns → Diagnostic output channels):
 - `hook` writes only its decision body to stdout and nothing to stderr. The one other thing a `hook` stdout carries is `viola hook statusline`'s: the user's status-line command's output byte for byte (nothing when no command is recorded, on a refused instance, on oversize or malformed stdin, or under the hidden `--capture` arm, which prints nothing). No telemetry reaches stdout on either arm.
-- `run` writes nothing to the terminal except the child's own output, with one exception before any child is spawned: a start refusal (`.cmd`/`.bat` child, live or stale name, tampered pinned copy, squatted endpoint) writes exactly two fixed stderr lines (e.g. `unable: <name>'s command is a .cmd or .bat script` / `hint: pass the real executable, not a .cmd or .bat shim`, no path or pid) through `src/human.rs` `refuse` → `write_refusal`, one `write_all` on the locked stderr, a closed pipe swallowed — the root bin's human-stderr refusal writer, called by `run` (5 sites), `verify` (5), `list` (2), `revive` (1), `plugin install` (1) and `link` (1, the one site `viola link` / `viola unlink` share), as re-derived by `grep -rcE 'human::refuse\(' src` at chunk 2026-10-26-explicit-session-links; `list`'s colour layer adds no stderr writer and its `unable` / `hint:` pair carries no SGR. `viola revive` (its start arm logs as process `run`) adds three refusals to `run`'s four: state files another user could write, no logged session (or an `--id` the log does not hold) and a missing recorded directory; on a live name it prints `run`'s own collision pair. `viola revive --list` writes the pair for its two refusals and nothing else on stderr. While the child runs, neither `run` nor a revived start writes anything of its own.
+- `run` writes nothing to the terminal except the child's own output, with one exception before any child is spawned: a start refusal (`.cmd`/`.bat` child, live or stale name, tampered pinned copy, squatted endpoint, a home tree another user could write or read: the home pair for a home-level refusal, the instance pair for an instance-level one, before any log opens) writes exactly two fixed stderr lines (e.g. `unable: <name>'s command is a .cmd or .bat script` / `hint: pass the real executable, not a .cmd or .bat shim`, no path or pid) through `src/human.rs` `refuse` → `write_refusal`, one `write_all` on the locked stderr, a closed pipe swallowed — the root bin's human-stderr refusal writer, called by `run` (7 sites), `verify` (6), `list` (2), `revive` (1), `plugin install` (1) and `client` (1, `client::refuse_untrusted`, the one site `viola link` / `viola unlink` and the six frame verbs `send`, `wait`, `last`, `answer`, `pause` and `release` share), as re-derived by `grep -rcE 'human::refuse\(' src` at chunk 2026-10-26-home-and-code-bearing-file-integrity; `list`'s colour layer adds no stderr writer and its `unable` / `hint:` pair carries no SGR. `viola revive` (its start arm logs as process `run` and makes `run`'s home-tree check before that log) adds three refusals to `run`'s five: state files another user could write, no logged session (or an `--id` the log does not hold) and a missing recorded directory; on a live name it prints `run`'s own collision pair. `viola revive --list` writes the pair for its two refusals and nothing else on stderr. While the child runs, neither `run` nor a revived start writes anything of its own.
 - Every role's codes-only process log goes to its home-level role file under `diagnostics/`, and content-bearing detail goes only to the instance's `diagnostics/detail-<role>.ndjson`.
 - `mcp` writes only MCP frames to stdout.
 - Short-lived CLI verbs may use stderr for their human output.
@@ -358,7 +358,7 @@ Detail: .andromeda/obs-plan-detail/span-trace-coverage.md — read whole.
 
 - **Surfaces involved:** cli or ipc-internal (mcp) → ipc-internal (channel) → cli (`run`) + persistent store (`events.ndjson` tail).
 
-- `last_assistant_message` never appears, and no result body reaches a line; a mid-call disconnect is logged once, by the client; on Linux and Windows a serving process that is not the recorded wrapper ends a CLI `wait` / `last` before any frame, with one `process-exit{subject:"self", exit_code:21, detail:"server-verify-failed", during:"connect"}` at WARN inside the dispatch span and no `channel-request` line, and MCP's returns `instance-unreachable` with no line (macOS compares no peer pid, the recorded gap); `strict-modes-failed` cannot occur on them, its check owed to the route entry "Home and code-bearing file integrity".
+- `last_assistant_message` never appears, and no result body reaches a line; a mid-call disconnect is logged once, by the client; on Linux and Windows a serving process that is not the recorded wrapper ends a CLI `wait` / `last` before any frame, with one `process-exit{subject:"self", exit_code:21, detail:"server-verify-failed", during:"connect"}` at WARN inside the dispatch span and no `channel-request` line, and MCP's returns `instance-unreachable` with no line (macOS compares no peer pid, the recorded gap); first, a home or instance tree the instance check refuses ends a CLI `wait` / `last` before any role file opens (exit 21, the instance pair, or exactly `{"v":1,"error":"instance-unreachable","detail":null}` under `--json`; no line), and MCP's returns `instance-unreachable` with no line.
 
 #### Scenario: Dialog → `answer` (question / permission / plan), including the unverified-CLI branch
 
@@ -391,13 +391,13 @@ Detail: .andromeda/obs-plan-detail/span-trace-coverage.md — read whole.
 
 - **E3** (`link` / `unlink`): the implicit link (recorded by the driven wrapper inside an issued `send` or a taken `answer`) and the explicit `link` / `unlink` methods the driven wrapper serves have no process-log line, no `event` value and no span of their own; their trace is the call's `channel-request` / `channel-response` pair, the product `link` / `unlink` line in `events.ndjson` and the snapshot's `links`; the `viola link` / `viola unlink` verbs log into the driven instance's `cli-<driven>.ndjson`, their request inside `cli.link` / `cli.unlink`.
 
-- **E5** (snapshot corruption): `state-recovered{detail:"snapshot-replayed"|"snapshot-unsupported-v"}` at WARN, written by `viola_state::replay::read_snapshot_or_replay`, one line per call; the other snapshot readers write no `state-recovered` line.
+- **E5** (snapshot corruption): `state-recovered{detail:"snapshot-replayed"|"snapshot-unsupported-v"}` at WARN, written by `viola_state::replay::read_snapshot_or_replay`, one line per call; its six product readers are `revive` (one read for both its collision check and its recorded-directory reading), `list`, the hook `connect`, the statusline `serve`, `run`'s start (one read handed to its collision check) and `liveness::live_endpoint`, and `read_snapshot` has no product caller under `src/`; over a replayed or absent read `live_endpoint` and the hook `connect` give no endpoint, so no frame, and the statusline runs no command.
 
 - **Torn append** (chaos): the appender that heals writes one `state-recovered{detail:"torn-line-healed"}` line per heal; the reader neither heals nor logs.
 
 - **Capability ledger** (`ledger/stamps.json`): read inside `run.version_gate`; a missing stamp, or an unreadable, malformed or strict-modes-refused ledger, counts as unverified (`cli_verified:false`); the path and stamp contents never appear.
 
-- **`verify` / `plugin install`:** with `VIOLA_NAME` set they log `process-start` / `process-exit` to `cli-<name>.ndjson`, and from a plain terminal with no instance they write no process-log file; the two hidden capture arms are uninstrumented by design; no line carries row text, a prompt, a session id or a path; in CI `viola verify` runs only against the fake agent.
+- **`verify` / `plugin install`:** with `VIOLA_NAME` set they log `process-start` / `process-exit` to `cli-<name>.ndjson`, and from a plain terminal with no instance they write no process-log file; the two hidden capture arms are uninstrumented by design; no line carries row text, a prompt, a session id or a path; in CI `viola verify` runs only against the fake agent; before its log `viola verify` holds the home, `ledger/`, `bin/` and `plugin/` to the strict-modes check, and a refused tree is exit 1 with the home pair and no line, while a `ledger/stamps.json` its stamp write refuses prints the same pair and exits 1 through its own `process-exit`.
 
 (See `## 11. Obs Anti-Patterns` § Spans / Traces for span-level bans.)
 
@@ -534,7 +534,7 @@ It would also need a security Decisions Log entry for the egress.
 
 - vt100 panics are caught on `run`'s feed thread by a `catch_unwind` around each feed and resize; each poisoning episode gives exactly one `parse-rejected{parser:"vt100-feed"}` at `WARN`, and `run` continues.
 
-- MCP rejects are `isError` codes only; a logged reject's line is codes-only, and `instance-unreachable` — the liveness pre-check's, or a frame tool's server-verification mismatch on Linux and Windows — is logged by no line, its outcome kept inside `mcp.tool_call`, the `isError` code its only record.
+- MCP rejects are `isError` codes only; a logged reject's line is codes-only, and `instance-unreachable` — a frame tool's refused instance check (made before the liveness pre-check), the liveness pre-check's, or a frame tool's server-verification mismatch on Linux and Windows — is logged by no line, its outcome kept inside `mcp.tool_call`, the `isError` code its only record.
 
 **Error → span correlation:** errors correlate by `corr` + `conn` + `process` + `instance` (+ `timestamp`), not by `trace_id` / `span_id` (D-12). The detail-file line for a given error carries the same `event`, `corr` and `conn` as its home-level counterpart, so `jq` joins them. There is no Sentry or OTel bridge (both deferred or rejected).
 

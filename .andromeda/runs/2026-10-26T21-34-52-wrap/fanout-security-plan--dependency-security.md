@@ -1,0 +1,2 @@
+proposals: []
+note: no drift in dependency-security.md — the report's Dependencies is none (no Cargo.toml / Cargo.lock change, no windows-sys feature), Harness / gate surface none (no CI, workflow, action-pin or G2 change), Dev-tool versions none, cargo deny check green; none of the eight Retired dated gaps stands in this file; the new conpty/ owner/DACL leg (sideload_fallback strict-modes-failed) is a run-time load control owned by the auth / input-validation / data-protection categories, not the vendor audit or its four pins (lines 8, 26), which the chunk leaves unchanged.

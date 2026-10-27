@@ -132,7 +132,7 @@ Inherited pattern: arch excerpt, Test Harness Commitment ("Development Style: ag
 
 **Critical paths:**
 
-- **Path:** `run` start sequence — the collision check, pinned copy and plugin folder, the fail-open ConPTY sideload, version gate, exclusive endpoint bind, first snapshot and heartbeat, and the start `wheel` and `budget-gate` events all precede the child spawn; a second `run` of the same name, a squatted endpoint or a tampered pinned exe exits 1.
+- **Path:** `run` start sequence — the home-tree strict-modes check before the wrapper log opens, then the collision check, pinned copy and plugin folder, the fail-open ConPTY sideload, version gate, exclusive endpoint bind, first snapshot and heartbeat, and the start `wheel` and `budget-gate` events all precede the child spawn; a second `run` of the same name, a squatted endpoint, a tampered pinned exe or a refused home tree exits 1.
 
 - **Path:** confirmed `send` with CL-1 events — a driver `send` logs `send-issued`, writes one bracketed paste + Enter of the typed text (CR LF and CR as LF, trailing CR and LF dropped) and is confirmed by the matching `prompt-submitted{origin:"driver"}`, else refused `not-delivered`/`no-prompt-submitted`; an empty typed text is refused `empty-text`; a ledger-listed local command is matched by exact equality and confirmed only by its post-condition or `unconfirmable`, never presumed delivered.
 
@@ -207,6 +207,10 @@ Covered by E2E suite expansion in Phase 3 if needed (beyond the 7):
   - **Source:** security excerpt, Vector 7
   - **Required test type:** negative tests covering:
     - group/world-writable home or instance dir → refused
+    - a home, instance directory or `diagnostics/` another user may read → refused (Unix a group or other bit; Windows a read grant to another SID)
+    - a widened `ledger/`, `bin/`, `plugin/` or pinned copy → `run` exit 1 before any log; a widened `ledger/`, `bin/` or `plugin/` → `verify` exit 1 before any step
+    - a symlinked `diagnostics/` folder or role file → refused, the open failing
+    - a ConPTY companion another user may write → the child on the inbox ConPTY with `sideload_fallback` `strict-modes-failed` (Windows x64)
     - pinned exe hash mismatch → exit 1
     - `plugin/` rewritten on start, and on Unix the instance's `settings.json` (none is written on Windows)
     - over-long ndjson line counted in `skipped.torn_lines`
@@ -375,7 +379,7 @@ threshold.
 
 - **viola-channel:** the ndjson frame codec at the `MAX_FRAME` boundary, the JSON-RPC error mapping, the FNV-1a endpoint golden vectors, the peer-credential decision with injected euids, the connected stream's server pid on each OS, and Windows handle non-inheritance.
 
-- **viola-state:** the one-`write`-per-line writer, the reader's three skip counts (it counts and never panics), the appender's heal, the snapshot envelope's classified read and the replay, the pure liveness classifier fed ages directly (no clock), the pure server verdict's decision table, Unix strict-modes and Windows strict-modes over synthetic SDDL descriptors, and the instance check.
+- **viola-state:** the one-`write`-per-line writer, the reader's three skip counts (it counts and never panics), the appender's heal, the snapshot envelope's classified read and the replay, the pure liveness classifier fed ages directly (no clock), the pure server verdict's decision table, Unix strict-modes and Windows strict-modes (the write and the read rule) over synthetic SDDL descriptors and, on `windows-2025`, real grants, the instance check, the home-tree and diagnostics checks, `live_endpoint` over a replayed snapshot, and the stamps and pin strict-modes refusals.
 
 - **viola-agent-claude:** hook payload parsing per recorded fixture set (unknown fields counted, not fatal), the insta-pinned dialog mapping, the R8 strip against a literal copy of the identity floor (never imported), npm-shim resolution, the version gate, the statusline and `claude agents --json` parsers, `prompt-submitted` normalisation, the `typed_text` rule, the ledger rows' arms and the screen signatures; content beyond the compiled literals is never asserted.
 
@@ -383,7 +387,7 @@ threshold.
   - a non-`ViolaName` `target`, a non-`u64` `dialog_id`, an open-string `behavior` and control chars in `text` all give `isError:true` with code-only payloads
   - `tools/list` is exactly `send, wait, last, answer, list`
 
-- **root bin:** the exit-code mapping (an unknown refusal maps to exit 14, never a panic and never 20), the wheel state machine, the budget governor's pure decision and override expiry, the send-confirmation matcher and the local-command decision, the clock-driven `wait` handler, the `send` and `answer` refusal ordering, the server check refused inside each frame verb's and the hook's span with each closed unreachable cause logged, human-mode C0/C1 escaping, and the clock-driven dialog hold.
+- **root bin:** the exit-code mapping (an unknown refusal maps to exit 14, never a panic and never 20), the wheel state machine, the budget governor's pure decision and override expiry, the send-confirmation matcher and the local-command decision, the clock-driven `wait` handler, the `send` and `answer` refusal ordering, the server check refused inside each frame verb's and the hook's span with each closed unreachable cause logged, human-mode C0/C1 escaping, the clock-driven dialog hold, the readers over a replayed snapshot (the collision check reading the beat alone, hook `connect` unreachable, statusline `serve` running nothing), and the diagnostics opens refusing a widened or symlinked path and leaving it as found.
 
 - Pure functions
 - Module logic with mocked dependencies (mockall doubles only for traits the product already defines at its seams: `Pty`, liveness probe, `Clock`)
@@ -408,7 +412,7 @@ Detail: .andromeda/test-plan-detail/integration-test-strategy.md — read whole.
 - **Human-mode layouts:** trycmd 1.2.1 case files, except the `viola list` board, pinned by literal asserts in `tests/cli_list.rs` (chunk 2026-10-11-the-board-viola-list), and `viola --help`, pinned by the `HELP` literal in `tests/cli_output_plain.rs` (chunk 2026-10-17-cli-output-discipline).
 - **PTY:** real portable-pty through `viola-pty`.
 - **Disk:** a real tempfile 3.27.0 filesystem.
-- **Windows DACL read-back:** windows-sys 0.61.2.
+- **Windows DACL read-back:** windows-sys 0.61.2; the root tests set and read grants through `icacls` with its exit asserted (`tests/support/home.rs`), and read a protected DACL back through `icacls <home> /save <file>` (canonical SDDL, which spells the RID-500 runner user `LA`).
 
 **Boundary types covered:**
 
@@ -424,7 +428,7 @@ Detail: .andromeda/test-plan-detail/integration-test-strategy.md — read whole.
 
 - **Hook exec ↔ channel ↔ disk:** `viola hook <event>` fed fixture stdin against a live test wrapper, its event line, hook trace and `budget.json` asserted.
 
-**Setup / teardown lifecycle:** a fresh tempfile home per test, at a not-yet-existing path under `target/e2e-home` that viola creates, so obs-plan's CI gates, the secret scan and the upload cover integration runs; started wrappers sit in a `Drop` guard that kills and waits, and nothing is shared between tests. Two carve-outs: Windows x64 starts seed the ConPTY companions before viola runs, and `tests/chaos_feed_panic.rs` alone boots outside the scans.
+**Setup / teardown lifecycle:** a fresh tempfile home per test, at a not-yet-existing path under `target/e2e-home` that viola creates, so obs-plan's CI gates, the secret scan and the upload cover integration runs; started wrappers sit in a `Drop` guard that kills and waits, and nothing is shared between tests. Two carve-outs: Windows x64 starts seed the ConPTY companions before viola runs, into a home `seed_conpty` makes private (a test that widens a home tree above `bin/<key>/conpty/` starts unseeded, because an inheritable grant reaches every seeded home through the shared hard-linked companion, as measured on `windows-2025` at `viola-0.1.0/chunks/2026-10-26-home-and-code-bearing-file-integrity/evidence/operator-pass.md`), and `tests/chaos_feed_panic.rs` alone boots outside the scans.
 
 **Readiness stall report:** at its deadline `wait_ready` appends the stalled wrapper's state to the watch report before the panic; it signals nothing and adds nothing to a passing boot.
 
@@ -434,13 +438,14 @@ Detail: .andromeda/test-plan-detail/integration-test-strategy.md — read whole.
 
 - **Wrapper channel:** every method through the crate and root channel suites, with schema-validated result, refusal and error shapes, the `cursor` equal to the log length at acceptance, `-32602` on a higher `v`, `-32600` and a close on an oversize frame, server verification, and wrapper-side paste validation in which `control-character` wins over every other refusal.
 
-- **On-disk:** every event kind round-trips the event line, `ts` is RFC 3339 UTC with ms, tailing ignores symlinks and invalid names, and strict-modes refusals give exit 1 for `run` / `mcp` / `viola revive`, hook 0 with no output, and CLI 21 for every other verb.
+- **On-disk:** every event kind round-trips the event line, `ts` is RFC 3339 UTC with ms, tailing ignores symlinks and invalid names, and strict-modes refusals give exit 1 for `run` / `mcp` / `viola revive` / `viola verify`, hook 0 with no output, `instance-unreachable` from the MCP frame tools, and CLI 21 for every other verb (the six frame verbs printing the instance pair); a refused check at `run`, `viola revive`, `viola verify`, the frame verbs, the hook and the MCP frame tools writes no line.
 
 - **Hooks:** root `tests/hook_*.rs` checks every event name in the arch Hooks list:
   - exit 0 and empty stderr
   - decision body or empty stdout
   - async hooks print nothing
   - no `VIOLA_NAME` means an immediate exit 0
+  - a `VIOLA_DIR` instance the instance check refuses, or one naming no existing instance directory, means an immediate exit 0 with empty streams, no line, no frame and no SessionEnd append
 
 - **CLI:** root `tests/cli_*.rs` cover the `--json` document per exit code, the human layouts by trycmd or literal with no `\x1b[` under non-TTY / `NO_COLOR` / `TERM=dumb`, `viola verify`'s step lines and its stop cleanup, `plugin install`, leading-slash argv never delivered as a prompt, no setting that disables a control, and the home resolution order and machine contract; `contract_ledger_probes.rs` holds the ledger-probe contract per stamped fixture set.
 
@@ -583,34 +588,32 @@ Detail: .andromeda/test-plan-detail/e2e-test-strategy.md — read whole.
   2. Truncate `snapshot.json` mid-object. In a sibling test, set envelope `v:99` instead.
   3. Run `viola run builder` again.
 - **Verification signal:**
-  - The rebuilt snapshot has `links`, `wheel:"human"`, `budget_paused:true` and `agent_session_id` recovered from the log, with `dialog_pending:false`.
+  - The replay reads `links`, `budget_paused:true` and `agent_session_id` from the log, with `dialog_pending:false`, and writes no file, so no snapshot is rebuilt from it; every start appends `wheel{holder:"driver", cause:"start"}`, so after step 3 the wheel is the driver.
   - `list --json` liveness is `live` and never `stale`.
-  - No refusal of start (exit is not 1).
+  - No refusal of start (exit is not 1) once the heartbeat is older than `STALE_AFTER`: over a replayed snapshot the collision check reads liveness from the beat alone, so a fresh beat refuses the start `already-live` (exit 1).
 
-- **As landed: in part.** The replay's product readers (`viola revive`, `viola list`), its budget and link legs and its `list --json` leg are covered; steps 1–3 stay unbuilt while `run`'s collision check calls `read_snapshot`: every snapshot reader stays on `read_snapshot` (option 1), and their move onto `read_snapshot_or_replay` stays a CARRY owed to the route entry "Home and code-bearing file integrity".
-
-- Two of the signals above are set against what landed, for the entry that builds it to restate: every start appends `wheel{holder:"driver", cause:"start"}`, so `wheel:"human"` does not hold after step 3, and the replay writes no file, so no snapshot is rebuilt from it.
+- **As landed: built.** Steps 1–3 run as `tests/chaos_snapshot_replay.rs` (`a_start_over_an_unreadable_snapshot_replays_the_log`, `a_start_over_a_replayed_snapshot_and_a_fresh_beat_refuses_already_live`); the replay's product readers are `viola revive`, `viola list`, hook `connect`, statusline `serve`, `run`'s collision check and `liveness::live_endpoint`, each after its strict-modes check, and `read_snapshot` has no product caller under `src/`; the budget, link and `list --json` legs are covered.
 
 - **Cleanup:** TempDir drop.
 
 **Non-path suites (trigger coverage; run in the E2E layer, except root `hook_*` files such as `hook_fail_open.rs`, which the §3 layer filtersets run in the integration layer):**
 
-- **Security sweep:** nextest runs the MCP schema-violation cases (each `invalid-params` with its field, no frame written) and the hook fail-open matrix — oversize stdin, malformed JSON, clap error, channel failure, a forced panic, a missing `VIOLA_NAME` and, on Linux and Windows, a server that is not the recorded wrapper, each exit 0 with no body — plus the `--home` strict-modes refusals; the panic seam fires only under the `fake-agent` feature and never reaches the release build.
+- **Security sweep:** nextest runs the MCP schema-violation cases (each `invalid-params` with its field, no frame written) and the hook fail-open matrix — oversize stdin, malformed JSON, clap error, channel failure, a forced panic, a missing `VIOLA_NAME`, an instance the instance check refuses or a `VIOLA_DIR` naming no instance directory and, on Linux and Windows, a server that is not the recorded wrapper, each exit 0 with no body — plus the `--home` strict-modes refusals; the panic seam fires only under the `fake-agent` feature and never reaches the release build.
 
 - **Error sanitization and secret scan:** after every E2E test, no absolute path, serde path or `Caused by` in any error payload, every `-32603` exactly `"internal error"` / `null`, no `Cookie` header or stripped-variable value in any log, `diagnostics/` files 0600 on Unix, and the fixed canary in no home-level diagnostics line; a hit is reported by place and class, never the matched bytes.
 
 - **Schema conformance** (the check body behind obs-plan gate G4; obs owns the schemas, tests own the check): after the test steps, every home-level `diagnostics/*.ndjson` line under `target/e2e-home/**` is validated with jsonschema 0.57.0 against obs-plan's `schemas/diag-line.v1.json`, and every `instances/*/diagnostics/detail-*.ndjson` line against `schemas/diag-detail.v1.json`. A line that is not JSON is skipped and counted (chaos cases tear lines by design). Any failing line fails the step, which prints file, line number and the failing schema keyword, never the line's content.
 
-- **Exit-cause matrix** (`cross_exit_causes.rs`, not built): one negative test per cause of exit 21 and of exit 1, each asserting the exit code, the `--json` document and a last `hint:` line that names its cause — a hint shared across causes fails the table; the server-verification cause is a case of `tests/security_negatives_server_identity.rs` on Linux and Windows (its macOS case owed to the route entry "Unix endpoint and home hardening"), and `revive`'s refusals are cases of `tests/cli_revive.rs`; driver-facing hints never contain `release`.
+- **Exit-cause matrix** (`cross_exit_causes.rs`, not built): one negative test per cause of exit 21 and of exit 1, each asserting the exit code, the `--json` document and a last `hint:` line that names its cause — a hint shared across causes fails the table; the server-verification cause is a case of `tests/security_negatives_server_identity.rs` on Linux and Windows (its macOS case owed to the route entry "Unix endpoint and home hardening"), the strict-modes cause of exit 21 for the six frame verbs is a case of `tests/security_negatives_strict_modes.rs` on three OSes, the exit-1 home-tree refusals of `run` and `verify` are cases of `tests/run_cli.rs` and `tests/cli_verify.rs`, and `revive`'s refusals are cases of `tests/cli_revive.rs`; driver-facing hints never contain `release`.
 
-- **Security control negatives** (`security_negatives_*.rs`): one negative test per security-plan control that had none — the Unix socket directory refusal, Windows client SQOS at the identification level, the Windows listener rejecting remote clients and denying an anonymous open (each beside its controls), raw-channel `link` / `unlink` name validation (`tests/channel_links.rs`), a Windows `--home` outside the profile given a protected DACL (its test home never under `%TEMP%`), umask-independent modes, single writers of `stamps.json` and `snapshot.json`, and, on Linux and Windows, a CLI frame verb writing no frame to a server that is not the recorded wrapper (`tests/security_negatives_server_identity.rs`, beside its control reaching the recorded wrapper).
+- **Security control negatives** (`security_negatives_*.rs`): one negative test per security-plan control that had none — the Unix socket directory refusal, Windows client SQOS at the identification level, the Windows listener rejecting remote clients and denying an anonymous open (each beside its controls), raw-channel `link` / `unlink` name validation (`tests/channel_links.rs`), a Windows `--home` outside the profile given a protected DACL (its test home never under `%TEMP%`), umask-independent modes, a pre-existing home another user may read refusing `viola run` exit 1, single writers of `stamps.json` and `snapshot.json` (byte-identical after every other writer-capable entry point, the wrapper stopped), the six CLI frame verbs refusing a widened instance with exit 21, no frame and no line (`tests/security_negatives_strict_modes.rs`, three OSes), a Windows x64 ConPTY companion another user may write leaving the child on the inbox ConPTY (`tests/conpty_sideload.rs`), and, on Linux and Windows, a CLI frame verb writing no frame to a server that is not the recorded wrapper (`tests/security_negatives_server_identity.rs`, beside its control reaching the recorded wrapper).
 
 - **`list` row integrity** (`cross_list_rows.rs`): unwrapped session names holding `\n`, `\t` or a C1 character print escaped in every mode — no row splits, every row's columns start at the caption row's offsets, the raw bytes never reach a NAME cell, and `list --json` keeps the original name.
 
 - **Cross-surface parity:**
   - for the same refusal, the MCP `structured_content` `{refusal, detail}` equals the CLI `--json` `{refusal, detail}`
 
-- **Chaos suite** (`chaos_*.rs`): a torn append counted and healed on a fresh line, a no-EOF child's exit detected on the handle, an endpoint vanishing during `wait` (exit 21), a SIGSTOPped wrapper read `stale` and its name refused to a new `run`, a forced vt100 panic refusing `send` `input-not-ready` while passthrough continues, forward-compat lines counted in `skipped`, and a `.cmd` child refused exit 1.
+- **Chaos suite** (`chaos_*.rs`): a torn append counted and healed on a fresh line, a no-EOF child's exit detected on the handle, an endpoint vanishing during `wait` (exit 21), a SIGSTOPped wrapper read `stale` and its name refused to a new `run`, a forced vt100 panic refusing `send` `input-not-ready` while passthrough continues, forward-compat lines counted in `skipped`, a start over a truncated or `v:99` snapshot replaying the log and a fresh beat over the replayed snapshot refusing the start `already-live` (`chaos_snapshot_replay.rs`), and a `.cmd` child refused exit 1.
 
 - **Property suite** (proptest, `cases: 512`): `validate_paste_text`, ndjson framing at `MAX_FRAME` ± 1, the hook stdin and statusline parsers, the `claude agents --json` parser, the vt100 feed under `catch_unwind` and `prompt-submitted` normalisation; cargo-fuzz targets in the separate `fuzz/` workspace join as their parsers land.
 
@@ -628,7 +631,7 @@ Detail: .andromeda/test-plan-detail/test-data-fixtures.md — read whole.
 
 **Seed strategies:**
 
-- **On-disk product state:** produced only by real `viola` runs against the fake agent in a fresh home, never hand-written — except the chaos tests' corruption of files the product already wrote, the Windows x64 `seed_conpty` companions and the server-identity impostors' test-built `snapshot.json`; a case that needs a home viola created starts from `stamped_home`.
+- **On-disk product state:** produced only by real `viola` runs against the fake agent in a fresh home, never hand-written — except the chaos tests' corruption of files the product already wrote, the Windows x64 `seed_conpty` companions and the server-identity impostors' test-built `snapshot.json`; a case that needs a home viola created starts from `stamped_home`, and a test that makes a home itself makes it through `viola_state::fs::create_private_dir`, never `create_dir_all`: a plain home is one the product refuses (on Unix by the read rule; on Windows `Writable`, its refused entry an inherited `S-1-5-32-545` write ACE, as measured on `windows-2025` by `strict_instance_refuses_a_plain_home_made_before_viola_and_names_the_entry`).
 
 - **`ledger/stamps.json`:** produced by `viola verify` against the fake agent; no test or harness code writes the file.
 

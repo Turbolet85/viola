@@ -103,3 +103,27 @@ The run completed `failure` (2026-10-26T21:17Z): every job green but `test (wind
   step 10 asks. Fixed in the test: the case's first start goes through `run_viola_unseeded`, so the product writes
   this home's own companions and the grant stays inside the home. Confirmation owed to the next run's reading: one
   `strict-modes-failed` (the companion test's) in the kept homes.
+
+## The second fix push `e3468500` and its CI read — green
+
+Entry 23 re-fired `green · exit 0 · 99.05s`; hygiene `clean`; entry 25:
+
+```
+ 25 probe       green · exit 0 · 2.04s · 92 B → 25.log · history moved: refs/remotes/origin/HEAD f65a4ae8→e3468500; refs/remotes/origin/build/viola-0.1.0 f65a4ae8→e3468500 · git diff --quiet && git diff --cached --quiet && git push … (69 chars)
+```
+
+Entry 26, fired as written:
+
+```
+e346850044ac verdict: green · checks 15/15 · wall 715 s · runs ci#40403389629 completed/success
+runs: ci#40403389629 push completed/success
+checks: fuzz-replay · lint (macos-latest) · lint (ubuntu-latest) · lint (windows-2025) · msrv · perf (macos-latest)
+  perf (ubuntu-latest) · perf (windows-2025) · release (macos-latest) · release (ubuntu-latest) · release (windows-2025)
+  supply-chain · test (macos-latest) · test (ubuntu-latest) · test (windows-2025)
+```
+
+`test (windows-2025)` (job 121854822279): `3175 tests run: 3175 passed (5 slow), 0 skipped`. The diagnosis's owed
+confirmation, read from the kept homes (artifact `diag-windows-2025`): 264 child starts `conpty-sideload`, 3
+`hash-mismatch` (the tamper tests), ONE `strict-modes-failed` at 21:26:36.167Z — inside
+`run_on_a_companion_another_user_may_write_falls_back_to_conhost` (PASS at 21:26:36.217Z after 5.123 s). The
+unexpected second fallback of both earlier runs is gone with the seeded first start.

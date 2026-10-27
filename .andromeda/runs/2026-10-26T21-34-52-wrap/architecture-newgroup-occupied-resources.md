@@ -1,0 +1,14 @@
+# New groups — architecture · occupied-resources
+
+## Verdicts
+- fanout-architecture--cascade-g2.md 3 · distinct · the `VIOLA_DIR` group (line 65) names hook as a reader but no group states hook's `instance_of` → canonical → `check_instance` order or its silence on a missing instance directory
+- fanout-architecture--cascade-g2.md 8 · distinct · no group states a symlink and modes check on `diagnostics/` and the role or detail file inside `open_role_file` / `write_detail` (only `mcp`'s `check_path` on `diagnostics/` stands, line 29)
+- fanout-architecture--cascade-g2.md 12 · distinct · the `viola list` sentence (line 111) states `scan`'s `check_path` and per-instance `check_instance` but not the write-rule / read-rule inconsistency or its owner pin
+- fanout-architecture--cascade-g2.md 13 · contradiction · lines 112–112 · «runs `viola_state::strict::check_instance` over the home, `instances/`, the instance directory, its `snapshot.json` and its `events.ndjson`, each that exists and in that order» · the standing set holds no `diagnostics/` and no per-entry read or write rule, where the proposal adds `diagnostics/` and holds the home, the instance directory and `diagnostics/` (and Windows `events.ndjson`) to the read rule
+- fanout-architecture--cascade-g2.md 16 · distinct · no group states the read rule, `READ_RIGHTS` or the `Readable` / `Symlink` refusals (line 126 names only "owner-only modes on Unix, owner + DACL on Windows")
+- fanout-architecture--cascade-g2.md 17 · distinct · no group names `check_home_tree`, `TreeRefused` or the home-tree check's call sites in `run`'s start and `verify`
+- fanout-architecture--cascade-g2.md 19 · duplicate · lines 185–185 · «a plain-created scratch on the runner's workspace drive inherits BUILTIN\Users write, which the instance check refuses `Writable`» · the mutation-scratch group already states that a plain-created Windows folder inherits a Users write ACE the instance check refuses `Writable`; only the home-made-before-viola case and ci#40398601594 are new
+- fanout-architecture--cascade-g2.md 20 · distinct · line 111 states only that an unstattable home is refused by `list`'s `check_path`, not the per-OS reading of a path under a regular file (`NotFound` on Windows)
+- fanout-architecture--cascade-g2.md 22 · distinct · the test-homes group (lines 171–173) states no hard-link propagation through `seed_conpty` nor the unseeded-start rule
+- fanout-architecture--cascade-g2.md 23 · distinct · line 185 states the protected user + SYSTEM DACL by rule only, not its measured `D:PAI(A;OICI;FA;;;LA)(A;OICI;FA;;;SY)` reading or the `LA` spelling
+- cascade-compare-architecture.md 5 · distinct · the six frame verbs' exit 21 and `verify` / `run` start's exit 1 on a refused home check stand in no group (only `link` / `unlink`, line 35, and `revive`, line 112, do), though its per-OS unstattable-home tail restates fanout-architecture--cascade-g2.md 20

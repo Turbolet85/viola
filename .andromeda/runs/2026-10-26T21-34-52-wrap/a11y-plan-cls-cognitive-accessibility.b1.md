@@ -1,0 +1,14 @@
+# Classified — a11y-plan · cognitive-accessibility.b1
+
+## Answers
+cognitive-accessibility#1.1 · no · the report's Untouched line says the session adds no time bound on the human, and its new checks sit before a frame or log, so each bound keeps its value and driver-only reach in the reached hook, MCP and revive files
+cognitive-accessibility#2.1 · yes · add-to · F1 adds the six frame verbs' strict-modes refusal (the instance pair with its own hint, exit 21, a hint-free --json document); F2 adds run's start refusal beside revive's, each printing the home or instance pair with exit 1; F3 adds verify's home-pair refusal before any step line; F4 makes an unstattable Unix home a hinted refusal while Windows keeps its hint-free fault
+cognitive-accessibility#3.1 · yes · stale · link.rs is reached whole and the session's read rule (group or other bits refused on the home, the instance directory and diagnostics/) is part of the strict-modes check link runs before any log; the report does not show the exit-21 refusal before the log unchanged on that file
+cognitive-accessibility#4.1 · yes · stale · link.rs and liveness.rs are reached whole, and link's strict-modes check, now under the read rule, runs before the liveness pre-check that gives this not-running refusal; the report does not show that refusal unchanged on those files
+cognitive-accessibility#5.1 · yes · stale · link.rs and the shared client.rs are reached whole and carry the channel call a -32602 fault returns through; the report does not show that path unchanged on those files
+cognitive-accessibility#6.1 · yes · add-to · F1 adds a witness on all three OS legs (tests/security_negatives_strict_modes.rs) for the six frame verbs' strict-modes refusal, beside the two-leg server-verify rows; F2 and F3 add run's and verify's home-pair refusals to the home-pair sites listed here; F4 adds the per-OS oracle for an unstattable home
+cognitive-accessibility#7.1 · no · tests/cli_links.rs is not in the reached set and CI is green on the changed code (ci#40403389629), so its two named link tests still read the stopped-instance and strict-modes refusals
+cognitive-accessibility#8.1 · yes · add-to · the pinned-string list must name the pairs the session now reaches: F1 the instance pair on the six frame verbs, F2 run's home and instance pairs, F3 verify's home pair
+cognitive-accessibility#9.1 · no · the three result lines and their one-write unit live in src/human/verbs.rs and tests/cli_links.rs, neither in the reached set, so the lines and their pins are unchanged
+cognitive-accessibility#10.1 · yes · stale · link.rs is reached whole and the names each line prints come from the verb's parsed arguments there; the report does not show that unchanged on the changed file (the time part in src/human/verbs.rs is not reached)
+cognitive-accessibility#11.1 · no · the report's Untouched line says the CAPTION literal and viola list's caption order are unchanged, and board.rs is not in the diff

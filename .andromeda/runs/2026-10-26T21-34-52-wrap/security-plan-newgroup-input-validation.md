@@ -1,0 +1,6 @@
+# New groups — security-plan · input-validation
+
+## Verdicts
+- fanout-security-plan--cascade-g2.md 9 · contradiction · lines 53–53 · «They have two product callers, each taken only after `viola_state::strict::check_instance` has passed (through `replay::read_snapshot_or_replay`» · the standing group says `read_snapshot_or_replay` has two product callers (revive's preflight and `board::read`), while the proposal adds four more (`live_endpoint`, hook `connect`, statusline `serve`, `collision_check`)
+- fanout-security-plan--cascade-g2.md 11 · contradiction · lines 30–30 · «`viola verify` reads `ledger/stamps.json` before any strict-modes check (Decisions Log `2026-09-28`, stamps read)» · the CLI arguments row still says verify reads the stamps before any strict-modes check, while the proposal has `update_stamps` run `strict::check_stamps` before `create_private_dir(ledger/)` and again under its lock
+- fanout-security-plan--cascade-g2.md 14 · contradiction · lines 80–80 · «the closed `process-start.sideload_fallback`: `hash-mismatch` · `unreadable` · `load-failed` · `not-built`» · the closed `sideload_fallback` set on the landing line has four words, and the proposal records a fifth, `strict-modes-failed`; replacing only the gap sentence leaves that list stale

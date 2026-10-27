@@ -1,0 +1,2 @@
+proposals: []
+note: the chunk adds no dependency, env var, credential source or R8-strip change (report Changes: Dependencies none; Schema / config no env var added), and none of the eight retired strict-modes gaps stands in .andromeda/security-plan-detail/secret-management.md, so D-security-input, D-security-auth, D-security-deps and D-retired find no drift and no new detail reaches this category.

@@ -1,0 +1,3 @@
+sweep: base: 99df4536 — the previous sweep (2026-10-26T15-35-13-wrap) · re-pointed 0 · changed 1 · stretched 0
+changed .andromeda/security-plan-detail/authentication-authorization.md:27@c1725 src/cmd/run.rs:383 → ? — rewritten → claim false — raised at Validate (the collision check no longer reads the snapshot through `read_snapshot`: its caller reads it once through `read_snapshot_or_replay` (src/cmd/run.rs:277) and hands the `Recovered` to `collision_check` (src/cmd/run.rs:418-445), which judges a replayed snapshot by the heartbeat alone, with no pid or start time; the no-connection, no-frame half still holds)
+moved viola-0.1.0/working-route.md:190@c2551 src/cmd/run.rs:475 → 521 — listed, not written: route → route — P5
