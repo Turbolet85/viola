@@ -35,3 +35,9 @@ mutants.out/
 mutants.out.old/
 fuzz/artifacts/
 fuzz/coverage/
+
+# The records store (records-contract.md): the journal and moved are committed, the store is rebuilt from them
+.andromeda/db/*
+!.andromeda/db/moved
+!.andromeda/db/log/
+!.andromeda/db/sealed/
