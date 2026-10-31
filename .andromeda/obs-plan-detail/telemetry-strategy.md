@@ -40,7 +40,7 @@ Read whole. The master's broad view is .andromeda/obs-plan.md; this file holds i
 | error-budget-SLO | §7, §10 zero-unlogged-panics |
 | audit-log-retention | §3 Log file location (no rotation), §10 |
 | creator-explicit (Founder Directions 1/2/5) | §3 schema verbatim, §6 |
-| creator-explicit (Founder Direction 4) | §6 detail code catalog, §12 D-01; a strict-modes refusal made before any process log opens (the six frame verbs and `link` / `unlink`, exit 21; `run`, `revive`'s start and `verify`, exit 1) writes no line and carries no `detail` code: its machine-readable form is the exit code, and under `--json` the closed `instance-unreachable` document (the frame verbs) or `strict-modes-failed` (`revive`) |
+| creator-explicit (Founder Direction 4) | §6 detail code catalog, §12 D-01; a strict-modes refusal made before any process log opens (the six frame verbs and `link` / `unlink`, exit 21; `run`, `revive`'s start and `verify`, exit 1) writes no line and carries no logged `detail` code: its machine-readable form is the exit code, and under `--json` the closed `instance-unreachable` document with `detail` `strict-modes-failed` (the frame verbs and `link` / `unlink`) or the `strict-modes-failed` document (`revive`) |
 | creator-explicit (installed-CLI measured) | §5 counters, §6 `parse-rejected` / `skipped` |
 | creator-explicit (no screen scraping) | §4 Scenario 2 (vt100 gate outcome only), §11 |
 

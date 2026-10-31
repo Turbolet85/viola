@@ -1,0 +1,2 @@
+proposals: []
+note: .andromeda/design-system-detail/brand-identity.md stands whole, its one revive clause being what the report's Outcome keeps (a passed revive writes nothing while its child runs); outside this file, the send paragraph of .andromeda/design-system.md still says "a per-cause `detail` code is pending" and the report's design-system expected amendment names .andromeda/design-system.md:334 and :338 but not that passage.

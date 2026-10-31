@@ -1,0 +1,31 @@
+[
+{
+"tool": "rec",
+"v": "1.1",
+"sha8": "9ff640f0",
+"ts": "2026-10-31T19:26:24Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-10-31T18-12-32-wrap/route-put.txt",
+"--run-dir",
+".andromeda/runs/2026-10-31T18-12-32-wrap",
+"--marker",
+"2026-10-31-exit-cause-code-catalogue"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 1 edge(s) · tx 37 · cry-p24har2r … cry-p24har2r"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-10-31T15-44-08-2026-10-31-exit-cause-code-catalogue.ndjson",
+"./viola-0.1.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]

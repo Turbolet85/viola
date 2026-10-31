@@ -94,5 +94,37 @@
 ],
 "before": null,
 "after": null
+},
+{
+"tool": "evolve",
+"v": "1.3",
+"sha8": "3569bfa9",
+"ts": "2026-10-31T18:10:17Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-31T17-12-41-implement",
+"--marker",
+"2026-10-31-exit-cause-code-catalogue"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 33 · 2026-10-31T15-44-08-2026-10-31-exit-cause-code-catalogue.ndjson",
+"ts 2026-10-31T18:10:07Z · clock 2026-10-31T18:10:17Z · bound 2026-10-31T17:36:28Z (line 2618)",
+"ids 2026-10-31T18:10:07Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-10-31T15-44-08-2026-10-31-exit-cause-code-catalogue.ndjson"
+],
+"before": null,
+"after": null
 }
 ]

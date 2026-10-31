@@ -1,0 +1,16 @@
+# New groups — design-system · surface
+
+## Verdicts
+- fanout-design-system--cascade.md 2 · distinct · no standing hint row or group names a wrapper lost with the call open; line 152's list of hint causes lacks it without closing the list
+- fanout-design-system--cascade.md 4 · contradiction · lines 83–83 · «The stale-heartbeat and unwrapped-name causes have no code yet.» · the file says the stale-heartbeat cause has no code, the proposal gives a stale holder the code `stale-heartbeat`
+- fanout-design-system--cascade.md 9 · contradiction · lines 135–135 · «a refusal `run`'s start makes after a passed preflight prints no document as landed» · the file gives `revive --json` five codes and no document for a refusal of `run`'s start (line 144 likewise), the proposal one document for every such refusal and ten closed codes
+- fanout-design-system--cascade.md 10 · contradiction · lines 144–144 · «every other exit 1 has no `--json` document (a `run` start refusal» · the file gives a `run` start refusal reached through `revive`, and every other exit 1, no document; the proposal prints the `internal-error` document for a program not found and for an anyhow error of the start
+- fanout-design-system--cascade.md 11 · distinct · line 135 says only that `revive` prints nothing once the child starts; no group names a `pump_child` error or its document under `--json`
+- fanout-design-system--cascade.md 14 · contradiction · lines 144–144 · «every other exit 1 has no `--json` document» · the file gives the catch site's exit 1 no document, the proposal prints the `internal-error` document on stdout under `--json`
+- fanout-design-system--cascade.md 15 · distinct · no group says how the catch site reads `--json` from argv
+- fanout-design-system--cascade.md 16 · distinct · no group names the paths that stay silent at the catch site
+- fanout-design-system--cascade.md 18 · contradiction · lines 152–152 · «`{"v":1,"error":"instance-unreachable","detail":null}` (a per-cause `detail` code awaits an arch amendment)» · the file fixes exit 21's `detail` at null with per-cause codes still awaited (lines 83 and 168 likewise), the proposal carries one of five closed causes there
+- fanout-design-system--cascade.md 19 · contradiction · lines 152–152 · «the `list`, `link` and `unlink` refusals and the six frame verbs' strict-modes refusals included» · the file's `detail` is null for these strict-modes refusals, the proposal reads `strict-modes-failed` in that document
+- fanout-design-system--cascade.md 20 · contradiction · lines 83–83 · «The stale-heartbeat and unwrapped-name causes have no code yet.» · the file says the unwrapped-name cause has no code, the proposal reads `unwrapped-name` for an absent directory, a regular file or a symlink
+- fanout-design-system--cascade.md 21 · contradiction · lines 83–83 · «at their exit-21 server-verification refusal, whose `--json` document stays `detail:null`» · the file keeps the server-verification and not-running documents at `detail:null` (line 168 likewise), the proposal names each of these causes in `detail`
+- fanout-design-system--cascade.md 22 · distinct · no group says what a frame verb reads against a stale instance; lines 70 and 77 hold stale heartbeat only as a start refusal

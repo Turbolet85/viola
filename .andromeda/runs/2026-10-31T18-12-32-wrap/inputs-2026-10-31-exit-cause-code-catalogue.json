@@ -1,0 +1,261 @@
+[
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "f5e6e77a",
+"ts": "2026-10-31T18:12:59Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-31-exit-cause-code-catalogue",
+"--source",
+"~/dev/projects/additional/viola-overseer/wrap-exit-cause-directive.md",
+"--kind",
+"relay",
+"--why",
+"the operator's directive to this wrap, by the overseer, founder-delegated: forced sample, classifiers high with two draws read and reported, evidence kept, one re-spawn, check 7 escalates as written, the halt on Q1 and Q4, the socket-directory row, the WATCH tally, PROVISIONAL carried, no consolidation at the epoch's end, store reports, size stops",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-31T18-12-32-wrap",
+"--marker",
+"2026-10-31-exit-cause-code-catalogue"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I5 · copy no-repo · ../additional/viola-overseer/wrap-exit-cause-directive.md",
+"cite: inputs#I5"
+],
+"stderr": null,
+"wrote": [
+"inputs/I5-wrap-exit-cause-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I5",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/wrap-exit-cause-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "05af4e66125cc59e946de9232fb5c4076d044aa20bff59792e92de982d641a3a",
+"copy": "I5-wrap-exit-cause-directive.md.txt",
+"link": false,
+"read_at": "2026-10-31T18:12:59Z",
+"step": "wrap",
+"why": "the operator's directive to this wrap, by the overseer, founder-delegated: forced sample, classifiers high with two draws read and reported, evidence kept, one re-spawn, check 7 escalates as written, the halt on Q1 and Q4, the socket-directory row, the WATCH tally, PROVISIONAL carried, no consolidation at the epoch's end, store reports, size stops"
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "f5e6e77a",
+"ts": "2026-10-31T18:13:17Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-31-exit-cause-code-catalogue",
+"--run-dir",
+".andromeda/runs/2026-10-31T18-12-32-wrap",
+"--marker",
+"2026-10-31-exit-cause-code-catalogue"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-exit-cause-directive.md",
+"I1 cited scope.md:76 · scope.md:86 · scope.md:149 · scope.md:151 · research.md:7 · plan.md:29 · plan.md:189 · plan.md:200 (in fence) · plan.md:341 (in fence) · plan.md:350 (in fence) · plan.md:371",
+"I2 n/a — a message has no live source · copy message · message: the P4 dialog through the overseer, 2026-10-31 16:52Z",
+"I2 cited plan.md:16 · plan.md:18 · plan.md:19 · plan.md:27 · plan.md:60 · plan.md:70 · plan.md:354 · plan.md:356 · plan.md:361 · plan.md:371 · plan.md:372 · plan.md:372 · plan.md:380 · plan.md:397 · plan.md:400 · plan.md:401 · plan.md:401 · plan.md:402",
+"I3 n/a — a message has no live source · copy message · message: the overseer, 2026-10-31 17:09Z",
+"I3 UNCITED",
+"I4 n/a — a message has no live source · copy message · message: the operator, the /andromeda-implement invocation, 2026-10-31T17:12Z",
+"I4 UNCITED",
+"I5 unchanged · copy no-repo · ../additional/viola-overseer/wrap-exit-cause-directive.md",
+"I5 UNCITED",
+"inputs: 5 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 3 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 5,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 3
+},
+"uncited": 3,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "f5e6e77a",
+"ts": "2026-10-31T18:17:07Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-31-exit-cause-code-catalogue",
+"--run-dir",
+".andromeda/runs/2026-10-31T18-12-32-wrap",
+"--marker",
+"2026-10-31-exit-cause-code-catalogue"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-exit-cause-directive.md",
+"I1 cited scope.md:76 · scope.md:86 · scope.md:149 · scope.md:151 · research.md:7 · plan.md:29 · plan.md:189 · plan.md:200 (in fence) · plan.md:341 (in fence) · plan.md:350 (in fence) · plan.md:371 · report.md:49",
+"I2 n/a — a message has no live source · copy message · message: the P4 dialog through the overseer, 2026-10-31 16:52Z",
+"I2 cited plan.md:16 · plan.md:18 · plan.md:19 · plan.md:27 · plan.md:60 · plan.md:70 · plan.md:354 · plan.md:356 · plan.md:361 · plan.md:371 · plan.md:372 · plan.md:372 · plan.md:380 · plan.md:397 · plan.md:400 · plan.md:401 · plan.md:401 · plan.md:402 · report.md:10 · report.md:50 · report.md:64 · report.md:65 · report.md:66 · report.md:74 · report.md:93 · report.md:94 · report.md:108",
+"I3 n/a — a message has no live source · copy message · message: the overseer, 2026-10-31 17:09Z",
+"I3 cited report.md:51 · report.md:61 · report.md:94",
+"I4 n/a — a message has no live source · copy message · message: the operator, the /andromeda-implement invocation, 2026-10-31T17:12Z",
+"I4 cited report.md:54 · report.md:95",
+"I5 unchanged · copy no-repo · ../additional/viola-overseer/wrap-exit-cause-directive.md",
+"I5 cited report.md:55 · report.md:92 · report.md:145",
+"inputs: 5 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 5,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 3
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "f5e6e77a",
+"ts": "2026-10-31T19:02:37Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-31-exit-cause-code-catalogue",
+"--message-file",
+".andromeda/runs/2026-10-31T18-12-32-wrap/relay-1.md",
+"--origin",
+"the overseer, 2026-10-31 19:02Z",
+"--kind",
+"relay",
+"--why",
+"the answers to the P2 halt: Q1 confirm and Q2 to Q8 as recommended, delegate the overseer, PROVISIONAL; directive item 4 withdrawn, the installed check 7 stands; item 7 stands",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-31T18-12-32-wrap",
+"--marker",
+"2026-10-31-exit-cause-code-catalogue"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I6 · copy message · message: the overseer, 2026-10-31 19:02Z",
+"cite: inputs#I6"
+],
+"stderr": null,
+"wrote": [
+"inputs/I6-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I6",
+"kind": "relay",
+"repo": null,
+"path": "message: the overseer, 2026-10-31 19:02Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "a1151f9b4bf2c94a25eae321124432024b57eec621c45a1aa83d917280dc25c9",
+"copy": "I6-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-31T19:02:37Z",
+"step": "wrap",
+"why": "the answers to the P2 halt: Q1 confirm and Q2 to Q8 as recommended, delegate the overseer, PROVISIONAL; directive item 4 withdrawn, the installed check 7 stands; item 7 stands"
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "f5e6e77a",
+"ts": "2026-10-31T19:31:43Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-31-exit-cause-code-catalogue",
+"--message-file",
+".andromeda/runs/2026-10-31T18-12-32-wrap/relay-2.md",
+"--origin",
+"the overseer, 2026-10-31 19:31Z",
+"--kind",
+"relay",
+"--why",
+"the answer at the stop before P7 step 3b: skip the consolidation per doc, the skip form stretched on overseer1's word, Epoch 6's consolidation owed; the WATCH tally stands at 3 green; a correction beside the report's kill-count row; flip, commit, push, then stop",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-31T18-12-32-wrap",
+"--marker",
+"2026-10-31-exit-cause-code-catalogue"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I7 · copy message · message: the overseer, 2026-10-31 19:31Z",
+"cite: inputs#I7"
+],
+"stderr": null,
+"wrote": [
+"inputs/I7-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I7",
+"kind": "relay",
+"repo": null,
+"path": "message: the overseer, 2026-10-31 19:31Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "1bee19be8ed5ec9174e985f8f5a749aecfb22ef9cd842cc2029e8c3223d4a361",
+"copy": "I7-relay-2.md.txt",
+"link": false,
+"read_at": "2026-10-31T19:31:43Z",
+"step": "wrap",
+"why": "the answer at the stop before P7 step 3b: skip the consolidation per doc, the skip form stretched on overseer1's word, Epoch 6's consolidation owed; the WATCH tally stands at 3 green; a correction beside the report's kill-count row; flip, commit, push, then stop"
+}
+}
+]

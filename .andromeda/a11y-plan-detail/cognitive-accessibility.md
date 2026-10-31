@@ -16,19 +16,31 @@ Read whole. The master's broad view is .andromeda/a11y-plan.md; this file holds 
 <!-- detail: values · cognitive-errors -->
 
 - **Pattern:** every error is a printed word followed by plain detail, and a recovery instruction where recovery exists.
-  - **CLI:** `unable  <reason>  <detail>` on stderr, then `hint:` as the last stderr line, with a typed exit code. The one refusal with no hint is `unknown` (exit 14): its detail is a code word or nothing, opaque to a reader, so design prints no hint rather than a guess. Faults (`error: wrapper fault`, `error: internal error`) are not refusals and carry no hint. `--json` gives one document with no hint, except the `viola answer` and `viola send` exit-2 paths (below). Without `--json`, the exit-1 refusals of `viola revive` take the fixed-message form of design-system cli pattern 2 (one `unable: <text>` line, then one `hint:` line last; a clap usage error exits 2), pinned by the root cases in `tests/cli_revive.rs`; under `--json` its strict-modes and preflight refusals give one `{"v":1,"error":"<code>","detail":null}` document with no hint and empty stderr (`revive_json_*` in `tests/cli_revive.rs`; chunk 2026-10-17-cli-machine-contract). So does `viola verify`'s interrupted pair (`unable: verify was stopped before it finished` / `hint: run viola verify again to stamp this CLI`), pinned by the stop table in `tests/cli_verify.rs`; the stop path adds no time bound, since its waits end at the stop and its kill and pump join end at once. CLI `send`, `wait`, `last`, `answer`, `pause`, `release`, `link` and `unlink` refuse an endpoint whose serving process is not the recorded wrapper with exit 21: `unable  <name>  instance-unreachable` on stderr, then `hint: the process on <name>'s endpoint is not its recorded wrapper; it was not contacted` as the last stderr line; under `--json` the `{"v":1,"error":"instance-unreachable","detail":null}` document with stderr empty and no hint.
+  - **CLI:** `unable  <reason>  <detail>` on stderr, then `hint:` as the last stderr line, with a typed exit code. The one refusal with no hint is `unknown` (exit 14): its detail is a code word or nothing, opaque to a reader, so design prints no hint rather than a guess. Faults (`error: wrapper fault`, `error: internal error`) are not refusals and carry no hint. `--json` gives one document with no hint, except the `viola answer` and `viola send` exit-2 paths (below). Without `--json`, the exit-1 refusals of `viola revive` take the fixed-message form of design-system cli pattern 2 (one `unable: <text>` line, then one `hint:` line last; a clap usage error exits 2), pinned by the root cases in `tests/cli_revive.rs`; under `--json` every refusal of the start it shares with `run` gives one `{"v":1,"error":"<code>","detail":null}` document with no hint and empty stderr (`revive_json_*` in `tests/cli_revive.rs`, the start rows in `tests/cross_exit_causes.rs`; chunk 2026-10-17-cli-machine-contract). So does `viola verify`'s interrupted pair (`unable: verify was stopped before it finished` / `hint: run viola verify again to stamp this CLI`), pinned by the stop table in `tests/cli_verify.rs`; the stop path adds no time bound, since its waits end at the stop and its kill and pump join end at once. CLI `send`, `wait`, `last`, `answer`, `pause`, `release`, `link` and `unlink` refuse an endpoint whose serving process is not the recorded wrapper with exit 21: `unable  <name>  instance-unreachable` on stderr, then `hint: the process on <name>'s endpoint is not its recorded wrapper; it was not contacted` as the last stderr line; under `--json` the `{"v":1,"error":"instance-unreachable","detail":"server-verify-failed"}` document with stderr empty and no hint.
 
 <!-- /detail -->
 
 <!-- detail: values · cognitive-errors -->
 
-- **CLI, `viola link` / `viola unlink`, strict-modes:** a driven instance that fails the strict-modes check is refused with exit 21 before any log opens, no log line written: the fixed instance-state `unable` / `hint:` pair on stderr, `hint:` last; under `--json` exactly `{"v":1,"error":"instance-unreachable","detail":null}` on stdout with stderr empty and no hint.
+- **CLI, exit 21 under `--json`:** one document per cause, `{"v":1,"error":"instance-unreachable","detail":"<cause>"}` on stdout with stderr empty, no hint and no ESC, `<cause>` being one of the closed words `strict-modes-failed`, `instance-dead`, `unwrapped-name`, `endpoint-lost` and `server-verify-failed`.
 
 <!-- /detail -->
 
 <!-- detail: values · cognitive-errors -->
 
-- **CLI, `send` / `wait` / `last` / `answer` / `pause` / `release`, strict-modes:** an instance that fails the strict-modes check is refused with exit 21 before any frame or log (`send` after its text read), no log line written: the same fixed instance-state `unable` / `hint:` pair as `viola link` / `viola unlink` on stderr, `hint:` last, stdout empty; under `--json` exactly `{"v":1,"error":"instance-unreachable","detail":null}` on stdout with stderr empty and no hint.
+- **CLI, `viola link` / `viola unlink`, strict-modes:** a driven instance that fails the strict-modes check is refused with exit 21 before any log opens, no log line written: the fixed instance-state `unable` / `hint:` pair on stderr, `hint:` last; under `--json` exactly `{"v":1,"error":"instance-unreachable","detail":"strict-modes-failed"}` on stdout with stderr empty and no hint.
+
+<!-- /detail -->
+
+<!-- detail: values · cognitive-errors -->
+
+- **CLI, `send` / `wait` / `last` / `answer` / `pause` / `release`, strict-modes:** an instance that fails the strict-modes check is refused with exit 21 before any frame or log (`send` after its text read), no log line written: the same fixed instance-state `unable` / `hint:` pair as `viola link` / `viola unlink` on stderr, `hint:` last, stdout empty; under `--json` exactly `{"v":1,"error":"instance-unreachable","detail":"strict-modes-failed"}` on stdout with stderr empty and no hint.
+
+<!-- /detail -->
+
+<!-- detail: values · cognitive-errors -->
+
+- **CLI, a lost or stale wrapper:** a wrapper lost with the call open is `endpoint-lost`; a frame verb against a stale instance reads `instance-dead`, stale heartbeat being exit 1's cause alone.
 
 <!-- /detail -->
 
@@ -40,19 +52,37 @@ Read whole. The master's broad view is .andromeda/a11y-plan.md; this file holds 
 
 <!-- detail: values · cognitive-errors -->
 
+- **CLI, a start against a holder:** exit 1 tells a stale holder from a live one: `stale-heartbeat` for a `stale` holder, `already-live` for a live holder and a fresh replayed beat.
+
+<!-- /detail -->
+
+<!-- detail: values · cognitive-errors -->
+
 - **CLI, `viola verify`, strict-modes:** a home whose tree (the home, `ledger/`, `bin/`, `plugin/`) fails the strict-modes check is refused with exit 1 before its log opens, with no step line, no summary and no line written: the fixed home-state `unable` / `hint:` pair on stderr, `hint:` last; a `ledger/` that `update_stamps`'s own check refuses gives the same pair.
 
 <!-- /detail -->
 
 <!-- detail: values · cognitive-errors -->
 
-- **CLI, an unstattable home:** a home path under a regular file is a strict-modes refusal with its hint on Unix (`verify`: the home-state pair, exit 1; the six frame verbs: the instance-state pair, exit 21); on Windows such a path stats `NotFound`, the check skips it as absent, and the `cli` catch site's fault line stands, with no hint.
+- **CLI, an unstattable home:** a home path under a regular file is a strict-modes refusal with its hint on Unix (`verify`: the home-state pair, exit 1; the six frame verbs: the instance-state pair, exit 21); on Windows such a path stats `NotFound`, the check skips it as absent, and the `cli` catch site's fault line stands, with no hint; under `--json` a frame verb there prints the `internal-error` document on stdout in that line's place, stderr empty (`verify` takes no `--json`).
 
 <!-- /detail -->
 
 <!-- detail: values · cognitive-errors -->
 
-- **CLI, `viola link` / `viola unlink`, stopped instance:** a driven instance with no live endpoint is refused with exit 21, the not-running `hint:` as the last stderr line.
+- **CLI, `viola link` / `viola unlink`, stopped instance:** a driven instance with no live endpoint whose instance directory stands is refused with exit 21, the not-running `hint:` as the last stderr line; a driven name with no live endpoint and no such directory reads `unwrapped-name`, its own `hint:` last.
+
+<!-- /detail -->
+
+<!-- detail: values · cognitive-errors -->
+
+- **CLI, a name with no endpoint:** the refusal reads the instance directory: a directory is `instance-dead`, anything else (absent, a regular file, a symlink) is `unwrapped-name`, and the strict-modes check stays first.
+
+<!-- /detail -->
+
+<!-- detail: values · cognitive-errors -->
+
+- **CLI, the `unwrapped-name` and `endpoint-lost` human forms:** each ends with its own `hint:` as the last stderr line, in plain ASCII, the name in a hint being the parsed `ViolaName`.
 
 <!-- /detail -->
 
@@ -82,6 +112,12 @@ Read whole. The master's broad view is .andromeda/a11y-plan.md; this file holds 
 
 <!-- detail: values · cognitive-errors -->
 
+- **CLI, a fault under `--json`:** where a CLI verb prints `error: internal error`, under `--json` it prints the `internal-error` document with a null `detail` on stdout in that line's place, stderr empty; without `--json` the line stands, and `run`, `revive`'s start, `mcp` and `hook` stay silent there.
+
+<!-- /detail -->
+
+<!-- detail: values · cognitive-errors -->
+
 - **CLI, the exception to one document:** the `viola answer` and `viola send` exit-2 paths write the fixed `UNUSABLE_RESPONSE` or `UNUSABLE_TEXT` line to stderr whatever `--json` says, and no document; `NOT_ERROR_BODIES` (`tests/contract_error_bodies.rs`) names them.
 
 <!-- /detail -->
@@ -89,7 +125,7 @@ Read whole. The master's broad view is .andromeda/a11y-plan.md; this file holds 
 <!-- detail: procedure · cognitive-errors -->
 
 - **Verification:**
-  - **cli:** trycmd cases pin the `unable <reason> <detail>` + final `hint:` layout per refusal (`viola list`'s exit-21 state pairs — the hint last, stdout empty; under `--json` exactly `{"v":1,"error":"instance-unreachable","detail":null}` with stderr empty — are pinned by literal in the `cfg(unix)` root cases `list_refuses_*` and the unit case `instance_and_home_state_pairs_are_the_fixed_texts`, chunk 2026-10-11-the-board-viola-list; `viola plugin install`'s exit-21 refusal, the same home pair, and its `--json` document, by `plugin_install_refuses_a_widened_home`, chunk 2026-10-17-optional-plugin-install; the eight frame verbs' exit-21 server-verify refusal, by the `HINT` literal in `tests/security_negatives_server_identity.rs`, whose `security_negative_cli_verb_writes_no_frame_to_a_server_that_is_not_the_recorded_wrapper` reads, over `send`, `wait`, `last`, `answer`, `pause`, `release`, `link` and `unlink` in both modes, the hint as the last stderr line with no ESC byte and stdout empty, or under `--json` the exact document with stderr empty, and no output holding the recorded pid, the home's path or the endpoint, beside its control `security_negative_cli_verb_reaches_the_recorded_wrapper`), and assert_cmd checks the typed exit codes (`10`–`14`, `20`, `21`) and that `--json` carries no hint text. These run on all three OS legs, except `tests/security_negatives_server_identity.rs`, gated `not(target_os = "macos")`, which runs on windows-2025 and ubuntu-latest only.
+  - **cli:** trycmd cases pin the `unable <reason> <detail>` + final `hint:` layout per refusal (`viola list`'s exit-21 state pairs — the hint last, stdout empty; under `--json` exactly `{"v":1,"error":"instance-unreachable","detail":"strict-modes-failed"}` with stderr empty — are pinned by literal in the `cfg(unix)` root cases `list_refuses_*` and the unit case `instance_and_home_state_pairs_are_the_fixed_texts`, chunk 2026-10-11-the-board-viola-list; `viola plugin install`'s exit-21 refusal, the same home pair, and its `--json` document, by `plugin_install_refuses_a_widened_home`, chunk 2026-10-17-optional-plugin-install; the eight frame verbs' exit-21 server-verify refusal, by the `HINT` literal in `tests/security_negatives_server_identity.rs`, whose `security_negative_cli_verb_writes_no_frame_to_a_server_that_is_not_the_recorded_wrapper` reads, over `send`, `wait`, `last`, `answer`, `pause`, `release`, `link` and `unlink` in both modes, the hint as the last stderr line with no ESC byte and stdout empty, or under `--json` the exact document with stderr empty, and no output holding the recorded pid, the home's path or the endpoint, beside its control `security_negative_cli_verb_reaches_the_recorded_wrapper`), and assert_cmd checks the typed exit codes (`10`–`14`, `20`, `21`) and that `--json` carries no hint text. These run on all three OS legs, except `tests/security_negatives_server_identity.rs`, gated `not(target_os = "macos")`, which runs on windows-2025 and ubuntu-latest only.
   - **cli, macOS:** the server-verify refusal cannot occur: no peer pid is read and the check reads as passed (the recorded gap), so its cases compile out there; its macOS witness is owed to "Unix endpoint and home hardening".
 
 <!-- /detail -->
@@ -102,7 +138,7 @@ Read whole. The master's broad view is .andromeda/a11y-plan.md; this file holds 
 
 <!-- detail: procedure · cognitive-errors -->
 
-- **Verification, strict-modes refusals:** `frame_verb_refuses_a_widened_instance_before_any_log` (`tests/security_negatives_strict_modes.rs`) reads, over `send`, `wait`, `last`, `answer`, `pause` and `release` in both modes against a live wrapper whose instance directory another user may write, exit 21 with the `INSTANCE_PAIR` literal on stderr and stdout empty, or under `--json` the exact `instance-unreachable` document with stderr empty, no line added and no frame sent, the widening left as found; `run_refuses_a_widened_home_tree_before_its_log` (`tests/run_cli.rs`) reads `run`'s exit 1 with the `HOME_PAIR` or `INSTANCE_PAIR` literal, stdout empty, no line and no child; `verify_refuses_a_widened_ledger_before_any_step` and `verify_under_a_regular_file_refuses_the_home` (`tests/cli_verify.rs`, the latter's oracle per OS: the home-state pair on Unix, the catch-site line on Windows) read `verify`'s home-state pair with no step line or summary. Unlike the server-verify cases, these run on all three OS legs.
+- **Verification, strict-modes refusals:** `frame_verb_refuses_a_widened_instance_before_any_log` (`tests/security_negatives_strict_modes.rs`) reads, over `send`, `wait`, `last`, `answer`, `pause` and `release` in both modes against a live wrapper whose instance directory another user may write, exit 21 with the `INSTANCE_PAIR` literal on stderr and stdout empty, or under `--json` the exact `instance-unreachable` document whose `detail` is `strict-modes-failed` with stderr empty, no line added and no frame sent, the widening left as found; `run_refuses_a_widened_home_tree_before_its_log` (`tests/run_cli.rs`) reads `run`'s exit 1 with the `HOME_PAIR` or `INSTANCE_PAIR` literal, stdout empty, no line and no child; `verify_refuses_a_widened_ledger_before_any_step` and `verify_under_a_regular_file_refuses_the_home` (`tests/cli_verify.rs`, the latter's oracle per OS: the home-state pair on Unix, the catch-site line on Windows) read `verify`'s home-state pair with no step line or summary. Unlike the server-verify cases, these run on all three OS legs.
 
 <!-- /detail -->
 
@@ -120,6 +156,18 @@ Read whole. The master's broad view is .andromeda/a11y-plan.md; this file holds 
 
 <!-- detail: procedure · cognitive-errors -->
 
+- **Verification, one hint per code:** in `tests/cross_exit_causes.rs`, `no_two_codes_share_a_hint`, with its control `shared_hints_reads_a_planted_duplicate`, holds each code to its own hint, and `no_hint_names_release` holds every hint from naming `release`.
+
+<!-- /detail -->
+
+<!-- detail: procedure · cognitive-errors -->
+
+- **Verification, the exit-cause table:** `tests/cross_exit_causes.rs`, a `fake-agent` E2E binary, is the exit-cause table: its rows check each cause's exit, document and hint in human and `--json` modes, and the comment at its top names the causes held outside the table.
+
+<!-- /detail -->
+
+<!-- detail: procedure · cognitive-errors -->
+
 - **Verification, the body check:** `tests/support/events.rs` holds `error_body_hit` and `assert_error_body_clean`, classes `absolute-path`, `caused-by`, `serde-path` and `planted`, reporting place and class, never bytes.
 
 <!-- /detail -->
@@ -131,6 +179,7 @@ Read whole. The master's broad view is .andromeda/a11y-plan.md; this file holds 
 - **Verification:**
   - trycmd pins every fixed CLI string, except `viola list`'s, which literals pin (the board, the empty line and the refusal pairs: `tests/cli_list.rs` and the `src/human/board/` units `bay_line_*`, `board_row_*` and `instance_and_home_state_pairs_are_the_fixed_texts`, chunk 2026-10-11-the-board-viola-list), and `viola --help`'s, pinned by the `HELP` literal in `help_is_the_grouped_verb_table` with the served set held by `help_lists_only_served_verbs` (`tests/cli_output_plain.rs`, chunk 2026-10-17-cli-output-discipline), and `viola plugin install`'s planning-form lines, pinned by literal in `plugin_install_prints_the_two_commands` (`tests/cli_plugin_install.rs`) and the unit `write_plugin_installed_is_the_planning_form_in_one_write` (chunk 2026-10-17-optional-plugin-install), and the server-verify hint (`send_hint`'s cause `server-verify`, `src/human/hints.rs`), pinned by the `HINT` literal in `tests/security_negatives_server_identity.rs`, and the instance-state and home-state pairs as the six frame verbs and `run` print them, pinned by the `INSTANCE_PAIR` / `HOME_PAIR` literals in `tests/security_negatives_strict_modes.rs` and `tests/run_cli.rs` (`verify`'s home-state pair by literal in `tests/cli_verify.rs`). Any copy change therefore fails CI until the pinned string is updated on purpose.
   - The `message` literal `wrapper fault` under `--json` and on MCP, for a code outside the five known, is pinned by the unit case `sanitised_fault_carries_nothing_of_the_peer_but_closed_values` (`crates/viola-channel/src/lib.rs`).
+  - The `unwrapped-name` and `endpoint-lost` hints (`src/human/hints.rs`) are pinned by the unit `send_hint_is_the_design_string` and by the exit-cause table (`tests/cross_exit_causes.rs`).
 
 <!-- /detail -->
 

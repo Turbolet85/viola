@@ -1,13 +1,15 @@
 # Implement outcome — 2026-10-31-exit-cause-code-catalogue
 
-**Outcome: green + smoke.** Next: the operator pass (entries 21, 22, 23, the pre-push re-run first), then `/andromeda-wrap-session`.
+**Outcome: green + smoke; the operator pass done.** CI on HEAD `8a4c1a2ce7b9`: `verdict: green · checks 15/15 · wall 770 s · runs ci#41226917636` (`evidence/operator-pass.md`). Next: `/andromeda-wrap-session`.
+
+The pass took two pushes. `115cdbb9`, the pre-CI commit carrying `df4ca577` and `404f7496`, read red on `lint (macos-latest)` and `test (macos-latest)`, one compile error of mine in `crates/viola-mcp/tests/handlers.rs`: a case on every OS using a helper gated off macOS. `8a4c1a2c` is its fix, a listed file. I had not run the macOS check-only clippy recipe (test-plan §9) before the first push, and it would have caught this.
 
 ## Gates
 Block, last full firing: `entries 23 · green 19 · red 0 · recorded 1 · timeout 0 · not-run 3` (the three operator entries). `gate-2026-10-31-exit-cause-code-catalogue.json` holds every firing. After it, one edit reached a `cfg(windows)` test alone (`verify_a_batch_script_refuses`, its line under a name); entries 2, 3, 4 and 13 re-read green, and the Windows lint was re-read with the file touched, `Checking viola`, exit 0.
 
 - The first block read red 3: entry 4 (`drop(serving)` on Windows, two `cfg(unix)`-only constants), entries 7 and 20 (`tool_inputs_that_pass_reach_the_liveness_check`). All fixed; see Deviations.
 - Pre-push, last firing: `{"cmd":"pre-push","ok":true,"stage":"linux-tests"}`, `3403 tests run: 3403 passed (5 slow), 0 skipped`, `{"cmd":"gate","ok":true,"breaches":[]}`, host `QUIET for viola`.
-- The table: `39 tests run: 39 passed` on Linux. Its `cfg(windows)` row and every Windows and macOS reading are the CI read's.
+- The table: `39 tests run: 39 passed` on Linux. On CI, Ubuntu 39 PASS, macOS 39 PASS, Windows 36 PASS with its `cfg(windows)` row, none failed.
 
 ## Capabilities
 - `v1-18`: `implemented`, ref written (`matrix-2026-10-31-exit-cause-code-catalogue.json`).
@@ -43,11 +45,11 @@ No file is excluded, so none has anything to serve.
 No spec↔reality gap. The masters' text is the wrap's, as the plan's expected amendments list. `.claude/rules/` still reads `detail: null` for exit 21 until then, as the plan notes.
 
 ## Carried for the wrap
-- **WATCH**, `verify_stopped_during_the_resume_run_removes_its_dir_and_exits_1`: green in all three of this run's pre-push firings, `4.436 s` / `4.432 s`, `4.437 s` / `4.468 s` and `4.491 s` / `4.484 s` against its 7 s `WITHIN`; no red. No step edited it or its bound. The CI reads add to the tally.
+- **WATCH**, `verify_stopped_during_the_resume_run_removes_its_dir_and_exits_1`: green in all four of this run's pre-push firings, `4.436 s` / `4.432 s`, `4.437 s` / `4.468 s`, `4.491 s` / `4.484 s` and `4.478 s` / `4.465 s` against its 7 s `WITHIN`; no red. No step edited it or its bound. On `ci#41226917636`, Ubuntu `4.655 s` / `4.596 s`, macOS `5.276 s` / `5.500 s`; the red run's Ubuntu job read `6.297 s` / `6.273 s`. The tally is the wrap's.
 - `inputs#I2` Q2 and Q3 and the P5 word (`inputs#I3`) are the delegate's, PROVISIONAL; Q1 and Q4 are the founder's own, and the wrap halts once on the answer card.
 
 ## Process hygiene
-Census, read 2026-10-31T17:36:43Z through `gate.py census`, one call: `census: 8 running`, none of them under `projects/viola/target`.
+Census, read 2026-10-31T17:36:43Z through `gate.py census`, one call: `census: 8 running`, none of them under `projects/viola/target`. Re-read at the pass's end, 2026-10-31T18:10:07Z, over the fake agent, the harness, the table and that path: `census: none running`.
 
 | process | started by | final state |
 |---|---|---|
@@ -63,4 +65,5 @@ The last three rows are named from their command lines and paths; `census` attri
 - The operator's directive, `inputs#I4`: no live session, a kill deadline on every spawn, each long run journalled (`journal.md`), the operator pass with its CI read, its first push carrying the two spine-door commits.
 - Guard refusal: the Bash guard refused a `cat` heredoc with a file target for my first scratch script; re-issued once through the Write tool.
 - Recurrence of a standing learning (CLAUDE.md, timestamps from `date -u`): I wrote two journal stamps by estimate, one 2 minutes ahead. The stamp-ahead hook refused it and both were corrected from the clock. The stamps in the journal now read as measured.
+- Sweep hazard: a new test helper's own `cfg` gate is one more thing a case can trip on the OS the dev host cannot run. The check-only recipes for both other OSes read it locally: I ran Windows, as an entry, and not macOS, a recipe, and CI's first read went red on it.
 - Sweep hazard: an oracle moved by a shared body can hide a test that never reached its subject (deviation 3); and my own added `strict-modes-failed` line in `only_the_wrapper_writes_the_snapshot_and_only_verify_the_stamps` was wrong, its wrapper being stopped, and read red on the first pass.

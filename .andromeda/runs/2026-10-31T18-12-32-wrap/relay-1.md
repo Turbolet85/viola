@@ -1,0 +1,1 @@
+Q1 confirm: I read all 120 rows on the card and they lie inside his answers; that confirm is the overseer's as delegate, so PROVISIONAL. Q2 to Q8 as recommended, also as delegate. My directive item 4 was wrong and is withdrawn: the installed check 7 stands, by the founder's word of 2026-10-27. Proceed to Apply. Item 7 stands: stop before P7 step 3b, ahead of the flip, and report.

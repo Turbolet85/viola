@@ -1,0 +1,77 @@
+[
+{
+"tool": "route",
+"v": "1.9",
+"sha8": "4b011612",
+"ts": "2026-10-31T19:30:25Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-10-31-exit-cause-code-catalogue",
+"--date",
+"2026-10-31",
+"--run-dir",
+".andromeda/runs/2026-10-31T18-12-32-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-c6xjh373 strip CARRY: 621ch \"CARRY: chunk 2026-10-10-viola-revive (th\"",
+"pin cry-ulkeqd3n strip CARRY: 489ch \"CARRY: chunk 2026-10-10-budget-governor \"",
+"pin cry-qxan6ons strip CARRY: 251ch \"CARRY: chunk 2026-10-11-the-board-viola-\"",
+"pin cry-3hucjqsb strip CARRY: 408ch \"CARRY: chunk 2026-10-16-unwrapped-sessio\"",
+"pin cry-i2vs2or6 strip CARRY: 715ch \"CARRY: chunk 2026-10-17-cli-machine-cont\"",
+"pin cry-swuh4dq7 strip WATCH: 757ch 0/3 since 2026-10-31-sanitised-error-surfaces \"WATCH: `verify_stopped_during_the_re…",
+"pin next markerless chk-j3vkwokw holds CARRY:×5",
+"2026-10-31-exit-cause-code-catalogue · strip 6 block(s) · archive APPEND",
+"dry-run · would flip 2026-10-31-exit-cause-code-catalogue pending -> complete"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.9",
+"sha8": "4b011612",
+"ts": "2026-10-31T19:31:55Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-10-31-exit-cause-code-catalogue",
+"--date",
+"2026-10-31",
+"--run-dir",
+".andromeda/runs/2026-10-31T18-12-32-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-c6xjh373 strip CARRY: 621ch \"CARRY: chunk 2026-10-10-viola-revive (th\"",
+"pin cry-ulkeqd3n strip CARRY: 489ch \"CARRY: chunk 2026-10-10-budget-governor \"",
+"pin cry-qxan6ons strip CARRY: 251ch \"CARRY: chunk 2026-10-11-the-board-viola-\"",
+"pin cry-3hucjqsb strip CARRY: 408ch \"CARRY: chunk 2026-10-16-unwrapped-sessio\"",
+"pin cry-i2vs2or6 strip CARRY: 715ch \"CARRY: chunk 2026-10-17-cli-machine-cont\"",
+"pin cry-swuh4dq7 strip WATCH: 757ch 0/3 since 2026-10-31-sanitised-error-surfaces \"WATCH: `verify_stopped_during_the_re…",
+"pin next markerless chk-j3vkwokw holds CARRY:×5",
+"flip 2026-10-31-exit-cause-code-catalogue pending -> complete · tx 40",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-10-31T15-44-08-2026-10-31-exit-cause-code-catalogue.ndjson",
+"./.andromeda/master-route.md",
+"./viola-0.1.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]

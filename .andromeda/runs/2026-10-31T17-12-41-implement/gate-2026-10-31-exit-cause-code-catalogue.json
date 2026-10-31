@@ -7901,5 +7901,98 @@
 }
 ]
 }
+},
+{
+"tool": "gate",
+"v": "1.23",
+"sha8": "2601bda6",
+"ts": "2026-10-31T18:10:07Z",
+"argv": [
+"census",
+"--comm",
+"viola-fake-agen",
+"--comm",
+"viola-harness",
+"--comm",
+"cross_exit_caus",
+"--args",
+"projects/viola/target",
+"--run-dir",
+".andromeda/runs/2026-10-31T17-12-41-implement",
+"--marker",
+"2026-10-31-exit-cause-code-catalogue"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"census · ps · comm viola-fake-agen, viola-harness, cross_exit_caus · args projects/viola/target · own tree excluded: 8",
+"census: none running"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"census": {
+"comm": [
+"viola-fake-agen",
+"viola-harness",
+"cross_exit_caus"
+],
+"args": [
+"projects/viola/target"
+],
+"running": []
+}
+}
+},
+{
+"tool": "gate",
+"v": "1.23",
+"sha8": "2601bda6",
+"ts": "2026-10-31T18:10:07Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-31-exit-cause-code-catalogue",
+"--run-dir",
+".andromeda/runs/2026-10-31T17-12-41-implement",
+"--marker",
+"2026-10-31-exit-cause-code-catalogue"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base 404f7496 (the parent of the oldest pre-CI commit 115cdbb9) · lists new 1 · modify 40 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"scope: clean — changed 41 · listed 41 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 670"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "404f7496dbd7ef875c4f3c9448f96eb212aa8eb1",
+"base_why": "the parent of the oldest pre-CI commit 115cdbb9",
+"counts": {
+"changed": 41,
+"listed": 41,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 670,
+"unparsed": 0,
+"widening_without_word": 0
+}
 }
 ]

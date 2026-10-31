@@ -67,3 +67,45 @@ entries 23 · green 4 · red 0 · recorded 0 · timeout 0 · not-run 19
 Pre-push's log: `Summary [  72.755s] 3403 tests run: 3403 passed (5 slow), 0 skipped`. Host record: `QUIET for viola - 0 s stalled on IO`. WATCH in this firing: PASS `4.478 s` / `4.465 s`.
 
 Entry 21 re-fired before the fix commit, read 2026-10-31T17:55:45Z: `hygiene: clean — read 2 (runs 2 · evidence 0 · inputs 0) · trails 1 not read · copies 0 not read by P1 — 0 host paths kept · binary 0 not read by P1`. This section is written after that read.
+
+## The fix commit and entry 22 again, read 2026-10-31T17:56:09Z
+`8a4c1a2c fix(2026-10-31-exit-cause-code-catalogue): the handlers text helper compiled on macOS too`, then:
+```
+operator entry 22 · history tripwire: git
+ 22 probe       green · exit 0 · 1.66s · 92 B → 22.log · history moved: refs/remotes/origin/HEAD 115cdbb9→8a4c1a2c; refs/remotes/origin/build/viola-0.1.0 115cdbb9→8a4c1a2c · git diff --quiet && git diff --cached --quiet && git push … (69 chars)
+not run — excluded · 22: 1-21,23
+entries 23 · green 1 · red 0 · recorded 0 · timeout 0 · not-run 22
+```
+
+## Entry 23, the read this chunk's verdict stands on — fired as written
+`python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 2400`
+```
+ci v1.3 · d6f6c9c7
+repo Turbolet85/viola (the push remote `origin`) · polled 26× over 775 s
+8a4c1a2ce7b9 verdict: green · checks 15/15 · wall 770 s · runs ci#41226917636 completed/success
+runs: ci#41226917636 push completed/success
+checks: fuzz-replay · lint (macos-latest) · lint (ubuntu-latest) · lint (windows-2025) · msrv · perf (macos-latest)
+  perf (ubuntu-latest) · perf (windows-2025) · release (macos-latest) · release (ubuntu-latest) · release (windows-2025)
+  supply-chain · test (macos-latest) · test (ubuntu-latest) · test (windows-2025)
+```
+
+### The OS-sensitive cases, read from each `test` job's nextest lines (`gh api …/actions/jobs/{id}/logs`), read 2026-10-31T18:09:19Z
+Jobs: `test (ubuntu-latest)` 124612880599, `test (macos-latest)` 124612880636, `test (windows-2025)` 124612880749.
+
+| reading | ubuntu-latest | macos-latest | windows-2025 |
+|---|---|---|---|
+| nextest summary | 3403 passed, 5 slow | 3357 passed, 5 slow | 3353 passed, 5 slow |
+| `viola::cross_exit_causes` lines | 39 PASS, 0 failed | 39 PASS, 0 failed | 36 PASS, 0 failed (four `cfg(unix)` rows out, its `cfg(windows)` row in) |
+| `a_wrapper_killed_under_a_parked_wait_is_endpoint_lost`, json / human | PASS 1.051 s / 0.581 s | PASS 0.310 s / 0.295 s | PASS 0.317 s / 0.295 s |
+| `a_revive_whose_claude_is_a_script_is_the_batch_script_child_document` | `cfg(windows)`, not run | `cfg(windows)`, not run | PASS 0.347 s |
+| `verify_a_batch_script_refuses` | `cfg(windows)`, not run | `cfg(windows)`, not run | PASS 0.047 s |
+| `no_two_codes_share_a_hint` | PASS 0.007 s | PASS 0.016 s | PASS 0.023 s |
+| `revive_json_of_a_stale_holder_is_the_stale_heartbeat_document` | PASS 5.604 s | PASS 6.000 s | PASS 5.076 s |
+| `verify_window_a_widened_stamps_file_refuses_with_its_code` | PASS 9.646 s | PASS 11.155 s | PASS 9.817 s |
+| `mcp_tools_a_wrapper_killed_under_a_parked_wait_reads_endpoint_lost` | PASS 0.846 s | PASS 0.707 s | PASS 0.647 s |
+| `handlers_frame_tools_name_the_cause_of_an_unreachable_instance` | PASS 0.012 s | PASS 0.023 s | PASS 0.118 s |
+| `security_negative_cli_verb_writes_no_frame…` (the `send_json` row) | PASS 0.028 s | compiled out, the recorded gap | PASS 0.068 s |
+| `product_error_writers_are_each_named` | PASS 0.462 s | PASS 0.298 s | PASS 0.257 s |
+| the WATCH, `verify_stopped_during_the_resume_run_removes_its_dir_and_exits_1`, sigint / sigterm | PASS 4.655 s / 4.596 s | PASS 5.276 s / 5.500 s | `cfg(unix)`, not run |
+
+The WATCH reads no recurrence on this run: every firing past its 7 s `WITHIN` is absent. `ci#41225642322`'s ubuntu job also read it green, 6.297 s / 6.273 s, on `115cdbb9`, a run whose macOS test job never built.

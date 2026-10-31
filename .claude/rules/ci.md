@@ -8,8 +8,8 @@ paths:
 Path-scoped rules for the workflows directory and for the operator pass that takes a chunk's tree to CI. This file points to its masters and restates none of them: a workflow rule that is not here is read there.
 
 **Authoritative sources (bound):**
-- `.andromeda/security-plan.md` §Dependency Security, the **CI integration** paragraph — the pins, the permissions, the audits and what no workflow may do
-- `.andromeda/obs-plan.md` §9 CI Integration, **Gate commands** and **Step order and conditions** — the gate commands (each its own `run:` step with `shell: bash`, copied verbatim) and the gate steps and their conditions, copied into `ci.yml`
+- `.andromeda/security-plan.md` §Dependency Security, the **CI integration** paragraph, with its detail `.andromeda/security-plan-detail/dependency-security.md` (read whole), which holds the action SHAs — the pins, the permissions, the audits and what no workflow may do
+- `.andromeda/obs-plan.md` §9 CI Integration, **Gate commands** and **Step order and conditions**, with its detail `.andromeda/obs-plan-detail/ci-integration.md` (read whole), which holds the gate command text and the uploads' conditions — the gate commands (each its own `run:` step with `shell: bash`, copied verbatim) and the gate steps and their conditions, copied into `ci.yml`
 - `.andromeda/test-plan.md` §9 CI Integration — the jobs, the per-OS gates and the uploads
 
 A workflow edit keeps all three true. A change to a pin, a permission, a step's order or a job's gate is an amendment of its master, made at the wrap, never an edit of the workflow alone.

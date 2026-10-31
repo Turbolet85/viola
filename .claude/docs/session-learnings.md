@@ -8,6 +8,11 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
+## 2026-10-31 — A count sweep misses a count written in words with a noun phrase after it
+A pattern shaped `(24|twenty-four) (binaries|rows)` reads the number only when the noun comes straight after it. A key file stated the `ci` kill line's count as "the twenty-four verify-driven binaries", so the sweep's zero read as "no master states this count" and the report said so. The doc agent's own read caught it. For a count that moves, sweep the number's digit and word forms alone, then disposition the rows, or sweep the name list the count is taken over: a new member's neighbours in the list find every copy.
+
+---
+
 ## 2026-10-31 — Sweep hazards over viola's error names
 A sweep for the MCP exit on a stdin cut cannot key on `exit 11` alone: that token also reads `budget-paused`'s exit 11, so
 key it on `ServeError::Initialize` and `initialize`. A sweep for the enum folded into `AgentError` cannot key on a bare

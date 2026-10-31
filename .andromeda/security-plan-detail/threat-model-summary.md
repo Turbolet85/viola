@@ -57,6 +57,7 @@ Read whole. The master's broad view is .andromeda/security-plan.md; this file ho
       - `run`'s exclusive bind means a squatted name blocks startup (exit 1).
     - Input validation is limited to JSON-RPC parsing, the `v` check (`-32602`) and the `ViolaName` nutype.
     - That limit is the wrapper's read of a frame. A client's read of the answer is screened on its own: `reply_of` and `of_reply` take a `refusal` or a string `detail` only as a code word (`viola_core::is_code_word`) and a fault only through `viola_channel::sanitised_fault`, so nothing of the peer's but closed values reaches a CLI `--json` document or an MCP result; a code word outside the closed list stays visible by design.
+    - An `instance-unreachable` on CLI `--json` or an MCP result names its cause in `detail`, one of five closed words from `viola_core::UnreachableCause` (no serde path, every word written by the two clients, no path, pid or upstream text): `strict-modes-failed`; `instance-dead` (no endpoint with the instance directory standing, or a failed connect); `unwrapped-name` (no endpoint with anything else at that path: absent, a regular file or a symlink); `endpoint-lost` (the wrapper lost with the call open); `server-verify-failed` (off macOS). The no-endpoint reading is `viola_state::liveness::without_endpoint`, a `symlink_metadata` that opens nothing and writes no line, with the strict-modes check first at every caller (its status at § Authentication & Authorization, the no-endpoint reading). MCP writes no line for any cause, `isError` the record.
     - It is open (arch defers it to security) whether a driver-originated `release` (params carrying `from`) should be refused. Established Decisions (MCP) records that an agent's Bash tool can call CLI `viola release` through `VIOLA_BIN`.
 
 <!-- /detail -->
@@ -96,7 +97,7 @@ Read whole. The master's broad view is .andromeda/security-plan.md; this file ho
   - **Entry point:** Tools `send`, `wait`, `last`, `answer` and `list`, called by the driver session's model (Established Decisions: MCP).
   - **Trust boundary:**
     - Tool input schemas (schemars) and the `ViolaName` newtype check the input.
-    - Before its frame, each of `send`, `wait`, `last` and `answer` runs the instance's strict-modes check (`check_instance` on the home and the instance directory) ahead of the liveness pre-check and the server check; a refusal is `instance-unreachable` with `detail: null`, no frame and no line.
+    - Before its frame, each of `send`, `wait`, `last` and `answer` runs the instance's strict-modes check (`check_instance` on the home and the instance directory) ahead of the liveness pre-check and the server check; a refusal is `instance-unreachable` with `detail` `strict-modes-failed`, no frame and no line.
     - The driver model reads the driven session's output (`wait`/`last`), which arch classes as untrusted upstream text. The same model can then call `answer` on that session's PermissionRequest.
     - viola does not interpret that text (R1: mechanism, not policy). The decision to allow a permission rests with the driver model, outside viola.
     - Leaving `release`, `pause`, `link` and `unlink` off the MCP tool list is described as an affordance, not an enforcement.
@@ -120,6 +121,7 @@ Read whole. The master's broad view is .andromeda/security-plan.md; this file ho
     - `viola run <name> -- <program> <args>` spawns the program as given.
   - **Trust boundary:** Same-user invocation, clap parsing, the `ViolaName` nutype, and tolerant `config.json` parsing.
     - Before its first read or open under the home, `run`, `revive`'s start and `verify` hold the home tree to the strict-modes check (`check_home_tree`; a refusal exit 1, no log opened), and the frame verbs `send`, `wait`, `last`, `answer`, `pause`, `release`, `link` and `unlink` hold the instance to it (`check_instance`; a refusal exit 21), so a state tree chosen by `--home` or `VIOLA_DIR` that another user can write, or whose home, instance directory or `diagnostics/` another user can read, is refused.
+    - `src/main.rs`'s `json_asked` reads `--json` from argv ahead of clap, as `role_of` reads its role, taking the flag only among the arguments before a `--`. It chooses only the form of the catch site's output where `prints_internal_error` is true: `{"v":1,"error":"internal-error","detail":null}` on stdout with stderr empty, in place of the human line `error: internal error`. `run`, `revive`'s start, `mcp` and `hook` print nothing at the catch site.
 
 <!-- /detail -->
 

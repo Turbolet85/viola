@@ -1,0 +1,137 @@
+[
+{
+"tool": "matrix",
+"v": "1.6",
+"sha8": "613eb3cd",
+"ts": "2026-10-31T19:30:24Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-31-exit-cause-code-catalogue",
+"--run-dir",
+".andromeda/runs/2026-10-31T18-12-32-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-10-31-exit-cause-code-catalogue: 2 · to flip 2 · already verified 0 · below 0",
+"flipped v1-18 → verified — Each cause reaches its own closed code on each surface it reaches, carrying no p… (2034 chars)",
+"flipped v1-39 → verified — Every driver-facing verb (send, wait, last, answer, list, pause, release, and re… (1705 chars)",
+"dry-run: nothing written",
+"version: verified 29/53"
+],
+"stderr": null,
+"wrote": [],
+"before": [
+{
+"id": "v1-18",
+"chunk": "2026-10-31-exit-cause-code-catalogue",
+"status": "implemented",
+"method": "integration",
+"ref": "tests/cross_exit_causes.rs (its cases per cause and mode, ::no_two_codes_share_a_hint, ::shared_hints_reads_a_planted_du… (1145 chars)",
+"acceptance": "Each cause reaches its own closed code on each surface it reaches, carrying no path or pid and matching the human hint o… (2034 chars)",
+"notes_chars": 1275
+},
+{
+"id": "v1-39",
+"chunk": "2026-10-31-exit-cause-code-catalogue",
+"status": "implemented",
+"method": "integration",
+"ref": "tests/cli_machine_contract.rs::every_verb_prints_one_document_and_its_literal_exit_over_a_wrapper_s_life + ::verbs_over_… (1043 chars)",
+"acceptance": "Every driver-facing verb (send, wait, last, answer, list, pause, release, and revive with --list) has a --json form prin… (1705 chars)",
+"notes_chars": 3184
+}
+],
+"after": [
+{
+"id": "v1-18",
+"chunk": "2026-10-31-exit-cause-code-catalogue",
+"status": "verified",
+"method": "integration",
+"ref": "tests/cross_exit_causes.rs (its cases per cause and mode, ::no_two_codes_share_a_hint, ::shared_hints_reads_a_planted_du… (1145 chars)",
+"acceptance": "Each cause reaches its own closed code on each surface it reaches, carrying no path or pid and matching the human hint o… (2034 chars)",
+"notes_chars": 1275
+},
+{
+"id": "v1-39",
+"chunk": "2026-10-31-exit-cause-code-catalogue",
+"status": "verified",
+"method": "integration",
+"ref": "tests/cli_machine_contract.rs::every_verb_prints_one_document_and_its_literal_exit_over_a_wrapper_s_life + ::verbs_over_… (1043 chars)",
+"acceptance": "Every driver-facing verb (send, wait, last, answer, list, pause, release, and revive with --list) has a --json form prin… (1705 chars)",
+"notes_chars": 3184
+}
+]
+},
+{
+"tool": "matrix",
+"v": "1.6",
+"sha8": "613eb3cd",
+"ts": "2026-10-31T19:30:24Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-31-exit-cause-code-catalogue",
+"--run-dir",
+".andromeda/runs/2026-10-31T18-12-32-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-10-31-exit-cause-code-catalogue: 2 · to flip 2 · already verified 0 · below 0",
+"flipped v1-18 → verified — Each cause reaches its own closed code on each surface it reaches, carrying no p… (2034 chars)",
+"flipped v1-39 → verified — Every driver-facing verb (send, wait, last, answer, list, pause, release, and re… (1705 chars)",
+"wrote ./viola-0.1.0/verification-matrix.json · 2 entries changed",
+"version: verified 29/53"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/verification-matrix.json"
+],
+"before": [
+{
+"id": "v1-18",
+"chunk": "2026-10-31-exit-cause-code-catalogue",
+"status": "implemented",
+"method": "integration",
+"ref": "tests/cross_exit_causes.rs (its cases per cause and mode, ::no_two_codes_share_a_hint, ::shared_hints_reads_a_planted_du… (1145 chars)",
+"acceptance": "Each cause reaches its own closed code on each surface it reaches, carrying no path or pid and matching the human hint o… (2034 chars)",
+"notes_chars": 1275
+},
+{
+"id": "v1-39",
+"chunk": "2026-10-31-exit-cause-code-catalogue",
+"status": "implemented",
+"method": "integration",
+"ref": "tests/cli_machine_contract.rs::every_verb_prints_one_document_and_its_literal_exit_over_a_wrapper_s_life + ::verbs_over_… (1043 chars)",
+"acceptance": "Every driver-facing verb (send, wait, last, answer, list, pause, release, and revive with --list) has a --json form prin… (1705 chars)",
+"notes_chars": 3184
+}
+],
+"after": [
+{
+"id": "v1-18",
+"chunk": "2026-10-31-exit-cause-code-catalogue",
+"status": "verified",
+"method": "integration",
+"ref": "tests/cross_exit_causes.rs (its cases per cause and mode, ::no_two_codes_share_a_hint, ::shared_hints_reads_a_planted_du… (1145 chars)",
+"acceptance": "Each cause reaches its own closed code on each surface it reaches, carrying no path or pid and matching the human hint o… (2034 chars)",
+"notes_chars": 1275
+},
+{
+"id": "v1-39",
+"chunk": "2026-10-31-exit-cause-code-catalogue",
+"status": "verified",
+"method": "integration",
+"ref": "tests/cli_machine_contract.rs::every_verb_prints_one_document_and_its_literal_exit_over_a_wrapper_s_life + ::verbs_over_… (1043 chars)",
+"acceptance": "Every driver-facing verb (send, wait, last, answer, list, pause, release, and revive with --list) has a --json form prin… (1705 chars)",
+"notes_chars": 3184
+}
+]
+}
+]

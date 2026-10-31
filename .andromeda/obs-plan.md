@@ -137,7 +137,7 @@ The arch Surfaces product type names two parts: CLI binary and Claude Code plugi
 - **Log format JSON schema:** (verbatim from tests excerpt, Section 3; binding. Obs may add fields and must not rename or remove any.)
 
   Alignment gaps for Phase 3. Each needs additive fields or an enum extension through a Decisions Log entry; nothing is renamed.
-  - (a) Founder Direction 4 says `release-from-driver` "must log as its own event". It is not in the closed `event` enum, so it needs a Decisions Log entry. The distinct detail codes for exit 21 and exit 1 can be an additive `detail` field.
+  - (a) Founder Direction 4 says `release-from-driver` "must log as its own event". It is not in the closed `event` enum, so it needs a Decisions Log entry. The distinct detail codes for exit 21 and exit 1 are an additive `detail` field on `process-exit` (`schemas/diag-line.v1.json`).
   - (b) These signals have no `event` value today: heartbeat live→stale transitions, torn-line healing, snapshot replay recovery, readiness-gate `input-not-ready`, and skipped-record counters (tests excerpt, Coverage Triggers: Crash-safe state, Parser surfaces, Child spawn). Phase 3 chooses between an additive field (for example `detail` on `process-*`) and an enum extension.
   - (c) `hook-invoked` is emitted before the wrapper assigns `dialog_id`, so `corr` can only be filled from `hook-decision` onward, or `hook-invoked` must be logged after the `hook.dialog` response.
 
@@ -212,7 +212,7 @@ Tests E1 (unwrapped hook no-op), E2 (R8 env strip), E3 (`link` / `unlink` transf
 - **Trigger type:** logging-sensitive
 - **Source:** security plan, Vector 7 (filesystem)
 
-- **Required telemetry signal:** `diagnostics/` files are 0600 in 0700 directories (Windows: home DACL), plus refusal telemetry for pinned-exe hash mismatches and ignored symlinks; a strict-modes failure has a line only on the `ledger-stamps` read in `run`'s version gate and on a `conpty/` companion its owner/DACL check refuses (`process-start`'s `sideload_fallback:"strict-modes-failed"`, the child on the inbox ConPTY, exit unchanged); a refused `diagnostics/` folder or file is a failed open, its line dropped.
+- **Required telemetry signal:** `diagnostics/` files are 0600 in 0700 directories (Windows: home DACL), plus refusal telemetry for pinned-exe hash mismatches and ignored symlinks; a strict-modes failure has a line only on the `ledger-stamps` read in `run`'s version gate, on a `conpty/` companion its owner/DACL check refuses (`process-start`'s `sideload_fallback:"strict-modes-failed"`, the child on the inbox ConPTY, exit unchanged) and on `verify`'s own `process-exit` for a refused stamp write (`detail` `strict-modes-failed`, exit 1); a refused `diagnostics/` folder or file is a failed open, its line dropped.
 
 - **Trigger type:** logging-sensitive
 - **Source:** security plan, Vector 8 (child spawn)
@@ -358,7 +358,7 @@ Detail: .andromeda/obs-plan-detail/span-trace-coverage.md — read whole.
 
 - **Surfaces involved:** cli or ipc-internal (mcp) → ipc-internal (channel) → cli (`run`) + persistent store (`events.ndjson` tail).
 
-- `last_assistant_message` never appears, and no result body reaches a line; a mid-call disconnect is logged once, by the client; on Linux and Windows a serving process that is not the recorded wrapper ends a CLI `wait` / `last` before any frame, with one `process-exit{subject:"self", exit_code:21, detail:"server-verify-failed", during:"connect"}` at WARN inside the dispatch span and no `channel-request` line, and MCP's returns `instance-unreachable` with no line (macOS compares no peer pid, the recorded gap); first, a home or instance tree the instance check refuses ends a CLI `wait` / `last` before any role file opens (exit 21, the instance pair, or exactly `{"v":1,"error":"instance-unreachable","detail":null}` under `--json`; no line), and MCP's returns `instance-unreachable` with no line.
+- `last_assistant_message` never appears, and no result body reaches a line; a mid-call disconnect is logged once, by the client; on Linux and Windows a serving process that is not the recorded wrapper ends a CLI `wait` / `last` before any frame, with one `process-exit{subject:"self", exit_code:21, detail:"server-verify-failed", during:"connect"}` at WARN inside the dispatch span and no `channel-request` line, and MCP's returns `instance-unreachable` with `detail` `server-verify-failed` and no line (macOS compares no peer pid, the recorded gap); first, a home or instance tree the instance check refuses ends a CLI `wait` / `last` before any role file opens (exit 21, the instance pair, or exactly `{"v":1,"error":"instance-unreachable","detail":"strict-modes-failed"}` under `--json`; no line), and MCP's returns `instance-unreachable` with `detail` `strict-modes-failed` and no line.
 
 #### Scenario: Dialog → `answer` (question / permission / plan), including the unverified-CLI branch
 
@@ -520,7 +520,7 @@ It would also need a security Decisions Log entry for the egress.
 
 - Per-role behaviour after the line:
   - `hook`: `catch_unwind` around dispatch, then exit 0 with empty stdout;
-  - short-lived `cli`: when an instance resolves, `process-exit{subject:"self", exit_code:1, detail:"internal-error"}` to `cli-<name>.ndjson` (`obs::internal_error_exit_line` covers `Cli` as well as `Run`), the chain in `detail-cli.ndjson` only; then exactly `error: internal error\n` on stderr in one `write_all`, with no hint, and exit 1;
+  - short-lived `cli`: when an instance resolves, `process-exit{subject:"self", exit_code:1, detail:"internal-error"}` to `cli-<name>.ndjson` (`obs::internal_error_exit_line` covers `Cli` as well as `Run`), the chain in `detail-cli.ndjson` only; then exactly `error: internal error\n` on stderr in one `write_all`, with no hint, or under `--json` the `{"v":1,"error":"internal-error","detail":null}` document on stdout with stderr empty, and exit 1;
   - `run`: `process-exit{subject:"self", exit_code:1, detail:"internal-error"}`, then exit 1, and nothing on the terminal while the child runs;
   - `mcp`:
     - A panic inside a spawned Tokio task is logged by the hook. The runtime contains it at the task boundary, and the process continues.

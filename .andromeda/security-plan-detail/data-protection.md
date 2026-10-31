@@ -72,6 +72,12 @@ Read whole. The master's broad view is .andromeda/security-plan.md; this file ho
 
 <!-- /detail -->
 
+<!-- detail: values · data-rest -->
+
+- **Logs (`verify`'s refusal codes):** `verify` writes `batch-script-child`, `program-not-found`, `pinned-hash-mismatch`, `version-unreadable`, `strict-modes-failed` or `unclean-fixture` (`Ended::Refused`) on the `process-exit` it writes under a parsed `VIOLA_NAME`; a refused home tree is lineless, a failing row is no refusal and no code, the fixture's `<file>` enters no code, and `verify` takes no `--json`.
+
+<!-- /detail -->
+
 <!-- detail: exception · data-lifecycle -->
 
 _Key management and Data lifecycle subsections are omitted for Minimal tier. There are no keys at rest. `events.ndjson` retention and bounding is an open item owned by arch. Security's only requirement is that any rotation scheme keeps 0600/0700 permissions and keeps offsets valid (see the Decisions Log)._

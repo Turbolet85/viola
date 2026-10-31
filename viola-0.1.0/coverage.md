@@ -1,6 +1,6 @@
 # Coverage — viola-0.1.0
 
-verified 27/53 · deferred 6 · planned 18 · implemented 2 · unclaimed 18
+verified 29/53 · deferred 6 · planned 18 · implemented 0 · unclaimed 18
 
 ## deferred (6)
 - v1-22 · `viola ui` on an OS-assigned port
@@ -9,10 +9,6 @@ verified 27/53 · deferred 6 · planned 18 · implemented 2 · unclaimed 18
 - v1-50 · Automated accessibility verdict on every page state
 - v1-51 · Token-pair contrast, forced colours and reduced motion hold
 - v1-52 · The 401 access strip after a UI restart
-
-## implemented (2)
-- v1-18 · Every exit-21 and exit-1 cause has a machine-readable code · 2026-10-31-exit-cause-code-catalogue
-- v1-39 · CLI contract: machine output, typed exits, cause-named hints · 2026-10-31-exit-cause-code-catalogue
 
 ## planned, unclaimed (18)
 - v1-01 · Three-OS CI pipeline from the first commit
@@ -34,7 +30,7 @@ verified 27/53 · deferred 6 · planned 18 · implemented 2 · unclaimed 18
 - v1-44 · The IPC endpoint admits only the same OS user and verifies its server
 - v1-53 · Linux and macOS reach parity with Windows
 
-## verified (27)
+## verified (29)
 - v1-02 · The headless harness: five agent-run commands · 2026-10-17-end-to-end-path-binary-and-harness-legs
 - v1-06 · Mutation gate per chunk from chunk 1 · 2026-09-24-three-os-ci-headless-harness-skeleton
 - v1-08 · Code-graph seeded at setup and built on the first real code · 2026-09-27-browser-verdict-reachability
@@ -43,6 +39,7 @@ verified 27/53 · deferred 6 · planned 18 · implemented 2 · unclaimed 18
 - v1-15 · Plan revise is answered as a plan, not a permission · 2026-10-05-dialog-rows-and-re-probe
 - v1-16 · Permission suggestions have a place in the answer · 2026-10-05-permission-end-to-end
 - v1-17 · Diagnostics roots, sinks and initialisation order · 2026-10-26-home-and-code-bearing-file-integrity
+- v1-18 · Every exit-21 and exit-1 cause has a machine-readable code · 2026-10-31-exit-cause-code-catalogue
 - v1-19 · Toolchain floor 1.96 · 2026-09-24-quality-gates
 - v1-20 · Obs additions to the channel and config contracts · 2026-09-27-wrapper-channel
 - v1-23 · The architecture's tree includes the test and obs artifacts · 2026-09-24-workspace-tree-and-code-graph-planes
@@ -55,6 +52,7 @@ verified 27/53 · deferred 6 · planned 18 · implemented 2 · unclaimed 18
 - v1-33 · The slice passes the first live test on the Linux dev host, then viola drives its own build · 2026-10-19-overseer-switch-to-viola
 - v1-37 · The board: `viola list` and session liveness · 2026-10-16-unwrapped-sessions-on-the-board
 - v1-38 · The MCP server for drivers · 2026-10-17-mcp-server-for-drivers
+- v1-39 · CLI contract: machine output, typed exits, cause-named hints · 2026-10-31-exit-cause-code-catalogue
 - v1-40 · CLI and terminal output discipline · 2026-10-17-cli-output-discipline
 - v1-41 · Crash-safe, self-healing, version-tolerant state · 2026-10-26-home-and-code-bearing-file-integrity
 - v1-42 · Optional plugin install for unwrapped drivers · 2026-10-18-plugin-precedence-live-readings

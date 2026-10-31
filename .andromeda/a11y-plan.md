@@ -28,7 +28,7 @@ The frontend is deferred to 0.2.0; its technology is not chosen.
 
 - **Entity:** CLI verbs (`list`, `send`, `wait`, `last`, `answer`, `verify`, `pause`, `release`, `link`, `unlink`, `revive`, `plugin install`, `--help`) in human TTY, plain (non-TTY / `NO_COLOR` / `TERM=dumb`) and `--json` modes — assertable: output-discipline assertions on text and streams only; no automated a11y tool reaches a terminal.
 
-- **Owed:** under `viola revive --json`, a refusal `run`'s start makes after a passed preflight prints no document yet — owed to "Exit-cause code catalogue".
+- **Under `viola revive --json`:** every refusal of the start it shares with `run` prints one exit-1 document, `batch-script-child`, `pinned-hash-mismatch` and `squatted-name` among them and a program not found `internal-error`; a `pump_child` error prints none: the child has held the terminal, and viola writes nothing past it.
 
 - **Entity:** `viola run` TUI passthrough, entered by `viola run` and by a `viola revive` whose preflight passed — boundary-only: the rendered content belongs to the vendor (`claude`) and is not traced; viola writes zero bytes to the terminal except the child's output, human keystrokes are never blocked, refused or delayed past the current atomic paste, and focus, mouse and resize sequences and terminal replies pass through and do not count as human editing; the boundary still holds after a contained vt100 feed panic (no viola literal on the outer terminal on every OS, the child's own bytes on Unix), its Windows byte reading owed to "Windows-only live measurements".
 
@@ -270,7 +270,7 @@ Detail: .andromeda/a11y-plan-detail/cognitive-accessibility.md — read whole.
   - Every kebab-case reason/detail code (`not-delivered`, `human-typing`, `unverified-cli`) always sits beside the plain word `unable`.
   - The CLI never shows a stack trace or bare status number as the only error text.
 
-- **Verification:** every fixed CLI string is pinned, by trycmd or, for `viola list`, `viola --help`, `viola plugin install`, the server-verify hint and the `viola link` / `viola unlink` result lines, by literal, so any copy change fails CI until the pinned string is updated on purpose.
+- **Verification:** every fixed CLI string is pinned, by trycmd or, for `viola list`, `viola --help`, `viola plugin install`, the server-verify, `unwrapped-name` and `endpoint-lost` hints and the `viola link` / `viola unlink` result lines, by literal, so any copy change fails CI until the pinned string is updated on purpose.
 
 ### Consistency and predictability
 

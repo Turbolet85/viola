@@ -1,0 +1,73 @@
+[[pattern]]
+id = 'title'
+fixed = 'Exit-cause code catalogue'
+ignore_case = true
+
+[[pattern]]
+id = 'owner-generic'
+regex = 'owned by a (route entry|CARRY)'
+ignore_case = true
+
+[[pattern]]
+id = 'doc-null'
+regex = '"?error"?: ?"?instance-unreachable"?, ?"?detail"?: ?null'
+
+[[pattern]]
+id = 'detail-null'
+regex = '`detail: null`|`detail`[: ]+`?null|detail null'
+
+[[pattern]]
+id = 'no-own-code'
+regex = 'no `--json` code of its own|no error word|no word of its own|same for every cause|same document for (both|every)'
+
+[[pattern]]
+id = 'causes-new'
+regex = 'unwrapped-name|endpoint-lost'
+
+[[pattern]]
+id = 'cross-table'
+regex = 'cross_exit_causes|exit-cause table|Exit-cause matrix'
+
+[[pattern]]
+id = 'stale-live'
+regex = '(stale|frozen)[^.|]{0,80}already-live|already-live[^.|]{0,80}(stale|frozen)|stale-heartbeat'
+
+[[pattern]]
+id = 'revive-gap'
+regex = 'post-preflight|after a passed preflight|prints no document|owed to the route entry "?Exit-cause'
+
+[[pattern]]
+id = 'catch-site'
+regex = 'error: internal error|catch site'
+
+[[pattern]]
+id = 'verify-codes'
+regex = 'program-not-found|version-unreadable|unclean-fixture'
+
+[[pattern]]
+id = 'dead-call'
+regex = 'instance-dead[^.|]{0,60}(call|during)|during[^.|]{0,60}instance-dead'
+
+[[pattern]]
+id = 'enum-count'
+regex = '(13|thirteen)[ -](closed )?(`?detail`? )?(members|values|words|codes)|`detail` (enum|code catalog)'
+
+[[pattern]]
+id = 'kill-count'
+regex = '(24|twenty-four) (`?binary\(`? )?(rows|binaries|binary)|verify-driven kill|kill line'
+
+[[pattern]]
+id = 'unreach-cause'
+regex = 'UnreachableCause|without_endpoint|unreachable_document|internal_error_document|json_asked|refused_with|Ended::Refused'
+
+[[pattern]]
+id = 'hints'
+regex = 'not a wrapped session|went away during the call|is not running; viola list'
+
+[[pattern]]
+id = 'start-codes-rev'
+regex = 'batch-script-child[^.|]{0,80}(pinned-hash-mismatch|squatted-name)'
+
+[[pattern]]
+id = 'frozen-guard'
+regex = '`Frozen`|first_life|tests/support/start\.rs'
