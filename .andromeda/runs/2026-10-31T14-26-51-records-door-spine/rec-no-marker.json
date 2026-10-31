@@ -1,0 +1,33 @@
+[
+{
+"tool": "rec",
+"v": "1.1",
+"sha8": "c8c6a15a",
+"ts": "2026-10-31T14:26:52Z",
+"argv": [
+"migrate",
+"--root",
+".",
+"--family",
+"spine",
+"--work",
+"~/.cache/andromeda-door/viola-spine",
+"--apply",
+"--run-dir",
+".andromeda/runs/2026-10-31T14-26-51-records-door-spine"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"moved: spine · 189 line(s) · 4e868feb · 2026-10-31T14-26-08-door-spine.ndjson · nothing committed"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/coverage.md",
+"./.andromeda/db/log/2026-10-31T14-26-08-door-spine.ndjson",
+"./.andromeda/db/moved"
+],
+"before": null,
+"after": null
+}
+]
