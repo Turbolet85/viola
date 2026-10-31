@@ -168,7 +168,6 @@ impl Drop for Held {
     }
 }
 
-#[cfg(not(target_os = "macos"))]
 fn text(result: &CallToolResult) -> String {
     result
         .content
