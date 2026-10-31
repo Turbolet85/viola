@@ -6,7 +6,8 @@
 
 use rmcp::model::{CallToolResult, ContentBlock};
 use serde_json::{Value, json};
-use viola_channel::ChannelError;
+use viola_channel::{ChannelError, sanitised_fault};
+use viola_core::{RefusalReason, is_code_word};
 
 use crate::McpError;
 
@@ -54,7 +55,7 @@ pub(crate) fn of_reply(
         Err(_) => return Err(McpError::Internal),
     };
     if let Some(fault) = frame.get("error") {
-        return fault_detail(fault)
+        return sanitised_fault(fault)
             .map(|detail| error("wrapper-fault", detail))
             .ok_or(McpError::Internal);
     }
@@ -67,24 +68,17 @@ pub(crate) fn of_reply(
         .and_then(Value::as_str)
         .filter(|_| refusable)
         .ok_or(McpError::Internal)?;
+    let reason = if is_code_word(reason) {
+        reason
+    } else {
+        RefusalReason::Unknown.as_str()
+    };
     let detail = match result.get("detail") {
         None | Some(Value::Null) => None,
-        Some(Value::String(detail)) => Some(detail.as_str()),
+        Some(Value::String(detail)) => Some(detail.as_str()).filter(|d| is_code_word(d)),
         Some(_) => return Err(McpError::Internal),
     };
     Ok(refused(reason, detail))
-}
-
-/// A JSON-RPC `error` member as the wrapper-fault `detail` `{code, message, data}`, as the CLI reads
-/// it; `None` without an integer `code`.
-fn fault_detail(error: &Value) -> Option<Value> {
-    let code = error["code"].as_i64()?;
-    let message = error["message"].as_str().unwrap_or_default();
-    let data = match &error["data"] {
-        Value::Object(data) => Value::Object(data.clone()),
-        _ => Value::Null,
-    };
-    Some(json!({"code": code, "message": message, "data": data}))
 }
 
 /// The board document's `ok` member, or its refusal as the same error document.
@@ -156,7 +150,37 @@ mod tests {
         json!({"id": 1, "error": {"code": -32603, "data": [1]}}),
         true,
         true,
-        json!({"error": "wrapper-fault", "detail": {"code": -32603, "message": "", "data": null}})
+        json!({"error": "wrapper-fault", "detail": {"code": -32603, "message": "internal error", "data": null}})
+    )]
+    #[case::fault_holding_free_text(
+        json!({"id": 1, "error": {"code": -32603, "message": "/home/x/y", "data": {"p": "canary-newname-value-e2f8"}}}),
+        true,
+        true,
+        json!({"error": "wrapper-fault", "detail": {"code": -32603, "message": "internal error", "data": null}})
+    )]
+    #[case::fault_of_a_foreign_code_holding_free_text(
+        json!({"id": 1, "error": {"code": -1, "message": "Caused by", "data": {"p": "/home/x/y"}}}),
+        true,
+        true,
+        json!({"error": "wrapper-fault", "detail": {"code": -1, "message": "wrapper fault", "data": null}})
+    )]
+    #[case::refusal_of_free_text(
+        json!({"id": 1, "result": {"refusal": "/home/x/y", "detail": "turn-running"}}),
+        true,
+        true,
+        json!({"refusal": "unknown", "detail": "turn-running"})
+    )]
+    #[case::detail_of_free_text(
+        json!({"id": 1, "result": {"refusal": "not-delivered", "detail": "canary-newname value /home/x/y"}}),
+        true,
+        true,
+        json!({"refusal": "not-delivered", "detail": null})
+    )]
+    #[case::a_newer_code_word_stays_visible(
+        json!({"id": 1, "result": {"refusal": "wheel-held", "detail": "some-new-detail"}}),
+        true,
+        true,
+        json!({"refusal": "wheel-held", "detail": "some-new-detail"})
     )]
     fn of_reply_maps_each_reply_shape(
         #[case] frame: Value,

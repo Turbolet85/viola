@@ -162,6 +162,26 @@ mod tests {
         assert_eq!(exit_code_within_bound(&mut child), Some(11));
     }
 
+    /// A stdin line past `MAX_FRAME` as the first and only line, stdin still open: the cut reads as
+    /// a closed stdin does, so the session never initializes.
+    #[test]
+    fn serve_at_a_line_past_max_frame_before_initialize_is_the_initialize_error() {
+        use std::io::Write as _;
+
+        let mut child = child(Stdio::piped());
+        let mut stdin = child.stdin.take().expect("the child's stdin");
+        let writer = std::thread::spawn(move || {
+            let over = vec![b'a'; usize::try_from(MAX_FRAME).expect("fits") + 1];
+            // Once the reader stops taking stdin the child may exit mid-write: a broken pipe then
+            // is the expected write error, so the outcome is the child's exit alone.
+            let _ = stdin.write_all(&over).and_then(|()| stdin.flush());
+            stdin
+        });
+        let code = exit_code_within_bound(&mut child);
+        drop(writer.join().expect("the writer"));
+        assert_eq!(code, Some(11));
+    }
+
     /// An initialized session, then a stdin line past `MAX_FRAME` with stdin still open: the cut
     /// ends the session as a close would, with `Ok(())`.
     #[test]

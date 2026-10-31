@@ -786,6 +786,27 @@ mod tests {
         assert_eq!(hold_of(config), (secs, Vec::new()));
     }
 
+    /// The read stops at `MAX_FRAME`: a document one byte longer loses its closing brace, so it reads
+    /// as no document, with no rejection, and the same document at the cap reads the value.
+    #[test]
+    fn read_hold_keeps_no_key_past_the_frame_cap() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let home = tmp.path().join("home");
+        viola_state::fs::create_private_dir(&home).expect("home");
+        let (head, tail) = (r#"{"v":1,"pad":""#, r#"","dialog_hold_s":600}"#);
+        let document = |len: usize| {
+            let pad = "x".repeat(len - head.len() - tail.len());
+            format!("{head}{pad}{tail}")
+        };
+        let cap = usize::try_from(MAX_FRAME).expect("fits");
+        std::fs::write(home.join("config.json"), document(cap + 1)).expect("config");
+        let (hold, rejections) = read_hold(&home);
+        assert_eq!((hold.duration().as_secs(), rejections), (60, Vec::new()));
+        std::fs::write(home.join("config.json"), document(cap)).expect("config");
+        let (hold, rejections) = read_hold(&home);
+        assert_eq!((hold.duration().as_secs(), rejections), (600, Vec::new()));
+    }
+
     #[rstest]
     #[case::zero("0")]
     #[case::fifty_nine("59")]

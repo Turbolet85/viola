@@ -210,6 +210,31 @@ mod tests {
         );
     }
 
+    /// The read stops at `MAX_FRAME`: a document one byte longer loses its closing brace, so it reads
+    /// as no document, with no rejection, and the same document at the cap reads the value.
+    #[test]
+    fn env_keep_keeps_no_key_past_the_frame_cap() {
+        let tmp = tempfile::tempdir().expect("tmp");
+        let home = tmp.path().join("home");
+        viola_state::fs::create_private_dir(&home).expect("home");
+        let (head, tail) = (
+            r#"{"v":1,"pad":""#,
+            r#"","claude_env_keep":["CLAUDE_KEEP_ME"]}"#,
+        );
+        let document = |len: usize| {
+            let pad = "x".repeat(len - head.len() - tail.len());
+            format!("{head}{pad}{tail}")
+        };
+        let cap = usize::try_from(MAX_FRAME).expect("fits");
+        std::fs::write(home.join("config.json"), document(cap + 1)).expect("write");
+        assert_eq!(read_env_keep(&home), (Vec::new(), None));
+        std::fs::write(home.join("config.json"), document(cap)).expect("write");
+        assert_eq!(
+            read_env_keep(&home),
+            (vec!["CLAUDE_KEEP_ME".to_owned()], None)
+        );
+    }
+
     #[test]
     fn persistent_names_report_a_bad_pass_list_on_every_os() {
         let tmp = tempfile::tempdir().expect("tmp");

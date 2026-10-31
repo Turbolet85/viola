@@ -9,9 +9,9 @@ use std::io::{self, Write as _};
 use std::path::{Path, PathBuf};
 
 use serde_json::{Value, json};
-use viola_channel::{ChannelError, Client, SERVER_PID_REPORTED};
+use viola_channel::{ChannelError, Client, SERVER_PID_REPORTED, sanitised_fault};
 use viola_core::obs::{ObsEvent, ObsProcess};
-use viola_core::{ViolaName, obs_event};
+use viola_core::{RefusalReason, ViolaName, is_code_word, obs_event};
 use viola_state::liveness::{LiveEndpoint, ServerVerdict, verify_server};
 use viola_state::strict::check_instance;
 
@@ -67,30 +67,24 @@ pub(crate) enum Reply {
 
 pub(crate) fn reply_of(frame: &Value) -> Option<Reply> {
     if let Some(error) = frame.get("error") {
-        return fault_detail(error).map(Reply::Fault);
+        return sanitised_fault(error).map(Reply::Fault);
     }
     let result = frame.get("result")?;
     if let Some(ok) = result.get("ok") {
         return Some(Reply::Ok(ok.clone()));
     }
-    let reason = result.get("refusal")?.as_str()?.to_owned();
+    let reason = result.get("refusal")?.as_str()?;
+    let reason = if is_code_word(reason) {
+        reason.to_owned()
+    } else {
+        RefusalReason::Unknown.as_str().to_owned()
+    };
     let detail = match result.get("detail") {
         None | Some(Value::Null) => None,
-        Some(Value::String(detail)) => Some(detail.clone()),
+        Some(Value::String(detail)) => is_code_word(detail).then(|| detail.clone()),
         Some(_) => return None,
     };
     Some(Reply::Refused { reason, detail })
-}
-
-/// A JSON-RPC `error` member as the wrapper-fault `detail`; `None` without an integer `code`.
-fn fault_detail(error: &Value) -> Option<Value> {
-    let code = error["code"].as_i64()?;
-    let message = error["message"].as_str().unwrap_or_default();
-    let data = match &error["data"] {
-        Value::Object(data) => Value::Object(data.clone()),
-        _ => Value::Null,
-    };
-    Some(json!({"code": code, "message": message, "data": data}))
 }
 
 pub(crate) fn fault_document(detail: &Value) -> Value {
@@ -376,7 +370,27 @@ mod tests {
     )]
     #[case::fault_without_message_or_object_data(
         json!({"id": 1, "error": {"code": -32603, "data": [1]}}),
-        Some(Reply::Fault(json!({"code": -32603, "message": "", "data": null})))
+        Some(Reply::Fault(json!({"code": -32603, "message": "internal error", "data": null})))
+    )]
+    #[case::fault_holding_free_text(
+        json!({"id": 1, "error": {"code": -32603, "message": "/home/x/y", "data": {"p": "canary-newname-value-e2f8"}}}),
+        Some(Reply::Fault(json!({"code": -32603, "message": "internal error", "data": null})))
+    )]
+    #[case::fault_of_a_foreign_code_holding_free_text(
+        json!({"id": 1, "error": {"code": -1, "message": "Caused by", "data": {"p": "/home/x/y"}}}),
+        Some(Reply::Fault(json!({"code": -1, "message": "wrapper fault", "data": null})))
+    )]
+    #[case::refusal_of_free_text(
+        json!({"id": 1, "result": {"refusal": "/home/x/y", "detail": "turn-running"}}),
+        Some(Reply::Refused { reason: "unknown".to_owned(), detail: Some("turn-running".to_owned()) })
+    )]
+    #[case::detail_of_free_text(
+        json!({"id": 1, "result": {"refusal": "not-delivered", "detail": "canary-newname value /home/x/y"}}),
+        Some(Reply::Refused { reason: "not-delivered".to_owned(), detail: None })
+    )]
+    #[case::a_newer_code_word_stays_visible(
+        json!({"id": 1, "result": {"refusal": "wheel-held", "detail": "some-new-detail"}}),
+        Some(Reply::Refused { reason: "wheel-held".to_owned(), detail: Some("some-new-detail".to_owned()) })
     )]
     #[case::fault_without_code(json!({"id": 1, "error": {}}), None)]
     #[case::no_result(json!({"id": 1}), None)]

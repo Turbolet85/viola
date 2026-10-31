@@ -497,6 +497,7 @@ impl Drop for ResponseLine<'_> {
                     method = self.method,
                     result_class = result_class,
                     error_code = fault.map(ProtocolError::code),
+                    detail = fault.and_then(ProtocolError::cause),
                     outcome = self.outcome,
                     duration_ms = duration_ms,
                 )
@@ -605,8 +606,46 @@ mod tests {
         );
         let response = got.event("channel-response");
         assert_eq!(response["error_code"], -32602);
+        assert_eq!(response["detail"], "unsupported-version");
         assert_eq!(response["level"], "WARN");
         assert_eq!(got.event("channel-request")["v"], 2);
+    }
+
+    /// `-32602` from a method's own params check: its word on the line, and no param on it.
+    #[test]
+    fn answer_invalid_params_names_its_cause_and_no_param() {
+        struct Refuses;
+        impl Dispatch for Refuses {
+            fn dispatch(&self, _: &str, _: &Value) -> Result<Value, ProtocolError> {
+                Err(ProtocolError::InvalidParams)
+            }
+        }
+        let line =
+            r#"{"jsonrpc":"2.0","id":6,"method":"send","params":{"v":1,"from":"canary-param"}}"#;
+        let (reply, got) = capture(|| answer(line.as_bytes(), "srv-3", &Refuses));
+        assert_eq!(
+            reply.expect("reply").frame["error"].to_string(),
+            r#"{"code":-32602,"message":"invalid params","data":null}"#
+        );
+        let response = got.event("channel-response");
+        assert_eq!(response["detail"], "invalid-params");
+        assert_eq!(response["level"], "WARN");
+        assert!(
+            !got.text().contains("canary-param"),
+            "a param reached a line"
+        );
+    }
+
+    #[test]
+    fn answer_faults_other_than_invalid_params_carry_no_detail() {
+        let (_, got) = reply_to(r#"{"jsonrpc":"2.0","id":1,"method":"nope","params":{"v":1}}"#);
+        assert!(got.event("channel-response").get("detail").is_none());
+        let (_, got) = reply_to("{not json");
+        assert!(got.event("channel-response").get("detail").is_none());
+        let (_, got) = reply_to(r#"{"jsonrpc":"2.0","id":5,"method":"wait","params":{"v":1}}"#);
+        assert!(got.event("channel-response").get("detail").is_none());
+        let (_, got) = reply_to(r#"{"jsonrpc":"2.0","id":3,"method":"pause","params":{"v":1}}"#);
+        assert!(got.event("channel-response").get("detail").is_none());
     }
 
     #[test]
@@ -681,6 +720,7 @@ mod tests {
         );
         let response = got.event("channel-response");
         assert_eq!(response["error_code"], -32602);
+        assert_eq!(response["detail"], "release-from-driver");
         assert_eq!(response["level"], "WARN");
     }
 

@@ -438,23 +438,21 @@ fn files_under(dir: &Path) -> Vec<PathBuf> {
     files
 }
 
-/// An initialized session, then one stdin line past `MAX_FRAME` (16 MiB) with stdin left open: the
-/// server answers the `initialize` and nothing more, ends the session and exits 0, its stderr
-/// empty, and `mcp.ndjson` holds one codes-only `parse-rejected{mcp-stdin, oversize}` line that
-/// validates against the diag-line schema and holds no byte of the line.
-#[test]
-fn mcp_tools_a_line_past_max_frame_ends_the_session_with_one_line() {
-    use std::io::Read as _;
-    use std::time::{Duration, Instant};
-
+/// A fresh home under the e2e base, not yet made: the holder, and the home.
+fn fresh_home() -> (tempfile::TempDir, PathBuf) {
     let ws = viola_e2e::harness::Workspace::from_build();
     ws.ensure_e2e_home().expect("e2e home base");
     let base = tempfile::tempdir_in(ws.root.join("target/e2e-home")).expect("tempdir");
     let home = base.path().join("vhome");
+    (base, home)
+}
+
+/// `viola --home <home> mcp` the test owns, all three streams piped and no `VIOLA_*` name.
+fn own_mcp(home: &Path) -> std::process::Child {
     let bin_dir = viola_e2e::harness::bin_dir_from_exe(&std::env::current_exe().expect("exe"));
-    let mut child = Command::new(bin_dir.join(format!("viola{}", std::env::consts::EXE_SUFFIX)))
+    Command::new(bin_dir.join(format!("viola{}", std::env::consts::EXE_SUFFIX)))
         .arg("--home")
-        .arg(&home)
+        .arg(home)
         .arg("mcp")
         .env_remove("VIOLA_NAME")
         .env_remove("VIOLA_DIR")
@@ -463,7 +461,306 @@ fn mcp_tools_a_line_past_max_frame_ends_the_session_with_one_line() {
         .stdout(Stdio::piped())
         .stderr(Stdio::piped())
         .spawn()
-        .expect("viola mcp");
+        .expect("viola mcp")
+}
+
+/// The child's exit within 8 s; past it the child is killed and reaped, and the bound reads `None`.
+fn exit_within_bound(child: &mut std::process::Child) -> Option<std::process::ExitStatus> {
+    use std::time::{Duration, Instant};
+
+    let until = Instant::now() + Duration::from_secs(8);
+    loop {
+        if let Some(status) = child.try_wait().expect("try_wait") {
+            return Some(status);
+        }
+        if Instant::now() >= until {
+            let _ = child.kill();
+            let _ = child.wait();
+            return None;
+        }
+        std::thread::sleep(Duration::from_millis(10));
+    }
+}
+
+/// The one codes-only `parse-rejected{mcp-stdin, oversize}` line of `mcp.ndjson`, valid against the
+/// diag-line schema, and no byte of the over-long line in any file under the home.
+fn assert_one_oversize_line(home: &Path) {
+    let ws = viola_e2e::harness::Workspace::from_build();
+    let lines = diagnostics(home, "mcp.ndjson");
+    let rejected: Vec<&Value> = lines
+        .iter()
+        .filter(|l| l["event"] == "parse-rejected")
+        .collect();
+    assert_eq!(rejected.len(), 1, "one parse-rejected line");
+    assert_eq!(rejected[0]["parser"], "mcp-stdin");
+    assert_eq!(rejected[0]["detail"], "oversize");
+    assert_eq!(rejected[0]["count"], 1);
+    let schema: Value = serde_json::from_slice(
+        &std::fs::read(ws.root.join("schemas/diag-line.v1.json")).expect("schema"),
+    )
+    .expect("schema json");
+    let validator = jsonschema::validator_for(&schema).expect("valid schema");
+    let errors: Vec<String> = validator
+        .iter_errors(rejected[0])
+        .map(|e| format!("{} at {}", e.schema_path(), e.instance_path()))
+        .collect();
+    assert!(errors.is_empty(), "{errors:?}");
+
+    for file in files_under(home) {
+        let bytes = std::fs::read(&file).expect("home file");
+        assert!(
+            !bytes.windows(CANARY.len()).any(|w| w == CANARY.as_bytes()),
+            "the line's canary in {}",
+            file.strip_prefix(home).expect("under home").display()
+        );
+    }
+}
+
+/// One stdin line past `MAX_FRAME` as the first and only line, stdin left open: the session never
+/// initializes, so `viola mcp` exits 1 with both streams empty and the one line.
+#[test]
+fn mcp_tools_a_line_past_max_frame_before_initialize_exits_1_with_one_line() {
+    use std::io::Read as _;
+
+    let (_base, home) = fresh_home();
+    let mut child = own_mcp(&home);
+    let mut stdin = child.stdin.take().expect("stdin");
+    let mut stdout = child.stdout.take().expect("stdout");
+    let mut stderr = child.stderr.take().expect("stderr");
+    let out = std::thread::spawn(move || {
+        let mut bytes = Vec::new();
+        let _ = stdout.read_to_end(&mut bytes);
+        bytes
+    });
+    let err = std::thread::spawn(move || {
+        let mut bytes = Vec::new();
+        let _ = stderr.read_to_end(&mut bytes);
+        bytes
+    });
+    let max_frame = 16 * 1024 * 1024;
+    let writer = std::thread::spawn(move || {
+        let mut over = CANARY.as_bytes().to_vec();
+        over.resize(max_frame + 1, b'a');
+        // Once the server stops taking stdin it may exit mid-write: a broken pipe (EPIPE, ENOTCONN,
+        // or ERROR_NO_DATA on Windows) is then the expected write error, so only the exit counts.
+        let _ = stdin.write_all(&over).and_then(|()| stdin.flush());
+        stdin
+    });
+    let status = exit_within_bound(&mut child);
+    drop(writer.join().expect("the writer"));
+    let stdout = out.join().expect("stdout reader");
+    let stderr = err.join().expect("stderr reader");
+    assert_eq!(
+        status.and_then(|s| s.code()),
+        Some(1),
+        "exit within the bound"
+    );
+    assert!(stdout.is_empty(), "stdout: {} bytes", stdout.len());
+    assert!(stderr.is_empty(), "stderr: {} bytes", stderr.len());
+    assert_one_oversize_line(&home);
+}
+
+/// A `tools/call` whose `params` are wrong-shaped, the canary and a path inside them: stdout holds
+/// neither, the session stays up, a `tools/list` after it is answered, and a closed stdin exits 0.
+#[test]
+fn mcp_tools_a_wrong_shaped_call_answers_no_caller_text() {
+    use std::io::{BufRead as _, BufReader};
+    use std::time::Duration;
+
+    let (_base, home) = fresh_home();
+    let mut child = own_mcp(&home);
+    let mut stdin = child.stdin.take().expect("stdin");
+    let stdout = child.stdout.take().expect("stdout");
+    drop(child.stderr.take());
+    let (frames, read) = std::sync::mpsc::channel();
+    let reader = std::thread::spawn(move || {
+        for line in BufReader::new(stdout).lines() {
+            let Ok(line) = line else { break };
+            if frames.send(line).is_err() {
+                break;
+            }
+        }
+    });
+    let path = "/home/caller/secret";
+    let opening = concat!(
+        r#"{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"#,
+        r#""2025-06-18","capabilities":{},"clientInfo":{"name":"t","version":"0"}}}"#,
+        "\n",
+    );
+    stdin.write_all(opening.as_bytes()).expect("initialize");
+    let bound = Duration::from_secs(8);
+    let initialized = read.recv_timeout(bound).expect("the initialize response");
+    let call = json!({
+        "jsonrpc": "2.0",
+        "id": 2,
+        "method": "tools/call",
+        "params": {"name": 7, "arguments": format!("{CANARY} {path}"), "note": path},
+    });
+    let list = json!({"jsonrpc": "2.0", "id": 3, "method": "tools/list", "params": {}});
+    let rest = format!(
+        "{}\n{call}\n{list}\n",
+        r#"{"jsonrpc":"2.0","method":"notifications/initialized"}"#
+    );
+    stdin.write_all(rest.as_bytes()).expect("the frames");
+    stdin.flush().expect("flush");
+    let mut lines = vec![initialized];
+    let listed = loop {
+        match read.recv_timeout(bound) {
+            Ok(line) => {
+                let frame: Value = serde_json::from_str(&line).expect("an MCP frame");
+                lines.push(line);
+                if frame["id"] == 3 {
+                    break Some(frame);
+                }
+            }
+            Err(_) => break None,
+        }
+    };
+    drop(stdin);
+    let status = exit_within_bound(&mut child);
+    drop(read);
+    reader.join().expect("the reader");
+    for line in &lines {
+        assert!(!line.contains(CANARY), "the call's canary on stdout");
+        assert!(!line.contains(path), "the call's path on stdout");
+    }
+    assert!(
+        listed.is_some_and(|frame| frame["result"]["tools"].is_array()),
+        "tools/list answered after the call"
+    );
+    assert_eq!(
+        status.and_then(|s| s.code()),
+        Some(0),
+        "a closed stdin exits 0"
+    );
+}
+
+/// No key or string of `value` holds the home, an absolute path, an error chain or the upstream
+/// text; a hit names `label` and never the bytes.
+fn assert_no_path_or_upstream_text(label: &str, value: &Value, home: &Path) {
+    fn strings<'a>(value: &'a Value, out: &mut Vec<&'a str>) {
+        match value {
+            Value::String(text) => out.push(text),
+            Value::Array(items) => items.iter().for_each(|item| strings(item, out)),
+            Value::Object(members) => members.iter().for_each(|(key, item)| {
+                out.push(key);
+                strings(item, out);
+            }),
+            _ => {}
+        }
+    }
+    let spelled = home.display().to_string();
+    let mut all = Vec::new();
+    strings(value, &mut all);
+    for text in all {
+        let drive = text.as_bytes().windows(3).any(|window| {
+            window[0].is_ascii_alphabetic()
+                && window[1] == b':'
+                && matches!(window[2], b'\\' | b'/')
+        });
+        let hit = drive
+            || text.contains(spelled.as_str())
+            || text.contains("/home/")
+            || text.contains("/Users/")
+            || text.contains("Caused by")
+            || text.contains(CANARY);
+        assert!(!hit, "{label}: an error body holds a path or upstream text");
+    }
+}
+
+/// Each `isError` result's body and text, driven with the session home's path and an upstream text
+/// in play, and an unknown tool named by the path: the JSON-RPC `-32602`.
+#[test]
+fn mcp_tools_error_results_hold_no_path_or_upstream_text() {
+    let s = harness_session(
+        "mcp_tools",
+        "errors",
+        SessionOptions {
+            unstamped: true,
+            ..SessionOptions::default()
+        },
+    );
+    let home = s.home().to_path_buf();
+    let path = home.display().to_string();
+    let upstream = format!("{path} {CANARY}");
+    let mcp = Mcp::spawn(&s);
+    let rows: [(&str, &'static str, Value, Value); 5] = [
+        (
+            "send with target the path",
+            "send",
+            json!({"target": path, "text": upstream}),
+            json!({"error": "invalid-params", "detail": "target"}),
+        ),
+        (
+            "wait with a string after",
+            "wait",
+            json!({"target": "builder", "after": upstream}),
+            json!({"error": "invalid-params", "detail": "after"}),
+        ),
+        (
+            "answer with a response holding a path",
+            "answer",
+            json!({"target": "builder", "dialog_id": 1, "response": {"behavior": upstream}}),
+            json!({"error": "invalid-params", "detail": "response"}),
+        ),
+        (
+            "send of a control character",
+            "send",
+            json!({"target": "builder", "text": format!("{upstream}\u{1b}[2J")}),
+            json!({"refusal": "not-delivered", "detail": "control-character"}),
+        ),
+        (
+            "a dead instance",
+            "last",
+            json!({"target": "ghost"}),
+            json!({"error": "instance-unreachable", "detail": null}),
+        ),
+    ];
+    for (label, tool, args, want) in rows {
+        let result = mcp.call(tool, args);
+        let shown = serde_json::to_value(&result).expect("json");
+        assert_no_path_or_upstream_text(label, &shown, &home);
+        assert_eq!(result.is_error, Some(true), "{label}");
+        assert_eq!(body(&result), want, "{label}");
+        let code = want
+            .get("refusal")
+            .or_else(|| want.get("error"))
+            .and_then(Value::as_str)
+            .expect("a code");
+        assert_eq!(text(&result), format!("refused: {code}"), "{label}");
+    }
+    let args = json!({"note": upstream});
+    let unknown = mcp.runtime.block_on(
+        mcp.client().call_tool(
+            CallToolRequestParams::new(path.clone())
+                .with_arguments(args.as_object().expect("an object").clone()),
+        ),
+    );
+    let Err(rmcp::ServiceError::McpError(fault)) = unknown else {
+        panic!("an unknown tool is a JSON-RPC error");
+    };
+    let shown = serde_json::to_value(&fault).expect("json");
+    assert_no_path_or_upstream_text("an unknown tool", &shown, &home);
+    assert_eq!(fault.code.0, -32602);
+    assert_eq!(fault.message, "unknown tool");
+    // rmcp's client reads the wire's `"data":null` as no `data`; any held value would read as one.
+    assert_eq!(fault.data, None);
+
+    drop(mcp);
+    let report = s.cleanup();
+    assert_eq!(report.code, 0, "{}", report.doc);
+}
+
+/// An initialized session, then one stdin line past `MAX_FRAME` (16 MiB) with stdin left open: the
+/// server answers the `initialize` and nothing more, ends the session and exits 0, its stderr
+/// empty, and `mcp.ndjson` holds one codes-only `parse-rejected{mcp-stdin, oversize}` line that
+/// validates against the diag-line schema and holds no byte of the line.
+#[test]
+fn mcp_tools_a_line_past_max_frame_ends_the_session_with_one_line() {
+    use std::io::Read as _;
+
+    let (_base, home) = fresh_home();
+    let mut child = own_mcp(&home);
     let mut stdin = child.stdin.take().expect("stdin");
     let mut stdout = child.stdout.take().expect("stdout");
     let mut stderr = child.stderr.take().expect("stderr");
@@ -496,18 +793,7 @@ fn mcp_tools_a_line_past_max_frame_ends_the_session_with_one_line() {
             .and_then(|()| stdin.flush());
         stdin
     });
-    let until = Instant::now() + Duration::from_secs(8);
-    let status = loop {
-        if let Some(status) = child.try_wait().expect("try_wait") {
-            break Some(status);
-        }
-        if Instant::now() >= until {
-            let _ = child.kill();
-            let _ = child.wait();
-            break None;
-        }
-        std::thread::sleep(Duration::from_millis(10));
-    };
+    let status = exit_within_bound(&mut child);
     let stdin = writer.join().expect("the writer");
     drop(stdin);
     let stdout = out.join().expect("stdout reader");
@@ -527,35 +813,7 @@ fn mcp_tools_a_line_past_max_frame_ends_the_session_with_one_line() {
     assert_eq!(frames.len(), 1, "only the initialize response");
     assert_eq!(frames[0]["id"], 1);
     assert!(frames[0]["result"].is_object(), "{}", frames[0]);
-
-    let lines = diagnostics(&home, "mcp.ndjson");
-    let rejected: Vec<&Value> = lines
-        .iter()
-        .filter(|l| l["event"] == "parse-rejected")
-        .collect();
-    assert_eq!(rejected.len(), 1, "one parse-rejected line");
-    assert_eq!(rejected[0]["parser"], "mcp-stdin");
-    assert_eq!(rejected[0]["detail"], "oversize");
-    assert_eq!(rejected[0]["count"], 1);
-    let schema: Value = serde_json::from_slice(
-        &std::fs::read(ws.root.join("schemas/diag-line.v1.json")).expect("schema"),
-    )
-    .expect("schema json");
-    let validator = jsonschema::validator_for(&schema).expect("valid schema");
-    let errors: Vec<String> = validator
-        .iter_errors(rejected[0])
-        .map(|e| format!("{} at {}", e.schema_path(), e.instance_path()))
-        .collect();
-    assert!(errors.is_empty(), "{errors:?}");
-
-    for file in files_under(&home) {
-        let bytes = std::fs::read(&file).expect("home file");
-        assert!(
-            !bytes.windows(CANARY.len()).any(|w| w == CANARY.as_bytes()),
-            "the line's canary in {}",
-            file.strip_prefix(&home).expect("under home").display()
-        );
-    }
+    assert_one_oversize_line(&home);
 }
 
 /// Path 2 and Path 3 through the tools: `send` reads back, `wait` wakes on the turn's end at the

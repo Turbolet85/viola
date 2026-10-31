@@ -215,6 +215,13 @@ mod tests {
     use super::*;
     use viola_agent_claude::ledger::{LedgerRow, TypedRun, merge_stamp};
 
+    #[test]
+    fn drain_keeps_cap_bytes_of_an_endless_pipe() {
+        let cap = MAX_FRAME + 1;
+        let bytes = drain(Some(std::io::repeat(b'a')), cap).bytes(Duration::from_secs(8));
+        assert_eq!(u64::try_from(bytes.len()), Ok(cap));
+    }
+
     fn stamp(version: &str, pass: bool) -> Vec<u8> {
         let results: Vec<(LedgerRow, bool)> = LedgerRow::ALL.iter().map(|r| (*r, pass)).collect();
         merge_stamp(

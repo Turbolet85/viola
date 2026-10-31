@@ -7,9 +7,68 @@ use std::time::Instant;
 
 use serde_json::Value;
 
-use super::home::{StampedHome, Wrapper, workspace_path};
+use super::home::{StampedHome, Wrapper, resolved, workspace_path};
+use super::hygiene::has_absolute_path;
 use super::ndjson;
 use super::watch::{WITHIN, Watch};
+
+/// The class of the first thing in `body` a machine reader's error may not hold: `absolute-path` (a
+/// drive letter form, `/home/`, `/Users/`, either spelling of `home`), `caused-by`, `serde-path`
+/// (`at line ` … ` column `) or `planted`. Every key and string is read.
+pub fn error_body_hit(body: &Value, home: &Path, planted: &[&str]) -> Option<&'static str> {
+    let mut strings = Vec::new();
+    strings_of(body, &mut strings);
+    let spellings = [home.to_path_buf(), resolved(home)].map(|p| p.display().to_string());
+    strings.into_iter().find_map(|text| {
+        if planted.iter().any(|value| text.contains(value)) {
+            Some("planted")
+        } else if has_absolute_path(text)
+            || has_drive_letter(text)
+            || spellings.iter().any(|home| text.contains(home.as_str()))
+        {
+            Some("absolute-path")
+        } else if text.contains("Caused by") {
+            Some("caused-by")
+        } else if text
+            .split_once("at line ")
+            .is_some_and(|(_, rest)| rest.contains(" column "))
+        {
+            Some("serde-path")
+        } else {
+            None
+        }
+    })
+}
+
+/// Panics on a hit, naming `place` and the class and never the bytes: a failing witness prints no
+/// canary into JUnit, which the scan reads (security-plan §Bootstrap phases, `logging-redaction-wire`).
+pub fn assert_error_body_clean(place: &str, body: &Value, home: &Path, planted: &[&str]) {
+    if let Some(class) = error_body_hit(body, home, planted) {
+        panic!("{place}: an error body holds {class}");
+    }
+}
+
+fn strings_of<'a>(value: &'a Value, out: &mut Vec<&'a str>) {
+    match value {
+        Value::String(text) => out.push(text),
+        Value::Array(items) => items.iter().for_each(|item| strings_of(item, out)),
+        Value::Object(members) => members.iter().for_each(|(key, item)| {
+            out.push(key);
+            strings_of(item, out);
+        }),
+        _ => {}
+    }
+}
+
+/// `C:\` or `C:/` anywhere, the letter standing alone.
+fn has_drive_letter(text: &str) -> bool {
+    text.as_bytes().windows(3).enumerate().any(|(at, window)| {
+        window[0].is_ascii_alphabetic()
+            && window[1] == b':'
+            && matches!(window[2], b'\\' | b'/')
+            && (at == 0 || !text.as_bytes()[at - 1].is_ascii_alphanumeric())
+    })
+}
 
 /// The complete lines of `<instance_dir>/events.ndjson`.
 pub fn events(instance_dir: &Path) -> Vec<Value> {

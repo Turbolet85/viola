@@ -98,6 +98,55 @@ impl ProtocolError {
         };
         json!({"code": self.code(), "message": self.message(), "data": data})
     }
+
+    /// The word that tells the three `-32602` faults apart on a `channel-response` line.
+    pub const fn cause(self) -> Option<&'static str> {
+        match self {
+            Self::UnsupportedVersion => Some("unsupported-version"),
+            Self::InvalidParams => Some("invalid-params"),
+            Self::ReleaseFromDriver => Some("release-from-driver"),
+            Self::Parse | Self::InvalidRequest | Self::MethodNotFound | Self::Internal => None,
+        }
+    }
+}
+
+/// A peer's JSON-RPC `error` member as the wrapper-fault `detail` a client prints: the peer's integer
+/// `code`, its fault's fixed message and only `data`'s closed values, so no path or upstream text
+/// crosses (security-plan §Error Handling). `None` without an integer `code`. A code outside the five
+/// reads the fixed `wrapper fault`.
+pub fn sanitised_fault(error: &Value) -> Option<Value> {
+    let code = error["code"].as_i64()?;
+    let data = &error["data"];
+    let wrapper = data["wrapper"]
+        .as_str()
+        .filter(|text| is_version_text(text));
+    let (message, data) = match code {
+        -32700 => (ProtocolError::Parse.message(), Value::Null),
+        -32600 => (ProtocolError::InvalidRequest.message(), Value::Null),
+        -32601 => (ProtocolError::MethodNotFound.message(), Value::Null),
+        -32603 => (ProtocolError::Internal.message(), Value::Null),
+        -32602 => match (data["supported"].as_i64(), wrapper) {
+            (Some(supported), Some(wrapper)) => (
+                ProtocolError::UnsupportedVersion.message(),
+                json!({"supported": supported, "wrapper": wrapper}),
+            ),
+            _ if data["reason"] == "release-from-driver" => (
+                ProtocolError::ReleaseFromDriver.message(),
+                json!({"reason": "release-from-driver"}),
+            ),
+            _ => (ProtocolError::InvalidParams.message(), Value::Null),
+        },
+        _ => ("wrapper fault", Value::Null),
+    };
+    Some(json!({"code": code, "message": message, "data": data}))
+}
+
+/// 1 to 64 ASCII letters, digits, `.`, `-` or `+`: a version, never a path or a sentence.
+fn is_version_text(text: &str) -> bool {
+    (1..=64).contains(&text.len())
+        && text
+            .bytes()
+            .all(|b| b.is_ascii_alphanumeric() || matches!(b, b'.' | b'-' | b'+'))
 }
 
 /// Span and event capture for this crate's unit tests: every span's recorded fields and every
@@ -251,6 +300,126 @@ mod tests {
         #[case] wire: &str,
     ) {
         assert_eq!(fault.body().to_string(), wire);
+    }
+
+    #[rstest]
+    #[case::version(ProtocolError::UnsupportedVersion, Some("unsupported-version"))]
+    #[case::invalid_params(ProtocolError::InvalidParams, Some("invalid-params"))]
+    #[case::release_from_driver(ProtocolError::ReleaseFromDriver, Some("release-from-driver"))]
+    #[case::parse(ProtocolError::Parse, None)]
+    #[case::invalid(ProtocolError::InvalidRequest, None)]
+    #[case::method(ProtocolError::MethodNotFound, None)]
+    #[case::internal(ProtocolError::Internal, None)]
+    fn protocol_error_cause_tells_the_three_invalid_params_apart(
+        #[case] fault: ProtocolError,
+        #[case] cause: Option<&str>,
+    ) {
+        assert_eq!(fault.cause(), cause);
+    }
+
+    /// Every body this build sends reads back unchanged.
+    #[rstest]
+    #[case::parse(r#"{"code":-32700,"message":"parse error","data":null}"#)]
+    #[case::invalid(r#"{"code":-32600,"message":"invalid request","data":null}"#)]
+    #[case::method(r#"{"code":-32601,"message":"method not found","data":null}"#)]
+    #[case::version(
+        r#"{"code":-32602,"message":"unsupported protocol version","data":{"supported":1,"wrapper":"0.1.0"}}"#
+    )]
+    #[case::invalid_params(r#"{"code":-32602,"message":"invalid params","data":null}"#)]
+    #[case::release_from_driver(
+        r#"{"code":-32602,"message":"invalid params","data":{"reason":"release-from-driver"}}"#
+    )]
+    #[case::internal(r#"{"code":-32603,"message":"internal error","data":null}"#)]
+    fn sanitised_fault_keeps_each_wire_body(#[case] wire: &str) {
+        let body: Value = serde_json::from_str(wire).expect("a body");
+        let read = sanitised_fault(&body).expect("a fault");
+        assert_eq!(read.to_string(), wire);
+    }
+
+    /// Free text in `message` or in a `data` object is replaced, an extra key beside a closed one is
+    /// dropped, and a value of the wrong shape reads the code's plain body.
+    #[rstest]
+    #[case::parse(
+        json!({"code": -32700, "message": "/home/x/y", "data": {"p": "canary-newname-value-e2f8"}}),
+        r#"{"code":-32700,"message":"parse error","data":null}"#
+    )]
+    #[case::invalid(
+        json!({"code": -32600, "message": "Caused by", "data": {"p": "/home/x/y"}}),
+        r#"{"code":-32600,"message":"invalid request","data":null}"#
+    )]
+    #[case::method(
+        json!({"code": -32601, "message": "canary-newname-value-e2f8", "data": "/home/x/y"}),
+        r#"{"code":-32601,"message":"method not found","data":null}"#
+    )]
+    #[case::internal(
+        json!({"code": -32603, "message": "/home/x/y", "data": {"p": "Caused by"}}),
+        r#"{"code":-32603,"message":"internal error","data":null}"#
+    )]
+    #[case::unknown_code(
+        json!({"code": -1, "message": "/home/x/y", "data": {"reason": "release-from-driver"}}),
+        r#"{"code":-1,"message":"wrapper fault","data":null}"#
+    )]
+    #[case::free_text_on_invalid_params(
+        json!({"code": -32602, "message": "/home/x/y", "data": {"p": "canary-newname-value-e2f8"}}),
+        r#"{"code":-32602,"message":"invalid params","data":null}"#
+    )]
+    #[case::an_extra_key_beside_supported(
+        json!({"code": -32602, "message": "Caused by", "data": {"supported": 1, "wrapper": "0.1.0", "p": "/home/x/y"}}),
+        r#"{"code":-32602,"message":"unsupported protocol version","data":{"supported":1,"wrapper":"0.1.0"}}"#
+    )]
+    #[case::an_extra_key_beside_reason(
+        json!({"code": -32602, "message": "Caused by", "data": {"reason": "release-from-driver", "p": "/home/x/y"}}),
+        r#"{"code":-32602,"message":"invalid params","data":{"reason":"release-from-driver"}}"#
+    )]
+    #[case::another_reason(
+        json!({"code": -32602, "data": {"reason": "/home/x/y"}}),
+        r#"{"code":-32602,"message":"invalid params","data":null}"#
+    )]
+    #[case::a_path_as_the_wrapper(
+        json!({"code": -32602, "data": {"supported": 1, "wrapper": "/home/x/y"}}),
+        r#"{"code":-32602,"message":"invalid params","data":null}"#
+    )]
+    #[case::an_empty_wrapper(
+        json!({"code": -32602, "data": {"supported": 1, "wrapper": ""}}),
+        r#"{"code":-32602,"message":"invalid params","data":null}"#
+    )]
+    #[case::a_wrapper_past_sixty_four(
+        json!({"code": -32602, "data": {"supported": 1, "wrapper": "1".repeat(65)}}),
+        r#"{"code":-32602,"message":"invalid params","data":null}"#
+    )]
+    #[case::supported_not_an_integer(
+        json!({"code": -32602, "data": {"supported": "1", "wrapper": "0.1.0"}}),
+        r#"{"code":-32602,"message":"invalid params","data":null}"#
+    )]
+    #[case::no_message_and_array_data(
+        json!({"code": -32603, "data": [1]}),
+        r#"{"code":-32603,"message":"internal error","data":null}"#
+    )]
+    fn sanitised_fault_carries_nothing_of_the_peer_but_closed_values(
+        #[case] error: Value,
+        #[case] body: &str,
+    ) {
+        let read = sanitised_fault(&error).expect("a fault");
+        assert_eq!(read.to_string(), body);
+    }
+
+    #[test]
+    fn sanitised_fault_keeps_a_wrapper_of_sixty_four_version_characters() {
+        let wrapper = format!("{}.-+", "aZ9".repeat(20) + "a");
+        assert_eq!(wrapper.len(), 64);
+        let read =
+            sanitised_fault(&json!({"code": -32602, "data": {"supported": 2, "wrapper": wrapper}}))
+                .expect("a fault");
+        assert_eq!(read["data"]["wrapper"], wrapper.as_str());
+        assert_eq!(read["data"]["supported"], 2);
+    }
+
+    #[rstest]
+    #[case::no_code(json!({}))]
+    #[case::string_code(json!({"code": "-32603", "message": "internal error"}))]
+    #[case::float_code(json!({"code": -32603.5}))]
+    fn sanitised_fault_without_an_integer_code_is_nothing(#[case] error: Value) {
+        assert_eq!(sanitised_fault(&error), None);
     }
 
     fn io_error() -> io::Error {

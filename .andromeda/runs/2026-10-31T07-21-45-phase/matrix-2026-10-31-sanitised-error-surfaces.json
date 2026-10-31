@@ -1,0 +1,112 @@
+[
+{
+"tool": "matrix",
+"v": "1.5",
+"sha8": "f258a1ca",
+"ts": "2026-10-31T08:53:30Z",
+"argv": [
+"coverage",
+"--dir",
+"viola-0.1.0",
+"--run-dir",
+".andromeda/runs/2026-10-31T07-21-45-phase",
+"--marker",
+"2026-10-31-sanitised-error-surfaces"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"verified 26/53 · deferred 6 · planned 20 · implemented 1 · unclaimed 20",
+"unclaimed: v1-01 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-13 v1-18 v1-21 v1-24 v1-26 v1-27 v1-34 v1-35",
+"          v1-36 v1-44 v1-47 v1-53",
+"claimed-unfinished: none",
+"done-test: NO — 21 not verified|deferred · unclaimed 20",
+"chunks referenced: 24 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.5",
+"sha8": "f258a1ca",
+"ts": "2026-10-31T08:53:31Z",
+"argv": [
+"claim",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-47",
+"--chunk",
+"2026-10-31-sanitised-error-surfaces",
+"--acceptance-file",
+".andromeda/runs/2026-10-31T07-21-45-phase/acceptance-v1-47.md",
+"--note-file",
+".andromeda/runs/2026-10-31T07-21-45-phase/note-v1-47.md",
+"--run-dir",
+".andromeda/runs/2026-10-31T07-21-45-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claim v1-47 → chunk 2026-10-31-sanitised-error-surfaces (was null; status planned kept)",
+"acceptance: CLI machine-readable errors, MCP errors, problem responses and channel… (387 chars)",
+"         → CLI machine-readable errors, MCP errors and channel errors carry only … (881 chars)",
+"notes: +699 chars (total 2330)",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed",
+"pool: unclaimed 19 [v1-01 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-13 v1-18 v1-21 v1-24 v1-26 v1-27 v1-34 v1-35 v1-36 v1-44 v1-53]"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-47",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "CLI machine-readable errors, MCP errors, problem responses and channel errors carry only codes and fixed messages; no lo… (387 chars)",
+"notes_chars": 1629
+},
+"after": {
+"id": "v1-47",
+"chunk": "2026-10-31-sanitised-error-surfaces",
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "CLI machine-readable errors, MCP errors and channel errors carry only codes and fixed messages; no log, diagnostic, fixt… (881 chars)",
+"notes_chars": 2330
+}
+},
+{
+"tool": "matrix",
+"v": "1.5",
+"sha8": "f258a1ca",
+"ts": "2026-10-31T08:53:31Z",
+"argv": [
+"audit",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-31-sanitised-error-surfaces",
+"--plan",
+"viola-0.1.0/chunks/2026-10-31-sanitised-error-surfaces/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-31T07-21-45-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-10-31-sanitised-error-surfaces: 1 · ## Acceptance Criteria: line 372, 11 lines",
+"v1-47: cited in ## Acceptance Criteria (line 373)",
+"pool: unclaimed 19 [v1-01 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-13 v1-18 v1-21 v1-24 v1-26 v1-27 v1-34 v1-35 v1-36 v1-44 v1-53]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

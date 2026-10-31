@@ -1,0 +1,65 @@
+# obs · PII Scrubbing & Compliance — category read
+
+## Carried
+- (.andromeda/obs-plan-detail/pii-scrubbing-compliance.md:11) No error body on the three surfaces, and no log or detail line of the failure, may hold a stripped `CLAUDE*` value; the proof's planted value must meet this floor, with one canary per identity-floor name plus an unknown name.
+  > | `CLAUDE_CODE_MESSAGING_TOKEN`, `CLAUDE_CODE_MESSAGING_SOCKET`, other R8-stripped `CLAUDE*` values | Critical | never-log anywhere, including detail files | R8 strip logs `env_stripped_count` + `env_stripped_known` (stripped names) + `env_kept` (kept names), names only, values never read (D-34); env maps never passed to a span or event; secret-scan test with one canary per identity-floor name plus an unknown name |
+- (.andromeda/obs-plan-detail/pii-scrubbing-compliance.md:13) Prompt and assistant text must stay out of every error body and home-level line a failure writes, reaching a detail file only inside a chain or drift report.
+  > | Prompt text, assistant output (`prompt-submitted.data.text`, `last_assistant_message`) | High | never in any home-level process-log line; payloads stay in contract payloads and reach an instance `detail-<process>.ndjson` only inside a chain or drift report |
+- (.andromeda/obs-plan-detail/pii-scrubbing-compliance.md:14) Tool input, plan text and dialog content must obey the same rule when an `answer` or dialog failure is sanitised, its events codes-only.
+  > | Tool `input`, plan text, dialog questions/answers | High | never in any home-level process-log line; instance `detail-<process>.ndjson` only inside a chain or drift report | `#[redact]` on `HookDialogParams.data`, `AnswerParams.response`; codes-only dialog events (`dialog_kind`) |
+- (.andromeda/obs-plan-detail/pii-scrubbing-compliance.md:15) A serde or drift failure must present a fixed `Display` at the seam on every surface, with the full report held only in the instance detail file.
+  > | serde_path_to_error drift reports | High | instance-scoped `detail-<process>.ndjson` only | Replaced by fixed `Display` at the seam; full report is a `drift_report` field in the detail file only |
+- (.andromeda/obs-plan-detail/pii-scrubbing-compliance.md:16) The status-line command must not reach an error body or home-level line, including in the status-line cap-driving case the chunk owes.
+  > | `statusline_command` | High (integrity) | never in home-level logs; detail file only if part of an error chain | `statusline.shell_out` span records `shell_exit_status` + `duration_ms` only |
+- (.andromeda/obs-plan-detail/pii-scrubbing-compliance.md:17) This is the rule behind the chunk's "no absolute path" property: paths and internal type names must be scrubbed from every external error surface, and may stand only in detail files.
+  > | Absolute paths (OS username = only PII in scope), internal type names | Medium | scrub-required in external output; permitted in `diagnostics/` but obs keeps home-level lines path-free | `file` fields are basenames; `panic_location` workspace-relative; `with_file(false)`; paths only in detail files |
+- (.andromeda/obs-plan-detail/pii-scrubbing-compliance.md:18) Path-valued config and snapshot fields must stay out of error bodies under the Medium rule, and `endpoint` and `pinned_bin` must never be logged; the three `config.json` cap-driving cases owed here must keep to this.
+  > | Config values (thresholds), snapshot `endpoint` / `pinned_bin`, ledger versions | Low confidentiality | OK structured; path-valued ones follow the Medium rule | `cli_version`, thresholds logged; `endpoint` / `pinned_bin` never logged (only `endpoint_kind`) |
+- (.andromeda/obs-plan-detail/pii-scrubbing-compliance.md:19) A code-shaped `detail` must hold no pid, session id, time or budget value; such values may travel only as typed log fields.
+  > | `pid`, `child_pid`, `agent_session_id`, `started_at`, budget percentages, `resets_at` | Low | OK to log structured | Logged as typed fields; never inside `detail` codes (Founder Direction 4) |
+- (.andromeda/obs-plan-detail/pii-scrubbing-compliance.md:20) `claude agents --json` rows are upstream text: they must reach no error body or log line verbatim, including in the child-pipe cap-driving case the chunk owes.
+  > | `claude agents --json` rows / unwrapped session ids | Low, untrusted | OK structured; C0/C1 escaped in human terminal output | JSON serialization escapes C0 controls in files; rows never logged verbatim, only `parse-rejected` counts |
+- (.andromeda/obs-plan-detail/pii-scrubbing-compliance.md:22) The codes the three surfaces carry must be closed kebab-case enums, which is what makes the set of error bodies enumerable.
+  > | Protocol codes, refusal details | Low | OK to log structured | Closed kebab-case enums |
+- (.andromeda/obs-plan-detail/pii-scrubbing-compliance.md:29) The never-log floor in the capability's acceptance must be proven by this scan, so each witness's diagnostics must fall inside what it reads.
+  > **Verification:** the tests secret-scan test (`Cookie` header, `CLAUDE*` values, the content canary, 0600) over every `diagnostics/` file, run in CI before artifact upload.
+- (.andromeda/obs-plan-detail/pii-scrubbing-compliance.md:31) Every witness that drives a failure with upstream or content text must use a synthetic input embedding the fixed canary.
+  > Every E2E and integration input is synthetic and embeds a fixed canary string.
+- (.andromeda/obs-plan-detail/pii-scrubbing-compliance.md:32) A failure's canary may land in a detail file but must be absent from every home-level file, so the witnesses must not confuse the external surfaces with the detail sink.
+  > The scan also asserts that the canary never appears in a home-level `diagnostics/*.ndjson`. It may appear only in `detail-*.ndjson`.
+- (.andromeda/obs-plan-detail/pii-scrubbing-compliance.md:33) This post-initialize case sets the shape the owed pre-`initialize` past-`MAX_FRAME` case must match: its own fresh home and the canary inside the over-long line, in no home-level file.
+  > The `mcp_tools` E2E case `mcp_tools_a_line_past_max_frame_ends_the_session_with_one_line` runs on its own fresh home, writes the canary inside its over-long stdin line, and asserts the canary in no home-level file of that home.
+- (.andromeda/obs-plan-detail/pii-scrubbing-compliance.md:34) New witnesses must take the canary from the tests' ownership and not define their own value or scan body here.
+  > The canary value and the test body are tests-owned.
+- (.andromeda/obs-plan-detail/pii-scrubbing-compliance.md:39) The server-verification refusal is one of the enumerated error bodies and must keep to no pid, start time, path or endpoint, under this witness.
+  > A server-verification refusal carries no pid, start time, path or endpoint: `tests/security_negatives_server_identity.rs` scans every output and the `cli-<name>.ndjson` line with `digit_runs` (whole numbers only, itself tested by `digit_runs_reads_whole_numbers_only`), on Linux and Windows (the file compiles out on macOS).
+- (.andromeda/obs-plan-detail/pii-scrubbing-compliance.md:40) The strict-modes refusal's exact `--json` document and its MCP `instance-unreachable` result are bodies the enumeration must name unchanged, and each must write no line.
+  > A strict-modes refusal of the six frame verbs (`send`, `wait`, `last`, `answer`, `pause`, `release`, through `client::refuse_untrusted`) carries no pid, path or endpoint and writes no line: it prints only the fixed instance pair, or under `--json` exactly `{"v":1,"error":"instance-unreachable","detail":null}`; `tests/security_negatives_strict_modes.rs` reads every output with `digit_runs` and finds no line, on Linux, macOS and Windows. The `viola mcp` frame tools refused by the same check return `instance-unreachable` with `detail: null` and write no line (`binary(handlers)`).
+- (.andromeda/obs-plan-detail/pii-scrubbing-compliance.md:41) Text moved off an error surface must reach the detail file only through this checked sink, and a refused sink must drop it, never reroute it to a surface.
+  > the writer ends at `std::io::sink` and the detail line is dropped, so High-class content is never written through a symlink or into a folder another user may read
+- (.andromeda/obs-plan.md:555) The data-class rules must hold on every path a sanitised failure takes.
+  > Each data class has its handling rule: the `Cookie` header, signing credentials and R8-stripped `CLAUDE*` values are never logged, and CI secrets are never echoed into artifacts; prompt, assistant, tool-input, plan and dialog text never reach a home-level line, only an instance `detail-<process>.ndjson` inside a chain or drift report; `statusline_command` stays out of home-level logs.
+- (.andromeda/obs-plan.md:567) This is the layer the chunk makes hold: every `thiserror` message reaching a surface must be fixed, and serde-sourced chains must map to fixed messages at dispatch.
+  > 3. **Error layer:** fixed thiserror `Display`, and serde-sourced chains mapped to fixed messages at dispatch.
+- (.andromeda/obs-plan.md:568) Any content removed from an error body must be kept, if at all, only in the instance detail file.
+  > 4. **Sink separation:** content-bearing records go only to instance-scoped `detail-<process>.ndjson`.
+- (.andromeda/obs-plan.md:576) A `channel-response` field added to tell the `-32602` causes apart must be named in the Section 6 catalog and admitted by the schema, or it fails the build.
+  > **Default-deny posture:** a field is logged only if it is named in this plan's Section 6 catalog. Unknown fields are a build failure (§10), caught by gate G4 (§9) against `schemas/diag-line.v1.json`.
+- (.andromeda/obs-plan.md:580) A chain or drift report kept for a sanitised failure must use only these detail-file content fields.
+  > exactly these content fields: `panic_payload` and `backtrace` (panic, §7), `chain` (§7 layer 3) and `drift_report` (§8 table).
+- (.andromeda/obs-plan.md:733) No flag, `config.json` key or `VIOLA_*` variable may restore free text on a surface or relax the sanitising.
+  > NEVER let `config.json`, a `VIOLA_*` env var or a CLI flag widen the field allow-list or disable redaction. Verbosity (`diagnostics_level`) changes volume only.
+- (.andromeda/obs-plan.md:734) The chunk's log and detail writes for a failure must honour this floor and its detail-file limit.
+  > NEVER log `CLAUDE*` values or a `Cookie` header, at any level, in any file, detail files included. NEVER log `statusline_command`, send text, tool `input` or `last_assistant_message` in any home-level file. They may reach only the instance-scoped `detail-<process>.ndjson`, and only inside a chain or drift report (§8).
+- (.andromeda/obs-plan.md:735) Every `detail` code on the three surfaces and in the log must be free of paths and pids.
+  > NEVER put paths or pids inside `detail` codes (Founder Direction 4). Paths appear only in instance detail files.
+- (.andromeda/obs-plan.md:759) A process's bytes leaving for any reader must be scrubbed first, and the secret scan stays the proof of the floor.
+  > NEVER skip scrubbing before any byte leaves the process. In v1 the only destination is local files, and the secret-scan test proves the floor.
+
+## Bindings
+- **Error layer ↔ §7 Error Capture & Reporting**: the fixed-`Display` and serde-chain layer of §8 (.andromeda/obs-plan.md:567) is the short form of §7's three scrubbing layers (.andromeda/obs-plan.md:510), and the ban on a serde-sourced chain reaching any of the surfaces stands in §11 (.andromeda/obs-plan.md:724); the chunk must satisfy both sides with one mapping.
+- **Default-deny ↔ §5 Metric Coverage and §6 Log Coverage**: a `channel-response` change must enter the §6 catalog and schemas under §8's posture (.andromeda/obs-plan.md:576), and it is what ends the `viola.compat.v_rejected` over-count §5 names (.andromeda/obs-plan.md:418).
+- **Secret-scan verification ↔ §9 CI Integration and the tests plan**: the scan's patterns and canary are tests-owned (.andromeda/obs-plan-detail/pii-scrubbing-compliance.md:34), and its CI reach over integration homes is held by §9's step order (.andromeda/obs-plan.md:621), so a witness home must stay under the scanned root (.andromeda/obs-plan.md:600).
+- **Strict-modes bodies ↔ §4 scenarios and §7 MCP rejects**: the exact `--json` document and MCP code (.andromeda/obs-plan-detail/pii-scrubbing-compliance.md:40) must agree with the `wait` / `last` scenario (.andromeda/obs-plan.md:361) and the no-line rule for `instance-unreachable` (.andromeda/obs-plan.md:537).
+- **`CLAUDE*` floor ↔ security plan Vector 6 and §4 E2**: the never-log row (.andromeda/obs-plan-detail/pii-scrubbing-compliance.md:11) carries the security trigger's floor (.andromeda/obs-plan.md:210) and the R8 edge flow's names-only rule (.andromeda/obs-plan.md:390).
+- **Path scrub ↔ security plan Vector 5 and the CLI exporter**: the Medium rule (.andromeda/obs-plan-detail/pii-scrubbing-compliance.md:17) must agree with the codes-only rejected-call signal (.andromeda/obs-plan.md:205) and the CLI's fixed stderr lines (.andromeda/obs-plan.md:111).

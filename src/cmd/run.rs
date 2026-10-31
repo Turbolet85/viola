@@ -10,7 +10,7 @@ use anyhow::Context as _;
 use chrono::Utc;
 use serde_json::{Value, json};
 use tracing::instrument;
-use viola_agent_claude::{Refusal, StripPlan, statusline};
+use viola_agent_claude::{AgentError, StripPlan, statusline};
 use viola_channel::{Call, ChannelError, Dispatch, ProtocolError, Server, Serving};
 use viola_core::obs::ObsProcess;
 use viola_core::{EventKind, MAX_FRAME, SystemClock, ViolaName, WheelCause};
@@ -263,11 +263,11 @@ pub(super) fn start(
     let cwd = std::env::current_dir()?;
     let program = match run::resolve_program(&launch.program, &cwd) {
         Ok(program) => program,
-        Err(Refusal::BatchScriptChild) => {
+        Err(AgentError::BatchScriptChild) => {
             refuse_batch_script(name);
             return Ok(refused("batch-script-child"));
         }
-        Err(Refusal::NotFound) => return Ok(refused("internal-error")),
+        Err(_) => return Ok(refused("internal-error")),
     };
 
     // The log's open created the home, so this is its one canonical spelling: the endpoint, the

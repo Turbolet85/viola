@@ -650,6 +650,34 @@ mod tests {
             assert!(!text.contains("printf") && !text.contains("canary-chain-value-5c1e"));
         }
 
+        /// `dd` writes 17 MiB; the read stops at the cap and closes the pipe, which ends `dd` with
+        /// SIGPIPE and leaves the shell to its own `exit 0`.
+        #[test]
+        fn statusline_shell_out_past_the_frame_cap_keeps_exactly_the_cap() {
+            let command = "dd if=/dev/zero bs=1048576 count=17 2>/dev/null; exit 0";
+            let Shell::Exited { code, stdout } = shell_out(sh(command), b"", LONG) else {
+                panic!("the command ended by itself");
+            };
+            assert_eq!(code, Some(0));
+            assert_eq!(u64::try_from(stdout.len()), Ok(MAX_FRAME));
+        }
+
+        /// With `exec` the signal ends the shell's own process: no code, so a failed command, and
+        /// `serve` prints nothing.
+        #[test]
+        fn statusline_shell_out_a_command_the_cut_ends_is_a_failed_command() {
+            let command = "exec dd if=/dev/zero bs=1048576 count=17 2>/dev/null";
+            let Shell::Exited { code, stdout } = shell_out(sh(command), b"", LONG) else {
+                panic!("the command ended by itself");
+            };
+            assert_eq!(code, None);
+            assert_eq!(u64::try_from(stdout.len()), Ok(MAX_FRAME));
+            let tmp = tempfile::tempdir().expect("tempdir");
+            let instance = instance_running(tmp.path(), Some(command));
+            let (out, _) = handled(&instance, PAYLOAD.as_bytes(), LONG);
+            assert!(out.is_empty(), "{} bytes printed", out.len());
+        }
+
         #[test]
         fn statusline_shell_out_a_non_zero_exit_prints_nothing() {
             let tmp = tempfile::tempdir().expect("tempdir");

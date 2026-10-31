@@ -1,0 +1,262 @@
+[
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "0259d9a1",
+"ts": "2026-10-31T07:22:16Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-31-sanitised-error-surfaces",
+"--source",
+"~/dev/projects/additional/viola-overseer/phase-sanitised-errors-directive.md",
+"--kind",
+"relay",
+"--why",
+"the operator directive of this phase (the overseer, founder-delegated): forced sampler on phase and wrap, evidence kept, stop at a hard cascade failure, founder forks as a P4 dialog, the freight and the WATCH as the route states them, the store report",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-10-31T07-21-45-phase",
+"--marker",
+"2026-10-31-sanitised-error-surfaces",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 2,
+"stdout": [],
+"stderr": "--chunk-dir: not a directory — viola-0.1.0/chunks/2026-10-31-sanitised-error-surfaces (a run dir is a Setup product; never auto-created)",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "0259d9a1",
+"ts": "2026-10-31T07:22:22Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-31-sanitised-error-surfaces",
+"--source",
+"~/dev/projects/additional/viola-overseer/phase-sanitised-errors-directive.md",
+"--kind",
+"relay",
+"--why",
+"the operator directive of this phase (the overseer, founder-delegated): forced sampler on phase and wrap, evidence kept, stop at a hard cascade failure, founder forks as a P4 dialog, the freight and the WATCH as the route states them, the store report",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-10-31T07-21-45-phase",
+"--marker",
+"2026-10-31-sanitised-error-surfaces"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy no-repo · ../additional/viola-overseer/phase-sanitised-errors-directive.md",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-phase-sanitised-errors-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/phase-sanitised-errors-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "3ccb0b98248865ab104113febcb5fb99c456f1defdbf1a2b338324bbc62b79ca",
+"copy": "I1-phase-sanitised-errors-directive.md.txt",
+"link": false,
+"read_at": "2026-10-31T07:22:22Z",
+"step": "phase:P1",
+"why": "the operator directive of this phase (the overseer, founder-delegated): forced sampler on phase and wrap, evidence kept, stop at a hard cascade failure, founder forks as a P4 dialog, the freight and the WATCH as the route states them, the store report"
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "0259d9a1",
+"ts": "2026-10-31T08:45:25Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-31-sanitised-error-surfaces",
+"--run-dir",
+".andromeda/runs/2026-10-31T07-21-45-phase",
+"--marker",
+"2026-10-31-sanitised-error-surfaces"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-sanitised-errors-directive.md",
+"I1 cited scope.md:35 · scope.md:71 · scope.md:78 · scope.md:81 · scope.md:88 · research.md:7 · plan.md:33 · plan.md:193 · plan.md:202 (in fence) · plan.md:337 (in fence) · plan.md:346 (in fence) · plan.md:365 · plan.md:366",
+"inputs: 1 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 1,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "0259d9a1",
+"ts": "2026-10-31T08:49:24Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-31-sanitised-error-surfaces",
+"--run-dir",
+".andromeda/runs/2026-10-31T07-21-45-phase",
+"--marker",
+"2026-10-31-sanitised-error-surfaces"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-sanitised-errors-directive.md",
+"I1 cited scope.md:35 · scope.md:71 · scope.md:78 · scope.md:81 · scope.md:88 · research.md:7 · plan.md:33 · plan.md:193 · plan.md:203 (in fence) · plan.md:360 (in fence) · plan.md:369 (in fence) · plan.md:388 · plan.md:389",
+"inputs: 1 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 1,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "0259d9a1",
+"ts": "2026-10-31T08:52:41Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-31-sanitised-error-surfaces",
+"--run-dir",
+".andromeda/runs/2026-10-31T07-21-45-phase",
+"--marker",
+"2026-10-31-sanitised-error-surfaces"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-sanitised-errors-directive.md",
+"I1 cited scope.md:35 · scope.md:71 · scope.md:78 · scope.md:81 · scope.md:88 · research.md:7 · plan.md:33 · plan.md:193 · plan.md:203 (in fence) · plan.md:360 (in fence) · plan.md:369 (in fence) · plan.md:388",
+"inputs: 1 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 1,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "0259d9a1",
+"ts": "2026-10-31T08:53:30Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-31-sanitised-error-surfaces",
+"--message-file",
+".andromeda/runs/2026-10-31T07-21-45-phase/relay-1.md",
+"--origin",
+"the overseer as the founder delegate, 2026-10-31T08:53:12Z",
+"--kind",
+"relay",
+"--why",
+"the P5 word on .andromeda/runs/2026-10-31T07-21-45-phase/p5-card-2.md, its Beyond-the-plan row included (a CARRY on Version done-check for the remaining enum divergences), and the three review notes on card 1: authority delegate overseer, 2026-10-31, PROVISIONAL",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-10-31T07-21-45-phase",
+"--marker",
+"2026-10-31-sanitised-error-surfaces"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy message · message: the overseer as the founder delegate, 2026-10-31T08:53:12Z",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "message: the overseer as the founder delegate, 2026-10-31T08:53:12Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "e691fc69385a411610830b06f0c45ab6adda48bedfa096759987b2fba21435b3",
+"copy": "I2-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-31T08:53:30Z",
+"step": "phase:P5",
+"why": "the P5 word on .andromeda/runs/2026-10-31T07-21-45-phase/p5-card-2.md, its Beyond-the-plan row included (a CARRY on Version done-check for the remaining enum divergences), and the three review notes on card 1: authority delegate overseer, 2026-10-31, PROVISIONAL"
+}
+}
+]

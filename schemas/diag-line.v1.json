@@ -39,7 +39,7 @@
     { "if": { "properties": { "event": { "const": "channel-response" } } }, "then": { "properties": {
       "corr": { "$ref": "#/$defs/corr" }, "method": { "type": "string" }, "conn": { "type": "string" },
       "srv_conn": { "type": "string" }, "result_class": { "enum": ["ok", "refusal", "error"] },
-      "refusal": { "type": "string" }, "detail": { "type": "string" },
+      "refusal": { "type": "string" }, "detail": { "enum": ["unsupported-version", "invalid-params", "release-from-driver"] },
       "error_code": { "enum": [-32700, -32600, -32601, -32602, -32603] }, "outcome": { "type": "string" },
       "duration_ms": { "$ref": "#/$defs/count" } } } },
     { "if": { "properties": { "event": { "enum": ["dialog-raised", "dialog-answered"] } } }, "then": { "properties": {

@@ -28,7 +28,7 @@ use viola_agent_claude::ledger::{
     ProbeRun, Probes, ShellVerdict, StatusLineCapture, TypedRun,
 };
 use viola_agent_claude::statusline;
-use viola_agent_claude::{CASE_INSENSITIVE, PLUGIN_DIR_FLAG, PROGRAM, Refusal, StripPlan};
+use viola_agent_claude::{AgentError, CASE_INSENSITIVE, PLUGIN_DIR_FLAG, PROGRAM, StripPlan};
 use viola_core::obs::{ObsEvent, ObsProcess};
 use viola_core::{Clock, MAX_FRAME, SystemClock, ViolaName, obs_event};
 use viola_state::fs::{FILE_MODE, create_private_dir, replace_private};
@@ -148,19 +148,19 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<Ended> {
         if p.is_file() {
             Ok(p)
         } else {
-            Err(Refusal::NotFound)
+            Err(AgentError::ProgramNotFound)
         }
     });
     let program = match resolved {
         Ok(program) => program,
-        Err(Refusal::BatchScriptChild) => {
+        Err(AgentError::BatchScriptChild) => {
             human::refuse(
                 "the claude CLI is a .cmd or .bat script",
                 "pass the real executable, not a .cmd or .bat shim",
             );
             return Ok(Ended::Exit(1));
         }
-        Err(Refusal::NotFound) => {
+        Err(_) => {
             human::refuse(
                 "the claude CLI was not found",
                 "install Claude Code or put it on PATH",

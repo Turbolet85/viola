@@ -202,17 +202,27 @@ fn unreachable_outcome(method: Option<&str>, error: &ChannelError) -> Option<&'s
 /// How a reply reads: its fault when it is one of the five codes, else its result's class.
 fn reply_class(reply: &Value) -> Class {
     match reply.get("error") {
-        Some(error) => Class::Error(error["code"].as_i64().and_then(fault_of)),
+        Some(error) => Class::Error(fault_of(error)),
         None => Class::of(&reply["result"]),
     }
 }
 
-fn fault_of(code: i64) -> Option<ProtocolError> {
+/// The fault an `error` member names: its code, and for `-32602` its closed `data` (`supported` ·
+/// `reason` · neither).
+fn fault_of(error: &Value) -> Option<ProtocolError> {
+    let code = error["code"].as_i64()?;
+    let invalid = if error["data"].get("supported").is_some() {
+        ProtocolError::UnsupportedVersion
+    } else if error["data"].get("reason").is_some() {
+        ProtocolError::ReleaseFromDriver
+    } else {
+        ProtocolError::InvalidParams
+    };
     [
         ProtocolError::Parse,
         ProtocolError::InvalidRequest,
         ProtocolError::MethodNotFound,
-        ProtocolError::UnsupportedVersion,
+        invalid,
         ProtocolError::Internal,
     ]
     .into_iter()
@@ -333,7 +343,7 @@ fn open_by(endpoint: &str, busy_until: Instant) -> io::Result<Stream> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::test_capture::{capture_global, test_endpoint};
+    use crate::test_capture::{capture, capture_global, test_endpoint};
     use crate::{Dispatch, Server};
     use rstest::rstest;
     use std::sync::Arc;
@@ -600,8 +610,12 @@ mod tests {
     #[rstest]
     #[case::ok(json!({"id": 1, "result": {"ok": {}}}), Class::Ok)]
     #[case::refusal(json!({"id": 1, "result": {"refusal": "unknown"}}), Class::Refusal)]
-    #[case::fault(json!({"id": 1, "error": {"code": -32602}}), Class::Error(Some(ProtocolError::UnsupportedVersion)))]
+    #[case::fault(json!({"id": 1, "error": {"code": -32603}}), Class::Error(Some(ProtocolError::Internal)))]
+    #[case::invalid_params(json!({"id": 1, "error": {"code": -32602, "data": null}}), Class::Error(Some(ProtocolError::InvalidParams)))]
+    #[case::newer_peer(json!({"id": 1, "error": {"code": -32602, "data": {"supported": 1, "wrapper": "0.1.0"}}}), Class::Error(Some(ProtocolError::UnsupportedVersion)))]
+    #[case::driver_release(json!({"id": 1, "error": {"code": -32602, "data": {"reason": "release-from-driver"}}}), Class::Error(Some(ProtocolError::ReleaseFromDriver)))]
     #[case::foreign_code(json!({"id": 1, "error": {"code": -1}}), Class::Error(None))]
+    #[case::no_code(json!({"id": 1, "error": {}}), Class::Error(None))]
     fn reply_class_reads_the_outcome(#[case] reply: Value, #[case] want: Class) {
         assert_eq!(reply_class(&reply), want);
     }
@@ -652,8 +666,37 @@ mod tests {
     #[test]
     fn fault_of_maps_all_five_codes() {
         for code in [-32700, -32600, -32601, -32602, -32603] {
-            assert_eq!(fault_of(code).map(ProtocolError::code), Some(code));
+            let fault = fault_of(&json!({"code": code}));
+            assert_eq!(fault.map(ProtocolError::code), Some(code));
         }
-        assert_eq!(fault_of(-32000), None);
+        assert_eq!(fault_of(&json!({"code": -32000})), None);
+    }
+
+    /// The client's line names the cause its reply carries, as the server's line does.
+    #[rstest]
+    #[case::newer_peer(
+        json!({"id": 1, "error": {"code": -32602, "message": "unsupported protocol version", "data": {"supported": 1, "wrapper": "0.1.0"}}}),
+        "unsupported-version"
+    )]
+    #[case::invalid_params(
+        json!({"id": 1, "error": {"code": -32602, "message": "invalid params", "data": null}}),
+        "invalid-params"
+    )]
+    #[case::driver_release(
+        json!({"id": 1, "error": {"code": -32602, "message": "invalid params", "data": {"reason": "release-from-driver"}}}),
+        "release-from-driver"
+    )]
+    fn reply_from_logs_the_cause_of_each_invalid_params(
+        #[case] reply: Value,
+        #[case] detail: &str,
+    ) {
+        let (_, got) = capture(|| {
+            let mut logged = ResponseLine::client(Instant::now(), 1, "cli-1-2-3", Some("send"));
+            reply_from(&mut logged, None, Ok(reply.to_string().into_bytes()))
+        });
+        let response = got.event("channel-response");
+        assert_eq!(response["detail"], detail);
+        assert_eq!(response["error_code"], -32602);
+        assert_eq!(response["level"], "WARN");
     }
 }

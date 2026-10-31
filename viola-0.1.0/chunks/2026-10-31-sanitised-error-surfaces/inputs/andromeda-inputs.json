@@ -1,0 +1,38 @@
+[
+  {
+    "id": "I1",
+    "kind": "relay",
+    "repo": null,
+    "path": "../additional/viola-overseer/phase-sanitised-errors-directive.md",
+    "form": "copy",
+    "state": "no-repo",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "3ccb0b98248865ab104113febcb5fb99c456f1defdbf1a2b338324bbc62b79ca",
+    "copy": "I1-phase-sanitised-errors-directive.md.txt",
+    "link": false,
+    "read_at": "2026-10-31T07:22:22Z",
+    "step": "phase:P1",
+    "why": "the operator directive of this phase (the overseer, founder-delegated): forced sampler on phase and wrap, evidence kept, stop at a hard cascade failure, founder forks as a P4 dialog, the freight and the WATCH as the route states them, the store report"
+  },
+  {
+    "id": "I2",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: the overseer as the founder delegate, 2026-10-31T08:53:12Z",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "e691fc69385a411610830b06f0c45ab6adda48bedfa096759987b2fba21435b3",
+    "copy": "I2-relay-1.md.txt",
+    "link": false,
+    "read_at": "2026-10-31T08:53:30Z",
+    "step": "phase:P5",
+    "why": "the P5 word on .andromeda/runs/2026-10-31T07-21-45-phase/p5-card-2.md, its Beyond-the-plan row included (a CARRY on Version done-check for the remaining enum divergences), and the three review notes on card 1: authority delegate overseer, 2026-10-31, PROVISIONAL"
+  }
+]

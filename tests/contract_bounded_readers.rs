@@ -88,7 +88,7 @@ const BOUNDARIES: &[Boundary] = &[
         cap: "MAX_FRAME",
         depth: NO_PARSE,
         types: "bytes passed through unparsed",
-        witness: "statusline_shell_out_passes_the_output_through_byte_for_byte",
+        witness: "statusline_shell_out_past_the_frame_cap_keeps_exactly_the_cap",
     },
     Boundary {
         boundary: "statusline-source.json and ~/.claude/settings.json",
@@ -106,7 +106,7 @@ const BOUNDARIES: &[Boundary] = &[
         cap: "MAX_FRAME",
         depth: DEFAULT_DEPTH,
         types: "whole numbers into Percent",
-        witness: "thresholds_read_each_key_as_a_whole_percentage",
+        witness: "read_thresholds_keeps_no_key_past_the_frame_cap",
     },
     Boundary {
         boundary: "config.json dialog_hold_s",
@@ -115,7 +115,7 @@ const BOUNDARIES: &[Boundary] = &[
         cap: "MAX_FRAME",
         depth: DEFAULT_DEPTH,
         types: "a whole number of seconds into DialogHold",
-        witness: "read_hold_takes_a_whole_number_of_seconds_in_range",
+        witness: "read_hold_keeps_no_key_past_the_frame_cap",
     },
     Boundary {
         boundary: "config.json claude_env_keep",
@@ -124,7 +124,7 @@ const BOUNDARIES: &[Boundary] = &[
         cap: "MAX_FRAME",
         depth: DEFAULT_DEPTH,
         types: "listed CLAUDE names, the whole list refused on a bad entry",
-        witness: "env_keep_rejects_the_whole_list_on_any_bad_entry",
+        witness: "env_keep_keeps_no_key_past_the_frame_cap",
     },
     Boundary {
         boundary: "config.json diagnostics_level",
@@ -214,7 +214,7 @@ const BOUNDARIES: &[Boundary] = &[
         cap: "the caller's cap",
         depth: NO_PARSE,
         types: "bytes handed to the caller's parse",
-        witness: "run_bounded_returns_the_exit_and_stdout",
+        witness: "drain_keeps_cap_bytes_of_an_endless_pipe",
     },
     Boundary {
         boundary: "claude agents --json output",

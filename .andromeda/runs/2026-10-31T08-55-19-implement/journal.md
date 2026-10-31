@@ -1,0 +1,9 @@
+# Run journal — 2026-10-31-sanitised-error-surfaces, /andromeda-implement
+
+Each long run is named here before it is waited on (the operator's direction at this run's invocation).
+
+- 2026-10-31T09:08Z — the remove-the-guard controls, `$TMPDIR/{scratchpad}/controls.py`: fourteen plants, one at a time in the working tree, each restored in a `finally`; every nextest run under the `ci` profile's kill and a 570 s subprocess bound. Output to `chunks/2026-10-31-sanitised-error-surfaces/evidence/remove-the-guard.md`.
+- 2026-10-31T09:10Z — the controls read: 14 of 14 red under their plants, restored green, the tree's diff sha unchanged.
+- 2026-10-31T09:11Z — the whole gate block, `gate.py run --plan … --run-dir … --marker …`, backgrounded: `/tmp` read first (entry 1); target/ partly warm. Longest entry `pre-push` (coverage), declared timeout 7200 s. The plan's operator entries are not fired by this call. Waiting on the completion notice; the verdict is the printed SUMMARY.
+- 2026-10-31T09:14:51Z — first block: red 10 and 22, one cause: `mcp_tools_error_results_hold_no_path_or_upstream_text`'s oracle read `data` as `Some(Null)`, and rmcp's client reads the wire's null as `None`. Oracle corrected. Re-running the whole block, backgrounded.
+- 2026-10-31T09:21:30Z — the operator pass's pre-push re-run read red: `verify_stopped_during_the_resume_run_removes_its_dir_and_exits_1` case_1_sigint and case_2_sigterm, `timed out waiting for Run E's start` at the 7 s `WITHIN`, receipts still growing. The host record for its window reads `CONTENDED for viola - 20 s stalled on IO: 09:20:14Z..09:20:34Z`, an `escher` build alive in it, load peak 90.7. No push until a pre-push reads green. Next, backgrounded: `binary(cli_verify)`'s two cases five rounds alone, then `pre-push` again, each with its host window read.

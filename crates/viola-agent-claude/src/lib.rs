@@ -203,14 +203,10 @@ pub enum AgentError {
     DialogMalformed,
     #[error("the dialog answer has the wrong shape")]
     ResponseMalformed,
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq, thiserror::Error)]
-pub enum Refusal {
     #[error("the command is a .cmd or .bat script")]
     BatchScriptChild,
     #[error("the command was not found")]
-    NotFound,
+    ProgramNotFound,
 }
 
 /// Where a bare program name is looked up.
@@ -234,12 +230,12 @@ pub fn resolve_program(
     cwd: &Path,
     search: Search<'_>,
     is_file: &dyn Fn(&Path) -> bool,
-) -> Result<PathBuf, Refusal> {
+) -> Result<PathBuf, AgentError> {
     let given = Path::new(program);
     let found = if given.is_absolute() || given.components().count() > 1 {
         cwd.join(given)
     } else {
-        find_on_path(program, search, is_file).ok_or(Refusal::NotFound)?
+        find_on_path(program, search, is_file).ok_or(AgentError::ProgramNotFound)?
     };
     if !search.windows || !is_script(&found) {
         return Ok(found);
@@ -252,7 +248,7 @@ pub fn resolve_program(
         .map(|dir| SHIM_TARGET.iter().fold(dir.to_path_buf(), |p, s| p.join(s)));
     match target {
         Some(target) if stem_is_claude && is_file(&target) => Ok(target),
-        _ => Err(Refusal::BatchScriptChild),
+        _ => Err(AgentError::BatchScriptChild),
     }
 }
 
@@ -449,11 +445,11 @@ mod tests {
         let path = std::env::join_paths([&bin]).expect("path");
         for program in ["claude", "tool", "other"] {
             let got = resolve_program(OsStr::new(program), &root(), windows(&path), &fs);
-            assert_eq!(got, Err(Refusal::BatchScriptChild), "{program}");
+            assert_eq!(got, Err(AgentError::BatchScriptChild), "{program}");
         }
         let given = bin.join("tool.bat");
         let got = resolve_program(given.as_os_str(), &root(), windows(&path), &fs);
-        assert_eq!(got, Err(Refusal::BatchScriptChild));
+        assert_eq!(got, Err(AgentError::BatchScriptChild));
     }
 
     #[test]
@@ -462,7 +458,7 @@ mod tests {
         let fs = files(&[npm.join("codex.cmd"), shim_exe(&npm)]);
         let path = std::env::join_paths([&npm]).expect("path");
         let got = resolve_program(OsStr::new("codex"), &root(), windows(&path), &fs);
-        assert_eq!(got, Err(Refusal::BatchScriptChild));
+        assert_eq!(got, Err(AgentError::BatchScriptChild));
     }
 
     #[test]
@@ -471,7 +467,7 @@ mod tests {
         let fs = files(&[bin.join("tool")]);
         let path = std::env::join_paths([&bin]).expect("path");
         let got = resolve_program(OsStr::new("tool"), &root(), windows(&path), &fs);
-        assert_eq!(got, Err(Refusal::NotFound));
+        assert_eq!(got, Err(AgentError::ProgramNotFound));
     }
 
     #[test]
@@ -541,13 +537,13 @@ mod tests {
         let fs = files(&[]);
         let path = std::env::join_paths([root()]).expect("path");
         let got = resolve_program(OsStr::new("absent"), &root(), windows(&path), &fs);
-        assert_eq!(got, Err(Refusal::NotFound));
+        assert_eq!(got, Err(AgentError::ProgramNotFound));
         let none = Search {
             path: None,
             ..windows(&path)
         };
         let got = resolve_program(OsStr::new("absent"), &root(), none, &fs);
-        assert_eq!(got, Err(Refusal::NotFound));
+        assert_eq!(got, Err(AgentError::ProgramNotFound));
     }
 
     /// The rendered `hooks.json`, written out as the oracle: nine exec-form entries on the pinned
@@ -697,9 +693,12 @@ mod tests {
     #[test]
     fn refusal_messages_are_fixed() {
         assert_eq!(
-            Refusal::BatchScriptChild.to_string(),
+            AgentError::BatchScriptChild.to_string(),
             "the command is a .cmd or .bat script"
         );
-        assert_eq!(Refusal::NotFound.to_string(), "the command was not found");
+        assert_eq!(
+            AgentError::ProgramNotFound.to_string(),
+            "the command was not found"
+        );
     }
 }

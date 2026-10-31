@@ -427,6 +427,25 @@ mod tests {
         assert_eq!(parsed(config), (pair(five_hour, seven_day), 0));
     }
 
+    /// The read stops at `MAX_FRAME`: a document one byte longer loses its closing brace, so it reads
+    /// as no document, with no rejection, and the same document at the cap reads the value.
+    #[test]
+    fn read_thresholds_keeps_no_key_past_the_frame_cap() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let home = tmp.path().join("home");
+        viola_state::fs::create_private_dir(&home).expect("home");
+        let (head, tail) = (r#"{"v":1,"pad":""#, r#"","five_hour":50}"#);
+        let document = |len: usize| {
+            let pad = "x".repeat(len - head.len() - tail.len());
+            format!("{head}{pad}{tail}")
+        };
+        let cap = usize::try_from(MAX_FRAME).expect("fits");
+        std::fs::write(home.join("config.json"), document(cap + 1)).expect("config");
+        assert_eq!(read_thresholds(&home), (pair(90, 85), Vec::new()));
+        std::fs::write(home.join("config.json"), document(cap)).expect("config");
+        assert_eq!(read_thresholds(&home), (pair(50, 85), Vec::new()));
+    }
+
     /// A value that is no whole number from 0 to 100 gives its key the default and one
     /// rejection; the other key stands.
     #[rstest]

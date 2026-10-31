@@ -17,7 +17,7 @@ use std::ffi::{OsStr, OsString};
 use std::path::{Path, PathBuf};
 
 use viola_agent_claude::statusline::SETTINGS_FLAG;
-use viola_agent_claude::{PLUGIN_DIR_FLAG, Refusal, Search, StripPlan};
+use viola_agent_claude::{AgentError, PLUGIN_DIR_FLAG, Search, StripPlan};
 use viola_core::obs::ObsEvent;
 use viola_core::{SERVICE_NAME, VERSION, ViolaName, obs_event};
 use viola_pty::Exit;
@@ -141,7 +141,7 @@ pub(crate) fn child_launch(
 
 /// The program after `--`, looked up by viola itself (never by portable-pty's own search, which
 /// takes an extensionless sh shim first on Windows) against this process's `PATH`.
-pub(crate) fn resolve_program(program: &OsStr, cwd: &Path) -> Result<PathBuf, Refusal> {
+pub(crate) fn resolve_program(program: &OsStr, cwd: &Path) -> Result<PathBuf, AgentError> {
     let path = std::env::var_os("PATH");
     let pathext = std::env::var_os("PATHEXT");
     let search = Search {

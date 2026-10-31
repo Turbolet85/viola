@@ -1,0 +1,23 @@
+# Classified — obs · span-trace-coverage.b2
+
+## Answers
+span-trace-coverage#7.4 · yes · a mid-call disconnect is logged once by the client, the channel-response Drop guard emission the chunk reads, and a refusal before any frame opens no channel line
+span-trace-coverage#8.1 · yes · the instance-check refusals before the frame on CLI answer (refuse_untrusted) and MCP answer (check_instance) write no frame and no line, and a failed link record answers -32603 with the fixed message and null data
+span-trace-coverage#8.2 · yes · the dialog-hold reader's BOUNDARIES rows must hold the 60 000 to 3 600 000 ms range and the 60 000 ms default that dialog_hold_s is parsed against
+span-trace-coverage#8.3 · yes · the driver-side refusal bodies and their channel-response detail codes, the instance-unreachable document with null detail on CLI and MCP answer, and the rule that question, answer and tool input never appear
+span-trace-coverage#8.4 · no · the dialog expiry and hand-back lines and the hook backstop are timing and log rules that change no error body on the three surfaces, and the fail-open codes it only points to are read from the §6 catalog
+span-trace-coverage#9.1 · yes · the -32603 answer when the move's wheel record does not land is a channel error body the chunk fixes, and its refused send and failed server check bind the codes the chunk's bodies carry
+span-trace-coverage#9.2 · no · the wheel span's attribute list is span content the chunk does not change, and the entity names no error body or channel line that carries it
+span-trace-coverage#9.3 · yes · a release with a string from answers -32602 with data reason release-from-driver, while a non-string from or non-bool budget answers plain -32602 with data null, which the chunk's InvalidParams causes and fault_of must keep apart
+span-trace-coverage#9.4 · no · the wheel span's point-in-time cleanup and the wheel event as audit record are span and product-log content, and the -32603 rule on a missed wheel record is span-trace-coverage#9.1's
+span-trace-coverage#10.1 · no · the budget governor's must-trace span tree is unchanged, and the status-line rows the chunk adds test stdout, oversize and the deadline, none of which this tree states
+span-trace-coverage#10.2 · yes · the rule that statusline_command never appears, which the task's status-line read names as staying out of home-level files, binds; its budget span attributes and budget.json no-reading rule are outside the chunk
+span-trace-coverage#10.3 · yes · oversize and malformed statusline stdin write the hook-stdin parse-rejected line and the detail codes oversize-stdin, malformed-json and deadline, which the status-line BOUNDARIES rows and the task's status-line read on oversize witness
+span-trace-coverage#10.4 · yes · the status-line command's stdout passes through unchanged and is never logged, oversize or malformed stdin prints nothing and runs no shell, and STATUSLINE_DEADLINE bounds the shell-out, all witnessed by the status-line BOUNDARIES rows
+span-trace-coverage#11.1 · yes · the R8 strip logs only the counts and names env_stripped_count, env_stripped_known and env_kept, never a value, which the planted CLAUDE* value of the witnesses must stay out of, and claude_env_keep's kept names appear as names only
+span-trace-coverage#12.1 · no · the implicit link on a successful send or answer writes one product line and no span, a success path the chunk's error bodies do not reach, and the -32603 on a failed record is span-trace-coverage#8.1's
+span-trace-coverage#13.1 · yes · link and unlink answer -32602 with data null for a missing, non-string or invalid name, a foreign driven or a driver equal to driven, and -32603 for a record or remove error, which the chunk's InvalidParams causes and fault_of must tell apart
+span-trace-coverage#14.1 · no · the state-recovered line of an unreadable or newer snapshot is crash-recovery telemetry the task's Not needed list excludes, and it is a home-level log line, not an error body on the three surfaces
+span-trace-coverage#15.1 · no · the torn-line heal line on events.ndjson is crash-recovery telemetry the task's Not needed list excludes, and it writes no error body
+span-trace-coverage#16.1 · no · the ledger's parse-rejected line and its unverified fallback are run's version-gate telemetry, not an error body on the three surfaces, and the task names no ledger path source
+span-trace-coverage#17.1 · yes · verify's internal fault prints exactly error: internal error, a refused plugin install under --json gives the instance-unreachable document, the unable and hint pair is the refusal body, and no path appears in any document or line

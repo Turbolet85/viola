@@ -1,0 +1,78 @@
+# obs · cascade read · group 2 of 9
+
+## Carried
+- (.andromeda/obs-plan-detail/obs-scope-summary.md:133) No absolute path may reach a `--json` document, an MCP `isError` or a channel `error.data`, and every witness must drive its failure with a path in play to prove it.
+  > Absolute paths in `snapshot.json` (`endpoint`, `pinned_bin`) and in config values are scrubbed from external output. They are allowed in `diagnostics/`.
+  (.andromeda/obs-plan.md:95)
+  > the absolute paths in `snapshot.json` and config values are scrubbed from external output.
+- (.andromeda/obs-plan-detail/obs-scope-summary.md:143) The cap-driving cases owed to the `config.json` reader rows of the thresholds, the dialog hold and `claude_env_keep` must assert what the load-time parse makes observable and nothing else, and the sibling child-pipe row must hold the `unknown`-plus-counter outcome.
+  > Only the parse at load time is observable, and it is logged through `viola-state` / root bin (skipped-key counts).
+  (.andromeda/obs-plan.md:99)
+  > only the parse at load time is observable.
+  (.andromeda/obs-plan.md:83)
+  > a parse failure becomes `"unknown"` plus a counter, and the output rows are untrusted.
+- (.andromeda/obs-plan-detail/obs-scope-summary.md:159) The CLI witness and the enumeration must hold this surface's bodies: `--json` on stdout, the exact `instance-unreachable` document with a null `detail`, nothing opened on a refused check, and a full chain written only when an instance resolves.
+  > A file sink only: JSON-per-line to `diagnostics/` when an instance is resolved (security Vector 6: "write the full error only to `diagnostics/` when an instance is resolved"). Without an instance there is no process-log file, and human stderr carries only fixed-message lines (design excerpt, CLI faults). Network OTLP is excluded: security says "viola makes no outbound network calls". The stdout exporter is excluded because stdout carries `--json` results. `viola revive <name> --list` logs as `cli` into the caller's `cli-<VIOLA_NAME>.ndjson` once its strict-modes check has passed (none with no `VIOLA_NAME`; a refused check opens none; chunk 2026-10-17-cli-machine-contract). `viola link` / `viola unlink` log as `cli` into the driven instance's `cli-<driven>.ndjson` (the instance their `<driven>` argument names, never the caller's `VIOLA_NAME`) once their instance check of it has passed; a refused check opens none. `send`, `wait`, `last`, `answer`, `pause` and `release` log as `cli` once their instance check (`refuse_untrusted`: `check_instance` on the home and `instances/<name>`) has passed; a refused check exits 21 with the instance pair, or under `--json` the `{"v":1,"error":"instance-unreachable","detail":null}` document, opens nothing under the home and writes no line. `viola revive`'s start arm is not a short-lived verb: it is the wrapper surface below (`process="run"`, `diagnostics/run-<name>.ndjson`). `viola verify` logs as `cli` (with an instance) once its home-tree check (`check_home_tree` on the home, `ledger/`, `bin/` and `plugin/`) has passed; a refused check exits 1 with the home pair, opens no log and writes no line, and a refused `update_stamps` (`StampsError::StrictModes`) exits 1 with the same pair.
+  (.andromeda/obs-plan.md:47)
+  > a chain that contains a serde source becomes a fixed message before it reaches stderr, and the full chain goes to `diagnostics/` only.
+- (.andromeda/obs-plan-detail/obs-scope-summary.md:163) Every refusal and fault the CLI gives must stay a fixed string, and a verb's failure it cannot name must reach no reader as free text.
+  > Refusal and fault lines on stderr are fixed strings with no paths, pids, chains or upstream text (design excerpt, CLI refusals / CLI faults).
+  (.andromeda/obs-plan-detail/obs-scope-summary.md:165)
+  > Founder Direction 4: each cause behind exit 21 and exit 1 gets a distinct detail code, except a strict-modes check refused before any log opens, which writes no line: its cause is carried only by the fixed stderr pair or the `--json` document (`send`, `wait`, `last`, `answer`, `pause`, `release`, `link` and `unlink`, exit 21; `run`, `viola revive` and `viola verify`, exit 1).
+  (.andromeda/obs-plan.md:111)
+  > refusal and fault lines on stderr are fixed strings with no paths, pids, chains or upstream text.
+  (.andromeda/obs-plan.md:161)
+  > exit-1 causes use a distinct `detail` code, with no path or pid in it.
+  (.andromeda/obs-plan.md:253)
+  > `release-from-driver` is its own logged event, and each cause behind exit 21 and exit 1 gets a distinct `detail` code with no path or pid, except a strict-modes check refused before any log opens, which writes no line (its cause is the fixed stderr pair or the `--json` document).
+- (.andromeda/obs-plan-detail/obs-scope-summary.md:186) The cap-driving case owed to the status-line stdout row must assert that this stdout carries only the user's command's output and that stderr stays empty, whatever oversize does to the read.
+  > A file sink only, to `diagnostics/hook-<name>.ndjson`. stderr is forbidden on both. stdout carries only the decision body for `viola hook <event>`, and for `viola hook statusline` only the user's status-line command's output (arch Standard Contracts, Hook contract); the two hidden `--capture` arms (`verify`'s probe capture) write no sink and print nothing, except `--answers`' probe decision body. A failed log write is swallowed, and the hook still exits 0 (tests excerpt, Log format Constraints).
+  (.andromeda/obs-plan.md:87)
+  > its duration and exit status only; the command string is never logged outside `diagnostics/`.
+  (.andromeda/obs-plan.md:181)
+  > the `statusline_command` string never appears outside `diagnostics/`.
+- (.andromeda/obs-plan-detail/obs-scope-summary.md:190) The status-line case must run inside this bound and leave it where it stands, PROVISIONAL marker included, since the scope's bounded status-line read names it.
+  > `viola hook statusline` is outside that budget: its shell-out of the user's command is bounded by the 5 s PROVISIONAL `STATUSLINE_DEADLINE`, and no `run --perf` row times it.
+- (.andromeda/obs-plan-detail/obs-scope-summary.md:203) The channel witness and the enumeration must pin `-32603` to exactly this body, and no error body or line may treat `from` as authenticated.
+  > `-32603` must be `"internal error"` with `data:null` (security Vector 1).
+  (.andromeda/obs-plan-detail/obs-scope-summary.md:204)
+  > `from` is self-reported and must not be logged as an authenticated identity (security Vector 1).
+  (.andromeda/obs-plan.md:123)
+  > `-32603` is `"internal error"` with `data:null`, and the self-reported `from` is never logged as an authenticated identity.
+  (.andromeda/obs-plan.md:190)
+  > channel lines never carry `params` or result bodies, and `from` is logged as unauthenticated.
+- (.andromeda/obs-plan-detail/obs-scope-summary.md:212) The test owed to a line past `MAX_FRAME` before `initialize` completes must drive this refusal and assert its oracles: refused whole, stdout MCP frames only, stderr empty, and the one `parse-rejected` record.
+  > Always the file sink `<home>/diagnostics/mcp.ndjson` (tests excerpt; D-09), the home resolved through `resolved_home` like every verb's and checked with its `diagnostics/` by strict-modes before the sink opens; stderr JSON only when that file cannot be opened (as landed, chunk 2026-10-17-mcp-server-for-drivers). stdout is forbidden because it carries MCP frames. tracing-subscriber `fmt()` writes to stdout unless a writer is configured, so the writer must be set explicitly. rmcp reads stdin only through viola's line cap (`CappedLines` at `MAX_FRAME`): a line of at most `MAX_FRAME` bytes, its newline counted, passes whole; a longer line is refused whole, never truncated or skipped, and ends the session as a closed stdin does, stderr empty, its one record the §6 `parse-rejected{parser:"mcp-stdin", detail:"oversize"}` line.
+  (.andromeda/obs-plan.md:125)
+  > its stdin read in lines of at most `MAX_FRAME`, a longer line refused whole and the session ended as at a closed stdin
+- (.andromeda/obs-plan-detail/obs-scope-summary.md:215) Every `isError` of the five tools and every rejected call's log line must hold codes only, witnessed with upstream text and a path in play, including text rmcp or a deserialiser would supply.
+  > `isError` results carry codes only: `refusal` / `detail`, `instance-unreachable`, `wrapper-fault`, `invalid-params` (its `detail` a closed field word; chunk 2026-10-17-mcp-server-for-drivers) (security Vector 5). Log lines follow the same codes-only rule for rejected calls (tests excerpt, Coverage Triggers, MCP).
+  (.andromeda/obs-plan.md:127)
+  > `isError` results and the log lines for rejected calls carry codes only.
+  (.andromeda/obs-plan.md:205)
+  > rejected tool calls are logged with codes only, with no upstream text, absolute paths or type names.
+- (.andromeda/obs-plan-detail/obs-scope-summary.md:238) The pre-`initialize` oversize test must read its record in the log that this order opens before the transport starts, and the refused-check `--json` witness must find nothing opened under the home.
+  > For `run`, this completes before the start sequence, so the collision check and version gate are logged. For `mcp`, it completes before the rmcp stdio transport starts.
+  (.andromeda/obs-plan-detail/obs-scope-summary.md:233)
+  > 3. Resolve the home (`--home`, then the grandparent of `VIOLA_DIR`, then the default) and the instance (`VIOLA_NAME` or an argument). Where the role checks the home before its first open, that strict-modes check runs here — every `viola hook` arm but the two `--capture` arms (`canonical` + `trusted`); `send`, `wait`, `last`, `answer`, `pause`, `release`, `link` and `unlink` (`refuse_untrusted`); `verify` (`check_home_tree`); `run` and `viola revive`'s start (`checked_exe` + `check_home_tree`) — and a refusal ends the process with nothing under the home opened and no line.
+- (.andromeda/obs-plan-detail/obs-scope-summary.md:277) The planted stripped `CLAUDE*` value of each witness must appear on no sink, the secret-scan leg of the candidate claim must stand as this rule's proof, and any change telling the `-32602` causes apart must add to the `channel-response` line without renaming or removing a required field or giving `corr` a new meaning.
+  > No line may contain a `Cookie` header or any stripped `CLAUDE*` value. This is enforced by the secret-scan test in §6.
+  (.andromeda/obs-plan-detail/obs-scope-summary.md:274)
+  > obs-plan may add fields but must not rename or remove these. The harness greps on them.
+  (.andromeda/obs-plan-detail/obs-scope-summary.md:265)
+  > `event`, a closed kebab-case enum. A new value needs a Decisions Log entry, like the §3 closed enums. Each value fixes what its `corr` holds:
+  (.andromeda/obs-plan-detail/obs-scope-summary.md:266)
+  > `channel-request`, `channel-response`: `corr` = the JSON-RPC request `id`
+  (.andromeda/obs-plan.md:67)
+  > drift reports go to `diagnostics/` only, and R8-stripped `CLAUDE*` values are never logged anywhere.
+  (.andromeda/obs-plan.md:210)
+  > a never-log floor for every R8-stripped `CLAUDE*` value across all sinks and fixtures; the strip is logged as a count or variable names only, never values, and Phase 3 confirms the names are admissible; a serde-sourced anyhow chain becomes a fixed message before stderr; no env, flag or config may disable redaction.
+  (.andromeda/obs-plan.md:264)
+  > Until a wrap brings a difference current, §3, §6 and §12 win where they differ: diagnostics root (D-08, D-22), `event` enum extensions (D-01…D-05, D-21), `hook-invoked` `corr` timing (D-07), the channel join key (D-25: `(conn, corr)`, each side logs its own `instance`), and the MSRV floor (D-22: 1.96)._
+
+## Bindings
+- **The surface bodies ↔ each other and the enumeration**: the CLI document (.andromeda/obs-plan-detail/obs-scope-summary.md:159), the MCP codes (.andromeda/obs-plan-detail/obs-scope-summary.md:215) and the channel body (.andromeda/obs-plan-detail/obs-scope-summary.md:203) must be named together in one enumeration, so a new body carrying free text on any of the three is visible.
+- **Fixed bodies ↔ Error capture**: a fixed surface body (.andromeda/obs-plan-detail/obs-scope-summary.md:163) requires the scrubbing layers of §7 (.andromeda/obs-plan.md:509), fixed `Display` strings first, and the full chain may go only to the instance detail file (.andromeda/obs-plan.md:511).
+- **The `-32602` causes ↔ Log coverage and Metric coverage**: the additive-only limit (.andromeda/obs-plan-detail/obs-scope-summary.md:274) rules over any change telling the causes apart, whose line keeps its level mapping (.andromeda/obs-plan.md:460), and the `viola.compat.v_rejected` over-count (.andromeda/obs-plan.md:418) retires only when the line tells them apart.
+- **The never-log floor ↔ PII Scrubbing and CI Integration**: the floor (.andromeda/obs-plan-detail/obs-scope-summary.md:277) is proved by the scan (.andromeda/obs-plan.md:570) over its named inputs (.andromeda/obs-plan.md:621), so a witness's planted values may appear in those inputs only through a real leak.
+- **The oversize line's record ↔ init order**: the one `parse-rejected` record (.andromeda/obs-plan-detail/obs-scope-summary.md:212) can be read before `initialize` completes only because the sink opens before the transport starts (.andromeda/obs-plan-detail/obs-scope-summary.md:238).

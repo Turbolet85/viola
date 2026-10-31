@@ -344,6 +344,18 @@ fn is_refused_control(c: char) -> bool {
     }
 }
 
+/// A closed reason's or detail's shape: 1 to 64 characters of `[a-z0-9-]`, a letter first
+/// (architecture §Conventions, Naming patterns). A reader screens what a peer sent with it, so no
+/// path or free text reaches a machine reader's error body (security-plan §Error Handling).
+pub fn is_code_word(word: &str) -> bool {
+    let bytes = word.as_bytes();
+    bytes.len() <= 64
+        && bytes.first().is_some_and(u8::is_ascii_lowercase)
+        && bytes
+            .iter()
+            .all(|b| b.is_ascii_lowercase() || b.is_ascii_digit() || *b == b'-')
+}
+
 fn is_valid_name(name: &str) -> bool {
     let bytes = name.as_bytes();
     let Some(first) = bytes.first() else {
@@ -852,6 +864,52 @@ mod tests {
         assert!(validate_paste_text("~").is_ok());
         assert!(validate_paste_text("\u{80}").is_err());
         assert!(validate_paste_text("\u{a0}").is_ok());
+    }
+
+    #[test]
+    fn code_word_literal_table() {
+        for word in [
+            "human-typing",
+            "budget-paused",
+            "unverified-cli",
+            "not-delivered",
+            "unknown",
+            "input-not-ready",
+            "no-prompt-submitted",
+            "turn-running",
+            "unknown-dialog",
+            "control-character",
+            "empty-text",
+            "manual-pause",
+            "five-hour",
+            "seven-day",
+            "a",
+            "a1",
+            "a-",
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        ] {
+            assert!(is_code_word(word), "{word:?} must read true");
+        }
+        for text in [
+            "",
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "Unknown",
+            "human-Typing",
+            "a b",
+            " a",
+            "a ",
+            "/home/x",
+            "C:/x",
+            "1a",
+            "-a",
+            "a_b",
+            "a.b",
+            "a\u{1b}",
+            "\u{0}",
+            "é",
+        ] {
+            assert!(!is_code_word(text), "{text:?} must read false");
+        }
     }
 
     fn refused_char() -> impl Strategy<Value = char> {

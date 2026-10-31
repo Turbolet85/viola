@@ -241,6 +241,33 @@ fn handlers_send_without_a_name_sends_no_from_and_maps_a_refusal() {
     assert_eq!(own_params(&wrapper.frames()[0].1), json!({"text": "x"}));
 }
 
+/// A peer's refusal holding free text reaches neither the body nor the `refused:` text.
+#[test]
+fn handlers_a_refusal_of_free_text_reads_as_unknown_with_no_detail() {
+    let wrapper = booted(
+        "freetext",
+        vec![(
+            "send",
+            Ok(json!({"refusal": "/home/x/y refused", "detail": "/home/x/y"})),
+        )],
+    );
+    let result = call(
+        &wrapper.tools(None),
+        "send",
+        json!({"target": "builder", "text": "x"}),
+    )
+    .expect("a result");
+    assert_eq!(result.is_error, Some(true));
+    assert_eq!(
+        result.structured_content,
+        Some(json!({"refusal": "unknown", "detail": null}))
+    );
+    assert_eq!(
+        serde_json::to_value(&result.content).expect("json")[0]["text"],
+        "refused: unknown"
+    );
+}
+
 /// `wait` sends the clamped bound, the cap when none was given, and `after` as given.
 #[test]
 fn handlers_wait_sends_the_clamped_bound_and_maps_a_timeout() {

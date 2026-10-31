@@ -29,6 +29,16 @@ path = "tests/cli_fake_agent.rs"
 required-features = ["fake-agent"]
 
 [[test]]
+name = "channel_error_bodies"
+path = "tests/channel_error_bodies.rs"
+required-features = ["fake-agent"]
+
+[[test]]
+name = "cli_error_bodies"
+path = "tests/cli_error_bodies.rs"
+required-features = ["fake-agent"]
+
+[[test]]
 name = "contract_fixture_hygiene"
 path = "tests/contract_fixture_hygiene.rs"
 required-features = ["fake-agent"]

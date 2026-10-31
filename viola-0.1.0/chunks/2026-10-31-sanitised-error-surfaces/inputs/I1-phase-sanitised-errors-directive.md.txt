@@ -1,0 +1,25 @@
+# Phase directive — "Sanitised error surfaces" (Epoch 6)
+
+The operator's requests to the phase's orchestrator (the overseer, founder-delegated).
+
+1. **Forced sample.** Please force the sampler on this phase, and on this chunk's wrap: the fan-out's batch agent type is
+   new since the last chunks, and this reads it on a live cascade.
+2. **Please keep the evidence.** Keep every subagent and Workflow transcript, and leave the run dir intact.
+3. **Stop at a hard cascade failure.** If a Workflow launch, a batch or a P2 step fails hard, please stop and report it
+   with the run dir. Stop the same way if agents write nothing, or do the orchestrator's work (F352). Do not re-spawn
+   around it.
+4. **Founder forks.** A boundary widening, a live-session cap or a route split is his live word. Ask it as a P4 dialog.
+5. **Standing:**
+   - no epoch boundary inside Epoch 6;
+   - read `df -h /tmp` before a stamped-home gate;
+   - `target/` was cleaned on 2026-10-27, so the next gate block rebuilds cold;
+   - no testing past what the plan lists.
+6. **This entry's freight.** The PREREQ (the two test gaps from "Bounded inputs at every boundary") and the two CARRYs
+   ride the scope as the route states them.
+7. **The WATCH on this entry** (Path 1's CI timeout): please carry it, tally it on this chunk's CI reads, and retire it
+   at 3 green runs or reopen it at a recurrence.
+8. **The friction ledger moved into the store** (`.andromeda/db/`, commits `2cedb584` and `7bf5c32a`). `evolve.py append`
+   stays its writer and nothing writes `.andromeda/db/` by hand. Please report at once anything the store changes under a
+   skill: an append refused or slow, a guard refusal on `.andromeda/db/` or the old ledger, a bookkeeping list reading the
+   journal as dirty work, or a health row off.
+9. **HEAD is three local commits ahead of origin** (the door's). They go out with this chunk's normal pushes.

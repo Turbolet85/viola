@@ -1,0 +1,18 @@
+# Classified — tests · test-scope-summary.b1
+
+## Answers
+test-scope-summary#1.1 · yes · binds through the -32602 higher-v rejection that viola.compat.v_rejected counts, the MAX_FRAME oversize -32600 and the error shapes the channel edits
+test-scope-summary#2.1 · yes · binds through the R8 CLAUDE* strip (the planted stripped value and claude_env_keep), the npm-shim and .cmd/.bat resolution cases the Refusal carry keeps, the unverified-cli refusal the MCP assertions pin and the claude --version and agents --json readers under the child pipe drain row
+test-scope-summary#3.1 · yes · binds through the --json error documents of the verbs per exit code (10–14, 20, 21), instance-unreachable at exit 21 under --json included; revive's start-refusal documents and the human TTY rendering are Not needed
+test-scope-summary#4.1 · yes · binds through the cli surface's --json signal (exit code plus one error or refusal document, driven by assert_cmd with --json); its human stdout/stderr line match is Not needed
+test-scope-summary#5.1 · no · the outer-PTY byte search over the forced vt100 panic reads the human terminal, not one of the three machine surfaces, and the chunk names no PTY or vt100 witness
+test-scope-summary#5.2 · yes · binds through the channel's protocol-fault shapes {error:{code,message,data}}, namely -32600 on an oversize frame, -32602 with data supported/wrapper or null, and -32603 "internal error" with data null
+test-scope-summary#5.3 · yes · binds through the MCP isError bodies of send, wait, last, answer and list, the -32603 "internal error", the recorded Mcp.<variant>.json replay and the pre-initialize stdin cap the chunk owes
+test-scope-summary#6.1 · no · the harness's five commands (boot, run, status, cleanup, logs) and their JSON reasons are Not needed, since harness output is no product error surface and the chunk's witnesses run under the existing suites
+test-scope-summary#7.1 · yes · binds through the claude-on-PATH stub the child pipe drain witness uses for claude agents --json and the fixture rule (no real-prompt fixtures, checked for absolute paths and usernames) on any changed Mcp recording; its hook-fixture recording is Not needed and its fresh-home and budget/stamps restatements are standing S2 and S9
+test-scope-summary#8.1 · yes · binds through the Path 1 watch this chunk tallies on its CI reads, since path1_run_start_one_home_in_order witnesses the run start sequence and its event order; the start refusal exits are owned by the Exit-cause and Unix hardening entries
+test-scope-summary#8.2 · no · the confirmed-send flow (Path 2) is Not needed because the chunk changes no send confirmation behaviour, and its no-prompt-submitted and empty-text refusal codes are not named by the chunk's body needs
+test-scope-summary#9.1 · yes · binds through the release-from-driver -32602 (exit 20) channel error and the human-typing refusal bodies (send --json exit 10 with detail null, MCP "refused: human-typing")
+test-scope-summary#9.2 · yes · binds through the status-line pass-through that the status-line row's witness drives (stdout equal to the user command, Unix only, Windows runs none) and the 90 % / 85 % thresholds the thresholds' config reader falls back to; the budget-governor flow is Not needed
+test-scope-summary#10.1 · yes · binds through the endpoint-vanishes-during-wait row, which gives instance-unreachable on a killed wrapper that the MCP and CLI body assertions pin; the torn-line, snapshot-replay and no-EOF rows are Not needed
+test-scope-summary#11.1 · no · the fake-agent contract checks the recorded hook payload sets (spine, dialog, framing, resume, compact), which Not needed excludes and the chunk does not change, and its claude --version and agents --json answers are not among them

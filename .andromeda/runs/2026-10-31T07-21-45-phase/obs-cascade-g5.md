@@ -1,0 +1,80 @@
+# obs · cascade read · group 5 of 9
+
+## Carried
+- (.andromeda/obs-plan-detail/span-trace-coverage.md:18) The CLI witness and enumeration must hold the short-lived verbs to these lines on a failure, the `revive --list` arm's closed `no-session` included, with the full chain reaching only the detail file.
+  > `process-start` / `process-exit{exit_code, detail}` into `cli-<name>.ndjson` when an instance resolves (D-06); `viola revive <name> --list` (chunk 2026-10-17-cli-machine-contract) is a `cli` verb that, after its strict-modes check passes and only under a parsed `VIOLA_NAME`, opens the CALLER's `cli-<VIOLA_NAME>.ndjson` and writes `process-start` and `process-exit` (`exit_code` 0 with no detail; `exit_code` 1 `detail:"no-session"` on an empty chain), with no name no log;
+  (.andromeda/obs-plan-detail/span-trace-coverage.md:18)
+  > Client-side `send-refused{side:"client"}`. The full anyhow chain goes to `detail-cli.ndjson` only
+  (.andromeda/obs-plan.md:312)
+  > Every role's codes-only process log goes to its home-level role file under `diagnostics/`, and content-bearing detail goes only to the instance's `diagnostics/detail-<role>.ndjson`.
+- (.andromeda/obs-plan-detail/span-trace-coverage.md:19) A portable-pty failure must reach the three surfaces only as a viola code through the fixed `PtyError` message, never as upstream text.
+  > none (portable-pty 0.8.1 logs through `log`; its target is OFF and failures are captured at the seam, D-11)
+  (.andromeda/obs-plan.md:333)
+  > the rmcp and portable-pty targets are OFF in the sink; channel lines never record `params` or result bodies.
+- (.andromeda/obs-plan-detail/span-trace-coverage.md:21) Any way of telling the `-32602` causes apart must be read against this field list as a contract, and must keep `params` and result bodies off the line.
+  > `channel.request` (client) / `channel.dispatch` (server) spans. `channel-request` / `channel-response` with `method`, `corr`, `conn`, `result_class`, `error_code`, `sender`. Never `params` or result bodies
+  (.andromeda/obs-plan.md:392)
+  > **E3** (`link` / `unlink`): the implicit link (recorded by the driven wrapper inside an issued `send` or a taken `answer`) and the explicit `link` / `unlink` methods the driven wrapper serves have no process-log line, no `event` value and no span of their own; their trace is the call's `channel-request` / `channel-response` pair, the product `link` / `unlink` line in `events.ndjson` and the snapshot's `links`
+- (.andromeda/obs-plan-detail/span-trace-coverage.md:22) The MCP witness must drive a rejected call with rmcp text in play and find codes only on the reject's result and line, with stdout carrying frames alone.
+  > rmcp 3.4.1 emits native `tracing`, but its target is OFF in the sink (records lack required fields and can carry frame content) | `mcp.tool_call` span per tool (`send · wait · last · answer · list`). Codes-only `send-refused` / `channel-response` on rejects.
+  (.andromeda/obs-plan.md:313)
+  > `mcp` writes only MCP frames to stdout.
+- (.andromeda/obs-plan-detail/span-trace-coverage.md:28) The CLI enumeration must walk this failure on the frame verbs, its code closed and its path free of any `channel-request` line; the check behind it stays outside this chunk.
+  > A mismatch or a check that cannot be made opens no `channel.request` span, writes no `channel-request` line and ends `process-exit{subject:"self", exit_code:21, detail:"server-verify-failed", during:"connect"}`.
+- (.andromeda/obs-plan-detail/span-trace-coverage.md:30) The chunk must re-assert exactly this `--json` document, null `detail` included, and must leave the refused path writing no line.
+  > **cli (short-lived verbs), the instance check:** the six frame verbs (`send`, `wait`, `last`, `answer`, `pause`, `release`) run `client::refuse_untrusted`, the instance check `link` / `unlink` share, on their named instance before any role file opens; a refused check (exit 21, the instance pair on stderr, or under `--json` exactly `{"v":1,"error":"instance-unreachable","detail":null}`) opens no process log and writes no line.
+  (.andromeda/obs-plan.md:361)
+  > first, a home or instance tree the instance check refuses ends a CLI `wait` / `last` before any role file opens (exit 21, the instance pair, or exactly `{"v":1,"error":"instance-unreachable","detail":null}` under `--json`; no line), and MCP's returns `instance-unreachable` with no line.
+- (.andromeda/obs-plan-detail/span-trace-coverage.md:32) The MCP surface must answer these refusals with the codes-only `instance-unreachable`, null `detail`, no frame and no log line, and the enumeration must name that body.
+  > **ipc-internal (viola-mcp), the server check:** the frame tools `send`, `wait`, `last` and `answer` first run `check_instance` on their instance, before `live_endpoint` (a refusal returns `instance-unreachable` with `detail: null`, no frame and no line), then verify the wrapper after `TokioClient::connect`, inside `mcp.tool_call` (`server_verified`, the start time read on `tokio::task::spawn_blocking`). A mismatch or a check that cannot be made returns the codes-only `isError` `instance-unreachable` with no frame and no log line, as the unreachable path does. Linux and Windows; macOS on the recorded gap.
+- (.andromeda/obs-plan-detail/span-trace-coverage.md:40) The status-line command's cap-driving case must leave the command and its source path out of every line and span, and its stdout unlogged.
+  > The child's `--settings` argument, the source path and the command appear in no line or span.
+  (.andromeda/obs-plan.md:385)
+  > Never `statusline_command`; the user's stdout passes through unchanged and is never logged; the shell-out is bounded by `STATUSLINE_DEADLINE` (5 s, PROVISIONAL).
+- (.andromeda/obs-plan-detail/span-trace-coverage.md:44) Whichever way the `Refusal` carry ends, folded into `AgentError` or ratified, `resolve_program`'s refusal must keep this code, this order and this line.
+  > the `.cmd`/`.bat` refusal (`batch-script-child`) is decided earlier, by viola-side program resolution (`resolve_program`, after obs init and before the strip plan and `pty.spawn`), and logged as `process-exit{subject:"self", exit_code:1, detail:"batch-script-child"}` with no child spawned and no `process-start{subject:"claude-child"}`;
+  (.andromeda/obs-plan-detail/span-trace-coverage.md:49)
+  > `pty.spawn`: `pty_backend` (`conpty-sideload|conpty|openpty`, from `viola_pty::pty_backend()`; `conpty-sideload` after a successful pre-load), `env_stripped_count`.
+  (.andromeda/obs-plan-detail/span-trace-coverage.md:50)
+  > Never the endpoint name, `pinned_bin` path or env values.
+  (.andromeda/obs-plan.md:398)
+  > **Capability ledger** (`ledger/stamps.json`): read inside `run.version_gate`; a missing stamp, or an unreadable, malformed or strict-modes-refused ledger, counts as unverified (`cli_verified:false`); the path and stamp contents never appear.
+- (.andromeda/obs-plan-detail/span-trace-coverage.md:55) The exit-1 details must stay closed codes with no path or pid across the `Refusal` carry, and the child pipe drain's cap-driving case must find the probe's pair and one `parse-rejected` on oversize, with the planted stripped value recorded by count and names only.
+  > On failure, `process-exit{subject:"self", exit_code:1, detail}` with `detail` ∈ `already-live|squatted-name|pinned-hash-mismatch|batch-script-child` (Founder Direction 4; no path or pid).
+  (.andromeda/obs-plan-detail/span-trace-coverage.md:55)
+  > its `session-live` reading (skipped under `--fork`) writes one `process-start` / `process-exit{subject:"agents-probe"}` pair in `run-<name>.ndjson`, plus one `parse-rejected{parser:"claude-agents-json"}` on an oversize or malformed answer, and passes on a failed read;
+  (.andromeda/obs-plan-detail/span-trace-coverage.md:54)
+  > `process-start` / `process-exit{subject:"version-probe", child_exit_status, duration_ms}`.
+  (.andromeda/obs-plan-detail/span-trace-coverage.md:56)
+  > On success, `process-start{subject:"claude-child", child_pid, pty_backend, cli_version, cli_verified, env_stripped_count, env_stripped_known, env_kept}` (D-34)
+  (.andromeda/obs-plan.md:345)
+  > a failure's `detail` carries no path or pid
+  (.andromeda/obs-plan.md:390)
+  > **E2** (R8 strip): `env_stripped_count`, `env_stripped_known` and `env_kept` on `process-start{subject:"claude-child"}`; names only, never values, and no env map is passed to a span or event.
+- (.andromeda/obs-plan-detail/span-trace-coverage.md:75) The channel witness must hold a failed record's answer to `-32603` with its fixed message and null data, nothing issued, and MCP and CLI `send` must refuse an instance before any frame or line.
+  > A record that fails answers `-32603` with nothing issued and nothing typed, so no `send-issued` is written.
+  (.andromeda/obs-plan-detail/span-trace-coverage.md:76)
+  > The instance check comes first: CLI `send` runs `client::refuse_untrusted` after its text read and before any role file opens, and MCP `send` runs `check_instance` before `live_endpoint`; a refusal sends no frame and writes no line.
+- (.andromeda/obs-plan-detail/span-trace-coverage.md:91) The `channel-response` contract read must reconcile this field list with the row's `error_code` list, and rejected `send` lines must stay codes only with a self-reported `from` kept unauthenticated.
+  > `channel-response{corr:<id>, conn, result_class, refusal, detail, duration_ms}` on both sides;
+  (.andromeda/obs-plan-detail/span-trace-coverage.md:84)
+  > `channel-request{corr:<id>, conn, method, from, from_trust:"self-reported", sender}`;
+  (.andromeda/obs-plan-detail/span-trace-coverage.md:88)
+  > or `send-refused{corr:<cursor>, refusal, detail, side:"wrapper", wheel}` with `detail` ∈ `input-not-ready|no-prompt-submitted|turn-running`.
+  (.andromeda/obs-plan-detail/span-trace-coverage.md:89)
+  > client-side validation refusal, made before any frame: `send-refused{corr:null, refusal:"not-delivered", detail:"control-character"|"empty-text", side:"client"}`, with a mirror line on the wrapper side if the frame reached it.
+  (.andromeda/obs-plan-detail/span-trace-coverage.md:90)
+  > client-side server-verification refusal, made after the client's own refusals and before any frame (Linux and Windows): no `channel-request` / `channel-response` line on either side; CLI `send` ends `process-exit{subject:"self", exit_code:21, detail:"server-verify-failed", during:"connect"}` at WARN, and MCP `send` writes no line;
+- (.andromeda/obs-plan-detail/span-trace-coverage.md:93) A change to the `channel-response` line must keep its `Drop` emission on every early return, and `send`'s closed exit details, `wrapper-fault` and `internal-error` included, must hold in the CLI enumeration.
+  > `channel-response` is emitted from a `Drop` guard in `channel.dispatch`, so an early return or error still logs it. `send.client` closes with `process-exit{subject:"self", exit_code}` (0 / 10 / 11 / 12 / 13 / 14 / 20 / 21, or 1 `internal-error` on a reply with neither a parseable `result` nor an `error.code`); exit 20 carries `detail:"wrapper-fault"`, and exit 21 `detail:"instance-dead"` with `during` `connect` (no live snapshot, a replayed one included, or the connect failed) or `call` (the connection lost after it), or `detail:"server-verify-failed"` with `during:"connect"` (the serving process is not the recorded wrapper, or the check cannot be made; no frame sent; Linux and Windows, macOS on the recorded gap).
+  (.andromeda/obs-plan-detail/span-trace-coverage.md:94)
+  > A `send` its instance check refuses (`client::refuse_untrusted`: exit 21, the instance pair, or under `--json` the `instance-unreachable` document) is refused before any role file opens: no `send.client` span, no `process-exit` and no line.
+  (.andromeda/obs-plan.md:353)
+  > `channel-response` is emitted from a `Drop` guard in `channel.dispatch`, so an early return or error still logs it;
+
+## Bindings
+- **The `channel-response` fields ↔ metric coverage and the field catalog**: telling the `-32602` causes apart must satisfy both field lists, (.andromeda/obs-plan-detail/span-trace-coverage.md:21) and (.andromeda/obs-plan-detail/span-trace-coverage.md:91), end the recorded over-count of `viola.compat.v_rejected` (.andromeda/obs-plan.md:418), and name any new field in the §6 catalog under default-deny (.andromeda/obs-plan.md:576).
+- **The `Refusal` carry ↔ error capture**: `batch-script-child` must keep its line and its closed code (.andromeda/obs-plan-detail/span-trace-coverage.md:44), (.andromeda/obs-plan-detail/span-trace-coverage.md:55), while the outcome must agree with the §7 fixed-`Display` enum list (.andromeda/obs-plan.md:496).
+- **The CLI chain's only home ↔ error capture**: the detail-file-only chain (.andromeda/obs-plan-detail/span-trace-coverage.md:18) must hold together with the serde chain's fixed `internal error` (.andromeda/obs-plan.md:510) and the one-line `chain` array, written only when an instance resolves (.andromeda/obs-plan.md:511).
+- **MCP's silent `instance-unreachable` ↔ error capture**: no line on the check's refusal (.andromeda/obs-plan-detail/span-trace-coverage.md:32) must agree with the `isError` code as its only record (.andromeda/obs-plan.md:537).
+- **The strip's count and names ↔ PII and the secret scan**: the planted stripped value must appear in no field of (.andromeda/obs-plan-detail/span-trace-coverage.md:56), under the never-log floor (.andromeda/obs-plan.md:734), and the scan's proof of that floor (.andromeda/obs-plan.md:570) must stay readable with the witness's planted value out of its inputs unless a real leak put it there.

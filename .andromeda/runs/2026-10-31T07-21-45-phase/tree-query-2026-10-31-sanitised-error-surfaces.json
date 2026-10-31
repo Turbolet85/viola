@@ -1,0 +1,208 @@
+[
+{
+"sql": "SELECT callee_name, caller_name, file, line FROM calls WHERE callee_name IN ('fault_detail','fault_of','reply_of','of_reply','resolve_program','reply_class') AND callee_kind = 'fn' ORDER BY callee_name, file, line",
+"rows": 33,
+"result": [
+{
+"callee_name": "fault_detail",
+"caller_name": "of_reply",
+"file": "crates/viola-mcp/src/result.rs",
+"line": 56
+},
+{
+"callee_name": "fault_detail",
+"caller_name": "reply_of",
+"file": "src/cmd/client.rs",
+"line": 69
+},
+{
+"callee_name": "fault_of",
+"caller_name": "reply_class",
+"file": "crates/viola-channel/src/client.rs",
+"line": 204
+},
+{
+"callee_name": "fault_of",
+"caller_name": "fault_of_maps_all_five_codes",
+"file": "crates/viola-channel/src/client.rs",
+"line": 654
+},
+{
+"callee_name": "fault_of",
+"caller_name": "fault_of_maps_all_five_codes",
+"file": "crates/viola-channel/src/client.rs",
+"line": 656
+},
+{
+"callee_name": "of_reply",
+"caller_name": "of_reply_maps_each_reply_shape",
+"file": "crates/viola-mcp/src/result.rs",
+"line": 166
+},
+{
+"callee_name": "of_reply",
+"caller_name": "of_reply_reads_a_vanished_instance_as_unreachable",
+"file": "crates/viola-mcp/src/result.rs",
+"line": 184
+},
+{
+"callee_name": "of_reply",
+"caller_name": "of_reply_reads_any_other_outcome_as_an_internal_fault",
+"file": "crates/viola-mcp/src/result.rs",
+"line": 205
+},
+{
+"callee_name": "of_reply",
+"caller_name": "frame",
+"file": "crates/viola-mcp/src/tools.rs",
+"line": 344
+},
+{
+"callee_name": "of_reply",
+"caller_name": "frame",
+"file": "crates/viola-mcp/src/tools.rs",
+"line": 350
+},
+{
+"callee_name": "reply_class",
+"caller_name": "reply_from",
+"file": "crates/viola-channel/src/client.rs",
+"line": 189
+},
+{
+"callee_name": "reply_class",
+"caller_name": "reply_class_reads_the_outcome",
+"file": "crates/viola-channel/src/client.rs",
+"line": 605
+},
+{
+"callee_name": "reply_of",
+"caller_name": "answer_of",
+"file": "src/cmd/client.rs",
+"line": 181
+},
+{
+"callee_name": "reply_of",
+"caller_name": "reply_of_reads_the_three_shapes",
+"file": "src/cmd/client.rs",
+"line": 385
+},
+{
+"callee_name": "resolve_program",
+"caller_name": "resolve_program_turns_the_claude_shim_into_its_exe",
+"file": "crates/viola-agent-claude/src/lib.rs",
+"line": 436
+},
+{
+"callee_name": "resolve_program",
+"caller_name": "resolve_program_refuses_a_shim_without_its_exe_and_any_other_script",
+"file": "crates/viola-agent-claude/src/lib.rs",
+"line": 450
+},
+{
+"callee_name": "resolve_program",
+"caller_name": "resolve_program_refuses_a_shim_without_its_exe_and_any_other_script",
+"file": "crates/viola-agent-claude/src/lib.rs",
+"line": 454
+},
+{
+"callee_name": "resolve_program",
+"caller_name": "resolve_program_refuses_a_non_claude_script_even_beside_the_exe",
+"file": "crates/viola-agent-claude/src/lib.rs",
+"line": 463
+},
+{
+"callee_name": "resolve_program",
+"caller_name": "resolve_program_never_takes_an_extensionless_file_on_windows",
+"file": "crates/viola-agent-claude/src/lib.rs",
+"line": 472
+},
+{
+"callee_name": "resolve_program",
+"caller_name": "resolve_program_follows_pathext_order_and_path_order",
+"file": "crates/viola-agent-claude/src/lib.rs",
+"line": 486
+},
+{
+"callee_name": "resolve_program",
+"caller_name": "resolve_program_follows_pathext_order_and_path_order",
+"file": "crates/viola-agent-claude/src/lib.rs",
+"line": 492
+},
+{
+"callee_name": "resolve_program",
+"caller_name": "resolve_program_follows_pathext_order_and_path_order",
+"file": "crates/viola-agent-claude/src/lib.rs",
+"line": 495
+},
+{
+"callee_name": "resolve_program",
+"caller_name": "resolve_program_takes_a_name_with_an_extension_as_is_on_path",
+"file": "crates/viola-agent-claude/src/lib.rs",
+"line": 504
+},
+{
+"callee_name": "resolve_program",
+"caller_name": "resolve_program_uses_a_given_path_as_given",
+"file": "crates/viola-agent-claude/src/lib.rs",
+"line": 512
+},
+{
+"callee_name": "resolve_program",
+"caller_name": "resolve_program_uses_a_given_path_as_given",
+"file": "crates/viola-agent-claude/src/lib.rs",
+"line": 515
+},
+{
+"callee_name": "resolve_program",
+"caller_name": "resolve_program_on_unix_takes_the_bare_name_and_never_refuses",
+"file": "crates/viola-agent-claude/src/lib.rs",
+"line": 532
+},
+{
+"callee_name": "resolve_program",
+"caller_name": "resolve_program_on_unix_takes_the_bare_name_and_never_refuses",
+"file": "crates/viola-agent-claude/src/lib.rs",
+"line": 534
+},
+{
+"callee_name": "resolve_program",
+"caller_name": "resolve_program_reports_a_missing_program",
+"file": "crates/viola-agent-claude/src/lib.rs",
+"line": 542
+},
+{
+"callee_name": "resolve_program",
+"caller_name": "resolve_program_reports_a_missing_program",
+"file": "crates/viola-agent-claude/src/lib.rs",
+"line": 548
+},
+{
+"callee_name": "resolve_program",
+"caller_name": "start",
+"file": "src/cmd/run.rs",
+"line": 263
+},
+{
+"callee_name": "resolve_program",
+"caller_name": "measure",
+"file": "src/cmd/verify.rs",
+"line": 146
+},
+{
+"callee_name": "resolve_program",
+"caller_name": "read_here",
+"file": "src/run/agents.rs",
+"line": 109
+},
+{
+"callee_name": "resolve_program",
+"caller_name": "resolve_program",
+"file": "src/run/mod.rs",
+"line": 151
+}
+],
+"db_state": "regenerated",
+"plane": "rust"
+}
+]

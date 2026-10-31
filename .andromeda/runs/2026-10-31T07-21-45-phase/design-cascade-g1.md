@@ -1,0 +1,50 @@
+# design · cascade read · group 1 of 2
+
+## Carried
+- (.andromeda/design-system.md:382) The chunk's fixed messages, every product `Display` reaching a surface and each surface's witness must hold this floor in errors and hints, pids included beside the entry's own list of paths, upstream text and serde-sourced chains.
+  > **NEVER print upstream text, paths, pids or anyhow chains with serde sources in errors or hints.** This is the security plan's NEVER-log floor, and human output of `last` / `list` escapes C0/C1 controls.
+- (.andromeda/design-system.md:385) Whatever a surface strips must go to the instance's diagnostics and nowhere else, and no fault path of the three surfaces may print a stack trace.
+  > **NEVER print stack traces.** Full detail goes to `diagnostics/` only.
+- (.andromeda/design-system-detail/color-palette.md:96) A refused `send` or `answer` must keep the mirror's order of strike, `unable`, reason and detail wherever a changed message or the `Refusal` fold reaches it, and the row's fifth column is what binds, its colours a 0.2.0 input.
+  > | Readback::refused (from CL-1 `send-refused`) | #1E2124 + 1px #E6D8AE `/` strike | #E6D8AE | #E6D8AE | Strike, then `unable`, then `reason · detail` |
+  (.andromeda/design-system.md:28)
+  > The CLI mirrors the box as `[RB]` / `[  ]` / `[/ ]`.
+  (.andromeda/design-system.md:97)
+  > The fifth column holds the printed word and the treatment.
+- (.andromeda/design-system-detail/color-palette.md:101) The enumeration of error bodies must name `not-delivered` as a typed reason, its word unchanged by the chunk's messages.
+  > | RefusalReason::not-delivered | #1E2124 | #E6D8AE | #E6D8AE | `unable · not-delivered` |
+- (.andromeda/design-system-detail/color-palette.md:102) The plan must rule on this row's opaque plain-text detail against the chunk's code-shaped or null `detail`, so an `unknown` reason cannot carry free text onto a surface unnamed by the enumeration.
+  > | RefusalReason::unknown | #1E2124 | #E6D8AE | #E6D8AE | `unable · unknown`, with the detail printed as opaque plain text |
+- (.andromeda/design-system-detail/color-palette.md:103) A refusal whose `detail` is null must print nothing after its reason, so the enumeration's null case leaves no dangling separator on the human line.
+  > | RefusalDetail::null | #1E2124 | #E6D8AE | #E6D8AE | Nothing after the reason (no dangling `·`) |
+- (.andromeda/design-system-detail/color-palette.md:108) The enumeration of error bodies must name `no-prompt-submitted` as a detail code under the reason `not-delivered`.
+  > | RefusalDetail::no-prompt-submitted | #1E2124 | #E6D8AE | #E6D8AE | `not-delivered · no-prompt-submitted` |
+- (.andromeda/design-system-detail/color-palette.md:110) The enumeration of error bodies must name `unknown-dialog` as a detail code under the reason `not-delivered`.
+  > | RefusalDetail::unknown-dialog | #1E2124 | #E6D8AE | #E6D8AE | `not-delivered · unknown-dialog` |
+- (.andromeda/design-system-detail/color-palette.md:89) The closed set of `detail` codes the enumeration names must hold the budget windows' two detail words as these exact words, never their `5H` / `7D` labels.
+  > | BudgetWindow::five-hour | #1E2124 | #4A5057 | #E6D8AE | Label `5H`. Detail word `five-hour` in refusals. |
+  (.andromeda/design-system-detail/color-palette.md:90)
+  > | BudgetWindow::seven-day | #1E2124 | #4A5057 | #E6D8AE | Label `7D`. Detail word `seven-day` in refusals. |
+- (.andromeda/design-system-detail/color-palette.md:66) A cap-driving case on the `claude agents --json` drain that reads through `viola list` must assert the printed STATUS word `unknown` for the failed join, with no upstream text in the row.
+  > | SessionStatus::unknown | #2A2E33 | #9C9278 | #E6D8AE | `unknown` printed in the box (`claude agents --json` missing, failed or not joined) |
+  (.andromeda/design-system.md:102)
+  > A `claude_agents` failure surfaces on the page as STATUS `unknown`.
+- (.andromeda/design-system-detail/color-palette.md:80) A cap-driving case on the `claude --version` drain that reads through `viola list` must assert the CLI field's `unknown` for the failed reading on a wrapped row.
+  > | CliVersion::(absent) | #2A2E33 | #9C9278 | #E6D8AE | `unknown`: a failed reading on a wrapped strip |
+  (.andromeda/design-system.md:10)
+  > A field with no reading prints `unknown`.
+- (.andromeda/design-system-detail/color-palette.md:86) A status-line cap-driving case that reads through `viola list` and leaves the budget with no reading must assert this BAY form, and that nothing is blocked by it.
+  > | BudgetEnvelope::unknown | #1E2124 | #4A5057 | #E6D8AE | `5H unknown  7D unknown  read unknown`. Nothing is blocked. |
+  (.andromeda/design-system-detail/color-palette.md:91)
+  > | Window.used_percentage::unknown | #1E2124 | #4A5057 | #E6D8AE | `5H unknown` |
+- (.andromeda/design-system-detail/iconography.md:11) A witness or enumeration over a human refusal line must pin the two-space separator between reason and detail, the `·` of the refusal rows being the web's and never printed by the CLI.
+  > Two spaces separate columns, and a refusal's reason from its detail (they are separate fields, as in the exit-code table).
+  (.andromeda/design-system.md:209)
+  > two spaces between columns, ` - ` inside one field
+
+## Bindings
+- **Refusal rows of Semantic Colors ↔ Iconography's CLI separator**: the reason and detail words of the rows print on the CLI as two separate fields split by two spaces, not by the rows' `·`, and a null detail prints neither field nor separator (.andromeda/design-system-detail/color-palette.md:103), (.andromeda/design-system-detail/iconography.md:11).
+- **`RefusalReason::unknown` ↔ the never-log floor in the cli bans**: the row's opaque plain-text detail and the ban on upstream text meet on one field, so the plan must hold that detail code-shaped or null, or put the exception to the chunk's property in front of the operator, never leave both standing (.andromeda/design-system-detail/color-palette.md:102), (.andromeda/design-system.md:382).
+- **Refusal and detail rows ↔ the `--json` documents and MCP results of the cli surface**: the words of these rows are the codes the `refusal` and `detail` fields hold, the one vocabulary a reader checks across the human line, the `--json` document and the MCP result, as the exit-code phraseology states it for each code (.andromeda/design-system-detail/color-palette.md:101), (.andromeda/design-system.md:338).
+- **Printed-word rows of `unknown` ↔ Brand Identity's strip fields**: a cap that fails a reading must surface as the fixed word of the field that lost it, never as the reader's error text in a table cell, so each `viola list` cap-driving case holds both the row's word and the floor (.andromeda/design-system-detail/color-palette.md:66), (.andromeda/design-system-detail/color-palette.md:80), (.andromeda/design-system-detail/color-palette.md:86), (.andromeda/design-system.md:10), (.andromeda/design-system.md:382).
+- **Fixed messages of the surfaces ↔ diagnostics of Platform-Specific Notes**: what a sanitised body drops must be kept only in `instances/<name>/diagnostics/`, so the floor on the three surfaces never becomes loss of the detail (.andromeda/design-system.md:356), (.andromeda/design-system.md:382).

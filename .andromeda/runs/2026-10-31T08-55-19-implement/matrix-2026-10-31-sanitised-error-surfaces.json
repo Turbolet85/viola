@@ -1,0 +1,49 @@
+[
+{
+"tool": "matrix",
+"v": "1.5",
+"sha8": "f258a1ca",
+"ts": "2026-10-31T09:18:31Z",
+"argv": [
+"implement",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-31-sanitised-error-surfaces",
+"--id",
+"v1-47",
+"--ref-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-31T08-55-19-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"implement v1-47 · status planned → implemented · ref tests/contract_error_bodies.rs (error_bodies_each_name_a_writer_and_a_witness_th… (1014 chars)",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-47",
+"chunk": "2026-10-31-sanitised-error-surfaces",
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "CLI machine-readable errors, MCP errors and channel errors carry only codes and fixed messages; no log, diagnostic, fixt… (881 chars)",
+"notes_chars": 2330
+},
+"after": {
+"id": "v1-47",
+"chunk": "2026-10-31-sanitised-error-surfaces",
+"status": "implemented",
+"method": "integration",
+"ref": "tests/contract_error_bodies.rs (error_bodies_each_name_a_writer_and_a_witness_that_stand, channel_faults_are_the_seven_l… (1014 chars)",
+"acceptance": "CLI machine-readable errors, MCP errors and channel errors carry only codes and fixed messages; no log, diagnostic, fixt… (881 chars)",
+"notes_chars": 2330
+}
+}
+]
