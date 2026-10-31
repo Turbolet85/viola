@@ -2610,5 +2610,66 @@
 ]
 }
 }
+},
+{
+"tool": "gate",
+"v": "1.22",
+"sha8": "20a62737",
+"ts": "2026-10-31T09:41:48Z",
+"argv": [
+"census",
+"--comm",
+"viola",
+"--comm",
+"viola-fake-agent",
+"--comm",
+"viola-harness",
+"--args",
+"projects/viola/target",
+"--run-dir",
+".andromeda/runs/2026-10-31T08-55-19-implement",
+"--marker",
+"2026-10-31-sanitised-error-surfaces"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"census · ps · comm viola, viola-fake-agent, viola-harness · args projects/viola/target · own tree excluded: 8",
+"  41165 · ppid 41143 · viola · ~/dev/projects/additional/viola-lab/prototype/target/debug/viola run pulse-builder --dialog-timeout 3500 -- claude --plugin-dir ~/dev/projects/additional/viola-lab/prototype/plugin --effort high -n pulse-builder --resume c4f6401c-6d92-4cc1-92bd-093b68711cf9",
+"  41273 · ppid 40777 · viola · ~/.viola/bin/0.1.0-231c0225dac912d9/viola mcp",
+"  42084 · ppid 42060 · viola · ~/dev/projects/additional/viola-lab/prototype/target/debug/viola run escher-builder --dialog-timeout 3500 -- claude --plugin-dir ~/dev/projects/additional/viola-lab/prototype/plugin --effort high -n escher-builder --resume 70b2f877-bca2-4e4e-9f29-48309903baf6",
+"  43757 · ppid 43718 · viola · ~/dev/projects/additional/viola-lab/prototype/target/debug/viola run conductor-builder --dialog-timeout 3500 -- claude --plugin-dir ~/dev/projects/additional/viola-lab/prototype/plugin --effort high -n conductor-builder --resume 678b82bd-da70-48d6-8fe3-d62bdcae3ece",
+"  80913 · ppid 80881 · viola · ~/dev/projects/additional/viola-lab/prototype/target/debug/viola run andromeda-worker --dialog-timeout 3500 -- claude --plugin-dir ~/dev/projects/additional/viola-lab/prototype/plugin --effort high -n andromeda-worker",
+"  2759549 · ppid 2759548 · viola · ~/.local/viola-product/bin/viola wait viola-builder --after 4272736 --timeout-ms 3000000 --json",
+"  2952416 · ppid 2952414 · viola · ~/dev/projects/additional/viola-lab/prototype/target/debug/viola wait escher-builder --timeout 60",
+"  2971231 · ppid 2971230 · viola · ~/dev/projects/additional/viola-lab/prototype/target/debug/viola wait andromeda-worker --timeout 60",
+"census: 8 running"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"census": {
+"comm": [
+"viola",
+"viola-fake-agent",
+"viola-harness"
+],
+"args": [
+"projects/viola/target"
+],
+"running": [
+41165,
+41273,
+42084,
+43757,
+80913,
+2759549,
+2952416,
+2971231
+]
+}
+}
 }
 ]

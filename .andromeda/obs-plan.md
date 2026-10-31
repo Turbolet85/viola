@@ -415,7 +415,7 @@ _[Standard: included. There is no in-process metrics pipeline. Every metric is d
 
 **Per-surface / per-path metrics:**
 
-- `viola.compat.v_rejected` over-counts: `-32602` also answers `send`'s invalid params, `release` carrying `from` and a bad `link` / `unlink` name or pair, until the line tells the causes apart.
+- `viola.compat.v_rejected` counts version rejections alone: it reads `channel-response{error_code:-32602, detail:"unsupported-version"}`, and a `-32602` for invalid params on `send`, `release` carrying `from` or a bad `link` / `unlink` name or pair carries another `detail` word.
 
 **Metric label cardinality discipline:** grouping keys are closed enums only: `event`, `detail`, `refusal`, `method`, `hook_event`, `subject`, `parser`, `process`. `corr`, `conn`, `pid`, `child_pid` and `instance` are join keys, never grouping keys in aggregate reports.
 
@@ -493,7 +493,7 @@ Detail: .andromeda/obs-plan-detail/error-capture-reporting.md — read whole.
 
 _[Standard: included]_
 
-**Platform pick:** **local error capture only, with no external platform.** The mechanism is typed errors with fixed-message `Display` impls — hand-written on `PtyError` (`viola-pty` takes no thiserror), thiserror 2.0.20 on `ChannelError`, `StateError`, `AgentError`, `McpError` and `CoreError`. anyhow 1.0.104 is used at the root-bin dispatch edge and its catch-site reporter (`viola::obs::report_internal_error`) only, plus a hand-written `std::panic::set_hook` and `std::panic::catch_unwind` (obs-research, Error Reporting Platform).
+**Platform pick:** **local error capture only, with no external platform.** The mechanism is typed errors with fixed-message `Display` impls — hand-written on `PtyError` (`viola-pty` takes no thiserror), thiserror 2.0.20 on `AgentError`, `ChannelError`, `StateError`, `PinError`, `StampsError`, `StampsReadError`, `Refused`, `McpError` and `ServeError`. anyhow 1.0.104 is used at the root-bin dispatch edge and its catch-site reporter (`viola::obs::report_internal_error`) only, plus a hand-written `std::panic::set_hook` and `std::panic::catch_unwind` (obs-research, Error Reporting Platform).
 - sentry 0.49.3 / sentry-tracing 0.49.3 are **not admissible**. They break the egress ban ("viola makes no outbound network calls"), and their default `reqwest` + `native-tls` + `tokio` transport breaks the cargo-deny C-crate (`openssl-sys`) and Tokio-in-sync-crates bans.
 - tracing-panic 0.1.2 (stale) and human-panic 2.0.8 (writes a human report to stderr) were rejected.
 
@@ -524,7 +524,7 @@ It would also need a security Decisions Log entry for the egress.
   - `run`: `process-exit{subject:"self", exit_code:1, detail:"internal-error"}`, then exit 1, and nothing on the terminal while the child runs;
   - `mcp`:
     - A panic inside a spawned Tokio task is logged by the hook. The runtime contains it at the task boundary, and the process continues.
-    - A main-thread panic reaches the main-thread catch site. The process writes `process-exit{subject:"self", exit_code:1, detail:"internal-error"}` and then exits 1. `mcp` writes nothing to stdout on this path.
+    - A main-thread panic reaches the main-thread catch site. The process writes no `process-exit` line (`obs::internal_error_exit_line` covers `Run` and `Cli` only) and exits 1. `mcp` writes nothing to stdout on this path.
 
 - Before step 4 of init no file exists, so the panic hook writes nothing; the window holds clap parsing, home resolution and the instance and home checks that run before any role file is opened.
 

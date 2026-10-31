@@ -260,7 +260,7 @@ Otherwise the depth is chosen once per process, first match wins:
 
 - stderr: context lines, refusals (two-space `unable  <name>  <reason>  <detail>`, or the fixed `unable: <text>` form for the exit-1 refusals of `run`, `revive` and `verify` and the exit-21 strict-modes refusals of `list`, `link`, `unlink`, `send`, `wait`, `last`, `answer`, `pause` and `release`), each refusal's `hint:` line directly after it, and errors.
 
-- For `--json`, the whole result, including refusals and `error` objects, is one JSON document on stdout with the typed exit code. No `hint:` line is printed under `--json`: the typed `refusal` / `error` fields are the whole answer.
+- For `--json`, the whole result, including refusals and `error` objects, is one JSON document on stdout with the typed exit code, except an oversize `viola answer` and an unusable `viola send`, which exit 2 with their fixed stderr line and no document. No `hint:` line is printed under `--json`: the typed `refusal` / `error` fields are the whole answer.
 
 **Width:**
 
@@ -335,7 +335,7 @@ A refusal prints `unable` plus `reason  detail`, then one `hint:` line per reaso
 
 **Exit-code phraseology** (typed codes from architecture.md):
 
-Each typed exit code has its human stderr form and, where it has one, its `--json` document: 0 the result on stdout, 1 `error: internal error` or a fixed-message `unable:` refusal with its hint (a `--json` document only for `viola revive`'s strict-modes and preflight refusals), 2 clap usage, 10 to 14 an `unable` refusal with its reason (a refusal object under `--json`), 20 `error: wrapper fault`, 21 `unable  instance-unreachable` then the cause's hint, or for a refused strict-modes check its fixed home-state or instance-state `unable:` / `hint:` pair instead (pattern 1 and the paragraphs below), its `--json` document with stderr empty.
+Each typed exit code has its human stderr form and, where it has one, its `--json` document: 0 the result on stdout, 1 `error: internal error` or a fixed-message `unable:` refusal with its hint (a `--json` document only for `viola revive`'s strict-modes and preflight refusals), 2 clap usage or the fixed `UNUSABLE_RESPONSE` / `UNUSABLE_TEXT` stderr line of an oversize `viola answer` / an unusable `viola send` (no document under `--json`), 10 to 14 an `unable` refusal with its reason (a refusal object under `--json`), 20 `error: wrapper fault`, 21 `unable  instance-unreachable` then the cause's hint, or for a refused strict-modes check its fixed home-state or instance-state `unable:` / `hint:` pair instead (pattern 1 and the paragraphs below), its `--json` document with stderr empty.
 
 `viola plugin install`'s refused strict-modes check (exit 21) prints the home-state `unable:` / `hint:` pair as `viola list`'s does, or under `--json` the `instance-unreachable` document, stderr empty.
 

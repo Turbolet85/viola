@@ -1,0 +1,69 @@
+[[pattern]]
+id = 'title'
+fixed = 'Sanitised error surfaces'
+ignore_case = true
+
+[[pattern]]
+id = 'owner'
+regex = 'owned by a (route entry|CARRY)'
+ignore_case = true
+
+[[pattern]]
+id = 'refusal-enum'
+regex = '''`Refusal`|Refusal enum|`Refusal::|Refusal::|resolve_program|BatchScriptChild|ProgramNotFound'''
+
+[[pattern]]
+id = 'enum-rule'
+regex = '''ServeError|StampsError|PinError|StampsReadError|CoreError|`Refused`|one-enum|one enum|one error enum'''
+
+[[pattern]]
+id = 'exit-eleven'
+regex = '''ServeError::Initialize|Initialize[^.]{0,60}exit 11|exit 11[^.]{0,60}(initialize|`?mcp`?)|pre-`initialize`'''
+
+[[pattern]]
+id = 'v-rejected'
+regex = '''v_rejected'''
+
+[[pattern]]
+id = 'response-line'
+regex = '''channel-response'''
+
+[[pattern]]
+id = 'fault-reader'
+regex = '''fault_detail|sanitised_fault|wrapper-fault|`wrapper fault`|reply_of|of_reply'''
+
+[[pattern]]
+id = 'code-word'
+regex = '''is_code_word|code word|opaque'''
+
+[[pattern]]
+id = 'after-every-test'
+regex = '''after every (test|E2E|end-to-end)|after-every-test|assert_error_body_clean|error_body_hit|error-body check|error body check|tests/support/events\.rs'''
+
+[[pattern]]
+id = 'bound-rows'
+regex = '''BOUNDARIES|contract_bounded_readers|cap-driving|drives? past (its|the) cap'''
+
+[[pattern]]
+id = 'kill-line'
+regex = '''kill line|20 s line|20 s kill|\b22 binar|ci. profile'''
+
+[[pattern]]
+id = 'answer-oversize'
+regex = '''oversize `?(viola )?answer|UNUSABLE_(TEXT|RESPONSE)'''
+
+[[pattern]]
+id = 'mcp-exit-line'
+regex = '''internal_error_exit_line|`?mcp`?[^.\n]{0,80}process-exit|process-exit[^.\n]{0,80}`?mcp`?'''
+
+[[pattern]]
+id = 'new-binaries'
+regex = '''contract_error_bodies|channel_error_bodies|cli_error_bodies|ProtocolError::cause'''
+
+[[pattern]]
+id = 'verify-margin'
+regex = '''verify_stopped_during|WITHIN'''
+
+[[pattern]]
+id = 'watch-path1'
+regex = '''path1_run_start_one_home_in_order|Path 1's CI timeout'''

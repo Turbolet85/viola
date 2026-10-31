@@ -254,7 +254,7 @@ Detail: .andromeda/a11y-plan-detail/cognitive-accessibility.md — read whole.
 
 Detail: .andromeda/a11y-plan-detail/cognitive-accessibility.md — read whole.
 
-- **Pattern:** every error is a printed word followed by plain detail, and a recovery instruction where recovery exists; on the CLI, `unable  <reason>  <detail>` on stderr (`viola revive`'s exit-1 refusals and `viola verify`'s interrupted pair: one `unable: <text>` line), then `hint:` as the last stderr line, with a typed exit code; the one refusal with no hint is `unknown` (exit 14), whose detail is opaque; faults are not refusals and carry no hint; `--json` gives one document with no hint.
+- **Pattern:** every error is a printed word followed by plain detail, and a recovery instruction where recovery exists; on the CLI, `unable  <reason>  <detail>` on stderr (`viola revive`'s exit-1 refusals and `viola verify`'s interrupted pair: one `unable: <text>` line), then `hint:` as the last stderr line, with a typed exit code; the one refusal with no hint is `unknown` (exit 14), whose detail is a code word or nothing, opaque to a reader; faults are not refusals and carry no hint; `--json` gives one document with no hint, except the `viola answer` and `viola send` exit-2 paths (a fixed stderr line, no document).
 
 - **WCAG SC:** SC 3.3.1 Error Identification (A) + SC 3.3.3 Error Suggestion (AA).
 
@@ -342,7 +342,7 @@ Detail: .andromeda/a11y-plan-detail/cognitive-accessibility.md — read whole.
 ### Cognitive
 
 - NEVER set harsh timeouts without warning (no warn-extend pattern per SC 2.2.1). v1 has none.
-- NEVER show error without recovery suggestion (per SC 3.3.3). Every human-mode CLI refusal except `unknown` (exit 14, opaque detail, design cli) ends with a `hint:` line.
+- NEVER show error without recovery suggestion (per SC 3.3.3). Every human-mode CLI refusal except `unknown` (exit 14, its detail a code word or nothing, design cli) ends with a `hint:` line.
 - NEVER use jargon without a plain alternative. SC 3.1.5 AAA is not claimed, but a kebab-case reason/detail code (`not-delivered`, `human-typing`, `unverified-cli`) never appears without the plain word `unable`.
 - NEVER render a stack trace as the only error text in the CLI.
 - NEVER let the caption set or order of CLI `viola list` (NAME · LIVE · STATUS · WHEEL · DIALOG · CLI) drift from its `CAPTION` literal (SC 3.2.4).

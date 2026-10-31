@@ -1,0 +1,12 @@
+# New groups — design-system · surface
+
+## Verdicts
+- fanout-design-system--cascade-new-surface.md 1 · distinct · the file states an empty stderr only for single documents (lines 132, 149, 162), no group states this shape across the failures the witness drives
+- fanout-design-system--cascade.md 4 · distinct · no group defines the code word or says either client screens a peer's refusal and detail through it
+- fanout-design-system--cascade.md 5 · contradiction · lines 147–147 · «`unable  unknown  <detail as opaque text>`» · the exit-14 row prints the detail as opaque text, any text by its wording, where the proposal has a string detail that is no code word read as no detail
+- fanout-design-system--cascade.md 6 · distinct · no group treats a code word outside the closed list; line 147's exit-14 row names only `unknown`, and `refused: <word>` stands nowhere in the file
+- fanout-design-system--cascade.md 7 · contradiction · lines 142–142 · «| 2 | clap usage text (never produced by `viola hook`)» · the exit-2 row names clap usage text alone on stderr, where the proposal names the fixed `UNUSABLE_RESPONSE` and `UNUSABLE_TEXT` lines · its own line rewritten
+- fanout-design-system--cascade.md 8 · contradiction · lines 81–81 · «their detail goes only to `diagnostics/`» · the standing line sends an exit-20 fault's detail only to diagnostics, where the proposal has the `--json` document carry a closed `detail` with `message` and `data`; line 148's `{…}`, the row it would rewrite, states no other value
+- fanout-design-system--cascade.md 9 · contradiction · lines 81–81 · «their detail goes only to `diagnostics/`» · the standing line sends an exit-20 fault's detail only to diagnostics, where the proposal has the `--json` document and MCP carry a `detail` with the fixed `message` `wrapper fault`; line 148's `{…}`, the row it would rewrite, states no other value
+- cascade-compare-design-system.md 1 · contradiction · lines 147–147 · «`unable  unknown  <detail as opaque text>`» · the exit-14 row prints the detail as opaque text, where the proposal has a string detail that is no code word read nothing; the rest of the item states the facts of fanout-design-system--cascade.md 4, 5 and 6
+- cascade-compare-design-system.md 2 · contradiction · lines 81–81 · «their detail goes only to `diagnostics/`» · the standing line sends an exit-20 fault's detail only to diagnostics, where the proposal has the document carry the sanitised fault; the item states the facts of fanout-design-system--cascade.md 8 and 9

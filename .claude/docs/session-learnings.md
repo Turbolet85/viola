@@ -8,6 +8,14 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
+## 2026-10-31 — Sweep hazards over viola's error names
+A sweep for the MCP exit on a stdin cut cannot key on `exit 11` alone: that token also reads `budget-paused`'s exit 11, so
+key it on `ServeError::Initialize` and `initialize`. A sweep for the enum folded into `AgentError` cannot key on a bare
+`Refusal`: that token also reads `RefusalReason` and the private enum in `src/cmd/revive.rs`, so key it on the backticked
+name and its variants.
+
+---
+
 ## 2026-10-27 — Comparing two builds by section: three tool traps
 A section-by-section comparison of two ELF builds reads equal where it measured nothing unless each section is read from
 the file itself. `objcopy -O binary --only-section=<name>` writes loaded sections only, so `.comment`, `.symtab`,

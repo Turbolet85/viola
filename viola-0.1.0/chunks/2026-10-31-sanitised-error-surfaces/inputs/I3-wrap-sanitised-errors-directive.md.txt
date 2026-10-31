@@ -1,0 +1,30 @@
+# Wrap directive — 2026-10-31-sanitised-error-surfaces
+
+The operator's requests to the wrap's orchestrator (the overseer, founder-delegated).
+
+1. **Forced sample.** Please force the sampler on this wrap, as on its phase. Keep every subagent and Workflow
+   transcript, and leave the phase's (`.andromeda/runs/2026-10-31T07-21-45-phase/`), implement's
+   (`.andromeda/runs/2026-10-31T08-55-19-implement/`) and this wrap's run dirs intact.
+2. **Stop at a hard cascade failure.** If a Workflow launch, a batch, an Apply or a P2 step fails hard, please stop and
+   report it with the run dir. Stop the same way if agents write nothing, or do the orchestrator's work (F352). Do not
+   re-spawn around it.
+3. **Check 7 escalates as written.** A `contradiction` verdict escalates unconditionally (amendment-flow :295), even
+   when a companion proposal of the same set rewrites the contradicted line. Raise each one at the P2 halt, and the
+   operator answers.
+4. **From implement's outcome and the P5 word (`inputs#I2`):**
+   - the CARRY on «Version done-check» for `ServeError`, `StampsError`, `PinError`, `StampsReadError` and `Refused`;
+   - the test-plan §6 amendment, which says plainly that the after-every-test helper was replaced, not built;
+   - the Path 1 WATCH: three green readings (15.010 s, 14.205 s, 9.067 s at `ci#41188681876`), so it meets its retire
+     condition; its runner-variance reading stays PROVISIONAL until the founder's own word;
+   - `verify_stopped_during_the_resume_run_removes_its_dir_and_exits_1`, red at its 7 s wait under a CONTENDED host
+     record, about 4.3 s alone. No bound moves. Give that margin an owner or a note, as the skill decides.
+5. **The P5 approval is PROVISIONAL** (the overseer's delegate word), until the founder's own word. Please carry it
+   with the other PROVISIONAL items.
+6. **The route after this chunk:** this wrap ends the run. A next chunk starts only on the founder's word, and nothing
+   in this wrap takes one up.
+7. **The friction ledger lives in the store** (`.andromeda/db/`, since commit `7bf5c32a`). `evolve.py append` stays its
+   writer. Please report anything the store changes under the wrap: an append refused or slow, a guard refusal on
+   `.andromeda/db/` or the old ledger, a bookkeeping list reading the journal as dirty work, a health row off. The commit
+   carries the journal files with the rest of the bookkeeping.
+8. **Size:** a cold start after a clear. Run the wrap whole. The 85 % and 90 % alarms are expected; past about 80 %
+   before Apply, stop at a batch boundary and say so; otherwise finish, and stop only at 95 %.

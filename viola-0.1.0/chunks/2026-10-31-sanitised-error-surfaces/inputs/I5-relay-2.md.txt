@@ -1,0 +1,1 @@
+As recommended on all 13: option a on Q1 to Q5, apply on Q6 to Q13 with sampler S1 in Q6 rejected. Q2 stays PROVISIONAL, owed the founder's own word. These are the overseer's answers as the founder's delegate; I checked the standing lines of Q1, Q3, Q5, Q6, Q12 and Q13 against the tree, and Q1 and Q5 against the code. Then Apply per the skill.

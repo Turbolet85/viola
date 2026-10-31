@@ -1,0 +1,90 @@
+# Task — security-plan · 2026-10-31-sanitised-error-surfaces
+
+## The session
+Closed what CLI `--json`, MCP error results and channel error data can carry from a peer: codes and fixed messages only, no paths or upstream text, through the new `viola_core::is_code_word` and `viola_channel::sanitised_fault`.
+Closed `channel-response`'s `detail` in `schemas/diag-line.v1.json` to three words, written on both the server's and the client's line from the new `ProtocolError::cause`; the wire form, `v` 1 and the seven `ProtocolError` bodies did not change.
+Added three test binaries: the enumeration and census of error writers `tests/contract_error_bodies.rs`, and the witnesses `tests/channel_error_bodies.rs` and `tests/cli_error_bodies.rs`, with the MCP witness in `crates/viola-e2e/tests/mcp_tools.rs` and the shared check in `tests/support/events.rs`.
+Retired `viola_agent_claude::Refusal`, folded into `AgentError`, and both private `fault_detail` copies; no crate, dependency, manifest edge, config key or env var moved.
+Measured and disproved: `CoreError` exists nowhere in the code; `viola mcp` exits 1, not 11, on a stdin line past `MAX_FRAME` before `initialize`; the oversize `viola answer` exit-2 path writes no `--json` document; the after-every-test error-body check was never built and is replaced, not built.
+Ledger row `v1-47` reads `implemented`; CI over `fa7be1f3` read green, 15/15 checks, `secret-scan` clean on the three `test` jobs.
+
+## Reached files
+- tests/contract_error_bodies.rs
+- tests/channel_error_bodies.rs
+- tests/cli_error_bodies.rs
+- crates/viola-core/src/lib.rs
+- crates/viola-channel/src/lib.rs
+- crates/viola-channel/src/client.rs
+- crates/viola-channel/src/server.rs
+- schemas/diag-line.v1.json
+- src/cmd/client.rs
+- crates/viola-mcp/src/result.rs
+- crates/viola-mcp/src/lib.rs
+- crates/viola-mcp/tests/handlers.rs
+- crates/viola-agent-claude/src/lib.rs
+- src/run/mod.rs
+- src/cmd/run.rs
+- src/cmd/verify.rs
+- tests/support/events.rs
+- Cargo.toml
+- .config/nextest.toml
+- crates/viola-e2e/tests/mcp_tools.rs
+- src/cmd/hook/statusline.rs
+- src/run/version_gate.rs
+- src/run/budget.rs
+- src/run/dialog.rs
+- src/run/env.rs
+- tests/contract_bounded_readers.rs
+- viola-0.1.0/verification-matrix.json
+
+## Touches
+- The Error Handling enum list at `.andromeda/security-plan.md:411`, and the same list in any detail entity: `CoreError` leaves it, having 0 hits in the code; the `thiserror::Error` derives over product sources read 9, from 10: `AgentError`, `ChannelError`, `StateError`, `PinError`, `StampsError`, `StampsReadError`, `Refused`, `McpError`, `ServeError`.
+- `viola_agent_claude::Refusal` and `Refusal::NotFound` are gone, cited at `.andromeda/security-plan-detail/input-validation.md:74`: `AgentError` gains `BatchScriptChild` and `ProgramNotFound`, their two messages unchanged, so any entity naming the old type or variant is stale.
+- `resolve_program` returns `Result<PathBuf, AgentError>` in the crate and in `src/run/mod.rs`: `.andromeda/security-plan-detail/input-validation.md:73` and `:75` name the function truly and stay by the sweep, but any entity stating its error type moves.
+- The Windows `.cmd`/`.bat` child refusal in Child executable resolution, indirectly: its rule and output are unchanged, the type carrying it is now `AgentError::BatchScriptChild`, matched by `src/cmd/run.rs` and `src/cmd/verify.rs`.
+- The claim `ServeError::Initialize` (exit 11) as `viola mcp`'s exit at `.andromeda/security-plan-detail/input-validation.md:31`: the process exits 1, both streams empty, one `parse-rejected{mcp-stdin, oversize, count:1}`; 11 is the unit child's own code. `budget-paused`'s exit 11 is another code and stays.
+- The MCP stdin row, the boundary-mcp vector and the MCP stdin ban: the refuse-whole, end-the-session rule stands, now witnessed by `mcp_tools_a_line_past_max_frame_before_initialize_exits_1_with_one_line`; any entity giving an exit for that path moves with the item above.
+- The MCP `isError` contract at `.andromeda/security-plan.md:413` and any entity repeating it: `wrapper-fault`'s `{code,message,data}` is no longer the peer's fault passed on, its fields are closed by `sanitised_fault` on both `reply_of` and `of_reply`.
+- The rule that MCP `structuredContent` carries only `refusal`/`detail`/`error` codes, in Error Handling and in `error-sanitization-wire`: a peer's `refusal` and string `detail` are now screened by `is_code_word`, and the same screen holds on CLI `--json` through `reply_of`.
+- `error-sanitization-wire`'s fixed-`Display` rule, indirectly: `thiserror_messages_interpolate_nothing` now gates it over the product sources, with the list of enums per the first item.
+- The NEVER-log floor in `logging-redaction-wire` for CLI `--json` errors, MCP `isError` results and channel `error.data`, re-read and unmoved: it now has the three surface witnesses and the census of writers behind it.
+- The Logging bans on echoing drift reports or chains into `structuredContent` or `error.data` and on absolute paths in any external error, re-read and unmoved: same witnesses.
+- The channel Error format and the `-32603` line, re-read and unmoved: the seven wire bodies are literal-pinned, `v` 1, `-32603` still `internal error` with `data: null`, `result.refusal` unchanged.
+- Driver-originated `release` in Authentication & Authorization: the `-32602` `release-from-driver` body is unchanged, and the `channel-response` line now also carries that word as `detail`.
+- The Channel frames row and any entity on `-32602` param checks: the three `-32602` faults are now told apart on the log by `unsupported-version`, `invalid-params` and `release-from-driver`, with no param name or value on the line, level unchanged (WARN).
+- Any entity stating `channel-response`'s `detail` as a free string, or as present on every line: it is a closed enum, absent on every other `channel-response` line.
+- Input Validation's sentence that shared validators live in `viola-core`, so the CLI, MCP and the wrapper call the same function: `is_code_word` joins them for the CLI and MCP; `sanitised_fault` is shared from `viola-channel`, not `viola-core`; no manifest gains an edge.
+- `fault_detail` retired from `src/cmd/client.rs` and `crates/viola-mcp/src/result.rs`, and `fault_of` in `crates/viola-channel/src/client.rs` now takes `&Value`, not `i64`: any entity naming either form moves.
+- The bounded-reader census cited by Input Validation: five `BOUNDARIES` rows of `tests/contract_bounded_readers.rs` renamed their `witness` to cap-driving cases (`:91`, `:109`, `:118`, `:127`, `:217`); `.andromeda/security-plan-detail/input-validation.md:98` names the binary and stays by the sweep, and any entity naming an old witness moves.
+- Any entity stating the `ci` profile's kill-line filter count: 22 to 24 `binary(…)` terms in `.config/nextest.toml`, through `channel_error_bodies` and `cli_error_bodies`, both `[[test]]` tables requiring the test-only `fake-agent` feature in `Cargo.toml`.
+- Any test inventory or gate list for error sanitisation: `v1-47` now `implemented`, and no standing text yet names `contract_error_bodies`, `channel_error_bodies` or `cli_error_bodies`.
+- Any entity on the `answer` and `send` oversize path that promises a `--json` error document: see the new fact on the fixed stderr lines; the `MAX_FRAME` read itself is unmoved.
+- Line citations into `crates/viola-channel/src/lib.rs`, `crates/viola-channel/src/client.rs`, `crates/viola-channel/src/server.rs`, `crates/viola-core/src/lib.rs`, `crates/viola-agent-claude/src/lib.rs`, `crates/viola-mcp/src/result.rs`, `src/cmd/client.rs`, `src/cmd/run.rs`, `src/cmd/verify.rs` and `src/run/mod.rs`, where they sit past the added lines.
+
+## New facts
+- F1 · error-handling · `viola_channel::sanitised_fault(&Value) -> Option<Value>` is the one fault reader of `reply_of` and `of_reply`: `None` without an integer `code`, and for the five known codes `message` is the fault's fixed text and `data` null, except the two `-32602` bodies below.
+- F2 · error-handling · A `-32602` keeps `data` only as the unsupported-version body, with an integer `data.supported` and a `data.wrapper` of 1 to 64 ASCII letters, digits, `.`, `-` or `+`, or the body whose `data.reason` is exactly `release-from-driver`; any other `-32602` reads `invalid params` with `data` null.
+- F3 · error-handling · A fault code outside the five reads its `code`, the fixed `message` `wrapper fault` and `data` null: a new fixed output word on `--json` and MCP, the human line `error: wrapper fault  <code>` unchanged.
+- F4 · error-handling · `viola_core::is_code_word` admits 1 to 64 bytes of `[a-z0-9-]` with a lower-case letter first; in `reply_of` and `of_reply` a `refusal` failing it reads `unknown`, a string `detail` failing it reads null, and a non-string `detail` is still no known reply.
+- F5 · error-handling · Exception by design: a code word outside the closed list stays visible in the document and in `refused: <word>`, its exit staying `unknown`'s 14 by `reason_of`.
+- F6 · error-handling · `ProtocolError::cause` gives `unsupported-version`, `invalid-params` and `release-from-driver` for the three `-32602` faults and nothing for the other four; `ResponseLine`'s `Drop` writes it as `channel-response`'s `detail`, on both sides.
+- F7 · error-handling · `tests/contract_error_bodies.rs` enumerates every error body with its writer and witness (`CLI_DOCUMENTS`, `MCP_RESULTS`, `CHANNEL_FAULTS`, with `NOT_ERROR_BODIES` and `PLUMBING` as the named exclusions), fails on an unnamed product error writer and on an interpolating `thiserror` message, and carries `andromeda:walks-tree`.
+- F8 · error-handling · `tests/support/events.rs` holds the error-body check, `error_body_hit` and `assert_error_body_clean`, with classes `absolute-path`, `caused-by`, `serde-path` and `planted`, reporting place and class and never the bytes it read.
+- F9 · error-handling · Absence: no check runs after every E2E test; the three surface witnesses, the enumeration and the census replace it.
+- F10 · error-handling · Absence: no `-32603` is driven in a scanned home and no failpoint or counted panic was added for it; the unit layer holds it (`answer_a_panicking_dispatch_is_internal_error_and_closes`, `links_set_method_an_append_that_fails_is_internal_with_the_set_unchanged`).
+- F11 · error-handling · Exception: the exit-2 paths of `viola answer` and `viola send` write the fixed `UNUSABLE_RESPONSE` / `UNUSABLE_TEXT` line to stderr whatever `--json` says, no document (`src/cmd/answer.rs:91`, `src/cmd/send.rs:187`), named in `NOT_ERROR_BODIES`.
+- F12 · error-handling · Open divergences from the error-enum convention: `ServeError`, `StampsError`, `PinError`, `StampsReadError` and `Refused`, owned by a CARRY on the entry Version done-check, on the delegate overseer's word, PROVISIONAL and owed the founder's own.
+- F13 · error-handling · `Refusal` was folded rather than ratified, with no output changed, leaving `src/cmd/revive.rs`'s private `Refusal`, another type, in place.
+
+## Untouched
+- The security tier, data classes, compliance triggers and infrastructure facts of the threat model: the session adds no surface, listener, data class or outbound call.
+- `src/cmd/revive.rs` and the `revive --json` rule: its private `Refusal` is another type from the one retired, and its output did not change.
+- The strict-modes checks, owner-only home modes and the pinned binary's re-hash, all in `viola-state`: no rule or caller of them moved here.
+- The vendored ConPTY pins, `scripts/conpty-vendor.sh`, the System32 DLL search and the sideload rules: nothing in them moved.
+- `deny.toml`, `deny-sync.toml`, the cargo-deny and zizmor floors and the bans they carry: no dependency was added or bumped and no ban moved.
+- `.github/workflows/` and its SHA pins, permissions and job list: no CI step or harness verb moved.
+- `viola-harness secret-scan` and its canary classes: the scan was read, not changed; the new error-body check's classes are a separate check.
+- CI's G2 zero-panics gate and its one exemption, and the `FAKE_AGENT_*` seams: no seam, failpoint or exemption was added.
+- The `mcp` self `process-exit` claim corrected by this session: its sites are in obs and arch docs, and the sweep found none in security-plan.
+- The `run --mutants` scratch and the `target/e2e-home` keeper bans: neither reached.
+- The v1.x release prerequisites, the `fuzz/` exemption and the critical CVE response SLA: no release, fuzz or advisory work here.

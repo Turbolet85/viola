@@ -209,10 +209,11 @@ Read whole. The master's broad view is .andromeda/obs-plan.md; this file holds i
 
 - **Backend instrumentation hooks:** `tracing` spans per MCP tool call (`send · wait · last · answer · list`) wrapping the `viola-channel` Tokio client, through the tracing-subscriber JSON logger. stdio has no HTTP-framework auto-instrumentation.
 - **Frontend instrumentation hooks:** N/A.
-- **Exporter:** Always the file sink `<home>/diagnostics/mcp.ndjson` (tests excerpt; D-09), the home resolved through `resolved_home` like every verb's and checked with its `diagnostics/` by strict-modes before the sink opens; stderr JSON only when that file cannot be opened (as landed, chunk 2026-10-17-mcp-server-for-drivers). stdout is forbidden because it carries MCP frames. tracing-subscriber `fmt()` writes to stdout unless a writer is configured, so the writer must be set explicitly. rmcp reads stdin only through viola's line cap (`CappedLines` at `MAX_FRAME`): a line of at most `MAX_FRAME` bytes, its newline counted, passes whole; a longer line is refused whole, never truncated or skipped, and ends the session as a closed stdin does, stderr empty, its one record the §6 `parse-rejected{parser:"mcp-stdin", detail:"oversize"}` line.
+- **Exporter:** Always the file sink `<home>/diagnostics/mcp.ndjson` (tests excerpt; D-09), the home resolved through `resolved_home` like every verb's and checked with its `diagnostics/` by strict-modes before the sink opens; stderr JSON only when that file cannot be opened (as landed, chunk 2026-10-17-mcp-server-for-drivers). stdout is forbidden because it carries MCP frames. tracing-subscriber `fmt()` writes to stdout unless a writer is configured, so the writer must be set explicitly. rmcp reads stdin only through viola's line cap (`CappedLines` at `MAX_FRAME`): a line of at most `MAX_FRAME` bytes, its newline counted, passes whole; a longer line is refused whole, never truncated or skipped, and ends the session as a closed stdin does, stderr empty, its one record the §6 `parse-rejected{parser:"mcp-stdin", detail:"oversize"}` line. Such a line before `initialize` exits the process 1 with both streams empty and that same one record; 11 is the unit child's own code, not `viola mcp`'s exit.
 - **Service identity:** as for the short-lived verbs, with `process="mcp"`. `instance` is the server's own `VIOLA_NAME` when set, which is also the `from` it adds.
 - **Notes:**
   - `isError` results carry codes only: `refusal` / `detail`, `instance-unreachable`, `wrapper-fault`, `invalid-params` (its `detail` a closed field word; chunk 2026-10-17-mcp-server-for-drivers) (security Vector 5). Log lines follow the same codes-only rule for rejected calls (tests excerpt, Coverage Triggers, MCP).
+  - A peer's reply is screened before it reaches a result (`of_reply`): a `refusal` that is no code word (`viola_core::is_code_word`) reads `unknown`, a string `detail` that is no code word reads `null`, and `wrapper-fault`'s `detail` is the closed object `viola_channel::sanitised_fault` reads (the fixed `message` of the five codes, `data` null or closed values; a code outside the five reads `message` `wrapper fault`, `data` null). A code word outside the closed list stays visible, its exit `unknown`'s 14.
   - The `mcp` sink follows tests (`mcp.ndjson`), reconciled by D-09 and landed (stderr JSON only when the file cannot be opened).
 
 <!-- /detail -->
@@ -307,7 +308,7 @@ Read whole. The master's broad view is .andromeda/obs-plan.md; this file holds i
 
 - **Surfaces involved:** cli or ipc-internal (mcp) → ipc-internal (channel) → cli (`run`, PTY paste) → cli (`hook` UserPromptSubmit; `hook` SessionStart for a `/clear` confirmed by its new session or a `/compact` confirmed by its same session (verified CLI); no hook for an unconfirmable send) → `events.ndjson`
 - **Must-trace spans:** `send.client` (cli/mcp) › `channel.request` › `run.readiness_gate` (vt100) › `pty.paste_write` › `run.confirm_window` (not opened for an unconfirmable send). Log events: `channel-request`, then `send-issued`, then `hook-invoked` (UserPromptSubmit, or SessionStart for a `/clear` confirmed by its new session or a `/compact` confirmed by its same session (verified CLI); none awaited for an unconfirmable send), then `send-confirmed` or `send-refused`, then `channel-response`.
-- **Required log fields:** `event`, `process`, `instance`, `corr` (the JSON-RPC `id` on channel lines; the send `cursor` on send lines), `from` (self-reported, not an identity), `confirmed`, `refusal`, `detail` (`input-not-ready` / `no-prompt-submitted` / `control-character` / `empty-text` / `turn-running`), `duration_ms`. Sent text never appears.
+- **Required log fields:** `event`, `process`, `instance`, `corr` (the JSON-RPC `id` on channel lines; the send `cursor` on send lines), `from` (self-reported, not an identity), `confirmed`, `refusal`, `detail` (`input-not-ready` / `no-prompt-submitted` / `control-character` / `empty-text` / `turn-running`; on a `channel-response` answering `-32602`, `invalid-params` or `unsupported-version`), `duration_ms`. Sent text never appears.
 - **Source:** tests excerpt, Critical Path 2; arch hint 2; design excerpt, Readback (send → readback latency span); Founder Direction 5; creator must-work "First live test"
 
 <!-- /detail -->
@@ -333,7 +334,7 @@ Read whole. The master's broad view is .andromeda/obs-plan.md; this file holds i
 <!-- detail: values · paths -->
 
 - **Surfaces involved:** cli (`run`, key input) + `events.ndjson` (`wheel`) → cli or ipc-internal (mcp) `send` refused → cli `release` → ipc-internal
-- **Must-trace spans:** `run.wheel_transition` › `channel.request(send)` refused › `pause.client` / `release.client` › `channel.request(pause|release)`. Log events: `send-refused` and `channel-request` / `channel-response` for `pause` and `release`. `release-from-driver` is logged as its own event (Founder Direction 4), admitted by `schemas/diag-line.v1.json`.
+- **Must-trace spans:** `run.wheel_transition` › `channel.request(send)` refused › `pause.client` / `release.client` › `channel.request(pause|release)`. Log events: `send-refused` and `channel-request` / `channel-response` for `pause` and `release`. `release-from-driver` is logged as its own event (Founder Direction 4), admitted by `schemas/diag-line.v1.json`; the same word is also a `detail` value of `channel-response`, on the `-32602` that answers a `release` carrying `from`, and does not replace the event.
 - **Required log fields:** `event`, `process`, `instance`, `corr`, `refusal="human-typing"`, `detail` (null / `manual-pause`), `wheel` holder, `exit_code` (10). Typed keys never appear.
 - **Source:** tests excerpt, Critical Path 5; arch hint 5; creator must-work "Wheel take-over" and "R2 One wheel"
 
@@ -351,7 +352,7 @@ Read whole. The master's broad view is .andromeda/obs-plan.md; this file holds i
 <!-- detail: values · triggers -->
 
 - **Required telemetry signal:**
-  - A scrub rule on `channel-request` / `channel-response`: method, `id` / `corr`, result class (`ok` / `refusal` / `error` code) and `sender` version only, never `params` or result bodies.
+  - A scrub rule on `channel-request` / `channel-response`: method, `id` / `corr`, result class (`ok` / `refusal` / `error` code), `sender` version and, on a `channel-response` answering `-32602`, the closed `detail` word (`unsupported-version` / `invalid-params` / `release-from-driver`) only, never `params` or result bodies.
   - `-32603` is logged as the fixed "internal error".
   - `from` is logged as unauthenticated.
 
@@ -496,7 +497,7 @@ Read whole. The master's broad view is .andromeda/obs-plan.md; this file holds i
 - **Required telemetry signal:**
   - Counters for unknown event kinds, unknown fields and torn lines (`skipped`).
   - The `RefusalReason` `unknown` fallback (exit 14).
-  - Higher-`v` rejections (-32602; the code also carries `send`'s invalid params, `release` carrying `from`, and a `link` / `unlink` whose `driver` or `driven` is missing, not a string or no valid name, whose `driven` is not the serving wrapper's own name, or whose `driver` equals `driven`, so it is not a higher-`v` count alone).
+  - Higher-`v` rejections (`channel-response{error_code:-32602, detail:"unsupported-version"}`; the code also carries `detail:"invalid-params"` (`send`'s invalid params, and a `link` / `unlink` whose `driver` or `driven` is missing, not a string or no valid name, whose `driven` is not the serving wrapper's own name, or whose `driver` equals `driven`) and `detail:"release-from-driver"` (`release` carrying `from`), so the count reads `detail` and not the code).
   - Per-parser parse-failure counts: paste validation, channel framing at `MAX_FRAME`, the `viola mcp` stdin at `MAX_FRAME`, hook stdin, `claude agents --json`, vt100 under `catch_unwind`.
 
 <!-- /detail -->

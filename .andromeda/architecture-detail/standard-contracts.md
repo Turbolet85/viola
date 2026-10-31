@@ -84,6 +84,12 @@ A snapshot whose `v` is higher than the reader supports, or that fails to parse,
 
 <!-- detail: values · contract-channel-methods -->
 
+- `viola_channel::ProtocolError::cause(self) -> Option<&'static str>` reads `unsupported-version`, `invalid-params` or `release-from-driver` for the three `-32602` faults and `None` for the other four.
+
+<!-- /detail -->
+
+<!-- detail: values · contract-channel-methods -->
+
 - `hook.event`, sent id-less by `hook` once its instance check (`trusted`) and its server check have passed (a notification, no reply; a refused or absent instance, a replayed or absent snapshot or a failed server check sends nothing and the hook fails open): `{ts, event:{kind, data}}`. The wrapper re-validates the event (`kind` is one of the five hook kinds `session-start` · `prompt-submitted` · `turn-ended` · `session-end` · `activity`; `data` is an object; for `prompt-submitted`, `text` is a string and `origin` is `harness` · `human`) and appends `{v, ts:<append time>, instance, kind, source:"hook", data}` to `events.ndjson`. An invalid event is not appended, and an append failure is `-32603`. A `prompt-submitted` whose `text` exactly equals the in-flight `send`'s typed text (the sent text with every CR LF pair and every other CR as one LF, and without its trailing CR and LF characters; any `origin` the hook filed) is appended with `origin:"driver"` instead, and only then settles that send ([Delivery Confirmation]). The one in-flight send no `prompt-submitted` claims is a listed local command waiting for its post-condition: a `session-start` whose `cause` is `clear` and whose `agent_session_id` is a string differing from the remembered one is appended unchanged and only then settles it.
 
 <!-- /detail -->
@@ -109,6 +115,8 @@ A snapshot whose `v` is higher than the reader supports, or that fails to parse,
 <!-- detail: values · contract-cli-json-output -->
 
 - `viola send`, `viola wait`, `viola last`, `viola answer`, `viola pause` and `viola release` print the same `{"v":1,"error":"instance-unreachable","detail":null}` on stdout under `--json` (exit 21) for their refused strict-modes check of the home and the target instance, made by `client::refuse_untrusted` before anything under the home is opened, with stderr empty and no line in any log.
+- `viola_channel::sanitised_fault(&Value) -> Option<Value>` is the one fault reader, of `reply_of` and `of_reply`: `None` without an integer `code`; for each of the five codes `message` is the fault's fixed text; `-32602` with an integer `data.supported` and a version-text `data.wrapper` (1 to 64 ASCII letters, digits, `.`, `-` or `+`) reads the unsupported-version body with those two values, `data.reason` exactly `release-from-driver` reads that body, and any other `-32602` reads `invalid params` with `data` null; every other known code reads `data` null.
+- A fault code outside the five reads `{"code": <code>, "message": "wrapper fault", "data": null}`: the literal `wrapper fault` is a fixed output word on `--json` and MCP, and the human line reads `error: wrapper fault  <code>`.
 
 <!-- /detail -->
 

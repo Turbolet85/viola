@@ -307,3 +307,11 @@ Each superseded mark stands as the operator's word, superseded 2026-10-13.
 - Exit codes as the typed tail: exit 21's fixed-state-pair exception names `viola list`, `viola plugin install` and the strict-modes refusal of `viola send`, `wait`, `last`, `answer`, `pause`, `release`, `link` and `unlink` (was `viola list`, `viola plugin install` and `viola link` / `viola unlink`).
 **Why:** the chunk's `client::refuse_untrusted` runs the instance's strict-modes check first in `send`, `wait`, `last`, `answer`, `pause` and `release`, and `link` / `unlink` moved onto it unchanged in behaviour; the six verbs print `link`'s instance pair by the founder's own answer to P4 fork Q3, and a refused check writes no line by his answer to Q2 (both live by dialog, 2026-10-26, relayed by the overseer, `inputs#I3`).
 **Ref:** .andromeda/runs/2026-10-26T21-34-52-wrap/
+
+## 2026-10-31-sanitised-error-surfaces — the `unknown` refusal's detail, a code word or nothing
+**Section:** Component — Primary content block 2: refusal lines and the `unable` column (layout-templates.md: Hint line)
+**Change:**
+- The no-hint sentence names the `unknown` refusal by what its detail is: was "the opaque `unknown` refusal"; now "the `unknown` refusal, whose detail is a code word or nothing".
+- The rule itself does not move: `unknown`, `wrapper fault` and `internal error` still take no hint.
+**Why:** `reply_of` and `of_reply` now screen a peer's reply: a `refusal` that is no code word reads `unknown`, and a string `detail` that is no code word reads as none, so `unknown` no longer carries opaque free text.
+**Ref:** .andromeda/runs/2026-10-31T09-44-30-wrap/

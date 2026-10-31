@@ -1,6 +1,6 @@
 # Outcome — 2026-10-31-sanitised-error-surfaces: green + smoke
 
-Next: the operator pass (entries 23, 24 and 25), on the operator's word at this run's invocation, then `/andromeda-wrap-session`.
+Next: `/andromeda-wrap-session`. The operator pass is done: entry 23 `hygiene: clean`, pre-CI commit `fa7be1f3`, entry 24 pushed it with the three records-door commits, entry 25 `fa7be1f37746 verdict: green · checks 15/15 · wall 838 s · runs ci#41188681876 completed/success`. Its whole record: `chunks/2026-10-31-sanitised-error-surfaces/evidence/operator-pass.md`. No fix commit was needed.
 
 ## Gates
 Second firing of the whole block: `entries 25 · green 21 · red 0 · recorded 1 · timeout 0 · not-run 3` (the three `operator` entries). The first firing read red at 10 and 22, one cause, under Deviations. No deferral: every entry ran.
@@ -39,8 +39,12 @@ No file was excluded.
 ## Surfaced
 Nothing new. The spec corrections the plan already names stand for the wrap (its Expected amendments), the "exit 11" one included: the process exit reads 1 in `mcp_tools_a_line_past_max_frame_before_initialize_exits_1_with_one_line`, and 11 is the unit child's own code in `serve_at_a_line_past_max_frame_before_initialize_is_the_initialize_error`.
 
-## Owed to the operator pass
-`v1-47`'s `secret-scan` clause and the Windows and macOS legs, the WATCH's Path 1 reading on CI, and the PROVISIONAL marker on this chunk's P5 word (the delegate overseer, `.andromeda/runs/2026-10-31T07-21-45-phase/relay-1.md`), which stands.
+## Read at the operator pass, for the wrap
+- `v1-47`'s `secret-scan` clause: `success` on all three `test` jobs, each document `"ok":true`, `"hits":[]`. The Windows and macOS legs of every new case and the `.cmd` refusal read PASS.
+- The WATCH: Path 1 green at 9.067 s on `test (ubuntu-latest)`, 3/3 by `scope.md`'s tally, its retire condition. The handoff's "1/3" predates Setup 5a's reading, so the wrap reads the tally from `scope.md`.
+
+## Still open
+- The PROVISIONAL marker on this chunk's P5 word (the delegate overseer, `.andromeda/runs/2026-10-31T07-21-45-phase/relay-1.md`) stands, owed the founder's own word.
 
 ## Process hygiene
 Census: `census: 8 running`, none from this repository's `target/` (trail `.andromeda/runs/2026-10-31T08-55-19-implement/gate-2026-10-31-sanitised-error-surfaces.json`).
@@ -55,6 +59,6 @@ Census: `census: 8 running`, none from this repository's `target/` (trail `.andr
 
 ## Decisions & corrections
 - The operator's direction at the invocation: no live `claude` session (none ran); a kill deadline on every spawn (the three new owned-child cases and the two channel and CLI witnesses each carry one); each long run journalled first (`journal.md`); the operator pass with its CI read.
-- Stamp-ahead hook, one refusal: a journal line stamped `09:17Z` by estimate while the clock read 09:14:46Z, corrected from `date -u` to `09:14:51Z`. A recurrence of the standing learning that a timestamp is read, never estimated.
+- Stamp-ahead hook, one refusal: a journal line stamped `09:17Z` by estimate while the clock read 09:14:46Z, corrected from `date -u` to `09:14:51Z`. A recurrence of the standing learning that a timestamp is read, never estimated. The journal's earlier lines `09:08Z` and `09:11Z` were written the same way, by minute and unchecked, and the hook passed them: the gate trail's `ts` is the record of when the block fired.
 - Bash guard, one refusal: a `cat` heredoc to a run-dir script, re-issued once as a Write-tool file in the scratchpad.
 - `controls.py`'s last-line summary was shadowed by its own loop and printed `no summary`; the record's line is copied from its printed output instead. Its fourteenth plant did not build and proved nothing, so it was re-planted and read red.

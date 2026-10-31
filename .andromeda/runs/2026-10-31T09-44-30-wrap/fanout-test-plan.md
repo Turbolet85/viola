@@ -1,0 +1,30 @@
+proposals:
+  - detector: D-tests-coverage
+    severity: warning
+    section: "## 4. Unit Test Strategy"
+    change: "Replace the viola-mcp bullet opening 'not driven by any test' with: a stdin line past `MAX_FRAME` landing before `initialize` completes ends `serve` with `ServeError::Initialize`, as a closed stdin before `initialize` does; 11 is the unit child's own code (`serve_at_a_line_past_max_frame_before_initialize_is_the_initialize_error`), and the `viola mcp` process exits 1, both streams empty, one `parse-rejected` `mcp-stdin` / `oversize` line (`mcp_tools_a_line_past_max_frame_before_initialize_exits_1_with_one_line`). The owner clause naming the route entry goes."
+    sidecar: "§4 viola-mcp: the owed stdin-before-initialize clause discharged and its exit corrected, the process exits 1 and 11 is the unit child's code (chunk 2026-10-31-sanitised-error-surfaces)."
+    rationale: "The report's Spec claims disproved measures «`ServeError::Initialize` (exit 11)» at `test-plan.md:390` as exit 1 on the process; its Outcome names both cases green, and Expected amendments (test-plan §4 viola-mcp, pattern `title`) lists this clause as discharged."
+    basis: ".andromeda/test-plan.md:390"
+  - detector: D-tests-coverage
+    severity: warning
+    section: "## 6. E2E Test Strategy"
+    change: "Replace the Contract suite's 'Owed:' sub-bullet with: as landed at chunk 2026-10-31-sanitised-error-surfaces, the five `BOUNDARIES` rows for the status-line command's stdout, the child pipe drain shared by `claude --version` and `claude agents --json`, and the `config.json` readers of the thresholds, the dialog hold and `claude_env_keep` each name a cap-driving case (`statusline_shell_out_past_the_frame_cap_keeps_exactly_the_cap`, `statusline_shell_out_a_command_the_cut_ends_is_a_failed_command`, `drain_keeps_cap_bytes_of_an_endless_pipe`, `read_thresholds_keeps_no_key_past_the_frame_cap`, `read_hold_keeps_no_key_past_the_frame_cap`, `env_keep_keeps_no_key_past_the_frame_cap`). The owner clause naming the route entry goes."
+    sidecar: "§6 Contract suite: the owed cap-driving witnesses discharged, five `BOUNDARIES` rows now name a case that drives past the cap (chunk 2026-10-31-sanitised-error-surfaces)."
+    rationale: "The report's Harness / gate surface renames the five rows' `witness`, its Outcome names the cases and reads the census green, and Expected amendments (test-plan §6 Contract suite, patterns `title`, `bound-rows`) lists `test-plan.md:623` as changed."
+    basis: ".andromeda/test-plan.md:623"
+  - detector: D-tests-coverage
+    severity: warning
+    section: "## 6. E2E Test Strategy"
+    change: "Replace the opening of the 'Error sanitization and secret scan' bullet so it states plainly that the after-every-test check was replaced and not built: no absolute path, serde path or `Caused by` in any error payload is held by three surface witnesses (`cli_error_documents_hold_no_path_or_upstream_text` in `tests/cli_error_bodies.rs`, `channel_error_bodies_hold_no_path_or_upstream_text` in `tests/channel_error_bodies.rs`, `mcp_tools_error_results_hold_no_path_or_upstream_text` in `crates/viola-e2e/tests/mcp_tools.rs`) and the enumeration and census of writers in `tests/contract_error_bodies.rs`, the check being `error_body_hit` / `assert_error_body_clean` in `tests/support/events.rs`; every `-32603` exactly `\"internal error\"` / `null` is held at the unit layer, none being driven in a scanned home; the log, `diagnostics/` and canary clauses read after each job's end-to-end run (`v1-47`'s reading, the delegate overseer's word, PROVISIONAL), the `viola-chaos-*` home out. The closing 'a hit is reported by place and class, never the matched bytes' stays."
+    sidecar: "§6 Error sanitization: the after-every-test helper recorded as replaced and not built, by the three surface witnesses, the enumeration and the census of writers; the scan reads after each job's end-to-end run, PROVISIONAL (chunk 2026-10-31-sanitised-error-surfaces)."
+    rationale: "The report's Spec claims disproved measures the after-every-test check at `test-plan.md:605` absent and not built, replaced by the witnesses, enumeration and census (pattern `after-every-test`); Reverted / negative API facts places `-32603` at the unit layer; Decisions & corrections concretizes `v1-47`; Expected amendments asks for the plain statement (inputs#I2 note 2, inputs#I3 item 4)."
+    basis: ".andromeda/test-plan.md:605"
+  - detector: D-tests-count-literals
+    severity: warning
+    section: "§3 → Bootstrap phases (derive for route / setup-project)"
+    change: "In the `[profile.ci]` kill-line clause, read 'the twenty-four verify-driven binaries', add `channel_error_bodies` and `cli_error_bodies` to the `binary(…)` name list, and add to its joined-at history: `channel_error_bodies` and `cli_error_bodies` joined at chunk 2026-10-31-sanitised-error-surfaces, each one's witness starting from `stamped_home`."
+    sidecar: "§3 Bootstrap phases: the `ci` profile's 20 s kill line reads 24 `binary(…)` terms, from 22, with `channel_error_bodies` and `cli_error_bodies` added (chunk 2026-10-31-sanitised-error-surfaces)."
+    rationale: "The report's Counts / qualifiers moved reads the filter 22 to 24 `binary(…)` terms and names the one changed site, `bootstrap-phases-derive-for-route-setup-project.md:10` @c2811 (pattern `kill-line`); its New text lists `stamped_home` on both witnesses."
+    basis: ".andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md:10"
+note: "Two sites the report changes are standing detail groups, so the cascade's and not proposed here: `e2e-test-strategy.md:259` (after-every-test, the same claim as `test-plan.md:605`) and `integration-test-strategy.md:59` (`answer-oversize`). The report does not say which step reads `diagnostics/` 0600 now that the helper is recorded as not built, so the `test-plan.md:605` change groups that clause with the scan's without a measurement: the orchestrator should confirm it."

@@ -59,3 +59,9 @@ set +e; rg -n --hidden -g 'Cargo.toml' -g 'config.toml' -g '*.yml' -g '*.yaml' "
 1. Integration and E2E tests (every viola home under `target/e2e-home/` but the one `viola-chaos-*` home of `tests/chaos_feed_panic.rs`, outside G2, G4 and the secret scan by the founder's ruling of 2026-10-04), then G2 and G4, **both** `if: always()`. The hyperfine perf gates do not run in the `test` job: they run in their own per-OS `perf` job (`fail-fast: false`, `AGENT_RUN_KEEP_HOMES=1`), whose steps are `run --perf`, G2 (probe then check), `schema-check` and `secret-scan`, all `if: always()`, the scan-gated `perf-<os>` and `diag-perf-<os>` uploads, `secret-scan-perf-<os>` on a scan failure, and last `gate --require perf`. So G2, G4 and the scan cover the perf home under that job's own artifact names, with no `diag-<os>` collision. A failed test step must not skip G2: failing runs are where panic lines are most likely, and §10 measures panics only through G2's exit code (D-29). **Homes are kept until the gate steps have run** (overseer fix pass 2, B1): `ci.yml` sets `AGENT_RUN_KEEP_HOMES=1`, so neither harness `cleanup` nor a test home's drop deletes a home before G2, G4, the secret scan and the scan-gated uploads have read it (test-plan §3 `cleanup` step 6). Without it, a green run leaves `target/e2e-home/` empty, G2's non-empty check fails, and nothing is scanned.
 
 <!-- /detail -->
+
+<!-- detail: values · ci -->
+
+- `v1-47`'s secret-scan reading is after each job's end-to-end run, not after every test: `AGENT_RUN_KEEP_HOMES` is `1` on the job (`.github/workflows/ci.yml`), the scan is `if: always()`, and the `viola-chaos-*` home stays out (step 1 above). OPEN — this reading is PROVISIONAL · owner: the open decision on `v1-47`'s after-every-test reading.
+
+<!-- /detail -->

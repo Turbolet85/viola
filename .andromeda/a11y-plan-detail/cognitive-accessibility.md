@@ -16,7 +16,7 @@ Read whole. The master's broad view is .andromeda/a11y-plan.md; this file holds 
 <!-- detail: values · cognitive-errors -->
 
 - **Pattern:** every error is a printed word followed by plain detail, and a recovery instruction where recovery exists.
-  - **CLI:** `unable  <reason>  <detail>` on stderr, then `hint:` as the last stderr line, with a typed exit code. The one refusal with no hint is `unknown` (exit 14): its detail is opaque, so design prints no hint rather than a guess. Faults (`error: wrapper fault`, `error: internal error`) are not refusals and carry no hint. `--json` gives one document with no hint. Without `--json`, the exit-1 refusals of `viola revive` take the fixed-message form of design-system cli pattern 2 (one `unable: <text>` line, then one `hint:` line last; a clap usage error exits 2), pinned by the root cases in `tests/cli_revive.rs`; under `--json` its strict-modes and preflight refusals give one `{"v":1,"error":"<code>","detail":null}` document with no hint and empty stderr (`revive_json_*` in `tests/cli_revive.rs`; chunk 2026-10-17-cli-machine-contract). So does `viola verify`'s interrupted pair (`unable: verify was stopped before it finished` / `hint: run viola verify again to stamp this CLI`), pinned by the stop table in `tests/cli_verify.rs`; the stop path adds no time bound, since its waits end at the stop and its kill and pump join end at once. CLI `send`, `wait`, `last`, `answer`, `pause`, `release`, `link` and `unlink` refuse an endpoint whose serving process is not the recorded wrapper with exit 21: `unable  <name>  instance-unreachable` on stderr, then `hint: the process on <name>'s endpoint is not its recorded wrapper; it was not contacted` as the last stderr line; under `--json` the `{"v":1,"error":"instance-unreachable","detail":null}` document with stderr empty and no hint.
+  - **CLI:** `unable  <reason>  <detail>` on stderr, then `hint:` as the last stderr line, with a typed exit code. The one refusal with no hint is `unknown` (exit 14): its detail is a code word or nothing, opaque to a reader, so design prints no hint rather than a guess. Faults (`error: wrapper fault`, `error: internal error`) are not refusals and carry no hint. `--json` gives one document with no hint, except the `viola answer` and `viola send` exit-2 paths (below). Without `--json`, the exit-1 refusals of `viola revive` take the fixed-message form of design-system cli pattern 2 (one `unable: <text>` line, then one `hint:` line last; a clap usage error exits 2), pinned by the root cases in `tests/cli_revive.rs`; under `--json` its strict-modes and preflight refusals give one `{"v":1,"error":"<code>","detail":null}` document with no hint and empty stderr (`revive_json_*` in `tests/cli_revive.rs`; chunk 2026-10-17-cli-machine-contract). So does `viola verify`'s interrupted pair (`unable: verify was stopped before it finished` / `hint: run viola verify again to stamp this CLI`), pinned by the stop table in `tests/cli_verify.rs`; the stop path adds no time bound, since its waits end at the stop and its kill and pump join end at once. CLI `send`, `wait`, `last`, `answer`, `pause`, `release`, `link` and `unlink` refuse an endpoint whose serving process is not the recorded wrapper with exit 21: `unable  <name>  instance-unreachable` on stderr, then `hint: the process on <name>'s endpoint is not its recorded wrapper; it was not contacted` as the last stderr line; under `--json` the `{"v":1,"error":"instance-unreachable","detail":null}` document with stderr empty and no hint.
 
 <!-- /detail -->
 
@@ -62,6 +62,30 @@ Read whole. The master's broad view is .andromeda/a11y-plan.md; this file holds 
 
 <!-- /detail -->
 
+<!-- detail: values · cognitive-errors -->
+
+- **CLI, a peer's refusal:** `reply_of` and `of_reply` screen a peer's reply with `viola_core::is_code_word` (1 to 64 bytes of `[a-z0-9-]`, a lower-case letter first): a `refusal` that is no code word reads `unknown`, and a string `detail` that is no code word reads nothing (null under `--json` and on MCP).
+
+<!-- /detail -->
+
+<!-- detail: values · cognitive-errors -->
+
+- **CLI, a word outside the list:** a code word outside the closed refusal list is visible by design, in the document and in `refused: <word>`, and takes `unknown`'s exit 14.
+
+<!-- /detail -->
+
+<!-- detail: values · cognitive-errors -->
+
+- **CLI, a fault's body:** under `--json` and on MCP a fault's body is read through `viola_channel::sanitised_fault`: a code outside the five known reads the fixed `message` `wrapper fault` with null `data`. The human line is `error: wrapper fault  <code>`.
+
+<!-- /detail -->
+
+<!-- detail: values · cognitive-errors -->
+
+- **CLI, the exception to one document:** the `viola answer` and `viola send` exit-2 paths write the fixed `UNUSABLE_RESPONSE` or `UNUSABLE_TEXT` line to stderr whatever `--json` says, and no document; `NOT_ERROR_BODIES` (`tests/contract_error_bodies.rs`) names them.
+
+<!-- /detail -->
+
 <!-- detail: procedure · cognitive-errors -->
 
 - **Verification:**
@@ -82,12 +106,31 @@ Read whole. The master's broad view is .andromeda/a11y-plan.md; this file holds 
 
 <!-- /detail -->
 
+<!-- detail: procedure · cognitive-errors -->
+
+- **Verification, `--json` failure documents:** `cli_error_documents_hold_no_path_or_upstream_text` (`tests/cli_error_bodies.rs`) holds each `--json` failure it drives to one document, a literal exit, empty stderr, no ESC byte and a clean body.
+
+<!-- /detail -->
+
+<!-- detail: procedure · cognitive-errors -->
+
+- **Verification, the census of error writers:** in `tests/contract_error_bodies.rs`, `error_bodies_each_name_a_writer_and_a_witness_that_stand` holds each error body to a writer and a witness that stand, `product_error_writers_are_each_named` holds each product error writer to a name, and `thiserror_messages_interpolate_nothing` holds each `thiserror` message to no interpolation.
+
+<!-- /detail -->
+
+<!-- detail: procedure · cognitive-errors -->
+
+- **Verification, the body check:** `tests/support/events.rs` holds `error_body_hit` and `assert_error_body_clean`, classes `absolute-path`, `caused-by`, `serde-path` and `planted`, reporting place and class, never bytes.
+
+<!-- /detail -->
+
 ## 8. Cognitive Accessibility › ### Plain language
 
 <!-- detail: procedure · cognitive-plain-language -->
 
 - **Verification:**
   - trycmd pins every fixed CLI string, except `viola list`'s, which literals pin (the board, the empty line and the refusal pairs: `tests/cli_list.rs` and the `src/human/board/` units `bay_line_*`, `board_row_*` and `instance_and_home_state_pairs_are_the_fixed_texts`, chunk 2026-10-11-the-board-viola-list), and `viola --help`'s, pinned by the `HELP` literal in `help_is_the_grouped_verb_table` with the served set held by `help_lists_only_served_verbs` (`tests/cli_output_plain.rs`, chunk 2026-10-17-cli-output-discipline), and `viola plugin install`'s planning-form lines, pinned by literal in `plugin_install_prints_the_two_commands` (`tests/cli_plugin_install.rs`) and the unit `write_plugin_installed_is_the_planning_form_in_one_write` (chunk 2026-10-17-optional-plugin-install), and the server-verify hint (`send_hint`'s cause `server-verify`, `src/human/hints.rs`), pinned by the `HINT` literal in `tests/security_negatives_server_identity.rs`, and the instance-state and home-state pairs as the six frame verbs and `run` print them, pinned by the `INSTANCE_PAIR` / `HOME_PAIR` literals in `tests/security_negatives_strict_modes.rs` and `tests/run_cli.rs` (`verify`'s home-state pair by literal in `tests/cli_verify.rs`). Any copy change therefore fails CI until the pinned string is updated on purpose.
+  - The `message` literal `wrapper fault` under `--json` and on MCP, for a code outside the five known, is pinned by the unit case `sanitised_fault_carries_nothing_of_the_peer_but_closed_values` (`crates/viola-channel/src/lib.rs`).
 
 <!-- /detail -->
 
