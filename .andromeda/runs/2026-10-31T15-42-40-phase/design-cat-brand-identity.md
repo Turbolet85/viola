@@ -1,0 +1,49 @@
+# design · Brand Identity — category read
+
+## Carried
+- (.andromeda/design-system-detail/brand-identity.md:20) Every refusal line and `hint:` line this catalogue adds or rewords on a human TTY must stay static and uncoloured, since colour is reserved for the two named words.
+  > Static k9s-style fixed-column rows and one static context header. Colour is only a second cue: amber `DIALOG` and dim `stale`, always beside the word. Nothing redraws in place and there are no spinners.
+- (.andromeda/design-system-detail/brand-identity.md:21) Every per-cause `--json` document must carry no colour, glyph or cursor control, and the document owed for a refusal after `revive`'s passed preflight must print only while no child runs, because a running passthrough prints nothing.
+  > No colour, no glyphs, no cursor control, no spinner. `viola run` prints nothing at all while the wrapped `claude` TUI runs, and neither does a `viola revive` that passed its preflight.
+- (.andromeda/design-system.md:15) The unwrapped-name cause and its hint must keep this reading: an unwrapped session is visible and takes no command.
+  > Unwrapped sessions are bare strips: another facility's traffic, visible but never a `target`.
+- (.andromeda/design-system.md:21) Every new cause code and hint must be short fixed phraseology, never filler or a guess at the cause.
+  > **Standard phraseology and "unable" plus a reason.** Short fixed words (`open`, `RB`, `unable`, `human-typing`, `budget-paused`, `not-delivered`) are the vocabulary of every label, CLI column and refusal. There is no filler and no guessing.
+- (.andromeda/design-system.md:261) Each cause's human form must stay in one of these two refusal forms on stderr, its `hint:` line directly after it, as the table's stderr assertions must read it.
+  > stderr: context lines, refusals (two-space `unable  <name>  <reason>  <detail>`, or the fixed `unable: <text>` form for the exit-1 refusals of `run`, `revive` and `verify` and the exit-21 strict-modes refusals of `list`, `link`, `unlink`, `send`, `wait`, `last`, `answer`, `pause` and `release`), each refusal's `hint:` line directly after it, and errors.
+- (.andromeda/design-system.md:263) A cause under `--json` must be told apart by its typed document alone with no `hint:` line, so the table must assert the document and the hint on separate invocations.
+  > For `--json`, the whole result, including refusals and `error` objects, is one JSON document on stdout with the typed exit code, except an oversize `viola answer` and an unusable `viola send`, which exit 2 with their fixed stderr line and no document. No `hint:` line is printed under `--json`: the typed `refusal` / `error` fields are the whole answer.
+- (.andromeda/design-system.md:270) Every added or reworded refusal and hint must be ASCII only.
+  > Human output is ASCII only (`->`, `[RB]`, `[/ ]`, `[  ]`).
+- (.andromeda/design-system.md:292) `viola list`'s row in the table must hold the whole-board refusal at exit 21 in its fixed pair.
+  > A failed strict-modes check refuses the whole board (exit 21) in the fixed `unable:` / `hint:` form.
+- (.andromeda/design-system.md:303) This is the owed item the chunk closes: each cause must keep one hint of its own, no hint may name `viola release`, and the pending per-cause `detail` text must be settled by the chunk's contract choice; a fault or `unknown` prints no hint, which the table's hint assertion must honour.
+  > A refusal prints `unable` plus `reason  detail`, then one `hint:` line per reason, detail or cause; `run`'s and `revive`'s start refusals take a fixed-message `unable:` line and one hint per cause, `revive`'s read in a fixed order that stops at the first; the exit-21 strict-modes refusal of `send`, `wait`, `last`, `answer`, `pause` and `release` prints the fixed instance-state `unable:` / `hint:` pair (Exit-code phraseology below), not the `[/ ]` mirror. No hint names `viola release`, since a driver's `release` is refused. Under `--json` no hint prints; a per-cause `detail` code is pending, owner: the arch amendment naming them. Faults and `unknown` get no hint.
+- (.andromeda/design-system.md:305) Every hint, the built unwrapped-name hint included, must stay fixed text free of sent or upstream content.
+  > A hint never quotes the sent text or any upstream text.
+- (.andromeda/design-system.md:330) `viola verify`'s home-tree refusal must stay exit 1 with only its fixed pair and no step or summary line, and any code it gains must not move that refusal behind its log.
+  > a run stopped by Ctrl-C or TERM before its rows are checked, or refused by the strict-modes check of its home tree before its log, prints no step line and no summary, only its fixed `unable:` / `hint:` pair, and exits 1; a `stamps.json` update refused by its strict-modes check prints the home-state pair.
+- (.andromeda/design-system.md:332) `run`'s per-cause start refusals must keep the fixed line then its own hint, with no path or pid in either.
+  > A start refusal (exit 1) prints its cause's fixed-message line, for example `unable: builder is already live`, then that cause's hint (`hint: viola list`). The per-cause lines are listed under the send hints above. None of them shows a path or a pid.
+- (.andromeda/design-system.md:334) This pending item names this chunk as owner: a refusal `run`'s start makes after `revive`'s passed preflight must gain its `--json` document, and this text must move with it.
+  > A refusal `run`'s start makes after a passed preflight prints no `--json` document: pending, owner: the working-route entry "Exit-cause code catalogue".
+- (.andromeda/design-system.md:338) The exit-code phraseology must be amended where the chunk moves it (the exit-1 document's limit to `revive`, exit 21's one document), and the human forms must hold: a hint belongs to the exit-1 `unable:` refusal and not to `error: internal error`, and an exit-21 `--json` document leaves stderr empty.
+  > Each typed exit code has its human stderr form and, where it has one, its `--json` document: 0 the result on stdout, 1 `error: internal error` or a fixed-message `unable:` refusal with its hint (a `--json` document only for `viola revive`'s strict-modes and preflight refusals), 2 clap usage or the fixed `UNUSABLE_RESPONSE` / `UNUSABLE_TEXT` stderr line of an oversize `viola answer` / an unusable `viola send` (no document under `--json`), 10 to 14 an `unable` refusal with its reason (a refusal object under `--json`), 20 `error: wrapper fault`, 21 `unable  instance-unreachable` then the cause's hint, or for a refused strict-modes check its fixed home-state or instance-state `unable:` / `hint:` pair instead (pattern 1 and the paragraphs below), its `--json` document with stderr empty.
+- (.andromeda/design-system.md:340) `viola plugin install`'s exit 21 must keep its pair and empty stderr under `--json`, and this text must move if its document gains a distinct code.
+  > `viola plugin install`'s refused strict-modes check (exit 21) prints the home-state `unable:` / `hint:` pair as `viola list`'s does, or under `--json` the `instance-unreachable` document, stderr empty.
+- (.andromeda/design-system.md:342) These verbs' strict-modes refusal must stay ahead of any frame or line whatever code it gains, its pair naming the instance, and this text must move with the document.
+  > `viola link` / `viola unlink`'s refused strict-modes check of the driven instance, and that of `viola send`, `wait`, `last`, `answer`, `pause` and `release` on their instance, made before any frame (exit 21), prints the instance-state `unable:` / `hint:` pair naming that instance, as `viola list`'s does, or under `--json` the `instance-unreachable` document, stderr empty; no frame and no line are written.
+- (.andromeda/design-system.md:355) `hook` and `mcp` must keep these stream contracts, so a code for `mcp`'s refused home check must not add stderr or non-frame stdout, or that refusal is named outside the table by a reason.
+  > **`hook`** writes nothing to stderr and always exits 0. **`mcp`** writes only MCP frames on stdout.
+- (.andromeda/design-system.md:381) Each cause's refusal and hint must stay on stderr with results on stdout, and only `--json` puts the refusal on stdout as its document.
+  > **NEVER mix data and messages.** Results go to stdout. `waiting:`, refusals and their `hint:` lines, and errors go to stderr.
+- (.andromeda/design-system.md:382) No new code, document, hint or log form may carry upstream text, a path, a pid or an error chain.
+  > **NEVER print upstream text, paths, pids or anyhow chains with serde sources in errors or hints.** This is the security plan's NEVER-log floor, and human output of `last` / `list` escapes C0/C1 controls.
+
+## Bindings
+- **Per-cause `detail` code ↔ architecture**: the code pending here is owned by the arch amendment naming the codes, and the design text must move with that amendment's choice of document (.andromeda/design-system.md:303)
+- **Exit-code phraseology ↔ architecture**: the typed exit codes are architecture's, and the phraseology here states each one's human form and document, so the two must agree on the moved document (.andromeda/design-system.md:336)
+- **Post-preflight `revive --json` document ↔ route entry "Exit-cause code catalogue"**: this body names the entry as owner of the pending document, and closing it clears the pending text (.andromeda/design-system.md:334)
+- **Errors and hints floor ↔ security plan**: this ban restates the security plan's NEVER-log floor, which bounds every new code and hint (.andromeda/design-system.md:382)
+- **Hint rules ↔ test-plan Exit-cause matrix**: the table's per-cause hint assertions must honour one hint per cause and no hint naming `viola release` (.andromeda/design-system.md:303)
+- **Token contrast and motion ↔ a11y-plan**: (none)

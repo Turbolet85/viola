@@ -18,7 +18,7 @@ use support::fake::{self, of_kind};
 use support::home::{
     HEADROOM_FLOOR_MIB, StampedHome, TestHome, VIOLA, Wrapper, beat_age, booted_wrapper,
     headroom_refusal, home, plant_statusline_source, prepare_home_base, process_start, resolved,
-    snapshot_data, stamped_home, sweep_gone_owners, write_owner,
+    revive_command, snapshot_data, stamped_home, sweep_gone_owners, write_owner,
 };
 #[cfg(unix)]
 use support::home::{STATUSLINE_ECHO_OUTPUT, statusline_echo_command, statusline_marker};
@@ -142,38 +142,97 @@ fn run_refuses_a_live_name(booted_wrapper: Wrapper) {
     assert_eq!(booted_wrapper.stop().code(), Some(0));
 }
 
+/// A wrapper held stopped by `SIGSTOP` until the guard drops: the Unix twin of the Windows guard.
+#[cfg(unix)]
+struct Frozen(String);
+
+#[cfg(unix)]
+impl Frozen {
+    fn attach(pid: u32) -> Self {
+        use std::time::Instant;
+
+        let frozen = Self(pid.to_string());
+        frozen.signal("-STOP");
+        let watch = support::watch::Watch::start("stat");
+        let deadline = Instant::now() + support::watch::WITHIN;
+        loop {
+            let stat = Command::new("ps")
+                .args(["-o", "stat=", "-p", &frozen.0])
+                .output()
+                .expect("ps");
+            let text = String::from_utf8_lossy(&stat.stdout);
+            let state = text.trim_start();
+            if state.starts_with('T') {
+                return frozen;
+            }
+            watch.note(&format!("stat {}", state.chars().next().unwrap_or('-')));
+            watch.deadline_check(deadline, "wrapper never stopped");
+            std::thread::yield_now();
+        }
+    }
+
+    fn signal(&self, sig: &str) {
+        let ok = Command::new("kill")
+            .args([sig, &self.0])
+            .status()
+            .expect("kill");
+        assert!(ok.success(), "kill {sig}");
+    }
+}
+
+#[cfg(unix)]
+impl Drop for Frozen {
+    fn drop(&mut self) {
+        self.signal("-CONT");
+    }
+}
+
+/// `--json`'s form of the two refusals below and of a live holder's: the stale holder has its own
+/// code, one document, stderr empty, its line as without the flag.
+#[rstest]
+fn revive_json_of_a_stale_holder_is_the_stale_heartbeat_document(booted_wrapper: Wrapper) {
+    use std::time::SystemTime;
+
+    let dir = booted_wrapper.instance_dir();
+    let pid = snapshot_data(&dir).expect("snapshot")["pid"]
+        .as_u64()
+        .and_then(|p| u32::try_from(p).ok())
+        .expect("pid");
+    let frozen = Frozen::attach(pid);
+    fs::File::options()
+        .write(true)
+        .open(dir.join("heartbeat"))
+        .expect("heartbeat")
+        .set_modified(SystemTime::now() - Duration::from_secs(60))
+        .expect("back-date");
+    let home = &booted_wrapper.stamped.home;
+    let child = revive_command(home, home.scratch(), &["builder", "--json"])
+        .spawn()
+        .expect("viola");
+    let ran = support::cli::Running::over(child).finish();
+    drop(frozen);
+    assert_eq!(ran.code, Some(1), "stderr {}", ran.stderr);
+    assert_eq!(
+        ran.stdout,
+        "{\"v\":1,\"error\":\"stale-heartbeat\",\"detail\":null}\n"
+    );
+    assert_eq!(ran.stderr, "");
+    assert!(refused_with(booted_wrapper.home(), "stale-heartbeat"));
+    assert_eq!(booted_wrapper.stop().code(), Some(0));
+}
+
 /// A stopped wrapper whose beat is 60 s old is `stale`: its pid + start time still match.
 #[cfg(unix)]
 #[rstest]
 fn run_refuses_a_stale_name(booted_wrapper: Wrapper) {
-    use std::time::{Instant, SystemTime};
+    use std::time::SystemTime;
 
     let dir = booted_wrapper.instance_dir();
-    let pid = snapshot_data(&dir).expect("snapshot")["pid"].to_string();
-    let signal = |sig: &str| {
-        let ok = Command::new("kill")
-            .args([sig, &pid])
-            .status()
-            .expect("kill");
-        assert!(ok.success(), "kill {sig}");
-    };
-    signal("-STOP");
-    let watch = support::watch::Watch::start("stat");
-    let deadline = Instant::now() + support::watch::WITHIN;
-    loop {
-        let stat = Command::new("ps")
-            .args(["-o", "stat=", "-p", &pid])
-            .output()
-            .expect("ps");
-        let text = String::from_utf8_lossy(&stat.stdout);
-        let state = text.trim_start();
-        if state.starts_with('T') {
-            break;
-        }
-        watch.note(&format!("stat {}", state.chars().next().unwrap_or('-')));
-        watch.deadline_check(deadline, "wrapper never stopped");
-        std::thread::yield_now();
-    }
+    let pid = snapshot_data(&dir).expect("snapshot")["pid"]
+        .as_u64()
+        .and_then(|p| u32::try_from(p).ok())
+        .expect("pid");
+    let frozen = Frozen::attach(pid);
     fs::File::options()
         .write(true)
         .open(dir.join("heartbeat"))
@@ -182,7 +241,7 @@ fn run_refuses_a_stale_name(booted_wrapper: Wrapper) {
         .expect("back-date");
 
     let out = run_refused(booted_wrapper.home());
-    signal("-CONT");
+    drop(frozen);
     assert_eq!(out.status.code(), Some(1));
     let stderr = String::from_utf8_lossy(&out.stderr);
     let stderr: Vec<&str> = stderr.lines().collect();
@@ -193,7 +252,7 @@ fn run_refuses_a_stale_name(booted_wrapper: Wrapper) {
             "hint: viola list shows it as stale; stop that process before starting builder again",
         ]
     );
-    assert!(refused_with(booted_wrapper.home(), "already-live"));
+    assert!(refused_with(booted_wrapper.home(), "stale-heartbeat"));
     assert_eq!(booted_wrapper.stop().code(), Some(0));
 }
 
@@ -852,6 +911,6 @@ fn run_refuses_a_frozen_wrapper_as_stale_on_windows(booted_wrapper: Wrapper) {
             "hint: viola list shows it as stale; stop that process before starting builder again",
         ]
     );
-    assert!(refused_with(booted_wrapper.home(), "already-live"));
+    assert!(refused_with(booted_wrapper.home(), "stale-heartbeat"));
     assert_eq!(booted_wrapper.stop().code(), Some(0));
 }

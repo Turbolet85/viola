@@ -120,7 +120,7 @@ fn deliver(home: &Path, dialog_id: u64, response: &Response, out: &Out<'_>) -> a
         })
     };
     let Some(live) = live_endpoint(&instance_dir) else {
-        return Ok(unreachable(Unreachable::Dead("connect")));
+        return Ok(unreachable(Unreachable::without_endpoint(&instance_dir)));
     };
     let mut params = Map::new();
     params.insert("dialog_id".to_owned(), dialog_id.into());

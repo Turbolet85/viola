@@ -1,6 +1,6 @@
 # Coverage — viola-0.1.0
 
-verified 27/53 · deferred 6 · planned 19 · implemented 1 · unclaimed 19
+verified 27/53 · deferred 6 · planned 18 · implemented 2 · unclaimed 18
 
 ## deferred (6)
 - v1-22 · `viola ui` on an OS-assigned port
@@ -10,10 +10,11 @@ verified 27/53 · deferred 6 · planned 19 · implemented 1 · unclaimed 19
 - v1-51 · Token-pair contrast, forced colours and reduced motion hold
 - v1-52 · The 401 access strip after a UI restart
 
-## implemented, unclaimed (1)
-- v1-39 · CLI contract: machine output, typed exits, cause-named hints
+## implemented (2)
+- v1-18 · Every exit-21 and exit-1 cause has a machine-readable code · 2026-10-31-exit-cause-code-catalogue
+- v1-39 · CLI contract: machine output, typed exits, cause-named hints · 2026-10-31-exit-cause-code-catalogue
 
-## planned, unclaimed (19)
+## planned, unclaimed (18)
 - v1-01 · Three-OS CI pipeline from the first commit
 - v1-03 · The fake agent and recorded fixtures as the test contract
 - v1-04 · Structured JSON logs from every process, and a `logs` view
@@ -23,7 +24,6 @@ verified 27/53 · deferred 6 · planned 19 · implemented 1 · unclaimed 19
 - v1-10 · CL-1: send issue and outcome are events in the log
 - v1-11 · The live page sees a dialog clear and state refresh
 - v1-13 · Result payloads carry what the CLI prints
-- v1-18 · Every exit-21 and exit-1 cause has a machine-readable code
 - v1-21 · Timing constants named and located
 - v1-24 · The statusline source `run` records
 - v1-26 · Cross-plan fix-pass items honoured by the implementing chunks

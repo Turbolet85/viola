@@ -1,0 +1,81 @@
+[
+{
+"tool": "rec",
+"v": "1.1",
+"sha8": "9ff640f0",
+"ts": "2026-10-31T17:09:02Z",
+"argv": [
+"query",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-31T15-42-40-phase",
+"--marker",
+"2026-10-31-exit-cause-code-catalogue",
+"select line from coverage_line where version = 'viola-0.1.0'"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"verified 27/53 · deferred 6 · planned 19 · implemented 1 · unclaimed 19",
+"1 row(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.1",
+"sha8": "9ff640f0",
+"ts": "2026-10-31T17:09:21Z",
+"argv": [
+"query",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-31T15-42-40-phase",
+"--marker",
+"2026-10-31-exit-cause-code-catalogue",
+"select * from blocked"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"status\tmarker\tversion\tblock",
+"markerless\tWindows-only live measurements\tviola-0.1.0\tBLOCKED-ON: an interactive Windows host (none exists at the 2026-10-07 0-pending wrap: the dev host is Linux since 2026-10-03, and `uname` read Linux there; by the founder's ruling R-L1, live, 2026-10-07T05:43Z, relayed by the overseer, `d94-route-adaptation.md`, Windows live behaviour stays proven on the CI runner under the fake agent until one exists; nothing in this entry is doable without it)",
+"1 row(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.1",
+"sha8": "9ff640f0",
+"ts": "2026-10-31T17:10:13Z",
+"argv": [
+"query",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-31T15-42-40-phase",
+"--marker",
+"2026-10-31-exit-cause-code-catalogue",
+"select line from coverage_line where version = 'viola-0.1.0'"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"verified 27/53 · deferred 6 · planned 19 · implemented 1 · unclaimed 18",
+"1 row(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

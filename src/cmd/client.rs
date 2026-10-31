@@ -11,8 +11,8 @@ use std::path::{Path, PathBuf};
 use serde_json::{Value, json};
 use viola_channel::{ChannelError, Client, SERVER_PID_REPORTED, sanitised_fault};
 use viola_core::obs::{ObsEvent, ObsProcess};
-use viola_core::{RefusalReason, ViolaName, is_code_word, obs_event};
-use viola_state::liveness::{LiveEndpoint, ServerVerdict, verify_server};
+use viola_core::{RefusalReason, UnreachableCause, ViolaName, is_code_word, obs_event};
+use viola_state::liveness::{LiveEndpoint, ServerVerdict, verify_server, without_endpoint};
 use viola_state::strict::check_instance;
 
 use crate::{human, obs, run};
@@ -32,7 +32,7 @@ pub(crate) fn refuse_untrusted(
         return Ok(None);
     }
     if json {
-        refused_document("instance-unreachable");
+        unreachable_document(UnreachableCause::StrictModes);
     } else {
         let (unable, hint) = human::instance_state_pair(name);
         human::refuse(&unable, &hint);
@@ -91,36 +91,56 @@ pub(crate) fn fault_document(detail: &Value) -> Value {
     json!({"v": 1, "error": "wrapper-fault", "detail": detail})
 }
 
-/// Why exit 21: the instance's wrapper is not there — no live snapshot or no connection
-/// (`connect`), or gone while the call was open (`call`) — or the process serving its endpoint is
-/// not the wrapper its snapshot records.
+/// Why exit 21: the instance's wrapper is not there — no live snapshot or no connection (`Dead`) —
+/// the name has no instance at all (`Unwrapped`), the wrapper went while the call was open
+/// (`Lost`), or the process serving its endpoint is not the wrapper its snapshot records.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(crate) enum Unreachable {
-    Dead(&'static str),
+    Dead,
+    Unwrapped,
+    Lost,
     ServerUnverified,
 }
 
 impl Unreachable {
-    /// The `process-exit` `detail` (obs-plan §6 log-details).
-    fn detail(self) -> &'static str {
-        match self {
-            Self::Dead(_) => "instance-dead",
-            Self::ServerUnverified => "server-verify-failed",
+    /// The reading of an instance directory that gave no live endpoint.
+    pub(crate) fn without_endpoint(instance_dir: &Path) -> Self {
+        match without_endpoint(instance_dir) {
+            UnreachableCause::UnwrappedName => Self::Unwrapped,
+            _ => Self::Dead,
         }
     }
 
-    /// The check is part of making the connection, so its failure is `connect`'s.
+    /// The document's and the `process-exit`'s word (obs-plan §6 log-details).
+    fn cause(self) -> UnreachableCause {
+        match self {
+            Self::Dead => UnreachableCause::InstanceDead,
+            Self::Unwrapped => UnreachableCause::UnwrappedName,
+            Self::Lost => UnreachableCause::EndpointLost,
+            Self::ServerUnverified => UnreachableCause::ServerVerify,
+        }
+    }
+
+    /// The `process-exit` `detail` (obs-plan §6 log-details).
+    fn detail(self) -> &'static str {
+        self.cause().as_str()
+    }
+
+    /// Only a wrapper lost with the call open is `call`'s; the server check is part of making the
+    /// connection, so its failure is `connect`'s.
     fn during(self) -> &'static str {
         match self {
-            Self::Dead(during) => during,
-            Self::ServerUnverified => "connect",
+            Self::Lost => "call",
+            Self::Dead | Self::Unwrapped | Self::ServerUnverified => "connect",
         }
     }
 
     /// The `send_hint` cause its human line ends with.
     pub(crate) fn hint_cause(self) -> &'static str {
         match self {
-            Self::Dead(_) => "not-running",
+            Self::Dead => "not-running",
+            Self::Unwrapped => "unwrapped-name",
+            Self::Lost => "endpoint-lost",
             Self::ServerUnverified => "server-verify",
         }
     }
@@ -166,10 +186,10 @@ pub(crate) fn answer_of(
         Ok(frame) => frame,
         Err(CallError::ServerUnverified) => return Ok(Err(Unreachable::ServerUnverified)),
         Err(CallError::Channel(ChannelError::Connect(_))) => {
-            return Ok(Err(Unreachable::Dead("connect")));
+            return Ok(Err(Unreachable::Dead));
         }
         Err(CallError::Channel(ChannelError::Closed | ChannelError::Io(_))) => {
-            return Ok(Err(Unreachable::Dead("call")));
+            return Ok(Err(Unreachable::Lost));
         }
         Err(CallError::Channel(error)) => return Err(error.into()),
     };
@@ -199,6 +219,12 @@ pub(crate) fn refused_document(code: &str) {
     document(&json!({"v": 1, "error": code, "detail": null}));
 }
 
+/// Exit 21's `--json` document, its cause in `detail` (architecture §Standard Contracts, CLI
+/// `--json` output).
+pub(crate) fn unreachable_document(cause: UnreachableCause) {
+    document(&json!({"v": 1, "error": "instance-unreachable", "detail": cause.as_str()}));
+}
+
 /// Exit 20: the wrapper-fault document, or `error: wrapper fault  <code>` with no hint.
 pub(crate) fn fault(json: bool, detail: &Value) -> u8 {
     if json {
@@ -211,11 +237,11 @@ pub(crate) fn fault(json: bool, detail: &Value) -> u8 {
     20
 }
 
-/// Exit 21: the `--json` document, the same for every cause, or the verb's own stderr lines from
-/// `human`; its `process-exit` at WARN names the cause (obs-plan §6 Log levels mapping).
+/// Exit 21: the `--json` document naming the cause, or the verb's own stderr lines from `human`;
+/// its `process-exit` at WARN names the same cause (obs-plan §6 Log levels mapping).
 pub(crate) fn unreachable(json: bool, cause: Unreachable, human: impl FnOnce()) -> u8 {
     if json {
-        document(&json!({"v": 1, "error": "instance-unreachable", "detail": null}));
+        unreachable_document(cause.cause());
     } else {
         human();
     }
@@ -417,15 +443,15 @@ mod tests {
         assert_eq!(reached, Ok(Reply::Ok(json!({}))));
         let refused = io::Error::from(io::ErrorKind::ConnectionRefused);
         let connect = channel(ChannelError::Connect(refused)).expect("read");
-        assert_eq!(connect, Err(Unreachable::Dead("connect")));
+        assert_eq!(connect, Err(Unreachable::Dead));
         assert_eq!(
             channel(ChannelError::Closed).expect("read"),
-            Err(Unreachable::Dead("call"))
+            Err(Unreachable::Lost)
         );
         let reset = io::Error::from(io::ErrorKind::ConnectionReset);
         assert_eq!(
             channel(ChannelError::Io(reset)).expect("read"),
-            Err(Unreachable::Dead("call"))
+            Err(Unreachable::Lost)
         );
         assert_eq!(
             answer_of(Err(CallError::ServerUnverified)).expect("read"),
@@ -453,17 +479,12 @@ mod tests {
         }
     }
 
-    /// Exit 21's `process-exit` names its cause at WARN, the same document for both, and no pid,
-    /// start time, path or endpoint (obs-plan §6 log-details; architecture §Standard Contracts,
-    /// CLI `--json` output).
+    /// Exit 21's `process-exit` names its cause at WARN, and no pid, start time, path or endpoint
+    /// (obs-plan §6 log-details; architecture §Standard Contracts, CLI `--json` output).
     #[rstest]
-    #[case::dead_at_connect(
-        Unreachable::Dead("connect"),
-        "instance-dead",
-        "connect",
-        "not-running"
-    )]
-    #[case::dead_in_the_call(Unreachable::Dead("call"), "instance-dead", "call", "not-running")]
+    #[case::dead(Unreachable::Dead, "instance-dead", "connect", "not-running")]
+    #[case::unwrapped(Unreachable::Unwrapped, "unwrapped-name", "connect", "unwrapped-name")]
+    #[case::lost(Unreachable::Lost, "endpoint-lost", "call", "endpoint-lost")]
     #[case::server_unverified(
         Unreachable::ServerUnverified,
         "server-verify-failed",
@@ -508,6 +529,16 @@ mod tests {
                 "message",
                 "subject"
             ]
+        );
+    }
+
+    #[test]
+    fn without_endpoint_maps_the_directory_reading() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        assert_eq!(Unreachable::without_endpoint(tmp.path()), Unreachable::Dead);
+        assert_eq!(
+            Unreachable::without_endpoint(&tmp.path().join("stranger")),
+            Unreachable::Unwrapped
         );
     }
 

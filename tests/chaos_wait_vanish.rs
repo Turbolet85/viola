@@ -1,6 +1,7 @@
 //! Chaos (test-plan §6 Chaos suite; obs-plan §4 Scenario `wait` / `last` Cleanup): the wrapper is
 //! killed from outside while a `viola wait` is parked on it. The caller is `instance-unreachable`
-//! (exit 21), never a wrapper fault, and its role file says the call was open when it ended.
+//! with `detail` `endpoint-lost` (exit 21), never a wrapper fault, and its role file says the call
+//! was open when it ended.
 
 #[allow(dead_code)]
 mod support;
@@ -10,36 +11,11 @@ use std::time::Instant;
 
 use serde_json::Value;
 use support::home::{StampedHome, TestHome, VIOLA, Wrapper, snapshot_data, workspace_path};
+use support::start::kill_wrapper;
 use support::watch::{WITHIN, Watch};
 
 fn role(home: &std::path::Path, file: &str) -> Vec<Value> {
     support::ndjson::read_lines(&home.join("diagnostics").join(file))
-}
-
-/// The wrapper process, ended with no chance to clean up.
-fn kill(pid: u32) {
-    #[cfg(windows)]
-    {
-        use windows_sys::Win32::Foundation::CloseHandle;
-        use windows_sys::Win32::System::Threading::{
-            OpenProcess, PROCESS_TERMINATE, TerminateProcess,
-        };
-        // SAFETY: plain values cross; the handle is closed before it goes out of scope.
-        unsafe {
-            let handle = OpenProcess(PROCESS_TERMINATE, 0, pid);
-            assert!(!handle.is_null(), "open the wrapper");
-            assert_ne!(TerminateProcess(handle, 1), 0, "terminate the wrapper");
-            CloseHandle(handle);
-        }
-    }
-    #[cfg(unix)]
-    {
-        let killed = Command::new("kill")
-            .args(["-KILL", &pid.to_string()])
-            .status()
-            .expect("kill");
-        assert!(killed.success(), "kill -KILL");
-    }
 }
 
 #[test]
@@ -80,7 +56,7 @@ fn chaos_wait_parked_wrapper_killed_exits_21() {
         watch.deadline_check(deadline, "the wait never reached the wrapper");
         std::thread::yield_now();
     }
-    kill(pid);
+    kill_wrapper(pid);
 
     let watch = Watch::start("exit");
     let deadline = Instant::now() + WITHIN;
@@ -96,7 +72,7 @@ fn chaos_wait_parked_wrapper_killed_exits_21() {
     assert_eq!(out.status.code(), Some(21));
     assert_eq!(
         String::from_utf8_lossy(&out.stdout),
-        "{\"v\":1,\"error\":\"instance-unreachable\",\"detail\":null}\n"
+        "{\"v\":1,\"error\":\"instance-unreachable\",\"detail\":\"endpoint-lost\"}\n"
     );
     assert!(out.stderr.is_empty());
     let exits: Vec<Value> = role(&home, "cli-builder.ndjson")
@@ -105,7 +81,7 @@ fn chaos_wait_parked_wrapper_killed_exits_21() {
         .collect();
     assert_eq!(exits.len(), 1, "{exits:?}");
     assert_eq!(exits[0]["exit_code"], 21);
-    assert_eq!(exits[0]["detail"], "instance-dead");
+    assert_eq!(exits[0]["detail"], "endpoint-lost");
     assert_eq!(exits[0]["during"], "call");
     drop(wrapper);
 }

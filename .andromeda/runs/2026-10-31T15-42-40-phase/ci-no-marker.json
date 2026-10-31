@@ -1,0 +1,60 @@
+[
+{
+"tool": "ci",
+"v": "1.3",
+"sha8": "d6f6c9c7",
+"ts": "2026-10-31T15:42:39Z",
+"argv": [
+"conclusion",
+"--sha",
+"404f7496dbd7ef875c4f3c9448f96eb212aa8eb1",
+"--sha",
+"df4ca5775c76fa7ba3fc668dbb9a418f54258850",
+"--sha",
+"16ef6b4813e73aea34ea41dcac69daaf5908d850",
+"--run-dir",
+".andromeda/runs/2026-10-31T15-42-40-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"repo Turbolet85/viola (the push remote `origin`)",
+"404f7496dbd7 verdict: not on the remote",
+"df4ca5775c76 verdict: not on the remote",
+"16ef6b4813e7 verdict: green · checks 15/15 · wall 797 s · runs ci#41198134788 completed/success"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"repo": "Turbolet85/viola",
+"host": "github.com",
+"repo_source": "the push remote `origin`",
+"names": [],
+"shas": [
+{
+"sha": "404f7496dbd7ef875c4f3c9448f96eb212aa8eb1",
+"word": "not on the remote",
+"polls": [
+"not on the remote"
+]
+},
+{
+"sha": "df4ca5775c76fa7ba3fc668dbb9a418f54258850",
+"word": "not on the remote",
+"polls": [
+"not on the remote"
+]
+},
+{
+"sha": "16ef6b4813e73aea34ea41dcac69daaf5908d850",
+"word": "green",
+"polls": [
+"green"
+]
+}
+]
+}
+}
+]

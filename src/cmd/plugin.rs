@@ -11,6 +11,7 @@ use std::process::ExitCode;
 use serde_json::json;
 use tracing::instrument;
 use viola_agent_claude::marketplace::{self, PLUGIN_REF};
+use viola_core::UnreachableCause;
 use viola_state::fs::{create_private_dir, replace_private};
 
 use super::client;
@@ -51,7 +52,7 @@ fn install(home: &Path, args: &InstallArgs) -> anyhow::Result<ExitCode> {
     // state this check refuses. A refused check creates nothing and writes no line.
     if !tree_passes(&home) {
         if args.json {
-            client::refused_document("instance-unreachable");
+            client::unreachable_document(UnreachableCause::StrictModes);
         } else {
             let (unable, hint) = human::home_state_pair();
             human::refuse(unable, hint);

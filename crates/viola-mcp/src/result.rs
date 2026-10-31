@@ -7,7 +7,7 @@
 use rmcp::model::{CallToolResult, ContentBlock};
 use serde_json::{Value, json};
 use viola_channel::{ChannelError, sanitised_fault};
-use viola_core::{RefusalReason, is_code_word};
+use viola_core::{RefusalReason, UnreachableCause, is_code_word};
 
 use crate::McpError;
 
@@ -26,8 +26,9 @@ pub(crate) fn error(code: &str, detail: Value) -> CallToolResult {
     failed(code, json!({"error": code, "detail": detail}))
 }
 
-pub(crate) fn unreachable() -> CallToolResult {
-    error("instance-unreachable", Value::Null)
+/// `instance-unreachable`, its cause in `detail`: the `isError` code is the cause's only record.
+pub(crate) fn unreachable(cause: UnreachableCause) -> CallToolResult {
+    error("instance-unreachable", Value::from(cause.as_str()))
 }
 
 /// A refused input: `detail` names the field, a closed word.
@@ -49,8 +50,9 @@ pub(crate) fn of_reply(
 ) -> Result<CallToolResult, McpError> {
     let frame = match sent {
         Ok(frame) => frame,
-        Err(ChannelError::Connect(_) | ChannelError::Closed | ChannelError::Io(_)) => {
-            return Ok(unreachable());
+        Err(ChannelError::Connect(_)) => return Ok(unreachable(UnreachableCause::InstanceDead)),
+        Err(ChannelError::Closed | ChannelError::Io(_)) => {
+            return Ok(unreachable(UnreachableCause::EndpointLost));
         }
         Err(_) => return Err(McpError::Internal),
     };
@@ -87,7 +89,7 @@ pub(crate) fn of_board(document: &Value) -> Result<CallToolResult, McpError> {
         return Ok(ok(payload.clone()));
     }
     match document.get("error").and_then(Value::as_str) {
-        Some("instance-unreachable") => Ok(unreachable()),
+        Some("instance-unreachable") => Ok(unreachable(UnreachableCause::StrictModes)),
         _ => Err(McpError::Internal),
     }
 }
@@ -202,15 +204,24 @@ mod tests {
     }
 
     #[rstest]
-    #[case::connect(ChannelError::Connect(io::Error::from(io::ErrorKind::NotFound)))]
-    #[case::closed(ChannelError::Closed)]
-    #[case::io(ChannelError::Io(io::Error::from(io::ErrorKind::ConnectionReset)))]
-    fn of_reply_reads_a_vanished_instance_as_unreachable(#[case] error: ChannelError) {
+    #[case::connect(
+        ChannelError::Connect(io::Error::from(io::ErrorKind::NotFound)),
+        "instance-dead"
+    )]
+    #[case::closed(ChannelError::Closed, "endpoint-lost")]
+    #[case::io(
+        ChannelError::Io(io::Error::from(io::ErrorKind::ConnectionReset)),
+        "endpoint-lost"
+    )]
+    fn of_reply_reads_a_vanished_instance_as_unreachable(
+        #[case] error: ChannelError,
+        #[case] cause: &str,
+    ) {
         let result = of_reply(Err(error), true).expect("a result");
         assert_eq!(result.is_error, Some(true));
         assert_eq!(
             result.structured_content,
-            Some(json!({"error": "instance-unreachable", "detail": null}))
+            Some(json!({"error": "instance-unreachable", "detail": cause}))
         );
         assert_eq!(text_of(&result), "refused: instance-unreachable");
     }
@@ -246,7 +257,23 @@ mod tests {
             keys(refused("not-delivered", Some("empty-text"))),
             ["refusal", "detail"]
         );
-        assert_eq!(keys(unreachable()), ["error", "detail"]);
+        for (cause, word) in [
+            (UnreachableCause::StrictModes, "strict-modes-failed"),
+            (UnreachableCause::InstanceDead, "instance-dead"),
+            (UnreachableCause::UnwrappedName, "unwrapped-name"),
+            (UnreachableCause::EndpointLost, "endpoint-lost"),
+            (UnreachableCause::ServerVerify, "server-verify-failed"),
+        ] {
+            assert_eq!(keys(unreachable(cause)), ["error", "detail"]);
+            assert_eq!(
+                unreachable(cause).structured_content,
+                Some(json!({"error": "instance-unreachable", "detail": word}))
+            );
+            assert_eq!(
+                text_of(&unreachable(cause)),
+                "refused: instance-unreachable"
+            );
+        }
         assert_eq!(keys(invalid("target")), ["error", "detail"]);
         assert_eq!(
             invalid("dialog_id").structured_content,
@@ -263,11 +290,13 @@ mod tests {
             ok.structured_content,
             Some(json!({"items": [], "budget": "unknown"}))
         );
-        let refused = of_board(&json!({"v": 1, "error": "instance-unreachable", "detail": null}))
-            .expect("refused");
+        let refused = of_board(
+            &json!({"v": 1, "error": "instance-unreachable", "detail": "strict-modes-failed"}),
+        )
+        .expect("refused");
         assert_eq!(
             refused.structured_content,
-            Some(json!({"error": "instance-unreachable", "detail": null}))
+            Some(json!({"error": "instance-unreachable", "detail": "strict-modes-failed"}))
         );
         assert!(of_board(&json!({"v": 1})).is_err());
         assert!(of_board(&json!({"v": 1, "error": "other"})).is_err());

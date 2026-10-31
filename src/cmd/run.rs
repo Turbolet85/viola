@@ -160,6 +160,8 @@ pub(super) struct Launch {
     pub(super) args: Vec<OsString>,
     /// Where the child is spawned, and nothing else: the program is never looked up there.
     pub(super) spawn_dir: PathBuf,
+    /// A start refusal prints its one `--json` document in place of its pair.
+    pub(super) json: bool,
 }
 
 pub(crate) fn run(home: &Path, args: RunArgs) -> anyhow::Result<ExitCode> {
@@ -179,6 +181,7 @@ pub(crate) fn run(home: &Path, args: RunArgs) -> anyhow::Result<ExitCode> {
             .expect("clap requires at least one program word"),
         args: words.collect(),
         spawn_dir: std::env::current_dir()?,
+        json: false,
     };
     match start(home, &launch, &persistent, &exe)? {
         Started::Launched(launched) => pump_child(*launched),
@@ -264,10 +267,11 @@ pub(super) fn start(
     let program = match run::resolve_program(&launch.program, &cwd) {
         Ok(program) => program,
         Err(AgentError::BatchScriptChild) => {
-            refuse_batch_script(name);
-            return Ok(refused("batch-script-child"));
+            return Ok(refused_with(launch.json, "batch-script-child", || {
+                refuse_batch_script(name);
+            }));
         }
-        Err(_) => return Ok(refused("internal-error")),
+        Err(_) => return Ok(refused_with(launch.json, "internal-error", || {})),
     };
 
     // The log's open created the home, so this is its one canonical spelling: the endpoint, the
@@ -275,12 +279,15 @@ pub(super) fn start(
     let home = super::canonical_home(home);
     let instance_dir = home.join("instances").join(name_str(name));
     let recovered = read_snapshot_or_replay(&instance_dir).ok();
-    if let Some(refusal) = collision_check(name, &instance_dir, recovered.as_ref(), false) {
+    if let Some(refusal) = collision_check(name, &instance_dir, recovered.as_ref(), launch.json) {
         return Ok(refusal);
     }
     let Some((pinned, plugin_dir)) = pin_and_plugin(&home, exe)? else {
-        refuse_tampered_pin();
-        return Ok(refused("pinned-hash-mismatch"));
+        return Ok(refused_with(
+            launch.json,
+            "pinned-hash-mismatch",
+            refuse_tampered_pin,
+        ));
     };
     #[cfg(windows)]
     let sideload = conpty_sideload(&pinned);
@@ -293,8 +300,9 @@ pub(super) fn start(
     let gate = version_gate(&home, &program, &cwd, &strip);
     let cli_verified = gate.cli_verified;
     let Some((endpoint, server)) = bind_endpoint(name, &home)? else {
-        refuse_squatted(name);
-        return Ok(refused("squatted-name"));
+        return Ok(refused_with(launch.json, "squatted-name", || {
+            refuse_squatted(name);
+        }));
     };
     let wheel = Arc::new(WheelSlot::default());
     let snapshots = Arc::new(Snapshots::new(instance_dir.clone()));
@@ -411,9 +419,21 @@ pub(super) fn refused(detail: &'static str) -> Started {
     Started::Refused(ExitCode::from(1))
 }
 
+/// A refusal of the start, before any child: the stderr pair from `human`, or with `json` the
+/// code's one document on stdout in place of it. The line is the same either way.
+fn refused_with(json: bool, detail: &'static str, human: impl FnOnce()) -> Started {
+    if json {
+        super::client::refused_document(detail);
+    } else {
+        human();
+    }
+    refused(detail)
+}
+
 /// A `live` or `stale` name refuses before anything is written; a `gone` one is taken over. The
 /// snapshot is the caller's one read of it through the replay (`None` when that read failed). With
-/// `json` the refusal is the `already-live` document on stdout in place of the stderr pair.
+/// `json` the refusal is its code's document on stdout in place of the stderr pair. The span's
+/// `outcome` says a holder stands, whichever; the cause is the exit line's `detail`.
 #[instrument(skip_all, name = "run.collision_check", fields(outcome = tracing::field::Empty))]
 pub(super) fn collision_check(
     name: &ViolaName,
@@ -436,12 +456,12 @@ pub(super) fn collision_check(
     };
     tracing::Span::current().record("outcome", outcome);
     match taken? {
-        Liveness::Gone => return None,
-        Liveness::Live | Liveness::Stale if json => super::client::refused_document("already-live"),
-        Liveness::Live => refuse_live(name),
-        Liveness::Stale => refuse_stale(name),
+        Liveness::Gone => None,
+        Liveness::Live => Some(refused_with(json, "already-live", || refuse_live(name))),
+        Liveness::Stale => Some(refused_with(json, "stale-heartbeat", || {
+            refuse_stale(name);
+        })),
     }
-    Some(refused("already-live"))
 }
 
 /// The pinned copy of this exe's bytes, then `plugin/<key>/` rewritten whole; `None` when the
@@ -1650,6 +1670,7 @@ mod tests {
             program: OsString::from("whoami"),
             args: Vec::new(),
             spawn_dir: std::env::current_dir().expect("cwd"),
+            json: false,
         };
         let exe = std::fs::read(std::env::current_exe().expect("exe")).expect("exe bytes");
         let (started, spans) =

@@ -52,7 +52,9 @@ pub(crate) fn wait(home: &Path, args: &WaitArgs) -> anyhow::Result<ExitCode> {
         })
     };
     let Some(live) = live_endpoint(&instance_dir) else {
-        return Ok(ExitCode::from(unreachable(Unreachable::Dead("connect"))));
+        return Ok(ExitCode::from(unreachable(Unreachable::without_endpoint(
+            &instance_dir,
+        ))));
     };
     let mut params = Map::new();
     if let Some(after) = args.after {

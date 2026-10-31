@@ -1,0 +1,18 @@
+# Classified — arch · established-decisions.b3
+
+## Answers
+established-decisions#27.1 · yes · the `agents-join` bullet's `sessionId` field of `claude agents --json` is what the `session-live` reading matches, and the version gate's `version-probe` log pair runs before the squatted-name bind, so which verbs have opened a log by each refusal turns on it; the ledger's other rows bind nothing here
+established-decisions#28.1 · yes · `viola verify` refuses its home tree before its cli log opens, exit 1 with the home pair and no step line, summary or line, which is the refused home tree the chunk edits in src/cmd/verify.rs
+established-decisions#29.1 · yes · the collision check, `squatted-name` at the endpoint bind, the `session-live` agents read and the revive preflight order are the start refusals and preflight readings the chunk codes
+established-decisions#29.2 · yes · `live_endpoint` returns the pid and started_at of a real snapshot only, and the frame-writing client's strict-modes check, liveness pre-check and `verify_server` order is what the chunk's pre-check and server-check edits and its replayed-snapshot cause act on
+established-decisions#29.3 · yes · over a replayed snapshot the collision check decides from the heartbeat alone, the judgement behind the `already-live` cause and the heartbeat-alone clause of the chunk
+established-decisions#29.4 · yes · revive's preflight reads the snapshot once and writes one state-recovered line, which bears on which preflight refusals write a line and on the revive document after a passed preflight
+established-decisions#29.5 · yes · every start checks the home tree before its wrapper log opens (`checked_exe`, `check_home_tree`), a refusal being exit 1 with no log, no line and no child, which the chunk's home-tree refusals of run, revive and verify must each give a code
+established-decisions#30.1 · yes · the thiserror-per-crate rule, RefusalReason living in viola-core, anyhow only in the bin, and the post-mortem chain kept off role lines, stdout and stderr bind the internal-error code and the home and census of the new codes
+established-decisions#30.2 · yes · `resolve_program`'s `BatchScriptChild` and `ProgramNotFound` with fixed messages is the error type of the batch-script-child refusal and of the `claude`-not-on-PATH internal-error the chunk codes in run.rs and src/run/mod.rs
+established-decisions#30.3 · yes · the census of nine thiserror derives is the count any new error type the chunk adds must join
+established-decisions#31.1 · yes · viola-channel's Tokio flavour sits behind its optional tokio feature, and the chunk edits the vanished-server read in viola-channel client.rs on both flavours, so no tokio may enter another member's normal graph
+established-decisions#32.1 · yes · the pinned copy's `pinned-hash-mismatch` refusal leaving the file as found, the plugin and `.mcp.json` registration, and a registered `viola mcp` whose refused home exits 1 without blocking the session all bind the chunk's refusals and its `viola mcp` check
+established-decisions#33.1 · yes · `run` reads its exe's bytes once and pins those same bytes through `pin_bytes`, which is the checked_exe unit the chunk edits and the basis of its pinned-hash-mismatch refusal
+established-decisions#33.2 · no · the Windows conpty owner/DACL check and `PinError::StrictModes` concern the ConPTY companions, a sideload that falls back to the inbox ConPTY and never refuses a start, which the Not needed list drops
+established-decisions#33.3 · no · reproducible builds keying two bin folders from one tree is a build-determinism fact that checked_exe and the pinned-hash-mismatch refusal do not act on; its owed action is the working-route entry "Version done-check"

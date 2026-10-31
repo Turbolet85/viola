@@ -100,8 +100,9 @@ pub(super) fn link_call(
             client::unable_unreachable(driven, cause);
         })
     };
-    let Some(live) = live_endpoint(&home.join("instances").join(driven)) else {
-        return Ok(unreachable(Unreachable::Dead("connect")));
+    let instance_dir = home.join("instances").join(driven);
+    let Some(live) = live_endpoint(&instance_dir) else {
+        return Ok(unreachable(Unreachable::without_endpoint(&instance_dir)));
     };
     let mut params = Map::new();
     params.insert("driver".to_owned(), driver.into());

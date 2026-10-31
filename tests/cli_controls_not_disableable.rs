@@ -565,7 +565,7 @@ fn viola_dir_does_not_disable_the_home_scan() {
     assert!(out.stderr.is_empty(), "stderr: {} bytes", out.stderr.len());
     assert_eq!(
         String::from_utf8_lossy(&out.stdout),
-        "{\"v\":1,\"error\":\"instance-unreachable\",\"detail\":null}\n"
+        "{\"v\":1,\"error\":\"instance-unreachable\",\"detail\":\"strict-modes-failed\"}\n"
     );
     assert!(
         !home.join("diagnostics").exists(),

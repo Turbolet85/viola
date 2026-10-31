@@ -25,8 +25,10 @@ use viola_agent_claude::hook::typed_text;
 use viola_channel::SERVER_PID_REPORTED;
 use viola_channel::tokio_client::TokioClient;
 use viola_core::obs::ObsEvent;
-use viola_core::{NotDelivered, RefusalReason, VERSION, ViolaName, obs_event};
-use viola_state::liveness::{LiveEndpoint, ServerVerdict, live_endpoint, verify_server};
+use viola_core::{NotDelivered, RefusalReason, UnreachableCause, VERSION, ViolaName, obs_event};
+use viola_state::liveness::{
+    LiveEndpoint, ServerVerdict, live_endpoint, verify_server, without_endpoint,
+};
 use viola_state::strict::check_instance;
 
 use crate::{ListProvider, McpError, result};
@@ -335,17 +337,17 @@ async fn frame(
         .join("instances")
         .join(AsRef::<str>::as_ref(target));
     if check_instance(&ctx.home, &instance_dir).is_err() {
-        return Ok(result::unreachable());
+        return Ok(result::unreachable(UnreachableCause::StrictModes));
     }
     let Some(live) = live_endpoint(&instance_dir) else {
-        return Ok(result::unreachable());
+        return Ok(result::unreachable(without_endpoint(&instance_dir)));
     };
     let mut client = match TokioClient::connect(&live.endpoint, "mcp").await {
         Ok(client) => client,
         Err(error) => return result::of_reply(Err(error), refusable),
     };
     if !server_verified(live, client.server_pid()).await? {
-        return Ok(result::unreachable());
+        return Ok(result::unreachable(UnreachableCause::ServerVerify));
     }
     let sent = client.request(method, params_from(ctx, params)).await;
     result::of_reply(sent, refusable)
@@ -458,13 +460,15 @@ mod tests {
 
     /// A server over an empty home: any frame tool that passed its checks reads `instance-unreachable`.
     fn empty_home() -> (tempfile::TempDir, Ctx) {
-        let home = tempfile::tempdir().expect("tempdir");
+        let dir = tempfile::tempdir().expect("tempdir");
+        let home = dir.path().join("home");
+        viola_state::fs::create_private_dir(&home).expect("the home");
         let ctx = Ctx {
-            home: home.path().to_path_buf(),
+            home,
             from: None,
             list: Arc::new(|| json!({"v": 1, "ok": {"items": []}})),
         };
-        (home, ctx)
+        (dir, ctx)
     }
 
     #[test]
@@ -612,7 +616,7 @@ mod tests {
             .expect("a result");
         assert_eq!(
             result.structured_content,
-            Some(json!({"error": "instance-unreachable", "detail": null}))
+            Some(json!({"error": "instance-unreachable", "detail": "unwrapped-name"}))
         );
     }
 

@@ -3,13 +3,16 @@
 //! logs with their closed process-log detail and the strict-modes one, made before any log opens,
 //! with no line at all; the `--list` rows, and a forked resume. Every revive here finds the fake
 //! agent as `claude` first on its `PATH`, so the name never reaches the host's own CLI, and so its
-//! `claude agents --json` read is that copy's answer: what the test planted beside it.
+//! `claude agents --json` read is that copy's answer: what the test planted beside it. The start
+//! refusals `run` shares (`batch-script-child`, `pinned-hash-mismatch`, `squatted-name`, a `claude`
+//! not on `PATH` as `internal-error`) are `tests/cross_exit_causes.rs`'s rows, in both modes.
 
 #[allow(dead_code)]
 mod support;
 
 use std::fs::{self, OpenOptions};
 use std::path::{Path, PathBuf};
+#[cfg(unix)]
 use std::time::Instant;
 
 use rstest::rstest;
@@ -18,15 +21,17 @@ use support::cli::{Ran, Running};
 use support::events::{events, wait_events};
 use support::fake::{self, of_kind};
 use support::home::{
-    StampedHome, TestHome, Wrapper, booted_wrapper, claude_dir, revive_command, stamped_home,
-    workspace_path,
+    StampedHome, TestHome, Wrapper, booted_wrapper, revive_command, stamped_home, workspace_path,
 };
 use support::hygiene::load_schema;
+use support::start::{
+    FIXTURE_SESSION, first_life, listed, made_dir, plant_agents, remove_dir_once_free, revive,
+    role_lines, stopped_life, wait_session_start_hooks,
+};
 use support::verify::CANARY;
+#[cfg(unix)]
 use support::watch::{WITHIN, Watch};
 
-/// The session id the committed 2.1.287 `SessionStart.default` payload carries.
-const FIXTURE_SESSION: &str = "c0f0cc23-690b-45dd-bbfb-06d6cfd44942";
 /// The id the fake agent reports for a forked resume: no committed fixture holds it.
 const FORK_SESSION: &str = "0f0e0d0c-0b0a-4908-8706-050403020100";
 /// An id of the right shape that no log here holds.
@@ -48,18 +53,8 @@ const STRICT_MODES: &str = "unable: builder's state files can be written by anot
                             hint: viola will not read them; make the viola home and its files \
                             owner-only\n";
 
-/// `viola revive <args…>` outside any terminal, typed in `dir`; its exit and both streams.
-fn revive(home: &TestHome, dir: &Path, args: &[&str]) -> Ran {
-    let child = revive_command(home, dir, args).spawn().expect("viola");
-    Running::over(child).finish()
-}
-
 fn role_file(home: &Path) -> PathBuf {
     home.join("diagnostics").join("run-builder.ndjson")
-}
-
-fn role_lines(home: &Path) -> Vec<Value> {
-    support::ndjson::read_lines(&role_file(home))
 }
 
 /// What a refused revive added to the role file past `before` lines: exactly one exit of the
@@ -88,59 +83,6 @@ fn assert_refused(home: &Path, before: usize, detail: &str) {
             .any(|line| line["event"] == "process-start" && line["subject"] == "claude-child"),
         "a refused revive started a child"
     );
-}
-
-/// A `builder` wrapper typed in `dir` over the committed hook fixtures, its SessionStart logged
-/// and that hook ended.
-fn first_life(stamped: StampedHome, dir: &Path) -> Wrapper {
-    let fixtures = workspace_path("fixtures/claude");
-    let fixtures = fixtures.to_str().expect("utf-8 path");
-    let wrapper = Wrapper::boot_in(stamped, "builder", dir, &["--fixtures", fixtures]);
-    wait_events(&wrapper.instance_dir(), "the session-start record", |l| {
-        l.iter().any(|e| e["kind"] == "session-start")
-    });
-    wait_session_start_hooks(&wrapper.receipt(), 1);
-    wrapper
-}
-
-/// The receipt's `hook` lines for SessionStart number `count`: each such hook has ended.
-fn wait_session_start_hooks(receipt: &Path, count: usize) {
-    fake::wait_for(receipt, "the SessionStart hook's receipt", |lines| {
-        of_kind(lines, "hook")
-            .iter()
-            .filter(|hook| hook["event"] == "SessionStart")
-            .count()
-            == count
-    });
-}
-
-/// A directory the test made inside its own scratch.
-fn made_dir(home: &TestHome, name: &str) -> PathBuf {
-    let dir = home.scratch().join(name);
-    fs::create_dir(&dir).expect("the test's directory");
-    dir
-}
-
-/// A first life typed in a directory of the test's own, stopped: the home, the directory and how
-/// many role-file lines the first life left.
-fn stopped_life(stamped: StampedHome) -> (StampedHome, PathBuf, usize) {
-    let dir = made_dir(&stamped.home, "recorded");
-    let (stopped, stamped) = first_life(stamped, &dir).stop_keep();
-    assert_eq!(stopped.code(), Some(0));
-    let before = role_lines(stamped.home.path()).len();
-    (stamped, dir, before)
-}
-
-/// Removes `dir` once nothing holds it. A directory a process still has as its own cannot be
-/// removed on Windows, and a wrapper's console host can outlive the wrapper by a moment.
-fn remove_dir_once_free(dir: &Path) {
-    let watch = Watch::start("remove");
-    let deadline = Instant::now() + WITHIN;
-    while fs::remove_dir_all(dir).is_err() {
-        watch.note("the directory is held");
-        watch.deadline_check(deadline, "the recorded directory could not be removed");
-        std::thread::yield_now();
-    }
 }
 
 /// The stopped wrapper's heartbeat set ten seconds back, past the liveness bound: a replayed
@@ -432,25 +374,6 @@ fn revive_list_refuses_state_another_user_could_write(stamped_home: StampedHome)
         before,
         "--list opened a process log"
     );
-}
-
-/// The `claude` a revive finds answers `agents --json` with `mode` when given, else with `rows`.
-fn plant_agents(home: &TestHome, mode: Option<&str>, rows: &str) {
-    let dir = claude_dir(home.scratch());
-    if let Some(mode) = mode {
-        fs::write(dir.join("agents-mode"), mode).expect("the agents mode");
-    }
-    fs::write(dir.join("agents-rows.json"), rows).expect("the agents rows");
-}
-
-/// One live session listed under `id`, in the measured row shape.
-fn listed(id: &str) -> String {
-    serde_json::json!([{
-        "cwd": "~/elsewhere", "kind": "interactive", "name": "another session",
-        "pid": 4_294_967_295_u32, "sessionId": id, "startedAt": 1_760_000_000_000_u64,
-        "status": "idle",
-    }])
-    .to_string()
 }
 
 /// The `agents-probe` pair the revive's read wrote past `before`, naming no id or directory.

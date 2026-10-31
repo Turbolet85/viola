@@ -116,31 +116,43 @@ pub(crate) fn revive(home: &Path, args: ReviveArgs) -> anyhow::Result<ExitCode> 
     if args.list {
         return list(home, &args.name, args.json);
     }
+    let json = args.json;
+    // The error still reaches the catch site, for its chain and its line. A `pump_child` error
+    // prints no document: the child has held the terminal, and viola writes nothing past it.
+    let started = started(home, args).inspect_err(|_| {
+        if json {
+            client::refused_document("internal-error");
+        }
+    })?;
+    match started {
+        Started::Launched(launched) => pump_child(*launched),
+        Started::Refused(code) => Ok(code),
+    }
+}
+
+/// Everything ahead of the child: the checks, the log, the preflight and `run`'s start.
+fn started(home: &Path, args: ReviveArgs) -> anyhow::Result<Started> {
     // Before the log opens: opening it narrows the home to its owner, which would erase the very
     // state this check refuses. A refused check opens nothing under the home and writes no line.
     if !trusted(home, &args.name)? {
         Refusal::StrictModes.write(&args.name, args.json);
-        return Ok(ExitCode::from(1));
+        return Ok(Started::Refused(ExitCode::from(1)));
     }
     let exe = match checked_exe(home, &args.name)? {
         Ok(exe) => exe,
         Err(_) if args.json => {
             Refusal::StrictModes.write(&args.name, true);
-            return Ok(ExitCode::from(1));
+            return Ok(Started::Refused(ExitCode::from(1)));
         }
         Err(refused) => {
             refuse_tree(&args.name, refused);
-            return Ok(ExitCode::from(1));
+            return Ok(Started::Refused(ExitCode::from(1)));
         }
     };
     let persistent = open_wrapper_log(home, &args.name)?;
-    let started = match preflight(home, args)? {
-        Ok(launch) => start(home, &launch, &persistent, &exe)?,
-        Err(refusal) => refusal,
-    };
-    match started {
-        Started::Launched(launched) => pump_child(*launched),
-        Started::Refused(code) => Ok(code),
+    match preflight(home, args)? {
+        Ok(launch) => start(home, &launch, &persistent, &exe),
+        Err(refusal) => Ok(refusal),
     }
 }
 
@@ -222,6 +234,7 @@ fn preflight(home: &Path, args: ReviveArgs) -> anyhow::Result<Result<Launch, Sta
         program: OsString::from(PROGRAM),
         args: child_args,
         spawn_dir,
+        json,
     }))
 }
 

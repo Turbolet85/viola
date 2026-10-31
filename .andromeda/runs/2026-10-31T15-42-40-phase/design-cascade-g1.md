@@ -1,0 +1,30 @@
+# design · cascade read · group 1 of 2
+
+## Carried
+- (.andromeda/design-system-detail/brand-identity.md:21) The `viola revive --json` document this chunk builds for a refusal `run`'s start makes after a passed preflight must print only at that refusal, before any child exists, and nothing may print once the wrapped `claude` TUI runs; this row's text must stay true beside that document.
+  > `viola run` prints nothing at all while the wrapped `claude` TUI runs, and neither does a `viola revive` that passed its preflight.
+  (.andromeda/design-system.md:379)
+  > `viola run`'s terminal belongs to the child's screen; a passed `viola revive` is the same passthrough.
+- (.andromeda/design-system-detail/color-palette.md:71) The unwrapped-name refusal and hint this chunk builds must show the name as text only and must never offer that session as a target of any command.
+  > The name is shown as text, never as a target.
+  (.andromeda/design-system.md:15)
+  > Unwrapped sessions are bare strips: another facility's traffic, visible but never a `target`.
+  (.andromeda/design-system.md:99)
+  > a bare strip is never cocked and its name never a target
+- (.andromeda/design-system-detail/iconography.md:11) Whichever way the open contract choice carries a cause's code, a human refusal line must keep the reason and the detail as separate fields split by two spaces, and any words set inside one field must join with ` - `, never `·`.
+  > Two spaces separate columns, and a refusal's reason from its detail (they are separate fields, as in the exit-code table).
+  >   - ` - ` (space, hyphen, space) replaces `·` inside one field or label: `driver - budget-paused`, `skipped 0 - 0 - 0`, `-- UNWRAPPED - READ-ONLY --`.
+  (.andromeda/design-system.md:209)
+  > two spaces between columns, ` - ` inside one field
+- (.andromeda/design-system.md:221) The deferral is the ruling that must name `verification-matrix.json#v1-18`'s `ui` start refusal outside the exit-cause table if the code holds none.
+  > The frontend is deferred to 0.2.0; its technology is not chosen.
+- (.andromeda/design-system.md:385) A new `process-exit` `detail` value must be a closed code only, with any fuller account of a cause kept to the instance's diagnostics.
+  > Full detail goes to `diagnostics/` only.
+- (.andromeda/design-system.md:382) Every new code across `--json`, MCP and the process log, and every new `hint:` line, must hold no upstream text, no path and no pid, which each table case's assertions must be able to witness.
+  > **NEVER print upstream text, paths, pids or anyhow chains with serde sources in errors or hints.** This is the security plan's NEVER-log floor
+
+## Bindings
+- **Wrapped-session row ↔ separator rule**: the unwrapped-name refusal shows the name as text (.andromeda/design-system-detail/color-palette.md:71) and keeps its reason and detail as two-space fields (.andromeda/design-system-detail/iconography.md:11), its hint naming no way to aim a command at that session.
+- **Separator rule ↔ the body's error ban**: a cause's code set in the refusal's detail field (.andromeda/design-system-detail/iconography.md:11) is a closed word holding no path, pid or upstream text (.andromeda/design-system.md:382).
+- **Passthrough row ↔ the body's revive pattern**: the silence past a passed preflight (.andromeda/design-system-detail/brand-identity.md:21) and the pending line this chunk closes on that preflight's refusals (.andromeda/design-system.md:334) are amended to agree, the document printing only where no child has started.
+- **The body's platform notes ↔ the body's error ban**: `mcp`'s refused home check prints nothing (.andromeda/design-system.md:355), while whatever code it gets in the process log stays inside the same floor (.andromeda/design-system.md:382) and the same bound on detail (.andromeda/design-system.md:356).

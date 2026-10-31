@@ -70,7 +70,11 @@ fn main() -> ExitCode {
         Outcome::Panicked
     });
     if prints_internal_error(role, outcome) {
-        human::internal_error();
+        if json_asked(std::env::args_os()) {
+            cmd::internal_error_document();
+        } else {
+            human::internal_error();
+        }
     }
     exit_code(role, outcome)
 }
@@ -145,6 +149,15 @@ fn exit_code(role: Role, outcome: Outcome) -> ExitCode {
 /// chain stays in the detail file.
 fn prints_internal_error(role: Role, outcome: Outcome) -> bool {
     role == Role::Cli && matches!(outcome, Outcome::Failed | Outcome::Panicked)
+}
+
+/// Whether `--json` stands among the arguments, read from argv as `role_of` is, since a failure may
+/// come before or after clap. After `--` a word is the child's, never the flag.
+fn json_asked(args: impl IntoIterator<Item = OsString>) -> bool {
+    args.into_iter()
+        .skip(1)
+        .take_while(|arg| arg != "--")
+        .any(|arg| arg == "--json")
 }
 
 /// Never calls the default hook and never writes stderr: one payload-free JSON line, one
@@ -423,6 +436,16 @@ mod tests {
         #[case] prints: bool,
     ) {
         assert_eq!(prints_internal_error(role, outcome), prints);
+    }
+
+    #[rstest]
+    #[case::asked(&["viola", "wait", "builder", "--json"], true)]
+    #[case::none(&["viola", "wait", "builder"], false)]
+    #[case::after_the_separator(&["viola", "verify", "--", "--json"], false)]
+    #[case::before_the_separator(&["viola", "revive", "--list", "--json", "--", "x"], true)]
+    #[case::the_program_word_is_no_flag(&["--json", "wait"], false)]
+    fn json_asked_reads_the_flag_before_a_separator(#[case] args: &[&str], #[case] asked: bool) {
+        assert_eq!(json_asked(args.iter().map(OsString::from)), asked);
     }
 
     /// The hook role's panic records, driven through the writer the panic hook calls (no second

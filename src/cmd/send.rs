@@ -219,7 +219,7 @@ fn deliver(home: &Path, text: &str, out: &Out<'_>) -> anyhow::Result<u8> {
     }
     let instance_dir = home.join("instances").join(out.name);
     let Some(live) = live_endpoint(&instance_dir) else {
-        return Ok(out.unreachable(Unreachable::Dead("connect")));
+        return Ok(out.unreachable(Unreachable::without_endpoint(&instance_dir)));
     };
     let mut params = Map::new();
     params.insert("text".to_owned(), text.into());

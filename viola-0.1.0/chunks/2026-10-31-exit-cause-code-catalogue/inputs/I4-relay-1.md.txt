@@ -1,0 +1,1 @@
+2026-10-31-exit-cause-code-catalogue. No live claude session in this chunk, as the plan states; every test or control that spawns viola run, viola mcp or a wrapper gets a kill deadline. Journal each long run in the run dir before waiting on it. Run the operator pass with the ci.py conclusion read (leg=operator) as usual; its first push carries the two spine-door commits.

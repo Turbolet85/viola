@@ -78,6 +78,7 @@ pub(crate) fn verify(
     }
     let (code, detail) = match measure(&home, args)? {
         Ended::Exit(code) => (code, None),
+        Ended::Refused(detail) => (1, Some(detail)),
         Ended::Interrupted => {
             human::refuse(
                 "verify was stopped before it finished",
@@ -98,9 +99,11 @@ fn refuse_home() {
     human::refuse(unable, hint);
 }
 
-/// How a measurement ended: with an exit code, or stopped before its rows were checked.
+/// How a measurement ended: with an exit code, refused with its closed `process-exit` `detail`
+/// (exit 1), or stopped before its rows were checked. A failing row is no refusal and takes no code.
 enum Ended {
     Exit(u8),
+    Refused(&'static str),
     Interrupted,
 }
 
@@ -158,21 +161,21 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<Ended> {
                 "the claude CLI is a .cmd or .bat script",
                 "pass the real executable, not a .cmd or .bat shim",
             );
-            return Ok(Ended::Exit(1));
+            return Ok(Ended::Refused("batch-script-child"));
         }
         Err(_) => {
             human::refuse(
                 "the claude CLI was not found",
                 "install Claude Code or put it on PATH",
             );
-            return Ok(Ended::Exit(1));
+            return Ok(Ended::Refused("program-not-found"));
         }
     };
     let pinned = match pin_exe(home, &std::env::current_exe()?) {
         Ok(pinned) => pinned,
         Err(PinError::HashMismatch) => {
             super::run::refuse_tampered_pin();
-            return Ok(Ended::Exit(1));
+            return Ok(Ended::Refused("pinned-hash-mismatch"));
         }
         Err(error) => return Err(error.into()),
     };
@@ -200,7 +203,7 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<Ended> {
             "the CLI version could not be read",
             "run claude --version to check the install",
         );
-        return Ok(Ended::Exit(1));
+        return Ok(Ended::Refused("version-unreadable"));
     };
 
     let probe = ProbeDir::create(home, &pinned.path_fwd)?;
@@ -290,7 +293,7 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<Ended> {
         Ok(()) => {}
         Err(StampsError::StrictModes(_)) => {
             refuse_home();
-            return Ok(Ended::Exit(1));
+            return Ok(Ended::Refused("strict-modes-failed"));
         }
         Err(error) => return Err(error.into()),
     }
@@ -303,7 +306,7 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<Ended> {
         return Ok(Ended::Exit(1));
     }
     match &args.record {
-        Some(dir) => record(dir, &version, &probes).map(Ended::Exit),
+        Some(dir) => record(dir, &version, &probes),
         None => Ok(Ended::Exit(0)),
     }
 }
@@ -512,7 +515,7 @@ fn step_line(n: usize, total: usize, row: LedgerRow, pass: bool) -> String {
 /// scrub, or one screen whose kept rows or their seams hold a path, the username or an email,
 /// refuses the whole recording before any file is written; the refusal names the file and the
 /// check, never the content.
-fn record(dir: &Path, version: &str, probes: &Probes) -> anyhow::Result<u8> {
+fn record(dir: &Path, version: &str, probes: &Probes) -> anyhow::Result<Ended> {
     let user_home = std::env::home_dir().unwrap_or_default();
     let home = user_home.to_string_lossy().into_owned();
     let user = user_home
@@ -529,7 +532,7 @@ fn record(dir: &Path, version: &str, probes: &Probes) -> anyhow::Result<u8> {
         Err(named) => return Ok(refuse_recording(&named)),
     }
     write_recording(&dir.join(version), files)?;
-    Ok(0)
+    Ok(Ended::Exit(0))
 }
 
 /// A fixture `record` writes: its file name and its document.
@@ -626,12 +629,12 @@ fn write_recording(out: &Path, files: Vec<Recorded>) -> std::io::Result<()> {
 
 /// `named` is the refused file and its check code (a screen's: its row index, `seam` when the row's
 /// join with a live neighbour holds it), never the content that failed.
-fn refuse_recording(named: &str) -> u8 {
+fn refuse_recording(named: &str) -> Ended {
     human::refuse(
         &format!("a recorded fixture is not clean: {named}"),
         "record with a viola home under your user home",
     );
-    1
+    Ended::Refused("unclean-fixture")
 }
 
 /// The recorded screens by phase; a phase the run never reached is absent.

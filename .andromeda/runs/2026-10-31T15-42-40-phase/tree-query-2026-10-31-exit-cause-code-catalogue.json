@@ -1,0 +1,457 @@
+[
+{
+"sql": "select callee_name, count(*) c from calls where callee_name in ('refused_document','unreachable','refused','start','collision_check','unable_unreachable','send_hint') group by callee_name",
+"rows": 7,
+"result": [
+{
+"callee_name": "refused_document",
+"c": 7
+},
+{
+"callee_name": "unreachable",
+"c": 15
+},
+{
+"callee_name": "collision_check",
+"c": 4
+},
+{
+"callee_name": "send_hint",
+"c": 12
+},
+{
+"callee_name": "refused",
+"c": 11
+},
+{
+"callee_name": "unable_unreachable",
+"c": 5
+},
+{
+"callee_name": "start",
+"c": 78
+}
+],
+"db_state": "regenerated",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller_name, file, line FROM calls WHERE callee_name = 'unreachable' AND callee_kind = 'fn' ORDER BY file, line",
+"rows": 15,
+"result": [
+{
+"caller_name": "of_reply",
+"file": "crates/viola-mcp/src/result.rs",
+"line": 52
+},
+{
+"caller_name": "of_board",
+"file": "crates/viola-mcp/src/result.rs",
+"line": 89
+},
+{
+"caller_name": "result_bodies_hold_only_their_two_keys",
+"file": "crates/viola-mcp/src/result.rs",
+"line": 248
+},
+{
+"caller_name": "frame",
+"file": "crates/viola-mcp/src/tools.rs",
+"line": 337
+},
+{
+"caller_name": "frame",
+"file": "crates/viola-mcp/src/tools.rs",
+"line": 340
+},
+{
+"caller_name": "frame",
+"file": "crates/viola-mcp/src/tools.rs",
+"line": 347
+},
+{
+"caller_name": "deliver",
+"file": "src/cmd/answer.rs",
+"line": 117
+},
+{
+"caller_name": "unreachable_logs_its_cause",
+"file": "src/cmd/client.rs",
+"line": 483
+},
+{
+"caller_name": "last",
+"file": "src/cmd/last.rs",
+"line": 36
+},
+{
+"caller_name": "link_call",
+"file": "src/cmd/link.rs",
+"line": 98
+},
+{
+"caller_name": "wheel_call",
+"file": "src/cmd/pause.rs",
+"line": 62
+},
+{
+"caller_name": "unreachable",
+"file": "src/cmd/send.rs",
+"line": 168
+},
+{
+"caller_name": "deliver",
+"file": "src/cmd/send.rs",
+"line": 221
+},
+{
+"caller_name": "deliver",
+"file": "src/cmd/send.rs",
+"line": 231
+},
+{
+"caller_name": "wait",
+"file": "src/cmd/wait.rs",
+"line": 49
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller_name, file, line FROM calls WHERE callee_name = 'refused_document' AND callee_kind = 'fn' ORDER BY file, line",
+"rows": 7,
+"result": [
+{
+"caller_name": "refuse_untrusted",
+"file": "src/cmd/client.rs",
+"line": 34
+},
+{
+"caller_name": "board_document",
+"file": "src/cmd/list.rs",
+"line": 85
+},
+{
+"caller_name": "refuse",
+"file": "src/cmd/list.rs",
+"line": 97
+},
+{
+"caller_name": "install",
+"file": "src/cmd/plugin.rs",
+"line": 53
+},
+{
+"caller_name": "write",
+"file": "src/cmd/revive.rs",
+"line": 106
+},
+{
+"caller_name": "collision_check",
+"file": "src/cmd/run.rs",
+"line": 439
+},
+{
+"caller_name": "assert_refused_document",
+"file": "tests/cli_revive.rs",
+"line": 580
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller_name, file, line FROM calls WHERE callee_name = 'start' AND callee_kind = 'fn' AND callee_file LIKE '%src/cmd/run.rs' ORDER BY file, line",
+"rows": 4,
+"result": [
+{
+"caller_name": "revive",
+"file": "src/cmd/revive.rs",
+"line": 19
+},
+{
+"caller_name": "revive",
+"file": "src/cmd/revive.rs",
+"line": 137
+},
+{
+"caller_name": "run",
+"file": "src/cmd/run.rs",
+"line": 182
+},
+{
+"caller_name": "start_opens_the_scenario_one_spans_under_run_start",
+"file": "src/cmd/run.rs",
+"line": 1655
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller_name, file, line FROM calls WHERE callee_name = 'collision_check' AND callee_kind = 'fn' ORDER BY file, line",
+"rows": 4,
+"result": [
+{
+"caller_name": "revive",
+"file": "src/cmd/revive.rs",
+"line": 18
+},
+{
+"caller_name": "preflight",
+"file": "src/cmd/revive.rs",
+"line": 199
+},
+{
+"caller_name": "start",
+"file": "src/cmd/run.rs",
+"line": 277
+},
+{
+"caller_name": "collision_check_over_a_replayed_snapshot_reads_the_beat_alone",
+"file": "src/cmd/run.rs",
+"line": 1213
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller_name, file, line FROM calls WHERE callee_name = 'internal_error' AND callee_kind = 'fn' ORDER BY file, line",
+"rows": 1,
+"result": [
+{
+"caller_name": "main",
+"file": "src/main.rs",
+"line": 72
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller_name, file, line FROM calls WHERE callee_name = 'live_endpoint' AND callee_kind = 'fn' ORDER BY file, line",
+"rows": 19,
+"result": [
+{
+"caller_name": "tools",
+"file": "crates/viola-mcp/src/tools.rs",
+"line": 28
+},
+{
+"caller_name": "frame",
+"file": "crates/viola-mcp/src/tools.rs",
+"line": 339
+},
+{
+"caller_name": "live_endpoint_without_a_snapshot_is_none",
+"file": "crates/viola-state/src/liveness.rs",
+"line": 235
+},
+{
+"caller_name": "live_endpoint_of_a_live_instance_is_its_endpoint_and_of_a_stale_one_none",
+"file": "crates/viola-state/src/liveness.rs",
+"line": 246
+},
+{
+"caller_name": "live_endpoint_of_a_live_instance_is_its_endpoint_and_of_a_stale_one_none",
+"file": "crates/viola-state/src/liveness.rs",
+"line": 251
+},
+{
+"caller_name": "live_endpoint_of_a_replayed_snapshot_is_none_with_its_one_line",
+"file": "crates/viola-state/src/liveness.rs",
+"line": 270
+},
+{
+"caller_name": "live_endpoint_of_a_replayed_snapshot_is_none_with_its_one_line",
+"file": "crates/viola-state/src/liveness.rs",
+"line": 282
+},
+{
+"caller_name": "answer",
+"file": "src/cmd/answer.rs",
+"line": 19
+},
+{
+"caller_name": "deliver",
+"file": "src/cmd/answer.rs",
+"line": 121
+},
+{
+"caller_name": "last",
+"file": "src/cmd/last.rs",
+"line": 13
+},
+{
+"caller_name": "last",
+"file": "src/cmd/last.rs",
+"line": 40
+},
+{
+"caller_name": "link",
+"file": "src/cmd/link.rs",
+"line": 14
+},
+{
+"caller_name": "link_call",
+"file": "src/cmd/link.rs",
+"line": 102
+},
+{
+"caller_name": "pause",
+"file": "src/cmd/pause.rs",
+"line": 15
+},
+{
+"caller_name": "wheel_call",
+"file": "src/cmd/pause.rs",
+"line": 66
+},
+{
+"caller_name": "send",
+"file": "src/cmd/send.rs",
+"line": 20
+},
+{
+"caller_name": "deliver",
+"file": "src/cmd/send.rs",
+"line": 220
+},
+{
+"caller_name": "wait",
+"file": "src/cmd/wait.rs",
+"line": 13
+},
+{
+"caller_name": "wait",
+"file": "src/cmd/wait.rs",
+"line": 53
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller_name, file, line FROM calls WHERE callee_name = 'of_reply' AND callee_kind = 'fn' ORDER BY file, line",
+"rows": 5,
+"result": [
+{
+"caller_name": "of_reply_maps_each_reply_shape",
+"file": "crates/viola-mcp/src/result.rs",
+"line": 190
+},
+{
+"caller_name": "of_reply_reads_a_vanished_instance_as_unreachable",
+"file": "crates/viola-mcp/src/result.rs",
+"line": 208
+},
+{
+"caller_name": "of_reply_reads_any_other_outcome_as_an_internal_fault",
+"file": "crates/viola-mcp/src/result.rs",
+"line": 229
+},
+{
+"caller_name": "frame",
+"file": "crates/viola-mcp/src/tools.rs",
+"line": 344
+},
+{
+"caller_name": "frame",
+"file": "crates/viola-mcp/src/tools.rs",
+"line": 350
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT callee_name, file, line FROM refs WHERE callee_name = 'Dead' ORDER BY file, line",
+"rows": 16,
+"result": [
+{
+"callee_name": "Dead",
+"file": "src/cmd/answer.rs",
+"line": 122
+},
+{
+"callee_name": "Dead",
+"file": "src/cmd/client.rs",
+"line": 106
+},
+{
+"callee_name": "Dead",
+"file": "src/cmd/client.rs",
+"line": 114
+},
+{
+"callee_name": "Dead",
+"file": "src/cmd/client.rs",
+"line": 122
+},
+{
+"callee_name": "Dead",
+"file": "src/cmd/client.rs",
+"line": 168
+},
+{
+"callee_name": "Dead",
+"file": "src/cmd/client.rs",
+"line": 171
+},
+{
+"callee_name": "Dead",
+"file": "src/cmd/client.rs",
+"line": 419
+},
+{
+"callee_name": "Dead",
+"file": "src/cmd/client.rs",
+"line": 422
+},
+{
+"callee_name": "Dead",
+"file": "src/cmd/client.rs",
+"line": 427
+},
+{
+"callee_name": "Dead",
+"file": "src/cmd/client.rs",
+"line": 460
+},
+{
+"callee_name": "Dead",
+"file": "src/cmd/client.rs",
+"line": 465
+},
+{
+"callee_name": "Dead",
+"file": "src/cmd/last.rs",
+"line": 41
+},
+{
+"callee_name": "Dead",
+"file": "src/cmd/link.rs",
+"line": 103
+},
+{
+"callee_name": "Dead",
+"file": "src/cmd/pause.rs",
+"line": 67
+},
+{
+"callee_name": "Dead",
+"file": "src/cmd/send.rs",
+"line": 221
+},
+{
+"callee_name": "Dead",
+"file": "src/cmd/wait.rs",
+"line": 54
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

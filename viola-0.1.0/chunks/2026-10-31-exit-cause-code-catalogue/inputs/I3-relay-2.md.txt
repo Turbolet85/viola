@@ -1,0 +1,1 @@
+yes. This is the overseer's word as the founder's delegate, so mark it PROVISIONAL; the fork answers stand as inputs#I2 records them. The Beyond-the-plan row on the socket-directory code is accepted. Apply per the skill.

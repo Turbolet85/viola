@@ -14,6 +14,7 @@ use chrono::{DateTime, Utc};
 use serde_json::{Value, json};
 use tracing::instrument;
 use viola_agent_claude::agents::{AgentStatus, AgentsList};
+use viola_core::UnreachableCause;
 use viola_state::board::{self, Board, Observation, Scan, ScanRefused, SessionStatus};
 use viola_state::budget::{StampedReading, read_budget_stamped};
 
@@ -89,7 +90,8 @@ pub(crate) fn board_document(home: &Path) -> anyhow::Result<Value> {
 
 /// Exit 21's `--json` document: a home or instance another user could write refuses the whole board.
 fn refused_document() -> Value {
-    json!({"v": 1, "error": "instance-unreachable", "detail": null})
+    let cause = UnreachableCause::StrictModes.as_str();
+    json!({"v": 1, "error": "instance-unreachable", "detail": cause})
 }
 
 /// Exit 21's output: the one `--json` document, or the pair for what failed.

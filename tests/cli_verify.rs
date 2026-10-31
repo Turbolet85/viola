@@ -313,7 +313,8 @@ fn verify_a_set_without_stop_fails_its_rows_and_still_stamps(#[from(home)] home:
 fn verify_an_unreadable_version_refuses_and_writes_no_stamp(#[from(home)] home: TestHome) {
     write_spine_set(&fixtures(&home), "2.1.0", None);
     let after = ["--report-version", "garbage"];
-    let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &after, &[]);
+    let env = [("VIOLA_NAME", OsString::from("verifier"))];
+    let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &after, &env);
     assert_eq!(ran.code, Some(1));
     assert!(ran.stdout.is_empty());
     assert_eq!(
@@ -322,6 +323,83 @@ fn verify_an_unreadable_version_refuses_and_writes_no_stamp(#[from(home)] home: 
     );
     assert!(!ledger(home.path()).join("stamps.json").exists());
     assert_eq!(probes_left(home.path()), 0);
+    assert_refused_line(home.path(), "version-unreadable");
+}
+
+/// A refusal's one `process-exit` under a `VIOLA_NAME`: exit 1, its closed code at ERROR, and every
+/// line of the file admitted by the diag-line schema.
+fn assert_refused_line(home: &Path, detail: &str) {
+    let lines = support::ndjson::read_lines(&home.join("diagnostics").join("cli-verifier.ndjson"));
+    let schema = load_schema(&workspace_path("schemas/diag-line.v1.json"));
+    let validator = jsonschema::validator_for(&schema).expect("valid schema");
+    for line in &lines {
+        assert!(validator.is_valid(line), "{line}");
+    }
+    let exits: Vec<&Value> = lines
+        .iter()
+        .filter(|l| l["event"] == "process-exit" && l["subject"] == "self")
+        .collect();
+    assert_eq!(exits.len(), 1, "{exits:?}");
+    assert_eq!(exits[0]["exit_code"], 1);
+    assert_eq!(exits[0]["detail"], detail);
+    assert_eq!(exits[0]["level"], "ERROR");
+}
+
+/// One byte of the pinned copy a first run placed: the second run refuses before any probe, its code
+/// on the line.
+#[rstest]
+fn verify_a_tampered_pinned_copy_refuses_with_its_code(#[from(home)] home: TestHome) {
+    write_spine_set(&fixtures(&home), "2.1.0", None);
+    let first = verify(home.path(), &fixtures(&home), "2.1.0", &[], &[], &[]);
+    assert_eq!(first.code, Some(0), "stdout {}", first.stdout_text());
+    let key = fs::read_dir(home.path().join("bin"))
+        .expect("bin")
+        .next()
+        .expect("one key")
+        .expect("the entry");
+    let pinned = key
+        .path()
+        .join(format!("viola{}", std::env::consts::EXE_SUFFIX));
+    let mut bytes = fs::read(&pinned).expect("the pinned copy");
+    let middle = bytes.len() / 2;
+    bytes[middle] ^= 0x01;
+    fs::write(&pinned, &bytes).expect("one byte changed");
+    let env = [("VIOLA_NAME", OsString::from("verifier"))];
+    let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &[], &env);
+    assert_eq!(ran.code, Some(1));
+    assert!(ran.stdout.is_empty());
+    assert_eq!(
+        ran.stderr_text(),
+        "unable: the pinned viola copy failed its integrity check\n\
+         hint: the pinned copy was changed after it was written, so viola will not run it\n"
+    );
+    assert_refused_line(home.path(), "pinned-hash-mismatch");
+}
+
+/// `ledger/stamps.json` widened between two runs passes the tree check, which reads the folder, and
+/// is refused at the write: nothing read or written, the home's pair, its code on the line.
+#[rstest]
+fn verify_window_a_widened_stamps_file_refuses_with_its_code(#[from(home)] home: TestHome) {
+    write_spine_set(&fixtures(&home), "2.1.0", None);
+    let first = verify(home.path(), &fixtures(&home), "2.1.0", &[], &[], &[]);
+    assert_eq!(first.code, Some(0), "stdout {}", first.stdout_text());
+    let file = ledger(home.path()).join("stamps.json");
+    let stamped = fs::read(&file).expect("stamps");
+    support::home::widen(&file);
+    let env = [("VIOLA_NAME", OsString::from("verifier"))];
+    let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &[], &env);
+    assert_eq!(ran.code, Some(1), "stderr {}", ran.stderr_text());
+    assert_eq!(
+        ran.stderr_text(),
+        concat!(
+            "unable: the viola home is not private to you\n",
+            "hint: the viola home must be readable only by you; viola does not change its ",
+            "permissions\n",
+        )
+    );
+    assert_eq!(fs::read(&file).expect("stamps"), stamped);
+    assert_refused_line(home.path(), "strict-modes-failed");
+    support::home::unwiden(&file);
 }
 
 #[rstest]
@@ -359,13 +437,15 @@ fn verify_a_batch_script_refuses(#[from(home)] home: TestHome) {
         "--".into(),
         script.into(),
     ];
-    let ran = viola(&args, &[]);
+    let env = [("VIOLA_NAME", OsString::from("verifier"))];
+    let ran = viola(&args, &env);
     assert_eq!(ran.code, Some(1));
     assert_eq!(
         ran.stderr_text(),
         "unable: the claude CLI is a .cmd or .bat script\n\
          hint: pass the real executable, not a .cmd or .bat shim\n"
     );
+    assert_refused_line(home.path(), "batch-script-child");
 }
 
 /// Every child runs under the R8 strip: no `env` receipt (the print-mode child and the five
@@ -819,8 +899,10 @@ fn verify_record_refuses_a_path_outside_the_home(#[from(home)] home: TestHome) {
     let record = home.scratch().join("rec");
     let record_arg = record.to_str().expect("utf-8").to_owned();
     let before = ["--record", record_arg.as_str()];
-    let ran = verify(home.path(), &fixtures(&home), "2.1.0", &before, &[], &[]);
+    let env = [("VIOLA_NAME", OsString::from("verifier"))];
+    let ran = verify(home.path(), &fixtures(&home), "2.1.0", &before, &[], &env);
     assert_eq!(ran.code, Some(1));
+    assert_refused_line(home.path(), "unclean-fixture");
     assert_eq!(
         ran.stderr_text(),
         "unable: a recorded fixture is not clean: Stop.default.json absolute-path\n\

@@ -178,6 +178,29 @@ impl RefusalReason {
     }
 }
 
+/// Why an instance is unreachable: the `detail` of exit 21's document and of MCP's
+/// `instance-unreachable` result, never a new exit or `RefusalReason` (architecture §Conventions).
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum UnreachableCause {
+    StrictModes,
+    InstanceDead,
+    UnwrappedName,
+    EndpointLost,
+    ServerVerify,
+}
+
+impl UnreachableCause {
+    pub const fn as_str(self) -> &'static str {
+        match self {
+            Self::StrictModes => "strict-modes-failed",
+            Self::InstanceDead => "instance-dead",
+            Self::UnwrappedName => "unwrapped-name",
+            Self::EndpointLost => "endpoint-lost",
+            Self::ServerVerify => "server-verify-failed",
+        }
+    }
+}
+
 /// The closed `not-delivered` details of a `send`.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "kebab-case")]
@@ -666,6 +689,20 @@ mod tests {
             assert_eq!(json, format!("\"{text}\""));
             let back: RefusalReason = serde_json::from_str(&json).expect("deserialize");
             assert_eq!(back, reason);
+        }
+    }
+
+    #[test]
+    fn unreachable_cause_is_each_its_own_code_word() {
+        for (cause, word) in [
+            (UnreachableCause::StrictModes, "strict-modes-failed"),
+            (UnreachableCause::InstanceDead, "instance-dead"),
+            (UnreachableCause::UnwrappedName, "unwrapped-name"),
+            (UnreachableCause::EndpointLost, "endpoint-lost"),
+            (UnreachableCause::ServerVerify, "server-verify-failed"),
+        ] {
+            assert_eq!(cause.as_str(), word);
+            assert!(is_code_word(word), "{word}");
         }
     }
 

@@ -65,7 +65,7 @@ pub(super) fn wheel_call(
         })
     };
     let Some(live) = live_endpoint(&instance_dir) else {
-        return Ok(unreachable(Unreachable::Dead("connect")));
+        return Ok(unreachable(Unreachable::without_endpoint(&instance_dir)));
     };
     if let Some(from) = own_name() {
         params.insert("from".to_owned(), from.as_ref().into());

@@ -96,6 +96,11 @@ enum Command {
     Mcp,
 }
 
+/// The `cli` catch site's `--json` document, in place of its stderr line.
+pub(crate) fn internal_error_document() {
+    client::refused_document("internal-error");
+}
+
 /// A dispatch error and, once the home and the instance resolved, where its chain may go.
 pub(crate) struct Failure {
     pub(crate) error: anyhow::Error,

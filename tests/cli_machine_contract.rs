@@ -27,7 +27,10 @@ use support::home::{
 };
 
 const CANARY: &str = "canary-chain-value-5c1e";
-const UNREACHABLE: &str = "{\"v\":1,\"error\":\"instance-unreachable\",\"detail\":null}\n";
+const STOPPED: &str = "{\"v\":1,\"error\":\"instance-unreachable\",\"detail\":\"instance-dead\"}\n";
+#[cfg(unix)]
+const REFUSED: &str =
+    "{\"v\":1,\"error\":\"instance-unreachable\",\"detail\":\"strict-modes-failed\"}\n";
 
 /// What one row asserts on stdout.
 enum Out {
@@ -273,7 +276,7 @@ fn every_verb_prints_one_document_and_its_literal_exit_over_a_wrapper_s_life(
             stdin: Some(CANARY),
             from: None,
             exit: 21,
-            out: Out::Doc(UNREACHABLE),
+            out: Out::Doc(STOPPED),
         },
         Row {
             label: "wait unreachable",
@@ -281,7 +284,7 @@ fn every_verb_prints_one_document_and_its_literal_exit_over_a_wrapper_s_life(
             stdin: None,
             from: None,
             exit: 21,
-            out: Out::Doc(UNREACHABLE),
+            out: Out::Doc(STOPPED),
         },
         Row {
             label: "last unreachable",
@@ -289,7 +292,7 @@ fn every_verb_prints_one_document_and_its_literal_exit_over_a_wrapper_s_life(
             stdin: None,
             from: None,
             exit: 21,
-            out: Out::Doc(UNREACHABLE),
+            out: Out::Doc(STOPPED),
         },
         Row {
             label: "answer unreachable",
@@ -297,7 +300,7 @@ fn every_verb_prints_one_document_and_its_literal_exit_over_a_wrapper_s_life(
             stdin: Some("{\"behavior\": \"deny\", \"message\": \"canary-chain-value-5c1e\"}"),
             from: None,
             exit: 21,
-            out: Out::Doc(UNREACHABLE),
+            out: Out::Doc(STOPPED),
         },
         Row {
             label: "pause unreachable",
@@ -305,7 +308,7 @@ fn every_verb_prints_one_document_and_its_literal_exit_over_a_wrapper_s_life(
             stdin: None,
             from: None,
             exit: 21,
-            out: Out::Doc(UNREACHABLE),
+            out: Out::Doc(STOPPED),
         },
         Row {
             label: "release unreachable",
@@ -313,7 +316,7 @@ fn every_verb_prints_one_document_and_its_literal_exit_over_a_wrapper_s_life(
             stdin: None,
             from: None,
             exit: 21,
-            out: Out::Doc(UNREACHABLE),
+            out: Out::Doc(STOPPED),
         },
         Row {
             label: "revive --list ok",
@@ -389,7 +392,7 @@ fn verbs_over_a_home_another_user_could_write_print_their_documents() {
             stdin: None,
             from: None,
             exit: 21,
-            out: Out::Doc(UNREACHABLE),
+            out: Out::Doc(REFUSED),
         },
         Row {
             label: "revive refused, the home is widened",

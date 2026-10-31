@@ -1,0 +1,37 @@
+# obs · CI Integration — category read
+
+## Carried
+- (.andromeda/obs-plan-detail/ci-integration.md:24) Every home `tests/cross_exit_causes.rs` opens must live under `target/e2e-home/`, and the table takes no second carve-out, so its logged causes reach G2, G4, the secret scan and the upload.
+  > Their viola homes must live under `target/e2e-home/` (the directory layout is tests-owned), so G2, G4, the secret scan and the `diag-<os>` upload cover them. A `hook` panic exits 0, so a home outside that root would hide it. The one carve-out: `tests/chaos_feed_panic.rs`'s `TestHome::outside_scan()` home under the system temp dir, outside G2, G4, the secret scan and the upload, whose deliberate panic line and `parse-rejected` line the test asserts present itself (the founder's ruling, live, 2026-10-04, relayed by the overseer).
+- (.andromeda/obs-plan-detail/ci-integration.md:59) The table's homes must stay on disk until the gate steps have read them, so no case deletes its home outside the keep rule.
+  > **Homes are kept until the gate steps have run** (overseer fix pass 2, B1): `ci.yml` sets `AGENT_RUN_KEEP_HOMES=1`, so neither harness `cleanup` nor a test home's drop deletes a home before G2, G4, the secret scan and the scan-gated uploads have read it (test-plan §3 `cleanup` step 6).
+- (.andromeda/obs-plan-detail/ci-integration.md:39) The table's internal-error case must not leave a counted panic line in a scanned home: the only exempt panic location is the `fake-agent` seam's, so a case proving that cause through a forced panic elsewhere reads red at G2.
+  > One exemption, ratified by the founder live on 2026-09-28 (security-plan Decisions Log): a line whose `panic_location` is exactly `src/cmd/hook/seam.rs:<digits>` — the `fake-agent` seam's forced panic — is not counted; the file is compared as a whole string, never a prefix, suffix, regex or home path.
+- (.andromeda/obs-plan-detail/ci-integration.md:40) A code or log form this chunk adds must conform in real process output, not only in an in-memory test, because G4 is the check that reads real lines.
+  > **G4, schema conformance.** §10 counts schema-conformance failures as a build failure. G1–G3 do not measure them, and the Unit tests row checks only in-memory lines, so G4 checks real process output.
+- (.andromeda/obs-plan-detail/ci-integration.md:41) Each new `process-exit` `detail` code must be admitted by `schemas/diag-line.v1.json` in the same chunk that first writes it, and anything a cause writes to a detail file must conform to `schemas/diag-detail.v1.json`.
+  > Scope: every line in the G2 file scope is checked against `schemas/diag-line.v1.json`, and every `instances/*/diagnostics/detail-*.ndjson` line against `schemas/diag-detail.v1.json` (§8).
+- (.andromeda/obs-plan-detail/ci-integration.md:42) Moving the closed `detail` list is an amendment of a schema obs owns, while the G4 check body and validator stay as tests own them; a failing line must print no content.
+  > It exits non-zero on any failing line and prints `file`, line number and the failing schema keyword, never the line's content (detail lines carry the canary). The check body and the JSON Schema validator crate are tests-owned; obs owns both schemas.
+- (.andromeda/obs-plan-detail/ci-integration.md:23) A unit test over a new log form must parse the emitted line against the schema, through the in-memory writer.
+  > In-memory `Vec<u8>` writer tests parse emitted lines with serde_json against `schemas/diag-line.v1.json` (tests-owned bodies)
+- (.andromeda/obs-plan-detail/ci-integration.md:22) New log forms must go through `obs_event!` and new hint or document output through the owning output modules, with any new span carrying `skip_all` first, or the lint stage fails the job.
+  > clippy `-D warnings` incl. `disallowed-macros` (raw `tracing::{info,warn,error,debug,trace}!` outside `viola_core::obs`) and the `print_stdout` / `print_stderr` / `dbg_macro` bans; the fail-closed raw-`event!` grep and both-ways ban probes in `scripts/lint-probes.sh`, Linux leg (mechanism in §3 logger-stack-install); bare-`#[instrument]` gate G1 (below)
+- (.andromeda/obs-plan-detail/ci-integration.md:26) New `obs_event!` call sites count as obs code under mutation at the boundary audit, so each new log form needs a test that catches its removal or change; this chunk is Epoch 6's last entry.
+  > obs code (`obs_event!` call sites, `MillisUtc`, panic hook) under cargo-mutants like product code | no push or pull-request job since 2026-09-28: `agent-run run --mutants` at the epoch boundary through `/andromeda-code-audit`, and on demand.
+- (.andromeda/obs-plan.md:576) A cause's log form must use only fields the §6 catalog names; a new field or code outside it is a build failure at G4.
+  > **Default-deny posture:** a field is logged only if it is named in this plan's Section 6 catalog. Unknown fields are a build failure (§10), caught by gate G4 (§9) against `schemas/diag-line.v1.json`.
+- (.andromeda/obs-plan.md:658) A nonzero G2, G4 or secret-scan count from the new table or the moved documents must be fixed at its root inside this chunk.
+  > - **Action threshold:** any nonzero count makes the chunk red until the root cause is fixed within that chunk (tests quarantine rule). There is no on-call or paging.
+- (.andromeda/obs-plan.md:668) The chunk's new `detail` values and any new field must pass these conditions, and a new `event` value would also need its catalog and Decisions Log entry.
+  > - A schema-conformance failure: unknown `event` value, missing required field, or a field outside the catalog.
+- (.andromeda/obs-plan.md:670) A surviving mutant in the chunk's obs code is a build failure at the next `run --mutants`.
+  > - A surviving cargo-mutants mutant in obs code, at a `run --mutants` (the epoch-boundary audit or on demand; test-plan §10 Mutation gate).
+
+## Bindings
+- **G4 ↔ the body's `detail` catalog and Founder Direction 4**: a code the catalogue adds lands together in the §6 closed catalog (.andromeda/obs-plan.md:451) and in the schema G4 reads (.andromeda/obs-plan-detail/ci-integration.md:41); the distinct-code signal it serves is the body's §1 line (.andromeda/obs-plan.md:253).
+- **G4 ↔ the no-line refusals**: a strict-modes check refused before any log opens writes no line (.andromeda/obs-plan.md:253), so G4 has nothing to read for that cause (.andromeda/obs-plan-detail/ci-integration.md:40); its proof must come from the table's exit code, `--json` document and `hint:` line.
+- **Schema ownership ↔ test-plan**: obs owns both schemas while tests own the check body and validator crate (.andromeda/obs-plan-detail/ci-integration.md:42); a moved `detail` list amends the obs side and leaves the tests side's check as it stands.
+- **Test homes ↔ test-plan §3**: the directory layout is tests-owned (.andromeda/obs-plan-detail/ci-integration.md:24) and the keep rule follows test-plan §3 `cleanup` step 6 (.andromeda/obs-plan-detail/ci-integration.md:59); `tests/cross_exit_causes.rs` must honour both through the shared test home.
+- **G2 ↔ the error-budget count**: the seam exemption (.andromeda/obs-plan-detail/ci-integration.md:39) is the same one the budget's panic count excepts (.andromeda/obs-plan.md:654), so no table case widens either.
+- **Mutation ↔ test-plan §10 Mutation gate**: the §9 row (.andromeda/obs-plan-detail/ci-integration.md:26) and the build-failure condition (.andromeda/obs-plan.md:670) both defer to that gate for what counts as surviving.

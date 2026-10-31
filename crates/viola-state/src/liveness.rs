@@ -7,6 +7,7 @@ use std::time::{Duration, SystemTime};
 
 use chrono::DateTime;
 use sysinfo::{Pid, ProcessStatus, ProcessesToUpdate, System};
+use viola_core::UnreachableCause;
 
 use crate::heartbeat::beat_age;
 use crate::replay::{Recovered, read_snapshot_or_replay};
@@ -101,6 +102,16 @@ pub fn live_endpoint(instance_dir: &Path) -> Option<LiveEndpoint> {
         pid: snapshot.pid,
         started_at: snapshot.started_at,
     })
+}
+
+/// Why an instance that passed its strict-modes check gives no live endpoint: a directory that
+/// exists was a wrapper's, and a name with none was never started with `viola run` under this home.
+/// It opens nothing and writes no line; a symlink is no directory.
+pub fn without_endpoint(instance_dir: &Path) -> UnreachableCause {
+    match std::fs::symlink_metadata(instance_dir) {
+        Ok(metadata) if metadata.is_dir() => UnreachableCause::InstanceDead,
+        _ => UnreachableCause::UnwrappedName,
+    }
 }
 
 /// Whether the process serving a connection is the wrapper its snapshot records.
@@ -228,6 +239,17 @@ mod tests {
         assert!(table.len() > 1, "{} processes", table.len());
         assert_eq!(table.get(&me).copied(), process_start_time(me));
         assert!(table.contains_key(&me));
+    }
+
+    #[test]
+    fn without_endpoint_reads_a_directory_as_dead_and_anything_else_as_unwrapped() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        assert_eq!(without_endpoint(tmp.path()), UnreachableCause::InstanceDead);
+        let absent = tmp.path().join("stranger");
+        assert_eq!(without_endpoint(&absent), UnreachableCause::UnwrappedName);
+        let file = tmp.path().join("file");
+        std::fs::write(&file, b"").expect("the file");
+        assert_eq!(without_endpoint(&file), UnreachableCause::UnwrappedName);
     }
 
     #[test]

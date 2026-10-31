@@ -1,0 +1,334 @@
+[
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "f5e6e77a",
+"ts": "2026-10-31T15:43:20Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-31-exit-cause-code-catalogue",
+"--source",
+"~/dev/projects/additional/viola-overseer/phase-exit-cause-directive.md",
+"--kind",
+"relay",
+"--why",
+"the operator's directive to this phase, by the overseer, founder-delegated: forced sample on the phase and the wrap, classifiers high with three draws read and reported, evidence kept, one re-spawn, founder forks at P4, standing items, freight and WATCH tally, store reports, the two local commits",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-10-31T15-42-40-phase",
+"--marker",
+"2026-10-31-exit-cause-code-catalogue"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy no-repo · ../additional/viola-overseer/phase-exit-cause-directive.md",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-phase-exit-cause-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/phase-exit-cause-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "a1b52be15846598736431f1c862d13f6b30ce0a5aa4bfb04f179b7a0e38ae496",
+"copy": "I1-phase-exit-cause-directive.md.txt",
+"link": false,
+"read_at": "2026-10-31T15:43:20Z",
+"step": "phase:P1",
+"why": "the operator's directive to this phase, by the overseer, founder-delegated: forced sample on the phase and the wrap, classifiers high with three draws read and reported, evidence kept, one re-spawn, founder forks at P4, standing items, freight and WATCH tally, store reports, the two local commits"
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "f5e6e77a",
+"ts": "2026-10-31T16:53:25Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-31-exit-cause-code-catalogue",
+"--message-file",
+".andromeda/runs/2026-10-31T15-42-40-phase/relay-1.md",
+"--origin",
+"the P4 dialog through the overseer, 2026-10-31 16:52Z",
+"--kind",
+"relay",
+"--why",
+"the four P4 fork answers: Q1 and Q4 the founder's own word, live, given after the widening was shown to him; Q2 and Q3 the overseer's technical answers, founder-delegated",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-10-31T15-42-40-phase",
+"--marker",
+"2026-10-31-exit-cause-code-catalogue"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy message · message: the P4 dialog through the overseer, 2026-10-31 16:52Z",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "message: the P4 dialog through the overseer, 2026-10-31 16:52Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "abde1a8911830431a59368c64835db495afd433e8ea5365e5a23e69d8bed06f2",
+"copy": "I2-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-31T16:53:25Z",
+"step": "phase:P4",
+"why": "the four P4 fork answers: Q1 and Q4 the founder's own word, live, given after the widening was shown to him; Q2 and Q3 the overseer's technical answers, founder-delegated"
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "f5e6e77a",
+"ts": "2026-10-31T16:57:24Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-31-exit-cause-code-catalogue",
+"--run-dir",
+".andromeda/runs/2026-10-31T15-42-40-phase",
+"--marker",
+"2026-10-31-exit-cause-code-catalogue"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-exit-cause-directive.md",
+"I1 cited scope.md:76 · scope.md:86 · scope.md:149 · scope.md:151 · research.md:7 · plan.md:29 · plan.md:184 · plan.md:195 (in fence) · plan.md:326 (in fence) · plan.md:335 (in fence) · plan.md:356",
+"I2 n/a — a message has no live source · copy message · message: the P4 dialog through the overseer, 2026-10-31 16:52Z",
+"I2 cited plan.md:16 · plan.md:18 · plan.md:19 · plan.md:27 · plan.md:60 · plan.md:70 · plan.md:339 · plan.md:341 · plan.md:346 · plan.md:356 · plan.md:357 · plan.md:357 · plan.md:365 · plan.md:384 · plan.md:385 · plan.md:385 · plan.md:386",
+"inputs: 2 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "f5e6e77a",
+"ts": "2026-10-31T16:59:01Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-31-exit-cause-code-catalogue",
+"--run-dir",
+".andromeda/runs/2026-10-31T15-42-40-phase",
+"--marker",
+"2026-10-31-exit-cause-code-catalogue"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-exit-cause-directive.md",
+"I1 cited scope.md:76 · scope.md:86 · scope.md:149 · scope.md:151 · research.md:7 · plan.md:29 · plan.md:184 · plan.md:195 (in fence) · plan.md:326 (in fence) · plan.md:335 (in fence) · plan.md:356",
+"I2 n/a — a message has no live source · copy message · message: the P4 dialog through the overseer, 2026-10-31 16:52Z",
+"I2 cited plan.md:16 · plan.md:18 · plan.md:19 · plan.md:27 · plan.md:60 · plan.md:70 · plan.md:339 · plan.md:341 · plan.md:346 · plan.md:356 · plan.md:357 · plan.md:357 · plan.md:365 · plan.md:384 · plan.md:385 · plan.md:385 · plan.md:386",
+"inputs: 2 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "f5e6e77a",
+"ts": "2026-10-31T17:06:11Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-31-exit-cause-code-catalogue",
+"--run-dir",
+".andromeda/runs/2026-10-31T15-42-40-phase",
+"--marker",
+"2026-10-31-exit-cause-code-catalogue"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-exit-cause-directive.md",
+"I1 cited scope.md:76 · scope.md:86 · scope.md:149 · scope.md:151 · research.md:7 · plan.md:29 · plan.md:189 · plan.md:200 (in fence) · plan.md:341 (in fence) · plan.md:350 (in fence) · plan.md:371",
+"I2 n/a — a message has no live source · copy message · message: the P4 dialog through the overseer, 2026-10-31 16:52Z",
+"I2 cited plan.md:16 · plan.md:18 · plan.md:19 · plan.md:27 · plan.md:60 · plan.md:70 · plan.md:354 · plan.md:356 · plan.md:361 · plan.md:371 · plan.md:372 · plan.md:372 · plan.md:380 · plan.md:399 · plan.md:400 · plan.md:400 · plan.md:401",
+"inputs: 2 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "f5e6e77a",
+"ts": "2026-10-31T17:07:09Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-31-exit-cause-code-catalogue",
+"--run-dir",
+".andromeda/runs/2026-10-31T15-42-40-phase",
+"--marker",
+"2026-10-31-exit-cause-code-catalogue"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-exit-cause-directive.md",
+"I1 cited scope.md:76 · scope.md:86 · scope.md:149 · scope.md:151 · research.md:7 · plan.md:29 · plan.md:189 · plan.md:200 (in fence) · plan.md:341 (in fence) · plan.md:350 (in fence) · plan.md:371",
+"I2 n/a — a message has no live source · copy message · message: the P4 dialog through the overseer, 2026-10-31 16:52Z",
+"I2 cited plan.md:16 · plan.md:18 · plan.md:19 · plan.md:27 · plan.md:60 · plan.md:70 · plan.md:354 · plan.md:356 · plan.md:361 · plan.md:371 · plan.md:372 · plan.md:372 · plan.md:380 · plan.md:397 · plan.md:400 · plan.md:401 · plan.md:401 · plan.md:402",
+"inputs: 2 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.3",
+"sha8": "f5e6e77a",
+"ts": "2026-10-31T17:09:51Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-31-exit-cause-code-catalogue",
+"--message-file",
+".andromeda/runs/2026-10-31T15-42-40-phase/relay-2.md",
+"--origin",
+"the overseer, 2026-10-31 17:09Z",
+"--kind",
+"relay",
+"--why",
+"the P5 word on .andromeda/runs/2026-10-31T15-42-40-phase/p5-card-1.md, its Beyond the plan row on the socket-directory code accepted; authority: delegate the overseer, 2026-10-31, PROVISIONAL",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-10-31T15-42-40-phase",
+"--marker",
+"2026-10-31-exit-cause-code-catalogue"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy message · message: the overseer, 2026-10-31 17:09Z",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "message: the overseer, 2026-10-31 17:09Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "77f77f544009c7cca79d02c205952b9dcfa648cea4b6754098a4f5a07466d5d7",
+"copy": "I3-relay-2.md.txt",
+"link": false,
+"read_at": "2026-10-31T17:09:51Z",
+"step": "phase:P5",
+"why": "the P5 word on .andromeda/runs/2026-10-31T15-42-40-phase/p5-card-1.md, its Beyond the plan row on the socket-directory code accepted; authority: delegate the overseer, 2026-10-31, PROVISIONAL"
+}
+}
+]

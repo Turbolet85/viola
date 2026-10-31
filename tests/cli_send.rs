@@ -1057,7 +1057,7 @@ fn send_leading_slash_argument_exits_before_its_stdin_is_written() {
 }
 
 #[test]
-fn send_unreachable_name_exits_21_not_running() {
+fn send_of_a_name_never_started_exits_21_unwrapped() {
     let home = TestHome::new();
     let human = send(home.path(), &["builder"], CANARY);
     assert_eq!(human.code, Some(21));
@@ -1065,14 +1065,14 @@ fn send_unreachable_name_exits_21_not_running() {
     assert_eq!(
         human.stderr,
         "[/ ] unable         builder  instance-unreachable\n\
-         hint: builder is not running; viola list shows the live instances\n"
+         hint: builder is not a wrapped session; only sessions started with viola run take commands\n"
     );
     let json = send(home.path(), &["builder", "--json"], CANARY);
     assert_eq!(json.code, Some(21));
     assert!(json.stderr.is_empty());
     assert_eq!(
         json.stdout,
-        "{\"v\":1,\"error\":\"instance-unreachable\",\"detail\":null}\n"
+        "{\"v\":1,\"error\":\"instance-unreachable\",\"detail\":\"unwrapped-name\"}\n"
     );
     let role =
         support::ndjson::read_lines(&home.path().join("diagnostics").join("cli-builder.ndjson"));
@@ -1082,7 +1082,7 @@ fn send_unreachable_name_exits_21_not_running() {
         .collect();
     assert_eq!(exits.len(), 2);
     assert!(exits.iter().all(|e| e["exit_code"] == 21
-        && e["detail"] == "instance-dead"
+        && e["detail"] == "unwrapped-name"
         && e["during"] == "connect"));
 }
 

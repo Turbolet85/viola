@@ -1,0 +1,137 @@
+[
+{
+"tool": "matrix",
+"v": "1.6",
+"sha8": "613eb3cd",
+"ts": "2026-10-31T17:10:00Z",
+"argv": [
+"claim",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-18",
+"--chunk",
+"2026-10-31-exit-cause-code-catalogue",
+"--acceptance-file",
+".andromeda/runs/2026-10-31T15-42-40-phase/acceptance-v1-18.md",
+"--note-file",
+".andromeda/runs/2026-10-31T15-42-40-phase/note-claim-v1-18.md",
+"--run-dir",
+".andromeda/runs/2026-10-31T15-42-40-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claim v1-18 → chunk 2026-10-31-exit-cause-code-catalogue (was null; status planned kept)",
+"acceptance: Each cause of the unreachable-instance exit (not running, unwrapped na… (450 chars)",
+"         → Each cause reaches its own closed code on each surface it reaches, car… (2034 chars)",
+"notes: +811 chars (total 1275)",
+"wrote ./viola-0.1.0/verification-matrix.json · 1 entry changed",
+"pool: unclaimed 18 [v1-01 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-13 v1-21 v1-24 v1-26 v1-27 v1-34 v1-35 v1-36 v1-44 v1-53]"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-18",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "Each cause of the unreachable-instance exit (not running, unwrapped name, strict modes, server verification, endpoint lo… (450 chars)",
+"notes_chars": 462
+},
+"after": {
+"id": "v1-18",
+"chunk": "2026-10-31-exit-cause-code-catalogue",
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "Each cause reaches its own closed code on each surface it reaches, carrying no path or pid and matching the human hint o… (2034 chars)",
+"notes_chars": 1275
+}
+},
+{
+"tool": "matrix",
+"v": "1.6",
+"sha8": "613eb3cd",
+"ts": "2026-10-31T17:10:03Z",
+"argv": [
+"claim",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-39",
+"--chunk",
+"2026-10-31-exit-cause-code-catalogue",
+"--acceptance-file",
+".andromeda/runs/2026-10-31T15-42-40-phase/acceptance-v1-39.md",
+"--note-file",
+".andromeda/runs/2026-10-31T15-42-40-phase/note-claim-v1-39.md",
+"--run-dir",
+".andromeda/runs/2026-10-31T15-42-40-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claim v1-39 → chunk 2026-10-31-exit-cause-code-catalogue (was null; status implemented kept)",
+"acceptance: Every driver-facing verb (send, wait, last, answer, list, pause, relea… (1472 chars)",
+"         → Every driver-facing verb (send, wait, last, answer, list, pause, relea… (1705 chars)",
+"notes: +510 chars (total 3184)",
+"wrote ./viola-0.1.0/verification-matrix.json · 1 entry changed",
+"pool: unclaimed 18 [v1-01 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-13 v1-21 v1-24 v1-26 v1-27 v1-34 v1-35 v1-36 v1-44 v1-53]"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-39",
+"chunk": null,
+"status": "implemented",
+"method": "integration",
+"ref": "tests/cli_machine_contract.rs::every_verb_prints_one_document_and_its_literal_exit_over_a_wrapper_s_life + ::verbs_over_… (707 chars)",
+"acceptance": "Every driver-facing verb (send, wait, last, answer, list, pause, release, and revive with --list) has a --json form prin… (1472 chars)",
+"notes_chars": 2672
+},
+"after": {
+"id": "v1-39",
+"chunk": "2026-10-31-exit-cause-code-catalogue",
+"status": "implemented",
+"method": "integration",
+"ref": "tests/cli_machine_contract.rs::every_verb_prints_one_document_and_its_literal_exit_over_a_wrapper_s_life + ::verbs_over_… (707 chars)",
+"acceptance": "Every driver-facing verb (send, wait, last, answer, list, pause, release, and revive with --list) has a --json form prin… (1705 chars)",
+"notes_chars": 3184
+}
+},
+{
+"tool": "matrix",
+"v": "1.6",
+"sha8": "613eb3cd",
+"ts": "2026-10-31T17:10:12Z",
+"argv": [
+"audit",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-31-exit-cause-code-catalogue",
+"--plan",
+"viola-0.1.0/chunks/2026-10-31-exit-cause-code-catalogue/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-31T15-42-40-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-10-31-exit-cause-code-catalogue: 2 · ## Acceptance Criteria: line 353, 13 lines",
+"v1-18: cited in ## Acceptance Criteria (line 354)",
+"v1-39: cited in ## Acceptance Criteria (line 355)",
+"pool: unclaimed 18 [v1-01 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-13 v1-21 v1-24 v1-26 v1-27 v1-34 v1-35 v1-36 v1-44 v1-53]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

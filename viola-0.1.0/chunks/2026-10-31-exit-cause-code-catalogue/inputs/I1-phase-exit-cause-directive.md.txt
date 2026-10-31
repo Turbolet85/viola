@@ -1,0 +1,23 @@
+# Phase directive — "Exit-cause code catalogue" (Epoch 6)
+
+The operator's requests to the phase's orchestrator (the overseer, founder-delegated).
+
+1. **Forced sample.** Please force the sampler on this phase, and on this chunk's wrap.
+2. **Classifiers run at effort high, three draws in this phase.** Please read it from the batch's own check line and
+   `pick`'s trail, and say on the P5 card what they read. If anything reads `max` or fewer draws, stop and report it.
+3. **Please keep the evidence.** Keep every subagent and Workflow transcript, and leave the run dir intact.
+4. **A dead draw takes the contract's one re-spawn.** A second death on the same agent stops the phase: report it with the
+   run dir and do not re-spawn again. Stop the same way at any other hard cascade failure, or if agents do the
+   orchestrator's work (F352).
+5. **Founder forks.** A boundary widening, a live-session cap or a route split is his live word. Ask it as a P4 dialog.
+6. **Standing:**
+   - no epoch boundary inside Epoch 6;
+   - read `df -h /tmp` before a stamped-home gate.
+7. **This entry's freight.** Its CARRYs ride the scope as the route states them, and so does the WATCH on
+   `verify_stopped_during_the_resume_run_removes_its_dir_and_exits_1`'s 7 s margin (0/3): please carry it and tally it on
+   this chunk's CI reads.
+8. **The spine lives in the store** (`.andromeda/db/`, commit `404f7496`), and friction since `7bf5c32a`. The route's tools
+   write it; nothing edits a rendered route, matrix or `coverage.md` by hand. Please report at once anything the store
+   changes under a skill: a `promote` refused or slow, any `rec.py check` complaint, a render that moved, a guard refusal,
+   a bookkeeping list reading the journal as dirty work, a health row off.
+9. **HEAD is two local commits ahead of origin** (the spine door's). They go out with this chunk's normal pushes.

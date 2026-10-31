@@ -61,6 +61,30 @@ fn booted(label: &str, replies: Vec<(&str, Result<Value, ProtocolError>)>) -> Bo
     booted_recording(label, replies, std::process::id())
 }
 
+/// A snapshot naming `endpoint` and recording `pid` (and that process's own start time) as the
+/// wrapper, with a fresh heartbeat.
+fn record_live(instance: &Path, endpoint: String, pid: u32) {
+    let snapshot = InstanceSnapshot {
+        endpoint: Some(endpoint),
+        pid,
+        started_at: viola_state::liveness::own_start(pid).expect("own start"),
+        pinned_bin: String::new(),
+        cli_verified: true,
+        cli_version: None,
+        wheel: Wheel::Driver,
+        budget_paused: false,
+        budget_override_until: None,
+        links: Vec::new(),
+        child_pid: None,
+        pending_dialog: None,
+        cwd: None,
+        statusline_command: None,
+        agent_session_id: None,
+    };
+    write_snapshot(instance, &snapshot).expect("snapshot");
+    viola_state::heartbeat::touch_heartbeat(instance).expect("heartbeat");
+}
+
 /// `booted`, its snapshot recording `pid` (and that process's own start time) as the wrapper.
 fn booted_recording(
     label: &str,
@@ -80,25 +104,7 @@ fn booted_recording(
     let serving = Server::bind(&endpoint)
         .expect("bound")
         .serve(wrapper.clone());
-    let snapshot = InstanceSnapshot {
-        endpoint: Some(endpoint),
-        pid,
-        started_at: viola_state::liveness::own_start(pid).expect("own start"),
-        pinned_bin: String::new(),
-        cli_verified: true,
-        cli_version: None,
-        wheel: Wheel::Driver,
-        budget_paused: false,
-        budget_override_until: None,
-        links: Vec::new(),
-        child_pid: None,
-        pending_dialog: None,
-        cwd: None,
-        statusline_command: None,
-        agent_session_id: None,
-    };
-    write_snapshot(&instance, &snapshot).expect("snapshot");
-    viola_state::heartbeat::touch_heartbeat(&instance).expect("heartbeat");
+    record_live(&instance, endpoint, pid);
     Booted {
         _dir: dir,
         home,
@@ -420,7 +426,7 @@ fn handlers_frame_tools_write_no_frame_to_a_server_that_is_not_the_recorded_wrap
         assert_eq!(result.is_error, Some(true), "{name}");
         assert_eq!(
             result.structured_content,
-            Some(json!({"error": "instance-unreachable", "detail": null})),
+            Some(json!({"error": "instance-unreachable", "detail": "server-verify-failed"})),
             "{name}"
         );
         assert_eq!(text(&result), "refused: instance-unreachable", "{name}");
@@ -461,7 +467,8 @@ fn widened(dir: &Path, grant: bool) {
 }
 
 /// An instance directory another user may write, its recorded wrapper serving: every frame tool
-/// reads `instance-unreachable` with `detail: null` before any snapshot read or connection, and the
+/// reads `instance-unreachable` with `detail` `strict-modes-failed` before any snapshot read or
+/// connection, and the
 /// wrapper is sent no frame; the widening is left as found. Narrowed again, the same wrapper is
 /// reached: the control.
 #[test]
@@ -489,7 +496,7 @@ fn handlers_frame_tools_refuse_a_widened_instance_before_any_frame() {
         assert_eq!(result.is_error, Some(true), "{name}");
         assert_eq!(
             result.structured_content,
-            Some(json!({"error": "instance-unreachable", "detail": null})),
+            Some(json!({"error": "instance-unreachable", "detail": "strict-modes-failed"})),
             "{name}"
         );
     }
@@ -502,4 +509,45 @@ fn handlers_frame_tools_refuse_a_widened_instance_before_any_frame() {
     let control = call(&tools, "last", json!({"target": "builder"})).expect("a result");
     assert_eq!(control.is_error, Some(false), "{control:?}");
     assert_eq!(wrapper.frames().len(), 1);
+}
+
+/// Each frame tool over the causes with no live endpoint and the one a failed connection reads,
+/// each body the CLI's document less `v`: a name with no instance directory is `unwrapped-name`,
+/// one whose directory stands with no wrapper `instance-dead`, and a recorded endpoint no one
+/// serves `instance-dead`; no frame and the text `refused: instance-unreachable`.
+#[test]
+fn handlers_frame_tools_name_the_cause_of_an_unreachable_instance() {
+    let wrapper = booted("causes", Vec::new());
+    let stopped = wrapper.home.join("instances").join("stopped");
+    viola_state::fs::create_private_dir(&stopped).expect("a stopped instance");
+    let tools = wrapper.tools(Some("driver"));
+    let target_args = |target: &str, name: &str| match name {
+        "send" => json!({"target": target, "text": "x"}),
+        "wait" => json!({"target": target, "timeout_ms": 900}),
+        "last" => json!({"target": target}),
+        _ => json!({"target": target, "dialog_id": 1, "response": {"behavior": "allow"}}),
+    };
+    let assert_cause = |tools: &Tools, target: &str, cause: &str| {
+        for name in ["send", "wait", "last", "answer"] {
+            let result = call(tools, name, target_args(target, name)).expect("a result");
+            assert_eq!(result.is_error, Some(true), "{name} {target}");
+            assert_eq!(
+                result.structured_content,
+                Some(json!({"error": "instance-unreachable", "detail": cause})),
+                "{name} {target}"
+            );
+            assert_eq!(text(&result), "refused: instance-unreachable", "{name}");
+        }
+    };
+    assert_cause(&tools, "ghost", "unwrapped-name");
+    assert_cause(&tools, "stopped", "instance-dead");
+    let unserved = wrapper.home.join("instances").join("unserved");
+    viola_state::fs::create_private_dir(&unserved).expect("the instance");
+    record_live(
+        &unserved,
+        endpoint(wrapper._dir.path(), "unserved"),
+        std::process::id(),
+    );
+    assert_cause(&tools, "unserved", "instance-dead");
+    assert!(wrapper.frames().is_empty(), "{:?}", wrapper.frames());
 }

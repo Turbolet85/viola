@@ -1,0 +1,49 @@
+# tests · CI Integration — category read
+
+## Carried
+- (.andromeda/test-plan-detail/ci-integration.md:9) The new codes, hints and table must pass the lint job's fmt and clippy with no warning on every target, and the code words added to `viola-core` and the channel's mid-call reading must leave `viola-core` tokio-free and `viola-channel`'s normal graph free of tokio.
+  > `cargo fmt --check`; `cargo clippy --workspace --all-targets --features fake-agent -- -D warnings`; `cargo check` with one `-p` per crate listed in `scripts/sync-crates.txt` (no `--features`, so no tokio; target set `viola-core`, `viola-pty`, `viola-state`, `viola-agent-claude`, four since `viola-channel` left the list at chunk 2026-10-17-mcp-server-for-drivers — its Tokio client sits behind its `tokio` feature and its normal graph is held by the tree form `scripts/channel-tokio-free.sh`, Supply-chain row — each joining the list with its crate; an empty list fails; job `lint`)
+- (.andromeda/test-plan-detail/ci-integration.md:10) The chunk reaches `cfg(windows)` refusals the Linux host does not build (the batch-script child among them), so its plan may list this check-only clippy as a chunk gate entry, and it must stay out of CI and the pre-push.
+  > a chunk plan may list a check-only Windows-target clippy as a chunk gate entry on the Linux dev host, which does not build the `cfg(windows)` code CI lints (first listed by chunk 2026-10-13-epoch-4-cleanup; `CARGO_TARGET_DIR=target/wincheck cargo clippy --workspace --all-targets --features fake-agent --target x86_64-pc-windows-msvc -- -D warnings`, nothing linked, the target std installed as host preparation): neither a CI step nor a `pre-push` stage.
+- (.andromeda/test-plan-detail/ci-integration.md:11) A macOS-target clippy over the chunk's OS-branched refusals may be used as a recipe only; the chunk plan must not list it as a gate entry.
+  > a check-only macOS-target clippy is a recipe on the Linux dev host (`CARGO_TARGET_DIR=target/maccheck cargo clippy … --target aarch64-apple-darwin`, nothing linked, the target std installed as host preparation by `rustup target add aarch64-apple-darwin`); it reproduced CI's `lint (macos-latest)` error line for line, as measured at `viola-0.1.0/chunks/2026-10-26-server-verification-before-any-frame/evidence/operator-pass.md`: neither a CI step, nor a `pre-push` stage, nor a plan gate entry.
+- (.andromeda/test-plan-detail/ci-integration.md:19) The unit cases the chunk adds (code words, the reply screen, each cause's hint) must pass this local command, the pwsh shim included on Windows.
+  > `scripts/agent-run.sh run --unit` (pwsh `scripts/agent-run.ps1 run --unit` on windows)
+- (.andromeda/test-plan-detail/ci-integration.md:23) The moved assertions in the root `cli_*`, `security_negatives_*` and `contract_*` binaries and in `crates/viola-mcp/tests/handlers.rs` must pass this local command.
+  > `agent-run run --integration`
+- (.andromeda/test-plan-detail/ci-integration.md:27) The exit-cause table and the moved `crates/viola-e2e/tests/mcp_tools.rs` assertions must pass this local command, and their verdict stands on all three OSes.
+  > `agent-run run --e2e` on all 3 OSes
+- (.andromeda/test-plan-detail/ci-integration.md:31) In CI the new table and the moved tests must be held by the per-OS test job's one instrumented run, ending in its gate; the local rows are its equivalents and never replace that reading.
+  > Its one instrumented nextest run replaces the Unit, Integration and `run --e2e` rows, which are the local `agent-run` equivalents, and the doctest run follows it. Each job's last step is `viola-harness gate --require <suites>`: the per-OS test job uses `coverage,doctest`, and the Perf, Fuzz replay and MSRV jobs use `perf`, `fuzz-replay` and `nextest-unit`
+- (.andromeda/test-plan-detail/ci-integration.md:35) The chunk's plan must carry no mutation gate and no mutation CI job: mutation is judged at the epoch boundary and on demand only.
+  > no push or pull-request job and no gate since 2026-09-28: mutation testing runs at the epoch boundary through `/andromeda-code-audit`, and on demand through `agent-run run --mutants` [`--file`] (§3 `run` step 4, §10 Mutation gate).
+- (.andromeda/test-plan-detail/ci-integration.md:39) A `process-exit` `detail` value the chunk adds to `schemas/diag-line.v1.json` must validate in the CI schema step and leave the secret scan clean, and any hook path the chunk touches must keep the perf job's gate green.
+  > `jq --version`, `run --perf`, G2 (probe then check), `schema-check`, `secret-scan`, the scan-gated uploads, then `gate --require perf`.
+- (.andromeda/test-plan-detail/ci-integration.md:43) The chunk's code and its unit cases must compile and pass on the 1.96 floor, not only on the pinned stable.
+  > ubuntu `msrv`: `rustup toolchain install 1.96 --profile minimal`, then `RUSTUP_TOOLCHAIN=1.96` steps for `rustc --version`, `cargo check --workspace` and `agent-run run --unit`, then `gate --require nextest-unit`
+- (.andromeda/test-plan-detail/ci-integration.md:51) Any test-only seam a table case needs to drive a cause (an internal error, an endpoint lost mid-call) must stay out of the release build, which this check fails on.
+  > It prints `release-check: viola only` or fails on an artifact built with a test-only feature (`test-support`, `fake-agent`), on a test-only binary or on no executable, and never lists `target/release/`.
+- (.andromeda/test-plan.md:774) The table's OS-branched causes must be read on the runner of their own OS, the three-OS matrix being where those cases are proved; `macos-latest`'s server check stays the euid and directory-only reading.
+  > OS: `windows-2025` (ConPTY, named pipe, DACL / SDDL read-back, `.cmd` refusal), `macos-latest` (macOS 26 arm64: openpty, Unix socket, euid + dir-only server verification; pin `macos-26` if the label moves), `ubuntu-latest` (openpty, Unix socket, modes; also the deny, zizmor, fuzz and MSRV jobs). `fail-fast: false`.
+- (.andromeda/test-plan.md:791) The chunk's CI reads, the WATCH tally on `verify_stopped_during_the_resume_run_removes_its_dir_and_exits_1` among them, must be taken from job conclusions and artifacts through these commands.
+  > The agent reads job conclusions with `gh run view --json jobs` and fetches artifacts with `gh run download`. Locally the same files come from `agent-run run` and `agent-run logs`.
+- (.andromeda/test-plan.md:794) A failing table case or moved assertion on any OS, or per-OS coverage falling under threshold on the new refusal paths, must fail the build.
+  > - Any unit / integration / E2E / contract / property test fails (on any of the 3 OSes)
+  > - Coverage falls below threshold (Section 10) on any OS
+- (.andromeda/test-plan.md:797) The chunk must hold every lint failure condition, among them no orphan from a module it adds and no rmcp feature beyond the two from its `viola-mcp` edits.
+  > - Lint errors: fmt, clippy `-D warnings`, a sync crate listed in `scripts/sync-crates.txt` failing to build without tokio (or an empty list), a cargo-modules orphan in any lib/bin target (`scripts/orphans-check.sh` not ending `N/N targets clean`, or its probe not ending `2/2 fired, control clean`), `scripts/rmcp-features.sh` not ending `rmcp-features: server transport-io` (rmcp absent from `viola`'s release graph, or a feature beyond `server` + `transport-io` requested)
+- (.andromeda/test-plan.md:926) The table's cases each boot from their own home and must not be serialised to hold them apart.
+  > - NEVER serialise tests (`max-threads = 1`): isolation comes from the per-test home.
+- (.andromeda/test-plan.md:928) Per-OS coverage of the chunk's new paths must not be met by widening the ignore pattern.
+  > - NEVER widen the coverage `--ignore-filename-regex` (`viola-fake-agent|crates[/\\]viola-e2e|tests[/\\]support|fuzz[/\\]`) to pass a gate.
+- (.andromeda/test-plan.md:929) A table case that flakes, and a recurrence of the WATCH's margin, must be fixed at the root and never parked.
+  > - NEVER ignore flaky tests; quarantine and fix immediately
+- (.andromeda/test-plan.md:932) No retry may be added for the new table or for the WATCH's 7 s margin.
+  > - NEVER set nextest `retries` above 0.
+
+## Bindings
+- **Per-OS table cases ↔ test-plan §6 Exit-cause matrix**: the matrix places the server-verification cause on Linux and Windows (its macOS case owed to "Unix endpoint and home hardening") and the frame verbs' strict-modes cause on three OSes, `(.andromeda/test-plan.md:610)`; the runners that prove them are the CI matrix, `(.andromeda/test-plan.md:774)`, and a Linux-only run is no proof for the others, `(.andromeda/test-plan.md:880)`.
+- **`schema-check` ↔ test-plan §6 Schema conformance and obs-plan `schemas/diag-line.v1.json`**: the CI step, `(.andromeda/test-plan-detail/ci-integration.md:39)`, runs the check body behind obs-plan gate G4, `(.andromeda/test-plan.md:608)`; a new `process-exit` `detail` value moves the obs-owned schema and the CI step reads it.
+- **Sync-crate lint ↔ the Supply-chain row and the MCP adapter**: the `cargo check` target set, `(.andromeda/test-plan-detail/ci-integration.md:9)`, stands beside the sole-root tokio ban and `scripts/channel-tokio-free.sh`, `(.andromeda/test-plan-detail/ci-integration.md:15)`; a code read on both `viola-channel` clients keeps the Tokio one behind its feature.
+- **No retries ↔ test-plan §10 Zero-flakiness budget and the scope's WATCH**: the CI bans, `(.andromeda/test-plan.md:929)` and `(.andromeda/test-plan.md:932)`, stand with the budget, `(.andromeda/test-plan.md:858)`; the WATCH retires on a recurrence or 3 green runs, read through `(.andromeda/test-plan.md:791)`.
+- **Mutation carve-out ↔ test-plan §10 Mutation gate**: no chunk gate at this stage, `(.andromeda/test-plan-detail/ci-integration.md:35)`, and the verdict rule at the boundary run, `(.andromeda/test-plan.md:828)`.

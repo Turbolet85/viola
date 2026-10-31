@@ -406,7 +406,7 @@ fn wait_human_lines_are_linear() {
 }
 
 #[test]
-fn wait_last_unreachable_exit_21() {
+fn wait_last_of_a_name_never_started_exit_21_unwrapped() {
     let home = TestHome::new();
     for verb in ["wait", "last"] {
         let human = viola(home.path(), &[verb, "builder"], None, None);
@@ -415,7 +415,7 @@ fn wait_last_unreachable_exit_21() {
         assert_eq!(
             human.stderr,
             "unable  builder  instance-unreachable\n\
-             hint: builder is not running; viola list shows the live instances\n",
+             hint: builder is not a wrapped session; only sessions started with viola run take commands\n",
             "{verb}"
         );
         let json = viola(home.path(), &[verb, "builder", "--json"], None, None);
@@ -423,7 +423,7 @@ fn wait_last_unreachable_exit_21() {
         assert!(json.stderr.is_empty(), "{verb}");
         assert_eq!(
             json.stdout,
-            "{\"v\":1,\"error\":\"instance-unreachable\",\"detail\":null}\n"
+            "{\"v\":1,\"error\":\"instance-unreachable\",\"detail\":\"unwrapped-name\"}\n"
         );
     }
     let exits: Vec<Value> = diagnostics(home.path(), "cli-builder.ndjson")
@@ -433,7 +433,7 @@ fn wait_last_unreachable_exit_21() {
     assert_eq!(exits.len(), 4);
     for exit in &exits {
         assert_eq!(exit["exit_code"], 21);
-        assert_eq!(exit["detail"], "instance-dead");
+        assert_eq!(exit["detail"], "unwrapped-name");
         assert_eq!(exit["during"], "connect");
         assert_eq!(exit["level"], "WARN");
     }
@@ -457,6 +457,27 @@ fn cli_verbs_print_internal_error_once() {
         assert!(ran.stdout.is_empty(), "{args:?}");
         assert_eq!(ran.stderr, "error: internal error\n", "{args:?}");
         assert_eq!(ran.stderr.lines().count(), 1, "{args:?}");
+    }
+}
+
+/// Under `--json` the same failure is one document with stderr empty, in place of the line.
+#[test]
+fn cli_verbs_print_the_internal_error_document_under_json() {
+    let home = TestHome::new();
+    viola_state::fs::create_private_dir(home.path()).expect("the home");
+    std::fs::write(home.path().join("diagnostics"), CANARY).expect("a regular file");
+    for (args, stdin) in [
+        (&["send", "builder", "--json"][..], Some("hi")),
+        (&["wait", "builder", "--json"][..], None),
+        (&["last", "builder", "--json"][..], None),
+    ] {
+        let ran = spawn(home.path(), args, stdin, None).finish();
+        assert_eq!(ran.code, Some(1), "{args:?}");
+        assert_eq!(
+            ran.stdout, "{\"v\":1,\"error\":\"internal-error\",\"detail\":null}\n",
+            "{args:?}"
+        );
+        assert_eq!(ran.stderr, "", "{args:?}");
     }
 }
 

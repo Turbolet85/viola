@@ -713,7 +713,7 @@ fn mcp_tools_error_results_hold_no_path_or_upstream_text() {
             "a dead instance",
             "last",
             json!({"target": "ghost"}),
-            json!({"error": "instance-unreachable", "detail": null}),
+            json!({"error": "instance-unreachable", "detail": "unwrapped-name"}),
         ),
     ];
     for (label, tool, args, want) in rows {
@@ -913,12 +913,74 @@ fn mcp_tools_path2_path3_send_wait_last_match_the_cli() {
         less_v(&String::from_utf8(cli_gone.stdout).expect("utf-8"))
     );
     assert_eq!(gone.is_error, Some(true));
+    // A kept home (`AGENT_RUN_KEEP_HOMES`, as on CI) holds the stopped instance's directory; a
+    // removed one holds no such name.
+    let cause = if home.join("instances").join("builder").is_dir() {
+        "instance-dead"
+    } else {
+        "unwrapped-name"
+    };
     assert_eq!(
         body(&gone),
-        json!({"error": "instance-unreachable", "detail": null})
+        json!({"error": "instance-unreachable", "detail": cause})
     );
     assert_eq!(text(&gone), "refused: instance-unreachable");
     assert_sanitized(&[&gone], &home);
+}
+
+/// The wrapper the test's own session started, ended by the pid its snapshot records.
+fn kill_by_pid(pid: u64) {
+    let pid = pid.to_string();
+    #[cfg(unix)]
+    let killed = Command::new("kill").args(["-KILL", &pid]).status();
+    #[cfg(windows)]
+    let killed = Command::new("taskkill").args(["/F", "/PID", &pid]).status();
+    assert!(killed.expect("the kill").success(), "the kill");
+}
+
+/// A `wait` parked through the tool, its wrapper killed once the wrapper read the request: the
+/// tool's bound stays below the kill line, and the body is the CLI's `endpoint-lost` less `v`
+/// (test-plan §6 Cross-surface parity).
+#[test]
+fn mcp_tools_a_wrapper_killed_under_a_parked_wait_reads_endpoint_lost() {
+    use std::time::{Duration, Instant};
+
+    let s = harness_session(
+        "mcp_tools",
+        "lost",
+        SessionOptions {
+            unstamped: true,
+            ..SessionOptions::default()
+        },
+    );
+    let home = s.home().to_path_buf();
+    let snapshot: Value = serde_json::from_slice(
+        &std::fs::read(s.instance_dir("builder").join("snapshot.json")).expect("snapshot"),
+    )
+    .expect("json");
+    let pid = snapshot["data"]["pid"].as_u64().expect("pid");
+    let mcp = Mcp::spawn(&s);
+    let reading = home.clone();
+    let killer = std::thread::spawn(move || {
+        let until = Instant::now() + Duration::from_secs(7);
+        while !diagnostics(&reading, "run-builder.ndjson")
+            .iter()
+            .any(|l| l["event"] == "channel-request" && l["method"] == "wait")
+        {
+            assert!(Instant::now() < until, "the wait never reached the wrapper");
+            std::thread::yield_now();
+        }
+        kill_by_pid(pid);
+    });
+    let lost = mcp.call("wait", json!({"target": "builder", "timeout_ms": 9000}));
+    killer.join().expect("the killer");
+    assert_eq!(lost.is_error, Some(true), "{lost:?}");
+    assert_eq!(
+        body(&lost),
+        json!({"error": "instance-unreachable", "detail": "endpoint-lost"})
+    );
+    assert_eq!(text(&lost), "refused: instance-unreachable");
+    assert_sanitized(&[&lost], &home);
 }
 
 /// Path 4: a raised question answered by its id through the tool, and the same id again unknown.

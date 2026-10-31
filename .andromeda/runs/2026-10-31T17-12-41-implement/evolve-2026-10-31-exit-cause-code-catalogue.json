@@ -1,0 +1,98 @@
+[
+{
+"tool": "evolve",
+"v": "1.3",
+"sha8": "3569bfa9",
+"ts": "2026-10-31T17:24:08Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-31T17-12-41-implement",
+"--marker",
+"2026-10-31-exit-cause-code-catalogue"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 28 · 2026-10-31T15-44-08-2026-10-31-exit-cause-code-catalogue.ndjson",
+"ts 2026-10-31T17:23:51Z · clock 2026-10-31T17:24:08Z · bound 2026-10-31T17:11:56Z (line 2613)",
+"ids 2026-10-31T17:23:51Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-10-31T15-44-08-2026-10-31-exit-cause-code-catalogue.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.3",
+"sha8": "3569bfa9",
+"ts": "2026-10-31T17:36:27Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"3",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-31T17-12-41-implement",
+"--marker",
+"2026-10-31-exit-cause-code-catalogue"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 3 record(s) in the store · tx 31 · 2026-10-31T15-44-08-2026-10-31-exit-cause-code-catalogue.ndjson",
+"ts 2026-10-31T17:36:06Z · clock 2026-10-31T17:36:27Z · bound 2026-10-31T17:23:51Z (line 2614)",
+"ids 2026-10-31T17:36:06Z-a … 2026-10-31T17:36:06Z-c (3)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-10-31T15-44-08-2026-10-31-exit-cause-code-catalogue.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.3",
+"sha8": "3569bfa9",
+"ts": "2026-10-31T17:36:42Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-31T17-12-41-implement",
+"--marker",
+"2026-10-31-exit-cause-code-catalogue"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 32 · 2026-10-31T15-44-08-2026-10-31-exit-cause-code-catalogue.ndjson",
+"ts 2026-10-31T17:36:28Z · clock 2026-10-31T17:36:42Z · bound 2026-10-31T17:36:06Z (line 2617)",
+"ids 2026-10-31T17:36:28Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-10-31T15-44-08-2026-10-31-exit-cause-code-catalogue.ndjson"
+],
+"before": null,
+"after": null
+}
+]

@@ -26,7 +26,8 @@ use support::home::{
 };
 use support::watch::WITHIN;
 
-const UNREACHABLE: &str = "{\"v\":1,\"error\":\"instance-unreachable\",\"detail\":null}\n";
+const UNREACHABLE: &str =
+    "{\"v\":1,\"error\":\"instance-unreachable\",\"detail\":\"strict-modes-failed\"}\n";
 const INSTANCE_PAIR: &str = concat!(
     "unable: builder's state files can be written by another user\n",
     "hint: viola will not read them; make the viola home and its files owner-only\n",
@@ -296,6 +297,10 @@ fn only_the_wrapper_writes_the_snapshot_and_only_verify_the_stamps(stamped_home:
     for answer in &answers[..4] {
         assert_eq!(
             answer["result"]["structuredContent"]["error"], "instance-unreachable",
+            "{answer}"
+        );
+        assert_eq!(
+            answer["result"]["structuredContent"]["detail"], "instance-dead",
             "{answer}"
         );
     }

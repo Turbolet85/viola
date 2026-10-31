@@ -27,7 +27,8 @@ const ROW: &str =
 const EMPTY_CAPTION: &str = "NAME  LIVE   STATUS   WHEEL                    DIALOG             CLI";
 const EMPTY: &str = "no wrapped sessions  start one: viola run <name> -- claude";
 #[cfg(unix)]
-const UNREACHABLE: &str = "{\"v\":1,\"error\":\"instance-unreachable\",\"detail\":null}\n";
+const UNREACHABLE: &str =
+    "{\"v\":1,\"error\":\"instance-unreachable\",\"detail\":\"strict-modes-failed\"}\n";
 
 /// A stamped wrapper over the committed hook fixtures, its SessionStart landed.
 fn boot(stamped: StampedHome) -> Wrapper {
@@ -379,7 +380,17 @@ fn e1_send_naming_an_unwrapped_row_is_unreachable(stamped_home: StampedHome) {
     assert_eq!(sent.code, Some(21), "stderr: {}", sent.stderr);
     assert_eq!(
         sent.stdout,
-        "{\"v\":1,\"error\":\"instance-unreachable\",\"detail\":null}\n"
+        "{\"v\":1,\"error\":\"instance-unreachable\",\"detail\":\"unwrapped-name\"}\n"
+    );
+    assert_eq!(sent.stderr, "");
+    let human = viola(&home, &["send", "stranger"], Some("hello"), None);
+    assert_eq!(human.code, Some(21), "stderr: {}", human.stderr);
+    assert_eq!(human.stdout, "");
+    assert_eq!(
+        human.stderr.lines().last(),
+        Some(
+            "hint: stranger is not a wrapped session; only sessions started with viola run take commands"
+        ),
     );
     wrapper.stop();
 }

@@ -39,6 +39,11 @@ path = "tests/cli_error_bodies.rs"
 required-features = ["fake-agent"]
 
 [[test]]
+name = "cross_exit_causes"
+path = "tests/cross_exit_causes.rs"
+required-features = ["fake-agent"]
+
+[[test]]
 name = "contract_fixture_hygiene"
 path = "tests/contract_fixture_hygiene.rs"
 required-features = ["fake-agent"]

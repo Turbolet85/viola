@@ -22,7 +22,8 @@ use support::home::TestHome;
 use viola_channel::{Dispatch, ProtocolError, Server, Serving};
 use viola_state::snapshot::{InstanceSnapshot, Wheel, write_snapshot};
 
-const UNREACHABLE: &str = "{\"v\":1,\"error\":\"instance-unreachable\",\"detail\":null}\n";
+const UNREACHABLE: &str =
+    "{\"v\":1,\"error\":\"instance-unreachable\",\"detail\":\"server-verify-failed\"}\n";
 const HINT: &str =
     "hint: the process on builder's endpoint is not its recorded wrapper; it was not contacted";
 

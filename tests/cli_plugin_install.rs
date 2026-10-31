@@ -19,7 +19,8 @@ use support::ndjson::read_lines;
 
 const OK: &str = "{\"v\":1,\"ok\":{\"marketplace\":\"viola\",\"plugin\":\"viola@viola\"}}\n";
 #[cfg(unix)]
-const UNREACHABLE: &str = "{\"v\":1,\"error\":\"instance-unreachable\",\"detail\":null}\n";
+const UNREACHABLE: &str =
+    "{\"v\":1,\"error\":\"instance-unreachable\",\"detail\":\"strict-modes-failed\"}\n";
 
 const FILES: [&str; 3] = [
     ".claude-plugin/marketplace.json",

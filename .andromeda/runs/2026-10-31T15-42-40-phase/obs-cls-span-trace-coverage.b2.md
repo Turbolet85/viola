@@ -1,0 +1,25 @@
+# Classified — obs · span-trace-coverage.b2
+
+## Answers
+span-trace-coverage#7.2 · no · wait's success-path span attributes (wait.block after and timeout_ms, run.wait_dispatch woken_kind); no exit-21 or exit-1 cause in them
+span-trace-coverage#7.3 · yes · the exit-21 log forms bind: process-exit server-verify-failed at WARN with during:connect and no channel-request line, instance-dead with during connect or call, and the refused instance check on wait and last giving the instance-unreachable --json document with no frame and no line, MCP check_instance returning it with no line
+span-trace-coverage#7.4 · yes · the server-verification refusal before any frame, and the mid-call disconnect logged once by the client, which carries the endpoint-lost code read through crates/viola-channel/src/client.rs
+span-trace-coverage#8.1 · yes · the answer side binds: CLI answer's refuse_untrusted before any role file, and the server check before channel.request(answer) with no frame on refusal; the dialog hook's fail-open edge adds no cause and does not bind
+span-trace-coverage#8.2 · no · run.dialog_register, run.dialog_await and hook.decision_emit span attributes on the dialog hook path; no exit-21 or exit-1 cause, and the hook edge adds none
+span-trace-coverage#8.3 · yes · answer's exit-21 lines: server-verify-failed process-exit at WARN with during:connect and no channel line; the refused instance check's instance pair or instance-unreachable --json document with no line; MCP answer returns instance-unreachable with no line; the dialog-raised and dialog-answered lines do not bind
+span-trace-coverage#8.4 · no · dialog-expired and dialog-answered cleanup at the hold's end and the hook's fail-open detail; hook paths the catalogue does not touch and no exit-21 or exit-1 cause
+span-trace-coverage#9.1 · yes · pause and release run the server check before channel.request, and a server that is not the recorded wrapper opens no frame; the server check is one of client.rs's edited units
+span-trace-coverage#9.2 · no · run.wheel_transition span attributes (wheel_from, wheel_to, cause) on the wheel's worker thread; a point-in-time span with no exit-21 or exit-1 cause
+span-trace-coverage#9.3 · yes · the server-verification refusal on pause and release, made before any frame, writes no channel line and the client's process-exit is exit 21 server-verify-failed during connect at WARN; the send-refused exit-10 and release-from-driver lines do not bind
+span-trace-coverage#9.4 · no · run.wheel_transition is point-in-time and the wheel product event is the audit record; the product stream is outside the catalogue
+span-trace-coverage#10.1 · no · budget governor must-trace spans (hook.statusline, state.budget_write, statusline.shell_out, run.budget_eval); exit 20's cause and the shell-out are not re-opened
+span-trace-coverage#10.2 · no · budget span attributes (five_hour_pct, seven_day_pct, trigger, paused, window); no exit-21 or exit-1 cause in them
+span-trace-coverage#10.3 · no · statusline hook log lines; the hook edge is exit 0 with its own decision record, the chunk adds no hook cause and reaches no hook code, and the send-refused exit 11 is outside the catalogue
+span-trace-coverage#10.4 · no · statusline shell-out deadline cleanup (hook-decision detail deadline); a hook path with no exit-21 or exit-1 cause
+span-trace-coverage#11.1 · no · R8 env-strip attributes on process-start claude-child (env_stripped_count, env_stripped_known, env_kept); the scope excludes R8 counts and no cause here is an exit-21 or exit-1 code
+span-trace-coverage#12.1 · yes · the rule that a refused call, a call with no from, or a from equal to the wrapper's own name records no implicit link binds the refused-call path of send and answer, which the exit-21 refusal must keep writing no line; the link product line itself is outside the catalogue
+span-trace-coverage#13.1 · no · link and unlink explicit methods' -32602 and -32603 replies on the driven wrapper; invalid-params is no exit-21 or exit-1 cause, and these methods write no line of their own
+span-trace-coverage#14.1 · yes · revive's start arm over an unreadable snapshot writes one state-recovered snapshot-replayed line in run-<name>.ndjson and ends process-exit exit 1 detail cwd-missing, whose code the catalogue must hold; the list, mcp and run callers' lines do not bind
+span-trace-coverage#15.1 · no · torn-line healing on the appender's events.ndjson; the scope excludes torn-line healing and recovery lines, and it carries no exit-21 or exit-1 cause
+span-trace-coverage#16.1 · yes · run's version gate reads ledger/stamps.json through read_stamps_strict and writes parse-rejected ledger-stamps strict-modes-failed in run-<name>.ndjson, one of the only strict-modes lines the no-line carve-out is tested against
+span-trace-coverage#17.1 · yes · verify's refused home tree exits 1 with the home pair and no line before its cli log opens, the stamp-write StrictModes refusal maps to the same pair, plugin install's exit 21 refusal writes no line, and verify's stop gives the exit-1 detail interrupted

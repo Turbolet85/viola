@@ -1,0 +1,162 @@
+[
+{
+"tool": "evolve",
+"v": "1.3",
+"sha8": "3569bfa9",
+"ts": "2026-10-31T15:44:21Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-31T15-42-40-phase",
+"--marker",
+"2026-10-31-exit-cause-code-catalogue"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 20 · 2026-10-31T15-44-08-2026-10-31-exit-cause-code-catalogue.ndjson",
+"ts 2026-10-31T15:44:14Z · clock 2026-10-31T15:44:21Z · bound 2026-10-31T15:41:52Z (line 2600)",
+"ids 2026-10-31T15:44:14Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-10-31T15-44-08-2026-10-31-exit-cause-code-catalogue.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.3",
+"sha8": "3569bfa9",
+"ts": "2026-10-31T16:23:09Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"5",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-31T15-42-40-phase",
+"--marker",
+"2026-10-31-exit-cause-code-catalogue"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 5 record(s) in the store · tx 21 · 2026-10-31T15-44-08-2026-10-31-exit-cause-code-catalogue.ndjson",
+"ts 2026-10-31T16:22:49Z · clock 2026-10-31T16:23:09Z · bound 2026-10-31T15:44:14Z (line 2601)",
+"ids 2026-10-31T16:22:49Z-a … 2026-10-31T16:22:49Z-e (5)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-10-31T15-44-08-2026-10-31-exit-cause-code-catalogue.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.3",
+"sha8": "3569bfa9",
+"ts": "2026-10-31T16:32:41Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-31T15-42-40-phase",
+"--marker",
+"2026-10-31-exit-cause-code-catalogue"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 22 · 2026-10-31T15-44-08-2026-10-31-exit-cause-code-catalogue.ndjson",
+"ts 2026-10-31T16:32:30Z · clock 2026-10-31T16:32:40Z · bound 2026-10-31T16:22:49Z (line 2606)",
+"ids 2026-10-31T16:32:30Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-10-31T15-44-08-2026-10-31-exit-cause-code-catalogue.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.3",
+"sha8": "3569bfa9",
+"ts": "2026-10-31T16:58:11Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-31T15-42-40-phase",
+"--marker",
+"2026-10-31-exit-cause-code-catalogue"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 23 · 2026-10-31T15-44-08-2026-10-31-exit-cause-code-catalogue.ndjson",
+"ts 2026-10-31T16:57:32Z · clock 2026-10-31T16:58:11Z · bound 2026-10-31T16:32:30Z (line 2607)",
+"ids 2026-10-31T16:57:32Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-10-31T15-44-08-2026-10-31-exit-cause-code-catalogue.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.3",
+"sha8": "3569bfa9",
+"ts": "2026-10-31T17:10:48Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"4",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-31T15-42-40-phase",
+"--marker",
+"2026-10-31-exit-cause-code-catalogue"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 4 record(s) in the store · tx 26 · 2026-10-31T15-44-08-2026-10-31-exit-cause-code-catalogue.ndjson",
+"ts 2026-10-31T17:10:13Z · clock 2026-10-31T17:10:48Z · bound 2026-10-31T16:57:32Z (line 2608)",
+"ids 2026-10-31T17:10:13Z-a … 2026-10-31T17:10:13Z-d (4)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-10-31T15-44-08-2026-10-31-exit-cause-code-catalogue.ndjson"
+],
+"before": null,
+"after": null
+}
+]

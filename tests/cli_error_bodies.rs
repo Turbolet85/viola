@@ -21,7 +21,10 @@ const STRIPPED_NAME: &str = "CLAUDE_VIOLA_TEST_NEW_X";
 const STRIPPED_VALUE: &str = "canary-newname-value-e2f8";
 const UPSTREAM: &str = "canary-chain-value-5c1e upstream text";
 
-const UNREACHABLE: &str = "{\"v\":1,\"error\":\"instance-unreachable\",\"detail\":null}\n";
+const UNWRAPPED_NAME: &str =
+    "{\"v\":1,\"error\":\"instance-unreachable\",\"detail\":\"unwrapped-name\"}\n";
+const STRICT_MODES: &str =
+    "{\"v\":1,\"error\":\"instance-unreachable\",\"detail\":\"strict-modes-failed\"}\n";
 
 /// One failure: a label, the verb's words, its stdin, its `VIOLA_NAME`, the literal exit and the
 /// literal document.
@@ -123,50 +126,50 @@ fn cli_error_documents_hold_no_path_or_upstream_text(stamped_home: StampedHome) 
             &["send", "builder", "--json"],
             loaded(absent, ""),
             21,
-            UNREACHABLE,
+            UNWRAPPED_NAME,
         ),
         row(
             "wait, no wrapper",
             &["wait", "builder", "--json", "--timeout-ms", "100"],
             21,
-            UNREACHABLE,
+            UNWRAPPED_NAME,
         ),
         row(
             "last, no wrapper",
             &["last", "builder", "--json"],
             21,
-            UNREACHABLE,
+            UNWRAPPED_NAME,
         ),
         fed(
             "answer, no wrapper",
             &["answer", "builder", "1", "--json"],
             loaded_answer(absent),
             21,
-            UNREACHABLE,
+            UNWRAPPED_NAME,
         ),
         row(
             "pause, no wrapper",
             &["pause", "builder", "--json"],
             21,
-            UNREACHABLE,
+            UNWRAPPED_NAME,
         ),
         row(
             "release, no wrapper",
             &["release", "builder", "--json"],
             21,
-            UNREACHABLE,
+            UNWRAPPED_NAME,
         ),
         row(
             "link, no wrapper",
             &["link", "overseer", "builder", "--json"],
             21,
-            UNREACHABLE,
+            UNWRAPPED_NAME,
         ),
         row(
             "unlink, no wrapper",
             &["unlink", "overseer", "builder", "--json"],
             21,
-            UNREACHABLE,
+            UNWRAPPED_NAME,
         ),
         row(
             "revive, no session",
@@ -184,12 +187,17 @@ fn cli_error_documents_hold_no_path_or_upstream_text(stamped_home: StampedHome) 
     viola_state::fs::create_private_dir(widened.path()).expect("the home");
     widen(widened.path());
     let refused = [
-        row("list, a widened home", &["list", "--json"], 21, UNREACHABLE),
+        row(
+            "list, a widened home",
+            &["list", "--json"],
+            21,
+            STRICT_MODES,
+        ),
         row(
             "plugin install, a widened home",
             &["plugin", "install", "--json"],
             21,
-            UNREACHABLE,
+            STRICT_MODES,
         ),
     ];
     for row in &refused {

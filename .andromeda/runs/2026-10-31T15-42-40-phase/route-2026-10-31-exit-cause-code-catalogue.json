@@ -1,0 +1,35 @@
+[
+{
+"tool": "route",
+"v": "1.9",
+"sha8": "4b011612",
+"ts": "2026-10-31T15:44:08Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-10-31-exit-cause-code-catalogue",
+"--id",
+"chk-hqpyfdzl",
+"--desc-file",
+".andromeda/runs/2026-10-31T15-42-40-phase/master-desc.txt",
+"--run-dir",
+".andromeda/runs/2026-10-31T15-42-40-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"promoted 2026-10-31-exit-cause-code-catalogue · chk-hqpyfdzl · Exit-cause code catalogue · tx 19"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-10-31T15-44-08-2026-10-31-exit-cause-code-catalogue.ndjson",
+"./.andromeda/master-route.md",
+"./viola-0.1.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]

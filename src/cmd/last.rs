@@ -39,7 +39,9 @@ pub(crate) fn last(home: &Path, args: &LastArgs) -> anyhow::Result<ExitCode> {
         })
     };
     let Some(live) = live_endpoint(&instance_dir) else {
-        return Ok(ExitCode::from(unreachable(Unreachable::Dead("connect"))));
+        return Ok(ExitCode::from(unreachable(Unreachable::without_endpoint(
+            &instance_dir,
+        ))));
     };
     let mut params = Map::new();
     if let Some(from) = own_name() {

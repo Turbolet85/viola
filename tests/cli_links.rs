@@ -283,7 +283,10 @@ fn e5_the_replay_reads_the_link_the_wrapper_wrote(stamped_home: StampedHome) {
     wrapper.stop();
 }
 
-const UNREACHABLE: &str = "{\"v\":1,\"error\":\"instance-unreachable\",\"detail\":null}\n";
+const STOPPED: &str = "{\"v\":1,\"error\":\"instance-unreachable\",\"detail\":\"instance-dead\"}\n";
+#[cfg(unix)]
+const REFUSED: &str =
+    "{\"v\":1,\"error\":\"instance-unreachable\",\"detail\":\"strict-modes-failed\"}\n";
 
 /// `viola <verb> overseer builder [--json]`, with no name of its own.
 fn link_verb(home: &Path, verb: &str, json: bool) -> Ran {
@@ -445,7 +448,7 @@ fn link_verbs_against_a_stopped_instance_exit_21(stamped_home: StampedHome) {
         );
         let json = link_verb(home, verb, true);
         assert_eq!(json.code, Some(21), "{verb}: {}", json.stderr);
-        assert_eq!(json.stdout, UNREACHABLE, "{verb}");
+        assert_eq!(json.stdout, STOPPED, "{verb}");
         assert_eq!(json.stderr, "", "{verb}");
     }
 }
@@ -552,7 +555,7 @@ fn link_verbs_refuse_a_widened_instance_before_any_log(stamped_home: StampedHome
         );
         let json = link_verb(&home, verb, true);
         assert_eq!(json.code, Some(21), "{verb}: {}", json.stderr);
-        assert_eq!(json.stdout, UNREACHABLE, "{verb}");
+        assert_eq!(json.stdout, REFUSED, "{verb}");
         assert_eq!(json.stderr, "", "{verb}");
     }
 
