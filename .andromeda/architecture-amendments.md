@@ -1533,14 +1533,6 @@ Each superseded mark is kept in the body as the operator's word, superseded 2026
 **Why:** the chunk added the peer-pid read to both clients and the check to every frame-writing client; no dependency was added or bumped. interprocess 2.4.4's Windows peer pid was read in its source and witnessed by the two `server_pid` tests on windows-2025. The macOS cases' owner is the P5 review card's re-pin, the word of the Viola overseer as the founder's delegate.
 **Ref:** .andromeda/runs/2026-10-26T09-14-57-wrap/
 
-## 2026-10-26-server-verification-before-any-frame — fork 1: a verified client meets an unreadable or newer snapshot as an absent one
-**Section:** §Established Decisions [Message Broker / IPC] (established-decisions.md)
-**Change:**
-- A verified client meets an unreadable or newer snapshot as an absent one: every reader stays on `read_snapshot` (§Standard Contracts, Snapshot envelope), and the readers' move onto `read_snapshot_or_replay` is owed to the working-route entry "Home and code-bearing file integrity".
-**Why:** fork 1, option 1, is the founder's own ruling, given by dialog at his wake on 2026-10-26 and relayed by the overseer; it replaces the overseer's PROVISIONAL delegate answer the chunk report records. The classified read is taken only after `check_instance`, the check that route entry adds before these same readers' reads, so the move goes there with it.
-**Kept:** option 1 changes no outcome: every reader reads such a snapshot as absent, as before the chunk.
-**Ref:** .andromeda/runs/2026-10-26T09-14-57-wrap/
-
 ## 2026-10-26-server-verification-before-any-frame — the hook's one connect and its fail-open on a failed server check
 **Section:** §Established Decisions [Hook Transport], [Hook Contract] (established-decisions.md) · §Standard Contracts, Channel methods (standard-contracts.md: `hook.event`)
 **Change:**
@@ -1569,13 +1561,6 @@ Each superseded mark is kept in the body as the operator's word, superseded 2026
 - `mcp.ndjson`: no `channel-request` / `channel-response` lines for a frame tool whose server check fails.
 - `hook-<name>.ndjson`: a failed server check writes `hook-decision{detail:"server-verify-failed"}` at WARN; on the dialog path after `hook-invoked{corr:null}`, with `corr:null, decision_emitted:false`.
 **Why:** `server-verify-failed` already stood in `schemas/diag-line.v1.json`'s `process-exit` and `hook-decision` `detail` enums; this build is the first that writes it, and no pid, start time, path or endpoint reaches any line (asserted). The MCP writes no line for the mismatch, as on its unreachable path.
-**Ref:** .andromeda/runs/2026-10-26T09-14-57-wrap/
-
-## 2026-10-26-server-verification-before-any-frame — read_snapshot's product callers re-measured at three
-**Section:** §Standard Contracts, Snapshot envelope (standard-contracts.md)
-**Change:**
-- `read_snapshot` has three product callers (was five, per "2026-10-10-statusline-pass-through — counts, crate edges and one order finding: the fake agent, the seeds, the snapshot readers, revive's log before its check"): `src/cmd/hook.rs` once, the read its event and dialog paths share; `run`'s collision check; `src/cmd/hook/statusline.rs`. The rule: `read_snapshot(` under `src/`, outside test modules. `src/cmd/client.rs` leaves the list: the CLI frame verbs and `viola mcp` read the snapshot inside `viola_state::liveness::live_endpoint`.
-**Why:** measured at the chunk's tree. The base read four, `src/cmd/client.rs` gone since chunk 2026-10-17-mcp-server-for-drivers moved the CLI read into `live_endpoint`, and this chunk joined hook.rs's two reads in one. The plan's "four" was counted before that join: a count carried from a plan is re-measured at the wrap, never copied.
 **Ref:** .andromeda/runs/2026-10-26T09-14-57-wrap/
 
 ## 2026-10-26-server-verification-before-any-frame — viola-state's server identity check and the verified CLI connect in the key files
@@ -2081,3 +2066,16 @@ Each superseded mark is kept in the body as the operator's word, superseded 2026
 - Gains: `schemas/diag-line.v1.json`'s `process-exit` `detail` enum holds `stale-heartbeat`, `unwrapped-name`, `endpoint-lost`, `program-not-found`, `version-unreadable` and `unclean-fixture` among its words.
 **Why:** `instance-dead` no longer carries `during:"call"`: a wrapper lost with the call open is its own cause, and each logged cause is one `process-exit` with its own `detail`, the schema admitting the six words.
 **Ref:** .andromeda/runs/2026-10-31T18-12-32-wrap/
+
+## 2026-11-01-t02-46-44-wrap — the Epoch 6 delegate marks and the implicit link shapes are his
+**Section:** §Established Decisions ([Links]; [PTY]'s open Windows reading; [Error Handling]; the `dec-session-liveness` pending group) · §Standard Contracts (the `link` line with no `ts`) · §Occupied Resources (`v1-47`'s reading) · §Conventions (the socket-directory gap)
+**Change:**
+- [Links]: five shapes "stand on the operator's word and are not ruled by the founder" now "stand". The `link` line with no string `ts` was "on the operator's word, the founder not having ruled"; the clause is gone.
+- `without_endpoint`'s reading by the instance directory: the OPEN gap and its group are gone; the reading stands as built.
+- `v1-47`'s after each job's end-to-end run: was "PROVISIONAL, owed the founder's own word"; now plain.
+- The owner of the five open enum divergences, a CARRY on "Version done-check": the mark is gone. The divergences stay open.
+- The socket-directory refusal's code, and [PTY]'s Windows reading after a feed panic: each OPEN stays with its owner; only the mark is gone.
+- In this file's history the provisional records of these entries are superseded 2026-10-31, their other claims standing, none pruned: 2026-10-26-home-and-code-bearing-file-integrity ×2 (the P2 halt) · 2026-10-27-pinned-copy-race-and-reproducible-builds ×1 (red 2) · 2026-10-27-bounded-inputs-at-every-boundary ×1 (the P5 word) · 2026-10-31-sanitised-error-surfaces ×4 (the P5 word, the halt) · 2026-10-31-exit-cause-code-catalogue ×8 (Q2, Q3, the P5 word, the halt). The run's `marks-discharged.md` names each heading.
+**Why:** the founder's own word, given by dialog 2026-10-31 after each item was shown to him, relayed verbatim by overseer1 through the operator's directive (`inputs#I1`): every listed delegate answer of the epoch cleared as one batch, the `v1-47` replacement accepted, the leftover technical items accepted. Each provisional record stands in its own entry. The bodies take writing rule 7's form.
+**Kept:** 2026-10-26-explicit-session-links's card confirm stays PROVISIONAL: the question shown to him did not name it, and an answer covers only what its question named. The ratifications of the widenings stay his earlier answers. The dialog hold's ceiling and the other measured bounds keep their marks; no word here measured them.
+**Ref:** .andromeda/runs/2026-11-01T02-46-44-wrap/

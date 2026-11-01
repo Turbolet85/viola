@@ -349,3 +349,28 @@ _Records key decisions during plan generation + manual additions between phase l
 - **Conditions:** "First live test and self-drive" measures a real cross-session UserPromptSubmit `prompt` and records the harness-prefix ledger row (route CARRY on that entry). The list stays compiled; no runtime or upstream text builds a prefix (Code Patterns).
 - **Witness:** `prompt_origin_files_the_cross_session_tag_as_harness` (5 cases; red on the unchanged two-entry list, then green); the census gate `! (grep -rl --include='*.rs' 'cross-session-message' crates src tests | grep -vx 'crates/viola-agent-claude/src/hook.rs')` green; CI run 36583175440 on `055adf4`, 15/15 success.
 - **By:** the founder (live ratification, relay: the Viola overseer); recorded by `/andromeda-wrap-session` P2.
+
+# Consolidated at the 2026-11-01T02-46-44-wrap 0-pending wrap — 0 re-worded · 3 pruned
+
+## 2026-10-25-windows-endpoint-admission — the supply-chain red on RUSTSEC-2026-0386 and its owner
+**Section:** Dependency Security (dependency-security.md: a new `values · deps-supply-chain` group after the last one)
+**Change:**
+- One item: the open advisory RUSTSEC-2026-0386 (`unsound`) against the locked tokio `=1.53.1` fails CI's `supply-chain` job. Its owner is the working-route entry "tokio RUSTSEC-2026-0386 lock bump": a lock bump of `tokio` to `>=1.53.3`, with no ignore-list widening, so RUSTSEC-2017-0008 stays the only advisory ignore.
+**Why:** the report's CI read: the full row red with `supply-chain` its one red, on RUSTSEC-2026-0386 against the unchanged tokio 1.53.1, not this chunk's change. The owning route entry is the overseer's founder-delegated answer, relayed by the operator, confirmed by the founder's own yes on the P5 review card, live by dialog in the overseer session. The lock bump's own wrap retires this item.
+**Kept:** the `values · deps` item's tokio `=1.53.1` pin stands: no dependency was bumped and `Cargo.lock` did not move.
+**Ref:** .andromeda/runs/2026-10-26T00-17-51-wrap/
+
+## 2026-10-26-server-verification-before-any-frame — the snapshot readers are three, and stay on read_snapshot
+**Section:** §Input Validation (input-validation.md: the Own state files on read row)
+**Change:**
+- The other snapshot readers are three: `src/cmd/hook.rs` (one read shared by the event and dialog paths), `src/cmd/hook/statusline.rs` and `run`'s collision check in `src/cmd/run.rs` (was five, `src/cmd/client.rs` and `src/cmd/hook.rs` twice among them, per 2026-10-10-statusline-pass-through — revive: the session id ratified, its arguments, its log before its check, the fifth snapshot reader; its other claims stand). The rule: `read_snapshot(` under `src/`, outside test modules. `viola_state::liveness::live_endpoint`, the CLI frame verbs' and `viola mcp`'s one read, also calls `read_snapshot`.
+- Every snapshot reader stays on `read_snapshot` (option 1); their move onto `read_snapshot_or_replay` (`v1-41`, test-plan §6 E5 steps 1–3) is a CARRY owed to the route entry "Home and code-bearing file integrity".
+**Why:** measured at the chunk: `src/cmd/client.rs` holds no read since `live_endpoint` took it, and the hook's two reads joined into one. Option 1 is the founder's own ruling on fork 1, given by dialog at his wake on 2026-10-26 and relayed by the overseer; it replaces the delegate's provisional answer.
+**Ref:** .andromeda/runs/2026-10-26T09-14-57-wrap/
+
+## 2026-10-26-explicit-session-links — the collision check's code citation re-pointed
+**Section:** Authentication & Authorization (authentication-authorization.md: IPC client-side server verification (anti-impersonation), the collision check)
+**Change:**
+- `run`'s collision check cites `src/cmd/run.rs:383` (was `src/cmd/run.rs:379`).
+**Why:** the chunk's additions to `src/cmd/run.rs` (the `Methods` link set and its `link` / `unlink` routing) moved the check; the wrap's citation sweep re-pointed the one citation, digits only.
+**Ref:** .andromeda/runs/2026-10-26T15-35-13-wrap/

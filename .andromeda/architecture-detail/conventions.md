@@ -61,7 +61,7 @@ Read whole. The master's broad view is .andromeda/architecture.md; this file hol
 
 <!-- detail: values · conv-exit-codes -->
 
-- An absence: the socket-directory refusal has no code; `bind_endpoint`'s `create_private_dir` failure is an anyhow error at the catch site. OPEN — the socket-directory refusal's code, PROVISIONAL · owner: the route entry "Unix endpoint and home hardening".
+- An absence: the socket-directory refusal has no code; `bind_endpoint`'s `create_private_dir` failure is an anyhow error at the catch site. OPEN — the socket-directory refusal's code · owner: the route entry "Unix endpoint and home hardening".
 
 <!-- /detail -->
 

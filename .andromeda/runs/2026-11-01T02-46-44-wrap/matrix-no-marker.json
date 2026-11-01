@@ -1,0 +1,190 @@
+[
+{
+"tool": "matrix",
+"v": "1.6",
+"sha8": "07bc5249",
+"ts": "2026-11-01T02:56:29Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-47",
+"--text-file",
+".andromeda/runs/2026-11-01T02-46-44-wrap/note-v1-47.md",
+"--run-dir",
+".andromeda/runs/2026-11-01T02-46-44-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-47: +552 chars (total 2884) · status verified · ref/acceptance untouched",
+"landed, rendered ./viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-47",
+"chunk": "2026-10-31-sanitised-error-surfaces",
+"status": "verified",
+"method": "integration",
+"ref": "tests/contract_error_bodies.rs (error_bodies_each_name_a_writer_and_a_witness_that_stand, channel_faults_are_the_seven_l… (1014 chars)",
+"acceptance": "CLI machine-readable errors, MCP errors and channel errors carry only codes and fixed messages; no log, diagnostic, fixt… (881 chars)",
+"notes_chars": 2330
+},
+"after": {
+"id": "v1-47",
+"chunk": "2026-10-31-sanitised-error-surfaces",
+"status": "verified",
+"method": "integration",
+"ref": "tests/contract_error_bodies.rs (error_bodies_each_name_a_writer_and_a_witness_that_stand, channel_faults_are_the_seven_l… (1014 chars)",
+"acceptance": "CLI machine-readable errors, MCP errors and channel errors carry only codes and fixed messages; no log, diagnostic, fixt… (881 chars)",
+"notes_chars": 2884
+}
+},
+{
+"tool": "matrix",
+"v": "1.6",
+"sha8": "07bc5249",
+"ts": "2026-11-01T02:56:29Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-18",
+"--text-file",
+".andromeda/runs/2026-11-01T02-46-44-wrap/note-v1-18.md",
+"--run-dir",
+".andromeda/runs/2026-11-01T02-46-44-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-18: +589 chars (total 1866) · status verified · ref/acceptance untouched",
+"landed, rendered ./viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-18",
+"chunk": "2026-10-31-exit-cause-code-catalogue",
+"status": "verified",
+"method": "integration",
+"ref": "tests/cross_exit_causes.rs (its cases per cause and mode, ::no_two_codes_share_a_hint, ::shared_hints_reads_a_planted_du… (1145 chars)",
+"acceptance": "Each cause reaches its own closed code on each surface it reaches, carrying no path or pid and matching the human hint o… (2034 chars)",
+"notes_chars": 1275
+},
+"after": {
+"id": "v1-18",
+"chunk": "2026-10-31-exit-cause-code-catalogue",
+"status": "verified",
+"method": "integration",
+"ref": "tests/cross_exit_causes.rs (its cases per cause and mode, ::no_two_codes_share_a_hint, ::shared_hints_reads_a_planted_du… (1145 chars)",
+"acceptance": "Each cause reaches its own closed code on each surface it reaches, carrying no path or pid and matching the human hint o… (2034 chars)",
+"notes_chars": 1866
+}
+},
+{
+"tool": "matrix",
+"v": "1.6",
+"sha8": "07bc5249",
+"ts": "2026-11-01T02:56:29Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-39",
+"--text-file",
+".andromeda/runs/2026-11-01T02-46-44-wrap/note-v1-39.md",
+"--run-dir",
+".andromeda/runs/2026-11-01T02-46-44-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-39: +357 chars (total 3543) · status verified · ref/acceptance untouched",
+"landed, rendered ./viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-39",
+"chunk": "2026-10-31-exit-cause-code-catalogue",
+"status": "verified",
+"method": "integration",
+"ref": "tests/cli_machine_contract.rs::every_verb_prints_one_document_and_its_literal_exit_over_a_wrapper_s_life + ::verbs_over_… (1043 chars)",
+"acceptance": "Every driver-facing verb (send, wait, last, answer, list, pause, release, and revive with --list) has a --json form prin… (1705 chars)",
+"notes_chars": 3184
+},
+"after": {
+"id": "v1-39",
+"chunk": "2026-10-31-exit-cause-code-catalogue",
+"status": "verified",
+"method": "integration",
+"ref": "tests/cli_machine_contract.rs::every_verb_prints_one_document_and_its_literal_exit_over_a_wrapper_s_life + ::verbs_over_… (1043 chars)",
+"acceptance": "Every driver-facing verb (send, wait, last, answer, list, pause, release, and revive with --list) has a --json form prin… (1705 chars)",
+"notes_chars": 3543
+}
+},
+{
+"tool": "matrix",
+"v": "1.6",
+"sha8": "07bc5249",
+"ts": "2026-11-01T02:56:29Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-46",
+"--text-file",
+".andromeda/runs/2026-11-01T02-46-44-wrap/note-v1-46.md",
+"--run-dir",
+".andromeda/runs/2026-11-01T02-46-44-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-46: +520 chars (total 1926) · status verified · ref/acceptance untouched",
+"landed, rendered ./viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-46",
+"chunk": "2026-10-27-bounded-inputs-at-every-boundary",
+"status": "verified",
+"method": "unit",
+"ref": "tests/contract_bounded_readers.rs (boundaries_each_name_a_bounded_read_that_stands, product_readers_are_each_bounded_or_… (922 chars)",
+"acceptance": "Every external reader is size-capped, depth-limited and closed-typed; names are validated before any path join; the past… (1349 chars)",
+"notes_chars": 1404
+},
+"after": {
+"id": "v1-46",
+"chunk": "2026-10-27-bounded-inputs-at-every-boundary",
+"status": "verified",
+"method": "unit",
+"ref": "tests/contract_bounded_readers.rs (boundaries_each_name_a_bounded_read_that_stands, product_readers_are_each_bounded_or_… (922 chars)",
+"acceptance": "Every external reader is size-capped, depth-limited and closed-typed; names are validated before any path join; the past… (1349 chars)",
+"notes_chars": 1926
+}
+}
+]

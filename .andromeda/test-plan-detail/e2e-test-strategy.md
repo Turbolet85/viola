@@ -267,7 +267,7 @@ Read whole. The master's broad view is .andromeda/test-plan.md; this file holds 
   - every `diagnostics/*` file and log contains no `Cookie` header and no stripped-var values
   - `diagnostics/` files are 0600 on Unix
   - **Canary** (obs-plan §8, High-class verification): every integration and E2E input is synthetic, and every prompt, send text, tool `input`, dialog answer and statusline payload the tests feed embeds one fixed canary string, a constant in `tests/support`. The scan asserts that the canary never appears in any home-level `<home>/diagnostics/*.ndjson` line. It may appear in `events.ndjson` (contract payloads) and in `instances/<name>/diagnostics/detail-*.ndjson` only. The same scan runs in CI over `target/e2e-home/**`, the harness capture in `target/agent-run/` except `run --mutants`' `target/agent-run/chunk.diff` (repository source text, excluded from the scan and from the `harness-<os>` upload), and `target/nextest/ci/junit.xml` before any upload (obs-plan §9 step order). A hit is reported as file, line, byte offset and pattern class, never the matched bytes.
-  - `v1-47`'s "after every end-to-end test" reads "after each job's end-to-end run", on the delegate overseer's PROVISIONAL word, owed the founder's own word: `AGENT_RUN_KEEP_HOMES` `"1"` on the job and `if: always()` (`.github/workflows/ci.yml`), the `viola-chaos-*` home out (`.andromeda/obs-plan-detail/ci-integration.md`).
+  - `v1-47`'s "after every end-to-end test" reads "after each job's end-to-end run": `AGENT_RUN_KEEP_HOMES` `"1"` on the job and `if: always()` (`.github/workflows/ci.yml`), the `viola-chaos-*` home out (`.andromeda/obs-plan-detail/ci-integration.md`).
 
 <!-- /detail -->
 

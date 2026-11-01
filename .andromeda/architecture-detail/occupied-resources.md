@@ -257,7 +257,7 @@ Read whole. The master's broad view is .andromeda/architecture.md; this file hol
 
 <!-- detail: values · res-repository -->
 
-- `v1-47`'s after every end-to-end test is after each job's end-to-end run: `AGENT_RUN_KEEP_HOMES` `"1"` on the job and `if: always()` in `.github/workflows/ci.yml`, the `viola-chaos-*` home out. PROVISIONAL, owed the founder's own word.
+- `v1-47`'s after every end-to-end test is after each job's end-to-end run: `AGENT_RUN_KEEP_HOMES` `"1"` on the job and `if: always()` in `.github/workflows/ci.yml`, the `viola-chaos-*` home out.
 
 <!-- /detail -->
 

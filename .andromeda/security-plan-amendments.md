@@ -863,14 +863,6 @@ The superseded marks stand in the body as the operator's word, superseded 2026-1
 **Kept:** the IPC access control (Windows) record's text stands as written; the witnesses sit in their own group below it, with no chunk name.
 **Ref:** .andromeda/runs/2026-10-26T00-17-51-wrap/
 
-## 2026-10-25-windows-endpoint-admission — the supply-chain red on RUSTSEC-2026-0386 and its owner
-**Section:** Dependency Security (dependency-security.md: a new `values · deps-supply-chain` group after the last one)
-**Change:**
-- One item: the open advisory RUSTSEC-2026-0386 (`unsound`) against the locked tokio `=1.53.1` fails CI's `supply-chain` job. Its owner is the working-route entry "tokio RUSTSEC-2026-0386 lock bump": a lock bump of `tokio` to `>=1.53.3`, with no ignore-list widening, so RUSTSEC-2017-0008 stays the only advisory ignore.
-**Why:** the report's CI read: the full row red with `supply-chain` its one red, on RUSTSEC-2026-0386 against the unchanged tokio 1.53.1, not this chunk's change. The owning route entry is the overseer's founder-delegated answer, relayed by the operator, confirmed by the founder's own yes on the P5 review card, live by dialog in the overseer session. The lock bump's own wrap retires this item.
-**Kept:** the `values · deps` item's tokio `=1.53.1` pin stands: no dependency was bumped and `Cargo.lock` did not move.
-**Ref:** .andromeda/runs/2026-10-26T00-17-51-wrap/
-
 ## 2026-10-26-tokio-rustsec-2026-0386-lock-bump — viola-channel's Tokio client pin at tokio 1.53.3
 **Section:** Dependency Security (dependency-security.md: the `values · deps` group's arch-bans item)
 **Change:**
@@ -938,14 +930,6 @@ The superseded marks stand in the body as the operator's word, superseded 2026-1
 **Why:** the report's Symbols as built; the two CARRYs are re-pinned by the P5 review card's word (delegate the Viola overseer, founder-delegated).
 **Ref:** .andromeda/runs/2026-10-26T09-14-57-wrap/
 
-## 2026-10-26-server-verification-before-any-frame — the snapshot readers are three, and stay on read_snapshot
-**Section:** §Input Validation (input-validation.md: the Own state files on read row)
-**Change:**
-- The other snapshot readers are three: `src/cmd/hook.rs` (one read shared by the event and dialog paths), `src/cmd/hook/statusline.rs` and `run`'s collision check in `src/cmd/run.rs` (was five, `src/cmd/client.rs` and `src/cmd/hook.rs` twice among them, per 2026-10-10-statusline-pass-through — revive: the session id ratified, its arguments, its log before its check, the fifth snapshot reader; its other claims stand). The rule: `read_snapshot(` under `src/`, outside test modules. `viola_state::liveness::live_endpoint`, the CLI frame verbs' and `viola mcp`'s one read, also calls `read_snapshot`.
-- Every snapshot reader stays on `read_snapshot` (option 1); their move onto `read_snapshot_or_replay` (`v1-41`, test-plan §6 E5 steps 1–3) is a CARRY owed to the route entry "Home and code-bearing file integrity".
-**Why:** measured at the chunk: `src/cmd/client.rs` holds no read since `live_endpoint` took it, and the hook's two reads joined into one. Option 1 is the founder's own ruling on fork 1, given by dialog at his wake on 2026-10-26 and relayed by the overseer; it replaces the delegate's provisional answer.
-**Ref:** .andromeda/runs/2026-10-26T09-14-57-wrap/
-
 ## 2026-10-26-server-verification-before-any-frame — the frame ban's exceptions and the threat narrowed to the strict-modes half
 **Section:** §Security Anti-Patterns (security-anti-patterns.md: the frame-before-verification ban's dated exceptions; security-plan.md: the Authentication ban) · §Threat Model Summary (threat-model-summary.md: the IPC endpoint boundary) · §Authentication & Authorization (security-plan.md: the server verification summary)
 **Change:**
@@ -963,13 +947,6 @@ The superseded marks stand in the body as the operator's word, superseded 2026-1
 - Channel frames: the wrapper's `link` / `unlink` params rule — `driver` and `driven` are strings that pass `ViolaName::try_new` (one shared check); a missing, non-string or invalid name, a `driven` other than the serving wrapper's own name and a `driver` equal to `driven` are each `-32602` `"invalid params"` with `data: null`, no line written; neither method reads `from`, so a `from` of any shape changes nothing.
 - Local IPC vector: whoever can connect can also add or remove a driver link, whose effect is a `link` / `unlink` line in `events.ndjson` and the snapshot's links only; neither method reads the self-reported `from`.
 **Why:** the chunk's wrapper serves `link` / `unlink` (both answered `-32601` before), routed to its `LinkSet`. Serving them is a boundary widening, a new crossing of the hardened IPC boundary, that the founder answered himself at this chunk's P4 fork (inputs#I3, live by dialog in the overseer session, 2026-10-26T14:41Z, relayed verbatim by the operator); the P2 halt's confirm (inputs#I6) is the overseer's founder-delegated word, PROVISIONAL until the founder's own word at the epoch boundary, and the ratification stays his. This entry is the Security Decisions Log record the Universal ban asks for a new channel method: `link` / `unlink` sit under the listener, peer and frame-cap controls, their names under `ViolaName::try_new` with the own-name and self-pair `-32602`; their verbs' instance check, liveness and server check are the entries below.
-**Ref:** .andromeda/runs/2026-10-26T15-35-13-wrap/
-
-## 2026-10-26-explicit-session-links — the collision check's code citation re-pointed
-**Section:** Authentication & Authorization (authentication-authorization.md: IPC client-side server verification (anti-impersonation), the collision check)
-**Change:**
-- `run`'s collision check cites `src/cmd/run.rs:383` (was `src/cmd/run.rs:379`).
-**Why:** the chunk's additions to `src/cmd/run.rs` (the `Methods` link set and its `link` / `unlink` routing) moved the check; the wrap's citation sweep re-pointed the one citation, digits only.
 **Ref:** .andromeda/runs/2026-10-26T15-35-13-wrap/
 
 ## 2026-10-26-explicit-session-links — `viola link` / `viola unlink`'s instance check before any log
@@ -1387,3 +1364,13 @@ The superseded marks stand in the body as the operator's word, superseded 2026-1
 - Child executable resolution: under `viola revive --json`, through `refused_with`, a refused batch script prints `{"v":1,"error":"batch-script-child","detail":null}` on stdout in place of the pair, stderr empty, and a `claude` not found prints `internal-error`, each before `spawn_child`.
 **Why:** The chunk closed the post-preflight gap owed to it, and `v1-39` reads met. `run`'s start reaching a machine reader through `revive --json` is a named carve-out of the founder's own word, live, 2026-10-31 before 16:52Z, through the overseer's dialog, given after the widening was shown to him (`inputs#I2` Q4). That these rows lie inside his answers, and applying check 7's contradictions on the two new records, are the overseer's as delegate, PROVISIONAL (`inputs#I6`).
 **Ref:** .andromeda/runs/2026-10-31T18-12-32-wrap/
+
+## 2026-11-01-t02-46-44-wrap — the Epoch 6 delegate marks are his
+**Section:** §Authentication & Authorization (`without_endpoint`'s reading) · §Error Handling (the open divergences' owner)
+**Change:**
+- `without_endpoint`'s reading of a missing endpoint: the OPEN gap on the line is gone; the reading stands as built.
+- The five open divergences from the error-enum convention: the owner's "PROVISIONAL, owed the founder's own word" is gone. The divergences and their CARRY on "Version done-check" stay.
+- In this file's history the provisional records of these entries are superseded 2026-10-31, their other claims standing, none pruned: 2026-10-26-home-and-code-bearing-file-integrity ×2 (the P2 halt) · 2026-10-27-pinned-copy-race-and-reproducible-builds ×1 (red 2) · 2026-10-27-bounded-inputs-at-every-boundary ×1 (the P5 word) · 2026-10-31-sanitised-error-surfaces ×1 (the P5 word) · 2026-10-31-exit-cause-code-catalogue ×5 (Q2, Q3, the P5 word, the halt). The run's `marks-discharged.md` names each heading.
+**Why:** the founder's own word, given by dialog 2026-10-31 after each item was shown to him, relayed verbatim by overseer1 through the operator's directive (`inputs#I1`). His acceptance of the leftover items also covers the refused checks writing no line on `mcp` and `revive`'s start, `revive --list` opening no log and the checked `budget.json` read; no body mark stood on those here.
+**Kept:** 2026-10-26-explicit-session-links's halt confirm stays PROVISIONAL: the question shown to him did not name it.
+**Ref:** .andromeda/runs/2026-11-01T02-46-44-wrap/

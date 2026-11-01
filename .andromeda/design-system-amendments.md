@@ -492,3 +492,12 @@ Each superseded mark stands in the body as the operator's word, superseded 2026-
 - A failed connect is `instance-dead`; a wrapper lost with the call open is `endpoint-lost`.
 **Why:** the five causes need a rule for which one a verb names, and the chunk built this one, the strict-modes check first at every caller. Reading an unwrapped name by its instance directory is the delegate's word, the overseer's at the P4 fork, PROVISIONAL (`inputs#I2` Q2), and stays open until its owner settles it. These items landing over the file's "no code yet" and `detail:null` lines are the overseer's answer to this wrap's halt, Q4, as delegate, PROVISIONAL (`inputs#I6`).
 **Ref:** .andromeda/runs/2026-10-31T18-12-32-wrap/
+
+## 2026-11-01-t02-46-44-wrap — the `endpoint-lost` wording and the unwrapped reading are his
+**Section:** §Surface: cli → Component Patterns (the `endpoint-lost` hint; a frame verb with no live endpoint)
+**Change:**
+- The `endpoint-lost` hint: was "OPEN — this wording is PROVISIONAL"; the wording stands as written.
+- A frame verb with no live endpoint reading its instance directory: was "OPEN — this reading is PROVISIONAL"; the reading stands as written.
+- In this file's history the provisional records of these entries are superseded 2026-10-31, their other claims standing, none pruned: 2026-10-26-home-and-code-bearing-file-integrity ×2 (the P2 halt) · 2026-10-31-sanitised-error-surfaces ×3 (the P5 word, the halt) · 2026-10-31-exit-cause-code-catalogue ×7 (Q2, Q3, the P5 word, the halt). The run's `marks-discharged.md` names each heading.
+**Why:** the founder's own word, given by dialog 2026-10-31 after each item was shown to him, relayed verbatim by overseer1 through the operator's directive (`inputs#I1`). Item 6 asked Brand Identity's citations of cut material cleaned: measured at this wrap, none stands. Its citations of the cut Motion values and web-spa components left at 2026-10-20-epoch-5-cleanup, and the duration scale it cites still stands under Motion, so Brand Identity took no edit.
+**Ref:** .andromeda/runs/2026-11-01T02-46-44-wrap/

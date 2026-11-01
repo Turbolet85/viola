@@ -62,6 +62,6 @@ set +e; rg -n --hidden -g 'Cargo.toml' -g 'config.toml' -g '*.yml' -g '*.yaml' "
 
 <!-- detail: values · ci -->
 
-- `v1-47`'s secret-scan reading is after each job's end-to-end run, not after every test: `AGENT_RUN_KEEP_HOMES` is `1` on the job (`.github/workflows/ci.yml`), the scan is `if: always()`, and the `viola-chaos-*` home stays out (step 1 above). OPEN — this reading is PROVISIONAL · owner: the open decision on `v1-47`'s after-every-test reading.
+- `v1-47`'s secret-scan reading is after each job's end-to-end run, not after every test: `AGENT_RUN_KEEP_HOMES` is `1` on the job (`.github/workflows/ci.yml`), the scan is `if: always()`, and the `viola-chaos-*` home stays out (step 1 above).
 
 <!-- /detail -->

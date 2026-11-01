@@ -826,12 +826,6 @@
 **Why:** the board as built; owners per the review card the founder approved.
 **Ref:** .andromeda/runs/2026-10-11T08-23-35-wrap/
 
-## 2026-10-13-t06-38-35-wrap — E3's explicit steps held on the Epoch 6 entry
-**Section:** Scenario: E3 — `link` / `unlink` transfer markers (As landed)
-**Change:** steps 1 and 3 stay unrunnable: `viola link` / `viola unlink` are not built, their boundary widening is not ratified, and no explicit verb is built before Epoch 6. The hold's entry "Explicit session links" now stands in Epoch 6 after "Server verification before any frame"; was "the Epoch 5 entry … carries the hold". Step 2's root cases are unchanged.
-**Why:** the founder's own answer of 2026-10-13 («Не делать до Эпохи 6»), relayed verbatim by the Viola overseer through the operator's directive; E3's explicit steps move with the entry.
-**Ref:** .andromeda/runs/2026-10-13T06-38-35-wrap/
-
 ## 2026-10-13-epoch-4-cleanup — moved unit tests re-cited after the send and human split
 **Section:** §4 Unit Test Strategy (root bin: the budget governor and the send-confirmation matcher bullets); §5 Integration Test Strategy (the `viola list` board)
 **Change:** `send_budget_paused_*` sit in `src/run/send/budget.rs`; of the six send-module `trailing_newline` tests three sit in `src/run/send/classify.rs`, two in `src/run/send/relabel.rs` and one in `src/run/send.rs`; the two `inner_cr_is_one_lf` tests in `src/run/send/relabel.rs`; the eight `send_local_command_` functions in `src/run/send/classify.rs`; the board units `bay_line_*` and `board_row_*` in `src/human/board.rs`. Was `src/run/send.rs` and `src/human.rs`. Every test kept its name and cases (223 test lines before and after).
@@ -1926,3 +1920,13 @@ Each was then killed by a case in `typed.rs`'s `mod tests`, shown red under its 
 **Why:** every word is written by the two clients. A strict-modes check refused before a log opens writes no line (`inputs#I2` Q4, the founder's own word, live, 2026-10-31 before 16:52Z, through the overseer's dialog), and the logged causes are the other four. The `UnreachableCause` item, read as contradicting a standing line, was applied at the halt's Q5, `inputs#I6`, delegate the overseer, PROVISIONAL. The `endpoint-lost` hint is `inputs#I2` Q3, delegate the overseer, PROVISIONAL.
 **Kept:** `not-running` stays the hint cause's key, not renamed to the log's `instance-dead`.
 **Ref:** .andromeda/runs/2026-10-31T18-12-32-wrap/
+
+## 2026-11-01-t02-46-44-wrap — `v1-47`'s reading and the `ts`-less link line are his
+**Section:** §6 E2E Test Strategy (Non-path suites: the secret-scan clause; Scenario E5's `v1-47` line) · §4 Unit Test Strategy (the `link` line with no `ts`)
+**Change:**
+- `v1-47`'s "after every end-to-end test" reads "after each job's end-to-end run": was on "the delegate overseer's word, PROVISIONAL", "owed the founder's own word"; now plain, at both sites.
+- A `link` line with no string `ts` gets `since: "unknown"`: was "it stands on the operator's word and the founder has not ruled on it"; the clause is gone.
+- In this file's history the provisional records of these entries are superseded 2026-10-31, their other claims standing, none pruned: 2026-10-26-home-and-code-bearing-file-integrity ×3 (the P2 halt) · 2026-10-27-pinned-copy-race-and-reproducible-builds ×1 (red 2) · 2026-10-27-bounded-inputs-at-every-boundary ×1 (the P5 word) · 2026-10-31-sanitised-error-surfaces ×2 (the P5 word, the halt) · 2026-10-31-exit-cause-code-catalogue ×11 (Q2, Q3, the P5 word, the halt). The run's `marks-discharged.md` names each heading.
+**Why:** the founder's own word, given by dialog 2026-10-31 after each item was shown to him, relayed verbatim by overseer1 through the operator's directive (`inputs#I1`): the `v1-47` replacement accepted, Sanitised's P5 word among the batch he cleared, the implicit link shapes accepted.
+**Kept:** 2026-10-26-explicit-session-links's halt answers stay PROVISIONAL: the question shown to him did not name them.
+**Ref:** .andromeda/runs/2026-11-01T02-46-44-wrap/

@@ -63,7 +63,7 @@ Read whole. The master's broad view is .andromeda/design-system.md; this file ho
   - `instance-unreachable` (exit 21) has one hint per cause, because the code is shared (T4):
     - no wrapper is running for the name: `<name> is not running; viola list shows the live instances`
     - the name is an unwrapped session: `<name> is not a wrapped session; only sessions started with viola run take commands`
-    - a wrapper lost with the call open (`endpoint-lost`): `<name>'s wrapper went away during the call; viola list shows whether it is still running` (last on stderr, plain ASCII). OPEN — this wording is PROVISIONAL · owner: the wording of the `endpoint-lost` hint
+    - a wrapper lost with the call open (`endpoint-lost`): `<name>'s wrapper went away during the call; viola list shows whether it is still running` (last on stderr, plain ASCII).
     - the home or the instance's state files fail the strict-modes check (`send` after reading its text; `wait`, `last`, `answer`, `pause` and `release` first; each before any frame): no `unable  instance-unreachable` line and no hint of this list, but the fixed instance-state pair `unable: <name>'s state files can be written by another user` / `hint: viola will not read them; make the viola home and its files owner-only` (pattern 1, Refusal), not the `[/ ]` mirror; under `--json` the `instance-unreachable` document with `detail` `strict-modes-failed`
     - server verification fails: `the process on <name>'s endpoint is not its recorded wrapper; it was not contacted`
   - The exit-1 start refusals of `viola run` have one fixed-message line and one hint per cause (T4). None of them shows a path or a pid:
@@ -174,7 +174,7 @@ Read whole. The master's broad view is .andromeda/design-system.md; this file ho
 <!-- detail: values · cli-exit-codes -->
 
 - Exit 21's server-verification cause is built for `send`, `wait`, `last`, `answer`, `pause`, `release`, `link` and `unlink`: a process on the endpoint that is not the recorded wrapper (its pid or start time differs, or the check cannot be made) gets no frame, and the verb prints `unable  <name>  instance-unreachable` with the server-verification hint last on stderr, or under `--json` the document `{"v":1,"error":"instance-unreachable","detail":"server-verify-failed"}` with stderr empty.
-- With no live endpoint a frame verb reads its instance directory after the strict-modes check: a directory is `instance-dead`; absent, a regular file or a symlink is `unwrapped-name`. OPEN — this reading is PROVISIONAL · owner: whether an unwrapped name reads by its instance directory
+- With no live endpoint a frame verb reads its instance directory after the strict-modes check: a directory is `instance-dead`; absent, a regular file or a symlink is `unwrapped-name`.
 - A failed connect is `instance-dead`; a wrapper lost with the call open is `endpoint-lost`.
 - A frame verb against a stale instance reads `instance-dead`: stale heartbeat is exit 1's cause alone.
 

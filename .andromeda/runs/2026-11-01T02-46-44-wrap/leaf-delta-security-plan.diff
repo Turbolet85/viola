@@ -1,0 +1,14 @@
+--- a/.andromeda/security-plan-detail/authentication-authorization.md
++++ b/.andromeda/security-plan-detail/authentication-authorization.md
+@@ -69,3 +69,3 @@
+ - **Requirement:** IPC client-side server verification, the no-endpoint reading
+-  - **Implementation:** With no `LiveEndpoint`, `viola_state::liveness::without_endpoint` tells a dead instance from an unwrapped name by `symlink_metadata` on the instance directory alone: a directory reads `instance-dead`, anything else (absent, a regular file, a symlink) `unwrapped-name`. It opens nothing and writes no line, and the strict-modes check stays first at every caller. OPEN — this reading is PROVISIONAL · owner: how a name with no endpoint tells a dead instance from an unwrapped name.
++  - **Implementation:** With no `LiveEndpoint`, `viola_state::liveness::without_endpoint` tells a dead instance from an unwrapped name by `symlink_metadata` on the instance directory alone: a directory reads `instance-dead`, anything else (absent, a regular file, a symlink) `unwrapped-name`. It opens nothing and writes no line, and the strict-modes check stays first at every caller.
+   - **Stack reference:** `viola-state` liveness (`without_endpoint`), called by the root bin's `src/cmd/client.rs` (`Unreachable::without_endpoint`) and `crates/viola-mcp/src/tools.rs` (`frame`)
+--- a/.andromeda/security-plan-detail/error-handling.md
++++ b/.andromeda/security-plan-detail/error-handling.md
+@@ -31,3 +31,3 @@
+ - The `thiserror::Error` derives over product sources are nine: `AgentError` · `ChannelError` · `StateError` · `PinError` · `StampsError` · `StampsReadError` · `Refused` · `McpError` · `ServeError`; the census in `tests/contract_error_bodies.rs` reads their messages.
+-- Open divergences from the error-enum convention: `ServeError`, `StampsError`, `PinError`, `StampsReadError` and `Refused`; owner: a CARRY on the route entry Version done-check, PROVISIONAL, owed the founder's own word.
++- Open divergences from the error-enum convention: `ServeError`, `StampsError`, `PinError`, `StampsReadError` and `Refused`; owner: a CARRY on the route entry Version done-check.
+ - `resolve_program` returns `Result<PathBuf, AgentError>` in `viola_agent_claude` and in the root wrapper `src/run/mod.rs`, its refusals `AgentError::BatchScriptChild` and `AgentError::ProgramNotFound`, each a fixed message; `src/cmd/revive.rs`'s private `Refusal` is another type.
