@@ -268,6 +268,39 @@ fn cleanup_force_kills_a_recorded_process_that_outlives_the_stop() {
     assert!(!rec.instances[0].wrapper().alive());
 }
 
+/// A wrapper killed with no chance to clean up leaves its socket file: `cleanup` reads what a client
+/// meets, a connect refused, so the endpoint is gone and the session ends `ok:true`. The kill names
+/// only the pid this session recorded.
+#[cfg(unix)]
+#[test]
+fn cleanup_after_a_force_killed_wrapper_reads_the_endpoint_gone() {
+    let session = session_id("killed");
+    let opts = options(&session, &["builder"], &bins());
+    let ws = opts.ws.clone();
+    let booted = boot(&opts);
+    assert_eq!(booted.code, 0, "{}", booted.doc);
+    let _guard = Booted::new(&ws, &session);
+
+    let rec = record(&ws, &session);
+    let endpoint =
+        viola_e2e::harness::boot::snapshot_endpoint(&rec.home.join("instances").join("builder"))
+            .expect("the recorded endpoint");
+    let wrapper = rec.instances[0].wrapper();
+    assert!(wrapper.kill());
+    assert!(wrapper.wait_gone(Instant::now() + Duration::from_secs(10)));
+    assert!(
+        Path::new(&endpoint).exists(),
+        "a killed wrapper removes nothing"
+    );
+
+    let out = cleanup(&ws, Target::Session(&session), true);
+    assert_eq!(out.code, 0, "{}", out.doc);
+    assert_eq!(out.doc["ok"], true, "{}", out.doc);
+    assert_eq!(out.doc["endpoint_gone"], true, "{}", out.doc);
+    assert_eq!(out.doc["processes_gone"], true, "{}", out.doc);
+    assert!(Path::new(&endpoint).exists(), "cleanup removes no leftover");
+}
+
 #[test]
 fn boot_without_the_fake_agent_binary_is_build_failed() {
     let session = session_id("nobin");

@@ -1,0 +1,82 @@
+[
+{
+"tool": "matrix",
+"v": "1.8",
+"sha8": "8621213c",
+"ts": "2026-11-01T16:37:00Z",
+"argv": [
+"claim",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-44",
+"--chunk",
+"2026-11-01-unix-endpoint-and-home-hardening",
+"--acceptance-file",
+".andromeda/runs/2026-11-01T15-28-14-phase/acceptance-v1-44.md",
+"--note-file",
+".andromeda/runs/2026-11-01T15-28-14-phase/note-v1-44.md",
+"--run-dir",
+".andromeda/runs/2026-11-01T15-28-14-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claim v1-44 → chunk 2026-11-01-unix-endpoint-and-home-hardening (was null; status planned kept)",
+"acceptance: On each OS only the owning user (and SYSTEM on Windows) can connect to… (432 chars)",
+"         → On each OS only the owning user (and SYSTEM on Windows) can connect to… (1890 chars)",
+"notes: +469 chars (total 1974)",
+"landed, rendered ./.andromeda/db/log/2026-11-01T15-29-37-2026-11-01-unix-endpoint-and-home-hardening.ndjson · 1 entry changed",
+"pool: unclaimed 17 [v1-01 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-13 v1-21 v1-24 v1-26 v1-27 v1-34 v1-35 v1-36 v1-53]"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T15-29-37-2026-11-01-unix-endpoint-and-home-hardening.ndjson"
+],
+"before": {
+"id": "v1-44",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "On each OS only the owning user (and SYSTEM on Windows) can connect to an instance endpoint; remote pipe clients and oth… (432 chars)",
+"notes_chars": 1503
+},
+"after": {
+"id": "v1-44",
+"chunk": "2026-11-01-unix-endpoint-and-home-hardening",
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "On each OS only the owning user (and SYSTEM on Windows) can connect to an instance endpoint; remote pipe clients and oth… (1890 chars)",
+"notes_chars": 1974
+}
+},
+{
+"tool": "matrix",
+"v": "1.8",
+"sha8": "8621213c",
+"ts": "2026-11-01T16:37:00Z",
+"argv": [
+"audit",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-11-01-unix-endpoint-and-home-hardening",
+"--run-dir",
+".andromeda/runs/2026-11-01T15-28-14-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-11-01-unix-endpoint-and-home-hardening: 1 · ## Acceptance Criteria: line 312, 16 lines",
+"v1-44: cited in ## Acceptance Criteria (line 327)",
+"ledger-note entries (P7.3's input, not claim citations): v1-18 (line 364)",
+"pool: unclaimed 17 [v1-01 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-13 v1-21 v1-24 v1-26 v1-27 v1-34 v1-35 v1-36 v1-53]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

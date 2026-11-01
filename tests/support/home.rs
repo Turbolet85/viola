@@ -569,6 +569,45 @@ pub struct Wrapper {
 /// The variable `std::env::home_dir` reads on this OS.
 const USER_HOME_VAR: &str = if cfg!(windows) { "USERPROFILE" } else { "HOME" };
 
+/// The variable that places a child's per-user socket directory on this OS (its `socket_dir` rule).
+pub const SOCKET_ROOT_VAR: &str = if cfg!(target_os = "macos") {
+    "TMPDIR"
+} else {
+    "XDG_RUNTIME_DIR"
+};
+
+/// A short directory under `/tmp` a test's own children take as their socket root, per child through
+/// `Command::env`: macOS caps a socket path near 104 bytes, and no test ever loosens a directory
+/// another process shares.
+#[cfg(unix)]
+pub struct SocketRoot(tempfile::TempDir);
+
+#[cfg(unix)]
+impl SocketRoot {
+    pub fn new() -> Self {
+        let root = tempfile::Builder::new()
+            .prefix("vs-")
+            .tempdir_in("/tmp")
+            .expect("the socket root");
+        Self(root)
+    }
+
+    pub fn path(&self) -> &Path {
+        self.0.path()
+    }
+
+    /// The per-user directory a child under this root binds in.
+    pub fn dir(&self) -> PathBuf {
+        self.path().join("viola")
+    }
+
+    /// The directory made as a start makes it, at 0700.
+    pub fn made(self) -> Self {
+        viola_state::fs::create_private_dir(&self.dir()).expect("the socket directory");
+        self
+    }
+}
+
 /// Where a boot is typed, and as whom.
 #[derive(Clone, Copy, Default)]
 struct Host<'a> {
@@ -578,6 +617,10 @@ struct Host<'a> {
     user_home: Option<&'a Path>,
     /// No `--home` is passed: the wrapper lives in its user's default home.
     default_home: bool,
+    /// The socket root the wrapper is given in place of this process's own.
+    socket_root: Option<&'a Path>,
+    /// The wrapper starts under `umask 000`, through `/bin/sh`.
+    open_umask: bool,
 }
 
 /// The wrapper's exit code once it stopped.
@@ -645,8 +688,27 @@ impl Wrapper {
             dir: None,
             user_home: Some(user_home),
             default_home,
+            ..Host::default()
         };
         Self::boot_with(stamped, name, None, &[], Size::DEFAULT, true, host)
+    }
+
+    /// `boot_in` with `root` as the wrapper's socket root, and with `open_umask` under `umask 000`.
+    pub fn boot_on_socket_root(
+        stamped: StampedHome,
+        name: &str,
+        dir: &Path,
+        root: &Path,
+        open_umask: bool,
+        extra: &[&str],
+    ) -> Self {
+        let host = Host {
+            dir: Some(dir),
+            socket_root: Some(root),
+            open_umask,
+            ..Host::default()
+        };
+        Self::boot_with(stamped, name, None, extra, Size::DEFAULT, true, host)
     }
 
     /// `viola revive <name> <flags…> -- <the fake agent's flags>` typed in `dir`, with the fake
@@ -725,10 +787,28 @@ impl Wrapper {
         let user_home = host
             .user_home
             .map(|dir| dir.to_str().expect("utf-8 user home"));
-        let env: Vec<(&str, &str)> = user_home.iter().map(|dir| (USER_HOME_VAR, *dir)).collect();
+        let socket_root = host
+            .socket_root
+            .map(|dir| dir.to_str().expect("utf-8 socket root"));
+        let env: Vec<(&str, &str)> = user_home
+            .iter()
+            .map(|dir| (USER_HOME_VAR, *dir))
+            .chain(socket_root.iter().map(|dir| (SOCKET_ROOT_VAR, *dir)))
+            .collect();
+        let (program, args) = if host.open_umask {
+            let mut shell: Vec<OsString> = vec![
+                "-c".into(),
+                "umask 000; exec \"$0\" \"$@\"".into(),
+                VIOLA.into(),
+            ];
+            shell.extend(args);
+            (Path::new("/bin/sh"), shell)
+        } else {
+            (Path::new(VIOLA), args)
+        };
         // A start with no `--home` would take a wrapped session's home from these, the test
         // runner's own when it runs inside one.
-        let pty = OuterPty::spawn_without(Path::new(VIOLA), &args, &env, &UNWRAPPED, size, &cwd);
+        let pty = OuterPty::spawn_without(program, &args, &env, &UNWRAPPED, size, &cwd);
         let mut wrapper = Self {
             stamped,
             name: name.to_owned(),
@@ -1127,6 +1207,30 @@ pub fn beat_age(instance_dir: &Path) -> Option<Duration> {
 
 fn beat_fresh(instance_dir: &Path) -> bool {
     beat_age(instance_dir).is_some_and(|age| age < Duration::from_secs(5))
+}
+
+/// A `builder` wrapper bound under `root`, typed in a directory of the test's own over the committed
+/// hook fixtures, its SessionStart logged and that hook ended, so nothing of its own start crosses
+/// the channel after this returns.
+#[cfg(unix)]
+pub fn first_life_on(stamped: StampedHome, root: &SocketRoot, open_umask: bool) -> Wrapper {
+    let dir = stamped.home.scratch().join("recorded");
+    fs::create_dir(&dir).expect("the test's directory");
+    let fixtures = workspace_path("fixtures/claude");
+    let fixtures = fixtures.to_str().expect("utf-8 path");
+    let wrapper = Wrapper::boot_on_socket_root(
+        stamped,
+        "builder",
+        &dir,
+        root.path(),
+        open_umask,
+        &["--fixtures", fixtures],
+    );
+    super::events::wait_events(&wrapper.instance_dir(), "the session-start record", |l| {
+        l.iter().any(|e| e["kind"] == "session-start")
+    });
+    super::start::wait_session_start_hooks(&wrapper.receipt(), 1);
+    wrapper
 }
 
 #[fixture]

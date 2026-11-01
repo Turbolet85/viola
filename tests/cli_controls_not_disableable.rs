@@ -640,6 +640,77 @@ fn setting_does_not_disable_the_home_check() {
     }
 }
 
+/// A socket directory another user may read, under each row of `SETTINGS` in turn: `viola run` is
+/// refused with exit 1 and its pair before any child, the directory left as found. Each child's own
+/// socket root, through `Command::env`. No setting reaches the check.
+#[cfg(unix)]
+#[test]
+fn setting_does_not_disable_the_socket_dir_check() {
+    use std::os::unix::fs::PermissionsExt as _;
+    use support::home::{SOCKET_ROOT_VAR, SocketRoot};
+    for (setting, _) in SETTINGS {
+        let tmp = TestHome::new();
+        let home = tmp.path().to_path_buf();
+        let dir = home.join("instances").join("builder");
+        viola_state::fs::create_private_dir(&dir).expect("the instance dir");
+        let root = SocketRoot::new().made();
+        let socket_dir = root.dir();
+        std::fs::set_permissions(&socket_dir, std::fs::Permissions::from_mode(0o755))
+            .expect("chmod");
+        let mut command = Command::new(VIOLA);
+        command
+            .arg("--home")
+            .arg(&home)
+            .args(["run", "builder", "--", support::fake::FAKE])
+            .env(SOCKET_ROOT_VAR, root.path())
+            .env_remove("VIOLA_NAME")
+            .env_remove("VIOLA_DIR")
+            .env_remove("VIOLA_BIN")
+            .stdin(Stdio::null())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped());
+        match setting {
+            "--home" => {}
+            "VIOLA_NAME" => {
+                command.env(setting, "builder");
+            }
+            "VIOLA_DIR" => {
+                command.env(setting, &dir);
+            }
+            "VIOLA_BIN" => {
+                command.env(setting, "/bin/sh");
+            }
+            "v" => std::fs::write(home.join("config.json"), "{\"v\":\"off\"}").expect("config"),
+            key => std::fs::write(
+                home.join("config.json"),
+                format!("{{\"v\":1,\"{key}\":\"off\"}}"),
+            )
+            .expect("config"),
+        }
+        let child = command.spawn().expect("viola run");
+        let ran = support::cli::Running::over(child).finish();
+        assert_eq!(ran.code, Some(1), "{setting}: {}", ran.stderr);
+        assert_eq!(ran.stdout, "", "{setting}");
+        assert_eq!(
+            ran.stderr,
+            "unable: the socket directory for builder cannot be trusted\n\
+             hint: viola's socket directory must be a directory you own, readable only by you; \
+             viola does not change its permissions\n",
+            "{setting}"
+        );
+        let mode = std::fs::metadata(&socket_dir)
+            .expect("meta")
+            .permissions()
+            .mode();
+        assert_eq!(mode & 0o777, 0o755, "{setting}: the mode was changed");
+        assert_eq!(
+            std::fs::read_dir(&socket_dir).expect("the dir").count(),
+            0,
+            "{setting}: a bind"
+        );
+    }
+}
+
 #[rstest]
 #[case::name_empty(("VIOLA_NAME", ""))]
 #[case::name_off(("VIOLA_NAME", "off"))]

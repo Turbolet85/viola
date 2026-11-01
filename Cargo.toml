@@ -44,6 +44,11 @@ path = "tests/cross_exit_causes.rs"
 required-features = ["fake-agent"]
 
 [[test]]
+name = "security_negatives_socket_dir"
+path = "tests/security_negatives_socket_dir.rs"
+required-features = ["fake-agent"]
+
+[[test]]
 name = "contract_fixture_hygiene"
 path = "tests/contract_fixture_hygiene.rs"
 required-features = ["fake-agent"]

@@ -22,6 +22,8 @@ use viola_state::liveness::{Liveness, STALE_AFTER, classify, own_start, same_pro
 use viola_state::pin::{PinError, Pinned, pin_bytes, pin_key};
 use viola_state::replay::{Recovered, read_snapshot_or_replay};
 use viola_state::snapshot::{InstanceSnapshot, Wheel};
+#[cfg(unix)]
+use viola_state::strict::check_endpoint_dir;
 use viola_state::strict::{TreeRefused, check_home_tree};
 
 use crate::run::ChildLaunch;
@@ -299,10 +301,18 @@ pub(super) fn start(
     let strip = viola_agent_claude::plan_strip(std::env::vars_os().map(|(k, _)| k), persistent);
     let gate = version_gate(&home, &program, &cwd, &strip);
     let cli_verified = gate.cli_verified;
-    let Some((endpoint, server)) = bind_endpoint(name, &home)? else {
-        return Ok(refused_with(launch.json, "squatted-name", || {
-            refuse_squatted(name);
-        }));
+    let (endpoint, server) = match bind_endpoint(name, &home)? {
+        Bound::Serving(endpoint, server) => (endpoint, server),
+        Bound::Taken => {
+            return Ok(refused_with(launch.json, "squatted-name", || {
+                refuse_squatted(name);
+            }));
+        }
+        Bound::SocketDirRefused => {
+            return Ok(refused_with(launch.json, "socket-dir-refused", || {
+                refuse_socket_dir(name);
+            }));
+        }
     };
     let wheel = Arc::new(WheelSlot::default());
     let snapshots = Arc::new(Snapshots::new(instance_dir.clone()));
@@ -541,20 +551,49 @@ fn sideload_outcome(_: &Pinned) -> (&'static str, Option<viola_state::pin::HeldC
     ("not-built", None)
 }
 
+/// What a bind came to.
+enum Bound {
+    Serving(String, Server),
+    /// Another process holds the endpoint.
+    Taken,
+    /// The directory the endpoint lies in failed its check, or could not be made.
+    SocketDirRefused,
+}
+
 /// The instance's endpoint, bound before the first snapshot so the child's first hook finds it
-/// listening. The exclusive bind is the arbiter of two starts of one name: `None` when another
-/// process holds it.
-fn bind_endpoint(name: &ViolaName, home: &Path) -> anyhow::Result<Option<(String, Server)>> {
+/// listening, its directory verified first. The exclusive bind is the arbiter of two starts of one
+/// name.
+fn bind_endpoint(name: &ViolaName, home: &Path) -> anyhow::Result<Bound> {
     let endpoint = viola_channel::endpoint_path(name, home)?;
-    #[cfg(unix)]
-    if let Some(dir) = Path::new(&endpoint).parent() {
-        create_private_dir(dir)?;
+    if !socket_dir_ready(&endpoint) {
+        return Ok(Bound::SocketDirRefused);
     }
     match Server::bind(&endpoint) {
-        Ok(server) => Ok(Some((endpoint, server))),
-        Err(ChannelError::BindTaken) => Ok(None),
+        Ok(server) => Ok(Bound::Serving(endpoint, server)),
+        Err(ChannelError::BindTaken) => Ok(Bound::Taken),
         Err(error) => Err(error.into()),
     }
+}
+
+/// The endpoint's directory, verified before anything touches it: `create_private_dir` chmods an
+/// existing path, which would erase what the check refuses, so it runs only for an absent one, and
+/// the check runs again so the loser of a race to make it reads the same.
+#[cfg(unix)]
+fn socket_dir_ready(endpoint: &str) -> bool {
+    if check_endpoint_dir(endpoint).is_err() {
+        return false;
+    }
+    let Some(dir) = Path::new(endpoint).parent() else {
+        return false;
+    };
+    let absent = std::fs::symlink_metadata(dir).is_err();
+    (!absent || create_private_dir(dir).is_ok()) && check_endpoint_dir(endpoint).is_ok()
+}
+
+/// Off Unix the endpoint is a pipe in no directory.
+#[cfg(not(unix))]
+fn socket_dir_ready(_endpoint: &str) -> bool {
+    true
 }
 
 /// The home's own file that names the user's statusline command, in the settings shape: the source
@@ -777,6 +816,15 @@ pub(super) fn refuse_tampered_pin() {
     human::refuse(
         "the pinned viola copy failed its integrity check",
         "the pinned copy was changed after it was written, so viola will not run it",
+    );
+}
+
+/// The directory lies outside the home, so this is no state-file pair: its own, naming no path.
+fn refuse_socket_dir(name: &ViolaName) {
+    let name = name_str(name);
+    human::refuse(
+        &format!("the socket directory for {name} cannot be trusted"),
+        &human::send_hint(name, "socket-dir").unwrap_or_default(),
     );
 }
 

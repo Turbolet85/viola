@@ -1,0 +1,37 @@
+[
+{
+"tool": "route",
+"v": "1.12",
+"sha8": "93e1a5d7",
+"ts": "2026-11-01T15:29:37Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-11-01-unix-endpoint-and-home-hardening",
+"--id",
+"chk-j3vkwokw",
+"--desc-file",
+".andromeda/runs/2026-11-01T15-28-14-phase/master-desc.txt",
+"--scope-file",
+".andromeda/cache/docs/2026-11-01-unix-endpoint-and-home-hardening/scope.md",
+"--run-dir",
+".andromeda/runs/2026-11-01T15-28-14-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"promoted 2026-11-01-unix-endpoint-and-home-hardening · chk-j3vkwokw · Unix endpoint and home hardening · tx 50"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T15-29-37-2026-11-01-unix-endpoint-and-home-hardening.ndjson",
+"./.andromeda/master-route.md",
+"./viola-0.1.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]

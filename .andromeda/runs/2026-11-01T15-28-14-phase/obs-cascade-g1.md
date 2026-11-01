@@ -1,0 +1,64 @@
+# obs · cascade read · group 1 of 9
+
+## Carried
+- (.andromeda/obs-plan-detail/obs-scope-summary.md:166) The socket-directory refusal must take its own closed code at this chunk, and macOS's server check must stay a named carve-out, as this rule's two exceptions are both this entry's.
+  > Founder Direction 4: each cause behind exit 21 and exit 1 gets a distinct detail code, except a strict-modes check refused before any log opens, which writes no line: its cause is carried only by the fixed stderr pair or the `--json` document (`send`, `wait`, `last`, `answer`, `pause`, `release`, `link` and `unlink`, exit 21; `run`, `viola revive` and `viola verify`, exit 1). The socket-directory cause and macOS's server check are the named carve-outs from this rule, both with the route entry "Unix endpoint and home hardening" (the Founder Direction 4 trigger below states them).
+  (.andromeda/obs-plan.md:253)
+  > each cause behind exit 21 and exit 1 gets a distinct `detail` code with no path or pid, except a strict-modes check refused before any log opens, which writes no line (its cause is the fixed stderr pair or the `--json` document).
+  (.andromeda/obs-plan.md:161)
+  > exit-1 causes use a distinct `detail` code, with no path or pid in it.
+  (.andromeda/obs-plan.md:264)
+  > Section 1 is a verbatim copy of obs-scope.md, and it is kept current (the founder's ruling of 2026-10-04): a proposal or a cascade hit inside it is judged like any body amendment, and its label stays.
+  (.andromeda/obs-plan.md:146)
+  > `agent-run status` provides the aggregate health snapshot: `state` and `last_error` closed enum (tests excerpt, Status JSON shape).
+- (.andromeda/obs-plan-detail/obs-scope-summary.md:164) Each new refusal's stderr must be a fixed string naming no socket path, directory, uid or pid, on every surface that prints one.
+  > Refusal and fault lines on stderr are fixed strings with no paths, pids, chains or upstream text (design excerpt, CLI refusals / CLI faults).
+- (.andromeda/obs-plan-detail/obs-scope-summary.md:165) Each new refusal must exit inside this typed set, as the scope's boundary allows no new exit code, and P3's reading of exit 21 against a `run` refusal chooses within it.
+  > Exit codes 0, 1, 2, 10–14, 20 and 21 are the machine-readable outcome and should be a log field (arch Standard Contracts, CLI `--json` + exit codes).
+- (.andromeda/obs-plan-detail/obs-scope-summary.md:37) A refused socket directory or peer euid mismatch that exits 21 must either join this closed set of cause words or map to one of its members, written into both client documents, with the set's count kept true.
+  > `viola_core::UnreachableCause` is the closed set of exit 21's five cause words (`strict-modes-failed`, `instance-dead`, `unwrapped-name`, `endpoint-lost`, `server-verify-failed`), with no serde path. The two clients write each word into their two documents (the CLI's `--json` exit-21 document, MCP's `isError` body); the type writes no log line of its own, and a refused strict-modes check writes no line.
+  (.andromeda/obs-plan-detail/obs-scope-summary.md:36)
+  > It supplies the kebab-case values used as log fields (`refusal`, `detail`, event kinds) but emits nothing.
+- (.andromeda/obs-plan-detail/obs-scope-summary.md:28) The typed refusal replacing `bind_endpoint`'s anyhow path must stop being an internal error at the catch site, with anyhow left at the root bin alone and the fixed message the only thing reaching stderr.
+  > This is the only crate that uses anyhow, so it is the error-capture boundary. Arch Stack says "context chains only at dispatch". Security Vector 6 says a chain that contains a serde source must become a fixed message before it reaches stderr. The full chain goes to `diagnostics/` only.
+- (.andromeda/obs-plan-detail/obs-scope-summary.md:53) The peer euid check, on the sync client, the server and the Tokio client behind its feature, must keep this crate's instrumentation sync, and a verified euid must not turn `from` into an authenticated identity.
+  > N/A. Stack forbids Tokio in this crate's graph unless its feature is enabled, so instrumentation must be sync.
+  (.andromeda/obs-plan.md:123)
+  > the self-reported `from` is never logged as an authenticated identity.
+  (.andromeda/obs-plan.md:190)
+  > channel lines never carry `params` or result bodies, and `from` is logged as unauthenticated.
+- (.andromeda/obs-plan-detail/obs-scope-summary.md:61) Any telemetry the one-rule home check brings into `board::scan` must be sync, as `scan` is a unit this chunk edits in this crate.
+  > N/A. Stack bans Tokio here, so instrumentation must be sync.
+- (.andromeda/obs-plan-detail/obs-scope-summary.md:100) A refusal of this chunk must reach `hook` only as a fail-open whose trace is its `hook-decision`, and must reach MCP as a code kept inside its tool-call handling, both on the same every-Unix-client check.
+  > Instrument `hook-invoked` / `hook-decision`, MCP tool-call handling
+  (.andromeda/obs-plan.md:119)
+  > on an instance the instance check refuses, or on a `VIOLA_DIR` naming an instance directory that does not exist, the hook is a silent no-op (exit 0, no file opened, no line, no frame)
+  (.andromeda/obs-plan.md:200)
+  > fail-open paths log to `hook-<name>.ndjson` only, exit 0 with stderr empty
+  (.andromeda/obs-plan.md:127)
+  > `isError` results and the log lines for rejected calls carry codes only.
+- (.andromeda/obs-plan-detail/obs-scope-summary.md:124) The directory verification before bind and connect and the peer euid read are viola call sites to instrument, sitting beside the server check's outcomes, and a path newly under strict modes must stay off the trigger's closed list or join it by an amendment.
+  > Instrument viola's call sites (bind, connect, lock, rename, kill-fallback use, and the server check's peer-pid and start-time reads, whose failed check the CLI and the hook log as `server-verify-failed` and MCP logs by no line), not the OS internals. The home's strict-modes checks (`check_instance`, `check_home_tree`, `check_diagnostics`: viola's stat and, on Windows, owner and DACL reads) are such call sites; which of their refusals write a line is the strict-modes refusal-telemetry trigger's (below).
+  (.andromeda/obs-plan.md:215)
+  > a strict-modes failure has a line only on the `ledger-stamps` read in `run`'s version gate, on a `conpty/` companion its owner/DACL check refuses (`process-start`'s `sideload_fallback:"strict-modes-failed"`, the child on the inbox ConPTY, exit unchanged) and on `verify`'s own `process-exit` for a refused stamp write (`detail` `strict-modes-failed`, exit 1); a refused `diagnostics/` folder or file is a failed open, its line dropped.
+- (.andromeda/obs-plan-detail/obs-scope-summary.md:134) A client verifying the directory of a recorded `endpoint` must keep that path out of every refusal's stderr, `--json` document and MCP code.
+  > Absolute paths in `snapshot.json` (`endpoint`, `pinned_bin`) and in config values are scrubbed from external output. They are allowed in `diagnostics/`.
+- (.andromeda/obs-plan-detail/obs-scope-summary.md:160) Each connect-time refusal must state where it falls against this instance check and its no-file, no-line shape, across the frame verbs and `link` / `unlink`, and a wrapper-side euid refusal must put nothing on the terminal while the child runs.
+  > `viola link` / `viola unlink` log as `cli` into the driven instance's `cli-<driven>.ndjson` (the instance their `<driven>` argument names, never the caller's `VIOLA_NAME`) once their instance check of it has passed; a refused check opens none. `send`, `wait`, `last`, `answer`, `pause` and `release` log as `cli` once their instance check (`refuse_untrusted`: `check_instance` on the home and `instances/<name>`) has passed; a refused check exits 21 with the instance pair, or under `--json` the `{"v":1,"error":"instance-unreachable","detail":"strict-modes-failed"}` document, opens nothing under the home and writes no line.
+  (.andromeda/obs-plan-detail/obs-scope-summary.md:160)
+  > Without an instance there is no process-log file, and human stderr carries only fixed-message lines (design excerpt, CLI faults).
+  (.andromeda/obs-plan.md:115)
+  > `run` writes nothing to the terminal while the child runs
+- (.andromeda/obs-plan.md:311) A refused socket directory at a wrapper's start must join this list as two fixed lines in its level's pair, before any child spawns, each refusal site added or moved must re-derive the recorded per-verb count, the client's sharing `client::refuse_untrusted` or standing beside it, and `list`'s pair must keep no SGR under the one home rule.
+  > `run` writes nothing to the terminal except the child's own output, with one exception before any child is spawned: a start refusal (`.cmd`/`.bat` child, live or stale name, tampered pinned copy, squatted endpoint, a home tree another user could write or read: the home pair for a home-level refusal, the instance pair for an instance-level one, before any log opens) writes exactly two fixed stderr lines (e.g. `unable: <name>'s command is a .cmd or .bat script` / `hint: pass the real executable, not a .cmd or .bat shim`, no path or pid) through `src/human.rs` `refuse` → `write_refusal`, one `write_all` on the locked stderr, a closed pipe swallowed — the root bin's human-stderr refusal writer, called by `run` (7 sites), `verify` (6), `list` (2), `revive` (1), `plugin install` (1) and `client` (1, `client::refuse_untrusted`, the one site `viola link` / `viola unlink` and the six frame verbs `send`, `wait`, `last`, `answer`, `pause` and `release` share), as re-derived by `grep -rcE 'human::refuse\(' src` at chunk 2026-10-26-home-and-code-bearing-file-integrity; `list`'s colour layer adds no stderr writer and its `unable` / `hint:` pair carries no SGR.
+- (.andromeda/obs-plan.md:310) The scope's `hook` boundary holds a refusal of this chunk to this contract: no refusal pair and no stderr on any hook path.
+  > `hook` writes only its decision body to stdout and nothing to stderr.
+
+## Bindings
+- **Founder Direction 4's carve-outs ↔ the `detail` catalog and its schema**: the socket-directory cause's code must stand in the closed catalog (.andromeda/obs-plan.md:451) and be admitted by `schemas/diag-line.v1.json` under default-deny (.andromeda/obs-plan.md:576) wherever it reaches a line, while the rule's strict-modes exception (.andromeda/obs-plan-detail/obs-scope-summary.md:166) decides whether a refusal before any log opens has a line at all.
+- **`UnreachableCause` ↔ Founder Direction 4**: a code distinct under the rule (.andromeda/obs-plan-detail/obs-scope-summary.md:166) that exits 21 must also read true in the closed cause set and the two client documents (.andromeda/obs-plan-detail/obs-scope-summary.md:37), or state how it maps onto a member.
+- **The call-site rule ↔ the strict-modes trigger ↔ `run`'s start refusals**: whether a refused directory at start has a line follows the trigger's closed list (.andromeda/obs-plan.md:215), and whether it has a pair follows the start-refusal list (.andromeda/obs-plan.md:311), both read together with the call sites (.andromeda/obs-plan-detail/obs-scope-summary.md:124).
+- **The anyhow boundary ↔ error capture**: the typed refusal replacing the anyhow path (.andromeda/obs-plan-detail/obs-scope-summary.md:28) must end as a logged outcome with a closed code as a module-boundary error (.andromeda/obs-plan.md:533), logged once (.andromeda/obs-plan.md:643).
+- **The hook and MCP call sites ↔ error capture**: a client refusal under MCP must stay the no-line `instance-unreachable` of the frame tools (.andromeda/obs-plan.md:537), beside the instrumented tool-call handling (.andromeda/obs-plan-detail/obs-scope-summary.md:100).
+- **The macOS carve-out ↔ the `wait` / `last` scenario**: the named carve-out (.andromeda/obs-plan-detail/obs-scope-summary.md:166) and the recorded gap (.andromeda/obs-plan.md:361) must read the same, the euid check closing neither.
+- **The connect-time refusals ↔ the `wait` / `last` scenario**: the instance check's no-line refusal (.andromeda/obs-plan-detail/obs-scope-summary.md:160) comes first, and the server check's `process-exit` inside the dispatch span follows it (.andromeda/obs-plan.md:361); each new client refusal must name its place in that order.

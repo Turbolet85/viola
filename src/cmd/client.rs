@@ -3,17 +3,17 @@
 //! the outputs every verb writes the same way — one `--json` document, exit 20's wrapper fault and
 //! exit 21's unreachable line. Their endpoint read is `viola_state::liveness::live_endpoint`, after
 //! that check; their connection is [`connect`], whose server is checked against the recorded
-//! wrapper before the first frame.
+//! wrapper before the first frame, and whose socket directory is checked before it connects.
 
 use std::io::{self, Write as _};
 use std::path::{Path, PathBuf};
 
 use serde_json::{Value, json};
-use viola_channel::{ChannelError, Client, SERVER_PID_REPORTED, sanitised_fault};
+use viola_channel::{ChannelError, Client, SERVER_PID_REPORTED, peer_admitted, sanitised_fault};
 use viola_core::obs::{ObsEvent, ObsProcess};
 use viola_core::{RefusalReason, UnreachableCause, ViolaName, is_code_word, obs_event};
 use viola_state::liveness::{LiveEndpoint, ServerVerdict, verify_server, without_endpoint};
-use viola_state::strict::check_instance;
+use viola_state::strict::{check_endpoint_dir, check_instance};
 
 use crate::{human, obs, run};
 
@@ -93,13 +93,15 @@ pub(crate) fn fault_document(detail: &Value) -> Value {
 
 /// Why exit 21: the instance's wrapper is not there — no live snapshot or no connection (`Dead`) —
 /// the name has no instance at all (`Unwrapped`), the wrapper went while the call was open
-/// (`Lost`), or the process serving its endpoint is not the wrapper its snapshot records.
+/// (`Lost`), the process serving its endpoint is not the wrapper its snapshot records, or the
+/// directory that endpoint lies in failed its check.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(crate) enum Unreachable {
     Dead,
     Unwrapped,
     Lost,
     ServerUnverified,
+    SocketDir,
 }
 
 impl Unreachable {
@@ -118,6 +120,7 @@ impl Unreachable {
             Self::Unwrapped => UnreachableCause::UnwrappedName,
             Self::Lost => UnreachableCause::EndpointLost,
             Self::ServerUnverified => UnreachableCause::ServerVerify,
+            Self::SocketDir => UnreachableCause::SocketDir,
         }
     }
 
@@ -126,12 +129,12 @@ impl Unreachable {
         self.cause().as_str()
     }
 
-    /// Only a wrapper lost with the call open is `call`'s; the server check is part of making the
-    /// connection, so its failure is `connect`'s.
+    /// Only a wrapper lost with the call open is `call`'s; the directory and server checks are part
+    /// of making the connection, so their failure is `connect`'s.
     fn during(self) -> &'static str {
         match self {
             Self::Lost => "call",
-            Self::Dead | Self::Unwrapped | Self::ServerUnverified => "connect",
+            Self::Dead | Self::Unwrapped | Self::ServerUnverified | Self::SocketDir => "connect",
         }
     }
 
@@ -142,15 +145,17 @@ impl Unreachable {
             Self::Unwrapped => "unwrapped-name",
             Self::Lost => "endpoint-lost",
             Self::ServerUnverified => "server-verify",
+            Self::SocketDir => "socket-dir",
         }
     }
 }
 
-/// A call that ended without a reply: the channel's own failure, or a server that failed its check
-/// before any frame was written.
+/// A call that ended without a reply: the channel's own failure, a socket directory that failed its
+/// check before any connect, or a server that failed its check before any frame was written.
 #[derive(Debug)]
 pub(crate) enum CallError {
     Channel(ChannelError),
+    SocketDirRefused,
     ServerUnverified,
 }
 
@@ -160,11 +165,18 @@ impl From<ChannelError> for CallError {
     }
 }
 
-/// A connection to `live`'s endpoint whose server is the wrapper the snapshot records — its pid
-/// and that pid's start time (security-plan §Authentication & Authorization, IPC client-side
-/// server verification) — checked before the caller writes any frame.
+/// A connection to `live`'s endpoint, its socket directory checked first, whose server is the owning
+/// user's and the wrapper the snapshot records — its pid and that pid's start time (security-plan
+/// §Authentication & Authorization, IPC client-side server verification) — checked before the caller
+/// writes any frame.
 pub(crate) fn connect(live: &LiveEndpoint) -> Result<Client, CallError> {
+    if check_endpoint_dir(&live.endpoint).is_err() {
+        return Err(CallError::SocketDirRefused);
+    }
     let client = Client::connect(&live.endpoint, "cli")?;
+    if !peer_admitted(client.server_euid()) {
+        return Err(CallError::ServerUnverified);
+    }
     let verdict = verify_server(
         live.pid,
         &live.started_at,
@@ -185,6 +197,7 @@ pub(crate) fn answer_of(
     let frame = match sent {
         Ok(frame) => frame,
         Err(CallError::ServerUnverified) => return Ok(Err(Unreachable::ServerUnverified)),
+        Err(CallError::SocketDirRefused) => return Ok(Err(Unreachable::SocketDir)),
         Err(CallError::Channel(ChannelError::Connect(_))) => {
             return Ok(Err(Unreachable::Dead));
         }
@@ -269,20 +282,12 @@ pub(crate) fn unable_unreachable(name: &str, cause: Unreachable) {
     );
 }
 
-/// Where an unverified server's refusal is made, for each verb's own case: inside the verb's
-/// dispatch span, before any `channel.request` span or `channel-request` line, and with no frame
-/// written (obs-plan §4, the must-trace spans).
+/// What a refusal's unit reads: the spans a call opens and the lines it writes.
 #[cfg(test)]
-#[cfg(not(target_os = "macos"))]
-pub(crate) mod refused_inside {
+pub(crate) mod refused_seen {
     use std::sync::{Arc, Mutex};
 
-    use serde_json::Value;
-    use tracing_subscriber::layer::{Context, Layer, SubscriberExt as _};
-    use viola_channel::{Dispatch, ProtocolError, Server};
-    use viola_state::liveness::LiveEndpoint;
-
-    use super::CallError;
+    use tracing_subscriber::layer::{Context, Layer};
 
     /// Every span opened and every line written, in order: `span <name>` and
     /// `event <event> in <span>`.
@@ -314,6 +319,23 @@ pub(crate) mod refused_inside {
                 .push(format!("event {name} in {within}"));
         }
     }
+}
+
+/// Where an unverified server's refusal is made, for each verb's own case: inside the verb's
+/// dispatch span, before any `channel.request` span or `channel-request` line, and with no frame
+/// written (obs-plan §4, the must-trace spans).
+#[cfg(test)]
+#[cfg(not(target_os = "macos"))]
+pub(crate) mod refused_inside {
+    use std::sync::{Arc, Mutex};
+
+    use serde_json::Value;
+    use tracing_subscriber::layer::SubscriberExt as _;
+    use viola_channel::{Dispatch, ProtocolError, Server};
+    use viola_state::liveness::LiveEndpoint;
+
+    use super::CallError;
+    use super::refused_seen::Seen;
 
     /// Every frame the test server was sent.
     #[derive(Default)]
@@ -334,6 +356,8 @@ pub(crate) mod refused_inside {
         request: impl FnOnce(&LiveEndpoint) -> Result<Value, CallError>,
     ) {
         let dir = tempfile::tempdir().expect("the socket dir");
+        // A bare temp dir is left to the umask, and a client refuses a socket directory it can read.
+        viola_state::fs::create_private_dir(dir.path()).expect("the socket dir, private");
         let base = format!("viola-test-chan-{}-{span}", std::process::id());
         let endpoint = if cfg!(windows) {
             format!(r"\\.\pipe\{base}")
@@ -457,6 +481,10 @@ mod tests {
             answer_of(Err(CallError::ServerUnverified)).expect("read"),
             Err(Unreachable::ServerUnverified)
         );
+        assert_eq!(
+            answer_of(Err(CallError::SocketDirRefused)).expect("read"),
+            Err(Unreachable::SocketDir)
+        );
         assert!(channel(ChannelError::Oversize).is_err());
         assert!(answer_of(Ok(json!({"id": 1}))).is_err());
     }
@@ -491,6 +519,7 @@ mod tests {
         "connect",
         "server-verify"
     )]
+    #[case::socket_dir(Unreachable::SocketDir, "socket-dir-refused", "connect", "socket-dir")]
     fn unreachable_logs_its_cause(
         #[case] cause: Unreachable,
         #[case] detail: &str,
@@ -530,6 +559,64 @@ mod tests {
                 "subject"
             ]
         );
+    }
+
+    /// A loosened socket directory is refused before any connect, inside the verb's dispatch span:
+    /// no `channel.request` span, no line and no frame, the directory left as found. The server it
+    /// would have reached is a real one. Runs on macOS too, where the server check compares nothing.
+    #[cfg(unix)]
+    #[test]
+    fn connect_refuses_a_loosened_socket_directory_inside_its_dispatch_span() {
+        use std::os::unix::fs::PermissionsExt as _;
+        use std::sync::Arc;
+
+        use tracing_subscriber::layer::SubscriberExt as _;
+
+        #[derive(Default)]
+        struct Frames(std::sync::atomic::AtomicUsize);
+
+        impl viola_channel::Dispatch for Frames {
+            fn dispatch(&self, _: &str, _: &Value) -> Result<Value, viola_channel::ProtocolError> {
+                self.0.fetch_add(1, std::sync::atomic::Ordering::SeqCst);
+                Ok(json!({"ok": {}}))
+            }
+        }
+
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let dir = tmp.path().join("sockets");
+        viola_state::fs::create_private_dir(&dir).expect("the socket dir");
+        let endpoint = dir
+            .join(format!("viola-test-chan-{}.sock", std::process::id()))
+            .to_str()
+            .expect("utf-8")
+            .to_owned();
+        let frames = Arc::new(Frames::default());
+        let _serving = viola_channel::Server::bind(&endpoint)
+            .expect("bound")
+            .serve(Arc::clone(&frames) as Arc<dyn viola_channel::Dispatch>);
+        let me = std::process::id();
+        let live = LiveEndpoint {
+            endpoint,
+            pid: me,
+            started_at: viola_state::liveness::own_start(me).expect("own start"),
+        };
+        assert!(connect(&live).is_ok(), "the control reaches the server");
+
+        std::fs::set_permissions(&dir, std::fs::Permissions::from_mode(0o755)).expect("chmod");
+        let seen = refused_seen::Seen::default();
+        let subscriber = tracing_subscriber::registry().with(seen.clone());
+        let sent = crate::test_support::with_scoped_default(subscriber, || {
+            let span = tracing::info_span!("wait.block");
+            span.in_scope(|| connect(&live).err())
+        });
+        assert!(
+            matches!(sent, Some(CallError::SocketDirRefused)),
+            "{sent:?}"
+        );
+        assert_eq!(*seen.0.lock().expect("seen"), ["span wait.block"]);
+        assert_eq!(frames.0.load(std::sync::atomic::Ordering::SeqCst), 0);
+        let mode = std::fs::metadata(&dir).expect("meta").permissions().mode();
+        assert_eq!(mode & 0o777, 0o755);
     }
 
     #[test]

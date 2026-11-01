@@ -15,7 +15,7 @@ use tracing::instrument;
 use viola_core::MAX_FRAME;
 
 use crate::ChannelError;
-use crate::client::{next_conn, reply_from, request_frame, server_pid_of};
+use crate::client::{next_conn, peer_euid_of, reply_from, request_frame, server_pid_of};
 use crate::frame::framed;
 use crate::server::ResponseLine;
 
@@ -44,6 +44,11 @@ impl TokioClient {
     /// The pid of the process serving this connection, as the sync client reads it.
     pub fn server_pid(&self) -> Option<u32> {
         server_pid_of(self.reader.get_ref())
+    }
+
+    /// The effective uid of the process serving this connection, as the sync client reads it.
+    pub fn server_euid(&self) -> Option<u32> {
+        peer_euid_of(self.reader.get_ref())
     }
 
     /// One request and its reply, whole. Ids are integers, monotonic per connection.
@@ -207,6 +212,41 @@ mod tests {
             client.server_pid()
         });
         assert_eq!(pid, None);
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn tokio_client_server_euid_is_this_user() {
+        let dir = tempfile::tempdir().expect("tempdir");
+        let endpoint = test_endpoint(dir.path(), "tokio-server-euid");
+        let _serving = Server::bind(&endpoint)
+            .expect("bound")
+            .serve(Arc::new(Shapes));
+        let euid = runtime().block_on(async {
+            let client = TokioClient::connect(&endpoint, "mcp")
+                .await
+                .expect("connect");
+            client.server_euid()
+        });
+        // SAFETY: `geteuid` takes no arguments, cannot fail and touches no memory.
+        assert_eq!(euid, Some(unsafe { libc::geteuid() }));
+    }
+
+    #[cfg(windows)]
+    #[test]
+    fn tokio_client_server_euid_is_none_where_the_peer_reports_no_euid() {
+        let dir = tempfile::tempdir().expect("tempdir");
+        let endpoint = test_endpoint(dir.path(), "tokio-server-euid");
+        let _serving = Server::bind(&endpoint)
+            .expect("bound")
+            .serve(Arc::new(Shapes));
+        let euid = runtime().block_on(async {
+            let client = TokioClient::connect(&endpoint, "mcp")
+                .await
+                .expect("connect");
+            client.server_euid()
+        });
+        assert_eq!(euid, None);
     }
 
     #[test]

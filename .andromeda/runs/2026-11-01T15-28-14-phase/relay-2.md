@@ -1,0 +1,1 @@
+yes. This is the overseer's word as the founder's delegate, so mark it PROVISIONAL; Q1 and Q2 stand as his own in inputs#I2. The three Beyond-the-plan rows and the leans on the card are accepted. Apply per the skill.

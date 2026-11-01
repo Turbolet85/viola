@@ -25,6 +25,8 @@ pub enum Refused {
     Readable,
     #[error("a trusted state path is a symbolic link")]
     Symlink,
+    #[error("a trusted state path is not a directory")]
+    NotADirectory,
     #[error("a trusted state path's permissions could not be read")]
     Unreadable,
     #[error("a trusted state path has a NULL DACL")]
@@ -142,6 +144,57 @@ pub fn check_diagnostics(path: &Path) -> Result<(), Refused> {
         DIAGNOSTICS_FILE_RULE
     };
     check_rule(path, rule)
+}
+
+/// The per-user socket directory, by one `lstat` before a wrapper binds or a client connects
+/// (security-plan §Authentication & Authorization, IPC access control (Unix)): a symlink, a
+/// non-directory, another owner and any group or other bit are refused and left as found. An absent
+/// path passes: a start then makes it, and a client's connect fails on its own.
+#[cfg(unix)]
+pub fn check_socket_dir(dir: &Path) -> Result<(), Refused> {
+    use std::os::unix::fs::MetadataExt as _;
+    let meta = match std::fs::symlink_metadata(dir) {
+        Ok(meta) => meta,
+        Err(e) if e.kind() == io::ErrorKind::NotFound => return Ok(()),
+        Err(_) => return Err(Refused::Unreadable),
+    };
+    socket_dir_verdict(
+        meta.file_type().is_symlink(),
+        meta.is_dir(),
+        meta.mode(),
+        meta.uid(),
+        unix::euid(),
+    )
+}
+
+/// Off Unix the endpoint is a pipe in no directory: the DACL is its control.
+#[cfg(not(unix))]
+pub fn check_socket_dir(_dir: &Path) -> Result<(), Refused> {
+    Ok(())
+}
+
+/// [`check_socket_dir`] on the directory a recorded endpoint lies in.
+pub fn check_endpoint_dir(endpoint: &str) -> Result<(), Refused> {
+    Path::new(endpoint)
+        .parent()
+        .map_or(Ok(()), check_socket_dir)
+}
+
+/// A symlink, then a non-directory, then the read rule.
+pub fn socket_dir_verdict(
+    is_symlink: bool,
+    is_dir: bool,
+    mode: u32,
+    uid: u32,
+    euid: u32,
+) -> Result<(), Refused> {
+    if is_symlink {
+        return Err(Refused::Symlink);
+    }
+    if !is_dir {
+        return Err(Refused::NotADirectory);
+    }
+    unix_read_verdict(mode, uid, euid)
 }
 
 /// Each path that exists, in order, under its rule; an absent one is skipped, and one that cannot
@@ -956,6 +1009,7 @@ mod tests {
             Refused::Writable,
             Refused::Readable,
             Refused::Symlink,
+            Refused::NotADirectory,
             Refused::Unreadable,
             Refused::NullDacl,
             Refused::NoPersistentAcls,
@@ -970,11 +1024,98 @@ mod tests {
                 "a trusted state path is writable by another user",
                 "a trusted state path is readable by another user",
                 "a trusted state path is a symbolic link",
+                "a trusted state path is not a directory",
                 "a trusted state path's permissions could not be read",
                 "a trusted state path has a NULL DACL",
                 "a trusted state path is on a volume without persistent ACLs",
             ]
         );
+    }
+
+    /// A foreign owner and every kind the one account of a runner cannot make, by injected values.
+    #[rstest]
+    #[case::owner_0700(false, true, 0o040_700, 1000, 1000, Ok(()))]
+    #[case::symlink_to_0700(true, false, 0o120_700, 1000, 1000, Err(Refused::Symlink))]
+    #[case::symlink_as_a_directory(true, true, 0o040_700, 1000, 1000, Err(Refused::Symlink))]
+    #[case::regular_file(false, false, 0o100_700, 1000, 1000, Err(Refused::NotADirectory))]
+    #[case::foreign_owner(false, true, 0o040_700, 0, 1000, Err(Refused::NotOwner))]
+    #[case::world_readable(false, true, 0o040_755, 1000, 1000, Err(Refused::Readable))]
+    #[case::group_readable(false, true, 0o040_750, 1000, 1000, Err(Refused::Readable))]
+    #[case::group_writable(false, true, 0o040_770, 1000, 1000, Err(Refused::Writable))]
+    fn socket_dir_verdict_needs_an_owned_directory_with_no_foreign_bit(
+        #[case] is_symlink: bool,
+        #[case] is_dir: bool,
+        #[case] mode: u32,
+        #[case] uid: u32,
+        #[case] euid: u32,
+        #[case] verdict: Result<(), Refused>,
+    ) {
+        assert_eq!(
+            socket_dir_verdict(is_symlink, is_dir, mode, uid, euid),
+            verdict
+        );
+    }
+
+    /// Real paths, each left as found: a symlink to a 0700 directory reads as the link, where the
+    /// read rule's own check follows it and passes.
+    #[cfg(unix)]
+    #[test]
+    fn check_socket_dir_reads_the_path_itself_and_leaves_it_as_found() {
+        use std::os::unix::fs::PermissionsExt as _;
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let private = tmp.path().join("private");
+        crate::fs::create_private_dir(&private).expect("0700");
+        assert_eq!(check_socket_dir(&private), Ok(()));
+
+        let open = tmp.path().join("open");
+        crate::fs::create_private_dir(&open).expect("made");
+        std::fs::set_permissions(&open, std::fs::Permissions::from_mode(0o755)).expect("chmod");
+        assert_eq!(check_socket_dir(&open), Err(Refused::Readable));
+        let mode = std::fs::metadata(&open).expect("meta").permissions().mode();
+        assert_eq!(mode & 0o777, 0o755);
+
+        let link = tmp.path().join("link");
+        std::os::unix::fs::symlink(&private, &link).expect("symlink");
+        assert_eq!(check_read(&link), Ok(()), "the check that follows the link");
+        assert_eq!(check_socket_dir(&link), Err(Refused::Symlink));
+        assert!(
+            std::fs::symlink_metadata(&link)
+                .expect("meta")
+                .file_type()
+                .is_symlink()
+        );
+
+        let file = tmp.path().join("file");
+        std::fs::write(&file, b"x").expect("a file");
+        assert_eq!(check_socket_dir(&file), Err(Refused::NotADirectory));
+
+        assert_eq!(check_socket_dir(&tmp.path().join("absent")), Ok(()));
+        assert_eq!(
+            check_socket_dir(Path::new("dir\0name")),
+            Err(Refused::Unreadable)
+        );
+    }
+
+    /// The endpoint's own parent is what is read.
+    #[cfg(unix)]
+    #[test]
+    fn check_endpoint_dir_reads_the_endpoints_directory() {
+        use std::os::unix::fs::PermissionsExt as _;
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let dir = tmp.path().join("sockets");
+        crate::fs::create_private_dir(&dir).expect("0700");
+        let endpoint = dir.join("viola-x.sock");
+        let endpoint = endpoint.to_str().expect("utf-8");
+        assert_eq!(check_endpoint_dir(endpoint), Ok(()));
+        std::fs::set_permissions(&dir, std::fs::Permissions::from_mode(0o755)).expect("chmod");
+        assert_eq!(check_endpoint_dir(endpoint), Err(Refused::Readable));
+    }
+
+    #[cfg(not(unix))]
+    #[test]
+    fn check_socket_dir_off_unix_reads_nothing() {
+        assert_eq!(check_socket_dir(Path::new("dir\0name")), Ok(()));
+        assert_eq!(check_endpoint_dir(r"\\.\pipe\viola-x"), Ok(()));
     }
 
     #[test]

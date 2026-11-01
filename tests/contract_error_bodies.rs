@@ -44,7 +44,7 @@ const CLI_DOCUMENTS: &[Body] = &[
     },
     Body {
         code: "instance-unreachable",
-        detail: "strict-modes-failed, instance-dead, unwrapped-name, endpoint-lost, server-verify-failed",
+        detail: "strict-modes-failed, instance-dead, unwrapped-name, endpoint-lost, server-verify-failed, socket-dir-refused",
         exit: Some(21),
         file: "src/cmd/client.rs",
         needle: r#"document(&json!({"v": 1, "error": "instance-unreachable", "detail": cause.as_str()}));"#,
@@ -129,6 +129,14 @@ const CLI_DOCUMENTS: &[Body] = &[
         file: "src/cmd/run.rs",
         needle: r#"return Ok(refused_with(launch.json, "squatted-name", || {"#,
         witness: "a_held_endpoint_is_squatted_name",
+    },
+    Body {
+        code: "socket-dir-refused",
+        detail: "null",
+        exit: Some(1),
+        file: "src/cmd/run.rs",
+        needle: r#"return Ok(refused_with(launch.json, "socket-dir-refused", || {"#,
+        witness: "a_loosened_socket_directory_on_a_start_is_socket_dir_refused",
     },
     Body {
         code: "internal-error",
@@ -242,7 +250,7 @@ const TOOLS: &str = "crates/viola-mcp/src/tools.rs";
 const MCP_RESULTS: &[Body] = &[
     Body {
         code: "instance-unreachable",
-        detail: "strict-modes-failed, instance-dead, unwrapped-name, endpoint-lost, server-verify-failed",
+        detail: "strict-modes-failed, instance-dead, unwrapped-name, endpoint-lost, server-verify-failed, socket-dir-refused",
         exit: None,
         file: RESULT,
         needle: r#"error("instance-unreachable", Value::from(cause.as_str()))"#,

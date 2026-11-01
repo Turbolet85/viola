@@ -1,0 +1,49 @@
+[
+{
+"tool": "matrix",
+"v": "1.8",
+"sha8": "8621213c",
+"ts": "2026-11-01T17:04:10Z",
+"argv": [
+"implement",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-11-01-unix-endpoint-and-home-hardening",
+"--id",
+"v1-44",
+"--ref-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-01T16-38-56-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"implement v1-44 · status planned → implemented · ref tests/security_negatives_socket_dir.rs; crates/viola-mcp/tests/handlers.rs::hand… (943 chars)",
+"landed, rendered ./.andromeda/db/log/2026-11-01T15-29-37-2026-11-01-unix-endpoint-and-home-hardening.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T15-29-37-2026-11-01-unix-endpoint-and-home-hardening.ndjson"
+],
+"before": {
+"id": "v1-44",
+"chunk": "2026-11-01-unix-endpoint-and-home-hardening",
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "On each OS only the owning user (and SYSTEM on Windows) can connect to an instance endpoint; remote pipe clients and oth… (1890 chars)",
+"notes_chars": 1974
+},
+"after": {
+"id": "v1-44",
+"chunk": "2026-11-01-unix-endpoint-and-home-hardening",
+"status": "implemented",
+"method": "integration",
+"ref": "tests/security_negatives_socket_dir.rs; crates/viola-mcp/tests/handlers.rs::handlers_frame_tools_refuse_a_loosened_socke… (943 chars)",
+"acceptance": "On each OS only the owning user (and SYSTEM on Windows) can connect to an instance endpoint; remote pipe clients and oth… (1890 chars)",
+"notes_chars": 1974
+}
+}
+]

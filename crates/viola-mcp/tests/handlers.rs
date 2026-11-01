@@ -92,6 +92,8 @@ fn booted_recording(
     pid: u32,
 ) -> Booted {
     let dir = tempfile::tempdir().expect("tempdir");
+    // A bare temp dir is left to the umask, and a client refuses a socket directory it can read.
+    viola_state::fs::create_private_dir(dir.path()).expect("the socket dir");
     let home = dir.path().join("home");
     let instance = home.join("instances").join("builder");
     viola_state::fs::create_private_dir(&instance).expect("instance dir");
@@ -505,6 +507,51 @@ fn handlers_frame_tools_refuse_a_widened_instance_before_any_frame() {
         "the widening was undone"
     );
     widened(&dir, false);
+    let control = call(&tools, "last", json!({"target": "builder"})).expect("a result");
+    assert_eq!(control.is_error, Some(false), "{control:?}");
+    assert_eq!(wrapper.frames().len(), 1);
+}
+
+/// A socket directory another user may read, its recorded wrapper serving: every frame tool reads
+/// `instance-unreachable` with `detail` `socket-dir-refused` before any connection, the body the CLI
+/// document less `v`, the wrapper is sent no frame and the directory is left as found. Taken back,
+/// the same wrapper is reached: the control.
+#[cfg(unix)]
+#[test]
+fn handlers_frame_tools_refuse_a_loosened_socket_directory() {
+    use std::os::unix::fs::PermissionsExt as _;
+    let wrapper = booted(
+        "loosened",
+        vec![(
+            "last",
+            Ok(json!({"ok": {"last_assistant_message": null, "ts": null}})),
+        )],
+    );
+    let dir = wrapper._dir.path().to_path_buf();
+    std::fs::set_permissions(&dir, std::fs::Permissions::from_mode(0o755)).expect("chmod");
+    let tools = wrapper.tools(Some("driver"));
+    for (name, args) in [
+        ("send", json!({"target": "builder", "text": "x"})),
+        ("wait", json!({"target": "builder", "timeout_ms": 900})),
+        ("last", json!({"target": "builder"})),
+        (
+            "answer",
+            json!({"target": "builder", "dialog_id": 1, "response": {"behavior": "allow"}}),
+        ),
+    ] {
+        let result = call(&tools, name, args).expect("a result");
+        assert_eq!(result.is_error, Some(true), "{name}");
+        assert_eq!(
+            result.structured_content,
+            Some(json!({"error": "instance-unreachable", "detail": "socket-dir-refused"})),
+            "{name}"
+        );
+        assert_eq!(text(&result), "refused: instance-unreachable", "{name}");
+    }
+    assert!(wrapper.frames().is_empty(), "{:?}", wrapper.frames());
+    let mode = std::fs::metadata(&dir).expect("meta").permissions().mode();
+    assert_eq!(mode & 0o777, 0o755, "the directory was changed");
+    std::fs::set_permissions(&dir, std::fs::Permissions::from_mode(0o700)).expect("chmod back");
     let control = call(&tools, "last", json!({"target": "builder"})).expect("a result");
     assert_eq!(control.is_error, Some(false), "{control:?}");
     assert_eq!(wrapper.frames().len(), 1);

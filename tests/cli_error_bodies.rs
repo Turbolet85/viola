@@ -6,6 +6,8 @@
 #[allow(dead_code)]
 mod support;
 
+#[cfg(unix)]
+use std::fs;
 use std::io::Write as _;
 use std::path::Path;
 use std::process::{Command, Stdio};
@@ -15,6 +17,8 @@ use serde_json::{Value, json};
 use support::cli::Running;
 use support::events::{assert_error_body_clean, error_body_hit};
 use support::fake::empty_bin;
+#[cfg(unix)]
+use support::home::{SOCKET_ROOT_VAR, SocketRoot, first_life_on, revive_command};
 use support::home::{StampedHome, TestHome, UNWRAPPED, VIOLA, stamped_home, unwiden, widen};
 
 const STRIPPED_NAME: &str = "CLAUDE_VIOLA_TEST_NEW_X";
@@ -265,6 +269,105 @@ fn cli_error_documents_hold_no_path_or_upstream_text(stamped_home: StampedHome) 
         assert_row(&home, &bin, row);
     }
     assert_eq!(wrapper.stop().code(), Some(0));
+}
+
+/// A live wrapper's socket directory loosened: each verb's document holds the closed word and no
+/// path, the start's as well under `revive --json`, with the same planted value in play.
+#[cfg(unix)]
+#[test]
+fn cli_error_documents_of_a_loosened_socket_directory_hold_no_path_or_upstream_text() {
+    use std::os::unix::fs::PermissionsExt as _;
+    const REFUSED: &str =
+        "{\"v\":1,\"error\":\"instance-unreachable\",\"detail\":\"socket-dir-refused\"}\n";
+    let root = SocketRoot::new();
+    let wrapper = first_life_on(StampedHome::unstamped(TestHome::new()), &root, false);
+    let home = wrapper.home().to_path_buf();
+    let bin = empty_bin(wrapper.stamped.home.scratch());
+    fs::set_permissions(root.dir(), fs::Permissions::from_mode(0o755)).expect("chmod");
+    let rows = [
+        fed(
+            "send, a loosened directory",
+            &["send", "builder", "--json"],
+            loaded(&home, ""),
+            21,
+            REFUSED,
+        ),
+        row(
+            "wait, a loosened directory",
+            &["wait", "builder", "--json", "--timeout-ms", "100"],
+            21,
+            REFUSED,
+        ),
+        row(
+            "last, a loosened directory",
+            &["last", "builder", "--json"],
+            21,
+            REFUSED,
+        ),
+        fed(
+            "answer, a loosened directory",
+            &["answer", "builder", "1", "--json"],
+            loaded_answer(&home),
+            21,
+            REFUSED,
+        ),
+        row(
+            "pause, a loosened directory",
+            &["pause", "builder", "--json"],
+            21,
+            REFUSED,
+        ),
+        row(
+            "release, a loosened directory",
+            &["release", "builder", "--json"],
+            21,
+            REFUSED,
+        ),
+        row(
+            "link, a loosened directory",
+            &["link", "overseer", "builder", "--json"],
+            21,
+            REFUSED,
+        ),
+        row(
+            "unlink, a loosened directory",
+            &["unlink", "overseer", "builder", "--json"],
+            21,
+            REFUSED,
+        ),
+    ];
+    for row in &rows {
+        assert_row(&home, &bin, row);
+    }
+    fs::set_permissions(root.dir(), fs::Permissions::from_mode(0o700)).expect("chmod back");
+    let (stopped, stamped) = wrapper.stop_keep();
+    assert_eq!(stopped.code(), Some(0));
+
+    let refusing = SocketRoot::new().made();
+    fs::set_permissions(refusing.dir(), fs::Permissions::from_mode(0o755)).expect("chmod");
+    let child = revive_command(
+        &stamped.home,
+        stamped.home.scratch(),
+        &["builder", "--json"],
+    )
+    .env(SOCKET_ROOT_VAR, refusing.path())
+    .env(STRIPPED_NAME, STRIPPED_VALUE)
+    .spawn()
+    .expect("viola");
+    let ran = Running::over(child).finish();
+    assert_eq!(ran.stderr, "");
+    let body: Value = serde_json::from_str(&ran.stdout).expect("a JSON document");
+    assert_error_body_clean(
+        "revive, a loosened directory",
+        &body,
+        &home,
+        &[STRIPPED_VALUE],
+    );
+    assert_eq!(ran.code, Some(1));
+    assert_eq!(
+        ran.stdout,
+        "{\"v\":1,\"error\":\"socket-dir-refused\",\"detail\":null}\n"
+    );
 }
 
 /// One body per class reads its hit, and a closed body reads none.

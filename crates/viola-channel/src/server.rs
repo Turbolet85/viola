@@ -17,6 +17,7 @@ use tracing::instrument;
 use viola_core::obs::ObsEvent;
 use viola_core::{EventKind, obs_event};
 
+use crate::client::{peer_admitted, peer_euid_of};
 use crate::frame::{
     Params, Request, error_response, ok_response, parse_request, read_frame, write_frame,
 };
@@ -64,15 +65,22 @@ impl Server {
         Ok(Self { listener, guard })
     }
 
-    /// One accept thread; each connection gets its own worker thread.
+    /// One accept thread; each connection of the owning user gets its own worker thread.
     pub fn serve(self, dispatch: Arc<dyn Dispatch>) -> Serving {
+        self.serve_admitting(dispatch, peer_admitted)
+    }
+
+    fn serve_admitting(self, dispatch: Arc<dyn Dispatch>, admitted: Admission) -> Serving {
         let Self { listener, guard } = self;
         let _ = std::thread::Builder::new()
             .name("channel-accept".to_owned())
-            .spawn(move || accept_loop(&listener, &dispatch));
+            .spawn(move || accept_loop(&listener, &dispatch, admitted));
         Serving { _guard: guard }
     }
 }
+
+/// Whether a peer of this euid reading may be served.
+type Admission = fn(Option<u32>) -> bool;
 
 #[cfg(windows)]
 struct Guard;
@@ -159,8 +167,13 @@ fn listen(endpoint: &str) -> Result<(Listener, Guard), ChannelError> {
     Ok((listener, guard))
 }
 
-fn accept_loop(listener: &Listener, dispatch: &Arc<dyn Dispatch>) {
-    let accepted = listener.incoming().map_while(Result::ok);
+/// A refused peer's stream is dropped here, before its thread and before any frame is read: it reads
+/// end-of-file, and no line is written, since no frame exists to key one on.
+fn accept_loop(listener: &Listener, dispatch: &Arc<dyn Dispatch>, admitted: Admission) {
+    let accepted = listener
+        .incoming()
+        .map_while(Result::ok)
+        .filter(|stream| admitted(peer_euid_of(stream)));
     for (n, stream) in (1u64..).zip(accepted) {
         let dispatch = Arc::clone(dispatch);
         let _ = std::thread::Builder::new()
@@ -1032,6 +1045,48 @@ mod tests {
         }
         #[cfg(unix)]
         Server::bind(&endpoint).expect("free once the served one dropped");
+    }
+
+    /// What the wrapper's answer is handed, counted.
+    #[derive(Default)]
+    struct Dispatched(std::sync::atomic::AtomicUsize);
+
+    impl Dispatch for Dispatched {
+        fn dispatch(&self, _: &str, _: &Value) -> Result<Value, ProtocolError> {
+            self.0.fetch_add(1, std::sync::atomic::Ordering::SeqCst);
+            Ok(json!({"ok": {}}))
+        }
+    }
+
+    /// A peer the decision refuses reads the connection's end, its request never reaching the
+    /// answer; a real client, a real stream and a refusing decision: one account cannot make a
+    /// foreign peer. An admitted peer on the same endpoint form is answered.
+    #[rstest]
+    #[case::refused(|_| false, false)]
+    #[case::admitted(|_| true, true)]
+    fn serve_drops_a_refused_peer_before_any_frame(
+        #[case] admitted: Admission,
+        #[case] answered: bool,
+    ) {
+        let dir = tempfile::tempdir().expect("tempdir");
+        let label = if answered { "admitted" } else { "refused" };
+        let endpoint = crate::test_capture::test_endpoint(dir.path(), label);
+        let dispatched = Arc::new(Dispatched::default());
+        let _serving = Server::bind(&endpoint)
+            .expect("bound")
+            .serve_admitting(Arc::clone(&dispatched) as Arc<dyn Dispatch>, admitted);
+        let mut client = crate::Client::connect(&endpoint, "cli").expect("connect");
+        let reply = client.request("last", serde_json::Map::new());
+        if answered {
+            assert_eq!(reply.expect("a reply")["result"]["ok"], json!({}));
+        } else {
+            assert!(
+                matches!(reply, Err(ChannelError::Closed | ChannelError::Io(_))),
+                "{reply:?}"
+            );
+        }
+        let calls = dispatched.0.load(std::sync::atomic::Ordering::SeqCst);
+        assert_eq!(calls, usize::from(answered));
     }
 
     /// A dead wrapper's socket file is taken over, and the new one is owner-only.

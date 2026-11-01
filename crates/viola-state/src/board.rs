@@ -19,7 +19,7 @@ use crate::heartbeat::beat_age;
 use crate::liveness::{Liveness, STALE_AFTER, classify, same_process};
 use crate::replay::{Recovered, read_snapshot_or_replay};
 use crate::snapshot::{InstanceSnapshot, Wheel};
-use crate::strict::{Refused, check_instance, check_path};
+use crate::strict::{Refused, check_instance, check_path, check_read};
 
 const INSTANCES: &str = "instances";
 
@@ -39,23 +39,26 @@ pub struct Scan {
     malformed: u64,
 }
 
-/// The strict-modes check of `path` when it exists; one that cannot be statted is refused.
-fn check_if_present(path: &Path) -> Result<(), Refused> {
+/// `check` on `path` when it exists; one that cannot be statted is refused.
+fn check_if_present(path: &Path, check: fn(&Path) -> Result<(), Refused>) -> Result<(), Refused> {
     match std::fs::symlink_metadata(path) {
-        Ok(_) => check_path(path),
+        Ok(_) => check(path),
         Err(e) if e.kind() == io::ErrorKind::NotFound => Ok(()),
         Err(_) => Err(Refused::Unreadable),
     }
 }
 
-/// `home` (absolute) and its `instances/` checked, each that exists, then the entries of
-/// `instances/` sorted out by their own type, never a followed link: a directory whose name is a
-/// `ViolaName` is an instance, a link is ignored and anything else is malformed. Then every
-/// instance passes `check_instance`, in name order. Nothing under the home is opened for reading
-/// or writing, and no path is joined from a name that did not parse.
+/// `home` (absolute) under the read rule, as a start and `check_instance` hold it, and its
+/// `instances/` under the write rule, each that exists; then the entries of `instances/` sorted out
+/// by their own type, never a followed link: a directory whose name is a `ViolaName` is an instance,
+/// a link is ignored and anything else is malformed. Then every instance passes `check_instance`, in
+/// name order. Nothing under the home is opened for reading or writing, and no path is joined from a
+/// name that did not parse.
 pub fn scan(home: &Path) -> Result<Result<Scan, ScanRefused>, StateError> {
     let instances_dir = home.join(INSTANCES);
-    if check_if_present(home).is_err() || check_if_present(&instances_dir).is_err() {
+    if check_if_present(home, check_read).is_err()
+        || check_if_present(&instances_dir, check_path).is_err()
+    {
         return Ok(Err(ScanRefused::Home));
     }
     let mut scan = Scan {
@@ -549,6 +552,55 @@ mod tests {
     fn set_mode(path: &Path, mode: u32) {
         use std::os::unix::fs::PermissionsExt as _;
         fs::set_permissions(path, fs::Permissions::from_mode(mode)).expect("chmod");
+    }
+
+    /// One rule whatever the home holds: at 0750 the home itself is refused, with no instance and
+    /// with one, never the instance; `instances/` at 0750 stays under the write rule, and passes.
+    #[cfg(unix)]
+    #[test]
+    fn board_scan_holds_the_home_to_the_read_rule_with_and_without_an_instance() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let home = home(&tmp);
+        set_mode(&home, 0o750);
+        assert_eq!(scan(&home).expect("read").err(), Some(ScanRefused::Home));
+        instance(&home, "builder");
+        assert_eq!(scan(&home).expect("read").err(), Some(ScanRefused::Home));
+        assert_eq!(mode_of(&home), 0o750);
+        set_mode(&home, 0o700);
+        assert_eq!(names(&scanned(&home)), ["builder"]);
+        set_mode(&home.join(INSTANCES), 0o750);
+        assert_eq!(names(&scanned(&home)), ["builder"]);
+    }
+
+    /// The Windows form: a read grant to Users on the home.
+    #[cfg(windows)]
+    #[test]
+    fn board_scan_holds_a_read_granted_home_to_the_read_rule_with_and_without_an_instance() {
+        let base = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("..")
+            .join("..")
+            .join("target")
+            .join("e2e-home");
+        fs::create_dir_all(&base).expect("e2e-home");
+        let tmp = tempfile::tempdir_in(&base).expect("tempdir");
+        let home = home(&tmp);
+        let root = std::env::var_os("SystemRoot").expect("SystemRoot");
+        let icacls = PathBuf::from(root).join("System32").join("icacls.exe");
+        let run = |args: &[&str]| {
+            let status = std::process::Command::new(&icacls)
+                .arg(&home)
+                .args(args)
+                .stdout(std::process::Stdio::null())
+                .status()
+                .expect("icacls");
+            assert!(status.success(), "icacls {args:?}: {status}");
+        };
+        assert!(scanned(&home).instances.is_empty());
+        run(&["/grant", "*S-1-5-32-545:(OI)(CI)(R)"]);
+        assert_eq!(scan(&home).expect("read").err(), Some(ScanRefused::Home));
+        instance(&home, "builder");
+        assert_eq!(scan(&home).expect("read").err(), Some(ScanRefused::Home));
+        run(&["/remove:g", "*S-1-5-32-545"]);
     }
 
     /// The home's parent at mode 000: the home cannot be statted, which is not its absence.

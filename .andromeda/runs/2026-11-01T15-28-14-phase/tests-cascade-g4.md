@@ -1,0 +1,63 @@
+# tests · cascade read · group 4 of 6
+
+## Carried
+- (.andromeda/test-plan-detail/e2e-test-strategy.md:10) Each refusal this chunk adds must read on the CLI as one `--json` document with a literal exit, empty stderr and a clean body, and the exit-cause table's new rows and the macOS case owed to this entry must meet the matrix rules.
+  > `tests/cli_error_bodies.rs` `cli_error_documents_hold_no_path_or_upstream_text` holds each CLI `--json` failure it drives, across dead, refused and live rows, to one document, a literal exit, empty stderr, no ESC and a clean body.
+  (.andromeda/test-plan.md:610)
+  > - **Exit-cause matrix** (`tests/cross_exit_causes.rs`, a root `cross_` binary): one negative test per cause of exit 21 and of exit 1 it holds, each asserting the exit code, the `--json` document and a last `hint:` line that names its cause — a hint shared across causes fails the table (`no_two_codes_share_a_hint`, its control `shared_hints_reads_a_planted_duplicate`); the causes outside it, named in its top comment, are server verification, stale heartbeat, the `.cmd` human pair, `verify`'s version, recording, pinned-copy, interrupted and stamps refusals, and `viola mcp`'s two silent exits; beside the table, the server-verification cause is a case of `tests/security_negatives_server_identity.rs` on Linux and Windows (its macOS case owed to the route entry "Unix endpoint and home hardening"), the strict-modes cause of exit 21 for the six frame verbs is a case of `tests/security_negatives_strict_modes.rs` on three OSes, the exit-1 home-tree refusals of `run` and `verify` are cases of `tests/run_cli.rs` and `tests/cli_verify.rs`, and `revive`'s refusals are cases of `tests/cli_revive.rs`; driver-facing hints never contain `release` (`no_hint_names_release`).
+  (.andromeda/test-plan.md:606)
+  > - **Error sanitization and secret scan:** no helper runs after each E2E test: none is built, and the three surface witnesses (channel, CLI `--json`, MCP), the enumeration and the census of writers (`tests/contract_error_bodies.rs`) replace it, reading the check in `tests/support/events.rs`. The rules: no absolute path, serde path or `Caused by` in any error payload
+- (.andromeda/test-plan-detail/e2e-test-strategy.md:11) The hook's cases over a refused directory and an euid mismatch must run under an `Instant` deadline, so the added checks are held inside the hook's bound, and each joins the sweep's fail-open matrix at exit 0 with no body.
+  > | cli (`viola hook` / `hook statusline`) | assert_cmd 2.2.2 with `Instant` deadline | direct |
+  (.andromeda/test-plan.md:604)
+  > - **Security sweep:** nextest runs the MCP schema-violation cases (each `invalid-params` with its field, no frame written) and the hook fail-open matrix — oversize stdin, malformed JSON, clap error, channel failure, a forced panic, a missing `VIOLA_NAME`, an instance the instance check refuses or a `VIOLA_DIR` naming no instance directory and, on Linux and Windows, a server that is not the recorded wrapper, each exit 0 with no body — plus the `--home` strict-modes refusals;
+- (.andromeda/test-plan-detail/e2e-test-strategy.md:13) The channel cases over the wrapper's euid check and the socket's modes must reach the endpoint only as `snapshot.json` records it, a case re-pointing the socket directory must boot its wrapper with its own child's env as the planted boot does, and a same-account host can hold the other-euid peer only at the peer-credential boundary.
+  > | ipc-internal (wrapper channel) | viola-channel sync client + interprocess 2.4.4 raw stream + jsonschema 0.57.0 | direct | The endpoint is read only from `snapshot.json`. `tests/channel_error_bodies.rs` `channel_error_bodies_hold_no_path_or_upstream_text` writes seven fault rows to the channel of a wrapper booted with a planted value (through `OuterPty::spawn_without`'s `env_set`, as `tests/tui_env_strip.rs` does), its bodies clean and the three `detail` words read on the lines. |
+  (.andromeda/test-plan.md:484)
+  > - Cross-OS-user peers. Covered by the peer-credential boundary unit test (§4) and same-user SDDL read-back (§5).
+- (.andromeda/test-plan-detail/e2e-test-strategy.md:14) A stdio reading of a new refusal must drive a `viola mcp` child the test owns and must stay clean under the error-results witness, its `isError` body equal to the CLI document less `v` for each new cause of exit 21.
+  > rmcp 3.4.1 client over a `viola mcp` child the test spawns and owns, closing its stdin and awaiting its exit (never rmcp's `TokioChildProcess`, which kills the server 3 s after a close and left a truncated coverage profile, as measured at chunk 2026-10-17-mcp-server-for-drivers) + jsonschema | direct | Lives in `crates/viola-e2e` (`tests/mcp_tools.rs`)
+  (.andromeda/test-plan-detail/e2e-test-strategy.md:14)
+  > `mcp_tools_error_results_hold_no_path_or_upstream_text` (an unstamped session, no row reaching a stamped path)
+  (.andromeda/test-plan.md:618)
+  > for each cause of exit 21, the MCP `isError` body `{error, detail}` equals the CLI `--json` document less `v`, its text `refused: instance-unreachable` (`handlers_frame_tools_name_the_cause_of_an_unreachable_instance`, `mcp_tools_a_wrapper_killed_under_a_parked_wait_reads_endpoint_lost`)
+- (.andromeda/test-plan-detail/e2e-test-strategy.md:27) The squatter bound first through the server API must still reach Path 1's verdict with the directory and euid checks standing, its listener sitting in the verified per-user directory the check reads.
+  > 4. Squat: in a new home H2, create a listener on `viola_channel` endpoint name(`builder`, H2) through the interprocess server API, then run `viola run builder --home H2 -- <fake>`.
+- (.andromeda/test-plan-detail/e2e-test-strategy.md:34) A squatted endpoint must stay exit 1 and a duplicate `run` must stay exit 1 beside the takeover of a killed wrapper's leftover socket file, which the chunk re-derives.
+  > - The duplicate `run` exits 1. The squatted endpoint exits 1. The tampered pinned exe exits 1.
+  (.andromeda/test-plan.md:496)
+  > a duplicate run, a squatted endpoint and a tampered pinned exe each exit 1;
+- (.andromeda/test-plan-detail/e2e-test-strategy.md:37) A `run` refusal this chunk adds must agree with the home-tree refusal's shape, exit 1 before the log with no line and no child, and the Unix strict-modes and board-rule cases must stand beside the security control negatives this chunk's refusals extend.
+  > - The start runs the home-tree strict-modes check (`check_home_tree`: the home, `check_instance`'s set, `ledger/`, `bin/` and `plugin/`, then `bin/<key>/`, the pinned copy, `plugin/<key>/`, its `hooks/` and `.claude-plugin/`, each that exists) before the wrapper log opens. A refused tree exits 1 with the home-state `unable:` / `hint:` pair, or the instance-state pair when the refusal is at instance level, and opens no log, writes no line and starts no child (`tests/run_cli.rs` `run_refuses_a_widened_home_tree_before_its_log`; `tests/security_negatives_strict_modes.rs` `a_home_another_user_may_read_refuses_run`).
+  (.andromeda/test-plan.md:612)
+  > - **Security control negatives** (`security_negatives_*.rs`): one negative test per security-plan control that had none — the Unix socket directory refusal,
+  (.andromeda/test-plan.md:612)
+  > umask-independent modes, a pre-existing home another user may read refusing `viola run` exit 1,
+  (.andromeda/test-plan.md:612)
+  > the six CLI frame verbs refusing a widened instance with exit 21, no frame and no line (`tests/security_negatives_strict_modes.rs`, three OSes), `viola list`'s whole-board refusal exit 21 opening no log and `viola plugin install`'s exit 21 creating nothing (`tests/cross_exit_causes.rs` `strict_modes_on_the_board_is_exit_21_and_opens_no_log`, `strict_modes_on_plugin_install_is_exit_21_and_creates_nothing`)
+  (.andromeda/test-plan.md:612)
+  > and, on Linux and Windows, a CLI frame verb writing no frame to a server that is not the recorded wrapper (`tests/security_negatives_server_identity.rs`, beside its control reaching the recorded wrapper)
+- (.andromeda/test-plan-detail/e2e-test-strategy.md:38) The ordered Path 1 flow is the witness of the squatted endpoint the chunk keeps true and must stay green past the new checks, and a new start-refusal case must read through the shared helpers, never a copy.
+  > steps 1–6 run as one ordered flow over one stamped home in the root path binary `tests/path1_run_start.rs`, `path1_run_start_one_home_in_order(stamped_home)` (`[[test]]` `required-features = ["fake-agent"]`; in the E2E layer, `nextest-e2e`; on the `ci` profile's verify-driven 20 s kill line), every signal above asserted, the `settings.json` half Unix's, its start-refusal helpers shared with `tests/cli_instance_state.rs` through `tests/support/start.rs`.
+- (.andromeda/test-plan-detail/e2e-test-strategy.md:75) The vanished-wrapper witness must keep reading exit 21 with the client-side checks standing, as the chaos endpoint-vanishing case must.
+  > the vanished-wrapper half is `tests/chaos_wait_vanish.rs` `chaos_wait_parked_wrapper_killed_exits_21`
+  (.andromeda/test-plan.md:620)
+  > an endpoint vanishing during `wait` (exit 21, `endpoint-lost`)
+- (.andromeda/test-plan-detail/e2e-test-strategy.md:77) MCP's lost cause and the cause read after `cleanup` must stay as stated beside the chunk's measurement of `cleanup` over a force-killed Unix wrapper, a leftover socket file included.
+  > As landed, `mcp_tools_a_wrapper_killed_under_a_parked_wait_reads_endpoint_lost` (`crates/viola-e2e/tests/mcp_tools.rs`) witnesses MCP's lost cause, and the `mcp_tools` row after `cleanup` reads its cause from the directory: a home kept by `AGENT_RUN_KEEP_HOMES` reads `instance-dead`, a removed one `unwrapped-name`, its body compared with the CLI's.
+- (.andromeda/test-plan-detail/e2e-test-strategy.md:85) This step's kill is one the chunk's leftover-file takeover and connect-probe re-derivation must hold under, the dead instance read by a client carrying the new checks.
+  > 7. Start a new `wait` and kill the wrapper (the chaos helper); run rmcp `wait` on the dead instance.
+- (.andromeda/test-plan-detail/e2e-test-strategy.md:92) A killed wrapper must keep these causes and bodies with the directory and euid checks standing, so a client's check must never mask `endpoint-lost`, `instance-dead` or `unwrapped-name` where a wrapper is simply gone.
+  > - Step 7: CLI exit 21 with `{"v":1,"error":"instance-unreachable","detail":"<cause>"}`: `endpoint-lost` for a wrapper killed under a parked `wait`, and after `cleanup` `instance-dead` in a kept home or `unwrapped-name` in a removed one; MCP `is_error:true` with the same body (the CLI document less `v`), text `refused: instance-unreachable`.
+  (.andromeda/test-plan.md:512)
+  > a killed wrapper gives CLI exit 21 and MCP `instance-unreachable`.
+- (.andromeda/test-plan-detail/e2e-test-strategy.md:93) The measurement of `cleanup` after a force-kill must read against this clause, a killed wrapper verified gone by process identity, beside the socket-path rule behind `endpoint_gone`.
+  > - **Cleanup:** harness `cleanup`; killed wrappers verified gone via sysinfo pid + start time.
+
+## Bindings
+- **Path 3's cleanup clause ↔ the harness contract**: the force-kill measurement reads this path's gone-by-process clause against `cleanup`'s own idempotent stop-and-delete requirement and its exit codes, (.andromeda/test-plan.md:118) and (.andromeda/test-plan.md:345).
+- **Path 1's squatter ↔ integration's Module ↔ IPC**: the squatter created first through the server API and the Unix socket modes read back bind together over the same verified directory, (.andromeda/test-plan.md:428).
+- **The exit-cause rows and the run refusal ↔ integration's On-disk table**: each new reading of a refused directory or home must agree with the surface table of strict-modes refusals and its no-line rule, (.andromeda/test-plan.md:444).
+- **The channel driver's other-euid peer ↔ the unit layer and the untestable zone**: the peer of another euid is held at the injected-euid decision, because hosted runners provide one account, (.andromeda/test-plan.md:380) and (.andromeda/test-plan.md:88).
+- **The hook's deadline and fail-open ↔ the coverage triggers**: the hook's fail-open and spine-bound cases answer the hook stdin trigger's channel failure and the performance budget, (.andromeda/test-plan.md:193) and (.andromeda/test-plan.md:245).
+- **The macOS case owed to this entry ↔ the multi-os-compat trigger**: the exit-cause matrix's macOS debt is met by euid and dir-only verification on its runner, never a comparison, (.andromeda/test-plan.md:254).

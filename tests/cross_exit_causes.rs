@@ -6,8 +6,10 @@
 //! a wrapper is killed only by the pid its own snapshot records.
 //!
 //! Causes held elsewhere: server verification by `tests/security_negatives_server_identity.rs` (its
-//! impostor is a named carve-out of test-built state, and it compiles out on macOS, the recorded
-//! gap); a stale heartbeat by `tests/cli_instance_state.rs`, whose `Frozen` guard holds the wrapper;
+//! impostor is a named carve-out of test-built state, and it compiles out on macOS, the named
+//! carve-out); a refused socket directory's other seven frame verbs and its hook paths by
+//! `tests/security_negatives_socket_dir.rs`; a stale heartbeat by `tests/cli_instance_state.rs`,
+//! whose `Frozen` guard holds the wrapper;
 //! the `.cmd` refusal's human pair by `tests/cli_program_resolution.rs`; `verify`'s version,
 //! recording, pinned-copy, interrupted and stamps refusals by `tests/cli_verify.rs`; `viola mcp`'s two
 //! silent exits, both streams empty by rule, by `crates/viola-e2e/tests/mcp_tools.rs` and
@@ -26,6 +28,8 @@ use rstest::rstest;
 use serde_json::Value;
 use support::cli::{Ran, Running, spawn, viola, viola_on};
 use support::fake::{FAKE, empty_bin};
+#[cfg(unix)]
+use support::home::{SOCKET_ROOT_VAR, SocketRoot, first_life_on};
 use support::home::{
     StampedHome, TestHome, revive_command, snapshot_data, still_widened, unwiden, widen,
     workspace_path,
@@ -48,6 +52,8 @@ const ENDPOINT_LOST: &str =
     "builder's wrapper went away during the call; viola list shows whether it is still running";
 const SERVER_VERIFY: &str =
     "the process on builder's endpoint is not its recorded wrapper; it was not contacted";
+const SOCKET_DIR: &str = "viola's socket directory must be a directory you own, readable only by \
+                          you; viola does not change its permissions";
 const ALREADY_LIVE: &str = "viola list";
 const STALE: &str = "viola list shows it as stale; stop that process before starting builder again";
 const SQUATTED: &str = "another process holds this name's endpoint; stop it or pick another name";
@@ -73,6 +79,8 @@ const CAUSES: &[Cause] = &[
     ("unwrapped-name", 21, Some(UNWRAPPED_NAME)),
     ("endpoint-lost", 21, Some(ENDPOINT_LOST)),
     ("server-verify-failed", 21, Some(SERVER_VERIFY)),
+    ("socket-dir-refused", 21, Some(SOCKET_DIR)),
+    ("socket-dir-refused", 1, Some(SOCKET_DIR)),
     ("strict-modes-failed", 1, Some(INSTANCE_STATE)),
     ("strict-modes-failed", 1, Some(HOME_STATE)),
     ("already-live", 1, Some(ALREADY_LIVE)),
@@ -388,6 +396,76 @@ fn a_held_endpoint_is_squatted_name(#[case] json: bool) {
     assert!(refused_with(home, "squatted-name"));
     assert_eq!(child_starts(home), children, "a child started");
     drop(squatter);
+}
+
+/// `wait` against a live wrapper, its socket directory loosened after it bound: no frame, the
+/// directory as found, and its own cause on the line.
+#[cfg(unix)]
+#[rstest]
+#[case::json(true)]
+#[case::human(false)]
+fn a_loosened_socket_directory_on_a_frame_verb_is_socket_dir_refused(#[case] json: bool) {
+    use std::os::unix::fs::PermissionsExt as _;
+    let root = SocketRoot::new();
+    let wrapper = first_life_on(unstamped(), &root, false);
+    let home = wrapper.home().to_path_buf();
+    let dir = root.dir();
+    fs::set_permissions(&dir, fs::Permissions::from_mode(0o755)).expect("chmod");
+    let ran = viola(&home, &in_mode(&["wait", "builder"], json), None, None);
+    assert_unreachable(&ran, json, "socket-dir-refused", SOCKET_DIR);
+    let exit = assert_exit_line(
+        &home,
+        "cli-builder.ndjson",
+        21,
+        "socket-dir-refused",
+        "WARN",
+    );
+    assert_eq!(exit["during"], "connect");
+    let mode = fs::metadata(&dir).expect("meta").permissions().mode() & 0o777;
+    assert_eq!(mode, 0o755, "the directory was changed");
+    fs::set_permissions(&dir, fs::Permissions::from_mode(0o700)).expect("chmod back");
+    assert_eq!(wrapper.stop().code(), Some(0));
+}
+
+/// A start whose socket root holds a directory another user may read: no child, nothing bound, the
+/// directory as found, each mode of the start's two verbs on one code.
+#[cfg(unix)]
+#[rstest]
+#[case::json(true)]
+#[case::human(false)]
+fn a_loosened_socket_directory_on_a_start_is_socket_dir_refused(#[case] json: bool) {
+    use std::os::unix::fs::PermissionsExt as _;
+    let (stamped, _dir, _) = stopped_life(unstamped());
+    let home = &stamped.home;
+    let children = child_starts(home.path());
+    let root = SocketRoot::new().made();
+    let dir = root.dir();
+    fs::set_permissions(&dir, fs::Permissions::from_mode(0o755)).expect("chmod");
+    let child = if json {
+        revive_command(home, home.scratch(), &["builder", "--json"])
+            .env(SOCKET_ROOT_VAR, root.path())
+            .spawn()
+    } else {
+        std::process::Command::new(support::home::VIOLA)
+            .arg("--home")
+            .arg(home.path())
+            .args(["run", "builder", "--", FAKE])
+            .env(SOCKET_ROOT_VAR, root.path())
+            .env_remove("VIOLA_NAME")
+            .env_remove("VIOLA_DIR")
+            .env_remove("VIOLA_BIN")
+            .stdin(std::process::Stdio::null())
+            .stdout(std::process::Stdio::piped())
+            .stderr(std::process::Stdio::piped())
+            .spawn()
+    };
+    let ran = Running::over(child.expect("viola")).finish();
+    assert_refused(&ran, json, "socket-dir-refused", SOCKET_DIR);
+    assert!(refused_with(home.path(), "socket-dir-refused"));
+    assert_eq!(child_starts(home.path()), children, "a child started");
+    assert_eq!(fs::read_dir(&dir).expect("the dir").count(), 0, "a bind");
+    let mode = fs::metadata(&dir).expect("meta").permissions().mode() & 0o777;
+    assert_eq!(mode, 0o755, "the directory was changed");
 }
 
 /// One byte of the copy the stopped wrapper's snapshot records.

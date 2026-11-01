@@ -187,6 +187,7 @@ pub enum UnreachableCause {
     UnwrappedName,
     EndpointLost,
     ServerVerify,
+    SocketDir,
 }
 
 impl UnreachableCause {
@@ -197,6 +198,7 @@ impl UnreachableCause {
             Self::UnwrappedName => "unwrapped-name",
             Self::EndpointLost => "endpoint-lost",
             Self::ServerVerify => "server-verify-failed",
+            Self::SocketDir => "socket-dir-refused",
         }
     }
 }
@@ -700,6 +702,7 @@ mod tests {
             (UnreachableCause::UnwrappedName, "unwrapped-name"),
             (UnreachableCause::EndpointLost, "endpoint-lost"),
             (UnreachableCause::ServerVerify, "server-verify-failed"),
+            (UnreachableCause::SocketDir, "socket-dir-refused"),
         ] {
             assert_eq!(cause.as_str(), word);
             assert!(is_code_word(word), "{word}");

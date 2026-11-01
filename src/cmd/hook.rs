@@ -21,14 +21,14 @@ use viola_agent_claude::ledger::{
     probe_body, statusline_capture_file_name, statusline_shell_file_name,
 };
 use viola_agent_claude::statusline::BIN_SH;
-use viola_channel::{ChannelError, Client, SERVER_PID_REPORTED};
+use viola_channel::{ChannelError, Client, SERVER_PID_REPORTED, peer_admitted};
 use viola_core::obs::{ObsEvent, ObsProcess};
-use viola_core::{DIALOG_HOLD_MAX, MAX_FRAME, obs_event};
+use viola_core::{DIALOG_HOLD_MAX, MAX_FRAME, UnreachableCause, obs_event};
 use viola_state::events::{EventLine, Source, try_append_event};
 use viola_state::fs::{FILE_MODE, create_private_new, replace_private};
 use viola_state::liveness::{ServerVerdict, verify_server};
 use viola_state::replay::{Recovered, read_snapshot_or_replay};
-use viola_state::strict::check_instance;
+use viola_state::strict::{check_endpoint_dir, check_instance};
 
 use super::{Failure, Instance, instance_of};
 use crate::obs::{self, DetailSink};
@@ -197,11 +197,13 @@ fn handle(
 }
 
 /// Why a frame was not written: no snapshot, endpoint, connection or write (`channel-unreachable`),
-/// or a server that is not the wrapper the snapshot records (`server-verify-failed`).
+/// a server that is not the owning user's or the wrapper the snapshot records
+/// (`server-verify-failed`), or a socket directory that failed its check (`socket-dir-refused`).
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum NotSent {
     Unreachable,
     ServerUnverified,
+    SocketDir,
 }
 
 impl NotSent {
@@ -210,23 +212,30 @@ impl NotSent {
         match self {
             Self::Unreachable => "channel-unreachable",
             Self::ServerUnverified => "server-verify-failed",
+            Self::SocketDir => UnreachableCause::SocketDir.as_str(),
         }
     }
 }
 
-/// A connection, by `connect_by`, to the endpoint `snapshot.json` records, whose server is the
-/// wrapper that snapshot records by pid and start time (security-plan §Authentication &
-/// Authorization, IPC client-side server verification); checked before any frame is written. The
-/// instance passed its strict-modes check before the hook opened anything; the snapshot is read
-/// through the replay, and a replayed one, which records no endpoint, pid or start time, is
-/// unreachable.
+/// A connection, by `connect_by`, to the endpoint `snapshot.json` records, its socket directory
+/// checked first, whose server is the owning user's and the wrapper that snapshot records by pid and
+/// start time (security-plan §Authentication & Authorization, IPC client-side server verification);
+/// checked before any frame is written. The instance passed its strict-modes check before the hook
+/// opened anything; the snapshot is read through the replay, and a replayed one, which records no
+/// endpoint, pid or start time, is unreachable.
 fn connect(instance: &Instance, connect_by: Instant) -> Result<Client, NotSent> {
     let Ok(Recovered::Snapshot(snapshot)) = read_snapshot_or_replay(&instance.dir) else {
         return Err(NotSent::Unreachable);
     };
     let endpoint = snapshot.endpoint.as_deref().ok_or(NotSent::Unreachable)?;
+    if check_endpoint_dir(endpoint).is_err() {
+        return Err(NotSent::SocketDir);
+    }
     let client =
         Client::connect_by(endpoint, "hook", connect_by).map_err(|_| NotSent::Unreachable)?;
+    if !peer_admitted(client.server_euid()) {
+        return Err(NotSent::ServerUnverified);
+    }
     let verdict = verify_server(
         snapshot.pid,
         &snapshot.started_at,
@@ -249,6 +258,7 @@ enum Asked {
     Deadline,
     Unreachable,
     ServerUnverified,
+    SocketDir,
 }
 
 /// The dialog tier's body: the payload classified, one `hook.dialog` bounded by the dialog
@@ -286,7 +296,7 @@ fn handle_dialog(
     let body = body_of(&dialog, &asked);
     let dialog_id = match &asked {
         Asked::Replied { dialog_id, .. } => Some(*dialog_id),
-        Asked::Deadline | Asked::Unreachable | Asked::ServerUnverified => None,
+        Asked::Deadline | Asked::Unreachable | Asked::ServerUnverified | Asked::SocketDir => None,
     };
     invoked(event, &invoked_at, dialog_id);
     if let Some(body) = &body {
@@ -298,6 +308,7 @@ fn handle_dialog(
         Asked::Deadline => Some("deadline"),
         Asked::Unreachable => Some(NotSent::Unreachable.detail()),
         Asked::ServerUnverified => Some(NotSent::ServerUnverified.detail()),
+        Asked::SocketDir => Some(NotSent::SocketDir.detail()),
     };
     dialog_decided(event, &asked, body.is_some(), detail, started);
     Ok(())
@@ -310,6 +321,7 @@ fn ask(instance: &Instance, dialog: &Dialog, connect_by: Instant, reply_by: Inst
         Ok(client) => client,
         Err(NotSent::Unreachable) => return Asked::Unreachable,
         Err(NotSent::ServerUnverified) => return Asked::ServerUnverified,
+        Err(NotSent::SocketDir) => return Asked::SocketDir,
     };
     let mut params = Map::new();
     params.insert("kind".to_owned(), dialog.kind.as_str().into());
@@ -374,7 +386,7 @@ fn dialog_decided(
 ) {
     let dialog_id = match asked {
         Asked::Replied { dialog_id, .. } => Some(*dialog_id),
-        Asked::Deadline | Asked::Unreachable | Asked::ServerUnverified => None,
+        Asked::Deadline | Asked::Unreachable | Asked::ServerUnverified | Asked::SocketDir => None,
     };
     let deadline_hit = *asked == Asked::Deadline;
     let duration_ms = u64::try_from(started.elapsed().as_millis()).unwrap_or(u64::MAX);
@@ -1057,7 +1069,7 @@ mod tests {
             wrapperish(reply, Duration::ZERO),
             &an_earlier_start(),
         );
-        let seen = crate::cmd::client::refused_inside::Seen::default();
+        let seen = crate::cmd::client::refused_seen::Seen::default();
         let subscriber = tracing_subscriber::registry().with(seen.clone());
         crate::test_support::with_scoped_default(subscriber, || {
             let started = Instant::now();
@@ -1091,6 +1103,86 @@ mod tests {
                 "event \"hook-decision\" in hook.handle",
             ]
         );
+    }
+
+    /// A loosened socket directory, its recorded wrapper serving: both hook paths refuse it inside
+    /// `hook.handle` and write their fail-open lines, no frame reaches the wrapper and nothing is
+    /// printed. Runs on macOS too. `served` binds where this process's own endpoint path lies, so the
+    /// snapshot is re-pointed at a server in a directory of the test's own.
+    #[cfg(unix)]
+    #[test]
+    fn hook_refuses_a_loosened_socket_directory_inside_hook_handle() {
+        use std::os::unix::fs::PermissionsExt as _;
+        use tracing_subscriber::layer::SubscriberExt as _;
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let instance = instance_in(tmp.path());
+        let dir = tmp.path().join("sockets");
+        viola_state::fs::create_private_dir(&dir).expect("the socket dir");
+        let endpoint = dir.join("viola-test.sock");
+        let endpoint = endpoint.to_str().expect("utf-8").to_owned();
+        let reply = json!({"ok": {"dialog_id": 1, "response": {"behavior": "approve"}}});
+        let wrapper = wrapperish(reply, Duration::ZERO);
+        let _serving = viola_channel::Server::bind(&endpoint)
+            .expect("bound")
+            .serve(std::sync::Arc::clone(&wrapper) as std::sync::Arc<dyn viola_channel::Dispatch>);
+        let me = std::process::id();
+        let snapshot = viola_state::snapshot::InstanceSnapshot {
+            endpoint: Some(endpoint),
+            pid: me,
+            started_at: viola_state::liveness::own_start(me).expect("own start"),
+            pinned_bin: "b".to_owned(),
+            cli_verified: true,
+            cli_version: None,
+            wheel: viola_state::snapshot::Wheel::Driver,
+            budget_paused: false,
+            budget_override_until: None,
+            links: Vec::new(),
+            child_pid: None,
+            pending_dialog: None,
+            cwd: None,
+            statusline_command: None,
+            agent_session_id: None,
+        };
+        viola_state::snapshot::write_snapshot(&instance.dir, &snapshot).expect("snapshot");
+        std::fs::set_permissions(&dir, std::fs::Permissions::from_mode(0o755)).expect("chmod");
+
+        let seen = crate::cmd::client::refused_seen::Seen::default();
+        let subscriber = tracing_subscriber::registry().with(seen.clone());
+        crate::test_support::with_scoped_default(subscriber, || {
+            let started = Instant::now();
+            let detail = handle(
+                HookEvent::Stop,
+                &instance,
+                spine_deadline(started),
+                &mut &br#"{"last_assistant_message": "x"}"#[..],
+            )
+            .expect("handled");
+            assert_eq!(detail, Some("socket-dir-refused"));
+            decided(HookEvent::Stop, detail, started);
+            let out = dialog_out(
+                HookEvent::PreToolUse,
+                &instance,
+                Duration::from_secs(5),
+                PLAN,
+            );
+            assert!(out.is_empty());
+        });
+        assert_eq!(
+            *seen.0.lock().expect("seen"),
+            [
+                "span hook.handle",
+                "event \"hook-invoked\" in hook.handle",
+                "span state.snapshot_recover",
+                "event \"hook-decision\" in none",
+                "span hook.handle",
+                "span state.snapshot_recover",
+                "event \"hook-invoked\" in hook.handle",
+                "event \"hook-decision\" in hook.handle",
+            ]
+        );
+        assert!(wrapper.asked.lock().expect("asked").is_empty());
+        let mode = std::fs::metadata(&dir).expect("meta").permissions().mode();
+        assert_eq!(mode & 0o777, 0o755);
     }
 
     #[test]

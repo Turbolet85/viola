@@ -17,7 +17,10 @@ use rstest::rstest;
 use serde_json::{Value, json};
 use support::cli::{Ran, viola, viola_on};
 use support::fake;
-use support::home::{StampedHome, TestHome, Wrapper, stamped_home, workspace_path};
+use support::home::{
+    StampedHome, TestHome, Wrapper, grant_read, stamped_home, still_widened, unwiden,
+    workspace_path,
+};
 use support::hygiene::load_schema;
 
 const BAY_UNKNOWN: &str = "BAY  5H unknown  7D unknown  read unknown  gate open  skipped 0 - 0 - 0";
@@ -26,7 +29,6 @@ const ROW: &str =
     "builder  live   unknown  driver                   none               2.1.287 verified";
 const EMPTY_CAPTION: &str = "NAME  LIVE   STATUS   WHEEL                    DIALOG             CLI";
 const EMPTY: &str = "no wrapped sessions  start one: viola run <name> -- claude";
-#[cfg(unix)]
 const UNREACHABLE: &str =
     "{\"v\":1,\"error\":\"instance-unreachable\",\"detail\":\"strict-modes-failed\"}\n";
 
@@ -544,6 +546,45 @@ fn stopped_home() -> StampedHome {
     let (stopped, stamped) = wrapper.stop_keep();
     assert_eq!(stopped.code(), Some(0));
     stamped
+}
+
+/// One rule whatever the home holds, on every OS: a home another user may read refuses the board as
+/// the home, with no instance and with one, before any log and leaving the grant as found; the same
+/// home taken back prints the empty board. Started unseeded, so a Windows home's grant is its own.
+#[test]
+fn list_refuses_a_home_another_user_may_read_with_and_without_an_instance() {
+    let tmp = TestHome::new();
+    let home = tmp.path();
+    viola_state::fs::create_private_dir(home).expect("the home");
+    let empty_board = format!("{BAY_UNKNOWN}\n{EMPTY_CAPTION}\n{EMPTY}\n");
+    assert_eq!(list(home, false, None).stdout, empty_board);
+    grant_read(home);
+    let instance = home.join("instances").join("builder");
+    for holding in ["no instance", "an instance"] {
+        if holding == "an instance" {
+            viola_state::fs::create_private_dir(&instance).expect("the instance dir");
+        }
+        let human = list(home, false, Some("overseer"));
+        assert_eq!(human.code, Some(21), "{holding}: {}", human.stderr);
+        assert_eq!(human.stdout, "", "{holding}");
+        assert_eq!(
+            human.stderr,
+            "unable: the viola home is not private to you\n\
+             hint: the viola home must be readable only by you; viola does not change its permissions\n",
+            "{holding}"
+        );
+        let json = list(home, true, Some("overseer"));
+        assert_eq!(json.code, Some(21), "{holding}: {}", json.stderr);
+        assert_eq!(json.stdout, UNREACHABLE, "{holding}");
+        assert_eq!(json.stderr, "", "{holding}");
+        assert!(still_widened(home), "{holding}: the grant was undone");
+        assert!(
+            !home.join("diagnostics").exists(),
+            "{holding}: a log opened"
+        );
+    }
+    unwiden(home);
+    assert_eq!(list(home, false, None).stdout, empty_board);
 }
 
 /// The refusal comes before the log would open: under a name, a home at 0770 stays 0770 and

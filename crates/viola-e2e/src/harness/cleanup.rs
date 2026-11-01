@@ -131,7 +131,8 @@ fn kill_deadline(now: Instant) -> Instant {
 }
 
 /// The endpoint is gone for a client (test-plan §3 `cleanup` step 4): on Windows a viola-client
-/// connect finds no pipe; on Unix the socket file no longer exists.
+/// connect finds no pipe; on Unix a connect is refused or the path is absent, since a killed wrapper
+/// removes nothing and a next bind takes the file it leaves over.
 pub fn unconnectable(endpoint: &str) -> bool {
     #[cfg(windows)]
     {
@@ -142,7 +143,9 @@ pub fn unconnectable(endpoint: &str) -> bool {
     }
     #[cfg(unix)]
     {
-        !Path::new(endpoint).exists()
+        use std::io::ErrorKind::{ConnectionRefused, NotFound};
+        std::os::unix::net::UnixStream::connect(endpoint)
+            .is_err_and(|e| matches!(e.kind(), ConnectionRefused | NotFound))
     }
 }
 
@@ -393,6 +396,19 @@ mod tests {
         let server = viola_channel::Server::bind(&endpoint).expect("bound");
         assert!(!unconnectable(&endpoint));
         drop(server);
+        assert!(unconnectable(&endpoint));
+    }
+
+    /// A killed wrapper's leftover: a socket file on the path, its listener gone.
+    #[cfg(unix)]
+    #[test]
+    fn unconnectable_reads_a_leftover_socket_file_no_one_listens_on() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let endpoint = test_endpoint(tmp.path(), "leftover");
+        let listener = std::os::unix::net::UnixListener::bind(&endpoint).expect("bound");
+        assert!(!unconnectable(&endpoint));
+        drop(listener);
+        assert!(Path::new(&endpoint).exists(), "the file stays");
         assert!(unconnectable(&endpoint));
     }
 

@@ -1,6 +1,6 @@
 # Coverage — viola-0.1.0
 
-verified 29/53 · deferred 6 · planned 18 · implemented 0 · unclaimed 18
+verified 29/53 · deferred 6 · planned 17 · implemented 1 · unclaimed 17
 
 ## deferred (6)
 - v1-22 · `viola ui` on an OS-assigned port
@@ -10,7 +10,10 @@ verified 29/53 · deferred 6 · planned 18 · implemented 0 · unclaimed 18
 - v1-51 · Token-pair contrast, forced colours and reduced motion hold
 - v1-52 · The 401 access strip after a UI restart
 
-## planned, unclaimed (18)
+## implemented (1)
+- v1-44 · The IPC endpoint admits only the same OS user and verifies its server · 2026-11-01-unix-endpoint-and-home-hardening
+
+## planned, unclaimed (17)
 - v1-01 · Three-OS CI pipeline from the first commit
 - v1-03 · The fake agent and recorded fixtures as the test contract
 - v1-04 · Structured JSON logs from every process, and a `logs` view
@@ -27,7 +30,6 @@ verified 29/53 · deferred 6 · planned 18 · implemented 0 · unclaimed 18
 - v1-34 · Capability ledger, `viola verify`, and transport-only degrade
 - v1-35 · Budget governor from the statusline
 - v1-36 · Links between sessions
-- v1-44 · The IPC endpoint admits only the same OS user and verifies its server
 - v1-53 · Linux and macOS reach parity with Windows
 
 ## verified (29)

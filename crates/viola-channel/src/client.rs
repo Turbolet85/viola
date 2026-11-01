@@ -60,6 +60,12 @@ impl Client {
         server_pid_of(self.reader.get_ref())
     }
 
+    /// The effective uid of the process serving this connection, from the OS (`None` on Windows:
+    /// [`PEER_EUID_REPORTED`]). Nothing is written or logged.
+    pub fn server_euid(&self) -> Option<u32> {
+        peer_euid_of(self.reader.get_ref())
+    }
+
     /// One request and its reply, whole. Ids are integers, monotonic per connection.
     #[instrument(skip_all, name = "channel.request", fields(method = method, conn = self.conn.as_str()))]
     pub fn request(
@@ -136,6 +142,42 @@ pub(crate) fn server_pid_of(stream: &impl StreamCommon) -> Option<u32> {
     return u32::try_from(pid).ok();
     #[cfg(windows)]
     return Some(pid);
+}
+
+/// Whether a connected stream reports its peer's euid: every Unix does, macOS's `xucred` included;
+/// on Windows the pipe's DACL and the pid comparison are the controls.
+pub const PEER_EUID_REPORTED: bool = cfg!(unix);
+
+/// Whether a peer is the owning user. Where the OS reports a peer's euid, only a reading equal to
+/// `own` is admitted, so a peer it cannot read is refused; elsewhere every peer is, the decision
+/// held by the other controls. A plain function: one account cannot make a foreign peer.
+pub fn peer_euid_admitted(observed: Option<u32>, own: u32, reported: bool) -> bool {
+    !reported || observed == Some(own)
+}
+
+/// [`peer_euid_admitted`] against this process's own euid.
+pub fn peer_admitted(observed: Option<u32>) -> bool {
+    peer_euid_admitted(observed, own_euid(), PEER_EUID_REPORTED)
+}
+
+fn own_euid() -> u32 {
+    #[cfg(unix)]
+    // SAFETY: `geteuid` takes no arguments, cannot fail and touches no memory.
+    return unsafe { libc::geteuid() };
+    #[cfg(not(unix))]
+    return 0;
+}
+
+/// The peer's effective uid as the stream's peer credentials give it, on either side of a
+/// connection.
+pub(crate) fn peer_euid_of(stream: &impl StreamCommon) -> Option<u32> {
+    #[cfg(unix)]
+    return stream.peer_creds().ok()?.euid();
+    #[cfg(not(unix))]
+    {
+        let _ = stream;
+        None
+    }
 }
 
 /// `<process>-<pid>-<t0>-<n>`, `n` counted over every connection this process opens, through either
@@ -584,6 +626,47 @@ mod tests {
         let (_dir, endpoint, _serving) = served("server-pid");
         let client = Client::connect(&endpoint, "cli").expect("connect");
         assert_eq!(client.server_pid(), None);
+    }
+
+    /// The cross-user boundary by injected euids: one account cannot make a foreign peer.
+    #[rstest]
+    #[case::same_user(Some(1000), 1000, true, true)]
+    #[case::foreign_user(Some(0), 1000, true, false)]
+    #[case::foreign_when_root(Some(1000), 0, true, false)]
+    #[case::unreadable_peer(None, 1000, true, false)]
+    #[case::not_reported_none(None, 1000, false, true)]
+    #[case::not_reported_foreign(Some(0), 1000, false, true)]
+    fn peer_euid_admitted_takes_only_the_owning_user_where_it_is_reported(
+        #[case] observed: Option<u32>,
+        #[case] own: u32,
+        #[case] reported: bool,
+        #[case] admitted: bool,
+    ) {
+        assert_eq!(peer_euid_admitted(observed, own, reported), admitted);
+    }
+
+    /// The test process serves the endpoint, so the connection reads its own euid; macOS's peer
+    /// credentials hold one although they hold no pid.
+    #[cfg(unix)]
+    #[test]
+    fn client_server_euid_is_this_user() {
+        let (_dir, endpoint, _serving) = served("server-euid");
+        let client = Client::connect(&endpoint, "cli").expect("connect");
+        // SAFETY: `geteuid` takes no arguments, cannot fail and touches no memory.
+        let own = unsafe { libc::geteuid() };
+        assert_eq!(client.server_euid(), Some(own));
+        assert!(peer_admitted(client.server_euid()));
+        assert!(!peer_admitted(Some(own.wrapping_add(1))));
+        assert!(!peer_admitted(None));
+    }
+
+    #[cfg(windows)]
+    #[test]
+    fn client_server_euid_is_none_where_the_peer_reports_no_euid() {
+        let (_dir, endpoint, _serving) = served("server-euid");
+        let client = Client::connect(&endpoint, "cli").expect("connect");
+        assert_eq!(client.server_euid(), None);
+        assert!(peer_admitted(None));
     }
 
     #[test]

@@ -1,0 +1,28 @@
+[
+{
+"tool": "rec",
+"v": "1.5",
+"sha8": "7de1e782",
+"ts": "2026-11-01T16:37:00Z",
+"argv": [
+"query",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-01T15-28-14-phase",
+"--marker",
+"2026-11-01-unix-endpoint-and-home-hardening",
+"select line from coverage_line where version = 'viola-0.1.0'"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"verified 29/53 · deferred 6 · planned 18 · implemented 0 · unclaimed 18",
+"1 row(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

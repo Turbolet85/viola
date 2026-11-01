@@ -22,7 +22,7 @@ pub(crate) fn answer_hint(reason: &str, detail: Option<&str>) -> Option<&'static
 
 /// The design-system cli pattern 2 hint for a `send` cause: a `not-delivered` detail, the
 /// `human-typing` or `budget-paused` reason, or for exit 21 `not-running`, `unwrapped-name`,
-/// `endpoint-lost` or `server-verify`. Never the sent text, a path or a pid.
+/// `endpoint-lost`, `server-verify` or `socket-dir`. Never the sent text, a path or a pid.
 pub(crate) fn send_hint(name: &str, cause: &str) -> Option<String> {
     Some(match cause {
         "human-typing" => HUMAN_TYPING_HINT.to_owned(),
@@ -56,6 +56,9 @@ pub(crate) fn send_hint(name: &str, cause: &str) -> Option<String> {
         "server-verify" => format!(
             "the process on {name}'s endpoint is not its recorded wrapper; it was not contacted"
         ),
+        "socket-dir" => "viola's socket directory must be a directory you own, readable only by \
+                         you; viola does not change its permissions"
+            .to_owned(),
         _ => return None,
     })
 }
@@ -99,6 +102,10 @@ mod tests {
         "server-verify",
         "the process on builder's endpoint is not its recorded wrapper; it was not contacted"
     )]
+    #[case::socket_dir(
+        "socket-dir",
+        "viola's socket directory must be a directory you own, readable only by you; viola does not change its permissions"
+    )]
     #[case::human_typing(
         "human-typing",
         "the human has the wheel; send again after the human hands it back"
@@ -130,6 +137,7 @@ mod tests {
             "unwrapped-name",
             "endpoint-lost",
             "server-verify",
+            "socket-dir",
             "human-typing",
             "budget-paused",
             "five-hour",

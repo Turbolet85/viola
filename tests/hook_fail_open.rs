@@ -207,6 +207,8 @@ impl Impostor {
         let instance = home.join("instances").join("builder");
         viola_state::fs::create_private_dir(&instance).expect("the instance dir");
         let socket_dir = tempfile::tempdir().expect("the socket dir");
+        // A bare temp dir is left to the umask, and a client refuses a socket directory it can read.
+        viola_state::fs::create_private_dir(socket_dir.path()).expect("the socket dir, private");
         let base = format!("viola-test-chan-{}-{label}", std::process::id());
         let endpoint = if cfg!(windows) {
             format!(r"\\.\pipe\{base}")

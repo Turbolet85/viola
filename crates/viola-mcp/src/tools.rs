@@ -22,14 +22,14 @@ use serde_json::{Map, Value};
 use tracing::instrument;
 use viola_agent_claude::dialog::Response;
 use viola_agent_claude::hook::typed_text;
-use viola_channel::SERVER_PID_REPORTED;
 use viola_channel::tokio_client::TokioClient;
+use viola_channel::{SERVER_PID_REPORTED, peer_admitted};
 use viola_core::obs::ObsEvent;
 use viola_core::{NotDelivered, RefusalReason, UnreachableCause, VERSION, ViolaName, obs_event};
 use viola_state::liveness::{
     LiveEndpoint, ServerVerdict, live_endpoint, verify_server, without_endpoint,
 };
-use viola_state::strict::check_instance;
+use viola_state::strict::{check_endpoint_dir, check_instance};
 
 use crate::{ListProvider, McpError, result};
 
@@ -322,9 +322,9 @@ fn params_from(ctx: &Ctx, mut params: Map<String, Value>) -> Map<String, Value> 
 }
 
 /// One request to `target`'s wrapper after the strict-modes check of the home and the instance's
-/// state files and the liveness pre-check, over a connection whose server is the recorded wrapper;
-/// a refused check, a dead instance or a server that fails its check is `instance-unreachable`, no
-/// frame and no line written.
+/// state files, the liveness pre-check and the socket directory's check, over a connection whose
+/// server is the owning user's and the recorded wrapper; a refused check, a dead instance or a server
+/// that fails its check is `instance-unreachable`, no frame and no line written.
 async fn frame(
     ctx: &Ctx,
     target: &ViolaName,
@@ -342,11 +342,14 @@ async fn frame(
     let Some(live) = live_endpoint(&instance_dir) else {
         return Ok(result::unreachable(without_endpoint(&instance_dir)));
     };
+    if check_endpoint_dir(&live.endpoint).is_err() {
+        return Ok(result::unreachable(UnreachableCause::SocketDir));
+    }
     let mut client = match TokioClient::connect(&live.endpoint, "mcp").await {
         Ok(client) => client,
         Err(error) => return result::of_reply(Err(error), refusable),
     };
-    if !server_verified(live, client.server_pid()).await? {
+    if !peer_admitted(client.server_euid()) || !server_verified(live, client.server_pid()).await? {
         return Ok(result::unreachable(UnreachableCause::ServerVerify));
     }
     let sent = client.request(method, params_from(ctx, params)).await;
