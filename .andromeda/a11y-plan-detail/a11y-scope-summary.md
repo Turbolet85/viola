@@ -5,11 +5,11 @@ Read whole. The master's broad view is .andromeda/a11y-plan.md; this file holds 
 
 <!-- detail: values · scope-entities -->
 
-- **Entity:** CLI verbs (`list`, `send`, `wait`, `last`, `answer`, `verify`, `pause`, `release`, `link`, `unlink`, `revive`, `plugin install`, `--help`) in human TTY, plain (non-TTY / `NO_COLOR` / `TERM=dumb`) and `--json` modes. `revive` takes `--json` on both arms (chunk 2026-10-17-cli-machine-contract): under it each exit-1 refusal of its strict-modes check, its preflight or the start it shares with `run` is one document `{"v":1,"error":"<code>","detail":null}` on stdout with empty stderr, `<code>` one of `strict-modes-failed` · `already-live` · `no-session` · `session-live` · `cwd-missing` · `stale-heartbeat` · `batch-script-child` · `pinned-hash-mismatch` · `squatted-name` · `internal-error`, and `viola revive <name> --list --json` prints `{"v":1,"ok":{"sessions":[…]}}` in log order (an empty chain the `no-session` document, exit 1); without `--json` `viola revive <name> --list` prints static ASCII rows (`<ts>  <cause>  <id>`, no header, no colour, no ESC byte) and each exit-1 refusal is one `unable:` line and one `hint:` line last on stderr, byte-identical; a clap usage error exits 2, and a passed start is the TUI passthrough entity below. A `verify` stopped by Ctrl-C or TERM before its rows are checked prints no step line and no summary, only one `unable: verify was stopped before it finished` line and one `hint: run viola verify again to stamp this CLI` line last on stderr (plain ASCII), and exits 1 (chunk 2026-10-13-interrupted-verify-cleanup). `viola plugin install` (chunk 2026-10-17-optional-plugin-install) prints its four planning-form lines as one plain-ASCII write, no SGR, no ESC or non-ASCII byte piped, under `NO_COLOR` or under `TERM=dumb`; under `--json` exactly `{"v":1,"ok":{"marketplace":"viola","plugin":"viola@viola"}}`; its exit-21 refusal is the home pair with `hint:` last and stdout empty, or under `--json` `{"v":1,"error":"instance-unreachable","detail":"strict-modes-failed"}` with stderr empty; `viola plugin` alone is a clap usage error (exit 2). `send`, `wait`, `last`, `answer`, `pause`, `release`, `link` and `unlink` each refuse, before any frame, an endpoint whose serving process is not the recorded wrapper: exit 21, stdout empty and the server-verify `hint:` line last on stderr (plain ASCII, no SGR), or under `--json` `{"v":1,"error":"instance-unreachable","detail":"server-verify-failed"}` with stderr empty (the refusal's text: Cognitive Accessibility › Error recovery); on macOS no peer pid is read and the refusal cannot occur (the recorded gap); their `error` word and exit codes are unchanged
+- **Entity:** CLI verbs (`list`, `send`, `wait`, `last`, `answer`, `verify`, `pause`, `release`, `link`, `unlink`, `revive`, `plugin install`, `--help`) in human TTY, plain (non-TTY / `NO_COLOR` / `TERM=dumb`) and `--json` modes. `revive` takes `--json` on both arms (chunk 2026-10-17-cli-machine-contract): under it each exit-1 refusal of its strict-modes check, its preflight or the start it shares with `run` is one document `{"v":1,"error":"<code>","detail":null}` on stdout with empty stderr, `<code>` one of `strict-modes-failed` · `already-live` · `no-session` · `session-live` · `cwd-missing` · `stale-heartbeat` · `batch-script-child` · `pinned-hash-mismatch` · `squatted-name` · `socket-dir-refused` · `internal-error`, and `viola revive <name> --list --json` prints `{"v":1,"ok":{"sessions":[…]}}` in log order (an empty chain the `no-session` document, exit 1); without `--json` `viola revive <name> --list` prints static ASCII rows (`<ts>  <cause>  <id>`, no header, no colour, no ESC byte) and each exit-1 refusal is one `unable:` line and one `hint:` line last on stderr, byte-identical; a clap usage error exits 2, and a passed start is the TUI passthrough entity below. A `verify` stopped by Ctrl-C or TERM before its rows are checked prints no step line and no summary, only one `unable: verify was stopped before it finished` line and one `hint: run viola verify again to stamp this CLI` line last on stderr (plain ASCII), and exits 1 (chunk 2026-10-13-interrupted-verify-cleanup). `viola plugin install` (chunk 2026-10-17-optional-plugin-install) prints its four planning-form lines as one plain-ASCII write, no SGR, no ESC or non-ASCII byte piped, under `NO_COLOR` or under `TERM=dumb`; under `--json` exactly `{"v":1,"ok":{"marketplace":"viola","plugin":"viola@viola"}}`; its exit-21 refusal is the home pair with `hint:` last and stdout empty, or under `--json` `{"v":1,"error":"instance-unreachable","detail":"strict-modes-failed"}` with stderr empty; `viola plugin` alone is a clap usage error (exit 2). `send`, `wait`, `last`, `answer`, `pause`, `release`, `link` and `unlink` each refuse, before any frame, an endpoint whose serving process is not the recorded wrapper: exit 21, stdout empty and the server-verify `hint:` line last on stderr (plain ASCII, no SGR), or under `--json` `{"v":1,"error":"instance-unreachable","detail":"server-verify-failed"}` with stderr empty (the refusal's text: Cognitive Accessibility › Error recovery); on macOS no peer pid is read (the recorded gap, a named carve-out no route entry owns), so there the refusal means an euid mismatch alone; their `error` word and exit codes are unchanged
   - **Source:** Arch excerpt, Stack → clap. Design excerpt, Surfaces → cli. Layout excerpt, Layout Types → cli. Creator brief excerpt, Overseer Direction 5.
   - **Assertability:** assertable. This covers output-discipline assertions on text and streams only. No automated a11y tool reaches a terminal.
   - **Failures under `--json`:** each failure `cli_error_documents_hold_no_path_or_upstream_text` (`tests/cli_error_bodies.rs`) drives is one document, a literal exit, empty stderr, no ESC byte and a clean body; the `viola answer` and `viola send` exit-2 paths write a fixed stderr line and no document (the text: Cognitive Accessibility › Error recovery).
-  - **The start's refusals under `viola revive --json`:** `batch-script-child`, `pinned-hash-mismatch` and `squatted-name` each print one exit-1 document in place of the human pair, before the child spawns; without `--json` each prints its pair.
+  - **The start's refusals under `viola revive --json`:** `batch-script-child`, `pinned-hash-mismatch`, `squatted-name` and `socket-dir-refused` each print one exit-1 document in place of the human pair, before the child spawns (`socket-dir-refused` before any snapshot or bind too); without `--json` each prints its pair.
   - **A `claude` not found at a start:** under `viola revive --json` it reads as the `internal-error` document; it has no human pair.
 
 <!-- /detail -->
@@ -32,8 +32,24 @@ Read whole. The master's broad view is .andromeda/a11y-plan.md; this file holds 
 
 <!-- detail: values · scope-entities -->
 
+- **Entity:** `viola send`, `wait`, `last`, `answer`, `pause`, `release`, `link` and `unlink` over a socket directory that fails its check (mode open to another user, a symlink, not a directory, another owner), on Unix, in the human TTY, plain and `--json` modes: each refuses before any frame with exit 21 and the socket-directory `hint:` line last on stderr, plain ASCII, no SGR, naming no path, pid or uid, or under `--json` one document with `error` `instance-unreachable` and `detail` `socket-dir-refused`; the directory is left as found; off Unix the check reads nothing (the refusal's text: Cognitive Accessibility › Error recovery)
+  - **Source:** `src/cmd/client.rs` (`connect`), `src/human/hints.rs` (`send_hint`); `tests/security_negatives_socket_dir.rs` (`security_negative_a_frame_verb_refuses_the_socket_directory_before_any_frame`), `tests/cross_exit_causes.rs` (`a_loosened_socket_directory_on_a_frame_verb_is_socket_dir_refused`), `tests/cli_error_bodies.rs` (`cli_error_documents_of_a_loosened_socket_directory_hold_no_path_or_upstream_text`).
+  - **Assertability:** assertable. This covers output-discipline assertions on text and streams only. No automated a11y tool reaches a terminal.
+
+<!-- /detail -->
+
+<!-- detail: values · scope-entities -->
+
 - **Entity:** `viola run`, a `viola revive` start and `viola verify` over a home tree that fails the strict-modes check: each refuses before any log opens with exit 1, stdout empty and the home-state pair on stderr, `hint:` last, and starts no child — `run` and revive's start print the instance-state pair for an instance-level refusal, and revive under `--json` gives its `strict-modes-failed` document (the CLI entity above); `verify` prints no step line and no summary, and its `update_stamps` refusal gives the same home-state pair; on Unix a home under a regular file is this refusal, on Windows (such a path stats `NotFound`) the `cli` catch-site fault line stands (the refusals' text: Cognitive Accessibility › Error recovery)
   - **Source:** `src/cmd/run.rs` (`checked_exe`, `refuse_tree`), `src/cmd/revive.rs`, `src/cmd/verify.rs` (`refuse_home`); `tests/run_cli.rs` (`run_refuses_a_widened_home_tree_before_its_log`), `tests/cli_verify.rs` (`verify_refuses_a_widened_ledger_before_any_step`, `verify_under_a_regular_file_refuses_the_home`), `tests/security_negatives_strict_modes.rs` (`a_home_another_user_may_read_refuses_run`).
+  - **Assertability:** assertable. This covers output-discipline assertions on text and streams only. No automated a11y tool reaches a terminal.
+
+<!-- /detail -->
+
+<!-- detail: values · scope-entities -->
+
+- **Entity:** `viola run` and a `viola revive` start over a socket directory that fails its check, on Unix: each refuses with exit 1 before any snapshot, bind or child, a failed create reading the same, with the socket-directory pair on stderr, `hint:` last, plain ASCII, no SGR, naming only the parsed name, and revive under `--json` gives its one `socket-dir-refused` document (the CLI entity above); the directory is left as found (the pair's text: Cognitive Accessibility › Error recovery)
+  - **Source:** `src/cmd/run.rs` (`socket_dir_ready`, `refuse_socket_dir`), `src/human/hints.rs` (`send_hint_is_the_design_string`); `tests/security_negatives_socket_dir.rs` (`security_negative_a_start_refuses_the_socket_directory_before_any_bind`), `tests/cross_exit_causes.rs` (`a_loosened_socket_directory_on_a_start_is_socket_dir_refused`).
   - **Assertability:** assertable. This covers output-discipline assertions on text and streams only. No automated a11y tool reaches a terminal.
 
 <!-- /detail -->
@@ -48,6 +64,7 @@ Read whole. The master's broad view is .andromeda/a11y-plan.md; this file holds 
     - human keystrokes are never blocked, refused or delayed past the current atomic paste;
     - focus, mouse and resize sequences and terminal replies (F-W2's closed list) pass through and do not count as human editing; every other byte does. On Windows the platform decides what arrives (F-W3): the ConPTY host swallows focus reports, and under win32-input-mode an injected mouse report reaches viola as typed keys and takes the wheel.
     - under `viola revive --json` a `pump_child` error prints no document: the child has held the terminal, and viola writes nothing past it.
+    - a peer the wrapper refuses is dropped in `accept_loop`, before its worker thread and any frame: it writes nothing to the outer terminal and moves no wheel (`serve_drops_a_refused_peer_before_any_frame`, `channel_endpoint_answers_protocol_faults` the control).
 
 <!-- /detail -->
 
@@ -68,7 +85,7 @@ Read whole. The master's broad view is .andromeda/a11y-plan.md; this file holds 
 
 <!-- detail: values · scope-entities -->
 
-- **Entity:** Claude Code plugin against an endpoint whose serving process is not the recorded wrapper: the `viola hook` event and dialog calls and the stdio MCP server's frame tools (`send`, `wait`, `last`, `answer`), off macOS (no peer pid is read there and the check reads as passed: the recorded gap)
+- **Entity:** Claude Code plugin against an endpoint whose serving process is not the recorded wrapper: the `viola hook` event and dialog calls and the stdio MCP server's frame tools (`send`, `wait`, `last`, `answer`), on every OS (on macOS no peer pid is read, the named carve-out of the CLI entity above, so there such a server is one of another euid alone)
   - **Source:** `src/cmd/hook.rs` (`connect`, `NotSent`) and `crates/viola-mcp/src/tools.rs` (`server_verified`); `tests/hook_fail_open.rs` (the impostor rows) and `crates/viola-mcp/tests/handlers.rs` (`handlers_frame_tools_write_no_frame_to_a_server_that_is_not_the_recorded_wrapper`).
   - **Assertability:** not-assertable
   - **Reason:** a hook event or dialog call that meets such a server sends no frame and fails open: exit 0, empty stdout and stderr, under 1.0 s; an MCP frame tool returns `isError` with the code `instance-unreachable` and `detail` `server-verify-failed` (text `refused: instance-unreachable`) and sends no frame. Neither writes a human-facing byte, so the entity stays not-assertable and no human keystroke is touched.
@@ -81,6 +98,24 @@ Read whole. The master's broad view is .andromeda/a11y-plan.md; this file holds 
   - **Source:** `src/cmd/hook.rs` (`canonical`, `trusted`) and `crates/viola-mcp/src/tools.rs` (`frame`); `tests/hook_fail_open.rs` (`hook_refused_by_the_instance_check_fails_open_and_writes_nothing`) and `crates/viola-mcp/tests/handlers.rs` (`handlers_frame_tools_refuse_a_widened_instance_before_any_frame`).
   - **Assertability:** not-assertable
   - **Reason:** a refused hook event or dialog call returns exit 0 at once with empty stdout and stderr, under 1.0 s — no `config.json` read, no stdin read, no frame, no line, no SessionEnd append — and a `VIOLA_DIR` naming no existing instance directory writes nothing; an MCP frame tool returns `isError` with the code `instance-unreachable` and `detail` `strict-modes-failed` and sends no frame and writes no line. Neither writes a human-facing byte, so the entity stays not-assertable and no human keystroke is touched.
+
+<!-- /detail -->
+
+<!-- detail: values · scope-entities -->
+
+- **Entity:** the `viola hook` event and dialog calls against a socket directory that fails its check, on Unix
+  - **Source:** `src/cmd/hook.rs` (`connect`, `NotSent`, `Asked`); `tests/security_negatives_socket_dir.rs` (`security_negative_a_hook_fails_open_on_the_socket_directory`).
+  - **Assertability:** not-assertable
+  - **Reason:** such a call sends no frame and fails open: exit 0, empty stdout and stderr, its one record a `hook-decision` at WARN with `detail` `socket-dir-refused`. It writes no human-facing byte, so the entity stays not-assertable and no human keystroke is touched.
+
+<!-- /detail -->
+
+<!-- detail: values · scope-entities -->
+
+- **Entity:** the stdio MCP server's frame tools (`send`, `wait`, `last`, `answer`) against a socket directory that fails its check, on Unix
+  - **Source:** `crates/viola-mcp/src/tools.rs` (`frame`); `crates/viola-mcp/tests/handlers.rs` (`handlers_frame_tools_refuse_a_loosened_socket_directory`).
+  - **Assertability:** not-assertable
+  - **Reason:** a frame tool past its live endpoint returns `isError` with the code `instance-unreachable` and `detail` `socket-dir-refused`, sends no frame and writes no line, `isError` the record. It writes no human-facing byte, so the entity stays not-assertable and no human keystroke is touched.
 
 <!-- /detail -->
 

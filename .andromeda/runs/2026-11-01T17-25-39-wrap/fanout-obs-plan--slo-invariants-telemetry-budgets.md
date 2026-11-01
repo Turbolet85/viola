@@ -1,0 +1,11 @@
+proposals:
+  - detector: D-new-detail
+    severity: warning
+    file: .andromeda/obs-plan-detail/slo-invariants-telemetry-budgets.md
+    near: 29
+    section: '## 10. SLO Invariants & Telemetry Budgets'
+    change: 'In the spine-hooks row''s Budget assertion cell, read «macOS the recorded gap, no comparison» as «macOS the recorded gap, no peer pid comparison», and after «a failed check fails open (`hook-decision{detail:"server-verify-failed"}`, exit 0);» add: «around that check the hook''s `connect` makes two more, both in the timed path and inside the same gate, and both reading nothing off Unix: before the connect `check_endpoint_dir` on the recorded endpoint''s parent (one `symlink_metadata`), a refusal failing open with no frame (`hook-decision{detail:"socket-dir-refused"}` at WARN, exit 0), and after the connect the client euid check `peer_admitted(client.server_euid())`, macOS''s only comparison, a refused euid failing open as `server-verify-failed`;». The band «max 2.4–3.3 ms» and its chunk stay as they stand.'
+    sidecar: 'SLO budgets, spine-hooks row: the timed path now holds the hook''s socket-directory check and client euid check, a refusal failing open as `socket-dir-refused` or `server-verify-failed`; macOS''s named gap narrowed in words to the peer pid comparison; no budget or measured value moved (chunk 2026-11-01-unix-endpoint-and-home-hardening).'
+    rationale: 'The row enumerates what the timed path holds and omits both new checks; report.md:16 gives the hook `connect` three checks in order and one `hook-decision` at WARN, report.md:38 puts both checks in the timed path with no value moved, report.md:31 gives macOS `server-verify-failed` as an euid mismatch alone (so a bare «no comparison» now misreads), and report.md:33 keeps the true claim that macOS compares no peer pid under its «recorded gap» wording.'
+    basis: .andromeda/cache/docs/2026-11-01-unix-endpoint-and-home-hardening/report.md:38
+note: 'No exemption moves on lines 11 and 14-18: the new refusals fall after their role file opens (report.md:70-73), so a panic there still writes its line; `viola list` and the `check_path` wording on line 17 stay true (report.md:18); the max/mean label on line 29 is the prior wrap''s, left open by report.md:38; D-obs-stack and D-obs-pii read clean (report.md:23, report.md:70-76).'

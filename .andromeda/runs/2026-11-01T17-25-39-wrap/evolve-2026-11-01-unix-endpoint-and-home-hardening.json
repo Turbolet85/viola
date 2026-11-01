@@ -1,0 +1,98 @@
+[
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "3c9ef880",
+"ts": "2026-11-01T17:30:45Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-01T17-25-39-wrap",
+"--marker",
+"2026-11-01-unix-endpoint-and-home-hardening"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 79 · 2026-11-01T15-29-37-2026-11-01-unix-endpoint-and-home-hardening.ndjson",
+"ts 2026-11-01T17:30:29Z · clock 2026-11-01T17:30:45Z · bound 2026-11-01T17:25:09Z (line 2656)",
+"ids 2026-11-01T17:30:29Z-a … 2026-11-01T17:30:29Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T15-29-37-2026-11-01-unix-endpoint-and-home-hardening.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "3c9ef880",
+"ts": "2026-11-01T18:56:02Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"8",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-01T17-25-39-wrap",
+"--marker",
+"2026-11-01-unix-endpoint-and-home-hardening"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 8 record(s) in the store · tx 85 · 2026-11-01T15-29-37-2026-11-01-unix-endpoint-and-home-hardening.ndjson",
+"ts 2026-11-01T18:55:21Z · clock 2026-11-01T18:56:02Z · bound 2026-11-01T17:30:29Z (line 2658)",
+"ids 2026-11-01T18:55:21Z-a … 2026-11-01T18:55:21Z-h (8)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T15-29-37-2026-11-01-unix-endpoint-and-home-hardening.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "3c9ef880",
+"ts": "2026-11-01T18:57:45Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"5",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-01T17-25-39-wrap",
+"--marker",
+"2026-11-01-unix-endpoint-and-home-hardening"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 5 record(s) in the store · tx 88 · 2026-11-01T15-29-37-2026-11-01-unix-endpoint-and-home-hardening.ndjson",
+"ts 2026-11-01T18:57:11Z · clock 2026-11-01T18:57:45Z · bound 2026-11-01T18:55:21Z (line 2666)",
+"ids 2026-11-01T18:57:11Z-a … 2026-11-01T18:57:11Z-e (5)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T15-29-37-2026-11-01-unix-endpoint-and-home-hardening.ndjson"
+],
+"before": null,
+"after": null
+}
+]

@@ -1,0 +1,121 @@
+# obs-plan — outline (10 files)
+
+## .andromeda/obs-plan-detail/ci-integration.md · ci-integration · 11.1 KB
+- ## 9. CI Integration
+  - values · ci · lines 8–14
+  - values · ci · lines 20–26
+  - procedure · ci · lines 32–53
+  - procedure · ci · lines 59–59
+  - values · ci · lines 65–65
+## .andromeda/obs-plan-detail/error-capture-reporting.md · error-capture-reporting · 13.6 KB
+- ## 7. Error Capture & Reporting
+  - values · errors · lines 8–9
+  - values · errors · lines 15–25
+  - values · errors · lines 31–31
+  - values · errors · lines 37–38
+  - values · errors · lines 44–47
+  - values · errors · lines 53–57
+## .andromeda/obs-plan-detail/log-coverage.md · log-coverage · 15.8 KB
+- ## 6. Log Coverage
+  - values · log-fields · lines 8–20
+  - values · log-details · lines 26–41
+  - values · logs · lines 47–48
+## .andromeda/obs-plan-detail/metric-coverage.md · metric-coverage · 4.5 KB
+- ## 5. Metric Coverage
+  - values · metrics · lines 8–12
+  - values · metrics · lines 18–30
+  - values · metrics · lines 36–37
+  - values · metrics · lines 43–48
+## .andromeda/obs-plan-detail/obs-anti-patterns.md · obs-anti-patterns · 1.5 KB
+- ## 11. Obs Anti-Patterns (NEVER do these) › ### Logs
+  - exception · logs · lines 8–8
+## .andromeda/obs-plan-detail/obs-scope-summary.md · obs-scope-summary · 47.9 KB
+- ## 1. Obs Scope Summary
+  - values · tier · lines 8–11
+  - pending · tier · lines 17–20
+  - values · scope-entities · lines 26–28
+  - values · scope-entities · lines 34–37
+  - values · scope-entities · lines 43–45
+  - values · scope-entities · lines 51–53
+  - values · scope-entities · lines 59–61
+  - values · scope-entities · lines 67–71
+  - values · scope-entities · lines 77–79
+  - values · scope-entities · lines 85–92
+  - values · scope-entities · lines 98–100
+  - values · scope-entities · lines 106–108
+  - values · scope-entities · lines 114–116
+  - values · scope-entities · lines 122–124
+  - values · scope-entities · lines 130–136
+  - values · scope-entities · lines 142–144
+  - values · scope-entities · lines 150–152
+  - values · scope-surfaces · lines 158–166
+  - values · scope-surfaces · lines 172–179
+  - values · scope-surfaces · lines 185–192
+  - values · scope-surfaces · lines 198–205
+  - values · scope-surfaces · lines 211–218
+  - values · strategy · lines 224–240
+  - values · logs · lines 246–255
+  - mirror · log-fields · lines 261–281
+  - values · logs · lines 287–295
+  - values · paths · lines 301–304
+  - values · paths · lines 310–313
+  - values · paths · lines 319–322
+  - values · paths · lines 328–331
+  - values · paths · lines 337–340
+  - values · paths · lines 346–349
+  - values · triggers · lines 355–358
+  - values · triggers · lines 364–366
+  - values · triggers · lines 372–376
+  - values · triggers · lines 382–382
+  - values · triggers · lines 388–392
+  - values · triggers · lines 398–402
+  - values · triggers · lines 408–411
+  - values · triggers · lines 417–417
+  - values · triggers · lines 423–426
+  - values · triggers · lines 432–436
+  - values · triggers · lines 442–449
+  - values · triggers · lines 455–462
+  - values · triggers · lines 468–468
+  - values · triggers · lines 474–474
+  - values · triggers · lines 480–483
+  - values · triggers · lines 489–493
+  - values · triggers · lines 499–503
+  - values · triggers · lines 509–512
+## .andromeda/obs-plan-detail/pii-scrubbing-compliance.md · pii-scrubbing-compliance · 12.6 KB
+- ## 8. PII Scrubbing & Compliance › ### PII Scrubbing
+  - values · pii · lines 8–23
+  - values · pii · lines 29–52
+## .andromeda/obs-plan-detail/slo-invariants-telemetry-budgets.md · slo-invariants-telemetry-budgets · 8.2 KB
+- ## 10. SLO Invariants & Telemetry Budgets
+  - exception · slo-gates · lines 8–20
+  - values · slo-budgets · lines 26–31
+## .andromeda/obs-plan-detail/span-trace-coverage.md · span-trace-coverage · 53.7 KB
+- ## 4. Span / Trace Coverage
+  - values · spans · lines 8–10
+  - values · spans · lines 16–22
+  - values · spans · lines 28–34
+- ## 4. Span / Trace Coverage › #### Scenario: `viola run` start sequence to child spawn
+  - values · scenario-viola-run-start-sequence-to-child-spawn · lines 42–63
+  - values · scenario-viola-run-start-sequence-to-child-spawn · lines 69–69
+- ## 4. Span / Trace Coverage › #### Scenario: Confirmed `send` (CL-1) from driver to readback
+  - values · scenario-confirmed-send-cl-1-from-driver-to-readback · lines 77–98
+- ## 4. Span / Trace Coverage › #### Scenario: `wait` / `last` event-driven readback
+  - values · scenario-wait-last-event-driven-readback · lines 106–116
+- ## 4. Span / Trace Coverage › #### Scenario: Dialog → `answer` (question / permission / plan), including the unverified-CLI branch
+  - values · scenario-dialog-answer-question-permission-plan-including-the-unverified-cli-branch · lines 124–140
+- ## 4. Span / Trace Coverage › #### Scenario: Human takes the wheel, automation is refused, `release` returns it
+  - values · scenario-human-takes-the-wheel-automation-is-refused-release-returns-it · lines 148–156
+- ## 4. Span / Trace Coverage › #### Scenario: Budget governor
+  - values · scenario-budget-governor · lines 164–178
+  - values · paths · lines 184–185
+  - values · paths · lines 191–191
+  - values · paths · lines 197–199
+  - values · paths · lines 205–206
+  - values · paths · lines 212–212
+  - values · paths · lines 218–221
+  - values · paths · lines 227–235
+## .andromeda/obs-plan-detail/telemetry-strategy.md · telemetry-strategy · 7.1 KB
+- ## 2. Telemetry Strategy
+  - values · strategy · lines 8–14
+  - values · strategy · lines 20–20
+  - values · triggers · lines 26–45

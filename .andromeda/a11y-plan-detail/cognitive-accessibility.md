@@ -16,13 +16,13 @@ Read whole. The master's broad view is .andromeda/a11y-plan.md; this file holds 
 <!-- detail: values · cognitive-errors -->
 
 - **Pattern:** every error is a printed word followed by plain detail, and a recovery instruction where recovery exists.
-  - **CLI:** `unable  <reason>  <detail>` on stderr, then `hint:` as the last stderr line, with a typed exit code. The one refusal with no hint is `unknown` (exit 14): its detail is a code word or nothing, opaque to a reader, so design prints no hint rather than a guess. Faults (`error: wrapper fault`, `error: internal error`) are not refusals and carry no hint. `--json` gives one document with no hint, except the `viola answer` and `viola send` exit-2 paths (below). Without `--json`, the exit-1 refusals of `viola revive` take the fixed-message form of design-system cli pattern 2 (one `unable: <text>` line, then one `hint:` line last; a clap usage error exits 2), pinned by the root cases in `tests/cli_revive.rs`; under `--json` every refusal of the start it shares with `run` gives one `{"v":1,"error":"<code>","detail":null}` document with no hint and empty stderr (`revive_json_*` in `tests/cli_revive.rs`, the start rows in `tests/cross_exit_causes.rs`; chunk 2026-10-17-cli-machine-contract). So does `viola verify`'s interrupted pair (`unable: verify was stopped before it finished` / `hint: run viola verify again to stamp this CLI`), pinned by the stop table in `tests/cli_verify.rs`; the stop path adds no time bound, since its waits end at the stop and its kill and pump join end at once. CLI `send`, `wait`, `last`, `answer`, `pause`, `release`, `link` and `unlink` refuse an endpoint whose serving process is not the recorded wrapper with exit 21: `unable  <name>  instance-unreachable` on stderr, then `hint: the process on <name>'s endpoint is not its recorded wrapper; it was not contacted` as the last stderr line; under `--json` the `{"v":1,"error":"instance-unreachable","detail":"server-verify-failed"}` document with stderr empty and no hint.
+  - **CLI:** `unable  <reason>  <detail>` on stderr, then `hint:` as the last stderr line, with a typed exit code. The one refusal with no hint is `unknown` (exit 14): its detail is a code word or nothing, opaque to a reader, so design prints no hint rather than a guess. Faults (`error: wrapper fault`, `error: internal error`) are not refusals and carry no hint. `--json` gives one document with no hint, except the `viola answer` and `viola send` exit-2 paths (below). Without `--json`, the exit-1 refusals of `viola revive`, and `viola run`'s socket-directory refusal (`refuse_socket_dir`, on the start both verbs share), take the fixed-message form of design-system cli pattern 2 (one `unable: <text>` line, then one `hint:` line last; a clap usage error exits 2), pinned by the root cases in `tests/cli_revive.rs` and, for the socket-directory refusal, by `a_loosened_socket_directory_on_a_start_is_socket_dir_refused` in `tests/cross_exit_causes.rs`; under `--json` every refusal of the start `revive` shares with `run` gives one `{"v":1,"error":"<code>","detail":null}` document with no hint and empty stderr (`revive_json_*` in `tests/cli_revive.rs`, the start rows in `tests/cross_exit_causes.rs`; chunk 2026-10-17-cli-machine-contract). So does `viola verify`'s interrupted pair (`unable: verify was stopped before it finished` / `hint: run viola verify again to stamp this CLI`), pinned by the stop table in `tests/cli_verify.rs`; the stop path adds no time bound, since its waits end at the stop and its kill and pump join end at once. CLI `send`, `wait`, `last`, `answer`, `pause`, `release`, `link` and `unlink` refuse an endpoint whose serving process is not the recorded wrapper with exit 21: `unable  <name>  instance-unreachable` on stderr, then `hint: the process on <name>'s endpoint is not its recorded wrapper; it was not contacted` as the last stderr line; under `--json` the `{"v":1,"error":"instance-unreachable","detail":"server-verify-failed"}` document with stderr empty and no hint.
 
 <!-- /detail -->
 
 <!-- detail: values · cognitive-errors -->
 
-- **CLI, exit 21 under `--json`:** one document per cause, `{"v":1,"error":"instance-unreachable","detail":"<cause>"}` on stdout with stderr empty, no hint and no ESC, `<cause>` being one of the closed words `strict-modes-failed`, `instance-dead`, `unwrapped-name`, `endpoint-lost` and `server-verify-failed`.
+- **CLI, exit 21 under `--json`:** one document per cause, `{"v":1,"error":"instance-unreachable","detail":"<cause>"}` on stdout with stderr empty, no hint and no ESC, `<cause>` being one of the closed words `strict-modes-failed`, `instance-dead`, `unwrapped-name`, `endpoint-lost`, `server-verify-failed` and `socket-dir-refused`.
 
 <!-- /detail -->
 
@@ -40,6 +40,12 @@ Read whole. The master's broad view is .andromeda/a11y-plan.md; this file holds 
 
 <!-- detail: values · cognitive-errors -->
 
+- **CLI, the eight frame verbs, a refused socket directory:** `send`, `wait`, `last`, `answer`, `pause`, `release`, `link` and `unlink` are refused with exit 21, `detail` `socket-dir-refused`, before any frame, the hint through `send_hint`'s cause `socket-dir` as the last stderr line and `send`'s first line in its mirror's form; under `--json` exactly `{"v":1,"error":"instance-unreachable","detail":"socket-dir-refused"}` on stdout with stderr empty and no hint.
+
+<!-- /detail -->
+
+<!-- detail: values · cognitive-errors -->
+
 - **CLI, a lost or stale wrapper:** a wrapper lost with the call open is `endpoint-lost`; a frame verb against a stale instance reads `instance-dead`, stale heartbeat being exit 1's cause alone.
 
 <!-- /detail -->
@@ -47,6 +53,12 @@ Read whole. The master's broad view is .andromeda/a11y-plan.md; this file holds 
 <!-- detail: values · cognitive-errors -->
 
 - **CLI, `viola run` / `viola revive` start, strict-modes:** a home tree that fails the strict-modes check (the home, the instance's files, `ledger/`, `bin/`, `plugin/`, the pinned copy and its plugin folders) is refused with exit 1 before any log opens, no line written and no child started: the fixed home-state `unable` / `hint:` pair for a home-level refusal, the instance-state pair for an instance-level one, `hint:` last on stderr, stdout empty; under `--json`, `revive` gives its `strict-modes-failed` document (above).
+
+<!-- /detail -->
+
+<!-- detail: values · cognitive-errors -->
+
+- **CLI, `viola run` / `viola revive` start, a refused socket directory:** exit 1 with the fixed `unable:` / `hint:` pair, `hint:` last on stderr, before any snapshot, child or bind, the directory left as found; under `viola revive --json` one document, `socket-dir-refused` its code, holding no path, pid or uid, with stderr empty and no hint.
 
 <!-- /detail -->
 
@@ -125,8 +137,9 @@ Read whole. The master's broad view is .andromeda/a11y-plan.md; this file holds 
 <!-- detail: procedure · cognitive-errors -->
 
 - **Verification:**
-  - **cli:** trycmd cases pin the `unable <reason> <detail>` + final `hint:` layout per refusal (`viola list`'s exit-21 state pairs — the hint last, stdout empty; under `--json` exactly `{"v":1,"error":"instance-unreachable","detail":"strict-modes-failed"}` with stderr empty — are pinned by literal in the `cfg(unix)` root cases `list_refuses_*` and the unit case `instance_and_home_state_pairs_are_the_fixed_texts`, chunk 2026-10-11-the-board-viola-list; `viola plugin install`'s exit-21 refusal, the same home pair, and its `--json` document, by `plugin_install_refuses_a_widened_home`, chunk 2026-10-17-optional-plugin-install; the eight frame verbs' exit-21 server-verify refusal, by the `HINT` literal in `tests/security_negatives_server_identity.rs`, whose `security_negative_cli_verb_writes_no_frame_to_a_server_that_is_not_the_recorded_wrapper` reads, over `send`, `wait`, `last`, `answer`, `pause`, `release`, `link` and `unlink` in both modes, the hint as the last stderr line with no ESC byte and stdout empty, or under `--json` the exact document with stderr empty, and no output holding the recorded pid, the home's path or the endpoint, beside its control `security_negative_cli_verb_reaches_the_recorded_wrapper`), and assert_cmd checks the typed exit codes (`10`–`14`, `20`, `21`) and that `--json` carries no hint text. These run on all three OS legs, except `tests/security_negatives_server_identity.rs`, gated `not(target_os = "macos")`, which runs on windows-2025 and ubuntu-latest only.
-  - **cli, macOS:** the server-verify refusal cannot occur: no peer pid is read and the check reads as passed (the recorded gap), so its cases compile out there; its macOS witness is owed to "Unix endpoint and home hardening".
+  - **cli:** trycmd cases pin the `unable <reason> <detail>` + final `hint:` layout per refusal (`viola list`'s exit-21 state pairs — the hint last, stdout empty; under `--json` exactly `{"v":1,"error":"instance-unreachable","detail":"strict-modes-failed"}` with stderr empty — are pinned by literal in the `cfg(unix)` root cases `list_refuses_*` and the unit case `instance_and_home_state_pairs_are_the_fixed_texts`, chunk 2026-10-11-the-board-viola-list; `viola plugin install`'s exit-21 refusal, the same home pair, and its `--json` document, by `plugin_install_refuses_a_widened_home`, chunk 2026-10-17-optional-plugin-install; the eight frame verbs' exit-21 server-verify refusal, by the `HINT` literal in `tests/security_negatives_server_identity.rs`, whose `security_negative_cli_verb_writes_no_frame_to_a_server_that_is_not_the_recorded_wrapper` reads, over `send`, `wait`, `last`, `answer`, `pause`, `release`, `link` and `unlink` in both modes, the hint as the last stderr line with no ESC byte and stdout empty, or under `--json` the exact document with stderr empty, and no output holding the recorded pid, the home's path or the endpoint, beside its control `security_negative_cli_verb_reaches_the_recorded_wrapper`), and assert_cmd checks the typed exit codes (`10`–`14`, `20`, `21`) and that `--json` carries no hint text. These run on all three OS legs, except `tests/security_negatives_server_identity.rs`, gated `not(target_os = "macos")`, which runs on windows-2025 and ubuntu-latest only, a limit of its peer pid witness and not of the word: `server-verify-failed` also reaches macOS (below).
+  - **cli, macOS:** no peer pid is read (the recorded gap, a named carve-out no route entry owns), so the peer pid cases compile out there; the server-verify refusal there means an euid mismatch alone, its decision and its real read held by `peer_euid_admitted_takes_only_the_owning_user_where_it_is_reported`, `client_server_euid_is_this_user` and `tokio_client_server_euid_is_this_user`; the socket-directory refusal's macOS witness is `tests/security_negatives_socket_dir.rs`, on `macos-latest`.
+  - **cli, the client euid refusal:** no foreign peer is driven: its decision is tested over injected euids and its real read on Linux and macOS; each client seam's wiring is read only by forced refusals in remove-the-guard runs, which no committed test repeats.
 
 <!-- /detail -->
 
@@ -139,6 +152,12 @@ Read whole. The master's broad view is .andromeda/a11y-plan.md; this file holds 
 <!-- detail: procedure · cognitive-errors -->
 
 - **Verification, strict-modes refusals:** `frame_verb_refuses_a_widened_instance_before_any_log` (`tests/security_negatives_strict_modes.rs`) reads, over `send`, `wait`, `last`, `answer`, `pause` and `release` in both modes against a live wrapper whose instance directory another user may write, exit 21 with the `INSTANCE_PAIR` literal on stderr and stdout empty, or under `--json` the exact `instance-unreachable` document whose `detail` is `strict-modes-failed` with stderr empty, no line added and no frame sent, the widening left as found; `run_refuses_a_widened_home_tree_before_its_log` (`tests/run_cli.rs`) reads `run`'s exit 1 with the `HOME_PAIR` or `INSTANCE_PAIR` literal, stdout empty, no line and no child; `verify_refuses_a_widened_ledger_before_any_step` and `verify_under_a_regular_file_refuses_the_home` (`tests/cli_verify.rs`, the latter's oracle per OS: the home-state pair on Unix, the catch-site line on Windows) read `verify`'s home-state pair with no step line or summary. Unlike the server-verify cases, these run on all three OS legs.
+
+<!-- /detail -->
+
+<!-- detail: procedure · cognitive-errors -->
+
+- **Verification, the socket-directory refusal:** it has no Windows witness: `tests/security_negatives_socket_dir.rs` is `#![cfg(unix)]`, covering `ubuntu-latest` and `macos-latest`, and off Unix the check reads nothing and passes (`check_socket_dir_off_unix_reads_nothing`).
 
 <!-- /detail -->
 
@@ -180,6 +199,7 @@ Read whole. The master's broad view is .andromeda/a11y-plan.md; this file holds 
   - trycmd pins every fixed CLI string, except `viola list`'s, which literals pin (the board, the empty line and the refusal pairs: `tests/cli_list.rs` and the `src/human/board/` units `bay_line_*`, `board_row_*` and `instance_and_home_state_pairs_are_the_fixed_texts`, chunk 2026-10-11-the-board-viola-list), and `viola --help`'s, pinned by the `HELP` literal in `help_is_the_grouped_verb_table` with the served set held by `help_lists_only_served_verbs` (`tests/cli_output_plain.rs`, chunk 2026-10-17-cli-output-discipline), and `viola plugin install`'s planning-form lines, pinned by literal in `plugin_install_prints_the_two_commands` (`tests/cli_plugin_install.rs`) and the unit `write_plugin_installed_is_the_planning_form_in_one_write` (chunk 2026-10-17-optional-plugin-install), and the server-verify hint (`send_hint`'s cause `server-verify`, `src/human/hints.rs`), pinned by the `HINT` literal in `tests/security_negatives_server_identity.rs`, and the instance-state and home-state pairs as the six frame verbs and `run` print them, pinned by the `INSTANCE_PAIR` / `HOME_PAIR` literals in `tests/security_negatives_strict_modes.rs` and `tests/run_cli.rs` (`verify`'s home-state pair by literal in `tests/cli_verify.rs`). Any copy change therefore fails CI until the pinned string is updated on purpose.
   - The `message` literal `wrapper fault` under `--json` and on MCP, for a code outside the five known, is pinned by the unit case `sanitised_fault_carries_nothing_of_the_peer_but_closed_values` (`crates/viola-channel/src/lib.rs`).
   - The `unwrapped-name` and `endpoint-lost` hints (`src/human/hints.rs`) are pinned by the unit `send_hint_is_the_design_string` and by the exit-cause table (`tests/cross_exit_causes.rs`).
+  - The socket-directory hint (`send_hint`'s cause `socket-dir`, `src/human/hints.rs`) is pinned by the unit `send_hint_is_the_design_string` and by the literals `SOCKET_DIR` (`tests/cross_exit_causes.rs`) and `HINT` (`tests/security_negatives_socket_dir.rs`), with `no_hint_names_release`, `no_two_codes_share_a_hint` and `every_code_is_a_code_word` holding the catalogue.
 
 <!-- /detail -->
 

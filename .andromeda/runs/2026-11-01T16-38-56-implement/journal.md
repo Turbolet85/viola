@@ -11,3 +11,6 @@ Each long run, named before it is waited on.
 - 2026-11-01T17:00Z the whole block again on the final tree, `gate.py run`, backgrounded; the macOS check-only clippy after it, in its own target dir.
   Read: block `green 21 · red 0 · recorded 1 · not-run 3`; macOS clippy exit 0.
 - 2026-11-01T17:06Z operator pass: `pre-push` re-fired before its push, entry 22, bound 7200 s.
+  Read: green. Hygiene clean, land, pre-CI commit `c4bf0a92`, pushed by entry 24 with the three door commits (`1dbff048`→`c4bf0a92`).
+- 2026-11-01T17:08Z entry 25, the CI read of `c4bf0a92`, backgrounded: `ci.py conclusion --sha HEAD --wait 2400`.
+  Read: `verdict: green · checks 15/15 · wall 863 s · ci#41329861618`; each OS-sensitive witness read by its own `PASS` line in its job's log.

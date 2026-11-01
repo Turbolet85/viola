@@ -1,0 +1,387 @@
+[
+{
+"tool": "inputs",
+"v": "1.4",
+"sha8": "4b124374",
+"ts": "2026-11-01T17:25:55Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-01-unix-endpoint-and-home-hardening",
+"--source",
+"~/dev/projects/additional/viola-overseer/wrap-unix-endpoint-directive.md",
+"--kind",
+"relay",
+"--why",
+"the overseer directive to this wrap (founder-delegated): forced sampler, classifier draws, stops, the words, the store report, ends the run",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-01T17-25-39-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy no-repo · ../additional/viola-overseer/wrap-unix-endpoint-directive.md",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-wrap-unix-endpoint-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/wrap-unix-endpoint-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "34f722e3377691161894c31cb10df4d6320dc9fed864f90ebf5e291a6b6bb9ed",
+"copy": "I4-wrap-unix-endpoint-directive.md.txt",
+"link": false,
+"read_at": "2026-11-01T17:25:54Z",
+"step": "wrap",
+"why": "the overseer directive to this wrap (founder-delegated): forced sampler, classifier draws, stops, the words, the store report, ends the run"
+}
+},
+{
+"tool": "inputs",
+"v": "1.4",
+"sha8": "4b124374",
+"ts": "2026-11-01T17:26:06Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-01-unix-endpoint-and-home-hardening",
+"--run-dir",
+".andromeda/runs/2026-11-01T17-25-39-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-unix-endpoint-directive.md",
+"I1 cited scope.md:102 · research.md:8 · plan.md:135 · plan.md:143 (in fence) · plan.md:300 (in fence) · plan.md:333",
+"I2 n/a — a message has no live source · copy message · message: the P4 dialog, Q1 and Q2 the founder live through the overseer, Q3 the overseer founder-delegated, 2026-11-01 before 16:27Z",
+"I2 cited plan.md:18 · plan.md:22 · plan.md:333 · plan.md:357 · plan.md:358",
+"I3 n/a — a message has no live source · copy message · message: the operator relaying the overseer as the founder delegate, at the P5 review, 2026-11-01",
+"I3 UNCITED",
+"I4 unchanged · copy no-repo · ../additional/viola-overseer/wrap-unix-endpoint-directive.md",
+"I4 UNCITED",
+"inputs: 4 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 2 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 4,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 2,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.4",
+"sha8": "4b124374",
+"ts": "2026-11-01T17:30:29Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-01-unix-endpoint-and-home-hardening",
+"--run-dir",
+".andromeda/runs/2026-11-01T17-25-39-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-unix-endpoint-directive.md",
+"I1 cited scope.md:102 · research.md:8 · plan.md:135 · plan.md:143 (in fence) · plan.md:300 (in fence) · plan.md:333 · report.md:44",
+"I2 n/a — a message has no live source · copy message · message: the P4 dialog, Q1 and Q2 the founder live through the overseer, Q3 the overseer founder-delegated, 2026-11-01 before 16:27Z",
+"I2 cited plan.md:18 · plan.md:22 · plan.md:333 · plan.md:357 · plan.md:358 · report.md:26 · report.md:45 · report.md:52 · report.md:62 · report.md:93 · report.md:94",
+"I3 n/a — a message has no live source · copy message · message: the operator relaying the overseer as the founder delegate, at the P5 review, 2026-11-01",
+"I3 cited report.md:46 · report.md:59 · report.md:60 · report.md:94",
+"I4 unchanged · copy no-repo · ../additional/viola-overseer/wrap-unix-endpoint-directive.md",
+"I4 cited report.md:52 · report.md:94 · report.md:134",
+"inputs: 4 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 4,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.4",
+"sha8": "4b124374",
+"ts": "2026-11-01T18:14:16Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-01-unix-endpoint-and-home-hardening",
+"--message-file",
+".andromeda/runs/2026-11-01T17-25-39-wrap/relay-1.md",
+"--origin",
+"the operator relaying the founder at G1, 2026-11-01 18:14Z",
+"--kind",
+"relay",
+"--why",
+"the word on the dead draw: continue under the contract, pick --draws 2 on the survivors, no re-spawn; directive item 3 yields, only an every-draw-dead line stops; the set-aside file kept; the founder at G1 through the operator",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-01T17-25-39-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I5 · copy message · message: the operator relaying the founder at G1, 2026-11-01 18:14Z",
+"cite: inputs#I5"
+],
+"stderr": null,
+"wrote": [
+"inputs/I5-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I5",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator relaying the founder at G1, 2026-11-01 18:14Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "e2eea143f23511a12d0a9c0905d9baf2bef5bc781b30b8b7ef826ef6d4b6565c",
+"copy": "I5-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-01T18:14:16Z",
+"step": "wrap",
+"why": "the word on the dead draw: continue under the contract, pick --draws 2 on the survivors, no re-spawn; directive item 3 yields, only an every-draw-dead line stops; the set-aside file kept; the founder at G1 through the operator"
+}
+},
+{
+"tool": "inputs",
+"v": "1.4",
+"sha8": "4b124374",
+"ts": "2026-11-01T18:14:32Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-01-unix-endpoint-and-home-hardening",
+"--run-dir",
+".andromeda/runs/2026-11-01T17-25-39-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-unix-endpoint-directive.md",
+"I1 cited scope.md:102 · research.md:8 · plan.md:135 · plan.md:143 (in fence) · plan.md:300 (in fence) · plan.md:333 · report.md:44",
+"I2 n/a — a message has no live source · copy message · message: the P4 dialog, Q1 and Q2 the founder live through the overseer, Q3 the overseer founder-delegated, 2026-11-01 before 16:27Z",
+"I2 cited plan.md:18 · plan.md:22 · plan.md:333 · plan.md:357 · plan.md:358 · report.md:26 · report.md:45 · report.md:52 · report.md:62 · report.md:93 · report.md:94",
+"I3 n/a — a message has no live source · copy message · message: the operator relaying the overseer as the founder delegate, at the P5 review, 2026-11-01",
+"I3 cited report.md:46 · report.md:59 · report.md:60 · report.md:94",
+"I4 drifted — the source's bytes moved · copy no-repo · ../additional/viola-overseer/wrap-unix-endpoint-directive.md",
+"I4 cited report.md:52 · report.md:94 · report.md:134",
+"I5 n/a — a message has no live source · copy message · message: the operator relaying the founder at G1, 2026-11-01 18:14Z",
+"I5 cited report.md:136",
+"inputs: 5 entries — unchanged 1 · drifted 1 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 5,
+"counts": {
+"unchanged": 1,
+"drifted": 1,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 3
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.4",
+"sha8": "4b124374",
+"ts": "2026-11-01T18:14:59Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-01-unix-endpoint-and-home-hardening",
+"--source",
+"~/dev/projects/additional/viola-overseer/wrap-unix-endpoint-directive.md",
+"--kind",
+"relay",
+"--why",
+"the wrap directive as amended at 18:14Z: item 3 reads a dead draw set aside, the run going on the survivors, every draw dead stops; I4 holds the first text",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-01T17-25-39-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I6 · copy no-repo · ../additional/viola-overseer/wrap-unix-endpoint-directive.md",
+"cite: inputs#I6"
+],
+"stderr": null,
+"wrote": [
+"inputs/I6-wrap-unix-endpoint-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I6",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/wrap-unix-endpoint-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "a1c471181c384f163a7eacab90d538a681031ee780d863ccd1b89ab5fe741393",
+"copy": "I6-wrap-unix-endpoint-directive.md.txt",
+"link": false,
+"read_at": "2026-11-01T18:14:59Z",
+"step": "wrap",
+"why": "the wrap directive as amended at 18:14Z: item 3 reads a dead draw set aside, the run going on the survivors, every draw dead stops; I4 holds the first text"
+}
+},
+{
+"tool": "inputs",
+"v": "1.4",
+"sha8": "4b124374",
+"ts": "2026-11-01T18:15:00Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-01-unix-endpoint-and-home-hardening",
+"--run-dir",
+".andromeda/runs/2026-11-01T17-25-39-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-unix-endpoint-directive.md",
+"I1 cited scope.md:102 · research.md:8 · plan.md:135 · plan.md:143 (in fence) · plan.md:300 (in fence) · plan.md:333 · report.md:44",
+"I2 n/a — a message has no live source · copy message · message: the P4 dialog, Q1 and Q2 the founder live through the overseer, Q3 the overseer founder-delegated, 2026-11-01 before 16:27Z",
+"I2 cited plan.md:18 · plan.md:22 · plan.md:333 · plan.md:357 · plan.md:358 · report.md:26 · report.md:45 · report.md:52 · report.md:62 · report.md:93 · report.md:94",
+"I3 n/a — a message has no live source · copy message · message: the operator relaying the overseer as the founder delegate, at the P5 review, 2026-11-01",
+"I3 cited report.md:46 · report.md:59 · report.md:60 · report.md:94",
+"I4 drifted — the source's bytes moved · copy no-repo · ../additional/viola-overseer/wrap-unix-endpoint-directive.md",
+"I4 cited report.md:52 · report.md:94 · report.md:134 · report.md:139",
+"I5 n/a — a message has no live source · copy message · message: the operator relaying the founder at G1, 2026-11-01 18:14Z",
+"I5 cited report.md:136 · report.md:140",
+"I6 unchanged · copy no-repo · ../additional/viola-overseer/wrap-unix-endpoint-directive.md",
+"I6 cited report.md:138 · report.md:140 · report.md:141",
+"inputs: 6 entries — unchanged 2 · drifted 1 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 6,
+"counts": {
+"unchanged": 2,
+"drifted": 1,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 3
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.4",
+"sha8": "4b124374",
+"ts": "2026-11-01T19:01:32Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-01-unix-endpoint-and-home-hardening",
+"--run-dir",
+".andromeda/runs/2026-11-01T17-25-39-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-unix-endpoint-directive.md",
+"I1 cited scope.md:102 · research.md:8 · plan.md:135 · plan.md:143 (in fence) · plan.md:300 (in fence) · plan.md:333 · report.md:44",
+"I2 n/a — a message has no live source · copy message · message: the P4 dialog, Q1 and Q2 the founder live through the overseer, Q3 the overseer founder-delegated, 2026-11-01 before 16:27Z",
+"I2 cited plan.md:18 · plan.md:22 · plan.md:333 · plan.md:357 · plan.md:358 · report.md:26 · report.md:45 · report.md:52 · report.md:62 · report.md:93 · report.md:94",
+"I3 n/a — a message has no live source · copy message · message: the operator relaying the overseer as the founder delegate, at the P5 review, 2026-11-01",
+"I3 cited report.md:46 · report.md:59 · report.md:60 · report.md:94",
+"I4 drifted — the source's bytes moved · copy no-repo · ../additional/viola-overseer/wrap-unix-endpoint-directive.md",
+"I4 cited report.md:52 · report.md:94 · report.md:134 · report.md:139",
+"I5 n/a — a message has no live source · copy message · message: the operator relaying the founder at G1, 2026-11-01 18:14Z",
+"I5 cited report.md:136 · report.md:140",
+"I6 unchanged · copy no-repo · ../additional/viola-overseer/wrap-unix-endpoint-directive.md",
+"I6 cited report.md:138 · report.md:140",
+"inputs: 6 entries — unchanged 2 · drifted 1 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 6,
+"counts": {
+"unchanged": 2,
+"drifted": 1,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 3
+},
+"uncited": 0,
+"unparsed": 0
+}
+}
+]

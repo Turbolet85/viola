@@ -1,0 +1,99 @@
+# Task — architecture · 2026-11-01-unix-endpoint-and-home-hardening
+
+## The session
+Added a verified per-user socket directory: `viola run`, `viola revive`'s start, the CLI frame verbs, `viola hook` and MCP's frame tools now check the endpoint's parent directory, and a refusal reads the new closed word `socket-dir-refused`.
+Added a peer euid check on both sides on Unix: each client refuses a server of another euid as `server-verify-failed`, and the wrapper drops a refused client on its accept thread before any frame.
+Moved `viola list`'s home from two rules to the read rule on every OS, and changed the harness's `cleanup` so `endpoint_gone` on Unix reads a connect refused or a path absent.
+Retired the dated owner Unix endpoint and home hardening, whose owed clauses are all built; macOS's missing peer pid comparison stays named, owned by no route entry.
+Measured `ci#41329861618` on `c4bf0a92`, green at 15/15; the five hook perf rows read a mean of 2.0 to 2.3 ms and a highest max of 2.8 ms, under `SPINE_DEADLINE`.
+No crate added or removed, no dependency added or bumped, and no CI step changed.
+
+## Reached files
+- crates/viola-core/src/lib.rs
+- crates/viola-state/src/strict.rs
+- crates/viola-state/src/board.rs
+- crates/viola-channel/src/lib.rs
+- crates/viola-channel/src/client.rs
+- crates/viola-channel/src/tokio_client.rs
+- crates/viola-channel/src/server.rs
+- crates/viola-mcp/src/tools.rs
+- src/cmd/run.rs
+- src/cmd/client.rs
+- src/cmd/hook.rs
+- src/human/hints.rs
+- schemas/diag-line.v1.json
+- crates/viola-e2e/src/harness/cleanup.rs
+- tests/security_negatives_socket_dir.rs
+- crates/viola-e2e/tests/harness_lifecycle.rs
+- crates/viola-mcp/tests/handlers.rs
+- tests/support/home.rs
+- tests/cli_list.rs
+- tests/cross_exit_causes.rs
+- tests/contract_error_bodies.rs
+- tests/cli_error_bodies.rs
+- tests/cli_controls_not_disableable.rs
+- tests/hook_fail_open.rs
+- tests/security_negatives_server_identity.rs
+- Cargo.toml
+- .config/nextest.toml
+
+## Touches
+- conv-exit-codes: exit 21's closed causes move from five to six, the sixth `socket-dir-refused`; a row reading five closed causes changes, a row listing the five extends, a row naming only the type does not change; the exit set itself is unchanged.
+- conv-exit-codes: exit 1's start refusals gain a refused socket directory at `viola run` and `viola revive`'s start, and exit 21's refused checks gain it at the frame verbs and `viola link` / `viola unlink`.
+- conv-refusal-reason: `UnreachableCause::SocketDir` is the addition; `RefusalReason` gains nothing and the new word has no serde path, so a row on refusal reasons reads no change unless it names the causes.
+- contract-cli-json-output: the `instance-unreachable` `<cause>` list extends to `strict-modes-failed`, `instance-dead`, `unwrapped-name`, `endpoint-lost`, `server-verify-failed`, `socket-dir-refused`, and MCP's `isError` result carries the same word less `v`.
+- contract-cli-json-output: `viola revive --json`'s exit-1 codes move from ten to eleven with `socket-dir-refused`; `.andromeda/architecture-detail/occupied-resources.md:30` states the ten codes, each list holding all ten extends, and a row naming `batch-script-child` as `run`'s other code or a refusal's own word does not change.
+- conv-mcp-results: an unreachable instance's `isError` result can now carry the new cause from `frame`, and a refused euid reaches it as `UnreachableCause::ServerVerify`.
+- res-ipc-endpoints: the Unix row's per-user 0700 directory is now verified at the bind and at every client; the socket's shape, name and 0600 mode do not move.
+- res-ipc-endpoints: the socket's directory is created only when absent, and a loosened one is refused rather than narrowed, so a row implying viola repairs that directory changes.
+- res-ipc-endpoints: the test-only endpoints row reaches this through the tests: a bare `tempfile::tempdir()` reads 0755 under the umask and meets the new check, so `crates/viola-mcp/tests/handlers.rs`, `tests/hook_fail_open.rs`, `tests/security_negatives_server_identity.rs` and `refused_inside` in `src/cmd/client.rs` narrow theirs through `viola_state::fs::create_private_dir`.
+- contract-instance-snapshot: the `pid` and `started_at` server check stands on Linux and Windows, and a peer euid check now joins it on Linux and macOS; the row's statement that macOS reports no peer pid stays true, its recorded gap wording kept or read as the named carve-out.
+- `server-verify-failed`'s reach moves from off macOS to Linux, Windows and macOS, where on macOS it means an euid mismatch alone; each row stating that reach changes.
+- The owner title Unix endpoint and home hardening: 4 standing architecture rows, each an owed clause now discharged, each changes; macOS's pid gap keeps its name and loses its route owner.
+- Search counts for architecture rows, to read against: `socket-dir` 4 with one key-file row, `peer-euid` 3, `mac-gap` 7; a row reading a built check as owed changes, and a row stating macOS compares no peer pid stays.
+- Exit-cause search count for architecture: `causes` 8 with three key-file rows; `revive-codes` 10.
+- res-filesystem: `viola list`'s home moves from two rules to the read rule, `.andromeda/architecture-detail/occupied-resources.md:163` and `:187` change or are read; `board-rule` stands at 4 in architecture; `instances/` stays on the write rule.
+- res-filesystem: a row stating that strict-modes has two rules stays true, since the write rule and the read rule both still stand; only the board's use of them moved.
+- res-filesystem: the `instances/<ViolaName>/` row's list of checkers and order reaches through `src/cmd/client.rs`, `src/cmd/hook.rs` and `crates/viola-mcp/src/tools.rs`, whose connect now also checks the directory and the euid; `check_home_tree` and its order do not move.
+- dec-message-broker-ipc: the channel seam gains the directory check at its callers, and `Client::server_euid` and `TokioClient::server_euid` read the peer; one sync server is what the code holds, so a row implying a Tokio server would be wrong, while interprocess's own sync and Tokio flavours stay true.
+- dec-hook-contract and res-env-vars' `VIOLA_NAME` row: hooks still fail open, exit 0, empty streams; a refused socket directory is not silent, it writes one line, unlike a strict-modes refusal of the instance, which stays silent.
+- dec-hook-transport: `SPINE_DEADLINE` and the tiers do not move, with both new checks now in the timed path of the five measured hook rows.
+- dec-error-handling and the Rust error types row: `Refused` gains a variant, not a derive, so the nine `thiserror` derives stay nine by the same grep.
+- dec-concurrency-backend-framework and the Tokio containment pattern: `TokioClient::server_euid` sits in the Tokio client and the wrapper's filter on its sync accept thread; `viola-channel`'s normal graph stays free of Tokio, `scripts/channel-tokio-free.sh` green, a claim re-read and unmoved.
+- crosscut local endpoint trust boundary: the per-connection proof beyond the OS's own permissions now exists on Unix through the peer euid on both sides, and the same-user trust statement does not move.
+- contract-channel-methods: frames, methods and fault codes do not move; a refused peer reads end-of-file with no line, and `channel_endpoint_answers_protocol_faults` stays the control.
+- contract-list-payload: the board's refusal path moves to the read rule on every OS, its order, whole-board `ScanRefused::Home` and no-open unchanged, and the payload's shape unchanged.
+- res-repository `schemas/diag-line.v1.json`: `socket-dir-refused` joins `process-exit`'s `detail`, 19 to 20 members at `:78`, and `hook-decision`'s, 7 to 8 members at `:53`.
+- Test inventory: `tests/security_negatives_socket_dir.rs` is a new test binary, sibling of `security_negatives_server_identity`, under one new `[[test]]` table with `required-features = ["fake-agent"]`; a row naming the sibling does not change of itself.
+- `.config/nextest.toml`: the `ci` profile's 10 s kill line gains `binary(security_negatives_socket_dir)`, its `binary(` terms moving from 25 to 26; no row states that count, so a true claim about the line stays.
+- res-binaries `viola-harness` and the harness `cleanup` row: `cleanup` search count 1 in architecture; `endpoint_gone` reading the socket file's absence was measured false after a force-killed wrapper on Unix, so a row stating that reading changes; the document's shape is unchanged.
+- res-env-vars: the product reads no new variable and the new checks have no env, flag or feature seam; `SOCKET_ROOT_VAR` names `TMPDIR` on macOS and `XDG_RUNTIME_DIR` elsewhere only inside the test helper `tests/support/home.rs`.
+
+## New facts
+- F1 · established-decisions · Before any snapshot, child or `Server::bind`, `viola run` and `viola revive`'s start run `socket_dir_ready`: `check_endpoint_dir`, create the parent only when absent, check again, so a race's loser reads the same; a failed create and a refused check read one code, `socket-dir-refused`, exit 1, and a `Server::bind` failure stays what it was.
+- F2 · established-decisions · `viola_state::strict::check_socket_dir` takes one `symlink_metadata`: an absent path passes, an unstattable one is `Refused::Unreadable`, a symlink `Refused::Symlink`, a non-directory the new fixed-message `Refused::NotADirectory`, else the read rule by `socket_dir_verdict`; it never chmods, a refused directory stays as found, and off Unix it returns `Ok(())`.
+- F3 · established-decisions · Each frame-writing client takes three checks in one order: `check_endpoint_dir` on the recorded endpoint, then connect and `peer_admitted(client.server_euid())`, then the server verify; the seams are `src/cmd/client.rs` `connect` with its 8 callers, `src/cmd/hook.rs` `connect` and `crates/viola-mcp/src/tools.rs` `frame`.
+- F4 · established-decisions · `viola_channel` exports `peer_euid_admitted`, `peer_admitted` and `PEER_EUID_REPORTED`, the last `cfg!(unix)`: the decision is `!reported || observed == Some(own)`, so a peer whose euid cannot be read is refused where it is reported, and on Windows the DACL and the pid comparison stay the controls.
+- F5 · established-decisions · The wrapper's `accept_loop` filters `incoming()` by `admitted(peer_euid_of(stream))`, so a refused stream is dropped on the accept thread, before its worker thread and any frame, reading end-of-file, writing no line, nothing on the terminal and moving no wheel; the decision is injected as `type Admission`, through private `serve_admitting`.
+- F6 · established-decisions · `viola hook` meeting a refused socket directory exits 0 with empty streams and no frame and writes one `hook-decision` at WARN with `detail` `socket-dir-refused`, on the dialog path after `hook-invoked{corr:null}` with `decision_emitted:false`; a refused euid is `NotSent::ServerUnverified` in the same fail-open form.
+- F7 · conventions · MCP's `frame` on a refused socket directory answers `result::unreachable(UnreachableCause::SocketDir)` with no frame and no line, `isError` being the record, since MCP's result has no diagnostic line for this.
+- F8 · conventions · A frame verb's refused socket directory is `CallError::SocketDirRefused` to `Unreachable::SocketDir`, writing `process-exit` at WARN with `exit_code` 21, `detail` `socket-dir-refused` and `during` `connect`, and no `channel-request`; the start's is `process-exit` with `subject` `self` and `exit_code` 1, a step with no span and one line.
+- F9 · established-decisions · No check sits inside `viola_channel::Client::connect`: `viola-channel` has no `viola-state` edge, and `channel_link_names_are_validated_by_the_wrapper` writes through that client past every check by design.
+- F10 · occupied-resources · `viola_state::board::scan` holds the home to `check_read` and `instances/` to `check_path` on every OS, while `read_budget_stamped`, `mcp`'s start and `plugin install` keep the write rule on the home.
+- F11 · established-decisions · Standing authority: a refused socket directory's new word and the client euid reading `server-verify-failed` on Linux and macOS are the founder's own word (`inputs#I2` Q1, Q2); the board's rule on every OS is the overseer's as delegate, PROVISIONAL (`inputs#I2` Q3), the founder's own word owed at Epoch 7's boundary batch.
+- F12 · cross-cutting-patterns · The new `unable:` / `hint:` pair for a socket directory names only the parsed `ViolaName`, no path, pid or uid, is plain ASCII with `hint:` last and no SGR, adds `send_hint` cause `socket-dir` in `src/human/hints.rs`, and stands as a planning form, its wording owed to the founder at Epoch 7's boundary batch.
+- F13 · occupied-resources · A force-killed wrapper's socket file stays in the per-user directory until a next bind of that name takes it over; nothing removes it and no owner is proposed, a recorded choice of a harmless file in a 0700 directory (`inputs#I3` row 3).
+- F14 · occupied-resources · Harness `cleanup`'s `endpoint_gone` on Unix goes through `crates/viola-e2e/src/harness/cleanup.rs` `unconnectable`, where `UnixStream::connect` refused or `NotFound` reads gone, `ok:true` after a force-killed wrapper with no leftover file removed, `holder_gone`'s record standing beside this measured rule.
+- F15 · occupied-resources · Test-only socket roots under `/tmp`: `tests/support/home.rs` `SocketRoot`, `SOCKET_ROOT_VAR`, `Wrapper::boot_on_socket_root` and `first_life_on` give a test its own socket root, read from `TMPDIR` on macOS and `XDG_RUNTIME_DIR` elsewhere, used by `tests/security_negatives_socket_dir.rs`; `viola` never names them.
+
+## Untouched
+- dec-pty and the `bin/<version>-<hash>/conpty/` rows: the `viola-pty` crate and `src/conpty.rs` are not reached, and the wrapper's drop moves no key.
+- dec-cli-version-compatibility, crosscut-capability-ledger and contract-ledger-stamps: no ledger row, probe or stamp moved; `viola-agent-claude` and `viola_state::stamps` are not reached, and the new checks depend on no `claude` behaviour.
+- contract-event-data: `process-exit` and `hook-decision` are diagnostic lines, not event kinds, so no `events.ndjson` kind or `data` shape moved; normalisation in `viola-agent-claude` is not reached.
+- dec-session-liveness and contract-session-liveness: the heartbeat and pid rules in `viola_state::liveness` do not move; a peer's euid decides whom to talk to, never whether an instance is `live`, `stale` or `gone`.
+- contract-snapshot-envelope: no snapshot field or replay reader moved; the check reads the `endpoint` already recorded.
+- dec-snapshot-writer: `viola_state::fs` is not edited; `create_private_dir` gains test callers only, and its helpers and tempfile's use stand.
+- crosscut-bounded-readers: `tests/contract_bounded_readers.rs` is not reached; the new check reads metadata, not external bytes, so no bounded reader is added.
+- crosscut-config: no config key moved; `CONFIG_KEYS` in `src/obs.rs` and `schemas/config.v1.json` are not reached, and no setting can disable the new check.
+- res-claude-integration's plugin, marketplace and registered hook event rows: `viola-agent-claude`'s plugin output is not reached.
+- res-repository's `fuzz/`, `vendor/conpty/` and `fixtures/` rows: none is reached.

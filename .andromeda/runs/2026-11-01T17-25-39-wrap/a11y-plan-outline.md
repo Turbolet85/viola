@@ -1,0 +1,61 @@
+# a11y-plan — outline (4 files)
+
+## .andromeda/a11y-plan-detail/a11y-scope-summary.md · a11y-scope-summary · 17.3 KB
+- ## 1. A11y Scope Summary
+  - values · scope-entities · lines 8–13
+  - values · scope-entities · lines 19–21
+  - values · scope-entities · lines 27–29
+  - values · scope-entities · lines 35–37
+  - values · scope-entities · lines 43–50
+  - values · scope-entities · lines 56–59
+  - values · scope-entities · lines 65–65
+  - values · scope-entities · lines 71–74
+  - values · scope-entities · lines 80–83
+  - values · scope-surfaces · lines 89–109
+  - values · scope-surfaces · lines 115–115
+  - values · scope-surfaces · lines 121–128
+  - values · path-p6-board · lines 134–134
+## .andromeda/a11y-plan-detail/aria-patterns-roles.md · aria-patterns-roles · 6.4 KB
+- ## 4. ARIA Patterns & Roles
+  - values · aria-landmarks · lines 8–11
+  - procedure · path-p4-wheel · lines 17–20
+  - procedure · path-p6-board · lines 26–36
+## .andromeda/a11y-plan-detail/cognitive-accessibility.md · cognitive-accessibility · 21.0 KB
+- ## 8. Cognitive Accessibility › ### Timeout extensions
+  - values · cognitive-timeouts · lines 8–10
+- ## 8. Cognitive Accessibility › ### Error recovery
+  - values · cognitive-errors · lines 18–19
+  - values · cognitive-errors · lines 25–25
+  - values · cognitive-errors · lines 31–31
+  - values · cognitive-errors · lines 37–37
+  - values · cognitive-errors · lines 43–43
+  - values · cognitive-errors · lines 49–49
+  - values · cognitive-errors · lines 55–55
+  - values · cognitive-errors · lines 61–61
+  - values · cognitive-errors · lines 67–67
+  - values · cognitive-errors · lines 73–73
+  - values · cognitive-errors · lines 79–79
+  - values · cognitive-errors · lines 85–85
+  - values · cognitive-errors · lines 91–91
+  - values · cognitive-errors · lines 97–97
+  - values · cognitive-errors · lines 103–103
+  - values · cognitive-errors · lines 109–109
+  - values · cognitive-errors · lines 115–115
+  - values · cognitive-errors · lines 121–121
+  - procedure · cognitive-errors · lines 127–129
+  - procedure · cognitive-errors · lines 135–135
+  - procedure · cognitive-errors · lines 141–141
+  - procedure · cognitive-errors · lines 147–147
+  - procedure · cognitive-errors · lines 153–153
+  - procedure · cognitive-errors · lines 159–159
+  - procedure · cognitive-errors · lines 165–165
+  - procedure · cognitive-errors · lines 171–171
+- ## 8. Cognitive Accessibility › ### Plain language
+  - procedure · cognitive-plain-language · lines 179–182
+  - procedure · cognitive-plain-language · lines 188–188
+  - procedure · cognitive-plain-language · lines 194–194
+- ## 8. Cognitive Accessibility › ### Consistency and predictability
+  - procedure · cognitive-consistency · lines 202–203
+## .andromeda/a11y-plan-detail/visual-design-verification.md · visual-design-verification · 2.9 KB
+- ## 6. Visual Design Verification
+  - values · visual-sgr · lines 8–9

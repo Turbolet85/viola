@@ -1,0 +1,1 @@
+Continue under the contract: pick --draws 2 sets the dead draw aside and reads its listing on the surviving draw; do not re-spawn. Authority: the founder at G1, «Идти на выживших». Item 3 of the directive yields to that: only an every-draw-dead line stops. Keep the set-aside file. Please report pick trail as asked.

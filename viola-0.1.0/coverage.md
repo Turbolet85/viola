@@ -1,6 +1,6 @@
 # Coverage — viola-0.1.0
 
-verified 29/53 · deferred 6 · planned 17 · implemented 1 · unclaimed 17
+verified 30/53 · deferred 6 · planned 17 · implemented 0 · unclaimed 17
 
 ## deferred (6)
 - v1-22 · `viola ui` on an OS-assigned port
@@ -9,9 +9,6 @@ verified 29/53 · deferred 6 · planned 17 · implemented 1 · unclaimed 17
 - v1-50 · Automated accessibility verdict on every page state
 - v1-51 · Token-pair contrast, forced colours and reduced motion hold
 - v1-52 · The 401 access strip after a UI restart
-
-## implemented (1)
-- v1-44 · The IPC endpoint admits only the same OS user and verifies its server · 2026-11-01-unix-endpoint-and-home-hardening
 
 ## planned, unclaimed (17)
 - v1-01 · Three-OS CI pipeline from the first commit
@@ -32,7 +29,7 @@ verified 29/53 · deferred 6 · planned 17 · implemented 1 · unclaimed 17
 - v1-36 · Links between sessions
 - v1-53 · Linux and macOS reach parity with Windows
 
-## verified (29)
+## verified (30)
 - v1-02 · The headless harness: five agent-run commands · 2026-10-17-end-to-end-path-binary-and-harness-legs
 - v1-06 · Mutation gate per chunk from chunk 1 · 2026-09-24-three-os-ci-headless-harness-skeleton
 - v1-08 · Code-graph seeded at setup and built on the first real code · 2026-09-27-browser-verdict-reachability
@@ -59,6 +56,7 @@ verified 29/53 · deferred 6 · planned 17 · implemented 1 · unclaimed 17
 - v1-41 · Crash-safe, self-healing, version-tolerant state · 2026-10-26-home-and-code-bearing-file-integrity
 - v1-42 · Optional plugin install for unwrapped drivers · 2026-10-18-plugin-precedence-live-readings
 - v1-43 · Chunk-blocking security prerequisites · 2026-09-25-security-prerequisites
+- v1-44 · The IPC endpoint admits only the same OS user and verifies its server · 2026-11-01-unix-endpoint-and-home-hardening
 - v1-45 · The viola home and its code-bearing files keep their integrity · 2026-10-26-home-and-code-bearing-file-integrity
 - v1-46 · Bounded, validated inputs at every boundary · 2026-10-27-bounded-inputs-at-every-boundary
 - v1-47 · Sanitised errors and the never-log floor · 2026-10-31-sanitised-error-surfaces

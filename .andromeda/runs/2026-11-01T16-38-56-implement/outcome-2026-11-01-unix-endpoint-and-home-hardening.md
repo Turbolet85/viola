@@ -1,8 +1,8 @@
 # Outcome — 2026-11-01-unix-endpoint-and-home-hardening
 
-**green + smoke.** Every entry of the block fired by /implement reads green on the final tree: `entries 25 · green 21 · red 0 · recorded 1 · timeout 0 · not-run 3`, the three not-run the operator entries 23, 24 and 25. `v1-44` is `implemented`. Next: the operator pass, entries 23 (hygiene), 24 (push) and 25 (CI read), then `/andromeda-wrap-session`.
+**green + smoke.** Every entry of the block fired by /implement reads green on the final tree: `entries 25 · green 21 · red 0 · recorded 1 · timeout 0 · not-run 3`, the three not-run the operator entries 23, 24 and 25. `v1-44` is `implemented`. The operator pass is done: hygiene clean, pre-CI commit `c4bf0a92`, pushed with the three door commits, `verdict: green · checks 15/15 · ci#41329861618`, no fix commit (`evidence/operator-entries.md`, each OS-sensitive witness read from its job log). Next: `/andromeda-wrap-session`.
 
-No live `claude` ran. The macOS and Windows readings are CI's, at the operator pass: until then, `security_negatives_socket_dir` and the euid read have run on Linux only.
+No live `claude` ran.
 
 ## Files changed
 

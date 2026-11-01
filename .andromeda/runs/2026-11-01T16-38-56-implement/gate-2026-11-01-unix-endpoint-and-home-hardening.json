@@ -5192,5 +5192,92 @@
 }
 ]
 }
+},
+{
+"tool": "gate",
+"v": "1.25",
+"sha8": "847cb796",
+"ts": "2026-11-01T17:23:16Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-11-01T16-38-56-implement",
+"--marker",
+"2026-11-01-unix-endpoint-and-home-hardening"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust · base 6ba49f53 (the parent of the oldest pre-CI commit c4bf0a92)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust — each fired on its synthetic known positive",
+"hygiene: clean — read 667 (runs 659 · evidence 3 · inputs 5) · trails 15 not read · copies 3 not read by P1 — 0 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 659,
+"evidence": 3,
+"inputs": 5,
+"trails": 15,
+"copies": 3,
+"kept": 0,
+"binary": 0,
+"in_root": 0
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.25",
+"sha8": "847cb796",
+"ts": "2026-11-01T17:23:17Z",
+"argv": [
+"census",
+"--comm",
+"viola-fake-agent",
+"--args",
+"projects/viola/target/debug/viola",
+"--args",
+"projects/viola/target/harness",
+"--run-dir",
+".andromeda/runs/2026-11-01T16-38-56-implement",
+"--marker",
+"2026-11-01-unix-endpoint-and-home-hardening"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"census · ps · comm viola-fake-agent · args projects/viola/target/debug/viola, projects/viola/target/harness · own tree excluded: 8",
+"census: none running"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"census": {
+"comm": [
+"viola-fake-agent"
+],
+"args": [
+"projects/viola/target/debug/viola",
+"projects/viola/target/harness"
+],
+"running": []
+}
+}
 }
 ]

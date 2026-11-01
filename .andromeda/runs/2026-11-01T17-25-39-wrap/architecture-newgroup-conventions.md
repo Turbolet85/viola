@@ -1,0 +1,6 @@
+# New groups — architecture · conventions
+
+## Verdicts
+- fanout-architecture--cascade-g2.md 7 · contradiction · lines 64–64 · «the socket-directory refusal has no code» · the standing line says the refusal has no code and that `bind_endpoint`'s failure is an anyhow error at the catch site with its code OPEN, the proposal gives it exit 21 with `socket-dir-refused` and the start's `process-exit` with `exit_code` 1; its `Unreachable::SocketDir` also lies outside line 33's closed cause set
+- fanout-architecture--cascade-g2.md 10 · contradiction · lines 33–33 · «`ServerVerify`, each word through `as_str`) is exit 21's closed cause set» · the standing closed set holds five causes and no `SocketDir`, the proposal answers with `UnreachableCause::SocketDir`; line 64 also says the socket-directory refusal has no code
+- cascade-compare-architecture.md 1 · contradiction · lines 118–118 · «`instance-unreachable` with `detail` its cause word, `strict-modes-failed`» · the standing cause words for MCP's `instance-unreachable` end at `server-verify-failed` with no `socket-dir-refused`, and line 64 says the refusal has no code; the proposal is otherwise the same fact as fanout-architecture--cascade-g2.md 10, placed at another line
