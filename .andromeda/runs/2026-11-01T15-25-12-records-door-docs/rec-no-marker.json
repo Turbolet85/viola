@@ -1,0 +1,32 @@
+[
+{
+"tool": "rec",
+"v": "1.5",
+"sha8": "7de1e782",
+"ts": "2026-11-01T15:25:16Z",
+"argv": [
+"migrate",
+"--root",
+".",
+"--family",
+"docs",
+"--work",
+"~/.cache/andromeda-door/viola-docs",
+"--apply",
+"--run-dir",
+".andromeda/runs/2026-11-01T15-25-12-records-door-docs"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"moved: docs · 30000 line(s) · 45f4c94f · 2026-11-01T15-25-04-door-docs.ndjson · nothing committed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T15-25-04-door-docs.ndjson",
+"./.andromeda/db/moved"
+],
+"before": null,
+"after": null
+}
+]
