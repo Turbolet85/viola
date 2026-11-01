@@ -1,195 +1,117 @@
 # Working Route — viola-0.1.0
 
-_Ordered WHAT-not-HOW chunk list for this version. Reorder = move up/down._
-_No numbers, no per-chunk IDs/metadata. At promotion /andromeda-phase prefixes the chunk's line with_
-_`[{marker}]` to freeze it (wrap's route-resolve edits only the markerless tail; once the chunk's master_
-_record is complete, wrap P7 flip-compacts its line to `[{marker}] {title} — {scope hint}`, archiving the_
-_verbatim line to route-archive.md); markerless lines stay mutable._
-_Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` headers are structural._
-
 ### Epoch 1 — Foundation
+
 [2026-09-24-three-os-ci-headless-harness-skeleton] Three-OS CI and headless harness skeleton — SHA-pinned actions, pinned 1.96-floor toolchain, nextest, five agent-run commands, minimal fake agent, per-role JSON line, mutation gate
-   ↓
 [2026-09-24-fake-agent-and-test-data-fixtures] Fake agent and test-data fixtures — scripted modes and control file, receipts, temp-home fixture chain under target/e2e-home, fixture scrub-and-schema walk, committed property seeds
-   ↓
 [2026-09-24-supply-chain-and-workflow-gates] Supply-chain and workflow gates — cargo-deny families with telemetry-crate and redaction-toggle bans, weekly advisory run, zizmor, tokio-free sync-crate check, least-privilege permissions
-   ↓
 [2026-09-24-diagnostics-plane] Diagnostics plane — per-role JSON sinks with process-start service identity, closed event vocabulary and line schemas, owner-only per-instance detail files, diagnostics_level, torn-line-aware logs merge
-   ↓
 [2026-09-24-log-redaction-and-never-log-floor] Log redaction and never-log floor — skip-all span fields, redacted payload types, fixed error displays, content-bearing records only in instance detail files
-   ↓
 [2026-09-24-observability-gates] Observability gates — panic hook first, zero-panic, schema, bare-instrument and abort-panic gates, canary secret scan before any upload, print and raw-log lint bans
-   ↓
 [2026-09-24-quality-gates] Quality gates — fatal fmt/clippy lint, MSRV 1.96 job, per-OS coverage floors, seeded property and fuzz corpus replay, zero retries, per-job gate verdict
-   ↓
 [2026-09-24-workspace-tree-and-code-graph-planes] Workspace tree and code-graph planes — arch tree lists test/obs/a11y artifacts, release build free of test binaries, Rust plane ok, TypeScript plane decided
 
 ### Epoch 2 — Windows slice I: wrapper, events, ledger
+
 [2026-09-24-epoch-1-cleanup] Epoch 1 cleanup — MAX_FRAME value witnessed by a test, harness and fake-agent functions within the cognitive ceiling, run.rs under 800 lines, test clone pairs gone
-   ↓
 [2026-09-25-security-prerequisites] Security prerequisites — SQOS pipe-handle spike and pure-Rust SHA-256 pick, both recorded ahead of the channel client and bin/ writes; no unprotected-connect fallback
-   ↓
 [2026-09-25-pty-wrapper-on-windows] PTY wrapper on Windows — viola run passthrough with zero own bytes, npm-shim resolution, .cmd refusal, CLAUDE* strip, process-handle exit, portable-pty line recorded
-   ↓
 [2026-09-26-ci-chunk-base-and-union-verdict] CI chunk base and union verdict — whole-chunk CI base surviving the operator pass, per-leg union mutation verdict, owned secret-scan residue scope
-   ↓
 [2026-09-26-local-linux-pre-push-gate] Local Linux pre-push gate — WSL2 Ubuntu at CI's pins, synced Linux-filesystem clone of the working tree, Unix tests and ubuntu mutation leg before every push
-   ↓
 [2026-09-27-instance-state-and-start-order] Instance state and start order — append-only event log, atomic snapshot, heartbeat, pinned bin/ copy, plugin folder, documented start order, live/stale name refusal
-   ↓
 [2026-09-27-wrapper-channel] Wrapper channel — JSON-RPC 2.0 ndjson over the per-instance named pipe (Unix: per-user socket directory), SQOS-opened client, v/sender/conn in every frame, MAX_FRAME, newer-peer refusal
 
 ### Epoch 2b — Windows slice I b: events and ledger
+
 [2026-09-27-epoch-2-cleanup] Epoch 2 cleanup — four files under 800 lines, clone pairs gone, channel/state/pty survivors killed, mutation scratch off C:, harness loop aids, machete annotation
-   ↓
 [2026-09-27-browser-verdict-reachability] Browser verdict reachability — stub page, Playwright on three CI OSes and the WSL pre-push, pipe to a recorded green verdict; capability reachable, not real assertions
-   ↓
 [2026-09-27-hooks-to-normalised-events] Hooks to normalised events — exec-form plugin hooks by absolute path, hook-to-kind map, harness/paste/tag normalisation, silent unwrapped no-op, fail-open exit 0, perf-job-gated hook deadlines
-   ↓
 [2026-09-28-hook-perf-gate] Hook perf gate — hyperfine-gated hook deadlines per OS in CI, forced-panic fail-open case on the real binary, over-4 KiB concurrent detail line
-   ↓
 [2026-09-28-cli-output-tokens] CLI output tokens — SGR attention/stale/callsign tokens with depth fallback, colour decision order, stdout/stderr split, plain under non-TTY/NO_COLOR/TERM=dumb/--json, escaped controls
-   ↓
 [2026-09-28-capability-ledger-and-viola-verify] Capability ledger and viola verify — versioned rows with probes and post-conditions, stamps, scrubbed fixture recording, largest-payload row, transport-only degrade, fake-agent verify in CI
-   ↓
 [2026-09-28-mutation-testing-to-the-epoch-boundary] Mutation testing to the epoch boundary — per-chunk mutation gate retired: pre-push mutation leg, CI mutation jobs and mutants-verdict removed; cargo-mutants kept for code-audit
-   ↓
 [2026-09-29-h2-conpty-resize-probe] H2 ConPTY resize probe — the key lost within ~50 ms of a ConPTY resize reproduced on Windows a set number of times, localised, then fixed or documented
-   ↓
 [2026-09-29-verify-stamped-test-homes-and-harness] Verify-stamped test homes and harness — test homes and harness boot stamped through viola verify, recorded-fixture readiness, contract ledger probes, local-live run, fake agent at the recorded version
-   ↓
 [2026-09-29-sideloaded-conpty] Sideloaded ConPTY — Microsoft NuGet conpty.dll and OpenConsole.exe beside the pinned viola.exe, version and hash pinned, signature checked, loaded only from that path
-   ↓
 [2026-09-29-fake-agent-drift-contract] Fake-agent drift contract — fake agent's hook sequences and payloads equal the recorded verify fixtures per CLI version, annotations forwarded, fixture schema check
 
 ### Epoch 3 — Windows slice II: driving verbs and live proof
+
 [2026-10-02-epoch-2b-cleanup] Epoch 2b cleanup — in-repo suite red diagnosed and fixed, coverage re-taken, eight mutation survivors killed, viola-e2e and cfg(unix) mutants scored, test tempdir leaks closed
-   ↓
 [2026-10-03-mutation-scoring-completion] Mutation scoring completion — viola-e2e harness and twelve cfg(unix) mutants scored natively at the boundary tier; pre-push and gate tools moved to the Linux host
-   ↓
 [2026-10-04-windows-boundary-mutation-workflow] Windows boundary mutation workflow — cfg(windows) mutants scored on the windows runner by a manually dispatched, non-blocking workflow at each epoch boundary
-   ↓
 [2026-10-04-readiness-gate-and-timing-constants] Readiness gate and timing constants — screen-model quiet period, input-box and modal signatures as ledger rows, named confirmation window and deadlines, injected clock, parser-panic degrade
-   ↓
 [2026-10-04-confirmed-send-with-cl-1-records] Confirmed send with CL-1 records — RB readback mirror with per-reason hints, typed not-delivered details, unconfirmable local commands, /clear post-condition, control-character refusal, one in flight
-   ↓
 [2026-10-04-wait-and-last] wait and last — cursor-based wake on driver-relevant events, already-logged events returned at once, typed timeout, unreachable on vanished wrapper, newest turn's text
-   ↓
 [2026-10-04-dialog-answers-by-dialog-id] Dialog answers by dialog_id — question, permission and plan through hooks, plan answered as plan, permission-suggestion decision, one pending dialog, deadline expiry, unknown-dialog
-   ↓
 [2026-10-04-the-wheel] The wheel — human editing key takes it, focus/mouse/resize never do, held bytes during paste, harness turns ignored, pause and release, human-typing/manual-pause refusals, release-from-driver
-   ↓
 [2026-10-04-running-turn-refusal] Running-turn refusal — prompt-submitted marks a turn running, turn-ended/session-start/session-end end it, automated send refused turn-running meanwhile, release clears it
-   ↓
 [2026-10-05-real-cli-verify-probes] Real-CLI verify probes — typed-input PTY probe against the installed claude, screen signatures and timing, local-command, dialog-body and paste-framing ledger rows, measured and stamped
-   ↓
 [2026-10-05-dialog-rows-and-re-probe] Dialog rows and re-probe — S3/S7/S8 and dialog-concurrency ledger rows with their own interactive verify re-probe, the decision taking effect, the permission end-to-end case
-   ↓
 [2026-10-05-permission-end-to-end] Permission end to end — the permission kind's end-to-end case and wake witness, and the PermissionRequest body for a question first raised there
-   ↓
 [2026-10-06-local-command-and-paste-framing-rows] Local-command and paste-framing rows — local-command post-conditions and unconfirmable, long-paste wrapper, tag-escaping, harness-prefix and R8 identity-floor ledger rows, each measured by typed probe
-   ↓
 [2026-10-06-local-command-send-outcomes] Local-command send outcomes — send's unconfirmable outcome with its mirror line, and /clear confirmed by its new-session post-condition
-   ↓
 [2026-10-07-test-homes-off-the-contended-volume] Test homes off the contended volume — on the dev host a test start no longer stalls behind other builders' writes, the homes' path and CI's own fsync unchanged
-   ↓
 [2026-10-07-live-rows-and-paste-shapes-on-the-dev-host] Live rows and paste shapes on the dev host — the harness-prefix and identity-floor rows, three paste shapes and the paste-hint window, measured on the real CLI
-   ↓
 [2026-10-07-send-waits-out-the-paste-hint] Send waits out the paste hint — on a verified CLI a send issued while the paste hint stands is delivered once the input box returns, within 8.5 s
-   ↓
 [2026-10-07-a-send-ending-in-a-newline-is-confirmed] A send ending in a newline is confirmed — a driver's text whose last byte is a newline is reported delivered when it is, and the driver keeps the wheel
-   ↓
 [2026-10-08-first-live-test-and-self-drive] First live test and self-drive — overseer drives a builder through viola, founder takes the wheel, overseer drops the prototype
 
 ### Epoch 4 — Session state & governance
+
 [2026-10-09-epoch-3-cleanup] Epoch 3 cleanup — test scaffolding shared once, three functions within the cognitive ceiling, viola-e2e scored, eighteen Linux survivors disposed, trailing CR confirmed, newline-only send refused at once
-   ↓
 [2026-10-09-inner-cr-and-crlf-in-a-sent-text] Inner CR and CRLF in a sent text — typed as the LF the CLI submits, so the send is confirmed and the driver keeps the wheel
-   ↓
 [2026-10-09-epoch-3-cleanup-ii] Epoch 3 cleanup II — test scaffolding shared once, three functions within the cognitive ceiling, viola-e2e whole-unit score, eighteen Linux survivors disposed
-   ↓
 [2026-10-10-windows-mutation-grade] Windows mutation grade — the strict-modes and DACL checks pinned by Windows-side refusal tests, host-excluded twins left out of the count, every job inside its ceiling, workflow green
-   ↓
 [2026-10-10-self-healing-state] Self-healing state — torn-line healing, snapshot rebuild by log replay, unknown kinds and fields counted and surfaced, newer-snapshot and newer-peer tolerance
-   ↓
 [2026-10-10-viola-revive] viola revive — resume a dead instance in place by its newest logged session id in the recorded cwd, no launch replay, four preflight refusals
-   ↓
 [2026-10-10-statusline-pass-through] Statusline pass-through — named read-only source, per-home redirect for tests, settings.json rewritten each start with absolute pinned path, user output unchanged, readings to budget.json
-   ↓
 [2026-10-10-budget-governor] Budget governor — five-hour/seven-day thresholds, budget-paused on automated send only, lift at reset or per-instance override, unknown with age, release --budget payload
-   ↓
 [2026-10-10-session-links] Session links — driver-to-driven link on first cross-instance send or answer, explicit link/unlink, log-derived link set with since, link result payload
-   ↓
 [2026-10-11-the-board-viola-list] The board: viola list — BAY header over six-column board, liveness, status, wheel/budget pause, amber DIALOG, dim stale rows, CLI verdict, read-only unwrapped rows
 
 ### Epoch 5 — Driver surface
+
 [2026-10-13-epoch-4-cleanup] Epoch 4 cleanup — Epoch 4's mutation survivors disposed, the Windows mutation baseline green on the root package, send and human output split by phase, Windows-target lint gated
-   ↓
 [2026-10-13-epoch-4-survivors] Epoch 4 survivors — the Epoch 4 audit's 47 mutation survivors each disposed: an owning-package test, a behaviour-preserving restatement, or a not-measured-here record by coordinate
-   ↓
 [2026-10-13-epoch-4-survivors-ii] Epoch 4 survivors II — the Epoch 4 audit's 16 `typed.rs` survivors in `viola verify`'s Run B driver disposed: an owning-package test after a behaviour-preserving restatement, or a not-measured-here record
-   ↓
 [2026-10-13-interrupted-verify-cleanup] Interrupted verify cleanup — `viola verify` stopped by Ctrl-C or TERM removes only what that run created; older, foreign and kill-or-crash leftovers stay by hand
-   ↓
 [2026-10-13-paste-newline-ledger-row] Paste newline ledger row — an LF typed inside a paste, which every multi-line send relies on, is a probed and stamped capability-ledger row (v1-34)
-   ↓
 [2026-10-13-owed-ledger-rows] Owed ledger rows — the relied-on CLI shapes still without a ledger row become probed, stamped capability-ledger rows (v1-34)
-   ↓
 [2026-10-14-resume-and-compact-ledger-rows] Resume and compact ledger rows — `claude --resume <id>` reopening a session and `/compact` become probed, stamped capability-ledger rows (v1-34)
-   ↓
 [2026-10-16-remove-the-browser-leg] Remove the browser leg — the browser test leg leaves 0.1.0: every gate green with no Node on the host, no browser step in any workflow, pre-push or harness
-   ↓
 [2026-10-16-unwrapped-sessions-on-the-board] Unwrapped sessions on the board — `claude agents --json` read once, unwrapped read-only rows, idle/busy STATUS, revive refuses a session id live elsewhere (v1-37)
-   ↓
 [2026-10-17-end-to-end-path-binary-and-harness-legs] End-to-end path binary and harness legs — first `path_` E2E binary, `run --e2e` selector, harness boot with the statusline echo, two-instance budget leg, status `list` member
-   ↓
 [2026-10-17-cli-machine-contract] CLI machine contract — --json per verb mirroring channel results, typed exits 0/1/2/10–14/20/21, cause-named hints, global --home, config.json thresholds
-   ↓
 [2026-10-17-cli-output-discipline] CLI output discipline — linear static output on three OSes, grouped --help, colour only beside its word, zero wrapper bytes, unblocked human keys during sends
-   ↓
 [2026-10-17-mcp-server-for-drivers] MCP server for drivers — stdio tools send/wait/last/answer/list, CLI-parity results and code-only refusals, no wheel or link controls, calls under the tool-call timeout
-   ↓
 [2026-10-17-optional-plugin-install] Optional plugin install — MCP-only plugin for unwrapped drivers, absolute-path command, never two hook processes per event, MCP-server precedence measured as ledger row
-   ↓
 [2026-10-18-compact-post-condition-ledger-row] Compact post-condition ledger row — `/compact` confirmed by its SessionStart of cause `compact`, a probed, stamped ledger row with its own confirm window (v1-34)
-   ↓
 [2026-10-18-plugin-precedence-live-readings] Plugin precedence live readings — the two plugin readings on claude 2.1.287 (which `viola` MCP server or servers a wrapped session holding both the `--plugin-dir` plugin and the installed `viola@viola` starts and which answers its `list` call; whether a registered `viola mcp` that exits 1 blocks an unwrapped start), the method past the folder-trust dialog, and `v1-42`
-   ↓
 [2026-10-19-dialog-hold-for-the-driver] Dialog hold for the driver — a longer or configurable dialog hold and a record of an expired hold (gap-list group 2)
-   ↓
 [2026-10-19-overseer-switch-to-viola] Overseer switch to viola — the overseer drives through viola instead of the prototype; claims v1-33, its text re-worded to the Linux dev host and a session-terminal key by the founder's ruling 2026-10-19 (inputs#I1 of the 2026-10-19T07-31-13-wrap run)
 
 ### Epoch 6 — Security hardening
+
 [2026-10-19-newer-claude-cli-rows] Newer claude CLI rows — the four ledger rows claude 2.1.302 fails, re-measured and brought back to a full stamp
-   ↓
 [2026-10-20-epoch-5-cleanup] Epoch 5 cleanup — the debts the Epoch 5 boundary's audit and diagnosis named, each closed so the next boundary's audit reads it closed
-   ↓
 [2026-10-20-epoch-5-cleanup-ii] Epoch 5 cleanup II — the three Epoch 5 boundary debts the founder's split moved out of "Epoch 5 cleanup", each closed so the next boundary's audit reads it closed
-   ↓
 [2026-10-25-windows-endpoint-admission] Windows endpoint admission — pipe access for the owning user and SYSTEM only, remote pipe clients rejected, squatted name blocks start (per security-plan §Authentication)
-   ↓
 [2026-10-26-tokio-rustsec-2026-0386-lock-bump] tokio RUSTSEC-2026-0386 lock bump — a lock bump of `tokio` to `>=1.53.3`: the `unsound` advisory RUSTSEC-2026-0386 against the locked tokio 1.53.1 fails CI's `supply-chain` job, with no ignore-list widening (per security-plan §Dependency Security)
-   ↓
 [2026-10-26-server-verification-before-any-frame] Server verification before any frame — clients match the recorded wrapper pid and start time; CLI/MCP report unreachable, hooks fail open on mismatch
-   ↓
 [2026-10-26-explicit-session-links] Explicit session links — `viola link` / `unlink` verbs and their channel methods, held for the founder's word on the boundary widening
-   ↓
 [2026-10-26-home-and-code-bearing-file-integrity] Home and code-bearing file integrity — owner-only home, DACL check before any diagnostics file, pinned-binary re-hash, per-start plugin rewrite, single stamp/snapshot writers
-   ↓
 [2026-10-27-pinned-copy-race-and-reproducible-builds] Pinned copy race and reproducible builds — the pinned copy of the binary never replaced under a concurrent first start (the `pin_exe` race on a fresh home), and whether a rebuild of one tree can read as another binary (two clean release builds of one tree, compared by file and by section); carved out of «Home and code-bearing file integrity» with its two CARRYs verbatim by the founder's own word at its P4 (`chunks/2026-10-26-home-and-code-bearing-file-integrity/inputs/I3-relay-1.md.txt`, Q4) and his P5 «Да» on the card (`chunks/2026-10-26-home-and-code-bearing-file-integrity/inputs/I4-relay-2.md.txt`)
-   ↓
 [2026-10-27-bounded-inputs-at-every-boundary] Bounded inputs at every boundary — size caps, depth limits, closed types, names validated before path joins, paste rule client and wrapper side
-   ↓
 [2026-10-31-sanitised-error-surfaces] Sanitised error surfaces — codes and fixed messages only in CLI --json, MCP errors and channel error data, no paths or upstream text
-   ↓
 [2026-10-31-exit-cause-code-catalogue] Exit-cause code catalogue — every exit-21 and exit-1 cause a distinct code across --json, MCP and process log, matching its human hint
 
 ### Epoch 7 — Cross-OS completion
+
 Unix endpoint and home hardening — per-user 0700 socket directory, 0600 socket, peer euid both sides, Unix strict modes, macOS pid gap recorded  CARRY: chunk 2026-09-27-wrapper-channel landed the per-user 0700 socket directory (`$XDG_RUNTIME_DIR/viola/`, `$TMPDIR/viola/`, `/tmp/viola-<uid>/`), the socket's 0600 by chmod after the bind (never `ListenerOptionsExt::mode`: `Unsupported` on macOS fails the bind) and the `.lock` start arbiter; the directory verification (owner, mode, not a symlink, before bind and before connect) and the peer euid check stay this entry's  CARRY: chunk 2026-10-10-viola-revive (this entry on the operator's answer at its wrap's Phase 2 halt, three placements shown with their prices, `inputs#I8`, answer 5): a killed wrapper removes nothing, so on Unix its socket file stays, and the next bind takes over the leftover file (measured at that chunk: the root kill path waits on a connect probe, `holder_gone` in `tests/support/home.rs`, because a wait on the file being absent never ended). hypothesis: the harness `cleanup` reads `endpoint_gone:false`, and so exits 1, after it force-kills a wrapper on Unix, because its Unix rule is the socket path gone (`crates/viola-e2e/src/harness/cleanup.rs`); no run measured it  CARRY: chunk 2026-10-26-server-verification-before-any-frame (its P5 review card's row 3, the word `viola-0.1.0/chunks/2026-10-26-server-verification-before-any-frame/inputs/I4-relay-2.md.txt`, delegate the Viola overseer, founder-delegated): that chunk's server check compares the peer pid and its start time on Linux and Windows only — macOS reports no peer pid, so its verdict there is a match with no comparison — and its negatives compile out on macOS; this entry adds the client-side peer euid check (every Unix client) and test-plan §6's macOS exit-cause case (the per-user socket directory loosened to 0755 → exit 21) beside its own directory and euid freight  CARRY: chunk 2026-10-26-home-and-code-bearing-file-integrity (its wrap's P2 halt Q3, the overseer's answer, founder-delegated and PROVISIONAL, `viola-0.1.0/chunks/2026-10-26-home-and-code-bearing-file-integrity/inputs/I6-relay-1.md.txt`): `viola list`'s `board::scan` runs `check_path` (the write rule) on the home and then `check_instance` per instance, which holds the home to the read rule, so a 0750 home passes the board while it holds no instance and is refused naming the instance (`ScanRefused::Instance`) once it holds one; making the board's home check one rule is this entry's (`board.rs` unchanged by that chunk; its report's Count 14)  CARRY: chunk 2026-10-31-exit-cause-code-catalogue (its P5 review card's Beyond-the-plan row, `.andromeda/runs/2026-10-31T15-42-40-phase/p5-card-1.md`, delegate the overseer, PROVISIONAL, `chunks/2026-10-31-exit-cause-code-catalogue/inputs/I3-relay-2.md.txt`): the socket-directory refusal's code, a leg of `verification-matrix.json#v1-18`, is this entry's. `bind_endpoint`'s `create_private_dir` failure is an anyhow error at the catch site today (measured at that chunk's research), so the code holds no such refusal: the verified 0700 directory's refusal takes its closed code and its hint, a row of `tests/cross_exit_causes.rs`. macOS's server check stays here too, a named carve-out of the founder's own word (`chunks/2026-10-31-exit-cause-code-catalogue/inputs/I2-relay-1.md.txt` Q4).
-   ↓
 Linux and macOS parity — openpty wrapper, full fake-agent suite and obs gates green on both, identical diagnostics schema, Windows stays live-supported target  CARRY: chunk 2026-10-08-first-live-test-and-self-drive: the wheel's closed non-editing list was measured on one terminal, foot 1.28.0 (`evidence/reply-probe-fixed.ndjson`, 23 queries). A terminal that answers the cursor-position query `CSI ? 6 n` (with `CSI ? r;c R`) or the kitty graphics query (an APC string) writes a reply that is still typing, and the CLI has a parser for both (read from the 2.1.287 binary, that chunk's research M14; foot answers neither, measured). hypothesis: on such a terminal a live session loses the wheel at its start, as start 6 did on foot. A shape joins the list only when measured, by its exact grammar, on the founder's word (F-W2)  CARRY: chunk 2026-10-10-viola-revive (this entry on the operator's answer at its wrap's Phase 2 halt, `inputs#I8`, answer 5): that a wrapper's child ends with its killed wrapper is read on Unix with the fake agent. `Wrapper::kill` (`tests/support/home.rs`) kills the wrapper the test booted and waits, inside 7 s, for the recorded child to be gone by pid and start time, and the kill-and-revive case that calls it passed on `macos-latest` and `ubuntu-latest` (`ci#38061685124`). The standalone pin `run_child_ends_when_its_wrapper_is_terminated` (`tests/run_cli.rs`) stays `cfg(windows)`, and no real CLI was read on Unix. The tab-close leg stays owed: founder-attended, in a Linux terminal on the dev host (carried from the entry "viola revive", where chunk 2026-10-02-epoch-2b-cleanup's P5 measurement left it; a Windows tab-close has no host)  CARRY: chunk 2026-10-17-cli-output-discipline (the P2 halt's placement, the Viola overseer's answer, a delegate's, `inputs#I5` of that chunk, on the operator's direction `inputs#I4`): the integration-tier witness of "dim only on stale rows" (`v1-40`) — under the outer PTY a `viola list` beside a stale wrapper (a heartbeat older than 5 s) reads SGR dim from the row's first byte to its last, NAME dim and bold; that chunk proved it at the unit tier only (`board_row_style_a_stale_row_is_dim_end_to_end_and_only_dialog_is_amber`), because the `mutants` profile's 10 s kill leaves no room beside the ~4 s stamp and the 5 s stale threshold; its first real consumer is this entry's Unix fake-agent suite
-   ↓
 Windows-only live measurements — a key typed right after a resize, a start with no terminal and a real terminal's mouse report, on an interactive Windows host  BLOCKED-ON: an interactive Windows host (none exists at the 2026-10-07 0-pending wrap: the dev host is Linux since 2026-10-03, and `uname` read Linux there; by the founder's ruling R-L1, live, 2026-10-07T05:43Z, relayed by the overseer, `d94-route-adaptation.md`, Windows live behaviour stays proven on the CI runner under the fake agent until one exists; nothing in this entry is doable without it)  CARRY: chunk 2026-09-29-h2-conpty-resize-probe (overseer direction at its wrap: owner of the H2 product impact): a key written through viola-pty right after a resize never reached a Rust test child (`ReadConsoleW`) in 13 of 200 windows-2025 runner iterations (ci#36527891850; class K, `dsr-cpr 0`), the cause between the ConPTY input-pipe write and the child's read not established; measure here whether the real `claude` (Node/libuv, `ReadConsoleInputW`) loses a key typed right after a resize under `viola run` — unmeasured today, the founder's product question on H2 open beside it (that chunk's `evidence/h2-reproduction.md`)  CARRY: chunk 2026-09-29-sideloaded-conpty (the operator's word at its wrap, the overseer agreeing): on Windows x64 the sideloaded `OpenConsole.exe` writes a DA1 query `ESC[c` at spawn and holds the child's start until something answers it — 3.54 s unanswered vs 0.54 s answered on pipes, measured at that chunk's `evidence/da1-stall.md`; a terminal answers, viola stays silent, so a `viola run` with no terminal on its stdio stalls ~3 s. Measure here whether any driven start runs without a terminal, and decide whether viola must answer DA1 itself (a boundary change: viola would write to the child)  CARRY: chunk 2026-10-04-the-wheel (the founder's ruling F-W3, live, 2026-10-04, relayed by the overseer — "pin the platform fact"): measure, live on Windows, a mouse report from a REAL Windows terminal (not text injected into a ConPTY input pipe) — whether it reaches `viola run`'s stdin as a mouse report the classifier passes or as win32 key-down records that take the wheel; at HEAD only the injected form is measured (`windows-2025`, ci#37227518624), and a11y-plan §4 P4 case (3) asserts the platform fact there  CARRY: chunk 2026-10-10-windows-mutation-grade (pinned here by its wrap as the nearest owner of a Windows measurement no run has taken; the plan left it owed to no entry, and the take-up decides): the four mutants of `sideload_outcome` at `src/cmd/run.rs:521:5` sit under `cfg(all(windows, not(target_arch = "x86_64")))`. Neither the Linux dev host nor the x86_64 `windows-2025` runner compiles that body, and no workflow builds another Windows architecture, so the harness leaves them out on both hosts and no run grades them (that chunk's `evidence/host-excluded.md`). They are recorded not measured on any host: not caught, not equivalent. Grading them takes a Windows build of another architecture, or a decision about the arm itself  CARRY: chunk 2026-10-10-statusline-pass-through (the founder's word on the cut, live, 2026-10-10, relayed verbatim by the operator; placed here by the operator's direction at its wrap, `inputs#I5` item 5): the Windows half of the statusline pass-through is not built. On Windows `override_document` and `shell_argv` (`viola_agent_claude::statusline`) return `None` for every input, so `run` writes no `settings.json` override and passes no `--settings`, and `viola hook statusline` runs no command. Owed here: which shell the CLI runs a statusline command through on Windows, the override on Windows, and the Windows legs of the two rows (the settings override and the shell; their Unix legs are on "Paste newline ledger row", and `rate_limits` is there too since the chunk 2026-10-10-budget-governor wrap). The masters name this entry (architecture §Standard Contracts, Hook contract, and §Occupied Resources; security-plan §Data Protection).  CARRY: chunk 2026-10-13-interrupted-verify-cleanup (its P5 review card's row, approved by the operator's own word, that chunk's `inputs#I3`): real console event delivery to a running `viola verify` on Windows. Whether a real console's Ctrl-C or Ctrl-Break reaches `src/cmd/verify/stop.rs`'s console routine is unmeasured, and so is whether the stopped run then removes its dirs and exits 1 with its pair. At HEAD the routine is only called directly, in three unit cases on `windows-2025` (ci#38453057445). Whether a runner's test process has a console at all is unmeasured too  CARRY: chunk 2026-10-13-paste-newline-ledger-row (its P5 review card's row 5, on the operator's word on the card, that chunk's `inputs#I3`): the `paste-newline` ledger row (an LF typed inside a bracketed paste stays inside the one prompt submitted) is stamped on live `claude` 2.1.287 on the Linux dev host only (that chunk's `evidence/live-round.md`); its Windows reading, an LF typed inside a paste through the Windows console and ConPTY, is owed here  CARRY: chunk 2026-10-13-owed-ledger-rows (its report; a factual carry-forward of the wrap's P5): the three statusline rows `statusline-override` · `statusline-shell` · `statusline-rate-limits` are relied only where the status line is wrapped (`statusline::WRAPPED_HERE`, Unix), so a Windows host checks and stamps nineteen rows (the first eighteen and `resume-session`, since chunk 2026-10-14-resume-and-compact-ledger-rows); the Windows status line, once wrapped, makes them relied there and needs their Windows probe reading and a re-stamp, beside the Windows override and shell-out this entry already owns  CARRY: chunk 2026-10-14-resume-and-compact-ledger-rows (its P5 review card's row 2, approved by the operator's own word, that chunk's `inputs#I2`): the `resume-session` row (`claude --resume <id>` reopens the session under that id, probed by `viola verify`'s Run E) is relied on every OS but stamped on live `claude` 2.1.287 on the Linux dev host only (that chunk's `evidence/live-round.md`); its Windows reading, Run E's `--resume` start through ConPTY and a Windows stamp at nineteen relied rows, is owed here  CARRY: chunk 2026-10-16-unwrapped-sessions-on-the-board (its P5 review card's row, the operator's own yes, its `inputs#I2`): the Windows readings of `claude agents --json`, of the `agents-join` ledger row (relied on every OS, stamped on 2.1.287 on the Linux dev host only) and of `viola revive`'s `session-live` refusal; on 2.1.287 on the Linux dev host a second interactive `--resume` of a live id ran as two writers and P12 followed (that chunk's `evidence/live-p4.md`)  CARRY: chunk 2026-10-17-cli-output-discipline (its report, deviation 2): `cross_list_rows_style_each_span_beside_its_word_on_a_terminal` reads the windows-2025 ConPTY stream by its parsed attribute set (bold, a foreground, no dim); the exact sequence its plan named, copied from a windows-2025 run's output, is not pinned — read it from a windows-2025 job log (the case is green in ci#39016750772) and pin it, or record why the attribute set is the durable form  CARRY: chunk 2026-10-17-optional-plugin-install (its P5 review card's row 1, approved by the operator's own word, `inputs#I3`): the Windows legs of the plugin-precedence reading and of the exit-1 `viola mcp` start reading, their Linux readings taken on claude 2.1.287 at chunk 2026-10-18-plugin-precedence-live-readings (`evidence/live-round.md`: the `--plugin-dir` server alone starts and answers; an exit-1 `viola mcp` does not block the start)  CARRY: chunk 2026-10-19-dialog-hold-for-the-driver (its P5 review card's row 1, approved by the operator's word, `inputs#I3` of that chunk): the Windows leg of a dialog hook held past 75 s on claude 2.1.287, the wrapper holding a `config.json` `dialog_hold_s` and the driver's `viola answer` returned into the CLI; its Linux reading is a 671 s hold on the Linux dev host (that chunk's `evidence/live-round.md`)  CARRY: chunk 2026-10-19-overseer-switch-to-viola (its P5 review card's row 1, approved by the operator's word, `inputs#I15` of that chunk): the Windows readings of claude 2.1.296's stamp (`stamped 2.1.296  24 pass  0 fail`, read on the Linux dev host only) and of the two new event keys on a live CLI, `question`'s `option_details` and `turn-ended`'s `background_tasks`  CARRY: chunk 2026-10-19-newer-claude-cli-rows (a factual carry-forward of its wrap's P5): the Windows readings of claude 2.1.302's resting footer (the input-box literal `(shift+tab to cycle)`, measured on the Linux dev host at that chunk's `evidence/footer-2.1.302.md`) and of its stamp (`stamped 2.1.302  24 pass  0 fail`, read on the Linux dev host only, that chunk's `evidence/live-round.md`)  CARRY: chunk 2026-10-26-server-verification-before-any-frame (its P5 review card's row 2, the word `viola-0.1.0/chunks/2026-10-26-server-verification-before-any-frame/inputs/I4-relay-2.md.txt`, delegate the Viola overseer, founder-delegated): a `viola hook` fired within milliseconds of a Windows wrapper's exit reached that exiting wrapper's own pipe and wrote its `hook.event` (ci#36532038635), so `SessionEnd`'s direct-append fallback is skipped in that window; the server check that chunk built passes there by design, the exiting wrapper being the recorded process. Measured here: whether sysinfo still lists a terminated Windows process whose pipe handle is open, and `SessionEnd`'s outcome in that window  CARRY: chunk 2026-10-27-bounded-inputs-at-every-boundary (its P5 review card's Beyond-the-plan row, approved by delegate overseer1, founder-delegated, PROVISIONAL until the founder's own word, `chunks/2026-10-27-bounded-inputs-at-every-boundary/inputs/I3-relay-1.md.txt`): after a contained vt100 feed panic under a 1-column ConPTY, read how the child's panicking wide character (`e4 b8 ad`) reaches the outer terminal on a Windows host, and give `tests/chaos_feed_panic.rs` its Windows byte oracle from that reading — the chunk asserts the bytes on Unix and only viola's literal absence on Windows (architecture [PTY] holds it OPEN)
 
 ### Epoch 8 — Polish & ship
+
 Version done-check — every gate green on three OSes, masters agree, fix-pass items honoured, overseer drives a builder through viola  CARRY: chunk 2026-10-17-cli-output-discipline (the P2 halt's answer, the Viola overseer, a delegate's, `inputs#I5` of that chunk): test-plan, a11y-plan and the keyed contracts `a11y-testing-tool-pick`, `keyboard-test-harness`, both `bootstrap-phases` keys and architecture's `project-directory-structure` (`tests/cmd/*.toml`) state that trycmd / assert_cmd pin fixed CLI strings, while no manifest holds either and no `tests/cmd/` exists (measured at that chunk, its research §Sweeps); only the `viola-help` sites were amended — decide tool or text where the masters-agree check runs  CARRY: chunk 2026-10-19-overseer-switch-to-viola (its P5 review card's row 2, approved by the operator's word, `inputs#I15` of that chunk): no dialog hold near the 3600 s ceiling arose naturally in the switch (the one hold read was 27 345 ms), so a hold near the ceiling is first read live here; the ceiling stays PROVISIONAL until then  CARRY: chunk 2026-10-20-epoch-5-cleanup-ii (a factual carry-forward of its wrap's P2): architecture §Occupied Resources → Environment variables registers the test-only child marker `MCP_SERVE_TEST_CHILD`, while `PTY_SIDELOAD_TEST_CASE`, the viola-pty test-child marker it follows, stands unregistered there — register it, or state why a test-child marker takes no row, where the masters-agree check runs  CARRY: chunk 2026-10-26-explicit-session-links (its P5 review card's Beyond-the-plan row 1, approved by the founder's own word, relayed verbatim, `chunks/2026-10-26-explicit-session-links/inputs/I4-relay-3.md.txt`; the card `.andromeda/runs/2026-10-26T12-53-39-phase/p5-card-1.md`): `v1-13` and `v1-36` each need the founder's disposition of the clause no chunk can prove while the masters stand — `v1-13`'s MCP result for `link` and the budget release (architecture [MCP] keeps `release`, `link` and `unlink` CLI-only), `v1-36`'s link set shown by the board (design-system and layout-templates keep `viola list` without a link column in v1): a deferral with its reason, or the acceptance re-worded; their CLI halves are built (chunk 2026-10-26-explicit-session-links)  CARRY: chunk 2026-10-27-pinned-copy-race-and-reproducible-builds (the operator's wrap directive, the overseer, founder-delegated, `chunks/2026-10-27-pinned-copy-race-and-reproducible-builds/inputs/I6-wrap-pinned-copy-directive.md.txt` item 4; a founder item, acting on it is his): measurement B — six cold release builds of one tree through `scripts/release-check.sh`'s build at one target path gave two files, `57bce92d…` (8 179 264 B) and `ff63f38e…` (8 179 272 B), three each in no fixed order; where they met, 3 of 34 sections were unequal (`.note.gnu.build-id`, `.symtab`, `.strtab`), every loaded section equal, and 6 `strings` lines differ (three `anon.<hash>.<n>.llvm.<number>` local symbols), so one tree can key two `bin/<key>/` and `plugin/<key>/` folders; the cause is not explained and none is claimed (`chunks/2026-10-27-pinned-copy-race-and-reproducible-builds/evidence/reproducible-builds.md`; architecture §Established Decisions [Deployment / Distribution]); the route CARRY's earlier «the build was repeatable for a given source text» is not reproduced on that tree  CARRY: chunk 2026-10-31-sanitised-error-surfaces (its P5 review card's Beyond-the-plan row, the overseer as the founder's delegate, PROVISIONAL, `chunks/2026-10-31-sanitised-error-surfaces/inputs/I2-relay-1.md.txt`; the card `.andromeda/runs/2026-10-31T07-21-45-phase/p5-card-2.md`; the wrap directive `chunks/2026-10-31-sanitised-error-surfaces/inputs/I3-wrap-sanitised-errors-directive.md.txt` item 4): the open divergences from the one-enum-per-crate rule — `ServeError` beside `McpError` and `StampsError` beside `StateError`, which the founder's Epoch 5 batch left open, and `PinError`, `StampsReadError` and `Refused`, which that chunk's census of `thiserror::Error` derives adds — each take a fold or a ratification where the masters-agree check runs; the rule stands meanwhile (architecture §Established Decisions [Error Handling])
