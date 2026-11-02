@@ -25,3 +25,6 @@
 - **Host:** python `yaml` is absent on the Linux dev host; read `df -h /tmp` before a stamped-home gate. An interactive Windows host still does not exist: the BLOCKED-ON on «Windows-only live measurements» stands.
 - **Owed outside this repo (friction log, for the founder's desk):** carried F350, F351, F363 and the CARRY on "Version done-check" `v1-13` / `v1-36`; `UNTOUCHED_REACHED` reads a contrast clause as a claim; an apply writer's chunk marker passes `[NO_PROVENANCE]` and fails classify's read-back. New: an entry writer's `RULED` re-spawn re-derives its whole file, so one reworded clause costs a full re-read.
 - **Last failed command:** none.
+
+## Session End Status
+Completed normally at 2026-11-01 20:16:33
