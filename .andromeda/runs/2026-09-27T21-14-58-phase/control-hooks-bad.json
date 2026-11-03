@@ -1,5 +1,0 @@
-{
-  "hooks": {
-    "PreToolUse": [{"hooks": [{"type": "command", "command": "viola", "args": ["hook", "pre-tool-use"]}]}]
-  }
-}

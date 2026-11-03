@@ -1,8 +1,0 @@
-# Classified — design-system · motion.b1
-
-## Answers
-motion#1.1 · no · the session adds no motion, and the wrapper's drop is silence rather than a visual state, so the 0.0-0.2 row's hover, transition and entrance values stand
-motion#1.2 · no · the session adds no motion, and the wrapper's drop is silence rather than a visual state, so the 0.3-0.4 row stands
-motion#1.3 · no · the session adds no motion, and the wrapper's drop is silence rather than a visual state, so the 0.5-0.6 row stands
-motion#1.4 · no · the session adds no motion, and the wrapper's drop is silence rather than a visual state, so the 0.7-0.8 row stands
-motion#1.5 · no · the session adds no motion, and the wrapper's drop is silence rather than a visual state, so the 0.9-1.0 row stands

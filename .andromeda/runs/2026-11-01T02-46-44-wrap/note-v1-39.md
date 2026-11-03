@@ -1,1 +1,0 @@
-2026-11-01 (the 2026-11-01T02-46-44 0-pending wrap): the founder's own word, given by dialog 2026-10-31 after it was shown to him, relayed verbatim by overseer1 through the operator's directive (that wrap's `inputs#I1`): the chunk's P5 word is his. The delegate mark in the 2026-10-31 note is superseded 2026-10-31. Status, ref and acceptance are untouched.
