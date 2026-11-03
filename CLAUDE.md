@@ -44,21 +44,23 @@ viola is a standalone, cross-platform (Windows first) bridge that lets one inter
 
 ## Where to Look
 <!-- GENERATED:setup:pointer-table start -->
+The masters live in the store, no file: fire `python -X utf8 ~/.claude/skills/andromeda-tools/scripts/rec.py {verb} --root .` with `tree doc:{name}` · `render doc:{name} --section "{heading}"` · `find --doc {name} --text T` · `get {fct-…}` · an old `get {path}[:{n}]`, which names the fact it stood on (an agent reads a whole master by `read doc:{name}`, in pages).
+
 | Topic | Source |
 |---|---|
-| Architecture decisions | `.andromeda/architecture.md` §Established Decisions |
-| Directory tree · resource registry (ports, pipes, files, env vars) | `.andromeda/architecture.md` §Infrastructure Patterns (keyed: `.andromeda/registries/architecture-contracts.toml`, one file per key) / §Occupied Resources |
-| Wire contracts (channel frames, event line, snapshots, the `list` payload) | `.andromeda/architecture.md` §Standard Contracts |
-| Refusals, exit codes, naming, timestamps | `.andromeda/architecture.md` §Conventions |
+| Architecture decisions | `doc:architecture` §Established Decisions |
+| Directory tree · resource registry (ports, pipes, files, env vars) | `doc:architecture` §Infrastructure Patterns (keyed: `rec.py contracts architecture`, one file per key) / §Occupied Resources |
+| Wire contracts (channel frames, event line, snapshots, the `list` payload) | `doc:architecture` §Standard Contracts |
+| Refusals, exit codes, naming, timestamps | `doc:architecture` §Conventions |
 | Code map / impact (symbols · callers · crate deps) | `.andromeda/cache/{plane}/tree.db` — one DB per indexed language plane; query via `scripts/code-graph.py query <run_dir> <marker> "<sql>" [plane]` (plane needed only when several are detected); schema + templates in `scripts/code-graph-cookbook.md` |
-| IPC / home access control, input validation | `.andromeda/security-plan.md` §Authentication & Authorization / §Input Validation |
-| NEVER-log floor · error sanitization | `.andromeda/security-plan.md` §Bootstrap phases (`logging-redaction-wire`) / §Error Handling |
-| Design tokens (8 hex values, type, spacing, motion: a 0.2.0 frontend design input; 0.1.0 renders no page) | `.andromeda/design-system.md` §Color Palette / §Typography / §Surface: cli Tokens |
-| CLI layouts (the web surface deferred to 0.2.0) | `.andromeda/layout-templates.md` |
-| Test harness (5 commands, log format) | `.andromeda/test-plan.md` §3 (keyed: `.andromeda/registries/test-plan-contracts.toml`, one file per key) |
-| Critical-path scenarios · quality gates | `.andromeda/test-plan.md` §6 / §10 |
-| Obs pipeline · event catalog · CI gates | `.andromeda/obs-plan.md` §3 (keyed: `.andromeda/registries/obs-plan-contracts.toml`) / §6 / §9 |
-| A11y harness · cli / tui landmarks and path scenarios (the frontend deferred to 0.2.0) | `.andromeda/a11y-plan.md` §3 (keyed: `.andromeda/registries/a11y-plan-contracts.toml`) / §4 |
+| IPC / home access control, input validation | `doc:security-plan` §Authentication & Authorization / §Input Validation |
+| NEVER-log floor · error sanitization | `doc:security-plan` §Bootstrap phases (`logging-redaction-wire`) / §Error Handling |
+| Design tokens (8 hex values, type, spacing, motion: a 0.2.0 frontend design input; 0.1.0 renders no page) | `doc:design-system` §Color Palette / §Typography / §Surface: cli Tokens |
+| CLI layouts (the web surface deferred to 0.2.0) | `doc:layout-templates` |
+| Test harness (5 commands, log format) | `doc:test-plan` §3 (keyed: `rec.py contracts test-plan`, one file per key) |
+| Critical-path scenarios · quality gates | `doc:test-plan` §6 / §10 |
+| Obs pipeline · event catalog · CI gates | `doc:obs-plan` §3 (keyed: `rec.py contracts obs-plan`) / §6 / §9 |
+| A11y harness · cli / tui landmarks and path scenarios (the frontend deferred to 0.2.0) | `doc:a11y-plan` §3 (keyed: `rec.py contracts a11y-plan`) / §4 |
 | Build route | `.andromeda/master-route.md` (cursor = last `complete` marker); the active `viola-X.Y.Z/` (highest version dir) holds the working route, matrix and chunk folders |
 | Session state | `.claude/session-handoff.md`, `.andromeda/state.yaml` |
 | Drift detectors · amendment playbook | `.andromeda/drift-base.md` / `.andromeda/playbook.md` |
@@ -83,7 +85,7 @@ viola is mechanism, not policy: it carries typed input, answers dialogs when tol
 
 There is no daemon: each wrapper (a `viola run`, or a `viola revive` whose preflight passed) owns one local-socket endpoint (named pipe / per-user Unix socket), every other verb is a separate process, and the shared truth is the disk — ndjson append logs and atomic snapshots that survive a crash on either side. It is a modular monolith: one binary around compiler-enforced crates (`pty · channel · state · agent-claude · mcp` around `core`), built and CI-tested on Windows, macOS and Linux from the first commit, with Windows the first target (the first live run was on the Linux dev host).
 
-**Primary source:** `.andromeda/architecture.md` (the pointer table's row — not imported; read explicitly where a step needs it).
+**Primary source:** `doc:architecture` (the pointer table's row — not imported; read by the verbs above that table where a step needs it).
 <!-- GENERATED:setup:architecture end -->
 
 <!-- GENERATED:setup:imports start -->
