@@ -96,8 +96,8 @@ const GATES: &[Gate] = &[
     Gate {
         file: "tests/cli_fake_agent.rs",
         test: "fake_agent_exit_outlives_a_hangup_that_lands_while_it_exits",
-        gate: "unix",
-        reason: "SIGHUP and a PTY's session leader are Unix's",
+        gate: "target_os = \"linux\"",
+        reason: "macOS's ps has no keyword that prints the ignored-signal mask, so SIGHUP's disposition has no reader there",
     },
     Gate {
         file: "tests/cli_fake_agent.rs",
