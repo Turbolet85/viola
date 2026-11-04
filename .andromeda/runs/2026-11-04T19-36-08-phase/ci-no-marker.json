@@ -1,0 +1,120 @@
+[
+{
+"tool": "ci",
+"v": "1.3",
+"sha8": "31e82a15",
+"ts": "2026-11-04T19:36:23Z",
+"argv": [
+"conclusion",
+"--sha",
+"fdb28e90d1cafab9025c136f75a15a418557b5a2",
+"--sha",
+"5f80e90b960251e2887dddc59a69549b2847353e",
+"--sha",
+"a5048be0b0435bc7bc6c4fb0d740d5cf7ab73db8",
+"--sha",
+"d0d1390da624d71d35bc2835cc9cc205c08ff2d9",
+"--sha",
+"234be01197f8a604d30d9b4b80c92e726288bb5d",
+"--sha",
+"669c981ef0b9e8ae9e9b37eafda2191a0ce36fff",
+"--sha",
+"4274c611630c80eac43582e8b508bcaed6160487",
+"--sha",
+"9274467a375d507cb0091efda13602942d62978a",
+"--sha",
+"79ae3d6946c461e5b68b42c6df7a78b2eb0f21ba",
+"--run-dir",
+".andromeda/runs/2026-11-04T19-36-08-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"repo Turbolet85/viola (the push remote `origin`)",
+"fdb28e90d1ca verdict: not on the remote",
+"5f80e90b9602 verdict: not on the remote",
+"a5048be0b043 verdict: not on the remote",
+"d0d1390da624 verdict: not on the remote",
+"234be01197f8 verdict: not on the remote",
+"669c981ef0b9 verdict: not on the remote",
+"4274c611630c verdict: not on the remote",
+"9274467a375d verdict: not on the remote",
+"79ae3d6946c4 verdict: green · checks 17/17 · wall 63934 s · runs nightly#41445748450 completed/success ci#41339639367 c…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"repo": "Turbolet85/viola",
+"host": "github.com",
+"repo_source": "the push remote `origin`",
+"names": [],
+"shas": [
+{
+"sha": "fdb28e90d1cafab9025c136f75a15a418557b5a2",
+"word": "not on the remote",
+"polls": [
+"not on the remote"
+]
+},
+{
+"sha": "5f80e90b960251e2887dddc59a69549b2847353e",
+"word": "not on the remote",
+"polls": [
+"not on the remote"
+]
+},
+{
+"sha": "a5048be0b0435bc7bc6c4fb0d740d5cf7ab73db8",
+"word": "not on the remote",
+"polls": [
+"not on the remote"
+]
+},
+{
+"sha": "d0d1390da624d71d35bc2835cc9cc205c08ff2d9",
+"word": "not on the remote",
+"polls": [
+"not on the remote"
+]
+},
+{
+"sha": "234be01197f8a604d30d9b4b80c92e726288bb5d",
+"word": "not on the remote",
+"polls": [
+"not on the remote"
+]
+},
+{
+"sha": "669c981ef0b9e8ae9e9b37eafda2191a0ce36fff",
+"word": "not on the remote",
+"polls": [
+"not on the remote"
+]
+},
+{
+"sha": "4274c611630c80eac43582e8b508bcaed6160487",
+"word": "not on the remote",
+"polls": [
+"not on the remote"
+]
+},
+{
+"sha": "9274467a375d507cb0091efda13602942d62978a",
+"word": "not on the remote",
+"polls": [
+"not on the remote"
+]
+},
+{
+"sha": "79ae3d6946c461e5b68b42c6df7a78b2eb0f21ba",
+"word": "green",
+"polls": [
+"green"
+]
+}
+]
+}
+}
+]

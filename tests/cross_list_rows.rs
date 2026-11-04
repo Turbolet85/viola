@@ -223,6 +223,8 @@ fn escape_sequences(stream: &[u8]) -> Vec<String> {
 #[cfg(unix)]
 const BOLD: &str = "\x1b[1m";
 #[cfg(unix)]
+const DIM: &str = "\x1b[2m";
+#[cfg(unix)]
 const RESET: &str = "\x1b[0m";
 
 /// A booted `builder` with its permission dialog raised and pending, and a bin dir whose `claude`
@@ -289,6 +291,45 @@ fn cross_list_rows_style_each_span_beside_its_word_on_a_terminal(stamped_home: S
         }
     }
     wrapper.stop();
+}
+
+/// Beside a stale wrapper (frozen, its beat 60 s old) `viola list` on a terminal that takes colour
+/// dims the stale row from its first byte to its last, NAME dim and bold, and puts no SGR on the BAY,
+/// caption or separator (a11y-plan §4 P6; design-system §Tokens (platform-specific)). Unix only:
+/// ConPTY re-renders the stream, and the Windows dim on a stale row is held at the unit tier.
+#[cfg(unix)]
+#[rstest]
+fn cross_list_rows_dim_a_stale_row_end_to_end_on_a_terminal(
+    #[from(support::home::booted_wrapper)] wrapper: support::home::Wrapper,
+) {
+    use std::time::{Duration, SystemTime};
+
+    let dir = wrapper.instance_dir();
+    let pid = support::home::snapshot_data(&dir).expect("snapshot")["pid"]
+        .as_u64()
+        .and_then(|p| u32::try_from(p).ok())
+        .expect("pid");
+    let frozen = support::frozen::Frozen::attach(pid);
+    std::fs::File::options()
+        .write(true)
+        .open(dir.join("heartbeat"))
+        .expect("heartbeat")
+        .set_modified(SystemTime::now() - Duration::from_secs(60))
+        .expect("back-date");
+    let home = wrapper.home().to_path_buf();
+    let scratch = home.parent().expect("the home has a parent").to_path_buf();
+    let bin = fake::claude_bin(&scratch, "claude-none", None, Some(b"[]"));
+
+    let stream = on_a_terminal(&bin, &home, &[("TERM", "xterm-256color")], 200);
+    drop(frozen);
+    let shown = String::from_utf8(stream.clone()).expect("utf-8");
+    assert_eq!(
+        escape_sequences(&stream),
+        [DIM, BOLD, RESET, DIM, RESET],
+        "{shown:?}"
+    );
+    assert!(shown.contains("stale"), "{shown:?}");
+    assert_eq!(wrapper.stop().code(), Some(0));
 }
 
 /// No SGR under `NO_COLOR` (an empty value included), `TERM=dumb`, a piped stdout or `--json`,

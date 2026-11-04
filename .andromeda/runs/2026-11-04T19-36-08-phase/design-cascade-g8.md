@@ -1,0 +1,89 @@
+@carried n=1 label=design-system/surface fact=fct-tkxomkux
+why: The release --budget result line must print byte-identical on ubuntu-latest and macos-latest as on Windows, since the shared fake-agent suite re-reads it there.
+quote: The time is the override's end, taken from the reply's `override_until`: `HH:MM:SSZ` when it falls on the current UTC date, `YYYY-MM-DD HH:MM:SSZ` on any other date, and a value that is no RFC 3339 instant prints escaped. When no pause stood the line is `builder  budget gate open  wheel human`. Both are one unstyled stdout line with the two-space gutter of the other verb lines.
+@carried n=1 run=2 label=design-system fact=fct-ybxjcc2w
+quote: `viola release builder --budget` → `builder  budget gate lifted until <time>  wheel human` when a pause stood, else `builder  budget gate open  wheel human`, one unstyled stdout line.
+@carried n=2 label=design-system/surface fact=fct-327x7jz3
+why: The link and unlink result lines must stay one plain-ASCII stdout write with exit 0 on Unix, under openpty as on Windows, because the Unix suite re-reads them.
+quote: `viola link` / `viola unlink` print their one result line on stdout in one write, plain ASCII with no SGR whatever the terminal, and exit 0; the names printed are the verb's own parsed arguments, never names read back from the reply or the log.
+@carried n=2 run=2 label=design-system fact=fct-glxbi6ql
+quote: (an existing pair prints `link    overseer -> builder  already linked`)
+@carried n=2 run=3 label=design-system fact=fct-vmpiq5lh
+quote: `viola unlink overseer builder` → `unlink  overseer -> builder`
+@carried n=3 label=design-system/surface fact=fct-clb6azzi
+why: The link line's since must format and escape identically on every OS, since the Unix link cases re-read that value.
+quote: The `since` of the `link` line is the reply's `since` as UTC clock time in whole seconds with `Z` (`HH:MM:SSZ`); a `since` that is no RFC 3339 instant (the restore's `unknown`) prints through the message-mode escaper of pattern 3.
+@carried n=3 run=2 label=design-system fact=fct-gbzjruf2
+quote: over decoded characters every control character (C0, DEL, C1) except `\n` and `\t` prints as `\xHH` text, two uppercase hex digits (ESC → `\x1B`, CR → `\x0D`, DEL → `\x7F`, U+009B → `\x9B`); nothing is stripped.
+@carried n=4 label=design-system/surface fact=fct-dfvj3huj
+why: The already-linked and not-held forms and their exit 0 must read the same on Unix as on Windows in the shared link cases.
+quote: A second `viola link` of a held pair prints the `already linked` form, the wrapper keeping the first `since`; `viola unlink` of a pair that is not held prints the same `unlink  <driver> -> <driven>` line; both exit 0.
+@carried n=5 label=design-system/surface fact=fct-sx3u7aez
+why: verify's relied count is a stated per-OS value, so a verify case run on Unix must read 24 and any case pinning 21 stays Windows-gated with that reason named where it stands.
+quote: `MM` is the relied count, `LedgerRow::relied()`: 24 on Unix, 21 on Windows, where the three statusline rows are not relied because the status line is not wrapped there;
+@carried n=5 run=2 label=design-system/surface fact=fct-sx3u7aez
+quote: Then the last stdout line, a summary, n + m equal to `MM`: `stamped 2.1.287  24 pass  0 fail` on Unix. The word `fail` is uncoloured.
+@carried n=5 run=3 label=design-system/surface fact=fct-sx3u7aez
+quote: A run stopped by Ctrl-C or TERM before its rows are checked prints no step line and no summary: stderr carries exactly `unable: verify was stopped before it finished` then `hint: run viola verify again to stamp this CLI` (pattern 2's fixed form, plain ASCII, no path or pid), and it exits 1.
+@carried n=5 run=4 label=design-system fact=fct-nz6d6pbn
+quote: `verify` is a step counter, the project's one progress pattern: one static stdout line per relied ledger row (`pass` / `fail`, uncoloured), then a summary line `stamped <ver>  <n> pass  <m> fail`, n + m the relied count;
+@carried n=6 label=design-system/surface fact=fct-xi5ne4sz
+why: verify's home-tree strict-modes refusal must print this same fixed pair, no path and no pid, on Unix as on Windows.
+quote: Before its log, `verify` checks its home tree (the home, `ledger/`, `bin/`, `plugin/`, each that exists): a refusal prints no step line and no summary, only the home-state pair `unable: the viola home is not private to you` then `hint: the viola home must be readable only by you; viola does not change its permissions` (pattern 2's fixed form), and exits 1; a `stamps.json` update refused by its strict-modes check prints the same pair.
+@carried n=7 label=design-system/surface fact=fct-bctn63fi
+why: This is a stated Unix-versus-Windows divergence: a test of a home under a regular file must read the strict-modes pairs on Unix and the catch-site line on Windows, its OS gate naming this reason.
+quote: On Unix a home under a regular file cannot be read and is a strict-modes refusal, not the catch-site line: `verify` prints the home-state pair (exit 1) and the frame verbs the instance-state pair (exit 21). On Windows such a path stats `NotFound`, is passed as absent, and keeps the catch-site line.
+@carried n=7 run=2 label=design-system fact=fct-ui5ydw4a
+quote: prints the instance-state `unable:` / `hint:` pair naming that instance, as `viola list`'s does, or under `--json` the `instance-unreachable` document with `detail` `strict-modes-failed`, stderr empty; no frame and no line are written.
+@carried n=7 run=3 label=design-system fact=fct-7u3hdiu2
+quote: **Git Bash on Windows** rewrites leading-slash arguments. Prompt text therefore comes only from stdin or `--file`. The warning for a rewritten-path argument is one plain stderr line, `warning: argument looks like a Git Bash rewritten path`.
+@carried n=7 run=4 label=design-system fact=fct-jphpatxv
+quote: **conhost without VT** falls back to no colour. The words already carry every state, so nothing is lost.
+@carried n=8 label=design-system/surface fact=fct-gray6vne
+why: The openpty wrapper must keep revive's passthrough (nothing printed once the child starts) exactly as ConPTY does, and revive's --list and refusal forms must read the same on Unix.
+quote: **`revive`:** prints nothing once the child starts, as `run`. `viola revive builder --list` prints one static stdout line per logged session, in log order, `<time>  <cause>  <session id>` with two spaces between fields: no header, no colour, plain ASCII. A refusal (exit 1) prints its cause's fixed-message line and then that cause's hint, listed under the send hints above. Under `--json` (both arms; chunk 2026-10-17-cli-machine-contract) a refusal prints one stdout document `{"v":1,"error":"<code>","detail":null}` and no hint, stderr empty, its codes in the item below, and `--list --json` prints `{"v":1,"ok":{"sessions":[…]}}`.
+@carried n=8 run=2 label=design-system fact=fct-w4pl2fni
+quote: **`run`:** prints nothing once the child starts. A start refusal (exit 1) prints its cause's fixed-message line, for example `unable: builder is already live`, then that cause's hint (`hint: viola list`). The per-cause lines are listed under the send hints above. None of them shows a path or a pid.
+@carried n=8 run=3 label=design-system fact=fct-hod2cupz
+quote: 2. `viola run` (while the child runs, nothing is printed at all)
+@carried n=9 label=design-system/surface fact=fct-mep5dn6i
+why: revive --json's start-refusal codes are closed words the chunk re-asserts identical on every OS, never an OS-only word or a missing key.
+quote: **`revive --json`'s documents:** one exit-1 document for every refusal of the start it shares with `run`, its closed codes `strict-modes-failed` · `already-live` · `no-session` · `session-live` · `cwd-missing` · `stale-heartbeat` · `batch-script-child` · `pinned-hash-mismatch` · `squatted-name` · `socket-dir-refused` · `internal-error`; `run` itself prints none of these documents.
+@carried n=9 run=2 label=design-system fact=fct-2t54hjhs
+quote: its code one of `strict-modes-failed` · `already-live` · `no-session` · `session-live` · `cwd-missing` · `stale-heartbeat` · `batch-script-child` · `pinned-hash-mismatch` · `squatted-name` · `socket-dir-refused` · `internal-error`;
+@carried n=10 label=design-system/surface fact=fct-gul3bnzl
+why: The Unix socket-directory refusal must read the one closed code socket-dir-refused with no hint and stderr empty, as the one-schema re-assertion requires.
+quote: **`revive --json`'s socket-directory refusal:** one stdout document with the code `socket-dir-refused`, no hint, stderr empty; a failed create of the directory and a refused check read that one code.
+@carried n=11 label=design-system/surface fact=fct-4md437yp
+why: A program not found under the new openpty spawn path must print the same internal-error document as under ConPTY, its chain going to the log only.
+quote: **`revive --json`'s `internal-error`:** a program not found prints `internal-error`, a cause with no human pair; an anyhow error of its start prints the same document, and the catch site logs its chain and its line.
+@carried n=12 label=design-system/surface fact=fct-xtefeabf
+why: The openpty pump must, like the ConPTY one, write no document past a pump_child error once the child has held the terminal.
+quote: **A `pump_child` error under `revive --json`:** prints no document: the child has held the terminal and viola writes nothing past it.
+@carried n=12 run=2 label=design-system fact=fct-6xd7opxn
+quote: and a `pump_child` error under `viola revive --json`, which prints none, the child having held the terminal.
+@carried n=13 label=design-system/surface fact=fct-nr7mro52
+why: Exit 0's stdout result and its ok document are part of the typed set the scope holds unchanged and the Unix suite re-reads on every OS.
+quote: | 0 | none (TTY context lines only); the result line goes to stdout (`[RB] read back`, `answered`, `wheel human` …) | `{"v":1,"ok":{…}}` |
+@carried n=13 run=2 label=design-system fact=fct-tj4jq2zv
+quote: its `--json` document `{"v":1,"error":"instance-unreachable","detail":"<cause>"}`, one per cause, the cause one of `strict-modes-failed` · `instance-dead` · `unwrapped-name` · `endpoint-lost` · `server-verify-failed` · `socket-dir-refused`, with stderr empty.
+@carried n=14 label=design-system/surface fact=fct-sedcqxww
+why: The run start refusals Unix fills (state files writable by another user, an untrusted socket directory) must print these same fixed lines, no path and no pid, on Unix as on Windows.
+quote: | 1 | `error: internal error` (fixed message; no chain with serde sources, no paths, no hint), or a `viola run` start refusal `unable: <name> is already live` / `… is still running but not answering` / `the endpoint for <name> is held by another process` / `the pinned viola copy failed its integrity check` / `<name>'s command is a .cmd or .bat script` / `the viola home is not private to you` / `<name>'s state files can be written by another user` / `the socket directory for <name> cannot be trusted`,
+@carried n=15 label=design-system/surface fact=fct-4zlzvxze
+why: Exit 2's fixed stderr lines with no document are part of the typed set the scope holds unchanged and the Unix suite re-reads.
+quote: | 2 | clap usage text (never produced by `viola hook`), or the fixed `UNUSABLE_RESPONSE` line (an oversize `viola answer`) or `UNUSABLE_TEXT` line (an unusable `viola send`) on stderr, whatever `--json` says; `tests/contract_error_bodies.rs` names them in `NOT_ERROR_BODIES` | no document |
+@carried n=16 label=design-system/surface fact=fct-f5dfwzmp
+why: Exit 10's human-typing refusal and its refusal document must read the same in the shared send cases on Unix.
+quote: | 10 | `unable  human-typing` (+ `manual-pause`) | `{"v":1,"refusal":"human-typing","detail":…}` |
+@carried n=17 label=design-system/surface fact=fct-spwfscwz
+why: Exit 11's budget-paused refusal must read the same in the shared send cases on Unix.
+quote: | 11 | `unable  budget-paused  five-hour` / `seven-day` | refusal object |
+@binding n=1
+**surface's exit-code table ↔ the scope's closed exit set**: the typed set stays 0, 1, 2, 10 to 14, 20, 21 on every OS. Each row's human stderr form and `--json` document (design-system/surface fct-nr7mro52, fct-sedcqxww, fct-4zlzvxze, fct-f5dfwzmp, fct-spwfscwz) must read the same on ubuntu-latest and macos-latest as on windows-2025. Exit 21's six closed causes (design-system fct-tj4jq2zv) belong to that same set.
+@binding n=2
+**surface's run and revive passthrough ↔ the colour decision order's step 2**: the openpty wrapper prints nothing once the child starts and writes no document after a pump_child error (design-system/surface fct-gray6vne, fct-xtefeabf), exactly as the ConPTY wrapper does. The decision order puts `viola run` before every other colour test (design-system fct-hod2cupz).
+@binding n=3
+**surface's Unix strict-modes refusals ↔ Platform-Specific Notes**: a home under a regular file reads the home-state and instance-state pairs on Unix and the catch-site line on Windows (design-system/surface fct-bctn63fi). Verify's relied count is 24 on Unix and 21 on Windows (design-system/surface fct-sx3u7aez). Both are stated per-OS behaviours, so a test of either may stay OS-gated with that reason named where it stands, as the Windows-only Git Bash and conhost notes allow (design-system fct-7u3hdiu2, fct-jphpatxv). Every other refusal pair prints the same fixed text on every OS (design-system/surface fct-xi5ne4sz).
+@binding n=4
+**surface's revive --json closed codes ↔ the one diagnostics schema**: the closed start-refusal codes, including `socket-dir-refused` and `internal-error` (design-system/surface fct-mep5dn6i, fct-gul3bnzl, fct-4md437yp), are the same closed words on every OS. A cause one OS cannot reach still belongs to the closed list, and no OS adds a word of its own.

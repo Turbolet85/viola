@@ -6,6 +6,7 @@
 pub mod cli;
 pub mod events;
 pub mod fake;
+pub mod frozen;
 pub mod home;
 pub mod hygiene;
 pub mod ndjson;

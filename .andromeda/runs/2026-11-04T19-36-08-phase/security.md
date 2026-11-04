@@ -1,0 +1,28 @@
+@extract_section name=relevance
+partial — the Unix (openpty) wrapper and the Linux/macOS fake-agent suite run through the Unix IPC, home and PTY controls; the chunk adds no new surface
+@extract_section name=constraints
+- security-plan §Authentication & Authorization (IPC access control (Unix), IPC server-side peer check (Unix)) requires the Unix socket in a verified per-user 0700 directory, chmod 0600 after bind, a peer of another euid dropped before any frame, `try_overwrite` off and no Linux abstract namespace; whether the code already holds this on both `ubuntu-latest` and `macos-latest` is research's question.
+- security-plan §Authentication & Authorization (IPC client-side server verification) requires on Linux the pid + start-time server check plus the socket-dir and peer-euid checks, and on macOS only the euid and socket-dir checks, the named carve-out owned by no route entry; parity work must not turn the macOS carve-out into a comparison or a test that reads one (matches scope §Boundaries).
+- security-plan §Security Anti-Patterns › Universal requires that no `config.json`, `VIOLA_*` env var, CLI flag or feature seam switch off a control (peer/server verification, socket-dir check, home strict-modes); any new Unix-only test seam or env read needs its own Decisions Log entry.
+- security-plan §Data Protection (Files, Logs) requires `~/.viola/` and every `--home` on Unix to be 0700 directories and 0600 files (the pinned `viola` 0700), `diagnostics/` and `events.ndjson` 0600, written through `replace_private` with the mode set before any byte, never via the umask.
+- security-plan §Input Validation (PTY output bytes) requires the vt100 feed under `catch_unwind`, with a bounded queue that never blocks the passthrough to the human terminal, on the openpty backend as on ConPTY.
+- security-plan §Data Protection (In transit, Handle inheritance) requires that channel handles never leak into the `claude` child; the plan states this for `CreateProcessW` only, so whether the openpty spawn keeps listener/stream fds out of the child (close-on-exec) is research's question.
+- security-plan §Error Handling (External responses) requires the closed refusal words (`server-verify-failed`, `socket-dir-refused`, `strict-modes-failed`, …) with no absolute path, upstream text or OS-only detail on every OS, which binds to the one-diagnostics-schema goal.
+@extract_section name=patterns
+- Unix strict-modes check (owner, mode, not a symlink; any group/other bit refused on home, instance dir and `diagnostics/`) run before the first read under the home (per security-plan §Authentication & Authorization, `~/.viola/` access control).
+- `SERVER_PID_REPORTED` const false on macOS, making the server verdict `Matches` with no comparison there; macOS server-identity negatives compile out (per security-plan §Authentication & Authorization detail, `authentication-authorization`).
+- obs-owned `viola-harness secret-scan` in CI includes a Unix-only class flagging a non-`0600` diagnostics file, never printing matched bytes, test-home uploads gated on it (per security-plan §Secret Management).
+- Statusline shell-out is Unix-only, `/bin/sh -c` with the command as one argument, stdout capped and unparsed, never logged (per security-plan §Input Validation, Statusline shell-out).
+@extract_section name=anti_patterns
+- NEVER place the Unix socket at the `/tmp` or `$TMPDIR` root, use the abstract namespace, rely on the socket 0600 mode alone, or set it with `ListenerOptionsExt::mode` (fails bind on macOS) (per security-plan §Security Anti-Patterns › Authentication).
+- NEVER write a channel frame before server verification against a strict-modes-checked snapshot; the macOS pid/start-time carve-out is the only exception and no other frame or process may borrow it (per security-plan §Security Anti-Patterns › Authentication).
+- NEVER create home, instance or `diagnostics/` files with the default umask, nor feed vt100 outside `catch_unwind` (per security-plan §Security Anti-Patterns › Data Protection and › Code Patterns).
+@extract_section name=bindings
+- security ↔ obs: one diagnostics schema across OSes must keep the NEVER-log floor (no absolute paths, upstream text or stripped `CLAUDE*` values) and the closed refusal words; the G4 schema gate and the secret-scan run on each OS (security-plan §Bootstrap phases, logging-redaction-wire).
+- security ↔ tests: the Unix fake-agent suite carries the security negatives (socket-dir refusal over 0755 dir and symlink, peer-euid refusal) on Linux and macOS, with macOS server-identity negatives compiled out (security-plan §Authentication & Authorization detail).
+- security ↔ tests CI: the secret-scan job gates uploads on `ubuntu-latest` and `macos-latest` as on `windows-2025` (security-plan §Secret Management).
+@extract_section name=acceptance
+- On `ubuntu-latest` and `macos-latest` a frame verb against a recorded endpoint whose socket directory is 0755 or a symlink refuses `socket-dir-refused` with no frame written (per security-plan §Authentication & Authorization).
+- No test on macOS asserts a pid or start-time comparison; the macOS server check reads as euid-only, and no env, flag or feature seam forces a refusing peer-euid decision (per security-plan §Security Anti-Patterns › Universal).
+- The CI `secret-scan` step passes on both Unix legs, including the non-`0600` diagnostics file class (per security-plan §Secret Management).
+- Refusal and error output on Linux and macOS carries only closed words, with no absolute path or upstream text, identical in shape to Windows (per security-plan §Error Handling).

@@ -615,6 +615,7 @@ fn list_refuses_a_home_another_user_could_write() {
     set_mode(home, 0o700);
 }
 
+/// Unix only: the instance is widened through its Unix mode bits, the write rule's Unix form.
 #[cfg(unix)]
 #[test]
 fn list_refuses_an_instance_another_user_could_write() {

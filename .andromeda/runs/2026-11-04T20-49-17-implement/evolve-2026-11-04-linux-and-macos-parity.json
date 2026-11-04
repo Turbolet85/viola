@@ -1,0 +1,98 @@
+[
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "836366c4",
+"ts": "2026-11-04T20:57:05Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-04T20-49-17-implement",
+"--marker",
+"2026-11-04-linux-and-macos-parity"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 120 · 2026-11-04T19-37-47-2026-11-04-linux-and-macos-parity.ndjson",
+"ts 2026-11-04T20:56:58Z · clock 2026-11-04T20:57:05Z · bound 2026-11-04T20:48:39Z (line 2691)",
+"ids 2026-11-04T20:56:58Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-04T19-37-47-2026-11-04-linux-and-macos-parity.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "836366c4",
+"ts": "2026-11-04T21:02:01Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-04T20-49-17-implement",
+"--marker",
+"2026-11-04-linux-and-macos-parity"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 121 · 2026-11-04T19-37-47-2026-11-04-linux-and-macos-parity.ndjson",
+"ts 2026-11-04T21:01:52Z · clock 2026-11-04T21:02:01Z · bound 2026-11-04T20:56:58Z (line 2692)",
+"ids 2026-11-04T21:01:52Z-a … 2026-11-04T21:01:52Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-04T19-37-47-2026-11-04-linux-and-macos-parity.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "836366c4",
+"ts": "2026-11-04T21:02:22Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-04T20-49-17-implement",
+"--marker",
+"2026-11-04-linux-and-macos-parity"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 122 · 2026-11-04T19-37-47-2026-11-04-linux-and-macos-parity.ndjson",
+"ts 2026-11-04T21:02:13Z · clock 2026-11-04T21:02:22Z · bound 2026-11-04T21:01:52Z (line 2694)",
+"ids 2026-11-04T21:02:13Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-04T19-37-47-2026-11-04-linux-and-macos-parity.ndjson"
+],
+"before": null,
+"after": null
+}
+]

@@ -1,0 +1,37 @@
+[
+{
+"tool": "route",
+"v": "1.13",
+"sha8": "4341e845",
+"ts": "2026-11-04T19:37:48Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-11-04-linux-and-macos-parity",
+"--id",
+"chk-bqkmwcli",
+"--desc-file",
+".andromeda/runs/2026-11-04T19-36-08-phase/master-desc.txt",
+"--scope-file",
+".andromeda/cache/docs/2026-11-04-linux-and-macos-parity/scope.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T19-36-08-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"promoted 2026-11-04-linux-and-macos-parity · chk-bqkmwcli · Linux and macOS parity · tx 100"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-04T19-37-47-2026-11-04-linux-and-macos-parity.ndjson",
+"./.andromeda/master-route.md",
+"./viola-0.1.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]

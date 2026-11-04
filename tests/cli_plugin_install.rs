@@ -162,6 +162,7 @@ fn modes(home: &Path) -> BTreeMap<String, u32> {
     found
 }
 
+/// Unix only: the written tree is read by its Unix mode bits under an open umask.
 #[cfg(unix)]
 #[test]
 fn plugin_install_writes_owner_only_modes() {

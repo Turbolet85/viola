@@ -581,6 +581,7 @@ fn fake_agent_stops_at_ctrl_c_and_reads_no_further() {
     drop(stdin);
 }
 
+/// Unix only: the home and the role file are read by their Unix mode bits.
 #[cfg(unix)]
 #[rstest]
 fn run_creates_home_0700_and_role_file_0600(#[from(home)] tmp: TestHome) {
@@ -674,15 +675,14 @@ fn run_refuses_a_widened_home_tree_before_its_log(
 }
 
 /// A wrapper terminated from outside (no Ctrl-C, no clean exit) takes its child with it: the
-/// child's process, by pid and start time, is gone within the bound (architecture [PTY]; P5).
-#[cfg(windows)]
+/// child's process, by pid and start time, is gone within the bound (architecture [PTY]; P5). The
+/// terminate step is each OS's own: `TerminateProcess` on Windows, a `SIGKILL` on Unix, neither one
+/// the wrapper can answer.
 #[rstest]
 fn run_child_ends_when_its_wrapper_is_terminated(
     #[from(support::home::booted_wrapper)] wrapper: support::home::Wrapper,
 ) {
     use support::home::{process_start, snapshot_data};
-    use windows_sys::Win32::Foundation::CloseHandle;
-    use windows_sys::Win32::System::Threading::{OpenProcess, PROCESS_TERMINATE, TerminateProcess};
 
     let data = snapshot_data(&wrapper.instance_dir()).expect("snapshot");
     let pid_of = |key: &str| {
@@ -694,12 +694,28 @@ fn run_child_ends_when_its_wrapper_is_terminated(
     let (wrapper_pid, child_pid) = (pid_of("pid"), pid_of("child_pid"));
     let child_started = process_start(child_pid).expect("the child runs");
 
-    // SAFETY: plain values cross; the handle is closed before it goes out of scope.
-    unsafe {
-        let handle = OpenProcess(PROCESS_TERMINATE, 0, wrapper_pid);
-        assert!(!handle.is_null(), "open the wrapper");
-        assert_ne!(TerminateProcess(handle, 1), 0, "terminate the wrapper");
-        CloseHandle(handle);
+    #[cfg(windows)]
+    {
+        use windows_sys::Win32::Foundation::CloseHandle;
+        use windows_sys::Win32::System::Threading::{
+            OpenProcess, PROCESS_TERMINATE, TerminateProcess,
+        };
+
+        // SAFETY: plain values cross; the handle is closed before it goes out of scope.
+        unsafe {
+            let handle = OpenProcess(PROCESS_TERMINATE, 0, wrapper_pid);
+            assert!(!handle.is_null(), "open the wrapper");
+            assert_ne!(TerminateProcess(handle, 1), 0, "terminate the wrapper");
+            CloseHandle(handle);
+        }
+    }
+    #[cfg(unix)]
+    {
+        let killed = Command::new("kill")
+            .args(["-KILL", &wrapper_pid.to_string()])
+            .status()
+            .expect("kill");
+        assert!(killed.success(), "kill the wrapper");
     }
 
     let watch = Watch::start("child");

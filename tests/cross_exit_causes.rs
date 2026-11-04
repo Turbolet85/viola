@@ -9,7 +9,7 @@
 //! impostor is a named carve-out of test-built state, and it compiles out on macOS, the named
 //! carve-out); a refused socket directory's other seven frame verbs and its hook paths by
 //! `tests/security_negatives_socket_dir.rs`; a stale heartbeat by `tests/cli_instance_state.rs`,
-//! whose `Frozen` guard holds the wrapper;
+//! the wrapper held by the `Frozen` guard of `tests/support/frozen.rs`;
 //! the `.cmd` refusal's human pair by `tests/cli_program_resolution.rs`; `verify`'s version,
 //! recording, pinned-copy, interrupted and stamps refusals by `tests/cli_verify.rs`; `viola mcp`'s two
 //! silent exits, both streams empty by rule, by `crates/viola-e2e/tests/mcp_tools.rs` and
@@ -265,6 +265,7 @@ fn strict_modes_on_a_frame_verb_is_exit_21_and_opens_no_log(#[case] json: bool) 
     unwiden(&dir);
 }
 
+/// Unix only: the instance is widened through its Unix mode bits, the read rule's Unix form.
 #[cfg(unix)]
 #[rstest]
 #[case::json(true)]
@@ -279,6 +280,7 @@ fn strict_modes_on_the_board_is_exit_21_and_opens_no_log(#[case] json: bool) {
     unwiden(&dir);
 }
 
+/// Unix only: the home is widened through its Unix mode bits, the read rule's Unix form.
 #[cfg(unix)]
 #[rstest]
 #[case::json(true)]

@@ -246,6 +246,7 @@ fn receipt_reader_leaves_a_torn_final_line_unread() {
     assert!(fake::receipt(&tmp.scratch().join("absent.ndjson")).is_empty());
 }
 
+/// Unix only: the `fds` receipt kind is written on Unix alone, where file descriptors are inherited.
 #[cfg(unix)]
 #[test]
 fn fake_agent_receipt_lists_open_fds() {
@@ -891,22 +892,28 @@ fn fake_agent_without_exit_no_eof_releases_stdout_at_exit() {
     }
 }
 
-/// `SigIgn` in `/proc/<pid>/status`: a hex mask whose bit 0 is signal 1, SIGHUP.
-#[cfg(target_os = "linux")]
+/// The ignored-signal mask `ps -o sigignore=` prints, on Linux and macOS alike: a hex mask (with or
+/// without `0x`) whose bit 0 is signal 1, SIGHUP. A failed spawn, a non-zero exit or a mask that
+/// does not parse reads false.
+#[cfg(unix)]
 fn ignores_sighup(pid: u32) -> bool {
-    std::fs::read_to_string(format!("/proc/{pid}/status"))
+    std::process::Command::new("ps")
+        .args(["-o", "sigignore=", "-p", &pid.to_string()])
+        .output()
         .ok()
-        .and_then(|s| {
-            s.lines()
-                .find_map(|l| l.strip_prefix("SigIgn:").map(|m| m.trim().to_owned()))
+        .filter(|out| out.status.success())
+        .and_then(|out| {
+            let text = String::from_utf8_lossy(&out.stdout);
+            let mask = text.trim();
+            let mask = mask.strip_prefix("0x").unwrap_or(mask);
+            u64::from_str_radix(mask, 16).ok()
         })
-        .and_then(|mask| u64::from_str_radix(&mask, 16).ok())
         .is_some_and(|mask| mask & 1 == 1)
 }
 
 /// Waits until `holds` reads true while the agent still runs: an agent that exits first fails at
 /// once, and a wait past the root-watch deadline fails with its report.
-#[cfg(target_os = "linux")]
+#[cfg(unix)]
 fn wait_while_running(agent: &mut Direct, what: &str, holds: impl Fn() -> bool) {
     let watch = support::watch::Watch::start("exit-hangup");
     let deadline = Instant::now() + support::watch::WITHIN;
@@ -925,8 +932,9 @@ fn wait_while_running(agent: &mut Direct, what: &str, holds: impl Fn() -> bool) 
 /// A hangup that lands while the agent exits no longer ends it: from its exit's first step it
 /// ignores SIGHUP (as its terminal's session leader it cannot leave the group a hangup reaches), so
 /// it finishes the exit, and with it the exit-time coverage write. The exit is held open by the
-/// Stop hook's capped receipt hold, which `\x03` waits out; the disposition is read from `/proc`.
-#[cfg(target_os = "linux")]
+/// Stop hook's capped receipt hold, which `\x03` waits out; the disposition is read through
+/// `ps -o sigignore=`. Unix only: SIGHUP and a PTY's session leader are Unix's.
+#[cfg(unix)]
 #[test]
 fn fake_agent_exit_outlives_a_hangup_that_lands_while_it_exits() {
     use std::os::unix::process::ExitStatusExt as _;

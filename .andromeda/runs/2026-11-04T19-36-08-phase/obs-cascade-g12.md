@@ -1,0 +1,85 @@
+@carried n=1 label=obs-plan/slo-invariants-telemetry-budgets fact=fct-6543go25
+why: G2 must read green on ubuntu-latest and macos-latest as on windows-2025, so every Unix fake-agent case must keep exactly one home-level panic line per panic, counted by this rule with the seam's forced panic its only exemption.
+quote: - **Zero unlogged panics:** every panic in `run`, `hook`, `mcp` and `cli` **after init step 4** produces **exactly one** single-line `level:"ERROR", event:"panic"` record in its home-level role file, with no multi-line backtrace in home-level files, and `hook` still exits 0. Retry-once policies for panic handling are forbidden, in parallel with the tests' `retries = 0`.
+  - **Counting rule:** "exactly one", the `viola.panic` counter and gate G2 (§9) count home-level role files only. G2 alone also leaves out the `fake-agent` seam's deliberate panic (a `panic_location` of exactly `src/cmd/hook/seam.rs:<digits>`, §9): that line is still written exactly once — the invariant holds for it — and only its count is exempt.
+@carried n=1 run=2 label=obs-plan fact=fct-73zqjpsk
+quote: A panic evidenced by an exit code without its line fails the build only for a process whose `process-start` is in a home-level role file; for the exemptions the exit status is the only evidence, and a `hook` panic without `VIOLA_NAME` is unobservable by design.
+@carried n=1 run=3 label=obs-plan fact=fct-zze2ezbr
+quote: zero tolerance on three counts: 0 `event:"panic"` lines in any CI artifact (as G2 counts them: the `fake-agent` seam's deliberate panic at exactly `src/cmd/hook/seam.rs:<digits>` excepted, §9), 0 secret-scan hits, 0 schema-conformance failures.
+@carried n=1 run=4 label=obs-plan fact=fct-2v5pxi7x
+quote: **Measurement:** in-job gate exit codes, not the uploaded artifact: panics by G2 (home-level role files only, per the counting rule above), schema-conformance failures by G4, secret-scan hits by the `secret-scan` step (§9).
+@carried n=1 run=5 label=obs-plan fact=fct-j3ksxxc2
+quote: A schema-conformance failure: unknown `event` value, missing required field, or a field outside the catalog.
+@carried n=1 run=6 label=obs-plan fact=fct-wgmneptw
+quote: NEVER skip the zero-unlogged-panics invariant.
+@carried n=2 label=obs-plan/slo-invariants-telemetry-budgets fact=fct-h65wem67
+why: the per-OS perf job must read green on both Unix OSes, so the session-end row's hyperfine max must stay under 1.0 s there, judged by gate --require perf with its row file required by name.
+quote: | `viola hook session-end` | report-only (§5 snippet over `duration_ms`) | report-only | hyperfine `max < 1.0 s` in `target/agent-run/artifacts/perf-session-end.json`, judged by `gate --require perf` (`.results[0].max < 1.0`; the row file is required by name) |
+@carried n=2 run=2 label=obs-plan fact=fct-fruln4ot
+quote: Status: built — `run --perf` times the `session-start`, `user-prompt-submit`, `stop`, `session-end` and `pre-tool-use` rows on an unstamped session in the per-OS `perf` job, and `gate --require perf` requires all five (test-plan §10); the async tier is untimed.
+@carried n=2 run=3 label=obs-plan fact=fct-y4gvhk7p
+quote: A hyperfine `max` regression beyond the budgets above.
+@carried n=2 run=4 label=obs-plan fact=fct-soiwyjd4
+quote: NEVER define a budget without an exit-code-setting assertion (hyperfine `max` via `jq`).
+@carried n=3 label=obs-plan/slo-invariants-telemetry-budgets fact=fct-4od5l5b2
+why: the Unix perf rows must time the peer-euid decision and, on macOS, the recorded no-pid gap inside the same gate, with a failed check failing open with its closed detail word and exit 0.
+quote: hyperfine `max <` spine deadline in `target/agent-run/artifacts/perf-<hook>.json`, judged by `gate --require perf` (each spine row and the `pre-tool-use` row required by name; the perf session boots unstamped, so `pre-tool-use` runs on an unverified CLI). The deadline value is tests-owned (provisionally 1.0 s; the hook's own provisional 750 ms connect deadline sits below it); obs requires only that the max sample is gated; the timed path holds the checks a frame-writing hook makes before its first frame: the socket-directory check on the recorded endpoint's directory, the peer euid decision on Unix, then the server check (the connected endpoint's peer pid and its OS start time against the one `snapshot.json` read; macOS the recorded gap, no pid comparison), bounded by the same gate, and a failed check fails open (`hook-decision{detail:"socket-dir-refused"}` on the directory, `hook-decision{detail:"server-verify-failed"}` on the euid or the server, exit 0)
+@carried n=3 run=2 label=obs-plan fact=fct-onnnq5uj
+quote: Every budget gates the hyperfine `max` sample through `gate --require perf`: `viola hook session-end` under 1.0 s, the spine hooks and `pre-tool-use` on an unverified CLI under the spine deadline (tests-owned, provisionally 1.0 s), and obs overhead on `hook` inside the same gate, which holds only when every hook command runs with `VIOLA_NAME` set and a home under `target/e2e-home/`; the heartbeat flips at >5 s.
+@carried n=4 label=obs-plan/slo-invariants-telemetry-budgets fact=fct-bpjqjqbh
+why: the Unix integration-tier witness of v1-40 must read its stale wrapper by this flip, a heartbeat older than 5 s read as stale through list --json liveness, never by a logged transition.
+quote: | Heartbeat staleness flip | n/a | n/a | 4.9 s → `live`, 5.1 s → `stale`/`gone`, read as `list --json` `liveness` |
+@carried n=4 run=2 label=obs-plan fact=fct-gqc4mh6b
+quote: **Liveness signal** (replaces 10–30 s tick lines, D-13): `run` touches `heartbeat` every 1 s, and no process logs a transition. The flip happens at >5 s (4.9 s live / 5.1 s stale or gone).
+@carried n=4 run=3 label=obs-plan fact=fct-ie2ur45l
+quote: NEVER log a line per heartbeat tick. Log transitions and lifecycle only, because the files are never rotated.
+@carried n=5 label=obs-plan/slo-invariants-telemetry-budgets fact=fct-bxbg45yr
+why: the perf job read green on both Unix OSes counts only when every timed hook command runs with VIOLA_NAME set, a home under target/e2e-home/ and a timed instance that passes the strict-modes check, with G2 run over that home.
+quote: logger init = 1 `open` + appends, inside the same `max < 1.0 s` gate. This holds only if every hyperfine hook command runs with `VIOLA_NAME` set and a home under `target/e2e-home/`; the instance fixture is tests-owned. Without `VIOLA_NAME` it times the D-16 no-op (no open, no channel call), and the gate passes vacuously; so it does when `VIOLA_DIR` names no existing instance directory or the instance fails the strict-modes check (the hook then opens no file and makes no channel call), so the timed instance must pass that check. Logger init's one `open` follows the instance check's and `check_diagnostics`' metadata reads. The perf job runs G2 over that home, because a hook panic exits 0 and hyperfine cannot see it (D-30)
+@carried n=6 label=obs-plan/obs-anti-patterns fact=fct-hfdtlj6j
+why: the lint job must read green on both Unix OSes, so the hook, run and mcp paths keep no print macro and run's Unix pre-child refusals write only through src/human.rs refuse, with no new #[allow].
+quote: - NEVER use `print!` / `println!` / `eprint!` / `eprintln!` / `dbg!` in the `hook`, `run` or `mcp` code paths of the product crates (`viola-harness` and the fake agent are exempt, §3 obs-ci-gate-wire). They bypass the file sink and break the Hook contract, the `run` terminal rule and MCP framing. Enforced by `[workspace.lints.clippy]` `print_stdout`, `print_stderr`, `dbg_macro` = `deny` under the §9 clippy step. Only the output modules that own `--json`, human CLI stderr and the hook decision body may carry a local `#[allow]`, and only where they use a print macro — `run`'s and `revive`'s pre-spawn refusals, `revive --list`'s, `verify`'s, `list`'s and `plugin install`'s refusals, and the instance-check refusal of `link` / `unlink` and of `send` / `wait` / `last` / `answer` / `pause` / `release`, write through `src/human.rs` (`refuse` / `write_refusal`, one `write_all` on the locked stderr; callers `run` 8 · `verify` 6 · `list` 2 · `revive` 1 · `plugin install` 1 · `client` 1, the one `refuse_untrusted` site `link` / `unlink` and the six frame verbs share; the rule: the `human::refuse(` call sites under `src/`), which uses no print macro and carries no `#[allow]` — plus the fake agent's crate-level `#![allow]` in `src/bin/viola-fake-agent.rs` (a root-package bin, §3 obs-ci-gate-wire).
+@carried n=6 run=2 label=obs-plan fact=fct-l2iw7ho4
+quote: NEVER use `print!` / `println!` / `eprint!` / `eprintln!` / `dbg!` in the `hook`, `run` or `mcp` code paths of the product crates: they bypass the file sink and break the Hook contract, the `run` terminal rule and MCP framing; enforced by the clippy `print_stdout`, `print_stderr` and `dbg_macro` lints at `deny`, except `viola-harness`, the fake agent and the output modules that own `--json`, human CLI stderr and the hook decision body (below).
+@carried n=6 run=3 label=obs-plan fact=fct-5kn2jpbt
+quote: A clippy `disallowed-macros` / `print_stdout` / `print_stderr` / `dbg_macro` failure; a `scripts/lint-probes.sh` failure (a ban that did not fire, a control that did not pass, or a raw `event!` outside `crates/viola-core/src/obs.rs`); a G1 bare-`#[instrument]` or G3 `panic = "abort"` hit, or either gate exiting with anything other than rg exit 1 (including exit 2 regex/I-O error and 127 missing `rg`); or a `cargo deny` (Tokio, C-crate, veil `toggle`, banned obs crates) failure.
+@carried n=6 run=4 label=obs-plan fact=fct-murrb5aj
+quote: - NEVER call the default panic hook or let it run. Its stderr output breaks `hook` and the `run` terminal.
+@carried n=6 run=5 label=obs-plan fact=fct-hl4ehpjw
+quote: - NEVER put paths or pids inside `detail` codes (Founder Direction 4). Paths appear only in instance detail files.
+@carried n=6 run=6 label=obs-plan fact=fct-75yvf2rf
+quote: - NEVER over-instrument hot paths. The PTY pump read loop and the vt100 feed get no per-byte or per-chunk span or event; log gate outcomes only.
+@carried n=6 run=7 label=obs-plan fact=fct-u3w4pedj
+quote: - NEVER enable veil's `toggle` feature (`VEIL_DISABLE_REDACTION` / `veil::disable()`). It is banned in cargo-deny.
+@carried n=6 run=8 label=obs-plan fact=fct-vnsyc5om
+quote: - NEVER log `CLAUDE*` values or a `Cookie` header, at any level, in any file, detail files included.
+@carried n=6 run=9 label=obs-plan fact=fct-vq5djl4b
+quote: - NEVER log any field not named in the Section 6 catalog (default-deny).
+@carried n=6 run=10 label=obs-plan fact=fct-3n7snwrw
+quote: - NEVER use a bare `#[instrument]`. It records every argument with `Debug` and leaks send text, `hook.dialog` payloads and tool `input`. Always use `#[instrument(skip_all, fields(...))]`.
+@carried n=6 run=11 label=obs-plan fact=fct-wgmneptw
+quote: - NEVER skip the zero-unlogged-panics invariant.
+@carried n=6 run=12 label=obs-plan fact=fct-733e2isu
+quote: - NEVER report latency without the gate statistic. The `max` from hyperfine is the enforced number; p50/p95 are report-only.
+@carried n=6 run=13 label=obs-plan fact=fct-ie2ur45l
+quote: - NEVER log a line per heartbeat tick. Log transitions and lifecycle only, because the files are never rotated.
+@carried n=6 run=14 label=obs-plan fact=fct-murrb5aj
+quote: NEVER call the default panic hook or let it run. Its stderr output breaks `hook` and the `run` terminal.
+@carried n=6 run=15 label=obs-plan fact=fct-ie2ur45l
+quote: NEVER log a line per heartbeat tick.
+@carried n=6 run=16 label=obs-plan fact=fct-75yvf2rf
+quote: NEVER over-instrument hot paths. The PTY pump read loop and the vt100 feed get no per-byte or per-chunk span or event; log gate outcomes only.
+@carried n=6 run=17 label=obs-plan fact=fct-733e2isu
+quote: NEVER report latency without the gate statistic. The `max` from hyperfine is the enforced number; p50/p95 are report-only.
+@carried n=6 run=18 label=obs-plan fact=fct-hl4ehpjw
+quote: NEVER put paths or pids inside `detail` codes (Founder Direction 4). Paths appear only in instance detail files.
+@carried n=6 run=19 label=obs-plan fact=fct-ntdd4mdw
+quote: NEVER lose the failing job's `diagnostics/`. G2, G4 and the secret scan run `if: always()`, and the uploads run `if: always()` / `failure()` combined with `steps.secret-scan.outcome == 'success'`, never bare. On a failed scan the hit report is uploaded instead (§9 Step order). A re-run is not a substitute under `retries = 0`.
+@binding n=1
+**slo-invariants-telemetry-budgets (zero unlogged panics, error budget) ↔ ci-integration (G2/G4 steps on all three OSes)**: the Unix fake-agent suite and perf job must leave G2 at zero home-level panic lines, the seam's forced panic its only exemption, and G4 at zero schema-conformance failures, measured by in-job gate exit codes on ubuntu-latest and macos-latest as on windows-2025 (obs-plan/slo-invariants-telemetry-budgets fct-6543go25) (obs-plan fct-2v5pxi7x)
+@binding n=2
+**slo-invariants-telemetry-budgets (perf rows) ↔ the scope's macOS carve-out and Unix endpoint checks**: the timed hook path on Unix must hold the peer-euid decision and, on macOS, no pid comparison, inside the same gated max, failing open with `socket-dir-refused` / `server-verify-failed` and exit 0, and the timed instance must run with `VIOLA_NAME` under `target/e2e-home/` and pass the strict-modes check, or the gate passes vacuously (obs-plan/slo-invariants-telemetry-budgets fct-4od5l5b2) (obs-plan/slo-invariants-telemetry-budgets fct-bxbg45yr)
+@binding n=3
+**slo-invariants-telemetry-budgets (heartbeat flip) ↔ the v1-40 integration-tier witness**: the Unix witness must make its wrapper stale by a heartbeat older than 5 s (4.9 s live, 5.1 s stale), read through `list --json` `liveness`, with no line logged per tick or transition (obs-plan/slo-invariants-telemetry-budgets fct-bpjqjqbh) (obs-plan fct-gqc4mh6b)
+@binding n=4
+**obs-anti-patterns (print-macro ban) ↔ ci-integration (lint job) and run's Unix pre-child refusals**: the lint job read green on both Unix OSes requires no print macro on the hook, run or mcp paths, and any Unix refusal pair `run` writes before its child must go through `src/human.rs` `refuse`, adding no `#[allow]` (obs-plan/obs-anti-patterns fct-hfdtlj6j) (obs-plan fct-5kn2jpbt)

@@ -425,6 +425,7 @@ fn verify_a_missing_program_refuses(#[from(home)] home: TestHome) {
     );
 }
 
+/// Windows only: a `.cmd` batch-script child is a Windows program kind viola refuses to spawn.
 #[cfg(windows)]
 #[rstest]
 fn verify_a_batch_script_refuses(#[from(home)] home: TestHome) {

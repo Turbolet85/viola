@@ -1,0 +1,75 @@
+[
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "56fc1704",
+"ts": "2026-11-04T20:45:49Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-53",
+"--text-file",
+".andromeda/runs/2026-11-04T19-36-08-phase/note-v1-53.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T19-36-08-phase",
+"--marker",
+"2026-11-04-linux-and-macos-parity"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-53: +956 chars (total 1311) · status planned · ref/acceptance untouched",
+"landed, rendered ./.andromeda/db/log/2026-11-04T19-37-47-2026-11-04-linux-and-macos-parity.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-04T19-37-47-2026-11-04-linux-and-macos-parity.ndjson"
+],
+"before": {
+"id": "v1-53",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "On Linux and macOS the same end-to-end suite passes against the fake agent, covering the PTY, the per-user socket direct… (306 chars)",
+"notes_chars": 353
+},
+"after": {
+"id": "v1-53",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "On Linux and macOS the same end-to-end suite passes against the fake agent, covering the PTY, the per-user socket direct… (306 chars)",
+"notes_chars": 1311
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "56fc1704",
+"ts": "2026-11-04T20:45:49Z",
+"argv": [
+"audit",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-11-04-linux-and-macos-parity",
+"--run-dir",
+".andromeda/runs/2026-11-04T19-36-08-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-11-04-linux-and-macos-parity: 0 · ## Acceptance Criteria: line 307, 34 lines",
+"ledger-note entries (P7.3's input, not claim citations): v1-40 (line 431)",
+"pool: unclaimed 17 [v1-01 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-13 v1-21 v1-24 v1-26 v1-27 v1-34 v1-35 v1-36 v1-53]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

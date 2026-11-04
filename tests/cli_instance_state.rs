@@ -15,6 +15,7 @@ use rstest::rstest;
 use serde_json::{Value, json};
 use support::events::events;
 use support::fake::{self, of_kind};
+use support::frozen::Frozen;
 use support::home::{
     HEADROOM_FLOOR_MIB, StampedHome, TestHome, VIOLA, Wrapper, beat_age, booted_wrapper,
     headroom_refusal, home, plant_statusline_source, prepare_home_base, process_start, resolved,
@@ -140,51 +141,6 @@ fn run_refuses_a_live_name(booted_wrapper: Wrapper) {
         events_before
     );
     assert_eq!(booted_wrapper.stop().code(), Some(0));
-}
-
-/// A wrapper held stopped by `SIGSTOP` until the guard drops: the Unix twin of the Windows guard.
-#[cfg(unix)]
-struct Frozen(String);
-
-#[cfg(unix)]
-impl Frozen {
-    fn attach(pid: u32) -> Self {
-        use std::time::Instant;
-
-        let frozen = Self(pid.to_string());
-        frozen.signal("-STOP");
-        let watch = support::watch::Watch::start("stat");
-        let deadline = Instant::now() + support::watch::WITHIN;
-        loop {
-            let stat = Command::new("ps")
-                .args(["-o", "stat=", "-p", &frozen.0])
-                .output()
-                .expect("ps");
-            let text = String::from_utf8_lossy(&stat.stdout);
-            let state = text.trim_start();
-            if state.starts_with('T') {
-                return frozen;
-            }
-            watch.note(&format!("stat {}", state.chars().next().unwrap_or('-')));
-            watch.deadline_check(deadline, "wrapper never stopped");
-            std::thread::yield_now();
-        }
-    }
-
-    fn signal(&self, sig: &str) {
-        let ok = Command::new("kill")
-            .args([sig, &self.0])
-            .status()
-            .expect("kill");
-        assert!(ok.success(), "kill {sig}");
-    }
-}
-
-#[cfg(unix)]
-impl Drop for Frozen {
-    fn drop(&mut self) {
-        self.signal("-CONT");
-    }
 }
 
 /// `--json`'s form of the two refusals below and of a live holder's: the stale holder has its own
@@ -733,6 +689,7 @@ fn home_base_backing_gone_target_is_made_again_owner_only() {
     );
 }
 
+/// Unix only: the home backing is a symlink whose target's owner and mode are read.
 #[cfg(unix)]
 #[test]
 fn home_base_backing_owner_only_target_is_kept_untouched() {
@@ -746,6 +703,7 @@ fn home_base_backing_owner_only_target_is_kept_untouched() {
     assert_eq!(mode_of(&target), 0o700);
 }
 
+/// Unix only: the refused backing is told by its target's group and other mode bits.
 #[cfg(unix)]
 #[test]
 fn home_base_backing_group_or_other_bit_is_refused() {
@@ -763,6 +721,7 @@ fn home_base_backing_group_or_other_bit_is_refused() {
     }
 }
 
+/// Unix only: the home backing is a symlink chain, and the refusal reads its target's file type.
 #[cfg(unix)]
 #[test]
 fn home_base_backing_target_that_is_a_link_is_refused() {
@@ -823,59 +782,6 @@ fn remove_owned_keeps_the_owner_record_while_a_file_is_held(#[from(home)] tmp: T
     drop(held);
     assert!(remove_owned(&dir));
     assert!(!dir.exists());
-}
-
-/// A wrapper frozen under a debugger attach, the Windows form of `SIGSTOP`: every thread of the
-/// process stays suspended while its first debug event is unanswered. Detached on drop, so a failing
-/// test never leaves the wrapper frozen, and never killed: the attach is set not to kill on exit.
-#[cfg(windows)]
-struct Frozen(u32);
-
-#[cfg(windows)]
-impl Frozen {
-    fn attach(pid: u32) -> Self {
-        use windows_sys::Win32::Foundation::CloseHandle;
-        use windows_sys::Win32::System::Diagnostics::Debug::{
-            CREATE_PROCESS_DEBUG_EVENT, DEBUG_EVENT, DebugActiveProcess, DebugSetProcessKillOnExit,
-            WaitForDebugEvent,
-        };
-
-        // SAFETY: plain values cross; no pointer is kept.
-        assert_ne!(unsafe { DebugActiveProcess(pid) }, 0, "debugger attach");
-        let frozen = Self(pid);
-        // SAFETY: a flag value for this thread's debuggees.
-        assert_ne!(unsafe { DebugSetProcessKillOnExit(0) }, 0, "keep on exit");
-        let wait_ms = u32::try_from(support::watch::WITHIN.as_millis()).expect("ms");
-        // SAFETY: `event` is a writable DEBUG_EVENT for the call's duration.
-        let mut event: DEBUG_EVENT = unsafe { std::mem::zeroed() };
-        // SAFETY: as above; the event is read only after the call reported it written.
-        assert_ne!(
-            unsafe { WaitForDebugEvent(&mut event, wait_ms) },
-            0,
-            "first debug event"
-        );
-        assert_eq!(event.dwProcessId, pid);
-        assert_eq!(event.dwDebugEventCode, CREATE_PROCESS_DEBUG_EVENT);
-        // SAFETY: the code read above says this union member is the one written; the file handle
-        // is the debugger's to close.
-        unsafe {
-            let file = event.u.CreateProcessInfo.hFile;
-            if !file.is_null() {
-                CloseHandle(file);
-            }
-        }
-        frozen
-    }
-}
-
-#[cfg(windows)]
-impl Drop for Frozen {
-    fn drop(&mut self) {
-        // SAFETY: a plain pid; the same thread that attached detaches.
-        unsafe {
-            windows_sys::Win32::System::Diagnostics::Debug::DebugActiveProcessStop(self.0);
-        }
-    }
 }
 
 /// The Windows twin of `run_refuses_a_stale_name`: a wrapper whose pid and start time still match

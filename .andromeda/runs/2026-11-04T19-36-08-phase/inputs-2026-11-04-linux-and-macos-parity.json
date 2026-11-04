@@ -1,0 +1,309 @@
+[
+{
+"tool": "inputs",
+"v": "1.5",
+"sha8": "2adf4fb5",
+"ts": "2026-11-04T19:37:52Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-04-linux-and-macos-parity",
+"--source",
+"~/dev/projects/additional/viola-overseer/phase-parity-directive.md",
+"--kind",
+"relay",
+"--why",
+"the operator directive for this phase: sampler unforced, evidence kept, dead-draw contract, a tool fault stops the phase, live sessions 0 (the founder own word), standing df read, store-era letters, P5 card reports, eight local commits go with this chunk",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-11-04T19-36-08-phase",
+"--marker",
+"2026-11-04-linux-and-macos-parity"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy no-repo · ../additional/viola-overseer/phase-parity-directive.md",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-phase-parity-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/phase-parity-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "a1d7b31d29adc998f0048d8d5c5c57168edc90e9a5bc0a6c9c4a72cde72865c0",
+"copy": "I1-phase-parity-directive.md.txt",
+"link": false,
+"read_at": "2026-11-04T19:37:51Z",
+"step": "phase:P1",
+"why": "the operator directive for this phase: sampler unforced, evidence kept, dead-draw contract, a tool fault stops the phase, live sessions 0 (the founder own word), standing df read, store-era letters, P5 card reports, eight local commits go with this chunk"
+}
+},
+{
+"tool": "inputs",
+"v": "1.5",
+"sha8": "2adf4fb5",
+"ts": "2026-11-04T20:15:25Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-04-linux-and-macos-parity",
+"--message-file",
+".andromeda/runs/2026-11-04T19-36-08-phase/relay-1.md",
+"--kind",
+"relay",
+"--origin",
+"the operator, typed in this session at the P2 strong-reader halt, 2026-11-04 20:14Z",
+"--why",
+"the operator technical ruling at the P2 halt: arch-cascade-g9 set aside (dead after its re-spawn), main reads its four cross-cutting-patterns facts by rec.py get and carries them into P4 as bindings",
+"--step",
+"phase:P3",
+"--run-dir",
+".andromeda/runs/2026-11-04T19-36-08-phase",
+"--marker",
+"2026-11-04-linux-and-macos-parity"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy message · message: the operator, typed in this session at the P2 strong-reader halt, 2026-11-04 20:14Z",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, typed in this session at the P2 strong-reader halt, 2026-11-04 20:14Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "2c9626e4b95dc57d493d26409358db5b17765b120ceaf15a964766b608c4bca4",
+"copy": "I2-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-04T20:15:24Z",
+"step": "phase:P3",
+"why": "the operator technical ruling at the P2 halt: arch-cascade-g9 set aside (dead after its re-spawn), main reads its four cross-cutting-patterns facts by rec.py get and carries them into P4 as bindings"
+}
+},
+{
+"tool": "inputs",
+"v": "1.5",
+"sha8": "2adf4fb5",
+"ts": "2026-11-04T20:32:35Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-04-linux-and-macos-parity",
+"--message-file",
+".andromeda/runs/2026-11-04T19-36-08-phase/relay-2.md",
+"--kind",
+"relay",
+"--origin",
+"the Viola overseer (founder-delegated), answering the P4 dialog in this session, 2026-11-04 20:33Z",
+"--why",
+"the P4 fork on v1-53, answered by a delegate: leave it pooled with a dated note naming Version done-check as its owner; record the suite-parity witnesses in the report",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-11-04T19-36-08-phase",
+"--marker",
+"2026-11-04-linux-and-macos-parity"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy message · message: the Viola overseer (founder-delegated), answering the P4 dialog in this session, 2026-11-04 20:33Z",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "message: the Viola overseer (founder-delegated), answering the P4 dialog in this session, 2026-11-04 20:33Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "2b744e49b83c0fda8aa967fe0e6e76bdbc3cda93eb00f005a48b6db7cd3e6de8",
+"copy": "I3-relay-2.md.txt",
+"link": false,
+"read_at": "2026-11-04T20:32:35Z",
+"step": "phase:P4",
+"why": "the P4 fork on v1-53, answered by a delegate: leave it pooled with a dated note naming Version done-check as its owner; record the suite-parity witnesses in the report"
+}
+},
+{
+"tool": "inputs",
+"v": "1.5",
+"sha8": "2adf4fb5",
+"ts": "2026-11-04T20:40:31Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-04-linux-and-macos-parity",
+"--run-dir",
+".andromeda/runs/2026-11-04T19-36-08-phase",
+"--marker",
+"2026-11-04-linux-and-macos-parity"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-parity-directive.md",
+"I1 cited scope.md:42 · scope.md:58 · scope.md:110 · research.md:7 · plan.md:30 · plan.md:123 · plan.md:126 · plan.md:138 (in fence) · plan.md:271 (in fence)",
+"I2 n/a — a message has no live source · copy message · message: the operator, typed in this session at the P2 strong-reader halt, 2026-11-04 20:14Z",
+"I2 cited research.md:7 · plan.md:332",
+"I3 n/a — a message has no live source · copy message · message: the Viola overseer (founder-delegated), answering the P4 dialog in this session, 2026-11-04 20:33Z",
+"I3 cited plan.md:26 · plan.md:30 · plan.md:288 (in fence) · plan.md:320 · plan.md:349 · plan.md:390 · plan.md:394",
+"inputs: 3 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 3,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.5",
+"sha8": "2adf4fb5",
+"ts": "2026-11-04T20:43:48Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-04-linux-and-macos-parity",
+"--run-dir",
+".andromeda/runs/2026-11-04T19-36-08-phase",
+"--marker",
+"2026-11-04-linux-and-macos-parity"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-parity-directive.md",
+"I1 cited scope.md:42 · scope.md:58 · scope.md:110 · research.md:7 · plan.md:30 · plan.md:123 · plan.md:126 · plan.md:144 (in fence) · plan.md:287 (in fence)",
+"I2 n/a — a message has no live source · copy message · message: the operator, typed in this session at the P2 strong-reader halt, 2026-11-04 20:14Z",
+"I2 cited research.md:7 · plan.md:348",
+"I3 n/a — a message has no live source · copy message · message: the Viola overseer (founder-delegated), answering the P4 dialog in this session, 2026-11-04 20:33Z",
+"I3 cited plan.md:26 · plan.md:30 · plan.md:304 (in fence) · plan.md:336 · plan.md:366 · plan.md:414 · plan.md:418",
+"inputs: 3 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 3,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.5",
+"sha8": "2adf4fb5",
+"ts": "2026-11-04T20:45:29Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-04-linux-and-macos-parity",
+"--message-file",
+".andromeda/runs/2026-11-04T19-36-08-phase/relay-3.md",
+"--kind",
+"relay",
+"--origin",
+"the operator, typed in this session answering P5 card 1, 2026-11-04 20:46Z",
+"--why",
+"the P5 word on .andromeda/runs/2026-11-04T19-36-08-phase/p5-card-1.md, the operator own word: yes, apply — approving the plan and the card Beyond-the-plan rows (three CARRYs on Version done-check)",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-11-04T19-36-08-phase",
+"--marker",
+"2026-11-04-linux-and-macos-parity"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy message · message: the operator, typed in this session answering P5 card 1, 2026-11-04 20:46Z",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-relay-3.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, typed in this session answering P5 card 1, 2026-11-04 20:46Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "6eadfac7f38210207f6cc8fdc190f8ecf10bd0ff8263e0df00b77bd25449b233",
+"copy": "I4-relay-3.md.txt",
+"link": false,
+"read_at": "2026-11-04T20:45:28Z",
+"step": "phase:P5",
+"why": "the P5 word on .andromeda/runs/2026-11-04T19-36-08-phase/p5-card-1.md, the operator own word: yes, apply — approving the plan and the card Beyond-the-plan rows (three CARRYs on Version done-check)"
+}
+}
+]
