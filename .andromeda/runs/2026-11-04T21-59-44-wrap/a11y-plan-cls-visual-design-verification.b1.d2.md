@@ -1,0 +1,2 @@
+@answer n=1 entity=visual-design-verification#1.1 v=yes mode=contradict
+why: the session discharges the CARRY on "Linux and macOS parity" with cross_list_rows_dim_a_stale_row_end_to_end_on_a_terminal (cfg(unix), green on ubuntu-latest and macos-latest), so "dim only on stale rows is proven at the unit tier only" no longer holds, and fact F2 (the exact stale-row SGR sequence DIM, BOLD, RESET, DIM, RESET) joins these values

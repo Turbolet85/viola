@@ -15,7 +15,7 @@ The a11y harness checks cli and tui output discipline with assert_cmd / trycmd /
 - **Automated tools per surface:**
   - **web-spa:** none in 0.1.0: the frontend is deferred to 0.2.0 and its technology is not chosen
   - **Mobile:** N/A (phone view deferred)
-  - **CLI / TUI:** assert_cmd + trycmd + portable-pty outer-PTY output-discipline checks on all three OSes (the frame verbs' server-verify peer pid witness on windows-2025 and ubuntu-latest only: macOS reports no peer pid, the word there an euid mismatch alone; the socket-directory refusal on ubuntu-latest and macos-latest); manual NVDA / VoiceOver / Orca passes supplemental only
+  - **CLI / TUI:** assert_cmd + trycmd + portable-pty outer-PTY output-discipline checks on all three OSes (the frame verbs' server-verify peer pid witness on windows-2025 and ubuntu-latest only: macOS reports no peer pid, the word there an euid mismatch alone; the socket-directory refusal and the stale-row dim witness `cross_list_rows_dim_a_stale_row_end_to_end_on_a_terminal` on ubuntu-latest and macos-latest); manual NVDA / VoiceOver / Orca passes supplemental only
 - **WCAG criteria mapping:**
   - **AA base SCs:** none in 0.1.0 (the frontend is deferred to 0.2.0); cli / tui output-discipline assertions stand in for SC 1.3.2, 1.4.1 and 3.3.1 and the tui boundary for SC 2.1.1, with no conformance claim
   - **AAA escalations:** none

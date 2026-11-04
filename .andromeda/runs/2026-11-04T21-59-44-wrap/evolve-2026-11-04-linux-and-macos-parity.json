@@ -1,0 +1,162 @@
+[
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "836366c4",
+"ts": "2026-11-04T22:05:34Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-04T21-59-44-wrap",
+"--marker",
+"2026-11-04-linux-and-macos-parity"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 129 · 2026-11-04T19-37-47-2026-11-04-linux-and-macos-parity.ndjson",
+"ts 2026-11-04T22:05:24Z · clock 2026-11-04T22:05:34Z · bound 2026-11-04T21:02:13Z (line 2695)",
+"ids 2026-11-04T22:05:24Z-a … 2026-11-04T22:05:24Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-04T19-37-47-2026-11-04-linux-and-macos-parity.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "836366c4",
+"ts": "2026-11-04T22:53:37Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"3",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-04T21-59-44-wrap",
+"--marker",
+"2026-11-04-linux-and-macos-parity"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 3 record(s) in the store · tx 150 · 2026-11-04T19-37-47-2026-11-04-linux-and-macos-parity.ndjson",
+"ts 2026-11-04T22:53:15Z · clock 2026-11-04T22:53:36Z · bound 2026-11-04T22:05:24Z (line 2697)",
+"ids 2026-11-04T22:53:15Z-a … 2026-11-04T22:53:15Z-c (3)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-04T19-37-47-2026-11-04-linux-and-macos-parity.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "836366c4",
+"ts": "2026-11-04T22:53:50Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"3",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-04T21-59-44-wrap",
+"--marker",
+"2026-11-04-linux-and-macos-parity"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 3 record(s) in the store · tx 151 · 2026-11-04T19-37-47-2026-11-04-linux-and-macos-parity.ndjson",
+"ts 2026-11-04T22:53:15Z · clock 2026-11-04T22:53:50Z · bound 2026-11-04T22:53:15Z (line 2700)",
+"ids 2026-11-04T22:53:15Z-d … 2026-11-04T22:53:15Z-f (3)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-04T19-37-47-2026-11-04-linux-and-macos-parity.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "836366c4",
+"ts": "2026-11-04T22:56:51Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"3",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-04T21-59-44-wrap",
+"--marker",
+"2026-11-04-linux-and-macos-parity"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 3 record(s) in the store · tx 154 · 2026-11-04T19-37-47-2026-11-04-linux-and-macos-parity.ndjson",
+"ts 2026-11-04T22:56:40Z · clock 2026-11-04T22:56:51Z · bound 2026-11-04T22:53:15Z (line 2703)",
+"ids 2026-11-04T22:56:40Z-a … 2026-11-04T22:56:40Z-c (3)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-04T19-37-47-2026-11-04-linux-and-macos-parity.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "836366c4",
+"ts": "2026-11-04T22:58:21Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-04T21-59-44-wrap",
+"--marker",
+"2026-11-04-linux-and-macos-parity"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 156 · 2026-11-04T19-37-47-2026-11-04-linux-and-macos-parity.ndjson",
+"ts 2026-11-04T22:58:09Z · clock 2026-11-04T22:58:21Z · bound 2026-11-04T22:56:40Z (line 2706)",
+"ids 2026-11-04T22:58:09Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-04T19-37-47-2026-11-04-linux-and-macos-parity.ndjson"
+],
+"before": null,
+"after": null
+}
+]

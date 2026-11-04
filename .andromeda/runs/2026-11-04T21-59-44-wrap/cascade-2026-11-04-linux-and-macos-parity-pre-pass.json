@@ -1,0 +1,151 @@
+[
+{
+"tool": "cascade",
+"v": "1.24",
+"sha8": "645da29c",
+"ts": "2026-11-04T22:01:46Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-04T21-59-44-wrap/report-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-11-04T21-59-44-wrap",
+"--marker",
+"2026-11-04-linux-and-macos-parity"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [
+"baseline cbdd3874 (pre-pass — HEAD)",
+"pin · control UNFIRED over the seven masters (bodies and sets) at cbdd3874",
+"census · control UNFIRED over the seven masters (bodies and sets) at cbdd3874",
+"junit · control UNFIRED over the seven masters (bodies and sets) at cbdd3874",
+"counts · control UNFIRED over the seven masters (bodies and sets) at cbdd3874",
+"v153 · control UNFIRED over the seven masters (bodies and sets) at cbdd3874",
+"ownedby · control UNFIRED over the seven masters (bodies and sets) at cbdd3874"
+],
+"stderr": "control: pin, census, junit, counts, v153, ownedby never fired over the seven masters' pre-pass text, bodies and sets (cbdd3874) — a sweep runs a positive control or refuses; drop the pattern or control it by hand",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "cascade",
+"v": "1.24",
+"sha8": "645da29c",
+"ts": "2026-11-04T22:02:01Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-04T21-59-44-wrap/report-patterns.toml",
+"--pattern",
+"kill27",
+"--pattern",
+"frozen",
+"--pattern",
+"hangup",
+"--pattern",
+"witness",
+"--pattern",
+"forcekill",
+"--pattern",
+"title",
+"--run-dir",
+".andromeda/runs/2026-11-04T21-59-44-wrap",
+"--marker",
+"2026-11-04-linux-and-macos-parity"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline cbdd3874 (pre-pass — HEAD)",
+"kill27 · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control test-plan-detail/e2e-test-strategy.md:267 (prose)",
+"frozen · new 0 · standing 3 · leaf 0 · curation 0 · base 0 · control test-plan-detail/e2e-test-strategy.md:360 (prose)",
+"hangup · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control test-plan.md:681 (prose)",
+"witness · new 0 · standing 4 · leaf 0 · curation 0 · base 0 · control test-plan-detail/e2e-test-strategy.md:10 (prose)",
+"forcekill · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control test-plan-detail/integration-test-strategy.md:3…",
+"title · new 0 · standing 4 · leaf 0 · curation 0 · base 0 · control test-plan-detail/e2e-test-strategy.md:10 (prose)",
+".andromeda/test-plan-detail/e2e-test-strategy.md:267 kill27 standing fct-iplgfuqy …ach on the `ci` profile's 20 s kill …",
+".andromeda/test-plan-detail/e2e-test-strategy.md:329 kill27 standing fct-7lzg7pgb …s)` on the `ci` profile's 20 s kill …",
+".andromeda/test-plan-detail/e2e-test-strategy.md:360 frozen standing fct-6whu4pj5 …`, on the `Frozen` guard); after SIG…",
+".andromeda/test-plan-detail/integration-test-strategy.md:109 frozen standing fct-lzdm6e7w   - `Frozen` (`tests/cli_inst…",
+".andromeda/test-plan-detail/mocking-stubbing-discipline.md:19 frozen standing fct-63urz52n …er the `Frozen` guard (`tes…",
+".andromeda/test-plan.md:681 hangup standing fct-7o4nbra2 …er), so on Unix its exit ignores SIGHUP from its first step (…",
+".claude/rules/verification-harness.md:41 hangup leaf @c3601/3873 …, so on Unix its exit ignores SIGHUP from its first s…",
+".andromeda/test-plan-detail/e2e-test-strategy.md:10 witness standing fct-4m5t4osf …ier only (`board_row_style_a_stale_r…",
+".andromeda/a11y-plan.md:200 witness standing fct-lchghj7u - **Owed:** dim only on stale rows is proven at the unit tier…",
+".andromeda/a11y-plan-detail/aria-patterns-roles.md:31 witness standing fct-uok334yy ×3 …`DIALOG`, dim only on stale row…",
+".andromeda/a11y-plan-detail/visual-design-verification.md:9 witness standing fct-es7le4as …for_it`; dim only on stale r…",
+".andromeda/test-plan-detail/integration-test-strategy.md:34 forcekill standing fct-5qxwlgko …ep 4): `cleanup_after_a_fo…",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:73 forcekill standing fct-beydn7zm …` (`cleanup_a…",
+".andromeda/test-plan-detail/e2e-test-strategy.md:10 title standing fct-4m5t4osf …a CARRY on \"Linux and macOS parity\". `…",
+".andromeda/a11y-plan.md:200 title standing fct-lchghj7u …nly; its outer-PTY witness is owed to \"Linux and macOS parity\".",
+".andromeda/a11y-plan-detail/aria-patterns-roles.md:31 title standing fct-uok334yy … CARRY on \"Linux and macOS parity\"; …",
+".andromeda/a11y-plan-detail/visual-design-verification.md:9 title standing fct-es7le4as …ARRY on \"Linux and macOS parit…",
+"by line · 0 lines · 0 offsets",
+"kill27 · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control test-plan-detail/e2e-test-strategy.md:267 (prose)",
+"frozen · new 0 · standing 3 · leaf 0 · curation 0 · base 0 · control test-plan-detail/e2e-test-strategy.md:360 (prose)",
+"hangup · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control test-plan.md:681 (prose)",
+"witness · new 0 · standing 4 · leaf 0 · curation 0 · base 0 · control test-plan-detail/e2e-test-strategy.md:10 (prose)",
+"forcekill · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control test-plan-detail/integration-test-strategy.md:3…",
+"title · new 0 · standing 4 · leaf 0 · curation 0 · base 0 · control test-plan-detail/e2e-test-strategy.md:10 (prose)",
+"total (6 patterns) · 17 rows over 9 files",
+"per class · new 0/0 · standing 16/8 · leaf 1/1 · curation 0/0 · base 0/0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "cbdd3874b424ac1049de96f23e5f36948bfb257c",
+"how": "pre-pass — HEAD",
+"counts": {
+"kill27": {
+"new": 0,
+"standing": 2,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"frozen": {
+"new": 0,
+"standing": 3,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"hangup": {
+"new": 0,
+"standing": 1,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"witness": {
+"new": 0,
+"standing": 4,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"forcekill": {
+"new": 0,
+"standing": 2,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"title": {
+"new": 0,
+"standing": 4,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+},
+"bare": []
+}
+}
+]

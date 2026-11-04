@@ -1,0 +1,100 @@
+[
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "56fc1704",
+"ts": "2026-11-04T23:03:13Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-11-04-linux-and-macos-parity",
+"--run-dir",
+".andromeda/runs/2026-11-04T21-59-44-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed 0 — gate no-op (no entry carries chunk 2026-11-04-linux-and-macos-parity)",
+"pool: unclaimed 17 [v1-01 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-13 v1-21 v1-24 v1-26 v1-27 v1-34 v1-35 v1-36 v1-53]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "56fc1704",
+"ts": "2026-11-04T23:03:13Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-11-04-linux-and-macos-parity",
+"--run-dir",
+".andromeda/runs/2026-11-04T21-59-44-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed 0 — gate no-op (no entry carries chunk 2026-11-04-linux-and-macos-parity)",
+"pool: unclaimed 17 [v1-01 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-13 v1-21 v1-24 v1-26 v1-27 v1-34 v1-35 v1-36 v1-53]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "56fc1704",
+"ts": "2026-11-04T23:03:14Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-40",
+"--text-file",
+".andromeda/runs/2026-11-04T21-59-44-wrap/note-v1-40.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T21-59-44-wrap",
+"--marker",
+"2026-11-04-linux-and-macos-parity"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-40: +627 chars (total 3584) · status verified · ref/acceptance untouched",
+"landed, rendered ./.andromeda/db/log/2026-11-04T19-37-47-2026-11-04-linux-and-macos-parity.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-04T19-37-47-2026-11-04-linux-and-macos-parity.ndjson"
+],
+"before": {
+"id": "v1-40",
+"chunk": "2026-10-17-cli-output-discipline",
+"status": "verified",
+"method": "integration",
+"ref": "(1) tests/cli_wait_last.rs::wait_human_lines_are_linear, tests/cli_output_plain.rs::help_is_plain_on_a_terminal · (2) te… (1396 chars)",
+"acceptance": "On ubuntu-latest, macos-latest and windows-2025 every human-mode CLI output keeps the terminal discipline, each clause h… (2580 chars)",
+"notes_chars": 2955
+},
+"after": {
+"id": "v1-40",
+"chunk": "2026-10-17-cli-output-discipline",
+"status": "verified",
+"method": "integration",
+"ref": "(1) tests/cli_wait_last.rs::wait_human_lines_are_linear, tests/cli_output_plain.rs::help_is_plain_on_a_terminal · (2) te… (1396 chars)",
+"acceptance": "On ubuntu-latest, macos-latest and windows-2025 every human-mode CLI output keeps the terminal discipline, each clause h… (2580 chars)",
+"notes_chars": 3584
+}
+}
+]

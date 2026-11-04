@@ -1,0 +1,7 @@
+@proposal n=1 detector=D-cascade severity=warning file=authentication-authorization anchor=fct-ghctc7rk basis_doc=doc:2026-11-04-linux-and-macos-parity/report basis_fact=fct-tnpx5omp
+section: ## Authentication & Authorization
+change: Stack reference gains: `tests/contract_os_gated_tests.rs`'s census names every test this carve-out keeps off macOS under its one reason `NO_PEER_PID` (`const NO_PEER_PID`, 32-33), each a `GATES` row; 43 of the 48 cases ubuntu-latest runs and macos-latest does not take that reason (ci#41339639367 and ci#41918694243 alike).
+sidecar: authentication-authorization#3.10: the macOS carve-out's stack reference names the census reason NO_PEER_PID that gates its tests off macOS (chunk 2026-11-04-linux-and-macos-parity).
+rationale: the report's Symbols / APIs bullet adds the census of OS-gated tests and Counts / qualifiers moved reads ubuntu-not-macOS 48 = 43 through the macOS no-peer-pid carve-out + 5 Linux-only; the carve-out, its scope and its lack of a route entry are unchanged, so this is only an added stack reference.
+@remark
+The census's UNIX_MODES and UNIX_STATUSLINE reasons, the ten new reason lines (owner-only modes, strict-modes, .cmd/.bat, home-base keepers), the Unix outer-PTY dim-row witness under TERM=xterm-256color, and run_child_ends_when_its_wrapper_is_terminated on every OS are test-plan §2/§6 facts (a11y-plan for v1-40), not security-plan's; no new external input, auth path or dependency was added (D-security-input, D-security-auth and D-security-deps are clear).

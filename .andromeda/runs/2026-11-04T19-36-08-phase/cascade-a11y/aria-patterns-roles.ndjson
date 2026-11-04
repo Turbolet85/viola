@@ -1,5 +1,0 @@
-{"type": "listing", "schema": 2, "doc": "a11y-plan", "file": ".andromeda/a11y-plan-detail/aria-patterns-roles.md", "blob": "2a4b527d8fac955f", "tool": "detail v1.27", "entities": 4, "pin": 95, "sha": "2a4b527d8fac955f"}
-{"type": "entity", "id": "aria-patterns-roles#1.1", "hash": "74959806", "kind": "values", "subject": "aria-landmarks", "origin": "## 4. ARIA Patterns & Roles", "lines": [8, 10], "fact": "fct-ai3fe6uo", "rev": 1, "size": 1393}
-{"type": "entity", "id": "aria-patterns-roles#1.2", "hash": "67e8b4e1", "kind": "values", "subject": "aria-landmarks", "origin": "## 4. ARIA Patterns & Roles", "lines": [11, 11], "fact": "fct-u64ggudd", "rev": 1, "size": 161}
-{"type": "entity", "id": "aria-patterns-roles#2.1", "hash": "fd439ccd", "kind": "procedure", "subject": "path-p4-wheel", "origin": "## 4. ARIA Patterns & Roles", "lines": [17, 20], "fact": "fct-dx4kie52", "rev": 1, "size": 1439}
-{"type": "entity", "id": "aria-patterns-roles#3.1", "hash": "808d4ad8", "kind": "procedure", "subject": "path-p6-board", "origin": "## 4. ARIA Patterns & Roles", "lines": [26, 36], "fact": "fct-uok334yy", "rev": 1, "size": 3616}

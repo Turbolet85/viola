@@ -1,0 +1,3 @@
+{"type": "listing", "schema": 2, "doc": "test-plan", "file": ".andromeda/test-plan-detail/test-strategy.md", "blob": "37e966dbc58428a6", "tool": "detail v1.27", "entities": 2, "pin": 130, "sha": "a2980b433bdcaded", "batch": 2, "of": 2}
+{"type": "entity", "id": "test-strategy#3.17", "hash": "df6d7785", "kind": "values", "subject": "strategy", "origin": "## 2. Test Strategy", "lines": [76, 76], "fact": "fct-2aejh4x2", "rev": 1, "size": 142}
+{"type": "entity", "id": "test-strategy#3.18", "hash": "9222484c", "kind": "values", "subject": "strategy", "origin": "## 2. Test Strategy", "lines": [77, 77], "fact": "fct-brzfiy4i", "rev": 1, "size": 192}

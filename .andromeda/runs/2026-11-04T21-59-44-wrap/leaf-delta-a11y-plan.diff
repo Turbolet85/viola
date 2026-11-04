@@ -1,0 +1,41 @@
+--- a/.andromeda/a11y-plan.md
++++ b/.andromeda/a11y-plan.md
+@@ -199,3 +199,3 @@
+ 
+-- **Owed:** dim only on stale rows is proven at the unit tier only; its outer-PTY witness is owed to "Linux and macOS parity".
++- **Unix legs only:** dim only on stale rows is proven at the unit tier and, under the outer PTY, on ubuntu-latest and macos-latest; the outer-PTY witness does not run on windows-2025.
+ 
+@@ -377,3 +377,3 @@
+ 
+-<!-- subjects: scope-entities · scope-surfaces · path-p6-board · aria-landmarks · path-p4-wheel · visual-sgr · cognitive-timeouts · cognitive-errors · cognitive-plain-language · cognitive-consistency -->
++<!-- subjects: scope-entities · scope-surfaces · path-p6-board · path-p6-stale-dim · aria-landmarks · path-p4-wheel · visual-sgr · visual-sgr-stale-row · cognitive-timeouts · cognitive-errors · cognitive-plain-language · cognitive-consistency -->
+ 
+--- a/.andromeda/a11y-plan-detail/aria-patterns-roles.md
++++ b/.andromeda/a11y-plan-detail/aria-patterns-roles.md
+@@ -30,3 +30,3 @@
+   - no SGR under non-TTY / `NO_COLOR` / `TERM=dumb` / `--json`;
+-  - under the outer PTY, every SGR span sits beside its word (amber only on `DIALOG`, dim only on stale rows, bold only on NAME column values), and `unable` / `fail` carry no SGR; as built (chunk 2026-10-17-cli-output-discipline) `viola list`'s spans are checked under the outer PTY by `cross_list_rows_style_each_span_beside_its_word_on_a_terminal` (bold NAME, amber only on `DIALOG`; on windows-2025 the parsed attribute set) and at the unit tier by the `board_row_style_*` cases; dim only on stale rows is proven at the unit tier only (`board_row_style_a_stale_row_is_dim_end_to_end_and_only_dialog_is_amber`), its outer-PTY witness a CARRY on "Linux and macOS parity"; `viola wait` and `viola --help` carry no ESC byte and no lone CR on Unix (`tests/support/sgr.rs` `redraws`);
++  - under the outer PTY, every SGR span sits beside its word (amber only on `DIALOG`, dim only on stale rows, bold only on NAME column values), and `unable` / `fail` carry no SGR; as built (chunk 2026-10-17-cli-output-discipline) `viola list`'s spans are checked under the outer PTY by `cross_list_rows_style_each_span_beside_its_word_on_a_terminal` (bold NAME, amber only on `DIALOG`; on windows-2025 the parsed attribute set) and at the unit tier by the `board_row_style_*` cases; dim only on stale rows is proven at the unit tier (`board_row_style_a_stale_row_is_dim_end_to_end_and_only_dialog_is_amber`) and under the outer PTY on ubuntu-latest and macos-latest only, not on windows-2025 (the stale-row witness, below); `viola wait` and `viola --help` carry no ESC byte and no lone CR on Unix (`tests/support/sgr.rs` `redraws`);
+   - C0/C1 escaped (security excerpt, C0/C1 escaping; ratified T5 for `list` rows), checked with assert_cmd on all three OS legs:
+@@ -38 +38,7 @@
+ <!-- /detail -->
++
++<!-- detail: procedure · path-p6-stale-dim -->
++
++- **P6 — stale-row dim under the outer PTY** (cli, Unix legs). `cross_list_rows_dim_a_stale_row_end_to_end_on_a_terminal` (`tests/cross_list_rows.rs`, `cfg(unix)`, on a booted wrapper): the wrapper is frozen under the `Frozen` guard (`tests/support/frozen.rs`, test-plan's), its `heartbeat` back-dated 60 s so its row reads `stale`, and `viola list` runs under the outer PTY with `TERM=xterm-256color`; the row is dim from its first byte to its last and `stale` is printed (the exact SGR sequence it asserts: Section 6). It runs on ubuntu-latest and macos-latest and not on windows-2025.
++
++<!-- /detail -->
+--- a/.andromeda/a11y-plan-detail/visual-design-verification.md
++++ b/.andromeda/a11y-plan-detail/visual-design-verification.md
+@@ -8,4 +8,10 @@
+ - **CLI equivalent (no conformance claim):** amber SGR only on the `DIALOG` word, dim SGR on stale rows and bold SGR only on NAME column values (the callsign; design cli), always beside the word. As built (chunk 2026-10-17-cli-output-discipline) `viola list`'s human mode on a terminal writes bold on every NAME value (wrapped and unwrapped), the attention (amber) token on the `DIALOG` word only of a wrapped row with a pending dialog (its kind word plain), and a wrapped `stale` row dim from its first byte to its last (NAME dim and bold, `DIALOG` amber and not dim); the BAY line, caption, empty-board line and separator carry no SGR, and each state is still carried by its printed word (`stale`, `DIALOG <kind>`, `expired`, `budget-paused`, `unverified-cli`, the STATUS words `idle` / `busy`, the unwrapped rack's `n/a` cells). The colour decision reads `NO_COLOR` (present, an empty value included), `TERM` (exactly `dumb`; `256color`) and `COLORTERM` (the founder's own word, chunk 2026-10-17-cli-output-discipline `inputs#I2`) and whether stdout is a terminal; it writes no SGR under `--json`, a passthrough role or any of those rungs, and picks a truecolor / 256 / 16 depth (on Windows after enabling VT processing on stdout, restored afterwards; a failed enable writes none). On a terminal too narrow, an unwrapped NAME is cut to the column less 3 characters plus `...`, never inside a `\xHH` escape (the width from `viola_pty::host_size()`); a wrapped NAME is never cut, and piped output and `--json` keep every name whole.
+- Checked by the `board_row_style_*` / `board_row_width_*` units and `cross_list_rows_style_each_span_beside_its_word_on_a_terminal`, `cross_list_rows_print_no_sgr_under_no_color_dumb_piped_or_json` and `cross_list_rows_truncate_an_unwrapped_name_only_on_a_terminal_too_narrow_for_it`; dim only on stale rows is proven at the unit tier only, its outer-PTY witness a CARRY on "Linux and macOS parity". viola emits zero SGR of its own under non-TTY / `NO_COLOR` / `TERM=dumb` / `--json` / `viola run` / a passed `viola revive`, and the revive refusal pairs and `--list` rows carry no ESC byte. Under `viola run` on Windows the outer-PTY stream also carries the ConPTY host's own SGR, cursor and query bytes (not viola's: the inbox host's as measured at chunk 2026-09-25-pty-wrapper-on-windows research fact 4, the sideloaded `OpenConsole.exe`'s `ESC[1t ESC[c ESC[?1004h ESC[?9001h` as measured at chunk 2026-09-29-sideloaded-conpty), so the windows-2025 `viola run` check is that viola's literals are absent, on both backends. `unable` / `fail` are never coloured. Checked with assert_cmd + portable-pty on `[windows-2025, macos-latest, ubuntu-latest]`.
++ Checked by the `board_row_style_*` / `board_row_width_*` units and `cross_list_rows_style_each_span_beside_its_word_on_a_terminal`, `cross_list_rows_print_no_sgr_under_no_color_dumb_piped_or_json`, `cross_list_rows_truncate_an_unwrapped_name_only_on_a_terminal_too_narrow_for_it` and, on ubuntu-latest and macos-latest only (`cfg(unix)`, not run on windows-2025), `cross_list_rows_dim_a_stale_row_end_to_end_on_a_terminal`, the outer-PTY witness of a stale row dim from its first byte to its last. viola emits zero SGR of its own under non-TTY / `NO_COLOR` / `TERM=dumb` / `--json` / `viola run` / a passed `viola revive`, and the revive refusal pairs and `--list` rows carry no ESC byte. Under `viola run` on Windows the outer-PTY stream also carries the ConPTY host's own SGR, cursor and query bytes (not viola's: the inbox host's as measured at chunk 2026-09-25-pty-wrapper-on-windows research fact 4, the sideloaded `OpenConsole.exe`'s `ESC[1t ESC[c ESC[?1004h ESC[?9001h` as measured at chunk 2026-09-29-sideloaded-conpty), so the windows-2025 `viola run` check is that viola's literals are absent, on both backends. `unable` / `fail` are never coloured. Checked with assert_cmd + portable-pty on `[windows-2025, macos-latest, ubuntu-latest]`, the stale-row dim witness on the two Unix legs only.
+ 
+ <!-- /detail -->
++
++<!-- detail: values · visual-sgr-stale-row -->
++
++- **A stale row on a terminal:** `viola list`'s stream for a board whose wrapped row is `stale` carries exactly the escape sequences `[DIM, BOLD, RESET, DIM, RESET]`, the word `stale` printed beside the dim (the spans as above), as the outer-PTY stale-row witness above asserts it on the two Unix legs.
++
++<!-- /detail -->

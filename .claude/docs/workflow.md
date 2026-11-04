@@ -45,7 +45,7 @@ This project uses the Andromeda pipeline for architecture, planning, and impleme
 
 ## Verification discipline
 - Every gate is agent-runnable with a machine-readable verdict: nextest JUnit, `mutants.out/outcomes.json` (from `run --mutants`; in the host mutation scratch on Windows, each run's copy archived in `target/run-archive/`), hyperfine JSON, llvm-cov JSON, one harness JSON document per command, and `viola-harness gate` as the one verdict per CI job.
-- CI (three OSes) is the authority for OS-specific code: a Linux-only or Windows-only local run is not proof for the other OSes.
+- CI (three OSes) is the authority for OS-specific code: a Linux-only or Windows-only local run is not proof for the other OSes. Every test held off a runner by an OS gate names its reason: a new OS gate lands with its `GATES` row (`Gate { file, test, gate, reason }`) in the E2E contract binary `tests/contract_os_gated_tests.rs` (run under `run --e2e`), or its census goes red.
 - The real `claude` CLI runs only locally (`agent-run run --local-live`, `viola verify` / `verify --record` against it, and the test-only `viola-mcp-tap` recording a live CLI's MCP exchange for the `Mcp.` fixtures); CI uses the fake agent (including `viola verify` against its `-p/--print` mode and its interactive `--screens --turn-stop --trusted-root --dialogs --framing` modes: all five interactive runs and the relied ledger rows (`LedgerRow::relied()`: all twenty-four on the Unix runners, twenty-one on `windows-2025`, the first eighteen, `resume-session`, `agents-join` and `local-command-compact`)) and recorded fixtures. Changed real-CLI behaviour means a local fixture refresh + the contract suite.
 - Zero flakes: a flaky test keeps the chunk red until the root cause is fixed in that chunk.
 

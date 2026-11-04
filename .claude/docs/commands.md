@@ -81,7 +81,7 @@ _The workspace, `rust-toolchain.toml`, `.config/nextest.toml`, `viola-harness` a
 
 ## Git & release
 - Conventional commits (`feat:`, `fix:`, `chore:`, `refactor:`, `docs:`, `test:`, `ci:`); work lands on the version's build branch `build/viola-X.Y.Z`
-- `gh run view --json jobs` / `gh run download` — read CI results and artifacts
+- `gh run view --json jobs` / `gh run download` — read CI results and artifacts; `scripts/junit-os-sets.py --run <id>` (python 3 standard library and the host's `gh`) — the operator pass's per-OS JUnit reading, never a CI step: downloads `junit-windows-2025`, `junit-macos-latest` and `junit-ubuntu-latest` into a temporary dir removed on exit, prints `{os}: {n} cases · {f} failed · {s} skipped` per OS, then `## {label}: {count}` and the sorted `classname::name` lines of `ubuntu-not-macos`, `macos-not-ubuntu`, `windows-not-ubuntu` and `ubuntu-not-windows`; exit 0, 1 (a report missing or unparsable, named) or 2 (usage); reads no environment variable, writes nothing in the tree
 
 ## Troubleshooting
 - `cargo clean` — clean build artifacts (also removes `target/e2e-home/` and `target/agent-run/`; on the Linux dev host `target/e2e-home` is a link to the tmpfs backing, so re-make it afterwards with `ln -s /tmp/viola-e2e-home-<uid> target/e2e-home`, or the next start puts a plain directory back on the shared volume with no signal; a start through the link is refused with `e2e-home backing: {free} MiB free, below the {floor} MiB floor` when its filesystem reads less than the 9 GiB headroom floor free, a compiled floor set by no variable, flag or config key)

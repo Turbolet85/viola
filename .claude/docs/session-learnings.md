@@ -42,8 +42,8 @@ A Validate `· as:` direction is the one text the orchestrator authors for an ap
 
 ---
 
-## 2026-10-26 — A sidecar entry payload needs a leading blank line before it is appended
-The entry writers' `{doc}-entries.md` opens on its `## ` heading, and `splice.py append` adds no separator unless told, so appending the file whole without a separator puts the new heading directly under the previous entry's `**Ref:**` line. [corrected 2026-10-26: `splice.py append --blank-before` now puts the one blank line in itself where the sidecar's last line is not blank — measured on all seven sidecars at the wrap of 2026-10-26-server-verification-before-any-frame — so the entries file is appended whole with `--blank-before` and no `.append.md` copy is made.]
+## 2026-10-26 — A sidecar entry payload lands through `rec.py amend`, never appended to a file
+The entry writers' `{doc}-entries.md` is a payload of `@amendment` records, and `rec.py amend --root . --doc {doc} --file {run_dir}/{doc}-entries.md` (`--dry-run` first) lands it as rows after the sidecar's last, the store placing each entry and its separation itself; nothing is appended to a sidecar file by hand or by script. [corrected 2026-11-04: the records DB's S5 retired `splice.py append` and `--blank-before` — the installed `splice.py` has `summary` · `index` · `delete` · `section` only — and the wrap of 2026-11-04-linux-and-macos-parity landed its 19 entries through `rec.py amend`, each read back by its id.]
 
 ---
 

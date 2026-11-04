@@ -88,4 +88,4 @@
 2026-10-31-sanitised-error-surfaces · complete · codes and fixed messages only on CLI --json, MCP errors and channel error data, no paths or upstream text · → viola-0.1.0/chunks/2026-10-31-sanitised-error-surfaces/
 2026-10-31-exit-cause-code-catalogue · complete · every exit-21 and exit-1 cause a distinct code across --json, MCP and process log, matching its human hint · → viola-0.1.0/chunks/2026-10-31-exit-cause-code-catalogue/
 2026-11-01-unix-endpoint-and-home-hardening · complete · verified per-user socket directory, peer euid on both sides, the board's one home rule, the macOS pid gap recorded · → chk:2026-11-01-unix-endpoint-and-home-hardening
-2026-11-04-linux-and-macos-parity · pending · Linux and macOS parity — openpty wrapper, the full fake-agent suite and obs gates green on both, one diagnostics schema · → chk:2026-11-04-linux-and-macos-parity
+2026-11-04-linux-and-macos-parity · complete · Linux and macOS parity — openpty wrapper, the full fake-agent suite and obs gates green on both, one diagnostics schema · → chk:2026-11-04-linux-and-macos-parity

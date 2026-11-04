@@ -1,0 +1,2 @@
+@placement n=1 fact=F2 v=no_home
+why: the nextest ci profile's 20 s kill line is a test-runner timeout, no telemetry artifact, gate or step of obs-plan §9, and the report's Expected amendments route the kill line at 27 binaries to test-plan §2 Test Strategy and §9 CI Integration (doc:2026-11-04-linux-and-macos-parity/report fct-oi4iu3a7), where the kill line's other binaries already stand (test-plan-detail/e2e-test-strategy.md fct-iplgfuqy, fct-7lzg7pgb)

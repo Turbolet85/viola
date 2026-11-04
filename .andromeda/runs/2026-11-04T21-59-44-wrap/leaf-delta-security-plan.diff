@@ -1,0 +1,7 @@
+--- a/.andromeda/security-plan-detail/authentication-authorization.md
++++ b/.andromeda/security-plan-detail/authentication-authorization.md
+@@ -116,3 +116,3 @@
+   - **Implementation:** The absent pid and start-time comparison of macOS is a named carve-out owned by no route entry: `server_verdict_rows` keeps its row and the server-identity negatives stay compiled out there.
+-  - **Stack reference:** `server_verdict_rows`; `tests/security_negatives_server_identity.rs` (`#![cfg(not(target_os = "macos"))]`)
++  - **Stack reference:** `server_verdict_rows`; `tests/security_negatives_server_identity.rs` (`#![cfg(not(target_os = "macos"))]`); `tests/contract_os_gated_tests.rs` (`GATES`, each test this carve-out keeps off macOS a row under its one reason `NO_PEER_PID`)
+ - **Requirement:** IPC access control (Unix), the tests holding the directory check

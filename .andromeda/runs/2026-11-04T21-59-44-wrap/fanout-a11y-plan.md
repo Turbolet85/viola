@@ -1,0 +1,4 @@
+@none
+reason: no proposal
+@remark
+D-a11y-surface: the report adds no interactive UI element (fct-nxgmykln: a11y n/a, test-side only); D-a11y-obs-schema: no a11y violation or obs log schema change (fct-tk35fzvm); D-retired: the Retired items (fct-t2p7waiu: the local Frozen twins, the /proc SigIgn reader) stand nowhere in a11y-plan. Outside every detector: body fact fct-lchghj7u (§4 "Owed: ... its outer-PTY witness is owed to Linux and macOS parity") is now stale, since the witness cross_list_rows_dim_a_stale_row_end_to_end_on_a_terminal landed on ubuntu-latest and macos-latest (report fct-wo5npqx2, fct-a5c3lp2r, fct-sayee6ki pattern witness/title); it is the report's Expected amendment for a11y-plan §4 (fct-oi4iu3a7), owned by P2, with detail facts fct-uok334yy (aria-patterns-roles) and fct-es7le4as (visual-design-verification) left to the cascade.
