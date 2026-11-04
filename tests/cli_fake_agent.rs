@@ -893,35 +893,39 @@ fn fake_agent_without_exit_no_eof_releases_stdout_at_exit() {
 }
 
 /// The ignored-signal mask `ps -o sigignore=` prints, on Linux and macOS alike: a hex mask (with or
-/// without `0x`) whose bit 0 is signal 1, SIGHUP. A failed spawn, a non-zero exit or a mask that
-/// does not parse reads false.
+/// without `0x`) whose bit 0 is signal 1, SIGHUP. Not ignored, a failed spawn, a non-zero exit or a
+/// mask that does not parse is an `Err` holding what `ps` returned.
 #[cfg(unix)]
-fn ignores_sighup(pid: u32) -> bool {
-    std::process::Command::new("ps")
+fn ignores_sighup(pid: u32) -> Result<(), String> {
+    let out = std::process::Command::new("ps")
         .args(["-o", "sigignore=", "-p", &pid.to_string()])
         .output()
-        .ok()
-        .filter(|out| out.status.success())
-        .and_then(|out| {
-            let text = String::from_utf8_lossy(&out.stdout);
-            let mask = text.trim();
-            let mask = mask.strip_prefix("0x").unwrap_or(mask);
-            u64::from_str_radix(mask, 16).ok()
-        })
-        .is_some_and(|mask| mask & 1 == 1)
+        .map_err(|e| format!("ps did not spawn: {e}"))?;
+    let text = String::from_utf8_lossy(&out.stdout);
+    let mask = text.trim();
+    let mask = mask.strip_prefix("0x").unwrap_or(mask);
+    match u64::from_str_radix(mask, 16) {
+        Ok(bits) if out.status.success() && bits & 1 == 1 => Ok(()),
+        _ => Err(format!(
+            "ps exit {:?}, stdout {:?}, stderr {:?}",
+            out.status.code(),
+            text,
+            String::from_utf8_lossy(&out.stderr)
+        )),
+    }
 }
 
-/// Waits until `holds` reads true while the agent still runs: an agent that exits first fails at
-/// once, and a wait past the root-watch deadline fails with its report.
+/// Waits until `holds` reads `Ok` while the agent still runs: an agent that exits first fails at
+/// once, naming the last `Err` read, and a wait past the root-watch deadline fails with its report.
 #[cfg(unix)]
-fn wait_while_running(agent: &mut Direct, what: &str, holds: impl Fn() -> bool) {
+fn wait_while_running(agent: &mut Direct, what: &str, holds: impl Fn() -> Result<(), String>) {
     let watch = support::watch::Watch::start("exit-hangup");
     let deadline = Instant::now() + support::watch::WITHIN;
-    while !holds() {
+    while let Err(last) = holds() {
         let exited = agent.child.try_wait().expect("try_wait");
         assert!(
             exited.is_none(),
-            "the agent exited ({exited:?}) before {what}"
+            "the agent exited ({exited:?}) before {what}; last read: {last}"
         );
         watch.note(what);
         watch.deadline_check(deadline, &format!("timed out waiting for {what}"));
@@ -963,7 +967,13 @@ fn fake_agent_exit_outlives_a_hangup_that_lands_while_it_exits() {
         &[],
     );
     let pid = agent.child.id();
-    wait_while_running(&mut agent, "the Stop hook's run", || marker.exists());
+    wait_while_running(&mut agent, "the Stop hook's run", || {
+        if marker.exists() {
+            Ok(())
+        } else {
+            Err("no marker".to_owned())
+        }
+    });
     agent.send(b"\x03");
     wait_while_running(&mut agent, "the exit ignoring SIGHUP", || {
         ignores_sighup(pid)
