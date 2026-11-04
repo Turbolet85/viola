@@ -5,3 +5,4 @@ masters	.andromeda/input.md,.andromeda/registries/**,.andromeda/architecture.md,
 bases	.andromeda/residuals.md,.andromeda/playbook.md,.andromeda/drift-base.md,.andromeda/code-metrics.ndjson,.andromeda/state.yaml,viola-0.1.0/route-archive.md	135	a585fac0
 harness	CLAUDE.md,.claude/rules/**,.claude/docs/**	1488	ad3a5eea
 runs		333	9bfae694
+outputs		0	born
