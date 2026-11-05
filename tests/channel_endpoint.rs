@@ -19,8 +19,6 @@ use support::home::{
 };
 use support::hygiene::load_schema;
 use support::watch::WITHIN;
-#[cfg(windows)]
-use viola_channel::test_support as win;
 use viola_channel::{ChannelError, Client, Dispatch, ProtocolError, Server};
 
 const MAX_FRAME: usize = 16 * 1024 * 1024;
@@ -35,24 +33,19 @@ impl Dispatch for NoMethods {
     }
 }
 
-/// A test-owned endpoint, outside the `viola-<h12>` namespace `viola run` binds. A Unix socket
-/// lives in a short `/tmp` dir: macOS caps a socket path near 104 bytes.
+/// A test-owned endpoint, outside the `viola-<h12>` namespace `viola run` binds. The socket lives
+/// in a short `/tmp` dir: a socket path is capped near 108 bytes.
 fn test_endpoint(label: &str) -> (tempfile::TempDir, String) {
     let base = format!("viola-test-chan-{}-{label}", std::process::id());
-    let dir = if cfg!(windows) {
-        tempfile::tempdir()
-    } else {
-        tempfile::Builder::new().prefix("vt").tempdir_in("/tmp")
-    }
-    .expect("socket dir");
-    let endpoint = if cfg!(windows) {
-        format!(r"\\.\pipe\{base}")
-    } else {
-        dir.path()
-            .join(format!("{base}.sock"))
-            .to_string_lossy()
-            .into_owned()
-    };
+    let dir = tempfile::Builder::new()
+        .prefix("vt")
+        .tempdir_in("/tmp")
+        .expect("socket dir");
+    let endpoint = dir
+        .path()
+        .join(format!("{base}.sock"))
+        .to_string_lossy()
+        .into_owned();
     (dir, endpoint)
 }
 
@@ -181,19 +174,6 @@ fn stop_wait_holds_while_the_endpoint_answers() {
         .join()
         .expect("the wait ends once the endpoint is gone");
     assert_eq!(rx.try_iter().last(), Some(false));
-}
-
-/// The listener's DACL read back from the pipe: protected, the user and SYSTEM only (security-plan
-/// IPC access control, Windows). Windows reports the `GA` it was given as `FA`.
-#[cfg(windows)]
-#[rstest]
-fn channel_endpoint_pipe_dacl_is_protected_user_and_system() {
-    let (_dir, endpoint) = test_endpoint("dacl");
-    let _serving = Server::bind(&endpoint)
-        .expect("bound")
-        .serve(Arc::new(NoMethods));
-    let expected = win::canonical_sddl(&format!("D:P(A;;FA;;;{})(A;;FA;;;SY)", win::user_sid()));
-    assert_eq!(win::dacl_of(&endpoint), expected);
 }
 
 fn role_lines(home: &Path) -> Vec<Value> {

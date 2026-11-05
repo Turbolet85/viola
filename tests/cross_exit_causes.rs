@@ -6,11 +6,9 @@
 //! a wrapper is killed only by the pid its own snapshot records.
 //!
 //! Causes held elsewhere: server verification by `tests/security_negatives_server_identity.rs` (its
-//! impostor is a named carve-out of test-built state, and it compiles out on macOS, the named
-//! carve-out); a refused socket directory's other seven frame verbs and its hook paths by
+//! impostor is a named carve-out of test-built state); a refused socket directory's other seven frame verbs and its hook paths by
 //! `tests/security_negatives_socket_dir.rs`; a stale heartbeat by `tests/cli_instance_state.rs`,
-//! the wrapper held by the `Frozen` guard of `tests/support/frozen.rs`;
-//! the `.cmd` refusal's human pair by `tests/cli_program_resolution.rs`; `verify`'s version,
+//! the wrapper held by the `Frozen` guard of `tests/support/frozen.rs`; `verify`'s version,
 //! recording, pinned-copy, interrupted and stamps refusals by `tests/cli_verify.rs`; `viola mcp`'s two
 //! silent exits, both streams empty by rule, by `crates/viola-e2e/tests/mcp_tools.rs` and
 //! `crates/viola-mcp/tests/handlers.rs`; a program not found under `run` itself is `revive`'s row
@@ -58,7 +56,6 @@ const ALREADY_LIVE: &str = "viola list";
 const STALE: &str = "viola list shows it as stale; stop that process before starting builder again";
 const SQUATTED: &str = "another process holds this name's endpoint; stop it or pick another name";
 const PINNED: &str = "the pinned copy was changed after it was written, so viola will not run it";
-const SCRIPT_CHILD: &str = "pass the real executable, not a .cmd or .bat shim";
 const NO_SESSION: &str = "start one: viola run builder -- claude";
 const UNKNOWN_ID: &str = "viola revive builder --list";
 const SESSION_LIVE: &str = "close it there first, or start a copy: viola revive builder --fork";
@@ -87,7 +84,6 @@ const CAUSES: &[Cause] = &[
     ("stale-heartbeat", 1, Some(STALE)),
     ("squatted-name", 1, Some(SQUATTED)),
     ("pinned-hash-mismatch", 1, Some(PINNED)),
-    ("batch-script-child", 1, Some(SCRIPT_CHILD)),
     ("no-session", 1, Some(NO_SESSION)),
     ("no-session", 1, Some(UNKNOWN_ID)),
     ("session-live", 1, Some(SESSION_LIVE)),
@@ -623,25 +619,4 @@ fn verify_with_no_claude_on_its_path_is_program_not_found() {
         "program-not-found",
         "ERROR",
     );
-}
-
-/// A `claude.cmd` with no sibling, the only `claude` its `PATH` holds. Its human pair is
-/// `tests/cli_program_resolution.rs`'s.
-#[cfg(windows)]
-#[test]
-fn a_revive_whose_claude_is_a_script_is_the_batch_script_child_document() {
-    let (stamped, _dir, _) = stopped_life(unstamped());
-    let home = &stamped.home;
-    let bin = home.scratch().join("script-bin");
-    fs::create_dir(&bin).expect("the bin dir");
-    fs::write(bin.join("claude.cmd"), "@exit /b 0\r\n").expect("the script");
-    let children = child_starts(home.path());
-    let child = revive_command(home, home.scratch(), &["builder", "--json"])
-        .env("PATH", &bin)
-        .spawn()
-        .expect("viola");
-    let ran = Running::over(child).finish();
-    assert_document(&ran, 1, &refused_document("batch-script-child"));
-    assert!(refused_with(home.path(), "batch-script-child"));
-    assert_eq!(child_starts(home.path()), children, "a child started");
 }

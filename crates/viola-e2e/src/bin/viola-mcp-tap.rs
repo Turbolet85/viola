@@ -209,7 +209,7 @@ fn fixture(capture: &Path, out: &Path) -> ExitCode {
         .file_name()
         .map(|n| n.to_string_lossy().into_owned())
         .unwrap_or_default();
-    let scrubbed = ledger::scrub(&doc, &home, &user, viola_agent_claude::CASE_INSENSITIVE);
+    let scrubbed = ledger::scrub(&doc, &home, &user);
     if let Some(code) = fault(&scrubbed, &home, &user) {
         eprintln!("viola-mcp-tap: {name} {code}");
         return ExitCode::from(1);

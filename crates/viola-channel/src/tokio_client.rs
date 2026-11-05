@@ -1,9 +1,7 @@
 //! The Tokio client, for `viola-mcp` alone (behind the `tokio` feature): the sync
 //! [`Client`](crate::Client)'s contract over an async stream. It connects to a recorded `endpoint`,
 //! then makes one request per call; every `params` carries `v`, `sender` and `conn`, the reply is
-//! read through `MAX_FRAME`, and its lines and `channel.request` span are the sync client's. On
-//! Windows the pipe is opened with SQOS Identification and overlapped, never interprocess's default
-//! connect (security-plan §Authentication & Authorization, IPC client).
+//! read through `MAX_FRAME`, and its lines and `channel.request` span are the sync client's.
 
 use std::io;
 use std::time::Instant;
@@ -95,23 +93,10 @@ async fn read_frame(reader: &mut (impl AsyncBufRead + Unpin)) -> Result<Vec<u8>,
     framed(line, MAX_FRAME)
 }
 
-#[cfg(unix)]
 async fn open(endpoint: &str) -> io::Result<Stream> {
     use interprocess::local_socket::traits::tokio::Stream as _;
     use interprocess::local_socket::{GenericFilePath, ToFsName as _};
     Stream::connect(endpoint.to_fs_name::<GenericFilePath>()?).await
-}
-
-/// The sync client's SQOS open, adopted by the runtime. A busy pipe is waited for on this thread,
-/// in 100 ms steps for at most the sync client's two seconds.
-#[cfg(windows)]
-async fn open(endpoint: &str) -> io::Result<Stream> {
-    use interprocess::os::windows::named_pipe::local_socket::tokio::Stream as PipeStream;
-    let handle =
-        crate::client::open_handle(endpoint, crate::client::busy_deadline(Instant::now()))?;
-    PipeStream::try_from(handle)
-        .map(Stream::from)
-        .map_err(|_| io::Error::from(io::ErrorKind::InvalidData))
 }
 
 #[cfg(test)]
@@ -180,7 +165,6 @@ mod tests {
         });
     }
 
-    #[cfg(not(target_os = "macos"))]
     #[test]
     fn tokio_client_server_pid_is_the_serving_process() {
         let dir = tempfile::tempdir().expect("tempdir");
@@ -197,24 +181,6 @@ mod tests {
         assert_eq!(pid, Some(std::process::id()));
     }
 
-    #[cfg(target_os = "macos")]
-    #[test]
-    fn tokio_client_server_pid_is_none_where_peer_credentials_hold_no_pid() {
-        let dir = tempfile::tempdir().expect("tempdir");
-        let endpoint = test_endpoint(dir.path(), "tokio-server-pid");
-        let _serving = Server::bind(&endpoint)
-            .expect("bound")
-            .serve(Arc::new(Shapes));
-        let pid = runtime().block_on(async {
-            let client = TokioClient::connect(&endpoint, "mcp")
-                .await
-                .expect("connect");
-            client.server_pid()
-        });
-        assert_eq!(pid, None);
-    }
-
-    #[cfg(unix)]
     #[test]
     fn tokio_client_server_euid_is_this_user() {
         let dir = tempfile::tempdir().expect("tempdir");
@@ -230,23 +196,6 @@ mod tests {
         });
         // SAFETY: `geteuid` takes no arguments, cannot fail and touches no memory.
         assert_eq!(euid, Some(unsafe { libc::geteuid() }));
-    }
-
-    #[cfg(windows)]
-    #[test]
-    fn tokio_client_server_euid_is_none_where_the_peer_reports_no_euid() {
-        let dir = tempfile::tempdir().expect("tempdir");
-        let endpoint = test_endpoint(dir.path(), "tokio-server-euid");
-        let _serving = Server::bind(&endpoint)
-            .expect("bound")
-            .serve(Arc::new(Shapes));
-        let euid = runtime().block_on(async {
-            let client = TokioClient::connect(&endpoint, "mcp")
-                .await
-                .expect("connect");
-            client.server_euid()
-        });
-        assert_eq!(euid, None);
     }
 
     #[test]

@@ -92,6 +92,11 @@ impl Workspace {
     /// gone (a reboot clears a tmpfs one), and is refused unless it is a real directory with no
     /// group or other bit. Nothing is removed and no `home` is created.
     pub fn ensure_e2e_home(&self) -> io::Result<()> {
+        self.ensure_e2e_home_with(free_bytes)
+    }
+
+    /// `ensure_e2e_home` with the linked backing's free bytes read by `free`.
+    fn ensure_e2e_home_with(&self, free: impl Fn(&Path) -> io::Result<u64>) -> io::Result<()> {
         let base = self.e2e_home();
         #[cfg(unix)]
         {
@@ -117,7 +122,7 @@ impl Workspace {
                         "e2e-home backing: the link's target is not owner-only",
                     ));
                 }
-                if let Some(low) = headroom_refusal(free_bytes(&target)?, HEADROOM_FLOOR_MIB) {
+                if let Some(low) = headroom_refusal(free(&target)?, HEADROOM_FLOOR_MIB) {
                     return Err(io::Error::new(io::ErrorKind::InvalidInput, low));
                 }
                 return Ok(());
@@ -126,8 +131,8 @@ impl Workspace {
         fs::create_dir_all(base)
     }
 
-    /// The harness builds and tests in its own target dir: `viola-harness` itself runs from
-    /// `target/debug`, and Windows cannot relink a running executable.
+    /// The harness builds and tests in its own target dir, apart from the `target/debug` that
+    /// `viola-harness` itself runs from.
     pub fn cargo_target(&self) -> PathBuf {
         self.root.join("target").join("harness")
     }
@@ -153,7 +158,7 @@ pub fn headroom_refusal(free: u64, floor_mib: u64) -> Option<String> {
 }
 
 /// The bytes an unprivileged writer may still take on the filesystem under `path`. The conversions
-/// are identities on Linux, where `fsblkcnt_t` is 64 bits, and widen it on macOS, where it is 32.
+/// are identities where `fsblkcnt_t` is 64 bits.
 #[cfg(unix)]
 #[allow(clippy::useless_conversion)]
 fn free_bytes(path: &Path) -> io::Result<u64> {
@@ -475,12 +480,20 @@ mod tests {
         ws.ensure_e2e_home().expect_err("refused").to_string()
     }
 
+    /// A free-bytes reader that reads `mib` MiB whatever the path, so the host's disk decides
+    /// nothing.
+    #[cfg(unix)]
+    fn reads_free(mib: u64) -> impl Fn(&Path) -> io::Result<u64> {
+        move |_| Ok(mib * 1024 * 1024)
+    }
+
     /// A reboot clears a tmpfs backing: the next start makes the link's target again, owner-only.
     #[cfg(unix)]
     #[test]
     fn e2e_home_backing_gone_target_is_made_again_owner_only() {
         let (_tmp, ws, target) = linked("backing");
-        ws.ensure_e2e_home().expect("made again");
+        ws.ensure_e2e_home_with(reads_free(HEADROOM_FLOOR_MIB))
+            .expect("made again");
         assert!(
             fs::symlink_metadata(&target)
                 .expect("the target is back")
@@ -502,7 +515,26 @@ mod tests {
         let (_tmp, ws, target) = linked("backing");
         dir_with_mode(&target, 0o700);
         fs::write(target.join("kept"), "x").expect("entry");
-        ws.ensure_e2e_home().expect("kept");
+        ws.ensure_e2e_home_with(reads_free(HEADROOM_FLOOR_MIB))
+            .expect("kept");
+        assert_eq!(fs::read(target.join("kept")).expect("entry kept"), b"x");
+        assert_eq!(mode_of(&target), 0o700);
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn e2e_home_backing_below_the_floor_is_refused_and_left_as_found() {
+        let (_tmp, ws, target) = linked("backing");
+        dir_with_mode(&target, 0o700);
+        fs::write(target.join("kept"), "x").expect("entry");
+        let refused = ws
+            .ensure_e2e_home_with(reads_free(HEADROOM_FLOOR_MIB - 1))
+            .expect_err("below the floor");
+        assert_eq!(refused.kind(), io::ErrorKind::InvalidInput);
+        assert_eq!(
+            refused.to_string(),
+            "e2e-home backing: 9215 MiB free, below the 9216 MiB floor"
+        );
         assert_eq!(fs::read(target.join("kept")).expect("entry kept"), b"x");
         assert_eq!(mode_of(&target), 0o700);
     }

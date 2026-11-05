@@ -10,7 +10,7 @@ use anyhow::Context as _;
 use chrono::Utc;
 use serde_json::{Value, json};
 use tracing::instrument;
-use viola_agent_claude::{AgentError, StripPlan, statusline};
+use viola_agent_claude::{StripPlan, statusline};
 use viola_channel::{Call, ChannelError, Dispatch, ProtocolError, Server, Serving};
 use viola_core::obs::ObsProcess;
 use viola_core::{EventKind, MAX_FRAME, SystemClock, ViolaName, WheelCause};
@@ -22,7 +22,6 @@ use viola_state::liveness::{Liveness, STALE_AFTER, classify, own_start, same_pro
 use viola_state::pin::{PinError, Pinned, pin_bytes, pin_key};
 use viola_state::replay::{Recovered, read_snapshot_or_replay};
 use viola_state::snapshot::{InstanceSnapshot, Wheel};
-#[cfg(unix)]
 use viola_state::strict::check_endpoint_dir;
 use viola_state::strict::{TreeRefused, check_home_tree};
 
@@ -268,11 +267,6 @@ pub(super) fn start(
     let cwd = std::env::current_dir()?;
     let program = match run::resolve_program(&launch.program, &cwd) {
         Ok(program) => program,
-        Err(AgentError::BatchScriptChild) => {
-            return Ok(refused_with(launch.json, "batch-script-child", || {
-                refuse_batch_script(name);
-            }));
-        }
         Err(_) => return Ok(refused_with(launch.json, "internal-error", || {})),
     };
 
@@ -291,12 +285,6 @@ pub(super) fn start(
             refuse_tampered_pin,
         ));
     };
-    #[cfg(windows)]
-    let sideload = conpty_sideload(&pinned);
-    #[cfg(windows)]
-    let sideload_fallback = sideload.fallback;
-    #[cfg(not(windows))]
-    let sideload_fallback = None;
     let statusline_command = statusline_command(&home, std::env::home_dir().as_deref());
     let strip = viola_agent_claude::plan_strip(std::env::vars_os().map(|(k, _)| k), persistent);
     let gate = version_gate(&home, &program, &cwd, &strip);
@@ -406,11 +394,7 @@ pub(super) fn start(
         &strip,
         &snapshots,
         snapshot,
-        sideload_fallback,
     );
-    // Held from the hash through the spawn: the bytes verified are the bytes loaded and launched.
-    #[cfg(windows)]
-    drop(sideload);
     let (pty, terminal, size) = spawned?;
     Ok(Started::Launched(Box::new(Launched {
         pty,
@@ -496,61 +480,6 @@ fn pin_and_plugin(home: &Path, exe: &[u8]) -> anyhow::Result<Option<(Pinned, Pat
     Ok(Some((pinned, plugin_dir)))
 }
 
-/// The pinned ConPTY companions, held while they are used; `fallback` is why the child runs on the
-/// inbox ConPTY instead (obs-plan §6 `sideload_fallback`), `None` once the sideload is loaded.
-#[cfg(windows)]
-struct Sideload {
-    fallback: Option<&'static str>,
-    _held: Option<viola_state::pin::HeldCompanions>,
-}
-
-/// After the pinned copy, before the spawn: `OpenConsole.exe` and `conpty.dll` written when absent,
-/// re-hashed and held, then `conpty.dll` pre-loaded by absolute path. It never refuses, prints or
-/// changes the exit: any failure leaves the child on the inbox ConPTY, recorded as a code.
-#[cfg(windows)]
-#[instrument(
-    skip_all,
-    name = "run.conpty_sideload",
-    fields(
-        outcome = tracing::field::Empty,
-        search_restricted = tracing::field::Empty
-    )
-)]
-fn conpty_sideload(pinned: &Pinned) -> Sideload {
-    let span = tracing::Span::current();
-    span.record(
-        "search_restricted",
-        viola_pty::sideload::search_restricted(),
-    );
-    let (outcome, held) = sideload_outcome(pinned);
-    span.record("outcome", outcome);
-    Sideload {
-        fallback: (outcome != "loaded").then_some(outcome),
-        _held: held,
-    }
-}
-
-/// `conpty::FILES` puts `OpenConsole.exe` first, so a dll with no verified host never loads.
-#[cfg(all(windows, target_arch = "x86_64"))]
-fn sideload_outcome(pinned: &Pinned) -> (&'static str, Option<viola_state::pin::HeldCompanions>) {
-    use crate::conpty;
-    let held = match viola_state::pin::pin_companions(pinned, conpty::SUBDIR, conpty::FILES) {
-        Ok(held) => held,
-        Err(PinError::HashMismatch) => return ("hash-mismatch", None),
-        Err(PinError::StrictModes) => return ("strict-modes-failed", None),
-        Err(PinError::State(_)) => return ("unreadable", None),
-    };
-    match viola_pty::sideload::preload(&held.dir.join(conpty::DLL)) {
-        Ok(()) => ("loaded", Some(held)),
-        Err(_) => ("load-failed", None),
-    }
-}
-
-#[cfg(all(windows, not(target_arch = "x86_64")))]
-fn sideload_outcome(_: &Pinned) -> (&'static str, Option<viola_state::pin::HeldCompanions>) {
-    ("not-built", None)
-}
-
 /// What a bind came to.
 enum Bound {
     Serving(String, Server),
@@ -578,7 +507,6 @@ fn bind_endpoint(name: &ViolaName, home: &Path) -> anyhow::Result<Bound> {
 /// The endpoint's directory, verified before anything touches it: `create_private_dir` chmods an
 /// existing path, which would erase what the check refuses, so it runs only for an absent one, and
 /// the check runs again so the loser of a race to make it reads the same.
-#[cfg(unix)]
 fn socket_dir_ready(endpoint: &str) -> bool {
     if check_endpoint_dir(endpoint).is_err() {
         return false;
@@ -588,12 +516,6 @@ fn socket_dir_ready(endpoint: &str) -> bool {
     };
     let absent = std::fs::symlink_metadata(dir).is_err();
     (!absent || create_private_dir(dir).is_ok()) && check_endpoint_dir(endpoint).is_ok()
-}
-
-/// Off Unix the endpoint is a pipe in no directory.
-#[cfg(not(unix))]
-fn socket_dir_ready(_endpoint: &str) -> bool {
-    true
 }
 
 /// The home's own file that names the user's statusline command, in the settings shape: the source
@@ -713,7 +635,6 @@ fn spawn_child(
     strip: &StripPlan,
     snapshots: &Snapshots,
     mut snapshot: InstanceSnapshot,
-    sideload_fallback: Option<&'static str>,
 ) -> anyhow::Result<(PortablePty, Option<HostTerminal>, Size)> {
     let spec = SpawnSpec {
         program,
@@ -734,7 +655,6 @@ fn spawn_child(
         strip,
         snapshot.cli_version.as_deref(),
         snapshot.cli_verified,
-        sideload_fallback,
     );
     Ok((pty, terminal, spec.size))
 }
@@ -789,14 +709,6 @@ pub(super) fn pump_child(launched: Launched) -> anyhow::Result<ExitCode> {
             Ok(ExitCode::from(1))
         }
     }
-}
-
-fn refuse_batch_script(name: &ViolaName) {
-    let name: &str = name.as_ref();
-    human::refuse(
-        &format!("{name}'s command is a .cmd or .bat script"),
-        "pass the real executable, not a .cmd or .bat shim",
-    );
 }
 
 fn refuse_live(name: &ViolaName) {
@@ -1628,35 +1540,27 @@ mod tests {
         };
         let written = write_override(tmp.path(), &pinned("/h/bin/k/viola")).expect("the write");
         let file = tmp.path().join("settings.json");
-        if cfg!(unix) {
-            assert_eq!(written.as_deref(), Some(file.as_path()));
-            let first = std::fs::read(&file).expect("the override");
-            assert_eq!(
-                statusline::user_command(&first).as_deref(),
-                Some("/h/bin/k/viola hook statusline")
-            );
-            std::fs::write(&file, b"sentinel").expect("altered");
-            write_override(tmp.path(), &pinned("/h/bin/k/viola")).expect("the second write");
-            assert_eq!(std::fs::read(&file).expect("the override"), first);
-            #[cfg(unix)]
-            {
-                use std::os::unix::fs::PermissionsExt as _;
-                let mode = std::fs::metadata(&file).expect("meta").permissions().mode();
-                assert_eq!(mode & 0o777, 0o600);
-            }
-        } else {
-            assert_eq!(written, None);
-            assert!(!file.exists());
+        assert_eq!(written.as_deref(), Some(file.as_path()));
+        let first = std::fs::read(&file).expect("the override");
+        assert_eq!(
+            statusline::user_command(&first).as_deref(),
+            Some("/h/bin/k/viola hook statusline")
+        );
+        std::fs::write(&file, b"sentinel").expect("altered");
+        write_override(tmp.path(), &pinned("/h/bin/k/viola")).expect("the second write");
+        assert_eq!(std::fs::read(&file).expect("the override"), first);
+        {
+            use std::os::unix::fs::PermissionsExt as _;
+            let mode = std::fs::metadata(&file).expect("meta").permissions().mode();
+            assert_eq!(mode & 0o777, 0o600);
         }
         let unsafe_dir = tmp.path().join("unsafe");
         std::fs::create_dir(&unsafe_dir).expect("dir");
         let none = write_override(&unsafe_dir, &pinned("/h/bin k/viola")).expect("no write");
         assert_eq!(none, None);
         assert!(!unsafe_dir.join("settings.json").exists());
-        if cfg!(unix) {
-            let missing = tmp.path().join("missing");
-            assert!(write_override(&missing, &pinned("/h/bin/k/viola")).is_err());
-        }
+        let missing = tmp.path().join("missing");
+        assert!(write_override(&missing, &pinned("/h/bin/k/viola")).is_err());
     }
 
     /// The first snapshot records the command the start's source names, and none without one.
@@ -1734,37 +1638,22 @@ mod tests {
 
         let spans = spans.all();
         let names: Vec<&str> = spans.iter().filter_map(|s| s["name"].as_str()).collect();
-        let sideload: &[&str] = if cfg!(windows) {
-            &["run.conpty_sideload"]
-        } else {
-            &[]
-        };
-        let expected: Vec<&str> = [
-            "run.start",
-            "state.snapshot_recover",
-            "run.collision_check",
-            "run.pin_copy",
-        ]
-        .iter()
-        .chain(sideload)
-        .chain(&[
-            "run.version_gate",
-            "channel.bind",
-            "run.budget_eval",
-            "state.snapshot_write",
-            "state.heartbeat_start",
-            "pty.spawn",
-            "state.snapshot_write",
-        ])
-        .copied()
-        .collect();
-        assert_eq!(names, expected);
-        if cfg!(all(windows, target_arch = "x86_64")) {
-            let sideload = field(&spans, "run.conpty_sideload");
-            assert_eq!(sideload["outcome"], "loaded");
-            assert!(sideload["search_restricted"].is_boolean(), "{sideload}");
-            assert_eq!(viola_pty::pty_backend(), "conpty-sideload");
-        }
+        assert_eq!(
+            names,
+            [
+                "run.start",
+                "state.snapshot_recover",
+                "run.collision_check",
+                "run.pin_copy",
+                "run.version_gate",
+                "channel.bind",
+                "run.budget_eval",
+                "state.snapshot_write",
+                "state.heartbeat_start",
+                "pty.spawn",
+                "state.snapshot_write",
+            ]
+        );
         assert!(spans[0]["parent"].is_null());
         assert!(
             spans[1..].iter().all(|s| s["parent"] == "run.start"),

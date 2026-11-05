@@ -2,7 +2,7 @@
 # it is deny-sync.toml, run once per sync crate as the sole root of its graph.
 
 [graph]
-targets = ["x86_64-pc-windows-msvc", "aarch64-apple-darwin", "x86_64-unknown-linux-gnu"]
+targets = ["x86_64-unknown-linux-gnu"]
 
 [advisories]
 unmaintained = "all"

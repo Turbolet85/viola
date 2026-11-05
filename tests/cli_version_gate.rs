@@ -124,8 +124,8 @@ fn run_without_a_verified_stamp_degrades(
 /// path. The stand-in is a directory where the file should be: no stamps byte is hand-written.
 #[rstest]
 fn run_with_unreadable_stamps_logs_one_rejection(#[from(home)] home: TestHome) {
-    // viola's own creation first, so the home carries the DACL viola gives it (a home outside the
-    // Windows profile is protected at creation) and only the stand-in is wrong.
+    // viola's own creation first, so the home carries the mode viola gives it and only the
+    // stand-in is wrong.
     let ledger = home.path().join("ledger");
     viola_state::fs::create_private_dir(&ledger).expect("ledger");
     std::fs::create_dir(ledger.join("stamps.json")).expect("dir");
@@ -205,7 +205,6 @@ fn run_piped(
     args: &[OsString],
     ready: impl Fn() -> bool,
 ) -> (Vec<u8>, Vec<u8>) {
-    support::home::seed_conpty(home);
     let mut piped = Piped::spawn(
         Command::new(VIOLA)
             .arg("--home")
@@ -226,8 +225,8 @@ fn run_piped(
 const VIOLA_LITERALS: [&str; 5] = ["unable:", "hint:", "error:", "\"event\":", "\"process\":"];
 
 /// `run` itself writes no byte on either stream, stamped or not. stdout carries only the child's
-/// screen as its PTY renders it: nothing on Unix for the silent fake agent, ConPTY's own sequences
-/// on Windows, and never one of viola's literals.
+/// screen as its PTY renders it: nothing for the silent fake agent, and never one of viola's
+/// literals.
 #[rstest]
 #[case::stamped(true)]
 #[case::unstamped(false)]
@@ -252,9 +251,7 @@ fn run_writes_nothing_of_its_own_on_any_gate_outcome(
     for literal in VIOLA_LITERALS {
         assert!(!text.contains(literal), "{literal} on stdout");
     }
-    if cfg!(unix) {
-        assert!(stdout.is_empty(), "run wrote {} stdout bytes", stdout.len());
-    }
+    assert!(stdout.is_empty(), "run wrote {} stdout bytes", stdout.len());
     assert!(stderr.is_empty(), "run wrote {} stderr bytes", stderr.len());
     let snapshot = snapshot_data(&home.path().join("instances").join("builder")).expect("snapshot");
     assert_eq!(snapshot["cli_verified"], stamped);

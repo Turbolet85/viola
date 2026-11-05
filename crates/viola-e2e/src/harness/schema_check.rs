@@ -151,7 +151,7 @@ mod tests {
     use super::*;
 
     /// A line a real `viola run` wrote (kept-homes integration pass, 2026-09-24).
-    const ROLE_LINE: &str = r#"{"timestamp":"2026-09-24T12:16:20.894Z","level":"INFO","message":"process-start","event":"process-start","process":"run","instance":"builder","subject":"self","service_name":"viola","version":"0.1.0","os":"windows","pid":7,"target":"viola::run"}"#;
+    const ROLE_LINE: &str = r#"{"timestamp":"2026-09-24T12:16:20.894Z","level":"INFO","message":"process-start","event":"process-start","process":"run","instance":"builder","subject":"self","service_name":"viola","version":"0.1.0","os":"linux","pid":7,"target":"viola::run"}"#;
 
     fn schemas() -> PathBuf {
         Workspace::from_build().root.join("schemas")

@@ -86,7 +86,6 @@ fn show(name: &str, ok: &Value) {
 }
 
 #[cfg(test)]
-#[cfg(not(target_os = "macos"))]
 mod tests {
     use super::*;
 

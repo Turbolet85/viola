@@ -22,8 +22,8 @@ use serde_json::{Map, Value};
 use tracing::instrument;
 use viola_agent_claude::dialog::Response;
 use viola_agent_claude::hook::typed_text;
+use viola_channel::peer_admitted;
 use viola_channel::tokio_client::TokioClient;
-use viola_channel::{SERVER_PID_REPORTED, peer_admitted};
 use viola_core::obs::ObsEvent;
 use viola_core::{NotDelivered, RefusalReason, UnreachableCause, VERSION, ViolaName, obs_event};
 use viola_state::liveness::{
@@ -359,11 +359,10 @@ async fn frame(
 /// Whether the process serving the connection, `observed`, is the recorded wrapper; its start
 /// time is read on a blocking thread.
 async fn server_verified(live: LiveEndpoint, observed: Option<u32>) -> Result<bool, McpError> {
-    let verdict = tokio::task::spawn_blocking(move || {
-        verify_server(live.pid, &live.started_at, observed, SERVER_PID_REPORTED)
-    })
-    .await
-    .map_err(|_| McpError::Internal)?;
+    let verdict =
+        tokio::task::spawn_blocking(move || verify_server(live.pid, &live.started_at, observed))
+            .await
+            .map_err(|_| McpError::Internal)?;
     Ok(verdict == ServerVerdict::Matches)
 }
 

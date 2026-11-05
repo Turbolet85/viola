@@ -120,24 +120,18 @@ pub enum ServerVerdict {
     Matches,
     /// Another pid, or the recorded pid with another start time.
     Mismatch,
-    /// `started_at` is not RFC 3339, the connection gave no pid where the platform reports one, or
-    /// the serving process is gone.
+    /// `started_at` is not RFC 3339, the connection gave no pid, or the serving process is gone.
     Unverifiable,
 }
 
 /// The server check over its facts: the recorded `pid` and `started_at`, the connection's server
-/// pid and that pid's start time in seconds. Where the platform reports no peer pid (macOS) it
-/// matches with no comparison, the recorded gap (security-plan §Authentication & Authorization).
+/// pid and that pid's start time in seconds.
 pub fn server_verdict(
     recorded_pid: u32,
     started_at: &str,
     observed_pid: Option<u32>,
     observed_start: Option<u64>,
-    peer_pid_reported: bool,
 ) -> ServerVerdict {
-    if !peer_pid_reported {
-        return ServerVerdict::Matches;
-    }
     let Some(recorded_start) = recorded_secs(started_at) else {
         return ServerVerdict::Unverifiable;
     };
@@ -159,19 +153,9 @@ pub fn verify_server(
     recorded_pid: u32,
     started_at: &str,
     observed_pid: Option<u32>,
-    peer_pid_reported: bool,
 ) -> ServerVerdict {
-    let observed_start = match observed_pid {
-        Some(pid) if peer_pid_reported => process_start_time(pid),
-        _ => None,
-    };
-    server_verdict(
-        recorded_pid,
-        started_at,
-        observed_pid,
-        observed_start,
-        peer_pid_reported,
-    )
+    let observed_start = observed_pid.and_then(process_start_time);
+    server_verdict(recorded_pid, started_at, observed_pid, observed_start)
 }
 
 #[cfg(test)]
@@ -319,7 +303,6 @@ mod tests {
         "1970-01-01T00:01:40.000Z",
         Some(1_000),
         Some(100),
-        true,
         ServerVerdict::Matches
     )]
     #[case::another_pid(
@@ -327,7 +310,6 @@ mod tests {
         "1970-01-01T00:01:40.000Z",
         Some(2_000),
         Some(100),
-        true,
         ServerVerdict::Mismatch
     )]
     #[case::another_start_time(
@@ -335,23 +317,14 @@ mod tests {
         "1970-01-01T00:01:40.000Z",
         Some(1_000),
         Some(101),
-        true,
         ServerVerdict::Mismatch
     )]
-    #[case::started_at_not_rfc3339(
-        1_000,
-        "s",
-        Some(1_000),
-        Some(100),
-        true,
-        ServerVerdict::Unverifiable
-    )]
+    #[case::started_at_not_rfc3339(1_000, "s", Some(1_000), Some(100), ServerVerdict::Unverifiable)]
     #[case::no_observed_pid(
         1_000,
         "1970-01-01T00:01:40.000Z",
         None,
         None,
-        true,
         ServerVerdict::Unverifiable
     )]
     #[case::the_observed_process_gone(
@@ -359,34 +332,17 @@ mod tests {
         "1970-01-01T00:01:40.000Z",
         Some(1_000),
         None,
-        true,
         ServerVerdict::Unverifiable
-    )]
-    #[case::no_peer_pid_platform(1_000, "s", None, None, false, ServerVerdict::Matches)]
-    #[case::no_peer_pid_platform_compares_nothing(
-        1_000,
-        "1970-01-01T00:01:40.000Z",
-        Some(2_000),
-        Some(7),
-        false,
-        ServerVerdict::Matches
     )]
     fn server_verdict_rows(
         #[case] recorded_pid: u32,
         #[case] started_at: &str,
         #[case] observed_pid: Option<u32>,
         #[case] observed_start: Option<u64>,
-        #[case] reported: bool,
         #[case] want: ServerVerdict,
     ) {
         assert_eq!(
-            server_verdict(
-                recorded_pid,
-                started_at,
-                observed_pid,
-                observed_start,
-                reported
-            ),
+            server_verdict(recorded_pid, started_at, observed_pid, observed_start),
             want
         );
     }
@@ -397,16 +353,13 @@ mod tests {
     fn verify_server_reads_the_observed_start_time_from_the_os() {
         let me = std::process::id();
         let start = own_start(me).expect("own start");
-        assert_eq!(
-            verify_server(me, &start, Some(me), true),
-            ServerVerdict::Matches
-        );
+        assert_eq!(verify_server(me, &start, Some(me)), ServerVerdict::Matches);
         let secs = DateTime::parse_from_rfc3339(&start)
             .expect("rfc3339")
             .timestamp();
         let earlier = crate::timestamp(DateTime::from_timestamp(secs - 1, 0).expect("time"));
         assert_eq!(
-            verify_server(me, &earlier, Some(me), true),
+            verify_server(me, &earlier, Some(me)),
             ServerVerdict::Mismatch
         );
     }

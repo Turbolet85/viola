@@ -24,7 +24,7 @@ pub(super) struct Host {
 }
 
 /// The host the harness was compiled for, which is the one cargo-mutants builds every mutant for.
-/// A const, never a child process or an environment read (the `HOST_SCRATCH` shape).
+/// A const, never a child process or an environment read.
 pub(super) const HOST: Host = Host {
     family: std::env::consts::FAMILY,
     os: std::env::consts::OS,
@@ -359,9 +359,9 @@ mod tests {
         os: "linux",
         arch: "x86_64",
     };
-    const MACOS: Host = Host {
+    const FREEBSD: Host = Host {
         family: "unix",
-        os: "macos",
+        os: "freebsd",
         arch: "aarch64",
     };
     const WINDOWS: Host = Host {
@@ -376,20 +376,17 @@ mod tests {
 
     #[test]
     fn host_is_the_one_the_harness_was_built_for() {
-        let family = if cfg!(windows) { "windows" } else { "unix" };
-        let os = if cfg!(target_os = "linux") {
-            "linux"
-        } else if cfg!(target_os = "macos") {
-            "macos"
-        } else {
-            "windows"
-        };
         let arch = if cfg!(target_arch = "x86_64") {
             "x86_64"
         } else {
             "aarch64"
         };
-        assert_eq!(HOST, Host { family, os, arch });
+        let linux = Host {
+            family: "unix",
+            os: "linux",
+            arch,
+        };
+        assert_eq!(HOST, linux);
     }
 
     fn ev(cfg: &str, host: Host) -> Option<bool> {
@@ -397,7 +394,7 @@ mod tests {
         eval(&meta, host)
     }
 
-    /// Each predicate on Linux, on Windows x86_64, on macOS and on Windows aarch64.
+    /// Each predicate on Linux, on Windows x86_64, on FreeBSD and on Windows aarch64.
     #[test]
     fn eval_decides_family_os_and_arch_and_nothing_else() {
         let (t, f) = (Some(true), Some(false));
@@ -407,7 +404,7 @@ mod tests {
             ("not(unix)", [f, t, f, t]),
             ("not(windows)", [t, f, t, f]),
             ("target_os = \"linux\"", [t, f, f, f]),
-            ("target_os = \"macos\"", [f, f, t, f]),
+            ("target_os = \"freebsd\"", [f, f, t, f]),
             ("target_os = \"windows\"", [f, t, f, t]),
             ("target_family = \"windows\"", [f, t, f, t]),
             ("target_family = \"unix\"", [t, f, t, f]),
@@ -424,7 +421,7 @@ mod tests {
             ("cfg_x(unix)", [None; 4]),
         ];
         for (cfg, want) in cases {
-            let got = [LINUX, WINDOWS, MACOS, WINDOWS_ARM].map(|host| ev(cfg, host));
+            let got = [LINUX, WINDOWS, FREEBSD, WINDOWS_ARM].map(|host| ev(cfg, host));
             assert_eq!(got, want, "{cfg}");
         }
     }
@@ -452,7 +449,7 @@ mod tests {
     }
 
     /// One `mark(n)` per node kind the reader takes a `cfg` from, and per way it must not.
-    const LIB: &str = r#"#[cfg(windows)]
+    const LIB: &str = r#"#[cfg(not(unix))]
 fn item_fn() {
     mark(1);
 }
@@ -474,18 +471,18 @@ impl S {
         mark(4);
     }
 }
-#[cfg(windows)]
+#[cfg(not(unix))]
 const FLAGS: u32 = mark(5);
 #[cfg(unix)]
 static MODE: u32 = mark(6);
 fn statements() {
-    #[cfg(windows)]
+    #[cfg(not(unix))]
     let _ = mark(7);
     #[cfg(unix)]
     for _ in 0..1 {
         mark(8);
     }
-    #[cfg(windows)]
+    #[cfg(not(unix))]
     unsafe {
         mark(9);
     }
@@ -493,17 +490,17 @@ fn statements() {
     {
         mark(10);
     }
-    #[cfg(windows)]
+    #[cfg(not(unix))]
     if mark(11) {}
     #[cfg(unix)]
     mark(12);
-    #[cfg(windows)]
+    #[cfg(not(unix))]
     x.mark(13);
     #[cfg(unix)]
     (mark(14), 2);
     mark(15);
 }
-#[cfg(target_os = "macos")]
+#[cfg(target_os = "freebsd")]
 fn mac() {
     mark(16);
 }
@@ -518,11 +515,11 @@ impl T {
 fn unknown_key() {
     mark(18);
 }
-#[cfg(all(windows, not(target_arch = "x86_64")))]
+#[cfg(all(not(unix), not(target_arch = "x86_64")))]
 fn other_arch() {
     mark(19);
 }
-#[cfg_attr(windows, inline)]
+#[cfg_attr(not(unix), inline)]
 fn cfg_attr() {
     mark(20);
 }
@@ -530,21 +527,21 @@ fn cfg_attr() {
 fn another_attribute() {
     mark(21);
 }
-#[cfg(windows)]
+#[cfg(not(unix))]
 fn before() {
     mark(22);
 }
 fn after() {
     mark(23);
 }
-#[cfg(windows)]
+#[cfg(not(unix))]
 mod gated;
 mod plain;
 #[cfg(unix)]
 mod deep;
 #[cfg(target_os = "linux")]
 mod twice;
-#[cfg(windows)]
+#[cfg(not(unix))]
 mod twice;
 "#;
 
@@ -556,14 +553,17 @@ mod twice;
         fs::create_dir_all(src.join("deep")).expect("mkdir");
         for (file, text) in [
             ("lib.rs", LIB),
-            ("main.rs", "#[cfg(windows)]\nmod lib;\n"),
+            ("main.rs", "#[cfg(not(unix))]\nmod lib;\n"),
             ("gated.rs", "fn g() {\n    mark(30);\n}\n"),
             ("plain.rs", "fn p() {\n    mark(31);\n}\n"),
             ("deep/mod.rs", "mod inner;\nfn q() {\n    mark(32);\n}\n"),
             ("deep/inner.rs", "fn r() {\n    mark(33);\n}\n"),
             ("twice.rs", "fn t() {\n    mark(34);\n}\n"),
-            ("orphan.rs", "#[cfg(windows)]\nfn o() {\n    mark(40);\n}\n"),
-            ("bad.rs", "#[cfg(windows)]\nfn (\n    mark(41);\n"),
+            (
+                "orphan.rs",
+                "#[cfg(not(unix))]\nfn o() {\n    mark(40);\n}\n",
+            ),
+            ("bad.rs", "#[cfg(not(unix))]\nfn (\n    mark(41);\n"),
         ] {
             fs::write(src.join(file), text).expect("source");
         }
@@ -614,36 +614,36 @@ mod twice;
     #[test]
     fn excluded_missed_reads_the_cfg_on_each_node_kind() {
         let t = tree();
-        let (unix, windows) = (Some("unix"), Some("windows"));
+        let (unix, not_unix) = (Some("unix"), Some("not(unix)"));
         let cases: [(&str, &str, Option<&str>, Option<&str>); 21] = [
-            ("an item fn", "mark(1)", windows, None),
+            ("an item fn", "mark(1)", not_unix, None),
             ("an impl", "mark(2)", None, unix),
             ("an inline module", "mark(3)", Some("not(unix)"), None),
             ("a fn in an impl", "mark(4)", None, unix),
-            ("a const", "mark(5)", windows, None),
+            ("a const", "mark(5)", not_unix, None),
             ("a static", "mark(6)", None, unix),
-            ("a let", "mark(7)", windows, None),
+            ("a let", "mark(7)", not_unix, None),
             ("a for loop", "mark(8)", None, unix),
-            ("an unsafe block", "mark(9)", windows, None),
+            ("an unsafe block", "mark(9)", not_unix, None),
             ("a block", "mark(10)", None, unix),
-            ("an if", "mark(11)", windows, None),
+            ("an if", "mark(11)", not_unix, None),
             ("a call", "mark(12)", None, unix),
-            ("a method call", "mark(13)", windows, None),
+            ("a method call", "mark(13)", not_unix, None),
             ("a tuple", "mark(14)", None, unix),
             ("no cfg", "mark(15)", None, None),
             (
                 "another OS",
                 "mark(16)",
-                Some("target_os = \"macos\""),
-                Some("target_os = \"macos\""),
+                Some("target_os = \"freebsd\""),
+                Some("target_os = \"freebsd\""),
             ),
             ("the outer of two", "mark(17)", None, unix),
             ("an unknown key", "mark(18)", None, None),
             (
                 "an architecture",
                 "mark(19)",
-                Some("all(windows, not(target_arch = \"x86_64\"))"),
-                Some("all(windows, not(target_arch = \"x86_64\"))"),
+                Some("all(not(unix), not(target_arch = \"x86_64\"))"),
+                Some("all(not(unix), not(target_arch = \"x86_64\"))"),
             ),
             ("a cfg_attr", "mark(20)", None, None),
             ("an attribute that is no cfg", "mark(21)", None, None),
@@ -655,11 +655,11 @@ mod twice;
         }
         let at = |mark, host| left_out(t.path(), "src/lib.rs", mark, mark, host);
         assert_eq!(
-            at("mark(17)", MACOS).as_deref(),
+            at("mark(17)", FREEBSD).as_deref(),
             Some("target_os = \"linux\""),
             "the inner of two, when the outer holds"
         );
-        assert_eq!(at("mark(16)", MACOS), None, "its own OS");
+        assert_eq!(at("mark(16)", FREEBSD), None, "its own OS");
         assert_eq!(at("mark(19)", WINDOWS_ARM), None, "its own architecture");
     }
 
@@ -668,7 +668,7 @@ mod twice;
     fn excluded_missed_keeps_a_span_that_leaves_its_node() {
         let t = tree();
         let lib = |from, to| left_out(t.path(), "src/lib.rs", from, to, LINUX);
-        assert_eq!(lib("mark(22)", "mark(22)").as_deref(), Some("windows"));
+        assert_eq!(lib("mark(22)", "mark(22)").as_deref(), Some("not(unix)"));
         assert_eq!(lib("mark(22)", "mark(23)"), None, "it ends after the node");
         assert_eq!(
             lib("mark(21)", "mark(22)"),
@@ -676,17 +676,17 @@ mod twice;
             "it starts before the node"
         );
         assert_eq!(
-            lib("#[cfg(windows)]\nfn before", "mark(22);\n}").as_deref(),
-            Some("windows"),
+            lib("#[cfg(not(unix))]\nfn before", "mark(22);\n}").as_deref(),
+            Some("not(unix)"),
             "the node's own extent"
         );
         assert_eq!(
-            lib("#[cfg(windows)]\nfn before", "mark(22);\n}\n"),
+            lib("#[cfg(not(unix))]\nfn before", "mark(22);\n}\n"),
             None,
             "one character past the node"
         );
         assert_eq!(
-            lib("\n#[cfg(windows)]\nfn before", "mark(22)"),
+            lib("\n#[cfg(not(unix))]\nfn before", "mark(22)"),
             None,
             "one character ahead of the node"
         );
@@ -700,7 +700,7 @@ mod twice;
                 "a file under a false declaration",
                 "src/gated.rs",
                 "mark(30)",
-                [Some("windows"), None, Some("windows")],
+                [Some("not(unix)"), None, Some("not(unix)")],
             ),
             ("a file under no cfg", "src/plain.rs", "mark(31)", [None; 3]),
             (
@@ -725,7 +725,7 @@ mod twice;
                 "a file no mod declares",
                 "src/orphan.rs",
                 "mark(40)",
-                [Some("windows"), None, Some("windows")],
+                [Some("not(unix)"), None, Some("not(unix)")],
             ),
             (
                 "a crate root another root declares",
@@ -736,7 +736,7 @@ mod twice;
         ];
         for (case, file, mark, want) in cases {
             let got =
-                [LINUX, WINDOWS, MACOS].map(|host| left_out(t.path(), file, mark, mark, host));
+                [LINUX, WINDOWS, FREEBSD].map(|host| left_out(t.path(), file, mark, mark, host));
             assert_eq!(got.each_ref().map(|g| g.as_deref()), want, "{case}");
         }
     }
@@ -774,7 +774,7 @@ mod twice;
         ]});
         assert_eq!(
             serde_json::to_value(excluded_missed(root, &outcomes, LINUX)).expect("json"),
-            json!([{"name": name, "cfg": "windows"}])
+            json!([{"name": name, "cfg": "not(unix)"}])
         );
         assert!(excluded_missed(root, &json!({}), LINUX).is_empty());
         assert!(excluded_missed(root, &json!({"outcomes": 3}), LINUX).is_empty());

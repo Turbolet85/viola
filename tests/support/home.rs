@@ -159,7 +159,7 @@ pub fn headroom_refusal(free: u64, floor_mib: u64) -> Option<String> {
 }
 
 /// The bytes an unprivileged writer may still take on the filesystem under `path`. The conversions
-/// are identities on Linux, where `fsblkcnt_t` is 64 bits, and widen it on macOS, where it is 32.
+/// are identities where `fsblkcnt_t` is 64 bits.
 #[cfg(unix)]
 #[allow(clippy::useless_conversion)]
 fn free_bytes(path: &Path) -> u64 {
@@ -210,7 +210,7 @@ impl TestHome {
     /// A home under the system temp dir, NOT under `target/e2e-home`: outside the CI scans (G2
     /// zero-panics, G4 schema conformance, the secret scan) by construction. Only the forced
     /// feed-panic chaos test takes it, because its contained panic writes a G2-counted line; it is
-    /// the second named carve-out to the test-data rule, beside `seed_conpty`.
+    /// the named carve-out to the test-data rule.
     pub fn outside_scan() -> Self {
         let dir = tempfile::Builder::new()
             .prefix("viola-chaos-")
@@ -263,129 +263,33 @@ impl Drop for TestHome {
     }
 }
 
-/// Windows x64: fills `<home>/bin/<key>/conpty/` from one per-run copy under
-/// `target/conpty-seed/<key>/` (a hard link, a copy where linking fails) so a first `viola run` in a
-/// fresh home finds its ConPTY companions present and only re-hashes them: a first start's two
-/// atomic writes cost ~1.2 s under a parallel run on this host. It creates the home, so a test that
-/// asserts viola creates nothing never calls it, and `tests/conpty_sideload.rs` (the product's own
-/// write path, and tampering that would reach a shared link) never does either. The home, the seed
-/// and the companions' folder are made through `viola_state::fs::create_private_dir`, so the home
-/// passes the strict-modes check a start makes. Elsewhere a no-op.
-pub fn seed_conpty(home: &Path) {
-    #[cfg(all(windows, target_arch = "x86_64"))]
-    {
-        const FILES: [&str; 2] = ["OpenConsole.exe", "conpty.dll"];
-        static KEY: std::sync::OnceLock<String> = std::sync::OnceLock::new();
-        let key = KEY.get_or_init(|| {
-            let exe = fs::read(VIOLA).expect("viola exe");
-            format!(
-                "{}-{}",
-                viola_core::VERSION,
-                viola_state::pin::content_key(&exe)
-            )
-        });
-        // Both made by viola's own creation, so each takes the protected owner-only DACL outside
-        // the profile, as a home viola makes does: a companion linked from the seed carries the
-        // seed's DACL, and the start's owner/DACL check reads it.
-        let seed = workspace_path("target/conpty-seed").join(key);
-        viola_state::fs::create_private_dir(&seed).expect("seed dir");
-        for name in FILES {
-            let path = seed.join(name);
-            if !path.is_file() {
-                let bytes = fs::read(workspace_path("vendor/conpty/1.24.260710001/x64").join(name))
-                    .expect("vendored companion");
-                let mut tmp = tempfile::NamedTempFile::new_in(&seed).expect("seed temp");
-                std::io::Write::write_all(&mut tmp, &bytes).expect("seed write");
-                // Another test process may land the same bytes first.
-                let _ = tmp.persist_noclobber(&path);
-            }
-        }
-        viola_state::fs::create_private_dir(home).expect("the home");
-        let dest = home.join("bin").join(key).join("conpty");
-        viola_state::fs::create_private_dir(&dest).expect("conpty dir");
-        for name in FILES {
-            let (from, to) = (seed.join(name), dest.join(name));
-            if !to.exists() && fs::hard_link(&from, &to).is_err() {
-                fs::copy(&from, &to).expect("seed copy");
-            }
-        }
-    }
-    #[cfg(not(all(windows, target_arch = "x86_64")))]
-    let _ = home;
-}
-
-/// `icacls <path> <args…>` from System32, its exit asserted: the grant a witness relies on landed.
-#[cfg(windows)]
-fn icacls(path: &Path, args: &[&str]) {
-    let root = std::env::var_os("SystemRoot").expect("SystemRoot");
-    let status =
-        std::process::Command::new(PathBuf::from(root).join("System32").join("icacls.exe"))
-            .arg(path)
-            .args(args)
-            .stdout(std::process::Stdio::null())
-            .status()
-            .expect("icacls");
-    assert!(status.success(), "icacls {args:?}: {status}");
-}
-
-/// Grants another user write on `path`, the way the strict-modes witnesses widen a tree: on Unix
-/// mode 0770 for a folder, 0660 for a file; on Windows a Users write grant through `icacls`,
-/// inherited below a folder.
+/// Grants another user write on `path`, the way the strict-modes witnesses widen a tree: mode 0770
+/// for a folder, 0660 for a file.
 pub fn widen(path: &Path) {
-    #[cfg(unix)]
-    {
-        use std::os::unix::fs::PermissionsExt as _;
-        let mode = if path.is_dir() { 0o770 } else { 0o660 };
-        fs::set_permissions(path, fs::Permissions::from_mode(mode)).expect("chmod");
-    }
-    #[cfg(windows)]
-    {
-        let grant = if path.is_dir() {
-            "*S-1-5-32-545:(OI)(CI)(W)"
-        } else {
-            "*S-1-5-32-545:(W)"
-        };
-        icacls(path, &["/grant", grant]);
-    }
+    use std::os::unix::fs::PermissionsExt as _;
+    let mode = if path.is_dir() { 0o770 } else { 0o660 };
+    fs::set_permissions(path, fs::Permissions::from_mode(mode)).expect("chmod");
 }
 
-/// Grants another user read on the folder `path`: on Unix mode 0750; on Windows a Users read
-/// grant through `icacls`, inherited below it.
+/// Grants another user read on the folder `path`: mode 0750.
 pub fn grant_read(path: &Path) {
-    #[cfg(unix)]
-    {
-        use std::os::unix::fs::PermissionsExt as _;
-        fs::set_permissions(path, fs::Permissions::from_mode(0o750)).expect("chmod");
-    }
-    #[cfg(windows)]
-    icacls(path, &["/grant", "*S-1-5-32-545:(OI)(CI)(R)"]);
+    use std::os::unix::fs::PermissionsExt as _;
+    fs::set_permissions(path, fs::Permissions::from_mode(0o750)).expect("chmod");
 }
 
 /// Takes back what [`widen`] or [`grant_read`] granted, so the home can be stopped and removed.
 pub fn unwiden(path: &Path) {
-    #[cfg(unix)]
-    {
-        use std::os::unix::fs::PermissionsExt as _;
-        let mode = if path.is_dir() { 0o700 } else { 0o600 };
-        fs::set_permissions(path, fs::Permissions::from_mode(mode)).expect("chmod");
-    }
-    #[cfg(windows)]
-    icacls(path, &["/remove:g", "*S-1-5-32-545"]);
+    use std::os::unix::fs::PermissionsExt as _;
+    let mode = if path.is_dir() { 0o700 } else { 0o600 };
+    fs::set_permissions(path, fs::Permissions::from_mode(mode)).expect("chmod");
 }
 
-/// Whether `path` still holds the widening a witness made: on Unix its group or other bits as
-/// [`widen`] or [`grant_read`] set them, on Windows a Users grant the strict-modes read rule refuses.
+/// Whether `path` still holds the widening a witness made: its group or other bits as [`widen`]
+/// or [`grant_read`] set them.
 pub fn still_widened(path: &Path) -> bool {
-    #[cfg(unix)]
-    {
-        use std::os::unix::fs::PermissionsExt as _;
-        let mode = fs::metadata(path).expect("meta").permissions().mode() & 0o777;
-        matches!(mode, 0o770 | 0o660 | 0o750)
-    }
-    #[cfg(windows)]
-    {
-        viola_state::strict::check_read(path).is_err()
-    }
+    use std::os::unix::fs::PermissionsExt as _;
+    let mode = fs::metadata(path).expect("meta").permissions().mode() & 0o777;
+    matches!(mode, 0o770 | 0o660 | 0o750)
 }
 
 /// Plants `<home>/statusline-source.json` naming `command` as the user's statusline command, in
@@ -566,18 +470,14 @@ pub struct Wrapper {
     pty: OuterPty,
 }
 
-/// The variable `std::env::home_dir` reads on this OS.
-const USER_HOME_VAR: &str = if cfg!(windows) { "USERPROFILE" } else { "HOME" };
+/// The variable `std::env::home_dir` reads.
+const USER_HOME_VAR: &str = "HOME";
 
-/// The variable that places a child's per-user socket directory on this OS (its `socket_dir` rule).
-pub const SOCKET_ROOT_VAR: &str = if cfg!(target_os = "macos") {
-    "TMPDIR"
-} else {
-    "XDG_RUNTIME_DIR"
-};
+/// The variable that places a child's per-user socket directory (its `socket_dir` rule).
+pub const SOCKET_ROOT_VAR: &str = "XDG_RUNTIME_DIR";
 
 /// A short directory under `/tmp` a test's own children take as their socket root, per child through
-/// `Command::env`: macOS caps a socket path near 104 bytes, and no test ever loosens a directory
+/// `Command::env`: a socket path is capped near 108 bytes, and no test ever loosens a directory
 /// another process shares.
 #[cfg(unix)]
 pub struct SocketRoot(tempfile::TempDir);
@@ -783,7 +683,6 @@ impl Wrapper {
         }
         args.extend(extra.iter().map(OsString::from));
         let before = Starts::read(&home, name);
-        seed_conpty(&home);
         let user_home = host
             .user_home
             .map(|dir| dir.to_str().expect("utf-8 user home"));
@@ -1019,36 +918,17 @@ pub fn revive_command(home: &TestHome, dir: &Path, args: &[&str]) -> std::proces
 }
 
 /// No process holds `endpoint` any more, whatever its holder's end was. A killed wrapper removes
-/// nothing: on Unix its socket file stays, and a connect to it is refused; on Windows the pipe
-/// goes with the process, as after a clean stop.
+/// nothing: its socket file stays, and a connect to it is refused.
 pub fn holder_gone(endpoint: &str) -> bool {
-    #[cfg(windows)]
-    {
-        unconnectable(endpoint)
-    }
-    #[cfg(unix)]
-    {
-        use std::io::ErrorKind::{ConnectionRefused, NotFound};
-        std::os::unix::net::UnixStream::connect(endpoint)
-            .is_err_and(|e| matches!(e.kind(), ConnectionRefused | NotFound))
-    }
+    use std::io::ErrorKind::{ConnectionRefused, NotFound};
+    std::os::unix::net::UnixStream::connect(endpoint)
+        .is_err_and(|e| matches!(e.kind(), ConnectionRefused | NotFound))
 }
 
 /// The endpoint is gone for a client (the harness `endpoint_gone` rule,
-/// `crates/viola-e2e/src/harness/cleanup.rs`): on Windows a viola-client connect finds no pipe; on
-/// Unix the socket file no longer exists.
+/// `crates/viola-e2e/src/harness/cleanup.rs`): the socket file no longer exists.
 pub fn unconnectable(endpoint: &str) -> bool {
-    #[cfg(windows)]
-    {
-        matches!(
-            viola_channel::Client::connect(endpoint, "cli"),
-            Err(viola_channel::ChannelError::Connect(e)) if e.kind() == std::io::ErrorKind::NotFound
-        )
-    }
-    #[cfg(unix)]
-    {
-        !Path::new(endpoint).exists()
-    }
+    !Path::new(endpoint).exists()
 }
 
 /// Polls until `endpoint` is unconnectable, handing each reading to `observe` (`true` = still
@@ -1121,49 +1001,7 @@ fn wrapper_pid(control: &Path) -> Option<u32> {
         .map(|p| p.pid().as_u32())
 }
 
-/// `/usr/bin/sample <pid> 1`'s call graph, its stack lines only, bounded: `sample` reads the task
-/// and sends it no signal.
-#[cfg(target_os = "macos")]
-fn process_state(pid: u32) -> Vec<String> {
-    const SAMPLE_WITHIN: Duration = Duration::from_secs(4);
-    const STACK_LINES: usize = 120;
-    let out = std::env::temp_dir()
-        .join("viola-root-watch")
-        .join(format!("stall-{pid}.sample.txt"));
-    let child = std::process::Command::new("/usr/bin/sample")
-        .args([pid.to_string().as_str(), "1", "-mayDie", "-file"])
-        .arg(&out)
-        .stdin(std::process::Stdio::null())
-        .stdout(std::process::Stdio::null())
-        .stderr(std::process::Stdio::null())
-        .spawn();
-    let Ok(mut child) = child else {
-        return vec!["stall sample unstarted".to_owned()];
-    };
-    let deadline = Instant::now() + SAMPLE_WITHIN;
-    while child.try_wait().ok().flatten().is_none() {
-        if Instant::now() >= deadline {
-            let _ = child.kill();
-            let _ = child.wait();
-            return vec!["stall sample timed out".to_owned()];
-        }
-        std::thread::yield_now();
-    }
-    let text = fs::read_to_string(&out).unwrap_or_default();
-    let mut lines = vec!["stall sample".to_owned()];
-    lines.extend(
-        text.lines()
-            .skip_while(|l| !l.starts_with("Call graph:"))
-            .skip(1)
-            .take_while(|l| !l.trim().is_empty())
-            .take(STACK_LINES)
-            .map(|l| format!("stack {}", l.trim_end())),
-    );
-    lines
-}
-
 /// `/proc/<pid>/wchan` and the state field of `/proc/<pid>/stat`.
-#[cfg(target_os = "linux")]
 fn process_state(pid: u32) -> Vec<String> {
     let proc = Path::new("/proc").join(pid.to_string());
     let wchan = fs::read_to_string(proc.join("wchan")).unwrap_or_default();
@@ -1173,11 +1011,6 @@ fn process_state(pid: u32) -> Vec<String> {
         .and_then(|(_, rest)| rest.split_whitespace().next())
         .unwrap_or("unknown");
     vec![format!("stall wchan {} state {state}", wchan.trim())]
-}
-
-#[cfg(not(any(target_os = "macos", target_os = "linux")))]
-fn process_state(_pid: u32) -> Vec<String> {
-    Vec::new()
 }
 
 /// The instance snapshot's `data`, when it parses.

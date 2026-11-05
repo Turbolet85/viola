@@ -1,0 +1,121 @@
+[
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "dfc3c725",
+"ts": "2026-11-05T12:03:30Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-01",
+"--text-file",
+".andromeda/runs/2026-11-05T08-59-20-phase/note-v1-01.md",
+"--run-dir",
+".andromeda/runs/2026-11-05T08-59-20-phase",
+"--marker",
+"2026-11-05-linux-only-code-and-ci"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-01: +729 chars (total 3390) · status planned · ref/acceptance untouched",
+"landed, rendered ./.andromeda/db/log/2026-11-05T09-01-04-2026-11-05-linux-only-code-and-ci.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-05T09-01-04-2026-11-05-linux-only-code-and-ci.ndjson"
+],
+"before": {
+"id": "v1-01",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "Every push and pull request produces a pipeline run on Linux covering build, formatting, fatal lint, the tokio-free chec… (468 chars)",
+"notes_chars": 2659
+},
+"after": {
+"id": "v1-01",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "Every push and pull request produces a pipeline run on Linux covering build, formatting, fatal lint, the tokio-free chec… (468 chars)",
+"notes_chars": 3390
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "dfc3c725",
+"ts": "2026-11-05T12:03:30Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-53",
+"--text-file",
+".andromeda/runs/2026-11-05T08-59-20-phase/note-v1-53.md",
+"--run-dir",
+".andromeda/runs/2026-11-05T08-59-20-phase",
+"--marker",
+"2026-11-05-linux-only-code-and-ci"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-53: +412 chars (total 2982) · status planned · ref/acceptance untouched",
+"landed, rendered ./.andromeda/db/log/2026-11-05T09-01-04-2026-11-05-linux-only-code-and-ci.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-05T09-01-04-2026-11-05-linux-only-code-and-ci.ndjson"
+],
+"before": {
+"id": "v1-53",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "On Linux the end-to-end suite passes against the fake agent, covering the PTY, the per-user socket directory, file modes… (219 chars)",
+"notes_chars": 2568
+},
+"after": {
+"id": "v1-53",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "On Linux the end-to-end suite passes against the fake agent, covering the PTY, the per-user socket directory, file modes… (219 chars)",
+"notes_chars": 2982
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "dfc3c725",
+"ts": "2026-11-05T12:03:31Z",
+"argv": [
+"audit",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-11-05-linux-only-code-and-ci",
+"--run-dir",
+".andromeda/runs/2026-11-05T08-59-20-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-11-05-linux-only-code-and-ci: 0 · ## Acceptance Criteria: line 575, 47 lines",
+"pool: unclaimed 17 [v1-01 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-13 v1-21 v1-24 v1-26 v1-27 v1-34 v1-35 v1-36 v1-53]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

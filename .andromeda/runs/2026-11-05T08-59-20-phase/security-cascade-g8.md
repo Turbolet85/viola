@@ -1,0 +1,59 @@
+@carried n=1 label=security-plan/security-anti-patterns fact=fct-izf47ccx
+why: removing the Windows pid read and the macOS carve-out must leave every Linux client path (CLI verbs, `hook`, `mcp`) verifying the server's euid, pid and start time against a strict-checked `snapshot.json` before any frame, inheriting no skipped check.
+quote: NEVER write any channel frame (`send`, `answer`, `hook.dialog`, `wait`/`last`, `pause`/`release`, `link`/`unlink`, and `hook.event` notifications, which carry prompt and reply text) before verifying the server's pid (Windows: the connected stream's peer pid, interprocess `peer_creds().pid()`, which calls `GetNamedPipeServerProcessId` on the SQOS-adopted client end) or euid + pid (Linux/FreeBSD `peer_creds()`; the client-side euid check, `peer_admitted(client.server_euid())` at the three client seams, before the server verification) plus sysinfo start time against `snapshot.json` (on macOS, where `peer_creds()` gives no pid: euid + the verified 0700 socket directory only, per the recorded known gap; the euid check is never skipped), and NEVER take those reference values (`endpoint`, `pid`, `started_at`) from a `snapshot.json` that has not passed the strict-modes check in the same process.
+@carried n=1 run=2 label=security-plan fact=fct-6cauxi6n
+quote: NEVER write any channel frame before verifying the server against a `snapshot.json` that passed the strict-modes check in the same process (the euid check never skipped), except the named carve-out: macOS's pid and start-time check (no peer pid), owned by no route entry, its euid and verified socket-directory checks standing; no other frame or process may borrow it.
+@carried n=1 run=3 label=security-plan fact=fct-zyth7okk
+quote: NEVER rely on the socket file's 0600 mode as the only Unix control: `unix(7)` says socket permissions may be ignored. NEVER set it with `ListenerOptionsExt::mode`: it returns `Unsupported` on macOS, which fails the bind; chmod after the bind instead.
+@carried n=1 run=4 label=security-plan fact=fct-ggmql6i2
+quote: NEVER enable rmcp's `transport-streamable-http-server` or `auth` features.
+@carried n=1 run=5 label=security-plan fact=fct-fmxdaj54
+quote: NEVER create `~/.viola/`, `--home` or any file under it with the default umask. Directories are 0700 and files 0600 (`OpenOptionsExt::mode`); the only exception is the pinned `bin/<version>-<hash>/viola` at 0700, and NEVER make it group- or world-writable. On Windows, NEVER accept a `--home` outside `%USERPROFILE%` without an explicit protected user + SYSTEM DACL, and NEVER skip the Windows owner + DACL strict-modes check at startup (`#[cfg(windows)]` must not return `Ok(())` unchecked)
+@carried n=1 run=6 label=security-plan fact=fct-sv5b7ryi
+quote: NEVER run `statusline_command` from a `snapshot.json` whose home or instance directory fails the strict-modes check. Write access there equals code execution.
+@carried n=1 run=7 label=security-plan fact=fct-gmz2hnmb
+quote: NEVER reuse an existing `bin/<version>-<hash>/viola(.exe)` without re-hashing it (SHA-256, truncated) against `<hash>`, NEVER derive `<hash>` from a non-cryptographic hash (FNV, `DefaultHasher`), and NEVER reuse existing `plugin/` files without rewriting them. NEVER load or launch a `bin/<version>-<hash>/conpty/` companion without its full SHA-256 re-hash against the compiled pin through a `FILE_SHARE_READ`-only handle held until the spawn, and NEVER overwrite or delete a companion that fails it (left as found; the child runs on the inbox ConPTY).
+@carried n=1 run=8 label=security-plan fact=fct-tpzheerr
+quote: NEVER spawn a `.cmd`/`.bat` PTY child through portable-pty. Resolve to a real `.exe` (portable-pty 0.8.1 bypasses std's BatBadBut escaping).
+@carried n=1 run=9 label=security-plan fact=fct-tnu5bfz7
+quote: NEVER write to stderr from `viola hook`, and NEVER exit non-zero from it, including on security-check failures.
+@carried n=1 run=10 label=security-plan fact=fct-tpzheerr
+quote: NEVER spawn a `.cmd`/`.bat` PTY child through portable-pty.
+@carried n=1 run=11 label=security-plan fact=fct-gmz2hnmb
+quote: NEVER load or launch a `bin/<version>-<hash>/conpty/` companion without its full SHA-256 re-hash against the compiled pin through a `FILE_SHARE_READ`-only handle held until the spawn
+@carried n=1 run=12 label=security-plan fact=fct-fmxdaj54
+quote: NEVER create `~/.viola/`, `--home` or any file under it with the default umask. Directories are 0700 and files 0600 (`OpenOptionsExt::mode`); the only exception is the pinned `bin/<version>-<hash>/viola` at 0700, and NEVER make it group- or world-writable.
+@carried n=1 run=13 label=security-plan fact=fct-gmz2hnmb
+quote: NEVER reuse an existing `bin/<version>-<hash>/viola(.exe)` without re-hashing it (SHA-256, truncated) against `<hash>`, NEVER derive `<hash>` from a non-cryptographic hash (FNV, `DefaultHasher`)
+@carried n=1 run=14 label=security-plan fact=fct-423bwibm
+quote: NEVER create `diagnostics/` files readable by other users.
+@carried n=1 run=15 label=security-plan fact=fct-6xxq3ubv
+quote: NEVER expose absolute paths in any external error.
+@carried n=2 label=security-plan/security-anti-patterns fact=fct-f5tdilgi
+why: the `HOST_SCRATCH = cfg!(windows)` guard and wipe leave with the Windows arms, so on Linux the harness must still touch no scratch, never wipe the operator's mutation `TMPDIR`, and keep the no-fallback, no-printed-path ban wherever the `--package` arm and the git-history base survive.
+quote: NEVER fall back to `%TEMP%` or the repository, and NEVER print the path. The guard and the wipe run only on a Windows host (`HOST_SCRATCH = cfg!(windows)`); elsewhere the harness touches no scratch, and the Linux dev host's same-named NOCOW `TMPDIR` for mutation runs is the operator's, never wiped by the harness.
+@carried n=2 run=2 label=security-plan fact=fct-z5qs3bqk
+quote: NEVER let `run --mutants` wipe any directory except the Windows host mutation scratch `<repo parent>/viola-mutants-scratch`, guarded by its exact final component; NEVER re-create it without owner-only permissions, loosen the strict-modes check for it, fall back to `%TEMP%` or the repository, or print the path.
+@carried n=3 label=security-plan/security-anti-patterns fact=fct-y573epy2
+why: the msrv fix edits the two e2e-home backing cases and the free-space floor message, so the cases must decide on a test-controlled free-space figure while the keepers keep refusing a link-target, a group/other bit and a backing below the 9 GiB floor with a fixed message naming no path, creating 0700 and removing nothing.
+quote: The two keepers (`prepare_home_base` in `tests/support/home.rs`, `Workspace::ensure_e2e_home` in the harness) NEVER follow a linked base unless its target is absolute and one `lstat` of it reads a real directory with no group or other bit; a target that is itself a link is refused, so is a backing whose filesystem reads less than the 9 GiB headroom floor free (`statvfs`), and a refusal is a fixed message that names no path (the headroom one holds the two counts). They create the target with mode 0700 through the directory builder (never a chmod after, never a parent) and remove nothing. Ownership is not read separately: the `tempdir_in` that follows succeeds in an owner-only directory only for its owner. `viola` itself never reads or writes the backing by that name, and no CI runner has the link.
+@carried n=3 run=2 label=security-plan fact=fct-4fkoyw3x
+quote: NEVER let a test-side removal under `target/e2e-home` take anything but a dir the test side itself created; its two keepers NEVER follow a linked base unless its target is absolute and an owner-only real directory, create the target 0700 and remove nothing; `viola` itself never reads or writes the backing by that name.
+@carried n=4 label=security-plan/security-anti-patterns fact=fct-zvkglgpg
+why: the relied set's Windows arm (`/21`, status line unwrapped) leaves with every `cfg(windows)` arm, and the Linux relied set must stay the full `/24` so a non-`null` decision still flows only when every relied row passes.
+quote: a stamp is read over the relied set (`LedgerRow::relied()`, counter `/24` on Unix; on Windows, where the status line is not wrapped, the first eighteen, `resume-session`, `agents-join` and `local-command-compact`, counter `/21`), so a non-`null` decision flows only when every relied row passes
+@carried n=4 run=2 label=security-plan fact=fct-syrndlhx
+quote: NEVER answer a `hook.dialog` with a non-`null` decision unless `ledger/stamps.json` holds a `viola verify` stamp for the child's CLI version on which every relied ledger row passes, and NEVER let any process other than `viola verify` write `ledger/stamps.json`: a stamp is what switches on dialog answering, PermissionRequest `allow` included.
+@carried n=5 label=security-plan/security-anti-patterns fact=fct-lvhmwli7
+why: the scope's boundaries name this invariant, so un-gating the `cfg(unix)` peer-euid arms and removing the other OSes' tests must add no seam that forces a refusing peer-euid decision, the decisions staying proven over injected values.
+quote: NEVER add an env, flag or feature seam to force a refusing peer-euid decision: one account can make no foreign peer, so the decisions are proven over injected values (`peer_euid_admitted(observed, own, reported)`, and the wrapper's private `serve_admitting(dispatch, admitted)` over an injected `Admission`), and each client seam's `peer_admitted` wiring (`cmd::client::connect`, `cmd::hook::connect`, `viola-mcp`'s `frame`) stays the named weakest proof, read only through a run's forced refusal, which no committed test repeats.
+@binding n=1
+**Security anti-patterns (frame-before-verification ban) ↔ Authentication & Authorization (client server verification)**: once the Windows pid read and the macOS carve-out leave, the Linux client must keep the socket-directory check before connect (`socket-dir-refused`), the euid admission and the pid plus start-time check past it (`server-verify-failed`), each sending no frame, and the carve-out's text is the wrap's amendment, never a skipped check the Linux path inherits (security-plan/security-anti-patterns fct-izf47ccx) (security-plan fct-phspeqis)
+@binding n=2
+**Security anti-patterns (e2e-home keepers) ↔ Dependency Security (the `msrv` job)**: the `msrv` job on `RUSTUP_TOOLCHAIN=1.96` must go green through a free-space figure the e2e-home cases control, while the keepers' 9 GiB headroom refusal stays a fixed message naming no path and holding the two counts (security-plan/security-anti-patterns fct-y573epy2) (security-plan fct-lagqorre)
+@binding n=3
+**Security anti-patterns (`run --mutants` scratch) ↔ Dependency Security (CI integration)**: `windows-mutants.yml` and its contract test leave whole, and `run --mutants`' base stays derived from git history with `AGENT_RUN_CHUNK_BASE` only a local override; the scratch ban's Windows text becomes the wrap's unsupported-OS amendment (security-plan/security-anti-patterns fct-f5tdilgi) (security-plan fct-lpbl5pyp) (security-plan fct-npplilir)
+@binding n=4
+**Security anti-patterns (peer-euid seam ban) ↔ Input Validation (the two fake-agent test seams)**: un-gating `cfg(unix)` arms adds no seam or environment read; `FAKE_AGENT_PUMP_DELAY_MS` and `FAKE_AGENT_HOOK_PANIC` stay only under `fake-agent`, compiled out of every release build (security-plan/security-anti-patterns fct-lvhmwli7) (security-plan fct-ykdescly) (security-plan fct-bbnvgu6s)
+@binding n=5
+**Security anti-patterns (relied ledger set) ↔ Authentication & Authorization (the `unverified-cli` gate)**: removing the Windows relied-set arm leaves the Linux `/24` gate as the only one, a stamp missing any relied row still reading `cli_verified:false` and `answer` exiting 12 `unverified-cli` (security-plan/security-anti-patterns fct-zvkglgpg) (security-plan fct-ty6c2nnj)

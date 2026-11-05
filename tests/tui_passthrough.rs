@@ -31,9 +31,8 @@ fn holds(haystack: &[u8], needle: &str) -> bool {
         .any(|window| window == needle.as_bytes())
 }
 
-/// The args of `viola run builder -- <fake agent>`; the home is seeded with the ConPTY companions.
+/// The args of `viola run builder -- <fake agent>`.
 fn run_args(home: &Path, receipt: Option<&Path>, extra: &[&str]) -> Vec<OsString> {
-    support::home::seed_conpty(home);
     let mut args: Vec<OsString> = vec!["--home".into(), home.into()];
     args.extend(["run", "builder", "--", FAKE].map(OsString::from));
     if let Some(receipt) = receipt {
@@ -103,9 +102,7 @@ const RESIZE_WITHIN: Duration = Duration::from_secs(8);
 
 /// Resizes the host terminal once the wrapper has spawned the child (its `process-start` line for
 /// `claude-child`, written after the spawn sizing and before the pump) and waits for the child to
-/// see the new size. The wrapper's line, not the child's `start` receipt: the sideloaded ConPTY
-/// holds the child's start for a DA1 answer that travels through the pump, so the receipt lands only
-/// once the pump runs. Every observation is appended as it happens to `viola-resize-<pid>.ndjson` in
+/// see the new size. Every observation is appended as it happens to `viola-resize-<pid>.ndjson` in
 /// the temp dir, outside the test home and any scratch copy, so a run killed mid-wait still leaves
 /// it; the file is removed on success. Returns how long the new size took to reach the child.
 fn resize_reaches_the_child(tmp: &TestHome, env: &[(&str, &str)]) -> Duration {
@@ -290,22 +287,20 @@ fn passthrough_with_a_statusline_source_adds_no_viola_bytes(#[from(home)] wrappe
         &[],
     );
     fake::wait_for(&receipt, "start", |l| !of_kind(l, "start").is_empty());
-    if cfg!(unix) {
-        let ran = fake::wait_statusline(&receipt);
-        assert_eq!(ran["ran"], true);
-        assert_eq!(ran["exit_code"], 0);
-        assert_eq!(
-            fake::unhex(ran["stdout_hex"].as_str().expect("hex")),
-            STATUSLINE_ECHO_OUTPUT.as_bytes()
-        );
-    }
+    let ran = fake::wait_statusline(&receipt);
+    assert_eq!(ran["ran"], true);
+    assert_eq!(ran["exit_code"], 0);
+    assert_eq!(
+        fake::unhex(ran["stdout_hex"].as_str().expect("hex")),
+        STATUSLINE_ECHO_OUTPUT.as_bytes()
+    );
     pty.write(b"\x03");
     assert_eq!(pty.wait_exit(EXIT_WITHIN), 0);
     let stream = pty.finish();
     assert_eq!(
         of_kind(&fake::receipt(&receipt), "statusline").len(),
-        usize::from(cfg!(unix)),
-        "the status line ran where it is not wrapped, or not where it is"
+        1,
+        "the status line did not run once"
     );
     assert_no_viola_bytes(&stream);
     assert!(

@@ -1,0 +1,7 @@
+{"type": "listing", "schema": 2, "doc": "test-plan", "file": ".andromeda/test-plan-detail/unit-test-strategy.md", "blob": "5ee44138e8ef9f3b", "tool": "detail v1.29", "entities": 6, "pin": 144, "sha": "5ee44138e8ef9f3b"}
+{"type": "entity", "id": "unit-test-strategy#1.1", "hash": "a57b2f37", "kind": "procedure", "subject": "unit", "origin": "## 4. Unit Test Strategy", "lines": [8, 10], "fact": "fct-iqktwdfa", "rev": 1, "size": 579}
+{"type": "entity", "id": "unit-test-strategy#1.2", "hash": "a4d181ec", "kind": "procedure", "subject": "unit", "origin": "## 4. Unit Test Strategy", "lines": [11, 22], "fact": "fct-o57nkgzg", "rev": 1, "size": 3742}
+{"type": "entity", "id": "unit-test-strategy#1.3", "hash": "aac08631", "kind": "procedure", "subject": "unit", "origin": "## 4. Unit Test Strategy", "lines": [23, 42], "fact": "fct-vbcc7bad", "rev": 1, "size": 11902}
+{"type": "entity", "id": "unit-test-strategy#1.4", "hash": "a0dd0e4c", "kind": "procedure", "subject": "unit", "origin": "## 4. Unit Test Strategy", "lines": [43, 61], "fact": "fct-hpqcf7r7", "rev": 1, "size": 12008}
+{"type": "entity", "id": "unit-test-strategy#1.5", "hash": "16fc3762", "kind": "procedure", "subject": "unit", "origin": "## 4. Unit Test Strategy", "lines": [62, 66], "fact": "fct-vbsipq2o", "rev": 1, "size": 1700}
+{"type": "entity", "id": "unit-test-strategy#2.1", "hash": "d94e3398", "kind": "procedure", "subject": "unit", "origin": "## 4. Unit Test Strategy", "lines": [72, 102], "fact": "fct-id225cf7", "rev": 1, "size": 14669}

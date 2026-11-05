@@ -27,13 +27,10 @@ impl Dispatch for Echo {
 /// A test-owned endpoint, outside the `viola-<h12>` namespace `viola run` binds.
 fn serve(dir: &std::path::Path, label: &str) -> (String, Serving) {
     let base = format!("viola-test-chan-{}-{label}", std::process::id());
-    let endpoint = if cfg!(windows) {
-        format!(r"\\.\pipe\{base}")
-    } else {
-        dir.join(format!("{base}.sock"))
-            .to_string_lossy()
-            .into_owned()
-    };
+    let endpoint = dir
+        .join(format!("{base}.sock"))
+        .to_string_lossy()
+        .into_owned();
     let serving = Server::bind(&endpoint)
         .expect("bound")
         .serve(Arc::new(Echo));
@@ -81,8 +78,7 @@ fn channel_frame_up_to_the_bound_is_answered(#[case] len: usize) {
 
 /// The server reads no further than the bound, answers once and closes: the next read ends the
 /// stream (a reset where the OS reports the unread byte it dropped). The frame's tail may meet that
-/// close (measured on macOS: EPIPE on the write, and ENOTCONN, os error 57, on run ci#37157981452 at
-/// sha aa300a42d15c, job `test (macos-latest)`); the reply must still be there.
+/// close (EPIPE or ENOTCONN on the write); the reply must still be there.
 #[test]
 fn channel_frame_one_byte_over_is_refused_and_closed() {
     let dir = tempfile::tempdir().expect("tempdir");
@@ -106,19 +102,11 @@ fn channel_frame_one_byte_over_is_refused_and_closed() {
     );
     let mut rest = [0u8; 16];
     let next = stream.read(&mut rest);
-    // Measured on Windows: 0. Linux reports ECONNRESET to the peer of a socket closed with an
-    // unread byte (the `\n` past the bound).
-    if cfg!(windows) {
-        assert_eq!(
-            next.expect("end of stream"),
-            0,
-            "the connection stayed open"
-        );
-    } else {
-        match next {
-            Ok(n) => assert_eq!(n, 0, "the connection stayed open"),
-            Err(e) => assert_eq!(e.kind(), ErrorKind::ConnectionReset, "{e}"),
-        }
+    // Linux reports ECONNRESET to the peer of a socket closed with an unread byte (the `\n` past
+    // the bound).
+    match next {
+        Ok(n) => assert_eq!(n, 0, "the connection stayed open"),
+        Err(e) => assert_eq!(e.kind(), ErrorKind::ConnectionReset, "{e}"),
     }
 }
 

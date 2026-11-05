@@ -1,0 +1,68 @@
+@carried n=1 label=design-system/surface fact=fct-muqp52c7
+why: The colour depth rule loses its Windows clause in this chunk, so the token values it picks among must paint byte for byte the same at each depth on Linux.
+quote: | attention (arrival amber #D97706) | `\x1b[38;2;217;119;6m` | `\x1b[38;5;172m` | `\x1b[33m` | The `DIALOG` word only, always followed by the kind word |
+@carried n=1 run=2 label=design-system/surface fact=fct-qgesfouf
+quote: | stale (lamp-off) | `\x1b[2m` (SGR dim) | `\x1b[2m` | `\x1b[2m` | A whole `stale` row.
+@carried n=1 run=3 label=design-system/surface fact=fct-23ap43hv
+quote: | callsign | `\x1b[1m` (bold) | `\x1b[1m` | `\x1b[1m` | NAME column values |
+@carried n=1 run=4 label=design-system/surface fact=fct-qe6n467m
+quote: | reset | `\x1b[0m` | `\x1b[0m` | `\x1b[0m` | After every styled span |
+@carried n=1 run=5 label=design-system fact=fct-vzhczpnh
+quote: 256-colour if `TERM` contains `256color`, or on Windows once VT enabling has succeeded;
+@carried n=1 run=6 label=design-system fact=fct-jijjnoyy
+quote: 7. Windows VT enable failed
+@carried n=1 run=7 label=design-system fact=fct-2wyyc34q
+quote: Windows VT enabling uses windows-sys 0.61.2 `SetConsoleMode(ENABLE_VIRTUAL_TERMINAL_PROCESSING)`, already in the stack. If it fails, output has no colour.
+@carried n=1 run=8 label=design-system fact=fct-jphpatxv
+quote: **conhost without VT** falls back to no colour. The words already carry every state, so nothing is lost.
+@carried n=1 run=9 label=design-system fact=fct-7z5o76y5
+quote: Windows 10/11 (Windows Terminal, conhost), macOS and Linux terminals.
+@carried n=1 run=10 label=design-system fact=fct-2wyyc34q
+quote: Windows VT enabling uses windows-sys 0.61.2 `SetConsoleMode(ENABLE_VIRTUAL_TERMINAL_PROCESSING)`, already in the stack. If it fails, output has no colour.
+  - Styling is a small hand-written SGR module in the `viola` bin. It adds no dependency.
+@carried n=1 run=11 label=design-system fact=fct-7yh2z5by
+quote: TTY detection uses std `IsTerminal`.
+@carried n=1 run=12 label=design-system fact=fct-7u3hdiu2
+quote: **Git Bash on Windows** rewrites leading-slash arguments. Prompt text therefore comes only from stdin or `--file`. The warning for a rewritten-path argument is one plain stderr line, `warning: argument looks like a Git Bash rewritten path`.
+@carried n=1 run=13 label=design-system fact=fct-cj5433yq
+quote: **`hook`** writes nothing to stderr and always exits 0. **`mcp`** writes only MCP frames on stdout.
+@carried n=2 label=design-system/surface fact=fct-kn56sdzi
+why: host_size's Windows arm leaves with this chunk and its TIOCGWINSZ arm must keep giving stdout's own terminal width on Linux, never reading COLUMNS, with a piped stdout having none.
+quote: The width is stdout's own terminal size, read by `viola_pty::host_size()` (Windows `GetConsoleScreenBufferInfo`, a `TIOCGWINSZ` ioctl elsewhere); `COLUMNS` is not read, and a piped stdout has no width (chunk 2026-10-17-cli-output-discipline).
+@carried n=2 run=2 label=design-system fact=fct-rhkxdzp7
+quote: Where stdout's own terminal width is known (`COLUMNS` is never read, a piped stdout has none), human tables truncate only the NAME of unwrapped rows (`...`); the CLI has no tape.
+@carried n=3 label=design-system/surface fact=fct-ypei347w
+why: The chunk removes the macOS jobs, so the stale row's colour layer must stay witnessed end to end on ubuntu-latest by this test, and its record names a runner that leaves.
+quote: The stale row's colour layer is witnessed end to end on the Unix runners (`ubuntu-latest`, `macos-latest`) by `cross_list_rows_dim_a_stale_row_end_to_end_on_a_terminal` (`tests/cross_list_rows.rs`), passing on both as measured at ci#41918694243: `viola list` under an outer PTY with `TERM=xterm-256color` prints a stale row whose escape sequences are exactly DIM, BOLD, RESET, DIM, RESET (the row dim from its first byte to its last, NAME dim and bold), `stale` shown, and no SGR on the BAY line, the caption or the separator.
+@carried n=4 label=design-system/surface fact=fct-t547mw3y
+why: Where the strict-modes check loses its Windows arm and its cfg(unix) arm its gate, every exit-21 home-state and instance-state pair and its --json document must stay byte for byte.
+quote: a failed strict-modes check of the home, `instances/` or any one instance refuses the whole board, nothing from state printed, in the fixed `unable:` / `hint:` form of the start refusals (pattern 2): the home → `unable: the viola home is not private to you` / `hint: the viola home must be readable only by you; viola does not change its permissions` (`list` is this pair's first writer in source); an instance → `unable: <name>'s state files can be written by another user` / `hint: viola will not read them; make the viola home and its files owner-only`
+@carried n=4 run=2 label=design-system/surface fact=fct-nmng4ymy
+quote: The board's strict-modes scan holds the home to the read rule on every OS and `instances/` to the write rule, then each instance's set: a home another user may read refuses the whole board with the home-state pair, with or without an instance; the order and the no-open rule hold.
+@carried n=4 run=3 label=design-system fact=fct-ui5ydw4a
+quote: `viola link` / `viola unlink`'s refused strict-modes check of the driven instance, and that of `viola send`, `wait`, `last`, `answer`, `pause` and `release` on their instance, made before any frame (exit 21), prints the instance-state `unable:` / `hint:` pair naming that instance, as `viola list`'s does, or under `--json` the `instance-unreachable` document with `detail` `strict-modes-failed`, stderr empty; no frame and no line are written.
+@carried n=5 label=design-system/surface fact=fct-fjfzfyz5
+why: The socket-directory check is a cfg(unix) arm whose Windows sibling leaves, and its exit-21 refusal before any frame, its socket-dir hint and its socket-dir-refused document must stay as they are on Linux.
+quote: A refused socket directory at `send`, `wait`, `last`, `answer`, `pause`, `release`, `link` or `unlink` exits 21 before any frame: `unable  <name>  instance-unreachable` (`send` in its mirror's form), then the hint of cause `socket-dir`, no strict-modes pair; under `--json` the `instance-unreachable` document with `detail` `socket-dir-refused`, stderr empty.
+@carried n=6 label=design-system/surface fact=fct-45kqhafb
+why: The .cmd/.bat refusal's producing arm is Windows-only and leaves, so P3 and P4 must weigh its line and its batch-script-child code against the masters' change without re-wording any closed word on Linux.
+quote: `unable: <name>'s command is a .cmd or .bat script` (Windows) → `hint: pass the real executable, not a .cmd or .bat shim`
+@carried n=6 run=2 label=design-system/surface fact=fct-45kqhafb
+quote: obs-plan D-20 names the log detail codes: `instance-dead`, `strict-modes-failed`, `server-verify-failed`, `socket-dir-refused`, `already-live`, `stale-heartbeat`, `unwrapped-name`, `endpoint-lost`, `squatted-name`, `pinned-hash-mismatch`, `batch-script-child`, and for `viola revive` `no-session` and `cwd-missing`
+@carried n=6 run=3 label=design-system fact=fct-2t54hjhs
+quote: its code one of `strict-modes-failed` · `already-live` · `no-session` · `session-live` · `cwd-missing` · `stale-heartbeat` · `batch-script-child` · `pinned-hash-mismatch` · `squatted-name` · `socket-dir-refused` · `internal-error`
+@carried n=7 label=design-system/surface fact=fct-a4ss54r5
+why: The macOS server-check arm leaves with this chunk, so this text comes to name code that no longer exists and is decided by P4 against the masters' change, while the Linux server check keeps its peer comparison and its server-verify-failed word.
+quote: On macOS no peer pid is available, so the server check compares no pid (a named gap, owned by no route entry); it compares the peer's euid, and a mismatch alone prints the server-verification hint there.
+@carried n=7 run=2 label=design-system/surface fact=fct-45kqhafb
+quote: On macOS `server-verify-failed` means an euid mismatch alone: no peer pid is compared, a named gap no route entry owns.
+@binding n=1
+**cli Tokens ↔ Toolkit and the colour decision order (body)**: the depth rule's Windows clause and step 7 leave with the windows-sys VT arm, and on Linux the remaining steps and the truecolor / 256color / 16-colour choice must still pick the same token column, so every attention, stale, callsign and reset byte is unchanged (design-system/surface fct-muqp52c7) (design-system fct-vzhczpnh) (design-system fct-2wyyc34q).
+@binding n=2
+**cli Tokens' stale row ↔ cli-list's stale witness ↔ test-plan's 3-OS matrix**: the DIM, BOLD, RESET, DIM, RESET sequence must stay witnessed on ubuntu-latest once the macOS runner leaves, and the witness record naming `macos-latest` is an expected amendment beside test-plan's (design-system/surface fct-qgesfouf) (design-system/surface fct-ypei347w).
+@binding n=3
+**cli-output width ↔ viola-pty host_size**: removing host_size's Windows arm, and ungating its TIOCGWINSZ arm, must leave the board's width read and its NAME cut unchanged on Linux, and the text naming `GetConsoleScreenBufferInfo` is an expected design-system amendment (design-system/surface fct-kn56sdzi) (design-system fct-rhkxdzp7).
+@binding n=4
+**cli-list strict-modes refusal ↔ cli-send socket-dir refusal ↔ security-plan**: the cfg(unix) strict-modes and socket-directory arms that lose their gate must keep every exit-21 pair, hint and `--json` detail word, while security-plan's Windows ACL and named-pipe sections stay as the unsupported OS's text (design-system/surface fct-t547mw3y) (design-system/surface fct-nmng4ymy) (design-system/surface fct-fjfzfyz5).
+@binding n=5
+**cli-send start refusals ↔ obs-plan D-20 ↔ architecture's per-OS rows**: `batch-script-child` and the .cmd/.bat line, and the macOS server-verify reading, name arms that leave; no closed word, exit code or `--json` code list changes on Linux, and each text is weighed by P3 and decided by P4 as an expected amendment written by the wrap (design-system/surface fct-45kqhafb) (design-system/surface fct-a4ss54r5) (design-system fct-2t54hjhs).

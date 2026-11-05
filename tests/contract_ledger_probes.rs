@@ -13,7 +13,6 @@ use std::path::Path;
 use support::home::{TestHome, workspace_path};
 use support::verify::verify;
 
-#[cfg(unix)]
 const ROW_IDS: [&str; 24] = [
     "shim-resolution",
     "spine-hooks",
@@ -36,30 +35,6 @@ const ROW_IDS: [&str; 24] = [
     "statusline-override",
     "statusline-shell",
     "statusline-rate-limits",
-    "resume-session",
-    "agents-join",
-    "local-command-compact",
-];
-#[cfg(windows)]
-const ROW_IDS: [&str; 21] = [
-    "shim-resolution",
-    "spine-hooks",
-    "session-start-fields",
-    "prompt-verbatim",
-    "stop-message",
-    "largest-hook-payload",
-    "modal-signature",
-    "input-box-signature",
-    "quiet-period",
-    "confirm-window",
-    "question-answer",
-    "plan-approve-revise",
-    "question-notes",
-    "dialog-concurrency",
-    "long-paste-wrapper",
-    "tag-escaping",
-    "local-command-clear",
-    "paste-newline",
     "resume-session",
     "agents-join",
     "local-command-compact",
@@ -132,10 +107,7 @@ fn contract_ledger_probes_pass_over_every_stamped_set() {
                 "{version}: {id} did not pass"
             );
         }
-        #[cfg(unix)]
         assert_eq!(*last, format!("stamped {version}  24 pass  0 fail"));
-        #[cfg(windows)]
-        assert_eq!(*last, format!("stamped {version}  21 pass  0 fail"));
     });
 }
 

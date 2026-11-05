@@ -11,7 +11,6 @@ use super::{Runner, Suite, Workspace, read_json};
 
 mod base;
 mod host;
-mod scratch;
 
 pub use base::{
     chunk_diff, diff_files, diff_paths, resolve_base, rust_delta, rust_paths, test_target,
@@ -186,24 +185,19 @@ pub(super) fn mutants(
     Ok(run.into_mutated(doc, files))
 }
 
-/// One cargo-mutants run: its suite, how many mutants it tested, the `outcomes.json` it read, the
-/// missed mutants left out because this host never compiled them and, on a Windows host, the bytes
-/// the scratch held before its wipe.
+/// One cargo-mutants run: its suite, how many mutants it tested, the `outcomes.json` it read and
+/// the missed mutants left out because this host never compiled them.
 struct Mutation {
     suite: Suite,
     tested: u64,
     outcomes: PathBuf,
     host_excluded: Vec<host::Excluded>,
-    scratch_bytes: Option<u64>,
 }
 
 impl Mutation {
     fn into_mutated(self, mut doc: Value, files: &[String]) -> Mutated {
         if !files.is_empty() {
             doc["files"] = json!(files);
-        }
-        if let Some(bytes) = self.scratch_bytes {
-            doc["scratch_bytes"] = json!(bytes);
         }
         if !self.host_excluded.is_empty() {
             doc["host_excluded"] = json!(self.host_excluded);
@@ -221,11 +215,7 @@ fn mutate(
     files: &[String],
     runner: &mut Runner<'_>,
 ) -> Result<Mutation, String> {
-    let scratch = scratch::prepare(&ws.root, scratch::HOST_SCRATCH)?;
-    let out_dir = match &scratch {
-        Some((dir, _)) => dir.join("mutants.out"),
-        None => ws.root.join("mutants.out"),
-    };
+    let out_dir = ws.root.join("mutants.out");
     let _ = fs::remove_file(out_dir.join("outcomes.json"));
 
     // cargo-mutants builds only the packages it mutates, but the harness tests spawn the root
@@ -257,15 +247,6 @@ fn mutate(
         .env("AGENT_RUN_KEEP_FAILED", "0")
         .env("CARGO_TARGET_DIR", MUTANTS_TARGET)
         .current_dir(&ws.root);
-    if let Some((dir, _)) = &scratch {
-        // cargo-mutants copies the tree into `std::env::temp_dir()`, which Windows reads from
-        // `TMP`, then `TEMP`.
-        cargo_mutants
-            .env("TMP", dir)
-            .env("TEMP", dir)
-            .arg("--output")
-            .arg(dir);
-    }
     let (code, _) = runner(&mut cargo_mutants);
     if let Some(reason) = mutants_exit_reason(code) {
         return Err(reason);
@@ -296,7 +277,6 @@ fn mutate(
         tested,
         outcomes: outcomes_path,
         host_excluded,
-        scratch_bytes: scratch.map(|(_, bytes)| bytes),
     })
 }
 
@@ -426,12 +406,6 @@ mod tests {
         assert_eq!(out.doc["reason"], "build-failed");
     }
 
-    /// Not on macOS: there cargo-mutants' baseline build in its copied tree takes ~77 s (80.9 s phase)
-    /// against 0.41 s for the same cold build outside it, with no first-launch or jobserver cost and
-    /// no in-repo cause the measurement names — runner-side under the operator's ruling; the arm's only
-    /// consumer is the code audit on the Windows host (chunk
-    /// 2026-09-28-mutation-testing-to-the-epoch-boundary, `evidence/macos-mutants-phases.md`).
-    #[cfg(not(target_os = "macos"))]
     #[test]
     fn run_mutants_reports_survivors_of_an_untested_change() {
         let (_tmp, ws) = mini(GOOD_LIB);
@@ -455,8 +429,6 @@ mod tests {
         assert!(ws.agent_run().join("chunk.diff").is_file());
     }
 
-    /// Not on macOS, for the measured reason on `run_mutants_reports_survivors_of_an_untested_change`.
-    #[cfg(not(target_os = "macos"))]
     #[test]
     fn run_mutants_passes_when_the_change_is_tested() {
         let (_tmp, ws) = mini(GOOD_LIB);
@@ -474,16 +446,10 @@ mod tests {
         assert_eq!(out.doc["mutants"]["verdict"], "counted");
     }
 
-    /// Where this host's run keeps cargo-mutants' output: the repo's sibling scratch on Windows.
-    pub(super) fn scratch_or_root(ws: &Workspace) -> PathBuf {
-        let scratch = ws.root.parent().map(|p| p.join("viola-mutants-scratch"));
-        scratch.filter(|_| cfg!(windows)).unwrap_or(ws.root.clone())
-    }
-
     const STALE_OUTCOMES: &str = r#"{"caught": 777, "missed": 5, "timeout": 0, "unviable": 0}"#;
 
     fn plant_stale_outcomes(ws: &Workspace) {
-        let out = scratch_or_root(ws).join("mutants.out");
+        let out = ws.root.join("mutants.out");
         fs::create_dir_all(&out).expect("mkdir");
         fs::write(out.join("outcomes.json"), STALE_OUTCOMES).expect("write");
     }
@@ -560,18 +526,9 @@ mod tests {
         assert_eq!(m["failures"][0], "outcomes-missing");
         assert_eq!(
             out.doc["mutants"],
-            wiped_stale(json!({"tested": 0, "verdict": "counted", "base": base}))
+            json!({"tested": 0, "verdict": "counted", "base": base})
         );
         assert!(!carries_number(&out.doc, 777), "{}", out.doc);
-    }
-
-    /// A counted run's expected `mutants` part after `plant_stale_outcomes`: on a Windows host the
-    /// scratch held the stale file, so the run reports its bytes as it wipes it.
-    fn wiped_stale(mut doc: Value) -> Value {
-        if cfg!(windows) {
-            doc["scratch_bytes"] = json!(STALE_OUTCOMES.len());
-        }
-        doc
     }
 
     fn write_test_target(ws: &Workspace) {
@@ -631,7 +588,7 @@ mod tests {
         );
         assert_eq!(
             out.doc["mutants"],
-            wiped_stale(json!({"tested": 0, "verdict": "counted", "base": base}))
+            json!({"tested": 0, "verdict": "counted", "base": base})
         );
         assert!(!carries_number(&out.doc, 777), "{}", out.doc);
     }
@@ -676,7 +633,7 @@ mod tests {
         let base = head(&ws);
         fs::write(ws.root.join("src").join("b.rs"), "fn b() {}\n").expect("write");
         before(&ws);
-        let out_dir = scratch_or_root(&ws).join("mutants.out");
+        let out_dir = ws.root.join("mutants.out");
         let mut mutants = None;
         let sel = Selection {
             files: files.iter().map(|f| (*f).to_owned()).collect(),
@@ -820,7 +777,7 @@ mod tests {
     ) -> (tempfile::TempDir, Workspace, Outcome, Calls) {
         let (tmp, ws) = mini(GOOD_LIB);
         before(&ws);
-        let out_dir = scratch_or_root(&ws).join("mutants.out");
+        let out_dir = ws.root.join("mutants.out");
         let sel = Selection {
             package: Some(member.to_owned()),
             files: files.iter().map(|f| (*f).to_owned()).collect(),
@@ -858,7 +815,7 @@ mod tests {
     /// Three functions, one per answer the host gives on every OS the suite runs on: a predicate
     /// that is false, one that is true and one it cannot decide.
     const GATED: &str = "#[cfg(target_os = \"none\")]\nfn never() -> u32 {\n    1\n}\n\
-        #[cfg(any(unix, windows))]\nfn always() -> u32 {\n    2\n}\n\
+        #[cfg(any(unix, target_os = \"none\"))]\nfn always() -> u32 {\n    2\n}\n\
         #[cfg(feature = \"x\")]\nfn maybe() -> u32 {\n    3\n}\n";
 
     /// An outcome record of a mutant of the literal on `line` of `src/gated.rs`.
@@ -1023,7 +980,7 @@ mod tests {
         assert_eq!(out.code, 1, "{}", out.doc);
         assert_eq!(
             out.doc["mutants"],
-            wiped_stale(json!({"tested": 4, "verdict": "package", "package": "viola"}))
+            json!({"tested": 4, "verdict": "package", "package": "viola"})
         );
         let m = suite(&out.doc, "mutants");
         assert_eq!(

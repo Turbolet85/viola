@@ -148,28 +148,11 @@ pub fn revive(home: &TestHome, dir: &Path, args: &[&str]) -> Ran {
 
 /// A wrapper process the test started, ended with no chance to clean up.
 pub fn kill_wrapper(pid: u32) {
-    #[cfg(windows)]
-    {
-        use windows_sys::Win32::Foundation::CloseHandle;
-        use windows_sys::Win32::System::Threading::{
-            OpenProcess, PROCESS_TERMINATE, TerminateProcess,
-        };
-        // SAFETY: plain values cross; the handle is closed before it goes out of scope.
-        unsafe {
-            let handle = OpenProcess(PROCESS_TERMINATE, 0, pid);
-            assert!(!handle.is_null(), "open the wrapper");
-            assert_ne!(TerminateProcess(handle, 1), 0, "terminate the wrapper");
-            CloseHandle(handle);
-        }
-    }
-    #[cfg(unix)]
-    {
-        let killed = Command::new("kill")
-            .args(["-KILL", &pid.to_string()])
-            .status()
-            .expect("kill");
-        assert!(killed.success(), "kill -KILL");
-    }
+    let killed = Command::new("kill")
+        .args(["-KILL", &pid.to_string()])
+        .status()
+        .expect("kill");
+    assert!(killed.success(), "kill -KILL");
 }
 
 /// The `--plugin-dir` the wrapper's last start handed the fake agent.

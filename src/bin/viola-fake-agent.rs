@@ -1828,11 +1828,6 @@ mod tests {
 
     /// An absolute host program that prints one line and exits by itself.
     fn whoami() -> String {
-        #[cfg(windows)]
-        let path = PathBuf::from(std::env::var_os("SystemRoot").expect("SystemRoot"))
-            .join("System32")
-            .join("whoami.exe");
-        #[cfg(not(windows))]
         let path = PathBuf::from("/usr/bin/whoami");
         path.to_str().expect("utf-8 path").to_owned()
     }

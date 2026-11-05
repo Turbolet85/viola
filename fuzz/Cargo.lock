@@ -567,7 +567,6 @@ dependencies = [
  "tracing",
  "veil",
  "viola-core",
- "windows-sys",
 ]
 
 [[package]]

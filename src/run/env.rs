@@ -1,6 +1,5 @@
 //! Which environment names the user defined persistently, so the R8 strip leaves them in the
-//! child. Windows: the value names of the user and machine `Environment` keys. Unix: the
-//! `config.json` `claude_env_keep` pass-list. Names only: no value is ever read.
+//! child: the `config.json` `claude_env_keep` pass-list. Names only: no value is ever read.
 
 use std::fs::File;
 use std::io::Read as _;
@@ -14,18 +13,9 @@ use crate::obs::ConfigRejection;
 const KEEP_KEY: &str = "claude_env_keep";
 const KEEP_MAX: usize = 32;
 
-/// The persistent names, and a rejection when `claude_env_keep` is present but unusable (checked
-/// on every OS, consulted on Unix only).
+/// The persistent names, and a rejection when `claude_env_keep` is present but unusable.
 pub(crate) fn persistent_names(home: &Path) -> (Vec<String>, Option<ConfigRejection>) {
-    let (keep, rejection) = read_env_keep(home);
-    #[cfg(windows)]
-    let names = {
-        let _ = keep;
-        registry_names()
-    };
-    #[cfg(not(windows))]
-    let names = keep;
-    (names, rejection)
+    read_env_keep(home)
 }
 
 fn read_env_keep(home: &Path) -> (Vec<String>, Option<ConfigRejection>) {
@@ -71,57 +61,6 @@ fn is_claude_name(name: &str) -> bool {
         rest.bytes()
             .all(|b| b.is_ascii_uppercase() || b.is_ascii_digit() || b == b'_')
     })
-}
-
-#[cfg(windows)]
-fn registry_names() -> Vec<String> {
-    use windows_sys::Win32::System::Registry::{HKEY_CURRENT_USER, HKEY_LOCAL_MACHINE};
-    let mut names = key_value_names(HKEY_CURRENT_USER, "Environment");
-    names.extend(key_value_names(
-        HKEY_LOCAL_MACHINE,
-        r"SYSTEM\CurrentControlSet\Control\Session Manager\Environment",
-    ));
-    names
-}
-
-/// The value names under one key; an unreadable key reads as none.
-#[cfg(windows)]
-fn key_value_names(root: windows_sys::Win32::System::Registry::HKEY, subkey: &str) -> Vec<String> {
-    use windows_sys::Win32::Foundation::ERROR_SUCCESS;
-    use windows_sys::Win32::System::Registry::{
-        KEY_READ, RegCloseKey, RegEnumValueW, RegOpenKeyExW,
-    };
-    let wide: Vec<u16> = subkey.encode_utf16().chain(Some(0)).collect();
-    let mut names = Vec::new();
-    // SAFETY: the key handle is opened and closed here, and every buffer passed is owned here
-    // with its length stated.
-    unsafe {
-        let mut key = std::ptr::null_mut();
-        if RegOpenKeyExW(root, wide.as_ptr(), 0, KEY_READ, &mut key) != ERROR_SUCCESS {
-            return names;
-        }
-        let mut buf = vec![0u16; 16_384];
-        for index in 0.. {
-            let mut len = u32::try_from(buf.len()).unwrap_or(u32::MAX);
-            let status = RegEnumValueW(
-                key,
-                index,
-                buf.as_mut_ptr(),
-                &mut len,
-                std::ptr::null(),
-                std::ptr::null_mut(),
-                std::ptr::null_mut(),
-                std::ptr::null_mut(),
-            );
-            if status != ERROR_SUCCESS {
-                break;
-            }
-            let len = usize::try_from(len).unwrap_or(0).min(buf.len());
-            names.push(String::from_utf16_lossy(&buf[..len]));
-        }
-        RegCloseKey(key);
-    }
-    names
 }
 
 #[cfg(test)]
@@ -236,7 +175,7 @@ mod tests {
     }
 
     #[test]
-    fn persistent_names_report_a_bad_pass_list_on_every_os() {
+    fn persistent_names_report_a_bad_pass_list() {
         let tmp = tempfile::tempdir().expect("tmp");
         std::fs::write(
             tmp.path().join("config.json"),
@@ -249,7 +188,6 @@ mod tests {
         );
     }
 
-    #[cfg(not(windows))]
     #[test]
     fn persistent_names_are_the_pass_list_on_unix() {
         let tmp = tempfile::tempdir().expect("tmp");
@@ -262,32 +200,5 @@ mod tests {
             persistent_names(tmp.path()),
             (vec!["CLAUDE_KEEP_ME".to_owned()], None)
         );
-    }
-
-    #[cfg(windows)]
-    #[test]
-    fn persistent_names_are_the_registry_value_names_on_windows() {
-        let tmp = tempfile::tempdir().expect("tmp");
-        std::fs::write(
-            tmp.path().join("config.json"),
-            r#"{"v":1,"claude_env_keep":["CLAUDE_KEEP_ME"]}"#,
-        )
-        .expect("write");
-        let (names, rejection) = persistent_names(tmp.path());
-        assert_eq!(rejection, None);
-        assert!(!names.iter().any(|n| n == "CLAUDE_KEEP_ME"));
-        // The machine Environment key always defines OS (= Windows_NT) and Path.
-        assert!(
-            names.iter().any(|n| n.eq_ignore_ascii_case("OS")),
-            "{names:?}"
-        );
-        assert!(names.iter().any(|n| n.eq_ignore_ascii_case("Path")));
-    }
-
-    #[cfg(windows)]
-    #[test]
-    fn key_value_names_of_a_missing_key_are_none() {
-        use windows_sys::Win32::System::Registry::HKEY_CURRENT_USER;
-        assert!(key_value_names(HKEY_CURRENT_USER, r"Software\viola-no-such-key-7c1e").is_empty());
     }
 }

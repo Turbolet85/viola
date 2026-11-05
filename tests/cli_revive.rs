@@ -4,7 +4,7 @@
 //! with no line at all; the `--list` rows, and a forked resume. Every revive here finds the fake
 //! agent as `claude` first on its `PATH`, so the name never reaches the host's own CLI, and so its
 //! `claude agents --json` read is that copy's answer: what the test planted beside it. The start
-//! refusals `run` shares (`batch-script-child`, `pinned-hash-mismatch`, `squatted-name`, a `claude`
+//! refusals `run` shares (`pinned-hash-mismatch`, `squatted-name`, a `claude`
 //! not on `PATH` as `internal-error`) are `tests/cross_exit_causes.rs`'s rows, in both modes.
 
 #[allow(dead_code)]

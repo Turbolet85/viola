@@ -349,18 +349,10 @@ mod tests {
             "the eighteen rows, the resume row and the agents row of an older stamp"
         );
         nineteen.push((LedgerRow::LocalCommandCompact, true));
-        #[cfg(unix)]
         assert_eq!(
             stamps_verdict(Ok(Some(stamp_of(&nineteen))), "2.1.0"),
             (false, None),
             "the eighteen rows, the resume row, the agents row and the compact row"
-        );
-        #[cfg(windows)]
-        assert_eq!(
-            stamps_verdict(Ok(Some(stamp_of(&nineteen))), "2.1.0"),
-            (true, None),
-            "the eighteen rows, the resume row, the agents row and the compact row are every row \
-             relied on here"
         );
         let statusline = [
             LedgerRow::StatusLineOverride,
@@ -399,7 +391,7 @@ mod tests {
                 LedgerRow::AgentsJoin,
                 LedgerRow::LocalCommandCompact,
             ])
-            .chain(statusline.into_iter().filter(|_| cfg!(unix)))
+            .chain(statusline)
         {
             let rows: Vec<(LedgerRow, bool)> =
                 all.iter().map(|(r, p)| (*r, *p && *r != failing)).collect();
@@ -407,17 +399,6 @@ mod tests {
                 stamps_verdict(Ok(Some(stamp_of(&rows))), "2.1.0"),
                 (false, None),
                 "{}",
-                failing.id()
-            );
-        }
-        #[cfg(windows)]
-        for failing in statusline {
-            let rows: Vec<(LedgerRow, bool)> =
-                all.iter().map(|(r, p)| (*r, *p && *r != failing)).collect();
-            assert_eq!(
-                stamps_verdict(Ok(Some(stamp_of(&rows))), "2.1.0"),
-                (true, None),
-                "{} is not relied on here",
                 failing.id()
             );
         }

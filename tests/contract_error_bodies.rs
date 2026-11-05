@@ -107,14 +107,6 @@ const CLI_DOCUMENTS: &[Body] = &[
         witness: "revive_json_of_a_stale_holder_is_the_stale_heartbeat_document",
     },
     Body {
-        code: "batch-script-child",
-        detail: "null",
-        exit: Some(1),
-        file: "src/cmd/run.rs",
-        needle: r#"return Ok(refused_with(launch.json, "batch-script-child", || {"#,
-        witness: "a_revive_whose_claude_is_a_script_is_the_batch_script_child_document",
-    },
-    Body {
         code: "pinned-hash-mismatch",
         detail: "null",
         exit: Some(1),

@@ -20,8 +20,7 @@ use serde_json::{Value, json};
 use support::events::{assert_error_body_clean, wait_events};
 use support::fake;
 use support::home::{
-    StampedHome, UNWRAPPED, VIOLA, seed_conpty, snapshot_data, stamped_home, wait_endpoint_gone,
-    workspace_path,
+    StampedHome, UNWRAPPED, VIOLA, snapshot_data, stamped_home, wait_endpoint_gone, workspace_path,
 };
 use support::ndjson::read_lines;
 use support::outer_pty::{EXIT_WITHIN, OuterPty};
@@ -52,7 +51,6 @@ fn booted_with_the_value(stamped: &StampedHome) -> OuterPty {
     args.push(cwd.clone().into());
     args.push("--fixtures".into());
     args.push(workspace_path("fixtures/claude").into());
-    seed_conpty(home);
     let pty = OuterPty::spawn_without(
         Path::new(VIOLA),
         &args,

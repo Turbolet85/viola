@@ -12,7 +12,7 @@ use std::time::Instant;
 use rstest::rstest;
 use serde_json::Value;
 use support::fake::FAKE;
-use support::home::{TestHome, VIOLA, home, seed_conpty};
+use support::home::{TestHome, VIOLA, home};
 use support::outer_pty::{EXIT_WITHIN, OuterPty};
 use support::piped::Piped;
 use support::watch::{WITHIN, Watch};
@@ -58,14 +58,8 @@ fn wait_raw(dir: &tempfile::TempDir, mut exited: impl FnMut() -> bool) -> bool {
     }
 }
 
-/// `run_viola_unseeded` in a home seeded with the ConPTY companions (`support::home::seed_conpty`).
-fn run_viola(home: &Path, name: &str, program: &str, extra: &[&str]) -> Option<i32> {
-    seed_conpty(home);
-    run_viola_unseeded(home, name, program, extra)
-}
-
 /// `viola run <name> -- <program> <extra>` under an outer PTY; Ctrl-C once the child is raw.
-fn run_viola_unseeded(home: &Path, name: &str, program: &str, extra: &[&str]) -> Option<i32> {
+fn run_viola(home: &Path, name: &str, program: &str, extra: &[&str]) -> Option<i32> {
     let (dir, mut fake_args) = receipt_args(program);
     let mut args: Vec<OsString> = vec!["--home".into(), home.into()];
     args.extend(["run", name, "--", program].map(OsString::from));
@@ -150,14 +144,7 @@ fn run_with_fake_agent_writes_start_and_exit_lines(#[from(home)] tmp: TestHome) 
     assert_eq!(lines[0]["os"], std::env::consts::OS);
     assert!(lines[0]["pid"].as_u64().is_some());
     assert!(lines[3]["child_pid"].as_u64().is_some());
-    let backend = if cfg!(all(windows, target_arch = "x86_64")) {
-        "conpty-sideload"
-    } else if cfg!(windows) {
-        "conpty"
-    } else {
-        "openpty"
-    };
-    assert_eq!(lines[3]["pty_backend"], backend);
+    assert_eq!(lines[3]["pty_backend"], "openpty");
     assert!(
         lines[3]["env_stripped_count"]
             .as_u64()
@@ -190,7 +177,7 @@ fn run_child_exit_status_is_recorded(#[from(home)] tmp: TestHome) {
 fn run_with_a_bad_name_is_usage_and_creates_nothing(#[from(home)] tmp: TestHome) {
     let home = tmp.path().to_path_buf();
     for bad in ["Builder", "../x", "1abc"] {
-        let status = run_viola_unseeded(&home, bad, FAKE, &[]);
+        let status = run_viola(&home, bad, FAKE, &[]);
         assert_eq!(status, Some(2), "{bad}");
     }
     assert!(!home.exists());
@@ -229,7 +216,6 @@ fn write_config(home: &Path, text: &str) {
 /// `viola run builder -- <program>` on pipes with captured output; Ctrl-C once the child is raw.
 fn run_captured(home: &Path, program: &str, env: &[(&str, &str)]) -> std::process::Output {
     let (dir, fake_args) = receipt_args(program);
-    seed_conpty(home);
     let mut piped = Piped::spawn(
         Command::new(VIOLA)
             .arg("--home")
@@ -257,7 +243,6 @@ fn key_sets(lines: &[Value]) -> Vec<Vec<String>> {
 fn run_self_exit_carries_duration_ms(#[from(home)] tmp: TestHome, #[from(home)] missing: TestHome) {
     let home = tmp.path().to_path_buf();
     let (dir, fake_args) = receipt_args(FAKE);
-    seed_conpty(&home);
     let mut piped = Piped::spawn(
         Command::new(VIOLA)
             .arg("--home")
@@ -363,8 +348,8 @@ fn run_rust_log_changes_nothing(#[from(home)] plain: TestHome, #[from(home)] tra
 /// viola's own human and diagnostic literals: none may reach its stdout.
 const VIOLA_LITERALS: [&str; 5] = ["unable:", "hint:", "error:", "\"event\":", "\"process\":"];
 
-/// stdout carries only the child's screen as its PTY renders it: nothing on Unix for a child that
-/// prints nothing, ConPTY's own preamble on Windows (research fact 4); never a byte of viola's.
+/// stdout carries only the child's screen as its PTY renders it: nothing for a child that prints
+/// nothing; never a byte of viola's.
 #[rstest]
 fn run_is_silent_on_stdout_and_stderr(
     #[from(home)] child: TestHome,
@@ -375,9 +360,7 @@ fn run_is_silent_on_stdout_and_stderr(
     for literal in VIOLA_LITERALS {
         assert!(!holds(&out.stdout, literal), "viola wrote {literal:?}");
     }
-    if cfg!(unix) {
-        assert!(out.stdout.is_empty(), "stdout: {} bytes", out.stdout.len());
-    }
+    assert!(out.stdout.is_empty(), "stdout: {} bytes", out.stdout.len());
     assert!(out.stderr.is_empty(), "stderr: {} bytes", out.stderr.len());
 
     let absent = missing.scratch().join("no-such-program");
@@ -632,14 +615,7 @@ fn run_refuses_a_widened_home_tree_before_its_log(
     #[case] pair: &str,
 ) {
     let home = tmp.path().to_path_buf();
-    // Unseeded: a seeded home's companions are hard links to one shared seed file, and the
-    // inheritable grant `widen` puts on the home or `bin/` would reach every other seeded home
-    // through them until it is taken back (measured on windows-2025, ci#40398601594 and
-    // ci#40400887151: one other start fell back `strict-modes-failed` inside this case's window).
-    assert_eq!(
-        run_viola_unseeded(&home, "builder", FAKE, &["--version"]),
-        Some(0)
-    );
+    assert_eq!(run_viola(&home, "builder", FAKE, &["--version"]), Some(0));
     let (before, _) = role_lines(&home, "builder");
     let path = match rel {
         "PINNED" => pinned_copy(&home),
@@ -676,8 +652,7 @@ fn run_refuses_a_widened_home_tree_before_its_log(
 
 /// A wrapper terminated from outside (no Ctrl-C, no clean exit) takes its child with it: the
 /// child's process, by pid and start time, is gone within the bound (architecture [PTY]; P5). The
-/// terminate step is each OS's own: `TerminateProcess` on Windows, a `SIGKILL` on Unix, neither one
-/// the wrapper can answer.
+/// terminate step is a `SIGKILL`, which the wrapper cannot answer.
 #[rstest]
 fn run_child_ends_when_its_wrapper_is_terminated(
     #[from(support::home::booted_wrapper)] wrapper: support::home::Wrapper,
@@ -694,29 +669,11 @@ fn run_child_ends_when_its_wrapper_is_terminated(
     let (wrapper_pid, child_pid) = (pid_of("pid"), pid_of("child_pid"));
     let child_started = process_start(child_pid).expect("the child runs");
 
-    #[cfg(windows)]
-    {
-        use windows_sys::Win32::Foundation::CloseHandle;
-        use windows_sys::Win32::System::Threading::{
-            OpenProcess, PROCESS_TERMINATE, TerminateProcess,
-        };
-
-        // SAFETY: plain values cross; the handle is closed before it goes out of scope.
-        unsafe {
-            let handle = OpenProcess(PROCESS_TERMINATE, 0, wrapper_pid);
-            assert!(!handle.is_null(), "open the wrapper");
-            assert_ne!(TerminateProcess(handle, 1), 0, "terminate the wrapper");
-            CloseHandle(handle);
-        }
-    }
-    #[cfg(unix)]
-    {
-        let killed = Command::new("kill")
-            .args(["-KILL", &wrapper_pid.to_string()])
-            .status()
-            .expect("kill");
-        assert!(killed.success(), "kill the wrapper");
-    }
+    let killed = Command::new("kill")
+        .args(["-KILL", &wrapper_pid.to_string()])
+        .status()
+        .expect("kill");
+    assert!(killed.success(), "kill the wrapper");
 
     let watch = Watch::start("child");
     let deadline = Instant::now() + WITHIN;

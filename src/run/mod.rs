@@ -39,13 +39,12 @@ pub(crate) fn log_self_start() {
 }
 
 /// Names only: the stripped and kept `CLAUDE*` names, never a value (obs-plan D-14); the version
-/// gate's reading beside them, and on Windows why the child is on the inbox ConPTY, as a code.
+/// gate's reading beside them.
 pub(crate) fn log_child_start(
     child_pid: Option<u32>,
     strip: &StripPlan,
     cli_version: Option<&str>,
     cli_verified: bool,
-    sideload_fallback: Option<&'static str>,
 ) {
     let stripped = strip.removed_names();
     let kept = strip.kept_names();
@@ -55,7 +54,6 @@ pub(crate) fn log_child_start(
         subject = "claude-child",
         child_pid = child_pid,
         pty_backend = viola_pty::pty_backend(),
-        sideload_fallback = sideload_fallback,
         env_stripped_count = strip.count(),
         env_stripped_known = Some(stripped.as_str()).filter(|s| !s.is_empty()),
         env_kept = Some(kept.as_str()).filter(|s| !s.is_empty()),
@@ -139,15 +137,12 @@ pub(crate) fn child_launch(
     ChildLaunch { env_set, args }
 }
 
-/// The program after `--`, looked up by viola itself (never by portable-pty's own search, which
-/// takes an extensionless sh shim first on Windows) against this process's `PATH`.
+/// The program after `--`, looked up by viola itself (never by portable-pty's own search) against
+/// this process's `PATH`.
 pub(crate) fn resolve_program(program: &OsStr, cwd: &Path) -> Result<PathBuf, AgentError> {
     let path = std::env::var_os("PATH");
-    let pathext = std::env::var_os("PATHEXT");
     let search = Search {
         path: path.as_deref(),
-        pathext: pathext.as_deref(),
-        windows: Search::HOST_IS_WINDOWS,
     };
     viola_agent_claude::resolve_program(program, cwd, search, &|p: &Path| p.is_file())
 }

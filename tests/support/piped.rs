@@ -1,7 +1,5 @@
 //! `viola run` on pipes, hosted the way a terminal would host it: every DA1 query (`ESC [ c`) its
-//! stdout carries is answered on its stdin, because the sideloaded ConPTY holds the child's start
-//! ~3 s for one (measured, `evidence/da1-stall.md` of 2026-09-29-sideloaded-conpty); viola itself
-//! answers nothing. A wrapper the test leaves running is killed on drop: a panic at a wait's deadline
+//! stdout carries is answered on its stdin; viola itself answers nothing. A wrapper the test leaves running is killed on drop: a panic at a wait's deadline
 //! would otherwise leave it and its child alive after the test (nextest `LEAK`).
 
 use std::io::{Read as _, Write as _};

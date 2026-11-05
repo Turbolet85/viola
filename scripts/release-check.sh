@@ -15,7 +15,6 @@ fi
 judge() {
   local input names name featured
   input=$(cat)
-  # Native jq on Windows writes CRLF, which would make every name differ from "viola".
   featured=$(printf '%s\n' "$input" | jq -r 'select(.reason == "compiler-artifact")
     | .target.name as $t | (.features // [])[] | select(. == "test-support" or . == "fake-agent")
     | "\(.) in \($t)"' | tr -d '\r')

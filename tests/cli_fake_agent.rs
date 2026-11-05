@@ -846,7 +846,6 @@ fn fake_agent_rejects_an_unreadable_script(#[case] body: &str) {
 /// receipt), and reports (viola's status, EOF seen at exit).
 fn run_and_watch_stdout(tmp: &TestHome, fake_args: &[&str]) -> (ExitStatus, bool, Arc<AtomicBool>) {
     let receipt = tmp.scratch().join("watch.receipt.ndjson");
-    support::home::seed_conpty(tmp.path());
     let mut piped = Piped::spawn(
         Command::new(VIOLA)
             .arg("--home")
@@ -895,7 +894,6 @@ fn fake_agent_without_exit_no_eof_releases_stdout_at_exit() {
 /// The ignored-signal mask `ps -o sigignore=` prints: a hex mask (with or without `0x`) whose bit 0
 /// is signal 1, SIGHUP. Not ignored, a failed spawn, a non-zero exit or a mask that does not parse
 /// is an `Err` holding what `ps` returned.
-#[cfg(target_os = "linux")]
 fn ignores_sighup(pid: u32) -> Result<(), String> {
     let out = std::process::Command::new("ps")
         .args(["-o", "sigignore=", "-p", &pid.to_string()])
@@ -917,7 +915,6 @@ fn ignores_sighup(pid: u32) -> Result<(), String> {
 
 /// Waits until `holds` reads `Ok` while the agent still runs: an agent that exits first fails at
 /// once, naming the last `Err` read, and a wait past the root-watch deadline fails with its report.
-#[cfg(target_os = "linux")]
 fn wait_while_running(agent: &mut Direct, what: &str, holds: impl Fn() -> Result<(), String>) {
     let watch = support::watch::Watch::start("exit-hangup");
     let deadline = Instant::now() + support::watch::WITHIN;
@@ -937,9 +934,7 @@ fn wait_while_running(agent: &mut Direct, what: &str, holds: impl Fn() -> Result
 /// ignores SIGHUP (as its terminal's session leader it cannot leave the group a hangup reaches), so
 /// it finishes the exit, and with it the exit-time coverage write. The exit is held open by the
 /// Stop hook's capped receipt hold, which `\x03` waits out; the disposition is read through
-/// `ps -o sigignore=`. Linux only: macOS's `ps` has no keyword that prints the ignored-signal mask
-/// (`sigignore: keyword not found`, measured on macos-latest), so the disposition has no reader there.
-#[cfg(target_os = "linux")]
+/// `ps -o sigignore=`.
 #[test]
 fn fake_agent_exit_outlives_a_hangup_that_lands_while_it_exits() {
     use std::os::unix::process::ExitStatusExt as _;

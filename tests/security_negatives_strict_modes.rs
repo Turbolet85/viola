@@ -1,12 +1,11 @@
-//! Security control negatives, on every OS (test-plan §6 Security control negatives; security-plan
+//! Security control negatives (test-plan §6 Security control negatives; security-plan
 //! §Authentication & Authorization, `~/.viola/` access control): each CLI frame verb runs the
 //! strict-modes check of the home and the instance before anything under the home opens, so an
 //! instance directory another user may write is refused with exit 21 and nothing logged, sent or
 //! narrowed, beside a control against the same live wrapper that reaches it. Only the wrapper
-//! writes `snapshot.json` and only `viola verify` writes `ledger/stamps.json`; on Unix every file
-//! and folder a start makes takes its mode whatever the umask; on Windows a home viola makes takes
-//! the protected owner-only DACL, and a home made before viola that another user may read is
-//! refused.
+//! writes `snapshot.json` and only `viola verify` writes `ledger/stamps.json`; every file and
+//! folder a start makes takes its mode whatever the umask, and a home made before viola that
+//! another user may read is refused.
 
 #[allow(dead_code)]
 mod support;
@@ -316,7 +315,6 @@ fn only_the_wrapper_writes_the_snapshot_and_only_verify_the_stamps(stamped_home:
 }
 
 /// Every path under `dir`, folders first.
-#[cfg(unix)]
 fn walk(dir: &Path) -> Vec<std::path::PathBuf> {
     let mut found = vec![dir.to_path_buf()];
     for entry in std::fs::read_dir(dir).expect("read dir") {
@@ -333,7 +331,6 @@ fn walk(dir: &Path) -> Vec<std::path::PathBuf> {
 /// test-plan §6 Security control negatives, umask: a start under `umask 000` still makes every
 /// folder 0700, every file 0600 and the pinned copy 0700 — the modes are set, never left to the
 /// umask.
-#[cfg(unix)]
 #[rstest]
 fn a_start_under_umask_000_makes_every_home_path_owner_only(
     #[from(support::home::home)] tmp: TestHome,
@@ -383,8 +380,7 @@ fn a_start_under_umask_000_makes_every_home_path_owner_only(
 }
 
 /// A folder made before viola runs that another user may read refuses `viola run` with exit 1 and
-/// the home's pair, nothing logged and the grant left as found (on Windows the `RUNNER_TEMP`-style
-/// home under `target/e2e-home` granted Users read).
+/// the home's pair, nothing logged and the grant left as found.
 #[rstest]
 fn a_home_another_user_may_read_refuses_run(#[from(support::home::home)] tmp: TestHome) {
     let home = tmp.path().to_path_buf();
@@ -406,75 +402,4 @@ fn a_home_another_user_may_read_refuses_run(#[from(support::home::home)] tmp: Te
     assert!(!home.join("diagnostics").exists(), "a log opened");
     assert!(still_widened(&home));
     unwiden(&home);
-}
-
-/// test-plan §6 Security control negatives, Windows `--home` outside the profile: the home `viola
-/// verify` made under `target/e2e-home` carries exactly the protected DACL, the user and SYSTEM,
-/// object- and container-inherit, nothing inherited from the drive (its canonical SDDL read back
-/// through `icacls /save`, which writes it to a file as UTF-16).
-#[cfg(windows)]
-#[rstest]
-fn a_home_viola_makes_outside_the_profile_takes_the_protected_dacl(stamped_home: StampedHome) {
-    let home = stamped_home.home.path().to_path_buf();
-    let saved = stamped_home.home.scratch().join("home.acl");
-    let root = std::env::var_os("SystemRoot").expect("SystemRoot");
-    let icacls = Command::new(
-        std::path::PathBuf::from(root)
-            .join("System32")
-            .join("icacls.exe"),
-    )
-    .arg(&home)
-    .arg("/save")
-    .arg(&saved)
-    .output()
-    .expect("icacls");
-    assert!(
-        icacls.status.success(),
-        "icacls /save: {} {}",
-        icacls.status,
-        String::from_utf8_lossy(&icacls.stderr)
-    );
-    let bytes = std::fs::read(&saved).expect("the saved ACL");
-    let units: Vec<u16> = bytes
-        .as_chunks::<2>()
-        .0
-        .iter()
-        .map(|pair| u16::from_le_bytes(*pair))
-        .collect();
-    let text = String::from_utf16_lossy(&units);
-    let sddl = text
-        .lines()
-        .map(|line| line.trim_start_matches('\u{feff}').trim())
-        .find(|line| line.contains("D:"))
-        .unwrap_or_else(|| panic!("no SDDL line in {text:?}"))
-        .to_owned();
-    let whoami = Command::new("whoami")
-        .args(["/user", "/fo", "csv", "/nh"])
-        .output()
-        .expect("whoami");
-    let whoami = String::from_utf8_lossy(&whoami.stdout);
-    let user = whoami
-        .trim()
-        .rsplit(',')
-        .next()
-        .expect("a SID column")
-        .trim_matches('"')
-        .to_owned();
-    let dacl = sddl
-        .split_once("D:")
-        .map(|(_, dacl)| dacl.split_once("S:").map_or(dacl, |(d, _)| d))
-        .unwrap_or_else(|| panic!("no DACL in {sddl}"));
-    let (flags, aces) = dacl.split_at(dacl.find('(').unwrap_or(dacl.len()));
-    assert!(flags.contains('P'), "not protected: {sddl}");
-    // Canonical SDDL spells the local Administrator account (RID 500), the runner's user, `LA`.
-    let trustee = if user.ends_with("-500") {
-        "LA"
-    } else {
-        user.as_str()
-    };
-    assert_eq!(
-        aces,
-        format!("(A;OICI;FA;;;{trustee})(A;OICI;FA;;;SY)"),
-        "{sddl}"
-    );
 }

@@ -449,7 +449,7 @@ fn home_resolution_takes_the_flag_then_the_session_then_the_default(stamped_home
     let other = scratch.join("other-home");
     let user_home = scratch.join("user");
     std::fs::create_dir_all(&user_home).expect("the user home");
-    let user_var = if cfg!(windows) { "USERPROFILE" } else { "HOME" };
+    let user_var = "HOME";
     let dir = wrapper.instance_dir();
     // Under a `VIOLA_NAME` the board logs its start in the home it resolved: the log says which.
     let session = |dir: &Path| -> Vec<(&str, OsString)> {
@@ -537,7 +537,7 @@ fn two_homes_are_isolated(stamped_home: StampedHome) {
 #[test]
 fn a_home_reached_through_a_link_is_canonicalised() {
     use support::fake::{FAKE, of_kind, wait_for};
-    use support::home::{claude_dir, path_with, seed_conpty};
+    use support::home::{claude_dir, path_with};
     use support::outer_pty::{EXIT_WITHIN, OuterPty};
     use viola_core::ViolaName;
     let tmp = TestHome::new();
@@ -556,7 +556,6 @@ fn a_home_reached_through_a_link_is_canonicalised() {
         "--receipt".into(),
         receipt.clone().into(),
     ];
-    seed_conpty(&target);
     let path = path_with(&claude_dir(tmp.scratch()));
     let mut pty = OuterPty::spawn_without(
         Path::new(VIOLA),

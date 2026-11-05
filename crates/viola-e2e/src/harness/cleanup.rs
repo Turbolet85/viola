@@ -130,23 +130,13 @@ fn kill_deadline(now: Instant) -> Instant {
     now + KILL_DEADLINE
 }
 
-/// The endpoint is gone for a client (test-plan §3 `cleanup` step 4): on Windows a viola-client
-/// connect finds no pipe; on Unix a connect is refused or the path is absent, since a killed wrapper
-/// removes nothing and a next bind takes the file it leaves over.
+/// The endpoint is gone for a client (test-plan §3 `cleanup` step 4): a connect is refused or the
+/// path is absent, since a killed wrapper removes nothing and a next bind takes the file it leaves
+/// over.
 pub fn unconnectable(endpoint: &str) -> bool {
-    #[cfg(windows)]
-    {
-        matches!(
-            viola_channel::Client::connect(endpoint, "cli"),
-            Err(viola_channel::ChannelError::Connect(e)) if e.kind() == std::io::ErrorKind::NotFound
-        )
-    }
-    #[cfg(unix)]
-    {
-        use std::io::ErrorKind::{ConnectionRefused, NotFound};
-        std::os::unix::net::UnixStream::connect(endpoint)
-            .is_err_and(|e| matches!(e.kind(), ConnectionRefused | NotFound))
-    }
+    use std::io::ErrorKind::{ConnectionRefused, NotFound};
+    std::os::unix::net::UnixStream::connect(endpoint)
+        .is_err_and(|e| matches!(e.kind(), ConnectionRefused | NotFound))
 }
 
 fn killed_by_supervisor(dir: &Path) -> Vec<String> {
@@ -379,13 +369,9 @@ mod tests {
     /// A test-owned endpoint name, outside the `viola-<h12>` namespace `viola run` binds.
     fn test_endpoint(dir: &Path, label: &str) -> String {
         let base = format!("viola-test-chan-{}-{label}", std::process::id());
-        if cfg!(windows) {
-            format!(r"\\.\pipe\{base}")
-        } else {
-            dir.join(format!("{base}.sock"))
-                .to_string_lossy()
-                .into_owned()
-        }
+        dir.join(format!("{base}.sock"))
+            .to_string_lossy()
+            .into_owned()
     }
 
     #[test]

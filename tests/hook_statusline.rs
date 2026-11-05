@@ -3,7 +3,7 @@
 //! reading the payload carries, runs the user's own statusline command with the same stdin and
 //! prints that command's stdout unchanged, exits 0 with an empty stderr on every path, and runs
 //! nothing from a home another user can write. The user's command is the fake agent's
-//! `statusline-echo` mode; on Windows no command is run (no reading of the shell exists there).
+//! `statusline-echo` mode.
 
 #[allow(dead_code)]
 mod support;
@@ -67,11 +67,6 @@ fn started_once(stamped: StampedHome) -> StampedHome {
 /// A session whose home viola created itself. With `echo` (the words after the marker path) the
 /// home's source names the fake agent's `statusline-echo`, planted once the home exists, and the
 /// next start records it; without, the session has no statusline command.
-///
-/// A case that runs on Windows takes a stamped home: there `viola verify` makes the home, with
-/// viola's own protected DACL. A home whose first start is `Wrapper::boot` is made by the fixture
-/// instead (it seeds the ConPTY companions into the home first), with the DACL its parent hands
-/// down, and the arm's instance check rightly refuses it.
 fn session(stamped: StampedHome, echo: Option<&[&str]>) -> Session {
     let home = stamped.home.path().to_path_buf();
     let dir = home.join("instances").join("builder");
@@ -223,15 +218,13 @@ fn hook_statusline_a_failing_command_prints_nothing() {
     assert!(decision.get("detail").is_none());
 }
 
-/// With no command recorded the arm prints nothing and still records the reading. On Windows that
-/// is the whole behaviour even with a command recorded: no command is run there.
+/// With no command recorded the arm prints nothing and still records the reading.
 #[rstest]
 fn hook_statusline_without_a_recorded_command_prints_nothing_and_records_the_reading(
     stamped_home: StampedHome,
 ) {
-    let echo: Option<&[&str]> = if cfg!(windows) { Some(&[]) } else { None };
-    let session = session(stamped_home, echo);
-    assert_eq!(session.command.is_some(), cfg!(windows));
+    let session = session(stamped_home, None);
+    assert!(session.command.is_none());
     let ran = session.hook(reading(7));
     assert_silent_success(&ran, "");
     let budget = session.budget().expect("a reading");
@@ -280,7 +273,7 @@ fn hook_statusline_a_home_another_user_can_write_runs_nothing_however_often() {
     );
 }
 
-/// An instance directory another user may write, on every OS (Windows by a Users write grant):
+/// An instance directory another user may write:
 /// nothing is read, run, printed or logged, no reading is written, and the widening is left as
 /// found; narrowed again by its owner, the arm serves it.
 #[rstest]
@@ -373,12 +366,7 @@ fn hook_statusline_changes_neither_the_snapshot_nor_the_stamps(stamped_home: Sta
     let stamps = session.home.join("ledger").join("stamps.json");
     let before = (bytes_and_mtime(&snapshot), bytes_and_mtime(&stamps));
     let ran = session.hook(reading(55));
-    let shown = if cfg!(unix) {
-        STATUSLINE_ECHO_OUTPUT
-    } else {
-        ""
-    };
-    assert_silent_success(&ran, shown);
+    assert_silent_success(&ran, STATUSLINE_ECHO_OUTPUT);
     assert!(session.budget().is_some());
     assert_eq!(
         (bytes_and_mtime(&snapshot), bytes_and_mtime(&stamps)),

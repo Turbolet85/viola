@@ -3,10 +3,9 @@
 # Generated once by /andromeda-setup-project Phase 4 from test-plan §3 + obs-plan §3.
 # Project-evolvable: setup never overwrites this file on a re-run (drift is backed up and surfaced instead).
 #
-# Contract (test-plan §3 "Harness implementation"): agent-run.sh and agent-run.ps1 are identical THIN
-# shims. Each runs `cargo run -q -p viola-e2e --bin viola-harness -- <command> [flags]` and forwards its
-# exit code and stdout unchanged. All logic lives once, in Rust (crates/viola-e2e), so both shells have
-# byte-identical semantics on Windows, macOS and Linux.
+# Contract (test-plan §3 "Harness implementation"): agent-run.sh is a THIN shim. It runs
+# `cargo run -q -p viola-e2e --bin viola-harness -- <command> [flags]` and forwards its exit code and
+# stdout unchanged. All logic lives once, in Rust (crates/viola-e2e).
 #
 # 5-command discipline (the agent's surface):
 #   boot     - build, create a fresh home under target/e2e-home/, stamp it via `viola verify` against the

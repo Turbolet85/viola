@@ -94,7 +94,6 @@ fn request(live: &LiveEndpoint, params: Map<String, Value>) -> Result<Value, Cal
 }
 
 #[cfg(test)]
-#[cfg(not(target_os = "macos"))]
 mod tests {
     use super::*;
 

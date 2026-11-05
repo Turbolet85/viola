@@ -1,4 +1,4 @@
-//! `bin/<VERSION>-<hash>/viola(.exe)`: the running exe copied once, keyed by a truncated SHA-256 of
+//! `bin/<VERSION>-<hash>/viola`: the running exe copied once, keyed by a truncated SHA-256 of
 //! its bytes, and re-hashed before every reuse; a copy that no longer matches is never run or
 //! overwritten (security-plan §Data Protection, Code-bearing artefacts). The absent copy is placed
 //! through the no-clobber [`crate::fs::place_private_new`]: it appears once, closed, and a copy a
@@ -12,18 +12,12 @@ use sha2::{Digest, Sha256};
 use viola_core::VERSION;
 
 use crate::StateError;
-#[cfg(windows)]
-use crate::fs::replace_private_shared;
 use crate::fs::{DIR_MODE, Placed, create_private_dir, place_private_new};
-#[cfg(windows)]
-use crate::fs::{REPLACE_ATTEMPTS, REPLACE_PAUSE};
 
 #[derive(Debug, thiserror::Error)]
 pub enum PinError {
     #[error("the pinned copy failed its integrity check")]
     HashMismatch,
-    #[error("the pinned copy failed the strict-modes check")]
-    StrictModes,
     #[error("the pinned copy could not be written")]
     State(#[from] StateError),
 }
@@ -77,7 +71,7 @@ pub fn pin_key(bytes: &[u8]) -> String {
     format!("{VERSION}-{}", content_key(bytes))
 }
 
-/// Copies `exe` to `<home>/bin/<key>/viola(.exe)` (0700) when absent; when present, re-hashes it
+/// Copies `exe` to `<home>/bin/<key>/viola` (0700) when absent; when present, re-hashes it
 /// and refuses on any difference, leaving the file as found.
 pub fn pin_exe(home: &Path, exe: &Path) -> Result<Pinned, PinError> {
     pin_bytes(home, &std::fs::read(exe)?)
@@ -115,104 +109,6 @@ fn place_absent(path: &Path, bytes: &[u8], hash: &str) -> Result<(), PinError> {
     }
 }
 
-/// A file pinned in a subdirectory of the pinned dir, with the whole SHA-256 it must carry.
-#[cfg(windows)]
-#[derive(Debug, Clone, Copy)]
-pub struct Companion {
-    pub name: &'static str,
-    pub bytes: &'static [u8],
-    pub sha256_hex: &'static str,
-}
-
-/// Verified companions, each held open with read sharing only: until this is dropped no process can
-/// open one for writing, renaming or deleting, so the bytes checked are the bytes later used.
-#[cfg(windows)]
-#[derive(Debug)]
-pub struct HeldCompanions {
-    /// The absolute path of `bin/<key>/<subdir>/`.
-    pub dir: PathBuf,
-    _handles: Vec<File>,
-}
-
-/// Win32 `FILE_SHARE_READ`: every other opener may read, none may write or delete.
-#[cfg(windows)]
-const SHARE_READ_ONLY: u32 = 0x0000_0001;
-
-/// Win32 `ERROR_SHARING_VIOLATION`. Two first starts of one version write the same companion, and
-/// for a few ms after one lands it another opener still holds it with write access (measured 5-11
-/// ms on two concurrent first starts; never over companions already written).
-#[cfg(windows)]
-const SHARING_VIOLATION: i32 = 32;
-
-/// Only that refusal is waited out, `REPLACE_ATTEMPTS` times; every other failure is final at once.
-#[cfg(windows)]
-fn retry_open(raw_os_error: Option<i32>, attempts: u32) -> bool {
-    attempts < REPLACE_ATTEMPTS && raw_os_error == Some(SHARING_VIOLATION)
-}
-
-#[cfg(windows)]
-fn open_held(path: &Path) -> io::Result<File> {
-    use std::os::windows::fs::OpenOptionsExt as _;
-    std::fs::OpenOptions::new()
-        .read(true)
-        .share_mode(SHARE_READ_ONLY)
-        .open(path)
-}
-
-#[cfg(windows)]
-fn open_held_waiting(path: &Path, pause: &mut dyn FnMut()) -> io::Result<File> {
-    let mut attempts = 0;
-    loop {
-        attempts += 1;
-        match open_held(path) {
-            Err(e) if retry_open(e.raw_os_error(), attempts) => pause(),
-            opened => return opened,
-        }
-    }
-}
-
-/// Writes each companion into `bin/<key>/<subdir>/` when absent (never over a present one, like
-/// [`pin_exe`]), then opens it held and compares its whole SHA-256 with the pin. A file that differs
-/// is left as found: [`PinError::HashMismatch`]. The folder and each companion that exists pass the
-/// owner/DACL check before they are used: [`PinError::StrictModes`] otherwise, nothing written.
-#[cfg(windows)]
-pub fn pin_companions(
-    pinned: &Pinned,
-    subdir: &str,
-    files: &[Companion],
-) -> Result<HeldCompanions, PinError> {
-    let bin = pinned
-        .path
-        .parent()
-        .ok_or_else(|| io::Error::from(io::ErrorKind::NotFound))?;
-    let dir = bin.join(subdir);
-    crate::strict::check_present(&dir).map_err(|_| PinError::StrictModes)?;
-    create_private_dir(&dir)?;
-    let mut handles = Vec::with_capacity(files.len());
-    let mut pause = || std::thread::sleep(REPLACE_PAUSE);
-    for file in files {
-        let path = dir.join(file.name);
-        crate::strict::check_present(&path).map_err(|_| PinError::StrictModes)?;
-        let held = match open_held_waiting(&path, &mut pause) {
-            Ok(held) => held,
-            Err(e) if e.kind() == io::ErrorKind::NotFound => {
-                replace_private_shared(&path, file.bytes, DIR_MODE)?;
-                open_held_waiting(&path, &mut pause)?
-            }
-            Err(e) => return Err(e.into()),
-        };
-        let found: String = digest(&held)?.iter().map(|b| format!("{b:02x}")).collect();
-        if found != file.sha256_hex {
-            return Err(PinError::HashMismatch);
-        }
-        handles.push(held);
-    }
-    Ok(HeldCompanions {
-        dir,
-        _handles: handles,
-    })
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -245,8 +141,10 @@ mod tests {
 
         let pinned = pin_exe(&home, &exe).expect("first pin");
         assert_eq!(pinned.key, "0.1.0-ba7816bf8f01cfea");
-        let name = if cfg!(windows) { "viola.exe" } else { "viola" };
-        let expected = home.join("bin").join("0.1.0-ba7816bf8f01cfea").join(name);
+        let expected = home
+            .join("bin")
+            .join("0.1.0-ba7816bf8f01cfea")
+            .join("viola");
         assert_eq!(pinned.path, std::path::absolute(&expected).expect("abs"));
         assert!(pinned.path.is_absolute());
         assert!(!pinned.path_fwd.contains('\\'));
@@ -305,7 +203,7 @@ mod tests {
         let slot = home
             .join("bin")
             .join("0.1.0-ba7816bf8f01cfea")
-            .join(if cfg!(windows) { "viola.exe" } else { "viola" });
+            .join("viola");
         fs::create_dir_all(&slot).expect("a dir where the copy should be");
         assert!(matches!(pin_exe(&home, &exe), Err(PinError::State(_))));
     }
@@ -346,33 +244,11 @@ mod tests {
     }
 
     /// `path` made unreadable to this user while it stays renamable (a rename over it needs only
-    /// the directory's rights): on Windows a deny-read-data ACE, on Unix mode 000. Undone on drop.
+    /// the directory's rights): mode 000. Undone on drop.
     struct Unreadable(PathBuf);
-
-    #[cfg(windows)]
-    fn icacls(path: &Path, args: &[&str]) {
-        let root = std::env::var_os("SystemRoot").expect("SystemRoot");
-        let user = format!(
-            "{}\\{}",
-            std::env::var("USERDOMAIN").expect("USERDOMAIN"),
-            std::env::var("USERNAME").expect("USERNAME")
-        );
-        let ok =
-            std::process::Command::new(PathBuf::from(root).join("System32").join("icacls.exe"))
-                .arg(path)
-                .args(args.iter().map(|a| a.replace("<user>", &user)))
-                .stdout(std::process::Stdio::null())
-                .status()
-                .expect("icacls")
-                .success();
-        assert!(ok, "icacls {args:?}");
-    }
 
     impl Unreadable {
         fn set(path: &Path) -> Self {
-            #[cfg(windows)]
-            icacls(path, &["/deny", "<user>:(RD)"]);
-            #[cfg(unix)]
             {
                 use std::os::unix::fs::PermissionsExt as _;
                 fs::set_permissions(path, fs::Permissions::from_mode(0o000)).expect("chmod");
@@ -384,13 +260,8 @@ mod tests {
 
     impl Drop for Unreadable {
         fn drop(&mut self) {
-            #[cfg(windows)]
-            icacls(&self.0, &["/remove:d", "<user>"]);
-            #[cfg(unix)]
-            {
-                use std::os::unix::fs::PermissionsExt as _;
-                let _ = fs::set_permissions(&self.0, fs::Permissions::from_mode(0o600));
-            }
+            use std::os::unix::fs::PermissionsExt as _;
+            let _ = fs::set_permissions(&self.0, fs::Permissions::from_mode(0o600));
         }
     }
 
@@ -408,220 +279,11 @@ mod tests {
         assert_eq!(fs::read(&pinned.path).expect("left as found"), b"abd");
     }
 
-    #[cfg(windows)]
-    const COMPANIONS: &[Companion] = &[
-        Companion {
-            name: "a.dll",
-            bytes: b"alpha",
-            sha256_hex: "8ed3f6ad685b959ead7022518e1af76cd816f8e8ec7ccdda1ed4018e8f2223f8",
-        },
-        Companion {
-            name: "b.exe",
-            bytes: b"beta",
-            sha256_hex: "f44e64e75f3948e9f73f8dfa94721c4ce8cbb4f265c4790c702b2d41cfbf2753",
-        },
-    ];
-
-    #[cfg(windows)]
-    fn pinned_in(tmp: &Path) -> Pinned {
-        pin_exe(&tmp.join("home"), &exe_in(tmp)).expect("pin")
-    }
-
-    #[cfg(windows)]
-    #[test]
-    fn pin_companions_writes_then_reverifies_and_rewrites_a_deleted_one() {
-        let tmp = tempfile::tempdir().expect("tempdir");
-        let pinned = pinned_in(tmp.path());
-        let held = pin_companions(&pinned, "side", COMPANIONS).expect("first pin");
-        let dir = pinned.path.parent().expect("bin dir").join("side");
-        assert_eq!(held.dir, dir);
-        assert_eq!(fs::read(dir.join("a.dll")).expect("a"), b"alpha");
-        assert_eq!(fs::read(dir.join("b.exe")).expect("b"), b"beta");
-        drop(held);
-
-        assert_eq!(
-            pin_companions(&pinned, "side", COMPANIONS)
-                .expect("intact")
-                .dir,
-            dir
-        );
-
-        fs::remove_file(dir.join("b.exe")).expect("delete");
-        drop(pin_companions(&pinned, "side", COMPANIONS).expect("re-written"));
-        assert_eq!(fs::read(dir.join("b.exe")).expect("b"), b"beta");
-    }
-
-    #[cfg(windows)]
-    #[test]
-    fn pin_companions_refuses_a_tampered_one_and_leaves_it() {
-        let tmp = tempfile::tempdir().expect("tempdir");
-        let pinned = pinned_in(tmp.path());
-        drop(pin_companions(&pinned, "side", COMPANIONS).expect("first pin"));
-        let a = pinned.path.parent().expect("bin dir").join("side/a.dll");
-        fs::write(&a, b"alphb").expect("tamper one byte");
-        assert!(matches!(
-            pin_companions(&pinned, "side", COMPANIONS),
-            Err(PinError::HashMismatch)
-        ));
-        assert_eq!(fs::read(&a).expect("left as found"), b"alphb");
-    }
-
-    /// A companion that exists but cannot be read is an error, never a missing one to write over.
-    #[cfg(windows)]
-    #[test]
-    fn pin_companions_refuses_a_companion_it_cannot_read_and_leaves_it() {
-        let tmp = tempfile::tempdir().expect("tempdir");
-        let pinned = pinned_in(tmp.path());
-        drop(pin_companions(&pinned, "side", COMPANIONS).expect("first pin"));
-        let a = pinned.path.parent().expect("bin dir").join("side/a.dll");
-        fs::write(&a, b"alphb").expect("tamper one byte");
-        let denied = Unreadable::set(&a);
-        assert!(matches!(
-            pin_companions(&pinned, "side", COMPANIONS),
-            Err(PinError::State(_))
-        ));
-        drop(denied);
-        assert_eq!(fs::read(&a).expect("left as found"), b"alphb");
-    }
-
-    #[cfg(windows)]
-    #[test]
-    fn pin_companions_reports_a_directory_where_a_file_should_be() {
-        let tmp = tempfile::tempdir().expect("tempdir");
-        let pinned = pinned_in(tmp.path());
-        let slot = pinned.path.parent().expect("bin dir").join("side/b.exe");
-        fs::create_dir_all(&slot).expect("a dir where the file should be");
-        assert!(matches!(
-            pin_companions(&pinned, "side", COMPANIONS),
-            Err(PinError::State(_))
-        ));
-    }
-
-    /// A companion, or the folder, granted Users write is refused by the owner/DACL check before
-    /// it is opened, and left as found.
-    #[cfg(windows)]
-    #[rstest]
-    #[case::companion("side/a.dll")]
-    #[case::folder("side")]
-    fn pin_companions_refuses_a_path_another_user_may_write(#[case] rel: &str) {
-        let tmp = tempfile::tempdir().expect("tempdir");
-        let pinned = pinned_in(tmp.path());
-        drop(pin_companions(&pinned, "side", COMPANIONS).expect("first pin"));
-        let path = pinned.path.parent().expect("bin dir").join(rel);
-        icacls(&path, &["/grant", "*S-1-5-32-545:(W)"]);
-        assert!(matches!(
-            pin_companions(&pinned, "side", COMPANIONS),
-            Err(PinError::StrictModes)
-        ));
-        let a = pinned.path.parent().expect("bin dir").join("side/a.dll");
-        assert_eq!(fs::read(&a).expect("left as found"), b"alpha");
-        icacls(&path, &["/remove:g", "*S-1-5-32-545"]);
-        drop(pin_companions(&pinned, "side", COMPANIONS).expect("passes once restored"));
-    }
-
-    /// The handles deny a writer from the hash until they drop: Win32 `ERROR_SHARING_VIOLATION`.
-    #[cfg(windows)]
-    #[test]
-    fn pin_companions_holds_every_file_against_a_writer() {
-        let tmp = tempfile::tempdir().expect("tempdir");
-        let pinned = pinned_in(tmp.path());
-        let held = pin_companions(&pinned, "side", COMPANIONS).expect("pin");
-        for name in ["a.dll", "b.exe"] {
-            let path = held.dir.join(name);
-            let err = fs::OpenOptions::new()
-                .write(true)
-                .open(&path)
-                .expect_err("held");
-            assert_eq!(err.raw_os_error(), Some(32), "{name}");
-            assert!(!fs::read(&path).expect("readers still read").is_empty());
-        }
-        drop(held);
-        let path = pinned.path.parent().expect("bin dir").join("side/a.dll");
-        fs::OpenOptions::new()
-            .write(true)
-            .open(&path)
-            .expect("writable once released");
-    }
-
-    #[cfg(windows)]
-    #[rstest]
-    #[case::sharing_violation_first(Some(32), 1, true)]
-    #[case::sharing_violation_before_the_last(Some(32), 99, true)]
-    #[case::sharing_violation_at_the_last(Some(32), 100, false)]
-    #[case::access_denied(Some(5), 1, false)]
-    #[case::not_an_os_error(None, 1, false)]
-    fn retry_open_waits_out_only_a_sharing_violation(
-        #[case] raw: Option<i32>,
-        #[case] attempts: u32,
-        #[case] retry: bool,
-    ) {
-        assert_eq!(retry_open(raw, attempts), retry);
-    }
-
-    /// Another opener holding the file with write access, the way a start that has just written a
-    /// companion still does for a few ms.
-    #[cfg(windows)]
-    fn writer_holding(path: &Path) -> fs::File {
-        use std::os::windows::fs::OpenOptionsExt as _;
-        fs::OpenOptions::new()
-            .read(true)
-            .write(true)
-            .share_mode(0x7)
-            .open(path)
-            .expect("writer")
-    }
-
-    /// The window forced open: the first open meets the writer, the pause releases it.
-    #[cfg(windows)]
-    #[test]
-    fn open_held_waiting_outlasts_a_writer_that_lets_go() {
-        let tmp = tempfile::tempdir().expect("tempdir");
-        let path = tmp.path().join("fresh.exe");
-        fs::write(&path, b"beta").expect("file");
-        let mut writer = Some(writer_holding(&path));
-        let mut pauses = 0;
-        let held = open_held_waiting(&path, &mut || {
-            pauses += 1;
-            drop(writer.take());
-        })
-        .expect("opened once the writer let go");
-        assert_eq!(pauses, 1);
-        drop(held);
-    }
-
-    #[cfg(windows)]
-    #[test]
-    fn open_held_waiting_gives_up_on_a_writer_that_stays() {
-        let tmp = tempfile::tempdir().expect("tempdir");
-        let path = tmp.path().join("held.exe");
-        fs::write(&path, b"beta").expect("file");
-        let _writer = writer_holding(&path);
-        let mut pauses = 0;
-        let err = open_held_waiting(&path, &mut || pauses += 1).expect_err("still held");
-        assert_eq!(err.raw_os_error(), Some(32));
-        assert_eq!(pauses, REPLACE_ATTEMPTS - 1);
-    }
-
-    #[cfg(windows)]
-    #[test]
-    fn open_held_waiting_reports_a_missing_file_at_once() {
-        let tmp = tempfile::tempdir().expect("tempdir");
-        let mut pauses = 0;
-        let err =
-            open_held_waiting(&tmp.path().join("absent"), &mut || pauses += 1).expect_err("absent");
-        assert_eq!(err.kind(), io::ErrorKind::NotFound);
-        assert_eq!(pauses, 0);
-    }
-
     #[test]
     fn pin_error_messages_are_fixed() {
         assert_eq!(
             PinError::HashMismatch.to_string(),
             "the pinned copy failed its integrity check"
-        );
-        assert_eq!(
-            PinError::StrictModes.to_string(),
-            "the pinned copy failed the strict-modes check"
         );
         assert_eq!(
             PinError::from(io::Error::other("C:/x")).to_string(),

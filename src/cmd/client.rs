@@ -9,7 +9,7 @@ use std::io::{self, Write as _};
 use std::path::{Path, PathBuf};
 
 use serde_json::{Value, json};
-use viola_channel::{ChannelError, Client, SERVER_PID_REPORTED, peer_admitted, sanitised_fault};
+use viola_channel::{ChannelError, Client, peer_admitted, sanitised_fault};
 use viola_core::obs::{ObsEvent, ObsProcess};
 use viola_core::{RefusalReason, UnreachableCause, ViolaName, is_code_word, obs_event};
 use viola_state::liveness::{LiveEndpoint, ServerVerdict, verify_server, without_endpoint};
@@ -177,12 +177,7 @@ pub(crate) fn connect(live: &LiveEndpoint) -> Result<Client, CallError> {
     if !peer_admitted(client.server_euid()) {
         return Err(CallError::ServerUnverified);
     }
-    let verdict = verify_server(
-        live.pid,
-        &live.started_at,
-        client.server_pid(),
-        SERVER_PID_REPORTED,
-    );
+    let verdict = verify_server(live.pid, &live.started_at, client.server_pid());
     match verdict {
         ServerVerdict::Matches => Ok(client),
         ServerVerdict::Mismatch | ServerVerdict::Unverifiable => Err(CallError::ServerUnverified),
@@ -325,7 +320,6 @@ pub(crate) mod refused_seen {
 /// dispatch span, before any `channel.request` span or `channel-request` line, and with no frame
 /// written (obs-plan §4, the must-trace spans).
 #[cfg(test)]
-#[cfg(not(target_os = "macos"))]
 pub(crate) mod refused_inside {
     use std::sync::{Arc, Mutex};
 
@@ -359,14 +353,11 @@ pub(crate) mod refused_inside {
         // A bare temp dir is left to the umask, and a client refuses a socket directory it can read.
         viola_state::fs::create_private_dir(dir.path()).expect("the socket dir, private");
         let base = format!("viola-test-chan-{}-{span}", std::process::id());
-        let endpoint = if cfg!(windows) {
-            format!(r"\\.\pipe\{base}")
-        } else {
-            dir.path()
-                .join(format!("{base}.sock"))
-                .to_string_lossy()
-                .into_owned()
-        };
+        let endpoint = dir
+            .path()
+            .join(format!("{base}.sock"))
+            .to_string_lossy()
+            .into_owned();
         let frames = Arc::new(Frames::default());
         let _serving = Server::bind(&endpoint)
             .expect("bound")

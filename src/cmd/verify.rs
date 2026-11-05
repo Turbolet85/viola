@@ -28,7 +28,7 @@ use viola_agent_claude::ledger::{
     ProbeRun, Probes, ShellVerdict, StatusLineCapture, TypedRun,
 };
 use viola_agent_claude::statusline;
-use viola_agent_claude::{AgentError, CASE_INSENSITIVE, PLUGIN_DIR_FLAG, PROGRAM, StripPlan};
+use viola_agent_claude::{AgentError, PLUGIN_DIR_FLAG, PROGRAM, StripPlan};
 use viola_core::obs::{ObsEvent, ObsProcess};
 use viola_core::{Clock, MAX_FRAME, SystemClock, ViolaName, obs_event};
 use viola_state::fs::{FILE_MODE, create_private_dir, replace_private};
@@ -156,13 +156,6 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<Ended> {
     });
     let program = match resolved {
         Ok(program) => program,
-        Err(AgentError::BatchScriptChild) => {
-            human::refuse(
-                "the claude CLI is a .cmd or .bat script",
-                "pass the real executable, not a .cmd or .bat shim",
-            );
-            return Ok(Ended::Refused("batch-script-child"));
-        }
         Err(_) => {
             human::refuse(
                 "the claude CLI was not found",
@@ -224,7 +217,6 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<Ended> {
         return Ok(Ended::Interrupted);
     }
     let print = ProbeRun {
-        program_is_script: viola_agent_claude::is_script(&program),
         version_answered: true,
         captures: read_captures(&probe.captures()),
     };
@@ -590,7 +582,7 @@ fn scrubbed_payloads(
 ) -> Result<Vec<Recorded>, String> {
     let mut files = Vec::new();
     for (name, payload) in payloads {
-        let scrubbed = ledger::scrub(&payload, home, user, CASE_INSENSITIVE);
+        let scrubbed = ledger::scrub(&payload, home, user);
         if let Some(why) = ledger::unclean(&scrubbed, user) {
             return Err(format!("{name} {}", why.code()));
         }
@@ -689,13 +681,11 @@ mod tests {
         );
     }
 
-    /// The counter's total is the relied count: twenty-four rows on Unix, twenty-one on Windows, where
-    /// the status line is not wrapped.
+    /// The counter's total is the relied count: twenty-four rows.
     #[test]
     fn step_lines_count_to_the_relied_total() {
         let probes = Probes {
             print: ProbeRun {
-                program_is_script: true,
                 version_answered: false,
                 captures: Vec::new(),
             },
@@ -707,50 +697,31 @@ mod tests {
             agents: None,
         };
         let results = check_rows(&probes);
-        #[cfg(unix)]
-        {
-            assert_eq!(results.len(), 24);
-            assert_eq!(
-                step_line(19, 24, LedgerRow::StatusLineOverride, false),
-                "[19/24] statusline-override a --settings statusLine runs in the status line's place  fail"
-            );
-            assert_eq!(
-                step_line(20, 24, LedgerRow::StatusLineShell, true),
-                "[20/24] statusline-shell a statusline command runs through /bin/sh  pass"
-            );
-            assert_eq!(
-                step_line(21, 24, LedgerRow::StatusLineRateLimits, true),
-                "[21/24] statusline-rate-limits the statusline payload carries two whole-number rate_limits windows  pass"
-            );
-            assert_eq!(
-                step_line(22, 24, LedgerRow::ResumeSession, false),
-                "[22/24] resume-session --resume <id> reopens the session under that id  fail"
-            );
-            assert_eq!(
-                step_line(23, 24, LedgerRow::AgentsJoin, false),
-                "[23/24] agents-join claude agents --json names the live session by pid and session id  fail"
-            );
-            assert_eq!(
-                step_line(24, 24, LedgerRow::LocalCommandCompact, false),
-                "[24/24] local-command-compact /compact keeps the session id and submits no prompt  fail"
-            );
-        }
-        #[cfg(windows)]
-        {
-            assert_eq!(results.len(), 21);
-            assert_eq!(
-                step_line(19, 21, LedgerRow::ResumeSession, true),
-                "[19/21] resume-session --resume <id> reopens the session under that id  pass"
-            );
-            assert_eq!(
-                step_line(20, 21, LedgerRow::AgentsJoin, true),
-                "[20/21] agents-join claude agents --json names the live session by pid and session id  pass"
-            );
-            assert_eq!(
-                step_line(21, 21, LedgerRow::LocalCommandCompact, true),
-                "[21/21] local-command-compact /compact keeps the session id and submits no prompt  pass"
-            );
-        }
+        assert_eq!(results.len(), 24);
+        assert_eq!(
+            step_line(19, 24, LedgerRow::StatusLineOverride, false),
+            "[19/24] statusline-override a --settings statusLine runs in the status line's place  fail"
+        );
+        assert_eq!(
+            step_line(20, 24, LedgerRow::StatusLineShell, true),
+            "[20/24] statusline-shell a statusline command runs through /bin/sh  pass"
+        );
+        assert_eq!(
+            step_line(21, 24, LedgerRow::StatusLineRateLimits, true),
+            "[21/24] statusline-rate-limits the statusline payload carries two whole-number rate_limits windows  pass"
+        );
+        assert_eq!(
+            step_line(22, 24, LedgerRow::ResumeSession, false),
+            "[22/24] resume-session --resume <id> reopens the session under that id  fail"
+        );
+        assert_eq!(
+            step_line(23, 24, LedgerRow::AgentsJoin, false),
+            "[23/24] agents-join claude agents --json names the live session by pid and session id  fail"
+        );
+        assert_eq!(
+            step_line(24, 24, LedgerRow::LocalCommandCompact, false),
+            "[24/24] local-command-compact /compact keeps the session id and submits no prompt  fail"
+        );
         let rows: Vec<LedgerRow> = results.iter().map(|(row, _)| *row).collect();
         assert_eq!(rows, LedgerRow::relied());
         // No capture is over the frame cap, so only the largest-payload row passes an empty probe.
@@ -799,7 +770,7 @@ mod tests {
     }
 
     #[test]
-    fn probe_dir_holds_the_statusline_dir_and_on_unix_its_probe_settings() {
+    fn probe_dir_holds_the_statusline_dir_and_its_probe_settings() {
         let tmp = tempfile::tempdir().expect("tempdir");
         let probe = ProbeDir::create(tmp.path(), "/h/bin/k/viola").expect("probe dir");
         let captures = probe.dir.join("typed").join("statusline");
@@ -807,7 +778,6 @@ mod tests {
         assert_eq!(probe.statusline_captures(), captures);
         let settings = probe.dir.join("typed").join("statusline.json");
         assert_eq!(probe.statusline_settings(), settings);
-        #[cfg(unix)]
         {
             use std::os::unix::fs::PermissionsExt as _;
             let doc: serde_json::Value =
@@ -823,8 +793,6 @@ mod tests {
             let mode = fs::metadata(&settings).expect("meta").permissions().mode();
             assert_eq!(mode & 0o777, 0o600);
         }
-        #[cfg(windows)]
-        assert!(!settings.exists());
         let unplain = ProbeDir::create(tmp.path(), "/h/bin k/viola").expect("probe dir");
         assert!(!unplain.statusline_settings().exists());
         assert!(unplain.statusline_captures().is_dir());

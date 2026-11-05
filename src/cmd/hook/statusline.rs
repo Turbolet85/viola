@@ -132,7 +132,7 @@ fn serve(instance: &Instance, io: Io<'_>) -> anyhow::Result<Outcome> {
     };
     let shell = command
         .as_deref()
-        .and_then(statusline::shell_argv)
+        .map(statusline::shell_argv)
         .map(|argv| shell_out(argv, &bytes, io.bound));
     let detail = match shell {
         Some(Shell::Exited {
@@ -611,7 +611,7 @@ mod tests {
         use super::*;
 
         fn sh(command: &str) -> [&str; 3] {
-            statusline::shell_argv(command).expect("a shell on unix")
+            statusline::shell_argv(command)
         }
 
         /// The command's stdout reaches `out` byte for byte, ESC bytes and a missing final newline

@@ -17,9 +17,7 @@ use std::io;
 use serde_json::{Value, json};
 use viola_core::VERSION;
 
-pub use client::{
-    Client, PEER_EUID_REPORTED, SERVER_PID_REPORTED, peer_admitted, peer_euid_admitted,
-};
+pub use client::{Client, peer_admitted, peer_euid_admitted};
 pub use endpoint::{ENDPOINT_KIND, endpoint_name, endpoint_path, socket_dir};
 pub use frame::{
     Params, Request, error_response, ok_response, parse_request, read_frame, write_frame,
@@ -253,13 +251,9 @@ mod test_capture {
     /// A test-owned endpoint outside the `viola-<h12>` namespace `viola run` binds.
     pub(crate) fn test_endpoint(dir: &Path, label: &str) -> String {
         let base = format!("viola-test-chan-{}-{label}", std::process::id());
-        if cfg!(windows) {
-            format!(r"\\.\pipe\{base}")
-        } else {
-            dir.join(format!("{base}.sock"))
-                .to_string_lossy()
-                .into_owned()
-        }
+        dir.join(format!("{base}.sock"))
+            .to_string_lossy()
+            .into_owned()
     }
 }
 

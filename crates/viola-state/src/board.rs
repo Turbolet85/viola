@@ -556,7 +556,6 @@ mod tests {
 
     /// One rule whatever the home holds: at 0750 the home itself is refused, with no instance and
     /// with one, never the instance; `instances/` at 0750 stays under the write rule, and passes.
-    #[cfg(unix)]
     #[test]
     fn board_scan_holds_the_home_to_the_read_rule_with_and_without_an_instance() {
         let tmp = tempfile::tempdir().expect("tempdir");
@@ -570,37 +569,6 @@ mod tests {
         assert_eq!(names(&scanned(&home)), ["builder"]);
         set_mode(&home.join(INSTANCES), 0o750);
         assert_eq!(names(&scanned(&home)), ["builder"]);
-    }
-
-    /// The Windows form: a read grant to Users on the home.
-    #[cfg(windows)]
-    #[test]
-    fn board_scan_holds_a_read_granted_home_to_the_read_rule_with_and_without_an_instance() {
-        let base = Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("..")
-            .join("..")
-            .join("target")
-            .join("e2e-home");
-        fs::create_dir_all(&base).expect("e2e-home");
-        let tmp = tempfile::tempdir_in(&base).expect("tempdir");
-        let home = home(&tmp);
-        let root = std::env::var_os("SystemRoot").expect("SystemRoot");
-        let icacls = PathBuf::from(root).join("System32").join("icacls.exe");
-        let run = |args: &[&str]| {
-            let status = std::process::Command::new(&icacls)
-                .arg(&home)
-                .args(args)
-                .stdout(std::process::Stdio::null())
-                .status()
-                .expect("icacls");
-            assert!(status.success(), "icacls {args:?}: {status}");
-        };
-        assert!(scanned(&home).instances.is_empty());
-        run(&["/grant", "*S-1-5-32-545:(OI)(CI)(R)"]);
-        assert_eq!(scan(&home).expect("read").err(), Some(ScanRefused::Home));
-        instance(&home, "builder");
-        assert_eq!(scan(&home).expect("read").err(), Some(ScanRefused::Home));
-        run(&["/remove:g", "*S-1-5-32-545"]);
     }
 
     /// The home's parent at mode 000: the home cannot be statted, which is not its absence.

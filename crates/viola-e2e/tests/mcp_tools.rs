@@ -931,10 +931,7 @@ fn mcp_tools_path2_path3_send_wait_last_match_the_cli() {
 /// The wrapper the test's own session started, ended by the pid its snapshot records.
 fn kill_by_pid(pid: u64) {
     let pid = pid.to_string();
-    #[cfg(unix)]
     let killed = Command::new("kill").args(["-KILL", &pid]).status();
-    #[cfg(windows)]
-    let killed = Command::new("taskkill").args(["/F", "/PID", &pid]).status();
     assert!(killed.expect("the kill").success(), "the kill");
 }
 

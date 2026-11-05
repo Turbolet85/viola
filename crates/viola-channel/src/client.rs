@@ -1,7 +1,5 @@
-//! The sync client. On Windows it opens the pipe with SQOS Identification (security-plan
-//! §Authentication & Authorization, IPC client), never interprocess's default connect, so a server
-//! can identify the caller but never impersonate it. Every `params` carries `v`, `sender` and the
-//! additive `conn` (obs-plan D-10, D-32).
+//! The sync client. Every `params` carries `v`, `sender` and the additive `conn` (obs-plan D-10,
+//! D-32).
 
 use std::io::{self, BufReader};
 use std::sync::OnceLock;
@@ -35,7 +33,7 @@ impl Client {
         Self::connect_by(endpoint, process, busy_deadline(Instant::now()))
     }
 
-    /// `connect`, waiting for a busy Windows pipe only until `busy_until`.
+    /// `connect`; a Unix socket has no busy state, so `busy_until` waits for nothing.
     pub fn connect_by(
         endpoint: &str,
         process: &'static str,
@@ -54,14 +52,13 @@ impl Client {
         &self.conn
     }
 
-    /// The pid of the process serving this connection, from the OS (`None` on macOS, whose peer
-    /// credentials carry no pid: [`SERVER_PID_REPORTED`]). Nothing is written or logged.
+    /// The pid of the process serving this connection, from the OS. Nothing is written or logged.
     pub fn server_pid(&self) -> Option<u32> {
         server_pid_of(self.reader.get_ref())
     }
 
-    /// The effective uid of the process serving this connection, from the OS (`None` on Windows:
-    /// [`PEER_EUID_REPORTED`]). Nothing is written or logged.
+    /// The effective uid of the process serving this connection, from the OS. Nothing is written
+    /// or logged.
     pub fn server_euid(&self) -> Option<u32> {
         peer_euid_of(self.reader.get_ref())
     }
@@ -131,53 +128,32 @@ impl Client {
     }
 }
 
-/// Whether a connected stream reports its server's pid: Linux (`SO_PEERCRED`) and Windows
-/// (`GetNamedPipeServerProcessId` on the client end) do; macOS's `xucred` holds none.
-pub const SERVER_PID_REPORTED: bool = cfg!(not(target_os = "macos"));
-
-/// The serving process's pid as the stream's peer credentials give it.
+/// The serving process's pid as the stream's peer credentials (`SO_PEERCRED`) give it.
 pub(crate) fn server_pid_of(stream: &impl StreamCommon) -> Option<u32> {
     let pid = stream.peer_creds().ok()?.pid()?;
-    #[cfg(unix)]
-    return u32::try_from(pid).ok();
-    #[cfg(windows)]
-    return Some(pid);
+    u32::try_from(pid).ok()
 }
 
-/// Whether a connected stream reports its peer's euid: every Unix does, macOS's `xucred` included;
-/// on Windows the pipe's DACL and the pid comparison are the controls.
-pub const PEER_EUID_REPORTED: bool = cfg!(unix);
-
-/// Whether a peer is the owning user. Where the OS reports a peer's euid, only a reading equal to
-/// `own` is admitted, so a peer it cannot read is refused; elsewhere every peer is, the decision
-/// held by the other controls. A plain function: one account cannot make a foreign peer.
-pub fn peer_euid_admitted(observed: Option<u32>, own: u32, reported: bool) -> bool {
-    !reported || observed == Some(own)
+/// Whether a peer is the owning user: only a reading equal to `own` is admitted, so a peer whose
+/// euid cannot be read is refused. A plain function: one account cannot make a foreign peer.
+pub fn peer_euid_admitted(observed: Option<u32>, own: u32) -> bool {
+    observed == Some(own)
 }
 
 /// [`peer_euid_admitted`] against this process's own euid.
 pub fn peer_admitted(observed: Option<u32>) -> bool {
-    peer_euid_admitted(observed, own_euid(), PEER_EUID_REPORTED)
+    peer_euid_admitted(observed, own_euid())
 }
 
 fn own_euid() -> u32 {
-    #[cfg(unix)]
     // SAFETY: `geteuid` takes no arguments, cannot fail and touches no memory.
-    return unsafe { libc::geteuid() };
-    #[cfg(not(unix))]
-    return 0;
+    unsafe { libc::geteuid() }
 }
 
 /// The peer's effective uid as the stream's peer credentials give it, on either side of a
 /// connection.
 pub(crate) fn peer_euid_of(stream: &impl StreamCommon) -> Option<u32> {
-    #[cfg(unix)]
-    return stream.peer_creds().ok()?.euid();
-    #[cfg(not(unix))]
-    {
-        let _ = stream;
-        None
-    }
+    stream.peer_creds().ok()?.euid()
 }
 
 /// `<process>-<pid>-<t0>-<n>`, `n` counted over every connection this process opens, through either
@@ -279,102 +255,15 @@ fn t0_ms() -> u128 {
     })
 }
 
-/// `GENERIC_READ | GENERIC_WRITE`, written as its value: an operator over disjoint flag bits
-/// breeds `|`→`^` mutants no test can tell apart. The test pins it to the named flags.
-#[cfg(windows)]
-const PIPE_ACCESS: u32 = 0xC000_0000;
-
-/// `SECURITY_SQOS_PRESENT | SECURITY_IDENTIFICATION | FILE_FLAG_OVERLAPPED`, as its value (see
-/// `PIPE_ACCESS`). SQOS Identification: the server may identify the caller, never impersonate
-/// it. `FILE_FLAG_OVERLAPPED` is required: interprocess adopts the handle as overlapped, and a
-/// non-overlapped one hangs its first exchange (measured, security-plan Decisions Log 2026-09-25).
-#[cfg(windows)]
-const SQOS_OPEN: u32 = 0x4011_0000;
-
-/// `ERROR_PIPE_BUSY` (231) as `raw_os_error` reports it; the value fits an `i32`.
-#[cfg(windows)]
-const PIPE_BUSY: i32 = windows_sys::Win32::Foundation::ERROR_PIPE_BUSY as i32;
-
-/// A failed open waits for the listener's next pipe instance only when the pipe is busy (the
-/// listener makes it once `accept` returns), and only until `until`.
-#[cfg(windows)]
-fn retry_busy(error: &io::Error, now: Instant, until: Instant) -> bool {
-    error.raw_os_error() == Some(PIPE_BUSY) && now < until
-}
-
-/// A busy pipe is waited for this long past the first attempt.
+/// A busy endpoint is waited for this long past the first attempt.
 const BUSY_WITHIN: std::time::Duration = std::time::Duration::from_secs(2);
 
-/// When an open that started at `start` stops waiting for a busy pipe.
+/// When an open that started at `start` stops waiting for a busy endpoint.
 pub(crate) fn busy_deadline(start: Instant) -> Instant {
     start + BUSY_WITHIN
 }
 
-/// `open_by` under the default busy wait, for this crate's own pipe tests.
-#[cfg(all(windows, test))]
-pub(crate) fn open(endpoint: &str) -> io::Result<Stream> {
-    open_by(endpoint, busy_deadline(Instant::now()))
-}
-
-#[cfg(windows)]
-fn open_by(endpoint: &str, busy_until: Instant) -> io::Result<Stream> {
-    use interprocess::os::windows::named_pipe::local_socket::Stream as PipeStream;
-    PipeStream::try_from(open_handle(endpoint, busy_until)?)
-        .map(Stream::from)
-        .map_err(|_| io::Error::from(io::ErrorKind::InvalidData))
-}
-
-/// The client end of the pipe `endpoint`, opened with SQOS Identification and overlapped, for
-/// either client to adopt. A busy pipe is waited for in 100 ms steps until `busy_until`.
-#[cfg(windows)]
-pub(crate) fn open_handle(
-    endpoint: &str,
-    busy_until: Instant,
-) -> io::Result<std::os::windows::io::OwnedHandle> {
-    use std::os::windows::ffi::OsStrExt as _;
-    use std::os::windows::io::{FromRawHandle as _, OwnedHandle};
-    use std::ptr;
-
-    use windows_sys::Win32::Foundation::INVALID_HANDLE_VALUE;
-    use windows_sys::Win32::Storage::FileSystem::{CreateFileW, OPEN_EXISTING};
-    use windows_sys::Win32::System::Pipes::WaitNamedPipeW;
-
-    const BUSY_WAIT_MS: u32 = 100;
-
-    let wide: Vec<u16> = std::ffi::OsStr::new(endpoint)
-        .encode_wide()
-        .chain(Some(0))
-        .collect();
-    let handle = loop {
-        // SAFETY: `wide` is NUL-terminated and outlives the call; null security attributes and
-        // template are allowed.
-        let handle = unsafe {
-            CreateFileW(
-                wide.as_ptr(),
-                PIPE_ACCESS,
-                0,
-                ptr::null(),
-                OPEN_EXISTING,
-                SQOS_OPEN,
-                ptr::null_mut(),
-            )
-        };
-        if handle != INVALID_HANDLE_VALUE {
-            break handle;
-        }
-        let error = io::Error::last_os_error();
-        if !retry_busy(&error, Instant::now(), busy_until) {
-            return Err(error);
-        }
-        // SAFETY: `wide` is NUL-terminated and outlives the call.
-        unsafe { WaitNamedPipeW(wide.as_ptr(), BUSY_WAIT_MS) };
-    };
-    // SAFETY: a valid handle this call just opened; nothing else owns it.
-    Ok(unsafe { OwnedHandle::from_raw_handle(handle) })
-}
-
 /// A Unix socket has no busy state to wait out: `busy_until` is unused.
-#[cfg(unix)]
 fn open_by(endpoint: &str, busy_until: Instant) -> io::Result<Stream> {
     use interprocess::local_socket::traits::Stream as _;
     use interprocess::local_socket::{GenericFilePath, ToFsName as _};
@@ -612,7 +501,6 @@ mod tests {
     }
 
     /// The test process serves the endpoint, so the connection reads its own pid as the server's.
-    #[cfg(not(target_os = "macos"))]
     #[test]
     fn client_server_pid_is_the_serving_process() {
         let (_dir, endpoint, _serving) = served("server-pid");
@@ -620,34 +508,21 @@ mod tests {
         assert_eq!(client.server_pid(), Some(std::process::id()));
     }
 
-    #[cfg(target_os = "macos")]
-    #[test]
-    fn client_server_pid_is_none_where_peer_credentials_hold_no_pid() {
-        let (_dir, endpoint, _serving) = served("server-pid");
-        let client = Client::connect(&endpoint, "cli").expect("connect");
-        assert_eq!(client.server_pid(), None);
-    }
-
     /// The cross-user boundary by injected euids: one account cannot make a foreign peer.
     #[rstest]
-    #[case::same_user(Some(1000), 1000, true, true)]
-    #[case::foreign_user(Some(0), 1000, true, false)]
-    #[case::foreign_when_root(Some(1000), 0, true, false)]
-    #[case::unreadable_peer(None, 1000, true, false)]
-    #[case::not_reported_none(None, 1000, false, true)]
-    #[case::not_reported_foreign(Some(0), 1000, false, true)]
-    fn peer_euid_admitted_takes_only_the_owning_user_where_it_is_reported(
+    #[case::same_user(Some(1000), 1000, true)]
+    #[case::foreign_user(Some(0), 1000, false)]
+    #[case::foreign_when_root(Some(1000), 0, false)]
+    #[case::unreadable_peer(None, 1000, false)]
+    fn peer_euid_admitted_takes_only_the_owning_user(
         #[case] observed: Option<u32>,
         #[case] own: u32,
-        #[case] reported: bool,
         #[case] admitted: bool,
     ) {
-        assert_eq!(peer_euid_admitted(observed, own, reported), admitted);
+        assert_eq!(peer_euid_admitted(observed, own), admitted);
     }
 
-    /// The test process serves the endpoint, so the connection reads its own euid; macOS's peer
-    /// credentials hold one although they hold no pid.
-    #[cfg(unix)]
+    /// The test process serves the endpoint, so the connection reads its own euid.
     #[test]
     fn client_server_euid_is_this_user() {
         let (_dir, endpoint, _serving) = served("server-euid");
@@ -658,15 +533,6 @@ mod tests {
         assert!(peer_admitted(client.server_euid()));
         assert!(!peer_admitted(Some(own.wrapping_add(1))));
         assert!(!peer_admitted(None));
-    }
-
-    #[cfg(windows)]
-    #[test]
-    fn client_server_euid_is_none_where_the_peer_reports_no_euid() {
-        let (_dir, endpoint, _serving) = served("server-euid");
-        let client = Client::connect(&endpoint, "cli").expect("connect");
-        assert_eq!(client.server_euid(), None);
-        assert!(peer_admitted(None));
     }
 
     #[test]
@@ -703,20 +569,6 @@ mod tests {
         assert_eq!(reply_class(&reply), want);
     }
 
-    #[cfg(windows)]
-    #[test]
-    fn open_flags_are_the_named_win32_flags() {
-        use windows_sys::Win32::Foundation::{GENERIC_READ, GENERIC_WRITE};
-        use windows_sys::Win32::Storage::FileSystem::{
-            FILE_FLAG_OVERLAPPED, SECURITY_IDENTIFICATION, SECURITY_SQOS_PRESENT,
-        };
-        assert_eq!(PIPE_ACCESS, GENERIC_READ | GENERIC_WRITE);
-        assert_eq!(
-            SQOS_OPEN,
-            SECURITY_SQOS_PRESENT | SECURITY_IDENTIFICATION | FILE_FLAG_OVERLAPPED
-        );
-    }
-
     /// The deadline is two seconds AFTER the start, never before it.
     #[test]
     fn busy_deadline_is_two_seconds_after_the_start() {
@@ -724,25 +576,6 @@ mod tests {
         assert_eq!(
             busy_deadline(start).saturating_duration_since(start),
             std::time::Duration::from_secs(2)
-        );
-    }
-
-    #[cfg(windows)]
-    #[test]
-    fn retry_busy_waits_only_for_a_busy_pipe_before_the_deadline() {
-        let now = Instant::now();
-        let until = now + std::time::Duration::from_secs(1);
-        let busy = io::Error::from_raw_os_error(231);
-        let absent = io::Error::from_raw_os_error(2);
-        assert!(retry_busy(&busy, now, until));
-        assert!(
-            !retry_busy(&busy, until, until),
-            "the deadline itself ends the wait"
-        );
-        assert!(!retry_busy(&busy, until, now));
-        assert!(
-            !retry_busy(&absent, now, until),
-            "only a busy pipe is waited for"
         );
     }
 

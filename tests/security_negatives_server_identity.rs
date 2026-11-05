@@ -1,12 +1,10 @@
-//! Security control negatives, Linux and Windows (test-plan §6 Security control negatives;
+//! Security control negatives (test-plan §6 Security control negatives;
 //! security-plan §Authentication & Authorization, IPC client-side server verification): each CLI
 //! frame verb checks, before its first frame, that the process serving the endpoint is the wrapper
 //! `snapshot.json` records by pid and start time. The impostor is a real second process: the
 //! snapshot, written by the writer, records the fake agent held as a child while this test process
 //! serves the endpoint. Every verb then exits 21 `instance-unreachable` and writes no frame; the
-//! control, a snapshot recording the serving process itself, reaches it. macOS's peer credentials
-//! carry no pid, the recorded gap.
-#![cfg(not(target_os = "macos"))]
+//! control, a snapshot recording the serving process itself, reaches it.
 
 #[allow(dead_code)]
 mod support;
@@ -95,15 +93,11 @@ fn served(label: &str, recorded: u32) -> Served {
     // A bare temp dir is left to the umask, and a client refuses a socket directory it can read.
     viola_state::fs::create_private_dir(socket_dir.path()).expect("the socket dir, private");
     let base = format!("viola-test-chan-{}-{label}", std::process::id());
-    let endpoint = if cfg!(windows) {
-        format!(r"\\.\pipe\{base}")
-    } else {
-        socket_dir
-            .path()
-            .join(format!("{base}.sock"))
-            .to_string_lossy()
-            .into_owned()
-    };
+    let endpoint = socket_dir
+        .path()
+        .join(format!("{base}.sock"))
+        .to_string_lossy()
+        .into_owned();
     let frames = Arc::new(Frames::default());
     let serving = Server::bind(&endpoint)
         .expect("bound")

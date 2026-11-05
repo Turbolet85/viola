@@ -10,8 +10,8 @@
 set -euo pipefail
 
 root=$(cd "$(dirname "$0")/.." && pwd)
-# The path cargo reads inside a manifest: MSYS bash's /d/... is not one on Windows.
-native_root=$(cd "$root" && { pwd -W 2>/dev/null || pwd; })
+# The path cargo reads inside a manifest.
+native_root=$root
 
 if ! cargo clippy --version >/dev/null 2>&1; then
   echo "tool-missing: clippy"

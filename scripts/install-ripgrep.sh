@@ -2,10 +2,8 @@
 # Installs the official ripgrep release binary (built with PCRE2) that gates G1 and G3 need
 # (obs-plan §9): runner images do not guarantee `rg`. One pinned version, each asset checked against
 # the sha256 its release publishes, so CI and a local gate run the same binary. No Action is used.
-# The download retries every failure, not only curl's "transient" ones: a Windows runner's Schannel
-# curl fails the TLS handshake (exit 35) when the certificate revocation server is offline
-# (CRYPT_E_REVOCATION_OFFLINE), which plain `--retry` never retries (measured on curl 8.18); there it
-# also treats an unreachable revocation server as best-effort. The sha256 check stays the integrity gate.
+# The download retries every failure, not only curl's "transient" ones. The sha256 check stays the
+# integrity gate.
 # `--probe` proves the retry, the checksum refusal and the checksum pass with the host's own curl.
 set -euo pipefail
 
@@ -28,9 +26,6 @@ else
 fi
 
 curl_flags=(-fsSL --retry 5 --retry-delay 2 --retry-all-errors)
-if curl --version | grep -qi schannel; then
-  curl_flags+=(--ssl-revoke-best-effort)
-fi
 
 # download <url> <out> [extra curl args...]
 download() {
@@ -56,14 +51,6 @@ install() {
       asset="ripgrep-$version-x86_64-unknown-linux-musl.tar.gz"
       sha=33e15bcf1624b25cdd2a55813a47a2f95dbe126268203e76aa6a585d1e7b149c
       ;;
-    Darwin-arm64)
-      asset="ripgrep-$version-aarch64-apple-darwin.tar.gz"
-      sha=3750b2e93f37e0c692657da574d7019a101c0084da05a790c83fd335bad973e4
-      ;;
-    MINGW*-x86_64 | MSYS*-x86_64 | CYGWIN*-x86_64)
-      asset="ripgrep-$version-x86_64-pc-windows-msvc.zip"
-      sha=71b2fef860abe467217a538ff31de02f5258807c0129f771846f87bd029aafc5
-      ;;
     *)
       echo "install-ripgrep: unsupported host $(uname -s)-$(uname -m)"
       exit 1
@@ -71,27 +58,21 @@ install() {
   esac
 
   exe=rg
-  [[ $asset == *.zip ]] && exe=rg.exe
 
   if [ -x "$bin/$exe" ] && "$bin/$exe" --version 2>/dev/null | grep -qF "ripgrep $version"; then
     echo "install-ripgrep: ripgrep $version already at $bin"
     exit 0
   fi
 
-  if [[ $asset == *.zip ]]; then need unzip; else need tar; fi
+  need tar
 
   work="$root/target/tools/ripgrep/download-$$"
   rm -rf "$work"
   mkdir -p "$work" "$bin"
   download "https://github.com/BurntSushi/ripgrep/releases/download/$version/$asset" "$work/$asset"
   verify "$work/$asset" "$sha" "$asset" || exit 1
-  if [[ $asset == *.zip ]]; then
-    unzip -q "$work/$asset" -d "$work"
-  else
-    tar -xzf "$work/$asset" -C "$work"
-  fi
+  tar -xzf "$work/$asset" -C "$work"
   unpacked=${asset%.tar.gz}
-  unpacked=${unpacked%.zip}
   cp "$work/$unpacked/$exe" "$bin/$exe"
   chmod +x "$bin/$exe"
   rm -rf "$work"

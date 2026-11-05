@@ -1,0 +1,236 @@
+[
+{
+"tool": "planlint",
+"v": "1.23",
+"sha8": "55e6226c",
+"ts": "2026-11-05T11:13:04Z",
+"argv": [
+"check",
+"--chunk",
+"2026-11-05-linux-only-code-and-ci",
+"--run-dir",
+".andromeda/runs/2026-11-05T08-59-20-phase",
+"--marker",
+"2026-11-05-linux-only-code-and-ci"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fence: 40 entries · plan: doc:2026-11-05-linux-only-code-and-ci/plan · research: doc:2026-11-05-linux-only-code-and-ci/…",
+"check 9 · CI-outcome reads: 1 · leg operator exempt: 1 · Platform issues consulted: filled · ``gh issue view 14405 --r…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 0 · Harness rules consulted: filled · ``.claude/rules/verification-harness.md` — r…`",
+"check 4 (5) · leg entries with a content atom: 2 · note without `atom from`: 0",
+"check 4 (13) · operator CI-outcome reads: 1 · not ci.py conclusion: 0",
+"check 4 (13) · job-log reads by pattern: 0",
+"check 4 (14) · base-less git change reads outside the operator and round legs: 0",
+"check 4 (15) · grep → wc -l counts asserting exit 0 and last line 0: 0",
+"check 4 (16) · guards whose exclusions leave a new file in: 0 of 0 with an exclusion",
+"check 4 (18) · entries reading a master's or a base's path the store now holds: 0",
+"check 4 (17) · entries reading a path the wrap writes: 0 of 34 asserting — listed, P5's read",
+"check 4 (17) · a path the wrap writes, read from inside a program an entry runs (a suite, the ledger's tool): not read",
+"check 2 · ledger-note entries (matrix#): 0",
+"check 5 · placeholders outside code: 0",
+"check 12 (c) · step references the plan's steps lack: 0 of 4",
+"check 12 (d) · «unchanged» claims on a name another part of the plan names: 4 of 10 — listed, P5's read",
+"  line 172 · «unchanged» · .github/workflows/windows-mutants.yml (Test Commands)",
+"  line 465 · «unchanged» · HEADROOM_FLOOR_MIB (step 1) · msrv (step 1)",
+"  line 471 · «unchanged» · pre-push (Test Commands) · linux-tests (Test Commands)",
+"  line 547 · «unchanged» · deny-probes (Test Commands)",
+"  a claim on a name no other step, Files to modify or Test Commands names is not listed — P5's read",
+"check 4 (4) · criterion evidence paths the plan names nowhere else: 0 of 0",
+"hits: 0 — resolved by its check (validation.md 2 · 5 · 9 · 4 (4) · 4 (5) · 4 (13)–(16), (18) · 12 (c)); 0 is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "filled",
+"ci_reads": 1,
+"operator": 1,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 0,
+"hit": false
+},
+"atom": {
+"atomed": 2,
+"bare": []
+},
+"tool": {
+"operator": 1,
+"hand": []
+},
+"log": [],
+"base": {
+"operator": 5,
+"reads": []
+},
+"count": {
+"hits": [],
+"unsplit": []
+},
+"newfiles": {
+"operator": 5,
+"guards": 0,
+"hits": [],
+"abstain": []
+},
+"retired": [],
+"wrap": {
+"asserting": 34,
+"listed": []
+},
+"check2": {
+"entries": 22,
+"tokens": 0,
+"hits": []
+},
+"check5": {
+"hits": []
+},
+"steps": {
+"steps": 15,
+"refs": 4,
+"hits": []
+},
+"claims": {
+"read": 10,
+"listed": [
+172,
+465,
+471,
+547
+]
+},
+"c44": {
+"paths": 0,
+"hits": [],
+"skipped": []
+},
+"hits": 0
+}
+},
+{
+"tool": "planlint",
+"v": "1.23",
+"sha8": "55e6226c",
+"ts": "2026-11-05T11:59:33Z",
+"argv": [
+"check",
+"--chunk",
+"2026-11-05-linux-only-code-and-ci",
+"--run-dir",
+".andromeda/runs/2026-11-05T08-59-20-phase",
+"--marker",
+"2026-11-05-linux-only-code-and-ci"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fence: 49 entries · plan: doc:2026-11-05-linux-only-code-and-ci/plan · research: doc:2026-11-05-linux-only-code-and-ci/…",
+"check 9 · CI-outcome reads: 7 · leg operator exempt: 7 · Platform issues consulted: filled · ``gh issue view 14405 --r…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 0 · Harness rules consulted: filled · ``.claude/rules/verification-harness.md` — r…`",
+"check 4 (5) · leg entries with a content atom: 7 · note without `atom from`: 0",
+"check 4 (13) · operator CI-outcome reads: 7 · not ci.py conclusion: 0",
+"check 4 (13) · job-log reads by pattern: 0",
+"check 4 (14) · base-less git change reads outside the operator and round legs: 0",
+"check 4 (15) · grep → wc -l counts asserting exit 0 and last line 0: 0",
+"check 4 (16) · guards whose exclusions leave a new file in: 0 of 0 with an exclusion",
+"check 4 (18) · entries reading a master's or a base's path the store now holds: 0",
+"check 4 (17) · entries reading a path the wrap writes: 0 of 35 asserting — listed, P5's read",
+"check 4 (17) · a path the wrap writes, read from inside a program an entry runs (a suite, the ledger's tool): not read",
+"check 2 · ledger-note entries (matrix#): 0",
+"check 5 · placeholders outside code: 0",
+"check 12 (c) · step references the plan's steps lack: 0 of 4",
+"check 12 (d) · «unchanged» claims on a name another part of the plan names: 5 of 11 — listed, P5's read",
+"  line 134 · «unchanged» · harness/run/mutants/scratch.rs (Test Commands)",
+"  line 174 · «unchanged» · .github/workflows/windows-mutants.yml (Test Commands)",
+"  line 588 · «unchanged» · HEADROOM_FLOOR_MIB (step 1) · msrv (step 1)",
+"  line 594 · «unchanged» · pre-push (Test Commands) · ok:true (Test Commands) · linux-tests (Test Commands)",
+"  line 674 · «unchanged» · deny-probes (Test Commands)",
+"  a claim on a name no other step, Files to modify or Test Commands names is not listed — P5's read",
+"check 4 (4) · criterion evidence paths the plan names nowhere else: 0 of 0",
+"hits: 0 — resolved by its check (validation.md 2 · 5 · 9 · 4 (4) · 4 (5) · 4 (13)–(16), (18) · 12 (c)); 0 is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "filled",
+"ci_reads": 7,
+"operator": 7,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 0,
+"hit": false
+},
+"atom": {
+"atomed": 7,
+"bare": []
+},
+"tool": {
+"operator": 7,
+"hand": []
+},
+"log": [],
+"base": {
+"operator": 12,
+"reads": []
+},
+"count": {
+"hits": [],
+"unsplit": []
+},
+"newfiles": {
+"operator": 12,
+"guards": 0,
+"hits": [],
+"abstain": []
+},
+"retired": [],
+"wrap": {
+"asserting": 35,
+"listed": []
+},
+"check2": {
+"entries": 19,
+"tokens": 0,
+"hits": []
+},
+"check5": {
+"hits": []
+},
+"steps": {
+"steps": 15,
+"refs": 4,
+"hits": []
+},
+"claims": {
+"read": 11,
+"listed": [
+134,
+174,
+588,
+594,
+674
+]
+},
+"c44": {
+"paths": 0,
+"hits": [],
+"skipped": []
+},
+"hits": 0
+}
+}
+]

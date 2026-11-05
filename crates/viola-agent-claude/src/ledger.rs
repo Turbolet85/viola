@@ -14,7 +14,6 @@ use crate::AgentError;
 use crate::dialog::{Permit, Response, Verdict, decision_body};
 use crate::hook::{HookEvent, prompt_text};
 use crate::screen::{COMPACT_CONFIRM_WINDOW, CONFIRM_WINDOW_FALLBACK, GATE_MAX_WAIT, SIGNATURES};
-use crate::statusline::WRAPPED_HERE;
 
 /// One measured behaviour, in the order `viola verify` checks and prints it.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -137,24 +136,10 @@ impl LedgerRow {
         }
     }
 
-    /// Whether viola relies on this row where the status line is `wrapped` or not: the three
-    /// statusline rows only where it is.
-    const fn relied_on(self, wrapped: bool) -> bool {
-        match self {
-            Self::StatusLineOverride | Self::StatusLineShell | Self::StatusLineRateLimits => {
-                wrapped
-            }
-            _ => true,
-        }
-    }
-
-    /// The rows relied on this OS, in [`LedgerRow::ALL`] order: what `viola verify` checks and the
-    /// stamp verdict reads.
+    /// The rows relied on, every row in [`LedgerRow::ALL`] order: what `viola verify` checks and
+    /// the stamp verdict reads.
     pub fn relied() -> Vec<Self> {
-        Self::ALL
-            .into_iter()
-            .filter(|r| r.relied_on(WRAPPED_HERE))
-            .collect()
+        Self::ALL.to_vec()
     }
 }
 
@@ -580,11 +565,10 @@ impl Capture {
     }
 }
 
-/// What one probe measured: the resolved program, whether it answered `--version`, and the
-/// captures in arrival order.
+/// What one probe measured: whether the resolved program answered `--version`, and the captures
+/// in arrival order.
 #[derive(Debug, Clone, PartialEq)]
 pub struct ProbeRun {
-    pub program_is_script: bool,
     pub version_answered: bool,
     pub captures: Vec<Capture>,
 }
@@ -993,7 +977,7 @@ fn within(ms: Option<u64>, bound: Duration) -> bool {
 pub fn check(row: LedgerRow, probes: &Probes) -> bool {
     let (run, typed) = (&probes.print, &probes.typed);
     match row {
-        LedgerRow::ShimResolution => !run.program_is_script && run.version_answered,
+        LedgerRow::ShimResolution => run.version_answered,
         LedgerRow::SpineHooks => spine_in_order(&run.captures),
         LedgerRow::SessionStartFields => run.first(HookEvent::SessionStart).is_some_and(|p| {
             p["session_id"].as_str().is_some_and(|s| !s.is_empty()) && p["source"] == "startup"
@@ -1238,7 +1222,7 @@ pub fn dialog_variants(dialogs: &DialogRuns) -> Vec<(String, &Capture)> {
     out
 }
 
-/// `true` only when every row relied on this OS ([`LedgerRow::relied`]) reads `"pass"` under
+/// `true` only when every row relied on ([`LedgerRow::relied`]) reads `"pass"` under
 /// `version`. Bytes that are not a `v:1`
 /// envelope of the documented shape are `StampsMalformed`; an absent version is simply unverified.
 pub fn verified(stamps: &[u8], version: &str) -> Result<bool, AgentError> {
@@ -1255,64 +1239,31 @@ pub fn verified(stamps: &[u8], version: &str) -> Result<bool, AgentError> {
         .all(|row| rows[row.id()] == "pass"))
 }
 
-/// A recorded payload with the home rewritten to `~` (both separator spellings, case folded when
-/// `case_insensitive`) and `user` as a whole word rewritten to `<user>`, in every string and key.
-pub fn scrub(value: &Value, home: &str, user: &str, case_insensitive: bool) -> Value {
+/// A recorded payload with the home rewritten to `~` (both separator spellings) and `user` as a
+/// whole word rewritten to `<user>`, in every string and key.
+pub fn scrub(value: &Value, home: &str, user: &str) -> Value {
     match value {
-        Value::String(s) => Value::String(scrub_text(s, home, user, case_insensitive)),
-        Value::Array(items) => Value::Array(
-            items
-                .iter()
-                .map(|v| scrub(v, home, user, case_insensitive))
-                .collect(),
-        ),
+        Value::String(s) => Value::String(scrub_text(s, home, user)),
+        Value::Array(items) => Value::Array(items.iter().map(|v| scrub(v, home, user)).collect()),
         Value::Object(map) => Value::Object(
             map.iter()
-                .map(|(k, v)| {
-                    (
-                        scrub_text(k, home, user, case_insensitive),
-                        scrub(v, home, user, case_insensitive),
-                    )
-                })
+                .map(|(k, v)| (scrub_text(k, home, user), scrub(v, home, user)))
                 .collect(),
         ),
         other => other.clone(),
     }
 }
 
-fn scrub_text(text: &str, home: &str, user: &str, case_insensitive: bool) -> String {
+fn scrub_text(text: &str, home: &str, user: &str) -> String {
     let mut out = text.to_owned();
     if !home.is_empty() {
         for spelling in [home.replace('\\', "/"), home.replace('/', "\\")] {
-            out = replace_all(&out, &spelling, "~", case_insensitive);
+            out = out.replace(&spelling, "~");
         }
     }
     if !user.is_empty() {
         out = replace_word(&out, user, "<user>");
     }
-    out
-}
-
-/// ASCII case folding keeps every byte offset, so a match in the folded text cuts the original.
-fn fold(text: &str, case_insensitive: bool) -> String {
-    if case_insensitive {
-        text.to_ascii_lowercase()
-    } else {
-        text.to_owned()
-    }
-}
-
-fn replace_all(text: &str, needle: &str, with: &str, case_insensitive: bool) -> String {
-    let folded = fold(text, case_insensitive);
-    let needle = fold(needle, case_insensitive);
-    let mut out = String::new();
-    let mut last = 0;
-    for (at, _) in folded.match_indices(&needle) {
-        out.push_str(&text[last..at]);
-        out.push_str(with);
-        last = at + needle.len();
-    }
-    out.push_str(&text[last..]);
     out
 }
 
@@ -1476,7 +1427,7 @@ pub fn screen_is_clean(live_rows: &[String], kept: &[String], home: &str, user: 
 }
 
 fn screen_text_fault(text: &str, home: &str, user: &str) -> Option<Unclean> {
-    if scrub_text(text, home, "", crate::CASE_INSENSITIVE) != text {
+    if scrub_text(text, home, "") != text {
         return Some(Unclean::HomePath);
     }
     text_fault(text, user).or_else(|| has_email(text).then_some(Unclean::Email))

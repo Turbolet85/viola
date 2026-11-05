@@ -1,0 +1,180 @@
+[
+{
+"tool": "rec",
+"v": "1.17",
+"sha8": "5a1b79d0",
+"ts": "2026-11-05T12:19:08Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"scope-record",
+"--owner",
+"chk:2026-11-05-linux-only-code-and-ci",
+"--file",
+".andromeda/cache/docs/2026-11-05-linux-only-code-and-ci/scope-record.md",
+"--run-dir",
+".andromeda/runs/2026-11-05T12-06-52-implement",
+"--marker",
+"2026-11-05-linux-only-code-and-ci"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-05-linux-only-code-and-ci/scope-record rev 1 · 1 new · 0 revised · 0 retired · 0 kept · tx 227"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-05T09-01-04-2026-11-05-linux-only-code-and-ci.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.17",
+"sha8": "5a1b79d0",
+"ts": "2026-11-05T12:19:37Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"scope-record",
+"--owner",
+"chk:2026-11-05-linux-only-code-and-ci",
+"--file",
+".andromeda/cache/docs/2026-11-05-linux-only-code-and-ci/scope-record.md",
+"--run-dir",
+".andromeda/runs/2026-11-05T12-06-52-implement",
+"--marker",
+"2026-11-05-linux-only-code-and-ci"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-05-linux-only-code-and-ci/scope-record rev 2 · 2 new · 0 revised · 0 retired · 1 kept · tx 228"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-05T09-01-04-2026-11-05-linux-only-code-and-ci.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.17",
+"sha8": "5a1b79d0",
+"ts": "2026-11-05T12:37:01Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"scope-record",
+"--owner",
+"chk:2026-11-05-linux-only-code-and-ci",
+"--file",
+".andromeda/cache/docs/2026-11-05-linux-only-code-and-ci/scope-record.md",
+"--run-dir",
+".andromeda/runs/2026-11-05T12-06-52-implement",
+"--marker",
+"2026-11-05-linux-only-code-and-ci"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-05-linux-only-code-and-ci/scope-record rev 3 · 1 new · 0 revised · 0 retired · 3 kept · tx 230"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-05T09-01-04-2026-11-05-linux-only-code-and-ci.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.17",
+"sha8": "5a1b79d0",
+"ts": "2026-11-05T12:42:48Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"scope-record",
+"--owner",
+"chk:2026-11-05-linux-only-code-and-ci",
+"--file",
+".andromeda/cache/docs/2026-11-05-linux-only-code-and-ci/scope-record.md",
+"--run-dir",
+".andromeda/runs/2026-11-05T12-06-52-implement",
+"--marker",
+"2026-11-05-linux-only-code-and-ci"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-05-linux-only-code-and-ci/scope-record rev 4 · 4 new · 0 revised · 0 retired · 4 kept · tx 233"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-05T09-01-04-2026-11-05-linux-only-code-and-ci.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.17",
+"sha8": "5a1b79d0",
+"ts": "2026-11-05T12:43:54Z",
+"argv": [
+"land",
+"--root",
+".",
+"--chunk",
+"2026-11-05-linux-only-code-and-ci",
+"--run-dir",
+".andromeda/runs/2026-11-05T12-06-52-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"unchanged · 5 file(s) of 2026-11-05-linux-only-code-and-ci"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.17",
+"sha8": "5a1b79d0",
+"ts": "2026-11-05T12:46:27Z",
+"argv": [
+"land",
+"--root",
+".",
+"--chunk",
+"2026-11-05-linux-only-code-and-ci",
+"--run-dir",
+".andromeda/runs/2026-11-05T12-06-52-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-05-linux-only-code-and-ci · 1 new · 0 changed · 0 gone · 5 kept · tx 234"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-05T09-01-04-2026-11-05-linux-only-code-and-ci.ndjson"
+],
+"before": null,
+"after": null
+}
+]

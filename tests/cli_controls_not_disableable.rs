@@ -746,7 +746,6 @@ fn child_names_under(config: &str) -> Vec<String> {
         "--receipt".into(),
         receipt.clone().into(),
     ];
-    support::home::seed_conpty(home);
     let mut pty = OuterPty::spawn(Path::new(VIOLA), &args, &FLOOR);
     let lines = support::fake::wait_for(&receipt, "env", |l| {
         !support::fake::of_kind(l, "env").is_empty()

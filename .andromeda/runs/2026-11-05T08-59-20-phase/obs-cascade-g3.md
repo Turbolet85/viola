@@ -1,0 +1,47 @@
+@carried n=1 label=obs-plan/telemetry-strategy fact=fct-4joil3ca
+why: removing the Windows arms of viola-pty (ConPTY, the TerminateProcess fallback) and the channel's named-pipe arm must leave every Linux seam span declared exactly as before.
+quote: `viola-pty` spawn/write/wait/kill, `viola-channel` client call and server dispatch, `viola-state` snapshot/heartbeat/tail, `viola-agent-claude` hook parse, `viola-mcp` tool calls | Declared in code with tracing 0.1.44 `#[instrument(skip_all, name = "<area>.<operation>", fields(...))]`
+@carried n=2 label=obs-plan/telemetry-strategy fact=fct-4ns7wzxz
+why: a cfg(unix) accept-loop euid check or socket-directory check that loses its gate when its macOS or Windows sibling leaves must keep these no-line outcomes on Linux.
+quote: a peer the wrapper drops on the accept thread has no line, no frame existing to key one on, and MCP's `frame` has none on a refused socket directory or server euid, `isError` its record
+@carried n=3 label=obs-plan/telemetry-strategy fact=fct-6lxvbxmt
+why: the per-OS perf job keeps only its Linux leg, and that leg must remain the hyperfine --export-json gate.
+quote: No in-process instruments and no exporter. Metrics are derived by `jq` over the ndjson; the perf gates run on hyperfine 1.20.0 `--export-json` (Section 5)
+@carried n=3 run=2 label=obs-plan/telemetry-strategy fact=fct-olppdytk
+quote: perf-budget-instruments | §5, §10 budget table
+@carried n=3 run=3 label=obs-plan fact=fct-irnyaxwz
+quote: Perf gates produce hyperfine `--export-json` output and CI produces nextest JUnit XML.
+@carried n=4 label=obs-plan/telemetry-strategy fact=fct-n6l5o3fm
+why: the macOS carve-out this row names leaves with the macOS arm and is P3's to list against the masters' change, while the Linux hook's socket-dir-refused and server-verify-failed lines stay unchanged.
+quote: A refused socket directory is no such silent path: the hook's `connect` writes one `hook-decision{detail:"socket-dir-refused"}` at WARN, with exit 0, empty streams and no frame. The "server-verify mismatch" item writes one `hook-decision{detail:"server-verify-failed"}` at WARN on Linux, Windows and macOS (macOS compares no peer pid, the recorded gap, so there the word means an euid mismatch alone)
+@carried n=5 label=obs-plan/telemetry-strategy fact=fct-ne5xp5cg
+why: the sideload_fallback text names the conpty/ companion code this chunk removes (P3 lists it, P4 decides it), and the 0600/0700 rule must still hold over the e2e homes the fixed harness cases assert.
+quote: §3 Log file location (0600/0700), §6 `state-recovered` / `skipped`, §6 detail catalog Filesystem refusals (`strict-modes-failed`, `pinned-hash-mismatch`, `symlink-ignored` via `parse-rejected{parser:"state-entry"}`), §9 secret-scan-before-upload, §4 Scenario 1 / §6 `process-start.sideload_fallback` `strict-modes-failed` (a `conpty/` companion its owner/DACL check refuses: the child on the inbox ConPTY, exit unchanged)
+@carried n=6 label=obs-plan/telemetry-strategy fact=fct-pso667is
+why: the chunk edits Cargo.toml and deny.toml to remove the Windows dependencies, and the cargo-deny gates must still pass over the edited manifests.
+quote: logging-sensitive Vector 9 (supply chain) | §3 Logging stack (feature set), §9 cargo-deny gates, §11
+@carried n=7 label=obs-plan/telemetry-strategy fact=fct-4vc4xc3n
+why: removing the windows-sys TerminateProcess fallback from viola-pty must leave process-exit's exit_source and during values, kill-fallback included, unchanged on Linux.
+quote: chaos-instrumentation | §6 `state-recovered` / `process-exit` `exit_source` + `during`, §10
+@carried n=8 label=obs-plan/telemetry-strategy fact=fct-6isebxud
+why: these per-OS rows are the obs-plan amendment the wrap writes and this chunk's plan names as expected, and their Linux halves (0600/0700, ubuntu-latest, the Linux diag artifacts) must stay.
+quote: multi-platform-exporter-compat | §3 Log file location (0600/0700 vs home DACL), §3 Logging stack (concurrent-append check on windows-2025 / macos-latest / ubuntu-latest), §4 Scenario 1 (`endpoint_kind`, `pty_backend`), §9 per-OS artifacts
+@carried n=9 label=obs-plan/telemetry-strategy fact=fct-shii35kl
+why: the acceptance requires every gate green on Linux, with the zero-panic, zero-schema-failure and zero-secret-hit budget read from the gate exit codes of the Linux jobs that remain, msrv included.
+quote: error-budget-SLO | §7, §10 zero-unlogged-panics
+@carried n=10 label=obs-plan/telemetry-strategy fact=fct-lrne4qjd
+why: the log schemas must keep every Linux value verbatim, and any OS words in them are only listed by P3 against the masters' change.
+quote: creator-explicit (Founder Directions 1/2/5) | §3 schema verbatim, §6
+@carried n=11 label=obs-plan/telemetry-strategy fact=fct-4hckhgvs
+why: when the cfg(unix) strict-modes and socket-directory arms lose their gate, the exit codes 21 and 1 and the logged socket-dir-refused detail must stay exactly as stated.
+quote: a strict-modes refusal made before any process log opens (the six frame verbs and `link` / `unlink`, exit 21; `run`, `revive`'s start and `verify`, exit 1) writes no line and carries no logged `detail` code: its machine-readable form is the exit code, and under `--json` the closed `instance-unreachable` document with `detail` `strict-modes-failed` (the frame verbs and `link` / `unlink`) or the `strict-modes-failed` document (`revive`); a refused socket directory is outside that exception: it carries the logged `detail` `socket-dir-refused`, no path, pid or uid, exit 21 at the eight CLI frame verbs and exit 1 at `run` and `revive`'s start
+@binding n=1
+**telemetry-strategy per-OS triggers ↔ the scope's masters change**: the multi-platform-exporter-compat row, the hook server-verify macOS carve-out and the conpty/ sideload_fallback text name code this chunk removes, so the plan must name their amendment as expected, written by the wrap, and must not edit them itself (obs-plan/telemetry-strategy fct-6isebxud) (obs-plan/telemetry-strategy fct-n6l5o3fm) (obs-plan/telemetry-strategy fct-ne5xp5cg)
+@binding n=2
+**telemetry-strategy perf-budget-instruments ↔ slo-invariants-telemetry-budgets**: the Linux-only perf job must still run `run --perf` over the five hook rows and `gate --require perf` on the hyperfine `max` (obs-plan/telemetry-strategy fct-olppdytk) (obs-plan fct-fruln4ot)
+@binding n=3
+**telemetry-strategy error-budget-SLO ↔ slo-invariants-telemetry-budgets / ci-integration**: the zero-count budget is measured by G2, G4 and the secret-scan exit codes in the Linux test and perf jobs that remain, and the msrv job must turn green without touching that measurement (obs-plan/telemetry-strategy fct-shii35kl) (obs-plan fct-2v5pxi7x)
+@binding n=4
+**telemetry-strategy supply chain ↔ slo-invariants-telemetry-budgets**: after the Windows dependencies and their deny.toml entries leave, cargo deny's Tokio, C-crate, veil toggle and banned obs crate checks must all still pass (obs-plan/telemetry-strategy fct-pso667is) (obs-plan fct-5kn2jpbt)
+@binding n=5
+**telemetry-strategy PTY seam spans and exit_source ↔ log-coverage PTY seam**: the viola-pty edit must keep process-start for the child, exit from the handle-wait thread, and `exit_source:"kill-fallback"` on Linux (obs-plan/telemetry-strategy fct-4joil3ca) (obs-plan/telemetry-strategy fct-4vc4xc3n) (obs-plan fct-3epowryi)

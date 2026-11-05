@@ -84,11 +84,6 @@ path = "tests/tui_env_strip.rs"
 required-features = ["fake-agent"]
 
 [[test]]
-name = "cli_program_resolution"
-path = "tests/cli_program_resolution.rs"
-required-features = ["fake-agent"]
-
-[[test]]
 name = "cli_instance_state"
 path = "tests/cli_instance_state.rs"
 required-features = ["fake-agent"]
@@ -144,11 +139,6 @@ path = "tests/cli_version_gate.rs"
 required-features = ["fake-agent"]
 
 [[test]]
-name = "conpty_sideload"
-path = "tests/conpty_sideload.rs"
-required-features = ["fake-agent"]
-
-[[test]]
 name = "path1_run_start"
 path = "tests/path1_run_start.rs"
 required-features = ["fake-agent"]
@@ -163,6 +153,8 @@ viola-mcp = { path = "crates/viola-mcp" }
 anyhow.workspace = true
 chrono.workspace = true
 clap.workspace = true
+# A panic's raw frames and their modules (`backtrace`, `dladdr`), never symbolised on the panic path.
+libc.workspace = true
 serde_json.workspace = true
 tempfile.workspace = true
 tracing.workspace = true
@@ -181,17 +173,6 @@ tempfile.workspace = true
 # The shared test helpers (tracing field capture, the pipe DACL read-back): tests only, never a
 # release build (scripts/release-check.sh proves the feature absent).
 viola-channel = { path = "crates/viola-channel", features = ["test-support"] }
-
-[target.'cfg(windows)'.dependencies]
-windows-sys.workspace = true
-
-# The pipe-type read-back (`NtQueryInformationFile`) in the Windows listener negatives: tests only.
-[target.'cfg(windows)'.dev-dependencies]
-windows-sys = { workspace = true, features = ["Wdk_Storage_FileSystem", "Win32_System_IO"] }
-
-# A panic's raw frames and their modules (`backtrace`, `dladdr`), never symbolised on the panic path.
-[target.'cfg(unix)'.dependencies]
-libc.workspace = true
 
 [lints]
 workspace = true
@@ -268,7 +249,6 @@ veil = "=0.3.0"
 # The screen model (viola-agent-claude only). 0.16, never 0.15: 0.15 wrote unhandled escapes to
 # STDERR, which is `run`'s terminal.
 vt100 = "=0.16.2"
-windows-sys = { version = "=0.61.2", features = ["Win32_Foundation", "Win32_Security", "Win32_Security_Authorization", "Win32_Storage_FileSystem", "Win32_System_Console", "Win32_System_Diagnostics_Debug", "Win32_System_LibraryLoader", "Win32_System_Pipes", "Win32_System_Registry", "Win32_System_Threading", "Win32_UI_Shell"] }
 
 [workspace.lints.rust]
 unused_must_use = "deny"

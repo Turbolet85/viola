@@ -152,16 +152,13 @@ enum Env {
     DirOnly,
     InvalidName,
     /// An endpoint this process serves, its snapshot recording another live process.
-    #[cfg(not(target_os = "macos"))]
     Impostor,
 }
 
 /// The fake agent held alive by its own holder mode: a live process that is not this one, killed
 /// and reaped on drop.
-#[cfg(not(target_os = "macos"))]
 struct Held(std::process::Child);
 
-#[cfg(not(target_os = "macos"))]
 impl Drop for Held {
     fn drop(&mut self) {
         let _ = self.0.kill();
@@ -170,11 +167,9 @@ impl Drop for Held {
 }
 
 /// Every frame the impostor was sent.
-#[cfg(not(target_os = "macos"))]
 #[derive(Default)]
 struct Frames(std::sync::Mutex<Vec<String>>);
 
-#[cfg(not(target_os = "macos"))]
 impl viola_channel::Dispatch for Frames {
     fn dispatch(&self, method: &str, _: &Value) -> Result<Value, viola_channel::ProtocolError> {
         self.0.lock().expect("frames").push(method.to_owned());
@@ -184,7 +179,6 @@ impl viola_channel::Dispatch for Frames {
 
 /// A process serving `builder`'s endpoint that is not the wrapper its snapshot records: the
 /// snapshot, through the writer, records the held fake agent and its own start time.
-#[cfg(not(target_os = "macos"))]
 struct Impostor {
     frames: std::sync::Arc<Frames>,
     _serving: viola_channel::Serving,
@@ -192,7 +186,6 @@ struct Impostor {
     _held: Held,
 }
 
-#[cfg(not(target_os = "macos"))]
 impl Impostor {
     fn serve(home: &Path, label: &str) -> Self {
         let held = Held(
@@ -210,15 +203,11 @@ impl Impostor {
         // A bare temp dir is left to the umask, and a client refuses a socket directory it can read.
         viola_state::fs::create_private_dir(socket_dir.path()).expect("the socket dir, private");
         let base = format!("viola-test-chan-{}-{label}", std::process::id());
-        let endpoint = if cfg!(windows) {
-            format!(r"\\.\pipe\{base}")
-        } else {
-            socket_dir
-                .path()
-                .join(format!("{base}.sock"))
-                .to_string_lossy()
-                .into_owned()
-        };
+        let endpoint = socket_dir
+            .path()
+            .join(format!("{base}.sock"))
+            .to_string_lossy()
+            .into_owned();
         let frames = std::sync::Arc::new(Frames::default());
         let serving = viola_channel::Server::bind(&endpoint)
             .expect("bound")
@@ -293,7 +282,7 @@ fn stdin_bytes(stdin: Stdin) -> Vec<u8> {
 #[case::no_instance_dir(&["hook", "stop"], Env::Instance, Stdin::Payload, None)]
 #[case::name_absent(&["hook", "stop"], Env::DirOnly, Stdin::Payload, None)]
 #[case::name_invalid(&["hook", "stop"], Env::InvalidName, Stdin::Payload, None)]
-#[cfg_attr(not(target_os = "macos"), case::impostor(&["hook", "stop"], Env::Impostor, Stdin::Payload, Some("server-verify-failed")))]
+#[case::impostor(&["hook", "stop"], Env::Impostor, Stdin::Payload, Some("server-verify-failed"))]
 fn hook_fails_open_silently_within_the_spine_bound(
     #[case] args: &[&str],
     #[case] env: Env,
@@ -308,7 +297,6 @@ fn hook_fails_open_silently_within_the_spine_bound(
             stamped
         }
         Env::Instance | Env::Made | Env::DirOnly | Env::InvalidName => stamped,
-        #[cfg(not(target_os = "macos"))]
         Env::Impostor => stamped,
     };
     let home = stamped.home.path().to_path_buf();
@@ -316,11 +304,9 @@ fn hook_fails_open_silently_within_the_spine_bound(
     if matches!(env, Env::Made) {
         viola_state::fs::create_private_dir(&dir).expect("the instance dir");
     }
-    #[cfg(not(target_os = "macos"))]
     let impostor = matches!(env, Env::Impostor).then(|| Impostor::serve(&home, "event"));
     let vars = match env {
         Env::Instance | Env::Made | Env::Stopped => instance_env("builder", &dir),
-        #[cfg(not(target_os = "macos"))]
         Env::Impostor => instance_env("builder", &dir),
         Env::DirOnly => vec![("VIOLA_DIR", dir.as_os_str().to_owned())],
         Env::InvalidName => instance_env("Builder", &home.join("instances").join("Builder")),
@@ -331,7 +317,6 @@ fn hook_fails_open_silently_within_the_spine_bound(
     assert!(out.stdout.is_empty(), "stdout: {} bytes", out.stdout.len());
     assert!(out.stderr.is_empty(), "stderr: {} bytes", out.stderr.len());
     assert!(out.took < SPINE_BOUND, "took {:?}", out.took);
-    #[cfg(not(target_os = "macos"))]
     if let Some(impostor) = &impostor {
         assert!(impostor.frames().is_empty(), "{:?}", impostor.frames());
     }
@@ -407,14 +392,8 @@ fn dialog_payload(event: &str) -> Vec<u8> {
     Some(Stdin::Malformed),
     "malformed-json"
 )]
-#[cfg_attr(
-    not(target_os = "macos"),
-    case::question_impostor("pre-tool-use", Env::Impostor, None, "server-verify-failed")
-)]
-#[cfg_attr(
-    not(target_os = "macos"),
-    case::permission_impostor("permission-request", Env::Impostor, None, "server-verify-failed")
-)]
+#[case::question_impostor("pre-tool-use", Env::Impostor, None, "server-verify-failed")]
+#[case::permission_impostor("permission-request", Env::Impostor, None, "server-verify-failed")]
 fn hook_dialog_tier_fails_open_silently(
     #[case] event: &str,
     #[case] env: Env,
@@ -429,7 +408,6 @@ fn hook_dialog_tier_fails_open_silently(
             stamped
         }
         Env::Instance | Env::Made | Env::DirOnly | Env::InvalidName => stamped,
-        #[cfg(not(target_os = "macos"))]
         Env::Impostor => stamped,
     };
     let home = stamped.home.path().to_path_buf();
@@ -437,7 +415,6 @@ fn hook_dialog_tier_fails_open_silently(
     if matches!(env, Env::Made) {
         viola_state::fs::create_private_dir(&dir).expect("the instance dir");
     }
-    #[cfg(not(target_os = "macos"))]
     let impostor = matches!(env, Env::Impostor).then(|| Impostor::serve(&home, event));
     let bytes = stdin.map_or_else(|| dialog_payload(event), stdin_bytes);
     let out = run_hook(&["hook", event], &instance_env("builder", &dir), bytes);
@@ -445,7 +422,6 @@ fn hook_dialog_tier_fails_open_silently(
     assert!(out.stdout.is_empty(), "stdout: {} bytes", out.stdout.len());
     assert!(out.stderr.is_empty(), "stderr: {} bytes", out.stderr.len());
     assert!(out.took < SPINE_BOUND, "took {:?}", out.took);
-    #[cfg(not(target_os = "macos"))]
     if let Some(impostor) = &impostor {
         assert!(impostor.frames().is_empty(), "{:?}", impostor.frames());
     }

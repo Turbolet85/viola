@@ -168,7 +168,6 @@ fn path1_run_start_one_home_in_order(stamped_home: StampedHome) {
     for command in &found {
         assert_eq!(command, &pinned, "every hook runs the pinned copy");
     }
-    #[cfg(unix)]
     {
         use std::os::unix::fs::PermissionsExt as _;
         let doc: Value =
@@ -183,8 +182,5 @@ fn path1_run_start_one_home_in_order(stamped_home: StampedHome) {
             .mode();
         assert_eq!(mode & 0o777, 0o600);
     }
-    // Windows wraps no status line, so no override is written there.
-    #[cfg(not(unix))]
-    assert!(!settings.exists());
     assert_eq!(restarted.stop().code(), Some(0));
 }

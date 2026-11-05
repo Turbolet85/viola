@@ -1,0 +1,66 @@
+@carried n=1 label=test-plan/integration-test-strategy fact=fct-hctsd5xl
+why: The concurrent-append witnesses must stay green on ubuntu-latest, and their "on all 3 CI OSes" leg is a per-OS leg the plan names as an expected amendment the wrap writes.
+quote: (8 concurrent `viola hook` processes, 16 whole lines in `hook-<name>.ndjson` and 8 in `detail-hook.ndjson`, on all 3 CI OSes)
+@carried n=2 label=test-plan/integration-test-strategy fact=fct-b4mgg72y
+why: The Windows npm-shim fixture is Windows-only test material the plan must list and decide with the `.cmd` / `.bat` refusal, while the child-process boundary over the fake agent on a test-scoped `PATH` keeps its Linux behaviour.
+quote: The only external boundary is child processes. `claude agents --json` is served by `viola-fake-agent` copied to a test-scoped `PATH` as `claude`, in recorded, oversize and malformed modes. The Windows npm shim is a fixture `.cmd` shim next to a stub `claude.exe`.
+@carried n=2 run=2 label=test-plan fact=fct-jnilykpz
+quote: served by `viola-fake-agent` as `claude` on a test-scoped `PATH` and by a fixture npm shim.
+@carried n=3 label=test-plan/integration-test-strategy fact=fct-ouc4a2b7
+why: The Windows pipe DACL read-back and its windows-sys tooling must leave with the `cfg(windows)` arm, while the Unix socket directory 0700 / file 0600 read-back and the `check_socket_dir` refusals stay as they are on Linux.
+quote: On Windows the pipe DACL is set from `D:P(A;;GA;;;<user-SID>)(A;;GA;;;SY)` and read back as Windows' own canonical SDDL, `D:P(A;;FA;;;<sid>)(A;;FA;;;SY)`: protected, exactly two allow ACEs, the user and SYSTEM. The user SID may render as an alias (`LA` for the built-in Administrator, as measured in CI run 36313377307), so the test compares the canonical form, never the literal it set. The pipe's admission itself — remote clients rejected, an anonymous open denied — is asserted in §6 Security control negatives (`tests/security_negatives_channel.rs`).
+@carried n=3 run=2 label=test-plan fact=fct-r32qnzfk
+quote: **Windows DACL read-back:** windows-sys 0.61.2; the root tests set and read grants through `icacls` with its exit asserted (`tests/support/home.rs`), and read a protected DACL back through `icacls <home> /save <file>` (canonical SDDL, which spells the RID-500 runner user `LA`).
+@carried n=3 run=3 label=test-plan fact=fct-ctentyeb
+quote: and the Unix socket modes and the Windows pipe DACL read back — the DACL compared in its canonical form, never the literal it set.
+@carried n=4 label=test-plan/integration-test-strategy fact=fct-vmzc7an2
+why: The sideloaded-ConPTY hosting, the `conpty_sideload` binary and the `restrict_dll_search` unit test must leave with `src/conpty.rs`, `sideload.rs` and `tests/conpty_sideload.rs`, and the PTY boundary keep its openpty leg unchanged.
+quote: On Windows x64 every root test that starts `viola run` hosts its child on the sideloaded `bin/<key>/conpty/OpenConsole.exe` (`pty_backend` `conpty-sideload`); viola-pty's own tests, `tests/support/outer_pty.rs`'s outer PTY and the harness `supervise::spawn_in_pty` stay on the inbox ConPTY. The sideload boundary: the root integration binary `conpty_sideload` (the default sideload, planted copies in the CWD and on `PATH`, tampered pinned copies falling back to `System32\conhost.exe`, and `run_on_a_companion_another_user_may_write_falls_back_to_conhost`: a companion its owner/DACL check refuses leaves the child on the inbox ConPTY with `sideload_fallback` `strict-modes-failed` and the exit unchanged) and viola-pty's two-sided unit test `restrict_dll_search_keeps_planted_conpty_out_of_a_bare_name_load`.
+@carried n=4 run=2 label=test-plan fact=fct-nvtf2boy
+quote: real ConPTY / openpty spawns of `viola-fake-agent` through `viola-pty`: exit detected on the handle, a resize propagated, a key written after a resize only once the child reports the new size, a `.cmd` child refused, and on Windows x64 the root tests' children hosted on the sideloaded ConPTY.
+@carried n=5 label=test-plan/integration-test-strategy fact=fct-okfymegs
+why: The placement witness's Windows form must leave with its arm, and its Unix form must keep its red-green reading and stay green on ubuntu-latest alone.
+quote: and green on `ubuntu-latest` and `macos-latest`; its Windows form `place_private_new_placed_copy_runs_at_once` is green-only on `windows-2025` (as measured at ci#40439188053), the red leg read on the Linux dev host only.
+@carried n=5 run=2 label=test-plan fact=fct-lktzdsoq
+quote: NEVER treat a Linux-only local run as proof for Windows or macOS. OS-branch code is verified only on its own runner.
+@carried n=6 label=test-plan/integration-test-strategy fact=fct-5qxwlgko
+why: This `#[cfg(unix)]` witness must lose its gate where its only sibling left and keep reading `endpoint_gone` on `ubuntu-latest` once the macOS runner is gone.
+quote: `cleanup_after_a_force_killed_wrapper_reads_the_endpoint_gone` (`crates/viola-e2e/tests/harness_lifecycle.rs`, `#[cfg(unix)]`) on both Unix runners, `ubuntu-latest` and `macos-latest`
+@carried n=7 label=test-plan/integration-test-strategy fact=fct-qmrx4mno
+why: The e2e-home floor fix must keep every home under the `target/e2e-home` path the harness twin `Workspace::ensure_e2e_home` prepares (tmpfs link on the dev host, the runner's disk in CI) while its floor cases decide on a test-controlled free-space figure, and the Windows x64 `seed_conpty` carve-out must leave with the sideload.
+quote: on the Linux dev host `target/e2e-home` is an operator-set symbolic link to the owner-only tmpfs directory `/tmp/viola-e2e-home-<uid>`, so the homes' bytes sit outside the working directory while every home class keeps its path, viola still creates the home itself, and G2, G4 and the secret scan reach it through the link. No CI runner has a link, so CI's homes stay on the runner's disk and the pinned copy still ends in the real `sync_all()`. This is not a third carve-out: unlike `outside_scan()`, these homes stay under the `target/e2e-home` path and inside the scans. One carve-out (Windows x64, chunk 2026-09-29-sideloaded-conpty, the operator's ruling at that wrap): `Wrapper::boot` and every piped or outer-PTY `viola run` start first seed `<home>/bin/<key>/conpty/{OpenConsole.exe,conpty.dll}` through `tests/support/home.rs` `seed_conpty`
+@carried n=7 run=2 label=test-plan/integration-test-strategy fact=fct-qmrx4mno
+quote: on macOS `/usr/bin/sample <pid> 1`'s call-graph stack lines (bounded at 4 s, at most 120 lines); on Linux `/proc/<pid>/wchan` and the `stat` state field (`note_stall`; `wrapper_pid` by one sysinfo read; `process_state` per OS, a no-op elsewhere).
+@carried n=7 run=3 label=test-plan fact=fct-wwnk7u4j
+quote: Two carve-outs: Windows x64 starts seed the ConPTY companions before viola runs, into a home `seed_conpty` makes private
+@carried n=7 run=4 label=test-plan fact=fct-yj4h2yma
+quote: **DA1 answer:** under the sideloaded ConPTY the piped test driver answers a DA1 query as a terminal would; viola sends no DA1 answer of its own.
+@carried n=8 label=test-plan/integration-test-strategy fact=fct-ksdwqwkf
+why: The server-identity negatives must keep their Linux half with no gate left naming Windows or macOS, and the macOS carve-out's text is listed where the removal leaves it naming gone code.
+quote: a server pid / start-time mismatch versus `snapshot.json` gives CLI exit 21 and the hook exits 0 with no body, on Linux and Windows: the CLI half in `tests/security_negatives_server_identity.rs`, the hook half the impostor rows of `tests/hook_fail_open.rs` (§6 Security sweep). macOS reports no peer pid, so there the pid and start-time comparison is absent, the named carve-out, owned by no route entry, and the server-identity negatives stay compiled out; its peer euid and socket directory checks are built, a refused euid reading `server-verify-failed` and a refused directory `socket-dir-refused`.
+@carried n=8 run=2 label=test-plan/integration-test-strategy fact=fct-ksdwqwkf
+quote: After the close, Windows reads 0 bytes, Linux may see ECONNRESET, and on macOS the sender's tail write may get EPIPE (as measured in CI run 36313377307) or ENOTCONN (os error 57, as measured in CI run 36482322449), whichever state the close reached first; the test accepts EPIPE, ENOTCONN or a reset on the write and still requires the -32600 reply and the close
+@carried n=8 run=3 label=test-plan/integration-test-strategy fact=fct-ksdwqwkf
+quote: because a Windows `Serving` has no `Drop` and its pipe lives in the accept thread until the process exits.
+@carried n=9 label=test-plan/integration-test-strategy fact=fct-bt3npe7x
+why: The `cfg(windows)` protected-DACL case must leave with its arm, and the strict-modes negatives must keep their Linux cases while their Windows grant wording and "all 3 OSes" legs are named as expected amendments.
+quote: Windows `--home` outside the profile: `a_home_viola_makes_outside_the_profile_takes_the_protected_dacl` (`tests/security_negatives_strict_modes.rs`, `cfg(windows)`) reads the DACL of the home `viola verify` made under `target/e2e-home` back through `icacls <home> /save`, since `Get-Acl` printed nothing for a protected DACL, and requires it protected with exactly `(A;OICI;FA;;;<user>)(A;OICI;FA;;;SY)`
+@carried n=9 run=2 label=test-plan/integration-test-strategy fact=fct-bt3npe7x
+quote: a home made before viola that another user may read (Unix 0750, Windows a Users read grant) refuses `viola run` on all 3 OSes: exit 1 with the home pair, no `diagnostics/`, the grant as found (`tests/security_negatives_strict_modes.rs` `a_home_another_user_may_read_refuses_run`).
+@carried n=10 label=test-plan/integration-test-strategy fact=fct-lzdm6e7w
+why: Verify's step-count literals must keep the Unix values (24 relied rows) on Linux once the `cfg(windows)` literals leave and the `cfg(unix)` ones lose a gate whose only sibling left.
+quote: `MM` the relied count (`LedgerRow::relied()`: 24 on Unix, the last `[24/24] local-command-compact …`; 21 on Windows, the last `[21/21] local-command-compact …`; `STEPS_PASS` and `ROW_IDS` are `[&str; 24]` on Unix and `[&str; 21]` on Windows, `STATUSLINE_ROWS` the three statusline ids, the per-OS literals under `cfg(unix)` / `cfg(windows)`)
+@carried n=10 run=2 label=test-plan/integration-test-strategy fact=fct-lzdm6e7w
+quote: `Frozen` (`tests/support/frozen.rs`, declared by `pub mod frozen;` in `tests/support/mod.rs`, its only home) is a guard on Windows and on Unix, a `SIGSTOP` on Unix; the cases that stand on it are `revive_json_of_a_stale_holder_is_the_stale_heartbeat_document` (every OS), `run_refuses_a_stale_name` (Unix) and `run_refuses_a_frozen_wrapper_as_stale_on_windows` (Windows) in `tests/cli_instance_state.rs`, and `cross_list_rows_dim_a_stale_row_end_to_end_on_a_terminal` (Unix) in `tests/cross_list_rows.rs`.
+@carried n=10 run=3 label=test-plan/integration-test-strategy fact=fct-lzdm6e7w
+quote: on Windows the console routine is called directly (three cases on `windows-2025`), and real console event delivery is owed to "Windows-only live measurements".
+@binding n=1
+**integration-test-strategy ↔ ci-integration**: once the matrix shrinks to `ubuntu-latest`, every Linux witness of the integration boundaries (concurrent append, placement, `endpoint_gone`, socket modes, server identity) must stay green there, and every Windows-only witness (pipe DACL, sideload, protected DACL, Windows placement form) must leave with its file or arm, never left compiled out on a runner that no longer exists (test-plan/integration-test-strategy fct-okfymegs) (test-plan fct-shyrfs6v).
+@binding n=2
+**integration-test-strategy ↔ the e2e-home free-space floor (harness `boot` step 2, the MSRV job)**: the floor cases in `crates/viola-e2e/src/harness/mod.rs` must decide on a free-space figure the test injects, never the runner's disk on which CI homes stay, so the `msrv` job's unit suite on Rust 1.96 is green on ubuntu (test-plan/integration-test-strategy fct-qmrx4mno) (test-plan fct-bpswkwdk).
+@binding n=3
+**integration-test-strategy ↔ test-data-fixtures**: the Windows x64 `seed_conpty` carve-out of the setup lifecycle and its exception in the seed strategies must leave together with the sideload, with no home still seeded before viola runs (test-plan/integration-test-strategy fct-qmrx4mno) (test-plan fct-54gkcbby).
+@binding n=4
+**integration-test-strategy ↔ e2e-test-strategy (exit-cause matrix, security negatives)**: the server-identity negatives' gate "Linux and Windows" and the macOS carve-out `server_verdict_rows` holds must change together in `tests/security_negatives_server_identity.rs`, the exit-cause matrix's top comment and the socket-directory negatives' "Linux and macOS" gate, each keeping its Linux case (test-plan/integration-test-strategy fct-ksdwqwkf) (test-plan fct-ndx7lm2p).
+@binding n=5
+**integration-test-strategy ↔ the masters' OS-target change**: every §5 leg worded "on all 3 OSes", per OS or for Windows / macOS, and the owner "Windows-only live measurements" it names, is an amendment the wrap writes, which the plan names as expected and never edits during the phase (test-plan/integration-test-strategy fct-lzdm6e7w) (test-plan/integration-test-strategy fct-vmzc7an2).

@@ -94,7 +94,7 @@ pub fn scan(roots: &Roots, report_dir: &Path) -> Outcome {
         "ok": ok,
         "files": files,
         "skipped_non_file": diag.skipped_non_file,
-        "mode_check": if cfg!(unix) { "unix" } else { "skipped-windows" },
+        "mode_check": "unix",
         "hits": hits,
     });
     if empty {
@@ -181,19 +181,9 @@ fn owner_only(mode: u32) -> bool {
     mode & 0o777 == 0o600
 }
 
-/// One body for every OS: cargo-mutants mutates `#[cfg]`-gated items it cannot compile on the
-/// runner, so a per-OS pair of functions leaves the other OS's body unkillable in CI.
 fn file_mode(path: &Path) -> Option<u32> {
-    #[cfg(unix)]
-    {
-        use std::os::unix::fs::PermissionsExt as _;
-        fs::metadata(path).ok().map(|m| m.permissions().mode())
-    }
-    #[cfg(not(unix))]
-    {
-        let _ = path;
-        None
-    }
+    use std::os::unix::fs::PermissionsExt as _;
+    fs::metadata(path).ok().map(|m| m.permissions().mode())
 }
 
 #[cfg(test)]

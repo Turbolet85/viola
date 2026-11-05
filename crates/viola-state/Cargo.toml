@@ -14,6 +14,8 @@ fake-agent = []
 [dependencies]
 viola-core = { path = "../viola-core" }
 chrono.workspace = true
+# `geteuid` for the strict-modes owner check.
+libc.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 sha2.workspace = true
@@ -22,14 +24,6 @@ sysinfo.workspace = true
 tempfile.workspace = true
 thiserror.workspace = true
 tracing.workspace = true
-
-[target.'cfg(unix)'.dependencies]
-# `geteuid` for the strict-modes owner check.
-libc.workspace = true
-
-[target.'cfg(windows)'.dependencies]
-# The owner and DACL read of the strict-modes check.
-windows-sys.workspace = true
 
 [dev-dependencies]
 rstest.workspace = true

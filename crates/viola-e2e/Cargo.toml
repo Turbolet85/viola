@@ -30,6 +30,8 @@ viola-state = { path = "../viola-state" }
 viola-agent-claude = { path = "../viola-agent-claude" }
 clap.workspace = true
 jsonschema.workspace = true
+# The e2e-home keeper reads a linked backing's free bytes (`statvfs`) before a home is made.
+libc.workspace = true
 # The pin enables `span-locations`, which the mutation run's host reader takes its spans from.
 proc-macro2.workspace = true
 serde.workspace = true
@@ -41,10 +43,6 @@ thiserror.workspace = true
 # The stdio MCP E2E (`tests/mcp_tools.rs`): an rmcp client over a `viola mcp` child the test owns.
 rmcp = { workspace = true, features = ["client"] }
 tokio = { workspace = true, features = ["rt", "process"] }
-
-# The e2e-home keeper reads a linked backing's free bytes (`statvfs`) before a home is made.
-[target.'cfg(unix)'.dependencies]
-libc.workspace = true
 
 # viola-harness prints its JSON document by design: no workspace print bans here (obs-plan B5).
 [lints.rust]

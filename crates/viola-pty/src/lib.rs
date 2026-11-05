@@ -1,11 +1,8 @@
 //! The PTY seam: spawn · read · write · resize · wait · kill over portable-pty, plus the host
 //! terminal's raw mode and size. It knows no agent (architecture §Crate dependency direction).
 //!
-//! The line is portable-pty 0.8.1. From 0.9.0 `pty.read` returns garbage on Windows (wezterm#6783,
-//! still open and 0.9.0 still the newest release on 2026-09-25). 0.8.1 spawns through
-//! `CreateProcessW` with `bInheritHandles = 0` (its `src/win/psuedocon.rs:141`), so no viola handle
-//! reaches the child. ConPTY does not close its output when the child exits, so exit is read on the
-//! process handle ([`Pty::try_wait`]), never on the end of output.
+//! The line is portable-pty 0.8.1. Exit is read on the process handle ([`Pty::try_wait`]), never on
+//! the end of output.
 
 use std::ffi::OsString;
 use std::fmt;
@@ -15,19 +12,12 @@ use std::path::PathBuf;
 use portable_pty::{Child, CommandBuilder, MasterPty, PtySize, native_pty_system};
 
 mod pump;
-#[cfg(windows)]
-pub mod sideload;
 
 pub use pump::{PasteHandle, PumpEnd, pump, pump_with_paste};
 
-/// The pseudo-terminal this process uses: `conpty-sideload` once [`sideload::preload`] has
-/// succeeded, else kernel32's inbox `conpty` on Windows, `openpty` elsewhere.
+/// The pseudo-terminal this process uses.
 pub fn pty_backend() -> &'static str {
-    #[cfg(windows)]
-    if sideload::preloaded() {
-        return "conpty-sideload";
-    }
-    if cfg!(windows) { "conpty" } else { "openpty" }
+    "openpty"
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -83,7 +73,6 @@ pub enum PtyError {
     Resize(Box<dyn std::error::Error + Send + Sync>),
     Wait(io::Error),
     Kill(io::Error),
-    Load(Box<dyn std::error::Error + Send + Sync>),
     /// A paste before the pump opened the child's input, or after it returned.
     NoInput,
     Write(io::Error),
@@ -98,7 +87,6 @@ impl fmt::Display for PtyError {
             Self::Resize(_) => "pty resize failed",
             Self::Wait(_) => "pty wait failed",
             Self::Kill(_) => "pty kill failed",
-            Self::Load(_) => "pty load failed",
             Self::NoInput => "pty input not open",
             Self::Write(_) => "pty write failed",
         })
@@ -108,9 +96,7 @@ impl fmt::Display for PtyError {
 impl std::error::Error for PtyError {
     fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
         match self {
-            Self::Open(e) | Self::Spawn(e) | Self::Handle(e) | Self::Resize(e) | Self::Load(e) => {
-                Some(e.as_ref())
-            }
+            Self::Open(e) | Self::Spawn(e) | Self::Handle(e) | Self::Resize(e) => Some(e.as_ref()),
             Self::Wait(e) | Self::Kill(e) | Self::Write(e) => Some(e),
             Self::NoInput => None,
         }
@@ -213,16 +199,7 @@ impl Pty for PortablePty {
 
     #[tracing::instrument(skip_all, name = "pty.kill")]
     fn kill(&mut self) -> Result<(), PtyError> {
-        match self.child.kill() {
-            Ok(()) => Ok(()),
-            Err(e) => {
-                #[cfg(windows)]
-                if self.child.process_id().is_some_and(terminate) {
-                    return Ok(());
-                }
-                Err(PtyError::Kill(e))
-            }
-        }
+        self.child.kill().map_err(PtyError::Kill)
     }
 
     fn close(&mut self) {
@@ -234,48 +211,6 @@ impl Pty for PortablePty {
     }
 }
 
-/// The `TerminateProcess` fallback when portable-pty's own kill fails.
-#[cfg(windows)]
-fn terminate(pid: u32) -> bool {
-    use windows_sys::Win32::Foundation::CloseHandle;
-    use windows_sys::Win32::System::Threading::{OpenProcess, PROCESS_TERMINATE, TerminateProcess};
-    // SAFETY: plain Win32 calls on a handle opened and closed here.
-    unsafe {
-        let handle = OpenProcess(PROCESS_TERMINATE, 0, pid);
-        if handle.is_null() {
-            return false;
-        }
-        let ok = TerminateProcess(handle, 1) != 0;
-        CloseHandle(handle);
-        ok
-    }
-}
-
-const ENABLE_VIRTUAL_TERMINAL_INPUT: u32 = 0x0200;
-/// ENABLE_ECHO_INPUT | ENABLE_LINE_INPUT | ENABLE_PROCESSED_INPUT, written as its value: a `|`
-/// between distinct bits has an equivalent `^` mutant.
-const COOKED_INPUT: u32 = 0x0007;
-/// ENABLE_VIRTUAL_TERMINAL_PROCESSING | DISABLE_NEWLINE_AUTO_RETURN, as its value.
-const VT_OUTPUT: u32 = 0x000c;
-
-/// A console input mode with line editing, echo and Ctrl-C processing off and VT input on: every
-/// byte, `\x03` included, reaches the reader as typed.
-pub const fn raw_input_mode(mode: u32) -> u32 {
-    (mode & !COOKED_INPUT) | ENABLE_VIRTUAL_TERMINAL_INPUT
-}
-
-/// A console output mode that renders the child's VT sequences.
-pub const fn vt_output_mode(mode: u32) -> u32 {
-    mode | VT_OUTPUT
-}
-
-/// A size from a visible window's inclusive corners; `None` for an empty one.
-pub fn size_from_window(left: i16, top: i16, right: i16, bottom: i16) -> Option<Size> {
-    let cols = u16::try_from(i32::from(right) - i32::from(left) + 1).ok()?;
-    let rows = u16::try_from(i32::from(bottom) - i32::from(top) + 1).ok()?;
-    nonzero_size(cols, rows)
-}
-
 /// `None` for an empty terminal (a zero width or height).
 pub fn nonzero_size(cols: u16, rows: u16) -> Option<Size> {
     (cols > 0 && rows > 0).then_some(Size { cols, rows })
@@ -284,38 +219,10 @@ pub fn nonzero_size(cols: u16, rows: u16) -> Option<Size> {
 /// The process's own terminal in raw mode until dropped, when the saved modes come back. A stdin
 /// or stdout that is not a terminal is left alone; `enter` returns `None` when neither is one.
 pub struct HostTerminal {
-    #[cfg(windows)]
-    saved: Vec<(windows_sys::Win32::Foundation::HANDLE, u32)>,
-    #[cfg(unix)]
     saved: libc::termios,
 }
 
 impl HostTerminal {
-    #[cfg(windows)]
-    pub fn enter() -> Option<Self> {
-        use windows_sys::Win32::System::Console::{
-            GetConsoleMode, GetStdHandle, STD_INPUT_HANDLE, STD_OUTPUT_HANDLE, SetConsoleMode,
-        };
-        type ModeFor = fn(u32) -> u32;
-        let mut saved = Vec::new();
-        let wanted: [(u32, ModeFor); 2] = [
-            (STD_INPUT_HANDLE, raw_input_mode),
-            (STD_OUTPUT_HANDLE, vt_output_mode),
-        ];
-        for (which, to) in wanted {
-            // SAFETY: console-mode calls on this process's own standard handles.
-            unsafe {
-                let handle = GetStdHandle(which);
-                let mut mode = 0u32;
-                if GetConsoleMode(handle, &mut mode) != 0 && SetConsoleMode(handle, to(mode)) != 0 {
-                    saved.push((handle, mode));
-                }
-            }
-        }
-        (!saved.is_empty()).then_some(Self { saved })
-    }
-
-    #[cfg(unix)]
     pub fn enter() -> Option<Self> {
         // SAFETY: termios calls on fd 0 with structs owned here.
         unsafe {
@@ -333,14 +240,6 @@ impl HostTerminal {
 
 impl Drop for HostTerminal {
     fn drop(&mut self) {
-        #[cfg(windows)]
-        for (handle, mode) in &self.saved {
-            // SAFETY: restores the mode read from the same handle in `enter`.
-            unsafe {
-                windows_sys::Win32::System::Console::SetConsoleMode(*handle, *mode);
-            }
-        }
-        #[cfg(unix)]
         // SAFETY: restores the attributes read from fd 0 in `enter`.
         unsafe {
             libc::tcsetattr(libc::STDIN_FILENO, libc::TCSANOW, &self.saved);
@@ -348,147 +247,20 @@ impl Drop for HostTerminal {
     }
 }
 
-/// The wrapper's host stdin. On Windows, when it is a console, a reader that calls `ReadConsoleW`
-/// itself: std's console read drops a trailing `0x1A` from every read and turns a read of `^Z`
-/// alone into end of input (rust-lang/rust#38274), which would end the human's copy into the child.
-/// Anywhere else, a redirected Windows stdin included, `std::io::stdin()` unchanged.
+/// The wrapper's host stdin.
 pub fn host_stdin() -> Box<dyn Read + Send> {
-    #[cfg(windows)]
-    if console::is_console() {
-        return Box::new(ConsoleInput::new(console::Console));
-    }
     Box::new(io::stdin())
-}
-
-/// Where console text comes from: UTF-16 units, as `ReadConsoleW` hands them out.
-#[cfg_attr(not(windows), allow(dead_code))]
-trait Utf16Source {
-    /// Fills `buf` with at most `buf.len()` units; how many it wrote, zero included.
-    fn read_units(&mut self, buf: &mut [u16]) -> io::Result<usize>;
-}
-
-/// Console text as UTF-8 bytes: every unit kept (`0x1A` included), a high surrogate that ends one
-/// read carried to the next, and a successful read of no units read as no data, never as the end.
-#[cfg_attr(not(windows), allow(dead_code))]
-struct ConsoleInput<S> {
-    source: S,
-    carried: Option<u16>,
-    ready: Vec<u8>,
-}
-
-impl<S: Utf16Source> ConsoleInput<S> {
-    #[cfg_attr(not(windows), allow(dead_code))]
-    fn new(source: S) -> Self {
-        Self {
-            source,
-            carried: None,
-            ready: Vec::new(),
-        }
-    }
-}
-
-/// `units` after any carried high surrogate, as UTF-8 onto `out`; a trailing high surrogate is
-/// carried instead, and an unpaired surrogate becomes U+FFFD.
-#[cfg_attr(not(windows), allow(dead_code))]
-fn decode_units(carried: &mut Option<u16>, units: &[u16], out: &mut Vec<u8>) {
-    let mut all: Vec<u16> = carried
-        .take()
-        .into_iter()
-        .chain(units.iter().copied())
-        .collect();
-    if all.last().is_some_and(|u| (0xD800..=0xDBFF).contains(u)) {
-        *carried = all.pop();
-    }
-    for c in char::decode_utf16(all) {
-        let c = c.unwrap_or(char::REPLACEMENT_CHARACTER);
-        out.extend_from_slice(c.encode_utf8(&mut [0u8; 4]).as_bytes());
-    }
-}
-
-impl<S: Utf16Source> Read for ConsoleInput<S> {
-    fn read(&mut self, buf: &mut [u8]) -> io::Result<usize> {
-        if buf.is_empty() {
-            return Ok(0);
-        }
-        let mut units = [0u16; 1024];
-        while self.ready.is_empty() {
-            let n = self.source.read_units(&mut units)?;
-            decode_units(&mut self.carried, &units[..n], &mut self.ready);
-        }
-        let n = buf.len().min(self.ready.len());
-        buf[..n].copy_from_slice(&self.ready[..n]);
-        self.ready.drain(..n);
-        Ok(n)
-    }
-}
-
-#[cfg(windows)]
-mod console {
-    use std::io;
-
-    use windows_sys::Win32::System::Console::{
-        GetConsoleMode, GetStdHandle, ReadConsoleW, STD_INPUT_HANDLE,
-    };
-
-    pub(super) fn is_console() -> bool {
-        let mut mode = 0u32;
-        // SAFETY: reads this process's own stdin console mode into a local.
-        unsafe { GetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), &mut mode) != 0 }
-    }
-
-    /// The process's console input, read with no Ctrl-Z wakeup control.
-    pub(super) struct Console;
-
-    impl super::Utf16Source for Console {
-        fn read_units(&mut self, buf: &mut [u16]) -> io::Result<usize> {
-            let len = u32::try_from(buf.len()).unwrap_or(u32::MAX);
-            let mut read = 0u32;
-            // SAFETY: ReadConsoleW writes at most `len` units into `buf`, owned by the caller, and
-            // the count into a local; a null input control is documented as allowed.
-            let ok = unsafe {
-                ReadConsoleW(
-                    GetStdHandle(STD_INPUT_HANDLE),
-                    buf.as_mut_ptr().cast(),
-                    len,
-                    &mut read,
-                    std::ptr::null(),
-                )
-            };
-            if ok == 0 {
-                return Err(io::Error::last_os_error());
-            }
-            Ok(usize::try_from(read).unwrap_or_default())
-        }
-    }
 }
 
 /// The size of the terminal on this process's stdout, `None` when it is not one.
 pub fn host_size() -> Option<Size> {
-    #[cfg(windows)]
-    {
-        use windows_sys::Win32::System::Console::{
-            CONSOLE_SCREEN_BUFFER_INFO, GetConsoleScreenBufferInfo, GetStdHandle, STD_OUTPUT_HANDLE,
-        };
-        // SAFETY: reads into a struct owned here.
-        unsafe {
-            let mut info: CONSOLE_SCREEN_BUFFER_INFO = std::mem::zeroed();
-            if GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &mut info) == 0 {
-                return None;
-            }
-            let w = info.srWindow;
-            size_from_window(w.Left, w.Top, w.Right, w.Bottom)
+    // SAFETY: TIOCGWINSZ fills a struct owned here.
+    unsafe {
+        let mut ws: libc::winsize = std::mem::zeroed();
+        if libc::ioctl(libc::STDOUT_FILENO, libc::TIOCGWINSZ, &mut ws) != 0 {
+            return None;
         }
-    }
-    #[cfg(unix)]
-    {
-        // SAFETY: TIOCGWINSZ fills a struct owned here.
-        unsafe {
-            let mut ws: libc::winsize = std::mem::zeroed();
-            if libc::ioctl(libc::STDOUT_FILENO, libc::TIOCGWINSZ, &mut ws) != 0 {
-                return None;
-            }
-            nonzero_size(ws.ws_col, ws.ws_row)
-        }
+        nonzero_size(ws.ws_col, ws.ws_row)
     }
 }
 
@@ -501,112 +273,10 @@ mod tests {
     use super::*;
 
     #[test]
-    fn raw_input_mode_matches_the_measured_console_switch() {
-        assert_eq!(raw_input_mode(0x1f7), 0x3f0);
-        assert_eq!(raw_input_mode(0x3f7), 0x3f0);
-        assert_eq!(raw_input_mode(0), ENABLE_VIRTUAL_TERMINAL_INPUT);
-        assert_eq!(raw_input_mode(0x0007), ENABLE_VIRTUAL_TERMINAL_INPUT);
-    }
-
-    #[test]
-    fn vt_output_mode_adds_vt_processing_and_keeps_the_rest() {
-        assert_eq!(vt_output_mode(0x0003), 0x000f);
-        assert_eq!(vt_output_mode(0x000f), 0x000f);
-    }
-
-    #[test]
-    fn size_from_window_counts_inclusive_corners() {
-        assert_eq!(
-            size_from_window(0, 0, 79, 23),
-            Some(Size { cols: 80, rows: 24 })
-        );
-        assert_eq!(
-            size_from_window(2, 5, 3, 5),
-            Some(Size { cols: 2, rows: 1 })
-        );
-        assert_eq!(size_from_window(5, 0, 3, 23), None);
-        assert_eq!(size_from_window(0, 5, 79, 3), None);
-        assert_eq!(size_from_window(5, 0, 4, 23), None, "zero columns");
-        assert_eq!(size_from_window(0, 5, 79, 4), None, "zero rows");
-    }
-
-    #[test]
     fn nonzero_size_refuses_an_empty_terminal() {
         assert_eq!(nonzero_size(1, 1), Some(Size { cols: 1, rows: 1 }));
         assert_eq!(nonzero_size(0, 24), None);
         assert_eq!(nonzero_size(80, 0), None);
-    }
-
-    /// Hands out one scripted console read per call; panics when asked past its script.
-    struct Script(Vec<Vec<u16>>);
-
-    impl Utf16Source for Script {
-        fn read_units(&mut self, buf: &mut [u16]) -> io::Result<usize> {
-            assert!(!self.0.is_empty(), "read past the script");
-            let units = self.0.remove(0);
-            buf[..units.len()].copy_from_slice(&units);
-            Ok(units.len())
-        }
-    }
-
-    fn read_all(input: &mut impl Read, reads: usize) -> Vec<u8> {
-        let mut out = Vec::new();
-        let mut buf = [0u8; 64];
-        for _ in 0..reads {
-            let n = input.read(&mut buf).expect("read");
-            assert!(n > 0, "a console read never ends the input");
-            out.extend_from_slice(&buf[..n]);
-        }
-        out
-    }
-
-    /// `^Z` is a key like any other: alone, last in a read, or first; nothing is dropped.
-    #[test]
-    fn console_input_keeps_every_ctrl_z() {
-        let mut input = ConsoleInput::new(Script(vec![
-            vec![0x1a],
-            vec![u16::from(b'a'), 0x1a],
-            vec![0x1a, u16::from(b'k')],
-        ]));
-        assert_eq!(read_all(&mut input, 3), b"\x1aa\x1a\x1ak");
-    }
-
-    /// A read of no units is no data: the reader reads again rather than reporting the end.
-    #[test]
-    fn console_input_reads_again_after_an_empty_read() {
-        let mut input = ConsoleInput::new(Script(vec![vec![], vec![], vec![u16::from(b'k')]]));
-        assert_eq!(read_all(&mut input, 1), b"k");
-    }
-
-    /// A surrogate pair split across two reads is one character; an unpaired one is U+FFFD.
-    #[test]
-    fn console_input_joins_a_surrogate_pair_split_across_reads() {
-        let mut input = ConsoleInput::new(Script(vec![
-            vec![u16::from(b'a'), 0xD83D],
-            vec![0xDE42, u16::from(b'b')],
-            vec![0xDE42],
-            vec![0xD83D, u16::from(b'c')],
-        ]));
-        assert_eq!(
-            String::from_utf8(read_all(&mut input, 4)).expect("utf-8"),
-            "a\u{1F642}b\u{FFFD}\u{FFFD}c"
-        );
-    }
-
-    /// A long read is handed out across several smaller reads, in order; an empty buffer reads
-    /// nothing from the console.
-    #[test]
-    fn console_input_hands_out_a_long_read_in_order() {
-        let text: Vec<u16> = "é".repeat(40).encode_utf16().collect();
-        let mut input = ConsoleInput::new(Script(vec![text]));
-        assert_eq!(input.read(&mut []).expect("empty"), 0);
-        let mut out = Vec::new();
-        let mut buf = [0u8; 7];
-        while out.len() < 80 {
-            let n = input.read(&mut buf).expect("read");
-            out.extend_from_slice(&buf[..n]);
-        }
-        assert_eq!(String::from_utf8(out).expect("utf-8"), "é".repeat(40));
     }
 
     const CHILD_REPORT: &str = "PTY_SEAM_TEST_REPORT";
@@ -734,8 +404,8 @@ mod tests {
         assert_eq!(typed(b"\x1b[0;0;104_"), b"\x1b[0;0;104_", "five fields");
     }
 
-    /// The `reads` child: with `win32`, first asks its terminal for win32-input-mode (the request
-    /// the sideloaded ConPTY makes of the console it runs in); then reports each read of
+    /// The `reads` child: with `win32`, first asks its terminal for win32-input-mode; then reports
+    /// each read of
     /// `host_stdin()` as hex, one line per read, until what was read types a mouse report, and
     /// exits 0.
     fn report_reads(path: &std::path::Path, win32: bool) -> ! {
@@ -774,17 +444,6 @@ mod tests {
 
     /// Whether the terminal on stdin edits lines again (cooked); `None` off a terminal.
     fn line_input_on() -> Option<bool> {
-        #[cfg(windows)]
-        // SAFETY: reads this process's own stdin console mode into a local.
-        unsafe {
-            use windows_sys::Win32::System::Console::{
-                ENABLE_LINE_INPUT, GetConsoleMode, GetStdHandle, STD_INPUT_HANDLE,
-            };
-            let mut mode = 0u32;
-            (GetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), &mut mode) != 0)
-                .then_some(mode & ENABLE_LINE_INPUT != 0)
-        }
-        #[cfg(unix)]
         // SAFETY: tcgetattr fills a struct owned here.
         unsafe {
             let mut t: libc::termios = std::mem::zeroed();
@@ -867,8 +526,7 @@ mod tests {
     }
 
     /// A copy of this test binary in `dir`, the PTY child's program: a child left running holds
-    /// the copy, never the build's own test binary, which on Windows a running image keeps the next
-    /// build from replacing.
+    /// the copy, never the build's own test binary.
     fn copied_test_binary(dir: &std::path::Path) -> std::path::PathBuf {
         let exe = std::env::current_exe().expect("test binary");
         let copy = dir.join(exe.file_name().expect("a file name"));
@@ -1000,7 +658,7 @@ mod tests {
     }
 
     /// The reads a raw child makes of `input` written into the platform PTY: how the terminal hands
-    /// such input to the wrapper (CARRY §9, measured on `windows-2025` by CI run ci#37227518624).
+    /// such input to the wrapper.
     fn reads_of(mode: &str, input: &[u8]) -> (Vec<String>, String) {
         let mut child = spawn_child_entry(mode, Size::DEFAULT);
         wait_line(&mut child, "reading");
@@ -1038,27 +696,12 @@ mod tests {
         assert_eq!(reads, [format!("read {}", hex(MOUSE))], "{reports}");
     }
 
-    /// Under win32-input-mode (the sideloaded ConPTY's request), Windows' inbox ConPTY hands the
-    /// reader an injected mouse report as one key-down record per character, and the focus reports
-    /// not at all: typing, by the founder's live ruling (2026-10-04) the human's wheel. Elsewhere
-    /// the request means nothing and the bytes arrive unchanged.
+    /// A win32-input-mode request means nothing to the PTY: the bytes arrive unchanged.
     #[test]
     fn console_reads_under_win32_input_mode_are_the_platform_encoding() {
         let input = [FOCUS, MOUSE].concat();
         let (reads, reports) = reads_of("reads-win32", &input);
-        let raw = joined(&reads);
-        if cfg!(windows) {
-            let mut at = 0;
-            while at < raw.len() {
-                let (fields, len) = win32_record(&raw[at..])
-                    .unwrap_or_else(|| panic!("not a key record at {at}\n{reports}"));
-                assert_eq!([fields[0], fields[1]], [0, 0], "{reports}");
-                at += len;
-            }
-            assert_eq!(typed(&raw), MOUSE, "{reports}");
-        } else {
-            assert_eq!(raw, input, "{reports}");
-        }
+        assert_eq!(joined(&reads), input, "{reports}");
     }
 
     /// Whether `report` comes to hold the exact line `want`. `exited` is read before the report,
@@ -1287,9 +930,8 @@ mod tests {
         wait_exit(&mut child);
     }
 
-    #[cfg(not(windows))]
     #[test]
-    fn pty_backend_is_openpty_off_windows() {
+    fn pty_backend_is_openpty() {
         assert_eq!(pty_backend(), "openpty");
     }
 
@@ -1342,16 +984,6 @@ mod tests {
         assert!(exited, "the child outlived the master's close");
     }
 
-    #[cfg(windows)]
-    #[test]
-    fn terminate_ends_a_live_process_and_refuses_a_missing_one() {
-        let mut child = spawn_child_entry("block", Size::DEFAULT);
-        wait_start(&mut child);
-        assert!(terminate(child.pty.child_pid().expect("pid")));
-        assert_eq!(wait_exit(&mut child), 1);
-        assert!(!terminate(0), "pid 0 is not a process this user can open");
-    }
-
     #[test]
     fn exit_source_codes_are_the_catalog_words() {
         assert_eq!(ExitSource::HandleWait.as_str(), "handle-wait");
@@ -1369,7 +1001,6 @@ mod tests {
             PtyError::Resize("x".into()),
             PtyError::Wait(io::Error::other("x")),
             PtyError::Kill(io::Error::other("x")),
-            PtyError::Load("x".into()),
         ]
         .iter()
         .map(|e| {
@@ -1384,8 +1015,7 @@ mod tests {
                 "pty handle failed",
                 "pty resize failed",
                 "pty wait failed",
-                "pty kill failed",
-                "pty load failed"
+                "pty kill failed"
             ]
         );
     }

@@ -2,16 +2,14 @@
 # `cargo modules orphans --deny` over every lib and bin target: a .rs file that no `mod` declaration reaches is
 # never compiled, so its tests and lints stop running without any error. `--probe` proves the check fires on a
 # planted orphan (and stays clean on its controls) before the real run is trusted.
-# Each target is analysed for all three CI target triples, and a file is an orphan only when every triple reports it:
-# a `#[cfg(windows)] mod x;` file reads as an orphan when analysed for Linux, and the reverse (measured on
-# cargo-modules 0.27.0), so analysing only the host's own triple fails whichever leg compiles the file out.
+# Each target is analysed for the CI target triple, and a file is an orphan when that triple reports it.
 # `dependencies --acyclic` is deliberately absent: at cargo-modules 0.27.0 every type with an inherent method
 # reads as a type<->method cycle whatever the filters, so it stays an on-demand review
 # (architecture §Infrastructure Patterns, Build system).
 set -euo pipefail
 
 root=$(cd "$(dirname "$0")/.." && pwd)
-triples=(x86_64-pc-windows-msvc x86_64-unknown-linux-gnu aarch64-apple-darwin)
+triples=(x86_64-unknown-linux-gnu)
 
 if ! cargo modules --version >/dev/null 2>&1; then
   echo "tool-missing: cargo-modules"
@@ -22,7 +20,8 @@ if ! jq --version >/dev/null 2>&1; then
   exit 1
 fi
 
-# Runs `cargo modules orphans <args> --deny` once per triple and prints the orphan lines every triple reports.
+# Runs `cargo modules orphans <args> --deny` once per triple and prints the orphan lines every triple reports
+# (with the one triple, its own).
 # Returns 0 when there are none, 1 when there are, and 2 when a run failed without naming an orphan (fail closed).
 orphans_everywhere() {
   local triple rc log found common="" first=1
@@ -113,15 +112,14 @@ probe() {
   scratch="$root/target/orphans-probes/run-$(date -u +%Y%m%dT%H%M%SZ)-$$"
   make_crate "$scratch/orphan"
   echo 'pub fn stray() {}' > "$scratch/orphan/src/stray.rs"
-  # Gated on a target no CI triple compiles: an orphan on every one of them.
+  # Gated on a target the CI triple does not compile: an orphan there.
   make_crate "$scratch/unreached"
   printf '#[cfg(target_os = "haiku")]\nmod gated;\npub fn a() {}\n' > "$scratch/unreached/src/lib.rs"
   echo 'pub fn g() {}' > "$scratch/unreached/src/gated.rs"
   make_crate "$scratch/control"
-  # One file per OS family: each is reached by some triple, so neither is an orphan.
+  # A file gated on the CI triple's own OS is reached, so it is no orphan.
   make_crate "$scratch/per-os"
-  printf '#[cfg(windows)]\nmod win;\n#[cfg(unix)]\nmod nix;\npub fn a() {}\n' > "$scratch/per-os/src/lib.rs"
-  echo 'pub fn w() {}' > "$scratch/per-os/src/win.rs"
+  printf '#[cfg(target_os = "linux")]\nmod nix;\npub fn a() {}\n' > "$scratch/per-os/src/lib.rs"
   echo 'pub fn n() {}' > "$scratch/per-os/src/nix.rs"
 
   probe_case fire "$scratch/orphan" stray && fired=$((fired + 1))

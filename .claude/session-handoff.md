@@ -50,3 +50,6 @@
   done-check" `v1-13` / `v1-36`; the apply writer's `@pattern` backtick cut; `cascade.py leaves --apply --only` keeping
   the last of repeated flags; a re-fire's `leaf-*.md` glob meeting the apply's receipt file.
 - **Last failed command:** none.
+
+## Session End Status
+Completed normally at 2026-11-05 13:05:08

@@ -1,0 +1,21 @@
+{"type": "listing", "schema": 2, "doc": "obs-plan", "file": ".andromeda/obs-plan-detail/log-coverage.md", "blob": "b556d37c0531c262", "tool": "detail v1.28", "entities": 20, "pin": 144, "sha": "b556d37c0531c262", "batch": 1, "of": 1}
+{"type": "entity", "id": "log-coverage#1.1", "hash": "2fb828eb", "kind": "values", "subject": "log-fields", "origin": "## 6. Log Coverage", "lines": [8, 10], "fact": "fct-yb5jpaot", "rev": 1, "size": 904}
+{"type": "entity", "id": "log-coverage#1.2", "hash": "e3e2e788", "kind": "values", "subject": "log-fields", "origin": "## 6. Log Coverage", "lines": [11, 11], "fact": "fct-umidjbc4", "rev": 1, "size": 302}
+{"type": "entity", "id": "log-coverage#1.3", "hash": "b559af44", "kind": "values", "subject": "log-fields", "origin": "## 6. Log Coverage", "lines": [12, 12], "fact": "fct-tnco7mng", "rev": 1, "size": 198}
+{"type": "entity", "id": "log-coverage#1.4", "hash": "12a5485a", "kind": "values", "subject": "log-fields", "origin": "## 6. Log Coverage", "lines": [13, 13], "fact": "fct-ikvvw35l", "rev": 1, "size": 625}
+{"type": "entity", "id": "log-coverage#1.5", "hash": "1dffaa61", "kind": "values", "subject": "log-fields", "origin": "## 6. Log Coverage", "lines": [14, 14], "fact": "fct-hb5clvjs", "rev": 1, "size": 574}
+{"type": "entity", "id": "log-coverage#1.6", "hash": "07e10118", "kind": "values", "subject": "log-fields", "origin": "## 6. Log Coverage", "lines": [15, 15], "fact": "fct-qb47tiuw", "rev": 1, "size": 207}
+{"type": "entity", "id": "log-coverage#1.7", "hash": "c8e04c60", "kind": "values", "subject": "log-fields", "origin": "## 6. Log Coverage", "lines": [16, 16], "fact": "fct-vrjzzaok", "rev": 1, "size": 390}
+{"type": "entity", "id": "log-coverage#1.8", "hash": "e95e03a8", "kind": "values", "subject": "log-fields", "origin": "## 6. Log Coverage", "lines": [17, 17], "fact": "fct-hq2iiwoa", "rev": 1, "size": 251}
+{"type": "entity", "id": "log-coverage#1.9", "hash": "5a4ccca8", "kind": "values", "subject": "log-fields", "origin": "## 6. Log Coverage", "lines": [18, 18], "fact": "fct-izpoipm6", "rev": 1, "size": 198}
+{"type": "entity", "id": "log-coverage#1.10", "hash": "d921c71e", "kind": "values", "subject": "log-fields", "origin": "## 6. Log Coverage", "lines": [19, 19], "fact": "fct-rn7dqtoc", "rev": 1, "size": 737}
+{"type": "entity", "id": "log-coverage#1.11", "hash": "36dcebe8", "kind": "values", "subject": "log-fields", "origin": "## 6. Log Coverage", "lines": [20, 20], "fact": "fct-yp3xr6e4", "rev": 1, "size": 281}
+{"type": "entity", "id": "log-coverage#2.1", "hash": "7b64f7e0", "kind": "values", "subject": "log-details", "origin": "## 6. Log Coverage", "lines": [26, 30], "fact": "fct-dsupowm6", "rev": 1, "size": 3937}
+{"type": "entity", "id": "log-coverage#2.2", "hash": "f7ea5cb1", "kind": "values", "subject": "log-details", "origin": "## 6. Log Coverage", "lines": [31, 32], "fact": "fct-qzbqiq2k", "rev": 1, "size": 766}
+{"type": "entity", "id": "log-coverage#2.3", "hash": "e68618d0", "kind": "values", "subject": "log-details", "origin": "## 6. Log Coverage", "lines": [33, 33], "fact": "fct-ylj2z2t5", "rev": 1, "size": 128}
+{"type": "entity", "id": "log-coverage#2.4", "hash": "dd343d47", "kind": "values", "subject": "log-details", "origin": "## 6. Log Coverage", "lines": [34, 35], "fact": "fct-qiql34nd", "rev": 1, "size": 1739}
+{"type": "entity", "id": "log-coverage#2.5", "hash": "8c573f0c", "kind": "values", "subject": "log-details", "origin": "## 6. Log Coverage", "lines": [36, 36], "fact": "fct-vehppv2d", "rev": 1, "size": 920}
+{"type": "entity", "id": "log-coverage#2.6", "hash": "6482ff39", "kind": "values", "subject": "log-details", "origin": "## 6. Log Coverage", "lines": [37, 37], "fact": "fct-iy4rx7dp", "rev": 1, "size": 367}
+{"type": "entity", "id": "log-coverage#2.7", "hash": "d05444fc", "kind": "values", "subject": "log-details", "origin": "## 6. Log Coverage", "lines": [38, 38], "fact": "fct-icf6u7jt", "rev": 1, "size": 421}
+{"type": "entity", "id": "log-coverage#2.8", "hash": "f3008834", "kind": "values", "subject": "log-details", "origin": "## 6. Log Coverage", "lines": [39, 42], "fact": "fct-mivk5eld", "rev": 1, "size": 3780}
+{"type": "entity", "id": "log-coverage#3.1", "hash": "1e29b655", "kind": "values", "subject": "logs", "origin": "## 6. Log Coverage", "lines": [48, 49], "fact": "fct-lhnmh6dy", "rev": 1, "size": 1788}

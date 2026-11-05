@@ -275,7 +275,6 @@ fn run_lines(home: &Path, program: &str, config: Option<&str>) -> Vec<Value> {
     if program == FAKE {
         cmd.arg("--receipt").arg(&receipt);
     }
-    support::home::seed_conpty(home);
     let mut piped = Piped::spawn(&mut cmd);
     // Ctrl-C only once the child's terminal is raw (its `start` receipt): sooner, it is swallowed.
     let watch = Watch::start("raw");

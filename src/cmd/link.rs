@@ -138,7 +138,6 @@ mod tests {
 
     /// A server that is not the recorded wrapper is refused inside `cli.link`, before any frame
     /// (obs-plan §4, the must-trace spans).
-    #[cfg(not(target_os = "macos"))]
     #[test]
     fn request_refuses_an_unverified_server_inside_its_dispatch_span() {
         client::refused_inside::assert_refused_inside("cli.link", |live| request(live, Map::new()));

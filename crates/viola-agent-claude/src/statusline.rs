@@ -17,10 +17,7 @@ pub const SETTINGS_FLAG: &str = "--settings";
 /// statusline command. Project, local and managed settings are not read.
 pub const USER_SETTINGS: [&str; 2] = [".claude", "settings.json"];
 
-/// Whether a session's status line is wrapped on this OS: no Windows reading of the shell exists.
-pub const WRAPPED_HERE: bool = cfg!(unix);
-
-/// The shell a statusline command runs through where the status line is wrapped.
+/// The shell a statusline command runs through.
 pub const BIN_SH: &str = "/bin/sh";
 
 /// The hidden capture arm's option naming the word the CLI's shell expands `"$0"` to.
@@ -93,13 +90,9 @@ pub fn user_command(settings: &[u8]) -> Option<String> {
 /// The per-session settings override: a `statusLine` whose command is the pinned binary's
 /// forward-slash absolute path, one space, `hook statusline`. The CLI runs that string through a
 /// shell, and the path is written unquoted, so a path holding anything but ASCII letters, digits
-/// and `_ - . / :` gets no override, and neither does any path where the status line is not wrapped.
+/// and `_ - . / :` gets no override.
 pub fn override_document(pinned_bin_fwd: &str) -> Option<String> {
-    override_on(pinned_bin_fwd, WRAPPED_HERE)
-}
-
-fn override_on(pinned_bin_fwd: &str, wrapped: bool) -> Option<String> {
-    if !wrapped || !pinned_bin_fwd.chars().all(is_shell_plain) {
+    if !pinned_bin_fwd.chars().all(is_shell_plain) {
         return None;
     }
     let command = format!("{pinned_bin_fwd} hook statusline");
@@ -112,15 +105,11 @@ fn is_shell_plain(c: char) -> bool {
 
 /// `viola verify`'s Run B settings: a `statusLine` whose command is the pinned binary, `hook
 /// statusline --capture <captures dir> --shell "$0"`, so each payload is filed with the word the
-/// CLI's shell expands `"$0"` to. Built only where the status line is wrapped, and only when both
-/// paths hold nothing but ASCII letters, digits and `_ - . / :`.
+/// CLI's shell expands `"$0"` to. Built only when both paths hold nothing but ASCII letters, digits
+/// and `_ - . / :`.
 pub fn probe_document(pinned_bin_fwd: &str, captures_dir_fwd: &str) -> Option<String> {
-    probe_on(pinned_bin_fwd, captures_dir_fwd, WRAPPED_HERE)
-}
-
-fn probe_on(pinned_bin_fwd: &str, captures_dir_fwd: &str, wrapped: bool) -> Option<String> {
     let plain = |path: &str| path.chars().all(is_shell_plain);
-    if !wrapped || !plain(pinned_bin_fwd) || !plain(captures_dir_fwd) {
+    if !plain(pinned_bin_fwd) || !plain(captures_dir_fwd) {
         return None;
     }
     let command = format!(
@@ -130,13 +119,9 @@ fn probe_on(pinned_bin_fwd: &str, captures_dir_fwd: &str, wrapped: bool) -> Opti
 }
 
 /// The shell a user's statusline command runs through, with the command as ONE argument: the
-/// program by its absolute path, never a lookup. None where the status line is not wrapped.
-pub fn shell_argv(command: &str) -> Option<[&str; 3]> {
-    shell_argv_on(command, WRAPPED_HERE)
-}
-
-fn shell_argv_on(command: &str, wrapped: bool) -> Option<[&str; 3]> {
-    wrapped.then_some([BIN_SH, "-c", command])
+/// program by its absolute path, never a lookup.
+pub fn shell_argv(command: &str) -> [&str; 3] {
+    [BIN_SH, "-c", command]
 }
 
 #[cfg(test)]
@@ -345,12 +330,12 @@ mod tests {
     fn statusline_override_is_the_pinned_path_then_hook_statusline() {
         let path = "/home/u/.viola/bin/0.1.0-0123456789abcdef/viola";
         assert_eq!(
-            override_on(path, true).as_deref(),
+            override_document(path).as_deref(),
             Some(
                 r#"{"statusLine":{"type":"command","command":"/home/u/.viola/bin/0.1.0-0123456789abcdef/viola hook statusline"}}"#
             )
         );
-        let drive = override_on("C:/h/bin/k/viola.exe", true).expect("an override");
+        let drive = override_document("C:/h/bin/k/viola.exe").expect("an override");
         let doc: Value = serde_json::from_str(&drive).expect("json");
         assert_eq!(
             doc["statusLine"]["command"],
@@ -361,7 +346,7 @@ mod tests {
     /// The user's own command is read back from the override the way the CLI would read it.
     #[test]
     fn statusline_override_reads_back_as_a_command_status_line() {
-        let doc = override_on("/h/bin/k/viola", true).expect("an override");
+        let doc = override_document("/h/bin/k/viola").expect("an override");
         assert_eq!(
             user_command(doc.as_bytes()).as_deref(),
             Some("/h/bin/k/viola hook statusline")
@@ -382,18 +367,12 @@ mod tests {
     #[case::a_non_ascii_letter("/home/\u{e9}/bin/k/viola")]
     #[case::a_non_ascii_digit("/home/\u{663}/bin/k/viola")]
     fn statusline_override_of_a_path_a_shell_could_misread_is_none(#[case] path: &str) {
-        assert_eq!(override_on(path, true), None);
+        assert_eq!(override_document(path), None);
     }
 
     #[test]
-    fn statusline_override_where_the_status_line_is_not_wrapped_is_none() {
-        assert_eq!(override_on("/h/bin/k/viola", false), None);
-        assert_eq!(override_on("C:/h/bin/k/viola.exe", false), None);
-    }
-
-    #[test]
-    fn statusline_override_on_this_host_is_built_only_on_unix() {
-        assert_eq!(override_document("/h/bin/k/viola").is_some(), cfg!(unix));
+    fn statusline_override_on_this_host_is_built() {
+        assert!(override_document("/h/bin/k/viola").is_some());
         assert_eq!(override_document("/h/bin k/viola"), None);
         assert_eq!(SETTINGS_FLAG, "--settings");
         assert_eq!(USER_SETTINGS, [".claude", "settings.json"]);
@@ -402,17 +381,16 @@ mod tests {
     #[test]
     fn statusline_probe_document_runs_the_capture_arm_with_the_shell_word() {
         assert_eq!(
-            probe_on(
+            probe_document(
                 "/home/u/.viola/bin/0.1.0-0123456789abcdef/viola",
                 "/home/u/.viola/ledger/probes/7/typed/statusline",
-                true
             )
             .as_deref(),
             Some(
                 r#"{"statusLine":{"type":"command","command":"/home/u/.viola/bin/0.1.0-0123456789abcdef/viola hook statusline --capture /home/u/.viola/ledger/probes/7/typed/statusline --shell \"$0\""}}"#
             )
         );
-        let doc = probe_on("/h/bin/k/viola", "/h/p/typed/statusline", true).expect("a document");
+        let doc = probe_document("/h/bin/k/viola", "/h/p/typed/statusline").expect("a document");
         assert_eq!(
             user_command(doc.as_bytes()).as_deref(),
             Some("/h/bin/k/viola hook statusline --capture /h/p/typed/statusline --shell \"$0\"")
@@ -433,25 +411,12 @@ mod tests {
         #[case] pinned: &str,
         #[case] captures: &str,
     ) {
-        assert_eq!(probe_on(pinned, captures, true), None);
-    }
-
-    #[test]
-    fn statusline_probe_document_where_the_status_line_is_not_wrapped_is_none() {
-        assert_eq!(
-            probe_on("/h/bin/k/viola", "/h/p/typed/statusline", false),
-            None
-        );
-        assert_eq!(
-            probe_document("/h/bin/k/viola", "/h/p/typed/statusline").is_some(),
-            cfg!(unix)
-        );
-        assert_eq!(WRAPPED_HERE, cfg!(unix));
+        assert_eq!(probe_document(pinned, captures), None);
     }
 
     #[test]
     fn statusline_probe_document_on_a_wrapped_host_is_the_capture_command_document() {
-        let expected = cfg!(unix).then_some(
+        let expected = Some(
             r#"{"statusLine":{"type":"command","command":"/h/bin/k/viola hook statusline --capture /h/p/typed/statusline --shell \"$0\""}}"#,
         );
         assert_eq!(
@@ -463,17 +428,7 @@ mod tests {
     #[test]
     fn statusline_shell_is_bin_sh_with_the_command_as_one_argument() {
         let command = "printf '%s' \"a b\"; exit 3";
-        assert_eq!(
-            shell_argv_on(command, true),
-            Some(["/bin/sh", "-c", command])
-        );
-        assert_eq!(shell_argv_on(command, false), None);
-        let here = if cfg!(unix) {
-            Some(["/bin/sh", "-c", command])
-        } else {
-            None
-        };
-        assert_eq!(shell_argv(command), here);
+        assert_eq!(shell_argv(command), ["/bin/sh", "-c", command]);
     }
 
     fn config() -> ProptestConfig {

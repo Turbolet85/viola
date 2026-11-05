@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-2025, macos-latest, ubuntu-latest]
+        os: [ubuntu-latest]
     env:
       AGENT_RUN_KEEP_HOMES: "1"
     steps:
@@ -32,43 +32,12 @@ jobs:
           # cargo-mutants too: the harness's own tests drive `run --mutants` against a temp project
           tool: cargo-nextest@0.9.146,cargo-mutants@27.1.0,cargo-llvm-cov@0.9.1
 
-      # The committed sideloaded ConPTY equals Microsoft's pinned package and carries its signer;
-      # every refusal of the vendor script fires (src/conpty.rs holds the pins).
-      - name: ConPTY vendor verification
-        if: matrix.os == 'windows-2025'
-        shell: bash
-        run: |
-          bash scripts/conpty-vendor.sh --verify
-          bash scripts/conpty-vendor.sh --probe
-
       # One instrumented nextest run replaces the unit and integration runs; doctest follows it.
-      - name: Coverage and doctest (pwsh shim)
-        if: runner.os == 'Windows'
-        shell: pwsh
-        run: |
-          ./scripts/agent-run.ps1 run --coverage
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Coverage and doctest (sh shim)
-        if: runner.os != 'Windows'
         shell: bash
         run: bash scripts/agent-run.sh run --coverage
 
-      - name: Harness lifecycle (pwsh shim)
-        if: runner.os == 'Windows'
-        shell: pwsh
-        run: |
-          function Step { param([string[]]$a) ./scripts/agent-run.ps1 @a; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE } }
-          Step cleanup, --session, ci-smoke
-          Step boot, --session, ci-smoke, --instance, builder
-          Step status, --session, ci-smoke
-          $lines = ./scripts/agent-run.ps1 logs --session ci-smoke --instance builder
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          $starts = @($lines | ForEach-Object { $_ | ConvertFrom-Json } | Where-Object { $_.record.event -eq 'process-start' -and $_.record.process -eq 'run' })
-          if ($starts.Count -lt 1) { Write-Error 'no process-start line from viola run'; exit 1 }
-          Step cleanup, --session, ci-smoke
-          Step cleanup, --session, ci-smoke
       - name: Harness lifecycle (sh shim)
-        if: runner.os != 'Windows'
         shell: bash
         run: |
           bash scripts/agent-run.sh cleanup --session ci-smoke
@@ -158,7 +127,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-2025, macos-latest, ubuntu-latest]
+        os: [ubuntu-latest]
     env:
       AGENT_RUN_KEEP_HOMES: "1"
     steps:
@@ -291,7 +260,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-2025, macos-latest, ubuntu-latest]
+        os: [ubuntu-latest]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -331,7 +300,6 @@ jobs:
         run: |
           set +e; rg -n --hidden -g 'Cargo.toml' -g 'config.toml' -g '*.yml' -g '*.yaml' "(panic|_PANIC)\s*[:=]\s*[\"']?abort" .; test $? -eq 1
       - name: Lint probes (bans fire both ways, raw event! grep)
-        if: runner.os == 'Linux'
         shell: bash
         run: bash scripts/lint-probes.sh
       # Beside deny.toml's [[bans.features]] gate: rmcp present, then exactly these two features.
@@ -354,7 +322,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-2025, macos-latest, ubuntu-latest]
+        os: [ubuntu-latest]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:

@@ -1,7 +1,6 @@
 //! `viola verify` against the fake agent (test-plan §5 CLI, §7 Fake agent; design-system §Surface:
 //! cli Component Patterns 5; layout-templates §Output structure `viola verify`): the relied step
-//! lines (twenty-four on Unix, twenty-one on Windows, where the status line is not wrapped) and the
-//! `stamped` summary, the stamps it alone writes, the refusals, the `cli` catch-site line,
+//! lines (twenty-four) and the `stamped` summary, the stamps it alone writes, the refusals, the `cli` catch-site line,
 //! the five interactive runs and their dirs, `--record`'s scrub, screens, dialog and framing
 //! variants, the dialog tier's and the local-command row's failure without a replay, the help text, and the
 //! hook verb's capture arm. Every oracle is a literal.
@@ -24,7 +23,6 @@ use support::verify::{
     write_screen_set, write_spine_set,
 };
 
-#[cfg(unix)]
 const STEPS_PASS: [&str; 24] = [
     "[01/24] shim-resolution claude resolves to a real executable  pass",
     "[02/24] spine-hooks spine hooks fire through the plugin dir  pass",
@@ -51,31 +49,6 @@ const STEPS_PASS: [&str; 24] = [
     "[23/24] agents-join claude agents --json names the live session by pid and session id  pass",
     "[24/24] local-command-compact /compact keeps the session id and submits no prompt  pass",
 ];
-#[cfg(windows)]
-const STEPS_PASS: [&str; 21] = [
-    "[01/21] shim-resolution claude resolves to a real executable  pass",
-    "[02/21] spine-hooks spine hooks fire through the plugin dir  pass",
-    "[03/21] session-start-fields SessionStart carries session_id and source  pass",
-    "[04/21] prompt-verbatim UserPromptSubmit carries the prompt as sent  pass",
-    "[05/21] stop-message Stop carries last_assistant_message  pass",
-    "[06/21] largest-hook-payload every hook payload fits the frame cap  pass",
-    "[07/21] modal-signature an untrusted start shows a compiled modal literal  pass",
-    "[08/21] input-box-signature a trusted start shows a compiled input-box literal and no modal  pass",
-    "[09/21] quiet-period the screen settles within the gate's maximum wait  pass",
-    "[10/21] confirm-window the typed prompt reaches UserPromptSubmit within the window  pass",
-    "[11/21] question-answer a question answered through PreToolUse takes effect  pass",
-    "[12/21] plan-approve-revise a plan revise and approve each take effect  pass",
-    "[13/21] question-notes free text and notes reach the question  pass",
-    "[14/21] dialog-concurrency two parallel questions each raise a dialog  pass",
-    "[15/21] long-paste-wrapper a long paste unwraps to the text as pasted  pass",
-    "[16/21] tag-escaping tag-like text un-escapes to the text as pasted  pass",
-    "[17/21] local-command-clear /clear starts a new session and submits no prompt  pass",
-    "[18/21] paste-newline an LF inside a paste stays inside the one prompt submitted  pass",
-    "[19/21] resume-session --resume <id> reopens the session under that id  pass",
-    "[20/21] agents-join claude agents --json names the live session by pid and session id  pass",
-    "[21/21] local-command-compact /compact keeps the session id and submits no prompt  pass",
-];
-#[cfg(unix)]
 const ROW_IDS: [&str; 24] = [
     "shim-resolution",
     "spine-hooks",
@@ -102,36 +75,9 @@ const ROW_IDS: [&str; 24] = [
     "agents-join",
     "local-command-compact",
 ];
-#[cfg(windows)]
-const ROW_IDS: [&str; 21] = [
-    "shim-resolution",
-    "spine-hooks",
-    "session-start-fields",
-    "prompt-verbatim",
-    "stop-message",
-    "largest-hook-payload",
-    "modal-signature",
-    "input-box-signature",
-    "quiet-period",
-    "confirm-window",
-    "question-answer",
-    "plan-approve-revise",
-    "question-notes",
-    "dialog-concurrency",
-    "long-paste-wrapper",
-    "tag-escaping",
-    "local-command-clear",
-    "paste-newline",
-    "resume-session",
-    "agents-join",
-    "local-command-compact",
-];
 /// The summary of a run whose every relied row passed.
-#[cfg(unix)]
 const STAMPED_PASS: &str = "stamped 2.1.0  24 pass  0 fail";
-#[cfg(windows)]
-const STAMPED_PASS: &str = "stamped 2.1.0  21 pass  0 fail";
-/// The three statusline rows, relied on only where the status line is wrapped.
+/// The three statusline rows.
 const STATUSLINE_ROWS: [&str; 3] = [
     "statusline-override",
     "statusline-shell",
@@ -240,7 +186,6 @@ fn verify_a_complete_set_prints_every_relied_step_and_stamps_every_row(
         !home.path().join("diagnostics").exists(),
         "a process log without an instance"
     );
-    #[cfg(unix)]
     {
         use std::os::unix::fs::PermissionsExt as _;
         let meta = fs::metadata(ledger(home.path()).join("stamps.json")).expect("meta");
@@ -296,10 +241,7 @@ fn verify_a_set_without_stop_fails_its_rows_and_still_stamps(#[from(home)] home:
     let stdout = ran.stdout_text();
     let lines: Vec<&str> = stdout.lines().collect();
     let mut expected = steps_failing(|i| ![0, 2, 3, 5, 6].contains(&i));
-    #[cfg(unix)]
     expected.push("stamped 2.1.0  5 pass  19 fail".to_owned());
-    #[cfg(windows)]
-    expected.push("stamped 2.1.0  5 pass  16 fail".to_owned());
     assert_eq!(lines, expected);
     assert!(ran.stderr.is_empty());
     let rows = &stamps(home.path())["data"]["versions"]["2.1.0"]["rows"];
@@ -425,30 +367,6 @@ fn verify_a_missing_program_refuses(#[from(home)] home: TestHome) {
     );
 }
 
-/// Windows only: a `.cmd` batch-script child is a Windows program kind viola refuses to spawn.
-#[cfg(windows)]
-#[rstest]
-fn verify_a_batch_script_refuses(#[from(home)] home: TestHome) {
-    let script = home.scratch().join("claude-like.cmd");
-    fs::write(&script, "@echo 2.1.0 (Claude Code)\r\n").expect("script");
-    let args: Vec<OsString> = vec![
-        "--home".into(),
-        home.path().into(),
-        "verify".into(),
-        "--".into(),
-        script.into(),
-    ];
-    let env = [("VIOLA_NAME", OsString::from("verifier"))];
-    let ran = viola(&args, &env);
-    assert_eq!(ran.code, Some(1));
-    assert_eq!(
-        ran.stderr_text(),
-        "unable: the claude CLI is a .cmd or .bat script\n\
-         hint: pass the real executable, not a .cmd or .bat shim\n"
-    );
-    assert_refused_line(home.path(), "batch-script-child");
-}
-
 /// Every child runs under the R8 strip: no `env` receipt (the print-mode child and the five
 /// interactive runs) lists a stripped name, and every hook fired ran and exited 0: the print turn's
 /// four, the trusted run's twelve (SessionStart, UserPromptSubmit and Stop, the three paste turns'
@@ -495,8 +413,7 @@ fn verify_runs_the_probe_under_the_identity_strip(#[from(home)] home: TestHome) 
             .all(|h| h["ran"] == true && h["exit_code"] == 0)
     );
     let statusline = of_kind(&lines, "statusline");
-    let runs = if cfg!(unix) { 2 } else { 0 };
-    assert_eq!(statusline.len(), runs);
+    assert_eq!(statusline.len(), 2);
     assert!(
         statusline
             .iter()
@@ -504,10 +421,8 @@ fn verify_runs_the_probe_under_the_identity_strip(#[from(home)] home: TestHome) 
     );
 }
 
-/// A home whose parent is a regular file: on Unix it cannot be statted (`NotADirectory`), so the
-/// home's check refuses it before anything runs — exit 1, the home's pair; on Windows the same
-/// stat reads `NotFound`, an absent home the check skips, and the home's creation fails at the
-/// `cli` catch site's one line (testing.md 2026-09-24, I/O errors per OS). Nothing on stdout.
+/// A home whose parent is a regular file cannot be statted (`NotADirectory`), so the home's check
+/// refuses it before anything runs — exit 1, the home's pair. Nothing on stdout.
 #[rstest]
 fn verify_under_a_regular_file_refuses_the_home(#[from(home)] home: TestHome) {
     let file = home.scratch().join("file");
@@ -516,16 +431,14 @@ fn verify_under_a_regular_file_refuses_the_home(#[from(home)] home: TestHome) {
     let ran = verify(&file.join("home"), &fixtures(&home), "2.1.0", &[], &[], &[]);
     assert_eq!(ran.code, Some(1));
     assert!(ran.stdout.is_empty());
-    let expected = if cfg!(windows) {
-        INTERNAL_ERROR
-    } else {
+    assert_eq!(
+        ran.stderr_text(),
         concat!(
             "unable: the viola home is not private to you\n",
             "hint: the viola home must be readable only by you; viola does not change its ",
             "permissions\n",
         )
-    };
-    assert_eq!(ran.stderr_text(), expected);
+    );
 }
 
 /// A home that passes its check but holds a regular file where `ledger/` goes: the probe dir
@@ -759,7 +672,7 @@ fn verify_record_writes_the_scrubbed_spine_variants_and_screens(#[from(home)] ho
         .map(|e| e.file_name().to_string_lossy().into_owned())
         .collect();
     names.sort();
-    let mut expected = vec![
+    let expected = vec![
         "Agents.recorded-1.json",
         "PermissionRequest.permission-1.json",
         "PermissionRequest.plan-1.json",
@@ -790,9 +703,6 @@ fn verify_record_writes_the_scrubbed_spine_variants_and_screens(#[from(home)] ho
         "UserPromptSubmit.paste-2.json",
         "UserPromptSubmit.paste-3.json",
     ];
-    if cfg!(windows) {
-        expected.retain(|n| !n.starts_with("StatusLine."));
-    }
     assert_eq!(names, expected);
     let schema = load_schema(&workspace_path("schemas/claude-fixture.v1.json"));
     let statusline = load_schema(&workspace_path("schemas/claude-statusline-fixture.v1.json"));
@@ -873,7 +783,6 @@ fn verify_record_writes_the_scrubbed_spine_variants_and_screens(#[from(home)] ho
         resumed["session_id"],
         "5e55a0b1-0c0d-4e0f-8a1b-2c3d4e5f6a7b"
     );
-    #[cfg(unix)]
     {
         assert!(
             read("StatusLine.default-1.json")
@@ -1396,10 +1305,7 @@ fn verify_window_without_screens_fails_every_interactive_row(#[from(home)] home:
     let stdout = ran.stdout_text();
     let lines: Vec<&str> = stdout.lines().collect();
     let mut expected = steps_failing(|i| i >= 6 && ROW_IDS[i] != "resume-session");
-    #[cfg(unix)]
     expected.push("stamped 2.1.0  7 pass  17 fail".to_owned());
-    #[cfg(windows)]
-    expected.push("stamped 2.1.0  7 pass  14 fail".to_owned());
     assert_eq!(lines, expected);
     let rows = &stamps(home.path())["data"]["versions"]["2.1.0"]["rows"];
     for id in ROW_IDS[6..].iter().filter(|id| **id != "resume-session") {
@@ -1452,10 +1358,7 @@ fn verify_without_the_dialog_replay_fails_the_four_dialog_rows(#[from(home)] hom
     assert_eq!(ran.code, Some(1));
     assert!(ran.stderr.is_empty(), "stderr {}", ran.stderr_text());
     let mut expected = steps_failing(|i| (10..14).contains(&i));
-    #[cfg(unix)]
     expected.push("stamped 2.1.0  20 pass  4 fail".to_owned());
-    #[cfg(windows)]
-    expected.push("stamped 2.1.0  17 pass  4 fail".to_owned());
     let stdout = ran.stdout_text();
     assert_eq!(stdout.lines().collect::<Vec<_>>(), expected);
     assert_plain(&ran.stdout);
@@ -1512,10 +1415,7 @@ fn verify_without_framing_fails_the_clear_row_and_on_unix_the_statusline_rows(
     let local = |id: &str| id == "local-command-clear" || id == "local-command-compact";
     let mut expected =
         steps_failing(|i| local(ROW_IDS[i]) || STATUSLINE_ROWS.contains(&ROW_IDS[i]));
-    #[cfg(unix)]
     expected.push("stamped 2.1.0  19 pass  5 fail".to_owned());
-    #[cfg(windows)]
-    expected.push("stamped 2.1.0  19 pass  2 fail".to_owned());
     let stdout = ran.stdout_text();
     assert_eq!(stdout.lines().collect::<Vec<_>>(), expected);
     assert_plain(&ran.stdout);
@@ -1596,11 +1496,7 @@ fn verify_pastes_no_local_command_once_the_tag_turn_screen_shows_a_modal(
     ];
     let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &after, &[]);
     assert_eq!(ran.code, Some(1), "stdout {}", ran.stdout_text());
-    let summary = if cfg!(unix) {
-        "stamped 2.1.0  21 pass  3 fail\n"
-    } else {
-        "stamped 2.1.0  18 pass  3 fail\n"
-    };
+    let summary = "stamped 2.1.0  21 pass  3 fail\n";
     assert!(
         ran.stdout_text().ends_with(summary),
         "stdout {}",
@@ -1654,10 +1550,7 @@ fn verify_pastes_nothing_more_once_the_long_turn_screen_shows_a_modal(
         "local-command-compact",
     ];
     let mut expected = steps_failing(|i| red.contains(&ROW_IDS[i]));
-    #[cfg(unix)]
     expected.push("stamped 2.1.0  19 pass  5 fail".to_owned());
-    #[cfg(windows)]
-    expected.push("stamped 2.1.0  16 pass  5 fail".to_owned());
     let stdout = ran.stdout_text();
     assert_eq!(
         stdout.lines().collect::<Vec<_>>(),

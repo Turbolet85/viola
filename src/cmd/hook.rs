@@ -21,7 +21,7 @@ use viola_agent_claude::ledger::{
     probe_body, statusline_capture_file_name, statusline_shell_file_name,
 };
 use viola_agent_claude::statusline::BIN_SH;
-use viola_channel::{ChannelError, Client, SERVER_PID_REPORTED, peer_admitted};
+use viola_channel::{ChannelError, Client, peer_admitted};
 use viola_core::obs::{ObsEvent, ObsProcess};
 use viola_core::{DIALOG_HOLD_MAX, MAX_FRAME, UnreachableCause, obs_event};
 use viola_state::events::{EventLine, Source, try_append_event};
@@ -236,12 +236,7 @@ fn connect(instance: &Instance, connect_by: Instant) -> Result<Client, NotSent> 
     if !peer_admitted(client.server_euid()) {
         return Err(NotSent::ServerUnverified);
     }
-    let verdict = verify_server(
-        snapshot.pid,
-        &snapshot.started_at,
-        client.server_pid(),
-        SERVER_PID_REPORTED,
-    );
+    let verdict = verify_server(snapshot.pid, &snapshot.started_at, client.server_pid());
     match verdict {
         ServerVerdict::Matches => Ok(client),
         ServerVerdict::Mismatch | ServerVerdict::Unverifiable => Err(NotSent::ServerUnverified),
@@ -1013,7 +1008,6 @@ mod tests {
 
     /// `started_at` a second before this process's own start: the serving process is the recorded
     /// pid under another start time, so it is not the recorded wrapper.
-    #[cfg(not(target_os = "macos"))]
     fn an_earlier_start() -> String {
         let start = viola_state::liveness::own_start(std::process::id()).expect("own start");
         let secs = chrono::DateTime::parse_from_rfc3339(&start)
@@ -1023,7 +1017,6 @@ mod tests {
     }
 
     /// A server that fails the check is never asked: no `hook.dialog` frame, nothing printed.
-    #[cfg(not(target_os = "macos"))]
     #[rstest]
     #[case::another_start_time(an_earlier_start())]
     #[case::started_at_not_a_time("s".to_owned())]
@@ -1058,7 +1051,6 @@ mod tests {
     /// lines there (obs-plan §4, the must-trace spans): the event path's `hook-invoked`, its
     /// `hook-decision` following outside as on every fail-open path; the dialog path's
     /// `hook-invoked` and `hook-decision`; never a `channel.request` span or `channel-request` line.
-    #[cfg(not(target_os = "macos"))]
     #[test]
     fn hook_refuses_an_unverified_server_inside_hook_handle() {
         use tracing_subscriber::layer::SubscriberExt as _;
@@ -1660,10 +1652,7 @@ mod tests {
     /// server fails its check: a refused check is not a delivery, and no frame reaches it.
     #[rstest]
     #[case::unreachable(None, "channel-unreachable")]
-    #[cfg_attr(
-        not(target_os = "macos"),
-        case::server_unverified(Some(an_earlier_start()), "server-verify-failed")
-    )]
+    #[case::server_unverified(Some(an_earlier_start()), "server-verify-failed")]
     fn handle_appends_only_a_session_end_the_channel_did_not_take(
         #[case] impostor_started_at: Option<String>,
         #[case] detail: &str,

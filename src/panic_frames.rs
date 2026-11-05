@@ -1,10 +1,10 @@
-//! A panic's call stack as raw frames, never symbolised on the panic path (obs-plan §7; measured on
-//! the Windows runner: symbolising 72 frames took 351 of the hook's 403 ms against its 1.0 s spine
-//! bound). Each frame carries its instruction address, the module that holds it and that module's
-//! load base, so an offline resolver can symbolise it later against the pinned copy (the offset is
-//! the address less the base). Only the two OS readers differ per OS; the rendering is shared.
+//! A panic's call stack as raw frames, never symbolised on the panic path (obs-plan §7: symbolising
+//! 72 frames took 351 of the hook's 403 ms against its 1.0 s spine bound). Each frame carries its
+//! instruction address, the module that holds it and that module's load base, so an offline
+//! resolver can symbolise it later against the pinned copy (the offset is the address less the
+//! base).
 
-/// The frames kept: `RtlCaptureStackBackTrace` takes fewer than 63 on older Windows.
+/// The frames kept.
 const MAX_FRAMES: usize = 62;
 
 /// One detail-line backtrace string: `0x<ip> <module> base=0x<base> +0x<offset>`, or `0x<ip> ?` for
@@ -27,44 +27,6 @@ pub(crate) fn capture() -> Vec<String> {
         .collect()
 }
 
-/// `GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT`, one
-/// literal (pinned by a test): the address is read as an address, and no reference is taken.
-#[cfg(windows)]
-const MODULE_BY_ADDRESS: u32 = 6;
-
-#[cfg(windows)]
-fn raw_frames() -> Vec<usize> {
-    use windows_sys::Win32::System::Diagnostics::Debug::RtlCaptureStackBackTrace;
-    let mut buf = [std::ptr::null_mut(); MAX_FRAMES];
-    let size = u32::try_from(MAX_FRAMES).unwrap_or(0);
-    // SAFETY: the buffer holds MAX_FRAMES pointers and the hash out-pointer may be null.
-    let n = unsafe { RtlCaptureStackBackTrace(0, size, buf.as_mut_ptr(), std::ptr::null_mut()) };
-    buf[..usize::from(n).min(MAX_FRAMES)]
-        .iter()
-        .map(|p| p.addr())
-        .collect()
-}
-
-#[cfg(windows)]
-fn module_of(ip: usize) -> Option<(String, usize)> {
-    use windows_sys::Win32::System::LibraryLoader::{GetModuleFileNameW, GetModuleHandleExW};
-    let mut module = std::ptr::null_mut();
-    let address = std::ptr::without_provenance::<u16>(ip);
-    // SAFETY: with FROM_ADDRESS the name argument is read as an address inside a module, never
-    // dereferenced as a string; UNCHANGED_REFCOUNT leaves no reference to release.
-    if unsafe { GetModuleHandleExW(MODULE_BY_ADDRESS, address, &mut module) } == 0 {
-        return None;
-    }
-    let mut name = [0u16; 1024];
-    let size = u32::try_from(name.len()).unwrap_or(0);
-    // SAFETY: `module` is a loaded module's handle and the buffer holds `size` UTF-16 units.
-    let len = unsafe { GetModuleFileNameW(module, name.as_mut_ptr(), size) };
-    // The count is at most `size`; a failed read (0) leaves an empty path, the address still kept.
-    let path = name.get(..usize::try_from(len).ok()?)?;
-    Some((String::from_utf16_lossy(path), module.addr()))
-}
-
-#[cfg(unix)]
 fn raw_frames() -> Vec<usize> {
     let mut buf = [std::ptr::null_mut(); MAX_FRAMES];
     let size = libc::c_int::try_from(MAX_FRAMES).unwrap_or(0);
@@ -74,7 +36,6 @@ fn raw_frames() -> Vec<usize> {
     buf[..n].iter().map(|p| p.addr()).collect()
 }
 
-#[cfg(unix)]
 fn module_of(ip: usize) -> Option<(String, usize)> {
     // SAFETY: Dl_info is plain pointers, for which all-zero is a valid value.
     let mut info: libc::Dl_info = unsafe { std::mem::zeroed() };
@@ -128,17 +89,5 @@ mod tests {
     #[test]
     fn module_of_an_address_no_module_holds_is_none() {
         assert_eq!(module_of(0x10), None);
-    }
-
-    #[cfg(windows)]
-    #[test]
-    fn module_by_address_is_the_two_flags() {
-        use windows_sys::Win32::System::LibraryLoader::{
-            GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS, GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
-        };
-        assert_eq!(
-            MODULE_BY_ADDRESS,
-            GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT
-        );
     }
 }

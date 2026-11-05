@@ -1,0 +1,12 @@
+{"type": "listing", "schema": 2, "doc": "security-plan", "file": ".andromeda/security-plan-detail/data-protection.md", "blob": "718160f3fa1fcf1e", "tool": "detail v1.28", "entities": 11, "pin": 144, "sha": "718160f3fa1fcf1e"}
+{"type": "entity", "id": "data-protection#1.1", "hash": "12485eb1", "kind": "values", "subject": "data-rest", "origin": "## Data Protection", "lines": [8, 22], "fact": "fct-jzj7djty", "rev": 1, "size": 8768}
+{"type": "entity", "id": "data-protection#2.1", "hash": "c0fc2c77", "kind": "values", "subject": "data-rest", "origin": "## Data Protection", "lines": [28, 28], "fact": "fct-l66ara67", "rev": 1, "size": 645}
+{"type": "entity", "id": "data-protection#3.1", "hash": "f4d874f4", "kind": "values", "subject": "data-rest", "origin": "## Data Protection", "lines": [34, 34], "fact": "fct-lzwf4bbi", "rev": 1, "size": 361}
+{"type": "entity", "id": "data-protection#4.1", "hash": "906bda9e", "kind": "values", "subject": "data-rest", "origin": "## Data Protection", "lines": [40, 40], "fact": "fct-i5etdjvh", "rev": 1, "size": 477}
+{"type": "entity", "id": "data-protection#5.1", "hash": "4eae9810", "kind": "values", "subject": "data-rest", "origin": "## Data Protection", "lines": [46, 46], "fact": "fct-uxsbnoo5", "rev": 1, "size": 439}
+{"type": "entity", "id": "data-protection#6.1", "hash": "69cb544f", "kind": "values", "subject": "data-rest", "origin": "## Data Protection", "lines": [52, 52], "fact": "fct-cettrvwp", "rev": 1, "size": 589}
+{"type": "entity", "id": "data-protection#7.1", "hash": "1cef6119", "kind": "values", "subject": "data-rest", "origin": "## Data Protection", "lines": [58, 58], "fact": "fct-jbwneego", "rev": 1, "size": 528}
+{"type": "entity", "id": "data-protection#8.1", "hash": "c70fb397", "kind": "values", "subject": "data-rest", "origin": "## Data Protection", "lines": [64, 64], "fact": "fct-gfsndi6o", "rev": 1, "size": 554}
+{"type": "entity", "id": "data-protection#9.1", "hash": "e7fcac82", "kind": "values", "subject": "data-rest", "origin": "## Data Protection", "lines": [70, 71], "fact": "fct-cnkeyzag", "rev": 1, "size": 2629}
+{"type": "entity", "id": "data-protection#10.1", "hash": "46f7b66f", "kind": "values", "subject": "data-rest", "origin": "## Data Protection", "lines": [77, 77], "fact": "fct-zaeoull5", "rev": 1, "size": 499}
+{"type": "entity", "id": "data-protection#11.0", "hash": "0bb75515", "kind": "exception", "subject": "data-lifecycle", "origin": "## Data Protection", "lines": [83, 89], "fact": "fct-uz6mlfv5", "rev": 1, "size": 6815}

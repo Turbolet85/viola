@@ -1,12 +1,9 @@
 //! Owner-only creation and the single atomic replace: modes are set explicitly, never left to the
-//! umask (security-plan §Authentication & Authorization, `~/.viola/` row). On Windows the modes are
-//! no-ops; a folder viola creates outside `%USERPROFILE%` gets an explicit protected user + SYSTEM
-//! DACL instead (the same row), and the check is `crate::strict`'s.
+//! umask (security-plan §Authentication & Authorization, `~/.viola/` row).
 
 use std::fs::{self, File, OpenOptions};
 use std::io::{self, Read as _, Write as _};
-use std::path::{Component, Path};
-use std::time::Duration;
+use std::path::Path;
 
 use crate::StateError;
 
@@ -14,193 +11,25 @@ pub const DIR_MODE: u32 = 0o700;
 pub const FILE_MODE: u32 = 0o600;
 
 /// Sets `mode` on `path`.
-#[cfg(unix)]
 fn restrict(path: &Path, mode: u32) -> io::Result<()> {
     use std::os::unix::fs::PermissionsExt as _;
     fs::set_permissions(path, fs::Permissions::from_mode(mode))
 }
 
-/// Off Unix a mode sets nothing: the DACL is the control there. A function of its own, since a
-/// body that is only `Ok(())` holds nothing a test could tell from its replacement.
-#[cfg(not(unix))]
-fn restrict(_path: &Path, _mode: u32) -> io::Result<()> {
-    Ok(())
-}
-
 /// Creates `path` and its missing parents one component at a time, each created 0700 and then set
-/// 0700 on Unix (the umask can only narrow the first); an existing `path` is narrowed too. On
-/// Windows the topmost folder this call creates, when it lies outside the user's profile folder,
-/// gets the protected user + SYSTEM DACL every folder and file under it inherits; a DACL that cannot
-/// be set fails the creation.
+/// 0700 (the umask can only narrow the first); an existing `path` is narrowed too.
 pub fn create_private_dir(path: &Path) -> io::Result<()> {
     let missing: Vec<&Path> = path
         .ancestors()
         .take_while(|p| !p.as_os_str().is_empty() && !p.exists())
         .collect();
-    #[cfg(unix)]
-    let builder = {
-        let mut builder = fs::DirBuilder::new();
-        std::os::unix::fs::DirBuilderExt::mode(&mut builder, DIR_MODE);
-        builder
-    };
-    #[cfg(not(unix))]
-    let builder = fs::DirBuilder::new();
-    let topmost = missing.last().copied();
+    let mut builder = fs::DirBuilder::new();
+    std::os::unix::fs::DirBuilderExt::mode(&mut builder, DIR_MODE);
     for dir in missing.into_iter().rev() {
         created_or_present(builder.create(dir))?;
         restrict(dir, DIR_MODE)?;
     }
-    #[cfg(windows)]
-    if let Some(topmost) = topmost {
-        win::protect_outside_profile(topmost)?;
-    }
-    #[cfg(not(windows))]
-    let _ = topmost;
     restrict(path, DIR_MODE)
-}
-
-/// Whether `dir` lies outside `profile`, component by component, case folded (Windows paths): the
-/// profile folder itself and anything under it are inside. Both are canonical paths.
-pub fn outside_profile(dir: &Path, profile: &Path) -> bool {
-    let fold = |c: Component<'_>| c.as_os_str().to_string_lossy().to_lowercase();
-    let mut dir = dir.components().map(fold);
-    !profile
-        .components()
-        .map(fold)
-        .all(|p| dir.next() == Some(p))
-}
-
-#[cfg(windows)]
-pub(crate) mod win {
-    use std::io;
-    use std::os::windows::ffi::OsStrExt as _;
-    use std::path::{Path, PathBuf};
-    use std::ptr;
-
-    use windows_sys::Win32::Foundation::{CloseHandle, HANDLE, LocalFree};
-    use windows_sys::Win32::Security::Authorization::{
-        ConvertStringSecurityDescriptorToSecurityDescriptorW, SDDL_REVISION_1, SE_FILE_OBJECT,
-        SetNamedSecurityInfoW,
-    };
-    use windows_sys::Win32::Security::{
-        ACL, GetSecurityDescriptorDacl, PSECURITY_DESCRIPTOR, TOKEN_QUERY,
-    };
-    use windows_sys::Win32::System::Threading::{GetCurrentProcess, OpenProcessToken};
-    use windows_sys::Win32::UI::Shell::GetUserProfileDirectoryW;
-
-    use super::outside_profile;
-
-    /// What `set_dacl` sets: `DACL_SECURITY_INFORMATION` (0x4) and
-    /// `PROTECTED_DACL_SECURITY_INFORMATION` (0x8000_0000), written as one value (the Windows test
-    /// pins it to the names).
-    pub(super) const PROTECTED_DACL: u32 = 0x8000_0004;
-
-    fn wide(text: &std::ffi::OsStr) -> Vec<u16> {
-        text.encode_wide().chain(Some(0)).collect()
-    }
-
-    /// The protected owner-only DACL, inherited by every folder and file under the folder it is set
-    /// on (`OICI`).
-    pub(super) fn protected_sddl(user_sid: &str) -> String {
-        format!("D:P(A;OICI;FA;;;{user_sid})(A;OICI;FA;;;SY)")
-    }
-
-    /// The process user's profile folder, canonical.
-    fn profile_dir() -> io::Result<PathBuf> {
-        let mut token: HANDLE = ptr::null_mut();
-        // SAFETY: the current-process pseudo-handle needs no close; `token` is a local out-pointer.
-        if unsafe { OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, &mut token) } == 0 {
-            return Err(io::Error::last_os_error());
-        }
-        let mut len = 0u32;
-        // SAFETY: a size query: a null buffer, `len` a local out-pointer.
-        unsafe { GetUserProfileDirectoryW(token, ptr::null_mut(), &mut len) };
-        let mut buf = vec![0u16; usize::try_from(len).unwrap_or(0)];
-        // SAFETY: `buf` holds `len` u16s and outlives the call.
-        let filled = unsafe { GetUserProfileDirectoryW(token, buf.as_mut_ptr(), &mut len) };
-        let error = io::Error::last_os_error();
-        // SAFETY: `token` was opened above and is closed exactly once.
-        unsafe { CloseHandle(token) };
-        if filled == 0 {
-            return Err(error);
-        }
-        let end = buf.iter().position(|c| *c == 0).unwrap_or(buf.len());
-        std::fs::canonicalize(PathBuf::from(String::from_utf16_lossy(&buf[..end])))
-    }
-
-    /// `dir` (just created) gets the protected owner-only DACL when it lies outside the profile
-    /// folder; a home inside it keeps the profile's inheritance (security-plan, `~/.viola/` row).
-    pub(super) fn protect_outside_profile(dir: &Path) -> io::Result<()> {
-        let dir = std::fs::canonicalize(dir)?;
-        if outside_profile(&dir, &profile_dir()?) {
-            protect(&dir)?;
-        }
-        Ok(())
-    }
-
-    fn protect(dir: &Path) -> io::Result<()> {
-        let user = crate::strict::win::user_sid().ok_or_else(io::Error::last_os_error)?;
-        set_dacl(dir, &protected_sddl(&user))
-    }
-
-    /// Sets the DACL `sddl` describes on `path`, protected from inheritance; the owner, group and
-    /// SACL stay as they are. An SDDL that carries no DACL is refused and sets nothing.
-    pub(crate) fn set_dacl(path: &Path, sddl: &str) -> io::Result<()> {
-        let sddl = wide(std::ffi::OsStr::new(sddl));
-        let mut sd: PSECURITY_DESCRIPTOR = ptr::null_mut();
-        // SAFETY: `sddl` is NUL-terminated; `sd` is LocalAlloc'd by the call and freed below.
-        let made = unsafe {
-            ConvertStringSecurityDescriptorToSecurityDescriptorW(
-                sddl.as_ptr(),
-                SDDL_REVISION_1,
-                &mut sd,
-                ptr::null_mut(),
-            )
-        };
-        if made == 0 {
-            return Err(io::Error::last_os_error());
-        }
-        let set = dacl_of(sd).and_then(|dacl| {
-            let name = wide(path.as_os_str());
-            // SAFETY: `name` is NUL-terminated; `dacl` points into `sd`, still live; no owner, group
-            // or SACL is set.
-            let status = unsafe {
-                SetNamedSecurityInfoW(
-                    name.as_ptr(),
-                    SE_FILE_OBJECT,
-                    PROTECTED_DACL,
-                    ptr::null_mut(),
-                    ptr::null_mut(),
-                    dacl,
-                    ptr::null(),
-                )
-            };
-            if status == 0 {
-                Ok(())
-            } else {
-                Err(io::Error::from_raw_os_error(
-                    i32::try_from(status).unwrap_or(i32::MAX),
-                ))
-            }
-        });
-        // SAFETY: `sd` was allocated by the conversion above and is freed exactly once.
-        unsafe { LocalFree(sd) };
-        set
-    }
-
-    /// The descriptor's DACL. A descriptor that carries none leaves `dacl` as it was set here, null,
-    /// which a NULL DACL reads as too: one test refuses both.
-    fn dacl_of(sd: PSECURITY_DESCRIPTOR) -> io::Result<*mut ACL> {
-        let (mut present, mut defaulted) = (0, 0);
-        let mut dacl: *mut ACL = ptr::null_mut();
-        // SAFETY: `sd` is a valid descriptor; the out-pointers are locals.
-        if unsafe { GetSecurityDescriptorDacl(sd, &mut present, &mut dacl, &mut defaulted) } == 0
-            || dacl.is_null()
-        {
-            return Err(io::Error::from(io::ErrorKind::InvalidData));
-        }
-        Ok(dacl)
-    }
 }
 
 /// A component another process created first is as good as one this call created.
@@ -232,8 +61,7 @@ pub fn create_private_new(path: &Path) -> io::Result<File> {
     options.open(path)
 }
 
-/// A `.lock` sibling, 0600 on Unix, opened for write because Windows refuses an exclusive lock on
-/// an append-only handle.
+/// A `.lock` sibling, 0600 on Unix, opened for write.
 pub fn open_private_lock(path: &Path) -> io::Result<File> {
     let mut options = OpenOptions::new();
     options.create(true).truncate(false).write(true);
@@ -244,64 +72,15 @@ pub fn open_private_lock(path: &Path) -> io::Result<File> {
     Ok(file)
 }
 
-/// How many times the rename is tried while Windows refuses it for a reader holding the target.
-pub const REPLACE_ATTEMPTS: u32 = 100;
-pub(crate) const REPLACE_PAUSE: Duration = Duration::from_millis(10);
-
-/// `ERROR_ACCESS_DENIED`: Windows' answer to a rename over a file a reader holds open, under every
-/// reader share mode, `std::fs::File::open`'s included (measured with the pinned tempfile).
-const ACCESS_DENIED: i32 = 5;
-const HOST_IS_WINDOWS: bool = cfg!(windows);
-
-/// Only a Windows host's reader refusal is waited out; every other failure is final at once.
-fn retry_replace(raw_os_error: Option<i32>, host_is_windows: bool) -> bool {
-    host_is_windows && raw_os_error == Some(ACCESS_DENIED)
-}
-
 /// The one atomic replace: a temp file beside `path`, its mode set before any byte is written,
 /// synced, then renamed over `path`. Any failure leaves `path` as it was.
 pub fn replace_private(path: &Path, bytes: &[u8], mode: u32) -> Result<(), StateError> {
-    replace_private_with(path, bytes, mode, &mut || std::thread::sleep(REPLACE_PAUSE))
-}
-
-/// `replace_private` with the pause between two rename attempts supplied by the caller.
-pub(crate) fn replace_private_with(
-    path: &Path,
-    bytes: &[u8],
-    mode: u32,
-    pause: &mut dyn FnMut(),
-) -> Result<(), StateError> {
-    replace_private_retrying(path, bytes, mode, pause, &|raw| {
-        retry_replace(raw, HOST_IS_WINDOWS)
-    })
-}
-
-/// The replace loop, with the decision to retry a failed rename (given its raw OS error) supplied
-/// by the caller, so the loop's bound is exercised on every host.
-fn replace_private_retrying(
-    path: &Path,
-    bytes: &[u8],
-    mode: u32,
-    pause: &mut dyn FnMut(),
-    retry: &dyn Fn(Option<i32>) -> bool,
-) -> Result<(), StateError> {
     let parent = path.parent().unwrap_or(Path::new("."));
     let mut tmp = tempfile::NamedTempFile::new_in(parent)?;
     restrict(tmp.path(), mode)?;
     tmp.write_all(bytes)?;
     tmp.as_file().sync_all()?;
-    let mut attempts = 0;
-    loop {
-        attempts += 1;
-        match tmp.persist(path) {
-            Ok(_) => return Ok(()),
-            Err(e) if attempts < REPLACE_ATTEMPTS && retry(e.error.raw_os_error()) => {
-                tmp = e.file;
-                pause();
-            }
-            Err(e) => return Err(e.error.into()),
-        }
-    }
+    tmp.persist(path).map(|_| ()).map_err(|e| e.error.into())
 }
 
 /// What [`place_private_new`] found at its target.
@@ -346,9 +125,8 @@ fn place_private_new_with(
     }
 }
 
-/// `replace_private` for a file every concurrent writer fills with the same bytes (the plugin files,
-/// the ConPTY companions): a replace that fails — on Windows while another start holds the target
-/// open — is still done when the file already holds exactly `bytes`.
+/// `replace_private` for a file every concurrent writer fills with the same bytes (the plugin
+/// files): a replace that fails is still done when the file already holds exactly `bytes`.
 pub fn replace_private_shared(path: &Path, bytes: &[u8], mode: u32) -> Result<(), StateError> {
     match replace_private(path, bytes, mode) {
         Err(e) if !holds_exactly(path, bytes) => Err(e),
@@ -477,9 +255,7 @@ mod tests {
 
     /// The placed copy is exec'd from inside the window, right after it appears: it is never open
     /// for write there, so the spawn runs. With the write handle held across the placement the same
-    /// spawn fails `ETXTBSY` on Linux (the remove-the-guard reading); macOS has no `ETXTBSY`, so
-    /// there the case has no red leg.
-    #[cfg(unix)]
+    /// spawn fails `ETXTBSY` on Linux (the remove-the-guard reading).
     #[test]
     fn place_private_new_placed_copy_execs_at_once() {
         let program = ["/usr/bin/true", "/bin/true"]
@@ -492,33 +268,6 @@ mod tests {
         let mut ran = None;
         let placed = place_private_new_with(&path, &bytes, DIR_MODE, &mut |at| {
             ran = Some(std::process::Command::new(at).status());
-        })
-        .expect("placed");
-        assert_eq!(placed, Placed::Written);
-        let status = ran.expect("the hook ran").expect("the placed copy spawned");
-        assert!(status.success(), "{status}");
-    }
-
-    /// The Windows form: the placed copy of `whoami.exe` launched from inside the window. Green on
-    /// the Windows runner only; its red leg is unmeasured (no Windows host).
-    #[cfg(windows)]
-    #[test]
-    fn place_private_new_placed_copy_runs_at_once() {
-        let root = std::env::var_os("SystemRoot").expect("SystemRoot");
-        let program = std::path::PathBuf::from(root)
-            .join("System32")
-            .join("whoami.exe");
-        let bytes = fs::read(program).expect("its bytes");
-        let tmp = tempfile::tempdir().expect("tempdir");
-        let path = tmp.path().join("viola.exe");
-        let mut ran = None;
-        let placed = place_private_new_with(&path, &bytes, DIR_MODE, &mut |at| {
-            ran = Some(
-                std::process::Command::new(at)
-                    .stdout(std::process::Stdio::null())
-                    .stderr(std::process::Stdio::null())
-                    .status(),
-            );
         })
         .expect("placed");
         assert_eq!(placed, Placed::Written);
@@ -544,33 +293,9 @@ mod tests {
         }
     }
 
-    /// Windows refuses to replace a read-only file: the stand-in for a target another start holds.
-    #[cfg(windows)]
-    #[test]
-    fn replace_private_shared_accepts_a_target_that_already_holds_the_bytes() {
-        let tmp = tempfile::tempdir().expect("tempdir");
-        let path = tmp.path().join("held");
-        let read_only = |ro: bool| {
-            let mut perms = fs::metadata(&path).expect("meta").permissions();
-            perms.set_readonly(ro);
-            fs::set_permissions(&path, perms).expect("set");
-        };
-        fs::write(&path, b"same").expect("seed");
-        read_only(true);
-        assert!(
-            replace_private(&path, b"same", FILE_MODE).is_err(),
-            "the stand-in holds"
-        );
-        replace_private_shared(&path, b"same", FILE_MODE).expect("already there");
-        assert!(replace_private_shared(&path, b"other", FILE_MODE).is_err());
-        read_only(false);
-        assert_eq!(fs::read(&path).expect("read"), b"same");
-    }
-
     /// A directory without its write bit refuses the temp file: the Unix stand-in for a replace
     /// that fails. Over a file already holding the bytes it is done; over other bytes it is still
     /// an error. An effective uid of 0 writes there anyway, so nothing fails and nothing is an error.
-    #[cfg(unix)]
     #[test]
     fn replace_private_shared_in_a_read_only_dir_is_done_only_over_the_same_bytes() {
         use std::os::unix::fs::PermissionsExt as _;
@@ -591,135 +316,6 @@ mod tests {
     }
 
     #[test]
-    fn retry_replace_waits_only_for_a_windows_reader_refusal() {
-        assert!(retry_replace(Some(5), true));
-        assert!(
-            !retry_replace(Some(5), false),
-            "only a Windows host retries"
-        );
-        assert!(
-            !retry_replace(Some(32), true),
-            "a sharing violation is not the refusal"
-        );
-        assert!(!retry_replace(None, true));
-        assert_eq!(REPLACE_ATTEMPTS, 100);
-        assert_eq!(HOST_IS_WINDOWS, cfg!(windows));
-    }
-
-    #[test]
-    fn replace_private_with_never_pauses_a_replace_that_lands() {
-        let tmp = tempfile::tempdir().expect("tempdir");
-        let path = tmp.path().join("snapshot.json");
-        fs::write(&path, b"old").expect("seed");
-        let mut pauses = 0;
-        replace_private_with(&path, b"new", FILE_MODE, &mut || pauses += 1).expect("replaced");
-        assert_eq!(pauses, 0);
-        assert_eq!(fs::read(&path).expect("read"), b"new");
-    }
-
-    /// A target that is a non-empty directory: the rename fails at the same call on every OS.
-    fn occupied_target(tmp: &tempfile::TempDir) -> std::path::PathBuf {
-        let target = tmp.path().join("snapshot.json");
-        fs::create_dir(&target).expect("a dir where the file should go");
-        fs::write(target.join("kept"), b"kept").expect("seed");
-        target
-    }
-
-    fn assert_untouched(tmp: &tempfile::TempDir, target: &Path) {
-        assert_eq!(fs::read(target.join("kept")).expect("read"), b"kept");
-        let names: Vec<_> = fs::read_dir(tmp.path())
-            .expect("dir")
-            .flatten()
-            .map(|e| e.file_name())
-            .collect();
-        assert_eq!(names, ["snapshot.json"], "no temp file is left behind");
-    }
-
-    #[test]
-    fn replace_private_retrying_tries_exactly_the_attempts_while_retry_holds() {
-        let tmp = tempfile::tempdir().expect("tempdir");
-        let target = occupied_target(&tmp);
-        let mut pauses = 0;
-        let replaced = replace_private_retrying(
-            &target,
-            b"new",
-            FILE_MODE,
-            &mut || {
-                pauses += 1;
-                assert!(pauses < REPLACE_ATTEMPTS, "paused past the last attempt");
-            },
-            &|_| true,
-        );
-        assert!(replaced.is_err());
-        assert_eq!(
-            pauses + 1,
-            REPLACE_ATTEMPTS,
-            "one pause between two attempts"
-        );
-        assert_untouched(&tmp, &target);
-    }
-
-    #[test]
-    fn replace_private_retrying_returns_at_once_when_retry_refuses() {
-        let tmp = tempfile::tempdir().expect("tempdir");
-        let target = occupied_target(&tmp);
-        let mut pauses = 0;
-        let replaced =
-            replace_private_retrying(&target, b"new", FILE_MODE, &mut || pauses += 1, &|_| false);
-        assert!(replaced.is_err());
-        assert_eq!(pauses, 0, "a refused retry never pauses");
-        assert_untouched(&tmp, &target);
-    }
-
-    /// A reader holds `snapshot.json` open across the replace (a plain `File::open`, the way a hook
-    /// reads it): Windows refuses the rename until the reader lets go. The pause lets go the first
-    /// time it runs, which also proves the refusal happened.
-    #[cfg(windows)]
-    #[test]
-    fn replace_private_lands_once_a_holding_reader_lets_go() {
-        let tmp = tempfile::tempdir().expect("tempdir");
-        let path = tmp.path().join("snapshot.json");
-        fs::write(&path, b"old").expect("seed");
-        let mut holder = Some(File::open(&path).expect("reader"));
-        let mut pauses = 0;
-        replace_private_with(&path, b"new", FILE_MODE, &mut || {
-            pauses += 1;
-            holder.take();
-        })
-        .expect("replaced once the reader let go");
-        assert!(pauses >= 1, "the reader never held the target");
-        assert_eq!(fs::read(&path).expect("read"), b"new");
-    }
-
-    #[cfg(windows)]
-    #[test]
-    fn replace_private_gives_up_after_the_attempts_and_keeps_the_old_bytes() {
-        let tmp = tempfile::tempdir().expect("tempdir");
-        let path = tmp.path().join("snapshot.json");
-        fs::write(&path, b"old").expect("seed");
-        let holder = File::open(&path).expect("reader");
-        let mut pauses = 0;
-        let replaced = replace_private_with(&path, b"new", FILE_MODE, &mut || {
-            pauses += 1;
-            assert!(pauses < REPLACE_ATTEMPTS, "paused past the last attempt");
-        });
-        assert!(replaced.is_err());
-        assert_eq!(
-            pauses + 1,
-            REPLACE_ATTEMPTS,
-            "one pause between two attempts"
-        );
-        drop(holder);
-        assert_eq!(fs::read(&path).expect("read"), b"old");
-        let names: Vec<_> = fs::read_dir(tmp.path())
-            .expect("dir")
-            .flatten()
-            .map(|e| e.file_name())
-            .collect();
-        assert_eq!(names, ["snapshot.json"], "no temp file is left behind");
-    }
-
-    #[test]
     fn create_private_dir_creates_missing_parents_and_is_idempotent() {
         let tmp = tempfile::tempdir().expect("tempdir");
         let dir = tmp.path().join("a").join("b");
@@ -735,99 +331,6 @@ mod tests {
         fs::write(&file, b"x").expect("file");
         assert!(create_private_dir(&file.join("sub")).is_err());
         assert_eq!(fs::read(&file).expect("read"), b"x");
-    }
-
-    #[test]
-    fn outside_profile_compares_whole_components_case_folded() {
-        use std::path::PathBuf;
-        let profile = PathBuf::from("/c/users/runneradmin");
-        let at = |p: &str| outside_profile(Path::new(p), &profile);
-        assert!(!at("/c/users/runneradmin"));
-        assert!(!at("/c/users/runneradmin/.viola"));
-        assert!(!at("/C/Users/RunnerAdmin/.viola/instances"));
-        assert!(
-            at("/c/users/runneradmin2/.viola"),
-            "a sibling sharing a prefix"
-        );
-        assert!(at("/d/a/viola/viola/target/e2e-home/x/home"));
-        assert!(at("/c/users"), "the profile's parent");
-        assert!(at("/c"));
-    }
-
-    /// A fresh dir under the workspace's `target/e2e-home`, where the tests' homes live: outside
-    /// the profile folder, so a home created in it gets the protected DACL.
-    #[cfg(windows)]
-    fn e2e_tempdir() -> tempfile::TempDir {
-        let base = Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("..")
-            .join("..")
-            .join("target")
-            .join("e2e-home");
-        fs::create_dir_all(&base).expect("e2e-home");
-        tempfile::tempdir_in(&base).expect("tempdir")
-    }
-
-    #[cfg(windows)]
-    #[test]
-    fn protected_dacl_is_the_named_flags() {
-        use windows_sys::Win32::Security::{
-            DACL_SECURITY_INFORMATION, PROTECTED_DACL_SECURITY_INFORMATION,
-        };
-        assert_eq!(
-            win::PROTECTED_DACL,
-            DACL_SECURITY_INFORMATION | PROTECTED_DACL_SECURITY_INFORMATION
-        );
-    }
-
-    /// An SDDL naming only an owner converts to a descriptor with no DACL: nothing is set and the
-    /// folder keeps the DACL it had. The protected SDDL, which carries one, is set.
-    #[cfg(windows)]
-    #[test]
-    fn set_dacl_refuses_an_sddl_that_carries_no_dacl() {
-        let tmp = e2e_tempdir();
-        let home = tmp.path().join("home");
-        create_private_dir(&home).expect("created");
-        let before = crate::strict::win::allows(&home).expect("a readable DACL");
-        let refused = win::set_dacl(&home, "O:SY").expect_err("no DACL to set");
-        assert_eq!(refused.kind(), io::ErrorKind::InvalidData);
-        assert_eq!(
-            crate::strict::win::allows(&home),
-            Some(before),
-            "the folder's DACL is as it was"
-        );
-        let user = crate::strict::win::user_sid().expect("user sid");
-        win::set_dacl(&home, &win::protected_sddl(&user)).expect("an SDDL that carries a DACL");
-    }
-
-    /// A home outside the profile folder, created under the workspace's `target/e2e-home` the way
-    /// the tests' homes are: its topmost created folder carries exactly the protected user + SYSTEM
-    /// DACL, nothing inherited, and the strict-modes check passes on it and on what it holds.
-    #[cfg(windows)]
-    #[test]
-    fn create_private_dir_outside_the_profile_sets_the_protected_owner_only_dacl() {
-        let tmp = e2e_tempdir();
-        let home = tmp.path().join("home");
-        create_private_dir(&home.join("ledger")).expect("created");
-        let user = crate::strict::win::user_sid().expect("user sid");
-        let aces = crate::strict::win::allows(&home).expect("a readable DACL");
-        let got: Vec<(String, u32, u8)> = aces
-            .iter()
-            .map(|a| (a.sid.clone(), a.mask, a.flags))
-            .collect();
-        assert_eq!(
-            got,
-            [
-                (user, 0x001F_01FF, 0x03),
-                ("S-1-5-18".to_owned(), 0x001F_01FF, 0x03)
-            ],
-            "protected, owner-only, object- and container-inherit"
-        );
-        assert_eq!(crate::strict::check_path(&home), Ok(()));
-        assert_eq!(crate::strict::check_path(&home.join("ledger")), Ok(()));
-        assert_eq!(
-            win::protected_sddl("S-1-5-21-1"),
-            "D:P(A;OICI;FA;;;S-1-5-21-1)(A;OICI;FA;;;SY)"
-        );
     }
 
     #[test]

@@ -105,27 +105,9 @@ fn cross_list_rows_print_escaped_in_the_captions_columns_in_every_mode(stamped_h
     assert_eq!(pty.wait_exit(EXIT_WITHIN), 0);
     let stream = pty.finish();
     // A Unix terminal adds CR before each LF and nothing else: viola wrote no escape sequence.
-    #[cfg(unix)]
     assert!(!stream.contains(&0x1b), "an escape sequence on a terminal");
     let shown = String::from_utf8(stream).expect("utf-8");
-    #[cfg(unix)]
     assert_board(&shown.replace("\r\n", "\n"));
-    // ConPTY re-renders the stream with cursor moves of its own, so each escaped name is read as
-    // text, and no raw LF, TAB or C1 character of a name reaches the terminal.
-    #[cfg(windows)]
-    {
-        for text in [
-            "-- UNWRAPPED - READ-ONLY --",
-            "a\\x0Ab",
-            "c\\x09d",
-            "e\\x85f",
-        ] {
-            assert!(shown.contains(text), "{text} in {shown:?}");
-        }
-        for raw in ["a\nb", "c\td", "e\u{85}f"] {
-            assert!(!shown.contains(raw), "{raw:?} in {shown:?}");
-        }
-    }
 
     let ran = viola_on(&bin, &home, &["list", "--json"], None, None);
     assert_eq!(ran.code, Some(0), "stderr: {}", ran.stderr);
@@ -201,7 +183,6 @@ fn piped_with(
 }
 
 /// Every `ESC … final byte` sequence in the stream, in order.
-#[cfg(unix)]
 fn escape_sequences(stream: &[u8]) -> Vec<String> {
     let mut out = Vec::new();
     let mut i = 0;
@@ -220,11 +201,8 @@ fn escape_sequences(stream: &[u8]) -> Vec<String> {
     out
 }
 
-#[cfg(unix)]
 const BOLD: &str = "\x1b[1m";
-#[cfg(unix)]
 const DIM: &str = "\x1b[2m";
-#[cfg(unix)]
 const RESET: &str = "\x1b[0m";
 
 /// A booted `builder` with its permission dialog raised and pending, and a bin dir whose `claude`
@@ -263,41 +241,27 @@ fn cross_list_rows_style_each_span_beside_its_word_on_a_terminal(stamped_home: S
         (&[("TERM", "xterm")][..], "\x1b[33m"),
     ] {
         let stream = on_a_terminal(&bin, &home, env, 200);
-        #[cfg(unix)]
-        {
-            let shown = String::from_utf8(stream.clone()).expect("utf-8");
-            assert_eq!(
-                escape_sequences(&stream),
-                [BOLD, RESET, amber, RESET],
-                "{env:?}: {shown:?}"
-            );
-            assert!(
-                shown.contains(&format!("{BOLD}builder{RESET}  live")),
-                "{shown:?}"
-            );
-            assert!(
-                shown.contains(&format!("{amber}DIALOG{RESET} permission  ")),
-                "{shown:?}"
-            );
-        }
-        // ConPTY re-renders the stream: the attributes it carries are read, not its sequence.
-        #[cfg(windows)]
-        {
-            let _ = amber;
-            let attributes = support::sgr::sgr_attributes(&stream);
-            assert!(attributes.contains(&1), "{env:?}: {attributes:?}");
-            assert!(support::sgr::sets_a_foreground(&stream), "{env:?}");
-            assert!(!attributes.contains(&2), "{env:?}: {attributes:?}");
-        }
+        let shown = String::from_utf8(stream.clone()).expect("utf-8");
+        assert_eq!(
+            escape_sequences(&stream),
+            [BOLD, RESET, amber, RESET],
+            "{env:?}: {shown:?}"
+        );
+        assert!(
+            shown.contains(&format!("{BOLD}builder{RESET}  live")),
+            "{shown:?}"
+        );
+        assert!(
+            shown.contains(&format!("{amber}DIALOG{RESET} permission  ")),
+            "{shown:?}"
+        );
     }
     wrapper.stop();
 }
 
 /// Beside a stale wrapper (frozen, its beat 60 s old) `viola list` on a terminal that takes colour
 /// dims the stale row from its first byte to its last, NAME dim and bold, and puts no SGR on the BAY,
-/// caption or separator (a11y-plan §4 P6; design-system §Tokens (platform-specific)). Unix only:
-/// ConPTY re-renders the stream, and the Windows dim on a stale row is held at the unit tier.
-#[cfg(unix)]
+/// caption or separator (a11y-plan §4 P6; design-system §Tokens (platform-specific)).
 #[rstest]
 fn cross_list_rows_dim_a_stale_row_end_to_end_on_a_terminal(
     #[from(support::home::booted_wrapper)] wrapper: support::home::Wrapper,
@@ -339,16 +303,7 @@ fn cross_list_rows_print_no_sgr_under_no_color_dumb_piped_or_json(stamped_home: 
     let (wrapper, bin) = builder_with_a_dialog(stamped_home);
     let home = wrapper.home().to_path_buf();
     let assert_plain = |label: &str, stream: &[u8]| {
-        #[cfg(unix)]
         assert!(!stream.contains(&0x1b), "{label}: {stream:?}");
-        #[cfg(windows)]
-        {
-            let attributes = support::sgr::sgr_attributes(stream);
-            assert!(
-                attributes.iter().all(|&a| a == 0),
-                "{label}: {attributes:?}"
-            );
-        }
         assert!(
             String::from_utf8_lossy(stream).contains("DIALOG permission"),
             "{label}"

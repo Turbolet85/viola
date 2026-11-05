@@ -48,13 +48,9 @@ struct Booted {
 
 fn endpoint(dir: &Path, label: &str) -> String {
     let base = format!("viola-test-mcp-{}-{label}", std::process::id());
-    if cfg!(windows) {
-        format!(r"\\.\pipe\{base}")
-    } else {
-        dir.join(format!("{base}.sock"))
-            .to_string_lossy()
-            .into_owned()
-    }
+    dir.join(format!("{base}.sock"))
+        .to_string_lossy()
+        .into_owned()
 }
 
 fn booted(label: &str, replies: Vec<(&str, Result<Value, ProtocolError>)>) -> Booted {
@@ -144,10 +140,8 @@ fn handlers_held_child_entry() {
 }
 
 /// A live process that is not this one, killed and reaped on drop.
-#[cfg(not(target_os = "macos"))]
 struct Held(std::process::Child);
 
-#[cfg(not(target_os = "macos"))]
 impl Held {
     fn spawn() -> Self {
         let child = std::process::Command::new(std::env::current_exe().expect("the test binary"))
@@ -162,7 +156,6 @@ impl Held {
     }
 }
 
-#[cfg(not(target_os = "macos"))]
 impl Drop for Held {
     fn drop(&mut self) {
         let _ = self.0.kill();
@@ -393,7 +386,6 @@ fn handlers_schema_violations_write_no_frame() {
 /// The snapshot records a live process that is not the one serving the endpoint: every frame tool
 /// reads `instance-unreachable` and the server is sent no frame. The cases above, whose snapshot
 /// records the serving process, are the control.
-#[cfg(not(target_os = "macos"))]
 #[test]
 fn handlers_frame_tools_write_no_frame_to_a_server_that_is_not_the_recorded_wrapper() {
     let held = Held::spawn();
@@ -436,35 +428,11 @@ fn handlers_frame_tools_write_no_frame_to_a_server_that_is_not_the_recorded_wrap
     drop(held);
 }
 
-/// Grants another user write on the instance directory: Unix mode 0770, Windows a Users write
-/// grant through `icacls`, its exit asserted. `grant == false` takes it back.
+/// Grants another user write on the instance directory: mode 0770. `grant == false` takes it back.
 fn widened(dir: &Path, grant: bool) {
-    #[cfg(unix)]
-    {
-        use std::os::unix::fs::PermissionsExt as _;
-        let mode = if grant { 0o770 } else { 0o700 };
-        std::fs::set_permissions(dir, std::fs::Permissions::from_mode(mode)).expect("chmod");
-    }
-    #[cfg(windows)]
-    {
-        let root = std::env::var_os("SystemRoot").expect("SystemRoot");
-        let args: &[&str] = if grant {
-            &["/grant", "*S-1-5-32-545:(OI)(CI)(W)"]
-        } else {
-            &["/remove:g", "*S-1-5-32-545"]
-        };
-        let status = std::process::Command::new(
-            std::path::PathBuf::from(root)
-                .join("System32")
-                .join("icacls.exe"),
-        )
-        .arg(dir)
-        .args(args)
-        .stdout(std::process::Stdio::null())
-        .status()
-        .expect("icacls");
-        assert!(status.success(), "icacls {args:?}");
-    }
+    use std::os::unix::fs::PermissionsExt as _;
+    let mode = if grant { 0o770 } else { 0o700 };
+    std::fs::set_permissions(dir, std::fs::Permissions::from_mode(mode)).expect("chmod");
 }
 
 /// An instance directory another user may write, its recorded wrapper serving: every frame tool

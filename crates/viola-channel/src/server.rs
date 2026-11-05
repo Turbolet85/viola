@@ -1,7 +1,7 @@
 //! The server: one listener per `viola run`, one accept thread, one worker thread per connection
 //! (architecture §Established Decisions [Message Broker / IPC]). The exclusive bind arbitrates two
-//! starts of one name: the first-pipe-instance flag on Windows, a held lock beside the socket on
-//! Unix. Every line goes through `obs_event!`; `params` and result bodies are never logged.
+//! starts of one name: a held lock beside the socket. Every line goes through `obs_event!`;
+//! `params` and result bodies are never logged.
 
 use std::io::BufReader;
 use std::panic::{AssertUnwindSafe, catch_unwind};
@@ -51,8 +51,7 @@ pub struct Server {
     guard: Guard,
 }
 
-/// A served endpoint. On Unix dropping it takes the name down (the socket file, then its lock); a
-/// Windows pipe lives in the accept thread until the process exits.
+/// A served endpoint. Dropping it takes the name down (the socket file, then its lock).
 pub struct Serving {
     _guard: Guard,
 }
@@ -82,52 +81,22 @@ impl Server {
 /// Whether a peer of this euid reading may be served.
 type Admission = fn(Option<u32>) -> bool;
 
-#[cfg(windows)]
-struct Guard;
-
 /// The lock is held for the process life; the socket file goes before the lock is released, so a
 /// next start never finds a live-looking leftover.
-#[cfg(unix)]
 struct Guard {
     socket: std::path::PathBuf,
     _lock: std::fs::File,
 }
 
-#[cfg(unix)]
 impl Drop for Guard {
     fn drop(&mut self) {
         let _ = std::fs::remove_file(&self.socket);
     }
 }
 
-/// interprocess already creates the pipe non-inheritable, local-only (`PIPE_REJECT_REMOTE_CLIENTS`)
-/// and first-instance; the DACL is the one control it leaves open.
-#[cfg(windows)]
-fn listen(endpoint: &str) -> Result<(Listener, Guard), ChannelError> {
-    use interprocess::os::windows::local_socket::ListenerOptionsExt as _;
-    let descriptor = win::owner_only_descriptor().map_err(ChannelError::Bind)?;
-    let name = endpoint
-        .to_fs_name::<GenericFilePath>()
-        .map_err(ChannelError::Bind)?;
-    let listener = ListenerOptions::new()
-        .name(name)
-        .security_descriptor(descriptor)
-        .create_sync()
-        .map_err(|e| {
-            // A second first-instance create of a live pipe name is refused access.
-            if e.kind() == std::io::ErrorKind::PermissionDenied {
-                ChannelError::BindTaken
-            } else {
-                ChannelError::Bind(e)
-            }
-        })?;
-    Ok((listener, Guard))
-}
-
 /// The lock decides first; with it held, whatever sits at the socket path is a dead wrapper's
 /// leftover. `try_overwrite` stays off (the default); the name is reclaimed by `Guard`, not by
 /// interprocess, so it goes before the lock does.
-#[cfg(unix)]
 fn listen(endpoint: &str) -> Result<(Listener, Guard), ChannelError> {
     use std::fs::{self, OpenOptions, Permissions, TryLockError};
     use std::os::unix::fs::{OpenOptionsExt as _, PermissionsExt as _};
@@ -160,8 +129,8 @@ fn listen(endpoint: &str) -> Result<(Listener, Guard), ChannelError> {
         socket,
         _lock: lock,
     };
-    // After the bind, not `ListenerOptionsExt::mode`: macOS refuses a mode on the socket fd, and
-    // the 0700 directory already closes the umask window (security-plan IPC access control, Unix).
+    // After the bind, not `ListenerOptionsExt::mode`: the 0700 directory already closes the umask
+    // window (security-plan IPC access control, Unix).
     fs::set_permissions(&guard.socket, Permissions::from_mode(0o600))
         .map_err(ChannelError::Bind)?;
     Ok((listener, guard))
@@ -530,9 +499,6 @@ impl Drop for ResponseLine<'_> {
         }
     }
 }
-
-#[cfg(windows)]
-mod win;
 
 #[cfg(test)]
 mod tests {

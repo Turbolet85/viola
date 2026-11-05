@@ -1,8 +1,9 @@
 //! Every OS-gated test names why its behaviour is one OS's (architecture §Cross-cutting Patterns,
 //! Cross-platform discipline; test-plan §1 multi-os-compat): `GATES` names each gated test function
 //! and each gated test file under `tests/` and `crates/*/tests/` with its predicate and the reason,
-//! and a census of those files reads red on a gate the table does not name and on a row whose gate
-//! no longer stands. The table is a literal, never derived from the tree it checks.
+//! and a census of those files reads red on a gate the table does not name, on a row whose gate no
+//! longer stands, and on any gate naming Windows or macOS, named or not: the tree is Linux-only. The
+//! table is a literal, never derived from the tree it checks.
 //!
 //! andromeda:walks-tree — it reads every `.rs` file directly under `tests/` and each
 //! `crates/*/tests/`, named or not.
@@ -23,14 +24,11 @@ struct Gate {
     reason: &'static str,
 }
 
-const NOT_MACOS: &str = "not(target_os = \"macos\")";
 const UNIX_MODES: &str =
     "the widening is made through Unix mode bits, the strict-modes rule's Unix form";
 const SOCKET_DIR: &str = "the socket directory and its mode check are the Unix endpoint's";
 const UNIX_STATUSLINE: &str =
     "the status line is wrapped on Unix only, the user's command run through /bin/sh";
-const NO_PEER_PID: &str =
-    "macOS peer credentials carry no pid, the recorded gap, so no impostor reads there";
 
 const GATES: &[Gate] = &[
     Gate {
@@ -50,24 +48,6 @@ const GATES: &[Gate] = &[
         test: "handlers_frame_tools_refuse_a_loosened_socket_directory",
         gate: "unix",
         reason: SOCKET_DIR,
-    },
-    Gate {
-        file: "crates/viola-mcp/tests/handlers.rs",
-        test: "handlers_frame_tools_write_no_frame_to_a_server_that_is_not_the_recorded_wrapper",
-        gate: NOT_MACOS,
-        reason: NO_PEER_PID,
-    },
-    Gate {
-        file: "tests/channel_endpoint.rs",
-        test: "channel_endpoint_pipe_dacl_is_protected_user_and_system",
-        gate: "windows",
-        reason: "the listener's DACL is a Windows named pipe's",
-    },
-    Gate {
-        file: "tests/channel_sqos_open.rs",
-        test: "",
-        gate: "windows",
-        reason: "the client open is CreateFileW with SQOS identification, a Windows pipe API",
     },
     Gate {
         file: "tests/cli_controls_not_disableable.rs",
@@ -92,12 +72,6 @@ const GATES: &[Gate] = &[
         test: "cli_error_documents_of_a_loosened_socket_directory_hold_no_path_or_upstream_text",
         gate: "unix",
         reason: SOCKET_DIR,
-    },
-    Gate {
-        file: "tests/cli_fake_agent.rs",
-        test: "fake_agent_exit_outlives_a_hangup_that_lands_while_it_exits",
-        gate: "target_os = \"linux\"",
-        reason: "macOS's ps has no keyword that prints the ignored-signal mask, so SIGHUP's disposition has no reader there",
     },
     Gate {
         file: "tests/cli_fake_agent.rs",
@@ -142,24 +116,6 @@ const GATES: &[Gate] = &[
         reason: UNIX_STATUSLINE,
     },
     Gate {
-        file: "tests/cli_instance_state.rs",
-        test: "remove_owned_keeps_the_owner_record_while_a_file_is_held",
-        gate: "windows",
-        reason: "only a Windows sharing mode lets a held file stop a removal part-way",
-    },
-    Gate {
-        file: "tests/cli_instance_state.rs",
-        test: "run_refuses_a_frozen_wrapper_as_stale_on_windows",
-        gate: "windows",
-        reason: "the wrapper is frozen by a debugger attach; its Unix twin is run_refuses_a_stale_name",
-    },
-    Gate {
-        file: "tests/cli_instance_state.rs",
-        test: "run_refuses_a_stale_name",
-        gate: "unix",
-        reason: "the wrapper is frozen by SIGSTOP; its Windows twin is run_refuses_a_frozen_wrapper_as_stale_on_windows",
-    },
-    Gate {
         file: "tests/cli_links.rs",
         test: "link_verbs_refuse_a_widened_instance_before_any_log",
         gate: "unix",
@@ -202,12 +158,6 @@ const GATES: &[Gate] = &[
         reason: "the written tree is read by its Unix mode bits under an open umask",
     },
     Gate {
-        file: "tests/cli_program_resolution.rs",
-        test: "",
-        gate: "windows",
-        reason: "the refused child is a .cmd or .bat batch script, and the shim a claude.cmd beside claude.exe",
-    },
-    Gate {
         file: "tests/cli_revive.rs",
         test: "revive_json_refuses_state_another_user_could_write_on_both_arms",
         gate: "unix",
@@ -233,12 +183,6 @@ const GATES: &[Gate] = &[
     },
     Gate {
         file: "tests/cli_verify.rs",
-        test: "verify_a_batch_script_refuses",
-        gate: "windows",
-        reason: "a .cmd batch-script child is a Windows program kind viola refuses to spawn",
-    },
-    Gate {
-        file: "tests/cli_verify.rs",
         test: "verify_stopped_by_a_signal_removes_only_its_own_dirs_and_exits_1",
         gate: "unix",
         reason: "the stop is a Unix SIGINT or SIGTERM sent to the viola the case started",
@@ -254,12 +198,6 @@ const GATES: &[Gate] = &[
         test: "run_with_world_writable_stamps_is_unverified_whatever_they_hold",
         gate: "unix",
         reason: UNIX_MODES,
-    },
-    Gate {
-        file: "tests/conpty_sideload.rs",
-        test: "",
-        gate: "all(windows, target_arch = \"x86_64\")",
-        reason: "the sideloaded ConPTY companions are vendored for Windows x64 only",
     },
     Gate {
         file: "tests/contract_fake_agent_drift.rs",
@@ -281,12 +219,6 @@ const GATES: &[Gate] = &[
     },
     Gate {
         file: "tests/cross_exit_causes.rs",
-        test: "a_revive_whose_claude_is_a_script_is_the_batch_script_child_document",
-        gate: "windows",
-        reason: "the refused child is a Windows .cmd batch script",
-    },
-    Gate {
-        file: "tests/cross_exit_causes.rs",
         test: "strict_modes_on_plugin_install_is_exit_21_and_creates_nothing",
         gate: "unix",
         reason: "the home is widened through its Unix mode bits, the read rule's Unix form",
@@ -296,24 +228,6 @@ const GATES: &[Gate] = &[
         test: "strict_modes_on_the_board_is_exit_21_and_opens_no_log",
         gate: "unix",
         reason: "the instance is widened through its Unix mode bits, the read rule's Unix form",
-    },
-    Gate {
-        file: "tests/cross_list_rows.rs",
-        test: "cross_list_rows_dim_a_stale_row_end_to_end_on_a_terminal",
-        gate: "unix",
-        reason: "ConPTY re-renders the stream; the Windows dim on a stale row is held at the unit tier",
-    },
-    Gate {
-        file: "tests/hook_fail_open.rs",
-        test: "hook_dialog_tier_fails_open_silently",
-        gate: NOT_MACOS,
-        reason: NO_PEER_PID,
-    },
-    Gate {
-        file: "tests/hook_fail_open.rs",
-        test: "hook_fails_open_silently_within_the_spine_bound",
-        gate: NOT_MACOS,
-        reason: NO_PEER_PID,
     },
     Gate {
         file: "tests/hook_statusline.rs",
@@ -346,34 +260,10 @@ const GATES: &[Gate] = &[
         reason: "the home and the role file are read by their Unix mode bits",
     },
     Gate {
-        file: "tests/security_negatives_channel.rs",
-        test: "",
-        gate: "windows",
-        reason: "SQOS impersonation levels and the pipe listener's remote rejection and DACL are Windows's",
-    },
-    Gate {
-        file: "tests/security_negatives_server_identity.rs",
-        test: "",
-        gate: NOT_MACOS,
-        reason: NO_PEER_PID,
-    },
-    Gate {
         file: "tests/security_negatives_socket_dir.rs",
         test: "",
         gate: "unix",
         reason: SOCKET_DIR,
-    },
-    Gate {
-        file: "tests/security_negatives_strict_modes.rs",
-        test: "a_home_viola_makes_outside_the_profile_takes_the_protected_dacl",
-        gate: "windows",
-        reason: "the protected DACL is a Windows ACL",
-    },
-    Gate {
-        file: "tests/security_negatives_strict_modes.rs",
-        test: "a_start_under_umask_000_makes_every_home_path_owner_only",
-        gate: "unix",
-        reason: "the umask and the 0700 and 0600 modes are Unix's",
     },
     Gate {
         file: "tests/tui_channel_fds.rs",
@@ -502,22 +392,37 @@ fn predicate(attr: &str) -> Option<String> {
     }
 }
 
-/// Whether `predicate` names `windows`, `unix` or `target_os` as a word outside its string values
+/// The OS word a gate in this tree may not name, held apart so this file names no such gate
+/// itself.
+const WINDOWS: &str = "windows";
+
+/// Whether `predicate` names one of `words` as a word outside its string values
 /// (`feature = "unix-like"` names none).
-fn names_an_os(predicate: &str) -> bool {
+fn names_a_word(predicate: &str, words: &[&str]) -> bool {
     let code: String = predicate
         .split('"')
         .step_by(2)
         .collect::<Vec<_>>()
         .join(" ");
     let word = |c: char| c.is_ascii_alphanumeric() || c == '_';
-    ["windows", "unix", "target_os"].iter().any(|os| {
+    words.iter().any(|os| {
         code.match_indices(os).any(|(at, _)| {
             let before = code[..at].chars().next_back();
             let after = code[at + os.len()..].chars().next();
             !before.is_some_and(word) && !after.is_some_and(word)
         })
     })
+}
+
+/// Whether `predicate` names `windows`, `unix` or `target_os`.
+fn names_an_os(predicate: &str) -> bool {
+    names_a_word(predicate, &[WINDOWS, "unix", "target_os"])
+}
+
+/// Whether `predicate` names Windows or macOS, which a Linux-only tree gates nothing on.
+fn names_another_os(predicate: &str) -> bool {
+    let spaced: String = predicate.split_whitespace().collect();
+    names_a_word(predicate, &[WINDOWS]) || spaced.contains("target_os=\"macos\"")
 }
 
 fn is_test_attr(attr: &str) -> bool {
@@ -597,8 +502,8 @@ fn census(text: &str) -> Found {
     found
 }
 
-/// The census of `files` against `table`, both ways: each gate the table does not name, and each
-/// row whose gate no longer stands.
+/// The census of `files` against `table`, both ways: each gate the table does not name, each row
+/// whose gate no longer stands, and each gate naming Windows or macOS, named or not.
 fn faults(files: &[(String, String)], table: &[Gate]) -> Vec<String> {
     let found: BTreeSet<(String, String, String)> = files
         .iter()
@@ -620,6 +525,12 @@ fn faults(files: &[(String, String)], table: &[Gate]) -> Vec<String> {
         named
             .difference(&found)
             .map(|(file, test, gate)| format!("no longer stands: {file} {test} cfg({gate})")),
+    );
+    out.extend(
+        found
+            .iter()
+            .filter(|(_, _, gate)| names_another_os(gate))
+            .map(|(file, test, gate)| format!("another OS: {file} {test} cfg({gate})")),
     );
     out
 }
@@ -677,11 +588,11 @@ const PLANTED_ROW: Gate = Gate {
 )]
 #[case::a_gate_on_a_helper_is_no_hit("#[cfg(unix)]\nfn helper() {}\n", &[], &[])]
 #[case::a_cfg_attr_over_a_case_row(
-    "#[rstest]\n#[cfg_attr(\n    not(target_os = \"macos\"),\n    case::x(\"]\")\n)]\nfn planted(#[case] x: &str) {}\n",
+    "#[rstest]\n#[cfg_attr(\n    not(target_os = \"linux\"),\n    case::x(\"]\")\n)]\nfn planted(#[case] x: &str) {}\n",
     &[],
-    &["unnamed: tests/planted.rs planted cfg(not(target_os = \"macos\"))"]
+    &["unnamed: tests/planted.rs planted cfg(not(target_os = \"linux\"))"]
 )]
-#[case::a_gated_file("//! doc\n#![cfg(windows)]\nfn helper() {}\n", &[], &["unnamed: tests/planted.rs  cfg(windows)"])]
+#[case::a_gated_file("//! doc\n#![cfg(unix)]\nfn helper() {}\n", &[], &["unnamed: tests/planted.rs  cfg(unix)"])]
 #[case::a_feature_gate_is_no_hit(
     "#[cfg(feature = \"unix-like\")]\n#[test]\nfn planted() {}\n",
     &[],
@@ -695,4 +606,42 @@ fn census_finds_an_unnamed_gate_and_passes_a_named_one(
 ) {
     let files = [("tests/planted.rs".to_owned(), text.to_owned())];
     assert_eq!(faults(&files, table), expected);
+}
+
+/// A gate naming Windows or macOS is a fault even with its row in the table, beside the control:
+/// the same row over a `unix` gate passes.
+#[rstest]
+#[case::a_windows_test(format!("#[cfg({WINDOWS})]\n#[test]\nfn planted() {{}}\n"), WINDOWS, "planted")]
+#[case::a_windows_file(format!("#![cfg({WINDOWS})]\nfn helper() {{}}\n"), WINDOWS, "")]
+#[case::a_macos_test(
+    "#[cfg(not(target_os = \"macos\"))]\n#[test]\nfn planted() {}\n".to_owned(),
+    "not(target_os = \"macos\")",
+    "planted"
+)]
+#[case::a_spaced_macos_test(
+    "#[cfg(target_os=\"macos\")]\n#[test]\nfn planted() {}\n".to_owned(),
+    "target_os=\"macos\"",
+    "planted"
+)]
+fn census_reads_a_gate_naming_another_os_as_a_fault_even_when_named(
+    #[case] text: String,
+    #[case] gate: &'static str,
+    #[case] test: &'static str,
+) {
+    let files = [("tests/planted.rs".to_owned(), text)];
+    let row = Gate {
+        file: "tests/planted.rs",
+        test,
+        gate,
+        reason: "planted",
+    };
+    assert_eq!(
+        faults(&files, &[row]),
+        [format!("another OS: tests/planted.rs {test} cfg({gate})")]
+    );
+    let control = [(
+        "tests/planted.rs".to_owned(),
+        "#[cfg(unix)]\n#[test]\nfn planted() {}\n".to_owned(),
+    )];
+    assert!(faults(&control, &[PLANTED_ROW]).is_empty());
 }

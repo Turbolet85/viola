@@ -31,17 +31,13 @@ const LIVE: &str = "unable: builder is already live\nhint: viola list\n";
 const SQUATTED: &str = "unable: the endpoint for builder is held by another process\n\
                         hint: another process holds this name's endpoint; stop it or pick another name\n";
 
-/// `\\.\pipe\viola-<h12>` on Windows, `<dir>/viola-<h12>.sock` on Unix.
+/// `<dir>/viola-<h12>.sock`.
 fn assert_endpoint_shape(endpoint: &str) {
-    let base = if cfg!(windows) {
-        endpoint.strip_prefix(r"\\.\pipe\")
-    } else {
-        Path::new(endpoint)
-            .file_name()
-            .and_then(|n| n.to_str())
-            .and_then(|n| n.strip_suffix(".sock"))
-    }
-    .expect("per-OS endpoint form");
+    let base = Path::new(endpoint)
+        .file_name()
+        .and_then(|n| n.to_str())
+        .and_then(|n| n.strip_suffix(".sock"))
+        .expect("the endpoint form");
     let hex = base.strip_prefix("viola-").expect("viola- prefix");
     assert_eq!(hex.len(), 12, "{endpoint}");
     assert!(
@@ -104,12 +100,7 @@ fn path1_start_writes_state_before_the_spawn(booted_wrapper: Wrapper) {
     let endpoint = snap["endpoint"].as_str().expect("endpoint");
     assert_eq!(endpoint, endpoint_of(booted_wrapper.home()));
     assert_endpoint_shape(endpoint);
-    let kind = if cfg!(windows) {
-        "named-pipe"
-    } else {
-        "unix-socket"
-    };
-    assert_eq!(pid_of("self", "endpoint_kind"), kind);
+    assert_eq!(pid_of("self", "endpoint_kind"), "unix-socket");
     let pinned = snap["pinned_bin"].as_str().expect("pinned_bin");
     assert!(!pinned.contains('\\') && Path::new(pinned).is_absolute());
     assert!(Path::new(pinned).is_file());
@@ -178,7 +169,6 @@ fn revive_json_of_a_stale_holder_is_the_stale_heartbeat_document(booted_wrapper:
 }
 
 /// A stopped wrapper whose beat is 60 s old is `stale`: its pid + start time still match.
-#[cfg(unix)]
 #[rstest]
 fn run_refuses_a_stale_name(booted_wrapper: Wrapper) {
     use std::time::SystemTime;
@@ -332,18 +322,13 @@ fn bytes_and_mtime(path: &Path) -> (Vec<u8>, std::time::SystemTime) {
 }
 
 /// Every start writes the per-session settings override whole, whatever stands there: its status
-/// line is the pinned copy's own `hook statusline`, by its absolute path, owner-only. On Windows
-/// no override is written (no reading of the shell exists there).
+/// line is the pinned copy's own `hook statusline`, by its absolute path, owner-only.
 #[test]
 fn run_rewrites_the_settings_override_each_start() {
     let stamped = started_once(StampedHome::unstamped(TestHome::new()));
     let home = resolved(stamped.home.path());
     let dir = home.join("instances").join("builder");
     let file = dir.join("settings.json");
-    if cfg!(windows) {
-        assert!(!file.exists(), "an override was written on Windows");
-        return;
-    }
     let written = fs::read(&file).expect("settings.json");
     let pinned = snapshot_data(&dir).expect("the snapshot")["pinned_bin"]
         .as_str()
@@ -354,7 +339,6 @@ fn run_rewrites_the_settings_override_each_start() {
         serde_json::from_slice::<Value>(&written).expect("json"),
         json!({"statusLine": {"type": "command", "command": format!("{pinned} hook statusline")}})
     );
-    #[cfg(unix)]
     assert_eq!(mode_of(&file), 0o600);
     fs::write(
         &file,
@@ -364,7 +348,6 @@ fn run_rewrites_the_settings_override_each_start() {
 
     let _home = started_once(stamped);
     assert_eq!(fs::read(&file).expect("settings.json"), written);
-    #[cfg(unix)]
     assert_eq!(mode_of(&file), 0o600);
 }
 
@@ -752,71 +735,4 @@ fn home_base_backing_relative_target_is_refused() {
         backing_refusal(&base),
         "e2e-home backing: the link's target is relative"
     );
-}
-
-/// A file another process still holds stops a removal part-way, wherever it sits: here in a scratch
-/// dir listed after `owner.json`, where a plain recursive removal deletes the record before it
-/// meets the held file. The record stays, so the dir is never left ownerless, and once the file is
-/// released the next removal takes it whole.
-#[cfg(windows)]
-#[rstest]
-fn remove_owned_keeps_the_owner_record_while_a_file_is_held(#[from(home)] tmp: TestHome) {
-    use std::os::windows::fs::OpenOptionsExt as _;
-    use support::home::remove_owned;
-
-    let dir = tmp.scratch().join("owned");
-    fs::create_dir_all(dir.join("home")).expect("dir");
-    fs::create_dir_all(dir.join("sweep")).expect("scratch dir");
-    write_owner(&dir);
-    let held_path = dir.join("sweep").join("held.ndjson");
-    fs::write(&held_path, b"{}\n").expect("file");
-    // Read sharing only: no other opener may delete it while this handle lives.
-    let held = fs::OpenOptions::new()
-        .read(true)
-        .share_mode(0x1)
-        .open(&held_path)
-        .expect("held");
-
-    assert!(!remove_owned(&dir));
-    assert!(dir.join("owner.json").is_file(), "the record went first");
-    drop(held);
-    assert!(remove_owned(&dir));
-    assert!(!dir.exists());
-}
-
-/// The Windows twin of `run_refuses_a_stale_name`: a wrapper whose pid and start time still match
-/// but whose beat is 60 s old is `stale`.
-#[cfg(windows)]
-#[rstest]
-fn run_refuses_a_frozen_wrapper_as_stale_on_windows(booted_wrapper: Wrapper) {
-    use std::time::SystemTime;
-
-    let dir = booted_wrapper.instance_dir();
-    let pid = snapshot_data(&dir).expect("snapshot")["pid"]
-        .as_u64()
-        .and_then(|p| u32::try_from(p).ok())
-        .expect("pid");
-    let frozen = Frozen::attach(pid);
-    fs::File::options()
-        .write(true)
-        .open(dir.join("heartbeat"))
-        .expect("heartbeat")
-        .set_modified(SystemTime::now() - Duration::from_secs(60))
-        .expect("back-date");
-
-    let out = run_refused(booted_wrapper.home());
-    drop(frozen);
-    assert_eq!(out.status.code(), Some(1));
-    assert!(out.stdout.is_empty(), "stdout: {} bytes", out.stdout.len());
-    let stderr = String::from_utf8_lossy(&out.stderr);
-    let stderr: Vec<&str> = stderr.lines().collect();
-    assert_eq!(
-        stderr,
-        [
-            "unable: builder is still running but not answering",
-            "hint: viola list shows it as stale; stop that process before starting builder again",
-        ]
-    );
-    assert!(refused_with(booted_wrapper.home(), "stale-heartbeat"));
-    assert_eq!(booted_wrapper.stop().code(), Some(0));
 }

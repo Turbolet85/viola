@@ -67,25 +67,12 @@ fn ledger_rows_are_the_twenty_four_measured_behaviours_in_order() {
 }
 
 #[test]
-fn relied_rows_drop_the_three_statusline_rows_where_the_status_line_is_not_wrapped() {
-    let ids = |wrapped: bool| -> Vec<&str> {
-        LedgerRow::ALL
-            .into_iter()
-            .filter(|r| r.relied_on(wrapped))
-            .map(LedgerRow::id)
-            .collect()
-    };
-    assert_eq!(ids(true).len(), 24);
-    assert_eq!(ids(false).len(), 21);
-    assert_eq!(ids(false)[17], "paste-newline");
-    assert_eq!(ids(false)[18], "resume-session");
-    assert_eq!(ids(false)[19], "agents-join");
-    assert_eq!(ids(false).last(), Some(&"local-command-compact"));
-    assert_eq!(ids(true).last(), Some(&"local-command-compact"));
-    assert!(!ids(false).iter().any(|id| id.starts_with("statusline-")));
+fn relied_rows_are_every_row_in_order() {
     let here: Vec<&str> = LedgerRow::relied().into_iter().map(LedgerRow::id).collect();
-    assert_eq!(here.len(), if cfg!(unix) { 24 } else { 21 });
-    assert_eq!(here, ids(cfg!(unix)));
+    let all: Vec<&str> = LedgerRow::ALL.into_iter().map(LedgerRow::id).collect();
+    assert_eq!(here.len(), 24);
+    assert_eq!(here, all);
+    assert_eq!(here.last(), Some(&"local-command-compact"));
 }
 
 #[test]
@@ -297,7 +284,6 @@ fn clean_captures() -> Vec<Capture> {
 
 fn clean_run() -> ProbeRun {
     ProbeRun {
-        program_is_script: false,
         version_answered: true,
         captures: clean_captures(),
     }
@@ -356,11 +342,6 @@ fn check_passes_every_row_on_a_clean_probe() {
 
 #[test]
 fn check_shim_resolution_needs_a_real_executable_that_answered() {
-    let script = ProbeRun {
-        program_is_script: true,
-        ..clean_run()
-    };
-    assert!(!check(LedgerRow::ShimResolution, &probes(&script)));
     let silent = ProbeRun {
         version_answered: false,
         ..clean_run()
@@ -688,7 +669,7 @@ fn verified_reads_a_fourteen_row_stamp_as_unverified() {
     nineteen["data"]["versions"]["2.1.0"]["rows"]["local-command-compact"] = json!("pass");
     assert_eq!(
         verified(nineteen.to_string().as_bytes(), "2.1.0"),
-        Ok(!cfg!(unix)),
+        Ok(false),
         "the eighteen rows, the resume row, the agents row and the compact row"
     );
     for id in [
@@ -719,8 +700,8 @@ fn verified_reads_a_fourteen_row_stamp_as_unverified() {
     assert_eq!(verified(stamp.to_string().as_bytes(), "2.1.0"), Ok(true));
 }
 
-/// Windows relies on no statusline row, so a statusline row that failed there leaves the
-/// version verified; on Unix it does not.
+/// Every statusline row is relied on, so a statusline row that failed leaves the version
+/// unverified.
 #[test]
 fn verified_reads_a_failed_statusline_row_by_the_relied_set() {
     let results: Vec<(LedgerRow, bool)> = LedgerRow::ALL
@@ -736,7 +717,7 @@ fn verified_reads_a_failed_statusline_row_by_the_relied_set() {
         None,
         "t",
     );
-    assert_eq!(verified(&stamp, "2.1.0"), Ok(!cfg!(unix)));
+    assert_eq!(verified(&stamp, "2.1.0"), Ok(false));
 }
 
 #[rstest]
@@ -770,14 +751,13 @@ fn scrub_rewrites_the_home_in_both_spellings(
     #[case] home: &str,
     #[case] expected: &str,
 ) {
-    assert_eq!(scrub(&json!(text), home, "", false), json!(expected));
+    assert_eq!(scrub(&json!(text), home, ""), json!(expected));
 }
 
 #[test]
-fn scrub_folds_the_home_case_only_when_asked() {
+fn scrub_matches_the_home_case_exactly() {
     let text = json!(r"c:\users\plantuser\x");
-    assert_eq!(scrub(&text, r"C:\Users\Plantuser", "", true), json!("~\\x"));
-    assert_eq!(scrub(&text, r"C:\Users\Plantuser", "", false), text);
+    assert_eq!(scrub(&text, r"C:\Users\Plantuser", ""), text);
 }
 
 #[rstest]
@@ -790,7 +770,7 @@ fn scrub_folds_the_home_case_only_when_asked() {
 #[case::at_edges("plantuser", "<user>")]
 #[case::underscore_joined("plantuser_x", "plantuser_x")]
 fn scrub_rewrites_the_user_as_a_whole_word(#[case] text: &str, #[case] expected: &str) {
-    assert_eq!(scrub(&json!(text), "", "plantuser", false), json!(expected));
+    assert_eq!(scrub(&json!(text), "", "plantuser"), json!(expected));
 }
 
 #[test]
@@ -800,7 +780,7 @@ fn scrub_walks_keys_arrays_and_nested_objects_and_keeps_other_values() {
         "plantuser": [1, true, null, {"deep": "/home/plantuser"}],
         "n": 2.5,
     });
-    let got = scrub(&payload, "/home/plantuser", "plantuser", false);
+    let got = scrub(&payload, "/home/plantuser", "plantuser");
     assert_eq!(
         got,
         json!({"cwd": "~/w", "<user>": [1, true, null, {"deep": "~"}], "n": 2.5})
@@ -812,7 +792,7 @@ fn scrub_walks_keys_arrays_and_nested_objects_and_keeps_other_values() {
 #[test]
 fn scrub_with_no_home_and_no_user_changes_nothing() {
     let payload = json!({"cwd": "/home/plantuser/w"});
-    assert_eq!(scrub(&payload, "", "", true), payload);
+    assert_eq!(scrub(&payload, "", ""), payload);
 }
 
 #[rstest]

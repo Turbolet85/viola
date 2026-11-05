@@ -169,18 +169,9 @@ fn path6_two_instance_release_over_a_harness_session() {
     assert_eq!(fed.code, Some(0));
     assert!(fed.stderr.is_empty(), "stderr: {} bytes", fed.stderr.len());
     let marker = home.join("fake").join("statusline.marker");
-    #[cfg(unix)]
-    {
-        assert_eq!(fed.stdout, STATUSLINE_ECHO_OUTPUT);
-        let filed = std::fs::metadata(&marker).expect("the marker").len();
-        assert!(filed > 0, "the user's command filed nothing");
-    }
-    // Windows wraps no status line: the arm runs no command and prints nothing.
-    #[cfg(not(unix))]
-    {
-        assert!(fed.stdout.is_empty());
-        assert!(!marker.exists());
-    }
+    assert_eq!(fed.stdout, STATUSLINE_ECHO_OUTPUT);
+    let filed = std::fs::metadata(&marker).expect("the marker").len();
+    assert!(filed > 0, "the user's command filed nothing");
     let budget: Value = read_json(&home.join("budget.json")).expect("budget.json");
     assert_eq!(
         budget["five_hour"]["used_percentage"].as_f64(),

@@ -19,18 +19,13 @@ tokio = ["dep:tokio", "interprocess/tokio"]
 [dependencies]
 viola-core = { path = "../viola-core" }
 interprocess.workspace = true
+libc.workspace = true
 tokio = { workspace = true, optional = true, features = ["io-util"] }
 serde.workspace = true
 serde_json.workspace = true
 thiserror.workspace = true
 tracing.workspace = true
 veil.workspace = true
-
-[target.'cfg(windows)'.dependencies]
-windows-sys.workspace = true
-
-[target.'cfg(unix)'.dependencies]
-libc.workspace = true
 
 [dev-dependencies]
 proptest.workspace = true

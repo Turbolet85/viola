@@ -42,8 +42,7 @@ impl Depth {
     }
 }
 
-/// What the decision reads. `vt` is the Windows VT enable's outcome, `None` elsewhere and before
-/// it is made.
+/// What the decision reads.
 #[derive(Clone, Debug, Default)]
 pub(crate) struct Facts {
     pub(crate) json: bool,
@@ -54,19 +53,17 @@ pub(crate) struct Facts {
     pub(crate) term: Option<String>,
     pub(crate) colorterm: Option<String>,
     pub(crate) stdout_tty: bool,
-    pub(crate) vt: Option<bool>,
 }
 
 /// The colour decision order, first match no colour, then the depth rule: truecolor for a
-/// `COLORTERM` of `truecolor` or `24bit`, 256 colours for a `TERM` holding `256color` or a VT enable
-/// made, else the 16-colour fallback.
+/// `COLORTERM` of `truecolor` or `24bit`, 256 colours for a `TERM` holding `256color`, else the
+/// 16-colour fallback.
 pub(crate) fn decide(facts: &Facts) -> Option<Depth> {
     if facts.json
         || facts.passthrough
         || facts.no_color
         || facts.term.as_deref() == Some("dumb")
         || !facts.stdout_tty
-        || facts.vt == Some(false)
     {
         return None;
     }
@@ -76,7 +73,6 @@ pub(crate) fn decide(facts: &Facts) -> Option<Depth> {
         .term
         .as_deref()
         .is_some_and(|term| term.contains("256color"))
-        || facts.vt == Some(true)
     {
         Some(Depth::Ansi256)
     } else {
@@ -84,26 +80,13 @@ pub(crate) fn decide(facts: &Facts) -> Option<Depth> {
     }
 }
 
-/// ENABLE_VIRTUAL_TERMINAL_PROCESSING alone.
-#[cfg(any(windows, test))]
-const VT_PROCESSING: u32 = 0x0004;
-
-/// The console output mode with VT processing on, and nothing else added.
-#[cfg(any(windows, test))]
-const fn vt_mode(mode: u32) -> u32 {
-    mode | VT_PROCESSING
-}
-
-/// The decided depth, and on Windows the VT enable it rests on, undone when this is dropped.
+/// The decided depth.
 pub(crate) struct Colour {
     pub(crate) depth: Option<Depth>,
-    #[cfg(windows)]
-    _vt: Option<vt::Restore>,
 }
 
 /// Reads `NO_COLOR`, `TERM` and `COLORTERM` (the only variables this reads) and whether stdout is a
-/// terminal, then, on Windows and only when nothing earlier switched colour off, makes the VT
-/// enable.
+/// terminal.
 pub(crate) fn read(json: bool, passthrough: bool) -> Colour {
     let text = |name: &str| std::env::var_os(name).map(|v| v.to_string_lossy().into_owned());
     let facts = Facts {
@@ -113,61 +96,9 @@ pub(crate) fn read(json: bool, passthrough: bool) -> Colour {
         term: text("TERM"),
         colorterm: text("COLORTERM"),
         stdout_tty: io::stdout().is_terminal(),
-        vt: None,
     };
-    #[cfg(windows)]
-    let colour = {
-        let restore = decide(&facts).and_then(|_| vt::enable());
-        let facts = Facts {
-            vt: Some(restore.is_some()),
-            ..facts
-        };
-        Colour {
-            depth: decide(&facts),
-            _vt: restore,
-        }
-    };
-    #[cfg(not(windows))]
-    let colour = Colour {
+    Colour {
         depth: decide(&facts),
-    };
-    colour
-}
-
-/// The Windows VT enable on stdout's console, its saved mode restored on drop.
-#[cfg(windows)]
-mod vt {
-    use windows_sys::Win32::Foundation::HANDLE;
-    use windows_sys::Win32::System::Console::{
-        GetConsoleMode, GetStdHandle, STD_OUTPUT_HANDLE, SetConsoleMode,
-    };
-
-    pub(super) struct Restore {
-        handle: HANDLE,
-        mode: u32,
-    }
-
-    impl Drop for Restore {
-        fn drop(&mut self) {
-            // SAFETY: the handle is stdout's console, read when the mode was saved.
-            let _ = unsafe { SetConsoleMode(self.handle, self.mode) };
-        }
-    }
-
-    /// `None` when the mode cannot be read or set: no colour, and no mode left changed.
-    pub(super) fn enable() -> Option<Restore> {
-        // SAFETY: plain console calls on stdout's handle, the mode read into a local.
-        unsafe {
-            let handle = GetStdHandle(STD_OUTPUT_HANDLE);
-            let mut mode = 0u32;
-            if GetConsoleMode(handle, &mut mode) == 0 {
-                return None;
-            }
-            if SetConsoleMode(handle, super::vt_mode(mode)) == 0 {
-                return None;
-            }
-            Some(Restore { handle, mode })
-        }
     }
 }
 
@@ -192,7 +123,6 @@ mod tests {
     #[case::no_color(Facts { no_color: true, ..colourful() })]
     #[case::dumb(Facts { term: Some("dumb".to_owned()), ..colourful() })]
     #[case::not_a_terminal(Facts { stdout_tty: false, ..colourful() })]
-    #[case::vt_enable_failed(Facts { vt: Some(false), ..colourful() })]
     fn colour_decision_each_rung_switches_colour_off(#[case] facts: Facts) {
         assert_eq!(decide(&facts), None);
     }
@@ -200,41 +130,32 @@ mod tests {
     #[test]
     fn colour_decision_a_terminal_with_every_rung_passing_is_coloured() {
         assert_eq!(decide(&colourful()), Some(Depth::Ansi16));
-        let windows = Facts {
-            vt: Some(true),
-            ..colourful()
-        };
-        assert!(decide(&windows).is_some());
     }
 
-    fn facts(term: Option<&str>, colorterm: Option<&str>, vt: Option<bool>) -> Facts {
+    fn facts(term: Option<&str>, colorterm: Option<&str>) -> Facts {
         Facts {
             term: term.map(str::to_owned),
             colorterm: colorterm.map(str::to_owned),
-            vt,
             ..colourful()
         }
     }
 
     #[rstest]
-    #[case::truecolor(Some("xterm"), Some("truecolor"), None, Depth::Truecolor)]
-    #[case::twenty_four_bit(Some("xterm"), Some("24bit"), None, Depth::Truecolor)]
-    #[case::colorterm_beats_256(Some("xterm-256color"), Some("truecolor"), None, Depth::Truecolor)]
-    #[case::colorterm_on_windows(None, Some("24bit"), Some(true), Depth::Truecolor)]
-    #[case::term_256(Some("xterm-256color"), None, None, Depth::Ansi256)]
-    #[case::term_256_inside(Some("screen-256color-bce"), None, None, Depth::Ansi256)]
-    #[case::windows_vt(None, None, Some(true), Depth::Ansi256)]
-    #[case::windows_vt_colorterm_yes(None, Some("yes"), Some(true), Depth::Ansi256)]
-    #[case::xterm(Some("xterm"), None, None, Depth::Ansi16)]
-    #[case::term_unset(None, None, None, Depth::Ansi16)]
-    #[case::colorterm_yes(Some("xterm"), Some("yes"), None, Depth::Ansi16)]
+    #[case::truecolor(Some("xterm"), Some("truecolor"), Depth::Truecolor)]
+    #[case::twenty_four_bit(Some("xterm"), Some("24bit"), Depth::Truecolor)]
+    #[case::colorterm_beats_256(Some("xterm-256color"), Some("truecolor"), Depth::Truecolor)]
+    #[case::colorterm_without_term(None, Some("24bit"), Depth::Truecolor)]
+    #[case::term_256(Some("xterm-256color"), None, Depth::Ansi256)]
+    #[case::term_256_inside(Some("screen-256color-bce"), None, Depth::Ansi256)]
+    #[case::xterm(Some("xterm"), None, Depth::Ansi16)]
+    #[case::term_unset(None, None, Depth::Ansi16)]
+    #[case::colorterm_yes(Some("xterm"), Some("yes"), Depth::Ansi16)]
     fn colour_decision_picks_the_depth(
         #[case] term: Option<&str>,
         #[case] colorterm: Option<&str>,
-        #[case] vt: Option<bool>,
         #[case] depth: Depth,
     ) {
-        assert_eq!(decide(&facts(term, colorterm, vt)), Some(depth));
+        assert_eq!(decide(&facts(term, colorterm)), Some(depth));
     }
 
     #[rstest]
@@ -249,16 +170,5 @@ mod tests {
             reset: "\x1b[0m",
         };
         assert_eq!(depth.tokens(), want);
-    }
-
-    /// ENABLE_VIRTUAL_TERMINAL_PROCESSING alone, never viola-pty's 0x000c, which adds
-    /// DISABLE_NEWLINE_AUTO_RETURN.
-    #[rstest]
-    #[case::from_zero(0x0000, 0x0004)]
-    #[case::kept_bits(0x0003, 0x0007)]
-    #[case::already_on(0x0007, 0x0007)]
-    #[case::newline_bit_untouched(0x0001, 0x0005)]
-    fn colour_vt_mode_adds_only_the_processing_bit(#[case] mode: u32, #[case] want: u32) {
-        assert_eq!(vt_mode(mode), want);
     }
 }
