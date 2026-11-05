@@ -1,0 +1,210 @@
+[
+{
+"tool": "inputs",
+"v": "1.5",
+"sha8": "03ebb731",
+"ts": "2026-11-04T23:12:05Z",
+"argv": [
+"snap",
+"--no-chunk",
+"--source",
+"~/dev/projects/additional/viola-overseer/wrap-linux-only-directive.md",
+"--kind",
+"relay",
+"--why",
+"the operator directive for this 0-pending wrap: the Linux-only route adaptation, its dialog and stop rules",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run: would snap I1 · copy no-repo · ../additional/viola-overseer/wrap-linux-only-directive.md"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/wrap-linux-only-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "ef618fe1436773bb1ab217633d02330c5ecf882e7e9e43916df49195a388e8ad",
+"copy": "I1-wrap-linux-only-directive.md.txt",
+"link": false,
+"read_at": "2026-11-04T23:12:05Z",
+"step": "wrap",
+"why": "the operator directive for this 0-pending wrap: the Linux-only route adaptation, its dialog and stop rules"
+}
+},
+{
+"tool": "inputs",
+"v": "1.5",
+"sha8": "03ebb731",
+"ts": "2026-11-04T23:12:10Z",
+"argv": [
+"snap",
+"--no-chunk",
+"--source",
+"~/dev/projects/additional/viola-overseer/wrap-linux-only-directive.md",
+"--kind",
+"relay",
+"--why",
+"the operator directive for this 0-pending wrap: the Linux-only route adaptation, its dialog and stop rules",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy no-repo · ../additional/viola-overseer/wrap-linux-only-directive.md",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-wrap-linux-only-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/wrap-linux-only-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "ef618fe1436773bb1ab217633d02330c5ecf882e7e9e43916df49195a388e8ad",
+"copy": "I1-wrap-linux-only-directive.md.txt",
+"link": false,
+"read_at": "2026-11-04T23:12:10Z",
+"step": "wrap",
+"why": "the operator directive for this 0-pending wrap: the Linux-only route adaptation, its dialog and stop rules"
+}
+},
+{
+"tool": "inputs",
+"v": "1.5",
+"sha8": "03ebb731",
+"ts": "2026-11-04T23:12:10Z",
+"argv": [
+"snap",
+"--no-chunk",
+"--source",
+"~/dev/projects/additional/viola-overseer/restructure-linux-only.md",
+"--kind",
+"relay",
+"--why",
+"the overseer's relay of the founder's 2026-11-04 rulings: Viola becomes Linux-only, seven items for disposition",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy no-repo · ../additional/viola-overseer/restructure-linux-only.md",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-restructure-linux-only.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/restructure-linux-only.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "f9cb9b423a61176f43d02a8231739ed3d20fe38af068f2dd8af62f6435acdeb4",
+"copy": "I2-restructure-linux-only.md.txt",
+"link": false,
+"read_at": "2026-11-04T23:12:10Z",
+"step": "wrap",
+"why": "the overseer's relay of the founder's 2026-11-04 rulings: Viola becomes Linux-only, seven items for disposition"
+}
+},
+{
+"tool": "inputs",
+"v": "1.5",
+"sha8": "03ebb731",
+"ts": "2026-11-05T05:59:44Z",
+"argv": [
+"snap",
+"--no-chunk",
+"--message-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/relay-1.md",
+"--origin",
+"the operator, relaying the overseer (Q1-Q3, founder-delegated) and the founder (Q4, live, 2026-11-05 05:20Z), 2026-11-05 05:59Z",
+"--kind",
+"relay",
+"--why",
+"the route-resolve dialog answers: Q1 retire with 17 residuals, Q2 gates green on Linux, Q3 head of Epoch 7, Q4 v1-53 re-worded to its Linux half (the founder)",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy message · message: the operator, relaying the overseer (Q1-Q3, founder-delegated) and the founder (Q4, live, 2026-11-05 05:20Z), 2026-11-05 05:59Z",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, relaying the overseer (Q1-Q3, founder-delegated) and the founder (Q4, live, 2026-11-05 05:20Z), 2026-11-05 05:59Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "19e13a9cfa2bc7db02928242c79e54a5f7fd4ac1fd82579974da103b9788bc92",
+"copy": "I3-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-05T05:59:44Z",
+"step": "wrap",
+"why": "the route-resolve dialog answers: Q1 retire with 17 residuals, Q2 gates green on Linux, Q3 head of Epoch 7, Q4 v1-53 re-worded to its Linux half (the founder)"
+}
+}
+]

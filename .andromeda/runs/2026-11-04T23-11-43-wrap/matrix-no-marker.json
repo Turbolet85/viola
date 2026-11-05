@@ -1,0 +1,2634 @@
+[
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:02:47Z",
+"argv": [
+"refine",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-01",
+"--unclaimed",
+"--ruling-id",
+"2026-11-04T23-11-43-wrap",
+"--date",
+"2026-11-05",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/rewrite-v1-01/ruling.md",
+"--title-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/rewrite-v1-01/title.md",
+"--requirement-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/rewrite-v1-01/requirement.md",
+"--acceptance-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/rewrite-v1-01/acceptance.md",
+"--line-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/rewrite-v1-01/line.txt",
+"--dry-run",
+"--marker",
+"no-marker",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"refine v1-01 --unclaimed by 2026-11-04T23-11-43-wrap (status planned · chunk null kept)",
+"title: Three-OS CI pipeline from the first commit",
+"  → Linux CI pipeline from the first commit",
+"requirement: every push and PR runs build, format, lint (warnings fatal), the tokio… (619 chars)",
+"  → every push and PR runs build, format, lint (warnings fatal), the tokio… (600 chars)",
+"acceptance: Every push and pull request produces a pipeline run on Windows, macOS … (487 chars)",
+"  → Every push and pull request produces a pipeline run on Linux covering … (468 chars)",
+"line 10: - **v1-01** · Three-OS CI pipeline from the first commit — every push and PR runs build, f… (550 chars)",
+"  → - **v1-01** · Linux CI pipeline from the first commit — every push and PR runs build, form… (528 chars)",
+"notes: +1874 chars (total 2482)",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-01",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "Every push and pull request produces a pipeline run on Windows, macOS and Linux covering build, formatting, fatal lint, … (487 chars)",
+"notes_chars": 606
+},
+"after": {
+"id": "v1-01",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "Every push and pull request produces a pipeline run on Linux covering build, formatting, fatal lint, the tokio-free chec… (468 chars)",
+"notes_chars": 2482
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:02:48Z",
+"argv": [
+"refine",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-07",
+"--unclaimed",
+"--ruling-id",
+"2026-11-04T23-11-43-wrap",
+"--date",
+"2026-11-05",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/rewrite-v1-07/ruling.md",
+"--requirement-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/rewrite-v1-07/requirement.md",
+"--acceptance-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/rewrite-v1-07/acceptance.md",
+"--line-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/rewrite-v1-07/line.txt",
+"--dry-run",
+"--marker",
+"no-marker",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"refine v1-07 --unclaimed by 2026-11-04T23-11-43-wrap (status planned · chunk null kept)",
+"requirement: per-OS coverage meets lines 85 / functions 95 / regions 80; hook deadl… (394 chars)",
+"  → coverage on Linux meets lines 85 / functions 95 / regions 80; hook dea… (396 chars)",
+"acceptance: Per-OS coverage meets lines 85, functions 95 and regions 80; hook dead… (352 chars)",
+"  → Coverage on Linux meets lines 85, functions 95 and regions 80; hook de… (354 chars)",
+"line 16: - **v1-07** · Quality gates: coverage, performance budgets, property/fuzz replay, zero fla… (459 chars)",
+"  → - **v1-07** · Quality gates: coverage, performance budgets, property/fuzz replay, zero fla… (461 chars)",
+"notes: +1461 chars (total 3076)",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-07",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "Per-OS coverage meets lines 85, functions 95 and regions 80; hook deadlines hold on the worst sample; every security-nam… (352 chars)",
+"notes_chars": 1613
+},
+"after": {
+"id": "v1-07",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "Coverage on Linux meets lines 85, functions 95 and regions 80; hook deadlines hold on the worst sample; every security-n… (354 chars)",
+"notes_chars": 3076
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:02:48Z",
+"argv": [
+"refine",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-27",
+"--unclaimed",
+"--ruling-id",
+"2026-11-04T23-11-43-wrap",
+"--date",
+"2026-11-05",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/rewrite-v1-27/ruling.md",
+"--title-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/rewrite-v1-27/title.md",
+"--requirement-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/rewrite-v1-27/requirement.md",
+"--acceptance-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/rewrite-v1-27/acceptance.md",
+"--line-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/rewrite-v1-27/line.txt",
+"--dry-run",
+"--marker",
+"no-marker",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"refine v1-27 --unclaimed by 2026-11-04T23-11-43-wrap (status planned · chunk null kept)",
+"title: `viola run` wraps the unmodified CLI on Windows",
+"  → `viola run` wraps the unmodified CLI on Linux",
+"requirement: `viola run <name> -- claude …` shows the child's screen and passes the… (564 chars)",
+"  → `viola run <name> -- claude …` shows the child's screen and passes the… (525 chars)",
+"acceptance: Wrapping the unmodified CLI on Windows shows its screen and passes the… (495 chars)",
+"  → Wrapping the unmodified CLI on Linux shows its screen and passes the h… (458 chars)",
+"line 42: - **v1-27** · `viola run` wraps the unmodified CLI on Windows — the child's screen and the… (510 chars)",
+"  → - **v1-27** · `viola run` wraps the unmodified CLI on Linux — the child's screen and the h… (466 chars)",
+"notes: +1832 chars (total 1832)",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-27",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "Wrapping the unmodified CLI on Windows shows its screen and passes the human's keys exactly as without the wrapper, with… (495 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-27",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "Wrapping the unmodified CLI on Linux shows its screen and passes the human's keys exactly as without the wrapper, with n… (458 chars)",
+"notes_chars": 1832
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:02:48Z",
+"argv": [
+"refine",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-53",
+"--unclaimed",
+"--ruling-id",
+"inputs#I3",
+"--date",
+"2026-11-05",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/rewrite-v1-53/ruling.md",
+"--title-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/rewrite-v1-53/title.md",
+"--requirement-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/rewrite-v1-53/requirement.md",
+"--acceptance-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/rewrite-v1-53/acceptance.md",
+"--line-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/rewrite-v1-53/line.txt",
+"--dry-run",
+"--marker",
+"no-marker",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"refine v1-53 --unclaimed by inputs#I3 (status planned · chunk null kept)",
+"title: Linux and macOS reach parity with Windows",
+"  → The fake-agent suite and one live run on Linux",
+"requirement: on Linux and macOS the same end-to-end suite passes against the fake a… (324 chars)",
+"  → on Linux the end-to-end suite passes against the fake agent (openpty, … (209 chars)",
+"acceptance: On Linux and macOS the same end-to-end suite passes against the fake a… (306 chars)",
+"  → On Linux the end-to-end suite passes against the fake agent, covering … (219 chars)",
+"line 80: - **v1-53** · Linux and macOS reach parity with Windows — on Linux and macOS the same end-… (413 chars)",
+"  → - **v1-53** · The fake-agent suite and one live run on Linux — on Linux the end-to-end sui… (303 chars)",
+"notes: +1255 chars (total 2568)",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-53",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "On Linux and macOS the same end-to-end suite passes against the fake agent, covering the PTY, the per-user socket direct… (306 chars)",
+"notes_chars": 1311
+},
+"after": {
+"id": "v1-53",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "On Linux the end-to-end suite passes against the fake agent, covering the PTY, the per-user socket directory, file modes… (219 chars)",
+"notes_chars": 2568
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:03:26Z",
+"argv": [
+"refine",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-01",
+"--unclaimed",
+"--ruling-id",
+"2026-11-04T23-11-43-wrap",
+"--date",
+"2026-11-05",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/rewrite-v1-01/ruling.md",
+"--title-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/rewrite-v1-01/title.md",
+"--requirement-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/rewrite-v1-01/requirement.md",
+"--acceptance-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/rewrite-v1-01/acceptance.md",
+"--line-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/rewrite-v1-01/line.txt",
+"--marker",
+"no-marker",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"refine v1-01 --unclaimed by 2026-11-04T23-11-43-wrap (status planned · chunk null kept)",
+"title: Three-OS CI pipeline from the first commit",
+"  → Linux CI pipeline from the first commit",
+"requirement: every push and PR runs build, format, lint (warnings fatal), the tokio… (619 chars)",
+"  → every push and PR runs build, format, lint (warnings fatal), the tokio… (600 chars)",
+"acceptance: Every push and pull request produces a pipeline run on Windows, macOS … (487 chars)",
+"  → Every push and pull request produces a pipeline run on Linux covering … (468 chars)",
+"line 10: - **v1-01** · Three-OS CI pipeline from the first commit — every push and PR runs build, f… (550 chars)",
+"  → - **v1-01** · Linux CI pipeline from the first commit — every push and PR runs build, form… (528 chars)",
+"notes: +2051 chars (total 2659)",
+"landed, rendered ./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson"
+],
+"before": {
+"id": "v1-01",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "Every push and pull request produces a pipeline run on Windows, macOS and Linux covering build, formatting, fatal lint, … (487 chars)",
+"notes_chars": 606
+},
+"after": {
+"id": "v1-01",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "Every push and pull request produces a pipeline run on Linux covering build, formatting, fatal lint, the tokio-free chec… (468 chars)",
+"notes_chars": 2659
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:03:27Z",
+"argv": [
+"refine",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-07",
+"--unclaimed",
+"--ruling-id",
+"2026-11-04T23-11-43-wrap",
+"--date",
+"2026-11-05",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/rewrite-v1-07/ruling.md",
+"--requirement-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/rewrite-v1-07/requirement.md",
+"--acceptance-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/rewrite-v1-07/acceptance.md",
+"--line-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/rewrite-v1-07/line.txt",
+"--marker",
+"no-marker",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"refine v1-07 --unclaimed by 2026-11-04T23-11-43-wrap (status planned · chunk null kept)",
+"requirement: per-OS coverage meets lines 85 / functions 95 / regions 80; hook deadl… (394 chars)",
+"  → coverage on Linux meets lines 85 / functions 95 / regions 80; hook dea… (396 chars)",
+"acceptance: Per-OS coverage meets lines 85, functions 95 and regions 80; hook dead… (352 chars)",
+"  → Coverage on Linux meets lines 85, functions 95 and regions 80; hook de… (354 chars)",
+"line 16: - **v1-07** · Quality gates: coverage, performance budgets, property/fuzz replay, zero fla… (459 chars)",
+"  → - **v1-07** · Quality gates: coverage, performance budgets, property/fuzz replay, zero fla… (461 chars)",
+"notes: +1638 chars (total 3253)",
+"landed, rendered ./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson"
+],
+"before": {
+"id": "v1-07",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "Per-OS coverage meets lines 85, functions 95 and regions 80; hook deadlines hold on the worst sample; every security-nam… (352 chars)",
+"notes_chars": 1613
+},
+"after": {
+"id": "v1-07",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "Coverage on Linux meets lines 85, functions 95 and regions 80; hook deadlines hold on the worst sample; every security-n… (354 chars)",
+"notes_chars": 3253
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:03:27Z",
+"argv": [
+"refine",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-27",
+"--unclaimed",
+"--ruling-id",
+"2026-11-04T23-11-43-wrap",
+"--date",
+"2026-11-05",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/rewrite-v1-27/ruling.md",
+"--title-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/rewrite-v1-27/title.md",
+"--requirement-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/rewrite-v1-27/requirement.md",
+"--acceptance-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/rewrite-v1-27/acceptance.md",
+"--line-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/rewrite-v1-27/line.txt",
+"--marker",
+"no-marker",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"refine v1-27 --unclaimed by 2026-11-04T23-11-43-wrap (status planned · chunk null kept)",
+"title: `viola run` wraps the unmodified CLI on Windows",
+"  → `viola run` wraps the unmodified CLI on Linux",
+"requirement: `viola run <name> -- claude …` shows the child's screen and passes the… (564 chars)",
+"  → `viola run <name> -- claude …` shows the child's screen and passes the… (525 chars)",
+"acceptance: Wrapping the unmodified CLI on Windows shows its screen and passes the… (495 chars)",
+"  → Wrapping the unmodified CLI on Linux shows its screen and passes the h… (458 chars)",
+"line 42: - **v1-27** · `viola run` wraps the unmodified CLI on Windows — the child's screen and the… (510 chars)",
+"  → - **v1-27** · `viola run` wraps the unmodified CLI on Linux — the child's screen and the h… (466 chars)",
+"notes: +2009 chars (total 2009)",
+"landed, rendered ./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson"
+],
+"before": {
+"id": "v1-27",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "Wrapping the unmodified CLI on Windows shows its screen and passes the human's keys exactly as without the wrapper, with… (495 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-27",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "Wrapping the unmodified CLI on Linux shows its screen and passes the human's keys exactly as without the wrapper, with n… (458 chars)",
+"notes_chars": 2009
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:03:28Z",
+"argv": [
+"refine",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-53",
+"--unclaimed",
+"--ruling-id",
+"inputs#I3",
+"--date",
+"2026-11-05",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/rewrite-v1-53/ruling.md",
+"--title-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/rewrite-v1-53/title.md",
+"--requirement-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/rewrite-v1-53/requirement.md",
+"--acceptance-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/rewrite-v1-53/acceptance.md",
+"--line-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/rewrite-v1-53/line.txt",
+"--marker",
+"no-marker",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"refine v1-53 --unclaimed by inputs#I3 (status planned · chunk null kept)",
+"title: Linux and macOS reach parity with Windows",
+"  → The fake-agent suite and one live run on Linux",
+"requirement: on Linux and macOS the same end-to-end suite passes against the fake a… (324 chars)",
+"  → on Linux the end-to-end suite passes against the fake agent (openpty, … (209 chars)",
+"acceptance: On Linux and macOS the same end-to-end suite passes against the fake a… (306 chars)",
+"  → On Linux the end-to-end suite passes against the fake agent, covering … (219 chars)",
+"line 80: - **v1-53** · Linux and macOS reach parity with Windows — on Linux and macOS the same end-… (413 chars)",
+"  → - **v1-53** · The fake-agent suite and one live run on Linux — on Linux the end-to-end sui… (303 chars)",
+"notes: +1255 chars (total 2568)",
+"landed, rendered ./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson"
+],
+"before": {
+"id": "v1-53",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "On Linux and macOS the same end-to-end suite passes against the fake agent, covering the PTY, the per-user socket direct… (306 chars)",
+"notes_chars": 1311
+},
+"after": {
+"id": "v1-53",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "On Linux the end-to-end suite passes against the fake agent, covering the PTY, the per-user socket directory, file modes… (219 chars)",
+"notes_chars": 2568
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:03:59Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-02",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-02.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-02: +846 chars (total 1545) · status verified · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-02",
+"chunk": "2026-10-17-end-to-end-path-binary-and-harness-legs",
+"status": "verified",
+"method": "e2e",
+"ref": "crates/viola-e2e/tests/cli.rs::status_logs_and_cleanup_drive_a_booted_session · crates/viola-e2e/tests/harness_lifecycle… (394 chars)",
+"acceptance": "On each of the three CI OSes (the run the chunk's `ci.py conclusion` entry reads), the `scripts/agent-run.*` shims drive… (842 chars)",
+"notes_chars": 697
+},
+"after": {
+"id": "v1-02",
+"chunk": "2026-10-17-end-to-end-path-binary-and-harness-legs",
+"status": "verified",
+"method": "e2e",
+"ref": "crates/viola-e2e/tests/cli.rs::status_logs_and_cleanup_drive_a_booted_session · crates/viola-e2e/tests/harness_lifecycle… (394 chars)",
+"acceptance": "On each of the three CI OSes (the run the chunk's `ci.py conclusion` entry reads), the `scripts/agent-run.*` shims drive… (842 chars)",
+"notes_chars": 1545
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:03:59Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-12",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-12.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-12: +838 chars (total 838) · status verified · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-12",
+"chunk": "2026-10-04-confirmed-send-with-cl-1-records",
+"status": "verified",
+"method": "integration",
+"ref": "tests/cli_send.rs::send_window_second_concurrent_send_is_refused_turn_running",
+"acceptance": "On a booted wrapper whose fake agent never submits a prompt (`--suppress-prompt-submit`), a `viola send` A to one instan… (857 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-12",
+"chunk": "2026-10-04-confirmed-send-with-cl-1-records",
+"status": "verified",
+"method": "integration",
+"ref": "tests/cli_send.rs::send_window_second_concurrent_send_is_refused_turn_running",
+"acceptance": "On a booted wrapper whose fake agent never submits a prompt (`--suppress-prompt-submit`), a `viola send` A to one instan… (857 chars)",
+"notes_chars": 838
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:03:59Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-14",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-14.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-14: +835 chars (total 835) · status verified · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-14",
+"chunk": "2026-09-29-verify-stamped-test-homes-and-harness",
+"status": "verified",
+"method": "integration",
+"ref": "crates/viola-e2e/tests/cli.rs::run_local_live_under_ci_is_refused",
+"acceptance": "Every stamped root test home (tests/support/home.rs stamped_home) and every harness boot without --unstamped is stamped … (738 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-14",
+"chunk": "2026-09-29-verify-stamped-test-homes-and-harness",
+"status": "verified",
+"method": "integration",
+"ref": "crates/viola-e2e/tests/cli.rs::run_local_live_under_ci_is_refused",
+"acceptance": "Every stamped root test home (tests/support/home.rs stamped_home) and every harness boot without --unstamped is stamped … (738 chars)",
+"notes_chars": 835
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:03:59Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-15",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-15.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-15: +838 chars (total 1601) · status verified · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-15",
+"chunk": "2026-10-05-dialog-rows-and-re-probe",
+"status": "verified",
+"method": "e2e",
+"ref": "tests/cli_answer.rs::path4_dialogs_are_logged_once_woken_and_answered_by_id + tests/cli_answer.rs::path4_a_plan_first_ra… (407 chars)",
+"acceptance": "In `tests/cli_answer.rs`, on all three CI OSes: a plan dialog raised by PreToolUse(`ExitPlanMode`) and one raised by Per… (1409 chars)",
+"notes_chars": 761
+},
+"after": {
+"id": "v1-15",
+"chunk": "2026-10-05-dialog-rows-and-re-probe",
+"status": "verified",
+"method": "e2e",
+"ref": "tests/cli_answer.rs::path4_dialogs_are_logged_once_woken_and_answered_by_id + tests/cli_answer.rs::path4_a_plan_first_ra… (407 chars)",
+"acceptance": "In `tests/cli_answer.rs`, on all three CI OSes: a plan dialog raised by PreToolUse(`ExitPlanMode`) and one raised by Per… (1409 chars)",
+"notes_chars": 1601
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:00Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-16",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-16.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-16: +838 chars (total 1297) · status verified · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-16",
+"chunk": "2026-10-05-permission-end-to-end",
+"status": "verified",
+"method": "e2e",
+"ref": "tests/cli_answer.rs::path4_permission_is_logged_once_woken_and_answered_by_id",
+"acceptance": "The architecture records that a driver cannot pick an offered permission suggestion: `.andromeda/architecture.md` §Stand… (989 chars)",
+"notes_chars": 457
+},
+"after": {
+"id": "v1-16",
+"chunk": "2026-10-05-permission-end-to-end",
+"status": "verified",
+"method": "e2e",
+"ref": "tests/cli_answer.rs::path4_permission_is_logged_once_woken_and_answered_by_id",
+"acceptance": "The architecture records that a driver cannot pick an offered permission suggestion: `.andromeda/architecture.md` §Stand… (989 chars)",
+"notes_chars": 1297
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:00Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-17",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-17.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-17: +791 chars (total 1278) · status verified · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-17",
+"chunk": "2026-10-26-home-and-code-bearing-file-integrity",
+"status": "verified",
+"method": "integration",
+"ref": "src/obs.rs::tests::open_role_file_refuses_a_widened_diagnostics_path_and_leaves_it · ::open_role_file_refuses_a_symlinke… (1002 chars)",
+"acceptance": "The architecture names both diagnostics roots and the four role sinks plus the instance detail file (architecture.md:323… (575 chars)",
+"notes_chars": 485
+},
+"after": {
+"id": "v1-17",
+"chunk": "2026-10-26-home-and-code-bearing-file-integrity",
+"status": "verified",
+"method": "integration",
+"ref": "src/obs.rs::tests::open_role_file_refuses_a_widened_diagnostics_path_and_leaves_it · ::open_role_file_refuses_a_symlinke… (1002 chars)",
+"acceptance": "The architecture names both diagnostics roots and the four role sinks plus the instance detail file (architecture.md:323… (575 chars)",
+"notes_chars": 1278
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:00Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-18",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-18.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-18: +800 chars (total 3193) · status verified · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-18",
+"chunk": "2026-10-31-exit-cause-code-catalogue",
+"status": "verified",
+"method": "integration",
+"ref": "tests/cross_exit_causes.rs (its cases per cause and mode, ::no_two_codes_share_a_hint, ::shared_hints_reads_a_planted_du… (1145 chars)",
+"acceptance": "Each cause reaches its own closed code on each surface it reaches, carrying no path or pid and matching the human hint o… (2034 chars)",
+"notes_chars": 2391
+},
+"after": {
+"id": "v1-18",
+"chunk": "2026-10-31-exit-cause-code-catalogue",
+"status": "verified",
+"method": "integration",
+"ref": "tests/cross_exit_causes.rs (its cases per cause and mode, ::no_two_codes_share_a_hint, ::shared_hints_reads_a_planted_du… (1145 chars)",
+"acceptance": "Each cause reaches its own closed code on each surface it reaches, carrying no path or pid and matching the human hint o… (2034 chars)",
+"notes_chars": 3193
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:00Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-23",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-23.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-23: +829 chars (total 2689) · status verified · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-23",
+"chunk": "2026-09-24-workspace-tree-and-code-graph-planes",
+"status": "verified",
+"method": "by-construction",
+"ref": "by-construction: (a) scripts/release-check.sh — `--probe` prints \"release-check probes: 3/3 refused, control clean\", def… (746 chars)",
+"acceptance": "By construction, three parts, all required:⏎⏎(a) The release build contains no test-only binary.⏎- `bash scripts/release… (1540 chars)",
+"notes_chars": 1858
+},
+"after": {
+"id": "v1-23",
+"chunk": "2026-09-24-workspace-tree-and-code-graph-planes",
+"status": "verified",
+"method": "by-construction",
+"ref": "by-construction: (a) scripts/release-check.sh — `--probe` prints \"release-check probes: 3/3 refused, control clean\", def… (746 chars)",
+"acceptance": "By construction, three parts, all required:⏎⏎(a) The release build contains no test-only binary.⏎- `bash scripts/release… (1540 chars)",
+"notes_chars": 2689
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:01Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-25",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-25.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-25: +929 chars (total 929) · status verified · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-25",
+"chunk": "2026-09-25-pty-wrapper-on-windows",
+"status": "verified",
+"method": "by-construction",
+"ref": "by-construction: the portable-pty line record is the Cargo.toml [workspace.dependencies] portable-pty comment and the cr… (544 chars)",
+"acceptance": "The portable-pty line is recorded beside its pin (the `Cargo.toml` `[workspace.dependencies]` portable-pty comment) and … (703 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-25",
+"chunk": "2026-09-25-pty-wrapper-on-windows",
+"status": "verified",
+"method": "by-construction",
+"ref": "by-construction: the portable-pty line record is the Cargo.toml [workspace.dependencies] portable-pty comment and the cr… (544 chars)",
+"acceptance": "The portable-pty line is recorded beside its pin (the `Cargo.toml` `[workspace.dependencies]` portable-pty comment) and … (703 chars)",
+"notes_chars": 929
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:01Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-28",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-28.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-28: +838 chars (total 838) · status verified · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-28",
+"chunk": "2026-09-27-hooks-to-normalised-events",
+"status": "verified",
+"method": "e2e",
+"ref": "tests/hook_events.rs::hook_every_registered_event_lands_as_one_line_of_its_kind + tests/hook_events.rs::hook_prompts_arr… (365 chars)",
+"acceptance": "In root integration tests on all three CI OSes (tests/hook_events.rs, tests/hook_fail_open.rs): each of the seven regist… (1425 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-28",
+"chunk": "2026-09-27-hooks-to-normalised-events",
+"status": "verified",
+"method": "e2e",
+"ref": "tests/hook_events.rs::hook_every_registered_event_lands_as_one_line_of_its_kind + tests/hook_events.rs::hook_prompts_arr… (365 chars)",
+"acceptance": "In root integration tests on all three CI OSes (tests/hook_events.rs, tests/hook_fail_open.rs): each of the seven regist… (1425 chars)",
+"notes_chars": 838
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:01Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-29",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-29.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-29: +841 chars (total 4365) · status verified · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-29",
+"chunk": "2026-10-06-local-command-send-outcomes",
+"status": "verified",
+"method": "e2e",
+"ref": "tests/cli_send.rs::send_window_local_command_is_not_presumed_delivered + tests/cli_send.rs::send_clear_on_a_verified_cli… (1252 chars)",
+"acceptance": "A driver's text from stdin or a file is typed as one bracketed paste plus Enter and returns read back only when the matc… (2334 chars)",
+"notes_chars": 3522
+},
+"after": {
+"id": "v1-29",
+"chunk": "2026-10-06-local-command-send-outcomes",
+"status": "verified",
+"method": "e2e",
+"ref": "tests/cli_send.rs::send_window_local_command_is_not_presumed_delivered + tests/cli_send.rs::send_clear_on_a_verified_cli… (1252 chars)",
+"acceptance": "A driver's text from stdin or a file is typed as one bracketed paste plus Enter and returns read back only when the matc… (2334 chars)",
+"notes_chars": 4365
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:01Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-30",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-30.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-30: +838 chars (total 1976) · status verified · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-30",
+"chunk": "2026-10-04-wait-and-last",
+"status": "verified",
+"method": "e2e",
+"ref": "tests/cli_wait_last.rs::path3_wait_parks_until_turn_ended_then_last_reads_it + tests/cli_wait_last.rs::wait_after_a_send… (332 chars)",
+"acceptance": "wait returns the first driver-relevant event at or after the given cursor, at once if already logged, and is never woken… (1410 chars)",
+"notes_chars": 1136
+},
+"after": {
+"id": "v1-30",
+"chunk": "2026-10-04-wait-and-last",
+"status": "verified",
+"method": "e2e",
+"ref": "tests/cli_wait_last.rs::path3_wait_parks_until_turn_ended_then_last_reads_it + tests/cli_wait_last.rs::wait_after_a_send… (332 chars)",
+"acceptance": "wait returns the first driver-relevant event at or after the given cursor, at once if already logged, and is never woken… (1410 chars)",
+"notes_chars": 1976
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:02Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-31",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-31.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-31: +838 chars (total 3343) · status verified · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-31",
+"chunk": "2026-10-08-first-live-test-and-self-drive",
+"status": "verified",
+"method": "e2e",
+"ref": "viola-0.1.0/chunks/2026-10-08-first-live-test-and-self-drive/evidence/live-run.ndjson::dialog-question, ::dialog-permiss… (579 chars)",
+"acceptance": "At most one dialog is pending per instance and it appears once in the log with its id; a driver answers a question (opti… (1938 chars)",
+"notes_chars": 2503
+},
+"after": {
+"id": "v1-31",
+"chunk": "2026-10-08-first-live-test-and-self-drive",
+"status": "verified",
+"method": "e2e",
+"ref": "viola-0.1.0/chunks/2026-10-08-first-live-test-and-self-drive/evidence/live-run.ndjson::dialog-question, ::dialog-permiss… (579 chars)",
+"acceptance": "At most one dialog is pending per instance and it appears once in the log with its id; a driver answers a question (opti… (1938 chars)",
+"notes_chars": 3343
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:02Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-32",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-32.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-32: +886 chars (total 3645) · status verified · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-32",
+"chunk": "2026-10-04-the-wheel",
+"status": "verified",
+"method": "e2e",
+"ref": "tests/tui_wheel.rs::{path5_human_takes_the_wheel_and_release_returns_it, path5_harness_turns_never_take_the_wheel, tui_f… (316 chars)",
+"acceptance": "In `tests/tui_wheel.rs` and `tests/cli_wheel.rs`, on all three CI OSes (the run id read by the operator pass's `ci.py co… (1279 chars)",
+"notes_chars": 2757
+},
+"after": {
+"id": "v1-32",
+"chunk": "2026-10-04-the-wheel",
+"status": "verified",
+"method": "e2e",
+"ref": "tests/tui_wheel.rs::{path5_human_takes_the_wheel_and_release_returns_it, path5_harness_turns_never_take_the_wheel, tui_f… (316 chars)",
+"acceptance": "In `tests/tui_wheel.rs` and `tests/cli_wheel.rs`, on all three CI OSes (the run id read by the operator pass's `ci.py co… (1279 chars)",
+"notes_chars": 3645
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:02Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-37",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-37.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-37: +838 chars (total 3508) · status verified · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-37",
+"chunk": "2026-10-16-unwrapped-sessions-on-the-board",
+"status": "verified",
+"method": "e2e",
+"ref": "binary(cli_list) | binary(cross_list_rows): tests/cli_list.rs::path1_list_shows_a_booted_wrapper, ::list_of_a_stopped_wr… (455 chars)",
+"acceptance": "With no live wrapper, `viola list` exits 0 and prints the board. Each wrapped instance shows liveness `live` or `stale` … (1101 chars)",
+"notes_chars": 2668
+},
+"after": {
+"id": "v1-37",
+"chunk": "2026-10-16-unwrapped-sessions-on-the-board",
+"status": "verified",
+"method": "e2e",
+"ref": "binary(cli_list) | binary(cross_list_rows): tests/cli_list.rs::path1_list_shows_a_booted_wrapper, ::list_of_a_stopped_wr… (455 chars)",
+"acceptance": "With no live wrapper, `viola list` exits 0 and prints the board. Each wrapped instance shows liveness `live` or `stale` … (1101 chars)",
+"notes_chars": 3508
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:02Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-38",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-38.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-38: +838 chars (total 838) · status verified · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-38",
+"chunk": "2026-10-17-mcp-server-for-drivers",
+"status": "verified",
+"method": "integration",
+"ref": "crates/viola-e2e/tests/mcp_tools.rs::mcp_tools_list_is_exactly_the_five_tools_and_list_matches_the_cli + ::mcp_tools_pat… (974 chars)",
+"acceptance": "A wrapped driver session gets send, wait, last, answer and list as MCP tools with the same results and refusals as the C… (1479 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-38",
+"chunk": "2026-10-17-mcp-server-for-drivers",
+"status": "verified",
+"method": "integration",
+"ref": "crates/viola-e2e/tests/mcp_tools.rs::mcp_tools_list_is_exactly_the_five_tools_and_list_matches_the_cli + ::mcp_tools_pat… (974 chars)",
+"acceptance": "A wrapped driver session gets send, wait, last, answer and list as MCP tools with the same results and refusals as the C… (1479 chars)",
+"notes_chars": 838
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:02Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-40",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-40.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-40: +884 chars (total 4470) · status verified · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-40",
+"chunk": "2026-10-17-cli-output-discipline",
+"status": "verified",
+"method": "integration",
+"ref": "(1) tests/cli_wait_last.rs::wait_human_lines_are_linear, tests/cli_output_plain.rs::help_is_plain_on_a_terminal · (2) te… (1396 chars)",
+"acceptance": "On ubuntu-latest, macos-latest and windows-2025 every human-mode CLI output keeps the terminal discipline, each clause h… (2580 chars)",
+"notes_chars": 3584
+},
+"after": {
+"id": "v1-40",
+"chunk": "2026-10-17-cli-output-discipline",
+"status": "verified",
+"method": "integration",
+"ref": "(1) tests/cli_wait_last.rs::wait_human_lines_are_linear, tests/cli_output_plain.rs::help_is_plain_on_a_terminal · (2) te… (1396 chars)",
+"acceptance": "On ubuntu-latest, macos-latest and windows-2025 every human-mode CLI output keeps the terminal discipline, each clause h… (2580 chars)",
+"notes_chars": 4470
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:03Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-42",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-42.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-42: +910 chars (total 2997) · status verified · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-42",
+"chunk": "2026-10-18-plugin-precedence-live-readings",
+"status": "verified",
+"method": "integration",
+"ref": "tests/cli_plugin_install.rs (binary(cli_plugin_install), gate entry 4 green) + live: chunks/2026-10-18-plugin-precedence… (377 chars)",
+"acceptance": "`viola plugin install` writes `<home>/marketplace/`: a marketplace `viola` whose one plugin `viola` holds only `.claude-… (1131 chars)",
+"notes_chars": 2085
+},
+"after": {
+"id": "v1-42",
+"chunk": "2026-10-18-plugin-precedence-live-readings",
+"status": "verified",
+"method": "integration",
+"ref": "tests/cli_plugin_install.rs (binary(cli_plugin_install), gate entry 4 green) + live: chunks/2026-10-18-plugin-precedence… (377 chars)",
+"acceptance": "`viola plugin install` writes `<home>/marketplace/`: a marketplace `viola` whose one plugin `viola` holds only `.claude-… (1131 chars)",
+"notes_chars": 2997
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:03Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-43",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-43.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-43: +947 chars (total 947) · status verified · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-43",
+"chunk": "2026-09-25-security-prerequisites",
+"status": "verified",
+"method": "integration",
+"ref": "tests/channel_sqos_open.rs::sqos_identification_open_adopted_reads_identification + tests/channel_sqos_open.rs::sqos_fla… (424 chars)",
+"acceptance": "On this Windows host and the windows-2025 CI test leg, `tests/channel_sqos_open.rs` passes: a client handle opened by wi… (918 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-43",
+"chunk": "2026-09-25-security-prerequisites",
+"status": "verified",
+"method": "integration",
+"ref": "tests/channel_sqos_open.rs::sqos_identification_open_adopted_reads_identification + tests/channel_sqos_open.rs::sqos_fla… (424 chars)",
+"acceptance": "On this Windows host and the windows-2025 CI test leg, `tests/channel_sqos_open.rs` passes: a client handle opened by wi… (918 chars)",
+"notes_chars": 947
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:03Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-44",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-44.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-44: +897 chars (total 3744) · status verified · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-44",
+"chunk": "2026-11-01-unix-endpoint-and-home-hardening",
+"status": "verified",
+"method": "integration",
+"ref": "tests/security_negatives_socket_dir.rs; crates/viola-mcp/tests/handlers.rs::handlers_frame_tools_refuse_a_loosened_socke… (943 chars)",
+"acceptance": "On each OS only the owning user (and SYSTEM on Windows) can connect to an instance endpoint; remote pipe clients and oth… (1890 chars)",
+"notes_chars": 2845
+},
+"after": {
+"id": "v1-44",
+"chunk": "2026-11-01-unix-endpoint-and-home-hardening",
+"status": "verified",
+"method": "integration",
+"ref": "tests/security_negatives_socket_dir.rs; crates/viola-mcp/tests/handlers.rs::handlers_frame_tools_refuse_a_loosened_socke… (943 chars)",
+"acceptance": "On each OS only the owning user (and SYSTEM on Windows) can connect to an instance endpoint; remote pipe clients and oth… (1890 chars)",
+"notes_chars": 3744
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:03Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-45",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-45.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-45: +845 chars (total 2729) · status verified · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-45",
+"chunk": "2026-10-26-home-and-code-bearing-file-integrity",
+"status": "verified",
+"method": "integration",
+"ref": "tests/security_negatives_strict_modes.rs::frame_verb_refuses_a_widened_instance_before_any_log (send · wait · last · ans… (1398 chars)",
+"acceptance": "On all three OSes a home, instance tree, `ledger/`, `bin/`, `plugin/`, pinned copy or diagnostics file another user coul… (1098 chars)",
+"notes_chars": 1882
+},
+"after": {
+"id": "v1-45",
+"chunk": "2026-10-26-home-and-code-bearing-file-integrity",
+"status": "verified",
+"method": "integration",
+"ref": "tests/security_negatives_strict_modes.rs::frame_verb_refuses_a_widened_instance_before_any_log (send · wait · last · ans… (1398 chars)",
+"acceptance": "On all three OSes a home, instance tree, `ledger/`, `bin/`, `plugin/`, pinned copy or diagnostics file another user coul… (1098 chars)",
+"notes_chars": 2729
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:04Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-46",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-46.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-46: +865 chars (total 2793) · status verified · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-46",
+"chunk": "2026-10-27-bounded-inputs-at-every-boundary",
+"status": "verified",
+"method": "unit",
+"ref": "tests/contract_bounded_readers.rs (boundaries_each_name_a_bounded_read_that_stands, product_readers_are_each_bounded_or_… (922 chars)",
+"acceptance": "Every external reader is size-capped, depth-limited and closed-typed; names are validated before any path join; the past… (1349 chars)",
+"notes_chars": 1926
+},
+"after": {
+"id": "v1-46",
+"chunk": "2026-10-27-bounded-inputs-at-every-boundary",
+"status": "verified",
+"method": "unit",
+"ref": "tests/contract_bounded_readers.rs (boundaries_each_name_a_bounded_read_that_stands, product_readers_are_each_bounded_or_… (922 chars)",
+"acceptance": "Every external reader is size-capped, depth-limited and closed-typed; names are validated before any path join; the past… (1349 chars)",
+"notes_chars": 2793
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:04Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-42",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-42.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-42: +910 chars (total 2997) · status verified · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-42",
+"chunk": "2026-10-18-plugin-precedence-live-readings",
+"status": "verified",
+"method": "integration",
+"ref": "tests/cli_plugin_install.rs (binary(cli_plugin_install), gate entry 4 green) + live: chunks/2026-10-18-plugin-precedence… (377 chars)",
+"acceptance": "`viola plugin install` writes `<home>/marketplace/`: a marketplace `viola` whose one plugin `viola` holds only `.claude-… (1131 chars)",
+"notes_chars": 2085
+},
+"after": {
+"id": "v1-42",
+"chunk": "2026-10-18-plugin-precedence-live-readings",
+"status": "verified",
+"method": "integration",
+"ref": "tests/cli_plugin_install.rs (binary(cli_plugin_install), gate entry 4 green) + live: chunks/2026-10-18-plugin-precedence… (377 chars)",
+"acceptance": "`viola plugin install` writes `<home>/marketplace/`: a marketplace `viola` whose one plugin `viola` holds only `.claude-… (1131 chars)",
+"notes_chars": 2997
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:09Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-02",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-02.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-02: +846 chars (total 1545) · status verified · ref/acceptance untouched",
+"landed, rendered ./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson"
+],
+"before": {
+"id": "v1-02",
+"chunk": "2026-10-17-end-to-end-path-binary-and-harness-legs",
+"status": "verified",
+"method": "e2e",
+"ref": "crates/viola-e2e/tests/cli.rs::status_logs_and_cleanup_drive_a_booted_session · crates/viola-e2e/tests/harness_lifecycle… (394 chars)",
+"acceptance": "On each of the three CI OSes (the run the chunk's `ci.py conclusion` entry reads), the `scripts/agent-run.*` shims drive… (842 chars)",
+"notes_chars": 697
+},
+"after": {
+"id": "v1-02",
+"chunk": "2026-10-17-end-to-end-path-binary-and-harness-legs",
+"status": "verified",
+"method": "e2e",
+"ref": "crates/viola-e2e/tests/cli.rs::status_logs_and_cleanup_drive_a_booted_session · crates/viola-e2e/tests/harness_lifecycle… (394 chars)",
+"acceptance": "On each of the three CI OSes (the run the chunk's `ci.py conclusion` entry reads), the `scripts/agent-run.*` shims drive… (842 chars)",
+"notes_chars": 1545
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:09Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-12",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-12.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-12: +838 chars (total 838) · status verified · ref/acceptance untouched",
+"landed, rendered ./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson"
+],
+"before": {
+"id": "v1-12",
+"chunk": "2026-10-04-confirmed-send-with-cl-1-records",
+"status": "verified",
+"method": "integration",
+"ref": "tests/cli_send.rs::send_window_second_concurrent_send_is_refused_turn_running",
+"acceptance": "On a booted wrapper whose fake agent never submits a prompt (`--suppress-prompt-submit`), a `viola send` A to one instan… (857 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-12",
+"chunk": "2026-10-04-confirmed-send-with-cl-1-records",
+"status": "verified",
+"method": "integration",
+"ref": "tests/cli_send.rs::send_window_second_concurrent_send_is_refused_turn_running",
+"acceptance": "On a booted wrapper whose fake agent never submits a prompt (`--suppress-prompt-submit`), a `viola send` A to one instan… (857 chars)",
+"notes_chars": 838
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:10Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-14",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-14.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-14: +835 chars (total 835) · status verified · ref/acceptance untouched",
+"landed, rendered ./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson"
+],
+"before": {
+"id": "v1-14",
+"chunk": "2026-09-29-verify-stamped-test-homes-and-harness",
+"status": "verified",
+"method": "integration",
+"ref": "crates/viola-e2e/tests/cli.rs::run_local_live_under_ci_is_refused",
+"acceptance": "Every stamped root test home (tests/support/home.rs stamped_home) and every harness boot without --unstamped is stamped … (738 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-14",
+"chunk": "2026-09-29-verify-stamped-test-homes-and-harness",
+"status": "verified",
+"method": "integration",
+"ref": "crates/viola-e2e/tests/cli.rs::run_local_live_under_ci_is_refused",
+"acceptance": "Every stamped root test home (tests/support/home.rs stamped_home) and every harness boot without --unstamped is stamped … (738 chars)",
+"notes_chars": 835
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:10Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-15",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-15.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-15: +838 chars (total 1601) · status verified · ref/acceptance untouched",
+"landed, rendered ./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson"
+],
+"before": {
+"id": "v1-15",
+"chunk": "2026-10-05-dialog-rows-and-re-probe",
+"status": "verified",
+"method": "e2e",
+"ref": "tests/cli_answer.rs::path4_dialogs_are_logged_once_woken_and_answered_by_id + tests/cli_answer.rs::path4_a_plan_first_ra… (407 chars)",
+"acceptance": "In `tests/cli_answer.rs`, on all three CI OSes: a plan dialog raised by PreToolUse(`ExitPlanMode`) and one raised by Per… (1409 chars)",
+"notes_chars": 761
+},
+"after": {
+"id": "v1-15",
+"chunk": "2026-10-05-dialog-rows-and-re-probe",
+"status": "verified",
+"method": "e2e",
+"ref": "tests/cli_answer.rs::path4_dialogs_are_logged_once_woken_and_answered_by_id + tests/cli_answer.rs::path4_a_plan_first_ra… (407 chars)",
+"acceptance": "In `tests/cli_answer.rs`, on all three CI OSes: a plan dialog raised by PreToolUse(`ExitPlanMode`) and one raised by Per… (1409 chars)",
+"notes_chars": 1601
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:11Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-16",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-16.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-16: +838 chars (total 1297) · status verified · ref/acceptance untouched",
+"landed, rendered ./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson"
+],
+"before": {
+"id": "v1-16",
+"chunk": "2026-10-05-permission-end-to-end",
+"status": "verified",
+"method": "e2e",
+"ref": "tests/cli_answer.rs::path4_permission_is_logged_once_woken_and_answered_by_id",
+"acceptance": "The architecture records that a driver cannot pick an offered permission suggestion: `.andromeda/architecture.md` §Stand… (989 chars)",
+"notes_chars": 457
+},
+"after": {
+"id": "v1-16",
+"chunk": "2026-10-05-permission-end-to-end",
+"status": "verified",
+"method": "e2e",
+"ref": "tests/cli_answer.rs::path4_permission_is_logged_once_woken_and_answered_by_id",
+"acceptance": "The architecture records that a driver cannot pick an offered permission suggestion: `.andromeda/architecture.md` §Stand… (989 chars)",
+"notes_chars": 1297
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:11Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-17",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-17.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-17: +791 chars (total 1278) · status verified · ref/acceptance untouched",
+"landed, rendered ./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson"
+],
+"before": {
+"id": "v1-17",
+"chunk": "2026-10-26-home-and-code-bearing-file-integrity",
+"status": "verified",
+"method": "integration",
+"ref": "src/obs.rs::tests::open_role_file_refuses_a_widened_diagnostics_path_and_leaves_it · ::open_role_file_refuses_a_symlinke… (1002 chars)",
+"acceptance": "The architecture names both diagnostics roots and the four role sinks plus the instance detail file (architecture.md:323… (575 chars)",
+"notes_chars": 485
+},
+"after": {
+"id": "v1-17",
+"chunk": "2026-10-26-home-and-code-bearing-file-integrity",
+"status": "verified",
+"method": "integration",
+"ref": "src/obs.rs::tests::open_role_file_refuses_a_widened_diagnostics_path_and_leaves_it · ::open_role_file_refuses_a_symlinke… (1002 chars)",
+"acceptance": "The architecture names both diagnostics roots and the four role sinks plus the instance detail file (architecture.md:323… (575 chars)",
+"notes_chars": 1278
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:11Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-18",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-18.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-18: +800 chars (total 3193) · status verified · ref/acceptance untouched",
+"landed, rendered ./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson"
+],
+"before": {
+"id": "v1-18",
+"chunk": "2026-10-31-exit-cause-code-catalogue",
+"status": "verified",
+"method": "integration",
+"ref": "tests/cross_exit_causes.rs (its cases per cause and mode, ::no_two_codes_share_a_hint, ::shared_hints_reads_a_planted_du… (1145 chars)",
+"acceptance": "Each cause reaches its own closed code on each surface it reaches, carrying no path or pid and matching the human hint o… (2034 chars)",
+"notes_chars": 2391
+},
+"after": {
+"id": "v1-18",
+"chunk": "2026-10-31-exit-cause-code-catalogue",
+"status": "verified",
+"method": "integration",
+"ref": "tests/cross_exit_causes.rs (its cases per cause and mode, ::no_two_codes_share_a_hint, ::shared_hints_reads_a_planted_du… (1145 chars)",
+"acceptance": "Each cause reaches its own closed code on each surface it reaches, carrying no path or pid and matching the human hint o… (2034 chars)",
+"notes_chars": 3193
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:12Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-23",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-23.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-23: +829 chars (total 2689) · status verified · ref/acceptance untouched",
+"landed, rendered ./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson"
+],
+"before": {
+"id": "v1-23",
+"chunk": "2026-09-24-workspace-tree-and-code-graph-planes",
+"status": "verified",
+"method": "by-construction",
+"ref": "by-construction: (a) scripts/release-check.sh — `--probe` prints \"release-check probes: 3/3 refused, control clean\", def… (746 chars)",
+"acceptance": "By construction, three parts, all required:⏎⏎(a) The release build contains no test-only binary.⏎- `bash scripts/release… (1540 chars)",
+"notes_chars": 1858
+},
+"after": {
+"id": "v1-23",
+"chunk": "2026-09-24-workspace-tree-and-code-graph-planes",
+"status": "verified",
+"method": "by-construction",
+"ref": "by-construction: (a) scripts/release-check.sh — `--probe` prints \"release-check probes: 3/3 refused, control clean\", def… (746 chars)",
+"acceptance": "By construction, three parts, all required:⏎⏎(a) The release build contains no test-only binary.⏎- `bash scripts/release… (1540 chars)",
+"notes_chars": 2689
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:12Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-25",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-25.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-25: +929 chars (total 929) · status verified · ref/acceptance untouched",
+"landed, rendered ./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson"
+],
+"before": {
+"id": "v1-25",
+"chunk": "2026-09-25-pty-wrapper-on-windows",
+"status": "verified",
+"method": "by-construction",
+"ref": "by-construction: the portable-pty line record is the Cargo.toml [workspace.dependencies] portable-pty comment and the cr… (544 chars)",
+"acceptance": "The portable-pty line is recorded beside its pin (the `Cargo.toml` `[workspace.dependencies]` portable-pty comment) and … (703 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-25",
+"chunk": "2026-09-25-pty-wrapper-on-windows",
+"status": "verified",
+"method": "by-construction",
+"ref": "by-construction: the portable-pty line record is the Cargo.toml [workspace.dependencies] portable-pty comment and the cr… (544 chars)",
+"acceptance": "The portable-pty line is recorded beside its pin (the `Cargo.toml` `[workspace.dependencies]` portable-pty comment) and … (703 chars)",
+"notes_chars": 929
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:13Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-28",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-28.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-28: +838 chars (total 838) · status verified · ref/acceptance untouched",
+"landed, rendered ./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson"
+],
+"before": {
+"id": "v1-28",
+"chunk": "2026-09-27-hooks-to-normalised-events",
+"status": "verified",
+"method": "e2e",
+"ref": "tests/hook_events.rs::hook_every_registered_event_lands_as_one_line_of_its_kind + tests/hook_events.rs::hook_prompts_arr… (365 chars)",
+"acceptance": "In root integration tests on all three CI OSes (tests/hook_events.rs, tests/hook_fail_open.rs): each of the seven regist… (1425 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-28",
+"chunk": "2026-09-27-hooks-to-normalised-events",
+"status": "verified",
+"method": "e2e",
+"ref": "tests/hook_events.rs::hook_every_registered_event_lands_as_one_line_of_its_kind + tests/hook_events.rs::hook_prompts_arr… (365 chars)",
+"acceptance": "In root integration tests on all three CI OSes (tests/hook_events.rs, tests/hook_fail_open.rs): each of the seven regist… (1425 chars)",
+"notes_chars": 838
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:13Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-29",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-29.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-29: +841 chars (total 4365) · status verified · ref/acceptance untouched",
+"landed, rendered ./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson"
+],
+"before": {
+"id": "v1-29",
+"chunk": "2026-10-06-local-command-send-outcomes",
+"status": "verified",
+"method": "e2e",
+"ref": "tests/cli_send.rs::send_window_local_command_is_not_presumed_delivered + tests/cli_send.rs::send_clear_on_a_verified_cli… (1252 chars)",
+"acceptance": "A driver's text from stdin or a file is typed as one bracketed paste plus Enter and returns read back only when the matc… (2334 chars)",
+"notes_chars": 3522
+},
+"after": {
+"id": "v1-29",
+"chunk": "2026-10-06-local-command-send-outcomes",
+"status": "verified",
+"method": "e2e",
+"ref": "tests/cli_send.rs::send_window_local_command_is_not_presumed_delivered + tests/cli_send.rs::send_clear_on_a_verified_cli… (1252 chars)",
+"acceptance": "A driver's text from stdin or a file is typed as one bracketed paste plus Enter and returns read back only when the matc… (2334 chars)",
+"notes_chars": 4365
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:14Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-30",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-30.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-30: +838 chars (total 1976) · status verified · ref/acceptance untouched",
+"landed, rendered ./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson"
+],
+"before": {
+"id": "v1-30",
+"chunk": "2026-10-04-wait-and-last",
+"status": "verified",
+"method": "e2e",
+"ref": "tests/cli_wait_last.rs::path3_wait_parks_until_turn_ended_then_last_reads_it + tests/cli_wait_last.rs::wait_after_a_send… (332 chars)",
+"acceptance": "wait returns the first driver-relevant event at or after the given cursor, at once if already logged, and is never woken… (1410 chars)",
+"notes_chars": 1136
+},
+"after": {
+"id": "v1-30",
+"chunk": "2026-10-04-wait-and-last",
+"status": "verified",
+"method": "e2e",
+"ref": "tests/cli_wait_last.rs::path3_wait_parks_until_turn_ended_then_last_reads_it + tests/cli_wait_last.rs::wait_after_a_send… (332 chars)",
+"acceptance": "wait returns the first driver-relevant event at or after the given cursor, at once if already logged, and is never woken… (1410 chars)",
+"notes_chars": 1976
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:14Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-31",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-31.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-31: +838 chars (total 3343) · status verified · ref/acceptance untouched",
+"landed, rendered ./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson"
+],
+"before": {
+"id": "v1-31",
+"chunk": "2026-10-08-first-live-test-and-self-drive",
+"status": "verified",
+"method": "e2e",
+"ref": "viola-0.1.0/chunks/2026-10-08-first-live-test-and-self-drive/evidence/live-run.ndjson::dialog-question, ::dialog-permiss… (579 chars)",
+"acceptance": "At most one dialog is pending per instance and it appears once in the log with its id; a driver answers a question (opti… (1938 chars)",
+"notes_chars": 2503
+},
+"after": {
+"id": "v1-31",
+"chunk": "2026-10-08-first-live-test-and-self-drive",
+"status": "verified",
+"method": "e2e",
+"ref": "viola-0.1.0/chunks/2026-10-08-first-live-test-and-self-drive/evidence/live-run.ndjson::dialog-question, ::dialog-permiss… (579 chars)",
+"acceptance": "At most one dialog is pending per instance and it appears once in the log with its id; a driver answers a question (opti… (1938 chars)",
+"notes_chars": 3343
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:14Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-32",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-32.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-32: +886 chars (total 3645) · status verified · ref/acceptance untouched",
+"landed, rendered ./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson"
+],
+"before": {
+"id": "v1-32",
+"chunk": "2026-10-04-the-wheel",
+"status": "verified",
+"method": "e2e",
+"ref": "tests/tui_wheel.rs::{path5_human_takes_the_wheel_and_release_returns_it, path5_harness_turns_never_take_the_wheel, tui_f… (316 chars)",
+"acceptance": "In `tests/tui_wheel.rs` and `tests/cli_wheel.rs`, on all three CI OSes (the run id read by the operator pass's `ci.py co… (1279 chars)",
+"notes_chars": 2757
+},
+"after": {
+"id": "v1-32",
+"chunk": "2026-10-04-the-wheel",
+"status": "verified",
+"method": "e2e",
+"ref": "tests/tui_wheel.rs::{path5_human_takes_the_wheel_and_release_returns_it, path5_harness_turns_never_take_the_wheel, tui_f… (316 chars)",
+"acceptance": "In `tests/tui_wheel.rs` and `tests/cli_wheel.rs`, on all three CI OSes (the run id read by the operator pass's `ci.py co… (1279 chars)",
+"notes_chars": 3645
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:15Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-37",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-37.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-37: +838 chars (total 3508) · status verified · ref/acceptance untouched",
+"landed, rendered ./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson"
+],
+"before": {
+"id": "v1-37",
+"chunk": "2026-10-16-unwrapped-sessions-on-the-board",
+"status": "verified",
+"method": "e2e",
+"ref": "binary(cli_list) | binary(cross_list_rows): tests/cli_list.rs::path1_list_shows_a_booted_wrapper, ::list_of_a_stopped_wr… (455 chars)",
+"acceptance": "With no live wrapper, `viola list` exits 0 and prints the board. Each wrapped instance shows liveness `live` or `stale` … (1101 chars)",
+"notes_chars": 2668
+},
+"after": {
+"id": "v1-37",
+"chunk": "2026-10-16-unwrapped-sessions-on-the-board",
+"status": "verified",
+"method": "e2e",
+"ref": "binary(cli_list) | binary(cross_list_rows): tests/cli_list.rs::path1_list_shows_a_booted_wrapper, ::list_of_a_stopped_wr… (455 chars)",
+"acceptance": "With no live wrapper, `viola list` exits 0 and prints the board. Each wrapped instance shows liveness `live` or `stale` … (1101 chars)",
+"notes_chars": 3508
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:15Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-38",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-38.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-38: +838 chars (total 838) · status verified · ref/acceptance untouched",
+"landed, rendered ./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson"
+],
+"before": {
+"id": "v1-38",
+"chunk": "2026-10-17-mcp-server-for-drivers",
+"status": "verified",
+"method": "integration",
+"ref": "crates/viola-e2e/tests/mcp_tools.rs::mcp_tools_list_is_exactly_the_five_tools_and_list_matches_the_cli + ::mcp_tools_pat… (974 chars)",
+"acceptance": "A wrapped driver session gets send, wait, last, answer and list as MCP tools with the same results and refusals as the C… (1479 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-38",
+"chunk": "2026-10-17-mcp-server-for-drivers",
+"status": "verified",
+"method": "integration",
+"ref": "crates/viola-e2e/tests/mcp_tools.rs::mcp_tools_list_is_exactly_the_five_tools_and_list_matches_the_cli + ::mcp_tools_pat… (974 chars)",
+"acceptance": "A wrapped driver session gets send, wait, last, answer and list as MCP tools with the same results and refusals as the C… (1479 chars)",
+"notes_chars": 838
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:16Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-40",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-40.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-40: +884 chars (total 4470) · status verified · ref/acceptance untouched",
+"landed, rendered ./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson"
+],
+"before": {
+"id": "v1-40",
+"chunk": "2026-10-17-cli-output-discipline",
+"status": "verified",
+"method": "integration",
+"ref": "(1) tests/cli_wait_last.rs::wait_human_lines_are_linear, tests/cli_output_plain.rs::help_is_plain_on_a_terminal · (2) te… (1396 chars)",
+"acceptance": "On ubuntu-latest, macos-latest and windows-2025 every human-mode CLI output keeps the terminal discipline, each clause h… (2580 chars)",
+"notes_chars": 3584
+},
+"after": {
+"id": "v1-40",
+"chunk": "2026-10-17-cli-output-discipline",
+"status": "verified",
+"method": "integration",
+"ref": "(1) tests/cli_wait_last.rs::wait_human_lines_are_linear, tests/cli_output_plain.rs::help_is_plain_on_a_terminal · (2) te… (1396 chars)",
+"acceptance": "On ubuntu-latest, macos-latest and windows-2025 every human-mode CLI output keeps the terminal discipline, each clause h… (2580 chars)",
+"notes_chars": 4470
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:16Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-42",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-42.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-42: +910 chars (total 2997) · status verified · ref/acceptance untouched",
+"landed, rendered ./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson"
+],
+"before": {
+"id": "v1-42",
+"chunk": "2026-10-18-plugin-precedence-live-readings",
+"status": "verified",
+"method": "integration",
+"ref": "tests/cli_plugin_install.rs (binary(cli_plugin_install), gate entry 4 green) + live: chunks/2026-10-18-plugin-precedence… (377 chars)",
+"acceptance": "`viola plugin install` writes `<home>/marketplace/`: a marketplace `viola` whose one plugin `viola` holds only `.claude-… (1131 chars)",
+"notes_chars": 2085
+},
+"after": {
+"id": "v1-42",
+"chunk": "2026-10-18-plugin-precedence-live-readings",
+"status": "verified",
+"method": "integration",
+"ref": "tests/cli_plugin_install.rs (binary(cli_plugin_install), gate entry 4 green) + live: chunks/2026-10-18-plugin-precedence… (377 chars)",
+"acceptance": "`viola plugin install` writes `<home>/marketplace/`: a marketplace `viola` whose one plugin `viola` holds only `.claude-… (1131 chars)",
+"notes_chars": 2997
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:17Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-43",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-43.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-43: +947 chars (total 947) · status verified · ref/acceptance untouched",
+"landed, rendered ./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson"
+],
+"before": {
+"id": "v1-43",
+"chunk": "2026-09-25-security-prerequisites",
+"status": "verified",
+"method": "integration",
+"ref": "tests/channel_sqos_open.rs::sqos_identification_open_adopted_reads_identification + tests/channel_sqos_open.rs::sqos_fla… (424 chars)",
+"acceptance": "On this Windows host and the windows-2025 CI test leg, `tests/channel_sqos_open.rs` passes: a client handle opened by wi… (918 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-43",
+"chunk": "2026-09-25-security-prerequisites",
+"status": "verified",
+"method": "integration",
+"ref": "tests/channel_sqos_open.rs::sqos_identification_open_adopted_reads_identification + tests/channel_sqos_open.rs::sqos_fla… (424 chars)",
+"acceptance": "On this Windows host and the windows-2025 CI test leg, `tests/channel_sqos_open.rs` passes: a client handle opened by wi… (918 chars)",
+"notes_chars": 947
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:17Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-44",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-44.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-44: +897 chars (total 3744) · status verified · ref/acceptance untouched",
+"landed, rendered ./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson"
+],
+"before": {
+"id": "v1-44",
+"chunk": "2026-11-01-unix-endpoint-and-home-hardening",
+"status": "verified",
+"method": "integration",
+"ref": "tests/security_negatives_socket_dir.rs; crates/viola-mcp/tests/handlers.rs::handlers_frame_tools_refuse_a_loosened_socke… (943 chars)",
+"acceptance": "On each OS only the owning user (and SYSTEM on Windows) can connect to an instance endpoint; remote pipe clients and oth… (1890 chars)",
+"notes_chars": 2845
+},
+"after": {
+"id": "v1-44",
+"chunk": "2026-11-01-unix-endpoint-and-home-hardening",
+"status": "verified",
+"method": "integration",
+"ref": "tests/security_negatives_socket_dir.rs; crates/viola-mcp/tests/handlers.rs::handlers_frame_tools_refuse_a_loosened_socke… (943 chars)",
+"acceptance": "On each OS only the owning user (and SYSTEM on Windows) can connect to an instance endpoint; remote pipe clients and oth… (1890 chars)",
+"notes_chars": 3744
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:17Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-45",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-45.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-45: +845 chars (total 2729) · status verified · ref/acceptance untouched",
+"landed, rendered ./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson"
+],
+"before": {
+"id": "v1-45",
+"chunk": "2026-10-26-home-and-code-bearing-file-integrity",
+"status": "verified",
+"method": "integration",
+"ref": "tests/security_negatives_strict_modes.rs::frame_verb_refuses_a_widened_instance_before_any_log (send · wait · last · ans… (1398 chars)",
+"acceptance": "On all three OSes a home, instance tree, `ledger/`, `bin/`, `plugin/`, pinned copy or diagnostics file another user coul… (1098 chars)",
+"notes_chars": 1882
+},
+"after": {
+"id": "v1-45",
+"chunk": "2026-10-26-home-and-code-bearing-file-integrity",
+"status": "verified",
+"method": "integration",
+"ref": "tests/security_negatives_strict_modes.rs::frame_verb_refuses_a_widened_instance_before_any_log (send · wait · last · ans… (1398 chars)",
+"acceptance": "On all three OSes a home, instance tree, `ledger/`, `bin/`, `plugin/`, pinned copy or diagnostics file another user coul… (1098 chars)",
+"notes_chars": 2729
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "b0024008",
+"ts": "2026-11-05T06:04:18Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-46",
+"--text-file",
+".andromeda/runs/2026-11-04T23-11-43-wrap/note-v1-46.md",
+"--run-dir",
+".andromeda/runs/2026-11-04T23-11-43-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-46: +865 chars (total 2793) · status verified · ref/acceptance untouched",
+"landed, rendered ./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson"
+],
+"before": {
+"id": "v1-46",
+"chunk": "2026-10-27-bounded-inputs-at-every-boundary",
+"status": "verified",
+"method": "unit",
+"ref": "tests/contract_bounded_readers.rs (boundaries_each_name_a_bounded_read_that_stands, product_readers_are_each_bounded_or_… (922 chars)",
+"acceptance": "Every external reader is size-capped, depth-limited and closed-typed; names are validated before any path join; the past… (1349 chars)",
+"notes_chars": 1926
+},
+"after": {
+"id": "v1-46",
+"chunk": "2026-10-27-bounded-inputs-at-every-boundary",
+"status": "verified",
+"method": "unit",
+"ref": "tests/contract_bounded_readers.rs (boundaries_each_name_a_bounded_read_that_stands, product_readers_are_each_bounded_or_… (922 chars)",
+"acceptance": "Every external reader is size-capped, depth-limited and closed-typed; names are validated before any path join; the past… (1349 chars)",
+"notes_chars": 2793
+}
+}
+]

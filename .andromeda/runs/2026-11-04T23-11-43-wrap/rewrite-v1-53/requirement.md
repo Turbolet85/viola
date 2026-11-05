@@ -1,0 +1,1 @@
+on Linux the end-to-end suite passes against the fake agent (openpty, per-user socket directory, file modes, peer and server checks), and one live `viola run` on Linux confirms the fake agent's Unix behaviour.

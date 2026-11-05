@@ -1,0 +1,69 @@
+# Route adaptation — Viola becomes Linux-only
+
+For a 0-pending `/andromeda-wrap-session` (operator-requested adaptation), run after `2026-11-04-linux-and-macos-parity` is
+wrapped. Written 2026-11-04 by the Viola overseer. Entry TITLES are the anchors; re-read every coordinate at the run.
+
+## The founder's ruling (his own words, this overseer's session and dialog, 2026-11-04 21:43Z)
+
+«На самом деле меня заколебали уже вот эти война с этим Windows, MacOS и все такое … давай просто делать, чтоб только
+целевая система была Linux [Arch] и все без Windows, MacOS … Когда будет хорошо работать на Linux, то подумаем делать
+другие платформы или нет.»
+
+By dialog the same evening, his chosen options:
+- finish the current chunk first, then this adaptation;
+- keep the Windows and macOS code in the tree but take it out of CI;
+- drop «Windows-only live measurements», and make «Version done-check» Linux-only.
+
+Why: every chunk pays for three OSes, the dev host is Linux (Arch, Omarchy) since 2026-10-03, and no Windows or macOS
+host exists for a live reading. The product's target is now Linux alone, until it works well there.
+
+## Items, each for disposition at route-resolve
+
+1. **«Windows-only live measurements» leaves the route** (cancelled), with every CARRY it holds. Each CARRY is a Windows
+   or macOS reading. They leave as `open` residuals with a target «when another OS is ruled in», not as route items.
+2. **«Version done-check» reads «every gate green on Linux»** in place of «on three OSes». Its other clauses stand.
+3. **A new 0.1.0 entry at the head of the markerless tail: «Linux-only code and CI»** (the founder's second answer the
+   same evening, 2026-11-04 21:50Z, replacing «keep the code, out of CI»: «Вырезать, с тегом»).
+   - **First, a tag** on the last three-OS commit (`multi-os-final`, pushed), so every removed line is recoverable.
+   - **Removed:** every `cfg(windows)` and `cfg(target_os = "macos")` arm, its tests and fixtures; `src/conpty.rs`,
+     `crates/viola-pty/src/sideload.rs`, `tests/conpty_sideload.rs`, `tests/contract_windows_mutation_scope.rs`,
+     `vendor/conpty/`; the `[target.'cfg(windows)']` dependencies in `Cargo.toml` and the crates' manifests (and their
+     `deny.toml` entries).
+   - **Removed from CI:** the Windows and macOS jobs of `ci.yml` (test, lint, perf, release), `nightly.yml`, and
+     `windows-mutants.yml` (whole); any pre-push or harness step that runs only for those OSes.
+   - **Made unconditional:** a `cfg(unix)` arm whose only sibling was removed loses its gate.
+   - Measured 2026-11-04 at `28bbddab`, as hypotheses to re-read: 224 such gates in 55 files of ~67k Rust lines, more
+     than half in ten files (`viola-state/src/pin.rs` 26, `viola-e2e/src/harness/run/mutants/host.rs` 17,
+     `tests/hook_fail_open.rs` 14, `viola-pty/src/lib.rs` 13, `viola-channel/src/client.rs` 13,
+     `viola-state/src/fs.rs` 11, …), and four Windows-only files of ~1.1k lines.
+   - **Its acceptance:** every gate green on Linux. No Windows or macOS job in any workflow. No `cfg(windows)` or
+     `target_os = "macos"` left in the tree. The tag `multi-os-final` resolves on origin.
+   - The census of OS-gated tests from «Linux and macOS parity» is re-pointed or retired with the gates it counted.
+4. **The ledger.**
+   - A capability that is wholly a Windows or macOS behaviour becomes `deferred`, with a dated text naming this
+     ruling.
+   - A capability with an OS clause keeps its Linux half. The other OS's clause leaves by the ledger's own channel (a
+     refine or a dated note), never by weakening a Linux acceptance.
+   - `v1-53` («Linux and macOS reach parity with Windows») is read against this ruling: deferred, or re-worded to its
+     Linux half. That is the founder's choice, asked with a recommendation.
+5. **The masters.**
+   - The OS target becomes «Linux: the core on any current distribution (CI on ubuntu-latest), the window features of 0.2.0 on Hyprland alone (his word, 2026-11-04 21:53Z); the founder's host is Arch with Omarchy. The Windows and macOS code was removed, recoverable at the
+     tag `multi-os-final`, until the founder rules another OS in.»
+   - This lands in architecture (D3 «every OS a target», the «Windows-first live target» truth, Cross-platform
+     discipline, the per-OS rows), test-plan (the 3-OS CI matrix, per-OS legs), security-plan (Windows ACL and
+     named-pipe sections stay as the unsupported OS's text) and obs-plan (per-OS logging rows). It also lands in
+     design-system and a11y-plan where they name a Windows terminal behaviour.
+   - Each change lands as an amendment whose sidecar entry carries this ruling. The old text lives in the sidecar
+     history.
+6. **A red to fold into «Linux-only code and CI»'s scope, as an `[inferred]` item with its own acceptance.** It was
+   measured by the overseer, `msrv` job 126926985207 of ci#41930831242 on `abf00915`, the wrap commit of «Linux and
+   macOS parity».
+   - Two `viola-e2e` harness unit cases failed: `e2e_home_backing_gone_target_is_made_again_owner_only` and
+     `e2e_home_backing_owner_only_target_is_kept_untouched`. Both panic with `e2e-home backing: 7233 MiB free, below
+     the 9216 MiB floor` (`crates/viola-e2e/src/harness/mod.rs:483`).
+   - Every other case passed: 2669 passed, 2 failed.
+   - The diff under test touched no harness code. The cases read the runner's real free space against the floor, so
+     they pass or fail by the host's disk.
+   - Its acceptance: these cases decide on a free-space figure the test controls, never the host's, and `msrv` is
+     green.
+7. **Viola 0.2.0's intent** already reads Linux-only (`viola-0.2.0-incubator/intent.md`, revised the same evening).

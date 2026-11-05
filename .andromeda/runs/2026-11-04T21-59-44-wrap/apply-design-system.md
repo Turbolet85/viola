@@ -1,3 +1,0 @@
-@apply_row n=1 ref_file=fanout-design-system--cascade.md ref_n=1 v=applied edit=E1
-@fact after=fct-nmng4ymy file=surface gid=new:cli-list-stale-witness kind=values subject=cli-list
-- The stale row's colour layer is witnessed end to end on the Unix runners (`ubuntu-latest`, `macos-latest`) by `cross_list_rows_dim_a_stale_row_end_to_end_on_a_terminal` (`tests/cross_list_rows.rs`), passing on both as measured at ci#41918694243: `viola list` under an outer PTY with `TERM=xterm-256color` prints a stale row whose escape sequences are exactly DIM, BOLD, RESET, DIM, RESET (the row dim from its first byte to its last, NAME dim and bold), `stale` shown, and no SGR on the BAY line, the caption or the separator.

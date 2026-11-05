@@ -11,7 +11,7 @@ verified 30/53 · deferred 6 · planned 17 · implemented 0 · unclaimed 17
 - v1-52 · The 401 access strip after a UI restart
 
 ## planned, unclaimed (17)
-- v1-01 · Three-OS CI pipeline from the first commit
+- v1-01 · Linux CI pipeline from the first commit
 - v1-03 · The fake agent and recorded fixtures as the test contract
 - v1-04 · Structured JSON logs from every process, and a `logs` view
 - v1-05 · Observability gates: no unlogged panic, schema-true lines, no leaked secret
@@ -23,11 +23,11 @@ verified 30/53 · deferred 6 · planned 17 · implemented 0 · unclaimed 17
 - v1-21 · Timing constants named and located
 - v1-24 · The statusline source `run` records
 - v1-26 · Cross-plan fix-pass items honoured by the implementing chunks
-- v1-27 · `viola run` wraps the unmodified CLI on Windows
+- v1-27 · `viola run` wraps the unmodified CLI on Linux
 - v1-34 · Capability ledger, `viola verify`, and transport-only degrade
 - v1-35 · Budget governor from the statusline
 - v1-36 · Links between sessions
-- v1-53 · Linux and macOS reach parity with Windows
+- v1-53 · The fake-agent suite and one live run on Linux
 
 ## verified (30)
 - v1-02 · The headless harness: five agent-run commands · 2026-10-17-end-to-end-path-binary-and-harness-legs
