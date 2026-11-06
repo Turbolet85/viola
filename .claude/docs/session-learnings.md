@@ -8,6 +8,15 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
+## 2026-11-06 — A live round on this host cannot raise a permission dialog from a shell command
+The Linux dev host's Claude Code user settings allow `Bash(*)`, so a shell command in a live session never draws a
+PermissionRequest: a live plan step that needs viola's dialog path to hold a permission dialog gets none. At chunk
+2026-11-06-version-done-check the live hold was driven through a question dialog instead, on the overseer's technical
+answer. A live plan that needs a dialog reads the host's permission settings first and plans the dialog kind they
+leave reachable.
+
+---
+
 ## 2026-11-06 — End a retirement cascade with a bare-token census over every master
 
 A cascade sweep keyed on a retired mechanism's names (its symbols, files, jobs and closed words) misses the qualifier forms that

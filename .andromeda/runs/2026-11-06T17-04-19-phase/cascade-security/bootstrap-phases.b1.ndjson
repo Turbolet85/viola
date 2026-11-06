@@ -1,3 +1,0 @@
-{"type": "listing", "schema": 2, "doc": "security-plan", "file": ".andromeda/security-plan-detail/bootstrap-phases.md", "blob": "060d1a59c8340614", "tool": "detail v1.29", "entities": 2, "pin": 394, "sha": "060d1a59c8340614", "batch": 1, "of": 1}
-{"type": "entity", "id": "bootstrap-phases#1.1", "hash": "634402ae", "kind": "values", "subject": "bootstrap", "origin": "## Bootstrap phases (derive for route / setup-project)", "lines": [8, 18], "fact": "fct-sawbqqxr", "rev": 2, "size": 3868}
-{"type": "entity", "id": "bootstrap-phases#2.1", "hash": "a526c558", "kind": "values", "subject": "bootstrap", "origin": "## Bootstrap phases (derive for route / setup-project)", "lines": [24, 25], "fact": "fct-f326yvjk", "rev": 1, "size": 1621}

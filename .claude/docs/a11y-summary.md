@@ -10,12 +10,12 @@ _Distilled from `.andromeda/a11y-plan.md` by `/andromeda-setup-project`. wrap-se
 
 ## Harness contract (§3)
 
-The a11y harness checks cli and tui output discipline with assert_cmd / trycmd / portable-pty and emits no a11y rows (failures surface only as nextest failures in `suites[].failures[]`); the frontend's harness is deferred to 0.2.0. See `.claude/rules/a11y.md` for path-scoped enforcement.
+The a11y harness checks cli and tui output discipline with `std::process::Command` / literal-pin / portable-pty and emits no a11y rows (failures surface only as nextest failures in `suites[].failures[]`); the frontend's harness is deferred to 0.2.0. See `.claude/rules/a11y.md` for path-scoped enforcement.
 
 - **Automated tools per surface:**
   - **web-spa:** none in 0.1.0: the frontend is deferred to 0.2.0 and its technology is not chosen
   - **Mobile:** N/A (phone view deferred)
-  - **CLI / TUI:** assert_cmd + trycmd + portable-pty outer-PTY output-discipline checks on the `ubuntu-latest` CI leg, Linux only (the frame verbs' server-verify peer pid witness, the socket-directory refusal and the stale-row dim witness `cross_list_rows_dim_a_stale_row_end_to_end_on_a_terminal` among them); manual Orca passes (Linux) supplemental only
+  - **CLI / TUI:** `std::process::Command` + literal pins + portable-pty outer-PTY output-discipline checks on the `ubuntu-latest` CI leg, Linux only (the frame verbs' server-verify peer pid witness, the socket-directory refusal and the stale-row dim witness `cross_list_rows_dim_a_stale_row_end_to_end_on_a_terminal` among them); manual Orca passes (Linux) supplemental only
 - **WCAG criteria mapping:**
   - **AA base SCs:** none in 0.1.0 (the frontend is deferred to 0.2.0); cli / tui output-discipline assertions stand in for SC 1.3.2, 1.4.1 and 3.3.1 and the tui boundary for SC 2.1.1, with no conformance claim
   - **AAA escalations:** none
@@ -30,7 +30,7 @@ The a11y harness checks cli and tui output discipline with assert_cmd / trycmd /
 
 ## Bootstrap phases (§3)
 
-1. **a11y-tooling-install** — none in 0.1.0: the cli / tui cases use the tests' own assert_cmd, predicates, trycmd and portable-pty pins; the browser a11y tooling left with the browser leg, and the frontend's is a 0.2.0 input, its technology not chosen
+1. **a11y-tooling-install** — none in 0.1.0: the cli cases drive the `viola` binary through `std::process::Command`, and the tui cases use the tests' own portable-pty pin; the browser a11y tooling left with the browser leg, and the frontend's is a 0.2.0 input, its technology not chosen
 2. **focus-management-library-install** — none
 3. **aria-component-library-install** — none; the frontend is deferred to 0.2.0 and its technology is not chosen
 4. **contrast-verification-harness-setup** — none in 0.1.0: no page renders a token pair

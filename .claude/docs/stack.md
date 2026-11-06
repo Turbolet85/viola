@@ -1,6 +1,6 @@
 # Technology Stack
 
-_Extracted from `.andromeda/architecture.md` §Stack and Technologies by `/andromeda-setup-project`. The arch table is mirrored verbatim below; the specialist-tool rows after it come from the test, obs, security and a11y plans. Primary source: architecture.md._
+_Extracted from `doc:architecture` §Stack and Technologies by `/andromeda-setup-project`. The arch table is mirrored verbatim below; the specialist-tool rows after it come from the test, obs, security and a11y plans. Primary source: architecture.md._
 
 ## Stack (architecture.md §Stack and Technologies — verbatim)
 
@@ -9,7 +9,7 @@ _Extracted from `.andromeda/architecture.md` §Stack and Technologies by `/andro
 | Language / runtime | Rust 1.98.1, pinned exactly by `rust-toolchain.toml` (rustfmt + clippy); workspace `rust-version = "1.96"`, edition 2024 | One native binary `viola`. 1.96 is the declared floor (the security toolchain floor; sysinfo 0.39.6 needs 1.95, std `File::lock` 1.89, rmcp 1.88). CI checks the floor in the `msrv` job (`rustup toolchain install 1.96` + `RUSTUP_TOOLCHAIN=1.96`; the pin is untouched). The separate `fuzz/` workspace alone builds on `nightly-2026-09-20` (`fuzz/rust-toolchain.toml`) |
 | Backend framework (concurrency model) | Hybrid: std threads for `run`, `hook`, `send`, `wait` and every other CLI verb; Tokio 1.53.3 built only inside `mcp` | No async runtime on the hot `hook` path. The async ecosystem is used only where rmcp requires it |
 | CLI parser | clap 4.6.7 (derive; `default-features = false` with `std`, `derive`, `help`, `usage`, `error-context`, `suggestions` — its default set minus `color`, so help and usage output is plain and no colour/terminal crate is in the graph) | Subcommands `run · revive · send · wait · last · list · answer · hook · mcp · verify · pause · release · link · unlink · plugin install` |
-| PTY layer | portable-pty `=0.8.1` (pinned) behind viola's own `pty` seam; libc `=0.2.189` for the host tty's raw mode, behind `HostTerminal`; the host's input is `std::io::stdin()` (`viola_pty::host_stdin()`) and its size the `TIOCGWINSZ` read (`viola_pty::host_size()`) | Hosts the unmodified `claude` in openpty (`pty_backend()` always `openpty`) |
+| PTY layer | portable-pty `=0.9.0` (pinned) behind viola's own `pty` seam; libc `=0.2.189` for the host tty's raw mode, behind `HostTerminal`; the host's input is `std::io::stdin()` (`viola_pty::host_stdin()`) and its size the `TIOCGWINSZ` read (`viola_pty::host_size()`) | Hosts the unmodified `claude` in openpty (`pty_backend()` always `openpty`) |
 | Screen model | vt100 0.16.2 | Pre-send readiness and modal detection on `run`'s feed thread, handed a copy of the pump's output after the human's write, and the screen of `viola verify`'s five interactive probe runs. `run` never reads content; `Screen::rows()` is the only row-text exit, read by `verify` alone for its signature-only `--record` screen fixtures |
 | Wrapper IPC | interprocess 2.4.4 `local_socket` (sync API; the Tokio flavour, `interprocess/tokio`, only in `viola-channel`'s feature-gated `tokio_client::TokioClient`, used by `viola-mcp` alone); libc gives the uid for the per-user socket dir and the socket is chmod 0600 after the bind; the directory itself is read by `viola_state::strict::check_endpoint_dir` (the recorded endpoint's parent, through `check_socket_dir`, one std `symlink_metadata`) before a bind (`viola run`, `revive`'s start) and before each client's connect (the CLI frame verbs, `hook`, MCP's `frame`), a symlink, a non-directory, another owner or a group or other bit refused and never chmodded, an absent path passing | One endpoint per `viola run`: a Unix domain socket |
 | Database | None. ndjson append logs + atomically replaced JSON snapshots on the local filesystem | Authoritative audit trail and mutable state (wheel mirror, links, budget readings) |
@@ -20,7 +20,7 @@ _Extracted from `.andromeda/architecture.md` §Stack and Technologies by `/andro
 | Logging | tracing 0.1.44 (default features off, `std`, `attributes`); tracing-subscriber 0.3.23 (default features off, `fmt,json,registry,std`; the root bin is its only product dependent, `viola-channel` and `viola-state` take it as a dev-dependency for their unit tests' line capture); veil `=0.3.0` (`#[derive(Redact)]`, `toggle` banned) | One-line JSON process logs into the viola home's `diagnostics/`; the line format and levels are owned by the obs plan |
 | Domain newtypes | nutype 0.8.0 | `ViolaName` (charset + length cap), `Percent` (0–100), `DialogHold` (whole seconds 60–3600) |
 | Timestamps | chrono 0.4.45 | RFC 3339 UTC, millisecond precision. Already in the tree through rmcp |
-| Error types | thiserror 2.0.20 (one enum per crate; `viola-pty`'s `PtyError` is hand-written; `viola-mcp`'s `ServeError` beside `McpError` and `viola-state`'s `StampsError` beside `StateError` are the two open divergences, with `PinError`, `StampsReadError` and `Refused` the three the census adds); anyhow 1.0.104 (bin edge only). Panic detail backtraces are raw, never-symbolised frames (root bin `src/panic_frames.rs`: libc `backtrace` + `dladdr`) | Typed errors that callers can branch on; context chains built at dispatch and recorded only in the owner-only instance detail file |
+| Error types | thiserror 2.0.20 (one enum per crate; `viola-pty`'s `PtyError` is hand-written; `viola-mcp`'s `ServeError` beside `McpError` and `viola-state`'s `StampsError` beside `StateError`, with `PinError`, `StampsReadError` and `Refused`, are the five ratified exceptions); anyhow 1.0.104 (bin edge only). Panic detail backtraces are raw, never-symbolised frames (root bin `src/panic_frames.rs`: libc `backtrace` + `dladdr`) | Typed errors that callers can branch on; context chains built at dispatch and recorded only in the owner-only instance detail file |
 | Message broker | None. Per-wrapper local sockets (JSON-RPC 2.0 over ndjson) for request/response | Local IPC without a broker or daemon |
 | Process liveness | sysinfo 0.39.6 (pid + process start time) + `claude agents --json` | Enriches the primary signal, the heartbeat file |
 | MCP server | rmcp 3.4.1 (features `server`, `transport-io`), minor pinned; schemars 1.2.2 (tool input schemas) | stdio MCP server implementing spec 2026-07-28 (compatible with 2025-11-25): tools `send · wait · last · answer · list`. The release graph's rmcp features are exactly `server` + `transport-io` (`scripts/rmcp-features.sh`); the test-only `viola-e2e` takes rmcp `client` alone, never `transport-child-process` (which kills the server 3 s after a close), its E2E owning the `viola mcp` child and awaiting its exit (chunk 2026-10-17-mcp-server-for-drivers) |
@@ -44,22 +44,22 @@ The workspace `rust-version` 1.96 floor, the exact `rust-toolchain.toml` pin and
 
 ## Testing (test-plan §2, §3, §9)
 - cargo-nextest 0.9.146 · cargo-llvm-cov 0.9.1 · cargo-mutants 27.1.0 · hyperfine 1.20.0 · cargo-fuzz 0.13.2 (nightly, ubuntu) · ripgrep 15.2.0 (G1/G3, `scripts/install-ripgrep.sh`) · `jq` (runner-provided: G2, `scripts/release-check.sh`, `scripts/orphans-check.sh`; jaq 3.1.1 an equivalent local form) · cargo-modules 0.27.0 (`scripts/orphans-check.sh`, the CI orphans gate).
-- Dev-deps: rstest 0.27 · tempfile 3.27 · assert_cmd 2.2.2 · predicates 3.1.4 · trycmd 1.2.1 · insta 1.48.0 · jsonschema 0.57.0 · proptest 1.11.0 (+ proptest-derive 0.8.0, arbitrary 1.4.2) · mockall 0.15.0 · mock_instant 0.6.1 (in no manifest yet); in `viola-e2e`: rmcp `=3.4.1` (`client` alone, never `transport-child-process`), tokio 1.53.3 (`rt` + `process`, architecture.md's [Module Boundaries]); and, as ordinary dependencies of the harness, syn `=2.0.119` and proc-macro2 `=1.0.107` (`span-locations`).
+- Dev-deps: rstest 0.27 · tempfile 3.27 · insta 1.48.0 · jsonschema 0.57.0 · proptest 1.11.0 (+ proptest-derive 0.8.0, arbitrary 1.4.2) · mockall 0.15.0 · mock_instant 0.6.1 (in no manifest yet); in `viola-e2e`: rmcp `=3.4.1` (`client` alone, never `transport-child-process`), tokio 1.53.3 (`rt` + `process`, architecture.md's [Module Boundaries]); and, as ordinary dependencies of the harness, syn `=2.0.119` and proc-macro2 `=1.0.107` (`span-locations`).
 
 ## Accessibility (a11y-plan §3)
-- None of its own in 0.1.0: the cli / tui cases use the tests' assert_cmd, predicates, trycmd and portable-pty; the browser a11y tooling left with the browser leg.
+- None of its own in 0.1.0: the cli cases drive the `viola` binary through `std::process::Command`, the tui cases use the tests' portable-pty pin; the browser a11y tooling left with the browser leg.
 
 ## Frontend (design-system §Surface: web-spa)
 - The frontend is deferred to 0.2.0; its technology is not chosen; hand-written `@layer` CSS; installed fonts only (Bahnschrift / Cascadia Mono stacks with DejaVu as the Linux fallback; 0.1.0 renders no page).
 
 ## Rationale
 
-For architectural rationale behind these choices, see `.andromeda/architecture.md` Established Decisions section. Each `[Tag]` in that section explains why a specific technology was chosen over alternatives considered during `/andromeda-arch`.
+For architectural rationale behind these choices, see `doc:architecture` Established Decisions section. Each `[Tag]` in that section explains why a specific technology was chosen over alternatives considered during `/andromeda-arch`.
 
 ## Version updates
 
 When updating a dependency version:
-1. Update `.andromeda/architecture.md` Stack table first
+1. Update `doc:architecture` Stack table first
 2. Update `[workspace.dependencies]` in the root `Cargo.toml`
 3. Re-run `/andromeda-setup-project` to refresh this file and any rule files that reference the tool version (name the leaves to regenerate)
 4. Test that hooks and tooling still work

@@ -19,7 +19,7 @@ The obs harness is **bound** to the test harness: tests owns the grepped fields 
 - **Heartbeat:** the `heartbeat` file touched every 1 s (not logged per tick); no process logs a liveness transition (flip at > 5 s, read by `list`); short-lived readers (`list`) expose `liveness` in `--json`
 - **Integrity check:** schema conformance gate G4 against `schemas/diag-line.v1.json` / `diag-detail.v1.json`
 - **Status endpoint:** `agent-run status` (tests-owned) over `viola list --json`: the aggregate health snapshot, `state` and `last_error` closed enum
-- **Consumption:** `scripts/agent-run.* logs` merges `events.ndjson`, role files and detail files, filterable, torn lines marked
+- **Consumption:** `scripts/agent-run.sh logs` (via `viola-harness`) merges `events.ndjson`, role files and detail files, filterable, torn lines marked
 
 ## SLO invariants (§10)
 

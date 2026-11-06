@@ -20,8 +20,8 @@ Rendered by `/andromeda-setup-project` on the first run and kept current by wrap
 **References:** arch [PTY]; brief §4.1 Windows details; test-plan §11 E2E.
 
 ## portable-pty 0.9.0 garbage reads on Windows
-**What breaks:** 0.9.0's Windows garbage-read bug (wezterm#6783) does not bear on a Linux-only build; the pin stands on 0.8.1 being spike-proven.
-**How to avoid:** keep `=0.8.1` behind the `pty` seam; moving it off `=0.8.1` (RUSTSEC-2026-0441) is owed to the working-route entry "Version done-check"; the named swap is portable-pty-psmux 0.9.7 if the O1 stray-spaces artifact reproduces only under `viola run`.
+**What breaks:** 0.9.0's Windows garbage-read bug (wezterm#6783) does not bear on a Linux-only build; the pin is `=0.9.0`, and `viola-pty` builds and passes its tests on it unchanged.
+**How to avoid:** keep `=0.9.0` (pinned) behind the `pty` seam; 0.9.0's graph holds neither `pin-utils` (RUSTSEC-2026-0441) nor the `serial` crate family.
 **References:** arch [PTY]; security §Data Protection (handle inheritance).
 
 ## `claude` on PATH is an npm shim

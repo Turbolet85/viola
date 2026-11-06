@@ -1,0 +1,9 @@
+{"type": "listing", "schema": 2, "doc": "security-plan", "file": ".andromeda/security-plan-detail/dependency-security.md", "blob": "e9a21685441ac631", "tool": "detail v1.29", "entities": 8, "pin": 473, "sha": "e9a21685441ac631"}
+{"type": "entity", "id": "dependency-security#1.1", "hash": "08b8d167", "kind": "values", "subject": "deps", "origin": "## Dependency Security", "lines": [8, 8], "fact": "fct-pgy5bb7v", "rev": 1, "size": 437}
+{"type": "entity", "id": "dependency-security#1.2", "hash": "da685673", "kind": "values", "subject": "deps", "origin": "## Dependency Security", "lines": [9, 9], "fact": "fct-qfxjrvyr", "rev": 1, "size": 303}
+{"type": "entity", "id": "dependency-security#2.1", "hash": "3a7aa4d5", "kind": "values", "subject": "deps", "origin": "## Dependency Security", "lines": [15, 15], "fact": "fct-o63eny7e", "rev": 2, "size": 1123}
+{"type": "entity", "id": "dependency-security#2.2", "hash": "e5624197", "kind": "values", "subject": "deps", "origin": "## Dependency Security", "lines": [16, 16], "fact": "fct-6nwwowx3", "rev": 1, "size": 600}
+{"type": "entity", "id": "dependency-security#2.3", "hash": "4d28fb68", "kind": "values", "subject": "deps", "origin": "## Dependency Security", "lines": [17, 17], "fact": "fct-zj6omeqt", "rev": 1, "size": 278}
+{"type": "entity", "id": "dependency-security#3.1", "hash": "9287eeec", "kind": "exception", "subject": "deps", "origin": "## Dependency Security", "lines": [23, 23], "fact": "fct-i5izpzxc", "rev": 1, "size": 1263}
+{"type": "entity", "id": "dependency-security#4.1", "hash": "cb599748", "kind": "exception", "subject": "deps-supply-chain", "origin": "## Dependency Security", "lines": [29, 29], "fact": "fct-fguujmtu", "rev": 1, "size": 862}
+{"type": "entity", "id": "dependency-security#5.1", "hash": "c38625c7", "kind": "values", "subject": "deps-supply-chain", "origin": "## Dependency Security", "lines": [35, 39], "fact": "fct-dj5p5k3a", "rev": 1, "size": 579}

@@ -52,7 +52,7 @@ This project uses the Andromeda pipeline for architecture, planning, and impleme
 ## Code review
 
 - **Locally:** the **code-reviewer** agent is installed at `.claude/agents/code-reviewer.md` — invoke via trigger phrases like "review this" or "does this make sense?"
-- **Architecture review:** for significant changes, read `.andromeda/architecture.md` Established Decisions to check alignment; an amendment rides the implementing chunk's wrap reconcile.
+- **Architecture review:** for significant changes, read `doc:architecture` Established Decisions to check alignment; an amendment rides the implementing chunk's wrap reconcile.
 
 ## Release process
 v1 has no release stage: `cargo install --path .` locally. v1.x adds a dist 0.33.0 release workflow with cargo-auditable, signing and self_update (with `signatures`) — never with `rust-cache`.

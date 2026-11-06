@@ -1,0 +1,103 @@
+[
+{
+"tool": "inputs",
+"v": "1.6",
+"sha8": "b9addc45",
+"ts": "2026-11-06T20:58:07Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-06-version-done-check",
+"--source",
+"~/dev/projects/additional/viola-overseer/wrap-done-check-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the operator wrap directive: the founder word deferring v1-27 to 0.2.0, CARRY 2 unread and PROVISIONAL owned by 0.2.0 first entry, the live round deviations on the overseer answers, F434 whole-fact edits, Epoch 7 confirmations, fd-inheritance and thiserror wording",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-06T20-57-05-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I7 · copy no-repo · ../additional/viola-overseer/wrap-done-check-directive.md",
+"cite: inputs#I7"
+],
+"stderr": null,
+"wrote": [
+"inputs/I7-wrap-done-check-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I7",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/wrap-done-check-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "923c99f42ccbd409a608cf8241782d67d397c5ba7d7d13b857c4420168a1bbcd",
+"copy": "I7-wrap-done-check-directive.md.txt",
+"link": false,
+"read_at": "2026-11-06T20:58:07Z",
+"step": "wrap",
+"why": "the operator wrap directive: the founder word deferring v1-27 to 0.2.0, CARRY 2 unread and PROVISIONAL owned by 0.2.0 first entry, the live round deviations on the overseer answers, F434 whole-fact edits, Epoch 7 confirmations, fd-inheritance and thiserror wording"
+}
+},
+{
+"tool": "inputs",
+"v": "1.6",
+"sha8": "b9addc45",
+"ts": "2026-11-06T20:58:24Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-06-version-done-check",
+"--run-dir",
+".andromeda/runs/2026-11-06T20-57-05-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-done-check-directive.md",
+"I1 cited scope.md:26 · scope.md:103 · research.md:14 · plan.md:25 · plan.md:34 · plan.md:176 · plan.md:178 · plan.md:192 (in fence) · plan.md:595 · plan.md:626",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-done-check-forks.md",
+"I2 cited plan.md:12 · plan.md:23 · plan.md:35 · plan.md:61 · plan.md:152 · plan.md:563 · plan.md:594 · plan.md:595 · plan.md:621 · plan.md:631 · plan.md:639 · plan.md:657 · plan.md:662",
+"I3 n/a — a message has no live source · copy message · message: the founder, live by dialog in the overseer's session, relayed by the operator, 2026-11-06 19:38Z",
+"I3 cited plan.md:25 · plan.md:127 · plan.md:130 · plan.md:410 (in fence) · plan.md:537 · plan.md:594 · plan.md:608",
+"I4 n/a — a message has no live source · copy message · message: the operator, in this session, 2026-11-06, after p5-card-1.md",
+"I4 UNCITED",
+"I5 n/a — a message has no live source · copy message · message: the overseer (founder-delegated), technical answer at /implement, 2026-11-06 20:10Z",
+"I5 UNCITED",
+"I6 n/a — a message has no live source · copy message · message: the overseer (founder-delegated), technical answer at /implement, 2026-11-06 20:16Z",
+"I6 UNCITED",
+"I7 unchanged · copy no-repo · ../additional/viola-overseer/wrap-done-check-directive.md",
+"I7 UNCITED",
+"inputs: 7 entries — unchanged 3 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 4 · uncited 4 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 7,
+"counts": {
+"unchanged": 3,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 4
+},
+"uncited": 4,
+"unparsed": 0
+}
+}
+]

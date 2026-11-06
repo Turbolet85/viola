@@ -1,0 +1,120 @@
+# P1 site sweep — 2026-11-06-version-done-check (one pattern per moved fact, its name token beside its wording)
+
+[[pattern]]
+id = 'owner-title'
+fixed = 'Version done-check'
+ignore_case = true
+
+[[pattern]]
+id = 'owner-generic'
+regex = 'owned by a (route entry|CARRY)'
+ignore_case = true
+
+[[pattern]]
+id = 'pty-pin'
+regex = '=0\.8\.1|0\.8\.1|=0\.9\.0|portable-pty'
+ignore_case = true
+
+[[pattern]]
+id = 'serial-ignore'
+regex = 'RUSTSEC-2017-0008|\bserial\b|only ignore|ignore list'
+ignore_case = true
+
+[[pattern]]
+id = 'pin-utils'
+regex = 'RUSTSEC-2026-0441|pin-utils|nix 0\.25'
+ignore_case = true
+
+[[pattern]]
+id = 'plain-drive'
+regex = 'plain_drive|\\\?\\|verbatim[- ]drive'
+ignore_case = true
+
+[[pattern]]
+id = 'git-bash'
+regex = 'Git Bash|warn_if_rewritten|looks_rewritten|rewritten[- ]path'
+ignore_case = true
+
+[[pattern]]
+id = 'exe-suffix'
+regex = 'EXE_SUFFIX|\.exe\b'
+
+[[pattern]]
+id = 'trycmd'
+regex = 'trycmd|assert_cmd|snapbox|tests/cmd'
+ignore_case = true
+
+[[pattern]]
+id = 'sideload-marker'
+regex = 'PTY_SIDELOAD_TEST_CASE|MCP_SERVE_TEST_CHILD|test-child marker'
+ignore_case = true
+
+[[pattern]]
+id = 'hold-ceiling'
+regex = '3600|dialog_hold_s|DIALOG_HOLD_MAX'
+
+[[pattern]]
+id = 'thiserror-cnt'
+regex = 'thiserror::Error|derive census|one[- ]enum[- ]per[- ]crate'
+ignore_case = true
+
+[[pattern]]
+id = 'enum-diverge'
+regex = 'ServeError|StampsError|PinError|StampsReadError|\bRefused\b'
+
+[[pattern]]
+id = 'fd-inherit'
+regex = 'recorded, not established|close_random_fds|no-leak|inherit(ed|s)? (every )?(descriptor|fd|handle)'
+ignore_case = true
+
+[[pattern]]
+id = 'process-start'
+regex = 'sideload_fallback|conpty-sideload|pty_backend'
+
+[[pattern]]
+id = 'tree-pointers'
+regex = 'recoverable at the tag|multi-os-final'
+ignore_case = true
+
+[[pattern]]
+id = 'os-census'
+regex = 'contract_os_gated_tests|OS-gated test functions|\bGATES\b'
+
+[[pattern]]
+id = 'measurement-b'
+regex = 'measurement B|reproducib'
+ignore_case = true
+
+[[pattern]]
+id = 'epoch7-prov'
+regex = 'socket-directory pair|read rule|answer-card|151 proposals|unix-endpoint-and-home-hardening|Epoch 7 boundary'
+ignore_case = true
+
+[[pattern]]
+id = 'annot-drift'
+regex = 'dialog_drift|planted .{0,40}annotations'
+ignore_case = true
+
+[[pattern]]
+id = 'rate-limits'
+regex = 'statusline-rate-limits|rate_limits|24 pass'
+
+[[pattern]]
+id = 'killed-wrapper'
+regex = 'killed[- ]wrapper|tab-close|run_child_ends_when_its_wrapper_is_terminated'
+ignore_case = true
+
+[[pattern]]
+id = 'term-reply'
+regex = 'CSI \? 6 n|kitty graphics'
+ignore_case = true
+
+[[pattern]]
+id = 'peer-admitted'
+regex = 'peer_admitted|always-admit'
+ignore_case = true
+
+[[pattern]]
+id = 'remnant-words'
+regex = 'ConPTY|npm shim'
+ignore_case = true

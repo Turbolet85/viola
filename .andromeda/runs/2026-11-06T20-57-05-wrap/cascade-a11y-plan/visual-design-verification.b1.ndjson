@@ -1,0 +1,3 @@
+{"type": "listing", "schema": 2, "doc": "a11y-plan", "file": ".andromeda/a11y-plan-detail/visual-design-verification.md", "blob": "941817b775c5569e", "tool": "detail v1.29", "entities": 2, "pin": 473, "sha": "941817b775c5569e", "batch": 1, "of": 1}
+{"type": "entity", "id": "visual-design-verification#1.1", "hash": "c79c2231", "kind": "values", "subject": "visual-sgr", "origin": "## 6. Visual Design Verification", "lines": [8, 9], "fact": "fct-es7le4as", "rev": 3, "size": 2251}
+{"type": "entity", "id": "visual-design-verification#2.1", "hash": "60267743", "kind": "values", "subject": "visual-sgr-stale-row", "origin": "## 6. Visual Design Verification", "lines": [15, 15], "fact": "fct-46bk3wap", "rev": 2, "size": 421}

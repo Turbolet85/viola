@@ -1,0 +1,2 @@
+{"type": "listing", "schema": 2, "doc": "test-plan", "file": ".andromeda/test-plan-detail/test-data-fixtures.md", "blob": "23595c76b109f63e", "tool": "detail v1.29", "entities": 1, "pin": 473, "sha": "979e449fdfe4ba34", "batch": 2, "of": 2}
+{"type": "entity", "id": "test-data-fixtures#7.2", "hash": "daae314c", "kind": "procedure", "subject": "data-fixture-hygiene", "origin": "## 7. Test Data & Fixtures", "lines": [85, 85], "fact": "fct-hc6txkos", "rev": 1, "size": 377}
