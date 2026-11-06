@@ -1,0 +1,7 @@
+@proposal n=1 detector=D-new-detail severity=warning fact=F3 file=unit-test-strategy anchor=fct-id225cf7 basis_doc=doc:2026-11-05-linux-only-code-and-ci/report basis_fact=fct-xxutheix
+section: ## 4. Unit Test Strategy
+change: - **viola-e2e harness:** `Workspace::ensure_e2e_home` (`crates/viola-e2e/src/harness/mod.rs`) keeps its signature for every caller and passes the free-bytes reading as an argument to a private function (the msrv fix), so the harness unit cases `harness::tests::e2e_home_*` (9) drive it on an injected figure, the below-floor refusal among them; `HEADROOM_FLOOR_MIB`, `headroom_refusal` and the message `e2e-home backing: {free} MiB free, below the {floor} MiB floor` are unchanged, with no env, flag, feature or config key.
+sidecar: §4 Unit detail gains the viola-e2e harness group: `ensure_e2e_home`'s free-bytes reading injected into a private function, held by the nine `harness::tests::e2e_home_*` cases (chunk 2026-11-05-linux-only-code-and-ci).
+rationale: the report's Symbols / APIs (fct-xxutheix) names the private function taking the free-bytes reading with the floor, refusal and message unchanged and no env, flag, feature or config key; Coverage of new surfaces (fct-oex26kqr) names the unit cases `harness::tests::e2e_home_*`, 9 run, the below-floor refusal among them; Outcome (fct-7vpvkkrp) MET.
+@remark
+The §4 body's broad line names only the six crates and the root bin for inline unit tests; the new viola-e2e harness group sits beside them and a strong reader may want the body to name it.

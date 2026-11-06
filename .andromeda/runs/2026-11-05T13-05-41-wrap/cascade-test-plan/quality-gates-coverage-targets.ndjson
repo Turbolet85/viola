@@ -1,0 +1,4 @@
+{"type": "listing", "schema": 2, "doc": "test-plan", "file": ".andromeda/test-plan-detail/quality-gates-coverage-targets.md", "blob": "de16e1afeedc1a28", "tool": "detail v1.29", "entities": 3, "pin": 241, "sha": "de16e1afeedc1a28"}
+{"type": "entity", "id": "quality-gates-coverage-targets#1.1", "hash": "ce3ae59c", "kind": "values", "subject": "gate-coverage", "origin": "## 10. Quality Gates & Coverage Targets", "lines": [8, 9], "fact": "fct-s6rhzqu4", "rev": 1, "size": 3272}
+{"type": "entity", "id": "quality-gates-coverage-targets#2.0", "hash": "4ecf47ef", "kind": "procedure", "subject": "gate-mutation", "origin": "## 10. Quality Gates & Coverage Targets", "lines": [15, 20], "fact": "fct-ocdr3xdn", "rev": 1, "size": 9361}
+{"type": "entity", "id": "quality-gates-coverage-targets#3.1", "hash": "4c765c7e", "kind": "procedure", "subject": "gate-perf", "origin": "## 10. Quality Gates & Coverage Targets", "lines": [26, 28], "fact": "fct-ftncprbj", "rev": 1, "size": 2841}

@@ -1,0 +1,2 @@
+sweep: base: abf00915 — the previous sweep (2026-11-04T21-59-44-wrap) · re-pointed 2 · changed 1 · stretched 0
+changed fct-7d3yogoz .config/nextest.toml:24 → ? — rewritten «filter = 'binary(channel_endpoint) | binary(channel_erro…» → claim false — raised at Validate (the filter line at .config/nextest.toml:24 now names 26 binaries, not 27: binary(conpty_sideload) was dropped; the 20 s kill and line 24 still hold)

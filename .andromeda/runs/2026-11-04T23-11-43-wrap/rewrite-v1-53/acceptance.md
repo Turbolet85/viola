@@ -1,1 +1,0 @@
-On Linux the end-to-end suite passes against the fake agent, covering the PTY, the per-user socket directory, file modes, and peer and server checks; one live viola run on Linux confirms the fake agent's Unix behaviour.

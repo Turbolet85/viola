@@ -1,39 +1,32 @@
 # Session Handoff
 
-**Last Updated:** 2026-11-05T06:05:07Z
+**Last Updated:** 2026-11-06T16:41:30Z
 **Branch:** build/viola-0.1.0 · 0 ahead of origin/build/viola-0.1.0 as read at this wrap's Setup
 **Status:** clean
-**Last Commit:** chore(route): operator-requested adaptation — 0-pending wrap (Viola becomes Linux-only)
+**Last Commit:** 2026-11-05-linux-only-code-and-ci — Linux only: the Windows and macOS code, tests and CI removed
 
 ## Position
-- Done: **2026-11-04-linux-and-macos-parity** (the last chunk). This 0-pending wrap adapted the route to the founder's
-  Linux-only ruling (2026-11-04): «Windows-only live measurements» retired, «Version done-check» reads «every gate
-  green on Linux», and a new head «Linux-only code and CI» stands first in Epoch 7.
-- Next: no next chunk under this word — this wrap ends the run (the directive's item 6). Viola holds at the seam for an
-  Andromeda deploy. When work resumes, the first markerless entry is «Linux-only code and CI» (no block), then
-  «Version done-check».
-- Epoch 6's diagnosis and audit stay unanswered: not under this word.
+- Done: **2026-11-05-linux-only-code-and-ci** — the Windows and macOS code, tests, fixtures and CI jobs removed after the
+  pushed tag `multi-os-final` (`ecbe7ab3`); the seven masters re-read as Linux only. It closes Epoch 7.
+- Next: «Version done-check» (Epoch 8, the last markerless entry, 17 CARRYs) — /andromeda-phase to promote and plan it.
+- Epoch 6–8 diagnoses and the code audit run once at the version end, by the founder's word: the evolve nudge stays
+  unanswered.
 
 ## Work done
-- Route (tx 166–168): 17 open residuals (origin `2026-11-04T23-11-43-wrap`, target `another-os`) took the retired
-  entry's CARRYs; the new head carries four CARRYs — its scope (tag `multi-os-final` first, the removal list, CI jobs),
-  its acceptance with this wrap's re-measured hypotheses, the `[inferred]` msrv red (ci#41930831242 job `msrv` on
-  `abf00915`), and the masters' change.
-- Ledger (tx 169–194): `v1-01`, `v1-07`, `v1-27` and `v1-53` re-worded to their Linux half (`refine --unclaimed`;
-  `v1-53` by the founder's own word, «Переписать под Linux»); 22 verified caps took a dated note; nothing deferred.
-  Coverage reads `verified 30/53 · deferred 6 · planned 17 · implemented 0 · unclaimed 17`.
-- Record: `.andromeda/runs/2026-11-04T23-11-43-wrap/adaptation-record.md` (every item, its authority, its TX).
+- Wrap over three windows (run dir `.andromeda/runs/2026-11-05T13-05-41-wrap/`): 662 proposals reconciled, masters TXs
+  242–394, 89 sidecar entries, 27 leaves re-derived in whole mode, curation T2 1 · T3 1 · 7 corrections, 6 CARRYs on
+  «Version done-check».
 
 ## Drift resolved
-- No master amended: the masters change once, with the code, at «Linux-only code and CI»'s wrap (the overseer's
-  technical answer, founder-delegated). Until then they still read three-OS and name the retired entry at 39 hits in
-  29 facts; that entry's CARRY `cry-fcbxszgj` lists the job.
+- The OS target, the retired «Windows-only live measurements» sites and every retired Windows / macOS mechanism
+  re-worded or retired across all seven masters; escalations Q1–Q4 resolved by the overseer's technical answers
+  (founder-delegated). A residual census after the leaves caught 19 stale sites no sweep pattern named
+  (`cascade-dispositions.md` §Residual census).
 
 ## Notes
-- **Authority:** the rulings are the founder's (2026-11-04 21:43Z, 21:50Z, 21:53Z; v1-53 on 2026-11-05 about 05:20Z).
-  Q1–Q3, the ledger's shape, the masters' timing and the re-wording card are the overseer's technical answers,
-  founder-delegated (`inputs/I3`, the 06:00Z dialog and the 06:03Z card).
-- **The msrv red** on `abf00915` is open and owned: the head's `[inferred]` CARRY, its acceptance named there.
+- **Owned on «Version done-check»** (new CARRYs): RUSTSEC-2026-0441 (supply-chain red; move `portable-pty` off `=0.8.1`)
+  and `v1-01`'s owner; obs-plan fct-yb5jpaot's `process-start` row (Q3); the Linux no-leak measurement for channel
+  handles (Q4); the `thiserror::Error` census 10 vs the masters' 9; Windows remnants left in code.
 - **Carried from the last handoff, unchanged:** the PROVISIONAL batch at Epoch 7's boundary (`CARRY` on "Version
   done-check"); the weakest proof (an always-admitting `peer_admitted` survives every committed test);
   `chunks/2026-10-26-explicit-session-links`'s card confirm and P2 halt;
@@ -45,11 +38,11 @@
   by its master's rule` · `testing.md 2026-09-24` · `testing.md 2026-09-25, Extended 2026-10-04` · `CLAUDE.md,
   timestamps from date -u` · `code-writing-discipline.md, a scripted write fires no hook` · `testing.md 2026-10-16` ·
   `session-learnings.md, a count pattern reading a number only when the noun follows`.
-- **Host:** python `yaml` is absent on the Linux dev host; read `df -h /tmp` before a stamped-home gate.
+- **Host:** python `yaml` is absent on the Linux dev host; read `df -h /tmp` before a stamped-home gate. Health check 13
+  reads ⚠ for the removed `agent-run.ps1` (F411, upstream): no setup Phase 4 for it.
 - **Owed outside this repo (friction log, for the founder's desk):** carried F350, F351, F363 and the CARRY on "Version
   done-check" `v1-13` / `v1-36`; the apply writer's `@pattern` backtick cut; `cascade.py leaves --apply --only` keeping
-  the last of repeated flags; a re-fire's `leaf-*.md` glob meeting the apply's receipt file.
+  the last of repeated flags; a re-fire's `leaf-*.md` glob meeting the apply's receipt file; this wrap's (TX 396): no
+  key-file target handed to apply writers, no line removal inside a fact or fence, a `|` in a table code span, the
+  `[&str; 3]` entity read, the sweep's output over the read cap.
 - **Last failed command:** none.
-
-## Session End Status
-Completed normally at 2026-11-05 13:05:08

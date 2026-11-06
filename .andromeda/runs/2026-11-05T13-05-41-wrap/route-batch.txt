@@ -1,0 +1,21 @@
+@carry in=chk-jfhs4dxi
+CARRY: chunk 2026-11-05-linux-only-code-and-ci (its P5 card's Beyond-the-plan row, the operator's own word `chunks/2026-11-05-linux-only-code-and-ci/inputs/I4-relay-3.md.txt`, on the overseer's answer `chunks/2026-11-05-linux-only-code-and-ci/inputs/I3-relay-2.md.txt`): RUSTSEC-2026-0441 (`pin-utils` unmaintained, via `portable-pty =0.8.1` → `nix 0.25.1`) reads red in `cargo deny check advisories` and CI's `supply-chain` (ci#42030025050); remedy: move `portable-pty` off `=0.8.1` to a release whose graph drops `pin-utils` — the 0.9.0 Windows garbage-read bug behind the pin left with the Windows code; no ignore-list widening
+
+@carry in=chk-jfhs4dxi
+CARRY: chunk 2026-11-05-linux-only-code-and-ci (its P5 card's second row, the same word): this entry owns `v1-01` — its CI-run outcome and its advisories clause are provable at this entry's CI read, once the RUSTSEC-2026-0441 remedy above lands
+
+@carry in=chk-jfhs4dxi
+CARRY: chunk 2026-11-05-linux-only-code-and-ci (its wrap's Q3, the overseer's technical answer, founder-delegated, 2026-11-06 15:20Z, recorded in that wrap's run dir `fanout-results.md`): obs-plan log-coverage's `process-start` row (fct-yb5jpaot) still names `pty_backend` `conpty-sideload|conpty|openpty` and `sideload_fallback`; target text `pty_backend` (`openpty`) alone, `sideload_fallback` gone — the edit drops cell pipes the store refuses, so it needs a row the store can take
+
+@carry in=chk-jfhs4dxi
+CARRY: chunk 2026-11-05-linux-only-code-and-ci (its wrap's Q4, the overseer's technical answer, founder-delegated, 2026-11-06 16:25Z, recorded in that wrap's run dir `fanout-results.md`): measure the channel-handle no-leak property on Linux — under the fake agent, the wrapped child's `/proc/<child pid>/fd` holds no channel socket or listener — then re-word security-plan fct-p7rzex2i off «recorded, not established»; a security property does not stay unmeasured past the version
+
+@carry in=chk-jfhs4dxi
+CARRY: chunk 2026-11-05-linux-only-code-and-ci (its report's Spec claims and doc-agent remarks): the `thiserror::Error` derive census reads 10 (`command grep -rn "thiserror::Error" src crates --include=*.rs`, at HEAD before and after that chunk) where architecture fct-gctodeyz, conventions fct-nhsg4k7g and obs-plan error-capture state 9 (the rule `rul-in3bj4pn`) — a drift older than that chunk, re-measured and re-worded here
+
+@carry in=chk-jfhs4dxi
+CARRY: chunk 2026-11-05-linux-only-code-and-ci (its wrap's cascade dispositions, «Code remnants seen» and the residual census): Windows remnants left in code no master pass reaches — `tests/cli_output_plain.rs:104,116` (the `.exe` trim and its comment), `crates/viola-agent-claude/src/lib.rs:2` («npm shim»), `crates/viola-e2e/src/harness/session.rs:52`, the `EXE_SUFFIX` joins in `crates/viola-e2e/src/harness/`, the `COVERAGE_FLOORS` «per OS» and `COVERAGE_IGNORE` Windows-path comments, `plain_drive` in `src/cmd/mod.rs` and `host.rs`'s `windows` test-host key; each removed or kept with its reason, the masters following
+
+@carry id=cry-nfjwa6l7 expect_rev=1
+old: ubuntu-not-macos 48 = 43 no-peer-pid carve-out + 5 Linux-only)
+new: ubuntu-not-macos 48 = 43 no-peer-pid carve-out + 5 Linux-only); since chunk 2026-11-05-linux-only-code-and-ci the census reads 39 OS-gated test functions and 2 gated files, and `scripts/junit-os-sets.py` is retired (recoverable at the tag `multi-os-final`), so the claim reads that census and the `ubuntu-latest` JUnit alone

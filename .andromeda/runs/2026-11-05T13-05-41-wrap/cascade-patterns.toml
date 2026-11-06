@@ -1,0 +1,128 @@
+# P1 site sweep — one pattern per moved fact of chunk 2026-11-05-linux-only-code-and-ci
+
+[[pattern]]
+id = 'm-os-target'
+regex = '(Windows[- ]first|three[- ]OS(es)?\b|cross-platform|Windows, macOS(,)? and Linux|Linux, macOS(,)? and Windows|every OS\b|all three OS)'
+ignore_case = true
+
+[[pattern]]
+id = 'm-wolm'
+fixed = 'Windows-only live measurements'
+ignore_case = true
+
+[[pattern]]
+id = 'm-bsc'
+regex = '(batch-script-child|BatchScriptChild)'
+
+[[pattern]]
+id = 'm-sideload'
+regex = '(sideload|conpty|OpenConsole|restrict_dll_search|pin_companions)'
+ignore_case = true
+
+[[pattern]]
+id = 'm-os-enum'
+regex = '(`os`|\bos\b).{0,40}(windows|macos)'
+ignore_case = true
+
+[[pattern]]
+id = 'm-reported'
+regex = '(SERVER_PID_REPORTED|PEER_EUID_REPORTED)'
+
+[[pattern]]
+id = 'm-relied-win'
+regex = '(WRAPPED_HERE|twenty-one|relied set .{0,40}Windows|on Windows, where the status line)'
+ignore_case = true
+
+[[pattern]]
+id = 'm-shim-pair'
+regex = '(agent-run\.ps1|\{sh,ps1\}|pwsh shim|PowerShell)'
+ignore_case = true
+
+[[pattern]]
+id = 'm-win-ci'
+regex = '(windows-mutants|junit-os-sets|conpty-vendor|viola-mutants-scratch|HOST_SCRATCH|scratch_bytes|windows-2025|macos-latest)'
+ignore_case = true
+
+[[pattern]]
+id = 'm-pipe-acl'
+regex = '(SQOS|SDDL|named pipe|\bDACL\b|icacls|NullDacl|NoPersistentAcls|windows_read_verdict)'
+ignore_case = true
+
+[[pattern]]
+id = 'm-cmd-bat'
+regex = '(\.cmd\b|\.bat\b|PATHEXT|BatBadBut|is_script|SHIM_TARGET|shim-resolution)'
+ignore_case = true
+
+[[pattern]]
+id = 'm-casefold'
+regex = '(CASE_INSENSITIVE|case[- ]insensitive|case fold|folds? (the )?case)'
+ignore_case = true
+
+[[pattern]]
+id = 'm-retry'
+regex = '(replace_private_retrying|replace_private_with|REPLACE_ATTEMPTS|retry_replace|HOST_IS_WINDOWS|write_snapshot_with)'
+
+[[pattern]]
+id = 'm-macos-gap'
+regex = '(macOS (the recorded gap|carve-out|is the recorded)|named carve-out|SERVER_PID_REPORTED|\$TMPDIR/viola)'
+ignore_case = true
+
+[[pattern]]
+id = 'm-vt'
+regex = '(vt_enable|VT enable|ENABLE_VIRTUAL_TERMINAL|rung 7|Windows depth)'
+ignore_case = true
+
+[[pattern]]
+id = 'm-recvmsg'
+regex = '(recvmsg|doctest-file)'
+
+[[pattern]]
+id = 'm-pty-win'
+regex = '(ReadConsoleW|GetConsoleScreenBufferInfo|TerminateProcess|ConsoleInput|Utf16Source|PtyError::Load)'
+
+[[pattern]]
+id = 'm-msrv-floor'
+regex = '(HEADROOM_FLOOR_MIB|headroom_refusal|e2e-home backing|9216 MiB|ensure_e2e_home)'
+
+[[pattern]]
+id = 'm-exit-detail'
+regex = '(process-exit.{0,60}detail.{0,40}(20|twenty)|(20|twenty) (closed )?(detail )?words)'
+ignore_case = true
+
+[[pattern]]
+id = 'm-verify-codes'
+regex = '(verify.{0,60}(six|6) (closed )?(refusal )?codes|human::refuse)'
+ignore_case = true
+
+[[pattern]]
+id = 'm-kill-line'
+regex = '(kill line|(27|twenty-seven) .{0,20}binary|binary\(conpty_sideload\))'
+ignore_case = true
+
+[[pattern]]
+id = 'm-within-waits'
+regex = 'Instant::now\(\) \+ WITHIN'
+
+[[pattern]]
+id = 'm-zizmor'
+regex = 'zizmor.{0,80}(suppressed|concurrency)'
+ignore_case = true
+
+[[pattern]]
+id = 'm-env-registry'
+regex = '(registry reader|HKCU|HKEY|registry .{0,20}environment)'
+ignore_case = true
+
+[[pattern]]
+id = 'm-deny-triples'
+regex = '(x86_64-pc-windows|aarch64-apple|x86_64-apple|three triples|targets = \[)'
+ignore_case = true
+
+[[pattern]]
+id = 'm-stop-console'
+regex = '(CTRL_C_EVENT|CTRL_BREAK_EVENT|console[- ]control)'
+ignore_case = true
+
+[[pattern]]
+id = 'm-seed-conpty'
+regex = '(seed_conpty|conpty-seed)'

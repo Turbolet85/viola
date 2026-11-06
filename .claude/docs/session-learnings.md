@@ -8,6 +8,17 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
+## 2026-11-06 — End a retirement cascade with a bare-token census over every master
+
+A cascade sweep keyed on a retired mechanism's names (its symbols, files, jobs and closed words) misses the qualifier forms that
+carried it: «per-OS `perf` job», «the per-OS floors», `[.exe]`, a present-tense reason clause («because … on Windows»). At the
+Linux-only wrap (chunk 2026-11-05-linux-only-code-and-ci) 551 patterns left 19 stale sites in 17 facts and 8 leaf lines that a
+second pass found: one `rec.py find --regex '\b(Windows|macOS|windows|macos)\b'` per master (116 hits over 61 facts) plus
+`--text 'per-OS'`, each hit read at its fact and ruled history, a different subject or stale. Run that census after the
+leaves and before the entries close; a hit kept needs its one-word reason in the dispositions.
+
+---
+
 ## 2026-10-31 — A count sweep misses a count written in words with a noun phrase after it
 A pattern shaped `(24|twenty-four) (binaries|rows)` reads the number only when the noun comes straight after it. A key file stated the `ci` kill line's count as "the twenty-four verify-driven binaries", so the sweep's zero read as "no master states this count" and the report said so. The doc agent's own read caught it. For a count that moves, sweep the number's digit and word forms alone, then disposition the rows, or sweep the name list the count is taken over: a new member's neighbours in the list find every copy.
 

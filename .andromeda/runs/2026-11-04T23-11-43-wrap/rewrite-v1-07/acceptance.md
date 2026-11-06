@@ -1,1 +1,0 @@
-Coverage on Linux meets lines 85, functions 95 and regions 80; hook deadlines hold on the worst sample; every security-named parser surface has seeded property tests and a corpus replay that fails on an empty corpus; no test is retried and a flaky test keeps its chunk red; each CI job ends in one gate verdict that treats a missing artifact as a breach.

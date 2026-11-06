@@ -1,1 +1,0 @@
-- **v1-53** · The fake-agent suite and one live run on Linux — on Linux the end-to-end suite passes against the fake agent (openpty, per-user socket directory, file modes, peer and server checks), and one live `viola run` on Linux confirms the fake agent's Unix behaviour (per intent F-53; B D3, §5 O5).

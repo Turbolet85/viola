@@ -1,0 +1,3 @@
+{"type": "listing", "schema": 2, "doc": "test-plan", "file": ".andromeda/test-plan-detail/test-data-fixtures.md", "blob": "cbbc29aac4c2b787", "tool": "detail v1.29", "entities": 2, "pin": 240, "sha": "6d3de9d9718b6781", "batch": 2, "of": 2}
+{"type": "entity", "id": "test-data-fixtures#7.1", "hash": "497c0504", "kind": "procedure", "subject": "data-fixture-hygiene", "origin": "## 7. Test Data & Fixtures", "lines": [83, 85], "fact": "fct-o7d2jylf", "rev": 1, "size": 3123}
+{"type": "entity", "id": "test-data-fixtures#7.2", "hash": "daae314c", "kind": "procedure", "subject": "data-fixture-hygiene", "origin": "## 7. Test Data & Fixtures", "lines": [86, 86], "fact": "fct-hc6txkos", "rev": 1, "size": 377}

@@ -1,6 +1,6 @@
 # Gotchas
 
-_Known issues, non-obvious constraints, and things that have broken before. Extracted from `.andromeda/architecture.md` and the specialist plans (measured facts and research findings) by `/andromeda-setup-project`._
+_Known issues, non-obvious constraints, and things that have broken before. Extracted from `doc:architecture` and the specialist plans (measured facts and research findings) by `/andromeda-setup-project`._
 
 Rendered by `/andromeda-setup-project` on the first run and kept current by wrap's cascade; a setup re-run preserves it. Learnings discovered during work sessions go to `session-learnings.md` (curated by `/andromeda-wrap-session`) — this file is for **documented architectural traps**, not runtime discoveries.
 
@@ -14,23 +14,23 @@ Rendered by `/andromeda-setup-project` on the first run and kept current by wrap
 ## Gotchas
 
 ## ConPTY never closes the output stream
-**What breaks:** waiting for reader EOF to detect child exit hangs forever on Windows — ConPTY does not close the output stream when the child exits.
+**What breaks:** waiting for reader EOF to detect child exit breaks the rule that child exit is detected on the process handle, never on EOF (`pty_backend()` is `openpty`; the ConPTY that never closed its output stream left with the Windows code, recoverable at the tag `multi-os-final`).
 **How to avoid:** detect exit only by `wait()` on the process handle (a dedicated handle-wait thread); tests use `child.wait()`, never master EOF.
 **Fix if broken:** move exit detection to the handle; log `process-exit{exit_source:"handle-wait"}`.
 **References:** arch [PTY]; brief §4.1 Windows details; test-plan §11 E2E.
 
 ## portable-pty 0.9.0 garbage reads on Windows
-**What breaks:** 0.9.0 has the Windows garbage-read bug (wezterm#6783).
-**How to avoid:** keep `=0.8.1` behind the `pty` seam; the named swap is portable-pty-psmux 0.9.7 (must keep `bInheritHandles = 0`). The PTY chunk records the pin decision on current evidence (requirements v1-25).
+**What breaks:** 0.9.0's Windows garbage-read bug (wezterm#6783) does not bear on a Linux-only build; the pin stands on 0.8.1 being spike-proven.
+**How to avoid:** keep `=0.8.1` behind the `pty` seam; moving it off `=0.8.1` (RUSTSEC-2026-0441) is owed to the working-route entry "Version done-check"; the named swap is portable-pty-psmux 0.9.7 if the O1 stray-spaces artifact reproduces only under `viola run`.
 **References:** arch [PTY]; security §Data Protection (handle inheritance).
 
 ## `claude` on PATH is an npm shim
-**What breaks:** spawning `claude` by name on Windows hits the npm `.cmd` shim; portable-pty builds its own `CreateProcessW` line without std's BatBadBut escaping.
-**How to avoid:** viola resolves the program itself (PATHEXT only, never the bare name — portable-pty's own search hits the extensionless sh shim first) and resolves the shim to its sibling `…\@anthropic-ai\claude-code\bin\claude.exe` without reading it; `viola run` refuses (exit 1) any other `.cmd` / `.bat` PTY child.
+**What breaks:** spawning `claude` by name on Windows hit the npm `.cmd` shim; that case left with the Windows code, recoverable at the tag `multi-os-final`.
+**How to avoid:** viola resolves the child program to an absolute path itself (`resolve_program`: a given path as given, a bare name on `PATH`) and spawns that; its one refusal is `ProgramNotFound`.
 **References:** brief §4.1; security §Input Validation (child executable resolution).
 
 ## Append + exclusive lock fails on Windows
-**What breaks:** locking the file you append to fails on Windows (rust-lang/rust#54118).
+**What breaks:** locking the file you append to breaks the kept layout: lock files are separate, a layout chosen while Windows (where append + exclusive lock fails, rust-lang/rust#54118) was a target, and kept.
 **How to avoid:** every guarded file has its own `<name>.lock` sibling; lock that, append to the data file with one `write` per line.
 **References:** arch [Database / State Store].
 
@@ -45,7 +45,7 @@ Rendered by `/andromeda-setup-project` on the first run and kept current by wrap
 **References:** arch Data model conventions; security Decisions Log amendment 8.
 
 ## macOS caps Unix socket paths at ~104 bytes
-**What breaks:** long socket paths fail to bind on macOS.
+**What breaks:** the macOS socket-path cap left with the macOS code; on Linux the endpoint is `<socket dir>/viola-<h12>.sock` in a per-user 0700 directory (`$XDG_RUNTIME_DIR/viola/` or `/tmp/viola-<uid>/`), never the `/tmp` root.
 **How to avoid:** short hashed names in a per-user 0700 dir; `run` records the resolved `endpoint` in the snapshot and every other process connects to the recorded path (a child may see a different `TMPDIR`).
 **References:** arch Occupied Resources (IPC endpoints); security amendment 2.
 
@@ -91,7 +91,7 @@ Rendered by `/andromeda-setup-project` on the first run and kept current by wrap
 
 ## The parent session's identity leaks into the child
 **What breaks:** started from inside a Claude session, the child inherits `CLAUDECODE`, `CLAUDE_CODE_SESSION_ID`, the Remote Control bridge and the messaging socket/token (11 names measured on the Windows host).
-**How to avoid:** the R8 rule: `viola-agent-claude::plan_strip` removes every inherited `CLAUDE*` name except persistent-environment names (Windows registry `Environment`, Unix `config.json` `claude_env_keep`), and always the 11-name `IDENTITY_FLOOR`; log names only (`env_stripped_count` / `env_stripped_known` / `env_kept`), never values.
+**How to avoid:** the R8 rule: `viola-agent-claude::plan_strip` removes every inherited `CLAUDE*` name matched exactly, except a name in `config.json` `claude_env_keep`, and always the 11-name `IDENTITY_FLOOR`; log names only (`env_stripped_count` / `env_stripped_known` / `env_kept`), never values.
 **References:** brief §4.1 S6; arch Occupied Resources → Environment variables; security Decisions Log 2026-09-25; obs D-34.
 
 ## The docs lag the installed CLI
@@ -105,28 +105,28 @@ Rendered by `/andromeda-setup-project` on the first run and kept current by wrap
 **References:** test-plan §5 Module ↔ PTY, §12 `2026-09-27`; arch §Occupied Resources → Environment variables.
 
 ## A key written right after a ConPTY resize can fail to reach a test child (H2)
-**What breaks:** on the Windows runner a key written into ConPTY right after `ResizePseudoConsole` returned was never read by the Rust test child, which was blocked in its console read (`ReadConsoleW` through Rust's stdin): measured 13 losses in 200 isolated iterations (6.5 %) of `spawn_runs_a_raw_child_that_sees_its_size_a_resize_and_its_own_exit_code` under `cargo llvm-cov nextest` on `windows-2025-vs2026` 20260922.246.2 (ci#36527891850, job 109274838484). Every loss was class K: the child's size watcher saw the new size with no key, viola's writer had written and flushed the key, and ConPTY wrote no cursor-position request (`dsr-cpr 0`). The loss lies between the ConPTY input-pipe write and that test child's read; **where inside that span, and why, is not established** — an overseer read of microsoft/terminal's current source (relayed at the wrap, not verified here) found no input-buffer flush on the resize path and no reported resize input loss, so this is not recorded as a ConPTY defect. This host's conhost 10.0.26100.8875 read 20/20.
-**The product window — open and unmeasured for `claude`:** viola forwards resizes and keys as they come and never holds, queues or reorders a human key behind a resize (a11y-plan §1), so nothing in viola closes this window. Whether the real `claude` (Node/libuv, reading with `ReadConsoleInputW`) loses a key typed right after a resize in `viola run` is **unmeasured**; the rate above is the Rust test child's. Owner: the working-route entry "Windows-only live measurements", blocked on an interactive Windows host (the harness's `run --local-live` does not claim it). The founder's product question on H2 stays open.
+**What breaks:** on the retired Windows runner (its code out of the tree, recoverable at the tag `multi-os-final`) a key written into ConPTY right after `ResizePseudoConsole` returned was never read by the Rust test child, which was blocked in its console read (`ReadConsoleW` through Rust's stdin): measured 13 losses in 200 isolated iterations (6.5 %) of `spawn_runs_a_raw_child_that_sees_its_size_a_resize_and_its_own_exit_code` under `cargo llvm-cov nextest` on `windows-2025-vs2026` 20260922.246.2 (ci#36527891850, job 109274838484). Every loss was class K: the child's size watcher saw the new size with no key, viola's writer had written and flushed the key, and ConPTY wrote no cursor-position request (`dsr-cpr 0`). The loss lies between the ConPTY input-pipe write and that test child's read; **where inside that span, and why, is not established** — an overseer read of microsoft/terminal's current source (relayed at the wrap, not verified here) found no input-buffer flush on the resize path and no reported resize input loss, so this is not recorded as a ConPTY defect. This host's conhost 10.0.26100.8875 read 20/20.
+**The product window — open and unmeasured for `claude`:** viola forwards resizes and keys as they come and never holds, queues or reorders a human key behind a resize (a11y-plan §1), so nothing in viola closes this window. Whether the real `claude` (Node/libuv, reading with `ReadConsoleInputW`) loses a key typed right after a resize in `viola run` is **unmeasured**; the rate above is the Rust test child's. Owner: the open residuals of origin `2026-11-04T23-11-43-wrap` (target `another-os`). The founder's product question on H2 stays open.
 **How to avoid (tests only):** a test that writes a key after a resize waits for the child to observe the new size first — the red test now waits for its watcher's `size 120x40` line, and read 200/200 under the same loop (ci#36529038462). That reshaped test does NOT cover the product window: it proves the key arrives once the resize has landed, not that a key racing a resize arrives, and it reads with the Rust child, never `claude`.
 **Fix if broken:** read the kept reports in `<temp dir>/viola-pty-watch/` (`<test>.<pid>.report`, `<test>.<pid>.test.report`, `<pid>` the test process's id) by the chunk's localisation rule — class R (no `size` line), K (size seen, key flushed, key lost) or E (key before size) — before changing any wait; never raise `CHILD_WITHIN` or retry the test.
-**With the sideloaded ConPTY** (chunk `2026-09-29-sideloaded-conpty`, one windows-2025 run, image `windows-2025-vs2026` 20260828.587, ci#36563868040, the measurement-only race): sideloaded `OpenConsole.exe` 1.24.260710001 lost 0 of 200, the inbox ConPTY 14 of 200 — no rate claimed, and the product window above stays unmeasured for `claude`.
+**With the sideloaded ConPTY** (removed with the Windows code, recoverable at the tag `multi-os-final`) (chunk `2026-09-29-sideloaded-conpty`, one windows-2025 run, image `windows-2025-vs2026` 20260828.587, ci#36563868040, the measurement-only race): sideloaded `OpenConsole.exe` 1.24.260710001 lost 0 of 200, the inbox ConPTY 14 of 200 — no rate claimed, and the product window above stays unmeasured for `claude`.
 **References:** arch [PTY]; test-plan §5 Module ↔ PTY, §10 Zero-flakiness budget; chunk `2026-09-29-h2-conpty-resize-probe` `evidence/h2-reproduction.md`; chunk `2026-09-29-sideloaded-conpty` `evidence/h2-with-without.md`; microsoft/terminal PR #19535 (post-resize CPR — not seen on either build).
 
 ## The sideloaded ConPTY holds the child's start for a DA1 answer
-**What breaks:** on Windows x64 the sideloaded `OpenConsole.exe` writes `ESC[1t ESC[c ESC[?1004h ESC[?9001h` at spawn, and the child's start waits until the DA1 query `ESC[c` is answered. A real terminal answers at once; a `viola run` whose stdio is pipes (or any host that never answers) holds the child ~3 s (measured on the dev host: 3.54 s unanswered vs 0.54 s answered, 0.48 s on the inbox host). The answer travels through viola's pump, so the child's start now also waits for the pump.
+**What breaks:** on Windows x64 (code out of the tree, recoverable at the tag `multi-os-final`) the sideloaded `OpenConsole.exe` wrote `ESC[1t ESC[c ESC[?1004h ESC[?9001h` at spawn, and the child's start waits until the DA1 query `ESC[c` is answered. A real terminal answers at once; a `viola run` whose stdio is pipes (or any host that never answers) holds the child ~3 s (measured on the dev host: 3.54 s unanswered vs 0.54 s answered, 0.48 s on the inbox host). The answer travels through viola's pump, so the child's start now also waits for the pump.
 **How to avoid:** a test that drives `viola run` on pipes answers DA1 the way a terminal would (`tests/support/piped.rs` `Piped` answers `ESC[?1;0c`); viola itself stays silent and never answers. A test timing a window around the child's start keys on the wrapper's `process-start{claude-child}` line, not the child's `start` receipt.
-**Open:** the stall of a headless `viola run` is a product finding, owned by the working-route entry "Windows-only live measurements", blocked on an interactive Windows host.
+**Open:** the stall of a headless `viola run` is a product finding, a Windows-only finding, left with the Windows code, recoverable at the tag `multi-os-final`.
 **References:** arch [PTY]; test-plan §5 Module ↔ PTY; chunk `2026-09-29-sideloaded-conpty` `evidence/da1-stall.md`.
 
 ## A stopped wrapper's pipe can still take a hook on Windows
-**What breaks:** a `viola hook` fired within milliseconds of the wrapper's exit can still reach the exiting wrapper's own `\\.\pipe\viola-<h12>`: measured at ci#36532038635 (`test (windows-2025)`), where the test's hook connected and wrote its `hook.event` 25 ms after the wrapper's `process-exit` line, after the test had seen the wrapper's exit code. `viola hook` still exits 0 silently (fail-open holds), but the notification reads as delivered, so `SessionEnd`'s direct-append fallback is skipped in that window. **Why the pipe outlives the observed exit is not established** — Microsoft's documented `ExitProcess` order closes handles before the exit status is set, which argues against the obvious reading. A pipe-name collision with another home is ruled out: the endpoint name carries the home.
-**How to avoid (tests):** "stopped" means the endpoint is gone — a client connect reads NotFound, on Unix refused or NotFound (the harness `endpoint_gone` rule, on Unix through `unconnectable`) — never the exit code alone: the root fixture's `Wrapper::stop` / `stop_keep` wait for it (`wait_endpoint_gone`). After a kill the rule differs: a killed wrapper removes nothing, so on Unix its socket file stays and a wait on the file being absent never ends; `Wrapper::kill` waits on `holder_gone` (a connect refused or the path absent on Unix, the pipe not found on Windows).
+**What breaks:** on the retired Windows build (its code out of the tree, recoverable at the tag `multi-os-final`) a `viola hook` fired within milliseconds of the wrapper's exit could still reach the exiting wrapper's own `\\.\pipe\viola-<h12>`: measured at ci#36532038635 (`test (windows-2025)`), where the test's hook connected and wrote its `hook.event` 25 ms after the wrapper's `process-exit` line, after the test had seen the wrapper's exit code. `viola hook` still exits 0 silently (fail-open holds), but the notification reads as delivered, so `SessionEnd`'s direct-append fallback is skipped in that window. **Why the pipe outlives the observed exit is not established** — Microsoft's documented `ExitProcess` order closes handles before the exit status is set, which argues against the obvious reading. A pipe-name collision with another home is ruled out: the endpoint name carries the home.
+**How to avoid (tests):** "stopped" means the endpoint is gone — a client connect reads NotFound, on Unix refused or NotFound (the harness `endpoint_gone` rule, on Unix through `unconnectable`) — never the exit code alone: the root fixture's `Wrapper::stop` / `stop_keep` wait for it (`wait_endpoint_gone`). After a kill the rule differs: a killed wrapper removes nothing, so on Unix its socket file stays and a wait on the file being absent never ends; `Wrapper::kill` waits on `holder_gone` (a connect to the path refused or the path absent).
 **References:** test-plan §10 Zero-flakiness budget; obs-plan §6 fail-open `detail` codes; chunk `2026-09-29-verify-stamped-test-homes-and-harness` research.md §Item 8.
 
 ## A dependency's source is not under `~/.cargo`
 **What breaks:** on this host `CARGO_HOME` sits on another drive (the registry is not under `~/.cargo`), so a path to a crate's source built from `~/.cargo/registry/src/…` or a guessed `CARGO_HOME` reads nothing, and a search over it reads as "not found".
 **How to avoid:** locate a crate's source through `cargo metadata --format-version 1`: the package's `manifest_path` is its `Cargo.toml`, and its parent is the source root at the exact version the lockfile resolved.
-**References:** Epoch 2b evolve diagnosis §L4 (`.andromeda/runs/2026-10-01T09-05-15-evolve-diagnose/proposals.md`).
+**References:** Epoch 2b evolve diagnosis §L4 (its run folder no longer in the tree).
 
 ## `cargo clean` removes the dev host's test-home link
 **What breaks:** on the Linux dev host `target/e2e-home` is a link to an owner-only tmpfs directory, so a start's pinned copy does not wait behind other builders' writes. `cargo clean` removes the link with `target/`, and the next start makes a plain directory on the shared volume with no signal: the stalled-start reds can return.
@@ -144,4 +144,4 @@ Rendered by `/andromeda-setup-project` on the first run and kept current by wrap
 
 - For runtime-discovered learnings, see `.claude/docs/session-learnings.md` (curated by /andromeda-wrap-session)
 - For path-specific rules (loaded when touching specific files), see `.claude/rules/*.md`
-- For architectural decisions and their rationale, see `.andromeda/architecture.md` Established Decisions section
+- For architectural decisions and their rationale, see `doc:architecture` Established Decisions section
