@@ -41,34 +41,11 @@ pub(crate) struct SendArgs {
 }
 
 pub(crate) fn parse_name(raw: &str) -> Result<ViolaName, String> {
-    warn_if_rewritten(raw);
     ViolaName::try_new(raw.to_owned()).map_err(|_| "invalid instance name".to_owned())
 }
 
-fn refuse_text_argument(raw: &str) -> Result<String, String> {
-    warn_if_rewritten(raw);
+fn refuse_text_argument(_raw: &str) -> Result<String, String> {
     Err("the text is read from stdin or --file, never from an argument".to_owned())
-}
-
-/// Git for Windows rewrites a leading-slash argument into a path under its install (`/clear` →
-/// `C:/Program Files/Git/clear`): say so before clap's usage error (design-system Platform-Specific
-/// Notes).
-fn warn_if_rewritten(raw: &str) {
-    if looks_rewritten(raw) {
-        let _ = io::stderr()
-            .lock()
-            .write_all(b"warning: argument looks like a Git Bash rewritten path\n");
-    }
-}
-
-fn looks_rewritten(raw: &str) -> bool {
-    let bytes = raw.as_bytes();
-    bytes.len() > 3
-        && bytes[0].is_ascii_alphabetic()
-        && &bytes[1..3] == b":/"
-        && raw[3..]
-            .to_ascii_lowercase()
-            .starts_with("program files/git/")
 }
 
 /// Exit 2 with one fixed line: the text could not be taken.
@@ -279,19 +256,6 @@ mod tests {
         });
     }
     use rstest::rstest;
-
-    #[rstest]
-    #[case::clear("C:/Program Files/Git/clear", true)]
-    #[case::lower_drive("d:/program files/git/skill", true)]
-    #[case::slash_clear("/clear", false)]
-    #[case::name("builder", false)]
-    #[case::other_drive_path("C:/Users/me/clear", false)]
-    #[case::too_short("C:/", false)]
-    #[case::no_colon("CX/Program Files/Git/x", false)]
-    #[case::digit_drive("1:/Program Files/Git/x", false)]
-    fn looks_rewritten_matches_only_the_git_bash_shape(#[case] raw: &str, #[case] want: bool) {
-        assert_eq!(looks_rewritten(raw), want);
-    }
 
     #[rstest]
     #[case::human_on_a_terminal(false, true, true)]

@@ -149,7 +149,7 @@ fn supervise_without_a_spec_exits_2_and_prints_nothing() {
 }
 
 /// Stops the session through the library `cleanup` on drop, pass or fail: a broken binary `cleanup`
-/// must not leave the supervisor running (Windows then cannot relink its exe).
+/// must not leave the supervisor running.
 struct Booted {
     ws: Workspace,
     session: String,

@@ -51,7 +51,7 @@ pub fn claude_bin(scratch: &Path, name: &str, mode: Option<&str>, rows: Option<&
 
 /// The `claude` executable inside a bin dir.
 pub fn claude_in(dir: &Path) -> PathBuf {
-    dir.join(format!("claude{}", std::env::consts::EXE_SUFFIX))
+    dir.join("claude")
 }
 
 /// Releases one gated step: one more complete line in the control file.

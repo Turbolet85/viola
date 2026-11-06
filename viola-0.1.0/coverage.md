@@ -1,33 +1,35 @@
 # Coverage — viola-0.1.0
 
-verified 30/53 · deferred 6 · planned 17 · implemented 0 · unclaimed 17
+verified 30/53 · deferred 10 · planned 6 · implemented 7 · unclaimed 0
 
-## deferred (6)
+## deferred (10)
+- v1-11 · The live page sees a dialog clear and state refresh
+- v1-21 · Timing constants named and located
 - v1-22 · `viola ui` on an OS-assigned port
+- v1-34 · Capability ledger, `viola verify`, and transport-only degrade
+- v1-36 · Links between sessions
 - v1-48 · `viola ui` serves a loopback, view-only, authenticated feed
 - v1-49 · The strip-bay page
 - v1-50 · Automated accessibility verdict on every page state
 - v1-51 · Token-pair contrast, forced colours and reduced motion hold
 - v1-52 · The 401 access strip after a UI restart
 
-## planned, unclaimed (17)
-- v1-01 · Linux CI pipeline from the first commit
-- v1-03 · The fake agent and recorded fixtures as the test contract
-- v1-04 · Structured JSON logs from every process, and a `logs` view
-- v1-05 · Observability gates: no unlogged panic, schema-true lines, no leaked secret
-- v1-07 · Quality gates: coverage, performance budgets, property/fuzz replay, zero flakes
-- v1-09 · Security's eight amendments folded into the architecture
-- v1-10 · CL-1: send issue and outcome are events in the log
-- v1-11 · The live page sees a dialog clear and state refresh
-- v1-13 · Result payloads carry what the CLI prints
-- v1-21 · Timing constants named and located
-- v1-24 · The statusline source `run` records
-- v1-26 · Cross-plan fix-pass items honoured by the implementing chunks
-- v1-27 · `viola run` wraps the unmodified CLI on Linux
-- v1-34 · Capability ledger, `viola verify`, and transport-only degrade
-- v1-35 · Budget governor from the statusline
-- v1-36 · Links between sessions
-- v1-53 · The fake-agent suite and one live run on Linux
+## implemented (7)
+- v1-03 · The fake agent and recorded fixtures as the test contract · 2026-11-06-version-done-check
+- v1-09 · Security's eight amendments folded into the architecture · 2026-11-06-version-done-check
+- v1-10 · CL-1: send issue and outcome are events in the log · 2026-11-06-version-done-check
+- v1-13 · Result payloads carry what the CLI prints · 2026-11-06-version-done-check
+- v1-24 · The statusline source `run` records · 2026-11-06-version-done-check
+- v1-26 · Cross-plan fix-pass items honoured by the implementing chunks · 2026-11-06-version-done-check
+- v1-35 · Budget governor from the statusline · 2026-11-06-version-done-check
+
+## planned (6)
+- v1-01 · Linux CI pipeline from the first commit · 2026-11-06-version-done-check
+- v1-04 · Structured JSON logs from every process, and a `logs` view · 2026-11-06-version-done-check
+- v1-05 · Observability gates: no unlogged panic, schema-true lines, no leaked secret · 2026-11-06-version-done-check
+- v1-07 · Quality gates: coverage, performance budgets, property/fuzz replay, zero flakes · 2026-11-06-version-done-check
+- v1-27 · `viola run` wraps the unmodified CLI on Linux · 2026-11-06-version-done-check
+- v1-53 · The fake-agent suite and one live run on Linux · 2026-11-06-version-done-check
 
 ## verified (30)
 - v1-02 · The headless harness: five agent-run commands · 2026-10-17-end-to-end-path-binary-and-harness-legs

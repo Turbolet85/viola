@@ -871,12 +871,9 @@ mod tests {
     fn boot_flags_statusline_echo_command_names_the_fake_agent_and_the_marker() {
         let bin = Path::new("/w/target/harness/debug");
         let home = Path::new("/w/target/e2e-home/viola-session-x/home");
-        let want = format!(
-            "/w/target/harness/debug/viola-fake-agent{} statusline-echo \
-             /w/target/e2e-home/viola-session-x/home/fake/statusline.marker",
-            std::env::consts::EXE_SUFFIX
-        );
-        assert_eq!(statusline_echo_command(bin, home), Some(want));
+        let want = "/w/target/harness/debug/viola-fake-agent statusline-echo \
+                    /w/target/e2e-home/viola-session-x/home/fake/statusline.marker";
+        assert_eq!(statusline_echo_command(bin, home), Some(want.to_owned()));
         for (label, bin, home) in [
             ("space in the bin dir", "/w/a b", "/w/h"),
             ("quote in the home", "/w/bin", "/w/h'x"),

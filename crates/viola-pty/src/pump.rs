@@ -139,9 +139,8 @@ pub fn pump_with_paste(
     paste: &PasteHandle,
 ) -> Result<PumpEnd, PtyError> {
     let reader = pty.reader()?;
-    // Closing ConPTY's input ends the child with a close event (measured: STATUS_CONTROL_C_EXIT
-    // once viola's own stdin hit EOF), so the writer stays in the handle past input EOF and is
-    // released only once the pump returns.
+    // The writer stays in the handle past input EOF, so a paste still reaches the child once
+    // viola's own stdin has ended; it is released only once the pump returns.
     *paste.lock() = Some(pty.writer()?);
     let end = pump_open(pty, reader, input, output, spawned, host_size, paste);
     *paste.lock() = None;
@@ -232,7 +231,7 @@ mod tests {
     use super::*;
     use crate::MockPty;
 
-    /// A reader that never returns, like ConPTY's output after the child has exited.
+    /// A reader that never returns, so only the child's exit on the handle can end the pump.
     struct NeverEof;
 
     impl Read for NeverEof {

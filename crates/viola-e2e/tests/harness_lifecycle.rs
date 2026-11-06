@@ -62,7 +62,7 @@ fn keep_home(keep_failed: bool, panicking: bool) -> bool {
 }
 
 /// A booted session, stopped when dropped even after a failed assertion (a leaked supervisor
-/// locks its `.exe`); its home goes then too unless `keep_home` says otherwise.
+/// would outlive the test); its home goes then too unless `keep_home` says otherwise.
 struct Booted {
     ws: Workspace,
     session: String,

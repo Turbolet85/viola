@@ -49,7 +49,7 @@ fn drop_steps(cleaned: bool, keep: bool) -> (bool, bool) {
 }
 
 /// A booted session, stamped unless asked otherwise, stopped when dropped even after a failed assertion (a leaked
-/// supervisor locks its `.exe` on Windows); its home goes then too unless `keep_home` says otherwise.
+/// supervisor would outlive the test); its home goes then too unless `keep_home` says otherwise.
 pub struct HarnessSession {
     ws: Workspace,
     session: String,

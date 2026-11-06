@@ -1,0 +1,28 @@
+[
+{
+"tool": "rec",
+"v": "1.18",
+"sha8": "bf0aefc5",
+"ts": "2026-11-06T19:56:06Z",
+"argv": [
+"outputs",
+"land",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-06T17-04-19-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"labels · 24 record(s) land under their fact's file (F422), the spelt label kept as label_spelt",
+"landed tx 446 · 5531 record(s) of 308 payload(s)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-06T19-56-06-2026-11-06T17-04-19-phase.ndjson"
+],
+"before": null,
+"after": null
+}
+]

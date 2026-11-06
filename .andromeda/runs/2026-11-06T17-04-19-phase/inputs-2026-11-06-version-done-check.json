@@ -1,0 +1,261 @@
+[
+{
+"tool": "inputs",
+"v": "1.6",
+"sha8": "b9addc45",
+"ts": "2026-11-06T17:05:43Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-06-version-done-check",
+"--source",
+"~/dev/projects/additional/viola-overseer/phase-done-check-directive.md",
+"--kind",
+"relay",
+"--why",
+"the operator phase directive for Version done-check (the overseer, founder-delegated): live-session budget, the founder rules the 17 caps, F434 master edits, run rules",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-11-06T17-04-19-phase",
+"--marker",
+"2026-11-06-version-done-check"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy no-repo · ../additional/viola-overseer/phase-done-check-directive.md",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-phase-done-check-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/phase-done-check-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "7533699818845930997ff09fa1a907a1bbbced154ce28bd8195ab28217543568",
+"copy": "I1-phase-done-check-directive.md.txt",
+"link": false,
+"read_at": "2026-11-06T17:05:42Z",
+"step": "phase:P1",
+"why": "the operator phase directive for Version done-check (the overseer, founder-delegated): live-session budget, the founder rules the 17 caps, F434 master edits, run rules"
+}
+},
+{
+"tool": "inputs",
+"v": "1.6",
+"sha8": "b9addc45",
+"ts": "2026-11-06T19:35:25Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-06-version-done-check",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-done-check-forks.md",
+"--kind",
+"relay",
+"--why",
+"the founder's own word (2026-11-06 19:34Z, «Принять всё») on every P4 fork of founder-forks.md, and the overseer's technical answers T1-T3",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-11-06T17-04-19-phase",
+"--marker",
+"2026-11-06-version-done-check"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy no-repo · ../additional/viola-overseer/relay-done-check-forks.md",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-done-check-forks.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-done-check-forks.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "a02dd7a29777bafd1619d233817651c639421f279cfecf3f6d03f8f1c402396e",
+"copy": "I2-relay-done-check-forks.md.txt",
+"link": false,
+"read_at": "2026-11-06T19:35:24Z",
+"step": "phase:P4",
+"why": "the founder's own word (2026-11-06 19:34Z, «Принять всё») on every P4 fork of founder-forks.md, and the overseer's technical answers T1-T3"
+}
+},
+{
+"tool": "inputs",
+"v": "1.6",
+"sha8": "b9addc45",
+"ts": "2026-11-06T19:39:16Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-06-version-done-check",
+"--message-file",
+".andromeda/runs/2026-11-06T17-04-19-phase/relay-1.md",
+"--origin",
+"the founder, live by dialog in the overseer's session, relayed by the operator, 2026-11-06 19:38Z",
+"--kind",
+"relay",
+"--why",
+"the founder's word: live session 1 is one viola verify stamping the rig home (the spare), session 2 the one wrapped viola run",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-11-06T17-04-19-phase",
+"--marker",
+"2026-11-06-version-done-check"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy message · message: the founder, live by dialog in the overseer's session, relayed by the operator, 2026-11-06 19:38Z",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "message: the founder, live by dialog in the overseer's session, relayed by the operator, 2026-11-06 19:38Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "9b4f70d4651c33273f7b1f8d34cbc3401795f5b0e65c7a07dcae922b30dd9b27",
+"copy": "I3-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-06T19:39:16Z",
+"step": "phase:P4",
+"why": "the founder's word: live session 1 is one viola verify stamping the rig home (the spare), session 2 the one wrapped viola run"
+}
+},
+{
+"tool": "inputs",
+"v": "1.6",
+"sha8": "b9addc45",
+"ts": "2026-11-06T19:48:39Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-06-version-done-check",
+"--run-dir",
+".andromeda/runs/2026-11-06T17-04-19-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-done-check-directive.md",
+"I1 cited scope.md:26 · scope.md:103 · research.md:14 · plan.md:25 · plan.md:34 · plan.md:176 · plan.md:178 · plan.md:190 (in fence) · plan.md:580 · plan.md:611",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-done-check-forks.md",
+"I2 cited plan.md:12 · plan.md:23 · plan.md:35 · plan.md:61 · plan.md:152 · plan.md:548 · plan.md:579 · plan.md:580 · plan.md:606 · plan.md:616 · plan.md:624",
+"I3 n/a — a message has no live source · copy message · message: the founder, live by dialog in the overseer's session, relayed by the operator, 2026-11-06 19:38Z",
+"I3 cited plan.md:25 · plan.md:127 · plan.md:130 · plan.md:399 (in fence) · plan.md:522 · plan.md:579 · plan.md:593",
+"inputs: 3 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 3,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.6",
+"sha8": "b9addc45",
+"ts": "2026-11-06T19:54:23Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-06-version-done-check",
+"--message-file",
+".andromeda/runs/2026-11-06T17-04-19-phase/relay-2.md",
+"--origin",
+"the operator, in this session, 2026-11-06, after p5-card-1.md",
+"--kind",
+"relay",
+"--why",
+"the P5 word on .andromeda/runs/2026-11-06T17-04-19-phase/p5-card-1.md, the operator's own, its Beyond-the-plan rows on the founder's words inputs#I2 and inputs#I3",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-11-06T17-04-19-phase",
+"--marker",
+"2026-11-06-version-done-check"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy message · message: the operator, in this session, 2026-11-06, after p5-card-1.md",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, in this session, 2026-11-06, after p5-card-1.md",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "bd15b72e7f050450a8ddd220456939796ca47df8fe5a2fec6a79c5ff2d6a64a8",
+"copy": "I4-relay-2.md.txt",
+"link": false,
+"read_at": "2026-11-06T19:54:22Z",
+"step": "phase:P5",
+"why": "the P5 word on .andromeda/runs/2026-11-06T17-04-19-phase/p5-card-1.md, the operator's own, its Beyond-the-plan rows on the founder's words inputs#I2 and inputs#I3"
+}
+}
+]

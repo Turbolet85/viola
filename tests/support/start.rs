@@ -109,8 +109,7 @@ pub fn stopped_life(stamped: StampedHome) -> (StampedHome, PathBuf, usize) {
     (stamped, dir, before)
 }
 
-/// Removes `dir` once nothing holds it. A directory a process still has as its own cannot be
-/// removed on Windows, and a wrapper's console host can outlive the wrapper by a moment.
+/// Removes `dir` once nothing holds it.
 pub fn remove_dir_once_free(dir: &Path) {
     let watch = Watch::start("remove");
     let deadline = Instant::now() + WITHIN;

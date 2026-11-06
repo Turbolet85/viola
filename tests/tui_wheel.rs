@@ -271,8 +271,8 @@ fn assert_driver_holds(home: &Path, dir: &Path, step: &str) {
     assert_eq!(wheel_records(dir), [start_record()], "after {step}");
 }
 
-/// CARRY §8: `^Z` reaches the child as a key, and the key after it still does (on Windows a read
-/// of `^Z` alone must not end the human's copy). `^Z` is typing, so the wheel is the human's.
+/// CARRY §8: `^Z` reaches the child as a key, and the key after it still does. `^Z` is typing, so
+/// the wheel is the human's.
 #[rstest]
 fn tui_ctrl_z_reaches_the_child_and_later_keys_still_do(stamped_home: StampedHome) {
     let mut wrapper = boot(stamped_home, None, &[]);

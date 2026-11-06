@@ -299,9 +299,7 @@ fn verify_a_tampered_pinned_copy_refuses_with_its_code(#[from(home)] home: TestH
         .next()
         .expect("one key")
         .expect("the entry");
-    let pinned = key
-        .path()
-        .join(format!("viola{}", std::env::consts::EXE_SUFFIX));
+    let pinned = key.path().join("viola");
     let mut bytes = fs::read(&pinned).expect("the pinned copy");
     let middle = bytes.len() / 2;
     bytes[middle] ^= 0x01;

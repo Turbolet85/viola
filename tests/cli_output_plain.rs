@@ -1,8 +1,7 @@
 //! viola's own help and usage text is plain (design-system §Surface: cli bans colour on anything
 //! but `DIALOG` / `stale` and any SGR under a non-TTY; a11y-plan §6 CLI equivalent): no variable
-//! forces colour into a pipe, and a terminal gets no bold or underline headers. On Windows ConPTY
-//! re-renders the stream with its own `ESC[m` / cursor / title bytes, so the terminal oracle reads
-//! the SGR parameters, never the screen text.
+//! forces colour into a pipe, and a terminal gets no bold or underline headers. The terminal oracle
+//! reads the SGR parameters, never the screen text.
 
 #[allow(dead_code)]
 mod support;
@@ -101,7 +100,6 @@ fn help_lists_only_served_verbs() {
         args.push("--help");
         let out = forced_into_a_pipe(&args);
         assert_eq!(out.status.code(), Some(0), "{verb}");
-        // A verb's own usage names the program by its executable: `viola.exe` on Windows.
         let text = String::from_utf8_lossy(&out.stdout).into_owned();
         let usage: Vec<&str> = text
             .lines()
@@ -110,13 +108,7 @@ fn help_lists_only_served_verbs() {
             .split_whitespace()
             .take(1 + words.len())
             .collect();
-        assert_eq!(
-            usage
-                .first()
-                .map(|program| program.trim_end_matches(".exe")),
-            Some("viola"),
-            "{verb}: {text:?}"
-        );
+        assert_eq!(usage.first().copied(), Some("viola"), "{verb}: {text:?}");
         assert_eq!(usage.get(1..), Some(&words[..]), "{verb}: {text:?}");
     }
     let table = forced_into_a_pipe(&["--help"]);
@@ -168,8 +160,7 @@ fn help_is_plain_on_a_terminal() {
         !attributes.iter().any(|&a| a == 1 || a == 4),
         "bold or underline in {attributes:?}"
     );
-    // A Unix terminal adds CR before each LF and nothing else: no `\r` redraw. ConPTY adds cursor
-    // bytes of its own.
+    // A Unix terminal adds CR before each LF and nothing else: no `\r` redraw.
     #[cfg(unix)]
     assert_eq!(redraws(&stream), 0, "{stream:?}");
 }

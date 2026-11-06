@@ -45,8 +45,8 @@ fn count(outcomes: &Value, key: &str) -> u64 {
 
 /// `passed` = caught; `survived` = missed + timeout, less the `host_excluded` missed mutants this
 /// host never compiled, which `tested` still counts. Unviable alone is never red, but a run with more
-/// unviable than caught mutants tested almost nothing: its builds failed (measured on the windows CI
-/// leg of run 36118112104, a leaked process holding a binary: 8 caught, 135 unviable), so it is red.
+/// unviable than caught mutants tested almost nothing: its builds failed (measured on run
+/// 36118112104, a leaked process holding a binary: 8 caught, 135 unviable), so it is red.
 pub fn mutants_suite(
     outcomes: &Value,
     host_excluded: u64,
@@ -299,7 +299,7 @@ mod tests {
     /// `run --mutants` over the throwaway workspace with a private `CARGO_HOME` beside it (in the
     /// test's tempdir, outside the diffed tree): the workspace has no dependencies, so its nested
     /// cargo never needs a registry, and it never waits on the package-cache lock of the cargo
-    /// running this suite (measured on the macOS runner: 96 s of a 101 s run blocked on it).
+    /// running this suite (measured on a CI runner: 96 s of a 101 s run blocked on it).
     fn run_private(ws: &Workspace, base: String) -> Outcome {
         let cargo_home = ws.root.parent().unwrap_or(&ws.root).join("cargo-home");
         let mut runner = |cmd: &mut Command| {

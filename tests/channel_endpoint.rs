@@ -1,6 +1,5 @@
 //! The wrapper channel over a real endpoint (test-plan §5 Module ↔ IPC; §6 Path 1): the fault
-//! codes and the exclusive bind against a test-scoped server, the pipe's DACL on Windows, then a real
-//! `viola run`'s endpoint and the `channel-*` lines its role file carries.
+//! codes and the exclusive bind against a test-scoped server, then a real `viola run`'s endpoint and the `channel-*` lines its role file carries.
 
 #[allow(dead_code)]
 mod support;
@@ -64,7 +63,7 @@ fn exchange(stream: &mut BufReader<Stream>, bytes: &[u8]) -> Value {
 }
 
 /// A frame past the bound, then the reply. The server answers once it has read `MAX_FRAME` bytes
-/// and closes, so the frame's tail may meet the close — measured on macOS as EPIPE (run 36313377307)
+/// and closes, so the frame's tail may meet the close — measured as EPIPE (run 36313377307)
 /// and as ENOTCONN (run 36482322449), whichever state the peer's close reached first; the reply
 /// must still be there.
 fn send_oversize(stream: &mut BufReader<Stream>) -> Value {

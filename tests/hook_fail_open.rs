@@ -4,7 +4,7 @@
 //! `viola --help`, and concurrent hook processes share their log files line by line (obs-plan
 //! D-28). The `fake-agent` seam `FAKE_AGENT_HOOK_PANIC=1` forces a real panic, which fails open
 //! too and leaves detail lines over 4 KiB that concurrent processes still append whole. On Linux
-//! and Windows an impostor — this test process serving the endpoint while the writer-made snapshot
+//! an impostor — this test process serving the endpoint while the writer-made snapshot
 //! records the fake agent held as a child — is never sent a frame (security-plan §Authentication &
 //! Authorization, IPC client-side server verification).
 

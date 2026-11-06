@@ -872,25 +872,6 @@ fn send_window_slash_text_off_the_list_is_not_delivered() {
     wrapper.stop();
 }
 
-/// Git Bash rewrites a leading-slash argument into a path under its install before viola sees it
-/// (`/clear` arrives as `C:/Program Files/Git/clear`). In either argument position the rewritten
-/// path draws the warning ahead of the usage error. No wrapper runs: the argument never reaches one.
-#[test]
-fn send_rewritten_path_argument_draws_the_warning() {
-    let home = TestHome::new();
-    let rewritten = "C:/Program Files/Git/clear";
-    for args in [&[rewritten][..], &["builder", rewritten][..]] {
-        let sent = send(home.path(), args, CANARY);
-        assert_eq!(sent.code, Some(2), "{args:?}");
-        assert!(sent.stdout.is_empty(), "{args:?}");
-        assert_eq!(
-            sent.stderr.lines().next(),
-            Some("warning: argument looks like a Git Bash rewritten path"),
-            "{args:?}"
-        );
-    }
-}
-
 /// The readiness-gate reading, measured end to end. After a long paste the real CLI shows a paste
 /// hint where the input-box literal was (8.0 s from the paste on 2.1.287, measured). `hint` forces
 /// that window open with the fake agent's capped hold, and `no_hint` is the same sequence without

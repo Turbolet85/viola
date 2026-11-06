@@ -374,7 +374,7 @@ fn fake_agent_never_runs_a_non_absolute_hook_command() {
     let tmp = TestHome::new();
     let bin = tmp.scratch().join("bin");
     std::fs::create_dir_all(&bin).expect("bin");
-    let decoy = bin.join(format!("decoy-hook{}", std::env::consts::EXE_SUFFIX));
+    let decoy = bin.join("decoy-hook");
     std::fs::copy(FAKE, &decoy).expect("decoy");
     let marker = tmp.scratch().join("decoy-ran.ndjson");
     let plugin = tmp.scratch().join("plugin");

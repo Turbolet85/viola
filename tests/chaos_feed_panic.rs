@@ -107,8 +107,8 @@ fn chaos_feed_panic_refuses_send_and_keeps_passthrough() {
     });
     assert!(of_kind(&receipt, "prompt").is_empty(), "nothing was typed");
 
-    // The child's own output still reaches the human: the very bytes that panicked the feed. Unix
-    // only, where the outer terminal shows the child's bytes as written; ConPTY re-renders them.
+    // The child's own output still reaches the human: the very bytes that panicked the feed, as
+    // written.
     #[cfg(unix)]
     {
         let watch = Watch::start("shown");

@@ -382,7 +382,6 @@ fn wait_human_lines_are_linear() {
     assert_eq!(pty.wait_exit(EXIT_WITHIN), 0);
     let stream = pty.finish();
     // A Unix terminal adds CR before each LF and nothing else: no escape sequence, no `\r` redraw.
-    // ConPTY adds cursor bytes of its own.
     #[cfg(unix)]
     {
         assert!(!stream.contains(&0x1b), "{stream:?}");

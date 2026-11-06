@@ -804,6 +804,40 @@ fn dialog_drift_names_a_changed_byte_a_wrong_event_and_a_short_replay() {
     assert!(dialog_drift(&set, &receipt).contains(&"count".to_owned()));
 }
 
+/// One byte of a forwarded `annotations` note changed in the answered question's recorded
+/// PostToolUse: drift at that call alone, its answers equal and only its annotations moved.
+#[test]
+fn dialog_drift_names_a_changed_annotation() {
+    let home = TestHome::new();
+    let set = synthetic_dialog_set(&home);
+    let mut receipt = receipt_of_replay(&set);
+    assert_eq!(dialog_drift(&set, &receipt), Vec::<String>::new());
+    let recorded = unhex(receipt[1]["stdin_hex"].as_str().expect("hex"));
+    let find = |from: usize, needle: &[u8]| {
+        from + recorded[from..]
+            .windows(needle.len())
+            .position(|w| w == needle)
+            .expect("in the recorded answer")
+    };
+    let note = find(find(find(0, b"\"annotations\""), b"\"notes\""), b"viola");
+    let mut planted = recorded.clone();
+    planted[note] ^= 0x01;
+    let (was, now): (Value, Value) = (
+        serde_json::from_slice(&recorded).expect("recorded json"),
+        serde_json::from_slice(&planted).expect("planted json"),
+    );
+    assert_eq!(
+        was["tool_response"]["answers"],
+        now["tool_response"]["answers"]
+    );
+    assert_ne!(
+        was["tool_response"]["annotations"],
+        now["tool_response"]["annotations"]
+    );
+    receipt[1]["stdin_hex"] = json!(hex(&planted));
+    assert_eq!(dialog_drift(&set, &receipt), ["PostToolUse.questions-1"]);
+}
+
 #[test]
 fn drift_is_empty_for_the_recorded_set_in_spine_order() {
     let root = workspace_path("fixtures/claude");

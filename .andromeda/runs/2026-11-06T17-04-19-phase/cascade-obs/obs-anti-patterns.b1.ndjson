@@ -1,0 +1,2 @@
+{"type": "listing", "schema": 2, "doc": "obs-plan", "file": ".andromeda/obs-plan-detail/obs-anti-patterns.md", "blob": "bdb5acff0217b1a4", "tool": "detail v1.29", "entities": 1, "pin": 394, "sha": "bdb5acff0217b1a4", "batch": 1, "of": 1}
+{"type": "entity", "id": "obs-anti-patterns#1.1", "hash": "0ad7a982", "kind": "exception", "subject": "logs", "origin": "## 11. Obs Anti-Patterns (NEVER do these) \u203a ### Logs", "lines": [8, 8], "fact": "fct-hfdtlj6j", "rev": 2, "size": 1493}

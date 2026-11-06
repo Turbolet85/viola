@@ -303,27 +303,11 @@ fn resolve_home(
 }
 
 /// `home` in the one spelling `run` and every client hash the endpoint over: canonicalised once it
-/// exists, with a Windows verbatim drive path in its plain drive form; else, not there yet (or not
-/// readable), absolute as given.
+/// exists; else, not there yet (or not readable), absolute as given.
 pub(super) fn canonical_home(home: &Path) -> PathBuf {
     std::fs::canonicalize(home)
-        .map(plain_drive)
         .or_else(|_| std::path::absolute(home))
         .unwrap_or_else(|_| home.to_path_buf())
-}
-
-/// `\\?\C:\…` as `C:\…`; any other spelling, another verbatim form included, as given.
-fn plain_drive(path: PathBuf) -> PathBuf {
-    let plain = path.to_str().and_then(|text| {
-        let rest = text.strip_prefix(r"\\?\")?;
-        let drive = rest.as_bytes();
-        (drive.len() >= 3
-            && drive[0].is_ascii_alphabetic()
-            && drive[1] == b':'
-            && drive[2] == b'\\')
-            .then(|| PathBuf::from(rest))
-    });
-    plain.unwrap_or(path)
 }
 
 #[cfg(test)]
@@ -405,9 +389,7 @@ mod tests {
     #[test]
     fn canonical_home_resolves_an_existing_home_and_keeps_a_new_one_absolute() {
         let tmp = tempfile::tempdir().expect("tempdir");
-        // Canonical, and on Windows in the plain drive form (`plain_drive`'s own literal table).
-        let real = plain_drive(std::fs::canonicalize(tmp.path()).expect("canonical"));
-        assert!(!real.to_string_lossy().starts_with(r"\\?\"), "{real:?}");
+        let real = std::fs::canonicalize(tmp.path()).expect("canonical");
         let through = tmp.path().join("x").join("..");
         std::fs::create_dir(tmp.path().join("x")).expect("x");
         assert_eq!(canonical_home(&through), real);
@@ -431,18 +413,5 @@ mod tests {
             canonical_home(&link),
             std::fs::canonicalize(&target).expect("canonical")
         );
-    }
-
-    #[rstest]
-    #[case::a_verbatim_drive(r"\\?\C:\Users\u\.viola", r"C:\Users\u\.viola")]
-    #[case::a_verbatim_drive_root(r"\\?\d:\", r"d:\")]
-    #[case::a_verbatim_unc(r"\\?\UNC\server\share\h", r"\\?\UNC\server\share\h")]
-    #[case::a_verbatim_volume(r"\\?\Volume{1}\h", r"\\?\Volume{1}\h")]
-    #[case::a_device_path(r"\\.\C:\h", r"\\.\C:\h")]
-    #[case::a_plain_drive(r"C:\h", r"C:\h")]
-    #[case::a_unix_path("/home/u/.viola", "/home/u/.viola")]
-    #[case::too_short(r"\\?\C:", r"\\?\C:")]
-    fn plain_drive_strips_only_the_verbatim_drive_prefix(#[case] given: &str, #[case] want: &str) {
-        assert_eq!(plain_drive(PathBuf::from(given)), PathBuf::from(want));
     }
 }

@@ -550,7 +550,7 @@ fn stopped_home() -> StampedHome {
 
 /// One rule whatever the home holds, on every OS: a home another user may read refuses the board as
 /// the home, with no instance and with one, before any log and leaving the grant as found; the same
-/// home taken back prints the empty board. Started unseeded, so a Windows home's grant is its own.
+/// home taken back prints the empty board.
 #[test]
 fn list_refuses_a_home_another_user_may_read_with_and_without_an_instance() {
     let tmp = TestHome::new();

@@ -1099,7 +1099,7 @@ mod tests {
 
     /// A loosened socket directory, its recorded wrapper serving: both hook paths refuse it inside
     /// `hook.handle` and write their fail-open lines, no frame reaches the wrapper and nothing is
-    /// printed. Runs on macOS too. `served` binds where this process's own endpoint path lies, so the
+    /// printed. `served` binds where this process's own endpoint path lies, so the
     /// snapshot is re-pointed at a server in a directory of the test's own.
     #[cfg(unix)]
     #[test]

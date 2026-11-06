@@ -1101,8 +1101,7 @@ fn ignore_hangup() {
     let _ = unsafe { libc::signal(libc::SIGHUP, libc::SIG_IGN) };
 }
 
-/// Reads stdin byte by byte until EOF or `\x03`. A Windows console is read the way the wrapper
-/// reads it: std's console read turns a `^Z` typed alone into end of input.
+/// Reads stdin byte by byte until EOF or `\x03`.
 fn read_stdin(agent: &Agent) -> ExitCode {
     let mut input = Input::new();
     let mut stdin = viola_pty::host_stdin();

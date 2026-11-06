@@ -554,7 +554,7 @@ mod tests {
 
     /// A loosened socket directory is refused before any connect, inside the verb's dispatch span:
     /// no `channel.request` span, no line and no frame, the directory left as found. The server it
-    /// would have reached is a real one. Runs on macOS too, where the server check compares nothing.
+    /// would have reached is a real one.
     #[cfg(unix)]
     #[test]
     fn connect_refuses_a_loosened_socket_directory_inside_its_dispatch_span() {

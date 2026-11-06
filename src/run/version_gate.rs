@@ -284,8 +284,7 @@ mod tests {
     /// those and the four dialog rows, every row but the newline one, the eighteen before the
     /// statusline rows, the twenty-one before the resume row, the twenty-two before the agents row,
     /// or the twenty-three before the compact row) and one whose relied row failed all leave the
-    /// version unverified; all twenty-four relied rows passing verify it. On Windows the eighteen,
-    /// the resume row, the agents row and the compact row are every relied row.
+    /// version unverified; all twenty-four relied rows passing verify it.
     #[test]
     fn stamps_verdict_needs_the_dialog_rows() {
         let ten = [

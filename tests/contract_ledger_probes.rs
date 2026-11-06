@@ -1,6 +1,6 @@
 //! The capability-ledger probes over the committed fixture sets (test-plan §5 CLI): `viola verify`
-//! against the fake agent at each stamped `fixtures/claude/<version>/` passes every row relied on
-//! this OS (twenty-four on Unix, twenty-one on Windows), each literal row id once. Every recorded set is on exactly one literal list: stamped, or kept for the byte-drift
+//! against the fake agent at each stamped `fixtures/claude/<version>/` passes every relied row
+//! (all twenty-four), each literal row id once. Every recorded set is on exactly one literal list: stamped, or kept for the byte-drift
 //! contract only. The recorded sets are walked at run time, not by `#[files]`, and an empty walk
 //! fails.
 //! andromeda:walks-tree — it reads every set under `fixtures/claude/`, named or not.

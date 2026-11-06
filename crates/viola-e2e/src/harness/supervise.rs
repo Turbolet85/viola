@@ -126,7 +126,7 @@ fn ctrl_c(input: &mut Option<Box<dyn Write + Send>>) {
 }
 
 fn stop(wrappers: &mut [Wrapper], deadline: Instant) -> Vec<serde_json::Value> {
-    // The input stays open: closing a ConPTY's input ends its child with a close event instead.
+    // The input stays open: the Ctrl-C written into it is what ends each child.
     for w in wrappers.iter_mut() {
         ctrl_c(&mut w.input);
     }

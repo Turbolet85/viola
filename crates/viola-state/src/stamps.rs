@@ -219,8 +219,7 @@ mod tests {
         );
     }
 
-    /// A directory where the file should be fails at open on Windows and at read on Unix: an error
-    /// either way, never `None`.
+    /// A directory where the file should be fails at read: an error, never `None`.
     #[test]
     fn read_stamps_reports_an_unreadable_file() {
         let tmp = tempfile::tempdir().expect("tempdir");

@@ -947,8 +947,7 @@ mod tests {
         assert_eq!(lines.next().expect("one").expect("line").start, 17);
     }
 
-    /// A log that cannot be read fails at the open (Windows) or at the first line (Unix), and
-    /// then ends.
+    /// A log that cannot be read fails at the first line, and then ends.
     #[test]
     fn events_read_of_an_unreadable_log_is_an_error() {
         let tmp = tempfile::tempdir().expect("tempdir");

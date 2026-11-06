@@ -862,8 +862,7 @@ mod tests {
         child.writer.flush().expect("flush");
         wait_line(&mut child, "byte 78");
         resize(&mut child);
-        // A key written into ConPTY right after a resize can be lost below viola, the child reading
-        // (H2, `.claude/docs/gotchas.md`): this test sends it once the child sees the new size.
+        // The key goes once the child sees the new size, so its byte line reports that size.
         wait_line(&mut child, "size 120x40");
         key(&mut child, b'y');
         wait_line(&mut child, "byte 79 size=120x40");

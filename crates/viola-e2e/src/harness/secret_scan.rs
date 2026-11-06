@@ -170,8 +170,7 @@ fn collect_files(dir: &Path, out: &mut Vec<PathBuf>) {
     }
 }
 
-/// A diagnostics file must be owner-only (obs-plan §10). Windows access is the home DACL, which the
-/// strict-modes check owns; there is no mode to read and the document says the check was skipped.
+/// A diagnostics file must be owner-only (obs-plan §10); a file whose mode cannot be read is no hit.
 fn mode_hit(roots: &Roots, path: &Path, mode: Option<u32>) -> Option<Value> {
     mode.filter(|&m| !owner_only(m))
         .map(|_| hit(roots, path, 0, 0, "mode"))

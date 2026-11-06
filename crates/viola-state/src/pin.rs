@@ -84,7 +84,7 @@ pub fn pin_bytes(home: &Path, bytes: &[u8]) -> Result<Pinned, PinError> {
     let key = pin_key(bytes);
     let dir = std::path::absolute(home.join("bin").join(&key))?;
     create_private_dir(&dir)?;
-    let path = dir.join(format!("viola{}", std::env::consts::EXE_SUFFIX));
+    let path = dir.join("viola");
     match file_key(&path) {
         Ok(found) if found == hash => {}
         Ok(_) => return Err(PinError::HashMismatch),

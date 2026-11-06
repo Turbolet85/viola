@@ -35,10 +35,7 @@ struct Ran {
 /// names removed and `env` set, `stdin` written and closed.
 fn viola(s: &HarnessSession, args: &[&str], stdin: Option<&[u8]>, env: &[(&str, OsString)]) -> Ran {
     let session_bin = s.workspace().session_dir(s.session()).join("bin");
-    let mut command = Command::new(
-        s.bin_dir()
-            .join(format!("viola{}", std::env::consts::EXE_SUFFIX)),
-    );
+    let mut command = Command::new(s.bin_dir().join("viola"));
     command
         .arg("--home")
         .arg(s.home())

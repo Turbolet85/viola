@@ -112,9 +112,7 @@ struct Served {
 
 impl Served {
     fn spawn(s: &HarnessSession) -> Self {
-        let viola = s
-            .bin_dir()
-            .join(format!("viola{}", std::env::consts::EXE_SUFFIX));
+        let viola = s.bin_dir().join("viola");
         let bin = s.workspace().session_dir(s.session()).join("bin");
         let mut child = Command::new(viola)
             .arg("--home")

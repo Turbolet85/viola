@@ -1,8 +1,6 @@
 //! `viola run` as a human's terminal hosts it (a11y-plan §3 Keyboard test harness, test-plan §6 tui
 //! row): keys reach the child as typed, Ctrl-C ends it, a host resize is forwarded, the child's cwd
-//! is the wrapper's, and viola adds no bytes of its own. On Windows ConPTY re-renders the stream,
-//! so the oracle there is the absence of viola's own literals; on Unix the stream equals an
-//! unwrapped run's.
+//! is the wrapper's, and viola adds no bytes of its own: the stream equals an unwrapped run's.
 
 #[allow(dead_code)]
 mod support;

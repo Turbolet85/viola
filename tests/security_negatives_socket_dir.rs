@@ -1,5 +1,5 @@
-//! Security control negatives, Linux and macOS (test-plan §6 Security control negatives and the
-//! macOS exit-cause case; security-plan §Authentication & Authorization, IPC access control (Unix)):
+//! Security control negatives (test-plan §6 Security control negatives and the exit-cause case;
+//! security-plan §Authentication & Authorization, IPC access control (Unix)):
 //! a per-user socket directory another user may read, or a symlink to a private one, is refused
 //! before a wrapper binds and before a client connects, and is left as found. Every child takes a
 //! socket root of its own through `Command::env`, so no directory another process shares is ever

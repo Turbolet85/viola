@@ -59,7 +59,7 @@ pub(crate) fn list(home: &Path, args: &ListArgs) -> anyhow::Result<ExitCode> {
             paused: budget.paused,
         });
         // The terminal's columns from stdout itself, never `COLUMNS`: a piped board reads none and
-        // cuts nothing. `colour` holds the Windows VT enable until the board is written.
+        // cuts nothing.
         let width = viola_pty::host_size().map(|size| usize::from(size.cols));
         let colour = human::read_colour(false, false);
         let _ = human::write_board(

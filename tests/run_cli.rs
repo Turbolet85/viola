@@ -589,15 +589,14 @@ const INSTANCE_PAIR: &str = concat!(
     "hint: viola will not read them; make the viola home and its files owner-only\n",
 );
 
-/// The pinned copy a first start left: the one `bin/<key>/viola(.exe)`.
+/// The pinned copy a first start left: the one `bin/<key>/viola`.
 fn pinned_copy(home: &Path) -> PathBuf {
     let mut keys: Vec<PathBuf> = std::fs::read_dir(home.join("bin"))
         .expect("bin")
         .map(|entry| entry.expect("entry").path())
         .collect();
     assert_eq!(keys.len(), 1, "{keys:?}");
-    keys.remove(0)
-        .join(format!("viola{}", std::env::consts::EXE_SUFFIX))
+    keys.remove(0).join("viola")
 }
 
 /// A home another user may write, an instance directory, `bin/` or the pinned copy another user

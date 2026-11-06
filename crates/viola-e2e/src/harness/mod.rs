@@ -187,7 +187,7 @@ pub fn valid_session_id(id: &str) -> bool {
 }
 
 pub fn exe(dir: &Path, name: &str) -> PathBuf {
-    dir.join(format!("{name}{}", std::env::consts::EXE_SUFFIX))
+    dir.join(name)
 }
 
 /// The directory holding the workspace binaries, found from a harness or test executable: a test
@@ -356,10 +356,9 @@ mod tests {
     }
 
     #[test]
-    fn exe_appends_platform_suffix() {
+    fn exe_is_the_plain_name_in_the_dir() {
         let dir = Path::new("bin");
-        let expected = format!("viola{}", std::env::consts::EXE_SUFFIX);
-        assert_eq!(exe(dir, "viola"), dir.join(expected));
+        assert_eq!(exe(dir, "viola"), dir.join("viola"));
     }
 
     #[test]

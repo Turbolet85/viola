@@ -89,7 +89,7 @@ fn cross_list_rows_print_escaped_in_the_captions_columns_in_every_mode(stamped_h
 
     let args: Vec<OsString> = vec!["--home".into(), home.clone().into(), "list".into()];
     let path = bin.to_str().expect("utf-8 path");
-    // Wide enough that no row wraps where the terminal re-renders the stream (ConPTY).
+    // Wide enough that no row wraps.
     let wide = Size {
         cols: 200,
         ..Size::DEFAULT

@@ -65,8 +65,7 @@ struct Mcp {
 }
 
 fn viola_exe(s: &HarnessSession) -> PathBuf {
-    s.bin_dir()
-        .join(format!("viola{}", std::env::consts::EXE_SUFFIX))
+    s.bin_dir().join("viola")
 }
 
 fn session_bin(s: &HarnessSession) -> PathBuf {
@@ -450,7 +449,7 @@ fn fresh_home() -> (tempfile::TempDir, PathBuf) {
 /// `viola --home <home> mcp` the test owns, all three streams piped and no `VIOLA_*` name.
 fn own_mcp(home: &Path) -> std::process::Child {
     let bin_dir = viola_e2e::harness::bin_dir_from_exe(&std::env::current_exe().expect("exe"));
-    Command::new(bin_dir.join(format!("viola{}", std::env::consts::EXE_SUFFIX)))
+    Command::new(bin_dir.join("viola"))
         .arg("--home")
         .arg(home)
         .arg("mcp")
@@ -541,8 +540,8 @@ fn mcp_tools_a_line_past_max_frame_before_initialize_exits_1_with_one_line() {
     let writer = std::thread::spawn(move || {
         let mut over = CANARY.as_bytes().to_vec();
         over.resize(max_frame + 1, b'a');
-        // Once the server stops taking stdin it may exit mid-write: a broken pipe (EPIPE, ENOTCONN,
-        // or ERROR_NO_DATA on Windows) is then the expected write error, so only the exit counts.
+        // Once the server stops taking stdin it may exit mid-write: a broken pipe (EPIPE or
+        // ENOTCONN) is then the expected write error, so only the exit counts.
         let _ = stdin.write_all(&over).and_then(|()| stdin.flush());
         stdin
     });
@@ -785,8 +784,8 @@ fn mcp_tools_a_line_past_max_frame_ends_the_session_with_one_line() {
         );
         let mut over = CANARY.as_bytes().to_vec();
         over.resize(max_frame + 1, b'a');
-        // Once the server stops taking stdin it may exit mid-write: a broken pipe (EPIPE, or
-        // ERROR_NO_DATA on Windows) is then the expected write error, so only the exit counts.
+        // Once the server stops taking stdin it may exit mid-write: a broken pipe (EPIPE) is then
+        // the expected write error, so only the exit counts.
         let _ = stdin
             .write_all(opening.as_bytes())
             .and_then(|()| stdin.write_all(&over))

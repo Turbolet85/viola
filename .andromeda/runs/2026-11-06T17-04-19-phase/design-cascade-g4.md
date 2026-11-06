@@ -1,0 +1,7 @@
+@carried n=1 label=design-system/iconography fact=fct-2enypnm7
+why: the founder's dispositions of v1-36's «link set on the board» and v1-13's MCP result for `link`, and the master text the masters-agree check reconciles with them, must hold to this rule that the CLI board keeps six fixed columns with no link column and links print only as `link` / `unlink` verb output.
+quote: The CLI uses ASCII `->` and has no inbound form. `viola list` carries no link column in v1, so the six columns shared with the web strip stay fixed. Links print only as `link` / `unlink` verb output (`overseer -> builder`).
+@carried n=1 run=2 label=design-system fact=fct-ukpiycjz
+quote: The CLI is ASCII only: `->` with no inbound form, two spaces between columns, ` - ` inside one field; `viola list` carries no link column in v1, so its six columns stay fixed.
+@binding n=1
+**Iconography (transfer arrows) ↔ the cli-list and cli-verbs patterns and the verification matrix**: a deferral or re-wording of v1-36's board clause and v1-13's `link` clause must leave `viola list` at its six fixed columns with no link column (design-system/iconography fct-2enypnm7) (design-system fct-ukpiycjz), links printing only as the `viola link` / `viola unlink` verb lines (`link    overseer -> builder  since <time>`, `unlink  overseer -> builder`) (design-system fct-glxbi6ql) (design-system fct-vmpiq5lh); if the founder re-words an acceptance instead, the matrix row and the design-system text must state the same thing.

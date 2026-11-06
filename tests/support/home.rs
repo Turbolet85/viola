@@ -79,8 +79,8 @@ pub fn sweep_gone_owners(base: &Path) -> usize {
     removed
 }
 
-/// Removes an owned dir with its owner record last. A removal that stops part-way (a file another
-/// process still holds open, which Windows refuses to delete) keeps the record, so a later sweep
+/// Removes an owned dir with its owner record last. A removal that stops part-way (an entry it
+/// cannot delete) keeps the record, so a later sweep
 /// can reclaim the rest once that owner is gone; an ownerless remnant could never be reclaimed.
 /// Whether the dir is gone.
 pub fn remove_owned(dir: &Path) -> bool {
@@ -334,21 +334,15 @@ pub fn statusline_echo_command(marker: &Path, extra: &[&str]) -> String {
     words.join(" ")
 }
 
-/// The spelling viola gives a home once it exists: canonical, a Windows verbatim drive path
-/// (`\\?\C:\…`) in its plain drive form (`C:\…`); a home not there yet is spelt as `run` will
-/// have created it, its own name under its parent's spelling. A test oracle, never the product's
-/// helper.
+/// The spelling viola gives a home once it exists: canonical; a home not there yet is spelt as
+/// `run` will have created it, its own name under its parent's spelling. A test oracle, never the
+/// product's helper.
 pub fn resolved(home: &Path) -> PathBuf {
     if !home.exists() {
         let parent = home.parent().expect("a home has a parent");
         return resolved(parent).join(home.file_name().expect("a home has a name"));
     }
-    let canonical = std::fs::canonicalize(home).expect("an existing home");
-    let text = canonical.to_str().expect("a utf-8 home");
-    let plain = text
-        .strip_prefix(r"\\?\")
-        .filter(|rest| rest.as_bytes().get(1) == Some(&b':'));
-    PathBuf::from(plain.unwrap_or(text))
+    std::fs::canonicalize(home).expect("an existing home")
 }
 
 /// A workspace-relative path resolved against the root package's manifest dir.
@@ -730,8 +724,8 @@ impl Wrapper {
             let started = now.wrapper > before.wrapper
                 && now.child > before.child
                 && now.receipt > before.receipt;
-            // Read in the predicate's short-circuit order: an early read of `snapshot.json` holds it
-            // open while the wrapper replaces it, which Windows refuses (viola_state::fs).
+            // Read in the predicate's short-circuit order: `snapshot.json` only once both
+            // processes have started.
             let snapshot = started && snapshot_ready(&self.instance_dir());
             let beat = snapshot && beat_fresh(&self.instance_dir());
             if started && snapshot && beat {
@@ -803,9 +797,8 @@ impl Wrapper {
         self.stop_keep().0
     }
 
-    /// `stop`, handing the home back for a next start of the same name. An exit code is not the
-    /// endpoint gone: on Windows the exiting wrapper's pipe can still take a connect after the
-    /// exit is seen (`.claude/docs/gotchas.md`), so a recorded endpoint is waited out too.
+    /// `stop`, handing the home back for a next start of the same name. An exit code alone does not
+    /// read the endpoint gone, so a recorded endpoint is waited out too.
     pub fn stop_keep(self) -> (Stopped, StampedHome) {
         let instance_dir = self.instance_dir();
         let Self {
@@ -855,13 +848,13 @@ impl Wrapper {
     }
 }
 
-/// The fake agent as `claude` (`claude.exe` on Windows) in `<scratch>/claude-bin/`, linked where
+/// The fake agent as `claude` in `<scratch>/claude-bin/`, linked where
 /// the volume allows it and copied where not. A revive looks its program up by name, so every
 /// test that types `viola revive` puts this directory first on its child's `PATH`: the name never
 /// reaches the host's own CLI.
 pub fn claude_dir(scratch: &Path) -> PathBuf {
     let dir = scratch.join("claude-bin");
-    let claude = dir.join(format!("claude{}", std::env::consts::EXE_SUFFIX));
+    let claude = dir.join("claude");
     if !claude.is_file() {
         fs::create_dir_all(&dir).expect("claude dir");
         if fs::hard_link(fake::FAKE, &claude).is_err() {

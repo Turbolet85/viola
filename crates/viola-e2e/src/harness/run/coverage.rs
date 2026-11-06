@@ -7,11 +7,11 @@ use std::process::Command;
 use super::nextest::{junit_source, junit_suite};
 use super::{Runner, Suite, Workspace};
 
-/// test-plan §10's excluded trees, with a separator class: llvm-cov reports Windows paths with `\`.
+/// test-plan §10's excluded trees, each separator a class as test-plan §10 writes it.
 pub const COVERAGE_IGNORE: &str =
     r"(viola-fake-agent|crates[/\\]viola-e2e|tests[/\\]support|fuzz[/\\])";
 
-/// test-plan §10 Comprehensive: line, function and region floors, per OS.
+/// test-plan §10 Comprehensive: line, function and region floors.
 pub const COVERAGE_FLOORS: [(&str, f64); 3] =
     [("lines", 85.0), ("functions", 95.0), ("regions", 80.0)];
 

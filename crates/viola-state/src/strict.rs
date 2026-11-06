@@ -79,7 +79,7 @@ pub enum TreeRefused {
 
 /// The tree a starting process trusts, each path that exists: the home (the read rule); with a
 /// name, the instance's set as [`check_instance`] reads it; then `ledger/`, `bin/` and `plugin/`
-/// and, with a pinned copy's key, `bin/<key>/`, the pinned `viola(.exe)`, `plugin/<key>/` and its
+/// and, with a pinned copy's key, `bin/<key>/`, the pinned `viola`, `plugin/<key>/` and its
 /// `hooks/` and `.claude-plugin/` (the write rule).
 pub fn check_home_tree(
     home: &Path,
@@ -101,10 +101,7 @@ pub fn check_home_tree(
         let plugin = home.join("plugin").join(key);
         code.extend([
             (bin.clone(), Rule::Write),
-            (
-                bin.join(format!("viola{}", std::env::consts::EXE_SUFFIX)),
-                Rule::Write,
-            ),
+            (bin.join("viola"), Rule::Write),
             (plugin.clone(), Rule::Write),
             (plugin.join("hooks"), Rule::Write),
             (plugin.join(".claude-plugin"), Rule::Write),

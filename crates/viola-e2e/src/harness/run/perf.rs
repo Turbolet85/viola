@@ -106,7 +106,7 @@ fn role_panics(home: &Path) -> usize {
 /// Repo-relative, so hyperfine's export carries no host path; `-N` splits the command on
 /// whitespace, and this path holds none.
 fn viola_exe() -> String {
-    format!("{TARGET_DIR}/release/viola{}", std::env::consts::EXE_SUFFIX)
+    format!("{TARGET_DIR}/release/viola")
 }
 
 /// One hyperfine run of `viola hook <hook>` against the booted instance.
@@ -387,7 +387,7 @@ mod tests {
         assert_eq!(opts.instances[0].name, "builder");
         assert_eq!(opts.session, format!("perf-{}", std::process::id()));
 
-        let exe = format!("target/perf/release/viola{}", std::env::consts::EXE_SUFFIX);
+        let exe = "target/perf/release/viola".to_owned();
         assert_eq!(calls.len(), 2 + ROWS.len());
         for (n, hook) in ROWS.iter().enumerate() {
             let expected: Vec<String> = [

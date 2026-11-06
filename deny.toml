@@ -8,9 +8,7 @@ targets = ["x86_64-unknown-linux-gnu"]
 unmaintained = "all"
 unsound = "all"
 yanked = "deny"
-ignore = [
-  { id = "RUSTSEC-2017-0008", reason = "serial arrives only via portable-pty =0.8.1; viola never opens a serial port" },
-]
+ignore = []
 
 [licenses]
 allow = ["MIT", "Apache-2.0", "Zlib", "Unicode-3.0"]

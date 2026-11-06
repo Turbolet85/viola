@@ -669,7 +669,7 @@ mod tests {
     use super::*;
 
     /// A committed throwaway repo holds git's read-only object files, and dropping it still removes
-    /// the dir: std's Windows `remove_dir_all` deletes read-only files, so a self-test that ends
+    /// the dir: std's `remove_dir_all` deletes read-only files, so a self-test that ends
     /// leaves no repo in the temp dir (a run killed before the drop is what leaves one).
     #[test]
     fn throwaway_repo_leaves_no_dir_after_drop() {
@@ -1088,8 +1088,8 @@ mod tests {
         (out, calls)
     }
 
-    /// The live proof reads every relied row: twenty-four on Unix, twenty-one on Windows, the compact
-    /// row last, after the resume and agents rows.
+    /// The live proof reads every relied row, all twenty-four, the compact row last, after the
+    /// resume and agents rows.
     #[test]
     fn run_local_live_reads_the_relied_rows() {
         #[cfg(unix)]
