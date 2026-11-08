@@ -1,30 +1,26 @@
 # Session Handoff
 
-**Last Updated:** 2026-11-08T20:57:42Z
-**Branch:** build/viola-0.2.0 · no upstream as read at this wrap's Setup (this wrap's push sets it)
-**Status:** census partly applied — stopped at a row boundary
-**Last Commit:** chore(route): operator-requested adaptation — 0-pending wrap (0.2.0 route + census, part 1)
+**Last Updated:** 2026-11-08T21:07:38Z
+**Branch:** build/viola-0.2.0 · upstream set, 0 ahead as read at this wrap's Setup (this wrap's push lands its commit)
+**Status:** 0.2.0 census complete — every row applied, noted, held with a reason, or skipped
+**Last Commit:** chore(route): operator-requested adaptation — 0-pending wrap (the 0.2.0 census, part 2)
 
 ## Position
-- Done: route 0.2.0 (`viola-0.2.0/working-route.md`, 25 markerless entries, ledger v2-01…v2-28) and, at this 0-pending
-  wrap (`.andromeda/runs/2026-11-08T20-32-52-wrap/`), the version census's master rows: 87 of the 89 `built: no`
-  master/key-file rows applied in full apply-form, 7 ledger notes on 0.1.0 caps, the 30 residual rows already flipped
-  by the route run.
-- Next: a resumed 0-pending wrap with the census request finishes the rest of the census, skipping every row
-  `adaptation-record.md` marks applied, noted or skipped: `doc:input` (23 rows), `project.yaml` (C-488) and the
-  preserve-verbatim curation-home rows (Session Additions / session-learnings / gotchas, listed there). Then the first
-  0.2.0 chunk, «Epoch 8 cleanup» (`/andromeda-new-session`).
-- Owed to the operator: C-240 and C-301 held (adaptation record, with why); the 14 `clause retired · note now` rows
-  outside the directive's 230; C-010 (`built: yes`) left the body with the page C-009 replaced.
+- Done: route 0.2.0 (25 markerless entries, ledger v2-01…v2-28) and the version census, both parts
+  (`.andromeda/runs/2026-11-08T20-32-52-wrap/`, `.andromeda/runs/2026-11-08T21-01-50-wrap/` — each `adaptation-record.md`).
+- Next: the first 0.2.0 chunk, «Epoch 8 cleanup» (`/andromeda-new-session`).
+- Held, each with its reason in part 2's record: C-240 (premise false: the a11y plan reads the tier), C-301 (waits for
+  «Status-line interception removed»), C-565 (premise false: `tests/support/piped.rs` still answers DA1), `doc:input`'s
+  23 rows (doc:input is never mutated — the overseer's answer; he files its census inclusion as a pipeline finding).
+- Observed, unowned: dead `#[cfg(not(unix))]` constants in `crates/viola-e2e/src/harness/run.rs` (:349, :1026, :1097).
 
 ## Work done
-- Masters TX 549–766: five `edits-main-*.md` batches, 184 facts retired (the never-built page's design tokens in
-  design-system, the API Security stub), 8 sidecar entries; read-backs 0 defects / PASS. Leaves re-derived in pass mode:
-  15 comparers, 64 findings by tool, 5 headings by hand.
+- 14 dated `matrix.py note`s on 0.1.0 caps (C-660…C-704); `project.yaml` description Linux-only (C-488); ten harness
+  files landed TX 789–798: preserve-verbatim entries tagged in place, four doc leaves replaced.
 
 ## Drift resolved
-- The deferred-frontend stubs, the Windows/macOS distribution and signing clauses, the `another-os` owner, the «on
-  Unix» qualifiers and the web design tokens left every master; four standing citations the sweep caught were folded.
+- The Windows/macOS and web entries in the rule files' Session Additions, session-learnings and gotchas now carry
+  their census retirement tag; the four stale doc-leaf clauses (test prefixes, «on every OS», SSE names) are gone.
 
 ## Notes
 - **Owned by 0.2.0** (carried): the 3600 s hold ceiling, PROVISIONAL; the live round's two reds; matrix#v1-27 deferred.

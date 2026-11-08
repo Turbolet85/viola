@@ -1,6 +1,6 @@
 name: viola
 created: 2026-09-23T21:48:41+02:00
-description: "A standalone, cross-platform (Windows first) bridge that lets one interactive Claude Code session drive another on the user's own subscription."
+description: "A standalone, Linux-only bridge that lets one interactive Claude Code session drive another on the user's own subscription, its fleet of sessions tiled on Hyprland."
 architecture: architecture.md
 input: input.md
 security_plan: security-plan.md

@@ -68,6 +68,7 @@ The entry writers' `{doc}-entries.md` is a payload of `@amendment` records, and 
 ---
 
 ## 2026-10-26 — A windows-sys item needs every feature its signature's types need
+**Retired 2026-11-08** (census C-596 of doc:viola-0.2.0/census): no Windows or macOS target — Linux only since chunk 2026-11-05-linux-only-code-and-ci, the code recoverable at the tag `multi-os-final`; this entry is history, not a step.
 windows-sys gates each function on the feature of every type in its signature, not only on its own module's feature.
 `NtQueryInformationFile` lives in `Wdk::Storage::FileSystem`, yet it is behind `Win32_System_IO` too, because it takes an
 `IO_STATUS_BLOCK`. A feature can also reach the Windows graph by unification from another crate (mio, interprocess,
@@ -197,11 +198,13 @@ A live `claude` 2.1.287 session started by `viola run` with `--settings` carryin
 ---
 
 ## 2026-10-07 — Git Bash parameter expansion deletes forward slashes: normalise separators with tr
+**Retired 2026-11-08** (census C-600 of doc:viola-0.2.0/census): no Windows or macOS target — Linux only since chunk 2026-11-05-linux-only-code-and-ci, the code recoverable at the tag `multi-os-final`; this entry is history, not a step.
 - 2026-09-24: Under Git Bash `${var//\\//}` deletes forward slashes instead of mapping backslashes to them — normalise path separators with `tr '\\' '/'`.
 
 ---
 
 ## 2026-10-07 — A path a native Windows tool reads is written as pwd -W
+**Retired 2026-11-08** (census C-601 of doc:viola-0.2.0/census): no Windows or macOS target — Linux only since chunk 2026-11-05-linux-only-code-and-ci, the code recoverable at the tag `multi-os-final`; this entry is history, not a step.
 - 2026-09-24: Git Bash `pwd` prints `/d/...`, which a native Windows tool reads as `D:\d\...`; write any path a native tool will read (a Cargo manifest `path =`, `$GITHUB_PATH`) as `pwd -W`, falling back to `pwd` off Windows.
 
 ---
@@ -259,6 +262,7 @@ cargo-llvm-cov 0.9.1 rejects the pair (`--no-report may not be used together wit
 ---
 
 ## 2026-09-29 — Pin `TMP`/`TEMP` in a Windows-runner `shell: bash` step that must find what a test wrote there
+**Retired 2026-11-08** (census C-607 of doc:viola-0.2.0/census): no Windows or macOS target — Linux only since chunk 2026-11-05-linux-only-code-and-ci, the code recoverable at the tag `multi-os-final`; this entry is history, not a step.
 A Rust test's `std::env::temp_dir()` reads `TMP` first on Windows, while Git Bash keeps its own temp mapping, so a CI step that later looks for files a test wrote under the temp dir should export `TMP` and `TEMP` itself as a `cygpath -w` path (for example under `$RUNNER_TEMP`) and read from that same directory. Measured on the windows-2025 runner: every kept report the H2 loop printed was found there.
 
 ---

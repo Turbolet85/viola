@@ -5,7 +5,7 @@ _Extracted from `doc:architecture` §Conventions by `/andromeda-setup-project`. 
 ## File & directory naming
 - Crates: `crates/viola-<area>/`, kebab-case; the root `Cargo.toml` is both the `viola` bin package and `[workspace]`. Rust modules and files are snake_case; prefer `foo.rs` over `mod.rs`.
 - `src/cmd/<subcommand>.rs` — one module per subcommand; `src/run/` — PTY pump, wheel, budget governor, readiness-gate wiring.
-- Tests: inline `#[cfg(test)] mod tests`; crate `tests/<topic>.rs`; root `tests/<surface>_<topic>.rs` (`cli_`, `hook_`, `tui_`, `channel_`, `chaos_`, `contract_`, `cross_`); `crates/viola-e2e/tests/` (`path_`, `mcp_`, `http_`, `sse_`, `cross_`).
+- Tests: inline `#[cfg(test)] mod tests`; crate `tests/<topic>.rs`; root `tests/<surface>_<topic>.rs` (`cli_`, `hook_`, `tui_`, `channel_`, `chaos_`, `contract_`, `cross_`); `crates/viola-e2e/tests/` (`path_`, `mcp_`, `cross_`).
 - On-disk files (viola home): lower-case; `.ndjson` logs, `.json` snapshots, one `<name>.lock` sibling per guarded file.
 
 ## Variable & identifier naming
