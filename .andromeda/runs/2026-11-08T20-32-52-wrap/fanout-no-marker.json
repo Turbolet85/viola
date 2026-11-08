@@ -1,0 +1,150 @@
+[
+{
+"tool": "fanout",
+"v": "30",
+"sha8": "7d9b2581",
+"ts": "2026-11-08T20:51:21Z",
+"argv": [
+"render",
+"--batch",
+"leaf",
+"--side",
+"wrap",
+"--skill-dir",
+"~/.claude/skills/andromeda-wrap-session",
+"--run-dir",
+".andromeda/runs/2026-11-08T20-32-52-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"VERDICT: rendered 15 (leaf 15) · batch leaf · script ./.andromeda/runs/2026-11-08T20-32-52-wrap/prompts/leaf.workflow.js"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/runs/2026-11-08T20-32-52-wrap/prompts/leaf-architecture-1.md",
+"./.andromeda/runs/2026-11-08T20-32-52-wrap/prompts/leaf-architecture-2.md",
+"./.andromeda/runs/2026-11-08T20-32-52-wrap/prompts/leaf-architecture-3.md",
+"./.andromeda/runs/2026-11-08T20-32-52-wrap/prompts/leaf-architecture-4.md",
+"./.andromeda/runs/2026-11-08T20-32-52-wrap/prompts/leaf-architecture+security-plan.md",
+"./.andromeda/runs/2026-11-08T20-32-52-wrap/prompts/leaf-masters.md",
+"./.andromeda/runs/2026-11-08T20-32-52-wrap/prompts/leaf-architecture+design-system+layout-templates.md",
+"./.andromeda/runs/2026-11-08T20-32-52-wrap/prompts/leaf-architecture+test-plan+obs-plan.md",
+"./.andromeda/runs/2026-11-08T20-32-52-wrap/prompts/leaf-security-plan.md",
+"./.andromeda/runs/2026-11-08T20-32-52-wrap/prompts/leaf-security-plan+obs-plan.md",
+"./.andromeda/runs/2026-11-08T20-32-52-wrap/prompts/leaf-design-system+layout-templates.md",
+"./.andromeda/runs/2026-11-08T20-32-52-wrap/prompts/leaf-test-plan.md",
+"./.andromeda/runs/2026-11-08T20-32-52-wrap/prompts/leaf-test-plan+obs-plan.md",
+"./.andromeda/runs/2026-11-08T20-32-52-wrap/prompts/leaf-obs-plan.md",
+"./.andromeda/runs/2026-11-08T20-32-52-wrap/prompts/leaf-a11y-plan.md",
+"./.andromeda/runs/2026-11-08T20-32-52-wrap/prompts/leaf.workflow.js",
+"./.andromeda/runs/2026-11-08T20-32-52-wrap/prompts/leaf.manifest.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "fanout",
+"v": "30",
+"sha8": "7d9b2581",
+"ts": "2026-11-08T20:54:07Z",
+"argv": [
+"check",
+"--manifest",
+".andromeda/runs/2026-11-08T20-32-52-wrap/prompts/leaf.manifest.json",
+"--before",
+"tree 0ef21a90ce1728f7888b4caf38071df0871e77fd index ff8f5a032a7c7208f50a31a9b50f9562dc684481 head df9af3571f952c1632352b57027a19fd706b581e",
+"--after",
+"tree b919cff89a15f9673b2bdd86d8fedebd608f4a37 index ff8f5a032a7c7208f50a31a9b50f9562dc684481 head df9af3571f952c1632352b57027a19fd706b581e",
+"--run-dir",
+".andromeda/runs/2026-11-08T20-32-52-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"batch leaf · 15 agents · 15 with every named path · trails: none",
+"[PATH_CHECK] PASS · index and head unchanged",
+"leaf: 15 agents · 15 pass",
+"VERDICT: 15 of 15 pass · failed: none"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"sub": "check",
+"batch": "leaf",
+"agents": {
+"leaf-architecture-1": {
+"failed": {},
+"yes": null
+},
+"leaf-architecture-2": {
+"failed": {},
+"yes": null
+},
+"leaf-architecture-3": {
+"failed": {},
+"yes": null
+},
+"leaf-architecture-4": {
+"failed": {},
+"yes": null
+},
+"leaf-architecture+security-plan": {
+"failed": {},
+"yes": null
+},
+"leaf-masters": {
+"failed": {},
+"yes": null
+},
+"leaf-architecture+design-system+layout-templates": {
+"failed": {},
+"yes": null
+},
+"leaf-architecture+test-plan+obs-plan": {
+"failed": {},
+"yes": null
+},
+"leaf-security-plan": {
+"failed": {},
+"yes": null
+},
+"leaf-security-plan+obs-plan": {
+"failed": {},
+"yes": null
+},
+"leaf-design-system+layout-templates": {
+"failed": {},
+"yes": null
+},
+"leaf-test-plan": {
+"failed": {},
+"yes": null
+},
+"leaf-test-plan+obs-plan": {
+"failed": {},
+"yes": null
+},
+"leaf-obs-plan": {
+"failed": {},
+"yes": null
+},
+"leaf-a11y-plan": {
+"failed": {},
+"yes": null
+}
+},
+"stray": [],
+"closing_tags": [],
+"trails": [],
+"harness": [],
+"notes": []
+}
+}
+]

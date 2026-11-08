@@ -1,0 +1,55 @@
+[[pattern]]
+id = 'c-01'
+regex = 'deferred to 0\.2\.0|0\.2\.0 frontend|frontend design input|deferred 0\.2\.0 page|0\.1\.0 renders no page'
+
+[[pattern]]
+id = 'c-02'
+regex = 'technology (is )?not chosen'
+
+[[pattern]]
+id = 'c-03'
+fixed = 'another-os'
+
+[[pattern]]
+id = 'c-04'
+regex = 'winget|Homebrew|Scoop'
+
+[[pattern]]
+id = 'c-05'
+fixed = 'Azure Artifact Signing'
+
+[[pattern]]
+id = 'c-06'
+regex = '[Oo]n Unix,? (the|a) (socket-directory|frame verb)'
+
+[[pattern]]
+id = 'c-07'
+regex = 'e2e-web|browser (a11y )?leg|browser step'
+
+[[pattern]]
+id = 'c-08'
+regex = 'Bahnschrift|Cascadia Mono|Windows 10 1709'
+
+[[pattern]]
+id = 'c-09'
+regex = 'web strip|web racks|on the web|a future page'
+
+[[pattern]]
+id = 'c-10'
+regex = 'cookie_file|run/hook/mcp/ui'
+
+[[pattern]]
+id = 'c-11'
+fixed = 'D: dev volume'
+
+[[pattern]]
+id = 'c-12'
+fixed = 'TUI mode'
+
+[[pattern]]
+id = 'c-13'
+regex = '12px / 160ms|cock-offset|cock \(12px'
+
+[[pattern]]
+id = 'c-14'
+regex = 'space-(micro|xs|sm|md|lg|xl)|radius-(sm|md|lg|full)|--rule-strong|--c-\*'

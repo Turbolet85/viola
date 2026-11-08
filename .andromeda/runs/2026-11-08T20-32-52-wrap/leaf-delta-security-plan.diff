@@ -1,0 +1,29 @@
+--- a/.andromeda/security-plan.md
++++ b/.andromeda/security-plan.md
+@@ -60,3 +60,3 @@
+   - Access control therefore depends entirely on OS-level isolation: who can connect to each IPC endpoint and who can read or write `~/.viola/`. Cross-cutting Patterns (Local endpoint trust boundary) sets the target principal as "every process of the same OS user and no other".
+-  - Arch has decided no enforcement mechanism for that boundary on any OS. That decision is outstanding and belongs to this specialist.
++  - The enforcement mechanism for that boundary is this specialist's: Authentication & Authorization sets it, enforced on Linux, the one target.
+ - **Provider:** self-implemented. Stack contains no auth framework or identity SDK.
+@@ -219,4 +219,2 @@
+ 
+-The frontend is deferred to 0.2.0; its technology is not chosen.
+-
+ _Applies to the MCP transport feature set. The IPC channel's controls are in Authentication & Authorization and Input Validation._
+@@ -294,3 +292,3 @@
+ **v1.x release prerequisites** (Supply chain integrity, deferred with the release):
+-- dist `>=0.33.0` with GitHub Artifact Attestations and Azure Artifact Signing (x86_64).
++- dist `>=0.33.0` with GitHub Artifact Attestations.
+ - cargo-auditable `>=0.7.6`, plus `cargo audit bin` (cargo-audit `>=0.22.2`) run on the release binaries.
+@@ -383,3 +381,3 @@
+ - The inherited `CLAUDE_CODE_MESSAGING_TOKEN` / `CLAUDE_CODE_MESSAGING_SOCKET`.
+-- From v1.x: Azure Artifact Signing credentials (dist) and the zipsign private key (self_update `signatures`), both held only as CI secrets in the release workflow.
++- From v1.x: the zipsign private key (self_update `signatures`), held only as a CI secret in the release workflow.
+ 
+--- a/.andromeda/security-plan-detail/threat-model-summary.md
++++ b/.andromeda/security-plan-detail/threat-model-summary.md
+@@ -182,3 +182,3 @@
+   - No deploy stage, no release artefacts and no secrets in v1. The real `claude` CLI runs only locally; `viola verify` runs in CI only against the fake agent, and its real-CLI probe and `--record` only locally.
+-  - v1.x adds a dist 0.33.0 release workflow with cargo-auditable 0.7.6, signing, winget/Homebrew/Scoop and `self_update` 1.3.0.
++  - v1.x adds a dist 0.33.0 release workflow with cargo-auditable 0.7.6, signing and `self_update` 1.3.0.
+   - Sources: Infrastructure Patterns (CI/CD approach); Stack (Release).

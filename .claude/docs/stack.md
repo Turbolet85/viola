@@ -50,7 +50,7 @@ The workspace `rust-version` 1.96 floor, the exact `rust-toolchain.toml` pin and
 - None of its own in 0.1.0: the cli cases drive the `viola` binary through `std::process::Command`, the tui cases use the tests' portable-pty pin; the browser a11y tooling left with the browser leg.
 
 ## Frontend (design-system §Surface: web-spa)
-- The frontend is deferred to 0.2.0; its technology is not chosen; hand-written `@layer` CSS; installed fonts only (Bahnschrift / Cascadia Mono stacks with DejaVu as the Linux fallback; 0.1.0 renders no page).
+- viola has no web or graphical frontend; its view beyond `viola list` is the keyboard-driven terminal fleet console tiled on Hyprland (matrix#v2-14), owed by the 0.2.0 Epoch 6 route entries; hand-written `@layer` CSS; installed fonts only (Bahnschrift / Cascadia Mono stacks with DejaVu as the Linux fallback; 0.1.0 renders no page).
 
 ## Rationale
 

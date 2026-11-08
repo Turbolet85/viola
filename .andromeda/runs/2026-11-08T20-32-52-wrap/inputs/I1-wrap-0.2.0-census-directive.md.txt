@@ -1,0 +1,21 @@
+# Directive for the 0-pending /andromeda-wrap-session after route 0.2.0 (from the Viola overseer, 2026-11-08)
+
+State: route 0.2.0 has landed (`viola-0.2.0/working-route.md`, 25 markerless entries, the ledger `v2-01…v2-28`,
+`doc:viola-0.2.0/census` rev 2), nothing is committed, the branch is `build/viola-0.2.0` (made from `df9af357`, no
+upstream yet). No chunk is pending.
+
+1. **Apply the version census** (`doc:viola-0.2.0/census`, route-resolve §Operator-requested adaptation, *A version
+   census*), row by row, on the card's word: the founder's own, typed in this window at 2026-11-08T19:59:58Z,
+   «confirm the card as proposed». The rows a 0-pending wrap applies are the 230 that describe what was never built
+   (186 `retire` · `built: no`, 44 `replace` · `built: no`): the masters' text in full apply-form (body, sidecar,
+   cascade leaves). The `built: yes` rows stay for their removing chunks (Epochs 1–2 of the route); a row already
+   applied is skipped. Every disposition goes to `adaptation-record.md`, citing `C-{nn}`.
+2. **design-system's CLI ban on spinners, progress bars and live-redrawing dashboards stays, scoped to the CLI
+   verbs** (the card's proposal, which the founder confirmed); the fleet console is not a verb's output.
+3. **The commit carries the whole route run and the untracked run dirs** (the Epochs 6–8 diagnoses, the code audit,
+   the route run dir, the journals) after `gate.py hygiene` reads `clean`. **Push the branch** and set its upstream
+   (`git push -u origin build/viola-0.2.0`): the push invariant.
+4. If the census application is too large for one window, stop at a row boundary with `adaptation-record.md`
+   current and say so; a resumed 0-pending wrap skips the applied rows.
+5. Report each step's one-line summary, the commit sha and the push line, and say plainly whenever a tool exits
+   non-zero or prints `UNPARSED`, `INDETERMINATE` or `NOT DERIVED`, or a step has to be done by hand.

@@ -1,0 +1,377 @@
+[
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "c4fd5883",
+"ts": "2026-11-08T20:42:57Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-11",
+"--text-file",
+".andromeda/runs/2026-11-08T20-32-52-wrap/note-v1-11.md",
+"--run-dir",
+".andromeda/runs/2026-11-08T20-32-52-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-11: +495 chars (total 1826) · status deferred · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-11",
+"chunk": null,
+"status": "deferred",
+"method": "e2e",
+"ref": "null",
+"acceptance": "Without polling, an open page learns when a pending dialog clears and when liveness, status or the budget reading change… (210 chars)",
+"notes_chars": 1329
+},
+"after": {
+"id": "v1-11",
+"chunk": null,
+"status": "deferred",
+"method": "e2e",
+"ref": "null",
+"acceptance": "Without polling, an open page learns when a pending dialog clears and when liveness, status or the budget reading change… (210 chars)",
+"notes_chars": 1826
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "c4fd5883",
+"ts": "2026-11-08T20:43:04Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-11",
+"--text-file",
+".andromeda/runs/2026-11-08T20-32-52-wrap/note-v1-11.md",
+"--run-dir",
+".andromeda/runs/2026-11-08T20-32-52-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-11: +495 chars (total 1826) · status deferred · ref/acceptance untouched",
+"landed, rendered ./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson"
+],
+"before": {
+"id": "v1-11",
+"chunk": null,
+"status": "deferred",
+"method": "e2e",
+"ref": "null",
+"acceptance": "Without polling, an open page learns when a pending dialog clears and when liveness, status or the budget reading change… (210 chars)",
+"notes_chars": 1329
+},
+"after": {
+"id": "v1-11",
+"chunk": null,
+"status": "deferred",
+"method": "e2e",
+"ref": "null",
+"acceptance": "Without polling, an open page learns when a pending dialog clears and when liveness, status or the budget reading change… (210 chars)",
+"notes_chars": 1826
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "c4fd5883",
+"ts": "2026-11-08T20:43:04Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-22",
+"--text-file",
+".andromeda/runs/2026-11-08T20-32-52-wrap/note-v1-22.md",
+"--run-dir",
+".andromeda/runs/2026-11-08T20-32-52-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-22: +495 chars (total 1173) · status deferred · ref/acceptance untouched",
+"landed, rendered ./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson"
+],
+"before": {
+"id": "v1-22",
+"chunk": null,
+"status": "deferred",
+"method": "integration",
+"ref": "null",
+"acceptance": "viola ui started on an OS-assigned port reports the bound port through its launch file, and a headless boot never races … (149 chars)",
+"notes_chars": 676
+},
+"after": {
+"id": "v1-22",
+"chunk": null,
+"status": "deferred",
+"method": "integration",
+"ref": "null",
+"acceptance": "viola ui started on an OS-assigned port reports the bound port through its launch file, and a headless boot never races … (149 chars)",
+"notes_chars": 1173
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "c4fd5883",
+"ts": "2026-11-08T20:43:05Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-48",
+"--text-file",
+".andromeda/runs/2026-11-08T20-32-52-wrap/note-v1-48.md",
+"--run-dir",
+".andromeda/runs/2026-11-08T20-32-52-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-48: +495 chars (total 1227) · status deferred · ref/acceptance untouched",
+"landed, rendered ./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson"
+],
+"before": {
+"id": "v1-48",
+"chunk": null,
+"status": "deferred",
+"method": "e2e",
+"ref": "null",
+"acceptance": "viola ui binds loopback only, rejects any Host but its own and serves only GETs (anything else 405); it answers health, … (519 chars)",
+"notes_chars": 730
+},
+"after": {
+"id": "v1-48",
+"chunk": null,
+"status": "deferred",
+"method": "e2e",
+"ref": "null",
+"acceptance": "viola ui binds loopback only, rejects any Host but its own and serves only GETs (anything else 405); it answers health, … (519 chars)",
+"notes_chars": 1227
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "c4fd5883",
+"ts": "2026-11-08T20:43:05Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-49",
+"--text-file",
+".andromeda/runs/2026-11-08T20-32-52-wrap/note-v1-49.md",
+"--run-dir",
+".andromeda/runs/2026-11-08T20-32-52-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-49: +495 chars (total 1222) · status deferred · ref/acceptance untouched",
+"landed, rendered ./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson"
+],
+"before": {
+"id": "v1-49",
+"chunk": null,
+"status": "deferred",
+"method": "e2e",
+"ref": "null",
+"acceptance": "One page shows the budget header with age, gate, tape and skipped state, a wrapped rack and an unwrapped read-only rack … (671 chars)",
+"notes_chars": 725
+},
+"after": {
+"id": "v1-49",
+"chunk": null,
+"status": "deferred",
+"method": "e2e",
+"ref": "null",
+"acceptance": "One page shows the budget header with age, gate, tape and skipped state, a wrapped rack and an unwrapped read-only rack … (671 chars)",
+"notes_chars": 1222
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "c4fd5883",
+"ts": "2026-11-08T20:43:06Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-50",
+"--text-file",
+".andromeda/runs/2026-11-08T20-32-52-wrap/note-v1-50.md",
+"--run-dir",
+".andromeda/runs/2026-11-08T20-32-52-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-50: +495 chars (total 1209) · status deferred · ref/acceptance untouched",
+"landed, rendered ./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson"
+],
+"before": {
+"id": "v1-50",
+"chunk": null,
+"status": "deferred",
+"method": "a11y",
+"ref": "null",
+"acceptance": "Every web page state (steady, narrow, empty, expanded line, scrolled up, trimmed, cocked, refused, unconfirmable, human … (641 chars)",
+"notes_chars": 712
+},
+"after": {
+"id": "v1-50",
+"chunk": null,
+"status": "deferred",
+"method": "a11y",
+"ref": "null",
+"acceptance": "Every web page state (steady, narrow, empty, expanded line, scrolled up, trimmed, cocked, refused, unconfirmable, human … (641 chars)",
+"notes_chars": 1209
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "c4fd5883",
+"ts": "2026-11-08T20:43:06Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-51",
+"--text-file",
+".andromeda/runs/2026-11-08T20-32-52-wrap/note-v1-51.md",
+"--run-dir",
+".andromeda/runs/2026-11-08T20-32-52-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-51: +495 chars (total 1204) · status deferred · ref/acceptance untouched",
+"landed, rendered ./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson"
+],
+"before": {
+"id": "v1-51",
+"chunk": null,
+"status": "deferred",
+"method": "a11y",
+"ref": "null",
+"acceptance": "Every design token pair used for text meets 4.5:1 and every non-text state pair meets 3:1 on the rendered Linux fallback… (344 chars)",
+"notes_chars": 707
+},
+"after": {
+"id": "v1-51",
+"chunk": null,
+"status": "deferred",
+"method": "a11y",
+"ref": "null",
+"acceptance": "Every design token pair used for text meets 4.5:1 and every non-text state pair meets 3:1 on the rendered Linux fallback… (344 chars)",
+"notes_chars": 1204
+}
+},
+{
+"tool": "matrix",
+"v": "1.9",
+"sha8": "c4fd5883",
+"ts": "2026-11-08T20:43:07Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-52",
+"--text-file",
+".andromeda/runs/2026-11-08T20-32-52-wrap/note-v1-52.md",
+"--run-dir",
+".andromeda/runs/2026-11-08T20-32-52-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-52: +495 chars (total 1154) · status deferred · ref/acceptance untouched",
+"landed, rendered ./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson"
+],
+"before": {
+"id": "v1-52",
+"chunk": null,
+"status": "deferred",
+"method": "e2e",
+"ref": "null",
+"acceptance": "After viola ui restarts, a page whose cookie no longer matches shows the access strip in place of the stopped tape, anno… (248 chars)",
+"notes_chars": 657
+},
+"after": {
+"id": "v1-52",
+"chunk": null,
+"status": "deferred",
+"method": "e2e",
+"ref": "null",
+"acceptance": "After viola ui restarts, a page whose cookie no longer matches shows the access strip in place of the stopped tape, anno… (248 chars)",
+"notes_chars": 1154
+}
+}
+]

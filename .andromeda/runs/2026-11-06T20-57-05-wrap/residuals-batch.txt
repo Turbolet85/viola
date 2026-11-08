@@ -1,8 +1,0 @@
-@residual origin=2026-11-06-version-done-check status=open target=0.2.0
-The dialog-hold ceiling `DIALOG_HOLD_MAX` (3600 s) stays PROVISIONAL: 0.1.0's live round could not read a hold near it, an unverified CLI replying `null` to a dialog at once; owner 0.2.0's first entry, on the founder's own conditional of 2026-11-06 19:34Z that a red hold leaves the ceiling PROVISIONAL with 0.2.0's first entry (chunks/2026-11-06-version-done-check/inputs/I7-wrap-done-check-directive.md.txt, item 2).
-
-@residual origin=2026-11-06-version-done-check status=open target=0.2.0
-The live round's two reds, owner 0.2.0: the rig home's `viola verify` read `statusline-rate-limits` red (`stamped 2.1.287  23 pass  1 fail`) on an unchanged CLI, because the account's status-line payload carries `five_hour` `unknown` and only `seven_day`; and the near-ceiling hold went unread. The live-round reader `jq … kind == "reading" and .verdict != "green" | length` reads 2; the cause is the account's payload, not the tree; matrix#v1-27 is deferred to 0.2.0 on the founder's own word of 2026-11-06 20:53Z (chunks/2026-11-06-version-done-check/inputs/I7-wrap-done-check-directive.md.txt, items 1 and 10).
-
-@residual origin=2026-11-06-version-done-check status=open target=0.2.0
-Finding F-06i, for 0.2.0's intent: whether viola's budget gate stays and what it stands on, given the gate and the `budget-paused` refusal rest on the user's own status-line `rate_limits` payload, which reads the account's plan state rather than the CLI; the founder asked, at his 2026-11-06 20:53Z deferral of v1-27, why viola leans on the user's status line at all (chunks/2026-11-06-version-done-check/inputs/I7-wrap-done-check-directive.md.txt, item 1).

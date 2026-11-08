@@ -5,19 +5,19 @@ paths:
 
 # Frontend Rules
 
-Path-scoped rules for viola's one built design surface, human CLI output (cli); the web-spa frontend is deferred to 0.2.0, its technology is not chosen, and 0.1.0 renders no page. Authoritative sources: `.andromeda/design-system.md` and `.andromeda/layout-templates.md`.
+Path-scoped rules for viola's one built design surface, human CLI output (cli); viola renders no page and has no web-spa surface; the keyboard-driven terminal fleet console tiled on Hyprland (matrix#v2-14) takes its own surface section at the route entry «Console scaffold». Authoritative sources: `.andromeda/design-system.md` and `.andromeda/layout-templates.md`.
 
-## Tokens (the Token Test; a 0.2.0 frontend design input, 0.1.0 renders no page)
-- Exactly eight hex values (`--c-*`), read only where a role alias is assigned; components use role aliases (`--surface-*`, `--ink*`, `--rule-*`, `--attention`, `--handoff`, `--focus-ring`, `--rb-*`). Every length is a token or a `ch` track in `--strip-cols` / `--strip-cols-wrapped` / `--tape-cols`; only the `760px` / `1024px` breakpoints are literal.
-- Amber means `dialog_pending` only; blue means handoff only. Lamp-off, amber and blue text never sit on holder `#2A2E33` (they fail AA there).
-- Borders-only depth: no `box-shadow`, `text-shadow`, glow or `drop-shadow`; radius 0 everywhere; dark only.
-- Fonts: installed stacks only (`--font-label` Bahnschrift…, `--font-field` Cascadia Mono…); every contrast and render assertion must hold with the Linux DejaVu families resolved (the resolved family, not only the declared stack); 0.1.0 renders no page, so no CI step renders these stacks.
+## Palette (viola renders no page, so no stylesheet tokens to trace)
+- The palette holds eight values; viola renders no page, so no `--c-*` value, role alias, length token or breakpoint is traced.
+- Amber means `dialog_pending` only; blue means handoff only. On the CLI handoff blue is never used: link output (`overseer -> builder`) is plain at every depth.
+- viola renders no page, so no depth or radius tokens; the cli draws no depth.
+- Fonts: the cli's type is the terminal monospace (the user's configured font); viola renders no page, so no font stack is declared.
 
-## Motion (base expression 0.2; the frontend's level deferred to 0.2.0)
-- At the base expression 0.2 the duration scale's 0.0–0.2 row applies (0–100ms, no entrance), and the cli (0.2 on a TTY, 0.0 otherwise) has no motion at all; the cocked strip's 12px / 160ms translate is a 0.2.0 frontend design input.
+## Motion (base expression 0.2; no web or graphical frontend, so no frontend expression level)
+- At the base expression 0.2 the cli (0.2 on a TTY, 0.0 otherwise) has no motion at all; viola renders no page, so no duration scale applies.
 
 ## Components
-- The web components are 0.2.0 frontend design; 0.1.0 renders no page. The six captions NAME · LIVE · STATUS · WHEEL · DIALOG · CLI, their words and slot order are fixed, and a future page reuses them; the readback vocabulary is `open`, `read back`, `unable`, `unconfirmable`.
+- viola renders no page, so there are no web components. The six captions NAME · LIVE · STATUS · WHEEL · DIALOG · CLI, their words and slot order are fixed, and the terminal fleet console (matrix#v2-14) reuses them; the readback vocabulary is `open`, `read back`, `unable`, `unconfirmable`.
 - Nothing is shown as delivered until read back; `turn-ended` never fills a box.
 
 ## CLI surface (`src/cmd/**`)

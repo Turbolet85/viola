@@ -91,3 +91,5 @@
 2026-11-04-linux-and-macos-parity · complete · Linux and macOS parity — openpty wrapper, the full fake-agent suite and obs gates green on both, one diagnostics schema · → chk:2026-11-04-linux-and-macos-parity
 2026-11-05-linux-only-code-and-ci · complete · Linux-only code and CI — the Windows and macOS code, tests, fixtures and CI jobs removed after the pushed tag multi-os-final; every gate green on Linux but supply-chain's advisories, red on RUSTSEC-2026-0441 alone, owned by Version done-check · → chk:2026-11-05-linux-only-code-and-ci
 2026-11-06-version-done-check · complete · Version done-check — every tree gate green on Linux (the live round's two reds owned by 0.2.0), masters agree, the 17 open caps ruled (12 verified, 5 deferred to 0.2.0), 0.1.0 closed · → chk:2026-11-06-version-done-check
+
+## viola-0.2.0
