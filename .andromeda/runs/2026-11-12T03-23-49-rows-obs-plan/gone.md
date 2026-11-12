@@ -1,0 +1,21 @@
+decision/liveness-logged-on-change · searched: ObsEvent variants for a liveness transition · in crates/viola-core/src/obs.rs (15 variants, none for live/stale/gone); obs_event! · in crates/viola-state/src/heartbeat.rs (none; touch_heartbeat at BEAT_EVERY = 1 s logs nothing); heartbeat|Heartbeat · in src/run/ (no match) · fct-zdbw2hss@1
+contract/detail-line/corr · searched: "corr" · in src/**/*.rs (only test assertions that a detail line has none, src/obs.rs:731; no detail_line caller inserts it); detail_line( · in src/**/*.rs (callers src/obs.rs:277, src/main.rs:222, src/cmd/hook.rs:548 pass only chain / panic / drift fields) · fct-o26lv7c7@1
+contract/detail-line/conn · searched: "conn" · in src/**/*.rs (no detail-line writer inserts it); detail_line( · in src/**/*.rs (callers src/obs.rs:277, src/main.rs:222, src/cmd/hook.rs:548 pass only chain / panic / drift fields) · fct-o26lv7c7@1
+decision/exit-code-panic-evidence · searched: exit code panic evidence check (exit.?code.*panic|panic.*exit.?code) · in scripts/**, crates/viola-e2e/src/**, .github/**, src/**, tests/**; process-start · in scripts/**, crates/viola-e2e/src/**, .github/** (only the boot readiness probe, no panic-by-exit-code gate); 101 · in scripts/**, crates/viola-e2e/src/**, .github/** (no gate judges a panic by exit status) · fct-73zqjpsk@1
+contract/parse-rejected-detail/control-character · searched: paste-text · in **/*.rs; parser = "paste-text" · in src/ and crates/; ObsEvent::ParseRejected · in **/*.rs (emitters are config-json, mcp-stdin, claude-agents-json, ledger-stamps, vt100-feed, state-entry, hook-stdin, channel-frame; none paste-text) · fct-vehppv2d@1
+contract/derived-metrics/viola-hook-duration-ms · searched: viola.hook.duration_ms · in src, crates, scripts, schemas, tests; viola\.(hook|channel|send|wait|state|parse|compat|child|panic) · in whole tree except pipeline records · fct-dhdxvyfp@1
+contract/derived-metrics/viola-channel-duration-ms · searched: viola.channel.duration_ms · in src, crates, scripts, schemas, tests · fct-osbt2dub@1
+contract/derived-metrics/viola-send-confirm-ms · searched: viola.send.confirm_ms · in src, crates, scripts, schemas, tests; confirm_ms · in src, crates, scripts, schemas, tests · fct-zjs7gija@1
+contract/derived-metrics/viola-send-outcome · searched: viola.send.outcome · in src, crates, scripts, schemas, tests · fct-5mdkcty6@1
+contract/derived-metrics/viola-wait-outcome · searched: viola.wait.outcome · in src, crates, scripts, schemas, tests · fct-czhvmddm@1,fct-l3f7hrdu@2
+contract/derived-metrics/viola-state-recovered · searched: viola.state.recovered · in src, crates, scripts, schemas, tests · fct-bzg5tciy@1
+contract/derived-metrics/viola-parse-skipped · searched: viola.parse.skipped · in src, crates, scripts, schemas, tests · fct-ui2du4ba@1
+contract/derived-metrics/viola-parse-rejected · searched: viola.parse.rejected · in src, crates, scripts, schemas, tests · fct-pabhuwqy@1
+contract/derived-metrics/viola-compat-unknown · searched: viola.compat.unknown · in src, crates, scripts, schemas, tests · fct-iynwva54@1
+contract/derived-metrics/viola-child-exit · searched: viola.child.exit · in src, crates, scripts, schemas, tests · fct-zkvtfud4@1
+contract/derived-metrics/viola-panic · searched: viola.panic · in src, crates, scripts, schemas, tests · fct-wl54ld47@1
+contract/span-kinds/client · searched: otel.kind · in **/*.rs; SpanKind · in **/*.rs; "CLIENT" · in **/*.rs; opentelemetry (only deny.toml bans exporter crates; no span kind is assigned) · in tracked non-pipeline files · fct-swp2fwp2@1
+contract/span-kinds/server · searched: otel.kind · in **/*.rs; SpanKind · in **/*.rs; "SERVER" · in **/*.rs · fct-walqnfde@1
+contract/span-kinds/internal · searched: otel.kind · in **/*.rs; SpanKind · in **/*.rs; "INTERNAL" · in **/*.rs; hook.decision_emit · in **/*.rs · fct-4t76aguz@1
+decision/derived-metric-naming · searched: viola\.hook\.duration_ms · in {src,crates,tests,scripts,schemas,.github,.config}/**; viola\.[a-z]+\.[a-z_]+_ms · in {src,crates,tests,scripts,schemas,.github,.config}/** · fct-oyi7zo4i@1,fct-27ooklk4@1
+contract/derived-metrics/viola-compat-v-rejected · searched: viola.compat.v_rejected · in src, crates, scripts, schemas, tests; v_rejected · in src, crates, scripts, schemas, tests, Cargo.toml · fct-sam7sdeg@1,fct-edmo55x3@1,fct-iynwva54@1

@@ -1,0 +1,1 @@
+contract/mcp-tool-results/success · no row · crates/viola-mcp/src/result.rs:16 · shows: A success is the channel `ok` payload alone as `structuredContent` (line 66 passes `payload.clone()` of `result.get("ok")`), not the CLI `{"ok":…}` document less `v`. · fct-lrricjwq@1

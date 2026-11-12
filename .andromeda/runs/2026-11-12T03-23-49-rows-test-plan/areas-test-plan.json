@@ -1,0 +1,122 @@
+{
+ "doc": "test-plan",
+ "pin": 766,
+ "areas": [
+  {
+   "slug": "test-plan-viola",
+   "section": null
+  },
+  {
+   "slug": "1-test-scope-summary",
+   "section": "1. Test Scope Summary"
+  },
+  {
+   "slug": "test-scope-summary",
+   "section": "1. Test Scope Summary"
+  },
+  {
+   "slug": "2-test-strategy",
+   "section": "2. Test Strategy"
+  },
+  {
+   "slug": "test-strategy",
+   "section": "2. Test Strategy"
+  },
+  {
+   "slug": "3-test-harness-contract",
+   "section": "3. Test Harness Contract"
+  },
+  {
+   "slug": "4-unit-test-strategy",
+   "section": "4. Unit Test Strategy"
+  },
+  {
+   "slug": "unit-test-strategy",
+   "section": "4. Unit Test Strategy"
+  },
+  {
+   "slug": "5-integration-test-strategy",
+   "section": "5. Integration Test Strategy"
+  },
+  {
+   "slug": "integration-test-strategy",
+   "section": "5. Integration Test Strategy"
+  },
+  {
+   "slug": "6-e2e-test-strategy",
+   "section": "6. E2E Test Strategy",
+   "mark": {
+    "form": "N/A",
+    "record": "fct-t57awnjr@2"
+   }
+  },
+  {
+   "slug": "e2e-test-strategy",
+   "section": "6. E2E Test Strategy"
+  },
+  {
+   "slug": "7-test-data-fixtures",
+   "section": "7. Test Data & Fixtures"
+  },
+  {
+   "slug": "test-data-fixtures",
+   "section": "7. Test Data & Fixtures"
+  },
+  {
+   "slug": "8-mocking-stubbing-discipline",
+   "section": "8. Mocking & Stubbing Discipline"
+  },
+  {
+   "slug": "mocking-stubbing-discipline",
+   "section": "8. Mocking & Stubbing Discipline"
+  },
+  {
+   "slug": "9-ci-integration",
+   "section": "9. CI Integration"
+  },
+  {
+   "slug": "ci-integration",
+   "section": "9. CI Integration"
+  },
+  {
+   "slug": "10-quality-gates-coverage-targets",
+   "section": "10. Quality Gates & Coverage Targets"
+  },
+  {
+   "slug": "quality-gates-coverage-targets",
+   "section": "10. Quality Gates & Coverage Targets"
+  },
+  {
+   "slug": "11-test-anti-patterns-never-do-these",
+   "section": "11. Test Anti-Patterns (NEVER do these)"
+  },
+  {
+   "slug": "12-test-decisions-log",
+   "section": "12. Test Decisions Log"
+  },
+  {
+   "slug": "5-command-implementation",
+   "section": null
+  },
+  {
+   "slug": "bootstrap-phases-derive-for-route-setup-project",
+   "section": null
+  },
+  {
+   "slug": "log-format",
+   "section": null
+  },
+  {
+   "slug": "pid-file",
+   "section": null
+  },
+  {
+   "slug": "status-endpoint-shape",
+   "section": null
+  },
+  {
+   "slug": "test-data-bootstrap",
+   "section": null
+  }
+ ]
+}

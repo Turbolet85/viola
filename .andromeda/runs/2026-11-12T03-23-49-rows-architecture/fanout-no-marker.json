@@ -1,0 +1,1729 @@
+[
+{
+"tool": "fanout",
+"v": "37",
+"sha8": "4d270ccc",
+"ts": "2026-11-12T04:11:20Z",
+"argv": [
+"render",
+"--batch",
+"rows",
+"--side",
+"wrap",
+"--skill-dir",
+"~/.claude/skills/andromeda-wrap-session",
+"--run-dir",
+".andromeda/runs/2026-11-12T03-23-49-rows-architecture",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"VERDICT: rendered 12 (rows 12) · batch rows · script ./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows.workflow.js"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows-architecture.p1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows-architecture.p2.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows-architecture.p3.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows-architecture.p4.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows-architecture.p5.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows-architecture.p6.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows-architecture.p7.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows-architecture.p8.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows-architecture.p9.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows-architecture.p10.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows-architecture.p11.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows-architecture.p12.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows/p1.jsonl",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows/packs.json",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows/p2.jsonl",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows/p3.jsonl",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows/p4.jsonl",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows/p5.jsonl",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows/p6.jsonl",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows/p7.jsonl",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows/p8.jsonl",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows/p9.jsonl",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows/p10.jsonl",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows/p11.jsonl",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows/p12.jsonl",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows.workflow.js",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows.manifest.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "fanout",
+"v": "37",
+"sha8": "4d270ccc",
+"ts": "2026-11-12T04:16:23Z",
+"argv": [
+"check",
+"--manifest",
+".andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows.manifest.json",
+"--before",
+"tree 495bbaaa1633b1dc59cd23269660f377b462359e index c07fbbedbf1c6aad63f259aee69b94f92da693bc head 8834195b06836e9184351d2faa312691b6ecf606",
+"--after",
+"tree 6d900d0d9ae1070024e18e40a569b2957a9b425a index c07fbbedbf1c6aad63f259aee69b94f92da693bc head 8834195b06836e9184351d2faa312691b6ecf606",
+"--run-dir",
+".andromeda/runs/2026-11-12T03-23-49-rows-architecture",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"batch rows · 12 agents · 12 with every named path · trails: none",
+"[PATH_CHECK] PASS · index and head unchanged",
+"rows: 12 agents · 12 pass · rows refused 11",
+"VERDICT: 12 of 12 pass · failed: none"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"sub": "check",
+"batch": "rows",
+"agents": {
+"rows-architecture.p1": {
+"failed": {},
+"yes": null,
+"sha": "bff5b304cacbc75a22602181111466ee8b2d8ad6564e49ba47aa84a17f008f8d",
+"marked": {}
+},
+"rows-architecture.p2": {
+"failed": {},
+"yes": null,
+"sha": "190d9091304717a8281787f78883e997ee6ce14ba3126c169cd29983d5c1912c",
+"marked": {}
+},
+"rows-architecture.p3": {
+"failed": {},
+"yes": null,
+"sha": "d68fd1d1342baa902b1d0639bfb11a661f8f76d7cdd0c1985083b182f286a000",
+"marked": {
+"TRACE": [
+"[TRACE] contract/mcp-refusal-result/shape · trace — its records hold no e.g",
+"[TRACE] name/other/mcp-plugin-viola-viola-send · trace — its record holds no mcp__plugin_viola_viola__send",
+"[TRACE] name/other/mcp-plugin-viola-viola-wait · trace — its record holds no mcp__plugin_viola_viola__wait",
+"[TRACE] name/other/mcp-plugin-viola-viola-last · trace — its record holds no mcp__plugin_viola_viola__last",
+"[TRACE] name/other/mcp-plugin-viola-viola-answer · trace — its record holds no mcp__plugin_viola_viola__answer",
+"[TRACE] name/other/mcp-plugin-viola-viola-list · trace — its record holds no mcp__plugin_viola_viola__list"
+]
+}
+},
+"rows-architecture.p4": {
+"failed": {},
+"yes": null,
+"sha": "7c8dd1cb8cb8dfa8c545cc745b9b0276c4ca4aae9002300a835835e464b0d013",
+"marked": {}
+},
+"rows-architecture.p5": {
+"failed": {},
+"yes": null,
+"sha": "1da5f40a45d2826ba18cff6791d27fc60730461ed5ff49adbcd0990693da2579",
+"marked": {}
+},
+"rows-architecture.p6": {
+"failed": {},
+"yes": null,
+"sha": "517b31c9b114da4cbe952ad41020103c892149dc4fb73887c5342e4ce51d8754",
+"marked": {}
+},
+"rows-architecture.p7": {
+"failed": {},
+"yes": null,
+"sha": "d2f6651d4e9cecbb1f12760a70624b058f98adcf749308e70e1e887e69ab92aa",
+"marked": {}
+},
+"rows-architecture.p8": {
+"failed": {},
+"yes": null,
+"sha": "c8a14801dca5e1b5f6b1741ff3d482a32af1fd16f7a657dd02608f481f46973a",
+"marked": {
+"TRACE": [
+"[TRACE] decision/verify-child-set · trace — its record holds no 80x24",
+"[TRACE] decision/permission-request-question-stays-null · trace — its record holds no PermissionRequest-raised"
+]
+}
+},
+"rows-architecture.p9": {
+"failed": {},
+"yes": null,
+"sha": "f1ad172e39fca41984d3fa568ae8bd066af52321a5a2ca56350ff4beaad0b2d3",
+"marked": {
+"TRACE": [
+"[TRACE] decision/fake-agent-pump-delay-seam · trace — its record holds no 5000"
+]
+}
+},
+"rows-architecture.p10": {
+"failed": {},
+"yes": null,
+"sha": "5284cd095f05b284bf8fa61f7801c44ee9a6ca568a16b738815a8de0bcfe189c",
+"marked": {
+"TRACE": [
+"[TRACE] decision/e2e-homes-kept-after-each-job · trace — its record holds no E2E",
+"[TRACE] decision/malformed-stamps-unverified · trace — its record holds no non-v1"
+]
+}
+},
+"rows-architecture.p11": {
+"failed": {},
+"yes": null,
+"sha": "6b98e23ff6d14a4c917dafe367c19a72034912103cf05b1cc1f30c061169d63f",
+"marked": {}
+},
+"rows-architecture.p12": {
+"failed": {},
+"yes": null,
+"sha": "e78550ca2894c973bbae11ae80f8a05499febe09031839fc561767084f8e8ac9",
+"marked": {}
+}
+},
+"stray": [],
+"closing_tags": [],
+"trails": [],
+"harness": [],
+"notes": []
+}
+},
+{
+"tool": "fanout",
+"v": "37",
+"sha8": "4d270ccc",
+"ts": "2026-11-12T04:16:33Z",
+"argv": [
+"render",
+"--batch",
+"rowsfix",
+"--side",
+"wrap",
+"--skill-dir",
+"~/.claude/skills/andromeda-wrap-session",
+"--run-dir",
+".andromeda/runs/2026-11-12T03-23-49-rows-architecture",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"VERDICT: rendered 19 (rowsfix 19) · batch rowsfix · script ./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rowsfix.workflow.js"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows-architecture.f1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows-architecture.f2.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows-architecture.f3.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows-architecture.f4.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows-architecture.f5.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows-architecture.f6.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows-architecture.f7.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows-architecture.f8.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows-architecture.f9.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows-architecture.f10.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows-architecture.f11.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows-architecture.f12.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows-architecture.f13.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows-architecture.f14.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows-architecture.f15.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows-architecture.f16.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows-architecture.f17.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows-architecture.f18.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows-architecture.f19.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rowsfix.workflow.js",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rowsfix.manifest.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "fanout",
+"v": "37",
+"sha8": "4d270ccc",
+"ts": "2026-11-12T04:17:32Z",
+"argv": [
+"check",
+"--manifest",
+".andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rowsfix.manifest.json",
+"--before",
+"tree 37173a99777eebf75dc0aeaa1b1b10b5197b409f index c07fbbedbf1c6aad63f259aee69b94f92da693bc head 8834195b06836e9184351d2faa312691b6ecf606",
+"--after",
+"tree de9e1510f9fa0bb4752e77f11469fa513bc9b96e index c07fbbedbf1c6aad63f259aee69b94f92da693bc head 8834195b06836e9184351d2faa312691b6ecf606",
+"--run-dir",
+".andromeda/runs/2026-11-12T03-23-49-rows-architecture",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"batch rowsfix · 19 agents · 19 with every named path · trails: none",
+"[PATH_CHECK] PASS · index and head unchanged",
+"rowsfix: 19 agents · 18 pass · failed EVERY_RECORD 1 · rows refused 0",
+"rows-architecture.f2 · [EVERY_RECORD] n=6 is answered by no record",
+"VERDICT: 18 of 19 pass · failed: rows-architecture.f2 [EVERY_RECORD]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"sub": "check",
+"batch": "rowsfix",
+"agents": {
+"rows-architecture.f1": {
+"failed": {},
+"yes": null,
+"sha": "64732de7eafbdff93e933ba9573ea239590ea85ecae20546b0bbd2c46f63c63b",
+"marked": {}
+},
+"rows-architecture.f2": {
+"failed": {
+"EVERY_RECORD": [
+"[EVERY_RECORD] n=6 is answered by no record"
+]
+},
+"yes": null
+},
+"rows-architecture.f3": {
+"failed": {},
+"yes": null,
+"sha": "8cb1058cd52f304139d17836f3502b56e5afe118f803fecb3168bd10d875baa2",
+"marked": {}
+},
+"rows-architecture.f4": {
+"failed": {},
+"yes": null,
+"sha": "b05a4c4708dd50065c684d303b25d41366dc04f0d598ff6472b0e92dcf34296d",
+"marked": {}
+},
+"rows-architecture.f5": {
+"failed": {},
+"yes": null,
+"sha": "4a6e754950148f4ebc45395ab44aa4b0ac8e934a4d62f5164f20d3cc5276c3f3",
+"marked": {}
+},
+"rows-architecture.f6": {
+"failed": {},
+"yes": null,
+"sha": "ee3683a6daf1e24ca6a88ade59c6b721b9f61a2ea4d017f7e6c8fec80ce42433",
+"marked": {}
+},
+"rows-architecture.f7": {
+"failed": {},
+"yes": null,
+"sha": "a4366df74cefd25b68e3cadf2eb570289425366f138d1529709271c783288adc",
+"marked": {}
+},
+"rows-architecture.f8": {
+"failed": {},
+"yes": null,
+"sha": "5a60917d38cb8033034f2920affd9eae12d4bccff462f8e0668e3808aaa3a894",
+"marked": {}
+},
+"rows-architecture.f9": {
+"failed": {},
+"yes": null,
+"sha": "1b7d9811271551f765a13a4bddcb6c134d80f01d46429484ff92bf9c51858eed",
+"marked": {}
+},
+"rows-architecture.f10": {
+"failed": {},
+"yes": null,
+"sha": "18afb2e891c021e6f966f7d5c144a0ac006849bf7234eb0a0416aeb1c1811b77",
+"marked": {}
+},
+"rows-architecture.f11": {
+"failed": {},
+"yes": null,
+"sha": "7667d10807071aa2b6522aa7b4b4e9c80f794fe9bfa18a025d15288ea9627b55",
+"marked": {}
+},
+"rows-architecture.f12": {
+"failed": {},
+"yes": null,
+"sha": "52329d47ccf1363ffe78581b15b6b4ee94fd42cd012ae08d0e981731d522ba8b",
+"marked": {}
+},
+"rows-architecture.f13": {
+"failed": {},
+"yes": null,
+"sha": "9e3a66b155941091059df7be7640ba92436497cdeea53ce8779f2a8aeaa45c3b",
+"marked": {}
+},
+"rows-architecture.f14": {
+"failed": {},
+"yes": null,
+"sha": "f8cca7a3e6516c9cb6fb34e9167c6d5e3056f99cb7c91e0ac16bb9dc68f0cf88",
+"marked": {}
+},
+"rows-architecture.f15": {
+"failed": {},
+"yes": null,
+"sha": "7fac401a620e064629b834adf77862eae6b9d42c386217a5fe73de9c6dd06b0e",
+"marked": {}
+},
+"rows-architecture.f16": {
+"failed": {},
+"yes": null,
+"sha": "1edbacd27ab6b6ed60ef02084e4a688441199dc1be430479ee84c17a51ceaac4",
+"marked": {}
+},
+"rows-architecture.f17": {
+"failed": {},
+"yes": null,
+"sha": "9670f8a43d7fced8b709660483d6b0865d5d8abbc91a7dcc92cba648964a3da9",
+"marked": {}
+},
+"rows-architecture.f18": {
+"failed": {},
+"yes": null,
+"sha": "0e79db99711a04cbd6a5215ba093d3f94f0cef6d612ab46eb4c378095071f47f",
+"marked": {}
+},
+"rows-architecture.f19": {
+"failed": {},
+"yes": null,
+"sha": "8792657a132b678a1297825ef348156273320e6c1138b7515bd2c8a496546da1",
+"marked": {}
+}
+},
+"stray": [],
+"closing_tags": [],
+"trails": [],
+"harness": [],
+"notes": []
+}
+},
+{
+"tool": "fanout",
+"v": "37",
+"sha8": "4d270ccc",
+"ts": "2026-11-12T04:17:39Z",
+"argv": [
+"render",
+"--batch",
+"rowsfix",
+"--side",
+"wrap",
+"--skill-dir",
+"~/.claude/skills/andromeda-wrap-session",
+"--run-dir",
+".andromeda/runs/2026-11-12T03-23-49-rows-architecture",
+"--marker",
+"no-marker",
+"--respawn",
+"rows-architecture.f2",
+"--failed",
+"EVERY_RECORD"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/rows-architecture.f2.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/.raw-rows-architecture.f2.md",
+"VERDICT: rendered 1 (rowsfix 1) · batch rowsfix-r1 · script ./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rowsfix-r1.workflow.js"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rows-architecture.f2.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rowsfix-r1.workflow.js",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rowsfix-r1.manifest.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "fanout",
+"v": "37",
+"sha8": "4d270ccc",
+"ts": "2026-11-12T04:18:28Z",
+"argv": [
+"check",
+"--manifest",
+".andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/rowsfix-r1.manifest.json",
+"--before",
+"tree c4ec322c68bcf1f988f6ce4abc51dbdd45df6a62 index c07fbbedbf1c6aad63f259aee69b94f92da693bc head 8834195b06836e9184351d2faa312691b6ecf606",
+"--after",
+"tree 358885af07d7159134dc1310a7d0ada6a0322b8f index c07fbbedbf1c6aad63f259aee69b94f92da693bc head 8834195b06836e9184351d2faa312691b6ecf606",
+"--run-dir",
+".andromeda/runs/2026-11-12T03-23-49-rows-architecture",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"batch rowsfix-r1 · 1 agents · 1 with every named path · trails: none",
+"[PATH_CHECK] PASS · index and head unchanged",
+"rowsfix: 1 agents · 1 pass · rows refused 0",
+"VERDICT: 1 of 1 pass · failed: none"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"sub": "check",
+"batch": "rowsfix-r1",
+"agents": {
+"rows-architecture.f2": {
+"failed": {},
+"yes": null,
+"sha": "db3f04f2dd7ffba6cee4811f03784df0e2d915692e0340fddda3a06e9b284ece",
+"marked": {}
+}
+},
+"stray": [],
+"closing_tags": [],
+"trails": [],
+"harness": [],
+"notes": []
+}
+},
+{
+"tool": "fanout",
+"v": "37",
+"sha8": "4d270ccc",
+"ts": "2026-11-12T04:18:44Z",
+"argv": [
+"render",
+"--batch",
+"verify",
+"--side",
+"wrap",
+"--skill-dir",
+"~/.claude/skills/andromeda-wrap-session",
+"--run-dir",
+".andromeda/runs/2026-11-12T03-23-49-rows-architecture",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"VERDICT: rendered 74 (verify 74) · batch verify · script ./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify.workflow.js"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v2.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v3.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v4.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v5.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v6.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v7.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v8.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v9.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v10.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v11.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v12.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v13.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v14.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v15.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v16.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v17.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v18.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v19.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v20.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v21.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v22.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v23.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v24.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v25.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v26.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v27.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v28.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v29.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v30.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v31.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v32.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v33.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v34.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v35.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v36.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v37.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v38.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v39.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v40.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v41.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v42.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v43.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v44.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v45.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v46.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v47.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v48.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v49.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v50.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v51.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v52.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v53.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v54.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v55.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v56.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v57.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v58.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v59.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v60.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v61.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v62.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v63.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v64.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v65.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v66.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v67.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v68.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v69.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v70.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v71.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v72.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v73.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v74.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify.workflow.js",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify.manifest.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "fanout",
+"v": "37",
+"sha8": "4d270ccc",
+"ts": "2026-11-12T04:24:56Z",
+"argv": [
+"check",
+"--manifest",
+".andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify.manifest.json",
+"--before",
+"tree f41f39852a93c6188ca25a0c5b9e4d15d76441d3 index c07fbbedbf1c6aad63f259aee69b94f92da693bc head 8834195b06836e9184351d2faa312691b6ecf606",
+"--after",
+"tree f41f39852a93c6188ca25a0c5b9e4d15d76441d3 index c07fbbedbf1c6aad63f259aee69b94f92da693bc head 8834195b06836e9184351d2faa312691b6ecf606",
+"--run-dir",
+".andromeda/runs/2026-11-12T03-23-49-rows-architecture",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"batch verify · 74 agents · 74 with every named path · trails: none",
+"[PATH_CHECK] PASS · index and head unchanged",
+"verify: 74 agents · 33 pass · failed CHECK_FORM 6, EVIDENCE_PLACE 1, QUOTE_AT_LINE 35, VALUE_IN_QUOTE 5 · rows refused 83",
+"verify-architecture.v1 · [QUOTE_AT_LINE] decision/human-always-wins-wheel · the `quote:` under `at: src/run/wheel.rs:111-114` is not that line as it stands",
+"verify-architecture.v2 · [QUOTE_AT_LINE] decision/no-database · `at: Cargo.toml:192-243` names 52 lines — 10 at the most, in their order",
+"verify-architecture.v5 · [QUOTE_AT_LINE] decision/hand-rolled-json-rpc-over-ndjson · the `quote:` under `at: crates/viola-channel/src/client.rs:109-115` is not that line as it stands",
+"verify-architecture.v6 · [QUOTE_AT_LINE] decision/mcp-stdin-line-cap · the `quote:` under `at: crates/viola-mcp/src/stdin.rs:60-65` is not that line as it stands",
+"verify-architecture.v7 · [VALUE_IN_QUOTE] decision/tolerant-external-payloads · `value:` of rule adds serde_json::Value, which no line it quotes holds",
+"verify-architecture.v8 · [QUOTE_AT_LINE] decision/screen-signatures-compiled · the `quote:` under `at: crates/viola-agent-claude/src/screen.rs:153-159` is not that line as it stands",
+"verify-architecture.v10 · [QUOTE_AT_LINE] decision/mcp-stdin-bound-in-own-reader · the `quote:` under `at: crates/viola-mcp/src/stdin.rs:93-95` is not that line as it stands",
+"verify-architecture.v11 · [QUOTE_AT_LINE] decision/byte-source-wheel-claim · the `quote:` under `at: src/run/send.rs:96-101` is not that line as it stands",
+"verify-architecture.v12 · [QUOTE_AT_LINE] decision/budget-gate-fail-open · the `quote:` under `at: src/run/budget.rs:155` is not that line as it stands",
+"verify-architecture.v13 · [QUOTE_AT_LINE] decision/frame-client-verifies-server · the `quote:` under `at: src/cmd/client.rs:173-180` is not that line as it stands",
+"verify-architecture.v17 · [CHECK_FORM] decision/anyhow-only-in-root-bin · `holds` owes `at:` and `quote:` — `searched:` alone shows a thing absent, and this row states none absent",
+"verify-architecture.v22 · [CHECK_FORM] contract/hook-to-kind-map/hook-statusline · `holds` owes `at:` and `quote:` — `searched:` alone shows a thing absent, and this row states none absent",
+"verify-architecture.v23 · [QUOTE_AT_LINE] contract/cli-verbs/link · the `quote:` under `at: src/cmd/link.rs:23-27` is not that line as it stands",
+"verify-architecture.v24 · [QUOTE_AT_LINE] decision/option-text-never-in-human-line · the `quote:` under `at: crates/viola-agent-claude/src/dialog.rs:160` is not that line as it stands",
+"… +80 rows in .andromeda/runs/2026-11-12T03-23-49-rows-architecture/fanout-no-marker.json",
+"VERDICT: 33 of 74 pass · failed: verify-architecture.v1 [QUOTE_AT_LINE]; verify-architecture.v2 [QUOTE_AT_LINE]; verify-architecture.v5 [QUOTE_AT_LINE]; verify-architecture.v6 [QUOTE_AT_LINE]; verify-architecture.v7 [VALUE_IN_QUOTE]; verify-architecture.v8 [QUOTE_AT_LINE]; verify-architecture.v10 [QUOTE_AT_LINE]; verify-architecture.v11 [QUOTE_AT_LINE]; verify-architecture.v12 [QUOTE_AT_LINE]; verify-architecture.v13 [QUOTE_AT_LINE]; verify-architecture.v17 [CHECK_FORM]; verify-architecture.v22 [CHECK_FORM]; verify-architecture.v23 [QUOTE_AT_LINE]; verify-architecture.v24 [QUOTE_AT_LINE]; verify-architecture.v26 [QUOTE_AT_LINE]; verify-architecture.v27 [QUOTE_AT_LINE]; verify-architecture.v29 [QUOTE_AT_LINE]; verify-architecture.v30 [QUOTE_AT_LINE]; verify-architecture.v31 [QUOTE_AT_LINE]; verify-architecture.v33 [QUOTE_AT_LINE]; verify-architecture.v38 [QUOTE_AT_LINE]; verify-architecture.v40 [QUOTE_AT_LINE]; verify-architecture.v41 [QUOTE_AT_LINE]; verify-architecture.v42 [QUOTE_AT_LINE, VALUE_IN_QUOTE]; verify-architecture.v45 [QUOTE_AT_LINE]; verify-architecture.v48 [CHECK_FORM, QUOTE_AT_LINE]; verify-architecture.v49 [QUOTE_AT_LINE, VALUE_IN_QUOTE]; verify-architecture.v51 [QUOTE_AT_LINE]; verify-architecture.v52 [CHECK_FORM, VALUE_IN_QUOTE]; verify-architecture.v55 [QUOTE_AT_LINE]; verify-architecture.v56 [CHECK_FORM]; verify-architecture.v60 [QUOTE_AT_LINE]; verify-architecture.v61 [QUOTE_AT_LINE, VALUE_IN_QUOTE]; verify-architecture.v62 [QUOTE_AT_LINE]; verify-architecture.v64 [EVIDENCE_PLACE, QUOTE_AT_LINE]; verify-architecture.v65 [QUOTE_AT_LINE]; verify-architecture.v66 [QUOTE_AT_LINE]; verify-architecture.v69 [QUOTE_AT_LINE]; verify-architecture.v70 [CHECK_FORM]; verify-architecture.v71 [QUOTE_AT_LINE]; verify-architecture.v73 [QUOTE_AT_LINE]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"sub": "check",
+"batch": "verify",
+"agents": {
+"verify-architecture.v1": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] decision/human-always-wins-wheel · the `quote:` under `at: src/run/wheel.rs:111-114` is not that line as it stands"
+]
+},
+"yes": null,
+"sha": "47083c28c18ead3095299e62be98f6c81f18b3259a78d832b89e88cb03cd5adf",
+"judge": "sonnet"
+},
+"verify-architecture.v2": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] decision/no-database · `at: Cargo.toml:192-243` names 52 lines — 10 at the most, in their order"
+]
+},
+"yes": null,
+"sha": "a87affb475377ee068b5af590c52e8ed729ba91dd82f0679e596e6302c7357c9",
+"judge": "sonnet"
+},
+"verify-architecture.v3": {
+"failed": {},
+"yes": null,
+"sha": "66c87b5c667aa0d1187e749154c66f3d4c886f36f5e910b74a59fc852bed79dd",
+"judge": "sonnet"
+},
+"verify-architecture.v4": {
+"failed": {},
+"yes": null,
+"sha": "d4b34d6e2c7330c566857910cbeb720eee537486c826b08ff77af80dac9952ab",
+"judge": "sonnet"
+},
+"verify-architecture.v5": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] decision/hand-rolled-json-rpc-over-ndjson · the `quote:` under `at: crates/viola-channel/src/client.rs:109-115` is not that line as it stands",
+"[QUOTE_AT_LINE] decision/list-is-caller-side-read · the `quote:` under `at: src/cmd/run.rs:140-149` is not that line as it stands"
+]
+},
+"yes": null,
+"sha": "61d640f6d4a213338a6eb5eed6b7d26615132bb32ce5f9f095ae267318b27552",
+"judge": "sonnet"
+},
+"verify-architecture.v6": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] decision/mcp-stdin-line-cap · the `quote:` under `at: crates/viola-mcp/src/stdin.rs:60-65` is not that line as it stands",
+"[QUOTE_AT_LINE] decision/links-are-log-events · the `quote:` under `at: crates/viola-state/src/replay.rs:89-97` is not that line as it stands"
+]
+},
+"yes": null,
+"sha": "80e6331524cc7b333faddb40f55117e2901cdf4af751e5195b916eb4e9e5db9b",
+"judge": "sonnet"
+},
+"verify-architecture.v7": {
+"failed": {
+"VALUE_IN_QUOTE": [
+"[VALUE_IN_QUOTE] decision/tolerant-external-payloads · `value:` of rule adds serde_json::Value, which no line it quotes holds"
+]
+},
+"yes": null,
+"sha": "245585e7da6c941dc485e28252752bfc46dbdf74a6b3e8e697f8c6089687f6c6",
+"judge": "sonnet"
+},
+"verify-architecture.v8": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] decision/screen-signatures-compiled · the `quote:` under `at: crates/viola-agent-claude/src/screen.rs:153-159` is not that line as it stands",
+"[QUOTE_AT_LINE] decision/partial-gate-on-unverified-cli · `at: crates/viola-agent-claude/src/screen.rs:139-150` names 12 lines — 10 at the most, in their order"
+]
+},
+"yes": null,
+"sha": "86220c5e440bde46355a8c3499bed1f9b9ef8d7b31ac7ebb035d6fec3e107614",
+"judge": "sonnet"
+},
+"verify-architecture.v9": {
+"failed": {},
+"yes": null,
+"sha": "83c56a3b0a9ede758632c7c983633051d1f73e2c5214cbecfafebf4ea50bea08",
+"judge": "sonnet"
+},
+"verify-architecture.v10": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] decision/mcp-stdin-bound-in-own-reader · the `quote:` under `at: crates/viola-mcp/src/stdin.rs:93-95` is not that line as it stands"
+]
+},
+"yes": null,
+"sha": "5f2c18cee120c1277d2a67f000b16c2d8d62ddf66ea4c819cac72f8e98d6dcd4",
+"judge": "sonnet"
+},
+"verify-architecture.v11": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] decision/byte-source-wheel-claim · the `quote:` under `at: src/run/send.rs:96-101` is not that line as it stands",
+"[QUOTE_AT_LINE] decision/atomic-bracketed-send · the `quote:` under `at: crates/viola-pty/src/pump.rs:79-88` is not that line as it stands",
+"[QUOTE_AT_LINE] decision/budget-pause-gates-only-send · the `quote:` under `at: src/run/send.rs:103-108` is not that line as it stands"
+]
+},
+"yes": null,
+"sha": "062586b0c644506906afaec5e0d6e0b82fdf137cc3a4d1c8fc7d06c3a2926e7d",
+"judge": "sonnet"
+},
+"verify-architecture.v12": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] decision/budget-gate-fail-open · the `quote:` under `at: src/run/budget.rs:155` is not that line as it stands",
+"[QUOTE_AT_LINE] decision/send-never-types-trailing-newline · the `quote:` under `at: crates/viola-agent-claude/src/dialog.rs:232` is not that line as it stands"
+]
+},
+"yes": null,
+"sha": "2d7b6b7c475161211add9500b5bf2e0cf5cf6e647d68aa9a28db36b90e7e3149",
+"judge": "sonnet"
+},
+"verify-architecture.v13": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] decision/frame-client-verifies-server · the `quote:` under `at: src/cmd/client.rs:173-180` is not that line as it stands",
+"[QUOTE_AT_LINE] decision/frame-client-verifies-server · the `quote:` under `at: src/cmd/hook.rs:231-239` is not that line as it stands",
+"[QUOTE_AT_LINE] decision/frame-client-verifies-server · the `quote:` under `at: crates/viola-mcp/src/tools.rs:345-352` is not that line as it stands"
+]
+},
+"yes": null,
+"sha": "8f9f1733aff7ea997d9dcc90640df96878620a59ea7a2853b822e326d5e48d00",
+"judge": "sonnet"
+},
+"verify-architecture.v14": {
+"failed": {},
+"yes": null,
+"sha": "8f870215b36bbd611be21c8402b4c1dcd612b9171cfaae18ec45aad06688ae56",
+"judge": "sonnet"
+},
+"verify-architecture.v15": {
+"failed": {},
+"yes": null,
+"sha": "53e03bdd445722d07853e433553b74304a833ff13d913e8e6025d7c61a3c73b4",
+"judge": "sonnet"
+},
+"verify-architecture.v16": {
+"failed": {},
+"yes": null,
+"sha": "36248c063fff0e849d996a3306d9b1fc7f24eb0833ae411957c967ee4fdbe80f",
+"judge": "sonnet"
+},
+"verify-architecture.v17": {
+"failed": {
+"CHECK_FORM": [
+"[CHECK_FORM] decision/anyhow-only-in-root-bin · `holds` owes `at:` and `quote:` — `searched:` alone shows a thing absent, and this row states none absent",
+"[CHECK_FORM] decision/env-var-viola-prefix · `value:` of except · over — except: 217 chars, 200 at the most"
+]
+},
+"yes": null,
+"sha": "8b2116a0bd68bc3c9b1eb133021c068003b54c208016b2caeaff6c91c2fdc37f",
+"judge": "sonnet"
+},
+"verify-architecture.v18": {
+"failed": {},
+"yes": null,
+"sha": "a471065acad393b9198a85283e1e4483b61579854f8a2d35cd2ee5243ec22f1a",
+"judge": "sonnet"
+},
+"verify-architecture.v19": {
+"failed": {},
+"yes": null,
+"sha": "4042822421a7ec62ed44dc1a7165e668fc226a3f2df76056e5a25da0416068bf",
+"judge": "sonnet"
+},
+"verify-architecture.v20": {
+"failed": {},
+"yes": null,
+"sha": "b5690c56cf6542546b518aba2248616b9339090b205f125be01b2615c8f5d389",
+"judge": "sonnet"
+},
+"verify-architecture.v21": {
+"failed": {},
+"yes": null,
+"sha": "8b9bd41aa30f6cce296f3fe3307f0a3139a766ac2de86d5583d943a71d8b3b68",
+"judge": "sonnet"
+},
+"verify-architecture.v22": {
+"failed": {
+"CHECK_FORM": [
+"[CHECK_FORM] contract/hook-to-kind-map/hook-statusline · `holds` owes `at:` and `quote:` — `searched:` alone shows a thing absent, and this row states none absent"
+]
+},
+"yes": null,
+"sha": "c31302053b2a0f26e8585a2da189777d4cedcddac30bb59b157d66a6a0f21af2",
+"judge": "sonnet"
+},
+"verify-architecture.v23": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] contract/cli-verbs/link · the `quote:` under `at: src/cmd/link.rs:23-27` is not that line as it stands",
+"[QUOTE_AT_LINE] contract/cli-verbs/from · the `quote:` under `at: src/cmd/client.rs:209-211` is not that line as it stands"
+]
+},
+"yes": null,
+"sha": "7b543f785e10b4f0fed5f3dc894c650c4ef998f076fb2cc7fec17e9b8b2c2618",
+"judge": "sonnet"
+},
+"verify-architecture.v24": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] decision/option-text-never-in-human-line · the `quote:` under `at: crates/viola-agent-claude/src/dialog.rs:160` is not that line as it stands"
+]
+},
+"yes": null,
+"sha": "d3cae3e12c2628c1916830bb08aa929825bc99702b40cfbec08f9b5023dea0c9",
+"judge": "sonnet"
+},
+"verify-architecture.v25": {
+"failed": {},
+"yes": null,
+"sha": "1c17640a3695e5385be2ca27b384e3a23bd6c4e4157dad5f7049101fe8930afb",
+"judge": "sonnet"
+},
+"verify-architecture.v26": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] contract/list-payload/items · `at: crates/viola-state/src/board.rs:168-180` names 13 lines — 10 at the most, in their order",
+"[QUOTE_AT_LINE] contract/event-line/source · the `quote:` under `at: crates/viola-state/src/events.rs:25-28` is not that line as it stands"
+]
+},
+"yes": null,
+"sha": "ec0bd223f906d3a59fd14345c71dd038b6d627c8e017c70353ee47762f8950b0",
+"judge": "sonnet"
+},
+"verify-architecture.v27": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] contract/snapshot-envelope/unreadable-snapshot · the `quote:` under `at: crates/viola-state/src/replay.rs:59-66` is not that line as it stands",
+"[QUOTE_AT_LINE] contract/snapshot-envelope/v · the `quote:` under `at: crates/viola-state/src/snapshot.rs:137-146` is not that line as it stands",
+"[QUOTE_AT_LINE] contract/ledger-stamps/content · the `quote:` under `at: crates/viola-agent-claude/src/ledger.rs:1125-1133` is not that line as it stands",
+"[QUOTE_AT_LINE] contract/ledger-stamps/measured · `at: crates/viola-agent-claude/src/ledger.rs:1141-1152` names 12 lines — 10 at the most, in their order"
+]
+},
+"yes": null,
+"sha": "ed2092f8d516b777dd94f6e54e791b3359b81e7876393541c44cf7c08e4207ac",
+"judge": "sonnet"
+},
+"verify-architecture.v28": {
+"failed": {},
+"yes": null,
+"sha": "5f27d52c9f116ba0ffc2a1a6acea993bb866f0dde0a8976173bdd07115ff6ec4",
+"judge": "sonnet"
+},
+"verify-architecture.v29": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] contract/wrapper-channel-frames/max-frame · the `quote:` under `at: crates/viola-channel/src/frame.rs:24-26` is not that line as it stands"
+]
+},
+"yes": null,
+"sha": "0971520c5dc31f5d2c21b91b6f51be29dc77accc3b46fc60191194202f4a1863",
+"judge": "sonnet"
+},
+"verify-architecture.v30": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] contract/channel-methods/last-after-seen-line · the `quote:` under `at: src/run/wait.rs:76-82` is not that line as it stands",
+"[QUOTE_AT_LINE] contract/channel-methods/last-after-seen-line · the `quote:` under `at: src/run/wait.rs:115-123` is not that line as it stands",
+"[QUOTE_AT_LINE] contract/channel-methods/budget-release-durability · the `quote:` under `at: src/run/budget.rs:332-338` is not that line as it stands",
+"[QUOTE_AT_LINE] contract/channel-methods/hook-event-driver-origin · the `quote:` under `at: src/run/send/slot.rs:198-204` is not that line as it stands",
+"[QUOTE_AT_LINE] contract/channel-methods/hook-event-driver-origin · the `quote:` under `at: src/run/send/slot.rs:228-231` is not that line as it stands"
+]
+},
+"yes": null,
+"sha": "11a0b4359411547c03fd65174adfc94e2866bb08b89e7da8069055b2c8f13857",
+"judge": "sonnet"
+},
+"verify-architecture.v31": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] contract/channel-methods/hook-dialog-continuation · the `quote:` under `at: src/run/dialog.rs:483-491` is not that line as it stands",
+"[QUOTE_AT_LINE] contract/answer-response/plan · the `quote:` under `at: crates/viola-agent-claude/src/dialog.rs:230-237` is not that line as it stands"
+]
+},
+"yes": null,
+"sha": "6a69fbb8059d5be8d4302d960470c72783c6cf256a8e7b9663b56ceee9283c55",
+"judge": "sonnet"
+},
+"verify-architecture.v32": {
+"failed": {},
+"yes": null,
+"sha": "3fd32700315537bd76aab02cd33df9392085d5f487831c7a5eafb88ac38fc383",
+"judge": "sonnet"
+},
+"verify-architecture.v33": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] contract/event-data/activity · the `quote:` under `at: crates/viola-agent-claude/src/hook.rs:175-179` is not that line as it stands",
+"[QUOTE_AT_LINE] contract/event-data/send-issued · the `quote:` under `at: src/run/send.rs:179-183` is not that line as it stands",
+"[QUOTE_AT_LINE] contract/event-data/send-refused · the `quote:` under `at: src/run/send.rs:271-274` is not that line as it stands",
+"[QUOTE_AT_LINE] contract/event-data/dialog-expired · the `quote:` under `at: src/run/dialog.rs:376-382` is not that line as it stands"
+]
+},
+"yes": null,
+"sha": "71aa43bbe66608e1c75d3366352cda0f65fc81ff7d758d38d7a154fabf954a80",
+"judge": "sonnet"
+},
+"verify-architecture.v34": {
+"failed": {},
+"yes": null,
+"sha": "b5c6588db8756cd4ebfdcaa61a80de60a3d6fa5faa87fa529a3347a489dd2055",
+"judge": "sonnet"
+},
+"verify-architecture.v35": {
+"failed": {},
+"yes": null,
+"sha": "54800fa10eccf06e22c90c06180c70f4c4ee43ead842a0570eebad6123a6dd8c",
+"judge": "sonnet"
+},
+"verify-architecture.v36": {
+"failed": {},
+"yes": null,
+"sha": "ac54b2b0b9da1ca3a716dd94a1b56fcac420ff9d5503d2266d60ef4f033b4190",
+"judge": "sonnet"
+},
+"verify-architecture.v37": {
+"failed": {},
+"yes": null,
+"sha": "e2930c6386f97a6a2e3961c04c732100f77c40766f4b1587d45e6aec17143da1",
+"judge": "sonnet"
+},
+"verify-architecture.v38": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] decision/claude-env-stripped-from-child · the `quote:` under `at: crates/viola-agent-claude/src/lib.rs:69-76` is not that line as it stands"
+]
+},
+"yes": null,
+"sha": "3602df6c566446603ffe7b1a9b944bc77b6eef7debf9dcc8259089c497b72825",
+"judge": "sonnet"
+},
+"verify-architecture.v39": {
+"failed": {},
+"yes": null,
+"sha": "d89886dd0c5fad84de2237d9bf3e1a9a779f9f95f9e0f17209d00c1781ce4f63",
+"judge": "sonnet"
+},
+"verify-architecture.v40": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] decision/chaos-home-outside-gates · the `quote:` under `at: tests/support/home.rs:214-218` is not that line as it stands",
+"[QUOTE_AT_LINE] decision/test-homes-cleaned-by-owner · the `quote:` under `at: tests/support/home.rs:49-53` is not that line as it stands",
+"[QUOTE_AT_LINE] decision/socket-in-per-user-dir · `at: crates/viola-state/src/strict.rs:137-150` names 14 lines — 10 at the most, in their order"
+]
+},
+"yes": null,
+"sha": "3a48eca226de65c97fd204e72c20e4b225ec3d0f6bf715a542c7b7a0df2089bb",
+"judge": "sonnet"
+},
+"verify-architecture.v41": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] decision/per-session-settings-override · the `quote:` under `at: src/cmd/run.rs:560-568` is not that line as it stands",
+"[QUOTE_AT_LINE] decision/identity-floor-eleven-names · `at: crates/viola-agent-claude/src/lib.rs:17-29` names 13 lines — 10 at the most, in their order",
+"[QUOTE_AT_LINE] decision/codes-only-role-logs · the `quote:` under `at: src/obs.rs:320-323` is not that line as it stands",
+"[QUOTE_AT_LINE] decision/refused-check-writes-no-line · the `quote:` under `at: src/cmd/run.rs:169-176` is not that line as it stands",
+"[QUOTE_AT_LINE] decision/strict-check-before-log-open · the `quote:` under `at: src/cmd/run.rs:169-176` is not that line as it stands",
+"[QUOTE_AT_LINE] decision/strict-check-before-log-open · the `quote:` under `at: src/cmd/list.rs:41-43` is not that line as it stands",
+"[QUOTE_AT_LINE] decision/strict-check-before-log-open · the `quote:` under `at: src/cmd/hook.rs:116-119` is not that line as it stands",
+"[QUOTE_AT_LINE] decision/board-refused-whole · the `quote:` under `at: crates/viola-state/src/board.rs:59-63` is not that line as it stands",
+"[QUOTE_AT_LINE] decision/board-refused-whole · the `quote:` under `at: crates/viola-state/src/board.rs:96-99` is not that line as it stands"
+]
+},
+"yes": null,
+"sha": "3e43abf10552972459dfebcbee5c08fe2e76cf147879bee684a362fbb13b98a8",
+"judge": "sonnet"
+},
+"verify-architecture.v42": {
+"failed": {
+"VALUE_IN_QUOTE": [
+"[VALUE_IN_QUOTE] decision/budget-gate-reads-hook-written-file · `value:` of rule adds budget.json.lock, which no line it quotes holds"
+],
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] decision/fixture-keeps-own-repository-remote · the `quote:` under `at: fixtures/claude/2.1.287/StatusLine.default-1.json:1` is not that line as it stands"
+]
+},
+"yes": null,
+"sha": "14e5ed201e5d3b62694abd448399461fd72217ccffc4259c470a9681f1e512d2",
+"judge": "sonnet"
+},
+"verify-architecture.v43": {
+"failed": {},
+"yes": null,
+"sha": "6b163d5ebe1224d2cf2161afad9339c1534160529a171541f5db608f640d5e9e",
+"judge": "sonnet"
+},
+"verify-architecture.v44": {
+"failed": {},
+"yes": null,
+"sha": "3474b09a5f1459a45c82d09581d301acbce132efd55ba7d3901a8c192d5725be",
+"judge": "sonnet"
+},
+"verify-architecture.v45": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] contract/settings-override/plain-path-only · the `quote:` under `at: crates/viola-agent-claude/src/statusline.rs:95-96` is not that line as it stands",
+"[QUOTE_AT_LINE] contract/child-environment/viola-dir · the `quote:` under `at: src/cmd/mod.rs:262-268` is not that line as it stands"
+]
+},
+"yes": null,
+"sha": "5a60ab4927c85df841a1b260f27b3839916c83d1edd62b727526755868010a88",
+"judge": "sonnet"
+},
+"verify-architecture.v46": {
+"failed": {},
+"yes": null,
+"sha": "944b43125c3aaeddd0499d2f37e0de3ac51950e5f3b0f612d1b3f4c55decd611",
+"judge": "sonnet"
+},
+"verify-architecture.v47": {
+"failed": {},
+"yes": null,
+"sha": "ab5307a9477a0efeb31464450cdc8b90671e3fb4c1348e0de98bbe33b90958b5",
+"judge": "sonnet"
+},
+"verify-architecture.v48": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] decision/diagnostics-level-sole-log-level · the `quote:` under `at: src/obs.rs:201-205` is not that line as it stands"
+],
+"CHECK_FORM": [
+"[CHECK_FORM] decision/no-environment-configuration · `value:` of except · over — except: 252 chars, 200 at the most"
+]
+},
+"yes": null,
+"sha": "181f2e005cb4c6690743cca232718713c9c9f8e74a0726d68dc89e139cc4d6b6",
+"judge": "sonnet"
+},
+"verify-architecture.v49": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] contract/channel-errors/32602-newer-request · the `quote:` under `at: crates/viola-channel/src/server.rs:238-239` is not that line as it stands"
+],
+"VALUE_IN_QUOTE": [
+"[VALUE_IN_QUOTE] contract/mcp-output/stdout · `value:` of promise adds 1, which no line it quotes holds"
+]
+},
+"yes": null,
+"sha": "b020b0dc309c3f9cffaf88d079e8b2f9cbeaa3d1396ca02bac5e1a4ed2344438",
+"judge": "sonnet"
+},
+"verify-architecture.v50": {
+"failed": {},
+"yes": null,
+"sha": "98fe3579b42af0d3be37f4b8c79925ae4d9a663dd261e0b7b9b8a9b4d07ca99d",
+"judge": "sonnet"
+},
+"verify-architecture.v51": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] contract/refusal-order/first-only · the `quote:` under `at: src/run/send.rs:88-89` is not that line as it stands",
+"[QUOTE_AT_LINE] contract/refusal-order/send · the `quote:` under `at: src/run/send.rs:132-140` is not that line as it stands",
+"[QUOTE_AT_LINE] contract/refusal-order/answer · the `quote:` under `at: src/run/dialog.rs:425-427` is not that line as it stands",
+"[QUOTE_AT_LINE] contract/run-start-refusals/home-tree · the `quote:` under `at: src/cmd/revive.rs:143-150` is not that line as it stands",
+"[QUOTE_AT_LINE] contract/run-start-refusals/home-tree · the `quote:` under `at: src/cmd/run.rs:210-215` is not that line as it stands"
+]
+},
+"yes": null,
+"sha": "bab76b565cd8c158b175128a3792382b2e5fc991d720ab406e2d57f7c92c9e53",
+"judge": "sonnet"
+},
+"verify-architecture.v52": {
+"failed": {
+"CHECK_FORM": [
+"[CHECK_FORM] contract/verify-refusals/home-tree · `value:` of promise · over — promise: 301 chars, 300 at the most",
+"[CHECK_FORM] contract/verify/no-json · `holds` owes `at:` and `quote:` — `searched:` alone shows a thing absent, and this row states none absent"
+],
+"VALUE_IN_QUOTE": [
+"[VALUE_IN_QUOTE] contract/verify-refusals/home-tree · `value:` of promise adds update_stamps · VIOLA_NAME, which no line it quotes holds"
+]
+},
+"yes": null,
+"sha": "9d484119ce208fb27092f6f9efe5e0ee4a093d2ed9b2051d33958d01dc999fab",
+"judge": "sonnet"
+},
+"verify-architecture.v53": {
+"failed": {},
+"yes": null,
+"sha": "9340ddf16f988eba6eb1ace08d90360b1f2b6e579004bd1e26be1503b2144e39",
+"judge": "sonnet"
+},
+"verify-architecture.v54": {
+"failed": {},
+"yes": null,
+"sha": "c9085bfbf03807070611cbacb2bddb4fdfdf3415da8c83b57ace4cd590d1b28f",
+"judge": "sonnet"
+},
+"verify-architecture.v55": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] contract/mcp-tools/refusal · the `quote:` under `at: crates/viola-mcp/src/result.rs:70` is not that line as it stands",
+"[QUOTE_AT_LINE] contract/viola-mcp-exit-codes/1-oversize-before-initialize · the `quote:` under `at: src/main.rs:136-138` is not that line as it stands"
+]
+},
+"yes": null,
+"sha": "78f99a7075de13d5fd25e3a27538f728d24f01014245f7b60c566326b340b19c",
+"judge": "sonnet"
+},
+"verify-architecture.v56": {
+"failed": {
+"CHECK_FORM": [
+"[CHECK_FORM] contract/hook-exit/2 · `holds` owes `at:` and `quote:` — `searched:` alone shows a thing absent, and this row states none absent"
+]
+},
+"yes": null,
+"sha": "7b6723e675dc4cb296c8c0074e1718cf937ea19d49cfeac2cdc3f548e2627396",
+"judge": "sonnet"
+},
+"verify-architecture.v57": {
+"failed": {},
+"yes": null,
+"sha": "d709bff55462bdb9246d0345703263f1c61288a722603bc213fa84a7e6559eb7",
+"judge": "sonnet"
+},
+"verify-architecture.v58": {
+"failed": {},
+"yes": null,
+"sha": "22a3b8014b1f65e527e237856dae170dd91524729141ddc0f2bd13a80c225be2",
+"judge": "sonnet"
+},
+"verify-architecture.v59": {
+"failed": {},
+"yes": null,
+"sha": "1ad36f777498606ef86eb74d3c5f01f750e0c617b955e8bac4c3abf2fee441cf",
+"judge": "sonnet"
+},
+"verify-architecture.v60": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] contract/hook-capture-arm/exit · the `quote:` under `at: src/cmd/hook.rs:101-106` is not that line as it stands"
+]
+},
+"yes": null,
+"sha": "7adb9fd8fa03be4ec814a30dfd47ba843df860088d6bb045da20782be990a3d8",
+"judge": "sonnet"
+},
+"verify-architecture.v61": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] contract/session-id/shape · the `quote:` under `at: crates/viola-agent-claude/src/lib.rs:97-104` is not that line as it stands"
+],
+"VALUE_IN_QUOTE": [
+"[VALUE_IN_QUOTE] contract/diagnostics-role-files/mcp · `value:` of promise adds exit_code, which no line it quotes holds"
+]
+},
+"yes": null,
+"sha": "89287f3914314aee6d600ca935bc206cdadd1ac3e62f4c861109eba05ad160ad",
+"judge": "sonnet"
+},
+"verify-architecture.v62": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] contract/diag-line/state-recovered · the `quote:` under `at: crates/viola-state/src/replay.rs:163-165` is not that line as it stands"
+]
+},
+"yes": null,
+"sha": "72f568437ba8c27110a4ec98c948fbee4084589a646fc69a4ddef58d4578613a",
+"judge": "sonnet"
+},
+"verify-architecture.v63": {
+"failed": {},
+"yes": null,
+"sha": "2a92b4a3d3fc6e0274508d662cb21356f19a51bc864b2dd5d2e23fc305361d19",
+"judge": "sonnet"
+},
+"verify-architecture.v64": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] contract/list-item/wrapped · `at: crates/viola-state/src/board.rs:191-205` names 15 lines — 10 at the most, in their order",
+"[QUOTE_AT_LINE] contract/channel-link-unlink/error-32602 · the `quote:` under `at: src/run/links.rs:92-96` is not that line as it stands",
+"[QUOTE_AT_LINE] contract/channel-link-unlink/from · `at: src/run/links.rs:87-99` names 13 lines — 10 at the most, in their order",
+"[QUOTE_AT_LINE] contract/channel-send/budget-paused · the `quote:` under `at: src/run/send.rs:103-109` is not that line as it stands",
+"[QUOTE_AT_LINE] contract/channel-send/budget-paused · the `quote:` under `at: src/run/send/budget.rs:9-13` is not that line as it stands"
+],
+"EVIDENCE_PLACE": [
+"[EVIDENCE_PLACE] contract/channel-unlink/result · `at: crates/viola-state/../../src/run/links.rs:79-83` names no file tracked at 8834195b0683 — a path relative to the repository's root"
+]
+},
+"yes": null,
+"sha": "c7c2fd81d1506a9335044f4c812e6cc7a11360a7e1f7954137e693119d1f180a",
+"judge": "sonnet"
+},
+"verify-architecture.v65": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] contract/hook-event/appended-line · the `quote:` under `at: crates/viola-state/src/events.rs:54-60` is not that line as it stands"
+]
+},
+"yes": null,
+"sha": "cc6e5e8078c61dc800e04cf8a839d620d7099028410fadde6cad54d4cd6c8926",
+"judge": "sonnet"
+},
+"verify-architecture.v66": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] contract/cli-exit-21-document/socket-dir-refused · the `quote:` under `at: src/cmd/client.rs:256-262` is not that line as it stands",
+"[QUOTE_AT_LINE] contract/fault-document/unsupported-version · the `quote:` under `at: crates/viola-channel/src/lib.rs:128-132` is not that line as it stands"
+]
+},
+"yes": null,
+"sha": "423f75a9694abb832adb95d5181a865eea88ee2fb1a32a38fd184d81e06e63b5",
+"judge": "sonnet"
+},
+"verify-architecture.v67": {
+"failed": {},
+"yes": null,
+"sha": "01c337468f4ddf6cd641b53ded7a2d1393976a8aeed03205781a833a0e52f57b",
+"judge": "sonnet"
+},
+"verify-architecture.v68": {
+"failed": {},
+"yes": null,
+"sha": "69fd88e7b2a621f2d8702393375e689bc96461b4184df606ace364ca7a26fd7e",
+"judge": "sonnet"
+},
+"verify-architecture.v69": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] decision/dual-licence · the `quote:` under `at: LICENSE-MIT:1` is not that line as it stands"
+]
+},
+"yes": null,
+"sha": "45d5651c25c7aec11999ca7159e46cd96b5a219dec7a7857af7ec160e06018cb",
+"judge": "sonnet"
+},
+"verify-architecture.v70": {
+"failed": {
+"CHECK_FORM": [
+"[CHECK_FORM] decision/event-payload-via-env · `holds` owes `at:` and `quote:` — `searched:` alone shows a thing absent, and this row states none absent"
+]
+},
+"yes": null,
+"sha": "1e6722db571f9451926ace99b3939e801c6050f28ebf98485c52cb53aff43c35",
+"judge": "sonnet"
+},
+"verify-architecture.v71": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] decision/pty-knows-no-agent · the `quote:` under `at: crates/viola-pty/Cargo.toml:15-18` is not that line as it stands"
+]
+},
+"yes": null,
+"sha": "2503e5281e6c0e4485dabd83965c96d334d5577efb76f15981f319e2770addf1",
+"judge": "sonnet"
+},
+"verify-architecture.v72": {
+"failed": {},
+"yes": null,
+"sha": "b91846b4eb29dba90e65b6c27562f30212053e25e246b6978dec7506f98ec752",
+"judge": "sonnet"
+},
+"verify-architecture.v73": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] decision/no-tracing-level-macros · the `quote:` under `at: clippy.toml:4-10` is not that line as it stands",
+"[QUOTE_AT_LINE] decision/fuzz-separate-workspace · the `quote:` under `at: fuzz/Cargo.lock:1` is not that line as it stands",
+"[QUOTE_AT_LINE] decision/fuzz-separate-workspace · the `quote:` under `at: fuzz/corpus/viola_name/valid-builder:1` is not that line as it stands",
+"[QUOTE_AT_LINE] decision/board-read-model-shape · `at: crates/viola-state/src/board.rs:167-186` names 20 lines — 10 at the most, in their order"
+]
+},
+"yes": null,
+"sha": "18d81f0484781fc8ac4666502524bafea7e5947a1ba1610a910690a37be046f1",
+"judge": "sonnet"
+},
+"verify-architecture.v74": {
+"failed": {},
+"yes": null,
+"sha": "7ce302ed60d7e313f8cf729a4f07dc4c8eaaa1943fe2f68dd3b3562fd01935dc",
+"judge": "sonnet"
+}
+},
+"stray": [],
+"closing_tags": [],
+"trails": [],
+"harness": [],
+"notes": []
+}
+},
+{
+"tool": "fanout",
+"v": "37",
+"sha8": "4d270ccc",
+"ts": "2026-11-12T04:25:14Z",
+"argv": [
+"render",
+"--batch",
+"verify",
+"--side",
+"wrap",
+"--skill-dir",
+"~/.claude/skills/andromeda-wrap-session",
+"--run-dir",
+".andromeda/runs/2026-11-12T03-23-49-rows-architecture",
+"--marker",
+"no-marker",
+"--respawn",
+"verify-architecture.v1,verify-architecture.v2,verify-architecture.v5,verify-architecture.v6,verify-architecture.v7,verify-architecture.v8,verify-architecture.v10,verify-architecture.v11,verify-architecture.v12,verify-architecture.v13,verify-architecture.v17,verify-architecture.v22,verify-architecture.v23,verify-architecture.v24,verify-architecture.v26,verify-architecture.v27,verify-architecture.v29,verify-architecture.v30,verify-architecture.v31,verify-architecture.v33,verify-architecture.v38,verify-architecture.v40,verify-architecture.v41,verify-architecture.v42,verify-architecture.v45,verify-architecture.v48,verify-architecture.v49,verify-architecture.v51,verify-architecture.v52,verify-architecture.v55,verify-architecture.v56,verify-architecture.v60,verify-architecture.v61,verify-architecture.v62,verify-architecture.v64,verify-architecture.v65,verify-architecture.v66,verify-architecture.v69,verify-architecture.v70,verify-architecture.v71,verify-architecture.v73",
+"--failed",
+"CHECK_FORM,EVIDENCE_PLACE,QUOTE_AT_LINE,VALUE_IN_QUOTE"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v1.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v1.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v2.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v2.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v5.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v5.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v6.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v6.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v7.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v7.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v8.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v8.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v10.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v10.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v11.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v11.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v12.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v12.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v13.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v13.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v17.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v17.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v22.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v22.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v23.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v23.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v24.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v24.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v26.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v26.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v27.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v27.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v29.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v29.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v30.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v30.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v31.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v31.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v33.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v33.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v38.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v38.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v40.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v40.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v41.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v41.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v42.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v42.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v45.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v45.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v48.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v48.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v49.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v49.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v51.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v51.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v52.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v52.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v55.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v55.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v56.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v56.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v60.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v60.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v61.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v61.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v62.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v62.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v64.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v64.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v65.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v65.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v66.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v66.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v69.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v69.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v70.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v70.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v71.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v71.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/verify-architecture.v73.md → .andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify/.raw-verify-architecture.v73.md",
+"VERDICT: rendered 41 (verify 41) · batch verify-r1 · script ./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-r1.workflow.js"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v1.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v2.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v5.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v6.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v7.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v8.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v10.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v11.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v12.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v13.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v17.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v22.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v23.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v24.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v26.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v27.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v29.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v30.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v31.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v33.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v38.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v40.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v41.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v42.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v45.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v48.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v49.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v51.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v52.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v55.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v56.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v60.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v61.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v62.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v64.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v65.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v66.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v69.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v70.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v71.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-architecture.v73.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-r1.workflow.js",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-r1.manifest.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "fanout",
+"v": "37",
+"sha8": "4d270ccc",
+"ts": "2026-11-12T04:26:52Z",
+"argv": [
+"check",
+"--manifest",
+".andromeda/runs/2026-11-12T03-23-49-rows-architecture/prompts/verify-r1.manifest.json",
+"--before",
+"tree f870d943458d0ba83e9e475ce245742ae0c7fd42 index c07fbbedbf1c6aad63f259aee69b94f92da693bc head 8834195b06836e9184351d2faa312691b6ecf606",
+"--after",
+"tree f870d943458d0ba83e9e475ce245742ae0c7fd42 index c07fbbedbf1c6aad63f259aee69b94f92da693bc head 8834195b06836e9184351d2faa312691b6ecf606",
+"--run-dir",
+".andromeda/runs/2026-11-12T03-23-49-rows-architecture",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"batch verify-r1 · 41 agents · 41 with every named path · trails: none",
+"[PATH_CHECK] PASS · index and head unchanged",
+"verify: 41 agents · 41 pass · rows refused 0",
+"VERDICT: 41 of 41 pass · failed: none"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"sub": "check",
+"batch": "verify-r1",
+"agents": {
+"verify-architecture.v1": {
+"failed": {},
+"yes": null,
+"sha": "e36a2a69499b9f091a5867a70ce2acff80b4c061419ace4bdbf01759e3209fd1",
+"judge": "sonnet"
+},
+"verify-architecture.v2": {
+"failed": {},
+"yes": null,
+"sha": "5b420175fab4137321657088d3f0f192372216edf391e33deb61f214f9aa46f6",
+"judge": "sonnet"
+},
+"verify-architecture.v5": {
+"failed": {},
+"yes": null,
+"sha": "8db6c9fc9d84e66ba029de1b91022fe5e86f152b4766264e5721c9ce467d91fa",
+"judge": "sonnet"
+},
+"verify-architecture.v6": {
+"failed": {},
+"yes": null,
+"sha": "c6d1a583a50b724702b84c92279479fbf5820c42cfd84e6c9d4943803f1b3559",
+"judge": "sonnet"
+},
+"verify-architecture.v7": {
+"failed": {},
+"yes": null,
+"sha": "3e1e25163a5b40c18cf088ce69c0937c329f11ff04c79c2c40bc64b64b4a959a",
+"judge": "sonnet"
+},
+"verify-architecture.v8": {
+"failed": {},
+"yes": null,
+"sha": "ad632c432104148a39af8f2f6f0f96a1421980c48924bbdbbdc84dc80d903ef4",
+"judge": "sonnet"
+},
+"verify-architecture.v10": {
+"failed": {},
+"yes": null,
+"sha": "7e7aecc91e70185f9aef1017ef1100b4786601464aae36603e2d19b571054138",
+"judge": "sonnet"
+},
+"verify-architecture.v11": {
+"failed": {},
+"yes": null,
+"sha": "a8a461eae18729580341f4b5b6d1e55f59f6b07ad4c5440941879beab131ec3b",
+"judge": "sonnet"
+},
+"verify-architecture.v12": {
+"failed": {},
+"yes": null,
+"sha": "aa0821a30e9202221a296efa2457b5b5428727abab82f2fe962f075fb0834554",
+"judge": "sonnet"
+},
+"verify-architecture.v13": {
+"failed": {},
+"yes": null,
+"sha": "3f9ccf9071274b3a181deaa68fbe8cf5e0364add2baa774cc89ddba5082df436",
+"judge": "sonnet"
+},
+"verify-architecture.v17": {
+"failed": {},
+"yes": null,
+"sha": "b25bbe64f06021198db4809bda24ce206b9a0379eca81e6cc13df63658cc566f",
+"judge": "sonnet"
+},
+"verify-architecture.v22": {
+"failed": {},
+"yes": null,
+"sha": "d172c63d5c8b8ee36191540a2a59d9302861a7f202220bbb16460aa36c4d9013",
+"judge": "sonnet"
+},
+"verify-architecture.v23": {
+"failed": {},
+"yes": null,
+"sha": "66af0af61518222fa0434e16a34ec6ca9f915365bb601748bfb2ea5b5602bc90",
+"judge": "sonnet"
+},
+"verify-architecture.v24": {
+"failed": {},
+"yes": null,
+"sha": "5dee50530f7c43fb51b9312fdd22de30ae12fc12593711dc984d10453be612f2",
+"judge": "sonnet"
+},
+"verify-architecture.v26": {
+"failed": {},
+"yes": null,
+"sha": "fe110521196b740481a70e05e6d8c7ac34f7d924a403b142e7a26bdb686d3be4",
+"judge": "sonnet"
+},
+"verify-architecture.v27": {
+"failed": {},
+"yes": null,
+"sha": "34a22e833d8f0ec7fcd14182163f98f3fce8baacfa6bb93353b101a3d96e3538",
+"judge": "sonnet"
+},
+"verify-architecture.v29": {
+"failed": {},
+"yes": null,
+"sha": "d4d0609892624c69a3d955bb57244ba64ff842a0709d3b7f3fa761336e1900fa",
+"judge": "sonnet"
+},
+"verify-architecture.v30": {
+"failed": {},
+"yes": null,
+"sha": "b41129f7f09783a55b45ae06913efca352e0e866b7132f07c44be363f9be9ec5",
+"judge": "sonnet"
+},
+"verify-architecture.v31": {
+"failed": {},
+"yes": null,
+"sha": "e10396c72787a8976c8e574efaec60632e16af226d80fe5d94f4a43c6804f02e",
+"judge": "sonnet"
+},
+"verify-architecture.v33": {
+"failed": {},
+"yes": null,
+"sha": "98e137839815e0a383ab103534d2dd7779917f07969e93fce4974c12832ee104",
+"judge": "sonnet"
+},
+"verify-architecture.v38": {
+"failed": {},
+"yes": null,
+"sha": "976dba281c1faed27ddf5c0d4440bc08772a654dbac55cbce34f42ba7d6ace29",
+"judge": "sonnet"
+},
+"verify-architecture.v40": {
+"failed": {},
+"yes": null,
+"sha": "52cd6bf3542fbcc91087f42140a4a43f39f49b7adce2a8fa901d7f870975deb8",
+"judge": "sonnet"
+},
+"verify-architecture.v41": {
+"failed": {},
+"yes": null,
+"sha": "84c41497776dc195f53917c601cb2ccd574ebabf3811f23369abfc6c361123a2",
+"judge": "sonnet"
+},
+"verify-architecture.v42": {
+"failed": {},
+"yes": null,
+"sha": "3cd7599ce337d0d2a41145a95ed029a4031edbfbebbe38147e082733f94cafc2",
+"judge": "sonnet"
+},
+"verify-architecture.v45": {
+"failed": {},
+"yes": null,
+"sha": "7b3bb2b2f25ab12376343b0104d6ec7655fb2130b164f3e0d6fa15b27a34a000",
+"judge": "sonnet"
+},
+"verify-architecture.v48": {
+"failed": {},
+"yes": null,
+"sha": "c6e396bab88a7a6e1e47555c747a712f344cee58b53155b6012917a4f602e0d4",
+"judge": "sonnet"
+},
+"verify-architecture.v49": {
+"failed": {},
+"yes": null,
+"sha": "ab96d04e89ef8c55ed49181edd64da56e8c16b8224fe177b61eed5882888101c",
+"judge": "sonnet"
+},
+"verify-architecture.v51": {
+"failed": {},
+"yes": null,
+"sha": "7d0af17d726de08fefbdaa75ef86ba50e8a3090034af1eb9378f632db7bee85e",
+"judge": "sonnet"
+},
+"verify-architecture.v52": {
+"failed": {},
+"yes": null,
+"sha": "ad9e5926a3a9ad99c550da445f4520952f2c7b5781ce3da01f213b79bec8e013",
+"judge": "sonnet"
+},
+"verify-architecture.v55": {
+"failed": {},
+"yes": null,
+"sha": "1133b50bbc0f1a1c293ca58b7e8fc2bc0bd40927a31d0aad15a0276daecad259",
+"judge": "sonnet"
+},
+"verify-architecture.v56": {
+"failed": {},
+"yes": null,
+"sha": "0c382f03f75c4406e274534046676df8df5a60a9130321c9c53e0f88f0ec65da",
+"judge": "sonnet"
+},
+"verify-architecture.v60": {
+"failed": {},
+"yes": null,
+"sha": "8118a920352dbe850ef1bcc86cb56a4f4cab145d04c1a34444f6a478416dcd24",
+"judge": "sonnet"
+},
+"verify-architecture.v61": {
+"failed": {},
+"yes": null,
+"sha": "f1d6652f93db5a0d654735af4c6d7ab6355de2cebb97ffc6772a5cf8fda55f40",
+"judge": "sonnet"
+},
+"verify-architecture.v62": {
+"failed": {},
+"yes": null,
+"sha": "b1ffd96e703039a22d7ffd8d07451199a13a273e60e1d0ba50efb04b87d04b43",
+"judge": "sonnet"
+},
+"verify-architecture.v64": {
+"failed": {},
+"yes": null,
+"sha": "f12e177a6ba13a30fccf19fdc8b10e6104ab90c189bdcecef476ba2796653514",
+"judge": "sonnet"
+},
+"verify-architecture.v65": {
+"failed": {},
+"yes": null,
+"sha": "e021a019a4826bc95f0fe534c7f44b0023d903398855c48421e104f2223fe70d",
+"judge": "sonnet"
+},
+"verify-architecture.v66": {
+"failed": {},
+"yes": null,
+"sha": "6bd98eeb88e23756a3765a7322b264301f8d5d4fb7a9a26f4255ce7be66e8561",
+"judge": "sonnet"
+},
+"verify-architecture.v69": {
+"failed": {},
+"yes": null,
+"sha": "af1fa4658e72903d655d09ceb0ffe0121fe1b5d705fdea8128f3430bbfe88248",
+"judge": "sonnet"
+},
+"verify-architecture.v70": {
+"failed": {},
+"yes": null,
+"sha": "2485b768cef2a251340db2b69f68f32ebf21cc24ed94a3172efd53ca18ce8a76",
+"judge": "sonnet"
+},
+"verify-architecture.v71": {
+"failed": {},
+"yes": null,
+"sha": "c759be67f053e8bb47bd0b0784670909721e1fc11a8601f21e3e74bd5839060e",
+"judge": "sonnet"
+},
+"verify-architecture.v73": {
+"failed": {},
+"yes": null,
+"sha": "1787c8220c5846974a04c3fdab65f60dbdd6df7fa3d9583f4ca06a27fa447873",
+"judge": "sonnet"
+}
+},
+"stray": [],
+"closing_tags": [],
+"trails": [],
+"harness": [],
+"notes": []
+}
+}
+]

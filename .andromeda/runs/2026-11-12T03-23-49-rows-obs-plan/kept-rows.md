@@ -1,0 +1,17 @@
+contract/process-log-line/at-instants · 50% of its words stand in the record it names, 60% at the least · fct-rcqby6f3@1
+decision/file-only-per-role-log-sinks · 33% of its words stand in the records it names, 60% at the least · fct-fdakcnvs@1,fct-xeoybvbw@1
+decision/hyperfine-max-regression-fails · 50% of its words stand in the record it names, 60% at the least · fct-y4gvhk7p@1
+decision/secret-scan-hit-fails · 33% of its words stand in the record it names, 60% at the least · fct-ydzhack5@2
+decision/diagnostics-files-mode-0600 · 33% of its words stand in the record it names, 60% at the least · fct-ydzhack5@2
+decision/instrument-requires-skip-all · 56% of its words stand in the records it names, 60% at the least · fct-xpak76xj@2,fct-do3y4vos@1
+decision/state-crate-sync-instrumentation · 58% of its words stand in the records it names, 60% at the least · fct-pssgrgft@1,fct-g6misrd3@1
+contract/run-log/exit-code · 50% of its words stand in the record it names, 60% at the least · fct-h2wm2goy@2
+decision/heartbeat-staleness-threshold · 56% of its words stand in the record it names, 60% at the least · fct-dijwakce@1
+decision/heartbeat-staleness-flip · 55% of its words stand in the record it names, 60% at the least · fct-bpjqjqbh@1
+decision/no-paths-in-run-spans · 58% of its words stand in the record it names, 60% at the least · fct-gdmzm6bw@1
+decision/instrument-skip-all-everywhere · 29% of its words stand in the records it names, 60% at the least · fct-vhrcelle@1,fct-gxspxfur@1
+decision/fixed-error-display · 40% of its words stand in the record it names, 60% at the least · fct-vhrcelle@1
+decision/no-span-list-in-lines · 43% of its words stand in the record it names, 60% at the least · fct-pbscnpyo@1
+decision/no-ansi-in-logs · 0% of its words stand in the record it names, 60% at the least · fct-pbscnpyo@1
+decision/no-source-paths-in-logs · 44% of its words stand in the record it names, 60% at the least · fct-pbscnpyo@1
+contract/log-line/process · 50% of its words stand in the records it names, 60% at the least · fct-df2jtbjl@1,fct-cmvi57xd@1,fct-3i3k7olh@1

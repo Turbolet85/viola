@@ -1,0 +1,748 @@
+[
+{
+"tool": "fanout",
+"v": "37",
+"sha8": "4d270ccc",
+"ts": "2026-11-12T03:35:34Z",
+"argv": [
+"render",
+"--batch",
+"rows",
+"--side",
+"wrap",
+"--skill-dir",
+"~/.claude/skills/andromeda-wrap-session",
+"--run-dir",
+".andromeda/runs/2026-11-12T03-23-49-rows-design-system",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"VERDICT: rendered 4 (rows 4) · batch rows · script ./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/rows.workflow.js"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/rows-design-system.p1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/rows-design-system.p2.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/rows-design-system.p3.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/rows-design-system.p4.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/rows/p1.jsonl",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/rows/packs.json",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/rows/p2.jsonl",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/rows/p3.jsonl",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/rows/p4.jsonl",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/rows.workflow.js",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/rows.manifest.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "fanout",
+"v": "37",
+"sha8": "4d270ccc",
+"ts": "2026-11-12T03:40:08Z",
+"argv": [
+"check",
+"--manifest",
+".andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/rows.manifest.json",
+"--before",
+"tree 3c3f37056ba3958a0c9a963e23ec4e8036ceeceb index c07fbbedbf1c6aad63f259aee69b94f92da693bc head 8834195b06836e9184351d2faa312691b6ecf606",
+"--after",
+"tree 56f37919e1fb6559c298ac87b1cec4851bd31432 index c07fbbedbf1c6aad63f259aee69b94f92da693bc head 8834195b06836e9184351d2faa312691b6ecf606",
+"--run-dir",
+".andromeda/runs/2026-11-12T03-23-49-rows-design-system",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"batch rows · 4 agents · 4 with every named path · trails: none",
+"[PATH_CHECK] PASS · index and head unchanged",
+"rows: 4 agents · 4 pass · rows refused 1",
+"VERDICT: 4 of 4 pass · failed: none"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"sub": "check",
+"batch": "rows",
+"agents": {
+"rows-design-system.p1": {
+"failed": {},
+"yes": null,
+"sha": "274253f1fc80c36f4ae52d19ab02ecd2dd0a164ffe05f14b9bd155a6961a8dbf",
+"marked": {}
+},
+"rows-design-system.p2": {
+"failed": {},
+"yes": null,
+"sha": "68f92fd8b7f523a95056c4bca63e2fa60416b79f31b57967987c86c9cb59b3fb",
+"marked": {
+"TRACE": [
+"[TRACE] contract/cli-colour-depth/16-colour · trace — its records hold no 256-colour"
+]
+}
+},
+"rows-design-system.p3": {
+"failed": {},
+"yes": null,
+"sha": "ca718ebe1ccbf2e4d1392b2a9dac803340dec7548cdea955326efb507f61a383",
+"marked": {}
+},
+"rows-design-system.p4": {
+"failed": {},
+"yes": null,
+"sha": "dd9bd801498d7d49852837a1e8ddb8180d2ca839318802e8fecd7c8356645398",
+"marked": {}
+}
+},
+"stray": [],
+"closing_tags": [],
+"trails": [],
+"harness": [],
+"notes": []
+}
+},
+{
+"tool": "fanout",
+"v": "37",
+"sha8": "4d270ccc",
+"ts": "2026-11-12T03:40:16Z",
+"argv": [
+"render",
+"--batch",
+"rowsfix",
+"--side",
+"wrap",
+"--skill-dir",
+"~/.claude/skills/andromeda-wrap-session",
+"--run-dir",
+".andromeda/runs/2026-11-12T03-23-49-rows-design-system",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"VERDICT: rendered 1 (rowsfix 1) · batch rowsfix · script ./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/rowsfix.workflow.js"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/rows-design-system.f1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/rowsfix.workflow.js",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/rowsfix.manifest.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "fanout",
+"v": "37",
+"sha8": "4d270ccc",
+"ts": "2026-11-12T03:41:12Z",
+"argv": [
+"check",
+"--manifest",
+".andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/rowsfix.manifest.json",
+"--before",
+"tree 655c5326aecff636d172ab6b9827430927416902 index c07fbbedbf1c6aad63f259aee69b94f92da693bc head 8834195b06836e9184351d2faa312691b6ecf606",
+"--after",
+"tree 02764a47ea11fdaeaa2ad5bf7e69059405a43ac4 index c07fbbedbf1c6aad63f259aee69b94f92da693bc head 8834195b06836e9184351d2faa312691b6ecf606",
+"--run-dir",
+".andromeda/runs/2026-11-12T03-23-49-rows-design-system",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"batch rowsfix · 1 agents · 1 with every named path · trails: none",
+"[PATH_CHECK] PASS · index and head unchanged",
+"rowsfix: 1 agents · 1 pass · rows refused 0",
+"VERDICT: 1 of 1 pass · failed: none"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"sub": "check",
+"batch": "rowsfix",
+"agents": {
+"rows-design-system.f1": {
+"failed": {},
+"yes": null,
+"sha": "c224ce5e90b6d6e9250e9588174ff197232331bfd3e0840338cbb0285fc12060",
+"marked": {}
+}
+},
+"stray": [],
+"closing_tags": [],
+"trails": [],
+"harness": [],
+"notes": []
+}
+},
+{
+"tool": "fanout",
+"v": "37",
+"sha8": "4d270ccc",
+"ts": "2026-11-12T03:41:27Z",
+"argv": [
+"render",
+"--batch",
+"verify",
+"--side",
+"wrap",
+"--skill-dir",
+"~/.claude/skills/andromeda-wrap-session",
+"--run-dir",
+".andromeda/runs/2026-11-12T03-23-49-rows-design-system",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"VERDICT: rendered 29 (verify 29) · batch verify · script ./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify.workflow.js"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v2.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v3.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v4.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v5.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v6.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v7.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v8.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v9.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v10.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v11.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v12.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v13.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v14.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v15.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v16.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v17.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v18.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v19.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v20.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v21.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v22.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v23.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v24.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v25.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v26.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v27.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v28.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v29.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify.workflow.js",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify.manifest.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "fanout",
+"v": "37",
+"sha8": "4d270ccc",
+"ts": "2026-11-12T03:46:36Z",
+"argv": [
+"check",
+"--manifest",
+".andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify.manifest.json",
+"--before",
+"tree 936778b200b1599c8f01c46951f223e826db0d7c index c07fbbedbf1c6aad63f259aee69b94f92da693bc head 8834195b06836e9184351d2faa312691b6ecf606",
+"--after",
+"tree 936778b200b1599c8f01c46951f223e826db0d7c index c07fbbedbf1c6aad63f259aee69b94f92da693bc head 8834195b06836e9184351d2faa312691b6ecf606",
+"--run-dir",
+".andromeda/runs/2026-11-12T03-23-49-rows-design-system",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"batch verify · 29 agents · 29 with every named path · trails: none",
+"[PATH_CHECK] PASS · index and head unchanged",
+"verify: 29 agents · 14 pass · failed CHECK_FORM 3, QUOTE_AT_LINE 12 · rows refused 23",
+"verify-design-system.v3 · [QUOTE_AT_LINE] contract/send-readback/prompt · the `quote:` under `at: src/run/send/slot.rs:90-91` is not that line as it stands",
+"verify-design-system.v4 · [CHECK_FORM] decision/no-green-accent · `searched: attention SGR tokens · src/human/style.rs:32-34 hold only amber (38;2;217;119;6, 38;5;172, 33)` is no `{the exact string} · in {a path or a glob}`",
+"verify-design-system.v7 · [CHECK_FORM] decision/ascii-only-human-output · `holds` owes `at:` and `quote:` — `searched:` alone shows a thing absent, and this row states none absent",
+"verify-design-system.v10 · [CHECK_FORM] contract/cli-colour-tokens/handoff-blue · `holds` owes `at:` and `quote:` — `searched:` alone shows a thing absent, and this row states none absent",
+"verify-design-system.v12 · [QUOTE_AT_LINE] contract/cli-strict-modes-refusal/plugin-install · the `quote:` under `at: src/cmd/plugin.rs:55-60` is not that line as it stands",
+"verify-design-system.v13 · [QUOTE_AT_LINE] contract/cli-verb-output/plugin-install · the `quote:` under `at: src/human/verbs.rs:94-101` is not that line as it stands",
+"verify-design-system.v15 · [QUOTE_AT_LINE] contract/cli-exit-codes/21 · the `quote:` under `at: src/cmd/client.rs:271-276` is not that line as it stands",
+"verify-design-system.v17 · [QUOTE_AT_LINE] decision/plain-output-modes · the `quote:` under `at: src/human/style.rs:62-67` is not that line as it stands",
+"verify-design-system.v20 · [QUOTE_AT_LINE] contract/peer-reply-screening/code-word · the `quote:` under `at: src/cmd/client.rs:77` is not that line as it stands",
+"verify-design-system.v21 · [QUOTE_AT_LINE] contract/viola-list-board/status · the `quote:` under `at: src/cmd/list.rs:143-147` is not that line as it stands",
+"verify-design-system.v24 · [QUOTE_AT_LINE] contract/viola-revive-refusals/order · `at: src/cmd/revive.rs:176-186` names 11 lines — 10 at the most, in their order",
+"verify-design-system.v25 · [QUOTE_AT_LINE] contract/viola-release-budget/override-time · `at: src/human/verbs.rs:28-39` names 12 lines — 10 at the most, in their order",
+"verify-design-system.v26 · [QUOTE_AT_LINE] contract/viola-verify-refusals/cli-not-found · the `quote:` under `at: src/cmd/verify.rs:161-163` is not that line as it stands",
+"verify-design-system.v28 · [QUOTE_AT_LINE] contract/wrapper-fault-detail/unsupported-version · the `quote:` under `at: crates/viola-channel/src/lib.rs:128-132` is not that line as it stands",
+"… +9 rows in .andromeda/runs/2026-11-12T03-23-49-rows-design-system/fanout-no-marker.json",
+"VERDICT: 14 of 29 pass · failed: verify-design-system.v3 [QUOTE_AT_LINE]; verify-design-system.v4 [CHECK_FORM]; verify-design-system.v7 [CHECK_FORM]; verify-design-system.v10 [CHECK_FORM]; verify-design-system.v12 [QUOTE_AT_LINE]; verify-design-system.v13 [QUOTE_AT_LINE]; verify-design-system.v15 [QUOTE_AT_LINE]; verify-design-system.v17 [QUOTE_AT_LINE]; verify-design-system.v20 [QUOTE_AT_LINE]; verify-design-system.v21 [QUOTE_AT_LINE]; verify-design-system.v24 [QUOTE_AT_LINE]; verify-design-system.v25 [QUOTE_AT_LINE]; verify-design-system.v26 [QUOTE_AT_LINE]; verify-design-system.v28 [QUOTE_AT_LINE]; verify-design-system.v29 [QUOTE_AT_LINE]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"sub": "check",
+"batch": "verify",
+"agents": {
+"verify-design-system.v1": {
+"failed": {},
+"yes": null,
+"sha": "b013070f7b205700fe87709fd43ad9d8662597623c8e680763d3c5f41f78c032",
+"judge": "sonnet"
+},
+"verify-design-system.v2": {
+"failed": {},
+"yes": null,
+"sha": "b023329df710c31d3347414d187223f5e8a067138ec38ab80201910bc5da269d",
+"judge": "sonnet"
+},
+"verify-design-system.v3": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] contract/send-readback/prompt · the `quote:` under `at: src/run/send/slot.rs:90-91` is not that line as it stands"
+]
+},
+"yes": null,
+"sha": "6d074b9c0a3c4cd2af37de667489fffbe6c7decc904c15b34becb818220c4734",
+"judge": "sonnet"
+},
+"verify-design-system.v4": {
+"failed": {
+"CHECK_FORM": [
+"[CHECK_FORM] decision/no-green-accent · `searched: attention SGR tokens · src/human/style.rs:32-34 hold only amber (38;2;217;119;6, 38;5;172, 33)` is no `{the exact string} · in {a path or a glob}`",
+"[CHECK_FORM] decision/bare-strip-never-cocked · `searched: the unwrapped row's WHEEL, DIALOG, CLI cells are \"n/a\" · src/human/board/rows.rs:49` is no `{the exact string} · in {a path or a glob}`",
+"[CHECK_FORM] decision/busy-not-animated · `searched: busy styling · src/human/style.rs tokens hold only attention, stale, callsign, reset` is no `{the exact string} · in {a path or a glob}`"
+]
+},
+"yes": null,
+"sha": "b79bd4b2af15f46c36eed50172a848112a33f3206209c070b644f9661452a842",
+"judge": "sonnet"
+},
+"verify-design-system.v5": {
+"failed": {},
+"yes": null,
+"sha": "0e20278626db4bb1d1ea9c6acf15c97902636ba0aec0955e52ddb801ca56c3d0",
+"judge": "sonnet"
+},
+"verify-design-system.v6": {
+"failed": {},
+"yes": null,
+"sha": "c3f0a332ea367d4a857726a19fc363c41c58e2bbbd109a3c9c6ab7496bc880d8",
+"judge": "sonnet"
+},
+"verify-design-system.v7": {
+"failed": {
+"CHECK_FORM": [
+"[CHECK_FORM] decision/ascii-only-human-output · `holds` owes `at:` and `quote:` — `searched:` alone shows a thing absent, and this row states none absent"
+]
+},
+"yes": null,
+"sha": "029bb9fd94beb9e75ae70134dea0b4accdc61b71150663e1fc11e2c68eac084c",
+"judge": "sonnet"
+},
+"verify-design-system.v8": {
+"failed": {},
+"yes": null,
+"sha": "2eef4b8c478ef89344c0472f17efcc89614f0e156e936775109230adbcfc459d",
+"judge": "sonnet"
+},
+"verify-design-system.v9": {
+"failed": {},
+"yes": null,
+"sha": "f0cf70e9722f7be0fa07cbcd24f899a68a8d27220182c9387a15fc7a81090564",
+"judge": "sonnet"
+},
+"verify-design-system.v10": {
+"failed": {
+"CHECK_FORM": [
+"[CHECK_FORM] contract/cli-colour-tokens/handoff-blue · `holds` owes `at:` and `quote:` — `searched:` alone shows a thing absent, and this row states none absent"
+]
+},
+"yes": null,
+"sha": "a75f199e454d09b1bf99854d54bab57f8a1d860c029867bdfb8380b58bd11230",
+"judge": "sonnet"
+},
+"verify-design-system.v11": {
+"failed": {},
+"yes": null,
+"sha": "3ee999fb17a6bcb92c86f5d3f067d35f36186c5114ca550860896cdab018456d",
+"judge": "sonnet"
+},
+"verify-design-system.v12": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] contract/cli-strict-modes-refusal/plugin-install · the `quote:` under `at: src/cmd/plugin.rs:55-60` is not that line as it stands"
+]
+},
+"yes": null,
+"sha": "fe16c796e21efe5c0b053a30d2c1ad31d504a22a3a318b7bd27eb37778931bc3",
+"judge": "sonnet"
+},
+"verify-design-system.v13": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] contract/cli-verb-output/plugin-install · the `quote:` under `at: src/human/verbs.rs:94-101` is not that line as it stands"
+]
+},
+"yes": null,
+"sha": "422dfd33a527f4a2dafd52019003a75ed08e3c3e376d28d48ace12334880b65f",
+"judge": "sonnet"
+},
+"verify-design-system.v14": {
+"failed": {},
+"yes": null,
+"sha": "707578a6a8d8f323b1179659fae5def09b964534f7441f5baaa4536565c8218c",
+"judge": "sonnet"
+},
+"verify-design-system.v15": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] contract/cli-exit-codes/21 · the `quote:` under `at: src/cmd/client.rs:271-276` is not that line as it stands"
+]
+},
+"yes": null,
+"sha": "a5a296f07c747834fd00131d3829c84530a78999542416d8a8d1de0539e3b002",
+"judge": "sonnet"
+},
+"verify-design-system.v16": {
+"failed": {},
+"yes": null,
+"sha": "360d6e688cbc263c30d3575d40ef34fecfe7aafb2bffd863005976b41bfb2599",
+"judge": "sonnet"
+},
+"verify-design-system.v17": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] decision/plain-output-modes · the `quote:` under `at: src/human/style.rs:62-67` is not that line as it stands"
+]
+},
+"yes": null,
+"sha": "ebea8c1f22924029aa9f84b7a3b31e33d9e17cbd03af1eba59b591e88200194f",
+"judge": "sonnet"
+},
+"verify-design-system.v18": {
+"failed": {},
+"yes": null,
+"sha": "b368e0b755698a7610746ad8cd5ce7b76b5004ea1498197aff43e552d7d01a03",
+"judge": "sonnet"
+},
+"verify-design-system.v19": {
+"failed": {},
+"yes": null,
+"sha": "29802a076af6641268d15d8aaf1d99a833a9f6b02aacb623c14ccdfe7ce64bc4",
+"judge": "sonnet"
+},
+"verify-design-system.v20": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] contract/peer-reply-screening/code-word · the `quote:` under `at: src/cmd/client.rs:77` is not that line as it stands",
+"[QUOTE_AT_LINE] contract/peer-reply-screening/unlisted-code-word · the `quote:` under `at: src/cmd/client.rs:77-78` is not that line as it stands"
+]
+},
+"yes": null,
+"sha": "9737ee52c365720017dc9a90e186dafae0b3e7bb6814c228dac2ffeac2f5ab88",
+"judge": "sonnet"
+},
+"verify-design-system.v21": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] contract/viola-list-board/status · the `quote:` under `at: src/cmd/list.rs:143-147` is not that line as it stands",
+"[QUOTE_AT_LINE] contract/viola-list-board/name-cut · the `quote:` under `at: src/human/board/cells.rs:127-132` is not that line as it stands",
+"[QUOTE_AT_LINE] contract/viola-list-board/colour-spans · the `quote:` under `at: src/human/board/cells.rs:94-99` is not that line as it stands"
+]
+},
+"yes": null,
+"sha": "d5cd1d0e5ce89eec1d15d88b7584322c27fa2e8bba7d0c3d26cf14017840fd20",
+"judge": "sonnet"
+},
+"verify-design-system.v22": {
+"failed": {},
+"yes": null,
+"sha": "1f216594a89443348d2e718e03a9a23a121c8ec7e59fdc73c46ebe577cfb27bc",
+"judge": "sonnet"
+},
+"verify-design-system.v23": {
+"failed": {},
+"yes": null,
+"sha": "40a61da6c589a26fb3c1ea5907f4e59bfb9617a8dfe69027e891f94223150e95",
+"judge": "sonnet"
+},
+"verify-design-system.v24": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] contract/viola-revive-refusals/order · `at: src/cmd/revive.rs:176-186` names 11 lines — 10 at the most, in their order",
+"[QUOTE_AT_LINE] contract/viola-revive-refusals/home-tree-check · the `quote:` under `at: src/cmd/revive.rs:141-150` is not that line as it stands"
+]
+},
+"yes": null,
+"sha": "2849b18f32c3dca6a9e17f0551888b157c64abf6c06fdbcf8c57e6719283c3a4",
+"judge": "sonnet"
+},
+"verify-design-system.v25": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] contract/viola-release-budget/override-time · `at: src/human/verbs.rs:28-39` names 12 lines — 10 at the most, in their order",
+"[QUOTE_AT_LINE] contract/viola-link-output/since · the `quote:` under `at: src/human/verbs.rs:84-88` is not that line as it stands"
+]
+},
+"yes": null,
+"sha": "60374ef22ad67688796cacbde762ec06d7c71a3c9ba41a47ccf675ad1ab65b58",
+"judge": "sonnet"
+},
+"verify-design-system.v26": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] contract/viola-verify-refusals/cli-not-found · the `quote:` under `at: src/cmd/verify.rs:161-163` is not that line as it stands"
+]
+},
+"yes": null,
+"sha": "916d1351d701fec09354ff98785f2949037841f1bd7872d5d09aa2fc19bd2e79",
+"judge": "sonnet"
+},
+"verify-design-system.v27": {
+"failed": {},
+"yes": null,
+"sha": "9fd34a82983655d59776cdccb8fe7a930576aa92c474b3281daec1c644f12c96",
+"judge": "sonnet"
+},
+"verify-design-system.v28": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] contract/wrapper-fault-detail/unsupported-version · the `quote:` under `at: crates/viola-channel/src/lib.rs:128-132` is not that line as it stands"
+]
+},
+"yes": null,
+"sha": "22282fa221a5c3afe2e9795676ed1adef6913f845f1f97a65e12d5240108b6c4",
+"judge": "sonnet"
+},
+"verify-design-system.v29": {
+"failed": {
+"QUOTE_AT_LINE": [
+"[QUOTE_AT_LINE] contract/cli-catch-site/silent-verbs · `at: src/main.rs:98-109` names 12 lines — 10 at the most, in their order",
+"[QUOTE_AT_LINE] contract/viola-help/verb-groups · the `quote:` under `at: src/cmd/mod.rs:34-41` is not that line as it stands"
+]
+},
+"yes": null,
+"sha": "f95cbe117fdfe2f9bc0b607b00b74bb42cc29cfdcd43e48fe503fb8a00464dfe",
+"judge": "sonnet"
+}
+},
+"stray": [],
+"closing_tags": [],
+"trails": [],
+"harness": [],
+"notes": []
+}
+},
+{
+"tool": "fanout",
+"v": "37",
+"sha8": "4d270ccc",
+"ts": "2026-11-12T03:46:44Z",
+"argv": [
+"render",
+"--batch",
+"verify",
+"--side",
+"wrap",
+"--skill-dir",
+"~/.claude/skills/andromeda-wrap-session",
+"--run-dir",
+".andromeda/runs/2026-11-12T03-23-49-rows-design-system",
+"--marker",
+"no-marker",
+"--respawn",
+"verify-design-system.v3,verify-design-system.v4,verify-design-system.v7,verify-design-system.v10,verify-design-system.v12,verify-design-system.v13,verify-design-system.v15,verify-design-system.v17,verify-design-system.v20,verify-design-system.v21,verify-design-system.v24,verify-design-system.v25,verify-design-system.v26,verify-design-system.v28,verify-design-system.v29",
+"--failed",
+"CHECK_FORM,QUOTE_AT_LINE"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify/verify-design-system.v3.md → .andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify/.raw-verify-design-system.v3.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify/verify-design-system.v4.md → .andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify/.raw-verify-design-system.v4.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify/verify-design-system.v7.md → .andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify/.raw-verify-design-system.v7.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify/verify-design-system.v10.md → .andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify/.raw-verify-design-system.v10.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify/verify-design-system.v12.md → .andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify/.raw-verify-design-system.v12.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify/verify-design-system.v13.md → .andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify/.raw-verify-design-system.v13.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify/verify-design-system.v15.md → .andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify/.raw-verify-design-system.v15.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify/verify-design-system.v17.md → .andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify/.raw-verify-design-system.v17.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify/verify-design-system.v20.md → .andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify/.raw-verify-design-system.v20.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify/verify-design-system.v21.md → .andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify/.raw-verify-design-system.v21.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify/verify-design-system.v24.md → .andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify/.raw-verify-design-system.v24.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify/verify-design-system.v25.md → .andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify/.raw-verify-design-system.v25.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify/verify-design-system.v26.md → .andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify/.raw-verify-design-system.v26.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify/verify-design-system.v28.md → .andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify/.raw-verify-design-system.v28.md",
+"MOVE .andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify/verify-design-system.v29.md → .andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify/.raw-verify-design-system.v29.md",
+"VERDICT: rendered 15 (verify 15) · batch verify-r1 · script ./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-r1.workflow.js"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v3.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v4.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v7.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v10.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v12.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v13.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v15.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v17.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v20.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v21.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v24.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v25.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v26.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v28.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-design-system.v29.r1.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-r1.workflow.js",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-r1.manifest.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "fanout",
+"v": "37",
+"sha8": "4d270ccc",
+"ts": "2026-11-12T03:47:24Z",
+"argv": [
+"check",
+"--manifest",
+".andromeda/runs/2026-11-12T03-23-49-rows-design-system/prompts/verify-r1.manifest.json",
+"--before",
+"tree c56eb57d7384567714abe6b211f3aae11158a2bc index c07fbbedbf1c6aad63f259aee69b94f92da693bc head 8834195b06836e9184351d2faa312691b6ecf606",
+"--after",
+"tree c56eb57d7384567714abe6b211f3aae11158a2bc index c07fbbedbf1c6aad63f259aee69b94f92da693bc head 8834195b06836e9184351d2faa312691b6ecf606",
+"--run-dir",
+".andromeda/runs/2026-11-12T03-23-49-rows-design-system",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"batch verify-r1 · 15 agents · 15 with every named path · trails: none",
+"[PATH_CHECK] PASS · index and head unchanged",
+"verify: 15 agents · 15 pass · rows refused 0",
+"VERDICT: 15 of 15 pass · failed: none"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"sub": "check",
+"batch": "verify-r1",
+"agents": {
+"verify-design-system.v3": {
+"failed": {},
+"yes": null,
+"sha": "6e4beb283f97d0fc3aede430932638d7dfbbfc5944021f04958d96488bb788f5",
+"judge": "sonnet"
+},
+"verify-design-system.v4": {
+"failed": {},
+"yes": null,
+"sha": "ac99f4a13d6f39c5d5f8a6bf217d8525281c2d8349b200acb219d791a723047e",
+"judge": "sonnet"
+},
+"verify-design-system.v7": {
+"failed": {},
+"yes": null,
+"sha": "3389ef0deead62a24c32482195d94914a4fc65fd92029262c8c580af13e9a340",
+"judge": "sonnet"
+},
+"verify-design-system.v10": {
+"failed": {},
+"yes": null,
+"sha": "cfb04bdd98cb7ab687d6d8da4fe4212519cfd0bb09a02daaca5677ee6c946d94",
+"judge": "sonnet"
+},
+"verify-design-system.v12": {
+"failed": {},
+"yes": null,
+"sha": "c5ba53022124b68eb9ec8e865d1dd50d39867c5ded669a409138554938836174",
+"judge": "sonnet"
+},
+"verify-design-system.v13": {
+"failed": {},
+"yes": null,
+"sha": "6be0f846eedff6f45c15a8a8b6e091e8a2dd364df50bca511ff6d15f5003f714",
+"judge": "sonnet"
+},
+"verify-design-system.v15": {
+"failed": {},
+"yes": null,
+"sha": "5edd852058c2c5986e451c2c7c1aa091da02b2d859116e98af11c602b5d1bbd4",
+"judge": "sonnet"
+},
+"verify-design-system.v17": {
+"failed": {},
+"yes": null,
+"sha": "c1dea08e65dee1329f9a84829ac7cb9945848a27fa8c755b1108472ab17df3ce",
+"judge": "sonnet"
+},
+"verify-design-system.v20": {
+"failed": {},
+"yes": null,
+"sha": "4f149ab380157ec80b9d89bffe1374705fecc42d282c0879b7d4039525c44762",
+"judge": "sonnet"
+},
+"verify-design-system.v21": {
+"failed": {},
+"yes": null,
+"sha": "e6f233e699ed64781262f5c47a978321e44e0ff7fb5d7b2bc44124ee549c1f43",
+"judge": "sonnet"
+},
+"verify-design-system.v24": {
+"failed": {},
+"yes": null,
+"sha": "c63413e7b4b54f5c02f421ffc8db2075d78bae52f359ae945c6a36bde82f7e75",
+"judge": "sonnet"
+},
+"verify-design-system.v25": {
+"failed": {},
+"yes": null,
+"sha": "bc9b836402b5140187665d2fe32506fb70f18066b0e29a851b4b8b1192d59a8f",
+"judge": "sonnet"
+},
+"verify-design-system.v26": {
+"failed": {},
+"yes": null,
+"sha": "00175c771bbd6467d58b95617e996d4956e19125bb552e92476d2b89a014086c",
+"judge": "sonnet"
+},
+"verify-design-system.v28": {
+"failed": {},
+"yes": null,
+"sha": "c3ab775cdf2fb1490608909fed100d31e35d87632d9a6949e1fc0ed2ac97e9f6",
+"judge": "sonnet"
+},
+"verify-design-system.v29": {
+"failed": {},
+"yes": null,
+"sha": "73e6022522e85d9af171f247c3f3240d91c3763dfd568dd6575584e55f467897",
+"judge": "sonnet"
+}
+},
+"stray": [],
+"closing_tags": [],
+"trails": [],
+"harness": [],
+"notes": []
+}
+}
+]

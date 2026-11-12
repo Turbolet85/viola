@@ -1,0 +1,182 @@
+[
+{
+"tool": "rec",
+"v": "1.32",
+"sha8": "2ec22451",
+"ts": "2026-11-12T03:50:56Z",
+"argv": [
+"rows-collect",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan",
+"--doc",
+"a11y-plan"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"rows-collect · doc:a11y-plan · pin 766",
+"records 237 · skeleton 8 · gap 7 · packed 222 in 5 pack(s)",
+"files: collected 5 of 5 · unanswered 0 record(s)",
+"records giving rows 150 · none 64 (type 0 9 · type 4 1 · type 5 8 · type 7 1 · type S 45) · none dropped beside a row: 1 · left with no answer by a refused row 8",
+"none a pack: p1 17/55 · p2 26/55 · p3 11/55 · p4 11/55 · p5 0/2 · the master 65/222",
+"rows 239: decision 124 · contract 110 · absence 5 · name 0 · overview 0",
+"fill of a decision's cells: why 21/124 · guard 22/124 · except 3/124",
+"chars 81940 → 39511 (48 %)",
+"marked 14 row(s): ROW_FORM 7 · AREA_OF_RECORD 0 · TRACE 7 · ALONE 0 · NO_HISTORY 0 · NO_CITES 0 · of ROW_FORM: taken 7",
+"collisions: 7 handle(s) · 14 row(s)",
+"fix round: owed — 14 line(s) in 1 file(s): `fanout.py render --batch rowsfix`",
+"share under the bar: 3 (kept-rows.md)",
+"relied 0 (relied.md)",
+"anchor «Anti-Patterns (Universal)»: 17 row(s)",
+"wrote 5 file(s): areas-a11y-plan.json · kept-rows.md · prompts/rowsfix/f1.jsonl · relied.md · rows-a11y-plan.md"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan/areas-a11y-plan.json",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan/kept-rows.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan/prompts/rowsfix/f1.jsonl",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan/relied.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan/rows-a11y-plan.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.32",
+"sha8": "2ec22451",
+"ts": "2026-11-12T03:52:02Z",
+"argv": [
+"rows-collect",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan",
+"--doc",
+"a11y-plan"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"rows-collect · doc:a11y-plan · pin 766",
+"records 237 · skeleton 8 · gap 7 · packed 222 in 5 pack(s)",
+"files: collected 5 of 5 · unanswered 0 record(s)",
+"records giving rows 158 · none 64 (type 0 9 · type 4 1 · type 5 8 · type 7 1 · type S 45) · none dropped beside a row: 1",
+"none a pack: p1 17/55 · p2 26/55 · p3 11/55 · p4 11/55 · p5 0/2 · the master 65/222",
+"rows 246: decision 131 · contract 110 · absence 5 · name 0 · overview 0",
+"fill of a decision's cells: why 25/131 · guard 22/131 · except 3/131",
+"chars 81940 → 41133 (50 %)",
+"marked 14 row(s): ROW_FORM 7 · AREA_OF_RECORD 0 · TRACE 7 · ALONE 0 · NO_HISTORY 0 · NO_CITES 0 · of ROW_FORM: taken 7",
+"collisions: 7 handle(s) · 14 row(s)",
+"fix round: collected 1 of 1 file(s) · 14 record(s) written · re-keyed 2 · refused after it 0 (refused-rows.md)",
+"share under the bar: 3 (kept-rows.md)",
+"relied 0 (relied.md)",
+"anchor «Anti-Patterns (Universal)»: 15 row(s)",
+"wrote 5 file(s): areas-a11y-plan.json · kept-rows.md · refused-rows.md · relied.md · rows-a11y-plan.md"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan/areas-a11y-plan.json",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan/kept-rows.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan/refused-rows.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan/relied.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan/rows-a11y-plan.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.32",
+"sha8": "2ec22451",
+"ts": "2026-11-12T03:52:07Z",
+"argv": [
+"rows-precheck",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan",
+"--doc",
+"a11y-plan"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"rows-precheck · doc:a11y-plan · head 8834195b0683",
+"rows 246 · to verify 246 in 18 pack(s)",
+"names settled 0 of 0 · pointers dead 0 of 0",
+"wrote 20 file(s): prompts/verify/packs.json · prompts/verify/v1.jsonl · prompts/verify/v10.jsonl · prompts/verify/v11.jsonl · prompts/verify/v12.jsonl · prompts/verify/v13.jsonl · prompts/verify/v14.jsonl · prompts/verify/v15.jsonl · prompts/verify/v16.jsonl · prompts/verify/v17.jsonl · prompts/verify/v18.jsonl · prompts/verify/v2.jsonl · prompts/verify/v3.jsonl · prompts/verify/v4.jsonl · prompts/verify/v5.jsonl · prompts/verify/v6.jsonl · prompts/verify/v7.jsonl · prompts/verify/v8.jsonl · prompts/verify/v9.jsonl · verify-pre-a11y-plan.md"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan/prompts/verify/packs.json",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan/prompts/verify/v1.jsonl",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan/prompts/verify/v10.jsonl",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan/prompts/verify/v11.jsonl",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan/prompts/verify/v12.jsonl",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan/prompts/verify/v13.jsonl",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan/prompts/verify/v14.jsonl",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan/prompts/verify/v15.jsonl",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan/prompts/verify/v16.jsonl",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan/prompts/verify/v17.jsonl",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan/prompts/verify/v18.jsonl",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan/prompts/verify/v2.jsonl",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan/prompts/verify/v3.jsonl",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan/prompts/verify/v4.jsonl",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan/prompts/verify/v5.jsonl",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan/prompts/verify/v6.jsonl",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan/prompts/verify/v7.jsonl",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan/prompts/verify/v8.jsonl",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan/prompts/verify/v9.jsonl",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan/verify-pre-a11y-plan.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.32",
+"sha8": "2ec22451",
+"ts": "2026-11-12T03:55:01Z",
+"argv": [
+"rows-verdicts",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan",
+"--doc",
+"a11y-plan"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"rows-verdicts · doc:a11y-plan · head 8834195b0683",
+"rows 246 · settled by the tool 0 · verifier files read 18 of 18",
+"verdicts: holds 209 · stale 6 · gone 0 · unverifiable 31 · evidence refused 0 (refused-evidence.md) · unverified 0 (unverified.md)",
+"judged by: sonnet 246",
+"holds by search: decision 16 · absence 5 · lines to read 20 (absences.md)",
+"guards: true 22 · false 0 (guards.md)",
+"stale: corrected 2 · re-keyed 0 · re-key refused 0 (rekey.md) · no row 0 (stale.md) · divergences 4 (divergences.md)",
+"gone 0 (gone.md)",
+"rows written 242 of 246 · records left with no row 3 · of them gone 0",
+"reverify: none owed",
+"wrote 9 file(s): absences.md · divergences.md · gone.md · guards.md · refused-evidence.md · rekey.md · rows-a11y-plan.verified.md · stale.md · unverified.md"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan/absences.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan/divergences.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan/gone.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan/guards.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan/refused-evidence.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan/rekey.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan/rows-a11y-plan.verified.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan/stale.md",
+"./.andromeda/runs/2026-11-12T03-23-49-rows-a11y-plan/unverified.md"
+],
+"before": null,
+"after": null
+}
+]

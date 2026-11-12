@@ -1,0 +1,138 @@
+{
+ "doc": "a11y-plan",
+ "pin": 766,
+ "areas": [
+  {
+   "slug": "a11y-plan-viola",
+   "section": null
+  },
+  {
+   "slug": "1-a11y-scope-summary",
+   "section": "1. A11y Scope Summary"
+  },
+  {
+   "slug": "a11y-scope-summary",
+   "section": "1. A11y Scope Summary"
+  },
+  {
+   "slug": "2-a11y-strategy",
+   "section": "2. A11y Strategy"
+  },
+  {
+   "slug": "3-a11y-assertion-harness-contract",
+   "section": "3. A11y Assertion Harness Contract"
+  },
+  {
+   "slug": "4-aria-patterns-roles",
+   "section": "4. ARIA Patterns & Roles"
+  },
+  {
+   "slug": "aria-patterns-roles",
+   "section": "4. ARIA Patterns & Roles"
+  },
+  {
+   "slug": "5-keyboard-navigation",
+   "section": "5. Keyboard Navigation",
+   "mark": {
+    "form": "N/A",
+    "record": "fct-5lohrrsl@2"
+   }
+  },
+  {
+   "slug": "6-visual-design-verification",
+   "section": "6. Visual Design Verification",
+   "mark": {
+    "form": "N/A",
+    "record": "fct-qmgxjgnl@2"
+   }
+  },
+  {
+   "slug": "visual-design-verification",
+   "section": "6. Visual Design Verification"
+  },
+  {
+   "slug": "7-screen-reader-support",
+   "section": "7. Screen Reader Support",
+   "mark": {
+    "form": "N/A",
+    "record": "fct-g4ssmkxx@2"
+   }
+  },
+  {
+   "slug": "8-cognitive-accessibility",
+   "section": "8. Cognitive Accessibility"
+  },
+  {
+   "slug": "cognitive-accessibility",
+   "section": "8. Cognitive Accessibility"
+  },
+  {
+   "slug": "9-ci-integration",
+   "section": "9. CI Integration"
+  },
+  {
+   "slug": "10-slo-invariants-a11y-budgets",
+   "section": "10. SLO Invariants & A11y Budgets"
+  },
+  {
+   "slug": "11-a11y-anti-patterns-never-do-these",
+   "section": "11. A11y Anti-Patterns (NEVER do these)"
+  },
+  {
+   "slug": "12-a11y-decisions-log",
+   "section": "12. A11y Decisions Log"
+  },
+  {
+   "slug": "a11y-testing-tool-pick",
+   "section": null
+  },
+  {
+   "slug": "bootstrap-phases-derive-for-route-setup-project",
+   "section": null
+  },
+  {
+   "slug": "ci-integration",
+   "section": null
+  },
+  {
+   "slug": "contrast-verification-harness",
+   "section": null,
+   "mark": {
+    "form": "N/A",
+    "record": "fct-uoz5yi5v@2"
+   }
+  },
+  {
+   "slug": "focus-management-test-harness",
+   "section": null,
+   "mark": {
+    "form": "N/A",
+    "record": "fct-pjrikcxj@2"
+   }
+  },
+  {
+   "slug": "keyboard-test-harness",
+   "section": null
+  },
+  {
+   "slug": "screen-reader-test-pattern",
+   "section": null
+  },
+  {
+   "slug": "structured-violation-json-schema",
+   "section": null,
+   "mark": {
+    "form": "N/A",
+    "record": "fct-hn7hmb2g@2"
+   }
+  },
+  {
+   "slug": "wcag-criteria-mapping",
+   "section": null,
+   "mark": {
+    "form": "N/A",
+    "record": "fct-5k3yneta@2"
+   }
+  }
+ ]
+}

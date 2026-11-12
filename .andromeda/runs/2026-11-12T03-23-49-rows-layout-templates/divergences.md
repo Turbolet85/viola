@@ -1,0 +1,2 @@
+decision/board-vs-strip · src/cmd/verify.rs:46 · shows: `viola verify` (and `plugin install`) take no ViolaName target, so not every verb other than `list` acts on one strip. · fct-rgpifi6m@1,fct-v22aegyt@1
+decision/shared-captions-fixed · src/human/board/rows.rs:42 · shows: The six captions are fixed in code, but no terminal fleet console exists in the tree to reuse them (no match for fleet in src or crates). · rule: The six captions, words and slot order are fixed. · fct-mpm2axrl@2

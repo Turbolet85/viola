@@ -1,0 +1,3 @@
+decision/stable-session-slots · crates/viola-state/src/board.rs:95 · shows: The board re-sorts instances by name on every read, so a session's slot moves when another instance appears or goes; only state never reorders rows. · fct-kzedbiyf@1
+decision/two-hues-one-role-each · src/human/style.rs:16 · shows: The colour layer has one hue token only (the amber attention token); no second hue exists. · fct-zwz5bcg2@1
+decision/list-is-the-board · src/cmd/mod.rs:83 · shows: `verify` and `plugin install` act on no strip (verify takes no instance name, plugin install writes a marketplace), so not every other verb acts on one strip. · fct-3l74p2hv@2
