@@ -1,2 +1,0 @@
-@none
-reason: The chunk changes how readiness is read off the screen (the input box beside the footer literals), the recorded screen rows' form, a stamps field and the advisory ignores; it adds or changes no CLI output wording, refusal or hint pair, verb, column or surface (fct-xdv7p2qy, fct-w5at72sz, fct-tossjtpl), the verify step count stays 24 and the recorded-fixture refusal wording stands unchanged (fct-tqqkdu4b), so every layout-templates row it touches, the three picked as stale included, stays true.

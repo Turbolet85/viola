@@ -1,0 +1,90 @@
+@pick n=1 row=decision/anyhow-only-root-bin v=no
+@pick n=2 row=decision/clap-for-cli v=no
+@pick n=3 row=decision/claude-shapes-isolated v=no
+@pick n=4 row=decision/dual-mit-apache-license v=no
+@pick n=5 row=decision/interprocess-local-sockets v=no
+@pick n=6 row=decision/local-cargo-install v=no
+@pick n=7 row=decision/ndjson-logs-and-json-snapshots v=no
+@pick n=8 row=decision/no-crates-io-publish v=no
+@pick n=9 row=decision/one-shared-persist-helper v=no
+@pick n=10 row=decision/rmcp-for-mcp v=no
+@pick n=11 row=decision/rust-toolchain-pinned v=no
+@pick n=12 row=decision/tolerant-serde-external v=no
+@pick n=13 row=contract/channel-result/refusal v=no
+@pick n=14 row=contract/channel/framing v=no
+@pick n=15 row=contract/timestamps/format v=no
+@pick n=16 row=decision/banned-features v=no
+@pick n=17 row=decision/channel-tokio-only-behind-feature v=no
+@pick n=18 row=decision/crates-io-only v=no
+@pick n=19 row=decision/deny-bans-proven v=no
+@pick n=20 row=decision/deny-single-target v=no
+@pick n=21 row=decision/dual-licence v=no
+@pick n=22 row=decision/fmt-and-clippy-gate v=no
+@pick n=23 row=decision/fuzz-lockfile-audited v=no
+@pick n=24 row=decision/install-from-source v=no
+@pick n=25 row=decision/licence-allowlist v=no
+@pick n=26 row=decision/lint-bans-proven v=no
+@pick n=27 row=decision/module-graph-review-not-gate v=no
+@pick n=28 row=decision/msrv v=no
+@pick n=29 row=decision/no-c-building-crates v=no
+@pick n=30 row=decision/no-crates-io-publishing v=no
+@pick n=31 row=decision/no-orphan-modules v=yes mode=add-to fact=F4
+@pick n=32 row=decision/no-print-macros v=no
+@pick n=33 row=decision/no-telemetry-crates v=no
+@pick n=34 row=decision/obs-event-only-emitter v=yes mode=stale
+@pick n=35 row=decision/rmcp-features-exact v=no
+@pick n=36 row=decision/serde-json-recursion-limit v=no
+@pick n=37 row=decision/single-human-writer v=no
+@pick n=38 row=decision/sync-crates-tokio-free v=no
+@pick n=39 row=decision/workspace-dependency-pins v=no
+@pick n=40 row=contract/cli-json/internal-error v=no
+@pick n=41 row=contract/human-stderr/internal-error v=no
+@pick n=42 row=contract/human-stderr/refusal v=no
+@pick n=43 row=decision/actions-pinned-by-sha v=no
+@pick n=44 row=decision/ci-tools-pinned v=no
+@pick n=45 row=decision/coverage-floors v=no
+@pick n=46 row=decision/event-payload-via-env v=no
+@pick n=47 row=decision/fuzz-replay-ci v=no
+@pick n=48 row=decision/gate-steps-fail-closed v=no
+@pick n=49 row=decision/github-actions-ci v=no
+@pick n=50 row=decision/local-pre-push-gate v=no
+@pick n=51 row=decision/msrv-ci v=no
+@pick n=52 row=decision/mutation-at-epoch-boundary v=yes mode=stale
+@pick n=53 row=decision/no-workflow-concurrency v=no
+@pick n=54 row=decision/perf-gate v=no
+@pick n=55 row=decision/pre-push-clean-environment v=no
+@pick n=56 row=decision/real-claude-local-only v=yes mode=stale
+@pick n=57 row=decision/release-build-viola-only v=yes mode=stale
+@pick n=58 row=decision/release-via-dist v=no
+@pick n=59 row=decision/sync-crates-compile-without-tokio v=no
+@pick n=60 row=decision/tests-against-fake-agent v=yes mode=stale
+@pick n=61 row=decision/uploads-gated-on-secret-scan v=yes mode=stale
+@pick n=62 row=decision/weekly-advisories v=no
+@pick n=63 row=decision/weekly-fuzz v=no
+@pick n=64 row=decision/workflow-permissions v=no
+@pick n=65 row=contract/pre-push/linux-only v=no
+@pick n=66 row=contract/pre-push/passwd-home v=no
+@pick n=67 row=decision/agent-claude-pure v=no
+@pick n=68 row=decision/claude-shapes-in-one-crate v=no
+@pick n=69 row=decision/core-depends-on-no-viola-crate v=no
+@pick n=70 row=decision/e2e-test-only v=yes mode=stale
+@pick n=71 row=decision/mcp-dependencies v=no
+@pick n=72 row=decision/pty-knows-no-agent v=no
+@pick n=73 row=decision/root-bin-consumes-normalised-events v=no
+@pick n=74 row=decision/local-only-deployment v=no
+@pick n=75 row=decision/run-pins-self-copy v=yes mode=stale
+@pick n=76 row=decision/single-binary-on-path v=no
+@pick n=77 row=decision/anyhow-at-bin-edge-only v=no
+@pick n=78 row=decision/board-read-model-shape v=no
+@pick n=79 row=decision/cargo-deny-bans v=no
+@pick n=80 row=decision/channel-json-rpc-local-sockets v=no
+@pick n=81 row=decision/channel-tokio-behind-feature v=no
+@pick n=82 row=decision/exact-toolchain-pin v=no
+@pick n=83 row=decision/fuzz-separate-workspace v=no
+@pick n=84 row=decision/no-tokio-in-sync-crates v=no
+@pick n=85 row=decision/no-tracing-level-macros v=yes mode=stale
+@pick n=86 row=decision/pty-seam-portable-pty v=no
+@pick n=87 row=decision/release-carries-viola-only v=yes mode=stale
+@pick n=88 row=decision/rmcp-exact-features v=no
+@pick n=89 row=decision/snapshots-check-mode-only v=no
+@pick n=90 row=decision/zero-panics-gate v=no

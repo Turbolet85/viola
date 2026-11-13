@@ -1,0 +1,99 @@
+[
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "cbb682be",
+"ts": "2026-11-13T12:42:43Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-13-epoch-8-cleanup",
+"--source",
+"~/dev/projects/additional/viola-overseer/wrap-epoch-8-cleanup-directive.md",
+"--kind",
+"relay",
+"--why",
+"the operator wrap directive for this chunk: five items (digit_runs CARRY, v2-06 regex enumeration, the founder word that a print-and-exit read is no live start, the report block, founder forks raised as a dialog)",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-13T12-42-23-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I5 · copy no-repo · ../additional/viola-overseer/wrap-epoch-8-cleanup-directive.md",
+"cite: inputs#I5"
+],
+"stderr": null,
+"wrote": [
+"inputs/I5-wrap-epoch-8-cleanup-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I5",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/wrap-epoch-8-cleanup-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "4b05c3eefc2c407aceb1f46e4622ff03793dd3af7dded39f8465d878e46f19ea",
+"copy": "I5-wrap-epoch-8-cleanup-directive.md.txt",
+"link": false,
+"read_at": "2026-11-13T12:42:43Z",
+"step": "wrap",
+"why": "the operator wrap directive for this chunk: five items (digit_runs CARRY, v2-06 regex enumeration, the founder word that a print-and-exit read is no live start, the report block, founder forks raised as a dialog)"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "cbb682be",
+"ts": "2026-11-13T12:42:46Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-13-epoch-8-cleanup",
+"--run-dir",
+".andromeda/runs/2026-11-13T12-42-23-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-epoch-8-cleanup-directive.md",
+"I1 cited scope.md:13 · research.md:7 · plan.md:11 · plan.md:14 · plan.md:108 · plan.md:109 · plan.md:354 · plan.md:378 · plan.md:381",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/epoch6-8-triage.md",
+"I2 cited scope.md:9 · research.md:7 · plan.md:10 · plan.md:378",
+"I3 n/a — a message has no live source · copy message · message: the overseer as delegate, P4 dialog, 2026-11-13",
+"I3 cited research.md:88 · research.md:103 · plan.md:14 · plan.md:20 · plan.md:73 · plan.md:80 · plan.md:378 · plan.md:383 · plan.md:385",
+"I4 n/a — a message has no live source · copy message · message: the operator, relaying the overseer as delegate, P5 word, 2026-11-13",
+"I4 UNCITED",
+"I5 unchanged · copy no-repo · ../additional/viola-overseer/wrap-epoch-8-cleanup-directive.md",
+"I5 UNCITED",
+"inputs: 5 entries — unchanged 3 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 2 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 5,
+"counts": {
+"unchanged": 3,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 2,
+"unparsed": 0
+}
+}
+]

@@ -1,10 +1,6 @@
 # Coverage — viola-0.2.0
 
-verified 1/31 · deferred 0 · planned 28 · implemented 2 · unclaimed 28
-
-## implemented (2)
-- v2-01 · Epoch 8 cleanup · 2026-11-13-epoch-8-cleanup
-- v2-06 · The secret scan's `cookie` class removed · 2026-11-13-epoch-8-cleanup
+verified 3/31 · deferred 0 · planned 28 · implemented 0 · unclaimed 28
 
 ## planned, unclaimed (28)
 - v2-02 · The dialog-hold ceiling read live
@@ -36,5 +32,7 @@ verified 1/31 · deferred 0 · planned 28 · implemented 2 · unclaimed 28
 - v2-30 · Model and effort named at launch
 - v2-31 · Switch a session's model and effort
 
-## verified (1)
+## verified (3)
+- v2-01 · Epoch 8 cleanup · 2026-11-13-epoch-8-cleanup
+- v2-06 · The secret scan's `cookie` class removed · 2026-11-13-epoch-8-cleanup
 - v2-29 · Verify waits on the input box, not the footer · 2026-11-13-verify-readiness-on-the-input-box

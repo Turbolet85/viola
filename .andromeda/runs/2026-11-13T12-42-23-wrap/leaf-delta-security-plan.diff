@@ -1,0 +1,8 @@
+--- a/.andromeda/security-plan.md
++++ b/.andromeda/security-plan.md
+@@ -516,4 +516,4 @@
+ contract/artifact-canary-scan-classes/content-canary · artifact canary scan classes · content canary — The content canary fails the scan only in home-level role files.
+-contract/artifact-canary-scan-classes/cookie-header · artifact canary scan classes · cookie header — The scan fails on a cookie: header, matched case-insensitively.
+ contract/artifact-canary-scan-classes/diagnostics-mode · artifact canary scan classes · diagnostics file mode — The scan fails on a diagnostics file whose mode is not 0600.
++contract/artifact-canary-scan-classes/unreadable · artifact canary scan classes · unreadable — The scan fails on a file it cannot read.
+ contract/claude-child-process-start/env-kept · process-start claude-child line · env_kept — Names the kept environment names, never a value.

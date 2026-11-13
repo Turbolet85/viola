@@ -26,7 +26,7 @@ The obs harness is **bound** to the test harness: tests owns the grepped fields 
 | Metric | SLO | Source |
 |---|---|---|
 | Unlogged panics | 0 — every panic after init step 4 = exactly one `event:"panic"` line; `hook` still exits 0 | G2 over home-level role files |
-| Secret-scan hits | 0 (`Cookie` header, `CLAUDE*` values, canary in home-level files) | `secret-scan` step before any diagnostics-bearing upload (the admissible-by-content unscanned uploads are listed in obs-plan §8 item 5) |
+| Secret-scan hits | 0 (`CLAUDE*` values, the content canary, mode 0600 and an unreadable file, over every `diagnostics/` file; a `Cookie` header line is no class and no hit) | `secret-scan` step before any diagnostics-bearing upload (the admissible-by-content unscanned uploads are listed in obs-plan §8 item 5) |
 | Schema-conformance failures | 0 | G4 |
 | Hook latency | hyperfine `max` < 1.0 s (SessionEnd; spine provisional) — logger init = 1 open + appends, after the hook's instance strict-modes check and `check_diagnostics`' metadata reads, all inside the gate (the timed instance must pass that check, else the gate passes vacuously); the socket-directory check, the peer-euid decision and the server check (the connected endpoint's peer pid and its OS start time against the one `snapshot.json` read) on the hook `connect` sit in that timed path too | the `perf` job: `run --perf` with `VIOLA_NAME` / `VIOLA_DIR` set, `gate --require perf` over five `perf-<hook>.json` rows (`pre-tool-use` included, on an unstamped perf session) |
 | Heartbeat flip | same process: 4.9 s live / 5.1 s stale or gone; pid or start-time mismatch → gone at any age | `viola_state::liveness::classify` unit test (injected age) |

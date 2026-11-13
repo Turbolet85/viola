@@ -1,0 +1,47 @@
+[[pattern]]
+id = 'cookie'
+regex = 'cookie'
+ignore_case = true
+
+[[pattern]]
+id = 'check-present'
+regex = 'check_present|presence check'
+
+[[pattern]]
+id = 'hand-scanners'
+regex = '\b(blanked|code_only|char_literal_len|raw_string_opening)\b|masking scanner|source_scan'
+
+[[pattern]]
+id = 'shared-helper'
+regex = 'one-shared-test-helper|one shared (copy|test helper)|private_dir'
+
+[[pattern]]
+id = 'split-tree'
+regex = 'viola-fake-agent(\.rs|/)|ledger/test_cases|tests/cli_verify'
+
+[[pattern]]
+id = 'carry-cfg'
+regex = 'LEDGER_ROWS|cfg\(not\(unix\)\)'
+
+[[pattern]]
+id = 'tap'
+regex = 'viola-mcp-tap|mcp_tap'
+
+[[pattern]]
+id = 'free-bytes'
+regex = 'free_bytes|writable_bytes'
+
+[[pattern]]
+id = 'survivor'
+regex = 'survivor'
+ignore_case = true
+
+[[pattern]]
+id = 'owner-title'
+fixed = 'Epoch 8 cleanup'
+ignore_case = true
+
+[[pattern]]
+id = 'owner-generic'
+regex = 'owned by a (route entry|CARRY)'
+ignore_case = true

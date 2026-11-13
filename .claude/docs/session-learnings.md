@@ -114,7 +114,9 @@ pty's screen before each key (security-plan §Data Protection holds the rule, th
 The founder sets the live `claude` start cap per chunk, as his answer to that chunk's P4 fork, recorded in its
 `inputs/`. Read the cap there before naming it; a figure carried in the handoff or from the previous chunk's round is
 not this chunk's (a session dashboard once named the previous chunk's cap, four times this chunk's, and the operator
-corrected it before any start).
+corrected it before any start). Extended 2026-11-13: a print-and-exit read of the binary (`claude --version`,
+`claude --help`) is no live start and counts against no live-start cap — the founder's own word («Не считается»,
+2026-11-13) — so a version read by path before a first start and a version read through `mise ls claude` both stand.
 
 ---
 

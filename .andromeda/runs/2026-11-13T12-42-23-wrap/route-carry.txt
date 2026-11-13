@@ -1,0 +1,2 @@
+@carry in=chk-ikt2ehmw
+CARRY: `fn digit_runs` stands twice, in `tests/security_negatives_server_identity.rs` and `tests/security_negatives_socket_dir.rs` (grep `fn digit_runs` over `tests/`), left out of the Epoch 8 cleanup and owned here: one shared copy in `tests/support/` (test-plan · decision/one-shared-test-helper) — the operator's wrap directive, item 1 (chunks/2026-11-13-epoch-8-cleanup/inputs/I5-wrap-epoch-8-cleanup-directive.md.txt), over the delegate's P5 word (chunks/2026-11-13-epoch-8-cleanup/inputs/I4-relay-2.md.txt)

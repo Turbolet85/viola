@@ -1,0 +1,67 @@
+[
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "818c5682",
+"ts": "2026-11-13T13:24:51Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-13-epoch-8-cleanup",
+"--date",
+"2026-11-13",
+"--run-dir",
+".andromeda/runs/2026-11-13T12-42-23-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-o6qs23eq strip CARRY: 202ch \"CARRY: the dead `#[cfg(not(unix))]` cons\"",
+"pin next markerless chk-ikt2ehmw holds CARRY:×14",
+"2026-11-13-epoch-8-cleanup · strip 1 block(s) · spent in the spine",
+"dry-run · would flip 2026-11-13-epoch-8-cleanup pending -> complete"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "818c5682",
+"ts": "2026-11-13T13:24:56Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-13-epoch-8-cleanup",
+"--date",
+"2026-11-13",
+"--run-dir",
+".andromeda/runs/2026-11-13T12-42-23-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-o6qs23eq strip CARRY: 202ch \"CARRY: the dead `#[cfg(not(unix))]` cons\"",
+"pin next markerless chk-ikt2ehmw holds CARRY:×14",
+"flip 2026-11-13-epoch-8-cleanup pending -> complete · tx 966",
+"compacted 1 complete line(s) — their freight spent in the spine, no archive (U61)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-13T07-21-57-2026-11-13-epoch-8-cleanup.ndjson",
+"./.andromeda/master-route.md",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]

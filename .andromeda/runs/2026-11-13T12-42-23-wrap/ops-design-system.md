@@ -1,0 +1,2 @@
+@none
+reason: The chunk adds and changes no UI element and no CLI output wording (Coverage: no new UI element, tokens n/a, fct-qazl6hdl; no product API changed, fct-ykh3ebsp). The census filter change in the error-bodies check only leaves the test-only fake agent's module dir out of the scan (fct-ud4xtspq), so decision/no-internals-in-errors still holds as written. The session brings no task fact for design-system.
