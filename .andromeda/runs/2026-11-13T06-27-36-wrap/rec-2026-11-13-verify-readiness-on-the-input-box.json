@@ -1,0 +1,941 @@
+[
+{
+"tool": "rec",
+"v": "1.40",
+"sha8": "bd622cd7",
+"ts": "2026-11-13T06:34:38Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-13-verify-readiness-on-the-input-box",
+"--file",
+".andromeda/cache/docs/2026-11-13-verify-readiness-on-the-input-box/report.md",
+"--run-dir",
+".andromeda/runs/2026-11-13T06-27-36-wrap",
+"--marker",
+"2026-11-13-verify-readiness-on-the-input-box"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-13-verify-readiness-on-the-input-box/report rev 1 · 53 new · 0 revised · 0 retired · 0 kept · tx 878"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-13T01-43-00-2026-11-13-verify-readiness-on-the-input-box.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.40",
+"sha8": "bd622cd7",
+"ts": "2026-11-13T06:34:39Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-13-verify-readiness-on-the-input-box",
+"--section-file",
+".andromeda/runs/2026-11-13T06-27-36-wrap/new-text.md",
+"--heading",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-13T06-27-36-wrap",
+"--marker",
+"2026-11-13-verify-readiness-on-the-input-box"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-13-verify-readiness-on-the-input-box/report rev 2 · 25 new · 0 revised · 0 retired · 53 kept · tx 879"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-13T01-43-00-2026-11-13-verify-readiness-on-the-input-box.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.40",
+"sha8": "bd622cd7",
+"ts": "2026-11-13T06:35:17Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-13T06-27-36-wrap/cites-land-2026-11-13-verify-readiness-on-the-input-box.ndjson",
+"--base",
+"df9af3571f952c1632352b57027a19fd706b581e",
+"--run-dir",
+".andromeda/runs/2026-11-13T06-27-36-wrap",
+"--marker",
+"2026-11-13-verify-readiness-on-the-input-box",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 0 fact(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.40",
+"sha8": "bd622cd7",
+"ts": "2026-11-13T06:35:25Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-13T06-27-36-wrap/cites-land-2026-11-13-verify-readiness-on-the-input-box.ndjson",
+"--base",
+"df9af3571f952c1632352b57027a19fd706b581e",
+"--run-dir",
+".andromeda/runs/2026-11-13T06-27-36-wrap",
+"--marker",
+"2026-11-13-verify-readiness-on-the-input-box"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 0 fact(s) · 0 edge(s) · tx 881"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-13T01-43-00-2026-11-13-verify-readiness-on-the-input-box.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.40",
+"sha8": "bd622cd7",
+"ts": "2026-11-13T06:37:16Z",
+"argv": [
+"rows-packs",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-13T06-27-36-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-13-verify-readiness-on-the-input-box"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 987 · packs 10 · pack 100 · 274159 B",
+"security-plan: rows 614 · packs 7 · pack 100 · 176458 B",
+"design-system: rows 325 · packs 4 · pack 100 · 77497 B",
+"layout-templates: rows 224 · packs 3 · pack 100 · 52598 B",
+"test-plan: rows 1374 · packs 14 · pack 100 · 361722 B",
+"obs-plan: rows 1059 · packs 11 · pack 100 · 287316 B",
+"a11y-plan: rows 241 · packs 3 · pack 100 · 67218 B",
+"rows-packs: 7 master(s) · 4824 row(s) · 52 pack(s) · 2 draw(s) a pack · pin 881"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-13T06-27-36-wrap/rows-packs.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.40",
+"sha8": "bd622cd7",
+"ts": "2026-11-13T06:51:36Z",
+"argv": [
+"rows-union",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-13T06-27-36-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-13-verify-readiness-on-the-input-box"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 987 · packs 10 · picked 28 (19 by every draw) · standing 0 · 233299 B",
+"security-plan: rows 614 · packs 7 · picked 29 (22 by every draw) · standing 0 · 123893 B",
+"design-system: rows 325 · packs 4 · picked 13 (5 by every draw) · standing 0 · 60893 B",
+"layout-templates: rows 224 · packs 3 · picked 3 (1 by every draw) · standing 0 · 46586 B",
+"test-plan: rows 1374 · packs 14 · picked 49 (34 by every draw) · standing 0 · 277835 B",
+"obs-plan: rows 1059 · packs 11 · picked 10 (1 by every draw) · standing 0 · 195268 B",
+"a11y-plan: rows 241 · packs 3 · picked 5 (2 by every draw) · standing 0 · 50405 B",
+"rows-union: 7 master(s) · picked 137 of 4824 · rule any"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-13T06-27-36-wrap/arch-rows.md",
+".andromeda/runs/2026-11-13T06-27-36-wrap/arch-standing.md",
+".andromeda/runs/2026-11-13T06-27-36-wrap/arch-pick-counts.md",
+".andromeda/runs/2026-11-13T06-27-36-wrap/security-rows.md",
+".andromeda/runs/2026-11-13T06-27-36-wrap/security-standing.md",
+".andromeda/runs/2026-11-13T06-27-36-wrap/security-pick-counts.md",
+".andromeda/runs/2026-11-13T06-27-36-wrap/design-rows.md",
+".andromeda/runs/2026-11-13T06-27-36-wrap/design-standing.md",
+".andromeda/runs/2026-11-13T06-27-36-wrap/design-pick-counts.md",
+".andromeda/runs/2026-11-13T06-27-36-wrap/layouts-rows.md",
+".andromeda/runs/2026-11-13T06-27-36-wrap/layouts-standing.md",
+".andromeda/runs/2026-11-13T06-27-36-wrap/layouts-pick-counts.md",
+".andromeda/runs/2026-11-13T06-27-36-wrap/tests-rows.md",
+".andromeda/runs/2026-11-13T06-27-36-wrap/tests-standing.md",
+".andromeda/runs/2026-11-13T06-27-36-wrap/tests-pick-counts.md",
+".andromeda/runs/2026-11-13T06-27-36-wrap/obs-rows.md",
+".andromeda/runs/2026-11-13T06-27-36-wrap/obs-standing.md",
+".andromeda/runs/2026-11-13T06-27-36-wrap/obs-pick-counts.md",
+".andromeda/runs/2026-11-13T06-27-36-wrap/a11y-rows.md",
+".andromeda/runs/2026-11-13T06-27-36-wrap/a11y-standing.md",
+".andromeda/runs/2026-11-13T06-27-36-wrap/a11y-pick-counts.md",
+".andromeda/runs/2026-11-13T06-27-36-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.40",
+"sha8": "bd622cd7",
+"ts": "2026-11-13T06:57:11Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-13T06-27-36-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-13T06-27-36-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-13T06-27-36-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-13T06-27-36-wrap",
+"--marker",
+"2026-11-13-verify-readiness-on-the-input-box",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/advisory-ignore-disabled-feature-only · rejected",
+"fit: fits 4 · not_master 0 · stands 0",
+"## 2026-11-13-verify-readiness-on-the-input-box — Established Decisions: 2 row(s)\n**Section:** Established Decisions\n**Change:** ~ decision/screen-signatures-compiled · rule: was «Modal and input-box signatures are compiled literals validated by each CLI version's stamp; a screen is ready when a row holds an input-box literal and no row holds a modal literal.»; now «Modal and input-box signatures are compiled literals validated by each CLI version's stamp; a screen is ready when no row holds a modal literal and a footer literal stands or the box's own rows do: a rule row of the compiled rule char alone, at least 40, above a row opening the compiled prompt char.»\n~ decision/verify-box-wait-for-literal · rule: was «After each added paste turn of viola verify, the rows the paste guard reads come only from a quiet screen holding a compiled literal, a poisoned screen, or the probe deadline; a quiet screen with no literal keeps waiting.»; now «After each added paste turn of viola verify, the rows the paste guard reads come only from a quiet screen holding the input box (a footer literal or the box's own rows) or a modal literal, a poisoned screen, or the probe deadline; any other quiet screen keeps waiting.»\n**Why:** decision/screen-signatures-compiled: The readiness predicate now reads the input box up on its own rule and prompt rows beside the footer literals, a rule shorter than 40 chars leaving the gate waiting, so the row's readiness rule must say so. — resolved by the operator (Q1): the founder's own answer, inputs#I9 (F1 «Утвердить ignore» · F2 «Утвердить добавление»); card confirm delegate overseer, PROVISIONAL\ndecision/verify-box-wait-for-literal: Verify's settle and box wait now end on the input box read by its footer literal or its own rows, or on a modal literal, so the wait's rule must name the box's rows beside the literals. — resolved by the operator (Q1): the founder's own answer, inputs#I9 (F1 «Утвердить ignore» · F2 «Утвердить добавление»); card confirm delegate overseer, PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-13T06-27-36-wrap/",
+"## 2026-11-13-verify-readiness-on-the-input-box — Standard Contracts: 1 row(s)\n**Section:** Standard Contracts\n**Change:** ~ contract/ledger-stamps/measured · promise: was «The probe's readings (largest hook payload per spine event, typed_probe timings, dialog_probe); additions need no v bump, and run reads no field of it.»; now «The probe's readings (largest hook payload per spine event, typed_probe timings and box_only_guards, the count of typed-run guards that passed on the input box's own rows with no footer literal on any row, dialog_probe); additions need no v bump, and run reads no field of it.»\n**Why:** contract/ledger-stamps/measured: The stamps envelope's measured typed_probe gains box_only_guards, the count verify stamps of box-only guard passes, so the contract's list of readings must carry it.\n**Ref:** .andromeda/runs/2026-11-13T06-27-36-wrap/",
+"## 2026-11-13-verify-readiness-on-the-input-box — Occupied Resources: 1 row(s)\n**Section:** Occupied Resources\n**Change:** ~ decision/screen-fixtures-signature-rows-only · rule: was «A recorded screen fixture keeps only the rows that hold a compiled signature literal; every other row is an empty string.»; now «A recorded screen fixture keeps a row holding a footer or modal literal whole, the input box's rule row as its rule chars alone and its prompt row as the prompt char alone, every other row empty; a box whose live prompt row holds a home path, the username or an email refuses the recording.»\n**Why:** decision/screen-fixtures-signature-rows-only: A recorded box row is now kept as its literal alone and its seam is the live prompt row's whole text, so the fixture rule must say how box rows are kept and what refuses them. — resolved by the operator (Q1): the founder's own answer, inputs#I9 (F1 «Утвердить ignore» · F2 «Утвердить добавление»); card confirm delegate overseer, PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-13T06-27-36-wrap/",
+"patterns: none: 4 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 4 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.40",
+"sha8": "bd622cd7",
+"ts": "2026-11-13T06:57:11Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-13T06-27-36-wrap/ops-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-13T06-27-36-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-13T06-27-36-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-13T06-27-36-wrap",
+"--marker",
+"2026-11-13-verify-readiness-on-the-input-box",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 5 · not_master 0 · stands 0",
+"## 2026-11-13-verify-readiness-on-the-input-box — Data Protection: 1 row(s)\n**Section:** Data Protection\n**Change:** ~ decision/screen-fixture-signature-rows-only · rule: was «A screen fixture keeps only the rows holding a compiled signature literal, the rest blanked; a kept row the scrub would rewrite, or a username split across a row seam, refuses the recording.»; now «A screen fixture keeps only signature rows (a row holding a compiled footer or modal literal whole, a box rule row as its rule chars alone, a prompt row as the prompt char alone), the rest blanked; another box row, a kept row the scrub would rewrite or a username split across a row seam is refused.»\n**Why:** decision/screen-fixture-signature-rows-only: The recorded-screen form now keeps the input box's rule and prompt rows as their literals alone and the fixture walk refuses a box row holding anything more, which the row's rule must say. — resolved by the operator (Q1): the founder's own answer, inputs#I9 (F1 «Утвердить ignore» · F2 «Утвердить добавление»); card confirm delegate overseer, PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-13T06-27-36-wrap/",
+"## 2026-11-13-verify-readiness-on-the-input-box — Dependency Security: 5 row(s)\n**Section:** Dependency Security\n**Change:** ~ decision/ci-cargo-deny-gate · rule: was «CI runs cargo deny check over all four check families on the root lockfile and fails the build on any advisory, yanked crate or unknown source; the fuzz lockfile is audited for advisories and sources in its own step.»; now «CI runs cargo deny check over all four check families on the root lockfile and fails the build on any advisory not on its reasoned ignore list, any yanked crate or unknown source; the fuzz lockfile is audited for advisories and sources in its own step.»\n− decision/cargo-deny-gate-clean → decision/ci-cargo-deny-gate: The advisory ignore list is no longer empty, so both the row's name and rule are false; the standing CI cargo-deny gate row carries the gate.\n− decision/no-ignored-advisories → decision/rmcp-advisory-ignores: cargo-deny now ignores three advisories, so a row named and ruled as ignoring none is false.\n+ decision/rmcp-advisory-ignores — Reasoned advisory ignores for disabled rmcp features\n+ decision/rustix-advisory-floor — rustix version floor\n**Why:** decision/ci-cargo-deny-gate: deny.toml's advisory ignore list went from empty to three reasoned entries, so the gate no longer fails on every advisory. — resolved by the operator (Q1): the founder's own answer, inputs#I9 (F1 «Утвердить ignore» · F2 «Утвердить добавление»); card confirm delegate overseer, PROVISIONAL\ndecision/cargo-deny-gate-clean: deny.toml now ignores three rmcp advisories, contradicting a gate held with an empty ignore list. — resolved by the operator (Q1): the founder's own answer, inputs#I9 (F1 «Утвердить ignore» · F2 «Утвердить добавление»); card confirm delegate overseer, PROVISIONAL\ndecision/no-ignored-advisories: The three reasoned rmcp ignores were added and ratified, and the heir row states the advisory policy as it now stands. — resolved by the operator (Q1): the founder's own answer, inputs#I9 (F1 «Утвердить ignore» · F2 «Утвердить добавление»); card confirm delegate overseer, PROVISIONAL\ndecision/rmcp-advisory-ignores: The chunk added three reasoned advisory ignores to deny.toml, ratified by the founder, a dependency-security decision future work must respect. — resolved by the operator (Q1): the founder's own answer, inputs#I9 (F1 «Утвердить ignore» · F2 «Утвердить добавление»); card confirm delegate overseer, PROVISIONAL\ndecision/rustix-advisory-floor: rustix was bumped from 1.1.5 to 1.1.6 to clear RUSTSEC-2026-0486 without an ignore, a floor like the section's other advisory floors.\n**Ref:** .andromeda/runs/2026-11-13T06-27-36-wrap/",
+"## 2026-11-13-verify-readiness-on-the-input-box — Input Validation: 1 row(s)\n**Section:** Input Validation\n**Change:** + decision/input-box-readiness-from-literals — Input box readiness read from compiled literals\n**Why:** decision/input-box-readiness-from-literals: The readiness predicate gained the input box's own rows beside the footer literals for verify and viola run's gate, a ratified widening no row of the section states. — resolved by the operator (Q1): the founder's own answer, inputs#I9 (F1 «Утвердить ignore» · F2 «Утвердить добавление»); card confirm delegate overseer, PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-13T06-27-36-wrap/",
+"patterns: none: 4 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 7 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.40",
+"sha8": "bd622cd7",
+"ts": "2026-11-13T06:57:18Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-13T06-27-36-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-13T06-27-36-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-13T06-27-36-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-13T06-27-36-wrap",
+"--marker",
+"2026-11-13-verify-readiness-on-the-input-box"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/advisory-ignore-disabled-feature-only · rejected",
+"fit: fits 4 · not_master 0 · stands 0",
+"landed tx 882 · 4 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-13T01-43-00-2026-11-13-verify-readiness-on-the-input-box.ndjson",
+".andromeda/runs/2026-11-13T06-27-36-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.40",
+"sha8": "bd622cd7",
+"ts": "2026-11-13T06:57:19Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-13T06-27-36-wrap/ops-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-13T06-27-36-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-13T06-27-36-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-13T06-27-36-wrap",
+"--marker",
+"2026-11-13-verify-readiness-on-the-input-box"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 5 · not_master 0 · stands 0",
+"landed tx 883 · 7 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-13T01-43-00-2026-11-13-verify-readiness-on-the-input-box.ndjson",
+".andromeda/runs/2026-11-13T06-27-36-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.40",
+"sha8": "bd622cd7",
+"ts": "2026-11-13T06:57:19Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-13T06-27-36-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-13T06-27-36-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-13T06-27-36-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-13T06-27-36-wrap",
+"--marker",
+"2026-11-13-verify-readiness-on-the-input-box",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/fuzz-workspace-compile-check · rejected",
+"fit: fits 4 · not_master 1 · stands 0",
+"## 2026-11-13-verify-readiness-on-the-input-box — 1. Test Scope Summary: 1 row(s)\n**Section:** 1. Test Scope Summary\n**Change:** ~ decision/no-advisory-ignored · except: was «»; now «An advisory that sits only in an rmcp feature banned or off in the release graph is ignored with a reason naming that feature, standing until rmcp leaves <3.5.»\n**Why:** decision/no-advisory-ignored: deny.toml now ignores three rmcp advisories, each reasoned by its disabled feature and ratified by the founder, so the no-ignore rule stands only with that exception. — resolved by the operator (Q1): the founder's own answer, inputs#I9 (F1 «Утвердить ignore» · F2 «Утвердить добавление»); card confirm delegate overseer, PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-13T06-27-36-wrap/",
+"## 2026-11-13-verify-readiness-on-the-input-box — 9. CI Integration: 1 row(s)\n**Section:** 9. CI Integration\n**Change:** ~ decision/no-ignored-advisories · except: was «»; now «An advisory that sits only in an rmcp feature banned or off in the release graph is ignored with a reason naming that feature, standing until rmcp leaves <3.5.»\n**Why:** decision/no-ignored-advisories: cargo deny now ignores three advisories that sit only in banned or disabled rmcp features, ratified as an exception, so the row reading no ignore at all is false without it. — resolved by the operator (Q1): the founder's own answer, inputs#I9 (F1 «Утвердить ignore» · F2 «Утвердить добавление»); card confirm delegate overseer, PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-13T06-27-36-wrap/",
+"## 2026-11-13-verify-readiness-on-the-input-box — 4. Unit Test Strategy: 2 row(s)\n**Section:** 4. Unit Test Strategy\n**Change:** ~ contract/readiness-gate/gate-max-wait · promise: was «On a verified CLI a quiet screen with no input-box literal waits up to 8 500 ms and reads input-not-ready from that bound on.»; now «On a verified CLI a quiet screen on which the input box does not read up (no footer literal and no box rule row directly above a prompt row) waits up to 8 500 ms and reads input-not-ready from that bound on.»\n~ decision/screen-signatures-only · rule: was «The screen is evaluated only for compiled input-box and modal literals as the readiness gate's verdict; content beyond the compiled literals is never asserted.»; now «The screen is read only for compiled literals: the input box reads up when no row holds a modal literal and a footer literal stands or a rule row of at least 40 rule chars alone stands directly above a row opening the prompt char; that one predicate decides verify's guards and the readiness gate.»\n**Why:** contract/readiness-gate/gate-max-wait: the gate's verdict now reads the input box up on its own rule and prompt rows with no footer literal, so a quiet screen with no footer literal but the box up no longer waits. — resolved by the operator (Q1): the founder's own answer, inputs#I9 (F1 «Утвердить ignore» · F2 «Утвердить добавление»); card confirm delegate overseer, PROVISIONAL\ndecision/screen-signatures-only: readiness is now one predicate over the footer literals or the box's own rows with no modal, ratified for verify and viola run's gate, so the row naming only literals says it less. — resolved by the operator against fit's `not_master` (Q1): the founder's own answer, inputs#I9 (F1 «Утвердить ignore» · F2 «Утвердить добавление»); card confirm delegate overseer, PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-13T06-27-36-wrap/",
+"## 2026-11-13-verify-readiness-on-the-input-box — 7. Test Data & Fixtures: 1 row(s)\n**Section:** 7. Test Data & Fixtures\n**Change:** + decision/screen-fixture-box-rows-as-literals — Box rows recorded as their literals alone\n**Why:** decision/screen-fixture-box-rows-as-literals: screen fixtures now keep the input box's rows in a fixed literal-only form the walk enforces, a recording contract no standing row of the area states. — resolved by the operator (Q1): the founder's own answer, inputs#I9 (F1 «Утвердить ignore» · F2 «Утвердить добавление»); card confirm delegate overseer, PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-13T06-27-36-wrap/",
+"patterns: none: 4 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 5 operation(s) · 4 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.40",
+"sha8": "bd622cd7",
+"ts": "2026-11-13T06:57:20Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"a11y-plan",
+"--file",
+".andromeda/runs/2026-11-13T06-27-36-wrap/ops-a11y-plan.md",
+"--results",
+".andromeda/runs/2026-11-13T06-27-36-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-13T06-27-36-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-13T06-27-36-wrap",
+"--marker",
+"2026-11-13-verify-readiness-on-the-input-box",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-13-verify-readiness-on-the-input-box — 11. A11y Anti-Patterns (NEVER do these): 1 row(s)\n**Section:** 11. A11y Anti-Patterns (NEVER do these)\n**Change:** ~ decision/no-screen-content-parsing · rule: was «The rendered `claude` TUI screen is parsed only for compiled input-box and modal signatures, never for other content, and screenshots are never taken as a11y evidence (R7).»; now «The rendered `claude` TUI screen is parsed only for compiled signatures (footer literals, the input box's rule and prompt rows, modal literals), the prompt row only for its opening char, never the text after it; screenshots are never taken as a11y evidence (R7).»\n**Why:** decision/no-screen-content-parsing: The readiness signatures now include the input box's rule and prompt rows, ratified as a boundary widening, so the row bounding what the vendor screen is parsed for must name them and the prompt row's opening-char-only read. — resolved by the operator (Q1): the founder's own answer, inputs#I9 (F1 «Утвердить ignore» · F2 «Утвердить добавление»); card confirm delegate overseer, PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-13T06-27-36-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.40",
+"sha8": "bd622cd7",
+"ts": "2026-11-13T06:57:30Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-13T06-27-36-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-13T06-27-36-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-13T06-27-36-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-13T06-27-36-wrap",
+"--marker",
+"2026-11-13-verify-readiness-on-the-input-box",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/screen-signatures-only · rejected",
+"decision/fuzz-workspace-compile-check · rejected",
+"fit: fits 4 · not_master 0 · stands 0",
+"## 2026-11-13-verify-readiness-on-the-input-box — 1. Test Scope Summary: 1 row(s)\n**Section:** 1. Test Scope Summary\n**Change:** ~ decision/no-advisory-ignored · except: was «»; now «An advisory that sits only in an rmcp feature banned or off in the release graph is ignored with a reason naming that feature, standing until rmcp leaves <3.5.»\n**Why:** decision/no-advisory-ignored: deny.toml now ignores three rmcp advisories, each reasoned by its disabled feature and ratified by the founder, so the no-ignore rule stands only with that exception. — resolved by the operator (Q1): the founder's own answer, inputs#I9 (F1 «Утвердить ignore» · F2 «Утвердить добавление»); card confirm delegate overseer, PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-13T06-27-36-wrap/",
+"## 2026-11-13-verify-readiness-on-the-input-box — 9. CI Integration: 1 row(s)\n**Section:** 9. CI Integration\n**Change:** ~ decision/no-ignored-advisories · except: was «»; now «An advisory that sits only in an rmcp feature banned or off in the release graph is ignored with a reason naming that feature, standing until rmcp leaves <3.5.»\n**Why:** decision/no-ignored-advisories: cargo deny now ignores three advisories that sit only in banned or disabled rmcp features, ratified as an exception, so the row reading no ignore at all is false without it. — resolved by the operator (Q1): the founder's own answer, inputs#I9 (F1 «Утвердить ignore» · F2 «Утвердить добавление»); card confirm delegate overseer, PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-13T06-27-36-wrap/",
+"## 2026-11-13-verify-readiness-on-the-input-box — 4. Unit Test Strategy: 1 row(s)\n**Section:** 4. Unit Test Strategy\n**Change:** ~ contract/readiness-gate/gate-max-wait · promise: was «On a verified CLI a quiet screen with no input-box literal waits up to 8 500 ms and reads input-not-ready from that bound on.»; now «On a verified CLI a quiet screen on which the input box does not read up (no footer literal and no box rule row directly above a prompt row) waits up to 8 500 ms and reads input-not-ready from that bound on.»\n**Why:** contract/readiness-gate/gate-max-wait: the gate's verdict now reads the input box up on its own rule and prompt rows with no footer literal, so a quiet screen with no footer literal but the box up no longer waits. — resolved by the operator (Q1): the founder's own answer, inputs#I9 (F1 «Утвердить ignore» · F2 «Утвердить добавление»); card confirm delegate overseer, PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-13T06-27-36-wrap/",
+"## 2026-11-13-verify-readiness-on-the-input-box — 7. Test Data & Fixtures: 1 row(s)\n**Section:** 7. Test Data & Fixtures\n**Change:** + decision/screen-fixture-box-rows-as-literals — Box rows recorded as their literals alone\n**Why:** decision/screen-fixture-box-rows-as-literals: screen fixtures now keep the input box's rows in a fixed literal-only form the walk enforces, a recording contract no standing row of the area states. — resolved by the operator (Q1): the founder's own answer, inputs#I9 (F1 «Утвердить ignore» · F2 «Утвердить добавление»); card confirm delegate overseer, PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-13T06-27-36-wrap/",
+"patterns: none: 3 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 4 operation(s) · 4 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.40",
+"sha8": "bd622cd7",
+"ts": "2026-11-13T06:57:35Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-13T06-27-36-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-13T06-27-36-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-13T06-27-36-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-13T06-27-36-wrap",
+"--marker",
+"2026-11-13-verify-readiness-on-the-input-box"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/screen-signatures-only · rejected",
+"decision/fuzz-workspace-compile-check · rejected",
+"fit: fits 4 · not_master 0 · stands 0",
+"landed tx 884 · 4 operation(s) · 4 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-13T01-43-00-2026-11-13-verify-readiness-on-the-input-box.ndjson",
+".andromeda/runs/2026-11-13T06-27-36-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.40",
+"sha8": "bd622cd7",
+"ts": "2026-11-13T06:57:36Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"a11y-plan",
+"--file",
+".andromeda/runs/2026-11-13T06-27-36-wrap/ops-a11y-plan.md",
+"--results",
+".andromeda/runs/2026-11-13T06-27-36-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-13T06-27-36-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-13T06-27-36-wrap",
+"--marker",
+"2026-11-13-verify-readiness-on-the-input-box"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 885 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-13T01-43-00-2026-11-13-verify-readiness-on-the-input-box.ndjson",
+".andromeda/runs/2026-11-13T06-27-36-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.40",
+"sha8": "bd622cd7",
+"ts": "2026-11-13T06:58:36Z",
+"argv": [
+"land",
+"--root",
+".",
+"--chunk",
+"2026-11-13-verify-readiness-on-the-input-box",
+"--run-dir",
+".andromeda/runs/2026-11-13T06-27-36-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-13-verify-readiness-on-the-input-box · 1 new · 0 changed · 0 gone · 18 kept · tx 886"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-13T01-43-00-2026-11-13-verify-readiness-on-the-input-box.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.40",
+"sha8": "bd622cd7",
+"ts": "2026-11-13T07:01:53Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/a11y-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-13T06-27-36-wrap/staged-leaf-.claude__docs__a11y-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-13T06-27-36-wrap",
+"--marker",
+"2026-11-13-verify-readiness-on-the-input-box"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/a11y-summary.md rev 7 · 0 new · 1 revised · 0 retired · tx 887"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-13T01-43-00-2026-11-13-verify-readiness-on-the-input-box.ndjson",
+"./.claude/docs/a11y-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.40",
+"sha8": "bd622cd7",
+"ts": "2026-11-13T07:01:54Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/gotchas.md",
+"--file",
+"./.andromeda/runs/2026-11-13T06-27-36-wrap/staged-leaf-.claude__docs__gotchas.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-13T06-27-36-wrap",
+"--marker",
+"2026-11-13-verify-readiness-on-the-input-box"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/gotchas.md rev 8 · 0 new · 1 revised · 0 retired · tx 888"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-13T01-43-00-2026-11-13-verify-readiness-on-the-input-box.ndjson",
+"./.claude/docs/gotchas.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.40",
+"sha8": "bd622cd7",
+"ts": "2026-11-13T07:01:55Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola-agent-claude.md",
+"--file",
+"./.andromeda/runs/2026-11-13T06-27-36-wrap/staged-leaf-.claude__docs__services__viola-agent-claude.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-13T06-27-36-wrap",
+"--marker",
+"2026-11-13-verify-readiness-on-the-input-box"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola-agent-claude.md rev 6 · 0 new · 1 revised · 0 retired · tx 889"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-13T01-43-00-2026-11-13-verify-readiness-on-the-input-box.ndjson",
+"./.claude/docs/services/viola-agent-claude.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.40",
+"sha8": "bd622cd7",
+"ts": "2026-11-13T07:01:57Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/commands.md",
+"--file",
+"./.andromeda/runs/2026-11-13T06-27-36-wrap/staged-leaf-.claude__docs__commands.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-13T06-27-36-wrap",
+"--marker",
+"2026-11-13-verify-readiness-on-the-input-box"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/commands.md rev 10 · 0 new · 1 revised · 0 retired · tx 890"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-13T01-43-00-2026-11-13-verify-readiness-on-the-input-box.ndjson",
+"./.claude/docs/commands.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.40",
+"sha8": "bd622cd7",
+"ts": "2026-11-13T07:01:57Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/security.md",
+"--file",
+"./.andromeda/runs/2026-11-13T06-27-36-wrap/staged-leaf-.claude__rules__security.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-13T06-27-36-wrap",
+"--marker",
+"2026-11-13-verify-readiness-on-the-input-box"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/security.md rev 7 · 0 new · 2 revised · 0 retired · tx 891"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-13T01-43-00-2026-11-13-verify-readiness-on-the-input-box.ndjson",
+"./.claude/rules/security.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.40",
+"sha8": "bd622cd7",
+"ts": "2026-11-13T07:01:58Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/security-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-13T06-27-36-wrap/staged-leaf-.claude__docs__security-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-13T06-27-36-wrap",
+"--marker",
+"2026-11-13-verify-readiness-on-the-input-box"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/security-summary.md rev 6 · 0 new · 1 revised · 0 retired · tx 892"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-13T01-43-00-2026-11-13-verify-readiness-on-the-input-box.ndjson",
+"./.claude/docs/security-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.40",
+"sha8": "bd622cd7",
+"ts": "2026-11-13T07:01:59Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/tests-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-13T06-27-36-wrap/staged-leaf-.claude__docs__tests-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-13T06-27-36-wrap",
+"--marker",
+"2026-11-13-verify-readiness-on-the-input-box"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/tests-summary.md rev 7 · 0 new · 1 revised · 0 retired · tx 893"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-13T01-43-00-2026-11-13-verify-readiness-on-the-input-box.ndjson",
+"./.claude/docs/tests-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.40",
+"sha8": "bd622cd7",
+"ts": "2026-11-13T07:02:00Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/testing.md",
+"--file",
+"./.andromeda/runs/2026-11-13T06-27-36-wrap/staged-leaf-.claude__rules__testing.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-13T06-27-36-wrap",
+"--marker",
+"2026-11-13-verify-readiness-on-the-input-box"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/testing.md rev 10 · 0 new · 1 revised · 0 retired · tx 894"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-13T01-43-00-2026-11-13-verify-readiness-on-the-input-box.ndjson",
+"./.claude/rules/testing.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.40",
+"sha8": "bd622cd7",
+"ts": "2026-11-13T07:04:59Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-13T06-27-36-wrap/route-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-13T06-27-36-wrap",
+"--marker",
+"2026-11-13-verify-readiness-on-the-input-box",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 1 record(s) · 1 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.40",
+"sha8": "bd622cd7",
+"ts": "2026-11-13T07:05:05Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-13T06-27-36-wrap/route-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-13T06-27-36-wrap",
+"--marker",
+"2026-11-13-verify-readiness-on-the-input-box"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 1 edge(s) · tx 899 · cry-hqyx2rou … cry-hqyx2rou"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-13T01-43-00-2026-11-13-verify-readiness-on-the-input-box.ndjson",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.40",
+"sha8": "bd622cd7",
+"ts": "2026-11-13T07:05:39Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-13T06-27-36-wrap/run-node.txt",
+"--run-dir",
+".andromeda/runs/2026-11-13T06-27-36-wrap",
+"--marker",
+"2026-11-13-verify-readiness-on-the-input-box"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 0 edge(s) · tx 901 · run-j4fuimkt … run-j4fuimkt"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-13T01-43-00-2026-11-13-verify-readiness-on-the-input-box.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.40",
+"sha8": "bd622cd7",
+"ts": "2026-11-13T07:11:47Z",
+"argv": [
+"land",
+"--root",
+".",
+"--chunk",
+"2026-11-13-verify-readiness-on-the-input-box",
+"--run-dir",
+".andromeda/runs/2026-11-13T06-27-36-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"unchanged · 19 file(s) of 2026-11-13-verify-readiness-on-the-input-box"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

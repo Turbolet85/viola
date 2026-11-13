@@ -1,0 +1,2 @@
+@none
+reason: The chunk changes how readiness is read off the screen (the input box beside the footer literals), the recorded screen form, the stamps measured block and the cargo-deny ignores; it adds or changes no CLI output wording, refusal pair, hint, verb line or styling (fct-xdv7p2qy, fct-w5at72sz, fct-orhqek2q tokens n/a; the unclean-fixture refusal and input-not-ready hint keep their wording, the relied count stays 24, fct-tqqkdu4b), so every design-system row it touches, the picked ones included, stays true.

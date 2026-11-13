@@ -94,4 +94,4 @@
 
 ## viola-0.2.0
 
-2026-11-13-verify-readiness-on-the-input-box · pending · verify's typed run reads readiness off the input box, not a footer literal; the newest CLI verified; supply-chain green · → chk:2026-11-13-verify-readiness-on-the-input-box
+2026-11-13-verify-readiness-on-the-input-box · complete · verify's typed run and run's gate read readiness off the input box (a footer literal or its own rows); claude 2.1.323 verified; supply-chain green · → chk:2026-11-13-verify-readiness-on-the-input-box

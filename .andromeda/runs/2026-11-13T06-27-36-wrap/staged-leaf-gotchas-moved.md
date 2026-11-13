@@ -1,0 +1,1 @@
+staged-leaf-.claude__docs__gotchas.md moved out of the run dir at P7.3c: refused by gate.py hygiene (P1 drive, line 38 — the leaf's own historical example path). Byte-identical to the tracked .claude/docs/gotchas.md landed by cascade.py leaves --apply; sha256 6ac55a769ae449a96005725b3a410abf9c54028cf2a851f029ae13a2aaec1684.

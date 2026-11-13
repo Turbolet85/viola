@@ -1,9 +1,6 @@
 # Coverage — viola-0.2.0
 
-verified 0/31 · deferred 0 · planned 30 · implemented 1 · unclaimed 30
-
-## implemented (1)
-- v2-29 · Verify waits on the input box, not the footer · 2026-11-13-verify-readiness-on-the-input-box
+verified 1/31 · deferred 0 · planned 30 · implemented 0 · unclaimed 30
 
 ## planned, unclaimed (30)
 - v2-01 · Epoch 8 cleanup
@@ -36,3 +33,6 @@ verified 0/31 · deferred 0 · planned 30 · implemented 1 · unclaimed 30
 - v2-28 · The fleet run by viola
 - v2-30 · Model and effort named at launch
 - v2-31 · Switch a session's model and effort
+
+## verified (1)
+- v2-29 · Verify waits on the input box, not the footer · 2026-11-13-verify-readiness-on-the-input-box

@@ -1,0 +1,146 @@
+[
+{
+"tool": "matrix",
+"v": "1.12",
+"sha8": "ae27c7b9",
+"ts": "2026-11-13T07:10:59Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.2.0",
+"--chunk",
+"2026-11-13-verify-readiness-on-the-input-box",
+"--run-dir",
+".andromeda/runs/2026-11-13T06-27-36-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-11-13-verify-readiness-on-the-input-box: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v2-29 → verified — On claude 2.1.322, the newest installed at phase P4 (a newer one installed by th… (680 chars)",
+"dry-run: nothing written",
+"version: verified 1/31"
+],
+"stderr": null,
+"wrote": [],
+"before": [
+{
+"id": "v2-29",
+"chunk": "2026-11-13-verify-readiness-on-the-input-box",
+"status": "implemented",
+"method": "e2e",
+"ref": "live `viola verify` on claude 2.1.323 (moved from 2.1.322 as the acceptance allows; inputs#I7 cap, inputs#I8 the move): … (479 chars)",
+"acceptance": "On claude 2.1.322, the newest installed at phase P4 (a newer one installed by the proof moves it, recorded), one `viola … (680 chars)",
+"notes_chars": 0
+}
+],
+"after": [
+{
+"id": "v2-29",
+"chunk": "2026-11-13-verify-readiness-on-the-input-box",
+"status": "verified",
+"method": "e2e",
+"ref": "live `viola verify` on claude 2.1.323 (moved from 2.1.322 as the acceptance allows; inputs#I7 cap, inputs#I8 the move): … (479 chars)",
+"acceptance": "On claude 2.1.322, the newest installed at phase P4 (a newer one installed by the proof moves it, recorded), one `viola … (680 chars)",
+"notes_chars": 0
+}
+]
+},
+{
+"tool": "matrix",
+"v": "1.12",
+"sha8": "ae27c7b9",
+"ts": "2026-11-13T07:11:11Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.2.0",
+"--chunk",
+"2026-11-13-verify-readiness-on-the-input-box",
+"--run-dir",
+".andromeda/runs/2026-11-13T06-27-36-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-11-13-verify-readiness-on-the-input-box: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v2-29 → verified — On claude 2.1.322, the newest installed at phase P4 (a newer one installed by th… (680 chars)",
+"landed, rendered ./.andromeda/db/log/2026-11-13T01-43-00-2026-11-13-verify-readiness-on-the-input-box.ndjson · 1 entry changed",
+"version: verified 1/31"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-13T01-43-00-2026-11-13-verify-readiness-on-the-input-box.ndjson"
+],
+"before": [
+{
+"id": "v2-29",
+"chunk": "2026-11-13-verify-readiness-on-the-input-box",
+"status": "implemented",
+"method": "e2e",
+"ref": "live `viola verify` on claude 2.1.323 (moved from 2.1.322 as the acceptance allows; inputs#I7 cap, inputs#I8 the move): … (479 chars)",
+"acceptance": "On claude 2.1.322, the newest installed at phase P4 (a newer one installed by the proof moves it, recorded), one `viola … (680 chars)",
+"notes_chars": 0
+}
+],
+"after": [
+{
+"id": "v2-29",
+"chunk": "2026-11-13-verify-readiness-on-the-input-box",
+"status": "verified",
+"method": "e2e",
+"ref": "live `viola verify` on claude 2.1.323 (moved from 2.1.322 as the acceptance allows; inputs#I7 cap, inputs#I8 the move): … (479 chars)",
+"acceptance": "On claude 2.1.322, the newest installed at phase P4 (a newer one installed by the proof moves it, recorded), one `viola … (680 chars)",
+"notes_chars": 0
+}
+]
+},
+{
+"tool": "matrix",
+"v": "1.12",
+"sha8": "ae27c7b9",
+"ts": "2026-11-13T07:11:13Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.2.0",
+"--id",
+"v2-29",
+"--text-file",
+".andromeda/runs/2026-11-13T06-27-36-wrap/note-v2-29.md",
+"--run-dir",
+".andromeda/runs/2026-11-13T06-27-36-wrap",
+"--marker",
+"2026-11-13-verify-readiness-on-the-input-box"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v2-29: +533 chars (total 533) · status verified · ref/acceptance untouched",
+"landed, rendered ./.andromeda/db/log/2026-11-13T01-43-00-2026-11-13-verify-readiness-on-the-input-box.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-13T01-43-00-2026-11-13-verify-readiness-on-the-input-box.ndjson"
+],
+"before": {
+"id": "v2-29",
+"chunk": "2026-11-13-verify-readiness-on-the-input-box",
+"status": "verified",
+"method": "e2e",
+"ref": "live `viola verify` on claude 2.1.323 (moved from 2.1.322 as the acceptance allows; inputs#I7 cap, inputs#I8 the move): … (479 chars)",
+"acceptance": "On claude 2.1.322, the newest installed at phase P4 (a newer one installed by the proof moves it, recorded), one `viola … (680 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v2-29",
+"chunk": "2026-11-13-verify-readiness-on-the-input-box",
+"status": "verified",
+"method": "e2e",
+"ref": "live `viola verify` on claude 2.1.323 (moved from 2.1.322 as the acceptance allows; inputs#I7 cap, inputs#I8 the move): … (479 chars)",
+"acceptance": "On claude 2.1.322, the newest installed at phase P4 (a newer one installed by the proof moves it, recorded), one `viola … (680 chars)",
+"notes_chars": 533
+}
+}
+]

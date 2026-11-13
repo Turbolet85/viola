@@ -1,0 +1,337 @@
+[
+{
+"tool": "cascade",
+"v": "1.30",
+"sha8": "01eb6080",
+"ts": "2026-11-13T06:28:14Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-13T06-27-36-wrap/report-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-11-13T06-27-36-wrap",
+"--marker",
+"2026-11-13-verify-readiness-on-the-input-box"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [
+"baseline 68a4efba (pre-pass — HEAD)",
+"rustix · control UNFIRED over the seven masters (bodies and sets) at 68a4efba",
+"owner-title · control UNFIRED over the seven masters (bodies and sets) at 68a4efba",
+"owner-generic · control UNFIRED over the seven masters (bodies and sets) at 68a4efba"
+],
+"stderr": "control: rustix, owner-title, owner-generic never fired over the seven masters' pre-pass text, bodies and sets (68a4efba) — a sweep runs a positive control or refuses; drop the pattern or control it by hand",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "cascade",
+"v": "1.30",
+"sha8": "01eb6080",
+"ts": "2026-11-13T06:28:24Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-13T06-27-36-wrap/report-patterns.toml",
+"--pattern",
+"readiness",
+"--pattern",
+"sigrows",
+"--pattern",
+"boxwait",
+"--pattern",
+"advisories",
+"--pattern",
+"typedprobe",
+"--pattern",
+"siglits",
+"--run-dir",
+".andromeda/runs/2026-11-13T06-27-36-wrap",
+"--marker",
+"2026-11-13-verify-readiness-on-the-input-box"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline 68a4efba (pre-pass — HEAD)",
+"architecture · 9 rows over 1 files · new 0 · standing 9 · 4 patterns",
+"security-plan · 7 rows over 1 files · new 0 · standing 7 · 4 patterns",
+"layout-templates · 1 rows over 1 files · new 0 · standing 1 · 1 pattern",
+"test-plan · 6 rows over 1 files · new 0 · standing 6 · 3 patterns",
+"a11y-plan · 1 rows over 1 files · new 0 · standing 1 · 1 pattern",
+"by line · 0 lines · 0 offsets",
+"total (6 patterns) · 42 rows over 17 files",
+"per class · new 0/0 · standing 24/5 · leaf 18/12 · curation 0/0 · base 0/0",
+"rows 1/1 · .andromeda/runs/2026-11-13T06-27-36-wrap/sweep-pre-pass-1.1.txt · 58 lines · 6542 B"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-13T06-27-36-wrap/sweep-pre-pass-1.1.txt"
+],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "68a4efba8eb876283d5425fbd48aedfd5f57e11f",
+"how": "pre-pass — HEAD",
+"counts": {
+"readiness": {
+"new": 0,
+"standing": 12,
+"leaf": 11,
+"curation": 0,
+"base": 0
+},
+"sigrows": {
+"new": 0,
+"standing": 7,
+"leaf": 4,
+"curation": 0,
+"base": 0
+},
+"boxwait": {
+"new": 0,
+"standing": 1,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"advisories": {
+"new": 0,
+"standing": 2,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"typedprobe": {
+"new": 0,
+"standing": 1,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"siglits": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+},
+"bare": [],
+"masters": {
+"architecture": {
+"rows": 9,
+"files": 1,
+"new": 0,
+"standing": 9,
+"patterns": 4
+},
+"security-plan": {
+"rows": 7,
+"files": 1,
+"new": 0,
+"standing": 7,
+"patterns": 4
+},
+"layout-templates": {
+"rows": 1,
+"files": 1,
+"new": 0,
+"standing": 1,
+"patterns": 1
+},
+"test-plan": {
+"rows": 6,
+"files": 1,
+"new": 0,
+"standing": 6,
+"patterns": 3
+},
+"a11y-plan": {
+"rows": 1,
+"files": 1,
+"new": 0,
+"standing": 1,
+"patterns": 1
+}
+},
+"per_master": {
+"readiness": {
+"architecture": 5,
+"security-plan": 4,
+"test-plan": 2,
+"a11y-plan": 1
+},
+"sigrows": {
+"architecture": 2,
+"security-plan": 1,
+"layout-templates": 1,
+"test-plan": 3
+},
+"boxwait": {
+"architecture": 1
+},
+"advisories": {
+"security-plan": 1,
+"test-plan": 1
+},
+"typedprobe": {
+"architecture": 1
+},
+"siglits": {
+"security-plan": 1
+}
+},
+"forms": {
+"advisories": [
+{
+"form": "fifty-seven",
+"from": "57"
+},
+{
+"form": "sixty-one",
+"from": "61"
+},
+{
+"form": "sixty-two",
+"from": "62"
+}
+],
+"siglits": [
+{
+"form": "4 compiled literals",
+"from": "four"
+}
+]
+},
+"parts": [
+"sweep-pre-pass-1.1.txt"
+]
+}
+},
+{
+"tool": "cascade",
+"v": "1.30",
+"sha8": "01eb6080",
+"ts": "2026-11-13T06:28:57Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-13T06-27-36-wrap/report-patterns.toml",
+"--pattern",
+"advisories2",
+"--run-dir",
+".andromeda/runs/2026-11-13T06-27-36-wrap",
+"--marker",
+"2026-11-13-verify-readiness-on-the-input-box"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline 68a4efba (pre-pass — HEAD)",
+"architecture · 17 rows over 1 files · new 0 · standing 17 · 1 pattern",
+"security-plan · 17 rows over 1 files · new 0 · standing 17 · 1 pattern",
+"test-plan · 12 rows over 1 files · new 0 · standing 12 · 1 pattern",
+"obs-plan · 5 rows over 1 files · new 0 · standing 5 · 1 pattern",
+"by line · 0 lines · 0 offsets",
+"total (1 pattern) · 70 rows over 13 files",
+"per class · new 0/0 · standing 51/4 · leaf 18/8 · curation 1/1 · base 0/0",
+"rows 1/1 · .andromeda/runs/2026-11-13T06-27-36-wrap/sweep-pre-pass-2.1.txt · 73 lines · 9023 B"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-13T06-27-36-wrap/sweep-pre-pass-2.1.txt"
+],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "68a4efba8eb876283d5425fbd48aedfd5f57e11f",
+"how": "pre-pass — HEAD",
+"counts": {
+"advisories2": {
+"new": 0,
+"standing": 51,
+"leaf": 18,
+"curation": 1,
+"base": 0
+}
+},
+"bare": [],
+"masters": {
+"architecture": {
+"rows": 17,
+"files": 1,
+"new": 0,
+"standing": 17,
+"patterns": 1
+},
+"security-plan": {
+"rows": 17,
+"files": 1,
+"new": 0,
+"standing": 17,
+"patterns": 1
+},
+"test-plan": {
+"rows": 12,
+"files": 1,
+"new": 0,
+"standing": 12,
+"patterns": 1
+},
+"obs-plan": {
+"rows": 5,
+"files": 1,
+"new": 0,
+"standing": 5,
+"patterns": 1
+}
+},
+"per_master": {
+"advisories2": {
+"architecture": 17,
+"security-plan": 17,
+"test-plan": 12,
+"obs-plan": 5
+}
+},
+"forms": {},
+"parts": [
+"sweep-pre-pass-2.1.txt"
+]
+}
+},
+{
+"tool": "cascade",
+"v": "1.30",
+"sha8": "01eb6080",
+"ts": "2026-11-13T06:29:09Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-13T06-27-36-wrap/report-patterns.toml",
+"--pattern",
+"clivers",
+"--run-dir",
+".andromeda/runs/2026-11-13T06-27-36-wrap",
+"--marker",
+"2026-11-13-verify-readiness-on-the-input-box"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [
+"baseline 68a4efba (pre-pass — HEAD)",
+"clivers · control UNFIRED over the seven masters (bodies and sets) at 68a4efba"
+],
+"stderr": "control: clivers never fired over the seven masters' pre-pass text, bodies and sets (68a4efba) — a sweep runs a positive control or refuses; drop the pattern or control it by hand",
+"wrote": [],
+"before": null,
+"after": null
+}
+]

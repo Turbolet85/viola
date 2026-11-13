@@ -1,0 +1,21 @@
+--- a/.andromeda/test-plan.md
++++ b/.andromeda/test-plan.md
+@@ -36,3 +36,3 @@
+ decision/mutation-testing · Mutation testing — Mutation testing runs per chunk and at the epoch boundary through /andromeda-code-audit. · why: A mandated driver of the Comprehensive tier.
+-decision/no-advisory-ignored · No dependency advisory ignored — CI gates on cargo deny check with no advisory ignored.
++decision/no-advisory-ignored · No dependency advisory ignored — CI gates on cargo deny check with no advisory ignored. · except: An advisory that sits only in an rmcp feature banned or off in the release graph is ignored with a reason naming that feature, standing until rmcp leaves <3.5.
+ decision/no-blanket-approval · No blanket dialog approval — No path auto-approves a dialog without a verify stamp and the driver wheel, proven by a negative test.
+@@ -417,3 +417,3 @@
+ contract/prompt-submitted/origin-harness · the prompt-submitted event · origin harness — A prompt whose raw start, untrimmed, is an agent-message, task-notification or cross-session-message tag (escaped or not) gets origin harness; the tag mid-prompt or after a leading space stays human.
+-contract/readiness-gate/gate-max-wait · the readiness gate · GATE_MAX_WAIT — On a verified CLI a quiet screen with no input-box literal waits up to 8 500 ms and reads input-not-ready from that bound on.
++contract/readiness-gate/gate-max-wait · the readiness gate · GATE_MAX_WAIT — On a verified CLI a quiet screen on which the input box does not read up (no footer literal and no box rule row directly above a prompt row) waits up to 8 500 ms and reads input-not-ready from that bound on.
+ contract/unreachable-cause/socket-dir-refused · instance-unreachable causes · socket-dir-refused — A refused socket directory is reported with the cause word socket-dir-refused, each cause its own code word.
+@@ -909,2 +909,3 @@
+ decision/proptest-for-randomized-data · proptest for randomized data — Randomized test data comes from proptest strategies, with seeds persisted in committed regression files.
++decision/screen-fixture-box-rows-as-literals · Box rows recorded as their literals alone — A recorded screen fixture keeps a box rule row as its rule chars alone and the box's prompt row under that rule as the prompt char alone, and the fixture hygiene walk refuses a prompt row with text after the prompt char or a rule row with any other text. · guard: planted_box_row_beyond_its_literal_is_rejected
+ decision/socket-dir-check-leaves-dir-as-found · Socket-directory check never repairs — The socket-directory check never chmods the directory it checks; a refused socket directory is left as found.
+@@ -1015,3 +1016,3 @@
+ decision/no-cache-in-release-workflow · No build cache in a release workflow — The Rust build cache is used in ci.yml only, never in a release workflow.
+-decision/no-ignored-advisories · No advisory ignored — cargo deny ignores no advisory. · guard: CI job supply-chain
++decision/no-ignored-advisories · No advisory ignored — cargo deny ignores no advisory. · guard: CI job supply-chain · except: An advisory that sits only in an rmcp feature banned or off in the release graph is ignored with a reason naming that feature, standing until rmcp leaves <3.5.
+ decision/no-workflow-concurrency · No workflow concurrency block — No workflow has a concurrency block; zizmor's concurrency-limits finding is declined and stays visible. · why: A concurrency group cancels pending runs even without cancel-in-progress, which would drop a push's always() gate and upload chain.

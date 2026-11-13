@@ -1,0 +1,2 @@
+@none
+reason: The chunk changes what the vt100 readiness gate reads (the input box's rows beside the footer literals), the recorded screen form, a measured stamp field and the deny.toml advisory ignores; it adds no log line, span, field, telemetry dependency or logged user data (fct-xdv7p2qy, fct-w5at72sz, fct-orhqek2q: input_box_up a pure predicate, the gate's existing send-refused and readiness lines unchanged, no row text logged; fct-w7nqjwnx: only rustix bumped), so every obs-plan row it touches, the picker-marked ones included, stays true as written.
