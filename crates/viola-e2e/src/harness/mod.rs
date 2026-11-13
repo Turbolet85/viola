@@ -173,7 +173,15 @@ fn free_bytes(path: &Path) -> io::Result<u64> {
         }
         stat
     };
-    Ok(u64::from(stat.f_bavail) * u64::from(stat.f_frsize))
+    Ok(writable_bytes(
+        u64::from(stat.f_bavail),
+        u64::from(stat.f_frsize),
+    ))
+}
+
+/// The bytes `bavail` free blocks of `frsize` bytes each hold.
+fn writable_bytes(bavail: u64, frsize: u64) -> u64 {
+    bavail * frsize
 }
 
 /// A session id becomes a directory name, so it is held to a path-safe charset.
@@ -410,6 +418,20 @@ mod tests {
             assert_eq!(headroom_refusal(free, floor).as_deref(), refused, "{label}");
         }
         assert_eq!(HEADROOM_FLOOR_MIB, 9216);
+    }
+
+    /// The free bytes are the free blocks times the block size, read on literal figures.
+    #[test]
+    fn e2e_home_writable_bytes_are_blocks_times_their_size() {
+        let cases: [(&str, u64, u64, u64); 4] = [
+            ("one block", 1, 4096, 4096),
+            ("three blocks", 3, 4096, 12_288),
+            ("no block free", 0, 4096, 0),
+            ("a tmpfs reading", 3_562_765, 4096, 14_593_085_440),
+        ];
+        for (label, bavail, frsize, bytes) in cases {
+            assert_eq!(writable_bytes(bavail, frsize), bytes, "{label}");
+        }
     }
 
     /// The keeper's reader takes a real filesystem's free bytes and returns a missing path's error.

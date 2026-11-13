@@ -188,7 +188,7 @@ fn cli_error_documents_hold_no_path_or_upstream_text(stamped_home: StampedHome) 
 
     // A home another user could write, started unseeded.
     let widened = TestHome::new();
-    viola_state::fs::create_private_dir(widened.path()).expect("the home");
+    crate::support::home::private_dir(widened.path(), "the home");
     widen(widened.path());
     let refused = [
         row(

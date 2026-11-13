@@ -75,7 +75,7 @@ fn assert_control_holds(control: Control, setting: (&str, &str)) {
     let tmp = TestHome::new();
     let home = tmp.path().to_path_buf();
     let dir = home.join("instances").join("builder");
-    viola_state::fs::create_private_dir(&dir).expect("the instance dir");
+    crate::support::home::private_dir(&dir, "the instance dir");
     let mut child = Command::new(VIOLA)
         .args(["hook", "stop"])
         .env("VIOLA_NAME", "builder")
@@ -585,7 +585,7 @@ fn setting_does_not_disable_the_home_check() {
         let tmp = TestHome::new();
         let home = tmp.path().to_path_buf();
         let dir = home.join("instances").join("builder");
-        viola_state::fs::create_private_dir(&dir).expect("the instance dir");
+        crate::support::home::private_dir(&dir, "the instance dir");
         let mut command = Command::new(VIOLA);
         command
             .arg("--home")
@@ -652,7 +652,7 @@ fn setting_does_not_disable_the_socket_dir_check() {
         let tmp = TestHome::new();
         let home = tmp.path().to_path_buf();
         let dir = home.join("instances").join("builder");
-        viola_state::fs::create_private_dir(&dir).expect("the instance dir");
+        crate::support::home::private_dir(&dir, "the instance dir");
         let root = SocketRoot::new().made();
         let socket_dir = root.dir();
         std::fs::set_permissions(&socket_dir, std::fs::Permissions::from_mode(0o755))
@@ -733,7 +733,7 @@ const FLOOR: [(&str, &str); 2] = [
 fn child_names_under(config: &str) -> Vec<String> {
     let tmp = TestHome::new();
     let home = tmp.path();
-    viola_state::fs::create_private_dir(home).expect("home");
+    crate::support::home::private_dir(home, "home");
     std::fs::write(home.join("config.json"), format!("{{\"v\":1,{config}}}")).expect("config");
     let receipt = tmp.scratch().join("strip.receipt.ndjson");
     let args: Vec<OsString> = vec![

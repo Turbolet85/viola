@@ -25,6 +25,28 @@ use viola_state::pin::Pinned;
 
 pub(crate) use env::persistent_names;
 
+/// The first snapshot the `links` and `snapshot` test modules start from.
+#[cfg(test)]
+pub(crate) fn first() -> viola_state::snapshot::InstanceSnapshot {
+    viola_state::snapshot::InstanceSnapshot {
+        endpoint: None,
+        pid: 1,
+        started_at: "s".to_owned(),
+        pinned_bin: "b".to_owned(),
+        cli_verified: true,
+        cli_version: None,
+        wheel: viola_state::snapshot::Wheel::Driver,
+        budget_paused: false,
+        budget_override_until: None,
+        links: Vec::new(),
+        child_pid: None,
+        pending_dialog: None,
+        cwd: None,
+        statusline_command: None,
+        agent_session_id: None,
+    }
+}
+
 pub(crate) fn log_self_start() {
     obs_event!(
         INFO,

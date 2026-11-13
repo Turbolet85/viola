@@ -187,11 +187,6 @@ fn check_existing(paths: &[(PathBuf, Rule)]) -> Result<(), Refused> {
     Ok(())
 }
 
-/// The write rule on `path` when it exists; one that cannot be statted is refused.
-pub fn check_present(path: &Path) -> Result<(), Refused> {
-    check_existing(&[(path.to_path_buf(), Rule::Write)])
-}
-
 fn check_rule(path: &Path, rule: Rule) -> Result<(), Refused> {
     match rule {
         Rule::Write => check_path(path),

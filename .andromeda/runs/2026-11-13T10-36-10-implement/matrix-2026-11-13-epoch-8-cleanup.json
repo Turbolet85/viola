@@ -1,0 +1,96 @@
+[
+{
+"tool": "matrix",
+"v": "1.12",
+"sha8": "c6cb2d0f",
+"ts": "2026-11-13T11:12:13Z",
+"argv": [
+"implement",
+"--dir",
+"viola-0.2.0",
+"--chunk",
+"2026-11-13-epoch-8-cleanup",
+"--id",
+"v2-01",
+"--ref-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-13T10-36-10-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"implement v2-01 · status planned → implemented · ref tests/support/source_scan.rs::tests::masked_blanks_what_its_mode_names (run in c… (1162 chars)",
+"landed, rendered ./.andromeda/db/log/2026-11-13T07-21-57-2026-11-13-epoch-8-cleanup.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-13T07-21-57-2026-11-13-epoch-8-cleanup.ndjson"
+],
+"before": {
+"id": "v2-01",
+"chunk": "2026-11-13-epoch-8-cleanup",
+"status": "planned",
+"method": "unit",
+"ref": "null",
+"acceptance": "`tests/support/source_scan.rs` is the one masking scanner, with its own cases, and no `fn blanked` / `code_only` / `raw_… (1070 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v2-01",
+"chunk": "2026-11-13-epoch-8-cleanup",
+"status": "implemented",
+"method": "unit",
+"ref": "tests/support/source_scan.rs::tests::masked_blanks_what_its_mode_names (run in contract_error_bodies, contract_bounded_r… (1162 chars)",
+"acceptance": "`tests/support/source_scan.rs` is the one masking scanner, with its own cases, and no `fn blanked` / `code_only` / `raw_… (1070 chars)",
+"notes_chars": 0
+}
+},
+{
+"tool": "matrix",
+"v": "1.12",
+"sha8": "c6cb2d0f",
+"ts": "2026-11-13T11:12:14Z",
+"argv": [
+"implement",
+"--dir",
+"viola-0.2.0",
+"--chunk",
+"2026-11-13-epoch-8-cleanup",
+"--id",
+"v2-06",
+"--ref-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-13T10-36-10-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"implement v2-06 · status planned → implemented · ref crates/viola-e2e/src/harness/secret_scan.rs::tests::{secret_scan_reads_a_cookie_… (359 chars)",
+"landed, rendered ./.andromeda/db/log/2026-11-13T07-21-57-2026-11-13-epoch-8-cleanup.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-13T07-21-57-2026-11-13-epoch-8-cleanup.ndjson"
+],
+"before": {
+"id": "v2-06",
+"chunk": "2026-11-13-epoch-8-cleanup",
+"status": "planned",
+"method": "unit",
+"ref": "null",
+"acceptance": "`crates/viola-e2e/src/harness/secret_scan.rs` holds no `cookie` class (its `\"cookie\"` literal count 0), its case reads a… (618 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v2-06",
+"chunk": "2026-11-13-epoch-8-cleanup",
+"status": "implemented",
+"method": "unit",
+"ref": "crates/viola-e2e/src/harness/secret_scan.rs::tests::{secret_scan_reads_a_cookie_header_as_no_hit, secret_scan_flags_ever… (359 chars)",
+"acceptance": "`crates/viola-e2e/src/harness/secret_scan.rs` holds no `cookie` class (its `\"cookie\"` literal count 0), its case reads a… (618 chars)",
+"notes_chars": 0
+}
+}
+]

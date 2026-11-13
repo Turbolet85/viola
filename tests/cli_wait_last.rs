@@ -444,7 +444,7 @@ fn wait_last_of_a_name_never_started_exit_21_unwrapped() {
 #[test]
 fn cli_verbs_print_internal_error_once() {
     let home = TestHome::new();
-    viola_state::fs::create_private_dir(home.path()).expect("the home");
+    crate::support::home::private_dir(home.path(), "the home");
     std::fs::write(home.path().join("diagnostics"), CANARY).expect("a regular file");
     for (args, stdin) in [
         (&["send", "builder"][..], Some("hi")),
@@ -463,7 +463,7 @@ fn cli_verbs_print_internal_error_once() {
 #[test]
 fn cli_verbs_print_the_internal_error_document_under_json() {
     let home = TestHome::new();
-    viola_state::fs::create_private_dir(home.path()).expect("the home");
+    crate::support::home::private_dir(home.path(), "the home");
     std::fs::write(home.path().join("diagnostics"), CANARY).expect("a regular file");
     for (args, stdin) in [
         (&["send", "builder", "--json"][..], Some("hi")),
@@ -486,7 +486,7 @@ fn cli_verbs_print_the_internal_error_document_under_json() {
 #[test]
 fn wait_in_a_home_whose_diagnostics_is_a_file_keeps_the_chain_in_the_detail_file() {
     let home = TestHome::new();
-    viola_state::fs::create_private_dir(home.path()).expect("the home");
+    crate::support::home::private_dir(home.path(), "the home");
     std::fs::write(home.path().join("diagnostics"), b"x").expect("a file where the dir should be");
     let ran = viola(home.path(), &["wait", "builder"], None, None);
     assert_eq!(ran.code, Some(1));

@@ -245,6 +245,16 @@ mod tests {
         );
     }
 
+    /// A persist that fails for any reason but a present name is an error, never `Present`: a final
+    /// name past 255 bytes fails its link `ENAMETOOLONG`, and nothing stays behind.
+    #[test]
+    fn place_private_new_with_a_too_long_name_fails_and_is_not_present() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let path = tmp.path().join("v".repeat(256));
+        assert!(place_private_new(&path, b"copy", DIR_MODE).is_err());
+        assert!(names_in(tmp.path()).is_empty(), "nothing was created");
+    }
+
     #[test]
     fn place_private_new_under_a_missing_dir_fails() {
         let tmp = tempfile::tempdir().expect("tempdir");

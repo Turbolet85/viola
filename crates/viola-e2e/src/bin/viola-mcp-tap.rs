@@ -293,6 +293,51 @@ mod tests {
     }
 
     #[test]
+    fn next_line_takes_each_line_whole_then_the_unterminated_rest_then_none() {
+        let mut reader = io::Cursor::new(b"ab\ncd".to_vec());
+        assert_eq!(next_line(&mut reader), Some(b"ab\n".to_vec()));
+        assert_eq!(next_line(&mut reader), Some(b"cd".to_vec()));
+        assert_eq!(next_line(&mut reader), None);
+    }
+
+    #[test]
+    fn next_line_at_the_cap_without_its_newline_is_none() {
+        let cap = usize::try_from(MAX_FRAME).expect("fits");
+        let mut reader = io::Cursor::new(vec![b'a'; cap]);
+        assert_eq!(next_line(&mut reader), None);
+        let mut fitting = vec![b'a'; cap - 1];
+        fitting.push(b'\n');
+        let mut reader = io::Cursor::new(fitting.clone());
+        assert_eq!(next_line(&mut reader), Some(fitting));
+    }
+
+    #[test]
+    fn texts_reads_strings_keys_and_array_items_in_order() {
+        let doc = json!({"a": ["b", ["c"], 1], "d": "e"});
+        let mut out = Vec::new();
+        texts(&doc, &mut out);
+        assert_eq!(out, ["a", "b", "c", "d", "e"]);
+    }
+
+    #[test]
+    fn file_line_appends_one_tagged_line_without_its_terminator() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let path = tmp.path().join("capture");
+        let capture = Mutex::new(File::create(&path).expect("capture"));
+        file_line(&capture, CLIENT, b"{\"id\":1}\r\n");
+        file_line(&capture, SERVER, b"x");
+        assert_eq!(
+            std::fs::read_to_string(&path).expect("read"),
+            concat!(
+                r#"{"dir":"client","line":"{\"id\":1}"}"#,
+                "\n",
+                r#"{"dir":"server","line":"x"}"#,
+                "\n",
+            )
+        );
+    }
+
+    #[test]
     fn fault_names_each_closed_code_and_a_clean_document_none() {
         for (label, text, want) in [
             ("clean", "~/work", None),

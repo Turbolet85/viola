@@ -384,7 +384,7 @@ fn a_start_under_umask_000_makes_every_home_path_owner_only(
 #[rstest]
 fn a_home_another_user_may_read_refuses_run(#[from(support::home::home)] tmp: TestHome) {
     let home = tmp.path().to_path_buf();
-    viola_state::fs::create_private_dir(&home).expect("the home");
+    crate::support::home::private_dir(&home, "the home");
     grant_read(&home);
     let mut command = Command::new(VIOLA);
     command

@@ -1053,7 +1053,6 @@ mod tests {
     /// `hook-invoked` and `hook-decision`; never a `channel.request` span or `channel-request` line.
     #[test]
     fn hook_refuses_an_unverified_server_inside_hook_handle() {
-        use tracing_subscriber::layer::SubscriberExt as _;
         let tmp = tempfile::tempdir().expect("tempdir");
         let reply = json!({"ok": {"dialog_id": 1, "response": {"behavior": "approve"}}});
         let (instance, _serving) = served_as(
@@ -1061,22 +1060,30 @@ mod tests {
             wrapperish(reply, Duration::ZERO),
             &an_earlier_start(),
         );
+        both_hook_paths_refuse_inside_hook_handle(&instance, "server-verify-failed");
+    }
+
+    /// Runs the event path (a Stop) and the dialog path (a PreToolUse) against `instance` under a
+    /// captured subscriber: the event path reads `detail`, the dialog path prints nothing, and the
+    /// spans and lines seen are the two paths' fail-open trace.
+    fn both_hook_paths_refuse_inside_hook_handle(instance: &Instance, detail: &'static str) {
+        use tracing_subscriber::layer::SubscriberExt as _;
         let seen = crate::cmd::client::refused_seen::Seen::default();
         let subscriber = tracing_subscriber::registry().with(seen.clone());
         crate::test_support::with_scoped_default(subscriber, || {
             let started = Instant::now();
-            let detail = handle(
+            let read = handle(
                 HookEvent::Stop,
-                &instance,
+                instance,
                 spine_deadline(started),
                 &mut &br#"{"last_assistant_message": "x"}"#[..],
             )
             .expect("handled");
-            assert_eq!(detail, Some("server-verify-failed"));
-            decided(HookEvent::Stop, detail, started);
+            assert_eq!(read, Some(detail));
+            decided(HookEvent::Stop, read, started);
             let out = dialog_out(
                 HookEvent::PreToolUse,
-                &instance,
+                instance,
                 Duration::from_secs(5),
                 PLAN,
             );
@@ -1105,7 +1112,6 @@ mod tests {
     #[test]
     fn hook_refuses_a_loosened_socket_directory_inside_hook_handle() {
         use std::os::unix::fs::PermissionsExt as _;
-        use tracing_subscriber::layer::SubscriberExt as _;
         let tmp = tempfile::tempdir().expect("tempdir");
         let instance = instance_in(tmp.path());
         let dir = tmp.path().join("sockets");
@@ -1138,40 +1144,7 @@ mod tests {
         viola_state::snapshot::write_snapshot(&instance.dir, &snapshot).expect("snapshot");
         std::fs::set_permissions(&dir, std::fs::Permissions::from_mode(0o755)).expect("chmod");
 
-        let seen = crate::cmd::client::refused_seen::Seen::default();
-        let subscriber = tracing_subscriber::registry().with(seen.clone());
-        crate::test_support::with_scoped_default(subscriber, || {
-            let started = Instant::now();
-            let detail = handle(
-                HookEvent::Stop,
-                &instance,
-                spine_deadline(started),
-                &mut &br#"{"last_assistant_message": "x"}"#[..],
-            )
-            .expect("handled");
-            assert_eq!(detail, Some("socket-dir-refused"));
-            decided(HookEvent::Stop, detail, started);
-            let out = dialog_out(
-                HookEvent::PreToolUse,
-                &instance,
-                Duration::from_secs(5),
-                PLAN,
-            );
-            assert!(out.is_empty());
-        });
-        assert_eq!(
-            *seen.0.lock().expect("seen"),
-            [
-                "span hook.handle",
-                "event \"hook-invoked\" in hook.handle",
-                "span state.snapshot_recover",
-                "event \"hook-decision\" in none",
-                "span hook.handle",
-                "span state.snapshot_recover",
-                "event \"hook-invoked\" in hook.handle",
-                "event \"hook-decision\" in hook.handle",
-            ]
-        );
+        both_hook_paths_refuse_inside_hook_handle(&instance, "socket-dir-refused");
         assert!(wrapper.asked.lock().expect("asked").is_empty());
         let mode = std::fs::metadata(&dir).expect("meta").permissions().mode();
         assert_eq!(mode & 0o777, 0o755);

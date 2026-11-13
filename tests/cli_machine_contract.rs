@@ -542,7 +542,7 @@ fn a_home_reached_through_a_link_is_canonicalised() {
     use viola_core::ViolaName;
     let tmp = TestHome::new();
     let target = tmp.path().to_path_buf();
-    viola_state::fs::create_private_dir(&target).expect("the home");
+    crate::support::home::private_dir(&target, "the home");
     let link = tmp.scratch().join("home-link");
     std::os::unix::fs::symlink(&target, &link).expect("the link");
     let receipt = tmp.scratch().join("link.receipt.ndjson");

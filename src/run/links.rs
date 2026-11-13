@@ -142,31 +142,12 @@ mod tests {
     use std::fs;
     use std::path::Path;
 
+    use crate::run::first;
     use chrono::TimeZone as _;
-    use viola_state::snapshot::{InstanceSnapshot, Wheel, read_snapshot};
+    use viola_state::snapshot::read_snapshot;
 
     fn name(text: &str) -> ViolaName {
         ViolaName::try_new(text.to_owned()).expect("valid")
-    }
-
-    fn first() -> InstanceSnapshot {
-        InstanceSnapshot {
-            endpoint: None,
-            pid: 1,
-            started_at: "s".to_owned(),
-            pinned_bin: "b".to_owned(),
-            cli_verified: true,
-            cli_version: None,
-            wheel: Wheel::Driver,
-            budget_paused: false,
-            budget_override_until: None,
-            links: Vec::new(),
-            child_pid: None,
-            pending_dialog: None,
-            cwd: None,
-            statusline_command: None,
-            agent_session_id: None,
-        }
     }
 
     /// `builder`'s set over `dir`, its first snapshot written there.

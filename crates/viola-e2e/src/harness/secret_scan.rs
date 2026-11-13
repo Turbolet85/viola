@@ -116,7 +116,6 @@ fn scan_file(roots: &Roots, path: &Path, role: bool, hits: &mut Vec<Value>) {
         hits.push(hit(roots, path, 0, 0, "unreadable"));
         return;
     };
-    let lower = bytes.to_ascii_lowercase();
     let mut report = |offset: usize, class: &str| {
         let line = bytes[..offset].iter().filter(|&&b| b == b'\n').count() + 1;
         hits.push(hit(roots, path, line, offset, class));
@@ -125,9 +124,6 @@ fn scan_file(roots: &Roots, path: &Path, role: bool, hits: &mut Vec<Value>) {
         for offset in find_all(&bytes, needle.as_bytes()) {
             report(offset, class);
         }
-    }
-    for offset in find_all(&lower, b"cookie:") {
-        report(offset, "cookie");
     }
     if role {
         for (class, needle) in CONTENT {
@@ -250,16 +246,49 @@ mod tests {
     fn secret_scan_flags_every_critical_class_even_in_a_detail_file() {
         let t = tree();
         let detail = "h/home/instances/builder/diagnostics/detail-run.ndjson";
-        for (class, text) in [
-            ("claude-stripped", "{\"v\":\"canary-socket-value-2b9d\"}\n"),
-            ("cookie", "{\"h\":\"COOKIE: x\"}\n"),
-        ] {
-            plant(&t.roots.e2e_home, detail, text);
-            let out = scan(&t.roots, &t.report);
-            assert_eq!(out.code, 1, "{class}: {}", out.doc);
-            assert_eq!(classes(&out), [class]);
-            assert!(t.report.join("hits.json").is_file());
-        }
+        plant(
+            &t.roots.e2e_home,
+            detail,
+            "{\"v\":\"canary-socket-value-2b9d\"}\n",
+        );
+        let out = scan(&t.roots, &t.report);
+        assert_eq!(out.code, 1, "{}", out.doc);
+        assert_eq!(classes(&out), ["claude-stripped"]);
+        assert!(t.report.join("hits.json").is_file());
+    }
+
+    /// A file the scan cannot read is a hit of its own, located and never skipped.
+    #[test]
+    fn secret_scan_flags_a_file_it_cannot_read() {
+        use std::os::unix::fs::PermissionsExt as _;
+        let t = tree();
+        let path = plant(&t.roots.agent_run, "ci-smoke/status.json", "{}\n");
+        fs::set_permissions(&path, fs::Permissions::from_mode(0o000)).expect("chmod");
+        let out = scan(&t.roots, &t.report);
+        fs::set_permissions(&path, fs::Permissions::from_mode(0o600)).expect("chmod back");
+        assert_eq!(out.code, 1, "{}", out.doc);
+        assert_eq!(classes(&out), ["unreadable"]);
+        assert_eq!(out.doc["hits"][0]["file"], "agent-run/ci-smoke/status.json");
+    }
+
+    /// A `Cookie:` header line is ordinary bytes: viola carries no cookie, so no class reads it, in
+    /// a detail file or a role file.
+    #[test]
+    fn secret_scan_reads_a_cookie_header_as_no_hit() {
+        let t = tree();
+        plant(
+            &t.roots.e2e_home,
+            "h/home/instances/builder/diagnostics/detail-run.ndjson",
+            "{\"h\":\"COOKIE: x\"}\n",
+        );
+        plant(
+            &t.roots.e2e_home,
+            "h/home/diagnostics/run-builder.ndjson",
+            "{\"event\":\"x\",\"h\":\"cookie: y\"}\n",
+        );
+        let out = scan(&t.roots, &t.report);
+        assert_eq!(out.code, 0, "{}", out.doc);
+        assert_eq!(out.doc["hits"], json!([]));
     }
 
     /// The GUI forms left 0.1.0 with the browser leg: the `?t=` query, the `viola_<port>=` cookie

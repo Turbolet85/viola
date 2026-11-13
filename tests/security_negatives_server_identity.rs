@@ -88,10 +88,10 @@ struct Served {
 fn served(label: &str, recorded: u32) -> Served {
     let home = TestHome::new();
     let instance = home.path().join("instances").join("builder");
-    viola_state::fs::create_private_dir(&instance).expect("the instance dir");
+    crate::support::home::private_dir(&instance, "the instance dir");
     let socket_dir = tempfile::tempdir().expect("the socket dir");
     // A bare temp dir is left to the umask, and a client refuses a socket directory it can read.
-    viola_state::fs::create_private_dir(socket_dir.path()).expect("the socket dir, private");
+    crate::support::home::private_dir(socket_dir.path(), "the socket dir, private");
     let base = format!("viola-test-chan-{}-{label}", std::process::id());
     let endpoint = socket_dir
         .path()

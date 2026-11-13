@@ -209,7 +209,7 @@ fn run_appends_to_an_existing_role_file(#[from(home)] tmp: TestHome) {
 }
 
 fn write_config(home: &Path, text: &str) {
-    viola_state::fs::create_private_dir(home).expect("home");
+    crate::support::home::private_dir(home, "home");
     std::fs::write(home.join("config.json"), text).expect("config");
 }
 
@@ -375,8 +375,10 @@ fn run_is_silent_on_stdout_and_stderr(
 /// A directory where the role file goes, made owner-only as viola makes its folders: the home
 /// passes its check and the role file's open fails.
 fn force_internal_error(home: &Path) {
-    viola_state::fs::create_private_dir(&home.join("diagnostics").join("run-builder.ndjson"))
-        .expect("a directory where the role file goes");
+    crate::support::home::private_dir(
+        &home.join("diagnostics").join("run-builder.ndjson"),
+        "a directory where the role file goes",
+    );
 }
 
 fn files_under(dir: &Path) -> Vec<PathBuf> {

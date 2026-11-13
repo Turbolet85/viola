@@ -1,14 +1,16 @@
 # Coverage — viola-0.2.0
 
-verified 1/31 · deferred 0 · planned 30 · implemented 0 · unclaimed 30
+verified 1/31 · deferred 0 · planned 28 · implemented 2 · unclaimed 28
 
-## planned, unclaimed (30)
-- v2-01 · Epoch 8 cleanup
+## implemented (2)
+- v2-01 · Epoch 8 cleanup · 2026-11-13-epoch-8-cleanup
+- v2-06 · The secret scan's `cookie` class removed · 2026-11-13-epoch-8-cleanup
+
+## planned, unclaimed (28)
 - v2-02 · The dialog-hold ceiling read live
 - v2-03 · `viola run` wraps the unmodified CLI on Linux, proved
 - v2-04 · The budget gate removed whole
 - v2-05 · The status-line interception removed whole
-- v2-06 · The secret scan's `cookie` class removed
 - v2-07 · Launch a session into the fleet
 - v2-08 · The launch authority bounded
 - v2-09 · The lineage registry

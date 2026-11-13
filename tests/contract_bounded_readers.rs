@@ -10,6 +10,11 @@ use std::fs;
 use std::path::{Path, PathBuf};
 
 use rstest::rstest;
+use source_scan::{Mask, masked};
+
+#[allow(dead_code)]
+#[path = "support/source_scan.rs"]
+mod source_scan;
 
 /// One external reader: where its bounded read stands and what holds it.
 struct Boundary {
@@ -451,6 +456,14 @@ fn relative(path: &Path, root: &Path) -> String {
         .replace('\\', "/")
 }
 
+/// The fake agent's bin root or one of its `#[path]` modules.
+fn is_fake_agent(path: &Path) -> bool {
+    path.ends_with("src/bin/viola-fake-agent.rs")
+        || path
+            .parent()
+            .is_some_and(|dir| dir.ends_with("src/bin/viola-fake-agent"))
+}
+
 /// The product files the census reads: the fake agent and every `test_`-stemmed module (a
 /// `#[cfg(test)]` file, `test_support` among them) left out.
 fn product_files(root: &Path) -> Vec<(String, String)> {
@@ -462,115 +475,10 @@ fn product_files(root: &Path) -> Vec<(String, String)> {
         .into_iter()
         .filter(|path| {
             let stem = path.file_stem().and_then(|s| s.to_str()).unwrap_or("");
-            !stem.starts_with("test_") && !path.ends_with("src/bin/viola-fake-agent.rs")
+            !stem.starts_with("test_") && !is_fake_agent(path)
         })
         .map(|path| (relative(&path, root), read(&path)))
         .collect()
-}
-
-/// `text` with every byte of a comment, a string or a char literal turned into a space (newlines
-/// kept), so only code is searched and only code braces are counted.
-fn code_only(text: &str) -> Vec<u8> {
-    let bytes = text.as_bytes();
-    let mut out = bytes.to_vec();
-    let blank = |out: &mut Vec<u8>, from: usize, to: usize| {
-        for b in &mut out[from..to] {
-            if *b != b'\n' {
-                *b = b' ';
-            }
-        }
-    };
-    let ident = |b: u8| b.is_ascii_alphanumeric() || b == b'_';
-    let mut i = 0;
-    while i < bytes.len() {
-        let rest = &bytes[i..];
-        if rest.starts_with(b"//") {
-            let end = rest
-                .iter()
-                .position(|&b| b == b'\n')
-                .map_or(bytes.len(), |n| i + n);
-            blank(&mut out, i, end);
-            i = end;
-        } else if rest.starts_with(b"/*") {
-            let mut depth = 0usize;
-            let mut j = i;
-            while j < bytes.len() {
-                if bytes[j..].starts_with(b"/*") {
-                    depth += 1;
-                    j += 2;
-                } else if bytes[j..].starts_with(b"*/") {
-                    depth -= 1;
-                    j += 2;
-                    if depth == 0 {
-                        break;
-                    }
-                } else {
-                    j += 1;
-                }
-            }
-            blank(&mut out, i, j);
-            i = j;
-        } else if (rest[0] == b'r' || rest.starts_with(b"br"))
-            && (i == 0 || !ident(bytes[i - 1]))
-            && raw_string_opening(rest).is_some()
-        {
-            let (prefix, hashes) = raw_string_opening(rest).expect("checked");
-            let close: Vec<u8> = std::iter::once(b'"')
-                .chain(std::iter::repeat_n(b'#', hashes))
-                .collect();
-            let body = i + prefix;
-            let end = bytes[body..]
-                .windows(close.len())
-                .position(|w| w == close.as_slice())
-                .map_or(bytes.len(), |n| body + n + close.len());
-            blank(&mut out, i, end);
-            i = end;
-        } else if rest[0] == b'"' {
-            let mut j = i + 1;
-            while j < bytes.len() && bytes[j] != b'"' {
-                j += if bytes[j] == b'\\' { 2 } else { 1 };
-            }
-            let end = (j + 1).min(bytes.len());
-            blank(&mut out, i, end);
-            i = end;
-        } else if rest[0] == b'\'' {
-            match char_literal_len(rest) {
-                Some(len) => {
-                    blank(&mut out, i, i + len);
-                    i += len;
-                }
-                None => i += 1,
-            }
-        } else {
-            i += 1;
-        }
-    }
-    out
-}
-
-/// A raw string's opening (`r"`, `r#"`, `br##"` …): its length and its count of `#`.
-fn raw_string_opening(rest: &[u8]) -> Option<(usize, usize)> {
-    let after_r = if rest.starts_with(b"br") { 2 } else { 1 };
-    let hashes = rest[after_r..].iter().take_while(|&&b| b == b'#').count();
-    (rest.get(after_r + hashes) == Some(&b'"')).then_some((after_r + hashes + 1, hashes))
-}
-
-/// The length of a char literal starting at `rest`, or `None` for a lifetime.
-fn char_literal_len(rest: &[u8]) -> Option<usize> {
-    if rest.get(1) == Some(&b'\\') {
-        let close = rest[2..].iter().position(|&b| b == b'\'')?;
-        return Some(close + 3);
-    }
-    let text = std::str::from_utf8(&rest[1..rest.len().min(6)])
-        .ok()
-        .or_else(|| {
-            (1..6)
-                .rev()
-                .find_map(|n| std::str::from_utf8(rest.get(1..1 + n)?).ok())
-        })?;
-    let c = text.chars().next()?;
-    let len = c.len_utf8();
-    (rest.get(1 + len) == Some(&b'\'')).then_some(len + 2)
 }
 
 /// `code` with each `#[cfg(test)]` item (a module, a function, a `mod x;`) blanked.
@@ -619,7 +527,7 @@ impl Hit {
 
 /// Every reader call in `text`'s product code, a call matched by two patterns counted once.
 fn reader_calls(text: &str) -> Vec<Hit> {
-    let mut code = code_only(text);
+    let mut code = masked(text, Mask::CommentsAndLiterals);
     without_test_items(&mut code);
     let mut opens = Vec::new();
     for call in READ_CALLS.map(str::as_bytes) {

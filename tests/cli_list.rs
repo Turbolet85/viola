@@ -555,14 +555,14 @@ fn stopped_home() -> StampedHome {
 fn list_refuses_a_home_another_user_may_read_with_and_without_an_instance() {
     let tmp = TestHome::new();
     let home = tmp.path();
-    viola_state::fs::create_private_dir(home).expect("the home");
+    crate::support::home::private_dir(home, "the home");
     let empty_board = format!("{BAY_UNKNOWN}\n{EMPTY_CAPTION}\n{EMPTY}\n");
     assert_eq!(list(home, false, None).stdout, empty_board);
     grant_read(home);
     let instance = home.join("instances").join("builder");
     for holding in ["no instance", "an instance"] {
         if holding == "an instance" {
-            viola_state::fs::create_private_dir(&instance).expect("the instance dir");
+            crate::support::home::private_dir(&instance, "the instance dir");
         }
         let human = list(home, false, Some("overseer"));
         assert_eq!(human.code, Some(21), "{holding}: {}", human.stderr);

@@ -1,0 +1,219 @@
+[
+{
+"tool": "inputs",
+"v": "1.6",
+"sha8": "ae755f58",
+"ts": "2026-11-13T07:22:04Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-13-epoch-8-cleanup",
+"--source",
+"~/dev/projects/additional/viola-overseer/phase-epoch-8-cleanup-directive.md",
+"--kind",
+"relay",
+"--why",
+"the operator directive for this take-up: scope as the entry stands, no mutation run, no live claude start, folds here, P5 report",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-11-13T07-19-39-phase",
+"--marker",
+"2026-11-13-epoch-8-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy no-repo · ../additional/viola-overseer/phase-epoch-8-cleanup-directive.md",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-phase-epoch-8-cleanup-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/phase-epoch-8-cleanup-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "886386306656cff66f9961d35c44309fdbf7ccbbdc7de8ea75b4224094744b77",
+"copy": "I1-phase-epoch-8-cleanup-directive.md.txt",
+"link": false,
+"read_at": "2026-11-13T07:22:03Z",
+"step": "phase:P1",
+"why": "the operator directive for this take-up: scope as the entry stands, no mutation run, no live claude start, folds here, P5 report"
+}
+},
+{
+"tool": "inputs",
+"v": "1.6",
+"sha8": "ae755f58",
+"ts": "2026-11-13T07:22:04Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-13-epoch-8-cleanup",
+"--source",
+"~/dev/projects/additional/viola-overseer/epoch6-8-triage.md",
+"--kind",
+"sibling",
+"--why",
+"0.1.0 version-end triage bucket 1: the items and coordinates of Epoch 8 cleanup",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-11-13T07-19-39-phase",
+"--marker",
+"2026-11-13-epoch-8-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy no-repo · ../additional/viola-overseer/epoch6-8-triage.md",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-epoch6-8-triage.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/epoch6-8-triage.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "ce46b1e67b297a1540fd7fca21cf6989d89b95ec4dfbc9929966473b715de308",
+"copy": "I2-epoch6-8-triage.md.txt",
+"link": false,
+"read_at": "2026-11-13T07:22:04Z",
+"step": "phase:P1",
+"why": "0.1.0 version-end triage bucket 1: the items and coordinates of Epoch 8 cleanup"
+}
+},
+{
+"tool": "inputs",
+"v": "1.6",
+"sha8": "ae755f58",
+"ts": "2026-11-13T08:05:11Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-13-epoch-8-cleanup",
+"--message-file",
+".andromeda/runs/2026-11-13T07-19-39-phase/relay-1.md",
+"--origin",
+"the overseer as delegate, P4 dialog, 2026-11-13",
+"--kind",
+"relay",
+"--why",
+"P4 fork answers: test the tap; items 7 and 8 met by gate.py control; survivor proof by gate.py control with a kill deadline",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-11-13T07-19-39-phase",
+"--marker",
+"2026-11-13-epoch-8-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy message · message: the overseer as delegate, P4 dialog, 2026-11-13",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "message: the overseer as delegate, P4 dialog, 2026-11-13",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "fc7c22458fabb545a999e761599a5fd7763da51dbe67f0971eca438e3b89bfb1",
+"copy": "I3-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-13T08:05:10Z",
+"step": "phase:P4",
+"why": "P4 fork answers: test the tap; items 7 and 8 met by gate.py control; survivor proof by gate.py control with a kill deadline"
+}
+},
+{
+"tool": "inputs",
+"v": "1.6",
+"sha8": "ae755f58",
+"ts": "2026-11-13T08:18:27Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-13-epoch-8-cleanup",
+"--message-file",
+".andromeda/runs/2026-11-13T07-19-39-phase/relay-2.md",
+"--origin",
+"the operator, relaying the overseer as delegate, P5 word, 2026-11-13",
+"--kind",
+"relay",
+"--why",
+"the P5 word on .andromeda/runs/2026-11-13T07-19-39-phase/p5-card-1.md (delegate overseer): yes; v2-01 claimed as proposed; Beyond-the-plan row 1 digit_runs a CARRY onto «Rows-proposal rule work» at this chunk's wrap",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-11-13T07-19-39-phase",
+"--marker",
+"2026-11-13-epoch-8-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy message · message: the operator, relaying the overseer as delegate, P5 word, 2026-11-13",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, relaying the overseer as delegate, P5 word, 2026-11-13",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "bfd03ffaeb2963a91c729b92a6cc73b002e3bb4c3aa471b60a3ab766a268eb92",
+"copy": "I4-relay-2.md.txt",
+"link": false,
+"read_at": "2026-11-13T08:18:26Z",
+"step": "phase:P5",
+"why": "the P5 word on .andromeda/runs/2026-11-13T07-19-39-phase/p5-card-1.md (delegate overseer): yes; v2-01 claimed as proposed; Beyond-the-plan row 1 digit_runs a CARRY onto «Rows-proposal rule work» at this chunk's wrap"
+}
+}
+]

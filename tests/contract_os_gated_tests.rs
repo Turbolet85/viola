@@ -13,6 +13,11 @@ use std::fs;
 use std::path::{Path, PathBuf};
 
 use rstest::rstest;
+use source_scan::{Mask, masked};
+
+#[allow(dead_code)]
+#[path = "support/source_scan.rs"]
+mod source_scan;
 
 /// One OS-gated test: a function (`test` its name) or a whole file (`test` empty).
 struct Gate {
@@ -451,10 +456,16 @@ fn declared_fn(line: &str) -> Option<&str> {
 
 /// One file's OS gates: each leading `#![cfg(…)]` naming an OS (test empty), and each test
 /// function whose contiguous attribute run holds a test attribute and a `cfg` or `cfg_attr` naming
-/// an OS.
+/// an OS. Comments are masked first; a line the mask blanked reads as a comment line.
 fn census(text: &str) -> Found {
     let mut found = Found::new();
-    let lines: Vec<&str> = text.lines().map(str::trim).collect();
+    let code = String::from_utf8(masked(text, Mask::Comments)).expect("masking keeps UTF-8");
+    let lines: Vec<&str> = code.lines().map(str::trim).collect();
+    let comment: Vec<bool> = code
+        .lines()
+        .zip(text.lines())
+        .map(|(code, raw)| code.trim().is_empty() && !raw.trim().is_empty())
+        .collect();
     let mut i = 0;
     let attribute = |i: &mut usize| {
         let mut attr = lines[*i].to_owned();
@@ -467,7 +478,7 @@ fn census(text: &str) -> Found {
     };
     while i < lines.len() {
         let line = lines[i];
-        if line.is_empty() || line.starts_with("//") {
+        if line.is_empty() {
             i += 1;
             continue;
         }
@@ -485,7 +496,7 @@ fn census(text: &str) -> Found {
         let line = lines[i];
         if line.starts_with("#[") {
             run.push(attribute(&mut i));
-        } else if !line.starts_with("//") {
+        } else if !comment[i] {
             if let Some(name) = declared_fn(line)
                 && run.iter().any(|a| is_test_attr(a))
             {

@@ -198,10 +198,10 @@ impl Impostor {
                 .expect("the held fake agent"),
         );
         let instance = home.join("instances").join("builder");
-        viola_state::fs::create_private_dir(&instance).expect("the instance dir");
+        crate::support::home::private_dir(&instance, "the instance dir");
         let socket_dir = tempfile::tempdir().expect("the socket dir");
         // A bare temp dir is left to the umask, and a client refuses a socket directory it can read.
-        viola_state::fs::create_private_dir(socket_dir.path()).expect("the socket dir, private");
+        crate::support::home::private_dir(socket_dir.path(), "the socket dir, private");
         let base = format!("viola-test-chan-{}-{label}", std::process::id());
         let endpoint = socket_dir
             .path()
@@ -302,7 +302,7 @@ fn hook_fails_open_silently_within_the_spine_bound(
     let home = stamped.home.path().to_path_buf();
     let dir = home.join("instances").join("builder");
     if matches!(env, Env::Made) {
-        viola_state::fs::create_private_dir(&dir).expect("the instance dir");
+        crate::support::home::private_dir(&dir, "the instance dir");
     }
     let impostor = matches!(env, Env::Impostor).then(|| Impostor::serve(&home, "event"));
     let vars = match env {
@@ -413,7 +413,7 @@ fn hook_dialog_tier_fails_open_silently(
     let home = stamped.home.path().to_path_buf();
     let dir = home.join("instances").join("builder");
     if matches!(env, Env::Made) {
-        viola_state::fs::create_private_dir(&dir).expect("the instance dir");
+        crate::support::home::private_dir(&dir, "the instance dir");
     }
     let impostor = matches!(env, Env::Impostor).then(|| Impostor::serve(&home, event));
     let bytes = stdin.map_or_else(|| dialog_payload(event), stdin_bytes);
@@ -651,7 +651,7 @@ fn hook_forced_panic_fails_open_with_one_role_line_and_one_detail_line() {
     let home = tmp.path().to_path_buf();
     let dir = home.join("instances").join("builder");
     // The instance directory a wrapper would have made: a hook with none writes nothing.
-    viola_state::fs::create_private_dir(&dir).expect("the instance dir");
+    crate::support::home::private_dir(&dir, "the instance dir");
 
     let out = run_hook(
         &["hook", "stop"],
@@ -722,7 +722,7 @@ fn hook_processes_append_whole_lines_side_by_side() {
     let home = tmp.path().to_path_buf();
     let dir = home.join("instances").join("builder");
     // The instance directory a wrapper would have made: a hook with none writes nothing.
-    viola_state::fs::create_private_dir(&dir).expect("the instance dir");
+    crate::support::home::private_dir(&dir, "the instance dir");
     let vars = instance_env("builder", &dir);
     let payload = json!({"session_id": 7, "source": "startup", "transcript_path": CANARY});
     let children: Vec<_> = (0..N)
@@ -795,7 +795,7 @@ fn hook_panics_append_whole_lines_over_4_kib_side_by_side() {
     let home = tmp.path().to_path_buf();
     let dir = home.join("instances").join("builder");
     // The instance directory a wrapper would have made: a hook with none writes nothing.
-    viola_state::fs::create_private_dir(&dir).expect("the instance dir");
+    crate::support::home::private_dir(&dir, "the instance dir");
     let vars = panic_env(&dir);
     let payload = stdin_bytes(Stdin::Payload);
     let children: Vec<_> = (0..N)

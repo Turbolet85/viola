@@ -226,6 +226,24 @@ mod tests {
         assert_eq!(lines_through(pieces, 8), (vec![line(8)], false));
     }
 
+    /// A read smaller than the released line takes its first bytes; the next, larger read takes the
+    /// rest and no more: the line arrives across reads unchanged and in order, then the end.
+    #[test]
+    fn capped_lines_into_a_short_buffer_yields_the_line_across_reads_in_order() {
+        let mut capped = CappedLines::new(&b"abcdefghij\n"[..], 64);
+        let mut cx = Context::from_waker(std::task::Waker::noop());
+        let mut read = |size: usize| {
+            let mut bytes = vec![0u8; size];
+            let mut buf = ReadBuf::new(&mut bytes);
+            let polled = Pin::new(&mut capped).poll_read(&mut cx, &mut buf);
+            assert!(matches!(polled, Poll::Ready(Ok(()))));
+            buf.filled().to_vec()
+        };
+        assert_eq!(read(3), b"abc");
+        assert_eq!(read(64), b"defghij\n");
+        assert_eq!(read(64), b"");
+    }
+
     #[test]
     fn capped_lines_at_max_frame_passes_the_cap_and_cuts_one_byte_more() {
         assert_eq!(viola_core::MAX_FRAME, 16 * 1024 * 1024);

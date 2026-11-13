@@ -127,7 +127,7 @@ fn run_with_unreadable_stamps_logs_one_rejection(#[from(home)] home: TestHome) {
     // viola's own creation first, so the home carries the mode viola gives it and only the
     // stand-in is wrong.
     let ledger = home.path().join("ledger");
-    viola_state::fs::create_private_dir(&ledger).expect("ledger");
+    crate::support::home::private_dir(&ledger, "ledger");
     std::fs::create_dir(ledger.join("stamps.json")).expect("dir");
     let (snapshot, lines) = run_once(home);
     assert_eq!(snapshot["cli_verified"], false);

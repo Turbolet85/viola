@@ -262,7 +262,7 @@ fn diag_detail_schema_allows_content_fields_only_there() {
 
 fn run_lines(home: &Path, program: &str, config: Option<&str>) -> Vec<Value> {
     if let Some(config) = config {
-        viola_state::fs::create_private_dir(home).expect("home");
+        crate::support::home::private_dir(home, "home");
         std::fs::write(home.join("config.json"), config).expect("config");
     }
     // The receipt sits outside the home, which stays viola's to create.

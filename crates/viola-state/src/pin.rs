@@ -208,6 +208,30 @@ mod tests {
         assert!(matches!(pin_exe(&home, &exe), Err(PinError::State(_))));
     }
 
+    /// A copy that cannot be read for a reason other than its absence (a directory at the name reads
+    /// `EISDIR`) is an error before any placement: no temp file is ever made beside it, so the
+    /// folder's modification time, set to a fixed instant first, stands.
+    #[test]
+    fn pin_bytes_over_an_unreadable_name_fails_and_places_nothing() {
+        use std::time::{Duration, SystemTime};
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let home = tmp.path().join("home");
+        let dir = home.join("bin").join("0.1.0-ba7816bf8f01cfea");
+        fs::create_dir_all(dir.join("viola")).expect("a dir where the copy should be");
+        let held = SystemTime::UNIX_EPOCH + Duration::from_secs(1);
+        File::open(&dir)
+            .and_then(|d| d.set_modified(held))
+            .expect("the folder's time");
+        assert!(matches!(pin_bytes(&home, b"abc"), Err(PinError::State(_))));
+        let modified = fs::metadata(&dir).expect("meta").modified().expect("mtime");
+        assert_eq!(modified, held, "an entry was made in the folder");
+        let names: Vec<_> = fs::read_dir(&dir)
+            .expect("listing")
+            .map(|e| e.expect("entry").file_name())
+            .collect();
+        assert_eq!(names, ["viola"]);
+    }
+
     /// A concurrent first start placed its copy at the path first: the same bytes are reused, other
     /// bytes are refused, and either way the file stands byte-identical.
     #[rstest]

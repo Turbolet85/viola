@@ -220,7 +220,7 @@ fn in_mode<'a>(words: &[&'a str], json: bool) -> Vec<&'a str> {
 /// A home holding `builder`'s directory, both viola-made: the check reads each as a start left it.
 fn made_instance(home: &TestHome) -> PathBuf {
     let dir = home.path().join("instances").join("builder");
-    viola_state::fs::create_private_dir(&dir).expect("the instance directory");
+    crate::support::home::private_dir(&dir, "the instance directory");
     dir
 }
 
@@ -283,7 +283,7 @@ fn strict_modes_on_the_board_is_exit_21_and_opens_no_log(#[case] json: bool) {
 #[case::human(false)]
 fn strict_modes_on_plugin_install_is_exit_21_and_creates_nothing(#[case] json: bool) {
     let home = TestHome::new();
-    viola_state::fs::create_private_dir(home.path()).expect("the home");
+    crate::support::home::private_dir(home.path(), "the home");
     widen(home.path());
     let ran = viola(
         home.path(),
@@ -587,7 +587,7 @@ fn a_revive_with_no_claude_on_its_path_is_internal_error(#[case] json: bool) {
 #[case::human(false)]
 fn a_frame_verb_that_cannot_open_its_log_is_internal_error(#[case] json: bool) {
     let home = TestHome::new();
-    viola_state::fs::create_private_dir(home.path()).expect("the home");
+    crate::support::home::private_dir(home.path(), "the home");
     fs::write(home.path().join("diagnostics"), b"x").expect("a regular file");
     let ran = viola(
         home.path(),

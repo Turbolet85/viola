@@ -263,6 +263,13 @@ impl Drop for TestHome {
     }
 }
 
+/// Makes a directory a test needs before viola runs, the way viola makes its own folders: 0700,
+/// its missing parents too (`viola_state::fs::create_private_dir`), so a home, an instance or a
+/// socket directory passes the read rule. `what` names it in the failure.
+pub fn private_dir(path: &Path, what: &str) {
+    viola_state::fs::create_private_dir(path).unwrap_or_else(|e| panic!("{what}: {e}"));
+}
+
 /// Grants another user write on `path`, the way the strict-modes witnesses widen a tree: mode 0770
 /// for a folder, 0660 for a file.
 pub fn widen(path: &Path) {
@@ -497,7 +504,7 @@ impl SocketRoot {
 
     /// The directory made as a start makes it, at 0700.
     pub fn made(self) -> Self {
-        viola_state::fs::create_private_dir(&self.dir()).expect("the socket directory");
+        private_dir(&self.dir(), "the socket directory");
         self
     }
 }

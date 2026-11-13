@@ -155,6 +155,81 @@ mod tests {
             .expect("the child")
     }
 
+    /// One event: its level and its fields as text, a `&str` field unquoted.
+    type Line = (tracing::Level, Vec<(String, String)>);
+
+    #[derive(Clone, Default)]
+    struct Lines(Arc<std::sync::Mutex<Vec<Line>>>);
+
+    struct Fields(Vec<(String, String)>);
+
+    impl tracing::field::Visit for Fields {
+        fn record_str(&mut self, field: &tracing::field::Field, value: &str) {
+            self.0.push((field.name().to_owned(), value.to_owned()));
+        }
+
+        fn record_debug(&mut self, field: &tracing::field::Field, value: &dyn std::fmt::Debug) {
+            self.0.push((field.name().to_owned(), format!("{value:?}")));
+        }
+    }
+
+    /// A scoped subscriber that keeps every event's level and fields: the capture of this crate's
+    /// unit tests, never a global install.
+    impl tracing::Subscriber for Lines {
+        fn enabled(&self, _: &tracing::Metadata<'_>) -> bool {
+            true
+        }
+
+        fn new_span(&self, _: &tracing::span::Attributes<'_>) -> tracing::span::Id {
+            tracing::span::Id::from_u64(1)
+        }
+
+        fn record(&self, _: &tracing::span::Id, _: &tracing::span::Record<'_>) {}
+
+        fn record_follows_from(&self, _: &tracing::span::Id, _: &tracing::span::Id) {}
+
+        fn event(&self, event: &tracing::Event<'_>) {
+            let mut fields = Fields(Vec::new());
+            event.record(&mut fields);
+            self.0
+                .lock()
+                .expect("lines")
+                .push((*event.metadata().level(), fields.0));
+        }
+
+        fn enter(&self, _: &tracing::span::Id) {}
+
+        fn exit(&self, _: &tracing::span::Id) {}
+    }
+
+    /// The over-long line's one WARN `parse-rejected` line: the stdin parser, `oversize`, a count
+    /// of one, and no other field.
+    #[test]
+    fn reject_oversize_line_writes_one_warn_parse_rejected_line() {
+        let lines = Lines::default();
+        tracing::subscriber::with_default(lines.clone(), reject_oversize_line);
+        let seen = lines.0.lock().expect("lines").clone();
+        let fields = |pairs: &[(&str, &str)]| -> Vec<(String, String)> {
+            pairs
+                .iter()
+                .map(|(k, v)| ((*k).to_owned(), (*v).to_owned()))
+                .collect()
+        };
+        assert_eq!(
+            seen,
+            [(
+                tracing::Level::WARN,
+                fields(&[
+                    ("message", "parse-rejected"),
+                    ("event", "parse-rejected"),
+                    ("parser", "mcp-stdin"),
+                    ("detail", "oversize"),
+                    ("count", "1"),
+                ])
+            )]
+        );
+    }
+
     /// stdin at EOF before any `initialize`: the session never initializes.
     #[test]
     fn serve_on_a_closed_stdin_is_the_initialize_error() {

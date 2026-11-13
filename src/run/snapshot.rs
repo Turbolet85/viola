@@ -53,27 +53,9 @@ mod tests {
     use super::*;
     use std::sync::Barrier;
 
-    use viola_state::snapshot::{PendingDialog, Wheel, read_snapshot};
+    use crate::run::first;
 
-    fn first() -> InstanceSnapshot {
-        InstanceSnapshot {
-            endpoint: None,
-            pid: 1,
-            started_at: "s".to_owned(),
-            pinned_bin: "b".to_owned(),
-            cli_verified: true,
-            cli_version: None,
-            wheel: Wheel::Driver,
-            budget_paused: false,
-            budget_override_until: None,
-            links: Vec::new(),
-            child_pid: None,
-            pending_dialog: None,
-            cwd: None,
-            statusline_command: None,
-            agent_session_id: None,
-        }
-    }
+    use viola_state::snapshot::{PendingDialog, Wheel, read_snapshot};
 
     #[test]
     fn snapshot_update_before_init_writes_nothing() {
