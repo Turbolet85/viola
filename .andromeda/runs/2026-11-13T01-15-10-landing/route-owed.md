@@ -1,0 +1,14 @@
+layout-templates · decision/shared-captions-fixed · The planned fleet console (0.2.0, Epoch 6) reuses the six board captions, their words and slot order (src/human/board/rows.rs:42).
+a11y-plan · decision/refusal-ends-with-hint · Every refusal reason prints a hint, unverified-cli and answer's other not-delivered details included (src/cmd/send.rs:85 · src/human/mirror.rs:65-67).
+security-plan · decision/fixture-scrub-and-refusal · The email check runs on every kind of committed fixture and at the record, not on screens alone (crates/viola-agent-claude/src/ledger.rs:1327-1334).
+security-plan · decision/exact-third-party-pins · The chunk that closes V182 settles rmcp's version (Cargo.toml:223, held to >=3.4.1, <3.5), and its wrap writes the rmcp exception in the form that proves right.
+security-plan · decision/cli-names-through-name-check · run parses its name through the shared parse_name rather than its own copy of send's (src/cmd/run.rs:50).
+security-plan · decision/strict-modes-check · The trusted-state checks refuse a symbolic link too, as the diagnostics and socket-directory checks do: check_instance, check_stamps, check_path and check_read stop following one (crates/viola-state/src/strict.rs:240).
+architecture · decision/no-tmux-or-shell-dependency · The status-line shell-out leaves (crates/viola-agent-claude/src/statusline.rs:124): 0.2.0's entry «Status-line interception removed» (census F-09), already on the route.
+test-plan · decision/pty-tested-on-real-openpty · The needless key at tests/tui_pty_seam.rs:64 goes; the size receipt follows a resize on its own.
+test-plan · decision/fixture-hygiene-walk · The email check runs on the hook, agents and statusline fixture walks too, not only on the Mcp and Screen walks (tests/contract_fixture_hygiene.rs:72) — one work with security-plan · decision/fixture-scrub-and-refusal.
+test-plan · decision/fd-test-reads-live-child-table · The self-dump fallback goes and the test always reads /proc/<pid>/fd, Viola being Linux-only (tests/tui_channel_fds.rs:25).
+test-plan · decision/no-fd-count-assertion · The fds.len() <= 5 count assertion goes (tests/tui_channel_fds.rs:34-37); the /proc table assertions stay.
+test-plan · decision/fixtures-walked-for-hygiene · Emails are walked for in every kind of committed fixture, not only MCP exchanges and screens (tests/support/hygiene.rs:10) — one work with security-plan · decision/fixture-scrub-and-refusal.
+obs-plan · decision/payload-types-derive-redact · The hook and MCP payload types derive veil Redact too; today only the channel Request does (crates/viola-channel/src/frame.rs:51).
+obs-plan · decision/private-diagnostics-files · The diagnostics open refuses a symlink and narrows the mode on the open file, closing the race after the earlier lstat (crates/viola-state/src/fs.rs:44-51).

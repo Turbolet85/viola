@@ -86,7 +86,7 @@ Rendered by `/andromeda-setup-project` on the first run and kept current by wrap
 
 ## Long pastes arrive wrapped and escaped
 **What breaks:** exact-match delivery confirmation fails on long pastes (wrapped in `<pasted_content id=…>` above ~981 bytes on 2.1.280) and on tag-like text (`<` becomes `<\`).
-**How to avoid:** `viola-agent-claude` removes the wrapper, then reverses tag escaping, before emitting `prompt-submitted`.
+**How to avoid:** `viola-agent-claude` classifies `harness` on the raw prefix first, then removes the wrapper with its frame, then reverses tag escaping, before emitting `prompt-submitted`.
 **References:** arch Ledger rows; test-plan Path 2 step 3.
 
 ## The parent session's identity leaks into the child

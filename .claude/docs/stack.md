@@ -35,7 +35,7 @@ The workspace `rust-version` 1.96 floor, the exact `rust-toolchain.toml` pin and
 
 ## Security-plan additions
 - libc, a plain (not target-gated) `[dependencies]` entry of the root, `viola-channel`, `viola-pty`, `viola-state` and `viola-e2e`, the one OS-binding crate (no crate depends on windows-sys) · sha2 `=0.11.0` for the SHA-256 `<hash>` (Decisions Log `2026-09-25`).
-- Licence: the project is `MIT OR Apache-2.0` (`[workspace.package]`, `license.workspace = true`; `LICENSE-MIT` + `LICENSE-APACHE`). `deny.toml` allows `MIT`, `Apache-2.0`, `Zlib`, `Unicode-3.0`, plus `0BSD` only per crate for interprocess's `doctest-file` and `recvmsg`.
+- Licence: the project is `MIT OR Apache-2.0` (`[workspace.package]`, `license.workspace = true`; `LICENSE-MIT` + `LICENSE-APACHE`). `deny.toml` allows `MIT`, `Apache-2.0`, `Zlib`, `Unicode-3.0`, plus `0BSD` only through the per-crate exception for interprocess's `doctest-file`, never through the allowlist.
 - Audit: cargo-deny `>=0.20.2` (+ `[advisories]`, `[sources]`, `[[bans.features]]`), zizmor `>=1.30.1`; cargo-audit `>=0.22.2` deferred to v1.x binary scans.
 
 ## Observability (obs-plan §3)

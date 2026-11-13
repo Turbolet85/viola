@@ -1,0 +1,60 @@
+{
+ "word": "76f59d6ac300f77d5e8feffa1e02d5865bda97e766fc55fec6e0b9318a5e3b6d",
+ "proposal": "0922fbab47d987b4ab01de0ef016e67560c5ba4a195010dc7b3dabd5b8abea8f",
+ "pin": 744,
+ "head": "2d3788258131d14579799fb62799ac5aaaed9d6a",
+ "tool": "rec v1.39",
+ "rows": 4971,
+ "counts": {
+  "architecture": {
+   "decision": 506,
+   "contract": 481,
+   "absence": 15,
+   "name": 58,
+   "overview": 2
+  },
+  "security-plan": {
+   "decision": 446,
+   "contract": 168,
+   "absence": 21,
+   "name": 0,
+   "overview": 2
+  },
+  "design-system": {
+   "decision": 94,
+   "contract": 231,
+   "absence": 3,
+   "name": 15,
+   "overview": 1
+  },
+  "layout-templates": {
+   "decision": 51,
+   "contract": 173,
+   "absence": 2,
+   "name": 0,
+   "overview": 0
+  },
+  "test-plan": {
+   "decision": 742,
+   "contract": 632,
+   "absence": 5,
+   "name": 0,
+   "overview": 0
+  },
+  "obs-plan": {
+   "decision": 596,
+   "contract": 463,
+   "absence": 17,
+   "name": 0,
+   "overview": 1
+  },
+  "a11y-plan": {
+   "decision": 131,
+   "contract": 110,
+   "absence": 5,
+   "name": 0,
+   "overview": 0
+  }
+ },
+ "refused_rows": 2
+}
