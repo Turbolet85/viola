@@ -1,3 +1,0 @@
-decision/terminal-fleet-console · searched: (?i)fleet|hyprland|console · in Cargo.toml crates/*/Cargo.toml src/** plugin/** tests/** (one test file hit unrelated; only crates/viola-pty console hits are Windows console tests); Fleet console · in src/**/*.rs crates/*/src/**/*.rs · fct-jn2hd4ac@2,fct-7wwoxbip@2
-decision/hook-tier-map-verified · searched: tier map|hook-tier|hook_tier|HookTier · in src/**, crates/**, tests/**, plugin/**, scripts/**; LedgerRow variants (24, none a hook tier map) · in crates/viola-agent-claude/src/ledger.rs · fct-xbwprhwr@2
-decision/snapshots-check-mode-only · searched: insta:: · in tests/**/*.rs; tests/snapshots · in tests/ (directory absent); INSTA_UPDATE · in **/*.{rs,toml,yml,sh} · fct-irhgihut@5

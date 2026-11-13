@@ -1,0 +1,331 @@
+[
+{
+"tool": "rec",
+"v": "1.39",
+"sha8": "06774468",
+"ts": "2026-11-13T01:36:41Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-13T01-34-34-wrap/route-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-13T01-34-34-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [],
+"stderr": "chk-uhctqx55: stands under no `contains` — nothing written",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.39",
+"sha8": "06774468",
+"ts": "2026-11-13T01:36:46Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-13T01-34-34-wrap/route-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-13T01-34-34-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [],
+"stderr": "chk-z2mcehqx: stands under no `contains` — nothing written",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.39",
+"sha8": "06774468",
+"ts": "2026-11-13T01:37:13Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-13T01-34-34-wrap/route-batch-1.txt",
+"--run-dir",
+".andromeda/runs/2026-11-13T01-34-34-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 7 record(s) · 7 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.39",
+"sha8": "06774468",
+"ts": "2026-11-13T01:37:17Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-13T01-34-34-wrap/route-batch-1.txt",
+"--run-dir",
+".andromeda/runs/2026-11-13T01-34-34-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 7 record(s) · 7 edge(s) · tx 832 · chk-srpwedyf … cry-dc3um6ng"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.39",
+"sha8": "06774468",
+"ts": "2026-11-13T01:37:21Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-13T01-34-34-wrap/route-batch-2.txt",
+"--run-dir",
+".andromeda/runs/2026-11-13T01-34-34-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 15 record(s) · 15 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.39",
+"sha8": "06774468",
+"ts": "2026-11-13T01:37:26Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-13T01-34-34-wrap/route-batch-2.txt",
+"--run-dir",
+".andromeda/runs/2026-11-13T01-34-34-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 15 record(s) · 15 edge(s) · tx 833 · chk-zivklxpc … cry-27i6zxfn"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.39",
+"sha8": "06774468",
+"ts": "2026-11-13T01:37:34Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-13T01-34-34-wrap/route-batch-3.txt",
+"--run-dir",
+".andromeda/runs/2026-11-13T01-34-34-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 1 record(s) · 1 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.39",
+"sha8": "06774468",
+"ts": "2026-11-13T01:37:34Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-13T01-34-34-wrap/route-batch-3.txt",
+"--run-dir",
+".andromeda/runs/2026-11-13T01-34-34-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 1 edge(s) · tx 834 · chk-ikt2ehmw … chk-ikt2ehmw"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.39",
+"sha8": "06774468",
+"ts": "2026-11-13T01:38:18Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-13T01-34-34-wrap/run-node.txt",
+"--run-dir",
+".andromeda/runs/2026-11-13T01-34-34-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 1 record(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.39",
+"sha8": "06774468",
+"ts": "2026-11-13T01:38:19Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-13T01-34-34-wrap/run-node.txt",
+"--run-dir",
+".andromeda/runs/2026-11-13T01-34-34-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 0 edge(s) · tx 835 · run-fjongx3l … run-fjongx3l"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.39",
+"sha8": "06774468",
+"ts": "2026-11-13T01:38:37Z",
+"argv": [
+"outputs",
+"land",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-13T01-34-34-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"outputs land: no field payload in the run — nothing to land"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.39",
+"sha8": "06774468",
+"ts": "2026-11-13T01:38:39Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-13T01-34-34-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"sealed 2026-11-12T03-23-49-rows · 17 file(s) · 2026-11-12T03-23-49-rows.parquet · tx 836 · 17 removed · 1 set aside",
+"sealed 2026-11-12T03-23-49-rows-a11y-plan · 24 file(s) · 2026-11-12T03-23-49-rows-a11y-plan.parquet · tx 837 · 24 removed · 96 set aside",
+"sealed 2026-11-12T03-23-49-rows-architecture · 50 file(s) · 2026-11-12T03-23-49-rows-architecture.parquet · tx 838 · 50 removed · 379 set aside",
+"sealed 2026-11-12T03-23-49-rows-design-system · 23 file(s) · 2026-11-12T03-23-49-rows-design-system.parquet · tx 839 · 23 removed · 137 set aside",
+"sealed 2026-11-12T03-23-49-rows-layout-templates · 21 file(s) · 2026-11-12T03-23-49-rows-layout-templates.parquet · tx 840 · 21 removed · 85 set aside",
+"sealed 2026-11-12T03-23-49-rows-obs-plan · 37 file(s) · 2026-11-12T03-23-49-rows-obs-plan.parquet · tx 841 · 37 removed · 369 set aside",
+"sealed 2026-11-12T03-23-49-rows-security-plan · 31 file(s) · 2026-11-12T03-23-49-rows-security-plan.parquet · tx 842 · 31 removed · 237 set aside",
+"sealed 2026-11-12T03-23-49-rows-test-plan · 45 file(s) · 2026-11-12T03-23-49-rows-test-plan.parquet · tx 843 · 45 removed · 491 set aside",
+"sealed 2026-11-13T01-12-54-wrap · 4 file(s) · 2026-11-13T01-12-54-wrap.parquet · tx 844 · 4 removed · 0 set aside",
+"sealed 2026-11-13T01-15-10-landing · 46 file(s) · 2026-11-13T01-15-10-landing.parquet · tx 845 · 46 removed · 18 set aside",
+"sealed 2026-11-13T01-25-38-setup-project · 6 file(s) · 2026-11-13T01-25-38-setup-project.parquet · tx 846 · 6 removed · 0 set aside",
+"seal · 11 run(s) · own 2026-11-13T01-34-34-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

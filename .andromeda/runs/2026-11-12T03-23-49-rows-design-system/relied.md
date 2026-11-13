@@ -1,1 +1,0 @@
-fct-mfvo2or6@1 · A failed strict-modes check refuses the whole board with exit 21, in the fixed `unable:` / `hint:` form or under `--json` the `instance-unreachable` document with `detail` `strict-modes-failed`.

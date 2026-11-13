@@ -1,8 +1,8 @@
 # Coverage — viola-0.2.0
 
-verified 0/28 · deferred 0 · planned 28 · implemented 0 · unclaimed 28
+verified 0/31 · deferred 0 · planned 31 · implemented 0 · unclaimed 31
 
-## planned, unclaimed (28)
+## planned, unclaimed (31)
 - v2-01 · Epoch 8 cleanup
 - v2-02 · The dialog-hold ceiling read live
 - v2-03 · `viola run` wraps the unmodified CLI on Linux, proved
@@ -31,3 +31,6 @@ verified 0/28 · deferred 0 · planned 28 · implemented 0 · unclaimed 28
 - v2-26 · The R8 identity-floor ledger row
 - v2-27 · A key typed right after a resize
 - v2-28 · The fleet run by viola
+- v2-29 · Verify waits on the input box, not the footer
+- v2-30 · Model and effort named at launch
+- v2-31 · Switch a session's model and effort
