@@ -8,7 +8,13 @@ targets = ["x86_64-unknown-linux-gnu"]
 unmaintained = "all"
 unsound = "all"
 yanked = "deny"
-ignore = []
+# Each ignore stands only for an advisory confined to an rmcp feature viola's graph leaves off, and
+# only while rmcp stays below 3.5 (security-plan, the Critical CVE response).
+ignore = [
+  { id = "RUSTSEC-2026-0457", reason = "rmcp's OAuth client sits in its `auth` feature, banned by [[bans.features]] below; stands until rmcp leaves <3.5" },
+  { id = "RUSTSEC-2026-0461", reason = "rmcp's Streamable HTTP server transport sits in `transport-streamable-http-server`, banned by [[bans.features]] below; stands until rmcp leaves <3.5" },
+  { id = "RUSTSEC-2026-0462", reason = "rmcp's Streamable HTTP clients sit in `transport-streamable-http-client-reqwest` and `-unix-socket`, off in viola's release graph (scripts/rmcp-features.sh) and absent from viola-e2e's `client`; stands until rmcp leaves <3.5" },
+]
 
 [licenses]
 allow = ["MIT", "Apache-2.0", "Zlib", "Unicode-3.0"]

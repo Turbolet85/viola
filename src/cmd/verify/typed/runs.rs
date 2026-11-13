@@ -20,8 +20,7 @@ use super::Inputs;
 use super::pty::KeyPipe;
 use super::run::Run;
 use super::turns::{
-    agents_read, count_of, framing_turns, input_box_up, ms, probe_until, turn, wait_capture,
-    wait_for,
+    agents_read, count_of, framing_turns, guard, ms, probe_until, turn, wait_capture, wait_for,
 };
 
 /// Run A: the first settled screen in a fresh dir under the OS temp dir, then a kill.
@@ -63,7 +62,10 @@ pub(super) fn trusted_run(
         .as_ref()
         .map(|s| ms(s.at.saturating_duration_since(run.spawned_at)));
     typed.ready = ready.and_then(|s| s.rows);
-    if !input_box_up(typed.ready.as_deref()) {
+    let mut box_only = 0;
+    let up = guard(typed.ready.as_deref(), &mut box_only);
+    typed.box_only_guards = Some(box_only);
+    if !up {
         run.end_by_kill();
         return Ok(None);
     }
@@ -80,7 +82,9 @@ pub(super) fn trusted_run(
         inputs.trusted.captures,
         typed.turn.clone(),
         &mut typed.long_turn,
+        &mut box_only,
     );
+    typed.box_only_guards = Some(box_only);
     run.end_by_ctrl_c(&keys);
     drop(keys);
     drop(trusted);

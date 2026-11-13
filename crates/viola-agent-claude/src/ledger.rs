@@ -597,6 +597,9 @@ pub struct TypedRun {
     pub max_turn_gap_ms: Option<u64>,
     /// From Run B's `/compact` paste to the instant its answer was read.
     pub compact_latency_ms: Option<u64>,
+    /// How many of Run B's paste guards read the input box up on the box's own rows, with no
+    /// footer literal on any row.
+    pub box_only_guards: Option<u32>,
 }
 
 /// The captures of the two dialog runs, each in claim order: Run C's and Run D's.
@@ -964,9 +967,9 @@ fn any_row(rows: Option<&Vec<String>>, literals: &[&str]) -> bool {
     rows.is_some_and(|rows| rows.iter().any(|r| literals.iter().any(|l| r.contains(l))))
 }
 
-/// An input-box literal on some row and no modal literal on any.
+/// The input box up on the screen ([`crate::screen::Signatures::input_box_up`]).
 fn input_box_ready(rows: Option<&Vec<String>>) -> bool {
-    any_row(rows, SIGNATURES.input_box) && !any_row(rows, SIGNATURES.modals)
+    rows.is_some_and(|rows| SIGNATURES.input_box_up(rows))
 }
 
 fn within(ms: Option<u64>, bound: Duration) -> bool {
@@ -1146,6 +1149,7 @@ pub fn merge_stamp(
                 "prompt_latency_ms": typed.prompt_latency_ms,
                 "max_turn_gap_ms": typed.max_turn_gap_ms,
                 "compact_latency_ms": typed.compact_latency_ms,
+                "box_only_guards": typed.box_only_guards,
             },
             "dialog_probe": {
                 "parallel_both_before_first_post": parallel_both_before_first_post,
@@ -1369,12 +1373,22 @@ fn has_user_word(text: &str, user: &str) -> bool {
     })
 }
 
-/// `rows` with every row that holds no [`SIGNATURES`] literal written `""`: what a recorded
-/// `Screen.<phase>.json` keeps.
+/// What a recorded `Screen.<phase>.json` keeps: the box's rule as its run of the rule character
+/// alone, the prompt row right below it as the prompt glyph alone (never the text after it), a row
+/// holding a [`SIGNATURES`] literal whole, and every other row `""`.
 pub fn signature_rows(rows: &[String]) -> Vec<String> {
     rows.iter()
-        .map(|r| {
-            if SIGNATURES.holds_any(r) {
+        .enumerate()
+        .map(|(i, r)| {
+            let below_rule = i
+                .checked_sub(1)
+                .and_then(|j| rows.get(j))
+                .is_some_and(|above| SIGNATURES.is_box_rule(above));
+            if SIGNATURES.is_box_rule(r) {
+                r.trim_end_matches(' ').to_owned()
+            } else if below_rule && r.starts_with(SIGNATURES.box_prompt) {
+                SIGNATURES.box_prompt.to_string()
+            } else if SIGNATURES.holds_any(r) {
                 r.clone()
             } else {
                 String::new()

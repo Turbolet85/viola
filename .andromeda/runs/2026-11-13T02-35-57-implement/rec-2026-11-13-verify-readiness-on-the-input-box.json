@@ -1,0 +1,84 @@
+[
+{
+"tool": "rec",
+"v": "1.39",
+"sha8": "06774468",
+"ts": "2026-11-13T02:37:40Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"scope-record",
+"--owner",
+"chk:2026-11-13-verify-readiness-on-the-input-box",
+"--file",
+".andromeda/cache/docs/2026-11-13-verify-readiness-on-the-input-box/scope-record.md",
+"--run-dir",
+".andromeda/runs/2026-11-13T02-35-57-implement",
+"--marker",
+"2026-11-13-verify-readiness-on-the-input-box"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-13-verify-readiness-on-the-input-box/scope-record rev 1 · 1 new · 0 revised · 0 retired · 0 kept · tx 869"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-13T01-43-00-2026-11-13-verify-readiness-on-the-input-box.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.39",
+"sha8": "06774468",
+"ts": "2026-11-13T02:51:57Z",
+"argv": [
+"land",
+"--root",
+".",
+"--chunk",
+"2026-11-13-verify-readiness-on-the-input-box",
+"--run-dir",
+".andromeda/runs/2026-11-13T02-35-57-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"unchanged · 7 file(s) of 2026-11-13-verify-readiness-on-the-input-box"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.40",
+"sha8": "bd622cd7",
+"ts": "2026-11-13T06:10:43Z",
+"argv": [
+"land",
+"--root",
+".",
+"--chunk",
+"2026-11-13-verify-readiness-on-the-input-box",
+"--run-dir",
+".andromeda/runs/2026-11-13T02-35-57-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-13-verify-readiness-on-the-input-box · 8 new · 0 changed · 0 gone · 9 kept · tx 876"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-13T01-43-00-2026-11-13-verify-readiness-on-the-input-box.ndjson"
+],
+"before": null,
+"after": null
+}
+]

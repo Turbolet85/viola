@@ -69,12 +69,19 @@ pub(super) fn count_of(dir: &Path, event: HookEvent) -> usize {
         .count()
 }
 
-/// An input-box literal on some row and no modal literal on any: the only screen typed into.
+/// The input box up (`Signatures::input_box_up`): the only screen typed into.
 pub(super) fn input_box_up(rows: Option<&[String]>) -> bool {
-    rows.is_some_and(|rows| {
-        let holds = |list: &[&str]| rows.iter().any(|r| list.iter().any(|l| r.contains(l)));
-        holds(SIGNATURES.input_box) && !holds(SIGNATURES.modals)
-    })
+    rows.is_some_and(|rows| SIGNATURES.input_box_up(rows))
+}
+
+/// A paste's guard: the input box up, and one added to `box_only` when it is up on the box's own
+/// rows with no footer literal on any row.
+pub(super) fn guard(rows: Option<&[String]>, box_only: &mut u32) -> bool {
+    let up = input_box_up(rows);
+    if up && rows.is_some_and(|rows| !SIGNATURES.holds_footer(rows)) {
+        *box_only = box_only.saturating_add(1);
+    }
+    up
 }
 
 /// The paste, its UserPromptSubmit capture, the Stop capture, then the `turn` screen.
@@ -123,16 +130,18 @@ pub(super) fn agents_read(run: &Run, inputs: &Inputs<'_>, dir: &Path) -> Option<
 /// is back, then the probed local command until the same and the screen settles. The first wait
 /// that fails ends them. The rows the input box settled on after the long paste's turn go to
 /// `long_turn`. The ms from the `/compact` paste to the instant its answer was read, once it was.
+/// Each guard passed on the box alone adds one to `box_only`.
 pub(super) fn framing_turns(
     run: &Run,
     captures: &Path,
     mut rows: Option<Vec<String>>,
     long_turn: &mut Option<Vec<String>>,
+    box_only: &mut u32,
 ) -> Option<u64> {
     let clock = run.clock.as_ref();
     let count = |event| count_of(captures, event);
     for text in [PROBE_LONG_PASTE, PROBE_TAG_PASTE, PROBE_NEWLINE_PASTE] {
-        if !input_box_up(rows.as_deref()) {
+        if !guard(rows.as_deref(), box_only) {
             return None;
         }
         let prompts = count(HookEvent::UserPromptSubmit);
@@ -148,7 +157,7 @@ pub(super) fn framing_turns(
             long_turn.clone_from(&rows);
         }
     }
-    if !input_box_up(rows.as_deref()) {
+    if !guard(rows.as_deref(), box_only) {
         return None;
     }
     let starts = count(HookEvent::SessionStart);
@@ -161,7 +170,7 @@ pub(super) fn framing_turns(
         local_command_answered(captures, starts, prompts)
     })?;
     let latency = Some(ms(compacted.saturating_duration_since(pasted)));
-    if !input_box_up(run.box_wait(compacted).as_deref()) {
+    if !guard(run.box_wait(compacted).as_deref(), box_only) {
         return latency;
     }
     let starts = count(HookEvent::SessionStart);
@@ -254,6 +263,47 @@ mod tests {
                 "{modal}"
             );
         }
+    }
+
+    fn boxed(footer: &str) -> Vec<String> {
+        let rule = "─".repeat(80);
+        vec![
+            "● ok".to_owned(),
+            rule.clone(),
+            "❯ ".to_owned(),
+            rule,
+            footer.to_owned(),
+        ]
+    }
+
+    #[test]
+    fn input_box_up_reads_the_box_alone() {
+        assert!(input_box_up(Some(&boxed("  Update available!"))));
+        assert!(!input_box_up(Some(&boxed("Yes, I trust this folder"))));
+    }
+
+    #[rstest]
+    #[case::box_alone(Some(boxed("  Update available!")), true, 1)]
+    #[case::box_and_footer(Some(boxed("  ⏵⏵ auto mode on (shift+tab to cycle)")), true, 0)]
+    #[case::footer_alone(Some(rows(&["x", "  ← for agents"])), true, 0)]
+    #[case::box_with_a_modal(Some(boxed("Yes, I trust this folder")), false, 0)]
+    #[case::neither(Some(rows(&["x"])), false, 0)]
+    #[case::no_screen(None, false, 0)]
+    fn guard_counts_one_pass_on_the_box_alone(
+        #[case] screen: Option<Vec<String>>,
+        #[case] up: bool,
+        #[case] counted: u32,
+    ) {
+        let mut box_only = 2;
+        assert_eq!(guard(screen.as_deref(), &mut box_only), up);
+        assert_eq!(box_only, 2 + counted);
+    }
+
+    #[test]
+    fn guard_count_saturates() {
+        let mut box_only = u32::MAX;
+        assert!(guard(Some(&boxed("  Update available!")), &mut box_only));
+        assert_eq!(box_only, u32::MAX);
     }
 
     #[test]

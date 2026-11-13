@@ -25,20 +25,32 @@ pub const CONFIRM_WINDOW_FALLBACK: Duration = Duration::from_secs(10);
 /// paste and this window together stay under the MCP client's tool-call timeout.
 pub const COMPACT_CONFIRM_WINDOW: Duration = Duration::from_secs(40);
 
+/// The fewest `box_rule` characters a row needs to read as the input box's rule. The box's rules
+/// span the terminal's width (80 at 80 columns in the recorded probe streams, a 66-character
+/// leftover rule beside them), so a short rule drawn inside a turn's output never reads as the box.
+/// Compiled, and held per CLI version by the `input-box-signature` row.
+pub const BOX_RULE_MIN: usize = 40;
+
 /// Compiled screen signatures, never built from screen or upstream text: a ready screen has a row
-/// holding one `input_box` literal and no row holding any `modals` literal.
+/// holding one `input_box` literal, or the box's own rows (a row of `box_rule` alone directly above
+/// a row opening `box_prompt`), and no row holding any `modals` literal.
 #[derive(Debug, Clone, Copy)]
 pub struct Signatures {
     pub input_box: &'static [&'static str],
+    pub box_rule: char,
+    pub box_prompt: char,
     pub modals: &'static [&'static str],
 }
 
-/// The measured literals (`viola verify`'s screen probe): the input box's footer hints, and the
-/// confirm labels of the workspace trust dialog and the external CLAUDE.md imports dialog. The
-/// second input-box literal is the resting footer 2.1.302 keeps once it hides the first; its
-/// parentheses keep it off the CLI's tip text and its dialogs' own "to cycle" hints.
+/// The measured literals (`viola verify`'s screen probe): the input box's footer hints, the box's
+/// own rule and prompt glyph, and the confirm labels of the workspace trust dialog and the
+/// external CLAUDE.md imports dialog. The second input-box literal is the resting footer 2.1.302
+/// keeps once it hides the first; its parentheses keep it off the CLI's tip text and its dialogs'
+/// own "to cycle" hints. The box's rows stand where a transient footer notice displaces both hints.
 pub const SIGNATURES: Signatures = Signatures {
     input_box: &["for agents", "(shift+tab to cycle)"],
+    box_rule: '─',
+    box_prompt: '❯',
     modals: &["Yes, I trust this folder", "Yes, allow external imports"],
 };
 
@@ -49,6 +61,36 @@ impl Signatures {
             .iter()
             .chain(self.modals)
             .any(|s| row.contains(s))
+    }
+
+    /// Whether `row` holds a modal literal.
+    pub fn holds_modal(&self, row: &str) -> bool {
+        self.modals.iter().any(|m| row.contains(m))
+    }
+
+    /// Whether some row holds an input-box footer literal.
+    pub fn holds_footer(&self, rows: &[String]) -> bool {
+        rows.iter()
+            .any(|r| self.input_box.iter().any(|s| r.contains(s)))
+    }
+
+    /// Whether `row` is the box's rule: `box_rule` alone, at least [`BOX_RULE_MIN`] of it, its
+    /// trailing spaces aside.
+    pub fn is_box_rule(&self, row: &str) -> bool {
+        let rule = row.trim_end_matches(' ');
+        rule.chars().all(|c| c == self.box_rule) && rule.chars().count() >= BOX_RULE_MIN
+    }
+
+    /// Whether the box's own rows stand: a rule directly above a row opening `box_prompt`.
+    pub fn holds_box(&self, rows: &[String]) -> bool {
+        rows.windows(2)
+            .any(|w| self.is_box_rule(&w[0]) && w[1].starts_with(self.box_prompt))
+    }
+
+    /// The input box is up: a footer literal or the box's own rows stand, and no modal row does.
+    pub fn input_box_up(&self, rows: &[String]) -> bool {
+        !rows.iter().any(|r| self.holds_modal(r))
+            && (self.holds_footer(rows) || self.holds_box(rows))
     }
 }
 
@@ -148,14 +190,11 @@ impl Screen {
         let Some(sigs) = sigs else {
             return GateStep::Done(Readiness::Ready);
         };
-        let mut input_box = false;
-        for row in parser.screen().rows(0, self.cols) {
-            if sigs.modals.iter().any(|m| row.contains(m)) {
-                return GateStep::Done(Readiness::InputNotReady);
-            }
-            input_box = input_box || sigs.input_box.iter().any(|s| row.contains(s));
+        let rows: Vec<String> = parser.screen().rows(0, self.cols).collect();
+        if rows.iter().any(|row| sigs.holds_modal(row)) {
+            return GateStep::Done(Readiness::InputNotReady);
         }
-        if input_box {
+        if sigs.input_box_up(&rows) {
             GateStep::Done(Readiness::Ready)
         } else if now.saturating_duration_since(waiting_since) < GATE_MAX_WAIT {
             GateStep::Wait
@@ -175,6 +214,8 @@ mod tests {
 
     const SIGS: Signatures = Signatures {
         input_box: &["> type here"],
+        box_rule: '=',
+        box_prompt: '>',
         modals: &["Do you want to proceed?"],
     };
 
@@ -414,6 +455,9 @@ mod tests {
     #[test]
     fn signatures_are_the_measured_literals() {
         assert_eq!(SIGNATURES.input_box, ["for agents", "(shift+tab to cycle)"]);
+        assert_eq!(SIGNATURES.box_rule, '─');
+        assert_eq!(SIGNATURES.box_prompt, '❯');
+        assert_eq!(BOX_RULE_MIN, 40);
         assert_eq!(
             SIGNATURES.modals,
             ["Yes, I trust this folder", "Yes, allow external imports"]
@@ -472,6 +516,123 @@ mod tests {
             verdict_over(&rows),
             GateStep::Done(Readiness::InputNotReady)
         );
+    }
+
+    fn rule(n: usize) -> String {
+        "─".repeat(n)
+    }
+
+    const FOOTER: &str = "  ⏵⏵ auto mode on (shift+tab to cycle)";
+    const NOTICE: &str = "  ctrl+g to edit in Vim · Update available!";
+    const TRUST: &str = "   Yes, I trust this folder";
+
+    /// The box as the recorded 2.1.302 and 2.1.319 streams draw it at 80 columns: a rule, the
+    /// prompt row, a rule, then the footer row.
+    fn screen_rows(top: &str, prompt: &str, footer: &str) -> Vec<String> {
+        vec![
+            top.to_owned(),
+            rule(80),
+            prompt.to_owned(),
+            rule(80),
+            footer.to_owned(),
+        ]
+    }
+
+    #[rstest]
+    #[case::footer_only(vec!["x".to_owned(), FOOTER.to_owned()], true)]
+    #[case::box_only(screen_rows("x", "❯ ", NOTICE), true)]
+    #[case::box_with_its_placeholder(screen_rows("x", "❯ Try \"fix lint errors\"", ""), true)]
+    #[case::box_and_footer(screen_rows("x", "❯ ", FOOTER), true)]
+    #[case::neither(vec!["x".to_owned(), NOTICE.to_owned()], false)]
+    #[case::box_with_a_modal(screen_rows(TRUST, "❯ ", NOTICE), false)]
+    #[case::footer_with_a_modal(vec![TRUST.to_owned(), FOOTER.to_owned()], false)]
+    #[case::rule_one_short_of_the_minimum(
+        vec![rule(BOX_RULE_MIN - 1), "❯ ".to_owned(), NOTICE.to_owned()],
+        false
+    )]
+    #[case::rule_exactly_the_minimum(
+        vec![rule(BOX_RULE_MIN), "❯ ".to_owned(), NOTICE.to_owned()],
+        true
+    )]
+    #[case::rule_with_trailing_spaces(
+        vec![format!("{}   ", rule(66)), "❯ ".to_owned()],
+        true
+    )]
+    #[case::prompt_row_with_no_rule_above(
+        vec!["x".to_owned(), "❯ viola verify probe".to_owned(), NOTICE.to_owned()],
+        false
+    )]
+    #[case::rule_above_a_row_not_opening_the_prompt(
+        vec![rule(80), "  ❯ ".to_owned(), rule(80)],
+        false
+    )]
+    #[case::rule_row_holding_other_text(
+        vec![format!("{} x", rule(80)), "❯ ".to_owned()],
+        false
+    )]
+    #[case::prompt_row_above_the_rule(vec!["❯ ".to_owned(), rule(80)], false)]
+    #[case::empty(Vec::new(), false)]
+    fn input_box_up_reads_the_footer_or_the_box_and_no_modal(
+        #[case] rows: Vec<String>,
+        #[case] expected: bool,
+    ) {
+        assert_eq!(SIGNATURES.input_box_up(&rows), expected);
+    }
+
+    #[rstest]
+    #[case::rule(rule(80), true)]
+    #[case::minimum(rule(BOX_RULE_MIN), true)]
+    #[case::short(rule(BOX_RULE_MIN - 1), false)]
+    #[case::blank("", false)]
+    #[case::spaces("    ", false)]
+    #[case::leading_space(format!(" {}", rule(80)), false)]
+    #[case::another_char("━".repeat(80), false)]
+    fn is_box_rule_needs_the_rule_alone_at_the_minimum(
+        #[case] row: String,
+        #[case] expected: bool,
+    ) {
+        assert_eq!(SIGNATURES.is_box_rule(&row), expected);
+    }
+
+    #[test]
+    fn holds_footer_and_holds_box_read_their_own_arm() {
+        let boxed = screen_rows("x", "❯ ", NOTICE);
+        assert!(SIGNATURES.holds_box(&boxed));
+        assert!(!SIGNATURES.holds_footer(&boxed));
+        let footer = vec![FOOTER.to_owned()];
+        assert!(SIGNATURES.holds_footer(&footer));
+        assert!(!SIGNATURES.holds_box(&footer));
+    }
+
+    /// A verified screen whose footer a notice displaced and whose box stands, fed as bytes: ready
+    /// at the quiet instant, waiting one ms before it.
+    #[rstest]
+    #[case::one_ms_short_of_quiet(299, GateStep::Wait)]
+    #[case::quiet_exactly_at_the_period(300, GateStep::Done(Readiness::Ready))]
+    fn verdict_verified_over_the_box_alone_is_ready_once_quiet(
+        #[case] waited_ms: u64,
+        #[case] expected: GateStep,
+    ) {
+        let base = Instant::now();
+        let screen = fed(&rendered(&screen_rows("Mulling…", "❯ ", NOTICE)), base);
+        assert_eq!(
+            screen.verdict(Some(&SIGNATURES), base, base + ms(waited_ms)),
+            expected
+        );
+    }
+
+    #[test]
+    fn verdict_verified_over_the_box_beside_a_modal_is_input_not_ready() {
+        assert_eq!(
+            verdict_over(&screen_rows(TRUST, "❯ ", NOTICE)),
+            GateStep::Done(Readiness::InputNotReady)
+        );
+    }
+
+    #[test]
+    fn verdict_verified_over_a_short_rule_waits_for_the_input_box() {
+        let rows = [rule(BOX_RULE_MIN - 1), "❯ ".to_owned(), NOTICE.to_owned()];
+        assert_eq!(verdict_over(&rows), GateStep::Wait);
     }
 
     #[test]

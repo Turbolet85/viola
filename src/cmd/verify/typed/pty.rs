@@ -134,17 +134,21 @@ pub(super) struct Settled {
     pub(super) rows: Option<Vec<String>>,
 }
 
-/// Quiet for `QUIET_PERIOD` with a literal on screen settles at once; quiet without one settles at
-/// the first quiet instant past `GATE_MAX_WAIT` from `from`. A poisoned screen settles without rows.
+/// A screen a settle or a box wait ends on: the input box up (`Signatures::input_box_up`, a footer
+/// literal or the box's own rows), or a modal literal on some row.
+fn signed(rows: &[String]) -> bool {
+    SIGNATURES.input_box_up(rows) || rows.iter().any(|r| SIGNATURES.holds_modal(r))
+}
+
+/// Quiet for `QUIET_PERIOD` with a signed screen settles at once; quiet without one settles at the
+/// first quiet instant past `GATE_MAX_WAIT` from `from`. A poisoned screen settles without rows.
 pub(super) fn settled(feed: &Feed, from: Instant, now: Instant) -> Option<Settled> {
     let quiet_at = feed.last_fed.max(from) + QUIET_PERIOD;
     if now < quiet_at {
         return None;
     }
     let rows = feed.screen.rows();
-    let literal = rows
-        .as_ref()
-        .is_some_and(|rows| rows.iter().any(|r| SIGNATURES.holds_any(r)));
+    let literal = rows.as_deref().is_some_and(signed);
     let waited = from + GATE_MAX_WAIT;
     if literal {
         Some(Settled { at: quiet_at, rows })
@@ -175,12 +179,10 @@ pub(super) fn box_wait(feed: &Feed, from: Instant, now: Instant) -> Option<Settl
         return None;
     }
     let rows = feed.screen.rows()?;
-    rows.iter()
-        .any(|r| SIGNATURES.holds_any(r))
-        .then_some(Settled {
-            at: quiet_at,
-            rows: Some(rows),
-        })
+    signed(&rows).then_some(Settled {
+        at: quiet_at,
+        rows: Some(rows),
+    })
 }
 
 #[cfg(test)]
@@ -271,6 +273,43 @@ mod tests {
             t + ms_(1300),
             "quiet counts from the later of the last output and the Stop"
         );
+    }
+
+    /// The box as the recorded streams draw it, a notice in the footer's place: no footer literal.
+    fn box_bytes() -> Vec<u8> {
+        let rule = "─".repeat(80);
+        format!("\x1b[2J\x1b[H● ok\r\n{rule}\r\n❯ \r\n{rule}\r\n  Update available!").into_bytes()
+    }
+
+    #[test]
+    fn settled_on_the_box_alone_settles_at_the_quiet_instant() {
+        let t = Instant::now();
+        let f = feed(&box_bytes(), t + ms_(100));
+        assert!(settled(&f, t, t + ms_(399)).is_none());
+        let got = settled(&f, t, t + ms_(400)).expect("settled");
+        assert_eq!(got.at, t + ms_(400));
+        assert_eq!(got.rows.expect("rows")[2], "❯ ");
+    }
+
+    #[test]
+    fn box_wait_on_the_box_alone_ends_at_the_quiet_instant() {
+        let t = Instant::now();
+        let f = feed(&box_bytes(), t + ms_(6000));
+        assert!(box_wait(&f, t, t + ms_(6299)).is_none());
+        let got = box_wait(&f, t, t + ms_(6300)).expect("ended");
+        assert_eq!(got.at, t + ms_(6300));
+        assert!(got.rows.is_some());
+    }
+
+    #[test]
+    fn signed_reads_the_box_the_footer_or_a_modal() {
+        let rule = "─".repeat(80);
+        let rows = |r: &[&str]| r.iter().map(|x| (*x).to_owned()).collect::<Vec<_>>();
+        assert!(signed(&rows(&[&rule, "❯ "])));
+        assert!(signed(&rows(&["  ← for agents"])));
+        assert!(signed(&rows(&["   Yes, I trust this folder"])));
+        assert!(!signed(&rows(&["❯ ", &rule])));
+        assert!(!signed(&rows(&["thinking"])));
     }
 
     #[test]

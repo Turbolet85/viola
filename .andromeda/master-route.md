@@ -93,3 +93,5 @@
 2026-11-06-version-done-check · complete · Version done-check — every tree gate green on Linux (the live round's two reds owned by 0.2.0), masters agree, the 17 open caps ruled (12 verified, 5 deferred to 0.2.0), 0.1.0 closed · → chk:2026-11-06-version-done-check
 
 ## viola-0.2.0
+
+2026-11-13-verify-readiness-on-the-input-box · pending · verify's typed run reads readiness off the input box, not a footer literal; the newest CLI verified; supply-chain green · → chk:2026-11-13-verify-readiness-on-the-input-box

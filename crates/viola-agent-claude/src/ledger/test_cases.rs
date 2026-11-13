@@ -301,6 +301,7 @@ fn clean_typed() -> TypedRun {
         prompt_latency_ms: Some(31),
         max_turn_gap_ms: Some(224),
         compact_latency_ms: Some(18_779),
+        box_only_guards: Some(2),
     }
 }
 
@@ -496,6 +497,7 @@ fn merge_stamp_writes_the_envelope_for_a_first_version() {
                         "ready_settle_ms": 1084, "turn_settle_ms": 314,
                         "prompt_latency_ms": 31, "max_turn_gap_ms": 224,
                         "compact_latency_ms": 18_779,
+                        "box_only_guards": 2,
                     },
                     "dialog_probe": {"parallel_both_before_first_post": false},
                 },
@@ -541,7 +543,7 @@ fn merge_stamp_keeps_unknown_versions_and_fields_and_replaces_its_own() {
         json!({"largest_hook_payload": {}, "typed_probe": {
                 "ready_settle_ms": null, "turn_settle_ms": null,
                 "prompt_latency_ms": null, "max_turn_gap_ms": null,
-                "compact_latency_ms": null,
+                "compact_latency_ms": null, "box_only_guards": null,
             }, "dialog_probe": {"parallel_both_before_first_post": null}})
     );
     assert_eq!(verified(&bytes, "2.1.0"), Ok(false));
@@ -965,6 +967,45 @@ fn check_input_box_signature_needs_both_screens_without_a_modal() {
     }
 }
 
+fn rule(n: usize) -> String {
+    "─".repeat(n)
+}
+
+/// A screen whose footer a notice displaced while the box stands: a rule, the prompt row, a rule.
+fn box_only(top: &str) -> Vec<String> {
+    vec![
+        top.to_owned(),
+        rule(80),
+        "❯ ".to_owned(),
+        rule(80),
+        "  ctrl+g to edit in Vim · Update available!".to_owned(),
+    ]
+}
+
+#[test]
+fn check_input_box_signature_passes_on_three_box_only_screens() {
+    let typed = TypedRun {
+        ready: Some(box_only("❯ Try it")),
+        turn: Some(box_only("● ok")),
+        long_turn: Some(box_only("● long")),
+        ..clean_typed()
+    };
+    assert!(typed_check(LedgerRow::InputBoxSignature, typed));
+}
+
+#[rstest]
+#[case::box_with_a_modal(box_only("   Yes, I trust this folder"))]
+#[case::box_with_the_imports_modal(box_only("   Yes, allow external imports"))]
+#[case::neither(rows(&["● ok", "  ctrl+g to edit in Vim · Update available!"]))]
+#[case::short_rule(vec![rule(39), "❯ ".to_owned()])]
+fn check_input_box_signature_fails_on_a_box_with_a_modal_or_no_box(#[case] screen: Vec<String>) {
+    let typed = TypedRun {
+        turn: Some(screen),
+        ..clean_typed()
+    };
+    assert!(!typed_check(LedgerRow::InputBoxSignature, typed));
+}
+
 #[rstest]
 #[case::both_at_the_bound(Some(8500), Some(8500), true)]
 #[case::ready_past(Some(8501), Some(10), false)]
@@ -1018,6 +1059,91 @@ fn signature_rows_keep_only_literal_rows() {
             "   Yes, allow external imports",
         ])
     );
+}
+
+#[test]
+fn signature_rows_keep_a_box_row_as_its_literal_alone() {
+    let live = vec![
+        "● ok".to_owned(),
+        format!("{}  ", rule(80)),
+        "❯ viola verify probe /home/plantuser/w".to_owned(),
+        rule(66),
+        "  ⏵⏵ auto mode on (shift+tab to cycle)".to_owned(),
+        "❯ a transcript row".to_owned(),
+        rule(39),
+        "❯ under a short rule".to_owned(),
+    ];
+    assert_eq!(
+        signature_rows(&live),
+        vec![
+            String::new(),
+            rule(80),
+            "❯".to_owned(),
+            rule(66),
+            "  ⏵⏵ auto mode on (shift+tab to cycle)".to_owned(),
+            String::new(),
+            String::new(),
+            String::new(),
+        ]
+    );
+}
+
+#[test]
+fn screen_fault_reads_a_recorded_box_row_with_no_finding() {
+    let live = vec![
+        "● ok".to_owned(),
+        rule(80),
+        "❯ viola verify probe".to_owned(),
+        rule(80),
+        "  ctrl+g to edit in Vim · Update available!".to_owned(),
+    ];
+    let kept = signature_rows(&live);
+    assert_eq!(kept[2], "❯");
+    assert_eq!(
+        screen_fault(&live, &kept, "/home/plantuser", "plantuser"),
+        None
+    );
+}
+
+/// A kept rule is box drawing alone, so its seam is its live neighbour's whole text: a prompt row
+/// holding the home refuses the record at the rule below it, never keeps the text.
+#[test]
+fn screen_fault_refuses_a_box_whose_prompt_row_holds_the_home() {
+    let live = vec![
+        "● ok".to_owned(),
+        rule(80),
+        "❯ /home/plantuser/w".to_owned(),
+        rule(80),
+    ];
+    let kept = signature_rows(&live);
+    assert_eq!(kept[2], "❯");
+    assert_eq!(
+        screen_fault(&live, &kept, "/home/plantuser", "plantuser"),
+        Some(ScreenFault {
+            row: 1,
+            seam: true,
+            why: Unclean::HomePath
+        })
+    );
+}
+
+#[test]
+fn merge_stamp_writes_the_box_only_guards() {
+    for (count, expected) in [
+        (Some(0), json!(0)),
+        (Some(3), json!(3)),
+        (None, json!(null)),
+    ] {
+        let typed = TypedRun {
+            box_only_guards: count,
+            ..clean_typed()
+        };
+        let bytes = merge_stamp(None, "2.1.0", &all_pass(), &[], &typed, None, "t");
+        assert_eq!(
+            doc(&bytes)["data"]["versions"]["2.1.0"]["measured"]["typed_probe"]["box_only_guards"],
+            expected
+        );
+    }
 }
 
 fn clean(live: &[&str]) -> bool {

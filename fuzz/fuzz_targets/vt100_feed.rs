@@ -13,6 +13,8 @@ use viola_agent_claude::screen::{GateStep, Readiness, Screen, Signatures};
 
 const SIGS: Signatures = Signatures {
     input_box: &["> "],
+    box_rule: '-',
+    box_prompt: '>',
     modals: &["Do you want to proceed?"],
 };
 

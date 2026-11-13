@@ -561,6 +561,25 @@ mod tests {
         assert_eq!(gate.wait_ready(&clock, base), (Readiness::Ready, false));
     }
 
+    /// A notice in the footer's place and no footer literal: the box's own rows hold the gate ready.
+    #[test]
+    fn wait_ready_verified_over_the_box_alone_is_ready() {
+        let base = Instant::now();
+        let rule = "─".repeat(80);
+        let gate = verified_gate_at(
+            base,
+            &[
+                "● ok",
+                &rule,
+                "❯ ",
+                &rule,
+                "  ctrl+g to edit in Vim · Update available!",
+            ],
+        );
+        let clock = FixedClock(base + Duration::from_millis(300));
+        assert_eq!(gate.wait_ready(&clock, base), (Readiness::Ready, false));
+    }
+
     /// A verified gate reads the rows, where the partial gate would be ready: with no input box it
     /// waits out the maximum, refused at the first one-second step at or past 8.5 s.
     #[test]

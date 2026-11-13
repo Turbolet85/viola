@@ -478,13 +478,24 @@ fn planted_mcp_schema_violation_is_rejected(#[case] change: Value) {
     );
 }
 
-/// The compiled signature literals, as test literals: the input box's two and the two modals.
-const SIGNATURE_LITERALS: [&str; 4] = [
+/// The compiled signature literals, as test literals: the input box's two footer hints, the two
+/// modals, then the box's rule and prompt glyph. The first four pass a row that holds them; the box's
+/// two pass a row only as the literal alone: the rule as its run, the prompt glyph by itself.
+const SIGNATURE_LITERALS: [&str; 6] = [
     "for agents",
     "(shift+tab to cycle)",
     "Yes, I trust this folder",
     "Yes, allow external imports",
+    "─",
+    "❯",
 ];
+
+fn is_signature_row(row: &str) -> bool {
+    let [held @ .., rule, prompt] = SIGNATURE_LITERALS;
+    held.iter().any(|l| row.contains(l))
+        || row == prompt
+        || (!row.is_empty() && row.split(rule).all(str::is_empty))
+}
 
 #[derive(Debug, PartialEq, Eq)]
 enum ScreenViolation {
@@ -535,7 +546,7 @@ fn check_screen(bytes: &[u8], user: Option<&str>) -> Result<(), ScreenViolation>
         if row.is_empty() {
             continue;
         }
-        if !SIGNATURE_LITERALS.iter().any(|l| row.contains(l)) {
+        if !is_signature_row(row) {
             return Err(ScreenViolation::NotASignatureRow);
         }
         texts.push((*row).to_owned());
@@ -594,6 +605,30 @@ fn planted_clean_screen_passes() {
         (23, "  ⏸ manual mode on · ← for agents"),
     ]);
     assert_eq!(check_screen(&bytes, Some("plantuser")), Ok(()));
+}
+
+#[test]
+fn planted_box_rows_as_their_literals_pass() {
+    let rule = "─".repeat(80);
+    let bytes = screen(&[
+        (19, &rule),
+        (20, "❯"),
+        (21, &rule),
+        (23, "  ⏵⏵ auto mode on (shift+tab to cycle)"),
+    ]);
+    assert_eq!(check_screen(&bytes, Some("plantuser")), Ok(()));
+}
+
+#[rstest]
+#[case::prompt_row_with_text(&[(20, "❯ viola verify probe")])]
+#[case::prompt_row_with_a_space(&[(20, "❯ ")])]
+#[case::rule_row_with_text(&[(19, "──────── x")])]
+#[case::other_box_drawing(&[(19, "━━━━━━━━")])]
+fn planted_box_row_beyond_its_literal_is_rejected(#[case] rows: &[(usize, &str)]) {
+    assert_eq!(
+        check_screen(&screen(rows), Some("plantuser")),
+        Err(ScreenViolation::NotASignatureRow)
+    );
 }
 
 #[rstest]

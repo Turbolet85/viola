@@ -1,0 +1,412 @@
+[
+{
+"sql": "SELECT callee_name, caller_name, file, line FROM calls WHERE callee_name IN ('input_box_up','box_wait','settled','holds_any','verdict','input_box_ready','signature_rows','framing_turns','input_box_settles') AND callee_kind = 'fn' ORDER BY callee_name, file, line",
+"rows": 67,
+"result": [
+{
+"callee_name": "box_wait",
+"caller_name": "box_wait_keeps_waiting_past_the_gate_maximum_without_a_literal",
+"file": "src/cmd/verify/typed/pty.rs",
+"line": 246
+},
+{
+"callee_name": "box_wait",
+"caller_name": "box_wait_ends_on_a_quiet_literal_with_its_rows",
+"file": "src/cmd/verify/typed/pty.rs",
+"line": 259
+},
+{
+"callee_name": "box_wait",
+"caller_name": "box_wait_ends_on_a_quiet_literal_with_its_rows",
+"file": "src/cmd/verify/typed/pty.rs",
+"line": 260
+},
+{
+"callee_name": "box_wait",
+"caller_name": "box_wait_ends_on_a_quiet_literal_with_its_rows",
+"file": "src/cmd/verify/typed/pty.rs",
+"line": 265
+},
+{
+"callee_name": "box_wait",
+"caller_name": "box_wait_ends_on_a_quiet_literal_with_its_rows",
+"file": "src/cmd/verify/typed/pty.rs",
+"line": 267
+},
+{
+"callee_name": "box_wait",
+"caller_name": "box_wait_ends_at_once_on_a_poisoned_screen",
+"file": "src/cmd/verify/typed/pty.rs",
+"line": 280
+},
+{
+"callee_name": "box_wait",
+"caller_name": "run",
+"file": "src/cmd/verify/typed/run.rs",
+"line": 16
+},
+{
+"callee_name": "box_wait",
+"caller_name": "box_wait",
+"file": "src/cmd/verify/typed/run.rs",
+"line": 153
+},
+{
+"callee_name": "box_wait",
+"caller_name": "framing_turns",
+"file": "src/cmd/verify/typed/turns.rs",
+"line": 145
+},
+{
+"callee_name": "box_wait",
+"caller_name": "framing_turns",
+"file": "src/cmd/verify/typed/turns.rs",
+"line": 163
+},
+{
+"callee_name": "framing_turns",
+"caller_name": "runs",
+"file": "src/cmd/verify/typed/runs.rs",
+"line": 22
+},
+{
+"callee_name": "framing_turns",
+"caller_name": "trusted_run",
+"file": "src/cmd/verify/typed/runs.rs",
+"line": 77
+},
+{
+"callee_name": "holds_any",
+"caller_name": "signature_rows",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1376
+},
+{
+"callee_name": "holds_any",
+"caller_name": "holds_any_reads_both_lists",
+"file": "crates/viola-agent-claude/src/screen.rs",
+"line": 429
+},
+{
+"callee_name": "holds_any",
+"caller_name": "holds_any_reads_the_resting_footer",
+"file": "crates/viola-agent-claude/src/screen.rs",
+"line": 450
+},
+{
+"callee_name": "holds_any",
+"caller_name": "settled",
+"file": "src/cmd/verify/typed/pty.rs",
+"line": 146
+},
+{
+"callee_name": "holds_any",
+"caller_name": "box_wait",
+"file": "src/cmd/verify/typed/pty.rs",
+"line": 178
+},
+{
+"callee_name": "input_box_ready",
+"caller_name": "check",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 993
+},
+{
+"callee_name": "input_box_ready",
+"caller_name": "check",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 994
+},
+{
+"callee_name": "input_box_ready",
+"caller_name": "check",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 995
+},
+{
+"callee_name": "input_box_settles",
+"caller_name": "dialog_run",
+"file": "src/cmd/verify/typed/runs.rs",
+"line": 115
+},
+{
+"callee_name": "input_box_settles",
+"caller_name": "plan_run",
+"file": "src/cmd/verify/typed/runs.rs",
+"line": 162
+},
+{
+"callee_name": "input_box_up",
+"caller_name": "run",
+"file": "src/cmd/verify/typed/run.rs",
+"line": 17
+},
+{
+"callee_name": "input_box_up",
+"caller_name": "input_box_settles",
+"file": "src/cmd/verify/typed/run.rs",
+"line": 161
+},
+{
+"callee_name": "input_box_up",
+"caller_name": "runs",
+"file": "src/cmd/verify/typed/runs.rs",
+"line": 22
+},
+{
+"callee_name": "input_box_up",
+"caller_name": "trusted_run",
+"file": "src/cmd/verify/typed/runs.rs",
+"line": 65
+},
+{
+"callee_name": "input_box_up",
+"caller_name": "framing_turns",
+"file": "src/cmd/verify/typed/turns.rs",
+"line": 134
+},
+{
+"callee_name": "input_box_up",
+"caller_name": "framing_turns",
+"file": "src/cmd/verify/typed/turns.rs",
+"line": 150
+},
+{
+"callee_name": "input_box_up",
+"caller_name": "framing_turns",
+"file": "src/cmd/verify/typed/turns.rs",
+"line": 163
+},
+{
+"callee_name": "input_box_up",
+"caller_name": "input_box_up_needs_the_input_box_and_no_modal",
+"file": "src/cmd/verify/typed/turns.rs",
+"line": 247
+},
+{
+"callee_name": "input_box_up",
+"caller_name": "input_box_up_needs_the_input_box_and_no_modal",
+"file": "src/cmd/verify/typed/turns.rs",
+"line": 248
+},
+{
+"callee_name": "input_box_up",
+"caller_name": "input_box_up_needs_the_input_box_and_no_modal",
+"file": "src/cmd/verify/typed/turns.rs",
+"line": 249
+},
+{
+"callee_name": "input_box_up",
+"caller_name": "input_box_up_needs_the_input_box_and_no_modal",
+"file": "src/cmd/verify/typed/turns.rs",
+"line": 252
+},
+{
+"callee_name": "settled",
+"caller_name": "settled_with_a_literal_settles_at_the_quiet_instant",
+"file": "src/cmd/verify/typed/pty.rs",
+"line": 207
+},
+{
+"callee_name": "settled",
+"caller_name": "settled_with_a_literal_settles_at_the_quiet_instant",
+"file": "src/cmd/verify/typed/pty.rs",
+"line": 208
+},
+{
+"callee_name": "settled",
+"caller_name": "settled_without_a_literal_waits_out_the_maximum",
+"file": "src/cmd/verify/typed/pty.rs",
+"line": 217
+},
+{
+"callee_name": "settled",
+"caller_name": "settled_without_a_literal_waits_out_the_maximum",
+"file": "src/cmd/verify/typed/pty.rs",
+"line": 218
+},
+{
+"callee_name": "settled",
+"caller_name": "settled_without_a_literal_waits_out_the_maximum",
+"file": "src/cmd/verify/typed/pty.rs",
+"line": 221
+},
+{
+"callee_name": "settled",
+"caller_name": "settled_without_a_literal_waits_out_the_maximum",
+"file": "src/cmd/verify/typed/pty.rs",
+"line": 223
+},
+{
+"callee_name": "settled",
+"caller_name": "settled_counts_quiet_from_the_later_of_the_output_and_the_start",
+"file": "src/cmd/verify/typed/pty.rs",
+"line": 232
+},
+{
+"callee_name": "settled",
+"caller_name": "settled_counts_quiet_from_the_later_of_the_output_and_the_start",
+"file": "src/cmd/verify/typed/pty.rs",
+"line": 234
+},
+{
+"callee_name": "settled",
+"caller_name": "box_wait_keeps_waiting_past_the_gate_maximum_without_a_literal",
+"file": "src/cmd/verify/typed/pty.rs",
+"line": 249
+},
+{
+"callee_name": "settled",
+"caller_name": "feed_past_the_frame_cap_poisons_and_settles_without_rows",
+"file": "src/cmd/verify/typed/pty.rs",
+"line": 295
+},
+{
+"callee_name": "settled",
+"caller_name": "run",
+"file": "src/cmd/verify/typed/run.rs",
+"line": 16
+},
+{
+"callee_name": "settled",
+"caller_name": "settle",
+"file": "src/cmd/verify/typed/run.rs",
+"line": 142
+},
+{
+"callee_name": "settled",
+"caller_name": "pause",
+"file": "src/run/wheel.rs",
+"line": 189
+},
+{
+"callee_name": "settled",
+"caller_name": "release",
+"file": "src/run/wheel.rs",
+"line": 220
+},
+{
+"callee_name": "signature_rows",
+"caller_name": "signature_rows_keep_only_literal_rows",
+"file": "crates/viola-agent-claude/src/ledger/test_cases.rs",
+"line": 1010
+},
+{
+"callee_name": "signature_rows",
+"caller_name": "clean",
+"file": "crates/viola-agent-claude/src/ledger/test_cases.rs",
+"line": 1026
+},
+{
+"callee_name": "signature_rows",
+"caller_name": "fault",
+"file": "crates/viola-agent-claude/src/ledger/test_cases.rs",
+"line": 1095
+},
+{
+"callee_name": "signature_rows",
+"caller_name": "signature_screens",
+"file": "src/cmd/verify.rs",
+"line": 598
+},
+{
+"callee_name": "verdict",
+"caller_name": "verdict_at_each_boundary",
+"file": "crates/viola-agent-claude/src/screen.rs",
+"line": 237
+},
+{
+"callee_name": "verdict",
+"caller_name": "verdict_without_signatures_at_each_boundary",
+"file": "crates/viola-agent-claude/src/screen.rs",
+"line": 254
+},
+{
+"callee_name": "verdict",
+"caller_name": "verdict_without_signatures_reads_no_row",
+"file": "crates/viola-agent-claude/src/screen.rs",
+"line": 263
+},
+{
+"callee_name": "verdict",
+"caller_name": "verdict_without_signatures_poisoned_is_input_not_ready",
+"file": "crates/viola-agent-claude/src/screen.rs",
+"line": 276
+},
+{
+"callee_name": "verdict",
+"caller_name": "verdict_reads_the_signatures",
+"file": "crates/viola-agent-claude/src/screen.rs",
+"line": 298
+},
+{
+"callee_name": "verdict",
+"caller_name": "verdict_verified_without_a_literal_waits_for_the_input_box",
+"file": "crates/viola-agent-claude/src/screen.rs",
+"line": 313
+},
+{
+"callee_name": "verdict",
+"caller_name": "verdict_verified_waits_for_the_input_box_and_is_ready_once_it_is_quiet",
+"file": "crates/viola-agent-claude/src/screen.rs",
+"line": 329
+},
+{
+"callee_name": "verdict",
+"caller_name": "verdict_verified_modal_or_poisoned_never_waits_for_the_input_box",
+"file": "crates/viola-agent-claude/src/screen.rs",
+"line": 339
+},
+{
+"callee_name": "verdict",
+"caller_name": "verdict_verified_modal_or_poisoned_never_waits_for_the_input_box",
+"file": "crates/viola-agent-claude/src/screen.rs",
+"line": 345
+},
+{
+"callee_name": "verdict",
+"caller_name": "verdict_poisoned_is_input_not_ready",
+"file": "crates/viola-agent-claude/src/screen.rs",
+"line": 357
+},
+{
+"callee_name": "verdict",
+"caller_name": "verdict_poisoned_is_input_not_ready",
+"file": "crates/viola-agent-claude/src/screen.rs",
+"line": 361
+},
+{
+"callee_name": "verdict",
+"caller_name": "resize_after_poison_clears_it",
+"file": "crates/viola-agent-claude/src/screen.rs",
+"line": 387
+},
+{
+"callee_name": "verdict",
+"caller_name": "resize_starts_a_blank_screen",
+"file": "crates/viola-agent-claude/src/screen.rs",
+"line": 399
+},
+{
+"callee_name": "verdict",
+"caller_name": "verdict_over",
+"file": "crates/viola-agent-claude/src/screen.rs",
+"line": 499
+},
+{
+"callee_name": "verdict",
+"caller_name": "feed_prop_a_caught_panic_poisons_until_resize",
+"file": "crates/viola-agent-claude/src/screen.rs",
+"line": 607
+},
+{
+"callee_name": "verdict",
+"caller_name": "wait_ready",
+"file": "src/run/gate.rs",
+"line": 168
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]
