@@ -274,7 +274,7 @@ const GATES: &[Gate] = &[
         file: "tests/tui_channel_fds.rs",
         test: "",
         gate: "unix",
-        reason: "inherited file descriptors and the fds receipt are Unix's",
+        reason: "inherited file descriptors are Unix's",
     },
     Gate {
         file: "tests/tui_env_strip.rs",

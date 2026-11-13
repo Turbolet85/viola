@@ -1,0 +1,1920 @@
+[
+{
+"tool": "gate",
+"v": "1.32",
+"sha8": "d6df59e3",
+"ts": "2026-11-13T21:21:20Z",
+"argv": [
+"run",
+"--chunk",
+"2026-11-13-rows-proposal-rule-work",
+"--run-dir",
+".andromeda/runs/2026-11-13T21-06-24-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-11-13-rows-proposal-rule-work · entries 35",
+"logs $TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24 · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 222 · rust 26",
+"walk-class rust 7 (tests/cli_controls_not_disableable.rs, tests/contract_bounded_readers.rs, tests/contract_error_bodies.rs, +4 in the trail) · uncommitted 248",
+"prose L145-149: No live leg and no `claude` start this chunk (`inputs#I1` item 3): every gate runs against… (466 chars)",
+"  1 probe       recorded · exit 0 · 0.0s · 92 B → 1.log · df -h /tmp",
+"  2 lint        green · exit 0 · 1.35s · 0 B → 2.log · cargo fmt --all --check",
+"  3 lint        green · exit 0 · 0.18s · 72 B → 3.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  4 lint        green · exit 1 · 0.01s · 0 B → 4.log · rg -n -U --pcre2 --type rust '#\\[(tracing::)?instrument\\b(… (79 chars)",
+"  5 lint        green · exit 0 · 0.61s · 286 B → 5.log · bash scripts/lint-probes.sh",
+"  6 lint        green · exit 0 · 35.96s · 35 B → 6.log · bash scripts/orphans-check.sh",
+"  7 lint        green · exit 0 · 0.12s · 72 B → 7.log · cargo check --workspace --all-targets",
+"  8 probe       green · exit 0 · 0.69s · 9809 B → 8.log · cargo deny check",
+"  9 probe       green · exit 0 · 1.1s · 3587 B → 9.log · while read -r crate; do cargo deny --config deny-sync.toml… (154 chars)",
+" 10 unit        green · exit 0 · 4.77s · 36501 B → 10.log · cargo nextest run -p viola-state",
+" 11 unit        green · exit 0 · 3.11s · 84820 B → 11.log · cargo nextest run -p viola-agent-claude",
+" 12 unit        green · exit 0 · 3.41s · 11074 B → 12.log · cargo nextest run -p viola-mcp",
+" 13 integration green · exit 0 · 9.7s · 771 B → 13.log · cargo nextest run -p viola --features fake-agent --test cl… (125 chars)",
+" 14 integration green · exit 0 · 1.18s · 11733 B → 14.log · cargo nextest run -p viola --features fake-agent --test co… (80 chars)",
+" 15 unit        green · exit 0 · 25.27s · 353552 B → 15.log · bash scripts/agent-run.sh run --unit",
+" 16 probe       green · exit 0 · 0.11s · 45 B → 16.log · bash scripts/agent-run.sh gate --require nextest-unit",
+" 17 integration green · exit 0 · 66.58s · 63660 B → 17.log · bash scripts/agent-run.sh run --integration",
+" 18 e2e         green · exit 0 · 9.1s · 43731 B → 18.log · bash scripts/agent-run.sh run --e2e",
+" 19 probe       green · exit 0 · 0.0s · 24 B → 19.log · grep -rln 'fn digit_runs(' tests",
+" 20 probe       green · exit 0 · 0.0s · 86 B → 20.log · grep -rn 'fn parse_name' src",
+" 21 probe       green · exit 1 · 0.0s · 2 B → 21.log · grep -c 'pty.write(b\"a\")' tests/tui_pty_seam.rs",
+" 22 probe       green · exit 1 · 0.0s · 2 B → 22.log · grep -c -E 'fds\\.len\\(\\)|target_os = \"linux\"' tests/tui_ch… (70 chars)",
+" 23 probe       green · exit 0 · 0.0s · 108 B → 23.log · grep -rln 'derive(.*Redact' crates/viola-agent-claude/src … (78 chars)",
+" 24 probe       green · exit 0 · 0.05s · 155 B → 24.log · bash scripts/release-check.sh --probe",
+" 25 build       green · exit 0 · 7.07s · 421 B → 25.log · bash scripts/release-check.sh",
+" 26 smoke       green · exit 0 · 0.1s · 47 B → 26.log · bash scripts/agent-run.sh cleanup --session p-rules-smoke",
+" 27 smoke       green · exit 0 · 9.29s · 703 B → 27.log · bash scripts/agent-run.sh boot --session p-rules-smoke --i… (73 chars)",
+" 28 smoke       green · exit 0 · 0.21s · 451 B → 28.log · bash scripts/agent-run.sh status --session p-rules-smoke",
+" 29 probe       green · exit 0 · 0.01s · 10 B → 29.log · bash scripts/g2-zero-panics.sh",
+" 30 probe       green · exit 0 · 0.13s · 105 B → 30.log · bash scripts/agent-run.sh schema-check",
+" 31 smoke       green · exit 0 · 0.32s · 137 B → 31.log · bash scripts/agent-run.sh cleanup --session p-rules-smoke",
+" 32 probe       green · exit 0 · 105.69s · 461665 B → 32.log · bash scripts/agent-run.sh pre-push",
+" 33 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ga… (71 chars)",
+" 34 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (82 chars)",
+" 35 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ci… (95 chars)",
+"entries 35 · green 31 · red 0 · recorded 1 · timeout 0 · not-run 3"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-11-13-rows-proposal-rule-work",
+"plan": "doc:2026-11-13-rows-proposal-rule-work/plan",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24",
+"delta": {
+"docs": [
+".andromeda/db/log/2026-11-13T01-34-07-session-2026-11-13.ndjson",
+".andromeda/db/log/2026-11-13T07-21-57-2026-11-13-epoch-8-cleanup.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-11-13T12-42-23-wrap/evolve-2026-11-13-epoch-8-cleanup.json",
+".claude/session-handoff.md",
+"viola-0.2.0/working-route.md",
+".andromeda/db/log/2026-11-13T20-13-39-2026-11-13-rows-proposal-rule-work.ndjson",
+".andromeda/db/log/2026-11-13T21-04-26-2026-11-13T20-12-14-phase.ndjson",
+".andromeda/runs/2026-11-13T20-12-14-phase/.raw-arch-pick-p9.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/a11y-history.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/a11y-pick-counts.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/a11y-pick-p1.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/a11y-pick-p1.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/a11y-pick-p1.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/a11y-pick-p2.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/a11y-pick-p2.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/a11y-pick-p2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/a11y-pick-p3.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/a11y-pick-p3.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/a11y-pick-p3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/a11y-rows.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/a11y-standing.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/a11y-task.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/arch-history.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/arch-pick-counts.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/arch-pick-p1.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/arch-pick-p1.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/arch-pick-p1.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/arch-pick-p10.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/arch-pick-p10.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/arch-pick-p10.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/arch-pick-p2.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/arch-pick-p2.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/arch-pick-p2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/arch-pick-p3.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/arch-pick-p3.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/arch-pick-p3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/arch-pick-p4.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/arch-pick-p4.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/arch-pick-p4.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/arch-pick-p5.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/arch-pick-p5.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/arch-pick-p5.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/arch-pick-p6.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/arch-pick-p6.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/arch-pick-p6.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/arch-pick-p7.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/arch-pick-p7.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/arch-pick-p7.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/arch-pick-p8.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/arch-pick-p8.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/arch-pick-p8.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/arch-pick-p9.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/arch-pick-p9.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/arch-pick-p9.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/arch-rows.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/arch-standing.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/arch-task.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/cascade-tally.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/ci-no-marker.json",
+".andromeda/runs/2026-11-13T20-12-14-phase/design-history.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/design-pick-counts.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/design-pick-p1.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/design-pick-p1.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/design-pick-p1.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/design-pick-p2.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/design-pick-p2.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/design-pick-p2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/design-pick-p3.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/design-pick-p3.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/design-pick-p3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/design-pick-p4.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/design-pick-p4.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/design-pick-p4.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/design-rows.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/design-standing.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/design-task.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/evolve-2026-11-13-rows-proposal-rule-work.json",
+".andromeda/runs/2026-11-13T20-12-14-phase/fanout-2026-11-13-rows-proposal-rule-work.json",
+".andromeda/runs/2026-11-13T20-12-14-phase/gate-2026-11-13-rows-proposal-rule-work.json",
+".andromeda/runs/2026-11-13T20-12-14-phase/inputs-2026-11-13-rows-proposal-rule-work.json",
+".andromeda/runs/2026-11-13T20-12-14-phase/layouts-history.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/layouts-pick-counts.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/layouts-pick-p1.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/layouts-pick-p1.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/layouts-pick-p1.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/layouts-pick-p2.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/layouts-pick-p2.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/layouts-pick-p2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/layouts-pick-p3.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/layouts-pick-p3.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/layouts-pick-p3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/layouts-rows.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/layouts-standing.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/layouts-task.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/master-desc.txt",
+".andromeda/runs/2026-11-13T20-12-14-phase/matrix-2026-11-13-rows-proposal-rule-work.json",
+".andromeda/runs/2026-11-13T20-12-14-phase/mustpass-controls.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/obs-history.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/obs-pick-counts.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/obs-pick-p1.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/obs-pick-p1.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/obs-pick-p1.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/obs-pick-p10.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/obs-pick-p10.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/obs-pick-p10.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/obs-pick-p11.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/obs-pick-p11.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/obs-pick-p11.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/obs-pick-p2.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/obs-pick-p2.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/obs-pick-p2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/obs-pick-p3.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/obs-pick-p3.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/obs-pick-p3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/obs-pick-p4.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/obs-pick-p4.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/obs-pick-p4.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/obs-pick-p5.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/obs-pick-p5.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/obs-pick-p5.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/obs-pick-p6.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/obs-pick-p6.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/obs-pick-p6.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/obs-pick-p7.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/obs-pick-p7.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/obs-pick-p7.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/obs-pick-p8.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/obs-pick-p8.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/obs-pick-p8.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/obs-pick-p9.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/obs-pick-p9.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/obs-pick-p9.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/obs-rows.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/obs-standing.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/obs-task.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/p5-card-1.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/planlint-2026-11-13-rows-proposal-rule-work.json",
+".andromeda/runs/2026-11-13T20-12-14-phase/rec-2026-11-13-rows-proposal-rule-work.json",
+".andromeda/runs/2026-11-13T20-12-14-phase/rec-no-marker.json",
+".andromeda/runs/2026-11-13T20-12-14-phase/rec-read-2026-11-13-rows-proposal-rule-work.ndjson",
+".andromeda/runs/2026-11-13T20-12-14-phase/route-2026-11-13-rows-proposal-rule-work.json",
+".andromeda/runs/2026-11-13T20-12-14-phase/rows-packs.json",
+".andromeda/runs/2026-11-13T20-12-14-phase/scope-cite-1.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/scope-pin.json",
+".andromeda/runs/2026-11-13T20-12-14-phase/security-history.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/security-pick-counts.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/security-pick-p1.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/security-pick-p1.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/security-pick-p1.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/security-pick-p2.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/security-pick-p2.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/security-pick-p2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/security-pick-p3.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/security-pick-p3.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/security-pick-p3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/security-pick-p4.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/security-pick-p4.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/security-pick-p4.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/security-pick-p5.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/security-pick-p5.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/security-pick-p5.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/security-pick-p6.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/security-pick-p6.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/security-pick-p6.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/security-pick-p7.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/security-pick-p7.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/security-pick-p7.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/security-rows.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/security-standing.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/security-task.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-history.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-counts.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p1.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p1.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p1.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p10.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p10.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p10.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p11.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p11.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p11.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p12.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p12.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p12.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p13.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p13.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p13.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p14.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p14.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p14.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p2.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p2.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p3.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p3.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p4.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p4.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p4.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p5.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p5.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p5.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p6.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p6.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p6.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p7.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p7.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p7.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p8.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p8.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p8.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p9.d2.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p9.d3.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-pick-p9.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-rows.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-standing.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tests-task.md",
+".andromeda/runs/2026-11-13T20-12-14-phase/tree-query-2026-11-13-rows-proposal-rule-work.json",
+".andromeda/runs/2026-11-13T21-06-24-implement/evolve-2026-11-13-rows-proposal-rule-work.json",
+".andromeda/runs/2026-11-13T21-06-24-implement/journal.md",
+".andromeda/runs/2026-11-13T21-06-24-implement/rec-2026-11-13-rows-proposal-rule-work.json"
+],
+"rust": [
+"Cargo.lock",
+"crates/viola-agent-claude/Cargo.toml",
+"crates/viola-agent-claude/src/dialog.rs",
+"crates/viola-agent-claude/src/hook.rs",
+"crates/viola-agent-claude/src/ledger.rs",
+"crates/viola-agent-claude/src/ledger/test_cases_checks.rs",
+"crates/viola-mcp/Cargo.toml",
+"crates/viola-mcp/src/tools.rs",
+"crates/viola-state/src/fs.rs",
+"crates/viola-state/src/strict.rs",
+"src/cmd/answer.rs",
+"src/cmd/run.rs",
+"src/cmd/send.rs",
+"src/human/hints.rs",
+"tests/cli_answer.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_os_gated_tests.rs",
+"tests/cross_exit_causes.rs",
+"tests/security_negatives_server_identity.rs",
+"tests/security_negatives_socket_dir.rs",
+"tests/security_negatives_strict_modes.rs",
+"tests/support/hygiene.rs",
+"tests/support/mod.rs",
+"tests/tui_channel_fds.rs",
+"tests/tui_pty_seam.rs",
+"tests/support/digits.rs"
+]
+},
+"unmapped": [],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/cli_controls_not_disableable.rs",
+"tests/contract_bounded_readers.rs",
+"tests/contract_error_bodies.rs",
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs",
+"tests/contract_os_gated_tests.rs"
+]
+},
+"uncommitted": 248,
+"problem": null
+},
+"prose": [
+{
+"from": 145,
+"to": 149,
+"text": "No live leg and no `claude` start this chunk (`inputs#I1` item 3): every gate runs against the fake agent. No mutation run (`inputs#I1` item 2): the guards' proof is step 12's `gate.py control`, implement's one-shot run, never an entry. The diff removes a `cfg(target_os = \"linux\")` site (step 8) and adds `O_NOFOLLOW` (step 6), so the hygiene and CI entries stand; the one CI leg is `ubuntu-latest`, and no leg witnesses another OS — the tree builds on Linux alone."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "probe",
+"run": "df -h /tmp",
+"run_sha8": "b8759b03",
+"expect": [],
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/1.log",
+"bytes": 92,
+"log_sha8": "d6efcbf6",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"report-only (expect = [])"
+],
+"survivors": [],
+"outcome": "recorded"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/2.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 1.35,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/3.log",
+"bytes": 72,
+"log_sha8": "22e0df98",
+"exit": 0,
+"seconds": 0.18,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "rg -n -U --pcre2 --type rust '#\\[(tracing::)?instrument\\b(?!\\(\\s*skip_all\\b)' .",
+"run_sha8": "d8c83432",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/4.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.01,
+"readings": [
+"exit 1 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "lint",
+"run": "bash scripts/lint-probes.sh",
+"run_sha8": "4811ad1f",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/5.log",
+"bytes": 286,
+"log_sha8": "99be9959",
+"exit": 0,
+"seconds": 0.61,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "lint",
+"run": "bash scripts/orphans-check.sh",
+"run_sha8": "f05a4287",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/6.log",
+"bytes": 35,
+"log_sha8": "e98847be",
+"exit": 0,
+"seconds": 35.96,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "lint",
+"run": "cargo check --workspace --all-targets",
+"run_sha8": "aaf750d3",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/7.log",
+"bytes": 72,
+"log_sha8": "59639588",
+"exit": 0,
+"seconds": 0.12,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "cargo deny check",
+"run_sha8": "2708b9d9",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/8.log",
+"bytes": 9809,
+"log_sha8": "28cd2b78",
+"exit": 0,
+"seconds": 0.69,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "while read -r crate; do cargo deny --config deny-sync.toml --manifest-path \"crates/$crate/Cargo.toml\" check bans || exit 1; done < scripts/sync-crates.txt",
+"run_sha8": "30d5a1d9",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/9.log",
+"bytes": 3587,
+"log_sha8": "30b4d5bf",
+"exit": 0,
+"seconds": 1.1,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "unit",
+"run": "cargo nextest run -p viola-state",
+"run_sha8": "9701e6ba",
+"expect": [
+"exit 0",
+"contains tests run:"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/10.log",
+"bytes": 36501,
+"log_sha8": "7aaf3f67",
+"exit": 0,
+"seconds": 4.77,
+"readings": [
+"exit 0 ✓",
+"contains 'tests run:' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "unit",
+"run": "cargo nextest run -p viola-agent-claude",
+"run_sha8": "c7c763b9",
+"expect": [
+"exit 0",
+"contains tests run:"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/11.log",
+"bytes": 84820,
+"log_sha8": "85de0af9",
+"exit": 0,
+"seconds": 3.11,
+"readings": [
+"exit 0 ✓",
+"contains 'tests run:' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "unit",
+"run": "cargo nextest run -p viola-mcp",
+"run_sha8": "5ec3a32b",
+"expect": [
+"exit 0",
+"contains tests run:"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/12.log",
+"bytes": 11074,
+"log_sha8": "94f52fdf",
+"exit": 0,
+"seconds": 3.41,
+"readings": [
+"exit 0 ✓",
+"contains 'tests run:' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "integration",
+"run": "cargo nextest run -p viola --features fake-agent --test cli_links -E 'test(=e5_the_replay_reads_the_link_the_wrapper_wrote)' ",
+"run_sha8": "a10dd33c",
+"expect": [
+"exit 0",
+"contains 1 test run: 1 passed"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/13.log",
+"bytes": 771,
+"log_sha8": "04736dc8",
+"exit": 0,
+"seconds": 9.7,
+"readings": [
+"exit 0 ✓",
+"contains '1 test run: 1 passed' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "integration",
+"run": "cargo nextest run -p viola --features fake-agent --test contract_fixture_hygiene",
+"run_sha8": "12ddf011",
+"expect": [
+"exit 0",
+"contains tests run:"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/14.log",
+"bytes": 11733,
+"log_sha8": "4941095f",
+"exit": 0,
+"seconds": 1.18,
+"readings": [
+"exit 0 ✓",
+"contains 'tests run:' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/15.log",
+"bytes": 353552,
+"log_sha8": "5fc4ce39",
+"exit": 0,
+"seconds": 25.27,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "bash scripts/agent-run.sh gate --require nextest-unit",
+"run_sha8": "182729cd",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/16.log",
+"bytes": 45,
+"log_sha8": "916126be",
+"exit": 0,
+"seconds": 0.11,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration",
+"run_sha8": "03525807",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/17.log",
+"bytes": 63660,
+"log_sha8": "5c81bffb",
+"exit": 0,
+"seconds": 66.58,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 18,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh run --e2e",
+"run_sha8": "55ff1d5e",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/18.log",
+"bytes": 43731,
+"log_sha8": "db51df99",
+"exit": 0,
+"seconds": 9.1,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "grep -rln 'fn digit_runs(' tests",
+"run_sha8": "8f836549",
+"expect": [
+"exit 0",
+"last line tests/support/digits.rs",
+"lacks security_negatives"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/19.log",
+"bytes": 24,
+"log_sha8": "d3e5ee86",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line 'tests/support/digits.rs' ✓",
+"lacks 'security_negatives' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "grep -rn 'fn parse_name' src",
+"run_sha8": "d4da14ef",
+"expect": [
+"exit 0",
+"contains src/cmd/send.rs",
+"lacks src/cmd/run.rs"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/20.log",
+"bytes": 86,
+"log_sha8": "6b86e863",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"contains 'src/cmd/send.rs' ✓",
+"lacks 'src/cmd/run.rs' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "grep -c 'pty.write(b\"a\")' tests/tui_pty_seam.rs",
+"run_sha8": "3928e9f5",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/21.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.0,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "grep -c -E 'fds\\.len\\(\\)|target_os = \"linux\"' tests/tui_channel_fds.rs",
+"run_sha8": "06f6eff0",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/22.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.0,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "grep -rln 'derive(.*Redact' crates/viola-agent-claude/src crates/viola-mcp/src",
+"run_sha8": "e03040cb",
+"expect": [
+"exit 0",
+"contains hook.rs",
+"contains dialog.rs",
+"contains tools.rs"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/23.log",
+"bytes": 108,
+"log_sha8": "3a011a65",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"contains 'hook.rs' ✓",
+"contains 'dialog.rs' ✓",
+"contains 'tools.rs' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 24,
+"role": "probe",
+"run": "bash scripts/release-check.sh --probe",
+"run_sha8": "3b748abc",
+"expect": [
+"exit 0",
+"contains 5/5 refused"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/24.log",
+"bytes": 155,
+"log_sha8": "2812827b",
+"exit": 0,
+"seconds": 0.05,
+"readings": [
+"exit 0 ✓",
+"contains '5/5 refused' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 25,
+"role": "build",
+"run": "bash scripts/release-check.sh",
+"run_sha8": "3405b7ab",
+"expect": [
+"exit 0",
+"contains release-check: viola only"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/25.log",
+"bytes": 421,
+"log_sha8": "dca55932",
+"exit": 0,
+"seconds": 7.07,
+"readings": [
+"exit 0 ✓",
+"contains 'release-check: viola only' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 26,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-rules-smoke",
+"run_sha8": "c7459f54",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/26.log",
+"bytes": 47,
+"log_sha8": "91854d6e",
+"exit": 0,
+"seconds": 0.1,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 27,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-rules-smoke --instance builder",
+"run_sha8": "9cc6d13e",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/27.log",
+"bytes": 703,
+"log_sha8": "6200d135",
+"exit": 0,
+"seconds": 9.29,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 28,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-rules-smoke",
+"run_sha8": "92df8404",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/28.log",
+"bytes": 451,
+"log_sha8": "e8dbb3cc",
+"exit": 0,
+"seconds": 0.21,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 29,
+"role": "probe",
+"run": "bash scripts/g2-zero-panics.sh",
+"run_sha8": "b1637f71",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/29.log",
+"bytes": 10,
+"log_sha8": "6736cedd",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 30,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/30.log",
+"bytes": 105,
+"log_sha8": "b5e48705",
+"exit": 0,
+"seconds": 0.13,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 31,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-rules-smoke",
+"run_sha8": "c7459f54",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/31.log",
+"bytes": 137,
+"log_sha8": "c1d634a8",
+"exit": 0,
+"seconds": 0.32,
+"readings": [
+"exit 0 ✓",
+"contains '\"processes_gone\":true' ✓",
+"contains '\"endpoint_gone\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 32,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/32.log",
+"bytes": 461665,
+"log_sha8": "880d9679",
+"exit": 0,
+"seconds": 105.69,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"contains '\"stage\":\"linux-tests\"' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 33,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "3c62df70",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 34,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin build/viola-0.2.0",
+"run_sha8": "06cd7265",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 35,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 2400",
+"run_sha8": "1e745bf8",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.32",
+"sha8": "d6df59e3",
+"ts": "2026-11-13T21:21:31Z",
+"argv": [
+"show",
+"--run-dir",
+".andromeda/runs/2026-11-13T21-06-24-implement",
+"--marker",
+"2026-11-13-rows-proposal-rule-work",
+"--n",
+"1"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"1 probe recorded",
+"run (b8759b03): df -h /tmp",
+"  report-only (expect = [])",
+"log $TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/1.log · 92 B · d6efcbf6 · $TMPDIR = /tmp",
+"--- no anchored failure; last 20 non-empty lines ---",
+"Filesystem      Size  Used Avail Use% Mounted on",
+"tmpfs            32G   10G   22G  32% /tmp"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "gate",
+"v": "1.32",
+"sha8": "d6df59e3",
+"ts": "2026-11-13T21:22:05Z",
+"argv": [
+"control",
+"--chunk",
+"2026-11-13-rows-proposal-rule-work",
+"--controls-file",
+".andromeda/runs/2026-11-13T21-06-24-implement/control-1.toml",
+"--run-dir",
+".andromeda/runs/2026-11-13T21-06-24-implement",
+"--timeout",
+"1500"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · marker 2026-11-13-rows-proposal-rule-work · controls 1 · entries 1 (13)",
+"logs $TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24 · $TMPDIR = /tmp · bound: GNU timeout",
+"clone ~/.cache/andromeda-control/b6a89d02 · HEAD cb0b16ab · copied 255 · removed 0 · working folder 3 files · free 422.9 G",
+"entry 13 in place green · 20.22s → 13.2.log",
+"control link-replay · entry 13 · holds — in place green, removed red · exit 0 ✗ (exit 100) · 20.22s · 6.99s → 13.without-link-replay.log",
+"control: 1 holds · 0 timeout · 0 does not hold · 0 unreproduced · clone removed"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-11-13-rows-proposal-rule-work",
+"plan": "doc:2026-11-13-rows-proposal-rule-work/plan",
+"root": ".",
+"out_dir": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24",
+"clone": "~/.cache/andromeda-control/b6a89d02",
+"head": "cb0b16abf577bba34326933e4d635756a8142ffb",
+"copied": 255,
+"removed": 0,
+"skipped": 0,
+"in_place": [
+{
+"n": 13,
+"role": "integration",
+"run": "cargo nextest run -p viola --features fake-agent --test cli_links -E 'test(=e5_the_replay_reads_the_link_the_wrapper_wrote)' ",
+"run_sha8": "a10dd33c",
+"expect": [
+"exit 0",
+"contains 1 test run: 1 passed"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/13.2.log",
+"bytes": 6044,
+"log_sha8": "3d6fa8dd",
+"exit": 0,
+"seconds": 20.22,
+"readings": [
+"exit 0 ✓",
+"contains '1 test run: 1 passed' ✓"
+],
+"survivors": [],
+"outcome": "green"
+}
+],
+"controls": [
+{
+"id": "link-replay",
+"entry": 13,
+"guard": "the replay pass's apply_link_line call removed; the start's restore in src/run/links.rs keeps its own",
+"edits": [
+{
+"path": "crates/viola-state/src/replay.rs",
+"before": "95cde0c9",
+"after": "6255803c"
+}
+],
+"word": "holds",
+"removed": {
+"n": 13,
+"role": "integration",
+"run": "cargo nextest run -p viola --features fake-agent --test cli_links -E 'test(=e5_the_replay_reads_the_link_the_wrapper_wrote)' ",
+"run_sha8": "a10dd33c",
+"expect": [
+"exit 0",
+"contains 1 test run: 1 passed"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/13.without-link-replay.log",
+"bytes": 1449,
+"log_sha8": "86c94b17",
+"exit": 100,
+"seconds": 6.99,
+"readings": [
+"exit 0 ✗ (exit 100)",
+"contains '1 test run: 1 passed' ✗"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 100)"
+}
+}
+],
+"removal": "clone removed",
+"at": "link-replay"
+}
+},
+{
+"tool": "gate",
+"v": "1.32",
+"sha8": "d6df59e3",
+"ts": "2026-11-13T21:22:39Z",
+"argv": [
+"control",
+"--chunk",
+"2026-11-13-rows-proposal-rule-work",
+"--controls-file",
+".andromeda/runs/2026-11-13T21-06-24-implement/control-2.toml",
+"--run-dir",
+".andromeda/runs/2026-11-13T21-06-24-implement",
+"--timeout",
+"1500"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · marker 2026-11-13-rows-proposal-rule-work · controls 1 · entries 1 (10)",
+"logs $TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24 · $TMPDIR = /tmp · bound: GNU timeout",
+"clone ~/.cache/andromeda-control/18908c2a · HEAD cb0b16ab · copied 255 · removed 0 · working folder 4 files · free 422.9 G",
+"entry 10 in place green · 9.8s → 10.2.log",
+"control strict-symlink · entry 10 · holds — in place green, removed red · exit 0 ✗ (exit 100) · 9.8s · 4.71s → 10.without-strict-symlink.log",
+"control: 1 holds · 0 timeout · 0 does not hold · 0 unreproduced · clone removed"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-11-13-rows-proposal-rule-work",
+"plan": "doc:2026-11-13-rows-proposal-rule-work/plan",
+"root": ".",
+"out_dir": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24",
+"clone": "~/.cache/andromeda-control/18908c2a",
+"head": "cb0b16abf577bba34326933e4d635756a8142ffb",
+"copied": 255,
+"removed": 0,
+"skipped": 0,
+"in_place": [
+{
+"n": 10,
+"role": "unit",
+"run": "cargo nextest run -p viola-state",
+"run_sha8": "9701e6ba",
+"expect": [
+"exit 0",
+"contains tests run:"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/10.2.log",
+"bytes": 38623,
+"log_sha8": "92f8ad3c",
+"exit": 0,
+"seconds": 9.8,
+"readings": [
+"exit 0 ✓",
+"contains 'tests run:' ✓"
+],
+"survivors": [],
+"outcome": "green"
+}
+],
+"controls": [
+{
+"id": "strict-symlink",
+"entry": 10,
+"guard": "strict.rs unix::reading back to std::fs::metadata, its link refusal removed",
+"edits": [
+{
+"path": "crates/viola-state/src/strict.rs",
+"before": "1cfbe55b",
+"after": "ce53ea2b"
+}
+],
+"word": "holds",
+"removed": {
+"n": 10,
+"role": "unit",
+"run": "cargo nextest run -p viola-state",
+"run_sha8": "9701e6ba",
+"expect": [
+"exit 0",
+"contains tests run:"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/10.without-strict-symlink.log",
+"bytes": 38362,
+"log_sha8": "a6d0cf78",
+"exit": 100,
+"seconds": 4.71,
+"readings": [
+"exit 0 ✗ (exit 100)",
+"contains 'tests run:' ✓"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 100)"
+}
+}
+],
+"removal": "clone removed",
+"at": "strict-symlink"
+}
+},
+{
+"tool": "gate",
+"v": "1.32",
+"sha8": "d6df59e3",
+"ts": "2026-11-13T21:23:11Z",
+"argv": [
+"control",
+"--chunk",
+"2026-11-13-rows-proposal-rule-work",
+"--controls-file",
+".andromeda/runs/2026-11-13T21-06-24-implement/control-3.toml",
+"--run-dir",
+".andromeda/runs/2026-11-13T21-06-24-implement",
+"--timeout",
+"1500"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · marker 2026-11-13-rows-proposal-rule-work · controls 1 · entries 1 (10)",
+"logs $TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24 · $TMPDIR = /tmp · bound: GNU timeout",
+"clone ~/.cache/andromeda-control/342ec9d7 · HEAD cb0b16ab · copied 255 · removed 0 · working folder 5 files · free 422.7 G",
+"entry 10 in place green · 9.73s → 10.3.log",
+"control append-nofollow · entry 10 · holds — in place green, removed red · exit 0 ✗ (exit 100) · 9.73s · 4.26s → 10.without-append-nofollow.log",
+"control: 1 holds · 0 timeout · 0 does not hold · 0 unreproduced · clone removed"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-11-13-rows-proposal-rule-work",
+"plan": "doc:2026-11-13-rows-proposal-rule-work/plan",
+"root": ".",
+"out_dir": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24",
+"clone": "~/.cache/andromeda-control/342ec9d7",
+"head": "cb0b16abf577bba34326933e4d635756a8142ffb",
+"copied": 255,
+"removed": 0,
+"skipped": 0,
+"in_place": [
+{
+"n": 10,
+"role": "unit",
+"run": "cargo nextest run -p viola-state",
+"run_sha8": "9701e6ba",
+"expect": [
+"exit 0",
+"contains tests run:"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/10.3.log",
+"bytes": 38623,
+"log_sha8": "3b2eaf58",
+"exit": 0,
+"seconds": 9.73,
+"readings": [
+"exit 0 ✓",
+"contains 'tests run:' ✓"
+],
+"survivors": [],
+"outcome": "green"
+}
+],
+"controls": [
+{
+"id": "append-nofollow",
+"entry": 10,
+"guard": "fs.rs open_private_append's O_NOFOLLOW flag removed",
+"edits": [
+{
+"path": "crates/viola-state/src/fs.rs",
+"before": "f854f4a2",
+"after": "c6c42a38"
+}
+],
+"word": "holds",
+"removed": {
+"n": 10,
+"role": "unit",
+"run": "cargo nextest run -p viola-state",
+"run_sha8": "9701e6ba",
+"expect": [
+"exit 0",
+"contains tests run:"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/10.without-append-nofollow.log",
+"bytes": 15659,
+"log_sha8": "34f12b84",
+"exit": 100,
+"seconds": 4.26,
+"readings": [
+"exit 0 ✗ (exit 100)",
+"contains 'tests run:' ✓"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 100)"
+}
+}
+],
+"removal": "clone removed",
+"at": "append-nofollow"
+}
+},
+{
+"tool": "gate",
+"v": "1.32",
+"sha8": "d6df59e3",
+"ts": "2026-11-13T21:23:36Z",
+"argv": [
+"control",
+"--chunk",
+"2026-11-13-rows-proposal-rule-work",
+"--controls-file",
+".andromeda/runs/2026-11-13T21-06-24-implement/control-4.toml",
+"--run-dir",
+".andromeda/runs/2026-11-13T21-06-24-implement",
+"--timeout",
+"1500"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · marker 2026-11-13-rows-proposal-rule-work · controls 1 · entries 1 (11)",
+"logs $TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24 · $TMPDIR = /tmp · bound: GNU timeout",
+"clone ~/.cache/andromeda-control/d37650e0 · HEAD cb0b16ab · copied 255 · removed 0 · working folder 6 files · free 422.7 G",
+"entry 11 in place green · 7.63s → 11.2.log",
+"control record-email · entry 11 · holds — in place green, removed red · exit 0 ✗ (exit 100) · 7.63s · 1.08s → 11.without-record-email.log",
+"control: 1 holds · 0 timeout · 0 does not hold · 0 unreproduced · clone removed"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-11-13-rows-proposal-rule-work",
+"plan": "doc:2026-11-13-rows-proposal-rule-work/plan",
+"root": ".",
+"out_dir": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24",
+"clone": "~/.cache/andromeda-control/d37650e0",
+"head": "cb0b16abf577bba34326933e4d635756a8142ffb",
+"copied": 255,
+"removed": 0,
+"skipped": 0,
+"in_place": [
+{
+"n": 11,
+"role": "unit",
+"run": "cargo nextest run -p viola-agent-claude",
+"run_sha8": "c7c763b9",
+"expect": [
+"exit 0",
+"contains tests run:"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/11.2.log",
+"bytes": 86921,
+"log_sha8": "b8712809",
+"exit": 0,
+"seconds": 7.63,
+"readings": [
+"exit 0 ✓",
+"contains 'tests run:' ✓"
+],
+"survivors": [],
+"outcome": "green"
+}
+],
+"controls": [
+{
+"id": "record-email",
+"entry": 11,
+"guard": "ledger.rs text_fault's email arm removed",
+"edits": [
+{
+"path": "crates/viola-agent-claude/src/ledger.rs",
+"before": "e1de09fc",
+"after": "ab9f8a2c"
+}
+],
+"word": "holds",
+"removed": {
+"n": 11,
+"role": "unit",
+"run": "cargo nextest run -p viola-agent-claude",
+"run_sha8": "c7c763b9",
+"expect": [
+"exit 0",
+"contains tests run:"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/11.without-record-email.log",
+"bytes": 38736,
+"log_sha8": "42051b71",
+"exit": 100,
+"seconds": 1.08,
+"readings": [
+"exit 0 ✗ (exit 100)",
+"contains 'tests run:' ✓"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 100)"
+}
+}
+],
+"removal": "clone removed",
+"at": "record-email"
+}
+},
+{
+"tool": "gate",
+"v": "1.32",
+"sha8": "d6df59e3",
+"ts": "2026-11-13T21:24:21Z",
+"argv": [
+"control",
+"--chunk",
+"2026-11-13-rows-proposal-rule-work",
+"--controls-file",
+".andromeda/runs/2026-11-13T21-06-24-implement/control-5.toml",
+"--run-dir",
+".andromeda/runs/2026-11-13T21-06-24-implement",
+"--timeout",
+"1500"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · marker 2026-11-13-rows-proposal-rule-work · controls 1 · entries 1 (14)",
+"logs $TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24 · $TMPDIR = /tmp · bound: GNU timeout",
+"clone ~/.cache/andromeda-control/fae01c38 · HEAD cb0b16ab · copied 255 · removed 0 · working folder 7 files · free 422.9 G",
+"entry 14 in place green · 13.64s → 14.2.log",
+"control hygiene-email · entry 14 · holds — in place green, removed red · exit 0 ✗ (exit 100) · 13.64s · 0.68s → 14.without-hygiene-email.log",
+"control: 1 holds · 0 timeout · 0 does not hold · 0 unreproduced · clone removed"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-11-13-rows-proposal-rule-work",
+"plan": "doc:2026-11-13-rows-proposal-rule-work/plan",
+"root": ".",
+"out_dir": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24",
+"clone": "~/.cache/andromeda-control/fae01c38",
+"head": "cb0b16abf577bba34326933e4d635756a8142ffb",
+"copied": 255,
+"removed": 0,
+"skipped": 0,
+"in_place": [
+{
+"n": 14,
+"role": "integration",
+"run": "cargo nextest run -p viola --features fake-agent --test contract_fixture_hygiene",
+"run_sha8": "12ddf011",
+"expect": [
+"exit 0",
+"contains tests run:"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/14.2.log",
+"bytes": 17277,
+"log_sha8": "e292336e",
+"exit": 0,
+"seconds": 13.64,
+"readings": [
+"exit 0 ✓",
+"contains 'tests run:' ✓"
+],
+"survivors": [],
+"outcome": "green"
+}
+],
+"controls": [
+{
+"id": "hygiene-email",
+"entry": 14,
+"guard": "tests/support/hygiene.rs check's email arm removed",
+"edits": [
+{
+"path": "tests/support/hygiene.rs",
+"before": "d43d56a0",
+"after": "4de51905"
+}
+],
+"word": "holds",
+"removed": {
+"n": 14,
+"role": "integration",
+"run": "cargo nextest run -p viola --features fake-agent --test contract_fixture_hygiene",
+"run_sha8": "12ddf011",
+"expect": [
+"exit 0",
+"contains tests run:"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/14.without-hygiene-email.log",
+"bytes": 12413,
+"log_sha8": "3c747f7e",
+"exit": 100,
+"seconds": 0.68,
+"readings": [
+"exit 0 ✗ (exit 100)",
+"contains 'tests run:' ✓"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 100)"
+}
+}
+],
+"removal": "clone removed",
+"at": "hygiene-email"
+}
+},
+{
+"tool": "gate",
+"v": "1.32",
+"sha8": "d6df59e3",
+"ts": "2026-11-13T21:24:48Z",
+"argv": [
+"control",
+"--chunk",
+"2026-11-13-rows-proposal-rule-work",
+"--controls-file",
+".andromeda/runs/2026-11-13T21-06-24-implement/control-6.toml",
+"--run-dir",
+".andromeda/runs/2026-11-13T21-06-24-implement",
+"--timeout",
+"1500"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · marker 2026-11-13-rows-proposal-rule-work · controls 1 · entries 1 (11)",
+"logs $TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24 · $TMPDIR = /tmp · bound: GNU timeout",
+"clone ~/.cache/andromeda-control/b800aa4d · HEAD cb0b16ab · copied 255 · removed 0 · working folder 8 files · free 422.7 G",
+"entry 11 in place green · 7.66s → 11.3.log",
+"control redact-hook · entry 11 · holds — in place green, removed red · exit 0 ✗ (exit 100) · 7.66s · 1.48s → 11.without-redact-hook.log",
+"control: 1 holds · 0 timeout · 0 does not hold · 0 unreproduced · clone removed"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-11-13-rows-proposal-rule-work",
+"plan": "doc:2026-11-13-rows-proposal-rule-work/plan",
+"root": ".",
+"out_dir": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24",
+"clone": "~/.cache/andromeda-control/b800aa4d",
+"head": "cb0b16abf577bba34326933e4d635756a8142ffb",
+"copied": 255,
+"removed": 0,
+"skipped": 0,
+"in_place": [
+{
+"n": 11,
+"role": "unit",
+"run": "cargo nextest run -p viola-agent-claude",
+"run_sha8": "c7c763b9",
+"expect": [
+"exit 0",
+"contains tests run:"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/11.3.log",
+"bytes": 86921,
+"log_sha8": "92ea8d57",
+"exit": 0,
+"seconds": 7.66,
+"readings": [
+"exit 0 ✓",
+"contains 'tests run:' ✓"
+],
+"survivors": [],
+"outcome": "green"
+}
+],
+"controls": [
+{
+"id": "redact-hook",
+"entry": 11,
+"guard": "hook.rs Normalised's Redact derive back to Debug, its #[redact] on data removed",
+"edits": [
+{
+"path": "crates/viola-agent-claude/src/hook.rs",
+"before": "a6a793ca",
+"after": "37161434"
+}
+],
+"word": "holds",
+"removed": {
+"n": 11,
+"role": "unit",
+"run": "cargo nextest run -p viola-agent-claude",
+"run_sha8": "c7c763b9",
+"expect": [
+"exit 0",
+"contains tests run:"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/11.without-redact-hook.log",
+"bytes": 18543,
+"log_sha8": "4f02f3c0",
+"exit": 100,
+"seconds": 1.48,
+"readings": [
+"exit 0 ✗ (exit 100)",
+"contains 'tests run:' ✓"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 100)"
+}
+}
+],
+"removal": "clone removed",
+"at": "redact-hook"
+}
+},
+{
+"tool": "gate",
+"v": "1.32",
+"sha8": "d6df59e3",
+"ts": "2026-11-13T21:25:18Z",
+"argv": [
+"show",
+"--run-dir",
+".andromeda/runs/2026-11-13T21-06-24-implement",
+"--marker",
+"2026-11-13-rows-proposal-rule-work",
+"--n",
+"31"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"31 smoke green",
+"run (c7459f54): bash scripts/agent-run.sh cleanup --session p-rules-smoke",
+"  exit 0 ✓",
+"  contains '\"processes_gone\":true' ✓",
+"  contains '\"endpoint_gone\":true' ✓",
+"log $TMPDIR/andromeda-gate/2026-11-13-rows-proposal-rule-work/implement-2026-11-13T21-06-24/31.log · 137 B · c1d634a8 · $TMPDIR = /tmp",
+"--- no anchored failure; last 20 non-empty lines ---",
+"{\"v\":1,\"cmd\":\"cleanup\",\"ok\":true,\"cleaned\":[\"p-rules-smoke\"],\"processes_gone\":true,\"endpoint_gone\":true,\"home_removed\":true,\"killed\":[]}"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "gate",
+"v": "1.32",
+"sha8": "d6df59e3",
+"ts": "2026-11-13T21:25:28Z",
+"argv": [
+"scope",
+"--chunk",
+"2026-11-13-rows-proposal-rule-work",
+"--run-dir",
+".andromeda/runs/2026-11-13T21-06-24-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base HEAD (no pre-CI commit) · lists new 1 · modify 25 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"scope: clean — changed 26 · listed 26 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 229"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "HEAD",
+"base_why": "no pre-CI commit",
+"counts": {
+"changed": 26,
+"listed": 26,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 229,
+"unparsed": 0,
+"widening_without_word": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.32",
+"sha8": "d6df59e3",
+"ts": "2026-11-13T21:25:29Z",
+"argv": [
+"census",
+"--comm",
+"viola",
+"--comm",
+"viola-harness",
+"--comm",
+"viola-fake-agent",
+"--comm",
+"claude",
+"--comm",
+"cargo-nextest",
+"--args",
+"projects/viola/target",
+"--args",
+"andromeda-control",
+"--run-dir",
+".andromeda/runs/2026-11-13T21-06-24-implement",
+"--marker",
+"2026-11-13-rows-proposal-rule-work"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"census · ps · comm viola, viola-harness, viola-fake-agent, claude, cargo-nextest · args projects/viola/target, andromeda-control · own tree excluded: 8",
+"  436722 · ppid 436704 · claude · ~/.local/share/mise/installs/claude/latest/claude -n overseer1 --model claude-fable-5-2 --effort medium --continue The host restarted (a reboot, a Claude Code update or an account switch) and up.sh resumed this session with --continue. Before any other work: bring back what you drive — andromeda-worker, ONLY if a slot was in flight ($HOME/dev/projects/additional/andromeda-worker/vw.sh --continue); between slots it starts fresh when the next brief goes. A session viola still lists as running is left alone. Confirm with viola list (not on PATH: the prototype's ~/dev/projects/additional/viola-lab/prototype/target/debug/viola, and a product session by the product's ~/.local/viola-product/bin/viola), then tell the founder in 2-4 lines where each project stands. Start no new work without the founder's word. A host record runs here (started by up.sh): when a builder reports a gate red in which no assertion failed on a value, read its window before a re-run - python3 ~/dev/projects/additional/andromedaV3/andromeda-overseer/docs/tools/hostwatch.py read --trail <that gate trail>, or read --last 15.",
+"  436789 · ppid 436747 · claude · ~/.local/share/mise/installs/claude/latest/claude -n viola-overseer --model claude-fable-5-2 --effort medium --continue The host restarted (a reboot, a Claude Code update or an account switch) and up.sh resumed this session with --continue. Before any other work: bring back what you drive — viola-builder, which runs under the Viola PRODUCT ($HOME/dev/projects/additional/viola-overseer/vb.sh --continue; confirm with $HOME/.local/viola-product/bin/viola list, not the prototype's list). A session viola still lists as running is left alone. Confirm with viola list (not on PATH: the prototype's ~/dev/projects/additional/viola-lab/prototype/target/debug/viola, and a product session by the product's ~/.local/viola-product/bin/viola), then tell the founder in 2-4 lines where each project stands. Start no new work without the founder's word. A host record runs here (started by up.sh): when a builder reports a gate red in which no assertion failed on a value, read its window before a re-run - python3 ~/dev/projects/additional/andromedaV3/andromeda-overseer/docs/tools/hostwatch.py read --trail <that gate trail>, or read --last 15.",
+"  436860 · ppid 436816 · claude · ~/.local/share/mise/installs/claude/latest/claude -n pc-overseer --model claude-fable-5-2 --effort medium --continue The host restarted (a reboot, a Claude Code update or an account switch) and up.sh resumed this session with --continue. Before any other work: bring back what you drive — pulse-builder FIRST and then conductor-builder, in that order because the order sets the tiling (Pulse above, Conductor below, both right of you) ($HOME/dev/projects/additional/pc-overseer/vb-pulse.sh --continue, then vb-conductor.sh --continue). A session viola still lists as running is left alone. Confirm with viola list (not on PATH: the prototype's ~/dev/projects/additional/viola-lab/prototype/target/debug/viola, and a product session by the product's ~/.local/viola-product/bin/viola), then tell the founder in 2-4 lines where each project stands. Start no new work without the founder's word. A host record runs here (started by up.sh): when a builder reports a gate red in which no assertion failed on a value, read its window before a re-run - python3 ~/dev/projects/additional/andromedaV3/andromeda-overseer/docs/tools/hostwatch.py read --trail <that gate trail>, or read --last 15.",
+"  436933 · ppid 436889 · claude · ~/.local/share/mise/installs/claude/latest/claude -n escher-overseer --model claude-fable-5-2 --effort medium --continue The host restarted (a reboot, a Claude Code update or an account switch) and up.sh resumed this session with --continue. Before any other work: bring back what you drive — escher-builder ($HOME/dev/projects/additional/escher-overseer/vb.sh --continue). A session viola still lists as running is left alone. Confirm with viola list (not on PATH: the prototype's ~/dev/projects/additional/viola-lab/prototype/target/debug/viola, and a product session by the product's ~/.local/viola-product/bin/viola), then tell the founder in 2-4 lines where each project stands. Start no new work without the founder's word. A host record runs here (started by up.sh): when a builder reports a gate red in which no assertion failed on a value, read its window before a re-run - python3 ~/dev/projects/additional/andromedaV3/andromeda-overseer/docs/tools/hostwatch.py read --trail <that gate trail>, or read --last 15.",
+"  438723 · ppid 438582 · viola · ~/.viola/bin/0.1.0-231c0225dac912d9/viola mcp",
+"  438977 · ppid 438943 · viola · ~/dev/projects/additional/viola-lab/prototype/target/debug/viola run pulse-builder --dialog-timeout 3500 -- claude --plugin-dir ~/dev/projects/additional/viola-lab/prototype/plugin --settings {\"disableClaudeAiConnectors\":true,\"deniedMcpServers\":[{\"serverName\":\"houdini\"}]} --effort medium --model claude-opus-5-5 -n pulse-builder --resume 91b91aa4-5791-4fb1-8dad-76e351810f78",
+"  438982 · ppid 438977 · claude · ~/.local/share/mise/installs/claude/latest/claude --plugin-dir ~/dev/projects/additional/viola-lab/prototype/plugin --settings {\"disableClaudeAiConnectors\":true,\"deniedMcpServers\":[{\"serverName\":\"houdini\"}]} --effort medium --model claude-opus-5-5 -n pulse-builder --resume 91b91aa4-5791-4fb1-8dad-76e351810f78",
+"  439116 · ppid 439095 · viola · ~/dev/projects/additional/viola-lab/prototype/target/debug/viola run escher-builder --dialog-timeout 3500 -- claude --plugin-dir ~/dev/projects/additional/viola-lab/prototype/plugin --settings {\"disableClaudeAiConnectors\":true,\"deniedMcpServers\":[{\"serverName\":\"houdini\"}]} --effort medium --model claude-opus-5-5 -n escher-builder --resume 8b1e87ba-d481-4fa9-ac87-a4d8358e66ea",
+"  439121 · ppid 439116 · claude · ~/.local/share/mise/installs/claude/latest/claude --plugin-dir ~/dev/projects/additional/viola-lab/prototype/plugin --settings {\"disableClaudeAiConnectors\":true,\"deniedMcpServers\":[{\"serverName\":\"houdini\"}]} --effort medium --model claude-opus-5-5 -n escher-builder --resume 8b1e87ba-d481-4fa9-ac87-a4d8358e66ea",
+"  439692 · ppid 439670 · viola · ~/dev/projects/additional/viola-lab/prototype/target/debug/viola run conductor-builder --dialog-timeout 3500 -- claude --plugin-dir ~/dev/projects/additional/viola-lab/prototype/plugin --settings {\"disableClaudeAiConnectors\":true,\"deniedMcpServers\":[{\"serverName\":\"houdini\"}]} --effort medium --model claude-opus-5-5 -n conductor-builder --resume 8f5cf694-4c2c-4aa4-a6c6-f5a286b914fc",
+"  439697 · ppid 439692 · claude · ~/.local/share/mise/installs/claude/latest/claude --plugin-dir ~/dev/projects/additional/viola-lab/prototype/plugin --settings {\"disableClaudeAiConnectors\":true,\"deniedMcpServers\":[{\"serverName\":\"houdini\"}]} --effort medium --model claude-opus-5-5 -n conductor-builder --resume 8f5cf694-4c2c-4aa4-a6c6-f5a286b914fc",
+"  441802 · ppid 441785 · viola · ~/dev/projects/additional/viola-lab/prototype/target/debug/viola run andromeda-worker --dialog-timeout 3500 -- claude --plugin-dir ~/dev/projects/additional/viola-lab/prototype/plugin --settings {\"disableClaudeAiConnectors\":true,\"deniedMcpServers\":[{\"serverName\":\"houdini\"}]} --effort medium --model claude-opus-5-5 -n andromeda-worker",
+"  441807 · ppid 441802 · claude · ~/.local/share/mise/installs/claude/latest/claude --plugin-dir ~/dev/projects/additional/viola-lab/prototype/plugin --settings {\"disableClaudeAiConnectors\":true,\"deniedMcpServers\":[{\"serverName\":\"houdini\"}]} --effort medium --model claude-opus-5-5 -n andromeda-worker",
+"  499461 · ppid 482687 · claude · ~/.local/share/mise/installs/claude/latest/claude -p --agent andromeda-batch --model claude-haiku-5-5 --effort high --output-format json --max-budget-usd 0.40 --allowedTools Read Write Bash(python -X utf8 ~/.claude/skills/andromeda-tools/scripts/rec.py outputs check:*)",
+"  510089 · ppid 510088 · viola · ~/.local/viola-product/bin/viola wait viola-builder --after 11243959 --timeout-ms 3000000 --json",
+"  514222 · ppid 514221 · viola · ~/dev/projects/additional/viola-lab/prototype/target/debug/viola wait escher-builder --timeout 60",
+"  514283 · ppid 482687 · claude · ~/.local/share/mise/installs/claude/latest/claude -p --agent andromeda-batch --model claude-haiku-5-5 --effort high --output-format json --max-budget-usd 0.40 --allowedTools Read Write Bash(python -X utf8 ~/.claude/skills/andromeda-tools/scripts/rec.py outputs check:*)",
+"  514585 · ppid 514584 · viola · ~/dev/projects/additional/viola-lab/prototype/target/debug/viola wait andromeda-worker --timeout 60",
+"  514753 · ppid 482687 · claude · ~/.local/share/mise/installs/claude/latest/claude -p --agent andromeda-batch --model claude-haiku-5-5 --effort high --output-format json --max-budget-usd 0.40 --allowedTools Read Write Bash(python -X utf8 ~/.claude/skills/andromeda-tools/scripts/rec.py outputs check:*)",
+"  515271 · ppid 482687 · claude · ~/.local/share/mise/installs/claude/latest/claude -p --agent andromeda-batch --model claude-haiku-5-5 --effort high --output-format json --max-budget-usd 0.40 --allowedTools Read Write Bash(python -X utf8 ~/.claude/skills/andromeda-tools/scripts/rec.py outputs check:*)",
+"  515365 · ppid 482687 · claude · ~/.local/share/mise/installs/claude/latest/claude -p --agent andromeda-batch --model claude-haiku-5-5 --effort high --output-format json --max-budget-usd 0.40 --allowedTools Read Write Bash(python -X utf8 ~/.claude/skills/andromeda-tools/scripts/rec.py outputs check:*)",
+"  515894 · ppid 482687 · claude · ~/.local/share/mise/installs/claude/latest/claude -p --agent andromeda-batch --model claude-haiku-5-5 --effort high --output-format json --max-budget-usd 0.40 --allowedTools Read Write Bash(python -X utf8 ~/.claude/skills/andromeda-tools/scripts/rec.py outputs check:*)",
+"census: 22 running"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"census": {
+"comm": [
+"viola",
+"viola-harness",
+"viola-fake-agent",
+"claude",
+"cargo-nextest"
+],
+"args": [
+"projects/viola/target",
+"andromeda-control"
+],
+"running": [
+436722,
+436789,
+436860,
+436933,
+438723,
+438977,
+438982,
+439116,
+439121,
+439692,
+439697,
+441802,
+441807,
+499461,
+510089,
+514222,
+514283,
+514585,
+514753,
+515271,
+515365,
+515894
+]
+}
+}
+},
+{
+"tool": "gate",
+"v": "1.32",
+"sha8": "d6df59e3",
+"ts": "2026-11-13T21:26:08Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-11-13T21-06-24-implement",
+"--marker",
+"2026-11-13-rows-proposal-rule-work"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust · base HEAD (no pre-CI commit)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust — each fired on its synthetic known positive",
+"hygiene: clean — read 232 (runs 223 · evidence 6 · inputs 3) · trails 14 not read · copies 1 not read by P1 — 0 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 223,
+"evidence": 6,
+"inputs": 3,
+"trails": 14,
+"copies": 1,
+"kept": 0,
+"binary": 0,
+"in_root": 0
+},
+"indeterminate": 0
+}
+}
+]

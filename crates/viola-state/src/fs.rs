@@ -40,14 +40,19 @@ fn created_or_present(result: io::Result<()>) -> io::Result<()> {
     }
 }
 
-/// Append-only, created 0600 on Unix and narrowed to 0600 when it already existed.
+/// Append-only, created 0600 and narrowed to 0600 when it already existed. A symbolic link at
+/// `path` fails the open (`O_NOFOLLOW`), and the mode is set through the open handle, so neither
+/// the open nor the narrowing reaches past a link put there after a check.
 pub fn open_private_append(path: &Path) -> io::Result<File> {
+    use std::os::unix::fs::{OpenOptionsExt as _, PermissionsExt as _};
     let mut options = OpenOptions::new();
-    options.create(true).append(true);
-    #[cfg(unix)]
-    std::os::unix::fs::OpenOptionsExt::mode(&mut options, FILE_MODE);
+    options
+        .create(true)
+        .append(true)
+        .mode(FILE_MODE)
+        .custom_flags(libc::O_NOFOLLOW);
     let file = options.open(path)?;
-    restrict(path, FILE_MODE)?;
+    file.set_permissions(fs::Permissions::from_mode(FILE_MODE))?;
     Ok(file)
 }
 
@@ -364,6 +369,42 @@ mod tests {
             .write_all(b"two\n")
             .expect("write");
         assert_eq!(fs::read(&path).expect("read"), b"one\ntwo\n");
+    }
+
+    /// A link at the path fails the open, the target's bytes and mode left as found.
+    #[test]
+    fn open_private_append_refuses_a_symlink_and_leaves_its_target() {
+        use std::os::unix::fs::PermissionsExt as _;
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let target = tmp.path().join("elsewhere.ndjson");
+        fs::write(&target, b"kept\n").expect("seed");
+        fs::set_permissions(&target, fs::Permissions::from_mode(0o644)).expect("chmod");
+        let link = tmp.path().join("f.ndjson");
+        std::os::unix::fs::symlink(&target, &link).expect("symlink");
+        assert!(open_private_append(&link).is_err());
+        assert_eq!(fs::read(&target).expect("read"), b"kept\n");
+        let mode = fs::metadata(&target).expect("meta").permissions().mode();
+        assert_eq!(mode & 0o777, 0o644);
+        assert!(
+            fs::symlink_metadata(&link)
+                .expect("link")
+                .file_type()
+                .is_symlink()
+        );
+    }
+
+    /// A file that already stood at 0644 is narrowed to 0600 through the open handle, its bytes kept.
+    #[test]
+    fn open_private_append_narrows_an_existing_file_through_the_handle() {
+        use std::os::unix::fs::PermissionsExt as _;
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let path = tmp.path().join("f.ndjson");
+        fs::write(&path, b"one\n").expect("seed");
+        fs::set_permissions(&path, fs::Permissions::from_mode(0o644)).expect("chmod");
+        let file = open_private_append(&path).expect("open");
+        let mode = file.metadata().expect("meta").permissions().mode();
+        assert_eq!(mode & 0o777, 0o600);
+        assert_eq!(fs::read(&path).expect("read"), b"one\n");
     }
 
     #[test]

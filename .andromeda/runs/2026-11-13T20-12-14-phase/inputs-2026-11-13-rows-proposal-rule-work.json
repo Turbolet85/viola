@@ -1,0 +1,176 @@
+[
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "f19fe91d",
+"ts": "2026-11-13T20:13:44Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-13-rows-proposal-rule-work",
+"--source",
+"~/dev/projects/additional/viola-overseer/phase-rows-proposal-rule-work-directive.md",
+"--kind",
+"relay",
+"--why",
+"the operator phase directive for this take-up: its five items bind scope, controls, live starts, folds and the P5 card",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-11-13T20-12-14-phase",
+"--marker",
+"2026-11-13-rows-proposal-rule-work"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy no-repo · ../additional/viola-overseer/phase-rows-proposal-rule-work-directive.md",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-phase-rows-proposal-rule-work-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/phase-rows-proposal-rule-work-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "2722e1ec16911adba100cdaef90c21a39c7df49a2e86074869c07335f7ab5955",
+"copy": "I1-phase-rows-proposal-rule-work-directive.md.txt",
+"link": false,
+"read_at": "2026-11-13T20:13:43Z",
+"step": "phase:P1",
+"why": "the operator phase directive for this take-up: its five items bind scope, controls, live starts, folds and the P5 card"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "f19fe91d",
+"ts": "2026-11-13T20:58:13Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-13-rows-proposal-rule-work",
+"--run-dir",
+".andromeda/runs/2026-11-13T20-12-14-phase",
+"--marker",
+"2026-11-13-rows-proposal-rule-work"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-rows-proposal-rule-work-directive.md",
+"I1 cited scope.md:13 · research.md:9 · plan.md:27 · plan.md:107 · plan.md:145 · plan.md:146 · plan.md:433 · plan.md:449 · plan.md:451",
+"inputs: 1 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 1,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "f19fe91d",
+"ts": "2026-11-13T21:00:49Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-13-rows-proposal-rule-work",
+"--run-dir",
+".andromeda/runs/2026-11-13T20-12-14-phase",
+"--marker",
+"2026-11-13-rows-proposal-rule-work"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-rows-proposal-rule-work-directive.md",
+"I1 cited scope.md:13 · research.md:9 · plan.md:27 · plan.md:107 · plan.md:145 · plan.md:146 · plan.md:451 · plan.md:467 · plan.md:469",
+"inputs: 1 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 1,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "f19fe91d",
+"ts": "2026-11-13T21:01:25Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-13-rows-proposal-rule-work",
+"--run-dir",
+".andromeda/runs/2026-11-13T20-12-14-phase",
+"--marker",
+"2026-11-13-rows-proposal-rule-work"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-rows-proposal-rule-work-directive.md",
+"I1 cited scope.md:13 · research.md:9 · plan.md:27 · plan.md:107 · plan.md:145 · plan.md:146 · plan.md:451 · plan.md:467 · plan.md:469",
+"inputs: 1 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 1,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+}
+]

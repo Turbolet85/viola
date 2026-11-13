@@ -429,6 +429,23 @@ fn unclean_names_the_first_check_that_fails() {
 }
 
 #[test]
+fn unclean_refuses_an_email_in_a_string_or_a_key_after_a_path() {
+    assert_eq!(
+        unclean(&json!({"a": "mail a.b@example.com"}), "plantuser"),
+        Some(Unclean::Email)
+    );
+    assert_eq!(
+        unclean(&json!({"a.b@example.com": 1}), "plantuser"),
+        Some(Unclean::Email)
+    );
+    assert_eq!(
+        unclean(&json!(["/home/other/a.b@example.com"]), "plantuser"),
+        Some(Unclean::AbsolutePath)
+    );
+    assert!(!is_clean(&json!({"a": "a.b@example.com"}), "plantuser"));
+}
+
+#[test]
 fn screen_fault_names_the_row_the_seam_and_the_check() {
     assert_eq!(fault(&["x", "  ← for agents"]), None);
     assert_eq!(

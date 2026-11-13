@@ -40,15 +40,11 @@ use crate::{human, obs, run};
 #[derive(clap::Args)]
 pub(crate) struct RunArgs {
     /// Instance name: [a-z0-9-], 1-32 characters, starting with a letter
-    #[arg(value_parser = parse_name)]
+    #[arg(value_parser = super::send::parse_name)]
     pub(super) name: ViolaName,
     /// The program to wrap and its arguments, after `--`
     #[arg(last = true, required = true)]
     program: Vec<OsString>,
-}
-
-fn parse_name(raw: &str) -> Result<ViolaName, String> {
-    ViolaName::try_new(raw.to_owned()).map_err(|_| "invalid instance name".to_owned())
 }
 
 fn name_str(name: &ViolaName) -> &str {

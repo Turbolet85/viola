@@ -7,6 +7,7 @@
 use std::collections::BTreeMap;
 
 use serde_json::{Map, Value, json};
+use veil::Redact;
 use viola_core::EventKind;
 
 use crate::AgentError;
@@ -72,13 +73,16 @@ impl DialogTool {
 
 /// A dialog-tier payload, classified: its kind and `data` (the dialog event's, without
 /// `dialog_id`), the tool's input, and whether it is a PermissionRequest repeating a PreToolUse of a
-/// [`DialogTool`] — a continuation of that dialog.
-#[derive(Debug, Clone, PartialEq)]
+/// [`DialogTool`] — a continuation of that dialog. `data` and `input` are content: their `Debug`
+/// is redacted.
+#[derive(Clone, PartialEq, Redact)]
 pub struct Dialog {
     pub hook: HookEvent,
     pub kind: DialogKind,
+    #[redact]
     pub data: Value,
     pub tool: Option<DialogTool>,
+    #[redact]
     pub input: Value,
     pub continuation: bool,
 }
@@ -178,19 +182,24 @@ pub enum Verdict {
 }
 
 /// An `answer`'s `response`, normalised per dialog kind (architecture §Standard Contracts `answer`).
-/// No permission suggestion is carried: a deliberate v1 limit.
-#[derive(Debug, Clone, PartialEq)]
+/// No permission suggestion is carried: a deliberate v1 limit. The answers, annotations and
+/// messages are content: their `Debug` is redacted.
+#[derive(Clone, PartialEq, Redact)]
 pub enum Response {
     Question {
+        #[redact]
         answers: BTreeMap<String, String>,
+        #[redact]
         annotations: Option<Map<String, Value>>,
     },
     Permission {
         behavior: Permit,
+        #[redact]
         message: Option<String>,
     },
     Plan {
         behavior: Verdict,
+        #[redact]
         message: Option<String>,
     },
 }

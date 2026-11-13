@@ -61,7 +61,6 @@ fn pty_resize_reaches_the_child(#[from(home)] tmp: TestHome) {
         cols: 100,
         rows: 30,
     });
-    pty.write(b"a");
     fake::wait_for(&receipt, "resized", |l| {
         of_kind(l, "size").contains(&&json!({"v": 1, "kind": "size", "cols": 100, "rows": 30}))
     });

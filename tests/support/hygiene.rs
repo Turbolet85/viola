@@ -1,6 +1,6 @@
 //! Fixture hygiene (test-plan §7, security-plan §Data Protection "Repository fixtures"): a
-//! committed fixture holds no absolute path, no real username and passes its schema. A violation
-//! reports its class only, never the offending content.
+//! committed fixture holds no absolute path, no real username, no email-shaped token and passes
+//! its schema. A violation reports its class only, never the offending content.
 
 use std::path::Path;
 
@@ -10,6 +10,7 @@ use serde_json::Value;
 pub enum Violation {
     AbsolutePath,
     Username,
+    Email,
     Schema,
 }
 
@@ -18,6 +19,7 @@ impl Violation {
         match self {
             Self::AbsolutePath => "absolute-path",
             Self::Username => "username",
+            Self::Email => "email",
             Self::Schema => "schema",
         }
     }
@@ -52,6 +54,24 @@ pub fn has_username(s: &str, user: &str) -> bool {
     })
 }
 
+/// `local@domain.tld`: a local part, then a domain holding a dot followed by two or more letters.
+pub fn has_email(text: &str) -> bool {
+    text.match_indices('@').any(|(at, _)| {
+        let local = text[..at]
+            .chars()
+            .next_back()
+            .is_some_and(|c| c.is_ascii_alphanumeric() || "._%+-".contains(c));
+        let domain: String = text[at + 1..]
+            .chars()
+            .take_while(|c| c.is_ascii_alphanumeric() || *c == '.' || *c == '-')
+            .collect();
+        let tld = domain.rsplit_once('.').is_some_and(|(host, tld)| {
+            !host.is_empty() && tld.len() >= 2 && tld.chars().all(|c| c.is_ascii_alphabetic())
+        });
+        local && tld
+    })
+}
+
 fn strings<'a>(v: &'a Value, out: &mut Vec<&'a str>) {
     match v {
         Value::String(s) => out.push(s),
@@ -83,6 +103,9 @@ pub fn check(bytes: &[u8], schema: &Value, user: Option<&str>) -> Result<(), Vio
         && all.iter().any(|s| has_username(s, user))
     {
         return Err(Violation::Username);
+    }
+    if all.iter().any(|s| has_email(s)) {
+        return Err(Violation::Email);
     }
     let validator = jsonschema::validator_for(schema).map_err(|_| Violation::Schema)?;
     if validator.is_valid(&doc) {

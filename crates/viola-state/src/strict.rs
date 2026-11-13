@@ -194,15 +194,15 @@ fn check_rule(path: &Path, rule: Rule) -> Result<(), Refused> {
     }
 }
 
-/// One path through the reader and the write rule.
+/// One path through the reader and the write rule; a symbolic link is refused, never followed.
 pub fn check_path(path: &Path) -> Result<(), Refused> {
-    let (mode, uid) = unix::reading(path).map_err(|_| Refused::Unreadable)?;
+    let (mode, uid) = unix::reading(path)?;
     unix_verdict(mode, uid, unix::euid())
 }
 
-/// One path through the reader and the read rule.
+/// One path through the reader and the read rule; a symbolic link is refused, never followed.
 pub fn check_read(path: &Path) -> Result<(), Refused> {
-    let (mode, uid) = unix::reading(path).map_err(|_| Refused::Unreadable)?;
+    let (mode, uid) = unix::reading(path)?;
     unix_read_verdict(mode, uid, unix::euid())
 }
 
@@ -228,13 +228,18 @@ pub fn unix_read_verdict(mode: u32, uid: u32, euid: u32) -> Result<(), Refused> 
 }
 
 mod unix {
-    use std::io;
     use std::os::unix::fs::MetadataExt as _;
     use std::path::Path;
 
-    /// The mode bits and the owner uid; a symlink is followed, as `stat` does.
-    pub(super) fn reading(path: &Path) -> io::Result<(u32, u32)> {
-        let meta = std::fs::metadata(path)?;
+    use super::Refused;
+
+    /// The path's own mode bits and owner uid, as `lstat` reads them: a symbolic link is refused,
+    /// never followed to what it points at.
+    pub(super) fn reading(path: &Path) -> Result<(u32, u32), Refused> {
+        let meta = std::fs::symlink_metadata(path).map_err(|_| Refused::Unreadable)?;
+        if meta.file_type().is_symlink() {
+            return Err(Refused::Symlink);
+        }
         Ok((meta.mode(), meta.uid()))
     }
 
@@ -316,8 +321,8 @@ mod tests {
         );
     }
 
-    /// Real paths, each left as found: a symlink to a 0700 directory reads as the link, where the
-    /// read rule's own check follows it and passes.
+    /// Real paths, each left as found: a symlink to a 0700 directory reads as the link, and so
+    /// does the read rule's own check.
     #[test]
     fn check_socket_dir_reads_the_path_itself_and_leaves_it_as_found() {
         use std::os::unix::fs::PermissionsExt as _;
@@ -335,7 +340,8 @@ mod tests {
 
         let link = tmp.path().join("link");
         std::os::unix::fs::symlink(&private, &link).expect("symlink");
-        assert_eq!(check_read(&link), Ok(()), "the check that follows the link");
+        assert_eq!(check_read(&link), Err(Refused::Symlink));
+        assert_eq!(check_path(&link), Err(Refused::Symlink));
         assert_eq!(check_socket_dir(&link), Err(Refused::Symlink));
         assert!(
             std::fs::symlink_metadata(&link)
@@ -509,6 +515,65 @@ mod tests {
         };
         std::fs::set_permissions(&path, std::fs::Permissions::from_mode(mode)).expect("chmod");
         assert_eq!(check_instance(&home, &instance_dir), Err(Refused::Writable));
+    }
+
+    /// `path` moved aside to `target` and a symbolic link to it put in its place: the target is
+    /// what viola wrote, owner-only, so only the link can be refused. Returns the target's mode.
+    fn link_in_place_of(path: &Path, target: &Path) -> u32 {
+        use std::os::unix::fs::PermissionsExt as _;
+        std::fs::rename(path, target).expect("moved aside");
+        std::os::unix::fs::symlink(target, path).expect("symlink");
+        std::fs::metadata(target)
+            .expect("target")
+            .permissions()
+            .mode()
+    }
+
+    /// The link and its target are left as found: still a link, the target's mode unchanged.
+    fn assert_left_as_found(link: &Path, target: &Path, mode: u32) {
+        use std::os::unix::fs::PermissionsExt as _;
+        let meta = std::fs::symlink_metadata(link).expect("link");
+        assert!(meta.file_type().is_symlink());
+        assert_eq!(std::fs::read_link(link).expect("link target"), target);
+        let now = std::fs::metadata(target)
+            .expect("target")
+            .permissions()
+            .mode();
+        assert_eq!(now, mode);
+    }
+
+    #[rstest]
+    #[case::the_home("home")]
+    #[case::instances("instances")]
+    #[case::the_instance_dir("instance")]
+    #[case::the_snapshot("snapshot")]
+    fn strict_instance_refuses_a_symlink_and_leaves_it_as_found(#[case] which: &str) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (home, instance_dir) = instance_viola_wrote(tmp.path());
+        let path = match which {
+            "home" => home.clone(),
+            "instances" => home.join("instances"),
+            "instance" => instance_dir.clone(),
+            _ => instance_dir.join(SNAPSHOT),
+        };
+        assert_eq!(check_instance(&home, &instance_dir), Ok(()));
+        let target = tmp.path().join(format!("real-{which}"));
+        let mode = link_in_place_of(&path, &target);
+        assert_eq!(check_instance(&home, &instance_dir), Err(Refused::Symlink));
+        assert_left_as_found(&path, &target, mode);
+    }
+
+    #[test]
+    fn check_stamps_refuses_a_symlinked_stamps_file_and_leaves_it_as_found() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let home = tmp.path().join("home");
+        crate::stamps::update_stamps(&home, |_| b"{}".to_vec()).expect("written");
+        let stamps = ledger_dir(&home).join(STAMPS);
+        let target = tmp.path().join("real-stamps.json");
+        let mode = link_in_place_of(&stamps, &target);
+        assert_eq!(check_stamps(&home), Err(Refused::Symlink));
+        assert_left_as_found(&stamps, &target, mode);
+        assert_eq!(std::fs::read(&target).expect("target bytes"), b"{}");
     }
 
     #[rstest]

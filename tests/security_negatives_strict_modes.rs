@@ -19,6 +19,7 @@ use std::time::Instant;
 use rstest::rstest;
 use serde_json::{Value, json};
 use support::cli::{Ran, viola};
+use support::digits::digit_runs;
 use support::home::{
     StampedHome, TestHome, UNWRAPPED, VIOLA, booted_wrapper, grant_read, stamped_home,
     still_widened, unwiden, widen,
@@ -54,13 +55,6 @@ fn verb(name: &str, json: bool) -> (Vec<&'static str>, Option<&'static str>) {
         args.push("--json");
     }
     (args, stdin)
-}
-
-/// The digit runs of `text`: a pid or a start time shows as one of them.
-fn digit_runs(text: &str) -> Vec<&str> {
-    text.split(|c: char| !c.is_ascii_digit())
-        .filter(|run| !run.is_empty())
-        .collect()
 }
 
 fn cli_lines(home: &Path) -> Vec<Value> {

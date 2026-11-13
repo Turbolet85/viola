@@ -1,0 +1,19 @@
+[[control]]
+id = 'record-email'
+entry = 11
+guard = "ledger.rs text_fault's email arm removed"
+
+[[control.edit]]
+path = 'crates/viola-agent-claude/src/ledger.rs'
+old = '''
+    } else if has_user_word(text, user) {
+        Some(Unclean::Username)
+    } else if has_email(text) {
+        Some(Unclean::Email)
+    } else {
+'''
+new = '''
+    } else if has_user_word(text, user) {
+        Some(Unclean::Username)
+    } else {
+'''

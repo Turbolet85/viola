@@ -20,6 +20,7 @@ use rmcp::{RoleServer, ServerHandler};
 use schemars::JsonSchema;
 use serde_json::{Map, Value};
 use tracing::instrument;
+use veil::Redact;
 use viola_agent_claude::dialog::Response;
 use viola_agent_claude::hook::typed_text;
 use viola_channel::peer_admitted;
@@ -79,13 +80,15 @@ impl ToolName {
 }
 
 // The advertised input schemas. They are never deserialised into: the handlers read the raw object.
+// The prompt text and the answer are content: their `Debug` is redacted.
 
-#[derive(JsonSchema)]
+#[derive(JsonSchema, Redact)]
 #[allow(dead_code)]
 struct SendInput {
     /// The instance to type into: [a-z0-9-], 1-32 characters, starting with a letter
     target: String,
     /// The prompt text, typed as one bracketed paste and read back after the fact
+    #[redact]
     text: String,
 }
 
@@ -107,7 +110,7 @@ struct LastInput {
     target: String,
 }
 
-#[derive(JsonSchema)]
+#[derive(JsonSchema, Redact)]
 #[allow(dead_code)]
 struct AnswerInput {
     /// The instance whose dialog to answer: [a-z0-9-], 1-32 characters, starting with a letter
@@ -116,6 +119,7 @@ struct AnswerInput {
     dialog_id: u64,
     /// The answer: {"behavior": "allow"|"deny", "message"?} for a permission, {"behavior":
     /// "approve"|"reject", "feedback"?} for a plan, {"answers": {...}, "annotations"?} for a question
+    #[redact]
     response: Map<String, Value>,
 }
 
@@ -451,6 +455,25 @@ mod tests {
 
     fn args(value: Value) -> JsonObject {
         value.as_object().expect("an object").clone()
+    }
+
+    /// The answer and the sent text are content: no `Debug` render of an input shows them.
+    #[test]
+    fn input_debug_holds_no_answer_or_text() {
+        let answer = AnswerInput {
+            target: "builder".to_owned(),
+            dialog_id: 7,
+            response: args(json!({"answers": {"q": "secretword"}})),
+        };
+        let shown = format!("{answer:?}");
+        assert!(!shown.contains("secretword"), "{shown}");
+        assert!(shown.contains("builder"), "{shown}");
+        let send = SendInput {
+            target: "builder".to_owned(),
+            text: "secretword".to_owned(),
+        };
+        let shown = format!("{send:?}");
+        assert!(!shown.contains("secretword"), "{shown}");
     }
 
     fn runtime() -> tokio::runtime::Runtime {

@@ -15,7 +15,8 @@ use rstest::rstest;
 use serde_json::{Value, json};
 use support::home::workspace_path;
 use support::hygiene::{
-    PLACEHOLDER_USER, Violation, check, has_absolute_path, has_username, host_user, load_schema,
+    PLACEHOLDER_USER, Violation, check, has_absolute_path, has_email, has_username, host_user,
+    load_schema,
 };
 
 fn script_schema() -> Value {
@@ -241,6 +242,15 @@ fn planted_agents_username_is_rejected() {
     );
 }
 
+#[test]
+fn planted_agents_email_is_rejected() {
+    let doc = json!([agents_row(&json!({"name": "a.b@example.com's session"}))]);
+    assert_eq!(
+        check(doc.to_string().as_bytes(), &agents_schema(), None),
+        Err(Violation::Email)
+    );
+}
+
 /// Every set recorded with a status line payload holds the two variants, each walked by
 /// `statusline_fixtures_pass_hygiene`.
 #[test]
@@ -322,6 +332,15 @@ fn planted_statusline_username_is_rejected() {
 }
 
 #[test]
+fn planted_statusline_email_is_rejected() {
+    let bytes = statusline_payload(&json!({"workspace": {"repo": {"owner": "a.b@example.com"}}}));
+    assert_eq!(
+        check(&bytes, &statusline_schema(), None),
+        Err(Violation::Email)
+    );
+}
+
+#[test]
 fn claude_fixtures_walks_every_version_dir_and_only_json_files() {
     let tmp = tempfile::tempdir().expect("tempdir");
     for (rel, body) in [
@@ -370,47 +389,16 @@ fn claude_fixtures_walks_every_version_dir_and_only_json_files() {
     assert!(claude_fixtures(&tmp.path().join("missing")).is_empty());
 }
 
-/// Why a recorded MCP exchange is refused: the shared walk's class, or an email-shaped token.
-#[derive(Debug, PartialEq, Eq)]
-enum McpViolation {
-    Hygiene(Violation),
-    Email,
-}
-
-fn texts<'a>(value: &'a Value, out: &mut Vec<&'a str>) {
-    match value {
-        Value::String(s) => out.push(s),
-        Value::Array(items) => items.iter().for_each(|v| texts(v, out)),
-        Value::Object(map) => map.iter().for_each(|(k, v)| {
-            out.push(k);
-            texts(v, out);
-        }),
-        _ => {}
-    }
-}
-
-/// An MCP exchange fixture: schema-valid, scrubbed, and no email-shaped token in a string or key.
-fn check_mcp(bytes: &[u8], user: Option<&str>) -> Result<(), McpViolation> {
-    check(bytes, &mcp_schema(), user).map_err(McpViolation::Hygiene)?;
-    let doc: Value =
-        serde_json::from_slice(bytes).map_err(|_| McpViolation::Hygiene(Violation::Schema))?;
-    let mut all = Vec::new();
-    texts(&doc, &mut all);
-    if all.iter().any(|text| has_email(text)) {
-        return Err(McpViolation::Email);
-    }
-    Ok(())
-}
-
 #[test]
 fn mcp_fixtures_pass_hygiene() {
+    let schema = mcp_schema();
     let user = host_user();
     let walked = mcp_fixtures(&workspace_path("fixtures/claude"));
     assert!(!walked.is_empty(), "no MCP exchange walked");
     for path in walked {
         let bytes = std::fs::read(&path).expect("fixture");
         assert_eq!(
-            check_mcp(&bytes, user.as_deref()),
+            check(&bytes, &schema, user.as_deref()),
             Ok(()),
             "{}",
             path.display()
@@ -440,22 +428,20 @@ fn mcp_exchange(client_info: &Value) -> Value {
 fn planted_clean_mcp_exchange_passes() {
     let doc = mcp_exchange(&json!({"name": "claude-code", "version": "2.1.302"}));
     assert_eq!(
-        check_mcp(doc.to_string().as_bytes(), Some("plantuser")),
+        check(doc.to_string().as_bytes(), &mcp_schema(), Some("plantuser")),
         Ok(())
     );
 }
 
 #[rstest]
-#[case::home_path(json!({"name": "/home/plantuser/bin/claude"}), McpViolation::Hygiene(Violation::AbsolutePath))]
-#[case::user_word(json!({"name": "plantuser's client"}), McpViolation::Hygiene(Violation::Username))]
-#[case::email(json!({"name": "a.b@example.com"}), McpViolation::Email)]
-fn planted_dirty_mcp_exchange_is_rejected(
-    #[case] client_info: Value,
-    #[case] expected: McpViolation,
-) {
+#[case::home_path(json!({"name": "/home/plantuser/bin/claude"}), Violation::AbsolutePath)]
+#[case::user_word(json!({"name": "plantuser's client"}), Violation::Username)]
+#[case::email(json!({"name": "a.b@example.com"}), Violation::Email)]
+#[case::email_in_a_key(json!({"a.b@example.com": "claude-code"}), Violation::Email)]
+fn planted_dirty_mcp_exchange_is_rejected(#[case] client_info: Value, #[case] expected: Violation) {
     let doc = mcp_exchange(&client_info);
     assert_eq!(
-        check_mcp(doc.to_string().as_bytes(), Some("plantuser")),
+        check(doc.to_string().as_bytes(), &mcp_schema(), Some("plantuser")),
         Err(expected)
     );
 }
@@ -473,8 +459,8 @@ fn planted_mcp_schema_violation_is_rejected(#[case] change: Value) {
         doc.extend(change.clone());
     }
     assert_eq!(
-        check_mcp(doc.to_string().as_bytes(), None),
-        Err(McpViolation::Hygiene(Violation::Schema))
+        check(doc.to_string().as_bytes(), &mcp_schema(), None),
+        Err(Violation::Schema)
     );
 }
 
@@ -504,23 +490,6 @@ enum ScreenViolation {
     Path,
     Username,
     Email,
-}
-
-fn has_email(text: &str) -> bool {
-    text.match_indices('@').any(|(at, _)| {
-        let local = text[..at]
-            .chars()
-            .next_back()
-            .is_some_and(|c| c.is_ascii_alphanumeric() || "._%+-".contains(c));
-        let domain: String = text[at + 1..]
-            .chars()
-            .take_while(|c| c.is_ascii_alphanumeric() || *c == '.' || *c == '-')
-            .collect();
-        let tld = domain.rsplit_once('.').is_some_and(|(host, tld)| {
-            !host.is_empty() && tld.len() >= 2 && tld.chars().all(|c| c.is_ascii_alphabetic())
-        });
-        local && tld
-    })
 }
 
 fn seam_char(c: char) -> bool {
@@ -847,6 +816,17 @@ fn planted_claude_username_is_rejected() {
 }
 
 #[rstest]
+#[case::a_value(json!({"cwd": "~/work/a.b@example.com"}))]
+#[case::nested(json!({"tool_input": {"to": "a.b@example.com"}}))]
+#[case::a_key(json!({"tool_input": {"a.b@example.com": 1}}))]
+fn planted_claude_email_is_rejected(#[case] extra: Value) {
+    assert_eq!(
+        check(&claude_payload(&extra), &claude_schema(), None),
+        Err(Violation::Email)
+    );
+}
+
+#[rstest]
 #[case::no_event(json!({"session_id": "s"}))]
 #[case::unknown_event(json!({"hook_event_name": "Nope"}))]
 #[case::event_not_string(json!({"hook_event_name": 1}))]
@@ -923,6 +903,18 @@ fn planted_username_is_rejected_placeholder_is_not() {
     );
 }
 
+#[test]
+fn planted_script_email_is_rejected() {
+    assert_eq!(
+        check(&script_with("mail a.b@example.com"), &script_schema(), None),
+        Err(Violation::Email)
+    );
+    assert_eq!(
+        check(&script_with("a.b@localhost"), &script_schema(), None),
+        Ok(())
+    );
+}
+
 #[rstest]
 #[case::wrong_version(json!({"v": 2, "steps": []}))]
 #[case::no_steps(json!({"v": 1}))]
@@ -953,6 +945,7 @@ fn non_json_is_a_schema_violation_and_unknown_fields_are_tolerated() {
 fn violation_classes_have_kebab_names() {
     assert_eq!(Violation::AbsolutePath.as_str(), "absolute-path");
     assert_eq!(Violation::Username.as_str(), "username");
+    assert_eq!(Violation::Email.as_str(), "email");
     assert_eq!(Violation::Schema.as_str(), "schema");
 }
 

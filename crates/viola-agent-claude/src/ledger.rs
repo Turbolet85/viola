@@ -1316,7 +1316,8 @@ impl Unclean {
 }
 
 /// The first string or key of `value` holding a drive-letter path, a `/home/`, `/Users/` or
-/// `\Users\` path, or `user` as a whole word: the checks the committed-fixture hygiene walk applies.
+/// `\Users\` path, `user` as a whole word, or an email-shaped token: the checks the
+/// committed-fixture hygiene walk applies.
 pub fn unclean(value: &Value, user: &str) -> Option<Unclean> {
     let mut texts = Vec::new();
     strings(value, &mut texts);
@@ -1333,6 +1334,8 @@ fn text_fault(text: &str, user: &str) -> Option<Unclean> {
         Some(Unclean::AbsolutePath)
     } else if has_user_word(text, user) {
         Some(Unclean::Username)
+    } else if has_email(text) {
+        Some(Unclean::Email)
     } else {
         None
     }
@@ -1444,7 +1447,7 @@ fn screen_text_fault(text: &str, home: &str, user: &str) -> Option<Unclean> {
     if scrub_text(text, home, "") != text {
         return Some(Unclean::HomePath);
     }
-    text_fault(text, user).or_else(|| has_email(text).then_some(Unclean::Email))
+    text_fault(text, user)
 }
 
 fn is_seam_char(c: char) -> bool {

@@ -20,6 +20,7 @@ use std::time::{Duration, Instant};
 use rstest::rstest;
 use serde_json::{Value, json};
 use support::cli::{Ran, Running, viola};
+use support::digits::digit_runs;
 use support::fake::FAKE;
 use support::home::{
     SOCKET_ROOT_VAR, SocketRoot, StampedHome, TestHome, UNWRAPPED, VIOLA, Wrapper, first_life_on,
@@ -97,13 +98,6 @@ impl Form {
 
 fn target_of(dir: &Path) -> PathBuf {
     dir.with_file_name("real")
-}
-
-/// The digit runs of `text`: a pid or a uid shows as one of them, never inside a longer number.
-fn digit_runs(text: &str) -> Vec<&str> {
-    text.split(|c: char| !c.is_ascii_digit())
-        .filter(|run| !run.is_empty())
-        .collect()
 }
 
 fn own_uid() -> String {
@@ -418,11 +412,4 @@ fn security_negative_a_clean_start_under_an_open_umask_keeps_the_socket_private(
     assert_eq!(mode(Path::new(&endpoint)), 0o600);
     assert_eq!(mode(&dir), 0o700);
     assert_eq!(wrapper.stop().code(), Some(0));
-}
-
-/// The oracle reads whole numbers: a uid is found as its own run, never inside a longer number.
-#[test]
-fn digit_runs_reads_whole_numbers_only() {
-    assert_eq!(digit_runs("uid 501, t=15012.5"), ["501", "15012", "5"]);
-    assert!(!digit_runs("15012").contains(&"501"));
 }

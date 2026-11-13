@@ -7,6 +7,7 @@ use std::borrow::Cow;
 use serde::Deserialize;
 use serde::de::IgnoredAny;
 use serde_json::{Value, json};
+use veil::Redact;
 use viola_core::EventKind;
 
 use crate::AgentError;
@@ -80,25 +81,29 @@ impl HookEvent {
 }
 
 /// A hook payload mapped to its event: the kind, its `data`, and one drift entry per known field
-/// that arrived with the wrong type (read as absent).
-#[derive(Debug, Clone, PartialEq)]
+/// that arrived with the wrong type (read as absent). `data` is content: its `Debug` is redacted.
+#[derive(Clone, PartialEq, Redact)]
 pub struct Normalised {
     pub kind: EventKind,
+    #[redact]
     pub data: Value,
     pub drift: Vec<Value>,
 }
 
 /// The payload fields viola reads; every other field is skipped. All are strings on the CLI build
 /// the ledger names save `background_tasks`, an array whose elements are counted and never read.
-#[derive(Debug, Default, Deserialize)]
+/// The prompt and the assistant's message are content: their `Debug` is redacted.
+#[derive(Default, Deserialize, Redact)]
 struct Known {
     #[serde(default)]
     session_id: Option<String>,
     #[serde(default)]
     source: Option<String>,
     #[serde(default)]
+    #[redact]
     prompt: Option<String>,
     #[serde(default)]
+    #[redact]
     last_assistant_message: Option<String>,
     #[serde(default)]
     background_tasks: Option<Vec<IgnoredAny>>,
@@ -309,6 +314,28 @@ mod tests {
 
     fn read(event: HookEvent, payload: &Value) -> Normalised {
         normalise(event, payload.to_string().as_bytes()).expect("an object")
+    }
+
+    /// The prompt reaches `data` whole, and no `Debug` render of the event or of the read fields
+    /// shows it (obs-plan · payload types derive `Redact`).
+    #[test]
+    fn normalised_debug_holds_no_prompt_text() {
+        let payload = json!({"prompt": "secretword in the prompt", "session_id": "s-1"});
+        let normalised = read(HookEvent::UserPromptSubmit, &payload);
+        assert_eq!(normalised.data["text"], "secretword in the prompt");
+        let shown = format!("{normalised:?}");
+        assert!(!shown.contains("secretword"), "{shown}");
+        assert!(shown.contains("PromptSubmitted"), "{shown}");
+        let known = Known {
+            prompt: Some("secretword".to_owned()),
+            last_assistant_message: Some("hiddenreply".to_owned()),
+            ..Known::default()
+        };
+        let shown = format!("{known:?}");
+        assert!(
+            !shown.contains("secretword") && !shown.contains("hiddenreply"),
+            "{shown}"
+        );
     }
 
     #[test]

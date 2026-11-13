@@ -294,6 +294,19 @@ fn path4_dialogs_are_logged_once_woken_and_answered_by_id(stamped_home: StampedH
         "{\"v\":1,\"refusal\":\"not-delivered\",\"detail\":\"unknown-dialog\"}\n"
     );
     assert!(unknown.stderr.is_empty());
+    let human = spawn(
+        &home,
+        &["answer", "builder", "999999"],
+        Some("{\"behavior\": \"allow\"}"),
+        None,
+    )
+    .finish();
+    assert_eq!(human.code, Some(13));
+    assert_eq!(
+        human.stderr,
+        "unable  builder  not-delivered  unknown-dialog\n\
+         hint: that dialog is not pending; viola list shows the current DIALOG\n"
+    );
 
     // Each dialog event once, from the hook, its data the dialog's (never the raw payload).
     let lines = events(&dir);

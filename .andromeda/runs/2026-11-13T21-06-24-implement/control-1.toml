@@ -1,0 +1,12 @@
+[[control]]
+id = 'link-replay'
+entry = 13
+guard = "the replay pass's apply_link_line call removed; the start's restore in src/run/links.rs keeps its own"
+
+[[control.edit]]
+path = 'crates/viola-state/src/replay.rs'
+old = '''
+        apply_link_line(&mut replayed.links, &line.value);
+'''
+new = '''
+'''

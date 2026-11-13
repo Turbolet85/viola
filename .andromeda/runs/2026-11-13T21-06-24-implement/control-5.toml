@@ -1,0 +1,14 @@
+[[control]]
+id = 'hygiene-email'
+entry = 14
+guard = "tests/support/hygiene.rs check's email arm removed"
+
+[[control.edit]]
+path = 'tests/support/hygiene.rs'
+old = '''
+    if all.iter().any(|s| has_email(s)) {
+        return Err(Violation::Email);
+    }
+'''
+new = '''
+'''

@@ -1,0 +1,20 @@
+[[control]]
+id = 'redact-hook'
+entry = 11
+guard = "hook.rs Normalised's Redact derive back to Debug, its #[redact] on data removed"
+
+[[control.edit]]
+path = 'crates/viola-agent-claude/src/hook.rs'
+old = '''
+#[derive(Clone, PartialEq, Redact)]
+pub struct Normalised {
+    pub kind: EventKind,
+    #[redact]
+    pub data: Value,
+'''
+new = '''
+#[derive(Debug, Clone, PartialEq)]
+pub struct Normalised {
+    pub kind: EventKind,
+    pub data: Value,
+'''

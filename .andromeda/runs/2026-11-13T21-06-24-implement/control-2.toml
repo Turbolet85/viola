@@ -1,0 +1,18 @@
+[[control]]
+id = 'strict-symlink'
+entry = 10
+guard = "strict.rs unix::reading back to std::fs::metadata, its link refusal removed"
+
+[[control.edit]]
+path = 'crates/viola-state/src/strict.rs'
+old = '''
+        let meta = std::fs::symlink_metadata(path).map_err(|_| Refused::Unreadable)?;
+        if meta.file_type().is_symlink() {
+            return Err(Refused::Symlink);
+        }
+        Ok((meta.mode(), meta.uid()))
+'''
+new = '''
+        let meta = std::fs::metadata(path).map_err(|_| Refused::Unreadable)?;
+        Ok((meta.mode(), meta.uid()))
+'''

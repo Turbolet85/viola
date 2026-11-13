@@ -77,8 +77,8 @@ impl Out<'_> {
             Some(detail) => format!("{reason}  {detail}"),
             None => reason.to_owned(),
         };
-        let hint = human::answer_hint(reason, detail);
-        let _ = human::write_unable(&mut io::stderr().lock(), self.name, &shown, hint);
+        let hint = human::answer_hint(self.name, reason, detail);
+        let _ = human::write_unable(&mut io::stderr().lock(), self.name, &shown, hint.as_deref());
     }
 }
 

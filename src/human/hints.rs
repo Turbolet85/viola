@@ -4,28 +4,41 @@
 /// the verb that hands the wheel back: that is the human's alone.
 const HUMAN_TYPING_HINT: &str = "the human has the wheel; send again after the human hands it back";
 
+/// The design-system hint for `unverified-cli`, the same for `send` and `answer`.
+const UNVERIFIED_CLI_HINT: &str = "run viola verify for this CLI version";
+
 /// The design-system cli pattern 2 hint for an `answer` refusal: its reason, or for
-/// `not-delivered` its detail. Never the answer's text.
-pub(crate) fn answer_hint(reason: &str, detail: Option<&str>) -> Option<&'static str> {
+/// `not-delivered` its detail, a detail `send` shares taking `send`'s string. Never the
+/// answer's text.
+pub(crate) fn answer_hint(name: &str, reason: &str, detail: Option<&str>) -> Option<String> {
     match (reason, detail) {
-        ("human-typing", _) => Some(HUMAN_TYPING_HINT),
-        ("unverified-cli", _) => Some("run viola verify for this CLI version"),
+        ("human-typing", _) => Some(HUMAN_TYPING_HINT.to_owned()),
+        ("unverified-cli", _) => Some(UNVERIFIED_CLI_HINT.to_owned()),
         ("not-delivered", Some("unknown-dialog")) => {
-            Some("that dialog is not pending; viola list shows the current DIALOG")
+            Some("that dialog is not pending; viola list shows the current DIALOG".to_owned())
         }
-        ("not-delivered", Some("control-character")) => {
-            Some("the text contains a control character (only LF, CR, TAB are allowed)")
-        }
+        (
+            "not-delivered",
+            Some(
+                detail @ ("control-character"
+                | "empty-text"
+                | "input-not-ready"
+                | "no-prompt-submitted"
+                | "turn-running"),
+            ),
+        ) => send_hint(name, detail),
         _ => None,
     }
 }
 
 /// The design-system cli pattern 2 hint for a `send` cause: a `not-delivered` detail, the
-/// `human-typing` or `budget-paused` reason, or for exit 21 `not-running`, `unwrapped-name`,
-/// `endpoint-lost`, `server-verify` or `socket-dir`. Never the sent text, a path or a pid.
+/// `human-typing`, `budget-paused` or `unverified-cli` reason, or for exit 21 `not-running`,
+/// `unwrapped-name`, `endpoint-lost`, `server-verify` or `socket-dir`. Never the sent text, a
+/// path or a pid.
 pub(crate) fn send_hint(name: &str, cause: &str) -> Option<String> {
     Some(match cause {
         "human-typing" => HUMAN_TYPING_HINT.to_owned(),
+        "unverified-cli" => UNVERIFIED_CLI_HINT.to_owned(),
         "budget-paused" => {
             "budget gate is closed; it lifts at the window reset, or when the human lifts it"
                 .to_owned()
@@ -114,6 +127,7 @@ mod tests {
         "budget-paused",
         "budget gate is closed; it lifts at the window reset, or when the human lifts it"
     )]
+    #[case::unverified_cli("unverified-cli", "run viola verify for this CLI version")]
     fn send_hint_is_the_design_string(#[case] cause: &str, #[case] hint: &str) {
         assert_eq!(send_hint("builder", cause).as_deref(), Some(hint));
     }
@@ -154,7 +168,7 @@ mod tests {
             .collect();
         for reason in causes {
             for detail in causes.iter().copied().map(Some).chain([None]) {
-                hints.extend(answer_hint(reason, detail).map(str::to_owned));
+                hints.extend(answer_hint("builder", reason, detail));
             }
         }
         assert!(hints.len() >= 10, "{hints:?}");
@@ -175,7 +189,30 @@ mod tests {
         Some("control-character"),
         Some("the text contains a control character (only LF, CR, TAB are allowed)")
     )]
-    #[case::other_detail("not-delivered", Some("turn-running"), None)]
+    #[case::empty_text(
+        "not-delivered",
+        Some("empty-text"),
+        Some("the text is empty once its trailing newlines are removed; send a text with content")
+    )]
+    #[case::input_not_ready(
+        "not-delivered",
+        Some("input-not-ready"),
+        Some(
+            "builder was not ready for input; send again, and if it repeats a human must look at the session"
+        )
+    )]
+    #[case::no_prompt_submitted(
+        "not-delivered",
+        Some("no-prompt-submitted"),
+        Some("builder did not submit the prompt; check it, then send again")
+    )]
+    #[case::turn_running(
+        "not-delivered",
+        Some("turn-running"),
+        Some("a turn is running; viola wait builder first")
+    )]
+    #[case::opaque_detail("not-delivered", Some("not-running"), None)]
+    #[case::no_detail("not-delivered", None, None)]
     #[case::unknown("unknown", None, None)]
     #[case::human_typing(
         "human-typing",
@@ -192,6 +229,6 @@ mod tests {
         #[case] detail: Option<&str>,
         #[case] hint: Option<&str>,
     ) {
-        assert_eq!(answer_hint(reason, detail), hint);
+        assert_eq!(answer_hint("builder", reason, detail).as_deref(), hint);
     }
 }

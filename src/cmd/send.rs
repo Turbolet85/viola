@@ -77,12 +77,15 @@ pub(super) fn reason_of(reason: &str) -> RefusalReason {
 }
 
 /// What a refusal's hint is keyed by: the detail of a `not-delivered`, the reason itself for
-/// `human-typing` and `budget-paused` whatever their detail, and nothing for any other reason.
+/// `human-typing`, `budget-paused` and `unverified-cli` whatever their detail, and nothing for
+/// `unknown`.
 fn hint_cause<'a>(reason: &'a str, detail: Option<&'a str>) -> Option<&'a str> {
     match reason_of(reason) {
         RefusalReason::NotDelivered => detail,
-        RefusalReason::HumanTyping | RefusalReason::BudgetPaused => Some(reason),
-        RefusalReason::UnverifiedCli | RefusalReason::Unknown => None,
+        RefusalReason::HumanTyping | RefusalReason::BudgetPaused | RefusalReason::UnverifiedCli => {
+            Some(reason)
+        }
+        RefusalReason::Unknown => None,
     }
 }
 
@@ -303,7 +306,7 @@ mod tests {
     #[case::a_manual_pause("human-typing", Some("manual-pause"), Some("human-typing"))]
     #[case::budget_paused("budget-paused", Some("five-hour"), Some("budget-paused"))]
     #[case::budget_paused_by_the_week("budget-paused", Some("seven-day"), Some("budget-paused"))]
-    #[case::unverified_cli("unverified-cli", None, None)]
+    #[case::unverified_cli("unverified-cli", None, Some("unverified-cli"))]
     #[case::unknown_with_a_detail("unknown", Some("turn-running"), None)]
     #[case::an_unlisted_reason("wheel-held", Some("turn-running"), None)]
     fn hint_cause_is_the_detail_of_a_not_delivered_and_the_reason_of_the_two_driver_refusals(

@@ -95,6 +95,16 @@ const CAUSES: &[Cause] = &[
     ("interrupted", 1, Some(INTERRUPTED)),
 ];
 
+const UNVERIFIED_CLI: &str = "run viola verify for this CLI version";
+
+/// The driver refusals' own codes beside the exit-21 and exit-1 table, their hints read by the
+/// same two checks.
+const REFUSALS: &[Cause] = &[("unverified-cli", 12, Some(UNVERIFIED_CLI))];
+
+fn every_cause() -> Vec<Cause> {
+    [CAUSES, REFUSALS].concat()
+}
+
 /// Each hint two codes hold. One code holding one hint across verbs and exits is no sharing.
 fn shared_hints(table: &[Cause]) -> Vec<&'static str> {
     let mut held: BTreeMap<&str, BTreeSet<&str>> = BTreeMap::new();
@@ -114,7 +124,7 @@ fn shared_hints(table: &[Cause]) -> Vec<&'static str> {
 
 #[test]
 fn no_two_codes_share_a_hint() {
-    assert_eq!(shared_hints(CAUSES), Vec::<&str>::new());
+    assert_eq!(shared_hints(&every_cause()), Vec::<&str>::new());
 }
 
 #[test]
@@ -127,7 +137,7 @@ fn shared_hints_reads_a_planted_duplicate() {
 
 #[test]
 fn no_hint_names_release() {
-    for (code, _, hint) in CAUSES {
+    for (code, _, hint) in every_cause() {
         assert!(!hint.is_some_and(|h| h.contains("release")), "{code}");
     }
 }
@@ -137,6 +147,10 @@ fn every_code_is_a_code_word() {
     for (code, exit, _) in CAUSES {
         assert!(viola_core::is_code_word(code), "{code}");
         assert!(matches!(exit, 1 | 21), "{code}");
+    }
+    for (code, exit, _) in REFUSALS {
+        assert!(viola_core::is_code_word(code), "{code}");
+        assert!(matches!(exit, 10..=14), "{code}");
     }
 }
 

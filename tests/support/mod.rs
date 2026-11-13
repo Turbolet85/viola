@@ -4,6 +4,7 @@
 //! needs.
 
 pub mod cli;
+pub mod digits;
 pub mod events;
 pub mod fake;
 pub mod frozen;

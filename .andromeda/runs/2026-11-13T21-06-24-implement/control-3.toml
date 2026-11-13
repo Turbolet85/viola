@@ -1,0 +1,14 @@
+[[control]]
+id = 'append-nofollow'
+entry = 10
+guard = "fs.rs open_private_append's O_NOFOLLOW flag removed"
+
+[[control.edit]]
+path = 'crates/viola-state/src/fs.rs'
+old = '''
+        .mode(FILE_MODE)
+        .custom_flags(libc::O_NOFOLLOW);
+'''
+new = '''
+        .mode(FILE_MODE);
+'''
