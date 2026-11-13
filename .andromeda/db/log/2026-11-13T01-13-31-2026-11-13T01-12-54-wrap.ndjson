@@ -1,0 +1,2 @@
+{"t": "n", "id": "run-oszg3f5g", "rev": 2, "kind": "run", "key": "2026-11-08T21-01-50-wrap", "title": "2026-11-08T21-01-50-wrap", "body": null, "data": {"skill": "wrap", "at": "2026-11-08T21:01:50Z", "seq": 6, "session": true, "files": 33, "sha": "ba76976032ed42f31bb617a666f9383d734ceaf088fe55ae412d3229badd833d"}}
+{"t": "tx", "tx": 802, "at": "2026-11-13T01:13:31Z", "chunk": null, "run": "2026-11-13T01-12-54-wrap", "skill": null, "step": null, "agent": null, "verb": "rec.py seal", "n": 1, "families": ["runs"], "payload": "ba76976032ed42f3", "chain": "5138f08d48f454d4"}
