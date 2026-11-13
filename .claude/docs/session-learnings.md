@@ -8,6 +8,15 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
+## 2026-11-13 — A remove-the-guard control can go red without running the guard's own case
+A `gate.py control` fires its whole `[[gate]]` entry with the guard removed, and nextest's default fail-fast ends that
+firing at its first red. So an older case touching the same code can carry the red while the guard's own new case is
+never run, and the control still reads `holds`. Before a control counts as witnessing a new case, read the removed
+firing's log for that case's own FAIL line. Where it is absent, give that case a control of its own whose entry
+selects it alone. This extends testing.md's remove-the-guard entry (2026-09-25), which stands at its size cap.
+
+---
+
 ## 2026-11-06 — A live round on this host cannot raise a permission dialog from a shell command
 The Linux dev host's Claude Code user settings allow `Bash(*)`, so a shell command in a live session never draws a
 PermissionRequest: a live plan step that needs viola's dialog path to hold a permission dialog gets none. At chunk

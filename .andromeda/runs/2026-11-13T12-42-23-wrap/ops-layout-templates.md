@@ -1,2 +1,0 @@
-@none
-reason: the chunk changes no CLI output wording and adds no user-facing surface or region (fct-qazl6hdl: no new external surface or UI element; fct-ykh3ebsp: no product API added or changed; fct-ud4xtspq: no status shape changed) — its changes are test support, test splits, a dead product function and an e2e scan class, so every layout-templates row it touches, the viola verify output rows included (their test files only split), stays true, and the session brings no task fact.

@@ -1,0 +1,88 @@
+@pick n=1 row=contract/cli-exit-codes/12 v=yes mode=stale
+@pick n=2 row=decision/test-seams-fake-agent-only v=no
+@pick n=3 row=decision/test-removal-own-dirs-only v=no
+@pick n=4 row=decision/strict-check-before-narrowing v=no
+@pick n=5 row=decision/stamps-strict-check-first v=yes mode=stale
+@pick n=6 row=decision/snapshot-strict-checked-before-trust v=yes mode=stale
+@pick n=7 row=decision/server-verified-before-any-frame v=no
+@pick n=8 row=decision/no-seam-forcing-peer-refusal v=no
+@pick n=9 row=decision/no-control-switch-off v=no
+@pick n=10 row=decision/e2e-home-link-guard v=no
+@pick n=11 row=decision/colour-facts-choose-sgr-only v=no
+@pick n=12 row=decision/vt100-inside-catch-unwind v=no
+@pick n=13 row=decision/viola-ignores-e2e-home-backing v=no
+@pick n=14 row=decision/version-gate-strict-stamps-read v=yes mode=stale
+@pick n=15 row=decision/verify-server-before-frame v=no
+@pick n=16 row=decision/upstream-text-is-never-a-command v=no
+@pick n=17 row=decision/tracing-subscriber-version-floor v=no
+@pick n=18 row=decision/statusline-only-from-strict-home v=no
+@pick n=19 row=decision/stamps-written-only-by-verify v=no
+@pick n=20 row=decision/socket-mode-not-sole-control v=no
+@pick n=21 row=decision/snapshot-written-only-by-wrapper v=no
+@pick n=22 row=decision/server-side-revalidation v=no
+@pick n=23 row=decision/rewrite-plugin-files v=no
+@pick n=24 row=decision/request-size-limits v=no
+@pick n=25 row=decision/rehash-pinned-binary v=no
+@pick n=26 row=decision/refuse-control-characters v=no
+@pick n=27 row=decision/refusals-never-block-human v=yes mode=stale
+@pick n=28 row=decision/reads-capped-at-max-frame v=no
+@pick n=29 row=decision/private-diagnostics-files v=yes mode=stale
+@pick n=30 row=decision/owner-only-file-modes v=yes mode=stale
+@pick n=31 row=decision/over-long-line-ends-session v=no
+@pick n=32 row=decision/non-inheritable-channel-handles v=no
+@pick n=33 row=decision/no-socket-in-tmp-root v=no
+@pick n=34 row=decision/no-serde-unbounded-depth v=no
+@pick n=35 row=decision/no-secrets-in-git v=no
+@pick n=36 row=decision/no-rmcp-http-or-auth-features v=no
+@pick n=37 row=decision/no-parser-error-chains-outward v=no
+@pick n=38 row=decision/no-messaging-secrets-in-outputs v=no
+@pick n=39 row=decision/no-interprocess-try-overwrite v=no
+@pick n=40 row=decision/no-hardcoded-credentials v=no
+@pick n=41 row=decision/no-abstract-namespace-sockets v=no
+@pick n=42 row=decision/no-absolute-paths-in-external-errors v=no
+@pick n=43 row=decision/new-listener-needs-log-entry v=no
+@pick n=44 row=decision/new-env-read-needs-log-entry v=no
+@pick n=45 row=decision/never-refuse-line-breaks v=no
+@pick n=46 row=decision/instance-path-from-validated-name v=yes mode=stale
+@pick n=47 row=decision/hook-silent-and-exit-zero v=no
+@pick n=48 row=decision/harness-prefix-literals v=no
+@pick n=49 row=decision/fixture-hygiene v=yes mode=stale
+@pick n=50 row=decision/escape-terminal-controls v=no
+@pick n=51 row=decision/empty-text-refused v=no
+@pick n=52 row=decision/e2e-home-removal-own-dirs-only v=no
+@pick n=53 row=decision/e2e-home-keepers-linked-base v=no
+@pick n=54 row=decision/dialog-answers-need-verify-stamp v=no
+@pick n=55 row=decision/cryptographic-pin-hash v=no
+@pick n=56 row=decision/controls-not-switchable v=no
+@pick n=57 row=decision/control-check-on-decoded-chars v=no
+@pick n=58 row=decision/compiled-classification-sources v=no
+@pick n=59 row=decision/closed-types-for-protocol-fields v=no
+@pick n=60 row=decision/chmod-socket-after-bind v=no
+@pick n=61 row=decision/channel-from-not-identity v=no
+@pick n=62 row=decision/agents-row-name-not-a-target v=no
+@pick n=63 row=decision/absolute-viola-path-in-commands v=no
+@pick n=64 row=contract/mcp-iserror/wrapper-fault v=no
+@pick n=65 row=contract/mcp-iserror/text v=no
+@pick n=66 row=contract/mcp-iserror/refusal v=no
+@pick n=67 row=contract/mcp-iserror/invalid-params v=no
+@pick n=68 row=contract/mcp-iserror/instance-unreachable v=no
+@pick n=69 row=contract/mcp-iserror/detail v=no
+@pick n=70 row=contract/mcp-frame-tool-result/unreachable v=no
+@pick n=71 row=contract/mcp-errors/-32603 v=no
+@pick n=72 row=contract/link-verbs-exit-codes/20 v=no
+@pick n=73 row=contract/link-verbs-exit-codes/1 v=no
+@pick n=74 row=contract/instance-unreachable-detail/strict-modes-failed v=no
+@pick n=75 row=contract/instance-unreachable-detail/socket-dir-refused v=yes mode=stale
+@pick n=76 row=contract/instance-unreachable-detail/server-verify-failed v=no
+@pick n=77 row=contract/instance-unreachable-detail/endpoint-lost v=no
+@pick n=78 row=contract/instance-unreachable-cause/unwrapped-name v=no
+@pick n=79 row=contract/instance-unreachable-cause/strict-modes-failed v=no
+@pick n=80 row=contract/instance-unreachable-cause/socket-dir-refused v=yes mode=stale
+@pick n=81 row=contract/instance-unreachable-cause/server-verify-failed v=no
+@pick n=82 row=contract/instance-unreachable-cause/instance-dead v=no
+@pick n=83 row=contract/instance-unreachable-cause/endpoint-lost v=no
+@pick n=84 row=contract/hook-decision-detail/socket-dir-refused v=yes mode=stale
+@pick n=85 row=contract/hook-decision-detail/server-verify-failed v=no
+@pick n=86 row=contract/hook-decision-detail/oversize-stdin v=no
+@pick n=87 row=contract/hook-decision-detail/malformed-json v=no
+@pick n=88 row=contract/hook-decision-detail/channel-unreachable v=no

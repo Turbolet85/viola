@@ -1,0 +1,44 @@
+@pick n=1 row=contract/viola-list-caption/order v=no
+@pick n=2 row=contract/cli-refusal/unknown-refusal v=yes mode=add-to fact=F1
+@pick n=3 row=contract/cli-refusal/json v=no
+@pick n=4 row=contract/cli-refusal/fault v=no
+@pick n=5 row=contract/cli-refusal/exit-code v=no
+@pick n=6 row=decision/time-bounds-never-on-human v=no
+@pick n=7 row=decision/refusal-layout-literal-pins v=yes mode=add-to fact=F1
+@pick n=8 row=decision/reason-code-beside-unable v=no
+@pick n=9 row=decision/no-reading-level-gate v=no
+@pick n=10 row=decision/no-bare-error-text v=no
+@pick n=11 row=decision/fixed-copy-from-design v=yes mode=add-to fact=F2
+@pick n=12 row=decision/fixed-cli-strings-pinned v=yes mode=add-to fact=F1
+@pick n=13 row=decision/wrapped-tui-reads-as-unwrapped v=no
+@pick n=14 row=decision/screen-reader-target-tui v=no
+@pick n=15 row=decision/screen-reader-target-cli v=no
+@pick n=16 row=contract/viola-list-stale-row/escape-sequences v=no
+@pick n=17 row=decision/unwrapped-name-truncation v=no
+@pick n=18 row=decision/state-carried-by-printed-word v=no
+@pick n=19 row=decision/colour-decision-inputs v=no
+@pick n=20 row=decision/unable-fail-never-coloured v=no
+@pick n=21 row=decision/name-truncation v=no
+@pick n=22 row=decision/name-bold-sgr v=no
+@pick n=23 row=decision/dialog-amber-sgr v=no
+@pick n=24 row=decision/tui-terminal-belongs-to-child v=no
+@pick n=25 row=decision/cli-no-interactive-input v=no
+@pick n=26 row=contract/viola-list-board/caption v=no
+@pick n=27 row=contract/cli-help/usage-line v=no
+@pick n=28 row=contract/cli-help/served-verbs-only v=no
+@pick n=29 row=contract/cli-help/handoff-row v=no
+@pick n=30 row=contract/cli-exit-codes/10 v=no
+@pick n=31 row=decision/sgr-beside-its-word v=no
+@pick n=32 row=decision/no-sgr-off-terminal v=no
+@pick n=33 row=decision/linear-static-cli-output v=no
+@pick n=34 row=decision/control-bytes-escaped v=no
+@pick n=35 row=decision/wheel-ignores-terminal-events v=yes mode=stale
+@pick n=36 row=decision/tui-boundary-only v=yes mode=stale
+@pick n=37 row=decision/stale-row-dim v=no
+@pick n=38 row=decision/send-refused-while-human-typing v=no
+@pick n=39 row=decision/portable-pty-outer-pty-driver v=yes mode=stale
+@pick n=40 row=decision/no-terminal-conformance-claim v=no
+@pick n=41 row=decision/linear-static-output v=no
+@pick n=42 row=decision/cli-structural-landmark-equivalents v=no
+@pick n=43 row=decision/cli-output-discipline-assertion-tools v=no
+@pick n=44 row=decision/c0-c1-escaped v=no

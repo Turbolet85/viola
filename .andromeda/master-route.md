@@ -96,4 +96,4 @@
 
 2026-11-13-verify-readiness-on-the-input-box · complete · verify's typed run and run's gate read readiness off the input box (a footer literal or its own rows); claude 2.1.323 verified; supply-chain green · → chk:2026-11-13-verify-readiness-on-the-input-box
 2026-11-13-epoch-8-cleanup · complete · Epoch 8 cleanup — one shared masking scanner, the largest files split, dead code and named mutant survivors closed, home/guard/temp test helpers, the cookie scan class removed · → chk:2026-11-13-epoch-8-cleanup
-2026-11-13-rows-proposal-rule-work · pending · the rows landing's route-owed rule lines and the snapshot-replay guard closed in code or tests; one shared digit_runs · → chk:2026-11-13-rows-proposal-rule-work
+2026-11-13-rows-proposal-rule-work · complete · the rows landing's route-owed rule lines and the snapshot-replay guard closed in code or tests; one shared digit_runs · → chk:2026-11-13-rows-proposal-rule-work

@@ -44,7 +44,7 @@ The obs harness is **bound** to the test harness: tests owns the grepped fields 
 ## PII scrubbing wire
 
 - `#[instrument(skip_all, fields(..))]` everywhere (gate G1); no `err` / `ret`
-- Default-deny: only fields in the obs-plan §6 catalog; veil `#[derive(Redact)]` on payload types (`toggle` banned)
+- Default-deny: only fields in the obs-plan §6 catalog; veil `#[derive(Redact)]` on every payload type that carries content (`toggle` banned); a payload type with no content field derives neither `Redact` nor `Debug`
 - Content-bearing records only in instance detail files; boundary-only logging — never in the PTY pump loop
 - Merged phase with security's `logging-redaction-wire`
 - The local `viola-harness pre-push` document is never uploaded and carries no absolute path, only codes and counts — the native in-place Linux gate prints neither the repository root nor the passwd home (obs-plan §8 item 5)

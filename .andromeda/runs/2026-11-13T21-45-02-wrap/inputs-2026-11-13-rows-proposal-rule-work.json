@@ -1,0 +1,133 @@
+[
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "f19fe91d",
+"ts": "2026-11-13T21:45:08Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-13-rows-proposal-rule-work",
+"--source",
+"~/dev/projects/additional/viola-overseer/wrap-rows-proposal-rule-work-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the operator wrap directive for this chunk: four items (the redact row brought to the measured fact, carries closed, the end-of-report block, a new keyed contract escalates)",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-13T21-45-02-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy no-repo · ../additional/viola-overseer/wrap-rows-proposal-rule-work-directive.md",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-wrap-rows-proposal-rule-work-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/wrap-rows-proposal-rule-work-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "6ea0865b72848946f86d10655d5b349768e12d91990a9ef285e5a72b1e5f9da3",
+"copy": "I2-wrap-rows-proposal-rule-work-directive.md.txt",
+"link": false,
+"read_at": "2026-11-13T21:45:07Z",
+"step": "wrap",
+"why": "the operator wrap directive for this chunk: four items (the redact row brought to the measured fact, carries closed, the end-of-report block, a new keyed contract escalates)"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "f19fe91d",
+"ts": "2026-11-13T21:45:17Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-13-rows-proposal-rule-work",
+"--run-dir",
+".andromeda/runs/2026-11-13T21-45-02-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-rows-proposal-rule-work-directive.md",
+"I1 cited scope.md:13 · research.md:9 · plan.md:27 · plan.md:107 · plan.md:145 · plan.md:146 · plan.md:451 · plan.md:467 · plan.md:469",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/wrap-rows-proposal-rule-work-directive.md",
+"I2 UNCITED",
+"inputs: 2 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 1 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 1,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "f19fe91d",
+"ts": "2026-11-13T21:48:00Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-13-rows-proposal-rule-work",
+"--run-dir",
+".andromeda/runs/2026-11-13T21-45-02-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-rows-proposal-rule-work-directive.md",
+"I1 cited scope.md:13 · research.md:9 · plan.md:27 · plan.md:107 · plan.md:145 · plan.md:146 · plan.md:451 · plan.md:467 · plan.md:469",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/wrap-rows-proposal-rule-work-directive.md",
+"I2 cited report.md:120 · report.md:135 · report.md:148 · report.md:160 · report.md:170 · report.md:204 · report.md:221",
+"inputs: 2 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+}
+]

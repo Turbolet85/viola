@@ -56,7 +56,7 @@ CLI colour: amber on the `DIALOG` word only, SGR dim on a whole `stale` row, bol
 - Transfer markers — only `link` / `unlink` verb output (`overseer -> builder`), plain, ASCII `->`, no inbound form; `viola list` has no link column
 - The tower tape — the ndjson tape in `events.ndjson`; the CLI has no tape, and terminal scrollback is the history
 - The BAY line — the one static header, atop `viola list`: `BAY`, `5H`, `7D`, `read … ago`, gate, `skipped` (no TAPE cell)
-- Refusal lines — `unable  <name>  <reason>  <detail>` on stderr, then the cause's `hint:` line last; the exit-1 refusals of `run`, `revive` and `verify` and every exit-21 strict-modes refusal use the fixed `unable: <text>` / `hint:` pair instead
+- Refusal lines — `unable  <name>  <reason>  <detail>` on stderr, then the cause's `hint:` line last (`send` and `answer` print the same hint for the same reason or detail; a `not-delivered` refusal with an opaque detail or none prints no hint); the exit-1 refusals of `run`, `revive` and `verify` and every exit-21 strict-modes refusal use the fixed `unable: <text>` / `hint:` pair instead
 
 ## Universal bans
 

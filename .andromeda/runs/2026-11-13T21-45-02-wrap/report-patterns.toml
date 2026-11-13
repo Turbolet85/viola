@@ -1,0 +1,64 @@
+[[pattern]]
+id = 'owner-title'
+fixed = 'Rows-proposal rule work'
+ignore_case = true
+
+[[pattern]]
+id = 'owner-generic'
+regex = 'owned by a (route entry|CARRY)'
+ignore_case = true
+
+[[pattern]]
+id = 'F1-hints'
+regex = 'unverified-cli.{0,40}hint|hint.{0,40}unverified-cli|answer_hint|send_hint|refusal-ends-with-hint|run viola verify for this CLI version'
+ignore_case = true
+
+[[pattern]]
+id = 'F2-record-email'
+regex = 'has_email|email-shaped|Unclean::Email|text_fault|fixture-scrub-and-refusal'
+ignore_case = true
+
+[[pattern]]
+id = 'F3-hygiene-email'
+regex = 'fixture-hygiene-walk|fixtures-walked-for-hygiene|Violation::Email|check_mcp|McpViolation|hygiene walk'
+ignore_case = true
+
+[[pattern]]
+id = 'F4-run-name'
+regex = 'parse_name|cli-names-through-name-check'
+ignore_case = true
+
+[[pattern]]
+id = 'F5-strict-link'
+regex = 'unix::reading|strict-modes-check|Refused::Symlink|check_read|check_path'
+ignore_case = true
+
+[[pattern]]
+id = 'F6-append'
+regex = 'open_private_append|O_NOFOLLOW|private-diagnostics-files'
+ignore_case = true
+
+[[pattern]]
+id = 'F7-resize'
+regex = 'pty_resize_reaches_the_child|pty-tested-on-real-openpty|key-after-resize|key after (a|the) resize'
+ignore_case = true
+
+[[pattern]]
+id = 'F8-fds'
+regex = 'tui_channel_fds|fds receipt|fds\.len|fd-test-reads-live-child-table|no-fd-count-assertion|/proc/<pid>/fd'
+ignore_case = true
+
+[[pattern]]
+id = 'F9-redact'
+regex = 'veil|Redact|payload-types-derive-redact'
+ignore_case = true
+
+[[pattern]]
+id = 'F10-replay'
+regex = 'e5_the_replay_reads|snapshot-replay-from-log|replay guard'
+ignore_case = true
+
+[[pattern]]
+id = 'F11-digits'
+regex = 'digit_runs|one-shared-test-helper'
+ignore_case = true
