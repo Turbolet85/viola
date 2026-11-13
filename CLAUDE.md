@@ -6,7 +6,7 @@
 <!-- GENERATED:setup:overview start -->
 viola is a hybrid local developer tool that lets one interactive Claude Code session drive another on the user's own subscription. It has a native Linux CLI binary and a Claude Code plugin of hooks and a stdio MCP server that calls that binary; a keyboard-driven terminal fleet console is planned, not built, and there is no web or graphical frontend. It wraps the unmodified `claude` CLI in a PTY, types at turn boundaries, answers dialogs through hooks, and holds a one-driver wheel the human can take at any moment. It is a modular monolith: one binary with internal crates around `viola-core`, and no daemon.
 
-**Stack:** Rust 1.98.1 pinned by `rust-toolchain.toml` (edition 2024, `rust-version` 1.96), one Cargo workspace (`crates/*`, the `fuzz/` workspace excluded) building one native `viola` binary: std threads with Tokio only inside `viola-mcp`, clap, portable-pty `=0.9.0` behind viola's own PTY seam, vt100 for readiness, interprocess local sockets carrying JSON-RPC 2.0 over ndjson, ndjson append logs and atomic JSON snapshots (no database, broker, container or hosting), rmcp 3.4.1 (`>=3.4.1, <3.5`) for the stdio MCP server; CI on GitHub Actions `ubuntu-latest` against the fake agent; deployed by a local `cargo install`, the plugin embedded and loaded with `--plugin-dir`.
+**Stack:** Rust 1.98.1 pinned by `rust-toolchain.toml` (edition 2024, `rust-version` 1.96), one Cargo workspace (`crates/*`, the `fuzz/` workspace excluded) building one native `viola` binary: std threads with Tokio `=1.53.3` only inside `viola-mcp`, clap `=4.6.7`, portable-pty `=0.9.0` behind viola's own PTY seam, vt100 `=0.16.2` for readiness, interprocess `=2.4.4` local sockets carrying JSON-RPC 2.0 over ndjson, ndjson append logs and atomic JSON snapshots (no database, broker, container or hosting), rmcp 3.4.1 (`>=3.4.1, <3.5`) for the stdio MCP server; CI on GitHub Actions `ubuntu-latest` against the fake agent; deployed by a local `cargo install`, the plugin embedded and loaded with `--plugin-dir`.
 
 **Key directories:**
 - `src/` — the `viola` bin: subcommand dispatch (`src/cmd/`), the `run` pump, wheel and budget governor (`src/run/`), human output (`src/human/`)
@@ -24,9 +24,9 @@ viola is a hybrid local developer tool that lets one interactive Claude Code ses
 - **`viola-state`** — ndjson append logs and atomic JSON snapshots through one shared persist helper, `.lock` siblings, the strict-modes checks and the board read model (sync, std only, Claude-free); writes the stamps, budget and settings files
 - **`viola-agent-claude`** — the only crate that knows Claude: hook JSON and `claude agents --json` shapes, dialog answer mapping, the identity strip, child program resolution, the Claude half of the CLI version gate, the capability ledger and the Claude flag literals; does no file I/O and takes no `viola-state`
 - **`viola-mcp`** — the rmcp stdio MCP server (features exactly `server` + `transport-io`), tools `send · wait · last · answer · list`; the only product crate that enables Tokio, on `viola-channel`'s `tokio` feature, and takes no serde
-- **`viola`** (root bin) — depends on every member: clap subcommand dispatch, the `run` pump, the wheel and the budget governor, all consuming only normalised events; human output only through its human module; the only crate with anyhow; also builds the test-only `viola-fake-agent`
 - **`viola-e2e`** (test-only, no product crate depends on it) — `viola-harness` behind `scripts/agent-run.sh`, `viola-mcp-tap` and the Tokio-based E2E clients
-- **`viola-fuzz`** (`fuzz/`, its own cargo-fuzz workspace excluded from the root) — the fuzz targets on a pinned nightly, its own lockfile audited separately, committed synthetic seeds
+- **`viola`** (root bin) — depends on every member: clap subcommand dispatch, the `run` pump, the wheel and the budget governor, all consuming only normalised events; human output only through its human module; the only crate with anyhow; also builds the test-only `viola-fake-agent`
+- **`viola-fuzz`** (`fuzz/`, a crate row but no workspace member: its own cargo-fuzz workspace excluded from the root) — the fuzz targets on a pinned nightly, its own lockfile audited separately, committed synthetic seeds
 <!-- GENERATED:setup:modules end -->
 
 ## Critical Warnings (universal invariants)
@@ -50,7 +50,7 @@ The masters live in the store, no file: fire `python -X utf8 ~/.claude/skills/an
 | Topic | Source |
 |---|---|
 | Architecture decisions | `doc:architecture` §Established Decisions |
-| Directory tree · resource registry (crates, binaries, commands, env vars, sockets) | `doc:architecture` §Infrastructure Patterns (keyed: `rec.py contracts architecture`, one address per key) / §Occupied Resources |
+| Directory tree · resource registry (crates, binaries, commands, env vars, sockets) | `doc:architecture` §Infrastructure Patterns (keyed: `rec.py contracts architecture`, one address per key) / §Occupied Resources; the directory tree is the tree's own (`git ls-files`) — the directory-structure key holds rows, no tree |
 | Wire contracts (channel frames, event line, snapshots, the `list` payload) | `doc:architecture` §Standard Contracts |
 | Refusals, exit codes, naming, timestamps | `doc:architecture` §Conventions |
 | Code map / impact (symbols · callers · crate deps) | `.andromeda/cache/{plane}/tree.db` — one DB per indexed language plane; query via `scripts/code-graph.py query <run_dir> <marker> "<sql>" [plane]` (plane needed only when several are detected); schema + templates in `scripts/code-graph-cookbook.md` |
@@ -94,6 +94,7 @@ There is no daemon: each wrapper (a `viola run`, or a `viola revive` whose prefl
 <!-- GENERATED:setup:imports end -->
 
 <!-- Maintainer note: The @ imports above MUST each be on their own line — Claude Code only recognizes standalone @path lines as import directives. Inline references like `See @path` or `- @path` are NOT expanded. The 200-line limit applies to CLAUDE.md itself, not to what it imports. Keep @ imports minimal — an import rides every turn of every session, so the block carries only what a session needs before it can ask: the handoff (the bridge). architecture.md and master-route.md are deliberately NOT imported: both grow every version, every skill that needs them reads them explicitly (the loop reads arch's directory tree and resource registry structurally where a plan creates files or mints a resource), and the pointer table names both. This comment is stripped from Claude's runtime context per Anthropic comment-stripping rule. See section-markers.md. -->
+<!-- This file is the records store's render, written whole by `rec.py harness land` alone (`python -X utf8 ~/.claude/skills/andromeda-tools/scripts/rec.py {verb} --root .`): a human's edit inside a region the template marks as the human's is landed by `harness accept CLAUDE.md`, any other edit is shown and discarded by `render --family harness --reconcile`, and until one runs `rec.py check` names the file `DIFFERS`. -->
 
 ## Deeper Topics
 <!-- GENERATED:setup:deeper-topics start -->
