@@ -13,7 +13,7 @@ use std::path::Path;
 use support::home::{TestHome, workspace_path};
 use support::verify::verify;
 
-const ROW_IDS: [&str; 24] = [
+const ROW_IDS: [&str; 23] = [
     "shim-resolution",
     "spine-hooks",
     "session-start-fields",
@@ -34,7 +34,6 @@ const ROW_IDS: [&str; 24] = [
     "paste-newline",
     "statusline-override",
     "statusline-shell",
-    "statusline-rate-limits",
     "resume-session",
     "agents-join",
     "local-command-compact",
@@ -107,7 +106,7 @@ fn contract_ledger_probes_pass_over_every_stamped_set() {
                 "{version}: {id} did not pass"
             );
         }
-        assert_eq!(*last, format!("stamped {version}  24 pass  0 fail"));
+        assert_eq!(*last, format!("stamped {version}  23 pass  0 fail"));
     });
 }
 

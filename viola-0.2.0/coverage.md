@@ -1,11 +1,13 @@
 # Coverage — viola-0.2.0
 
-verified 3/31 · deferred 0 · planned 28 · implemented 0 · unclaimed 28
+verified 3/31 · deferred 0 · planned 27 · implemented 1 · unclaimed 27
 
-## planned, unclaimed (28)
+## implemented (1)
+- v2-04 · The budget gate removed whole · 2026-11-14-budget-gate-removed
+
+## planned, unclaimed (27)
 - v2-02 · The dialog-hold ceiling read live
 - v2-03 · `viola run` wraps the unmodified CLI on Linux, proved
-- v2-04 · The budget gate removed whole
 - v2-05 · The status-line interception removed whole
 - v2-07 · Launch a session into the fleet
 - v2-08 · The launch authority bounded

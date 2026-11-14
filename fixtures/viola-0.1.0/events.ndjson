@@ -1,0 +1,4 @@
+{"v":1,"ts":"2026-11-01T10:00:00.000Z","instance":"builder","kind":"wheel","source":"wrapper","data":{"holder":"driver","cause":"start"}}
+{"v":1,"ts":"2026-11-01T10:00:00.001Z","instance":"builder","kind":"budget-gate","source":"wrapper","data":{"paused":true,"window":"five-hour"}}
+{"v":1,"ts":"2026-11-01T10:00:02.000Z","instance":"builder","kind":"link","source":"wrapper","data":{"driver":"overseer","driven":"builder"}}
+{"v":1,"ts":"2026-11-01T10:00:03.000Z","instance":"builder","kind":"wheel","source":"wrapper","data":{"holder":"human","cause":"human-input"}}

@@ -1,9 +1,7 @@
 //! `viola hook statusline` (hidden): the command the per-session settings override puts in the
-//! status line's place. It records the usage reading the payload carries to `budget.json`, runs the
-//! user's own statusline command with the same stdin and prints that command's stdout unchanged.
-//! It exits 0 on every path, writes nothing to stderr, and outside a wrapped session writes nothing
-//! anywhere (architecture §Standard Contracts → Hook contract; obs-plan §4 Scenario: Budget
-//! governor).
+//! status line's place. It runs the user's own statusline command with the same stdin and prints
+//! that command's stdout unchanged. It exits 0 on every path, writes nothing to stderr, and outside
+//! a wrapped session writes nothing anywhere (architecture §Standard Contracts → Hook contract).
 
 use std::io::{Read, Write};
 use std::process::{Child, Command, ExitCode, ExitStatus, Stdio};
@@ -16,7 +14,6 @@ use tracing::instrument;
 use viola_agent_claude::statusline;
 use viola_core::obs::{ObsEvent, ObsProcess};
 use viola_core::{MAX_FRAME, obs_event};
-use viola_state::budget::write_budget;
 use viola_state::replay::{Recovered, read_snapshot_or_replay};
 
 use super::{Instance, STATUSLINE_DEADLINE, canonical, instance_of, reject_stdin, trusted};
@@ -78,18 +75,16 @@ struct Io<'a> {
     bound: Duration,
 }
 
-/// What the arm did, for its decision line.
+/// What the arm did, for its decision line: `None` for a path that ran as it should.
 #[derive(Debug, PartialEq, Eq)]
 struct Outcome {
-    budget_written: bool,
     detail: Option<&'static str>,
 }
 
 impl Outcome {
-    /// A fail-open path: nothing was written, run or printed.
+    /// A fail-open path: nothing was run or printed.
     fn failed(detail: &'static str) -> Self {
         Self {
-            budget_written: false,
             detail: Some(detail),
         }
     }
@@ -110,7 +105,7 @@ fn handle(instance: &Instance, io: Io<'_>, started: Instant) -> anyhow::Result<(
     Ok(())
 }
 
-/// The payload read, its reading written, then the user's command run and its stdout printed.
+/// The payload read, then the user's command run and its stdout printed.
 fn serve(instance: &Instance, io: Io<'_>) -> anyhow::Result<Outcome> {
     let mut bytes = Vec::new();
     io.stdin.take(MAX_FRAME + 1).read_to_end(&mut bytes)?;
@@ -118,13 +113,10 @@ fn serve(instance: &Instance, io: Io<'_>) -> anyhow::Result<Outcome> {
         reject_stdin("oversize");
         return Ok(Outcome::failed("oversize-stdin"));
     }
-    let Ok(reading) = statusline::reading(&bytes) else {
+    let Ok(serde_json::Value::Object(_)) = serde_json::from_slice(&bytes) else {
         reject_stdin("malformed");
         return Ok(Outcome::failed("malformed-json"));
     };
-    // A payload with no reading writes nothing, so the last reading stands.
-    let budget_written =
-        reading.is_some_and(|reading| write_budget(&instance.home, &reading, Utc::now()).is_ok());
     // A replayed snapshot records no command, so nothing is run or printed.
     let command = match read_snapshot_or_replay(&instance.dir) {
         Ok(Recovered::Snapshot(snapshot)) => snapshot.statusline_command,
@@ -146,10 +138,7 @@ fn serve(instance: &Instance, io: Io<'_>) -> anyhow::Result<Outcome> {
         Some(Shell::Deadline) => Some("deadline"),
         Some(Shell::Exited { .. } | Shell::NotStarted) | None => None,
     };
-    Ok(Outcome {
-        budget_written,
-        detail,
-    })
+    Ok(Outcome { detail })
 }
 
 fn decided(outcome: &Outcome, started: Instant) {
@@ -159,7 +148,6 @@ fn decided(outcome: &Outcome, started: Instant) {
             WARN,
             ObsEvent::HookDecision,
             hook_event = WORD,
-            budget_written = outcome.budget_written,
             deadline_hit = (detail == "deadline").then_some(true),
             duration_ms = duration_ms,
             detail = detail,
@@ -168,7 +156,6 @@ fn decided(outcome: &Outcome, started: Instant) {
             INFO,
             ObsEvent::HookDecision,
             hook_event = WORD,
-            budget_written = outcome.budget_written,
             duration_ms = duration_ms,
         ),
     }
@@ -299,8 +286,8 @@ mod tests {
     use viola_core::ViolaName;
     use viola_state::snapshot::{InstanceSnapshot, Wheel, write_snapshot};
 
-    /// Synthetic statusline stdin: a reading beside the tests' canary.
-    const PAYLOAD: &str = r#"{"session_id":"canary-chain-value-5c1e","rate_limits":{"five_hour":{"used_percentage":91,"resets_at":1738425600}}}"#;
+    /// Synthetic statusline stdin carrying the tests' canary.
+    const PAYLOAD: &str = r#"{"session_id":"canary-chain-value-5c1e","model":{"id":"m"}}"#;
 
     /// A wrapped session's directories under `root`, made owner-only as viola makes them, and no
     /// snapshot.
@@ -329,8 +316,6 @@ mod tests {
             cli_verified: false,
             cli_version: None,
             wheel: Wheel::Driver,
-            budget_paused: false,
-            budget_override_until: None,
             links: Vec::new(),
             child_pid: None,
             pending_dialog: None,
@@ -377,11 +362,6 @@ mod tests {
 
     fn events(lines: &[Value]) -> Vec<&str> {
         lines.iter().filter_map(|l| l["event"].as_str()).collect()
-    }
-
-    fn budget(instance: &Instance) -> Option<Value> {
-        let bytes = fs::read(instance.home.join("budget.json")).ok()?;
-        Some(serde_json::from_slice(&bytes).expect("budget.json is JSON"))
     }
 
     const LONG: Duration = Duration::from_secs(8);
@@ -435,7 +415,7 @@ mod tests {
     }
 
     #[test]
-    fn statusline_without_a_recorded_command_prints_nothing_and_records_the_reading() {
+    fn statusline_without_a_recorded_command_prints_nothing() {
         let tmp = tempfile::tempdir().expect("tempdir");
         for instance in [
             instance_in(&tmp.path().join("a")),
@@ -443,11 +423,6 @@ mod tests {
         ] {
             let (out, lines) = handled(&instance, PAYLOAD.as_bytes(), LONG);
             assert!(out.is_empty());
-            let budget = budget(&instance).expect("a reading");
-            assert_eq!(budget["v"], 1);
-            assert_eq!(budget["five_hour"]["used_percentage"].as_f64(), Some(91.0));
-            assert_eq!(budget["five_hour"]["resets_at"], "2025-02-01T16:00:00.000Z");
-            assert_eq!(budget["seven_day"], "unknown");
             assert_eq!(events(&lines), ["hook-invoked", "hook-decision"]);
             assert_eq!(lines[0]["hook_event"], "statusline");
             assert!(lines[0]["invoked_at"].is_string());
@@ -460,38 +435,9 @@ mod tests {
             assert_eq!(
                 decision,
                 json!({"event": "hook-decision", "message": "hook-decision",
-                    "hook_event": "statusline", "budget_written": true})
+                    "hook_event": "statusline"})
             );
         }
-    }
-
-    #[test]
-    fn statusline_without_rate_limits_writes_no_reading_and_keeps_the_last() {
-        let tmp = tempfile::tempdir().expect("tempdir");
-        let instance = instance_in(tmp.path());
-        let (_, lines) = handled(&instance, br#"{"model":{}}"#.as_slice(), LONG);
-        assert_eq!(budget(&instance), None);
-        assert_eq!(lines[1]["budget_written"], false);
-        assert!(lines[1].get("detail").is_none());
-        handled(&instance, PAYLOAD.as_bytes(), LONG);
-        let first = budget(&instance).expect("a reading");
-        let (_, lines) = handled(&instance, br#"{"model":{}}"#.as_slice(), LONG);
-        assert_eq!(budget(&instance), Some(first));
-        assert_eq!(lines[1]["budget_written"], false);
-    }
-
-    /// A reading that cannot be written (a directory stands in the file's place) does not stop the
-    /// arm.
-    #[test]
-    fn statusline_a_reading_that_cannot_be_written_is_budget_written_false() {
-        let tmp = tempfile::tempdir().expect("tempdir");
-        let instance = instance_in(tmp.path());
-        fs::create_dir(instance.home.join("budget.json.lock")).expect("a dir in the lock's place");
-        let (out, lines) = handled(&instance, PAYLOAD.as_bytes(), LONG);
-        assert!(out.is_empty());
-        assert_eq!(events(&lines), ["hook-invoked", "hook-decision"]);
-        assert_eq!(lines[1]["budget_written"], false);
-        assert!(lines[1].get("detail").is_none());
     }
 
     #[test]
@@ -523,7 +469,7 @@ mod tests {
 
     /// A snapshot that records a printing command, cut short or re-versioned to `v` 99 from the
     /// writer's own bytes: the read takes the replay, which records no command, so nothing is run
-    /// or printed, the reading is still written and the replay writes its one `state-recovered`.
+    /// or printed and the replay writes its one `state-recovered`.
     #[rstest::rstest]
     #[case::cut_short("cut", "snapshot-replayed")]
     #[case::unsupported_v("v99", "snapshot-unsupported-v")]
@@ -543,7 +489,6 @@ mod tests {
         fs::write(&path, faulted).expect("faulted");
         let (out, lines) = handled(&instance, PAYLOAD.as_bytes(), LONG);
         assert!(out.is_empty(), "{}", String::from_utf8_lossy(&out));
-        assert!(budget(&instance).is_some());
         let recovered: Vec<&Value> = lines
             .iter()
             .filter(|l| l["event"] == "state-recovered")
@@ -559,7 +504,6 @@ mod tests {
         let over = std::io::repeat(b' ').take(MAX_FRAME + 1);
         let (out, lines) = handled(&instance, over, LONG);
         assert!(out.is_empty());
-        assert_eq!(budget(&instance), None);
         assert_eq!(
             events(&lines),
             ["hook-invoked", "parse-rejected", "hook-decision"]
@@ -567,7 +511,6 @@ mod tests {
         assert_eq!(lines[1]["parser"], "hook-stdin");
         assert_eq!(lines[1]["detail"], "oversize");
         assert_eq!(lines[2]["detail"], "oversize-stdin");
-        assert_eq!(lines[2]["budget_written"], false);
     }
 
     /// Exactly the frame cap is read whole: white space ahead of a payload is still that payload.
@@ -579,7 +522,7 @@ mod tests {
         let padded = " ".repeat(cap - PAYLOAD.len()) + PAYLOAD;
         let (_, lines) = handled(&instance, padded.as_bytes(), LONG);
         assert_eq!(events(&lines), ["hook-invoked", "hook-decision"]);
-        assert_eq!(lines[1]["budget_written"], true);
+        assert!(lines[1].get("detail").is_none());
     }
 
     #[test]
@@ -588,7 +531,6 @@ mod tests {
         let instance = instance_running(tmp.path(), Some("cat"));
         let (out, lines) = handled(&instance, b"[1]".as_slice(), LONG);
         assert!(out.is_empty());
-        assert_eq!(budget(&instance), None);
         assert_eq!(
             events(&lines),
             ["hook-invoked", "parse-rejected", "hook-decision"]
@@ -644,7 +586,6 @@ mod tests {
             assert_eq!(lines[2]["subject"], "statusline-shell");
             assert_eq!(lines[2]["shell_exit_status"], 0);
             assert!(lines[2]["duration_ms"].is_u64());
-            assert_eq!(lines[3]["budget_written"], true);
             assert!(lines[3].get("detail").is_none());
             let text = serde_json::to_string(&lines).expect("lines");
             assert!(!text.contains("printf") && !text.contains("canary-chain-value-5c1e"));
@@ -686,7 +627,6 @@ mod tests {
             assert!(out.is_empty());
             assert_eq!(lines[2]["event"], "process-exit");
             assert_eq!(lines[2]["shell_exit_status"], 3);
-            assert_eq!(lines[3]["budget_written"], true);
             assert!(lines[3].get("detail").is_none());
             assert_eq!(
                 shell_out(sh("printf shown; exit 3"), b"", LONG),
@@ -740,7 +680,6 @@ mod tests {
             assert!(lines[2].get("shell_exit_status").is_none());
             assert_eq!(lines[3]["detail"], "deadline");
             assert_eq!(lines[3]["deadline_hit"], true);
-            assert_eq!(lines[3]["budget_written"], true);
         }
 
         /// A command that closes its stdout and then outlives the bound is ended at the bound, not

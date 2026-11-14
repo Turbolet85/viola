@@ -2,12 +2,11 @@
 
 use std::io::{self, Write};
 
-use chrono::{DateTime, Utc};
 use viola_state::board::{Board, Item, RowLiveness};
 
 use super::super::escape::escape_row;
 use super::super::style::Depth;
-use super::bay::{BayBudget, bay_line};
+use super::bay::bay_line;
 use super::cells::{
     DIALOG_WORD, NAME_CAPTION, NOT_APPLICABLE, Spans, UNWRAPPED_REST, board_line, cli_cell, cut,
     dialog_cell, wheel_cell,
@@ -83,15 +82,13 @@ const UNWRAPPED_SEPARATOR: &str = "-- UNWRAPPED - READ-ONLY --";
 /// then, when the board holds any, the separator and the unwrapped rows.
 pub(crate) fn write_board(
     out: &mut impl Write,
-    budget: Option<&BayBudget<'_>>,
     board: &Board,
-    now: DateTime<Utc>,
     width: Option<usize>,
     depth: Option<Depth>,
 ) -> io::Result<()> {
     let wrapped = board.items.iter().filter(|item| item.wrapped).count();
     let mut rows = board_rows(&board.items, width, depth).into_iter();
-    let mut lines = vec![bay_line(budget, &board.skipped, now)];
+    let mut lines = vec![bay_line(&board.skipped)];
     lines.extend(rows.by_ref().take(1 + wrapped));
     if wrapped == 0 {
         lines.push(EMPTY_BOARD.to_owned());
@@ -108,7 +105,7 @@ pub(crate) fn write_board(
 #[cfg(test)]
 mod tests {
     use super::super::super::tests::{Broken, one_write};
-    use super::super::test_support::{NOW, at, counts, item};
+    use super::super::test_support::{counts, item};
     use super::*;
     use rstest::rstest;
     use viola_state::snapshot::Wheel;
@@ -135,20 +132,18 @@ mod tests {
         let mut odd = item("builder");
         odd.liveness = viola_state::board::RowLiveness::Stale;
         odd.wheel = Some(Wheel::Human);
-        odd.budget_paused = Some(true);
         odd.dialog_pending = true;
         odd.dialog_kind = Some("permission".to_owned());
         odd.cli_verified = Some(false);
         let mut replayed = item("builder");
         replayed.wheel = None;
-        replayed.budget_paused = Some(true);
         replayed.cli_version = None;
         replayed.cli_verified = None;
         assert_eq!(
             board_rows(&[odd, replayed], None, None)[1..],
             [
-                "builder  stale  unknown  human - budget-paused    DIALOG permission  2.1.287 unverified-cli",
-                "builder  live   unknown  unknown - budget-paused  none               unknown",
+                "builder  stale  unknown  human                    DIALOG permission  2.1.287 unverified-cli",
+                "builder  live   unknown  unknown                  none               unknown",
             ]
         );
         let caption_at = |word: &str| CAPTION.find(word).expect("caption");
@@ -189,8 +184,8 @@ mod tests {
             skipped: counts(0, 0, 0),
         };
         assert_eq!(
-            one_write(|o| write_board(o, None, &board, at(NOW), None, None)),
-            "BAY  5H unknown  7D unknown  read unknown  gate open  skipped 0 - 0 - 0\n\
+            one_write(|o| write_board(o, &board, None, None)),
+            "BAY  skipped 0 - 0 - 0\n\
              NAME  LIVE   STATUS   WHEEL                    DIALOG             CLI\n\
              no wrapped sessions  start one: viola run <name> -- claude\n"
         );
@@ -234,8 +229,8 @@ mod tests {
             skipped: counts(0, 0, 0),
         };
         assert_eq!(
-            one_write(|o| write_board(o, None, &board, at(NOW), None, None)),
-            "BAY  5H unknown  7D unknown  read unknown  gate open  skipped 0 - 0 - 0\n\
+            one_write(|o| write_board(o, &board, None, None)),
+            "BAY  skipped 0 - 0 - 0\n\
              NAME                                  LIVE   STATUS   WHEEL                    DIALOG             CLI\n\
              builder                               live   unknown  driver                   none               2.1.287 verified\n\
              -- UNWRAPPED - READ-ONLY --\n\
@@ -284,8 +279,8 @@ mod tests {
             skipped: counts(0, 0, 0),
         };
         assert_eq!(
-            one_write(|o| write_board(o, None, &board, at(NOW), None, None)),
-            "BAY  5H unknown  7D unknown  read unknown  gate open  skipped 0 - 0 - 0\n\
+            one_write(|o| write_board(o, &board, None, None)),
+            "BAY  skipped 0 - 0 - 0\n\
              NAME  LIVE   STATUS   WHEEL                    DIALOG             CLI\n\
              no wrapped sessions  start one: viola run <name> -- claude\n\
              -- UNWRAPPED - READ-ONLY --\n\
@@ -300,7 +295,7 @@ mod tests {
             items: vec![item("builder"), item("tester")],
             skipped: counts(0, 0, 0),
         };
-        let text = one_write(|o| write_board(o, None, &board, at(NOW), None, None));
+        let text = one_write(|o| write_board(o, &board, None, None));
         assert_eq!(text.lines().count(), 4, "{text:?}");
         assert!(!text.contains("UNWRAPPED"), "{text:?}");
     }
@@ -313,7 +308,7 @@ mod tests {
             items: vec![hostile, item("tester")],
             skipped: counts(0, 0, 1),
         };
-        let text = one_write(|o| write_board(o, None, &board, at(NOW), None, None));
+        let text = one_write(|o| write_board(o, &board, None, None));
         assert_eq!(text.lines().count(), 4, "{text:?}");
         assert!(
             text.bytes()
@@ -323,7 +318,7 @@ mod tests {
         for line in text.lines() {
             assert!(!line.ends_with(' '), "{line:?}");
         }
-        assert!(write_board(&mut Broken, None, &board, at(NOW), None, None).is_err());
+        assert!(write_board(&mut Broken, &board, None, None).is_err());
     }
 
     #[test]
@@ -572,8 +567,7 @@ mod tests {
                 items,
                 skipped: counts(0, 0, 0),
             };
-            let text =
-                one_write(|o| write_board(o, None, &board, at(NOW), None, Some(Depth::Truecolor)));
+            let text = one_write(|o| write_board(o, &board, None, Some(Depth::Truecolor)));
             for line in text
                 .lines()
                 .filter(|line| !line.contains("live") || line.starts_with("NAME"))
@@ -605,8 +599,8 @@ mod tests {
             skipped: counts(0, 0, 0),
         };
         for width in [None, Some(80)] {
-            let styled = one_write(|o| write_board(o, None, &board, at(NOW), width, Some(depth)));
-            let bare = one_write(|o| write_board(o, None, &board, at(NOW), width, None));
+            let styled = one_write(|o| write_board(o, &board, width, Some(depth)));
+            let bare = one_write(|o| write_board(o, &board, width, None));
             assert_ne!(styled, bare);
             assert_eq!(plain(&styled), bare, "{width:?}");
         }

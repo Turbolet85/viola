@@ -70,7 +70,7 @@ enum Command {
     Last(last::LastArgs),
     /// Answer the named instance's pending dialog by its id; the response comes from stdin or --file
     Answer(answer::AnswerArgs),
-    /// Show every wrapped session: its liveness, wheel, dialog and CLI, and the usage budget
+    /// Show every wrapped session: its liveness, wheel, dialog and CLI
     List(list::ListArgs),
     /// Take the named instance's wheel for the human without a keystroke
     Pause(pause::PauseArgs),

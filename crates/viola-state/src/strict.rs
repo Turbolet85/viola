@@ -439,8 +439,6 @@ mod tests {
             cli_verified: false,
             cli_version: None,
             wheel: Wheel::Driver,
-            budget_paused: false,
-            budget_override_until: None,
             links: Vec::new(),
             child_pid: None,
             pending_dialog: None,
@@ -452,9 +450,9 @@ mod tests {
         let name = viola_core::ViolaName::try_new("builder".to_owned()).expect("valid");
         let line = EventLine::new(
             &name,
-            viola_core::EventKind::BudgetGate,
+            viola_core::EventKind::Wheel,
             Source::Wrapper,
-            serde_json::json!({"paused": false}),
+            serde_json::json!({"holder": "driver", "cause": "start"}),
             chrono::Utc::now(),
         );
         append_event(&instance_dir, &line).expect("the log");

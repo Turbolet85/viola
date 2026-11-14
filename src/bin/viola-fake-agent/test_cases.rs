@@ -30,7 +30,7 @@ fn recorded_session_start() -> Vec<u8> {
     fs::read(path).expect("the recorded SessionStart")
 }
 
-/// A set holding the two statusline variants and a settings file naming `command`, then the
+/// A set holding the statusline variant and a settings file naming `command`, then the
 /// receipt lines the launch's replay and two turns under `--framing --turn-stop` leave, with the
 /// extra arguments given.
 fn statusline_replayed(command: &str, variants: bool, extra: &[&str]) -> Vec<Value> {
@@ -39,7 +39,6 @@ fn statusline_replayed(command: &str, variants: bool, extra: &[&str]) -> Vec<Val
     fs::create_dir_all(&set).expect("set");
     if variants {
         fs::write(set.join("StatusLine.default-1.json"), b"{\"n\":1}\n").expect("default");
-        fs::write(set.join("StatusLine.rate-limits-1.json"), b"{\"n\":2}\n").expect("limits");
     }
     let settings = tmp.path().join("settings.json");
     let doc = json!({"statusLine": {"type": "command", "command": command}});

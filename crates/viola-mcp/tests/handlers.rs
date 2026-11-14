@@ -68,8 +68,6 @@ fn record_live(instance: &Path, endpoint: String, pid: u32) {
         cli_verified: true,
         cli_version: None,
         wheel: Wheel::Driver,
-        budget_paused: false,
-        budget_override_until: None,
         links: Vec::new(),
         child_pid: None,
         pending_dialog: None,
@@ -224,7 +222,7 @@ fn handlers_send_without_a_name_sends_no_from_and_maps_a_refusal() {
         "refusal",
         vec![(
             "send",
-            Ok(json!({"refusal": "budget-paused", "detail": "five-hour"})),
+            Ok(json!({"refusal": "not-delivered", "detail": "turn-running"})),
         )],
     );
     let result = call(
@@ -236,7 +234,7 @@ fn handlers_send_without_a_name_sends_no_from_and_maps_a_refusal() {
     assert_eq!(result.is_error, Some(true));
     assert_eq!(
         result.structured_content,
-        Some(json!({"refusal": "budget-paused", "detail": "five-hour"}))
+        Some(json!({"refusal": "not-delivered", "detail": "turn-running"}))
     );
     assert_eq!(own_params(&wrapper.frames()[0].1), json!({"text": "x"}));
 }

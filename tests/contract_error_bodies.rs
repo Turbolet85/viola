@@ -200,14 +200,6 @@ const CLI_DOCUMENTS: &[Body] = &[
         witness: "path4_a_dialog_pending_at_a_pause_is_handed_back_to_the_human",
     },
     Body {
-        code: "budget-paused",
-        detail: "five-hour or seven-day",
-        exit: Some(11),
-        file: "src/cmd/send.rs",
-        needle: SEND_REFUSAL,
-        witness: "path6_a_reading_over_the_threshold_refuses_the_send",
-    },
-    Body {
         code: "unverified-cli",
         detail: "null",
         exit: Some(12),
@@ -270,7 +262,7 @@ const MCP_RESULTS: &[Body] = &[
         witness: THE_WITNESS_MCP,
     },
     Body {
-        code: "human-typing, budget-paused, unverified-cli, not-delivered",
+        code: "human-typing, unverified-cli, not-delivered",
         detail: "as the CLI's",
         exit: None,
         file: RESULT,

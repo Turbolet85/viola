@@ -126,5 +126,37 @@
 ],
 "before": null,
 "after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "cf45c854",
+"ts": "2026-11-14T14:36:35Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-14T14-12-25-wrap",
+"--marker",
+"2026-11-14-hyprland-exact-frame-bound-pinned"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 1155 · 2026-11-14T12-56-37-2026-11-14-hyprland-exact-frame-bound-pinned.ndjson",
+"ts 2026-11-14T14:36:24Z · clock 2026-11-14T14:36:35Z · bound 2026-11-14T14:32:35Z (line 2941)",
+"ids 2026-11-14T14:36:24Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T12-56-37-2026-11-14-hyprland-exact-frame-bound-pinned.ndjson"
+],
+"before": null,
+"after": null
 }
 ]

@@ -171,8 +171,6 @@ pub struct Item {
     pub status: SessionStatus,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub wheel: Option<Wheel>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub budget_paused: Option<bool>,
     pub dialog_pending: bool,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub cli_version: Option<String>,
@@ -186,8 +184,8 @@ pub struct Item {
 }
 
 impl Item {
-    /// A listed session no wrapped row joins: read-only, `live`, no dialog, and no wheel, budget or
-    /// CLI key (architecture §Standard Contracts, `list` payload). Its name is the session id.
+    /// A listed session no wrapped row joins: read-only, `live`, no dialog, and no wheel or CLI
+    /// key (architecture §Standard Contracts, `list` payload). Its name is the session id.
     pub fn unwrapped(observation: Observation) -> Self {
         Self {
             name: observation.session_id,
@@ -195,7 +193,6 @@ impl Item {
             liveness: RowLiveness::Live,
             status: observation.status,
             wheel: None,
-            budget_paused: None,
             dialog_pending: false,
             cli_version: None,
             cli_verified: None,
@@ -235,7 +232,6 @@ fn snapshot_item(name: &ViolaName, snapshot: &InstanceSnapshot, liveness: RowLiv
         liveness,
         status: SessionStatus::Unknown,
         wheel: Some(snapshot.wheel),
-        budget_paused: Some(snapshot.budget_paused),
         dialog_pending: snapshot.pending_dialog.is_some(),
         cli_version: snapshot.cli_version.clone(),
         cli_verified: Some(snapshot.cli_verified),
@@ -290,7 +286,6 @@ pub fn read(scan: &Scan, now: SystemTime) -> Board {
                         liveness: RowLiveness::Live,
                         status: SessionStatus::Unknown,
                         wheel: state.wheel,
-                        budget_paused: state.budget_paused,
                         dialog_pending: false,
                         cli_version: None,
                         cli_verified: None,
@@ -389,8 +384,6 @@ mod tests {
             cli_verified: true,
             cli_version: Some("2.1.287".to_owned()),
             wheel: Wheel::Driver,
-            budget_paused: false,
-            budget_override_until: None,
             links: Vec::new(),
             child_pid: Some(pid),
             pending_dialog: None,
@@ -414,13 +407,10 @@ mod tests {
     fn start_log(dir: &Path) {
         log(
             dir,
-            &[
-                (
-                    EventKind::Wheel,
-                    json!({"holder": "human", "cause": "human-input"}),
-                ),
-                (EventKind::BudgetGate, json!({"paused": true})),
-            ],
+            &[(
+                EventKind::Wheel,
+                json!({"holder": "human", "cause": "human-input"}),
+            )],
         );
     }
 
@@ -637,7 +627,6 @@ mod tests {
         let item = &board.items[0];
         assert_eq!(item.liveness, RowLiveness::Live);
         assert_eq!(item.wheel, Some(Wheel::Driver));
-        assert_eq!(item.budget_paused, Some(false));
         assert!(!item.dialog_pending);
         assert_eq!(item.cli_version.as_deref(), Some("2.1.287"));
         assert_eq!(item.cli_verified, Some(true));
@@ -711,7 +700,6 @@ mod tests {
                     liveness: RowLiveness::Live,
                     status: SessionStatus::Unknown,
                     wheel: Some(Wheel::Human),
-                    budget_paused: Some(true),
                     dialog_pending: false,
                     cli_version: None,
                     cli_verified: None,
@@ -781,13 +769,12 @@ mod tests {
             dialog_id: 3,
             kind: "question".to_owned(),
         });
-        snapshot.budget_paused = true;
         let dir = booted(&home, "builder", &snapshot);
         let board = read(&scanned(&home), beat_time(&dir));
         let every = serde_json::to_string(&board.items[0]).expect("serialise");
         assert_eq!(
             every,
-            r#"{"name":"builder","wrapped":true,"liveness":"live","status":"unknown","wheel":"driver","budget_paused":true,"dialog_pending":true,"cli_version":"2.1.287","cli_verified":true}"#
+            r#"{"name":"builder","wrapped":true,"liveness":"live","status":"unknown","wheel":"driver","dialog_pending":true,"cli_version":"2.1.287","cli_verified":true}"#
         );
         for secret in [
             "secret",
@@ -805,7 +792,6 @@ mod tests {
             liveness: RowLiveness::Stale,
             status: SessionStatus::Unknown,
             wheel: None,
-            budget_paused: None,
             dialog_pending: false,
             cli_version: None,
             cli_verified: None,

@@ -2,10 +2,10 @@
 //! Anti-Patterns → Universal): each row sets a variable to a disabling-shaped value and re-runs the
 //! controls on its path, which must give the same verdict as without it. The rows cover the
 //! hook-path controls, `send`'s paste control (under the hook seam and the `VIOLA_*` variables),
-//! `answer` on an unstamped CLI, `send` under a human wheel or during a running turn, the budget
-//! gate under a threshold key that is no percentage, the home scan under `VIOLA_DIR`, and the
-//! identity strip under the `diagnostics_level` and `claude_env_keep` keys, and the dialog hold
-//! under a `dialog_hold_s` that is no whole number of seconds in range; the completeness case
+//! `answer` on an unstamped CLI, `send` under a human wheel or during a running turn, the home scan
+//! under `VIOLA_DIR`, and the identity strip under the `diagnostics_level` and `claude_env_keep`
+//! keys, and the dialog hold under a `dialog_hold_s` that is no whole number of seconds in range or
+//! a document whose `v` is not 1; the completeness case
 //! keeps every flag `viola --help` lists, every `VIOLA_*` variable the product reads and every
 //! `schemas/config.v1.json` key a row of `SETTINGS`.
 
@@ -22,7 +22,6 @@ use rstest::rstest;
 use serde_json::{Value, json};
 use support::home::{StampedHome, TestHome, VIOLA, Wrapper, stamped_home, workspace_path};
 use support::outer_pty::{EXIT_WITHIN, OuterPty};
-use support::statusline::{feed, usage};
 use support::watch::{WITHIN, Watch};
 
 const CANARY: &str = "canary-chain-value-5c1e";
@@ -355,55 +354,20 @@ fn setting_does_not_disable_the_send_turn_running_control() {
     wrapper.stop();
 }
 
-/// No value of a threshold key, and no `v`, switches the budget gate off (test-plan §5 Vector 6):
-/// a threshold that is no whole percentage falls back to its default and a `v` other than 1 drops
-/// the whole document to the defaults, the start says so once, and a `send` after a reading of 91
-/// in that window is still refused (exit 11). The `v` row's own threshold, 95, would have let 91
-/// through had the document been read.
-#[rstest]
-#[case::over_one_hundred(r#"{"v":1,"five_hour":101}"#, (91, 10), "five-hour")]
-#[case::negative(r#"{"v":1,"five_hour":-1}"#, (91, 10), "five-hour")]
-#[case::a_string(r#"{"v":1,"five_hour":"90"}"#, (91, 10), "five-hour")]
-#[case::seven_day_over_one_hundred(r#"{"v":1,"seven_day":101}"#, (10, 91), "seven-day")]
-#[case::v_two(r#"{"v":2,"five_hour":95}"#, (91, 10), "five-hour")]
-fn setting_does_not_disable_the_budget_gate(
-    stamped_home: StampedHome,
-    #[case] config: &str,
-    #[case] reading: (u64, u64),
-    #[case] window: &str,
-) {
-    let home = stamped_home.home.path().to_path_buf();
-    std::fs::write(home.join("config.json"), config).expect("config.json");
-    let wrapper = support::events::boot(stamped_home, None, &[]);
-    feed(&wrapper.instance_dir(), usage(reading.0, reading.1));
-    assert_send_control_holds(
-        &wrapper,
-        None,
-        11,
-        &format!("{{\"v\":1,\"refusal\":\"budget-paused\",\"detail\":\"{window}\"}}\n"),
-    );
-    let rejected: Vec<Value> =
-        support::ndjson::read_lines(&home.join("diagnostics").join("run-builder.ndjson"))
-            .into_iter()
-            .filter(|l| l["event"] == "parse-rejected")
-            .collect();
-    assert_eq!(rejected.len(), 1, "{rejected:?}");
-    assert_eq!(rejected[0]["parser"], "config-json");
-    assert_eq!(rejected[0]["detail"], "malformed");
-    wrapper.stop();
-}
-
 /// No value of `dialog_hold_s` makes the dialog hold zero or unbounded: a value that is no whole
 /// number of seconds from 60 to 3600 is refused once at the wrapper's start, with one
 /// `parse-rejected{parser:"config-json", detail:"malformed"}`, and the hold falls back to its 60 s
-/// default. A booted case cannot read the hold in force without waiting it out (test-plan §11
-/// Universal): the value each falls back to is proven by `read_hold`'s unit cases.
+/// default. A `v` other than 1 drops the whole document: the diagnostics-level read refuses it
+/// with that one line and the hold takes its default with none. A booted case cannot read the hold
+/// in force without waiting it out (test-plan §11 Universal): the value each falls back to is
+/// proven by `read_hold`'s unit cases.
 #[rstest]
 #[case::zero(r#"{"v":1,"dialog_hold_s":0}"#)]
 #[case::past_the_ceiling(r#"{"v":1,"dialog_hold_s":3601}"#)]
 #[case::negative(r#"{"v":1,"dialog_hold_s":-1}"#)]
 #[case::a_string(r#"{"v":1,"dialog_hold_s":"3600"}"#)]
 #[case::a_bool(r#"{"v":1,"dialog_hold_s":false}"#)]
+#[case::v_two(r#"{"v":2,"dialog_hold_s":0}"#)]
 fn setting_does_not_unbound_the_dialog_hold(stamped_home: StampedHome, #[case] config: &str) {
     let home = stamped_home.home.path().to_path_buf();
     std::fs::write(home.join("config.json"), config).expect("config.json");
@@ -421,7 +385,7 @@ fn setting_does_not_unbound_the_dialog_hold(stamped_home: StampedHome, #[case] c
 
 /// Every setting a run can carry, beside the case that tries it against a control. A literal
 /// table: the completeness case below fails on a flag, variable or key it does not name.
-const SETTINGS: [(&str, &str); 10] = [
+const SETTINGS: [(&str, &str); 8] = [
     ("--home", "setting_does_not_disable_the_home_check"),
     (
         "VIOLA_NAME",
@@ -432,7 +396,7 @@ const SETTINGS: [(&str, &str); 10] = [
         "VIOLA_BIN",
         "viola_variable_does_not_disable_the_send_paste_control",
     ),
-    ("v", "setting_does_not_disable_the_budget_gate"),
+    ("v", "setting_does_not_unbound_the_dialog_hold"),
     (
         "diagnostics_level",
         "config_key_does_not_disable_the_identity_strip",
@@ -441,8 +405,6 @@ const SETTINGS: [(&str, &str); 10] = [
         "claude_env_keep",
         "config_key_does_not_disable_the_identity_strip",
     ),
-    ("five_hour", "setting_does_not_disable_the_budget_gate"),
-    ("seven_day", "setting_does_not_disable_the_budget_gate"),
     ("dialog_hold_s", "setting_does_not_unbound_the_dialog_hold"),
 ];
 

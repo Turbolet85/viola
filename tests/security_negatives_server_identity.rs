@@ -66,7 +66,7 @@ impl Dispatch for Frames {
                 json!({"ok": {"last_assistant_message": "done", "ts": "2026-10-26T00:00:00.000Z"}})
             }
             "pause" => json!({"ok": {"wheel": "human"}}),
-            "release" => json!({"ok": {"wheel": "driver", "budget_paused": false}}),
+            "release" => json!({"ok": {"wheel": "driver"}}),
             "link" => {
                 json!({"ok": {"since": "2026-10-26T00:00:00.000Z", "already_linked": false}})
             }
@@ -111,8 +111,6 @@ fn served(label: &str, recorded: u32) -> Served {
         cli_verified: true,
         cli_version: None,
         wheel: Wheel::Driver,
-        budget_paused: false,
-        budget_override_until: None,
         links: Vec::new(),
         child_pid: None,
         pending_dialog: None,

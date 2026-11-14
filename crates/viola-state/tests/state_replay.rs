@@ -9,7 +9,7 @@ use std::time::SystemTime;
 use chrono::{TimeZone as _, Utc};
 use serde_json::{Value, json};
 use viola_core::{EventKind, ViolaName};
-use viola_state::events::{EventLine, Skipped, Source, append_event};
+use viola_state::events::{EventLine, Skipped, Source, append_event, read_from};
 use viola_state::replay::{
     Recovered, ReplayCause, Replayed, SessionChain, SessionLink, read_snapshot_or_replay, replay,
     session_chain,
@@ -27,8 +27,6 @@ fn snapshot() -> InstanceSnapshot {
         cli_verified: true,
         cli_version: Some("2.1.287".to_owned()),
         wheel: Wheel::Driver,
-        budget_paused: false,
-        budget_override_until: None,
         links: Vec::new(),
         child_pid: Some(42),
         pending_dialog: None,
@@ -54,13 +52,13 @@ fn statusline_command_of(recovered: &Recovered) -> Option<&str> {
     }
 }
 
-/// A snapshot, and a log holding a wheel taken by the human, a budget pause and two session
-/// starts, all laid down by the crate's writers.
+/// A snapshot, and a log holding a wheel taken by the human and two session starts, all laid down
+/// by the crate's writers.
 fn written() -> tempfile::TempDir {
     let tmp = tempfile::tempdir().expect("tempdir");
     write_snapshot(tmp.path(), &snapshot()).expect("snapshot");
     let name = ViolaName::try_new("builder".to_owned()).expect("valid");
-    let lines: [(EventKind, Value); 5] = [
+    let lines: [(EventKind, Value); 4] = [
         (
             EventKind::Wheel,
             json!({"holder": "driver", "cause": "start"}),
@@ -73,7 +71,6 @@ fn written() -> tempfile::TempDir {
             EventKind::Wheel,
             json!({"holder": "human", "cause": "human-input"}),
         ),
-        (EventKind::BudgetGate, json!({"paused": true})),
         (
             EventKind::SessionStart,
             json!({"cause": "clear", "agent_session_id": "s-second"}),
@@ -90,8 +87,6 @@ fn written() -> tempfile::TempDir {
 fn replayed() -> Replayed {
     Replayed {
         wheel: Some(Wheel::Human),
-        budget_paused: Some(true),
-        budget_override_until: None,
         agent_session_id: Some("s-second".to_owned()),
         links: Vec::new(),
         dialog_pending: false,
@@ -326,53 +321,102 @@ fn state_replay_a_snapshot_cut_short_is_replayed_with_the_logged_link() {
     assert_eq!(on_disk(tmp.path()), before);
 }
 
-fn append_gate(dir: &Path, data: Value) {
-    let name = ViolaName::try_new("builder".to_owned()).expect("valid");
-    let line = EventLine::new(
-        &name,
-        EventKind::BudgetGate,
-        Source::Wrapper,
-        data,
-        Utc::now(),
-    );
-    append_event(dir, &line).expect("append");
+/// The 0.1.0 shapes a budget-era wrapper wrote, kept as fixtures outside the product tree, and
+/// the words that era used which no build writes now.
+const BUDGET_ERA_SNAPSHOT: &str = include_str!("../../../fixtures/viola-0.1.0/snapshot.json");
+const BUDGET_ERA_LOG: &str = include_str!("../../../fixtures/viola-0.1.0/events.ndjson");
+const RETIRED_WORDS: &str = include_str!("../../../fixtures/viola-0.1.0/retired-words.json");
+
+fn retired_words() -> Value {
+    serde_json::from_str(RETIRED_WORDS).expect("the retired words")
 }
 
-/// The budget gate a pass over `dir`'s log recovers, after reading that it stepped over nothing.
-fn replayed_gate(dir: &Path) -> (Option<bool>, Option<String>) {
-    let replayed = replay(dir).expect("replay");
+/// A snapshot a 0.1.0 wrapper wrote, its budget fields standing, reads as a present snapshot: the
+/// fields this build does not know are skipped and every other field reads as written.
+#[test]
+fn snapshot_of_a_budget_era_writer_reads_whole_skipping_its_budget_fields() {
+    let written: Value = serde_json::from_str(BUDGET_ERA_SNAPSHOT).expect("the fixture");
+    for key in retired_words()["snapshot_keys"]
+        .as_array()
+        .expect("the keys")
+    {
+        let key = key.as_str().expect("a key");
+        assert!(written["data"].get(key).is_some(), "{key}");
+    }
+    let tmp = tempfile::tempdir().expect("tempdir");
+    fs::write(tmp.path().join("snapshot.json"), BUDGET_ERA_SNAPSHOT).expect("seed");
     assert_eq!(
-        replayed.skipped,
+        read_snapshot_classified(tmp.path()),
+        SnapshotRead::Present(Box::new(InstanceSnapshot {
+            endpoint: None,
+            pid: 7,
+            started_at: "2026-11-01T09:59:59.000Z".to_owned(),
+            pinned_bin: "bin/0.1.0-0123456789abcdef/viola".to_owned(),
+            cli_verified: true,
+            cli_version: Some("2.1.302".to_owned()),
+            wheel: Wheel::Human,
+            links: vec![
+                json!({"driver": "overseer", "driven": "builder", "since": "2026-11-01T10:00:01.000Z"})
+            ],
+            child_pid: None,
+            pending_dialog: None,
+            cwd: None,
+            statusline_command: None,
+            agent_session_id: Some("0d6f1c52-3b7e-4a86-9a52-2f8b1c3d4e5f".to_owned()),
+        }))
+    );
+}
+
+/// A 0.1.0 log under a snapshot that cannot be read replays to its wheel and its link: the gate
+/// line is an unknown kind, counted once and never returned, and nothing of it is recovered.
+#[test]
+fn replay_over_a_budget_era_log_skips_its_gate_lines() {
+    let gate = retired_words()["event_kind"]
+        .as_str()
+        .expect("the kind")
+        .to_owned();
+    assert!(BUDGET_ERA_LOG.contains(&format!("\"kind\":\"{gate}\"")));
+    let tmp = tempfile::tempdir().expect("tempdir");
+    fs::write(tmp.path().join("events.ndjson"), BUDGET_ERA_LOG).expect("seed the log");
+    fs::write(tmp.path().join("snapshot.json"), "{\"v\":1,\"writ").expect("seed the snapshot");
+
+    assert_eq!(
+        read_snapshot_or_replay(tmp.path()).expect("recovered"),
+        Recovered::Replayed {
+            cause: ReplayCause::Unreadable,
+            state: Replayed {
+                wheel: Some(Wheel::Human),
+                agent_session_id: None,
+                links: vec![
+                    json!({"driver": "overseer", "driven": "builder", "since": "2026-11-01T10:00:02.000Z"})
+                ],
+                dialog_pending: false,
+                skipped: Skipped {
+                    unknown_kinds: 1,
+                    unknown_fields: 0,
+                    torn_lines: 0,
+                },
+            },
+        }
+    );
+
+    let mut lines = read_from(tmp.path(), 0).expect("the log");
+    let kinds: Vec<String> = lines
+        .by_ref()
+        .map(|line| {
+            line.expect("a line").value["kind"]
+                .as_str()
+                .expect("a kind")
+                .to_owned()
+        })
+        .collect();
+    assert_eq!(kinds, ["wheel", "link", "wheel"]);
+    assert_eq!(
+        lines.skipped(),
         Skipped {
-            unknown_kinds: 0,
+            unknown_kinds: 1,
             unknown_fields: 0,
             torn_lines: 0,
         }
     );
-    (replayed.budget_paused, replayed.budget_override_until)
-}
-
-/// A pause's line names its window: the replay reads `paused` from it and no override.
-#[test]
-fn state_replay_a_budget_gate_line_with_a_window_replays_the_pause() {
-    let tmp = tempfile::tempdir().expect("tempdir");
-    append_gate(tmp.path(), json!({"paused": false}));
-    assert_eq!(replayed_gate(tmp.path()), (Some(false), None));
-    append_gate(tmp.path(), json!({"paused": true, "window": "five-hour"}));
-    assert_eq!(replayed_gate(tmp.path()), (Some(true), None));
-}
-
-/// An override's line carries its end, and the last line decides: a later pause drops the end.
-#[test]
-fn state_replay_a_budget_gate_line_with_an_override_replays_its_end() {
-    let tmp = tempfile::tempdir().expect("tempdir");
-    let end = "2025-02-01T16:00:00.000Z";
-    append_gate(tmp.path(), json!({"paused": true, "window": "seven-day"}));
-    append_gate(tmp.path(), json!({"paused": false, "override_until": end}));
-    assert_eq!(
-        replayed_gate(tmp.path()),
-        (Some(false), Some(end.to_owned()))
-    );
-    append_gate(tmp.path(), json!({"paused": true, "window": "five-hour"}));
-    assert_eq!(replayed_gate(tmp.path()), (Some(true), None));
 }

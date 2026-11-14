@@ -139,6 +139,45 @@ fn claude_fixtures_pass_hygiene() {
     }
 }
 
+/// The 0.1.0-shaped state files the compatibility cases read (`fixtures/viola-0.1.0/`): every file
+/// there, each a JSON document or one JSON object per line, holds no absolute path, username or
+/// email-shaped token.
+#[test]
+fn viola_format_fixtures_pass_hygiene() {
+    let user = host_user();
+    let dir = workspace_path("fixtures/viola-0.1.0");
+    let mut names: Vec<String> = std::fs::read_dir(&dir)
+        .expect("the 0.1.0 fixtures")
+        .flatten()
+        .filter_map(|entry| entry.file_name().to_str().map(str::to_owned))
+        .collect();
+    names.sort();
+    assert_eq!(
+        names,
+        ["events.ndjson", "retired-words.json", "snapshot.json"]
+    );
+    for name in names {
+        let text = std::fs::read_to_string(dir.join(&name)).expect("utf-8");
+        let docs: Vec<Value> = if name.ends_with(".ndjson") {
+            text.lines()
+                .map(|line| serde_json::from_str(line).expect("one JSON object per line"))
+                .collect()
+        } else {
+            vec![serde_json::from_str(&text).expect("one JSON document")]
+        };
+        assert!(!docs.is_empty(), "{name}");
+        for doc in docs {
+            assert!(doc.is_object(), "{name}");
+            let flat = doc.to_string();
+            assert!(!has_absolute_path(&flat), "{name}: absolute-path");
+            assert!(!has_email(&flat), "{name}: email");
+            if let Some(user) = user.as_deref() {
+                assert!(!has_username(&flat, user), "{name}: username");
+            }
+        }
+    }
+}
+
 #[test]
 fn statusline_fixtures_pass_hygiene() {
     let schema = statusline_schema();
@@ -252,7 +291,7 @@ fn planted_agents_email_is_rejected() {
     );
 }
 
-/// Every set recorded with a status line payload holds the two variants, each walked by
+/// Every set recorded with a status line payload holds its one variant, walked by
 /// `statusline_fixtures_pass_hygiene`.
 #[test]
 fn statusline_variants_are_walked_for_every_statusline_set() {
@@ -265,12 +304,7 @@ fn statusline_variants_are_walked_for_every_statusline_set() {
             .filter(|p| p.parent() == Some(set))
             .filter_map(|p| p.file_name()?.to_str().map(str::to_owned))
             .collect();
-        assert_eq!(
-            names,
-            ["StatusLine.default-1.json", "StatusLine.rate-limits-1.json"],
-            "{}",
-            set.display()
-        );
+        assert_eq!(names, ["StatusLine.default-1.json"], "{}", set.display());
     }
 }
 
@@ -283,11 +317,8 @@ fn statusline_payload(extra: &Value) -> Vec<u8> {
 }
 
 #[rstest]
-#[case::no_rate_limits(json!({}))]
-#[case::rate_limits(json!({"rate_limits": {
-    "five_hour": {"used_percentage": 23, "resets_at": 1_760_400_000},
-    "seven_day": {"used_percentage": 91, "resets_at": 1_760_900_000},
-}}))]
+#[case::the_payload(json!({}))]
+#[case::a_field_the_cli_adds(json!({"cost": {"total_lines_added": 1}}))]
 fn planted_clean_statusline_payload_passes(#[case] extra: Value) {
     assert_eq!(
         check(
@@ -302,9 +333,6 @@ fn planted_clean_statusline_payload_passes(#[case] extra: Value) {
 #[rstest]
 #[case::no_session_id(json!({"model": {"id": "m"}}))]
 #[case::session_id_not_string(json!({"session_id": 1}))]
-#[case::rate_limits_not_object(json!({"session_id": "s", "rate_limits": 91}))]
-#[case::a_window_missing(json!({"session_id": "s", "rate_limits": {"five_hour": {}}}))]
-#[case::a_window_not_object(json!({"session_id": "s", "rate_limits": {"five_hour": {}, "seven_day": 7}}))]
 #[case::not_object(json!(["s"]))]
 fn planted_statusline_schema_violation_is_rejected(#[case] doc: Value) {
     assert_eq!(

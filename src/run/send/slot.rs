@@ -22,15 +22,13 @@ pub(super) struct Flight {
     session: Option<String>,
 }
 
-/// The child's input and gate, set once the pump starts, the budget gate and the link set, set by
-/// the start, the one send in flight, the wheel it reads before typing, and the version gate's
-/// reading.
+/// The child's input and gate, set once the pump starts, the link set, set by the start, the one
+/// send in flight, the wheel it reads before typing, and the version gate's reading.
 pub(crate) struct SendSlot {
     pub(super) clock: Box<dyn Clock>,
     pub(super) cli_verified: bool,
     pub(super) wheel: Arc<WheelSlot>,
     pub(super) io: OnceLock<(PasteFn, Gate)>,
-    pub(super) budget: OnceLock<Arc<BudgetGate>>,
     pub(super) links: OnceLock<Arc<LinkSet>>,
     pub(super) snapshots: OnceLock<Arc<Snapshots>>,
     flight: Mutex<Flight>,
@@ -48,7 +46,6 @@ impl SendSlot {
             cli_verified,
             wheel,
             io: OnceLock::new(),
-            budget: OnceLock::new(),
             links: OnceLock::new(),
             snapshots: OnceLock::new(),
             flight: Mutex::default(),
@@ -59,11 +56,6 @@ impl SendSlot {
     /// The first call wins; the pump calls it once, before it starts.
     pub(crate) fn attach(&self, paste: PasteFn, gate: Gate) {
         let _ = self.io.set((paste, gate));
-    }
-
-    /// The first call wins; the start calls it once, before the endpoint serves.
-    pub(crate) fn budget_with(&self, gate: Arc<BudgetGate>) {
-        let _ = self.budget.set(gate);
     }
 
     /// The first call wins; the start calls it once, before the endpoint serves.
@@ -426,8 +418,6 @@ mod tests {
             cli_verified: false,
             cli_version: None,
             wheel: Wheel::Driver,
-            budget_paused: false,
-            budget_override_until: None,
             links: Vec::new(),
             child_pid: Some(7),
             pending_dialog: None,

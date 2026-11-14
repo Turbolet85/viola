@@ -30,14 +30,12 @@ use viola_pty::PtyError;
 use viola_state::StateError;
 use viola_state::events::{EventLine, Source, append_event, append_event_at, end_offset};
 
-use crate::run::budget::{BudgetGate, Crossed, Trigger};
 use crate::run::gate::Gate;
 use crate::run::links::LinkSet;
 use crate::run::snapshot::Snapshots;
 use crate::run::wait::WaitFeed;
 use crate::run::wheel::WheelSlot;
 
-mod budget;
 mod classify;
 mod params;
 mod relabel;
@@ -66,8 +64,7 @@ struct Ctx<'a> {
 /// refused character and then an empty typed text, before anything of the session is read. The
 /// wheel and the running turn are read twice, in that order both times: at arrival, and again
 /// once the gate's wait has ended, because that wait can run to `GATE_MAX_WAIT`. A human key or a
-/// turn that started during it refuses with nothing typed. The budget gate is evaluated once,
-/// between the first two readings, and never after the wait. A send no rung refused, from another
+/// turn that started during it refuses with nothing typed. A send no rung refused, from another
 /// instance, links that instance to this one before `send-issued` (architecture [Links]); a
 /// refused send links nothing.
 pub(crate) fn send(
@@ -99,14 +96,6 @@ pub(crate) fn send(
             RefusalReason::HumanTyping,
             detail.map(HumanTyping::as_str),
         );
-    }
-    if let Some(budget) = slot.budget.get() {
-        let crossed = budget
-            .evaluate(Trigger::Send, Utc::now())
-            .map_err(|_| ProtocolError::Internal)?;
-        if let Some(crossed) = crossed {
-            return ctx.budget_paused(&crossed);
-        }
     }
     let confirms = classify(text, slot.cli_verified);
     {
@@ -249,24 +238,13 @@ impl Ctx<'_> {
         self.refuse(cursor, RefusalReason::NotDelivered, Some(detail.as_str()))
     }
 
+    /// A refusal: before `send-issued` (no cursor; the line's `corr` is the end offset at refusal,
+    /// obs-plan D-28) or after it (the send's own cursor). Its line carries the wheel's holder.
     fn refuse(
         &self,
         cursor: Option<u64>,
         refusal: RefusalReason,
         detail: Option<&'static str>,
-    ) -> Result<Value, ProtocolError> {
-        self.refuse_with(cursor, refusal, detail, None)
-    }
-
-    /// A refusal: before `send-issued` (no cursor; the line's `corr` is the end offset at refusal,
-    /// obs-plan D-28) or after it (the send's own cursor). Its line carries the wheel's holder,
-    /// and for a budget refusal the crossed window's figures.
-    fn refuse_with(
-        &self,
-        cursor: Option<u64>,
-        refusal: RefusalReason,
-        detail: Option<&'static str>,
-        budget: Option<&Crossed>,
     ) -> Result<Value, ProtocolError> {
         let mut data = json!({"refusal": refusal.as_str(), "detail": detail});
         if let Some(cursor) = cursor {
@@ -290,10 +268,6 @@ impl Ctx<'_> {
             wheel = self.wheel.holder().as_str(),
             refusal = refusal.as_str(),
             detail = detail,
-            window = budget.map(|crossed| crossed.window.as_str()),
-            used_percentage = budget.map(|crossed| crossed.used_percentage),
-            resets_at = budget.map(|crossed| crossed.resets_at.as_str()),
-            paused = budget.map(|_| true),
         );
         Ok(json!({"refusal": refusal.as_str(), "detail": detail}))
     }

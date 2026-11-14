@@ -53,15 +53,13 @@ const TAMPERED: &str = "unable: the pinned viola copy failed its integrity check
 fn path1_start_writes_state_before_the_spawn(booted_wrapper: Wrapper) {
     let dir = booted_wrapper.instance_dir();
     let events = events(&dir);
-    assert_eq!(events.len(), 2, "{events:?}");
-    for (line, kind, data) in [
-        (
+    assert_eq!(events.len(), 1, "{events:?}");
+    {
+        let (line, kind, data) = (
             &events[0],
             "wheel",
             json!({"holder": "driver", "cause": "start"}),
-        ),
-        (&events[1], "budget-gate", json!({"paused": false})),
-    ] {
+        );
         assert_eq!(line["v"], 1);
         assert_eq!(line["instance"], "builder");
         assert_eq!(line["kind"], kind);
@@ -74,10 +72,10 @@ fn path1_start_writes_state_before_the_spawn(booted_wrapper: Wrapper) {
     let receipt = fake::receipt(&booted_wrapper.receipt());
     let start = of_kind(&receipt, "start")[0].clone();
     let spawned_at = start["started_at"].as_str().expect("started_at");
-    let gate_at = events[1]["ts"].as_str().expect("ts");
+    let wheel_at = events[0]["ts"].as_str().expect("ts");
     assert!(
-        spawned_at > gate_at,
-        "child {spawned_at} vs budget-gate {gate_at}"
+        spawned_at > wheel_at,
+        "child {spawned_at} vs wheel {wheel_at}"
     );
 
     let snap = snapshot_data(&dir).expect("snapshot");
@@ -217,7 +215,7 @@ fn run_takes_over_a_gone_name_and_appends(stamped_home: StampedHome) {
     assert!(now.starts_with(&prior), "earlier bytes were not kept");
     let added = support::ndjson::complete_lines(&now[prior.len()..]);
     let kinds: Vec<&Value> = added.iter().map(|l| &l["kind"]).collect();
-    assert_eq!(kinds, [&json!("wheel"), &json!("budget-gate")]);
+    assert_eq!(kinds, [&json!("wheel")]);
     assert_ne!(snapshot_data(&dir).expect("snapshot")["pid"], first_pid);
     assert_eq!(second.stop().code(), Some(0));
 }
@@ -426,7 +424,7 @@ fn run_in_the_default_home_reads_the_user_settings() {
 
 /// test-plan §6 Path 6, the pass-through end to end: the fake agent runs the override's status
 /// line, which is the pinned `viola hook statusline`, which runs the user's command through the
-/// shell; what comes back is the user's output byte for byte, and the reading is recorded.
+/// shell; what comes back is the user's output byte for byte.
 #[cfg(unix)]
 #[test]
 fn path6_wrapped_statusline_prints_the_user_output_unchanged() {
@@ -434,9 +432,8 @@ fn path6_wrapped_statusline_prints_the_user_output_unchanged() {
     let home = stamped.home.path().to_path_buf();
     let marker = statusline_marker(&home);
     plant_statusline_source(&home, &statusline_echo_command(&marker, &[]));
-    let payload = json!({"session_id": "canary-chain-value-5c1e",
-        "rate_limits": {"seven_day": {"used_percentage": 63.5, "resets_at": 1_738_857_600}}})
-    .to_string();
+    let payload =
+        json!({"session_id": "canary-chain-value-5c1e", "model": {"id": "m"}}).to_string();
     let stdin = stamped.home.scratch().join("statusline.stdin");
     fs::write(&stdin, &payload).expect("the payload");
     let hex = |bytes: &[u8]| -> String { bytes.iter().map(|b| format!("{b:02x}")).collect() };
@@ -460,20 +457,14 @@ fn path6_wrapped_statusline_prints_the_user_output_unchanged() {
         fs::read_to_string(&marker).expect("the marker file"),
         hex(payload.as_bytes()) + "\n"
     );
-    let budget: Value =
-        serde_json::from_slice(&fs::read(home.join("budget.json")).expect("budget.json"))
-            .expect("json");
-    assert_eq!(budget["seven_day"]["used_percentage"].as_f64(), Some(63.5));
-    assert_eq!(budget["seven_day"]["resets_at"], "2025-02-06T16:00:00.000Z");
-    assert_eq!(budget["five_hour"], "unknown");
     assert_eq!(wrapper.stop().code(), Some(0));
 }
 
-/// test-plan §6 Path 1 with the child's first hook: records 1–3 are `wheel{cause:"start"}` →
-/// `budget-gate` → `session-start{source:"hook"}`, and the fake agent ran the plugin's
-/// SessionStart command by its absolute path (M6).
+/// test-plan §6 Path 1 with the child's first hook: records 1–2 are `wheel{cause:"start"}` →
+/// `session-start{source:"hook"}`, and the fake agent ran the plugin's SessionStart command by its
+/// absolute path (M6).
 #[rstest]
-fn path1_session_start_is_record_three_through_the_absolute_hook(stamped_home: StampedHome) {
+fn path1_session_start_is_record_two_through_the_absolute_hook(stamped_home: StampedHome) {
     let fixtures = stamped_home.home.scratch().join("fixtures");
     fake::write_fixture(
         &fixtures,
@@ -503,26 +494,25 @@ fn path1_session_start_is_record_three_through_the_absolute_hook(stamped_home: S
     let deadline = std::time::Instant::now() + support::watch::WITHIN;
     let events = loop {
         let lines = events(&dir);
-        if lines.len() >= 3 {
+        if lines.len() >= 2 {
             break lines;
         }
         watch.note(&format!("events {}", lines.len()));
-        watch.deadline_check(deadline, "no third event");
+        watch.deadline_check(deadline, "no second event");
         std::thread::yield_now();
     };
-    assert_eq!(events.len(), 3, "{events:?}");
+    assert_eq!(events.len(), 2, "{events:?}");
     let kinds: Vec<(&Value, &Value)> = events.iter().map(|l| (&l["kind"], &l["source"])).collect();
     assert_eq!(
         kinds,
         [
             (&json!("wheel"), &json!("wrapper")),
-            (&json!("budget-gate"), &json!("wrapper")),
             (&json!("session-start"), &json!("hook")),
         ]
     );
     assert_eq!(events[0]["data"]["cause"], "start");
     assert_eq!(
-        events[2]["data"],
+        events[1]["data"],
         json!({"cause": "startup", "agent_session_id": "s-3"})
     );
     assert_eq!(wrapper.stop().code(), Some(0));

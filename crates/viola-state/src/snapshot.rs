@@ -46,10 +46,6 @@ pub struct InstanceSnapshot {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub cli_version: Option<String>,
     pub wheel: Wheel,
-    pub budget_paused: bool,
-    /// The end of a standing `release --budget` override: the crossed window's `resets_at`.
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub budget_override_until: Option<String>,
     #[serde(default)]
     pub links: Vec<Value>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -170,8 +166,6 @@ mod tests {
             cli_verified: false,
             cli_version: None,
             wheel: Wheel::Driver,
-            budget_paused: false,
-            budget_override_until: None,
             links: Vec::new(),
             child_pid,
             pending_dialog: None,
@@ -210,7 +204,6 @@ mod tests {
                 "pinned_bin": "C:/h/bin/0.1.0-0123456789abcdef/viola.exe",
                 "cli_verified": false,
                 "wheel": "driver",
-                "budget_paused": false,
                 "links": [],
             })
         );
@@ -221,6 +214,35 @@ mod tests {
         assert_eq!(second["data"]["child_pid"], 43);
         assert!(tmp.path().join("snapshot.json.lock").is_file());
         assert_eq!(read_snapshot(tmp.path()), Some(snapshot(42, Some(43))));
+    }
+
+    /// A 0.1.0 reader requires one of the budget-era keys: a snapshot this build writes holds
+    /// none of them, so such a reader replays the log in its place.
+    #[test]
+    fn snapshot_written_holds_no_budget_key() {
+        let retired: Value = serde_json::from_str(include_str!(
+            "../../../fixtures/viola-0.1.0/retired-words.json"
+        ))
+        .expect("the retired words");
+        let keys = retired["snapshot_keys"].as_array().expect("the keys");
+        assert_eq!(keys.len(), 2);
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let mut every = snapshot(41, Some(42));
+        every.endpoint = Some("e".to_owned());
+        every.cli_version = Some("2.1.302".to_owned());
+        every.cwd = Some("/work/project".to_owned());
+        every.statusline_command = Some("echo x".to_owned());
+        every.agent_session_id = Some("s-1".to_owned());
+        every.pending_dialog = Some(PendingDialog {
+            dialog_id: 1,
+            kind: "plan".to_owned(),
+        });
+        write_snapshot(tmp.path(), &every).expect("write");
+        let data = &on_disk(tmp.path())["data"];
+        for key in keys {
+            let key = key.as_str().expect("a key");
+            assert!(data.get(key).is_none(), "{key}");
+        }
     }
 
     #[cfg(unix)]
@@ -242,7 +264,7 @@ mod tests {
         let doc = json!({
             "v": 1, "written_at": "x", "writer": "9.9.9", "later": true,
             "data": {"pid": 7, "started_at": "s", "pinned_bin": "b", "cli_verified": true,
-                     "cli_version": "2.1.0", "wheel": "human", "budget_paused": true,
+                     "cli_version": "2.1.0", "wheel": "human",
                      "endpoint": "e", "future_field": 1},
         });
         fs::write(tmp.path().join("snapshot.json"), doc.to_string()).expect("seed");
@@ -288,11 +310,11 @@ mod tests {
 
     #[rstest]
     #[case::no_cwd_key(
-        r#"{"v":1,"written_at":"x","writer":"w","data":{"pid":7,"started_at":"s","pinned_bin":"b","cli_verified":true,"wheel":"driver","budget_paused":false}}"#,
+        r#"{"v":1,"written_at":"x","writer":"w","data":{"pid":7,"started_at":"s","pinned_bin":"b","cli_verified":true,"wheel":"driver"}}"#,
         None
     )]
     #[case::an_unknown_key_beside_cwd(
-        r#"{"v":1,"written_at":"x","writer":"w","data":{"pid":7,"started_at":"s","pinned_bin":"b","cli_verified":true,"wheel":"driver","budget_paused":false,"cwd":"/work/project","later":1}}"#,
+        r#"{"v":1,"written_at":"x","writer":"w","data":{"pid":7,"started_at":"s","pinned_bin":"b","cli_verified":true,"wheel":"driver","cwd":"/work/project","later":1}}"#,
         Some("/work/project")
     )]
     fn snapshot_cwd_reads_as_absent_without_its_key_and_beside_an_unknown_one(
@@ -329,11 +351,11 @@ mod tests {
 
     #[rstest]
     #[case::no_key(
-        r#"{"v":1,"written_at":"x","writer":"w","data":{"pid":7,"started_at":"s","pinned_bin":"b","cli_verified":true,"wheel":"driver","budget_paused":false}}"#,
+        r#"{"v":1,"written_at":"x","writer":"w","data":{"pid":7,"started_at":"s","pinned_bin":"b","cli_verified":true,"wheel":"driver"}}"#,
         None
     )]
     #[case::an_unknown_key_beside_it(
-        r#"{"v":1,"written_at":"x","writer":"w","data":{"pid":7,"started_at":"s","pinned_bin":"b","cli_verified":true,"wheel":"driver","budget_paused":false,"statusline_command":"echo x","later":1}}"#,
+        r#"{"v":1,"written_at":"x","writer":"w","data":{"pid":7,"started_at":"s","pinned_bin":"b","cli_verified":true,"wheel":"driver","statusline_command":"echo x","later":1}}"#,
         Some("echo x")
     )]
     fn snapshot_statusline_command_reads_as_absent_without_its_key(

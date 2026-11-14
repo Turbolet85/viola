@@ -200,7 +200,7 @@ fn verify_help_names_the_trusted_folder_and_the_external_import_blocker() {
 /// gate's 8.5 s maximum, and the twelve rows the first four measure fail while the six print-mode
 /// rows pass; the resume row passes on Run E's SessionStart, captured before its wait; the agents
 /// row fails, as Run B's turn never settles on a literal and no read is made, and so does the compact
-/// row, as no framing paste is made; with no `--framing` either, the three statusline rows fail on
+/// row, as no framing paste is made; with no `--framing` either, the two statusline rows fail on
 /// Unix.
 #[rstest]
 fn verify_window_without_screens_fails_every_interactive_row(#[from(home)] home: TestHome) {
@@ -210,7 +210,7 @@ fn verify_window_without_screens_fails_every_interactive_row(#[from(home)] home:
     let stdout = ran.stdout_text();
     let lines: Vec<&str> = stdout.lines().collect();
     let mut expected = steps_failing(|i| i >= 6 && ROW_IDS[i] != "resume-session");
-    expected.push("stamped 2.1.0  7 pass  17 fail".to_owned());
+    expected.push("stamped 2.1.0  7 pass  16 fail".to_owned());
     assert_eq!(lines, expected);
     let rows = &stamps(home.path())["data"]["versions"]["2.1.0"]["rows"];
     for id in ROW_IDS[6..].iter().filter(|id| **id != "resume-session") {
@@ -253,7 +253,7 @@ fn verify_kills_the_dialog_and_plan_runs_only_after_their_last_stop_hook(
 
 /// Without the dialog replay the dialog and plan runs see turns that raise no dialog: the ten spine
 /// and screen rows, the three framing rows, the newline row, the resume row, the agents row, the
-/// compact row and, on Unix, the three statusline rows pass, the four dialog rows fail, the stamp is
+/// compact row and, on Unix, the two statusline rows pass, the four dialog rows fail, the stamp is
 /// written
 /// and verify exits 1 with nothing on stderr. The version is then unverified (R2).
 #[rstest]
@@ -263,7 +263,7 @@ fn verify_without_the_dialog_replay_fails_the_four_dialog_rows(#[from(home)] hom
     assert_eq!(ran.code, Some(1));
     assert!(ran.stderr.is_empty(), "stderr {}", ran.stderr_text());
     let mut expected = steps_failing(|i| (10..14).contains(&i));
-    expected.push("stamped 2.1.0  20 pass  4 fail".to_owned());
+    expected.push("stamped 2.1.0  19 pass  4 fail".to_owned());
     let stdout = ran.stdout_text();
     assert_eq!(stdout.lines().collect::<Vec<_>>(), expected);
     assert_plain(&ran.stdout);
@@ -285,7 +285,7 @@ fn verify_without_the_dialog_replay_fails_the_four_dialog_rows(#[from(home)] hom
 /// Without the framing replay the fake agent echoes each added paste as typed: the three paste rows
 /// pass on the echo, and `/compact` and the local command, each echoed as a prompt with no
 /// SessionStart, fail their rows;
-/// on Unix the status line, replayed only under `--framing`, files nothing and its three rows fail
+/// on Unix the status line, replayed only under `--framing`, files nothing and its two rows fail
 /// too. Every paste still went into the trusted run, in order, and the run fired no hook for the
 /// command but its echo.
 #[rstest]
@@ -302,7 +302,7 @@ fn verify_without_framing_fails_the_clear_row_and_on_unix_the_statusline_rows(
     let local = |id: &str| id == "local-command-clear" || id == "local-command-compact";
     let mut expected =
         steps_failing(|i| local(ROW_IDS[i]) || STATUSLINE_ROWS.contains(&ROW_IDS[i]));
-    expected.push("stamped 2.1.0  19 pass  5 fail".to_owned());
+    expected.push("stamped 2.1.0  19 pass  4 fail".to_owned());
     let stdout = ran.stdout_text();
     assert_eq!(stdout.lines().collect::<Vec<_>>(), expected);
     assert_plain(&ran.stdout);
@@ -383,7 +383,7 @@ fn verify_pastes_no_local_command_once_the_tag_turn_screen_shows_a_modal(
     ];
     let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &after, &[]);
     assert_eq!(ran.code, Some(1), "stdout {}", ran.stdout_text());
-    let summary = "stamped 2.1.0  21 pass  3 fail\n";
+    let summary = "stamped 2.1.0  20 pass  3 fail\n";
     assert!(
         ran.stdout_text().ends_with(summary),
         "stdout {}",
@@ -437,7 +437,7 @@ fn verify_pastes_nothing_more_once_the_long_turn_screen_shows_a_modal(
         "local-command-compact",
     ];
     let mut expected = steps_failing(|i| red.contains(&ROW_IDS[i]));
-    expected.push("stamped 2.1.0  19 pass  5 fail".to_owned());
+    expected.push("stamped 2.1.0  18 pass  5 fail".to_owned());
     let stdout = ran.stdout_text();
     assert_eq!(
         stdout.lines().collect::<Vec<_>>(),

@@ -1,9 +1,9 @@
-//! E5 steps 1–3 (test-plan §6 E5; obs-plan §4 E5): a wrapper driven through `link`, a budget pause
-//! and `pause`, then stopped, leaves a `snapshot.json` that is cut short or carries a newer
+//! E5 steps 1–3 (test-plan §6 E5; obs-plan §4 E5): a wrapper driven through `link` and `pause`,
+//! then stopped, leaves a `snapshot.json` that is cut short or carries a newer
 //! envelope `v`, made from the writer's own bytes. Once its heartbeat is older than `STALE_AFTER`
 //! (its age read off the file), the next `viola run builder` replays the log in the snapshot's
 //! place: it starts, writes one `state-recovered` line to its role file, and its first snapshot
-//! carries the links the log holds. Over a fresh beat the same replayed snapshot refuses the start
+//! carries the links the log holds and none of the budget-era keys. Over a fresh beat the same replayed snapshot refuses the start
 //! `already-live`: a replayed snapshot records no pid, so the beat alone says a wrapper runs.
 
 #[allow(dead_code)]
@@ -18,21 +18,17 @@ use serde_json::Value;
 use support::cli::viola;
 use support::fake::FAKE;
 use support::home::{
-    StampedHome, UNWRAPPED, VIOLA, Wrapper, beat_age, snapshot_data, stamped_home,
+    StampedHome, UNWRAPPED, VIOLA, Wrapper, beat_age, snapshot_data, stamped_home, workspace_path,
 };
-use support::statusline::{feed, usage};
 
 /// The liveness bound, written out here (the oracle is a literal).
 const STALE_AFTER: Duration = Duration::from_secs(5);
 
-/// A first life driven through a budget pause, a link and `pause`, stopped: its stamped home and
-/// the links its last snapshot recorded.
+/// A first life driven through a link and `pause`, stopped: its stamped home and the links its
+/// last snapshot recorded.
 fn first_life(stamped: StampedHome) -> (StampedHome, Value) {
     let wrapper = Wrapper::boot(stamped, "builder", None, &[]);
     let home = wrapper.home().to_path_buf();
-    feed(&wrapper.instance_dir(), usage(91, 10));
-    let paused = viola(&home, &["send", "builder", "--json"], Some("hello\n"), None);
-    assert_eq!(paused.code, Some(11), "{}", paused.stdout);
     let linked = viola(
         &home,
         &["link", "overseer", "builder", "--json"],
@@ -102,10 +98,17 @@ fn a_start_over_an_unreadable_snapshot_replays_the_log(
     assert_eq!(lines.len(), 1, "{lines:?}");
     assert_eq!(lines[0]["detail"], detail);
     assert_eq!(lines[0]["file"], "snapshot.json");
-    assert_eq!(
-        snapshot_data(&dir).expect("the new snapshot")["links"],
-        links
-    );
+    let snapshot = snapshot_data(&dir).expect("the new snapshot");
+    assert_eq!(snapshot["links"], links);
+    let retired: Value = serde_json::from_slice(
+        &std::fs::read(workspace_path("fixtures/viola-0.1.0/retired-words.json"))
+            .expect("the retired words"),
+    )
+    .expect("json");
+    for key in retired["snapshot_keys"].as_array().expect("the keys") {
+        let key = key.as_str().expect("a key");
+        assert!(snapshot.get(key).is_none(), "{key}");
+    }
     second.stop();
 }
 

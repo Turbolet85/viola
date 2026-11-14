@@ -104,7 +104,7 @@ fn check_typed_rows_fail_without_a_measurement() {
         six,
         [
             true, true, true, true, true, true, false, false, false, false, true, true, true, true,
-            true, true, true, true, true, true, true, true, true, false
+            true, true, true, true, true, true, true, true, false
         ]
     );
 }

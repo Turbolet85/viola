@@ -9,6 +9,5 @@ mod rows;
 #[cfg(test)]
 mod test_support;
 
-pub(crate) use bay::BayBudget;
 pub(crate) use pairs::{home_state_pair, instance_state_pair};
 pub(crate) use rows::write_board;

@@ -125,10 +125,7 @@ fn path5_human_takes_the_wheel_and_release_returns_it(stamped_home: StampedHome)
 
     let released = viola(&home, &["release", "builder", "--json"], Some(""), None);
     assert_eq!(released.code, Some(0), "stderr: {}", released.stderr);
-    assert_eq!(
-        released.stdout,
-        "{\"v\":1,\"ok\":{\"wheel\":\"driver\",\"budget_paused\":false}}\n"
-    );
+    assert_eq!(released.stdout, "{\"v\":1,\"ok\":{\"wheel\":\"driver\"}}\n");
     let sent = send_json(&home);
     assert_eq!(sent.code, Some(0), "stderr: {}", sent.stderr);
 

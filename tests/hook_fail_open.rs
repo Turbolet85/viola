@@ -222,8 +222,6 @@ impl Impostor {
             cli_verified: true,
             cli_version: None,
             wheel: viola_state::snapshot::Wheel::Driver,
-            budget_paused: false,
-            budget_override_until: None,
             links: Vec::new(),
             child_pid: None,
             pending_dialog: None,

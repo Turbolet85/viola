@@ -82,8 +82,8 @@ pub fn wrapped(text: &str) -> String {
 
 /// The six framing variants a clean trusted run records, the shapes of the live 2.1.287 probe:
 /// the wrapped long prompt, the escaped tag-like prompt, the newline prompt, the SessionStart
-/// `/compact` fired under the set's first session id, and the two hooks the local command fired; and its status line's two payloads, before and after the first turn, the
-/// second with both `rate_limits` windows in whole numbers.
+/// `/compact` fired under the set's first session id, and the two hooks the local command fired; and
+/// its status line's payload.
 pub fn framing_set() -> Vec<(&'static str, &'static str, Value)> {
     let mut long = spine_payload("UserPromptSubmit");
     long["prompt"] = json!(wrapped(&long_paste()));
@@ -100,11 +100,6 @@ pub fn framing_set() -> Vec<(&'static str, &'static str, Value)> {
     started["source"] = json!("clear");
     started["session_id"] = json!("s-verify-2");
     let status = json!({"session_id": SESSION_ID, "model": {"id": "m"}, "note": CANARY});
-    let mut limited = status.clone();
-    limited["rate_limits"] = json!({
-        "five_hour": {"used_percentage": 23, "resets_at": 1_760_400_000},
-        "seven_day": {"used_percentage": 91, "resets_at": 1_760_900_000},
-    });
     vec![
         ("UserPromptSubmit", "paste-1", long),
         ("UserPromptSubmit", "paste-2", tag),
@@ -113,7 +108,6 @@ pub fn framing_set() -> Vec<(&'static str, &'static str, Value)> {
         ("SessionEnd", "clear-1", ended),
         ("SessionStart", "clear-1", started),
         ("StatusLine", "default-1", status),
-        ("StatusLine", "rate-limits-1", limited),
     ]
 }
 

@@ -248,13 +248,7 @@ const GATES: &[Gate] = &[
     },
     Gate {
         file: "tests/hook_statusline.rs",
-        test: "hook_statusline_passes_the_user_output_through_and_records_the_reading",
-        gate: "unix",
-        reason: UNIX_STATUSLINE,
-    },
-    Gate {
-        file: "tests/hook_statusline.rs",
-        test: "hook_statusline_without_rate_limits_writes_no_reading_and_still_passes_through",
+        test: "hook_statusline_passes_the_user_output_through",
         gate: "unix",
         reason: UNIX_STATUSLINE,
     },

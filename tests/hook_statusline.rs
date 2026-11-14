@@ -1,8 +1,7 @@
-//! `viola hook statusline` on the real binary (test-plan §6 Path 6, the hook half; security-plan
-//! §Input Validation, Hook stdin row; obs-plan §4 Scenario: Budget governor): it records the usage
-//! reading the payload carries, runs the user's own statusline command with the same stdin and
-//! prints that command's stdout unchanged, exits 0 with an empty stderr on every path, and runs
-//! nothing from a home another user can write. The user's command is the fake agent's
+//! `viola hook statusline` on the real binary (security-plan §Input Validation, Hook stdin row): it
+//! runs the user's own statusline command with the same stdin and prints that command's stdout
+//! unchanged, exits 0 with an empty stderr on every path, and runs nothing from a home another
+//! user can write. The user's command is the fake agent's
 //! `statusline-echo` mode.
 
 #[allow(dead_code)]
@@ -21,7 +20,7 @@ use support::home::{
     stamped_home, statusline_echo_command, statusline_marker, workspace_path,
 };
 use support::hygiene::load_schema;
-use support::statusline::{CANARY, hook_as_builder, hook_statusline, reading};
+use support::statusline::{CANARY, hook_as_builder, hook_statusline, payload};
 
 #[cfg(unix)]
 fn hex_of(bytes: &[u8]) -> String {
@@ -44,11 +43,6 @@ impl Session {
 
     fn role_lines(&self) -> Vec<Value> {
         support::ndjson::read_lines(&self.home.join("diagnostics").join("hook-builder.ndjson"))
-    }
-
-    fn budget(&self) -> Option<Value> {
-        let bytes = fs::read(self.home.join("budget.json")).ok()?;
-        Some(serde_json::from_slice(&bytes).expect("budget.json is JSON"))
     }
 
     fn marker(&self) -> Option<String> {
@@ -125,27 +119,16 @@ fn assert_silent_success(ran: &Ran, stdout: &str) {
     assert!(ran.stderr.is_empty(), "stderr: {} bytes", ran.stderr.len());
 }
 
-/// test-plan §6 Path 6, the hook half: the user's output byte for byte, the reading in
-/// `budget.json`, the user's command fed exactly the payload, and the four role lines in order.
+/// The user's output byte for byte, the user's command fed exactly the payload, and the four role
+/// lines in order.
 #[cfg(unix)]
 #[test]
-fn hook_statusline_passes_the_user_output_through_and_records_the_reading() {
+fn hook_statusline_passes_the_user_output_through() {
     let session = session(unstamped(), Some(&[]));
     let before = session.role_lines().len();
-    let stdin = reading(91);
+    let stdin = payload(91);
     let ran = session.hook(stdin.clone());
     assert_silent_success(&ran, STATUSLINE_ECHO_OUTPUT);
-
-    let budget = session.budget().expect("a reading");
-    assert_eq!(budget["v"], 1);
-    assert_eq!(budget["five_hour"]["used_percentage"].as_f64(), Some(91.0));
-    assert_eq!(
-        budget["five_hour"]["resets_at"],
-        support::statusline::PASSED_RESET_STORED
-    );
-    assert_eq!(budget["seven_day"], "unknown");
-    let read_at = budget["read_at"].as_str().expect("read_at");
-    assert!(read_at.ends_with('Z') && read_at.len() == 24, "{read_at}");
     assert_eq!(session.marker(), Some(hex_of(&stdin) + "\n"));
 
     let lines = session.role_lines().split_off(before);
@@ -167,7 +150,6 @@ fn hook_statusline_passes_the_user_output_through_and_records_the_reading() {
     assert!(lines[2]["duration_ms"].is_u64());
     let decision = &lines[3];
     assert_eq!(decision["hook_event"], "statusline");
-    assert_eq!(decision["budget_written"], true);
     assert_eq!(decision["level"], "INFO");
     assert!(decision["duration_ms"].is_u64());
     assert!(decision.get("detail").is_none());
@@ -180,29 +162,12 @@ fn hook_statusline_passes_the_user_output_through_and_records_the_reading() {
     assert_eq!(violations(&lines), Vec::<String>::new());
 }
 
-/// Most invocations carry no `rate_limits`: nothing is written, and the user's line still shows.
-#[cfg(unix)]
-#[test]
-fn hook_statusline_without_rate_limits_writes_no_reading_and_still_passes_through() {
-    let session = session(unstamped(), Some(&[]));
-    let stdin = support::statusline::payload(None);
-    let ran = session.hook(stdin.clone());
-    assert_silent_success(&ran, STATUSLINE_ECHO_OUTPUT);
-    assert_eq!(session.budget(), None);
-    assert_eq!(session.marker(), Some(hex_of(&stdin) + "\n"));
-    let lines = session.role_lines();
-    let decision = lines.last().expect("hook-decision");
-    assert_eq!(decision["event"], "hook-decision");
-    assert_eq!(decision["budget_written"], false);
-    assert!(decision.get("detail").is_none());
-}
-
 /// A user command that exits non-zero shows nothing, and the hook still exits 0.
 #[cfg(unix)]
 #[test]
 fn hook_statusline_a_failing_command_prints_nothing() {
     let session = session(unstamped(), Some(&["--exit", "3"]));
-    let stdin = reading(40);
+    let stdin = payload(40);
     let ran = session.hook(stdin.clone());
     assert_silent_success(&ran, "");
     assert_eq!(session.marker(), Some(hex_of(&stdin) + "\n"));
@@ -214,89 +179,78 @@ fn hook_statusline_a_failing_command_prints_nothing() {
     assert_eq!(exit["subject"], "statusline-shell");
     assert_eq!(exit["shell_exit_status"], 3);
     let decision = lines.last().expect("hook-decision");
-    assert_eq!(decision["budget_written"], true);
+    assert_eq!(decision["event"], "hook-decision");
     assert!(decision.get("detail").is_none());
 }
 
-/// With no command recorded the arm prints nothing and still records the reading.
+/// With no command recorded the arm prints nothing.
 #[rstest]
-fn hook_statusline_without_a_recorded_command_prints_nothing_and_records_the_reading(
-    stamped_home: StampedHome,
-) {
+fn hook_statusline_without_a_recorded_command_prints_nothing(stamped_home: StampedHome) {
     let session = session(stamped_home, None);
     assert!(session.command.is_none());
-    let ran = session.hook(reading(7));
+    let ran = session.hook(payload(7));
     assert_silent_success(&ran, "");
-    let budget = session.budget().expect("a reading");
-    assert_eq!(budget["five_hour"]["used_percentage"].as_f64(), Some(7.0));
     assert_eq!(session.marker(), None);
     let lines = session.role_lines();
     assert_eq!(events(&lines), ["hook-invoked", "hook-decision"]);
-    assert_eq!(lines[1]["budget_written"], true);
+    assert!(lines[1].get("detail").is_none());
     assert_eq!(violations(&lines), Vec::<String>::new());
 }
 
 /// A home another user can write, on the first invocation and on the next one over the same
-/// home: no command is run, nothing is printed or logged, neither the marker file nor
-/// `budget.json` moves, and the home's mode is left as found, so the refusal lasts.
+/// home: no command is run, nothing is printed or logged, the marker file does not move, and the
+/// home's mode is left as found, so the refusal lasts.
 #[cfg(unix)]
 #[test]
 fn hook_statusline_a_home_another_user_can_write_runs_nothing_however_often() {
     use std::os::unix::fs::PermissionsExt as _;
     let session = session(unstamped(), Some(&[]));
-    assert_silent_success(&session.hook(reading(91)), STATUSLINE_ECHO_OUTPUT);
+    assert_silent_success(&session.hook(payload(91)), STATUSLINE_ECHO_OUTPUT);
     let marker = session.marker().expect("the first run's marker line");
-    let budget = bytes_and_mtime(&session.home.join("budget.json"));
     let lines = session.role_lines().len();
     let mode = |path: &Path| fs::metadata(path).expect("meta").permissions().mode() & 0o777;
 
     fs::set_permissions(&session.home, fs::Permissions::from_mode(0o770)).expect("chmod");
-    for used in [12, 13] {
-        let ran = session.hook(reading(used));
+    for n in [12, 13] {
+        let ran = session.hook(payload(n));
         assert_silent_success(&ran, "");
-        assert_eq!(session.marker(), Some(marker.clone()), "reading {used}");
-        assert_eq!(
-            bytes_and_mtime(&session.home.join("budget.json")),
-            budget,
-            "reading {used}"
-        );
-        assert_eq!(mode(&session.home), 0o770, "after reading {used}");
+        assert_eq!(session.marker(), Some(marker.clone()), "payload {n}");
+        assert_eq!(mode(&session.home), 0o770, "after payload {n}");
     }
     assert_eq!(session.role_lines().len(), lines, "a refused check logged");
 
     // The refusal was the home's: narrowed again by its owner, the arm serves it.
     fs::set_permissions(&session.home, fs::Permissions::from_mode(0o700)).expect("chmod back");
-    assert_silent_success(&session.hook(reading(14)), STATUSLINE_ECHO_OUTPUT);
-    assert_ne!(
-        bytes_and_mtime(&session.home.join("budget.json")).0,
-        budget.0
-    );
+    let stdin = payload(14);
+    assert_silent_success(&session.hook(stdin.clone()), STATUSLINE_ECHO_OUTPUT);
+    assert_eq!(session.marker(), Some(marker + &hex_of(&stdin) + "\n"));
 }
 
-/// An instance directory another user may write:
-/// nothing is read, run, printed or logged, no reading is written, and the widening is left as
-/// found; narrowed again by its owner, the arm serves it.
+/// An instance directory another user may write: nothing is read, run, printed or logged, and the
+/// widening is left as found; narrowed again by its owner, the arm serves it.
 #[rstest]
 fn hook_statusline_a_widened_instance_runs_and_logs_nothing(stamped_home: StampedHome) {
     let session = session(stamped_home, None);
     let lines = session.role_lines().len();
     support::home::widen(&session.dir);
-    let ran = session.hook(reading(33));
+    let ran = session.hook(payload(33));
     assert_silent_success(&ran, "");
-    assert!(session.budget().is_none(), "a reading was written");
     assert_eq!(session.marker(), None);
     assert_eq!(session.role_lines().len(), lines, "a refused check logged");
     assert!(support::home::still_widened(&session.dir));
     support::home::unwiden(&session.dir);
-    assert_silent_success(&session.hook(reading(34)), "");
-    let budget = session.budget().expect("a reading once narrowed");
-    assert_eq!(budget["five_hour"]["used_percentage"].as_f64(), Some(34.0));
+    assert_silent_success(&session.hook(payload(34)), "");
+    assert_eq!(
+        events(&session.role_lines()[lines..]),
+        ["hook-invoked", "hook-decision"],
+        "served once narrowed"
+    );
 }
 
 #[rstest]
 #[case::oversize(
     {
-        let mut bytes = reading(91);
+        let mut bytes = payload(91);
         bytes.resize((16 << 20) + 1, b' ');
         bytes
     },
@@ -313,7 +267,6 @@ fn hook_statusline_oversize_and_malformed_stdin_write_nothing(
     let session = session(stamped_home, None);
     let ran = session.hook(stdin);
     assert_silent_success(&ran, "");
-    assert_eq!(session.budget(), None);
     let lines = session.role_lines();
     assert_eq!(
         events(&lines),
@@ -322,7 +275,6 @@ fn hook_statusline_oversize_and_malformed_stdin_write_nothing(
     assert_eq!(lines[1]["parser"], "hook-stdin");
     assert_eq!(lines[1]["detail"], rejected);
     assert_eq!(lines[2]["detail"], detail);
-    assert_eq!(lines[2]["budget_written"], false);
     assert!(!lines.iter().any(|l| l.to_string().contains(CANARY)));
     assert_eq!(violations(&lines), Vec::<String>::new());
 }
@@ -339,7 +291,7 @@ fn hook_statusline_outside_a_wrapped_session_writes_nothing(#[case] named: bool)
     if named {
         env.push(("VIOLA_NAME", OsString::from("builder")));
     }
-    let ran = hook_statusline(&env, reading(91));
+    let ran = hook_statusline(&env, payload(91));
     assert_silent_success(&ran, "");
     assert!(!tmp.path().exists(), "the home was created");
     let left: Vec<_> = fs::read_dir(tmp.scratch())
@@ -365,9 +317,8 @@ fn hook_statusline_changes_neither_the_snapshot_nor_the_stamps(stamped_home: Sta
     let snapshot = session.dir.join("snapshot.json");
     let stamps = session.home.join("ledger").join("stamps.json");
     let before = (bytes_and_mtime(&snapshot), bytes_and_mtime(&stamps));
-    let ran = session.hook(reading(55));
+    let ran = session.hook(payload(55));
     assert_silent_success(&ran, STATUSLINE_ECHO_OUTPUT);
-    assert!(session.budget().is_some());
     assert_eq!(
         (bytes_and_mtime(&snapshot), bytes_and_mtime(&stamps)),
         before
@@ -401,7 +352,7 @@ fn hook_statusline_keeps_the_command_and_the_payload_out_of_the_process_logs(
 ) {
     let session = session(stamped_home, Some(&[]));
     let command = session.command.clone().expect("the planted command");
-    let ran = session.hook(reading(91));
+    let ran = session.hook(payload(91));
     assert_eq!(ran.code, Some(0));
     assert!(ran.stderr.is_empty(), "stderr: {} bytes", ran.stderr.len());
     let decisions: Vec<Value> = session
@@ -411,8 +362,8 @@ fn hook_statusline_keeps_the_command_and_the_payload_out_of_the_process_logs(
         .collect();
     assert_eq!(decisions.len(), 1);
     // The arm ran its whole course: a refused or rejected run would have read nothing to leak.
-    assert_eq!(decisions[0]["budget_written"], true);
     assert!(decisions[0].get("detail").is_none());
+    assert_eq!(ran.stdout, STATUSLINE_ECHO_OUTPUT);
     let files = files_under(&session.home.join("diagnostics"));
     assert!(!files.is_empty());
     let marker = STATUSLINE_ECHO_OUTPUT.trim_end();

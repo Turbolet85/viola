@@ -294,7 +294,7 @@ mod tests {
                 "last" => Ok(
                     json!({"ok": {"conn": params["conn"], "v": params["v"], "sender": params["sender"]}}),
                 ),
-                "pause" => Ok(json!({"refusal": "budget-paused", "detail": null})),
+                "pause" => Ok(json!({"refusal": "human-typing", "detail": null})),
                 _ => Err(ProtocolError::MethodNotFound),
             }
         }
@@ -330,7 +330,7 @@ mod tests {
         let reply = client
             .request_until("pause", Map::new(), deadline)
             .expect("reply");
-        assert_eq!(reply["result"]["refusal"], "budget-paused");
+        assert_eq!(reply["result"]["refusal"], "human-typing");
     }
 
     /// A reply still owed at the deadline is `Deadline`, returned at the deadline, not when the
@@ -377,7 +377,7 @@ mod tests {
         let mut client = Client::connect(&endpoint, "cli").expect("connect");
         let conn = client.conn().to_owned();
         let reply = client.request("pause", Map::new()).expect("reply");
-        assert_eq!(reply["result"]["refusal"], "budget-paused");
+        assert_eq!(reply["result"]["refusal"], "human-typing");
         let span = got.span("channel.request");
         assert_eq!(span["method"], "pause");
         assert_eq!(span["conn"], conn.as_str());

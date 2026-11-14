@@ -237,7 +237,6 @@ fn links_survive_a_wrapper_restart(stamped_home: StampedHome) {
     let lines = events(&dir);
     assert_eq!(lines[first_life]["kind"], "wheel");
     assert_eq!(lines[first_life]["data"]["cause"], "start");
-    assert_eq!(lines[first_life + 1]["kind"], "budget-gate");
     assert_eq!(snapshot_links(&dir), linked);
 
     let again = send(&home, Some("overseer"));

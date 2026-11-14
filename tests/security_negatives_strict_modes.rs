@@ -145,7 +145,7 @@ fn hook_payload(event: &str) -> Vec<u8> {
             "tool_input": {"questions": [{"question": "q", "options": [{"label": "a"}]}]}}),
         "PermissionRequest" => json!({"hook_event_name": event, "tool_name": "Bash",
             "tool_input": {"command": "true"}}),
-        "StatusLine" => return support::statusline::reading(5),
+        "StatusLine" => return support::statusline::payload(5),
         _ => json!({"hook_event_name": event}),
     }
     .to_string()

@@ -65,7 +65,6 @@ fn read_text(reader: impl Read) -> Option<String> {
 pub(super) fn exit_of(reason: RefusalReason) -> u8 {
     match reason {
         RefusalReason::HumanTyping => 10,
-        RefusalReason::BudgetPaused => 11,
         RefusalReason::UnverifiedCli => 12,
         RefusalReason::NotDelivered => 13,
         RefusalReason::Unknown => 14,
@@ -77,14 +76,11 @@ pub(super) fn reason_of(reason: &str) -> RefusalReason {
 }
 
 /// What a refusal's hint is keyed by: the detail of a `not-delivered`, the reason itself for
-/// `human-typing`, `budget-paused` and `unverified-cli` whatever their detail, and nothing for
-/// `unknown`.
+/// `human-typing` and `unverified-cli` whatever their detail, and nothing for `unknown`.
 fn hint_cause<'a>(reason: &'a str, detail: Option<&'a str>) -> Option<&'a str> {
     match reason_of(reason) {
         RefusalReason::NotDelivered => detail,
-        RefusalReason::HumanTyping | RefusalReason::BudgetPaused | RefusalReason::UnverifiedCli => {
-            Some(reason)
-        }
+        RefusalReason::HumanTyping | RefusalReason::UnverifiedCli => Some(reason),
         RefusalReason::Unknown => None,
     }
 }
@@ -288,15 +284,35 @@ mod tests {
         assert_eq!(read_text(io::repeat(b'a').take(MAX_FRAME + 1)), None);
     }
 
-    #[rstest]
-    #[case::human_typing("human-typing", 10)]
-    #[case::budget_paused("budget-paused", 11)]
-    #[case::unverified_cli("unverified-cli", 12)]
-    #[case::not_delivered("not-delivered", 13)]
-    #[case::unknown("unknown", 14)]
-    #[case::unlisted("wheel-held", 14)]
-    fn exit_of_is_the_closed_table(#[case] reason: &str, #[case] exit: u8) {
-        assert_eq!(exit_of(reason_of(reason)), exit);
+    /// Every refusal word, and the word an older wrapper sent for a budget pause, mapped by
+    /// literal: 11 is retired, so no refusal takes it and the older word reads `unknown`, 14.
+    #[test]
+    fn exit_codes_of_the_refusals_leave_eleven_unused() {
+        let retired: Value = serde_json::from_str(include_str!(
+            "../../fixtures/viola-0.1.0/retired-words.json"
+        ))
+        .expect("the retired words");
+        let retired = retired["refusal"].as_str().expect("the retired refusal");
+        let table = [
+            ("human-typing", 10),
+            ("unverified-cli", 12),
+            ("not-delivered", 13),
+            ("unknown", 14),
+            ("wheel-held", 14),
+            (retired, 14),
+        ];
+        for (word, exit) in table {
+            assert_eq!(exit_of(reason_of(word)), exit, "{word}");
+        }
+        assert_eq!(reason_of(retired), RefusalReason::Unknown);
+        for reason in [
+            RefusalReason::HumanTyping,
+            RefusalReason::UnverifiedCli,
+            RefusalReason::NotDelivered,
+            RefusalReason::Unknown,
+        ] {
+            assert_ne!(exit_of(reason), 11, "{}", reason.as_str());
+        }
     }
 
     #[rstest]
@@ -304,12 +320,10 @@ mod tests {
     #[case::not_delivered_alone("not-delivered", None, None)]
     #[case::human_typing("human-typing", None, Some("human-typing"))]
     #[case::a_manual_pause("human-typing", Some("manual-pause"), Some("human-typing"))]
-    #[case::budget_paused("budget-paused", Some("five-hour"), Some("budget-paused"))]
-    #[case::budget_paused_by_the_week("budget-paused", Some("seven-day"), Some("budget-paused"))]
     #[case::unverified_cli("unverified-cli", None, Some("unverified-cli"))]
     #[case::unknown_with_a_detail("unknown", Some("turn-running"), None)]
     #[case::an_unlisted_reason("wheel-held", Some("turn-running"), None)]
-    fn hint_cause_is_the_detail_of_a_not_delivered_and_the_reason_of_the_two_driver_refusals(
+    fn hint_cause_is_the_detail_of_a_not_delivered_and_the_reason_of_the_driver_refusals(
         #[case] reason: &str,
         #[case] detail: Option<&str>,
         #[case] cause: Option<&str>,

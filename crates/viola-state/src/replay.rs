@@ -17,8 +17,6 @@ use crate::snapshot::{InstanceSnapshot, SNAPSHOT, SnapshotRead, Wheel, read_snap
 #[derive(Debug, Clone, Default, PartialEq)]
 pub struct Replayed {
     pub wheel: Option<Wheel>,
-    pub budget_paused: Option<bool>,
-    pub budget_override_until: Option<String>,
     pub agent_session_id: Option<String>,
     pub links: Vec<Value>,
     pub dialog_pending: bool,
@@ -45,7 +43,7 @@ pub enum Recovered {
     },
 }
 
-/// One pass over the whole log: `wheel` and the budget gate from their last line, the session id
+/// One pass over the whole log: `wheel` from its last line, the session id
 /// from the last `session-start` that carries one.
 #[tracing::instrument(skip_all, name = "state.replay")]
 pub fn replay(instance_dir: &Path) -> Result<Replayed, StateError> {
@@ -57,10 +55,6 @@ pub fn replay(instance_dir: &Path) -> Result<Replayed, StateError> {
         let data = &line.value["data"];
         match line.value["kind"].as_str().and_then(EventKind::from_name) {
             Some(EventKind::Wheel) => replayed.wheel = holder(&data["holder"]),
-            Some(EventKind::BudgetGate) => {
-                replayed.budget_paused = data["paused"].as_bool();
-                replayed.budget_override_until = data["override_until"].as_str().map(str::to_owned);
-            }
             Some(EventKind::SessionStart) => {
                 if let Some(id) = data["agent_session_id"].as_str() {
                     replayed.agent_session_id = Some(id.to_owned());
@@ -218,8 +212,6 @@ mod tests {
             cli_verified: false,
             cli_version: None,
             wheel: Wheel::Driver,
-            budget_paused: false,
-            budget_override_until: None,
             links: Vec::new(),
             child_pid: None,
             pending_dialog: None,
@@ -229,7 +221,7 @@ mod tests {
         }
     }
 
-    /// A start, then a human key, a budget pause with its override and a `/clear`.
+    /// A start, then a human key and a `/clear`.
     fn full_log(dir: &Path) {
         log(
             dir,
@@ -238,7 +230,6 @@ mod tests {
                     EventKind::Wheel,
                     json!({"holder": "driver", "cause": "start"}),
                 ),
-                (EventKind::BudgetGate, json!({"paused": false})),
                 (
                     EventKind::SessionStart,
                     json!({"cause": "startup", "agent_session_id": "s-1"}),
@@ -246,10 +237,6 @@ mod tests {
                 (
                     EventKind::Wheel,
                     json!({"holder": "human", "cause": "human-input"}),
-                ),
-                (
-                    EventKind::BudgetGate,
-                    json!({"paused": true, "window": "five-hour", "override_until": "2026-09-27T02:00:00.000Z"}),
                 ),
                 (
                     EventKind::SessionStart,
@@ -266,8 +253,6 @@ mod tests {
     fn full_state() -> Replayed {
         Replayed {
             wheel: Some(Wheel::Human),
-            budget_paused: Some(true),
-            budget_override_until: Some("2026-09-27T02:00:00.000Z".to_owned()),
             agent_session_id: Some("s-2".to_owned()),
             links: Vec::new(),
             dialog_pending: false,
@@ -283,24 +268,19 @@ mod tests {
     }
 
     #[test]
-    fn replay_recovers_the_driver_wheel_and_an_open_gate_from_a_start() {
+    fn replay_recovers_the_driver_wheel_from_a_start() {
         let tmp = tempfile::tempdir().expect("tempdir");
         log(
             tmp.path(),
-            &[
-                (
-                    EventKind::Wheel,
-                    json!({"holder": "driver", "cause": "start"}),
-                ),
-                (EventKind::BudgetGate, json!({"paused": false})),
-            ],
+            &[(
+                EventKind::Wheel,
+                json!({"holder": "driver", "cause": "start"}),
+            )],
         );
         assert_eq!(
             replay(tmp.path()).expect("replay"),
             Replayed {
                 wheel: Some(Wheel::Driver),
-                budget_paused: Some(false),
-                budget_override_until: None,
                 agent_session_id: None,
                 links: Vec::new(),
                 dialog_pending: false,
@@ -309,25 +289,20 @@ mod tests {
         );
     }
 
-    /// The last `wheel` and `budget-gate` lines decide alone: one that holds no usable value
-    /// leaves the field absent, and an earlier line's value does not stand in.
+    /// The last `wheel` line decides alone: one that holds no usable value leaves the field
+    /// absent, and an earlier line's value does not stand in.
     #[test]
     fn replay_recovers_a_field_as_absent_when_its_last_line_holds_no_value() {
         let tmp = tempfile::tempdir().expect("tempdir");
         full_log(tmp.path());
         log(
             tmp.path(),
-            &[
-                (EventKind::Wheel, json!({"holder": "copilot"})),
-                (EventKind::BudgetGate, json!({"paused": "yes"})),
-            ],
+            &[(EventKind::Wheel, json!({"holder": "copilot"}))],
         );
         assert_eq!(
             replay(tmp.path()).expect("replay"),
             Replayed {
                 wheel: None,
-                budget_paused: None,
-                budget_override_until: None,
                 agent_session_id: Some("s-2".to_owned()),
                 links: Vec::new(),
                 dialog_pending: false,
@@ -360,8 +335,6 @@ mod tests {
     fn replay_recovers_nothing_from_an_empty_or_an_absent_log() {
         let nothing = Replayed {
             wheel: None,
-            budget_paused: None,
-            budget_override_until: None,
             agent_session_id: None,
             links: Vec::new(),
             dialog_pending: false,
@@ -378,13 +351,10 @@ mod tests {
         let tmp = tempfile::tempdir().expect("tempdir");
         log(
             tmp.path(),
-            &[
-                (
-                    EventKind::Wheel,
-                    json!({"holder": "human", "cause": "human-input", "later": 1}),
-                ),
-                (EventKind::BudgetGate, json!({"paused": true})),
-            ],
+            &[(
+                EventKind::Wheel,
+                json!({"holder": "human", "cause": "human-input", "later": 1}),
+            )],
         );
         let mut bytes = fs::read(tmp.path().join("events.ndjson")).expect("read");
         bytes.extend_from_slice(b"{\"kind\":\"later-kind\"}\n{\"kind\":\"whe");
@@ -393,8 +363,6 @@ mod tests {
             replay(tmp.path()).expect("replay"),
             Replayed {
                 wheel: Some(Wheel::Human),
-                budget_paused: Some(true),
-                budget_override_until: None,
                 agent_session_id: None,
                 links: Vec::new(),
                 dialog_pending: false,

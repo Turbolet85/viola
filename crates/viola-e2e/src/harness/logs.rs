@@ -409,11 +409,12 @@ mod tests {
     }
 
     const WHEEL: &str = "{\"v\":1,\"instance\":\"builder\",\"kind\":\"wheel\",\"source\":\"wrapper\",\"data\":{\"cause\":\"start\"}}\n";
-    const GATE: &str = "{\"v\":1,\"instance\":\"builder\",\"kind\":\"budget-gate\",\"source\":\"wrapper\",\"data\":{}}\n";
+    const LINK: &str =
+        "{\"v\":1,\"instance\":\"builder\",\"kind\":\"link\",\"source\":\"wrapper\",\"data\":{}}\n";
 
     #[test]
     fn wrap_events_carry_instance_and_line_offsets() {
-        let bytes = format!("{WHEEL}not json\n{GATE}{{\"par");
+        let bytes = format!("{WHEEL}not json\n{LINK}{{\"par");
         let out = wrap_events("builder", bytes.as_bytes(), &NONE);
         assert_eq!(out.len(), 4);
         assert_eq!(
@@ -425,12 +426,12 @@ mod tests {
             out[1],
             json!({"src": "events", "instance": "builder", "offset": WHEEL.len(), "torn": true})
         );
-        let gate_at = WHEEL.len() + "not json\n".len();
-        assert_eq!(out[2]["offset"], gate_at);
-        assert_eq!(out[2]["record"]["kind"], "budget-gate");
+        let link_at = WHEEL.len() + "not json\n".len();
+        assert_eq!(out[2]["offset"], link_at);
+        assert_eq!(out[2]["record"]["kind"], "link");
         assert_eq!(
             out[3],
-            json!({"src": "events", "instance": "builder", "offset": gate_at + GATE.len(), "torn": true})
+            json!({"src": "events", "instance": "builder", "offset": link_at + LINK.len(), "torn": true})
         );
     }
 
@@ -453,7 +454,7 @@ mod tests {
             process: None,
             kind: Some("wheel"),
         };
-        let bytes = format!("{WHEEL}{GATE}");
+        let bytes = format!("{WHEEL}{LINK}");
         let out = wrap_events("builder", bytes.as_bytes(), &wheel);
         assert_eq!(out.len(), 1);
         assert_eq!(out[0]["record"]["kind"], "wheel");
@@ -476,7 +477,7 @@ mod tests {
             fs::create_dir_all(tmp.path().join(dir)).expect("dir");
             fs::write(tmp.path().join(dir).join("events.ndjson"), WHEEL).expect("write");
         }
-        fs::write(tmp.path().join("builder").join("other.ndjson"), GATE).expect("write");
+        fs::write(tmp.path().join("builder").join("other.ndjson"), LINK).expect("write");
         let out = event_lines(tmp.path(), &NONE);
         let names: Vec<&Value> = out.iter().map(|l| &l["instance"]).collect();
         assert_eq!(names, [&json!("builder"), &json!("overseer")]);

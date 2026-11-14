@@ -53,7 +53,7 @@ fn offset(n: usize) -> u64 {
 }
 
 /// Architecture's per-kind `data` list, one literal body per kind holding every key of its row.
-fn every_kind() -> [(EventKind, &'static str, Value); 16] {
+fn every_kind() -> [(EventKind, &'static str, Value); 15] {
     [
         (
             EventKind::SessionStart,
@@ -76,11 +76,6 @@ fn every_kind() -> [(EventKind, &'static str, Value); 16] {
             EventKind::Wheel,
             "wheel",
             json!({"holder": "human", "cause": "human-input"}),
-        ),
-        (
-            EventKind::BudgetGate,
-            "budget-gate",
-            json!({"paused": true, "window": "seven-day", "override_until": "2026-09-27T02:00:00.000Z"}),
         ),
         (
             EventKind::SendIssued,
@@ -140,7 +135,7 @@ fn state_events_every_kind_round_trips_the_six_key_line() {
     }
     let bytes = log(tmp.path());
     let (lines, skipped) = read(tmp.path(), 0);
-    assert_eq!(lines.len(), 16);
+    assert_eq!(lines.len(), 15);
     for (line, (_, name, data)) in lines.iter().zip(every_kind()) {
         let keys: Vec<&str> = line
             .value
@@ -185,7 +180,7 @@ fn state_events_lines_outside_the_contract_are_counted_and_known_kinds_still_ret
         EventKind::Wheel,
         json!({"holder": "driver", "cause": "start"}),
     );
-    append(tmp.path(), EventKind::BudgetGate, json!({"paused": false}));
+    append(tmp.path(), EventKind::Activity, json!({"tool": "Bash"}));
     let raw = [
         r#"{"v":1,"ts":"t","instance":"builder","kind":"bond","source":"wrapper","data":{"driver":"a","driven":"b"}}"#,
         r#"{"v":1,"ts":"t","instance":"builder","kind":"wheel","source":"wrapper","data":{"holder":"human","cause":"release"},"later":true}"#,
@@ -202,7 +197,7 @@ fn state_events_lines_outside_the_contract_are_counted_and_known_kinds_still_ret
         .expect("append");
 
     let (lines, skipped) = read(tmp.path(), 0);
-    assert_eq!(kinds(&lines), ["wheel", "budget-gate", "wheel", "activity"]);
+    assert_eq!(kinds(&lines), ["wheel", "activity", "wheel", "activity"]);
     assert_eq!(
         skipped,
         Skipped {
@@ -221,14 +216,14 @@ fn state_events_a_log_cut_short_takes_the_next_append_on_a_fresh_line() {
         EventKind::Wheel,
         json!({"holder": "driver", "cause": "start"}),
     );
-    append(tmp.path(), EventKind::BudgetGate, json!({"paused": false}));
+    append(tmp.path(), EventKind::Activity, json!({"tool": "Bash"}));
     append(
         tmp.path(),
         EventKind::TurnEnded,
         json!({"last_assistant_message": "done"}),
     );
     let (whole, skipped) = read(tmp.path(), 0);
-    assert_eq!(kinds(&whole), ["wheel", "budget-gate", "turn-ended"]);
+    assert_eq!(kinds(&whole), ["wheel", "activity", "turn-ended"]);
     assert_eq!(skipped, NONE_SKIPPED);
     let second = whole[1].clone();
 
@@ -243,7 +238,7 @@ fn state_events_a_log_cut_short_takes_the_next_append_on_a_fresh_line() {
     assert_eq!(offset(torn.len()), cut);
     assert_ne!(torn.last(), Some(&b'\n'));
     let (kept, skipped) = read(tmp.path(), 0);
-    assert_eq!(kinds(&kept), ["wheel", "budget-gate"]);
+    assert_eq!(kinds(&kept), ["wheel", "activity"]);
     assert_eq!(skipped, ONE_TORN);
 
     append(tmp.path(), EventKind::SessionEnd, json!({}));
@@ -251,7 +246,7 @@ fn state_events_a_log_cut_short_takes_the_next_append_on_a_fresh_line() {
     assert_eq!(&healed[..torn.len()], torn);
     assert_eq!(healed[torn.len()], b'\n');
     let (lines, skipped) = read(tmp.path(), 0);
-    assert_eq!(kinds(&lines), ["wheel", "budget-gate", "session-end"]);
+    assert_eq!(kinds(&lines), ["wheel", "activity", "session-end"]);
     assert_eq!(skipped, ONE_TORN);
     assert_eq!(lines[2].start, cut + 1);
     assert_eq!(lines[2].end, offset(healed.len()));
@@ -294,25 +289,5 @@ fn state_events_background_tasks_and_option_details_are_known_keys() {
         read_back,
         written.iter().map(|(_, data)| data).collect::<Vec<_>>()
     );
-    assert_eq!(skipped, NONE_SKIPPED);
-}
-
-/// The three shapes a wrapper writes for its budget gate: each is returned with its `data` whole,
-/// and none of its keys is counted as outside the contract.
-#[test]
-fn state_events_budget_gate_lines_with_a_window_and_with_an_override_read_back_whole() {
-    let tmp = tempfile::tempdir().expect("tempdir");
-    let written = [
-        json!({"paused": false}),
-        json!({"paused": true, "window": "five-hour"}),
-        json!({"paused": false, "override_until": "2025-02-01T16:00:00.000Z"}),
-    ];
-    for data in &written {
-        append(tmp.path(), EventKind::BudgetGate, data.clone());
-    }
-    let (lines, skipped) = read(tmp.path(), 0);
-    assert_eq!(kinds(&lines), ["budget-gate"; 3]);
-    let read_back: Vec<&Value> = lines.iter().map(|l| &l.value["data"]).collect();
-    assert_eq!(read_back, written.iter().collect::<Vec<_>>());
     assert_eq!(skipped, NONE_SKIPPED);
 }

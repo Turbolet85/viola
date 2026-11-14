@@ -26,7 +26,6 @@ use viola_state::strict::check_endpoint_dir;
 use viola_state::strict::{TreeRefused, check_home_tree};
 
 use crate::run::ChildLaunch;
-use crate::run::budget::{self, BudgetGate, Trigger};
 use crate::run::dialog::DialogSlot;
 use crate::run::gate::{self, Tee};
 use crate::run::links::LinkSet;
@@ -74,7 +73,6 @@ pub(crate) struct Methods {
     wait: Arc<WaitFeed>,
     dialogs: Arc<DialogSlot>,
     wheel: Arc<WheelSlot>,
-    budget: Arc<BudgetGate>,
     links: Arc<LinkSet>,
 }
 
@@ -118,15 +116,8 @@ impl Dispatch for Methods {
         }
         // A notification is never answered: an event that fails the checks is simply not appended.
         if let Some(line) = self.hook_event_line(params) {
-            let turn_ended = line.kind == EventKind::TurnEnded;
             send::append_hook_event(&self.send, &self.wait, &self.instance_dir, line)
                 .map_err(|_| ProtocolError::Internal)?;
-            // After the line: a gate this turn's end closes is recorded behind its `turn-ended`.
-            if turn_ended {
-                self.budget
-                    .evaluate(Trigger::TurnEnded, Utc::now())
-                    .map_err(|_| ProtocolError::Internal)?;
-            }
         }
         Ok(Value::Null)
     }
@@ -139,7 +130,7 @@ impl Dispatch for Methods {
             "hook.dialog" => self.dialogs.hook_dialog(call.params),
             "answer" => self.dialogs.answer(call),
             "pause" => self.wheel.pause(call),
-            "release" => self.wheel.release(call, &self.budget),
+            "release" => self.wheel.release(call),
             "link" => self.links.link(call.params),
             "unlink" => self.links.unlink(call.params),
             _ => self.dispatch(call.method, call.params),
@@ -300,23 +291,11 @@ pub(super) fn start(
     };
     let wheel = Arc::new(WheelSlot::default());
     let snapshots = Arc::new(Snapshots::new(instance_dir.clone()));
-    let (thresholds, rejections) = budget::read_thresholds(&home);
-    for rejection in rejections {
-        obs::log_config_rejection(rejection);
-    }
     let (hold, rejections) = run::dialog::read_hold(&home);
     for rejection in rejections {
         obs::log_config_rejection(rejection);
     }
-    let budget = Arc::new(BudgetGate::new(
-        name.clone(),
-        instance_dir.clone(),
-        home.clone(),
-        thresholds,
-        Arc::clone(&snapshots),
-    ));
     let send = Arc::new(SendSlot::new(SystemClock, cli_verified, Arc::clone(&wheel)));
-    send.budget_with(Arc::clone(&budget));
     // Rebuilt before the endpoint serves: the first `last` already sees the newest logged turn, the
     // first dialog takes an id past every logged one, and a pair the log holds is not linked again.
     let wait = Arc::new(WaitFeed::new(SystemClock));
@@ -356,7 +335,6 @@ pub(super) fn start(
         wait,
         dialogs,
         wheel: Arc::clone(&wheel),
-        budget: Arc::clone(&budget),
         links: Arc::clone(&links),
     }));
     let (beat, snapshot) = start_state(
@@ -369,7 +347,6 @@ pub(super) fn start(
         Recorded {
             spawn_dir: &launch.spawn_dir,
             statusline_command,
-            budget: &budget,
             links: links.current(),
         },
     )?;
@@ -565,19 +542,17 @@ fn write_override(instance_dir: &Path, pinned: &Pinned) -> anyhow::Result<Option
     Ok(Some(path))
 }
 
-/// What the first snapshot records of the launch, the gate whose first verdict it holds, and the
-/// link set the log gave.
+/// What the first snapshot records of the launch, and the link set the log gave.
 struct Recorded<'a> {
     spawn_dir: &'a Path,
     statusline_command: Option<String>,
-    budget: &'a BudgetGate,
     links: Vec<Value>,
 }
 
-/// The budget gate's first verdict, then the first snapshot (with the endpoint, the version gate's
-/// reading, that verdict, the restored link set, the child's spawn directory when it is valid UTF-8
-/// and the user's statusline command when one was found), the heartbeat and its thread, then the two start
-/// events, the second the verdict's `budget-gate`; the returned guard keeps the heartbeat running.
+/// The first snapshot (with the endpoint, the version gate's reading, the restored link set, the
+/// child's spawn directory when it is valid UTF-8 and the user's statusline command when one was
+/// found), the heartbeat and its thread, then the start's `wheel` event; the returned guard keeps
+/// the heartbeat running.
 fn start_state(
     name: &ViolaName,
     instance_dir: &Path,
@@ -589,7 +564,6 @@ fn start_state(
 ) -> anyhow::Result<(Heartbeat, InstanceSnapshot)> {
     create_private_dir(instance_dir)?;
     let pid = std::process::id();
-    let budget = recorded.budget.start(Utc::now());
     let snapshot = InstanceSnapshot {
         endpoint: Some(endpoint),
         pid,
@@ -598,8 +572,6 @@ fn start_state(
         cli_verified: gate.cli_verified,
         cli_version: gate.cli_version,
         wheel: Wheel::Driver,
-        budget_paused: budget.paused.is_some(),
-        budget_override_until: None,
         links: recorded.links,
         child_pid: None,
         pending_dialog: None,
@@ -610,16 +582,9 @@ fn start_state(
     snapshots.init(snapshot.clone())?;
     touch_heartbeat(instance_dir)?;
     let beat = Heartbeat::start(instance_dir.to_path_buf());
-    for (kind, data) in [
-        (
-            EventKind::Wheel,
-            json!({"holder": Wheel::Driver.as_str(), "cause": WheelCause::Start.as_str()}),
-        ),
-        (EventKind::BudgetGate, budget.data()),
-    ] {
-        let line = EventLine::new(name, kind, Source::Wrapper, data, Utc::now());
-        append_event(instance_dir, &line)?;
-    }
+    let data = json!({"holder": Wheel::Driver.as_str(), "cause": WheelCause::Start.as_str()});
+    let line = EventLine::new(name, EventKind::Wheel, Source::Wrapper, data, Utc::now());
+    append_event(instance_dir, &line)?;
     Ok((beat, snapshot))
 }
 
@@ -815,15 +780,7 @@ mod tests {
             Arc::clone(&wheel),
             Arc::clone(&snapshots),
         );
-        let budget = Arc::new(BudgetGate::new(
-            name.clone(),
-            instance_dir.to_path_buf(),
-            instance_dir.to_path_buf(),
-            budget::Thresholds::default(),
-            Arc::clone(&snapshots),
-        ));
         let send = Arc::new(SendSlot::new(SystemClock, false, Arc::clone(&wheel)));
-        send.budget_with(Arc::clone(&budget));
         let links = Arc::new(LinkSet::new(
             name.clone(),
             instance_dir.to_path_buf(),
@@ -836,7 +793,6 @@ mod tests {
             wait,
             dialogs: Arc::new(dialogs),
             wheel,
-            budget,
             links,
         }
     }
@@ -977,7 +933,8 @@ mod tests {
     }
 
     /// `pause` takes the wheel for the human (`send` is then `human-typing` / `manual-pause`),
-    /// `release` with `budget: true` leaves it, and a plain `release` hands it back.
+    /// a `release` carrying `budget` is refused with the wheel left, and a plain `release` hands it
+    /// back.
     #[test]
     fn methods_pause_and_release_move_the_wheel() {
         let tmp = tempfile::tempdir().expect("tempdir");
@@ -995,13 +952,13 @@ mod tests {
         let budget = json!({"v": 1, "budget": true});
         assert_eq!(
             methods.dispatch_call(&cli_call("release", &budget)),
-            Ok(json!({"ok": {"wheel": "human", "budget_paused": false}}))
+            Err(ProtocolError::InvalidParams)
         );
         assert_eq!(methods.wheel.holder(), Wheel::Human);
-        let release = json!({"v": 1, "budget": false, "from": null});
+        let release = json!({"v": 1, "from": null});
         assert_eq!(
             methods.dispatch_call(&cli_call("release", &release)),
-            Ok(json!({"ok": {"wheel": "driver", "budget_paused": false}}))
+            Ok(json!({"ok": {"wheel": "driver"}}))
         );
         assert_eq!(methods.wheel.holder(), Wheel::Driver);
         assert_eq!(
@@ -1202,15 +1159,14 @@ mod tests {
     /// The first snapshot `start_state` writes for a child spawned in `spawn_dir`, read back from
     /// the instance directory.
     fn first_snapshot(instance_dir: &Path, spawn_dir: &Path) -> InstanceSnapshot {
-        first_snapshot_recording(instance_dir, spawn_dir, None, instance_dir)
+        first_snapshot_recording(instance_dir, spawn_dir, None)
     }
 
-    /// The same, recording `statusline_command`, its budget gate reading `home`.
+    /// The same, recording `statusline_command`.
     fn first_snapshot_recording(
         instance_dir: &Path,
         spawn_dir: &Path,
         statusline_command: Option<String>,
-        home: &Path,
     ) -> InstanceSnapshot {
         let name = ViolaName::try_new("builder".to_owned()).expect("valid");
         let pinned = Pinned {
@@ -1223,13 +1179,6 @@ mod tests {
             cli_verified: false,
         };
         let snapshots = Arc::new(Snapshots::new(instance_dir.to_path_buf()));
-        let budget = BudgetGate::new(
-            name.clone(),
-            instance_dir.to_path_buf(),
-            home.to_path_buf(),
-            budget::Thresholds::default(),
-            Arc::clone(&snapshots),
-        );
         let links = LinkSet::new(
             name.clone(),
             instance_dir.to_path_buf(),
@@ -1246,7 +1195,6 @@ mod tests {
             Recorded {
                 spawn_dir,
                 statusline_command,
-                budget: &budget,
                 links: links.current(),
             },
         )
@@ -1259,7 +1207,7 @@ mod tests {
     }
 
     /// A start over a log that holds a link: the first snapshot holds that pair with its first
-    /// `since`, and the start appends its two records and no `link`.
+    /// `since`, and the start appends its one record and no `link`.
     #[test]
     fn links_set_at_a_start_over_a_log_with_a_link_is_in_the_first_snapshot() {
         let tmp = tempfile::tempdir().expect("tempdir");
@@ -1284,11 +1232,11 @@ mod tests {
             .iter()
             .map(|e| e["kind"].clone())
             .collect();
-        assert_eq!(kinds, ["link", "wheel", "budget-gate"]);
+        assert_eq!(kinds, ["link", "wheel"]);
     }
 
-    /// The first snapshot records where the child is spawned, and the two start events stand as
-    /// they were: the wheel starts with the driver.
+    /// The first snapshot records where the child is spawned, and the start event stands as it
+    /// was: the wheel starts with the driver.
     #[test]
     fn snapshot_cwd_of_a_start_is_the_spawn_directory() {
         let tmp = tempfile::tempdir().expect("tempdir");
@@ -1303,128 +1251,10 @@ mod tests {
         let read: Vec<(&Value, &Value)> = events.iter().map(|e| (&e["kind"], &e["data"])).collect();
         assert_eq!(
             read,
-            [
-                (
-                    &json!("wheel"),
-                    &json!({"holder": "driver", "cause": "start"})
-                ),
-                (&json!("budget-gate"), &json!({"paused": false})),
-            ]
-        );
-    }
-
-    /// A reset far ahead of any run.
-    const RESET: &str = "2099-01-01T00:00:00.000Z";
-
-    /// `budget.json` in `home` with `five_hour` at `percentage`, through the state crate's writer.
-    fn feed_budget(home: &Path, percentage: f64) {
-        use viola_core::{BudgetReading, BudgetWindow, Reading};
-        let reading = BudgetReading {
-            five_hour: Reading::Known(BudgetWindow {
-                used_percentage: Reading::Known(percentage),
-                resets_at: Reading::Known(RESET.to_owned()),
-            }),
-            seven_day: Reading::UNKNOWN,
-        };
-        viola_state::budget::write_budget(home, &reading, Utc::now()).expect("budget.json");
-    }
-
-    /// A home laid down the way viola lays one down.
-    fn private_home(root: &Path) -> PathBuf {
-        let home = root.join("vhome");
-        create_private_dir(&home).expect("the home");
-        home
-    }
-
-    /// The start's verdict is the first snapshot's `budget_paused` and start record two, and it is
-    /// read from `budget.json` alone.
-    #[test]
-    fn gate_eval_at_start_is_the_first_snapshot_and_record_two() {
-        let tmp = tempfile::tempdir().expect("tempdir");
-        let home = private_home(tmp.path());
-        feed_budget(&home, 91.0);
-        let instance_dir = home.join("instances").join("builder");
-        let snapshot = first_snapshot_recording(&instance_dir, tmp.path(), None, &home);
-        assert!(snapshot.budget_paused);
-        assert_eq!(snapshot.budget_override_until, None);
-        let events = events_in(&instance_dir);
-        let read: Vec<(&Value, &Value)> = events.iter().map(|e| (&e["kind"], &e["data"])).collect();
-        assert_eq!(
-            read,
-            [
-                (
-                    &json!("wheel"),
-                    &json!({"holder": "driver", "cause": "start"})
-                ),
-                (
-                    &json!("budget-gate"),
-                    &json!({"paused": true, "window": "five-hour"})
-                ),
-            ]
-        );
-    }
-
-    /// A `turn-ended` line is followed by the gate's evaluation, whose change lands behind it; no
-    /// other hook kind evaluates the gate. The next `send` is then refused with nothing more
-    /// recorded for the gate.
-    #[test]
-    fn gate_eval_at_a_turn_end_follows_its_line() {
-        let tmp = tempfile::tempdir().expect("tempdir");
-        let home = private_home(tmp.path());
-        let methods = methods(&home);
-        feed_budget(&home, 91.0);
-        for event in [
-            json!({"kind": "activity", "data": {"tool": "Bash"}}),
-            json!({"kind": "prompt-submitted", "data": {"text": "hi", "origin": "harness"}}),
-            json!({"kind": "session-end", "data": {}}),
-            json!({"kind": "session-start", "data": {"cause": "startup", "agent_session_id": null}}),
-        ] {
-            methods
-                .dispatch("hook.event", &json!({"v": 1, "event": event}))
-                .expect("dispatched");
-        }
-        let kinds = |home: &Path| -> Vec<String> {
-            events_in(home)
-                .iter()
-                .map(|e| e["kind"].as_str().expect("kind").to_owned())
-                .collect()
-        };
-        assert_eq!(
-            kinds(&home),
-            [
-                "activity",
-                "prompt-submitted",
-                "session-end",
-                "session-start"
-            ]
-        );
-        let ended = json!({"kind": "turn-ended", "data": {"last_assistant_message": "done"}});
-        methods
-            .dispatch("hook.event", &json!({"v": 1, "event": ended}))
-            .expect("dispatched");
-        let events = events_in(&home);
-        assert_eq!(events.len(), 6);
-        assert_eq!(events[4]["kind"], "turn-ended");
-        assert_eq!(events[5]["kind"], "budget-gate");
-        assert_eq!(events[5]["source"], "wrapper");
-        assert_eq!(
-            events[5]["data"],
-            json!({"paused": true, "window": "five-hour"})
-        );
-        let send = json!({"v": 1, "text": "hello"});
-        assert_eq!(
-            methods.dispatch_call(&cli_call("send", &send)),
-            Ok(json!({"refusal": "budget-paused", "detail": "five-hour"}))
-        );
-        assert_eq!(events_in(&home).len(), 7);
-        let budget = json!({"v": 1, "budget": true});
-        assert_eq!(
-            methods.dispatch_call(&cli_call("release", &budget)),
-            Ok(json!({"ok": {"wheel": "driver", "budget_paused": false, "override_until": RESET}}))
-        );
-        assert_eq!(
-            methods.dispatch_call(&cli_call("send", &send)),
-            Ok(json!({"refusal": "not-delivered", "detail": "input-not-ready"}))
+            [(
+                &json!("wheel"),
+                &json!({"holder": "driver", "cause": "start"})
+            ),]
         );
     }
 
@@ -1571,12 +1401,8 @@ mod tests {
         .expect("the home's source");
         let spawn_dir = tmp.path().join("work");
         let instance_dir = tmp.path().join("instance");
-        let snapshot = first_snapshot_recording(
-            &instance_dir,
-            &spawn_dir,
-            statusline_command(&home, None),
-            &instance_dir,
-        );
+        let snapshot =
+            first_snapshot_recording(&instance_dir, &spawn_dir, statusline_command(&home, None));
         assert_eq!(
             snapshot.statusline_command.as_deref(),
             Some("home-line --wide")
@@ -1643,7 +1469,6 @@ mod tests {
                 "run.pin_copy",
                 "run.version_gate",
                 "channel.bind",
-                "run.budget_eval",
                 "state.snapshot_write",
                 "state.heartbeat_start",
                 "pty.spawn",
@@ -1667,10 +1492,6 @@ mod tests {
         assert_eq!(
             field(&spans, "channel.bind")["endpoint_kind"],
             viola_channel::ENDPOINT_KIND
-        );
-        assert_eq!(
-            field(&spans, "run.budget_eval"),
-            &json!({"trigger": "start", "paused": false})
         );
         assert_eq!(field(&spans, "state.snapshot_write")["v"], 1);
         let spawn = field(&spans, "pty.spawn");

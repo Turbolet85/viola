@@ -10,30 +10,20 @@ use std::path::Path;
 use std::process::ExitCode;
 use std::time::SystemTime;
 
-use chrono::{DateTime, Utc};
 use serde_json::{Value, json};
 use tracing::instrument;
 use viola_agent_claude::agents::{AgentStatus, AgentsList};
 use viola_core::UnreachableCause;
 use viola_state::board::{self, Board, Observation, Scan, ScanRefused, SessionStatus};
-use viola_state::budget::{StampedReading, read_budget_stamped};
 
 use super::client;
-use crate::human::{self, BayBudget};
-use crate::run::budget::{self, Thresholds};
-use crate::{obs, run};
+use crate::{human, run};
 
 #[derive(clap::Args)]
 pub(crate) struct ListArgs {
     /// Print one JSON document on stdout
     #[arg(long)]
     json: bool,
-}
-
-/// The newest usage reading and whether the gate's rule pauses on it.
-struct Budget {
-    stamped: StampedReading,
-    paused: bool,
 }
 
 pub(crate) fn list(home: &Path, args: &ListArgs) -> anyhow::Result<ExitCode> {
@@ -50,26 +40,15 @@ pub(crate) fn list(home: &Path, args: &ListArgs) -> anyhow::Result<ExitCode> {
     if let Some(name) = client::own_name() {
         client::start(&home, &name)?;
     }
-    let (board, budget, now) = read(&home, &scan, args.json);
+    let board = read(&home, &scan, args.json);
     if args.json {
-        client::document(&document(&board, budget.as_ref()));
+        client::document(&document(&board));
     } else {
-        let bay = budget.as_ref().map(|budget| BayBudget {
-            reading: &budget.stamped,
-            paused: budget.paused,
-        });
         // The terminal's columns from stdout itself, never `COLUMNS`: a piped board reads none and
         // cuts nothing.
         let width = viola_pty::host_size().map(|size| usize::from(size.cols));
         let colour = human::read_colour(false, false);
-        let _ = human::write_board(
-            &mut io::stdout().lock(),
-            bay.as_ref(),
-            &board,
-            now,
-            width,
-            colour.depth,
-        );
+        let _ = human::write_board(&mut io::stdout().lock(), &board, width, colour.depth);
     }
     run::log_self_exit(0, None);
     Ok(ExitCode::SUCCESS)
@@ -81,8 +60,8 @@ pub(crate) fn list(home: &Path, args: &ListArgs) -> anyhow::Result<ExitCode> {
 pub(crate) fn board_document(home: &Path) -> anyhow::Result<Value> {
     Ok(match board::scan(home)? {
         Ok(scan) => {
-            let (board, budget, _) = read(home, &scan, true);
-            document(&board, budget.as_ref())
+            let board = read(home, &scan, true);
+            document(&board)
         }
         Err(_) => refused_document(),
     })
@@ -112,12 +91,10 @@ fn refuse(json: bool, refused: &ScanRefused) {
     }
 }
 
-/// The board, the budget and the one instant both were judged at.
+/// The board, judged now.
 #[instrument(skip_all, name = "cli.list", fields(json = json))]
-fn read(home: &Path, scan: &Scan, json: bool) -> (Board, Option<Budget>, DateTime<Utc>) {
-    let at = SystemTime::now();
-    let now = DateTime::<Utc>::from(at);
-    let mut board = board::read(scan, at);
+fn read(home: &Path, scan: &Scan, json: bool) -> Board {
+    let mut board = board::read(scan, SystemTime::now());
     if let Ok(list) = std::env::current_dir()
         .ok()
         .ok_or(())
@@ -125,12 +102,7 @@ fn read(home: &Path, scan: &Scan, json: bool) -> (Board, Option<Budget>, DateTim
     {
         board::join(&mut board, observations(list));
     }
-    let stamped = read_budget_stamped(home);
-    let (thresholds, rejections) = budget::read_thresholds(home);
-    for rejection in rejections {
-        obs::log_config_rejection(rejection);
-    }
-    (board, budget_of(stamped, thresholds, now), now)
+    board
 }
 
 /// Each listed session as the board reads it: the name is the session id, never the CLI's title.
@@ -149,33 +121,9 @@ fn observations(list: AgentsList) -> Vec<Observation> {
         .collect()
 }
 
-/// `paused` as the wrapper's gate reads the same reading at `now` with no override.
-fn budget_of(
-    stamped: Option<StampedReading>,
-    thresholds: Thresholds,
-    now: DateTime<Utc>,
-) -> Option<Budget> {
-    stamped.map(|stamped| {
-        let paused = budget::decide(Some(&stamped.reading), thresholds, None, now)
-            .paused
-            .is_some();
-        Budget { stamped, paused }
-    })
-}
-
-/// `{"v":1,"ok":{"items":[…],"budget":…,"skipped":{…}}}`; `budget` is the word `"unknown"` when
-/// there is no reading.
-fn document(board: &Board, budget: Option<&Budget>) -> Value {
-    let budget = match budget {
-        Some(budget) => json!({
-            "five_hour": budget.stamped.reading.five_hour,
-            "seven_day": budget.stamped.reading.seven_day,
-            "read_at": budget.stamped.read_at,
-            "paused": budget.paused,
-        }),
-        None => json!("unknown"),
-    };
-    json!({"v": 1, "ok": {"items": board.items, "budget": budget, "skipped": board.skipped}})
+/// `{"v":1,"ok":{"items":[…],"skipped":{…}}}`.
+fn document(board: &Board) -> Value {
+    json!({"v": 1, "ok": {"items": board.items, "skipped": board.skipped}})
 }
 
 #[cfg(test)]
@@ -183,30 +131,8 @@ mod tests {
     use super::*;
     use clap::Parser as _;
     use viola_agent_claude::agents;
-    use viola_core::{BudgetReading, BudgetWindow, Reading};
     use viola_state::board::{Item, JoinKeys, RowLiveness, SkippedTotal};
     use viola_state::snapshot::Wheel;
-
-    fn at(text: &str) -> DateTime<Utc> {
-        DateTime::parse_from_rfc3339(text)
-            .expect("an instant")
-            .with_timezone(&Utc)
-    }
-
-    const NOW: &str = "2025-03-01T12:00:00.000Z";
-
-    fn stamped(five_hour: f64) -> StampedReading {
-        StampedReading {
-            reading: BudgetReading {
-                five_hour: Reading::Known(BudgetWindow {
-                    used_percentage: Reading::Known(five_hour),
-                    resets_at: Reading::Known("2099-01-01T00:00:00.000Z".to_owned()),
-                }),
-                seven_day: Reading::UNKNOWN,
-            },
-            read_at: Reading::Known("2025-03-01T11:58:00.000Z".to_owned()),
-        }
-    }
 
     fn board() -> Board {
         Board {
@@ -216,7 +142,6 @@ mod tests {
                 liveness: RowLiveness::Live,
                 status: SessionStatus::Unknown,
                 wheel: Some(Wheel::Driver),
-                budget_paused: Some(true),
                 dialog_pending: false,
                 cli_version: Some("2.1.287".to_owned()),
                 cli_verified: Some(true),
@@ -232,38 +157,23 @@ mod tests {
     }
 
     #[test]
-    fn list_document_with_a_reading_is_the_contract_envelope() {
-        let budget = budget_of(Some(stamped(91.0)), Thresholds::default(), at(NOW));
+    fn list_document_is_the_contract_envelope() {
         assert_eq!(
-            document(&board(), budget.as_ref()).to_string(),
-            r#"{"v":1,"ok":{"items":[{"name":"builder","wrapped":true,"liveness":"live","status":"unknown","wheel":"driver","budget_paused":true,"dialog_pending":false,"cli_version":"2.1.287","cli_verified":true}],"budget":{"five_hour":{"used_percentage":91.0,"resets_at":"2099-01-01T00:00:00.000Z"},"seven_day":"unknown","read_at":"2025-03-01T11:58:00.000Z","paused":true},"skipped":{"unknown_kinds":1,"unknown_fields":0,"torn_lines":2}}}"#
+            document(&board()).to_string(),
+            r#"{"v":1,"ok":{"items":[{"name":"builder","wrapped":true,"liveness":"live","status":"unknown","wheel":"driver","dialog_pending":false,"cli_version":"2.1.287","cli_verified":true}],"skipped":{"unknown_kinds":1,"unknown_fields":0,"torn_lines":2}}}"#
         );
     }
 
     #[test]
-    fn list_document_without_a_reading_has_the_budget_word_unknown() {
+    fn list_document_of_an_empty_board_holds_no_item() {
         let empty = Board {
             items: Vec::new(),
             skipped: SkippedTotal::default(),
         };
-        let budget = budget_of(None, Thresholds::default(), at(NOW));
-        assert!(budget.is_none());
         assert_eq!(
-            document(&empty, None).to_string(),
-            r#"{"v":1,"ok":{"items":[],"budget":"unknown","skipped":{"unknown_kinds":0,"unknown_fields":0,"torn_lines":0}}}"#
+            document(&empty).to_string(),
+            r#"{"v":1,"ok":{"items":[],"skipped":{"unknown_kinds":0,"unknown_fields":0,"torn_lines":0}}}"#
         );
-    }
-
-    #[test]
-    fn list_document_paused_is_the_gates_rule_under_the_default_thresholds() {
-        let paused = |used: f64| {
-            budget_of(Some(stamped(used)), Thresholds::default(), at(NOW))
-                .expect("a reading")
-                .paused
-        };
-        assert!(paused(91.0));
-        assert!(paused(90.0));
-        assert!(!paused(89.0));
     }
 
     /// Each row's session id names it and its status word maps one to one; the CLI's title, its

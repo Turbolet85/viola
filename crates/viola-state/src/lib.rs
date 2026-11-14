@@ -4,7 +4,6 @@
 //! Resources → Filesystem). Sync only: no Tokio.
 
 pub mod board;
-pub mod budget;
 pub mod events;
 pub mod fs;
 pub mod heartbeat;

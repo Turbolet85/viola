@@ -533,7 +533,7 @@ mod tests {
         let tmp = tempfile::tempdir().expect("tempdir");
         for (kind, data) in [
             (EventKind::Wheel, json!({"n": 1})),
-            (EventKind::BudgetGate, json!({"paused": false})),
+            (EventKind::Activity, json!({"tool": "Bash"})),
         ] {
             let line = EventLine::new(&name(), kind, Source::Wrapper, data, at());
             append_event(tmp.path(), &line).expect("append");
@@ -543,7 +543,7 @@ mod tests {
             .lines()
             .map(|l| serde_json::from_str::<Value>(l).expect("line")["kind"].clone())
             .collect();
-        assert_eq!(kinds, [json!("wheel"), json!("budget-gate")]);
+        assert_eq!(kinds, [json!("wheel"), json!("activity")]);
     }
 
     #[test]
@@ -873,10 +873,6 @@ mod tests {
                 json!({"holder": "driver", "cause": "start"}),
             ),
             (
-                EventKind::BudgetGate,
-                json!({"paused": true, "window": "five-hour", "override_until": "2026-09-27T02:00:00.000Z"}),
-            ),
-            (
                 EventKind::SendIssued,
                 json!({"cursor": 0, "from": "overseer"}),
             ),
@@ -924,7 +920,6 @@ mod tests {
                 "session-end",
                 "activity",
                 "wheel",
-                "budget-gate",
                 "send-issued",
                 "send-confirmed",
                 "send-refused",

@@ -6,15 +6,10 @@ use super::*;
 use std::sync::Arc;
 use std::sync::mpsc;
 
-use tracing_subscriber::layer::{Context, Layer, SubscriberExt as _};
 use viola_agent_claude::screen::SIGNATURES;
-use viola_channel::test_support::JsonFields as Fields;
-use viola_core::{BudgetReading, BudgetWindow, Reading};
 use viola_pty::Size;
-use viola_state::budget::write_budget;
 use viola_state::snapshot::Wheel;
 
-use crate::run::budget::Thresholds;
 use crate::run::gate;
 use crate::run::snapshot::Snapshots;
 
@@ -328,99 +323,6 @@ pub(super) fn sent_after_the_gate_wait(
     );
     assert!(slot.flight().send.is_none(), "the slot is free again");
     (reply, tmp, pastes)
-}
-
-/// A reset far ahead of any run.
-pub(super) const RESET: &str = "2099-01-01T00:00:00.000Z";
-
-pub(super) fn used(percentage: f64) -> Reading<BudgetWindow> {
-    Reading::Known(BudgetWindow {
-        used_percentage: Reading::Known(percentage),
-        resets_at: Reading::Known(RESET.to_owned()),
-    })
-}
-
-/// A home under `root` holding one instance directory, and that instance's budget gate.
-pub(super) fn budget_rig(root: &Path) -> (std::path::PathBuf, std::path::PathBuf, Arc<BudgetGate>) {
-    let home = root.join("vhome");
-    let instance_dir = home.join("instances").join("builder");
-    viola_state::fs::create_private_dir(&instance_dir).expect("the instance dir");
-    let gate = Arc::new(BudgetGate::new(
-        name(),
-        instance_dir.clone(),
-        home.clone(),
-        Thresholds::default(),
-        Arc::new(Snapshots::new(instance_dir.clone())),
-    ));
-    (home, instance_dir, gate)
-}
-
-pub(super) fn feed_budget(home: &Path, five_hour: f64, seven_day: f64) {
-    let reading = BudgetReading {
-        five_hour: used(five_hour),
-        seven_day: used(seven_day),
-    };
-    write_budget(home, &reading, Utc::now()).expect("budget.json");
-}
-
-/// A [`mute_child`] whose budget gate reads the home under `root`: the instance directory to
-/// send in, the slot and its pastes.
-pub(super) fn budgeted(
-    root: &Path,
-    five_hour: f64,
-    seven_day: f64,
-) -> (std::path::PathBuf, SendSlot, Pastes) {
-    let (home, instance_dir, gate) = budget_rig(root);
-    feed_budget(&home, five_hour, seven_day);
-    let (slot, pastes) = mute_child();
-    slot.budget_with(gate);
-    (instance_dir, slot, pastes)
-}
-
-/// [`Fields`], with an `f64` kept a number, as the process log's JSON writer keeps it.
-#[derive(Default)]
-struct NumberFields(Fields);
-
-impl tracing::field::Visit for NumberFields {
-    fn record_f64(&mut self, field: &tracing::field::Field, value: f64) {
-        self.0.0.insert(field.name().to_owned(), value.into());
-    }
-    fn record_debug(&mut self, field: &tracing::field::Field, value: &dyn std::fmt::Debug) {
-        self.0.record_debug(field, value);
-    }
-    fn record_str(&mut self, field: &tracing::field::Field, value: &str) {
-        self.0.record_str(field, value);
-    }
-    fn record_u64(&mut self, field: &tracing::field::Field, value: u64) {
-        self.0.record_u64(field, value);
-    }
-    fn record_i64(&mut self, field: &tracing::field::Field, value: i64) {
-        self.0.record_i64(field, value);
-    }
-    fn record_bool(&mut self, field: &tracing::field::Field, value: bool) {
-        self.0.record_bool(field, value);
-    }
-}
-
-/// Every line the calling thread emits, its fields as JSON.
-#[derive(Clone, Default)]
-struct Lines(Arc<Mutex<Vec<Value>>>);
-
-impl<S: tracing::Subscriber> Layer<S> for Lines {
-    fn on_event(&self, event: &tracing::Event<'_>, _: Context<'_, S>) {
-        let mut fields = NumberFields::default();
-        event.record(&mut fields);
-        let fields = fields.0.0;
-        self.0.lock().expect("lines").push(Value::Object(fields));
-    }
-}
-
-pub(super) fn capture_lines<R>(f: impl FnOnce() -> R) -> (R, Vec<Value>) {
-    let lines = Lines::default();
-    let subscriber = tracing_subscriber::registry().with(lines.clone());
-    let out = crate::test_support::with_scoped_default(subscriber, f);
-    let got = lines.0.lock().expect("lines").clone();
-    (out, got)
 }
 
 /// A [`mute_child`] that was handed `builder`'s link set over `links_dir`.

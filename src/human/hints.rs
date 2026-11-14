@@ -32,17 +32,13 @@ pub(crate) fn answer_hint(name: &str, reason: &str, detail: Option<&str>) -> Opt
 }
 
 /// The design-system cli pattern 2 hint for a `send` cause: a `not-delivered` detail, the
-/// `human-typing`, `budget-paused` or `unverified-cli` reason, or for exit 21 `not-running`,
+/// `human-typing` or `unverified-cli` reason, or for exit 21 `not-running`,
 /// `unwrapped-name`, `endpoint-lost`, `server-verify` or `socket-dir`. Never the sent text, a
 /// path or a pid.
 pub(crate) fn send_hint(name: &str, cause: &str) -> Option<String> {
     Some(match cause {
         "human-typing" => HUMAN_TYPING_HINT.to_owned(),
         "unverified-cli" => UNVERIFIED_CLI_HINT.to_owned(),
-        "budget-paused" => {
-            "budget gate is closed; it lifts at the window reset, or when the human lifts it"
-                .to_owned()
-        }
         "control-character" => {
             "the text contains a control character (only LF, CR, TAB are allowed)".to_owned()
         }
@@ -123,10 +119,6 @@ mod tests {
         "human-typing",
         "the human has the wheel; send again after the human hands it back"
     )]
-    #[case::budget_paused(
-        "budget-paused",
-        "budget gate is closed; it lifts at the window reset, or when the human lifts it"
-    )]
     #[case::unverified_cli("unverified-cli", "run viola verify for this CLI version")]
     fn send_hint_is_the_design_string(#[case] cause: &str, #[case] hint: &str) {
         assert_eq!(send_hint("builder", cause).as_deref(), Some(hint));
@@ -153,9 +145,6 @@ mod tests {
             "server-verify",
             "socket-dir",
             "human-typing",
-            "budget-paused",
-            "five-hour",
-            "seven-day",
             "unknown-dialog",
             "manual-pause",
             "unverified-cli",

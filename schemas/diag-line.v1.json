@@ -49,15 +49,14 @@
     { "if": { "properties": { "event": { "enum": ["hook-invoked", "hook-decision"] } } }, "then": { "properties": {
       "corr": { "$ref": "#/$defs/corr" }, "hook_event": { "$ref": "#/$defs/hook_event" },
       "stdin_bytes": { "$ref": "#/$defs/count" }, "invoked_at": { "type": "string" },
-      "decision_emitted": { "type": "boolean" }, "deadline_hit": { "type": "boolean" }, "budget_written": { "type": "boolean" },
+      "decision_emitted": { "type": "boolean" }, "deadline_hit": { "type": "boolean" },
       "detail": { "enum": ["oversize-stdin", "malformed-json", "channel-unreachable", "server-verify-failed", "socket-dir-refused", "strict-modes-failed", "unverified-cli", "deadline"] },
       "duration_ms": { "$ref": "#/$defs/count" } } } },
     { "if": { "properties": { "event": { "enum": ["send-issued", "send-confirmed", "send-refused"] } } }, "then": { "properties": {
       "corr": { "$ref": "#/$defs/corr" }, "from": { "type": "string" }, "from_trust": { "const": "self-reported" },
       "text_bytes": { "$ref": "#/$defs/count" }, "confirmed": { "type": "boolean" }, "refusal": { "type": "string" },
       "detail": { "type": "string" }, "side": { "enum": ["client", "wrapper"] }, "wheel": { "type": "string" },
-      "window": { "type": "string" }, "used_percentage": { "type": "number" }, "resets_at": { "type": "string" },
-      "paused": { "type": "boolean" }, "duration_ms": { "$ref": "#/$defs/count" }, "conn": { "type": "string" },
+      "duration_ms": { "$ref": "#/$defs/count" }, "conn": { "type": "string" },
       "srv_conn": { "type": "string" }, "rpc_id": { "$ref": "#/$defs/corr" } } } },
     { "if": { "properties": { "event": { "const": "release-from-driver" } } }, "then": { "properties": {
       "corr": { "$ref": "#/$defs/corr" }, "conn": { "type": "string" }, "from": { "type": "string" },

@@ -61,7 +61,6 @@ pub enum EventKind {
     SessionEnd,
     Activity,
     Wheel,
-    BudgetGate,
     SendIssued,
     SendConfirmed,
     SendRefused,
@@ -75,14 +74,13 @@ pub enum EventKind {
 
 impl EventKind {
     /// Every kind, in declaration order.
-    pub const ALL: [Self; 16] = [
+    pub const ALL: [Self; 15] = [
         Self::SessionStart,
         Self::PromptSubmitted,
         Self::TurnEnded,
         Self::SessionEnd,
         Self::Activity,
         Self::Wheel,
-        Self::BudgetGate,
         Self::SendIssued,
         Self::SendConfirmed,
         Self::SendRefused,
@@ -120,7 +118,6 @@ impl EventKind {
             Self::SessionEnd => &[],
             Self::Activity => &["tool"],
             Self::Wheel => &["holder", "cause"],
-            Self::BudgetGate => &["paused", "window", "override_until"],
             Self::SendIssued => &["cursor", "from"],
             Self::SendConfirmed => &["cursor", "confirmed"],
             Self::SendRefused => &["refusal", "detail", "cursor"],
@@ -140,7 +137,6 @@ impl EventKind {
             Self::SessionEnd => "session-end",
             Self::Activity => "activity",
             Self::Wheel => "wheel",
-            Self::BudgetGate => "budget-gate",
             Self::SendIssued => "send-issued",
             Self::SendConfirmed => "send-confirmed",
             Self::SendRefused => "send-refused",
@@ -159,7 +155,6 @@ impl EventKind {
 #[serde(rename_all = "kebab-case")]
 pub enum RefusalReason {
     HumanTyping,
-    BudgetPaused,
     UnverifiedCli,
     NotDelivered,
     #[serde(other)]
@@ -170,7 +165,6 @@ impl RefusalReason {
     pub const fn as_str(self) -> &'static str {
         match self {
             Self::HumanTyping => "human-typing",
-            Self::BudgetPaused => "budget-paused",
             Self::UnverifiedCli => "unverified-cli",
             Self::NotDelivered => "not-delivered",
             Self::Unknown => "unknown",
@@ -244,32 +238,6 @@ impl HumanTyping {
     }
 }
 
-/// The closed `budget-paused` details, and the `window` of a `budget-gate` event: the usage window
-/// that crossed its threshold.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
-#[serde(rename_all = "kebab-case")]
-pub enum BudgetWindowKind {
-    FiveHour,
-    SevenDay,
-}
-
-impl BudgetWindowKind {
-    pub const fn as_str(self) -> &'static str {
-        match self {
-            Self::FiveHour => "five-hour",
-            Self::SevenDay => "seven-day",
-        }
-    }
-}
-
-/// A whole percentage, 0 to 100 (architecture §Cross-cutting Patterns, Config management). The
-/// only way to build one is `Percent::try_new`.
-#[nutype(
-    validate(less_or_equal = 100),
-    derive(Debug, Clone, Copy, PartialEq, Eq)
-)]
-pub struct Percent(u8);
-
 /// How long the wrapper holds a dialog for a driver, in whole seconds from `DIALOG_HOLD_MIN` to
 /// `DIALOG_HOLD_MAX` (architecture §Cross-cutting Patterns, Config management). The only way to
 /// build one is `DialogHold::try_new`, so no value makes the hold zero or unbounded.
@@ -313,42 +281,6 @@ impl WheelCause {
             Self::Release => "release",
         }
     }
-}
-
-/// The word that stands in place of an external value viola could not read.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
-#[serde(rename_all = "kebab-case")]
-pub enum UnknownWord {
-    Unknown,
-}
-
-/// An external value, or the word `"unknown"` in its place: an unparseable value is never an error
-/// (architecture §Conventions → Data model conventions, Unparseable external values).
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
-#[serde(untagged)]
-pub enum Reading<T> {
-    Unknown(UnknownWord),
-    Known(T),
-}
-
-impl<T> Reading<T> {
-    pub const UNKNOWN: Self = Self::Unknown(UnknownWord::Unknown);
-}
-
-/// One usage window of a budget reading: `used_percentage` is a number from 0 to 100, `resets_at`
-/// an RFC 3339 UTC instant.
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
-pub struct BudgetWindow {
-    pub used_percentage: Reading<f64>,
-    pub resets_at: Reading<String>,
-}
-
-/// The usage reading a wrapped session's status line carries, in viola's own names; a window the
-/// status line omits is `"unknown"` whole (architecture §Standard Contracts, the `budget` bullet).
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
-pub struct BudgetReading {
-    pub five_hour: Reading<BudgetWindow>,
-    pub seven_day: Reading<BudgetWindow>,
 }
 
 /// Paste text admits LF, CR and TAB; every other C0, DEL and C1 is refused, never stripped
@@ -544,7 +476,6 @@ mod tests {
         assert_eq!(EventKind::SessionEnd.as_str(), "session-end");
         assert_eq!(EventKind::Activity.as_str(), "activity");
         assert_eq!(EventKind::Wheel.as_str(), "wheel");
-        assert_eq!(EventKind::BudgetGate.as_str(), "budget-gate");
         assert_eq!(EventKind::SendIssued.as_str(), "send-issued");
         assert_eq!(EventKind::SendConfirmed.as_str(), "send-confirmed");
         assert_eq!(EventKind::SendRefused.as_str(), "send-refused");
@@ -570,7 +501,7 @@ mod tests {
     }
 
     /// Architecture's per-kind `data` list, written out as the oracle, in declaration order.
-    const KIND_TABLE: [(EventKind, &str, &[&str]); 16] = [
+    const KIND_TABLE: [(EventKind, &str, &[&str]); 15] = [
         (
             EventKind::SessionStart,
             "session-start",
@@ -589,11 +520,6 @@ mod tests {
         (EventKind::SessionEnd, "session-end", &[]),
         (EventKind::Activity, "activity", &["tool"]),
         (EventKind::Wheel, "wheel", &["holder", "cause"]),
-        (
-            EventKind::BudgetGate,
-            "budget-gate",
-            &["paused", "window", "override_until"],
-        ),
         (EventKind::SendIssued, "send-issued", &["cursor", "from"]),
         (
             EventKind::SendConfirmed,
@@ -644,7 +570,7 @@ mod tests {
     }
 
     #[test]
-    fn kind_table_all_is_the_sixteen_kinds_in_declaration_order() {
+    fn kind_table_all_is_the_fifteen_kinds_in_declaration_order() {
         let all: Vec<&str> = EventKind::ALL.iter().map(|k| k.as_str()).collect();
         assert_eq!(
             all,
@@ -655,7 +581,6 @@ mod tests {
                 "session-end",
                 "activity",
                 "wheel",
-                "budget-gate",
                 "send-issued",
                 "send-confirmed",
                 "send-refused",
@@ -680,7 +605,6 @@ mod tests {
     fn refusal_reason_round_trips_kebab_case() {
         let table = [
             (RefusalReason::HumanTyping, "human-typing"),
-            (RefusalReason::BudgetPaused, "budget-paused"),
             (RefusalReason::UnverifiedCli, "unverified-cli"),
             (RefusalReason::NotDelivered, "not-delivered"),
             (RefusalReason::Unknown, "unknown"),
@@ -746,33 +670,6 @@ mod tests {
     }
 
     #[test]
-    fn budget_window_kinds_round_trip_kebab_case() {
-        let table = [
-            (BudgetWindowKind::FiveHour, "five-hour"),
-            (BudgetWindowKind::SevenDay, "seven-day"),
-        ];
-        for (window, text) in table {
-            assert_eq!(window.as_str(), text);
-            let json = serde_json::to_string(&window).expect("serialize");
-            assert_eq!(json, format!("\"{text}\""));
-            let back: BudgetWindowKind = serde_json::from_str(&json).expect("deserialize");
-            assert_eq!(back, window);
-        }
-        assert!(serde_json::from_str::<BudgetWindowKind>("\"spend-limit\"").is_err());
-    }
-
-    #[test]
-    fn percent_admits_zero_to_one_hundred_and_nothing_else() {
-        for ok in [0u8, 1, 85, 90, 99, 100] {
-            let percent = Percent::try_new(ok).expect("in range");
-            assert_eq!(percent.into_inner(), ok);
-        }
-        for bad in [101u8, 102, 200, 255] {
-            assert!(Percent::try_new(bad).is_err(), "{bad} must be rejected");
-        }
-    }
-
-    #[test]
     fn wheel_causes_round_trip_kebab_case() {
         let table = [
             (WheelCause::Start, "start"),
@@ -788,91 +685,6 @@ mod tests {
             assert_eq!(back, cause);
         }
         assert!(serde_json::from_str::<WheelCause>("\"human-key\"").is_err());
-    }
-
-    fn window(used_percentage: Reading<f64>, resets_at: Reading<String>) -> Reading<BudgetWindow> {
-        Reading::Known(BudgetWindow {
-            used_percentage,
-            resets_at,
-        })
-    }
-
-    /// The reading as written JSON, and the same reading read back from it.
-    fn written(reading: &BudgetReading) -> String {
-        let json = serde_json::to_string(reading).expect("serialize");
-        let back: BudgetReading = serde_json::from_str(&json).expect("deserialize");
-        assert_eq!(&back, reading);
-        json
-    }
-
-    #[test]
-    fn budget_reading_both_windows_read_are_two_objects() {
-        let reading = BudgetReading {
-            five_hour: window(
-                Reading::Known(23.5),
-                Reading::Known("2026-10-10T12:00:00.000Z".to_owned()),
-            ),
-            seven_day: window(
-                Reading::Known(91.0),
-                Reading::Known("2026-10-14T00:00:00.000Z".to_owned()),
-            ),
-        };
-        assert_eq!(
-            written(&reading),
-            r#"{"five_hour":{"used_percentage":23.5,"resets_at":"2026-10-10T12:00:00.000Z"},"seven_day":{"used_percentage":91.0,"resets_at":"2026-10-14T00:00:00.000Z"}}"#
-        );
-    }
-
-    #[test]
-    fn budget_reading_an_omitted_window_is_the_word_unknown() {
-        let reading = BudgetReading {
-            five_hour: Reading::UNKNOWN,
-            seven_day: Reading::UNKNOWN,
-        };
-        assert_eq!(
-            written(&reading),
-            r#"{"five_hour":"unknown","seven_day":"unknown"}"#
-        );
-    }
-
-    #[test]
-    fn budget_reading_an_unparseable_percentage_is_the_word_unknown() {
-        let reading = BudgetReading {
-            five_hour: window(
-                Reading::UNKNOWN,
-                Reading::Known("2026-10-10T12:00:00.000Z".to_owned()),
-            ),
-            seven_day: Reading::UNKNOWN,
-        };
-        assert_eq!(
-            written(&reading),
-            r#"{"five_hour":{"used_percentage":"unknown","resets_at":"2026-10-10T12:00:00.000Z"},"seven_day":"unknown"}"#
-        );
-    }
-
-    #[test]
-    fn budget_reading_an_unparseable_reset_is_the_word_unknown() {
-        let reading = BudgetReading {
-            five_hour: Reading::UNKNOWN,
-            seven_day: window(Reading::Known(0.0), Reading::UNKNOWN),
-        };
-        assert_eq!(
-            written(&reading),
-            r#"{"five_hour":"unknown","seven_day":{"used_percentage":0.0,"resets_at":"unknown"}}"#
-        );
-    }
-
-    #[test]
-    fn budget_reading_a_whole_number_percentage_reads_back_as_a_number() {
-        let read: BudgetReading = serde_json::from_str(
-            r#"{"five_hour":{"used_percentage":91,"resets_at":"unknown"},"seven_day":"unknown"}"#,
-        )
-        .expect("deserialize");
-        assert_eq!(
-            read.five_hour,
-            window(Reading::Known(91.0), Reading::UNKNOWN)
-        );
-        assert_eq!(read.seven_day, Reading::UNKNOWN);
     }
 
     #[test]
@@ -910,7 +722,6 @@ mod tests {
     fn code_word_literal_table() {
         for word in [
             "human-typing",
-            "budget-paused",
             "unverified-cli",
             "not-delivered",
             "unknown",
@@ -921,8 +732,6 @@ mod tests {
             "control-character",
             "empty-text",
             "manual-pause",
-            "five-hour",
-            "seven-day",
             "a",
             "a1",
             "a-",

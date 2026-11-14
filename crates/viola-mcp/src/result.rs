@@ -119,10 +119,10 @@ mod tests {
         json!({"submitted_at": "t", "cursor": 4})
     )]
     #[case::refusal(
-        json!({"id": 1, "result": {"refusal": "budget-paused", "detail": "five-hour"}}),
+        json!({"id": 1, "result": {"refusal": "not-delivered", "detail": "turn-running"}}),
         true,
         true,
-        json!({"refusal": "budget-paused", "detail": "five-hour"})
+        json!({"refusal": "not-delivered", "detail": "turn-running"})
     )]
     #[case::refusal_null_detail(
         json!({"id": 1, "result": {"refusal": "human-typing", "detail": null}}),
@@ -284,11 +284,13 @@ mod tests {
 
     #[test]
     fn of_board_takes_the_ok_member_or_the_unreachable_refusal() {
-        let ok = of_board(&json!({"v": 1, "ok": {"items": [], "budget": "unknown"}})).expect("ok");
+        let ok = of_board(&json!({"v": 1, "ok": {"items": [], "skipped": {"unknown_kinds": 0, "unknown_fields": 0, "torn_lines": 0}}})).expect("ok");
         assert_eq!(ok.is_error, Some(false));
         assert_eq!(
             ok.structured_content,
-            Some(json!({"items": [], "budget": "unknown"}))
+            Some(
+                json!({"items": [], "skipped": {"unknown_kinds": 0, "unknown_fields": 0, "torn_lines": 0}})
+            )
         );
         let refused = of_board(
             &json!({"v": 1, "error": "instance-unreachable", "detail": "strict-modes-failed"}),

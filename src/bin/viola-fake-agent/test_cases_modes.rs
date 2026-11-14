@@ -32,14 +32,14 @@ fn fake_statusline_receipts_the_run_of_an_absolute_command() {
 }
 
 #[test]
-fn fake_statusline_replays_the_default_then_the_rate_limits_once_under_framing() {
+fn fake_statusline_replays_the_default_once_under_framing() {
     let lines = statusline_replayed(&whoami(), true, &["--framing"]);
     let stdins: Vec<&str> = lines
         .iter()
         .filter(|l| l["kind"] == "statusline")
         .map(|l| l["stdin_hex"].as_str().unwrap_or(""))
         .collect();
-    assert_eq!(stdins, [hex(b"{\"n\":1}\n"), hex(b"{\"n\":2}\n")]);
+    assert_eq!(stdins, [hex(b"{\"n\":1}\n")]);
     assert!(lines.iter().all(|l| l["ran"] == true));
 }
 
@@ -52,7 +52,7 @@ fn fake_statusline_replays_nothing_without_framing_or_without_the_variants() {
 #[test]
 fn fake_statusline_replay_of_a_relative_command_runs_nothing() {
     let lines = statusline_replayed("relative hook statusline", true, &["--framing"]);
-    assert_eq!(lines.len(), 2);
+    assert_eq!(lines.len(), 1);
     for line in lines {
         assert_eq!(
             line,

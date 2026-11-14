@@ -1,0 +1,565 @@
+[
+{
+"sql": "SELECT callee_name, file, COUNT(*) AS n FROM refs WHERE callee_name IN ('BudgetReading','BudgetWindow','BudgetWindowKind','Percent','Reading','read_budget','read_budget_stamped','write_budget','StampedReading','BayBudget','BudgetGate','read_thresholds','BudgetPaused','BudgetGate','budget_paused','budget_override_until','StatusLineRateLimits','whole_rate_limits','STATUSLINE_RATE_LIMITS') AND file NOT LIKE 'crates/viola-core/src/lib.rs' GROUP BY 1,2 ORDER BY 1,2",
+"rows": 111,
+"result": [
+{
+"callee_name": "BayBudget",
+"file": "src/cmd/list.rs",
+"n": 2
+},
+{
+"callee_name": "BayBudget",
+"file": "src/human.rs",
+"n": 1
+},
+{
+"callee_name": "BayBudget",
+"file": "src/human/board.rs",
+"n": 1
+},
+{
+"callee_name": "BayBudget",
+"file": "src/human/board/bay.rs",
+"n": 4
+},
+{
+"callee_name": "BayBudget",
+"file": "src/human/board/rows.rs",
+"n": 2
+},
+{
+"callee_name": "BudgetGate",
+"file": "crates/viola-state/src/board.rs",
+"n": 1
+},
+{
+"callee_name": "BudgetGate",
+"file": "crates/viola-state/src/events.rs",
+"n": 2
+},
+{
+"callee_name": "BudgetGate",
+"file": "crates/viola-state/src/replay.rs",
+"n": 6
+},
+{
+"callee_name": "BudgetGate",
+"file": "crates/viola-state/src/strict.rs",
+"n": 1
+},
+{
+"callee_name": "BudgetGate",
+"file": "crates/viola-state/tests/state_events.rs",
+"n": 4
+},
+{
+"callee_name": "BudgetGate",
+"file": "crates/viola-state/tests/state_replay.rs",
+"n": 2
+},
+{
+"callee_name": "BudgetGate",
+"file": "src/cmd/run.rs",
+"n": 7
+},
+{
+"callee_name": "BudgetGate",
+"file": "src/run/budget.rs",
+"n": 5
+},
+{
+"callee_name": "BudgetGate",
+"file": "src/run/send.rs",
+"n": 1
+},
+{
+"callee_name": "BudgetGate",
+"file": "src/run/send/slot.rs",
+"n": 2
+},
+{
+"callee_name": "BudgetGate",
+"file": "src/run/send/test_support.rs",
+"n": 2
+},
+{
+"callee_name": "BudgetGate",
+"file": "src/run/wheel.rs",
+"n": 6
+},
+{
+"callee_name": "BudgetPaused",
+"file": "src/cmd/send.rs",
+"n": 2
+},
+{
+"callee_name": "BudgetPaused",
+"file": "src/run/send/budget.rs",
+"n": 1
+},
+{
+"callee_name": "BudgetReading",
+"file": "crates/viola-agent-claude/src/statusline.rs",
+"n": 5
+},
+{
+"callee_name": "BudgetReading",
+"file": "crates/viola-state/src/budget.rs",
+"n": 14
+},
+{
+"callee_name": "BudgetReading",
+"file": "src/cmd/list.rs",
+"n": 2
+},
+{
+"callee_name": "BudgetReading",
+"file": "src/cmd/run.rs",
+"n": 2
+},
+{
+"callee_name": "BudgetReading",
+"file": "src/human/board/bay.rs",
+"n": 1
+},
+{
+"callee_name": "BudgetReading",
+"file": "src/run/budget.rs",
+"n": 7
+},
+{
+"callee_name": "BudgetReading",
+"file": "src/run/send/test_support.rs",
+"n": 2
+},
+{
+"callee_name": "BudgetReading",
+"file": "src/run/wheel.rs",
+"n": 2
+},
+{
+"callee_name": "BudgetWindow",
+"file": "crates/viola-agent-claude/src/statusline.rs",
+"n": 6
+},
+{
+"callee_name": "BudgetWindow",
+"file": "crates/viola-state/src/budget.rs",
+"n": 9
+},
+{
+"callee_name": "BudgetWindow",
+"file": "src/cmd/list.rs",
+"n": 2
+},
+{
+"callee_name": "BudgetWindow",
+"file": "src/cmd/run.rs",
+"n": 2
+},
+{
+"callee_name": "BudgetWindow",
+"file": "src/human/board/bay.rs",
+"n": 9
+},
+{
+"callee_name": "BudgetWindow",
+"file": "src/run/budget.rs",
+"n": 10
+},
+{
+"callee_name": "BudgetWindow",
+"file": "src/run/send/test_support.rs",
+"n": 3
+},
+{
+"callee_name": "BudgetWindow",
+"file": "src/run/wheel.rs",
+"n": 2
+},
+{
+"callee_name": "BudgetWindowKind",
+"file": "src/run/budget.rs",
+"n": 22
+},
+{
+"callee_name": "Percent",
+"file": "src/run/budget.rs",
+"n": 10
+},
+{
+"callee_name": "Reading",
+"file": "crates/viola-agent-claude/src/statusline.rs",
+"n": 31
+},
+{
+"callee_name": "Reading",
+"file": "crates/viola-state/src/budget.rs",
+"n": 36
+},
+{
+"callee_name": "Reading",
+"file": "src/cmd/list.rs",
+"n": 6
+},
+{
+"callee_name": "Reading",
+"file": "src/cmd/run.rs",
+"n": 5
+},
+{
+"callee_name": "Reading",
+"file": "src/human/board/bay.rs",
+"n": 30
+},
+{
+"callee_name": "Reading",
+"file": "src/run/budget.rs",
+"n": 19
+},
+{
+"callee_name": "Reading",
+"file": "src/run/send/test_support.rs",
+"n": 5
+},
+{
+"callee_name": "Reading",
+"file": "src/run/wheel.rs",
+"n": 5
+},
+{
+"callee_name": "STATUSLINE_RATE_LIMITS",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"n": 1
+},
+{
+"callee_name": "STATUSLINE_RATE_LIMITS",
+"file": "src/bin/viola-fake-agent.rs",
+"n": 2
+},
+{
+"callee_name": "StampedReading",
+"file": "crates/viola-state/src/budget.rs",
+"n": 4
+},
+{
+"callee_name": "StampedReading",
+"file": "src/cmd/list.rs",
+"n": 5
+},
+{
+"callee_name": "StampedReading",
+"file": "src/human/board/bay.rs",
+"n": 4
+},
+{
+"callee_name": "StatusLineRateLimits",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"n": 4
+},
+{
+"callee_name": "StatusLineRateLimits",
+"file": "crates/viola-agent-claude/src/ledger/test_cases_runs.rs",
+"n": 3
+},
+{
+"callee_name": "StatusLineRateLimits",
+"file": "src/cmd/verify.rs",
+"n": 1
+},
+{
+"callee_name": "StatusLineRateLimits",
+"file": "src/run/version_gate.rs",
+"n": 1
+},
+{
+"callee_name": "budget_override_until",
+"file": "crates/viola-mcp/tests/handlers.rs",
+"n": 1
+},
+{
+"callee_name": "budget_override_until",
+"file": "crates/viola-state/src/board.rs",
+"n": 1
+},
+{
+"callee_name": "budget_override_until",
+"file": "crates/viola-state/src/liveness.rs",
+"n": 1
+},
+{
+"callee_name": "budget_override_until",
+"file": "crates/viola-state/src/replay.rs",
+"n": 7
+},
+{
+"callee_name": "budget_override_until",
+"file": "crates/viola-state/src/snapshot.rs",
+"n": 1
+},
+{
+"callee_name": "budget_override_until",
+"file": "crates/viola-state/src/strict.rs",
+"n": 1
+},
+{
+"callee_name": "budget_override_until",
+"file": "crates/viola-state/tests/state_replay.rs",
+"n": 3
+},
+{
+"callee_name": "budget_override_until",
+"file": "src/cmd/hook.rs",
+"n": 4
+},
+{
+"callee_name": "budget_override_until",
+"file": "src/cmd/hook/statusline.rs",
+"n": 1
+},
+{
+"callee_name": "budget_override_until",
+"file": "src/cmd/revive.rs",
+"n": 1
+},
+{
+"callee_name": "budget_override_until",
+"file": "src/cmd/run.rs",
+"n": 2
+},
+{
+"callee_name": "budget_override_until",
+"file": "src/run/budget.rs",
+"n": 3
+},
+{
+"callee_name": "budget_override_until",
+"file": "src/run/dialog.rs",
+"n": 1
+},
+{
+"callee_name": "budget_override_until",
+"file": "src/run/mod.rs",
+"n": 1
+},
+{
+"callee_name": "budget_override_until",
+"file": "src/run/send/slot.rs",
+"n": 1
+},
+{
+"callee_name": "budget_override_until",
+"file": "src/run/wheel.rs",
+"n": 3
+},
+{
+"callee_name": "budget_override_until",
+"file": "tests/cli_budget.rs",
+"n": 3
+},
+{
+"callee_name": "budget_override_until",
+"file": "tests/hook_fail_open.rs",
+"n": 1
+},
+{
+"callee_name": "budget_override_until",
+"file": "tests/security_negatives_server_identity.rs",
+"n": 1
+},
+{
+"callee_name": "budget_paused",
+"file": "crates/viola-mcp/tests/handlers.rs",
+"n": 1
+},
+{
+"callee_name": "budget_paused",
+"file": "crates/viola-state/src/board.rs",
+"n": 10
+},
+{
+"callee_name": "budget_paused",
+"file": "crates/viola-state/src/liveness.rs",
+"n": 1
+},
+{
+"callee_name": "budget_paused",
+"file": "crates/viola-state/src/replay.rs",
+"n": 7
+},
+{
+"callee_name": "budget_paused",
+"file": "crates/viola-state/src/snapshot.rs",
+"n": 1
+},
+{
+"callee_name": "budget_paused",
+"file": "crates/viola-state/src/strict.rs",
+"n": 1
+},
+{
+"callee_name": "budget_paused",
+"file": "crates/viola-state/tests/state_replay.rs",
+"n": 3
+},
+{
+"callee_name": "budget_paused",
+"file": "src/cmd/hook.rs",
+"n": 4
+},
+{
+"callee_name": "budget_paused",
+"file": "src/cmd/hook/statusline.rs",
+"n": 1
+},
+{
+"callee_name": "budget_paused",
+"file": "src/cmd/list.rs",
+"n": 1
+},
+{
+"callee_name": "budget_paused",
+"file": "src/cmd/revive.rs",
+"n": 1
+},
+{
+"callee_name": "budget_paused",
+"file": "src/cmd/run.rs",
+"n": 2
+},
+{
+"callee_name": "budget_paused",
+"file": "src/human/board/cells.rs",
+"n": 2
+},
+{
+"callee_name": "budget_paused",
+"file": "src/human/board/rows.rs",
+"n": 2
+},
+{
+"callee_name": "budget_paused",
+"file": "src/human/board/test_support.rs",
+"n": 1
+},
+{
+"callee_name": "budget_paused",
+"file": "src/run/budget.rs",
+"n": 3
+},
+{
+"callee_name": "budget_paused",
+"file": "src/run/dialog.rs",
+"n": 1
+},
+{
+"callee_name": "budget_paused",
+"file": "src/run/mod.rs",
+"n": 1
+},
+{
+"callee_name": "budget_paused",
+"file": "src/run/send.rs",
+"n": 1
+},
+{
+"callee_name": "budget_paused",
+"file": "src/run/send/slot.rs",
+"n": 1
+},
+{
+"callee_name": "budget_paused",
+"file": "src/run/wheel.rs",
+"n": 3
+},
+{
+"callee_name": "budget_paused",
+"file": "tests/cli_budget.rs",
+"n": 2
+},
+{
+"callee_name": "budget_paused",
+"file": "tests/hook_fail_open.rs",
+"n": 1
+},
+{
+"callee_name": "budget_paused",
+"file": "tests/security_negatives_server_identity.rs",
+"n": 1
+},
+{
+"callee_name": "read_budget",
+"file": "crates/viola-state/src/budget.rs",
+"n": 16
+},
+{
+"callee_name": "read_budget",
+"file": "src/run/budget.rs",
+"n": 2
+},
+{
+"callee_name": "read_budget_stamped",
+"file": "crates/viola-state/src/budget.rs",
+"n": 4
+},
+{
+"callee_name": "read_budget_stamped",
+"file": "src/cmd/list.rs",
+"n": 2
+},
+{
+"callee_name": "read_thresholds",
+"file": "src/cmd/list.rs",
+"n": 1
+},
+{
+"callee_name": "read_thresholds",
+"file": "src/cmd/run.rs",
+"n": 1
+},
+{
+"callee_name": "read_thresholds",
+"file": "src/run/budget.rs",
+"n": 5
+},
+{
+"callee_name": "whole_rate_limits",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"n": 2
+},
+{
+"callee_name": "write_budget",
+"file": "crates/viola-state/src/budget.rs",
+"n": 16
+},
+{
+"callee_name": "write_budget",
+"file": "src/cmd/hook/statusline.rs",
+"n": 2
+},
+{
+"callee_name": "write_budget",
+"file": "src/cmd/run.rs",
+"n": 1
+},
+{
+"callee_name": "write_budget",
+"file": "src/run/budget.rs",
+"n": 3
+},
+{
+"callee_name": "write_budget",
+"file": "src/run/send/test_support.rs",
+"n": 2
+},
+{
+"callee_name": "write_budget",
+"file": "src/run/wheel.rs",
+"n": 2
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

@@ -13,12 +13,7 @@ const WHEEL_WIDTH: usize = 23;
 const DIALOG_WIDTH: usize = 17;
 
 pub(super) fn wheel_cell(item: &Item) -> String {
-    let holder = item.wheel.map_or("unknown", Wheel::as_str);
-    if item.budget_paused == Some(true) {
-        format!("{holder} - budget-paused")
-    } else {
-        holder.to_owned()
-    }
+    item.wheel.map_or("unknown", Wheel::as_str).to_owned()
 }
 
 /// The caption, and the one word the attention token marks.
@@ -140,19 +135,12 @@ mod tests {
     use rstest::rstest;
 
     #[rstest]
-    #[case::driver(Some(Wheel::Driver), Some(false), "driver")]
-    #[case::human(Some(Wheel::Human), Some(false), "human")]
-    #[case::driver_paused(Some(Wheel::Driver), Some(true), "driver - budget-paused")]
-    #[case::human_paused(Some(Wheel::Human), Some(true), "human - budget-paused")]
-    #[case::no_logged_holder(None, None, "unknown")]
-    fn board_row_wheel_cell(
-        #[case] wheel: Option<Wheel>,
-        #[case] paused: Option<bool>,
-        #[case] cell: &str,
-    ) {
+    #[case::driver(Some(Wheel::Driver), "driver")]
+    #[case::human(Some(Wheel::Human), "human")]
+    #[case::no_logged_holder(None, "unknown")]
+    fn board_row_wheel_cell(#[case] wheel: Option<Wheel>, #[case] cell: &str) {
         let mut row = item("builder");
         row.wheel = wheel;
-        row.budget_paused = paused;
         assert_eq!(wheel_cell(&row), cell);
     }
 

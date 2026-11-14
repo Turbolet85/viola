@@ -13,7 +13,7 @@ mod style;
 mod verbs;
 mod wait;
 
-pub(crate) use board::{BayBudget, home_state_pair, instance_state_pair, write_board};
+pub(crate) use board::{home_state_pair, instance_state_pair, write_board};
 pub(crate) use escape::escape_message;
 pub(crate) use hints::{answer_hint, send_hint};
 pub(crate) use mirror::{
@@ -22,9 +22,8 @@ pub(crate) use mirror::{
 };
 pub(crate) use style::read as read_colour;
 pub(crate) use verbs::{
-    command_word, override_end, write_already_linked, write_answered, write_budget_lifted,
-    write_budget_open, write_linked, write_paused, write_plugin_installed, write_released,
-    write_unlinked,
+    command_word, write_already_linked, write_answered, write_linked, write_paused,
+    write_plugin_installed, write_released, write_unlinked,
 };
 pub(crate) use wait::{
     write_last_turn, write_message, write_no_message, write_timed_out, write_waiting, write_woken,

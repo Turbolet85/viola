@@ -638,10 +638,8 @@ fn fake_agent_agents_replay_matches_every_recorded_agents_set() {
     assert!(compared >= 1, "agents sets compared: {compared}");
 }
 
-/// The status line variants in replay order, as test literals: the launch's payload, then the first
-/// turn's.
-const STATUSLINE_VARIANTS: [&str; 2] =
-    ["StatusLine.default-1.json", "StatusLine.rate-limits-1.json"];
+/// The status line variant the replay hands over, as a test literal: the launch's payload.
+const STATUSLINE_VARIANTS: [&str; 1] = ["StatusLine.default-1.json"];
 
 /// A set's recorded status line variants in replay order, each with its bytes; empty for a set
 /// recorded before them.
@@ -674,7 +672,7 @@ fn statusline_drift(set: &Path, receipt: &[Value]) -> Vec<String> {
 
 /// Every set recorded with its status line variants replays them byte for byte where the status
 /// line is wrapped: `viola verify` against the fake agent's `--framing` hands Run B's status line
-/// command the launch's recorded payload, then the first turn's.
+/// command the launch's recorded payload.
 #[cfg(unix)]
 #[test]
 fn fake_agent_statusline_replay_matches_every_recorded_statusline_set() {
@@ -708,7 +706,7 @@ fn fake_agent_statusline_replay_matches_every_recorded_statusline_set() {
 }
 
 #[test]
-fn statusline_drift_names_a_changed_byte_a_swapped_order_and_a_short_replay() {
+fn statusline_drift_names_a_changed_byte_and_a_replay_of_another_length() {
     let home = TestHome::new();
     let fixtures = home.scratch().join("fixtures");
     support::verify::write_framing_set(&fixtures, "9.9.9");
@@ -717,27 +715,23 @@ fn statusline_drift_names_a_changed_byte_a_swapped_order_and_a_short_replay() {
         .iter()
         .map(|(_, bytes)| json!({"v": 1, "kind": "statusline", "stdin_hex": hex(bytes)}))
         .collect();
-    assert_eq!(clean.len(), 2);
+    assert_eq!(clean.len(), 1);
     assert_eq!(statusline_drift(&set, &clean), Vec::<String>::new());
 
     let mut changed = clean.clone();
-    let mut bytes = unhex(changed[1]["stdin_hex"].as_str().expect("hex"));
+    let mut bytes = unhex(changed[0]["stdin_hex"].as_str().expect("hex"));
     let last = bytes.len() - 1;
     bytes[last] ^= 0x01;
-    changed[1]["stdin_hex"] = json!(hex(&bytes));
+    changed[0]["stdin_hex"] = json!(hex(&bytes));
     assert_eq!(
         statusline_drift(&set, &changed),
-        ["StatusLine.rate-limits-1.json"]
+        ["StatusLine.default-1.json"]
     );
 
-    let mut swapped = clean.clone();
-    swapped.swap(0, 1);
-    assert_eq!(
-        statusline_drift(&set, &swapped),
-        ["StatusLine.default-1.json", "StatusLine.rate-limits-1.json"]
-    );
-
-    assert_eq!(statusline_drift(&set, &clean[..1]), ["count"]);
+    let mut doubled = clean.clone();
+    doubled.push(clean[0].clone());
+    assert_eq!(statusline_drift(&set, &doubled), ["count"]);
+    assert_eq!(statusline_drift(&set, &clean[..0]), ["count"]);
     assert!(statusline_replay(&home.scratch().join("missing")).is_empty());
 }
 

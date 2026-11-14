@@ -376,7 +376,6 @@ mod tests {
     #[rstest]
     #[case::activity("activity")]
     #[case::wheel("wheel")]
-    #[case::budget_gate("budget-gate")]
     #[case::send_issued("send-issued")]
     #[case::send_confirmed("send-confirmed")]
     #[case::send_refused("send-refused")]

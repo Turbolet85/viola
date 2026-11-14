@@ -38,14 +38,13 @@ pub enum LedgerRow {
     PasteNewline,
     StatusLineOverride,
     StatusLineShell,
-    StatusLineRateLimits,
     ResumeSession,
     AgentsJoin,
     LocalCommandCompact,
 }
 
 impl LedgerRow {
-    pub const ALL: [Self; 24] = [
+    pub const ALL: [Self; 23] = [
         Self::ShimResolution,
         Self::SpineHooks,
         Self::SessionStartFields,
@@ -66,7 +65,6 @@ impl LedgerRow {
         Self::PasteNewline,
         Self::StatusLineOverride,
         Self::StatusLineShell,
-        Self::StatusLineRateLimits,
         Self::ResumeSession,
         Self::AgentsJoin,
         Self::LocalCommandCompact,
@@ -95,7 +93,6 @@ impl LedgerRow {
             Self::PasteNewline => "paste-newline",
             Self::StatusLineOverride => "statusline-override",
             Self::StatusLineShell => "statusline-shell",
-            Self::StatusLineRateLimits => "statusline-rate-limits",
             Self::ResumeSession => "resume-session",
             Self::AgentsJoin => "agents-join",
             Self::LocalCommandCompact => "local-command-compact",
@@ -127,9 +124,6 @@ impl LedgerRow {
             Self::PasteNewline => "an LF inside a paste stays inside the one prompt submitted",
             Self::StatusLineOverride => "a --settings statusLine runs in the status line's place",
             Self::StatusLineShell => "a statusline command runs through /bin/sh",
-            Self::StatusLineRateLimits => {
-                "the statusline payload carries two whole-number rate_limits windows"
-            }
             Self::ResumeSession => "--resume <id> reopens the session under that id",
             Self::AgentsJoin => "claude agents --json names the live session by pid and session id",
             Self::LocalCommandCompact => "/compact keeps the session id and submits no prompt",
@@ -1020,40 +1014,16 @@ pub fn check(row: LedgerRow, probes: &Probes) -> bool {
                     .iter()
                     .all(|c| c.shell == ShellVerdict::BinSh)
         }
-        LedgerRow::StatusLineRateLimits => probes
-            .statusline
-            .iter()
-            .any(|c| whole_rate_limits(&c.bytes)),
         LedgerRow::ResumeSession => session_resumed(&probes.trusted, &probes.resumed),
         LedgerRow::AgentsJoin => agents_joined(&probes.trusted, probes.agents.as_ref()),
         LedgerRow::LocalCommandCompact => local_command_compacted(&probes.trusted, typed),
     }
 }
 
-/// One JSON object whose `rate_limits` holds `five_hour` and `seven_day`, each with a whole-number
-/// `used_percentage` from 0 to 100 and a whole non-negative `resets_at`: the shape 2.1.287 sends,
-/// narrower than what `statusline::reading` tolerates.
-fn whole_rate_limits(bytes: &[u8]) -> bool {
-    let Ok(Value::Object(payload)) = serde_json::from_slice::<Value>(bytes) else {
-        return false;
-    };
-    let whole = |window: &Value| {
-        window.is_object()
-            && window["used_percentage"].as_u64().is_some_and(|p| p <= 100)
-            && window["resets_at"].as_u64().is_some()
-    };
-    payload
-        .get("rate_limits")
-        .is_some_and(|limits| whole(&limits["five_hour"]) && whole(&limits["seven_day"]))
-}
-
 /// The recorded status line payload of a session before its first response.
 pub const STATUSLINE_DEFAULT: &str = "StatusLine.default-1.json";
-/// The recorded status line payload that carries both `rate_limits` windows.
-pub const STATUSLINE_RATE_LIMITS: &str = "StatusLine.rate-limits-1.json";
-
 /// Run B's status line payloads named for `--record`: [`STATUSLINE_DEFAULT`] is the first whose
-/// object holds no `rate_limits`, [`STATUSLINE_RATE_LIMITS`] the first the rate-limits row passes.
+/// object holds no `rate_limits`.
 pub fn statusline_variants(captures: &[StatusLineCapture]) -> Vec<(String, &[u8])> {
     let without = captures.iter().find(|c| {
         matches!(
@@ -1061,14 +1031,10 @@ pub fn statusline_variants(captures: &[StatusLineCapture]) -> Vec<(String, &[u8]
             Ok(Value::Object(payload)) if !payload.contains_key("rate_limits")
         )
     });
-    let with = captures.iter().find(|c| whole_rate_limits(&c.bytes));
-    [
-        (STATUSLINE_DEFAULT, without),
-        (STATUSLINE_RATE_LIMITS, with),
-    ]
-    .into_iter()
-    .filter_map(|(name, c)| c.map(|c| (name.to_owned(), c.bytes.as_slice())))
-    .collect()
+    without
+        .map(|c| (STATUSLINE_DEFAULT.to_owned(), c.bytes.as_slice()))
+        .into_iter()
+        .collect()
 }
 
 /// Exactly the four spine events, one each, in firing order, each payload naming its event.

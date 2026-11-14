@@ -170,7 +170,7 @@ fn diag_line_schema_requires_corr_where_it_is_always_defined(
 #[case::client_send_refused("send-refused", json!({"side": "client", "refusal": "not-delivered", "detail": "control-character"}))]
 #[case::non_dialog_hook_invoked("hook-invoked", json!({"hook_event": "statusline"}))]
 #[case::fail_open_hook_invoked("hook-invoked", json!({"hook_event": "pre-tool-use"}))]
-#[case::non_dialog_hook_decision("hook-decision", json!({"hook_event": "statusline", "budget_written": true}))]
+#[case::non_dialog_hook_decision("hook-decision", json!({"hook_event": "statusline", "duration_ms": 3}))]
 #[case::fail_open_hook_decision("hook-decision", json!({"hook_event": "permission-request", "detail": "channel-unreachable"}))]
 fn diag_line_schema_accepts_each_documented_null_corr(#[case] event: &str, #[case] extra: Value) {
     let validator = jsonschema::validator_for(&line_schema()).expect("valid schema");

@@ -2,7 +2,6 @@
 //! R8 strip, where the child's program is looked up, the version gate, and the wheel.
 
 pub(crate) mod agents;
-pub(crate) mod budget;
 pub(crate) mod dialog;
 mod env;
 pub(crate) mod gate;
@@ -36,8 +35,6 @@ pub(crate) fn first() -> viola_state::snapshot::InstanceSnapshot {
         cli_verified: true,
         cli_version: None,
         wheel: viola_state::snapshot::Wheel::Driver,
-        budget_paused: false,
-        budget_override_until: None,
         links: Vec::new(),
         child_pid: None,
         pending_dialog: None,

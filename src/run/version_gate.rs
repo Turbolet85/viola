@@ -353,11 +353,7 @@ mod tests {
             (false, None),
             "the eighteen rows, the resume row, the agents row and the compact row"
         );
-        let statusline = [
-            LedgerRow::StatusLineOverride,
-            LedgerRow::StatusLineShell,
-            LedgerRow::StatusLineRateLimits,
-        ];
+        let statusline = [LedgerRow::StatusLineOverride, LedgerRow::StatusLineShell];
         all.extend(statusline.iter().map(|r| (*r, true)));
         assert_eq!(
             stamps_verdict(Ok(Some(stamp_of(&all))), "2.1.0"),

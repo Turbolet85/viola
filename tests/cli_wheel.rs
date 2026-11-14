@@ -131,10 +131,7 @@ fn path5_pause_refuses_send_and_answer_and_release_returns_the_wheel(stamped_hom
 
     let released = viola(&home, &["release", "builder", "--json"], Some(""), None);
     assert_eq!(released.code, Some(0), "stderr: {}", released.stderr);
-    assert_eq!(
-        released.stdout,
-        "{\"v\":1,\"ok\":{\"wheel\":\"driver\",\"budget_paused\":false}}\n"
-    );
+    assert_eq!(released.stdout, "{\"v\":1,\"ok\":{\"wheel\":\"driver\"}}\n");
     let sent = viola(&home, &["send", "builder", "--json"], Some(&text), None);
     assert_eq!(sent.code, Some(0), "stderr: {}", sent.stderr);
 
@@ -215,10 +212,7 @@ fn path5_a_turn_left_running_is_cleared_by_pause_then_release(stamped_home: Stam
 
     let released = viola(&home, &["release", "builder", "--json"], Some(""), None);
     assert_eq!(released.code, Some(0), "stderr: {}", released.stderr);
-    assert_eq!(
-        released.stdout,
-        "{\"v\":1,\"ok\":{\"wheel\":\"driver\",\"budget_paused\":false}}\n"
-    );
+    assert_eq!(released.stdout, "{\"v\":1,\"ok\":{\"wheel\":\"driver\"}}\n");
     let still = viola(&home, &["send", "builder", "--json"], Some(&text), None);
     assert_eq!(
         still.code,

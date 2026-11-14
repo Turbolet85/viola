@@ -16,8 +16,6 @@ use viola_e2e::harness::boot::session_path;
 use viola_e2e::harness::session::{HarnessSession, SessionOptions, harness_session};
 
 const CANARY: &str = "canary-chain-value-5c1e";
-const FIVE_HOUR_RESET: &str = "2099-01-01T00:00:00Z";
-const SEVEN_DAY_RESET: &str = "2099-01-06T00:00:00Z";
 const UNWRAPPED_ID: &str = "0b7c9f4e-1d2a-4c3b-8e5f-6a7b8c9d0e1f";
 const UNWRAPPED_ROW: &str = r#"[{"cwd":"~/b","kind":"interactive","name":"b title","sessionId":"0b7c9f4e-1d2a-4c3b-8e5f-6a7b8c9d0e1f","startedAt":1760000000001,"status":"idle"}]"#;
 
@@ -1055,59 +1053,6 @@ fn mcp_tools_path4_path5_answer_by_id_and_a_paused_send() {
             .contains("release")
     );
     assert_sanitized(&[&again, &refused], s.home());
-
-    drop(mcp);
-    let report = s.cleanup();
-    assert_eq!(report.code, 0, "{}", report.doc);
-}
-
-/// Path 6: a five-hour reading over the threshold, fed only through `viola hook statusline`, refuses
-/// the tool's `send` as the CLI refuses it: no cursor, no `release`.
-#[test]
-fn mcp_tools_path6_budget_paused_send() {
-    let s = harness_session(
-        "mcp_tools",
-        "budget",
-        SessionOptions {
-            statusline_echo: true,
-            ..SessionOptions::default()
-        },
-    );
-    let builder = s.instance_dir("builder");
-    let usage = json!({
-        "session_id": CANARY,
-        "model": {"display_name": "synthetic"},
-        "rate_limits": {
-            "five_hour": {"used_percentage": 91, "resets_at": FIVE_HOUR_RESET},
-            "seven_day": {"used_percentage": 10, "resets_at": SEVEN_DAY_RESET},
-        },
-    })
-    .to_string();
-    let feed_env = [
-        ("VIOLA_NAME", OsString::from("builder")),
-        ("VIOLA_DIR", builder.as_os_str().to_owned()),
-    ];
-    let fed = viola(
-        &s,
-        &["hook", "statusline"],
-        Some(usage.as_bytes()),
-        &feed_env,
-    );
-    assert_eq!(fed.code, Some(0));
-    assert!(s.home().join("budget.json").is_file(), "no reading filed");
-
-    let mcp = Mcp::spawn(&s);
-    let refused = mcp.call(
-        "send",
-        json!({"target": "builder", "text": format!("{CANARY} over the budget")}),
-    );
-    assert_refused(&refused, "budget-paused", Some("five-hour"));
-    assert!(body(&refused).get("cursor").is_none());
-    let cli = cli_json(&s, &["send", "builder", "--json"], Some(CANARY.as_bytes()));
-    assert_eq!(
-        cli,
-        json!({"v": 1, "refusal": "budget-paused", "detail": "five-hour"})
-    );
 
     drop(mcp);
     let report = s.cleanup();

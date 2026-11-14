@@ -150,7 +150,7 @@ mod tests {
     }
 
     fn board(items: &[Value]) -> Value {
-        json!({"v": 1, "ok": {"budget": "unknown", "items": items}})
+        json!({"v": 1, "ok": {"items": items}})
     }
 
     fn ready() -> Derived {

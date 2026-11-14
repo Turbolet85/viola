@@ -23,7 +23,7 @@ use viola_pty::Size;
 /// Three rows no wrapped instance joins, each session id holding one control character.
 const PLANTED: &str = r#"[{"cwd":"~/a","kind":"interactive","name":"t","pid":4294967295,"sessionId":"e\u0085f","startedAt":1,"status":"busy"},{"cwd":"~/b","kind":"interactive","name":"t","sessionId":"a\nb","startedAt":2,"status":"idle"},{"cwd":"~/c","kind":"interactive","name":"t","sessionId":"c\td","startedAt":3}]"#;
 
-const BOARD: &str = "BAY  5H unknown  7D unknown  read unknown  gate open  skipped 0 - 0 - 0\n\
+const BOARD: &str = "BAY  skipped 0 - 0 - 0\n\
      NAME     LIVE   STATUS   WHEEL                    DIALOG             CLI\n\
      builder  live   unknown  driver                   none               2.1.287 verified\n\
      -- UNWRAPPED - READ-ONLY --\n\

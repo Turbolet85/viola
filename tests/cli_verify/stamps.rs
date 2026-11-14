@@ -93,7 +93,7 @@ fn verify_refuses_a_widened_ledger_before_any_step(#[from(home)] home: TestHome)
 /// trust dialog and are killed with no key, which fails the three rows a turn measures, the four
 /// dialog rows, the three framing rows, the newline row, the resume row (Run B captured no
 /// SessionStart, so no Run E starts), the agents row (Run B never reached its turn, so no read is
-/// made), the compact row and, on Unix, the three statusline rows (an untrusted start has no status
+/// made), the compact row and, on Unix, the two statusline rows (an untrusted start has no status
 /// line).
 #[rstest]
 fn verify_a_set_without_stop_fails_its_rows_and_still_stamps(#[from(home)] home: TestHome) {
@@ -105,7 +105,7 @@ fn verify_a_set_without_stop_fails_its_rows_and_still_stamps(#[from(home)] home:
     let stdout = ran.stdout_text();
     let lines: Vec<&str> = stdout.lines().collect();
     let mut expected = steps_failing(|i| ![0, 2, 3, 5, 6].contains(&i));
-    expected.push("stamped 2.1.0  5 pass  19 fail".to_owned());
+    expected.push("stamped 2.1.0  5 pass  18 fail".to_owned());
     assert_eq!(lines, expected);
     assert!(ran.stderr.is_empty());
     let rows = &stamps(home.path())["data"]["versions"]["2.1.0"]["rows"];
@@ -256,7 +256,7 @@ fn verify_runs_the_probe_under_the_identity_strip(#[from(home)] home: TestHome) 
             .all(|h| h["ran"] == true && h["exit_code"] == 0)
     );
     let statusline = of_kind(&lines, "statusline");
-    assert_eq!(statusline.len(), 2);
+    assert_eq!(statusline.len(), 1);
     assert!(
         statusline
             .iter()
@@ -493,7 +493,6 @@ fn verify_record_writes_the_scrubbed_spine_variants_and_screens(#[from(home)] ho
         "SessionStart.default.json",
         "SessionStart.resume-1.json",
         "StatusLine.default-1.json",
-        "StatusLine.rate-limits-1.json",
         "Stop.default.json",
         "UserPromptSubmit.default.json",
         "UserPromptSubmit.paste-1.json",
@@ -580,17 +579,7 @@ fn verify_record_writes_the_scrubbed_spine_variants_and_screens(#[from(home)] ho
         resumed["session_id"],
         "5e55a0b1-0c0d-4e0f-8a1b-2c3d4e5f6a7b"
     );
-    {
-        assert!(
-            read("StatusLine.default-1.json")
-                .get("rate_limits")
-                .is_none()
-        );
-        assert_eq!(
-            read("StatusLine.rate-limits-1.json")["rate_limits"]["five_hour"]["used_percentage"],
-            23
-        );
-    }
+    assert_eq!(read("StatusLine.default-1.json")["model"]["id"], "m");
 }
 
 #[rstest]

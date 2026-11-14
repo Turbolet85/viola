@@ -1,0 +1,6 @@
+{
+  "refusal": "budget-paused",
+  "event_kind": "budget-gate",
+  "snapshot_keys": ["budget_paused", "budget_override_until"],
+  "ledger_row": "statusline-rate-limits"
+}

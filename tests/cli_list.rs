@@ -23,7 +23,7 @@ use support::home::{
 };
 use support::hygiene::load_schema;
 
-const BAY_UNKNOWN: &str = "BAY  5H unknown  7D unknown  read unknown  gate open  skipped 0 - 0 - 0";
+const BAY: &str = "BAY  skipped 0 - 0 - 0";
 const CAPTION: &str = "NAME     LIVE   STATUS   WHEEL                    DIALOG             CLI";
 const ROW: &str =
     "builder  live   unknown  driver                   none               2.1.287 verified";
@@ -82,7 +82,7 @@ fn cli_logs(home: &Path) -> Vec<String> {
 }
 
 /// test-plan §6 Path 1, the board's step: the booted wrapper is one `live` row, and the read
-/// changes no state file and writes no budget file.
+/// changes no state file.
 #[rstest]
 fn path1_list_shows_a_booted_wrapper(stamped_home: StampedHome) {
     let wrapper = boot(stamped_home);
@@ -95,17 +95,13 @@ fn path1_list_shows_a_booted_wrapper(stamped_home: StampedHome) {
         json!({"v": 1, "ok": {
             "items": [{
                 "name": "builder", "wrapped": true, "liveness": "live", "status": "unknown",
-                "wheel": "driver", "budget_paused": false, "dialog_pending": false,
+                "wheel": "driver", "dialog_pending": false,
                 "cli_version": "2.1.287", "cli_verified": true,
             }],
-            "budget": "unknown",
             "skipped": {"unknown_kinds": 0, "unknown_fields": 0, "torn_lines": 0},
         }})
     );
     assert_eq!(state_bytes(&dir), before);
-    for file in ["budget.json", "budget.json.lock"] {
-        assert!(!home.join(file).exists(), "{file}");
-    }
     wrapper.stop();
 }
 
@@ -115,7 +111,7 @@ fn list_human_board_is_the_literal_rows(stamped_home: StampedHome) {
     let home = wrapper.home().to_path_buf();
     let human = list(&home, false, None);
     assert_eq!(human.code, Some(0), "stderr: {}", human.stderr);
-    assert_eq!(human.stdout, format!("{BAY_UNKNOWN}\n{CAPTION}\n{ROW}\n"));
+    assert_eq!(human.stdout, format!("{BAY}\n{CAPTION}\n{ROW}\n"));
     assert!(human.stderr.is_empty(), "stderr: {}", human.stderr);
     assert_plain(&human);
     let json = list(&home, true, None);
@@ -154,14 +150,10 @@ fn list_of_a_stopped_wrapper_is_an_empty_board(stamped_home: StampedHome) {
     let json = list(home, true, None);
     let doc = document(&json);
     assert_eq!(doc["ok"]["items"], json!([]));
-    assert_eq!(doc["ok"]["budget"], "unknown");
     assert_plain(&json);
     let human = list(home, false, None);
     assert_eq!(human.code, Some(0), "stderr: {}", human.stderr);
-    assert_eq!(
-        human.stdout,
-        format!("{BAY_UNKNOWN}\n{EMPTY_CAPTION}\n{EMPTY}\n")
-    );
+    assert_eq!(human.stdout, format!("{BAY}\n{EMPTY_CAPTION}\n{EMPTY}\n"));
     assert!(human.stderr.is_empty(), "stderr: {}", human.stderr);
     assert_plain(&human);
 }
@@ -173,10 +165,7 @@ fn list_of_a_home_that_does_not_exist_creates_nothing() {
     assert!(!home.exists());
     let human = list(home, false, None);
     assert_eq!(human.code, Some(0), "stderr: {}", human.stderr);
-    assert_eq!(
-        human.stdout,
-        format!("{BAY_UNKNOWN}\n{EMPTY_CAPTION}\n{EMPTY}\n")
-    );
+    assert_eq!(human.stdout, format!("{BAY}\n{EMPTY_CAPTION}\n{EMPTY}\n"));
     let doc = document(&list(home, true, None));
     assert_eq!(doc["ok"]["items"], json!([]));
     assert!(!home.exists());
@@ -242,7 +231,7 @@ fn e5_list_reads_a_live_wrapper_through_the_replay(
         doc["ok"]["items"],
         json!([{
             "name": "builder", "wrapped": true, "liveness": "live", "status": "unknown",
-            "wheel": "driver", "budget_paused": false, "dialog_pending": false,
+            "wheel": "driver", "dialog_pending": false,
         }])
     );
     let recovered: Vec<Value> = diagnostics(&home, "cli-overseer.ndjson")
@@ -308,7 +297,7 @@ fn list_status_of_a_joined_wrapper_is_idle_then_busy(stamped_home: StampedHome) 
     assert_eq!(
         human.stdout,
         format!(
-            "{BAY_UNKNOWN}\n{CAPTION}\n\
+            "{BAY}\n{CAPTION}\n\
              builder  live   busy     driver                   none               2.1.287 verified\n"
         )
     );
@@ -334,7 +323,7 @@ fn list_prints_planted_rows_as_unwrapped_rows(stamped_home: StampedHome) {
     assert_eq!(
         human.stdout,
         format!(
-            "{BAY_UNKNOWN}\n\
+            "{BAY}\n\
              NAME                                  LIVE   STATUS   WHEEL                    DIALOG             CLI\n\
              builder                               live   unknown  driver                   none               2.1.287 verified\n\
              -- UNWRAPPED - READ-ONLY --\n\
@@ -349,7 +338,7 @@ fn list_prints_planted_rows_as_unwrapped_rows(stamped_home: StampedHome) {
         json!([
             {
                 "name": "builder", "wrapped": true, "liveness": "live", "status": "unknown",
-                "wheel": "driver", "budget_paused": false, "dialog_pending": false,
+                "wheel": "driver", "dialog_pending": false,
                 "cli_version": "2.1.287", "cli_verified": true,
             },
             {
@@ -556,7 +545,7 @@ fn list_refuses_a_home_another_user_may_read_with_and_without_an_instance() {
     let tmp = TestHome::new();
     let home = tmp.path();
     crate::support::home::private_dir(home, "the home");
-    let empty_board = format!("{BAY_UNKNOWN}\n{EMPTY_CAPTION}\n{EMPTY}\n");
+    let empty_board = format!("{BAY}\n{EMPTY_CAPTION}\n{EMPTY}\n");
     assert_eq!(list(home, false, None).stdout, empty_board);
     grant_read(home);
     let instance = home.join("instances").join("builder");

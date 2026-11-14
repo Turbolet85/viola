@@ -1,0 +1,309 @@
+[
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "7174fe7e",
+"ts": "2026-11-14T14:42:40Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-14-budget-gate-removed",
+"--source",
+"~/dev/projects/additional/viola-overseer/phase-budget-gate-removed-directive.md",
+"--kind",
+"relay",
+"--why",
+"the operator directive for this phase: removal scope, no live home or pinned binary touched, no live claude, no mutation run, P5 card block",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-11-14T14-40-00-phase",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy no-repo · ../additional/viola-overseer/phase-budget-gate-removed-directive.md",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-phase-budget-gate-removed-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/phase-budget-gate-removed-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "4fc1bc0e5cd8a50861fb012f7eac830cc150ea04522b43b1ff9cd570e252c63b",
+"copy": "I1-phase-budget-gate-removed-directive.md.txt",
+"link": false,
+"read_at": "2026-11-14T14:42:38Z",
+"step": "phase:P1",
+"why": "the operator directive for this phase: removal scope, no live home or pinned binary touched, no live claude, no mutation run, P5 card block"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "7174fe7e",
+"ts": "2026-11-14T15:29:00Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-14-budget-gate-removed",
+"--message-file",
+".andromeda/runs/2026-11-14T14-40-00-phase/founder-forks.md",
+"--origin",
+"the operator, relaying the driving overseer as delegate",
+"--kind",
+"relay",
+"--why",
+"Q1 answered option 1, keep every v at 1: a delegate answer, PROVISIONAL; the bump-rule exception escalated at the wrap for the founder own word; the five leans stand",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-11-14T14-40-00-phase",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy message · message: the operator, relaying the driving overseer as delegate",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-founder-forks.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, relaying the driving overseer as delegate",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "fb126001e2fedb4e4c786c13eabf5e6fab56528d28ca020f967a9060a4f3ffb2",
+"copy": "I2-founder-forks.md.txt",
+"link": false,
+"read_at": "2026-11-14T15:29:00Z",
+"step": "phase:P4",
+"why": "Q1 answered option 1, keep every v at 1: a delegate answer, PROVISIONAL; the bump-rule exception escalated at the wrap for the founder own word; the five leans stand"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "7174fe7e",
+"ts": "2026-11-14T15:29:15Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-14-budget-gate-removed",
+"--message-file",
+".andromeda/runs/2026-11-14T14-40-00-phase/founder-forks.md",
+"--origin",
+"the operator, relaying the driving overseer as delegate",
+"--kind",
+"relay",
+"--why",
+"Q1 answered option 1, keep every v at 1: a delegate answer, PROVISIONAL; the bump-rule exception escalated at the wrap for the founder own word; the five leans stand",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-11-14T14-40-00-phase",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy message · message: the operator, relaying the driving overseer as delegate",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-founder-forks.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, relaying the driving overseer as delegate",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "e8fa481748060542e048f089a71967101c1ab035e4bbb19912c5c1604b679761",
+"copy": "I3-founder-forks.md.txt",
+"link": false,
+"read_at": "2026-11-14T15:29:15Z",
+"step": "phase:P4",
+"why": "Q1 answered option 1, keep every v at 1: a delegate answer, PROVISIONAL; the bump-rule exception escalated at the wrap for the founder own word; the five leans stand"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "7174fe7e",
+"ts": "2026-11-14T15:38:53Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-14-budget-gate-removed",
+"--run-dir",
+".andromeda/runs/2026-11-14T14-40-00-phase",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-budget-gate-removed-directive.md",
+"I1 cited scope.md:15 · research.md:5 · research.md:7 · plan.md:138 · plan.md:152 · plan.md:412 · plan.md:423",
+"I2 n/a — a message has no live source · copy message · message: the operator, relaying the driving overseer as delegate",
+"I2 UNCITED",
+"I3 n/a — a message has no live source · copy message · message: the operator, relaying the driving overseer as delegate",
+"I3 cited plan.md:19 · plan.md:240 (in fence) · plan.md:384 · plan.md:412 · plan.md:415 · plan.md:432 · plan.md:444",
+"inputs: 3 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 1 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 3,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 1,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "7174fe7e",
+"ts": "2026-11-14T15:40:33Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-14-budget-gate-removed",
+"--run-dir",
+".andromeda/runs/2026-11-14T14-40-00-phase",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-budget-gate-removed-directive.md",
+"I1 cited scope.md:15 · research.md:5 · research.md:7 · plan.md:140 · plan.md:154 · plan.md:448 · plan.md:459",
+"I2 n/a — a message has no live source · copy message · message: the operator, relaying the driving overseer as delegate",
+"I2 UNCITED",
+"I3 n/a — a message has no live source · copy message · message: the operator, relaying the driving overseer as delegate",
+"I3 cited plan.md:19 · plan.md:256 (in fence) · plan.md:420 · plan.md:448 · plan.md:451 · plan.md:468 · plan.md:480",
+"inputs: 3 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 1 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 3,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 1,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "7174fe7e",
+"ts": "2026-11-14T15:41:58Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-14-budget-gate-removed",
+"--message-file",
+".andromeda/runs/2026-11-14T14-40-00-phase/relay-2.md",
+"--origin",
+"the operator, relaying the delegate overseer",
+"--kind",
+"relay",
+"--why",
+"the P5 word yes on .andromeda/runs/2026-11-14T14-40-00-phase/p5-card-1.md: the plan, the v2-04 concretization and both Beyond-the-plan rows approved; authority delegate overseer, Q1 PROVISIONAL",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-11-14T14-40-00-phase",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy message · message: the operator, relaying the delegate overseer",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, relaying the delegate overseer",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "9482dd3fd05a67652182799bc04dd82b1b47afbb3987d01ddaf5d4b5ff32fe35",
+"copy": "I4-relay-2.md.txt",
+"link": false,
+"read_at": "2026-11-14T15:41:57Z",
+"step": "phase:P5",
+"why": "the P5 word yes on .andromeda/runs/2026-11-14T14-40-00-phase/p5-card-1.md: the plan, the v2-04 concretization and both Beyond-the-plan rows approved; authority delegate overseer, Q1 PROVISIONAL"
+}
+}
+]

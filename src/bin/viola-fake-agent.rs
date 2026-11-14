@@ -10,14 +10,13 @@ use std::fs::{self, File, OpenOptions};
 use std::io::{Read as _, Write as _};
 use std::path::{Path, PathBuf};
 use std::process::{Command, ExitCode, Stdio};
-use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Mutex, OnceLock, PoisonError};
 use std::time::Duration;
 
 use serde_json::{Value, json};
 use viola_agent_claude::ledger::{
     PROBE_COMPACT_COMMAND, PROBE_LOCAL_COMMAND, PROBE_LONG_PASTE, PROBE_TAG_PASTE,
-    STATUSLINE_DEFAULT, STATUSLINE_RATE_LIMITS, dialog_stem, framing_stem,
+    STATUSLINE_DEFAULT, dialog_stem, framing_stem,
 };
 use viola_agent_claude::statusline::BIN_SH;
 use viola_core::MAX_FRAME;
@@ -385,8 +384,6 @@ struct Agent {
     receipt: Receipt,
     /// Held for each hook's whole run; `true` once the agent is exiting.
     hooks: Mutex<bool>,
-    /// Set by the first turn's Stop: the status line's `rate_limits` replay follows it once.
-    stopped_once: AtomicBool,
     /// This agent's row in the registry beside its executable, once its launch SessionStart fired.
     registry: OnceLock<Registry>,
     /// The `session_id` of the last SessionStart fired: the launch one, or a replayed clear's.
@@ -399,7 +396,6 @@ impl Agent {
             receipt: Receipt::open(opts.receipt.as_deref()),
             opts,
             hooks: Mutex::new(false),
-            stopped_once: AtomicBool::new(false),
             registry: OnceLock::new(),
             session: Mutex::new(None),
         }
@@ -693,9 +689,8 @@ impl Agent {
 
     /// The end of a submitted turn under `--turn-stop`: the Stop hook, the `--paste-hint-ms` hold on
     /// a cleared screen after the long paste, then the turn's screen (`--long-turn-screen`'s after the
-    /// long paste alone, `--tag-turn-screen`'s after the tag-like paste alone), and after the first
-    /// Stop alone the rate-limits status line. The status line runs last: run before the clear, it
-    /// left the earlier input box on screen for a gate wait to read as settled. `framing` is the turn's framing stem, when it replayed one.
+    /// long paste alone, `--tag-turn-screen`'s after the tag-like paste alone). `framing` is the
+    /// turn's framing stem, when it replayed one.
     fn end_turn(&self, framing: Option<&str>) {
         self.fire("Stop", "default", &[]);
         // `framing_stem(PROBE_LONG_PASTE)` is a compiled text's stem, always `Some`, so the equality
@@ -713,9 +708,6 @@ impl Agent {
             .filter(|_| long)
             .or_else(|| self.opts.tag_turn_screen.as_deref().filter(|_| tag));
         write_screen(&self.opts, named.unwrap_or("turn"));
-        if !self.stopped_once.swap(true, Ordering::SeqCst) {
-            self.replay_statusline(STATUSLINE_RATE_LIMITS);
-        }
     }
 
     /// Blocks until one more complete line exists in the control file past `offset`.

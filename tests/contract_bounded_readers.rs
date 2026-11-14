@@ -83,7 +83,7 @@ const BOUNDARIES: &[Boundary] = &[
         needle: "io.stdin.take(MAX_FRAME + 1).read_to_end(&mut bytes)?;",
         cap: "MAX_FRAME + 1",
         depth: DEFAULT_DEPTH,
-        types: "rate_limits read tolerantly into Percent",
+        types: "one JSON object, its fields unread",
         witness: "statusline_stdin_of_exactly_the_frame_cap_is_taken",
     },
     Boundary {
@@ -103,15 +103,6 @@ const BOUNDARIES: &[Boundary] = &[
         depth: DEFAULT_DEPTH,
         types: "a statusLine of type command, non-empty, no NUL",
         witness: "statusline_source_over_the_frame_cap_is_no_command",
-    },
-    Boundary {
-        boundary: "config.json thresholds",
-        file: "src/run/budget.rs",
-        needle: "Ok(file) => match file.take(MAX_FRAME).read_to_end(&mut bytes) {\n            Ok(_) => parse_thresholds(&bytes),",
-        cap: "MAX_FRAME",
-        depth: DEFAULT_DEPTH,
-        types: "whole numbers into Percent",
-        witness: "read_thresholds_keeps_no_key_past_the_frame_cap",
     },
     Boundary {
         boundary: "config.json dialog_hold_s",
@@ -310,15 +301,6 @@ const BOUNDARIES: &[Boundary] = &[
         depth: DEFAULT_DEPTH,
         types: "closed kinds; unknown kinds, fields and torn lines counted",
         witness: "events_three_counts_a_line_past_the_cap_is_torn",
-    },
-    Boundary {
-        boundary: "budget.json",
-        file: "crates/viola-state/src/budget.rs",
-        needle: "File::open(&path)\n        .ok()?\n        .take(MAX_FRAME + 1)\n        .read_to_end(&mut bytes)",
-        cap: "MAX_FRAME + 1",
-        depth: DEFAULT_DEPTH,
-        types: "tolerant parse at v 1, every failure no reading",
-        witness: "budget_read_over_the_frame_cap_is_nothing",
     },
     Boundary {
         boundary: "ledger/stamps.json",

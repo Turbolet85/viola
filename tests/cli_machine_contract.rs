@@ -3,9 +3,9 @@
 //! for `send`, `wait`, `last`, `answer`, `list`, `pause`, `release`, `revive` and `revive --list`,
 //! each outcome a stamped home reaches prints one `--json` document of the documented shape on
 //! stdout, nothing on stderr, and its literal exit — 0, 1, 2 (no document: clap's usage), 10, 13,
-//! 20 and 21 here. Exits 11, 12 and 14 are pinned by name where their cases live:
-//! `tests/cli_budget.rs` (11, `budget-paused`), `tests/cli_answer.rs` (12, `unverified-cli`) and
-//! `src/cmd/send.rs` `exit_of_is_the_closed_table` (14, `unknown`, and the whole 10-14 map).
+//! 20 and 21 here. Exits 12 and 14 are pinned by name where their cases live:
+//! `tests/cli_answer.rs` (12, `unverified-cli`) and `src/cmd/send.rs`
+//! `exit_codes_of_the_refusals_leave_eleven_unused` (14, `unknown`, and the whole map, 11 retired).
 //! `revive`'s other exit-1 documents, `session-live` and `cwd-missing`, and its `no-session` for an
 //! `--id` the log does not hold, are read in `tests/cli_revive.rs` (`revive_json_…`). Then
 //! the global home: the resolution order (`--home`, the `VIOLA_DIR` grandparent, the default), two
@@ -158,7 +158,7 @@ fn every_verb_prints_one_document_and_its_literal_exit_over_a_wrapper_s_life(
             stdin: None,
             from: None,
             exit: 0,
-            out: Out::OkKeys(&["items", "budget", "skipped"]),
+            out: Out::OkKeys(&["items", "skipped"]),
         },
         Row {
             label: "last ok",
@@ -237,7 +237,7 @@ fn every_verb_prints_one_document_and_its_literal_exit_over_a_wrapper_s_life(
             stdin: None,
             from: None,
             exit: 0,
-            out: Out::Doc("{\"v\":1,\"ok\":{\"wheel\":\"driver\",\"budget_paused\":false}}\n"),
+            out: Out::Doc("{\"v\":1,\"ok\":{\"wheel\":\"driver\"}}\n"),
         },
         Row {
             label: "revive refused, the name is live",
@@ -345,7 +345,7 @@ fn verbs_over_a_home_with_no_instance_print_their_documents() {
             stdin: None,
             from: None,
             exit: 0,
-            out: Out::OkKeys(&["items", "budget", "skipped"]),
+            out: Out::OkKeys(&["items", "skipped"]),
         },
         Row {
             label: "revive refused, no session",

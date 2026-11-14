@@ -22,7 +22,6 @@ use viola_core::{EventKind, HumanTyping, ViolaName, WheelCause, obs_event};
 use viola_state::events::{EventLine, Source, append_event};
 use viola_state::snapshot::Wheel;
 
-use crate::run::budget::BudgetGate;
 use crate::run::dialog::DialogSlot;
 use crate::run::send::parse_from;
 use crate::run::snapshot::Snapshots;
@@ -191,35 +190,22 @@ impl WheelSlot {
         Ok(json!({"ok": {"wheel": Wheel::Human.as_str()}}))
     }
 
-    /// `release` `{budget?, from?}`: the human hands the wheel back. A `from` says a driver sent
-    /// it, which is refused. `budget: true` leaves the wheel where it is and lifts a budget pause
-    /// that stands, answered with the override's end once it is recorded; a plain `release` lifts
-    /// no pause and answers where the gate stands.
-    pub(crate) fn release(
-        &self,
-        call: &Call<'_>,
-        gate: &BudgetGate,
-    ) -> Result<Value, ProtocolError> {
+    /// `release` `{from?}`: the human hands the wheel back. A string `from` says a driver sent
+    /// it, which is refused first. A `budget` key of any value is refused after it with nothing
+    /// moved: an older client sent it to leave the wheel where it is, and a release that skipped
+    /// it would hand a human-held wheel to the driver.
+    pub(crate) fn release(&self, call: &Call<'_>) -> Result<Value, ProtocolError> {
         let params = call.params;
         if let Some(Value::String(from)) = params.get("from") {
             log_release_from_driver(call, from);
             return Err(ProtocolError::ReleaseFromDriver);
         }
         parse_from(params)?;
-        let budget = match params.get("budget") {
-            None => false,
-            Some(budget) => budget.as_bool().ok_or(ProtocolError::InvalidParams)?,
-        };
-        if budget {
-            let lifted = gate.lift().map_err(|_| ProtocolError::Internal)?;
-            let mut ok = json!({"wheel": self.holder().as_str(), "budget_paused": false});
-            if let Some(end) = lifted {
-                ok["override_until"] = json!(end);
-            }
-            return Ok(json!({"ok": ok}));
+        if params.get("budget").is_some() {
+            return Err(ProtocolError::InvalidParams);
         }
         settled(self.apply(Input::Release, true))?;
-        Ok(json!({"ok": {"wheel": self.holder().as_str(), "budget_paused": gate.paused()}}))
+        Ok(json!({"ok": {"wheel": self.holder().as_str()}}))
     }
 }
 
@@ -533,11 +519,8 @@ mod tests {
 
     use rstest::rstest;
     use viola_core::Clock;
-    use viola_core::{BudgetReading, BudgetWindow, Reading};
-    use viola_state::budget::write_budget;
     use viola_state::snapshot::{InstanceSnapshot, read_snapshot};
 
-    use crate::run::budget::{Thresholds, Trigger};
     use crate::run::wait::WaitFeed;
 
     /// The founder's closed list (F-W2), written out: none of these is typing.
@@ -707,25 +690,19 @@ mod tests {
         assert_eq!(wheel.human_typing(), None);
     }
 
-    /// Only a `release` that returns the wheel clears a running turn; one the wheel ignores, a
-    /// budget release and a refused one leave it running.
+    /// Only a `release` that returns the wheel clears a running turn; one the wheel ignores and a
+    /// refused one leave it running.
     #[rstest]
     #[case::release_returning_the_wheel(
         true,
         json!({"v": 1}),
-        Ok(json!({"ok": {"wheel": "driver", "budget_paused": false}})),
+        Ok(json!({"ok": {"wheel": "driver"}})),
         false
     )]
     #[case::release_under_the_driver(
         false,
         json!({"v": 1}),
-        Ok(json!({"ok": {"wheel": "driver", "budget_paused": false}})),
-        true
-    )]
-    #[case::release_budget(
-        true,
-        json!({"v": 1, "budget": true}),
-        Ok(json!({"ok": {"wheel": "human", "budget_paused": false}})),
+        Ok(json!({"ok": {"wheel": "driver"}})),
         true
     )]
     #[case::release_from_a_driver(
@@ -745,7 +722,7 @@ mod tests {
             wheel.human_input();
         }
         wheel.turn_started();
-        assert_eq!(wheel.release(&call(&params), &open_gate()), reply);
+        assert_eq!(wheel.release(&call(&params)), reply);
         assert_eq!(wheel.turn_running(), running);
     }
 
@@ -824,8 +801,6 @@ mod tests {
                 cli_verified: true,
                 cli_version: None,
                 wheel: Wheel::Driver,
-                budget_paused: false,
-                budget_override_until: None,
                 links: Vec::new(),
                 child_pid: None,
                 pending_dialog: None,
@@ -915,8 +890,8 @@ mod tests {
             Ok(json!({"ok": {"wheel": "human"}}))
         );
         assert_eq!(
-            wheel.release(&call(&none), &open_gate()),
-            Ok(json!({"ok": {"wheel": "driver", "budget_paused": false}}))
+            wheel.release(&call(&none)),
+            Ok(json!({"ok": {"wheel": "driver"}}))
         );
         assert_eq!(
             wheel_records(tmp.path()),
@@ -950,166 +925,31 @@ mod tests {
         );
     }
 
-    /// A gate with no `budget.json` to read: open, with nothing to lift.
-    fn open_gate() -> BudgetGate {
-        let absent = PathBuf::from("absent");
-        BudgetGate::new(
-            name(),
-            absent.clone(),
-            absent.clone(),
-            Thresholds::default(),
-            Arc::new(Snapshots::new(absent)),
-        )
-    }
-
-    /// A five-hour reset far ahead of any run.
-    const RESET: &str = "2099-01-01T00:00:00.000Z";
-
-    fn first_snapshot() -> InstanceSnapshot {
-        InstanceSnapshot {
-            endpoint: None,
-            pid: 1,
-            started_at: "s".to_owned(),
-            pinned_bin: "b".to_owned(),
-            cli_verified: true,
-            cli_version: None,
-            wheel: Wheel::Driver,
-            budget_paused: false,
-            budget_override_until: None,
-            links: Vec::new(),
-            child_pid: None,
-            pending_dialog: None,
-            cwd: None,
-            statusline_command: None,
-            agent_session_id: None,
-        }
-    }
-
-    /// An instance directory under `root` whose gate a five-hour reading of 91 has closed.
-    fn paused_gate(root: &std::path::Path) -> (PathBuf, BudgetGate) {
-        let home = root.join("vhome");
-        let instance_dir = home.join("instances").join("builder");
-        viola_state::fs::create_private_dir(&instance_dir).expect("the instance dir");
-        let reading = BudgetReading {
-            five_hour: Reading::Known(BudgetWindow {
-                used_percentage: Reading::Known(91.0),
-                resets_at: Reading::Known(RESET.to_owned()),
-            }),
-            seven_day: Reading::UNKNOWN,
-        };
-        write_budget(&home, &reading, Utc::now()).expect("budget.json");
-        let snapshots = Arc::new(Snapshots::new(instance_dir.clone()));
-        snapshots.init(first_snapshot()).expect("snapshot");
-        let gate = BudgetGate::new(
-            name(),
-            instance_dir.clone(),
-            home,
-            Thresholds::default(),
-            snapshots,
-        );
-        let crossed = gate.evaluate(Trigger::Send, Utc::now()).expect("evaluated");
-        assert!(crossed.is_some());
-        (instance_dir, gate)
-    }
-
-    fn budget_records(dir: &std::path::Path) -> Vec<Value> {
-        std::fs::read_to_string(dir.join("events.ndjson"))
-            .unwrap_or_default()
-            .lines()
-            .map(|l| serde_json::from_str::<Value>(l).expect("one JSON object per line"))
-            .filter(|l| l["kind"] == "budget-gate")
-            .map(|l| l["data"].clone())
-            .collect()
-    }
-
-    fn budget_fields(dir: &std::path::Path) -> (bool, Option<String>) {
-        let snapshot = read_snapshot(dir).expect("snapshot");
-        (snapshot.budget_paused, snapshot.budget_override_until)
-    }
-
-    /// `budget: true` lifts the pause and leaves the wheel with the human; the answer carries the
-    /// override's end once, and a second one finds no pause.
-    #[test]
-    fn gate_release_budget_answers_the_override_and_leaves_the_wheel() {
-        let tmp = tempfile::tempdir().expect("tempdir");
-        let (dir, gate) = paused_gate(tmp.path());
-        let wheel = WheelSlot::default();
-        wheel.human_input();
-        let budget = json!({"v": 1, "budget": true});
-        assert_eq!(
-            wheel.release(&call(&budget), &gate),
-            Ok(json!({"ok": {"wheel": "human", "budget_paused": false, "override_until": RESET}}))
-        );
-        assert_eq!(wheel.holder(), Wheel::Human);
-        assert_eq!(budget_fields(&dir), (false, Some(RESET.to_owned())));
-        assert_eq!(
-            budget_records(&dir),
-            [
-                json!({"paused": true, "window": "five-hour"}),
-                json!({"paused": false, "override_until": RESET}),
-            ]
-        );
-        assert_eq!(
-            wheel.release(&call(&budget), &gate),
-            Ok(json!({"ok": {"wheel": "human", "budget_paused": false}}))
-        );
-        assert_eq!(budget_records(&dir).len(), 2);
-    }
-
-    /// A plain `release` returns the wheel, lifts no pause and answers where the gate stands.
-    #[test]
-    fn gate_release_plain_lifts_no_pause_and_answers_it() {
-        let tmp = tempfile::tempdir().expect("tempdir");
-        let (dir, gate) = paused_gate(tmp.path());
-        let wheel = WheelSlot::default();
-        wheel.human_input();
-        for params in [json!({"v": 1}), json!({"v": 1, "budget": false})] {
-            assert_eq!(
-                wheel.release(&call(&params), &gate),
-                Ok(json!({"ok": {"wheel": "driver", "budget_paused": true}}))
-            );
-        }
-        assert!(gate.paused());
-        assert_eq!(budget_fields(&dir), (true, None));
-        assert_eq!(budget_records(&dir).len(), 1);
-    }
-
-    /// A `release` a driver sent, or one whose `budget` is no bool, is refused before any lift: the
-    /// pause stands and the snapshot's two budget fields are as they were.
+    /// A `release` carrying a `budget` key, whatever its value, is `-32602` with `data: null`: the
+    /// wheel the human took by a recorded `pause` stays where it is and no move is recorded.
     #[rstest]
-    #[case::from_a_driver(
-        json!({"v": 1, "from": "overseer", "budget": true}),
-        ProtocolError::ReleaseFromDriver
-    )]
-    #[case::from_a_string_that_is_no_name(
-        json!({"v": 1, "from": "Not A Name", "budget": true}),
-        ProtocolError::ReleaseFromDriver
-    )]
-    #[case::budget_that_is_a_string(json!({"v": 1, "budget": "true"}), ProtocolError::InvalidParams)]
-    #[case::budget_that_is_a_number(json!({"v": 1, "budget": 1}), ProtocolError::InvalidParams)]
-    fn gate_release_refused_lifts_nothing(#[case] params: Value, #[case] fault: ProtocolError) {
+    #[case::budget_true(json!({"v": 1, "budget": true}))]
+    #[case::budget_false(json!({"v": 1, "budget": false}))]
+    #[case::budget_a_string(json!({"v": 1, "budget": "true"}))]
+    #[case::budget_null(json!({"v": 1, "budget": null}))]
+    fn release_carrying_a_budget_key_is_invalid_params_and_moves_no_wheel(#[case] params: Value) {
         let tmp = tempfile::tempdir().expect("tempdir");
-        let (dir, gate) = paused_gate(tmp.path());
-        let wheel = WheelSlot::default();
-        wheel.human_input();
-        assert_eq!(wheel.release(&call(&params), &gate), Err(fault));
-        assert!(gate.paused());
-        assert_eq!(wheel.holder(), Wheel::Human);
-        assert_eq!(budget_fields(&dir), (true, None));
-        assert_eq!(budget_records(&dir).len(), 1);
-    }
-
-    /// The answer waits for the override's record: one that cannot land is `-32603`.
-    #[test]
-    fn gate_release_budget_that_cannot_be_recorded_is_internal() {
-        let tmp = tempfile::tempdir().expect("tempdir");
-        let (dir, gate) = paused_gate(tmp.path());
-        std::fs::remove_dir_all(&dir).expect("the instance dir gone");
-        let wheel = WheelSlot::default();
+        let wheel = recorded(tmp.path());
         assert_eq!(
-            wheel.release(&call(&json!({"v": 1, "budget": true})), &gate),
-            Err(ProtocolError::Internal)
+            wheel.pause(&call(&json!({"v": 1}))),
+            Ok(json!({"ok": {"wheel": "human"}}))
         );
-        assert!(gate.paused());
+        let before = wheel_records(tmp.path());
+        let fault = wheel
+            .release(&call(&params))
+            .expect_err("a budget key is refused");
+        assert_eq!(fault, ProtocolError::InvalidParams);
+        assert_eq!(fault.body()["data"], Value::Null);
+        assert_eq!(wheel.holder(), Wheel::Human);
+        assert_eq!(wheel_records(tmp.path()), before);
+        assert_eq!(
+            read_snapshot(tmp.path()).expect("snapshot").wheel,
+            Wheel::Human
+        );
     }
 }

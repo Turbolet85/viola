@@ -392,92 +392,6 @@ fn check_statusline_shell_fails_with_no_capture() {
 }
 
 #[test]
-fn check_statusline_rate_limits_passes_on_two_whole_number_windows() {
-    let row = LedgerRow::StatusLineRateLimits;
-    assert!(statusline_check(row, clean_statusline()));
-    let bounds = limited(
-        window(json!(0), json!(0)),
-        window(json!(100), json!(9_999_999_999_u64)),
-    );
-    assert!(statusline_check(row, vec![bounds]), "0 and 100");
-    let other_shell = StatusLineCapture {
-        shell: ShellVerdict::Other,
-        ..clean_statusline().remove(1)
-    };
-    assert!(
-        statusline_check(row, vec![other_shell]),
-        "the shell is not this row's"
-    );
-}
-
-#[test]
-fn check_statusline_rate_limits_fails_on_each_broken_window() {
-    let row = LedgerRow::StatusLineRateLimits;
-    let first = clean_statusline().remove(0);
-    let good = || window(json!(23), json!(1_760_400_000));
-    for (why, five_hour, seven_day) in [
-        (
-            "a fractional percentage",
-            window(json!(23.5), json!(1)),
-            good(),
-        ),
-        (
-            "a whole percentage written as a float",
-            window(json!(23.0), json!(1)),
-            good(),
-        ),
-        (
-            "a percentage past 100",
-            good(),
-            window(json!(101), json!(1)),
-        ),
-        ("a negative percentage", good(), window(json!(-1), json!(1))),
-        ("a string percentage", window(json!("23"), json!(1)), good()),
-        (
-            "a string resets_at",
-            good(),
-            window(json!(23), json!("2025-02-01T16:00:00Z")),
-        ),
-        ("a negative resets_at", window(json!(23), json!(-1)), good()),
-        (
-            "a fractional resets_at",
-            window(json!(23), json!(1.5)),
-            good(),
-        ),
-        ("no resets_at", json!({"used_percentage": 23}), good()),
-        ("no used_percentage", json!({"resets_at": 1}), good()),
-        ("the five-hour window missing", Value::Null, good()),
-        ("the seven-day window missing", good(), Value::Null),
-        ("a window not an object", good(), json!(23)),
-    ] {
-        let mut limits = json!({"five_hour": five_hour, "seven_day": seven_day});
-        if let Some(limits) = limits.as_object_mut() {
-            limits.retain(|_, w| !w.is_null());
-        }
-        let payload = json!({"session_id": "s-1", "rate_limits": limits});
-        let broken = StatusLineCapture {
-            bytes: payload.to_string().into_bytes(),
-            shell: ShellVerdict::BinSh,
-        };
-        assert!(!statusline_check(row, vec![first.clone(), broken]), "{why}");
-    }
-    let not_object = StatusLineCapture {
-        bytes: br#"[{"rate_limits":{}}]"#.to_vec(),
-        shell: ShellVerdict::BinSh,
-    };
-    assert!(!statusline_check(row, vec![not_object]), "not one object");
-    assert!(!statusline_check(row, vec![first]), "no rate_limits");
-}
-
-#[test]
-fn check_statusline_rate_limits_fails_with_no_capture() {
-    assert!(!statusline_check(
-        LedgerRow::StatusLineRateLimits,
-        Vec::new()
-    ));
-}
-
-#[test]
 fn shell_verdict_reads_only_the_exact_word() {
     assert_eq!(ShellVerdict::BinSh.word(), "bin-sh");
     assert_eq!(ShellVerdict::Other.word(), "other");
@@ -488,21 +402,17 @@ fn shell_verdict_reads_only_the_exact_word() {
 }
 
 #[test]
-fn statusline_variants_name_the_first_without_and_the_first_with_rate_limits() {
+fn statusline_variants_name_the_first_without_rate_limits() {
     let mut list = clean_statusline();
-    let second_default = StatusLineCapture {
-        bytes: br#"{"session_id":"s-1","n":2}"#.to_vec(),
+    let limited = StatusLineCapture {
+        bytes: br#"{"session_id":"s-1","rate_limits":{}}"#.to_vec(),
         shell: ShellVerdict::BinSh,
     };
-    list.insert(1, second_default);
+    list.insert(0, limited);
     let named = statusline_variants(&list);
     let names: Vec<&str> = named.iter().map(|(n, _)| n.as_str()).collect();
-    assert_eq!(
-        names,
-        ["StatusLine.default-1.json", "StatusLine.rate-limits-1.json"]
-    );
-    assert_eq!(named[0].1, list[0].bytes.as_slice());
-    assert_eq!(named[1].1, list[2].bytes.as_slice());
+    assert_eq!(names, ["StatusLine.default-1.json"]);
+    assert_eq!(named[0].1, list[1].bytes.as_slice());
     assert!(statusline_variants(&[]).is_empty());
     let only_first = vec![clean_statusline().remove(0)];
     let names: Vec<String> = statusline_variants(&only_first)

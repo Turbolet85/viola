@@ -44,22 +44,21 @@ fn commands(value: &Value, found: &mut Vec<String>) {
 
 #[rstest]
 fn path1_run_start_one_home_in_order(stamped_home: StampedHome) {
-    // 1. The start under an outer terminal: wheel, budget-gate, then the hook's session-start, and
-    // the child spawned after the gate's record.
+    // 1. The start under an outer terminal: the wheel, then the hook's session-start, and the child
+    // spawned after the wheel's record.
     let wrapper = support::events::boot(stamped_home, None, &[]);
     let home = wrapper.home().to_path_buf();
     let dir = wrapper.instance_dir();
     let records = events(&dir);
     let kinds: Vec<(&Value, &Value)> = records
         .iter()
-        .take(3)
+        .take(2)
         .map(|l| (&l["kind"], &l["source"]))
         .collect();
     assert_eq!(
         kinds,
         [
             (&json!("wheel"), &json!("wrapper")),
-            (&json!("budget-gate"), &json!("wrapper")),
             (&json!("session-start"), &json!("hook")),
         ]
     );
@@ -69,10 +68,10 @@ fn path1_run_start_one_home_in_order(stamped_home: StampedHome) {
         .as_str()
         .expect("started_at")
         .to_owned();
-    let gate_at = records[1]["ts"].as_str().expect("ts");
+    let wheel_at = records[0]["ts"].as_str().expect("ts");
     assert!(
-        started_at.as_str() > gate_at,
-        "child {started_at} vs budget-gate {gate_at}"
+        started_at.as_str() > wheel_at,
+        "child {started_at} vs wheel {wheel_at}"
     );
 
     // 2. The snapshot holds the start's state, and the board lists the instance live.

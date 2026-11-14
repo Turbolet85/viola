@@ -269,8 +269,7 @@ fn passthrough_with_a_statusline_source_adds_no_viola_bytes(#[from(home)] wrappe
     let marker = wrapped.scratch().join("statusline.marker");
     plant_statusline_source(wrapped.path(), &statusline_echo_command(&marker, &[]));
     let stdin = wrapped.scratch().join("statusline.stdin");
-    let payload = json!({"session_id": "canary-chain-value-5c1e",
-        "rate_limits": {"five_hour": {"used_percentage": 12, "resets_at": 1_738_425_600}}});
+    let payload = json!({"session_id": "canary-chain-value-5c1e", "model": {"id": "m"}});
     std::fs::write(&stdin, payload.to_string()).expect("the payload");
     let stdin = stdin.to_str().expect("utf-8 path").to_owned();
     let receipt = wrapped.scratch().join("statusline.receipt.ndjson");

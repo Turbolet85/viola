@@ -156,7 +156,7 @@ pub(crate) fn tool_list() -> Vec<Tool> {
         .with_input_schema::<AnswerInput>(),
         Tool::new(
             "list",
-            "Show every session: its liveness, status, dialog and CLI, and the usage budget",
+            "Show every session: its liveness, status, dialog and CLI",
             Arc::new(JsonObject::new()),
         )
         .with_input_schema::<ListInput>(),
