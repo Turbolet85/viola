@@ -309,6 +309,27 @@ mod tests {
     }
 
     #[test]
+    fn read_takes_a_reply_of_max_frame_bytes_and_refuses_one_more_as_oversize() {
+        let at_cap_dir = tempfile::tempdir().expect("tempdir");
+        let over_dir = tempfile::tempdir().expect("tempdir");
+        let array_of = |spaces: u64| {
+            format!("printf '['; head -c {spaces} /dev/zero | tr '\\0' ' '; printf ']'")
+        };
+        let at_cap = script(at_cap_dir.path(), "hyprctl", &array_of(MAX_FRAME - 2));
+        let over = script(over_dir.path(), "hyprctl", &array_of(MAX_FRAME - 1));
+
+        let (got, lines) = capture(|| read(Some(&at_cap), &Request::Clients, &[]));
+        assert_eq!(got.reply, Ok(Reply::Clients(Vec::new())));
+        assert_eq!(got.stdout.len() as u64, MAX_FRAME);
+        assert_eq!(events(&lines), ["process-start", "process-exit"]);
+
+        let (got, lines) = capture(|| read(Some(&over), &Request::Clients, &[]));
+        assert_eq!(got.reply, Err(HyprlandError::Oversize));
+        assert_eq!(got.stdout.len() as u64, MAX_FRAME + 1);
+        assert_eq!(lines[2]["detail"], json!("oversize"));
+    }
+
+    #[test]
     fn read_past_the_deadline_kills_and_reaps_its_child() {
         let tmp = tempfile::tempdir().expect("tempdir");
         let pid_file = tmp.path().join("pid");

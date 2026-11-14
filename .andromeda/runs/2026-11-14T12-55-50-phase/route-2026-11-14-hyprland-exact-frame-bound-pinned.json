@@ -1,0 +1,37 @@
+[
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "43357378",
+"ts": "2026-11-14T12:56:37Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-11-14-hyprland-exact-frame-bound-pinned",
+"--id",
+"chk-ut3m6zi6",
+"--desc-file",
+".andromeda/runs/2026-11-14T12-55-50-phase/master-desc.txt",
+"--scope-file",
+".andromeda/cache/docs/2026-11-14-hyprland-exact-frame-bound-pinned/scope.md",
+"--run-dir",
+".andromeda/runs/2026-11-14T12-55-50-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"promoted 2026-11-14-hyprland-exact-frame-bound-pinned · chk-ut3m6zi6 · Hyprland exact-frame bound pinned · tx 1116"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T12-56-37-2026-11-14-hyprland-exact-frame-bound-pinned.ndjson",
+"./.andromeda/master-route.md",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]

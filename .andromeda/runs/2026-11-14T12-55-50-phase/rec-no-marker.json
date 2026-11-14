@@ -1,0 +1,27 @@
+[
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "c96e78b6",
+"ts": "2026-11-14T13:28:58Z",
+"argv": [
+"outputs",
+"land",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-14T12-55-50-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed tx 1129 · 780 record(s) of 178 payload(s)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T13-28-58-2026-11-14T12-55-50-phase.ndjson"
+],
+"before": null,
+"after": null
+}
+]

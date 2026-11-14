@@ -1,0 +1,151 @@
+[
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "df1fa72a",
+"ts": "2026-11-14T12:56:43Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-14-hyprland-exact-frame-bound-pinned",
+"--source",
+"~/dev/projects/additional/viola-overseer/phase-exact-frame-directive.md",
+"--kind",
+"relay",
+"--why",
+"the operator phase directive for this chunk: six items (scope, no mutation run, fake hyprctl only, fold rule, measure-before-claim, P5 card block)",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-11-14T12-55-50-phase",
+"--marker",
+"2026-11-14-hyprland-exact-frame-bound-pinned"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy no-repo · ../additional/viola-overseer/phase-exact-frame-directive.md",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-phase-exact-frame-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/phase-exact-frame-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "109d8348a98cf4caea2071d144e2ff1b87370a0b51c15ddaa0fe66983b53add9",
+"copy": "I1-phase-exact-frame-directive.md.txt",
+"link": false,
+"read_at": "2026-11-14T12:56:43Z",
+"step": "phase:P1",
+"why": "the operator phase directive for this chunk: six items (scope, no mutation run, fake hyprctl only, fold rule, measure-before-claim, P5 card block)"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "df1fa72a",
+"ts": "2026-11-14T13:26:07Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-14-hyprland-exact-frame-bound-pinned",
+"--run-dir",
+".andromeda/runs/2026-11-14T12-55-50-phase",
+"--marker",
+"2026-11-14-hyprland-exact-frame-bound-pinned"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-exact-frame-directive.md",
+"I1 cited scope.md:14 · research.md:8 · plan.md:18 · plan.md:19 · plan.md:44 · plan.md:60 · plan.md:76 · plan.md:80 · plan.md:90 · plan.md:140 (in fence) · plan.md:149 (in fence) · plan.md:214 · plan.md:218 · plan.md:240 · plan.md:252",
+"inputs: 1 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 1,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "df1fa72a",
+"ts": "2026-11-14T13:28:46Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-14-hyprland-exact-frame-bound-pinned",
+"--message-file",
+".andromeda/runs/2026-11-14T12-55-50-phase/relay-1.md",
+"--origin",
+"the operator channel of this session; its remark names itself the overseer technical answer",
+"--kind",
+"relay",
+"--why",
+"P5 word answering .andromeda/runs/2026-11-14T12-55-50-phase/p5-card-1.md: yes, and the read test's planted hyprctl stub confirmed (relayed by the overseer, 2026-11-14)",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-11-14T12-55-50-phase",
+"--marker",
+"2026-11-14-hyprland-exact-frame-bound-pinned"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy message · message: the operator channel of this session; its remark names itself the overseer technical answer",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator channel of this session; its remark names itself the overseer technical answer",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "087513fd187fb057dea98971e6ed67ceff362fec62b3d2c8df2d09ac2ebe94aa",
+"copy": "I2-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-14T13:28:45Z",
+"step": "phase:P5",
+"why": "P5 word answering .andromeda/runs/2026-11-14T12-55-50-phase/p5-card-1.md: yes, and the read test's planted hyprctl stub confirmed (relayed by the overseer, 2026-11-14)"
+}
+}
+]

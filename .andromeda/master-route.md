@@ -98,3 +98,4 @@
 2026-11-13-epoch-8-cleanup · complete · Epoch 8 cleanup — one shared masking scanner, the largest files split, dead code and named mutant survivors closed, home/guard/temp test helpers, the cookie scan class removed · → chk:2026-11-13-epoch-8-cleanup
 2026-11-13-rows-proposal-rule-work · complete · the rows landing's route-owed rule lines and the snapshot-replay guard closed in code or tests; one shared digit_runs · → chk:2026-11-13-rows-proposal-rule-work
 2026-11-14-hyprland-seam · complete · Hyprland seam — relied-on compositor queries and dispatches behind viola's own seam, measured live, replayed by a fake in CI · → chk:2026-11-14-hyprland-seam
+2026-11-14-hyprland-exact-frame-bound-pinned · pending · viola-hyprland's two MAX_FRAME bounds pinned at the exact frame, test-only · → chk:2026-11-14-hyprland-exact-frame-bound-pinned

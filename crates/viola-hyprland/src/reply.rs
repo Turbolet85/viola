@@ -462,6 +462,14 @@ mod tests {
     }
 
     #[test]
+    fn parse_dispatch_takes_max_frame_bytes_as_refused_and_refuses_one_more_as_oversize() {
+        let mut reply = vec![b' '; usize::try_from(MAX_FRAME).expect("fits")];
+        assert_eq!(parse_dispatch(&reply), Err(HyprlandError::Refused));
+        reply.push(b' ');
+        assert_eq!(parse_dispatch(&reply), Err(HyprlandError::Oversize));
+    }
+
+    #[test]
     fn every_parser_refuses_one_byte_past_the_cap_as_oversize() {
         let over = vec![b' '; usize::try_from(MAX_FRAME).expect("fits") + 1];
         assert_eq!(parse_active_window(&over), Err(HyprlandError::Oversize));
