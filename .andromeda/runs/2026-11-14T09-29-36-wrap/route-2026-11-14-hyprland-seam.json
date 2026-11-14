@@ -1,0 +1,63 @@
+[
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "8c42edde",
+"ts": "2026-11-14T11:18:00Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-14-hyprland-seam",
+"--date",
+"2026-11-14",
+"--run-dir",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin listing NOT DERIVED -- 2026-11-14-hyprland-seam carries no freight (already compact)",
+"dry-run · would flip 2026-11-14-hyprland-seam pending -> complete"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "8c42edde",
+"ts": "2026-11-14T11:18:05Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-14-hyprland-seam",
+"--date",
+"2026-11-14",
+"--run-dir",
+".andromeda/runs/2026-11-14T09-29-36-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin listing NOT DERIVED -- 2026-11-14-hyprland-seam carries no freight (already compact)",
+"flip 2026-11-14-hyprland-seam pending -> complete · tx 1105",
+"compacted 0 complete line(s) — their freight spent in the spine, no archive (U61)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T07-05-01-2026-11-14-hyprland-seam.ndjson",
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+}
+]

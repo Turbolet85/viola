@@ -1,0 +1,306 @@
+[
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "803999a7",
+"ts": "2026-11-14T09:29:54Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-14-hyprland-seam",
+"--source",
+"~/dev/projects/additional/viola-overseer/wrap-hyprland-seam-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the operator directive for this wrap: away-form card, dispatch-form rows, the keep-list row, route-resolve, the report block",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T09-29-36-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I7 · copy no-repo · ../additional/viola-overseer/wrap-hyprland-seam-directive.md",
+"cite: inputs#I7"
+],
+"stderr": null,
+"wrote": [
+"inputs/I7-wrap-hyprland-seam-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I7",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/wrap-hyprland-seam-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "a4879d97f71f847756f089a75478e3dc3e693facdebb3b92f1392d186bb72cad",
+"copy": "I7-wrap-hyprland-seam-directive.md.txt",
+"link": false,
+"read_at": "2026-11-14T09:29:53Z",
+"step": "wrap",
+"why": "the operator directive for this wrap: away-form card, dispatch-form rows, the keep-list row, route-resolve, the report block"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "803999a7",
+"ts": "2026-11-14T09:29:54Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-14-hyprland-seam",
+"--run-dir",
+".andromeda/runs/2026-11-14T09-29-36-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-hyprland-seam-directive.md",
+"I1 cited scope.md:71 · scope.md:83 · research.md:10 · plan.md:22 · plan.md:137 · plan.md:150 · plan.md:160 · plan.md:163 · plan.md:210 · plan.md:214 · plan.md:215 · plan.md:236 (in fence) · plan.md:514 · plan.md:524 · plan.md:526",
+"I2 n/a — a message has no live source · copy message · message: the overseer, relaying the founder (Q1, Q2) and answering itself (Q3)",
+"I2 cited research.md:85 · research.md:122 · research.md:123 · plan.md:12 · plan.md:15 · plan.md:24 · plan.md:110 · plan.md:497 · plan.md:514 · plan.md:543 · plan.md:544 · plan.md:547 · plan.md:549 · plan.md:572 · plan.md:578",
+"I3 unchanged · copy no-repo · ../additional/viola-overseer/p5-review-hyprland-seam.md",
+"I3 cited plan.md:24 · plan.md:110 · plan.md:167 · plan.md:492 · plan.md:514 · plan.md:527 · plan.md:558 · plan.md:576",
+"I4 n/a — a message has no live source · copy message · message: the operator at the session prompt",
+"I4 UNCITED",
+"I5 n/a — a message has no live source · copy message · message: the overseer, relaying the operator",
+"I5 UNCITED",
+"I6 n/a — a message has no live source · copy message · message: the overseer, relaying the operator",
+"I6 UNCITED",
+"I7 unchanged · copy no-repo · ../additional/viola-overseer/wrap-hyprland-seam-directive.md",
+"I7 UNCITED",
+"inputs: 7 entries — unchanged 3 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 4 · uncited 4 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 7,
+"counts": {
+"unchanged": 3,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 4
+},
+"uncited": 4,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "803999a7",
+"ts": "2026-11-14T09:33:07Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-14-hyprland-seam",
+"--run-dir",
+".andromeda/runs/2026-11-14T09-29-36-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-hyprland-seam-directive.md",
+"I1 cited scope.md:71 · scope.md:83 · research.md:10 · plan.md:22 · plan.md:137 · plan.md:150 · plan.md:160 · plan.md:163 · plan.md:210 · plan.md:214 · plan.md:215 · plan.md:236 (in fence) · plan.md:514 · plan.md:524 · plan.md:526 · report.md:213",
+"I2 n/a — a message has no live source · copy message · message: the overseer, relaying the founder (Q1, Q2) and answering itself (Q3)",
+"I2 cited research.md:85 · research.md:122 · research.md:123 · plan.md:12 · plan.md:15 · plan.md:24 · plan.md:110 · plan.md:497 · plan.md:514 · plan.md:543 · plan.md:544 · plan.md:547 · plan.md:549 · plan.md:572 · plan.md:578 · report.md:148",
+"I3 unchanged · copy no-repo · ../additional/viola-overseer/p5-review-hyprland-seam.md",
+"I3 cited plan.md:24 · plan.md:110 · plan.md:167 · plan.md:492 · plan.md:514 · plan.md:527 · plan.md:558 · plan.md:576 · report.md:155",
+"I4 n/a — a message has no live source · copy message · message: the operator at the session prompt",
+"I4 cited report.md:112",
+"I5 n/a — a message has no live source · copy message · message: the overseer, relaying the operator",
+"I5 cited report.md:117 · report.md:197",
+"I6 n/a — a message has no live source · copy message · message: the overseer, relaying the operator",
+"I6 cited report.md:119 · report.md:197",
+"I7 unchanged · copy no-repo · ../additional/viola-overseer/wrap-hyprland-seam-directive.md",
+"I7 cited report.md:122",
+"inputs: 7 entries — unchanged 3 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 4 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 7,
+"counts": {
+"unchanged": 3,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 4
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "803999a7",
+"ts": "2026-11-14T10:05:27Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-14-hyprland-seam",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-wrap-hyprland-q2.md",
+"--kind",
+"relay",
+"--why",
+"founder-forks Q2, the delegated operator technical answer: option 1, the five seam-error contract rows landed in a plain operator-named area hyprland-seam-errors",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T09-29-36-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I8 · copy no-repo · ../additional/viola-overseer/relay-wrap-hyprland-q2.md",
+"cite: inputs#I8"
+],
+"stderr": null,
+"wrote": [
+"inputs/I8-relay-wrap-hyprland-q2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I8",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-wrap-hyprland-q2.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "4cec72aac1597bca008b787d5f8618bd34f6c891bad81bd226d8ad0bc3aa486f",
+"copy": "I8-relay-wrap-hyprland-q2.md.txt",
+"link": false,
+"read_at": "2026-11-14T10:05:27Z",
+"step": "wrap",
+"why": "founder-forks Q2, the delegated operator technical answer: option 1, the five seam-error contract rows landed in a plain operator-named area hyprland-seam-errors"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "803999a7",
+"ts": "2026-11-14T10:12:38Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-14-hyprland-seam",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-wrap-hyprland-q2-correction.md",
+"--kind",
+"relay",
+"--why",
+"founder-forks Q2 correction: the five seam-error contract rows land as proposed (area standard-contracts, a new boundary, no new area); a new boundary is no new keyed contract",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T09-29-36-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I9 · copy no-repo · ../additional/viola-overseer/relay-wrap-hyprland-q2-correction.md",
+"cite: inputs#I9"
+],
+"stderr": null,
+"wrote": [
+"inputs/I9-relay-wrap-hyprland-q2-correction.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I9",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-wrap-hyprland-q2-correction.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "b5d202b8cddc4f34b94442de2aa75c20082361468cf23b720c898e7ad4895bc6",
+"copy": "I9-relay-wrap-hyprland-q2-correction.md.txt",
+"link": false,
+"read_at": "2026-11-14T10:12:38Z",
+"step": "wrap",
+"why": "founder-forks Q2 correction: the five seam-error contract rows land as proposed (area standard-contracts, a new boundary, no new area); a new boundary is no new keyed contract"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "803999a7",
+"ts": "2026-11-14T10:59:04Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-14-hyprland-seam",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-wrap-hyprland-q1.md",
+"--kind",
+"relay",
+"--why",
+"founder-forks Q1, the answer card: the founder own word «Подтвердить обе (Recommended)», 10:58:23Z, relayed by overseer1 — both rows inside his P4 answers",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T09-29-36-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I10 · copy no-repo · ../additional/viola-overseer/relay-wrap-hyprland-q1.md",
+"cite: inputs#I10"
+],
+"stderr": null,
+"wrote": [
+"inputs/I10-relay-wrap-hyprland-q1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I10",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-wrap-hyprland-q1.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "cbe834f2a5354d429f28974ce86d187e44979d542aca96142a30b9636a254c3a",
+"copy": "I10-relay-wrap-hyprland-q1.md.txt",
+"link": false,
+"read_at": "2026-11-14T10:59:04Z",
+"step": "wrap",
+"why": "founder-forks Q1, the answer card: the founder own word «Подтвердить обе (Recommended)», 10:58:23Z, relayed by overseer1 — both rows inside his P4 answers"
+}
+}
+]

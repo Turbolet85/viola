@@ -1,0 +1,35 @@
+--- a/.andromeda/architecture.md
++++ b/.andromeda/architecture.md
+@@ -348,3 +348,3 @@
+ decision/timestamp-format · Timestamp format — Timestamps are always RFC 3339 UTC with milliseconds and a `Z` suffix, as in `2026-09-23T19:43:58.123Z`.
+-decision/unparseable-external-values-unknown · Unparseable external values become unknown — An unparseable external value becomes the string `"unknown"` in viola's own records, never an error, covering `resets_at`, `used_percentage` and a missing statusline window.
++decision/unparseable-external-values-unknown · Unparseable external values become unknown — An unparseable external value becomes the string `"unknown"` in viola's own records, never an error, covering `resets_at`, `used_percentage` and a missing statusline window. · except: A hyprctl reply the Hyprland seam cannot parse is the seam's malformed error.
+ decision/viola-name-instance-key · ViolaName as the instance key — The instance key is `ViolaName`: ASCII `[a-z0-9-]`, 1 to 32 characters, starting with a letter, enforced by nutype. · why: No database, so no UUID or serial keys.
+@@ -471,2 +471,3 @@
+ decision/hook-output-one-crate · Hook output produced by one crate — The Claude Code hook contract is produced only by the `viola-agent-claude` crate.
++decision/hyprctl-direct-spawn · hyprctl spawned directly with a closed argv — hyprctl is spawned directly from a caller-resolved path, with no shell and no PATH lookup, stdin null and a closed argv; a dispatch is the Lua form hl.dsp.focus whose only inserted value is a closed window address or an i32 workspace id, never reply text. · why: Hyprland 0.56.2 runs a dispatch's arguments as Lua, so only the measured hl.dsp.focus form is accepted.
+ decision/link-set-changes-only-on-link-calls · Link set changes only on implicit links and link calls — The wrapper's link set changes only on an implicit link from a send or an answer and on a served link or unlink call, with each change appended to the instance log first and then mirrored to the snapshot. · why: Restoring the set at start replays only link and unlink lines, so the snapshot and the log agree only while no other path changes the set.
+@@ -614,2 +615,7 @@
+ contract/human-error-line/wrapper-fault · The human error line · wrapper fault — A fault code outside the five known codes prints the human line `error: wrapper fault  <code>`.
++contract/hyprland-seam-errors/malformed · Hyprland seam errors · malformed — The reply could not be parsed for its request; the fixed message hyprctl reply not understood interpolates nothing.
++contract/hyprland-seam-errors/oversize · Hyprland seam errors · oversize — The reply passed the frame cap and was refused whole before the exit was read; the fixed message hyprctl reply over the frame cap interpolates nothing.
++contract/hyprland-seam-errors/refused · Hyprland seam errors · refused — hyprctl refused a dispatch; the fixed message hyprctl refused the dispatch interpolates nothing.
++contract/hyprland-seam-errors/unreachable · Hyprland seam errors · unreachable — hyprctl could not start, exited non-zero or was killed at its deadline; the fixed message hyprctl did not answer interpolates nothing.
++contract/hyprland-seam-errors/unsupported · Hyprland seam errors · unsupported — No hyprctl program was given, so nothing is spawned and no line is written; the fixed message hyprctl not found interpolates nothing.
+ contract/instance-snapshot/agent-session-id · instance snapshot · agent_session_id — `agent_session_id` is the one from the newest `session-start` event and exists only to join `claude agents --json` rows to this instance.
+@@ -874,2 +880,3 @@
+ name/binary/viola-harness — viola-harness
++name/binary/viola-hypr-tap — viola-hypr-tap
+ name/binary/viola-mcp-tap — viola-mcp-tap
+@@ -896,2 +903,3 @@
+ name/crate/viola-fuzz — viola-fuzz
++name/crate/viola-hyprland — viola-hyprland
+ name/crate/viola-mcp — viola-mcp
+@@ -1053,5 +1061,6 @@
+ decision/e2e-test-only · viola-e2e is test-only — viola-e2e is test-only, and no product crate depends on it.
++decision/hyprland-seam-crate · viola-hyprland is the one compositor seam — Compositor queries and dispatches go only through viola-hyprland's closed request set; the crate is sync and tokio-free and depends on viola-core alone among viola crates, never on viola-agent-claude, viola-state or viola-channel. · guard: the cargo tree check of viola-hyprland and the per-sync-crate tokio ban
+ decision/mcp-dependencies · viola-mcp takes channel with tokio — viola-mcp depends on viola-channel with its tokio feature and on tokio, and takes no serde.
+ decision/pty-knows-no-agent · viola-pty depends on no viola crate and knows no agent — viola-pty depends on no other viola crate, knows no agent, and takes no thiserror.
+-decision/root-bin-consumes-normalised-events · Root bin consumes only normalised events — The root bin depends on all members and holds the subcommand dispatch, the run pump, the wheel and the budget governor, all of which consume only normalised events.
++decision/root-bin-consumes-normalised-events · Root bin consumes only normalised events — The root bin holds the subcommand dispatch, the run pump, the wheel and the budget governor, all of which consume only normalised events.
+ ## architecture · deployment-model

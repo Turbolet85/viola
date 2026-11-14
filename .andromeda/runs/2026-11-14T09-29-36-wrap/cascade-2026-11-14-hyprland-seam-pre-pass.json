@@ -1,0 +1,223 @@
+[
+{
+"tool": "cascade",
+"v": "1.32",
+"sha8": "6dcb7ac8",
+"ts": "2026-11-14T09:30:34Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-14T09-29-36-wrap/report-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [
+"baseline 93b2ca1d (pre-pass — HEAD)",
+"targets · control UNFIRED over the seven masters (bodies and sets) at 93b2ca1d",
+"fuzz · control UNFIRED over the seven masters (bodies and sets) at 93b2ca1d"
+],
+"stderr": "control: targets, fuzz never fired over the seven masters' pre-pass text, bodies and sets (93b2ca1d) — no master holds them: re-fire with --pattern sync-crates --pattern subject --pattern parser --pattern recorder --pattern hyprland --pattern fake-path --pattern roots --pattern no-shell; this refusal, the trail's record, is the basis of each named pattern's master zero",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "cascade",
+"v": "1.32",
+"sha8": "6dcb7ac8",
+"ts": "2026-11-14T09:30:45Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-14T09-29-36-wrap/report-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam",
+"--pattern",
+"sync-crates",
+"--pattern",
+"subject",
+"--pattern",
+"parser",
+"--pattern",
+"recorder",
+"--pattern",
+"hyprland",
+"--pattern",
+"fake-path",
+"--pattern",
+"roots",
+"--pattern",
+"no-shell"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline 93b2ca1d (pre-pass — HEAD)",
+"architecture · 7 rows over 1 files · new 0 · standing 7 · 4 patterns",
+"security-plan · 3 rows over 1 files · new 0 · standing 3 · 2 patterns",
+"test-plan · 9 rows over 1 files · new 0 · standing 9 · 4 patterns",
+"obs-plan · 11 rows over 1 files · new 0 · standing 11 · 2 patterns",
+"a11y-plan · 4 rows over 1 files · new 0 · standing 4 · 1 pattern",
+"by line · 0 lines · 0 offsets",
+"total (8 patterns) · 73 rows over 25 files",
+"per class · new 0/0 · standing 34/5 · leaf 38/19 · curation 1/1 · base 0/0",
+"rows 1/1 · .andromeda/runs/2026-11-14T09-29-36-wrap/sweep-pre-pass-1.1.txt · 91 lines · 10469 B"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-14T09-29-36-wrap/sweep-pre-pass-1.1.txt"
+],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "93b2ca1d324e73f6785070880fff8961989b4de5",
+"how": "pre-pass — HEAD",
+"counts": {
+"sync-crates": {
+"new": 0,
+"standing": 1,
+"leaf": 8,
+"curation": 0,
+"base": 0
+},
+"subject": {
+"new": 0,
+"standing": 8,
+"leaf": 8,
+"curation": 0,
+"base": 0
+},
+"parser": {
+"new": 0,
+"standing": 5,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"recorder": {
+"new": 0,
+"standing": 6,
+"leaf": 9,
+"curation": 0,
+"base": 0
+},
+"hyprland": {
+"new": 0,
+"standing": 8,
+"leaf": 5,
+"curation": 1,
+"base": 0
+},
+"fake-path": {
+"new": 0,
+"standing": 3,
+"leaf": 6,
+"curation": 0,
+"base": 0
+},
+"roots": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"no-shell": {
+"new": 0,
+"standing": 2,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+},
+"bare": [],
+"masters": {
+"architecture": {
+"rows": 7,
+"files": 1,
+"new": 0,
+"standing": 7,
+"patterns": 4
+},
+"security-plan": {
+"rows": 3,
+"files": 1,
+"new": 0,
+"standing": 3,
+"patterns": 2
+},
+"test-plan": {
+"rows": 9,
+"files": 1,
+"new": 0,
+"standing": 9,
+"patterns": 4
+},
+"obs-plan": {
+"rows": 11,
+"files": 1,
+"new": 0,
+"standing": 11,
+"patterns": 2
+},
+"a11y-plan": {
+"rows": 4,
+"files": 1,
+"new": 0,
+"standing": 4,
+"patterns": 1
+}
+},
+"per_master": {
+"sync-crates": {
+"architecture": 1
+},
+"subject": {
+"security-plan": 2,
+"obs-plan": 6
+},
+"parser": {
+"obs-plan": 5
+},
+"recorder": {
+"architecture": 2,
+"test-plan": 4
+},
+"hyprland": {
+"architecture": 3,
+"test-plan": 1,
+"a11y-plan": 4
+},
+"fake-path": {
+"test-plan": 3
+},
+"roots": {
+"test-plan": 1
+},
+"no-shell": {
+"architecture": 1,
+"security-plan": 1
+}
+},
+"forms": {
+"sync-crates": [
+{
+"form": "4 sync crates",
+"from": "four"
+}
+]
+},
+"parts": [
+"sweep-pre-pass-1.1.txt"
+]
+}
+}
+]

@@ -1,0 +1,118 @@
+@row_set n=1 row=decision/nutype-domain-newtypes cell=rule seen=1 detector=D-arch-decisions
+value: Bounded domain values are nutype newtypes: ViolaName (charset and length cap), Percent (0 to 100), DialogHold (whole seconds 60 to 3600), Address (0x and 1 to 16 lower-case hex digits) and WorkspaceId.
+basis: fct-woso52s6
+because: The Hyprland seam adds the nutype newtypes Address and WorkspaceId, so the row's list of bounded newtypes is incomplete.
+@row_set n=2 row=decision/nutype-newtypes cell=rule seen=1 detector=D-arch-decisions
+value: Validated values are nutype newtypes (`ViolaName`, `Percent`, `DialogHold`, `Address`, `WorkspaceId`); no garde or validator.
+basis: fct-woso52s6
+because: The Hyprland seam validates its window address and workspace id as nutype newtypes, so the row's list is incomplete.
+@row_set n=3 row=decision/tolerant-external-payloads cell=rule seen=1 detector=D-arch-decisions
+value: Hook JSON, `claude agents --json`, statusline payloads and hyprctl replies are parsed with no `deny_unknown_fields`, with defaults and options; agents rows keep the raw value for the fixture recorder, and serde_path_to_error gives drift reports for hook JSON only.
+basis: fct-nma7kel7
+because: hyprctl replies are a new external payload read by a tolerant closed parse, so the row's list of tolerantly parsed payloads must name them.
+@row_set n=4 row=decision/unparseable-external-values-unknown cell=except seen=1 detector=D-arch-decisions
+value: A hyprctl reply the Hyprland seam cannot parse is the seam's malformed error.
+basis: fct-woso52s6
+because: The Hyprland seam answers an unparseable reply with its closed malformed error rather than an unknown value, so the convention needs that exception.
+@row_set n=5 row=decision/fake-agent-feature-on-named-members cell=rule seen=1 detector=D-arch-resources
+value: The sync crates viola-pty, viola-agent-claude, viola-state and viola-hyprland, and viola-mcp and viola-e2e, each declare a code-free fake-agent feature, so a package-scoped fake-agent build of any of them resolves.
+basis: fct-wnem37fs
+because: The new viola-hyprland crate declares a code-free fake-agent feature, so the row's list of members is incomplete.
+@row_set n=6 row=decision/test-binaries-never-released cell=rule seen=1 detector=D-arch-resources
+value: viola-fake-agent, viola-harness, viola-mcp-tap and viola-hypr-tap are test-only binaries and never ship in a release build; the fake agent is built only behind the fake-agent feature.
+basis: fct-wnem37fs
+because: viola-e2e gains the test-only recorder viola-hypr-tap, kept out of the release build, so the row's list of test-only binaries is incomplete.
+@row_set n=7 row=decision/sync-crates-tokio-free cell=rule seen=1 detector=D-arch-decisions
+value: Tokio is banned anywhere, direct or transitive, in the normal dependency graph of viola-core, viola-pty, viola-state, viola-agent-claude and viola-hyprland, checked once per crate as the sole root.
+basis: fct-wnem37fs
+because: viola-hyprland joins the sync-crate list with its own tokio ban, so the row's named crates are incomplete.
+@row_set n=8 row=decision/root-bin-consumes-normalised-events cell=rule seen=1 detector=D-arch-decisions
+value: The root bin depends on the product members it calls, viola-hyprland only as a dev-dependency while no verb calls the seam, and holds the subcommand dispatch, the run pump, the wheel and the budget governor, all of which consume only normalised events.
+basis: fct-wcktr2c4
+because: The root package takes viola-hyprland only as a dev-dependency and no verb calls it, so the claim that the root bin depends on all members is false.
+@row_set n=9 row=decision/modular-monolith-no-daemon cell=rule seen=1 detector=D-arch-resources
+value: The product is one binary with compiler-enforced internal crates (pty, channel, state, agent-claude, mcp, hyprland around core) and no daemon.
+basis: fct-wnem37fs
+because: The new internal crate viola-hyprland joins the workspace, so the row's list of internal crates is incomplete.
+@row_add n=1 row=name/crate/viola-hyprland area=occupied-resources fact=F1 detector=D-arch-resources
+class: crate
+name: viola-hyprland
+basis: fct-wnem37fs
+because: The chunk adds the workspace crate viola-hyprland, an occupied crate name the registry must hold.
+@row_add n=2 row=name/binary/viola-hypr-tap area=occupied-resources fact=F2 detector=D-arch-resources
+class: binary
+name: viola-hypr-tap
+basis: fct-wnem37fs
+because: The chunk adds the test-only binary viola-hypr-tap to viola-e2e, an occupied binary name the registry must hold.
+@row_add n=3 row=decision/hyprland-seam-crate area=crate-dependency-direction fact=F3 detector=D-arch-resources
+name: viola-hyprland is the one compositor seam
+rule: Compositor queries and dispatches go only through viola-hyprland's closed request set; the crate is sync and tokio-free and depends on viola-core alone among viola crates, never on viola-agent-claude, viola-state or viola-channel.
+guard: the cargo tree check of viola-hyprland and the per-sync-crate tokio ban
+basis: fct-wnem37fs
+because: The new crate's dependency direction and its closed request set bind every later compositor caller and no row states them.
+@row_add n=4 row=decision/hyprctl-direct-spawn area=standard-contracts fact=F4 detector=D-arch-resources
+name: hyprctl spawned directly with a closed argv
+rule: hyprctl is spawned directly from a caller-resolved path, with no shell and no PATH lookup, stdin null and a closed argv; a dispatch is the Lua form hl.dsp.focus whose only inserted value is a closed window address or an i32 workspace id, never reply text.
+why: Hyprland 0.56.2 runs a dispatch's arguments as Lua, so only the measured hl.dsp.focus form is accepted.
+basis: fct-woso52s6
+because: The seam's spawn and its Lua dispatch form are a new standing contract with the compositor that no-shell-out states only in general.
+@row_add n=5 row=decision/hyprctl-reply-under-frame-cap area=cross-cutting-patterns fact=F5 detector=none
+name: hyprctl reply read under the frame cap
+rule: hyprctl stdout is read under MAX_FRAME plus one byte, and an over-cap reply is refused whole as oversize before the exit is read.
+guard: parse_clients_takes_max_frame_bytes_and_refuses_one_more_as_oversize
+basis: fct-liwv2nba
+because: The new hyprctl reader is bounded and refuses an over-cap reply ahead of the exit, a rule later readers of the seam must keep.
+@row_add n=6 row=decision/hyprctl-deadline area=cross-cutting-patterns detector=none
+name: hyprctl child killed at its deadline
+rule: A hyprctl child still running past the 5 s deadline is killed and reaped and reads unreachable.
+guard: read_past_the_deadline_kills_and_reaps_its_child
+state: provisional
+basis: fct-woso52s6
+because: The seam bounds each hyprctl child in time with a provisional 5 s deadline, a bound no row states.
+@row_add n=7 row=decision/no-hyprland-reply-text area=cross-cutting-patterns fact=F6 detector=none
+name: No Hyprland reply text crosses the seam
+rule: No Hyprland reply text crosses the seam: titles, classes, names and every other reply string are dropped at the parse, and only addresses, ids, numbers, flags and the version digits are kept.
+guard: contract_hyprland_canary_reaches_no_line_and_no_error
+basis: fct-bwodkdui
+because: The seam drops every reply string at the parse, a redaction rule every later compositor caller relies on.
+@row_add n=8 row=contract/hyprland-seam-errors/unsupported area=standard-contracts fact=F7 detector=D-arch-resources
+boundary: Hyprland seam errors
+item: unsupported
+promise: No hyprctl program was given, so nothing is spawned and no line is written; the fixed message hyprctl not found interpolates nothing.
+basis: fct-woso52s6
+because: The seam's closed error set is a new contract callers branch on, and each code word is one item.
+@row_add n=9 row=contract/hyprland-seam-errors/unreachable area=standard-contracts detector=D-arch-resources
+boundary: Hyprland seam errors
+item: unreachable
+promise: hyprctl could not start, exited non-zero or was killed at its deadline; the fixed message hyprctl did not answer interpolates nothing.
+basis: fct-woso52s6
+because: The seam's closed error set is a new contract callers branch on, and each code word is one item.
+@row_add n=10 row=contract/hyprland-seam-errors/oversize area=standard-contracts detector=D-arch-resources
+boundary: Hyprland seam errors
+item: oversize
+promise: The reply passed the frame cap and was refused whole before the exit was read; the fixed message hyprctl reply over the frame cap interpolates nothing.
+basis: fct-woso52s6
+because: The seam's closed error set is a new contract callers branch on, and each code word is one item.
+@row_add n=11 row=contract/hyprland-seam-errors/malformed area=standard-contracts detector=D-arch-resources
+boundary: Hyprland seam errors
+item: malformed
+promise: The reply could not be parsed for its request; the fixed message hyprctl reply not understood interpolates nothing.
+basis: fct-woso52s6
+because: The seam's closed error set is a new contract callers branch on, and each code word is one item.
+@row_add n=12 row=contract/hyprland-seam-errors/refused area=standard-contracts detector=D-arch-resources
+boundary: Hyprland seam errors
+item: refused
+promise: hyprctl refused a dispatch; the fixed message hyprctl refused the dispatch interpolates nothing.
+basis: fct-woso52s6
+because: The seam's closed error set is a new contract callers branch on, and each code word is one item.
+@row_add n=13 row=decision/hyprland-fixture-keep-list area=occupied-resources fact=F8 detector=none
+name: Hyprland fixtures keep a closed string list
+rule: A recorded Hyprland fixture keeps only a closed per-request list of strings (window addresses, the version tag in digit form); every other string becomes a placeholder, a non-JSON reply is kept only as the success text, and the hygiene walk checks the same list.
+guard: contract_fixture_hygiene
+basis: fct-w4fzcahg
+because: The new Hyprland fixture class is scrubbed to a closed keep-list, a fixture rule beside the screen and verify fixture rows that no row states.
+@row_add n=14 row=decision/fake-hyprctl-by-file-name area=occupied-resources fact=F9 detector=none
+name: Fake agent answers as hyprctl by its file name
+rule: The fake agent answers as hyprctl, replaying recorded Hyprland fixtures, only when its own executable file is named hyprctl; no option and no environment variable selects it.
+basis: fct-q6e6jeog
+because: The fake agent gains a hyprctl personality selected by file name alone, so no new test seam variable is occupied and no row says so.

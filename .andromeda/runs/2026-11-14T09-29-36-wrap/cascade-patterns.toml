@@ -1,0 +1,15 @@
+[[pattern]]
+id = "main-subject"
+regex = '''verify-pty-probe, agents-probe, statusline-shell\)'''
+
+[[pattern]]
+id = "main-parser"
+regex = '''mcp-stdin, state-entry\)'''
+
+[[pattern]]
+id = "main-recorder"
+regex = '''MCP exchange fixtures by the test-only viola-mcp-tap\.'''
+
+[[pattern]]
+id = "main-rootbin"
+regex = '''root bin depends on all members'''

@@ -1,0 +1,2 @@
+@none
+reason: The chunk adds a sync library crate (viola-hyprland) with no product caller, a test-only recorder binary, a fake hyprctl personality, fixtures, schemas and tests (fct-woso52s6, fct-wnem37fs, fct-q6e6jeog); it adds or changes no viola verb, no CLI output wording, hint or exit code and no user-facing surface (fct-y4ojdqlq: release build carries viola only, Spec-master edits none), so every picked row of surface-cli, the marked ones included, stands true and neither D-design-cli-wording nor D-layout-surface fires.

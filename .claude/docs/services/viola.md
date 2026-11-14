@@ -8,7 +8,7 @@ The `viola` binary. It holds the clap 4.6.7 dispatch (`src/main.rs`, one module 
 ## Key integrations
 
 ### Consumes from
-Every workspace member; clap, anyhow, tracing-subscriber, chrono (direct, for `MillisUtc`), libc `=0.2.189` (`backtrace` + `dladdr` for the raw, never-symbolised panic frames of `src/panic_frames.rs`, and `sigaction` for `src/cmd/verify/stop.rs`'s `SIGINT` / `SIGTERM` handler, `SA_RESTART`; neither role added a dependency or a feature; no crate depends on windows-sys); tempfile (`=3.27.0`, workspace-pinned: `viola verify`'s Run A temp dir only).
+viola-core, viola-pty, viola-agent-claude, viola-state, viola-channel and viola-mcp (not every workspace member: viola-hyprland only as a dev-dependency); clap, anyhow, tracing-subscriber, chrono (direct, for `MillisUtc`), libc `=0.2.189` (`backtrace` + `dladdr` for the raw, never-symbolised panic frames of `src/panic_frames.rs`, and `sigaction` for `src/cmd/verify/stop.rs`'s `SIGINT` / `SIGTERM` handler, `SA_RESTART`; neither role added a dependency or a feature; no crate depends on windows-sys); tempfile (`=3.27.0`, workspace-pinned: `viola verify`'s Run A temp dir only).
 
 ### Publishes to
 Users (human CLI), drivers (`--json`, exit codes), Claude Code (hook decision bodies via `viola hook`, the MCP server via `viola mcp`).

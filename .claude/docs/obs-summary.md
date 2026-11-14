@@ -52,7 +52,7 @@ The obs harness is **bound** to the test harness: tests owns the grepped fields 
 
 ## Universal anti-patterns
 
-- NEVER write telemetry to stdout, or use print/`dbg!` macros in product crates (clippy `print_stdout`/`print_stderr`/`dbg_macro` = deny).
+- NEVER write telemetry to stdout, or use print/`dbg!` macros in the hook, run or mcp code paths of the product crates (clippy `print_stdout`/`print_stderr`/`dbg_macro` = deny; exempt: viola-harness, the fake agent and the output modules that own `--json`, human CLI stderr and the hook decision body).
 - NEVER call raw `tracing::*!` outside `viola_core::obs` — only `obs_event!`.
 - NEVER read the level from `RUST_LOG` / `EnvFilter`; `diagnostics_level` changes volume, never redaction.
 - NEVER use tracing-appender `non_blocking`, sentry, an OTLP exporter or a `/metrics` route.

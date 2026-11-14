@@ -10,22 +10,22 @@ viola is a hybrid local developer tool that lets one interactive Claude Code ses
 
 **Key directories:**
 - `src/` — the `viola` bin: subcommand dispatch (`src/cmd/`), the `run` pump, wheel and budget governor (`src/run/`), human output (`src/human/`)
-- `crates/` — the workspace library crates `viola-core`, `-pty`, `-channel`, `-state`, `-agent-claude`, `-mcp` and the test-only `viola-e2e`
+- `crates/` — the workspace library crates `viola-core`, `-pty`, `-channel`, `-state`, `-agent-claude`, `-mcp`, `-hyprland` and the test-only `viola-e2e`
 - `plugin/` — `hooks/hooks.json`, `.mcp.json`, `.claude-plugin/plugin.json`, embedded in the binary and written out by `viola run`
-- `fixtures/` — `claude/<cli-version>/` payloads and screens recorded by `viola verify` and replayed by the fake agent in CI; `fake-scripts/` the committed fake-agent turn scripts
+- `fixtures/` — `claude/<cli-version>/` payloads and screens recorded by `viola verify` and replayed by the fake agent in CI; `hyprland/<version>/` the Hyprland replies recorded by the test-only `viola-hypr-tap`; `fake-scripts/` the committed fake-agent turn scripts
 - `scripts/` — `agent-run.sh` (the headless harness), the CI check scripts and the code-graph pipeline
 <!-- GENERATED:setup:overview end -->
 
 ## Modules
 <!-- GENERATED:setup:modules start -->
 - **`viola-core`** — depends on no viola crate; the normalised event kinds (a new kind is added only here, never with a Claude-specific name), the refusal reason type, `obs_event!` and the service identity constants
-- **`viola-pty`** — the PTY seam over portable-pty, host raw mode through libc termios; depends on no viola crate, knows no agent, takes no thiserror
+- **`viola-pty`** — the PTY seam over portable-pty, host raw mode through libc termios; depends on no viola crate, knows no agent, takes no thiserror; **`viola-hyprland`** — the one compositor seam: compositor queries and dispatches go only through its closed request set; sync and tokio-free, it depends on `viola-core` alone among viola crates
 - **`viola-channel`** — JSON-RPC 2.0 over ndjson on interprocess local sockets; sync client and server, the Tokio client only behind its `tokio` feature
 - **`viola-state`** — ndjson append logs and atomic JSON snapshots through one shared persist helper, `.lock` siblings, the strict-modes checks and the board read model (sync, std only, Claude-free); writes the stamps, budget and settings files
 - **`viola-agent-claude`** — the only crate that knows Claude: hook JSON and `claude agents --json` shapes, dialog answer mapping, the identity strip, child program resolution, the Claude half of the CLI version gate, the capability ledger and the Claude flag literals; does no file I/O and takes no `viola-state`
 - **`viola-mcp`** — the rmcp stdio MCP server (features exactly `server` + `transport-io`), tools `send · wait · last · answer · list`; the only product crate that enables Tokio, on `viola-channel`'s `tokio` feature, and takes no serde
-- **`viola-e2e`** (test-only, no product crate depends on it) — `viola-harness` behind `scripts/agent-run.sh`, `viola-mcp-tap` and the Tokio-based E2E clients
-- **`viola`** (root bin) — depends on every member: clap subcommand dispatch, the `run` pump, the wheel and the budget governor, all consuming only normalised events; human output only through its human module; the only crate with anyhow; also builds the test-only `viola-fake-agent`
+- **`viola-e2e`** (test-only, no product crate depends on it) — `viola-harness` behind `scripts/agent-run.sh`, `viola-mcp-tap`, `viola-hypr-tap` and the Tokio-based E2E clients
+- **`viola`** (root bin) — holds the clap subcommand dispatch, the `run` pump, the wheel and the budget governor, all consuming only normalised events; human output only through its human module; the only crate with anyhow; also builds the test-only `viola-fake-agent`
 - **`viola-fuzz`** (`fuzz/`, a crate row but no workspace member: its own cargo-fuzz workspace excluded from the root) — the fuzz targets on a pinned nightly, its own lockfile audited separately, committed synthetic seeds
 <!-- GENERATED:setup:modules end -->
 
@@ -33,7 +33,7 @@ viola is a hybrid local developer tool that lets one interactive Claude Code ses
 <!-- GENERATED:setup:warnings start -->
 - The human always wins: security refusals go only to automation (`send` / `answer`), never to the human; `viola hook` never writes stderr and always exits 0, failing open with no body; the panic hook is the first statement of `main` and every Cargo profile keeps `panic = "unwind"`.
 - Upstream text (prompts, `last_assistant_message`, plan text, question and option text, tool `input`) is content, never a viola command or config; screen signatures, harness prefixes and local-command lists come only from compiled `viola-agent-claude` ledger rows.
-- NEVER-log floor: `CLAUDE_CODE_MESSAGING_TOKEN` / `_SOCKET` and every R8-stripped `CLAUDE*` value reach no log, stderr, `events.ndjson`, snapshot, `diagnostics/` or fixture; content-bearing detail goes only to the instance's `detail-*.ndjson`.
+- NEVER-log floor: `CLAUDE_CODE_MESSAGING_TOKEN` / `_SOCKET` and every R8-stripped `CLAUDE*` value reach no log, stderr, `events.ndjson`, snapshot, `diagnostics/` or fixture; content-bearing detail goes only to the instance's `detail-*.ndjson`; Hyprland reply strings (window titles, classes, every other) are dropped at the parse and reach no log line and no error.
 - External errors (CLI `--json`, MCP error results, channel `error.data`) carry codes and fixed messages only — no path, pid or upstream text, no anyhow chain holding a serde source; a peer's reply reaches them only as a closed value, and a `thiserror` message interpolates nothing.
 - No `config.json` key, `VIOLA_*` env var or CLI flag switches off a control or widens redaction; env vars are no configuration channel (only `NO_COLOR` / `TERM` / `COLORTERM` for `list`'s colour, `XDG_RUNTIME_DIR`, `PATH` and two `fake-agent` test seams are read).
 - Bound and validate every input: an instance path only from a `ViolaName`-validated string; every external read capped at `MAX_FRAME`; C0 (but LF/CR/TAB), DEL and C1 refused, never stripped; the wrapper re-validates what a client or schema checked.
@@ -84,7 +84,7 @@ Branching: one long-lived build branch per version (`build/viola-X.Y.Z`); main i
 <!-- GENERATED:setup:architecture start -->
 viola is mechanism, not policy: it carries typed input, answers dialogs when told to, logs everything and holds the wheel, but never decides what to answer — driver-side policy (Andromeda's decision rights included) stays outside the binary. Every behaviour of the `claude` CLI it relies on is a measured, version-stamped capability-ledger row; on an unverified CLI build viola degrades to transport-only and every send is confirmed after the fact (`prompt-submitted` read-back or a ledger post-condition), never presumed, the one exception a ledger-listed local command whose post-condition is none or not yet measured, or whose CLI is unverified: `ok` with `confirmed: false`, detail `unconfirmable`.
 
-There is no daemon: each wrapper (a `viola run`, or a `viola revive` whose preflight passed) owns one local-socket endpoint (a per-user Unix socket), every other verb is a separate process, and the shared truth is the disk — ndjson append logs and atomic snapshots that survive a crash on either side. It is a modular monolith: one binary around compiler-enforced crates (`pty · channel · state · agent-claude · mcp` around `core`), built and CI-tested on Linux only (`ubuntu-latest`), the Windows and macOS code out of the tree, recoverable at the tag `multi-os-final` (the first live run was on the Linux dev host).
+There is no daemon: each wrapper (a `viola run`, or a `viola revive` whose preflight passed) owns one local-socket endpoint (a per-user Unix socket), every other verb is a separate process, and the shared truth is the disk — ndjson append logs and atomic snapshots that survive a crash on either side. It is a modular monolith: one binary around compiler-enforced crates (`pty · channel · state · agent-claude · mcp · hyprland` around `core`), built and CI-tested on Linux only (`ubuntu-latest`), the Windows and macOS code out of the tree, recoverable at the tag `multi-os-final` (the first live run was on the Linux dev host).
 
 **Primary source:** `doc:architecture` (the pointer table's row — not imported; read by the verbs above that table where a step needs it).
 <!-- GENERATED:setup:architecture end -->

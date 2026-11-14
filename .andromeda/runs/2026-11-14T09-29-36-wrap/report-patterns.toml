@@ -1,0 +1,39 @@
+[[pattern]]
+id = "targets"
+regex = '''VIOLA_TARGETS|seven (log )?targets|viola_mcp`?\s*\)?\s*at INFO|viola_hyprland'''
+
+[[pattern]]
+id = "sync-crates"
+regex = '''four sync crates|sync-crates\.txt|viola-hyprland'''
+
+[[pattern]]
+id = "subject"
+regex = '''agents-probe|hyprctl-probe'''
+
+[[pattern]]
+id = "parser"
+regex = '''claude-agents-json|hyprctl-json'''
+
+[[pattern]]
+id = "fuzz"
+regex = '''claude_agents_json|hyprctl_json|six fuzz targets'''
+
+[[pattern]]
+id = "recorder"
+regex = '''viola-mcp-tap|viola-hypr-tap'''
+
+[[pattern]]
+id = "hyprland"
+regex = '''[Hh]yprland|hyprctl'''
+
+[[pattern]]
+id = "fake-path"
+regex = '''fake-agent-on-test-path|agents-mode'''
+
+[[pattern]]
+id = "roots"
+regex = '''PRODUCT_ROOTS|BOUNDARIES'''
+
+[[pattern]]
+id = "no-shell"
+regex = '''decision/no-shell-out|upstream-text-is-never-a-command'''

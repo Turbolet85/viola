@@ -1,6 +1,0 @@
---- a/.andromeda/layout-templates.md
-+++ b/.andromeda/layout-templates.md
-@@ -133,2 +133,3 @@
- contract/viola-answer-output/answered · viola answer output · answered — Prints `answered  <name>  dialog <id>`.
-+contract/viola-answer-output/not-delivered-hints · viola answer output · not-delivered hints — A human-mode `viola answer` refused not-delivered ends with its own hint for `unknown-dialog`, and for `control-character`, `empty-text`, `input-not-ready`, `no-prompt-submitted` and `turn-running` with the hint `viola send` holds for that detail; an opaque detail or no detail ends with no hint.
- contract/viola-answer-output/unknown-dialog · viola answer output · unknown-dialog — An answer to a dialog that is not pending prints `unable  <name>  not-delivered  unknown-dialog` on stderr, exit 13, then `hint: that dialog is not pending; viola list shows the current DIALOG`.

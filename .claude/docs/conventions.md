@@ -19,7 +19,7 @@ _Extracted from `doc:architecture` §Conventions by `/andromeda-setup-project`. 
 - Endpoint name: `viola-<h12>`, the first 12 hex chars of FNV-1a 64 over `ViolaName` + `\0` + absolute viola home — hand-written in `viola-channel` (never `DefaultHasher`, not stable across Rust releases); recorded in the snapshot.
 - Timestamps: `ts` on every instance event and the `hook.event` frame (request frames carry no instant), `timestamp` on process-log and detail lines, `*_at` for other instants (a link record's start instant excepted); RFC 3339 UTC with ms and `Z` (`to_rfc3339_opts(SecondsFormat::Millis, true)`).
 - Optional fields: `Option<T>` + `#[serde(default, skip_serializing_if = "Option::is_none")]`; missing and `null` read the same.
-- Unparseable external values become `"unknown"`, never an error. Percentages are the `Percent` newtype (0–100, JSON number); an external budget reading's `used_percentage` is a `Reading<f64>` instead, kept from 0 to 100 and otherwise `"unknown"`.
+- Unparseable external values become `"unknown"`, never an error, except a hyprctl reply the Hyprland seam cannot parse, which is the seam's `malformed` error. Percentages are the `Percent` newtype (0–100, JSON number); an external budget reading's `used_percentage` is a `Reading<f64>` instead, kept from 0 to 100 and otherwise `"unknown"`.
 - ndjson: one complete object + `\n` per single `write`; multi-line text as an escaped string.
 
 ## Wire formats
@@ -51,7 +51,7 @@ See `.claude/rules/observability.md` for logging rules that apply when editing p
 See `.claude/rules/testing.md` for testing rules. This doc describes *conventions* (test naming, structure); the rule file has *enforcement* for path-matched files.
 
 ## Imports / module organization
-- Crate dependency direction is enforced by manifests: `viola-core` depends on no viola crate; `viola-pty` knows no agent; only `viola-agent-claude` knows Claude payload shapes; among the product crates only `viola-mcp` enables tokio (`rt`), and `viola-channel` lists it optional behind its `tokio` feature (the `TokioClient`), which `viola-mcp` enables; the root bin depends on all members.
+- Crate dependency direction is enforced by manifests: `viola-core` depends on no viola crate; `viola-pty` knows no agent; `viola-hyprland` is the one compositor seam (queries and dispatches only through its closed request set), sync and tokio-free, depending on `viola-core` alone among viola crates; only `viola-agent-claude` knows Claude payload shapes; among the product crates only `viola-mcp` enables tokio (`rt`), and `viola-channel` lists it optional behind its `tokio` feature (the `TokioClient`), which `viola-mcp` enables; the root bin holds the subcommand dispatch, the run pump, the wheel and the budget governor, all of which consume only normalised events.
 - Shared third-party versions come from `[workspace.dependencies]`; every member sets `publish = false`, `version.workspace = true` and `license.workspace = true` (`MIT OR Apache-2.0`; `fuzz/Cargo.toml` carries the literal).
 
 ## Cross-references

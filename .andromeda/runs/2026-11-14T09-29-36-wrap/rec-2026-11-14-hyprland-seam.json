@@ -1,0 +1,1473 @@
+[
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T09:33:06Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-14-hyprland-seam",
+"--file",
+".andromeda/cache/docs/2026-11-14-hyprland-seam/report.md",
+"--run-dir",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-14-hyprland-seam/report rev 1 · 61 new · 0 revised · 0 retired · 0 kept · tx 1063"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T07-05-01-2026-11-14-hyprland-seam.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T09:33:06Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-14-hyprland-seam",
+"--section-file",
+".andromeda/runs/2026-11-14T09-29-36-wrap/new-text.md",
+"--heading",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-14-hyprland-seam/report rev 2 · 114 new · 0 revised · 0 retired · 61 kept · tx 1064"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T07-05-01-2026-11-14-hyprland-seam.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T09:33:31Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-14T09-29-36-wrap/cites-land-2026-11-14-hyprland-seam.ndjson",
+"--base",
+"4255b3ed000cb7606e5f5ea5681f9fd0c64141b4",
+"--run-dir",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 0 fact(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T09:33:36Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-14T09-29-36-wrap/cites-land-2026-11-14-hyprland-seam.ndjson",
+"--base",
+"4255b3ed000cb7606e5f5ea5681f9fd0c64141b4",
+"--run-dir",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 0 fact(s) · 0 edge(s) · tx 1066"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T07-05-01-2026-11-14-hyprland-seam.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T09:35:41Z",
+"argv": [
+"rows-packs",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-14-hyprland-seam"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 987 · packs 10 · pack 100 · 274619 B",
+"security-plan: rows 615 · packs 7 · pack 100 · 177406 B",
+"design-system: rows 325 · packs 4 · pack 100 · 77732 B",
+"layout-templates: rows 225 · packs 3 · pack 100 · 53028 B",
+"test-plan: rows 1375 · packs 14 · pack 100 · 362837 B",
+"obs-plan: rows 1058 · packs 11 · pack 100 · 287258 B",
+"a11y-plan: rows 241 · packs 3 · pack 100 · 67297 B",
+"rows-packs: 7 master(s) · 4826 row(s) · 52 pack(s) · 2 draw(s) a pack · pin 1066"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-14T09-29-36-wrap/rows-packs.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T09:55:46Z",
+"argv": [
+"rows-union",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-14-hyprland-seam"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 987 · packs 10 · picked 58 (22 by every draw) · standing 0 · 235699 B",
+"security-plan: rows 615 · packs 7 · picked 61 (52 by every draw) · standing 0 · 128369 B",
+"design-system: rows 325 · packs 4 · picked 11 (0 by every draw) · standing 0 · 58501 B",
+"layout-templates: rows 225 · packs 3 · picked 7 (3 by every draw) · standing 0 · 47010 B",
+"test-plan: rows 1375 · packs 14 · picked 109 (64 by every draw) · standing 0 · 298737 B",
+"obs-plan: rows 1058 · packs 11 · picked 83 (51 by every draw) · standing 0 · 236541 B",
+"a11y-plan: rows 241 · packs 3 · picked 23 (16 by every draw) · standing 0 · 47710 B",
+"rows-union: 7 master(s) · picked 352 of 4826 · rule any"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-14T09-29-36-wrap/arch-rows.md",
+".andromeda/runs/2026-11-14T09-29-36-wrap/arch-standing.md",
+".andromeda/runs/2026-11-14T09-29-36-wrap/arch-pick-counts.md",
+".andromeda/runs/2026-11-14T09-29-36-wrap/security-rows.md",
+".andromeda/runs/2026-11-14T09-29-36-wrap/security-standing.md",
+".andromeda/runs/2026-11-14T09-29-36-wrap/security-pick-counts.md",
+".andromeda/runs/2026-11-14T09-29-36-wrap/design-rows.md",
+".andromeda/runs/2026-11-14T09-29-36-wrap/design-standing.md",
+".andromeda/runs/2026-11-14T09-29-36-wrap/design-pick-counts.md",
+".andromeda/runs/2026-11-14T09-29-36-wrap/layouts-rows.md",
+".andromeda/runs/2026-11-14T09-29-36-wrap/layouts-standing.md",
+".andromeda/runs/2026-11-14T09-29-36-wrap/layouts-pick-counts.md",
+".andromeda/runs/2026-11-14T09-29-36-wrap/tests-rows.md",
+".andromeda/runs/2026-11-14T09-29-36-wrap/tests-standing.md",
+".andromeda/runs/2026-11-14T09-29-36-wrap/tests-pick-counts.md",
+".andromeda/runs/2026-11-14T09-29-36-wrap/obs-rows.md",
+".andromeda/runs/2026-11-14T09-29-36-wrap/obs-standing.md",
+".andromeda/runs/2026-11-14T09-29-36-wrap/obs-pick-counts.md",
+".andromeda/runs/2026-11-14T09-29-36-wrap/a11y-rows.md",
+".andromeda/runs/2026-11-14T09-29-36-wrap/a11y-standing.md",
+".andromeda/runs/2026-11-14T09-29-36-wrap/a11y-pick-counts.md",
+".andromeda/runs/2026-11-14T09-29-36-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T10:00:25Z",
+"argv": [
+"rows-check",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-14T09-29-36-wrap/ops-main-security-plan.md",
+"--run-dir",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [
+"rows-check · standing · doc:security-plan",
+"decision/hyprland-recorder-string-allowlist · over — rule: 619 chars, 300 at the most",
+"REFUSED · standing · 1 row(s) of 1 operation(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T10:00:32Z",
+"argv": [
+"rows-check",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-14T09-29-36-wrap/ops-main-security-plan.md",
+"--run-dir",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"rows-check · standing · doc:security-plan",
+"PASS · standing · 1 operation(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T10:03:03Z",
+"argv": [
+"rows-check",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-14T09-29-36-wrap/ops-main-architecture.md",
+"--run-dir",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"rows-check · standing · doc:architecture",
+"PASS · standing · 1 operation(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T10:59:23Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-14T09-29-36-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-14T09-29-36-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/nutype-domain-newtypes · rejected",
+"decision/nutype-newtypes · rejected",
+"decision/tolerant-external-payloads · rejected",
+"decision/fake-agent-feature-on-named-members · rejected",
+"decision/test-binaries-never-released · rejected",
+"decision/sync-crates-tokio-free · rejected",
+"decision/root-bin-consumes-normalised-events · rejected",
+"decision/modular-monolith-no-daemon · rejected",
+"decision/hyprctl-reply-under-frame-cap · rejected",
+"decision/hyprctl-deadline · rejected",
+"decision/no-hyprland-reply-text · rejected",
+"decision/hyprland-fixture-keep-list · rejected",
+"decision/fake-hyprctl-by-file-name · rejected",
+"fit: fits 10 · not_master 0 · stands 0",
+"## 2026-11-14-hyprland-seam — Conventions: 1 row(s)\n**Section:** Conventions\n**Change:** ~ decision/unparseable-external-values-unknown · except: was «»; now «A hyprctl reply the Hyprland seam cannot parse is the seam's malformed error.»\n**Why:** decision/unparseable-external-values-unknown: The Hyprland seam answers an unparseable reply with its closed malformed error rather than an unknown value, so the convention needs that exception.\n**Ref:** .andromeda/runs/2026-11-14T09-29-36-wrap/",
+"## 2026-11-14-hyprland-seam — Occupied Resources: 2 row(s)\n**Section:** Occupied Resources\n**Change:** + name/crate/viola-hyprland — viola-hyprland\n+ name/binary/viola-hypr-tap — viola-hypr-tap\n**Why:** name/crate/viola-hyprland: The chunk adds the workspace crate viola-hyprland, an occupied crate name the registry must hold.\nname/binary/viola-hypr-tap: The chunk adds the test-only binary viola-hypr-tap to viola-e2e, an occupied binary name the registry must hold.\n**Ref:** .andromeda/runs/2026-11-14T09-29-36-wrap/",
+"## 2026-11-14-hyprland-seam — Infrastructure Patterns: 1 row(s)\n**Section:** Infrastructure Patterns\n**Change:** + decision/hyprland-seam-crate — viola-hyprland is the one compositor seam\n**Why:** decision/hyprland-seam-crate: The new crate's dependency direction and its closed request set bind every later compositor caller and no row states them.\n**Ref:** .andromeda/runs/2026-11-14T09-29-36-wrap/",
+"## 2026-11-14-hyprland-seam — Standard Contracts: 6 row(s)\n**Section:** Standard Contracts\n**Change:** + decision/hyprctl-direct-spawn — hyprctl spawned directly with a closed argv\n+ contract/hyprland-seam-errors/unsupported — Hyprland seam errors · unsupported\n+ contract/hyprland-seam-errors/unreachable — Hyprland seam errors · unreachable\n+ contract/hyprland-seam-errors/oversize — Hyprland seam errors · oversize\n+ contract/hyprland-seam-errors/malformed — Hyprland seam errors · malformed\n+ contract/hyprland-seam-errors/refused — Hyprland seam errors · refused\n**Why:** decision/hyprctl-direct-spawn: The seam's spawn and its Lua dispatch form are a new standing contract with the compositor that no-shell-out states only in general. — resolved by the operator (Q1): relayed verbatim by overseer1, 2026-11-14, inputs#I10: «Подтвердить обе (Recommended)»\ncontract/hyprland-seam-errors/unsupported: The seam's closed error set is a new contract callers branch on, and each code word is one item. — resolved by the operator (Q3): delegate operator, relayed by the overseer, 2026-11-14, inputs#I9: option 1, the five land as the proposer wrote them (area=standard-contracts, a new boundary; a technical placement, no widening)\ncontract/hyprland-seam-errors/unreachable: The seam's closed error set is a new contract callers branch on, and each code word is one item. — resolved by the operator (Q3): delegate operator, relayed by the overseer, 2026-11-14, inputs#I9: option 1, the five land as the proposer wrote them (area=standard-contracts, a new boundary; a technical placement, no widening)\ncontract/hyprland-seam-errors/oversize: The seam's closed error set is a new contract callers branch on, and each code word is one item. — resolved by the operator (Q3): delegate operator, relayed by the overseer, 2026-11-14, inputs#I9: option 1, the five land as the proposer wrote them (area=standard-contracts, a new boundary; a technical placement, no widening)\ncontract/hyprland-seam-errors/malformed: The seam's closed error set is a new contract callers branch on, and each code word is one item. — resolved by the operator (Q3): delegate operator, relayed by the overseer, 2026-11-14, inputs#I9: option 1, the five land as the proposer wrote them (area=standard-contracts, a new boundary; a technical placement, no widening)\ncontract/hyprland-seam-errors/refused: The seam's closed error set is a new contract callers branch on, and each code word is one item. — resolved by the operator (Q3): delegate operator, relayed by the overseer, 2026-11-14, inputs#I9: option 1, the five land as the proposer wrote them (area=standard-contracts, a new boundary; a technical placement, no widening)\n**Ref:** .andromeda/runs/2026-11-14T09-29-36-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 10 operation(s) · 4 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T10:59:30Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-14T09-29-36-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-14T09-29-36-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/nutype-domain-newtypes · rejected",
+"decision/nutype-newtypes · rejected",
+"decision/tolerant-external-payloads · rejected",
+"decision/fake-agent-feature-on-named-members · rejected",
+"decision/test-binaries-never-released · rejected",
+"decision/sync-crates-tokio-free · rejected",
+"decision/root-bin-consumes-normalised-events · rejected",
+"decision/modular-monolith-no-daemon · rejected",
+"decision/hyprctl-reply-under-frame-cap · rejected",
+"decision/hyprctl-deadline · rejected",
+"decision/no-hyprland-reply-text · rejected",
+"decision/hyprland-fixture-keep-list · rejected",
+"decision/fake-hyprctl-by-file-name · rejected",
+"fit: fits 10 · not_master 0 · stands 0",
+"landed tx 1070 · 10 operation(s) · 4 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T07-05-01-2026-11-14-hyprland-seam.ndjson",
+".andromeda/runs/2026-11-14T09-29-36-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T10:59:34Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-14T09-29-36-wrap/ops-main-architecture.md",
+"--results",
+".andromeda/runs/2026-11-14T09-29-36-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-14-hyprland-seam — Infrastructure Patterns: 1 row(s)\n**Section:** Infrastructure Patterns\n**Change:** ~ decision/root-bin-consumes-normalised-events · rule: was «The root bin depends on all members and holds the subcommand dispatch, the run pump, the wheel and the budget governor, all of which consume only normalised events.»; now «The root bin holds the subcommand dispatch, the run pump, the wheel and the budget governor, all of which consume only normalised events.»\n**Why:** decision/root-bin-consumes-normalised-events: The row's «depends on all members» is false: viola-hyprland is a root dev-dependency only while no verb calls the seam (and viola-e2e is no root dependency at all), so the claim is dropped rather than lengthened (fit read the proposer's longer set not_master type 4).\n**Ref:** .andromeda/runs/2026-11-14T09-29-36-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T10:59:38Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-14T09-29-36-wrap/ops-main-architecture.md",
+"--results",
+".andromeda/runs/2026-11-14T09-29-36-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 1071 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T07-05-01-2026-11-14-hyprland-seam.ndjson",
+".andromeda/runs/2026-11-14T09-29-36-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T10:59:38Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-14T09-29-36-wrap/ops-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-14T09-29-36-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/hyprctl-caller-resolved-program · rejected",
+"decision/hyprctl-dispatch-closed-values · rejected",
+"decision/hyprland-fixtures-closed-keep-list · rejected",
+"fit: fits 6 · not_master 0 · stands 0",
+"## 2026-11-14-hyprland-seam — Threat Model Summary: 2 row(s)\n**Section:** Threat Model Summary\n**Change:** ~ decision/child-output-tolerant · rule: was «Output of spawned children is parsed tolerantly and a failure becomes unknown.»; now «Output of spawned children is parsed tolerantly, and a failure becomes unknown or a closed failure word.»\n~ decision/child-output-tolerant-unknown · rule: was «Child output parsing is tolerant, and a failure becomes unknown.»; now «Child output parsing is tolerant, and a failure becomes unknown or a closed failure word.»\n**Why:** decision/child-output-tolerant: The hyprctl reply read parses tolerantly but reads each failure as one of the seam's closed words (oversize, malformed, unreachable), so a failure that only ever becomes unknown no longer holds.\ndecision/child-output-tolerant-unknown: The hyprctl reply read parses tolerantly but reads each failure as one of the seam's closed words, so a failure that only ever becomes unknown no longer holds.\n**Ref:** .andromeda/runs/2026-11-14T09-29-36-wrap/",
+"## 2026-11-14-hyprland-seam — Input Validation: 3 row(s)\n**Section:** Input Validation\n**Change:** ~ decision/shared-validators-in-core · except: was «»; now «The Hyprland seam's window Address validator lives in the seam crate.»\n~ decision/parser-fuzz-scope · rule: was «Paste text validation, channel ndjson framing, the hook stdin parser, the claude agents output parser and the vt100 feed are in scope for fuzz and property coverage.»; now «Paste text validation, channel ndjson framing, the hook stdin parser, the claude agents output parser, the hyprctl reply parsers and the vt100 feed are in scope for fuzz and property coverage.»\n+ decision/hyprctl-read-deadline — hyprctl child bounded by a deadline\n**Why:** decision/shared-validators-in-core: The new Address newtype and its predicate stand in viola-hyprland rather than viola-core, so the row's rule needs its named exception to stay true.\ndecision/parser-fuzz-scope: The hyprctl reply parsers are a new external-input parser surface brought under a fuzz target and per-parser property tests, so the row's scope of parser surfaces must name them.\ndecision/hyprctl-read-deadline: The seam adds a new spawned child whose deadline is applied ahead of its settlement against a measured need, so the bound and its provisional state must stand for the planner.\n**Ref:** .andromeda/runs/2026-11-14T09-29-36-wrap/",
+"## 2026-11-14-hyprland-seam — Data Protection: 1 row(s)\n**Section:** Data Protection\n**Change:** + decision/hyprland-reply-text-dropped — Hyprland reply text dropped at the parse\n**Why:** decision/hyprland-reply-text-dropped: The new seam reads compositor replies carrying window titles, and the choice to keep none of that text must bind every later caller.\n**Ref:** .andromeda/runs/2026-11-14T09-29-36-wrap/",
+"patterns: none: 4 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 6 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T10:59:44Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-14T09-29-36-wrap/ops-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-14T09-29-36-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/hyprctl-caller-resolved-program · rejected",
+"decision/hyprctl-dispatch-closed-values · rejected",
+"decision/hyprland-fixtures-closed-keep-list · rejected",
+"fit: fits 6 · not_master 0 · stands 0",
+"landed tx 1072 · 6 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T07-05-01-2026-11-14-hyprland-seam.ndjson",
+".andromeda/runs/2026-11-14T09-29-36-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T10:59:44Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-14T09-29-36-wrap/ops-main-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-14T09-29-36-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-14-hyprland-seam — Data Protection: 1 row(s)\n**Section:** Data Protection\n**Change:** + decision/hyprland-recorder-string-allowlist — Hyprland recorder keeps strings by a closed allowlist\n**Why:** decision/hyprland-recorder-string-allowlist: The recorder's rule is the closed keep-list the P5 review folded (inputs#I3 item 1) inside the founder's own answer to the P4 recorder fork (inputs#I2 Q2), and the plan's expected amendment names this handle; no standing row states it. — resolved by the operator (Q2): relayed verbatim by overseer1, 2026-11-14, inputs#I10: «Подтвердить обе (Recommended)»\n**Ref:** .andromeda/runs/2026-11-14T09-29-36-wrap/",
+"patterns: none — the call sets and retires no row",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T10:59:49Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-14T09-29-36-wrap/ops-main-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-14T09-29-36-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 1073 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T07-05-01-2026-11-14-hyprland-seam.ndjson",
+".andromeda/runs/2026-11-14T09-29-36-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T10:59:49Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-14T09-29-36-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-14T09-29-36-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/hyprland-replies-keep-list · rejected",
+"fit: fits 16 · not_master 0 · stands 0",
+"## 2026-11-14-hyprland-seam — 1. Test Scope Summary: 1 row(s)\n**Section:** 1. Test Scope Summary\n**Change:** ~ decision/fixtures-recorded-by-live-verify · rule: was «The recorded agent hook, dialog, framing, status line, resume and screen fixtures are refreshed only by a live viola verify run, locally; the recorded MCP exchange fixtures by the test-only viola-mcp-tap.»; now «The recorded agent hook, dialog, framing, status line, resume and screen fixtures are refreshed only by a live viola verify run, locally; the recorded MCP exchange fixtures by the test-only viola-mcp-tap; the recorded Hyprland replies by the test-only viola-hypr-tap.»\n**Why:** decision/fixtures-recorded-by-live-verify: A second test-only recorder, viola-hypr-tap, now records the Hyprland replies, so the row naming who refreshes each fixture kind must name it.\n**Ref:** .andromeda/runs/2026-11-14T09-29-36-wrap/",
+"## 2026-11-14-hyprland-seam — 7. Test Data & Fixtures: 4 row(s) (1 of 2)\n**Section:** 7. Test Data & Fixtures\n**Change:** ~ decision/fixture-hygiene-walk · rule: was «One run-time directory walk checks every fixture for absolute paths, non-placeholder usernames, email-shaped tokens and usernames split across a screen row seam, and validates each file against its JSON schema.»; now «One run-time directory walk checks every fixture for absolute paths, non-placeholder usernames, email-shaped tokens and usernames split across a screen row seam, validates each file against its JSON schema, and holds each Hyprland reply to its closed per-request string keep-list.»\n~ decision/fake-agent-on-test-path · rule: was «The fake agent stands as claude in a test-scoped bin dir, answering from files beside its exe with no env var, and every test-started list or revive runs under a test-scoped PATH.»; now «The fake agent stands as claude in a test-scoped bin dir, or as hyprctl by its own file name, answering from files beside its exe with no env var, and every test-started list or revive runs under a test-scoped PATH.»\n~ contract/fake-agent-cli/argv-only-options · promise: was «The fake agent's modes and options are taken from argv only, never from the environment.»; now «The fake agent's modes and options are taken from argv only, never from the environment; standing as hyprctl, its mode is read from a file beside its exe.»\n~ decision/recorder-scrub · rule: was «The viola verify recorder rewrites home paths to ~ and usernames to <user> in hook payloads and status line variants before writing, and the test-only viola-mcp-tap fixture applies the same scrub.»; now «The viola verify recorder rewrites home paths to ~ and usernames to <user> in hook payloads and status line variants before writing, and the test-only viola-mcp-tap and viola-hypr-tap apply the same scrub.»\n**Why:** decision/fixture-hygiene-walk: The hygiene walk gained a Hyprland class that checks the recorder's closed keep-list, so the walk's rule must state that check.\ndecision/fake-agent-on-test-path: The fake agent gained a hyprctl personality chosen by its file name and configured from files beside its exe, so the row on where and how it stands must say so.\ncontract/fake-agent-cli/argv-only-options: The hyprctl personality reads its mode from a file beside its exe, so the argv-only promise no longer holds without that exception.\ndecision/recorder-scrub: viola-hypr-tap runs the same home-path and username scrub after its keep-list, so the row naming the recorders that apply the scrub must hold it.\n**Ref:** .andromeda/runs/2026-11-14T09-29-36-wrap/",
+"## 2026-11-14-hyprland-seam — 7. Test Data & Fixtures: 1 row(s) (2 of 2)\n**Section:** 7. Test Data & Fixtures\n**Change:** ~ decision/dirty-payload-refuses-recording · rule: was «A recorded payload or MCP exchange that fails the unclean check refuses the whole recording.»; now «A recorded payload, MCP exchange or Hyprland reply set that fails the unclean check refuses the whole recording.»\n**Why:** decision/dirty-payload-refuses-recording: viola-hypr-tap refuses a dirty Hyprland set whole by file and closed code, so the refusal rule must cover that recording too.\n**Ref:** .andromeda/runs/2026-11-14T09-29-36-wrap/",
+"## 2026-11-14-hyprland-seam — 7. Test Data & Fixtures: 2 row(s)\n**Section:** 7. Test Data & Fixtures\n**Change:** ~ decision/fixtures-walked-for-hygiene · rule: was «Every committed fake script and Claude fixture is walked against its schema and for absolute paths, usernames and emails, with planted cases proving each class red.»; now «Every committed fake script, Claude fixture and Hyprland fixture is walked against its schema and for absolute paths, usernames and emails, with planted cases proving each class red.»\n~ decision/fake-agent-argv-only · except: was «»; now «Standing as hyprctl by its own file name, the fake agent reads its mode and reply set from files beside its exe.»\n**Why:** decision/fixtures-walked-for-hygiene: The recorded Hyprland fixtures now join the hygiene walk with their own planted cases, so the row listing what is walked is incomplete without them.\ndecision/fake-agent-argv-only: The hyprctl personality takes its mode word from a file beside its exe rather than argv, an exception the argv-only rule must name.\n**Ref:** .andromeda/runs/2026-11-14T09-29-36-wrap/",
+"## 2026-11-14-hyprland-seam — 5. Integration Test Strategy: 1 row(s)\n**Section:** 5. Integration Test Strategy\n**Change:** ~ decision/fake-agent-as-claude · rule: was «The only external boundary, child processes, is served in tests by viola-fake-agent as claude on a test-scoped PATH.»; now «The only external boundary, child processes, is served in tests by viola-fake-agent as claude on a test-scoped PATH, and as hyprctl in a test-scoped bin dir.»\n**Why:** decision/fake-agent-as-claude: hyprctl is now a second external child process, served in tests by the same fake agent, so the row naming the boundary's only stand-in is incomplete.\n**Ref:** .andromeda/runs/2026-11-14T09-29-36-wrap/",
+"## 2026-11-14-hyprland-seam — 8. Mocking & Stubbing Discipline: 1 row(s)\n**Section:** 8. Mocking & Stubbing Discipline\n**Change:** ~ decision/fakes-for-external-services · rule: was «The real claude CLI is replaced by the native viola-fake-agent binary, both as the PTY child and as claude on a test-scoped PATH, and Anthropic usage values by generated statusline stdin; tests never reach the real services.»; now «The real claude CLI is replaced by the native viola-fake-agent binary, both as the PTY child and as claude on a test-scoped PATH, the real hyprctl by the same binary as hyprctl, and Anthropic usage values by generated statusline stdin; tests never reach the real services.»\n**Why:** decision/fakes-for-external-services: The real hyprctl is now an external service the tests replace with the fake agent, so the list of replaced services must hold it.\n**Ref:** .andromeda/runs/2026-11-14T09-29-36-wrap/",
+"## 2026-11-14-hyprland-seam — 2. Test Strategy: 1 row(s)\n**Section:** 2. Test Strategy\n**Change:** ~ decision/ci-never-real-claude · rule: was «CI never touches the real claude.»; now «CI never touches the real claude or the real hyprctl.»\n**Why:** decision/ci-never-real-claude: The Hyprland seam is held in CI only by the recorded set replayed through the fake and no CI image carries hyprctl, so the never-in-CI rule extends to it.\n**Ref:** .andromeda/runs/2026-11-14T09-29-36-wrap/",
+"## 2026-11-14-hyprland-seam — 4. Unit Test Strategy: 1 row(s)\n**Section:** 4. Unit Test Strategy\n**Change:** ~ decision/bounded-readers-keep-the-cap · rule: was «The status line shell-out, the version gate drain and the thresholds, dialog hold and env-keep readers keep no more than the frame cap of what they read; a command the cut ends is a failed command.»; now «The status line shell-out, the version gate drain, the hyprctl reader and the thresholds, dialog hold and env-keep readers keep no more than the frame cap of what they read; a command the cut ends is a failed command.»\n**Why:** decision/bounded-readers-keep-the-cap: The new hyprctl reader keeps at most the frame cap and reads a cut reply as oversize, held by its BOUNDARIES row, so the list of bounded readers must hold it.\n**Ref:** .andromeda/runs/2026-11-14T09-29-36-wrap/",
+"## 2026-11-14-hyprland-seam — 6. E2E Test Strategy: 1 row(s)\n**Section:** 6. E2E Test Strategy\n**Change:** ~ decision/property-tests-on-parsers · rule: was «proptest at 512 cases covers every parser surface: paste validation, ndjson framing at the frame cap plus and minus one, the hook stdin, statusline and agents parsers, the vt100 feed and prompt-submitted normalisation, with its regressions directory committed.»; now «proptest at 512 cases covers every parser surface: paste validation, ndjson framing at the frame cap plus and minus one, the hook stdin, statusline, agents and hyprctl reply parsers, the vt100 feed and prompt-submitted normalisation, with its regressions directory committed.»\n**Why:** decision/property-tests-on-parsers: The hyprctl reply parsers are a new parser surface under 512-case proptests with committed regressions, so the row listing every parser surface is incomplete.\n**Ref:** .andromeda/runs/2026-11-14T09-29-36-wrap/",
+"## 2026-11-14-hyprland-seam — 1. Test Scope Summary: 1 row(s)\n**Section:** 1. Test Scope Summary\n**Change:** ~ decision/parser-property-fuzz-coverage · rule: was «Property and fuzz tests cover paste-text validation, channel ndjson framing at the MAX_FRAME boundary, the hook stdin parser, the agents listing parser, the vt100 feed and prompt-submitted normalisation.»; now «Property and fuzz tests cover paste-text validation, channel ndjson framing at the MAX_FRAME boundary, the hook stdin parser, the agents listing parser, the hyprctl reply parsers, the vt100 feed and prompt-submitted normalisation.»\n**Why:** decision/parser-property-fuzz-coverage: The hyprctl reply parsers joined the property tests and the fuzz replay as hyprctl_json, so the row listing the covered parser surfaces must name them.\n**Ref:** .andromeda/runs/2026-11-14T09-29-36-wrap/",
+"## 2026-11-14-hyprland-seam — 6. E2E Test Strategy: 1 row(s)\n**Section:** 6. E2E Test Strategy\n**Change:** ~ decision/property-tests-with-proptest · rule: was «Input parsers and validators are property-tested with proptest at 512 cases; proptest-regressions files are committed for the viola-core, hook, statusline and agents suites.»; now «Input parsers and validators are property-tested with proptest at 512 cases; proptest-regressions files are committed for the viola-core, hook, statusline, agents and Hyprland reply suites.»\n**Why:** decision/property-tests-with-proptest: The Hyprland reply parsers' proptests commit their own regression seeds, so the row naming the suites with committed regressions is incomplete.\n**Ref:** .andromeda/runs/2026-11-14T09-29-36-wrap/",
+"## 2026-11-14-hyprland-seam — 11. Test Anti-Patterns (NEVER do these): 1 row(s)\n**Section:** 11. Test Anti-Patterns (NEVER do these)\n**Change:** ~ decision/no-production-data-in-tests · rule: was «Tests never use production data; fixtures come only from `viola verify` probe text and are scrubbed of paths and usernames.»; now «Tests never use production data; fixtures come only from `viola verify` probe text or a test-only recorder's capture, scrubbed of paths and usernames.»\n**Why:** decision/no-production-data-in-tests: The Hyprland fixtures come from the test-only recorder viola-hypr-tap rather than viola verify probe text, so the row's only-source claim is false as written.\n**Ref:** .andromeda/runs/2026-11-14T09-29-36-wrap/",
+"patterns: none: 16 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 16 operation(s) · 12 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T10:59:54Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-14T09-29-36-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-14T09-29-36-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/hyprland-replies-keep-list · rejected",
+"fit: fits 16 · not_master 0 · stands 0",
+"landed tx 1074 · 16 operation(s) · 12 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T07-05-01-2026-11-14-hyprland-seam.ndjson",
+".andromeda/runs/2026-11-14T09-29-36-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T10:59:55Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-14T09-29-36-wrap/ops-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-14T09-29-36-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/viola-crates-log-at-info · rejected",
+"decision/compositor-reply-text-never-kept · rejected",
+"decision/hyprland-fixtures-keep-list · rejected",
+"decision/hyprland-seam-closed-errors · rejected",
+"decision/hyprctl-deadline · rejected",
+"fit: fits 11 · not_master 0 · stands 0",
+"## 2026-11-14-hyprland-seam — 6. Log Coverage: 5 row(s)\n**Section:** 6. Log Coverage\n**Change:** ~ contract/diag-line-fields/process-start · promise: was «subject (self, claude-child, version-probe, verify-probe, verify-pty-probe, agents-probe, statusline-shell), service_name, version, os, pid, child_pid, endpoint_kind, pty_backend, cli_version, cli_verified, env_stripped_count, env_stripped_known, env_kept (names only).»; now «subject (self, claude-child, version-probe, verify-probe, verify-pty-probe, agents-probe, statusline-shell, hyprctl-probe), service_name, version, os, pid, child_pid, endpoint_kind, pty_backend, cli_version, cli_verified, env_stripped_count, env_stripped_known, env_kept (names only).»\n~ contract/diag-line-fields/parse-rejected · promise: was «parser (claude-agents-json, vt100-feed, config-json, ledger-stamps, hook-stdin, channel-frame, mcp-stdin, state-entry), detail, count.»; now «parser (claude-agents-json, vt100-feed, config-json, ledger-stamps, hook-stdin, channel-frame, mcp-stdin, state-entry, hyprctl-json), detail, count.»\n~ contract/parse-rejected-detail/oversize · promise: was «channel-frame beyond MAX_FRAME, hook-stdin, mcp-stdin past MAX_FRAME, vt100-feed when the bounded queue drops a copy (one line per poisoning episode), claude-agents-json past MAX_FRAME.»; now «channel-frame beyond MAX_FRAME, hook-stdin, mcp-stdin past MAX_FRAME, vt100-feed when the bounded queue drops a copy (one line per poisoning episode), claude-agents-json past MAX_FRAME, hyprctl-json past MAX_FRAME.»\n+ contract/diag-subject/hyprctl-probe — diag-line subject enum · hyprctl-probe\n+ contract/parse-rejected/hyprctl-json — parse-rejected diagnostic line · parser hyprctl-json\n**Why:** contract/diag-line-fields/process-start: hyprctl-probe joined the diag-line subject enum with its emitter, so the row's closed subject list must name it.\ncontract/diag-line-fields/parse-rejected: hyprctl-json joined the parse-rejected parser enum with its emitter, so the row's parser list must name it.\ncontract/parse-rejected-detail/oversize: a hyprctl reply past MAX_FRAME is refused as oversize with a parse-rejected line of parser hyprctl-json, a new parser that writes this detail.\ncontract/diag-subject/hyprctl-probe: hyprctl-probe is a new word of the closed diag-line subject enum, and each subject word stands as its own contract row.\ncontract/parse-rejected/hyprctl-json: hyprctl-json is a new parser word of the parse-rejected line with its emitter, a promise of the log contract.\n**Ref:** .andromeda/runs/2026-11-14T09-29-36-wrap/",
+"## 2026-11-14-hyprland-seam — 1. Obs Scope Summary: 3 row(s)\n**Section:** 1. Obs Scope Summary\n**Change:** ~ decision/per-parser-parse-failure-counts · rule: was «Each parser that drops input (channel framing at MAX_FRAME, the viola mcp stdin at MAX_FRAME, hook stdin, claude agents --json, vt100 under catch_unwind) keeps its own parse-failure count; paste validation refuses a send as not-delivered instead.»; now «Each parser that drops input (channel framing at MAX_FRAME, the viola mcp stdin at MAX_FRAME, hook stdin, claude agents --json, the hyprctl replies, vt100 under catch_unwind) keeps its own parse-failure count; paste validation refuses a send as not-delivered instead.»\n~ decision/instrument-call-sites-not-os-internals · rule: was «OS-level operations (bind, connect, lock, rename, kill fallback, the server check's peer reads, the strict-modes stat reads, the socket directory check) are instrumented at viola's own call sites, not inside the OS.»; now «OS-level operations (bind, connect, lock, rename, kill fallback, the server check's peer reads, the strict-modes stat reads, the socket directory check, the hyprctl spawn) are instrumented at viola's own call sites, not inside the OS.»\n~ decision/parse-failures-surface-as-unknown · except: was «»; now «A hyprctl reply that fails its parse reads the closed error oversize or malformed with one parse-rejected line, never unknown.»\n**Why:** decision/per-parser-parse-failure-counts: the hyprctl reply parsers drop oversize and malformed input under their own parser word hyprctl-json, so the list of counting parsers must name them.\ndecision/instrument-call-sites-not-os-internals: the hyprctl spawn is instrumented at viola's own call site in the Hyprland seam, so the row's list of call-site-instrumented operations must name it.\ndecision/parse-failures-surface-as-unknown: the Hyprland seam surfaces a parse failure as a closed error word, not as unknown, so the row must name that exception.\n**Ref:** .andromeda/runs/2026-11-14T09-29-36-wrap/",
+"## 2026-11-14-hyprland-seam — 1. Obs Scope Summary: 2 row(s)\n**Section:** 1. Obs Scope Summary\n**Change:** ~ decision/os-apis-at-call-sites · rule: was «OS APIs (openpty, Unix socket, filesystem locks and atomic rename, sysinfo) are instrumented at viola's call sites only, never in the OS internals.»; now «OS APIs (openpty, Unix socket, filesystem locks and atomic rename, sysinfo) and the hyprctl spawn are instrumented at viola's call sites only, never in their internals.»\n~ decision/parse-failures-unknown-counter · except: was «»; now «A hyprctl reply that fails its parse reads the closed error oversize or malformed with one parse-rejected line, never unknown.»\n**Why:** decision/os-apis-at-call-sites: the hyprctl spawn is instrumented at viola's own call site in the Hyprland seam, so the row's list of call-site-instrumented operations must name it.\ndecision/parse-failures-unknown-counter: the Hyprland seam surfaces a child-output parse failure as a closed error word, not as unknown, so the row must name that exception.\n**Ref:** .andromeda/runs/2026-11-14T09-29-36-wrap/",
+"## 2026-11-14-hyprland-seam — 2. Telemetry Strategy: 1 row(s)\n**Section:** 2. Telemetry Strategy\n**Change:** ~ decision/span-naming · rule: was «Span names are <area>.<operation> in snake_case, <area> one of run, pty, channel, state, hook, statusline, send, wait, last, answer, pause, release, cli, mcp; cli.<verb> names the dispatch span of a short-lived verb.»; now «Span names are <area>.<operation> in snake_case, <area> one of run, pty, channel, state, hook, statusline, send, wait, last, answer, pause, release, cli, mcp, hyprland; cli.<verb> names the dispatch span of a short-lived verb.»\n**Why:** decision/span-naming: the Hyprland seam's read is the manual skip_all span hyprland.read, a span area the row's closed area list does not yet name.\n**Ref:** .andromeda/runs/2026-11-14T09-29-36-wrap/",
+"patterns: none: 9 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 11 operation(s) · 4 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T11:00:00Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-14T09-29-36-wrap/ops-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-14T09-29-36-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/viola-crates-log-at-info · rejected",
+"decision/compositor-reply-text-never-kept · rejected",
+"decision/hyprland-fixtures-keep-list · rejected",
+"decision/hyprland-seam-closed-errors · rejected",
+"decision/hyprctl-deadline · rejected",
+"fit: fits 11 · not_master 0 · stands 0",
+"landed tx 1075 · 11 operation(s) · 4 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T07-05-01-2026-11-14-hyprland-seam.ndjson",
+".andromeda/runs/2026-11-14T09-29-36-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T11:00:01Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"a11y-plan",
+"--file",
+".andromeda/runs/2026-11-14T09-29-36-wrap/ops-a11y-plan.md",
+"--results",
+".andromeda/runs/2026-11-14T09-29-36-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/time-bounds-never-on-human · rejected",
+"decision/time-bounds-fall-on-the-driver · rejected",
+"fit: fits 0 · not_master 0 · stands 0",
+"patterns: none — the call sets and retires no row",
+"dry-run · would land 0 operation(s) · 0 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T11:03:33Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/conventions.md",
+"--file",
+"./.andromeda/runs/2026-11-14T09-29-36-wrap/staged-leaf-.claude__docs__conventions.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/conventions.md rev 7 · 0 new · 2 revised · 0 retired · tx 1076"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T07-05-01-2026-11-14-hyprland-seam.ndjson",
+"./.claude/docs/conventions.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T11:03:34Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola.md",
+"--file",
+"./.andromeda/runs/2026-11-14T09-29-36-wrap/staged-leaf-.claude__docs__services__viola.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola.md rev 5 · 0 new · 1 revised · 0 retired · tx 1077"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T07-05-01-2026-11-14-hyprland-seam.ndjson",
+"./.claude/docs/services/viola.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T11:03:34Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/events.md",
+"--file",
+"./.andromeda/runs/2026-11-14T09-29-36-wrap/staged-leaf-.claude__rules__events.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/events.md rev 4 · 0 new · 1 revised · 0 retired · tx 1078"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T07-05-01-2026-11-14-hyprland-seam.ndjson",
+"./.claude/rules/events.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T11:03:35Z",
+"argv": [
+"harness",
+"land",
+"CLAUDE.md",
+"--file",
+"./.andromeda/runs/2026-11-14T09-29-36-wrap/staged-leaf-CLAUDE.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed CLAUDE.md rev 9 · 0 new · 7 revised · 0 retired · tx 1079"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T07-05-01-2026-11-14-hyprland-seam.ndjson",
+"./CLAUDE.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T11:03:35Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/security.md",
+"--file",
+"./.andromeda/runs/2026-11-14T09-29-36-wrap/staged-leaf-.claude__rules__security.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/security.md rev 9 · 0 new · 1 revised · 0 retired · tx 1080"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T07-05-01-2026-11-14-hyprland-seam.ndjson",
+"./.claude/rules/security.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T11:03:36Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/tests-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-14T09-29-36-wrap/staged-leaf-.claude__docs__tests-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/tests-summary.md rev 8 · 0 new · 2 revised · 0 retired · tx 1081"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T07-05-01-2026-11-14-hyprland-seam.ndjson",
+"./.claude/docs/tests-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T11:03:36Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/testing.md",
+"--file",
+"./.andromeda/runs/2026-11-14T09-29-36-wrap/staged-leaf-.claude__rules__testing.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/testing.md rev 17 · 0 new · 1 revised · 0 retired · tx 1082"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T07-05-01-2026-11-14-hyprland-seam.ndjson",
+"./.claude/rules/testing.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T11:03:37Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/verification-harness.md",
+"--file",
+"./.andromeda/runs/2026-11-14T09-29-36-wrap/staged-leaf-.claude__rules__verification-harness.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/verification-harness.md rev 10 · 0 new · 1 revised · 0 retired · tx 1083"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T07-05-01-2026-11-14-hyprland-seam.ndjson",
+"./.claude/rules/verification-harness.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T11:03:37Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/observability.md",
+"--file",
+"./.andromeda/runs/2026-11-14T09-29-36-wrap/staged-leaf-.claude__rules__observability.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/observability.md rev 5 · 0 new · 2 revised · 0 retired · tx 1084"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T07-05-01-2026-11-14-hyprland-seam.ndjson",
+"./.claude/rules/observability.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T11:06:11Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-14T09-29-36-wrap/route-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 2 record(s) · 2 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T11:06:15Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-14T09-29-36-wrap/route-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) · 2 edge(s) · tx 1090 · cry-ypbg67h6 … cry-bcosdllb"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T07-05-01-2026-11-14-hyprland-seam.ndjson",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T11:06:32Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-14T09-29-36-wrap/run-node.txt",
+"--run-dir",
+".andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 0 edge(s) · tx 1092 · run-wvvepl7z … run-wvvepl7z"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T07-05-01-2026-11-14-hyprland-seam.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T11:16:36Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/events.md",
+"--file",
+"./.andromeda/runs/2026-11-14T09-29-36-wrap/staged-leaf-.claude__rules__events.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/events.md rev 5 · 0 new · 1 revised · 0 retired · tx 1093"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T07-05-01-2026-11-14-hyprland-seam.ndjson",
+"./.claude/rules/events.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T11:16:37Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/frontend.md",
+"--file",
+"./.andromeda/runs/2026-11-14T09-29-36-wrap/staged-leaf-.claude__rules__frontend.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/frontend.md rev 7 · 0 new · 2 revised · 0 retired · tx 1094"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T07-05-01-2026-11-14-hyprland-seam.ndjson",
+"./.claude/rules/frontend.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T11:16:37Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/commands.md",
+"--file",
+"./.andromeda/runs/2026-11-14T09-29-36-wrap/staged-leaf-.claude__docs__commands.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/commands.md rev 11 · 0 new · 1 revised · 0 retired · tx 1095"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T07-05-01-2026-11-14-hyprland-seam.ndjson",
+"./.claude/docs/commands.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T11:16:38Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/security-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-14T09-29-36-wrap/staged-leaf-.claude__docs__security-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/security-summary.md rev 7 · 0 new · 1 revised · 0 retired · tx 1096"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T07-05-01-2026-11-14-hyprland-seam.ndjson",
+"./.claude/docs/security-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T11:16:38Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/security.md",
+"--file",
+"./.andromeda/runs/2026-11-14T09-29-36-wrap/staged-leaf-.claude__rules__security.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/security.md rev 11 · 0 new · 1 revised · 0 retired · tx 1097"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T07-05-01-2026-11-14-hyprland-seam.ndjson",
+"./.claude/rules/security.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T11:16:39Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/verification-harness.md",
+"--file",
+"./.andromeda/runs/2026-11-14T09-29-36-wrap/staged-leaf-.claude__rules__verification-harness.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/verification-harness.md rev 12 · 0 new · 2 revised · 0 retired · tx 1098"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T07-05-01-2026-11-14-hyprland-seam.ndjson",
+"./.claude/rules/verification-harness.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T11:16:39Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/observability.md",
+"--file",
+"./.andromeda/runs/2026-11-14T09-29-36-wrap/staged-leaf-.claude__rules__observability.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/observability.md rev 6 · 0 new · 1 revised · 0 retired · tx 1099"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T07-05-01-2026-11-14-hyprland-seam.ndjson",
+"./.claude/rules/observability.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T11:16:40Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/obs-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-14T09-29-36-wrap/staged-leaf-.claude__docs__obs-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-14T09-29-36-wrap",
+"--marker",
+"2026-11-14-hyprland-seam"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/obs-summary.md rev 8 · 0 new · 1 revised · 0 retired · tx 1100"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T07-05-01-2026-11-14-hyprland-seam.ndjson",
+"./.claude/docs/obs-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "b1306cd0",
+"ts": "2026-11-14T11:17:21Z",
+"argv": [
+"land",
+"--root",
+".",
+"--chunk",
+"2026-11-14-hyprland-seam",
+"--run-dir",
+".andromeda/runs/2026-11-14T09-29-36-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"unchanged · 17 file(s) of 2026-11-14-hyprland-seam"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]
