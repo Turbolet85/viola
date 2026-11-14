@@ -1,0 +1,137 @@
+[
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "7174fe7e",
+"ts": "2026-11-14T14:12:40Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-14-hyprland-exact-frame-bound-pinned",
+"--source",
+"~/dev/projects/additional/viola-overseer/wrap-exact-frame-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the operator's wrap directive for this chunk (four items): the operator away, route-resolve closes the carry, the report's closing block, escalation of a new key",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T14-12-25-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy no-repo · ../additional/viola-overseer/wrap-exact-frame-directive.md",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-wrap-exact-frame-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/wrap-exact-frame-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "33d13ebc5fb7957ee61ba73b9c71fac0917690522c2c27828270c2506bcdbba1",
+"copy": "I3-wrap-exact-frame-directive.md.txt",
+"link": false,
+"read_at": "2026-11-14T14:12:40Z",
+"step": "wrap",
+"why": "the operator's wrap directive for this chunk (four items): the operator away, route-resolve closes the carry, the report's closing block, escalation of a new key"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "7174fe7e",
+"ts": "2026-11-14T14:12:50Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-14-hyprland-exact-frame-bound-pinned",
+"--run-dir",
+".andromeda/runs/2026-11-14T14-12-25-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-exact-frame-directive.md",
+"I1 cited scope.md:14 · research.md:8 · plan.md:18 · plan.md:19 · plan.md:44 · plan.md:60 · plan.md:76 · plan.md:80 · plan.md:90 · plan.md:140 (in fence) · plan.md:149 (in fence) · plan.md:214 · plan.md:218 · plan.md:240 · plan.md:252",
+"I2 n/a — a message has no live source · copy message · message: the operator channel of this session; its remark names itself the overseer technical answer",
+"I2 UNCITED",
+"I3 unchanged · copy no-repo · ../additional/viola-overseer/wrap-exact-frame-directive.md",
+"I3 UNCITED",
+"inputs: 3 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 2 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 3,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 2,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "7174fe7e",
+"ts": "2026-11-14T14:14:42Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-14-hyprland-exact-frame-bound-pinned",
+"--run-dir",
+".andromeda/runs/2026-11-14T14-12-25-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-exact-frame-directive.md",
+"I1 cited scope.md:14 · research.md:8 · plan.md:18 · plan.md:19 · plan.md:44 · plan.md:60 · plan.md:76 · plan.md:80 · plan.md:90 · plan.md:140 (in fence) · plan.md:149 (in fence) · plan.md:214 · plan.md:218 · plan.md:240 · plan.md:252",
+"I2 n/a — a message has no live source · copy message · message: the operator channel of this session; its remark names itself the overseer technical answer",
+"I2 cited report.md:28 · report.md:42",
+"I3 unchanged · copy no-repo · ../additional/viola-overseer/wrap-exact-frame-directive.md",
+"I3 cited report.md:28 · report.md:30 · report.md:46",
+"inputs: 3 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 3,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 0,
+"unparsed": 0
+}
+}
+]

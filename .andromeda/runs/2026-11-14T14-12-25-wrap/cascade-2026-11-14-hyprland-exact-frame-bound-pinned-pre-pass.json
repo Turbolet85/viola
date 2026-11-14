@@ -1,0 +1,106 @@
+[
+{
+"tool": "cascade",
+"v": "1.34",
+"sha8": "8af87931",
+"ts": "2026-11-14T14:13:12Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-14T14-12-25-wrap/report-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-11-14T14-12-25-wrap",
+"--marker",
+"2026-11-14-hyprland-exact-frame-bound-pinned"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [
+"baseline aae35c72 (pre-pass — HEAD)",
+"hyprcount · control UNFIRED over the seven masters (bodies and sets) at aae35c72"
+],
+"stderr": "control: hyprcount never fired over the seven masters' pre-pass text, bodies and sets (aae35c72) — no master holds them: re-fire with --pattern exactframe --pattern survivors; this refusal, the trail's record, is the basis of each named pattern's master zero",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "cascade",
+"v": "1.34",
+"sha8": "8af87931",
+"ts": "2026-11-14T14:13:18Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-14T14-12-25-wrap/report-patterns.toml",
+"--pattern",
+"exactframe",
+"--pattern",
+"survivors",
+"--run-dir",
+".andromeda/runs/2026-11-14T14-12-25-wrap",
+"--marker",
+"2026-11-14-hyprland-exact-frame-bound-pinned"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline aae35c72 (pre-pass — HEAD)",
+"test-plan · 7 rows over 1 files · new 0 · standing 7 · 2 patterns",
+"by line · 0 lines · 0 offsets",
+"total (2 patterns) · 13 rows over 7 files",
+"per class · new 0/0 · standing 7/1 · leaf 3/3 · curation 3/3 · base 0/0",
+"rows 1/1 · .andromeda/runs/2026-11-14T14-12-25-wrap/sweep-pre-pass-1.1.txt · 18 lines · 1951 B"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-14T14-12-25-wrap/sweep-pre-pass-1.1.txt"
+],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "aae35c7294701f4643ea35e4e99dc350c2c33b53",
+"how": "pre-pass — HEAD",
+"counts": {
+"exactframe": {
+"new": 0,
+"standing": 2,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"survivors": {
+"new": 0,
+"standing": 5,
+"leaf": 3,
+"curation": 3,
+"base": 0
+}
+},
+"bare": [],
+"masters": {
+"test-plan": {
+"rows": 7,
+"files": 1,
+"new": 0,
+"standing": 7,
+"patterns": 2
+}
+},
+"per_master": {
+"exactframe": {
+"test-plan": 2
+},
+"survivors": {
+"test-plan": 5
+}
+},
+"forms": {},
+"parts": [
+"sweep-pre-pass-1.1.txt"
+]
+}
+}
+]

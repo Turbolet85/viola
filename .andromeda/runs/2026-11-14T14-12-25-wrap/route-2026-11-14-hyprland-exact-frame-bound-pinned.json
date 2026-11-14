@@ -1,0 +1,67 @@
+[
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "ff3e7da7",
+"ts": "2026-11-14T14:36:02Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-14-hyprland-exact-frame-bound-pinned",
+"--date",
+"2026-11-14",
+"--run-dir",
+".andromeda/runs/2026-11-14T14-12-25-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-pqnlx5pz strip CARRY: 939ch \"CARRY: the Epoch 1 audit's two survivors\"",
+"pin next markerless chk-vr5sssyv holds no freight",
+"2026-11-14-hyprland-exact-frame-bound-pinned · strip 1 block(s) · spent in the spine",
+"dry-run · would flip 2026-11-14-hyprland-exact-frame-bound-pinned pending -> complete"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "ff3e7da7",
+"ts": "2026-11-14T14:36:07Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-14-hyprland-exact-frame-bound-pinned",
+"--date",
+"2026-11-14",
+"--run-dir",
+".andromeda/runs/2026-11-14T14-12-25-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-pqnlx5pz strip CARRY: 939ch \"CARRY: the Epoch 1 audit's two survivors\"",
+"pin next markerless chk-vr5sssyv holds no freight",
+"flip 2026-11-14-hyprland-exact-frame-bound-pinned pending -> complete · tx 1154",
+"compacted 1 complete line(s) — their freight spent in the spine, no archive (U61)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T12-56-37-2026-11-14-hyprland-exact-frame-bound-pinned.ndjson",
+"./.andromeda/master-route.md",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]

@@ -1,0 +1,7 @@
+--- a/.andromeda/test-plan.md
++++ b/.andromeda/test-plan.md
+@@ -936,3 +936,3 @@
+ ## test-plan · 8-mocking-stubbing-discipline · twin mocking-stubbing-discipline
+-decision/fakes-for-external-services · fakes replace external services — The real claude CLI is replaced by the native viola-fake-agent binary, both as the PTY child and as claude on a test-scoped PATH, the real hyprctl by the same binary as hyprctl, and Anthropic usage values by generated statusline stdin; tests never reach the real services.
++decision/fakes-for-external-services · fakes replace external services — The real claude CLI is replaced by the native viola-fake-agent binary, both as the PTY child and as claude on a test-scoped PATH, the real hyprctl by the same binary as hyprctl, and Anthropic usage values by generated statusline stdin; tests never reach the real services. · except: viola-hyprland's own unit tests serve hyprctl by a planted shell stub, because cargo-mutants runs only the mutated package's tests, so a root-package test cannot kill that crate's mutants.
+ decision/filesystem-not-mocked · real filesystem in tests — The filesystem and on-disk state are not mocked; a real tempfile home is used everywhere. · why: Modes, file locking, torn lines and symlink handling are the behaviour under test.

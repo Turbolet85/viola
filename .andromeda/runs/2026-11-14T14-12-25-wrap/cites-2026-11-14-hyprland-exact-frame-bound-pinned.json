@@ -1,0 +1,215 @@
+[
+{
+"tool": "cites",
+"v": "1.16",
+"sha8": "a794d756",
+"ts": "2026-11-14T14:12:50Z",
+"argv": [
+"added",
+"--out",
+".andromeda/runs/2026-11-14T14-12-25-wrap/new-text.md",
+"--run-dir",
+".andromeda/runs/2026-11-14T14-12-25-wrap",
+"--marker",
+"2026-11-14-hyprland-exact-frame-bound-pinned"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: 2414270c — the parent of the oldest pre-CI commit aae35c72",
+"crates/viola-hyprland/src/read.rs — added 21 line(s) in 1 range(s)",
+"crates/viola-hyprland/src/reply.rs — added 8 line(s) in 1 range(s)",
+"new text: 2 file(s) · 0 new · 2 added range(s) · 29 line(s) · 1 block(s) → .andromeda/runs/2026-11-14T14-12-25-wrap/new-text.md (10 lines) · written"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-14T14-12-25-wrap/new-text.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"base": "2414270c1ce5e8e3fb2df262a1aef2467758d113",
+"counts": {
+"files": 2,
+"new": 0,
+"ranges": 2,
+"lines": 29,
+"blocks": 1
+},
+"out": ".andromeda/runs/2026-11-14T14-12-25-wrap/new-text.md",
+"state": "written",
+"lines": 10
+}
+},
+{
+"tool": "cites",
+"v": "1.16",
+"sha8": "a794d756",
+"ts": "2026-11-14T14:15:08Z",
+"argv": [
+"apply",
+"--dry-run",
+"--run-dir",
+".andromeda/runs/2026-11-14T14-12-25-wrap",
+"--marker",
+"2026-11-14-hyprland-exact-frame-bound-pinned"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: 25348549 — the previous sweep (2026-11-14T09-29-36-wrap)",
+"masters: rows — a row holds no citation",
+"sites 4 (bare \":digits\" 94) over 36 file(s) · unmoved 0 · moved 0 · stretched 0 · changed 0",
+"out-of-range 0 · unresolved 0 · new 4 · repointed 0 · hand 0 · held 0 · INDETERMINATE 0 · listed, not written 0",
+"rows: 0 owed a read — the cites batch reads them from this call's trail record",
+"dry-run · would land 0 fact(s) · 0 edge(s)",
+"dry-run: 0 citation(s) in 0 file(s) — nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"mode": "sweep",
+"base": "25348549b037fa33a8419643776fc2240183f91c",
+"counts": {
+"unmoved": 0,
+"moved": 0,
+"stretched": 0,
+"changed": 0,
+"out-of-range": 0,
+"unresolved": 0,
+"new": 4,
+"repointed": 0,
+"hand": 0,
+"INDETERMINATE": 0,
+"held": 0,
+"listed": 0
+},
+"rows": [],
+"applied": false,
+"owed": []
+}
+},
+{
+"tool": "cites",
+"v": "1.16",
+"sha8": "a794d756",
+"ts": "2026-11-14T14:15:13Z",
+"argv": [
+"apply",
+"--run-dir",
+".andromeda/runs/2026-11-14T14-12-25-wrap",
+"--marker",
+"2026-11-14-hyprland-exact-frame-bound-pinned"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: 25348549 — the previous sweep (2026-11-14T09-29-36-wrap)",
+"masters: rows — a row holds no citation",
+"sites 4 (bare \":digits\" 94) over 36 file(s) · unmoved 0 · moved 0 · stretched 0 · changed 0",
+"out-of-range 0 · unresolved 0 · new 4 · repointed 0 · hand 0 · held 0 · INDETERMINATE 0 · listed, not written 0",
+"rows: 0 owed a read — the cites batch reads them from this call's trail record",
+"landed 0 fact(s) · 0 edge(s) · tx 1141",
+"re-pointed 0 citation(s) in 0 file(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"mode": "sweep",
+"base": "25348549b037fa33a8419643776fc2240183f91c",
+"counts": {
+"unmoved": 0,
+"moved": 0,
+"stretched": 0,
+"changed": 0,
+"out-of-range": 0,
+"unresolved": 0,
+"new": 4,
+"repointed": 0,
+"hand": 0,
+"INDETERMINATE": 0,
+"held": 0,
+"listed": 0
+},
+"rows": [],
+"applied": true,
+"owed": []
+}
+},
+{
+"tool": "cites",
+"v": "1.16",
+"sha8": "a794d756",
+"ts": "2026-11-14T14:15:13Z",
+"argv": [
+"dispositions",
+"--write",
+"--run-dir",
+".andromeda/runs/2026-11-14T14-12-25-wrap",
+"--marker",
+"2026-11-14-hyprland-exact-frame-bound-pinned"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dispositions: 0 row(s) · ",
+".andromeda/runs/2026-11-14T14-12-25-wrap/citation-dispositions.md (1 lines) · written",
+"hand re-points: 0 written in 0 file(s) · 0 already written"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-14T14-12-25-wrap/citation-dispositions.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"rows": 0,
+"tally": {},
+"state": "written"
+}
+},
+{
+"tool": "cites",
+"v": "1.16",
+"sha8": "a794d756",
+"ts": "2026-11-14T14:33:10Z",
+"argv": [
+"added",
+"--out",
+".andromeda/runs/2026-11-14T14-12-25-wrap/new-text.md",
+"--run-dir",
+".andromeda/runs/2026-11-14T14-12-25-wrap",
+"--marker",
+"2026-11-14-hyprland-exact-frame-bound-pinned"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: 2414270c — the parent of the oldest pre-CI commit aae35c72",
+"crates/viola-hyprland/src/read.rs — added 21 line(s) in 1 range(s)",
+"crates/viola-hyprland/src/reply.rs — added 8 line(s) in 1 range(s)",
+"new text: 2 file(s) · 0 new · 2 added range(s) · 29 line(s) · 1 block(s) → .andromeda/runs/2026-11-14T14-12-25-wrap/new-text.md (10 lines) · unchanged"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"base": "2414270c1ce5e8e3fb2df262a1aef2467758d113",
+"counts": {
+"files": 2,
+"new": 0,
+"ranges": 2,
+"lines": 29,
+"blocks": 1
+},
+"out": ".andromeda/runs/2026-11-14T14-12-25-wrap/new-text.md",
+"state": "unchanged",
+"lines": 10
+}
+}
+]

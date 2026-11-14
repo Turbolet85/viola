@@ -1,0 +1,727 @@
+[
+{
+"tool": "gate",
+"v": "1.35",
+"sha8": "3fed1b3c",
+"ts": "2026-11-14T14:12:50Z",
+"argv": [
+"scope",
+"--chunk",
+"2026-11-14-hyprland-exact-frame-bound-pinned",
+"--run-dir",
+".andromeda/runs/2026-11-14T14-12-25-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base 2414270c (the parent of the oldest pre-CI commit aae35c72) · lists new 0 · modify 2 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"scope: clean — changed 2 · listed 2 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 224"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "2414270c1ce5e8e3fb2df262a1aef2467758d113",
+"base_why": "the parent of the oldest pre-CI commit aae35c72",
+"counts": {
+"changed": 2,
+"listed": 2,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 224,
+"unparsed": 0,
+"widening_without_word": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.35",
+"sha8": "3fed1b3c",
+"ts": "2026-11-14T14:14:36Z",
+"argv": [
+"census",
+"--comm",
+"cargo",
+"--comm",
+"cargo-nextest",
+"--comm",
+"hyprctl",
+"--comm",
+"viola-fake-agent",
+"--args",
+"projects/viola/target/debug/viola",
+"--run-dir",
+".andromeda/runs/2026-11-14T14-12-25-wrap",
+"--marker",
+"2026-11-14-hyprland-exact-frame-bound-pinned"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"census · ps · comm cargo, cargo-nextest, hyprctl, viola-fake-agent · args projects/viola/target/debug/viola · own tree excluded: 8",
+"census: none running"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"census": {
+"comm": [
+"cargo",
+"cargo-nextest",
+"hyprctl",
+"viola-fake-agent"
+],
+"args": [
+"projects/viola/target/debug/viola"
+],
+"running": []
+}
+}
+},
+{
+"tool": "gate",
+"v": "1.35",
+"sha8": "3fed1b3c",
+"ts": "2026-11-14T14:35:05Z",
+"argv": [
+"run",
+"--chunk",
+"2026-11-14-hyprland-exact-frame-bound-pinned",
+"--run-dir",
+".andromeda/runs/2026-11-14T14-12-25-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-11-14-hyprland-exact-frame-bound-pinned · entries 15",
+"logs $TMPDIR/andromeda-gate/2026-11-14-hyprland-exact-frame-bound-pinned/wrap-2026-11-14T14-12-25 · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 166",
+"walk-class rust 7 (tests/cli_controls_not_disableable.rs, tests/contract_bounded_readers.rs, tests/contract_error_bodies.rs, +4 in the trail) · uncommitted 166",
+"prose L90-97: - **Not run: the smoke and the leg gates.** No boot path changes and no live leg runs (`in… (753 chars)",
+"  1 lint        green · exit 0 · 1.38s · 0 B → 1.log · cargo fmt --all --check",
+"  2 lint        green · exit 0 · 0.24s · 72 B → 2.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 lint        green · exit 0 · 0.15s · 72 B → 3.log · cargo check --workspace --all-targets",
+"  4 unit        green · exit 0 · 0.44s · 10583 B → 4.log · cargo nextest run -p viola-hyprland --no-fail-fast",
+"  5 unit        green · exit 0 · 0.37s · 616 B → 5.log · cargo nextest run -p viola-hyprland --no-fail-fast -E \"tes… (250 chars)",
+"  6 integration green · exit 0 · 0.52s · 4610 B → 6.log · cargo nextest run -p viola --features fake-agent --test co… (110 chars)",
+"  7 probe       green · exit 0 · 0.0s · 2 B → 7.log · grep -c 'let reply = if ran.stdout.len() as u64 > MAX_FRAM… (96 chars)",
+"  8 probe       green · exit 0 · 0.0s · 2 B → 8.log · grep -c 'if bytes.len() as u64 > MAX_FRAME {' crates/viola… (80 chars)",
+"  9 probe       green · exit 0 · 0.01s · 2 B → 9.log · git diff --name-only 2414270c1ce5 -- crates src tests fuzz… (113 chars)",
+" 10 unit        green · exit 0 · 7.16s · 364900 B → 10.log · bash scripts/agent-run.sh run --unit",
+" 11 probe       green · exit 0 · 0.1s · 45 B → 11.log · bash scripts/agent-run.sh gate --require nextest-unit",
+" 12 probe       green · exit 0 · 99.8s · 477667 B → 12.log · bash scripts/agent-run.sh pre-push",
+" 13 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ga… (71 chars)",
+" 14 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (82 chars)",
+" 15 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ci… (95 chars)",
+"entries 15 · green 12 · red 0 · recorded 0 · timeout 0 · not-run 3"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-11-14-hyprland-exact-frame-bound-pinned",
+"plan": "doc:2026-11-14-hyprland-exact-frame-bound-pinned/plan",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-11-14-hyprland-exact-frame-bound-pinned/wrap-2026-11-14T14-12-25",
+"delta": {
+"docs": [
+".andromeda/db/log/2026-11-14T12-56-37-2026-11-14-hyprland-exact-frame-bound-pinned.ndjson",
+".andromeda/runs/2026-11-14T13-54-59-implement/gate-2026-11-14-hyprland-exact-frame-bound-pinned.json",
+".claude/docs/tests-summary.md",
+".claude/rules/verification-harness.md",
+".claude/session-handoff.md",
+"viola-0.2.0/working-route.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/.raw-arch-pick-p9.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/.raw-obs-pick-p1.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/.raw-obs-pick-p7.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/a11y-pick-counts.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/a11y-pick-p1.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/a11y-pick-p1.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/a11y-pick-p2.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/a11y-pick-p2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/a11y-pick-p3.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/a11y-pick-p3.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/a11y-standing.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/a11y-task.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/arch-pick-counts.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/arch-pick-p1.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/arch-pick-p1.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/arch-pick-p10.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/arch-pick-p10.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/arch-pick-p2.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/arch-pick-p2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/arch-pick-p3.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/arch-pick-p3.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/arch-pick-p4.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/arch-pick-p4.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/arch-pick-p5.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/arch-pick-p5.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/arch-pick-p6.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/arch-pick-p6.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/arch-pick-p7.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/arch-pick-p7.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/arch-pick-p8.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/arch-pick-p8.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/arch-pick-p9.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/arch-pick-p9.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/arch-standing.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/arch-task.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/carry-batch.txt",
+".andromeda/runs/2026-11-14T14-12-25-wrap/cascade-2026-11-14-hyprland-exact-frame-bound-pinned-pre-pass.json",
+".andromeda/runs/2026-11-14T14-12-25-wrap/cascade-2026-11-14-hyprland-exact-frame-bound-pinned.json",
+".andromeda/runs/2026-11-14T14-12-25-wrap/cascade-tally.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/citation-dispositions.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/cites-2026-11-14-hyprland-exact-frame-bound-pinned.json",
+".andromeda/runs/2026-11-14T14-12-25-wrap/cites-land-2026-11-14-hyprland-exact-frame-bound-pinned.ndjson",
+".andromeda/runs/2026-11-14T14-12-25-wrap/curation.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/design-pick-counts.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/design-pick-p1.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/design-pick-p1.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/design-pick-p2.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/design-pick-p2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/design-pick-p3.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/design-pick-p3.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/design-pick-p4.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/design-pick-p4.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/design-standing.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/design-task.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/evolve-2026-11-14-hyprland-exact-frame-bound-pinned.json",
+".andromeda/runs/2026-11-14T14-12-25-wrap/fanout-2026-11-14-hyprland-exact-frame-bound-pinned.json",
+".andromeda/runs/2026-11-14T14-12-25-wrap/fanout-results.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/gate-2026-11-14-hyprland-exact-frame-bound-pinned.json",
+".andromeda/runs/2026-11-14T14-12-25-wrap/health-2026-11-14-hyprland-exact-frame-bound-pinned.json",
+".andromeda/runs/2026-11-14T14-12-25-wrap/inputs-2026-11-14-hyprland-exact-frame-bound-pinned.json",
+".andromeda/runs/2026-11-14T14-12-25-wrap/layouts-pick-counts.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/layouts-pick-p1.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/layouts-pick-p1.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/layouts-pick-p2.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/layouts-pick-p2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/layouts-pick-p3.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/layouts-pick-p3.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/layouts-standing.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/layouts-task.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/leaf-delta-test-plan.diff",
+".andromeda/runs/2026-11-14T14-12-25-wrap/leaf-test-plan-1.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/leaf-test-plan-2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/leaf-test-plan-3.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/new-text.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/obs-pick-counts.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/obs-pick-p1.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/obs-pick-p1.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/obs-pick-p10.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/obs-pick-p10.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/obs-pick-p11.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/obs-pick-p11.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/obs-pick-p2.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/obs-pick-p2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/obs-pick-p3.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/obs-pick-p3.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/obs-pick-p4.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/obs-pick-p4.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/obs-pick-p5.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/obs-pick-p5.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/obs-pick-p6.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/obs-pick-p6.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/obs-pick-p7.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/obs-pick-p7.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/obs-pick-p8.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/obs-pick-p8.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/obs-pick-p9.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/obs-pick-p9.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/obs-rows.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/obs-standing.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/obs-task.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/ops-obs-plan.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/ops-security-plan.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/ops-test-plan.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/rec-2026-11-14-hyprland-exact-frame-bound-pinned.json",
+".andromeda/runs/2026-11-14T14-12-25-wrap/rec-read-2026-11-14-hyprland-exact-frame-bound-pinned.ndjson",
+".andromeda/runs/2026-11-14T14-12-25-wrap/report-patterns.toml",
+".andromeda/runs/2026-11-14T14-12-25-wrap/rows-packs.json",
+".andromeda/runs/2026-11-14T14-12-25-wrap/run-node.txt",
+".andromeda/runs/2026-11-14T14-12-25-wrap/security-pick-counts.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/security-pick-p1.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/security-pick-p1.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/security-pick-p2.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/security-pick-p2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/security-pick-p3.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/security-pick-p3.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/security-pick-p4.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/security-pick-p4.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/security-pick-p5.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/security-pick-p5.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/security-pick-p6.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/security-pick-p6.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/security-pick-p7.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/security-pick-p7.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/security-rows.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/security-standing.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/security-task.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/sweep-pre-pass-1.1.txt",
+".andromeda/runs/2026-11-14T14-12-25-wrap/test-plan-fit.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/tests-pick-counts.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/tests-pick-p1.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/tests-pick-p1.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/tests-pick-p10.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/tests-pick-p10.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/tests-pick-p11.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/tests-pick-p11.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/tests-pick-p12.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/tests-pick-p12.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/tests-pick-p13.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/tests-pick-p13.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/tests-pick-p14.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/tests-pick-p14.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/tests-pick-p2.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/tests-pick-p2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/tests-pick-p3.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/tests-pick-p3.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/tests-pick-p4.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/tests-pick-p4.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/tests-pick-p5.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/tests-pick-p5.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/tests-pick-p6.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/tests-pick-p6.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/tests-pick-p7.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/tests-pick-p7.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/tests-pick-p8.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/tests-pick-p8.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/tests-pick-p9.d2.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/tests-pick-p9.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/tests-rows.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/tests-standing.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/tests-task.md"
+]
+},
+"unmapped": [],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/cli_controls_not_disableable.rs",
+"tests/contract_bounded_readers.rs",
+"tests/contract_error_bodies.rs",
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs",
+"tests/contract_os_gated_tests.rs"
+]
+},
+"uncommitted": 166,
+"problem": null
+},
+"prose": [
+{
+"from": 90,
+"to": 97,
+"text": "- **Not run: the smoke and the leg gates.** No boot path changes and no live leg runs (`inputs#I1` item 3): the seam   has no product caller (research.md §Graph impact). So no `agent-run.sh` boot/status smoke runs, and no G2 or   schema-check runs over homes this chunk does not create. The crate's tests capture their lines in memory. - **Not run: mutation.** Step 4's `gate.py control` stands in for it. - **Why CI is read.** The diff plants executables (`#!/bin/sh` stubs) a process spawns, a case the template judges   OS-sensitive. So the hygiene, push and CI entries stand. The one CI leg is `ubuntu-latest`, which witnesses both   tests; no other OS leg exists. - **Base commit.** Git reads name `2414270c1ce5`, the commit this chunk starts from."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-11-14-hyprland-exact-frame-bound-pinned/wrap-2026-11-14T14-12-25/1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 1.38,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-11-14-hyprland-exact-frame-bound-pinned/wrap-2026-11-14T14-12-25/2.log",
+"bytes": 72,
+"log_sha8": "4f27ac38",
+"exit": 0,
+"seconds": 0.24,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "lint",
+"run": "cargo check --workspace --all-targets",
+"run_sha8": "aaf750d3",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-11-14-hyprland-exact-frame-bound-pinned/wrap-2026-11-14T14-12-25/3.log",
+"bytes": 72,
+"log_sha8": "4cf86278",
+"exit": 0,
+"seconds": 0.15,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "unit",
+"run": "cargo nextest run -p viola-hyprland --no-fail-fast",
+"run_sha8": "4bd78120",
+"expect": [
+"exit 0",
+"contains tests run:"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-14-hyprland-exact-frame-bound-pinned/wrap-2026-11-14T14-12-25/4.log",
+"bytes": 10583,
+"log_sha8": "5eeb94de",
+"exit": 0,
+"seconds": 0.44,
+"readings": [
+"exit 0 ✓",
+"contains 'tests run:' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "unit",
+"run": "cargo nextest run -p viola-hyprland --no-fail-fast -E \"test(=read::tests::read_takes_a_reply_of_max_frame_bytes_and_refuses_one_more_as_oversize) | test(=reply::tests::parse_dispatch_takes_max_frame_bytes_as_refused_and_refuses_one_more_as_oversize)\"",
+"run_sha8": "ec264427",
+"expect": [
+"exit 0",
+"contains 2 tests run: 2 passed"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-14-hyprland-exact-frame-bound-pinned/wrap-2026-11-14T14-12-25/5.log",
+"bytes": 616,
+"log_sha8": "9d0bdd81",
+"exit": 0,
+"seconds": 0.37,
+"readings": [
+"exit 0 ✓",
+"contains '2 tests run: 2 passed' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "integration",
+"run": "cargo nextest run -p viola --features fake-agent --test contract_bounded_readers --test contract_hyprland_seam",
+"run_sha8": "da7d94bd",
+"expect": [
+"exit 0",
+"contains tests run:"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-14-hyprland-exact-frame-bound-pinned/wrap-2026-11-14T14-12-25/6.log",
+"bytes": 4610,
+"log_sha8": "4351d84c",
+"exit": 0,
+"seconds": 0.52,
+"readings": [
+"exit 0 ✓",
+"contains 'tests run:' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "grep -c 'let reply = if ran.stdout.len() as u64 > MAX_FRAME {' crates/viola-hyprland/src/read.rs",
+"run_sha8": "1919b087",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-14-hyprland-exact-frame-bound-pinned/wrap-2026-11-14T14-12-25/7.log",
+"bytes": 2,
+"log_sha8": "4355a46b",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '1' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "grep -c 'if bytes.len() as u64 > MAX_FRAME {' crates/viola-hyprland/src/reply.rs",
+"run_sha8": "6013f696",
+"expect": [
+"exit 0",
+"last line 2"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-14-hyprland-exact-frame-bound-pinned/wrap-2026-11-14T14-12-25/8.log",
+"bytes": 2,
+"log_sha8": "53c234e5",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '2' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "git diff --name-only 2414270c1ce5 -- crates src tests fuzz schemas fixtures scripts Cargo.toml Cargo.lock | wc -l",
+"run_sha8": "3e01d78c",
+"expect": [
+"exit 0",
+"last line 2"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-14-hyprland-exact-frame-bound-pinned/wrap-2026-11-14T14-12-25/9.log",
+"bytes": 2,
+"log_sha8": "53c234e5",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓",
+"last line '2' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-14-hyprland-exact-frame-bound-pinned/wrap-2026-11-14T14-12-25/10.log",
+"bytes": 364900,
+"log_sha8": "0e9faca5",
+"exit": 0,
+"seconds": 7.16,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "bash scripts/agent-run.sh gate --require nextest-unit",
+"run_sha8": "182729cd",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-14-hyprland-exact-frame-bound-pinned/wrap-2026-11-14T14-12-25/11.log",
+"bytes": 45,
+"log_sha8": "916126be",
+"exit": 0,
+"seconds": 0.1,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-14-hyprland-exact-frame-bound-pinned/wrap-2026-11-14T14-12-25/12.log",
+"bytes": 477667,
+"log_sha8": "32f59236",
+"exit": 0,
+"seconds": 99.8,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"contains '\"stage\":\"linux-tests\"' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "3c62df70",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin build/viola-0.2.0",
+"run_sha8": "06cd7265",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1200",
+"run_sha8": "3221deca",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.35",
+"sha8": "3fed1b3c",
+"ts": "2026-11-14T14:35:20Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-11-14T14-12-25-wrap",
+"--marker",
+"2026-11-14-hyprland-exact-frame-bound-pinned"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust · base 2414270c (the parent of the oldest pre-CI commit aae35c72)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust — each fired on its synthetic known positive",
+"hygiene: clean — read 386 (runs 378 · evidence 3 · inputs 5) · trails 23 not read · copies 3 not read by P1 — 0 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 378,
+"evidence": 3,
+"inputs": 5,
+"trails": 23,
+"copies": 3,
+"kept": 0,
+"binary": 0,
+"in_root": 0
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.35",
+"sha8": "3fed1b3c",
+"ts": "2026-11-14T14:35:25Z",
+"argv": [
+"scope",
+"--chunk",
+"2026-11-14-hyprland-exact-frame-bound-pinned",
+"--run-dir",
+".andromeda/runs/2026-11-14T14-12-25-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base 2414270c (the parent of the oldest pre-CI commit aae35c72) · lists new 0 · modify 2 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"scope: clean — changed 2 · listed 2 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 386"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "2414270c1ce5e8e3fb2df262a1aef2467758d113",
+"base_why": "the parent of the oldest pre-CI commit aae35c72",
+"counts": {
+"changed": 2,
+"listed": 2,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 386,
+"unparsed": 0,
+"widening_without_word": 0
+}
+}
+]

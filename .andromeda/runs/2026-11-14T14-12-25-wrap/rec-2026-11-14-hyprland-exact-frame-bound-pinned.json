@@ -1,0 +1,458 @@
+[
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T14:14:41Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-14-hyprland-exact-frame-bound-pinned",
+"--file",
+".andromeda/cache/docs/2026-11-14-hyprland-exact-frame-bound-pinned/report.md",
+"--run-dir",
+".andromeda/runs/2026-11-14T14-12-25-wrap",
+"--marker",
+"2026-11-14-hyprland-exact-frame-bound-pinned"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-14-hyprland-exact-frame-bound-pinned/report rev 1 · 35 new · 0 revised · 0 retired · 0 kept · tx 1138"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T12-56-37-2026-11-14-hyprland-exact-frame-bound-pinned.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T14:14:42Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-14-hyprland-exact-frame-bound-pinned",
+"--section-file",
+".andromeda/runs/2026-11-14T14-12-25-wrap/new-text.md",
+"--heading",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-14T14-12-25-wrap",
+"--marker",
+"2026-11-14-hyprland-exact-frame-bound-pinned"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-14-hyprland-exact-frame-bound-pinned/report rev 2 · 3 new · 0 revised · 0 retired · 35 kept · tx 1139"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T12-56-37-2026-11-14-hyprland-exact-frame-bound-pinned.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T14:15:08Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-14T14-12-25-wrap/cites-land-2026-11-14-hyprland-exact-frame-bound-pinned.ndjson",
+"--base",
+"25348549b037fa33a8419643776fc2240183f91c",
+"--run-dir",
+".andromeda/runs/2026-11-14T14-12-25-wrap",
+"--marker",
+"2026-11-14-hyprland-exact-frame-bound-pinned",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 0 fact(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T14:15:13Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-14T14-12-25-wrap/cites-land-2026-11-14-hyprland-exact-frame-bound-pinned.ndjson",
+"--base",
+"25348549b037fa33a8419643776fc2240183f91c",
+"--run-dir",
+".andromeda/runs/2026-11-14T14-12-25-wrap",
+"--marker",
+"2026-11-14-hyprland-exact-frame-bound-pinned"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 0 fact(s) · 0 edge(s) · tx 1141"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T12-56-37-2026-11-14-hyprland-exact-frame-bound-pinned.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T14:16:28Z",
+"argv": [
+"rows-packs",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-14T14-12-25-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-14-hyprland-exact-frame-bound-pinned"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 994 · packs 10 · pack 100 · 276904 B",
+"security-plan: rows 618 · packs 7 · pack 100 · 178977 B",
+"design-system: rows 325 · packs 4 · pack 100 · 77732 B",
+"layout-templates: rows 225 · packs 3 · pack 100 · 53028 B",
+"test-plan: rows 1375 · packs 14 · pack 100 · 363457 B",
+"obs-plan: rows 1060 · packs 11 · pack 100 · 288184 B",
+"a11y-plan: rows 241 · packs 3 · pack 100 · 67297 B",
+"rows-packs: 7 master(s) · 4838 row(s) · 52 pack(s) · 2 draw(s) a pack · pin 1141"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-14T14-12-25-wrap/rows-packs.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T14:26:18Z",
+"argv": [
+"rows-union",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-14T14-12-25-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-14-hyprland-exact-frame-bound-pinned"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 994 · packs 10 · picked 0 (0 by every draw) · standing 0 · no proposer",
+"security-plan: rows 618 · packs 7 · picked 13 (2 by every draw) · standing 0 · 90521 B",
+"design-system: rows 325 · packs 4 · picked 0 (0 by every draw) · standing 0 · no proposer",
+"layout-templates: rows 225 · packs 3 · picked 0 (0 by every draw) · standing 0 · no proposer",
+"test-plan: rows 1375 · packs 14 · picked 6 (2 by every draw) · standing 0 · 170305 B",
+"obs-plan: rows 1060 · packs 11 · picked 12 (0 by every draw) · standing 0 · 84167 B",
+"a11y-plan: rows 241 · packs 3 · picked 0 (0 by every draw) · standing 0 · no proposer",
+"rows-union: 7 master(s) · picked 31 of 4838 · rule any"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-14T14-12-25-wrap/arch-standing.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/arch-pick-counts.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/security-rows.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/security-standing.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/security-pick-counts.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/design-standing.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/design-pick-counts.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/layouts-standing.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/layouts-pick-counts.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/tests-rows.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/tests-standing.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/tests-pick-counts.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/obs-rows.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/obs-standing.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/obs-pick-counts.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/a11y-standing.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/a11y-pick-counts.md",
+".andromeda/runs/2026-11-14T14-12-25-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T14:28:33Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-14T14-12-25-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-14T14-12-25-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T14-12-25-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T14-12-25-wrap",
+"--marker",
+"2026-11-14-hyprland-exact-frame-bound-pinned",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/fake-agent-as-claude · rejected",
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-14-hyprland-exact-frame-bound-pinned — 8. Mocking & Stubbing Discipline: 1 row(s)\n**Section:** 8. Mocking & Stubbing Discipline\n**Change:** ~ decision/fakes-for-external-services · except: was «»; now «viola-hyprland's own unit tests serve hyprctl by a planted shell stub, because cargo-mutants runs only the mutated package's tests, so a root-package test cannot kill that crate's mutants.»\n**Why:** decision/fakes-for-external-services: The report confirms that the crate's own planted hyprctl stub, not the fake agent binary, stands in for the real hyprctl in viola-hyprland's unit tests, and gives the reason, so the row's claim that the same binary replaces hyprctl needs this named exception.\n**Ref:** .andromeda/runs/2026-11-14T14-12-25-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T14:28:36Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-14T14-12-25-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-14T14-12-25-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T14-12-25-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T14-12-25-wrap",
+"--marker",
+"2026-11-14-hyprland-exact-frame-bound-pinned"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/fake-agent-as-claude · rejected",
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 1142 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T12-56-37-2026-11-14-hyprland-exact-frame-bound-pinned.ndjson",
+".andromeda/runs/2026-11-14T14-12-25-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T14:30:22Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/tests-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-14T14-12-25-wrap/staged-leaf-.claude__docs__tests-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-14T14-12-25-wrap",
+"--marker",
+"2026-11-14-hyprland-exact-frame-bound-pinned"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/tests-summary.md rev 9 · 0 new · 1 revised · 0 retired · tx 1143"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T12-56-37-2026-11-14-hyprland-exact-frame-bound-pinned.ndjson",
+"./.claude/docs/tests-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T14:30:22Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/verification-harness.md",
+"--file",
+"./.andromeda/runs/2026-11-14T14-12-25-wrap/staged-leaf-.claude__rules__verification-harness.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-14T14-12-25-wrap",
+"--marker",
+"2026-11-14-hyprland-exact-frame-bound-pinned"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/verification-harness.md rev 13 · 0 new · 1 revised · 0 retired · tx 1144"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T12-56-37-2026-11-14-hyprland-exact-frame-bound-pinned.ndjson",
+"./.claude/rules/verification-harness.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T14:32:26Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-14T14-12-25-wrap/carry-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-14T14-12-25-wrap",
+"--marker",
+"2026-11-14-hyprland-exact-frame-bound-pinned",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 1 record(s) · 1 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T14:32:30Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-14T14-12-25-wrap/carry-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-14T14-12-25-wrap",
+"--marker",
+"2026-11-14-hyprland-exact-frame-bound-pinned"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 1 edge(s) · tx 1147 · cry-ejfh3wh6 … cry-ejfh3wh6"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T12-56-37-2026-11-14-hyprland-exact-frame-bound-pinned.ndjson",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T14:32:50Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-14T14-12-25-wrap/run-node.txt",
+"--run-dir",
+".andromeda/runs/2026-11-14T14-12-25-wrap",
+"--marker",
+"2026-11-14-hyprland-exact-frame-bound-pinned"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 0 edge(s) · tx 1149 · run-geuxmi3j … run-geuxmi3j"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T12-56-37-2026-11-14-hyprland-exact-frame-bound-pinned.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T14:35:25Z",
+"argv": [
+"land",
+"--root",
+".",
+"--chunk",
+"2026-11-14-hyprland-exact-frame-bound-pinned",
+"--run-dir",
+".andromeda/runs/2026-11-14T14-12-25-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"unchanged · 7 file(s) of 2026-11-14-hyprland-exact-frame-bound-pinned"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

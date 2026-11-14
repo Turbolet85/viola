@@ -1,1 +1,0 @@
-Proceed. A 0-pending wrap carrying the adaptation relay you just read, exactly as the skill says. Both CI ids are right: ci#43579735207 read the pre-CI commit 93b2ca1d, ci#43589375075 read the wrap commit 25348549 (the overseer's read, green 7/7).

@@ -1,0 +1,14 @@
+[[pattern]]
+id = 'exactframe'
+regex = '''exact(ly)?[ -](the )?(frame|cap|MAX_FRAME)|max_frame_bytes|parse_dispatch_takes|read_takes_a_reply'''
+ignore_case = true
+
+[[pattern]]
+id = 'survivors'
+regex = '''read\.rs:77|reply\.rs:151|survivors?\b'''
+ignore_case = true
+
+[[pattern]]
+id = 'hyprcount'
+regex = '''viola-hyprland[^.\n]{0,60}\b(82|84) (tests|passed|cases)'''
+ignore_case = true
