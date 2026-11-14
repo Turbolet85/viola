@@ -231,6 +231,15 @@ const BOUNDARIES: &[Boundary] = &[
         witness: "agents_parse_takes_max_frame_bytes_and_refuses_one_more_as_oversize",
     },
     Boundary {
+        boundary: "hyprctl reply",
+        file: "crates/viola-hyprland/src/read.rs",
+        needle: "let stdout = drain(child.stdout.take(), MAX_FRAME + 1);",
+        cap: "MAX_FRAME + 1",
+        depth: DEFAULT_DEPTH,
+        types: "closed Window, Workspace and HyprlandVersion, or the closed HyprlandError",
+        witness: "parse_clients_takes_max_frame_bytes_and_refuses_one_more_as_oversize",
+    },
+    Boundary {
         boundary: "verify hook captures",
         file: "src/cmd/verify.rs",
         needle: ".take(MAX_FRAME + 1)\n                .read_to_end(&mut bytes)\n                .ok()?;\n            Some(Capture::read(event, &bytes))",
@@ -419,7 +428,7 @@ const READ_CALLS: [&str; 7] = [
     "fs::read_to_string(",
 ];
 
-const PRODUCT_ROOTS: [&str; 7] = [
+const PRODUCT_ROOTS: [&str; 8] = [
     "src",
     "crates/viola-core/src",
     "crates/viola-pty/src",
@@ -427,6 +436,7 @@ const PRODUCT_ROOTS: [&str; 7] = [
     "crates/viola-state/src",
     "crates/viola-agent-claude/src",
     "crates/viola-mcp/src",
+    "crates/viola-hyprland/src",
 ];
 
 fn workspace() -> PathBuf {

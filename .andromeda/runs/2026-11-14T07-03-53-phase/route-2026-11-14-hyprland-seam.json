@@ -1,0 +1,37 @@
+[
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "a3a8d094",
+"ts": "2026-11-14T07:05:02Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-11-14-hyprland-seam",
+"--id",
+"chk-wqfit3ir",
+"--desc-file",
+".andromeda/runs/2026-11-14T07-03-53-phase/master-desc.txt",
+"--scope-file",
+".andromeda/cache/docs/2026-11-14-hyprland-seam/scope.md",
+"--run-dir",
+".andromeda/runs/2026-11-14T07-03-53-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"promoted 2026-11-14-hyprland-seam · chk-wqfit3ir · Hyprland seam · tx 1027"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T07-05-01-2026-11-14-hyprland-seam.ndjson",
+"./.andromeda/master-route.md",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]

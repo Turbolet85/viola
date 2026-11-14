@@ -5,7 +5,7 @@
 [2026-11-13-verify-readiness-on-the-input-box] Verify readiness on the input box — verify's typed run pastes once the input box is up, never keyed on a footer literal; the newest CLI reads every row pass (v2-29)
 [2026-11-13-epoch-8-cleanup] Epoch 8 cleanup — shared source-masking scanner, over-800-line files split, dead presence check, named mutant survivors, home and guard test helpers, the cookie class
 [2026-11-13-rows-proposal-rule-work] Rows-proposal rule work — the rows landing's route-owed rule lines and the snapshot-replay guard, each closed in code or tests
-Hyprland seam — relied-on dispatch and window queries measured live; replies read capped as untrusted output, logged codes-only; replayed by a fake in CI to green
+[2026-11-14-hyprland-seam] Hyprland seam — relied-on dispatch and window queries measured live; replies read capped as untrusted output, logged codes-only; replayed by a fake in CI to green
 
 ### Epoch 2 — The budget gate and the status line leave
 

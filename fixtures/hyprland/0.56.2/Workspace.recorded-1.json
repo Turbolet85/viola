@@ -1,0 +1,11 @@
+{
+  "v": 1,
+  "hyprland": "0.56.2",
+  "request": "workspace",
+  "args": [
+    "dispatch",
+    "hl.dsp.focus({ workspace = 6 })"
+  ],
+  "exit": 0,
+  "stdout": "ok\n"
+}

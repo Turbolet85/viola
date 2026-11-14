@@ -54,6 +54,11 @@ path = "tests/contract_fixture_hygiene.rs"
 required-features = ["fake-agent"]
 
 [[test]]
+name = "contract_hyprland_seam"
+path = "tests/contract_hyprland_seam.rs"
+required-features = ["fake-agent"]
+
+[[test]]
 name = "contract_fake_agent_drift"
 path = "tests/contract_fake_agent_drift.rs"
 required-features = ["fake-agent"]
@@ -170,6 +175,8 @@ serde_json.workspace = true
 sha2.workspace = true
 sysinfo.workspace = true
 tempfile.workspace = true
+# The Hyprland seam's replay contract drives its read over the fake `hyprctl`.
+viola-hyprland = { path = "crates/viola-hyprland" }
 # The shared test helpers (tracing field capture, the pipe DACL read-back): tests only, never a
 # release build (scripts/release-check.sh proves the feature absent).
 viola-channel = { path = "crates/viola-channel", features = ["test-support"] }

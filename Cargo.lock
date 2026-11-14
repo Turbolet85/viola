@@ -1793,6 +1793,7 @@ dependencies = [
  "viola-agent-claude",
  "viola-channel",
  "viola-core",
+ "viola-hyprland",
  "viola-mcp",
  "viola-pty",
  "viola-state",
@@ -1864,8 +1865,24 @@ dependencies = [
  "viola-agent-claude",
  "viola-channel",
  "viola-core",
+ "viola-hyprland",
  "viola-pty",
  "viola-state",
+]
+
+[[package]]
+name = "viola-hyprland"
+version = "0.1.0"
+dependencies = [
+ "nutype",
+ "proptest",
+ "rstest",
+ "serde_json",
+ "tempfile",
+ "thiserror 2.0.20",
+ "tracing",
+ "tracing-subscriber",
+ "viola-core",
 ]
 
 [[package]]

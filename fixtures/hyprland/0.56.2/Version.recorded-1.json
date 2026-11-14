@@ -1,0 +1,11 @@
+{
+  "v": 1,
+  "hyprland": "0.56.2",
+  "request": "version",
+  "args": [
+    "-j",
+    "version"
+  ],
+  "exit": 0,
+  "stdout": "{\"branch\":\"viola fixture text\",\"commit\":\"viola fixture text\",\"version\":\"viola fixture text\",\"dirty\":false,\"commit_message\":\"viola fixture text\",\"commit_date\":\"viola fixture text\",\"tag\":\"v0.56.2\",\"commits\":\"viola fixture text\",\"buildAquamarine\":\"viola fixture text\",\"buildHyprlang\":\"viola fixture text\",\"buildHyprutils\":\"viola fixture text\",\"buildHyprcursor\":\"viola fixture text\",\"buildHyprgraphics\":\"viola fixture text\",\"systemAquamarine\":\"viola fixture text\",\"systemHyprlang\":\"viola fixture text\",\"systemHyprutils\":\"viola fixture text\",\"systemHyprcursor\":\"viola fixture text\",\"systemHyprgraphics\":\"viola fixture text\",\"abiHash\":\"viola fixture text\",\"flags\":[]}"
+}

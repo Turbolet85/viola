@@ -19,7 +19,7 @@ use viola_core::obs::{ObsEvent, ObsProcess, ProcessCtx};
 use viola_core::{MAX_FRAME, ViolaName, obs_event};
 
 /// Every other target (rmcp, notify, …) is OFF: its records lack the required fields.
-const VIOLA_TARGETS: [&str; 7] = [
+const VIOLA_TARGETS: [&str; 8] = [
     "viola",
     "viola_core",
     "viola_pty",
@@ -27,6 +27,7 @@ const VIOLA_TARGETS: [&str; 7] = [
     "viola_state",
     "viola_agent_claude",
     "viola_mcp",
+    "viola_hyprland",
 ];
 
 const CONFIG_KEYS: [&str; 6] = [

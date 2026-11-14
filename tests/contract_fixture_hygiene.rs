@@ -1,8 +1,9 @@
 //! The fixture scrub-and-schema walk (test-plan §7 Fixture hygiene): every committed scenario
 //! script, every recorded `fixtures/claude/*/*.json` hook payload, every recorded `StatusLine.*.json`
 //! status line payload, every recorded `Agents.*.json` agents read, every recorded `Mcp.*.json`
-//! MCP exchange and every recorded `Screen.*.json` is scrubbed and schema-valid, each against
-//! its own schema, and every rejection arm is proven on a planted input. The recorded set is walked at run time, not
+//! MCP exchange, every recorded `Screen.*.json` and every recorded `fixtures/hyprland/*/*.json`
+//! `hyprctl` reply (which also keeps only its allowlisted strings) is scrubbed and schema-valid,
+//! each against its own schema, and every rejection arm is proven on a planted input. The recorded set is walked at run time, not
 //! by `#[files]`, which refuses to compile over a glob that matches nothing.
 //! andromeda:walks-tree — it reads every file under `fixtures/`, named or not.
 
@@ -461,6 +462,205 @@ fn planted_mcp_schema_violation_is_rejected(#[case] change: Value) {
     assert_eq!(
         check(doc.to_string().as_bytes(), &mcp_schema(), None),
         Err(Violation::Schema)
+    );
+}
+
+fn hyprland_schema() -> Value {
+    load_schema(&workspace_path("schemas/hyprland-fixture.v1.json"))
+}
+
+/// What the recorder writes for every string off the allowlist.
+const HYPRLAND_PLACEHOLDER: &str = "viola fixture text";
+
+/// Why a recorded `hyprctl` reply fails: a hygiene class, or a string the allowlist does not keep.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum HyprlandViolation {
+    Hygiene(Violation),
+    OffAllowlist,
+}
+
+/// `0x` and 1 to 16 lower-case hex digits.
+fn is_window_address(s: &str) -> bool {
+    s.strip_prefix("0x").is_some_and(|d| {
+        (1..=16).contains(&d.len()) && d.bytes().all(|b| matches!(b, b'0'..=b'9' | b'a'..=b'f'))
+    })
+}
+
+/// `v<major>.<minor>.<patch>`, digits only.
+fn is_version_tag(s: &str) -> bool {
+    let parts: Vec<&str> = s
+        .strip_prefix('v')
+        .map(|r| r.split('.').collect())
+        .unwrap_or_default();
+    parts.len() == 3
+        && parts
+            .iter()
+            .all(|p| !p.is_empty() && p.bytes().all(|b| b.is_ascii_digit()))
+}
+
+/// The recorder's closed allowlist, as test literals: the keys each request keeps a string under,
+/// and the form it keeps it in.
+fn on_allowlist(request: &str, key: &str, value: &str) -> bool {
+    match (request, key) {
+        ("clients" | "active-window", "address" | "swallowing" | "grouped") => {
+            is_window_address(value)
+        }
+        ("workspaces", "lastwindow") => is_window_address(value),
+        ("version", "tag") => is_version_tag(value),
+        _ => false,
+    }
+}
+
+/// Every string of `value`, at any depth, an allowlisted key's value in its form or the
+/// placeholder; an array's entries stand under the array's own key.
+fn kept_only_listed(request: &str, key: Option<&str>, value: &Value) -> bool {
+    match value {
+        Value::String(s) => {
+            s == HYPRLAND_PLACEHOLDER || key.is_some_and(|k| on_allowlist(request, k, s))
+        }
+        Value::Array(items) => items.iter().all(|v| kept_only_listed(request, key, v)),
+        Value::Object(map) => map
+            .iter()
+            .all(|(k, v)| kept_only_listed(request, Some(k), v)),
+        _ => true,
+    }
+}
+
+/// The class walk, then the allowlist check over the recorded `stdout`: a JSON reply holds only
+/// allowlisted strings or the placeholder, any other reply is the success text or the placeholder.
+fn check_hyprland(bytes: &[u8], user: Option<&str>) -> Result<(), HyprlandViolation> {
+    check(bytes, &hyprland_schema(), user).map_err(HyprlandViolation::Hygiene)?;
+    let doc: Value = serde_json::from_slice(bytes).expect("checked JSON");
+    let request = doc["request"].as_str().unwrap_or_default();
+    let stdout = doc["stdout"].as_str().unwrap_or_default();
+    let listed = match serde_json::from_str::<Value>(stdout) {
+        Ok(reply) => kept_only_listed(request, None, &reply),
+        Err(_) => matches!(stdout, "ok" | "ok\n") || stdout == HYPRLAND_PLACEHOLDER,
+    };
+    if listed {
+        Ok(())
+    } else {
+        Err(HyprlandViolation::OffAllowlist)
+    }
+}
+
+/// `<root>/*/*.json`, sorted: the recorded `hyprctl` replies, one dir per Hyprland version.
+fn hyprland_fixtures(root: &Path) -> Vec<PathBuf> {
+    recorded(root)
+}
+
+#[test]
+fn hyprland_fixtures_pass_hygiene() {
+    let user = host_user();
+    let walked = hyprland_fixtures(&workspace_path("fixtures/hyprland"));
+    assert!(!walked.is_empty(), "no recorded hyprctl reply walked");
+    for path in walked {
+        let bytes = std::fs::read(&path).expect("fixture");
+        assert_eq!(
+            check_hyprland(&bytes, user.as_deref()),
+            Ok(()),
+            "{}",
+            path.display()
+        );
+    }
+}
+
+/// A synthetic recorded reply in the class's shape, `stdout` the given reply text.
+fn hyprland_reply(request: &str, stdout: &str) -> Value {
+    json!({"v": 1, "hyprland": "0.56.2", "request": request, "args": ["-j", "clients"],
+           "exit": 0, "stdout": stdout})
+}
+
+fn hyprland_check(request: &str, reply: &Value) -> Result<(), HyprlandViolation> {
+    let doc = hyprland_reply(request, &reply.to_string());
+    check_hyprland(doc.to_string().as_bytes(), Some("plantuser"))
+}
+
+#[rstest]
+#[case::clients("clients", json!([{"address": "0x55d4c1a2b3c0", "title": "viola fixture text",
+    "grouped": ["0x55d4c1a2b3c0"], "swallowing": "0x0", "workspace": {"id": 1, "name": "viola fixture text"},
+    "pid": 7}]))]
+#[case::active_window("active-window", json!({"address": "0x1", "class": "viola fixture text"}))]
+#[case::no_active_window("active-window", json!({}))]
+#[case::workspaces("workspaces", json!([{"id": 1, "lastwindow": "0x1", "lastwindowtitle": "viola fixture text"}]))]
+#[case::version("version", json!({"tag": "v0.56.2", "branch": "viola fixture text", "flags": []}))]
+fn planted_clean_hyprland_reply_passes(#[case] request: &str, #[case] reply: Value) {
+    assert_eq!(hyprland_check(request, &reply), Ok(()));
+}
+
+#[rstest]
+#[case::success("focus-window", "ok\n")]
+#[case::success_bare("workspace", "ok")]
+#[case::placeholder("version", "viola fixture text")]
+fn planted_clean_hyprland_text_reply_passes(#[case] request: &str, #[case] stdout: &str) {
+    let doc = hyprland_reply(request, stdout);
+    assert_eq!(
+        check_hyprland(doc.to_string().as_bytes(), Some("plantuser")),
+        Ok(())
+    );
+}
+
+#[test]
+fn planted_hyprland_title_is_rejected() {
+    let reply = json!([{"address": "0x1", "title": "a window"}]);
+    assert_eq!(
+        hyprland_check("clients", &reply),
+        Err(HyprlandViolation::OffAllowlist)
+    );
+}
+
+#[test]
+fn planted_hyprland_lastwindowtitle_is_rejected() {
+    let reply = json!([{"id": 1, "lastwindow": "0x1", "lastwindowtitle": "a window"}]);
+    assert_eq!(
+        hyprland_check("workspaces", &reply),
+        Err(HyprlandViolation::OffAllowlist)
+    );
+}
+
+#[rstest]
+#[case::unlisted_key("clients", json!([{"address": "0x1", "later": "text"}]))]
+#[case::nested_name("clients", json!([{"address": "0x1", "workspace": {"id": 1, "name": "web"}}]))]
+#[case::a_tag_entry("active-window", json!({"address": "0x1", "tags": ["work"]}))]
+#[case::listed_key_off_its_form("active-window", json!({"address": "0xABC"}))]
+#[case::listed_key_of_another_request("workspaces", json!([{"id": 1, "address": "0x1"}]))]
+#[case::tag_off_its_form("version", json!({"tag": "v0.56.2-dirty"}))]
+fn planted_hyprland_unlisted_key_string_is_rejected(#[case] request: &str, #[case] reply: Value) {
+    assert_eq!(
+        hyprland_check(request, &reply),
+        Err(HyprlandViolation::OffAllowlist)
+    );
+}
+
+#[test]
+fn planted_hyprland_text_reply_other_than_success_is_rejected() {
+    let doc = hyprland_reply("version", "HYPRLAND_INSTANCE_SIGNATURE not set!");
+    assert_eq!(
+        check_hyprland(doc.to_string().as_bytes(), None),
+        Err(HyprlandViolation::OffAllowlist)
+    );
+}
+
+#[rstest]
+#[case::home_path(json!({"stdout": "/home/plantuser/x"}), Violation::AbsolutePath)]
+#[case::user_word(json!({"stdout": "made by plantuser"}), Violation::Username)]
+#[case::email(json!({"stdout": "a.b@example.com"}), Violation::Email)]
+#[case::wrong_version(json!({"v": 2}), Violation::Schema)]
+#[case::unknown_request(json!({"request": "monitors"}), Violation::Schema)]
+#[case::version_not_digits(json!({"hyprland": "v0.56.2"}), Violation::Schema)]
+#[case::stdout_not_text(json!({"stdout": []}), Violation::Schema)]
+#[case::exit_not_a_number(json!({"exit": "0"}), Violation::Schema)]
+fn planted_dirty_hyprland_fixture_is_rejected_by_class(
+    #[case] change: Value,
+    #[case] expected: Violation,
+) {
+    let mut doc = hyprland_reply("version", "viola fixture text");
+    if let (Some(doc), Some(change)) = (doc.as_object_mut(), change.as_object()) {
+        doc.extend(change.clone());
+    }
+    assert_eq!(
+        check_hyprland(doc.to_string().as_bytes(), Some("plantuser")),
+        Err(HyprlandViolation::Hygiene(expected))
     );
 }
 

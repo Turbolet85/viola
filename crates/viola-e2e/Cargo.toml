@@ -20,6 +20,11 @@ path = "src/bin/viola-harness.rs"
 name = "viola-mcp-tap"
 path = "src/bin/viola-mcp-tap.rs"
 
+# Records the relied-on `hyprctl` replies through the seam's own read and writes their fixtures.
+[[bin]]
+name = "viola-hypr-tap"
+path = "src/bin/viola-hypr-tap.rs"
+
 [dependencies]
 viola-core = { path = "../viola-core" }
 viola-pty = { path = "../viola-pty" }
@@ -28,6 +33,8 @@ viola-channel = { path = "../viola-channel" }
 viola-state = { path = "../viola-state" }
 # The recorded `Mcp.` fixture goes through the `--record` scrub and its closed refusal codes.
 viola-agent-claude = { path = "../viola-agent-claude" }
+# The recorder reads each reply through the seam it records for.
+viola-hyprland = { path = "../viola-hyprland" }
 clap.workspace = true
 jsonschema.workspace = true
 # The e2e-home keeper reads a linked backing's free bytes (`statvfs`) before a home is made.

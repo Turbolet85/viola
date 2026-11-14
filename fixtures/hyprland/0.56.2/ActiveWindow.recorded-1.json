@@ -1,0 +1,11 @@
+{
+  "v": 1,
+  "hyprland": "0.56.2",
+  "request": "active-window",
+  "args": [
+    "-j",
+    "activewindow"
+  ],
+  "exit": 0,
+  "stdout": "{\"address\":\"0x555a9c521790\",\"mapped\":true,\"hidden\":false,\"visible\":true,\"acceptsInput\":true,\"at\":[2572,38],\"size\":[1261,1390],\"workspace\":{\"id\":6,\"name\":\"viola fixture text\"},\"floating\":false,\"monitor\":1,\"class\":\"viola fixture text\",\"title\":\"viola fixture text\",\"initialClass\":\"viola fixture text\",\"initialTitle\":\"viola fixture text\",\"pid\":1973327,\"xwayland\":false,\"pinned\":false,\"pinFullscreened\":false,\"fullscreen\":0,\"fullscreenClient\":0,\"fullscreenHandler\":\"viola fixture text\",\"allowedOverFullscreen\":true,\"grouped\":[],\"tags\":[],\"swallowing\":\"0x0\",\"focusHistoryID\":0,\"inhibitingIdle\":false,\"xdgTag\":\"viola fixture text\",\"xdgDescription\":\"viola fixture text\",\"contentType\":\"viola fixture text\",\"tearingHint\":false,\"stableId\":\"viola fixture text\"}"
+}

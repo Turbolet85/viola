@@ -551,6 +551,7 @@ dependencies = [
  "serde_json",
  "serde_path_to_error",
  "thiserror",
+ "veil",
  "viola-core",
  "vt100",
 ]
@@ -585,6 +586,18 @@ dependencies = [
  "libfuzzer-sys",
  "viola-agent-claude",
  "viola-channel",
+ "viola-core",
+ "viola-hyprland",
+]
+
+[[package]]
+name = "viola-hyprland"
+version = "0.1.0"
+dependencies = [
+ "nutype",
+ "serde_json",
+ "thiserror",
+ "tracing",
  "viola-core",
 ]
 

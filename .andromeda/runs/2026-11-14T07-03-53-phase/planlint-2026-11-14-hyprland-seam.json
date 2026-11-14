@@ -1,0 +1,359 @@
+[
+{
+"tool": "planlint",
+"v": "1.23",
+"sha8": "396e462d",
+"ts": "2026-11-14T07:44:50Z",
+"argv": [
+"check",
+"--chunk",
+"2026-11-14-hyprland-seam",
+"--run-dir",
+".andromeda/runs/2026-11-14T07-03-53-phase",
+"--marker",
+"2026-11-14-hyprland-seam"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fence: 37 entries · plan: doc:2026-11-14-hyprland-seam/plan · research: doc:2026-11-14-hyprland-seam/research",
+"check 9 · CI-outcome reads: 1 · leg operator exempt: 1 · Platform issues consulted: none · `none — no runner-only bull…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 0 · Harness rules consulted: filled · ``.claude/rules/verification-harness.md` — r…`",
+"check 4 (5) · leg entries with a content atom: 3 · note without `atom from`: 0",
+"check 4 (13) · operator CI-outcome reads: 1 · not ci.py conclusion: 0",
+"check 4 (13) · job-log reads by pattern: 0",
+"check 4 (14) · base-less git change reads outside the operator and round legs: 0",
+"check 4 (15) · grep → wc -l counts asserting exit 0 and last line 0: 0",
+"check 4 (16) · guards whose exclusions leave a new file in: 0 of 0 with an exclusion",
+"check 4 (18) · entries reading a master's or a base's path the store now holds: 0",
+"check 4 (17) · entries reading a path the wrap writes: 0 of 30 asserting — listed, P5's read",
+"check 4 (17) · a path the wrap writes, read from inside a program an entry runs (a suite, the ledger's tool): not read",
+"check 2 · ledger-note entries (matrix#): 0",
+"check 5 · placeholders outside code: 0",
+"check 12 (c) · step references the plan's steps lack: 0 of 33",
+"check 12 (d) · «unchanged» claims on a name another part of the plan names: 5 of 5 — listed, P5's read",
+"  line 24 · «byte for byte» · inputs#I2 (step 8) · hyprctl (step 7) · ubuntu-latest (Test Commands)",
+"  line 93 · «unchanged» · recorded (step 3) · oversize (step 5) · malformed (step 3) · absent (step 3) · stdout (step 5)",
+"      exit (step 4)",
+"  line 103 · «does not change» · focuswindow (step 2) · workspace (step 1)",
+"  line 127 · «byte for byte» · hyprctl (step 7) · stdout (step 5) · exit (step 4)",
+"  line 450 · «byte for byte» · hyprctl (step 7)",
+"  a claim on a name no other step, Files to modify or Test Commands names is not listed — P5's read",
+"check 4 (4) · criterion evidence paths the plan names nowhere else: 0 of 0",
+"hits: 0 — resolved by its check (validation.md 2 · 5 · 9 · 4 (4) · 4 (5) · 4 (13)–(16), (18) · 12 (c)); 0 is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "none",
+"ci_reads": 1,
+"operator": 1,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 0,
+"hit": false
+},
+"atom": {
+"atomed": 3,
+"bare": []
+},
+"tool": {
+"operator": 1,
+"hand": []
+},
+"log": [],
+"base": {
+"operator": 6,
+"reads": []
+},
+"count": {
+"hits": [],
+"unsplit": []
+},
+"newfiles": {
+"operator": 6,
+"guards": 0,
+"hits": [],
+"abstain": []
+},
+"retired": [],
+"wrap": {
+"asserting": 30,
+"listed": []
+},
+"check2": {
+"entries": 18,
+"tokens": 0,
+"hits": []
+},
+"check5": {
+"hits": []
+},
+"steps": {
+"steps": 14,
+"refs": 33,
+"hits": []
+},
+"claims": {
+"read": 5,
+"listed": [
+24,
+93,
+103,
+127,
+450
+]
+},
+"c44": {
+"paths": 0,
+"hits": [],
+"skipped": []
+},
+"hits": 0
+}
+},
+{
+"tool": "planlint",
+"v": "1.23",
+"sha8": "396e462d",
+"ts": "2026-11-14T07:53:13Z",
+"argv": [
+"check",
+"--chunk",
+"2026-11-14-hyprland-seam",
+"--run-dir",
+".andromeda/runs/2026-11-14T07-03-53-phase",
+"--marker",
+"2026-11-14-hyprland-seam"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fence: 38 entries · plan: doc:2026-11-14-hyprland-seam/plan · research: doc:2026-11-14-hyprland-seam/research",
+"check 9 · CI-outcome reads: 1 · leg operator exempt: 1 · Platform issues consulted: none · `none — no runner-only bull…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 0 · Harness rules consulted: filled · ``.claude/rules/verification-harness.md` — r…`",
+"check 4 (5) · leg entries with a content atom: 3 · note without `atom from`: 0",
+"check 4 (13) · operator CI-outcome reads: 1 · not ci.py conclusion: 0",
+"check 4 (13) · job-log reads by pattern: 0",
+"check 4 (14) · base-less git change reads outside the operator and round legs: 0",
+"check 4 (15) · grep → wc -l counts asserting exit 0 and last line 0: 0",
+"check 4 (16) · guards whose exclusions leave a new file in: 0 of 0 with an exclusion",
+"check 4 (18) · entries reading a master's or a base's path the store now holds: 0",
+"check 4 (17) · entries reading a path the wrap writes: 0 of 31 asserting — listed, P5's read",
+"check 4 (17) · a path the wrap writes, read from inside a program an entry runs (a suite, the ledger's tool): not read",
+"check 2 · ledger-note entries (matrix#): 0",
+"check 5 · placeholders outside code: 0",
+"check 12 (c) · step references the plan's steps lack: 0 of 34",
+"check 12 (d) · «unchanged» claims on a name another part of the plan names: 5 of 5 — listed, P5's read",
+"  line 24 · «byte for byte» · inputs#I2 (step 8) · hyprctl (step 7) · ubuntu-latest (Test Commands)",
+"  line 93 · «unchanged» · recorded (step 3) · oversize (step 5) · malformed (step 3) · absent (step 3) · stdout (step 5)",
+"      exit (step 4)",
+"  line 103 · «does not change» · focuswindow (step 2) · workspace (step 1)",
+"  line 127 · «byte for byte» · hyprctl (step 7) · stdout (step 5) · exit (step 4)",
+"  line 484 · «byte for byte» · hyprctl (step 7)",
+"  a claim on a name no other step, Files to modify or Test Commands names is not listed — P5's read",
+"check 4 (4) · criterion evidence paths the plan names nowhere else: 0 of 0",
+"hits: 0 — resolved by its check (validation.md 2 · 5 · 9 · 4 (4) · 4 (5) · 4 (13)–(16), (18) · 12 (c)); 0 is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "none",
+"ci_reads": 1,
+"operator": 1,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 0,
+"hit": false
+},
+"atom": {
+"atomed": 3,
+"bare": []
+},
+"tool": {
+"operator": 1,
+"hand": []
+},
+"log": [],
+"base": {
+"operator": 6,
+"reads": []
+},
+"count": {
+"hits": [],
+"unsplit": []
+},
+"newfiles": {
+"operator": 6,
+"guards": 0,
+"hits": [],
+"abstain": []
+},
+"retired": [],
+"wrap": {
+"asserting": 31,
+"listed": []
+},
+"check2": {
+"entries": 18,
+"tokens": 0,
+"hits": []
+},
+"check5": {
+"hits": []
+},
+"steps": {
+"steps": 14,
+"refs": 34,
+"hits": []
+},
+"claims": {
+"read": 5,
+"listed": [
+24,
+93,
+103,
+127,
+484
+]
+},
+"c44": {
+"paths": 0,
+"hits": [],
+"skipped": []
+},
+"hits": 0
+}
+},
+{
+"tool": "planlint",
+"v": "1.23",
+"sha8": "396e462d",
+"ts": "2026-11-14T07:58:52Z",
+"argv": [
+"check",
+"--chunk",
+"2026-11-14-hyprland-seam",
+"--run-dir",
+".andromeda/runs/2026-11-14T07-03-53-phase",
+"--marker",
+"2026-11-14-hyprland-seam"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fence: 38 entries · plan: doc:2026-11-14-hyprland-seam/plan · research: doc:2026-11-14-hyprland-seam/research",
+"check 9 · CI-outcome reads: 1 · leg operator exempt: 1 · Platform issues consulted: none · `none — no runner-only bull…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 0 · Harness rules consulted: filled · ``.claude/rules/verification-harness.md` — r…`",
+"check 4 (5) · leg entries with a content atom: 3 · note without `atom from`: 0",
+"check 4 (13) · operator CI-outcome reads: 1 · not ci.py conclusion: 0",
+"check 4 (13) · job-log reads by pattern: 0",
+"check 4 (14) · base-less git change reads outside the operator and round legs: 0",
+"check 4 (15) · grep → wc -l counts asserting exit 0 and last line 0: 0",
+"check 4 (16) · guards whose exclusions leave a new file in: 0 of 0 with an exclusion",
+"check 4 (18) · entries reading a master's or a base's path the store now holds: 0",
+"check 4 (17) · entries reading a path the wrap writes: 0 of 31 asserting — listed, P5's read",
+"check 4 (17) · a path the wrap writes, read from inside a program an entry runs (a suite, the ledger's tool): not read",
+"check 2 · ledger-note entries (matrix#): 0",
+"check 5 · placeholders outside code: 0",
+"check 12 (c) · step references the plan's steps lack: 0 of 39",
+"check 12 (d) · «unchanged» claims on a name another part of the plan names: 5 of 5 — listed, P5's read",
+"  line 25 · «byte for byte» · inputs#I2 (step 8) · inputs#I3 (step 8) · hyprctl (step 7) · ubuntu-latest (Test Commands)",
+"  line 95 · «unchanged» · recorded (step 3) · oversize (step 5) · malformed (step 3) · absent (step 3) · stdout (step 5)",
+"      exit (step 4)",
+"  line 105 · «does not change» · focuswindow (step 2) · workspace (step 1)",
+"  line 145 · «byte for byte» · hyprctl (step 7) · stdout (step 5) · exit (step 4)",
+"  line 515 · «byte for byte» · hyprctl (step 7)",
+"  a claim on a name no other step, Files to modify or Test Commands names is not listed — P5's read",
+"check 4 (4) · criterion evidence paths the plan names nowhere else: 0 of 0",
+"hits: 0 — resolved by its check (validation.md 2 · 5 · 9 · 4 (4) · 4 (5) · 4 (13)–(16), (18) · 12 (c)); 0 is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "none",
+"ci_reads": 1,
+"operator": 1,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 0,
+"hit": false
+},
+"atom": {
+"atomed": 3,
+"bare": []
+},
+"tool": {
+"operator": 1,
+"hand": []
+},
+"log": [],
+"base": {
+"operator": 6,
+"reads": []
+},
+"count": {
+"hits": [],
+"unsplit": []
+},
+"newfiles": {
+"operator": 6,
+"guards": 0,
+"hits": [],
+"abstain": []
+},
+"retired": [],
+"wrap": {
+"asserting": 31,
+"listed": []
+},
+"check2": {
+"entries": 20,
+"tokens": 0,
+"hits": []
+},
+"check5": {
+"hits": []
+},
+"steps": {
+"steps": 14,
+"refs": 39,
+"hits": []
+},
+"claims": {
+"read": 5,
+"listed": [
+25,
+95,
+105,
+145,
+515
+]
+},
+"c44": {
+"paths": 0,
+"hits": [],
+"skipped": []
+},
+"hits": 0
+}
+}
+]

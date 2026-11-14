@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://viola.local/schemas/hyprland-fixture.v1.json",
+  "title": "viola recorded hyprctl reply fixture",
+  "description": "One fixtures/hyprland/<hyprland-version>/<Request>.<variant>.json: a relied-on `hyprctl` request read once on the founder's host by the test-only `viola-hypr-tap` through the seam's own read, its argv as one element each, the child's exit code (null when it was killed or ended by a signal) and its stdout as recorded: every string off the request's closed allowlist replaced by the placeholder, then scrubbed. The fake `hyprctl` replays `stdout` byte for byte (test-plan §7 Fixture hygiene).",
+  "type": "object",
+  "required": ["v", "hyprland", "request", "args", "exit", "stdout"],
+  "properties": {
+    "v": { "const": 1 },
+    "hyprland": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "request": { "enum": ["clients", "active-window", "workspaces", "version", "focus-window", "workspace"] },
+    "args": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "exit": { "type": ["integer", "null"] },
+    "stdout": { "type": "string" }
+  }
+}

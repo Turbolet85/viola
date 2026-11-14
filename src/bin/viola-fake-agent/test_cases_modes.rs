@@ -321,3 +321,46 @@ fn live_sessions_skip_a_dead_or_reused_pid() {
         .collect();
     assert_eq!(ids, [json!("3.json")]);
 }
+
+#[test]
+fn hyprctl_output_replays_the_recorded_fixture_for_its_argv_and_each_mode_its_bytes() {
+    use super::hyprctl::{HYPRCTL, hyprctl_output};
+    let tmp = tempfile::tempdir().expect("tempdir");
+    let set = tmp.path().join("hyprctl-set");
+    fs::create_dir_all(&set).expect("set");
+    let clients = json!({"v": 1, "hyprland": "0.56.2", "request": "clients",
+                         "args": ["-j", "clients"], "exit": 0, "stdout": "[]\n"});
+    let absent = json!({"v": 1, "hyprland": "0.56.2", "request": "version",
+                        "args": ["-j", "version"], "exit": 3, "stdout": "viola fixture text"});
+    fs::write(set.join("Clients.recorded-1.json"), clients.to_string()).expect("clients");
+    fs::write(set.join("Version.absent-1.json"), absent.to_string()).expect("absent");
+    let dir = Some(tmp.path());
+    let clients_argv = args(&["-j", "clients"]);
+    assert_eq!(
+        hyprctl_output(None, dir, &clients_argv),
+        (b"[]\n".to_vec(), 0)
+    );
+    assert_eq!(
+        hyprctl_output(Some("recorded"), dir, &clients_argv),
+        (b"[]\n".to_vec(), 0)
+    );
+    assert_eq!(
+        hyprctl_output(None, dir, &args(&["-j", "version"])),
+        (Vec::new(), 1)
+    );
+    assert_eq!(
+        hyprctl_output(None, dir, &args(&["clients"])),
+        (Vec::new(), 1)
+    );
+    assert_eq!(
+        hyprctl_output(Some("absent"), dir, &clients_argv),
+        (b"viola fixture text".to_vec(), 3)
+    );
+    let (oversize, code) = hyprctl_output(Some("oversize"), dir, &clients_argv);
+    assert_eq!((oversize.len() as u64, code), (MAX_FRAME + 1, 0));
+    let (malformed, code) = hyprctl_output(Some("malformed"), dir, &clients_argv);
+    assert!(serde_json::from_slice::<Value>(&malformed).is_err());
+    assert_eq!(code, 0);
+    assert_eq!(hyprctl_output(None, None, &clients_argv), (Vec::new(), 1));
+    assert_eq!(HYPRCTL, "hyprctl");
+}

@@ -1,0 +1,43 @@
+@pick n=1 row=contract/send-refusal/empty-text v=no
+@pick n=2 row=contract/send-refusal/control-character v=no
+@pick n=3 row=contract/revive-refusal/no-session v=no standing=S4
+@pick n=4 row=contract/revive-list-json/document v=no
+@pick n=5 row=contract/revive-json/strict-modes-failed v=no
+@pick n=6 row=contract/revive-json/stale-heartbeat v=no
+@pick n=7 row=contract/revive-json/squatted-name v=no
+@pick n=8 row=contract/revive-json/socket-dir-refused v=no
+@pick n=9 row=contract/revive-json/session-live v=no
+@pick n=10 row=contract/revive-json/pinned-hash-mismatch v=no
+@pick n=11 row=contract/revive-json/output-fields v=no
+@pick n=12 row=contract/revive-json/no-session v=no
+@pick n=13 row=contract/revive-json/internal-error v=no
+@pick n=14 row=contract/revive-json/error-document v=no
+@pick n=15 row=contract/revive-json/cwd-missing v=no
+@pick n=16 row=contract/revive-json/already-live v=no
+@pick n=17 row=contract/revive-arguments/id v=no
+@pick n=18 row=contract/mcp-tool-inputs/unknown-tool v=no
+@pick n=19 row=contract/mcp-tool-inputs/timeout-ms v=no
+@pick n=20 row=contract/mcp-tool-inputs/invalid-params v=no
+@pick n=21 row=contract/mcp-stdin/parse-rejected v=no standing=S3
+@pick n=22 row=contract/mcp-stdin/oversize-line v=no standing=S3
+@pick n=23 row=contract/mcp-errors/invalid-params v=no
+@pick n=24 row=contract/hook-stdin/oversize v=yes
+@pick n=25 row=contract/hook-stdin/not-one-object v=no
+@pick n=26 row=contract/config-json/seven-day v=no
+@pick n=27 row=contract/config-json/five-hour v=no
+@pick n=28 row=contract/config-json/dialog-hold-s v=no
+@pick n=29 row=contract/config-json/diagnostics-level v=no
+@pick n=30 row=contract/config-json/claude-env-keep v=no
+@pick n=31 row=contract/cli-send-text/input v=no
+@pick n=32 row=contract/cli-json-error/strict-modes-failed v=no
+@pick n=33 row=contract/channel-response-log/detail v=no standing=S3
+@pick n=34 row=contract/channel-frames/wait-last-params v=no
+@pick n=35 row=contract/channel-frames/version v=no
+@pick n=36 row=contract/channel-frames/send-params v=no
+@pick n=37 row=contract/channel-frames/release-params v=no
+@pick n=38 row=contract/channel-frames/pause-params v=no
+@pick n=39 row=contract/channel-frames/oversize-frame v=yes
+@pick n=40 row=contract/channel-frames/link-unlink-params v=no
+@pick n=41 row=contract/channel-frames/hook-event-revalidation v=no
+@pick n=42 row=contract/channel-frames/hook-dialog-params v=no
+@pick n=43 row=contract/channel-frames/answer-params v=no

@@ -1,0 +1,11 @@
+{
+  "v": 1,
+  "hyprland": "0.56.2",
+  "request": "focus-window",
+  "args": [
+    "dispatch",
+    "hl.dsp.focus({ window = \"address:0x555a9c521790\" })"
+  ],
+  "exit": 0,
+  "stdout": "ok\n"
+}

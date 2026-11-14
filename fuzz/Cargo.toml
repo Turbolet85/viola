@@ -14,6 +14,7 @@ libfuzzer-sys = "=0.4.13"
 viola-core = { path = "../crates/viola-core" }
 viola-channel = { path = "../crates/viola-channel" }
 viola-agent-claude = { path = "../crates/viola-agent-claude" }
+viola-hyprland = { path = "../crates/viola-hyprland" }
 
 # Its own workspace: libfuzzer-sys builds C++ with `cc`, which the root `deny.toml` bans from the
 # product graph.
@@ -58,6 +59,13 @@ bench = false
 [[bin]]
 name = "claude_agents_json"
 path = "fuzz_targets/claude_agents_json.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "hyprctl_json"
+path = "fuzz_targets/hyprctl_json.rs"
 test = false
 doc = false
 bench = false

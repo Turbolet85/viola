@@ -54,6 +54,28 @@ pub fn claude_in(dir: &Path) -> PathBuf {
     dir.join("claude")
 }
 
+/// `<scratch>/bin/hyprctl`: the fake agent planted under the name that makes it the fake
+/// `hyprctl`, with `hyprctl-set/` holding a copy of each file of `set` and, when given, its
+/// `hyprctl-mode` beside it. Every file is in place before the path is returned, so no child spawns
+/// while one is still being written (ETXTBSY on tmpfs).
+pub fn hyprctl_bin(scratch: &Path, mode: Option<&str>, set: &[PathBuf]) -> PathBuf {
+    let dir = scratch.join("bin");
+    let planted = dir.join("hyprctl-set");
+    fs::create_dir_all(&planted).expect("the hyprctl set dir");
+    for file in set {
+        let name = file.file_name().expect("a fixture file name");
+        fs::copy(file, planted.join(name)).expect("the hyprctl fixture copy");
+    }
+    if let Some(mode) = mode {
+        fs::write(dir.join("hyprctl-mode"), mode).expect("the hyprctl mode");
+    }
+    let hyprctl = dir.join("hyprctl");
+    if !hyprctl.is_file() && fs::hard_link(FAKE, &hyprctl).is_err() {
+        fs::copy(FAKE, &hyprctl).expect("the hyprctl copy");
+    }
+    hyprctl
+}
+
 /// Releases one gated step: one more complete line in the control file.
 pub fn release(control: &Path) {
     if let Some(dir) = control.parent() {

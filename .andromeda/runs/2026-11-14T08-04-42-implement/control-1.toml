@@ -1,0 +1,61 @@
+# Plan step 14: the four remove-the-guard controls, each case as nextest prints its name (the binary id
+# the plan writes before it is the line's own field, which the tool reads apart).
+
+[[control]]
+id = "oversize"
+entry = 15
+guard = "the length check ahead of the parse in crates/viola-hyprland/src/reply.rs"
+case = "reply::tests::parse_clients_takes_max_frame_bytes_and_refuses_one_more_as_oversize"
+
+[[control.edit]]
+path = "crates/viola-hyprland/src/reply.rs"
+old = '''fn json(bytes: &[u8]) -> Result<Value, HyprlandError> {
+    if bytes.len() as u64 > MAX_FRAME {
+        return Err(HyprlandError::Oversize);
+    }
+    serde_json::from_slice(bytes)'''
+new = '''fn json(bytes: &[u8]) -> Result<Value, HyprlandError> {
+    serde_json::from_slice(bytes)'''
+
+[[control]]
+id = "deadline-kill"
+entry = 15
+guard = "the kill at the deadline in crates/viola-hyprland/src/read.rs"
+case = "read::tests::read_past_the_deadline_kills_and_reaps_its_child"
+
+[[control.edit]]
+path = "crates/viola-hyprland/src/read.rs"
+old = '''        if Instant::now() >= until {
+            end(&mut child);
+            break None;
+        }'''
+new = '''        if Instant::now() >= until {
+            break None;
+        }'''
+
+[[control]]
+id = "title-scrub"
+entry = 16
+guard = "the allowlist replacement of step 8 in crates/viola-e2e/src/bin/viola-hypr-tap.rs"
+case = "tests::record_replaces_every_string_off_the_allowlist"
+
+[[control.edit]]
+path = "crates/viola-e2e/src/bin/viola-hypr-tap.rs"
+old = '''        Value::String(_) => Value::from(PLACEHOLDER),'''
+new = '''        Value::String(_) => value.clone(),'''
+
+[[control]]
+id = "hygiene-title"
+entry = 18
+guard = "the allowlist check of step 9 in tests/contract_fixture_hygiene.rs"
+case = "planted_hyprland_lastwindowtitle_is_rejected"
+
+[[control.edit]]
+path = "tests/contract_fixture_hygiene.rs"
+old = '''    if listed {
+        Ok(())
+    } else {
+        Err(HyprlandViolation::OffAllowlist)
+    }'''
+new = '''    let _ = listed;
+    Ok(())'''

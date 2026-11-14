@@ -413,6 +413,11 @@ const NOT_ERROR_BODIES: &[(&str, &str, &str)] = &[
         "CallToolResult::structured(payload)",
         "a result payload carries content by design (wait, last, list)",
     ),
+    (
+        "crates/viola-hyprland/src/lib.rs",
+        "pub enum HyprlandError {",
+        "the Hyprland seam's closed failure words, each message fixed: no verb calls the seam yet, so no surface writes one",
+    ),
 ];
 
 /// Census lines that build or route a document a row above names.
@@ -454,7 +459,7 @@ const PLUMBING: &[(&str, &str, &str)] = &[
     ),
 ];
 
-const PRODUCT_ROOTS: [&str; 7] = [
+const PRODUCT_ROOTS: [&str; 8] = [
     "src",
     "crates/viola-core/src",
     "crates/viola-pty/src",
@@ -462,6 +467,7 @@ const PRODUCT_ROOTS: [&str; 7] = [
     "crates/viola-state/src",
     "crates/viola-agent-claude/src",
     "crates/viola-mcp/src",
+    "crates/viola-hyprland/src",
 ];
 
 /// What makes a line a writer of an error body.

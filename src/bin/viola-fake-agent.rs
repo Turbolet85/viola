@@ -25,6 +25,8 @@ use viola_state::liveness::{process_start_time, start_times};
 
 #[path = "viola-fake-agent/agents.rs"]
 mod agents;
+#[path = "viola-fake-agent/hyprctl.rs"]
+mod hyprctl;
 #[path = "viola-fake-agent/input.rs"]
 mod input;
 #[path = "viola-fake-agent/statusline.rs"]
@@ -34,6 +36,7 @@ mod statusline;
 mod tests;
 
 use agents::{Registry, agents, exe_dir};
+use hyprctl::{hyprctl, is_hyprctl};
 use input::{Action, Input};
 use statusline::{shell_expanded, statusline_echo, statusline_words};
 
@@ -903,6 +906,9 @@ fn read_stdin(agent: &Agent) -> ExitCode {
 
 fn main() -> ExitCode {
     let args: Vec<String> = std::env::args().skip(1).collect();
+    if is_hyprctl() {
+        return hyprctl(&args);
+    }
     if let Some((mode, rest)) = args.split_first()
         && mode == STATUSLINE_ECHO
     {
