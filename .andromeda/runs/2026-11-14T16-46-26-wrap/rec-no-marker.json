@@ -1,0 +1,108 @@
+[
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:45:47Z",
+"argv": [
+"harness",
+"land",
+"--root",
+".",
+".claude/rules/testing.md",
+"--file",
+".andromeda/runs/2026-11-14T16-46-26-wrap/draft-.claude-rules-testing.md",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land .claude/rules/testing.md rev 20 · 4 node(s) · 1 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:45:52Z",
+"argv": [
+"harness",
+"land",
+"--root",
+".",
+".claude/rules/testing.md",
+"--file",
+".andromeda/runs/2026-11-14T16-46-26-wrap/draft-.claude-rules-testing.md",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/testing.md rev 20 · 1 new · 2 revised · 0 retired · tx 1229"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T17-45-51-2026-11-14T16-46-26-wrap.ndjson",
+"./.claude/rules/testing.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:53:55Z",
+"argv": [
+"outputs",
+"land",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed tx 1235 · 1889 record(s) of 165 payload(s)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T17-45-51-2026-11-14T16-46-26-wrap.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:54:00Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"sealed 2026-11-14T14-12-25-wrap · 163 file(s) · 2026-11-14T14-12-25-wrap.parquet · tx 1236 · 163 removed · 239 set aside",
+"sealed 2026-11-14T14-40-00-phase · 213 file(s) · 2026-11-14T14-40-00-phase.parquet · tx 1237 · 213 removed · 339 set aside",
+"sealed 2026-11-14T15-56-35-implement · 9 file(s) · 2026-11-14T15-56-35-implement.parquet · tx 1238 · 9 removed · 0 set aside",
+"seal · 3 run(s) · own 2026-11-14T16-46-26-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

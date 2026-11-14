@@ -1,0 +1,17 @@
+# rows-land · doc:layout-templates · operations 8cc0bf6cf9c4176d
+# a pattern each set and retire: the distinctive terms the old cell held and the new one lacks; its control the row's previous revision
+
+[[pattern]]
+id = "layouts1-2"
+regex = "5H|7D"
+# control: contract/bay-line/cell-order r1
+
+[[pattern]]
+id = "layouts1-6"
+fixed = "10/11/12/14"
+# control: contract/viola-send-output/unable r1
+
+[[pattern]]
+id = "layouts1-10"
+fixed = "5H"
+# control: contract/viola-list-board/window-expired r1

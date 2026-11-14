@@ -1,0 +1,2180 @@
+[
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T16:52:01Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-14-budget-gate-removed",
+"--file",
+".andromeda/cache/docs/2026-11-14-budget-gate-removed/report.md",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-14-budget-gate-removed/report rev 1 · 72 new · 0 revised · 0 retired · 0 kept · tx 1187"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T16:52:05Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-14-budget-gate-removed",
+"--section-file",
+".andromeda/runs/2026-11-14T16-46-26-wrap/new-text.md",
+"--heading",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-14-budget-gate-removed/report rev 2 · 77 new · 0 revised · 0 retired · 72 kept · tx 1188"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T16:52:14Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-14-budget-gate-removed",
+"--file",
+".andromeda/cache/docs/2026-11-14-budget-gate-removed/report.md",
+"--expect-rev",
+"2",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-14-budget-gate-removed/report rev 3 · 0 new · 1 revised · 0 retired · 148 kept · tx 1189"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T16:53:28Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-14T16-46-26-wrap/cites-land-2026-11-14-budget-gate-removed.ndjson",
+"--base",
+"e8d7406045d094ed4ad1aa470224f75526647397",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 0 fact(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T16:53:32Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-14T16-46-26-wrap/cites-land-2026-11-14-budget-gate-removed.ndjson",
+"--base",
+"e8d7406045d094ed4ad1aa470224f75526647397",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 0 fact(s) · 0 edge(s) · tx 1191"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T16:55:35Z",
+"argv": [
+"rows-packs",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 994 · packs 10 · pack 100 · 276904 B",
+"security-plan: rows 618 · packs 7 · pack 100 · 178977 B",
+"design-system: rows 325 · packs 4 · pack 100 · 77732 B",
+"layout-templates: rows 225 · packs 3 · pack 100 · 53028 B",
+"test-plan: rows 1375 · packs 14 · pack 100 · 363657 B",
+"obs-plan: rows 1060 · packs 11 · pack 100 · 288184 B",
+"a11y-plan: rows 241 · packs 3 · pack 100 · 67297 B",
+"rows-packs: 7 master(s) · 4838 row(s) · 52 pack(s) · 2 draw(s) a pack · pin 1191"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-14T16-46-26-wrap/rows-packs.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:14:24Z",
+"argv": [
+"rows-union",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 994 · packs 10 · picked 77 (71 by every draw) · standing 0 · 238631 B",
+"security-plan: rows 618 · packs 7 · picked 60 (43 by every draw) · standing 0 · 147211 B",
+"design-system: rows 325 · packs 4 · picked 36 (26 by every draw) · standing 0 · 67213 B",
+"layout-templates: rows 225 · packs 3 · picked 36 (15 by every draw) · standing 0 · 47346 B",
+"test-plan: rows 1375 · packs 14 · picked 104 (86 by every draw) · standing 0 · 285762 B",
+"obs-plan: rows 1060 · packs 11 · picked 64 (47 by every draw) · standing 0 · 184610 B",
+"a11y-plan: rows 241 · packs 3 · picked 35 (24 by every draw) · standing 0 · 49594 B",
+"rows-union: 7 master(s) · picked 412 of 4838 · rule any"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-14T16-46-26-wrap/arch-rows.md",
+".andromeda/runs/2026-11-14T16-46-26-wrap/arch-standing.md",
+".andromeda/runs/2026-11-14T16-46-26-wrap/arch-pick-counts.md",
+".andromeda/runs/2026-11-14T16-46-26-wrap/security-rows.md",
+".andromeda/runs/2026-11-14T16-46-26-wrap/security-standing.md",
+".andromeda/runs/2026-11-14T16-46-26-wrap/security-pick-counts.md",
+".andromeda/runs/2026-11-14T16-46-26-wrap/design-rows.md",
+".andromeda/runs/2026-11-14T16-46-26-wrap/design-standing.md",
+".andromeda/runs/2026-11-14T16-46-26-wrap/design-pick-counts.md",
+".andromeda/runs/2026-11-14T16-46-26-wrap/layouts-rows.md",
+".andromeda/runs/2026-11-14T16-46-26-wrap/layouts-standing.md",
+".andromeda/runs/2026-11-14T16-46-26-wrap/layouts-pick-counts.md",
+".andromeda/runs/2026-11-14T16-46-26-wrap/tests-rows.md",
+".andromeda/runs/2026-11-14T16-46-26-wrap/tests-standing.md",
+".andromeda/runs/2026-11-14T16-46-26-wrap/tests-pick-counts.md",
+".andromeda/runs/2026-11-14T16-46-26-wrap/obs-rows.md",
+".andromeda/runs/2026-11-14T16-46-26-wrap/obs-standing.md",
+".andromeda/runs/2026-11-14T16-46-26-wrap/obs-pick-counts.md",
+".andromeda/runs/2026-11-14T16-46-26-wrap/a11y-rows.md",
+".andromeda/runs/2026-11-14T16-46-26-wrap/a11y-standing.md",
+".andromeda/runs/2026-11-14T16-46-26-wrap/a11y-pick-counts.md",
+".andromeda/runs/2026-11-14T16-46-26-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:21:02Z",
+"argv": [
+"query",
+"--root",
+".",
+"select id, verdict, substr(pattern,1,110) as p from rule where status is null or status <> 'superseded'",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 2,
+"stdout": [],
+"stderr": "query: Binder Error: Referenced column \"pattern\" not found in FROM clause!",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:29:36Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-14T16-46-26-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-14T16-46-26-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/older-release-shapes-as-fixtures · rejected",
+"decision/wrapper-appended-kinds-log-only · rejected",
+"decision/wrapper-events-log-only · rejected",
+"fit: fits 36 · not_master 0 · stands 0",
+"## 2026-11-14-budget-gate-removed — Design Philosophy: 1 row(s)\n**Section:** Design Philosophy\n**Change:** + absence/usage-budget-gate — A usage-budget gate: no subscription rate-limit reading, no budget state, no send paused or refused on usage\n**Why:** absence/usage-budget-gate: The budget gate and governor were removed whole, so the project no longer has the capability and the masters must say so.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — Conventions: 7 row(s) (1 of 2)\n**Section:** Conventions\n**Change:** + decision/retired-exit-codes-never-reused — Retired exit codes never reused\n~ decision/json-field-names-snake-case · except: was «`last_assistant_message`, `resets_at` and `used_percentage` stay as Claude emits them.»; now «`last_assistant_message` stays as Claude emits it.»\n~ decision/protocol-version-bump-rule · except: was «»; now «Removing the budget gate's fields and event kind kept every own-format `v` at 1 (snapshot, channel params, event line, list document); readers skip the removed keys and kind.»\n~ decision/unparseable-external-values-unknown · rule: was «An unparseable external value becomes the string `\"unknown\"` in viola's own records, never an error, covering `resets_at`, `used_percentage` and a missing statusline window.»; now «An unparseable external value becomes the string `\"unknown\"` in viola's own records, never an error.»\n~ contract/cli-exit-codes/11 · promise: was «The `budget-paused` refusal.»; now «Unassigned: the retired `budget-paused` refusal's code, never reused or renumbered.»\n~ contract/cli-verbs/release · promise: was «`viola release <target> [--budget]`.»; now «`viola release <target>`; a `--budget` flag is a usage error (exit 2).»\n~ contract/mcp-tool-results/success · promise: was «A success is a tool result with `isError: false` and the channel `ok` payload as `structuredContent`; for `list`, the caller-side `{items, budget, skipped}` payload.»; now «A success is a tool result with `isError: false` and the channel `ok` payload as `structuredContent`; for `list`, the caller-side `{items, skipped}` payload.»\n**Why:** decision/retired-exit-codes-never-reused: Exit 11 left with budget-paused and was retired, never renumbered or reused, which binds every later exit-code assignment.\ndecision/json-field-names-snake-case: The rate-limits reading and its resets_at and used_percentage fields are gone from every viola format.\ndecision/protocol-version-bump-rule: The founder ruled that every own-format v stays 1 for this removal, written as an exception to the bump rule. — resolved by the operator (Q1): relayed verbatim by overseer1, 2026-11-14, inputs#I8: «Подтвердить (Recommended)»\ndecision/unparseable-external-values-unknown: resets_at, used_percentage and the statusline window are no longer read, so the row no longer covers them.\ncontract/cli-exit-codes/11: budget-paused is gone and nothing maps to exit 11, which stays retired and is never reused.\ncontract/cli-verbs/release: release's --budget flag was removed and clap now refuses it with exit 2.\ncontract/mcp-tool-results/success: The list ok payload lost its budget member.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — Conventions: 3 row(s) (2 of 2)\n**Section:** Conventions\n**Change:** ~ contract/refusal-order/send · promise: was «control-character, empty-text, human-typing, budget-paused, turn-running, the readiness gate (input-not-ready), human-typing and turn-running read again after the gate, then no-prompt-submitted.»; now «control-character, empty-text, human-typing, turn-running, the readiness gate (input-not-ready), human-typing and turn-running read again after the gate, then no-prompt-submitted.»\n− contract/normalised-event-kinds/budget-gate → none: budget-gate is no longer a normalised event kind.\n− contract/refusal-reason/budget-paused → none: budget-paused is no longer a RefusalReason.\n**Why:** contract/refusal-order/send: The budget rung left the send refusal order.\ncontract/normalised-event-kinds/budget-gate: EventKind::BudgetGate was removed from viola-core.\ncontract/refusal-reason/budget-paused: RefusalReason::BudgetPaused was removed; an older wrapper's word reads unknown.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — Stack and Technologies: 1 row(s)\n**Section:** Stack and Technologies\n**Change:** ~ decision/nutype-domain-newtypes · rule: was «Bounded domain values are nutype newtypes: ViolaName (charset and length cap), Percent (0 to 100), DialogHold (whole seconds 60 to 3600).»; now «Bounded domain values are nutype newtypes: ViolaName (charset and length cap), DialogHold (whole seconds 60 to 3600).»\n**Why:** decision/nutype-domain-newtypes: Percent was removed from viola-core with the budget thresholds, so it is no longer a domain newtype.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — Established Decisions: 7 row(s) (1 of 2)\n**Section:** Established Decisions\n**Change:** ~ decision/nutype-newtypes · rule: was «Validated values are nutype newtypes (`ViolaName`, `Percent`, `DialogHold`); no garde or validator.»; now «Validated values are nutype newtypes (`ViolaName`, `DialogHold`); no garde or validator.»\n~ decision/permission-request-question-stays-null · why: was «A PermissionRequest allow with updatedInput would satisfy it, but that body has no ledger row; adding one needs a 25th row, its viola verify probe and a re-stamp of every stamped version.»; now «A PermissionRequest allow with updatedInput would satisfy it, but that body has no ledger row; adding one needs a 24th row, its viola verify probe and a re-stamp of every stamped version.»\n~ decision/run-start-order · rule: was «A start resolves the program, checks collision, pins the copy and plugin, gates the version, binds the endpoint, evaluates the budget gate, writes the first snapshot, heartbeat and start events, and only then spawns the child.»; now «A start resolves the program, checks collision, pins the copy and plugin, gates the version, binds the endpoint, writes the first snapshot, heartbeat and start events, and only then spawns the child.»\n~ decision/test-isolated-viola-home · rule: was «Each test runs in its own viola home (`--home`), so parallel tests never share an endpoint, log or `budget.json`.»; now «Each test runs in its own viola home (`--home`), so parallel tests never share an endpoint or log.»\n~ contract/send-refusal/order · promise: was «`control-character` → `empty-text` → `human-typing` → `budget-paused` → `turn-running` → the readiness gate's wait.»; now «`control-character` → `empty-text` → `human-typing` → `turn-running` → the readiness gate's wait.»\n− decision/budget-default-thresholds → none: The budget thresholds were removed with the gate.\n− decision/budget-gate-fail-open → none: The budget gate no longer exists.\n**Why:** decision/nutype-newtypes: Percent was removed from viola-core with the budget thresholds, so it is no longer a validated newtype.\ndecision/permission-request-question-stays-null: The relied ledger rows went from 24 to 23 with the statusline-rate-limits row removed, so a new row is now the 24th.\ndecision/run-start-order: The start no longer evaluates a budget gate, so that step leaves the start order.\ndecision/test-isolated-viola-home: budget.json no longer exists, so tests no longer share or isolate it.\ncontract/send-refusal/order: The budget rung left the send refusal order.\ndecision/budget-default-thresholds: five_hour and seven_day and their defaults were retired whole.\ndecision/budget-gate-fail-open: The gate and governor were retired whole.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — Established Decisions: 10 row(s) (2 of 2)\n**Section:** Established Decisions\n**Change:** − decision/budget-gate-fails-open → none: The budget gate no longer exists.\n− decision/budget-gate-never-polls → none: The budget gate is no longer evaluated anywhere.\n− decision/budget-governor-soft-stop → none: The budget governor no longer exists.\n− decision/budget-pause-gates-only-send → none: budget-paused no longer exists.\n− decision/budget-pause-lift → none: No budget pause exists to lift.\n− decision/budget-readings-last-writer-wins → none: No budget reading is kept.\n− decision/budget-soft-stop → none: The budget governor no longer exists.\n− decision/only-send-reads-budget-gate → none: No verb reads a budget gate, and its Path 6 guard was deleted.\n− decision/release-budget-per-instance → none: release --budget no longer exists.\n− decision/tolerant-resets-at → none: No external resets_at is read any more.\n**Why:** decision/budget-gate-fails-open: The gate and governor were retired whole.\ndecision/budget-gate-never-polls: No start, send or turn-end evaluation of a budget gate remains.\ndecision/budget-governor-soft-stop: The gate and governor were retired whole.\ndecision/budget-pause-gates-only-send: The budget-paused refusal was retired.\ndecision/budget-pause-lift: The pause lift and release --budget were retired.\ndecision/budget-readings-last-writer-wins: budget.json and its single-writer decisions were retired.\ndecision/budget-soft-stop: The gate, governor and thresholds were retired whole.\ndecision/only-send-reads-budget-gate: The gate and the Path 6 suite were retired.\ndecision/release-budget-per-instance: The flag, the budget param and override_until were retired.\ndecision/tolerant-resets-at: The rate_limits parse that read resets_at was removed.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — Standard Contracts: 5 row(s) (1 of 4)\n**Section:** Standard Contracts\n**Change:** ~ decision/list-reads-state-directly · rule: was «`list` is not a channel method: the calling process reads the instances and budget files itself plus one `claude agents --json` read joined into the board, so `list` needs no live wrapper.»; now «`list` is not a channel method: the calling process reads the instances itself plus one `claude agents --json` read joined into the board, so `list` needs no live wrapper.»\n~ decision/snapshot-replay-log-fields-only · rule: was «A snapshot rebuilt by replay recovers only links, agent_session_id, wheel and the budget gate from the log; a field no line gave is absent, never a default.»; now «A snapshot rebuilt by replay recovers only links, agent_session_id and wheel from the log; a field no line gave is absent, never a default.»\n~ decision/statusline-hook-exempt · rule: was «`viola hook statusline` records the `rate_limits` reading, prints the user's statusline command's stdout unchanged, and always exits 0 with empty stderr.»; now «`viola hook statusline` prints the user's statusline command's stdout unchanged and always exits 0 with empty stderr.»\n~ contract/channel-methods/release-type-check · promise: was «A `release` whose `from` is of a non-string type, or whose `budget` is not a bool (`null` included), is `-32602` with `data: null`; this check comes first.»; now «A `release` whose `from` is of a non-string type, or that carries a `budget` key of any value (`null` included), is `-32602` `invalid-params` with `data: null`, no wheel moved and no record; only the string-`from` refusal comes before it.»\n~ contract/channel-methods/plain-release · promise: was «A `release` with no `budget` or `budget:false` lifts no pause and answers `budget_paused` as the gate's last recorded state; a `release` on a driver-held wheel changes nothing.»; now «A `release` on a driver-held wheel changes nothing.»\n**Why:** decision/list-reads-state-directly: list no longer reads a budget file or thresholds.\ndecision/snapshot-replay-log-fields-only: The replay now recovers links, agent_session_id and wheel alone, the budget gate fields removed.\ndecision/statusline-hook-exempt: The statusline wrapper no longer reads or records rate_limits.\ncontract/channel-methods/release-type-check: Any budget key on release is now refused invalid-params instead of being read, the string-from refusal still first.\ncontract/channel-methods/plain-release: release has no budget param or budget_paused answer any more, so only the driver-held clause stays true.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — Standard Contracts: 6 row(s) (2 of 4)\n**Section:** Standard Contracts\n**Change:** ~ contract/channel-methods/release · promise: was «A request: `release` `{budget?:bool, from?}` answers `{wheel:<holder>, budget_paused:bool, override_until?}`.»; now «A request: `release` `{from?}` answers `{wheel:<holder>}`.»\n~ contract/hook-statusline/capture · promise: was «With `--capture <DIR>` the arm takes `viola verify`'s probe capture: no instance check, no `budget.json` write, no command run, nothing printed; without it the pass-through is unchanged.»; now «With `--capture <DIR>` the arm takes `viola verify`'s probe capture: no instance check, no command run, nothing printed; without it the pass-through is unchanged.»\n~ contract/hook-statusline/refused-check · promise: was «A refused check ends the arm at once with exit 0: nothing under the home read or opened, no stdin read, no command run, nothing printed, `budget.json` untouched and the home's mode left as found.»; now «A refused check ends the arm at once with exit 0: nothing under the home read or opened, no stdin read, no command run, nothing printed and the home's mode left as found.»\n~ contract/instance-snapshot/data · promise: was «`data` is `{endpoint?, pid, started_at, pinned_bin, statusline_command?, cli_version?, cli_verified, wheel, budget_paused, budget_override_until?, pending_dialog?, links, child_pid?, agent_session_id?, cwd?}`.»; now «`data` is `{endpoint?, pid, started_at, pinned_bin, statusline_command?, cli_version?, cli_verified, wheel, pending_dialog?, links, child_pid?, agent_session_id?, cwd?}`.»\n~ contract/list-item/wrapped · promise: was «false marks a read-only unwrapped row from claude agents --json, named by its sessionId, never a valid target, live, dialog_pending false, with no wheel, budget_paused, cli_version or cli_verified.»; now «false marks a read-only unwrapped row from claude agents --json, named by its sessionId, never a valid target, live, dialog_pending false, with no wheel, cli_version or cli_verified.»\n~ contract/list-payload/items · promise: was «Each `items` entry is `{name, wrapped, liveness, status, wheel?, budget_paused?, dialog_pending, cli_version?, cli_verified?}`.»; now «Each `items` entry is `{name, wrapped, liveness, status, wheel?, dialog_pending, cli_version?, cli_verified?}`.»\n**Why:** contract/channel-methods/release: release params went from {budget?, from?} to {from?} and the reply to {wheel}.\ncontract/hook-statusline/capture: The statusline arm writes no budget file in any mode.\ncontract/hook-statusline/refused-check: budget.json no longer exists for the arm to leave untouched.\ncontract/instance-snapshot/data: The snapshot no longer holds budget_paused or budget_override_until.\ncontract/list-item/wrapped: The list item lost its budget_paused field.\ncontract/list-payload/items: The list item lost its budget_paused field.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — Standard Contracts: 9 row(s) (3 of 4)\n**Section:** Standard Contracts\n**Change:** ~ contract/list-payload/ok · promise: was «The `list` `ok` payload, CLI `--json` and MCP `list` alike, is `{items, budget, skipped}`; `list` is not a channel method and needs no live wrapper.»; now «The `list` `ok` payload, CLI `--json` and MCP `list` alike, is `{items, skipped}`; `list` is not a channel method and needs no live wrapper.»\n~ contract/mcp-refusal-result/shape · promise: was «`{\"content\":[{\"type\":\"text\",\"text\":\"refused: budget-paused\"}],\"isError\":true,\"structuredContent\":{\"refusal\":\"budget-paused\",\"detail\":\"five-hour\"}}`»; now «`{\"content\":[{\"type\":\"text\",\"text\":\"refused: human-typing\"}],\"isError\":true,\"structuredContent\":{\"refusal\":\"human-typing\",\"detail\":null}}`»\n~ contract/snapshot-envelope/unreadable-snapshot · promise: was «A snapshot whose `v` is higher than the reader supports, or that fails to parse, is ignored and state is rebuilt by replaying `events.ndjson`, recovering only `links`, `agent_session_id`, `wheel`, `budget_paused`, `budget_override_until`; the replay writes no file.»; now «A snapshot whose `v` is higher than the reader supports, or that fails to parse, is ignored and state is rebuilt by replaying `events.ndjson`, recovering only `links`, `agent_session_id`, `wheel`; the replay writes no file.»\n− contract/channel-methods/budget-release-durability → none: A release takes no budget key and nothing records a budget lift.\n− contract/channel-methods/release-budget-true → none: budget:true is refused invalid-params and lifts nothing.\n− contract/channel-methods/send-budget-paused → none: No budget gate refuses a send.\n− contract/channel-send/budget-paused → none: No budget gate refuses a send.\n− contract/event-data/budget-gate → none: The budget-gate kind and its data keys no longer exist.\n− contract/list-item/budget-paused → none: The list item has no budget_paused field.\n**Why:** contract/list-payload/ok: The list payload went from {items, budget, skipped} to {items, skipped}.\ncontract/mcp-refusal-result/shape: budget-paused and its MCP sample were retired, so the shape is shown on a refusal that stands.\ncontract/snapshot-envelope/unreadable-snapshot: The replay now recovers links, agent_session_id and wheel alone.\ncontract/channel-methods/budget-release-durability: Any budget key on release is now refused invalid-params with no record.\ncontract/channel-methods/release-budget-true: Any budget key on release is now refused invalid-params.\ncontract/channel-methods/send-budget-paused: The send path's budget rung was removed.\ncontract/channel-send/budget-paused: The send path's budget rung was removed.\ncontract/event-data/budget-gate: EventKind::BudgetGate and its paused, window and override_until keys were removed.\ncontract/list-item/budget-paused: board::Item.budget_paused was removed.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — Standard Contracts: 2 row(s) (4 of 4)\n**Section:** Standard Contracts\n**Change:** − contract/list-payload/budget → none: The list payload has no budget member.\n− contract/wrapper-event-appends/budget-gate → none: The wrapper appends no budget-gate line.\n**Why:** contract/list-payload/budget: The list payload went from {items, budget, skipped} to {items, skipped}.\ncontract/wrapper-event-appends/budget-gate: A start writes one wheel record then session-start, and no budget-gate kind remains.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — Occupied Resources: 10 row(s) (1 of 2)\n**Section:** Occupied Resources\n**Change:** ~ decision/config-bad-value-falls-back · rule: was «An unusable config.json file or value falls back to its default and is reported as a parse-rejected config-json line; no value switches the budget gate off or makes the dialog hold zero or unbounded.»; now «An unusable config.json file or value falls back to its default and is reported as a parse-rejected config-json line; no value makes the dialog hold zero or unbounded.»\n~ decision/config-falls-back-to-defaults · why: was «so no value switches the budget gate off or makes the dialog hold zero or unbounded»; now «so no value makes the dialog hold zero or unbounded»\n~ decision/list-home-read-rule · except: was «The budget read, mcp's start and plugin install keep the write rule on the home.»; now «mcp's start and plugin install keep the write rule on the home.»\n~ decision/refused-statusline-check-no-trace · rule: was «A refused instance check on viola hook statusline exits 0 at once with no config read, no role file, no line, no stdin read, no command run, nothing printed and budget.json untouched.»; now «A refused instance check on viola hook statusline exits 0 at once with no config read, no role file, no line, no stdin read, no command run and nothing printed.»\n− decision/budget-json-single-writer → none: budget.json is no longer written or read.\n− decision/shared-budget-reading → none: No budget reading is kept.\n− contract/budget-json/five-hour → none: budget.json no longer exists.\n− contract/budget-json/read-at → none: budget.json no longer exists.\n− contract/budget-json/seven-day → none: budget.json no longer exists.\n− contract/budget-json/v → none: budget.json no longer exists.\n**Why:** decision/config-bad-value-falls-back: The budget thresholds left config.json, so no value concerns a budget gate.\ndecision/config-falls-back-to-defaults: The budget thresholds left config.json, so no value concerns a budget gate.\ndecision/list-home-read-rule: list makes no budget read any more.\ndecision/refused-statusline-check-no-trace: budget.json no longer exists for the arm to leave untouched.\ndecision/budget-json-single-writer: budget.json, its writer, readers and single-writer decisions were retired.\ndecision/shared-budget-reading: budget.json, its writer, readers and single-writer decisions were retired.\ncontract/budget-json/five-hour: budget.json and its contract fields were retired.\ncontract/budget-json/read-at: budget.json and its contract fields were retired.\ncontract/budget-json/seven-day: budget.json and its contract fields were retired.\ncontract/budget-json/v: budget.json and its contract fields were retired.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — Occupied Resources: 2 row(s) (2 of 2)\n**Section:** Occupied Resources\n**Change:** − contract/config-json/five-hour → none: five_hour is no longer a config.json key.\n− contract/config-json/seven-day → none: seven_day is no longer a config.json key.\n**Why:** contract/config-json/five-hour: schemas/config.v1.json dropped five_hour and CONFIG_KEYS no longer holds it.\ncontract/config-json/seven-day: schemas/config.v1.json dropped seven_day and CONFIG_KEYS no longer holds it.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — Infrastructure Patterns: 2 row(s)\n**Section:** Infrastructure Patterns\n**Change:** ~ decision/agent-claude-pure · rule: was «viola-agent-claude takes no viola-state dependency and writes no file; stamps, budget and settings files are written by viola-state and the root bin.»; now «viola-agent-claude takes no viola-state dependency and writes no file; stamps and settings files are written by viola-state and the root bin.»\n~ decision/root-bin-consumes-normalised-events · rule: was «The root bin holds the subcommand dispatch, the run pump, the wheel and the budget governor, all of which consume only normalised events.»; now «The root bin holds the subcommand dispatch, the run pump and the wheel, all of which consume only normalised events.»\n**Why:** decision/agent-claude-pure: The budget file and its writer were removed.\ndecision/root-bin-consumes-normalised-events: The budget governor was removed from the root bin.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — Cross-cutting Patterns: 1 row(s)\n**Section:** Cross-cutting Patterns\n**Change:** ~ decision/mixed-version-tolerance · rule: was «Every channel params, event, snapshot and config carries v; readers of own formats skip unknown kinds and fields and surface the counts.»; now «Every channel params, event, snapshot and config carries v; readers of own formats skip unknown kinds and fields and surface the counts, so an older writer's state reads whole, and a stamp holding a retired ledger row verifies on the relied rows alone.»\n**Why:** decision/mixed-version-tolerance: A budget-era snapshot and log read whole with their retired keys and lines skipped, and a stamp holding the retired row verifies on the relied rows.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"patterns: 39 in cascade-patterns-architecture-1.toml",
+"dry-run · would land 66 operation(s) · 14 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-14T16-46-26-wrap/cascade-patterns-architecture-1.toml"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:29:42Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-14T16-46-26-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-14T16-46-26-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/older-release-shapes-as-fixtures · rejected",
+"decision/wrapper-appended-kinds-log-only · rejected",
+"decision/wrapper-events-log-only · rejected",
+"fit: fits 36 · not_master 0 · stands 0",
+"landed tx 1193 · 66 operation(s) · 14 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+".andromeda/runs/2026-11-14T16-46-26-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:29:46Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-14T16-46-26-wrap/ops-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-14T16-46-26-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/config-tolerant-parse · rejected",
+"decision/home-write-rule-checkers · rejected",
+"decision/mcp-and-plugin-install-check-home · rejected",
+"contract/cli-release/budget-flag · rejected",
+"contract/cli-exit-codes/11 · rejected",
+"absence/usage-budget-gate · rejected",
+"decision/budget-era-state-read-tolerantly · rejected",
+"fit: fits 8 · not_master 0 · stands 0",
+"## 2026-11-14-budget-gate-removed — Authentication & Authorization: 5 row(s)\n**Section:** Authentication & Authorization\n**Change:** ~ decision/driver-release-refused · rule: was «The wrapper refuses a release whose params carry a string from, before any budget is acted on.»; now «The wrapper refuses a release whose params carry a string from, before any other check of its params.»\n~ decision/release-from-driver-guard · rule: was «The wrapper refuses a release whose params carry a string from, before budget is acted on.»; now «The wrapper refuses a release whose params carry a string from, before any other check of its params.»\n~ contract/channel-release/params · promise: was «release params are {budget?, from?}; a release on a wheel the driver already holds changes nothing.»; now «release params are {from?}; a release on a wheel the driver already holds changes nothing.»\n~ contract/channel-release/string-from · promise: was «Refused with -32602 \"invalid params\" and data {\"reason\":\"release-from-driver\"}, one release-from-driver line logged (from_trust:\"self-reported\"); a budget pause is not lifted and the snapshot's budget fields stay as they were.»; now «Refused with -32602 \"invalid params\" and data {\"reason\":\"release-from-driver\"}, one release-from-driver line logged (from_trust:\"self-reported\").»\n− decision/budget-gate-fails-open → none: The budget gate and budget.json are removed, and no send is refused for usage.\n**Why:** decision/driver-release-refused: The release method has no budget left to act on, its string-from refusal now coming first ahead of the non-string from and budget-key checks, so the rule's budget clause is false.\ndecision/release-from-driver-guard: The release method has no budget left to act on, its string-from refusal now coming first ahead of the non-string from and budget-key checks, so the rule's budget clause is false.\ncontract/channel-release/params: The budget param of release is retired, so the params are {from?} alone.\ncontract/channel-release/string-from: No budget pause or snapshot budget field remains, so the clause about them describes nothing.\ndecision/budget-gate-fails-open: The gate the row describes was retired whole.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — Input Validation: 8 row(s) (1 of 2)\n**Section:** Input Validation\n**Change:** ~ contract/channel-frames/release-params · promise: was «budget is absent or a bool, else -32602 with data null; from is absent or null, a string from is -32602 with data reason release-from-driver, any other type -32602 with data null.»; now «from is absent or null, a string from is -32602 with data reason release-from-driver, any other type -32602 with data null; after those checks any budget key, true, false, a string or null, is -32602 invalid-params with data null, no wheel moved and no record written.»\n~ decision/config-cannot-disable-controls · rule: was «No configuration value switches the budget gate off or makes the dialog hold zero or unbounded, and an identity-floor name in claude_env_keep has no effect.»; now «No configuration value makes the dialog hold zero or unbounded, and an identity-floor name in claude_env_keep has no effect.»\n~ decision/statusline-payload-fails-silent · rule: was «The statusline hook payload takes the hook stdin cap and one-object rule, each failure ending in exit 0, empty stderr, nothing printed and no budget file.»; now «The statusline hook payload takes the hook stdin cap and one-object rule, each failure ending in exit 0, empty stderr and nothing printed; the hook reads no rate_limits and writes no file.»\n− decision/budget-file-single-writer → none: budget.json is no longer written by anything.\n− decision/budget-json-single-writer → none: budget.json is no longer written by anything, and the rate_limits reading is gone.\n− decision/failed-budget-read-no-reading → none: No budget file is read any more.\n− contract/budget-json/resets-at → none: The budget.json format no longer exists.\n− contract/budget-json/used-percentage → none: The budget.json format no longer exists.\n**Why:** contract/channel-frames/release-params: A budget key is no longer a bool param but refused whatever its value, after the from checks, so the frame's params contract changes.\ndecision/config-cannot-disable-controls: The budget gate no longer exists, so no configuration value can switch it off.\ndecision/statusline-payload-fails-silent: hook statusline lost its rate_limits reading and budget-file write and is a pass-through after its instance check, capped stdin and malformed-json refusal.\ndecision/budget-file-single-writer: budget.json, its writer and its single-writer decisions were retired with the gate.\ndecision/budget-json-single-writer: budget.json, its writer and its single-writer decisions were retired with the gate.\ndecision/failed-budget-read-no-reading: The budget file's readers were deleted with the gate.\ncontract/budget-json/resets-at: budget.json and its contract fields, resets_at among them, were retired.\ncontract/budget-json/used-percentage: budget.json and its contract fields, used_percentage among them, were retired.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — Input Validation: 3 row(s) (2 of 2)\n**Section:** Input Validation\n**Change:** − contract/budget-json/window → none: The budget.json format no longer exists.\n− contract/config-json/five-hour → none: five_hour is no longer a config.json key.\n− contract/config-json/seven-day → none: seven_day is no longer a config.json key.\n**Why:** contract/budget-json/window: budget.json and its contract fields, window among them, were retired.\ncontract/config-json/five-hour: The config schema dropped five_hour and the key list no longer holds it.\ncontract/config-json/seven-day: The config schema dropped seven_day and the key list no longer holds it.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — Data Protection: 1 row(s)\n**Section:** Data Protection\n**Change:** + decision/viola-format-fixtures-hygiene — viola-format fixtures under the hygiene walk\n**Why:** decision/viola-format-fixtures-hygiene: The chunk committed viola-format fixtures and widened the hygiene walk to cover them.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"patterns: 8 in cascade-patterns-security-plan-1.toml",
+"dry-run · would land 17 operation(s) · 4 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-14T16-46-26-wrap/cascade-patterns-security-plan-1.toml"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:29:51Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-14T16-46-26-wrap/ops-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-14T16-46-26-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/config-tolerant-parse · rejected",
+"decision/home-write-rule-checkers · rejected",
+"decision/mcp-and-plugin-install-check-home · rejected",
+"contract/cli-release/budget-flag · rejected",
+"contract/cli-exit-codes/11 · rejected",
+"absence/usage-budget-gate · rejected",
+"decision/budget-era-state-read-tolerantly · rejected",
+"fit: fits 8 · not_master 0 · stands 0",
+"landed tx 1194 · 17 operation(s) · 4 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+".andromeda/runs/2026-11-14T16-46-26-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:29:51Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-14T16-46-26-wrap/ops-design-system.md",
+"--results",
+".andromeda/runs/2026-11-14T16-46-26-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"absence/usage-budget-gate · rejected",
+"contract/channel-release/budget-key · rejected",
+"fit: fits 7 · not_master 0 · stands 0",
+"## 2026-11-14-budget-gate-removed — Brand Identity: 3 row(s)\n**Section:** Brand Identity\n**Change:** ~ decision/fixed-phraseology-vocabulary · rule: was «Short fixed words (`open`, `RB`, `unable`, `human-typing`, `budget-paused`, `not-delivered`) are the vocabulary of every label, CLI column and refusal, with no filler and no guessing.»; now «Short fixed words (`open`, `RB`, `unable`, `human-typing`, `not-delivered`) are the vocabulary of every label, CLI column and refusal, with no filler and no guessing.»\n− decision/budget-paused-stops-new-sends → none: viola has no budget governor and no budget-paused state any more.\n− decision/readings-carry-their-age → none: The budget reading this rule governed no longer exists.\n**Why:** decision/fixed-phraseology-vocabulary: The word `budget-paused` was retired with the budget gate, so the vocabulary no longer names it.\ndecision/budget-paused-stops-new-sends: The budget gate was removed whole, so a row about its paused state stands true of nothing.\ndecision/readings-carry-their-age: The rate-limits reading and the board's budget cells were removed, so the rule has no reading left to govern.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — Iconography: 1 row(s)\n**Section:** Iconography\n**Change:** ~ contract/cli-separators/space-hyphen-space · promise: was «Space, hyphen, space replaces a middle dot inside one field or label (`driver - budget-paused`).»; now «Space, hyphen, space replaces a middle dot inside one field or label (`skipped 2 - 0 - 1`).»\n**Why:** contract/cli-separators/space-hyphen-space: The WHEEL cell has no ` - budget-paused` form any more, so the example must be one that still prints.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — Surface: cli: 4 row(s)\n**Section:** Surface: cli\n**Change:** ~ contract/cli-exit-codes/10-14 · promise: was «An `unable` refusal with its reason; a refusal object under `--json`.»; now «An `unable` refusal with its reason; a refusal object under `--json`; 11 is retired (was `budget-paused`) and never reused.»\n~ contract/viola-list-table/bay-line · promise: was «The BAY line is the ATIS without `resets` times (printed by `viola release <name> --budget`) and without a TAPE cell.»; now «The BAY line carries the skip counts only (`BAY  skipped a - b - c`), with no TAPE cell.»\n− decision/expired-window-shown-expired → none: No budget window is read or printed any more.\n− contract/cli-verb-output/release-budget → none: `viola release` takes no `--budget` and prints neither the lifted nor the open line.\n**Why:** contract/cli-exit-codes/10-14: Nothing maps to exit 11 any more, so the range must say 11 is retired.\ncontract/viola-list-table/bay-line: The BAY line's budget cells are gone and its line is now the skip counts alone.\ndecision/expired-window-shown-expired: The budget windows and their board cells were removed with the gate.\ncontract/cli-verb-output/release-budget: The `--budget` flag and its two output lines were retired.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — Surface: cli: 10 row(s)\n**Section:** Surface: cli\n**Change:** ~ decision/no-hint-names-viola-release · why: was «The human-typing and budget-paused refusals reach drivers, and a driver's `release` is refused (`-32602`, `release-from-driver`, exit 20).»; now «The human-typing refusal reaches drivers, and a driver's `release` is refused (`-32602`, `release-from-driver`, exit 20).»\n~ decision/wheel-column-width-23 · rule: was «The board's WHEEL column is padded to 23 characters, the width of its widest word `unknown - budget-paused` (a replayed row with a logged pause and no logged holder).»; now «The board's WHEEL column is padded to 23 characters.»\n~ contract/cli-exit-codes/11 · promise: was «`unable  budget-paused  five-hour` or `seven-day`; under `--json` the refusal object.»; now «Retired (was `budget-paused`) and never reused; a `budget-paused` refusal from an older wrapper reads `unknown`, exit 14.»\n− contract/refusal-hints/budget-paused → none: The `budget-paused` refusal and its hint were removed.\n− contract/viola-list-board/human-holder-budget-paused → none: The WHEEL cell has no ` - budget-paused` form.\n− contract/viola-list-board/reading-age → none: The board prints no budget reading and so no reading age.\n− contract/viola-list-board/window-figure → none: The board prints no budget window figure.\n− contract/viola-release-budget/lifted-line → none: `viola release --budget` no longer exists, so the lifted line never prints.\n− contract/viola-release-budget/open-line → none: `viola release --budget` no longer exists, so the open line never prints.\n− contract/viola-release-budget/override-time → none: No release reply carries `override_until` any more.\n**Why:** decision/no-hint-names-viola-release: The budget-paused refusal was retired, so the reason names only the refusal that still reaches drivers.\ndecision/wheel-column-width-23: The width is kept while its widest word `unknown - budget-paused` is gone, so the rule keeps the width alone.\ncontract/cli-exit-codes/11: The budget-paused refusal and its exit code were retired, and the masters must state exit 11 as retired and never reused.\ncontract/refusal-hints/budget-paused: No refusal prints the budget-paused hint any more.\ncontract/viola-list-board/human-holder-budget-paused: The board no longer prints a budget-paused holder form.\ncontract/viola-list-board/reading-age: The BAY line's `read` cell is gone with the budget cells.\ncontract/viola-list-board/window-figure: The BAY line's `5H` and `7D` cells are gone.\ncontract/viola-release-budget/lifted-line: The `--budget` flag and its lifted line were retired.\ncontract/viola-release-budget/open-line: The `--budget` flag and its open line were retired.\ncontract/viola-release-budget/override-time: The override time was retired with `release --budget`.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — Anti-Patterns (NEVER do these): 1 row(s)\n**Section:** Anti-Patterns (NEVER do these)\n**Change:** − decision/budget-as-ruled-figures → none: viola prints no budget at all.\n**Why:** decision/budget-as-ruled-figures: The budget figures and the `budget-paused` word were removed, so the rule governs nothing.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"patterns: 6 in cascade-patterns-design-system-1.toml",
+"dry-run · would land 19 operation(s) · 5 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-14T16-46-26-wrap/cascade-patterns-design-system-1.toml"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:29:56Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-14T16-46-26-wrap/ops-design-system.md",
+"--results",
+".andromeda/runs/2026-11-14T16-46-26-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"absence/usage-budget-gate · rejected",
+"contract/channel-release/budget-key · rejected",
+"fit: fits 7 · not_master 0 · stands 0",
+"landed tx 1195 · 19 operation(s) · 5 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+".andromeda/runs/2026-11-14T16-46-26-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:29:56Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"layout-templates",
+"--file",
+".andromeda/runs/2026-11-14T16-46-26-wrap/ops-layout-templates.md",
+"--results",
+".andromeda/runs/2026-11-14T16-46-26-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"absence/usage-budget-gate · rejected",
+"contract/viola-release-args/budget · rejected",
+"fit: fits 6 · not_master 0 · stands 0",
+"## 2026-11-14-budget-gate-removed — Surface: cli: 6 row(s) (1 of 2)\n**Section:** Surface: cli\n**Change:** ~ decision/board-planning-forms-wording · rule: was «The board's planning forms (a figure rounded down, the whole-minute age and `read unknown`, bare skip counts, `human - budget-paused`, the empty board's three lines) are its wording.»; now «The board's planning forms (bare skip counts, the empty board's three lines) are its wording.»\n~ contract/bay-line/cell-order · promise: was «`BAY`, `5H <n> %`, `7D <n> %` (each followed by `expired` when the window has passed), `read <age> ago`, `gate open` or `budget-paused`, `skipped a - b - c`, separated by the two-space gutter.»; now «`BAY`, then `skipped a - b - c`, separated by the two-space gutter.»\n~ contract/cli-exit-codes/11 · promise: was «`budget-paused`.»; now «Retired (was `budget-paused`), never reused; no refusal maps to 11.»\n~ contract/cli-exit-codes/14 · promise: was «`unknown`.»; now «`unknown`; an older wrapper's `budget-paused` reply also reads as `unknown`.»\n~ contract/viola-list-json/document · promise: was «One JSON document on stdout with no header line, no colour and no glyph; its item, budget and skipped shapes are the list payload contract.»; now «One JSON document on stdout with no header line, no colour and no glyph; its item and skipped shapes are the list payload contract.»\n~ contract/viola-send-output/unable · promise: was «`[/ ] unable …` prints on stderr with exit 13 (or 10/11/12/14) when the wrapper refuses, or exit 13 when the client refuses the text before any frame (not-delivered with control-character or empty-text).»; now «`[/ ] unable …` prints on stderr with exit 13 (or 10/12/14) when the wrapper refuses, or exit 13 when the client refuses the text before any frame (not-delivered with control-character or empty-text).»\n**Why:** decision/board-planning-forms-wording: The board's BAY budget cells and the `budget-paused` WHEEL form are retired, so the rounded figure, the read age and `human - budget-paused` are no longer board wording.\ncontract/bay-line/cell-order: The BAY line is now `BAY  skipped a - b - c`; the `5H`, `7D`, `read` and gate cells are gone.\ncontract/cli-exit-codes/11: Exit 11 is retired with the budget gate and the masters must state it as retired and never reused.\ncontract/cli-exit-codes/14: The CLI exit map reads an older wrapper's `budget-paused` reply as `unknown` (14), which the exit 14 row must carry.\ncontract/viola-list-json/document: The `list` payload is now `{items, skipped}`; its `budget` member is gone.\ncontract/viola-send-output/unable: Nothing maps to exit 11 any more, so a send refusal never exits 11.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — Surface: cli: 4 row(s) (2 of 2)\n**Section:** Surface: cli\n**Change:** − contract/release-budget-output/gate-lifted → none: `viola release --budget` and its budget gate lifted line are retired.\n− contract/release-budget-output/gate-open → none: `viola release --budget` and its budget gate open line are retired.\n− contract/viola-list-board/gate-closed → none: The board has no budget gate cell, so `budget-paused` never prints on the BAY line.\n− contract/viola-list-board/window-expired → none: The board shows no budget window figure, so no `expired` form prints.\n**Why:** contract/release-budget-output/gate-lifted: The release `--budget` flag and its lifted / open lines are removed with the budget gate.\ncontract/release-budget-output/gate-open: The release `--budget` flag and its lifted / open lines are removed with the budget gate.\ncontract/viola-list-board/gate-closed: The board's BAY budget cells and the `budget-paused` word are retired.\ncontract/viola-list-board/window-expired: The BAY line's `5H` and `7D` cells are retired with the budget gate.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"patterns: 5 in cascade-patterns-layout-templates-1.toml",
+"dry-run · would land 10 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-14T16-46-26-wrap/cascade-patterns-layout-templates-1.toml"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:30:00Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"layout-templates",
+"--file",
+".andromeda/runs/2026-11-14T16-46-26-wrap/ops-layout-templates.md",
+"--results",
+".andromeda/runs/2026-11-14T16-46-26-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"absence/usage-budget-gate · rejected",
+"contract/viola-release-args/budget · rejected",
+"fit: fits 6 · not_master 0 · stands 0",
+"landed tx 1196 · 10 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+".andromeda/runs/2026-11-14T16-46-26-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:30:00Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"a11y-plan",
+"--file",
+".andromeda/runs/2026-11-14T16-46-26-wrap/ops-a11y-plan.md",
+"--results",
+".andromeda/runs/2026-11-14T16-46-26-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/cli-usage-error/exit-2 · rejected",
+"contract/config-json/unknown-keys · rejected",
+"fit: fits 4 · not_master 0 · stands 0",
+"## 2026-11-14-budget-gate-removed — 8. Cognitive Accessibility: 6 row(s)\n**Section:** 8. Cognitive Accessibility\n**Change:** ~ contract/cli-exit-codes/11 · promise: was «budget-paused, with detail five-hour or seven-day.»; now «Retired (was budget-paused) and never reused; an older wrapper's budget-paused refusal reads as unknown, exit 14.»\n~ decision/time-bounds-fall-on-the-driver · rule: was «Every time bound (MCP wait cap, dialog hold, readiness gate, confirm windows, budget pause, statusline deadline, agents read) falls on the driver or viola's own child, never blocking, refusing or delaying a human key and never moving the wheel.»; now «Every time bound (MCP wait cap, dialog hold, readiness gate, confirm windows, statusline deadline, agents read) falls on the driver or viola's own child, never blocking, refusing or delaying a human key and never moving the wheel.»\n− decision/budget-gate → none: The budget gate on automated sends is removed whole, with its thresholds, its budget-paused refusal, release --budget and its Path 6 guard.\n− decision/budget-gate-only-on-send → none: No budget gate remains for send or any other verb to read, and its Path 6 guard is deleted.\n− contract/config-json/five-hour → none: config.json no longer has a five_hour key; the schema drops it and the budget thresholds are retired.\n− contract/config-json/seven-day → none: config.json no longer has a seven_day key; the schema drops it and the budget thresholds are retired.\n**Why:** contract/cli-exit-codes/11: The exit map now sends nothing to 11 and an older wrapper's budget-paused reads unknown (14), so the row naming 11 as budget-paused must state it retired and never reused.\ndecision/time-bounds-fall-on-the-driver: The budget gate is removed whole, so the budget pause is no longer one of the time bounds the row lists.\ndecision/budget-gate: The chunk retires the budget gate and governor entirely, so no row may stand stating the gate refuses a send.\ndecision/budget-gate-only-on-send: With the gate removed the rule about which verbs read it is true of nothing.\ncontract/config-json/five-hour: The config schema and the read keys drop five_hour, so its contract row describes a key that no longer exists.\ncontract/config-json/seven-day: The config schema and the read keys drop seven_day, so its contract row describes a key that no longer exists.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — 6. Visual Design Verification: 1 row(s)\n**Section:** 6. Visual Design Verification\n**Change:** ~ decision/state-carried-by-printed-word · rule: was «Each board state is carried by its printed word (stale, DIALOG <kind>, expired, budget-paused, unverified-cli, idle, busy, n/a), never by colour alone.»; now «Each board state is carried by its printed word (stale, DIALOG <kind>, expired, unverified-cli, idle, busy, n/a), never by colour alone.»\n**Why:** decision/state-carried-by-printed-word: The WHEEL cell has no budget-paused form any more, so the board's printed state words no longer include budget-paused.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — 8. Cognitive Accessibility: 1 row(s)\n**Section:** 8. Cognitive Accessibility\n**Change:** ~ decision/time-bounds-never-on-human · rule: was «Every time bound viola holds (wait timeout and cap, dialog hold, send readiness gate, confirmation windows, status-line deadline, agents read, budget pause) falls on the driver, the user's command or viola's child; no key is blocked, refused or delayed by it.»; now «Every time bound viola holds (wait timeout and cap, dialog hold, send readiness gate, confirmation windows, status-line deadline, agents read) falls on the driver, the user's command or viola's child; no key is blocked, refused or delayed by it.»\n**Why:** decision/time-bounds-never-on-human: The budget gate is removed whole, so the budget pause is no longer one of the time bounds viola holds.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"patterns: 2 in cascade-patterns-a11y-plan-1.toml",
+"dry-run · would land 8 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-14T16-46-26-wrap/cascade-patterns-a11y-plan-1.toml"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:30:05Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"a11y-plan",
+"--file",
+".andromeda/runs/2026-11-14T16-46-26-wrap/ops-a11y-plan.md",
+"--results",
+".andromeda/runs/2026-11-14T16-46-26-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/cli-usage-error/exit-2 · rejected",
+"contract/config-json/unknown-keys · rejected",
+"fit: fits 4 · not_master 0 · stands 0",
+"landed tx 1197 · 8 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+".andromeda/runs/2026-11-14T16-46-26-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:30:05Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-14T16-46-26-wrap/ops-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-14T16-46-26-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"absence/usage-budget-gate · rejected",
+"contract/cli-exit-codes/11 · rejected",
+"contract/statusline-span-attributes/statusline-shell-out · rejected",
+"decision/diag-schema-additive-only · rejected",
+"decision/log-fields-additive-only · rejected",
+"decision/obs-aligns-to-tests-log-format · rejected",
+"decision/log-schema-additive-only · rejected",
+"decision/unemittable-schema-words-removed · rejected",
+"contract/budget-span-attributes/statusline-shell-out · rejected",
+"fit: fits 16 · not_master 0 · stands 0",
+"## 2026-11-14-budget-gate-removed — 4. Span / Trace Coverage: 6 row(s) (1 of 2)\n**Section:** 4. Span / Trace Coverage\n**Change:** + contract/statusline-spans/span-chain — statusline spans · span chain\n~ decision/product-order-from-events-log · rule: was «The product order wheel{cause:\"start\"} then budget-gate then session-start{source:\"hook\"} is verified from the instance's events log, not duplicated into process logs.»; now «The product order wheel{cause:\"start\"} then session-start{source:\"hook\"} is verified from the instance's events log, not duplicated into process logs.»\n~ contract/release-refusal/invalid-params · promise: was «A from of another type, or a non-bool budget, is a plain -32602 (data null) with no release-from-driver line, its channel-response carrying detail invalid-params on both sides at WARN.»; now «A from of another type, or any budget key (true, false, a string or null), is a plain -32602 (data null) after the release-from-driver check, with no release-from-driver line, no wheel moved and no record; its channel-response carries detail invalid-params on both sides at WARN.»\n~ contract/run-start-spans/span-chain · promise: was «run.start (INTERNAL, root) › state.snapshot_recover › run.collision_check › run.pin_copy › run.version_gate › channel.bind › run.budget_eval (trigger start) › state.snapshot_write › state.heartbeat_start › pty.spawn (CLIENT).»; now «run.start (INTERNAL, root) › state.snapshot_recover › run.collision_check › run.pin_copy › run.version_gate › channel.bind › state.snapshot_write › state.heartbeat_start › pty.spawn (CLIENT).»\n~ contract/statusline-log-fields/hook-decision · promise: was «hook-decision{hook_event:\"statusline\", budget_written, duration_ms}, deadline_hit only when true; budget_written is true only when the payload held a rate_limits object and the write succeeded.»; now «hook-decision{hook_event:\"statusline\", duration_ms}, deadline_hit only when true.»\n− decision/unreadable-budget-reads-as-none → none: No budget file is kept or read.\n**Why:** contract/statusline-spans/span-chain: The status-line arm no longer writes a budget file and run.budget_eval is gone, so the chain keeps the hook span and the shell-out alone.\ndecision/product-order-from-events-log: A start now writes wheel then the hook's session-start, with no budget-gate between them.\ncontract/release-refusal/invalid-params: A release carrying any budget key is now refused as invalid-params with no wheel moved and no record, where the row named only a non-bool budget.\ncontract/run-start-spans/span-chain: The start has no run.budget_eval span any more.\ncontract/statusline-log-fields/hook-decision: The status-line arm writes no budget file and its hook-decision carries no budget_written.\ndecision/unreadable-budget-reads-as-none: The budget.json readers were removed with the state crate's budget module.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — 4. Span / Trace Coverage: 6 row(s) (2 of 2)\n**Section:** 4. Span / Trace Coverage\n**Change:** − contract/budget-span-attributes/run-budget-eval → none: The run.budget_eval span is retired.\n− contract/budget-span-attributes/state-budget-write → none: No budget file is written, so state.budget_write is gone.\n− contract/budget-spans/span-chain → contract/statusline-spans/span-chain: The budget governor spans are retired; the status-line chain keeps the hook span and the shell-out alone.\n− contract/events-log/budget-gate → none: The budget-gate event kind is retired.\n− contract/release-budget/budget-gate → contract/release-refusal/invalid-params: A release carrying budget is now refused as invalid-params instead of appending a budget-gate record.\n− contract/send-refused/budget-paused → none: The budget-paused refusal and its exit 11 are retired.\n**Why:** contract/budget-span-attributes/run-budget-eval: The governor's evaluation and its span left the product.\ncontract/budget-span-attributes/state-budget-write: The budget.json writer was removed.\ncontract/budget-spans/span-chain: state.budget_write and run.budget_eval are gone with the governor.\ncontract/events-log/budget-gate: EventKind::BudgetGate was removed and no budget-gate record is appended.\ncontract/release-budget/budget-gate: The release method lost its budget param, and any budget key is refused -32602.\ncontract/send-refused/budget-paused: RefusalReason::BudgetPaused was removed and the send path has no budget rung.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — 1. Obs Scope Summary: 1 row(s)\n**Section:** 1. Obs Scope Summary\n**Change:** ~ decision/statusline-command-confined · rule: was «On the budget governor path, the `statusline_command` string never appears outside `diagnostics/`.»; now «The statusline_command string never appears outside diagnostics/.»\n**Why:** decision/statusline-command-confined: The budget governor path is retired, while the status-line pass-through that runs the command stays.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — 1. Obs Scope Summary: 6 row(s)\n**Section:** 1. Obs Scope Summary\n**Change:** ~ decision/exit-code-log-field · rule: was «The exit code (0, 1, 2, 10–14, 20, 21), the machine-readable outcome, is carried as a log field.»; now «The exit code (0, 1, 2, 10, 12–14, 20, 21), the machine-readable outcome, is carried as a log field; 11 is retired and never reused.»\n~ contract/channel-response/invalid-params-causes · promise: was «detail invalid-params covers send's invalid params, and a link or unlink whose driver or driven is missing, not a string or no valid name, whose driven is not the serving wrapper's own name, or whose driver equals driven.»; now «detail invalid-params covers send's invalid params, a release whose from is not a string or that carries any budget key, and a link or unlink whose driver or driven is missing, not a string or no valid name, whose driven is not the serving wrapper's own name, or whose driver equals driven.»\n~ contract/run-start-events/order · promise: was «A run start writes wheel{cause:\"start\"}, then budget-gate, then session-start.»; now «A run start writes wheel{cause:\"start\"}, then session-start.»\n− decision/budget-metadata-loggable → none: budget.json and its percentages and resets_at no longer exist.\n− contract/budget-log-line/window → none: No log line carries a budget window any more.\n− contract/budget-path-log-events/event-set → none: The budget path and the budget-paused refusal are retired.\n**Why:** decision/exit-code-log-field: Nothing maps to exit 11 any more, so the listed codes lose it.\ncontract/channel-response/invalid-params-causes: A release carrying a budget key is now refused -32602 with channel-response detail invalid-params, a cause the list lacks.\ncontract/run-start-events/order: The start writes one start record and no budget-gate record any more.\ndecision/budget-metadata-loggable: The budget file was retired whole, so a rule about logging its metadata states nothing.\ncontract/budget-log-line/window: The window field left the diag-line schema with the budget gate.\ncontract/budget-path-log-events/event-set: No send is refused budget-paused and the status-line arm writes no budget file, so the budget path's event set is gone.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — 3. Observability Harness Contract: 4 row(s)\n**Section:** 3. Observability Harness Contract\n**Change:** ~ contract/config-json/known-keys · promise: was «config.json has six known keys: v, diagnostics_level, claude_env_keep, five_hour, seven_day, dialog_hold_s; any other key is counted as skipped.»; now «config.json has four known keys: v, diagnostics_level, claude_env_keep, dialog_hold_s; any other key, a retired five_hour or seven_day included, is counted as skipped in one parse-rejected config-json unknown-keys line at its process's start, and nothing refuses.»\n~ contract/config-json/v · promise: was «A document that is no object, or whose v is not 1, gives the threshold and hold defaults and no further line.»; now «A document that is no object, or whose v is not 1, gives the hold default and no further line.»\n− contract/config-json/five-hour → none: five_hour is no longer a config.json key.\n− contract/config-json/seven-day → none: seven_day is no longer a config.json key.\n**Why:** contract/config-json/known-keys: The threshold keys left the config schema and a config still carrying them logs one unknown-keys line without refusing.\ncontract/config-json/v: The threshold keys are gone, so there is no threshold default left to give.\ncontract/config-json/five-hour: The config schema dropped five_hour, which now reads as an unknown key.\ncontract/config-json/seven-day: The config schema dropped seven_day, which now reads as an unknown key.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — 5. Metric Coverage: 1 row(s)\n**Section:** 5. Metric Coverage\n**Change:** ~ decision/gauges-from-harness-snapshots · rule: was «A current-value gauge is read from harness snapshots: budget.read_at, and liveness via agent-run status.»; now «A current-value gauge is read from harness snapshots: liveness via agent-run status.»\n**Why:** decision/gauges-from-harness-snapshots: budget.json and its read_at are retired, so no budget gauge remains.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — 6. Log Coverage: 3 row(s)\n**Section:** 6. Log Coverage\n**Change:** ~ contract/diag-line-fields/hook-events · promise: was «hook_event (one of ten closed hook names incl. statusline), invoked_at, decision_emitted, deadline_hit, budget_written, detail, duration_ms.»; now «hook_event (one of ten closed hook names incl. statusline), invoked_at, decision_emitted, deadline_hit, detail, duration_ms.»\n~ contract/diag-line-fields/send-events · promise: was «from, from_trust, text_bytes (normalised typed length), confirmed, refusal, detail, side (client or wrapper), wheel, window, used_percentage, resets_at, paused, duration_ms, and wrapper side only conn / srv_conn and rpc_id.»; now «from, from_trust, text_bytes (normalised typed length), confirmed, refusal, detail, side (client or wrapper), wheel, duration_ms, and wrapper side only conn / srv_conn and rpc_id.»\n~ contract/send-refused-detail/refusal-reason-words · promise: was «Refusal details are the arch RefusalReason details verbatim: manual-pause, five-hour, seven-day, input-not-ready, no-prompt-submitted, turn-running, unknown-dialog, control-character, empty-text.»; now «Refusal details are the arch RefusalReason details verbatim: manual-pause, input-not-ready, no-prompt-submitted, turn-running, unknown-dialog, control-character, empty-text.»\n**Why:** contract/diag-line-fields/hook-events: The diag-line schema dropped budget_written from hook-decision.\ncontract/diag-line-fields/send-events: The diag-line schema dropped window, used_percentage, resets_at and paused from the send lines.\ncontract/send-refused-detail/refusal-reason-words: budget-paused and its five-hour and seven-day details are retired.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — 8. PII Scrubbing & Compliance: 1 row(s)\n**Section:** 8. PII Scrubbing & Compliance\n**Change:** ~ decision/typed-ids-never-in-detail · rule: was «pid, child_pid, agent_session_id, started_at, budget percentages and resets_at are logged as typed fields, never inside detail codes.»; now «pid, child_pid, agent_session_id and started_at are logged as typed fields, never inside detail codes.»\n**Why:** decision/typed-ids-never-in-detail: The budget percentages and resets_at are no longer read or logged.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"patterns: 14 in cascade-patterns-obs-plan-1.toml",
+"dry-run · would land 28 operation(s) · 8 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-14T16-46-26-wrap/cascade-patterns-obs-plan-1.toml"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:30:10Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-14T16-46-26-wrap/ops-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-14T16-46-26-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"absence/usage-budget-gate · rejected",
+"contract/cli-exit-codes/11 · rejected",
+"contract/statusline-span-attributes/statusline-shell-out · rejected",
+"decision/diag-schema-additive-only · rejected",
+"decision/log-fields-additive-only · rejected",
+"decision/obs-aligns-to-tests-log-format · rejected",
+"decision/log-schema-additive-only · rejected",
+"decision/unemittable-schema-words-removed · rejected",
+"contract/budget-span-attributes/statusline-shell-out · rejected",
+"fit: fits 16 · not_master 0 · stands 0",
+"landed tx 1198 · 28 operation(s) · 8 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+".andromeda/runs/2026-11-14T16-46-26-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:30:11Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-14T16-46-26-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-14T16-46-26-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/budget-pause-thresholds · rejected",
+"contract/viola-release/budget · rejected",
+"absence/usage-budget-gate · rejected",
+"contract/channel-release/budget-key · rejected",
+"contract/viola-release/budget-flag · rejected",
+"decision/budget-era-state-read-whole · rejected",
+"decision/retired-config-keys-not-refused · rejected",
+"fit: fits 28 · not_master 0 · stands 0",
+"## 2026-11-14-budget-gate-removed — 1. Test Scope Summary: 6 row(s)\n**Section:** 1. Test Scope Summary\n**Change:** ~ decision/cli-env-vector-negative-tests · rule: was «Path-traversal names, a --home or VIOLA_DIR failing strict-modes, oversize answer JSON and an out-of-range Percent in config.json are each covered by negative tests that show them refused.»; now «Path-traversal names, a --home or VIOLA_DIR failing strict-modes and oversize answer JSON are each covered by negative tests that show them refused.»\n~ decision/self-bootstrapping-test-data · rule: was «Each test bootstraps its own state in a fresh --home: the fake agent replays recorded fixtures, budget.json is seeded through viola hook statusline, stamps come from viola verify against the fake agent, and no state is developer-seeded.»; now «Each test bootstraps its own state in a fresh --home: the fake agent replays recorded fixtures, stamps come from viola verify against the fake agent, and no state is developer-seeded.»\n~ contract/viola-hook-statusline/passthrough · promise: was «The user's statusline is passed through unchanged, after budget.json is written.»; now «The user's statusline is passed through unchanged.»\n~ contract/viola-list-json/items · promise: was «In the {\"v\":1,\"ok\":...} document, ok.items is an array of {name, wrapped, liveness live|stale, status idle|busy|unknown, wheel? human|driver, budget_paused?, dialog_pending, cli_version?, cli_verified?}.»; now «In the {\"v\":1,\"ok\":...} document, ok.items is an array of {name, wrapped, liveness live|stale, status idle|busy|unknown, wheel? human|driver, dialog_pending, cli_version?, cli_verified?}.»\n− contract/viola-hook-statusline/budget-json → none: viola hook statusline reads no rate_limits and writes no budget.json.\n− contract/viola-list-json/budget → none: The list ok payload is {items, skipped}, with no budget member.\n**Why:** decision/cli-env-vector-negative-tests: The thresholds and their Percent type are retired, so no out-of-range Percent in config.json remains to be refused.\ndecision/self-bootstrapping-test-data: budget.json and its writer are retired, so no test seeds it through viola hook statusline.\ncontract/viola-hook-statusline/passthrough: viola hook statusline no longer writes a budget file, so the pass-through follows no write.\ncontract/viola-list-json/items: The board item's budget_paused field is removed from the list document.\ncontract/viola-hook-statusline/budget-json: The budget file write is removed from the statusline hook.\ncontract/viola-list-json/budget: viola list reads no budget and its document lost the budget member.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — 1. Test Scope Summary: 6 row(s)\n**Section:** 1. Test Scope Summary\n**Change:** ~ decision/snapshot-replay-fields · rule: was «A corrupt snapshot or one of unsupported v is replayed from the event log, recovering only links, agent_session_id, wheel, budget_paused and budget_override_until with dialog_pending false; the replay writes no file and gives no cwd.»; now «A corrupt snapshot or one of unsupported v is replayed from the event log, recovering only links, agent_session_id and wheel with dialog_pending false; the replay writes no file and gives no cwd.»\n~ contract/run-start-events/order · promise: was «The events log reads wheel with cause start, then budget-gate, then the agent's session-start with source hook.»; now «The events log reads wheel with cause start, then the agent's session-start with source hook.»\n− contract/budget-json/rate-limits → none: budget.json and the rate_limits reading are retired.\n− contract/cli-release/budget → none: release --budget and budget_paused are removed.\n− contract/cli-send-json/budget-paused → none: No send is refused by a budget gate, and exit 11 is retired.\n− contract/event-log/budget-gate → none: The budget-gate event kind is removed.\n**Why:** decision/snapshot-replay-fields: The replay no longer recovers budget_paused or budget_override_until; it recovers links, agent_session_id and wheel alone.\ncontract/run-start-events/order: A start writes no budget-gate record any more, so its records are the wheel line then the hook's session-start.\ncontract/budget-json/rate-limits: No writer of budget.json remains.\ncontract/cli-release/budget: release lost its --budget flag and its budget reply fields.\ncontract/cli-send-json/budget-paused: The budget-paused refusal and its exit 11 are retired.\ncontract/event-log/budget-gate: EventKind lost budget-gate, so no budget pause is logged.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — 2. Test Strategy: 2 row(s)\n**Section:** 2. Test Strategy\n**Change:** ~ decision/e2e-for-critical-paths · rule: was «All seven critical paths and the expansion scenarios have E2E tests against harness-booted wrappers over the fake agent, through the outer PTY and the rmcp client.»; now «Every critical path and the expansion scenarios have E2E tests against harness-booted wrappers over the fake agent, through the outer PTY and the rmcp client.»\n− decision/budget-json-from-statusline → none: budget.json is retired, so no test takes it from the statusline hook.\n**Why:** decision/e2e-for-critical-paths: The Path 6 budget suite is retired with the gate, so the stated count of seven critical paths no longer stands.\ndecision/budget-json-from-statusline: The budget file and its single writer are removed.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — 3. Test Harness Contract: 4 row(s)\n**Section:** 3. Test Harness Contract\n**Change:** ~ contract/boot-readiness/events · promise: was «Event lines 1 to 3 are a wheel line with cause start, then budget-gate, then session-start with source hook; missing reads events.»; now «Event lines 1 and 2 are a wheel line with cause start, then session-start with source hook; missing reads events.»\n~ contract/harness-boot/statusline-echo · promise: was «--statusline-echo conflicts with --unstamped and plants an owner-only statusline settings source in the session home that viola only reads; it sets no env var and writes no budget file.»; now «--statusline-echo conflicts with --unstamped and plants an owner-only statusline settings source in the session home that viola only reads; it sets no env var.»\n− contract/agent-run-status-polled-fields/budget → none: The status document's list carries no budget member.\n− contract/agent-run-status-polled-fields/budget-paused → none: List items carry no budget_paused field.\n**Why:** contract/boot-readiness/events: The harness readiness probe now waits for two start records, the budget-gate line gone.\ncontract/harness-boot/statusline-echo: The budget file is retired whole, so naming it as a write the flag avoids keeps a retired surface standing.\ncontract/agent-run-status-polled-fields/budget: The list document lost its budget member, so the status shape no longer holds it.\ncontract/agent-run-status-polled-fields/budget-paused: The board item's budget_paused is removed, so the status document no longer holds it.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — 4. Unit Test Strategy: 5 row(s)\n**Section:** 4. Unit Test Strategy\n**Change:** ~ decision/bounded-readers-keep-the-cap · rule: was «The status line shell-out, the version gate drain, the hyprctl reader and the thresholds, dialog hold and env-keep readers keep no more than the frame cap of what they read; a command the cut ends is a failed command.»; now «The status line shell-out, the version gate drain, the hyprctl reader and the dialog hold and env-keep readers keep no more than the frame cap of what they read; a command the cut ends is a failed command.»\n~ decision/send-refusal-order · rule: was «send refuses in the order control-character, empty-text, human-typing, budget-paused, turn-running, input-not-ready, no-prompt-submitted, and after the gate is ready reads human-typing and turn-running again before anything is issued or typed.»; now «send refuses in the order control-character, empty-text, human-typing, turn-running, input-not-ready, no-prompt-submitted, and after the gate is ready reads human-typing and turn-running again before anything is issued or typed.»\n~ decision/version-gate-needs-all-relied-rows · rule: was «A CLI version reads verified only when its stamp holds every relied ledger row as pass; a stamp of only older row ids reads unverified.»; now «A CLI version reads verified only when its stamp holds every relied ledger row as pass, a retired row it also holds changing nothing; a stamp of only older row ids reads unverified.»\n− decision/budget-decision-takes-the-instant → none: The budget decision and its thresholds and override expiry are removed.\n− decision/budget-governor-thresholds → none: The budget governor and its thresholds are removed.\n**Why:** decision/bounded-readers-keep-the-cap: The threshold keys and their reader are removed, so no thresholds reader remains to be bounded.\ndecision/send-refusal-order: The budget rung leaves the send refusal order.\ndecision/version-gate-needs-all-relied-rows: The statusline-rate-limits row is retired, and a stamp still holding it verifies on the relied rows alone.\ndecision/budget-decision-takes-the-instant: run::budget with decide and the lift is deleted.\ndecision/budget-governor-thresholds: No send is refused budget-paused and release --budget is gone.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — 5. Integration Test Strategy: 1 row(s)\n**Section:** 5. Integration Test Strategy\n**Change:** ~ decision/hook-exec-against-live-wrapper · rule: was «viola hook is fed fixture stdin against a live test wrapper, and its event line, hook trace and budget.json are asserted.»; now «viola hook is fed fixture stdin against a live test wrapper, and its event line and hook trace are asserted.»\n**Why:** decision/hook-exec-against-live-wrapper: The hook writes no budget.json any more, so none is asserted.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — 5. Integration Test Strategy: 2 row(s)\n**Section:** 5. Integration Test Strategy\n**Change:** ~ decision/bad-config-value-falls-back · guard: was «setting_does_not_disable_the_budget_gate»; now «»\n~ decision/hook-tests-real-binary · rule: was «Hook integration tests run the viola binary's hook verb with fixture stdin and VIOLA_NAME / VIOLA_DIR against a live test wrapper, asserting the event line, the hook diagnostics trace and budget.json.»; now «Hook integration tests run the viola binary's hook verb with fixture stdin and VIOLA_NAME / VIOLA_DIR against a live test wrapper, asserting the event line and the hook diagnostics trace.»\n**Why:** decision/bad-config-value-falls-back: The named guard setting_does_not_disable_the_budget_gate is deleted with the Path 6 suite.\ndecision/hook-tests-real-binary: budget.json is retired, so hook tests assert no budget file.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — 6. E2E Test Strategy: 6 row(s)\n**Section:** 6. E2E Test Strategy\n**Change:** ~ decision/property-tests-on-parsers · rule: was «proptest at 512 cases covers every parser surface: paste validation, ndjson framing at the frame cap plus and minus one, the hook stdin, statusline, agents and hyprctl reply parsers, the vt100 feed and prompt-submitted normalisation, with its regressions directory committed.»; now «proptest at 512 cases covers every parser surface: paste validation, ndjson framing at the frame cap plus and minus one, the hook stdin, agents and hyprctl reply parsers, the vt100 feed and prompt-submitted normalisation, with its regressions directory committed.»\n~ contract/hook-statusline/passthrough · promise: was «The statusline output passes through byte for byte, and budget.json holds the fed reading.»; now «The statusline output passes through byte for byte.»\n~ contract/viola-send/exit-11 · promise: was «A budget crossing logs budget-gate{paused:true} and send is refused exit 11 with its window word.»; now «Retired (was budget-paused) and never renumbered or reused: no refusal maps to 11, and an older wrapper's budget-paused word reads unknown, exit 14.»\n~ decision/snapshot-replay-from-log · rule: was «Over a truncated, unreadable or newer-version snapshot, a start and the product readers replay instance state from the event log, links, the budget pause, override end and the agent session id included, with no dialog pending, and write no file.»; now «Over a truncated, unreadable or newer-version snapshot, a start and the product readers replay instance state from the event log, links, the wheel and the agent session id included, with no dialog pending, and write no file.»\n− decision/budget-pause-threshold → none: No budget reading pauses the driver any more.\n− contract/run-start-records/first-three → contract/event-log/start-wheel-record: A start writes two records, not three, the budget-gate record gone.\n**Why:** decision/property-tests-on-parsers: The statusline rate_limits reader and its proptest are removed, its regression seeds deleted.\ncontract/hook-statusline/passthrough: viola hook statusline reads no rate_limits and writes no budget.json, so no fed reading is held.\ncontract/viola-send/exit-11: The budget-paused refusal is removed and exit 11 is retired, never reused.\ndecision/snapshot-replay-from-log: The replay recovers links, agent_session_id and wheel alone, the budget pause and override end gone; its guard still names the deleted cli_budget cases (to re-point to a_start_over_an_unreadable_snapshot_replays_the_log and the cli_links case) in a later pass.\ndecision/budget-pause-threshold: The thresholds and the gate are retired.\ncontract/run-start-records/first-three: Its item names the first three records, which no longer stand.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — 6. E2E Test Strategy: 9 row(s) (1 of 2)\n**Section:** 6. E2E Test Strategy\n**Change:** ~ decision/property-tests-with-proptest · rule: was «Input parsers and validators are property-tested with proptest at 512 cases; proptest-regressions files are committed for the viola-core, hook, statusline, agents and Hyprland reply suites.»; now «Input parsers and validators are property-tested with proptest at 512 cases; proptest-regressions files are committed for the viola-core, hook, agents and Hyprland reply suites.»\n~ contract/event-log/start-wheel-record · promise: was «Every start, a revived one included, appends wheel{holder:\"driver\", cause:\"start\"} as its first record.»; now «Every start, a revived one included, appends wheel{holder:\"driver\", cause:\"start\"} as its first record, and the hook's session-start is its second and last start record.»\n~ contract/viola-release/document · promise: was «Gives {wheel:\"driver\", budget_paused:false}, after which a send exits 0.»; now «Gives {wheel:\"driver\"}, after which a send exits 0.»\n− decision/budget-gate-covers-send-only → none: The budget gate is removed whole and its Path 6 guard is deleted.\n− decision/budget-override-ends-with-wrapper → none: The budget override and its Path 6 guard are removed.\n− decision/budget-override-per-instance → none: The budget override and its guards are removed.\n− decision/driver-hints-never-name-release → decision/hints-never-suggest-release: Its rule names the removed budget-paused hint and its guard the deleted path6 case.\n− decision/five-hour-pause-threshold → none: No five_hour reading pauses send and exit 11 is retired.\n− decision/override-expiry-tested-at-unit-level → none: The budget override and the pure gate decision are removed.\n**Why:** decision/property-tests-with-proptest: The statusline proptest-regressions file is deleted with the rate_limits reader.\ncontract/event-log/start-wheel-record: A start now writes two records, the budget-gate record gone, and viola revive shares the start.\ncontract/viola-release/document: A plain release now answers {wheel} alone, budget_paused gone.\ndecision/budget-gate-covers-send-only: No gate remains to cover send.\ndecision/budget-override-ends-with-wrapper: release --budget and the override are retired.\ndecision/budget-override-per-instance: release --budget and the per-instance gate are retired.\ndecision/driver-hints-never-name-release: The budget-paused hint and the Path 6 suite are removed, two cells at once.\ndecision/five-hour-pause-threshold: The thresholds and the gate are retired.\ndecision/override-expiry-tested-at-unit-level: run::budget with decide and the lift is deleted.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — 6. E2E Test Strategy: 13 row(s) (2 of 2)\n**Section:** 6. E2E Test Strategy\n**Change:** − decision/release-without-pause-records-nothing → none: release --budget is removed and its Path 6 guard deleted.\n− decision/statusline-proptest-whole-seconds → none: The statusline rate_limits reader and its property are removed.\n− decision/unknown-reset-does-not-pause → none: No budget window pauses anything any more.\n− contract/budget-gate-record/paused-false → none: The budget-gate event kind and budget_override_until are removed.\n− contract/budget-gate-record/paused-true → none: The budget-gate event kind is removed.\n− contract/budget-json/write-condition → none: budget.json is never written.\n− contract/budget-paused-refusal/send-exit-11 → none: The budget-paused refusal is removed and exit 11 retired.\n− contract/list-human/wheel-budget-paused → none: The WHEEL cell has no budget-paused form.\n− contract/list-json/budget-paused → none: The list document carries neither ok.budget nor an item budget_paused.\n− contract/mcp-tool-result/budget-paused → none: The budget-paused refusal is removed from the MCP result.\n− contract/release-budget-json/document → none: release --budget is removed.\n− contract/statusline-payload/resets-at → none: The statusline rate_limits reading and budget.json are removed.\n− contract/viola-run-start/event-order → contract/event-log/start-wheel-record: A start writes two records, not three, the budget-gate record gone.\n**Why:** decision/release-without-pause-records-nothing: The flag is a usage error now, so no release --budget runs.\ndecision/statusline-proptest-whole-seconds: statusline::reading and its proptest are deleted.\ndecision/unknown-reset-does-not-pause: The gate and its Path 6 guard are retired.\ncontract/budget-gate-record/paused-false: No budget-gate record is logged any more.\ncontract/budget-gate-record/paused-true: No budget pause is logged any more.\ncontract/budget-json/write-condition: The budget file and its writer are retired.\ncontract/budget-paused-refusal/send-exit-11: No send is refused for usage any more.\ncontract/list-human/wheel-budget-paused: The board word budget-paused is removed.\ncontract/list-json/budget-paused: Both budget fields of the list document are removed.\ncontract/mcp-tool-result/budget-paused: RefusalReason lost budget-paused, its MCP sample retired.\ncontract/release-budget-json/document: release lost its --budget flag and its reply fields.\ncontract/statusline-payload/resets-at: statusline::reading is deleted, so no resets_at is read.\ncontract/viola-run-start/event-order: Its item names the first three events, which no longer stand.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — 7. Test Data & Fixtures: 3 row(s)\n**Section:** 7. Test Data & Fixtures\n**Change:** ~ decision/per-test-home · rule: was «Each test has its own home, so no endpoint, log or budget.json is shared between tests.»; now «Each test has its own home, so no endpoint or log is shared between tests.»\n~ decision/time-as-argument · rule: was «A pure time decision, such as the budget gate's override expiry, takes its instant as an argument instead of reading a clock.»; now «A pure time decision takes its instant as an argument instead of reading a clock.»\n− decision/budget-file-from-statusline-hook → none: budget.json is retired.\n**Why:** decision/per-test-home: budget.json is retired, so it is no longer a state a test could share.\ndecision/time-as-argument: The budget gate's override expiry is retired, so it no longer stands as the example.\ndecision/budget-file-from-statusline-hook: The budget file and its reader are removed.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — 8. Mocking & Stubbing Discipline: 1 row(s)\n**Section:** 8. Mocking & Stubbing Discipline\n**Change:** ~ decision/fakes-for-external-services · rule: was «The real claude CLI is replaced by the native viola-fake-agent binary, both as the PTY child and as claude on a test-scoped PATH, the real hyprctl by the same binary as hyprctl, and Anthropic usage values by generated statusline stdin; tests never reach the real services.»; now «The real claude CLI is replaced by the native viola-fake-agent binary, both as the PTY child and as claude on a test-scoped PATH, and the real hyprctl by the same binary as hyprctl; tests never reach the real services.»\n**Why:** decision/fakes-for-external-services: viola reads no Anthropic usage values any more, so no generated statusline stdin stands in for them.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — 8. Mocking & Stubbing Discipline: 1 row(s)\n**Section:** 8. Mocking & Stubbing Discipline\n**Change:** ~ decision/utc-now-read-directly · rule: was «chrono Utc::now() is read directly for wall-clock stamps and for the instant a pure decision such as the budget gate's takes; the clock seam carries monotonic Instants only.»; now «chrono Utc::now() is read directly for wall-clock stamps and for the instant a pure decision takes; the clock seam carries monotonic Instants only.»\n**Why:** decision/utc-now-read-directly: The budget gate is retired, so it no longer stands as the pure decision named.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — 11. Test Anti-Patterns (NEVER do these): 1 row(s)\n**Section:** 11. Test Anti-Patterns (NEVER do these)\n**Change:** ~ decision/state-files-never-hand-written · rule: was «Every booted-wrapper test takes `ledger/stamps.json` from `viola verify`, `snapshot.json` from the wrapper and `budget.json` from `viola hook statusline`, never writing them by hand.»; now «Every booted-wrapper test takes `ledger/stamps.json` from `viola verify` and `snapshot.json` from the wrapper, never writing them by hand.»\n**Why:** decision/state-files-never-hand-written: budget.json and its writer are retired.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — 7. Test Data & Fixtures: 2 row(s)\n**Section:** 7. Test Data & Fixtures\n**Change:** − decision/budget-seeded-through-statusline-hook → none: No budget file is seeded or read any more.\n+ decision/retired-words-as-fixtures — Retired words kept as committed fixtures\n**Why:** decision/budget-seeded-through-statusline-hook: The budget file, its writer and its reader are removed.\ndecision/retired-words-as-fixtures: The probe forbidding the retired words and the compatibility cases spelling them were jointly unsatisfiable until the words moved to fixtures.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"patterns: 33 in cascade-patterns-test-plan-1.toml",
+"dry-run · would land 62 operation(s) · 15 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-14T16-46-26-wrap/cascade-patterns-test-plan-1.toml"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:30:20Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-14T16-46-26-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-14T16-46-26-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/budget-pause-thresholds · rejected",
+"contract/viola-release/budget · rejected",
+"absence/usage-budget-gate · rejected",
+"contract/channel-release/budget-key · rejected",
+"contract/viola-release/budget-flag · rejected",
+"decision/budget-era-state-read-whole · rejected",
+"decision/retired-config-keys-not-refused · rejected",
+"fit: fits 28 · not_master 0 · stands 0",
+"landed tx 1199 · 62 operation(s) · 15 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+".andromeda/runs/2026-11-14T16-46-26-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:30:24Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-14T16-46-26-wrap/ops-main-architecture.md",
+"--results",
+".andromeda/runs/2026-11-14T16-46-26-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-14-budget-gate-removed — Standard Contracts: 1 row(s)\n**Section:** Standard Contracts\n**Change:** ~ decision/wrapper-events-log-only · rule: was «Event kinds the wrapper appends (`wheel`, `budget-gate`, `send-issued`, `send-confirmed`, `send-refused`, `link`, `unlink`) are log-only and never wake `wait`.»; now «Event kinds the wrapper appends (`wheel`, `send-issued`, `send-confirmed`, `send-refused`, `link`, `unlink`) are log-only and never wake `wait`.»\n**Why:** decision/wrapper-events-log-only: The budget-gate kind was removed from the wrapper's appends, so the row's kind list loses it; fit read the proposer's renamed heir as this row standing.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:30:24Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-14T16-46-26-wrap/ops-main-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-14T16-46-26-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-14-budget-gate-removed — Authentication & Authorization: 1 row(s)\n**Section:** Authentication & Authorization\n**Change:** ~ decision/home-write-rule-checkers · rule: was «The budget read, the start of viola mcp and viola plugin install hold the home to the write rule.»; now «The start of viola mcp and viola plugin install hold the home to the write rule.»\n**Why:** decision/home-write-rule-checkers: The budget read was deleted with viola-state's budget module, so the row names a checker that no longer exists; fit read the proposer's renamed heir as this row standing.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:30:25Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-14T16-46-26-wrap/ops-main-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-14T16-46-26-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 0 · not_master 0 · stands 0",
+"## 2026-11-14-budget-gate-removed — 1. Test Scope Summary: 1 row(s)\n**Section:** 1. Test Scope Summary\n**Change:** − decision/budget-pause-thresholds → none: The usage budget gate, its thresholds and release --budget are removed whole.\n**Why:** decision/budget-pause-thresholds: The gate is retired on the founder's ruling, so no threshold pauses send; the absence it would name stands in architecture.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — 6. E2E Test Strategy: 1 row(s)\n**Section:** 6. E2E Test Strategy\n**Change:** − contract/viola-release/budget → none: viola release takes no --budget flag any more: it is a usage error, exit 2.\n**Why:** contract/viola-release/budget: release lost its --budget flag with the budget pause; the refusal of the flag stands in architecture's release verb row.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"patterns: 1 in cascade-patterns-test-plan-2.toml",
+"dry-run · would land 2 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-14T16-46-26-wrap/cascade-patterns-test-plan-2.toml"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:30:25Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-14T16-46-26-wrap/ops-main-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-14T16-46-26-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/diag-schema-additive-only · rejected",
+"decision/log-fields-additive-only · rejected",
+"decision/log-schema-additive-only · rejected",
+"decision/obs-aligns-to-tests-log-format · rejected",
+"fit: fits 0 · not_master 0 · stands 0",
+"patterns: none — the call sets and retires no row",
+"dry-run · would land 0 operation(s) · 0 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:30:25Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-14T16-46-26-wrap/ops-main-obs-plan.2.md",
+"--results",
+".andromeda/runs/2026-11-14T16-46-26-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 4 · not_master 0 · stands 0",
+"## 2026-11-14-budget-gate-removed — 1. Obs Scope Summary: 1 row(s)\n**Section:** 1. Obs Scope Summary\n**Change:** ~ decision/diag-schema-additive-only · rule: was «The log format JSON schema is binding: observability may add fields or extend the event enum through a Decisions Log entry, and must not rename or remove any field.»; now «The log format JSON schema is binding: observability may add fields or extend the event enum through a Decisions Log entry, and must not rename or remove a field the product still emits.»\n**Why:** decision/diag-schema-additive-only: The diag-line schema dropped the retired budget gate's fields, so the never-remove rule stands false as written; fit read an exception naming the removal as history. — resolved by the operator (Q2): relayed verbatim by overseer1, 2026-11-14, inputs#I8: «Сузить правило (Recommended)»\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — 1. Obs Scope Summary: 1 row(s)\n**Section:** 1. Obs Scope Summary\n**Change:** ~ decision/log-fields-additive-only · rule: was «Fields may be added to process-log lines, but the required ones are never renamed or removed.»; now «Fields may be added to process-log lines, but a required one the product still emits is never renamed or removed.»\n**Why:** decision/log-fields-additive-only: The budget fields left the process-log lines with the gate, so the never-remove rule stands false as written. — resolved by the operator (Q2): relayed verbatim by overseer1, 2026-11-14, inputs#I8: «Сузить правило (Recommended)»\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — 6. Log Coverage: 1 row(s)\n**Section:** 6. Log Coverage\n**Change:** ~ decision/log-schema-additive-only · rule: was «The observability log schema only adds fields and enum values to the tests' log format; it renames and removes nothing.»; now «The observability log schema only adds fields and enum values to the tests' log format; it renames nothing and removes only a field no build emits.»\n**Why:** decision/log-schema-additive-only: The diag-line schema dropped the retired budget gate's fields, so the removes-nothing rule stands false as written. — resolved by the operator (Q2): relayed verbatim by overseer1, 2026-11-14, inputs#I8: «Сузить правило (Recommended)»\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"## 2026-11-14-budget-gate-removed — 3. Observability Harness Contract: 1 row(s)\n**Section:** 3. Observability Harness Contract\n**Change:** ~ decision/obs-aligns-to-tests-log-format · rule: was «The log format is bound by the test plan's harness contract; observability may add fields but must not rename or remove its fields.»; now «The log format is bound by the test plan's harness contract; observability may add fields but must not rename them or remove one the product still emits.»\n**Why:** decision/obs-aligns-to-tests-log-format: The diag-line schema dropped the retired budget gate's fields, so the must-not-remove rule stands false as written. — resolved by the operator (Q2): relayed verbatim by overseer1, 2026-11-14, inputs#I8: «Сузить правило (Recommended)»\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"patterns: none: 4 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 4 operation(s) · 4 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:30:31Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-14T16-46-26-wrap/ops-main-architecture.md",
+"--results",
+".andromeda/runs/2026-11-14T16-46-26-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 1200 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+".andromeda/runs/2026-11-14T16-46-26-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:30:31Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-14T16-46-26-wrap/ops-main-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-14T16-46-26-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 1201 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+".andromeda/runs/2026-11-14T16-46-26-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:30:31Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-14T16-46-26-wrap/ops-main-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-14T16-46-26-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 0 · not_master 0 · stands 0",
+"landed tx 1202 · 2 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+".andromeda/runs/2026-11-14T16-46-26-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:30:32Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-14T16-46-26-wrap/ops-main-obs-plan.2.md",
+"--results",
+".andromeda/runs/2026-11-14T16-46-26-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 4 · not_master 0 · stands 0",
+"landed tx 1203 · 4 operation(s) · 4 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+".andromeda/runs/2026-11-14T16-46-26-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:30:32Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-14T16-46-26-wrap/ops-main-architecture.2.md",
+"--results",
+".andromeda/runs/2026-11-14T16-46-26-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-14-budget-gate-removed — Standard Contracts: 1 row(s)\n**Section:** Standard Contracts\n**Change:** ~ decision/wrapper-events-log-only · why: was «They are how the audit trail and a replay learn the wheel holder, the budget gate, each send's outcome and the link set.»; now «They are how the audit trail and a replay learn the wheel holder, each send's outcome and the link set.»\n**Why:** decision/wrapper-events-log-only: The budget-gate kind was removed, so the row's reason no longer names the budget gate.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:30:32Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-14T16-46-26-wrap/ops-main-security-plan.2.md",
+"--results",
+".andromeda/runs/2026-11-14T16-46-26-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-14-budget-gate-removed — Authentication & Authorization: 1 row(s)\n**Section:** Authentication & Authorization\n**Change:** ~ decision/home-write-rule-checkers · name: was «Budget read, mcp start and plugin install check the home»; now «mcp start and plugin install check the home»\n**Why:** decision/home-write-rule-checkers: The budget read was deleted, so the row's name no longer lists it.\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:30:33Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-14T16-46-26-wrap/ops-main-test-plan.2.md",
+"--results",
+".andromeda/runs/2026-11-14T16-46-26-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-14-budget-gate-removed — 6. E2E Test Strategy: 1 row(s)\n**Section:** 6. E2E Test Strategy\n**Change:** ~ decision/snapshot-replay-from-log · guard: was «a_start_over_an_unreadable_snapshot_replays_the_log, the e5_the_replay_reads_ cases of cli_budget and cli_links»; now «a_start_over_an_unreadable_snapshot_replays_the_log, the e5_the_replay_reads_ case of cli_links»\n**Why:** decision/snapshot-replay-from-log: tests/cli_budget.rs was deleted with the gate, so the guard is re-pointed off its cases to the two that stand (the plan's expected amendment).\n**Ref:** .andromeda/runs/2026-11-14T16-46-26-wrap/",
+"patterns: 1 in cascade-patterns-test-plan-3.toml",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-14T16-46-26-wrap/cascade-patterns-test-plan-3.toml"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:30:37Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-14T16-46-26-wrap/ops-main-architecture.2.md",
+"--results",
+".andromeda/runs/2026-11-14T16-46-26-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 1204 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+".andromeda/runs/2026-11-14T16-46-26-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:30:37Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-14T16-46-26-wrap/ops-main-security-plan.2.md",
+"--results",
+".andromeda/runs/2026-11-14T16-46-26-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 1205 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+".andromeda/runs/2026-11-14T16-46-26-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:30:38Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-14T16-46-26-wrap/ops-main-test-plan.2.md",
+"--results",
+".andromeda/runs/2026-11-14T16-46-26-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 1206 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+".andromeda/runs/2026-11-14T16-46-26-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:43:13Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/a11y-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-14T16-46-26-wrap/staged-leaf-.claude__docs__a11y-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/a11y-summary.md rev 8 · 0 new · 1 revised · 0 retired · tx 1208"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+"./.claude/docs/a11y-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:43:13Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/a11y.md",
+"--file",
+"./.andromeda/runs/2026-11-14T16-46-26-wrap/staged-leaf-.claude__rules__a11y.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/a11y.md rev 6 · 0 new · 1 revised · 0 retired · tx 1209"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+"./.claude/rules/a11y.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:43:14Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/conventions.md",
+"--file",
+"./.andromeda/runs/2026-11-14T16-46-26-wrap/staged-leaf-.claude__docs__conventions.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/conventions.md rev 8 · 0 new · 8 revised · 0 retired · tx 1210"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+"./.claude/docs/conventions.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:43:15Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola-agent-claude.md",
+"--file",
+"./.andromeda/runs/2026-11-14T16-46-26-wrap/staged-leaf-.claude__docs__services__viola-agent-claude.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola-agent-claude.md rev 7 · 0 new · 4 revised · 0 retired · tx 1211"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+"./.claude/docs/services/viola-agent-claude.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:43:15Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola-core.md",
+"--file",
+"./.andromeda/runs/2026-11-14T16-46-26-wrap/staged-leaf-.claude__docs__services__viola-core.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola-core.md rev 4 · 0 new · 4 revised · 0 retired · tx 1212"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+"./.claude/docs/services/viola-core.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:43:16Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola-state.md",
+"--file",
+"./.andromeda/runs/2026-11-14T16-46-26-wrap/staged-leaf-.claude__docs__services__viola-state.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola-state.md rev 7 · 0 new · 3 revised · 0 retired · tx 1213"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+"./.claude/docs/services/viola-state.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:43:17Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola.md",
+"--file",
+"./.andromeda/runs/2026-11-14T16-46-26-wrap/staged-leaf-.claude__docs__services__viola.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola.md rev 6 · 0 new · 9 revised · 0 retired · tx 1214"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+"./.claude/docs/services/viola.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:43:17Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/stack.md",
+"--file",
+"./.andromeda/runs/2026-11-14T16-46-26-wrap/staged-leaf-.claude__docs__stack.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/stack.md rev 9 · 0 new · 2 revised · 0 retired · tx 1215"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+"./.claude/docs/stack.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:43:18Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/workflow.md",
+"--file",
+"./.andromeda/runs/2026-11-14T16-46-26-wrap/staged-leaf-.claude__docs__workflow.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/workflow.md rev 5 · 0 new · 1 revised · 0 retired · tx 1216"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+"./.claude/docs/workflow.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:43:18Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/events.md",
+"--file",
+"./.andromeda/runs/2026-11-14T16-46-26-wrap/staged-leaf-.claude__rules__events.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/events.md rev 6 · 0 new · 3 revised · 0 retired · tx 1217"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+"./.claude/rules/events.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:43:19Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/api.md",
+"--file",
+"./.andromeda/runs/2026-11-14T16-46-26-wrap/staged-leaf-.claude__rules__api.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/api.md rev 7 · 0 new · 5 revised · 0 retired · tx 1218"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+"./.claude/rules/api.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:43:20Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/design-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-14T16-46-26-wrap/staged-leaf-.claude__docs__design-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/design-summary.md rev 7 · 0 new · 3 revised · 0 retired · tx 1219"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+"./.claude/docs/design-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:43:20Z",
+"argv": [
+"harness",
+"land",
+"CLAUDE.md",
+"--file",
+"./.andromeda/runs/2026-11-14T16-46-26-wrap/staged-leaf-CLAUDE.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed CLAUDE.md rev 10 · 0 new · 3 revised · 0 retired · tx 1220"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+"./CLAUDE.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:43:21Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/obs-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-14T16-46-26-wrap/staged-leaf-.claude__docs__obs-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/obs-summary.md rev 9 · 0 new · 4 revised · 0 retired · tx 1221"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+"./.claude/docs/obs-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:43:22Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/security-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-14T16-46-26-wrap/staged-leaf-.claude__docs__security-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/security-summary.md rev 8 · 0 new · 4 revised · 0 retired · tx 1222"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+"./.claude/docs/security-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:43:22Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/security.md",
+"--file",
+"./.andromeda/runs/2026-11-14T16-46-26-wrap/staged-leaf-.claude__rules__security.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/security.md rev 12 · 0 new · 2 revised · 0 retired · tx 1223"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+"./.claude/rules/security.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:43:23Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/tests-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-14T16-46-26-wrap/staged-leaf-.claude__docs__tests-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/tests-summary.md rev 10 · 0 new · 3 revised · 0 retired · tx 1224"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+"./.claude/docs/tests-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:43:24Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/testing.md",
+"--file",
+"./.andromeda/runs/2026-11-14T16-46-26-wrap/staged-leaf-.claude__rules__testing.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/testing.md rev 19 · 0 new · 3 revised · 0 retired · tx 1225"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+"./.claude/rules/testing.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:43:25Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/verification-harness.md",
+"--file",
+"./.andromeda/runs/2026-11-14T16-46-26-wrap/staged-leaf-.claude__rules__verification-harness.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/verification-harness.md rev 14 · 0 new · 2 revised · 0 retired · tx 1226"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+"./.claude/rules/verification-harness.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:43:25Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/observability.md",
+"--file",
+"./.andromeda/runs/2026-11-14T16-46-26-wrap/staged-leaf-.claude__rules__observability.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/observability.md rev 7 · 0 new · 3 revised · 0 retired · tx 1227"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+"./.claude/rules/observability.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:47:45Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-14T16-46-26-wrap/carry-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 1 record(s) · 1 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:47:49Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-14T16-46-26-wrap/carry-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 1 edge(s) · tx 1231 · cry-jh4ipw7f … cry-jh4ipw7f"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:48:10Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-14T16-46-26-wrap/run-node.txt",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 0 edge(s) · tx 1233 · run-bjysuamf … run-bjysuamf"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.46",
+"sha8": "9f0440dd",
+"ts": "2026-11-14T17:53:48Z",
+"argv": [
+"land",
+"--root",
+".",
+"--chunk",
+"2026-11-14-budget-gate-removed",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"unchanged · 12 file(s) of 2026-11-14-budget-gate-removed"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

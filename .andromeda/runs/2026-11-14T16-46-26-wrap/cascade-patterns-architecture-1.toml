@@ -1,0 +1,192 @@
+# rows-land · doc:architecture · operations 0ee5d23200c8f071
+# a pattern each set and retire: the distinctive terms the old cell held and the new one lacks; its control the row's previous revision
+
+[[pattern]]
+id = "arch1-3"
+fixed = "25th"
+# control: decision/permission-request-question-stays-null r1
+
+[[pattern]]
+id = "arch1-5"
+fixed = "budget.json"
+# control: decision/test-isolated-viola-home r1
+
+[[pattern]]
+id = "arch1-7"
+regex = "resets_at|used_percentage"
+# control: decision/json-field-names-snake-case r1
+
+[[pattern]]
+id = "arch1-9"
+regex = "resets_at|used_percentage"
+# control: decision/unparseable-external-values-unknown r2
+
+[[pattern]]
+id = "arch1-16"
+fixed = "rate_limits"
+# control: decision/statusline-hook-exempt r1
+
+[[pattern]]
+id = "arch1-18"
+fixed = "budget_paused"
+# control: contract/channel-methods/plain-release r1
+
+[[pattern]]
+id = "arch1-19"
+regex = "budget_paused:bool|override_until"
+# control: contract/channel-methods/release r1
+
+[[pattern]]
+id = "arch1-20"
+fixed = "budget.json"
+# control: contract/hook-statusline/capture r1
+
+[[pattern]]
+id = "arch1-21"
+fixed = "budget.json"
+# control: contract/hook-statusline/refused-check r1
+
+[[pattern]]
+id = "arch1-22"
+regex = "budget_paused|budget_override_until"
+# control: contract/instance-snapshot/data r1
+
+[[pattern]]
+id = "arch1-23"
+fixed = "budget_paused"
+# control: contract/list-item/wrapped r1
+
+[[pattern]]
+id = "arch1-24"
+fixed = "budget_paused"
+# control: contract/list-payload/items r1
+
+[[pattern]]
+id = "arch1-27"
+regex = "budget_paused|budget_override_until"
+# control: contract/snapshot-envelope/unreadable-snapshot r1
+
+[[pattern]]
+id = "arch1-31"
+fixed = "budget.json"
+# control: decision/refused-statusline-check-no-trace r1
+
+[[pattern]]
+id = "arch1-35"
+regex = "five_hour|seven_day"
+# control: decision/budget-default-thresholds r1
+
+[[pattern]]
+id = "arch1-36"
+regex = "resets_at|budget\\.json"
+# control: decision/budget-gate-fail-open r1
+
+[[pattern]]
+id = "arch1-39"
+fixed = "resets_at"
+# control: decision/budget-governor-soft-stop r1
+
+[[pattern]]
+id = "arch1-40"
+fixed = "hook.dialog"
+# control: decision/budget-pause-gates-only-send r1
+
+[[pattern]]
+id = "arch1-41"
+fixed = "resets_at"
+# control: decision/budget-pause-lift r1
+
+[[pattern]]
+id = "arch1-42"
+fixed = "File::lock"
+# control: decision/budget-readings-last-writer-wins r1
+
+[[pattern]]
+id = "arch1-43"
+regex = "five_hour|seven_day"
+# control: decision/budget-soft-stop r1
+
+[[pattern]]
+id = "arch1-44"
+fixed = "hook.dialog"
+# control: decision/only-send-reads-budget-gate r1
+
+[[pattern]]
+id = "arch1-45"
+fixed = "resets_at"
+# control: decision/release-budget-per-instance r1
+
+[[pattern]]
+id = "arch1-46"
+fixed = "resets_at"
+# control: decision/tolerant-resets-at r1
+
+[[pattern]]
+id = "arch1-48"
+fixed = "RefusalReason"
+# control: contract/refusal-reason/budget-paused r1
+
+[[pattern]]
+id = "arch1-49"
+regex = "budget_paused|budget_override_until"
+# control: contract/channel-methods/budget-release-durability r1
+
+[[pattern]]
+id = "arch1-50"
+regex = "budget_paused:false|override_until|resets_at"
+# control: contract/channel-methods/release-budget-true r1
+
+[[pattern]]
+id = "arch1-53"
+fixed = "override_until"
+# control: contract/event-data/budget-gate r1
+
+[[pattern]]
+id = "arch1-54"
+fixed = "budget_paused"
+# control: contract/list-item/budget-paused r1
+
+[[pattern]]
+id = "arch1-55"
+regex = "five_hour|seven_day|read_at|used_percentage|resets_at"
+# control: contract/list-payload/budget r1
+
+[[pattern]]
+id = "arch1-57"
+regex = "budget\\.json|rate_limits"
+# control: decision/budget-json-single-writer r1
+
+[[pattern]]
+id = "arch1-58"
+fixed = "rate_limits"
+# control: decision/shared-budget-reading r1
+
+[[pattern]]
+id = "arch1-59"
+regex = "budget\\.json|five_hour|used_percentage|resets_at"
+# control: contract/budget-json/five-hour r1
+
+[[pattern]]
+id = "arch1-60"
+regex = "budget\\.json|read_at"
+# control: contract/budget-json/read-at r1
+
+[[pattern]]
+id = "arch1-61"
+regex = "budget\\.json|seven_day|used_percentage|resets_at"
+# control: contract/budget-json/seven-day r1
+
+[[pattern]]
+id = "arch1-62"
+fixed = "budget.json"
+# control: contract/budget-json/v r1
+
+[[pattern]]
+id = "arch1-63"
+regex = "config\\.json|five_hour"
+# control: contract/config-json/five-hour r1
+
+[[pattern]]
+id = "arch1-64"
+regex = "config\\.json|seven_day"
+# control: contract/config-json/seven-day r1

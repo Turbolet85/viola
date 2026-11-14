@@ -1,0 +1,246 @@
+--- a/.andromeda/test-plan.md
++++ b/.andromeda/test-plan.md
+@@ -5,3 +5,2 @@
+ decision/agents-json-fallback-unknown · Unreadable agents listing reads unknown — Oversize or malformed claude agents --json output is read as unknown.
+-decision/budget-pause-thresholds · Budget pause thresholds — Crossing five_hour at 90 % or more, or seven_day at 85 % or more, refuses automated send with budget-paused, and release --budget overrides it.
+ decision/cargo-deny-tokio-and-c-crate-bans · Tokio and C-crate bans — The dependency policy bans tokio where it is not allowed and bans C crates. · guard: cargo deny
+@@ -11,3 +10,3 @@
+ decision/child-exit-read-on-the-process-handle · Child exit is read on the process handle, never on EOF — The pump detects the child's exit by polling the process handle and never by output EOF, then drains the output still in flight for a bounded time. · why: The wrapper's exit code relies on it, and the pump tests use a reader that never ends so only the handle can end the pump.
+-decision/cli-env-vector-negative-tests · CLI and env vector negative tests — Path-traversal names, a --home or VIOLA_DIR failing strict-modes, oversize answer JSON and an out-of-range Percent in config.json are each covered by negative tests that show them refused.
++decision/cli-env-vector-negative-tests · CLI and env vector negative tests — Path-traversal names, a --home or VIOLA_DIR failing strict-modes and oversize answer JSON are each covered by negative tests that show them refused.
+ decision/cli-mcp-identical-payloads · CLI and MCP return identical payloads — MCP and CLI return identical ok and refusal payloads for the same channel result.
+@@ -59,3 +58,3 @@
+ decision/scrubbed-fixtures · Fixtures free of real data — Fixtures never come from real prompts and are checked for absolute paths and usernames.
+-decision/self-bootstrapping-test-data · Self-bootstrapping test data — Each test bootstraps its own state in a fresh --home: the fake agent replays recorded fixtures, budget.json is seeded through viola hook statusline, stamps come from viola verify against the fake agent, and no state is developer-seeded.
++decision/self-bootstrapping-test-data · Self-bootstrapping test data — Each test bootstraps its own state in a fresh --home: the fake agent replays recorded fixtures, stamps come from viola verify against the fake agent, and no state is developer-seeded.
+ decision/sha-pinned-actions · SHA-pinned Actions — Every Action a workflow uses is SHA-pinned, never referenced by a mutable tag. · guard: zizmor unpinned-uses
+@@ -117,4 +116,3 @@
+ contract/unix-socket-permissions/file · Unix socket permissions · file — The Unix socket file is mode 0600.
+-contract/viola-hook-statusline/budget-json · viola hook statusline · budget.json — rate_limits is written to budget.json only when the payload holds a rate_limits object.
+-contract/viola-hook-statusline/passthrough · viola hook statusline · passthrough — The user's statusline is passed through unchanged, after budget.json is written.
++contract/viola-hook-statusline/passthrough · viola hook statusline · passthrough — The user's statusline is passed through unchanged.
+ contract/viola-hook/deadline · viola hook exec-form entry points · deadline — Spine hooks finish within the spine deadline, and SessionEnd within about 1 s.
+@@ -123,4 +121,3 @@
+ contract/viola-hook/stdout · viola hook exec-form entry points · stdout — stdout is either empty (no decision, async hooks print nothing) or exactly the PreToolUse or PermissionRequest decision body; viola hook statusline prints the user's status-line command output unchanged.
+-contract/viola-list-json/budget · viola list --json · budget — The ok payload's budget is {five_hour:{used_percentage,resets_at}, seven_day:{...}, read_at, paused} or "unknown".
+-contract/viola-list-json/items · viola list --json · ok.items — In the {"v":1,"ok":...} document, ok.items is an array of {name, wrapped, liveness live|stale, status idle|busy|unknown, wheel? human|driver, budget_paused?, dialog_pending, cli_version?, cli_verified?}.
++contract/viola-list-json/items · viola list --json · ok.items — In the {"v":1,"ok":...} document, ok.items is an array of {name, wrapped, liveness live|stale, status idle|busy|unknown, wheel? human|driver, dialog_pending, cli_version?, cli_verified?}.
+ contract/viola-list-json/mirrors-channel · viola list --json · channel mirror — The CLI --json document mirrors the channel list result.
+@@ -161,3 +158,3 @@
+ decision/snapshot-read-through-replay · Every product snapshot reader goes through read-or-replay — Every product reader of the snapshot reads it through the read-or-replay function; no product code calls the plain snapshot read.
+-decision/snapshot-replay-fields · Snapshot replay recovers a fixed field set — A corrupt snapshot or one of unsupported v is replayed from the event log, recovering only links, agent_session_id, wheel, budget_paused and budget_override_until with dialog_pending false; the replay writes no file and gives no cwd. · guard: replay_recovers, chaos_snapshot_replay
++decision/snapshot-replay-fields · Snapshot replay recovers a fixed field set — A corrupt snapshot or one of unsupported v is replayed from the event log, recovering only links, agent_session_id and wheel with dialog_pending false; the replay writes no file and gives no cwd. · guard: replay_recovers, chaos_snapshot_replay
+ decision/statusline-passthrough · Statusline passthrough — The statusline hook passes the user's statusline stdout through unchanged (empty on failure) and exits 0.
+@@ -165,3 +162,2 @@
+ decision/torn-tail-healed-by-append · Torn log tail healed by the next append — A reader counts a torn last line in torn_lines and rewrites nothing; the next append heals it by writing one LF and its line in a single write, and logs one state-recovered line per heal. · guard: torn_tail
+-contract/budget-json/rate-limits · budget.json · rate_limits — The statusline hook writes rate_limits to budget.json only when the payload holds a rate_limits object; a malformed resets_at becomes "unknown".
+ contract/channel-fault-screen/-32602 · Channel fault screen · -32602 — Keeps only an integer data.supported with a version-text data.wrapper, or a data.reason exactly release-from-driver; any other -32602 reads invalid params with data null.
+@@ -176,6 +172,4 @@
+ contract/cli-human-lines/unable · CLI human lines · unable — unable  <name>  <reason>  <detail>, followed by a last-line hint:.
+-contract/cli-release/budget · CLI release --budget · budget_paused false — Release --budget gives budget_paused false, with override_until when a pause stood.
+ contract/cli-release/release-from-driver · CLI release · release-from-driver — A release carrying from is rejected with -32602 release-from-driver, exit 20.
+ contract/cli-release/wheel-driver · CLI release · wheel driver — Release gives wheel driver, and the next send is accepted.
+-contract/cli-send-json/budget-paused · CLI send --json · exit 11 — A send refused by the budget gate exits 11 with detail five-hour or seven-day.
+ contract/cli-send-json/empty-text · CLI send --json · not-delivered / empty-text — A text whose typed text is empty is refused not-delivered with detail empty-text (exit 13), right after control-character and before anything is issued, by the client before any frame and by the wrapper.
+@@ -185,3 +179,2 @@
+ contract/cli-wait/endpoint-lost · CLI wait · endpoint-lost — An endpoint vanishing during wait gives instance-unreachable with detail endpoint-lost.
+-contract/event-log/budget-gate · the event log · budget-gate — A budget pause logs budget-gate with paused true and its window.
+ contract/event-log/wheel-human-input · the event log · wheel — A human taking the wheel logs wheel with holder human and cause human-input.
+@@ -238,3 +231,3 @@
+ contract/run-refusal/stale-heartbeat · run and revive start refusals · stale-heartbeat — A stale holder refuses the start with exit 1.
+-contract/run-start-events/order · run start events · order — The events log reads wheel with cause start, then budget-gate, then the agent's session-start with source hook.
++contract/run-start-events/order · run start events · order — The events log reads wheel with cause start, then the agent's session-start with source hook.
+ contract/send-confirmation/prompt-submitted-driver · send confirmation · prompt-submitted with origin driver — A driver send is confirmed only by the matching prompt-submitted event with origin driver inside the confirmation window.
+@@ -252,6 +245,5 @@
+ ## test-plan · 2-test-strategy · twin test-strategy
+-decision/budget-json-from-statusline · Budget file only from statusline stdin — In every booted-wrapper test, budget.json comes only from viola hook statusline stdin. · except: a reader's own unit cases may plant a malformed one only by altering the writer's own bytes
+ decision/ci-never-real-claude · CI never touches the real agent CLI — CI never touches the real claude or the real hyprctl.
+ decision/complete-lines-reader · Live-appended files read by complete lines — Every reader of a live-appended file parses only newline-terminated lines, through the one shared complete-lines reader. · why: a Linux reader can observe an append part-way
+-decision/e2e-for-critical-paths · E2E for every critical path — All seven critical paths and the expansion scenarios have E2E tests against harness-booted wrappers over the fake agent, through the outer PTY and the rmcp client.
++decision/e2e-for-critical-paths · E2E for every critical path — Every critical path and the expansion scenarios have E2E tests against harness-booted wrappers over the fake agent, through the outer PTY and the rmcp client.
+ decision/fault-injection-sources · Fault injection sources — Chaos faults come from process and file operations and from mockall faults on the viola-pty seam.
+@@ -358,5 +350,3 @@
+ decision/bounded-compare · Bounded compare of a shared target — Comparing a target to known bytes reads no more than one byte past their length, never the whole file. · guard: replace_private_shared_reads_no_more_than_one_byte_past_the_bytes
+-decision/bounded-readers-keep-the-cap · Bounded readers keep the frame cap — The status line shell-out, the version gate drain, the hyprctl reader and the thresholds, dialog hold and env-keep readers keep no more than the frame cap of what they read; a command the cut ends is a failed command. · guard: the BOUNDARIES rows of contract_bounded_readers
+-decision/budget-decision-takes-the-instant · Budget decision takes the instant as an argument — The budget decision is a pure function that takes the wall-clock instant as an argument, so its thresholds and override expiry are unit-tested with no clock seam and no mocked instant. · guard: gate_decide_*
+-decision/budget-governor-thresholds · Budget governor thresholds — Automated send is refused with budget-paused once five_hour reaches 90 % or seven_day reaches 85 % (89 and 84 stay open), and release --budget overrides the pause until its override instant has passed. · guard: gate_decide_an_expired_override_is_dropped
++decision/bounded-readers-keep-the-cap · Bounded readers keep the frame cap — The status line shell-out, the version gate drain, the hyprctl reader and the dialog hold and env-keep readers keep no more than the frame cap of what they read; a command the cut ends is a failed command. · guard: the BOUNDARIES rows of contract_bounded_readers
+ decision/claude-env-strip · Agent identity environment stripped — Every inherited CLAUDE-prefixed variable is removed by exact name unless in the persistent keep set, and the eleven-name identity floor is removed whatever the keep set says; the floor stays eleven names. · guard: an R8 test against a literal copy of the floor, never imported from the product
+@@ -384,3 +374,3 @@
+ decision/send-confirmation-window-expiry · Send confirmation window expiry — A confirmed send whose window expires without a matching submitted prompt is refused no-prompt-submitted.
+-decision/send-refusal-order · send refusal order — send refuses in the order control-character, empty-text, human-typing, budget-paused, turn-running, input-not-ready, no-prompt-submitted, and after the gate is ready reads human-typing and turn-running again before anything is issued or typed.
++decision/send-refusal-order · send refusal order — send refuses in the order control-character, empty-text, human-typing, turn-running, input-not-ready, no-prompt-submitted, and after the gate is ready reads human-typing and turn-running again before anything is issued or typed.
+ decision/server-checked-before-any-frame · Server checked before any frame — Every client verb and the hook refuse an unverified server inside their own span with no frame written. · guard: request_refuses_an_unverified_server_inside_its_dispatch_span
+@@ -393,3 +383,3 @@
+ decision/unknown-refusal-word-stays-visible · Unknown refusal word stays visible — A refusal code word outside the closed refusal list stays visible in the JSON document and in the human refused line, with the unknown refusal's exit. · guard: reply_of_reads_the_three_shapes
+-decision/version-gate-needs-all-relied-rows · Version gate needs every relied row — A CLI version reads verified only when its stamp holds every relied ledger row as pass; a stamp of only older row ids reads unverified. · guard: stamps_verdict_needs_the_dialog_rows
++decision/version-gate-needs-all-relied-rows · Version gate needs every relied row — A CLI version reads verified only when its stamp holds every relied ledger row as pass, a retired row it also holds changing nothing; a stamp of only older row ids reads unverified. · guard: stamps_verdict_needs_the_dialog_rows
+ decision/vt100-feed-panic-safe · Screen feed panic-safe — The vt100 feed runs under catch_unwind, and a panic in it gives input-not-ready.
+@@ -431,3 +421,3 @@
+ decision/fresh-home-per-test · Fresh home per test — Each test gets a fresh tempfile home at a not-yet-existing path under target/e2e-home that viola creates, started wrappers sit in a Drop guard that kills and waits, and nothing is shared between tests. · why: so obs-plan's CI gates, the secret scan and the upload cover integration runs · except: The chaos feed panic test alone boots outside the scans.
+-decision/hook-exec-against-live-wrapper · Hook exec tested against a live wrapper — viola hook is fed fixture stdin against a live test wrapper, and its event line, hook trace and budget.json are asserted.
++decision/hook-exec-against-live-wrapper · Hook exec tested against a live wrapper — viola hook is fed fixture stdin against a live test wrapper, and its event line and hook trace are asserted.
+ decision/human-layouts-pinned-by-literal · Human-mode layouts pinned by literal — Human-mode layouts, the viola list board and viola --help, are pinned by literal asserts in their test files. · guard: HELP literal in cli_output_plain; cli_list board tests
+@@ -463,3 +453,3 @@
+ ## test-plan · integration-test-strategy · twin 5-integration-test-strategy
+-decision/bad-config-value-falls-back · Bad config value falls back to its default — A config.json value out of range or of the wrong type falls back to that key's default with exactly one parse-rejected config-json malformed line per bad key; the product never refuses to start over it. · guard: setting_does_not_disable_the_budget_gate
++decision/bad-config-value-falls-back · Bad config value falls back to its default — A config.json value out of range or of the wrong type falls back to that key's default with exactly one parse-rejected config-json malformed line per bad key; the product never refuses to start over it.
+ decision/channel-client-no-dir-check · Channel client carries no directory check — The viola-channel client's connect carries no socket directory check, so a raw client writes past every client-side check. · why: viola-channel has no viola-state edge. · guard: channel_link_names_are_validated_by_the_wrapper
+@@ -473,3 +463,3 @@
+ decision/hook-line-cases-in-made-instance-dir · Hook line cases run in a viola-made instance dir — Hook test cases that expect lines run in a viola-made instance directory. · why: A VIOLA_DIR naming no existing instance directory makes the hook write nothing.
+-decision/hook-tests-real-binary · Hook tests run the real binary — Hook integration tests run the viola binary's hook verb with fixture stdin and VIOLA_NAME / VIOLA_DIR against a live test wrapper, asserting the event line, the hook diagnostics trace and budget.json.
++decision/hook-tests-real-binary · Hook tests run the real binary — Hook integration tests run the viola binary's hook verb with fixture stdin and VIOLA_NAME / VIOLA_DIR against a live test wrapper, asserting the event line and the hook diagnostics trace.
+ decision/human-output-pinned-by-literals · Human output pinned by literals — Fixed human output, such as the send mirror, the grouped help, the list board and verify's lines, is pinned by a literal in the test file itself.
+@@ -547,3 +537,2 @@
+ decision/bounded-readers · Every external reader is bounded — Every product reader of external input is bounded in-statement or named in the enumeration with a witness test. · guard: product_readers_are_each_bounded_or_named · except: Reads of viola's own executable take no external input and are listed as exceptions.
+-decision/budget-pause-threshold · Budget pause threshold — A budget reading of exactly 90 pauses the driver and 89 does not.
+ decision/child-env-names-viola-instance · Child given its viola name, instance dir and binary — The agent child is given VIOLA_NAME, VIOLA_DIR (its instance directory) and VIOLA_BIN (the pinned copy path).
+@@ -584,3 +573,3 @@
+ decision/plugin-install-refusal-creates-nothing · Plugin install refusal creates nothing — viola plugin install refused by strict modes exits 21 and creates nothing. · guard: strict_modes_on_plugin_install_is_exit_21_and_creates_nothing
+-decision/property-tests-on-parsers · Property tests on every parser surface — proptest at 512 cases covers every parser surface: paste validation, ndjson framing at the frame cap plus and minus one, the hook stdin, statusline, agents and hyprctl reply parsers, the vt100 feed and prompt-submitted normalisation, with its regressions directory committed.
++decision/property-tests-on-parsers · Property tests on every parser surface — proptest at 512 cases covers every parser surface: paste validation, ndjson framing at the frame cap plus and minus one, the hook stdin, agents and hyprctl reply parsers, the vt100 feed and prompt-submitted normalisation, with its regressions directory committed.
+ decision/scan-hits-never-echo-bytes · Scan hits never echo bytes — A secret-scan hit is reported by place and class, never by the matched bytes.
+@@ -588,3 +577,3 @@
+ decision/single-writer-state-files · Single writers of snapshot and stamps — Only the wrapper writes snapshot.json and only verify writes stamps.json; every other writer-capable entry point leaves both byte-identical.
+-decision/snapshot-replay-from-log · Unreadable snapshot replayed from the log — Over a truncated, unreadable or newer-version snapshot, a start and the product readers replay instance state from the event log, links, the budget pause, override end and the agent session id included, with no dialog pending, and write no file. · guard: a_start_over_an_unreadable_snapshot_replays_the_log, the e5_the_replay_reads_ cases of cli_budget and cli_links
++decision/snapshot-replay-from-log · Unreadable snapshot replayed from the log — Over a truncated, unreadable or newer-version snapshot, a start and the product readers replay instance state from the event log, links, the wheel and the agent session id included, with no dialog pending, and write no file. · guard: a_start_over_an_unreadable_snapshot_replays_the_log, the e5_the_replay_reads_ case of cli_links
+ decision/socket-dir-refusal · Socket directory refusal — A socket directory at 0755 or a symlink refuses viola run exit 1 before any bind, frame verbs exit 21 with no frame and the hook exits 0 with empty streams; the directory is left as found and no path, pid or uid is named. · guard: security_negatives_socket_dir
+@@ -604,3 +593,3 @@
+ contract/generated-plugin/hook-commands · the generated plugin · hook commands — A restart rewrites plugin/ with absolute hook commands, never a PATH lookup, and the settings.json override.
+-contract/hook-statusline/passthrough · viola hook statusline · statusline output — The statusline output passes through byte for byte, and budget.json holds the fed reading.
++contract/hook-statusline/passthrough · viola hook statusline · statusline output — The statusline output passes through byte for byte.
+ contract/hook-stdout/concurrent-dialog · hook stdout · second concurrent dialog — A second concurrent dialog gets an empty hook stdout.
+@@ -614,3 +603,2 @@
+ contract/process-start/claude-child · the event log · process-start{subject:"claude-child"} — The record carries the strip counts and the stripped names only, never their values.
+-contract/run-start-records/first-three · the event log at viola run start · first three records — The first three records are wheel{cause:"start"}, budget-gate and the hook's session-start, and the child is spawned after the first two of them; the session-start is the hook of the spawned child.
+ contract/snapshot/run-fields · the instance snapshot · pinned path, pids and endpoint — The snapshot of a running instance holds the pinned path, the pids and the endpoint, and list --json reads the instance live.
+@@ -619,3 +607,2 @@
+ contract/viola-last/newest-message · viola last · newest turn message — last returns the newest turn's message, and the MCP result is equal to the CLI's.
+-contract/viola-release/budget · viola release · --budget — release --budget lifts the budget pause for its own instance only.
+ contract/viola-release/exit-20 · viola release · 20 — release returns the wheel; release with from exits 20.
+@@ -627,3 +614,3 @@
+ contract/viola-send/exit-10 · viola send · 10 — A driver send while the human holds the wheel exits 10, with detail null, or manual-pause after pause.
+-contract/viola-send/exit-11 · viola send · 11 — A budget crossing logs budget-gate{paused:true} and send is refused exit 11 with its window word.
++contract/viola-send/exit-11 · viola send · 11 — Retired (was budget-paused) and never renumbered or reused: no refusal maps to 11, and an older wrapper's budget-paused word reads unknown, exit 14.
+ contract/viola-send/not-delivered · viola send · not-delivered — A suppressed prompt is refused not-delivered with detail no-prompt-submitted.
+@@ -637,5 +624,2 @@
+ decision/agents-proptest-reparse-oracle · agents parser oracle re-parses its input — The claude agents --json property oracle compares a row against the input re-parsed from its bytes. · why: A float does not round-trip through serde_json text.
+-decision/budget-gate-covers-send-only · Budget gate covers send only — The budget gate refuses automated send alone; answer, wait, last and pause behave under a closed gate as under an open one. · guard: path6_a_closed_gate_leaves_answer_wait_last_and_pause_alone
+-decision/budget-override-ends-with-wrapper · Budget override ends with its wrapper — A budget override does not outlive its wrapper, so a restart over the same reading pauses again. · guard: path6_a_restart_pauses_again
+-decision/budget-override-per-instance · Budget override is per instance — release --budget lifts the pause for the named instance alone; other instances under the same reading stay paused and are refused. · guard: path6_two_instance_release_over_a_harness_session, gate_release_on_one_instance_leaves_another_paused
+ decision/channel-e2e-driver · Channel tested with the sync client — The wrapper channel is tested with the viola-channel sync client, a raw interprocess stream and jsonschema validation.
+@@ -652,3 +636,2 @@
+ decision/diagnostics-files-0600 · Diagnostics files are owner-only — diagnostics/ files are mode 0600.
+-decision/driver-hints-never-name-release · Driver-facing hints never name release — A driver-facing refusal hint (human-typing, budget-paused) never contains release. · why: Drivers are refused release. · guard: no_hint_names_release, path6_the_refusal_hint_never_names_release
+ decision/each-exit-cause-own-hint · Each exit cause has its own hint — Every exit cause ends human output with a hint line naming that cause, no two causes share a hint, and a fault carries none. · guard: no_two_codes_share_a_hint, shared_hints_reads_a_planted_duplicate
+@@ -660,3 +643,2 @@
+ decision/fd-test-reads-live-child-table · fd test reads the live child's fd table — The env-strip and fd tests read the running child's live fd table, never the fake agent's self-dump. · why: The fake agent's own receipt and /dev/fd handle show as extra fds in its self-dump.
+-decision/five-hour-pause-threshold · Five-hour pause threshold at 90 — A `five_hour` reading of exactly 90 pauses `send` (exit 11, `detail:"five-hour"`), and 89 does not. · guard: path6_the_boundaries_and_the_window_word
+ decision/fixture-drift-byte-compare · Fixture drift compared byte for byte — The fake agent's hook sequence and payloads must equal each recorded fixture set byte for byte, never through an insta snapshot, and an empty fixture walk fails. · guard: contract_fake_agent_drift
+@@ -684,7 +666,5 @@
+ decision/outer-pty-reader-drained · Outer PTY reader drained on its own thread — An outer-PTY test drains the master reader on its own thread.
+-decision/override-expiry-tested-at-unit-level · Budget override expiry tested at unit level — Budget override expiry is asserted only in unit cases of the pure gate decision, which takes the instant as an argument, never end to end. · why: No in-process clock reaches the separately spawned wrapper, and waiting in real time would break the sleep(N) ban. · guard: gate_decide_an_expired_override_is_dropped, gate_release_override_ends_at_its_instant
+ decision/pinned-exe-hash-sha2 · sha2 for the pinned-exe content hash — The pinned-exe content hash is SHA-256 from sha2, truncated to 8 bytes as 16 hex. · guard: sha256_published_vector_matches_digest, sha256_truncated_to_eight_bytes_yields_sixteen_hex
+-decision/property-tests-with-proptest · proptest for property tests — Input parsers and validators are property-tested with proptest at 512 cases; proptest-regressions files are committed for the viola-core, hook, statusline, agents and Hyprland reply suites.
++decision/property-tests-with-proptest · proptest for property tests — Input parsers and validators are property-tested with proptest at 512 cases; proptest-regressions files are committed for the viola-core, hook, agents and Hyprland reply suites.
+ decision/refused-or-own-send-records-no-link · Refused or own-name send records no link — A refused send and a send to an instance's own name record no link. · guard: links_a_refused_send_and_an_own_name_send_record_none
+-decision/release-without-pause-records-nothing · Release with no pause records nothing — release --budget with no pause standing records nothing. · guard: path6_release_budget_lifts_the_pause
+ decision/replay-writes-no-file · Replay writes no file — The snapshot replay writes no file, so no snapshot is rebuilt from it.
+@@ -703,3 +683,2 @@
+ decision/statusline-command-shell-and-bound · Statusline command run through sh under a bound — The wrapped statusline arm runs the recorded user command as /bin/sh -c <command> under a 5 s bound. · provisional
+-decision/statusline-proptest-whole-seconds · Statusline property draws whole seconds — The statusline reader's property strategy draws whole seconds across the date range. · why: As first written the property stayed green on a stub.
+ decision/strict-modes-before-any-log · Strict-modes check before any read or open — Frame verbs, link verbs and starts take the strict-modes check before opening any log, so a widened state is refused with no frame, no line and its mode read back as found. · why: A check placed after the role file opens would pass, because opening a role file narrows an existing home to 0700. · guard: link_verbs_refuse_a_widened_instance_before_any_log, frame_verb_refuses_a_widened_instance_before_any_log
+@@ -714,3 +693,2 @@
+ decision/tui-verdicts-from-records · TUI verdicts from records — TUI verdicts come from events.ndjson, the fake-agent receipt and the exit status. · except: The forced vt100 panic case byte-searches what the drained master reader read.
+-decision/unknown-reset-does-not-pause · Unknown or passed reset does not pause — A budget window whose resets_at is "unknown", unparseable or already passed does not pause. · guard: path6_an_unknown_or_passed_reset_does_not_pause
+ decision/unverified-cli-gates-answer-only · Unverified CLI version gates answer only — Under an unverified claude CLI version a send still proceeds and the question event is logged, while answer is refused unverified-cli.
+@@ -719,6 +697,2 @@
+ decision/vt100-panic-keeps-passthrough · vt100 panic keeps human passthrough — After a caught vt100 feed panic the screen model reads input-not-ready and drops bytes, send is refused, human passthrough still reaches the child, and the outer terminal shows no panic text. · guard: chaos_feed_panic_refuses_send_and_keeps_passthrough
+-contract/budget-gate-record/paused-false · budget-gate record · paused false — A per-instance release logs one budget-gate{paused:false, override_until} record for that instance alone, its override_until later than its ts and equal to the instance snapshot's budget_override_until.
+-contract/budget-gate-record/paused-true · budget-gate record · paused true — A budget pause logs a budget-gate{paused:true, window} record.
+-contract/budget-json/write-condition · budget.json · write condition — budget.json is written only when the statusline payload holds a rate_limits object.
+-contract/budget-paused-refusal/send-exit-11 · budget-paused refusal · send exit 11 — A send while the budget is paused exits 11 with detail naming the window, "five-hour" or "seven-day".
+ contract/caught-panic-exit-code/hook · exit code on a caught panic · hook — hook exits 0 on a caught panic.
+@@ -738,3 +712,3 @@
+ contract/dialog-events/logged-once · dialog events · question, permission, plan — Each dialog event is logged exactly once with a dialog_id, and a parked wait returns it at once.
+-contract/event-log/start-wheel-record · instance event log · first record of a start — Every start, a revived one included, appends wheel{holder:"driver", cause:"start"} as its first record.
++contract/event-log/start-wheel-record · instance event log · first record of a start — Every start, a revived one included, appends wheel{holder:"driver", cause:"start"} as its first record, and the hook's session-start is its second and last start record.
+ contract/events/harness-prompt · events.ndjson · harness-injected turn — A harness-injected turn logs `prompt-submitted{origin:"harness"}` and no `wheel` record.
+@@ -761,4 +735,2 @@
+ contract/list-human/unwrapped-separator · viola list human board · unwrapped separator — Unwrapped sessions follow the separator line "-- UNWRAPPED - READ-ONLY --".
+-contract/list-human/wheel-budget-paused · viola list human board · WHEEL cell — A budget-paused instance's WHEEL cell reads "driver - budget-paused" on that instance's row alone, with no ESC byte.
+-contract/list-json/budget-paused · list --json · budget_paused — The top-level .ok.budget.paused reports the budget reading's pause, while each item's budget_paused reports that instance's own gate, false under a per-instance override.
+ contract/list-json/liveness-stale · list --json · liveness stale — A wrapper whose heartbeat is older than 5 s reads liveness "stale"; a killed one is omitted as gone.
+@@ -769,3 +741,2 @@
+ contract/mcp-tool-input/schema-violation · MCP tool input · schema violation — A schema-violating tool call is invalid-params naming its field, revalidated before any frame, with no send-issued.
+-contract/mcp-tool-result/budget-paused · MCP tool result · budget-paused — A budget-paused send is isError:true with {"refusal":"budget-paused","detail":"five-hour"} and no cursor, equal to the CLI's document less v.
+ contract/mcp-tool-result/unverified-cli · MCP tool result · unverified-cli — MCP answer on an unverified CLI version gives is_error:true with text "refused: unverified-cli".
+@@ -778,3 +749,2 @@
+ contract/question-event/option-details · question event · option_details — One {description, preview} per option, each a string or null.
+-contract/release-budget-json/document · release --budget --json document · document — release --budget gives {budget_paused:false, override_until} when a pause stood and {budget_paused:false} alone when none did; the next send exits 0.
+ contract/release-verb/driver-caller · release verb · driver caller — A driver calling release is refused with -32602, exit 20.
+@@ -791,3 +761,2 @@
+ contract/statusline-hook/stdout · viola hook statusline · stdout — The wrapped statusline prints the user's command output byte for byte, with exit 0 and empty stderr.
+-contract/statusline-payload/resets-at · statusline payload · resets_at — The statusline reader takes resets_at as epoch seconds or RFC 3339; a malformed value is recorded as "unknown" in budget.json.
+ contract/statusline-settings-source/source-file · statusline settings source · source-file — viola reads the user statusline command from <home>/statusline-source.json (the Claude settings shape) when it exists, else in the default home from the user's .claude/settings.json, and in any other home from none; viola only reads it.
+@@ -799,3 +768,3 @@
+ contract/viola-list-json/live-instance · viola list --json · running wrapped instance — A running wrapped instance's item reads wrapped:true and liveness "live".
+-contract/viola-release/document · viola release · release document — Gives {wheel:"driver", budget_paused:false}, after which a send exits 0.
++contract/viola-release/document · viola release · release document — Gives {wheel:"driver"}, after which a send exits 0.
+ contract/viola-release/from-driver · viola release · release from a driver — Exits 20 {"error":"wrapper-fault","detail":{"code":-32602,…}} carrying release-from-driver.
+@@ -805,3 +774,2 @@
+ contract/viola-run-start/duplicate-run · viola run start · duplicate run — A second run of an instance already running exits 1.
+-contract/viola-run-start/event-order · viola run start · first three events — The first three events.ndjson records are wheel{cause:"start"}, budget-gate, then session-start{source:"hook"} with data.cause "startup", in that order.
+ contract/viola-run-start/home-tree-check · viola run start · home-tree strict-modes check — The home-tree check runs before the wrapper log opens; a refused tree exits 1 with the home-state or instance-state unable/hint pair, opens no log, writes no line and starts no child.
+@@ -835,3 +803,2 @@
+ ## test-plan · 7-test-data-fixtures · twin test-data-fixtures
+-decision/budget-file-from-statusline-hook · Budget file from the statusline hook — budget.json comes from generated statusline stdin piped into viola hook statusline; the reader's own unit cases alter only bytes the writer wrote.
+ decision/ci-homes-kept-until-gates · CI homes kept until gate steps — In CI each job runs on an ephemeral runner, homes live under the workspace's target/e2e-home and are kept until obs-plan's gate steps (G2, G4, the secret scan and the scan-gated uploads) have run. · except: The viola-chaos home of the chaos feed panic test lives outside target/e2e-home.
+@@ -855,3 +822,3 @@
+ decision/mcp-tap-refuses-dirty-exchange · MCP tap refuses a dirty exchange whole — The test-only viola-mcp-tap fixture refuses a dirty exchange whole with the same four codes as the verify recorder, naming the file only.
+-decision/per-test-home · isolated home per test — Each test has its own home, so no endpoint, log or budget.json is shared between tests.
++decision/per-test-home · isolated home per test — Each test has its own home, so no endpoint or log is shared between tests.
+ decision/planted-hygiene-violations · planted inputs prove hygiene classes red — Every hygiene violation class is proven red by a planted input.
+@@ -870,3 +837,3 @@
+ decision/tests-seed-own-data · self-bootstrapping tests — Tests seed their own data; no developer pre-populates a home.
+-decision/time-as-argument · pure time decisions take their instant — A pure time decision, such as the budget gate's override expiry, takes its instant as an argument instead of reading a clock.
++decision/time-as-argument · pure time decisions take their instant — A pure time decision takes its instant as an argument instead of reading a clock.
+ contract/fake-agent-cli/argv-only-options · viola-fake-agent command line · modes and options — The fake agent's modes and options are taken from argv only, never from the environment; standing as hyprctl, its mode is read from a file beside its exe.
+@@ -895,3 +862,2 @@
+ decision/agents-stub-from-files-no-env · Agents list answered by a stub on PATH — claude agents --json is answered in tests by the fake agent placed as claude in a test-scoped bin dir, from files beside its exe and with no env var, and every test-started list or revive runs under a test-scoped PATH. · why: The no-env answer was ratified.
+-decision/budget-seeded-through-statusline-hook · Budget seeded through the statusline hook — A test's budget file is seeded by piping generated statusline stdin into viola hook statusline. · except: The budget reader's own unit cases pad, replace or re-version bytes the writer wrote, because no writer produces an over-cap, unparseable or v 2 file.
+ decision/decision-bodies-as-insta-snapshots · Decision bodies as insta snapshots — Decision bodies are checked against insta snapshots, regenerated only by the local fixture refresh.
+@@ -910,2 +876,3 @@
+ decision/proptest-for-randomized-data · proptest for randomized data — Randomized test data comes from proptest strategies, with seeds persisted in committed regression files.
++decision/retired-words-as-fixtures · Retired words kept as committed fixtures — The 0.1.0 own-format shapes and the retired words are committed fixtures in a viola-0.1.0 fixture directory outside the identifier-probed paths, read by the cases that must spell an old word, and walked by the fixture hygiene check. · why: A removal's identifier probe and a case that must spell the removed word cannot share a tree.
+ decision/screen-fixture-box-rows-as-literals · Box rows recorded as their literals alone — A recorded screen fixture keeps a box rule row as its rule chars alone and the box's prompt row under that rule as the prompt char alone, and the fixture hygiene walk refuses a prompt row with text after the prompt char or a rule row with any other text. · guard: planted_box_row_beyond_its_literal_is_rejected
+@@ -936,3 +903,3 @@
+ ## test-plan · 8-mocking-stubbing-discipline · twin mocking-stubbing-discipline
+-decision/fakes-for-external-services · fakes replace external services — The real claude CLI is replaced by the native viola-fake-agent binary, both as the PTY child and as claude on a test-scoped PATH, the real hyprctl by the same binary as hyprctl, and Anthropic usage values by generated statusline stdin; tests never reach the real services. · except: viola-hyprland's own unit tests serve hyprctl by a planted shell stub, because cargo-mutants runs only the mutated package's tests, so a root-package test cannot kill that crate's mutants.
++decision/fakes-for-external-services · fakes replace external services — The real claude CLI is replaced by the native viola-fake-agent binary, both as the PTY child and as claude on a test-scoped PATH, and the real hyprctl by the same binary as hyprctl; tests never reach the real services. · except: viola-hyprland's own unit tests serve hyprctl by a planted shell stub, because cargo-mutants runs only the mutated package's tests, so a root-package test cannot kill that crate's mutants.
+ decision/filesystem-not-mocked · real filesystem in tests — The filesystem and on-disk state are not mocked; a real tempfile home is used everywhere. · why: Modes, file locking, torn lines and symlink handling are the behaviour under test.
+@@ -954,3 +921,3 @@
+ decision/time-faked-through-seams · Time faked through injected clocks — Time is faked only through the injected viola_core Clock, with no mock_instant; the MCP adapter runs no tokio timer, so no paused test clock, and a pure decision takes its instant as an argument.
+-decision/utc-now-read-directly · Wall clock read directly, not through the clock seam — chrono Utc::now() is read directly for wall-clock stamps and for the instant a pure decision such as the budget gate's takes; the clock seam carries monotonic Instants only. · except: The link line's since is stamped directly, so tests assert since by shape only.
++decision/utc-now-read-directly · Wall clock read directly, not through the clock seam — chrono Utc::now() is read directly for wall-clock stamps and for the instant a pure decision takes; the clock seam carries monotonic Instants only. · except: The link line's since is stamped directly, so tests assert since by shape only.
+ decision/wrapper-deadline-injected-clock · Wrapper deadlines driven by the injected clock — The wait timeout deadline runs in the wrapper process and only the injected Clock drives it in tests; a paused tokio clock in a test never reaches a spawned wrapper.
+@@ -1130,3 +1097,3 @@
+ decision/seeded-generators · Seed-controlled generators — Non-deterministic generators are always seed-controlled, and `proptest-regressions/` is committed.
+-decision/state-files-never-hand-written · State files are never hand-written — Every booted-wrapper test takes `ledger/stamps.json` from `viola verify`, `snapshot.json` from the wrapper and `budget.json` from `viola hook statusline`, never writing them by hand. · except: A reader's own unit cases may plant a malformed state file by writing through the writer and then padding, replacing or re-versioning its bytes.
++decision/state-files-never-hand-written · State files are never hand-written — Every booted-wrapper test takes `ledger/stamps.json` from `viola verify` and `snapshot.json` from the wrapper, never writing them by hand. · except: A reader's own unit cases may plant a malformed state file by writing through the writer and then padding, replacing or re-versioning its bytes.
+ decision/test-public-behaviour-only · Test public API and observable behaviour — Tests assert the public API and observable behaviour, never implementation details such as private methods or internal state.
+@@ -1206,4 +1173,2 @@
+ contract/agent-run-status-exit-codes/2 · agent-run status exit codes · 2 — Exit 2 on a usage error, or when no session.json exists for the id, printing {"v":1,"cmd":"status","ok":false,"reason":"unknown-session"}.
+-contract/agent-run-status-polled-fields/budget · agent-run status polled fields · budget — An envelope field of the status document that the agent polls.
+-contract/agent-run-status-polled-fields/budget-paused · agent-run status polled fields · budget_paused — A per-item field of the status document that the agent polls.
+ contract/agent-run-status-polled-fields/cli-verified · agent-run status polled fields · cli_verified — A per-item field of the status document that the agent polls.
+@@ -1222,3 +1187,3 @@
+ contract/boot-readiness-missing/snapshot · boot readiness missing code · <name>:snapshot — The snapshot of an instance is missing.
+-contract/boot-readiness/events · boot readiness · events — Event lines 1 to 3 are a wheel line with cause start, then budget-gate, then session-start with source hook; missing reads events.
++contract/boot-readiness/events · boot readiness · events — Event lines 1 and 2 are a wheel line with cause start, then session-start with source hook; missing reads events.
+ contract/boot-readiness/heartbeat · boot readiness · heartbeat — The heartbeat mtime is less than 5 s old; missing reads heartbeat.
+@@ -1253,3 +1218,3 @@
+ contract/harness-boot/default-instances · harness boot · --instance — With no --instance flag the instances are overseer and builder whatever other flags are given; one or more --instance flags replace that list.
+-contract/harness-boot/statusline-echo · harness boot · --statusline-echo — --statusline-echo conflicts with --unstamped and plants an owner-only statusline settings source in the session home that viola only reads; it sets no env var and writes no budget file.
++contract/harness-boot/statusline-echo · harness boot · --statusline-echo — --statusline-echo conflicts with --unstamped and plants an owner-only statusline settings source in the session home that viola only reads; it sets no env var.
+ contract/harness-boot/timeout · harness boot · timeout — Readiness is bounded at 20 s per instance after the build.

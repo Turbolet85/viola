@@ -1,0 +1,99 @@
+[
+{
+"tool": "matrix",
+"v": "1.12",
+"sha8": "0ea00907",
+"ts": "2026-11-14T17:53:29Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.2.0",
+"--chunk",
+"2026-11-14-budget-gate-removed",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-11-14-budget-gate-removed: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v2-04 → verified — No budget identifier stands in `src crates tests schemas fuzz/fuzz_targets Cargo… (654 chars)",
+"dry-run: nothing written",
+"version: verified 4/31"
+],
+"stderr": null,
+"wrote": [],
+"before": [
+{
+"id": "v2-04",
+"chunk": "2026-11-14-budget-gate-removed",
+"status": "implemented",
+"method": "integration",
+"ref": "src/run/wheel.rs::release_carrying_a_budget_key_is_invalid_params_and_moves_no_wheel (control release-budget holds) · sr… (465 chars)",
+"acceptance": "No budget identifier stands in `src crates tests schemas fuzz/fuzz_targets Cargo.toml .config` (the plan's identifier pr… (654 chars)",
+"notes_chars": 0
+}
+],
+"after": [
+{
+"id": "v2-04",
+"chunk": "2026-11-14-budget-gate-removed",
+"status": "verified",
+"method": "integration",
+"ref": "src/run/wheel.rs::release_carrying_a_budget_key_is_invalid_params_and_moves_no_wheel (control release-budget holds) · sr… (465 chars)",
+"acceptance": "No budget identifier stands in `src crates tests schemas fuzz/fuzz_targets Cargo.toml .config` (the plan's identifier pr… (654 chars)",
+"notes_chars": 0
+}
+]
+},
+{
+"tool": "matrix",
+"v": "1.12",
+"sha8": "0ea00907",
+"ts": "2026-11-14T17:53:34Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.2.0",
+"--chunk",
+"2026-11-14-budget-gate-removed",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-11-14-budget-gate-removed: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v2-04 → verified — No budget identifier stands in `src crates tests schemas fuzz/fuzz_targets Cargo… (654 chars)",
+"landed, rendered ./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson · 1 entry changed",
+"version: verified 4/31"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson"
+],
+"before": [
+{
+"id": "v2-04",
+"chunk": "2026-11-14-budget-gate-removed",
+"status": "implemented",
+"method": "integration",
+"ref": "src/run/wheel.rs::release_carrying_a_budget_key_is_invalid_params_and_moves_no_wheel (control release-budget holds) · sr… (465 chars)",
+"acceptance": "No budget identifier stands in `src crates tests schemas fuzz/fuzz_targets Cargo.toml .config` (the plan's identifier pr… (654 chars)",
+"notes_chars": 0
+}
+],
+"after": [
+{
+"id": "v2-04",
+"chunk": "2026-11-14-budget-gate-removed",
+"status": "verified",
+"method": "integration",
+"ref": "src/run/wheel.rs::release_carrying_a_budget_key_is_invalid_params_and_moves_no_wheel (control release-budget holds) · sr… (465 chars)",
+"acceptance": "No budget identifier stands in `src crates tests schemas fuzz/fuzz_targets Cargo.toml .config` (the plan's identifier pr… (654 chars)",
+"notes_chars": 0
+}
+]
+}
+]

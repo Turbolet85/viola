@@ -1,0 +1,63 @@
+[
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "ff3e7da7",
+"ts": "2026-11-14T17:54:37Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-14-budget-gate-removed",
+"--date",
+"2026-11-14",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin listing NOT DERIVED -- 2026-11-14-budget-gate-removed carries no freight (already compact)",
+"dry-run · would flip 2026-11-14-budget-gate-removed pending -> complete"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "ff3e7da7",
+"ts": "2026-11-14T17:54:41Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-14-budget-gate-removed",
+"--date",
+"2026-11-14",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin listing NOT DERIVED -- 2026-11-14-budget-gate-removed carries no freight (already compact)",
+"flip 2026-11-14-budget-gate-removed pending -> complete · tx 1239",
+"compacted 0 complete line(s) — their freight spent in the spine, no archive (U61)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+}
+]

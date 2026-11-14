@@ -1,0 +1,14 @@
+@fit n=1 row=contract/hook-statusline/refused-check sha=f8b66031ca85 v=fits type=3
+@fit n=2 row=contract/instance-snapshot/data sha=8634e9c92d43 v=fits type=3
+@fit n=3 row=contract/list-item/wrapped sha=cd06ff813ae8 v=fits type=3
+@fit n=4 row=contract/list-payload/items sha=1ca06019ae56 v=fits type=3
+@fit n=5 row=contract/list-payload/ok sha=1155bc99d02f v=fits type=3
+@fit n=6 row=contract/mcp-refusal-result/shape sha=4f769612fa75 v=fits type=3
+@fit n=7 row=contract/snapshot-envelope/unreadable-snapshot sha=334cc5932a24 v=fits type=3
+@fit n=8 row=decision/config-bad-value-falls-back sha=6a53451f0aa3 v=fits type=1
+@fit n=9 row=decision/config-falls-back-to-defaults sha=070ecc4bfcff v=fits type=1
+@fit n=10 row=decision/list-home-read-rule sha=04e6326944f3 v=fits type=2
+@fit n=11 row=decision/refused-statusline-check-no-trace sha=12ae99035a9a v=fits type=1
+@fit n=12 row=decision/agent-claude-pure sha=e3ba4578abc0 v=fits type=1
+@fit n=13 row=decision/root-bin-consumes-normalised-events sha=3d47969dc858 v=fits type=1
+@fit n=14 row=decision/mixed-version-tolerance sha=2a43d72989c8 v=fits type=1

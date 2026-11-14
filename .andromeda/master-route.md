@@ -99,4 +99,4 @@
 2026-11-13-rows-proposal-rule-work · complete · the rows landing's route-owed rule lines and the snapshot-replay guard closed in code or tests; one shared digit_runs · → chk:2026-11-13-rows-proposal-rule-work
 2026-11-14-hyprland-seam · complete · Hyprland seam — relied-on compositor queries and dispatches behind viola's own seam, measured live, replayed by a fake in CI · → chk:2026-11-14-hyprland-seam
 2026-11-14-hyprland-exact-frame-bound-pinned · complete · viola-hyprland's two MAX_FRAME bounds pinned at the exact frame, test-only · → chk:2026-11-14-hyprland-exact-frame-bound-pinned
-2026-11-14-budget-gate-removed · pending · the budget gate removed whole: no rate-limits reading, budget.json, send gate, budget-paused, board or log fields, Path 6; release guard kept; exit 11 retired · → chk:2026-11-14-budget-gate-removed
+2026-11-14-budget-gate-removed · complete · the budget gate removed whole: no rate-limits reading, budget.json, send gate, budget-paused, board or log fields, Path 6; release guard kept; exit 11 retired · → chk:2026-11-14-budget-gate-removed

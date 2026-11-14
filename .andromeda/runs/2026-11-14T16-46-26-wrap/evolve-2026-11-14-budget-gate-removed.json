@@ -1,0 +1,130 @@
+[
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "cf45c854",
+"ts": "2026-11-14T16:52:31Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 1190 · 2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+"ts 2026-11-14T16:52:31Z · clock 2026-11-14T16:52:31Z · bound 2026-11-14T16:31:33Z (line 2960)",
+"ids 2026-11-14T16:52:31Z-a … 2026-11-14T16:52:31Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "cf45c854",
+"ts": "2026-11-14T17:44:55Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 1228 · 2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+"ts 2026-11-14T17:44:32Z · clock 2026-11-14T17:44:55Z · bound 2026-11-14T16:52:31Z (line 2962)",
+"ids 2026-11-14T17:44:32Z-a … 2026-11-14T17:44:32Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "cf45c854",
+"ts": "2026-11-14T17:46:59Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 1230 · 2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+"ts 2026-11-14T17:46:48Z · clock 2026-11-14T17:46:58Z · bound 2026-11-14T17:44:32Z (line 2964)",
+"ids 2026-11-14T17:46:48Z-a … 2026-11-14T17:46:48Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "cf45c854",
+"ts": "2026-11-14T17:48:01Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 1232 · 2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+"ts 2026-11-14T17:47:55Z · clock 2026-11-14T17:48:01Z · bound 2026-11-14T17:46:48Z (line 2966)",
+"ids 2026-11-14T17:47:55Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson"
+],
+"before": null,
+"after": null
+}
+]

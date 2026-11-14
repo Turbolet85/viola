@@ -4,7 +4,7 @@ _Distilled from `.andromeda/design-system.md` + `.andromeda/layout-templates.md`
 
 ## Brand identity
 
-**"Strip-bay handoff, read back."** The direction the CLI carries, and the terminal fleet console (matrix#v2-14) inherits, is an air-traffic-control tower strip bay after dark. Buff paper strips sit in anthracite holder boots on ruled aluminium racks, and every session keeps its slot for life. The only warm light is the one amber arrival holder cocked out of line when a session needs you. The voice is standard phraseology: short fixed words (`open`, `RB`, `unable`, `human-typing`, `budget-paused`, `not-delivered`), no filler, no guessing. Nothing announces success before it is confirmed: a send stays `open` until the matching `prompt-submitted` reads it back (on a verified CLI, for `/clear` until its new-session post-condition does and for `/compact` until its same-session compact post-condition does; on an unverified CLI both `/clear` and `/compact` stay `unconfirmable`). Missing readings print `unknown`, and old information carries its age (`read 4m ago`, `expired`). It is explicitly NOT a monitoring dashboard: no status dots, toasts, graphs, spinners or glow.
+**"Strip-bay handoff, read back."** The direction the CLI carries, and the terminal fleet console (matrix#v2-14) inherits, is an air-traffic-control tower strip bay after dark. Buff paper strips sit in anthracite holder boots on ruled aluminium racks, and every session keeps its slot for life. The only warm light is the one amber arrival holder cocked out of line when a session needs you. The voice is standard phraseology: short fixed words (`open`, `RB`, `unable`, `human-typing`, `not-delivered`), no filler, no guessing. Nothing announces success before it is confirmed: a send stays `open` until the matching `prompt-submitted` reads it back (on a verified CLI, for `/clear` until its new-session post-condition does and for `/compact` until its same-session compact post-condition does; on an unverified CLI both `/clear` and `/compact` stay `unconfirmable`). Missing readings print `unknown`. It is explicitly NOT a monitoring dashboard: no status dots, toasts, graphs, spinners or glow.
 
 **Expression:** base 0.2 · frontend N/A (viola has no web or graphical frontend) · CLI TTY 0.2 · `--json`/non-TTY/`NO_COLOR`/`TERM=dumb`/`viola run` and `viola revive` passthrough 0.0.
 
@@ -55,14 +55,14 @@ CLI colour: amber on the `DIALOG` word only, SGR dim on a whole `stale` row, bol
 - The readback box — the signature; its one place the `[RB]` / `[  ]` / `[/ ]` column of CLI `viola send`
 - Transfer markers — only `link` / `unlink` verb output (`overseer -> builder`), plain, ASCII `->`, no inbound form; `viola list` has no link column
 - The tower tape — the ndjson tape in `events.ndjson`; the CLI has no tape, and terminal scrollback is the history
-- The BAY line — the one static header, atop `viola list`: `BAY`, `5H`, `7D`, `read … ago`, gate, `skipped` (no TAPE cell)
+- The BAY line — the one static header, atop `viola list`: `BAY`, then `skipped a - b - c` (the skip counts only, no TAPE cell)
 - Refusal lines — `unable  <name>  <reason>  <detail>` on stderr, then the cause's `hint:` line last (`send` and `answer` print the same hint for the same reason or detail; a `not-delivered` refusal with an opaque detail or none prints no hint); the exit-1 refusals of `run`, `revive` and `verify` and every exit-21 strict-modes refusal use the fixed `unable: <text>` / `hint:` pair instead
 
 ## Universal bans
 
 - NEVER use a ninth hex value: all eight come from the Color World, and only two are hues.
 - NEVER use colour for decoration: amber = dialog pending, blue = handoff, nothing else.
-- NEVER use status dots, toasts, spinners, skeleton shimmer or budget rings.
+- NEVER use status dots, toasts, spinners or skeleton shimmer.
 - NEVER auto-sort strips by state — slots are stable.
 - NEVER use glow or a terminal-green / neon "hacker" theme; the cli draws no depth.
 - A refused send folds into its send line; `turn-ended` never fills a readback box; a nonzero `skipped` count stays visible; a bare strip is never cocked nor a target.

@@ -1,0 +1,12 @@
+# rows-land · doc:a11y-plan · operations 4a0e10804759e935
+# a pattern each set and retire: the distinctive terms the old cell held and the new one lacks; its control the row's previous revision
+
+[[pattern]]
+id = "a11y1-7"
+regex = "config\\.json|five_hour"
+# control: contract/config-json/five-hour r1
+
+[[pattern]]
+id = "a11y1-8"
+regex = "config\\.json|seven_day"
+# control: contract/config-json/seven-day r1

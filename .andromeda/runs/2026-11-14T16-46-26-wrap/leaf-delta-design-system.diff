@@ -1,0 +1,76 @@
+--- a/.andromeda/design-system.md
++++ b/.andromeda/design-system.md
+@@ -3,3 +3,2 @@
+ decision/bare-strips-never-target · Unwrapped sessions are never a target — Wrapped instances sit in a holder; unwrapped sessions are bare strips, visible but never a `target`.
+-decision/budget-paused-stops-new-sends · Budget-paused as minimum-fuel state — The budget governor shows `5H` / `7D` figures, and `budget-paused` is a declared state that stops new sends while the running turn finishes.
+ decision/cli-has-no-motion · No motion in the CLI — The cli (0.2 on a TTY, 0.0 otherwise) has no motion at all.
+@@ -8,3 +7,3 @@
+ decision/expression-level · Expression level 0.2 — The base expression level `0.2` is the single source of truth for animation intensity, layout freedom, interaction complexity and motion across the whole project.
+-decision/fixed-phraseology-vocabulary · Fixed phraseology vocabulary — Short fixed words (`open`, `RB`, `unable`, `human-typing`, `budget-paused`, `not-delivered`) are the vocabulary of every label, CLI column and refusal, with no filler and no guessing.
++decision/fixed-phraseology-vocabulary · Fixed phraseology vocabulary — Short fixed words (`open`, `RB`, `unable`, `human-typing`, `not-delivered`) are the vocabulary of every label, CLI column and refusal, with no filler and no guessing.
+ decision/no-success-before-confirmation · Nothing announces success before confirmation — Nothing announces success before it is confirmed; sends stay visibly open until they are read back.
+@@ -13,3 +12,2 @@
+ decision/readback-box · The readback box as signature element — The readback box is a fixed-width, 1px-ruled square cell whose one place is the CLI mirror, with three drawn states each also printed as a word.
+-decision/readings-carry-their-age · Readings carry their age — Every budget reading carries its age (`read 4m ago`), and old information is shown as old (`expired`), never as current.
+ decision/rejected-style-presets · Rejected style presets — The Dark Mode (OLED), Real-Time Monitoring (pulsing dots, blink, toasts) and HUD / Sci-Fi FUI (glow, telemetry animation) presets are not used.
+@@ -68,3 +66,3 @@
+ contract/cli-glyphs/field-separator · CLI glyphs · " - " — ` - ` separates parts inside one field.
+-contract/cli-separators/space-hyphen-space · CLI separators · ` - ` — Space, hyphen, space replaces a middle dot inside one field or label (`driver - budget-paused`).
++contract/cli-separators/space-hyphen-space · CLI separators · ` - ` — Space, hyphen, space replaces a middle dot inside one field or label (`skipped 2 - 0 - 1`).
+ contract/cli-separators/two-spaces · CLI separators · two spaces — Two spaces separate columns, and a refusal's reason from its detail, as separate fields.
+@@ -79,3 +77,2 @@
+ decision/columns-never-read · COLUMNS is never read — Terminal width comes only from stdout's own terminal; `COLUMNS` is never read and a piped stdout has no width.
+-decision/expired-window-shown-expired · Expired budget window shown as expired — A budget window whose `resets_at` has passed still prints its figure followed by `expired`. · why: old information is shown as old
+ decision/flat-cli-verbs · Flat CLI verbs — CLI verbs are flat, each one lower-case word, with no nested subcommand groups. · except: `plugin install`
+@@ -123,3 +120,3 @@
+ contract/cli-exit-codes/1 · CLI exit codes · 1 — `error: internal error` (fixed; no chain, paths or hint), or a fixed `unable:` refusal of `run`, `revive` or `verify` with its hint; `--json` only for `revive`'s shared-start refusals and the catch site's `{"v":1,"error":"internal-error","detail":null}`, stderr empty.
+-contract/cli-exit-codes/10-14 · CLI exit codes · 10 to 14 — An `unable` refusal with its reason; a refusal object under `--json`.
++contract/cli-exit-codes/10-14 · CLI exit codes · 10 to 14 — An `unable` refusal with its reason; a refusal object under `--json`; 11 is retired (was `budget-paused`) and never reused.
+ contract/cli-exit-codes/2 · CLI exit codes · 2 — Clap usage text (never from `viola hook`), or the fixed `UNUSABLE_RESPONSE` line (oversize `viola answer`) or `UNUSABLE_TEXT` line (unusable `viola send`) on stderr, whatever `--json` says; no document.
+@@ -143,3 +140,2 @@
+ contract/cli-verb-output/release · CLI verb output · viola release — `viola release <name>` prints `<name>  wheel driver  you have control`.
+-contract/cli-verb-output/release-budget · CLI verb output · viola release --budget — Prints one unstyled stdout line, `<name>  budget gate lifted until <time>  wheel human` when a pause stood, else `<name>  budget gate open  wheel human`.
+ contract/cli-verb-output/unlink · CLI verb output · viola unlink — `viola unlink <a> <b>` prints `unlink  <a> -> <b>`.
+@@ -170,3 +166,3 @@
+ contract/viola-last-output/message · viola last output · message — `last` prints the message text on stdout with C0/C1 escaped, or `no message` on stderr when the message is `null`.
+-contract/viola-list-table/bay-line · viola list table · BAY line — The BAY line is the ATIS without `resets` times (printed by `viola release <name> --budget`) and without a TAPE cell.
++contract/viola-list-table/bay-line · viola list table · BAY line — The BAY line carries the skip counts only (`BAY  skipped a - b - c`), with no TAPE cell.
+ contract/viola-list-table/columns · viola list table · columns — Under a BAY line the table has the columns NAME, LIVE, STATUS, WHEEL, DIALOG and CLI; unwrapped sessions follow a `-- UNWRAPPED - READ-ONLY --` line.
+@@ -211,3 +207,3 @@
+ decision/no-hint-for-unknown · No hint for unknown — The `unknown` refusal (exit 14) prints no hint line. · why: Its detail is a code word or nothing, and a hint would have to guess.
+-decision/no-hint-names-viola-release · No hint names viola release — No refusal hint ever names `viola release`; `release` stays a human verb. · why: The human-typing and budget-paused refusals reach drivers, and a driver's `release` is refused (`-32602`, `release-from-driver`, exit 20).
++decision/no-hint-names-viola-release · No hint names viola release — No refusal hint ever names `viola release`; `release` stays a human verb. · why: The human-typing refusal reaches drivers, and a driver's `release` is refused (`-32602`, `release-from-driver`, exit 20).
+ decision/no-json-after-child-held-terminal · No document once the child held the terminal — An error while pumping the child under `viola revive --json` prints no document. · why: The child has held the terminal and viola writes nothing past it.
+@@ -215,3 +211,3 @@
+ decision/terminal-background-never-set · Terminal background never set — The CLI never sets a background colour, at any colour depth. · why: The terminal background belongs to the user.
+-decision/wheel-column-width-23 · WHEEL column padded to 23 — The board's WHEEL column is padded to 23 characters, the width of its widest word `unknown - budget-paused` (a replayed row with a logged pause and no logged holder). · why: Ratified.
++decision/wheel-column-width-23 · WHEEL column padded to 23 — The board's WHEEL column is padded to 23 characters. · why: Ratified.
+ contract/cli-catch-site/json-flag-scope · CLI catch site · --json flag scope — The catch site counts `--json` only among the arguments before a `--`, read from argv.
+@@ -223,3 +219,3 @@
+ contract/cli-exit-codes/10 · CLI exit codes · 10 — `unable  human-typing` (+ `manual-pause`); under `--json` `{"v":1,"refusal":"human-typing","detail":…}`.
+-contract/cli-exit-codes/11 · CLI exit codes · 11 — `unable  budget-paused  five-hour` or `seven-day`; under `--json` the refusal object.
++contract/cli-exit-codes/11 · CLI exit codes · 11 — Retired (was `budget-paused`) and never reused; a `budget-paused` refusal from an older wrapper reads `unknown`, exit 14.
+ contract/cli-exit-codes/12 · CLI exit codes · 12 — `unable  unverified-cli`; under `--json` the refusal object.
+@@ -251,3 +247,2 @@
+ contract/peer-reply-screening/unlisted-code-word · peer reply screening · code word outside the refusal list — A code word outside the closed refusal list stays visible, by design, in the document and in `refused: <word>`, and exits 14 as `unknown` does.
+-contract/refusal-hints/budget-paused · refusal hints · budget-paused — `budget gate is closed; it lifts at the window reset, or when the human lifts it`
+ contract/refusal-hints/endpoint-lost · refusal hints · endpoint-lost — When a wrapper is lost with the call open: `<name>'s wrapper went away during the call; viola list shows whether it is still running`, last on stderr, plain ASCII.
+@@ -278,3 +273,2 @@
+ contract/viola-list-board/failed-agents-read · viola list board · failed agents read — A failed, oversize or malformed `claude agents --json` read prints the board as with no `claude`.
+-contract/viola-list-board/human-holder-budget-paused · viola list board · human holder under a budget pause — A `human` holder under a budget pause prints `human - budget-paused`.
+ contract/viola-list-board/json-refusal · viola list board · --json refusal — Under `--json` the strict-modes refusal, the board's only one, is one stdout document `{"v":1,"error":"instance-unreachable","detail":"strict-modes-failed"}`, stderr empty.
+@@ -282,3 +276,2 @@
+ contract/viola-list-board/name-cut · viola list board · NAME cut — An unwrapped NAME longer than its column is cut to the column less 3 characters and ends in `...`, never splitting an escape; a wrapped NAME is never cut; a piped board or `--json` keeps every name whole.
+-contract/viola-list-board/reading-age · viola list board · reading age — The reading's age prints in whole minutes rounded down at every age (`read 0m ago`, `read 75m ago`), and `read unknown` for no instant, one that does not parse, or one ahead of now.
+ contract/viola-list-board/row-escaping · viola list board · row escaping — The row mode escapes every control character of a row, DEL and C1 included, as `\xHH`; NAME's width is counted in characters.
+@@ -291,6 +284,2 @@
+ contract/viola-list-board/unwrapped-separator · viola list board · unwrapped separator — When the agents read lists a session no wrapped row joins, the `-- UNWRAPPED - READ-ONLY --` line follows the wrapped rows, or the empty-board line when there are none; with no unwrapped row no separator prints.
+-contract/viola-list-board/window-figure · viola list board · window figure — A window's figure is rounded down to a whole number (`89.6` prints `89 %`).
+-contract/viola-release-budget/lifted-line · viola release --budget · lifted line — When a pause stood, `viola release <name> --budget` prints `<name>  budget gate lifted until <time>  wheel human`, one unstyled stdout line with the two-space gutter of the other verb lines.
+-contract/viola-release-budget/open-line · viola release --budget · open line — When no pause stood the line is `<name>  budget gate open  wheel human`, one unstyled stdout line.
+-contract/viola-release-budget/override-time · viola release --budget · override time — The time is the reply's `override_until`: `HH:MM:SSZ` on the current UTC date, `YYYY-MM-DD HH:MM:SSZ` on any other date; a value that is no RFC 3339 instant prints escaped.
+ contract/viola-revive-json-codes/already-live · viola revive --json exit-1 codes · already-live — `already-live` is one of the closed exit-1 codes of `viola revive --json`.
+@@ -340,3 +329,2 @@
+ ## design-system · anti-patterns-never-do-these
+-decision/budget-as-ruled-figures · Budget as figures in ruled fields — Budget prints as figures in ruled fields with the ATIS reading age, never as rings or coloured bars; `budget-paused` is a word, not a colour.
+ decision/colour-carries-meaning · Colour carries meaning, never decoration — Every colour communicates meaning: amber means `dialog_pending` and nothing else, blue means handoff and nothing else, and no third hue is used. · why: Any third hue has no domain meaning.

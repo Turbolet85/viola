@@ -1,0 +1,147 @@
+# rows-land · doc:test-plan · operations 7eee5bccb7966855
+# a pattern each set and retire: the distinctive terms the old cell held and the new one lacks; its control the row's previous revision
+
+[[pattern]]
+id = "tests1-1"
+fixed = "config.json"
+# control: decision/cli-env-vector-negative-tests r1
+
+[[pattern]]
+id = "tests1-2"
+fixed = "budget.json"
+# control: decision/self-bootstrapping-test-data r1
+
+[[pattern]]
+id = "tests1-3"
+fixed = "budget.json"
+# control: contract/viola-hook-statusline/passthrough r1
+
+[[pattern]]
+id = "tests1-4"
+fixed = "budget_paused"
+# control: contract/viola-list-json/items r1
+
+[[pattern]]
+id = "tests1-5"
+regex = "budget_paused|budget_override_until"
+# control: decision/snapshot-replay-fields r1
+
+[[pattern]]
+id = "tests1-13"
+fixed = "budget.json"
+# control: decision/hook-exec-against-live-wrapper r1
+
+[[pattern]]
+id = "tests1-14"
+fixed = "setting_does_not_disable_the_budget_gate"
+# control: decision/bad-config-value-falls-back r1
+
+[[pattern]]
+id = "tests1-15"
+fixed = "budget.json"
+# control: decision/hook-tests-real-binary r1
+
+[[pattern]]
+id = "tests1-17"
+fixed = "budget.json"
+# control: contract/hook-statusline/passthrough r1
+
+[[pattern]]
+id = "tests1-21"
+fixed = "budget_paused:false"
+# control: contract/viola-release/document r1
+
+[[pattern]]
+id = "tests1-22"
+fixed = "budget.json"
+# control: decision/per-test-home r1
+
+[[pattern]]
+id = "tests1-26"
+fixed = "budget.json"
+# control: decision/state-files-never-hand-written r1
+
+[[pattern]]
+id = "tests1-28"
+regex = "budget\\.json|rate_limits"
+# control: contract/viola-hook-statusline/budget-json r1
+
+[[pattern]]
+id = "tests1-29"
+regex = "five_hour|used_percentage|resets_at|seven_day|read_at"
+# control: contract/viola-list-json/budget r1
+
+[[pattern]]
+id = "tests1-30"
+regex = "budget\\.json|rate_limits|resets_at"
+# control: contract/budget-json/rate-limits r1
+
+[[pattern]]
+id = "tests1-31"
+regex = "budget_paused|override_until"
+# control: contract/cli-release/budget r1
+
+[[pattern]]
+id = "tests1-34"
+fixed = "budget.json"
+# control: decision/budget-json-from-statusline r1
+
+[[pattern]]
+id = "tests1-36"
+fixed = "budget_paused"
+# control: contract/agent-run-status-polled-fields/budget-paused r1
+
+[[pattern]]
+id = "tests1-38"
+regex = "five_hour|seven_day"
+# control: decision/budget-governor-thresholds r1
+
+[[pattern]]
+id = "tests1-45"
+fixed = "five_hour"
+# control: decision/five-hour-pause-threshold r1
+
+[[pattern]]
+id = "tests1-49"
+fixed = "resets_at"
+# control: decision/unknown-reset-does-not-pause r1
+
+[[pattern]]
+id = "tests1-50"
+regex = "override_until|budget_override_until"
+# control: contract/budget-gate-record/paused-false r1
+
+[[pattern]]
+id = "tests1-52"
+regex = "budget\\.json|rate_limits"
+# control: contract/budget-json/write-condition r1
+
+[[pattern]]
+id = "tests1-55"
+regex = "budget_paused|ok\\.budget\\.paused"
+# control: contract/list-json/budget-paused r1
+
+[[pattern]]
+id = "tests1-56"
+fixed = "isError:true"
+# control: contract/mcp-tool-result/budget-paused r1
+
+[[pattern]]
+id = "tests1-57"
+regex = "budget_paused:false|override_until"
+# control: contract/release-budget-json/document r1
+
+[[pattern]]
+id = "tests1-58"
+regex = "resets_at|budget\\.json"
+# control: contract/statusline-payload/resets-at r1
+
+[[pattern]]
+id = "tests1-59"
+regex = "events\\.ndjson|data\\.cause"
+# control: contract/viola-run-start/event-order r1
+
+[[pattern]]
+id = "tests1-60"
+fixed = "budget.json"
+# control: decision/budget-file-from-statusline-hook r1

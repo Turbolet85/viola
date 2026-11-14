@@ -1,0 +1,9 @@
+@fit n=1 row=contract/statusline-span-attributes/statusline-shell-out sha=b7b1dbb030db v=stands as=contract/budget-span-attributes/statusline-shell-out
+@fit n=2 row=contract/statusline-spans/span-chain sha=67b445057201 v=fits type=3
+@fit n=3 row=decision/statusline-command-confined sha=4cb05cadbf2c v=fits type=1
+@fit n=4 row=decision/exit-code-log-field sha=5fcf3f6a4b81 v=fits type=1
+@fit n=5 row=contract/channel-response/invalid-params-causes sha=29ce94e26d1d v=fits type=3
+@fit n=6 row=contract/run-start-events/order sha=3883cc5a85fb v=fits type=3
+@fit n=7 row=contract/config-json/known-keys sha=0fa1e60cc7dc v=fits type=3
+@fit n=8 row=contract/config-json/v sha=dc56d5c8c696 v=fits type=3
+@fit n=9 row=decision/product-order-from-events-log sha=17a4454f84f6 v=fits type=1

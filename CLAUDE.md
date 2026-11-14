@@ -9,7 +9,7 @@ viola is a hybrid local developer tool that lets one interactive Claude Code ses
 **Stack:** Rust 1.98.1 pinned by `rust-toolchain.toml` (edition 2024, `rust-version` 1.96), one Cargo workspace (`crates/*`, the `fuzz/` workspace excluded) building one native `viola` binary: std threads with Tokio `=1.53.3` only inside `viola-mcp`, clap `=4.6.7`, portable-pty `=0.9.0` behind viola's own PTY seam, vt100 `=0.16.2` for readiness, interprocess `=2.4.4` local sockets carrying JSON-RPC 2.0 over ndjson, ndjson append logs and atomic JSON snapshots (no database, broker, container or hosting), rmcp 3.4.1 (`>=3.4.1, <3.5`) for the stdio MCP server; CI on GitHub Actions `ubuntu-latest` against the fake agent; deployed by a local `cargo install`, the plugin embedded and loaded with `--plugin-dir`.
 
 **Key directories:**
-- `src/` — the `viola` bin: subcommand dispatch (`src/cmd/`), the `run` pump, wheel and budget governor (`src/run/`), human output (`src/human/`)
+- `src/` — the `viola` bin: subcommand dispatch (`src/cmd/`), the `run` pump and wheel (`src/run/`), human output (`src/human/`)
 - `crates/` — the workspace library crates `viola-core`, `-pty`, `-channel`, `-state`, `-agent-claude`, `-mcp`, `-hyprland` and the test-only `viola-e2e`
 - `plugin/` — `hooks/hooks.json`, `.mcp.json`, `.claude-plugin/plugin.json`, embedded in the binary and written out by `viola run`
 - `fixtures/` — `claude/<cli-version>/` payloads and screens recorded by `viola verify` and replayed by the fake agent in CI; `hyprland/<version>/` the Hyprland replies recorded by the test-only `viola-hypr-tap`; `fake-scripts/` the committed fake-agent turn scripts
@@ -21,11 +21,11 @@ viola is a hybrid local developer tool that lets one interactive Claude Code ses
 - **`viola-core`** — depends on no viola crate; the normalised event kinds (a new kind is added only here, never with a Claude-specific name), the refusal reason type, `obs_event!` and the service identity constants
 - **`viola-pty`** — the PTY seam over portable-pty, host raw mode through libc termios; depends on no viola crate, knows no agent, takes no thiserror; **`viola-hyprland`** — the one compositor seam: compositor queries and dispatches go only through its closed request set; sync and tokio-free, it depends on `viola-core` alone among viola crates
 - **`viola-channel`** — JSON-RPC 2.0 over ndjson on interprocess local sockets; sync client and server, the Tokio client only behind its `tokio` feature
-- **`viola-state`** — ndjson append logs and atomic JSON snapshots through one shared persist helper, `.lock` siblings, the strict-modes checks and the board read model (sync, std only, Claude-free); writes the stamps, budget and settings files
+- **`viola-state`** — ndjson append logs and atomic JSON snapshots through one shared persist helper, `.lock` siblings, the strict-modes checks and the board read model (sync, std only, Claude-free); writes the stamps and settings files
 - **`viola-agent-claude`** — the only crate that knows Claude: hook JSON and `claude agents --json` shapes, dialog answer mapping, the identity strip, child program resolution, the Claude half of the CLI version gate, the capability ledger and the Claude flag literals; does no file I/O and takes no `viola-state`
 - **`viola-mcp`** — the rmcp stdio MCP server (features exactly `server` + `transport-io`), tools `send · wait · last · answer · list`; the only product crate that enables Tokio, on `viola-channel`'s `tokio` feature, and takes no serde
 - **`viola-e2e`** (test-only, no product crate depends on it) — `viola-harness` behind `scripts/agent-run.sh`, `viola-mcp-tap`, `viola-hypr-tap` and the Tokio-based E2E clients
-- **`viola`** (root bin) — holds the clap subcommand dispatch, the `run` pump, the wheel and the budget governor, all consuming only normalised events; human output only through its human module; the only crate with anyhow; also builds the test-only `viola-fake-agent`
+- **`viola`** (root bin) — holds the clap subcommand dispatch, the `run` pump and the wheel, all consuming only normalised events; human output only through its human module; the only crate with anyhow; also builds the test-only `viola-fake-agent`
 - **`viola-fuzz`** (`fuzz/`, a crate row but no workspace member: its own cargo-fuzz workspace excluded from the root) — the fuzz targets on a pinned nightly, its own lockfile audited separately, committed synthetic seeds
 <!-- GENERATED:setup:modules end -->
 

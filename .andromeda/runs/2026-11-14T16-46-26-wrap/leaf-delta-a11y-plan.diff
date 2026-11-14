@@ -1,0 +1,32 @@
+--- a/.andromeda/a11y-plan.md
++++ b/.andromeda/a11y-plan.md
+@@ -138,3 +138,3 @@
+ decision/colour-decision-inputs · Colour decision inputs — The colour decision reads NO_COLOR (present, empty included), TERM (exactly dumb; 256color), COLORTERM and whether stdout is a terminal, and picks a truecolor, 256 or 16 depth.
+-decision/state-carried-by-printed-word · State carried by its printed word — Each board state is carried by its printed word (stale, DIALOG <kind>, expired, budget-paused, unverified-cli, idle, busy, n/a), never by colour alone.
++decision/state-carried-by-printed-word · State carried by its printed word — Each board state is carried by its printed word (stale, DIALOG <kind>, expired, unverified-cli, idle, busy, n/a), never by colour alone.
+ decision/unwrapped-name-truncation · Unwrapped NAME truncation — On a terminal too narrow, an unwrapped NAME is cut to the column less 3 characters plus ..., never inside an escape; a wrapped NAME is never cut, and piped output and --json keep every name whole. · guard: cross_list_rows_truncate_an_unwrapped_name_only_on_a_terminal_too_narrow_for_it
+@@ -153,3 +153,3 @@
+ decision/refusal-layout-literal-pins · Refusal layout held by literal pins — Each refusal's `unable <reason> <detail>` plus final `hint:` layout, its typed exit code and a hint-free `--json` are held by literal asserts in CI on ubuntu-latest. · guard: literal pins over std::process::Command on ubuntu-latest
+-decision/time-bounds-never-on-human · Time bounds never fall on the human — Every time bound viola holds (wait timeout and cap, dialog hold, send readiness gate, confirmation windows, status-line deadline, agents read, budget pause) falls on the driver, the user's command or viola's child; no key is blocked, refused or delayed by it.
++decision/time-bounds-never-on-human · Time bounds never fall on the human — Every time bound viola holds (wait timeout and cap, dialog hold, send readiness gate, confirmation windows, status-line deadline, agents read) falls on the driver, the user's command or viola's child; no key is blocked, refused or delayed by it.
+ contract/cli-refusal/exit-code · CLI refusal output · exit code — Every refusal ends with a typed exit code.
+@@ -161,4 +161,2 @@
+ ## a11y-plan · cognitive-accessibility · twin 8-cognitive-accessibility
+-decision/budget-gate · Budget gate on automated sends — While a five-hour or seven-day window stands at or over its threshold with a known reset ahead, an automated viola send is refused budget-paused with nothing typed, until that reset or viola release --budget; no threshold value switches the gate off. · guard: path6_a_reading_over_the_threshold_refuses_the_send
+-decision/budget-gate-only-on-send · Only send reads the budget gate — answer, wait, last and pause do not read the budget gate and give under a closed gate what they give under an open one. · guard: path6_a_closed_gate_leaves_answer_wait_last_and_pause_alone
+ decision/claude-agents-read-fails-open · claude agents read fails open — A failed, oversize, malformed or timed-out claude agents --json read leaves the list board as the board read gave it and passes revive's preflight.
+@@ -181,3 +179,3 @@
+ decision/thiserror-messages-interpolate-nothing · thiserror messages interpolate nothing — No thiserror message interpolates a value. · guard: thiserror_messages_interpolate_nothing
+-decision/time-bounds-fall-on-the-driver · Time bounds fall on the driver only — Every time bound (MCP wait cap, dialog hold, readiness gate, confirm windows, budget pause, statusline deadline, agents read) falls on the driver or viola's own child, never blocking, refusing or delaying a human key and never moving the wheel.
++decision/time-bounds-fall-on-the-driver · Time bounds fall on the driver only — Every time bound (MCP wait cap, dialog hold, readiness gate, confirm windows, statusline deadline, agents read) falls on the driver or viola's own child, never blocking, refusing or delaying a human key and never moving the wheel.
+ decision/unknown-refusal-has-no-hint · unknown refusal carries no hint — The unknown refusal prints no hint. · why: its detail is a code word or nothing, opaque to a reader, so no hint is printed rather than a guess
+@@ -185,3 +183,3 @@
+ decision/unstattable-home-is-strict-modes-refusal · Unstattable home is a strict-modes refusal — A home path under a regular file is a strict-modes refusal with its hint: verify gives the home-state pair with exit 1, the frame verbs the instance-state pair with exit 21.
+-contract/cli-exit-codes/11 · CLI exit codes · 11 — budget-paused, with detail five-hour or seven-day.
++contract/cli-exit-codes/11 · CLI exit codes · 11 — Retired (was budget-paused) and never reused; an older wrapper's budget-paused refusal reads as unknown, exit 14.
+ contract/cli-exit-codes/13 · CLI exit codes · 13 — An answer for an expired or absent dialog is refused not-delivered / unknown-dialog.
+@@ -195,4 +193,2 @@
+ contract/config-json/dialog-hold-s · config.json · dialog_hold_s — Whole seconds 60 to 3600, default 60, read once at the wrapper's start; any other value gives 60 and one parse-rejected.
+-contract/config-json/five-hour · config.json · five_hour — The five-hour window's budget threshold, default 90.
+-contract/config-json/seven-day · config.json · seven_day — The seven-day window's budget threshold, default 85.
+ contract/event-line/dialog-expired · the event line · dialog-expired — Appended once at the dialog hold's end with source wrapper and dialog_id, dialog_kind; wakes a parked wait.

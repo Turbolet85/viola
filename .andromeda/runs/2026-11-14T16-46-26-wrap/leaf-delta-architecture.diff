@@ -1,0 +1,240 @@
+--- a/.andromeda/architecture.md
++++ b/.andromeda/architecture.md
+@@ -7,2 +7,3 @@
+ decision/send-confirmed-after-the-fact · Every send confirmed after the fact — A send is confirmed only by a matching `prompt-submitted` within the compiled confirmation window (never in `config.json`), or for a ledger-listed local command by its measured post-condition; otherwise `not-delivered`; the ledger decides, never a leading slash. · why: A turn boundary per the hooks does not prove the input box is ready. · except: A ledger-listed local command whose post-condition is none, not yet measured, or whose CLI is unverified returns `ok` with `confirmed: false` and detail `unconfirmable`.
++absence/usage-budget-gate — A usage-budget gate: no subscription rate-limit reading, no budget state, no send paused or refused on usage
+ ## architecture · stack-and-technologies
+@@ -31,3 +32,3 @@
+ decision/no-unbounded-json-depth · serde_json unbounded_depth banned — serde_json's unbounded_depth feature is banned. · why: every parse of external bytes keeps serde_json's default recursion limit · guard: deny.toml
+-decision/nutype-domain-newtypes · nutype domain newtypes — Bounded domain values are nutype newtypes: ViolaName (charset and length cap), Percent (0 to 100), DialogHold (whole seconds 60 to 3600).
++decision/nutype-domain-newtypes · nutype domain newtypes — Bounded domain values are nutype newtypes: ViolaName (charset and length cap), DialogHold (whole seconds 60 to 3600).
+ decision/pinned-copy-placed-once · Pinned copy placed once, never replaced — The pinned copy's absent-copy write is a no-clobber persist after the write handle closes; the copy is placed once and never replaced.
+@@ -60,11 +61,2 @@
+ decision/atomic-bracketed-send · Atomic bracketed-paste send — A bridge send is written as one bracketed-paste write plus CR, and human bytes arriving during it are held and passed on straight after.
+-decision/budget-default-thresholds · Budget default thresholds — The defaults are `five_hour` at or above 90 % and `seven_day` at or above 85 %, read once at the wrapper's start, and no value switches the gate off.
+-decision/budget-gate-fail-open · Budget gate fails open — No reading, an unknown figure, a passed or unparseable `resets_at`, an unreadable `budget.json` or a bad threshold leaves the gate open or at its default.
+-decision/budget-gate-fails-open · Budget gate never polls and fails open — The budget gate never polls and fails open.
+-decision/budget-gate-never-polls · Budget gate evaluated at three points — The wrapper evaluates the budget gate only at start, when a `send` arrives and at each `turn-ended`, never by polling, so a snapshot can read paused after the reset until the next point.
+-decision/budget-governor-soft-stop · Budget governor soft stop — Once a configured threshold is crossed, automated `send` is refused `budget-paused`; human keys are never blocked, a running turn finishes, and the pause lifts when `resets_at` passes or on `viola release --budget`. · why: The per-model weekly window is hidden, so thresholds are set low and the governor stays visible and conservative.
+-decision/budget-pause-gates-only-send · Budget pause gates only send — `budget-paused` gates only `send`, never `hook.dialog` or `answer`. · why: A running turn finishes.
+-decision/budget-pause-lift · Budget pause lifts on reset or release — A budget pause lifts when `resets_at` passes or on `viola release --budget`.
+-decision/budget-readings-last-writer-wins · Budget readings last-writer-wins — Budget readings are timestamped and last-writer-wins under File::lock.
+-decision/budget-soft-stop · Budget soft stop at the turn boundary — Once a configured threshold is crossed (defaults `five_hour` at 90 %, `seven_day` at 85 %), automated `send` is refused `budget-paused`; human keys are never blocked and a running turn finishes. · why: The per-model weekly window is hidden, so thresholds are set low.
+ decision/byte-source-wheel-claim · Byte-source wheel claim — Any human editing key since the last turn boundary moves the wheel to the human, and automated `send` is then refused `human-typing`. · why: `viola run` owns the real stdin, so it knows byte provenance exactly.
+@@ -152,5 +144,4 @@
+ decision/no-typing-into-trust-dialogs · viola types into no trust dialog — viola types into neither the folder trust dialog nor the external CLAUDE.md imports dialog.
+-decision/nutype-newtypes · nutype newtypes for validation — Validated values are nutype newtypes (`ViolaName`, `Percent`, `DialogHold`); no garde or validator.
++decision/nutype-newtypes · nutype newtypes for validation — Validated values are nutype newtypes (`ViolaName`, `DialogHold`); no garde or validator.
+ decision/one-pending-dialog · At most one pending dialog per instance — At most one dialog is pending per instance; a dialog hook arriving while another is pending is answered null at once so it renders for the human, and its event is still logged with its own dialog_id.
+-decision/only-send-reads-budget-gate · Only send reads the budget gate — `answer`, `wait`, `last`, `pause` and `hook.dialog` do not read the budget gate. · guard: path6_a_closed_gate_leaves_answer_wait_last_and_pause_alone
+ decision/optional-plugin-install · Optional MCP-only plugin install — `viola plugin install` (a local marketplace) is optional, for the MCP verbs in an unwrapped driver, and the installed plugin carries only `.mcp.json` and no hooks.
+@@ -160,3 +151,3 @@
+ decision/peer-euid-admission · Peer admitted only on a matching euid — A channel peer is admitted only when its euid is read and equals the own user's; an unreadable euid is refused, and the wrapper drops a refused stream before any frame, writing nothing, with no env, flag or feature seam.
+-decision/permission-request-question-stays-null · A question first raised by PermissionRequest stays null — A question first raised by PermissionRequest stays null to the human. · why: A PermissionRequest allow with updatedInput would satisfy it, but that body has no ledger row; adding one needs a 25th row, its viola verify probe and a re-stamp of every stamped version.
++decision/permission-request-question-stays-null · A question first raised by PermissionRequest stays null — A question first raised by PermissionRequest stays null to the human. · why: A PermissionRequest allow with updatedInput would satisfy it, but that body has no ledger row; adding one needs a 24th row, its viola verify probe and a re-stamp of every stamped version.
+ decision/personal-v1-no-accounts · Personal v1 without accounts — v1 runs on the founder's own subscription with no accounts, and its on-disk state is parsed defensively. · why: The later public version for individual Claude Code subscribers must not need a rewrite.
+@@ -178,3 +169,2 @@
+ decision/real-cli-probe-local-only · Real CLI probes run only locally — The real claude probe and --record run only locally; CI runs verify against the fake agent's print mode and its interactive modes.
+-decision/release-budget-per-instance · Budget release per instance — `release --budget` lifts the pause for one instance only, until the crossed window's `resets_at`, and leaves the wheel; a plain `release` never lifts a budget pause, and an override never outlives its wrapper.
+ decision/release-cli-only · release is CLI-only — `release` is never an MCP tool; only the CLI offers it. · why: A driver is never offered a way to hand the wheel back to automation: an affordance, not an enforcement.
+@@ -187,3 +177,3 @@
+ decision/run-refuses-held-name · A start refuses a held name — viola run and viola revive refuse a name that is live or stale, or whose endpoint answers, with exit 1 and a message naming the instance.
+-decision/run-start-order · Child spawned last in the start order — A start resolves the program, checks collision, pins the copy and plugin, gates the version, binds the endpoint, evaluates the budget gate, writes the first snapshot, heartbeat and start events, and only then spawns the child. · why: So the child's first SessionStart hook finds a listening endpoint and a recorded snapshot.
++decision/run-start-order · Child spawned last in the start order — A start resolves the program, checks collision, pins the copy and plugin, gates the version, binds the endpoint, writes the first snapshot, heartbeat and start events, and only then spawns the child. · why: So the child's first SessionStart hook finds a listening endpoint and a recorded snapshot.
+ decision/screen-rows-read-only-by-verify · Screen row text read only by verify — The screen model has one row-text exit, and only viola verify reads it.
+@@ -211,3 +201,3 @@
+ decision/terminal-fleet-console · Terminal fleet console as the one view — The one view beyond `viola list` is the keyboard-driven terminal fleet console tiled on Hyprland.
+-decision/test-isolated-viola-home · Each test in its own viola home — Each test runs in its own viola home (`--home`), so parallel tests never share an endpoint, log or `budget.json`.
++decision/test-isolated-viola-home · Each test in its own viola home — Each test runs in its own viola home (`--home`), so parallel tests never share an endpoint or log.
+ decision/thiserror-one-enum-per-crate · thiserror, one error enum per workspace crate — Each workspace library crate except viola-core has one thiserror error enum, the refusal reason type lives in the core crate, and anyhow is used only in the root viola bin. · why: Callers branch on refusal variants across three surfaces: channel, CLI exit codes, MCP isError. · except: Ratified exceptions: viola-pty's hand-written PtyError; viola-mcp holds ServeError beside McpError; viola-state holds StampsError beside StateError; PinError, StampsReadError and Refused.
+@@ -216,3 +206,2 @@
+ decision/tolerant-external-payloads · External payloads parsed tolerantly — Hook JSON, `claude agents --json` and statusline payloads are parsed with no `deny_unknown_fields`, with defaults and options; agents rows keep the raw value for the fixture recorder, and serde_path_to_error gives drift reports for hook JSON only. · why: The CLI changes between builds, and parsing must never break when the ledger decides behaviour.
+-decision/tolerant-resets-at · External resets_at parsed tolerantly — An external `resets_at` is parsed tolerantly, and a malformed value becomes `unknown`, never an error. · why: External clocks must never break parsing.
+ decision/torn-last-line-healed · Torn log line healed by the next append — Each event line is one `write`; the next append heals a torn last line, and readers count it and never rewrite the log.
+@@ -289,3 +278,3 @@
+ contract/send-refusal/manual-pause · Send refusal details · manual-pause — After `viola pause`, automated `send` is refused `human-typing` with detail `manual-pause`.
+-contract/send-refusal/order · Send refusal details · order — `control-character` → `empty-text` → `human-typing` → `budget-paused` → `turn-running` → the readiness gate's wait.
++contract/send-refusal/order · Send refusal details · order — `control-character` → `empty-text` → `human-typing` → `turn-running` → the readiness gate's wait.
+ contract/send-refusals/empty-text · send refusals · empty-text — A send whose typed text is empty is refused not-delivered / empty-text (exit 13) and never issued: nothing reserved, typed or logged as a send, and no wheel read.
+@@ -335,3 +324,3 @@
+ decision/harness-env-var-prefix · Test-harness knobs carry the AGENT_RUN_ prefix — Test-harness knobs use the `AGENT_RUN_` prefix and are never read by the `viola` binary; the `FAKE_AGENT_*` seams, read only by fake-agent builds, and each crate's test-private self-spawn markers (`PTY_SEAM_TEST_*`, `MCP_*_TEST_*`) keep their own names.
+-decision/json-field-names-snake-case · JSON field names in snake_case — JSON field names are snake_case in every viola format. · except: `last_assistant_message`, `resets_at` and `used_percentage` stay as Claude emits them.
++decision/json-field-names-snake-case · JSON field names in snake_case — JSON field names are snake_case in every viola format. · except: `last_assistant_message` stays as Claude emits it.
+ decision/mcp-tools-list-held-to-recorded-exchange · MCP tools/list held to a recorded claude exchange — The served tools/list result is held to a recorded claude exchange's result key and type shape, its tool names in order. · guard: mcp_recorded_exchange (viola-e2e)
+@@ -342,4 +331,5 @@
+ decision/one-error-enum-per-crate · One error enum per crate — Each crate has one error enum named `<Crate>Error`, each a `thiserror` enum except `PtyError`, whose `Display` and `Error` are hand-written with fixed messages. · except: Ratified exceptions: `ServeError` beside `McpError`, `StampsError` beside `StateError`, `PinError`, `StampsReadError` and `Refused`.
+-decision/protocol-version-bump-rule · When the protocol version bumps — Adding a field or event kind is additive and needs no bump of `v`; removing a field or changing its meaning bumps `v`.
++decision/protocol-version-bump-rule · When the protocol version bumps — Adding a field or event kind is additive and needs no bump of `v`; removing a field or changing its meaning bumps `v`. · except: Removing the budget gate's fields and event kind kept every own-format `v` at 1 (snapshot, channel params, event line, list document); readers skip the removed keys and kind.
+ decision/refusal-details-closed-set · Refusal details from a closed set — Each refusal reason's `detail` comes from a closed set per reason, extended only in `viola-core`.
++decision/retired-exit-codes-never-reused · Retired exit codes never reused — A retired CLI exit code is never reused or renumbered: its number stays unassigned.
+ decision/silent-roles-at-internal-error-catch · Run, revive, mcp and hook silent at the catch site — Run, revive's start, mcp and hook print nothing at the internal-error catch site; only a CLI verb prints the internal-error line or document there. · why: MCP stdout carries only protocol frames, a hook must stay silent to fail open, and a wrapper's terminal belongs to its child.
+@@ -348,3 +338,3 @@
+ decision/timestamp-format · Timestamp format — Timestamps are always RFC 3339 UTC with milliseconds and a `Z` suffix, as in `2026-09-23T19:43:58.123Z`.
+-decision/unparseable-external-values-unknown · Unparseable external values become unknown — An unparseable external value becomes the string `"unknown"` in viola's own records, never an error, covering `resets_at`, `used_percentage` and a missing statusline window. · except: A hyprctl reply the Hyprland seam cannot parse is the seam's malformed error.
++decision/unparseable-external-values-unknown · Unparseable external values become unknown — An unparseable external value becomes the string `"unknown"` in viola's own records, never an error. · except: A hyprctl reply the Hyprland seam cannot parse is the seam's malformed error.
+ decision/viola-name-instance-key · ViolaName as the instance key — The instance key is `ViolaName`: ASCII `[a-z0-9-]`, 1 to 32 characters, starting with a letter, enforced by nutype. · why: No database, so no UUID or serial keys.
+@@ -368,3 +358,3 @@
+ contract/cli-exit-codes/10 · CLI exit codes · 10 — The `human-typing` refusal.
+-contract/cli-exit-codes/11 · CLI exit codes · 11 — The `budget-paused` refusal.
++contract/cli-exit-codes/11 · CLI exit codes · 11 — Unassigned: the retired `budget-paused` refusal's code, never reused or renumbered.
+ contract/cli-exit-codes/12 · CLI exit codes · 12 — The `unverified-cli` refusal.
+@@ -382,3 +372,3 @@
+ contract/cli-verbs/pause · CLI verbs · pause — `viola pause <target>`.
+-contract/cli-verbs/release · CLI verbs · release — `viola release <target> [--budget]`.
++contract/cli-verbs/release · CLI verbs · release — `viola release <target>`; a `--budget` flag is a usage error (exit 2).
+ contract/cli-verbs/revive · CLI verbs · revive — `viola revive <name> [--id <ID>] [--fork] [-- <child args>]` and `viola revive <name> --list` send no channel frame; `--list` conflicts with `--id`, `--fork` and the trailing arguments.
+@@ -414,6 +404,5 @@
+ contract/mcp-tool-results/refusal · MCP tool results · refusal — A refusal is a tool result with isError true and the channel's refusal and detail in structuredContent.
+-contract/mcp-tool-results/success · MCP tool results · success — A success is a tool result with `isError: false` and the channel `ok` payload as `structuredContent`; for `list`, the caller-side `{items, budget, skipped}` payload.
++contract/mcp-tool-results/success · MCP tool results · success — A success is a tool result with `isError: false` and the channel `ok` payload as `structuredContent`; for `list`, the caller-side `{items, skipped}` payload.
+ contract/mcp-tool-results/wrapper-fault · MCP tool results · wrapper-fault — A wrapper protocol fault is an isError true result {"error":"wrapper-fault","detail":…} carrying the sanitised JSON-RPC fault {code,message,data}: a fixed message, data a closed object or null.
+ contract/normalised-event-kinds/activity · normalised event kinds · activity — `activity` is a normalised event kind.
+-contract/normalised-event-kinds/budget-gate · normalised event kinds · budget-gate — `budget-gate` is a normalised event kind.
+ contract/normalised-event-kinds/dialog-expired · normalised event kinds · dialog-expired — `dialog-expired` is a normalised event kind.
+@@ -440,4 +429,3 @@
+ contract/refusal-order/first-only · Refusal order · several refusals — When several refusals apply, the wrapper returns only the first in the fixed order for the verb.
+-contract/refusal-order/send · Refusal order · send — control-character, empty-text, human-typing, budget-paused, turn-running, the readiness gate (input-not-ready), human-typing and turn-running read again after the gate, then no-prompt-submitted.
+-contract/refusal-reason/budget-paused · RefusalReason · budget-paused — Serialised kebab-case; its detail is five-hour or seven-day.
++contract/refusal-order/send · Refusal order · send — control-character, empty-text, human-typing, turn-running, the readiness gate (input-not-ready), human-typing and turn-running read again after the gate, then no-prompt-submitted.
+ contract/refusal-reason/detail · RefusalReason · detail — A kebab-case string from a closed set per reason, extended only in viola-core; readers treat an unrecognised code-word detail as opaque text, never as an error.
+@@ -475,3 +463,3 @@
+ decision/list-needs-no-wrapper · list is not a channel method — list reads the instances' heartbeats and snapshots and claude agents --json in the calling process and contacts no wrapper, so it needs no live wrapper.
+-decision/list-reads-state-directly · list reads state without a wrapper — `list` is not a channel method: the calling process reads the instances and budget files itself plus one `claude agents --json` read joined into the board, so `list` needs no live wrapper.
++decision/list-reads-state-directly · list reads state without a wrapper — `list` is not a channel method: the calling process reads the instances itself plus one `claude agents --json` read joined into the board, so `list` needs no live wrapper.
+ decision/list-without-pagination · list without pagination — The `list` payload has no pagination; lists are returned whole. · why: Lists are personal-scale.
+@@ -489,3 +477,3 @@
+ decision/server-identity-check-before-frame · Server identity checked before the first frame — Every frame-writing client refuses a peer with another euid or an unreadable one, then compares the peer pid and its OS start time with the snapshot's; a refusal, a mismatch or a check that cannot be made writes no frame.
+-decision/snapshot-replay-log-fields-only · Snapshot replay recovers only log-derived fields — A snapshot rebuilt by replay recovers only links, agent_session_id, wheel and the budget gate from the log; a field no line gave is absent, never a default.
++decision/snapshot-replay-log-fields-only · Snapshot replay recovers only log-derived fields — A snapshot rebuilt by replay recovers only links, agent_session_id and wheel from the log; a field no line gave is absent, never a default.
+ decision/spawn-directory-confined-to-snapshot · Spawn directory confined to the snapshot — The spawn directory host path lives only in the owner-only (0600) instance snapshot, on no event, log line, error body or stdout.
+@@ -495,3 +483,3 @@
+ decision/statusline-deadline · Statusline command deadline — The statusline command is bounded by a 5 s deadline. · provisional
+-decision/statusline-hook-exempt · Statusline wrapper exempt from hook output rules — `viola hook statusline` records the `rate_limits` reading, prints the user's statusline command's stdout unchanged, and always exits 0 with empty stderr. · why: It is the statusline wrapper, not a Claude Code hook, so the hook decision rules do not apply.
++decision/statusline-hook-exempt · Statusline wrapper exempt from hook output rules — `viola hook statusline` prints the user's statusline command's stdout unchanged and always exits 0 with empty stderr. · why: It is the statusline wrapper, not a Claude Code hook, so the hook decision rules do not apply.
+ decision/statusline-only-shell-out · Statusline command is the only shell-out — The user's statusline command is the only shell-out in viola: one argument of `/bin/sh -c`, with the same stdin, environment and working directory unchanged, stderr discarded, bounded by a deadline. · why: The command is a user-written shell string; a ratified boundary widening. · guard: ledger row statusline-shell
+@@ -502,3 +490,3 @@
+ decision/wrapper-channel-json-rpc · JSON-RPC over ndjson for the wrapper channel — The wrapper channel speaks JSON-RPC 2.0 over ndjson on local sockets.
+-decision/wrapper-events-log-only · Wrapper-appended events are log-only — Event kinds the wrapper appends (`wheel`, `budget-gate`, `send-issued`, `send-confirmed`, `send-refused`, `link`, `unlink`) are log-only and never wake `wait`. · why: They are how the audit trail and a replay learn the wheel holder, the budget gate, each send's outcome and the link set. · except: `dialog-expired`, the one wrapper-appended kind that wakes `wait`.
++decision/wrapper-events-log-only · Wrapper-appended events are log-only — Event kinds the wrapper appends (`wheel`, `send-issued`, `send-confirmed`, `send-refused`, `link`, `unlink`) are log-only and never wake `wait`. · why: They are how the audit trail and a replay learn the wheel holder, each send's outcome and the link set. · except: `dialog-expired`, the one wrapper-appended kind that wakes `wait`.
+ contract/agents-listing/status · agents listing · `status` — `claude agents --json` adds `status` (idle/busy) to the listing.
+@@ -522,3 +510,2 @@
+ contract/channel-methods/answer-from-link · channel methods · answer from link — An `answer` whose `from` names another instance records the link once every refusal has passed and its kind matched, before the answer is taken; a link that cannot be recorded answers `-32603` and the dialog stays held; others record nothing.
+-contract/channel-methods/budget-release-durability · channel methods · budget release durability — A `release` with `budget:true` moves no wheel and is answered only after its `budget-gate` line and the snapshot's `budget_paused` and `budget_override_until` have landed; else `-32603` and the pause stands.
+ contract/channel-methods/from · channel methods · from — `from` is the caller's `VIOLA_NAME` when set, else omitted; `send`, `wait`, `last`, `answer` and `pause` take it absent, `null` or a valid `ViolaName` and answer anything else `-32602` with `data: null`, never `-32600`.
+@@ -532,9 +519,7 @@
+ contract/channel-methods/pause · channel methods · pause — A request: `pause` `{from?}` answers `{wheel:"human"}`, the wheel moving to `human` / `manual-pause`.
+-contract/channel-methods/plain-release · channel methods · plain release — A `release` with no `budget` or `budget:false` lifts no pause and answers `budget_paused` as the gate's last recorded state; a `release` on a driver-held wheel changes nothing.
+-contract/channel-methods/release · channel methods · release — A request: `release` `{budget?:bool, from?}` answers `{wheel:<holder>, budget_paused:bool, override_until?}`.
+-contract/channel-methods/release-budget-true · channel methods · release budget true — `budget:true` leaves the wheel and lifts the gate: `{wheel, budget_paused:false, override_until:<the crossed window's resets_at>}` when a pause was lifted, `{wheel, budget_paused:false}` and nothing recorded when none stood.
++contract/channel-methods/plain-release · channel methods · plain release — A `release` on a driver-held wheel changes nothing.
++contract/channel-methods/release · channel methods · release — A request: `release` `{from?}` answers `{wheel:<holder>}`.
+ contract/channel-methods/release-from-driver · channel methods · release from driver — A `release` with a string `from` is refused `-32602` `"invalid params"` with `data: {"reason":"release-from-driver"}` plus one `release-from-driver` obs line; this check comes first.
+-contract/channel-methods/release-type-check · channel methods · release type check — A `release` whose `from` is of a non-string type, or whose `budget` is not a bool (`null` included), is `-32602` with `data: null`; this check comes first.
++contract/channel-methods/release-type-check · channel methods · release type check — A `release` whose `from` is of a non-string type, or that carries a `budget` key of any value (`null` included), is `-32602` `invalid-params` with `data: null`, no wheel moved and no record; only the string-`from` refusal comes before it.
+ contract/channel-methods/send · channel methods · send — A request: `send` `{text, from?}` answers `{submitted_at, cursor}` when confirmed, or `{confirmed:false, detail:"unconfirmable", cursor}`; `cursor` is the end offset of `events.ndjson` when the send was accepted, before the paste.
+-contract/channel-methods/send-budget-paused · channel methods · send budget-paused — A closed budget gate refuses `send` `budget-paused` before `send-issued`, with nothing typed.
+ contract/channel-methods/send-from-link · channel methods · send from link — A `send` whose `from` names another instance records the link before `send-issued`.
+@@ -545,3 +530,2 @@
+ contract/channel-methods/wheel-move-durability · channel methods · wheel move durability — `pause` and `release` are answered only after the move's `wheel` record has landed, `-32603` if it did not.
+-contract/channel-send/budget-paused · channel send method · budget-paused — A closed budget gate read at arrival refuses with budget-paused, detail five-hour or seven-day, before send-issued, with no cursor, nothing typed and no flight reserved.
+ contract/channel-send/from · channel send method · from — A from naming another instance records the link from that instance to this one directly before send-issued; a link that cannot be recorded answers -32603 with nothing issued or typed; no from, or the wrapper's own name, records nothing.
+@@ -571,3 +555,2 @@
+ contract/event-data/activity · event data · `activity` — `{}`, plus `tool` when the hook names one.
+-contract/event-data/budget-gate · event data · `budget-gate` — `{paused, window?, override_until?}` for the instance's own gate, with `window` `five-hour` or `seven-day`.
+ contract/event-data/dialog-expired · event data · `dialog-expired` — `{dialog_id, dialog_kind}` with `source: wrapper`, appended once when a held dialog's hold ends; carries no question, plan or tool text.
+@@ -610,5 +593,5 @@
+ contract/hook-event/notification · channel hook.event · notification — Sent id-less with no reply only after the instance, socket-directory and server checks pass; otherwise nothing is sent and the hook fails open. Shape {ts, event:{kind, data}}.
+-contract/hook-statusline/capture · viola hook statusline · --capture <DIR> — With `--capture <DIR>` the arm takes `viola verify`'s probe capture: no instance check, no `budget.json` write, no command run, nothing printed; without it the pass-through is unchanged.
++contract/hook-statusline/capture · viola hook statusline · --capture <DIR> — With `--capture <DIR>` the arm takes `viola verify`'s probe capture: no instance check, no command run, nothing printed; without it the pass-through is unchanged.
+ contract/hook-statusline/exit · viola hook statusline · exit status — Always exits 0 with empty stderr.
+-contract/hook-statusline/refused-check · viola hook statusline · refused instance check — A refused check ends the arm at once with exit 0: nothing under the home read or opened, no stdin read, no command run, nothing printed, `budget.json` untouched and the home's mode left as found.
++contract/hook-statusline/refused-check · viola hook statusline · refused instance check — A refused check ends the arm at once with exit 0: nothing under the home read or opened, no stdin read, no command run, nothing printed and the home's mode left as found.
+ contract/hook-statusline/stdout · viola hook statusline · stdout — Prints the command's stdout unchanged, bounded by the frame cap; prints nothing when the command fails or passes the deadline, when no command is recorded, and on oversize or malformed stdin.
+@@ -625,3 +608,3 @@
+ contract/instance-snapshot/cwd · instance snapshot · cwd — `cwd` is the directory the start spawned its child in, written into the first snapshot when valid UTF-8 and omitted otherwise; its one reader is `viola revive`, which uses it only as the revived child's spawn directory.
+-contract/instance-snapshot/data · instance snapshot · data — `data` is `{endpoint?, pid, started_at, pinned_bin, statusline_command?, cli_version?, cli_verified, wheel, budget_paused, budget_override_until?, pending_dialog?, links, child_pid?, agent_session_id?, cwd?}`.
++contract/instance-snapshot/data · instance snapshot · data — `data` is `{endpoint?, pid, started_at, pinned_bin, statusline_command?, cli_version?, cli_verified, wheel, pending_dialog?, links, child_pid?, agent_session_id?, cwd?}`.
+ contract/instance-snapshot/endpoint · instance snapshot · endpoint — `endpoint` is present from the first snapshot, because the bind precedes it; only a replay rebuild lacks it.
+@@ -640,3 +623,2 @@
+ contract/ledger-stamps/writer · ledger stamps envelope · writer — `ledger/stamps.json` is atomically replaced JSON written only by `viola verify`; its `writer` is the literal `"verify"`, not a binary version.
+-contract/list-item/budget-paused · list payload item · budget_paused — The instance's own budget gate from its snapshot; false after a release --budget override, absent for an unwrapped session.
+ contract/list-item/liveness · list payload item · liveness — live or stale; gone instances are omitted.
+@@ -644,9 +626,8 @@
+ contract/list-item/wheel · list payload item · wheel — human or driver; absent when the session is unwrapped.
+-contract/list-item/wrapped · list payload item · wrapped — false marks a read-only unwrapped row from claude agents --json, named by its sessionId, never a valid target, live, dialog_pending false, with no wheel, budget_paused, cli_version or cli_verified.
++contract/list-item/wrapped · list payload item · wrapped — false marks a read-only unwrapped row from claude agents --json, named by its sessionId, never a valid target, live, dialog_pending false, with no wheel, cli_version or cli_verified.
+ contract/list-payload/agents-read-failure · list payload · agents read failure — A failed, oversize or malformed claude agents read leaves every status unknown and adds no unwrapped item.
+-contract/list-payload/budget · list payload · budget — A top-level `budget`, `{five_hour, seven_day, read_at, paused}` or `"unknown"`; each window is `{used_percentage, resets_at}`, a field `"unknown"` when unparseable and a window `"unknown"` when omitted; `paused` only says the newest reading crosses a threshold.
+ contract/list-payload/dialog-pending · list payload · dialog_pending — `dialog_pending` comes only from the snapshot's `pending_dialog`, so a reader that falls back to replay reports `dialog_pending: false`.
+-contract/list-payload/items · list payload · items — Each `items` entry is `{name, wrapped, liveness, status, wheel?, budget_paused?, dialog_pending, cli_version?, cli_verified?}`.
++contract/list-payload/items · list payload · items — Each `items` entry is `{name, wrapped, liveness, status, wheel?, dialog_pending, cli_version?, cli_verified?}`.
+ contract/list-payload/liveness · list payload · liveness — An entry's `liveness` is `live` or `stale`; gone instances are omitted.
+-contract/list-payload/ok · list payload · ok — The `list` `ok` payload, CLI `--json` and MCP `list` alike, is `{items, budget, skipped}`; `list` is not a channel method and needs no live wrapper.
++contract/list-payload/ok · list payload · ok — The `list` `ok` payload, CLI `--json` and MCP `list` alike, is `{items, skipped}`; `list` is not a channel method and needs no live wrapper.
+ contract/list-payload/skipped · list payload · skipped — `skipped` counts records a reader could not interpret, so the board can show them.
+@@ -656,3 +637,3 @@
+ contract/mcp-refusal-result/instance-unreachable · MCP refusal result · `instance-unreachable` — The MCP `isError` result for an unreachable instance is the CLI `instance-unreachable` document less `v`, its text `refused: instance-unreachable`.
+-contract/mcp-refusal-result/shape · MCP refusal result · result shape — `{"content":[{"type":"text","text":"refused: budget-paused"}],"isError":true,"structuredContent":{"refusal":"budget-paused","detail":"five-hour"}}`
++contract/mcp-refusal-result/shape · MCP refusal result · result shape — `{"content":[{"type":"text","text":"refused: human-typing"}],"isError":true,"structuredContent":{"refusal":"human-typing","detail":null}}`
+ contract/revive-json/exit-1-document · viola revive --json · exit-1 document — Every refusal of the start prints one exit-1 document; an internal error of the start prints the `internal-error` document and the error chain is still logged.
+@@ -666,3 +647,3 @@
+ contract/snapshot-envelope/shape · snapshot envelope · shape — A snapshot is atomically replaced JSON of the shape `{v, written_at, writer, data}`.
+-contract/snapshot-envelope/unreadable-snapshot · snapshot envelope · unreadable snapshot — A snapshot whose `v` is higher than the reader supports, or that fails to parse, is ignored and state is rebuilt by replaying `events.ndjson`, recovering only `links`, `agent_session_id`, `wheel`, `budget_paused`, `budget_override_until`; the replay writes no file.
++contract/snapshot-envelope/unreadable-snapshot · snapshot envelope · unreadable snapshot — A snapshot whose `v` is higher than the reader supports, or that fails to parse, is ignored and state is rebuilt by replaying `events.ndjson`, recovering only `links`, `agent_session_id`, `wheel`; the replay writes no file.
+ contract/snapshot-envelope/v · snapshot envelope · v — Read first: above 1 is unsupported whatever else the envelope holds, 1 must parse whole, anything else is unreadable; an unsupported or unreadable snapshot is ignored and the state rebuilt by replaying events.ndjson.
+@@ -676,3 +657,2 @@
+ contract/wrapper-channel-frames/unsupported-protocol-version · wrapper channel frames · unsupported protocol version — An unsupported protocol version is a JSON-RPC error `-32602` with message `unsupported protocol version` and `data` `{supported, wrapper}`.
+-contract/wrapper-event-appends/budget-gate · wrapper event appends · `budget-gate` — The wrapper appends `budget-gate` with `source: wrapper` once at start and on every change.
+ contract/wrapper-event-appends/link · wrapper event appends · `link` — The driven instance's wrapper appends `link` (`source: wrapper`, `{driver, driven}`) once per new `driver → driven` pair, on an implicit link (an issued `send` or a taken `answer` from another instance) or a served `link` call.
+@@ -686,3 +666,2 @@
+ decision/board-refused-whole · Whole board refused on one failed check — viola list checks the home, instances/ and every instance before opening any file, and the first failure refuses the whole board with exit 21, no log and no line. · why: Ratified as the founder's own answer.
+-decision/budget-json-single-writer · budget.json written only by the statusline hook — budget.json holds the newest rate_limits reading across wrapped sessions, last writer wins, written whole only by hook statusline and only when the payload holds a rate_limits object.
+ decision/chaos-home-outside-gates · Chaos panic home outside the obs gates — The forced vt100 feed-panic test uses a home outside the e2e home tree, so its deliberate panic line falls outside the zero-panic gate, schema conformance and the secret scan; the test asserts the panic and parse-rejected lines itself. · why: the one named carve-out to the test-data rule · guard: chaos_feed_panic
+@@ -695,4 +674,4 @@
+ decision/colour-env-decides-only-sgr · Colour variables decide only SGR output — Every viola build's human output reads NO_COLOR, TERM and COLORTERM, never sets them, only compares them, never echoes them, and they decide only whether and how deep SGR bytes are written; COLUMNS, CLICOLOR, CLICOLOR_FORCE and CI are not read. · why: ratified: the colour variables are to be read
+-decision/config-bad-value-falls-back · Bad config values fall back to defaults — An unusable config.json file or value falls back to its default and is reported as a parse-rejected config-json line; no value switches the budget gate off or makes the dialog hold zero or unbounded.
+-decision/config-falls-back-to-defaults · Unusable configuration falls back to defaults — config.json is read under the frame cap, and an unusable file or value falls back to the default with a parse-rejected config-json line. · why: so no value switches the budget gate off or makes the dialog hold zero or unbounded
++decision/config-bad-value-falls-back · Bad config values fall back to defaults — An unusable config.json file or value falls back to its default and is reported as a parse-rejected config-json line; no value makes the dialog hold zero or unbounded.
++decision/config-falls-back-to-defaults · Unusable configuration falls back to defaults — config.json is read under the frame cap, and an unusable file or value falls back to the default with a parse-rejected config-json line. · why: so no value makes the dialog hold zero or unbounded
+ decision/config-keys-match-schema · Config keys equal the config schema — The set of configuration keys the product knows equals the set of properties of the tolerant config.json schema, which admits additional properties. · guard: config_keys_are_the_config_schema_properties
+@@ -717,3 +696,3 @@
+ decision/linked-e2e-home-base-strict · Linked e2e-home base must be a private real directory — A linked e2e-home base must have an absolute target, created with mode 0700 when gone and never chmodded after, and is accepted only when it reads as a real directory with no group or other bit; anything else refuses the start with a fixed message naming no path.
+-decision/list-home-read-rule · viola list holds the home to the read rule — viola list holds the home to the strict-modes read rule with or without an instance, so a 0750 home refuses the whole board. · except: The budget read, mcp's start and plugin install keep the write rule on the home.
++decision/list-home-read-rule · viola list holds the home to the read rule — viola list holds the home to the strict-modes read rule with or without an instance, so a 0750 home refuses the whole board. · except: mcp's start and plugin install keep the write rule on the home.
+ decision/logged-session-id-on-child-argv · Logged session id on the child's command line — A session id read from the instance's log may be placed on the claude child's command line, as one argv element of a direct spawn. · why: A ratified crossing, chosen over allowing only an id the human types.
+@@ -737,3 +716,3 @@
+ decision/refused-check-writes-no-line · Refused check writes no line — A refused strict-modes or instance check opens no role file, writes no line and leaves the home's mode as found.
+-decision/refused-statusline-check-no-trace · Refused statusline check leaves no trace — A refused instance check on viola hook statusline exits 0 at once with no config read, no role file, no line, no stdin read, no command run, nothing printed and budget.json untouched. · why: Ratified as the founder's own answer.
++decision/refused-statusline-check-no-trace · Refused statusline check leaves no trace — A refused instance check on viola hook statusline exits 0 at once with no config read, no role file, no line, no stdin read, no command run and nothing printed. · why: Ratified as the founder's own answer.
+ decision/root-tests-freeze-wrappers-with-one-guard · Root tests freeze a wrapper through one SIGSTOP guard — Root tests make a wrapper read stale by stopping it with SIGSTOP through one shared guard, which waits until the process state reads stopped and sends SIGCONT on drop. · why: The list-row and instance-state tests rely on it for a stale wrapper whose pid and start time still match while its heartbeat ages.
+@@ -747,3 +726,2 @@
+ decision/settings-override-safe-path-only · Settings override only for a safe pinned path — The settings override is written only when every character of the pinned path is an ASCII letter, a digit or one of _ - . / :; for any other path no override is written and no --settings is passed.
+-decision/shared-budget-reading · One shared budget reading — The newest rate_limits reading across wrapped sessions is kept timestamped, last writer wins, replaced whole under a lock, written only by hook statusline; every failed read of it counts as no reading.
+ decision/socket-dir-owner-only · Socket in a per-user owner-only directory — The Unix domain socket lives in a per-user 0700 directory, never the `/tmp` root, checked before the bind and before every client's connect; a refused directory (`socket-dir-refused`) is left as found, never narrowed.
+@@ -773,6 +751,2 @@
+ decision/wait-report-kept-on-failure · Wait report kept on failure — A test wait writes a report created empty at its start, with a line only when the polled state changes, codes, counts and booleans only; the report is kept when the test panics or is killed and removed when it passes. · why: A test the runner kills keeps its evidence.
+-contract/budget-json/five-hour · budget.json · five_hour — The word "unknown" or {used_percentage, resets_at}, either field possibly "unknown".
+-contract/budget-json/read-at · budget.json · read_at — An RFC 3339 UTC timestamp with milliseconds; read as "unknown" when absent or no string.
+-contract/budget-json/seven-day · budget.json · seven_day — The word "unknown" or {used_percentage, resets_at}, either field possibly "unknown".
+-contract/budget-json/v · budget.json · v — Must be 1, or the file gives no reading.
+ contract/channel-response-detail/invalid-params · channel-response detail, a closed enum · invalid-params — Written at WARN on both the server's and the client's line, the client reading it from a -32602 error's data.
+@@ -796,4 +770,2 @@
+ contract/config-json/dialog-hold-s · config.json · dialog_hold_s — The dialog hold, a JSON whole number of seconds from 60 to 3600, default 60; any other value takes 60 with one parse-rejected config-json line, so no value makes the hold zero or unbounded.
+-contract/config-json/five-hour · config.json · five_hour — The five-hour budget threshold, a JSON whole number from 0 to 100, default 90; any other value takes the default with one parse-rejected config-json line, the other key standing, and no value switches the gate off.
+-contract/config-json/seven-day · config.json · seven_day — The seven-day budget threshold, a JSON whole number from 0 to 100, default 85; any other value takes the default with one parse-rejected config-json line, the other key standing, and no value switches the gate off.
+ contract/config-json/v · config.json · v — config.json carries v, which must be 1; the file is read with a MAX_FRAME cap.
+@@ -953,3 +925,3 @@
+ decision/hook-fails-open · Hook fails open toward the human — Any internal failure in viola hook produces exit 0 with no body, so the dialog renders for the human; viola hook always exits 0.
+-decision/mixed-version-tolerance · Mixed-version tolerance — Every channel params, event, snapshot and config carries v; readers of own formats skip unknown kinds and fields and surface the counts.
++decision/mixed-version-tolerance · Mixed-version tolerance — Every channel params, event, snapshot and config carries v; readers of own formats skip unknown kinds and fields and surface the counts, so an older writer's state reads whole, and a stamp holding a retired ledger row verifies on the relied rows alone.
+ decision/no-environment-configuration · Environment variables are no configuration channel — No environment variable configures viola; the VIOLA_* variables are wrapper-to-child plumbing set by viola run only, and a dependency or feature that reads an environment variable breaks the rule like a direct read does. · except: NO_COLOR, TERM and COLORTERM for list's human-mode colour; XDG_RUNTIME_DIR for the socket dir; PATH for program lookup; two fake-agent test seams compiled only under the fake-agent feature.
+@@ -1057,3 +1029,3 @@
+ ## architecture · crate-dependency-direction
+-decision/agent-claude-pure · viola-agent-claude does no file I/O — viola-agent-claude takes no viola-state dependency and writes no file; stamps, budget and settings files are written by viola-state and the root bin. · why: So the crate stays pure.
++decision/agent-claude-pure · viola-agent-claude does no file I/O — viola-agent-claude takes no viola-state dependency and writes no file; stamps and settings files are written by viola-state and the root bin. · why: So the crate stays pure.
+ decision/claude-shapes-in-one-crate · Claude payload shapes in one crate — viola-agent-claude is the only crate that knows Claude payload shapes, including those of claude agents --json.
+@@ -1064,3 +1036,3 @@
+ decision/pty-knows-no-agent · viola-pty depends on no viola crate and knows no agent — viola-pty depends on no other viola crate, knows no agent, and takes no thiserror.
+-decision/root-bin-consumes-normalised-events · Root bin consumes only normalised events — The root bin holds the subcommand dispatch, the run pump, the wheel and the budget governor, all of which consume only normalised events.
++decision/root-bin-consumes-normalised-events · Root bin consumes only normalised events — The root bin holds the subcommand dispatch, the run pump and the wheel, all of which consume only normalised events.
+ ## architecture · deployment-model

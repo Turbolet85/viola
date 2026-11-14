@@ -1,0 +1,355 @@
+[
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "7174fe7e",
+"ts": "2026-11-14T16:46:50Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-14-budget-gate-removed",
+"--source",
+"~/dev/projects/additional/viola-overseer/wrap-budget-gate-removed-directive.md",
+"--kind",
+"relay",
+"--why",
+"the operator directive for this wrap (six items): Q1 founder word, exception onto the card; the probe-clash answer the overseer technical answer, not PROVISIONAL; a removal retires rows; route-resolve of the two Beyond-the-plan rows; the one-block report; escalations",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I7 · copy no-repo · ../additional/viola-overseer/wrap-budget-gate-removed-directive.md",
+"cite: inputs#I7"
+],
+"stderr": null,
+"wrote": [
+"inputs/I7-wrap-budget-gate-removed-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I7",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/wrap-budget-gate-removed-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "f7fc0f93e36d7fafa493afac640b8ac1e414cb5e6d932fe77c6716b1ea7c4d40",
+"copy": "I7-wrap-budget-gate-removed-directive.md.txt",
+"link": false,
+"read_at": "2026-11-14T16:46:50Z",
+"step": "wrap",
+"why": "the operator directive for this wrap (six items): Q1 founder word, exception onto the card; the probe-clash answer the overseer technical answer, not PROVISIONAL; a removal retires rows; route-resolve of the two Beyond-the-plan rows; the one-block report; escalations"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "7174fe7e",
+"ts": "2026-11-14T16:46:50Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-14-budget-gate-removed",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-budget-gate-removed-directive.md",
+"I1 cited scope.md:15 · research.md:5 · research.md:7 · plan.md:140 · plan.md:154 · plan.md:448 · plan.md:459",
+"I2 n/a — a message has no live source · copy message · message: the operator, relaying the driving overseer as delegate",
+"I2 UNCITED",
+"I3 n/a — a message has no live source · copy message · message: the operator, relaying the driving overseer as delegate",
+"I3 cited plan.md:19 · plan.md:256 (in fence) · plan.md:420 · plan.md:448 · plan.md:451 · plan.md:468 · plan.md:480",
+"I4 n/a — a message has no live source · copy message · message: the operator, relaying the delegate overseer",
+"I4 UNCITED",
+"I5 unchanged · copy no-repo · ../additional/viola-overseer/relay-budget-gate-q1-word.md",
+"I5 UNCITED",
+"I6 n/a — a message has no live source · copy message · message: the Viola overseer (delegate; the operator away), answering implement P1 question",
+"I6 UNCITED",
+"I7 unchanged · copy no-repo · ../additional/viola-overseer/wrap-budget-gate-removed-directive.md",
+"I7 UNCITED",
+"inputs: 7 entries — unchanged 3 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 4 · uncited 5 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 7,
+"counts": {
+"unchanged": 3,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 4
+},
+"uncited": 5,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "7174fe7e",
+"ts": "2026-11-14T16:52:06Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-14-budget-gate-removed",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-budget-gate-removed-directive.md",
+"I1 cited scope.md:15 · research.md:5 · research.md:7 · plan.md:140 · plan.md:154 · plan.md:448 · plan.md:459 · report.md:57",
+"I2 n/a — a message has no live source · copy message · message: the operator, relaying the driving overseer as delegate",
+"I2 UNCITED",
+"I3 n/a — a message has no live source · copy message · message: the operator, relaying the driving overseer as delegate",
+"I3 cited plan.md:19 · plan.md:256 (in fence) · plan.md:420 · plan.md:448 · plan.md:451 · plan.md:468 · plan.md:480 · report.md:90",
+"I4 n/a — a message has no live source · copy message · message: the operator, relaying the delegate overseer",
+"I4 UNCITED",
+"I5 unchanged · copy no-repo · ../additional/viola-overseer/relay-budget-gate-q1-word.md",
+"I5 cited report.md:26 · report.md:68 · report.md:90",
+"I6 n/a — a message has no live source · copy message · message: the Viola overseer (delegate; the operator away), answering implement P1 question",
+"I6 cited report.md:65 · report.md:78 · report.md:87 · report.md:94",
+"I7 unchanged · copy no-repo · ../additional/viola-overseer/wrap-budget-gate-removed-directive.md",
+"I7 cited report.md:91 · report.md:92 · report.md:139",
+"inputs: 7 entries — unchanged 3 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 4 · uncited 2 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 7,
+"counts": {
+"unchanged": 3,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 4
+},
+"uncited": 2,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "7174fe7e",
+"ts": "2026-11-14T16:52:14Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-14-budget-gate-removed",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-budget-gate-removed-directive.md",
+"I1 cited scope.md:15 · research.md:5 · research.md:7 · plan.md:140 · plan.md:154 · plan.md:448 · plan.md:459 · report.md:57",
+"I2 n/a — a message has no live source · copy message · message: the operator, relaying the driving overseer as delegate",
+"I2 cited report.md:51",
+"I3 n/a — a message has no live source · copy message · message: the operator, relaying the driving overseer as delegate",
+"I3 cited plan.md:19 · plan.md:256 (in fence) · plan.md:420 · plan.md:448 · plan.md:451 · plan.md:468 · plan.md:480 · report.md:90",
+"I4 n/a — a message has no live source · copy message · message: the operator, relaying the delegate overseer",
+"I4 cited report.md:53",
+"I5 unchanged · copy no-repo · ../additional/viola-overseer/relay-budget-gate-q1-word.md",
+"I5 cited report.md:26 · report.md:68 · report.md:90",
+"I6 n/a — a message has no live source · copy message · message: the Viola overseer (delegate; the operator away), answering implement P1 question",
+"I6 cited report.md:65 · report.md:78 · report.md:87 · report.md:94",
+"I7 unchanged · copy no-repo · ../additional/viola-overseer/wrap-budget-gate-removed-directive.md",
+"I7 cited report.md:91 · report.md:92 · report.md:139",
+"inputs: 7 entries — unchanged 3 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 4 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 7,
+"counts": {
+"unchanged": 3,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 4
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "7174fe7e",
+"ts": "2026-11-14T16:53:09Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-14-budget-gate-removed",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-budget-gate-removed-directive.md",
+"I1 cited scope.md:15 · research.md:5 · research.md:7 · plan.md:140 · plan.md:154 · plan.md:448 · plan.md:459 · report.md:57",
+"I2 n/a — a message has no live source · copy message · message: the operator, relaying the driving overseer as delegate",
+"I2 cited report.md:51",
+"I3 n/a — a message has no live source · copy message · message: the operator, relaying the driving overseer as delegate",
+"I3 cited plan.md:19 · plan.md:256 (in fence) · plan.md:420 · plan.md:448 · plan.md:451 · plan.md:468 · plan.md:480 · report.md:90",
+"I4 n/a — a message has no live source · copy message · message: the operator, relaying the delegate overseer",
+"I4 cited report.md:53",
+"I5 unchanged · copy no-repo · ../additional/viola-overseer/relay-budget-gate-q1-word.md",
+"I5 cited report.md:26 · report.md:68 · report.md:90",
+"I6 n/a — a message has no live source · copy message · message: the Viola overseer (delegate; the operator away), answering implement P1 question",
+"I6 cited report.md:65 · report.md:78 · report.md:87 · report.md:94",
+"I7 unchanged · copy no-repo · ../additional/viola-overseer/wrap-budget-gate-removed-directive.md",
+"I7 cited report.md:91 · report.md:92 · report.md:139",
+"inputs: 7 entries — unchanged 3 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 4 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 7,
+"counts": {
+"unchanged": 3,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 4
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "7174fe7e",
+"ts": "2026-11-14T17:29:23Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-14-budget-gate-removed",
+"--source",
+"../additional/viola-overseer/relay-wrap-budget-gate-answers.md",
+"--kind",
+"relay",
+"--why",
+"the founder's own answers to the wrap's founder-forks Q1 (answer card: confirm) and Q2 (narrow the four obs-plan rules)",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I8 · copy no-repo · ../additional/viola-overseer/relay-wrap-budget-gate-answers.md",
+"cite: inputs#I8"
+],
+"stderr": null,
+"wrote": [
+"inputs/I8-relay-wrap-budget-gate-answers.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I8",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-wrap-budget-gate-answers.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "9d7955829ba802de51f68220a8d3fed7fb932f2e5aa46563219dfed866a5487f",
+"copy": "I8-relay-wrap-budget-gate-answers.md.txt",
+"link": false,
+"read_at": "2026-11-14T17:29:22Z",
+"step": "wrap",
+"why": "the founder's own answers to the wrap's founder-forks Q1 (answer card: confirm) and Q2 (narrow the four obs-plan rules)"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "7174fe7e",
+"ts": "2026-11-14T17:36:03Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-14-budget-gate-removed",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-wrap-budget-gate-v192.md",
+"--kind",
+"relay",
+"--why",
+"the pipeline owner's ruling on the cascade's 2.3 MB listing: bare-number terms dropped from the tool-written pattern files (raw twins kept), the sweep re-run, pass 1 not read; stop again past 400 KB",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I9 · copy no-repo · ../additional/viola-overseer/relay-wrap-budget-gate-v192.md",
+"cite: inputs#I9"
+],
+"stderr": null,
+"wrote": [
+"inputs/I9-relay-wrap-budget-gate-v192.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I9",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-wrap-budget-gate-v192.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "d7a21b6935559577d67f89bfae70132a24732e5d55b5d33910a6e9314752f93c",
+"copy": "I9-relay-wrap-budget-gate-v192.md.txt",
+"link": false,
+"read_at": "2026-11-14T17:36:02Z",
+"step": "wrap",
+"why": "the pipeline owner's ruling on the cascade's 2.3 MB listing: bare-number terms dropped from the tool-written pattern files (raw twins kept), the sweep re-run, pass 1 not read; stop again past 400 KB"
+}
+}
+]

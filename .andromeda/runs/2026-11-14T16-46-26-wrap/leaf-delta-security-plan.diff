@@ -1,0 +1,67 @@
+--- a/.andromeda/security-plan.md
++++ b/.andromeda/security-plan.md
+@@ -109,3 +109,2 @@
+ decision/board-home-read-rule · The board holds the home to the read rule — viola list refuses a home another user may read, with or without an instance.
+-decision/budget-gate-fails-open · Budget gate reads an untrusted file, failing open — The wrapper refuses a driver's send as budget-paused on budget.json, read behind the strict-modes check on the home and the file; a refused or unreadable file is no reading and the gate does not pause. · why: a ratified boundary widening: a file a hook arm writes decides a wrapper's refusal
+ decision/checks-at-seams-not-channel-client · Security checks sit at the seams, not the channel client — No check sits inside the channel crate's client connect; the checks sit at the seams, and a test may write through that client past every check by design. · why: viola-channel has no viola-state edge
+@@ -118,3 +117,3 @@
+ decision/collision-check-needs-no-server-verify · run's collision check is not server-verified — run's collision check judges a recorded wrapper by its pid, OS start time and heartbeat (a replayed snapshot by the beat alone) and opens no connection, so the peer-pid server check does not apply to it. · why: it writes no frame, so there is no serving process to verify
+-decision/driver-release-refused · Driver-originated release refused — The wrapper refuses a release whose params carry a string from, before any budget is acted on. · why: An affordance-level guard against drivers handing the wheel back to automation, not enforcement, since a same-user process can leave out from.
++decision/driver-release-refused · Driver-originated release refused — The wrapper refuses a release whose params carry a string from, before any other check of its params. · why: An affordance-level guard against drivers handing the wheel back to automation, not enforcement, since a same-user process can leave out from.
+ decision/explicit-mode-before-write · Mode set explicitly before any byte — A written file's mode is set explicitly before any byte is written, never relying on the umask or a mode carried over from the replaced file; if the mode cannot be set, the write is discarded.
+@@ -122,3 +121,3 @@
+ decision/home-owner-only · Owner-only viola home — The viola home is owner-only (0700 directories, 0600 files, the pinned viola 0700), every replaced file getting its mode before any byte is written, never relying on the umask.
+-decision/home-write-rule-checkers · Budget read, mcp start and plugin install check the home — The budget read, the start of viola mcp and viola plugin install hold the home to the write rule.
++decision/home-write-rule-checkers · mcp start and plugin install check the home — The start of viola mcp and viola plugin install hold the home to the write rule.
+ decision/interprocess-peer-creds · interprocess peer credentials — interprocess's peer credentials over SO_PEERCRED are what read the peer's pid and euid on both sides of the IPC channel.
+@@ -137,3 +136,3 @@
+ decision/refused-peer-dropped-before-any-frame · Refused peer dropped before any frame — A peer the server refuses is dropped before its thread starts and before any frame is read, so it reads end-of-file, and no line and nothing on the terminal is written. · why: The server-side euid admission rests on it, and the serve test expects a refused peer's request to end closed with nothing dispatched.
+-decision/release-from-driver-guard · Driver-originated release is refused — The wrapper refuses a release whose params carry a string from, before budget is acted on. · why: an affordance-level guard against drivers handing the wheel back to automation, not enforcement: a same-user process can leave out from · except: pause, link and unlink from drivers are allowed
++decision/release-from-driver-guard · Driver-originated release is refused — The wrapper refuses a release whose params carry a string from, before any other check of its params. · why: an affordance-level guard against drivers handing the wheel back to automation, not enforcement: a same-user process can leave out from · except: pause, link and unlink from drivers are allowed
+ decision/server-peer-euid-check · Server-side peer euid check — On every accept, a peer whose euid differs from the server's is dropped before a frame is read.
+@@ -159,4 +158,4 @@
+ contract/channel-release/non-string-from · channel release method · from of another type — Refused with -32602 and data null.
+-contract/channel-release/params · channel release method · params — release params are {budget?, from?}; a release on a wheel the driver already holds changes nothing.
+-contract/channel-release/string-from · channel release method · string from — Refused with -32602 "invalid params" and data {"reason":"release-from-driver"}, one release-from-driver line logged (from_trust:"self-reported"); a budget pause is not lifted and the snapshot's budget fields stay as they were.
++contract/channel-release/params · channel release method · params — release params are {from?}; a release on a wheel the driver already holds changes nothing.
++contract/channel-release/string-from · channel release method · string from — Refused with -32602 "invalid params" and data {"reason":"release-from-driver"}, one release-from-driver line logged (from_trust:"self-reported").
+ contract/channel-response-line/release-from-driver · channel-response log line · release-from-driver — The server's and client's line is WARN with detail release-from-driver and no param name or value; a from of another type reads invalid-params; the line adds nothing to the wire body.
+@@ -195,4 +194,2 @@
+ decision/bounded-readers-census · Every product reader bounded or named — Every product reader call is bounded in its statement or named as an exception, and each external boundary's bounded read has a named witness. · guard: product_readers_are_each_bounded_or_named · except: Reads of viola's own executable for the pinned copy are not external input.
+-decision/budget-file-single-writer · hook statusline is the only budget writer — budget.json is written by hook statusline alone.
+-decision/budget-json-single-writer · budget.json has a single writer — budget.json is written only by the statusline hook arm, and only when the payload holds a rate_limits object.
+ decision/capture-answers-closed-probe-ids · Capture answers from closed probe ids — --answers is read only with --capture; each answer file is read through take(64) and matched exactly against the closed ProbeAnswer ids, the body built only through dialog::decision_body. · why: Ratified: the hook answers, never a key.
+@@ -213,3 +210,3 @@
+ decision/config-bad-value-handling · Bad config values — Configuration is parsed tolerantly under MAX_FRAME with its version checked; a bad value takes its key's default or is rejected whole, and is reported as parse-rejected.
+-decision/config-cannot-disable-controls · Configuration cannot disable controls — No configuration value switches the budget gate off or makes the dialog hold zero or unbounded, and an identity-floor name in claude_env_keep has no effect.
++decision/config-cannot-disable-controls · Configuration cannot disable controls — No configuration value makes the dialog hold zero or unbounded, and an identity-floor name in claude_env_keep has no effect.
+ decision/config-tolerant-parse · Tolerant config parse — config.json is parsed tolerantly, unknown keys counted, its v checked and its read capped at MAX_FRAME; a bad value falls back to its default and is reported as parse-rejected.
+@@ -220,3 +217,2 @@
+ decision/events-reader-bounded-lines · Event log reader bounded lines — The one event log reader takes each line through a MAX_FRAME cap, newline counted, and counts torn lines, unknown kinds and unknown fields per read without logging them; an unknown kind is not returned, and a reader never writes.
+-decision/failed-budget-read-no-reading · Failed budget read is no reading — Every failed read of the budget file counts as no reading.
+ decision/fake-agent-hook-panic-seam · Hook panic test seam — FAKE_AGENT_HOOK_PANIC exists only in test-feature builds and forces a fixed-payload hook panic only when exactly 1; the hook still fails open; it configures nothing, disables no control and widens no redaction. · why: Ratified.
+@@ -280,3 +276,3 @@
+ decision/statusline-deadline · Statusline command deadline — The wait for the statusline command is bounded at 5 s (detail deadline); a failing command prints nothing. · provisional
+-decision/statusline-payload-fails-silent · Statusline payload fails silent — The statusline hook payload takes the hook stdin cap and one-object rule, each failure ending in exit 0, empty stderr, nothing printed and no budget file.
++decision/statusline-payload-fails-silent · Statusline payload fails silent — The statusline hook payload takes the hook stdin cap and one-object rule, each failure ending in exit 0, empty stderr and nothing printed; the hook reads no rate_limits and writes no file.
+ decision/statusline-shell-out · Statusline shell-out — The recorded statusline command, the only shell-out, runs only in hook statusline as /bin/sh -c with the command as one argument; stderr is discarded, stdout capped and printed byte for byte, never parsed, and no log line carries the command. · why: A ratified boundary widening.
+@@ -300,5 +296,2 @@
+ contract/answer-refusal/control-character · answer refusal words · control-character — Dialog free text holding a refused character is refused with the word control-character before any frame is sent.
+-contract/budget-json/resets-at · budget.json · resets_at — Read as epoch seconds or RFC 3339 and written as RFC 3339 UTC with milliseconds; a malformed value becomes "unknown".
+-contract/budget-json/used-percentage · budget.json · used_percentage — Kept only from 0 to 100, else "unknown".
+-contract/budget-json/window · budget.json · window — A window that is absent or not an object is the word "unknown".
+ contract/channel-errors/32600 · channel error codes · -32600 — A frame over the MAX_FRAME cap is answered -32600 and the connection is closed.
+@@ -311,3 +304,3 @@
+ contract/channel-frames/pause-params · channel frames · pause params — pause's from follows the send rule.
+-contract/channel-frames/release-params · channel frames · release params — budget is absent or a bool, else -32602 with data null; from is absent or null, a string from is -32602 with data reason release-from-driver, any other type -32602 with data null.
++contract/channel-frames/release-params · channel frames · release params — from is absent or null, a string from is -32602 with data reason release-from-driver, any other type -32602 with data null; after those checks any budget key, true, false, a string or null, is -32602 invalid-params with data null, no wheel moved and no record written.
+ contract/channel-frames/send-params · channel frames · send params — text is a string and from is absent, null or a valid viola name; anything else is -32602 invalid params with data null, before paste validation runs; the envelope types no method param, so a mistyped from never gets -32600.
+@@ -321,4 +314,2 @@
+ contract/config-json/dialog-hold-s · config.json · dialog_hold_s — A JSON whole number of seconds from 60 to 3600, default 60; any other value takes 60 with one parse-rejected line; no value makes the hold zero or unbounded.
+-contract/config-json/five-hour · config.json · five_hour — A JSON whole number 0 to 100, default 90; any other value takes the default with one parse-rejected config-json malformed line; no value switches the budget gate off.
+-contract/config-json/seven-day · config.json · seven_day — A JSON whole number 0 to 100, default 85; any other value takes the default with one parse-rejected config-json malformed line; no value switches the budget gate off.
+ contract/hook-stdin/not-one-object · hook stdin · malformed-json — A payload that is not one JSON object fails open with malformed-json.
+@@ -401,2 +392,3 @@
+ decision/verify-trusted-runs-risk · Verify trusted runs accepted risk — verify's trusted runs B, C and D are real interactive turns whose transcripts the CLI persists and for which the user's global hooks run. · why: accepted risk
++decision/viola-format-fixtures-hygiene · viola-format fixtures under the hygiene walk — Committed viola-format fixtures, the old state shapes and retired words, are held to the same fixture hygiene walk as recorded fixtures: no path, user or email. · guard: viola_format_fixtures_pass_hygiene
+ decision/viola-writes-nothing-in-claude-dir · viola writes nothing in Claude's config — viola itself writes nothing under the user's Claude Code config directory or its global config file.

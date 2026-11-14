@@ -1,0 +1,17 @@
+@fit n=1 row=decision/cli-env-vector-negative-tests sha=f58b1d3a3427 v=fits type=1
+@fit n=2 row=decision/self-bootstrapping-test-data sha=ba6c51fface5 v=fits type=1
+@fit n=3 row=contract/viola-hook-statusline/passthrough sha=fffd131f2d37 v=fits type=3
+@fit n=4 row=contract/viola-list-json/items sha=5c9bf71350a3 v=fits type=3
+@fit n=5 row=decision/snapshot-replay-fields sha=b911af0d0bf2 v=fits type=1
+@fit n=6 row=contract/run-start-events/order sha=56a0d9208566 v=fits type=3
+@fit n=7 row=decision/e2e-for-critical-paths sha=c50cc28ca807 v=fits type=1
+@fit n=8 row=contract/boot-readiness/events sha=7e7c9265e94d v=fits type=3
+@fit n=9 row=contract/harness-boot/statusline-echo sha=4bbe40b7a03d v=fits type=3
+@fit n=10 row=decision/bounded-readers-keep-the-cap sha=fa2309a10201 v=fits type=1
+@fit n=11 row=decision/send-refusal-order sha=0f9664c719cb v=fits type=1
+@fit n=12 row=decision/version-gate-needs-all-relied-rows sha=7ce36b82dfad v=fits type=1
+@fit n=13 row=decision/hook-exec-against-live-wrapper sha=fcff6e3d14be v=fits type=1
+@fit n=14 row=decision/bad-config-value-falls-back sha=829bda1bca46 v=fits type=1
+@fit n=15 row=decision/hook-tests-real-binary sha=238414148f3e v=fits type=1
+@fit n=16 row=decision/property-tests-on-parsers sha=89745e07efc1 v=fits type=1
+@fit n=17 row=contract/hook-statusline/passthrough sha=b775f89ffe20 v=fits type=3

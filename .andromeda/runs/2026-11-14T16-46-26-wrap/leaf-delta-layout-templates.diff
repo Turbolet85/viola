@@ -1,0 +1,40 @@
+--- a/.andromeda/layout-templates.md
++++ b/.andromeda/layout-templates.md
+@@ -7,3 +7,3 @@
+ decision/board-ordered-by-name · Board ordered by name — viola list rows are ordered by name and nothing is re-sorted by state; NAME values are bold.
+-decision/board-planning-forms-wording · Board planning forms as the ratified wording — The board's planning forms (a figure rounded down, the whole-minute age and `read unknown`, bare skip counts, `human - budget-paused`, the empty board's three lines) are its wording. · why: confirmed as built by the founder, superseding the operator's word
++decision/board-planning-forms-wording · Board planning forms as the ratified wording — The board's planning forms (bare skip counts, the empty board's three lines) are its wording. · why: confirmed as built by the founder, superseding the operator's word
+ decision/board-row-escaping · Board row escaping — Every board field derived from `claude agents --json` has C0 and C1 controls, newline and tab included, escaped as hex text, so a row never splits and the columns stay fixed-width. · why: Ratified; stricter than the security floor, which keeps newline and tab for `wait` and `last` text.
+@@ -54,9 +54,9 @@
+ decision/wrapper-repeats-send-refusals · Wrapper repeats the send text refusals — The wrapper makes the same control-character and empty-text refusals for a frame sent straight to it as `viola send` makes itself.
+-contract/bay-line/cell-order · the BAY line of viola list · cell order — `BAY`, `5H <n> %`, `7D <n> %` (each followed by `expired` when the window has passed), `read <age> ago`, `gate open` or `budget-paused`, `skipped a - b - c`, separated by the two-space gutter.
++contract/bay-line/cell-order · the BAY line of viola list · cell order — `BAY`, then `skipped a - b - c`, separated by the two-space gutter.
+ contract/cli-catch-site/internal-error · CLI verbs outside a revive start · internal error — A failed or panicked verb prints exactly `error: internal error` once, from the one catch site, with no hint; with `--json` before a `--` it prints `{"v":1,"error":"internal-error","detail":null}` on stdout instead, stderr empty.
+ contract/cli-exit-codes/10 · CLI exit codes · 10 — `human-typing`.
+-contract/cli-exit-codes/11 · CLI exit codes · 11 — `budget-paused`.
++contract/cli-exit-codes/11 · CLI exit codes · 11 — Retired (was `budget-paused`), never reused; no refusal maps to 11.
+ contract/cli-exit-codes/12 · CLI exit codes · 12 — `unverified-cli`.
+ contract/cli-exit-codes/13 · CLI exit codes · 13 — `not-delivered`.
+-contract/cli-exit-codes/14 · CLI exit codes · 14 — `unknown`.
++contract/cli-exit-codes/14 · CLI exit codes · 14 — `unknown`; an older wrapper's `budget-paused` reply also reads as `unknown`.
+ contract/cli-exit-codes/20 · CLI exit codes · 20 — Wrapper fault, `error: wrapper fault  <code>`.
+@@ -121,4 +121,2 @@
+ contract/readback-vocabulary/words · readback vocabulary · state words — The readback vocabulary is `open`, `read back`, `unable`, `unconfirmable`, and the CLI brackets the box.
+-contract/release-budget-output/gate-lifted · viola release --budget output · gate lifted — When a pause stood, prints `<name>  budget gate lifted until <end>  wheel <holder>` on stdout, exit 0, wheel left where it is; `<end>` is `HH:MM:SSZ` on the current UTC date, `YYYY-MM-DD HH:MM:SSZ` otherwise, a non-RFC 3339 value escaped.
+-contract/release-budget-output/gate-open · viola release --budget output · gate open — When no pause stood, prints `<name>  budget gate open  wheel <holder>` on stdout, exit 0, with the wheel left where it is.
+ contract/run-revive-start-json/internal-error · viola revive --json start refusals shared with run · internal-error — A program not found or an error of the start itself prints one exit-1 document with this code, stderr empty; a child-pump error prints no document, the child having held the terminal.
+@@ -144,3 +142,2 @@
+ contract/viola-list-board/empty-board · viola list board · empty board — An empty board prints `no wrapped sessions  start one: viola run <name> -- claude`.
+-contract/viola-list-board/gate-closed · viola list board · closed budget gate — A closed budget gate prints `budget-paused` in place of `gate open`.
+ contract/viola-list-board/name-truncation · viola list board · NAME truncation — With the terminal width known (from the host pty size, never COLUMNS), an unwrapped NAME longer than the column (capped at the width less 65) is cut to the column less 3 plus `...`, never inside a `\xHH` escape; a wrapped NAME is never cut.
+@@ -155,4 +152,3 @@
+ contract/viola-list-board/wheel-unknown · viola list board · WHEEL unknown — A replayed row with no logged holder reads WHEEL `unknown`.
+-contract/viola-list-board/window-expired · viola list board · passed window — A passed budget window prints with `expired` after its figure, as `5H 62 % expired`.
+-contract/viola-list-json/document · viola list --json · document — One JSON document on stdout with no header line, no colour and no glyph; its item, budget and skipped shapes are the list payload contract.
++contract/viola-list-json/document · viola list --json · document — One JSON document on stdout with no header line, no colour and no glyph; its item and skipped shapes are the list payload contract.
+ contract/viola-list-json/strict-modes-failed · viola list --json · strict-modes-failed — A failed strict-modes check of the home, instances/ or any one instance prints `{"v":1,"error":"instance-unreachable","detail":"strict-modes-failed"}` with exit 21 and stderr empty, opens no log and leaves the home's mode as found.
+@@ -200,3 +196,3 @@
+ contract/viola-send-output/read-back-compact · viola send output · read back for /compact — On a verified CLI version, /compact is read back by a session-start with cause compact and the session's own id inside its own 40 s window, else not-delivered / no-prompt-submitted.
+-contract/viola-send-output/unable · viola send output · unable — `[/ ] unable …` prints on stderr with exit 13 (or 10/11/12/14) when the wrapper refuses, or exit 13 when the client refuses the text before any frame (not-delivered with control-character or empty-text).
++contract/viola-send-output/unable · viola send output · unable — `[/ ] unable …` prints on stderr with exit 13 (or 10/12/14) when the wrapper refuses, or exit 13 when the client refuses the text before any frame (not-delivered with control-character or empty-text).
+ contract/viola-send-output/unconfirmable · viola send output · unconfirmable — `[  ] unconfirmable …` prints on stdout with exit 0 for a local command with no measured post-condition: /remote-control, and /compact or /clear on an unverified CLI version.
