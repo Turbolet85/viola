@@ -1,0 +1,7 @@
+@chunk in=epc-h7tbdeih as=c1
+Hyprland exact-frame bound pinned — exactly `MAX_FRAME` bytes accepted, one more `oversize`, on the bounded read and the dispatch parse; the next audit catches both survivors
+@carry in=@c1
+CARRY: the Epoch 1 audit's two survivors (run 2026-11-14T11-39-19-code-audit at 25348549, `viola-hyprland` 96.00 %, 48 caught, 2 missed), each `>` → `>=` on the `MAX_FRAME` bound: `crates/viola-hyprland/src/read.rs:77` in `read_within` and `crates/viola-hyprland/src/reply.rs:151` in `parse_dispatch`; one missing case, pinned by tests on both sites (the read through the fake `hyprctl`, `parse_dispatch`), `clients` already pinned by `parse_clients_takes_max_frame_bytes_and_refuses_one_more_as_oversize`; no mutation run inside the chunk, test-only, no requirement added, no capability claimed; the declined `viola-e2e` and `viola` mutation units stay out (they wait on a pipeline mend); placed first on the founder's word «Корректирующий чанк первым (Recommended)», relayed verbatim by overseer1 via the Viola overseer, 2026-11-14, PROVISIONAL — relay: .andromeda/runs/2026-11-14T12-51-41-wrap/inputs/I1-e1-0.2.0-route-adaptation.md.txt
+@chunk id=chk-vr5sssyv after=@c1
+@chunk id=chk-tnbdlbiv after=chk-vr5sssyv
+@chunk id=chk-td5nhkqf after=chk-tnbdlbiv

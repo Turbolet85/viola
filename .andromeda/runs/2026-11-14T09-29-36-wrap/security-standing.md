@@ -1,3 +1,0 @@
-# security · standing conventions
-
-- (none)

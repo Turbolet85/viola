@@ -1,0 +1,45 @@
+# Route adaptation relay — the Epoch 1 boundary of viola-0.2.0 (2026-11-14, from the Viola overseer)
+
+For a 0-pending `/andromeda-wrap-session` at HEAD `25348549` (CI ci#43589375075 green 7/7). Three parts, per the
+operator scheme: the context, the item for disposition, the anchors.
+
+## 1. Context
+
+- Epoch 1 — Foundation is complete (4 chunks, its last `2026-11-14-hyprland-seam`). Its boundary is run: the diagnosis
+  `.andromeda/runs/2026-11-14T11-32-05-evolve-diagnose/proposals.md` and the code audit
+  `.andromeda/runs/2026-11-14T11-39-19-code-audit/proposals.md` (trend, ledger record tx 1108, no threshold fired).
+  Both run dirs and the `metric` journal ride this wrap's commit.
+- **The founder's own word on how Epoch 2 opens**, given in overseer1's question dialog at 2026-11-14T12:48:08Z,
+  relayed by overseer1 and read by the Viola overseer in that session's transcript. The question named the audit's two
+  surviving mutants as one unpinned case and gave three options: the corrective chunk first · «Budget gate removed»
+  first with the case a CARRY · the corrective chunk plus the two declined mutation units. His selection, verbatim:
+  «Корректирующий чанк первым (Recommended)».
+- The operator is AWAY: raise no founder dialog. A fork that is his goes to the away form's file and the wrap stops
+  there; a placement or other technical fork is answered by the overseer by relay.
+
+## 2. The item for DISPOSITION (route-resolve; never pre-placed beyond the anchor below)
+
+**One finding, from the audit's survivor table** (measured at `25348549`, `cargo mutants --in-diff`, `viola-hyprland`
+96.00 %, 48 caught · 2 missed):
+
+| site | mutation that survived |
+|---|---|
+| `crates/viola-hyprland/src/read.rs:77` — `ran.stdout.len() as u64 > MAX_FRAME` in `read_within` | `>` → `>=` |
+| `crates/viola-hyprland/src/reply.rs:151` — `bytes.len() as u64 > MAX_FRAME` in `parse_dispatch` | `>` → `>=` |
+
+Both are one missing case: a reply of EXACTLY `MAX_FRAME` bytes is accepted, one byte more is `oversize`. The chunk's
+witness `parse_clients_takes_max_frame_bytes_and_refuses_one_more_as_oversize` pins the case for `clients` alone.
+
+The overseer's recommended disposition: ONE small corrective entry that pins the exact-`MAX_FRAME` case on both sites
+by tests (the read through the fake, and `parse_dispatch`), worded by what the next boundary's audit will read (both
+mutants caught), never by a mutation result the chunk must produce. No mutation run inside the chunk.
+
+NOT in this entry: the two mutation units the audit declined (`viola-e2e`, `viola`) — they wait on a pipeline mend
+and are no route item. The audit's «consider» row (the `test_capture` clone) and its two «deliberately not» rows
+(`viola_hyprland::PROGRAM`, the complexity list) create no entry.
+
+## 3. Anchors (anchor-only pinning)
+
+- The corrective entry stands FIRST in the markerless tail, as Epoch 2's first entry.
+- «Budget gate removed» stays next after it; nothing else in the tail moves, and no carry is re-homed.
+- No requirement is added and no capability is claimed by the entry (a test-only corrective).

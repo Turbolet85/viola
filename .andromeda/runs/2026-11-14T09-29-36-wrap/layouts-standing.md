@@ -1,3 +1,0 @@
-# layouts · standing conventions
-
-- (none)

@@ -1,0 +1,158 @@
+[
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "df1fa72a",
+"ts": "2026-11-14T12:51:45Z",
+"argv": [
+"snap",
+"--no-chunk",
+"--source",
+"~/dev/projects/additional/viola-overseer/e1-0.2.0-route-adaptation.md",
+"--kind",
+"relay",
+"--why",
+"the Epoch 1 boundary route adaptation of viola-0.2.0: one corrective entry first in Epoch 2, on the founder selection relayed verbatim",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T12-51-41-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run: would snap I1 · copy no-repo · ../additional/viola-overseer/e1-0.2.0-route-adaptation.md"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/e1-0.2.0-route-adaptation.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "936e27931cd9cf7c908958e7890bb53ce9da58363e98b0edffc68230cb71565c",
+"copy": "I1-e1-0.2.0-route-adaptation.md.txt",
+"link": false,
+"read_at": "2026-11-14T12:51:45Z",
+"step": "wrap",
+"why": "the Epoch 1 boundary route adaptation of viola-0.2.0: one corrective entry first in Epoch 2, on the founder selection relayed verbatim"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "df1fa72a",
+"ts": "2026-11-14T12:51:49Z",
+"argv": [
+"snap",
+"--no-chunk",
+"--source",
+"~/dev/projects/additional/viola-overseer/e1-0.2.0-route-adaptation.md",
+"--kind",
+"relay",
+"--why",
+"the Epoch 1 boundary route adaptation of viola-0.2.0: one corrective entry first in Epoch 2, on the founder selection relayed verbatim",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T12-51-41-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy no-repo · ../additional/viola-overseer/e1-0.2.0-route-adaptation.md",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-e1-0.2.0-route-adaptation.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/e1-0.2.0-route-adaptation.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "936e27931cd9cf7c908958e7890bb53ce9da58363e98b0edffc68230cb71565c",
+"copy": "I1-e1-0.2.0-route-adaptation.md.txt",
+"link": false,
+"read_at": "2026-11-14T12:51:49Z",
+"step": "wrap",
+"why": "the Epoch 1 boundary route adaptation of viola-0.2.0: one corrective entry first in Epoch 2, on the founder selection relayed verbatim"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "df1fa72a",
+"ts": "2026-11-14T12:51:55Z",
+"argv": [
+"snap",
+"--no-chunk",
+"--message-file",
+".andromeda/runs/2026-11-14T12-51-41-wrap/relay-2.md",
+"--origin",
+"the wrap invocation message, this session",
+"--kind",
+"relay",
+"--why",
+"the go-ahead for this 0-pending wrap and the two CI ids: ci#43579735207 read 93b2ca1d, ci#43589375075 read 25348549, green 7/7",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-14T12-51-41-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy message · message: the wrap invocation message, this session",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "message: the wrap invocation message, this session",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "3587892ea8d3478b3066f5d1c7a50da78e996d4a32b73628cf0c46b7a6e013a7",
+"copy": "I2-relay-2.md.txt",
+"link": false,
+"read_at": "2026-11-14T12:51:55Z",
+"step": "wrap",
+"why": "the go-ahead for this 0-pending wrap and the two CI ids: ci#43579735207 read 93b2ca1d, ci#43589375075 read 25348549, green 7/7"
+}
+}
+]
