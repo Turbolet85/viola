@@ -23,7 +23,8 @@ pub const DIALOG_HOLD_MIN: Duration = Duration::from_secs(60);
 
 /// The longest hold any `dialog_hold_s` sets: the hook's own bound and the embedded `hooks.json`
 /// dialog `timeout` exceed it, so viola, never Claude Code, ends the wait (architecture [Hook
-/// Contract]). PROVISIONAL: measured live only to about 660 s.
+/// Contract]). Measured live at the ceiling itself: a wrapper expiry after 3 600 013 ms on claude
+/// 2.1.325, the hook still waiting.
 pub const DIALOG_HOLD_MAX: Duration = Duration::from_secs(3600);
 
 /// The injected time source: sync code takes its instants from here, so a test drives time

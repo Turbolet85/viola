@@ -1,0 +1,123 @@
+[
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "c35b1198",
+"ts": "2026-11-15T08:24:31Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"scope",
+"--owner",
+"chk:2026-11-15-live-round-on-the-trimmed-product",
+"--file",
+".andromeda/cache/docs/2026-11-15-live-round-on-the-trimmed-product/scope.md",
+"--expect-rev",
+"3",
+"--run-dir",
+".andromeda/runs/2026-11-15T08-23-45-phase",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-15-live-round-on-the-trimmed-product/scope rev 4 · 1 new · 3 revised · 0 retired · 22 kept · tx 1362"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T06-56-28-2026-11-15-live-round-on-the-trimmed-product.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "c35b1198",
+"ts": "2026-11-15T08:27:02Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"plan",
+"--owner",
+"chk:2026-11-15-live-round-on-the-trimmed-product",
+"--file",
+".andromeda/cache/docs/2026-11-15-live-round-on-the-trimmed-product/plan.md",
+"--expect-rev",
+"3",
+"--run-dir",
+".andromeda/runs/2026-11-15T08-23-45-phase",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-15-live-round-on-the-trimmed-product/plan rev 4 · 7 new · 21 revised · 2 retired · 39 kept · tx 1364"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T06-56-28-2026-11-15-live-round-on-the-trimmed-product.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "c35b1198",
+"ts": "2026-11-15T08:30:53Z",
+"argv": [
+"query",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T08-23-45-phase",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product",
+"select line from coverage_line where version = 'viola-0.2.0'"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"verified 5/31 · deferred 0 · planned 26 · implemented 0 · unclaimed 24",
+"1 row(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "c35b1198",
+"ts": "2026-11-15T08:30:59Z",
+"argv": [
+"query",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T08-23-45-phase",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product",
+"select * from blocked"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"status\tmarker\tversion\tblock",
+"pending\t2026-11-15-live-round-on-the-trimmed-product\tviola-0.2.0\tBLOCKED-ON: the founder's own words on forks 1-5 of .andromeda/runs/2026-11-15T06-55-05-phase/founder-forks.md, relayed into .andromeda/cache/chunks/2026-11-15-live-round-on-the-trimmed-product/evidence/founder-words.md (cap, keys, cli, hold); no live step runs before them (inputs#I2)",
+"1 row(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

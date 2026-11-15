@@ -1,0 +1,37 @@
+[
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "d24a79fb",
+"ts": "2026-11-15T06:56:28Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-11-15-live-round-on-the-trimmed-product",
+"--id",
+"chk-td5nhkqf",
+"--desc-file",
+".andromeda/runs/2026-11-15T06-55-05-phase/master-desc.txt",
+"--scope-file",
+".andromeda/cache/docs/2026-11-15-live-round-on-the-trimmed-product/scope.md",
+"--run-dir",
+".andromeda/runs/2026-11-15T06-55-05-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"promoted 2026-11-15-live-round-on-the-trimmed-product · chk-td5nhkqf · Live round on the trimmed product · tx 1333"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T06-56-28-2026-11-15-live-round-on-the-trimmed-product.ndjson",
+"./.andromeda/master-route.md",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]

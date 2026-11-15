@@ -1,0 +1,57 @@
+[
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "d99a1896",
+"ts": "2026-11-15T09:43:20Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-15-live-round-on-the-trimmed-product",
+"--message-file",
+".andromeda/runs/2026-11-15T09-38-40-implement/relay-1.md",
+"--kind",
+"relay",
+"--origin",
+"the operator, 2026-11-15T09:38Z",
+"--why",
+"the operator word for this run: step 3c then entry 11 only (start 8 of 9, frames local), no re-fire of a red step, stop after entry 11; entry 12 has no word",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-11-15T09-38-40-implement",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I24 · copy message · message: the operator, 2026-11-15T09:38Z",
+"cite: inputs#I24"
+],
+"stderr": null,
+"wrote": [
+"inputs/I24-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I24",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, 2026-11-15T09:38Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "eef01a791bf2dffdee323e3143b34473047d216925f4fa6feaaba62625f65d3d",
+"copy": "I24-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-15T09:43:19Z",
+"step": "implement",
+"why": "the operator word for this run: step 3c then entry 11 only (start 8 of 9, frames local), no re-fire of a red step, stop after entry 11; entry 12 has no word"
+}
+}
+]

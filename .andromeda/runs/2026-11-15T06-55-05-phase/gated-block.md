@@ -1,0 +1,1 @@
+the founder's own words on forks 1-5 of .andromeda/runs/2026-11-15T06-55-05-phase/founder-forks.md, relayed into .andromeda/cache/chunks/2026-11-15-live-round-on-the-trimmed-product/evidence/founder-words.md (cap, keys, cli, hold); no live step runs before them (inputs#I2)

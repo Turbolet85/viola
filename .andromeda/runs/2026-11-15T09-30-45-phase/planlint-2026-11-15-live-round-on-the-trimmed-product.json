@@ -1,0 +1,121 @@
+[
+{
+"tool": "planlint",
+"v": "1.23",
+"sha8": "c198b31d",
+"ts": "2026-11-15T09:36:02Z",
+"argv": [
+"check",
+"--chunk",
+"2026-11-15-live-round-on-the-trimmed-product",
+"--run-dir",
+".andromeda/runs/2026-11-15T09-30-45-phase",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fence: 22 entries · plan: doc:2026-11-15-live-round-on-the-trimmed-product/plan · research: doc:2026-11-15-live-round-o…",
+"check 9 · CI-outcome reads: 1 · leg operator exempt: 1 · Platform issues consulted: none · `none — no runner-only bull…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 0 · Harness rules consulted: filled · ``.claude/rules/verification-harness.md` — r…`",
+"check 4 (5) · leg entries with a content atom: 6 · note without `atom from`: 0",
+"check 4 (13) · operator CI-outcome reads: 1 · not ci.py conclusion: 0",
+"check 4 (13) · job-log reads by pattern: 0",
+"check 4 (14) · base-less git change reads outside the operator and round legs: 0",
+"check 4 (15) · grep → wc -l counts asserting exit 0 and last line 0: 0",
+"check 4 (16) · guards whose exclusions leave a new file in: 0 of 0 with an exclusion",
+"check 4 (18) · entries reading a master's or a base's path the store now holds: 0",
+"check 4 (17) · entries reading a path the wrap writes: 0 of 15 asserting — listed, P5's read",
+"check 4 (17) · a path the wrap writes, read from inside a program an entry runs (a suite, the ledger's tool): not read",
+"check 2 · ledger-note entries (matrix#): 1 · on a capability not verified: 0",
+"check 5 · placeholders outside code: 0",
+"check 12 (c) · step references the plan's steps lack: 0 of 38",
+"check 12 (d) · «unchanged» claims on a name another part of the plan names: 5 of 5 — listed, P5's read",
+"  line 53 · «byte for byte» · live-pty.py (step 3) · live-ledger.py (step 3) · cmp (Test Commands)",
+"  line 211 · «unchanged» · DIALOG_HOLD_MAX (Files to modify)",
+"  line 248 · «not touched» · latest (step 4) · mise (step 4)",
+"  line 487 · «not touched» · fixtures/claude/2.1.302/Mcp.tools-list-1.json (step 4)",
+"  line 541 · «byte for byte» · round-state.json (step 3) · evidence/stamps-2.1.325.json (step 4) · derive-state (step 4)",
+"  a claim on a name no other step, Files to modify or Test Commands names is not listed — P5's read",
+"check 4 (4) · criterion evidence paths the plan names nowhere else: 0 of 3",
+"hits: 0 — resolved by its check (validation.md 2 · 5 · 9 · 4 (4) · 4 (5) · 4 (13)–(16), (18) · 12 (c)); 0 is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "none",
+"ci_reads": 1,
+"operator": 1,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 0,
+"hit": false
+},
+"atom": {
+"atomed": 6,
+"bare": []
+},
+"tool": {
+"operator": 1,
+"hand": []
+},
+"log": [],
+"base": {
+"operator": 7,
+"reads": []
+},
+"count": {
+"hits": [],
+"unsplit": []
+},
+"newfiles": {
+"operator": 7,
+"guards": 0,
+"hits": [],
+"abstain": []
+},
+"retired": [],
+"wrap": {
+"asserting": 15,
+"listed": []
+},
+"check2": {
+"entries": 8,
+"tokens": 1,
+"hits": 0,
+"reading": "on a capability not verified: 0"
+},
+"check5": {
+"hits": []
+},
+"steps": {
+"steps": 9,
+"refs": 38,
+"hits": []
+},
+"claims": {
+"read": 5,
+"listed": [
+53,
+211,
+248,
+487,
+541
+]
+},
+"c44": {
+"paths": 3,
+"hits": [],
+"skipped": []
+},
+"hits": 0
+}
+}
+]

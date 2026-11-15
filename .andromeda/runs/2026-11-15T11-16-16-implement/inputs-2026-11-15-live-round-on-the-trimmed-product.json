@@ -1,0 +1,110 @@
+[
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "d99a1896",
+"ts": "2026-11-15T11:16:32Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-15-live-round-on-the-trimmed-product",
+"--message-file",
+".andromeda/runs/2026-11-15T11-16-16-implement/relay-1.md",
+"--kind",
+"relay",
+"--origin",
+"the operator, 2026-11-15T11:16Z",
+"--why",
+"the operator word: record the founder hold line, stop for the phase door if either founder word moves a plan line, else entries 13-20 and the operator pass",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-16-16-implement",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I32 · copy message · message: the operator, 2026-11-15T11:16Z",
+"cite: inputs#I32"
+],
+"stderr": null,
+"wrote": [
+"inputs/I32-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I32",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, 2026-11-15T11:16Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "3351bad530f40097d5b52f14637e485b716c55d122ab6dff73c75ef3c63a0f1e",
+"copy": "I32-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-15T11:16:32Z",
+"step": "implement",
+"why": "the operator word: record the founder hold line, stop for the phase door if either founder word moves a plan line, else entries 13-20 and the operator pass"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "d99a1896",
+"ts": "2026-11-15T11:16:33Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-15-live-round-on-the-trimmed-product",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-live-round-final-words.md",
+"--kind",
+"relay",
+"--why",
+"the founder own words after entry 12: hold stands (3600 stays, PROVISIONAL leaves, v2-02 verifiable on the reading); v2-03 not verified this round, un-claimed at the wrap with a CARRY for a pre-trusted wrapped start",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-16-16-implement",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I33 · copy no-repo · ../additional/viola-overseer/relay-live-round-final-words.md",
+"cite: inputs#I33"
+],
+"stderr": null,
+"wrote": [
+"inputs/I33-relay-live-round-final-words.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I33",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-live-round-final-words.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "5464cca7691dec49c28959bc0ad9acfdc1e80c6fc61a1feb89cce8f4814bb9d5",
+"copy": "I33-relay-live-round-final-words.md.txt",
+"link": false,
+"read_at": "2026-11-15T11:16:32Z",
+"step": "implement",
+"why": "the founder own words after entry 12: hold stands (3600 stays, PROVISIONAL leaves, v2-02 verifiable on the reading); v2-03 not verified this round, un-claimed at the wrap with a CARRY for a pre-trusted wrapped start"
+}
+}
+]

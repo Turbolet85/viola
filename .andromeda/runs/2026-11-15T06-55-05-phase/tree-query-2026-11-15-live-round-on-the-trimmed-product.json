@@ -1,0 +1,40 @@
+[
+{
+"sql": "SELECT callee, file, line FROM refs WHERE callee_name = 'DIALOG_HOLD_MAX' ORDER BY file, line",
+"rows": 6,
+"result": [
+{
+"callee": "rust-analyzer cargo viola-core 0.1.0 DIALOG_HOLD_MAX.",
+"file": "crates/viola-agent-claude/src/lib.rs",
+"line": 444
+},
+{
+"callee": "rust-analyzer cargo viola-core 0.1.0 DIALOG_HOLD_MAX.",
+"file": "crates/viola-core/src/lib.rs",
+"line": 448
+},
+{
+"callee": "rust-analyzer cargo viola-core 0.1.0 DIALOG_HOLD_MAX.",
+"file": "src/cmd/hook.rs",
+"line": 22
+},
+{
+"callee": "rust-analyzer cargo viola-core 0.1.0 DIALOG_HOLD_MAX.",
+"file": "src/cmd/hook.rs",
+"line": 60
+},
+{
+"callee": "rust-analyzer cargo viola-core 0.1.0 DIALOG_HOLD_MAX.",
+"file": "src/cmd/hook.rs",
+"line": 778
+},
+{
+"callee": "rust-analyzer cargo viola-core 0.1.0 DIALOG_HOLD_MAX.",
+"file": "src/cmd/hook.rs",
+"line": 785
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

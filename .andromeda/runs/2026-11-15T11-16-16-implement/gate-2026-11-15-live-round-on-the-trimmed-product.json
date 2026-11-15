@@ -1,0 +1,97 @@
+[
+{
+"tool": "gate",
+"v": "1.35",
+"sha8": "b204253f",
+"ts": "2026-11-15T11:17:05Z",
+"argv": [
+"scope",
+"--chunk",
+"2026-11-15-live-round-on-the-trimmed-product",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-16-16-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base HEAD (no pre-CI commit) · lists new 2 · modify 1 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"list .andromeda/cache/chunks/2026-11-15-live-round-on-the-trimmed-product/evidence/ (dir) ×0",
+"list target/live-round-screens/ (dir) ×0",
+"scope: clean — changed 0 · listed 0 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 356"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "HEAD",
+"base_why": "no pre-CI commit",
+"counts": {
+"changed": 0,
+"listed": 0,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 356,
+"unparsed": 0,
+"widening_without_word": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.35",
+"sha8": "b204253f",
+"ts": "2026-11-15T11:17:06Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-16-16-implement",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust · base HEAD (no pre-CI commit)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust — each fired on its synthetic known positive",
+"hygiene: clean — read 403 (runs 349 · evidence 19 · inputs 35) · trails 90 not read · copies 33 not read by P1 — 0 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 349,
+"evidence": 19,
+"inputs": 35,
+"trails": 90,
+"copies": 33,
+"kept": 0,
+"binary": 0,
+"in_root": 0
+},
+"indeterminate": 0
+}
+}
+]

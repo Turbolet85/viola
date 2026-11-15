@@ -1,0 +1,159 @@
+[
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "d99a1896",
+"ts": "2026-11-15T07:55:15Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-15-live-round-on-the-trimmed-product",
+"--message-file",
+".andromeda/runs/2026-11-15T07-52-35-implement/relay-1.md",
+"--origin",
+"the overseer (dialog answer)",
+"--kind",
+"relay",
+"--why",
+"the pty-host technical fork: live-hold.py hosts its own pty in live-pty.py form, key writes bound to founder-words lines",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-11-15T07-52-35-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy message · message: the overseer (dialog answer)",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "message: the overseer (dialog answer)",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "1c71907ac25568c9a50177edff23630e2c76cea3c6b79ffcc365c13145eb7080",
+"copy": "I3-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-15T07:55:14Z",
+"step": "implement",
+"why": "the pty-host technical fork: live-hold.py hosts its own pty in live-pty.py form, key writes bound to founder-words lines"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "d99a1896",
+"ts": "2026-11-15T08:12:54Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-15-live-round-on-the-trimmed-product",
+"--message-file",
+".andromeda/runs/2026-11-15T07-52-35-implement/relay-2.md",
+"--origin",
+"the overseer (dialog answer)",
+"--kind",
+"relay",
+"--why",
+"rehearsal key order: keys after the hold in rehearse-wrapped only; live-wrapped checks the DEL erase before release and send, stops on a standing x",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-11-15T07-52-35-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy message · message: the overseer (dialog answer)",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "relay",
+"repo": null,
+"path": "message: the overseer (dialog answer)",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "935698c974ba57173fce877c634b5d4c0f3b44cc19854360542f589578bbcd91",
+"copy": "I4-relay-2.md.txt",
+"link": false,
+"read_at": "2026-11-15T08:12:53Z",
+"step": "implement",
+"why": "rehearsal key order: keys after the hold in rehearse-wrapped only; live-wrapped checks the DEL erase before release and send, stops on a standing x"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "d99a1896",
+"ts": "2026-11-15T08:22:18Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-15-live-round-on-the-trimmed-product",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-live-round-founder-words.md",
+"--kind",
+"relay",
+"--why",
+"the founder's own words on forks 1, 2, 3 and 5: cap 9 starts, keys trust yes and input-box yes, statusline-read yes, cli 2.1.325 (not the plan's lean); fork 4 unanswered",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-11-15T07-52-35-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I5 · copy no-repo · ../additional/viola-overseer/relay-live-round-founder-words.md",
+"cite: inputs#I5"
+],
+"stderr": null,
+"wrote": [
+"inputs/I5-relay-live-round-founder-words.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I5",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-live-round-founder-words.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "9f28cf7fa09d8c9e706a0b9255984c3e85ceb415631c835f8c9a02953b3d007e",
+"copy": "I5-relay-live-round-founder-words.md.txt",
+"link": false,
+"read_at": "2026-11-15T08:22:17Z",
+"step": "implement",
+"why": "the founder's own words on forks 1, 2, 3 and 5: cap 9 starts, keys trust yes and input-box yes, statusline-read yes, cli 2.1.325 (not the plan's lean); fork 4 unanswered"
+}
+}
+]

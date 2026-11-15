@@ -1,0 +1,232 @@
+[
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "d99a1896",
+"ts": "2026-11-15T06:56:32Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-15-live-round-on-the-trimmed-product",
+"--source",
+"~/dev/projects/additional/viola-overseer/phase-live-round-directive.md",
+"--kind",
+"relay",
+"--why",
+"the operator directive for this phase: run to P5 and stop, four founder forks written not answered, live steps operator-named, headless tmpfs rigs",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-11-15T06-55-05-phase",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy no-repo · ../additional/viola-overseer/phase-live-round-directive.md",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-phase-live-round-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/phase-live-round-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "1faefe302b7b5edddf7952c4fd9615aef3ce907e2e52050f42a9275c844e95d1",
+"copy": "I1-phase-live-round-directive.md.txt",
+"link": false,
+"read_at": "2026-11-15T06:56:32Z",
+"step": "phase:P1",
+"why": "the operator directive for this phase: run to P5 and stop, four founder forks written not answered, live steps operator-named, headless tmpfs rigs"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "d99a1896",
+"ts": "2026-11-15T07:42:05Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-15-live-round-on-the-trimmed-product",
+"--run-dir",
+".andromeda/runs/2026-11-15T06-55-05-phase",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-live-round-directive.md",
+"I1 cited scope.md:40 · research.md:15 · plan.md:19 · plan.md:21 · plan.md:95 · plan.md:123 · plan.md:125 · plan.md:271 · plan.md:314",
+"UNPARSED: inputs#I5 — no entry (research.md:83)",
+"inputs: 1 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 1,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 1
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "d99a1896",
+"ts": "2026-11-15T07:42:19Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-15-live-round-on-the-trimmed-product",
+"--run-dir",
+".andromeda/runs/2026-11-15T06-55-05-phase",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-live-round-directive.md",
+"I1 cited scope.md:40 · research.md:15 · plan.md:19 · plan.md:21 · plan.md:95 · plan.md:123 · plan.md:125 · plan.md:271 · plan.md:314",
+"inputs: 1 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 1,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "d99a1896",
+"ts": "2026-11-15T07:44:39Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-15-live-round-on-the-trimmed-product",
+"--run-dir",
+".andromeda/runs/2026-11-15T06-55-05-phase",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-live-round-directive.md",
+"I1 cited scope.md:40 · research.md:15 · plan.md:19 · plan.md:21 · plan.md:95 · plan.md:123 · plan.md:125 · plan.md:296 · plan.md:339",
+"inputs: 1 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 1,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "d99a1896",
+"ts": "2026-11-15T07:49:31Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-15-live-round-on-the-trimmed-product",
+"--message-file",
+".andromeda/runs/2026-11-15T06-55-05-phase/relay-1.md",
+"--kind",
+"relay",
+"--origin",
+"the delegate overseer, relayed in the builder session",
+"--why",
+"the P5 word on .andromeda/runs/2026-11-15T06-55-05-phase/p5-card-1.md: yes, the plan as carded — delegate overseer (technical approval); the five founder forks stay unanswered until his own words by relay",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-11-15T06-55-05-phase",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy message · message: the delegate overseer, relayed in the builder session",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "message: the delegate overseer, relayed in the builder session",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "e0d36ed2828aa08d83d3d2e859aa45cdbf91020dfa147a77f330d309ff393f11",
+"copy": "I2-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-15T07:49:30Z",
+"step": "phase:P5",
+"why": "the P5 word on .andromeda/runs/2026-11-15T06-55-05-phase/p5-card-1.md: yes, the plan as carded — delegate overseer (technical approval); the five founder forks stay unanswered until his own words by relay"
+}
+}
+]

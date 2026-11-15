@@ -1,10 +1,14 @@
 # Coverage — viola-0.2.0
 
-verified 5/31 · deferred 0 · planned 26 · implemented 0 · unclaimed 26
+verified 5/31 · deferred 0 · planned 25 · implemented 1 · unclaimed 24
 
-## planned, unclaimed (26)
-- v2-02 · The dialog-hold ceiling read live
-- v2-03 · `viola run` wraps the unmodified CLI on Linux, proved
+## implemented, gated (1)
+- v2-02 · The dialog-hold ceiling read live · 2026-11-15-live-round-on-the-trimmed-product
+
+## planned, gated (1)
+- v2-03 · `viola run` wraps the unmodified CLI on Linux, proved · 2026-11-15-live-round-on-the-trimmed-product
+
+## planned, unclaimed (24)
 - v2-07 · Launch a session into the fleet
 - v2-08 · The launch authority bounded
 - v2-09 · The lineage registry

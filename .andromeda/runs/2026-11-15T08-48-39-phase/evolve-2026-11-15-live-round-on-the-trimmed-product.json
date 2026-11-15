@@ -1,0 +1,98 @@
+[
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "1c6c54c8",
+"ts": "2026-11-15T08:50:04Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-15T08-48-39-phase",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 1381 · 2026-11-15T06-56-28-2026-11-15-live-round-on-the-trimmed-product.ndjson",
+"ts 2026-11-15T08:49:58Z · clock 2026-11-15T08:50:04Z · bound 2026-11-15T08:47:44Z (line 3028)",
+"ids 2026-11-15T08:49:58Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T06-56-28-2026-11-15-live-round-on-the-trimmed-product.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "1c6c54c8",
+"ts": "2026-11-15T08:52:00Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-15T08-48-39-phase",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 1383 · 2026-11-15T06-56-28-2026-11-15-live-round-on-the-trimmed-product.ndjson",
+"ts 2026-11-15T08:51:52Z · clock 2026-11-15T08:52:00Z · bound 2026-11-15T08:49:58Z (line 3029)",
+"ids 2026-11-15T08:51:52Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T06-56-28-2026-11-15-live-round-on-the-trimmed-product.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "1c6c54c8",
+"ts": "2026-11-15T09:00:25Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-15T08-48-39-phase",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 1392 · 2026-11-15T06-56-28-2026-11-15-live-round-on-the-trimmed-product.ndjson",
+"ts 2026-11-15T09:00:17Z · clock 2026-11-15T09:00:25Z · bound 2026-11-15T08:51:52Z (line 3030)",
+"ids 2026-11-15T09:00:17Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T06-56-28-2026-11-15-live-round-on-the-trimmed-product.ndjson"
+],
+"before": null,
+"after": null
+}
+]

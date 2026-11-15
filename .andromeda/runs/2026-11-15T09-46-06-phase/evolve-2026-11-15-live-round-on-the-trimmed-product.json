@@ -1,0 +1,34 @@
+[
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "1c6c54c8",
+"ts": "2026-11-15T09:48:51Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"3",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-15T09-46-06-phase",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 3 record(s) in the store · tx 1429 · 2026-11-15T06-56-28-2026-11-15-live-round-on-the-trimmed-product.ndjson",
+"ts 2026-11-15T09:48:42Z · clock 2026-11-15T09:48:51Z · bound 2026-11-15T09:44:02Z (line 3045)",
+"ids 2026-11-15T09:48:42Z-a … 2026-11-15T09:48:42Z-c (3)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T06-56-28-2026-11-15-live-round-on-the-trimmed-product.ndjson"
+],
+"before": null,
+"after": null
+}
+]
