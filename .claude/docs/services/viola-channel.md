@@ -38,7 +38,7 @@ Tokio only behind the `tokio` feature; `viola-channel` is not in `scripts/sync-c
 
 ## Testing this crate
 - **Unit tests:** `cargo nextest run -p viola-channel` (endpoint golden vectors, peer-cred decision function, error mapping)
-- **Integration:** real endpoint in a temp home; 0700 / 0600 read-back
+- **Integration:** real endpoint in a temp home, its socket bound under a test-owned short root directory made under /tmp, never under TMPDIR (so the socket path length bound holds whatever TMPDIR's length); 0700 / 0600 read-back
 - **Property:** framing at `MAX_FRAME` ± 1
 
 ## References

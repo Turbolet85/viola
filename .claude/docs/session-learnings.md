@@ -8,6 +8,15 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
+## 2026-11-15 — A «no product source changed» probe counts non-test hunks, not files
+A plan's gate that proves a test-only chunk by listing changed files under `src/` and `crates/*/src/` reads a
+`#[cfg(test)]` edit inside a product file as a product change, so a test-only fix that must touch an inline test
+module reads red on the probe's wording, not on the work. Write such a probe over the diff's hunks: a hunk counts
+only when it falls outside every `#[cfg(test)]` module of its file, and its control plants one non-test line to
+show it fires (both directions read before it is trusted).
+
+---
+
 ## 2026-11-15 — Check a Python script's syntax with `ast.parse`, never `py_compile`, inside a run or work dir
 `python3 -m py_compile` writes a `__pycache__/` beside the script it checks. Inside a chunk's work dir or a run dir,
 the run-dir hygiene read refuses that bytecode, and a recursive `rm` to clear it is denied by the permission layer.

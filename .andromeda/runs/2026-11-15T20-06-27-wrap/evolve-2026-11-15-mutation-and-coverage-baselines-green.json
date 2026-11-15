@@ -1,0 +1,130 @@
+[
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "5c69607f",
+"ts": "2026-11-15T20:08:38Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-15T20-06-27-wrap",
+"--marker",
+"2026-11-15-mutation-and-coverage-baselines-green"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 1606 · 2026-11-15T18-25-36-2026-11-15-mutation-and-coverage-baselines-green.ndjson",
+"ts 2026-11-15T20:08:32Z · clock 2026-11-15T20:08:38Z · bound 2026-11-15T19:46:21Z (line 3115)",
+"ids 2026-11-15T20:08:32Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T18-25-36-2026-11-15-mutation-and-coverage-baselines-green.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "5c69607f",
+"ts": "2026-11-15T20:29:31Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-15T20-06-27-wrap",
+"--marker",
+"2026-11-15-mutation-and-coverage-baselines-green"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 1614 · 2026-11-15T18-25-36-2026-11-15-mutation-and-coverage-baselines-green.ndjson",
+"ts 2026-11-15T20:29:19Z · clock 2026-11-15T20:29:31Z · bound 2026-11-15T20:08:32Z (line 3116)",
+"ids 2026-11-15T20:29:19Z-a … 2026-11-15T20:29:19Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T18-25-36-2026-11-15-mutation-and-coverage-baselines-green.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "5c69607f",
+"ts": "2026-11-15T20:31:37Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-15T20-06-27-wrap",
+"--marker",
+"2026-11-15-mutation-and-coverage-baselines-green"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 1618 · 2026-11-15T18-25-36-2026-11-15-mutation-and-coverage-baselines-green.ndjson",
+"ts 2026-11-15T20:31:33Z · clock 2026-11-15T20:31:37Z · bound 2026-11-15T20:29:19Z (line 3118)",
+"ids 2026-11-15T20:31:33Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T18-25-36-2026-11-15-mutation-and-coverage-baselines-green.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "5c69607f",
+"ts": "2026-11-15T20:32:54Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-15T20-06-27-wrap",
+"--marker",
+"2026-11-15-mutation-and-coverage-baselines-green"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 1621 · 2026-11-15T18-25-36-2026-11-15-mutation-and-coverage-baselines-green.ndjson",
+"ts 2026-11-15T20:32:46Z · clock 2026-11-15T20:32:54Z · bound 2026-11-15T20:31:33Z (line 3119)",
+"ids 2026-11-15T20:32:46Z-a … 2026-11-15T20:32:46Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T18-25-36-2026-11-15-mutation-and-coverage-baselines-green.ndjson"
+],
+"before": null,
+"after": null
+}
+]

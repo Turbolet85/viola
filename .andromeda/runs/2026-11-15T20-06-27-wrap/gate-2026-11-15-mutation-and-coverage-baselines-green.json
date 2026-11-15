@@ -1,0 +1,957 @@
+[
+{
+"tool": "gate",
+"v": "1.35",
+"sha8": "53069025",
+"ts": "2026-11-15T20:06:55Z",
+"argv": [
+"scope",
+"--chunk",
+"2026-11-15-mutation-and-coverage-baselines-green",
+"--run-dir",
+".andromeda/runs/2026-11-15T20-06-27-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base 73b06303 (the parent of the oldest pre-CI commit af36e2b4) · lists new 1 · modify 8 · derived 0 · record 8",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"recorded widening crates/viola-channel/src/lib.rs",
+"recorded widening crates/viola-channel/src/client.rs",
+"recorded widening crates/viola-channel/src/server.rs",
+"recorded widening crates/viola-channel/src/tokio_client.rs",
+"recorded widening crates/viola-e2e/src/harness/cleanup.rs",
+"recorded widening src/cmd/client.rs",
+"recorded widening crates/viola-channel/tests/channel_frames.rs",
+"recorded widening tests/security_negatives_server_identity.rs",
+"scope: clean — changed 17 · listed 9 · recorded 8 (companion 0 · mechanical 0 · in-intent 0 · widening 8) · absorbed 0 · excluded 226"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "73b06303cdff865bff2ae979df8ff8b3558b4f83",
+"base_why": "the parent of the oldest pre-CI commit af36e2b4",
+"counts": {
+"changed": 17,
+"listed": 9,
+"recorded": 8,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 8
+},
+"excluded": 226,
+"unparsed": 0,
+"widening_without_word": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.35",
+"sha8": "53069025",
+"ts": "2026-11-15T20:07:45Z",
+"argv": [
+"census",
+"--run-dir",
+".andromeda/runs/2026-11-15T20-06-27-wrap",
+"--marker",
+"2026-11-15-mutation-and-coverage-baselines-green",
+"--args",
+"projects/viola/target"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"census · ps · comm — · args projects/viola/target · own tree excluded: 8",
+"census: none running"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"census": {
+"comm": [],
+"args": [
+"projects/viola/target"
+],
+"running": []
+}
+}
+},
+{
+"tool": "gate",
+"v": "1.35",
+"sha8": "53069025",
+"ts": "2026-11-15T20:37:11Z",
+"argv": [
+"run",
+"--chunk",
+"2026-11-15-mutation-and-coverage-baselines-green",
+"--run-dir",
+".andromeda/runs/2026-11-15T20-06-27-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-11-15-mutation-and-coverage-baselines-green · entries 20",
+"logs $TMPDIR/andromeda-gate/2026-11-15-mutation-and-coverage-baselines-green/wrap-2026-11-15T20-06-27 · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 185",
+"walk-class rust 7 (tests/cli_controls_not_disableable.rs, tests/contract_bounded_readers.rs, tests/contract_error_bodies.rs, +4 in the trail) · uncommitted 185",
+"prose L145-156: - **Not run: mutation and coverage as acceptance.** No `run --mutants`, local or dispatche… (1171 chars)",
+"  1 lint        green · exit 0 · 1.33s · 0 B → 1.log · cargo fmt --all --check",
+"  2 lint        green · exit 0 · 0.25s · 72 B → 2.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 lint        green · exit 0 · 0.15s · 72 B → 3.log · cargo check --workspace --all-targets",
+"  4 integration green · exit 0 · 0.71s · 4586 B → 4.log · cargo nextest run --features fake-agent --test hook_fail_o… (76 chars)",
+"  5 integration green · exit 0 · 0.63s · 4586 B → 5.log · TMPDIR=~/dev/projects/viola-mutants-scratch/s2 cargo nexte… (123 chars)",
+"  6 integration green · exit 0 · 0.24s · 456 B → 6.log · cargo nextest run --features fake-agent --test hook_fail_o… (148 chars)",
+"  7 integration green · exit 0 · 0.27s · 1092 B → 7.log · cargo nextest run --features fake-agent --test contract_li… (76 chars)",
+"  8 probe       green · exit 0 · 0.0s · 2 B → 8.log · grep -c 'pub const WITHIN: Duration = Duration::from_secs(… (86 chars)",
+"  9 probe       green · exit 0 · 0.0s · 2 B → 9.log · grep -c 'slow-timeout = { period = \"5s\", terminate-after =… (84 chars)",
+" 10 unit        green · exit 0 · 0.32s · 1663 B → 10.log · cargo nextest run -p viola-e2e --no-fail-fast -E \"binary(h… (92 chars)",
+" 11 integration green · exit 0 · 43.9s · 4952 B → 11.log · cargo nextest run --features fake-agent --test cli_verify … (72 chars)",
+" 12 integration green · exit 0 · 70.06s · 445026 B → 12.log · cat /proc/loadavg && cargo nextest run --workspace --featu… (126 chars)",
+" 13 probe       not run — leg operator (the letter drives it) · d=$(mktemp -d ~/dev/projects/viola-mutants-scratch/cold-XX… (366 chars)",
+" 14 probe       not run — leg operator (the letter drives it) · cat /proc/loadavg && cargo llvm-cov nextest --no-report --… (207 chars)",
+" 15 probe       red · last line '0' ✗ (last: '6') · exit 0 · 0.01s · 2 B → 15.log · { git diff --name-only 73b06303cdff -- src 'crates/*/src/*… (188 chars)",
+" 16 unit        green · exit 0 · 7.15s · 323505 B → 16.log · bash scripts/agent-run.sh run --unit",
+" 17 probe       green · exit 0 · 100.0s · 429966 B → 17.log · bash scripts/agent-run.sh pre-push",
+" 18 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ga… (71 chars)",
+" 19 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (82 chars)",
+" 20 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ci… (95 chars)",
+"entries 20 · green 14 · red 1 (15) · recorded 0 · timeout 0 · not-run 5"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-11-15-mutation-and-coverage-baselines-green",
+"plan": "doc:2026-11-15-mutation-and-coverage-baselines-green/plan",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-11-15-mutation-and-coverage-baselines-green/wrap-2026-11-15T20-06-27",
+"delta": {
+"docs": [
+".andromeda/db/log/2026-11-15T18-25-36-2026-11-15-mutation-and-coverage-baselines-green.ndjson",
+".andromeda/runs/2026-11-15T19-17-33-implement/gate-2026-11-15-mutation-and-coverage-baselines-green.json",
+".andromeda/runs/2026-11-15T19-17-33-implement/journal.md",
+".claude/docs/gotchas.md",
+".claude/docs/services/viola-channel.md",
+".claude/docs/session-learnings.md",
+".claude/rules/testing.md",
+".claude/rules/verification-harness.md",
+".claude/session-handoff.md",
+"viola-0.2.0/working-route.md",
+".andromeda/db/log/2026-11-15T20-29-03-2026-11-15T20-06-27-wrap.ndjson",
+".andromeda/runs/2026-11-15T20-06-27-wrap/a11y-pick-counts.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/a11y-pick-p1.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/a11y-pick-p1.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/a11y-pick-p2.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/a11y-pick-p2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/a11y-pick-p3.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/a11y-pick-p3.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/a11y-rows.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/a11y-standing.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/a11y-task.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/after-implement.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/arch-pick-counts.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/arch-pick-p1.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/arch-pick-p1.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/arch-pick-p10.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/arch-pick-p10.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/arch-pick-p2.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/arch-pick-p2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/arch-pick-p3.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/arch-pick-p3.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/arch-pick-p4.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/arch-pick-p4.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/arch-pick-p5.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/arch-pick-p5.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/arch-pick-p6.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/arch-pick-p6.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/arch-pick-p7.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/arch-pick-p7.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/arch-pick-p8.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/arch-pick-p8.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/arch-pick-p9.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/arch-pick-p9.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/arch-rows.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/arch-standing.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/arch-task.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/architecture-fit.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/carries-batch.txt",
+".andromeda/runs/2026-11-15T20-06-27-wrap/cascade-2026-11-15-mutation-and-coverage-baselines-green-pre-pass.json",
+".andromeda/runs/2026-11-15T20-06-27-wrap/cascade-2026-11-15-mutation-and-coverage-baselines-green.json",
+".andromeda/runs/2026-11-15T20-06-27-wrap/cascade-dispositions.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/cascade-tally.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/citation-dispositions.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/cites-2026-11-15-mutation-and-coverage-baselines-green.json",
+".andromeda/runs/2026-11-15T20-06-27-wrap/cites-land-2026-11-15-mutation-and-coverage-baselines-green.ndjson",
+".andromeda/runs/2026-11-15T20-06-27-wrap/curation.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/design-pick-counts.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/design-pick-p1.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/design-pick-p1.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/design-pick-p2.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/design-pick-p2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/design-pick-p3.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/design-pick-p3.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/design-pick-p4.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/design-pick-p4.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/design-standing.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/design-task.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/draft-.claude-docs-gotchas.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/draft-.claude-docs-session-learnings.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/draft-.claude-rules-testing.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/draft-.claude-rules-verification-harness.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/evolve-2026-11-15-mutation-and-coverage-baselines-green.json",
+".andromeda/runs/2026-11-15T20-06-27-wrap/fanout-2026-11-15-mutation-and-coverage-baselines-green.json",
+".andromeda/runs/2026-11-15T20-06-27-wrap/fanout-results.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/gate-2026-11-15-mutation-and-coverage-baselines-green.json",
+".andromeda/runs/2026-11-15T20-06-27-wrap/health-2026-11-15-mutation-and-coverage-baselines-green.json",
+".andromeda/runs/2026-11-15T20-06-27-wrap/inputs-2026-11-15-mutation-and-coverage-baselines-green.json",
+".andromeda/runs/2026-11-15T20-06-27-wrap/layouts-pick-counts.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/layouts-pick-p1.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/layouts-pick-p1.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/layouts-pick-p2.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/layouts-pick-p2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/layouts-pick-p3.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/layouts-pick-p3.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/layouts-standing.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/layouts-task.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/leaf-architecture+test-plan.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/leaf-architecture-1.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/leaf-architecture-2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/leaf-architecture-3.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/leaf-architecture-4.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/leaf-delta-architecture.diff",
+".andromeda/runs/2026-11-15T20-06-27-wrap/leaf-delta-test-plan.diff",
+".andromeda/runs/2026-11-15T20-06-27-wrap/leaf-test-plan-1.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/leaf-test-plan-2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/new-text.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/obs-pick-counts.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/obs-pick-p1.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/obs-pick-p1.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/obs-pick-p10.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/obs-pick-p10.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/obs-pick-p11.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/obs-pick-p11.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/obs-pick-p2.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/obs-pick-p2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/obs-pick-p3.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/obs-pick-p3.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/obs-pick-p4.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/obs-pick-p4.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/obs-pick-p5.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/obs-pick-p5.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/obs-pick-p6.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/obs-pick-p6.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/obs-pick-p7.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/obs-pick-p7.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/obs-pick-p8.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/obs-pick-p8.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/obs-pick-p9.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/obs-pick-p9.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/obs-rows.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/obs-standing.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/obs-task.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/ops-a11y-plan.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/ops-architecture.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/ops-main-test-plan.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/ops-obs-plan.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/ops-security-plan.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/ops-test-plan.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/rec-2026-11-15-mutation-and-coverage-baselines-green.json",
+".andromeda/runs/2026-11-15T20-06-27-wrap/rec-no-marker.json",
+".andromeda/runs/2026-11-15T20-06-27-wrap/rec-read-2026-11-15-mutation-and-coverage-baselines-green.ndjson",
+".andromeda/runs/2026-11-15T20-06-27-wrap/relay-1.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/report-patterns.toml",
+".andromeda/runs/2026-11-15T20-06-27-wrap/rows-packs.json",
+".andromeda/runs/2026-11-15T20-06-27-wrap/run-node.txt",
+".andromeda/runs/2026-11-15T20-06-27-wrap/security-pick-counts.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/security-pick-p1.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/security-pick-p1.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/security-pick-p2.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/security-pick-p2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/security-pick-p3.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/security-pick-p3.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/security-pick-p4.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/security-pick-p4.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/security-pick-p5.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/security-pick-p5.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/security-pick-p6.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/security-pick-p6.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/security-rows.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/security-standing.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/security-task.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/sweep-pre-pass-1.1.txt",
+".andromeda/runs/2026-11-15T20-06-27-wrap/test-plan-fit.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/tests-pick-counts.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/tests-pick-p1.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/tests-pick-p1.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/tests-pick-p10.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/tests-pick-p10.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/tests-pick-p11.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/tests-pick-p11.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/tests-pick-p12.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/tests-pick-p12.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/tests-pick-p13.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/tests-pick-p13.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/tests-pick-p14.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/tests-pick-p14.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/tests-pick-p2.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/tests-pick-p2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/tests-pick-p3.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/tests-pick-p3.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/tests-pick-p4.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/tests-pick-p4.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/tests-pick-p5.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/tests-pick-p5.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/tests-pick-p6.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/tests-pick-p6.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/tests-pick-p7.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/tests-pick-p7.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/tests-pick-p8.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/tests-pick-p8.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/tests-pick-p9.d2.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/tests-pick-p9.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/tests-rows.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/tests-standing.md",
+".andromeda/runs/2026-11-15T20-06-27-wrap/tests-task.md"
+]
+},
+"unmapped": [],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/cli_controls_not_disableable.rs",
+"tests/contract_bounded_readers.rs",
+"tests/contract_error_bodies.rs",
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs",
+"tests/contract_os_gated_tests.rs"
+]
+},
+"uncommitted": 185,
+"problem": null
+},
+"prose": [
+{
+"from": 145,
+"to": 156,
+"text": "- **Not run: mutation and coverage as acceptance.** No `run --mutants`, local or dispatched. No coverage run is a   verdict (`inputs#I1` item 2): the next boundary's audit measures both. Entry 14 reads one case's wall time under   instrumentation; it is a measurement, recorded, never asserted. The pre-push entry's `linux-tests` stage is the   standing push guard, not this chunk's acceptance. - **Not run: the smoke, the live legs and the desktop.** No boot path changes, no live `claude` start, no Hyprland   desktop step (`inputs#I1` item 3). The stub `hyprctl` is a planted script, never the host's. - **The controls and the planted-hang pair are one-shot** (step 8, `gate.py control`; step 9, by hand in a throwaway   copy). They mutate source, so no entry below is either of them. - **Why CI is read.** The diff plants an executable a process spawns (the stub `hyprctl`), a case the template   judges OS-sensitive, so the hygiene, push and CI entries stand. The one CI leg, `ubuntu-latest`, witnesses   `hypr_tap.rs` and the impostor's `/tmp` socket root; no other OS leg exists. - **Base commit.** Git reads name `73b06303cdff`, the commit this chunk starts from."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-11-15-mutation-and-coverage-baselines-green/wrap-2026-11-15T20-06-27/1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 1.33,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-11-15-mutation-and-coverage-baselines-green/wrap-2026-11-15T20-06-27/2.log",
+"bytes": 72,
+"log_sha8": "d7dae192",
+"exit": 0,
+"seconds": 0.25,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "lint",
+"run": "cargo check --workspace --all-targets",
+"run_sha8": "aaf750d3",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-11-15-mutation-and-coverage-baselines-green/wrap-2026-11-15T20-06-27/3.log",
+"bytes": 72,
+"log_sha8": "4cf86278",
+"exit": 0,
+"seconds": 0.15,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "integration",
+"run": "cargo nextest run --features fake-agent --test hook_fail_open --no-fail-fast",
+"run_sha8": "85d1dba3",
+"expect": [
+"exit 0",
+"contains tests run:"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-15-mutation-and-coverage-baselines-green/wrap-2026-11-15T20-06-27/4.log",
+"bytes": 4586,
+"log_sha8": "2d7f8b3d",
+"exit": 0,
+"seconds": 0.71,
+"readings": [
+"exit 0 ✓",
+"contains 'tests run:' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "integration",
+"run": "TMPDIR=~/dev/projects/viola-mutants-scratch/s2 cargo nextest run --features fake-agent --test hook_fail_open --no-fail-fast",
+"run_sha8": "1205a63b",
+"expect": [
+"exit 0",
+"contains tests run:"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-15-mutation-and-coverage-baselines-green/wrap-2026-11-15T20-06-27/5.log",
+"bytes": 4586,
+"log_sha8": "8671be55",
+"exit": 0,
+"seconds": 0.63,
+"readings": [
+"exit 0 ✓",
+"contains 'tests run:' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "integration",
+"run": "cargo nextest run --features fake-agent --test hook_fail_open --no-fail-fast -E \"test(=impostor_endpoint_fits_sun_path_at_the_widest_pid_and_label)\"",
+"run_sha8": "2843050f",
+"expect": [
+"exit 0",
+"contains 1 test run: 1 passed"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-15-mutation-and-coverage-baselines-green/wrap-2026-11-15T20-06-27/6.log",
+"bytes": 456,
+"log_sha8": "8b6b4e93",
+"exit": 0,
+"seconds": 0.24,
+"readings": [
+"exit 0 ✓",
+"contains '1 test run: 1 passed' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "integration",
+"run": "cargo nextest run --features fake-agent --test contract_lints --no-fail-fast",
+"run_sha8": "8a20e8d6",
+"expect": [
+"exit 0",
+"contains tests run:"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-15-mutation-and-coverage-baselines-green/wrap-2026-11-15T20-06-27/7.log",
+"bytes": 1092,
+"log_sha8": "5a3238d9",
+"exit": 0,
+"seconds": 0.27,
+"readings": [
+"exit 0 ✓",
+"contains 'tests run:' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "grep -c 'pub const WITHIN: Duration = Duration::from_secs(12);' tests/support/watch.rs",
+"run_sha8": "01088716",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-15-mutation-and-coverage-baselines-green/wrap-2026-11-15T20-06-27/8.log",
+"bytes": 2,
+"log_sha8": "4355a46b",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '1' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "grep -c 'slow-timeout = { period = \"5s\", terminate-after = 3 }' .config/nextest.toml",
+"run_sha8": "a019ac60",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-15-mutation-and-coverage-baselines-green/wrap-2026-11-15T20-06-27/9.log",
+"bytes": 2,
+"log_sha8": "4355a46b",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '1' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "unit",
+"run": "cargo nextest run -p viola-e2e --no-fail-fast -E \"binary(hypr_tap) | binary(viola-hypr-tap)\"",
+"run_sha8": "809f9cac",
+"expect": [
+"exit 0",
+"contains tests run:"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-15-mutation-and-coverage-baselines-green/wrap-2026-11-15T20-06-27/10.log",
+"bytes": 1663,
+"log_sha8": "20acc2e4",
+"exit": 0,
+"seconds": 0.32,
+"readings": [
+"exit 0 ✓",
+"contains 'tests run:' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "integration",
+"run": "cargo nextest run --features fake-agent --test cli_verify --no-fail-fast",
+"run_sha8": "401b4ea3",
+"expect": [
+"exit 0",
+"contains tests run:"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-15-mutation-and-coverage-baselines-green/wrap-2026-11-15T20-06-27/11.log",
+"bytes": 4952,
+"log_sha8": "c4c01fa4",
+"exit": 0,
+"seconds": 43.9,
+"readings": [
+"exit 0 ✓",
+"contains 'tests run:' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "integration",
+"run": "cat /proc/loadavg && cargo nextest run --workspace --features fake-agent --profile mutants --no-fail-fast && cat /proc/loadavg",
+"run_sha8": "0536db2c",
+"expect": [
+"exit 0",
+"contains tests run:"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-15-mutation-and-coverage-baselines-green/wrap-2026-11-15T20-06-27/12.log",
+"bytes": 445026,
+"log_sha8": "8f95ad80",
+"exit": 0,
+"seconds": 70.06,
+"readings": [
+"exit 0 ✓",
+"contains 'tests run:' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "d=$(mktemp -d ~/dev/projects/viola-mutants-scratch/cold-XXXXXX) && git ls-files -co --exclude-standard -z | tar --null -cf - -T - | tar -xf - -C \"$d\" && cat /proc/loadavg && (cd \"$d\" && TMPDIR=~/dev/projects/viola-mutants-scratch/s2 CARGO_TARGET_DIR=\"$d/target\" cargo nextest run --workspace --features fake-agent --profile mutants --no-fail-fast); cat /proc/loadavg",
+"run_sha8": "ef28aa4e",
+"expect": [],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "cat /proc/loadavg && cargo llvm-cov nextest --no-report --features fake-agent --test cli_verify --no-fail-fast -E \"test(/verify_stopped_during_the_resume_run_removes_its_dir_and_exits_1/)\"; cat /proc/loadavg",
+"run_sha8": "7d957f73",
+"expect": [],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "{ git diff --name-only 73b06303cdff -- src 'crates/*/src/*'; git ls-files -o --exclude-standard -- src 'crates/*/src/*'; } | grep -v -x 'crates/viola-e2e/src/bin/viola-hypr-tap.rs' | wc -l",
+"run_sha8": "fb7b9a31",
+"expect": [
+"last line 0"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-15-mutation-and-coverage-baselines-green/wrap-2026-11-15T20-06-27/15.log",
+"bytes": 2,
+"log_sha8": "06e9d52c",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"last line '0' ✗ (last: '6')"
+],
+"survivors": [],
+"outcome": "red · last line '0' ✗ (last: '6')"
+},
+{
+"n": 16,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-15-mutation-and-coverage-baselines-green/wrap-2026-11-15T20-06-27/16.log",
+"bytes": 323505,
+"log_sha8": "083b2782",
+"exit": 0,
+"seconds": 7.15,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-15-mutation-and-coverage-baselines-green/wrap-2026-11-15T20-06-27/17.log",
+"bytes": 429966,
+"log_sha8": "7dbc0330",
+"exit": 0,
+"seconds": 100.0,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"contains '\"stage\":\"linux-tests\"' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "3c62df70",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin build/viola-0.2.0",
+"run_sha8": "06cd7265",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1200",
+"run_sha8": "3221deca",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.35",
+"sha8": "53069025",
+"ts": "2026-11-15T20:37:45Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-11-15T20-06-27-wrap",
+"--marker",
+"2026-11-15-mutation-and-coverage-baselines-green"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust · base 73b06303 (the parent of the oldest pre-CI commit af36e2b4)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust — each fired on its synthetic known positive",
+"P1 .andromeda/runs/2026-11-15T18-24-10-phase/p5-card-1.md:14 ×1 · tmp",
+"P1 .andromeda/runs/2026-11-15T20-06-27-wrap/a11y-task.md:4 ×1 · tmp",
+"P1 .andromeda/runs/2026-11-15T20-06-27-wrap/after-implement.md:18 ×1 · tmp",
+"P1 .andromeda/runs/2026-11-15T20-06-27-wrap/arch-task.md:3 ×3 · tmp",
+"P1 .andromeda/runs/2026-11-15T20-06-27-wrap/design-task.md:3 ×1 · tmp",
+"P1 .andromeda/runs/2026-11-15T20-06-27-wrap/layouts-task.md:3 ×1 · tmp",
+"P1 .andromeda/runs/2026-11-15T20-06-27-wrap/obs-task.md:5 ×1 · tmp",
+"P1 .andromeda/runs/2026-11-15T20-06-27-wrap/security-task.md:3 ×3 · tmp",
+"P1 .andromeda/runs/2026-11-15T20-06-27-wrap/tests-task.md:5 ×3 · tmp",
+"hygiene: refused 9 files — P1 9 · P2 0 · P3 0 · read 407 (runs 392 · evidence 6 · inputs 9) · trails 26 not read · copies 7 not read by P1 — 3 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust"
+],
+"rows": [
+"P1 .andromeda/runs/2026-11-15T18-24-10-phase/p5-card-1.md:14 ×1 · tmp",
+"P1 .andromeda/runs/2026-11-15T20-06-27-wrap/a11y-task.md:4 ×1 · tmp",
+"P1 .andromeda/runs/2026-11-15T20-06-27-wrap/after-implement.md:18 ×1 · tmp",
+"P1 .andromeda/runs/2026-11-15T20-06-27-wrap/arch-task.md:3 ×3 · tmp",
+"P1 .andromeda/runs/2026-11-15T20-06-27-wrap/design-task.md:3 ×1 · tmp",
+"P1 .andromeda/runs/2026-11-15T20-06-27-wrap/layouts-task.md:3 ×1 · tmp",
+"P1 .andromeda/runs/2026-11-15T20-06-27-wrap/obs-task.md:5 ×1 · tmp",
+"P1 .andromeda/runs/2026-11-15T20-06-27-wrap/security-task.md:3 ×3 · tmp",
+"P1 .andromeda/runs/2026-11-15T20-06-27-wrap/tests-task.md:5 ×3 · tmp"
+],
+"counts": {
+"P1": 9,
+"P2": 0,
+"P3": 0,
+"runs": 392,
+"evidence": 6,
+"inputs": 9,
+"trails": 26,
+"copies": 7,
+"kept": 3,
+"binary": 0,
+"in_root": 0
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.35",
+"sha8": "53069025",
+"ts": "2026-11-15T20:38:12Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-11-15T20-06-27-wrap",
+"--marker",
+"2026-11-15-mutation-and-coverage-baselines-green"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust · base 73b06303 (the parent of the oldest pre-CI commit af36e2b4)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust — each fired on its synthetic known positive",
+"P1 .andromeda/runs/2026-11-15T18-24-10-phase/p5-card-1.md:14 ×1 · tmp",
+"hygiene: refused 1 files — P1 1 · P2 0 · P3 0 · read 407 (runs 392 · evidence 6 · inputs 9) · trails 26 not read · copies 7 not read by P1 — 3 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust"
+],
+"rows": [
+"P1 .andromeda/runs/2026-11-15T18-24-10-phase/p5-card-1.md:14 ×1 · tmp"
+],
+"counts": {
+"P1": 1,
+"P2": 0,
+"P3": 0,
+"runs": 392,
+"evidence": 6,
+"inputs": 9,
+"trails": 26,
+"copies": 7,
+"kept": 3,
+"binary": 0,
+"in_root": 0
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.35",
+"sha8": "53069025",
+"ts": "2026-11-15T20:38:19Z",
+"argv": [
+"scope",
+"--chunk",
+"2026-11-15-mutation-and-coverage-baselines-green",
+"--run-dir",
+".andromeda/runs/2026-11-15T20-06-27-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base 73b06303 (the parent of the oldest pre-CI commit af36e2b4) · lists new 1 · modify 8 · derived 0 · record 8",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"recorded widening crates/viola-channel/src/lib.rs",
+"recorded widening crates/viola-channel/src/client.rs",
+"recorded widening crates/viola-channel/src/server.rs",
+"recorded widening crates/viola-channel/src/tokio_client.rs",
+"recorded widening crates/viola-e2e/src/harness/cleanup.rs",
+"recorded widening src/cmd/client.rs",
+"recorded widening crates/viola-channel/tests/channel_frames.rs",
+"recorded widening tests/security_negatives_server_identity.rs",
+"scope: clean — changed 17 · listed 9 · recorded 8 (companion 0 · mechanical 0 · in-intent 0 · widening 8) · absorbed 0 · excluded 404"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "73b06303cdff865bff2ae979df8ff8b3558b4f83",
+"base_why": "the parent of the oldest pre-CI commit af36e2b4",
+"counts": {
+"changed": 17,
+"listed": 9,
+"recorded": 8,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 8
+},
+"excluded": 404,
+"unparsed": 0,
+"widening_without_word": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.35",
+"sha8": "53069025",
+"ts": "2026-11-15T20:39:18Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-11-15T20-06-27-wrap",
+"--marker",
+"2026-11-15-mutation-and-coverage-baselines-green"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust · base 73b06303 (the parent of the oldest pre-CI commit af36e2b4)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust — each fired on its synthetic known positive",
+"hygiene: clean — read 174 (runs 174 · evidence 0 · inputs 0) · trails 12 not read · copies 0 not read by P1 — 0 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 174,
+"evidence": 0,
+"inputs": 0,
+"trails": 12,
+"copies": 0,
+"kept": 0,
+"binary": 0,
+"in_root": 0
+},
+"indeterminate": 0
+}
+}
+]

@@ -1,0 +1,5 @@
+@carry in=chk-frgankby
+CARRY: chunk 2026-11-15-mutation-and-coverage-baselines-green (its P5 card's row 1, `.andromeda/runs/2026-11-15T18-24-10-phase/p5-card-1.md`, approved on the operator's own word, `chunks/2026-11-15-mutation-and-coverage-baselines-green/inputs/I3-relay-2.md.txt`): the live rig's half of the record-home rule — the home a live `viola verify --record` takes comes from a helper like the tests' `record_home()` and holds no path component named `home` (test-plan decision/record-home-names-no-home; the tests' half landed in that chunk)
+
+@carry in=chk-hzxz2gl4
+CARRY: chunk 2026-11-15-mutation-and-coverage-baselines-green (its wrap, placement by the overseer's technical answer, `chunks/2026-11-15-mutation-and-coverage-baselines-green/inputs/I7-relay-1.md.txt`): `crates/viola-pty/src/lib.rs` test-module comment over `CHILD_WITHIN` names «the nextest `mutants` profile's 10 s kill», now 15 s (5 s × 3); reword it if this chunk edits viola-pty — the 7 s bound itself still sits below the kill

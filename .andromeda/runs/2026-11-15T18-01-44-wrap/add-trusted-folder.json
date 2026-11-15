@@ -1,7 +1,0 @@
-{
-  "title": "A session's folder trusted by viola",
-  "requirement": "a session viola starts in a folder the CLI has never trusted starts with that folder trusted by the CLI's own mechanism — a flag or setting where the CLI has one, else its own per-project trust record, named a boundary widening — never by viola typing the human's keys into the trust dialog",
-  "observed_gap": "A wrapped start in a folder the CLI had not trusted raised the CLI's trust dialog, which viola could only pass by emulating the human's key presses.",
-  "method": "e2e",
-  "acceptance": "A session viola starts in a folder the CLI has never trusted opens at its input box with no trust dialog shown and no key typed by viola, and the user's own trust of other folders is unchanged."
-}

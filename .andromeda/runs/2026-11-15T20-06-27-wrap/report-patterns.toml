@@ -1,0 +1,31 @@
+# Phase 1 site sweep — one pattern per moved fact of the report
+
+[[pattern]]
+id = 'mutants-kill'
+regex = '''10 ?s (default )?kill|mutants`? profile|profile\.mutants|slow-timeout|terminate-after|default kill'''
+ignore_case = true
+
+[[pattern]]
+id = 'within-bound'
+regex = '''\bWITHIN\b|root[- ]wait|wait bound|within-7s|7 ?s (wait|bound)'''
+
+[[pattern]]
+id = 'mutants-floor'
+regex = '''cargo[- ]mutants|20 ?s floor|mutants-kill-below'''
+ignore_case = true
+
+[[pattern]]
+id = 'socket-root'
+regex = '''viola-test-chan|SocketRoot|vs-\*|sun_path|socket root'''
+
+[[pattern]]
+id = 'tmpdir-length'
+regex = '''\bTMPDIR\b'''
+
+[[pattern]]
+id = 'record-home'
+regex = '''for_record|record_home|record-home|\bvhome\b|verify --record'''
+
+[[pattern]]
+id = 'root-wait-count'
+regex = '''Instant::now\(\) \+ WITHIN|33 sites|root waits'''

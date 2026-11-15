@@ -1,7 +1,0 @@
-{
-  "title": "A standing live rig with a screen model",
-  "requirement": "live rounds against the real CLI run on one standing, reusable rig — a terminal screen model over the child's screen, its screens kept, the CLI's trust and modal dialogs read from that model — so no live chunk builds a rig of its own; the fake agent draws the DEL erase and the trust and modal dialogs as the rig reads them from the live CLI",
-  "observed_gap": "Each live round built its own evidence scripts, rehearsed only on the fake agent; three rig faults were exposed only by live starts (two halts, one null reading), and the fake agent keeps a typed DEL and draws its modal unlike the live CLI.",
-  "method": "e2e",
-  "acceptance": "A live round runs on the standing rig with no rig written for it; its kept screens show the CLI's trust and modal dialogs read as the live CLI drew them, and a rehearsal on the fake agent reads the same erase and dialog screens the live run reads."
-}

@@ -1,0 +1,154 @@
+[
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "0528b2d4",
+"ts": "2026-11-15T20:06:58Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-15-mutation-and-coverage-baselines-green",
+"--source",
+"~/dev/projects/additional/viola-overseer/wrap-baselines-green-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the overseer wrap directive for this chunk: entry 15 dispositioned on its meaning, the amendments owed, the carry-forwards, hygiene, the last-card block",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-15T20-06-27-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I6 · copy no-repo · ../additional/viola-overseer/wrap-baselines-green-directive.md",
+"cite: inputs#I6"
+],
+"stderr": null,
+"wrote": [
+"inputs/I6-wrap-baselines-green-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I6",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/wrap-baselines-green-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "4d42340e6135ae1fe78aa025669c5f26340548ef24cbe52c87fa0dc781d213b7",
+"copy": "I6-wrap-baselines-green-directive.md.txt",
+"link": false,
+"read_at": "2026-11-15T20:06:58Z",
+"step": "wrap",
+"why": "the overseer wrap directive for this chunk: entry 15 dispositioned on its meaning, the amendments owed, the carry-forwards, hygiene, the last-card block"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "0528b2d4",
+"ts": "2026-11-15T20:06:59Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-15-mutation-and-coverage-baselines-green",
+"--run-dir",
+".andromeda/runs/2026-11-15T20-06-27-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-baselines-green-directive.md",
+"I1 cited scope.md:60 · research.md:7 · plan.md:18 · plan.md:32 · plan.md:100 · plan.md:146 · plan.md:150 · plan.md:267 (in fence) · plan.md:276 (in fence) · plan.md:363 · plan.md:385 · report.md:40",
+"I2 n/a — a message has no live source · copy message · message: the operator, relaying the overseer (delegate), question dialog 2026-11-15",
+"I2 cited research.md:57 · research.md:58 · plan.md:20 · plan.md:28 · plan.md:54 · plan.md:119 · plan.md:127 · plan.md:258 (in fence) · plan.md:334 · plan.md:363 · plan.md:371 · plan.md:375 · plan.md:395 · report.md:30 · report.md:40 · report.md:60",
+"I3 n/a — a message has no live source · copy message · message: the operator, own word, 2026-11-15",
+"I3 cited report.md:41",
+"I4 n/a — a message has no live source · copy message · message: the operator, relaying the overseer (AskUserQuestion answer)",
+"I4 cited report.md:11 · report.md:42 · report.md:83 · report.md:93 · report.md:113 · report.md:118 · report.md:158",
+"I5 n/a — a message has no live source · copy message · message: the operator, the overseer as delegate (AskUserQuestion answer)",
+"I5 UNCITED",
+"I6 unchanged · copy no-repo · ../additional/viola-overseer/wrap-baselines-green-directive.md",
+"I6 UNCITED",
+"inputs: 6 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 4 · uncited 2 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 6,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 4
+},
+"uncited": 2,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "0528b2d4",
+"ts": "2026-11-15T20:32:29Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-15-mutation-and-coverage-baselines-green",
+"--message-file",
+".andromeda/runs/2026-11-15T20-06-27-wrap/relay-1.md",
+"--origin",
+"the operator, relaying the overseer (AskUserQuestion answer)",
+"--kind",
+"relay",
+"--why",
+"the placement of the viola-pty stale kill-figure comment carry on the entry Key after a resize",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-15T20-06-27-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I7 · copy message · message: the operator, relaying the overseer (AskUserQuestion answer)",
+"cite: inputs#I7"
+],
+"stderr": null,
+"wrote": [
+"inputs/I7-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I7",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, relaying the overseer (AskUserQuestion answer)",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "662633ad4ca960e9067ca75e44497fdf8f094e5ea15870a52661466261dbc0a9",
+"copy": "I7-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-15T20:32:29Z",
+"step": "wrap",
+"why": "the placement of the viola-pty stale kill-figure comment carry on the entry Key after a resize"
+}
+}
+]
