@@ -1,11 +1,9 @@
 # Coverage — viola-0.2.0
 
-verified 5/31 · deferred 0 · planned 25 · implemented 1 · unclaimed 24
+verified 5/31 · deferred 0 · planned 24 · implemented 2 · unclaimed 24
 
-## implemented, gated (1)
+## implemented, gated (2)
 - v2-02 · The dialog-hold ceiling read live · 2026-11-15-live-round-on-the-trimmed-product
-
-## planned, gated (1)
 - v2-03 · `viola run` wraps the unmodified CLI on Linux, proved · 2026-11-15-live-round-on-the-trimmed-product
 
 ## planned, unclaimed (24)

@@ -1,0 +1,57 @@
+[
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "d99a1896",
+"ts": "2026-11-15T12:35:55Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-15-live-round-on-the-trimmed-product",
+"--message-file",
+".andromeda/runs/2026-11-15T12-35-39-implement/relay-1.md",
+"--origin",
+"the operator, 2026-11-15T12:35Z",
+"--kind",
+"relay",
+"--why",
+"the operator word for this run: v2-03 ref on entries 27 and 12 cleared by the founder words and the two overrides, then the operator pass - entry 28 hygiene, entry 29 the second pre-CI commit pushed fast-forward behind the clean-tree guard, entry 30 the ci.py read; stop, no wrap",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-11-15T12-35-39-implement",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I48 · copy message · message: the operator, 2026-11-15T12:35Z",
+"cite: inputs#I48"
+],
+"stderr": null,
+"wrote": [
+"inputs/I48-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I48",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, 2026-11-15T12:35Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "bb416f0a69e5ad6ba5445dd0e21afab708f0af41ab5bdfa6b5430224ff68880a",
+"copy": "I48-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-15T12:35:54Z",
+"step": "implement",
+"why": "the operator word for this run: v2-03 ref on entries 27 and 12 cleared by the founder words and the two overrides, then the operator pass - entry 28 hygiene, entry 29 the second pre-CI commit pushed fast-forward behind the clean-tree guard, entry 30 the ci.py read; stop, no wrap"
+}
+}
+]

@@ -1,0 +1,144 @@
+[
+{
+"tool": "gate",
+"v": "1.35",
+"sha8": "b204253f",
+"ts": "2026-11-15T11:38:52Z",
+"argv": [
+"scope",
+"--chunk",
+"2026-11-15-live-round-on-the-trimmed-product",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base 56c99714 (the parent of the oldest pre-CI commit 4c02d2af) · lists new 2 · modify 1 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"list .andromeda/cache/chunks/2026-11-15-live-round-on-the-trimmed-product/evidence/ (dir) ×0",
+"list target/live-round-screens/ (dir) ×0",
+"scope: clean — changed 1 · listed 1 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 376"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "56c997145c539f7dc08c4299c40f2160bb77dd74",
+"base_why": "the parent of the oldest pre-CI commit 4c02d2af",
+"counts": {
+"changed": 1,
+"listed": 1,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 376,
+"unparsed": 0,
+"widening_without_word": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.35",
+"sha8": "b204253f",
+"ts": "2026-11-15T11:41:10Z",
+"argv": [
+"census",
+"--comm",
+"viola-fake-agent",
+"--comm",
+"viola-mcp-tap",
+"--args",
+"viola-live",
+"--args",
+"viola-live-rehearsal",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"census · ps · comm viola-fake-agent, viola-mcp-tap · args viola-live, viola-live-rehearsal · own tree excluded: 8",
+"census: none running"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"census": {
+"comm": [
+"viola-fake-agent",
+"viola-mcp-tap"
+],
+"args": [
+"viola-live",
+"viola-live-rehearsal"
+],
+"running": []
+}
+}
+},
+{
+"tool": "gate",
+"v": "1.35",
+"sha8": "b204253f",
+"ts": "2026-11-15T11:44:35Z",
+"argv": [
+"scope",
+"--chunk",
+"2026-11-15-live-round-on-the-trimmed-product",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base 56c99714 (the parent of the oldest pre-CI commit 4c02d2af) · lists new 2 · modify 1 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"list .andromeda/cache/chunks/2026-11-15-live-round-on-the-trimmed-product/evidence/ (dir) ×0",
+"list target/live-round-screens/ (dir) ×0",
+"scope: clean — changed 1 · listed 1 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 388"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "56c997145c539f7dc08c4299c40f2160bb77dd74",
+"base_why": "the parent of the oldest pre-CI commit 4c02d2af",
+"counts": {
+"changed": 1,
+"listed": 1,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 388,
+"unparsed": 0,
+"widening_without_word": 0
+}
+}
+]
