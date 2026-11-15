@@ -248,6 +248,15 @@ mod test_capture {
         (tracing::subscriber::with_default(subscriber, f), captured)
     }
 
+    /// A short directory under `/tmp` for a test endpoint, never under `TMPDIR`: a long `TMPDIR`
+    /// pushes the socket path past `sun_path`.
+    pub(crate) fn socket_dir() -> tempfile::TempDir {
+        tempfile::Builder::new()
+            .prefix("vs-")
+            .tempdir_in("/tmp")
+            .expect("the socket dir")
+    }
+
     /// A test-owned endpoint outside the `viola-<h12>` namespace `viola run` binds.
     pub(crate) fn test_endpoint(dir: &Path, label: &str) -> String {
         let base = format!("viola-test-chan-{}-{label}", std::process::id());

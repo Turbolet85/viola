@@ -1,0 +1,131 @@
+# Step 8's controls: each guard removed in the tool's clone, its entry fired past fail-fast.
+
+[[control]]
+id = "i1-socket-root"
+entry = 5
+guard = "the socket root made under /tmp, not under TMPDIR (SocketRoot::new, which serve and the bound test take)"
+case = ["impostor_endpoint_fits_sun_path_at_the_widest_pid_and_label", "case_6_permission_impostor"]
+[[control.edit]]
+path = "tests/support/home.rs"
+old = '.tempdir_in("/tmp")'
+new = '.tempdir()'
+
+[[control]]
+id = "i3-within"
+entry = 7
+guard = "WITHIN strictly below the mutants profile's 15 s kill"
+case = "test_deadlines_sit_below_the_nextest_kill_line"
+[[control.edit]]
+path = "tests/support/watch.rs"
+old = 'Duration::from_secs(12);'
+new = 'Duration::from_secs(15);'
+
+[[control]]
+id = "i4-main-default"
+entry = 10
+guard = "main's own exit codes (survivor: main -> ExitCode::default())"
+case = ["hypr_tap_record_writes_the_five_replies_from_a_stub_hyprctl", "hypr_tap_refuses_each_malformed_argument_form_with_exit_2_and_writes_nothing"]
+[[control.edit]]
+path = "crates/viola-e2e/src/bin/viola-hypr-tap.rs"
+old = 'fn main() -> ExitCode {'
+new = 'fn main() -> ExitCode { return ExitCode::default();'
+
+[[control]]
+id = "i4-guard-true"
+entry = 10
+guard = "the argument guard (survivor: guard -> true)"
+case = "hypr_tap_refuses_each_malformed_argument_form_with_exit_2_and_writes_nothing"
+[[control.edit]]
+path = "crates/viola-e2e/src/bin/viola-hypr-tap.rs"
+old = 'if p == "--program" && o == "--out" =>'
+new = 'if true =>'
+
+[[control]]
+id = "i4-guard-false"
+entry = 10
+guard = "the argument guard (survivor: guard -> false)"
+case = "hypr_tap_record_writes_the_five_replies_from_a_stub_hyprctl"
+[[control.edit]]
+path = "crates/viola-e2e/src/bin/viola-hypr-tap.rs"
+old = 'if p == "--program" && o == "--out" =>'
+new = 'if false =>'
+
+[[control]]
+id = "i4-program-ne"
+entry = 10
+guard = "the --program word (survivor: == -> != at :41:41)"
+case = "hypr_tap_record_writes_the_five_replies_from_a_stub_hyprctl"
+[[control.edit]]
+path = "crates/viola-e2e/src/bin/viola-hypr-tap.rs"
+old = 'p == "--program"'
+new = 'p != "--program"'
+
+[[control]]
+id = "i4-and-or"
+entry = 10
+guard = "both flags required (survivor: && -> ||)"
+case = "hypr_tap_refuses_each_malformed_argument_form_with_exit_2_and_writes_nothing"
+[[control.edit]]
+path = "crates/viola-e2e/src/bin/viola-hypr-tap.rs"
+old = '"--program" && o'
+new = '"--program" || o'
+
+[[control]]
+id = "i4-out-ne"
+entry = 10
+guard = "the --out word (survivor: == -> != at :41:61)"
+case = "hypr_tap_record_writes_the_five_replies_from_a_stub_hyprctl"
+[[control.edit]]
+path = "crates/viola-e2e/src/bin/viola-hypr-tap.rs"
+old = 'o == "--out"'
+new = 'o != "--out"'
+
+[[control]]
+id = "i4-record-arm"
+entry = 10
+guard = "main's record arm (survivor: delete arm \"record\")"
+case = "hypr_tap_record_writes_the_five_replies_from_a_stub_hyprctl"
+[[control.edit]]
+path = "crates/viola-e2e/src/bin/viola-hypr-tap.rs"
+old = '"record" => record(&program),'
+new = ''
+
+[[control]]
+id = "i4-dispatch-arm"
+entry = 10
+guard = "main's record-dispatch arm (survivor: delete arm \"record-dispatch\")"
+case = "hypr_tap_record_dispatch_writes_the_focus_and_workspace_replies"
+[[control.edit]]
+path = "crates/viola-e2e/src/bin/viola-hypr-tap.rs"
+old = '"record-dispatch" => record_dispatch(&program),'
+new = ''
+
+[[control]]
+id = "i4-version-arm"
+entry = 10
+guard = "version_of's Version arm (survivor: delete arm Ok(Reply::Version(version)))"
+case = "hypr_tap_record_writes_the_five_replies_from_a_stub_hyprctl"
+[[control.edit]]
+path = "crates/viola-e2e/src/bin/viola-hypr-tap.rs"
+old = 'Ok(Reply::Version(version)) => Ok(version),'
+new = ''
+
+[[control]]
+id = "i4-texts-array"
+entry = 10
+guard = "texts' array arm (survivor: delete arm Value::Array(items))"
+case = "fault_reads_a_string_inside_an_array"
+[[control.edit]]
+path = "crates/viola-e2e/src/bin/viola-hypr-tap.rs"
+old = 'Value::Array(items) => items.iter().for_each(|v| texts(v, out)),'
+new = ''
+
+[[control]]
+id = "i5-vhome"
+entry = 11
+guard = "the record home named vhome, never home"
+case = "record_home_names_no_path_component_home"
+[[control.edit]]
+path = "tests/support/home.rs"
+old = 'with_file_name("vhome")'
+new = 'with_file_name("home")'

@@ -977,7 +977,7 @@ mod tests {
 
     #[test]
     fn bind_span_carries_the_endpoint_kind() {
-        let dir = tempfile::tempdir().expect("tempdir");
+        let dir = crate::test_capture::socket_dir();
         let endpoint = crate::test_capture::test_endpoint(dir.path(), "bind-span");
         let (server, got) = capture(|| Server::bind(&endpoint));
         server.expect("bound");
@@ -988,7 +988,7 @@ mod tests {
     /// Two binds of one endpoint: exactly one wins while it lives; the name is free once it drops.
     #[test]
     fn bind_of_a_live_endpoint_is_taken_until_it_drops() {
-        let dir = tempfile::tempdir().expect("tempdir");
+        let dir = crate::test_capture::socket_dir();
         let endpoint = crate::test_capture::test_endpoint(dir.path(), "arbiter");
         let first = Server::bind(&endpoint).expect("first bind");
         assert!(matches!(
@@ -1034,7 +1034,7 @@ mod tests {
         #[case] admitted: Admission,
         #[case] answered: bool,
     ) {
-        let dir = tempfile::tempdir().expect("tempdir");
+        let dir = crate::test_capture::socket_dir();
         let label = if answered { "admitted" } else { "refused" };
         let endpoint = crate::test_capture::test_endpoint(dir.path(), label);
         let dispatched = Arc::new(Dispatched::default());
@@ -1060,7 +1060,7 @@ mod tests {
     #[test]
     fn bind_takes_over_a_leftover_socket_file_and_makes_it_0600() {
         use std::os::unix::fs::PermissionsExt as _;
-        let dir = tempfile::tempdir().expect("tempdir");
+        let dir = crate::test_capture::socket_dir();
         let endpoint = crate::test_capture::test_endpoint(dir.path(), "leftover");
         std::fs::write(&endpoint, b"left by a crashed wrapper").expect("leftover");
         let _server = Server::bind(&endpoint).expect("taken over");

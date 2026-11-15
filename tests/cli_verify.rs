@@ -15,7 +15,9 @@ use std::path::{Path, PathBuf};
 use rstest::rstest;
 use serde_json::{Value, json};
 use support::fake::{self, of_kind};
-use support::home::{TestHome, home, workspace_path};
+use support::home::{
+    TestHome, home, names_a_home_component, record_home, resolved, workspace_path,
+};
 use support::hygiene::{check, has_username, load_schema};
 use support::verify::{
     CANARY, INPUT_BOX_ROW, Ran, TRUST_ROW, screen_rows, spine_payload, verify,
@@ -455,6 +457,39 @@ fn verify_stopped_during_the_resume_run_removes_its_dir_and_exits_1(
     assert!(role[16]["duration_ms"].is_u64(), "Run E's exit");
     assert_eq!(role[17]["exit_code"], 1);
     assert_eq!(role[17]["detail"], "interrupted");
+}
+
+/// A home given to `--record` holds no path component named `home` outside the user's own home,
+/// which the scrub rewrites to `~` (testing.md 2026-10-05).
+#[test]
+fn record_home_names_no_path_component_home() {
+    let user = Path::new("/home/u");
+    let cases = [
+        ("a home component", "/srv/x/home/ledger", true),
+        (
+            "a home component under the user home",
+            "/home/u/x/home",
+            true,
+        ),
+        ("vhome", "/srv/x/vhome", false),
+        ("homes", "/srv/x/homes", false),
+        (
+            "home only in the user home prefix",
+            "/home/u/x/vhome",
+            false,
+        ),
+    ];
+    for (label, path, holds) in cases {
+        assert_eq!(
+            names_a_home_component(Path::new(path), user),
+            holds,
+            "{label}"
+        );
+    }
+    let home = record_home();
+    let user_home = std::env::home_dir().expect("a user home");
+    assert_eq!(home.path().file_name(), Some("vhome".as_ref()));
+    assert!(!names_a_home_component(&resolved(home.path()), &user_home));
 }
 
 /// The texts the trusted run typed, in order, read from the fake agent's receipt: of `verify`'s

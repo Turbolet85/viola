@@ -1,0 +1,59 @@
+[
+{
+"tool": "cites",
+"v": "1.16",
+"sha8": "1fb6a1fc",
+"ts": "2026-11-15T19:44:34Z",
+"argv": [
+"added",
+"--out",
+".andromeda/runs/2026-11-15T19-17-33-implement/new-text.md",
+"--run-dir",
+".andromeda/runs/2026-11-15T19-17-33-implement",
+"--marker",
+"2026-11-15-mutation-and-coverage-baselines-green"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: 73b06303 — no pre-CI commit",
+".config/nextest.toml — added 9 line(s) in 3 range(s)",
+"crates/viola-channel/src/client.rs — added 4 line(s) in 4 range(s)",
+"crates/viola-channel/src/lib.rs — added 9 line(s) in 1 range(s)",
+"crates/viola-channel/src/server.rs — added 4 line(s) in 4 range(s)",
+"crates/viola-channel/src/tokio_client.rs — added 6 line(s) in 6 range(s)",
+"crates/viola-channel/tests/channel_frames.rs — added 12 line(s) in 4 range(s)",
+"crates/viola-e2e/src/bin/viola-hypr-tap.rs — added 6 line(s) in 1 range(s)",
+"crates/viola-e2e/src/harness/cleanup.rs — added 11 line(s) in 3 range(s)",
+"crates/viola-e2e/tests/hypr_tap.rs — new file · 191 line(s)",
+"src/cmd/client.rs — added 9 line(s) in 2 range(s)",
+"tests/cli_verify.rs — added 36 line(s) in 2 range(s)",
+"tests/cli_verify/runs.rs — added 3 line(s) in 3 range(s)",
+"tests/cli_verify/stamps.rs — added 5 line(s) in 3 range(s)",
+"tests/hook_fail_open.rs — added 24 line(s) in 7 range(s)",
+"tests/security_negatives_server_identity.rs — added 4 line(s) in 3 range(s)",
+"tests/support/home.rs — added 28 line(s) in 2 range(s)",
+"tests/support/watch.rs — added 5 line(s) in 1 range(s)",
+"new text: 17 file(s) · 1 new · 50 added range(s) · 366 line(s) · 39 block(s) → .andromeda/runs/2026-11-15T19-17-33-implement/new-text.md (77 lines) · written"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-15T19-17-33-implement/new-text.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"base": "73b06303cdff865bff2ae979df8ff8b3558b4f83",
+"counts": {
+"files": 17,
+"new": 1,
+"ranges": 50,
+"lines": 366,
+"blocks": 39
+},
+"out": ".andromeda/runs/2026-11-15T19-17-33-implement/new-text.md",
+"state": "written",
+"lines": 77
+}
+}
+]

@@ -135,7 +135,7 @@ mod tests {
 
     #[test]
     fn tokio_client_reads_each_reply_shape_and_counts_ids() {
-        let dir = tempfile::tempdir().expect("tempdir");
+        let dir = crate::test_capture::socket_dir();
         let endpoint = test_endpoint(dir.path(), "tokio-shapes");
         let _serving = Server::bind(&endpoint)
             .expect("bound")
@@ -167,7 +167,7 @@ mod tests {
 
     #[test]
     fn tokio_client_server_pid_is_the_serving_process() {
-        let dir = tempfile::tempdir().expect("tempdir");
+        let dir = crate::test_capture::socket_dir();
         let endpoint = test_endpoint(dir.path(), "tokio-server-pid");
         let _serving = Server::bind(&endpoint)
             .expect("bound")
@@ -183,7 +183,7 @@ mod tests {
 
     #[test]
     fn tokio_client_server_euid_is_this_user() {
-        let dir = tempfile::tempdir().expect("tempdir");
+        let dir = crate::test_capture::socket_dir();
         let endpoint = test_endpoint(dir.path(), "tokio-server-euid");
         let _serving = Server::bind(&endpoint)
             .expect("bound")
@@ -200,7 +200,7 @@ mod tests {
 
     #[test]
     fn tokio_client_connect_to_a_missing_endpoint_is_connect() {
-        let dir = tempfile::tempdir().expect("tempdir");
+        let dir = crate::test_capture::socket_dir();
         let endpoint = test_endpoint(dir.path(), "tokio-absent");
         let got = runtime().block_on(TokioClient::connect(&endpoint, "mcp"));
         let Err(ChannelError::Connect(e)) = got else {
@@ -229,7 +229,7 @@ mod tests {
 
     #[test]
     fn tokio_client_reads_a_peer_that_hangs_up_as_closed() {
-        let dir = tempfile::tempdir().expect("tempdir");
+        let dir = crate::test_capture::socket_dir();
         let endpoint = test_endpoint(dir.path(), "tokio-closed");
         let peer = raw_peer(&endpoint, None);
         let got = runtime().block_on(async {
@@ -244,7 +244,7 @@ mod tests {
 
     #[test]
     fn tokio_client_refuses_a_reply_over_the_frame_bound() {
-        let dir = tempfile::tempdir().expect("tempdir");
+        let dir = crate::test_capture::socket_dir();
         let endpoint = test_endpoint(dir.path(), "tokio-oversize");
         let cap = usize::try_from(MAX_FRAME).expect("fits");
         let peer = raw_peer(&endpoint, Some(vec![b'x'; cap + 1]));

@@ -301,7 +301,7 @@ mod tests {
     }
 
     fn served(label: &str) -> (tempfile::TempDir, String, crate::Serving) {
-        let dir = tempfile::tempdir().expect("tempdir");
+        let dir = crate::test_capture::socket_dir();
         let endpoint = test_endpoint(dir.path(), label);
         let serving = Server::bind(&endpoint).expect("bound").serve(Arc::new(Ids));
         (dir, endpoint, serving)
@@ -465,7 +465,7 @@ mod tests {
     /// and the connection carries the next request; its log line has no `corr`.
     #[test]
     fn client_notify_sends_one_unanswered_frame_and_keeps_the_connection() {
-        let dir = tempfile::tempdir().expect("tempdir");
+        let dir = crate::test_capture::socket_dir();
         let endpoint = test_endpoint(dir.path(), "notify");
         let recorder = Arc::new(Recorder::default());
         let _serving = Server::bind(&endpoint)
@@ -537,7 +537,7 @@ mod tests {
 
     #[test]
     fn client_connect_by_to_a_missing_endpoint_is_not_found() {
-        let dir = tempfile::tempdir().expect("tempdir");
+        let dir = crate::test_capture::socket_dir();
         let endpoint = test_endpoint(dir.path(), "absent-by");
         let until = Instant::now() + std::time::Duration::from_secs(1);
         let Err(ChannelError::Connect(e)) = Client::connect_by(&endpoint, "hook", until) else {
@@ -548,7 +548,7 @@ mod tests {
 
     #[test]
     fn client_connect_to_a_missing_endpoint_is_not_found() {
-        let dir = tempfile::tempdir().expect("tempdir");
+        let dir = crate::test_capture::socket_dir();
         let endpoint = test_endpoint(dir.path(), "absent");
         let Err(ChannelError::Connect(e)) = Client::connect(&endpoint, "cli") else {
             panic!("connected to nothing");

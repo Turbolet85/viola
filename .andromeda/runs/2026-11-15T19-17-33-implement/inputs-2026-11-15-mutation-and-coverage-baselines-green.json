@@ -1,0 +1,108 @@
+[
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "0528b2d4",
+"ts": "2026-11-15T19:34:11Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-15-mutation-and-coverage-baselines-green",
+"--message-file",
+".andromeda/runs/2026-11-15T19-17-33-implement/relay-1.md",
+"--origin",
+"the operator, relaying the overseer (AskUserQuestion answer)",
+"--kind",
+"relay",
+"--why",
+"fold the viola-channel sun_path red into this chunk as a widening: cfg(test) lines only, entry 15 re-worded via plan revision, workspace sweep of viola-test-chan- sockets under tempdir(), cold baseline re-fired",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-11-15T19-17-33-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy message · message: the operator, relaying the overseer (AskUserQuestion answer)",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, relaying the overseer (AskUserQuestion answer)",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "39e38198d9844c12163080e9f54f87d4728301b0b6fa8b11d23f932765a9e44a",
+"copy": "I4-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-15T19:34:07Z",
+"step": "implement",
+"why": "fold the viola-channel sun_path red into this chunk as a widening: cfg(test) lines only, entry 15 re-worded via plan revision, workspace sweep of viola-test-chan- sockets under tempdir(), cold baseline re-fired"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "0528b2d4",
+"ts": "2026-11-15T19:47:10Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-15-mutation-and-coverage-baselines-green",
+"--message-file",
+".andromeda/runs/2026-11-15T19-17-33-implement/relay-2.md",
+"--origin",
+"the operator, the overseer as delegate (AskUserQuestion answer)",
+"--kind",
+"relay",
+"--why",
+"hygiene P1 tmp row on p5-card-1.md:14 (/tmp/vs-* design glob) kept byte-for-byte and held on the word; fallback a respelled card line if rec.py land refuses",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-11-15T19-17-33-implement"
+],
+"cwd": ".",
+"exit": 5,
+"stdout": [
+"snapped I5 · copy message · message: the operator, the overseer as delegate (AskUserQuestion answer)",
+"cite: inputs#I5"
+],
+"stderr": "snapped, not landed: I5 stands in the working folder — exit 3 — 2026-11-15-mutation-and-coverage-baselines-green: inputs/andromeda-inputs.json:90 (tmp) holds a host path — `gate.py hygiene` refuses it; respell it and land again; nothing written; `rec.py check` holds it, `rec.py land --chunk 2026-11-15-mutation-and-coverage-baselines-green` lands it",
+"wrote": [
+"inputs/I5-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I5",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, the overseer as delegate (AskUserQuestion answer)",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "55740d384f2ac4493154070d088ebf9fce4b96df319130eda7785c25cd8522bc",
+"copy": "I5-relay-2.md.txt",
+"link": false,
+"read_at": "2026-11-15T19:47:10Z",
+"step": "implement",
+"why": "hygiene P1 tmp row on p5-card-1.md:14 (/tmp/vs-* design glob) kept byte-for-byte and held on the word; fallback a respelled card line if rec.py land refuses"
+}
+}
+]

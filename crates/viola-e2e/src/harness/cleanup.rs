@@ -366,6 +366,15 @@ mod tests {
         assert!(!parent.exists());
     }
 
+    /// A short directory under `/tmp` for a test endpoint, never under `TMPDIR`: a long `TMPDIR`
+    /// pushes the socket path past `sun_path`.
+    fn socket_dir() -> tempfile::TempDir {
+        tempfile::Builder::new()
+            .prefix("vs-")
+            .tempdir_in("/tmp")
+            .expect("the socket dir")
+    }
+
     /// A test-owned endpoint name, outside the `viola-<h12>` namespace `viola run` binds.
     fn test_endpoint(dir: &Path, label: &str) -> String {
         let base = format!("viola-test-chan-{}-{label}", std::process::id());
@@ -376,7 +385,7 @@ mod tests {
 
     #[test]
     fn unconnectable_is_true_only_once_nothing_listens() {
-        let tmp = tempfile::tempdir().expect("tempdir");
+        let tmp = socket_dir();
         let endpoint = test_endpoint(tmp.path(), "gone");
         assert!(unconnectable(&endpoint));
         let server = viola_channel::Server::bind(&endpoint).expect("bound");
@@ -389,7 +398,7 @@ mod tests {
     #[cfg(unix)]
     #[test]
     fn unconnectable_reads_a_leftover_socket_file_no_one_listens_on() {
-        let tmp = tempfile::tempdir().expect("tempdir");
+        let tmp = socket_dir();
         let endpoint = test_endpoint(tmp.path(), "leftover");
         let listener = std::os::unix::net::UnixListener::bind(&endpoint).expect("bound");
         assert!(!unconnectable(&endpoint));

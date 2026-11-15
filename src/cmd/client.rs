@@ -349,7 +349,11 @@ pub(crate) mod refused_inside {
         span: &'static str,
         request: impl FnOnce(&LiveEndpoint) -> Result<Value, CallError>,
     ) {
-        let dir = tempfile::tempdir().expect("the socket dir");
+        // Under `/tmp`, never `TMPDIR`: a long `TMPDIR` pushes the path past `sun_path`.
+        let dir = tempfile::Builder::new()
+            .prefix("vs-")
+            .tempdir_in("/tmp")
+            .expect("the socket dir");
         // A bare temp dir is left to the umask, and a client refuses a socket directory it can read.
         viola_state::fs::create_private_dir(dir.path()).expect("the socket dir, private");
         let base = format!("viola-test-chan-{}-{span}", std::process::id());
@@ -573,7 +577,10 @@ mod tests {
             }
         }
 
-        let tmp = tempfile::tempdir().expect("tempdir");
+        let tmp = tempfile::Builder::new()
+            .prefix("vs-")
+            .tempdir_in("/tmp")
+            .expect("tempdir");
         let dir = tmp.path().join("sockets");
         viola_state::fs::create_private_dir(&dir).expect("the socket dir");
         let endpoint = dir

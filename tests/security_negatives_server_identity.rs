@@ -17,7 +17,7 @@ use serde_json::{Value, json};
 use support::cli::viola;
 use support::digits::digit_runs;
 use support::fake::FAKE;
-use support::home::TestHome;
+use support::home::{SocketRoot, TestHome};
 use viola_channel::{Dispatch, ProtocolError, Server, Serving};
 use viola_state::snapshot::{InstanceSnapshot, Wheel, write_snapshot};
 
@@ -82,7 +82,7 @@ struct Served {
     home: TestHome,
     endpoint: String,
     frames: Arc<Frames>,
-    _socket_dir: tempfile::TempDir,
+    _socket_dir: SocketRoot,
     _serving: Serving,
 }
 
@@ -90,7 +90,8 @@ fn served(label: &str, recorded: u32) -> Served {
     let home = TestHome::new();
     let instance = home.path().join("instances").join("builder");
     crate::support::home::private_dir(&instance, "the instance dir");
-    let socket_dir = tempfile::tempdir().expect("the socket dir");
+    // Under `/tmp`, never `TMPDIR`: a long `TMPDIR` pushes the path past `sun_path`.
+    let socket_dir = SocketRoot::new();
     // A bare temp dir is left to the umask, and a client refuses a socket directory it can read.
     crate::support::home::private_dir(socket_dir.path(), "the socket dir, private");
     let base = format!("viola-test-chan-{}-{label}", std::process::id());

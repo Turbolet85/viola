@@ -422,6 +422,12 @@ mod tests {
     }
 
     #[test]
+    fn fault_reads_a_string_inside_an_array() {
+        let doc = json!({"stdout": ["clean", "a.b@example.com"]});
+        assert_eq!(fault(&doc, "/srv/h/plantuser", "plantuser"), Some("email"));
+    }
+
+    #[test]
     fn write_set_writes_each_file_0600_in_a_0700_dir() {
         let tmp = tempfile::tempdir().expect("tempdir");
         let dir = tmp.path().join("0.56.2");

@@ -19,7 +19,7 @@ use std::time::{Duration, Instant};
 
 use rstest::rstest;
 use serde_json::{Value, json};
-use support::home::{StampedHome, TestHome, VIOLA, Wrapper, workspace_path};
+use support::home::{SocketRoot, StampedHome, TestHome, VIOLA, Wrapper, workspace_path};
 use support::hygiene::load_schema;
 
 /// test-plan §10's provisional spine gate, asserted at unit speed on one process.
@@ -182,8 +182,15 @@ impl viola_channel::Dispatch for Frames {
 struct Impostor {
     frames: std::sync::Arc<Frames>,
     _serving: viola_channel::Serving,
-    _socket_dir: tempfile::TempDir,
+    _socket_root: SocketRoot,
     _held: Held,
+}
+
+/// The impostor's endpoint in `dir`, its name the registered test spelling.
+fn impostor_endpoint(dir: &Path, pid: u32, label: &str) -> String {
+    dir.join(format!("viola-test-chan-{pid}-{label}.sock"))
+        .to_string_lossy()
+        .into_owned()
 }
 
 impl Impostor {
@@ -199,15 +206,11 @@ impl Impostor {
         );
         let instance = home.join("instances").join("builder");
         crate::support::home::private_dir(&instance, "the instance dir");
-        let socket_dir = tempfile::tempdir().expect("the socket dir");
+        // Under `/tmp`, never `TMPDIR`: a long `TMPDIR` pushes the path past `sun_path`.
+        let socket_root = SocketRoot::new();
         // A bare temp dir is left to the umask, and a client refuses a socket directory it can read.
-        crate::support::home::private_dir(socket_dir.path(), "the socket dir, private");
-        let base = format!("viola-test-chan-{}-{label}", std::process::id());
-        let endpoint = socket_dir
-            .path()
-            .join(format!("{base}.sock"))
-            .to_string_lossy()
-            .into_owned();
+        crate::support::home::private_dir(socket_root.path(), "the socket dir, private");
+        let endpoint = impostor_endpoint(socket_root.path(), std::process::id(), label);
         let frames = std::sync::Arc::new(Frames::default());
         let serving = viola_channel::Server::bind(&endpoint)
             .expect("bound")
@@ -233,7 +236,7 @@ impl Impostor {
         Self {
             frames,
             _serving: serving,
-            _socket_dir: socket_dir,
+            _socket_root: socket_root,
             _held: held,
         }
     }
@@ -241,6 +244,16 @@ impl Impostor {
     fn frames(&self) -> Vec<String> {
         self.frames.0.lock().expect("frames").clone()
     }
+}
+
+/// The widest endpoint any case binds — Linux's largest pid (`PID_MAX_LIMIT` − 1) and the longest
+/// label, `permission-request` — fits `sun_path`'s 107 usable bytes whatever `TMPDIR` holds.
+#[test]
+fn impostor_endpoint_fits_sun_path_at_the_widest_pid_and_label() {
+    let root = SocketRoot::new();
+    crate::support::home::private_dir(root.path(), "the socket dir, private");
+    let endpoint = impostor_endpoint(root.path(), 4_194_303, "permission-request");
+    assert!(endpoint.len() <= 107, "{} bytes", endpoint.len());
 }
 
 #[derive(Clone, Copy, Debug)]

@@ -27,10 +27,15 @@ slow-timeout = { period = "10s", terminate-after = 2 }
 # The first failure stops scheduling, and the tests already running finish, so their temp dirs and
 # session guards drop (an immediate kill leaked one per killed test). A mutant that hangs a test must
 # still end as a failed (caught) test, not a cargo-mutants timeout: cargo-mutants' auto timeout floors
-# at 20 s, so every in-test wait and this kill (10 s) stay below it — at or above it, a hang grades Timeout.
+# at 20 s, so every in-test wait and this kill (15 s) stay below it — at or above it, a hang grades Timeout.
+# The kill moved from 10 s to 15 s for a designed floor: every stamped-home test runs `viola verify`
+# against the fake agent before its own work, 6.0-7.3 s warm and over 10 s in a cold parallel
+# baseline, and that class is the root package's default population, so a per-class override list
+# would miss the next stamped-home binary. This departs from the earlier line that a kill moves only
+# with its class, never by raising the default, on the operator's answer.
 [profile.mutants]
 fail-fast = { max-fail = 1, terminate = "wait" }
-slow-timeout = { period = "5s", terminate-after = 2 }
+slow-timeout = { period = "5s", terminate-after = 3 }
 
 # A `verify_window_` test waits out the gate's 8.5 s maximum wait four times by design (no screen
 # replayed: the untrusted, trusted, dialog and plan runs) plus Run E: measured 43.078 s on ubuntu
@@ -54,8 +59,8 @@ filter = 'test(/send_window_/)'
 slow-timeout = { period = "15s", terminate-after = 2 }
 
 # A `send_under_the_paste_hint_` test waits out the product's gate (its 8.5 s maximum wait) under a
-# held paste hint by design: 8.7-9.9 s under `ci` (ci#39383206773), against the 10 s default
-# kill. It takes the `send_window_` class's kill.
+# held paste hint by design: 8.7-9.9 s under `ci` (ci#39383206773), under the 10 s default
+# kill it then had, now 15 s. It takes the `send_window_` class's kill.
 [[profile.mutants.overrides]]
 filter = 'test(/send_under_the_paste_hint_/)'
 slow-timeout = { period = "15s", terminate-after = 2 }

@@ -3,7 +3,7 @@ use super::*;
 /// A recorded screen keeps only its signature rows: the cwd, the status line and every other row
 /// are written `""`.
 #[rstest]
-fn verify_record_screens_keep_only_signature_rows(#[from(home)] home: TestHome) {
+fn verify_record_screens_keep_only_signature_rows(#[from(record_home)] home: TestHome) {
     write_spine_set(&fixtures(&home), "2.1.0", None);
     let busy = screen_rows(&[
         (3, "  ~/work/.viola-verify-7"),
@@ -55,7 +55,7 @@ fn verify_record_screens_keep_only_signature_rows(#[from(home)] home: TestHome) 
 #[case::email("email", "row 23 email")]
 #[case::username_split_at_a_seam("seam", "row 23 seam username")]
 fn verify_record_refuses_a_dirty_kept_row(
-    #[from(home)] home: TestHome,
+    #[from(record_home)] home: TestHome,
     #[case] dirt: &str,
     #[case] named: &str,
 ) {
@@ -483,7 +483,7 @@ fn verify_window_paste_hint_past_the_gate_maximum_still_stamps(#[from(home)] hom
 /// A path nested inside a dialog payload's `tool_input` survives the scrub: the whole recording is
 /// refused, naming the variant file and the check, never the path.
 #[rstest]
-fn verify_record_refuses_a_nested_path_in_a_dialog_payload(#[from(home)] home: TestHome) {
+fn verify_record_refuses_a_nested_path_in_a_dialog_payload(#[from(record_home)] home: TestHome) {
     write_spine_set(&fixtures(&home), "2.1.0", None);
     let dirty = support::verify::tool_payload(
         "PreToolUse",

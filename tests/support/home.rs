@@ -233,6 +233,20 @@ impl TestHome {
         tmp
     }
 
+    /// A home for `viola verify --record`, at `<scratch>/vhome`: the print probe's cwd sits under
+    /// the home, the scrub rewrites only the user's own home to `~`, and fixture hygiene refuses any
+    /// surviving `/home/` component as `absolute-path` (testing.md 2026-10-05).
+    pub fn for_record() -> Self {
+        let mut tmp = Self::new();
+        tmp.home = tmp.home.with_file_name("vhome");
+        let user_home = std::env::home_dir().expect("a user home");
+        assert!(
+            !names_a_home_component(&resolved(&tmp.home), &user_home),
+            "a record home holds a path component named home"
+        );
+        tmp
+    }
+
     pub fn path(&self) -> &Path {
         &self.home
     }
@@ -318,6 +332,20 @@ pub fn workspace_path(rel: &str) -> PathBuf {
 #[fixture]
 pub fn home() -> TestHome {
     TestHome::new()
+}
+
+/// A home given to `viola verify --record`: `TestHome::for_record`.
+#[fixture]
+pub fn record_home() -> TestHome {
+    TestHome::for_record()
+}
+
+/// Whether `path`, the user's own home prefix removed, holds a component named exactly `home`.
+pub fn names_a_home_component(path: &Path, user_home: &Path) -> bool {
+    path.strip_prefix(user_home)
+        .unwrap_or(path)
+        .components()
+        .any(|c| c.as_os_str() == "home")
 }
 
 #[fixture]

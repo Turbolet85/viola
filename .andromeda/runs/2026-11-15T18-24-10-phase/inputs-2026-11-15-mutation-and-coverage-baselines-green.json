@@ -1,0 +1,250 @@
+[
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "0528b2d4",
+"ts": "2026-11-15T18:25:42Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-15-mutation-and-coverage-baselines-green",
+"--source",
+"~/dev/projects/additional/viola-overseer/phase-baselines-green-directive.md",
+"--kind",
+"relay",
+"--why",
+"the overseer phase directive for this chunk: test-only, no mutation or coverage run as acceptance, no live claude start, the proofs the chunk owes and the P5 card block",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-11-15T18-24-10-phase",
+"--marker",
+"2026-11-15-mutation-and-coverage-baselines-green"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy no-repo · ../additional/viola-overseer/phase-baselines-green-directive.md",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-phase-baselines-green-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/phase-baselines-green-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "e99f49bd9f1f92f63103291d91abf698b482e98611293765184b8a94b8a54583",
+"copy": "I1-phase-baselines-green-directive.md.txt",
+"link": false,
+"read_at": "2026-11-15T18:25:41Z",
+"step": "phase:P1",
+"why": "the overseer phase directive for this chunk: test-only, no mutation or coverage run as acceptance, no live claude start, the proofs the chunk owes and the P5 card block"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "0528b2d4",
+"ts": "2026-11-15T19:00:09Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-15-mutation-and-coverage-baselines-green",
+"--message-file",
+".andromeda/runs/2026-11-15T18-24-10-phase/relay-1.md",
+"--origin",
+"the operator, relaying the overseer (delegate), question dialog 2026-11-15",
+"--kind",
+"relay",
+"--why",
+"the two P4 fork answers: raise the mutants default kill to 15 s and WITHIN to 12 s with a planted-hang pair and a cold-baseline measurement; the in-repo record-home helper with the live half carried",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-11-15T18-24-10-phase",
+"--marker",
+"2026-11-15-mutation-and-coverage-baselines-green"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy message · message: the operator, relaying the overseer (delegate), question dialog 2026-11-15",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, relaying the overseer (delegate), question dialog 2026-11-15",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "a58eaad4e9baea20114b37f3f344141546e7bdd585477a21dd00366c60c7131a",
+"copy": "I2-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-15T19:00:09Z",
+"step": "phase:P4",
+"why": "the two P4 fork answers: raise the mutants default kill to 15 s and WITHIN to 12 s with a planted-hang pair and a cold-baseline measurement; the in-repo record-home helper with the live half carried"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "0528b2d4",
+"ts": "2026-11-15T19:06:52Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-15-mutation-and-coverage-baselines-green",
+"--run-dir",
+".andromeda/runs/2026-11-15T18-24-10-phase",
+"--marker",
+"2026-11-15-mutation-and-coverage-baselines-green"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-baselines-green-directive.md",
+"I1 cited scope.md:60 · research.md:7 · plan.md:18 · plan.md:32 · plan.md:100 · plan.md:145 · plan.md:149 · plan.md:250 (in fence) · plan.md:258 (in fence) · plan.md:341 · plan.md:363",
+"I2 n/a — a message has no live source · copy message · message: the operator, relaying the overseer (delegate), question dialog 2026-11-15",
+"I2 cited research.md:57 · research.md:58 · plan.md:20 · plan.md:28 · plan.md:54 · plan.md:118 · plan.md:126 · plan.md:241 (in fence) · plan.md:312 · plan.md:341 · plan.md:349 · plan.md:353 · plan.md:373",
+"inputs: 2 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "0528b2d4",
+"ts": "2026-11-15T19:12:49Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-15-mutation-and-coverage-baselines-green",
+"--run-dir",
+".andromeda/runs/2026-11-15T18-24-10-phase",
+"--marker",
+"2026-11-15-mutation-and-coverage-baselines-green"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-baselines-green-directive.md",
+"I1 cited scope.md:60 · research.md:7 · plan.md:18 · plan.md:32 · plan.md:100 · plan.md:146 · plan.md:150 · plan.md:267 (in fence) · plan.md:276 (in fence) · plan.md:363 · plan.md:385",
+"I2 n/a — a message has no live source · copy message · message: the operator, relaying the overseer (delegate), question dialog 2026-11-15",
+"I2 cited research.md:57 · research.md:58 · plan.md:20 · plan.md:28 · plan.md:54 · plan.md:119 · plan.md:127 · plan.md:258 (in fence) · plan.md:334 · plan.md:363 · plan.md:371 · plan.md:375 · plan.md:395",
+"inputs: 2 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "0528b2d4",
+"ts": "2026-11-15T19:14:16Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-15-mutation-and-coverage-baselines-green",
+"--message-file",
+".andromeda/runs/2026-11-15T18-24-10-phase/relay-2.md",
+"--origin",
+"the operator, own word, 2026-11-15",
+"--kind",
+"relay",
+"--why",
+"the P5 word on .andromeda/runs/2026-11-15T18-24-10-phase/p5-card-1.md (operator): yes, the plan as carded (rev 4) and the one Carry-forward to Standing live rig with a screen model; start nothing after the phase",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-11-15T18-24-10-phase",
+"--marker",
+"2026-11-15-mutation-and-coverage-baselines-green"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy message · message: the operator, own word, 2026-11-15",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, own word, 2026-11-15",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "08dbaccb619caa160f6329e15e2b120b68f224ce7b5b876a1ccbbe7c91c4d411",
+"copy": "I3-relay-2.md.txt",
+"link": false,
+"read_at": "2026-11-15T19:14:16Z",
+"step": "phase:P5",
+"why": "the P5 word on .andromeda/runs/2026-11-15T18-24-10-phase/p5-card-1.md (operator): yes, the plan as carded (rev 4) and the one Carry-forward to Standing live rig with a screen model; start nothing after the phase"
+}
+}
+]

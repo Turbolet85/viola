@@ -9,9 +9,11 @@ use std::io::Write as _;
 use std::path::PathBuf;
 use std::time::{Duration, Instant};
 
-/// Strictly below the nextest `mutants` profile's 10 s kill, so a stuck wait fails the test itself
-/// with the report in its message, before the runner kills it and loses that dump.
-pub const WITHIN: Duration = Duration::from_secs(7);
+/// Strictly below the nextest `mutants` profile's 15 s kill, so a stuck wait fails the test itself
+/// with the report in its message, before the runner kills it and loses that dump. One wait can span
+/// a whole `viola verify` (the print probe and Runs A to E, over 6 s under coverage instrumentation),
+/// so the bound keeps a margin above that floor as well as below the kill.
+pub const WITHIN: Duration = Duration::from_secs(12);
 
 pub struct Watch {
     report: PathBuf,

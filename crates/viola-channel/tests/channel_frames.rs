@@ -24,6 +24,15 @@ impl Dispatch for Echo {
     }
 }
 
+/// A short directory under `/tmp` for a test endpoint, never under `TMPDIR`: a long `TMPDIR`
+/// pushes the socket path past `sun_path`.
+fn socket_dir() -> tempfile::TempDir {
+    tempfile::Builder::new()
+        .prefix("vs-")
+        .tempdir_in("/tmp")
+        .expect("the socket dir")
+}
+
 /// A test-owned endpoint, outside the `viola-<h12>` namespace `viola run` binds.
 fn serve(dir: &std::path::Path, label: &str) -> (String, Serving) {
     let base = format!("viola-test-chan-{}-{label}", std::process::id());
@@ -66,7 +75,7 @@ fn request_of(len: usize) -> Vec<u8> {
 #[case::one_under(MAX_FRAME - 1)]
 #[case::at_the_bound(MAX_FRAME)]
 fn channel_frame_up_to_the_bound_is_answered(#[case] len: usize) {
-    let dir = tempfile::tempdir().expect("tempdir");
+    let dir = socket_dir();
     let (endpoint, _serving) = serve(dir.path(), &format!("f{len}"));
     let mut stream = raw(&endpoint);
     let reply = send(&mut stream, &request_of(len));
@@ -81,7 +90,7 @@ fn channel_frame_up_to_the_bound_is_answered(#[case] len: usize) {
 /// close (EPIPE or ENOTCONN on the write); the reply must still be there.
 #[test]
 fn channel_frame_one_byte_over_is_refused_and_closed() {
-    let dir = tempfile::tempdir().expect("tempdir");
+    let dir = socket_dir();
     let (endpoint, _serving) = serve(dir.path(), "over");
     let mut stream = raw(&endpoint);
     match stream.get_mut().write_all(&request_of(MAX_FRAME + 1)) {
@@ -112,7 +121,7 @@ fn channel_frame_one_byte_over_is_refused_and_closed() {
 
 #[test]
 fn channel_frame_not_json_is_a_parse_error_and_the_connection_stays() {
-    let dir = tempfile::tempdir().expect("tempdir");
+    let dir = socket_dir();
     let (endpoint, _serving) = serve(dir.path(), "parse");
     let mut stream = raw(&endpoint);
     let reply = send(&mut stream, b"{not json\n");

@@ -292,7 +292,7 @@ fn verify_under_a_regular_file_prints_only_the_internal_error_line(#[from(home)]
 /// With `VIOLA_NAME` the run logs to `cli-<name>.ndjson`; a failing `--record` write is a dispatch
 /// error whose chain lands only in the instance detail file.
 #[rstest]
-fn verify_dispatch_error_keeps_the_chain_in_the_detail_file(#[from(home)] home: TestHome) {
+fn verify_dispatch_error_keeps_the_chain_in_the_detail_file(#[from(record_home)] home: TestHome) {
     write_spine_set(&fixtures(&home), "2.1.0", None);
     let blocker = home.scratch().join("blocker");
     fs::write(&blocker, b"x").expect("a file where the record dir should be");
@@ -442,7 +442,9 @@ fn verify_with_an_instance_logs_its_eight_spawn_pairs(#[from(home)] home: TestHo
 }
 
 #[rstest]
-fn verify_record_writes_the_scrubbed_spine_variants_and_screens(#[from(home)] home: TestHome) {
+fn verify_record_writes_the_scrubbed_spine_variants_and_screens(
+    #[from(record_home)] home: TestHome,
+) {
     let user_home = std::env::home_dir().expect("a user home");
     let user = user_of(&user_home);
     personal_set(&fixtures(&home), &user_home, &user, None);
@@ -566,7 +568,7 @@ fn verify_record_writes_the_scrubbed_spine_variants_and_screens(#[from(home)] ho
 }
 
 #[rstest]
-fn verify_record_refuses_a_path_outside_the_home(#[from(home)] home: TestHome) {
+fn verify_record_refuses_a_path_outside_the_home(#[from(record_home)] home: TestHome) {
     let user_home = std::env::home_dir().expect("a user home");
     let user = user_of(&user_home);
     personal_set(
