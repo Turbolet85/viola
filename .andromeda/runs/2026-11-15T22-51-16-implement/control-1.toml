@@ -1,0 +1,65 @@
+[[control]]
+id = 'registration'
+entry = 8
+guard = 'the StopFailure registration in plugin/hooks/hooks.json'
+case = 'path5_an_api_error_turn_end_clears_the_turn_with_no_pause_or_release'
+
+[[control.edit]]
+path = 'plugin/hooks/hooks.json'
+old = '''
+    "StopFailure": [
+      {"hooks": [{"type": "command", "command": "@@VIOLA_BIN@@", "args": ["hook", "stop-failure"], "timeout": 5}]}
+    ],'''
+new = ''
+
+[[control]]
+id = 'text-drop'
+entry = 4
+guard = 'the StopFailure arm dropping last_assistant_message at the parse'
+case = 'stop_failure_turn_end_carries_api_error_and_no_error_text'
+
+[[control.edit]]
+path = 'crates/viola-agent-claude/src/hook.rs'
+old = '''
+        HookEvent::StopFailure => json!({
+            "last_assistant_message": null,'''
+new = '''
+        HookEvent::StopFailure => json!({
+            "last_assistant_message": known.last_assistant_message,'''
+
+[[control]]
+id = 'text-drop-e2e'
+entry = 7
+guard = 'the StopFailure arm dropping last_assistant_message at the parse'
+case = 'hook_stop_failure_error_text_reaches_no_event_line_or_snapshot'
+
+[[control.edit]]
+path = 'crates/viola-agent-claude/src/hook.rs'
+old = '''
+        HookEvent::StopFailure => json!({
+            "last_assistant_message": null,'''
+new = '''
+        HookEvent::StopFailure => json!({
+            "last_assistant_message": known.last_assistant_message,'''
+
+[[control]]
+id = 'revalidation'
+entry = 5
+guard = "the wrapper's turn-ended cause re-validation in hook_event_line"
+case = 'run_hook_event_turn_ended_with_a_cause_outside_the_closed_set_is_not_appended'
+
+[[control.edit]]
+path = 'src/cmd/run.rs'
+old = 'if kind == EventKind::TurnEnded && !cause_ok {'
+new = 'if kind == EventKind::TurnEnded && !cause_ok && false {'
+
+[[control]]
+id = 'data-keys'
+entry = 4
+guard = "cause in TurnEnded's data_keys"
+case = 'state_events_background_tasks_and_option_details_are_known_keys'
+
+[[control.edit]]
+path = 'crates/viola-core/src/lib.rs'
+old = 'Self::TurnEnded => &["last_assistant_message", "background_tasks", "cause"],'
+new = 'Self::TurnEnded => &["last_assistant_message", "background_tasks"],'

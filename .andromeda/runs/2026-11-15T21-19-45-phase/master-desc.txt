@@ -1,0 +1,1 @@
+API-error turn end — a turn the CLI ends on an API error logged as `turn-ended` with a closed cause code, never the error text; the instance idle, the next send accepted

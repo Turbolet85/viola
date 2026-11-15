@@ -1,0 +1,208 @@
+[
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "0150035c",
+"ts": "2026-11-15T21:22:00Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-15-api-error-turn-end",
+"--source",
+"~/dev/projects/additional/viola-overseer/phase-api-error-turn-end-directive.md",
+"--kind",
+"relay",
+"--why",
+"the overseer phase directive: no live-start cap given, no mutation run, folds at the phase, closed cause set, card contents",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-11-15T21-19-45-phase",
+"--marker",
+"2026-11-15-api-error-turn-end"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy no-repo · ../additional/viola-overseer/phase-api-error-turn-end-directive.md",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-phase-api-error-turn-end-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/phase-api-error-turn-end-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "6c4fad339a8dbed15d5e7b9bc16f4bc43346b85d3e7507ddc709e2e9c631dcbe",
+"copy": "I1-phase-api-error-turn-end-directive.md.txt",
+"link": false,
+"read_at": "2026-11-15T21:21:59Z",
+"step": "phase:P1",
+"why": "the overseer phase directive: no live-start cap given, no mutation run, folds at the phase, closed cause set, card contents"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "0150035c",
+"ts": "2026-11-15T22:02:31Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-15-api-error-turn-end",
+"--message-file",
+".andromeda/runs/2026-11-15T21-19-45-phase/relay-1.md",
+"--kind",
+"relay",
+"--origin",
+"the overseer (delegate), on the founder word of 2026-11-15T21:54:53Z",
+"--why",
+"P4 forks answered PROVISIONAL: live-start cap 2 (one scratch StopFailure reading, a second only on no StopFailure), no ledger row, cause one word api-error on API-error ends only",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-11-15T21-19-45-phase",
+"--marker",
+"2026-11-15-api-error-turn-end"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy message · message: the overseer (delegate), on the founder word of 2026-11-15T21:54:53Z",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "message: the overseer (delegate), on the founder word of 2026-11-15T21:54:53Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "c887e1b8a719c690632043966093de91cfed0de4e4b185575d12b3030e27e173",
+"copy": "I2-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-15T22:02:31Z",
+"step": "phase:P4",
+"why": "P4 forks answered PROVISIONAL: live-start cap 2 (one scratch StopFailure reading, a second only on no StopFailure), no ledger row, cause one word api-error on API-error ends only"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "0150035c",
+"ts": "2026-11-15T22:15:09Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-15-api-error-turn-end",
+"--run-dir",
+".andromeda/runs/2026-11-15T21-19-45-phase",
+"--marker",
+"2026-11-15-api-error-turn-end"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-api-error-turn-end-directive.md",
+"I1 cited scope.md:26 · scope.md:47 · scope.md:56 · scope.md:68 · research.md:6 · research.md:10 · research.md:90 · research.md:96 · plan.md:9 · plan.md:22 · plan.md:32 · plan.md:150 · plan.md:195 · plan.md:205 · plan.md:375 · plan.md:404",
+"I2 n/a — a message has no live source · copy message · message: the overseer (delegate), on the founder word of 2026-11-15T21:54:53Z",
+"I2 cited research.md:158 · research.md:167 · plan.md:9 · plan.md:13 · plan.md:29 · plan.md:35 · plan.md:42 · plan.md:83 · plan.md:197 · plan.md:363 · plan.md:383 · plan.md:404 · plan.md:409 · plan.md:411 · plan.md:415 · plan.md:424 · plan.md:453",
+"inputs: 2 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "0150035c",
+"ts": "2026-11-15T22:17:18Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-15-api-error-turn-end",
+"--message-file",
+".andromeda/runs/2026-11-15T21-19-45-phase/relay-2.md",
+"--kind",
+"relay",
+"--origin",
+"the overseer (delegate), the P5 word",
+"--why",
+"the P5 word yes on .andromeda/runs/2026-11-15T21-19-45-phase/p5-card-1.md (delegate overseer): plan rev 4, claim matrix#v2-16 as previewed, the CARRY onto The 2.1.325 recorded fixture set; F1 and F2 stay PROVISIONAL",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-11-15T21-19-45-phase",
+"--marker",
+"2026-11-15-api-error-turn-end"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy message · message: the overseer (delegate), the P5 word",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "message: the overseer (delegate), the P5 word",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "1051c01295c672bcaa2795561f020accdb259a5e72a7fe369dcba0903ec4cc3d",
+"copy": "I3-relay-2.md.txt",
+"link": false,
+"read_at": "2026-11-15T22:17:18Z",
+"step": "phase:P5",
+"why": "the P5 word yes on .andromeda/runs/2026-11-15T21-19-45-phase/p5-card-1.md (delegate overseer): plan rev 4, claim matrix#v2-16 as previewed, the CARRY onto The 2.1.325 recorded fixture set; F1 and F2 stay PROVISIONAL"
+}
+}
+]

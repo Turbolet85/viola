@@ -8,7 +8,7 @@ use serde::Deserialize;
 use serde::de::IgnoredAny;
 use serde_json::{Value, json};
 use veil::Redact;
-use viola_core::EventKind;
+use viola_core::{EventKind, TurnEndCause};
 
 use crate::AgentError;
 
@@ -19,6 +19,7 @@ pub enum HookEvent {
     SessionStart,
     UserPromptSubmit,
     Stop,
+    StopFailure,
     SessionEnd,
     Notification,
     PostToolUse,
@@ -28,10 +29,11 @@ pub enum HookEvent {
 }
 
 impl HookEvent {
-    pub const ALL: [Self; 9] = [
+    pub const ALL: [Self; 10] = [
         Self::SessionStart,
         Self::UserPromptSubmit,
         Self::Stop,
+        Self::StopFailure,
         Self::SessionEnd,
         Self::Notification,
         Self::PostToolUse,
@@ -46,6 +48,7 @@ impl HookEvent {
             Self::SessionStart => "session-start",
             Self::UserPromptSubmit => "user-prompt-submit",
             Self::Stop => "stop",
+            Self::StopFailure => "stop-failure",
             Self::SessionEnd => "session-end",
             Self::Notification => "notification",
             Self::PostToolUse => "post-tool-use",
@@ -70,7 +73,7 @@ impl HookEvent {
         match self {
             Self::SessionStart => Some(EventKind::SessionStart),
             Self::UserPromptSubmit => Some(EventKind::PromptSubmitted),
-            Self::Stop => Some(EventKind::TurnEnded),
+            Self::Stop | Self::StopFailure => Some(EventKind::TurnEnded),
             Self::SessionEnd => Some(EventKind::SessionEnd),
             Self::Notification | Self::PostToolUse | Self::PostToolUseFailure => {
                 Some(EventKind::Activity)
@@ -109,6 +112,9 @@ struct Known {
     background_tasks: Option<Vec<IgnoredAny>>,
     #[serde(default)]
     tool_name: Option<String>,
+    /// StopFailure's error word: read only to classify, never copied.
+    #[serde(default)]
+    error: Option<String>,
 }
 
 const SESSION_CAUSES: [&str; 4] = ["startup", "clear", "resume", "compact"];
@@ -176,6 +182,14 @@ fn data_of(event: HookEvent, known: Known) -> Value {
             "last_assistant_message": known.last_assistant_message,
             "background_tasks": known.background_tasks.map(|tasks| tasks.len()),
         }),
+        // The payload's `last_assistant_message` is the API error's text here, and
+        // `error_details` is never declared: neither crosses (security-plan, upstream text is
+        // content).
+        HookEvent::StopFailure => json!({
+            "last_assistant_message": null,
+            "background_tasks": null,
+            "cause": TurnEndCause::ApiError.as_str(),
+        }),
         HookEvent::SessionEnd | HookEvent::PreToolUse | HookEvent::PermissionRequest => json!({}),
         HookEvent::Notification | HookEvent::PostToolUse | HookEvent::PostToolUseFailure => {
             match known.tool_name {
@@ -183,6 +197,60 @@ fn data_of(event: HookEvent, known: Known) -> Value {
                 None => json!({}),
             }
         }
+    }
+}
+
+/// The class of the CLI's StopFailure `error` word. Held here: no class crosses into `data`, an
+/// event, a snapshot or a log line until the founder admits the granular words (founder fork F2 of
+/// chunk 2026-11-15-api-error-turn-end); the line carries `TurnEndCause::ApiError` alone.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum ApiErrorClass {
+    RateLimited,
+    Overloaded,
+    AuthFailed,
+    Billing,
+    InvalidRequest,
+    ModelNotFound,
+    ServerError,
+    OutputLimit,
+    ApiError,
+}
+
+impl ApiErrorClass {
+    pub const fn as_str(self) -> &'static str {
+        match self {
+            Self::RateLimited => "rate-limited",
+            Self::Overloaded => "overloaded",
+            Self::AuthFailed => "auth-failed",
+            Self::Billing => "billing",
+            Self::InvalidRequest => "invalid-request",
+            Self::ModelNotFound => "model-not-found",
+            Self::ServerError => "server-error",
+            Self::OutputLimit => "output-limit",
+            Self::ApiError => "api-error",
+        }
+    }
+}
+
+/// The class of a StopFailure payload's `error` word (the CLI's matcher values, read statically
+/// from the 2.1.287–2.1.325 bundles); `unknown`, an absent word and any other text are `ApiError`.
+pub fn api_error_class(error: Option<&str>) -> ApiErrorClass {
+    match error {
+        Some("rate_limit") => ApiErrorClass::RateLimited,
+        Some("overloaded") => ApiErrorClass::Overloaded,
+        Some(
+            "authentication_failed"
+            | "oauth_org_not_allowed"
+            | "account_on_hold"
+            | "verification_required"
+            | "cloud_credential_error",
+        ) => ApiErrorClass::AuthFailed,
+        Some("billing_error") => ApiErrorClass::Billing,
+        Some("invalid_request") => ApiErrorClass::InvalidRequest,
+        Some("model_not_found") => ApiErrorClass::ModelNotFound,
+        Some("server_error") => ApiErrorClass::ServerError,
+        Some("max_output_tokens") => ApiErrorClass::OutputLimit,
+        _ => ApiErrorClass::ApiError,
     }
 }
 
@@ -347,6 +415,7 @@ mod tests {
                 "session-start",
                 "user-prompt-submit",
                 "stop",
+                "stop-failure",
                 "session-end",
                 "notification",
                 "post-tool-use",
@@ -382,6 +451,7 @@ mod tests {
                 Some("session-start"),
                 Some("prompt-submitted"),
                 Some("turn-ended"),
+                Some("turn-ended"),
                 Some("session-end"),
                 Some("activity"),
                 Some("activity"),
@@ -393,8 +463,65 @@ mod tests {
         let dialog: Vec<bool> = HookEvent::ALL.iter().map(|e| e.is_dialog()).collect();
         assert_eq!(
             dialog,
-            [false, false, false, false, false, false, false, true, true]
+            [
+                false, false, false, false, false, false, false, false, true, true
+            ]
         );
+    }
+
+    /// A StopFailure's text never crosses: `data` is the one literal whatever the payload's
+    /// `error`, `last_assistant_message` and `error_details` hold.
+    #[rstest]
+    #[case::server_error(
+        json!({
+            "error": "server_error",
+            "last_assistant_message": "API Error: canary-chain-value-5c1e",
+            "error_details": "canary-chain-value-5c1e",
+        }),
+        &[]
+    )]
+    #[case::error_absent(json!({"last_assistant_message": "canary-chain-value-5c1e"}), &[])]
+    #[case::error_unknown_word(json!({"error": "canary-chain-value-5c1e"}), &[])]
+    #[case::error_a_number(
+        json!({"error": 7, "error_details": {"m": "canary-chain-value-5c1e"}}),
+        &[json!({"path": "error", "expected": "string"})]
+    )]
+    fn stop_failure_turn_end_carries_api_error_and_no_error_text(
+        #[case] payload: Value,
+        #[case] drift: &[Value],
+    ) {
+        let got = read(HookEvent::StopFailure, &payload);
+        assert_eq!(got.kind, EventKind::TurnEnded);
+        assert_eq!(
+            got.data,
+            json!({"last_assistant_message": null, "background_tasks": null, "cause": "api-error"})
+        );
+        assert_eq!(got.drift, drift);
+        assert!(!got.data.to_string().contains("canary-chain-value-5c1e"));
+    }
+
+    #[rstest]
+    #[case::rate_limit(Some("rate_limit"), ApiErrorClass::RateLimited)]
+    #[case::overloaded(Some("overloaded"), ApiErrorClass::Overloaded)]
+    #[case::authentication_failed(Some("authentication_failed"), ApiErrorClass::AuthFailed)]
+    #[case::oauth_org_not_allowed(Some("oauth_org_not_allowed"), ApiErrorClass::AuthFailed)]
+    #[case::account_on_hold(Some("account_on_hold"), ApiErrorClass::AuthFailed)]
+    #[case::verification_required(Some("verification_required"), ApiErrorClass::AuthFailed)]
+    #[case::cloud_credential_error(Some("cloud_credential_error"), ApiErrorClass::AuthFailed)]
+    #[case::billing_error(Some("billing_error"), ApiErrorClass::Billing)]
+    #[case::invalid_request(Some("invalid_request"), ApiErrorClass::InvalidRequest)]
+    #[case::model_not_found(Some("model_not_found"), ApiErrorClass::ModelNotFound)]
+    #[case::server_error(Some("server_error"), ApiErrorClass::ServerError)]
+    #[case::max_output_tokens(Some("max_output_tokens"), ApiErrorClass::OutputLimit)]
+    #[case::unknown(Some("unknown"), ApiErrorClass::ApiError)]
+    #[case::outside_word(Some("Server_Error"), ApiErrorClass::ApiError)]
+    #[case::absent(None, ApiErrorClass::ApiError)]
+    fn api_error_class_maps_every_cli_error_word(
+        #[case] error: Option<&str>,
+        #[case] class: ApiErrorClass,
+    ) {
+        assert_eq!(api_error_class(error), class);
+        assert!(viola_core::is_code_word(class.as_str()), "{class:?}");
     }
 
     #[rstest]

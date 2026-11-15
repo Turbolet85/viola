@@ -273,6 +273,10 @@ fn state_events_background_tasks_and_option_details_are_known_keys() {
             json!({"last_assistant_message": null, "background_tasks": null}),
         ),
         (
+            EventKind::TurnEnded,
+            json!({"last_assistant_message": null, "background_tasks": null, "cause": "api-error"}),
+        ),
+        (
             EventKind::Question,
             json!({"dialog_id": 1, "questions": [{"question": "Which?", "header": null,
                 "options": ["a"], "option_details": [{"description": "d", "preview": "p"}],
@@ -283,7 +287,10 @@ fn state_events_background_tasks_and_option_details_are_known_keys() {
         append(tmp.path(), *kind, data.clone());
     }
     let (lines, skipped) = read(tmp.path(), 0);
-    assert_eq!(kinds(&lines), ["turn-ended", "turn-ended", "question"]);
+    assert_eq!(
+        kinds(&lines),
+        ["turn-ended", "turn-ended", "turn-ended", "question"]
+    );
     let read_back: Vec<&Value> = lines.iter().map(|l| &l.value["data"]).collect();
     assert_eq!(
         read_back,

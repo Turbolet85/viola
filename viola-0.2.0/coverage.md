@@ -1,11 +1,14 @@
 # Coverage — viola-0.2.0
 
-verified 7/33 · deferred 1 · planned 25 · implemented 0 · unclaimed 25
+verified 7/33 · deferred 1 · planned 24 · implemented 1 · unclaimed 24
 
 ## deferred (1)
 - v2-22 · Product-owned session settings
 
-## planned, unclaimed (25)
+## implemented (1)
+- v2-16 · A turn ended by an API error ends the turn · 2026-11-15-api-error-turn-end
+
+## planned, unclaimed (24)
 - v2-07 · Launch a session into the fleet
 - v2-08 · The launch authority bounded
 - v2-09 · The lineage registry
@@ -15,7 +18,6 @@ verified 7/33 · deferred 1 · planned 25 · implemented 0 · unclaimed 25
 - v2-13 · Adopt a plain session into the fleet
 - v2-14 · The fleet console
 - v2-15 · Every verb from the console
-- v2-16 · A turn ended by an API error ends the turn
 - v2-17 · `wait`'s documented wake condition
 - v2-18 · The driver's send recognised whatever whitespace the CLI trims
 - v2-19 · The readiness-gate send race closed

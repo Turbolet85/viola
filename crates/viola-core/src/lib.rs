@@ -115,7 +115,7 @@ impl EventKind {
         match self {
             Self::SessionStart => &["cause", "agent_session_id"],
             Self::PromptSubmitted => &["text", "origin"],
-            Self::TurnEnded => &["last_assistant_message", "background_tasks"],
+            Self::TurnEnded => &["last_assistant_message", "background_tasks", "cause"],
             Self::SessionEnd => &[],
             Self::Activity => &["tool"],
             Self::Wheel => &["holder", "cause"],
@@ -194,6 +194,30 @@ impl UnreachableCause {
             Self::EndpointLost => "endpoint-lost",
             Self::ServerVerify => "server-verify-failed",
             Self::SocketDir => "socket-dir-refused",
+        }
+    }
+}
+
+/// Why a turn ended other than ordinarily: the `cause` of a `turn-ended` line, absent on an
+/// ordinary end (architecture §Standard Contracts). A finer list is an additive change: new
+/// members under the same key.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum TurnEndCause {
+    ApiError,
+}
+
+impl TurnEndCause {
+    /// Every cause, in declaration order.
+    pub const ALL: [Self; 1] = [Self::ApiError];
+
+    /// The cause `name` spells; `None` for any other text.
+    pub fn from_name(name: &str) -> Option<Self> {
+        Self::ALL.into_iter().find(|cause| cause.as_str() == name)
+    }
+
+    pub const fn as_str(self) -> &'static str {
+        match self {
+            Self::ApiError => "api-error",
         }
     }
 }
@@ -516,7 +540,7 @@ mod tests {
         (
             EventKind::TurnEnded,
             "turn-ended",
-            &["last_assistant_message", "background_tasks"],
+            &["last_assistant_message", "background_tasks", "cause"],
         ),
         (EventKind::SessionEnd, "session-end", &[]),
         (EventKind::Activity, "activity", &["tool"]),
@@ -631,6 +655,19 @@ mod tests {
         ] {
             assert_eq!(cause.as_str(), word);
             assert!(is_code_word(word), "{word}");
+        }
+    }
+
+    #[test]
+    fn turn_end_cause_is_each_its_own_code_word() {
+        let words: Vec<&str> = TurnEndCause::ALL.iter().map(|c| c.as_str()).collect();
+        assert_eq!(words, ["api-error"]);
+        for cause in TurnEndCause::ALL {
+            assert!(is_code_word(cause.as_str()), "{cause:?}");
+            assert_eq!(TurnEndCause::from_name(cause.as_str()), Some(cause));
+        }
+        for outside in ["server-error", "completed", "API Error", ""] {
+            assert_eq!(TurnEndCause::from_name(outside), None, "{outside:?}");
         }
     }
 

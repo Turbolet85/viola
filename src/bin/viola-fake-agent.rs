@@ -65,12 +65,13 @@ const AGENTS_ROWS: &str = "agents-rows.json";
 const SESSIONS: &str = "sessions";
 /// The title a registry row carries: synthetic, never user text.
 const SESSION_NAME: &str = "viola fake agent session";
-const REGISTERED_EVENTS: [&str; 9] = [
+const REGISTERED_EVENTS: [&str; 10] = [
     "SessionStart",
     "UserPromptSubmit",
     "PreToolUse",
     "PermissionRequest",
     "Stop",
+    "StopFailure",
     "SessionEnd",
     "Notification",
     "PostToolUse",
@@ -403,11 +404,12 @@ impl Agent {
         Some((id, cwd))
     }
 
-    /// The registry row's status: `busy` once a prompt is submitted, `idle` again at its Stop.
+    /// The registry row's status: `busy` once a prompt is submitted, `idle` again at its Stop or
+    /// StopFailure.
     fn mark(&self, event: &str) {
         let status = match event {
             "UserPromptSubmit" => "busy",
-            "Stop" => "idle",
+            "Stop" | "StopFailure" => "idle",
             _ => return,
         };
         if let Some(registry) = self.registry.get() {

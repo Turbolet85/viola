@@ -475,6 +475,11 @@ mod tests {
     /// `turn-ended`, `session-start` and `session-end` end a turn; `activity` does not.
     #[rstest]
     #[case::turn_ended(EventKind::TurnEnded, json!({"last_assistant_message": "done"}), true)]
+    #[case::api_error_turn_end(
+        EventKind::TurnEnded,
+        json!({"last_assistant_message": null, "background_tasks": null, "cause": "api-error"}),
+        true
+    )]
     #[case::session_start(EventKind::SessionStart, json!({"cause": "clear"}), true)]
     #[case::session_end(EventKind::SessionEnd, json!({}), true)]
     #[case::activity(EventKind::Activity, json!({}), false)]

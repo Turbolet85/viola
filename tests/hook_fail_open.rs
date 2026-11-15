@@ -288,6 +288,7 @@ fn stdin_bytes(stdin: Stdin) -> Vec<u8> {
 #[case::clap_extra_argument(&["hook", "stop", "--bogus"], Env::Instance, Stdin::Payload, None)]
 #[case::unknown_event(&["hook", "status-line"], Env::Instance, Stdin::Payload, None)]
 #[case::unreachable_endpoint(&["hook", "stop"], Env::Stopped, Stdin::Payload, Some("channel-unreachable"))]
+#[case::stop_failure_unreachable(&["hook", "stop-failure"], Env::Stopped, Stdin::Payload, Some("channel-unreachable"))]
 #[case::no_snapshot(&["hook", "stop"], Env::Made, Stdin::Payload, Some("channel-unreachable"))]
 #[case::no_instance_dir(&["hook", "stop"], Env::Instance, Stdin::Payload, None)]
 #[case::name_absent(&["hook", "stop"], Env::DirOnly, Stdin::Payload, None)]
@@ -352,12 +353,12 @@ fn hook_fails_open_silently_within_the_spine_bound(
     };
     assert_eq!(events, expected);
     let decision = lines.last().expect("hook-decision");
-    assert_eq!(decision["hook_event"], "stop");
+    assert_eq!(decision["hook_event"], args[1]);
     assert_eq!(decision["decision_emitted"], false);
     assert_eq!(decision["detail"], detail);
     assert_eq!(decision["level"], "WARN");
     assert!(decision["duration_ms"].is_u64());
-    assert_eq!(lines[0]["hook_event"], "stop");
+    assert_eq!(lines[0]["hook_event"], args[1]);
     assert!(lines[0]["invoked_at"].is_string());
     if rejected {
         assert_eq!(lines[1]["parser"], "hook-stdin");
@@ -469,6 +470,7 @@ fn widened_payload(event: &str) -> Vec<u8> {
 /// widening left as found (security-plan §Error Handling; the founder's no-line answer).
 #[rstest]
 #[case::stop("stop")]
+#[case::stop_failure("stop-failure")]
 #[case::session_end("session-end")]
 #[case::question("pre-tool-use")]
 #[case::permission("permission-request")]

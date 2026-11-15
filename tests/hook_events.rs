@@ -113,6 +113,11 @@ fn hook_every_registered_event_lands_as_one_line_of_its_kind() {
                 json!({"hook_event_name": "Stop", "session_id": "s-1", "last_assistant_message": CANARY}),
             ),
             (
+                "StopFailure",
+                "default",
+                json!({"hook_event_name": "StopFailure", "session_id": "s-1", "error": "server_error", "error_details": CANARY, "last_assistant_message": CANARY}),
+            ),
+            (
                 "SessionEnd",
                 "default",
                 json!({"hook_event_name": "SessionEnd", "session_id": "s-1", "reason": CANARY}),
@@ -139,6 +144,7 @@ fn hook_every_registered_event_lands_as_one_line_of_its_kind() {
         &[
             ("UserPromptSubmit", "default"),
             ("Stop", "default"),
+            ("StopFailure", "default"),
             ("SessionEnd", "default"),
             ("Notification", "default"),
             ("PostToolUse", "default"),
@@ -151,7 +157,7 @@ fn hook_every_registered_event_lands_as_one_line_of_its_kind() {
         None,
         &["--fixtures", path_str(&fx), "--script", path_str(&steps)],
     );
-    let receipts = hook_receipts(&wrapper.receipt(), 7);
+    let receipts = hook_receipts(&wrapper.receipt(), 8);
     for receipt in &receipts {
         assert_eq!(receipt["command_absolute"], true, "{receipt}");
         assert_eq!(receipt["ran"], true, "{receipt}");
@@ -159,11 +165,13 @@ fn hook_every_registered_event_lands_as_one_line_of_its_kind() {
         assert_eq!(receipt["stderr_len"], 0, "{receipt}");
         assert_eq!(receipt["stdout_hex"], "", "{receipt}");
     }
-    // The start record, the seven hook lines, and the wheel the human's prompt took.
-    let lines = wait_events(&wrapper.instance_dir(), "the hook events", |l| l.len() >= 9);
-    assert_eq!(lines.len(), 9);
+    // The start record, the eight hook lines, and the wheel the human's prompt took.
+    let lines = wait_events(&wrapper.instance_dir(), "the hook events", |l| {
+        l.len() >= 10
+    });
+    assert_eq!(lines.len(), 10);
     let hooked: Vec<&Value> = lines.iter().filter(|l| l["source"] == "hook").collect();
-    assert_eq!(hooked.len(), 7);
+    assert_eq!(hooked.len(), 8);
     let wheels: Vec<&Value> = lines
         .iter()
         .filter(|l| l["kind"] == "wheel")
@@ -206,6 +214,10 @@ fn hook_every_registered_event_lands_as_one_line_of_its_kind() {
             ),
             (
                 "turn-ended".to_owned(),
+                set(&["background_tasks", "cause", "last_assistant_message"])
+            ),
+            (
+                "turn-ended".to_owned(),
                 set(&["background_tasks", "last_assistant_message"])
             ),
         ]
@@ -229,14 +241,15 @@ fn hook_every_registered_event_lands_as_one_line_of_its_kind() {
         start["data"],
         json!({"cause": "startup", "agent_session_id": "s-1"})
     );
-    let ended = hooked
+    let ended: Vec<&Value> = hooked
         .iter()
-        .find(|l| l["kind"] == "turn-ended")
-        .expect("stop");
-    assert_eq!(
-        ended["data"],
-        json!({"last_assistant_message": CANARY, "background_tasks": null})
-    );
+        .filter(|l| l["kind"] == "turn-ended")
+        .map(|l| &l["data"])
+        .collect();
+    let stop = json!({"last_assistant_message": CANARY, "background_tasks": null});
+    let failure =
+        json!({"last_assistant_message": null, "background_tasks": null, "cause": "api-error"});
+    assert_eq!(ended, [&stop, &failure]);
     let tools: BTreeSet<&str> = hooked
         .iter()
         .filter_map(|l| l["data"]["tool"].as_str())
@@ -245,6 +258,89 @@ fn hook_every_registered_event_lands_as_one_line_of_its_kind() {
     let (stopped, stamped) = wrapper.stop_keep();
     assert_eq!(stopped.code(), Some(0));
     assert_hook_logs_valid(stamped.home.path());
+}
+
+/// Every regular file under `dir`, the pinned `bin/` copies left out (a 38 MB scan per file).
+fn files_under(dir: &Path, out: &mut Vec<PathBuf>) {
+    for entry in fs::read_dir(dir).expect("read dir") {
+        let entry = entry.expect("entry");
+        let path = entry.path();
+        let kind = entry.file_type().expect("file type");
+        if kind.is_dir() && entry.file_name() != "bin" {
+            files_under(&path, out);
+        } else if kind.is_file() {
+            out.push(path);
+        }
+    }
+}
+
+/// A StopFailure's error text (`last_assistant_message`, `error_details`) crosses into nothing:
+/// one `turn-ended` with the closed cause, and the planted value in no file under the home.
+#[test]
+fn hook_stop_failure_error_text_reaches_no_event_line_or_snapshot() {
+    const PLANTED: &str = "planted-api-error-text-7f3a";
+    let stamped = stamped();
+    let scratch = stamped.home.scratch().to_path_buf();
+    let fx = fixtures(
+        &scratch,
+        &[
+            (
+                "SessionStart",
+                "default",
+                json!({"hook_event_name": "SessionStart", "session_id": "s-1", "source": "startup"}),
+            ),
+            (
+                "UserPromptSubmit",
+                "default",
+                json!({"hook_event_name": "UserPromptSubmit", "session_id": "s-1", "prompt": CANARY}),
+            ),
+            (
+                "StopFailure",
+                "default",
+                json!({"hook_event_name": "StopFailure", "session_id": "s-1", "error": "server_error",
+                    "error_details": PLANTED, "last_assistant_message": PLANTED}),
+            ),
+        ],
+    );
+    let steps = script(
+        &scratch,
+        &[("UserPromptSubmit", "default"), ("StopFailure", "default")],
+    );
+    let wrapper = Wrapper::boot(
+        stamped,
+        "builder",
+        None,
+        &["--fixtures", path_str(&fx), "--script", path_str(&steps)],
+    );
+    let lines = wait_events(&wrapper.instance_dir(), "the API-error turn end", |l| {
+        l.iter().any(|e| e["kind"] == "turn-ended")
+    });
+    let ended: Vec<&Value> = lines.iter().filter(|l| l["kind"] == "turn-ended").collect();
+    assert_eq!(ended.len(), 1);
+    assert_eq!(ended[0]["source"], "hook");
+    assert_eq!(
+        ended[0]["data"],
+        json!({"last_assistant_message": null, "background_tasks": null, "cause": "api-error"})
+    );
+    let (stopped, stamped) = wrapper.stop_keep();
+    assert_eq!(stopped.code(), Some(0));
+    let home = stamped.home.path();
+    let mut files = Vec::new();
+    files_under(home, &mut files);
+    let names: BTreeSet<String> = files
+        .iter()
+        .filter_map(|f| f.file_name()?.to_str().map(str::to_owned))
+        .collect();
+    for name in ["events.ndjson", "snapshot.json", "hook-builder.ndjson"] {
+        assert!(names.contains(name), "{name} not written");
+    }
+    for file in &files {
+        let text = String::from_utf8_lossy(&fs::read(file).expect("read")).into_owned();
+        let place = file.strip_prefix(home).expect("under the home").display();
+        let hit = support::events::error_body_hit(&Value::String(text), home, &[PLANTED]);
+        assert_ne!(hit, Some("planted"), "{place}");
+    }
+    assert_hook_logs_valid(home);
 }
 
 /// A recorded fixture of the stamped CLI version, read as the fake agent replays it.

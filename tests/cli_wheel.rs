@@ -253,6 +253,123 @@ fn path5_a_turn_left_running_is_cleared_by_pause_then_release(stamped_home: Stam
     wrapper.stop();
 }
 
+/// Waits until the wrapper logged `count` `channel-request` lines for `method`: the call is in.
+fn wait_request_logged(home: &Path, method: &str, count: usize) {
+    let watch = Watch::start("request");
+    let deadline = Instant::now() + WITHIN;
+    loop {
+        let n = diagnostics(home, "run-builder.ndjson")
+            .iter()
+            .filter(|l| l["event"] == "channel-request" && l["method"] == method)
+            .count();
+        if n >= count {
+            return;
+        }
+        watch.note(&format!("{method} requests {n}"));
+        watch.deadline_check(
+            deadline,
+            &format!("no {method} request reached the wrapper"),
+        );
+        std::thread::yield_now();
+    }
+}
+
+/// A turn the CLI ends on an API error (a StopFailure, no Stop) ends the running turn: the stuck
+/// `turn-running` state clears with no `pause` and no `release`, a parked `wait` returns the
+/// `turn-ended` carrying only the closed cause, and the next `send` is accepted.
+#[rstest]
+fn path5_an_api_error_turn_end_clears_the_turn_with_no_pause_or_release(stamped_home: StampedHome) {
+    let scratch = stamped_home.home.scratch().to_path_buf();
+    // The recorded set (its screens draw the input box a `send` waits for), plus a synthetic
+    // StopFailure: no recorded set holds one.
+    let fixtures = scratch.join("fixtures");
+    let set = fixtures.join(fake::RECORDED_CLI_VERSION);
+    std::fs::create_dir_all(&set).expect("fixture dir");
+    let recorded = workspace_path("fixtures/claude").join(fake::RECORDED_CLI_VERSION);
+    for entry in std::fs::read_dir(&recorded).expect("the recorded set") {
+        let path = entry.expect("entry").path();
+        std::fs::copy(&path, set.join(path.file_name().expect("name"))).expect("copy");
+    }
+    fake::write_fixture(
+        &fixtures,
+        fake::RECORDED_CLI_VERSION,
+        "StopFailure",
+        "default",
+        &json!({"hook_event_name": "StopFailure", "session_id": "s-1", "error": "server_error",
+            "last_assistant_message": "API Error: Connection lost mid-response"}),
+    );
+    let script = scratch.join("api-error.script.json");
+    std::fs::write(
+        &script,
+        json!({"v": 1, "steps": [{"event": "StopFailure", "variant": "default", "gate": true}]})
+            .to_string(),
+    )
+    .expect("script");
+    let wrapper = Wrapper::boot(
+        stamped_home,
+        "builder",
+        None,
+        &[
+            "--fixtures",
+            fixtures.to_str().expect("utf-8 path"),
+            "--inject-harness-turn",
+            "--script",
+            script.to_str().expect("utf-8 path"),
+        ],
+    );
+    let home = wrapper.home().to_path_buf();
+    let dir = wrapper.instance_dir();
+    let text = format!("{CANARY} after an API error");
+    wrapper.release();
+    wait_events(&dir, "the harness prompt-submitted", |l| {
+        l.iter().any(|e| e["kind"] == "prompt-submitted")
+    });
+
+    let refused = viola(&home, &["send", "builder", "--json"], Some(&text), None);
+    assert_eq!(refused.code, Some(13), "stderr: {}", refused.stderr);
+    assert_eq!(refused.stdout, REFUSED_TURN);
+
+    let after = std::fs::metadata(dir.join("events.ndjson"))
+        .expect("events")
+        .len()
+        .to_string();
+    let mut parked = support::cli::spawn(
+        &home,
+        &["wait", "builder", "--after", &after, "--json"],
+        None,
+        None,
+    );
+    wait_request_logged(&home, "wait", 1);
+    assert!(parked.still_running(), "the wait returned before the end");
+    wrapper.release();
+    let woken = parked.finish();
+    assert_eq!(woken.code, Some(0), "stderr: {}", woken.stderr);
+    let woken: Value = serde_json::from_str(&woken.stdout).expect("one document");
+    let event = &woken["ok"]["event"];
+    assert_eq!(event["kind"], "turn-ended");
+    assert_eq!(event["source"], "hook");
+    assert_eq!(
+        event["data"],
+        json!({"last_assistant_message": null, "background_tasks": null, "cause": "api-error"})
+    );
+
+    let sent = viola(&home, &["send", "builder", "--json"], Some(&text), None);
+    assert_eq!(sent.code, Some(0), "{} {}", sent.stdout, sent.stderr);
+
+    assert_eq!(
+        wheel_records(&dir),
+        [json!({"holder": "driver", "cause": "start"})]
+    );
+    let refused: Vec<Value> = diagnostics(&home, "run-builder.ndjson")
+        .into_iter()
+        .filter(|l| l["event"] == "send-refused")
+        .collect();
+    assert_eq!(refused.len(), 1, "{refused:?}");
+    assert_eq!(refused[0]["detail"], "turn-running");
+    assert_logs_clean(&home);
+    wrapper.stop();
+}
+
 /// test-plan §6 Path 4 step 6: a dialog pending when the human takes the wheel is handed back at
 /// once (its hook prints nothing and exits 0, well before the deadline), `pending_dialog` leaves
 /// the snapshot, and an `answer` to it is refused `human-typing`.

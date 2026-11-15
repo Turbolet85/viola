@@ -367,7 +367,7 @@ mod tests {
         assert_eq!(got, Err(AgentError::ProgramNotFound));
     }
 
-    /// The rendered `hooks.json`, written out as the oracle: nine exec-form entries on the pinned
+    /// The rendered `hooks.json`, written out as the oracle: ten exec-form entries on the pinned
     /// path, the spine, the dialog tier and SessionEnd sync, the activity tier async.
     const HOOKS_JSON: &str = r#"{
   "hooks": {
@@ -385,6 +385,9 @@ mod tests {
     ],
     "Stop": [
       {"hooks": [{"type": "command", "command": "C:/h/bin/0.1.0-0123456789abcdef/viola.exe", "args": ["hook", "stop"], "timeout": 5}]}
+    ],
+    "StopFailure": [
+      {"hooks": [{"type": "command", "command": "C:/h/bin/0.1.0-0123456789abcdef/viola.exe", "args": ["hook", "stop-failure"], "timeout": 5}]}
     ],
     "SessionEnd": [
       {"hooks": [{"type": "command", "command": "C:/h/bin/0.1.0-0123456789abcdef/viola.exe", "args": ["hook", "session-end"]}]}

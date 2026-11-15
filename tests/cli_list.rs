@@ -255,13 +255,13 @@ fn e5_list_reads_a_live_wrapper_through_the_replay(
 
 /// A booted `builder` whose child is the fake agent planted as `claude` in the bin dir returned:
 /// its session registers beside that copy, where the copy's `agents --json` lists it.
-fn boot_joined(stamped: StampedHome) -> (Wrapper, std::path::PathBuf) {
+fn boot_joined(stamped: StampedHome, extra: &[&str]) -> (Wrapper, std::path::PathBuf) {
     let bin = fake::claude_bin(stamped.home.scratch(), "claude-joined", None, None);
     let joined = StampedHome {
         fake: fake::claude_in(&bin),
         ..stamped
     };
-    (boot(joined), bin)
+    (support::events::boot(joined, None, extra), bin)
 }
 
 /// The per-test scratch dir the wrapper's home sits in.
@@ -277,7 +277,7 @@ fn status_on(bin: &Path, home: &Path) -> Value {
 /// `busy` once a sent turn has started and not ended, and never an unwrapped row of its own.
 #[rstest]
 fn list_status_of_a_joined_wrapper_is_idle_then_busy(stamped_home: StampedHome) {
-    let (wrapper, bin) = boot_joined(stamped_home);
+    let (wrapper, bin) = boot_joined(stamped_home, &[]);
     let home = wrapper.home().to_path_buf();
     let items = status_on(&bin, &home);
     assert_eq!(items.as_array().map(Vec::len), Some(1), "{items}");
@@ -301,6 +301,71 @@ fn list_status_of_a_joined_wrapper_is_idle_then_busy(stamped_home: StampedHome) 
              builder  live   busy     driver                   none               2.1.287 verified\n"
         )
     );
+    wrapper.stop();
+}
+
+/// A turn the CLI ends on an API error (a gated StopFailure, no Stop) reads `idle` on the board
+/// once its `turn-ended` is on disk, and the next `send` is accepted.
+#[rstest]
+fn list_status_reads_idle_after_an_api_error_turn_end(stamped_home: StampedHome) {
+    let scratch = stamped_home.home.scratch().to_path_buf();
+    let fixtures = scratch.join("fixtures");
+    let set = fixtures.join(fake::RECORDED_CLI_VERSION);
+    std::fs::create_dir_all(&set).expect("fixture dir");
+    let recorded = workspace_path("fixtures/claude").join(fake::RECORDED_CLI_VERSION);
+    for entry in std::fs::read_dir(&recorded).expect("the recorded set") {
+        let path = entry.expect("entry").path();
+        std::fs::copy(&path, set.join(path.file_name().expect("name"))).expect("copy");
+    }
+    fake::write_fixture(
+        &fixtures,
+        fake::RECORDED_CLI_VERSION,
+        "StopFailure",
+        "default",
+        &json!({"hook_event_name": "StopFailure", "session_id": "s-1", "error": "overloaded",
+            "last_assistant_message": "API Error: overloaded"}),
+    );
+    let script = scratch.join("api-error.script.json");
+    std::fs::write(
+        &script,
+        json!({"v": 1, "steps": [{"event": "StopFailure", "variant": "default", "gate": true}]})
+            .to_string(),
+    )
+    .expect("script");
+    let (wrapper, bin) = boot_joined(
+        stamped_home,
+        &[
+            "--fixtures",
+            fixtures.to_str().expect("utf-8 path"),
+            "--script",
+            script.to_str().expect("utf-8 path"),
+        ],
+    );
+    let home = wrapper.home().to_path_buf();
+    let sent = viola(
+        &home,
+        &["send", "builder", "--json"],
+        Some("a turn the API ends"),
+        None,
+    );
+    assert_eq!(sent.code, Some(0), "stderr: {}", sent.stderr);
+    let items = status_on(&bin, &home);
+    assert_eq!(items[0]["status"], "busy", "{items}");
+    wrapper.release();
+    support::events::wait_events(&wrapper.instance_dir(), "the API-error turn end", |l| {
+        l.iter()
+            .any(|e| e["kind"] == "turn-ended" && e["data"]["cause"] == "api-error")
+    });
+    let items = status_on(&bin, &home);
+    assert_eq!(items.as_array().map(Vec::len), Some(1), "{items}");
+    assert_eq!(items[0]["status"], "idle");
+    let again = viola(
+        &home,
+        &["send", "builder", "--json"],
+        Some("the next turn"),
+        None,
+    );
+    assert_eq!(again.code, Some(0), "stderr: {}", again.stderr);
     wrapper.stop();
 }
 
@@ -395,7 +460,7 @@ fn list_of_an_answer_that_does_not_parse_equals_the_no_claude_board(
     stamped_home: StampedHome,
     #[case] mode: &str,
 ) {
-    let (wrapper, _) = boot_joined(stamped_home);
+    let (wrapper, _) = boot_joined(stamped_home, &[]);
     let home = wrapper.home().to_path_buf();
     let scratch = scratch(&wrapper).to_path_buf();
     let bad = fake::claude_bin(&scratch, &format!("claude-{mode}"), Some(mode), None);

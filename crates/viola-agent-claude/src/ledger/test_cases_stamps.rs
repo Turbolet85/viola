@@ -138,6 +138,7 @@ fn event_names_are_the_cli_pascal_names() {
             "SessionStart",
             "UserPromptSubmit",
             "Stop",
+            "StopFailure",
             "SessionEnd",
             "Notification",
             "PostToolUse",

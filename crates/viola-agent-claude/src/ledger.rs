@@ -405,6 +405,7 @@ pub const fn event_name(event: HookEvent) -> &'static str {
         HookEvent::SessionStart => "SessionStart",
         HookEvent::UserPromptSubmit => "UserPromptSubmit",
         HookEvent::Stop => "Stop",
+        HookEvent::StopFailure => "StopFailure",
         HookEvent::SessionEnd => "SessionEnd",
         HookEvent::Notification => "Notification",
         HookEvent::PostToolUse => "PostToolUse",

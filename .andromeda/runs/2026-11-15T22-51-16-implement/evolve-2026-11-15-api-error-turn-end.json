@@ -1,0 +1,130 @@
+[
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "706a2ad2",
+"ts": "2026-11-15T22:56:52Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-15T22-51-16-implement",
+"--marker",
+"2026-11-15-api-error-turn-end"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 1650 · 2026-11-15T21-21-54-2026-11-15-api-error-turn-end.ndjson",
+"ts 2026-11-15T22:56:45Z · clock 2026-11-15T22:56:52Z · bound 2026-11-15T22:17:43Z (line 3133)",
+"ids 2026-11-15T22:56:45Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T21-21-54-2026-11-15-api-error-turn-end.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "706a2ad2",
+"ts": "2026-11-15T23:05:59Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-15T22-51-16-implement",
+"--marker",
+"2026-11-15-api-error-turn-end"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 1652 · 2026-11-15T21-21-54-2026-11-15-api-error-turn-end.ndjson",
+"ts 2026-11-15T23:05:52Z · clock 2026-11-15T23:05:59Z · bound 2026-11-15T22:56:45Z (line 3134)",
+"ids 2026-11-15T23:05:52Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T21-21-54-2026-11-15-api-error-turn-end.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "706a2ad2",
+"ts": "2026-11-15T23:06:33Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-15T22-51-16-implement",
+"--marker",
+"2026-11-15-api-error-turn-end"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 1653 · 2026-11-15T21-21-54-2026-11-15-api-error-turn-end.ndjson",
+"ts 2026-11-15T23:06:28Z · clock 2026-11-15T23:06:33Z · bound 2026-11-15T23:05:52Z (line 3135)",
+"ids 2026-11-15T23:06:28Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T21-21-54-2026-11-15-api-error-turn-end.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "706a2ad2",
+"ts": "2026-11-15T23:08:20Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-15T22-51-16-implement",
+"--marker",
+"2026-11-15-api-error-turn-end"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 1655 · 2026-11-15T21-21-54-2026-11-15-api-error-turn-end.ndjson",
+"ts 2026-11-15T23:08:14Z · clock 2026-11-15T23:08:20Z · bound 2026-11-15T23:06:28Z (line 3136)",
+"ids 2026-11-15T23:08:14Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T21-21-54-2026-11-15-api-error-turn-end.ndjson"
+],
+"before": null,
+"after": null
+}
+]

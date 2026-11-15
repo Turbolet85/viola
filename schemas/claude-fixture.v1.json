@@ -7,7 +7,7 @@
   "required": ["hook_event_name"],
   "properties": {
     "hook_event_name": {
-      "enum": ["SessionStart", "UserPromptSubmit", "PreToolUse", "PermissionRequest", "Stop", "SessionEnd", "Notification", "PostToolUse", "PostToolUseFailure"]
+      "enum": ["SessionStart", "UserPromptSubmit", "PreToolUse", "PermissionRequest", "Stop", "StopFailure", "SessionEnd", "Notification", "PostToolUse", "PostToolUseFailure"]
     }
   }
 }

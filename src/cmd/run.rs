@@ -12,7 +12,7 @@ use tracing::instrument;
 use viola_agent_claude::StripPlan;
 use viola_channel::{Call, ChannelError, Dispatch, ProtocolError, Server, Serving};
 use viola_core::obs::ObsProcess;
-use viola_core::{EventKind, SystemClock, ViolaName, WheelCause};
+use viola_core::{EventKind, SystemClock, TurnEndCause, ViolaName, WheelCause};
 use viola_pty::{HostTerminal, PasteHandle, PortablePty, PumpEnd, Size, SpawnSpec};
 use viola_state::events::{EventLine, Source, append_event};
 use viola_state::fs::{FILE_MODE, create_private_dir, replace_private_shared};
@@ -86,7 +86,8 @@ const HOOK_KINDS: [EventKind; 5] = [
 
 impl Methods {
     /// The event a `hook.event` carries, re-validated here (the wrapper re-runs validators): a hook
-    /// kind, an object `data`, and for `prompt-submitted` a string `text` and a closed `origin`.
+    /// kind, an object `data`, for `prompt-submitted` a string `text` and a closed `origin`, and
+    /// for `turn-ended` a `cause` absent or a closed `TurnEndCause` word.
     fn hook_event_line(&self, params: &Value) -> Option<EventLine> {
         let event = &params["event"];
         let kind = HOOK_KINDS
@@ -96,6 +97,12 @@ impl Methods {
         let prompt_ok = data["text"].is_string()
             && matches!(data["origin"].as_str(), Some("harness" | "human"));
         if kind == EventKind::PromptSubmitted && !prompt_ok {
+            return None;
+        }
+        let cause_ok = data
+            .get("cause")
+            .is_none_or(|c| c.as_str().and_then(TurnEndCause::from_name).is_some());
+        if kind == EventKind::TurnEnded && !cause_ok {
             return None;
         }
         Some(EventLine::new(
@@ -1020,6 +1027,38 @@ mod tests {
             Ok(Value::Null)
         );
         assert!(!tmp.path().join("events.ndjson").exists());
+    }
+
+    /// A `turn-ended` is appended only with its `cause` absent or a closed `TurnEndCause` word.
+    #[rstest::rstest]
+    #[case::api_error(Some(json!("api-error")), true)]
+    #[case::absent(None, true)]
+    #[case::outside_word(Some(json!("server-error")), false)]
+    #[case::a_number(Some(json!(7)), false)]
+    #[case::null(Some(Value::Null), false)]
+    #[case::error_text(Some(json!("API Error: Connection lost mid-response")), false)]
+    fn run_hook_event_turn_ended_with_a_cause_outside_the_closed_set_is_not_appended(
+        #[case] cause: Option<Value>,
+        #[case] appended: bool,
+    ) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let mut data = json!({"last_assistant_message": null, "background_tasks": null});
+        if let Some(cause) = cause {
+            data["cause"] = cause;
+        }
+        let params = json!({"v": 1, "event": {"kind": "turn-ended", "data": data.clone()}});
+        assert_eq!(
+            methods(tmp.path()).dispatch("hook.event", &params),
+            Ok(Value::Null)
+        );
+        if appended {
+            let lines = events_in(tmp.path());
+            assert_eq!(lines.len(), 1);
+            assert_eq!(lines[0]["kind"], "turn-ended");
+            assert_eq!(lines[0]["data"], data);
+        } else {
+            assert!(!tmp.path().join("events.ndjson").exists());
+        }
     }
 
     #[test]

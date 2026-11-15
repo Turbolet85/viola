@@ -19,6 +19,7 @@
               "PreToolUse",
               "PermissionRequest",
               "Stop",
+              "StopFailure",
               "SessionEnd",
               "Notification",
               "PostToolUse",

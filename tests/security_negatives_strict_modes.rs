@@ -125,10 +125,11 @@ fn frame_verb_refuses_a_widened_instance_before_any_log(
 }
 
 /// Every hook event, a minimal payload for each.
-const HOOKS: [(&str, &str); 9] = [
+const HOOKS: [(&str, &str); 10] = [
     ("session-start", "SessionStart"),
     ("user-prompt-submit", "UserPromptSubmit"),
     ("stop", "Stop"),
+    ("stop-failure", "StopFailure"),
     ("session-end", "SessionEnd"),
     ("notification", "Notification"),
     ("post-tool-use", "PostToolUse"),
