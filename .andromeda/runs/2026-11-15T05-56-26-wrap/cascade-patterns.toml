@@ -1,0 +1,16 @@
+# Main's own cascade patterns — the retired interception's claim, by its verbs and phrasings, over all seven masters.
+[[pattern]]
+id = 'm-statusline'
+regex = '(?i)status[ -]?line'
+
+[[pattern]]
+id = 'm-settings-ovr'
+regex = '(?i)settings override|settings\.json override|instance settings\.json|settings layer'
+
+[[pattern]]
+id = 'm-shell-run'
+regex = '(?i)/bin/sh|BIN_SH|shell[- ]out|runs? (the user.s|a) (status[- ]?line )?command'
+
+[[pattern]]
+id = 'm-two-capture'
+regex = '(?i)two (hidden )?(hook )?(--)?capture arms'

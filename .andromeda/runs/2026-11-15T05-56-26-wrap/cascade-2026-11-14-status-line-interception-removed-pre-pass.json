@@ -1,0 +1,263 @@
+[
+{
+"tool": "cascade",
+"v": "1.34",
+"sha8": "23418a05",
+"ts": "2026-11-15T05:57:26Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-15T05-56-26-wrap/report-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-11-15T05-56-26-wrap",
+"--marker",
+"2026-11-14-status-line-interception-removed"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [
+"baseline fcdbeaa2 (pre-pass — HEAD)",
+"seeds-12 · control UNFIRED over the seven masters (bodies and sets) at fcdbeaa2",
+"replay-readers · control UNFIRED over the seven masters (bodies and sets) at fcdbeaa2"
+],
+"stderr": "control: seeds-12, replay-readers never fired over the seven masters' pre-pass text, bodies and sets (fcdbeaa2) — no master holds them: re-fire with --pattern relied-23 --pattern fake-modes --pattern capture-arms --pattern hook-arm --pattern shell-out --pattern settings-ovr --pattern sl-fixture --pattern ws-repo --pattern status-line; this refusal, the trail's record, is the basis of each named pattern's master zero",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "cascade",
+"v": "1.34",
+"sha8": "23418a05",
+"ts": "2026-11-15T05:57:51Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-15T05-56-26-wrap/report-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-11-15T05-56-26-wrap",
+"--marker",
+"2026-11-14-status-line-interception-removed",
+"--pattern",
+"relied-23",
+"--pattern",
+"fake-modes",
+"--pattern",
+"capture-arms",
+"--pattern",
+"hook-arm",
+"--pattern",
+"shell-out",
+"--pattern",
+"settings-ovr",
+"--pattern",
+"sl-fixture",
+"--pattern",
+"ws-repo",
+"--pattern",
+"status-line"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline fcdbeaa2 (pre-pass — HEAD)",
+"architecture · 67 rows over 1 files · new 0 · standing 67 · 8 patterns",
+"security-plan · 55 rows over 1 files · new 0 · standing 55 · 7 patterns",
+"test-plan · 53 rows over 1 files · new 0 · standing 53 · 9 patterns",
+"obs-plan · 78 rows over 1 files · new 0 · standing 78 · 7 patterns",
+"a11y-plan · 6 rows over 1 files · new 0 · standing 6 · 2 patterns",
+"by line · 0 lines · 0 offsets",
+"total (9 patterns) · 395 rows over 23 files",
+"per class · new 0/0 · standing 259/5 · leaf 132/16 · curation 2/2 · base 2/1",
+"rows 1/2 · .andromeda/runs/2026-11-15T05-56-26-wrap/sweep-pre-pass-1.1.txt · 403 lines · 49883 B",
+"rows 2/2 · .andromeda/runs/2026-11-15T05-56-26-wrap/sweep-pre-pass-1.2.txt · 19 lines · 2198 B"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-15T05-56-26-wrap/sweep-pre-pass-1.1.txt",
+".andromeda/runs/2026-11-15T05-56-26-wrap/sweep-pre-pass-1.2.txt"
+],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "fcdbeaa25f5e1bf153dda3e0ac85e74dad97d424",
+"how": "pre-pass — HEAD",
+"counts": {
+"relied-23": {
+"new": 0,
+"standing": 11,
+"leaf": 8,
+"curation": 0,
+"base": 0
+},
+"fake-modes": {
+"new": 0,
+"standing": 2,
+"leaf": 5,
+"curation": 0,
+"base": 0
+},
+"capture-arms": {
+"new": 0,
+"standing": 5,
+"leaf": 11,
+"curation": 0,
+"base": 0
+},
+"hook-arm": {
+"new": 0,
+"standing": 60,
+"leaf": 26,
+"curation": 0,
+"base": 0
+},
+"shell-out": {
+"new": 0,
+"standing": 19,
+"leaf": 10,
+"curation": 0,
+"base": 0
+},
+"settings-ovr": {
+"new": 0,
+"standing": 23,
+"leaf": 17,
+"curation": 1,
+"base": 0
+},
+"sl-fixture": {
+"new": 0,
+"standing": 4,
+"leaf": 8,
+"curation": 0,
+"base": 0
+},
+"ws-repo": {
+"new": 0,
+"standing": 6,
+"leaf": 3,
+"curation": 0,
+"base": 0
+},
+"status-line": {
+"new": 0,
+"standing": 129,
+"leaf": 44,
+"curation": 1,
+"base": 2
+}
+},
+"bare": [],
+"masters": {
+"architecture": {
+"rows": 67,
+"files": 1,
+"new": 0,
+"standing": 67,
+"patterns": 8
+},
+"security-plan": {
+"rows": 55,
+"files": 1,
+"new": 0,
+"standing": 55,
+"patterns": 7
+},
+"test-plan": {
+"rows": 53,
+"files": 1,
+"new": 0,
+"standing": 53,
+"patterns": 9
+},
+"obs-plan": {
+"rows": 78,
+"files": 1,
+"new": 0,
+"standing": 78,
+"patterns": 7
+},
+"a11y-plan": {
+"rows": 6,
+"files": 1,
+"new": 0,
+"standing": 6,
+"patterns": 2
+}
+},
+"per_master": {
+"relied-23": {
+"architecture": 2,
+"security-plan": 2,
+"test-plan": 2,
+"obs-plan": 5
+},
+"fake-modes": {
+"test-plan": 1,
+"obs-plan": 1
+},
+"capture-arms": {
+"architecture": 1,
+"security-plan": 1,
+"test-plan": 1,
+"obs-plan": 2
+},
+"hook-arm": {
+"architecture": 18,
+"security-plan": 12,
+"test-plan": 10,
+"obs-plan": 18,
+"a11y-plan": 2
+},
+"shell-out": {
+"architecture": 4,
+"security-plan": 4,
+"test-plan": 3,
+"obs-plan": 8
+},
+"settings-ovr": {
+"architecture": 9,
+"security-plan": 7,
+"test-plan": 4,
+"obs-plan": 3
+},
+"sl-fixture": {
+"architecture": 2,
+"test-plan": 2
+},
+"ws-repo": {
+"architecture": 1,
+"security-plan": 2,
+"test-plan": 3
+},
+"status-line": {
+"architecture": 30,
+"security-plan": 27,
+"test-plan": 27,
+"obs-plan": 41,
+"a11y-plan": 4
+}
+},
+"forms": {
+"relied-23": [
+{
+"form": "twenty-three",
+"from": "23"
+}
+],
+"capture-arms": [
+{
+"form": "b2 (`--capture` |--capture |capture )armsb",
+"from": "two"
+}
+]
+},
+"parts": [
+"sweep-pre-pass-1.1.txt",
+"sweep-pre-pass-1.2.txt"
+]
+}
+}
+]

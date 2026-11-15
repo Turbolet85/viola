@@ -1,0 +1,46 @@
+# The report's site sweep (wrap P1): one pattern per moved or retired fact, each with its name token.
+
+[[pattern]]
+id = 'relied-23'
+regex = '''\b23 (relied |ledger |measured )?rows\b|\[\d\d/23\]|23 pass|statusline-override|statusline-shell|relied (set|rows)[^.\n]{0,60}\b23\b|LedgerRow::ALL'''
+
+[[pattern]]
+id = 'seeds-12'
+regex = '''hook_stdin[^.\n]{0,80}\b12\b|\b12 seeds|statusline-absent|statusline-epoch'''
+
+[[pattern]]
+id = 'fake-modes'
+regex = '''statusline-echo|statusline-stdin|mode words?\b[^.\n]{0,40}\b(2|two)\b'''
+
+[[pattern]]
+id = 'replay-readers'
+regex = '''\b6 (product )?readers\b|read_snapshot_or_replay|hook statusline`?'?s `?serve'''
+
+[[pattern]]
+id = 'capture-arms'
+regex = '''\btwo (`--capture` |--capture |capture )arms\b|hook statusline --capture|statusline --capture'''
+
+[[pattern]]
+id = 'hook-arm'
+regex = '''hook statusline|statusline_command|statusline-source\.json|STATUSLINE_DEADLINE|hook-statusline'''
+
+[[pattern]]
+id = 'shell-out'
+regex = '''/bin/sh|BIN_SH|shell_argv|shell-out|shell_exit_status|ShellVerdict|bin-sh'''
+
+[[pattern]]
+id = 'settings-ovr'
+regex = '''settings override|per-session settings|--settings\b|instance-settings-json|settings\.json'''
+
+[[pattern]]
+id = 'sl-fixture'
+regex = '''StatusLine\.|claude-statusline-fixture|statusline-fixture|StatusLine variants?'''
+
+[[pattern]]
+id = 'ws-repo'
+regex = '''workspace\.repo'''
+
+[[pattern]]
+id = 'status-line'
+regex = '''status[ -]?line|statusline'''
+ignore_case = true

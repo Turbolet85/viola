@@ -1,0 +1,13 @@
+@fit n=1 row=absence/status-line-interception sha=d183c865b6ba v=fits type=7
+@fit n=2 row=decision/hooks-fail-open sha=167d387f4d8a v=fits type=1
+@fit n=3 row=decision/permission-request-question-stays-null sha=8ae127693332 v=fits type=1
+@fit n=4 row=decision/snapshots-read-through-replay sha=ab23e9c14562 v=fits type=1
+@fit n=5 row=decision/tolerant-external-payloads sha=6a9cb687d203 v=fits type=1
+@fit n=6 row=decision/protocol-version-bump-rule sha=5afeeec7b2e2 v=fits type=2
+@fit n=7 row=contract/hook-to-kind-map/hook-statusline sha=2a2bff54b170 v=fits type=3
+@fit n=8 row=decision/no-shell-out sha=b04b9d7ccc3b v=fits type=1
+@fit n=9 row=contract/instance-snapshot/data sha=047d6ebb7e16 v=fits type=3
+@fit n=10 row=decision/claude-flag-literals-in-agent-crate sha=94dd613a0a34 v=fits type=1
+@fit n=11 row=decision/probe-capture-arms-inert sha=0f245e4cb41a v=fits type=1
+@fit n=12 row=decision/board-read-model-shape sha=ac570f8558dc v=fits type=1
+@fit n=13 row=decision/hook-exits-on-untrusted-instance sha=be709ea66773 v=fits type=2

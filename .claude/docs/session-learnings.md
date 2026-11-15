@@ -279,7 +279,7 @@ A Rust test's `std::env::temp_dir()` reads `TMP` first on Windows, while Git Bas
 ---
 
 ## 2026-09-28 — A plan whose test and probe contradict: narrow the probe
-When a plan's own test must name a retired token to prove it is refused (a CLI test passing a removed flag) while the same plan's grep probe forbids that token anywhere in the tree, the two cannot both hold. The operator's ruling: narrow the probe to exclude exactly the refusal test (every other hit still reds), recorded in the plan's `note`, at the wrap. Never split the token in the test to dodge the grep, and never carry the probe as a standing red: a permanently red probe stops discriminating, and a dodged token hides the very reference the test exists to make.
+When a plan's own test must name a retired token to prove it is refused (a CLI test passing a removed flag) while the same plan's grep probe forbids that token anywhere in the tree, the two cannot both hold. The operator's ruling: narrow the probe to exclude exactly the refusal test (every other hit still reds), recorded in the plan's `note`, at the wrap. Never split the token in the test to dodge the grep, and never carry the probe as a standing red: a permanently red probe stops discriminating, and a dodged token hides the very reference the test exists to make. Extended 2026-11-15: a name the plan MINTS (a new test, fixture key or helper) that need not carry the retired token takes a neutral word (the `retired_…` family) with the probe kept exactly as planned — the plan reads every name it mints against its own probe before P5, and never splits a string to pass it.
 
 ---
 

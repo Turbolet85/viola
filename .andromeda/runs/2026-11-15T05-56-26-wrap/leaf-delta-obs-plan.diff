@@ -1,0 +1,158 @@
+--- a/.andromeda/obs-plan.md
++++ b/.andromeda/obs-plan.md
+@@ -34,3 +34,3 @@
+ decision/hook-stdin-correlation · Hook stdin correlated by instance and dialog — Hook stdin from Claude Code carries no inbound trace context, so it is correlated by `instance` and `dialog_id`.
+-decision/hook-stdout-decision-body-only · Hook stdout carries the decision body only — viola hook stdout carries only the decision body; for viola hook statusline, the output of the user's status-line command.
++decision/hook-stdout-decision-body-only · Hook stdout carries the decision body only — viola hook stdout carries only the decision body.
+ decision/instance-never-from-working-directory · Instance never from the working directory — The instance comes from VIOLA_NAME or an argument, never from the working directory.
+@@ -70,5 +70,2 @@
+ decision/state-sync-instrumentation · Sync instrumentation in viola-state — Instrumentation in viola-state must be sync. · why: The Stack bans Tokio in viola-state.
+-decision/statusline-command-confined · Statusline command confined to diagnostics — The statusline_command string never appears outside diagnostics/.
+-decision/statusline-command-duration-exit-only · Statusline command observed by duration and exit — The user's statusline_command shell-out is observed by its duration and exit status only. · why: A user-written shell command.
+-decision/statusline-command-string-diagnostics-only · Statusline command string kept in diagnostics — The user's statusline_command string is never logged outside the diagnostics logs.
+ decision/stderr-fixed-strings · Fixed strings on stderr — Refusal and fault lines on stderr are fixed strings with no paths, pids, error chains or upstream text.
+@@ -136,4 +133,4 @@
+ decision/hook-fail-open-logged-to-hook-file · Hook fail-open logged to the hook file — Hook fail-open paths (oversize stdin, malformed JSON, channel failure, server-verify mismatch, refused socket directory) are logged to hook-<name>.ndjson only; a missing VIOLA_NAME writes no line.
+-decision/hook-instance-check-before-obs-init · Hook instance check before logging starts — The hook's event and dialog paths run the instance strict-modes check before reading the diagnostics level and initialising logging. · except: The two --capture arms run ahead of the check.
+-decision/hook-latency-budget · Hook latency budget — Each hook runs within max < 1.0 s, and logger init adds no blocking I/O beyond one file open and append. · guard: run --perf hook rows under SPINE_DEADLINE · except: viola hook statusline is outside the budget.
++decision/hook-instance-check-before-obs-init · Hook instance check before logging starts — The hook's event and dialog paths run the instance strict-modes check before reading the diagnostics level and initialising logging. · except: The --capture arm runs ahead of the check.
++decision/hook-latency-budget · Hook latency budget — Each hook runs within max < 1.0 s, and logger init adds no blocking I/O beyond one file open and append. · guard: run --perf hook rows under SPINE_DEADLINE
+ decision/hook-lines-required · Hook invocation and decision lines required — Every hook process in a trusted wrapped session writes its hook-invoked and hook-decision lines, bar a PreToolUse for a tool outside the dialog matcher; a hook outside such a session or on a --capture probe writes neither.
+@@ -185,5 +182,2 @@
+ decision/state-crate-sync-instrumentation · Synchronous instrumentation in the state crate — Instrumentation in the state crate built on ndjson, atomic-write-file and sysinfo must be synchronous. · why: Stack bans Tokio in that crate.
+-decision/statusline-command-never-in-home-logs · Statusline command never in home-level logs — The statusline_command string never appears outside diagnostics/, reaching a detail file only as part of an error chain; its shell-out records only shell_exit_status and duration_ms. · why: The statusline command is classed High for integrity.
+-decision/statusline-command-only-in-diagnostics · Status-line command string kept to diagnostics — The statusline_command string is never logged outside diagnostics/.
+-decision/statusline-shell-out-instrumentation · Status-line shell-out instrumented by duration and exit — The `viola hook statusline` shell-out of the user's command is instrumented by its duration and exit status only. · why: A user-written shell command.
+ decision/strict-modes-refusal-writes-no-line · Strict-modes refusal writes no line — A strict-modes check refused before any log opens ends the process with nothing under the home opened and no log line; its cause is carried only by the fixed stderr pair or the --json document. · why: Ratified as the answer to whether a refused strict-modes check logs. · except: The ledger-stamps read in run's version gate and a refused update_stamps in viola verify each leave a line.
+@@ -239,5 +233,4 @@
+ contract/hook-log-line/duration-ms · Hook log line · duration_ms — duration_ms is on hook-decision, or on process-exit for process hook, for each hook event.
+-contract/hook-stdout/capture-arms · Hook stdout · --capture arms — The two hidden --capture arms write no log sink and print nothing, except --answers' probe decision body.
++contract/hook-stdout/capture-arms · Hook stdout · --capture arms — The hidden --capture arm writes no log sink and prints nothing, except --answers' probe decision body.
+ contract/hook-stdout/hook-event · Hook stdout · viola hook <event> — stdout carries only the decision body.
+-contract/hook-stdout/statusline · Hook stdout · viola hook statusline — stdout carries only the user's status-line command's output.
+ contract/json-rpc-error/32603 · JSON-RPC error · -32603 — The -32603 error carries the message "internal error" with data null.
+@@ -281,3 +274,3 @@
+ contract/refusal-reason/unknown-fallback · Refusal reason · unknown fallback — An unrecognised RefusalReason falls back to unknown with exit 14.
+-contract/replayed-snapshot/live-fields · A snapshot.json rebuilt by replay · endpoint, pid, started_at, statusline_command — A snapshot.json rebuilt from events.ndjson carries none of these, so the endpoint reads unreachable, hook connect fails open with channel-unreachable, hook statusline prints nothing, and run's collision check reads the heartbeat alone.
++contract/replayed-snapshot/live-fields · A snapshot.json rebuilt by replay · endpoint, pid, started_at, statusline_command — A snapshot.json rebuilt from events.ndjson carries none of these, so the endpoint reads unreachable, hook connect fails open with channel-unreachable, and run's collision check reads the heartbeat alone.
+ contract/run-exit-1-detail/already-live · run exit-1 detail codes · already-live — A live holder or a fresh replayed beat.
+@@ -329,3 +322,3 @@
+ decision/span-names-not-wire-contract · Span names are code-internal — Span names are code-internal and not part of any wire contract.
+-decision/span-naming · Span naming as <area>.<operation> — Span names are <area>.<operation> in snake_case, <area> one of run, pty, channel, state, hook, statusline, send, wait, last, answer, pause, release, cli, mcp, hyprland; cli.<verb> names the dispatch span of a short-lived verb.
++decision/span-naming · Span naming as <area>.<operation> — Span names are <area>.<operation> in snake_case, <area> one of run, pty, channel, state, hook, send, wait, last, answer, pause, release, cli, mcp, hyprland; cli.<verb> names the dispatch span of a short-lived verb.
+ decision/spans-not-serialized-v1 · Spans declared but not serialized — Spans are declared in code but not serialized in v1.
+@@ -358,3 +351,2 @@
+ decision/short-lived-verbs-stderr · Short-lived verbs use stderr for humans — Short-lived CLI verbs may use stderr for their human output.
+-contract/hook-output/statusline-stdout · hook output streams · viola hook statusline stdout — Carries the user's status-line command output byte for byte; nothing when no command is recorded, on a refused instance, on oversize or malformed stdin, or under the hidden --capture arm.
+ contract/hook-output/stderr · hook output streams · stderr — A hook writes nothing to stderr.
+@@ -367,3 +359,3 @@
+ ## obs-plan · 4-span-trace-coverage · twin span-trace-coverage
+-decision/capture-arms-uninstrumented · Hidden capture arms uninstrumented — The two hidden capture arms of verify / plugin install are uninstrumented by design.
++decision/capture-arms-uninstrumented · Hidden capture arms uninstrumented — The hidden capture arm of verify / plugin install is uninstrumented by design.
+ decision/channel-lines-no-params-or-results · Channel lines carry no params or results — Channel log lines never record request params or result bodies.
+@@ -383,3 +375,3 @@
+ decision/no-assistant-message-in-logs · No assistant message or result body in logs — last_assistant_message never appears in a log, and no result body reaches a log line.
+-decision/no-endpoint-over-replayed-snapshot · No endpoint over a replayed snapshot — Over a replayed or absent snapshot read, endpoint lookup and the hook connect give no endpoint, so no frame is sent, and the statusline runs no command. · guard: edge test E5
++decision/no-endpoint-over-replayed-snapshot · No endpoint over a replayed snapshot — Over a replayed or absent snapshot read, endpoint lookup and the hook connect give no endpoint, so no frame is sent. · guard: edge test E5
+ decision/no-endpoint-path-or-env-in-spans · No endpoint, binary path or env values in spans — A span never carries the endpoint name, the pinned_bin path or environment values.
+@@ -392,5 +384,2 @@
+ decision/static-span-names · Static span names — Span names are static strings; instance names, dialog ids and paths never appear in a span name.
+-decision/statusline-command-never-logged · Statusline command never logged — The statusline command and its source path appear in no log line or span.
+-decision/statusline-deadline · Statusline shell-out deadline — The statusline shell-out of the user's command is bounded by STATUSLINE_DEADLINE, 5 s. · provisional
+-decision/statusline-stdout-passthrough · Statusline stdout passes through unlogged — The user's statusline stdout passes through unchanged and is never logged.
+ decision/uninstrumented-components · Components left uninstrumented — viola-core, config.json and plugin files, and build/CI infrastructure are not instrumented. · why: viola-core only supplies ObsEvent and RefusalReason values; the rest are not instrumentable.
+@@ -428,6 +417,6 @@
+ decision/expired-dialog-renders-for-human · Expired dialog returns to the human — At the hold's end the reply stays null, the hook writes hook-decision with decision_emitted false, exits 0 with empty stdout, and the dialog renders for the human.
+-decision/hidden-capture-arms-uninstrumented · Hidden hook capture arms uninstrumented — The hidden hook capture arms used by verify's probes read no VIOLA_* variable, do no obs init, emit no hook lines, keep stderr empty and always exit 0. · why: uninstrumented by design, as ratified by the founder
++decision/hidden-capture-arms-uninstrumented · Hidden hook capture arms uninstrumented — The hidden hook capture arm used by verify's probes reads no VIOLA_* variable, does no obs init, emits no hook lines, keeps stderr empty and always exits 0. · why: uninstrumented by design, as ratified by the founder
+ decision/home-tree-check-before-start-log · Home-tree check before the start's log — The start of run and of viola revive checks the home tree (the home, instance set, ledger, bin, plugin, pinned exe and plugin hooks) before its log opens; a refusal exits 1 with the home or instance pair, opens no log, writes no line and starts no child.
+ decision/hook-always-exits-zero · viola hook keeps exit 0 — viola hook exits 0 even when its dispatch panics: a panic around dispatch is caught.
+-decision/hook-capture-arms-unlogged · Hidden capture arms write no lines — The hidden capture arms of viola hook (hook <event> --capture and hook statusline --capture) initialise no observability and write no lines.
++decision/hook-capture-arms-unlogged · Hidden capture arms write no lines — The hidden capture arm of viola hook (hook <event> --capture) initialises no observability and writes no lines.
+ decision/hook-refused-instance-silent · Refused instance makes the hook silent — On the event and dialog paths the instance check runs before the diagnostics level and log init; a refused or unresolved instance exits 0 at once with no config read, no role file, no stdin read, no line, no frame and no SessionEnd append.
+@@ -447,3 +436,2 @@
+ decision/no-raw-snapshot-reads · Product readers read the snapshot through replay — Every product reader of the snapshot uses the replaying read; no product reader reads the snapshot raw.
+-decision/no-statusline-settings-in-telemetry · No settings or statusline command in telemetry — The child's --settings argument, the statusline source path and the statusline command appear in no log line or span.
+ decision/no-text-in-telemetry · Sent text never in telemetry — The sent text never appears in a span or log line; only its length does.
+@@ -457,3 +445,2 @@
+ decision/refused-home-tree-writes-no-line · Refused home tree writes no line — verify and plugin install check the home tree before their log opens, and a refused tree opens no log and writes no line.
+-decision/rejected-statusline-stdin-runs-nothing · Rejected statusline stdin runs nothing — Oversize or malformed statusline stdin prints nothing and runs no shell.
+ decision/release-from-driver-refused · A release from a driver is refused — A release that carries a string from is refused with -32602, and viola release forwards VIOLA_NAME, so a driver session's own viola release is refused too.
+@@ -467,6 +454,4 @@
+ decision/socket-dir-refusal-inside-root-span · Socket-directory refusal inside the root span — A frame verb's or the hook's socket-directory refusal happens inside its dispatch span or hook span. · guard: connect_refuses_a_loosened_socket_directory_inside_its_dispatch_span
+-decision/statusline-settings-steps-unlogged · Statusline read and settings write unlogged — The start's statusline source read and settings override write carry no span and no log line. · why: Ratified as by design.
+-decision/statusline-silent-without-instance · Statusline arm silent without a valid instance — The statusline arm writes no line without a valid VIOLA_NAME or when the instance check refuses: it returns exit 0 at once with no role file opened.
+ decision/unreadable-ledger-means-unverified · Unreadable capability ledger means an unverified CLI — A capability ledger that is missing a stamp, unreadable, malformed or refused by the strict-modes check is treated as an unverified CLI (cli_verified false).
+-decision/verify-lines-carry-no-content · verify log lines carry no content — No verify log line carries row text, a prompt, a session id, the probe command, a status line payload or a path.
++decision/verify-lines-carry-no-content · verify log lines carry no content — No verify log line carries row text, a prompt, a session id, the probe command or a path.
+ decision/verify-server-before-frame · Server verified before any frame — Each frame verb, after its own client-side refusals and before any frame, checks the socket directory, connects, decides on the peer euid, then compares the peer's pid and OS start time against the one snapshot read.
+@@ -476,3 +461,2 @@
+ contract/answer-refusal/unverified-cli · driver-side answer refusal · unverified-cli — refusal unverified-cli, exit 12, the answer withheld.
+-contract/budget-span-attributes/statusline-shell-out · budget span attributes · statusline.shell_out — statusline.shell_out carries shell_exit_status and duration_ms.
+ contract/channel-lines/fields · channel-request and channel-response lines · fields — channel-request carries method, corr, conn and sender; channel-response carries method, corr, conn, result_class and error_code, plus detail on a -32602.
+@@ -559,5 +543,5 @@
+ contract/send-span-attributes/window-ms · confirmed send span attributes · run.confirm_window window_ms — window_ms is the bound the send's own deadline reads: 40 000 for a /compact send waiting for its compacted-session post-condition, else 10 000.
+-contract/span-kinds/client · Span kinds · CLIENT — The CLIENT spans are send.client, wait.block, last.client, answer.client, pause.client, release.client, cli.link, cli.unlink, channel.request (client side), statusline.shell_out and pty.spawn.
++contract/span-kinds/client · Span kinds · CLIENT — The CLIENT spans are send.client, wait.block, last.client, answer.client, pause.client, release.client, cli.link, cli.unlink, channel.request (client side) and pty.spawn.
+ contract/span-kinds/internal · Span kinds · INTERNAL — The INTERNAL spans are run.*, state.* and pty.paste_write; a hook's decision is the decision_emitted field, not a span.
+-contract/span-kinds/server · Span kinds · SERVER — The SERVER spans are channel.dispatch (the wrapper side of every channel.request), mcp.tool_call, hook.handle and hook.statusline.
++contract/span-kinds/server · Span kinds · SERVER — The SERVER spans are channel.dispatch (the wrapper side of every channel.request), mcp.tool_call and hook.handle.
+ contract/state-recovered/scanned · state-recovered line · scanned — From the board read, the line carries instance (the caller) and scanned (the scanned instance's name when it parses, absent otherwise); with no VIOLA_NAME no log is open and the line goes nowhere.
+@@ -566,10 +550,2 @@
+ contract/state-recovered/torn-line-healed · state-recovered line · torn-line-healed — state-recovered{detail:"torn-line-healed", file:"events.ndjson", offset} at WARN with no corr, by the process whose append healed, offset the log's length before the append; one line per heal.
+-contract/statusline-decision-detail/deadline · statusline hook-decision detail · deadline — The shell-out reaching its bound ends in hook-decision{detail:"deadline", deadline_hit:true}.
+-contract/statusline-decision-detail/malformed-json · statusline hook-decision detail · malformed-json — The statusline hook-decision carries detail malformed-json on that fail-open path.
+-contract/statusline-decision-detail/oversize-stdin · statusline hook-decision detail · oversize-stdin — The statusline hook-decision carries detail oversize-stdin on that fail-open path.
+-contract/statusline-log-fields/hook-decision · statusline hook log fields · hook-decision — hook-decision{hook_event:"statusline", duration_ms}, deadline_hit only when true.
+-contract/statusline-log-fields/hook-invoked · statusline hook log fields · hook-invoked — hook-invoked{hook_event:"statusline", corr:null}.
+-contract/statusline-log-fields/parse-rejected · statusline hook log fields · parse-rejected — parse-rejected{parser:"hook-stdin", detail:"oversize"|"malformed", count:1} for stdin the arm rejects.
+-contract/statusline-log-fields/statusline-shell · statusline hook log fields · statusline-shell — process-start and process-exit{subject:"statusline-shell", shell_exit_status, duration_ms}, only when the snapshot records a statusline_command.
+-contract/statusline-spans/span-chain · statusline spans · span chain — hook.statusline (SERVER) › statusline.shell_out (CLIENT).
+ contract/verify-exit-codes/0 · verify exit codes · 0 — Every relied ledger row passed.
+@@ -618,3 +594,3 @@
+ contract/child-spawn-log/claude-agents-json-parse-failure · child and shell spawn log events · claude agents --json parse failure — A claude agents --json parse failure gives one parse-rejected{parser:"claude-agents-json"} line and the value "unknown".
+-contract/child-spawn-log/subject · child and shell spawn log events · subject — process-start and process-exit lines for child and shell spawns carry a subject from a closed set.
++contract/child-spawn-log/subject · child and shell spawn log events · subject — process-start and process-exit lines for child spawns carry a subject from a closed set.
+ contract/ipc-invocation-log/fields · IPC invocation log lines · fields — Channel-request and channel-response lines carry method, conn (srv_conn when the client sent none) and the corr of a frame with an id; a request line adds sender, a response line result class and an error's error code but never sender.
+@@ -641,3 +617,2 @@
+ decision/session-live-check-fails-open · Session-live check fails open — A failed, oversize or malformed claude agents read passes the session-live check; the check is skipped under --fork.
+-decision/statusline-command-deadline · Statusline command deadline — The user's statusline command is bounded at 5 s, reported as deadline. · provisional
+ decision/symlink-skip-logged-as-count · Skipped state entries logged as a parse-rejected count — A scan of instance state that skips a symlinked or malformed entry writes one parse-rejected line with parser state-entry, detail symlink-ignored or malformed and a count, once per scan, at warn, into the scanning process's role file, naming no entry and no link target. · why: A skipped symlink has no exit or decision to carry it.
+@@ -650,7 +625,7 @@
+ contract/diag-line-fields/dialog-events · diagnostic line additive fields · dialog-raised / dialog-answered — dialog_kind, hook_event, from, from_trust, deadline_hit, duration_ms.
+-contract/diag-line-fields/hook-events · diagnostic line additive fields · hook-invoked / hook-decision — hook_event (one of ten closed hook names incl. statusline), invoked_at, decision_emitted, deadline_hit, detail, duration_ms.
++contract/diag-line-fields/hook-events · diagnostic line additive fields · hook-invoked / hook-decision — hook_event (one of nine closed hook names), invoked_at, decision_emitted, deadline_hit, detail, duration_ms.
+ contract/diag-line-fields/panic · diagnostic line additive fields · panic — panic_location (workspace-relative, or <crate>-<ver>/src/... for dependencies) and thread; payload and backtrace go to the detail file only.
+ contract/diag-line-fields/parse-rejected · diagnostic line additive fields · parse-rejected — parser (claude-agents-json, vt100-feed, config-json, ledger-stamps, hook-stdin, channel-frame, mcp-stdin, state-entry, hyprctl-json), detail, count.
+-contract/diag-line-fields/process-exit · diagnostic line additive fields · process-exit — subject, exit_code (self), child_exit_status, shell_exit_status, exit_source (handle-wait or kill-fallback), detail, during (connect or call), duration_ms.
+-contract/diag-line-fields/process-start · diagnostic line additive fields · process-start — subject (self, claude-child, version-probe, verify-probe, verify-pty-probe, agents-probe, statusline-shell, hyprctl-probe), service_name, version, os, pid, child_pid, endpoint_kind, pty_backend, cli_version, cli_verified, env_stripped_count, env_stripped_known, env_kept (names only).
++contract/diag-line-fields/process-exit · diagnostic line additive fields · process-exit — subject, exit_code (self), child_exit_status, exit_source (handle-wait or kill-fallback), detail, during (connect or call), duration_ms.
++contract/diag-line-fields/process-start · diagnostic line additive fields · process-start — subject (self, claude-child, version-probe, verify-probe, verify-pty-probe, agents-probe, hyprctl-probe), service_name, version, os, pid, child_pid, endpoint_kind, pty_backend, cli_version, cli_verified, env_stripped_count, env_stripped_known, env_kept (names only).
+ contract/diag-line-fields/release-from-driver · diagnostic line additive fields · release-from-driver — conn, from (only when a valid ViolaName), from_trust (self-reported).
+@@ -662,3 +637,2 @@
+ contract/diag-subject/self · diag-line subject enum · self — One value of the closed subject enum of the diag-line schema.
+-contract/diag-subject/statusline-shell · diag-line subject enum · statusline-shell — Subject of the process-start and process-exit pair of a statusline shell spawn.
+ contract/diag-subject/verify-probe · diag-line subject enum · verify-probe — Subject of the process-start and process-exit pair of the print-mode probe of viola verify.
+@@ -669,3 +643,2 @@
+ contract/hook-decision-detail/server-verify-failed · hook-decision detail · server-verify-failed — viola hook writes it at WARN on a server of another euid, a server that is not the recorded wrapper, or a check that cannot be made; no frame is sent, the hook fails open, and on the dialog path it follows hook-invoked with decision_emitted false.
+-contract/hook-decision-detail/statusline-codes · hook-decision detail · statusline codes — viola hook statusline writes only oversize-stdin, malformed-json and deadline; a refused instance check writes no line.
+ contract/parse-rejected-detail/control-character · parse-rejected detail · control-character — Listed in the diagnostics schema for the paste-text parser, but never emitted: a control character in a paste is refused as send-refused not-delivered.
+@@ -777,3 +750,2 @@
+ decision/source-allow-list-logging · Source allow-list for logged fields — Spans skip all arguments and declare fields explicitly, and events go through obs_event! with explicit typed fields only; this source allow-list is the primary PII control. · guard: disallowed-macros; raw_event_hits; G1 bare instrument
+-decision/statusline-command-out-of-home-logs · statusline_command out of home-level logs — statusline_command stays out of home-level logs.
+ decision/upload-members-scanned-or-dropped · Upload members scanned or dropped — An uploaded member that could carry a host path or log content is scanned before upload or dropped; unscanned uploads are admissible by content only.
+@@ -956,3 +928,3 @@
+ decision/scrub-before-bytes-leave-process · Scrubbing before any byte leaves the process — Every byte is scrubbed of secrets before it leaves the process; in v1 the only destination is local files. · guard: the secret-scan test
+-decision/sensitive-content-detail-file-only · Sensitive content only in the instance detail file — statusline_command, send text, tool input and last_assistant_message never reach a home-level file; they may reach only the instance-scoped detail-<process>.ndjson, inside a chain or drift report.
++decision/sensitive-content-detail-file-only · Sensitive content only in the instance detail file — Send text, tool input and last_assistant_message never reach a home-level file; they may reach only the instance-scoped detail-<process>.ndjson, inside a chain or drift report.
+ decision/service-identity-from-constants · Service identity from compiled constants — Service name and version come from viola-core constants, never from env vars such as OTEL_SERVICE_NAME or OTEL_RESOURCE_ATTRIBUTES; any future OTel Resource starts from an empty builder.
+@@ -963,3 +935,3 @@
+ contract/stdout-by-role/cli · stdout by role · cli — stdout carries the --json results.
+-contract/stdout-by-role/hook · stdout by role · hook — stdout carries the decision body or, for hook statusline, the user's status-line output.
++contract/stdout-by-role/hook · stdout by role · hook — stdout carries the decision body.
+ contract/stdout-by-role/mcp · stdout by role · mcp — stdout carries MCP frames.
+@@ -1046,3 +1018,3 @@
+ decision/hook-single-log-open · One config read and one log open per hook — A hook invocation makes one config.json read and exactly one log open, then only appends. · guard: SPINE_BOUND
+-decision/instance-check-before-log-init · Instance check before log init — Commands acting on an instance (revive's start arm, the hook arms, link, unlink, send, wait, last, answer, pause, release) run the instance strict-modes check before opening any log; a refusal opens and writes nothing and leaves modes as found. · why: Opening the role file narrows an existing home to 0700, so a check made after it passes a home at 0770. · except: The two hook --capture arms run ahead of the check.
++decision/instance-check-before-log-init · Instance check before log init — Commands acting on an instance (revive's start arm, the hook arms, link, unlink, send, wait, last, answer, pause, release) run the instance strict-modes check before opening any log; a refusal opens and writes nothing and leaves modes as found. · why: Opening the role file narrows an existing home to 0700, so a check made after it passes a home at 0770. · except: The hook --capture arm runs ahead of the check.
+ decision/instance-source-per-role · Instance source fixed per role — run takes its own name argument, never an inherited VIOLA_NAME; hook and mcp take VIOLA_NAME only; cli verbs that act on an instance (send, wait, last, answer, pause, release, link, unlink) take the target argument; list, verify, plugin install and revive --list take the caller's VIOLA_NAME only. · why: A wrapper never writes into another instance's run log.

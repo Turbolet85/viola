@@ -1,0 +1,42 @@
+# rows-land · doc:test-plan · operations 085000b7243e1af7
+# a pattern each set and retire: the distinctive terms the old cell held and the new one lacks, digits alone never one; its control the row's previous revision
+
+[[pattern]]
+id = "tests1-7"
+fixed = "settings.json"
+# control: contract/generated-plugin/hook-commands r1
+
+[[pattern]]
+id = "tests1-10"
+regex = "workspace\\.repo|StatusLine|workspace\\.repo\\.owner"
+# control: decision/fixture-hygiene-walk r2
+
+[[pattern]]
+id = "tests1-12"
+fixed = "workspace.repo"
+# control: decision/no-production-data-in-tests r2
+
+[[pattern]]
+id = "tests1-13"
+fixed = "statusline_command"
+# control: decision/statusline-command-needs-strict-home r1
+
+[[pattern]]
+id = "tests1-19"
+fixed = "statusline_command"
+# control: decision/statusline-command-after-strict-modes r1
+
+[[pattern]]
+id = "tests1-22"
+fixed = "bin/sh"
+# control: decision/statusline-command-shell-and-bound r1
+
+[[pattern]]
+id = "tests1-24"
+regex = "statusline\\-source\\.json|claude/settings\\.json"
+# control: contract/statusline-settings-source/source-file r1
+
+[[pattern]]
+id = "tests1-25"
+regex = "settings\\.json|statusLine"
+# control: contract/viola-run-start/settings-override r1

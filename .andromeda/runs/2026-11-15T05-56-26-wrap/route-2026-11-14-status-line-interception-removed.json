@@ -1,0 +1,99 @@
+[
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "d24a79fb",
+"ts": "2026-11-15T06:49:04Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-14-status-line-interception-removed",
+"--marker",
+"2026-11-14-status-line-interception-removed",
+"--run-dir",
+".andromeda/runs/2026-11-15T05-56-26-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [],
+"stderr": "--date None: not YYYY-MM-DD",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "d24a79fb",
+"ts": "2026-11-15T06:49:07Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-14-status-line-interception-removed",
+"--marker",
+"2026-11-14-status-line-interception-removed",
+"--run-dir",
+".andromeda/runs/2026-11-15T05-56-26-wrap",
+"--date",
+"2026-11-15",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-dc3um6ng strip CARRY: 249ch \"CARRY: architecture · decision/no-tmux-o\"",
+"pin cry-hqyx2rou strip CARRY: 665ch \"CARRY: a box-only screen fixture (the in\"",
+"pin next markerless chk-td5nhkqf holds CARRY:×3",
+"2026-11-14-status-line-interception-removed · strip 2 block(s) · spent in the spine",
+"dry-run · would flip 2026-11-14-status-line-interception-removed pending -> complete"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "d24a79fb",
+"ts": "2026-11-15T06:49:19Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-14-status-line-interception-removed",
+"--marker",
+"2026-11-14-status-line-interception-removed",
+"--run-dir",
+".andromeda/runs/2026-11-15T05-56-26-wrap",
+"--date",
+"2026-11-15"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-dc3um6ng strip CARRY: 249ch \"CARRY: architecture · decision/no-tmux-o\"",
+"pin cry-hqyx2rou strip CARRY: 665ch \"CARRY: a box-only screen fixture (the in\"",
+"pin next markerless chk-td5nhkqf holds CARRY:×3",
+"flip 2026-11-14-status-line-interception-removed pending -> complete · tx 1330",
+"compacted 1 complete line(s) — their freight spent in the spine, no archive (U61)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T19-12-40-2026-11-14-status-line-interception-removed.ndjson",
+"./.andromeda/master-route.md",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]

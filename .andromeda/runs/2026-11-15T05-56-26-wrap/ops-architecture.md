@@ -1,0 +1,160 @@
+@row_add n=1 row=absence/status-line-interception area=established-decisions fact=F1 detector=none
+capability: Status-line interception: no settings layer, no --settings at start, no statusLine source read, no status-line command
+basis: fct-vey5bl3d
+because: The chunk retired the status-line interception whole, so a wrapped session's status line is exactly as unwrapped and the absence is a standing fact of the project.
+@row_set n=1 row=decision/hooks-fail-open cell=except seen=1 detector=none
+value: The hidden `--capture` arm, called only by `viola verify`'s probes, reads no `VIOLA_*` and opens no channel, still exiting 0 with empty stderr.
+basis: fct-vey5bl3d
+because: The hook statusline --capture probe arm was removed and the hook keeps one capture arm, so the except names one arm.
+@row_set n=2 row=decision/permission-request-question-stays-null cell=why seen=2 detector=none
+value: A PermissionRequest allow with updatedInput would satisfy it, but that body has no ledger row; adding one needs a 22nd row, its viola verify probe and a re-stamp of every stamped version.
+basis: fct-uzqm7vs5
+because: The relied ledger rows moved from 23 to 21, so the row the cell counts is now the 22nd.
+@row_set n=3 row=decision/snapshots-read-through-replay cell=rule seen=1 detector=none
+value: Product readers read a snapshot only through the replay, which meets an unreadable or newer snapshot as absent, so it gives no endpoint and no frame is written.
+basis: fct-yeasicmk
+because: The snapshot no longer holds a statusline command and nothing runs one, so the rule loses that clause.
+@row_retire n=1 row=decision/statusline-wrapped-per-session seen=1 heir=absence/status-line-interception detector=D-arch-decisions
+why: viola no longer wraps the status line of any session.
+basis: fct-vey5bl3d
+because: The per-session settings override and the hook statusline arm were removed, so no session's status line is wrapped.
+@row_set n=4 row=decision/tolerant-external-payloads cell=rule seen=1 detector=none
+value: Hook JSON and `claude agents --json` are parsed with no `deny_unknown_fields`, with defaults and options; agents rows keep the raw value for the fixture recorder, and serde_path_to_error gives drift reports for hook JSON only.
+basis: fct-vey5bl3d
+because: viola no longer reads any statusline payload, so the list of tolerant parses loses it.
+@row_retire n=2 row=contract/probe-capture/statusline-shell-file seen=1 detector=none
+why: The hook statusline --capture --shell probe arm and its StatusLine shell capture are removed.
+basis: fct-vey5bl3d
+because: The probe arm that wrote the shell verdict file is gone, so the file is promised nowhere.
+@row_set n=5 row=decision/protocol-version-bump-rule cell=except seen=2 fact=F3 detector=none
+value: Removing the budget gate's fields and event kind, the snapshot's statusline_command and the stamps' two status-line row ids kept every own-format `v` at 1; readers skip what was removed.
+basis: fct-pkysvchx
+because: The snapshot dropped statusline_command and the stamps dropped two row ids with every own-format v staying 1, which widens the exception.
+@row_set n=6 row=contract/hook-to-kind-map/hook-statusline cell=promise seen=1 fact=F2 detector=none
+value: The retired hook word `statusline` maps to no hook event: `viola hook statusline` takes the unknown-event exit 0 and reads and writes nothing.
+basis: fct-yeasicmk
+because: The hook statusline arm was removed and the word now takes the unknown-event exit, which the row must say.
+@row_set n=7 row=decision/no-shell-out cell=except seen=1 detector=none
+value:
+basis: fct-vey5bl3d
+because: With the hook statusline shell-out removed viola runs no shell at all, so the except loses its subject.
+@row_retire n=3 row=decision/statusline-check-before-log seen=1 detector=D-arch-decisions
+why: The statusline arm it governs no longer exists.
+basis: fct-vey5bl3d
+because: The viola hook statusline arm was removed whole.
+@row_retire n=4 row=decision/statusline-deadline seen=1 detector=D-arch-decisions
+why: No statusline command is run, so no deadline bounds one.
+basis: fct-vey5bl3d
+because: The status-line shell-out and its 5 s deadline were removed.
+@row_retire n=5 row=decision/statusline-hook-exempt seen=2 detector=D-arch-decisions
+why: The statusline wrapper it exempts no longer exists.
+basis: fct-vey5bl3d
+because: The viola hook statusline arm was removed whole.
+@row_retire n=6 row=decision/statusline-only-shell-out seen=1 detector=D-arch-decisions
+why: viola runs no shell at all once the statusline command shell-out is removed.
+basis: fct-vey5bl3d
+because: The /bin/sh -c shell-out and the statusline-shell ledger row were removed.
+@row_retire n=7 row=decision/statusline-source-in-viola-home seen=1 detector=D-arch-decisions
+why: viola reads no user statusline command source.
+basis: fct-vey5bl3d
+because: The status-line source read was removed.
+@row_retire n=8 row=decision/statusline-wrapper-not-a-hook seen=1 heir=contract/hook-to-kind-map/hook-statusline detector=D-arch-decisions
+why: No hidden statusline arm is taken any more; the word reads as an unknown hook event.
+basis: fct-yeasicmk
+because: The statusline arm was removed and the word now maps to no hook event.
+@row_retire n=9 row=contract/hook-statusline/capture seen=2 detector=none
+why: The hook statusline --capture probe arm is removed.
+basis: fct-vey5bl3d
+because: The hook keeps one capture arm, hook <event> --capture.
+@row_retire n=10 row=contract/hook-statusline/exit seen=1 heir=contract/hook-to-kind-map/hook-statusline detector=none
+why: The viola hook statusline arm is removed; the word takes the unknown-event exit.
+basis: fct-yeasicmk
+because: The arm's surface no longer exists.
+@row_retire n=11 row=contract/hook-statusline/refused-check seen=2 detector=none
+why: The viola hook statusline arm is removed.
+basis: fct-vey5bl3d
+because: The arm's surface no longer exists.
+@row_retire n=12 row=contract/hook-statusline/stdout seen=1 detector=none
+why: The viola hook statusline arm prints nothing any more and runs no command.
+basis: fct-vey5bl3d
+because: The arm's surface no longer exists.
+@row_set n=8 row=contract/instance-snapshot/data cell=promise seen=2 detector=none
+value: `data` is `{endpoint?, pid, started_at, pinned_bin, cli_version?, cli_verified, wheel, pending_dialog?, links, child_pid?, agent_session_id?, cwd?}`.
+basis: fct-yeasicmk
+because: The snapshot dropped statusline_command, so the data shape loses it.
+@row_retire n=13 row=contract/instance-snapshot/statusline-command seen=1 detector=none
+why: The snapshot no longer holds statusline_command.
+basis: fct-yeasicmk
+because: InstanceSnapshot::statusline_command was removed from writes and reads.
+@row_retire n=14 row=contract/statusline-source/command seen=1 detector=none
+why: viola reads no statusline source settings.
+basis: fct-vey5bl3d
+because: The status-line source read was removed.
+@row_set n=9 row=decision/claude-flag-literals-in-agent-crate cell=rule seen=1 detector=none
+value: The Claude agent crate is the one product home of the --resume and --fork-session flag literals, and holds the program name and the --settings flag that verify reads.
+basis: fct-yeasicmk
+because: run no longer passes --settings, so the flag's remaining reader is verify alone.
+@row_retire n=15 row=decision/fixture-keeps-own-repository-remote seen=1 detector=none
+why: No recorded fixture holds a workspace.repo once the StatusLine variants left, so the exception has no subject.
+basis: fct-tls6mbvr
+because: The StatusLine fixtures were deleted and the approved card retires the workspace.repo exceptions.
+@row_retire n=16 row=decision/per-session-settings-override seen=1 detector=D-arch-decisions
+why: No start writes a per-session settings override.
+basis: fct-vey5bl3d
+because: The settings override write was removed.
+@row_set n=10 row=decision/probe-capture-arms-inert cell=rule seen=1 detector=none
+value: The hidden hook `--capture` arm takes an absolute, existing directory only, reads no `VIOLA_*` variable, starts no observability, opens no channel, and always exits 0 with empty stderr.
+basis: fct-vey5bl3d
+because: The capture arms went from two to one.
+@row_retire n=17 row=decision/refused-statusline-check-no-trace seen=2 detector=D-arch-decisions
+why: The viola hook statusline arm and its instance check are removed.
+basis: fct-vey5bl3d
+because: The arm no longer exists.
+@row_retire n=18 row=decision/settings-override-safe-path-only seen=1 detector=D-arch-decisions
+why: No settings override is written for any path.
+basis: fct-vey5bl3d
+because: The settings override write was removed.
+@row_retire n=19 row=decision/statusline-source-precedence seen=1 detector=D-arch-decisions
+why: viola reads no statusline command source.
+basis: fct-vey5bl3d
+because: The status-line source read was removed.
+@row_retire n=20 row=contract/child-argv/settings seen=1 detector=none
+why: A start passes the child no --settings.
+basis: fct-6hiffgpi
+because: The child's argv is now --plugin-dir then the caller's args.
+@row_retire n=21 row=contract/claude-child-argv/settings seen=1 detector=none
+why: A start passes the claude child no --settings.
+basis: fct-6hiffgpi
+because: The child's argv is now --plugin-dir then the caller's args.
+@row_retire n=22 row=contract/instance-settings-json/statusline seen=1 detector=none
+why: No instance settings.json is written.
+basis: fct-6hiffgpi
+because: A start writes no settings.json in the instance dir.
+@row_retire n=23 row=contract/settings-override/plain-path-only seen=1 detector=none
+why: No per-session settings override is written.
+basis: fct-vey5bl3d
+because: The settings override write was removed.
+@row_retire n=24 row=contract/settings-override/status-line seen=1 detector=none
+why: No per-session settings override is written.
+basis: fct-vey5bl3d
+because: The settings override write was removed.
+@row_retire n=25 row=contract/statusline-capture-shell-file/verdict seen=1 detector=none
+why: The StatusLine shell capture file is no longer written.
+basis: fct-vey5bl3d
+because: The --shell probe arm was removed.
+@row_set n=11 row=decision/board-read-model-shape cell=rule seen=1 detector=none
+value: The board read model is sync and std only, carries no Claude shape, and none of its types holds endpoint, pinned_bin, cwd, pid, started_at or links.
+basis: fct-yeasicmk
+because: The snapshot no longer has statusline_command, so the list of fields the board never holds loses it.
+@row_set n=12 row=decision/hook-exits-on-untrusted-instance cell=except seen=1 detector=none
+value: The --capture arm, which reads no VIOLA_* variable, runs ahead of the check.
+basis: fct-vey5bl3d
+because: The capture arms went from two to one.
+@row_retire n=26 row=decision/statusline-source-follows-home seen=1 detector=D-arch-decisions
+why: viola reads no statusline source in any home.
+basis: fct-vey5bl3d
+because: The status-line source read was removed.
+@row_retire n=27 row=contract/hook-statusline-output/stdout seen=1 detector=none
+why: The hook statusline pass-through and its capture arm are removed.
+basis: fct-vey5bl3d
+because: The arm's surface no longer exists.

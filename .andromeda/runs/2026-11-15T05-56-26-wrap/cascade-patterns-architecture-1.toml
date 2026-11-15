@@ -1,0 +1,87 @@
+# rows-land · doc:architecture · operations 521ce7a84da80fca
+# a pattern each set and retire: the distinctive terms the old cell held and the new one lacks, digits alone never one; its control the row's previous revision
+
+[[pattern]]
+id = "arch1-2"
+fixed = "24th"
+# control: decision/permission-request-question-stays-null r2
+
+[[pattern]]
+id = "arch1-6"
+regex = "StatusLine|bin/sh"
+# control: contract/probe-capture/statusline-shell-file r1
+
+[[pattern]]
+id = "arch1-9"
+fixed = "bin/sh"
+# control: decision/no-shell-out r1
+
+[[pattern]]
+id = "arch1-13"
+fixed = "bin/sh"
+# control: decision/statusline-only-shell-out r1
+
+[[pattern]]
+id = "arch1-20"
+fixed = "statusline_command"
+# control: contract/instance-snapshot/data r2
+
+[[pattern]]
+id = "arch1-21"
+fixed = "statusline_command"
+# control: contract/instance-snapshot/statusline-command r1
+
+[[pattern]]
+id = "arch1-22"
+fixed = "statusLine"
+# control: contract/statusline-source/command r1
+
+[[pattern]]
+id = "arch1-24"
+fixed = "workspace.repo"
+# control: decision/fixture-keeps-own-repository-remote r1
+
+[[pattern]]
+id = "arch1-25"
+fixed = "settings.json"
+# control: decision/per-session-settings-override r1
+
+[[pattern]]
+id = "arch1-29"
+regex = "statusline\\-source\\.json|statusLine"
+# control: decision/statusline-source-precedence r1
+
+[[pattern]]
+id = "arch1-30"
+fixed = "settings.json"
+# control: contract/child-argv/settings r1
+
+[[pattern]]
+id = "arch1-31"
+fixed = "settings.json"
+# control: contract/claude-child-argv/settings r1
+
+[[pattern]]
+id = "arch1-32"
+regex = "settings\\.json|statusLine"
+# control: contract/instance-settings-json/statusline r1
+
+[[pattern]]
+id = "arch1-34"
+regex = "statusLine|ViolaName|settings\\.json"
+# control: contract/settings-override/status-line r1
+
+[[pattern]]
+id = "arch1-35"
+fixed = "StatusLine"
+# control: contract/statusline-capture-shell-file/verdict r1
+
+[[pattern]]
+id = "arch1-36"
+fixed = "statusline_command"
+# control: decision/board-read-model-shape r1
+
+[[pattern]]
+id = "arch1-38"
+regex = "statusline\\-source\\.json|VIOLA_DIR"
+# control: decision/statusline-source-follows-home r1

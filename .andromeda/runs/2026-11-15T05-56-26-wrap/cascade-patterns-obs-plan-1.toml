@@ -1,0 +1,97 @@
+# rows-land · doc:obs-plan · operations 86358f7eba32ac4f
+# a pattern each set and retire: the distinctive terms the old cell held and the new one lacks, digits alone never one; its control the row's previous revision
+
+[[pattern]]
+id = "obs1-1"
+fixed = "statusline_command"
+# control: decision/statusline-command-confined r2
+
+[[pattern]]
+id = "obs1-2"
+fixed = "statusline_command"
+# control: decision/statusline-command-duration-exit-only r1
+
+[[pattern]]
+id = "obs1-3"
+fixed = "statusline_command"
+# control: decision/statusline-command-string-diagnostics-only r1
+
+[[pattern]]
+id = "obs1-4"
+regex = "statusline_command|shell_exit_status|duration_ms"
+# control: decision/statusline-command-never-in-home-logs r1
+
+[[pattern]]
+id = "obs1-5"
+fixed = "statusline_command"
+# control: decision/statusline-command-only-in-diagnostics r1
+
+[[pattern]]
+id = "obs1-10"
+fixed = "STATUSLINE_DEADLINE"
+# control: decision/statusline-deadline r1
+
+[[pattern]]
+id = "obs1-15"
+fixed = "VIOLA_NAME"
+# control: decision/statusline-silent-without-instance r1
+
+[[pattern]]
+id = "obs1-16"
+regex = "statusline\\.shell_out|shell_exit_status|duration_ms"
+# control: contract/budget-span-attributes/statusline-shell-out r1
+
+[[pattern]]
+id = "obs1-17"
+fixed = "deadline_hit:true"
+# control: contract/statusline-decision-detail/deadline r1
+
+[[pattern]]
+id = "obs1-20"
+regex = "hook_event|duration_ms|deadline_hit"
+# control: contract/statusline-log-fields/hook-decision r2
+
+[[pattern]]
+id = "obs1-21"
+fixed = "hook_event"
+# control: contract/statusline-log-fields/hook-invoked r1
+
+[[pattern]]
+id = "obs1-22"
+fixed = "count:1"
+# control: contract/statusline-log-fields/parse-rejected r1
+
+[[pattern]]
+id = "obs1-23"
+regex = "shell_exit_status|duration_ms|statusline_command"
+# control: contract/statusline-log-fields/statusline-shell r1
+
+[[pattern]]
+id = "obs1-24"
+regex = "hook\\.statusline|statusline\\.shell_out"
+# control: contract/statusline-spans/span-chain r1
+
+[[pattern]]
+id = "obs1-28"
+fixed = "statusline_command"
+# control: decision/statusline-command-out-of-home-logs r1
+
+[[pattern]]
+id = "obs1-39"
+fixed = "statusline.shell_out"
+# control: contract/span-kinds/client r1
+
+[[pattern]]
+id = "obs1-40"
+fixed = "hook.statusline"
+# control: contract/span-kinds/server r1
+
+[[pattern]]
+id = "obs1-43"
+fixed = "shell_exit_status"
+# control: contract/diag-line-fields/process-exit r1
+
+[[pattern]]
+id = "obs1-45"
+fixed = "statusline_command"
+# control: decision/sensitive-content-detail-file-only r1

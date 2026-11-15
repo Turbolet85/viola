@@ -1,0 +1,278 @@
+[
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "c35b1198",
+"ts": "2026-11-15T06:38:14Z",
+"argv": [
+"harness",
+"land",
+"--root",
+".",
+".claude/docs/services/viola-agent-claude.md",
+"--file",
+".andromeda/runs/2026-11-15T05-56-26-wrap/draft-.claude-docs-services-viola-agent-claude.md",
+"--run-dir",
+".andromeda/runs/2026-11-15T05-56-26-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land .claude/docs/services/viola-agent-claude.md rev 9 · 4 node(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "c35b1198",
+"ts": "2026-11-15T06:38:14Z",
+"argv": [
+"harness",
+"land",
+"--root",
+".",
+".claude/docs/security-summary.md",
+"--file",
+".andromeda/runs/2026-11-15T05-56-26-wrap/draft-.claude-docs-security-summary.md",
+"--run-dir",
+".andromeda/runs/2026-11-15T05-56-26-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land .claude/docs/security-summary.md rev 10 · 2 node(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "c35b1198",
+"ts": "2026-11-15T06:38:18Z",
+"argv": [
+"harness",
+"land",
+"--root",
+".",
+".claude/docs/services/viola-agent-claude.md",
+"--file",
+".andromeda/runs/2026-11-15T05-56-26-wrap/draft-.claude-docs-services-viola-agent-claude.md",
+"--run-dir",
+".andromeda/runs/2026-11-15T05-56-26-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola-agent-claude.md rev 9 · 0 new · 3 revised · 0 retired · tx 1314"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T06-38-18-2026-11-15T05-56-26-wrap.ndjson",
+"./.claude/docs/services/viola-agent-claude.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "c35b1198",
+"ts": "2026-11-15T06:38:19Z",
+"argv": [
+"harness",
+"land",
+"--root",
+".",
+".claude/docs/security-summary.md",
+"--file",
+".andromeda/runs/2026-11-15T05-56-26-wrap/draft-.claude-docs-security-summary.md",
+"--run-dir",
+".andromeda/runs/2026-11-15T05-56-26-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/security-summary.md rev 10 · 0 new · 1 revised · 0 retired · tx 1315"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T06-38-18-2026-11-15T05-56-26-wrap.ndjson",
+"./.claude/docs/security-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "c35b1198",
+"ts": "2026-11-15T06:40:00Z",
+"argv": [
+"harness",
+"land",
+"--root",
+".",
+".claude/rules/testing.md",
+"--file",
+".andromeda/runs/2026-11-15T05-56-26-wrap/draft-.claude-rules-testing.md",
+"--run-dir",
+".andromeda/runs/2026-11-15T05-56-26-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land .claude/rules/testing.md rev 22 · 2 node(s) · 1 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "c35b1198",
+"ts": "2026-11-15T06:40:02Z",
+"argv": [
+"harness",
+"land",
+"--root",
+".",
+".claude/rules/testing.md",
+"--file",
+".andromeda/runs/2026-11-15T05-56-26-wrap/draft-.claude-rules-testing.md",
+"--run-dir",
+".andromeda/runs/2026-11-15T05-56-26-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/testing.md rev 22 · 1 new · 0 revised · 0 retired · tx 1317"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T06-38-18-2026-11-15T05-56-26-wrap.ndjson",
+"./.claude/rules/testing.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "c35b1198",
+"ts": "2026-11-15T06:40:02Z",
+"argv": [
+"harness",
+"land",
+"--root",
+".",
+".claude/docs/session-learnings.md",
+"--file",
+".andromeda/runs/2026-11-15T05-56-26-wrap/draft-.claude-docs-session-learnings.md",
+"--run-dir",
+".andromeda/runs/2026-11-15T05-56-26-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land .claude/docs/session-learnings.md rev 8 · 2 node(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "c35b1198",
+"ts": "2026-11-15T06:40:04Z",
+"argv": [
+"harness",
+"land",
+"--root",
+".",
+".claude/docs/session-learnings.md",
+"--file",
+".andromeda/runs/2026-11-15T05-56-26-wrap/draft-.claude-docs-session-learnings.md",
+"--run-dir",
+".andromeda/runs/2026-11-15T05-56-26-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/session-learnings.md rev 8 · 0 new · 1 revised · 0 retired · tx 1318"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T06-38-18-2026-11-15T05-56-26-wrap.ndjson",
+"./.claude/docs/session-learnings.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "c35b1198",
+"ts": "2026-11-15T06:48:27Z",
+"argv": [
+"outputs",
+"land",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T05-56-26-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed tx 1324 · 1534 record(s) of 158 payload(s)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T06-38-18-2026-11-15T05-56-26-wrap.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "c35b1198",
+"ts": "2026-11-15T06:48:31Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T05-56-26-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"sealed 2026-11-14T16-46-26-wrap · 285 file(s) · 2026-11-14T16-46-26-wrap.parquet · tx 1325 · 285 removed · 287 set aside",
+"sealed 2026-11-14T19-10-38-phase · 214 file(s) · 2026-11-14T19-10-38-phase.parquet · tx 1326 · 214 removed · 342 set aside",
+"sealed 2026-11-15T05-14-17-implement · 7 file(s) · 2026-11-15T05-14-17-implement.parquet · tx 1327 · 7 removed · 0 set aside",
+"sealed 2026-11-15T05-23-58-phase · 11 file(s) · 2026-11-15T05-23-58-phase.parquet · tx 1328 · 11 removed · 0 set aside",
+"sealed 2026-11-15T05-28-03-implement · 6 file(s) · 2026-11-15T05-28-03-implement.parquet · tx 1329 · 6 removed · 0 set aside",
+"seal · 5 run(s) · own 2026-11-15T05-56-26-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]
