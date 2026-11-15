@@ -25,9 +25,8 @@ use tracing::instrument;
 use viola_agent_claude::hook::HookEvent;
 use viola_agent_claude::ledger::{
     self, Capture, DialogRun, DialogRuns, LedgerRow, PROBE_ANSWERS, PROBE_PROMPT, ProbePlugin,
-    ProbeRun, Probes, ShellVerdict, StatusLineCapture, TypedRun,
+    ProbeRun, Probes, TypedRun,
 };
-use viola_agent_claude::statusline;
 use viola_agent_claude::{AgentError, PLUGIN_DIR_FLAG, PROGRAM, StripPlan};
 use viola_core::obs::{ObsEvent, ObsProcess};
 use viola_core::{Clock, MAX_FRAME, SystemClock, ViolaName, obs_event};
@@ -228,7 +227,6 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<Ended> {
         probe.resume(),
     ]
     .map(|root| (root.join("plugin"), root.join("captures")));
-    let statusline_settings = probe.statusline_settings();
     let typed = typed::measure(
         &clock,
         &typed::Inputs {
@@ -238,9 +236,6 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<Ended> {
             strip: &strip,
             stop: stop::stopped,
             trusted: dirs(&trusted),
-            statusline_settings: statusline_settings
-                .is_file()
-                .then_some(statusline_settings.as_path()),
             questions: dirs(&questions),
             plan: dirs(&plan),
             resume: dirs(&resume),
@@ -258,7 +253,6 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<Ended> {
         typed,
         trusted: read_captures(&trusted.1),
         dialogs,
-        statusline: read_statusline(&probe.statusline_captures()),
         resumed: read_captures(&resume.1),
         agents,
     };
@@ -304,9 +298,7 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<Ended> {
 }
 
 /// `<home>/ledger/probes/<pid>/` (0700) with the capture plugin in `plugin/` and an empty
-/// `captures/`, the same pair under `typed/` for the trusted interactive run with its empty
-/// `statusline/` and, where the status line is wrapped, its probe settings `statusline.json`, under
-/// `questions/` and `plan/` a dialog plugin, its captures and its `answers/` (written from the
+/// `captures/`, the same pair under `typed/` for the trusted interactive run, under `questions/` and `plan/` a dialog plugin, its captures and its `answers/` (written from the
 /// compiled answer table) for the dialog and plan runs, and under `resume/` the capture plugin and
 /// its captures for the resume run; removed whole when dropped, on every exit path.
 struct ProbeDir {
@@ -333,11 +325,6 @@ impl ProbeDir {
         for root in [probe.dir.clone(), probe.typed(), probe.resume()] {
             write_plugin(&root, pinned_bin_fwd, None)?;
         }
-        let statusline = probe.statusline_captures();
-        create_private_dir(&statusline)?;
-        if let Some(document) = statusline::probe_document(pinned_bin_fwd, &fwd(&statusline)) {
-            replace_private(&probe.statusline_settings(), document.as_bytes(), FILE_MODE)?;
-        }
         for (root, run) in [
             (probe.questions(), DialogRun::Questions),
             (probe.plan(), DialogRun::Plan),
@@ -355,14 +342,6 @@ impl ProbeDir {
 
     fn typed(&self) -> PathBuf {
         self.dir.join("typed")
-    }
-
-    fn statusline_captures(&self) -> PathBuf {
-        self.typed().join("statusline")
-    }
-
-    fn statusline_settings(&self) -> PathBuf {
-        self.typed().join("statusline.json")
     }
 
     fn questions(&self) -> PathBuf {
@@ -435,40 +414,6 @@ fn read_captures(dir: &Path) -> Vec<Capture> {
         .collect()
 }
 
-/// The bound on a shell verdict file: `bin-sh` and `other` are shorter.
-const SHELL_CAP: u64 = 16;
-
-/// Every `StatusLine.<k>.json` in `dir`, in `k` order, each read through the frame cap with the
-/// verdict its `StatusLine.<k>.shell` holds; an absent or unreadable verdict reads `Other`.
-fn read_statusline(dir: &Path) -> Vec<StatusLineCapture> {
-    let mut found: Vec<(u32, PathBuf)> = std::fs::read_dir(dir)
-        .into_iter()
-        .flatten()
-        .flatten()
-        .filter_map(|entry| {
-            let k = ledger::parse_statusline_capture_file_name(entry.file_name().to_str()?)?;
-            Some((k, entry.path()))
-        })
-        .collect();
-    found.sort_by_key(|(k, _)| *k);
-    found
-        .into_iter()
-        .filter_map(|(k, path)| {
-            let mut bytes = Vec::new();
-            File::open(path)
-                .ok()?
-                .take(MAX_FRAME + 1)
-                .read_to_end(&mut bytes)
-                .ok()?;
-            let mut word = Vec::new();
-            let shell = File::open(dir.join(ledger::statusline_shell_file_name(k)))
-                .and_then(|f| f.take(SHELL_CAP).read_to_end(&mut word))
-                .map_or(ShellVerdict::Other, |_| ShellVerdict::read(&word));
-            Some(StatusLineCapture { bytes, shell })
-        })
-        .collect()
-}
-
 /// Every row relied on this OS checked in order, its step line printed as it is checked.
 fn check_rows(probes: &Probes) -> Vec<(LedgerRow, bool)> {
     let relied = LedgerRow::relied();
@@ -500,9 +445,8 @@ fn step_line(n: usize, total: usize, row: LedgerRow, pass: bool) -> String {
 /// The first capture of each spine event, scrubbed of the user's home and name, written as
 /// `<dir>/<version>/<Event>.default.json`; each dialog run's captures the same way as
 /// `<Event>.<variant>.json` (`ledger::dialog_variants`), and so the trusted run's paste prompts and
-/// the hooks its local command fired (`ledger::framing_variants`), its status line's two payloads
-/// (`ledger::statusline_variants`) and the resume run's SessionStart (`ledger::resume_variants`); and
-/// each recorded screen as
+/// the hooks its local command fired (`ledger::framing_variants`) and the resume run's SessionStart
+/// (`ledger::resume_variants`); and each recorded screen as
 /// `Screen.<phase>.json` holding only its signature rows. One payload that stays unclean after the
 /// scrub, or one screen whose kept rows or their seams hold a path, the username or an email,
 /// refuses the whole recording before any file is written; the refusal names the file and the
@@ -531,7 +475,7 @@ fn record(dir: &Path, version: &str, probes: &Probes) -> anyhow::Result<Ended> {
 type Recorded = (String, serde_json::Value);
 
 /// The payloads `record` names, in file order: the spine's first of each event, each dialog run's
-/// variants, the trusted run's framing variants, its status line variants, the resume run's variant
+/// variants, the trusted run's framing variants, the resume run's variant
 /// and the trusted run's own row of its agents read. A payload that does not parse is left out.
 fn named_payloads(probes: &Probes) -> Vec<(String, serde_json::Value)> {
     let mut payloads: Vec<(String, Option<serde_json::Value>)> = Vec::new();
@@ -552,9 +496,6 @@ fn named_payloads(probes: &Probes) -> Vec<(String, serde_json::Value)> {
             format!("{}.{variant}.json", ledger::event_name(capture.event)),
             capture,
         );
-    }
-    for (name, bytes) in ledger::statusline_variants(&probes.statusline) {
-        payloads.push((name, serde_json::from_slice(bytes).ok()));
     }
     for (variant, capture) in ledger::resume_variants(&probes.resumed) {
         payloads.push((
@@ -681,7 +622,7 @@ mod tests {
         );
     }
 
-    /// The counter's total is the relied count: twenty-four rows.
+    /// The counter's total is the relied count: twenty-one rows.
     #[test]
     fn step_lines_count_to_the_relied_total() {
         let probes = Probes {
@@ -692,31 +633,22 @@ mod tests {
             typed: TypedRun::default(),
             trusted: Vec::new(),
             dialogs: DialogRuns::default(),
-            statusline: Vec::new(),
             resumed: Vec::new(),
             agents: None,
         };
         let results = check_rows(&probes);
-        assert_eq!(results.len(), 23);
+        assert_eq!(results.len(), 21);
         assert_eq!(
-            step_line(19, 23, LedgerRow::StatusLineOverride, false),
-            "[19/23] statusline-override a --settings statusLine runs in the status line's place  fail"
+            step_line(19, 21, LedgerRow::ResumeSession, false),
+            "[19/21] resume-session --resume <id> reopens the session under that id  fail"
         );
         assert_eq!(
-            step_line(20, 23, LedgerRow::StatusLineShell, true),
-            "[20/23] statusline-shell a statusline command runs through /bin/sh  pass"
+            step_line(20, 21, LedgerRow::AgentsJoin, false),
+            "[20/21] agents-join claude agents --json names the live session by pid and session id  fail"
         );
         assert_eq!(
-            step_line(21, 23, LedgerRow::ResumeSession, false),
-            "[21/23] resume-session --resume <id> reopens the session under that id  fail"
-        );
-        assert_eq!(
-            step_line(22, 23, LedgerRow::AgentsJoin, false),
-            "[22/23] agents-join claude agents --json names the live session by pid and session id  fail"
-        );
-        assert_eq!(
-            step_line(23, 23, LedgerRow::LocalCommandCompact, false),
-            "[23/23] local-command-compact /compact keeps the session id and submits no prompt  fail"
+            step_line(21, 21, LedgerRow::LocalCommandCompact, false),
+            "[21/21] local-command-compact /compact keeps the session id and submits no prompt  fail"
         );
         let rows: Vec<LedgerRow> = results.iter().map(|(row, _)| *row).collect();
         assert_eq!(rows, LedgerRow::relied());
@@ -727,71 +659,6 @@ mod tests {
             .map(|(row, _)| *row)
             .collect();
         assert_eq!(passed, [LedgerRow::LargestHookPayload]);
-    }
-
-    #[test]
-    fn read_statusline_orders_by_k_and_reads_each_shell_verdict() {
-        let tmp = tempfile::tempdir().expect("tempdir");
-        let dir = tmp.path();
-        fs::write(dir.join("StatusLine.2.json"), b"{\"n\":2}").expect("2");
-        fs::write(dir.join("StatusLine.2.shell"), b"other").expect("2");
-        fs::write(dir.join("StatusLine.1.json"), b"{\"n\":1}").expect("1");
-        fs::write(dir.join("StatusLine.1.shell"), b"bin-sh").expect("1");
-        fs::write(dir.join("StatusLine.3.json"), b"x").expect("3, no verdict");
-        fs::write(dir.join("StatusLine.4.json"), b"y").expect("4");
-        fs::write(dir.join("StatusLine.4.shell"), b"bin-sh and more").expect("4");
-        fs::write(dir.join("Stop.5.json"), b"{}").expect("another arm's name");
-        fs::write(dir.join("StatusLine.6.shell"), b"bin-sh").expect("a lone verdict");
-        let got = read_statusline(dir);
-        let read: Vec<(&[u8], ShellVerdict)> =
-            got.iter().map(|c| (c.bytes.as_slice(), c.shell)).collect();
-        assert_eq!(
-            read,
-            [
-                (&b"{\"n\":1}"[..], ShellVerdict::BinSh),
-                (&b"{\"n\":2}"[..], ShellVerdict::Other),
-                (&b"x"[..], ShellVerdict::Other),
-                (&b"y"[..], ShellVerdict::Other),
-            ]
-        );
-        assert!(read_statusline(&dir.join("missing")).is_empty());
-    }
-
-    #[test]
-    fn read_statusline_reads_one_byte_past_the_cap() {
-        let tmp = tempfile::tempdir().expect("tempdir");
-        let cap = usize::try_from(MAX_FRAME).expect("fits");
-        fs::write(tmp.path().join("StatusLine.1.json"), vec![b' '; cap + 5]).expect("big");
-        assert_eq!(read_statusline(tmp.path())[0].bytes.len(), cap + 1);
-    }
-
-    #[test]
-    fn probe_dir_holds_the_statusline_dir_and_its_probe_settings() {
-        let tmp = tempfile::tempdir().expect("tempdir");
-        let probe = ProbeDir::create(tmp.path(), "/h/bin/k/viola").expect("probe dir");
-        let captures = probe.dir.join("typed").join("statusline");
-        assert!(captures.is_dir());
-        assert_eq!(probe.statusline_captures(), captures);
-        let settings = probe.dir.join("typed").join("statusline.json");
-        assert_eq!(probe.statusline_settings(), settings);
-        {
-            use std::os::unix::fs::PermissionsExt as _;
-            let doc: serde_json::Value =
-                serde_json::from_slice(&fs::read(&settings).expect("settings")).expect("json");
-            let command = format!(
-                "/h/bin/k/viola hook statusline --capture {} --shell \"$0\"",
-                fwd(&captures)
-            );
-            assert_eq!(
-                doc,
-                json!({"statusLine": {"type": "command", "command": command}})
-            );
-            let mode = fs::metadata(&settings).expect("meta").permissions().mode();
-            assert_eq!(mode & 0o777, 0o600);
-        }
-        let unplain = ProbeDir::create(tmp.path(), "/h/bin k/viola").expect("probe dir");
-        assert!(!unplain.statusline_settings().exists());
-        assert!(unplain.statusline_captures().is_dir());
     }
 
     #[test]

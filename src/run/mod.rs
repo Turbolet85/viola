@@ -15,7 +15,6 @@ pub(crate) mod wheel;
 use std::ffi::{OsStr, OsString};
 use std::path::{Path, PathBuf};
 
-use viola_agent_claude::statusline::SETTINGS_FLAG;
 use viola_agent_claude::{AgentError, PLUGIN_DIR_FLAG, Search, StripPlan};
 use viola_core::obs::ObsEvent;
 use viola_core::{SERVICE_NAME, VERSION, ViolaName, obs_event};
@@ -39,7 +38,6 @@ pub(crate) fn first() -> viola_state::snapshot::InstanceSnapshot {
         child_pid: None,
         pending_dialog: None,
         cwd: None,
-        statusline_command: None,
         agent_session_id: None,
     }
 }
@@ -113,9 +111,8 @@ pub(crate) fn log_self_exit(exit_code: u8, detail: Option<&'static str>) {
 }
 
 /// What the child is started with beyond the inherited environment: the `VIOLA_*` names, the
-/// pinned dir first on `PATH`, and the plugin folder, then the settings override when the start
-/// wrote one, ahead of the caller's arguments (architecture §Occupied Resources → Environment
-/// variables).
+/// pinned dir first on `PATH`, and the plugin folder ahead of the caller's arguments (architecture
+/// §Occupied Resources → Environment variables).
 pub(crate) struct ChildLaunch {
     pub(crate) env_set: Vec<(OsString, OsString)>,
     pub(crate) args: Vec<OsString>,
@@ -126,7 +123,6 @@ pub(crate) fn child_launch(
     instance_dir: &Path,
     pinned: &Pinned,
     plugin_dir: &Path,
-    settings: Option<&Path>,
     inherited_path: Option<OsString>,
     user_args: &[OsString],
 ) -> ChildLaunch {
@@ -148,10 +144,6 @@ pub(crate) fn child_launch(
         OsString::from(PLUGIN_DIR_FLAG),
         plugin_dir.as_os_str().to_owned(),
     ];
-    if let Some(settings) = settings {
-        args.push(OsString::from(SETTINGS_FLAG));
-        args.push(settings.as_os_str().to_owned());
-    }
     args.extend_from_slice(user_args);
     ChildLaunch { env_set, args }
 }
@@ -204,7 +196,6 @@ mod tests {
             &instance_dir,
             &pinned(&exe),
             &plugin_dir,
-            None,
             Some(inherited),
             &user_args,
         );
@@ -239,7 +230,6 @@ mod tests {
                 Path::new("d"),
                 &pinned(&pin_dir.join("viola")),
                 Path::new("p"),
-                None,
                 inherited,
                 &[],
             );
@@ -251,59 +241,29 @@ mod tests {
         }
     }
 
-    fn launch_args(settings: Option<&Path>, user_args: &[OsString]) -> Vec<OsString> {
+    /// A revived start's `--resume` words are the caller's arguments: they follow the plugin dir,
+    /// and no settings file is handed to the child.
+    #[test]
+    fn child_launch_passes_no_settings_flag() {
         let name = ViolaName::try_new("builder".to_owned()).expect("valid");
         let exe = std::env::temp_dir().join("bin").join("k").join("viola");
-        child_launch(
-            &name,
-            Path::new("d"),
-            &pinned(&exe),
-            Path::new("p"),
-            settings,
-            None,
-            user_args,
-        )
-        .args
-    }
-
-    /// A revived start's `--resume` words are the caller's arguments: they stay after both flags.
-    #[test]
-    fn spawn_settings_flag_follows_the_plugin_dir() {
-        let settings = Path::new("d").join("settings.json");
-        let user_args = [OsString::from("--resume"), OsString::from("id")];
-        assert_eq!(
-            launch_args(Some(&settings), &user_args),
-            [
-                OsString::from("--plugin-dir"),
-                OsString::from("p"),
-                OsString::from("--settings"),
-                settings.clone().into_os_string(),
-                OsString::from("--resume"),
-                OsString::from("id"),
-            ]
-        );
-        assert_eq!(
-            launch_args(Some(&settings), &[]),
-            [
-                OsString::from("--plugin-dir"),
-                OsString::from("p"),
-                OsString::from("--settings"),
-                settings.into_os_string(),
-            ]
-        );
-    }
-
-    #[test]
-    fn spawn_without_an_override_passes_no_settings_flag() {
-        let user_args = [OsString::from("--receipt"), OsString::from("r")];
-        assert_eq!(
-            launch_args(None, &user_args),
-            [
-                OsString::from("--plugin-dir"),
-                OsString::from("p"),
-                OsString::from("--receipt"),
-                OsString::from("r"),
-            ]
-        );
+        for user_args in [
+            vec![OsString::from("--resume"), OsString::from("id")],
+            Vec::new(),
+        ] {
+            let args = child_launch(
+                &name,
+                Path::new("d"),
+                &pinned(&exe),
+                Path::new("p"),
+                None,
+                &user_args,
+            )
+            .args;
+            let mut expected = vec![OsString::from("--plugin-dir"), OsString::from("p")];
+            expected.extend(user_args.iter().cloned());
+            assert_eq!(args, expected);
+            assert!(!args.iter().any(|a| a == "--settings"));
+        }
     }
 }

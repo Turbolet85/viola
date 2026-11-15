@@ -42,8 +42,7 @@ pub(super) struct RunDirs<'a> {
 }
 
 /// What the runs need from `verify`: the resolved CLI and its leading arguments, verify's cwd, the
-/// R8 strip, the stop, the trusted, dialog, plan and resume runs' plugins and capture dirs, and the
-/// trusted run's statusline probe settings where the status line is wrapped.
+/// R8 strip, the stop and the trusted, dialog, plan and resume runs' plugins and capture dirs.
 pub(super) struct Inputs<'a> {
     pub(super) program: &'a Path,
     pub(super) program_args: &'a [OsString],
@@ -51,7 +50,6 @@ pub(super) struct Inputs<'a> {
     pub(super) strip: &'a StripPlan,
     pub(super) stop: fn() -> bool,
     pub(super) trusted: RunDirs<'a>,
-    pub(super) statusline_settings: Option<&'a Path>,
     pub(super) questions: RunDirs<'a>,
     pub(super) plan: RunDirs<'a>,
     pub(super) resume: RunDirs<'a>,

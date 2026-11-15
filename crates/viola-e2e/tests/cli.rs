@@ -172,7 +172,6 @@ fn booted(label: &str) -> (Booted, SessionRecord) {
         cli_version: DEFAULT_CLI_VERSION.to_owned(),
         build: false,
         stamp: true,
-        statusline_echo: false,
         agents_mode: AgentsMode::Recorded,
     };
     let guard = Booted { ws, session };

@@ -115,7 +115,6 @@ fn served(label: &str, recorded: u32) -> Served {
         child_pid: None,
         pending_dialog: None,
         cwd: None,
-        statusline_command: None,
         agent_session_id: None,
     };
     write_snapshot(&instance, &snapshot).expect("the snapshot");

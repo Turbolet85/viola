@@ -388,7 +388,6 @@ mod tests {
             child_pid: Some(pid),
             pending_dialog: None,
             cwd: Some("/work/secret-cwd".to_owned()),
-            statusline_command: Some("secret-statusline-command".to_owned()),
             agent_session_id: None,
         }
     }
@@ -776,14 +775,7 @@ mod tests {
             every,
             r#"{"name":"builder","wrapped":true,"liveness":"live","status":"unknown","wheel":"driver","dialog_pending":true,"cli_version":"2.1.287","cli_verified":true}"#
         );
-        for secret in [
-            "secret",
-            "endpoint",
-            "pinned_bin",
-            "cwd",
-            "statusline",
-            "links",
-        ] {
+        for secret in ["secret", "endpoint", "pinned_bin", "cwd", "links"] {
             assert!(!every.contains(secret), "{secret}");
         }
         let none = Item {

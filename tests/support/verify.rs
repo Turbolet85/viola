@@ -99,7 +99,6 @@ pub fn framing_set() -> Vec<(&'static str, &'static str, Value)> {
     let mut started = spine_payload("SessionStart");
     started["source"] = json!("clear");
     started["session_id"] = json!("s-verify-2");
-    let status = json!({"session_id": SESSION_ID, "model": {"id": "m"}, "note": CANARY});
     vec![
         ("UserPromptSubmit", "paste-1", long),
         ("UserPromptSubmit", "paste-2", tag),
@@ -107,7 +106,6 @@ pub fn framing_set() -> Vec<(&'static str, &'static str, Value)> {
         ("SessionStart", "compact-1", compacted),
         ("SessionEnd", "clear-1", ended),
         ("SessionStart", "clear-1", started),
-        ("StatusLine", "default-1", status),
     ]
 }
 

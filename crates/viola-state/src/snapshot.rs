@@ -58,10 +58,6 @@ pub struct InstanceSnapshot {
     /// never yields one (architecture §Standard Contracts, Instance snapshot).
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub cwd: Option<String>,
-    /// The user's own statusline command, as the start read it from its source; `viola hook
-    /// statusline` runs it. User content: it reaches no log line. The log replay never yields one.
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub statusline_command: Option<String>,
     /// The `agent_session_id` of the last `session-start` that carried one: kept only to join the
     /// `claude agents --json` rows (architecture §Standard Contracts, Instance snapshot).
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -170,7 +166,6 @@ mod tests {
             child_pid,
             pending_dialog: None,
             cwd: None,
-            statusline_command: None,
             agent_session_id: None,
         }
     }
@@ -231,7 +226,6 @@ mod tests {
         every.endpoint = Some("e".to_owned());
         every.cli_version = Some("2.1.302".to_owned());
         every.cwd = Some("/work/project".to_owned());
-        every.statusline_command = Some("echo x".to_owned());
         every.agent_session_id = Some("s-1".to_owned());
         every.pending_dialog = Some(PendingDialog {
             dialog_id: 1,
@@ -328,45 +322,55 @@ mod tests {
         assert_eq!(snap.cwd.as_deref(), cwd);
     }
 
-    #[test]
-    fn snapshot_statusline_command_is_written_under_v_1_and_reads_back() {
-        let tmp = tempfile::tempdir().expect("tempdir");
-        let mut held = snapshot(5, Some(6));
-        held.statusline_command = Some("~/.claude/statusline.sh --wide".to_owned());
-        write_snapshot(tmp.path(), &held).expect("write");
-        let disk = on_disk(tmp.path());
-        assert_eq!(disk["v"], 1);
-        assert_eq!(
-            disk["data"]["statusline_command"],
-            "~/.claude/statusline.sh --wide"
-        );
-        assert_eq!(read_snapshot(tmp.path()), Some(held));
-        write_snapshot(tmp.path(), &snapshot(5, Some(6))).expect("without");
-        assert!(
-            on_disk(tmp.path())["data"]
-                .get("statusline_command")
-                .is_none()
-        );
+    fn retired_words() -> Value {
+        serde_json::from_str(include_str!(
+            "../../../fixtures/viola-0.1.0/retired-words.json"
+        ))
+        .expect("the retired words")
     }
 
-    #[rstest]
-    #[case::no_key(
-        r#"{"v":1,"written_at":"x","writer":"w","data":{"pid":7,"started_at":"s","pinned_bin":"b","cli_verified":true,"wheel":"driver"}}"#,
-        None
-    )]
-    #[case::an_unknown_key_beside_it(
-        r#"{"v":1,"written_at":"x","writer":"w","data":{"pid":7,"started_at":"s","pinned_bin":"b","cli_verified":true,"wheel":"driver","statusline_command":"echo x","later":1}}"#,
-        Some("echo x")
-    )]
-    fn snapshot_statusline_command_reads_as_absent_without_its_key(
-        #[case] bytes: &str,
-        #[case] command: Option<&str>,
-    ) {
+    /// A 0.1.0 start recorded the user's status-line command in its snapshot: this reader skips
+    /// that key and reads every other field.
+    #[test]
+    fn snapshot_holding_the_retired_command_reads_whole_skipping_it() {
+        let retired = retired_words();
+        let key = retired["retired_snapshot_key"].as_str().expect("the key");
+        let bytes = include_str!("../../../fixtures/viola-0.1.0/snapshot.json");
+        let doc: Value = serde_json::from_str(bytes).expect("json");
+        assert!(doc["data"].get(key).is_some(), "the fixture holds the key");
         let tmp = tempfile::tempdir().expect("tempdir");
         seed(tmp.path(), bytes);
         let snap = read_snapshot(tmp.path()).expect("parsed");
         assert_eq!(snap.pid, 7);
-        assert_eq!(snap.statusline_command.as_deref(), command);
+        assert_eq!(snap.started_at, "2026-11-01T09:59:59.000Z");
+        assert_eq!(snap.pinned_bin, "bin/0.1.0-0123456789abcdef/viola");
+        assert!(snap.cli_verified);
+        assert_eq!(snap.cli_version.as_deref(), Some("2.1.302"));
+        assert_eq!(snap.wheel, Wheel::Human);
+        assert_eq!(snap.links.len(), 1);
+        assert_eq!(
+            snap.agent_session_id.as_deref(),
+            Some("0d6f1c52-3b7e-4a86-9a52-2f8b1c3d4e5f")
+        );
+    }
+
+    #[test]
+    fn snapshot_written_holds_no_retired_snapshot_key() {
+        let retired = retired_words();
+        let key = retired["retired_snapshot_key"].as_str().expect("the key");
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let mut every = snapshot(41, Some(42));
+        every.endpoint = Some("e".to_owned());
+        every.cli_version = Some("2.1.302".to_owned());
+        every.cwd = Some("/work/project".to_owned());
+        every.agent_session_id = Some("s-1".to_owned());
+        every.pending_dialog = Some(PendingDialog {
+            dialog_id: 1,
+            kind: "plan".to_owned(),
+        });
+        write_snapshot(tmp.path(), &every).expect("write");
+        let text = fs::read_to_string(tmp.path().join("snapshot.json")).expect("read");
+        assert!(!text.contains(key), "{key}");
     }
 
     #[test]

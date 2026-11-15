@@ -178,7 +178,6 @@ pub(super) fn perf(
         // Unverified: the `pre-tool-use` row's `hook.dialog` is answered `null` at once, and the
         // spine rows' hook path reads no stamps.
         stamp: false,
-        statusline_echo: false,
         agents_mode: AgentsMode::Recorded,
     });
     let home = match booted_home(&booted.doc) {

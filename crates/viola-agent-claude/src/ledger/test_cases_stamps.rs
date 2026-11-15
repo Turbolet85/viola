@@ -1,7 +1,7 @@
 use super::*;
 
 #[test]
-fn ledger_rows_are_the_twenty_three_measured_behaviours_in_order() {
+fn ledger_rows_are_the_twenty_one_measured_behaviours_in_order() {
     let ids: Vec<&str> = LedgerRow::ALL.iter().map(|r| r.id()).collect();
     assert_eq!(
         ids,
@@ -24,8 +24,6 @@ fn ledger_rows_are_the_twenty_three_measured_behaviours_in_order() {
             "tag-escaping",
             "local-command-clear",
             "paste-newline",
-            "statusline-override",
-            "statusline-shell",
             "resume-session",
             "agents-join",
             "local-command-compact",
@@ -53,8 +51,6 @@ fn ledger_rows_are_the_twenty_three_measured_behaviours_in_order() {
             "tag-like text un-escapes to the text as pasted",
             "/clear starts a new session and submits no prompt",
             "an LF inside a paste stays inside the one prompt submitted",
-            "a --settings statusLine runs in the status line's place",
-            "a statusline command runs through /bin/sh",
             "--resume <id> reopens the session under that id",
             "claude agents --json names the live session by pid and session id",
             "/compact keeps the session id and submits no prompt",
@@ -67,7 +63,7 @@ fn ledger_rows_are_the_twenty_three_measured_behaviours_in_order() {
 fn relied_rows_are_every_row_in_order() {
     let here: Vec<&str> = LedgerRow::relied().into_iter().map(LedgerRow::id).collect();
     let all: Vec<&str> = LedgerRow::ALL.into_iter().map(LedgerRow::id).collect();
-    assert_eq!(here.len(), 23);
+    assert_eq!(here.len(), 21);
     assert_eq!(here, all);
     assert_eq!(here.last(), Some(&"local-command-compact"));
 }
@@ -189,7 +185,7 @@ fn capture_read_keeps_the_size_and_a_parsed_payload() {
 
 #[test]
 fn check_passes_every_row_on_a_clean_probe() {
-    assert_eq!(verdicts(&clean_run()), [true; 23]);
+    assert_eq!(verdicts(&clean_run()), [true; 21]);
 }
 
 #[test]
@@ -330,7 +326,6 @@ fn merge_stamp_writes_the_envelope_for_a_first_version() {
                     "question-notes": "pass", "dialog-concurrency": "pass",
                     "long-paste-wrapper": "pass", "tag-escaping": "pass",
                     "local-command-clear": "pass", "paste-newline": "pass",
-                    "statusline-override": "pass", "statusline-shell": "pass",
                     "resume-session": "pass",
                     "agents-join": "pass", "local-command-compact": "pass",
                 },
@@ -496,46 +491,19 @@ fn verified_reads_a_fourteen_row_stamp_as_unverified() {
     assert_eq!(
         verified(stamp.to_string().as_bytes(), "2.1.0"),
         Ok(false),
-        "the eighteen rows before the statusline rows"
-    );
-    let mut nineteen = stamp.clone();
-    nineteen["data"]["versions"]["2.1.0"]["rows"]["resume-session"] = json!("pass");
-    assert_eq!(
-        verified(nineteen.to_string().as_bytes(), "2.1.0"),
-        Ok(false),
-        "the eighteen rows and the resume row, before the agents row"
-    );
-    nineteen["data"]["versions"]["2.1.0"]["rows"]["agents-join"] = json!("pass");
-    assert_eq!(
-        verified(nineteen.to_string().as_bytes(), "2.1.0"),
-        Ok(false),
-        "the eighteen rows, the resume row and the agents row, before the compact row"
-    );
-    nineteen["data"]["versions"]["2.1.0"]["rows"]["local-command-compact"] = json!("pass");
-    assert_eq!(
-        verified(nineteen.to_string().as_bytes(), "2.1.0"),
-        Ok(false),
-        "the eighteen rows, the resume row, the agents row and the compact row"
-    );
-    for id in ["statusline-override", "statusline-shell"] {
-        stamp["data"]["versions"]["2.1.0"]["rows"][id] = json!("pass");
-    }
-    assert_eq!(
-        verified(stamp.to_string().as_bytes(), "2.1.0"),
-        Ok(false),
-        "the twenty rows before the resume row"
+        "the eighteen rows before the resume row"
     );
     stamp["data"]["versions"]["2.1.0"]["rows"]["resume-session"] = json!("pass");
     assert_eq!(
         verified(stamp.to_string().as_bytes(), "2.1.0"),
         Ok(false),
-        "the twenty-one rows before the agents row"
+        "the nineteen rows before the agents row"
     );
     stamp["data"]["versions"]["2.1.0"]["rows"]["agents-join"] = json!("pass");
     assert_eq!(
         verified(stamp.to_string().as_bytes(), "2.1.0"),
         Ok(false),
-        "the twenty-two rows of an older stamp"
+        "the twenty rows of an older stamp"
     );
     stamp["data"]["versions"]["2.1.0"]["rows"]["local-command-compact"] = json!("pass");
     assert_eq!(verified(stamp.to_string().as_bytes(), "2.1.0"), Ok(true));
@@ -556,29 +524,54 @@ fn verified_reads_a_stamp_holding_the_retired_row_on_the_relied_rows_alone() {
         .map(|row| (row.id().to_owned(), json!("pass")))
         .collect();
     rows.insert(retired.to_owned(), json!("fail"));
-    assert_eq!(rows.len(), 24);
+    assert_eq!(rows.len(), 22);
     let stamp = json!({"v": 1, "data": {"versions": {"2.1.0": {"rows": rows}}}});
     assert_eq!(verified(stamp.to_string().as_bytes(), "2.1.0"), Ok(true));
 }
 
-/// Every statusline row is relied on, so a statusline row that failed leaves the version
-/// unverified.
-#[test]
-fn verified_reads_a_failed_statusline_row_by_the_relied_set() {
-    let results: Vec<(LedgerRow, bool)> = LedgerRow::ALL
+fn retired_rows_of_the_fixture() -> Vec<String> {
+    let retired: Value = serde_json::from_str(include_str!(
+        "../../../../fixtures/viola-0.1.0/retired-words.json"
+    ))
+    .expect("the retired words");
+    let rows: Vec<String> = retired["retired_ledger_rows"]
+        .as_array()
+        .expect("the retired rows")
         .iter()
-        .map(|r| (*r, *r != LedgerRow::StatusLineShell))
+        .map(|id| id.as_str().expect("a row id").to_owned())
         .collect();
-    let stamp = merge_stamp(
-        None,
-        "2.1.0",
-        &results,
-        &[],
-        &TypedRun::default(),
-        None,
-        "t",
+    assert_eq!(rows.len(), 2);
+    rows
+}
+
+/// A stamp written while the two status-line rows were relied on still holds them: the verdict
+/// reads the relied rows alone, so every relied row `pass` reads verified whatever they hold.
+#[test]
+fn verified_reads_a_stamp_holding_the_two_retired_rows_on_the_relied_rows_alone() {
+    let retired = retired_rows_of_the_fixture();
+    assert!(
+        LedgerRow::ALL
+            .iter()
+            .all(|row| !retired.iter().any(|id| id == row.id()))
     );
-    assert_eq!(verified(&stamp, "2.1.0"), Ok(false));
+    let mut rows: Map<String, Value> = LedgerRow::relied()
+        .into_iter()
+        .map(|row| (row.id().to_owned(), json!("pass")))
+        .collect();
+    for id in &retired {
+        rows.insert(id.clone(), json!("fail"));
+    }
+    assert_eq!(rows.len(), 23);
+    let stamp = json!({"v": 1, "data": {"versions": {"2.1.0": {"rows": rows}}}});
+    assert_eq!(verified(stamp.to_string().as_bytes(), "2.1.0"), Ok(true));
+}
+
+#[test]
+fn relied_rows_hold_no_retired_row() {
+    let retired = retired_rows_of_the_fixture();
+    let relied: Vec<&str> = LedgerRow::relied().into_iter().map(LedgerRow::id).collect();
+    assert_eq!(relied.len(), 21);
+    assert!(relied.iter().all(|id| !retired.iter().any(|r| r == id)));
 }
 
 #[rstest]

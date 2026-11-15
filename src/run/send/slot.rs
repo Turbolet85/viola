@@ -422,7 +422,6 @@ mod tests {
             child_pid: Some(7),
             pending_dialog: None,
             cwd: dir.to_str().map(str::to_owned),
-            statusline_command: None,
             agent_session_id: None,
         }
     }

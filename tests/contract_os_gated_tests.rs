@@ -32,8 +32,6 @@ struct Gate {
 const UNIX_MODES: &str =
     "the widening is made through Unix mode bits, the strict-modes rule's Unix form";
 const SOCKET_DIR: &str = "the socket directory and its mode check are the Unix endpoint's";
-const UNIX_STATUSLINE: &str =
-    "the status line is wrapped on Unix only, the user's command run through /bin/sh";
 
 const GATES: &[Gate] = &[
     Gate {
@@ -113,12 +111,6 @@ const GATES: &[Gate] = &[
         test: "home_base_backing_target_that_is_a_link_is_refused",
         gate: "unix",
         reason: "the home backing is a symlink chain, and the refusal reads its target's file type",
-    },
-    Gate {
-        file: "tests/cli_instance_state.rs",
-        test: "path6_wrapped_statusline_prints_the_user_output_unchanged",
-        gate: "unix",
-        reason: UNIX_STATUSLINE,
     },
     Gate {
         file: "tests/cli_links.rs",
@@ -205,12 +197,6 @@ const GATES: &[Gate] = &[
         reason: UNIX_MODES,
     },
     Gate {
-        file: "tests/contract_fake_agent_drift.rs",
-        test: "fake_agent_statusline_replay_matches_every_recorded_statusline_set",
-        gate: "unix",
-        reason: "the status line is wrapped on Unix only, so its variants replay there",
-    },
-    Gate {
         file: "tests/cross_exit_causes.rs",
         test: "a_loosened_socket_directory_on_a_frame_verb_is_socket_dir_refused",
         gate: "unix",
@@ -233,24 +219,6 @@ const GATES: &[Gate] = &[
         test: "strict_modes_on_the_board_is_exit_21_and_opens_no_log",
         gate: "unix",
         reason: "the instance is widened through its Unix mode bits, the read rule's Unix form",
-    },
-    Gate {
-        file: "tests/hook_statusline.rs",
-        test: "hook_statusline_a_failing_command_prints_nothing",
-        gate: "unix",
-        reason: UNIX_STATUSLINE,
-    },
-    Gate {
-        file: "tests/hook_statusline.rs",
-        test: "hook_statusline_a_home_another_user_can_write_runs_nothing_however_often",
-        gate: "unix",
-        reason: UNIX_STATUSLINE,
-    },
-    Gate {
-        file: "tests/hook_statusline.rs",
-        test: "hook_statusline_passes_the_user_output_through",
-        gate: "unix",
-        reason: UNIX_STATUSLINE,
     },
     Gate {
         file: "tests/run_cli.rs",

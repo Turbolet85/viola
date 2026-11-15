@@ -126,5 +126,37 @@
 ],
 "before": null,
 "after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "cf45c854",
+"ts": "2026-11-14T17:55:03Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-14T16-46-26-wrap",
+"--marker",
+"2026-11-14-budget-gate-removed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 1240 · 2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson",
+"ts 2026-11-14T17:54:57Z · clock 2026-11-14T17:55:03Z · bound 2026-11-14T17:47:55Z (line 2967)",
+"ids 2026-11-14T17:54:57Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-14T14-42-31-2026-11-14-budget-gate-removed.ndjson"
+],
+"before": null,
+"after": null
 }
 ]

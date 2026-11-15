@@ -1,6 +1,6 @@
 //! The fixture scrub-and-schema walk (test-plan §7 Fixture hygiene): every committed scenario
-//! script, every recorded `fixtures/claude/*/*.json` hook payload, every recorded `StatusLine.*.json`
-//! status line payload, every recorded `Agents.*.json` agents read, every recorded `Mcp.*.json`
+//! script, every recorded `fixtures/claude/*/*.json` hook payload, every recorded `Agents.*.json`
+//! agents read, every recorded `Mcp.*.json`
 //! MCP exchange, every recorded `Screen.*.json` and every recorded `fixtures/hyprland/*/*.json`
 //! `hyprctl` reply (which also keeps only its allowlisted strings) is scrubbed and schema-valid,
 //! each against its own schema, and every rejection arm is proven on a planted input. The recorded set is walked at run time, not
@@ -32,10 +32,6 @@ fn screen_schema() -> Value {
     load_schema(&workspace_path("schemas/claude-screen.v1.json"))
 }
 
-fn statusline_schema() -> Value {
-    load_schema(&workspace_path("schemas/claude-statusline-fixture.v1.json"))
-}
-
 fn agents_schema() -> Value {
     load_schema(&workspace_path("schemas/claude-agents-fixture.v1.json"))
 }
@@ -54,10 +50,6 @@ fn is_screen(path: &Path) -> bool {
     named(path, "Screen.")
 }
 
-fn is_statusline(path: &Path) -> bool {
-    named(path, "StatusLine.")
-}
-
 fn is_agents(path: &Path) -> bool {
     named(path, "Agents.")
 }
@@ -66,12 +58,12 @@ fn is_mcp(path: &Path) -> bool {
     named(path, "Mcp.")
 }
 
-/// `<root>/*/*.json` but the screens, the status line payloads, the agents reads and the MCP
-/// exchanges, sorted: the recorded hook payloads.
+/// `<root>/*/*.json` but the screens, the agents reads and the MCP exchanges, sorted: the recorded
+/// hook payloads.
 fn claude_fixtures(root: &Path) -> Vec<PathBuf> {
     recorded(root)
         .into_iter()
-        .filter(|p| !is_screen(p) && !is_statusline(p) && !is_agents(p) && !is_mcp(p))
+        .filter(|p| !is_screen(p) && !is_agents(p) && !is_mcp(p))
         .collect()
 }
 
@@ -85,14 +77,6 @@ fn agents_fixtures(root: &Path) -> Vec<PathBuf> {
     recorded(root)
         .into_iter()
         .filter(|p| is_agents(p))
-        .collect()
-}
-
-/// `<root>/*/StatusLine.*.json`, sorted: the recorded status line payloads.
-fn statusline_fixtures(root: &Path) -> Vec<PathBuf> {
-    recorded(root)
-        .into_iter()
-        .filter(|p| is_statusline(p))
         .collect()
 }
 
@@ -175,23 +159,6 @@ fn viola_format_fixtures_pass_hygiene() {
                 assert!(!has_username(&flat, user), "{name}: username");
             }
         }
-    }
-}
-
-#[test]
-fn statusline_fixtures_pass_hygiene() {
-    let schema = statusline_schema();
-    let user = host_user();
-    let walked = statusline_fixtures(&workspace_path("fixtures/claude"));
-    assert!(!walked.is_empty(), "no status line payload walked");
-    for path in walked {
-        let bytes = std::fs::read(&path).expect("fixture");
-        assert_eq!(
-            check(&bytes, &schema, user.as_deref()),
-            Ok(()),
-            "{}",
-            path.display()
-        );
     }
 }
 
@@ -291,84 +258,6 @@ fn planted_agents_email_is_rejected() {
     );
 }
 
-/// Every set recorded with a status line payload holds its one variant, walked by
-/// `statusline_fixtures_pass_hygiene`.
-#[test]
-fn statusline_variants_are_walked_for_every_statusline_set() {
-    let walked = statusline_fixtures(&workspace_path("fixtures/claude"));
-    let mut sets: Vec<&Path> = walked.iter().filter_map(|p| p.parent()).collect();
-    sets.dedup();
-    for set in sets {
-        let names: Vec<String> = walked
-            .iter()
-            .filter(|p| p.parent() == Some(set))
-            .filter_map(|p| p.file_name()?.to_str().map(str::to_owned))
-            .collect();
-        assert_eq!(names, ["StatusLine.default-1.json"], "{}", set.display());
-    }
-}
-
-fn statusline_payload(extra: &Value) -> Vec<u8> {
-    let mut doc = json!({"session_id": "s-1", "cwd": "~/work", "model": {"id": "m"}});
-    if let (Some(doc), Some(extra)) = (doc.as_object_mut(), extra.as_object()) {
-        doc.extend(extra.clone());
-    }
-    doc.to_string().into_bytes()
-}
-
-#[rstest]
-#[case::the_payload(json!({}))]
-#[case::a_field_the_cli_adds(json!({"cost": {"total_lines_added": 1}}))]
-fn planted_clean_statusline_payload_passes(#[case] extra: Value) {
-    assert_eq!(
-        check(
-            &statusline_payload(&extra),
-            &statusline_schema(),
-            Some("plantuser")
-        ),
-        Ok(())
-    );
-}
-
-#[rstest]
-#[case::no_session_id(json!({"model": {"id": "m"}}))]
-#[case::session_id_not_string(json!({"session_id": 1}))]
-#[case::not_object(json!(["s"]))]
-fn planted_statusline_schema_violation_is_rejected(#[case] doc: Value) {
-    assert_eq!(
-        check(doc.to_string().as_bytes(), &statusline_schema(), None),
-        Err(Violation::Schema)
-    );
-}
-
-#[rstest]
-#[case::linux_home(json!({"cwd": "/home/plantuser/work"}))]
-#[case::nested(json!({"workspace": {"current_dir": "C:\\Users\\plantuser\\w"}}))]
-fn planted_statusline_absolute_path_is_rejected(#[case] extra: Value) {
-    assert_eq!(
-        check(&statusline_payload(&extra), &statusline_schema(), None),
-        Err(Violation::AbsolutePath)
-    );
-}
-
-#[test]
-fn planted_statusline_username_is_rejected() {
-    let bytes = statusline_payload(&json!({"transcript_path": "~/.claude/projects/plantuser/s"}));
-    assert_eq!(
-        check(&bytes, &statusline_schema(), Some("plantuser")),
-        Err(Violation::Username)
-    );
-}
-
-#[test]
-fn planted_statusline_email_is_rejected() {
-    let bytes = statusline_payload(&json!({"workspace": {"repo": {"owner": "a.b@example.com"}}}));
-    assert_eq!(
-        check(&bytes, &statusline_schema(), None),
-        Err(Violation::Email)
-    );
-}
-
 #[test]
 fn claude_fixtures_walks_every_version_dir_and_only_json_files() {
     let tmp = tempfile::tempdir().expect("tempdir");
@@ -377,7 +266,6 @@ fn claude_fixtures_walks_every_version_dir_and_only_json_files() {
         ("2.1.0/notes.txt", "x"),
         ("9.9.9/SessionStart.default.json", "{}"),
         ("9.9.9/Screen.ready.json", "{}"),
-        ("9.9.9/StatusLine.default-1.json", "{}"),
         ("9.9.9/Agents.recorded-1.json", "[]"),
         ("9.9.9/Mcp.tools-list-1.json", "{}"),
         ("top.json", "{}"),
@@ -402,10 +290,6 @@ fn claude_fixtures_walks_every_version_dir_and_only_json_files() {
     assert_eq!(
         screen_fixtures(tmp.path()),
         [tmp.path().join("9.9.9").join("Screen.ready.json")]
-    );
-    assert_eq!(
-        statusline_fixtures(tmp.path()),
-        [tmp.path().join("9.9.9").join("StatusLine.default-1.json")]
     );
     assert_eq!(
         agents_fixtures(tmp.path()),

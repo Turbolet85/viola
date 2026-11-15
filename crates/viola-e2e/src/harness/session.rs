@@ -10,12 +10,11 @@ use super::boot::{AgentsMode, BootOptions, DEFAULT_CLI_VERSION, InstanceSpec, bo
 use super::cleanup::{Target, cleanup};
 use super::{Outcome, Workspace, bin_dir_from_exe, read_json, session_record_path};
 
-/// What a scenario boots: the instances (default `overseer` + `builder`), the two boot flags, and
+/// What a scenario boots: the instances (default `overseer` + `builder`), the agents mode, and
 /// whether the home goes unstamped (no `viola verify`: `cli_verified` false).
 #[derive(Debug, Clone)]
 pub struct SessionOptions {
     pub instances: Vec<String>,
-    pub statusline_echo: bool,
     pub agents_mode: AgentsMode,
     pub unstamped: bool,
 }
@@ -24,7 +23,6 @@ impl Default for SessionOptions {
     fn default() -> Self {
         Self {
             instances: vec!["overseer".to_owned(), "builder".to_owned()],
-            statusline_echo: false,
             agents_mode: AgentsMode::Recorded,
             unstamped: false,
         }
@@ -76,7 +74,6 @@ pub fn harness_session(test: &str, label: &str, opts: SessionOptions) -> Harness
         cli_version: DEFAULT_CLI_VERSION.to_owned(),
         build: false,
         stamp: !opts.unstamped,
-        statusline_echo: opts.statusline_echo,
         agents_mode: opts.agents_mode,
     });
     assert_eq!(booted.code, 0, "harness_session boot: {}", booted.doc);
@@ -206,10 +203,10 @@ mod tests {
     }
 
     #[test]
-    fn session_options_default_to_the_pair_recorded_without_the_echo() {
+    fn session_options_default_to_the_pair_recorded_and_stamped() {
         let opts = SessionOptions::default();
         assert_eq!(opts.instances, ["overseer", "builder"]);
-        assert!(!opts.statusline_echo);
+        assert!(!opts.unstamped);
         assert_eq!(opts.agents_mode, AgentsMode::Recorded);
     }
 }

@@ -15,6 +15,5 @@ pub mod outer_pty;
 pub mod piped;
 pub mod sgr;
 pub mod start;
-pub mod statusline;
 pub mod verify;
 pub mod watch;

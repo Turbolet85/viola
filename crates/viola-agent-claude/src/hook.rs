@@ -358,7 +358,14 @@ mod tests {
         for event in HookEvent::ALL {
             assert_eq!(HookEvent::from_arg(event.as_str()), Some(event));
         }
-        for other in ["statusline", "", "Stop", "PreToolUse"] {
+        let retired: Value = serde_json::from_str(include_str!(
+            "../../../fixtures/viola-0.1.0/retired-words.json"
+        ))
+        .expect("the retired words");
+        let retired = retired["retired_hook_word"]
+            .as_str()
+            .expect("the hook word");
+        for other in [retired, "", "Stop", "PreToolUse"] {
             assert_eq!(HookEvent::from_arg(other), None, "{other}");
         }
     }

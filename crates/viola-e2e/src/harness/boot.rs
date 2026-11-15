@@ -3,8 +3,7 @@
 //! bounded readiness (test-plan §3 `boot`, steps 1-5; the UI steps arrive with that verb).
 //! Readiness reads the role file, the instance snapshot and the heartbeat, then `events.ndjson`'s
 //! first three records, the last the hook's `session-start`. `--agents-mode` writes the fake agent's
-//! `agents-mode` file beside the session `claude`; `--statusline-echo` plants the stamped home's
-//! `statusline-source.json` before the supervisor starts.
+//! `agents-mode` file beside the session `claude`.
 
 use std::ffi::OsString;
 use std::fs;
@@ -15,7 +14,7 @@ use std::time::{Duration, Instant, SystemTime};
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 use viola_core::ViolaName;
-use viola_state::fs::{create_private_dir, replace_private};
+use viola_state::fs::replace_private;
 
 use super::{
     HarnessError, InstanceRecord, Outcome, POLL, ProcessId, SessionRecord, Workspace, exe, expired,
@@ -92,9 +91,6 @@ pub struct BootOptions {
     pub build: bool,
     /// Boot step 4: stamp the home through `viola verify`; `--unstamped` clears it.
     pub stamp: bool,
-    /// Plants the stamped home's `statusline-source.json` naming the fake agent's
-    /// `statusline-echo` mode.
-    pub statusline_echo: bool,
     pub agents_mode: AgentsMode,
 }
 
@@ -172,9 +168,6 @@ fn start(opts: &BootOptions) -> Result<Outcome, HarnessError> {
     {
         return Ok(failure("verify-failed", None, code.map(i64::from), &[]));
     }
-    if opts.statusline_echo {
-        plant_statusline_echo(&opts.bin_dir, &home)?;
-    }
     replace_private(
         &session_bin.join(AGENTS_MODE_FILE),
         opts.agents_mode.as_str().as_bytes(),
@@ -225,36 +218,6 @@ fn start(opts: &BootOptions) -> Result<Outcome, HarnessError> {
         json!({"v": 1, "cmd": "boot", "ok": true, "session": opts.session, "home": home, "instances": listed}),
         true,
     ))
-}
-
-/// The user's statusline command `--statusline-echo` plants: the fake agent's `statusline-echo`
-/// mode appending to `<home>/fake/statusline.marker`, both paths with forward slashes. `None` when
-/// either holds a character outside the shell-plain set (ASCII letters, digits and `_ - . / :`).
-pub fn statusline_echo_command(bin_dir: &Path, home: &Path) -> Option<String> {
-    let forward = |path: &Path| path.to_str().map(|p| p.replace('\\', "/"));
-    let program = forward(&exe(bin_dir, "viola-fake-agent"))?;
-    let marker = forward(&home.join("fake").join("statusline.marker"))?;
-    let plain = |word: &str| {
-        word.chars()
-            .all(|c| c.is_ascii_alphanumeric() || "_-./:".contains(c))
-    };
-    (plain(&program) && plain(&marker)).then(|| format!("{program} statusline-echo {marker}"))
-}
-
-/// Writes `<home>/statusline-source.json` (0600, the settings shape `run` reads at start) and makes
-/// `<home>/fake/` for the marker. Only in a home `viola verify` created.
-fn plant_statusline_echo(bin_dir: &Path, home: &Path) -> Result<(), HarnessError> {
-    let refused = |what: &str| HarnessError::Io(std::io::Error::other(what.to_owned()));
-    let command =
-        statusline_echo_command(bin_dir, home).ok_or_else(|| refused("statusline path"))?;
-    create_private_dir(&home.join("fake"))?;
-    let doc = json!({"statusLine": {"type": "command", "command": command}});
-    replace_private(
-        &home.join("statusline-source.json"),
-        doc.to_string().as_bytes(),
-        0o600,
-    )
-    .map_err(|_| refused("statusline source write failed"))
 }
 
 /// Boot step 4: `viola verify -- <session claude> --cli-version <v> --fixtures <recorded set>
@@ -838,7 +801,6 @@ mod tests {
                 cli_version: "2.1.283".to_owned(),
                 build: false,
                 stamp: true,
-                statusline_echo: false,
                 agents_mode: AgentsMode::Recorded,
             };
             let got = stamp(&opts, &tmp.path().join("home"), tmp.path());
@@ -866,26 +828,6 @@ mod tests {
     }
 
     #[test]
-    fn boot_flags_statusline_echo_command_names_the_fake_agent_and_the_marker() {
-        let bin = Path::new("/w/target/harness/debug");
-        let home = Path::new("/w/target/e2e-home/viola-session-x/home");
-        let want = "/w/target/harness/debug/viola-fake-agent statusline-echo \
-                    /w/target/e2e-home/viola-session-x/home/fake/statusline.marker";
-        assert_eq!(statusline_echo_command(bin, home), Some(want.to_owned()));
-        for (label, bin, home) in [
-            ("space in the bin dir", "/w/a b", "/w/h"),
-            ("quote in the home", "/w/bin", "/w/h'x"),
-            ("dollar in the home", "/w/bin", "/w/$h"),
-        ] {
-            assert_eq!(
-                statusline_echo_command(Path::new(bin), Path::new(home)),
-                None,
-                "{label}"
-            );
-        }
-    }
-
-    #[test]
     fn session_path_puts_the_session_bin_first() {
         let bin = std::env::temp_dir().join("session-bin");
         let path = session_path(&bin);
@@ -904,7 +846,6 @@ mod tests {
             cli_version: DEFAULT_CLI_VERSION.to_owned(),
             stamp: false,
             build: false,
-            statusline_echo: false,
             agents_mode: AgentsMode::Recorded,
         };
         let out = boot(&opts);
@@ -925,7 +866,6 @@ mod tests {
             cli_version: DEFAULT_CLI_VERSION.to_owned(),
             stamp: false,
             build: true,
-            statusline_echo: false,
             agents_mode: AgentsMode::Recorded,
         };
         let out = boot(&opts);

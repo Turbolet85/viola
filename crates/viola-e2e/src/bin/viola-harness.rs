@@ -37,9 +37,6 @@ enum Cmd {
         /// Skip boot step 4: the home is not stamped through `viola verify`.
         #[arg(long)]
         unstamped: bool,
-        /// Plant the stamped home's statusline source naming the fake agent's `statusline-echo`.
-        #[arg(long, conflicts_with = "unstamped")]
-        statusline_echo: bool,
         /// How the session's fake agent answers `claude agents --json`.
         #[arg(long, value_enum, default_value_t = AgentsMode::Recorded)]
         agents_mode: AgentsMode,
@@ -133,7 +130,6 @@ fn emit(outcome: Outcome) -> ExitCode {
 struct BootFlags {
     cli_version: String,
     unstamped: bool,
-    statusline_echo: bool,
     agents_mode: AgentsMode,
 }
 
@@ -162,7 +158,6 @@ fn boot_options(
         cli_version: flags.cli_version,
         build: true,
         stamp: !flags.unstamped,
-        statusline_echo: flags.statusline_echo,
         agents_mode: flags.agents_mode,
     })
 }
@@ -248,13 +243,11 @@ fn main() -> ExitCode {
             instances,
             cli_version,
             unstamped,
-            statusline_echo,
             agents_mode,
         } => {
             let flags = BootFlags {
                 cli_version,
                 unstamped,
-                statusline_echo,
                 agents_mode,
             };
             boot_cmd(ws, session, instances, flags)
@@ -345,7 +338,6 @@ mod tests {
                 instances,
                 cli_version,
                 unstamped,
-                statusline_echo,
                 agents_mode,
             } => boot_options(
                 Workspace::from_build(),
@@ -354,7 +346,6 @@ mod tests {
                 BootFlags {
                     cli_version,
                     unstamped,
-                    statusline_echo,
                     agents_mode,
                 },
             ),
@@ -378,19 +369,6 @@ mod tests {
         }
         let argv = ["viola-harness", "boot", "--agents-mode", "loud"];
         assert!(Cli::try_parse_from(argv).is_err(), "an unknown mode");
-    }
-
-    #[test]
-    fn boot_flags_statusline_echo_parses() {
-        assert!(!boot_opts(&[]).expect("options").statusline_echo);
-        let opts = boot_opts(&["--statusline-echo"]).expect("options");
-        assert!(opts.statusline_echo && opts.stamp);
-    }
-
-    #[test]
-    fn boot_flags_statusline_echo_with_unstamped_is_refused() {
-        let argv = ["viola-harness", "boot", "--statusline-echo", "--unstamped"];
-        assert!(Cli::try_parse_from(argv).is_err());
     }
 
     #[test]

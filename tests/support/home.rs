@@ -299,48 +299,6 @@ pub fn still_widened(path: &Path) -> bool {
     matches!(mode, 0o770 | 0o660 | 0o750)
 }
 
-/// Plants `<home>/statusline-source.json` naming `command` as the user's statusline command, in
-/// the settings shape. Only in a home viola already created (a stamped home, or one a wrapper
-/// booted in): a home made here would not carry viola's own modes.
-pub fn plant_statusline_source(home: &Path, command: &str) -> PathBuf {
-    assert!(home.is_dir(), "the home is not one viola created");
-    let path = home.join("statusline-source.json");
-    let doc = json!({"statusLine": {"type": "command", "command": command}});
-    fs::write(&path, doc.to_string()).expect("statusline source");
-    path
-}
-
-/// The file the test user's statusline command appends to, under the home's `fake/`.
-pub fn statusline_marker(home: &Path) -> PathBuf {
-    home.join("fake").join("statusline.marker")
-}
-
-/// What the fake agent's `statusline-echo` mode prints: a test literal, never the agent's own
-/// constant.
-pub const STATUSLINE_ECHO_OUTPUT: &str = "viola-fake-statusline\n";
-
-/// The test user's statusline command for this OS: the fake agent's `statusline-echo` mode appending
-/// to `marker`, then `extra`. Both paths are written with forward slashes and must hold only
-/// characters the override rule leaves unquoted (ASCII letters, digits and `_ - . / :`), so a shell
-/// and the fake agent's own split read the same words.
-pub fn statusline_echo_command(marker: &Path, extra: &[&str]) -> String {
-    let forward = |path: &Path| path.to_str().expect("utf-8 path").replace('\\', "/");
-    let mut words = vec![
-        forward(Path::new(fake::FAKE)),
-        "statusline-echo".to_owned(),
-        forward(marker),
-    ];
-    for path in [&words[0], &words[2]] {
-        assert!(
-            path.chars()
-                .all(|c| c.is_ascii_alphanumeric() || "_-./:".contains(c)),
-            "a test statusline path holds a character a shell could misread"
-        );
-    }
-    words.extend(extra.iter().map(|word| (*word).to_owned()));
-    words.join(" ")
-}
-
 /// The spelling viola gives a home once it exists: canonical; a home not there yet is spelt as
 /// `run` will have created it, its own name under its parent's spelling. A test oracle, never the
 /// product's helper.

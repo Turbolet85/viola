@@ -18,11 +18,9 @@ use support::fake::{self, of_kind};
 use support::frozen::Frozen;
 use support::home::{
     HEADROOM_FLOOR_MIB, StampedHome, TestHome, VIOLA, Wrapper, beat_age, booted_wrapper,
-    headroom_refusal, home, plant_statusline_source, prepare_home_base, process_start, resolved,
-    revive_command, snapshot_data, stamped_home, sweep_gone_owners, write_owner,
+    headroom_refusal, home, prepare_home_base, process_start, resolved, revive_command,
+    snapshot_data, stamped_home, sweep_gone_owners, workspace_path, write_owner,
 };
-#[cfg(unix)]
-use support::home::{STATUSLINE_ECHO_OUTPUT, statusline_echo_command, statusline_marker};
 use support::start::{
     child_starts, endpoint_of, last_plugin_dir, refused_with, role_lines, run_refused,
 };
@@ -301,15 +299,8 @@ fn run_rewrites_the_plugin_folder_each_start(stamped_home: StampedHome) {
     assert_eq!(second.stop().code(), Some(0));
 }
 
-/// One start and clean stop of `builder`.
-fn started_once(stamped: StampedHome) -> StampedHome {
-    let (stopped, stamped) = Wrapper::boot(stamped, "builder", None, &[]).stop_keep();
-    assert_eq!(stopped.code(), Some(0));
-    stamped
-}
-
-fn settings_with(command: &str) -> String {
-    json!({"statusLine": {"type": "command", "command": command}}).to_string()
+fn settings_with(model: &str) -> String {
+    json!({"model": model}).to_string()
 }
 
 fn bytes_and_mtime(path: &Path) -> (Vec<u8>, std::time::SystemTime) {
@@ -319,56 +310,22 @@ fn bytes_and_mtime(path: &Path) -> (Vec<u8>, std::time::SystemTime) {
     (fs::read(path).expect("bytes"), modified)
 }
 
-/// Every start writes the per-session settings override whole, whatever stands there: its status
-/// line is the pinned copy's own `hook statusline`, by its absolute path, owner-only.
-#[test]
-fn run_rewrites_the_settings_override_each_start() {
-    let stamped = started_once(StampedHome::unstamped(TestHome::new()));
-    let home = resolved(stamped.home.path());
-    let dir = home.join("instances").join("builder");
-    let file = dir.join("settings.json");
-    let written = fs::read(&file).expect("settings.json");
-    let pinned = snapshot_data(&dir).expect("the snapshot")["pinned_bin"]
-        .as_str()
-        .expect("pinned_bin")
-        .to_owned();
-    assert!(Path::new(&pinned).starts_with(home.join("bin")), "{pinned}");
-    assert_eq!(
-        serde_json::from_slice::<Value>(&written).expect("json"),
-        json!({"statusLine": {"type": "command", "command": format!("{pinned} hook statusline")}})
-    );
-    assert_eq!(mode_of(&file), 0o600);
-    fs::write(
-        &file,
-        r#"{"statusLine":{"type":"command","command":"sentinel-7d1e"}}"#,
+/// A start hands its child no settings file and keeps none: the instance directory holds no
+/// `settings.json`, and the snapshot names no key a 0.1.0 start recorded the status line under.
+#[rstest]
+fn run_writes_no_settings_file_in_the_instance_dir(stamped_home: StampedHome) {
+    let retired: Value = serde_json::from_str(
+        &fs::read_to_string(workspace_path("fixtures/viola-0.1.0/retired-words.json"))
+            .expect("the retired words"),
     )
-    .expect("sentinel");
-
-    let _home = started_once(stamped);
-    assert_eq!(fs::read(&file).expect("settings.json"), written);
-    assert_eq!(mode_of(&file), 0o600);
-}
-
-/// The start records the command the home's own source names, and only reads that file.
-#[test]
-fn run_records_the_statusline_command_of_the_home_s_source() {
-    let stamped = started_once(StampedHome::unstamped(TestHome::new()));
-    let dir = stamped.home.path().join("instances").join("builder");
-    assert!(
-        snapshot_data(&dir).expect("the snapshot")["statusline_command"].is_null(),
-        "a home with no source recorded a command"
-    );
-    let source = plant_statusline_source(stamped.home.path(), "user-line --wide 'a b'");
-    let before = bytes_and_mtime(&source);
-
-    let wrapper = Wrapper::boot(stamped, "builder", None, &[]);
-    assert_eq!(
-        snapshot_data(&dir).expect("the snapshot")["statusline_command"],
-        "user-line --wide 'a b'"
-    );
-    let (stopped, _home) = wrapper.stop_keep();
-    assert_eq!(stopped.code(), Some(0));
-    assert_eq!(bytes_and_mtime(&source), before);
+    .expect("json");
+    let key = retired["retired_snapshot_key"].as_str().expect("the key");
+    let wrapper = Wrapper::boot(stamped_home, "builder", None, &[]);
+    let dir = wrapper.instance_dir();
+    assert!(!dir.join("settings.json").exists());
+    let snapshot = snapshot_data(&dir).expect("the snapshot");
+    assert!(snapshot.get(key).is_none(), "{snapshot}");
+    assert_eq!(wrapper.stop().code(), Some(0));
 }
 
 /// A user home in the test's scratch whose user-scope settings name `command`.
@@ -380,17 +337,16 @@ fn user_home_with(user_home: &Path, command: &str) -> PathBuf {
     settings
 }
 
-/// A home named by `--home` never reads the user's settings: no test home, and no real user of
-/// `--home`, picks up a command from them.
+/// A home named by `--home` leaves the user's settings as found and makes no default home.
 #[test]
-fn run_with_home_reads_no_user_settings() {
+fn run_with_home_leaves_the_user_settings_and_makes_no_default_home() {
     let tmp = TestHome::new();
     let user_home = tmp.scratch().join("user");
-    user_home_with(&user_home, "user-line");
+    let settings = user_home_with(&user_home, "user-line");
+    let before = bytes_and_mtime(&settings);
     let wrapper = Wrapper::boot_as_user(StampedHome::unstamped(tmp), "builder", &user_home, false);
-    let snapshot = snapshot_data(&wrapper.instance_dir()).expect("the snapshot");
-    assert!(snapshot["statusline_command"].is_null(), "{snapshot}");
     let (stopped, _home) = wrapper.stop_keep();
+    assert_eq!(bytes_and_mtime(&settings), before);
     assert_eq!(stopped.code(), Some(0));
     assert!(user_home.join(".claude").is_dir());
     assert!(
@@ -399,10 +355,10 @@ fn run_with_home_reads_no_user_settings() {
     );
 }
 
-/// With no `--home` the wrapper lives in its user's default home, and there the user-scope
-/// settings file is the source: read, never written.
+/// With no `--home` the wrapper lives in its user's default home, and leaves the user-scope settings
+/// file as found.
 #[test]
-fn run_in_the_default_home_reads_the_user_settings() {
+fn run_in_the_default_home_leaves_the_user_settings_as_found() {
     let tmp = TestHome::default_of_user();
     let user_home = tmp.scratch().to_path_buf();
     let settings = user_home_with(&user_home, "user-line --default");
@@ -410,7 +366,6 @@ fn run_in_the_default_home_reads_the_user_settings() {
     let wrapper = Wrapper::boot_as_user(StampedHome::unstamped(tmp), "builder", &user_home, true);
     assert_eq!(wrapper.home(), user_home.join(".viola"));
     let snapshot = snapshot_data(&wrapper.instance_dir()).expect("the snapshot");
-    assert_eq!(snapshot["statusline_command"], "user-line --default");
     // The wrapper spelt its default home canonically: the pinned copy lives under that spelling.
     let pinned = PathBuf::from(snapshot["pinned_bin"].as_str().expect("pinned_bin"));
     assert!(
@@ -420,44 +375,6 @@ fn run_in_the_default_home_reads_the_user_settings() {
     let (stopped, _home) = wrapper.stop_keep();
     assert_eq!(stopped.code(), Some(0));
     assert_eq!(bytes_and_mtime(&settings), before);
-}
-
-/// test-plan §6 Path 6, the pass-through end to end: the fake agent runs the override's status
-/// line, which is the pinned `viola hook statusline`, which runs the user's command through the
-/// shell; what comes back is the user's output byte for byte.
-#[cfg(unix)]
-#[test]
-fn path6_wrapped_statusline_prints_the_user_output_unchanged() {
-    let stamped = started_once(StampedHome::unstamped(TestHome::new()));
-    let home = stamped.home.path().to_path_buf();
-    let marker = statusline_marker(&home);
-    plant_statusline_source(&home, &statusline_echo_command(&marker, &[]));
-    let payload =
-        json!({"session_id": "canary-chain-value-5c1e", "model": {"id": "m"}}).to_string();
-    let stdin = stamped.home.scratch().join("statusline.stdin");
-    fs::write(&stdin, &payload).expect("the payload");
-    let hex = |bytes: &[u8]| -> String { bytes.iter().map(|b| format!("{b:02x}")).collect() };
-
-    let stdin_arg = stdin.to_str().expect("utf-8 path").to_owned();
-    let wrapper = Wrapper::boot(
-        stamped,
-        "builder",
-        None,
-        &["--statusline-stdin", &stdin_arg],
-    );
-    let ran = fake::wait_statusline(&wrapper.receipt());
-    assert_eq!(
-        ran,
-        json!({"v": 1, "kind": "statusline", "command_absolute": true, "ran": true,
-               "exit_code": 0, "stderr_len": 0,
-               "stdout_hex": hex(STATUSLINE_ECHO_OUTPUT.as_bytes()),
-               "stdin_hex": hex(payload.as_bytes())})
-    );
-    assert_eq!(
-        fs::read_to_string(&marker).expect("the marker file"),
-        hex(payload.as_bytes()) + "\n"
-    );
-    assert_eq!(wrapper.stop().code(), Some(0));
 }
 
 /// test-plan §6 Path 1 with the child's first hook: records 1–2 are `wheel{cause:"start"}` →

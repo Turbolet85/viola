@@ -318,8 +318,7 @@ fn tool_arms(
 }
 
 /// The capability-ledger rows `viola verify` prints, as literals: the live run checks each once.
-/// The two statusline rows are relied on only where the status line is wrapped (Unix).
-const LEDGER_ROWS: [&str; 23] = [
+const LEDGER_ROWS: [&str; 21] = [
     "shim-resolution",
     "spine-hooks",
     "session-start-fields",
@@ -338,8 +337,6 @@ const LEDGER_ROWS: [&str; 23] = [
     "tag-escaping",
     "local-command-clear",
     "paste-newline",
-    "statusline-override",
-    "statusline-shell",
     "resume-session",
     "agents-join",
     "local-command-compact",
@@ -971,30 +968,28 @@ mod tests {
         assert_eq!(suite(&out.doc, "doctest")["failed"], 1);
     }
 
-    const LIVE_PASS: &str = "[01/23] shim-resolution claude resolves  pass\n\
-        [02/23] spine-hooks spine hooks fire  pass\n\
-        [03/23] session-start-fields fields  pass\n\
-        [04/23] prompt-verbatim prompt  pass\n\
-        [05/23] stop-message message  pass\n\
-        [06/23] largest-hook-payload payload  pass\n\
-        [07/23] modal-signature modal  pass\n\
-        [08/23] input-box-signature input box  pass\n\
-        [09/23] quiet-period quiet  pass\n\
-        [10/23] confirm-window window  pass\n\
-        [11/23] question-answer question  pass\n\
-        [12/23] plan-approve-revise plan  pass\n\
-        [13/23] question-notes notes  pass\n\
-        [14/23] dialog-concurrency concurrency  pass\n\
-        [15/23] long-paste-wrapper wrapper  pass\n\
-        [16/23] tag-escaping escaping  pass\n\
-        [17/23] local-command-clear clear  pass\n\
-        [18/23] paste-newline newline  pass\n\
-        [19/23] statusline-override override  pass\n\
-        [20/23] statusline-shell shell  pass\n\
-        [21/23] resume-session resume  pass\n\
-        [22/23] agents-join join  pass\n\
-        [23/23] local-command-compact compact  pass\n\
-        stamped 2.1.287  23 pass  0 fail\n";
+    const LIVE_PASS: &str = "[01/21] shim-resolution claude resolves  pass\n\
+        [02/21] spine-hooks spine hooks fire  pass\n\
+        [03/21] session-start-fields fields  pass\n\
+        [04/21] prompt-verbatim prompt  pass\n\
+        [05/21] stop-message message  pass\n\
+        [06/21] largest-hook-payload payload  pass\n\
+        [07/21] modal-signature modal  pass\n\
+        [08/21] input-box-signature input box  pass\n\
+        [09/21] quiet-period quiet  pass\n\
+        [10/21] confirm-window window  pass\n\
+        [11/21] question-answer question  pass\n\
+        [12/21] plan-approve-revise plan  pass\n\
+        [13/21] question-notes notes  pass\n\
+        [14/21] dialog-concurrency concurrency  pass\n\
+        [15/21] long-paste-wrapper wrapper  pass\n\
+        [16/21] tag-escaping escaping  pass\n\
+        [17/21] local-command-clear clear  pass\n\
+        [18/21] paste-newline newline  pass\n\
+        [19/21] resume-session resume  pass\n\
+        [20/21] agents-join join  pass\n\
+        [21/21] local-command-compact compact  pass\n\
+        stamped 2.1.287  21 pass  0 fail\n";
 
     /// `LIVE_PASS` without the step line of `row`.
     fn without(row: &str) -> String {
@@ -1037,11 +1032,11 @@ mod tests {
         (out, calls)
     }
 
-    /// The live proof reads every relied row, all twenty-three, the compact row last, after the
+    /// The live proof reads every relied row, all twenty-one, the compact row last, after the
     /// resume and agents rows.
     #[test]
     fn run_local_live_reads_the_relied_rows() {
-        assert_eq!(LEDGER_ROWS.len(), 23);
+        assert_eq!(LEDGER_ROWS.len(), 21);
         assert_eq!(LEDGER_ROWS[17], "paste-newline");
         assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 3], "resume-session");
         assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 2], "agents-join");
@@ -1095,9 +1090,8 @@ mod tests {
         let no_dialog_row = without("question-notes");
         let no_framing_row = without("tag-escaping");
         let no_newline_row = without("paste-newline");
-        // The rows after the newline row: the statusline rows, relied on (so read) only where the
-        // status line is wrapped, the resume, agents and compact rows.
-        let statusline = LEDGER_ROWS[18..].iter().map(|row| without(row));
+        // The rows after the newline row: the resume, agents and compact rows.
+        let later = LEDGER_ROWS[18..].iter().map(|row| without(row));
         let cases = [
             missing,
             doubled,
@@ -1107,7 +1101,7 @@ mod tests {
             no_newline_row,
         ]
         .into_iter()
-        .chain(statusline);
+        .chain(later);
         for stdout in cases {
             let (out, _) = live_run(Some(0), &stdout, false);
             assert_eq!(out.code, 1);

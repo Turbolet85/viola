@@ -1,11 +1,13 @@
 # Coverage — viola-0.2.0
 
-verified 4/31 · deferred 0 · planned 27 · implemented 0 · unclaimed 27
+verified 4/31 · deferred 0 · planned 26 · implemented 1 · unclaimed 26
 
-## planned, unclaimed (27)
+## implemented (1)
+- v2-05 · The status-line interception removed whole · 2026-11-14-status-line-interception-removed
+
+## planned, unclaimed (26)
 - v2-02 · The dialog-hold ceiling read live
 - v2-03 · `viola run` wraps the unmodified CLI on Linux, proved
-- v2-05 · The status-line interception removed whole
 - v2-07 · Launch a session into the fleet
 - v2-08 · The launch authority bounded
 - v2-09 · The lineage registry

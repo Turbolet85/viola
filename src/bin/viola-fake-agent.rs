@@ -15,10 +15,9 @@ use std::time::Duration;
 
 use serde_json::{Value, json};
 use viola_agent_claude::ledger::{
-    PROBE_COMPACT_COMMAND, PROBE_LOCAL_COMMAND, PROBE_LONG_PASTE, PROBE_TAG_PASTE,
-    STATUSLINE_DEFAULT, dialog_stem, framing_stem,
+    PROBE_COMPACT_COMMAND, PROBE_LOCAL_COMMAND, PROBE_LONG_PASTE, PROBE_TAG_PASTE, dialog_stem,
+    framing_stem,
 };
-use viola_agent_claude::statusline::BIN_SH;
 use viola_core::MAX_FRAME;
 use viola_state::liveness::{process_start_time, start_times};
 
@@ -28,8 +27,6 @@ mod agents;
 mod hyprctl;
 #[path = "viola-fake-agent/input.rs"]
 mod input;
-#[path = "viola-fake-agent/statusline.rs"]
-mod statusline;
 #[cfg(test)]
 #[path = "viola-fake-agent/test_cases.rs"]
 mod tests;
@@ -37,7 +34,6 @@ mod tests;
 use agents::{Registry, agents, exe_dir};
 use hyprctl::{hyprctl, is_hyprctl};
 use input::{Action, Input};
-use statusline::{shell_expanded, statusline_echo, statusline_words};
 
 const DEFAULT_CLI_VERSION: &str = "2.1.287";
 const PASTE_START: &[u8] = b"\x1b[200~";
@@ -57,12 +53,6 @@ const PASTE_HINT_CAP_MS: u64 = 10_000;
 const FORK_SESSION_ID: &str = "0f0e0d0c-0b0a-4908-8706-050403020100";
 /// The recorded SessionStart a `--resume` launch fires, where the set holds it.
 const RESUME_VARIANT: &str = "resume-1";
-/// The word of a statusline command the real CLI's shell expands to the shell's own name.
-const SHELL_NAME_WORD: &str = "\"$0\"";
-/// The mode word, as the first argument: a user's statusline command for tests.
-const STATUSLINE_ECHO: &str = "statusline-echo";
-/// What `statusline-echo` prints, whatever its stdin holds.
-const STATUSLINE_ECHO_OUTPUT: &[u8] = b"viola-fake-statusline\n";
 /// The mode word, as the first argument: `agents --json`, answered from the files beside the
 /// agent's own executable (no env var selects it).
 const AGENTS: &str = "agents";
@@ -115,8 +105,6 @@ struct Opts {
     long_turn_screen: Option<String>,
     resume: Option<String>,
     fork_session: bool,
-    settings: Option<PathBuf>,
-    statusline_stdin: Option<PathBuf>,
 }
 
 impl Opts {
@@ -160,8 +148,10 @@ impl Opts {
                 "--long-turn-screen" => o.long_turn_screen = value(),
                 "--resume" => o.resume = value(),
                 "--fork-session" => o.fork_session = true,
-                "--settings" => o.settings = value().map(PathBuf::from),
-                "--statusline-stdin" => o.statusline_stdin = value().map(PathBuf::from),
+                // `viola verify`'s dialog runs hand over their probe settings; nothing reads them.
+                "--settings" => {
+                    value();
+                }
                 HOLD_STDOUT => o.hold_stdout = true,
                 _ => {}
             }
@@ -525,45 +515,6 @@ impl Agent {
         self.run_receipted("hook", Some(event), command, args, body)
     }
 
-    /// The status line the `--settings` override names, run once with `--statusline-stdin`'s bytes
-    /// on its stdin: the command split on ASCII white space and spawned directly, never through a
-    /// shell. Without the stdin file nothing is run and nothing is receipted: the agent invents no
-    /// payload. Nothing of the run reaches the screen.
-    fn run_statusline(&self) {
-        let (Some(settings), Some(stdin)) = (&self.opts.settings, &self.opts.statusline_stdin)
-        else {
-            return;
-        };
-        let Ok(body) = fs::read(stdin) else {
-            return;
-        };
-        let words = fs::read(settings)
-            .ok()
-            .and_then(|bytes| statusline_words(&bytes));
-        if let Some((command, args)) = words {
-            self.run_receipted("statusline", None, &command, &args, &body);
-        }
-    }
-
-    /// With `--framing`, the status line the `--settings` file names, run once with the set's
-    /// recorded `name` payload on its stdin: the command split on ASCII white space, its `"$0"` word
-    /// handed over as `/bin/sh`, spawned directly, never through a shell, and receipted as
-    /// `statusline`. A set without the variant runs nothing and receipts nothing.
-    fn replay_statusline(&self, name: &str) {
-        let Some(settings) = self.opts.settings.as_ref().filter(|_| self.opts.framing) else {
-            return;
-        };
-        let Some(body) = self.set_file(name) else {
-            return;
-        };
-        let words = fs::read(settings)
-            .ok()
-            .and_then(|bytes| statusline_words(&bytes));
-        if let Some((command, args)) = words {
-            self.run_receipted("statusline", None, &command, &shell_expanded(args), &body);
-        }
-    }
-
     /// One command with `body` on its stdin, receipted as `kind` (a hook's line names its `event`);
     /// `true` when it printed anything on stdout. Only an absolute command is spawned, directly.
     fn run_receipted(
@@ -901,11 +852,6 @@ fn main() -> ExitCode {
     if is_hyprctl() {
         return hyprctl(&args);
     }
-    if let Some((mode, rest)) = args.split_first()
-        && mode == STATUSLINE_ECHO
-    {
-        return statusline_echo(rest);
-    }
     if args.first().is_some_and(|mode| mode == AGENTS) {
         return agents();
     }
@@ -944,7 +890,6 @@ fn main() -> ExitCode {
         write_screen(&agent.opts, if trusted { "ready" } else { "modal" });
     }
     // The real CLI fires SessionStart at launch; with no registered hook or no fixture, nothing runs.
-    // An untrusted folder has no status line either.
     if trusted {
         // The row first: whoever reads the session-start line already finds the session listed.
         let registered = exe_dir()
@@ -958,8 +903,6 @@ fn main() -> ExitCode {
             agent.launch_variant(),
             &agent.opts.resume_fields(),
         );
-        agent.run_statusline();
-        agent.replay_statusline(STATUSLINE_DEFAULT);
     }
     if !steps.is_empty() {
         let runner = Arc::clone(&agent);

@@ -1,5 +1,4 @@
 use super::agents::{agents_output, live_sessions, planted_rows};
-use super::statusline::statusline_echo_exit;
 use super::*;
 use std::time::Instant;
 
@@ -28,45 +27,6 @@ fn recorded_session_start() -> Vec<u8> {
         .join(DEFAULT_CLI_VERSION)
         .join("SessionStart.default.json");
     fs::read(path).expect("the recorded SessionStart")
-}
-
-/// A set holding the statusline variant and a settings file naming `command`, then the
-/// receipt lines the launch's replay and two turns under `--framing --turn-stop` leave, with the
-/// extra arguments given.
-fn statusline_replayed(command: &str, variants: bool, extra: &[&str]) -> Vec<Value> {
-    let tmp = tempfile::tempdir().expect("tempdir");
-    let set = tmp.path().join("fixtures").join("3.0.0");
-    fs::create_dir_all(&set).expect("set");
-    if variants {
-        fs::write(set.join("StatusLine.default-1.json"), b"{\"n\":1}\n").expect("default");
-    }
-    let settings = tmp.path().join("settings.json");
-    let doc = json!({"statusLine": {"type": "command", "command": command}});
-    fs::write(&settings, doc.to_string()).expect("settings");
-    let receipt = tmp.path().join("receipt.ndjson");
-    let utf8 = |p: PathBuf| p.to_str().expect("utf-8").to_owned();
-    let mut list: Vec<String> = [
-        "--cli-version".to_owned(),
-        "3.0.0".to_owned(),
-        "--fixtures".to_owned(),
-        utf8(tmp.path().join("fixtures")),
-        "--settings".to_owned(),
-        utf8(settings),
-        "--receipt".to_owned(),
-        utf8(receipt.clone()),
-        "--turn-stop".to_owned(),
-    ]
-    .into();
-    list.extend(extra.iter().map(|a| (*a).to_owned()));
-    let agent = Agent::new(Opts::parse(&list));
-    agent.replay_statusline(STATUSLINE_DEFAULT);
-    agent.end_turn(None);
-    agent.end_turn(None);
-    fs::read_to_string(&receipt)
-        .unwrap_or_default()
-        .lines()
-        .filter_map(|l| serde_json::from_str::<Value>(l).ok())
-        .collect()
 }
 
 /// An absolute host program that prints one line and exits by itself.

@@ -2,5 +2,10 @@
   "refusal": "budget-paused",
   "event_kind": "budget-gate",
   "snapshot_keys": ["budget_paused", "budget_override_until"],
-  "ledger_row": "statusline-rate-limits"
+  "ledger_row": "statusline-rate-limits",
+  "retired_snapshot_key": "statusline_command",
+  "retired_ledger_rows": ["statusline-override", "statusline-shell"],
+  "retired_hook_word": "statusline",
+  "retired_source_file": "statusline-source.json",
+  "retired_diag_subject": "statusline-shell"
 }

@@ -19,7 +19,7 @@ use support::cli::{Ran, viola};
 use support::events::{events, wait_events};
 use support::home::{StampedHome, Wrapper, snapshot_data, stamped_home, workspace_path};
 use support::hygiene::load_schema;
-use support::statusline::CANARY;
+use support::verify::CANARY;
 use viola_state::events::Skipped;
 use viola_state::replay::replay;
 

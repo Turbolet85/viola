@@ -2,8 +2,8 @@
 //! `fixtures/claude/<version>/` set, a print-mode turn fires the spine hooks in the recorded order
 //! and hands each hook exactly its recorded fixture's bytes; and every set recorded with its dialog
 //! tier replays that tier, through `viola verify` against `--dialogs`, byte for byte and in the
-//! recorded order, and so does every set recorded with its framing variants, against `--framing`,
-//! and, where the status line is wrapped, its two status line variants; every set recorded with its
+//! recorded order, and so does every set recorded with its framing variants, against `--framing`;
+//! every set recorded with its
 //! resume variant replays it under `--resume`, and every set recorded with its compact variant replays
 //! it under `--framing` once resumed into the variant's own session; every set recorded with its agents read is answered
 //! byte for byte by the fake agent's `agents --json` over that read, and the fake agent's own
@@ -636,103 +636,6 @@ fn fake_agent_agents_replay_matches_every_recorded_agents_set() {
         true
     });
     assert!(compared >= 1, "agents sets compared: {compared}");
-}
-
-/// The status line variant the replay hands over, as a test literal: the launch's payload.
-const STATUSLINE_VARIANTS: [&str; 1] = ["StatusLine.default-1.json"];
-
-/// A set's recorded status line variants in replay order, each with its bytes; empty for a set
-/// recorded before them.
-fn statusline_replay(set: &Path) -> Vec<(String, Vec<u8>)> {
-    STATUSLINE_VARIANTS
-        .iter()
-        .filter_map(|name| Some(((*name).to_owned(), fs::read(set.join(name)).ok()?)))
-        .collect()
-}
-
-/// What drifted between a receipt's `statusline` lines and the set's recorded replay: each variant
-/// whose position was offered other bytes, then `count` when the lengths differ.
-fn statusline_drift(set: &Path, receipt: &[Value]) -> Vec<String> {
-    let expected = statusline_replay(set);
-    let sent: Vec<Vec<u8>> = of_kind(receipt, "statusline")
-        .iter()
-        .map(|l| l["stdin_hex"].as_str().map(unhex).unwrap_or_default())
-        .collect();
-    let mut drifted: Vec<String> = expected
-        .iter()
-        .zip(&sent)
-        .filter(|((_, bytes), got)| *got != bytes)
-        .map(|((name, _), _)| name.clone())
-        .collect();
-    if expected.len() != sent.len() {
-        drifted.push("count".to_owned());
-    }
-    drifted
-}
-
-/// Every set recorded with its status line variants replays them byte for byte where the status
-/// line is wrapped: `viola verify` against the fake agent's `--framing` hands Run B's status line
-/// command the launch's recorded payload.
-#[cfg(unix)]
-#[test]
-fn fake_agent_statusline_replay_matches_every_recorded_statusline_set() {
-    let root = workspace_path("fixtures/claude");
-    let compared = each_set_at_once(&recorded_versions(&root), |version| {
-        let set = root.join(version);
-        let recorded = statusline_replay(&set);
-        if recorded.is_empty() {
-            return false;
-        }
-        assert_eq!(
-            recorded.len(),
-            STATUSLINE_VARIANTS.len(),
-            "{version}: a partial status line set"
-        );
-        let (lines, ran) = verify_receipt(&root, version, true);
-        assert_eq!(
-            ran.code,
-            Some(0),
-            "{version}: verify exit\n{}",
-            ran.stdout_text()
-        );
-        assert_eq!(
-            statusline_drift(&set, &lines),
-            Vec::<String>::new(),
-            "{version}: status line drift"
-        );
-        true
-    });
-    assert!(compared >= 1, "status line sets compared: {compared}");
-}
-
-#[test]
-fn statusline_drift_names_a_changed_byte_and_a_replay_of_another_length() {
-    let home = TestHome::new();
-    let fixtures = home.scratch().join("fixtures");
-    support::verify::write_framing_set(&fixtures, "9.9.9");
-    let set = fixtures.join("9.9.9");
-    let clean: Vec<Value> = statusline_replay(&set)
-        .iter()
-        .map(|(_, bytes)| json!({"v": 1, "kind": "statusline", "stdin_hex": hex(bytes)}))
-        .collect();
-    assert_eq!(clean.len(), 1);
-    assert_eq!(statusline_drift(&set, &clean), Vec::<String>::new());
-
-    let mut changed = clean.clone();
-    let mut bytes = unhex(changed[0]["stdin_hex"].as_str().expect("hex"));
-    let last = bytes.len() - 1;
-    bytes[last] ^= 0x01;
-    changed[0]["stdin_hex"] = json!(hex(&bytes));
-    assert_eq!(
-        statusline_drift(&set, &changed),
-        ["StatusLine.default-1.json"]
-    );
-
-    let mut doubled = clean.clone();
-    doubled.push(clean[0].clone());
-    assert_eq!(statusline_drift(&set, &doubled), ["count"]);
-    assert_eq!(statusline_drift(&set, &clean[..0]), ["count"]);
-    assert!(statusline_replay(&home.scratch().join("missing")).is_empty());
 }
 
 /// The synthetic dialog set in a scratch fixture dir.

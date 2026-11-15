@@ -124,8 +124,8 @@ fn frame_verb_refuses_a_widened_instance_before_any_log(
     wrapper.stop();
 }
 
-/// Every hook event, the status line included, a minimal payload for each.
-const HOOKS: [(&str, &str); 10] = [
+/// Every hook event, a minimal payload for each.
+const HOOKS: [(&str, &str); 9] = [
     ("session-start", "SessionStart"),
     ("user-prompt-submit", "UserPromptSubmit"),
     ("stop", "Stop"),
@@ -135,7 +135,6 @@ const HOOKS: [(&str, &str); 10] = [
     ("post-tool-use-failure", "PostToolUseFailure"),
     ("pre-tool-use", "PreToolUse"),
     ("permission-request", "PermissionRequest"),
-    ("statusline", "StatusLine"),
 ];
 
 fn hook_payload(event: &str) -> Vec<u8> {
@@ -145,7 +144,6 @@ fn hook_payload(event: &str) -> Vec<u8> {
             "tool_input": {"questions": [{"question": "q", "options": [{"label": "a"}]}]}}),
         "PermissionRequest" => json!({"hook_event_name": event, "tool_name": "Bash",
             "tool_input": {"command": "true"}}),
-        "StatusLine" => return support::statusline::payload(5),
         _ => json!({"hook_event_name": event}),
     }
     .to_string()

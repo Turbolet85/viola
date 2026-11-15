@@ -7,7 +7,6 @@ pub mod hook;
 pub mod ledger;
 pub mod marketplace;
 pub mod screen;
-pub mod statusline;
 
 use std::ffi::{OsStr, OsString};
 use std::path::{Path, PathBuf};
@@ -81,6 +80,10 @@ pub fn plan_strip(
 
 /// The flag that hands the per-start plugin folder to the `claude` child.
 pub const PLUGIN_DIR_FLAG: &str = "--plugin-dir";
+
+/// The flag that hands a settings file to the `claude` child: `viola verify`'s dialog runs (Runs C
+/// and D) pass their probe settings through it.
+pub const SETTINGS_FLAG: &str = "--settings";
 
 /// The program a revived instance runs, looked up by name when it is revived.
 pub const PROGRAM: &str = "claude";

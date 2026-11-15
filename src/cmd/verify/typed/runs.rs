@@ -6,13 +6,12 @@ use std::path::{Path, PathBuf};
 use std::sync::Arc;
 use std::sync::mpsc;
 
-use viola_agent_claude::PLUGIN_DIR_FLAG;
 use viola_agent_claude::hook::HookEvent;
 use viola_agent_claude::ledger::{
     self, AgentsCapture, DIALOG_PROMPT_PARALLEL, DIALOG_PROMPT_PERMISSION, DIALOG_PROMPT_QUESTIONS,
     DIALOG_SETTINGS, PLAN_PROMPT, TypedRun,
 };
-use viola_agent_claude::statusline::SETTINGS_FLAG;
+use viola_agent_claude::{PLUGIN_DIR_FLAG, SETTINGS_FLAG};
 use viola_core::Clock;
 use viola_state::fs::create_private_dir;
 
@@ -39,8 +38,7 @@ pub(super) fn untrusted_run(
 }
 
 /// Run B: the settled input box, one typed turn, the agents read once that turn settled, the five
-/// framing pastes, then Ctrl-C; its status line runs the probe settings' capture command where they
-/// were written.
+/// framing pastes, then Ctrl-C.
 pub(super) fn trusted_run(
     clock: &Arc<dyn Clock>,
     inputs: &Inputs<'_>,
@@ -91,15 +89,11 @@ pub(super) fn trusted_run(
     Ok(agents)
 }
 
-/// Run B's arguments: the run's own, its plugin dir, then its one `--settings` when given.
+/// Run B's arguments: the run's own, then its plugin dir.
 fn trusted_args(args: &[OsString], inputs: &Inputs<'_>) -> Vec<OsString> {
     let mut args = args.to_vec();
     args.push(PLUGIN_DIR_FLAG.into());
     args.push(inputs.trusted.plugin.as_os_str().to_owned());
-    if let Some(settings) = inputs.statusline_settings {
-        args.push(SETTINGS_FLAG.into());
-        args.push(settings.as_os_str().to_owned());
-    }
     args
 }
 

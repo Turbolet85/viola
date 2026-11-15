@@ -279,12 +279,11 @@ mod tests {
     }
 
     /// The verdict needs the dialog rows (R2 closed), the framing rows, the newline row, the resume
-    /// row, the agents row, the compact row and, where the status line is wrapped, the three
-    /// statusline rows: a stamp written before any of them landed (the ten spine and screen rows,
-    /// those and the four dialog rows, every row but the newline one, the eighteen before the
-    /// statusline rows, the twenty-one before the resume row, the twenty-two before the agents row,
-    /// or the twenty-three before the compact row) and one whose relied row failed all leave the
-    /// version unverified; all twenty-four relied rows passing verify it.
+    /// row, the agents row and the compact row: a stamp written before any of them landed (the ten
+    /// spine and screen rows, those and the four dialog rows, every row but the newline one, the
+    /// eighteen before the resume row, the nineteen before the agents row, or the twenty before the
+    /// compact row) and one whose relied row failed all leave the version unverified; all twenty-one
+    /// relied rows passing verify it.
     #[test]
     fn stamps_verdict_needs_the_dialog_rows() {
         let ten = [
@@ -334,60 +333,29 @@ mod tests {
             (false, None),
             "the eighteen rows of an older stamp"
         );
-        let mut nineteen = all.clone();
-        nineteen.push((LedgerRow::ResumeSession, true));
-        assert_eq!(
-            stamps_verdict(Ok(Some(stamp_of(&nineteen))), "2.1.0"),
-            (false, None),
-            "the eighteen rows and the resume row of an older stamp"
-        );
-        nineteen.push((LedgerRow::AgentsJoin, true));
-        assert_eq!(
-            stamps_verdict(Ok(Some(stamp_of(&nineteen))), "2.1.0"),
-            (false, None),
-            "the eighteen rows, the resume row and the agents row of an older stamp"
-        );
-        nineteen.push((LedgerRow::LocalCommandCompact, true));
-        assert_eq!(
-            stamps_verdict(Ok(Some(stamp_of(&nineteen))), "2.1.0"),
-            (false, None),
-            "the eighteen rows, the resume row, the agents row and the compact row"
-        );
-        let statusline = [LedgerRow::StatusLineOverride, LedgerRow::StatusLineShell];
-        all.extend(statusline.iter().map(|r| (*r, true)));
-        assert_eq!(
-            stamps_verdict(Ok(Some(stamp_of(&all))), "2.1.0"),
-            (false, None),
-            "the twenty-one rows of an older stamp"
-        );
         all.push((LedgerRow::ResumeSession, true));
         assert_eq!(
             stamps_verdict(Ok(Some(stamp_of(&all))), "2.1.0"),
             (false, None),
-            "the twenty-two rows of an older stamp"
+            "the nineteen rows of an older stamp"
         );
         all.push((LedgerRow::AgentsJoin, true));
         assert_eq!(
             stamps_verdict(Ok(Some(stamp_of(&all))), "2.1.0"),
             (false, None),
-            "the twenty-three rows of an older stamp"
+            "the twenty rows of an older stamp"
         );
         all.push((LedgerRow::LocalCommandCompact, true));
         assert_eq!(
             stamps_verdict(Ok(Some(stamp_of(&all))), "2.1.0"),
             (true, None)
         );
-        for failing in dialogs
-            .into_iter()
-            .chain(framing)
-            .chain([
-                LedgerRow::PasteNewline,
-                LedgerRow::ResumeSession,
-                LedgerRow::AgentsJoin,
-                LedgerRow::LocalCommandCompact,
-            ])
-            .chain(statusline)
-        {
+        for failing in dialogs.into_iter().chain(framing).chain([
+            LedgerRow::PasteNewline,
+            LedgerRow::ResumeSession,
+            LedgerRow::AgentsJoin,
+            LedgerRow::LocalCommandCompact,
+        ]) {
             let rows: Vec<(LedgerRow, bool)> =
                 all.iter().map(|(r, p)| (*r, *p && *r != failing)).collect();
             assert_eq!(

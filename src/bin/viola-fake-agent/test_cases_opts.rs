@@ -42,14 +42,10 @@ fn opts_parse_reads_values_flags_and_ignores_unknown() {
         "--fork-session",
         "--settings",
         "st.json",
-        "--statusline-stdin",
-        "sl",
         "--version",
         "-p",
         "a prompt",
     ]));
-    assert_eq!(o.settings.as_deref(), Some(Path::new("st.json")));
-    assert_eq!(o.statusline_stdin.as_deref(), Some(Path::new("sl")));
     assert_eq!(o.print.as_deref(), Some("a prompt"));
     assert_eq!(
         Opts::parse(&args(&["--print", "q"])).print.as_deref(),
@@ -118,8 +114,6 @@ fn opts_default_to_the_default_cli_version() {
     );
     assert!(o.resume.is_none() && !o.fork_session);
     assert_eq!(Opts::parse(&args(&["--resume"])).resume, None);
-    assert!(o.settings.is_none() && o.statusline_stdin.is_none());
-    assert_eq!(Opts::parse(&args(&["--settings"])).settings, None);
     assert!(!o.trusted(), "no root: every cwd is untrusted");
 }
 
@@ -401,73 +395,4 @@ fn fake_resume_absent_leaves_the_recorded_bytes() {
         assert!(opts.resume_fields().is_empty(), "{list:?}");
         assert_eq!(payload(fixture.clone(), &opts.resume_fields()), fixture);
     }
-}
-
-#[test]
-fn fake_statusline_words_are_the_command_split_on_ascii_white_space() {
-    let words = |doc: &str| statusline_words(doc.as_bytes());
-    assert_eq!(
-        words(r#"{"statusLine":{"type":"command","command":"/h/bin/k/viola hook  statusline"}}"#),
-        Some((
-            "/h/bin/k/viola".to_owned(),
-            vec!["hook".to_owned(), "statusline".to_owned()]
-        ))
-    );
-    assert_eq!(
-        words(r#"{"statusLine":{"command":"relative"}}"#),
-        Some(("relative".to_owned(), vec![]))
-    );
-    assert_eq!(words(r#"{"statusLine":{"command":"  "}}"#), None);
-    assert_eq!(words(r#"{"statusLine":{"command":7}}"#), None);
-    assert_eq!(words(r#"{"model":"m"}"#), None);
-    assert_eq!(words("not json"), None);
-}
-
-#[test]
-fn fake_statusline_echo_exit_is_the_code_after_the_marker_path() {
-    assert_eq!(statusline_echo_exit(&args(&["m"])), 0);
-    assert_eq!(statusline_echo_exit(&args(&["m", "--exit", "3"])), 3);
-    assert_eq!(statusline_echo_exit(&args(&["m", "--exit"])), 0);
-    assert_eq!(statusline_echo_exit(&args(&["m", "--exit", "x"])), 0);
-    assert_eq!(statusline_echo_exit(&args(&["m", "--other", "3"])), 0);
-    assert_eq!(statusline_echo_exit(&args(&["--exit", "3"])), 0);
-    assert_eq!(statusline_echo_exit(&[]), 0);
-    assert_eq!(STATUSLINE_ECHO, "statusline-echo");
-    assert_eq!(STATUSLINE_ECHO_OUTPUT, b"viola-fake-statusline\n");
-}
-
-/// Without both options, or with a stdin file that cannot be read, nothing runs and nothing is
-/// receipted; a command that is not absolute is receipted and never run.
-#[test]
-fn fake_statusline_runs_only_with_both_options_and_only_an_absolute_command() {
-    let tmp = tempfile::tempdir().expect("tempdir");
-    let path = |name: &str| tmp.path().join(name).to_str().expect("utf-8").to_owned();
-    let (settings, stdin, receipt) = (path("settings.json"), path("stdin"), path("receipt"));
-    fs::write(&settings, r#"{"statusLine":{"command":"relative arg"}}"#).expect("settings");
-    fs::write(&stdin, b"payload").expect("stdin");
-    let run = |list: &[&str]| {
-        let mut list = list.to_vec();
-        list.extend(["--receipt", &receipt]);
-        Agent::new(Opts::parse(&args(&list))).run_statusline();
-        fs::read_to_string(&receipt).unwrap_or_default()
-    };
-    assert_eq!(run(&["--settings", &settings]), "");
-    assert_eq!(run(&["--statusline-stdin", &stdin]), "");
-    let missing = path("missing");
-    assert_eq!(
-        run(&["--settings", &settings, "--statusline-stdin", &missing]),
-        ""
-    );
-    assert_eq!(
-        run(&["--settings", &missing, "--statusline-stdin", &stdin]),
-        ""
-    );
-    let line: Value = serde_json::from_str(
-        run(&["--settings", &settings, "--statusline-stdin", &stdin]).trim_end(),
-    )
-    .expect("one receipt line");
-    assert_eq!(
-        line,
-        json!({"v": 1, "kind": "statusline", "command_absolute": false, "ran": false})
-    );
 }

@@ -2,8 +2,7 @@
 //! (test-plan §6 Path 1; architecture §Established Decisions [Session Liveness]; security-plan
 //! §Data Protection, Code-bearing artefacts): the first three records and the state before the
 //! child, the board's live row, a live name and a squatted endpoint refused, a tampered pinned copy
-//! refused with no child, and a deleted copy re-made with the plugin folder and the settings
-//! override rewritten whole.
+//! refused with no child, and a deleted copy re-made with the plugin folder rewritten whole.
 
 #[allow(dead_code)]
 mod support;
@@ -132,13 +131,6 @@ fn path1_run_start_one_home_in_order(stamped_home: StampedHome) {
     bytes[middle] ^= 0x01;
     fs::write(&pinned, &bytes).expect("tamper one byte");
     fs::write(&hooks, format!(r#"{{"hooks":{{"Stop":"{SENTINEL}"}}}}"#)).expect("sentinel");
-    let settings = dir.join("settings.json");
-    #[cfg(unix)]
-    fs::write(
-        &settings,
-        format!(r#"{{"statusLine":{{"type":"command","command":"{SENTINEL}"}}}}"#),
-    )
-    .expect("sentinel");
     let children = child_starts(&home);
     let out = run_refused(&home);
     assert_eq!(out.status.code(), Some(1));
@@ -148,7 +140,7 @@ fn path1_run_start_one_home_in_order(stamped_home: StampedHome) {
     assert_eq!(child_starts(&home), children, "a child was started");
 
     // 6. The copy deleted: the next start re-makes it from the built viola and rewrites the plugin
-    // folder and, on Unix, the settings override whole.
+    // folder whole.
     fs::remove_file(&pinned).expect("delete the copy");
     let restarted = Wrapper::boot(stamped, "builder", None, &[]);
     assert_eq!(
@@ -166,20 +158,6 @@ fn path1_run_start_one_home_in_order(stamped_home: StampedHome) {
     assert!(Path::new(&pinned).is_absolute());
     for command in &found {
         assert_eq!(command, &pinned, "every hook runs the pinned copy");
-    }
-    {
-        use std::os::unix::fs::PermissionsExt as _;
-        let doc: Value =
-            serde_json::from_slice(&fs::read(&settings).expect("settings.json")).expect("json");
-        assert_eq!(
-            doc,
-            json!({"statusLine": {"type": "command", "command": format!("{pinned} hook statusline")}})
-        );
-        let mode = fs::metadata(&settings)
-            .expect("settings")
-            .permissions()
-            .mode();
-        assert_eq!(mode & 0o777, 0o600);
     }
     assert_eq!(restarted.stop().code(), Some(0));
 }

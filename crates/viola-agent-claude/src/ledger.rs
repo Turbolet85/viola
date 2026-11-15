@@ -36,15 +36,13 @@ pub enum LedgerRow {
     TagEscaping,
     LocalCommandClear,
     PasteNewline,
-    StatusLineOverride,
-    StatusLineShell,
     ResumeSession,
     AgentsJoin,
     LocalCommandCompact,
 }
 
 impl LedgerRow {
-    pub const ALL: [Self; 23] = [
+    pub const ALL: [Self; 21] = [
         Self::ShimResolution,
         Self::SpineHooks,
         Self::SessionStartFields,
@@ -63,8 +61,6 @@ impl LedgerRow {
         Self::TagEscaping,
         Self::LocalCommandClear,
         Self::PasteNewline,
-        Self::StatusLineOverride,
-        Self::StatusLineShell,
         Self::ResumeSession,
         Self::AgentsJoin,
         Self::LocalCommandCompact,
@@ -91,8 +87,6 @@ impl LedgerRow {
             Self::TagEscaping => "tag-escaping",
             Self::LocalCommandClear => "local-command-clear",
             Self::PasteNewline => "paste-newline",
-            Self::StatusLineOverride => "statusline-override",
-            Self::StatusLineShell => "statusline-shell",
             Self::ResumeSession => "resume-session",
             Self::AgentsJoin => "agents-join",
             Self::LocalCommandCompact => "local-command-compact",
@@ -122,8 +116,6 @@ impl LedgerRow {
             Self::TagEscaping => "tag-like text un-escapes to the text as pasted",
             Self::LocalCommandClear => "/clear starts a new session and submits no prompt",
             Self::PasteNewline => "an LF inside a paste stays inside the one prompt submitted",
-            Self::StatusLineOverride => "a --settings statusLine runs in the status line's place",
-            Self::StatusLineShell => "a statusline command runs through /bin/sh",
             Self::ResumeSession => "--resume <id> reopens the session under that id",
             Self::AgentsJoin => "claude agents --json names the live session by pid and session id",
             Self::LocalCommandCompact => "/compact keeps the session id and submits no prompt",
@@ -503,27 +495,6 @@ pub fn capture_file_name(event: HookEvent, k: u32) -> String {
     format!("{}.{k}.json", event_name(event))
 }
 
-/// `StatusLine.<k>.json`: one status line payload the probe command filed.
-pub fn statusline_capture_file_name(k: u32) -> String {
-    format!("{STATUSLINE_STEM}.{k}.json")
-}
-
-/// `StatusLine.<k>.shell`: the shell verdict filed beside payload `k`.
-pub fn statusline_shell_file_name(k: u32) -> String {
-    format!("{STATUSLINE_STEM}.{k}.shell")
-}
-
-const STATUSLINE_STEM: &str = "StatusLine";
-
-/// The `k` of a `StatusLine.<k>.json` name; any other name has none.
-pub fn parse_statusline_capture_file_name(name: &str) -> Option<u32> {
-    let k = name
-        .strip_suffix(".json")?
-        .strip_prefix(STATUSLINE_STEM)?
-        .strip_prefix('.')?;
-    k.parse().ok().filter(|k| *k > 0)
-}
-
 pub fn parse_capture_file_name(name: &str) -> Option<(HookEvent, u32)> {
     let (stem, k) = name.strip_suffix(".json")?.rsplit_once('.')?;
     let event = HookEvent::ALL
@@ -603,33 +574,6 @@ pub struct DialogRuns {
     pub plan: Vec<Capture>,
 }
 
-/// Which shell ran a statusline command: the word the CLI's shell expanded `"$0"` to was exactly
-/// [`crate::statusline::BIN_SH`], or anything else (no word included).
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum ShellVerdict {
-    BinSh,
-    Other,
-}
-
-impl ShellVerdict {
-    /// The word a capture's shell file holds.
-    pub const fn word(self) -> &'static str {
-        match self {
-            Self::BinSh => "bin-sh",
-            Self::Other => "other",
-        }
-    }
-
-    /// A shell file's bytes: exactly `bin-sh` is [`ShellVerdict::BinSh`], anything else `Other`.
-    pub fn read(bytes: &[u8]) -> Self {
-        if bytes == Self::BinSh.word().as_bytes() {
-            Self::BinSh
-        } else {
-            Self::Other
-        }
-    }
-}
-
 /// The one `claude agents --json` read Run B makes while its session is live: Run B's child pid
 /// and the read's stdout, raw.
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -638,23 +582,14 @@ pub struct AgentsCapture {
     pub bytes: Vec<u8>,
 }
 
-/// One payload Run B's status line handed the probe command, as filed, and the shell that ran it.
-#[derive(Debug, Clone, PartialEq, Eq)]
-pub struct StatusLineCapture {
-    pub bytes: Vec<u8>,
-    pub shell: ShellVerdict,
-}
-
 /// Every measurement one `viola verify` run makes; `trusted` is Run B's captures in claim order,
-/// `statusline` its status line's in `k` order, `resumed` Run E's in claim order and `agents` Run
-/// B's agents read, when one was made.
+/// `resumed` Run E's in claim order and `agents` Run B's agents read, when one was made.
 #[derive(Debug, Clone, PartialEq)]
 pub struct Probes {
     pub print: ProbeRun,
     pub typed: TypedRun,
     pub trusted: Vec<Capture>,
     pub dialogs: DialogRuns,
-    pub statusline: Vec<StatusLineCapture>,
     pub resumed: Vec<Capture>,
     pub agents: Option<AgentsCapture>,
 }
@@ -1006,35 +941,10 @@ pub fn check(row: LedgerRow, probes: &Probes) -> bool {
         LedgerRow::LocalCommandClear => local_command_cleared(&probes.trusted),
         // A CLI that submitted at the LF leaves no capture equal to the whole text.
         LedgerRow::PasteNewline => pasted(&probes.trusted, PROBE_NEWLINE_PASTE).is_some(),
-        LedgerRow::StatusLineOverride => !probes.statusline.is_empty(),
-        LedgerRow::StatusLineShell => {
-            !probes.statusline.is_empty()
-                && probes
-                    .statusline
-                    .iter()
-                    .all(|c| c.shell == ShellVerdict::BinSh)
-        }
         LedgerRow::ResumeSession => session_resumed(&probes.trusted, &probes.resumed),
         LedgerRow::AgentsJoin => agents_joined(&probes.trusted, probes.agents.as_ref()),
         LedgerRow::LocalCommandCompact => local_command_compacted(&probes.trusted, typed),
     }
-}
-
-/// The recorded status line payload of a session before its first response.
-pub const STATUSLINE_DEFAULT: &str = "StatusLine.default-1.json";
-/// Run B's status line payloads named for `--record`: [`STATUSLINE_DEFAULT`] is the first whose
-/// object holds no `rate_limits`.
-pub fn statusline_variants(captures: &[StatusLineCapture]) -> Vec<(String, &[u8])> {
-    let without = captures.iter().find(|c| {
-        matches!(
-            serde_json::from_slice::<Value>(&c.bytes),
-            Ok(Value::Object(payload)) if !payload.contains_key("rate_limits")
-        )
-    });
-    without
-        .map(|c| (STATUSLINE_DEFAULT.to_owned(), c.bytes.as_slice()))
-        .into_iter()
-        .collect()
 }
 
 /// Exactly the four spine events, one each, in firing order, each payload naming its event.

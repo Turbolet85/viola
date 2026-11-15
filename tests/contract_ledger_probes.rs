@@ -13,7 +13,7 @@ use std::path::Path;
 use support::home::{TestHome, workspace_path};
 use support::verify::verify;
 
-const ROW_IDS: [&str; 23] = [
+const ROW_IDS: [&str; 21] = [
     "shim-resolution",
     "spine-hooks",
     "session-start-fields",
@@ -32,13 +32,11 @@ const ROW_IDS: [&str; 23] = [
     "tag-escaping",
     "local-command-clear",
     "paste-newline",
-    "statusline-override",
-    "statusline-shell",
     "resume-session",
     "agents-join",
     "local-command-compact",
 ];
-/// The sets recorded whole (spine, screens, dialog, framing, status line and resume variants): each
+/// The sets recorded whole (spine, screens, dialog, framing and resume variants): each
 /// stamps every relied row.
 const STAMPED: [&str; 2] = ["2.1.287", "2.1.302"];
 /// The sets kept only for the byte-drift contract, never stamped: 2.1.283 carries no screen, and
@@ -106,7 +104,7 @@ fn contract_ledger_probes_pass_over_every_stamped_set() {
                 "{version}: {id} did not pass"
             );
         }
-        assert_eq!(*last, format!("stamped {version}  23 pass  0 fail"));
+        assert_eq!(*last, format!("stamped {version}  21 pass  0 fail"));
     });
 }
 

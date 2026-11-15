@@ -168,9 +168,9 @@ fn diag_line_schema_requires_corr_where_it_is_always_defined(
 #[case::parse_error_reply("channel-response", json!({"result_class": "error", "error_code": -32700}))]
 #[case::oversize_reply("channel-response", json!({"result_class": "error", "error_code": -32600}))]
 #[case::client_send_refused("send-refused", json!({"side": "client", "refusal": "not-delivered", "detail": "control-character"}))]
-#[case::non_dialog_hook_invoked("hook-invoked", json!({"hook_event": "statusline"}))]
+#[case::non_dialog_hook_invoked("hook-invoked", json!({"hook_event": "stop"}))]
 #[case::fail_open_hook_invoked("hook-invoked", json!({"hook_event": "pre-tool-use"}))]
-#[case::non_dialog_hook_decision("hook-decision", json!({"hook_event": "statusline", "duration_ms": 3}))]
+#[case::non_dialog_hook_decision("hook-decision", json!({"hook_event": "stop", "duration_ms": 3}))]
 #[case::fail_open_hook_decision("hook-decision", json!({"hook_event": "permission-request", "detail": "channel-unreachable"}))]
 fn diag_line_schema_accepts_each_documented_null_corr(#[case] event: &str, #[case] extra: Value) {
     let validator = jsonschema::validator_for(&line_schema()).expect("valid schema");

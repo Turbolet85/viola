@@ -72,7 +72,6 @@ fn record_live(instance: &Path, endpoint: String, pid: u32) {
         child_pid: None,
         pending_dialog: None,
         cwd: None,
-        statusline_command: None,
         agent_session_id: None,
     };
     write_snapshot(instance, &snapshot).expect("snapshot");

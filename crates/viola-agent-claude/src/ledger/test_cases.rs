@@ -134,7 +134,6 @@ fn probes(run: &ProbeRun) -> Probes {
         typed: clean_typed(),
         trusted: clean_trusted(),
         dialogs: clean_dialogs(),
-        statusline: clean_statusline(),
         resumed: clean_resumed(),
         agents: Some(clean_agents()),
     }
@@ -163,7 +162,6 @@ fn typed_check(row: LedgerRow, typed: TypedRun) -> bool {
             typed,
             trusted: clean_trusted(),
             dialogs: clean_dialogs(),
-            statusline: clean_statusline(),
             resumed: clean_resumed(),
             agents: Some(clean_agents()),
         },
@@ -331,7 +329,6 @@ fn dialog_check(row: LedgerRow, dialogs: DialogRuns) -> bool {
             typed: clean_typed(),
             trusted: clean_trusted(),
             dialogs,
-            statusline: clean_statusline(),
             resumed: clean_resumed(),
             agents: Some(clean_agents()),
         },
@@ -448,7 +445,6 @@ fn resume_check(trusted: Vec<Capture>, resumed: Vec<Capture>) -> bool {
             typed: clean_typed(),
             trusted,
             dialogs: clean_dialogs(),
-            statusline: clean_statusline(),
             resumed,
             agents: Some(clean_agents()),
         },
@@ -471,7 +467,6 @@ fn framing_check(row: LedgerRow, trusted: Vec<Capture>) -> bool {
             typed: clean_typed(),
             trusted,
             dialogs: clean_dialogs(),
-            statusline: clean_statusline(),
             resumed: clean_resumed(),
             agents: Some(clean_agents()),
         },
@@ -492,36 +487,6 @@ fn compact_check(trusted: Vec<Capture>, typed: TypedRun) -> bool {
             typed,
             trusted,
             dialogs: clean_dialogs(),
-            statusline: clean_statusline(),
-            resumed: clean_resumed(),
-            agents: Some(clean_agents()),
-        },
-    )
-}
-
-/// Run B's status line as the live probe would file it: a first payload, then a later one after a
-/// turn, each run by `/bin/sh`.
-fn clean_statusline() -> Vec<StatusLineCapture> {
-    let first = json!({"session_id": "s-1", "model": {"id": "claude-haiku"}});
-    let later = json!({"session_id": "s-1", "model": {"id": "claude-haiku"}, "cost": {"total_lines_added": 1}});
-    [first, later]
-        .into_iter()
-        .map(|payload| StatusLineCapture {
-            bytes: payload.to_string().into_bytes(),
-            shell: ShellVerdict::BinSh,
-        })
-        .collect()
-}
-
-fn statusline_check(row: LedgerRow, statusline: Vec<StatusLineCapture>) -> bool {
-    check(
-        row,
-        &Probes {
-            print: clean_run(),
-            typed: clean_typed(),
-            trusted: clean_trusted(),
-            dialogs: clean_dialogs(),
-            statusline,
             resumed: clean_resumed(),
             agents: Some(clean_agents()),
         },
