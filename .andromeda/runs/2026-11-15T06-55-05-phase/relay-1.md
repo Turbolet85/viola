@@ -1,1 +1,0 @@
-yes — the plan as carded (the delegate overseer's technical approval). The five founder forks stay unanswered: their lines in evidence/founder-words.md come from the founder's own words by relay, and no live step runs before them.

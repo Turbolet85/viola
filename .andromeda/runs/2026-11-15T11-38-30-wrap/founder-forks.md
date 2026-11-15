@@ -32,3 +32,10 @@ the same form, and the plan's expected amendment 3 asked for this add «in the 2
 
 **Answer:** _(the founder's own word, appended here verbatim; then snapped `--message-file --kind relay` and cited as
 `inputs#I{n}` on the line `decision/live-round-rig-keys-own-pty · … · resolved: … (Q1)`)_
+
+The founder's own selection, given in overseer1's question dialog at 2026-11-15T12:15Z, relayed verbatim by overseer1
+and read by the Viola overseer in that session's transcript (`~/dev/projects/additional/viola-overseer/relay-wrap-live-round-q1.md`),
+verbatim: «С границами и словом на чанк (Recommended)»
+
+So option 2: the row lands with this chunk's bounds named in the rule (at most two down-arrows and one Enter, only on
+the trust literal; one `x` and one DEL in the input box) and a per-chunk word of the founder each time, through fit.

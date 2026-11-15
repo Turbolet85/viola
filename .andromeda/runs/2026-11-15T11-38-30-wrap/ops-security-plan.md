@@ -1,7 +1,7 @@
 @row_add n=1 row=decision/live-round-rig-keys-own-pty area=authentication-authorization fact=F1 detector=D-security-auth
 name: Live-round rig keys only into its own pty
-rule: A live round's rig passes the folder-trust dialog and the input box only by keys typed into its own pty, and reads statusLine.command only by a read-only hash; viola itself types into no dialog.
-why: A ratified boundary widening; a rig is no viola, so the product's own pty seam stays unchanged.
+rule: On the founder's word for that chunk, a live round's rig types into its own pty at most two down-arrows and one Enter on the folder-trust literal and one x and one DEL in the input box, and reads statusLine.command only by a read-only hash; each round needs his word anew; viola types into no dialog.
+why: A boundary widening bounded as the founder bounded it; a rig is no viola, so the product's own pty seam stays unchanged.
 basis: fct-rbnf2n7i, fct-p7g3o7gz
 because: The live round's starts widened the boundary by the rig's keys into its own pty and a read-only hash of statusLine.command, and the standing precedent rows cover only plugin-install rounds, so §Authentication & Authorization must carry the new rule beside them.
 @row_add n=2 row=decision/live-session-screens-kept-local area=data-protection fact=F2 detector=none

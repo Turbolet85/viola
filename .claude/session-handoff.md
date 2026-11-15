@@ -1,57 +1,44 @@
 # Session Handoff
 
-**Last Updated:** 2026-11-15T06:42:53Z
+**Last Updated:** 2026-11-15T13:05:17Z
 **Branch:** build/viola-0.2.0 · 0 ahead of origin/build/viola-0.2.0 as read at this wrap's resume (this wrap's push lands its commit)
 **Status:** clean (once the wrap's commit lands)
-**Last Commit:** 2026-11-14-status-line-interception-removed — feat(…): the status-line interception removed whole
+**Last Commit:** 2026-11-15-live-round-on-the-trimmed-product — feat(…): the live round on the trimmed product, v2-02 and v2-03 read live
 
 ## Position
-- Done: 2026-11-14-status-line-interception-removed — no `hook statusline` arm, shell-out, settings override,
-  snapshot command, fake-agent modes, fixtures or log subjects; relied rows 23 → 21; every own-format `v` stays 1.
-  CI green 7/7 on the pre-CI `fcdbeaa2` (the operator pass).
-- Next: «Live round on the trimmed product» (`/andromeda-phase`), Epoch 2's last entry.
+- Done: 2026-11-15-live-round-on-the-trimmed-product — v2-02's hold read at the 3600 s ceiling (`hold: stands`, the
+  PROVISIONAL mark gone) and v2-03's wrapped start proved by a tenth start in a cwd the CLI already trusts; ten starts
+  as fired (9 red · 10 red · 11 red twice · 12 red · 27 green). Epoch 2 closes with it.
+- Next: the Epoch 2 boundary (the operator's), then «API-error turn end» (`/andromeda-phase`), Epoch 3's head.
 
 ## Work done
-- P2: 165 row operations in TX 1286–1297 over five masters (design-system and layout-templates landed none); 72 leaf
-  findings applied plus 2 leaves by hand; the answer card (Q1, the `protocol-version-bump-rule` except widened to this
-  removal) confirmed by the delegate overseer, PROVISIONAL (`inputs#I11`); the exception itself is the founder's
-  own answer (`inputs#I3`).
-- Curation: `testing.md` rev 22 — a removal sweeps every test reading the removed field; the Tier 3 probe-vs-plan entry
-  extended (minted names take neutral words, never a split string).
+- Wrap `2026-11-15T11-38-30-wrap`, resumed twice: report rev 4 (Addendum 2 — the tenth start, the two overrides, the
+  second pre-CI commit `c06d1e5c`, Q1); 12 row operations over five masters (TX 1507–1511); whole-mode leaves 7 of 17
+  applied; curation T2 1 · T3 1 + 1 extended; route: «The 2.1.325 recorded fixture set» minted at Epoch 4's head
+  (`chk-p5g2qxoz`), the DEL carry on «Key after a resize».
 
 ## Drift resolved
-- 22 cross-master restatements kept one home (architecture); fit read 1 `not_master`
-  (`obs-plan · decision/log-schema-additive-only`, left as it stands) and 3 `stands` (main set the standing rows).
-  The step-2 sweep caught two stale security-plan clauses (TX 1297).
+- The start order with trust keys and the reused-name log head: architecture, obs-plan, test-plan rows amended or
+  added; the hold's PROVISIONAL state left three rows; the live rig keys landed in security-plan BOUNDED (this chunk's
+  keys, a per-chunk founder word — his own Q1 answer, `inputs#I52`); the screens-kept-local row added. The
+  dialog-hold `why` re-words were judged `not_master` and rejected.
 
 ## Notes
-- PROVISIONAL until the founder's own word at the next 0-pending wrap's batch: Q1's card confirm (the delegate's,
-  `inputs#I11`; the exception rests on his `inputs#I3`).
-- Status-line rows left, and why: `obs-plan · contract/replayed-snapshot/live-fields`'s `item` key cell still lists
-  `statusline_command`, and `obs-plan · contract/child-spawn-log/*`'s `boundary` holds «shell» — key cells are never
-  set and fit read a retire-and-add heir as standing (a letter conflict, recorded to evolve). True and kept:
-  `architecture · decision/global-statusline-untouched`, `obs-plan · decision/child-settings-never-logged`.
-- New CARRYs on «Live round on the trimmed product»: the box-only screen fixture, and the live wrapped-vs-unwrapped
-  status-line reading (with the standing `Mcp.tools-list-1.json` re-record).
-- The operator's, at the desk (no route entry), after the pinned product binary is re-pinned: remove the live home's
-  stale `~/.viola/budget.json`, `~/.viola/instances/*/settings.json` overrides and any `~/.viola/statusline-source.json`.
-- Worth a look at «Product-owned settings and local-command delivery»'s promotion: its hint names owner-only settings
-  rewritten each start, which this chunk removed (not a route edit — the trajectory is the operator's).
-- Not placed (carried): the clause «the declined `viola-e2e` and `viola` mutation units stay out (they wait on a
-  pipeline mend)» names no route entry. The «hyprland-exact-frame-bound-pinned» placement stays PROVISIONAL.
-- The unpin of `vb.sh`'s 2.1.296 shim is the operator's. `HYPRCTL_DEADLINE` (5 s) PROVISIONAL («`viola open`»).
-- **Owned by 0.2.0** (carried): the 3600 s hold ceiling, PROVISIONAL; the live round's two reds; matrix#v1-27 deferred.
-- **Carried, unchanged:** `chunks/2026-10-26-explicit-session-links`'s card confirm and P2 halt;
-  `chunks/2026-10-27-bounded-inputs-at-every-boundary`'s P2 halt Q1 and Path 1's runner-variance reading;
-  `obs-scope-summary#20.5` and `slo-invariants-telemetry-budgets#2.2` label `max` readings the report labels `mean`.
-- **Deferred learnings:** `recurrence-despite-learning`: «A timestamp written into any record … is read from
-  `date -u`» — an evolve `ts` was typed ahead of the clock this wrap (the tool refused it; re-stamped). Plus,
-  unchanged: the two of the 2026-11-14 budget wrap (the fake agent's `statusline-echo` marker — now moot, the mode
-  is gone; a `gate.py control` case naming an rstest function alone), the eight of the 2026-11-06 wrap, the 3 of the
-  2026-11-13 epoch-8 wrap, the 2 of the 2026-11-14 hyprland wrap. Review with `/andromeda-wrap-session --review`.
-- **Host:** python `yaml` is absent; read `df -h /tmp` before a stamped-home gate. claude 2.1.323 is `latest` and stamped.
-  Hyprland 0.56.2.
+- PROVISIONAL until the founder's own word at the Epoch 2 boundary: the slot of «The 2.1.325 recorded fixture set»
+  at Epoch 4's head (the delegate overseer's placement, `inputs#I53`, `I54`). Carried as before: Q1 of the status-line
+  wrap (`inputs#I11` of that chunk); «hyprland-exact-frame-bound-pinned»; `HYPRCTL_DEADLINE`; the 3600 s hold ceiling
+  now ratified on one reading on one CLI version.
+- The founder's product direction on trust goes to the Epoch 2 boundary (not this wrap's).
+- The operator's desk list (no route entry): the kept tmpfs home `target/e2e-home/viola-live-20261115T083805Z/`; the
+  local frames under `target/live-round-screens/`; the two `projects[…]` trust entries the CLI wrote into
+  `~/.claude.json` for `…/proj-20261115T095240Z` and `…/proj-20261115T100649Z`; and, from before, the live home's
+  stale `~/.viola/budget.json`, `~/.viola/instances/*/settings.json` and any `~/.viola/statusline-source.json`; the
+  unpin of `vb.sh`'s 2.1.296 shim.
+- **Deferred learnings:** 1 learning analyzed but not applied (max-3 cap):
+  - Never chain `rec.py land` onto a `gate.py hygiene` call: a refused hygiene still lands its bytes (confidence 0.7)
+  Review with `/andromeda-wrap-session --review` if any should be applied. Plus `recurrence-despite-learning`: «A
+  timestamp … is read from `date -u`» (four times this chunk) and testing.md's «Never give `viola verify --record` a
+  viola home with a path component named `home`» (entry 9's recording refused). Earlier deferrals unchanged.
+- **Host:** python `yaml` is absent; read `df -h /tmp` before a stamped-home gate. claude 2.1.325 is `latest` and
+  stamped. Hyprland 0.56.2.
 - **Last failed command:** none.
-
-## Session End Status
-Completed normally at 2026-11-15 13:04:55

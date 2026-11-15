@@ -1,0 +1,73 @@
+[
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "037a54fa",
+"ts": "2026-11-15T13:13:28Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-15-live-round-on-the-trimmed-product",
+"--date",
+"2026-11-15",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-jh4ipw7f strip CARRY: 509ch \"CARRY: re-record `fixtures/claude/2.1.30\"",
+"pin cry-iplgskto strip CARRY: 694ch \"CARRY: a box-only screen fixture (the in\"",
+"pin cry-533ioj3s strip CARRY: 523ch \"CARRY: read a wrapped session's status l\"",
+"pin cry-sc5srceg strip BLOCKED-ON: 285ch \"BLOCKED-ON: the founder's own words on f\"",
+"pin next markerless chk-rcl7dapk holds no freight",
+"2026-11-15-live-round-on-the-trimmed-product · strip 4 block(s) · spent in the spine",
+"dry-run · would flip 2026-11-15-live-round-on-the-trimmed-product pending -> complete"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "037a54fa",
+"ts": "2026-11-15T13:14:08Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-15-live-round-on-the-trimmed-product",
+"--date",
+"2026-11-15",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-jh4ipw7f strip CARRY: 509ch \"CARRY: re-record `fixtures/claude/2.1.30\"",
+"pin cry-iplgskto strip CARRY: 694ch \"CARRY: a box-only screen fixture (the in\"",
+"pin cry-533ioj3s strip CARRY: 523ch \"CARRY: read a wrapped session's status l\"",
+"pin cry-sc5srceg strip BLOCKED-ON: 285ch \"BLOCKED-ON: the founder's own words on f\"",
+"pin next markerless chk-rcl7dapk holds no freight",
+"flip 2026-11-15-live-round-on-the-trimmed-product pending -> complete · tx 1554",
+"compacted 1 complete line(s) — their freight spent in the spine, no archive (U61)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T06-56-28-2026-11-15-live-round-on-the-trimmed-product.ndjson",
+"./.andromeda/master-route.md",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]

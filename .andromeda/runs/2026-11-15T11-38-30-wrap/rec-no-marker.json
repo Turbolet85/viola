@@ -1,0 +1,1221 @@
+[
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:00:36Z",
+"argv": [
+"harness",
+"land",
+"--root",
+".",
+".claude/docs/session-learnings.md",
+"--file",
+".andromeda/runs/2026-11-15T11-38-30-wrap/draft-.claude-docs-session-learnings.md",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land .claude/docs/session-learnings.md rev 9 · 5 node(s) · 3 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:00:37Z",
+"argv": [
+"harness",
+"land",
+"--root",
+".",
+".claude/rules/host-linux.md",
+"--file",
+".andromeda/runs/2026-11-15T11-38-30-wrap/draft-.claude-rules-host-linux.md",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land .claude/rules/host-linux.md rev 2 · 2 node(s) · 1 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:00:41Z",
+"argv": [
+"harness",
+"land",
+"--root",
+".",
+".claude/docs/session-learnings.md",
+"--file",
+".andromeda/runs/2026-11-15T11-38-30-wrap/draft-.claude-docs-session-learnings.md",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/session-learnings.md rev 9 · 2 new · 1 revised · 0 retired · tx 1520"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T13-00-41-2026-11-15T11-38-30-wrap.ndjson",
+"./.claude/docs/session-learnings.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:00:42Z",
+"argv": [
+"harness",
+"land",
+"--root",
+".",
+".claude/rules/host-linux.md",
+"--file",
+".andromeda/runs/2026-11-15T11-38-30-wrap/draft-.claude-rules-host-linux.md",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/host-linux.md rev 2 · 1 new · 0 revised · 0 retired · tx 1521"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T13-00-41-2026-11-15T11-38-30-wrap.ndjson",
+"./.claude/rules/host-linux.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:10:04Z",
+"argv": [
+"outputs",
+"land",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed tx 1532 · 560 record(s) of 144 payload(s)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T13-00-41-2026-11-15T11-38-30-wrap.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:10:06Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [],
+"stderr": "seal: 2026-11-15T12-10-18-phase is newer than the sealer's own run 2026-11-15T11-38-30-wrap — another run is open; nothing sealed",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:10:47Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [],
+"stderr": "seal: 2026-11-15T12-10-18-phase is newer than the sealer's own run 2026-11-15T11-38-30-wrap — another run is open; nothing sealed",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:10:57Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run",
+"2026-11-15T05-56-26-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · 2026-11-15T05-56-26-wrap · 217 new row(s) of 217 · held 0",
+"seal · 1 run(s) (dry-run) · own 2026-11-15T11-38-30-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:10:58Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run",
+"2026-11-15T12-35-39-implement",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [],
+"stderr": "seal: 2026-11-15T12-35-39-implement is newer than the sealer's own run 2026-11-15T11-38-30-wrap — another run is open; nothing sealed",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:12:32Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run",
+"2026-11-15T05-56-26-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · 2026-11-15T05-56-26-wrap · 217 new row(s) of 217 · held 0",
+"seal · 1 run(s) (dry-run) · own 2026-11-15T11-38-30-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:12:32Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run",
+"2026-11-15T06-55-05-phase",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · 2026-11-15T06-55-05-phase · 215 new row(s) of 215 · held 0",
+"seal · 1 run(s) (dry-run) · own 2026-11-15T11-38-30-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:12:32Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run",
+"2026-11-15T07-52-35-implement",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · 2026-11-15T07-52-35-implement · 9 new row(s) of 9 · held 0",
+"seal · 1 run(s) (dry-run) · own 2026-11-15T11-38-30-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:12:32Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run",
+"2026-11-15T08-23-45-phase",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · 2026-11-15T08-23-45-phase · 13 new row(s) of 13 · held 0",
+"seal · 1 run(s) (dry-run) · own 2026-11-15T11-38-30-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:12:33Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run",
+"2026-11-15T08-33-57-implement",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · 2026-11-15T08-33-57-implement · 6 new row(s) of 6 · held 0",
+"seal · 1 run(s) (dry-run) · own 2026-11-15T11-38-30-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:12:33Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run",
+"2026-11-15T08-48-39-phase",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · 2026-11-15T08-48-39-phase · 18 new row(s) of 18 · held 0",
+"seal · 1 run(s) (dry-run) · own 2026-11-15T11-38-30-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:12:33Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run",
+"2026-11-15T09-00-58-implement",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · 2026-11-15T09-00-58-implement · 7 new row(s) of 7 · held 0",
+"seal · 1 run(s) (dry-run) · own 2026-11-15T11-38-30-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:12:33Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run",
+"2026-11-15T09-08-58-phase",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · 2026-11-15T09-08-58-phase · 8 new row(s) of 8 · held 0",
+"seal · 1 run(s) (dry-run) · own 2026-11-15T11-38-30-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:12:33Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run",
+"2026-11-15T09-11-10-implement",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · 2026-11-15T09-11-10-implement · 8 new row(s) of 8 · held 0",
+"seal · 1 run(s) (dry-run) · own 2026-11-15T11-38-30-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:12:33Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run",
+"2026-11-15T09-30-45-phase",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · 2026-11-15T09-30-45-phase · 16 new row(s) of 16 · held 0",
+"seal · 1 run(s) (dry-run) · own 2026-11-15T11-38-30-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:12:34Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run",
+"2026-11-15T09-38-40-implement",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · 2026-11-15T09-38-40-implement · 6 new row(s) of 6 · held 0",
+"seal · 1 run(s) (dry-run) · own 2026-11-15T11-38-30-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:12:34Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run",
+"2026-11-15T09-46-06-phase",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · 2026-11-15T09-46-06-phase · 9 new row(s) of 9 · held 0",
+"seal · 1 run(s) (dry-run) · own 2026-11-15T11-38-30-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:12:34Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run",
+"2026-11-15T09-49-21-implement",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · 2026-11-15T09-49-21-implement · 6 new row(s) of 6 · held 0",
+"seal · 1 run(s) (dry-run) · own 2026-11-15T11-38-30-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:12:34Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run",
+"2026-11-15T09-56-08-phase",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · 2026-11-15T09-56-08-phase · 9 new row(s) of 9 · held 0",
+"seal · 1 run(s) (dry-run) · own 2026-11-15T11-38-30-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:12:34Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run",
+"2026-11-15T10-00-02-implement",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · 2026-11-15T10-00-02-implement · 6 new row(s) of 6 · held 0",
+"seal · 1 run(s) (dry-run) · own 2026-11-15T11-38-30-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:12:34Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run",
+"2026-11-15T10-06-21-implement",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · 2026-11-15T10-06-21-implement · 7 new row(s) of 7 · held 0",
+"seal · 1 run(s) (dry-run) · own 2026-11-15T11-38-30-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:12:34Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run",
+"2026-11-15T11-16-16-implement",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · 2026-11-15T11-16-16-implement · 6 new row(s) of 6 · held 0",
+"seal · 1 run(s) (dry-run) · own 2026-11-15T11-38-30-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:12:35Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run",
+"2026-11-15T11-17-37-phase",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · 2026-11-15T11-17-37-phase · 9 new row(s) of 9 · held 0",
+"seal · 1 run(s) (dry-run) · own 2026-11-15T11-38-30-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:12:35Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run",
+"2026-11-15T11-19-59-implement",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · 2026-11-15T11-19-59-implement · 9 new row(s) of 9 · held 0",
+"seal · 1 run(s) (dry-run) · own 2026-11-15T11-38-30-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:12:41Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run",
+"2026-11-15T05-56-26-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"sealed 2026-11-15T05-56-26-wrap · 217 file(s) · 2026-11-15T05-56-26-wrap.parquet · tx 1535 · 217 removed · 277 set aside",
+"seal · 1 run(s) · own 2026-11-15T11-38-30-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:12:41Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run",
+"2026-11-15T06-55-05-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"sealed 2026-11-15T06-55-05-phase · 215 file(s) · 2026-11-15T06-55-05-phase.parquet · tx 1536 · 215 removed · 334 set aside",
+"seal · 1 run(s) · own 2026-11-15T11-38-30-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:12:42Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run",
+"2026-11-15T07-52-35-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"sealed 2026-11-15T07-52-35-implement · 9 file(s) · 2026-11-15T07-52-35-implement.parquet · tx 1537 · 9 removed · 0 set aside",
+"seal · 1 run(s) · own 2026-11-15T11-38-30-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:12:42Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run",
+"2026-11-15T08-23-45-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"sealed 2026-11-15T08-23-45-phase · 13 file(s) · 2026-11-15T08-23-45-phase.parquet · tx 1538 · 13 removed · 0 set aside",
+"seal · 1 run(s) · own 2026-11-15T11-38-30-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:12:42Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run",
+"2026-11-15T08-33-57-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"sealed 2026-11-15T08-33-57-implement · 6 file(s) · 2026-11-15T08-33-57-implement.parquet · tx 1539 · 6 removed · 0 set aside",
+"seal · 1 run(s) · own 2026-11-15T11-38-30-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:12:43Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run",
+"2026-11-15T08-48-39-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"sealed 2026-11-15T08-48-39-phase · 18 file(s) · 2026-11-15T08-48-39-phase.parquet · tx 1540 · 18 removed · 0 set aside",
+"seal · 1 run(s) · own 2026-11-15T11-38-30-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:12:43Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run",
+"2026-11-15T09-00-58-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"sealed 2026-11-15T09-00-58-implement · 7 file(s) · 2026-11-15T09-00-58-implement.parquet · tx 1541 · 7 removed · 0 set aside",
+"seal · 1 run(s) · own 2026-11-15T11-38-30-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:12:43Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run",
+"2026-11-15T09-08-58-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"sealed 2026-11-15T09-08-58-phase · 8 file(s) · 2026-11-15T09-08-58-phase.parquet · tx 1542 · 8 removed · 0 set aside",
+"seal · 1 run(s) · own 2026-11-15T11-38-30-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:12:43Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run",
+"2026-11-15T09-11-10-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"sealed 2026-11-15T09-11-10-implement · 8 file(s) · 2026-11-15T09-11-10-implement.parquet · tx 1543 · 8 removed · 0 set aside",
+"seal · 1 run(s) · own 2026-11-15T11-38-30-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:12:44Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run",
+"2026-11-15T09-30-45-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"sealed 2026-11-15T09-30-45-phase · 16 file(s) · 2026-11-15T09-30-45-phase.parquet · tx 1544 · 16 removed · 0 set aside",
+"seal · 1 run(s) · own 2026-11-15T11-38-30-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:12:44Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run",
+"2026-11-15T09-38-40-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"sealed 2026-11-15T09-38-40-implement · 6 file(s) · 2026-11-15T09-38-40-implement.parquet · tx 1545 · 6 removed · 0 set aside",
+"seal · 1 run(s) · own 2026-11-15T11-38-30-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:12:44Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run",
+"2026-11-15T09-46-06-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"sealed 2026-11-15T09-46-06-phase · 9 file(s) · 2026-11-15T09-46-06-phase.parquet · tx 1546 · 9 removed · 0 set aside",
+"seal · 1 run(s) · own 2026-11-15T11-38-30-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:12:45Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run",
+"2026-11-15T09-49-21-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"sealed 2026-11-15T09-49-21-implement · 6 file(s) · 2026-11-15T09-49-21-implement.parquet · tx 1547 · 6 removed · 0 set aside",
+"seal · 1 run(s) · own 2026-11-15T11-38-30-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:12:45Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run",
+"2026-11-15T09-56-08-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"sealed 2026-11-15T09-56-08-phase · 9 file(s) · 2026-11-15T09-56-08-phase.parquet · tx 1548 · 9 removed · 0 set aside",
+"seal · 1 run(s) · own 2026-11-15T11-38-30-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:12:45Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run",
+"2026-11-15T10-00-02-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"sealed 2026-11-15T10-00-02-implement · 6 file(s) · 2026-11-15T10-00-02-implement.parquet · tx 1549 · 6 removed · 0 set aside",
+"seal · 1 run(s) · own 2026-11-15T11-38-30-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:12:46Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run",
+"2026-11-15T10-06-21-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"sealed 2026-11-15T10-06-21-implement · 7 file(s) · 2026-11-15T10-06-21-implement.parquet · tx 1550 · 7 removed · 0 set aside",
+"seal · 1 run(s) · own 2026-11-15T11-38-30-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:12:46Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run",
+"2026-11-15T11-16-16-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"sealed 2026-11-15T11-16-16-implement · 6 file(s) · 2026-11-15T11-16-16-implement.parquet · tx 1551 · 6 removed · 0 set aside",
+"seal · 1 run(s) · own 2026-11-15T11-38-30-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:12:46Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run",
+"2026-11-15T11-17-37-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"sealed 2026-11-15T11-17-37-phase · 9 file(s) · 2026-11-15T11-17-37-phase.parquet · tx 1552 · 9 removed · 0 set aside",
+"seal · 1 run(s) · own 2026-11-15T11-38-30-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:12:47Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run",
+"2026-11-15T11-19-59-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"sealed 2026-11-15T11-19-59-implement · 9 file(s) · 2026-11-15T11-19-59-implement.parquet · tx 1553 · 9 removed · 0 set aside",
+"seal · 1 run(s) · own 2026-11-15T11-38-30-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:12:54Z",
+"argv": [
+"outputs",
+"land",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed tx 1532 · 94 payload(s) — unchanged"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

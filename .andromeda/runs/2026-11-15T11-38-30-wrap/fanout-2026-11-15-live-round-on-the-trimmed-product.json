@@ -1057,5 +1057,551 @@
 "wrote": [],
 "before": null,
 "after": null
+},
+{
+"tool": "fanout",
+"v": "47",
+"sha8": "2da14225",
+"ts": "2026-11-15T12:50:25Z",
+"argv": [
+"status",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit · 4 of 4 pass · failed: none",
+"pick · 102 of 102 pass · failed: none",
+"propose · 6 of 6 pass · failed: none",
+"task · 7 of 7 pass · failed: none",
+"VERDICT: 4 batch(es) rendered under .andromeda/runs/2026-11-15T11-38-30-wrap/prompts · 0 unchecked"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "fanout",
+"v": "47",
+"sha8": "2da14225",
+"ts": "2026-11-15T12:52:44Z",
+"argv": [
+"render",
+"--batch",
+"propose",
+"--side",
+"wrap",
+"--skill-dir",
+"~/.claude/skills/andromeda-wrap-session",
+"--report",
+"doc:2026-11-15-live-round-on-the-trimmed-product/report",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product",
+"--respawn",
+"ops-security-plan",
+"--failed",
+"RULED",
+"--rows",
+"ops-security-plan=n=1 decision/live-round-rig-keys-own-pty (@row_add): resolved apply (Q1) on the founder own word «С границами и словом на чанк (Recommended)» (inputs#I52) — write the rule with this chunk bounds named and a per-chunk word: on the founder own word given for that chunk, a live round rig types into its own pty only at most two down-arrows and one Enter on the folder-trust literal where that dialog stands, and one x and one DEL into the input box, and reads statusLine.command only by a read-only hash; each live round needs his word again, never a standing permission; viola itself types into no dialog. Its why: a boundary widening bounded as the founder bounded it; a rig is no viola, so the product pty seam stays unchanged. Keep n=2 decision/live-session-screens-kept-local exactly as it stands."
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"MOVE .andromeda/runs/2026-11-15T11-38-30-wrap/ops-security-plan.md → .andromeda/runs/2026-11-15T11-38-30-wrap/.raw-ops-security-plan.md",
+"VERDICT: rendered 1 (propose 1) · batch propose-r1 · script ./.andromeda/runs/2026-11-15T11-38-30-wrap/prompts/propose-r1.workflow.js"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/runs/2026-11-15T11-38-30-wrap/prompts/ops-security-plan.r1.md",
+"./.andromeda/runs/2026-11-15T11-38-30-wrap/prompts/propose-r1.workflow.js",
+"./.andromeda/runs/2026-11-15T11-38-30-wrap/prompts/propose-r1.manifest.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "fanout",
+"v": "47",
+"sha8": "2da14225",
+"ts": "2026-11-15T12:53:21Z",
+"argv": [
+"check",
+"--manifest",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/propose-r1.manifest.json",
+"--before",
+"tree f565c84a865846918f70ab6a984d2a1e1eeda96f index 13e320188bf21b96491457eb90e279038d994312 head c06d1e5c7c034708f699c96df5a903d3cfbf4566",
+"--after",
+"tree a3af96af8e5b6a205b035754f0dbf6da775f3fff index 13e320188bf21b96491457eb90e279038d994312 head c06d1e5c7c034708f699c96df5a903d3cfbf4566",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"batch propose-r1 · 1 agents · 1 with every named path · trails: none",
+"[PATH_CHECK] PASS · index and head unchanged",
+"propose: 1 agents · 1 pass",
+"VERDICT: 1 of 1 pass · failed: none"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"sub": "check",
+"batch": "propose-r1",
+"agents": {
+"ops-security-plan": {
+"failed": {},
+"yes": null
+}
+},
+"stray": [],
+"closing_tags": [],
+"trails": [],
+"harness": [],
+"notes": []
+}
+},
+{
+"tool": "fanout",
+"v": "47",
+"sha8": "2da14225",
+"ts": "2026-11-15T12:53:27Z",
+"argv": [
+"render",
+"--batch",
+"fit",
+"--fresh",
+"--side",
+"wrap",
+"--skill-dir",
+"~/.claude/skills/andromeda-wrap-session",
+"--report",
+"doc:2026-11-15-live-round-on-the-trimmed-product/report",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"RETIRE 130 file(s) of the earlier renders → .andromeda/runs/2026-11-15T11-38-30-wrap/prompts/dead-1/",
+"VERDICT: rendered 1 (fit 1) · batch fit · script ./.andromeda/runs/2026-11-15T11-38-30-wrap/prompts/fit.workflow.js"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/runs/2026-11-15T11-38-30-wrap/prompts/security-plan-fit.w2.md",
+"./.andromeda/runs/2026-11-15T11-38-30-wrap/prompts/fit.workflow.js",
+"./.andromeda/runs/2026-11-15T11-38-30-wrap/prompts/fit.manifest.json"
+],
+"before": null,
+"after": null,
+"extra": {
+"sub": "render",
+"retired": [
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/a11y-pick-p1.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/a11y-pick-p1.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/a11y-pick-p2.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/a11y-pick-p2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/a11y-pick-p3.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/a11y-pick-p3.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/a11y-task.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/arch-pick-p1.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/arch-pick-p1.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/arch-pick-p10.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/arch-pick-p10.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/arch-pick-p2.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/arch-pick-p2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/arch-pick-p3.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/arch-pick-p3.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/arch-pick-p4.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/arch-pick-p4.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/arch-pick-p5.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/arch-pick-p5.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/arch-pick-p6.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/arch-pick-p6.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/arch-pick-p7.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/arch-pick-p7.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/arch-pick-p8.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/arch-pick-p8.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/arch-pick-p9.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/arch-pick-p9.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/arch-task.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/architecture-fit.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/design-pick-p1.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/design-pick-p1.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/design-pick-p2.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/design-pick-p2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/design-pick-p3.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/design-pick-p3.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/design-pick-p4.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/design-pick-p4.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/design-task.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/fit.manifest.json",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/fit.workflow.js",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/layouts-pick-p1.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/layouts-pick-p1.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/layouts-pick-p2.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/layouts-pick-p2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/layouts-pick-p3.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/layouts-pick-p3.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/layouts-task.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/obs-pick-p1.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/obs-pick-p1.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/obs-pick-p10.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/obs-pick-p10.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/obs-pick-p11.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/obs-pick-p11.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/obs-pick-p2.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/obs-pick-p2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/obs-pick-p3.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/obs-pick-p3.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/obs-pick-p4.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/obs-pick-p4.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/obs-pick-p5.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/obs-pick-p5.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/obs-pick-p6.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/obs-pick-p6.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/obs-pick-p7.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/obs-pick-p7.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/obs-pick-p8.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/obs-pick-p8.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/obs-pick-p9.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/obs-pick-p9.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/obs-plan-fit.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/obs-task.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/ops-a11y-plan.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/ops-architecture.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/ops-layout-templates.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/ops-obs-plan.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/ops-security-plan.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/ops-security-plan.r1.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/ops-test-plan.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/pick.manifest.json",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/pick.workflow.js",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/propose-r1.manifest.json",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/propose-r1.workflow.js",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/propose.manifest.json",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/propose.workflow.js",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/security-pick-p1.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/security-pick-p1.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/security-pick-p2.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/security-pick-p2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/security-pick-p3.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/security-pick-p3.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/security-pick-p4.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/security-pick-p4.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/security-pick-p5.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/security-pick-p5.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/security-pick-p6.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/security-pick-p6.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/security-plan-fit.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/security-task.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/task.manifest.json",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/task.workflow.js",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/test-plan-fit.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/tests-pick-p1.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/tests-pick-p1.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/tests-pick-p10.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/tests-pick-p10.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/tests-pick-p11.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/tests-pick-p11.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/tests-pick-p12.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/tests-pick-p12.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/tests-pick-p13.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/tests-pick-p13.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/tests-pick-p14.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/tests-pick-p14.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/tests-pick-p2.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/tests-pick-p2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/tests-pick-p3.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/tests-pick-p3.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/tests-pick-p4.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/tests-pick-p4.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/tests-pick-p5.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/tests-pick-p5.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/tests-pick-p6.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/tests-pick-p6.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/tests-pick-p7.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/tests-pick-p7.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/tests-pick-p8.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/tests-pick-p8.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/tests-pick-p9.d2.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/tests-pick-p9.md",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/tests-task.md"
+]
+}
+},
+{
+"tool": "fanout",
+"v": "47",
+"sha8": "2da14225",
+"ts": "2026-11-15T12:53:48Z",
+"argv": [
+"check",
+"--manifest",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/fit.manifest.json",
+"--before",
+"tree 3a948f706b366567166c654e4b481924dd900897 index 13e320188bf21b96491457eb90e279038d994312 head c06d1e5c7c034708f699c96df5a903d3cfbf4566",
+"--after",
+"tree 3753d5a7533d3f63d133e2760bdbdc9cf943b130 index 13e320188bf21b96491457eb90e279038d994312 head c06d1e5c7c034708f699c96df5a903d3cfbf4566",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"batch fit · 1 agents · 1 with every named path · trails: none",
+"[PATH_CHECK] PASS · index and head unchanged",
+"fit: 1 agents · 1 pass",
+"VERDICT: 1 of 1 pass · failed: none"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"sub": "check",
+"batch": "fit",
+"agents": {
+"security-plan-fit.w2": {
+"failed": {},
+"yes": null
+}
+},
+"stray": [],
+"closing_tags": [],
+"trails": [],
+"harness": [],
+"notes": []
+}
+},
+{
+"tool": "fanout",
+"v": "47",
+"sha8": "2da14225",
+"ts": "2026-11-15T12:55:37Z",
+"argv": [
+"render",
+"--batch",
+"leaf",
+"--side",
+"wrap",
+"--skill-dir",
+"~/.claude/skills/andromeda-wrap-session",
+"--report",
+"doc:2026-11-15-live-round-on-the-trimmed-product/report",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"VERDICT: rendered 15 (leaf 15) · batch leaf · script ./.andromeda/runs/2026-11-15T11-38-30-wrap/prompts/leaf.workflow.js"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/runs/2026-11-15T11-38-30-wrap/prompts/leaf-architecture-1.md",
+"./.andromeda/runs/2026-11-15T11-38-30-wrap/prompts/leaf-architecture-2.md",
+"./.andromeda/runs/2026-11-15T11-38-30-wrap/prompts/leaf-architecture-3.md",
+"./.andromeda/runs/2026-11-15T11-38-30-wrap/prompts/leaf-architecture-4.md",
+"./.andromeda/runs/2026-11-15T11-38-30-wrap/prompts/leaf-architecture+security-plan.md",
+"./.andromeda/runs/2026-11-15T11-38-30-wrap/prompts/leaf-masters.md",
+"./.andromeda/runs/2026-11-15T11-38-30-wrap/prompts/leaf-architecture+design-system+layout-templates.md",
+"./.andromeda/runs/2026-11-15T11-38-30-wrap/prompts/leaf-architecture+test-plan+obs-plan.md",
+"./.andromeda/runs/2026-11-15T11-38-30-wrap/prompts/leaf-security-plan.md",
+"./.andromeda/runs/2026-11-15T11-38-30-wrap/prompts/leaf-security-plan+obs-plan.md",
+"./.andromeda/runs/2026-11-15T11-38-30-wrap/prompts/leaf-design-system+layout-templates.md",
+"./.andromeda/runs/2026-11-15T11-38-30-wrap/prompts/leaf-test-plan.md",
+"./.andromeda/runs/2026-11-15T11-38-30-wrap/prompts/leaf-test-plan+obs-plan.md",
+"./.andromeda/runs/2026-11-15T11-38-30-wrap/prompts/leaf-obs-plan.md",
+"./.andromeda/runs/2026-11-15T11-38-30-wrap/prompts/leaf-a11y-plan.md",
+"./.andromeda/runs/2026-11-15T11-38-30-wrap/prompts/leaf.workflow.js",
+"./.andromeda/runs/2026-11-15T11-38-30-wrap/prompts/leaf.manifest.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "fanout",
+"v": "47",
+"sha8": "2da14225",
+"ts": "2026-11-15T12:58:05Z",
+"argv": [
+"check",
+"--manifest",
+".andromeda/runs/2026-11-15T11-38-30-wrap/prompts/leaf.manifest.json",
+"--before",
+"tree 8b8e7be583ce0b780d78b9582d0d59a427b5325a index 13e320188bf21b96491457eb90e279038d994312 head c06d1e5c7c034708f699c96df5a903d3cfbf4566",
+"--after",
+"tree c5fb219b594039aa603172dc5f902a7902fb5c25 index 13e320188bf21b96491457eb90e279038d994312 head c06d1e5c7c034708f699c96df5a903d3cfbf4566",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"batch leaf · 15 agents · 15 with every named path · trails: none",
+"[PATH_CHECK] PASS · index and head unchanged",
+"leaf: 15 agents · 15 pass",
+"VERDICT: 15 of 15 pass · failed: none"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"sub": "check",
+"batch": "leaf",
+"agents": {
+"leaf-architecture-1": {
+"failed": {},
+"yes": null
+},
+"leaf-architecture-2": {
+"failed": {},
+"yes": null
+},
+"leaf-architecture-3": {
+"failed": {},
+"yes": null
+},
+"leaf-architecture-4": {
+"failed": {},
+"yes": null
+},
+"leaf-architecture+security-plan": {
+"failed": {},
+"yes": null
+},
+"leaf-masters": {
+"failed": {},
+"yes": null
+},
+"leaf-architecture+design-system+layout-templates": {
+"failed": {},
+"yes": null
+},
+"leaf-architecture+test-plan+obs-plan": {
+"failed": {},
+"yes": null
+},
+"leaf-security-plan": {
+"failed": {},
+"yes": null
+},
+"leaf-security-plan+obs-plan": {
+"failed": {},
+"yes": null
+},
+"leaf-design-system+layout-templates": {
+"failed": {},
+"yes": null
+},
+"leaf-test-plan": {
+"failed": {},
+"yes": null
+},
+"leaf-test-plan+obs-plan": {
+"failed": {},
+"yes": null
+},
+"leaf-obs-plan": {
+"failed": {},
+"yes": null
+},
+"leaf-a11y-plan": {
+"failed": {},
+"yes": null
+}
+},
+"stray": [],
+"closing_tags": [],
+"trails": [],
+"harness": [],
+"notes": []
+}
+},
+{
+"tool": "fanout",
+"v": "47",
+"sha8": "2da14225",
+"ts": "2026-11-15T12:59:01Z",
+"argv": [
+"census",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"task · 7 agents · first try 7 (rowtask 7/7) · wall 103 s",
+"pick · 102 agents · first try 102 (pick 102/102) · wall 748 s",
+"propose · 6 agents · first try 6 (propose 6/6) · wall 91 s",
+"fit · 5 agents · first try 5 (fit 5/5) · wall 55 s · in 2 waves",
+"leaf · 15 agents · first try 15 (leaf 15/15) · wall 148 s",
+"re-spawned 1 agent(s) · RULED 1 · wall 37 s",
+"respawn-kept 85 % · 11 of 13 predecessor lines, 1 strong re-spawn file(s)",
+"tally: 7 master(s) · entities 4648 · classify-yes 126 · one-draw-yes 55 · standing 0 · draws-dead 0 · batches-on-one 0 · draws 2",
+"fit: 12 operation(s) judged · fit-rejected 2",
+"cascade-sample.txt: absent",
+"SIGNALS: [\"agents-rowtask:7\", \"first-rowtask:7\", \"wall-task:103\", \"agents-pick:102\", \"first-pick:102\", \"wall-pick:748\", \"agents-propose:6\", \"first-propose:6\", \"wall-propose:91\", \"agents-fit:5\", \"first-fit:5\", \"wall-fit:55\", \"agents-leaf:15\", \"first-leaf:15\", \"wall-leaf:148\", \"respawn-agents:1\", \"respawn-ruled:1\", \"wall-respawn:37\", \"respawn-kept:85\", \"unchecked:0\", \"entities:4648\", \"classify-yes:126\", \"one-draw-yes:55\", \"standing:0\", \"draws-dead:0\", \"batches-on-one:0\", \"draws:2\", \"fit-rejected:2\"]",
+"VERDICT: 28 signals · 5 batch(es) · trail .andromeda/runs/2026-11-15T11-38-30-wrap/fanout-2026-11-15-live-round-on-the-trimmed-product.json"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"sub": "census",
+"signals": [
+"agents-rowtask:7",
+"first-rowtask:7",
+"wall-task:103",
+"agents-pick:102",
+"first-pick:102",
+"wall-pick:748",
+"agents-propose:6",
+"first-propose:6",
+"wall-propose:91",
+"agents-fit:5",
+"first-fit:5",
+"wall-fit:55",
+"agents-leaf:15",
+"first-leaf:15",
+"wall-leaf:148",
+"respawn-agents:1",
+"respawn-ruled:1",
+"wall-respawn:37",
+"respawn-kept:85",
+"unchecked:0",
+"entities:4648",
+"classify-yes:126",
+"one-draw-yes:55",
+"standing:0",
+"draws-dead:0",
+"batches-on-one:0",
+"draws:2",
+"fit-rejected:2"
+]
+}
 }
 ]

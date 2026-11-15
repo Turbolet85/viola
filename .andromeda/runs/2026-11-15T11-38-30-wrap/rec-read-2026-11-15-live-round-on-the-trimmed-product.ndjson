@@ -43,3 +43,11 @@
 {"for": "ops-obs-plan.md", "address": "doc:2026-11-15-live-round-on-the-trimmed-product/report", "tx": 1469, "page": 2, "of": 2, "bytes": 10776, "pin": 1469}
 {"for": "ops-a11y-plan.md", "address": "doc:2026-11-15-live-round-on-the-trimmed-product/report", "tx": 1469, "page": 2, "of": 2, "bytes": 10776, "pin": 1469}
 {"for": "ops-security-plan.md", "address": "doc:2026-11-15-live-round-on-the-trimmed-product/report", "tx": 1469, "page": 2, "of": 2, "bytes": 10776, "pin": 1469}
+{"for": null, "address": "rows --tx 1507", "tx": 1511, "page": 1, "of": 1, "bytes": 1074}
+{"for": null, "address": "rows --tx 1508", "tx": 1511, "page": 1, "of": 1, "bytes": 950}
+{"for": null, "address": "rows --tx 1509", "tx": 1511, "page": 1, "of": 1, "bytes": 884}
+{"for": null, "address": "rows --tx 1510", "tx": 1511, "page": 1, "of": 1, "bytes": 1253}
+{"for": null, "address": "rows --tx 1511", "tx": 1511, "page": 1, "of": 1, "bytes": 347}
+{"for": null, "address": "rows:architecture --boundary dialog-hold-end", "tx": 1511, "page": 1, "of": 1, "bytes": 372}
+{"for": null, "address": "rows:obs-plan --boundary run-start-events", "tx": 1511, "page": 1, "of": 1, "bytes": 387}
+{"for": null, "address": "rows:test-plan --boundary event-log", "tx": 1511, "page": 1, "of": 1, "bytes": 804}

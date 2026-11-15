@@ -54,3 +54,4 @@ work, not hypothetical.
 - 2026-10-10: The shell variable `TMPDIR` is unset on this host, so a redirect written against it lands at the filesystem root and the command never runs: write scratch output under the session scratchpad's path.
 - 2026-10-17: An ad hoc `viola list` typed in the session's own shell reads the host's real `claude agents --json`, every live session on the machine: a probe of `list` puts the fake agent first on its `PATH`, as the tests do.
 - 2026-10-27: Read a process listing whole before naming what runs or hangs: a `| head -N` cut hides every row past N, so a status built on it misses live processes.
+- 2026-11-15: A script that names a path under `target/e2e-home` keeps it as spelled and never resolves it: the link points outside the root to the per-user tmpfs, so a resolved path breaks every root-relative spelling the script makes and writes a host path into its records.

@@ -281,5 +281,964 @@
 ],
 "before": null,
 "after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T12:51:58Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-15-live-round-on-the-trimmed-product",
+"--section-file",
+".andromeda/runs/2026-11-15T11-38-30-wrap/addendum-2.md",
+"--heading",
+"## Addendum 2 — resumed 2026-11-15",
+"--before",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 2,
+"stdout": [],
+"stderr": "--section-file: its first line must be the heading `## Addendum 2 — resumed 2026-11-15` — nothing written",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T12:52:05Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-15-live-round-on-the-trimmed-product",
+"--section-file",
+".andromeda/runs/2026-11-15T11-38-30-wrap/addendum-2.md",
+"--heading",
+"## Addendum 2 — resumed 2026-11-15",
+"--before",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-15-live-round-on-the-trimmed-product/report rev 4 · 9 new · 0 revised · 0 retired · 55 kept · tx 1506"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T06-56-28-2026-11-15-live-round-on-the-trimmed-product.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T12:53:53Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-15T11-38-30-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-15T11-38-30-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 2 · not_master 0 · stands 0",
+"## 2026-11-15-live-round-on-the-trimmed-product — Established Decisions: 4 row(s)\n**Section:** Established Decisions\n**Change:** ~ decision/dialog-hold · state: was «provisional»; now «standing»\n~ decision/dialog-hold-bound · state: was «provisional»; now «standing»\n~ decision/wheel-starts-with-driver · rule: was «The wheel starts with `driver` at every start of `viola run`, so automation is accepted until the first human editing key.»; now «The wheel starts with `driver` at every start of `viola run`, so automation is accepted until the first human editing key, a key the human types into the folder-trust dialog before the session starts included.»\n~ contract/dialog-hold-end/null-reply · promise: was «At the hold's end the wrapper replies `null`, the hook exits 0 with no body, the dialog renders for the human, and a later `answer` for that dialog is refused `not-delivered` with detail `unknown-dialog`.»; now «At the hold's end the wrapper replies `null` and the hook exits 0 with no body; the expiry ends only the hook's wait, the CLI's dialog staying drawn for the human, and a later `answer` for that dialog is refused `not-delivered` with detail `unknown-dialog`.»\n**Why:** decision/dialog-hold: The 3600 s ceiling is now measured live at the ceiling itself and ruled to stand, so the provisional mark leaves the dialog hold decision.\ndecision/dialog-hold-bound: The 3600 s ceiling is now measured live at the ceiling itself and ruled to stand, so the provisional mark leaves the dialog hold bound decision.\ndecision/wheel-starts-with-driver: Trust keys passed through the wrapper take the wheel before session-start, so the row that says when the driver's start-time wheel ends must name that case.\ncontract/dialog-hold-end/null-reply: Entry 12 read the question dialog still drawn after dialog-expired, so the promise at the hold's end must say the expiry ends the wait, not the CLI's dialog.\n**Ref:** .andromeda/runs/2026-11-15T11-38-30-wrap/",
+"patterns: none: 4 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 4 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T12:53:53Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-15T11-38-30-wrap/ops-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-15T11-38-30-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 2 · not_master 0 · stands 0",
+"## 2026-11-15-live-round-on-the-trimmed-product — Authentication & Authorization: 1 row(s)\n**Section:** Authentication & Authorization\n**Change:** + decision/live-round-rig-keys-own-pty — Live-round rig keys only into its own pty\n**Why:** decision/live-round-rig-keys-own-pty: The live round's starts widened the boundary by the rig's keys into its own pty and a read-only hash of statusLine.command, and the standing precedent rows cover only plugin-install rounds, so §Authentication & Authorization must carry the new rule beside them. — resolved by the operator (Q1): relayed verbatim by overseer1, 2026-11-15, inputs#I52: «С границами и словом на чанк (Recommended)»\n**Ref:** .andromeda/runs/2026-11-15T11-38-30-wrap/",
+"## 2026-11-15-live-round-on-the-trimmed-product — Data Protection: 1 row(s)\n**Section:** Data Protection\n**Change:** + decision/live-session-screens-kept-local — Live session screens kept local\n**Why:** decision/live-session-screens-kept-local: The chunk set a data-handling rule for live screen frames that no standing data-protection row states, so the master must carry it for any later live round.\n**Ref:** .andromeda/runs/2026-11-15T11-38-30-wrap/",
+"patterns: none — the call sets and retires no row",
+"dry-run · would land 2 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T12:53:53Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-15T11-38-30-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-15T11-38-30-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 2 · not_master 0 · stands 0",
+"## 2026-11-15-live-round-on-the-trimmed-product — 6. E2E Test Strategy: 1 row(s)\n**Section:** 6. E2E Test Strategy\n**Change:** ~ contract/event-log/start-wheel-record · promise: was «Every start, a revived one included, appends wheel{holder:\"driver\", cause:\"start\"} as its first record, and the hook's session-start is its second and last start record.»; now «Every start, a revived one included, appends wheel{holder:\"driver\", cause:\"start\"} first and the hook's session-start last; where folder-trust keys pass through the wrapper a wheel{holder:\"human\", cause:\"human-input\"} record precedes session-start and a later human key adds none.»\n**Why:** contract/event-log/start-wheel-record: The live start measured trust keys passing through the wrapper writing a human-input wheel line before session-start, so session-start is not always the start's second record and the row must say so.\n**Ref:** .andromeda/runs/2026-11-15T11-38-30-wrap/",
+"## 2026-11-15-live-round-on-the-trimmed-product — 6. E2E Test Strategy: 1 row(s)\n**Section:** 6. E2E Test Strategy\n**Change:** + decision/start-lines-read-from-start-offset — A start's lines read from its own offset\n**Why:** decision/start-lines-read-from-start-offset: A reader of a reused instance name's log read the earlier start's lines from line 1, so the convention for reading a start's own lines must stand as a row.\n**Ref:** .andromeda/runs/2026-11-15T11-38-30-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 2 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T12:53:54Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-15T11-38-30-wrap/ops-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-15T11-38-30-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 3 · not_master 0 · stands 0",
+"## 2026-11-15-live-round-on-the-trimmed-product — 1. Obs Scope Summary: 1 row(s)\n**Section:** 1. Obs Scope Summary\n**Change:** ~ contract/run-start-events/order · promise: was «A run start writes wheel{cause:\"start\"}, then session-start.»; now «A run start writes wheel{cause:\"start\"} before session-start; on a start whose folder-trust keys pass through the wrapper, wheel{human-input} also precedes session-start, and a later human key adds no wheel line, the wheel being already human.»\n**Why:** contract/run-start-events/order: The live round on 2.1.325 measured the trust keys writing wheel{human-input} before session-start and the later key adding no wheel line, so the start-order promise read alone no longer covers such a start.\n**Ref:** .andromeda/runs/2026-11-15T11-38-30-wrap/",
+"## 2026-11-15-live-round-on-the-trimmed-product — 4. Span / Trace Coverage: 1 row(s)\n**Section:** 4. Span / Trace Coverage\n**Change:** ~ decision/product-order-from-events-log · rule: was «The product order wheel{cause:\"start\"} then session-start{source:\"hook\"} is verified from the instance's events log, not duplicated into process logs.»; now «The start product order, wheel{cause:\"start\"} before session-start{source:\"hook\"} with wheel{human-input} also before it where folder-trust keys pass through the wrapper, is verified from that start's own lines of the instance's events log, not duplicated into process logs.»\n**Why:** decision/product-order-from-events-log: The report disproved reading the start order as the log's first two lines, both for a start whose trust keys pass through the wrapper and for a reused instance name, so the rule must name the order as it stands and read it from that start's own lines.\n**Ref:** .andromeda/runs/2026-11-15T11-38-30-wrap/",
+"## 2026-11-15-live-round-on-the-trimmed-product — 2. Telemetry Strategy: 1 row(s)\n**Section:** 2. Telemetry Strategy\n**Change:** ~ decision/events-stream-never-rotated · rule: was «The instance's events.ndjson is the product audit stream and is never rotated by a generic library.»; now «The instance's events.ndjson is the product audit stream, never rotated by a generic library nor rewritten: a reused instance name keeps the earlier starts' lines at its head, so a start's own lines are read from where that start begins.»\n**Why:** decision/events-stream-never-rotated: The report states that a reused instance name keeps the earlier start's lines at the head of events.ndjson since cursors are byte offsets never rewritten, which the row's never-rotated rule says less.\n**Ref:** .andromeda/runs/2026-11-15T11-38-30-wrap/",
+"patterns: none: 3 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 3 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T12:53:54Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"a11y-plan",
+"--file",
+".andromeda/runs/2026-11-15T11-38-30-wrap/ops-a11y-plan.md",
+"--results",
+".andromeda/runs/2026-11-15T11-38-30-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 0 · not_master 0 · stands 0",
+"## 2026-11-15-live-round-on-the-trimmed-product — 8. Cognitive Accessibility: 1 row(s)\n**Section:** 8. Cognitive Accessibility\n**Change:** ~ decision/dialog-hold-bounds-the-driver · state: was «provisional»; now «standing»\n**Why:** decision/dialog-hold-bounds-the-driver: The dialog hold was applied ahead of its ratification, and the ceiling is now measured live with the hold ruled to stand and the dialog read on the screen after expiry, so the row's provisional state leaves it while its rule already says the dialog renders for the human at the hold's end.\n**Ref:** .andromeda/runs/2026-11-15T11-38-30-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T12:53:54Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-15T11-38-30-wrap/ops-main-architecture.2.md",
+"--results",
+".andromeda/runs/2026-11-15T11-38-30-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/dialog-hold · rejected",
+"decision/dialog-hold-bound · rejected",
+"fit: fits 0 · not_master 0 · stands 0",
+"patterns: none — the call sets and retires no row",
+"dry-run · would land 0 operation(s) · 0 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T12:53:54Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"layout-templates",
+"--file",
+".andromeda/runs/2026-11-15T11-38-30-wrap/ops-layout-templates.md",
+"--results",
+".andromeda/runs/2026-11-15T11-38-30-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [
+"fanout-results.md: no line `ops-layout-templates.md` — §Validate writes the file's name on a line of its own, then a line an operation"
+],
+"stderr": "rows-land: 1 disposition problem(s) under ops-layout-templates.md — nothing written",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T12:54:03Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-15T11-38-30-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-15T11-38-30-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 2 · not_master 0 · stands 0",
+"landed tx 1507 · 4 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T06-56-28-2026-11-15-live-round-on-the-trimmed-product.ndjson",
+".andromeda/runs/2026-11-15T11-38-30-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T12:54:03Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-15T11-38-30-wrap/ops-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-15T11-38-30-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 2 · not_master 0 · stands 0",
+"landed tx 1508 · 2 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T06-56-28-2026-11-15-live-round-on-the-trimmed-product.ndjson",
+".andromeda/runs/2026-11-15T11-38-30-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T12:54:04Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-15T11-38-30-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-15T11-38-30-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 2 · not_master 0 · stands 0",
+"landed tx 1509 · 2 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T06-56-28-2026-11-15-live-round-on-the-trimmed-product.ndjson",
+".andromeda/runs/2026-11-15T11-38-30-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T12:54:04Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-15T11-38-30-wrap/ops-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-15T11-38-30-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 3 · not_master 0 · stands 0",
+"landed tx 1510 · 3 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T06-56-28-2026-11-15-live-round-on-the-trimmed-product.ndjson",
+".andromeda/runs/2026-11-15T11-38-30-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T12:54:04Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"a11y-plan",
+"--file",
+".andromeda/runs/2026-11-15T11-38-30-wrap/ops-a11y-plan.md",
+"--results",
+".andromeda/runs/2026-11-15T11-38-30-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 0 · not_master 0 · stands 0",
+"landed tx 1511 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T06-56-28-2026-11-15-live-round-on-the-trimmed-product.ndjson",
+".andromeda/runs/2026-11-15T11-38-30-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T12:58:28Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/a11y.md",
+"--file",
+"./.andromeda/runs/2026-11-15T11-38-30-wrap/staged-leaf-.claude__rules__a11y.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-15T11-38-30-wrap",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/a11y.md rev 7 · 0 new · 1 revised · 0 retired · tx 1512"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T06-56-28-2026-11-15-live-round-on-the-trimmed-product.ndjson",
+"./.claude/rules/a11y.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T12:58:29Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola-core.md",
+"--file",
+"./.andromeda/runs/2026-11-15T11-38-30-wrap/staged-leaf-.claude__docs__services__viola-core.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-15T11-38-30-wrap",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola-core.md rev 5 · 0 new · 1 revised · 0 retired · tx 1513"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T06-56-28-2026-11-15-live-round-on-the-trimmed-product.ndjson",
+"./.claude/docs/services/viola-core.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T12:58:29Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola.md",
+"--file",
+"./.andromeda/runs/2026-11-15T11-38-30-wrap/staged-leaf-.claude__docs__services__viola.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-15T11-38-30-wrap",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola.md rev 8 · 0 new · 1 revised · 0 retired · tx 1514"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T06-56-28-2026-11-15-live-round-on-the-trimmed-product.ndjson",
+"./.claude/docs/services/viola.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T12:58:30Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/security-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-15T11-38-30-wrap/staged-leaf-.claude__docs__security-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-15T11-38-30-wrap",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/security-summary.md rev 11 · 0 new · 1 revised · 0 retired · tx 1515"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T06-56-28-2026-11-15-live-round-on-the-trimmed-product.ndjson",
+"./.claude/docs/security-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T12:58:30Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/security.md",
+"--file",
+"./.andromeda/runs/2026-11-15T11-38-30-wrap/staged-leaf-.claude__rules__security.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-15T11-38-30-wrap",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/security.md rev 14 · 0 new · 1 revised · 0 retired · tx 1516"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T06-56-28-2026-11-15-live-round-on-the-trimmed-product.ndjson",
+"./.claude/rules/security.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T12:58:31Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/tests-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-15T11-38-30-wrap/staged-leaf-.claude__docs__tests-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-15T11-38-30-wrap",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/tests-summary.md rev 12 · 0 new · 1 revised · 0 retired · tx 1517"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T06-56-28-2026-11-15-live-round-on-the-trimmed-product.ndjson",
+"./.claude/docs/tests-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T12:58:32Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/observability.md",
+"--file",
+"./.andromeda/runs/2026-11-15T11-38-30-wrap/staged-leaf-.claude__rules__observability.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-15T11-38-30-wrap",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/observability.md rev 9 · 0 new · 1 revised · 0 retired · tx 1518"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T06-56-28-2026-11-15-live-round-on-the-trimmed-product.ndjson",
+"./.claude/rules/observability.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:02:48Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-15T11-38-30-wrap/route-carry-del.txt",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 1 record(s) · 1 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:02:51Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-15T11-38-30-wrap/route-carry-del.txt",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 1 edge(s) · tx 1523 · cry-lqe3bfwx … cry-lqe3bfwx"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T06-56-28-2026-11-15-live-round-on-the-trimmed-product.ndjson",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:04:15Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-15T11-38-30-wrap/route-mint-fixture-set.txt",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [],
+"stderr": "chk-o6p25vhx: stands under no `contains` of epc-cg6m5ewn — nothing written",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:04:33Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-15T11-38-30-wrap/route-mint-fixture-set.txt",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 2,
+"stdout": [],
+"stderr": "@c1: no `as=c1` in this batch — nothing written",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:04:43Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-15T11-38-30-wrap/route-mint-fixture-set.txt",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 3 record(s) · 3 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:04:46Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-15T11-38-30-wrap/route-mint-fixture-set.txt",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 3 record(s) · 3 edge(s) · tx 1526 · chk-p5g2qxoz … chk-nqd26ogb"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T06-56-28-2026-11-15-live-round-on-the-trimmed-product.ndjson",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:05:14Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-15T11-38-30-wrap/run-node.txt",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap",
+"--marker",
+"2026-11-15-live-round-on-the-trimmed-product"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 0 edge(s) · tx 1528 · run-eehqp577 … run-eehqp577"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T06-56-28-2026-11-15-live-round-on-the-trimmed-product.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:09:59Z",
+"argv": [
+"land",
+"--root",
+".",
+"--chunk",
+"2026-11-15-live-round-on-the-trimmed-product",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-15-live-round-on-the-trimmed-product · 0 new · 2 changed · 0 gone · 74 kept · tx 1531"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T06-56-28-2026-11-15-live-round-on-the-trimmed-product.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.47",
+"sha8": "715bad0b",
+"ts": "2026-11-15T13:12:52Z",
+"argv": [
+"land",
+"--root",
+".",
+"--chunk",
+"2026-11-15-live-round-on-the-trimmed-product",
+"--run-dir",
+".andromeda/runs/2026-11-15T11-38-30-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"unchanged · 78 file(s) of 2026-11-15-live-round-on-the-trimmed-product"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
 }
 ]

@@ -8,6 +8,13 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
+## 2026-11-15 — Check a Python script's syntax with `ast.parse`, never `py_compile`, inside a run or work dir
+`python3 -m py_compile` writes a `__pycache__/` beside the script it checks. Inside a chunk's work dir or a run dir,
+the run-dir hygiene read refuses that bytecode, and a recursive `rm` to clear it is denied by the permission layer.
+`python3 -c "import ast,sys; ast.parse(open(sys.argv[1]).read())" {script}` checks the same syntax and writes nothing.
+
+---
+
 ## 2026-11-13 — A remove-the-guard control can go red without running the guard's own case
 A `gate.py control` fires its whole `[[gate]]` entry with the guard removed, and nextest's default fail-fast ends that
 firing at its first red. So an older case touching the same code can carry the red while the guard's own new case is
@@ -116,6 +123,9 @@ On 2.1.287 the folder-trust dialog opens with its selection pointer `❯` one ro
 single Enter declines; one down arrow, then Enter on a re-read screen showing the pointer on the trust row, accepts it,
 and the CLI then writes the folder's trust entry in `~/.claude.json` itself. A rig that types these keys reads its own
 pty's screen before each key (security-plan §Data Protection holds the rule, the rig place and the residual).
+Extended 2026-11-15: on 2.1.325 the options are unnumbered and the pointer opens on the non-trust row, and a cwd whose
+`projects["<abs cwd>"].hasTrustDialogAccepted` reads `true` in `~/.claude.json` raises no trust dialog at all, so a
+start there takes no key before the input box.
 
 ---
 
