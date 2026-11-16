@@ -13,7 +13,7 @@ use std::path::Path;
 use support::home::{TestHome, workspace_path};
 use support::verify::verify;
 
-const ROW_IDS: [&str; 21] = [
+const ROW_IDS: [&str; 22] = [
     "shim-resolution",
     "spine-hooks",
     "session-start-fields",
@@ -35,6 +35,7 @@ const ROW_IDS: [&str; 21] = [
     "resume-session",
     "agents-join",
     "local-command-compact",
+    "local-command-echo",
 ];
 /// The sets recorded whole (spine, screens, dialog, framing and resume variants): each
 /// stamps every relied row.
@@ -104,7 +105,7 @@ fn contract_ledger_probes_pass_over_every_stamped_set() {
                 "{version}: {id} did not pass"
             );
         }
-        assert_eq!(*last, format!("stamped {version}  21 pass  0 fail"));
+        assert_eq!(*last, format!("stamped {version}  22 pass  0 fail"));
     });
 }
 

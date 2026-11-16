@@ -86,7 +86,8 @@ mod tests {
         let (filed, waiting, reply) = std::thread::scope(|s| {
             let sending = s.spawn(|| send(&slot, &name(), tmp.path(), &call(&params, 1)));
             pasted.recv().expect("pasted");
-            let appended = append_hook_event(&slot, &feed(), tmp.path(), prompt(sent, "human"));
+            let appended =
+                append_hook_event(&slot, &feed(), tmp.path(), prompt(sent, "human"), None);
             let filed = events(tmp.path()).last().cloned();
             let waiting = matches!(
                 slot.flight().send.as_ref().map(|f| &f.state),
@@ -133,7 +134,8 @@ mod tests {
         let (filed, waiting, reply) = std::thread::scope(|s| {
             let sending = s.spawn(|| send(&slot, &name(), tmp.path(), &call(&params, 1)));
             pasted.recv().expect("pasted");
-            let appended = append_hook_event(&slot, &feed(), tmp.path(), prompt(&sent, "human"));
+            let appended =
+                append_hook_event(&slot, &feed(), tmp.path(), prompt(&sent, "human"), None);
             let filed = events(tmp.path()).last().cloned();
             let waiting = matches!(
                 slot.flight().send.as_ref().map(|f| &f.state),
@@ -215,6 +217,7 @@ mod tests {
             &feed(),
             tmp.path(),
             prompt("typed by the human", "human"),
+            None,
         )
         .expect("hook");
         assert_eq!(
@@ -234,10 +237,19 @@ mod tests {
     fn send_an_unsent_human_prompt_takes_the_wheel_before_its_line_and_a_harness_one_does_not() {
         let tmp = tempfile::tempdir().expect("tempdir");
         let slot = SendSlot::new(FixedClock(Instant::now()), false, Arc::default());
-        append_hook_event(&slot, &feed(), tmp.path(), prompt("injected", "harness")).expect("hook");
+        append_hook_event(
+            &slot,
+            &feed(),
+            tmp.path(),
+            prompt("injected", "harness"),
+            None,
+        )
+        .expect("hook");
         assert_eq!(slot.wheel.holder(), Wheel::Driver);
         let missing = tmp.path().join("missing");
-        assert!(append_hook_event(&slot, &feed(), &missing, prompt("lost", "human")).is_err());
+        assert!(
+            append_hook_event(&slot, &feed(), &missing, prompt("lost", "human"), None).is_err()
+        );
         assert_eq!(slot.wheel.holder(), Wheel::Human);
         assert_eq!(slot.wheel.human_typing(), Some(None));
     }
@@ -251,6 +263,7 @@ mod tests {
             &feed(),
             tmp.path(),
             prompt("another send", "harness"),
+            None,
         )
         .expect("hook");
         assert_eq!(events(tmp.path())[0]["data"]["origin"], "harness");

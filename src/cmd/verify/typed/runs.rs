@@ -37,7 +37,7 @@ pub(super) fn untrusted_run(
     Ok(())
 }
 
-/// Run B: the settled input box, one typed turn, the agents read once that turn settled, the five
+/// Run B: the settled input box, one typed turn, the agents read once that turn settled, the six
 /// framing pastes, then Ctrl-C.
 pub(super) fn trusted_run(
     clock: &Arc<dyn Clock>,
@@ -81,6 +81,7 @@ pub(super) fn trusted_run(
         typed.turn.clone(),
         &mut typed.long_turn,
         &mut box_only,
+        &mut typed.echo_latency_ms,
     );
     typed.box_only_guards = Some(box_only);
     run.end_by_ctrl_c(&keys);

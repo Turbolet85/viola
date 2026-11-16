@@ -91,6 +91,10 @@ pub struct Normalised {
     #[redact]
     pub data: Value,
     pub drift: Vec<Value>,
+    /// A SessionStart's own `transcript_path`, only when it passes
+    /// [`crate::ledger::transcript_path_ok`] against its own `session_id`; never in `data`.
+    #[redact]
+    pub transcript: Option<String>,
 }
 
 /// The payload fields viola reads; every other field is skipped. All are strings on the CLI build
@@ -115,6 +119,10 @@ struct Known {
     /// StopFailure's error word: read only to classify, never copied.
     #[serde(default)]
     error: Option<String>,
+    /// SessionStart's transcript file: shape-checked, carried apart from `data`.
+    #[serde(default)]
+    #[redact]
+    transcript_path: Option<String>,
 }
 
 const SESSION_CAUSES: [&str; 4] = ["startup", "clear", "resume", "compact"];
@@ -133,11 +141,19 @@ pub fn normalise(event: HookEvent, bytes: &[u8]) -> Result<Normalised, AgentErro
     if !payload.is_object() {
         return Err(AgentError::Malformed);
     }
-    let (known, drift) = known_fields(&mut payload);
+    let (mut known, drift) = known_fields(&mut payload);
+    let transcript = known.transcript_path.take().filter(|path| {
+        event == HookEvent::SessionStart
+            && known
+                .session_id
+                .as_deref()
+                .is_some_and(|id| crate::ledger::transcript_path_ok(path, id))
+    });
     Ok(Normalised {
         kind,
         data: data_of(event, known),
         drift,
+        transcript,
     })
 }
 
@@ -597,6 +613,59 @@ mod tests {
         assert_eq!(got.kind, EventKind::SessionStart);
         assert_eq!(got.data, json!({"cause": cause, "agent_session_id": "s-1"}));
         assert!(got.drift.is_empty());
+    }
+
+    const SESSION: &str = "0b1c2d3e-4f50-6172-8394-a5b6c7d8e9f0";
+
+    /// The transcript path never enters `data`, whatever the cause and whatever its shape.
+    #[rstest]
+    fn session_start_transcript_path_stays_out_of_data(
+        #[values("startup", "clear", "resume", "compact", "reboot")] source: &str,
+    ) {
+        let path = format!("/home/u/.claude/projects/p/{SESSION}.jsonl");
+        let got = read(
+            HookEvent::SessionStart,
+            &json!({"source": source, "session_id": SESSION, "transcript_path": path}),
+        );
+        assert_eq!(got.data.as_object().map(Map::len), Some(2));
+        assert!(!got.data.to_string().contains(".jsonl"));
+        assert_eq!(got.transcript.as_deref(), Some(path.as_str()));
+        assert!(!format!("{got:?}").contains(".jsonl"));
+    }
+
+    /// `transcript` is kept only for an absolute path with no `..` whose file name is the
+    /// session's own; a value of another type is read as absent.
+    #[rstest]
+    #[case::good(json!(format!("/t/{SESSION}.jsonl")), true)]
+    #[case::relative(json!(format!("t/{SESSION}.jsonl")), false)]
+    #[case::parent(json!(format!("/t/../{SESSION}.jsonl")), false)]
+    #[case::another_session(json!("/t/1b1c2d3e-4f50-6172-8394-a5b6c7d8e9f0.jsonl"), false)]
+    #[case::another_suffix(json!(format!("/t/{SESSION}.json")), false)]
+    #[case::not_a_string(json!(7), false)]
+    fn session_start_transcript_is_kept_only_for_its_own_shape(
+        #[case] path: Value,
+        #[case] kept: bool,
+    ) {
+        let got = read(
+            HookEvent::SessionStart,
+            &json!({"source": "startup", "session_id": SESSION, "transcript_path": path}),
+        );
+        assert_eq!(got.transcript.is_some(), kept);
+        assert_eq!(got.data["agent_session_id"], SESSION);
+    }
+
+    /// Only a SessionStart carries a transcript.
+    #[test]
+    fn transcript_is_read_on_a_session_start_alone() {
+        let path = format!("/t/{SESSION}.jsonl");
+        let payload = json!({"session_id": SESSION, "transcript_path": path, "prompt": "x"});
+        assert!(
+            read(HookEvent::UserPromptSubmit, &payload)
+                .transcript
+                .is_none()
+        );
+        assert!(read(HookEvent::Stop, &payload).transcript.is_none());
+        assert!(read(HookEvent::SessionEnd, &payload).transcript.is_none());
     }
 
     #[test]

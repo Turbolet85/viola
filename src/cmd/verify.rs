@@ -622,7 +622,7 @@ mod tests {
         );
     }
 
-    /// The counter's total is the relied count: twenty-one rows.
+    /// The counter's total is the relied count: twenty-two rows.
     #[test]
     fn step_lines_count_to_the_relied_total() {
         let probes = Probes {
@@ -637,18 +637,22 @@ mod tests {
             agents: None,
         };
         let results = check_rows(&probes);
-        assert_eq!(results.len(), 21);
+        assert_eq!(results.len(), 22);
         assert_eq!(
-            step_line(19, 21, LedgerRow::ResumeSession, false),
-            "[19/21] resume-session --resume <id> reopens the session under that id  fail"
+            step_line(19, 22, LedgerRow::ResumeSession, false),
+            "[19/22] resume-session --resume <id> reopens the session under that id  fail"
         );
         assert_eq!(
-            step_line(20, 21, LedgerRow::AgentsJoin, false),
-            "[20/21] agents-join claude agents --json names the live session by pid and session id  fail"
+            step_line(20, 22, LedgerRow::AgentsJoin, false),
+            "[20/22] agents-join claude agents --json names the live session by pid and session id  fail"
         );
         assert_eq!(
-            step_line(21, 21, LedgerRow::LocalCommandCompact, false),
-            "[21/21] local-command-compact /compact keeps the session id and submits no prompt  fail"
+            step_line(21, 22, LedgerRow::LocalCommandCompact, false),
+            "[21/22] local-command-compact /compact keeps the session id and submits no prompt  fail"
+        );
+        assert_eq!(
+            step_line(22, 22, LedgerRow::LocalCommandEcho, false),
+            "[22/22] local-command-echo /mcp writes its stdout tag to the transcript and submits no prompt  fail"
         );
         let rows: Vec<LedgerRow> = results.iter().map(|(row, _)| *row).collect();
         assert_eq!(rows, LedgerRow::relied());

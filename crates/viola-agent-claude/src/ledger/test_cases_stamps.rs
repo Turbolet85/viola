@@ -1,7 +1,7 @@
 use super::*;
 
 #[test]
-fn ledger_rows_are_the_twenty_one_measured_behaviours_in_order() {
+fn ledger_rows_are_the_twenty_two_measured_behaviours_in_order() {
     let ids: Vec<&str> = LedgerRow::ALL.iter().map(|r| r.id()).collect();
     assert_eq!(
         ids,
@@ -27,6 +27,7 @@ fn ledger_rows_are_the_twenty_one_measured_behaviours_in_order() {
             "resume-session",
             "agents-join",
             "local-command-compact",
+            "local-command-echo",
         ]
     );
     let words: Vec<&str> = LedgerRow::ALL.iter().map(|r| r.words()).collect();
@@ -54,6 +55,7 @@ fn ledger_rows_are_the_twenty_one_measured_behaviours_in_order() {
             "--resume <id> reopens the session under that id",
             "claude agents --json names the live session by pid and session id",
             "/compact keeps the session id and submits no prompt",
+            "/mcp writes its stdout tag to the transcript and submits no prompt",
         ]
     );
     assert!(words.iter().all(|w| w.is_ascii()));
@@ -63,9 +65,9 @@ fn ledger_rows_are_the_twenty_one_measured_behaviours_in_order() {
 fn relied_rows_are_every_row_in_order() {
     let here: Vec<&str> = LedgerRow::relied().into_iter().map(LedgerRow::id).collect();
     let all: Vec<&str> = LedgerRow::ALL.into_iter().map(LedgerRow::id).collect();
-    assert_eq!(here.len(), 21);
+    assert_eq!(here.len(), 22);
     assert_eq!(here, all);
-    assert_eq!(here.last(), Some(&"local-command-compact"));
+    assert_eq!(here.last(), Some(&"local-command-echo"));
 }
 
 #[test]
@@ -186,7 +188,7 @@ fn capture_read_keeps_the_size_and_a_parsed_payload() {
 
 #[test]
 fn check_passes_every_row_on_a_clean_probe() {
-    assert_eq!(verdicts(&clean_run()), [true; 21]);
+    assert_eq!(verdicts(&clean_run()), [true; 22]);
 }
 
 #[test]
@@ -329,6 +331,7 @@ fn merge_stamp_writes_the_envelope_for_a_first_version() {
                     "local-command-clear": "pass", "paste-newline": "pass",
                     "resume-session": "pass",
                     "agents-join": "pass", "local-command-compact": "pass",
+                    "local-command-echo": "pass",
                 },
                 "measured": {
                     "largest_hook_payload": {"SessionStart": 120, "Stop": 90},
@@ -336,6 +339,7 @@ fn merge_stamp_writes_the_envelope_for_a_first_version() {
                         "ready_settle_ms": 1084, "turn_settle_ms": 314,
                         "prompt_latency_ms": 31, "max_turn_gap_ms": 224,
                         "compact_latency_ms": 18_779,
+                        "echo_latency_ms": 1_200,
                         "box_only_guards": 2,
                     },
                     "dialog_probe": {"parallel_both_before_first_post": false},
@@ -382,7 +386,8 @@ fn merge_stamp_keeps_unknown_versions_and_fields_and_replaces_its_own() {
         json!({"largest_hook_payload": {}, "typed_probe": {
                 "ready_settle_ms": null, "turn_settle_ms": null,
                 "prompt_latency_ms": null, "max_turn_gap_ms": null,
-                "compact_latency_ms": null, "box_only_guards": null,
+                "compact_latency_ms": null, "echo_latency_ms": null,
+                "box_only_guards": null,
             }, "dialog_probe": {"parallel_both_before_first_post": null}})
     );
     assert_eq!(verified(&bytes, "2.1.0"), Ok(false));
@@ -507,6 +512,12 @@ fn verified_reads_a_fourteen_row_stamp_as_unverified() {
         "the twenty rows of an older stamp"
     );
     stamp["data"]["versions"]["2.1.0"]["rows"]["local-command-compact"] = json!("pass");
+    assert_eq!(
+        verified(stamp.to_string().as_bytes(), "2.1.0"),
+        Ok(false),
+        "the twenty-one rows before the echo row"
+    );
+    stamp["data"]["versions"]["2.1.0"]["rows"]["local-command-echo"] = json!("pass");
     assert_eq!(verified(stamp.to_string().as_bytes(), "2.1.0"), Ok(true));
 }
 
@@ -525,7 +536,7 @@ fn verified_reads_a_stamp_holding_the_retired_row_on_the_relied_rows_alone() {
         .map(|row| (row.id().to_owned(), json!("pass")))
         .collect();
     rows.insert(retired.to_owned(), json!("fail"));
-    assert_eq!(rows.len(), 22);
+    assert_eq!(rows.len(), 23);
     let stamp = json!({"v": 1, "data": {"versions": {"2.1.0": {"rows": rows}}}});
     assert_eq!(verified(stamp.to_string().as_bytes(), "2.1.0"), Ok(true));
 }
@@ -562,7 +573,7 @@ fn verified_reads_a_stamp_holding_the_two_retired_rows_on_the_relied_rows_alone(
     for id in &retired {
         rows.insert(id.clone(), json!("fail"));
     }
-    assert_eq!(rows.len(), 23);
+    assert_eq!(rows.len(), 24);
     let stamp = json!({"v": 1, "data": {"versions": {"2.1.0": {"rows": rows}}}});
     assert_eq!(verified(stamp.to_string().as_bytes(), "2.1.0"), Ok(true));
 }
@@ -571,7 +582,7 @@ fn verified_reads_a_stamp_holding_the_two_retired_rows_on_the_relied_rows_alone(
 fn relied_rows_hold_no_retired_row() {
     let retired = retired_rows_of_the_fixture();
     let relied: Vec<&str> = LedgerRow::relied().into_iter().map(LedgerRow::id).collect();
-    assert_eq!(relied.len(), 21);
+    assert_eq!(relied.len(), 22);
     assert!(relied.iter().all(|id| !retired.iter().any(|r| r == id)));
 }
 

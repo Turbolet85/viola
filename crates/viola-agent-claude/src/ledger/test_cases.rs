@@ -120,6 +120,7 @@ fn clean_typed() -> TypedRun {
         prompt_latency_ms: Some(31),
         max_turn_gap_ms: Some(224),
         compact_latency_ms: Some(18_779),
+        echo_latency_ms: Some(1_200),
         box_only_guards: Some(2),
     }
 }

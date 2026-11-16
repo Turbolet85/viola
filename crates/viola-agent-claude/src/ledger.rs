@@ -39,10 +39,11 @@ pub enum LedgerRow {
     ResumeSession,
     AgentsJoin,
     LocalCommandCompact,
+    LocalCommandEcho,
 }
 
 impl LedgerRow {
-    pub const ALL: [Self; 21] = [
+    pub const ALL: [Self; 22] = [
         Self::ShimResolution,
         Self::SpineHooks,
         Self::SessionStartFields,
@@ -64,6 +65,7 @@ impl LedgerRow {
         Self::ResumeSession,
         Self::AgentsJoin,
         Self::LocalCommandCompact,
+        Self::LocalCommandEcho,
     ];
 
     /// The kebab-case id, the key under a stamped version's `rows`.
@@ -90,6 +92,7 @@ impl LedgerRow {
             Self::ResumeSession => "resume-session",
             Self::AgentsJoin => "agents-join",
             Self::LocalCommandCompact => "local-command-compact",
+            Self::LocalCommandEcho => "local-command-echo",
         }
     }
 
@@ -119,6 +122,9 @@ impl LedgerRow {
             Self::ResumeSession => "--resume <id> reopens the session under that id",
             Self::AgentsJoin => "claude agents --json names the live session by pid and session id",
             Self::LocalCommandCompact => "/compact keeps the session id and submits no prompt",
+            Self::LocalCommandEcho => {
+                "/mcp writes its stdout tag to the transcript and submits no prompt"
+            }
         }
     }
 
@@ -170,19 +176,58 @@ pub enum PostCondition {
     NewSession,
     /// A SessionStart with source `compact` and the session's own `session_id`.
     CompactedSession,
+    /// One more [`ECHO_TAG`] in the session's transcript after the send's own pre-paste end.
+    CommandStdout,
 }
 
-/// The known built-in local commands, which fire no UserPromptSubmit, each with its delivery
-/// post-condition or none (architecture [Delivery Confirmation]).
-pub const LOCAL_COMMANDS: [(&str, Option<PostCondition>); 3] = [
+/// The known built-in local commands by name, which fire no UserPromptSubmit, each with its
+/// delivery post-condition or none (architecture [Delivery Confirmation]).
+pub const LOCAL_COMMANDS: [(&str, Option<PostCondition>); 6] = [
     ("/clear", Some(PostCondition::NewSession)),
     ("/remote-control", None),
     ("/compact", Some(PostCondition::CompactedSession)),
+    ("/mcp", Some(PostCondition::CommandStdout)),
+    ("/cost", None),
+    ("/usage", None),
 ];
 /// The local command Run B pastes last: the list's `/clear` entry.
 pub const PROBE_LOCAL_COMMAND: &str = LOCAL_COMMANDS[0].0;
 /// The local command Run B pastes before `/clear`: the list's `/compact` entry.
 pub const PROBE_COMPACT_COMMAND: &str = LOCAL_COMMANDS[2].0;
+/// The local command Run B pastes after the newline paste and before `/compact`: a `/mcp` call
+/// naming a server no config holds, which writes one [`ECHO_TAG`] and changes nothing.
+pub const PROBE_ECHO_COMMAND: &str = "/mcp disable viola-probe-absent";
+/// The transcript tag a local command's own output is written under.
+pub const ECHO_TAG: &str = "<local-command-stdout>";
+
+/// The listed entry `typed` names: exactly a listed name, or a name, one space and a non-empty
+/// rest. A bare leading slash, a longer word, a tab or a second space after the name is none.
+pub fn local_command_of(typed: &str) -> Option<&'static (&'static str, Option<PostCondition>)> {
+    LOCAL_COMMANDS.iter().find(|(name, _)| {
+        typed.strip_prefix(name).is_some_and(|rest| {
+            rest.is_empty()
+                || rest
+                    .strip_prefix(' ')
+                    .is_some_and(|args| !args.is_empty() && !args.starts_with(' '))
+        })
+    })
+}
+
+/// A transcript path the CLI declared for `session_id`: absolute, no `..` component, and a file
+/// name of exactly `{session_id}.jsonl` with `session_id` of the session-id shape.
+pub fn transcript_path_ok(path: &str, session_id: &str) -> bool {
+    let path = std::path::Path::new(path);
+    crate::is_session_id(session_id)
+        && path.is_absolute()
+        && !path
+            .components()
+            .any(|c| matches!(c, std::path::Component::ParentDir))
+        && path
+            .file_name()
+            .and_then(|name| name.to_str())
+            .and_then(|name| name.strip_suffix(".jsonl"))
+            == Some(session_id)
+}
 
 /// Run B's five added pastes in paste order, each with the stem its recorded variants carry.
 pub const FRAMING_TURNS: [(&str, &str); 5] = [
@@ -563,6 +608,8 @@ pub struct TypedRun {
     pub max_turn_gap_ms: Option<u64>,
     /// From Run B's `/compact` paste to the instant its answer was read.
     pub compact_latency_ms: Option<u64>,
+    /// From Run B's `/mcp` paste to the instant one more stdout tag was read in its transcript.
+    pub echo_latency_ms: Option<u64>,
     /// How many of Run B's paste guards read the input box up on the box's own rows, with no
     /// footer literal on any row.
     pub box_only_guards: Option<u32>,
@@ -945,6 +992,10 @@ pub fn check(row: LedgerRow, probes: &Probes) -> bool {
         LedgerRow::ResumeSession => session_resumed(&probes.trusted, &probes.resumed),
         LedgerRow::AgentsJoin => agents_joined(&probes.trusted, probes.agents.as_ref()),
         LedgerRow::LocalCommandCompact => local_command_compacted(&probes.trusted, typed),
+        LedgerRow::LocalCommandEcho => {
+            pasted(&probes.trusted, PROBE_ECHO_COMMAND).is_none()
+                && within(typed.echo_latency_ms, CONFIRM_WINDOW_FALLBACK)
+        }
     }
 }
 
@@ -1026,6 +1077,7 @@ pub fn merge_stamp(
                 "prompt_latency_ms": typed.prompt_latency_ms,
                 "max_turn_gap_ms": typed.max_turn_gap_ms,
                 "compact_latency_ms": typed.compact_latency_ms,
+                "echo_latency_ms": typed.echo_latency_ms,
                 "box_only_guards": typed.box_only_guards,
             },
             "dialog_probe": {

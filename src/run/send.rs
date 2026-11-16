@@ -6,12 +6,15 @@
 //! the founder's rulings of 2026-10-07T15:21Z, 2026-10-09 and 2026-10-09T16:51Z): the list, the
 //! paste, `text_bytes` and the exact match all read that one typed text, which holds no CR,
 //! and a typed text with nothing in it is refused `empty-text` before the wheel is read. A text that is
-//! exactly a compiled local command fires no prompt: one with a post-condition measured on this
-//! CLI version is confirmed by it inside its window, any other is `unconfirmable` at once.
+//! a compiled local command by name (exactly the name, or the name, one space and its arguments)
+//! fires no prompt: one with a post-condition measured on this CLI version is confirmed by it inside
+//! its window, any other is `unconfirmable` at once. An echo command's post-condition is one more
+//! stdout tag in the session's transcript past its end before the paste (`echo`), counted, never
+//! read as text; with no transcript remembered it is `unconfirmable`.
 //! Each outcome is an `events.ndjson` record and a codes-only `send-*` line; the text reaches
 //! neither.
 
-use std::path::Path;
+use std::path::{Path, PathBuf};
 use std::sync::{Arc, Condvar, Mutex, MutexGuard, OnceLock, PoisonError};
 use std::time::{Duration, Instant};
 
@@ -19,7 +22,7 @@ use chrono::Utc;
 use serde_json::{Value, json};
 use tracing::instrument;
 use viola_agent_claude::hook::typed_text;
-use viola_agent_claude::ledger::{LOCAL_COMMANDS, PostCondition};
+use viola_agent_claude::ledger::{PostCondition, local_command_of};
 use viola_agent_claude::screen::{COMPACT_CONFIRM_WINDOW, CONFIRM_WINDOW_FALLBACK, Readiness};
 use viola_channel::{Call, ProtocolError};
 use viola_core::obs::ObsEvent;
@@ -37,6 +40,7 @@ use crate::run::wait::WaitFeed;
 use crate::run::wheel::WheelSlot;
 
 mod classify;
+pub(crate) mod echo;
 mod params;
 mod relabel;
 mod slot;
@@ -122,6 +126,7 @@ fn send_through(
             text: text.to_owned(),
             confirms,
             state: Match::Waiting,
+            echo: None,
         });
     }
     let _reserved = Reserved(slot);
@@ -134,7 +139,7 @@ fn send_through(
     }
     window(slot);
     let pasted = {
-        let flight = slot.flight();
+        let mut flight = slot.flight();
         if let Some(detail) = slot.wheel.human_typing() {
             drop(flight);
             return ctx.refuse(
@@ -152,6 +157,9 @@ fn send_through(
         {
             links.record(from).map_err(|_| ProtocolError::Internal)?;
         }
+        if matches!(confirms, Confirms::Post(PostCondition::CommandStdout)) {
+            echo_from(&mut flight);
+        }
         let cursor = ctx.issue(text.len())?;
         let pasted = paste(text).map(|()| cursor).map_err(|_| cursor);
         drop(flight);
@@ -161,12 +169,32 @@ fn send_through(
         Ok(cursor) => cursor,
         Err(cursor) => return ctx.not_delivered(Some(cursor), NotDelivered::InputNotReady),
     };
-    if matches!(confirms, Confirms::Nothing) {
+    let unconfirmable = slot
+        .flight()
+        .send
+        .as_ref()
+        .is_none_or(|f| matches!(f.confirms, Confirms::Nothing));
+    if unconfirmable {
         return ctx.unconfirmable(cursor, slot.clock.now());
     }
     match slot.confirm(slot.clock.now()) {
         Some(submitted_at) => ctx.confirm(cursor, &submitted_at, slot.clock.now()),
         None => ctx.not_delivered(Some(cursor), NotDelivered::NoPromptSubmitted),
+    }
+}
+
+/// The in-flight echo send's offset: the remembered transcript's end before the paste. With no
+/// transcript remembered, or one whose end cannot be read, nothing can confirm the send.
+fn echo_from(flight: &mut slot::Flight) {
+    let echo = flight
+        .transcript
+        .clone()
+        .and_then(|path| echo::end_of(&path).map(|end| (path, end)));
+    if let Some(f) = flight.send.as_mut() {
+        if echo.is_none() {
+            f.confirms = Confirms::Nothing;
+        }
+        f.echo = echo;
     }
 }
 
@@ -663,7 +691,8 @@ mod tests {
     #[test]
     fn send_a_turn_started_after_the_post_gate_window_is_turn_running_and_types_nothing() {
         let (reply, tmp, pastes) = sent_through_the_post_gate_window(|slot, dir| {
-            append_hook_event(slot, &feed(), dir, prompt(HARNESS_TURN, "harness")).expect("hook");
+            append_hook_event(slot, &feed(), dir, prompt(HARNESS_TURN, "harness"), None)
+                .expect("hook");
         });
         assert_eq!(
             reply,
@@ -677,7 +706,7 @@ mod tests {
     #[test]
     fn send_a_human_prompt_after_the_post_gate_window_is_human_typing_and_types_nothing() {
         let (reply, tmp, pastes) = sent_through_the_post_gate_window(|slot, dir| {
-            append_hook_event(slot, &feed(), dir, prompt("the human's own", "human"))
+            append_hook_event(slot, &feed(), dir, prompt("the human's own", "human"), None)
                 .expect("hook");
         });
         assert_eq!(reply, json!({"refusal": "human-typing", "detail": null}));

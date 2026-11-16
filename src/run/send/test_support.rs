@@ -189,6 +189,7 @@ pub(super) fn occupy(slot: &SendSlot) {
         text: "another send".to_owned(),
         confirms: Confirms::Prompt,
         state: Match::Waiting,
+        echo: None,
     });
 }
 
@@ -222,7 +223,7 @@ pub(super) fn confirmed_as(sent: &str, typed: &str, origin: &str) {
     let reply = std::thread::scope(|s| {
         let sending = s.spawn(|| send(&slot, &name(), tmp.path(), &call(&params, 3)));
         pasted.recv().expect("pasted");
-        append_hook_event(&slot, &feed(), tmp.path(), prompt(typed, origin)).expect("hook");
+        append_hook_event(&slot, &feed(), tmp.path(), prompt(typed, origin), None).expect("hook");
         jumping.store(true, std::sync::atomic::Ordering::SeqCst);
         sending.join().expect("send thread")
     })
@@ -284,7 +285,7 @@ pub(super) fn confirmed(
     std::thread::scope(|s| {
         let sending = s.spawn(|| send(slot, &name(), dir, &call(&params, 1)));
         pasted.recv().expect("pasted");
-        append_hook_event(slot, &feed(), dir, prompt(text, "human")).expect("hook");
+        append_hook_event(slot, &feed(), dir, prompt(text, "human"), None).expect("hook");
         sending.join().expect("send thread")
     })
     .expect("answered")
@@ -361,7 +362,8 @@ pub(super) fn sent_then_submitted(
         let sending = s.spawn(|| send(&slot, &name(), tmp.path(), &call(&params, 3)));
         let typed = pasted.recv_timeout(Duration::from_secs(5));
         if typed.is_ok() {
-            append_hook_event(&slot, &feed(), tmp.path(), prompt(submitted, origin)).expect("hook");
+            append_hook_event(&slot, &feed(), tmp.path(), prompt(submitted, origin), None)
+                .expect("hook");
         }
         jumping.store(true, std::sync::atomic::Ordering::SeqCst);
         typed.expect("pasted within the bound");

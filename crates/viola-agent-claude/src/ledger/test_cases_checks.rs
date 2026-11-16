@@ -96,6 +96,7 @@ fn check_typed_rows_fail_without_a_measurement() {
         LedgerRow::QuietPeriod,
         LedgerRow::ConfirmWindow,
         LedgerRow::LocalCommandCompact,
+        LedgerRow::LocalCommandEcho,
     ] {
         assert!(!typed_check(row, TypedRun::default()), "{}", row.id());
     }
@@ -104,7 +105,7 @@ fn check_typed_rows_fail_without_a_measurement() {
         six,
         [
             true, true, true, true, true, true, false, false, false, false, true, true, true, true,
-            true, true, true, true, true, true, false
+            true, true, true, true, true, true, false, false
         ]
     );
 }

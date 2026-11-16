@@ -106,3 +106,4 @@
 2026-11-15-api-error-turn-end · complete · API-error turn end — a turn the CLI ends on an API error logged as `turn-ended` with a closed cause code, never the error text; the instance idle, the next send accepted · → chk:2026-11-15-api-error-turn-end
 2026-11-16-wait-wake-condition · complete · `wait` wake condition — documented and pinned: a background-held turn end wakes it, no false wake after a task-free end; the stamped-home CI timeout bounded · → chk:2026-11-16-wait-wake-condition
 2026-11-16-send-confirmation · complete · Send confirmation — a driver's send matched whatever whitespace the CLI trims; the readiness-gate turn race closed · → chk:2026-11-16-send-confirmation
+2026-11-16-local-command-delivery · pending · a local slash command the CLI ran reads as delivered, confirmed by its own measured echo · → chk:2026-11-16-local-command-delivery

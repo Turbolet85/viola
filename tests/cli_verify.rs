@@ -27,30 +27,31 @@ use support::verify::{
     write_screen_set, write_spine_set,
 };
 
-const STEPS_PASS: [&str; 21] = [
-    "[01/21] shim-resolution claude resolves to a real executable  pass",
-    "[02/21] spine-hooks spine hooks fire through the plugin dir  pass",
-    "[03/21] session-start-fields SessionStart carries session_id and source  pass",
-    "[04/21] prompt-verbatim UserPromptSubmit carries the prompt as sent  pass",
-    "[05/21] stop-message Stop carries last_assistant_message  pass",
-    "[06/21] largest-hook-payload every hook payload fits the frame cap  pass",
-    "[07/21] modal-signature an untrusted start shows a compiled modal literal  pass",
-    "[08/21] input-box-signature a trusted start shows a compiled input-box literal and no modal  pass",
-    "[09/21] quiet-period the screen settles within the gate's maximum wait  pass",
-    "[10/21] confirm-window the typed prompt reaches UserPromptSubmit within the window  pass",
-    "[11/21] question-answer a question answered through PreToolUse takes effect  pass",
-    "[12/21] plan-approve-revise a plan revise and approve each take effect  pass",
-    "[13/21] question-notes free text and notes reach the question  pass",
-    "[14/21] dialog-concurrency two parallel questions each raise a dialog  pass",
-    "[15/21] long-paste-wrapper a long paste unwraps to the text as pasted  pass",
-    "[16/21] tag-escaping tag-like text un-escapes to the text as pasted  pass",
-    "[17/21] local-command-clear /clear starts a new session and submits no prompt  pass",
-    "[18/21] paste-newline an LF inside a paste stays inside the one prompt submitted  pass",
-    "[19/21] resume-session --resume <id> reopens the session under that id  pass",
-    "[20/21] agents-join claude agents --json names the live session by pid and session id  pass",
-    "[21/21] local-command-compact /compact keeps the session id and submits no prompt  pass",
+const STEPS_PASS: [&str; 22] = [
+    "[01/22] shim-resolution claude resolves to a real executable  pass",
+    "[02/22] spine-hooks spine hooks fire through the plugin dir  pass",
+    "[03/22] session-start-fields SessionStart carries session_id and source  pass",
+    "[04/22] prompt-verbatim UserPromptSubmit carries the prompt as sent  pass",
+    "[05/22] stop-message Stop carries last_assistant_message  pass",
+    "[06/22] largest-hook-payload every hook payload fits the frame cap  pass",
+    "[07/22] modal-signature an untrusted start shows a compiled modal literal  pass",
+    "[08/22] input-box-signature a trusted start shows a compiled input-box literal and no modal  pass",
+    "[09/22] quiet-period the screen settles within the gate's maximum wait  pass",
+    "[10/22] confirm-window the typed prompt reaches UserPromptSubmit within the window  pass",
+    "[11/22] question-answer a question answered through PreToolUse takes effect  pass",
+    "[12/22] plan-approve-revise a plan revise and approve each take effect  pass",
+    "[13/22] question-notes free text and notes reach the question  pass",
+    "[14/22] dialog-concurrency two parallel questions each raise a dialog  pass",
+    "[15/22] long-paste-wrapper a long paste unwraps to the text as pasted  pass",
+    "[16/22] tag-escaping tag-like text un-escapes to the text as pasted  pass",
+    "[17/22] local-command-clear /clear starts a new session and submits no prompt  pass",
+    "[18/22] paste-newline an LF inside a paste stays inside the one prompt submitted  pass",
+    "[19/22] resume-session --resume <id> reopens the session under that id  pass",
+    "[20/22] agents-join claude agents --json names the live session by pid and session id  pass",
+    "[21/22] local-command-compact /compact keeps the session id and submits no prompt  pass",
+    "[22/22] local-command-echo /mcp writes its stdout tag to the transcript and submits no prompt  pass",
 ];
-const ROW_IDS: [&str; 21] = [
+const ROW_IDS: [&str; 22] = [
     "shim-resolution",
     "spine-hooks",
     "session-start-fields",
@@ -72,9 +73,10 @@ const ROW_IDS: [&str; 21] = [
     "resume-session",
     "agents-join",
     "local-command-compact",
+    "local-command-echo",
 ];
 /// The summary of a run whose every relied row passed.
-const STAMPED_PASS: &str = "stamped 2.1.0  21 pass  0 fail";
+const STAMPED_PASS: &str = "stamped 2.1.0  22 pass  0 fail";
 const SCREENS: [&str; 3] = ["Screen.modal.json", "Screen.ready.json", "Screen.turn.json"];
 const INTERNAL_ERROR: &str = "error: internal error\n";
 

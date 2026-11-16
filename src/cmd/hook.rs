@@ -505,7 +505,9 @@ fn write_drift(instance: &Instance, drift: &[Value]) {
     obs::write_detail(&instance.home, &instance.name, ObsProcess::Hook, &line);
 }
 
-/// The event to the recorded wrapper, connected and its server checked by `deadline`.
+/// The event to the recorded wrapper, connected and its server checked by `deadline`. A
+/// SessionStart's shape-checked transcript path rides beside the event as `transcript`, never
+/// inside it, and reaches no line.
 fn deliver(instance: &Instance, normalised: &Normalised, deadline: Instant) -> Result<(), NotSent> {
     let mut client = connect(instance, deadline)?;
     let mut params = Map::new();
@@ -514,6 +516,9 @@ fn deliver(instance: &Instance, normalised: &Normalised, deadline: Instant) -> R
         "event".to_owned(),
         json!({"kind": normalised.kind.as_str(), "data": normalised.data}),
     );
+    if let Some(transcript) = &normalised.transcript {
+        params.insert("transcript".to_owned(), transcript.clone().into());
+    }
     client
         .notify("hook.event", params)
         .map_err(|_| NotSent::Unreachable)
@@ -815,7 +820,7 @@ mod tests {
     /// process (this one) as its wrapper.
     fn served(
         root: &Path,
-        dispatch: std::sync::Arc<Wrapperish>,
+        dispatch: std::sync::Arc<dyn viola_channel::Dispatch>,
     ) -> (Instance, viola_channel::Serving) {
         let me = std::process::id();
         let start = viola_state::liveness::own_start(me).expect("own start");
@@ -825,7 +830,7 @@ mod tests {
     /// `served`, its snapshot recording this process under `started_at`.
     fn served_as(
         root: &Path,
-        dispatch: std::sync::Arc<Wrapperish>,
+        dispatch: std::sync::Arc<dyn viola_channel::Dispatch>,
         started_at: &str,
     ) -> (Instance, viola_channel::Serving) {
         let instance = instance_in(root);
@@ -852,6 +857,66 @@ mod tests {
         };
         viola_state::snapshot::write_snapshot(&instance.dir, &snapshot).expect("snapshot");
         (instance, serving)
+    }
+
+    /// The wrapper's side of `hook.event`: each notification's params, kept.
+    #[derive(Default)]
+    struct EventParams(std::sync::Mutex<Vec<Value>>);
+
+    impl viola_channel::Dispatch for EventParams {
+        fn dispatch(
+            &self,
+            method: &str,
+            params: &Value,
+        ) -> Result<Value, viola_channel::ProtocolError> {
+            assert_eq!(method, "hook.event");
+            self.0.lock().expect("params").push(params.clone());
+            Ok(Value::Null)
+        }
+    }
+
+    /// The first `hook.event` a SessionStart payload delivers, waited for up to five seconds.
+    fn delivered_start(payload: &Value) -> Value {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let kept = std::sync::Arc::new(EventParams::default());
+        let (instance, _serving) = served(tmp.path(), kept.clone());
+        let bytes = payload.to_string();
+        assert_eq!(
+            handled(HookEvent::SessionStart, &instance, bytes.as_bytes()),
+            None
+        );
+        let until = Instant::now() + Duration::from_secs(5);
+        loop {
+            if let Some(params) = kept.0.lock().expect("params").first() {
+                return params.clone();
+            }
+            assert!(Instant::now() < until, "no hook.event within the bound");
+            std::thread::sleep(Duration::from_millis(10));
+        }
+    }
+
+    /// A SessionStart's own-shaped transcript path rides beside the event as `transcript`, never
+    /// inside it; one of another shape is not sent.
+    #[rstest]
+    #[case::its_own_shape(true)]
+    #[case::another_session_s_file(false)]
+    fn deliver_carries_the_transcript_beside_the_event(#[case] own: bool) {
+        let session = "0b1c2d3e-4f50-6172-8394-a5b6c7d8e9f0";
+        let file = if own {
+            session
+        } else {
+            "1b1c2d3e-4f50-6172-8394-a5b6c7d8e9f0"
+        };
+        let path = format!("/t/{file}.jsonl");
+        let params = delivered_start(
+            &json!({"source": "startup", "session_id": session, "transcript_path": path}),
+        );
+        assert_eq!(
+            params["event"],
+            json!({"kind": "session-start",
+                "data": {"cause": "startup", "agent_session_id": session}})
+        );
+        assert_eq!(params.get("transcript"), own.then(|| json!(path)).as_ref());
     }
 
     fn wrapperish(reply: Value, hold: Duration) -> std::sync::Arc<Wrapperish> {
@@ -889,7 +954,7 @@ mod tests {
         let reply = json!({"jsonrpc": "2.0", "result": {"ok": {"dialog_id": 3,
             "response": {"answers": {"Which color?": "red"}}}}});
         let wrapper = wrapperish(reply["result"].clone(), Duration::ZERO);
-        let (instance, _serving) = served(tmp.path(), std::sync::Arc::clone(&wrapper));
+        let (instance, _serving) = served(tmp.path(), wrapper.clone());
         let out = dialog_out(
             HookEvent::PreToolUse,
             &instance,
@@ -967,8 +1032,7 @@ mod tests {
             .expect("a dialog");
         let reply = json!({"ok": {"dialog_id": 1, "response": {"behavior": "approve"}}});
         let wrapper = wrapperish(reply, Duration::ZERO);
-        let (instance, _serving) =
-            served_as(tmp.path(), std::sync::Arc::clone(&wrapper), &started_at);
+        let (instance, _serving) = served_as(tmp.path(), wrapper.clone(), &started_at);
         let start = Instant::now();
         let bounds = (spine_deadline(start), start + Duration::from_secs(5));
         assert_eq!(

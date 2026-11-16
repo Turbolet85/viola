@@ -199,8 +199,8 @@ fn verify_help_names_the_trusted_folder_and_the_external_import_blocker() {
 /// Without `--screens` the fake agent shows nothing: each of the five interactive runs waits out the
 /// gate's 8.5 s maximum, and the twelve rows the first four measure fail while the six print-mode
 /// rows pass; the resume row passes on Run E's SessionStart, captured before its wait; the agents
-/// row fails, as Run B's turn never settles on a literal and no read is made, and so does the compact
-/// row, as no framing paste is made.
+/// row fails, as Run B's turn never settles on a literal and no read is made, and so do the compact
+/// and echo rows, as no framing paste is made.
 #[rstest]
 fn verify_window_without_screens_fails_every_interactive_row(#[from(home)] home: TestHome) {
     write_spine_set(&fixtures(&home), "2.1.0", None);
@@ -209,7 +209,7 @@ fn verify_window_without_screens_fails_every_interactive_row(#[from(home)] home:
     let stdout = ran.stdout_text();
     let lines: Vec<&str> = stdout.lines().collect();
     let mut expected = steps_failing(|i| i >= 6 && ROW_IDS[i] != "resume-session");
-    expected.push("stamped 2.1.0  7 pass  14 fail".to_owned());
+    expected.push("stamped 2.1.0  7 pass  15 fail".to_owned());
     assert_eq!(lines, expected);
     let rows = &stamps(home.path())["data"]["versions"]["2.1.0"]["rows"];
     for id in ROW_IDS[6..].iter().filter(|id| **id != "resume-session") {
@@ -252,7 +252,7 @@ fn verify_kills_the_dialog_and_plan_runs_only_after_their_last_stop_hook(
 
 /// Without the dialog replay the dialog and plan runs see turns that raise no dialog: the ten spine
 /// and screen rows, the three framing rows, the newline row, the resume row, the agents row, the
-/// compact row pass, the four dialog rows fail, the stamp is written and verify exits 1 with nothing
+/// compact and echo rows pass, the four dialog rows fail, the stamp is written and verify exits 1 with nothing
 /// on stderr. The version is then unverified (R2).
 #[rstest]
 fn verify_without_the_dialog_replay_fails_the_four_dialog_rows(#[from(home)] home: TestHome) {
@@ -261,7 +261,7 @@ fn verify_without_the_dialog_replay_fails_the_four_dialog_rows(#[from(home)] hom
     assert_eq!(ran.code, Some(1));
     assert!(ran.stderr.is_empty(), "stderr {}", ran.stderr_text());
     let mut expected = steps_failing(|i| (10..14).contains(&i));
-    expected.push("stamped 2.1.0  17 pass  4 fail".to_owned());
+    expected.push("stamped 2.1.0  18 pass  4 fail".to_owned());
     let stdout = ran.stdout_text();
     assert_eq!(stdout.lines().collect::<Vec<_>>(), expected);
     assert_plain(&ran.stdout);
@@ -282,8 +282,9 @@ fn verify_without_the_dialog_replay_fails_the_four_dialog_rows(#[from(home)] hom
 
 /// Without the framing replay the fake agent echoes each added paste as typed: the three paste rows
 /// pass on the echo, and `/compact` and the local command, each echoed as a prompt with no
-/// SessionStart, fail their rows. Every paste still went into the trusted run, in order, and the run
-/// fired no hook for the command but its echo.
+/// SessionStart, fail their rows. Without `--transcript` beside it no SessionStart names a
+/// transcript, so the echo command is not pasted and its row fails. Every other paste still went
+/// into the trusted run, in order, and the run fired no hook for the command but its echo.
 #[rstest]
 fn verify_without_framing_fails_the_clear_and_compact_rows(#[from(home)] home: TestHome) {
     write_spine_set(&fixtures(&home), "2.1.0", None);
@@ -293,9 +294,11 @@ fn verify_without_framing_fails_the_clear_and_compact_rows(#[from(home)] home: T
     let ran = verify_without_framing(home.path(), &fixtures(&home), "2.1.0", &after);
     assert_eq!(ran.code, Some(1), "stdout {}", ran.stdout_text());
     assert!(ran.stderr.is_empty(), "stderr {}", ran.stderr_text());
-    let local = |id: &str| id == "local-command-clear" || id == "local-command-compact";
+    let local = |id: &str| {
+        id == "local-command-clear" || id == "local-command-compact" || id == "local-command-echo"
+    };
     let mut expected = steps_failing(|i| local(ROW_IDS[i]));
-    expected.push("stamped 2.1.0  19 pass  2 fail".to_owned());
+    expected.push("stamped 2.1.0  19 pass  3 fail".to_owned());
     let stdout = ran.stdout_text();
     assert_eq!(stdout.lines().collect::<Vec<_>>(), expected);
     assert_plain(&ran.stdout);
@@ -305,6 +308,7 @@ fn verify_without_framing_fails_the_clear_and_compact_rows(#[from(home)] home: T
     }
     assert_eq!(rows["local-command-clear"], "fail");
     assert_eq!(rows["local-command-compact"], "fail");
+    assert_eq!(rows["local-command-echo"], "fail");
     // The trusted run is the third start; its prompts are the probe prompt and the five pastes.
     let typed = trusted_run_typed(&receipt);
     assert_eq!(
@@ -322,8 +326,8 @@ fn verify_without_framing_fails_the_clear_and_compact_rows(#[from(home)] home: T
 }
 
 /// The trusted run pastes only into a settled input box with no modal: when the screen after its
-/// first turn shows a modal literal beside the input box, none of the five added texts is pasted
-/// and their rows fail, the compact row with them; the resume and agents rows pass.
+/// first turn shows a modal literal beside the input box, none of the six added texts is pasted
+/// and their rows fail, the compact and echo rows with them; the resume and agents rows pass.
 #[rstest]
 fn verify_pastes_nothing_more_once_the_turn_screen_shows_a_modal(#[from(home)] home: TestHome) {
     write_spine_set(&fixtures(&home), "2.1.0", None);
@@ -338,21 +342,19 @@ fn verify_pastes_nothing_more_once_the_turn_screen_shows_a_modal(#[from(home)] h
     for id in &ROW_IDS[14..18] {
         assert_eq!(rows[*id], "fail", "{id}");
     }
-    for id in ROW_IDS[18..]
-        .iter()
-        .filter(|id| **id != "local-command-compact")
-    {
-        assert_eq!(rows[*id], "pass", "{id}");
+    for id in ["resume-session", "agents-join"] {
+        assert_eq!(rows[id], "pass", "{id}");
     }
     assert_eq!(rows["local-command-compact"], "fail");
+    assert_eq!(rows["local-command-echo"], "fail");
     assert_eq!(rows["input-box-signature"], "fail");
     let typed = trusted_run_typed(&receipt);
     assert_eq!(typed, ["viola verify probe: reply with the single word ok"]);
 }
 
 /// The guard before the next paste: when the screen after the tag-like turn alone shows a modal
-/// literal beside the input box, the two paste rows have passed, none of the newline text,
-/// `/compact` and `/clear` is pasted and their three rows fail. The trusted run's settle after that turn ends on any
+/// literal beside the input box, the two paste rows have passed, none of the newline text, the echo
+/// command, `/compact` and `/clear` is pasted and their four rows fail. The trusted run's settle after that turn ends on any
 /// compiled literal, so nothing is waited out.
 #[rstest]
 fn verify_pastes_no_local_command_once_the_tag_turn_screen_shows_a_modal(
@@ -371,7 +373,7 @@ fn verify_pastes_no_local_command_once_the_tag_turn_screen_shows_a_modal(
     ];
     let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &after, &[]);
     assert_eq!(ran.code, Some(1), "stdout {}", ran.stdout_text());
-    let summary = "stamped 2.1.0  18 pass  3 fail\n";
+    let summary = "stamped 2.1.0  18 pass  4 fail\n";
     assert!(
         ran.stdout_text().ends_with(summary),
         "stdout {}",
@@ -383,6 +385,7 @@ fn verify_pastes_no_local_command_once_the_tag_turn_screen_shows_a_modal(
     assert_eq!(rows["local-command-clear"], "fail");
     assert_eq!(rows["paste-newline"], "fail");
     assert_eq!(rows["local-command-compact"], "fail");
+    assert_eq!(rows["local-command-echo"], "fail");
     let typed = trusted_run_typed(&receipt);
     assert_eq!(
         typed,
@@ -397,8 +400,8 @@ fn verify_pastes_no_local_command_once_the_tag_turn_screen_shows_a_modal(
 
 /// claude 2.1.302's stop, reproduced: when the screen after the long paste's turn alone shows no
 /// input box the trusted run can type into (here a modal literal beside it, so the settle ends at
-/// once on a compiled literal), none of the tag-like text, the newline text, `/compact` and
-/// `/clear` is pasted. Their four rows fail, and so does `input-box-signature`, which reads that
+/// once on a compiled literal), none of the tag-like text, the newline text, the echo command,
+/// `/compact` and `/clear` is pasted. Their five rows fail, and so does `input-box-signature`, which reads that
 /// screen too.
 #[rstest]
 fn verify_pastes_nothing_more_once_the_long_turn_screen_shows_a_modal(
@@ -423,9 +426,10 @@ fn verify_pastes_nothing_more_once_the_long_turn_screen_shows_a_modal(
         "local-command-clear",
         "paste-newline",
         "local-command-compact",
+        "local-command-echo",
     ];
     let mut expected = steps_failing(|i| red.contains(&ROW_IDS[i]));
-    expected.push("stamped 2.1.0  16 pass  5 fail".to_owned());
+    expected.push("stamped 2.1.0  16 pass  6 fail".to_owned());
     let stdout = ran.stdout_text();
     assert_eq!(
         stdout.lines().collect::<Vec<_>>(),
@@ -454,7 +458,7 @@ fn verify_pastes_nothing_more_once_the_long_turn_screen_shows_a_modal(
 /// the paste on 2.1.287, measured). With the fake agent holding a cleared screen for 9 s after the
 /// long turn's Stop, past the gate's 8.5 s maximum, a window forced open and never sampled, the
 /// trusted run waits for the input box to come back, pastes the tag-like text, the newline text,
-/// `/compact` and the local command, and every row passes.
+/// the echo command, `/compact` and the local command, and every row passes.
 #[rstest]
 fn verify_window_paste_hint_past_the_gate_maximum_still_stamps(#[from(home)] home: TestHome) {
     write_spine_set(&fixtures(&home), "2.1.0", None);
@@ -473,6 +477,7 @@ fn verify_window_paste_hint_past_the_gate_maximum_still_stamps(#[from(home)] hom
             support::verify::long_paste().as_str(),
             support::verify::TAG_PASTE,
             support::verify::NEWLINE_PASTE,
+            "/mcp disable viola-probe-absent",
             "/compact",
             "/clear",
         ]

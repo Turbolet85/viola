@@ -8,6 +8,7 @@
 
 use std::fs::{self, File, OpenOptions};
 use std::io::{Read as _, Write as _};
+use std::os::unix::fs::{DirBuilderExt as _, OpenOptionsExt as _};
 use std::path::{Path, PathBuf};
 use std::process::{Command, ExitCode, Stdio};
 use std::sync::{Arc, Mutex, OnceLock, PoisonError};
@@ -15,8 +16,8 @@ use std::time::Duration;
 
 use serde_json::{Value, json};
 use viola_agent_claude::ledger::{
-    PROBE_COMPACT_COMMAND, PROBE_LOCAL_COMMAND, PROBE_LONG_PASTE, PROBE_TAG_PASTE, dialog_stem,
-    framing_stem,
+    ECHO_TAG, PROBE_COMPACT_COMMAND, PROBE_ECHO_COMMAND, PROBE_LOCAL_COMMAND, PROBE_LONG_PASTE,
+    PROBE_TAG_PASTE, PostCondition, dialog_stem, framing_stem, local_command_of,
 };
 use viola_core::MAX_FRAME;
 use viola_state::liveness::{process_start_time, start_times};
@@ -63,6 +64,8 @@ const AGENTS_MODE: &str = "agents-mode";
 const AGENTS_ROWS: &str = "agents-rows.json";
 /// Beside the executable: one `<pid>.json` row per live interactive fake agent.
 const SESSIONS: &str = "sessions";
+/// Beside the executable, under `--transcript`: one `<session_id>.jsonl` per session it started.
+const TRANSCRIPTS: &str = "transcripts";
 /// The title a registry row carries: synthetic, never user text.
 const SESSION_NAME: &str = "viola fake agent session";
 const REGISTERED_EVENTS: [&str; 10] = [
@@ -107,6 +110,7 @@ struct Opts {
     long_turn_screen: Option<String>,
     resume: Option<String>,
     fork_session: bool,
+    transcript: bool,
 }
 
 impl Opts {
@@ -151,6 +155,7 @@ impl Opts {
                 "--long-turn-screen" => o.long_turn_screen = value(),
                 "--resume" => o.resume = value(),
                 "--fork-session" => o.fork_session = true,
+                "--transcript" => o.transcript = true,
                 // `viola verify`'s dialog runs hand over their probe settings; nothing reads them.
                 "--settings" => {
                     value();
@@ -209,6 +214,14 @@ impl Opts {
             .map(|r| r.as_str().map(str::to_owned))
             .collect()
     }
+}
+
+/// The transcript a session started under `--transcript` names: `<exe dir>/transcripts/<id>.jsonl`.
+fn transcript_of_session(id: &str) -> Option<PathBuf> {
+    let name = format!("{id}.jsonl");
+    (Path::new(&name).file_name() == Some(name.as_ref()))
+        .then(|| exe_dir().map(|dir| dir.join(TRANSCRIPTS).join(name)))
+        .flatten()
 }
 
 /// `cwd` or one of its ancestors is `root`, both canonicalized; an unreadable path is never under.
@@ -483,12 +496,69 @@ impl Agent {
             .ok()
             .and_then(|v| v["tool_name"].as_str().map(str::to_owned));
         let commands = hook_commands(&hooks, event, tool.as_deref());
-        let body = payload(fixture, set);
+        let body = self.with_transcript(event, variant, payload(fixture, set));
         let mut answered = false;
         for (command, args) in commands {
             answered |= self.run_hook(event, &command, &args, &body);
         }
         Fired::Ran { answered }
+    }
+
+    /// Under `--transcript`, the launch SessionStart (`default` or the resume variant) with
+    /// `transcript_path` set to the absolute `<exe dir>/transcripts/<session_id>.jsonl`; any other
+    /// payload, a replayed framing variant included, goes out as recorded, so the byte-for-byte
+    /// drift contract holds under the option too.
+    fn with_transcript(&self, event: &str, variant: &str, body: Vec<u8>) -> Vec<u8> {
+        let launch = variant == "default" || variant == RESUME_VARIANT;
+        if !self.opts.transcript || event != "SessionStart" || !launch {
+            return body;
+        }
+        let id = serde_json::from_slice::<Value>(&body)
+            .ok()
+            .and_then(|doc| doc["session_id"].as_str().map(str::to_owned));
+        match id.as_deref().and_then(transcript_of_session) {
+            Some(path) => {
+                // The session's transcript stands from its start, as the CLI's does once a turn ran.
+                let _ = OpenOptions::new()
+                    .create(true)
+                    .append(true)
+                    .mode(0o600)
+                    .open(&path);
+                payload(
+                    body,
+                    &[("transcript_path", path.to_string_lossy().as_ref())],
+                )
+            }
+            None => body,
+        }
+    }
+
+    /// Under `--transcript`, one line holding the echo tag appended to the last started session's
+    /// transcript: a local command's own stdout, which fires no hook.
+    fn echo(&self) {
+        if !self.opts.transcript {
+            return;
+        }
+        let session = self
+            .session
+            .lock()
+            .unwrap_or_else(PoisonError::into_inner)
+            .clone();
+        let Some(path) = session.as_deref().and_then(transcript_of_session) else {
+            return;
+        };
+        let line = format!(
+            "{}\n",
+            json!({"type": "system", "content": format!("{ECHO_TAG}viola fake agent echo</local-command-stdout>")})
+        );
+        let opened = OpenOptions::new()
+            .create(true)
+            .append(true)
+            .mode(0o600)
+            .open(path);
+        if let Ok(mut file) = opened {
+            let _ = file.write_all(line.as_bytes());
+        }
     }
 
     /// `--dialogs`: each recorded call of the prompt's `<stem>-<n>` variants in claim order. Its
@@ -598,9 +668,17 @@ impl Agent {
         let framing = framing_stem(&text).filter(|_| self.opts.framing);
         let local = framing.filter(|stem| framing_stem(PROBE_LOCAL_COMMAND) == Some(*stem));
         let compact = framing.filter(|stem| framing_stem(PROBE_COMPACT_COMMAND) == Some(*stem));
+        let echoes = local_command_of(&text)
+            .is_some_and(|(_, post)| *post == Some(PostCondition::CommandStdout));
         let submit = if self.opts.suppress_prompt_submit {
             "suppressed"
         } else if self.opts.local_command_mode && text.starts_with('/') {
+            if echoes {
+                self.echo();
+            }
+            "local-command"
+        } else if self.opts.framing && text == PROBE_ECHO_COMMAND {
+            self.echo();
             "local-command"
         } else if let Some(stem) = compact {
             let session = self
@@ -885,6 +963,14 @@ fn main() -> ExitCode {
         eprintln!("fake agent: unreadable script");
         return ExitCode::from(2);
     };
+    if opts.transcript
+        && let Some(dir) = exe_dir()
+    {
+        let _ = fs::DirBuilder::new()
+            .recursive(true)
+            .mode(0o700)
+            .create(dir.join(TRANSCRIPTS));
+    }
     let agent = Arc::new(Agent::new(opts));
     // Raw like the real CLI: on a cooked terminal keys wait for Enter and `\x03` never arrives.
     // The `start` receipt below is written only once the mode is set.

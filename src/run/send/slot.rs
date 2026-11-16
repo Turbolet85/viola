@@ -11,6 +11,8 @@ pub(super) struct InFlight {
     pub(super) text: String,
     pub(super) confirms: Confirms,
     pub(super) state: Match,
+    /// For a send its echo confirms: the remembered transcript and its end before the paste.
+    pub(super) echo: Option<(PathBuf, u64)>,
 }
 
 /// What the sends and the hook tap share under one lock.
@@ -20,6 +22,9 @@ pub(super) struct Flight {
     /// The `agent_session_id` of the last `session-start` the tap took: `None` before the first,
     /// and when that line carried none.
     session: Option<String>,
+    /// The transcript the last `session-start` the tap took carried, re-validated; `None` before
+    /// the first and when that line carried none. Held here alone: no line, log or snapshot.
+    pub(super) transcript: Option<PathBuf>,
 }
 
 impl Flight {
@@ -134,7 +139,9 @@ impl SendSlot {
         self.settled.notify_all();
     }
 
-    /// The window: `Some(submitted_at)` on a match, `None` once it expires unclaimed. The send is
+    /// The window: `Some(submitted_at)` on a match, `None` once it expires unclaimed; an echo
+    /// send's match is one more stdout tag past its offset, polled each `STEP`, its `submitted_at`
+    /// the wrapper's UTC time of that read. The send is
     /// closed under the same lock, so a line after the expiry is never claimed; the slot itself
     /// is emptied only by the send's `Reserved` guard, once its outcome is recorded.
     #[instrument(skip_all, name = "run.confirm_window", fields(window_ms = window_ms(self.window())))]
@@ -142,6 +149,28 @@ impl SendSlot {
         let deadline = opened + self.window();
         let mut flight = self.flight();
         loop {
+            // The echo is read before the deadline is: a tag on disk when the window ends is the
+            // send's. The read runs outside the flight guard, so the hook tap never waits on it.
+            if let Some((path, from)) = flight
+                .send
+                .as_ref()
+                .filter(|f| matches!(f.state, Match::Waiting))
+                .and_then(|f| f.echo.clone())
+            {
+                drop(flight);
+                let echoed = echo::tags_since(&path, from).is_some_and(|n| n >= 1);
+                flight = self.flight();
+                if echoed
+                    && let Some(f) = flight
+                        .send
+                        .as_mut()
+                        .filter(|f| matches!(f.state, Match::Waiting))
+                {
+                    f.state = Match::Confirmed(
+                        Utc::now().to_rfc3339_opts(chrono::SecondsFormat::Millis, true),
+                    );
+                }
+            }
             match flight.send.as_ref().map(|f| &f.state) {
                 Some(Match::Confirmed(ts)) => {
                     let ts = ts.clone();
@@ -164,7 +193,7 @@ impl SendSlot {
     }
 
     /// The in-flight send's window: [`COMPACT_CONFIRM_WINDOW`] for a send that waits for its
-    /// compacted session, [`CONFIRM_WINDOW_FALLBACK`] for every other.
+    /// compacted session, [`CONFIRM_WINDOW_FALLBACK`] for every other, an echo send's included.
     fn window(&self) -> Duration {
         match self.flight().send.as_ref().map(|f| f.confirms) {
             Some(Confirms::Post(PostCondition::CompactedSession)) => COMPACT_CONFIRM_WINDOW,
@@ -181,12 +210,14 @@ impl SendSlot {
 /// `session-start` and `session-end` end it. A `session-start` that is the in-flight send's
 /// post-condition is claimed and settled the same way, its line appended unchanged. A
 /// `session-start` whose `agent_session_id` is a string has the snapshot record that id before the
-/// line can be read, so whoever reads the line finds the snapshot already written.
+/// line can be read, so whoever reads the line finds the snapshot already written. A
+/// `session-start` replaces the remembered transcript with its own `transcript`, none clearing it.
 pub(crate) fn append_hook_event(
     slot: &SendSlot,
     feed: &WaitFeed,
     instance_dir: &Path,
     mut line: EventLine,
+    transcript: Option<PathBuf>,
 ) -> Result<(), StateError> {
     // One flight guard over the claim and the turn and wheel moves: a send's post-gate reads and
     // its paste hold the same guard, so a turn the wrapper learns of either refuses the send
@@ -202,6 +233,9 @@ pub(crate) fn append_hook_event(
         }
         let claimed =
             prompt || (line.kind == EventKind::SessionStart && flight.session_started(&line.data));
+        if line.kind == EventKind::SessionStart {
+            flight.transcript = transcript;
+        }
         // Before the line can be read, as the wheel below: a driver that read `turn-ended` is
         // never refused by that turn. The turn is marked ahead of the human's wheel move, so a
         // `release` between the two still clears it.
@@ -272,11 +306,13 @@ mod tests {
             text: "decided".to_owned(),
             confirms: Confirms::Prompt,
             state: Match::Closed,
+            echo: None,
         });
         let params = json!({"v": 1, "text": "next"});
         let reply = send(&slot, &name(), tmp.path(), &call(&params, 1)).expect("answered");
         assert_eq!(reply["detail"], "turn-running");
-        append_hook_event(&slot, &feed(), tmp.path(), prompt("decided", "human")).expect("hook");
+        append_hook_event(&slot, &feed(), tmp.path(), prompt("decided", "human"), None)
+            .expect("hook");
         assert_eq!(events(tmp.path())[1]["data"]["origin"], "human");
         assert!(slot.confirm(Instant::now()).is_none());
         assert!(
@@ -302,9 +338,10 @@ mod tests {
             text: "late".to_owned(),
             confirms: Confirms::Prompt,
             state: Match::Waiting,
+            echo: None,
         });
         assert_eq!(slot.confirm(opened), None);
-        append_hook_event(&slot, &feed(), tmp.path(), prompt("late", "human")).expect("hook");
+        append_hook_event(&slot, &feed(), tmp.path(), prompt("late", "human"), None).expect("hook");
         assert_eq!(events(tmp.path())[0]["data"]["origin"], "human");
         assert_eq!(slot.confirm(opened), None, "nothing was claimed");
     }
@@ -325,7 +362,8 @@ mod tests {
         let events = events(tmp.path());
         assert_eq!(events[1]["data"]["cursor"], 0);
         // A prompt after the window is no longer the send's.
-        append_hook_event(&slot, &feed(), tmp.path(), prompt("hello", "human")).expect("hook");
+        append_hook_event(&slot, &feed(), tmp.path(), prompt("hello", "human"), None)
+            .expect("hook");
         assert_eq!(
             super::tests::events(tmp.path())[2]["data"]["origin"],
             "human"
@@ -345,7 +383,8 @@ mod tests {
             let sending = s.spawn(|| send(&slot, &name(), tmp.path(), &call(&first, 1)));
             pasted.recv().expect("pasted");
             let b = send(&slot, &name(), tmp.path(), &call(&second, 2));
-            append_hook_event(&slot, &feed(), tmp.path(), prompt("first", "human")).expect("hook");
+            append_hook_event(&slot, &feed(), tmp.path(), prompt("first", "human"), None)
+                .expect("hook");
             (sending.join().expect("send thread"), b)
         });
         assert_eq!(
@@ -381,12 +420,12 @@ mod tests {
             )
         };
         let missing = tmp.path().join("missing");
-        assert!(append_hook_event(&slot, &feed, &missing, ended("lost")).is_err());
+        assert!(append_hook_event(&slot, &feed, &missing, ended("lost"), None).is_err());
         let none = json!({"ok": {"last_assistant_message": null, "ts": null}});
         assert_eq!(feed.last(&json!({"v": 1})), Ok(none));
         let landed = ended("landed");
         let ts = landed.ts.clone();
-        append_hook_event(&slot, &feed, tmp.path(), landed).expect("hook");
+        append_hook_event(&slot, &feed, tmp.path(), landed, None).expect("hook");
         assert_eq!(kinds(tmp.path()), ["turn-ended"]);
         assert_eq!(
             feed.last(&json!({"v": 1})),
@@ -407,7 +446,7 @@ mod tests {
     ) {
         let tmp = tempfile::tempdir().expect("tempdir");
         let (slot, pastes) = mute_child();
-        append_hook_event(&slot, &feed(), tmp.path(), prompt(text, origin)).expect("hook");
+        append_hook_event(&slot, &feed(), tmp.path(), prompt(text, origin), None).expect("hook");
         assert!(slot.wheel.turn_running());
         let params = json!({"v": 1, "text": "hello"});
         let reply = send(&slot, &name(), tmp.path(), &call(&params, 1)).expect("answered");
@@ -449,6 +488,7 @@ mod tests {
                 &feed(),
                 tmp.path(),
                 hook_line(EventKind::SessionStart, data),
+                None,
             )
             .expect("hook");
         };
@@ -460,7 +500,8 @@ mod tests {
         let written = std::fs::read(tmp.path().join("snapshot.json")).expect("bytes");
         start(json!({"cause": "resume", "agent_session_id": null}));
         start(json!({"cause": "compact"}));
-        append_hook_event(&slot, &feed(), tmp.path(), prompt("typed", "human")).expect("hook");
+        append_hook_event(&slot, &feed(), tmp.path(), prompt("typed", "human"), None)
+            .expect("hook");
         let after = std::fs::read(tmp.path().join("snapshot.json")).expect("bytes");
         assert_eq!(after, written, "nothing written");
         assert_eq!(kinds(tmp.path()).len(), 5);
@@ -475,7 +516,7 @@ mod tests {
             EventKind::SessionStart,
             json!({"cause": "startup", "agent_session_id": "s-1"}),
         );
-        append_hook_event(&slot, &feed(), tmp.path(), line).expect("hook");
+        append_hook_event(&slot, &feed(), tmp.path(), line, None).expect("hook");
         assert_eq!(kinds(tmp.path()), ["session-start"]);
         assert!(read_snapshot(tmp.path()).is_none());
     }
@@ -498,9 +539,15 @@ mod tests {
     ) {
         let tmp = tempfile::tempdir().expect("tempdir");
         let (slot, pastes) = mute_child();
-        append_hook_event(&slot, &feed(), tmp.path(), prompt(HARNESS_TURN, "harness"))
-            .expect("hook");
-        append_hook_event(&slot, &feed(), tmp.path(), hook_line(kind, data)).expect("hook");
+        append_hook_event(
+            &slot,
+            &feed(),
+            tmp.path(),
+            prompt(HARNESS_TURN, "harness"),
+            None,
+        )
+        .expect("hook");
+        append_hook_event(&slot, &feed(), tmp.path(), hook_line(kind, data), None).expect("hook");
         let params = json!({"v": 1, "text": "hello"});
         let reply = send(&slot, &name(), tmp.path(), &call(&params, 1)).expect("answered");
         if ends {
@@ -551,7 +598,7 @@ mod tests {
             EventKind::TurnEnded,
             json!({"last_assistant_message": "done"}),
         );
-        append_hook_event(&slot, &feed(), tmp.path(), ended).expect("hook");
+        append_hook_event(&slot, &feed(), tmp.path(), ended, None).expect("hook");
         assert!(confirmed(&slot, tmp.path(), &pasted, "second")["ok"]["cursor"].is_u64());
         assert_eq!(pastes.all(), ["first", "second"]);
         assert_eq!(
@@ -578,6 +625,7 @@ mod tests {
             text: "hello".to_owned(),
             confirms: Confirms::Prompt,
             state: Match::Waiting,
+            echo: None,
         });
         assert_eq!(window_ms(slot.window()), 10_000);
     }
@@ -594,6 +642,7 @@ mod tests {
             text: text.to_owned(),
             confirms: classify(text, true),
             state: Match::Waiting,
+            echo: None,
         });
         assert_eq!(window_ms(slot.window()), ms);
         assert_eq!(slot.window(), Duration::from_millis(ms));

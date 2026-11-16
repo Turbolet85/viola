@@ -1,11 +1,14 @@
 # Coverage — viola-0.2.0
 
-verified 11/35 · deferred 1 · planned 23 · implemented 0 · unclaimed 23
+verified 11/35 · deferred 1 · planned 22 · implemented 1 · unclaimed 22
 
 ## deferred (1)
 - v2-22 · Product-owned session settings
 
-## planned, unclaimed (23)
+## implemented (1)
+- v2-23 · A local command's own echo is its delivery · 2026-11-16-local-command-delivery
+
+## planned, unclaimed (22)
 - v2-07 · Launch a session into the fleet
 - v2-08 · The launch authority bounded
 - v2-09 · The lineage registry
@@ -17,7 +20,6 @@ verified 11/35 · deferred 1 · planned 23 · implemented 0 · unclaimed 23
 - v2-15 · Every verb from the console
 - v2-20 · A question first raised by PermissionRequest answered with a body
 - v2-21 · A key answering the CLI's session-feedback survey keeps the wheel
-- v2-23 · A local command's own echo is its delivery
 - v2-24 · Every MCP call bounded below the client's timeout
 - v2-25 · The harness-prefix ledger row
 - v2-26 · The R8 identity-floor ledger row

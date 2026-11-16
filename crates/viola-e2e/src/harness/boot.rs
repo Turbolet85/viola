@@ -238,6 +238,7 @@ fn stamp(opts: &BootOptions, home: &Path, session_bin: &Path) -> Result<(), Opti
             "--turn-stop",
             "--dialogs",
             "--framing",
+            "--transcript",
             "--trusted-root",
         ])
         .arg(&opts.ws.root)

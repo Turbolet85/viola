@@ -1,0 +1,130 @@
+[
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "706a2ad2",
+"ts": "2026-11-16T08:17:54Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-16T08-05-25-implement",
+"--marker",
+"2026-11-16-local-command-delivery"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 1907 · 2026-11-16T06-29-26-2026-11-16-local-command-delivery.ndjson",
+"ts 2026-11-16T08:17:44Z · clock 2026-11-16T08:17:54Z · bound 2026-11-16T08:05:01Z (line 3207)",
+"ids 2026-11-16T08:17:44Z-a … 2026-11-16T08:17:44Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T06-29-26-2026-11-16-local-command-delivery.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "706a2ad2",
+"ts": "2026-11-16T08:29:41Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"3",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-16T08-05-25-implement",
+"--marker",
+"2026-11-16-local-command-delivery"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 3 record(s) in the store · tx 1911 · 2026-11-16T06-29-26-2026-11-16-local-command-delivery.ndjson",
+"ts 2026-11-16T08:29:29Z · clock 2026-11-16T08:29:41Z · bound 2026-11-16T08:17:44Z (line 3209)",
+"ids 2026-11-16T08:29:29Z-a … 2026-11-16T08:29:29Z-c (3)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T06-29-26-2026-11-16-local-command-delivery.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "706a2ad2",
+"ts": "2026-11-16T08:29:50Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-16T08-05-25-implement",
+"--marker",
+"2026-11-16-local-command-delivery"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 1912 · 2026-11-16T06-29-26-2026-11-16-local-command-delivery.ndjson",
+"ts 2026-11-16T08:29:50Z · clock 2026-11-16T08:29:50Z · bound 2026-11-16T08:29:29Z (line 3212)",
+"ids 2026-11-16T08:29:50Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T06-29-26-2026-11-16-local-command-delivery.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "706a2ad2",
+"ts": "2026-11-16T08:32:08Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-16T08-05-25-implement",
+"--marker",
+"2026-11-16-local-command-delivery"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 1914 · 2026-11-16T06-29-26-2026-11-16-local-command-delivery.ndjson",
+"ts 2026-11-16T08:32:07Z · clock 2026-11-16T08:32:07Z · bound 2026-11-16T08:29:50Z (line 3213)",
+"ids 2026-11-16T08:32:07Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T06-29-26-2026-11-16-local-command-delivery.ndjson"
+],
+"before": null,
+"after": null
+}
+]

@@ -109,23 +109,83 @@ fn framing_texts_are_fixed_ascii_each_with_its_stem() {
 }
 
 #[test]
-fn local_commands_are_the_three_known_ones_and_clear_and_compact_are_probed() {
+fn local_commands_are_the_six_known_ones_and_clear_compact_and_mcp_are_probed() {
     assert_eq!(
         LOCAL_COMMANDS,
         [
             ("/clear", Some(PostCondition::NewSession)),
             ("/remote-control", None),
-            ("/compact", Some(PostCondition::CompactedSession))
+            ("/compact", Some(PostCondition::CompactedSession)),
+            ("/mcp", Some(PostCondition::CommandStdout)),
+            ("/cost", None),
+            ("/usage", None),
         ]
     );
     assert_eq!(PROBE_LOCAL_COMMAND, "/clear");
     assert_eq!(PROBE_COMPACT_COMMAND, "/compact");
+    assert_eq!(PROBE_ECHO_COMMAND, "/mcp disable viola-probe-absent");
+    assert_eq!(ECHO_TAG, "<local-command-stdout>");
     let probed: Vec<&str> = LOCAL_COMMANDS
         .iter()
         .filter(|(_, post)| post.is_some())
         .map(|(command, _)| *command)
         .collect();
-    assert_eq!(probed, ["/clear", "/compact"]);
+    assert_eq!(probed, ["/clear", "/compact", "/mcp"]);
+    assert_eq!(
+        local_command_of(PROBE_ECHO_COMMAND).map(|c| c.1),
+        Some(Some(PostCondition::CommandStdout))
+    );
+}
+
+/// A local command by name: exactly a listed name, or a name, one space and a non-empty rest.
+#[rstest::rstest]
+#[case::clear("/clear", Some("/clear"))]
+#[case::mcp("/mcp", Some("/mcp"))]
+#[case::mcp_with_arguments("/mcp disable viola-probe-absent", Some("/mcp"))]
+#[case::compact_with_instructions("/compact keep the plan", Some("/compact"))]
+#[case::cost("/cost", Some("/cost"))]
+#[case::usage("/usage", Some("/usage"))]
+#[case::remote_control("/remote-control", Some("/remote-control"))]
+#[case::bare_slash("/", None)]
+#[case::a_longer_word("/mcpx", None)]
+#[case::a_longer_word_with_arguments("/mcpx disable", None)]
+#[case::a_tab("/mcp\tdisable", None)]
+#[case::two_spaces("/mcp  disable", None)]
+#[case::an_empty_rest("/mcp ", None)]
+#[case::a_leading_space(" /mcp", None)]
+#[case::another_case("/MCP", None)]
+#[case::off_the_list("/not-a-local-command", None)]
+#[case::no_slash("mcp", None)]
+#[case::empty("", None)]
+fn local_command_of_reads_the_name_and_one_space(
+    #[case] typed: &str,
+    #[case] expected: Option<&str>,
+) {
+    assert_eq!(local_command_of(typed).map(|c| c.0), expected);
+}
+
+const SESSION: &str = "0b1c2d3e-4f50-6172-8394-a5b6c7d8e9f0";
+
+/// The transcript path the CLI declares: absolute, no `..`, its file name the session's own.
+#[rstest::rstest]
+#[case::good("/home/u/.claude/projects/p/SID.jsonl", SESSION, true)]
+#[case::relative("home/u/SID.jsonl", SESSION, false)]
+#[case::parent("/home/u/../SID.jsonl", SESSION, false)]
+#[case::file_name_not_the_session_s(
+    "/home/u/1b1c2d3e-4f50-6172-8394-a5b6c7d8e9f0.jsonl",
+    SESSION,
+    false
+)]
+#[case::another_suffix("/home/u/SID.json", SESSION, false)]
+#[case::a_prefix("/home/u/xSID.jsonl", SESSION, false)]
+#[case::the_file_name_alone("/SID.jsonl", SESSION, true)]
+#[case::a_session_off_the_shape("/home/u/s-1.jsonl", "s-1", false)]
+#[case::empty("", SESSION, false)]
+fn transcript_path_ok_reads_the_shape(#[case] path: &str, #[case] session: &str, #[case] ok: bool) {
+    assert_eq!(
+        transcript_path_ok(&path.replace("SID", SESSION), session),
+        ok
+    );
 }
 
 #[test]

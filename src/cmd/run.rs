@@ -10,6 +10,7 @@ use chrono::Utc;
 use serde_json::{Value, json};
 use tracing::instrument;
 use viola_agent_claude::StripPlan;
+use viola_agent_claude::ledger::transcript_path_ok;
 use viola_channel::{Call, ChannelError, Dispatch, ProtocolError, Server, Serving};
 use viola_core::obs::ObsProcess;
 use viola_core::{EventKind, SystemClock, TurnEndCause, ViolaName, WheelCause};
@@ -87,8 +88,10 @@ const HOOK_KINDS: [EventKind; 5] = [
 impl Methods {
     /// The event a `hook.event` carries, re-validated here (the wrapper re-runs validators): a hook
     /// kind, an object `data`, for `prompt-submitted` a string `text` and a closed `origin`, and
-    /// for `turn-ended` a `cause` absent or a closed `TurnEndCause` word.
-    fn hook_event_line(&self, params: &Value) -> Option<EventLine> {
+    /// for `turn-ended` a `cause` absent or a closed `TurnEndCause` word. A `session-start`'s
+    /// sibling `transcript` comes with it only as a string passing `transcript_path_ok` against the
+    /// line's own `agent_session_id`; any other `transcript` is dropped and the line still taken.
+    fn hook_event_line(&self, params: &Value) -> Option<(EventLine, Option<PathBuf>)> {
         let event = &params["event"];
         let kind = HOOK_KINDS
             .into_iter()
@@ -105,13 +108,17 @@ impl Methods {
         if kind == EventKind::TurnEnded && !cause_ok {
             return None;
         }
-        Some(EventLine::new(
-            &self.name,
-            kind,
-            Source::Hook,
-            data.clone(),
-            Utc::now(),
-        ))
+        let transcript = params["transcript"]
+            .as_str()
+            .filter(|path| {
+                kind == EventKind::SessionStart
+                    && data["agent_session_id"]
+                        .as_str()
+                        .is_some_and(|id| transcript_path_ok(path, id))
+            })
+            .map(PathBuf::from);
+        let line = EventLine::new(&self.name, kind, Source::Hook, data.clone(), Utc::now());
+        Some((line, transcript))
     }
 }
 
@@ -121,8 +128,8 @@ impl Dispatch for Methods {
             return Err(ProtocolError::MethodNotFound);
         }
         // A notification is never answered: an event that fails the checks is simply not appended.
-        if let Some(line) = self.hook_event_line(params) {
-            send::append_hook_event(&self.send, &self.wait, &self.instance_dir, line)
+        if let Some((line, transcript)) = self.hook_event_line(params) {
+            send::append_hook_event(&self.send, &self.wait, &self.instance_dir, line, transcript)
                 .map_err(|_| ProtocolError::Internal)?;
         }
         Ok(Value::Null)
@@ -1059,6 +1066,38 @@ mod tests {
         } else {
             assert!(!tmp.path().join("events.ndjson").exists());
         }
+    }
+
+    /// A `transcript` beside the event is taken only for a `session-start`, only as a string passing
+    /// `transcript_path_ok` against the line's own id; the line is taken either way and its data
+    /// never holds the path.
+    #[rstest::rstest]
+    #[case::its_own_shape("session-start", json!("/t/SID.jsonl"), true)]
+    #[case::relative("session-start", json!("t/SID.jsonl"), false)]
+    #[case::a_parent_component("session-start", json!("/t/../SID.jsonl"), false)]
+    #[case::another_session_s_file("session-start", json!("/t/1b1c2d3e-4f50-6172-8394-a5b6c7d8e9f0.jsonl"), false)]
+    #[case::not_a_string("session-start", json!(7), false)]
+    #[case::on_another_kind("session-end", json!("/t/SID.jsonl"), false)]
+    fn run_hook_event_transcript_is_re_validated(
+        #[case] kind: &str,
+        #[case] transcript: Value,
+        #[case] taken: bool,
+    ) {
+        const SID: &str = "0b1c2d3e-4f50-6172-8394-a5b6c7d8e9f0";
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let transcript = match transcript.as_str() {
+            Some(path) => json!(path.replace("SID", SID)),
+            None => transcript,
+        };
+        let data = json!({"cause": "startup", "agent_session_id": SID});
+        let params =
+            json!({"v": 1, "event": {"kind": kind, "data": data}, "transcript": transcript});
+        let (line, kept) = methods(tmp.path())
+            .hook_event_line(&params)
+            .expect("the line is taken");
+        assert_eq!(line.data, data);
+        let want = taken.then(|| PathBuf::from(transcript.as_str().expect("a path")));
+        assert_eq!(kept, want);
     }
 
     #[test]

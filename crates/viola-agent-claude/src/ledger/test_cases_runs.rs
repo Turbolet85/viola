@@ -336,3 +336,35 @@ fn check_local_command_compact_fails_without_a_capture() {
     );
     assert!(!compact_check(Vec::new(), clean_typed()), "no run");
 }
+
+fn echo_check(trusted: Vec<Capture>, echo_latency_ms: Option<u64>) -> bool {
+    check(
+        LedgerRow::LocalCommandEcho,
+        &Probes {
+            print: clean_run(),
+            typed: TypedRun {
+                echo_latency_ms,
+                ..clean_typed()
+            },
+            trusted,
+            dialogs: clean_dialogs(),
+            resumed: clean_resumed(),
+            agents: Some(clean_agents()),
+        },
+    )
+}
+
+/// The echo row passes on a tag read within the send's 10 s window with no prompt carrying the
+/// command; a tag past the window, none read, or the command submitted as a prompt fails it.
+#[test]
+fn check_local_command_echo_needs_a_tag_within_the_window_and_no_prompt() {
+    assert!(echo_check(clean_trusted(), Some(1_200)));
+    assert!(echo_check(clean_trusted(), Some(10_000)), "at the bound");
+    assert!(!echo_check(clean_trusted(), Some(10_001)), "past the bound");
+    assert!(!echo_check(clean_trusted(), None), "no tag read");
+    let submitted = with_trusted(|t| t.insert(9, prompted(PROBE_ECHO_COMMAND)));
+    assert!(
+        !echo_check(submitted, Some(1_200)),
+        "the command as a prompt"
+    );
+}

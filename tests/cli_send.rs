@@ -885,6 +885,96 @@ fn send_clear_on_a_verified_cli_is_confirmed_by_its_new_session(stamped_home: St
     wrapper.stop();
 }
 
+/// Every file under the home but the pinned binaries, read whole: `events.ndjson`, the snapshot,
+/// every `diagnostics/` file and the rest.
+fn home_files(dir: &std::path::Path, out: &mut Vec<(std::path::PathBuf, Vec<u8>)>) {
+    for entry in std::fs::read_dir(dir).into_iter().flatten().flatten() {
+        let path = entry.path();
+        if path.is_dir() {
+            if path.file_name().is_some_and(|n| n != "bin") {
+                home_files(&path, out);
+            }
+        } else if let Ok(bytes) = std::fs::read(&path) {
+            out.push((path, bytes));
+        }
+    }
+}
+
+/// `/mcp` with arguments on a verified CLI is confirmed by its own echo: the fake agent under
+/// `--transcript` declares its session's transcript at the boot's SessionStart and appends one
+/// stdout tag to it for the command, which fires no hook. The send reads back with no prompt; the
+/// log holds `send-issued` then `send-confirmed` and no `send-refused`; neither the tag nor the
+/// transcript's path stands in any file of the home (a byte search, never a parse).
+#[rstest]
+fn send_local_command_echo_is_read_back_on_a_verified_cli(stamped_home: StampedHome) {
+    let wrapper = boot_on(
+        stamped_home,
+        None,
+        &["--local-command-mode", "--transcript"],
+    );
+    let dir = wrapper.instance_dir();
+    let l = end_offset(&dir);
+    let sent = send(
+        wrapper.home(),
+        &["builder", "--json"],
+        "/mcp disable viola-probe-absent",
+    );
+    assert_eq!(
+        sent.code,
+        Some(0),
+        "stdout {} stderr {}",
+        sent.stdout,
+        sent.stderr
+    );
+    assert!(sent.stderr.is_empty(), "{}", sent.stderr);
+    let doc: Value = serde_json::from_str(&sent.stdout).expect("one JSON document");
+    assert_eq!(doc["v"], 1);
+    assert_eq!(doc["ok"]["cursor"], l);
+    assert!(doc["ok"]["submitted_at"].is_string(), "{doc}");
+    assert_eq!(doc["ok"].as_object().map(serde_json::Map::len), Some(2));
+    let records = records_after(&dir, l);
+    let kinds: Vec<&Value> = records.iter().map(|r| &r["kind"]).collect();
+    assert_eq!(kinds, ["send-issued", "send-confirmed"]);
+    assert_eq!(records[1]["data"], json!({"cursor": l}));
+    let typed = prompts_at_least(&wrapper.receipt(), 1);
+    assert_eq!(typed.len(), 1, "typed once");
+    assert_eq!(typed[0]["text"], "/mcp disable viola-probe-absent");
+    assert_eq!(typed[0]["submit"], "local-command");
+    let mut files = Vec::new();
+    home_files(wrapper.home(), &mut files);
+    assert!(files.iter().any(|(p, _)| p.ends_with("events.ndjson")));
+    for (path, bytes) in &files {
+        let text = String::from_utf8_lossy(bytes);
+        for needle in ["<local-command-stdout>", "transcripts/", ".jsonl"] {
+            assert!(!text.contains(needle), "{needle} in {}", path.display());
+        }
+    }
+    wrapper.stop();
+}
+
+/// The same send on an unstamped home: no post-condition is measured, so it is `unconfirmable` at
+/// once, exit 0, whatever the transcript then holds.
+#[test]
+fn send_local_command_echo_on_an_unstamped_home_is_unconfirmable() {
+    let wrapper = boot(None, &["--local-command-mode", "--transcript"]);
+    let dir = wrapper.instance_dir();
+    let l = end_offset(&dir);
+    let sent = send(
+        wrapper.home(),
+        &["builder", "--json"],
+        "/mcp disable viola-probe-absent",
+    );
+    assert_eq!(sent.code, Some(0), "stderr: {}", sent.stderr);
+    assert_eq!(
+        serde_json::from_str::<Value>(&sent.stdout).expect("one JSON document"),
+        json!({"v": 1, "ok": {"confirmed": false, "detail": "unconfirmable", "cursor": l}})
+    );
+    let records = records_after(&dir, l);
+    let kinds: Vec<&Value> = records.iter().map(|r| &r["kind"]).collect();
+    assert_eq!(kinds, ["send-issued", "send-confirmed"]);
+    wrapper.stop();
+}
+
 /// The decision reads the compiled list, never a leading slash: a slash text that is not on it is
 /// an ordinary send, and with no prompt reported it is `not-delivered` once the window expires.
 #[test]

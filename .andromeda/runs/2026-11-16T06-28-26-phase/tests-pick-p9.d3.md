@@ -1,0 +1,100 @@
+@pick n=1 row=contract/fake-agent-cli/unknown-arguments v=yes
+@pick n=2 row=decision/rstest-fixtures v=no standing=S1
+@pick n=3 row=contract/viola-run-passthrough/ctrl-z v=no
+@pick n=4 row=contract/start-exit-1/already-live v=no
+@pick n=5 row=decision/decision-bodies-snapshotted v=no
+@pick n=6 row=decision/fixture-hygiene-walk v=no standing=S4
+@pick n=7 row=decision/hook-payloads-recorded-locally v=no
+@pick n=8 row=contract/fake-agent-events/session-start v=no
+@pick n=9 row=contract/start-exit-1/socket-dir-refused v=no
+@pick n=10 row=contract/fake-agent-hooks/command-spawn v=no
+@pick n=11 row=contract/viola-wait/timeout v=no
+@pick n=12 row=contract/viola-last/document v=no
+@pick n=13 row=contract/start-exit-1/strict-modes-failed v=no
+@pick n=14 row=contract/viola-run-start/plugin-hooks v=no
+@pick n=15 row=contract/start-exit-1/squatted-name v=no
+@pick n=16 row=decision/planted-hygiene-violations v=no
+@pick n=17 row=contract/fake-agent-input/compact v=yes
+@pick n=18 row=contract/viola-send/clear-confirmed v=yes
+@pick n=19 row=contract/viola-release/from-driver v=no
+@pick n=20 row=contract/viola-list-json/live-instance v=no
+@pick n=21 row=contract/viola-run-start/child-after-events v=no
+@pick n=22 row=decision/mcp-exchange-recorded-by-tap v=no
+@pick n=23 row=decision/hygiene-reports-class-only v=no
+@pick n=24 row=contract/fake-agent-exit/exit-triggers v=no
+@pick n=25 row=decision/tempfile-test-dirs v=no standing=S3
+@pick n=26 row=decision/per-test-home v=no standing=S3
+@pick n=27 row=decision/proptest-strategies v=no
+@pick n=28 row=contract/viola-send/ok-document v=yes
+@pick n=29 row=decision/ci-homes-kept-until-gates v=no
+@pick n=30 row=contract/viola-run-start/socket-dir-check v=no
+@pick n=31 row=contract/fake-agent-receipt/line v=no
+@pick n=32 row=contract/viola-send/human-typing v=no
+@pick n=33 row=decision/tests-seed-own-data v=no standing=S3
+@pick n=34 row=contract/viola-send/inner-cr v=no
+@pick n=35 row=contract/fake-agent-cli/control v=no
+@pick n=36 row=contract/fake-script/unreadable-exit v=no
+@pick n=37 row=decision/cleanup-removes-home-record-and-supervisor v=no
+@pick n=38 row=contract/fake-agent-input/clear v=yes
+@pick n=39 row=contract/verify-output/last-line v=yes
+@pick n=40 row=contract/viola-run/child-on-wrapper-kill v=no
+@pick n=41 row=contract/start-exit-1/pinned-hash-mismatch v=no
+@pick n=42 row=decision/product-state-from-real-runs v=no standing=S3
+@pick n=43 row=contract/viola-send-human-mode/unconfirmable v=yes
+@pick n=44 row=contract/fake-agent-cli/script v=no
+@pick n=45 row=contract/fake-agent-cli/settings v=no
+@pick n=46 row=contract/viola-send-human-mode/read-back v=yes
+@pick n=47 row=contract/fake-agent-receipt/env v=no
+@pick n=48 row=contract/start-exit-1/stale-heartbeat v=no
+@pick n=49 row=contract/fake-script/gated-step v=no
+@pick n=50 row=contract/viola-send/trailing-newlines v=no
+@pick n=51 row=decision/env-per-child v=no standing=S5
+@pick n=52 row=contract/fake-agent-input/keystroke v=yes
+@pick n=53 row=contract/viola-send/compact-confirmed v=yes
+@pick n=54 row=decision/dirty-payload-refuses-recording v=no
+@pick n=55 row=decision/time-as-argument v=yes
+@pick n=56 row=contract/viola-wait/turn-ended v=no
+@pick n=57 row=contract/viola-send/off-list-slash-text v=yes
+@pick n=58 row=decision/proptest-persisted-seeds v=no
+@pick n=59 row=contract/viola-wait/non-waking-records v=no
+@pick n=60 row=decision/insta-snapshots v=no
+@pick n=61 row=contract/viola-answer/allow-suggestion-fields v=no
+@pick n=62 row=contract/viola-release/document v=no
+@pick n=63 row=contract/fake-agent-cli/cli-version v=yes
+@pick n=64 row=contract/viola-run-start/home-tree-check v=no
+@pick n=65 row=decision/test-homes-made-private v=no standing=S3
+@pick n=66 row=decision/fake-agent-children-own-process-group v=no
+@pick n=67 row=contract/viola-release/running-turn v=no
+@pick n=68 row=decision/mcp-tap-refuses-dirty-exchange v=no
+@pick n=69 row=contract/fake-script/format v=yes
+@pick n=70 row=contract/viola-wait/already-past v=no
+@pick n=71 row=contract/fake-agent-receipt/kind v=no
+@pick n=72 row=decision/fake-agent-on-test-path v=no
+@pick n=73 row=contract/viola-send/records v=yes
+@pick n=74 row=contract/viola-send/unconfirmable-local-command v=yes
+@pick n=75 row=decision/fixtures-per-cli-version v=yes
+@pick n=76 row=decision/control-file-gating v=no standing=S5
+@pick n=77 row=contract/viola-run-start/squatted-endpoint v=no
+@pick n=78 row=contract/fake-agent-hooks/stdin-payload v=yes
+@pick n=79 row=decision/record-only-at-zero-failing-rows v=no
+@pick n=80 row=contract/viola-send/human-key-during-gate v=no
+@pick n=81 row=contract/viola-run-start/duplicate-run v=no
+@pick n=82 row=contract/fake-agent-cli/argv-only-options v=yes
+@pick n=83 row=contract/viola-send/paste-framing v=no
+@pick n=84 row=decision/human-output-as-literals v=no standing=S8
+@pick n=85 row=decision/synthetic-fixture-text v=no standing=S4
+@pick n=86 row=decision/harness-boot-creates-stamps-and-starts v=no
+@pick n=87 row=contract/viola-send/no-prompt-submitted v=yes
+@pick n=88 row=decision/fake-agent-exit-ignores-sighup v=no
+@pick n=89 row=contract/viola-send/manual-pause v=no
+@pick n=90 row=decision/stamps-written-only-by-verify v=yes
+@pick n=91 row=contract/fake-agent-input/bracketed-paste v=yes
+@pick n=92 row=decision/screen-fixture-scrub-as-detector v=yes
+@pick n=93 row=decision/recorder-scrub v=no
+@pick n=94 row=contract/viola-answer/human-wheel v=no
+@pick n=95 row=contract/fake-agent-input/framing-paste v=yes
+@pick n=96 row=contract/viola-run-start/tampered-pinned-exe v=no
+@pick n=97 row=contract/turn-ended/background-tasks v=no
+@pick n=98 row=contract/viola-send-human-mode/unable v=yes
+@pick n=99 row=decision/injected-clock v=yes
+@pick n=100 row=contract/viola-send/turn-running v=no

@@ -424,13 +424,21 @@ pub fn verify(
         before,
         after,
         env,
-        &["--dialogs", "--framing"],
+        &["--dialogs", "--framing", "--transcript"],
     )
 }
 
 /// `verify` with no dialog replay: the dialog and plan runs see turns that raise no dialog.
 pub fn verify_without_dialogs(home: &Path, fixtures: &Path, version: &str) -> Ran {
-    verify_with(home, fixtures, version, &[], &[], &[], &["--framing"])
+    verify_with(
+        home,
+        fixtures,
+        version,
+        &[],
+        &[],
+        &[],
+        &["--framing", "--transcript"],
+    )
 }
 
 /// `verify` with no framing replay: the fake agent echoes the trusted run's four added pastes as
@@ -483,7 +491,16 @@ pub fn verify_started(
         .expect("home has a parent")
         .join("stop.receipt.ndjson");
     let mut args = verify_args(home, fixtures, version, &[]);
-    args.extend(["--screens", "--dialogs", "--framing", "--trusted-root"].map(OsString::from));
+    args.extend(
+        [
+            "--screens",
+            "--dialogs",
+            "--framing",
+            "--transcript",
+            "--trusted-root",
+        ]
+        .map(OsString::from),
+    );
     args.push(cwd.into());
     args.push("--receipt".into());
     args.push(receipt.clone().into());

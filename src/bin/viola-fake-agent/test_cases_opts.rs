@@ -40,6 +40,7 @@ fn opts_parse_reads_values_flags_and_ignores_unknown() {
         "--resume",
         "c0f0cc23-690b-45dd-bbfb-06d6cfd44942",
         "--fork-session",
+        "--transcript",
         "--settings",
         "st.json",
         "--version",
@@ -75,8 +76,31 @@ fn opts_parse_reads_values_flags_and_ignores_unknown() {
         o.resume.as_deref(),
         Some("c0f0cc23-690b-45dd-bbfb-06d6cfd44942")
     );
-    assert!(o.fork_session);
+    assert!(o.fork_session && o.transcript);
     assert!(Opts::parse(&args(&[HOLD_STDOUT])).hold_stdout);
+}
+
+/// `--transcript` is argv-only and off by default: without it no payload gains a path.
+#[test]
+fn opts_parse_transcript_is_off_without_the_flag() {
+    assert!(!Opts::parse(&args(&["--framing", "--local-command-mode"])).transcript);
+    assert!(Opts::parse(&args(&["--transcript"])).transcript);
+}
+
+/// The transcript a session names sits beside the executable, under its own file name; an id
+/// that would name another file names none.
+#[test]
+fn transcript_of_session_is_the_id_s_own_file_beside_the_exe() {
+    let id = "c0f0cc23-690b-45dd-bbfb-06d6cfd44942";
+    let path = transcript_of_session(id).expect("a path");
+    assert!(path.is_absolute());
+    assert_eq!(
+        path.parent().and_then(Path::file_name),
+        Some(TRANSCRIPTS.as_ref())
+    );
+    assert_eq!(path.file_name(), Some(format!("{id}.jsonl").as_ref()));
+    assert_eq!(transcript_of_session("../x"), None);
+    assert_eq!(transcript_of_session("a/b"), None);
 }
 
 #[test]

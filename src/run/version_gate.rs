@@ -279,11 +279,11 @@ mod tests {
     }
 
     /// The verdict needs the dialog rows (R2 closed), the framing rows, the newline row, the resume
-    /// row, the agents row and the compact row: a stamp written before any of them landed (the ten
-    /// spine and screen rows, those and the four dialog rows, every row but the newline one, the
-    /// eighteen before the resume row, the nineteen before the agents row, or the twenty before the
-    /// compact row) and one whose relied row failed all leave the version unverified; all twenty-one
-    /// relied rows passing verify it.
+    /// row, the agents row, the compact row and the echo row: a stamp written before any of them
+    /// landed (the ten spine and screen rows, those and the four dialog rows, every row but the
+    /// newline one, the eighteen before the resume row, the nineteen before the agents row, the
+    /// twenty before the compact row, or the twenty-one before the echo row) and one whose relied
+    /// row failed all leave the version unverified; all twenty-two relied rows passing verify it.
     #[test]
     fn stamps_verdict_needs_the_dialog_rows() {
         let ten = [
@@ -348,6 +348,12 @@ mod tests {
         all.push((LedgerRow::LocalCommandCompact, true));
         assert_eq!(
             stamps_verdict(Ok(Some(stamp_of(&all))), "2.1.0"),
+            (false, None),
+            "the twenty-one rows of an older stamp"
+        );
+        all.push((LedgerRow::LocalCommandEcho, true));
+        assert_eq!(
+            stamps_verdict(Ok(Some(stamp_of(&all))), "2.1.0"),
             (true, None)
         );
         for failing in dialogs.into_iter().chain(framing).chain([
@@ -355,6 +361,7 @@ mod tests {
             LedgerRow::ResumeSession,
             LedgerRow::AgentsJoin,
             LedgerRow::LocalCommandCompact,
+            LedgerRow::LocalCommandEcho,
         ]) {
             let rows: Vec<(LedgerRow, bool)> =
                 all.iter().map(|(r, p)| (*r, *p && *r != failing)).collect();
