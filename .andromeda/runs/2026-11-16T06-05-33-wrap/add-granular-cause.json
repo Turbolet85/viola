@@ -1,7 +1,0 @@
-{
-  "title": "A turn end's API-error cause named from a closed list",
-  "requirement": "a turn the CLI ends on an API error carries one cause word from a closed list of nine — rate-limited, overloaded, auth-failed, billing, invalid-request, model-not-found, server-error, output-limit, and api-error for any other error — so a driver can tell why the turn ended; only the word crosses, and the CLI's error text still reaches no event, snapshot or log line",
-  "observed_gap": "An API-error turn end carries the one cause word api-error whatever the error was.",
-  "method": "integration",
-  "acceptance": "A driver waiting on a session whose turn ends on each kind of API error reads the matching cause word of the nine, an error outside them reads api-error, and no event, snapshot or log line holds the CLI's error text."
-}

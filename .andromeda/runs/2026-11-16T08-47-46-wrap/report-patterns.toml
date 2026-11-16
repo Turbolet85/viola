@@ -1,0 +1,41 @@
+[[pattern]]
+id = 'rows22'
+regex = '''\b21\b (relied|capability|ledger|rows)|relied[^.\n]{0,60}\b21\b|\[NN/21\]|21 pass|LedgerRow::ALL|LEDGER_ROWS|ROW_IDS|STEPS_PASS'''
+
+[[pattern]]
+id = 'localcmds'
+regex = '''LOCAL_COMMANDS|local[- ]command list|local[- ]commands?-by-ledger|local-command-exact-match|three (known )?local commands|exact[- ]text[^.\n]{0,40}local|local[^.\n]{0,40}exact (text|match)'''
+
+[[pattern]]
+id = 'runbpastes'
+regex = '''Run B[^.\n]{0,80}\b(six|6|five|5)\b[^.\n]{0,20}pastes|\b(six|five)\b (compiled |added |framing )*(literal )?pastes|PROBE_ECHO_COMMAND|framing pastes'''
+
+[[pattern]]
+id = 'verifysum'
+regex = '''\b\d+ pass\s+\d+ fail\b'''
+
+[[pattern]]
+id = 'transcript'
+regex = '''transcript|transcripts-not-a-contract'''
+ignore_case = true
+
+[[pattern]]
+id = 'echopost'
+regex = '''local-command-post-conditions|local-command-stdout|CommandStdout|/mcp\b|/cost\b|/usage\b|local-command-echo'''
+
+[[pattern]]
+id = 'unconfirm'
+regex = '''unconfirmable'''
+
+[[pattern]]
+id = 'sendlog'
+regex = '''send-log-fields|hook-invoked'''
+
+[[pattern]]
+id = 'classsrc'
+regex = '''compiled-classification-sources|classification source'''
+ignore_case = true
+
+[[pattern]]
+id = 'claudeint'
+regex = '''claude-internals-not-a-contract'''

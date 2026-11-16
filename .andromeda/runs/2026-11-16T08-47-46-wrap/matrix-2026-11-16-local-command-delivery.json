@@ -1,0 +1,122 @@
+[
+{
+"tool": "matrix",
+"v": "1.13",
+"sha8": "65e2d4fa",
+"ts": "2026-11-16T10:36:47Z",
+"argv": [
+"flip",
+"--dir",
+".andromeda/viola-0.2.0",
+"--chunk",
+"2026-11-16-local-command-delivery",
+"--run-dir",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 2,
+"stdout": [],
+"stderr": "--dir .andromeda/viola-0.2.0: not a directory — nothing written (the version dir sits at the project root, beside .andromeda/, never inside it)",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.13",
+"sha8": "65e2d4fa",
+"ts": "2026-11-16T10:36:49Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.2.0",
+"--chunk",
+"2026-11-16-local-command-delivery",
+"--run-dir",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-11-16-local-command-delivery: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v2-23 → verified — On a verified CLI, a `viola send` of a listed local slash command that runs — `/… (561 chars)",
+"dry-run: nothing written",
+"version: verified 12/35"
+],
+"stderr": null,
+"wrote": [],
+"before": [
+{
+"id": "v2-23",
+"chunk": "2026-11-16-local-command-delivery",
+"status": "implemented",
+"method": "integration",
+"ref": "tests/cli_send.rs::send_local_command_echo_is_read_back_on_a_verified_cli · tests/cli_send.rs::send_local_command_echo_o… (234 chars)",
+"acceptance": "On a verified CLI, a `viola send` of a listed local slash command that runs — `/mcp disable viola-probe-absent`, its arg… (561 chars)",
+"notes_chars": 0
+}
+],
+"after": [
+{
+"id": "v2-23",
+"chunk": "2026-11-16-local-command-delivery",
+"status": "verified",
+"method": "integration",
+"ref": "tests/cli_send.rs::send_local_command_echo_is_read_back_on_a_verified_cli · tests/cli_send.rs::send_local_command_echo_o… (234 chars)",
+"acceptance": "On a verified CLI, a `viola send` of a listed local slash command that runs — `/mcp disable viola-probe-absent`, its arg… (561 chars)",
+"notes_chars": 0
+}
+]
+},
+{
+"tool": "matrix",
+"v": "1.13",
+"sha8": "65e2d4fa",
+"ts": "2026-11-16T10:36:53Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.2.0",
+"--chunk",
+"2026-11-16-local-command-delivery",
+"--run-dir",
+".andromeda/runs/2026-11-16T08-47-46-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-11-16-local-command-delivery: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v2-23 → verified — On a verified CLI, a `viola send` of a listed local slash command that runs — `/… (561 chars)",
+"landed, rendered ./.andromeda/db/log/2026-11-16T06-29-26-2026-11-16-local-command-delivery.ndjson · 1 entry changed",
+"version: verified 12/35"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T06-29-26-2026-11-16-local-command-delivery.ndjson"
+],
+"before": [
+{
+"id": "v2-23",
+"chunk": "2026-11-16-local-command-delivery",
+"status": "implemented",
+"method": "integration",
+"ref": "tests/cli_send.rs::send_local_command_echo_is_read_back_on_a_verified_cli · tests/cli_send.rs::send_local_command_echo_o… (234 chars)",
+"acceptance": "On a verified CLI, a `viola send` of a listed local slash command that runs — `/mcp disable viola-probe-absent`, its arg… (561 chars)",
+"notes_chars": 0
+}
+],
+"after": [
+{
+"id": "v2-23",
+"chunk": "2026-11-16-local-command-delivery",
+"status": "verified",
+"method": "integration",
+"ref": "tests/cli_send.rs::send_local_command_echo_is_read_back_on_a_verified_cli · tests/cli_send.rs::send_local_command_echo_o… (234 chars)",
+"acceptance": "On a verified CLI, a `viola send` of a listed local slash command that runs — `/mcp disable viola-probe-absent`, its arg… (561 chars)",
+"notes_chars": 0
+}
+]
+}
+]

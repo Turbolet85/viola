@@ -1,0 +1,9 @@
+@fit n=1 row=decision/claude-internals-not-a-contract sha=a40c93c7fff5 v=fits type=2
+@fit n=2 row=decision/transcripts-not-a-contract sha=633b0e7c5525 v=fits type=2
+@fit n=3 row=contract/send-path-log-events/event-order sha=044a9410c918 v=fits type=3
+@fit n=4 row=contract/send-log-fields/hook-invoked sha=11e005b3c9b0 v=fits type=3
+@fit n=5 row=contract/send-refused-detail/no-prompt-submitted sha=4fa421ff9cf2 v=fits type=3
+@fit n=6 row=decision/refusal-telemetry sha=a2909402c152 v=fits type=2
+@fit n=7 row=decision/deterministic-emission sha=b308268a4a1d v=fits type=2
+@fit n=8 row=decision/deterministic-event-emission sha=c99a309679d5 v=fits type=2
+@fit n=9 row=decision/transcript-echo-read-uninstrumented sha=72e81d275e24 v=fits type=1

@@ -1,0 +1,1414 @@
+[
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T08:49:57Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-16-local-command-delivery",
+"--section-file",
+".andromeda/runs/2026-11-16T08-47-46-wrap/after-implement.md",
+"--heading",
+"## After implement",
+"--before",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--marker",
+"2026-11-16-local-command-delivery"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-16-local-command-delivery/report rev 3 · 10 new · 0 revised · 0 retired · 39 kept · tx 1920"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T06-29-26-2026-11-16-local-command-delivery.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T08:49:57Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-16-local-command-delivery",
+"--section-file",
+".andromeda/runs/2026-11-16T08-47-46-wrap/new-text.md",
+"--heading",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--marker",
+"2026-11-16-local-command-delivery"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-16-local-command-delivery/report rev 4 · 46 new · 0 revised · 0 retired · 49 kept · tx 1921"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T06-29-26-2026-11-16-local-command-delivery.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T08:50:18Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-16T08-47-46-wrap/cites-land-2026-11-16-local-command-delivery.ndjson",
+"--base",
+"3ac557bd58822444e6a6977aa6675451d66d7717",
+"--run-dir",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--marker",
+"2026-11-16-local-command-delivery",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 0 fact(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T08:50:23Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-16T08-47-46-wrap/cites-land-2026-11-16-local-command-delivery.ndjson",
+"--base",
+"3ac557bd58822444e6a6977aa6675451d66d7717",
+"--run-dir",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--marker",
+"2026-11-16-local-command-delivery"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 0 fact(s) · 0 edge(s) · tx 1923"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T06-29-26-2026-11-16-local-command-delivery.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T08:52:36Z",
+"argv": [
+"rows-packs",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-16-local-command-delivery"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 944 · packs 10 · pack 100 · 263424 B",
+"security-plan: rows 599 · packs 6 · pack 100 · 174353 B",
+"design-system: rows 314 · packs 4 · pack 100 · 75292 B",
+"layout-templates: rows 221 · packs 3 · pack 100 · 52068 B",
+"test-plan: rows 1329 · packs 14 · pack 100 · 351932 B",
+"obs-plan: rows 1021 · packs 11 · pack 100 · 278674 B",
+"a11y-plan: rows 235 · packs 3 · pack 100 · 65527 B",
+"rows-packs: 7 master(s) · 4663 row(s) · 51 pack(s) · 2 draw(s) a pack · pin 1923"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-16T08-47-46-wrap/rows-packs.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T09:10:22Z",
+"argv": [
+"rows-union",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-16-local-command-delivery"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 944 · packs 10 · picked 51 (32 by every draw) · standing 0 · 218437 B",
+"security-plan: rows 599 · packs 6 · picked 43 (23 by every draw) · standing 0 · 128996 B",
+"design-system: rows 314 · packs 4 · picked 20 (13 by every draw) · standing 0 · 59370 B",
+"layout-templates: rows 221 · packs 3 · picked 18 (10 by every draw) · standing 0 · 46385 B",
+"test-plan: rows 1329 · packs 14 · picked 79 (59 by every draw) · standing 0 · 289609 B",
+"obs-plan: rows 1021 · packs 11 · picked 43 (22 by every draw) · standing 0 · 196911 B",
+"a11y-plan: rows 235 · packs 3 · picked 15 (8 by every draw) · standing 0 · 44472 B",
+"rows-union: 7 master(s) · picked 269 of 4663 · rule any"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-16T08-47-46-wrap/arch-rows.md",
+".andromeda/runs/2026-11-16T08-47-46-wrap/arch-standing.md",
+".andromeda/runs/2026-11-16T08-47-46-wrap/arch-pick-counts.md",
+".andromeda/runs/2026-11-16T08-47-46-wrap/security-rows.md",
+".andromeda/runs/2026-11-16T08-47-46-wrap/security-standing.md",
+".andromeda/runs/2026-11-16T08-47-46-wrap/security-pick-counts.md",
+".andromeda/runs/2026-11-16T08-47-46-wrap/design-rows.md",
+".andromeda/runs/2026-11-16T08-47-46-wrap/design-standing.md",
+".andromeda/runs/2026-11-16T08-47-46-wrap/design-pick-counts.md",
+".andromeda/runs/2026-11-16T08-47-46-wrap/layouts-rows.md",
+".andromeda/runs/2026-11-16T08-47-46-wrap/layouts-standing.md",
+".andromeda/runs/2026-11-16T08-47-46-wrap/layouts-pick-counts.md",
+".andromeda/runs/2026-11-16T08-47-46-wrap/tests-rows.md",
+".andromeda/runs/2026-11-16T08-47-46-wrap/tests-standing.md",
+".andromeda/runs/2026-11-16T08-47-46-wrap/tests-pick-counts.md",
+".andromeda/runs/2026-11-16T08-47-46-wrap/obs-rows.md",
+".andromeda/runs/2026-11-16T08-47-46-wrap/obs-standing.md",
+".andromeda/runs/2026-11-16T08-47-46-wrap/obs-pick-counts.md",
+".andromeda/runs/2026-11-16T08-47-46-wrap/a11y-rows.md",
+".andromeda/runs/2026-11-16T08-47-46-wrap/a11y-standing.md",
+".andromeda/runs/2026-11-16T08-47-46-wrap/a11y-pick-counts.md",
+".andromeda/runs/2026-11-16T08-47-46-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T10:21:42Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-16-local-command-delivery",
+"--section-file",
+".andromeda/runs/2026-11-16T08-47-46-wrap/addendum-1.md",
+"--heading",
+"## Addendum 1 — resumed 2026-11-16",
+"--before",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--marker",
+"2026-11-16-local-command-delivery"
+],
+"cwd": ".",
+"exit": 2,
+"stdout": [],
+"stderr": "--section-file: its first line must be the heading `## Addendum 1 — resumed 2026-11-16` — nothing written",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T10:21:51Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-16-local-command-delivery",
+"--section-file",
+".andromeda/runs/2026-11-16T08-47-46-wrap/addendum-1.md",
+"--heading",
+"## Addendum 1 — resumed 2026-11-16",
+"--before",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--marker",
+"2026-11-16-local-command-delivery"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-16-local-command-delivery/report rev 5 · 2 new · 0 revised · 0 retired · 95 kept · tx 1925"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T06-29-26-2026-11-16-local-command-delivery.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T10:22:53Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-16T08-47-46-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-16T08-47-46-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--marker",
+"2026-11-16-local-command-delivery",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 12 · not_master 0 · stands 0",
+"## 2026-11-16-local-command-delivery — Established Decisions: 4 row(s) (1 of 2)\n**Section:** Established Decisions\n**Change:** ~ decision/local-commands-by-ledger · rule: was «A send is a local command only by exact equality of its typed text with the ledger's local-command list, never by a leading slash; any other slash text, skills included, is an ordinary send.»; now «A send is a local command only when its typed text is exactly a name on the ledger's local-command list, or that name, one space and a non-empty rest not starting with a space, never by a leading slash; any other slash text, skills included, is an ordinary send.»\n~ decision/every-send-confirmed · except: was «»; now «A ledger-listed local command is confirmed by its own measured post-condition, such as a stdout echo in the session transcript, or answered ok unconfirmable where none can be read.»\n~ contract/send-results/unconfirmable · promise: was «A listed local command whose post-condition is none, or any listed command on an unverified CLI, is typed and answered ok with {\"confirmed\":false,\"detail\":\"unconfirmable\"} at once; nothing else is ever unconfirmable.»; now «A listed local command whose post-condition is none, a stdout-echo command with no readable session transcript, or any listed command on an unverified CLI, is typed and answered ok with {\"confirmed\":false,\"detail\":\"unconfirmable\"} at once; nothing else is ever unconfirmable.»\n~ contract/events-ndjson/send-confirmed-order · promise: was «The line that confirms a send (the driver prompt-submitted, or the session-start for /clear and /compact) always precedes send-confirmed, whose submitted_at is that line's ts.»; now «The line that confirms a send (the driver prompt-submitted, or the session-start for /clear and /compact) always precedes send-confirmed, whose submitted_at is that line's ts; a send confirmed by a stdout echo has no such line and its submitted_at is the instant the echo was read.»\n**Why:** decision/local-commands-by-ledger: Classification moved from exact equality of the whole typed text to by-name matching, a ratified widening, so the row's rule is now false. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-16: «Confirm all 21 (Recommended)», answer-card.md\ndecision/every-send-confirmed: A local command echoing to stdout is now confirmed by a transcript tag with no prompt-submitted, so the row's unqualified rule no longer holds for every send.\ncontract/send-results/unconfirmable: The send now makes a stdout-echo command unconfirmable when no transcript or no readable end is remembered, which the closed promise excluded.\ncontract/events-ndjson/send-confirmed-order: An echo-confirmed send is settled by a transcript tag count with the read instant as submitted_at, so no event line precedes it as the promise said.\n**Ref:** .andromeda/runs/2026-11-16T08-47-46-wrap/",
+"## 2026-11-16-local-command-delivery — Established Decisions: 2 row(s) (2 of 2)\n**Section:** Established Decisions\n**Change:** + decision/local-command-echo-confirmation — Local command confirmed by its stdout echo\n+ decision/local-command-echo-probe — Local command echo ledger row and its probe\n**Why:** decision/local-command-echo-confirmation: Send now confirms a stdout-echo local command by a transcript tag count, a ratified decision no row states. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-16: «Confirm all 21 (Recommended)», answer-card.md\ndecision/local-command-echo-probe: A new relied ledger row with its own verify probe now stands, a ratified decision no row states. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-16: «Confirm all 21 (Recommended)», answer-card.md\n**Ref:** .andromeda/runs/2026-11-16T08-47-46-wrap/",
+"## 2026-11-16-local-command-delivery — Design Philosophy: 1 row(s)\n**Section:** Design Philosophy\n**Change:** ~ decision/send-confirmed-after-the-fact · except: was «A ledger-listed local command whose post-condition is none, not yet measured, or whose CLI is unverified returns `ok` with `confirmed: false` and detail `unconfirmable`.»; now «A listed local command whose post-condition is none or unmeasured, a stdout-echo one with no readable transcript, or any on an unverified CLI returns `ok`, `confirmed: false`, `unconfirmable`.»\n**Why:** decision/send-confirmed-after-the-fact: A stdout-echo command whose session transcript cannot be read is now answered unconfirmable, a case the exception does not name.\n**Ref:** .andromeda/runs/2026-11-16T08-47-46-wrap/",
+"## 2026-11-16-local-command-delivery — Cross-cutting Patterns: 1 row(s)\n**Section:** Cross-cutting Patterns\n**Change:** ~ decision/unconfirmed-delivery-not-delivered · except: was «A ledger local command whose post-condition is none or not yet measured on this CLI version is reported as ok with confirmed false and detail unconfirmable.»; now «A ledger local command whose post-condition is none or unmeasured, a stdout-echo one with no readable transcript, or any on an unverified CLI is reported ok, confirmed false, unconfirmable.»\n**Why:** decision/unconfirmed-delivery-not-delivered: A stdout-echo command whose session transcript cannot be read is now answered unconfirmable, a case the exception does not name.\n**Ref:** .andromeda/runs/2026-11-16T08-47-46-wrap/",
+"## 2026-11-16-local-command-delivery — Conventions: 2 row(s)\n**Section:** Conventions\n**Change:** ~ contract/ok-payload/unconfirmable · promise: was «unconfirmable is no refusal detail; it appears only as confirmed false with detail unconfirmable, for a ledger-listed local command whose post-condition is none or not yet measured.»; now «unconfirmable is no refusal detail; it appears only as confirmed false with detail unconfirmable, for a ledger-listed local command whose post-condition is none or not yet measured, or is a stdout echo with no readable session transcript.»\n~ contract/channel-methods/hook-event · promise: was «A notification sent id-less by `hook`, no reply, `{ts, event:{kind, data}}`; the wrapper re-validates the event and appends it to `events.ndjson` with `source:\"hook\"`, an invalid event not appended.»; now «A notification sent id-less by `hook`, no reply, `{ts, event:{kind, data}, transcript?}`; the wrapper re-validates the event and appends it to `events.ndjson` with `source:\"hook\"`, an invalid event not appended.»\n**Why:** contract/ok-payload/unconfirmable: A stdout-echo command with no readable transcript is now answered unconfirmable, a case the promise does not list.\ncontract/channel-methods/hook-event: hook.event gained the optional sibling param `transcript`, so the stated params shape is incomplete. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-16: «Confirm all 21 (Recommended)», answer-card.md\n**Ref:** .andromeda/runs/2026-11-16T08-47-46-wrap/",
+"## 2026-11-16-local-command-delivery — Standard Contracts: 2 row(s)\n**Section:** Standard Contracts\n**Change:** ~ contract/hook-event/notification · promise: was «Sent id-less with no reply only after the instance, socket-directory and server checks pass; otherwise nothing is sent and the hook fails open. Shape {ts, event:{kind, data}}.»; now «Sent id-less with no reply only after the instance, socket-directory and server checks pass; otherwise nothing is sent and the hook fails open. Shape {ts, event:{kind, data}, transcript?}.»\n+ contract/hook-event/transcript — channel hook.event · transcript\n**Why:** contract/hook-event/notification: hook.event gained the optional sibling param `transcript`, so the stated shape is incomplete. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-16: «Confirm all 21 (Recommended)», answer-card.md\ncontract/hook-event/transcript: hook.event gained the optional `transcript` param, a new channel contract item that must be registered in Standard Contracts. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-16: «Confirm all 21 (Recommended)», answer-card.md\n**Ref:** .andromeda/runs/2026-11-16T08-47-46-wrap/",
+"patterns: none: 9 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 12 operation(s) · 6 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T10:23:03Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-16T08-47-46-wrap/ops-design-system.md",
+"--results",
+".andromeda/runs/2026-11-16T08-47-46-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--marker",
+"2026-11-16-local-command-delivery",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/local-commands-by-name · rejected",
+"fit: fits 2 · not_master 0 · stands 0",
+"## 2026-11-16-local-command-delivery — Brand Identity: 2 row(s)\n**Section:** Brand Identity\n**Change:** ~ contract/send-readback/unconfirmable · promise: was «On an unverified CLI a `/compact` send stays `unconfirmable`.»; now «A local command with no post-condition (`/remote-control`, `/cost`, `/usage`) stays `unconfirmable`; so does a `/compact` send on an unverified CLI, and a `/mcp` send on an unverified CLI or in a session that declared no transcript.»\n+ contract/send-readback/mcp — Send readback · /mcp\n**Why:** contract/send-readback/unconfirmable: The local-command list now holds commands with no post-condition and an echo command that confirms nothing without a verified CLI and a declared transcript, and the row names `/compact` alone.\ncontract/send-readback/mcp: The chunk adds the stdout echo as a further confirmer of a local command, and the send readback contract holds one row a command.\n**Ref:** .andromeda/runs/2026-11-16T08-47-46-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 2 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T10:23:03Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"layout-templates",
+"--file",
+".andromeda/runs/2026-11-16T08-47-46-wrap/ops-layout-templates.md",
+"--results",
+".andromeda/runs/2026-11-16T08-47-46-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--marker",
+"2026-11-16-local-command-delivery",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/local-command-by-name · rejected",
+"fit: fits 2 · not_master 0 · stands 0",
+"## 2026-11-16-local-command-delivery — Surface: cli: 2 row(s)\n**Section:** Surface: cli\n**Change:** ~ contract/viola-send-output/unconfirmable · promise: was «`[  ] unconfirmable …` prints on stdout with exit 0 for a local command with no measured post-condition: /remote-control, and /compact or /clear on an unverified CLI version.»; now «`[  ] unconfirmable …` prints on stdout with exit 0 for a local command with no measured post-condition: /remote-control, /cost and /usage; /compact, /clear or /mcp on an unverified CLI version; and /mcp when the session declared no readable transcript.»\n+ contract/viola-send-output/read-back-mcp — viola send output · read back for /mcp\n**Why:** contract/viola-send-output/unconfirmable: The local command list grew to six by name, with /cost and /usage given no post-condition and /mcp confirmed only through a readable transcript, so the row's list of unconfirmable cases no longer covers what the send renders.\ncontract/viola-send-output/read-back-mcp: The send now confirms /mcp by its own measured echo in the transcript, a read-back case beside /clear and /compact that no row of the surface states.\n**Ref:** .andromeda/runs/2026-11-16T08-47-46-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 2 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T10:23:04Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-16T08-47-46-wrap/ops-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-16T08-47-46-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--marker",
+"2026-11-16-local-command-delivery",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/transcript-path-and-bytes-never-kept · rejected",
+"fit: fits 9 · not_master 0 · stands 0",
+"## 2026-11-16-local-command-delivery — 1. Obs Scope Summary: 2 row(s)\n**Section:** 1. Obs Scope Summary\n**Change:** ~ decision/claude-internals-not-a-contract · except: was «»; now «A local command's stdout tag in the session transcript, counted past the end recorded before the paste, is read as that send's echo confirmation; no transcript byte is kept.»\n~ decision/refusal-telemetry · except: was «»; now «The send's transcript echo read refuses a symlinked, non-regular or foreign transcript with no line of its own; the outcome shows only on the send's own lines.»\n**Why:** decision/claude-internals-not-a-contract: The send now reads the transcript's stdout tag count as a ratified echo confirmer, so the row's flat ban on reading transcripts needs that one named exception. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-16: «Confirm all 21 (Recommended)», answer-card.md; the ratification the founder's own answers, relayed verbatim, inputs#I2 Q2 · Q3 and inputs#I4\ndecision/refusal-telemetry: The new echo read opens with O_NOFOLLOW, a regular-file and owner check and keeps a count alone with no line, so its symlink refusal is a named exception to refusal telemetry. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-16: «Confirm all 21 (Recommended)», answer-card.md; the ratification the founder's own answers, relayed verbatim, inputs#I2 Q2 · Q3 and inputs#I4\n**Ref:** .andromeda/runs/2026-11-16T08-47-46-wrap/",
+"## 2026-11-16-local-command-delivery — 11. Obs Anti-Patterns (NEVER do these): 1 row(s)\n**Section:** 11. Obs Anti-Patterns (NEVER do these)\n**Change:** ~ decision/transcripts-not-a-contract · except: was «»; now «A local command's stdout tag in the session transcript, counted past the end recorded before the paste, is read as that send's echo confirmation; no transcript byte is kept.»\n**Why:** decision/transcripts-not-a-contract: The transcript's stdout tag count is now relied on to confirm a local command send, so the row must name that one exception to transcripts never being read as a contract. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-16: «Confirm all 21 (Recommended)», answer-card.md; the ratification the founder's own answers, relayed verbatim, inputs#I2 Q2 · Q3 and inputs#I4\n**Ref:** .andromeda/runs/2026-11-16T08-47-46-wrap/",
+"## 2026-11-16-local-command-delivery — 1. Obs Scope Summary: 2 row(s)\n**Section:** 1. Obs Scope Summary\n**Change:** ~ contract/send-path-log-events/event-order · promise: was «A send logs channel-request, then send-issued, then hook-invoked (UserPromptSubmit, or SessionStart for a confirmed /clear or /compact; none awaited for an unconfirmable send), then send-confirmed or send-refused, then channel-response.»; now «A send logs channel-request, then send-issued, then hook-invoked (UserPromptSubmit, or SessionStart for a confirmed /clear or /compact; none awaited for an unconfirmable send or a local command confirmed by its transcript echo), then send-confirmed or send-refused, then channel-response.»\n~ decision/deterministic-event-emission · except: was «»; now «A local command's echo confirmation keys on the stdout tag count in its session transcript.»\n**Why:** contract/send-path-log-events/event-order: An echo-confirmed local command is confirmed by its transcript tag with only the existing send-issued and send-confirmed lines, so it awaits no hook-invoked line and the order must say so.\ndecision/deterministic-event-emission: send-confirmed for a local command now keys on the transcript tag count rather than a hook event or an events.ndjson offset, so the row needs that named exception. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-16: «Confirm all 21 (Recommended)», answer-card.md; the ratification the founder's own answers, relayed verbatim, inputs#I2 Q2 · Q3 and inputs#I4\n**Ref:** .andromeda/runs/2026-11-16T08-47-46-wrap/",
+"## 2026-11-16-local-command-delivery — 4. Span / Trace Coverage: 3 row(s)\n**Section:** 4. Span / Trace Coverage\n**Change:** ~ contract/send-log-fields/hook-invoked · promise: was «hook-invoked{hook_event:\"user-prompt-submit\", corr:null} for an ordinary send; hook_event session-start for a /clear or /compact confirmed by its session; an unconfirmable send waits for no hook line.»; now «hook-invoked{hook_event:\"user-prompt-submit\", corr:null} for an ordinary send; hook_event session-start for a /clear or /compact confirmed by its session; an unconfirmable send, or a local command confirmed by its transcript echo, waits for no hook line.»\n~ contract/send-refused-detail/no-prompt-submitted · promise: was «Confirm-window expiry is send-refused{detail:\"no-prompt-submitted\"} for ordinary, /clear and /compact sends alike, with no new detail.»; now «Confirm-window expiry is send-refused{detail:\"no-prompt-submitted\"} for ordinary, /clear, /compact and echo-confirmed local command sends alike, with no new detail.»\n+ decision/transcript-echo-read-uninstrumented — Transcript echo read uninstrumented\n**Why:** contract/send-log-fields/hook-invoked: A local command confirmed by its transcript echo closes on the tag count, not a hook, so the row must list it beside the unconfirmable send as awaiting no hook line.\ncontract/send-refused-detail/no-prompt-submitted: An echo-confirmed local command with no tag in its window now reads no-prompt-submitted at the window, so the row's list of sends sharing that detail must include it.\ndecision/transcript-echo-read-uninstrumented: The chunk adds the transcript echo read inside the existing run.confirm_window span with no new line, a coverage choice no standing row records.\n**Ref:** .andromeda/runs/2026-11-16T08-47-46-wrap/",
+"## 2026-11-16-local-command-delivery — 10. SLO Invariants & Telemetry Budgets: 1 row(s)\n**Section:** 10. SLO Invariants & Telemetry Budgets\n**Change:** ~ decision/deterministic-emission · except: was «The readiness gate reads the vt100 screen before a paste, and its verdict can refuse a send as input-not-ready.»; now «The readiness gate reads the vt100 screen before a paste and can refuse a send as input-not-ready; a local command's echo confirmation keys on its transcript's stdout tag count.»\n**Why:** decision/deterministic-emission: send-confirmed for a local command now keys on the transcript tag count rather than a hook event or an events.ndjson offset, so the row's exception must name it. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-16: «Confirm all 21 (Recommended)», answer-card.md; the ratification the founder's own answers, relayed verbatim, inputs#I2 Q2 · Q3 and inputs#I4\n**Ref:** .andromeda/runs/2026-11-16T08-47-46-wrap/",
+"patterns: none: 8 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 9 operation(s) · 5 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T10:23:04Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-16T08-47-46-wrap/ops-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-16T08-47-46-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--marker",
+"2026-11-16-local-command-delivery",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/local-command-echo-confirmation · rejected",
+"fit: fits 7 · not_master 0 · stands 0",
+"## 2026-11-16-local-command-delivery — Security Anti-Patterns (NEVER do these): 1 row(s)\n**Section:** Security Anti-Patterns (NEVER do these)\n**Change:** ~ decision/compiled-classification-sources · rule: was «Screen signatures, harness prefixes and local-command lists come only from compiled viola-agent-claude ledger rows, never from runtime or upstream text.»; now «Screen signatures, harness prefixes and local-command names come only from compiled viola-agent-claude ledger rows, never from runtime or upstream text; a typed text is a local command only by its compiled name, alone or followed by one space and arguments.»\n**Why:** decision/compiled-classification-sources: Local commands are now classified by their compiled name rather than by exact text, a ratified widening, so the row must say what the classification is made from. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-16: «Confirm all 21 (Recommended)», answer-card.md; the ratification the founder's own answers, relayed verbatim, inputs#I2 Q2 · Q3 and inputs#I4\n**Ref:** .andromeda/runs/2026-11-16T08-47-46-wrap/",
+"## 2026-11-16-local-command-delivery — Input Validation: 3 row(s)\n**Section:** Input Validation\n**Change:** ~ decision/shared-validators-in-core · except: was «The Hyprland seam's window Address validator lives in the seam crate.»; now «The Hyprland seam's window Address validator lives in the seam crate, and the Claude transcript path shape check in the Claude adapter crate, which the hook and the wrapper both call.»\n+ decision/transcript-path-shape-check — Transcript path shape checked on both sides\n+ decision/transcript-read-bounded — Transcript read bounded and count-only\n**Why:** decision/shared-validators-in-core: The new transcript path shape check is a shared validator that lives in the Claude adapter crate rather than viola-core, so the row's named exception must include it. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-16: «Confirm all 21 (Recommended)», answer-card.md; the ratification the founder's own answers, relayed verbatim, inputs#I2 Q2 · Q3 and inputs#I4\ndecision/transcript-path-shape-check: The transcript path is a new external input crossing the channel, and the validation its boundary takes is a standing control. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-16: «Confirm all 21 (Recommended)», answer-card.md; the ratification the founder's own answers, relayed verbatim, inputs#I2 Q2 · Q3 and inputs#I4\ndecision/transcript-read-bounded: The transcript file is a new external read, and the controls on it are what the input validation section must hold. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-16: «Confirm all 21 (Recommended)», answer-card.md; the ratification the founder's own answers, relayed verbatim, inputs#I2 Q2 · Q3 and inputs#I4\n**Ref:** .andromeda/runs/2026-11-16T08-47-46-wrap/",
+"## 2026-11-16-local-command-delivery — Threat Model Summary: 1 row(s)\n**Section:** Threat Model Summary\n**Change:** ~ contract/wrapper-channel-methods/hook-event · promise: was «A notification from the hook to the wrapper.»; now «A notification from the hook to the wrapper; for a SessionStart it may carry the optional transcript param beside the event, which the wrapper re-checks for a session-start line only and drops otherwise.»\n**Why:** contract/wrapper-channel-methods/hook-event: hook.event gains the optional transcript sibling param, so the method's promise must name it and its wrapper-side re-check. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-16: «Confirm all 21 (Recommended)», answer-card.md; the ratification the founder's own answers, relayed verbatim, inputs#I2 Q2 · Q3 and inputs#I4\n**Ref:** .andromeda/runs/2026-11-16T08-47-46-wrap/",
+"## 2026-11-16-local-command-delivery — Data Protection: 2 row(s)\n**Section:** Data Protection\n**Change:** + decision/transcript-path-redacted — Transcript path redacted\n+ decision/verify-echo-probe-residuals — Verify's echo probe residuals accepted\n**Why:** decision/transcript-path-redacted: The transcript path carries the OS username, and where it may and may not appear is a new data-protection rule. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-16: «Confirm all 21 (Recommended)», answer-card.md; the ratification the founder's own answers, relayed verbatim, inputs#I2 Q2 · Q3 and inputs#I4\ndecision/verify-echo-probe-residuals: The seventh Run B paste is a new real-CLI probe whose named residuals the wrap directive says land as standing rows. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-16: «Confirm all 21 (Recommended)», answer-card.md; the ratification the founder's own answers, relayed verbatim, inputs#I2 Q2 · Q3 and inputs#I4\n**Ref:** .andromeda/runs/2026-11-16T08-47-46-wrap/",
+"patterns: none: 3 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 7 operation(s) · 4 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T10:23:04Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-16T08-47-46-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-16T08-47-46-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--marker",
+"2026-11-16-local-command-delivery",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/local-command-unconfirmable · rejected",
+"decision/local-command-exact-match · rejected",
+"decision/local-command-by-name · rejected",
+"decision/transcript-path-shape-check · rejected",
+"contract/hook-event-method/transcript · rejected",
+"decision/transcript-read-bounded-count-only · rejected",
+"decision/local-command-echo-row-check · rejected",
+"decision/verify-echo-probe-paste · rejected",
+"fit: fits 8 · not_master 0 · stands 0",
+"## 2026-11-16-local-command-delivery — 1. Test Scope Summary: 1 row(s)\n**Section:** 1. Test Scope Summary\n**Change:** ~ contract/driver-send/local-command · promise: was «A ledger-listed local command is matched by exact equality and confirmed only by its post-condition, else reported unconfirmable, never presumed delivered.»; now «A ledger-listed local command is classified by its name and confirmed only by its post-condition, else reported unconfirmable, never presumed delivered.»\n**Why:** contract/driver-send/local-command: Classification moved from exact text to by name (a name, or a name, one space and a non-empty rest), so the promise's exact-equality match is now false. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-16: «Confirm all 21 (Recommended)», answer-card.md; the ratification the founder's own answers, relayed verbatim, inputs#I2 Q2 · Q3 and inputs#I4\n**Ref:** .andromeda/runs/2026-11-16T08-47-46-wrap/",
+"## 2026-11-16-local-command-delivery — 1. Test Scope Summary: 2 row(s)\n**Section:** 1. Test Scope Summary\n**Change:** ~ decision/local-command-post-condition · rule: was «On a verified CLI /clear is confirmed only by a session-start of cause clear with a new session id, and /compact only by a session-start of cause compact with the unchanged id; neither is claimed by a prompt-submitted, a missed one is not-delivered, and a local command is never presumed delivered.»; now «On a verified CLI /clear is confirmed only by a session-start of cause clear with a new session id, /compact only by one of cause compact with the unchanged id, and /mcp only by a new stdout tag in the transcript past its pre-paste end; none by a prompt-submitted, a missed one is not-delivered.»\n~ contract/send-result/unconfirmable · promise: was «A listed local command with no measured post-condition, or any listed command on an unverified CLI, yields ok with confirmed false, detail unconfirmable and the cursor at once, with no confirmation window.»; now «A listed local command with no measured post-condition, any listed command on an unverified CLI, or an echo-confirmed command with no remembered transcript or no readable transcript end, yields ok with confirmed false, detail unconfirmable and the cursor at once, with no confirmation window.»\n**Why:** decision/local-command-post-condition: /mcp joins the listed local commands with the transcript's stdout tag count as its post-condition, so the rule naming only /clear and /compact is incomplete. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-16: «Confirm all 21 (Recommended)», answer-card.md; the ratification the founder's own answers, relayed verbatim, inputs#I2 Q2 · Q3 and inputs#I4\ncontract/send-result/unconfirmable: The send's echo start records no transcript end when the flight has none or it is unreadable, and that send's confirms becomes unconfirmable, a case the promise does not yet hold.\n**Ref:** .andromeda/runs/2026-11-16T08-47-46-wrap/",
+"## 2026-11-16-local-command-delivery — 7. Test Data & Fixtures: 1 row(s)\n**Section:** 7. Test Data & Fixtures\n**Change:** ~ decision/fake-agent-replays-recorded-bytes · rule: was «The fake agent offers each hook the recorded fixture bytes and builds no payload, save the fields it sets: the typed prompt of a default UserPromptSubmit, the launch SessionStart's source and session_id under --resume whichever variant fires, and the compact replay's session_id.»; now «The fake agent offers each hook the recorded fixture bytes and builds no payload, save the fields it sets: the typed prompt of a default UserPromptSubmit, the launch SessionStart's source and session_id under --resume, its transcript_path under --transcript, and the compact replay's session_id.»\n**Why:** decision/fake-agent-replays-recorded-bytes: Under --transcript the fake agent now sets transcript_path on the launch SessionStart alone, a field the rule's closed list of set fields does not hold.\n**Ref:** .andromeda/runs/2026-11-16T08-47-46-wrap/",
+"## 2026-11-16-local-command-delivery — 7. Test Data & Fixtures: 3 row(s)\n**Section:** 7. Test Data & Fixtures\n**Change:** ~ contract/fake-agent-hooks/stdin-payload · promise: was «The payload on a hook's stdin is the recorded fixture's bytes, save the fields a prompt, a resume or a compact replay sets.»; now «The payload on a hook's stdin is the recorded fixture's bytes, save the fields a prompt, a resume, a compact replay or the launch SessionStart under --transcript sets.»\n+ contract/fake-agent-cli/transcript — viola-fake-agent command line · --transcript\n+ contract/fake-agent-input/echo-command — viola-fake-agent input · echo-confirmed local command\n**Why:** contract/fake-agent-hooks/stdin-payload: The launch SessionStart under --transcript carries a transcript_path the recorded bytes lack, so the promise's list of set fields is incomplete.\ncontract/fake-agent-cli/transcript: The fake agent gains an option the tests and verify drive, beside the other command-line option rows.\ncontract/fake-agent-input/echo-command: The fake agent gains an input behaviour the echo send cases and Run B's probe rely on, beside the /clear and /compact input rows.\n**Ref:** .andromeda/runs/2026-11-16T08-47-46-wrap/",
+"## 2026-11-16-local-command-delivery — 3. Test Harness Contract: 1 row(s)\n**Section:** 3. Test Harness Contract\n**Change:** + decision/stamping-verify-passes-transcript — Stamping verifies give the fake agent a transcript\n**Why:** decision/stamping-verify-passes-transcript: The harness boot and the stamped-home helpers now pass --transcript, a convention every new stamping helper must keep for its stamp to hold the 22nd row.\n**Ref:** .andromeda/runs/2026-11-16T08-47-46-wrap/",
+"patterns: none: 5 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 8 operation(s) · 5 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T10:23:10Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-16T08-47-46-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-16T08-47-46-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--marker",
+"2026-11-16-local-command-delivery"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 12 · not_master 0 · stands 0",
+"landed tx 1926 · 12 operation(s) · 6 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T06-29-26-2026-11-16-local-command-delivery.ndjson",
+".andromeda/runs/2026-11-16T08-47-46-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T10:23:11Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-16T08-47-46-wrap/ops-design-system.md",
+"--results",
+".andromeda/runs/2026-11-16T08-47-46-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--marker",
+"2026-11-16-local-command-delivery"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/local-commands-by-name · rejected",
+"fit: fits 2 · not_master 0 · stands 0",
+"landed tx 1927 · 2 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T06-29-26-2026-11-16-local-command-delivery.ndjson",
+".andromeda/runs/2026-11-16T08-47-46-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T10:23:11Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"layout-templates",
+"--file",
+".andromeda/runs/2026-11-16T08-47-46-wrap/ops-layout-templates.md",
+"--results",
+".andromeda/runs/2026-11-16T08-47-46-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--marker",
+"2026-11-16-local-command-delivery"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/local-command-by-name · rejected",
+"fit: fits 2 · not_master 0 · stands 0",
+"landed tx 1928 · 2 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T06-29-26-2026-11-16-local-command-delivery.ndjson",
+".andromeda/runs/2026-11-16T08-47-46-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T10:23:11Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-16T08-47-46-wrap/ops-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-16T08-47-46-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--marker",
+"2026-11-16-local-command-delivery"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/transcript-path-and-bytes-never-kept · rejected",
+"fit: fits 9 · not_master 0 · stands 0",
+"landed tx 1929 · 9 operation(s) · 5 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T06-29-26-2026-11-16-local-command-delivery.ndjson",
+".andromeda/runs/2026-11-16T08-47-46-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T10:23:12Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-16T08-47-46-wrap/ops-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-16T08-47-46-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--marker",
+"2026-11-16-local-command-delivery"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/local-command-echo-confirmation · rejected",
+"fit: fits 7 · not_master 0 · stands 0",
+"landed tx 1930 · 7 operation(s) · 4 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T06-29-26-2026-11-16-local-command-delivery.ndjson",
+".andromeda/runs/2026-11-16T08-47-46-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T10:23:12Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-16T08-47-46-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-16T08-47-46-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--marker",
+"2026-11-16-local-command-delivery"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/local-command-unconfirmable · rejected",
+"decision/local-command-exact-match · rejected",
+"decision/local-command-by-name · rejected",
+"decision/transcript-path-shape-check · rejected",
+"contract/hook-event-method/transcript · rejected",
+"decision/transcript-read-bounded-count-only · rejected",
+"decision/local-command-echo-row-check · rejected",
+"decision/verify-echo-probe-paste · rejected",
+"fit: fits 8 · not_master 0 · stands 0",
+"landed tx 1931 · 8 operation(s) · 5 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T06-29-26-2026-11-16-local-command-delivery.ndjson",
+".andromeda/runs/2026-11-16T08-47-46-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T10:23:12Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"a11y-plan",
+"--file",
+".andromeda/runs/2026-11-16T08-47-46-wrap/ops-a11y-plan.md",
+"--results",
+".andromeda/runs/2026-11-16T08-47-46-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--marker",
+"2026-11-16-local-command-delivery",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [
+"fanout-results.md: no line `ops-a11y-plan.md` — §Validate writes the file's name on a line of its own, then a line an operation"
+],
+"stderr": "rows-land: 1 disposition problem(s) under ops-a11y-plan.md — nothing written",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T10:23:12Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-16T08-47-46-wrap/ops-main-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-16T08-47-46-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--marker",
+"2026-11-16-local-command-delivery",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-16-local-command-delivery — 4. Unit Test Strategy: 1 row(s)\n**Section:** 4. Unit Test Strategy\n**Change:** ~ decision/local-command-unconfirmable · rule: was «A local command with no measured post-condition, or sent to an unverified CLI, gives unconfirmable with no confirmation window.»; now «A local command with no measured post-condition, sent to an unverified CLI, or confirmed by its transcript echo with no readable transcript, gives unconfirmable with no confirmation window.»\n**Why:** decision/local-command-unconfirmable: An echo-confirmed command with no remembered or readable transcript now reads unconfirmable, a case the standing rule leaves out; the proposer's longer set named the command inventory the code holds (fit: not_master type 5).\n**Ref:** .andromeda/runs/2026-11-16T08-47-46-wrap/",
+"## 2026-11-16-local-command-delivery — 1. Test Scope Summary: 1 row(s)\n**Section:** 1. Test Scope Summary\n**Change:** − decision/local-command-exact-match → none: Local commands are no longer recognised by exact equality of the typed text but by their name; the rule's one home is architecture decision/local-commands-by-ledger.\n**Why:** decision/local-command-exact-match: LOCAL_COMMANDS moved from 3 to 6 names and classification from exact text to by name, so the exact-match row is false, and the by-name rule keeps its one home in architecture (check 2). — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-16: «Confirm all 21 (Recommended)», answer-card.md; the ratification the founder's own answers, relayed verbatim, inputs#I2 Q2 · Q3 and inputs#I4\n**Ref:** .andromeda/runs/2026-11-16T08-47-46-wrap/",
+"patterns: none: 2 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 2 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T10:23:19Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"a11y-plan",
+"--file",
+".andromeda/runs/2026-11-16T08-47-46-wrap/ops-a11y-plan.md",
+"--results",
+".andromeda/runs/2026-11-16T08-47-46-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--marker",
+"2026-11-16-local-command-delivery",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 0 · not_master 0 · stands 0",
+"patterns: none — the call sets and retires no row",
+"dry-run · would land 0 operation(s) · 0 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T10:23:19Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-16T08-47-46-wrap/ops-main-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-16T08-47-46-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--marker",
+"2026-11-16-local-command-delivery"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 1932 · 2 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T06-29-26-2026-11-16-local-command-delivery.ndjson",
+".andromeda/runs/2026-11-16T08-47-46-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T10:28:14Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola-agent-claude.md",
+"--file",
+"./.andromeda/runs/2026-11-16T08-47-46-wrap/staged-leaf-.claude__docs__services__viola-agent-claude.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-16T08-47-46-wrap",
+"--marker",
+"2026-11-16-local-command-delivery"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola-agent-claude.md rev 14 · 0 new · 2 revised · 0 retired · tx 1933"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T06-29-26-2026-11-16-local-command-delivery.ndjson",
+"./.claude/docs/services/viola-agent-claude.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T10:28:15Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola-channel.md",
+"--file",
+"./.andromeda/runs/2026-11-16T08-47-46-wrap/staged-leaf-.claude__docs__services__viola-channel.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-16T08-47-46-wrap",
+"--marker",
+"2026-11-16-local-command-delivery"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola-channel.md rev 7 · 0 new · 1 revised · 0 retired · tx 1934"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T06-29-26-2026-11-16-local-command-delivery.ndjson",
+"./.claude/docs/services/viola-channel.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T10:28:15Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola.md",
+"--file",
+"./.andromeda/runs/2026-11-16T08-47-46-wrap/staged-leaf-.claude__docs__services__viola.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-16T08-47-46-wrap",
+"--marker",
+"2026-11-16-local-command-delivery"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola.md rev 10 · 0 new · 2 revised · 0 retired · tx 1935"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T06-29-26-2026-11-16-local-command-delivery.ndjson",
+"./.claude/docs/services/viola.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T10:28:16Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/events.md",
+"--file",
+"./.andromeda/runs/2026-11-16T08-47-46-wrap/staged-leaf-.claude__rules__events.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-16T08-47-46-wrap",
+"--marker",
+"2026-11-16-local-command-delivery"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/events.md rev 11 · 0 new · 1 revised · 0 retired · tx 1936"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T06-29-26-2026-11-16-local-command-delivery.ndjson",
+"./.claude/rules/events.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T10:28:16Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/gotchas.md",
+"--file",
+"./.andromeda/runs/2026-11-16T08-47-46-wrap/staged-leaf-.claude__docs__gotchas.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-16T08-47-46-wrap",
+"--marker",
+"2026-11-16-local-command-delivery"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/gotchas.md rev 12 · 0 new · 1 revised · 0 retired · tx 1937"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T06-29-26-2026-11-16-local-command-delivery.ndjson",
+"./.claude/docs/gotchas.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T10:28:17Z",
+"argv": [
+"harness",
+"land",
+"CLAUDE.md",
+"--file",
+"./.andromeda/runs/2026-11-16T08-47-46-wrap/staged-leaf-CLAUDE.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-16T08-47-46-wrap",
+"--marker",
+"2026-11-16-local-command-delivery"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed CLAUDE.md rev 14 · 0 new · 2 revised · 0 retired · tx 1938"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T06-29-26-2026-11-16-local-command-delivery.ndjson",
+"./CLAUDE.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T10:28:17Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/api.md",
+"--file",
+"./.andromeda/runs/2026-11-16T08-47-46-wrap/staged-leaf-.claude__rules__api.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-16T08-47-46-wrap",
+"--marker",
+"2026-11-16-local-command-delivery"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/api.md rev 10 · 0 new · 1 revised · 0 retired · tx 1939"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T06-29-26-2026-11-16-local-command-delivery.ndjson",
+"./.claude/rules/api.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T10:28:18Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/commands.md",
+"--file",
+"./.andromeda/runs/2026-11-16T08-47-46-wrap/staged-leaf-.claude__docs__commands.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-16T08-47-46-wrap",
+"--marker",
+"2026-11-16-local-command-delivery"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/commands.md rev 13 · 0 new · 1 revised · 0 retired · tx 1940"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T06-29-26-2026-11-16-local-command-delivery.ndjson",
+"./.claude/docs/commands.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T10:28:18Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/design-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-16T08-47-46-wrap/staged-leaf-.claude__docs__design-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-16T08-47-46-wrap",
+"--marker",
+"2026-11-16-local-command-delivery"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/design-summary.md rev 11 · 0 new · 1 revised · 0 retired · tx 1941"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T06-29-26-2026-11-16-local-command-delivery.ndjson",
+"./.claude/docs/design-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T10:28:19Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/security-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-16T08-47-46-wrap/staged-leaf-.claude__docs__security-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-16T08-47-46-wrap",
+"--marker",
+"2026-11-16-local-command-delivery"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/security-summary.md rev 16 · 0 new · 1 revised · 0 retired · tx 1942"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T06-29-26-2026-11-16-local-command-delivery.ndjson",
+"./.claude/docs/security-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T10:28:19Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/security.md",
+"--file",
+"./.andromeda/runs/2026-11-16T08-47-46-wrap/staged-leaf-.claude__rules__security.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-16T08-47-46-wrap",
+"--marker",
+"2026-11-16-local-command-delivery"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/security.md rev 18 · 0 new · 3 revised · 0 retired · tx 1943"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T06-29-26-2026-11-16-local-command-delivery.ndjson",
+"./.claude/rules/security.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T10:28:20Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/tests-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-16T08-47-46-wrap/staged-leaf-.claude__docs__tests-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-16T08-47-46-wrap",
+"--marker",
+"2026-11-16-local-command-delivery"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/tests-summary.md rev 16 · 0 new · 2 revised · 0 retired · tx 1944"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T06-29-26-2026-11-16-local-command-delivery.ndjson",
+"./.claude/docs/tests-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T10:28:20Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/verification-harness.md",
+"--file",
+"./.andromeda/runs/2026-11-16T08-47-46-wrap/staged-leaf-.claude__rules__verification-harness.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-16T08-47-46-wrap",
+"--marker",
+"2026-11-16-local-command-delivery"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/verification-harness.md rev 19 · 0 new · 4 revised · 0 retired · tx 1945"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T06-29-26-2026-11-16-local-command-delivery.ndjson",
+"./.claude/rules/verification-harness.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T10:33:06Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-16T08-47-46-wrap/route-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--marker",
+"2026-11-16-local-command-delivery",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 3 record(s) · 2 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T10:33:10Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-16T08-47-46-wrap/route-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--marker",
+"2026-11-16-local-command-delivery"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 3 record(s) · 2 edge(s) · tx 1952 · cry-jgo4g4np … cry-2snj2igc"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T06-29-26-2026-11-16-local-command-delivery.ndjson",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T10:33:32Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-16T08-47-46-wrap/run-node.txt",
+"--run-dir",
+".andromeda/runs/2026-11-16T08-47-46-wrap",
+"--marker",
+"2026-11-16-local-command-delivery"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 0 edge(s) · tx 1954 · run-g5bbwohc … run-g5bbwohc"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T06-29-26-2026-11-16-local-command-delivery.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T10:37:06Z",
+"argv": [
+"land",
+"--root",
+".",
+"--chunk",
+"2026-11-16-local-command-delivery",
+"--run-dir",
+".andromeda/runs/2026-11-16T08-47-46-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"unchanged · 12 file(s) of 2026-11-16-local-command-delivery"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

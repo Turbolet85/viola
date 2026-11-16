@@ -1,0 +1,9 @@
+[[pattern]]
+id = 'm-exact'
+regex = '''local[- ]commands?[^.\n]{0,80}exact|exact[^.\n]{0,80}local[- ]commands?|exact equality'''
+ignore_case = true
+
+[[pattern]]
+id = 'm-rows21'
+regex = '''\b21\b (relied|capability|ledger)|relied[^.\n]{0,60}\b21\b|twenty-one|\[NN/21\]'''
+ignore_case = true
