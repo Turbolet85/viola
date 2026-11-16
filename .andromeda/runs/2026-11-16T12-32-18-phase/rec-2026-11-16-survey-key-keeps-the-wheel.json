@@ -1,0 +1,119 @@
+[
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T12:36:38Z",
+"argv": [
+"rows-packs",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-16T12-32-18-phase",
+"--side",
+"phase",
+"--marker",
+"2026-11-16-survey-key-keeps-the-wheel"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 947 · packs 10 · pack 100 · 265315 B",
+"security-plan: rows 603 · packs 7 · pack 100 · 176340 B",
+"design-system: rows 315 · packs 4 · pack 100 · 75728 B",
+"layout-templates: rows 222 · packs 3 · pack 100 · 52492 B",
+"test-plan: rows 1331 · packs 14 · pack 100 · 353016 B",
+"obs-plan: rows 1022 · packs 11 · pack 100 · 279890 B",
+"a11y-plan: rows 235 · packs 3 · pack 100 · 65527 B",
+"rows-packs: 7 master(s) · 4675 row(s) · 52 pack(s) · 3 draw(s) a pack · pin 1932"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-16T12-32-18-phase/rows-packs.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T12:59:40Z",
+"argv": [
+"rows-union",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-16T12-32-18-phase",
+"--side",
+"phase",
+"--marker",
+"2026-11-16-survey-key-keeps-the-wheel"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 947 · packs 10 · picked 145 (97 by every draw) · standing 16 · 42540 B",
+"security-plan: rows 603 · packs 7 · picked 86 (54 by every draw) · standing 11 · 25497 B",
+"design-system: rows 315 · packs 4 · picked 51 (33 by every draw) · standing 13 · 12476 B",
+"layout-templates: rows 222 · packs 3 · picked 34 (17 by every draw) · standing 0 · 6667 B",
+"test-plan: rows 1331 · packs 14 · picked 206 (117 by every draw) · standing 59 · 49478 B",
+"obs-plan: rows 1022 · packs 11 · picked 188 (95 by every draw) · standing 53 · 46551 B",
+"a11y-plan: rows 235 · packs 3 · picked 52 (39 by every draw) · standing 16 · 15055 B",
+"rows-union: 7 master(s) · picked 762 of 4675 · rule any"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-16T12-32-18-phase/arch-rows.md",
+".andromeda/runs/2026-11-16T12-32-18-phase/arch-standing.md",
+".andromeda/runs/2026-11-16T12-32-18-phase/arch-pick-counts.md",
+".andromeda/runs/2026-11-16T12-32-18-phase/security-rows.md",
+".andromeda/runs/2026-11-16T12-32-18-phase/security-standing.md",
+".andromeda/runs/2026-11-16T12-32-18-phase/security-pick-counts.md",
+".andromeda/runs/2026-11-16T12-32-18-phase/design-rows.md",
+".andromeda/runs/2026-11-16T12-32-18-phase/design-standing.md",
+".andromeda/runs/2026-11-16T12-32-18-phase/design-pick-counts.md",
+".andromeda/runs/2026-11-16T12-32-18-phase/layouts-rows.md",
+".andromeda/runs/2026-11-16T12-32-18-phase/layouts-standing.md",
+".andromeda/runs/2026-11-16T12-32-18-phase/layouts-pick-counts.md",
+".andromeda/runs/2026-11-16T12-32-18-phase/tests-rows.md",
+".andromeda/runs/2026-11-16T12-32-18-phase/tests-standing.md",
+".andromeda/runs/2026-11-16T12-32-18-phase/tests-pick-counts.md",
+".andromeda/runs/2026-11-16T12-32-18-phase/obs-rows.md",
+".andromeda/runs/2026-11-16T12-32-18-phase/obs-standing.md",
+".andromeda/runs/2026-11-16T12-32-18-phase/obs-pick-counts.md",
+".andromeda/runs/2026-11-16T12-32-18-phase/a11y-rows.md",
+".andromeda/runs/2026-11-16T12-32-18-phase/a11y-standing.md",
+".andromeda/runs/2026-11-16T12-32-18-phase/a11y-pick-counts.md",
+".andromeda/runs/2026-11-16T12-32-18-phase/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.50",
+"sha8": "d991226f",
+"ts": "2026-11-16T13:32:51Z",
+"argv": [
+"query",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-16T12-32-18-phase",
+"--marker",
+"2026-11-16-survey-key-keeps-the-wheel",
+"select line from coverage_line where version = 'viola-0.2.0'"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"verified 12/35 · deferred 1 · planned 22 · implemented 0 · unclaimed 22",
+"1 row(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

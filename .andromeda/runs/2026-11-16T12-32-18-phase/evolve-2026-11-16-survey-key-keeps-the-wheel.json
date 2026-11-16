@@ -1,0 +1,162 @@
+[
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "22428b81",
+"ts": "2026-11-16T12:34:01Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-16T12-32-18-phase",
+"--marker",
+"2026-11-16-survey-key-keeps-the-wheel"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 1966 · 2026-11-16T12-33-33-2026-11-16-survey-key-keeps-the-wheel.ndjson",
+"ts 2026-11-16T12:33:50Z · clock 2026-11-16T12:34:00Z · bound 2026-11-16T12:31:38Z (line 3226)",
+"ids 2026-11-16T12:33:50Z-a … 2026-11-16T12:33:50Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T12-33-33-2026-11-16-survey-key-keeps-the-wheel.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "22428b81",
+"ts": "2026-11-16T13:03:49Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-16T12-32-18-phase",
+"--marker",
+"2026-11-16-survey-key-keeps-the-wheel"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 1967 · 2026-11-16T12-33-33-2026-11-16-survey-key-keeps-the-wheel.ndjson",
+"ts 2026-11-16T13:03:37Z · clock 2026-11-16T13:03:49Z · bound 2026-11-16T12:33:50Z (line 3228)",
+"ids 2026-11-16T13:03:37Z-a … 2026-11-16T13:03:37Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T12-33-33-2026-11-16-survey-key-keeps-the-wheel.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "22428b81",
+"ts": "2026-11-16T13:11:56Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-16T12-32-18-phase",
+"--marker",
+"2026-11-16-survey-key-keeps-the-wheel"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 1970 · 2026-11-16T12-33-33-2026-11-16-survey-key-keeps-the-wheel.ndjson",
+"ts 2026-11-16T13:11:47Z · clock 2026-11-16T13:11:56Z · bound 2026-11-16T13:03:37Z (line 3230)",
+"ids 2026-11-16T13:11:47Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T12-33-33-2026-11-16-survey-key-keeps-the-wheel.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "22428b81",
+"ts": "2026-11-16T13:24:05Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-16T12-32-18-phase",
+"--marker",
+"2026-11-16-survey-key-keeps-the-wheel"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 1977 · 2026-11-16T12-33-33-2026-11-16-survey-key-keeps-the-wheel.ndjson",
+"ts 2026-11-16T13:23:58Z · clock 2026-11-16T13:24:05Z · bound 2026-11-16T13:11:47Z (line 3231)",
+"ids 2026-11-16T13:23:58Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T12-33-33-2026-11-16-survey-key-keeps-the-wheel.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "22428b81",
+"ts": "2026-11-16T13:33:23Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-16T12-32-18-phase",
+"--marker",
+"2026-11-16-survey-key-keeps-the-wheel"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 1985 · 2026-11-16T12-33-33-2026-11-16-survey-key-keeps-the-wheel.ndjson",
+"ts 2026-11-16T13:33:11Z · clock 2026-11-16T13:33:23Z · bound 2026-11-16T13:23:58Z (line 3232)",
+"ids 2026-11-16T13:33:11Z-a … 2026-11-16T13:33:11Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T12-33-33-2026-11-16-survey-key-keeps-the-wheel.ndjson"
+],
+"before": null,
+"after": null
+}
+]

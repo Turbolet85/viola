@@ -1,0 +1,37 @@
+[
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "4b604245",
+"ts": "2026-11-16T12:33:34Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-11-16-survey-key-keeps-the-wheel",
+"--id",
+"chk-o6p25vhx",
+"--desc-file",
+".andromeda/runs/2026-11-16T12-32-18-phase/master-desc.txt",
+"--scope-file",
+".andromeda/cache/docs/2026-11-16-survey-key-keeps-the-wheel/scope.md",
+"--run-dir",
+".andromeda/runs/2026-11-16T12-32-18-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"promoted 2026-11-16-survey-key-keeps-the-wheel · chk-o6p25vhx · Survey key keeps the wheel · tx 1963"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T12-33-33-2026-11-16-survey-key-keeps-the-wheel.ndjson",
+"./.andromeda/master-route.md",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]
