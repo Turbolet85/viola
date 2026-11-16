@@ -1,0 +1,95 @@
+[
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "ca32c8df",
+"ts": "2026-11-16T18:15:33Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-16-granular-api-error-cause",
+"--source",
+"~/dev/projects/additional/viola-overseer/wrap-granular-cause-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the overseer wrap directive for this chunk: nine words ratified by the founder ruling A; the unknown-value notice the overseer technical answer; what stays unmeasured; the two departures judged by the reconcile; the last card",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T18-15-08-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy no-repo · ../additional/viola-overseer/wrap-granular-cause-directive.md",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-wrap-granular-cause-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/wrap-granular-cause-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "12d01965de9b702ca93cc344b752bd890e3d2a01d343f34e8b0f6decea65c500",
+"copy": "I3-wrap-granular-cause-directive.md.txt",
+"link": false,
+"read_at": "2026-11-16T18:15:33Z",
+"step": "wrap",
+"why": "the overseer wrap directive for this chunk: nine words ratified by the founder ruling A; the unknown-value notice the overseer technical answer; what stays unmeasured; the two departures judged by the reconcile; the last card"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "ca32c8df",
+"ts": "2026-11-16T18:15:38Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-16-granular-api-error-cause",
+"--run-dir",
+".andromeda/runs/2026-11-16T18-15-08-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-granular-cause-directive.md",
+"I1 cited scope.md:74 · research.md:5 · research.md:7 · research.md:67 · research.md:77 · plan.md:116 · plan.md:118 · plan.md:139 · plan.md:326 · plan.md:335 · report.md:52",
+"I2 n/a — a message has no live source · copy message · message: the Viola overseer (technical answer, not the founder)",
+"I2 cited research.md:50 · research.md:51 · plan.md:27 · plan.md:326 · plan.md:341 · plan.md:353 · plan.md:374 · report.md:53 · report.md:65",
+"I3 unchanged · copy no-repo · ../additional/viola-overseer/wrap-granular-cause-directive.md",
+"I3 UNCITED",
+"inputs: 3 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 1 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 3,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 1,
+"unparsed": 0
+}
+}
+]

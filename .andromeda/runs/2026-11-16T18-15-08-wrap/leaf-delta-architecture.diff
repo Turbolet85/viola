@@ -1,0 +1,22 @@
+--- a/.andromeda/architecture.md
++++ b/.andromeda/architecture.md
+@@ -340,3 +340,3 @@
+ decision/timestamp-format · Timestamp format — Timestamps are always RFC 3339 UTC with milliseconds and a `Z` suffix, as in `2026-09-23T19:43:58.123Z`.
+-decision/unparseable-external-values-unknown · Unparseable external values become unknown — An unparseable external value becomes the string `"unknown"` in viola's own records, never an error. · except: A hyprctl reply the Hyprland seam cannot parse is the seam's malformed error.
++decision/unparseable-external-values-unknown · Unparseable external values become unknown — An unparseable external value becomes the string `"unknown"` in viola's own records, never an error. · except: A hyprctl reply the Hyprland seam cannot parse is the seam's malformed error; a StopFailure error word outside the CLI's known words reads the turn-end cause `api-error`.
+ decision/viola-name-instance-key · ViolaName as the instance key — The instance key is `ViolaName`: ASCII `[a-z0-9-]`, 1 to 32 characters, starting with a letter, enforced by nutype. · why: No database, so no UUID or serial keys.
+@@ -393,3 +393,3 @@
+ contract/hook-to-kind-map/stop · Hook to kind map · Stop — Stop maps to `turn-ended`.
+-contract/hook-to-kind-map/stopfailure · Hook to kind map · StopFailure — StopFailure (`viola hook stop-failure`) maps to `turn-ended`, not a dialog, its data exactly `last_assistant_message` null, `background_tasks` null and `cause` `api-error`.
++contract/hook-to-kind-map/stopfailure · Hook to kind map · StopFailure — StopFailure (`viola hook stop-failure`) maps to `turn-ended`, not a dialog, its data exactly `last_assistant_message` null, `background_tasks` null and `cause` one of the nine TurnEndCause words, classified from the CLI's error word inside the Claude adapter.
+ contract/hook-to-kind-map/userpromptsubmit · Hook to kind map · UserPromptSubmit — UserPromptSubmit maps to `prompt-submitted`.
+@@ -444,3 +444,3 @@
+ contract/snapshot/writer · snapshot · writer — Holds the `CARGO_PKG_VERSION` of the binary that wrote the snapshot.
+-contract/turn-end-cause/cause-set · Turn-end cause · cause set — `turn-ended` has a closed cause set, TurnEndCause, in viola-core beside UnreachableCause, with one member `api-error` and no Claude-specific name; a `turn-ended` cause is one of its words.
++contract/turn-end-cause/cause-set · Turn-end cause · cause set — `turn-ended` has a closed cause set, TurnEndCause, in viola-core beside UnreachableCause, of nine words (rate-limited, overloaded, auth-failed, billing, invalid-request, model-not-found, server-error, output-limit, api-error) with no Claude-specific name; a `turn-ended` cause is one of its words.
+ contract/unreachable-cause/cause-set · Unreachable cause · cause set — Exit 21 has a closed cause set (StrictModes, InstanceDead, UnwrappedName, EndpointLost, ServerVerify, SocketDir as socket-dir-refused) written by both clients, with no serde path; it is no RefusalReason.
+@@ -568,3 +568,3 @@
+ contract/event-data/turn-ended-background-tasks · event data per kind · turn-ended background_tasks — `background_tasks` is the Stop payload's `background_tasks` array length, a count only with no element read or carried, or `null` when the key is absent, `null` or not an array.
+-contract/event-data/turn-ended-cause · event data per kind · turn-ended cause — `cause` is present only on an API-error turn end, as `api-error`, and absent on a Stop end; it crosses into `events.ndjson`, CLI `wait --json` and MCP `wait`, applied provisionally ahead of ratification.
++contract/event-data/turn-ended-cause · event data per kind · turn-ended cause — `cause` is present only on an API-error turn end, one of the nine TurnEndCause words, and absent on a Stop end; it crosses into `events.ndjson`, CLI `wait --json` and MCP `wait`.
+ contract/event-data/turn-ended-last-assistant-message · event data per kind · turn-ended last_assistant_message — `turn-ended` data is `{last_assistant_message, background_tasks, cause?}` and carries no scheduled-wake count, so a driver cannot learn from the turn end that the CLI has a wake scheduled; `last_assistant_message` is a string or `null` and is the source `last` rebuilds from.

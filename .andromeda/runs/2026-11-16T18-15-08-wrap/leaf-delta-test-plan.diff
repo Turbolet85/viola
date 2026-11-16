@@ -1,0 +1,7 @@
+--- a/.andromeda/test-plan.md
++++ b/.andromeda/test-plan.md
+@@ -498,3 +498,3 @@
+ contract/event-data/question · Event data keys · question — option_details is a key of each entry in the questions array of a question line's data; the data keys themselves are dialog_id and questions.
+-contract/event-data/turn-ended · Event data keys · turn-ended — data holds the keys last_assistant_message, background_tasks and cause; cause is present on an API-error turn end only and absent on a Stop.
++contract/event-data/turn-ended · Event data keys · turn-ended — data holds the keys last_assistant_message, background_tasks and cause; cause is present on an API-error turn end only, absent on a Stop, and is one of nine closed words: rate-limited, overloaded, auth-failed, billing, invalid-request, model-not-found, server-error, output-limit, api-error.
+ contract/event-data/unlink · Event data keys · unlink — data holds the keys driver and driven.

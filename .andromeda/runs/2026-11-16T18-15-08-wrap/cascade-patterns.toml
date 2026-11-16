@@ -1,0 +1,14 @@
+[[pattern]]
+id = 'm-oneword'
+regex = '''api-error alone|one member .?api-error|cause word .?api-error|as .?api-error.?,|cause.? .?api-error.?\.|held to one closed word'''
+ignore_case = true
+
+[[pattern]]
+id = 'm-noclass'
+regex = '''no class is written|nine closed API-error classes|ApiErrorClass|api_error_class'''
+ignore_case = true
+
+[[pattern]]
+id = 'm-provis'
+regex = '''applied provisionally ahead of ratification'''
+ignore_case = true

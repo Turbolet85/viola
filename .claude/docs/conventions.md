@@ -19,7 +19,7 @@ _Extracted from `doc:architecture` §Conventions by `/andromeda-setup-project`. 
 - Endpoint name: `viola-<h12>`, the first 12 hex chars of FNV-1a 64 over `ViolaName` + `\0` + absolute viola home — hand-written in `viola-channel` (never `DefaultHasher`, not stable across Rust releases); recorded in the snapshot.
 - Timestamps: `ts` on every instance event and the `hook.event` frame (request frames carry no instant), `timestamp` on process-log and detail lines, `*_at` for other instants (a link record's start instant excepted); RFC 3339 UTC with ms and `Z` (`to_rfc3339_opts(SecondsFormat::Millis, true)`).
 - Optional fields: `Option<T>` + `#[serde(default, skip_serializing_if = "Option::is_none")]`; missing and `null` read the same.
-- Unparseable external values become `"unknown"`, never an error, except a hyprctl reply the Hyprland seam cannot parse, which is the seam's `malformed` error.
+- Unparseable external values become `"unknown"`, never an error, except a hyprctl reply the Hyprland seam cannot parse, which is the seam's `malformed` error, and a StopFailure error word outside the CLI's known words, which reads the turn-end cause `api-error`.
 - ndjson: one complete object + `\n` per single `write`; multi-line text as an escaped string.
 
 ## Wire formats

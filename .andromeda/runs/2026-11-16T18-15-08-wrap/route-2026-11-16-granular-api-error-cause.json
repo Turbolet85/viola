@@ -1,0 +1,67 @@
+[
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "a34929e9",
+"ts": "2026-11-16T18:51:08Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-16-granular-api-error-cause",
+"--date",
+"2026-11-16",
+"--run-dir",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-zriq6bde strip CARRY: 948ch \"CARRY: the founder's ruling A, his own w\"",
+"pin next markerless chk-76zccprp holds CARRY:×1",
+"2026-11-16-granular-api-error-cause · strip 1 block(s) · spent in the spine",
+"dry-run · would flip 2026-11-16-granular-api-error-cause pending -> complete"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "a34929e9",
+"ts": "2026-11-16T18:51:14Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-16-granular-api-error-cause",
+"--date",
+"2026-11-16",
+"--run-dir",
+".andromeda/runs/2026-11-16T18-15-08-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-zriq6bde strip CARRY: 948ch \"CARRY: the founder's ruling A, his own w\"",
+"pin next markerless chk-76zccprp holds CARRY:×1",
+"flip 2026-11-16-granular-api-error-cause pending -> complete · tx 2111",
+"compacted 1 complete line(s) — their freight spent in the spine, no archive (U61)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T17-06-56-2026-11-16-granular-api-error-cause.ndjson",
+"./.andromeda/master-route.md",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]

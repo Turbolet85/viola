@@ -1,0 +1,99 @@
+[
+{
+"tool": "matrix",
+"v": "1.13",
+"sha8": "ec50b72d",
+"ts": "2026-11-16T18:49:59Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.2.0",
+"--chunk",
+"2026-11-16-granular-api-error-cause",
+"--run-dir",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-11-16-granular-api-error-cause: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v2-34 → verified — For each of the 13 `error` words the CLI's StopFailure schema declares, a wrappe… (1160 chars)",
+"dry-run: nothing written",
+"version: verified 13/35"
+],
+"stderr": null,
+"wrote": [],
+"before": [
+{
+"id": "v2-34",
+"chunk": "2026-11-16-granular-api-error-cause",
+"status": "implemented",
+"method": "integration",
+"ref": "tests/hook_events.rs::hook_stop_failure_names_the_cause_of_each_cli_error_word · tests/cli_wheel.rs::path5_an_api_error_… (348 chars)",
+"acceptance": "For each of the 13 `error` words the CLI's StopFailure schema declares, a wrapper over the fake agent appends a `turn-en… (1160 chars)",
+"notes_chars": 0
+}
+],
+"after": [
+{
+"id": "v2-34",
+"chunk": "2026-11-16-granular-api-error-cause",
+"status": "verified",
+"method": "integration",
+"ref": "tests/hook_events.rs::hook_stop_failure_names_the_cause_of_each_cli_error_word · tests/cli_wheel.rs::path5_an_api_error_… (348 chars)",
+"acceptance": "For each of the 13 `error` words the CLI's StopFailure schema declares, a wrapper over the fake agent appends a `turn-en… (1160 chars)",
+"notes_chars": 0
+}
+]
+},
+{
+"tool": "matrix",
+"v": "1.13",
+"sha8": "ec50b72d",
+"ts": "2026-11-16T18:50:02Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.2.0",
+"--chunk",
+"2026-11-16-granular-api-error-cause",
+"--run-dir",
+".andromeda/runs/2026-11-16T18-15-08-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-11-16-granular-api-error-cause: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v2-34 → verified — For each of the 13 `error` words the CLI's StopFailure schema declares, a wrappe… (1160 chars)",
+"landed, rendered ./.andromeda/db/log/2026-11-16T17-06-56-2026-11-16-granular-api-error-cause.ndjson · 1 entry changed",
+"version: verified 13/35"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T17-06-56-2026-11-16-granular-api-error-cause.ndjson"
+],
+"before": [
+{
+"id": "v2-34",
+"chunk": "2026-11-16-granular-api-error-cause",
+"status": "implemented",
+"method": "integration",
+"ref": "tests/hook_events.rs::hook_stop_failure_names_the_cause_of_each_cli_error_word · tests/cli_wheel.rs::path5_an_api_error_… (348 chars)",
+"acceptance": "For each of the 13 `error` words the CLI's StopFailure schema declares, a wrapper over the fake agent appends a `turn-en… (1160 chars)",
+"notes_chars": 0
+}
+],
+"after": [
+{
+"id": "v2-34",
+"chunk": "2026-11-16-granular-api-error-cause",
+"status": "verified",
+"method": "integration",
+"ref": "tests/hook_events.rs::hook_stop_failure_names_the_cause_of_each_cli_error_word · tests/cli_wheel.rs::path5_an_api_error_… (348 chars)",
+"acceptance": "For each of the 13 `error` words the CLI's StopFailure schema declares, a wrapper over the fake agent appends a `turn-en… (1160 chars)",
+"notes_chars": 0
+}
+]
+}
+]

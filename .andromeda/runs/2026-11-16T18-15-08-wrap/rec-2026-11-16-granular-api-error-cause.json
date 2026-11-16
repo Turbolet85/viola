@@ -1,0 +1,1342 @@
+[
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T18:17:01Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-16-granular-api-error-cause",
+"--section-file",
+".andromeda/runs/2026-11-16T18-15-08-wrap/after-implement.md",
+"--heading",
+"## After implement",
+"--before",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--marker",
+"2026-11-16-granular-api-error-cause"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-16-granular-api-error-cause/report rev 2 · 10 new · 0 revised · 0 retired · 29 kept · tx 2078"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T17-06-56-2026-11-16-granular-api-error-cause.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T18:17:02Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-16-granular-api-error-cause",
+"--section-file",
+".andromeda/runs/2026-11-16T18-15-08-wrap/new-text.md",
+"--heading",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--marker",
+"2026-11-16-granular-api-error-cause"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-16-granular-api-error-cause/report rev 3 · 14 new · 0 revised · 0 retired · 39 kept · tx 2079"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T17-06-56-2026-11-16-granular-api-error-cause.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T18:17:23Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-16T18-15-08-wrap/cites-land-2026-11-16-granular-api-error-cause.ndjson",
+"--base",
+"bde97ba87929274a879458c8a329146daefd6055",
+"--run-dir",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--marker",
+"2026-11-16-granular-api-error-cause",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 0 fact(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T18:17:28Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-16T18-15-08-wrap/cites-land-2026-11-16-granular-api-error-cause.ndjson",
+"--base",
+"bde97ba87929274a879458c8a329146daefd6055",
+"--run-dir",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--marker",
+"2026-11-16-granular-api-error-cause"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 0 fact(s) · 0 edge(s) · tx 2081"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T17-06-56-2026-11-16-granular-api-error-cause.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T18:18:59Z",
+"argv": [
+"rows-packs",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-16-granular-api-error-cause"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 947 · packs 10 · pack 100 · 265375 B",
+"security-plan: rows 603 · packs 7 · pack 100 · 176340 B",
+"design-system: rows 315 · packs 4 · pack 100 · 75728 B",
+"layout-templates: rows 222 · packs 3 · pack 100 · 52492 B",
+"test-plan: rows 1331 · packs 14 · pack 100 · 353016 B",
+"obs-plan: rows 1022 · packs 11 · pack 100 · 279890 B",
+"a11y-plan: rows 235 · packs 3 · pack 100 · 65527 B",
+"rows-packs: 7 master(s) · 4675 row(s) · 52 pack(s) · 2 draw(s) a pack · pin 2081"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-16T18-15-08-wrap/rows-packs.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T18:34:15Z",
+"argv": [
+"rows-union",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-16-granular-api-error-cause"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 947 · packs 10 · picked 10 (6 by every draw) · standing 0 · 136468 B",
+"security-plan: rows 603 · packs 7 · picked 16 (8 by every draw) · standing 0 · 79369 B",
+"design-system: rows 315 · packs 4 · picked 6 (3 by every draw) · standing 0 · 56604 B",
+"layout-templates: rows 222 · packs 3 · picked 10 (7 by every draw) · standing 0 · 46655 B",
+"test-plan: rows 1331 · packs 14 · picked 39 (19 by every draw) · standing 0 · 269625 B",
+"obs-plan: rows 1022 · packs 11 · picked 42 (18 by every draw) · standing 0 · 191117 B",
+"a11y-plan: rows 235 · packs 3 · picked 3 (2 by every draw) · standing 0 · 23198 B",
+"rows-union: 7 master(s) · picked 126 of 4675 · rule any"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-16T18-15-08-wrap/arch-rows.md",
+".andromeda/runs/2026-11-16T18-15-08-wrap/arch-standing.md",
+".andromeda/runs/2026-11-16T18-15-08-wrap/arch-pick-counts.md",
+".andromeda/runs/2026-11-16T18-15-08-wrap/security-rows.md",
+".andromeda/runs/2026-11-16T18-15-08-wrap/security-standing.md",
+".andromeda/runs/2026-11-16T18-15-08-wrap/security-pick-counts.md",
+".andromeda/runs/2026-11-16T18-15-08-wrap/design-rows.md",
+".andromeda/runs/2026-11-16T18-15-08-wrap/design-standing.md",
+".andromeda/runs/2026-11-16T18-15-08-wrap/design-pick-counts.md",
+".andromeda/runs/2026-11-16T18-15-08-wrap/layouts-rows.md",
+".andromeda/runs/2026-11-16T18-15-08-wrap/layouts-standing.md",
+".andromeda/runs/2026-11-16T18-15-08-wrap/layouts-pick-counts.md",
+".andromeda/runs/2026-11-16T18-15-08-wrap/tests-rows.md",
+".andromeda/runs/2026-11-16T18-15-08-wrap/tests-standing.md",
+".andromeda/runs/2026-11-16T18-15-08-wrap/tests-pick-counts.md",
+".andromeda/runs/2026-11-16T18-15-08-wrap/obs-rows.md",
+".andromeda/runs/2026-11-16T18-15-08-wrap/obs-standing.md",
+".andromeda/runs/2026-11-16T18-15-08-wrap/obs-pick-counts.md",
+".andromeda/runs/2026-11-16T18-15-08-wrap/a11y-rows.md",
+".andromeda/runs/2026-11-16T18-15-08-wrap/a11y-standing.md",
+".andromeda/runs/2026-11-16T18-15-08-wrap/a11y-pick-counts.md",
+".andromeda/runs/2026-11-16T18-15-08-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T18:39:38Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-16T18-15-08-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-16T18-15-08-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--marker",
+"2026-11-16-granular-api-error-cause",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/hook-to-kind-map/stopfailure · rejected",
+"decision/claude-shapes-in-one-crate · rejected",
+"decision/unknown-stopfailure-error-word-logged · rejected",
+"fit: fits 3 · not_master 0 · stands 0",
+"## 2026-11-16-granular-api-error-cause — Conventions: 2 row(s)\n**Section:** Conventions\n**Change:** ~ contract/turn-end-cause/cause-set · promise: was «`turn-ended` has a closed cause set, TurnEndCause, in viola-core beside UnreachableCause, with one member `api-error` and no Claude-specific name; a `turn-ended` cause is one of its words.»; now «`turn-ended` has a closed cause set, TurnEndCause, in viola-core beside UnreachableCause, of nine words (rate-limited, overloaded, auth-failed, billing, invalid-request, model-not-found, server-error, output-limit, api-error) with no Claude-specific name; a `turn-ended` cause is one of its words.»\n~ decision/unparseable-external-values-unknown · except: was «A hyprctl reply the Hyprland seam cannot parse is the seam's malformed error.»; now «A hyprctl reply the Hyprland seam cannot parse is the seam's malformed error; a StopFailure error word outside the CLI's known words reads the turn-end cause `api-error`.»\n**Why:** contract/turn-end-cause/cause-set: TurnEndCause grew from the one member `api-error` to nine, so the row naming one member is false. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-16: «Confirm (Recommended)» — each of the 11 lies inside the founder's ruling A «Подробный список (Recommended)»; the confirm is the delegate's, PROVISIONAL, the ratification the founder's ruling A (answer-card.md)\ndecision/unparseable-external-values-unknown: An unrecognised StopFailure error string now becomes the cause word `api-error`, not the string `unknown`, an exception the convention row must name.\n**Ref:** .andromeda/runs/2026-11-16T18-15-08-wrap/",
+"## 2026-11-16-granular-api-error-cause — Standard Contracts: 1 row(s)\n**Section:** Standard Contracts\n**Change:** ~ contract/event-data/turn-ended-cause · promise: was «`cause` is present only on an API-error turn end, as `api-error`, and absent on a Stop end; it crosses into `events.ndjson`, CLI `wait --json` and MCP `wait`, applied provisionally ahead of ratification.»; now «`cause` is present only on an API-error turn end, one of the nine TurnEndCause words, and absent on a Stop end; it crosses into `events.ndjson`, CLI `wait --json` and MCP `wait`.»\n**Why:** contract/event-data/turn-ended-cause: The cause is now one of nine words rather than `api-error` alone, and the nine words stand ratified, no longer applied provisionally. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-16: «Confirm (Recommended)» — each of the 11 lies inside the founder's ruling A «Подробный список (Recommended)»; the confirm is the delegate's, PROVISIONAL, the ratification the founder's ruling A (answer-card.md)\n**Ref:** .andromeda/runs/2026-11-16T18-15-08-wrap/",
+"patterns: none: 3 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 3 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T18:39:46Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-16T18-15-08-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-16T18-15-08-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--marker",
+"2026-11-16-granular-api-error-cause"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/hook-to-kind-map/stopfailure · rejected",
+"decision/claude-shapes-in-one-crate · rejected",
+"decision/unknown-stopfailure-error-word-logged · rejected",
+"fit: fits 3 · not_master 0 · stands 0",
+"landed tx 2082 · 3 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T17-06-56-2026-11-16-granular-api-error-cause.ndjson",
+".andromeda/runs/2026-11-16T18-15-08-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T18:39:47Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-16T18-15-08-wrap/ops-main-architecture.md",
+"--results",
+".andromeda/runs/2026-11-16T18-15-08-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--marker",
+"2026-11-16-granular-api-error-cause",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-16-granular-api-error-cause — Conventions: 1 row(s)\n**Section:** Conventions\n**Change:** ~ contract/hook-to-kind-map/stopfailure · promise: was «StopFailure (`viola hook stop-failure`) maps to `turn-ended`, not a dialog, its data exactly `last_assistant_message` null, `background_tasks` null and `cause` `api-error`.»; now «StopFailure (`viola hook stop-failure`) maps to `turn-ended`, not a dialog, its data exactly `last_assistant_message` null, `background_tasks` null and `cause` one of the nine TurnEndCause words, classified from the CLI's error word inside the Claude adapter.»\n**Why:** contract/hook-to-kind-map/stopfailure: The StopFailure arm now writes the classified cause word, one of nine, where the row promises the one word `api-error`. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-16: «Confirm (Recommended)» — each of the 11 lies inside the founder's ruling A «Подробный список (Recommended)»; the confirm is the delegate's, PROVISIONAL, the ratification the founder's ruling A (answer-card.md)\n**Ref:** .andromeda/runs/2026-11-16T18-15-08-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T18:40:00Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-16T18-15-08-wrap/ops-main-architecture.md",
+"--results",
+".andromeda/runs/2026-11-16T18-15-08-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--marker",
+"2026-11-16-granular-api-error-cause"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 2083 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T17-06-56-2026-11-16-granular-api-error-cause.ndjson",
+".andromeda/runs/2026-11-16T18-15-08-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T18:40:01Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-16T18-15-08-wrap/ops-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-16T18-15-08-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--marker",
+"2026-11-16-granular-api-error-cause",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/api-error-classes-adapter-only · rejected",
+"decision/api-error-cause-classified-in-adapter · rejected",
+"contract/hook-stdin/unknown-value · rejected",
+"fit: fits 2 · not_master 0 · stands 0",
+"## 2026-11-16-granular-api-error-cause — Input Validation: 1 row(s)\n**Section:** Input Validation\n**Change:** ~ contract/channel-frames/hook-event-revalidation · promise: was «kind is one of the five hook kinds, data an object, and for prompt-submitted text is a string and origin is harness or human; a turn-ended cause, when present, is a string in the closed turn-end cause set (api-error alone); an invalid event is not appended.»; now «kind is one of the five hook kinds, data an object, and for prompt-submitted text is a string and origin is harness or human; a turn-ended cause, when present, is a string in the closed nine-word turn-end cause set; an invalid event is not appended.»\n**Why:** contract/channel-frames/hook-event-revalidation: The turn-end cause set the wrapper re-checks grew from api-error alone to nine closed words, so the promise naming one word is false. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-16: «Confirm (Recommended)» — each of the 11 lies inside the founder's ruling A «Подробный список (Recommended)»; the confirm is the delegate's, PROVISIONAL, the ratification the founder's ruling A (answer-card.md)\n**Ref:** .andromeda/runs/2026-11-16T18-15-08-wrap/",
+"## 2026-11-16-granular-api-error-cause — Data Protection: 1 row(s)\n**Section:** Data Protection\n**Change:** ~ decision/api-error-turn-end-text-dropped · rule: was «The StopFailure payload's error text, error_details and last_assistant_message are dropped at the parse; an API-error end's turn-ended data holds only null last_assistant_message and background_tasks and the closed cause word api-error, which crosses into events.ndjson, wait --json and MCP wait.»; now «The StopFailure payload's error text, error_details and last_assistant_message are dropped at the parse; an API-error end's turn-ended data holds only null last_assistant_message and background_tasks and one closed nine-word cause set word, which crosses into events.ndjson, wait --json and MCP wait.»\n**Why:** decision/api-error-turn-end-text-dropped: The cause word an API-error turn end carries is now one of nine closed words rather than api-error alone, while the error text still crosses nothing. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-16: «Confirm (Recommended)» — each of the 11 lies inside the founder's ruling A «Подробный список (Recommended)»; the confirm is the delegate's, PROVISIONAL, the ratification the founder's ruling A (answer-card.md)\n**Ref:** .andromeda/runs/2026-11-16T18-15-08-wrap/",
+"patterns: none: 2 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 2 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T18:40:10Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-16T18-15-08-wrap/ops-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-16T18-15-08-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--marker",
+"2026-11-16-granular-api-error-cause"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/api-error-classes-adapter-only · rejected",
+"decision/api-error-cause-classified-in-adapter · rejected",
+"contract/hook-stdin/unknown-value · rejected",
+"fit: fits 2 · not_master 0 · stands 0",
+"landed tx 2084 · 2 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T17-06-56-2026-11-16-granular-api-error-cause.ndjson",
+".andromeda/runs/2026-11-16T18-15-08-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T18:40:11Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-16T18-15-08-wrap/ops-main-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-16T18-15-08-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--marker",
+"2026-11-16-granular-api-error-cause",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-16-granular-api-error-cause — Data Protection: 1 row(s)\n**Section:** Data Protection\n**Change:** ~ decision/api-error-classes-adapter-only · rule: was «The CLI's StopFailure error word is classified into nine closed API-error classes inside the Claude adapter crate only; no class is written to event data, an event line, the snapshot or a log line.»; now «The CLI's StopFailure error word is classified into one of the nine closed turn-end cause words inside the Claude adapter crate only; only that cause word crosses out of the adapter, never the error word or any error text.»\n**Why:** decision/api-error-classes-adapter-only: The classification now crosses as one of the nine TurnEndCause words while the classifier stays in the adapter, so the rule that no class is written out is false. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-16: «Confirm (Recommended)» — each of the 11 lies inside the founder's ruling A «Подробный список (Recommended)»; the confirm is the delegate's, PROVISIONAL, the ratification the founder's ruling A (answer-card.md)\n**Ref:** .andromeda/runs/2026-11-16T18-15-08-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T18:40:20Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-16T18-15-08-wrap/ops-main-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-16T18-15-08-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--marker",
+"2026-11-16-granular-api-error-cause"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 2085 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T17-06-56-2026-11-16-granular-api-error-cause.ndjson",
+".andromeda/runs/2026-11-16T18-15-08-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T18:40:20Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-16T18-15-08-wrap/ops-main-security-plan.2.md",
+"--results",
+".andromeda/runs/2026-11-16T18-15-08-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--marker",
+"2026-11-16-granular-api-error-cause",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-16-granular-api-error-cause — Data Protection: 2 row(s)\n**Section:** Data Protection\n**Change:** ~ decision/api-error-classes-adapter-only · state: was «provisional»; now «standing»\n~ decision/api-error-turn-end-text-dropped · why: was «A boundary widening held to one closed word, so the upstream error text crosses into nothing.»; now «A boundary widening held to a closed set of nine words, so the upstream error text crosses into nothing.»\n**Why:** decision/api-error-classes-adapter-only: The nine words crossing out of the adapter are the founder's own answer to the fork, so the decision is no longer applied ahead of its ratification. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-16: «Confirm (Recommended)» — each of the 11 lies inside the founder's ruling A «Подробный список (Recommended)»; the confirm is the delegate's, PROVISIONAL, the ratification the founder's ruling A (answer-card.md)\ndecision/api-error-turn-end-text-dropped: The widening the row's reason names is now a closed set of nine words, not one word. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-16: «Confirm (Recommended)» — each of the 11 lies inside the founder's ruling A «Подробный список (Recommended)»; the confirm is the delegate's, PROVISIONAL, the ratification the founder's ruling A (answer-card.md)\n**Ref:** .andromeda/runs/2026-11-16T18-15-08-wrap/",
+"patterns: none: 2 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 2 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T18:40:30Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-16T18-15-08-wrap/ops-main-security-plan.2.md",
+"--results",
+".andromeda/runs/2026-11-16T18-15-08-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--marker",
+"2026-11-16-granular-api-error-cause"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 2086 · 2 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T17-06-56-2026-11-16-granular-api-error-cause.ndjson",
+".andromeda/runs/2026-11-16T18-15-08-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T18:40:30Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-16T18-15-08-wrap/ops-main-security-plan.3.md",
+"--results",
+".andromeda/runs/2026-11-16T18-15-08-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--marker",
+"2026-11-16-granular-api-error-cause",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 0 · not_master 0 · stands 0",
+"## 2026-11-16-granular-api-error-cause — Data Protection: 1 row(s)\n**Section:** Data Protection\n**Change:** ~ decision/api-error-turn-end-text-dropped · state: was «provisional»; now «standing»\n**Why:** decision/api-error-turn-end-text-dropped: The nine-word cause set this decision holds the crossing to is the founder's own answer to the fork, so it is no longer applied ahead of its ratification. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-16: «Confirm (Recommended)» — each of the 11 lies inside the founder's ruling A «Подробный список (Recommended)»; the confirm is the delegate's, PROVISIONAL, the ratification the founder's ruling A (answer-card.md)\n**Ref:** .andromeda/runs/2026-11-16T18-15-08-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T18:40:39Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-16T18-15-08-wrap/ops-main-security-plan.3.md",
+"--results",
+".andromeda/runs/2026-11-16T18-15-08-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--marker",
+"2026-11-16-granular-api-error-cause"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 0 · not_master 0 · stands 0",
+"landed tx 2087 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T17-06-56-2026-11-16-granular-api-error-cause.ndjson",
+".andromeda/runs/2026-11-16T18-15-08-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T18:40:40Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-16T18-15-08-wrap/ops-design-system.md",
+"--results",
+".andromeda/runs/2026-11-16T18-15-08-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--marker",
+"2026-11-16-granular-api-error-cause",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-16-granular-api-error-cause — Surface: cli: 1 row(s)\n**Section:** Surface: cli\n**Change:** ~ decision/api-error-turn-end-shown-as-turn-end · rule: was «A turn the CLI ends on an API error shows like any turn end: STATUS reads `idle`, `wait` reads `turn-ended`, no distinct status, colour or hint marks it, the only trace is the closed cause word `api-error` in `--json` event data, and the CLI's error text is shown nowhere.»; now «A turn the CLI ends on an API error shows like any turn end: STATUS reads `idle`, `wait` reads `turn-ended`, no distinct status, colour or hint marks it, the only trace is one closed cause word of nine in `--json` and MCP `wait` event data, and the CLI's error text is shown nowhere.»\n**Why:** decision/api-error-turn-end-shown-as-turn-end: The turn-end cause grew from the one word `api-error` to a closed set of nine words reaching `--json` and MCP `wait` with no human-output change, so the rule's «the closed cause word `api-error`» no longer holds. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-16: «Confirm (Recommended)» — each of the 11 lies inside the founder's ruling A «Подробный список (Recommended)»; the confirm is the delegate's, PROVISIONAL, the ratification the founder's ruling A (answer-card.md)\n**Ref:** .andromeda/runs/2026-11-16T18-15-08-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T18:40:40Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-16T18-15-08-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-16T18-15-08-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--marker",
+"2026-11-16-granular-api-error-cause",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-16-granular-api-error-cause — 5. Integration Test Strategy: 1 row(s)\n**Section:** 5. Integration Test Strategy\n**Change:** ~ contract/event-data/turn-ended · promise: was «data holds the keys last_assistant_message, background_tasks and cause; cause is present on an API-error turn end only and absent on a Stop.»; now «data holds the keys last_assistant_message, background_tasks and cause; cause is present on an API-error turn end only, absent on a Stop, and is one of nine closed words: rate-limited, overloaded, auth-failed, billing, invalid-request, model-not-found, server-error, output-limit, api-error.»\n**Why:** contract/event-data/turn-ended: The turn-end cause set grew from the one word api-error to nine closed words, and the report's expected amendment names this row to carry the nine-word set. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-16: «Confirm (Recommended)» — each of the 11 lies inside the founder's ruling A «Подробный список (Recommended)»; the confirm is the delegate's, PROVISIONAL, the ratification the founder's ruling A (answer-card.md)\n**Ref:** .andromeda/runs/2026-11-16T18-15-08-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T18:40:42Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-16T18-15-08-wrap/ops-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-16T18-15-08-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--marker",
+"2026-11-16-granular-api-error-cause",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/stopfailure-error-text-never-logged · rejected",
+"fit: fits 4 · not_master 0 · stands 0",
+"## 2026-11-16-granular-api-error-cause — 6. Log Coverage: 2 row(s)\n**Section:** 6. Log Coverage\n**Change:** + contract/parse-rejected-detail/unknown-value — parse-rejected detail · unknown-value\n+ contract/parse-rejected/hook-stdin-unknown-value — parse-rejected diagnostic line · parser hook-stdin, detail unknown-value\n**Why:** contract/parse-rejected-detail/unknown-value: The diag-line schema's parse-rejected detail enum gains unknown-value, and the boundary's closed list holds one row an item, so the new word owes its row.\ncontract/parse-rejected/hook-stdin-unknown-value: The hook now writes a codes-only parse-rejected line for an outside StopFailure error word, a new line other readers of the role file rely on.\n**Ref:** .andromeda/runs/2026-11-16T18-15-08-wrap/",
+"## 2026-11-16-granular-api-error-cause — 1. Obs Scope Summary: 1 row(s)\n**Section:** 1. Obs Scope Summary\n**Change:** ~ decision/parse-failures-unknown-counter · except: was «A hyprctl reply that fails its parse reads the closed error oversize or malformed with one parse-rejected line, never unknown.»; now «A hyprctl reply failing its parse reads oversize or malformed, and a StopFailure error word outside the CLI's set reads cause api-error, each with one parse-rejected line, never unknown.»\n**Why:** decision/parse-failures-unknown-counter: An outside StopFailure error word now surfaces as the cause api-error with one parse-rejected unknown-value line, a second exception to the unknown value the rule names.\n**Ref:** .andromeda/runs/2026-11-16T18-15-08-wrap/",
+"## 2026-11-16-granular-api-error-cause — 1. Obs Scope Summary: 1 row(s)\n**Section:** 1. Obs Scope Summary\n**Change:** ~ decision/parse-failures-surface-as-unknown · except: was «A hyprctl reply that fails its parse reads the closed error oversize or malformed with one parse-rejected line, never unknown.»; now «A hyprctl reply failing its parse reads oversize or malformed, and a StopFailure error word outside the CLI's set reads cause api-error, each with one parse-rejected line, never unknown.»\n**Why:** decision/parse-failures-surface-as-unknown: An outside StopFailure error word now surfaces as the cause api-error with one parse-rejected unknown-value line, a second exception to the unknown value the rule names.\n**Ref:** .andromeda/runs/2026-11-16T18-15-08-wrap/",
+"patterns: none: 2 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 4 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T18:40:44Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"layout-templates",
+"--file",
+".andromeda/runs/2026-11-16T18-15-08-wrap/ops-layout-templates.md",
+"--results",
+".andromeda/runs/2026-11-16T18-15-08-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--marker",
+"2026-11-16-granular-api-error-cause",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/viola-wait-output/turn-ended · rejected",
+"fit: fits 0 · not_master 0 · stands 0",
+"patterns: none — the call sets and retires no row",
+"dry-run · would land 0 operation(s) · 0 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T18:40:53Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-16T18-15-08-wrap/ops-design-system.md",
+"--results",
+".andromeda/runs/2026-11-16T18-15-08-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--marker",
+"2026-11-16-granular-api-error-cause"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 2088 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T17-06-56-2026-11-16-granular-api-error-cause.ndjson",
+".andromeda/runs/2026-11-16T18-15-08-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T18:40:55Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-16T18-15-08-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-16T18-15-08-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--marker",
+"2026-11-16-granular-api-error-cause"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 2089 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T17-06-56-2026-11-16-granular-api-error-cause.ndjson",
+".andromeda/runs/2026-11-16T18-15-08-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T18:40:56Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-16T18-15-08-wrap/ops-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-16T18-15-08-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--marker",
+"2026-11-16-granular-api-error-cause"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/stopfailure-error-text-never-logged · rejected",
+"fit: fits 4 · not_master 0 · stands 0",
+"landed tx 2090 · 4 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T17-06-56-2026-11-16-granular-api-error-cause.ndjson",
+".andromeda/runs/2026-11-16T18-15-08-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T18:43:55Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/conventions.md",
+"--file",
+"./.andromeda/runs/2026-11-16T18-15-08-wrap/staged-leaf-.claude__docs__conventions.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-16T18-15-08-wrap",
+"--marker",
+"2026-11-16-granular-api-error-cause"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/conventions.md rev 10 · 0 new · 1 revised · 0 retired · tx 2091"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T17-06-56-2026-11-16-granular-api-error-cause.ndjson",
+"./.claude/docs/conventions.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T18:43:56Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola-agent-claude.md",
+"--file",
+"./.andromeda/runs/2026-11-16T18-15-08-wrap/staged-leaf-.claude__docs__services__viola-agent-claude.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-16T18-15-08-wrap",
+"--marker",
+"2026-11-16-granular-api-error-cause"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola-agent-claude.md rev 15 · 0 new · 1 revised · 0 retired · tx 2092"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T17-06-56-2026-11-16-granular-api-error-cause.ndjson",
+"./.claude/docs/services/viola-agent-claude.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T18:43:56Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola-core.md",
+"--file",
+"./.andromeda/runs/2026-11-16T18-15-08-wrap/staged-leaf-.claude__docs__services__viola-core.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-16T18-15-08-wrap",
+"--marker",
+"2026-11-16-granular-api-error-cause"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola-core.md rev 7 · 0 new · 1 revised · 0 retired · tx 2093"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T17-06-56-2026-11-16-granular-api-error-cause.ndjson",
+"./.claude/docs/services/viola-core.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T18:43:57Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/events.md",
+"--file",
+"./.andromeda/runs/2026-11-16T18-15-08-wrap/staged-leaf-.claude__rules__events.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-16T18-15-08-wrap",
+"--marker",
+"2026-11-16-granular-api-error-cause"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/events.md rev 12 · 0 new · 3 revised · 0 retired · tx 2094"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T17-06-56-2026-11-16-granular-api-error-cause.ndjson",
+"./.claude/rules/events.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T18:43:57Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/frontend.md",
+"--file",
+"./.andromeda/runs/2026-11-16T18-15-08-wrap/staged-leaf-.claude__rules__frontend.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-16T18-15-08-wrap",
+"--marker",
+"2026-11-16-granular-api-error-cause"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/frontend.md rev 9 · 0 new · 1 revised · 0 retired · tx 2095"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T17-06-56-2026-11-16-granular-api-error-cause.ndjson",
+"./.claude/rules/frontend.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T18:43:58Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/design-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-16T18-15-08-wrap/staged-leaf-.claude__docs__design-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-16T18-15-08-wrap",
+"--marker",
+"2026-11-16-granular-api-error-cause"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/design-summary.md rev 12 · 0 new · 1 revised · 0 retired · tx 2096"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T17-06-56-2026-11-16-granular-api-error-cause.ndjson",
+"./.claude/docs/design-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T18:43:58Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/security-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-16T18-15-08-wrap/staged-leaf-.claude__docs__security-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-16T18-15-08-wrap",
+"--marker",
+"2026-11-16-granular-api-error-cause"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/security-summary.md rev 17 · 0 new · 1 revised · 0 retired · tx 2097"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T17-06-56-2026-11-16-granular-api-error-cause.ndjson",
+"./.claude/docs/security-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T18:43:59Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/security.md",
+"--file",
+"./.andromeda/runs/2026-11-16T18-15-08-wrap/staged-leaf-.claude__rules__security.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-16T18-15-08-wrap",
+"--marker",
+"2026-11-16-granular-api-error-cause"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/security.md rev 20 · 0 new · 1 revised · 0 retired · tx 2098"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T17-06-56-2026-11-16-granular-api-error-cause.ndjson",
+"./.claude/rules/security.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T18:43:59Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/tests-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-16T18-15-08-wrap/staged-leaf-.claude__docs__tests-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-16T18-15-08-wrap",
+"--marker",
+"2026-11-16-granular-api-error-cause"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/tests-summary.md rev 17 · 0 new · 1 revised · 0 retired · tx 2099"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T17-06-56-2026-11-16-granular-api-error-cause.ndjson",
+"./.claude/docs/tests-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T18:44:00Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/observability.md",
+"--file",
+"./.andromeda/runs/2026-11-16T18-15-08-wrap/staged-leaf-.claude__rules__observability.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-16T18-15-08-wrap",
+"--marker",
+"2026-11-16-granular-api-error-cause"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/observability.md rev 10 · 0 new · 1 revised · 0 retired · tx 2100"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T17-06-56-2026-11-16-granular-api-error-cause.ndjson",
+"./.claude/rules/observability.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T18:47:01Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-16T18-15-08-wrap/route-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--marker",
+"2026-11-16-granular-api-error-cause",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 1 record(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T18:47:05Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-16T18-15-08-wrap/route-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--marker",
+"2026-11-16-granular-api-error-cause"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 0 edge(s) · tx 2103 · cry-6p5vu7ku … cry-6p5vu7ku"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T17-06-56-2026-11-16-granular-api-error-cause.ndjson",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T18:47:32Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-16T18-15-08-wrap/run-node.txt",
+"--run-dir",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--marker",
+"2026-11-16-granular-api-error-cause"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 0 edge(s) · tx 2105 · run-pvq37ngs … run-pvq37ngs"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T17-06-56-2026-11-16-granular-api-error-cause.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T18:50:12Z",
+"argv": [
+"land",
+"--root",
+".",
+"--chunk",
+"2026-11-16-granular-api-error-cause",
+"--run-dir",
+".andromeda/runs/2026-11-16T18-15-08-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"unchanged · 7 file(s) of 2026-11-16-granular-api-error-cause"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

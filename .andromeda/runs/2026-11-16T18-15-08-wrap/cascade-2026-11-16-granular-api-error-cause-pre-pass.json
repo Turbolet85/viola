@@ -1,0 +1,152 @@
+[
+{
+"tool": "cascade",
+"v": "1.35",
+"sha8": "6498921a",
+"ts": "2026-11-16T18:16:00Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-16T18-15-08-wrap/report-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--marker",
+"2026-11-16-granular-api-error-cause"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline fe5f090f (pre-pass — HEAD)",
+"architecture · 15 rows over 1 files · new 0 · standing 15 · 2 patterns",
+"security-plan · 15 rows over 1 files · new 0 · standing 15 · 4 patterns",
+"design-system · 1 rows over 1 files · new 0 · standing 1 · 1 pattern",
+"test-plan · 14 rows over 1 files · new 0 · standing 14 · 2 patterns",
+"obs-plan · 41 rows over 1 files · new 0 · standing 41 · 3 patterns",
+"a11y-plan · 2 rows over 1 files · new 0 · standing 2 · 1 pattern",
+"by line · 0 lines · 0 offsets",
+"total (4 patterns) · 115 rows over 22 files",
+"per class · new 0/0 · standing 88/6 · leaf 27/16 · curation 0/0 · base 0/0",
+"rows 1/1 · .andromeda/runs/2026-11-16T18-15-08-wrap/sweep-pre-pass-1.1.txt · 125 lines · 15279 B"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-16T18-15-08-wrap/sweep-pre-pass-1.1.txt"
+],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "fe5f090f211563a7345eb11220d364b69a7be675",
+"how": "pre-pass — HEAD",
+"counts": {
+"cause-set": {
+"new": 0,
+"standing": 25,
+"leaf": 12,
+"curation": 0,
+"base": 0
+},
+"diag-detail": {
+"new": 0,
+"standing": 59,
+"leaf": 14,
+"curation": 0,
+"base": 0
+},
+"adapter-cls": {
+"new": 0,
+"standing": 1,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"unk-counter": {
+"new": 0,
+"standing": 3,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+},
+"bare": [],
+"masters": {
+"architecture": {
+"rows": 15,
+"files": 1,
+"new": 0,
+"standing": 15,
+"patterns": 2
+},
+"security-plan": {
+"rows": 15,
+"files": 1,
+"new": 0,
+"standing": 15,
+"patterns": 4
+},
+"design-system": {
+"rows": 1,
+"files": 1,
+"new": 0,
+"standing": 1,
+"patterns": 1
+},
+"test-plan": {
+"rows": 14,
+"files": 1,
+"new": 0,
+"standing": 14,
+"patterns": 2
+},
+"obs-plan": {
+"rows": 41,
+"files": 1,
+"new": 0,
+"standing": 41,
+"patterns": 3
+},
+"a11y-plan": {
+"rows": 2,
+"files": 1,
+"new": 0,
+"standing": 2,
+"patterns": 1
+}
+},
+"per_master": {
+"cause-set": {
+"architecture": 4,
+"security-plan": 4,
+"design-system": 1,
+"test-plan": 9,
+"obs-plan": 7
+},
+"diag-detail": {
+"architecture": 11,
+"security-plan": 9,
+"test-plan": 5,
+"obs-plan": 32,
+"a11y-plan": 2
+},
+"adapter-cls": {
+"security-plan": 1
+},
+"unk-counter": {
+"security-plan": 1,
+"obs-plan": 2
+}
+},
+"forms": {
+"adapter-cls": [
+{
+"form": "error word's 9",
+"from": "nine"
+}
+]
+},
+"parts": [
+"sweep-pre-pass-1.1.txt"
+]
+}
+}
+]
