@@ -24,6 +24,16 @@
             "command": "bash ~/.claude/skills/andromeda-tools/hooks/bash-guard.sh"
           }
         ]
+      },
+      {
+        "matcher": "ScheduleWakeup|CronCreate",
+        "hooks": [
+          {
+            "type": "command",
+            "timeout": 5,
+            "command": "bash ~/.claude/skills/andromeda-tools/hooks/wake-guard.sh"
+          }
+        ]
       }
     ],
     "PostToolUse": [
