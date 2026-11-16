@@ -1,0 +1,52 @@
+[
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T23:28:16Z",
+"argv": [
+"outputs",
+"land",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-16T22-56-37Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed tx 2162 · 561 record(s) of 144 payload(s)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T23-28-16-2026-11-16T22-56-37Z-wrap.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-16T23:28:19Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-16T22-56-37Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"sealed 2026-11-16T18-15-08-wrap · 195 file(s) · 2026-11-16T18-15-08-wrap.parquet · tx 2163 · 195 removed · 256 set aside",
+"sealed 2026-11-16T21-47-58-phase · 214 file(s) · 2026-11-16T21-47-58-phase.parquet · tx 2164 · 214 removed · 339 set aside",
+"sealed 2026-11-16T22-37-41-implement · 9 file(s) · 2026-11-16T22-37-41-implement.parquet · tx 2165 · 9 removed · 0 set aside",
+"seal · 3 run(s) · own 2026-11-16T22-56-37Z-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

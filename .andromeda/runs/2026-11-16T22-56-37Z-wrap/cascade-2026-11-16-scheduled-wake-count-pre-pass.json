@@ -1,0 +1,84 @@
+[
+{
+"tool": "cascade",
+"v": "1.35",
+"sha8": "6498921a",
+"ts": "2026-11-16T22:57:41Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-16T22-56-37Z-wrap/report-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-11-16T22-56-37Z-wrap",
+"--marker",
+"2026-11-16-scheduled-wake-count"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline 643723d6 (pre-pass — HEAD)",
+"architecture · 4 rows over 1 files · new 0 · standing 4 · 1 pattern",
+"security-plan · 2 rows over 1 files · new 0 · standing 2 · 1 pattern",
+"test-plan · 3 rows over 1 files · new 0 · standing 3 · 1 pattern",
+"by line · 0 lines · 0 offsets",
+"total (1 pattern) · 16 rows over 8 files",
+"per class · new 0/0 · standing 9/3 · leaf 6/4 · curation 1/1 · base 0/0",
+"rows 1/1 · .andromeda/runs/2026-11-16T22-56-37Z-wrap/sweep-pre-pass-1.1.txt · 19 lines · 2225 B"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-16T22-56-37Z-wrap/sweep-pre-pass-1.1.txt"
+],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "643723d6b7b2b5a45724f0d3a5f18ee95f378eb3",
+"how": "pre-pass — HEAD",
+"counts": {
+"tekeys": {
+"new": 0,
+"standing": 9,
+"leaf": 6,
+"curation": 1,
+"base": 0
+}
+},
+"bare": [],
+"masters": {
+"architecture": {
+"rows": 4,
+"files": 1,
+"new": 0,
+"standing": 4,
+"patterns": 1
+},
+"security-plan": {
+"rows": 2,
+"files": 1,
+"new": 0,
+"standing": 2,
+"patterns": 1
+},
+"test-plan": {
+"rows": 3,
+"files": 1,
+"new": 0,
+"standing": 3,
+"patterns": 1
+}
+},
+"per_master": {
+"tekeys": {
+"architecture": 4,
+"security-plan": 2,
+"test-plan": 3
+}
+},
+"forms": {},
+"parts": [
+"sweep-pre-pass-1.1.txt"
+]
+}
+}
+]

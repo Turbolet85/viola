@@ -1,0 +1,67 @@
+[
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "a34929e9",
+"ts": "2026-11-16T23:29:00Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-16-scheduled-wake-count",
+"--date",
+"2026-11-16",
+"--run-dir",
+".andromeda/runs/2026-11-16T22-56-37Z-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-ljmfpqi3 strip CARRY: 555ch \"CARRY: the founder's ruling B, his own w\"",
+"pin next markerless chk-frgankby holds CARRY:×5",
+"2026-11-16-scheduled-wake-count · strip 1 block(s) · spent in the spine",
+"dry-run · would flip 2026-11-16-scheduled-wake-count pending -> complete"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "a34929e9",
+"ts": "2026-11-16T23:29:04Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-16-scheduled-wake-count",
+"--date",
+"2026-11-16",
+"--run-dir",
+".andromeda/runs/2026-11-16T22-56-37Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-ljmfpqi3 strip CARRY: 555ch \"CARRY: the founder's ruling B, his own w\"",
+"pin next markerless chk-frgankby holds CARRY:×5",
+"flip 2026-11-16-scheduled-wake-count pending -> complete · tx 2166",
+"compacted 1 complete line(s) — their freight spent in the spine, no archive (U61)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T21-48-52-2026-11-16-scheduled-wake-count.ndjson",
+"./.andromeda/master-route.md",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]

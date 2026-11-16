@@ -1,2 +1,0 @@
-@none
-reason: the chunk widens the turn-ended cause word set to nine closed words and adds the parse-rejected detail unknown-value emitted by the hook, both off-terminal machine surfaces with no human-output change and no new interactive UI element (coverage marks a11y n/a, fct-pmkk6ij2; design acceptance no human-output change, fct-apskfot5); the internal-crates, plugin/IPC and hook-call socket-dir rows the pickers marked stay true, and no a11y violation schema or obs §6 alignment moves (fct-wnfbdzgw).

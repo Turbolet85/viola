@@ -1,0 +1,152 @@
+[
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "ca32c8df",
+"ts": "2026-11-16T22:57:08Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-16-scheduled-wake-count",
+"--source",
+"~/dev/projects/additional/viola-overseer/wrap-scheduled-wake-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the wrap directive: ruling B rows applied with a delegate PROVISIONAL confirm; one PROVISIONAL CARRY on Standing live rig; scheduled_wakes name technical; epoch close; card block",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T22-56-37Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy no-repo · ../additional/viola-overseer/wrap-scheduled-wake-directive.md",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-wrap-scheduled-wake-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/wrap-scheduled-wake-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "fd8597453edafb0031eb88116a514506c881ce55a0fca77ec4d53c6e4eabe600",
+"copy": "I4-wrap-scheduled-wake-directive.md.txt",
+"link": false,
+"read_at": "2026-11-16T22:57:06Z",
+"step": "wrap",
+"why": "the wrap directive: ruling B rows applied with a delegate PROVISIONAL confirm; one PROVISIONAL CARRY on Standing live rig; scheduled_wakes name technical; epoch close; card block"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "ca32c8df",
+"ts": "2026-11-16T22:57:09Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-16-scheduled-wake-count",
+"--message-file",
+".andromeda/runs/2026-11-16T22-56-37Z-wrap/relay-1.md",
+"--origin",
+"the delegate overseer (session prompts)",
+"--kind",
+"relay",
+"--why",
+"the invocation: wrap whole under the directive, operator away, no dialog, no timer; CI ci#43973383524 green 7/7 on 643723d6",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T22-56-37Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I5 · copy message · message: the delegate overseer (session prompts)",
+"cite: inputs#I5"
+],
+"stderr": null,
+"wrote": [
+"inputs/I5-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I5",
+"kind": "relay",
+"repo": null,
+"path": "message: the delegate overseer (session prompts)",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "d9044f39f0a39745fbaa4f5ae9be11e3b935b62649f9ffb4b4ec5ffc085b2318",
+"copy": "I5-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-16T22:57:08Z",
+"step": "wrap",
+"why": "the invocation: wrap whole under the directive, operator away, no dialog, no timer; CI ci#43973383524 green 7/7 on 643723d6"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "ca32c8df",
+"ts": "2026-11-16T22:57:10Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-16-scheduled-wake-count",
+"--run-dir",
+".andromeda/runs/2026-11-16T22-56-37Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-scheduled-wake-directive.md",
+"I1 cited scope.md:62 · scope.md:71 · research.md:7 · plan.md:115 · plan.md:117 · plan.md:142 · plan.md:341 · report.md:49",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-scheduled-wake-p3.md",
+"I2 cited research.md:106 · plan.md:13 · plan.md:31 · plan.md:33 · plan.md:117 · plan.md:341 · plan.md:348 · plan.md:360 · plan.md:402 · report.md:51 · report.md:55 · report.md:61 · report.md:85",
+"I3 n/a — a message has no live source · copy message · message: the session's prompt (the operator's seat; the founder away per inputs#I2)",
+"I3 cited report.md:53",
+"I4 unchanged · copy no-repo · ../additional/viola-overseer/wrap-scheduled-wake-directive.md",
+"I4 UNCITED",
+"I5 n/a — a message has no live source · copy message · message: the delegate overseer (session prompts)",
+"I5 UNCITED",
+"inputs: 5 entries — unchanged 3 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 2 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 5,
+"counts": {
+"unchanged": 3,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 2,
+"unparsed": 0
+}
+}
+]

@@ -1,1 +1,0 @@
-2026-11-16 (2026-11-16-scheduled-wake-count, phase P5): concretized on the P5 word (inputs#I3, card p5-card-1.md). «A real wake reads 1» is not claimed: no live start was made (delegate overseer, PROVISIONAL, inputs#I2 item 2); its reading is owed by the CARRY the wrap pins on «Standing live rig with a screen model».

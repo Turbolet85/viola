@@ -1,0 +1,2 @@
+@none
+reason: the chunk adds one machine-readable count (`scheduled_wakes`) to `turn-ended` event data, reaching `events.ndjson`, CLI `wait --json` and MCP `wait` only; it adds no interactive UI element, changes no human output, SGR, refusal format or waiting line, adds no suite, and changes neither the a11y violation schema nor any log field (fct-wkxfnidr, fct-q5e2q7d3, fct-5zoszjnq «no human output changes», fct-cp6xiw3d «a11y n/a»), so every picked a11y-plan row stays true and no task fact is owed.

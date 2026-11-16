@@ -1,3 +1,0 @@
-@carry id=cry-6p5vu7ku expect_rev=1
-old: (chunks/2026-11-15-api-error-turn-end/inputs/I3-relay-2.md.txt, .andromeda/runs/2026-11-15T21-19-45-phase/p5-card-1.md).
-new: (chunks/2026-11-15-api-error-turn-end/inputs/I3-relay-2.md.txt, .andromeda/runs/2026-11-15T21-19-45-phase/p5-card-1.md); and read that payload's `error` word against chunk 2026-11-16-granular-api-error-cause's nine-word cause map — the turn end's `cause` the word it maps to, and no `parse-rejected` `unknown-value` line for a word of the CLI's 13 — whose 13 words were read from the 2.1.287–2.1.325 bundles only, none seen live (chunks/2026-11-16-granular-api-error-cause/inputs/I3-wrap-granular-cause-directive.md.txt).
