@@ -1,0 +1,12 @@
+@pack_count n=1 doc=security-plan pack=1 draw=1 rows=100 yes=0 no=100 standing=0 file=security-pick-p1.md of=610cb6bc8527a385 rule=any
+@pack_count n=2 doc=security-plan pack=1 draw=2 rows=100 yes=0 no=100 standing=0 file=security-pick-p1.d2.md of=ea397540130154dd rule=any
+@pack_count n=3 doc=security-plan pack=2 draw=1 rows=100 yes=0 no=100 standing=0 file=security-pick-p2.md of=3345143bca87105b rule=any
+@pack_count n=4 doc=security-plan pack=2 draw=2 rows=100 yes=0 no=100 standing=0 file=security-pick-p2.d2.md of=bc8603bf21e583a2 rule=any
+@pack_count n=5 doc=security-plan pack=3 draw=1 rows=100 yes=1 no=99 standing=0 file=security-pick-p3.md of=2cbe57f8045f226d rule=any
+@pack_count n=6 doc=security-plan pack=3 draw=2 rows=100 yes=1 no=99 standing=0 file=security-pick-p3.d2.md of=ca326d5af1f01ee7 rule=any
+@pack_count n=7 doc=security-plan pack=4 draw=1 rows=100 yes=2 no=98 standing=0 file=security-pick-p4.md of=93ae2323536678ce rule=any
+@pack_count n=8 doc=security-plan pack=4 draw=2 rows=100 yes=2 no=98 standing=0 file=security-pick-p4.d2.md of=039c638b28d9f850 rule=any
+@pack_count n=9 doc=security-plan pack=5 draw=1 rows=100 yes=1 no=99 standing=0 file=security-pick-p5.md of=9c0eeee1e538bdd7 rule=any
+@pack_count n=10 doc=security-plan pack=5 draw=2 rows=100 yes=1 no=99 standing=0 file=security-pick-p5.d2.md of=0718218d4df7b0f2 rule=any
+@pack_count n=11 doc=security-plan pack=6 draw=1 rows=99 yes=4 no=95 standing=0 file=security-pick-p6.md of=9135edb5646f2546 rule=any
+@pack_count n=12 doc=security-plan pack=6 draw=2 rows=99 yes=4 no=95 standing=0 file=security-pick-p6.d2.md of=90bd786eab7087fd rule=any

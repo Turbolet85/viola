@@ -1,0 +1,99 @@
+[
+{
+"tool": "matrix",
+"v": "1.13",
+"sha8": "ef080315",
+"ts": "2026-11-16T03:56:34Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.2.0",
+"--chunk",
+"2026-11-16-wait-wake-condition",
+"--run-dir",
+".andromeda/runs/2026-11-16T03-24-03-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-11-16-wait-wake-condition: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v2-17 → verified — A waiting driver's `wait` — CLI `wait --json` and MCP `wait`, one wrapper method… (986 chars)",
+"dry-run: nothing written",
+"version: verified 9/33"
+],
+"stderr": null,
+"wrote": [],
+"before": [
+{
+"id": "v2-17",
+"chunk": "2026-11-16-wait-wake-condition",
+"status": "implemented",
+"method": "integration",
+"ref": "tests/cli_wait_last.rs::path3_wait_wakes_on_a_turn_end_holding_background_tasks · tests/cli_wait_last.rs::path3_wait_arm… (631 chars)",
+"acceptance": "A waiting driver's `wait` — CLI `wait --json` and MCP `wait`, one wrapper method — returns on every `turn-ended`, a turn… (986 chars)",
+"notes_chars": 566
+}
+],
+"after": [
+{
+"id": "v2-17",
+"chunk": "2026-11-16-wait-wake-condition",
+"status": "verified",
+"method": "integration",
+"ref": "tests/cli_wait_last.rs::path3_wait_wakes_on_a_turn_end_holding_background_tasks · tests/cli_wait_last.rs::path3_wait_arm… (631 chars)",
+"acceptance": "A waiting driver's `wait` — CLI `wait --json` and MCP `wait`, one wrapper method — returns on every `turn-ended`, a turn… (986 chars)",
+"notes_chars": 566
+}
+]
+},
+{
+"tool": "matrix",
+"v": "1.13",
+"sha8": "ef080315",
+"ts": "2026-11-16T03:56:38Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.2.0",
+"--chunk",
+"2026-11-16-wait-wake-condition",
+"--run-dir",
+".andromeda/runs/2026-11-16T03-24-03-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-11-16-wait-wake-condition: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v2-17 → verified — A waiting driver's `wait` — CLI `wait --json` and MCP `wait`, one wrapper method… (986 chars)",
+"landed, rendered ./.andromeda/db/log/2026-11-16T00-30-25-2026-11-16-wait-wake-condition.ndjson · 1 entry changed",
+"version: verified 9/33"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T00-30-25-2026-11-16-wait-wake-condition.ndjson"
+],
+"before": [
+{
+"id": "v2-17",
+"chunk": "2026-11-16-wait-wake-condition",
+"status": "implemented",
+"method": "integration",
+"ref": "tests/cli_wait_last.rs::path3_wait_wakes_on_a_turn_end_holding_background_tasks · tests/cli_wait_last.rs::path3_wait_arm… (631 chars)",
+"acceptance": "A waiting driver's `wait` — CLI `wait --json` and MCP `wait`, one wrapper method — returns on every `turn-ended`, a turn… (986 chars)",
+"notes_chars": 566
+}
+],
+"after": [
+{
+"id": "v2-17",
+"chunk": "2026-11-16-wait-wake-condition",
+"status": "verified",
+"method": "integration",
+"ref": "tests/cli_wait_last.rs::path3_wait_wakes_on_a_turn_end_holding_background_tasks · tests/cli_wait_last.rs::path3_wait_arm… (631 chars)",
+"acceptance": "A waiting driver's `wait` — CLI `wait --json` and MCP `wait`, one wrapper method — returns on every `turn-ended`, a turn… (986 chars)",
+"notes_chars": 566
+}
+]
+}
+]

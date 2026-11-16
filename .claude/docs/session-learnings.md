@@ -30,6 +30,10 @@ firing at its first red. So an older case touching the same code can carry the r
 never run, and the control still reads `holds`. Before a control counts as witnessing a new case, read the removed
 firing's log for that case's own FAIL line. Where it is absent, give that case a control of its own whose entry
 selects it alone. This extends testing.md's remove-the-guard entry (2026-09-25), which stands at its size cap.
+Extended 2026-11-16: the entry's whole set must also END with the guard removed — an older test whose waiter runs
+inside `std::thread::scope` with no deadline of its own hangs after it panics (the scope joins that waiter), so a
+control on a whole-module entry reads `timeout` however every guard case fails; fire the control on an entry filtered
+to the guard's own cases, and give it `--timeout`, whose default bound waits out each hanging firing.
 
 ---
 

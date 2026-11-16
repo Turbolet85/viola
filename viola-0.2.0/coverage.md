@@ -1,12 +1,9 @@
 # Coverage — viola-0.2.0
 
-verified 8/33 · deferred 1 · planned 23 · implemented 1 · unclaimed 23
+verified 9/33 · deferred 1 · planned 23 · implemented 0 · unclaimed 23
 
 ## deferred (1)
 - v2-22 · Product-owned session settings
-
-## implemented (1)
-- v2-17 · `wait`'s documented wake condition · 2026-11-16-wait-wake-condition
 
 ## planned, unclaimed (23)
 - v2-07 · Launch a session into the fleet
@@ -33,7 +30,7 @@ verified 8/33 · deferred 1 · planned 23 · implemented 1 · unclaimed 23
 - v2-32 · A standing live rig with a screen model
 - v2-33 · A session's folder trusted by viola
 
-## verified (8)
+## verified (9)
 - v2-01 · Epoch 8 cleanup · 2026-11-13-epoch-8-cleanup
 - v2-02 · The dialog-hold ceiling read live · 2026-11-15-live-round-on-the-trimmed-product
 - v2-03 · `viola run` wraps the unmodified CLI on Linux, proved · 2026-11-15-live-round-on-the-trimmed-product
@@ -41,4 +38,5 @@ verified 8/33 · deferred 1 · planned 23 · implemented 1 · unclaimed 23
 - v2-05 · The status-line interception removed whole · 2026-11-14-status-line-interception-removed
 - v2-06 · The secret scan's `cookie` class removed · 2026-11-13-epoch-8-cleanup
 - v2-16 · A turn ended by an API error ends the turn · 2026-11-15-api-error-turn-end
+- v2-17 · `wait`'s documented wake condition · 2026-11-16-wait-wake-condition
 - v2-29 · Verify waits on the input box, not the footer · 2026-11-13-verify-readiness-on-the-input-box

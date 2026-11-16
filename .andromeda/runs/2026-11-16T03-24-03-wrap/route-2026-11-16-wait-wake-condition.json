@@ -1,0 +1,67 @@
+[
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "3d953162",
+"ts": "2026-11-16T03:57:27Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-16-wait-wake-condition",
+"--date",
+"2026-11-16",
+"--run-dir",
+".andromeda/runs/2026-11-16T03-24-03-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-athxjgmf strip CARRY: 1001ch \"CARRY: chunk 2026-11-15-api-error-turn-e\"",
+"pin next markerless chk-pihewvzr holds no freight",
+"2026-11-16-wait-wake-condition · strip 1 block(s) · spent in the spine",
+"dry-run · would flip 2026-11-16-wait-wake-condition pending -> complete"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "3d953162",
+"ts": "2026-11-16T03:57:31Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-16-wait-wake-condition",
+"--date",
+"2026-11-16",
+"--run-dir",
+".andromeda/runs/2026-11-16T03-24-03-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-athxjgmf strip CARRY: 1001ch \"CARRY: chunk 2026-11-15-api-error-turn-e\"",
+"pin next markerless chk-pihewvzr holds no freight",
+"flip 2026-11-16-wait-wake-condition pending -> complete · tx 1791",
+"compacted 1 complete line(s) — their freight spent in the spine, no archive (U61)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T00-30-25-2026-11-16-wait-wake-condition.ndjson",
+"./.andromeda/master-route.md",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]

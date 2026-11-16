@@ -1,0 +1,121 @@
+[
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "0150035c",
+"ts": "2026-11-16T03:24:36Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-16-wait-wake-condition",
+"--source",
+"~/dev/projects/additional/viola-overseer/wrap-wait-wake-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the wrap directive for this chunk: close from artifacts; F1 provisional, founder away; the CI red closed; the hang carry to Version done-check; session_crons candidate; amendment candidates; card items",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T03-24-03-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I16 · copy no-repo · ../additional/viola-overseer/wrap-wait-wake-directive.md",
+"cite: inputs#I16"
+],
+"stderr": null,
+"wrote": [
+"inputs/I16-wrap-wait-wake-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I16",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/wrap-wait-wake-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "0d5ebb465baf943c3f7b86682547baa60d4549c90e9e9d786c7147839741cfb3",
+"copy": "I16-wrap-wait-wake-directive.md.txt",
+"link": false,
+"read_at": "2026-11-16T03:24:36Z",
+"step": "wrap",
+"why": "the wrap directive for this chunk: close from artifacts; F1 provisional, founder away; the CI red closed; the hang carry to Version done-check; session_crons candidate; amendment candidates; card items"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "0150035c",
+"ts": "2026-11-16T03:24:39Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-16-wait-wake-condition",
+"--run-dir",
+".andromeda/runs/2026-11-16T03-24-03-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-wait-wake-directive.md",
+"I1 cited scope.md:24 · scope.md:43 · scope.md:98 · scope.md:101 · scope.md:102 · scope.md:105 · research.md:7 · research.md:36 · plan.md:10 · plan.md:290 · plan.md:292 · report.md:47",
+"I2 n/a — a message has no live source · copy message · message: operator, /andromeda-phase invocation, 2026-11-16",
+"I2 cited scope.md:43 · research.md:7 · plan.md:11 · report.md:47",
+"I3 drifted — the source's bytes moved · copy no-repo · ../additional/viola-overseer/pwait.sh",
+"I3 cited scope.md:14 · scope.md:20 · research.md:7 · research.md:34 · plan.md:12 · plan.md:61 · report.md:47 · report.md:67",
+"I4 unchanged · copy no-repo · ../additional/viola-overseer/vwatch.sh",
+"I4 cited scope.md:14 · research.md:7 · research.md:34 · plan.md:13 · report.md:49",
+"I5 unchanged · copy no-repo · ../additional/viola-overseer/relay-wait-wake-f1.md",
+"I5 cited research.md:90 · plan.md:14 · plan.md:49 · plan.md:67 · plan.md:71 · plan.md:441 · plan.md:525 · report.md:49 · report.md:145",
+"I6 n/a — a message has no live source · copy message · message: operator, the P5 word on p5-card-1.md, 2026-11-16",
+"I6 cited report.md:50",
+"I7 n/a — a message has no live source · copy message · message: delegate overseer, relayed in session 2026-11-16 01:39Z",
+"I7 cited scope.md:68 · research.md:69 · plan.md:15 · report.md:50",
+"I8 unchanged · copy no-repo · ../additional/viola-overseer/relay-wait-wake-entry9-revision.md",
+"I8 cited scope.md:68 · scope.md:71 · research.md:54 · research.md:69 · research.md:70 · plan.md:16",
+"I9 n/a — a message has no live source · copy message · message: delegate overseer, the P5 word in session 2026-11-16",
+"I9 UNCITED",
+"I10 n/a — a message has no live source · copy message · message: delegate overseer, relayed in session 2026-11-16 02:52Z",
+"I10 cited scope.md:75 · plan.md:17",
+"I11 unchanged · copy no-repo · ../additional/viola-overseer/relay-wait-wake-step9-revision.md",
+"I11 cited scope.md:76 · plan.md:18 · plan.md:142",
+"I12 n/a — a message has no live source · copy message · message: delegate overseer, the P5 word in session 2026-11-16",
+"I12 UNCITED",
+"I13 n/a — a message has no live source · copy message · message: delegate overseer, relayed in session 2026-11-16 03:03Z",
+"I13 cited scope.md:86 · plan.md:20",
+"I14 unchanged · copy no-repo · ../additional/viola-overseer/relay-wait-wake-step9-revision3.md",
+"I14 cited scope.md:86 · research.md:81 · plan.md:21 · plan.md:271 · plan.md:330 (in fence) · plan.md:520",
+"I15 n/a — a message has no live source · copy message · message: delegate overseer, the P5 word in session 2026-11-16",
+"I15 cited report.md:53 · report.md:83",
+"I16 unchanged · copy no-repo · ../additional/viola-overseer/wrap-wait-wake-directive.md",
+"I16 UNCITED",
+"inputs: 16 entries — unchanged 7 · drifted 1 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 8 · uncited 3 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 16,
+"counts": {
+"unchanged": 7,
+"drifted": 1,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 8
+},
+"uncited": 3,
+"unparsed": 0
+}
+}
+]
