@@ -1,0 +1,164 @@
+[
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-16T00:08:23Z",
+"argv": [
+"harness",
+"land",
+"--root",
+".",
+".claude/docs/services/viola-agent-claude.md",
+"--file",
+".andromeda/runs/2026-11-15T23-35-53-wrap/draft-.claude-docs-services-viola-agent-claude.md",
+"--run-dir",
+".andromeda/runs/2026-11-15T23-35-53-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land .claude/docs/services/viola-agent-claude.md rev 11 · 2 node(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-16T00:08:27Z",
+"argv": [
+"harness",
+"land",
+"--root",
+".",
+".claude/docs/services/viola-agent-claude.md",
+"--file",
+".andromeda/runs/2026-11-15T23-35-53-wrap/draft-.claude-docs-services-viola-agent-claude.md",
+"--run-dir",
+".andromeda/runs/2026-11-15T23-35-53-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola-agent-claude.md rev 11 · 0 new · 1 revised · 0 retired · tx 1681"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T00-08-26-2026-11-15T23-35-53-wrap.ndjson",
+"./.claude/docs/services/viola-agent-claude.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-16T00:09:26Z",
+"argv": [
+"harness",
+"land",
+"--root",
+".",
+".claude/rules/testing.md",
+"--file",
+".andromeda/runs/2026-11-15T23-35-53-wrap/draft-.claude-rules-testing.md",
+"--run-dir",
+".andromeda/runs/2026-11-15T23-35-53-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land .claude/rules/testing.md rev 26 · 2 node(s) · 1 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-16T00:09:27Z",
+"argv": [
+"harness",
+"land",
+"--root",
+".",
+".claude/rules/testing.md",
+"--file",
+".andromeda/runs/2026-11-15T23-35-53-wrap/draft-.claude-rules-testing.md",
+"--run-dir",
+".andromeda/runs/2026-11-15T23-35-53-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/testing.md rev 26 · 1 new · 0 revised · 0 retired · tx 1683"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T00-08-26-2026-11-15T23-35-53-wrap.ndjson",
+"./.claude/rules/testing.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-16T00:14:35Z",
+"argv": [
+"outputs",
+"land",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T23-35-53-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed tx 1690 · 1010 record(s) of 144 payload(s)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T00-08-26-2026-11-15T23-35-53-wrap.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-16T00:14:39Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T23-35-53-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"sealed 2026-11-15T20-06-27-wrap · 174 file(s) · 2026-11-15T20-06-27-wrap.parquet · tx 1691 · 174 removed · 238 set aside",
+"sealed 2026-11-15T21-19-45-phase · 211 file(s) · 2026-11-15T21-19-45-phase.parquet · tx 1692 · 211 removed · 330 set aside",
+"sealed 2026-11-15T22-51-16-implement · 8 file(s) · 2026-11-15T22-51-16-implement.parquet · tx 1693 · 8 removed · 0 set aside",
+"seal · 3 run(s) · own 2026-11-15T23-35-53-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

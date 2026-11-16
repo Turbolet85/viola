@@ -96,7 +96,7 @@ Rendered by `/andromeda-setup-project` on the first run and kept current by wrap
 
 ## The docs lag the installed CLI
 **What breaks:** designing against docs misses real flags (`stream-json` input, `claude attach`) and real behaviours.
-**How to avoid:** design against the installed CLI, measured; every relied-on behaviour is a ledger row with a `viola verify` probe.
+**How to avoid:** design against the installed CLI, measured; every relied-on behaviour is a ledger row with a `viola verify` probe (StopFailure excepted: registered, provisionally, with no ledger row and no verify probe).
 **References:** brief §4; arch [CLI Version Compatibility].
 
 ## A resize before the pump's first look was lost

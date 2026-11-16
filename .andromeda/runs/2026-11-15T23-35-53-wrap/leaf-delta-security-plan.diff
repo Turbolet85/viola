@@ -1,0 +1,22 @@
+--- a/.andromeda/security-plan.md
++++ b/.andromeda/security-plan.md
+@@ -153,3 +153,3 @@
+ decision/unstattable-home-refused · An unstattable home is refused — An unstattable home (a path under a regular file) is a strict-modes refusal.
+-decision/unverified-cli-gate · Unverified CLI gate — No non-null answer decision is sent without a viola verify stamp for the child's CLI version.
++decision/unverified-cli-gate · Unverified CLI gate — No non-null answer decision is sent without a viola verify stamp for the child's CLI version. · except: StopFailure is registered with no capability ledger row and no verify probe, owned by the 2.1.325 recorded fixture set; this exception is provisional.
+ decision/whole-board-refusal · viola list refuses the whole board — viola list runs the strict-modes checks on the home, instances/ and each instance before opening anything under the home, and the first failure refuses the whole board. · why: ratified
+@@ -227,3 +227,3 @@
+ decision/hook-stdin-never-truncated · Hook stdin over-limit detected — Hook stdin is capped at MAX_FRAME and an over-limit payload is detected, never silently truncated.
+-decision/hook-unknown-event-silent-exit · Hook unknown event exits silently — The hook event argument maps into a closed set of nine events and no other word; an unknown event, a usage error or an absent or invalid VIOLA_NAME exits 0 with nothing read or written anywhere.
++decision/hook-unknown-event-silent-exit · Hook unknown event exits silently — The hook event argument maps into a closed set of ten events and no other word; an unknown event, a usage error or an absent or invalid VIOLA_NAME exits 0 with nothing read or written anywhere.
+ decision/hooks-fail-open · Hooks fail open — Every hook failure fails open: exit 0 with no body.
+@@ -289,3 +289,3 @@
+ contract/channel-frames/hook-dialog-params · channel frames · hook.dialog params — kind is a closed dialog kind, data an object, hook_event closed, and tool, input and continuation closed or absent; an invalid frame is not registered.
+-contract/channel-frames/hook-event-revalidation · channel frames · hook.event — kind is one of the five hook kinds, data an object, and for prompt-submitted text is a string and origin is harness or human; an invalid event is not appended.
++contract/channel-frames/hook-event-revalidation · channel frames · hook.event — kind is one of the five hook kinds, data an object, and for prompt-submitted text is a string and origin is harness or human; a turn-ended cause, when present, is a string in the closed turn-end cause set (api-error alone); an invalid event is not appended.
+ contract/channel-frames/link-unlink-params · channel frames · link and unlink params — driver and driven are valid viola name strings; a missing, non-string or invalid name, a driven other than the serving wrapper's name, or a driver equal to driven is -32602 with data null and no line; from is never read.
+@@ -333,2 +333,4 @@
+ ## security-plan · data-protection
++decision/api-error-classes-adapter-only · API-error classes kept inside the Claude adapter — The CLI's StopFailure error word is classified into nine closed API-error classes inside the Claude adapter crate only; no class is written to event data, an event line, the snapshot or a log line. · provisional
++decision/api-error-turn-end-text-dropped · API-error turn end carries no error text — The StopFailure payload's error text, error_details and last_assistant_message are dropped at the parse; an API-error end's turn-ended data holds only null last_assistant_message and background_tasks and the closed cause word api-error, which crosses into events.ndjson, wait --json and MCP wait. · why: A boundary widening held to one closed word, so the upstream error text crosses into nothing. · guard: hook_stop_failure_error_text_reaches_no_event_line_or_snapshot · provisional
+ decision/code-bearing-files-rewritten-each-start · Code-bearing files rewritten at every start — The plugin files are rewritten whole at every start, a revived start included, with mode 0600 set before the write, never reusing an existing copy. · why: A code-bearing file written at every start and handed to the CLI is a ratified boundary widening.

@@ -1,0 +1,1166 @@
+[
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-15T23:37:49Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-15-api-error-turn-end",
+"--section-file",
+".andromeda/runs/2026-11-15T23-35-53-wrap/after-implement.md",
+"--heading",
+"## After implement",
+"--before",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-15T23-35-53-wrap",
+"--marker",
+"2026-11-15-api-error-turn-end"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-15-api-error-turn-end/report rev 2 · 10 new · 0 revised · 0 retired · 34 kept · tx 1660"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T21-21-54-2026-11-15-api-error-turn-end.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-15T23:37:52Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-15-api-error-turn-end",
+"--section-file",
+".andromeda/runs/2026-11-15T23-35-53-wrap/new-text.md",
+"--heading",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-15T23-35-53-wrap",
+"--marker",
+"2026-11-15-api-error-turn-end"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-15-api-error-turn-end/report rev 3 · 29 new · 0 revised · 0 retired · 44 kept · tx 1661"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T21-21-54-2026-11-15-api-error-turn-end.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-15T23:38:20Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-15T23-35-53-wrap/cites-land-2026-11-15-api-error-turn-end.ndjson",
+"--base",
+"aa6bb5abea6b5bf858ffcf65fe6e602f0cd3eae0",
+"--run-dir",
+".andromeda/runs/2026-11-15T23-35-53-wrap",
+"--marker",
+"2026-11-15-api-error-turn-end",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 0 fact(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-15T23:38:24Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-15T23-35-53-wrap/cites-land-2026-11-15-api-error-turn-end.ndjson",
+"--base",
+"aa6bb5abea6b5bf858ffcf65fe6e602f0cd3eae0",
+"--run-dir",
+".andromeda/runs/2026-11-15T23-35-53-wrap",
+"--marker",
+"2026-11-15-api-error-turn-end"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 0 fact(s) · 0 edge(s) · tx 1663"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T21-21-54-2026-11-15-api-error-turn-end.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-15T23:40:15Z",
+"argv": [
+"rows-packs",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T23-35-53-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-15-api-error-turn-end"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 939 · packs 10 · pack 100 · 260637 B",
+"security-plan: rows 597 · packs 6 · pack 100 · 172798 B",
+"design-system: rows 313 · packs 4 · pack 100 · 74649 B",
+"layout-templates: rows 221 · packs 3 · pack 100 · 51916 B",
+"test-plan: rows 1327 · packs 14 · pack 100 · 350067 B",
+"obs-plan: rows 1021 · packs 11 · pack 100 · 278509 B",
+"a11y-plan: rows 235 · packs 3 · pack 100 · 65527 B",
+"rows-packs: 7 master(s) · 4653 row(s) · 51 pack(s) · 2 draw(s) a pack · pin 1663"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-15T23-35-53-wrap/rows-packs.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-16T00:00:08Z",
+"argv": [
+"rows-union",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-15T23-35-53-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-15-api-error-turn-end"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 939 · packs 10 · picked 44 (32 by every draw) · standing 0 · 215719 B",
+"security-plan: rows 597 · packs 6 · picked 37 (16 by every draw) · standing 0 · 141543 B",
+"design-system: rows 313 · packs 4 · picked 22 (11 by every draw) · standing 0 · 62846 B",
+"layout-templates: rows 221 · packs 3 · picked 7 (6 by every draw) · standing 0 · 46059 B",
+"test-plan: rows 1327 · packs 14 · picked 89 (55 by every draw) · standing 0 · 287903 B",
+"obs-plan: rows 1021 · packs 11 · picked 62 (31 by every draw) · standing 0 · 221998 B",
+"a11y-plan: rows 235 · packs 3 · picked 26 (13 by every draw) · standing 0 · 38052 B",
+"rows-union: 7 master(s) · picked 287 of 4653 · rule any"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-15T23-35-53-wrap/arch-rows.md",
+".andromeda/runs/2026-11-15T23-35-53-wrap/arch-standing.md",
+".andromeda/runs/2026-11-15T23-35-53-wrap/arch-pick-counts.md",
+".andromeda/runs/2026-11-15T23-35-53-wrap/security-rows.md",
+".andromeda/runs/2026-11-15T23-35-53-wrap/security-standing.md",
+".andromeda/runs/2026-11-15T23-35-53-wrap/security-pick-counts.md",
+".andromeda/runs/2026-11-15T23-35-53-wrap/design-rows.md",
+".andromeda/runs/2026-11-15T23-35-53-wrap/design-standing.md",
+".andromeda/runs/2026-11-15T23-35-53-wrap/design-pick-counts.md",
+".andromeda/runs/2026-11-15T23-35-53-wrap/layouts-rows.md",
+".andromeda/runs/2026-11-15T23-35-53-wrap/layouts-standing.md",
+".andromeda/runs/2026-11-15T23-35-53-wrap/layouts-pick-counts.md",
+".andromeda/runs/2026-11-15T23-35-53-wrap/tests-rows.md",
+".andromeda/runs/2026-11-15T23-35-53-wrap/tests-standing.md",
+".andromeda/runs/2026-11-15T23-35-53-wrap/tests-pick-counts.md",
+".andromeda/runs/2026-11-15T23-35-53-wrap/obs-rows.md",
+".andromeda/runs/2026-11-15T23-35-53-wrap/obs-standing.md",
+".andromeda/runs/2026-11-15T23-35-53-wrap/obs-pick-counts.md",
+".andromeda/runs/2026-11-15T23-35-53-wrap/a11y-rows.md",
+".andromeda/runs/2026-11-15T23-35-53-wrap/a11y-standing.md",
+".andromeda/runs/2026-11-15T23-35-53-wrap/a11y-pick-counts.md",
+".andromeda/runs/2026-11-15T23-35-53-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-16T00:04:55Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-15T23-35-53-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-15T23-35-53-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-15T23-35-53-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-15T23-35-53-wrap",
+"--marker",
+"2026-11-15-api-error-turn-end",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/hook-event/turn-ended-cause · rejected",
+"decision/stop-failure-text-never-carried · rejected",
+"decision/api-error-class-in-agent-crate · rejected",
+"fit: fits 11 · not_master 0 · stands 0",
+"## 2026-11-15-api-error-turn-end — Standard Contracts: 3 row(s)\n**Section:** Standard Contracts\n**Change:** ~ contract/event-data/turn-ended-last-assistant-message · promise: was «`turn-ended` data is `{last_assistant_message, background_tasks}`; `last_assistant_message` is a string or `null` and is the source `last` rebuilds from.»; now «`turn-ended` data is `{last_assistant_message, background_tasks, cause?}`; `last_assistant_message` is a string or `null` and is the source `last` rebuilds from.»\n+ contract/event-data/turn-ended-cause — event data per kind · turn-ended cause\n+ decision/api-error-turn-end-clears-turn — API-error turn end clears the running turn\n**Why:** contract/event-data/turn-ended-last-assistant-message: The turn-ended data gains a third key, cause, so the row's statement of the data shape no longer holds whole. — resolved by the operator (Q2): delegate the overseer, 2026-11-15: «cause: \"api-error\" on API-error ends only» — the P4 answer to F2, inputs#I2, taken by relay on inputs#I4 item 2; PROVISIONAL, the founder's own word owed\ncontract/event-data/turn-ended-cause: The turn-ended event data gains a cause key that crosses outward to drivers, a widened boundary. — resolved by the operator (Q2): delegate the overseer, 2026-11-15: «cause: \"api-error\" on API-error ends only» — the P4 answer to F2, inputs#I2, taken by relay on inputs#I4 item 2; PROVISIONAL, the founder's own word owed\ndecision/api-error-turn-end-clears-turn: A turn the CLI ends on an API error now ends the running turn like a Stop, a behaviour drivers rely on. — resolved by the operator (Q1): delegate the overseer, 2026-11-15: «no ledger row» — the P4 answer to F1, inputs#I2, taken by relay on inputs#I4 item 2; PROVISIONAL, the founder's own word owed\n**Ref:** .andromeda/runs/2026-11-15T23-35-53-wrap/",
+"## 2026-11-15-api-error-turn-end — Cross-cutting Patterns: 1 row(s)\n**Section:** Cross-cutting Patterns\n**Change:** ~ decision/capability-ledger-gate · except: was «A CLI shape no send relies on needs no probe, such as the long-paste frame beside typed text and between two pairs.»; now «A CLI shape no send relies on needs no probe, such as the long-paste frame beside typed text and between two pairs; StopFailure is registered, provisionally, with no ledger row and no verify probe.»\n**Why:** decision/capability-ledger-gate: StopFailure is relied on with no ledger row and no verify probe, a named provisional exception to the single-gate rule. — resolved by the operator (Q1): delegate the overseer, 2026-11-15: «no ledger row» — the P4 answer to F1, inputs#I2, taken by relay on inputs#I4 item 2; PROVISIONAL, the founder's own word owed\n**Ref:** .andromeda/runs/2026-11-15T23-35-53-wrap/",
+"## 2026-11-15-api-error-turn-end — Established Decisions: 3 row(s)\n**Section:** Established Decisions\n**Change:** ~ decision/cli-capability-ledger · except: was «»; now «StopFailure is registered, provisionally, with no ledger row and no verify probe.»\n~ contract/hook-tiers/ordering-spine · promise: was «SessionStart, UserPromptSubmit and Stop each write their `hook.event` and exit 0 within viola's spine deadline, below the 5 s `timeout` they get in `hooks.json`.»; now «SessionStart, UserPromptSubmit, Stop and StopFailure each write their `hook.event` and exit 0 within viola's spine deadline, below the 5 s `timeout` they get in `hooks.json`.»\n~ contract/hook-tiers/sync-spine · promise: was «SessionStart, UserPromptSubmit and Stop run synchronously with no reply body within viola's spine deadline; SessionEnd inside its 1.5 s budget, never raised.»; now «SessionStart, UserPromptSubmit, Stop and StopFailure run synchronously with no reply body within viola's spine deadline; SessionEnd inside its 1.5 s budget, never raised.»\n**Why:** decision/cli-capability-ledger: The rule that every relied CLI behaviour is a ledger row now has StopFailure as a named exception. — resolved by the operator (Q1): delegate the overseer, 2026-11-15: «no ledger row» — the P4 answer to F1, inputs#I2, taken by relay on inputs#I4 item 2; PROVISIONAL, the founder's own word owed\ncontract/hook-tiers/ordering-spine: StopFailure is registered in Stop's tier with the 5 s timeout, so the spine's member list is incomplete without it. — resolved by the operator (Q1): delegate the overseer, 2026-11-15: «no ledger row» — the P4 answer to F1, inputs#I2, taken by relay on inputs#I4 item 2; PROVISIONAL, the founder's own word owed\ncontract/hook-tiers/sync-spine: StopFailure joins Stop's synchronous tier, so the sync spine's member list is incomplete without it. — resolved by the operator (Q1): delegate the overseer, 2026-11-15: «no ledger row» — the P4 answer to F1, inputs#I2, taken by relay on inputs#I4 item 2; PROVISIONAL, the founder's own word owed\n**Ref:** .andromeda/runs/2026-11-15T23-35-53-wrap/",
+"## 2026-11-15-api-error-turn-end — Design Philosophy: 1 row(s)\n**Section:** Design Philosophy\n**Change:** ~ decision/capability-ledger · except: was «»; now «StopFailure is registered, provisionally, with no ledger row and no verify probe.»\n**Why:** decision/capability-ledger: The design rule that every relied CLI behaviour is a ledger row now has StopFailure as a named exception. — resolved by the operator (Q1): delegate the overseer, 2026-11-15: «no ledger row» — the P4 answer to F1, inputs#I2, taken by relay on inputs#I4 item 2; PROVISIONAL, the founder's own word owed\n**Ref:** .andromeda/runs/2026-11-15T23-35-53-wrap/",
+"## 2026-11-15-api-error-turn-end — Conventions: 2 row(s)\n**Section:** Conventions\n**Change:** + contract/hook-to-kind-map/stopfailure — Hook to kind map · StopFailure\n+ contract/turn-end-cause/cause-set — Turn-end cause · cause set\n**Why:** contract/hook-to-kind-map/stopfailure: A tenth hook event now maps to a normalised kind, and the hook-to-kind map holds one row per hook. — resolved by the operator (Q1): delegate the overseer, 2026-11-15: «no ledger row» — the P4 answer to F1, inputs#I2, taken by relay on inputs#I4 item 2; PROVISIONAL, the founder's own word owed\ncontract/turn-end-cause/cause-set: A new closed cause set lands in viola-core and bounds what a turn-ended cause may be. — resolved by the operator (Q2): delegate the overseer, 2026-11-15: «cause: \"api-error\" on API-error ends only» — the P4 answer to F2, inputs#I2, taken by relay on inputs#I4 item 2; PROVISIONAL, the founder's own word owed\n**Ref:** .andromeda/runs/2026-11-15T23-35-53-wrap/",
+"## 2026-11-15-api-error-turn-end — Occupied Resources: 1 row(s)\n**Section:** Occupied Resources\n**Change:** + name/other/hook-stop-failure — hook stop-failure\n**Why:** name/other/hook-stop-failure: The hook event name stop-failure is newly registered, the tenth hook event, and so is occupied. — resolved by the operator (Q1): delegate the overseer, 2026-11-15: «no ledger row» — the P4 answer to F1, inputs#I2, taken by relay on inputs#I4 item 2; PROVISIONAL, the founder's own word owed\n**Ref:** .andromeda/runs/2026-11-15T23-35-53-wrap/",
+"patterns: none: 6 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 11 operation(s) · 6 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-16T00:05:01Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-15T23-35-53-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-15T23-35-53-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-15T23-35-53-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-15T23-35-53-wrap",
+"--marker",
+"2026-11-15-api-error-turn-end"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/hook-event/turn-ended-cause · rejected",
+"decision/stop-failure-text-never-carried · rejected",
+"decision/api-error-class-in-agent-crate · rejected",
+"fit: fits 11 · not_master 0 · stands 0",
+"landed tx 1664 · 11 operation(s) · 6 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T21-21-54-2026-11-15-api-error-turn-end.ndjson",
+".andromeda/runs/2026-11-15T23-35-53-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-16T00:05:01Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-15T23-35-53-wrap/ops-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-15T23-35-53-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-15T23-35-53-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-15T23-35-53-wrap",
+"--marker",
+"2026-11-15-api-error-turn-end",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 5 · not_master 0 · stands 0",
+"## 2026-11-15-api-error-turn-end — Input Validation: 2 row(s)\n**Section:** Input Validation\n**Change:** ~ decision/hook-unknown-event-silent-exit · rule: was «The hook event argument maps into a closed set of nine events and no other word; an unknown event, a usage error or an absent or invalid VIOLA_NAME exits 0 with nothing read or written anywhere.»; now «The hook event argument maps into a closed set of ten events and no other word; an unknown event, a usage error or an absent or invalid VIOLA_NAME exits 0 with nothing read or written anywhere.»\n~ contract/channel-frames/hook-event-revalidation · promise: was «kind is one of the five hook kinds, data an object, and for prompt-submitted text is a string and origin is harness or human; an invalid event is not appended.»; now «kind is one of the five hook kinds, data an object, and for prompt-submitted text is a string and origin is harness or human; a turn-ended cause, when present, is a string in the closed turn-end cause set (api-error alone); an invalid event is not appended.»\n**Why:** decision/hook-unknown-event-silent-exit: StopFailure joins the registered hook events, so the closed set the row counts moves from nine to ten. — resolved by the operator (Q1): delegate the overseer, 2026-11-15: «no ledger row» — the P4 answer to F1, inputs#I2, taken by relay on inputs#I4 item 2; PROVISIONAL, the founder's own word owed\ncontract/channel-frames/hook-event-revalidation: The wrapper's hook.event re-validation now also holds a turn-ended cause to the closed turn-end cause set before appending, a new check at this channel boundary. — resolved by the operator (Q2): delegate the overseer, 2026-11-15: «cause: \"api-error\" on API-error ends only» — the P4 answer to F2, inputs#I2, taken by relay on inputs#I4 item 2; PROVISIONAL, the founder's own word owed\n**Ref:** .andromeda/runs/2026-11-15T23-35-53-wrap/",
+"## 2026-11-15-api-error-turn-end — Authentication & Authorization: 1 row(s)\n**Section:** Authentication & Authorization\n**Change:** ~ decision/unverified-cli-gate · except: was «»; now «StopFailure is registered with no capability ledger row and no verify probe, owned by the 2.1.325 recorded fixture set; this exception is provisional.»\n**Why:** decision/unverified-cli-gate: StopFailure is registered as the named exception to the unverified-CLI capability gate, provisional on founder fork F1, and the gate row names no exception. — resolved by the operator (Q1): delegate the overseer, 2026-11-15: «no ledger row» — the P4 answer to F1, inputs#I2, taken by relay on inputs#I4 item 2; PROVISIONAL, the founder's own word owed\n**Ref:** .andromeda/runs/2026-11-15T23-35-53-wrap/",
+"## 2026-11-15-api-error-turn-end — Data Protection: 2 row(s)\n**Section:** Data Protection\n**Change:** + decision/api-error-turn-end-text-dropped — API-error turn end carries no error text\n+ decision/api-error-classes-adapter-only — API-error classes kept inside the Claude adapter\n**Why:** decision/api-error-turn-end-text-dropped: The chunk adds the turn-ended cause word crossing outward and drops the payload's error text at the parse, a data-protection decision no row of the section states. — resolved by the operator (Q2): delegate the overseer, 2026-11-15: «cause: \"api-error\" on API-error ends only» — the P4 answer to F2, inputs#I2, taken by relay on inputs#I4 item 2; PROVISIONAL, the founder's own word owed\ndecision/api-error-classes-adapter-only: The chunk adds an API-error classification that is held inside the adapter crate and crosses no output, a data-protection decision no row of the section states.\n**Ref:** .andromeda/runs/2026-11-15T23-35-53-wrap/",
+"patterns: none: 3 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 5 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-16T00:05:01Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-15T23-35-53-wrap/ops-design-system.md",
+"--results",
+".andromeda/runs/2026-11-15T23-35-53-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-15T23-35-53-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-15T23-35-53-wrap",
+"--marker",
+"2026-11-15-api-error-turn-end",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-15-api-error-turn-end — Surface: cli: 1 row(s)\n**Section:** Surface: cli\n**Change:** + decision/api-error-turn-end-shown-as-turn-end — API-error turn end shown as any turn end\n**Why:** decision/api-error-turn-end-shown-as-turn-end: The chunk ends an API-error turn as a plain `turn-ended` with a closed `cause` word, never the error text, and adds no new output wording, so the surface's choice to mark it no other way must stand as a provisional decision (F2). — resolved by the operator (Q2): delegate the overseer, 2026-11-15: «cause: \"api-error\" on API-error ends only» — the P4 answer to F2, inputs#I2, taken by relay on inputs#I4 item 2; PROVISIONAL, the founder's own word owed\n**Ref:** .andromeda/runs/2026-11-15T23-35-53-wrap/",
+"patterns: none — the call sets and retires no row",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-16T00:05:02Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-15T23-35-53-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-15T23-35-53-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-15T23-35-53-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-15T23-35-53-wrap",
+"--marker",
+"2026-11-15-api-error-turn-end",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/turn-end-cause/api-error · rejected",
+"decision/api-error-text-crosses-into-nothing · rejected",
+"decision/api-error-classes-held-in-adapter · rejected",
+"fit: fits 5 · not_master 0 · stands 0",
+"## 2026-11-15-api-error-turn-end — 7. Test Data & Fixtures: 1 row(s)\n**Section:** 7. Test Data & Fixtures\n**Change:** ~ contract/fake-script/format · promise: was «A script is {\"v\":1,\"steps\":[{\"event\",\"variant\",\"gate\"}]} over the nine registered hook events, validated by the fake-script v1 schema.»; now «A script is {\"v\":1,\"steps\":[{\"event\",\"variant\",\"gate\"}]} over the ten registered hook events, validated by the fake-script v1 schema.»\n**Why:** contract/fake-script/format: The registered hook events moved 9 to 10 with StopFailure, and the fake-script schema's event enum gained StopFailure, so «nine» is a stale count literal. — resolved by the operator (Q1): delegate the overseer, 2026-11-15: «no ledger row» — the P4 answer to F1, inputs#I2, taken by relay on inputs#I4 item 2; PROVISIONAL, the founder's own word owed\n**Ref:** .andromeda/runs/2026-11-15T23-35-53-wrap/",
+"## 2026-11-15-api-error-turn-end — 5. Integration Test Strategy: 1 row(s)\n**Section:** 5. Integration Test Strategy\n**Change:** ~ contract/event-data/turn-ended · promise: was «data holds the keys last_assistant_message and background_tasks.»; now «data holds the keys last_assistant_message, background_tasks and cause; cause is present on an API-error turn end only and absent on a Stop.»\n**Why:** contract/event-data/turn-ended: The turn-ended data keys moved 2 to 3 with cause, present on an API-error end only, so the row's key list is incomplete. — resolved by the operator (Q2): delegate the overseer, 2026-11-15: «cause: \"api-error\" on API-error ends only» — the P4 answer to F2, inputs#I2, taken by relay on inputs#I4 item 2; PROVISIONAL, the founder's own word owed\n**Ref:** .andromeda/runs/2026-11-15T23-35-53-wrap/",
+"## 2026-11-15-api-error-turn-end — 6. E2E Test Strategy: 1 row(s)\n**Section:** 6. E2E Test Strategy\n**Change:** ~ contract/viola-send/turn-running · promise: was «While a turn runs, send exits 13 not-delivered with detail turn-running, types nothing, adds only a send-refused record and hints to wait first; after turn-ended a send is accepted.»; now «While a turn runs, send exits 13 not-delivered with detail turn-running, types nothing, adds only a send-refused record and hints to wait first; after turn-ended, an API-error turn end included, a send is accepted with no pause or release.»\n**Why:** contract/viola-send/turn-running: An API-error turn end now clears the running turn with no pause or release, so the row's accepted-after-turn-ended promise must name that end too. — resolved by the operator (Q1): delegate the overseer, 2026-11-15: «no ledger row» — the P4 answer to F1, inputs#I2, taken by relay on inputs#I4 item 2; PROVISIONAL, the founder's own word owed\n**Ref:** .andromeda/runs/2026-11-15T23-35-53-wrap/",
+"## 2026-11-15-api-error-turn-end — 7. Test Data & Fixtures: 2 row(s)\n**Section:** 7. Test Data & Fixtures\n**Change:** ~ decision/hook-payloads-recorded-by-verify · except: was «»; now «StopFailure, provisionally, is registered with no recorded payload, no ledger row and no verify probe; its tests use a synthetic StopFailure payload.»\n+ decision/send-cases-copy-recorded-fixtures — Send-after-turn cases copy the recorded fixtures\n**Why:** decision/hook-payloads-recorded-by-verify: StopFailure joined the registered hooks without a recorded fixture, ledger row or verify probe (PROVISIONAL F1), a named exception to recording every hook payload by verify. — resolved by the operator (Q1): delegate the overseer, 2026-11-15: «no ledger row» — the P4 answer to F1, inputs#I2, taken by relay on inputs#I4 item 2; PROVISIONAL, the founder's own word owed\ndecision/send-cases-copy-recorded-fixtures: The chunk measured that a purely synthetic fixtures root fails any send after the first turn, a convention future send cases must follow.\n**Ref:** .andromeda/runs/2026-11-15T23-35-53-wrap/",
+"patterns: none: 4 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 5 operation(s) · 4 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-16T00:05:02Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-15T23-35-53-wrap/ops-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-15T23-35-53-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-15T23-35-53-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-15T23-35-53-wrap",
+"--marker",
+"2026-11-15-api-error-turn-end",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/turn-ended-event-data/cause · rejected",
+"decision/api-error-text-never-recorded · rejected",
+"decision/api-error-class-held-in-agent-crate · rejected",
+"decision/turn-end-cause-revalidated · rejected",
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-15-api-error-turn-end — 6. Log Coverage: 1 row(s)\n**Section:** 6. Log Coverage\n**Change:** ~ contract/diag-line-fields/hook-events · promise: was «hook_event (one of nine closed hook names), invoked_at, decision_emitted, deadline_hit, detail, duration_ms.»; now «hook_event (one of ten closed hook names), invoked_at, decision_emitted, deadline_hit, detail, duration_ms.»\n**Why:** contract/diag-line-fields/hook-events: The diag-line schema's hook_event enum gains stop-failure and now holds ten values, so the row's closed count of nine is false. — resolved by the operator (Q1): delegate the overseer, 2026-11-15: «no ledger row» — the P4 answer to F1, inputs#I2, taken by relay on inputs#I4 item 2; PROVISIONAL, the founder's own word owed\n**Ref:** .andromeda/runs/2026-11-15T23-35-53-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-16T00:05:07Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-15T23-35-53-wrap/ops-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-15T23-35-53-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-15T23-35-53-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-15T23-35-53-wrap",
+"--marker",
+"2026-11-15-api-error-turn-end"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 5 · not_master 0 · stands 0",
+"landed tx 1665 · 5 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T21-21-54-2026-11-15-api-error-turn-end.ndjson",
+".andromeda/runs/2026-11-15T23-35-53-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-16T00:05:07Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-15T23-35-53-wrap/ops-design-system.md",
+"--results",
+".andromeda/runs/2026-11-15T23-35-53-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-15T23-35-53-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-15T23-35-53-wrap",
+"--marker",
+"2026-11-15-api-error-turn-end"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 1666 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T21-21-54-2026-11-15-api-error-turn-end.ndjson",
+".andromeda/runs/2026-11-15T23-35-53-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-16T00:05:08Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-15T23-35-53-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-15T23-35-53-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-15T23-35-53-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-15T23-35-53-wrap",
+"--marker",
+"2026-11-15-api-error-turn-end"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/turn-end-cause/api-error · rejected",
+"decision/api-error-text-crosses-into-nothing · rejected",
+"decision/api-error-classes-held-in-adapter · rejected",
+"fit: fits 5 · not_master 0 · stands 0",
+"landed tx 1667 · 5 operation(s) · 4 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T21-21-54-2026-11-15-api-error-turn-end.ndjson",
+".andromeda/runs/2026-11-15T23-35-53-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-16T00:05:08Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-15T23-35-53-wrap/ops-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-15T23-35-53-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-15T23-35-53-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-15T23-35-53-wrap",
+"--marker",
+"2026-11-15-api-error-turn-end"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/turn-ended-event-data/cause · rejected",
+"decision/api-error-text-never-recorded · rejected",
+"decision/api-error-class-held-in-agent-crate · rejected",
+"decision/turn-end-cause-revalidated · rejected",
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 1668 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T21-21-54-2026-11-15-api-error-turn-end.ndjson",
+".andromeda/runs/2026-11-15T23-35-53-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-16T00:05:08Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"layout-templates",
+"--file",
+".andromeda/runs/2026-11-15T23-35-53-wrap/ops-layout-templates.md",
+"--results",
+".andromeda/runs/2026-11-15T23-35-53-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-15T23-35-53-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-15T23-35-53-wrap",
+"--marker",
+"2026-11-15-api-error-turn-end",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/api-error-turn-end-reads-turn-ended · rejected",
+"fit: fits 0 · not_master 0 · stands 0",
+"patterns: none — the call sets and retires no row",
+"dry-run · would land 0 operation(s) · 0 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-16T00:05:08Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"a11y-plan",
+"--file",
+".andromeda/runs/2026-11-15T23-35-53-wrap/ops-a11y-plan.md",
+"--results",
+".andromeda/runs/2026-11-15T23-35-53-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-15T23-35-53-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-15T23-35-53-wrap",
+"--marker",
+"2026-11-15-api-error-turn-end",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/api-error-turn-end-closed-cause · rejected",
+"fit: fits 0 · not_master 0 · stands 0",
+"patterns: none — the call sets and retires no row",
+"dry-run · would land 0 operation(s) · 0 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-16T00:08:07Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola-agent-claude.md",
+"--file",
+"./.andromeda/runs/2026-11-15T23-35-53-wrap/staged-leaf-.claude__docs__services__viola-agent-claude.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-15T23-35-53-wrap",
+"--marker",
+"2026-11-15-api-error-turn-end"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola-agent-claude.md rev 10 · 0 new · 1 revised · 0 retired · tx 1669"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T21-21-54-2026-11-15-api-error-turn-end.ndjson",
+"./.claude/docs/services/viola-agent-claude.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-16T00:08:08Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/gotchas.md",
+"--file",
+"./.andromeda/runs/2026-11-15T23-35-53-wrap/staged-leaf-.claude__docs__gotchas.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-15T23-35-53-wrap",
+"--marker",
+"2026-11-15-api-error-turn-end"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/gotchas.md rev 10 · 0 new · 1 revised · 0 retired · tx 1670"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T21-21-54-2026-11-15-api-error-turn-end.ndjson",
+"./.claude/docs/gotchas.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-16T00:08:08Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola-core.md",
+"--file",
+"./.andromeda/runs/2026-11-15T23-35-53-wrap/staged-leaf-.claude__docs__services__viola-core.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-15T23-35-53-wrap",
+"--marker",
+"2026-11-15-api-error-turn-end"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola-core.md rev 6 · 0 new · 1 revised · 0 retired · tx 1671"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T21-21-54-2026-11-15-api-error-turn-end.ndjson",
+"./.claude/docs/services/viola-core.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-16T00:08:09Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/events.md",
+"--file",
+"./.andromeda/runs/2026-11-15T23-35-53-wrap/staged-leaf-.claude__rules__events.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-15T23-35-53-wrap",
+"--marker",
+"2026-11-15-api-error-turn-end"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/events.md rev 8 · 0 new · 2 revised · 0 retired · tx 1672"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T21-21-54-2026-11-15-api-error-turn-end.ndjson",
+"./.claude/rules/events.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-16T00:08:09Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/frontend.md",
+"--file",
+"./.andromeda/runs/2026-11-15T23-35-53-wrap/staged-leaf-.claude__rules__frontend.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-15T23-35-53-wrap",
+"--marker",
+"2026-11-15-api-error-turn-end"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/frontend.md rev 8 · 0 new · 1 revised · 0 retired · tx 1673"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T21-21-54-2026-11-15-api-error-turn-end.ndjson",
+"./.claude/rules/frontend.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-16T00:08:10Z",
+"argv": [
+"harness",
+"land",
+"CLAUDE.md",
+"--file",
+"./.andromeda/runs/2026-11-15T23-35-53-wrap/staged-leaf-CLAUDE.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-15T23-35-53-wrap",
+"--marker",
+"2026-11-15-api-error-turn-end"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed CLAUDE.md rev 11 · 0 new · 2 revised · 0 retired · tx 1674"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T21-21-54-2026-11-15-api-error-turn-end.ndjson",
+"./CLAUDE.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-16T00:08:10Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/design-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-15T23-35-53-wrap/staged-leaf-.claude__docs__design-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-15T23-35-53-wrap",
+"--marker",
+"2026-11-15-api-error-turn-end"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/design-summary.md rev 8 · 0 new · 1 revised · 0 retired · tx 1675"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T21-21-54-2026-11-15-api-error-turn-end.ndjson",
+"./.claude/docs/design-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-16T00:08:11Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/obs-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-15T23-35-53-wrap/staged-leaf-.claude__docs__obs-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-15T23-35-53-wrap",
+"--marker",
+"2026-11-15-api-error-turn-end"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/obs-summary.md rev 11 · 0 new · 1 revised · 0 retired · tx 1676"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T21-21-54-2026-11-15-api-error-turn-end.ndjson",
+"./.claude/docs/obs-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-16T00:08:11Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/security.md",
+"--file",
+"./.andromeda/runs/2026-11-15T23-35-53-wrap/staged-leaf-.claude__rules__security.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-15T23-35-53-wrap",
+"--marker",
+"2026-11-15-api-error-turn-end"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/security.md rev 15 · 0 new · 2 revised · 0 retired · tx 1677"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T21-21-54-2026-11-15-api-error-turn-end.ndjson",
+"./.claude/rules/security.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-16T00:08:12Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/security-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-15T23-35-53-wrap/staged-leaf-.claude__docs__security-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-15T23-35-53-wrap",
+"--marker",
+"2026-11-15-api-error-turn-end"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/security-summary.md rev 12 · 0 new · 1 revised · 0 retired · tx 1678"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T21-21-54-2026-11-15-api-error-turn-end.ndjson",
+"./.claude/docs/security-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-16T00:08:13Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/tests-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-15T23-35-53-wrap/staged-leaf-.claude__docs__tests-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-15T23-35-53-wrap",
+"--marker",
+"2026-11-15-api-error-turn-end"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/tests-summary.md rev 13 · 0 new · 1 revised · 0 retired · tx 1679"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T21-21-54-2026-11-15-api-error-turn-end.ndjson",
+"./.claude/docs/tests-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-16T00:08:13Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/testing.md",
+"--file",
+"./.andromeda/runs/2026-11-15T23-35-53-wrap/staged-leaf-.claude__rules__testing.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-15T23-35-53-wrap",
+"--marker",
+"2026-11-15-api-error-turn-end"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/testing.md rev 25 · 0 new · 2 revised · 0 retired · tx 1680"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T21-21-54-2026-11-15-api-error-turn-end.ndjson",
+"./.claude/rules/testing.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-16T00:10:54Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-15T23-35-53-wrap/route-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-15T23-35-53-wrap",
+"--marker",
+"2026-11-15-api-error-turn-end",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 2 record(s) · 2 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-16T00:10:58Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-15T23-35-53-wrap/route-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-15T23-35-53-wrap",
+"--marker",
+"2026-11-15-api-error-turn-end"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) · 2 edge(s) · tx 1685 · cry-athxjgmf … cry-6p5vu7ku"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T21-21-54-2026-11-15-api-error-turn-end.ndjson",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-16T00:11:17Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-15T23-35-53-wrap/run-node.txt",
+"--run-dir",
+".andromeda/runs/2026-11-15T23-35-53-wrap",
+"--marker",
+"2026-11-15-api-error-turn-end"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 0 edge(s) · tx 1687 · run-yprgg65f … run-yprgg65f"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T21-21-54-2026-11-15-api-error-turn-end.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-16T00:14:31Z",
+"argv": [
+"land",
+"--root",
+".",
+"--chunk",
+"2026-11-15-api-error-turn-end",
+"--run-dir",
+".andromeda/runs/2026-11-15T23-35-53-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-15-api-error-turn-end · 1 new · 0 changed · 0 gone · 10 kept · tx 1689"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T21-21-54-2026-11-15-api-error-turn-end.ndjson"
+],
+"before": null,
+"after": null
+}
+]

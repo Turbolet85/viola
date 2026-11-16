@@ -1,0 +1,97 @@
+[
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "0150035c",
+"ts": "2026-11-15T23:36:18Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-15-api-error-turn-end",
+"--source",
+"~/dev/projects/additional/viola-overseer/wrap-api-error-turn-end-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the overseer wrap directive: the CI red on 7fd86141 is not this chunk s, pinned on «wait wake condition»; F1/F2 PROVISIONAL, founder away; carries and desk list",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-15T23-35-53-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy no-repo · ../additional/viola-overseer/wrap-api-error-turn-end-directive.md",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-wrap-api-error-turn-end-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/wrap-api-error-turn-end-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "c2887f236654809810b68796981fb1d0d72fe7a760c50fd2ec707a55d8455785",
+"copy": "I4-wrap-api-error-turn-end-directive.md.txt",
+"link": false,
+"read_at": "2026-11-15T23:36:17Z",
+"step": "wrap",
+"why": "the overseer wrap directive: the CI red on 7fd86141 is not this chunk s, pinned on «wait wake condition»; F1/F2 PROVISIONAL, founder away; carries and desk list"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "0150035c",
+"ts": "2026-11-15T23:36:21Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-15-api-error-turn-end",
+"--run-dir",
+".andromeda/runs/2026-11-15T23-35-53-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-api-error-turn-end-directive.md",
+"I1 cited scope.md:26 · scope.md:47 · scope.md:56 · scope.md:68 · research.md:6 · research.md:10 · research.md:90 · research.md:96 · plan.md:9 · plan.md:22 · plan.md:32 · plan.md:150 · plan.md:195 · plan.md:205 · plan.md:375 · plan.md:404 · report.md:56",
+"I2 n/a — a message has no live source · copy message · message: the overseer (delegate), on the founder word of 2026-11-15T21:54:53Z",
+"I2 cited research.md:158 · research.md:167 · plan.md:9 · plan.md:13 · plan.md:29 · plan.md:35 · plan.md:42 · plan.md:83 · plan.md:197 · plan.md:363 · plan.md:383 · plan.md:404 · plan.md:409 · plan.md:411 · plan.md:415 · plan.md:424 · plan.md:453 · report.md:58 · report.md:64",
+"I3 n/a — a message has no live source · copy message · message: the overseer (delegate), the P5 word",
+"I3 cited report.md:60",
+"I4 unchanged · copy no-repo · ../additional/viola-overseer/wrap-api-error-turn-end-directive.md",
+"I4 UNCITED",
+"inputs: 4 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 1 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 4,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 1,
+"unparsed": 0
+}
+}
+]

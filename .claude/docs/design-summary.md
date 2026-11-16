@@ -65,7 +65,7 @@ CLI colour: amber on the `DIALOG` word only, SGR dim on a whole `stale` row, bol
 - NEVER use status dots, toasts, spinners or skeleton shimmer.
 - NEVER auto-sort strips by state — slots are stable.
 - NEVER use glow or a terminal-green / neon "hacker" theme; the cli draws no depth.
-- A refused send folds into its send line; `turn-ended` never fills a readback box; a nonzero `skipped` count stays visible; a bare strip is never cocked nor a target.
+- A refused send folds into its send line; `turn-ended` never fills a readback box; a turn the CLI ends on an API error shows like any turn end (STATUS `idle`, `wait` `turn-ended`, no distinct status, colour or hint; the only trace the cause word `api-error` in `--json` event data, the CLI's error text shown nowhere); a nonzero `skipped` count stays visible; a bare strip is never cocked nor a target.
 - CLI: colour only on `DIALOG` (amber), `stale` rows (dim) and NAME (bold), always beside the word; no ✓/✗, no emoji, no spinner, ASCII only.
 
 ---
