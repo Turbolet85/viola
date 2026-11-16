@@ -310,6 +310,22 @@ pub fn typed_text(text: &str) -> Cow<'_, str> {
     }
 }
 
+/// The characters a submitted prompt may have lost at its end: ASCII space, TAB, CR and LF.
+pub const SUBMIT_TRIM: [char; 4] = [' ', '\t', '\r', '\n'];
+
+/// Whether `submitted`, a `prompt-submitted` text, is the CLI's submission of the typed text
+/// `typed`: the two are equal, or `submitted` is not empty and is `typed` without its trailing
+/// run of [`SUBMIT_TRIM`] characters.
+///
+/// The set is an assumption: the CLI's own trim set is not read from its bundle, and the
+/// untrimmed text is accepted too, so no send relies on the trim. The trailing side alone is
+/// PROVISIONAL (the delegate overseer's answer, owed the founder's word); whitespace at either end
+/// would be one more alternative here.
+pub fn is_submitted_form(typed: &str, submitted: &str) -> bool {
+    submitted == typed
+        || (!submitted.is_empty() && typed.trim_end_matches(SUBMIT_TRIM) == submitted)
+}
+
 const PASTE_OPEN: &str = "<pasted_content id=\"";
 /// What follows a close tag's own newline when the next pair comes at once.
 const NEXT_FRAME: &str = "\n\n<pasted_content id=\"";
@@ -954,6 +970,32 @@ mod tests {
         assert!(matches!(super::typed_text("x\ry"), Cow::Owned(_)));
     }
 
+    #[rstest]
+    #[case::a_space("go ", "go")]
+    #[case::a_tab("go\t", "go")]
+    #[case::a_mixed_run("go  \t ", "go")]
+    #[case::an_lf_then_a_space("go\n ", "go")]
+    #[case::two_lines_and_a_space("two\nlines ", "two\nlines")]
+    #[case::equal("go", "go")]
+    fn submitted_form_takes_a_trailing_run_the_cli_trims(
+        #[case] typed: &str,
+        #[case] submitted: &str,
+    ) {
+        assert!(is_submitted_form(typed, submitted));
+    }
+
+    #[rstest]
+    #[case::a_leading_run(" go", "go")]
+    #[case::a_space_added("go", "go ")]
+    #[case::an_lf_added("go", "go\n")]
+    #[case::an_inner_change("a b", "a  b")]
+    #[case::a_non_ascii_space("go\u{a0}", "go")]
+    #[case::empty_for_whitespace_only("  ", "")]
+    #[case::a_case_change("Go ", "go")]
+    fn submitted_form_refuses_every_other_difference(#[case] typed: &str, #[case] submitted: &str) {
+        assert!(!is_submitted_form(typed, submitted));
+    }
+
     /// Two harness-prefix readings on 2.1.287: a `<task-notification>` typed at a prompt's very
     /// start arrives as typed, and a real cross-session message arrives unescaped under three
     /// attributes, their values replaced here.
@@ -1137,6 +1179,18 @@ mod tests {
             if viola_core::validate_paste_text(&received).is_ok() {
                 prop_assert!(viola_core::validate_paste_text(typed).is_ok());
             }
+        }
+
+        /// A trailing run of the trimmed characters is claimed; the same run leading is not.
+        #[test]
+        fn submitted_form_prop_a_trailing_run_claims_and_a_leading_one_does_not(
+            text in "[a-z\u{e9}]([a-z \t\n\u{e9}]{0,10}[a-z\u{e9}])?",
+            run in "[ \t\r\n]{1,6}",
+        ) {
+            let trailing = text.clone() + &run;
+            prop_assert!(is_submitted_form(&trailing, &text));
+            let leading = run + &text;
+            prop_assert!(!is_submitted_form(&leading, &text));
         }
 
         /// Escape the typed text as the CLI does, wrap it in the CLI's pair with one newline after

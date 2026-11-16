@@ -1,0 +1,292 @@
+[
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "0150035c",
+"ts": "2026-11-16T04:11:49Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-16-send-confirmation",
+"--source",
+"~/dev/projects/additional/viola-overseer/phase-send-confirmation-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the phase directive for Send confirmation: scope at 86fc64d0, the 2026-10-19 driver-side trim instance, no live start without asking, no mutation run, controls under --timeout 120, operator away",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-11-16T04-10-47-phase",
+"--marker",
+"2026-11-16-send-confirmation"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy no-repo · ../additional/viola-overseer/phase-send-confirmation-directive.md",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-phase-send-confirmation-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/phase-send-confirmation-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "b07d03f8a0e7ab426874a147130274786fb5711b6273ec3f84088c8174673f70",
+"copy": "I1-phase-send-confirmation-directive.md.txt",
+"link": false,
+"read_at": "2026-11-16T04:11:48Z",
+"step": "phase:P1",
+"why": "the phase directive for Send confirmation: scope at 86fc64d0, the 2026-10-19 driver-side trim instance, no live start without asking, no mutation run, controls under --timeout 120, operator away"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "0150035c",
+"ts": "2026-11-16T04:46:39Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-16-send-confirmation",
+"--message-file",
+".andromeda/runs/2026-11-16T04-10-47-phase/founder-forks.md",
+"--origin",
+"the delegate (overseer), relayed by the operator",
+"--kind",
+"relay",
+"--why",
+"P4 forks answered: Q1 trailing whitespace only, PROVISIONAL (founder word owed); Q2 claim v2-19 for what the wrapper sees, residual named; no ledger row, no new refusal, the race closed by a lock; no live start",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-11-16T04-10-47-phase",
+"--marker",
+"2026-11-16-send-confirmation"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy message · message: the delegate (overseer), relayed by the operator",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-founder-forks.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "message: the delegate (overseer), relayed by the operator",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "c8bb0a066efb53de2b40b17d743a089289609efe9b6601764396e1ec2acedf8f",
+"copy": "I2-founder-forks.md.txt",
+"link": false,
+"read_at": "2026-11-16T04:46:39Z",
+"step": "phase:P4",
+"why": "P4 forks answered: Q1 trailing whitespace only, PROVISIONAL (founder word owed); Q2 claim v2-19 for what the wrapper sees, residual named; no ledger row, no new refusal, the race closed by a lock; no live start"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "0150035c",
+"ts": "2026-11-16T04:51:57Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-16-send-confirmation",
+"--run-dir",
+".andromeda/runs/2026-11-16T04-10-47-phase",
+"--marker",
+"2026-11-16-send-confirmation"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-send-confirmation-directive.md",
+"I1 cited scope.md:44 · scope.md:88 · research.md:8 · research.md:58 · research.md:68 · plan.md:10 · plan.md:22 · plan.md:109 · plan.md:145 · plan.md:173",
+"I2 n/a — a message has no live source · copy message · message: the delegate (overseer), relayed by the operator",
+"I2 cited plan.md:11 · plan.md:15 · plan.md:24 · plan.md:46 · plan.md:55 · plan.md:175 · plan.md:341 · plan.md:344",
+"inputs: 2 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "0150035c",
+"ts": "2026-11-16T04:53:02Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-16-send-confirmation",
+"--run-dir",
+".andromeda/runs/2026-11-16T04-10-47-phase",
+"--marker",
+"2026-11-16-send-confirmation"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-send-confirmation-directive.md",
+"I1 cited scope.md:44 · scope.md:88 · research.md:8 · research.md:58 · research.md:68 · plan.md:10 · plan.md:22 · plan.md:109 · plan.md:126 · plan.md:152 · plan.md:180",
+"I2 n/a — a message has no live source · copy message · message: the delegate (overseer), relayed by the operator",
+"I2 cited plan.md:11 · plan.md:15 · plan.md:24 · plan.md:46 · plan.md:55 · plan.md:182 · plan.md:356 · plan.md:359",
+"inputs: 2 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "0150035c",
+"ts": "2026-11-16T04:53:17Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-16-send-confirmation",
+"--run-dir",
+".andromeda/runs/2026-11-16T04-10-47-phase",
+"--marker",
+"2026-11-16-send-confirmation"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-send-confirmation-directive.md",
+"I1 cited scope.md:47 · scope.md:91 · research.md:8 · research.md:58 · research.md:68 · plan.md:10 · plan.md:22 · plan.md:109 · plan.md:126 · plan.md:152 · plan.md:180",
+"I2 n/a — a message has no live source · copy message · message: the delegate (overseer), relayed by the operator",
+"I2 cited scope.md:17 · plan.md:11 · plan.md:15 · plan.md:24 · plan.md:46 · plan.md:55 · plan.md:182 · plan.md:356 · plan.md:359",
+"inputs: 2 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "0150035c",
+"ts": "2026-11-16T04:55:21Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-16-send-confirmation",
+"--message-file",
+".andromeda/runs/2026-11-16T04-10-47-phase/relay-p5-word.md",
+"--origin",
+"the operator, 2026-11-16T04:55Z",
+"--kind",
+"relay",
+"--why",
+"the P5 word on .andromeda/runs/2026-11-16T04-10-47-phase/p5-card-1.md: yes, the operator own word; the caps claimed with the proposed wordings and the three Beyond-the-plan rows approved; Q1 stays PROVISIONAL; nothing started after the phase",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-11-16T04-10-47-phase",
+"--marker",
+"2026-11-16-send-confirmation"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy message · message: the operator, 2026-11-16T04:55Z",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-p5-word.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, 2026-11-16T04:55Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "b09e575b88d0aafab419b86553685e92f0363c40b98ff11b0fbde08f9422b597",
+"copy": "I3-relay-p5-word.md.txt",
+"link": false,
+"read_at": "2026-11-16T04:55:21Z",
+"step": "phase:P5",
+"why": "the P5 word on .andromeda/runs/2026-11-16T04-10-47-phase/p5-card-1.md: yes, the operator own word; the caps claimed with the proposed wordings and the three Beyond-the-plan rows approved; Q1 stays PROVISIONAL; nothing started after the phase"
+}
+}
+]

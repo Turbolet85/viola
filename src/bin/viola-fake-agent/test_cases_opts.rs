@@ -80,6 +80,12 @@ fn opts_parse_reads_values_flags_and_ignores_unknown() {
 }
 
 #[test]
+fn opts_parse_reads_the_trim_prompt_end_flag() {
+    assert!(Opts::parse(&args(&["--trim-prompt-end"])).trim_prompt_end);
+    assert!(!Opts::parse(&[]).trim_prompt_end, "off by default");
+}
+
+#[test]
 fn opts_default_to_the_default_cli_version() {
     let o = Opts::parse(&[]);
     assert_eq!(o.cli_version(), DEFAULT_CLI_VERSION);

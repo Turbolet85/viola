@@ -325,6 +325,52 @@ pub(super) fn sent_after_the_gate_wait(
     (reply, tmp, pastes)
 }
 
+/// `"hello"` sent to a quiet-gated child that never submits, with `window` run on the slot and
+/// the instance dir once the gate has returned ready, before the guarded section. The reply, the
+/// instance dir and the pastes.
+pub(super) fn sent_through_the_post_gate_window(
+    window: impl FnOnce(&SendSlot, &Path),
+) -> (Value, tempfile::TempDir, Pastes) {
+    let tmp = tempfile::tempdir().expect("tempdir");
+    let (slot, pastes) = mute_child();
+    let params = json!({"v": 1, "text": "hello"});
+    let reply = send_through(&slot, &name(), tmp.path(), &call(&params, 1), |slot| {
+        window(slot, tmp.path());
+    })
+    .expect("answered");
+    assert!(slot.flight().send.is_none(), "the slot is free again");
+    (reply, tmp, pastes)
+}
+
+/// A send of `sent` whose prompt the hook reports back as `submitted` under `origin`, the clock
+/// standing still until that prompt is on disk and jumping after it, so an unclaimed send expires
+/// and never parks. The reply, the events, the pastes and the wheel's holder.
+pub(super) fn sent_then_submitted(
+    sent: &str,
+    submitted: &str,
+    origin: &str,
+) -> (Value, Vec<Value>, Vec<String>, Wheel) {
+    let tmp = tempfile::tempdir().expect("tempdir");
+    let base = Instant::now();
+    let (clock, jumping) = SwitchClock::at(base);
+    let slot = SendSlot::new(clock, false, Arc::default());
+    let (pastes, pasted) = Pastes::new();
+    slot.attach(pastes.paste_fn(), quiet_gate(base));
+    let params = json!({"v": 1, "text": sent, "from": "overseer"});
+    let reply = std::thread::scope(|s| {
+        let sending = s.spawn(|| send(&slot, &name(), tmp.path(), &call(&params, 3)));
+        let typed = pasted.recv_timeout(Duration::from_secs(5));
+        if typed.is_ok() {
+            append_hook_event(&slot, &feed(), tmp.path(), prompt(submitted, origin)).expect("hook");
+        }
+        jumping.store(true, std::sync::atomic::Ordering::SeqCst);
+        typed.expect("pasted within the bound");
+        sending.join().expect("send thread")
+    })
+    .expect("answered");
+    (reply, events(tmp.path()), pastes.all(), slot.wheel.holder())
+}
+
 /// A [`mute_child`] that was handed `builder`'s link set over `links_dir`.
 pub(super) fn linking(links_dir: &Path) -> (SendSlot, Pastes) {
     let (slot, pastes) = mute_child();

@@ -1,0 +1,1 @@
+A turn whose prompt-submitted reaches the wrapper at any point before the paste, the readiness gate's wait included, refuses the send not-delivered / turn-running with nothing typed, no link and no send-issued: the gate-wait cases and a unit case reproducing a turn started after the post-gate reads (the locked-turn-read control holds) prove it.

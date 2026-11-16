@@ -66,7 +66,7 @@ mod tests {
         confirmed_as(sent, typed, "human");
     }
 
-    /// The claim has no tolerance on the submitted side. While a text with an inner CR is in
+    /// The claim takes no longer text on the submitted side. While a text with an inner CR is in
     /// flight, typed with an LF there, a prompt that still holds the CR is not the typed text: it
     /// is appended as the hook filed it, the human it names takes the wheel, and the send waits on
     /// to its window.
@@ -114,7 +114,7 @@ mod tests {
         assert_eq!(slot.wheel.holder(), Wheel::Human);
     }
 
-    /// The claim has no tolerance. While a text that ended in a newline is in flight, a prompt
+    /// The claim takes no longer text. While a text that ended in a newline is in flight, a prompt
     /// that still carries the newline is not the typed text: it is appended as the hook filed it,
     /// the human it names takes the wheel, and the send waits on to its window.
     #[rstest]
@@ -159,6 +159,50 @@ mod tests {
             ["send-issued", "prompt-submitted", "send-refused"]
         );
         assert_eq!(slot.wheel.holder(), Wheel::Human);
+    }
+
+    /// A prompt the CLI submitted with the typed text's trailing run of whitespace removed is the
+    /// send's own: relabelled `driver` with its submitted text, confirmed, the wheel left with
+    /// the driver.
+    #[rstest]
+    #[case::a_space(" ")]
+    #[case::a_tab("\t")]
+    #[case::three_spaces("   ")]
+    #[case::space_tab_space(" \t ")]
+    fn send_a_prompt_the_cli_trimmed_at_the_end_is_relabelled_driver_and_confirmed(
+        #[case] tail: &str,
+    ) {
+        let sent = format!("run the skill{tail}");
+        let (reply, events, pastes, holder) = sent_then_submitted(&sent, "run the skill", "human");
+        assert_eq!(pastes, [sent.as_str()]);
+        let kinds: Vec<&str> = events
+            .iter()
+            .map(|e| e["kind"].as_str().expect("kind"))
+            .collect();
+        assert_eq!(kinds, ["send-issued", "prompt-submitted", "send-confirmed"]);
+        assert_eq!(
+            events[1]["data"],
+            json!({"text": "run the skill", "origin": "driver"})
+        );
+        assert_eq!(
+            reply,
+            json!({"ok": {"submitted_at": events[1]["ts"], "cursor": 0}})
+        );
+        assert_eq!(holder, Wheel::Driver);
+    }
+
+    /// The tolerance is the trailing side alone: a prompt that lost the typed text's leading
+    /// whitespace is not the send's, the human it names takes the wheel, and the send expires.
+    #[test]
+    fn send_a_prompt_trimmed_at_the_start_claims_nothing() {
+        let (reply, events, pastes, holder) = sent_then_submitted(" run", "run", "human");
+        assert_eq!(pastes, [" run"]);
+        assert_eq!(events[1]["data"], json!({"text": "run", "origin": "human"}));
+        assert_eq!(
+            reply,
+            json!({"refusal": "not-delivered", "detail": "no-prompt-submitted"})
+        );
+        assert_eq!(holder, Wheel::Human);
     }
 
     #[test]

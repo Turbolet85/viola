@@ -1,0 +1,141 @@
+[
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'claim' AND callee_kind = 'fn' AND callee_file LIKE '%slot.rs' ORDER BY file, line",
+"rows": 1,
+"result": [
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/send/slot/append_hook_event().",
+"file": "src/run/send/slot.rs",
+"line": 192
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'typed_text' AND callee_kind = 'fn' ORDER BY file, line",
+"rows": 12,
+"result": [
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 hook/tests/typed_text_drops_every_trailing_newline().",
+"file": "crates/viola-agent-claude/src/hook.rs",
+"line": 924
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 hook/tests/typed_text_every_inner_cr_is_one_lf().",
+"file": "crates/viola-agent-claude/src/hook.rs",
+"line": 942
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 hook/tests/typed_text_copies_only_a_text_with_an_inner_cr().",
+"file": "crates/viola-agent-claude/src/hook.rs",
+"line": 950
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 hook/tests/typed_text_copies_only_a_text_with_an_inner_cr().",
+"file": "crates/viola-agent-claude/src/hook.rs",
+"line": 953
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 hook/tests/prompt_text_prop_round_trips_a_wrapped_paste().",
+"file": "crates/viola-agent-claude/src/hook.rs",
+"line": 1129
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 hook/tests/prompt_text_prop_round_trips_a_wrapped_paste().",
+"file": "crates/viola-agent-claude/src/hook.rs",
+"line": 1146
+},
+{
+"caller": "rust-analyzer cargo viola-mcp 0.1.0 tools/",
+"file": "crates/viola-mcp/src/tools.rs",
+"line": 24
+},
+{
+"caller": "rust-analyzer cargo viola-mcp 0.1.0 tools/refusal_of().",
+"file": "crates/viola-mcp/src/tools.rs",
+"line": 303
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/send/",
+"file": "src/cmd/send.rs",
+"line": 16
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/send/refusal_of().",
+"file": "src/cmd/send.rs",
+"line": 183
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/send/",
+"file": "src/run/send.rs",
+"line": 20
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/send/send().",
+"file": "src/run/send.rs",
+"line": 87
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'turn_running' AND callee_kind = 'fn' ORDER BY file, line",
+"rows": 10,
+"result": [
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/send/send().",
+"file": "src/run/send.rs",
+"line": 102
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/send/send().",
+"file": "src/run/send.rs",
+"line": 127
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/send/tests/send_empty_text_is_refused_first_after_control_character().",
+"file": "src/run/send.rs",
+"line": 515
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/send/tests/send_empty_text_while_a_turn_runs_is_still_empty_text().",
+"file": "src/run/send.rs",
+"line": 552
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/send/slot/tests/send_a_prompt_of_any_origin_starts_a_turn().",
+"file": "src/run/send/slot.rs",
+"line": 402
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/wheel/tests/wheel_only_a_release_returning_the_wheel_clears_the_turn().",
+"file": "src/run/wheel.rs",
+"line": 725
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/wheel/tests/wheel_turn_is_marked_and_ended_and_a_pause_or_a_key_leaves_it().",
+"file": "src/run/wheel.rs",
+"line": 731
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/wheel/tests/wheel_turn_is_marked_and_ended_and_a_pause_or_a_key_leaves_it().",
+"file": "src/run/wheel.rs",
+"line": 733
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/wheel/tests/wheel_turn_is_marked_and_ended_and_a_pause_or_a_key_leaves_it().",
+"file": "src/run/wheel.rs",
+"line": 739
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/wheel/tests/wheel_turn_is_marked_and_ended_and_a_pause_or_a_key_leaves_it().",
+"file": "src/run/wheel.rs",
+"line": 741
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

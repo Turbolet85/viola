@@ -22,6 +22,55 @@ pub(super) struct Flight {
     session: Option<String>,
 }
 
+impl Flight {
+    /// Whether a prompt with the submitted `text` is the in-flight send's (the typed text or its
+    /// CLI-trimmed form, `is_submitted_form`): it is then claimed, and only
+    /// [`SendSlot::settle`] resolves it. A send that waits for a post-condition, or for nothing,
+    /// is never a prompt's.
+    fn claim(&mut self, text: &str) -> bool {
+        match self.send.as_mut() {
+            Some(f)
+                if matches!((f.confirms, &f.state), (Confirms::Prompt, Match::Waiting))
+                    && viola_agent_claude::hook::is_submitted_form(&f.text, text) =>
+            {
+                f.state = Match::Claimed;
+                true
+            }
+            _ => false,
+        }
+    }
+
+    /// A `session-start` about to be appended, its `data` read as fields that may be absent or
+    /// `null`. Its id is the remembered one from here on, whatever its cause. The line is the
+    /// in-flight send's when its id is a string and either that send waits for a new session, the
+    /// cause is `clear` and the id differs from the one remembered before, or it waits for its
+    /// compacted session, the cause is `compact` and the id equals the one remembered before (with
+    /// nothing remembered, nothing equals it): it is then claimed, as by [`Flight::claim`].
+    fn session_started(&mut self, data: &Value) -> bool {
+        let id = data["agent_session_id"].as_str();
+        let prior = std::mem::replace(&mut self.session, id.map(str::to_owned));
+        let post = id.and_then(|id| match data["cause"].as_str() {
+            Some("clear") if prior.as_deref() != Some(id) => Some(PostCondition::NewSession),
+            Some("compact") if prior.as_deref() == Some(id) => {
+                Some(PostCondition::CompactedSession)
+            }
+            _ => None,
+        });
+        match self.send.as_mut() {
+            Some(f)
+                if matches!(f.state, Match::Waiting)
+                    && post.is_some_and(
+                        |post| matches!(f.confirms, Confirms::Post(p) if p == post),
+                    ) =>
+            {
+                f.state = Match::Claimed;
+                true
+            }
+            _ => false,
+        }
+    }
+}
+
 /// The child's input and gate, set once the pump starts, the link set, set by the start, the one
 /// send in flight, the wheel it reads before typing, and the version gate's reading.
 pub(crate) struct SendSlot {
@@ -70,54 +119,6 @@ impl SendSlot {
 
     pub(super) fn flight(&self) -> MutexGuard<'_, Flight> {
         self.flight.lock().unwrap_or_else(PoisonError::into_inner)
-    }
-
-    /// Whether a prompt with `text` is the in-flight send's: it is then claimed, and only
-    /// [`SendSlot::settle`] resolves it. A send that waits for a post-condition, or for nothing,
-    /// is never a prompt's.
-    pub(crate) fn claim(&self, text: &str) -> bool {
-        let mut flight = self.flight();
-        match flight.send.as_mut() {
-            Some(f)
-                if matches!((f.confirms, &f.state), (Confirms::Prompt, Match::Waiting))
-                    && f.text == text =>
-            {
-                f.state = Match::Claimed;
-                true
-            }
-            _ => false,
-        }
-    }
-
-    /// A `session-start` about to be appended, its `data` read as fields that may be absent or
-    /// `null`. Its id is the remembered one from here on, whatever its cause. The line is the
-    /// in-flight send's when its id is a string and either that send waits for a new session, the
-    /// cause is `clear` and the id differs from the one remembered before, or it waits for its
-    /// compacted session, the cause is `compact` and the id equals the one remembered before (with
-    /// nothing remembered, nothing equals it): it is then claimed, as by [`SendSlot::claim`].
-    fn session_started(&self, data: &Value) -> bool {
-        let id = data["agent_session_id"].as_str();
-        let mut flight = self.flight();
-        let prior = std::mem::replace(&mut flight.session, id.map(str::to_owned));
-        let post = id.and_then(|id| match data["cause"].as_str() {
-            Some("clear") if prior.as_deref() != Some(id) => Some(PostCondition::NewSession),
-            Some("compact") if prior.as_deref() == Some(id) => {
-                Some(PostCondition::CompactedSession)
-            }
-            _ => None,
-        });
-        match flight.send.as_mut() {
-            Some(f)
-                if matches!(f.state, Match::Waiting)
-                    && post.is_some_and(
-                        |post| matches!(f.confirms, Confirms::Post(p) if p == post),
-                    ) =>
-            {
-                f.state = Match::Claimed;
-                true
-            }
-            _ => false,
-        }
     }
 
     /// The claimed line was appended at `ts`, or (`None`) was not, and the send waits on.
@@ -187,30 +188,37 @@ pub(crate) fn append_hook_event(
     instance_dir: &Path,
     mut line: EventLine,
 ) -> Result<(), StateError> {
-    let prompt = line.kind == EventKind::PromptSubmitted
-        && line.data["text"]
-            .as_str()
-            .is_some_and(|text| slot.claim(text));
-    if prompt {
-        line.data["origin"] = json!("driver");
-    }
-    let claimed =
-        prompt || (line.kind == EventKind::SessionStart && slot.session_started(&line.data));
-    // Before the line can be read, as the wheel below: a driver that read `turn-ended` is never
-    // refused by that turn. The turn is marked ahead of the human's wheel move, so a `release`
-    // between the two still clears it.
-    match line.kind {
-        EventKind::PromptSubmitted => slot.wheel.turn_started(),
-        EventKind::TurnEnded | EventKind::SessionStart | EventKind::SessionEnd => {
-            slot.wheel.turn_ended();
+    // One flight guard over the claim and the turn and wheel moves: a send's post-gate reads and
+    // its paste hold the same guard, so a turn the wrapper learns of either refuses the send
+    // before anything is typed or began after the text went in. Flight before `held`, as in `send`.
+    let claimed = {
+        let mut flight = slot.flight();
+        let prompt = line.kind == EventKind::PromptSubmitted
+            && line.data["text"]
+                .as_str()
+                .is_some_and(|text| flight.claim(text));
+        if prompt {
+            line.data["origin"] = json!("driver");
         }
-        _ => {}
-    }
-    // Moved before the line can be read: whoever sees the human's prompt on disk already sees the
-    // human's wheel, so a `release` made after it is never undone by it.
-    if line.kind == EventKind::PromptSubmitted && line.data["origin"] == "human" {
-        slot.wheel.human_input();
-    }
+        let claimed =
+            prompt || (line.kind == EventKind::SessionStart && flight.session_started(&line.data));
+        // Before the line can be read, as the wheel below: a driver that read `turn-ended` is
+        // never refused by that turn. The turn is marked ahead of the human's wheel move, so a
+        // `release` between the two still clears it.
+        match line.kind {
+            EventKind::PromptSubmitted => slot.wheel.turn_started(),
+            EventKind::TurnEnded | EventKind::SessionStart | EventKind::SessionEnd => {
+                slot.wheel.turn_ended();
+            }
+            _ => {}
+        }
+        // Moved before the line can be read: whoever sees the human's prompt on disk already sees
+        // the human's wheel, so a `release` made after it is never undone by it.
+        if line.kind == EventKind::PromptSubmitted && line.data["origin"] == "human" {
+            slot.wheel.human_input();
+        }
+        claimed
+    };
     let session = (line.kind == EventKind::SessionStart)
         .then(|| line.data["agent_session_id"].as_str())
         .flatten();

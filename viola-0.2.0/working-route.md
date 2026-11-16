@@ -19,7 +19,7 @@
 [2026-11-15-mutation-and-coverage-baselines-green] Mutation and coverage baselines green — the test socket name, the slow-case kill and receipt waits, the recorder's survivors and the record-home naming rule, test-only
 [2026-11-15-api-error-turn-end] API-error turn end — logged as a turn end with a closed cause code, never the error text; the instance idle again, the next send accepted
 [2026-11-16-wait-wake-condition] `wait` wake condition — documented: a turn-end question held by a background task wakes it; a task-free end's notification gives no false wake
-Send confirmation — the driver's send matched whatever whitespace the CLI trims, validated as received, never stripped; the readiness-gate turn race closed
+[2026-11-16-send-confirmation] Send confirmation — the driver's send matched whatever whitespace the CLI trims, validated as received, never stripped; the readiness-gate turn race closed
 Local-command delivery — a local command's echo confirms its send
 Survey key keeps the wheel — the session-feedback survey's grammar measured live, joining the closed non-editing list
 

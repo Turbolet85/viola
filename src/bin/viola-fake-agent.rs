@@ -90,6 +90,7 @@ struct Opts {
     fixtures: Option<PathBuf>,
     plugin_dir: Option<PathBuf>,
     suppress_prompt_submit: bool,
+    trim_prompt_end: bool,
     local_command_mode: bool,
     inject_harness_turn: bool,
     exit_no_eof: bool,
@@ -126,6 +127,7 @@ impl Opts {
                 "--fixtures" => o.fixtures = value().map(PathBuf::from),
                 "--plugin-dir" => o.plugin_dir = value().map(PathBuf::from),
                 "--suppress-prompt-submit" => o.suppress_prompt_submit = true,
+                "--trim-prompt-end" => o.trim_prompt_end = true,
                 "--local-command-mode" => o.local_command_mode = true,
                 "--inject-harness-turn" => o.inject_harness_turn = true,
                 "--exit-no-eof" => o.exit_no_eof = true,
@@ -618,7 +620,14 @@ impl Agent {
         } else {
             let fired = match framing {
                 Some(stem) => self.fire("UserPromptSubmit", stem, &[]),
-                None => self.fire("UserPromptSubmit", "default", &[("prompt", &text)]),
+                None => {
+                    let prompt = if self.opts.trim_prompt_end {
+                        text.trim_end_matches([' ', '\t', '\r', '\n'])
+                    } else {
+                        &text
+                    };
+                    self.fire("UserPromptSubmit", "default", &[("prompt", prompt)])
+                }
             };
             if let Some(stem) = dialog_stem(&text).filter(|_| self.opts.dialogs) {
                 self.replay_dialogs(stem);

@@ -1,11 +1,15 @@
 # Coverage — viola-0.2.0
 
-verified 9/33 · deferred 1 · planned 23 · implemented 0 · unclaimed 23
+verified 9/33 · deferred 1 · planned 21 · implemented 2 · unclaimed 21
 
 ## deferred (1)
 - v2-22 · Product-owned session settings
 
-## planned, unclaimed (23)
+## implemented (2)
+- v2-18 · The driver's send recognised whatever whitespace the CLI trims · 2026-11-16-send-confirmation
+- v2-19 · The readiness-gate send race closed · 2026-11-16-send-confirmation
+
+## planned, unclaimed (21)
 - v2-07 · Launch a session into the fleet
 - v2-08 · The launch authority bounded
 - v2-09 · The lineage registry
@@ -15,8 +19,6 @@ verified 9/33 · deferred 1 · planned 23 · implemented 0 · unclaimed 23
 - v2-13 · Adopt a plain session into the fleet
 - v2-14 · The fleet console
 - v2-15 · Every verb from the console
-- v2-18 · The driver's send recognised whatever whitespace the CLI trims
-- v2-19 · The readiness-gate send race closed
 - v2-20 · A question first raised by PermissionRequest answered with a body
 - v2-21 · A key answering the CLI's session-feedback survey keeps the wheel
 - v2-23 · A local command's own echo is its delivery

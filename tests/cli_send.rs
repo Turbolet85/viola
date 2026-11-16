@@ -665,6 +665,41 @@ fn send_after_a_confirmed_send_is_turn_running_until_turn_ended() {
     wrapper.stop();
 }
 
+/// A send whose typed text ends in whitespace the CLI trims from its submit (the fake agent's
+/// `--trim-prompt-end`) is read back as the driver's own: the prompt relabelled `driver` with its
+/// trimmed text, the send confirmed, no wheel move, so a next send after the turn is typed too.
+#[test]
+fn send_ending_in_whitespace_the_cli_trims_is_read_back_and_keeps_the_wheel() {
+    let wrapper = boot(Some(PATH3), &["--trim-prompt-end"]);
+    let dir = wrapper.instance_dir();
+    let home = wrapper.home().to_path_buf();
+    let l = end_offset(&dir);
+    let sent = send(
+        &home,
+        &["builder", "--json"],
+        &format!("{CANARY} run the skill  \t\n"),
+    );
+    assert_eq!(sent.code, Some(0), "stderr: {}", sent.stderr);
+    let doc: Value = serde_json::from_str(&sent.stdout).expect("one JSON document");
+    assert_eq!(doc["ok"]["cursor"], l);
+    let submitted_at = doc["ok"]["submitted_at"].as_str().expect("submitted_at");
+    assert!(is_ms_utc(submitted_at), "{submitted_at}");
+
+    let records = records_after(&dir, l);
+    let kinds: Vec<&Value> = records.iter().map(|r| &r["kind"]).collect();
+    assert_eq!(kinds, ["send-issued", "prompt-submitted", "send-confirmed"]);
+    assert_eq!(
+        records[1]["data"],
+        json!({"text": format!("{CANARY} run the skill"), "origin": "driver"})
+    );
+    assert_eq!(records[1]["ts"], submitted_at);
+
+    end_turn(&wrapper);
+    let again = send(&home, &["builder"], &format!("{CANARY} again"));
+    assert_eq!(again.code, Some(0), "stderr: {}", again.stderr);
+    wrapper.stop();
+}
+
 /// A listed local command is never presumed delivered and never refused. On a CLI version with no
 /// passing stamp nothing is measured for it, so `/clear` and `/remote-control` are each typed once
 /// and answered `unconfirmable` at once: exit 0 and the one `ok` document under `--json`, recorded

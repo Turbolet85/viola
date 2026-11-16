@@ -105,3 +105,4 @@
 2026-11-15-mutation-and-coverage-baselines-green · complete · test socket root (every viola-test-chan- socket under a short /tmp root), mutants kill 15 s and WITHIN 12 s, hypr-tap survivors, record-home naming rule — test-only · → chk:2026-11-15-mutation-and-coverage-baselines-green
 2026-11-15-api-error-turn-end · complete · API-error turn end — a turn the CLI ends on an API error logged as `turn-ended` with a closed cause code, never the error text; the instance idle, the next send accepted · → chk:2026-11-15-api-error-turn-end
 2026-11-16-wait-wake-condition · complete · `wait` wake condition — documented and pinned: a background-held turn end wakes it, no false wake after a task-free end; the stamped-home CI timeout bounded · → chk:2026-11-16-wait-wake-condition
+2026-11-16-send-confirmation · pending · Send confirmation — a driver's send matched whatever whitespace the CLI trims; the readiness-gate turn race closed · → chk:2026-11-16-send-confirmation

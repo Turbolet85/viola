@@ -66,12 +66,26 @@ struct Ctx<'a> {
 /// once the gate's wait has ended, because that wait can run to `GATE_MAX_WAIT`. A human key or a
 /// turn that started during it refuses with nothing typed. A send no rung refused, from another
 /// instance, links that instance to this one before `send-issued` (architecture [Links]); a
-/// refused send links nothing.
+/// refused send links nothing. The second reads, the link, `send-issued` and the paste are one
+/// section under the flight guard the hook tap's turn start takes too (`append_hook_event`): a
+/// `prompt-submitted` the wrapper takes before the paste refuses the send with nothing typed.
 pub(crate) fn send(
     slot: &SendSlot,
     name: &ViolaName,
     instance_dir: &Path,
     call: &Call<'_>,
+) -> Result<Value, ProtocolError> {
+    send_through(slot, name, instance_dir, call, |_| {})
+}
+
+/// [`send`], with `window` called once the gate has returned ready, before the guarded section: a
+/// test's forced window for what can happen between the gate and that section.
+fn send_through(
+    slot: &SendSlot,
+    name: &ViolaName,
+    instance_dir: &Path,
+    call: &Call<'_>,
+    window: impl FnOnce(&SendSlot),
 ) -> Result<Value, ProtocolError> {
     let (text, from) = parse(call.params)?;
     let ctx = Ctx {
@@ -118,25 +132,35 @@ pub(crate) fn send(
     if readiness != Readiness::Ready {
         return ctx.not_delivered(None, NotDelivered::InputNotReady);
     }
-    if let Some(detail) = slot.wheel.human_typing() {
-        return ctx.refuse(
-            None,
-            RefusalReason::HumanTyping,
-            detail.map(HumanTyping::as_str),
-        );
-    }
-    if slot.wheel.turn_running() {
-        return ctx.not_delivered(None, NotDelivered::TurnRunning);
-    }
-    if let (Some(links), Some(from)) = (slot.links.get(), ctx.from.as_ref())
-        && from != name
-    {
-        links.record(from).map_err(|_| ProtocolError::Internal)?;
-    }
-    let cursor = ctx.issue(text.len())?;
-    if paste(text).is_err() {
-        return ctx.not_delivered(Some(cursor), NotDelivered::InputNotReady);
-    }
+    window(slot);
+    let pasted = {
+        let flight = slot.flight();
+        if let Some(detail) = slot.wheel.human_typing() {
+            drop(flight);
+            return ctx.refuse(
+                None,
+                RefusalReason::HumanTyping,
+                detail.map(HumanTyping::as_str),
+            );
+        }
+        if slot.wheel.turn_running() {
+            drop(flight);
+            return ctx.not_delivered(None, NotDelivered::TurnRunning);
+        }
+        if let (Some(links), Some(from)) = (slot.links.get(), ctx.from.as_ref())
+            && from != name
+        {
+            links.record(from).map_err(|_| ProtocolError::Internal)?;
+        }
+        let cursor = ctx.issue(text.len())?;
+        let pasted = paste(text).map(|()| cursor).map_err(|_| cursor);
+        drop(flight);
+        pasted
+    };
+    let cursor = match pasted {
+        Ok(cursor) => cursor,
+        Err(cursor) => return ctx.not_delivered(Some(cursor), NotDelivered::InputNotReady),
+    };
     if matches!(confirms, Confirms::Nothing) {
         return ctx.unconfirmable(cursor, slot.clock.now());
     }
@@ -631,6 +655,34 @@ mod tests {
         });
         assert_eq!(reply, json!({"refusal": "human-typing", "detail": null}));
         assert_eq!(kinds(tmp.path()), ["send-refused"]);
+        assert!(pastes.all().is_empty(), "nothing typed");
+    }
+
+    /// A turn the wrapper learns of once the gate's wait and before the guarded section refuses
+    /// the send with nothing typed, no link and no `send-issued`.
+    #[test]
+    fn send_a_turn_started_after_the_post_gate_window_is_turn_running_and_types_nothing() {
+        let (reply, tmp, pastes) = sent_through_the_post_gate_window(|slot, dir| {
+            append_hook_event(slot, &feed(), dir, prompt(HARNESS_TURN, "harness")).expect("hook");
+        });
+        assert_eq!(
+            reply,
+            json!({"refusal": "not-delivered", "detail": "turn-running"})
+        );
+        assert_eq!(kinds(tmp.path()), ["prompt-submitted", "send-refused"]);
+        assert_refused_without_a_cursor(tmp.path(), Some("turn-running"));
+        assert!(pastes.all().is_empty(), "nothing typed");
+    }
+
+    #[test]
+    fn send_a_human_prompt_after_the_post_gate_window_is_human_typing_and_types_nothing() {
+        let (reply, tmp, pastes) = sent_through_the_post_gate_window(|slot, dir| {
+            append_hook_event(slot, &feed(), dir, prompt("the human's own", "human"))
+                .expect("hook");
+        });
+        assert_eq!(reply, json!({"refusal": "human-typing", "detail": null}));
+        assert_eq!(kinds(tmp.path()), ["prompt-submitted", "send-refused"]);
+        assert_refused_without_a_cursor(tmp.path(), None);
         assert!(pastes.all().is_empty(), "nothing typed");
     }
 
