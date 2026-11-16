@@ -1,0 +1,5 @@
+@carry in=chk-frgankby
+CARRY: chunk 2026-11-16-send-confirmation (its P5 card's row 1, approved on the operator's own word, `chunks/2026-11-16-send-confirmation/inputs/I3-relay-p5-word.md.txt`; the wrap directive `chunks/2026-11-16-send-confirmation/inputs/I4-wrap-send-confirmation-directive.md.txt`): read live, on the interactive input box, exactly which whitespace the CLI trims at submit (leading, trailing, inside a paste) — the delivery confirmation's trailing tolerance stands PROVISIONAL on an assumed set (ASCII space, TAB, CR, LF) and «either end» waits for this reading (`chunks/2026-11-16-send-confirmation/inputs/I5-founder-forks.md.txt`)
+
+@carry in=chk-frgankby
+CARRY: chunk 2026-11-16-send-confirmation (its P5 card's row 2, `chunks/2026-11-16-send-confirmation/inputs/I3-relay-p5-word.md.txt`; the wrap directive `chunks/2026-11-16-send-confirmation/inputs/I4-wrap-send-confirmation-directive.md.txt`): owner of v2-19's residual — measure the hook-latency window, a turn the CLI starts whose `UserPromptSubmit` has not reached the wrapper before a send's paste (the flight lock closes the race only for a turn the wrapper has learned of)

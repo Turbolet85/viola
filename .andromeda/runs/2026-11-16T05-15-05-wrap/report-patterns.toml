@@ -1,0 +1,27 @@
+[[pattern]]
+id = 'ea1-exactmatch'
+regex = '''delivery-confirmation-exact-match|exact equality|exact-equality|is_submitted_form|SUBMIT_TRIM'''
+
+[[pattern]]
+id = 'ea2-typednorm'
+regex = '''typed-text-line-ending-normalisation|match stays an exact'''
+
+[[pattern]]
+id = 'ea3-promptmatch'
+regex = '''exact-prompt-match|exact match|exactly equal'''
+
+[[pattern]]
+id = 'ea4-relabel'
+regex = '''driver-relabel|hook-event-driver-origin|relabel'''
+
+[[pattern]]
+id = 'ea5-testmatch'
+regex = '''send-confirmation-exact-match'''
+
+[[pattern]]
+id = 'ea6-order'
+regex = '''send-refusal-order|flight lock|flight guard|send_through|post-gate'''
+
+[[pattern]]
+id = 'ea7-fakeargv'
+regex = '''argv-only-options|trim-prompt-end|trim_prompt_end'''

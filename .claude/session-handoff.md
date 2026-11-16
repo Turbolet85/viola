@@ -1,37 +1,44 @@
 # Session Handoff
 
-**Last Updated:** 2026-11-16T03:53:33Z
+**Last Updated:** 2026-11-16T05:43:03Z
 **Branch:** build/viola-0.2.0 · 0 ahead of origin/build/viola-0.2.0 as read at this wrap's Setup (this wrap's push lands its commit)
 **Status:** clean (once the wrap's commit lands)
-**Last Commit:** 2026-11-16-wait-wake-condition — the wrap's chunk commit (`wait` wake condition documented and pinned; the stamped-home CI red closed)
+**Last Commit:** 2026-11-16-send-confirmation — the wrap's chunk commit (a send matched whatever trailing whitespace the CLI trims, PROVISIONAL; the readiness-gate turn race closed by the flight lock)
 
 ## Position
-- Done: 2026-11-16-wait-wake-condition — every `turn-ended` wakes `wait` whatever its `background_tasks`, no false wake
-  after a task-free end (pinned by unit and booted cases); one `viola verify` stamp per test binary, copied; `v2-17`.
-- Next: «Send confirmation» (`chk-pihewvzr`, `/andromeda-phase`), Epoch 3.
+- Done: 2026-11-16-send-confirmation — `is_submitted_form` takes the typed text, or a non-empty text equal to it less a
+  trailing run of ASCII space/TAB/CR/LF (PROVISIONAL); the post-gate reads, link, `send-issued` and paste under one
+  flight lock; `v2-18`, `v2-19`. CI ci#43807991445 green 7/7 on `76257d01`.
+- Next: «Local-command delivery» (`chk-ooka6oic`, `/andromeda-phase`), Epoch 3.
 
 ## Work done
-- Wrap `2026-11-16T03-24-03-wrap`: report closed (rev 3); masters 11 operations landed (TX 1765–1768: architecture 3,
-  security-plan 1 + its provisional state, test-plan 6); 8 leaf findings in 5 leaves; curation T3 1 extension.
-- Route (TX 1777): CARRY on «Version done-check» — the two older wait tests that hang past a failure.
+- Wrap `2026-11-16T05-15-05-wrap`: report closed (rev 3, TX 1824–1825); masters 16 operations landed (TX 1829–1834:
+  architecture 5, design-system 1, layout-templates 1, obs-plan 2, security-plan 3, test-plan 4); 10 leaf findings in
+  9 leaves; curation: no new learnings.
+- Route (TX 1846): two CARRYs on «Standing live rig with a screen model» — the live reading of which whitespace the CLI
+  trims at submit; the hook-latency window, `v2-19`'s residual.
 
 ## Drift resolved
-- The wake rule (every turn end wakes, by kind alone; activity and a harness `prompt-submitted` never), no scheduled-wake
-  count on `turn-ended`, the stamp copied once per build, its sweep by lock, the fake script's step kinds. 9 duplicate
-  operations rejected, one home each. One Boundary-widening escalation (security-plan
-  `decision/test-removal-own-dirs-only`) landed PROVISIONAL on the delegate's standing direction (inputs#I16 item 1).
+- The exact-match claim retired in architecture, security-plan and test-plan for the trailing-whitespace tolerance
+  (each heir `state: provisional`); the relabel, readback, read-back and confirm-window rows state the tolerance; the
+  flight lock stated (architecture decision/send-flight-lock, obs turn-running bounded); the fake agent's
+  `--trim-prompt-end`. 5 proposals rejected (3 capability-ledger exceptions — the tolerance relies on no CLI
+  behaviour; 2 duplicate homes), 1 by fit (`send-refusal-order`, not_master).
+- One Boundary-widening escalation (Q1, 13 operations) landed PROVISIONAL on the delegate's answer by relay
+  (`inputs#I5`, the wrap directive `inputs#I4`).
 
 ## Notes
-- **Founder's word owed:** this wrap's Q1 (`.andromeda/runs/2026-11-16T03-24-03-wrap/founder-forks.md`); F1 of this
-  chunk (`.andromeda/runs/2026-11-16T00-29-34-phase/founder-forks.md`) and its candidate `session_crons` as a count (no
-  route entry); F1/F2 of 2026-11-15-api-error-turn-end (`.andromeda/runs/2026-11-15T21-19-45-phase/founder-forks.md`,
+- **Founder's word owed:** this wrap's Q1 (`.andromeda/runs/2026-11-16T05-15-05-wrap/founder-forks.md`, «either end»
+  the candidate); this chunk's phase Q1 (`.andromeda/runs/2026-11-16T04-10-47-phase/founder-forks.md`); the previous
+  wrap's Q1 (`.andromeda/runs/2026-11-16T03-24-03-wrap/founder-forks.md`); F1 of 2026-11-16-wait-wake-condition
+  (`.andromeda/runs/2026-11-16T00-29-34-phase/founder-forks.md`) and its candidate `session_crons` as a count (no route
+  entry); F1/F2 of 2026-11-15-api-error-turn-end (`.andromeda/runs/2026-11-15T21-19-45-phase/founder-forks.md`,
   `.andromeda/runs/2026-11-15T23-35-53-wrap/founder-forks.md`); nothing ratified.
-- **Closed:** the CI red ci#43773402286 — ci#43797036340 green 7/7 on `d107a553`.
 - **Stale leaf count, no edit asked:** `.claude/rules/verification-harness.md:28`, `.claude/docs/commands.md:23`/`:24`,
   `.claude/docs/tests-summary.md:21` say «all twenty-four» relied ledger rows; the code says 21. No master states it,
   so the cascade cannot reach it.
 - PROVISIONAL still carried: `HYPRCTL_DEADLINE` (on «`viola open`»); the 3600 s hold ceiling ratified on one reading
-  on one CLI version.
+  on one CLI version; the send's trailing-whitespace tolerance (this chunk).
 - The operator's desk list (no route entry): `~/dev/projects/viola-mutants-scratch/cold-*` (two) and `…/hang-mhCgsY`;
   the kept tmpfs home `target/e2e-home/viola-live-20261115T083805Z/`; the local frames under
   `target/live-round-screens/`; the two `projects[…]` trust entries in `~/.claude.json`; the live home's stale
@@ -45,6 +52,3 @@
 - **Host:** python `yaml` is absent; read `df -h /tmp` before a stamped-home gate. claude 2.1.325 is `latest` and
   stamped. Hyprland 0.56.2.
 - **Last failed command:** none.
-
-## Session End Status
-Completed normally at 2026-11-16 05:56:03
