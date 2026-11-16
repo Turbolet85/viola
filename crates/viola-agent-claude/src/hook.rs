@@ -95,6 +95,9 @@ pub struct Normalised {
     /// [`crate::ledger::transcript_path_ok`] against its own `session_id`; never in `data`.
     #[redact]
     pub transcript: Option<String>,
+    /// A StopFailure whose `error` is a string outside the CLI's declared words: noticed by this
+    /// mark alone, never by its text.
+    pub unknown_value: bool,
 }
 
 /// The payload fields viola reads; every other field is skipped. All are strings on the CLI build
@@ -149,11 +152,14 @@ pub fn normalise(event: HookEvent, bytes: &[u8]) -> Result<Normalised, AgentErro
                 .as_deref()
                 .is_some_and(|id| crate::ledger::transcript_path_ok(path, id))
     });
+    let unknown_value =
+        event == HookEvent::StopFailure && api_error_cause(known.error.as_deref()).1;
     Ok(Normalised {
         kind,
         data: data_of(event, known),
         drift,
         transcript,
+        unknown_value,
     })
 }
 
@@ -204,7 +210,7 @@ fn data_of(event: HookEvent, known: Known) -> Value {
         HookEvent::StopFailure => json!({
             "last_assistant_message": null,
             "background_tasks": null,
-            "cause": TurnEndCause::ApiError.as_str(),
+            "cause": api_error_cause(known.error.as_deref()).0.as_str(),
         }),
         HookEvent::SessionEnd | HookEvent::PreToolUse | HookEvent::PermissionRequest => json!({}),
         HookEvent::Notification | HookEvent::PostToolUse | HookEvent::PostToolUseFailure => {
@@ -216,58 +222,30 @@ fn data_of(event: HookEvent, known: Known) -> Value {
     }
 }
 
-/// The class of the CLI's StopFailure `error` word. Held here: no class crosses into `data`, an
-/// event, a snapshot or a log line until the founder admits the granular words (founder fork F2 of
-/// chunk 2026-11-15-api-error-turn-end); the line carries `TurnEndCause::ApiError` alone.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum ApiErrorClass {
-    RateLimited,
-    Overloaded,
-    AuthFailed,
-    Billing,
-    InvalidRequest,
-    ModelNotFound,
-    ServerError,
-    OutputLimit,
-    ApiError,
-}
-
-impl ApiErrorClass {
-    pub const fn as_str(self) -> &'static str {
-        match self {
-            Self::RateLimited => "rate-limited",
-            Self::Overloaded => "overloaded",
-            Self::AuthFailed => "auth-failed",
-            Self::Billing => "billing",
-            Self::InvalidRequest => "invalid-request",
-            Self::ModelNotFound => "model-not-found",
-            Self::ServerError => "server-error",
-            Self::OutputLimit => "output-limit",
-            Self::ApiError => "api-error",
-        }
-    }
-}
-
-/// The class of a StopFailure payload's `error` word (the CLI's matcher values, read statically
-/// from the 2.1.287–2.1.325 bundles); `unknown`, an absent word and any other text are `ApiError`.
-pub fn api_error_class(error: Option<&str>) -> ApiErrorClass {
-    match error {
-        Some("rate_limit") => ApiErrorClass::RateLimited,
-        Some("overloaded") => ApiErrorClass::Overloaded,
+/// The turn-end cause of a StopFailure payload's `error` word, and whether that word is a string
+/// outside the CLI's declared set. The 13 words are the StopFailure schema's `error` enum, read
+/// from the 2.1.287–2.1.325 bundles; `unknown` and an absent word read `ApiError` unmarked, any
+/// other string `ApiError` marked. Only the cause crosses; the word itself is never copied.
+pub fn api_error_cause(error: Option<&str>) -> (TurnEndCause, bool) {
+    let cause = match error {
+        Some("rate_limit") => TurnEndCause::RateLimited,
+        Some("overloaded") => TurnEndCause::Overloaded,
         Some(
             "authentication_failed"
             | "oauth_org_not_allowed"
             | "account_on_hold"
             | "verification_required"
             | "cloud_credential_error",
-        ) => ApiErrorClass::AuthFailed,
-        Some("billing_error") => ApiErrorClass::Billing,
-        Some("invalid_request") => ApiErrorClass::InvalidRequest,
-        Some("model_not_found") => ApiErrorClass::ModelNotFound,
-        Some("server_error") => ApiErrorClass::ServerError,
-        Some("max_output_tokens") => ApiErrorClass::OutputLimit,
-        _ => ApiErrorClass::ApiError,
-    }
+        ) => TurnEndCause::AuthFailed,
+        Some("billing_error") => TurnEndCause::Billing,
+        Some("invalid_request") => TurnEndCause::InvalidRequest,
+        Some("model_not_found") => TurnEndCause::ModelNotFound,
+        Some("server_error") => TurnEndCause::ServerError,
+        Some("max_output_tokens") => TurnEndCause::OutputLimit,
+        Some("unknown") | None => TurnEndCause::ApiError,
+        Some(_) => return (TurnEndCause::ApiError, true),
+    };
+    (cause, false)
 }
 
 /// `harness` when the prompt as the CLI sent it starts with a harness prefix, matched on the raw
@@ -501,8 +479,8 @@ mod tests {
         );
     }
 
-    /// A StopFailure's text never crosses: `data` is the one literal whatever the payload's
-    /// `error`, `last_assistant_message` and `error_details` hold.
+    /// A StopFailure's text never crosses: `data` holds the classified word and two literals
+    /// whatever the payload's `error`, `last_assistant_message` and `error_details` hold.
     #[rstest]
     #[case::server_error(
         json!({
@@ -510,50 +488,70 @@ mod tests {
             "last_assistant_message": "API Error: canary-chain-value-5c1e",
             "error_details": "canary-chain-value-5c1e",
         }),
+        "server-error",
+        false,
         &[]
     )]
-    #[case::error_absent(json!({"last_assistant_message": "canary-chain-value-5c1e"}), &[])]
-    #[case::error_unknown_word(json!({"error": "canary-chain-value-5c1e"}), &[])]
+    #[case::error_absent(
+        json!({"last_assistant_message": "canary-chain-value-5c1e"}),
+        "api-error",
+        false,
+        &[]
+    )]
+    #[case::error_unknown_word(
+        json!({"error": "canary-chain-value-5c1e"}),
+        "api-error",
+        true,
+        &[]
+    )]
     #[case::error_a_number(
         json!({"error": 7, "error_details": {"m": "canary-chain-value-5c1e"}}),
+        "api-error",
+        false,
         &[json!({"path": "error", "expected": "string"})]
     )]
-    fn stop_failure_turn_end_carries_api_error_and_no_error_text(
+    fn stop_failure_turn_end_carries_its_cause_and_no_error_text(
         #[case] payload: Value,
+        #[case] cause: &str,
+        #[case] unknown_value: bool,
         #[case] drift: &[Value],
     ) {
         let got = read(HookEvent::StopFailure, &payload);
         assert_eq!(got.kind, EventKind::TurnEnded);
         assert_eq!(
             got.data,
-            json!({"last_assistant_message": null, "background_tasks": null, "cause": "api-error"})
+            json!({"last_assistant_message": null, "background_tasks": null, "cause": cause})
         );
         assert_eq!(got.drift, drift);
+        assert_eq!(got.unknown_value, unknown_value);
         assert!(!got.data.to_string().contains("canary-chain-value-5c1e"));
     }
 
     #[rstest]
-    #[case::rate_limit(Some("rate_limit"), ApiErrorClass::RateLimited)]
-    #[case::overloaded(Some("overloaded"), ApiErrorClass::Overloaded)]
-    #[case::authentication_failed(Some("authentication_failed"), ApiErrorClass::AuthFailed)]
-    #[case::oauth_org_not_allowed(Some("oauth_org_not_allowed"), ApiErrorClass::AuthFailed)]
-    #[case::account_on_hold(Some("account_on_hold"), ApiErrorClass::AuthFailed)]
-    #[case::verification_required(Some("verification_required"), ApiErrorClass::AuthFailed)]
-    #[case::cloud_credential_error(Some("cloud_credential_error"), ApiErrorClass::AuthFailed)]
-    #[case::billing_error(Some("billing_error"), ApiErrorClass::Billing)]
-    #[case::invalid_request(Some("invalid_request"), ApiErrorClass::InvalidRequest)]
-    #[case::model_not_found(Some("model_not_found"), ApiErrorClass::ModelNotFound)]
-    #[case::server_error(Some("server_error"), ApiErrorClass::ServerError)]
-    #[case::max_output_tokens(Some("max_output_tokens"), ApiErrorClass::OutputLimit)]
-    #[case::unknown(Some("unknown"), ApiErrorClass::ApiError)]
-    #[case::outside_word(Some("Server_Error"), ApiErrorClass::ApiError)]
-    #[case::absent(None, ApiErrorClass::ApiError)]
-    fn api_error_class_maps_every_cli_error_word(
+    #[case::rate_limit(Some("rate_limit"), "rate-limited", false)]
+    #[case::overloaded(Some("overloaded"), "overloaded", false)]
+    #[case::authentication_failed(Some("authentication_failed"), "auth-failed", false)]
+    #[case::oauth_org_not_allowed(Some("oauth_org_not_allowed"), "auth-failed", false)]
+    #[case::account_on_hold(Some("account_on_hold"), "auth-failed", false)]
+    #[case::verification_required(Some("verification_required"), "auth-failed", false)]
+    #[case::cloud_credential_error(Some("cloud_credential_error"), "auth-failed", false)]
+    #[case::billing_error(Some("billing_error"), "billing", false)]
+    #[case::invalid_request(Some("invalid_request"), "invalid-request", false)]
+    #[case::model_not_found(Some("model_not_found"), "model-not-found", false)]
+    #[case::server_error(Some("server_error"), "server-error", false)]
+    #[case::max_output_tokens(Some("max_output_tokens"), "output-limit", false)]
+    #[case::unknown(Some("unknown"), "api-error", false)]
+    #[case::outside_word(Some("Server_Error"), "api-error", true)]
+    #[case::absent(None, "api-error", false)]
+    fn api_error_cause_maps_every_cli_error_word(
         #[case] error: Option<&str>,
-        #[case] class: ApiErrorClass,
+        #[case] word: &str,
+        #[case] unknown_value: bool,
     ) {
-        assert_eq!(api_error_class(error), class);
-        assert!(viola_core::is_code_word(class.as_str()), "{class:?}");
+        let (cause, marked) = api_error_cause(error);
+        assert_eq!(cause.as_str(), word);
+        assert_eq!(marked, unknown_value);
+        assert!(viola_core::is_code_word(word), "{word}");
     }
 
     #[rstest]

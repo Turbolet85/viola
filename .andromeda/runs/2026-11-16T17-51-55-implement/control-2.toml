@@ -1,0 +1,10 @@
+[[control]]
+id = 'cause-crossing'
+entry = 10
+guard = 'the classified word in data_of StopFailure arm: the literal api-error written again'
+case = 'hook_stop_failure_names_the_cause_of_each_cli_error_word'
+
+[[control.edit]]
+path = 'crates/viola-agent-claude/src/hook.rs'
+old = '''            "cause": api_error_cause(known.error.as_deref()).0.as_str(),'''
+new = '''            "cause": TurnEndCause::ApiError.as_str(),'''

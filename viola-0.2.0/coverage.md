@@ -1,12 +1,15 @@
 # Coverage — viola-0.2.0
 
-verified 12/35 · deferred 2 · planned 21 · implemented 0 · unclaimed 21
+verified 12/35 · deferred 2 · planned 20 · implemented 1 · unclaimed 20
 
 ## deferred (2)
 - v2-21 · A key answering the CLI's session-feedback survey keeps the wheel
 - v2-22 · Product-owned session settings
 
-## planned, unclaimed (21)
+## implemented (1)
+- v2-34 · A turn end's API-error cause named from a closed list · 2026-11-16-granular-api-error-cause
+
+## planned, unclaimed (20)
 - v2-07 · Launch a session into the fleet
 - v2-08 · The launch authority bounded
 - v2-09 · The lineage registry
@@ -26,7 +29,6 @@ verified 12/35 · deferred 2 · planned 21 · implemented 0 · unclaimed 21
 - v2-31 · Switch a session's model and effort
 - v2-32 · A standing live rig with a screen model
 - v2-33 · A session's folder trusted by viola
-- v2-34 · A turn end's API-error cause named from a closed list
 - v2-35 · A scheduled wake counted on a turn end
 
 ## verified (12)

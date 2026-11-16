@@ -168,6 +168,9 @@ fn handle(
     if !normalised.drift.is_empty() {
         write_drift(instance, &normalised.drift);
     }
+    if normalised.unknown_value {
+        reject_stdin("unknown-value");
+    }
     let Err(not_sent) = deliver(instance, &normalised, deadline) else {
         return Ok(None);
     };
@@ -758,6 +761,44 @@ mod tests {
         assert!(!text.contains("canary-chain-value-5c1e"));
         assert!(crate::test_support::diag_detail_validator().is_valid(&line));
         assert!(!instance.home.join("diagnostics").exists());
+    }
+
+    /// A StopFailure `error` outside the CLI's words is noticed by one codes-only `parse-rejected`
+    /// line, never by its value; a known word writes none. The turn end is still delivered.
+    #[test]
+    fn handle_logs_an_unknown_error_value_by_its_code_only() {
+        use tracing_subscriber::layer::SubscriberExt as _;
+        for (label, body, rejected) in [
+            ("outside word", r#"{"error": "canary-chain-value-5c1e"}"#, 1),
+            ("known word", r#"{"error": "overloaded"}"#, 0),
+        ] {
+            let tmp = tempfile::tempdir().expect("tempdir");
+            let instance = instance_in(tmp.path());
+            let recorded = Recorded::default();
+            let subscriber = tracing_subscriber::registry().with(recorded.clone());
+            let got = crate::test_support::with_scoped_default(subscriber, || {
+                handled(HookEvent::StopFailure, &instance, body.as_bytes())
+            });
+            assert_eq!(got, Some("channel-unreachable"), "{label}");
+            let lines = recorded.0.lock().expect("lines").clone();
+            let parse: Vec<&Value> = lines
+                .iter()
+                .filter(|l| l["event"] == "parse-rejected")
+                .collect();
+            assert_eq!(parse.len(), rejected, "{label}: {lines:?}");
+            for line in parse {
+                assert_eq!(line["parser"], "hook-stdin", "{label}");
+                assert_eq!(line["detail"], "unknown-value", "{label}");
+                assert_eq!(line["count"], 1, "{label}");
+            }
+            for line in &lines {
+                assert!(
+                    !line.to_string().contains("canary-chain-value-5c1e"),
+                    "{label}: {line}"
+                );
+            }
+            assert!(!instance.dir.join("diagnostics").exists(), "{label}");
+        }
     }
 
     #[test]

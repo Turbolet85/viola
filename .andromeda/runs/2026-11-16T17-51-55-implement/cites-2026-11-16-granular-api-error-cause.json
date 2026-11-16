@@ -1,0 +1,53 @@
+[
+{
+"tool": "cites",
+"v": "1.16",
+"sha8": "590b2324",
+"ts": "2026-11-16T18:00:29Z",
+"argv": [
+"added",
+"--out",
+".andromeda/runs/2026-11-16T17-51-55-implement/new-text.md",
+"--run-dir",
+".andromeda/runs/2026-11-16T17-51-55-implement",
+"--marker",
+"2026-11-16-granular-api-error-cause"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: bde97ba8 — no pre-CI commit",
+"crates/viola-agent-claude/src/hook.rs — added 70 line(s) in 16 range(s)",
+"crates/viola-core/src/lib.rs — added 45 line(s) in 6 range(s)",
+"crates/viola-mcp/tests/handlers.rs — added 22 line(s) in 1 range(s)",
+"crates/viola-state/tests/state_events.rs — added 11 line(s) in 2 range(s)",
+"schemas/diag-line.v1.json — added 1 line(s) in 1 range(s)",
+"src/cmd/hook.rs — added 41 line(s) in 2 range(s)",
+"src/cmd/run.rs — added 10 line(s) in 2 range(s)",
+"src/run/send/slot.rs — added 5 line(s) in 1 range(s)",
+"tests/cli_list.rs — added 1 line(s) in 1 range(s)",
+"tests/cli_wheel.rs — added 1 line(s) in 1 range(s)",
+"tests/hook_events.rs — added 107 line(s) in 3 range(s)",
+"new text: 11 file(s) · 0 new · 36 added range(s) · 314 line(s) · 16 block(s) → .andromeda/runs/2026-11-16T17-51-55-implement/new-text.md (44 lines) · written"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-16T17-51-55-implement/new-text.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"base": "bde97ba87929274a879458c8a329146daefd6055",
+"counts": {
+"files": 11,
+"new": 0,
+"ranges": 36,
+"lines": 314,
+"blocks": 16
+},
+"out": ".andromeda/runs/2026-11-16T17-51-55-implement/new-text.md",
+"state": "written",
+"lines": 44
+}
+}
+]

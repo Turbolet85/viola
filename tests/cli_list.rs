@@ -354,7 +354,7 @@ fn list_status_reads_idle_after_an_api_error_turn_end(stamped_home: StampedHome)
     wrapper.release();
     support::events::wait_events(&wrapper.instance_dir(), "the API-error turn end", |l| {
         l.iter()
-            .any(|e| e["kind"] == "turn-ended" && e["data"]["cause"] == "api-error")
+            .any(|e| e["kind"] == "turn-ended" && e["data"]["cause"] == "overloaded")
     });
     let items = status_on(&bin, &home);
     assert_eq!(items.as_array().map(Vec::len), Some(1), "{items}");

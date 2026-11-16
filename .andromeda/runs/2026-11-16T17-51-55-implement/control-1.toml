@@ -1,0 +1,36 @@
+[[control]]
+id = 'cause-map'
+entry = 5
+guard = 'the rate_limit arm of api_error_cause: rate_limit then reads api-error'
+case = 'api_error_cause_maps_every_cli_error_word::case_01_rate_limit'
+
+[[control.edit]]
+path = 'crates/viola-agent-claude/src/hook.rs'
+old = '''        Some("rate_limit") => TurnEndCause::RateLimited,
+'''
+new = ''
+
+[[control]]
+id = 'cause-check'
+entry = 8
+guard = 'TurnEndCause::from_name in hook_event_line cause_ok: any string admitted'
+case = 'run_hook_event_turn_ended_with_a_cause_outside_the_closed_set_is_not_appended::case_15_error_text'
+
+[[control.edit]]
+path = 'src/cmd/run.rs'
+old = '''            .is_none_or(|c| c.as_str().and_then(TurnEndCause::from_name).is_some());'''
+new = '''            .is_none_or(|c| c.as_str().is_some());'''
+
+[[control]]
+id = 'unknown-line'
+entry = 7
+guard = 'the unknown-value parse-rejected call after normalise in src/cmd/hook.rs'
+case = 'handle_logs_an_unknown_error_value_by_its_code_only'
+
+[[control.edit]]
+path = 'src/cmd/hook.rs'
+old = '''    if normalised.unknown_value {
+        reject_stdin("unknown-value");
+    }
+'''
+new = ''

@@ -248,7 +248,7 @@ fn hook_every_registered_event_lands_as_one_line_of_its_kind() {
         .collect();
     let stop = json!({"last_assistant_message": CANARY, "background_tasks": null});
     let failure =
-        json!({"last_assistant_message": null, "background_tasks": null, "cause": "api-error"});
+        json!({"last_assistant_message": null, "background_tasks": null, "cause": "server-error"});
     assert_eq!(ended, [&stop, &failure]);
     let tools: BTreeSet<&str> = hooked
         .iter()
@@ -320,7 +320,7 @@ fn hook_stop_failure_error_text_reaches_no_event_line_or_snapshot() {
     assert_eq!(ended[0]["source"], "hook");
     assert_eq!(
         ended[0]["data"],
-        json!({"last_assistant_message": null, "background_tasks": null, "cause": "api-error"})
+        json!({"last_assistant_message": null, "background_tasks": null, "cause": "server-error"})
     );
     let (stopped, stamped) = wrapper.stop_keep();
     assert_eq!(stopped.code(), Some(0));
@@ -338,6 +338,111 @@ fn hook_stop_failure_error_text_reaches_no_event_line_or_snapshot() {
         let text = String::from_utf8_lossy(&fs::read(file).expect("read")).into_owned();
         let place = file.strip_prefix(home).expect("under the home").display();
         let hit = support::events::error_body_hit(&Value::String(text), home, &[PLANTED]);
+        assert_ne!(hit, Some("planted"), "{place}");
+    }
+    assert_hook_logs_valid(home);
+}
+
+/// Each of the CLI's 13 StopFailure `error` words, an outside word and an absent `error` end a
+/// turn with the cause the map names; only the outside word writes a `parse-rejected` line, and
+/// no planted value reaches any file under the home.
+#[test]
+fn hook_stop_failure_names_the_cause_of_each_cli_error_word() {
+    const PLANTED: &str = "planted-api-error-text-9c4e";
+    const OUTSIDE: &str = "planted-outside-word-2b7d";
+    let words: [(&str, Option<&str>); 15] = [
+        ("rate-limit", Some("rate_limit")),
+        ("overloaded", Some("overloaded")),
+        ("authentication-failed", Some("authentication_failed")),
+        ("oauth-org-not-allowed", Some("oauth_org_not_allowed")),
+        ("account-on-hold", Some("account_on_hold")),
+        ("verification-required", Some("verification_required")),
+        ("cloud-credential-error", Some("cloud_credential_error")),
+        ("billing-error", Some("billing_error")),
+        ("invalid-request", Some("invalid_request")),
+        ("model-not-found", Some("model_not_found")),
+        ("server-error", Some("server_error")),
+        ("max-output-tokens", Some("max_output_tokens")),
+        ("unknown", Some("unknown")),
+        ("outside", Some(OUTSIDE)),
+        ("absent", None),
+    ];
+    let stamped = stamped();
+    let scratch = stamped.home.scratch().to_path_buf();
+    let mut bodies = vec![(
+        "SessionStart",
+        "default",
+        json!({"hook_event_name": "SessionStart", "session_id": "s-1", "source": "startup"}),
+    )];
+    for (variant, error) in &words {
+        let mut body = json!({"hook_event_name": "StopFailure", "session_id": "s-1",
+            "error_details": PLANTED, "last_assistant_message": PLANTED});
+        if let Some(error) = error {
+            body["error"] = json!(error);
+        }
+        bodies.push(("StopFailure", *variant, body));
+    }
+    let fx = fixtures(&scratch, &bodies);
+    let steps: Vec<(&str, &str)> = words
+        .iter()
+        .map(|(variant, _)| ("StopFailure", *variant))
+        .collect();
+    let steps = script(&scratch, &steps);
+    let wrapper = Wrapper::boot(
+        stamped,
+        "builder",
+        None,
+        &["--fixtures", path_str(&fx), "--script", path_str(&steps)],
+    );
+    let lines = wait_events(&wrapper.instance_dir(), "the 15 turn ends", |l| {
+        l.iter().filter(|e| e["kind"] == "turn-ended").count() >= 15
+    });
+    let causes: Vec<&Value> = lines
+        .iter()
+        .filter(|l| l["kind"] == "turn-ended")
+        .map(|l| &l["data"]["cause"])
+        .collect();
+    assert_eq!(
+        causes,
+        [
+            "rate-limited",
+            "overloaded",
+            "auth-failed",
+            "auth-failed",
+            "auth-failed",
+            "auth-failed",
+            "auth-failed",
+            "billing",
+            "invalid-request",
+            "model-not-found",
+            "server-error",
+            "output-limit",
+            "api-error",
+            "api-error",
+            "api-error",
+        ]
+        .map(|w| json!(w))
+        .iter()
+        .collect::<Vec<_>>()
+    );
+    let (stopped, stamped) = wrapper.stop_keep();
+    assert_eq!(stopped.code(), Some(0));
+    let home = stamped.home.path();
+    let role = support::ndjson::read_lines(&home.join("diagnostics").join("hook-builder.ndjson"));
+    let rejected: Vec<&Value> = role
+        .iter()
+        .filter(|l| l["event"] == "parse-rejected")
+        .collect();
+    assert_eq!(rejected.len(), 1, "{rejected:?}");
+    assert_eq!(rejected[0]["parser"], "hook-stdin");
+    assert_eq!(rejected[0]["detail"], "unknown-value");
+    assert_eq!(rejected[0]["count"], 1);
+    let mut files = Vec::new();
+    files_under(home, &mut files);
+    for file in &files {
+        let text = String::from_utf8_lossy(&fs::read(file).expect("read")).into_owned();
+        let place = file.strip_prefix(home).expect("under the home").display();
+        let hit = support::events::error_body_hit(&Value::String(text), home, &[PLANTED, OUTSIDE]);
         assert_ne!(hit, Some("planted"), "{place}");
     }
     assert_hook_logs_valid(home);

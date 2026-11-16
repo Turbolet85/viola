@@ -83,7 +83,7 @@
       "scanned": { "type": "string", "pattern": "^[a-z][a-z0-9-]{0,31}$" } } } },
     { "if": { "properties": { "event": { "const": "parse-rejected" } } }, "then": { "properties": {
       "parser": { "enum": ["claude-agents-json", "vt100-feed", "config-json", "ledger-stamps", "hook-stdin", "channel-frame", "mcp-stdin", "prompt-submitted", "paste-text", "state-entry", "hyprctl-json"] },
-      "detail": { "enum": ["malformed", "unreadable", "oversize", "unknown-keys", "panicked", "control-character", "symlink-ignored", "strict-modes-failed"] },
+      "detail": { "enum": ["malformed", "unreadable", "oversize", "unknown-keys", "panicked", "control-character", "symlink-ignored", "strict-modes-failed", "unknown-value"] },
       "count": { "$ref": "#/$defs/count" } } } },
 
     { "$comment": "corr is required wherever obs-plan §3 always defines it: dialog_id, the release request id.",

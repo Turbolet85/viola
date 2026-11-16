@@ -529,6 +529,11 @@ mod tests {
         json!({"last_assistant_message": null, "background_tasks": null, "cause": "api-error"}),
         true
     )]
+    #[case::rate_limited_turn_end(
+        EventKind::TurnEnded,
+        json!({"last_assistant_message": null, "background_tasks": null, "cause": "rate-limited"}),
+        true
+    )]
     #[case::session_start(EventKind::SessionStart, json!({"cause": "clear"}), true)]
     #[case::session_end(EventKind::SessionEnd, json!({}), true)]
     #[case::activity(EventKind::Activity, json!({}), false)]

@@ -350,7 +350,7 @@ fn path5_an_api_error_turn_end_clears_the_turn_with_no_pause_or_release(stamped_
     assert_eq!(event["source"], "hook");
     assert_eq!(
         event["data"],
-        json!({"last_assistant_message": null, "background_tasks": null, "cause": "api-error"})
+        json!({"last_assistant_message": null, "background_tasks": null, "cause": "server-error"})
     );
 
     let sent = viola(&home, &["send", "builder", "--json"], Some(&text), None);

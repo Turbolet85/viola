@@ -199,16 +199,35 @@ impl UnreachableCause {
 }
 
 /// Why a turn ended other than ordinarily: the `cause` of a `turn-ended` line, absent on an
-/// ordinary end (architecture §Standard Contracts). A finer list is an additive change: new
-/// members under the same key.
+/// ordinary end (architecture §Standard Contracts). The words carry no Claude-specific name;
+/// `api-error` is the cause of an unknown or unmapped error. A new member is an additive change
+/// under the same key.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum TurnEndCause {
+    RateLimited,
+    Overloaded,
+    AuthFailed,
+    Billing,
+    InvalidRequest,
+    ModelNotFound,
+    ServerError,
+    OutputLimit,
     ApiError,
 }
 
 impl TurnEndCause {
     /// Every cause, in declaration order.
-    pub const ALL: [Self; 1] = [Self::ApiError];
+    pub const ALL: [Self; 9] = [
+        Self::RateLimited,
+        Self::Overloaded,
+        Self::AuthFailed,
+        Self::Billing,
+        Self::InvalidRequest,
+        Self::ModelNotFound,
+        Self::ServerError,
+        Self::OutputLimit,
+        Self::ApiError,
+    ];
 
     /// The cause `name` spells; `None` for any other text.
     pub fn from_name(name: &str) -> Option<Self> {
@@ -217,6 +236,14 @@ impl TurnEndCause {
 
     pub const fn as_str(self) -> &'static str {
         match self {
+            Self::RateLimited => "rate-limited",
+            Self::Overloaded => "overloaded",
+            Self::AuthFailed => "auth-failed",
+            Self::Billing => "billing",
+            Self::InvalidRequest => "invalid-request",
+            Self::ModelNotFound => "model-not-found",
+            Self::ServerError => "server-error",
+            Self::OutputLimit => "output-limit",
             Self::ApiError => "api-error",
         }
     }
@@ -661,12 +688,25 @@ mod tests {
     #[test]
     fn turn_end_cause_is_each_its_own_code_word() {
         let words: Vec<&str> = TurnEndCause::ALL.iter().map(|c| c.as_str()).collect();
-        assert_eq!(words, ["api-error"]);
+        assert_eq!(
+            words,
+            [
+                "rate-limited",
+                "overloaded",
+                "auth-failed",
+                "billing",
+                "invalid-request",
+                "model-not-found",
+                "server-error",
+                "output-limit",
+                "api-error",
+            ]
+        );
         for cause in TurnEndCause::ALL {
             assert!(is_code_word(cause.as_str()), "{cause:?}");
             assert_eq!(TurnEndCause::from_name(cause.as_str()), Some(cause));
         }
-        for outside in ["server-error", "completed", "API Error", ""] {
+        for outside in ["server_error", "rate_limit", "completed", "API Error", ""] {
             assert_eq!(TurnEndCause::from_name(outside), None, "{outside:?}");
         }
     }
