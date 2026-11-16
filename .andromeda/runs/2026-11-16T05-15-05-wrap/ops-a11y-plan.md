@@ -1,2 +1,0 @@
-@none
-reason: The report adds no interactive UI element and changes no a11y or obs log schema (fct-gpeny4p4: a11y n/a, a human key takes no flight lock; fct-tqlyy5fy: no event line shape changed; fct-ynhvzkwk: no IPC method, event kind or crate added), so every picked row (critical-path-send-readback, critical-path-human-takes-wheel, no-assertions-for-internal-crates, no-assertions-for-plugin-and-ipc) stays true as written and the task brings no new fact.

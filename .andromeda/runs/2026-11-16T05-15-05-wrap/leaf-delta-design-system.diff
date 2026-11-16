@@ -1,7 +1,0 @@
---- a/.andromeda/design-system.md
-+++ b/.andromeda/design-system.md
-@@ -33,3 +33,3 @@
- contract/send-readback/compact · Send readback · /compact — On a verified CLI a `/compact` send counts only once a `session-start` of cause `compact` carrying the session's own id is observed.
--contract/send-readback/prompt · Send readback · prompt send — A prompt send counts, and its readback box fills, only once the matching `prompt-submitted` reads it back.
-+contract/send-readback/prompt · Send readback · prompt send — A prompt send counts, and its readback box fills, only once the matching `prompt-submitted` reads it back: the submitted prompt equals the sent text or, provisionally, the sent text with its trailing run of ASCII space, TAB, CR or LF removed; a prompt trimmed at the start does not match.
- contract/send-readback/unable · Send readback · unable — A send not read back is reported as `unable` plus a typed reason.

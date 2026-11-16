@@ -1,0 +1,1 @@
+- **{id}** · A scheduled wake counted on a turn end — a turn end carries the count of the session's scheduled wakes beside its background-task count — one number, no content — so a driver can see a wake is scheduled and not read that turn end as the session's last word; wait's wake rule is unchanged (per the operator's ruling 2026-11-16)

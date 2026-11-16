@@ -1,4 +1,0 @@
-@row_set n=1 row=contract/send-readback/prompt cell=promise seen=1 fact=F1 detector=none
-value: A prompt send counts, and its readback box fills, only once the matching `prompt-submitted` reads it back: the submitted prompt equals the sent text or, provisionally, the sent text with its trailing run of ASCII space, TAB, CR or LF removed; a prompt trimmed at the start does not match.
-basis: fct-ynhvzkwk (`is_submitted_form`: exact equality, or the typed text with its trailing run of ASCII space/TAB/CR/LF removed, the trailing side PROVISIONAL) · fct-72hewwbd · fct-kbepn7pe (inputs#I2 Q1 trailing whitespace only, PROVISIONAL)
-because: The match that fills the readback box now tolerates a trailing whitespace run the CLI trims, provisionally, so the row's «matching» must say what a match now is.

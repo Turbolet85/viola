@@ -1,0 +1,107 @@
+[
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "0150035c",
+"ts": "2026-11-16T06:05:59Z",
+"argv": [
+"snap",
+"--no-chunk",
+"--source",
+"~/dev/projects/additional/viola-overseer/e3-mid-route-adaptation.md",
+"--kind",
+"relay",
+"--why",
+"the founder six rulings of 2026-11-16, relayed by the Viola overseer: route adaptation A/B, PROVISIONAL discharge 1-6, anchors",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T06-05-33-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy no-repo · ../additional/viola-overseer/e3-mid-route-adaptation.md",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-e3-mid-route-adaptation.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/e3-mid-route-adaptation.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "4a0f53dc94b8d62494fa7c898ae20c48107056692298bb44e07d4d224854fde9",
+"copy": "I1-e3-mid-route-adaptation.md.txt",
+"link": false,
+"read_at": "2026-11-16T06:05:59Z",
+"step": "wrap",
+"why": "the founder six rulings of 2026-11-16, relayed by the Viola overseer: route adaptation A/B, PROVISIONAL discharge 1-6, anchors"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "0150035c",
+"ts": "2026-11-16T06:12:48Z",
+"argv": [
+"snap",
+"--no-chunk",
+"--message-file",
+".andromeda/runs/2026-11-16T06-05-33-wrap/relay-1.md",
+"--origin",
+"the Viola overseer",
+"--kind",
+"relay",
+"--why",
+"the overseer answered this wrap card: v2-34 and v2-35 land as drafted",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-16T06-05-33-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy message · message: the Viola overseer",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "message: the Viola overseer",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "15832b4e3bfb5f72025920d096d11dc3ffda49ea930463acb94c9249a21ab869",
+"copy": "I2-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-16T06:12:48Z",
+"step": "wrap",
+"why": "the overseer answered this wrap card: v2-34 and v2-35 land as drafted"
+}
+}
+]

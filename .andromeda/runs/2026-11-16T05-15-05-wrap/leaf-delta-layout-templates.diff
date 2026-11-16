@@ -1,7 +1,0 @@
---- a/.andromeda/layout-templates.md
-+++ b/.andromeda/layout-templates.md
-@@ -193,3 +193,3 @@
- contract/viola-send-output/piped-stdout · viola send output · piped stdout — When stdout is piped the TTY-only issue line is dropped and the outcome line alone carries the mirror.
--contract/viola-send-output/read-back · viola send output · read back — `[RB] read back …` prints on stdout with exit 0 when the send is confirmed by the matching prompt-submitted.
-+contract/viola-send-output/read-back · viola send output · read back — `[RB] read back …` prints on stdout with exit 0 when the send is confirmed by a prompt-submitted whose prompt equals the typed text, or equals it with a trailing run of space, TAB, CR and LF removed (that trailing tolerance provisional); any leading or inner difference leaves the send unconfirmed.
- contract/viola-send-output/read-back-clear · viola send output · read back for /clear — On a verified CLI version, /clear is read back by its new-session post-condition: a session-start with cause clear and a new session id.

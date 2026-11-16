@@ -1,0 +1,7 @@
+{
+  "title": "A scheduled wake counted on a turn end",
+  "requirement": "a turn end carries the count of the session's scheduled wakes beside its background-task count — one number, no content — so a driver can see a wake is scheduled and not read that turn end as the session's last word; wait's wake rule is unchanged",
+  "observed_gap": "A turn end carries the background-task count and nothing of the session's scheduled wakes.",
+  "method": "integration",
+  "acceptance": "A driver reading the turn end of a session with scheduled wakes sees how many there are, a session with none reads none, no wake's content reaches an event or log line, and wait wakes exactly as it did before."
+}

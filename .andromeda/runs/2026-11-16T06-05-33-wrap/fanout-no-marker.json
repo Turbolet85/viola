@@ -1,0 +1,248 @@
+[
+{
+"tool": "fanout",
+"v": "47",
+"sha8": "8f606925",
+"ts": "2026-11-16T06:08:38Z",
+"argv": [
+"render",
+"--batch",
+"fit",
+"--side",
+"wrap",
+"--skill-dir",
+"~/.claude/skills/andromeda-wrap-session",
+"--run-dir",
+".andromeda/runs/2026-11-16T06-05-33-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"VERDICT: rendered 6 (fit 6) · batch fit · script ./.andromeda/runs/2026-11-16T06-05-33-wrap/prompts/fit.workflow.js"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/runs/2026-11-16T06-05-33-wrap/prompts/architecture-fit.md",
+"./.andromeda/runs/2026-11-16T06-05-33-wrap/prompts/security-plan-fit.md",
+"./.andromeda/runs/2026-11-16T06-05-33-wrap/prompts/design-system-fit.md",
+"./.andromeda/runs/2026-11-16T06-05-33-wrap/prompts/layout-templates-fit.md",
+"./.andromeda/runs/2026-11-16T06-05-33-wrap/prompts/test-plan-fit.md",
+"./.andromeda/runs/2026-11-16T06-05-33-wrap/prompts/obs-plan-fit.md",
+"./.andromeda/runs/2026-11-16T06-05-33-wrap/prompts/fit.workflow.js",
+"./.andromeda/runs/2026-11-16T06-05-33-wrap/prompts/fit.manifest.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "fanout",
+"v": "47",
+"sha8": "8f606925",
+"ts": "2026-11-16T06:09:12Z",
+"argv": [
+"check",
+"--manifest",
+".andromeda/runs/2026-11-16T06-05-33-wrap/prompts/fit.manifest.json",
+"--before",
+"tree dac7a934ca35e6a47649d59a62a59994cd06659f index 6b7dc8e0e0d0dd1b7e219e49f5956d6dab5f2d6e head 3ac557bd58822444e6a6977aa6675451d66d7717",
+"--after",
+"tree a05f44bfe895a5b78ee2e8f5bde12e5f1522ea38 index 6b7dc8e0e0d0dd1b7e219e49f5956d6dab5f2d6e head 3ac557bd58822444e6a6977aa6675451d66d7717",
+"--run-dir",
+".andromeda/runs/2026-11-16T06-05-33-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"batch fit · 6 agents · 6 with every named path · trails: none",
+"[PATH_CHECK] PASS · index and head unchanged",
+"fit: 6 agents · 6 pass",
+"VERDICT: 6 of 6 pass · failed: none"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"sub": "check",
+"batch": "fit",
+"agents": {
+"architecture-fit": {
+"failed": {},
+"yes": null
+},
+"security-plan-fit": {
+"failed": {},
+"yes": null
+},
+"design-system-fit": {
+"failed": {},
+"yes": null
+},
+"layout-templates-fit": {
+"failed": {},
+"yes": null
+},
+"test-plan-fit": {
+"failed": {},
+"yes": null
+},
+"obs-plan-fit": {
+"failed": {},
+"yes": null
+}
+},
+"stray": [],
+"closing_tags": [],
+"trails": [],
+"harness": [],
+"notes": []
+}
+},
+{
+"tool": "fanout",
+"v": "47",
+"sha8": "8f606925",
+"ts": "2026-11-16T06:10:28Z",
+"argv": [
+"render",
+"--batch",
+"leaf",
+"--side",
+"wrap",
+"--skill-dir",
+"~/.claude/skills/andromeda-wrap-session",
+"--run-dir",
+".andromeda/runs/2026-11-16T06-05-33-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"VERDICT: rendered 14 (leaf 14) · batch leaf · script ./.andromeda/runs/2026-11-16T06-05-33-wrap/prompts/leaf.workflow.js"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/runs/2026-11-16T06-05-33-wrap/prompts/leaf-architecture-1.md",
+"./.andromeda/runs/2026-11-16T06-05-33-wrap/prompts/leaf-architecture-2.md",
+"./.andromeda/runs/2026-11-16T06-05-33-wrap/prompts/leaf-architecture-3.md",
+"./.andromeda/runs/2026-11-16T06-05-33-wrap/prompts/leaf-architecture-4.md",
+"./.andromeda/runs/2026-11-16T06-05-33-wrap/prompts/leaf-architecture+security-plan.md",
+"./.andromeda/runs/2026-11-16T06-05-33-wrap/prompts/leaf-architecture+security-plan+design-system+layout-templates+test-plan+obs-plan.md",
+"./.andromeda/runs/2026-11-16T06-05-33-wrap/prompts/leaf-architecture+design-system+layout-templates.md",
+"./.andromeda/runs/2026-11-16T06-05-33-wrap/prompts/leaf-architecture+test-plan+obs-plan.md",
+"./.andromeda/runs/2026-11-16T06-05-33-wrap/prompts/leaf-security-plan.md",
+"./.andromeda/runs/2026-11-16T06-05-33-wrap/prompts/leaf-security-plan+obs-plan.md",
+"./.andromeda/runs/2026-11-16T06-05-33-wrap/prompts/leaf-design-system+layout-templates.md",
+"./.andromeda/runs/2026-11-16T06-05-33-wrap/prompts/leaf-test-plan.md",
+"./.andromeda/runs/2026-11-16T06-05-33-wrap/prompts/leaf-test-plan+obs-plan.md",
+"./.andromeda/runs/2026-11-16T06-05-33-wrap/prompts/leaf-obs-plan.md",
+"./.andromeda/runs/2026-11-16T06-05-33-wrap/prompts/leaf.workflow.js",
+"./.andromeda/runs/2026-11-16T06-05-33-wrap/prompts/leaf.manifest.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "fanout",
+"v": "47",
+"sha8": "8f606925",
+"ts": "2026-11-16T06:11:16Z",
+"argv": [
+"check",
+"--manifest",
+".andromeda/runs/2026-11-16T06-05-33-wrap/prompts/leaf.manifest.json",
+"--before",
+"tree e2f97cbbe2114a1e20844ea49aed0e5c21d2546b index 6b7dc8e0e0d0dd1b7e219e49f5956d6dab5f2d6e head 3ac557bd58822444e6a6977aa6675451d66d7717",
+"--after",
+"tree c7eea8df17cb8f4151fb7c9fb535256bdca1864b index 6b7dc8e0e0d0dd1b7e219e49f5956d6dab5f2d6e head 3ac557bd58822444e6a6977aa6675451d66d7717",
+"--run-dir",
+".andromeda/runs/2026-11-16T06-05-33-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"batch leaf · 14 agents · 14 with every named path · trails: none",
+"[PATH_CHECK] PASS · index and head unchanged",
+"leaf: 14 agents · 14 pass",
+"VERDICT: 14 of 14 pass · failed: none"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"sub": "check",
+"batch": "leaf",
+"agents": {
+"leaf-architecture-1": {
+"failed": {},
+"yes": null
+},
+"leaf-architecture-2": {
+"failed": {},
+"yes": null
+},
+"leaf-architecture-3": {
+"failed": {},
+"yes": null
+},
+"leaf-architecture-4": {
+"failed": {},
+"yes": null
+},
+"leaf-architecture+security-plan": {
+"failed": {},
+"yes": null
+},
+"leaf-architecture+security-plan+design-system+layout-templates+test-plan+obs-plan": {
+"failed": {},
+"yes": null
+},
+"leaf-architecture+design-system+layout-templates": {
+"failed": {},
+"yes": null
+},
+"leaf-architecture+test-plan+obs-plan": {
+"failed": {},
+"yes": null
+},
+"leaf-security-plan": {
+"failed": {},
+"yes": null
+},
+"leaf-security-plan+obs-plan": {
+"failed": {},
+"yes": null
+},
+"leaf-design-system+layout-templates": {
+"failed": {},
+"yes": null
+},
+"leaf-test-plan": {
+"failed": {},
+"yes": null
+},
+"leaf-test-plan+obs-plan": {
+"failed": {},
+"yes": null
+},
+"leaf-obs-plan": {
+"failed": {},
+"yes": null
+}
+},
+"stray": [],
+"closing_tags": [],
+"trails": [],
+"harness": [],
+"notes": []
+}
+}
+]

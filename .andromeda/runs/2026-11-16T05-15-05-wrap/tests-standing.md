@@ -1,3 +1,0 @@
-# tests · standing conventions
-
-- (none)
