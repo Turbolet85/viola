@@ -8,6 +8,17 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
+## 2026-11-16 — Shape a live probe of a transient CLI screen before its starts are counted
+A live probe that waits for a screen the CLI shows only for a moment (the forced session-feedback survey on 2.1.325)
+spends capped starts on its own shape unless three things are known first: what makes the screen appear and when, what
+closes it, and who holds the wheel at the moment the key lands. Here half the founder's cap went that way. One start
+looked only after `turn-ended`, by which time the survey had come and gone. A driver send typing over the input box
+closed the survey within about half a second. A turn started from the child's argument was filed as the human's, so the
+wheel was the human's before any key. Read those three from the CLI bundle and the wrapper's code, and rehearse the
+order against the fake agent, before the first counted start; a start then measures the product, not the rig.
+
+---
+
 ## 2026-11-15 — A «no product source changed» probe counts non-test hunks, not files
 A plan's gate that proves a test-only chunk by listing changed files under `src/` and `crates/*/src/` reads a
 `#[cfg(test)]` edit inside a product file as a product change, so a test-only fix that must touch an inline test

@@ -1,9 +1,0 @@
-@fit n=1 row=decision/local-commands-by-ledger sha=83fc122ec727 v=fits type=1
-@fit n=2 row=decision/send-confirmed-after-the-fact sha=cbce7dbcb186 v=fits type=2
-@fit n=3 row=decision/unconfirmed-delivery-not-delivered sha=2c1a7ec1798e v=fits type=2
-@fit n=4 row=decision/every-send-confirmed sha=36aaf597d758 v=fits type=2
-@fit n=5 row=contract/send-results/unconfirmable sha=09b7c979f062 v=fits type=3
-@fit n=6 row=contract/ok-payload/unconfirmable sha=da14502a4840 v=fits type=3
-@fit n=7 row=contract/events-ndjson/send-confirmed-order sha=05d235e35ebc v=fits type=3
-@fit n=8 row=contract/channel-methods/hook-event sha=11df091c9240 v=fits type=3
-@fit n=9 row=contract/hook-event/notification sha=ba00cf7cf54f v=fits type=3

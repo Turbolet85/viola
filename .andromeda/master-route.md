@@ -107,4 +107,4 @@
 2026-11-16-wait-wake-condition · complete · `wait` wake condition — documented and pinned: a background-held turn end wakes it, no false wake after a task-free end; the stamped-home CI timeout bounded · → chk:2026-11-16-wait-wake-condition
 2026-11-16-send-confirmation · complete · Send confirmation — a driver's send matched whatever whitespace the CLI trims; the readiness-gate turn race closed · → chk:2026-11-16-send-confirmation
 2026-11-16-local-command-delivery · complete · a local slash command the CLI ran reads as delivered, confirmed by its own measured echo · → chk:2026-11-16-local-command-delivery
-2026-11-16-survey-key-keeps-the-wheel · pending · a key answering the CLI's session-feedback survey keeps the wheel, its grammar measured live · → chk:2026-11-16-survey-key-keeps-the-wheel
+2026-11-16-survey-key-keeps-the-wheel · complete · the CLI's session-feedback survey's grammar measured live on claude 2.1.325 and recorded; the exemption dropped unbuilt by the founder's word, a survey key taking the wheel as every key does · → chk:2026-11-16-survey-key-keeps-the-wheel

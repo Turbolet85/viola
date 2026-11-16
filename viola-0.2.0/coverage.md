@@ -1,11 +1,12 @@
 # Coverage — viola-0.2.0
 
-verified 12/35 · deferred 1 · planned 22 · implemented 0 · unclaimed 22
+verified 12/35 · deferred 2 · planned 21 · implemented 0 · unclaimed 21
 
-## deferred (1)
+## deferred (2)
+- v2-21 · A key answering the CLI's session-feedback survey keeps the wheel
 - v2-22 · Product-owned session settings
 
-## planned, unclaimed (22)
+## planned, unclaimed (21)
 - v2-07 · Launch a session into the fleet
 - v2-08 · The launch authority bounded
 - v2-09 · The lineage registry
@@ -16,7 +17,6 @@ verified 12/35 · deferred 1 · planned 22 · implemented 0 · unclaimed 22
 - v2-14 · The fleet console
 - v2-15 · Every verb from the console
 - v2-20 · A question first raised by PermissionRequest answered with a body
-- v2-21 · A key answering the CLI's session-feedback survey keeps the wheel
 - v2-24 · Every MCP call bounded below the client's timeout
 - v2-25 · The harness-prefix ledger row
 - v2-26 · The R8 identity-floor ledger row

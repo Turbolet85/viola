@@ -1,0 +1,3 @@
+[[pattern]]
+id = 'survey'
+regex = '(?i)survey|session-feedback|feedback survey|CLAUDE_FORCE_DISPLAY_SURVEY|survey_standing|SurveyFlag'

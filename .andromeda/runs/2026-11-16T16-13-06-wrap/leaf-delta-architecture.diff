@@ -1,0 +1,7 @@
+--- a/.andromeda/architecture.md
++++ b/.andromeda/architecture.md
+@@ -74,3 +74,3 @@
+ decision/cli-output-conventions · Human text by default, --json for agents — The CLI prints human text by default and `--json` for agents, with a typed exit code per refusal. · why: Agents need machine-parseable refusals.
+-decision/closed-non-editing-byte-list · Closed list of non-editing bytes — Only a closed list of focus reports, mouse reports and terminal replies, each by exact grammar, never takes the wheel; every other byte does, and a reply no terminal was measured to write is not added on a guess. · why: Terminal replies read as typing took the wheel from a live driver with no key typed.
++decision/closed-non-editing-byte-list · Closed list of non-editing bytes — Only a closed list of focus reports, mouse reports and terminal replies, each by exact grammar, never takes the wheel; every other byte does, a key answering the CLI's session-feedback survey included, and a reply no terminal was measured to write is not added on a guess. · why: Terminal replies read as typing took the wheel from a live driver with no key typed.
+ decision/compact-confirm-window · /compact confirmation window — A /compact send waits a compiled 40 s window for its post-condition, validated per CLI version by the local-command-compact row against the measured compact latency. · provisional
