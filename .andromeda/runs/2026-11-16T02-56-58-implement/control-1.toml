@@ -1,0 +1,30 @@
+[[control]]
+id = 'held-turn'
+entry = 4
+guard = 'turn-ended removed from EventKind::WAIT_WAKE'
+case = 'wait_a_turn_end_wakes_whatever_its_background_tasks'
+
+[[control.edit]]
+path = 'crates/viola-core/src/lib.rs'
+old = '''    pub const WAIT_WAKE: [Self; 6] = [
+        Self::TurnEnded,
+'''
+new = '''    pub const WAIT_WAKE: [Self; 5] = [
+'''
+
+[[control]]
+id = 'no-false-wake'
+entry = 4
+guard = 'activity and prompt-submitted added to EventKind::WAIT_WAKE'
+case = 'wait_armed_at_a_task_free_end_parks_through_a_notification_and_a_harness_turn'
+
+[[control.edit]]
+path = 'crates/viola-core/src/lib.rs'
+old = '''    pub const WAIT_WAKE: [Self; 6] = [
+        Self::TurnEnded,
+'''
+new = '''    pub const WAIT_WAKE: [Self; 8] = [
+        Self::Activity,
+        Self::PromptSubmitted,
+        Self::TurnEnded,
+'''

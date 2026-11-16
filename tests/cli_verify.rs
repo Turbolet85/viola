@@ -8,6 +8,7 @@
 #[allow(dead_code)]
 mod support;
 
+use std::collections::{BTreeMap, BTreeSet};
 use std::ffi::OsString;
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -16,7 +17,8 @@ use rstest::rstest;
 use serde_json::{Value, json};
 use support::fake::{self, of_kind};
 use support::home::{
-    TestHome, home, names_a_home_component, record_home, resolved, workspace_path,
+    StampedHome, TestHome, file_sha256, home, names_a_home_component, record_home, resolved,
+    stamp_dir, stamped_home, unwiden, widen, workspace_path,
 };
 use support::hygiene::{check, has_username, load_schema};
 use support::verify::{
@@ -525,3 +527,80 @@ mod stamps;
 
 #[path = "cli_verify/runs.rs"]
 mod runs;
+
+/// Each file of the tree under `root`, by its path under it: its SHA-256, inode and mode.
+fn tree_facts(root: &Path) -> BTreeMap<PathBuf, (Vec<u8>, u64, u32)> {
+    use std::os::unix::fs::MetadataExt as _;
+    let mut facts = BTreeMap::new();
+    let mut dirs = vec![root.to_path_buf()];
+    while let Some(dir) = dirs.pop() {
+        for entry in fs::read_dir(&dir).expect("read dir") {
+            let path = entry.expect("entry").path();
+            let meta = fs::symlink_metadata(&path).expect("meta");
+            if meta.is_dir() {
+                dirs.push(path);
+                continue;
+            }
+            let rel = path.strip_prefix(root).expect("under root").to_path_buf();
+            facts.insert(rel, (file_sha256(&path), meta.ino(), meta.mode() & 0o777));
+        }
+    }
+    facts
+}
+
+fn stamp_home_dir() -> PathBuf {
+    let (dir, _lock) = stamp_dir();
+    dir
+}
+
+/// No stamped home shares a file with the stamp or with another home, and a test that tampers
+/// its own copy (the pinned `viola`, the stamps, the home's mode, the lock file) reaches neither.
+#[rstest]
+fn stamped_home_copies_share_no_file_with_the_stamp_or_each_other(
+    #[from(stamped_home)] a: StampedHome,
+    #[from(stamped_home)] b: StampedHome,
+) {
+    let stamp = stamp_home_dir();
+    let (before_stamp, before_b) = (tree_facts(&stamp), tree_facts(b.home.path()));
+    let facts_a = tree_facts(a.home.path());
+    assert_eq!(facts_a.len(), before_stamp.len(), "a copy holds every file");
+    let mut inodes = BTreeSet::new();
+    for facts in [&before_stamp, &before_b, &facts_a] {
+        for (_, ino, _) in facts.values() {
+            assert!(inodes.insert(*ino), "a file is shared");
+        }
+    }
+
+    let pinned_dir = fs::read_dir(a.home.path().join("bin"))
+        .expect("bin")
+        .next()
+        .expect("one pinned dir")
+        .expect("entry")
+        .path();
+    let pinned = pinned_dir.join("viola");
+    let mut bytes = fs::read(&pinned).expect("pinned");
+    bytes[0] ^= 0xff;
+    fs::write(&pinned, &bytes).expect("tamper");
+    fs::write(a.home.path().join("ledger/stamps.json"), "{}").expect("rewrite stamps");
+    widen(a.home.path());
+    fs::remove_file(a.home.path().join("ledger/stamps.json.lock")).expect("remove lock");
+
+    assert!(tree_facts(&stamp) == before_stamp, "the stamp moved");
+    assert!(tree_facts(b.home.path()) == before_b, "another home moved");
+    unwiden(a.home.path());
+}
+
+/// Every stamped home of one build is a copy of one `viola verify` stamp: the same `stamps.json`,
+/// one `written_at`.
+#[rstest]
+fn stamped_home_reuses_one_stamp_for_every_home(
+    #[from(stamped_home)] a: StampedHome,
+    #[from(stamped_home)] b: StampedHome,
+) {
+    let read = |home: &Path| fs::read_to_string(home.join("ledger/stamps.json")).expect("stamps");
+    let (in_a, in_b) = (read(a.home.path()), read(b.home.path()));
+    assert_eq!(in_a, in_b);
+    assert_eq!(read(&stamp_home_dir()), in_a);
+    let doc: Value = serde_json::from_str(&in_a).expect("stamps document");
+    assert!(doc["written_at"].is_string(), "one written_at");
+}

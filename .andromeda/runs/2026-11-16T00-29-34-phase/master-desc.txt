@@ -1,0 +1,1 @@
+`wait` wake condition — documented and pinned: a background-held turn end wakes it, no false wake after a task-free end; the stamped-home CI timeout bounded

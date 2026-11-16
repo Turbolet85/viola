@@ -24,6 +24,7 @@ use viola_channel::Client;
 
 const CANARY: &str = "canary-chain-value-5c1e";
 const PATH3: &str = "fixtures/fake-scripts/path3.json";
+const HELD: &str = "fixtures/fake-scripts/wait-held-turn.json";
 
 /// `<scratch>/fixtures/<recorded version>/` with the synthetic SessionStart, UserPromptSubmit,
 /// PostToolUse and a Stop carrying `message`.
@@ -275,6 +276,139 @@ fn wait_after_a_send_cursor_returns_the_turn() {
     let (turn_end, _) = only(&dir, "turn-ended");
     assert_eq!(woken["ok"]["event"]["kind"], "turn-ended");
     assert_eq!(woken["ok"]["cursor"], turn_end);
+    wrapper.stop();
+}
+
+/// A wrapper over the held-turn script: a turn end still holding two background tasks and asking
+/// a question, a task-free end, the CLI's Notification, a `<task-notification>` harness turn and
+/// a last task-free end, each step released by the test.
+fn boot_held() -> Wrapper {
+    let stamped = StampedHome::unstamped(TestHome::new());
+    let fx = fixtures(stamped.home.scratch(), CANARY);
+    let bodies = [
+        (
+            "Stop",
+            "held-1",
+            json!({"hook_event_name": "Stop", "session_id": "s-1",
+                "last_assistant_message": "Shall I go on?",
+                "background_tasks": [{"id": "t-1"}, {"id": "t-2"}]}),
+        ),
+        (
+            "Stop",
+            "default",
+            json!({"hook_event_name": "Stop", "session_id": "s-1",
+                "last_assistant_message": CANARY, "background_tasks": []}),
+        ),
+        (
+            "Notification",
+            "idle-1",
+            json!({"hook_event_name": "Notification", "session_id": "s-1",
+                "message": "synthetic notification"}),
+        ),
+        (
+            "UserPromptSubmit",
+            "task-notification-1",
+            json!({"hook_event_name": "UserPromptSubmit", "session_id": "s-1",
+                "prompt": "<task-notification>synthetic task done</task-notification>"}),
+        ),
+    ];
+    for (event, variant, body) in bodies {
+        fake::write_fixture(&fx, fake::RECORDED_CLI_VERSION, event, variant, &body);
+    }
+    let fx = fx.to_str().expect("utf-8 path").to_owned();
+    let wrapper = Wrapper::boot(stamped, "builder", Some(HELD), &["--fixtures", &fx]);
+    wait_events(&wrapper.instance_dir(), "the session-start record", |l| {
+        l.iter().any(|e| e["kind"] == "session-start")
+    });
+    wrapper
+}
+
+/// Each `turn-ended` line with its end offset, in log order.
+fn turn_ends(instance_dir: &Path) -> Vec<(u64, Value)> {
+    ends(instance_dir)
+        .into_iter()
+        .filter(|(_, l)| l["kind"] == "turn-ended")
+        .collect()
+}
+
+/// verification-matrix v2-17: a turn end that still holds a background task, its message asking
+/// the driver something, returns a `wait` like any other turn end, carrying its count and message.
+#[test]
+fn path3_wait_wakes_on_a_turn_end_holding_background_tasks() {
+    let wrapper = boot_held();
+    let dir = wrapper.instance_dir();
+    let home = wrapper.home().to_path_buf();
+    let (start_end, _) = only(&dir, "session-start");
+    let after = start_end.to_string();
+    let parked = spawn(
+        &home,
+        &["wait", "builder", "--after", &after, "--json"],
+        None,
+        None,
+    );
+    wait_request_logged(&home, "wait", 1);
+    wrapper.release();
+    let woken = json_ok(&parked.finish());
+    let (turn_end, _) = only(&dir, "turn-ended");
+    assert_eq!(woken["ok"]["event"]["kind"], "turn-ended");
+    assert_eq!(woken["ok"]["event"]["data"]["background_tasks"], 2);
+    assert_eq!(
+        woken["ok"]["event"]["data"]["last_assistant_message"],
+        "Shall I go on?"
+    );
+    assert_eq!(woken["ok"]["cursor"], turn_end);
+    wrapper.stop();
+}
+
+/// verification-matrix v2-17: a wait armed at a task-free turn end's cursor parks through the
+/// CLI's Notification and a `<task-notification>` harness turn, and returns on the next turn end.
+#[test]
+fn path3_wait_armed_at_a_task_free_turn_end_parks_through_a_notification_and_a_harness_turn() {
+    let wrapper = boot_held();
+    let dir = wrapper.instance_dir();
+    let home = wrapper.home().to_path_buf();
+    wrapper.release();
+    wrapper.release();
+    wait_events(&dir, "the two turn-ended records", |l| {
+        l.iter().filter(|e| e["kind"] == "turn-ended").count() >= 2
+    });
+    let first_end = turn_ends(&dir)[0].0.to_string();
+    let free = json_ok(&viola(
+        &home,
+        &["wait", "builder", "--after", &first_end, "--json"],
+        None,
+        None,
+    ));
+    assert_eq!(free["ok"]["event"]["data"]["background_tasks"], 0);
+    assert_eq!(free["ok"]["cursor"], turn_ends(&dir)[1].0);
+    let cursor = free["ok"]["cursor"].as_u64().expect("cursor").to_string();
+
+    let mut parked = spawn(
+        &home,
+        &["wait", "builder", "--after", &cursor, "--json"],
+        None,
+        None,
+    );
+    wait_request_logged(&home, "wait", 2);
+    wrapper.release();
+    wrapper.release();
+    wait_events(&dir, "the activity and harness-turn records", |l| {
+        l.iter().any(|e| e["kind"] == "activity")
+            && l.iter()
+                .any(|e| e["kind"] == "prompt-submitted" && e["data"]["origin"] == "harness")
+    });
+    assert!(
+        parked.still_running(),
+        "a notification or a harness turn ended the wait"
+    );
+
+    wrapper.release();
+    let woken = json_ok(&parked.finish());
+    let turns = turn_ends(&dir);
+    assert_eq!(turns.len(), 3, "three turn-ended records");
+    assert_eq!(woken["ok"]["event"]["kind"], "turn-ended");
+    assert_eq!(woken["ok"]["cursor"], turns[2].0);
+    assert_eq!(woken["ok"]["event"]["data"]["background_tasks"], 0);
     wrapper.stop();
 }
 

@@ -1,0 +1,219 @@
+[
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "0150035c",
+"ts": "2026-11-16T01:39:46Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-16-wait-wake-condition",
+"--message-file",
+".andromeda/runs/2026-11-16T01-41-00-phase/relay-1.md",
+"--origin",
+"delegate overseer, relayed in session 2026-11-16 01:39Z",
+"--kind",
+"relay",
+"--why",
+"the revision word: implement stopped on entry 9; re-word entry 9 and fold the named deviations, no row read, no codebase research, stop at the card",
+"--step",
+"phase:P3",
+"--run-dir",
+".andromeda/runs/2026-11-16T01-41-00-phase",
+"--marker",
+"2026-11-16-wait-wake-condition"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I7 · copy message · message: delegate overseer, relayed in session 2026-11-16 01:39Z",
+"cite: inputs#I7"
+],
+"stderr": null,
+"wrote": [
+"inputs/I7-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I7",
+"kind": "relay",
+"repo": null,
+"path": "message: delegate overseer, relayed in session 2026-11-16 01:39Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "2f0146a50a448fb432d51ea9b241782e5050f6cda0ea4fd9fd932b5d421a8427",
+"copy": "I7-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-16T01:39:45Z",
+"step": "phase:P3",
+"why": "the revision word: implement stopped on entry 9; re-word entry 9 and fold the named deviations, no row read, no codebase research, stop at the card"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "0150035c",
+"ts": "2026-11-16T01:39:46Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-16-wait-wake-condition",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-wait-wake-entry9-revision.md",
+"--kind",
+"relay",
+"--why",
+"entry 9 re-worded to per-class kills; deviations (stamp tests at cli_verify.rs root, verify.rs unchanged, other-stamp sweep step) fold into the plan and research lists",
+"--step",
+"phase:P3",
+"--run-dir",
+".andromeda/runs/2026-11-16T01-41-00-phase",
+"--marker",
+"2026-11-16-wait-wake-condition"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I8 · copy no-repo · ../additional/viola-overseer/relay-wait-wake-entry9-revision.md",
+"cite: inputs#I8"
+],
+"stderr": null,
+"wrote": [
+"inputs/I8-relay-wait-wake-entry9-revision.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I8",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-wait-wake-entry9-revision.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "38dde799162a0907eb61609a02d5301cddb1d918f4fa0eea748ca62256084b89",
+"copy": "I8-relay-wait-wake-entry9-revision.md.txt",
+"link": false,
+"read_at": "2026-11-16T01:39:46Z",
+"step": "phase:P3",
+"why": "entry 9 re-worded to per-class kills; deviations (stamp tests at cli_verify.rs root, verify.rs unchanged, other-stamp sweep step) fold into the plan and research lists"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "0150035c",
+"ts": "2026-11-16T01:43:30Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-16-wait-wake-condition",
+"--run-dir",
+".andromeda/runs/2026-11-16T01-41-00-phase",
+"--marker",
+"2026-11-16-wait-wake-condition"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-wait-wake-directive.md",
+"I1 cited scope.md:24 · scope.md:43 · scope.md:82 · scope.md:85 · scope.md:86 · scope.md:89 · research.md:7 · research.md:36 · plan.md:10 · plan.md:217 · plan.md:219",
+"I2 n/a — a message has no live source · copy message · message: operator, /andromeda-phase invocation, 2026-11-16",
+"I2 cited scope.md:43 · research.md:7 · plan.md:11",
+"I3 unchanged · copy no-repo · ../additional/viola-overseer/pwait.sh",
+"I3 cited scope.md:14 · scope.md:20 · research.md:7 · research.md:34 · plan.md:12 · plan.md:41",
+"I4 unchanged · copy no-repo · ../additional/viola-overseer/vwatch.sh",
+"I4 cited scope.md:14 · research.md:7 · research.md:34 · plan.md:13",
+"I5 unchanged · copy no-repo · ../additional/viola-overseer/relay-wait-wake-f1.md",
+"I5 cited research.md:76 · plan.md:14 · plan.md:29 · plan.md:47 · plan.md:51 · plan.md:360 · plan.md:439",
+"I6 n/a — a message has no live source · copy message · message: operator, the P5 word on p5-card-1.md, 2026-11-16",
+"I6 UNCITED",
+"I7 n/a — a message has no live source · copy message · message: delegate overseer, relayed in session 2026-11-16 01:39Z",
+"I7 cited scope.md:68 · research.md:69 · plan.md:15",
+"I8 unchanged · copy no-repo · ../additional/viola-overseer/relay-wait-wake-entry9-revision.md",
+"I8 cited scope.md:68 · scope.md:71 · research.md:54 · research.md:69 · research.md:70 · plan.md:16",
+"inputs: 8 entries — unchanged 5 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 1 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 8,
+"counts": {
+"unchanged": 5,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 3
+},
+"uncited": 1,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "0150035c",
+"ts": "2026-11-16T01:44:51Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-16-wait-wake-condition",
+"--message-file",
+".andromeda/runs/2026-11-16T01-41-00-phase/relay-2.md",
+"--origin",
+"delegate overseer, the P5 word in session 2026-11-16",
+"--kind",
+"relay",
+"--why",
+"yes on .andromeda/runs/2026-11-16T01-41-00-phase/p5-card-1.md (plan rev 6), the delegate overseer as authority; start nothing after the phase",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-11-16T01-41-00-phase",
+"--marker",
+"2026-11-16-wait-wake-condition"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I9 · copy message · message: delegate overseer, the P5 word in session 2026-11-16",
+"cite: inputs#I9"
+],
+"stderr": null,
+"wrote": [
+"inputs/I9-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I9",
+"kind": "relay",
+"repo": null,
+"path": "message: delegate overseer, the P5 word in session 2026-11-16",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "dacd1c24a9b8471496273f07fc187c3d2d74e5ed1194075bbb6a18fbe3f5e61f",
+"copy": "I9-relay-2.md.txt",
+"link": false,
+"read_at": "2026-11-16T01:44:50Z",
+"step": "phase:P5",
+"why": "yes on .andromeda/runs/2026-11-16T01-41-00-phase/p5-card-1.md (plan rev 6), the delegate overseer as authority; start nothing after the phase"
+}
+}
+]

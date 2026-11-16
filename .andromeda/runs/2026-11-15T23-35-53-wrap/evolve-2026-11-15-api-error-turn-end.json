@@ -126,5 +126,37 @@
 ],
 "before": null,
 "after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "706a2ad2",
+"ts": "2026-11-16T00:15:42Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-15T23-35-53-wrap",
+"--marker",
+"2026-11-15-api-error-turn-end"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 1695 · 2026-11-15T21-21-54-2026-11-15-api-error-turn-end.ndjson",
+"ts 2026-11-16T00:15:36Z · clock 2026-11-16T00:15:42Z · bound 2026-11-16T00:11:03Z (line 3144)",
+"ids 2026-11-16T00:15:36Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-15T21-21-54-2026-11-15-api-error-turn-end.ndjson"
+],
+"before": null,
+"after": null
 }
 ]

@@ -271,6 +271,10 @@ mod tests {
         }
     }
 
+    /// A wait that should park but returned announces nothing more: the test fails here
+    /// instead of blocking forever. A healthy park announces within milliseconds.
+    const PARK_BOUND: Duration = Duration::from_secs(5);
+
     fn announcing() -> (Announcing, mpsc::Receiver<()>) {
         let (parked, rx) = mpsc::channel();
         let clock = Announcing {
@@ -478,11 +482,11 @@ mod tests {
                 let params = json!({"v": 1, "after": 0, "timeout_ms": 1_000_000_000});
                 let _ = done.send(feed.wait(tmp.path(), &params));
             });
-            parked.recv().expect("parked");
+            parked.recv_timeout(PARK_BOUND).expect("parked");
             let ended = turn(json!("woken"));
             let end = append(tmp.path(), &ended);
             for _ in 0..3 {
-                parked.recv().expect("still parked");
+                parked.recv_timeout(PARK_BOUND).expect("still parked");
             }
             assert!(result.try_recv().is_err(), "woke without a signal");
             signal(&feed, &ended);
@@ -510,11 +514,11 @@ mod tests {
                 let params = json!({"v": 1, "after": 0, "timeout_ms": 1_000_000_000});
                 let _ = done.send(feed.wait(tmp.path(), &params));
             });
-            parked.recv().expect("parked");
+            parked.recv_timeout(PARK_BOUND).expect("parked");
             let activity = line(EventKind::Activity, json!({}));
             append(tmp.path(), &activity);
             signal(&feed, &activity);
-            parked.recv().expect("parked again");
+            parked.recv_timeout(PARK_BOUND).expect("parked again");
             assert!(result.try_recv().is_err(), "an activity line woke it");
             let ended = turn(Value::Null);
             append(tmp.path(), &ended);
@@ -524,6 +528,85 @@ mod tests {
                 .expect("woken")
                 .expect("answered");
             assert_eq!(reply["ok"]["event"]["kind"], "turn-ended");
+        });
+    }
+
+    /// A turn end wakes by its kind alone: a background task still held, and a message asking
+    /// the driver something, change nothing.
+    #[rstest]
+    #[case::zero(json!(0))]
+    #[case::one(json!(1))]
+    #[case::three(json!(3))]
+    #[case::null(Value::Null)]
+    fn wait_a_turn_end_wakes_whatever_its_background_tasks(#[case] tasks: Value) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let held = line(
+            EventKind::TurnEnded,
+            json!({"last_assistant_message": "Shall I go on?", "background_tasks": tasks}),
+        );
+        let end = append(tmp.path(), &held);
+        let feed = WaitFeed::new(JumpClock::new());
+        let reply = feed
+            .wait(tmp.path(), &json!({"v": 1, "after": 0, "timeout_ms": 3000}))
+            .expect("answered");
+        assert_eq!(reply["ok"]["event"]["kind"], "turn-ended");
+        assert_eq!(reply["ok"]["cursor"], end);
+        assert_eq!(reply["ok"]["event"]["data"]["background_tasks"], tasks);
+        assert_eq!(
+            reply["ok"]["event"]["data"]["last_assistant_message"],
+            "Shall I go on?"
+        );
+    }
+
+    /// Armed at a task-free turn end's cursor, a wait parks through the CLI's notification and a
+    /// background task's harness turn, and returns on the next turn end.
+    #[test]
+    fn wait_armed_at_a_task_free_end_parks_through_a_notification_and_a_harness_turn() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let free = line(
+            EventKind::TurnEnded,
+            json!({"last_assistant_message": "done", "background_tasks": 0}),
+        );
+        let first = append(tmp.path(), &free);
+        let cursor = WaitFeed::new(JumpClock::new())
+            .wait(tmp.path(), &json!({"v": 1, "after": 0, "timeout_ms": 3000}))
+            .expect("answered")["ok"]["cursor"]
+            .clone();
+        assert_eq!(cursor, first);
+        let (clock, parked) = announcing();
+        let feed = WaitFeed::new(clock);
+        let (done, result) = mpsc::channel();
+        std::thread::scope(|s| {
+            s.spawn(|| {
+                let params = json!({"v": 1, "after": cursor, "timeout_ms": 1_000_000_000});
+                let _ = done.send(feed.wait(tmp.path(), &params));
+            });
+            parked.recv_timeout(PARK_BOUND).expect("parked");
+            let notification = line(EventKind::Activity, json!({}));
+            append(tmp.path(), &notification);
+            signal(&feed, &notification);
+            parked
+                .recv_timeout(PARK_BOUND)
+                .expect("parked after the notification");
+            let harness = line(
+                EventKind::PromptSubmitted,
+                json!({"text": "<task-notification>done</task-notification>", "origin": "harness"}),
+            );
+            append(tmp.path(), &harness);
+            signal(&feed, &harness);
+            parked
+                .recv_timeout(PARK_BOUND)
+                .expect("parked after the harness turn");
+            assert!(result.try_recv().is_err(), "a log-only line woke it");
+            let next = turn(json!("next"));
+            let end = append(tmp.path(), &next);
+            signal(&feed, &next);
+            let reply = result
+                .recv_timeout(Duration::from_secs(5))
+                .expect("woken")
+                .expect("answered");
+            assert_eq!(reply["ok"]["event"]["kind"], "turn-ended");
+            assert_eq!(reply["ok"]["cursor"], end);
         });
     }
 

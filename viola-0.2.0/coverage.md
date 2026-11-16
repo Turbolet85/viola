@@ -1,11 +1,14 @@
 # Coverage — viola-0.2.0
 
-verified 8/33 · deferred 1 · planned 24 · implemented 0 · unclaimed 24
+verified 8/33 · deferred 1 · planned 23 · implemented 1 · unclaimed 23
 
 ## deferred (1)
 - v2-22 · Product-owned session settings
 
-## planned, unclaimed (24)
+## implemented (1)
+- v2-17 · `wait`'s documented wake condition · 2026-11-16-wait-wake-condition
+
+## planned, unclaimed (23)
 - v2-07 · Launch a session into the fleet
 - v2-08 · The launch authority bounded
 - v2-09 · The lineage registry
@@ -15,7 +18,6 @@ verified 8/33 · deferred 1 · planned 24 · implemented 0 · unclaimed 24
 - v2-13 · Adopt a plain session into the fleet
 - v2-14 · The fleet console
 - v2-15 · Every verb from the console
-- v2-17 · `wait`'s documented wake condition
 - v2-18 · The driver's send recognised whatever whitespace the CLI trims
 - v2-19 · The readiness-gate send race closed
 - v2-20 · A question first raised by PermissionRequest answered with a body

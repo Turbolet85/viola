@@ -1,0 +1,66 @@
+[
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "706a2ad2",
+"ts": "2026-11-16T03:05:16Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-16T03-04-30-phase",
+"--marker",
+"2026-11-16-wait-wake-condition"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 1748 · 2026-11-16T00-30-25-2026-11-16-wait-wake-condition.ndjson",
+"ts 2026-11-16T03:05:08Z · clock 2026-11-16T03:05:15Z · bound 2026-11-16T03:01:44Z (line 3167)",
+"ids 2026-11-16T03:05:08Z-a … 2026-11-16T03:05:08Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T00-30-25-2026-11-16-wait-wake-condition.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "706a2ad2",
+"ts": "2026-11-16T03:08:03Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-16T03-04-30-phase",
+"--marker",
+"2026-11-16-wait-wake-condition"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 1751 · 2026-11-16T00-30-25-2026-11-16-wait-wake-condition.ndjson",
+"ts 2026-11-16T03:07:58Z · clock 2026-11-16T03:08:03Z · bound 2026-11-16T03:05:08Z (line 3169)",
+"ids 2026-11-16T03:07:58Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T00-30-25-2026-11-16-wait-wake-condition.ndjson"
+],
+"before": null,
+"after": null
+}
+]

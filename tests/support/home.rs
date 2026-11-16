@@ -373,12 +373,133 @@ impl StampedHome {
     }
 }
 
-/// `stamped` reads only the verb's result: exit 0 and a last line `stamped <recorded>  <n> pass
-/// 0 fail`, the count left to the literal-oracle tests since rows land with later chunks.
+/// A copy of the one stamp taken for this build of `viola` and the fake agent: the stamp is made
+/// once per build under its lock file and copied, file by file, into the test's own home, so the
+/// stamp's cost leaves every later test's time and a test that tampers its copy reaches no other.
 #[fixture]
 pub fn stamped_home(home: TestHome, fake_agent_path: PathBuf) -> StampedHome {
+    let (stamp, lock) = stamp_dir();
+    copy_tree(&stamp, home.path());
+    drop(lock);
+    StampedHome {
+        home,
+        fake: fake_agent_path,
+        stamped: true,
+    }
+}
+
+/// `target/e2e-home/viola-stamp-<key16>/home`, stamped by `viola verify` the first time a test of
+/// this build asks, with the exclusive lock on `viola-stamp-<key16>.lock` held: the lookup, the
+/// stamp and the caller's copy all run under it. The stamp dir carries no owner record, so the
+/// owner sweep never takes it.
+pub fn stamp_dir() -> (PathBuf, fs::File) {
+    let base = workspace_path("target/e2e-home");
+    prepare_home_base(&base);
+    let key = stamp_key();
+    let lock = fs::File::create(base.join(format!("viola-stamp-{key}.lock"))).expect("stamp lock");
+    lock.lock().expect("stamp lock");
+    let stamp = base.join(format!("viola-stamp-{key}"));
+    if !stamp.is_dir() {
+        // Under the lock no other process stamps this key: a tmp dir standing is a dead one's.
+        remove_stamp_dirs(&base, &format!("viola-stamp-{key}.tmp-"));
+        let tmp = base.join(format!("viola-stamp-{key}.tmp-{}", std::process::id()));
+        private_dir(&tmp, "stamp tmp dir");
+        take_stamp(&tmp.join("home"));
+        fs::rename(&tmp, &stamp).expect("stamp into place");
+        sweep_other_stamps(&base, &key);
+    }
+    (stamp.join("home"), lock)
+}
+
+/// Every dir under `base` whose name starts `prefix`, removed.
+fn remove_stamp_dirs(base: &Path, prefix: &str) {
+    for entry in fs::read_dir(base).into_iter().flatten().flatten() {
+        if entry.file_name().to_string_lossy().starts_with(prefix)
+            && entry.file_type().is_ok_and(|t| t.is_dir())
+        {
+            let _ = fs::remove_dir_all(entry.path());
+        }
+    }
+}
+
+/// The stamps of other builds no process holds: each one's lock taken without waiting, its dirs
+/// removed. A stamp another process is making or copying keeps its lock and stays.
+fn sweep_other_stamps(base: &Path, key: &str) {
+    for entry in fs::read_dir(base).into_iter().flatten().flatten() {
+        let name = entry.file_name().to_string_lossy().into_owned();
+        let Some(other) = name
+            .strip_prefix("viola-stamp-")
+            .and_then(|n| n.strip_suffix(".lock"))
+        else {
+            continue;
+        };
+        if other == key {
+            continue;
+        }
+        let Ok(file) = fs::File::open(entry.path()) else {
+            continue;
+        };
+        if file.try_lock().is_ok() {
+            remove_stamp_dirs(base, &format!("viola-stamp-{other}"));
+        }
+    }
+}
+
+/// The first 16 hex chars of SHA-256 over the built `viola`'s and the fake agent's SHA-256 and
+/// the recorded version.
+fn stamp_key() -> String {
+    use sha2::{Digest as _, Sha256};
+    let mut key = Sha256::new();
+    for file in [VIOLA, fake::FAKE] {
+        key.update(file_sha256(Path::new(file)));
+    }
+    key.update(fake::RECORDED_CLI_VERSION.as_bytes());
+    key.finalize()[..8]
+        .iter()
+        .map(|b| format!("{b:02x}"))
+        .collect()
+}
+
+/// A file's SHA-256, read in blocks.
+pub fn file_sha256(path: &Path) -> Vec<u8> {
+    use sha2::{Digest as _, Sha256};
+    use std::io::Read as _;
+    let mut file = fs::File::open(path).expect("open for hashing");
+    let mut hasher = Sha256::new();
+    let mut block = vec![0u8; 1 << 20];
+    loop {
+        let n = file.read(&mut block).expect("read for hashing");
+        if n == 0 {
+            break;
+        }
+        hasher.update(&block[..n]);
+    }
+    hasher.finalize().to_vec()
+}
+
+/// `src`'s tree made again at `dst`: each dir through `private_dir` (0700), each file copied byte
+/// for byte with its mode kept, a new inode every time. Anything else in the tree is a fault.
+pub fn copy_tree(src: &Path, dst: &Path) {
+    private_dir(dst, "stamped home");
+    for entry in fs::read_dir(src).expect("stamp dir") {
+        let entry = entry.expect("stamp entry");
+        let kind = entry.file_type().expect("stamp entry type");
+        let to = dst.join(entry.file_name());
+        if kind.is_dir() {
+            copy_tree(&entry.path(), &to);
+        } else if kind.is_file() {
+            fs::copy(entry.path(), &to).expect("copy a stamp file");
+        } else {
+            panic!("the stamp holds an entry that is neither a file nor a dir");
+        }
+    }
+}
+
+/// `stamped` reads only the verb's result: exit 0 and a last line `stamped <recorded>  <n> pass
+/// 0 fail`, the count left to the literal-oracle tests since rows land with later chunks.
+fn take_stamp(home: &Path) {
     let ran = super::verify::verify(
-        home.path(),
+        home,
         &workspace_path("fixtures/claude"),
         fake::RECORDED_CLI_VERSION,
         &[],
@@ -400,11 +521,6 @@ pub fn stamped_home(home: TestHome, fake_agent_path: PathBuf) -> StampedHome {
         "viola verify did not stamp the home: exit {:?}, summary line matched {summary}, failing rows {failing:?}",
         ran.code
     );
-    StampedHome {
-        home,
-        fake: fake_agent_path,
-        stamped: true,
-    }
 }
 
 /// The four rows a stamp with no dialog replay fails.

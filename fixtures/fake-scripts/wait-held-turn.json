@@ -1,0 +1,10 @@
+{
+  "v": 1,
+  "steps": [
+    { "event": "Stop", "variant": "held-1", "gate": true },
+    { "event": "Stop", "variant": "default", "gate": true },
+    { "event": "Notification", "variant": "idle-1", "gate": true },
+    { "event": "UserPromptSubmit", "variant": "task-notification-1", "gate": true },
+    { "event": "Stop", "variant": "default", "gate": true }
+  ]
+}

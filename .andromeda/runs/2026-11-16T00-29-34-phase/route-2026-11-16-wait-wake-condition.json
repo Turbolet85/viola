@@ -1,0 +1,37 @@
+[
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "3d953162",
+"ts": "2026-11-16T00:30:25Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-11-16-wait-wake-condition",
+"--id",
+"chk-r4pjfa6x",
+"--desc-file",
+".andromeda/runs/2026-11-16T00-29-34-phase/master-desc.txt",
+"--scope-file",
+".andromeda/cache/docs/2026-11-16-wait-wake-condition/scope.md",
+"--run-dir",
+".andromeda/runs/2026-11-16T00-29-34-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"promoted 2026-11-16-wait-wake-condition · chk-r4pjfa6x · `wait` wake condition · tx 1697"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T00-30-25-2026-11-16-wait-wake-condition.ndjson",
+"./.andromeda/master-route.md",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]

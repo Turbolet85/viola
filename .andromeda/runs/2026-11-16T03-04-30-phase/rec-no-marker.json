@@ -1,0 +1,25 @@
+[
+{
+"tool": "rec",
+"v": "1.49",
+"sha8": "cbc4ff60",
+"ts": "2026-11-16T03:07:56Z",
+"argv": [
+"outputs",
+"land",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-16T03-04-30-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"outputs land: no field payload in the run — nothing to land"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]
