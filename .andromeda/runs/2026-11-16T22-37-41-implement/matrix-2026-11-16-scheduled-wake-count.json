@@ -1,0 +1,49 @@
+[
+{
+"tool": "matrix",
+"v": "1.13",
+"sha8": "ec50b72d",
+"ts": "2026-11-16T22:42:43Z",
+"argv": [
+"implement",
+"--dir",
+"viola-0.2.0",
+"--chunk",
+"2026-11-16-scheduled-wake-count",
+"--id",
+"v2-35",
+"--ref-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-16T22-37-41-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"implement v2-35 · status planned → implemented · ref crates/viola-agent-claude/src/hook.rs::tests::turn_ended_scheduled_wakes_counts_… (669 chars)",
+"landed, rendered ./.andromeda/db/log/2026-11-16T21-48-52-2026-11-16-scheduled-wake-count.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T21-48-52-2026-11-16-scheduled-wake-count.ndjson"
+],
+"before": {
+"id": "v2-35",
+"chunk": "2026-11-16-scheduled-wake-count",
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "A Stop's `session_crons` array crosses as its length alone, as `turn-ended` data `scheduled_wakes`, which a driver reads… (997 chars)",
+"notes_chars": 318
+},
+"after": {
+"id": "v2-35",
+"chunk": "2026-11-16-scheduled-wake-count",
+"status": "implemented",
+"method": "integration",
+"ref": "crates/viola-agent-claude/src/hook.rs::tests::turn_ended_scheduled_wakes_counts_the_session_crons_array · crates/viola-a… (669 chars)",
+"acceptance": "A Stop's `session_crons` array crosses as its length alone, as `turn-ended` data `scheduled_wakes`, which a driver reads… (997 chars)",
+"notes_chars": 318
+}
+}
+]

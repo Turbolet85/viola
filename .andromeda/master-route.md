@@ -109,3 +109,4 @@
 2026-11-16-local-command-delivery · complete · a local slash command the CLI ran reads as delivered, confirmed by its own measured echo · → chk:2026-11-16-local-command-delivery
 2026-11-16-survey-key-keeps-the-wheel · complete · the CLI's session-feedback survey's grammar measured live on claude 2.1.325 and recorded; the exemption dropped unbuilt by the founder's word, a survey key taking the wheel as every key does · → chk:2026-11-16-survey-key-keeps-the-wheel
 2026-11-16-granular-api-error-cause · complete · an API-error turn end names its cause from a closed list of nine words; the error text still crosses nothing (v2-34) · → chk:2026-11-16-granular-api-error-cause
+2026-11-16-scheduled-wake-count · pending · a turn end carries the session's scheduled-wake count beside its background tasks — one number, no content · → chk:2026-11-16-scheduled-wake-count

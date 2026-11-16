@@ -291,13 +291,15 @@ fn boot_held() -> Wrapper {
             "held-1",
             json!({"hook_event_name": "Stop", "session_id": "s-1",
                 "last_assistant_message": "Shall I go on?",
-                "background_tasks": [{"id": "t-1"}, {"id": "t-2"}]}),
+                "background_tasks": [{"id": "t-1"}, {"id": "t-2"}],
+                "session_crons": [{"id": "w-1", "schedule": "synthetic"}, {"id": "w-2"}]}),
         ),
         (
             "Stop",
             "default",
             json!({"hook_event_name": "Stop", "session_id": "s-1",
-                "last_assistant_message": CANARY, "background_tasks": []}),
+                "last_assistant_message": CANARY, "background_tasks": [],
+                "session_crons": []}),
         ),
         (
             "Notification",
@@ -357,6 +359,45 @@ fn path3_wait_wakes_on_a_turn_end_holding_background_tasks() {
         "Shall I go on?"
     );
     assert_eq!(woken["ok"]["cursor"], turn_end);
+    wrapper.stop();
+}
+
+/// verification-matrix v2-35: a turn end carries the session's scheduled-wake count through
+/// `wait --json`, two for the held turn and none for the task-free end after it.
+#[test]
+fn path3_wait_carries_the_scheduled_wake_count_of_a_turn_end() {
+    let wrapper = boot_held();
+    let dir = wrapper.instance_dir();
+    let home = wrapper.home().to_path_buf();
+    let (start_end, _) = only(&dir, "session-start");
+    let after = start_end.to_string();
+    let parked = spawn(
+        &home,
+        &["wait", "builder", "--after", &after, "--json"],
+        None,
+        None,
+    );
+    wait_request_logged(&home, "wait", 1);
+    wrapper.release();
+    let held = json_ok(&parked.finish());
+    assert_eq!(held["ok"]["event"]["kind"], "turn-ended");
+    assert_eq!(held["ok"]["event"]["data"]["scheduled_wakes"], 2);
+    assert_eq!(held["ok"]["event"]["data"]["background_tasks"], 2);
+    let cursor = held["ok"]["cursor"].as_u64().expect("cursor").to_string();
+
+    let parked = spawn(
+        &home,
+        &["wait", "builder", "--after", &cursor, "--json"],
+        None,
+        None,
+    );
+    wait_request_logged(&home, "wait", 2);
+    wrapper.release();
+    let free = json_ok(&parked.finish());
+    assert_eq!(free["ok"]["event"]["kind"], "turn-ended");
+    assert_eq!(free["ok"]["event"]["data"]["scheduled_wakes"], 0);
+    assert_eq!(free["ok"]["event"]["data"]["background_tasks"], 0);
+    assert_eq!(free["ok"]["cursor"], turn_ends(&dir)[1].0);
     wrapper.stop();
 }
 

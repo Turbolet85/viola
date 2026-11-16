@@ -558,6 +558,29 @@ mod tests {
         );
     }
 
+    /// A wake still scheduled changes nothing either: the turn end is returned at once, its
+    /// count unchanged.
+    #[rstest]
+    #[case::zero(json!(0))]
+    #[case::one(json!(1))]
+    #[case::three(json!(3))]
+    #[case::null(Value::Null)]
+    fn wait_a_turn_end_wakes_whatever_its_scheduled_wakes(#[case] wakes: Value) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let held = line(
+            EventKind::TurnEnded,
+            json!({"last_assistant_message": "Back in an hour.", "background_tasks": 0, "scheduled_wakes": wakes}),
+        );
+        let end = append(tmp.path(), &held);
+        let feed = WaitFeed::new(JumpClock::new());
+        let reply = feed
+            .wait(tmp.path(), &json!({"v": 1, "after": 0, "timeout_ms": 3000}))
+            .expect("answered");
+        assert_eq!(reply["ok"]["event"]["kind"], "turn-ended");
+        assert_eq!(reply["ok"]["cursor"], end);
+        assert_eq!(reply["ok"]["event"]["data"]["scheduled_wakes"], wakes);
+    }
+
     /// Armed at a task-free turn end's cursor, a wait parks through the CLI's notification and a
     /// background task's harness turn, and returns on the next turn end.
     #[test]

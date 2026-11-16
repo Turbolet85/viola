@@ -1,0 +1,282 @@
+[
+{
+"tool": "planlint",
+"v": "1.24",
+"sha8": "c316b677",
+"ts": "2026-11-16T22:30:58Z",
+"argv": [
+"check",
+"--chunk",
+"2026-11-16-scheduled-wake-count",
+"--run-dir",
+".andromeda/runs/2026-11-16T21-47-58-phase",
+"--marker",
+"2026-11-16-scheduled-wake-count"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fence: 20 entries · plan: doc:2026-11-16-scheduled-wake-count/plan · research: doc:2026-11-16-scheduled-wake-count/rese…",
+"check 9 · CI-outcome reads: 1 · leg operator exempt: 1 · Platform issues consulted: none · `none — no runner-only bull…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 0 · Harness rules consulted: none · `none — no live leg in this chunk; a live prob…`",
+"check 4 (5) · leg entries with a content atom: 2 · note without `atom from`: 0",
+"check 4 (13) · operator CI-outcome reads: 1 · not ci.py conclusion: 0",
+"check 4 (13) · job-log reads by pattern: 0",
+"check 4 (14) · base-less git change reads outside the operator and round legs: 0",
+"check 4 (15) · grep → wc -l counts asserting exit 0 and last line 0: 0",
+"check 4 (16) · guards whose exclusions leave a new file in: 0 of 0 with an exclusion",
+"check 4 (18) · entries reading a master's or a base's path the store now holds: 0",
+"check 4 (19) · absence probes against the test names their own plan adds: 0 · probes read 0",
+"check 4 (17) · entries reading a path the wrap writes: 0 of 17 asserting — listed, P5's read",
+"check 4 (17) · a path the wrap writes, read from inside a program an entry runs (a suite, the ledger's tool): not read",
+"check 2 · ledger-note entries (matrix#): 0",
+"check 5 · placeholders outside code: 0",
+"check 12 (c) · step references the plan's steps lack: 0 of 2",
+"check 12 (d) · «unchanged» claims on a name another part of the plan names: 12 of 13 — listed, P5's read",
+"  line 12 · «unchanged» · session_crons (step 2) · background_tasks (step 118) · turn-ended (step 118) · wait (step 6)",
+"  line 50 · «unchanged» · StopFailure (step 5)",
+"  line 64 · «unchanged» · wait_a_turn_end_wakes_whatever_its_scheduled_wakes (Test Commands) · zero (Test Commands)",
+"      one (step 3) · three (step 9) · null (step 4) · turn-ended (step 118) · scheduled_wakes (step 118) · wait (step 9)",
+"  line 91 · «unchanged» · background_tasks (step 118) · wait_events (step 8)",
+"  line 93 · «unchanged» · wait (step 6) · crates/viola-mcp/tests/handlers.rs (Files to modify)",
+"  line 95 · «unchanged» · handlers_wait_carries_a_scheduled_wake_count_unchanged (Test Commands) · turn-ended (step 118)",
+"      ok (step 10)",
+"  line 99 · «unchanged» · hook.event (Test Commands)",
+"  line 112 · «unchanged» · crates/viola-mcp/tests/handlers.rs (step 11) · wait (step 6)",
+"  line 290 · «unchanged» · path3_wait_carries_the_scheduled_wake_count_of_a_turn_end (step 10) · wait (step 6)",
+"      structuredContent (step 11) · handlers_wait_carries_a_scheduled_wake_count_unchanged (step 11)",
+"  line 293 · «unchanged» · wait (step 6) · turn-ended (step 118) · scheduled_wakes (step 118) · null (step 4)",
+"  line 303 · «unchanged» · wait (step 6) · last (Test Commands)",
+"  line 362 · «byte-for-byte» · contract_fake_agent_drift (Test Commands)",
+"  a claim on a name no other step, Files to modify or Test Commands names is not listed — P5's read",
+"check 4 (4) · criterion evidence paths the plan names nowhere else: 0 of 0",
+"hits: 0 — resolved by its check (validation.md 2 · 5 · 9 · 4 (4), (5), (13)–(16), (18)–(19) · 12 (c)); 0 is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "none",
+"ci_reads": 1,
+"operator": 1,
+"hit": false
+},
+"harness": {
+"slot": "none",
+"live": 0,
+"hit": false
+},
+"atom": {
+"atomed": 2,
+"bare": []
+},
+"tool": {
+"operator": 1,
+"hand": []
+},
+"log": [],
+"base": {
+"operator": 3,
+"reads": []
+},
+"count": {
+"hits": [],
+"unsplit": []
+},
+"newfiles": {
+"operator": 3,
+"guards": 0,
+"hits": [],
+"abstain": []
+},
+"retired": [],
+"absence": {
+"probes": 0,
+"hits": []
+},
+"wrap": {
+"asserting": 17,
+"listed": []
+},
+"check2": {
+"entries": 20,
+"tokens": 0,
+"hits": []
+},
+"check5": {
+"hits": []
+},
+"steps": {
+"steps": 13,
+"refs": 2,
+"hits": []
+},
+"claims": {
+"read": 13,
+"listed": [
+12,
+50,
+64,
+91,
+93,
+95,
+99,
+112,
+290,
+293,
+303,
+362
+]
+},
+"c44": {
+"paths": 0,
+"hits": [],
+"skipped": []
+},
+"hits": 0
+}
+},
+{
+"tool": "planlint",
+"v": "1.24",
+"sha8": "c316b677",
+"ts": "2026-11-16T22:35:29Z",
+"argv": [
+"check",
+"--chunk",
+"2026-11-16-scheduled-wake-count",
+"--run-dir",
+".andromeda/runs/2026-11-16T21-47-58-phase",
+"--marker",
+"2026-11-16-scheduled-wake-count"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fence: 20 entries · plan: doc:2026-11-16-scheduled-wake-count/plan · research: doc:2026-11-16-scheduled-wake-count/rese…",
+"check 9 · CI-outcome reads: 1 · leg operator exempt: 1 · Platform issues consulted: none · `none — no runner-only bull…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 0 · Harness rules consulted: none · `none — no live leg in this chunk; a live prob…`",
+"check 4 (5) · leg entries with a content atom: 2 · note without `atom from`: 0",
+"check 4 (13) · operator CI-outcome reads: 1 · not ci.py conclusion: 0",
+"check 4 (13) · job-log reads by pattern: 0",
+"check 4 (14) · base-less git change reads outside the operator and round legs: 0",
+"check 4 (15) · grep → wc -l counts asserting exit 0 and last line 0: 0",
+"check 4 (16) · guards whose exclusions leave a new file in: 0 of 0 with an exclusion",
+"check 4 (18) · entries reading a master's or a base's path the store now holds: 0",
+"check 4 (19) · absence probes against the test names their own plan adds: 0 · probes read 0",
+"check 4 (17) · entries reading a path the wrap writes: 0 of 17 asserting — listed, P5's read",
+"check 4 (17) · a path the wrap writes, read from inside a program an entry runs (a suite, the ledger's tool): not read",
+"check 2 · ledger-note entries (matrix#): 0",
+"check 5 · placeholders outside code: 0",
+"check 12 (c) · step references the plan's steps lack: 0 of 2",
+"check 12 (d) · «unchanged» claims on a name another part of the plan names: 12 of 13 — listed, P5's read",
+"  line 12 · «unchanged» · session_crons (step 2) · background_tasks (step 118) · turn-ended (step 118) · wait (step 6)",
+"  line 50 · «unchanged» · StopFailure (step 5)",
+"  line 64 · «unchanged» · wait_a_turn_end_wakes_whatever_its_scheduled_wakes (Test Commands) · zero (Test Commands)",
+"      one (step 3) · three (step 9) · null (step 4) · turn-ended (step 118) · scheduled_wakes (step 118) · wait (step 9)",
+"  line 91 · «unchanged» · background_tasks (step 118) · wait_events (step 8)",
+"  line 93 · «unchanged» · wait (step 6) · crates/viola-mcp/tests/handlers.rs (Files to modify)",
+"  line 95 · «unchanged» · handlers_wait_carries_a_scheduled_wake_count_unchanged (Test Commands) · turn-ended (step 118)",
+"      ok (step 10)",
+"  line 99 · «unchanged» · hook.event (Test Commands)",
+"  line 112 · «unchanged» · crates/viola-mcp/tests/handlers.rs (step 11) · wait (step 6)",
+"  line 303 · «unchanged» · path3_wait_carries_the_scheduled_wake_count_of_a_turn_end (step 10) · wait (step 6)",
+"      structuredContent (step 11) · handlers_wait_carries_a_scheduled_wake_count_unchanged (step 11)",
+"  line 306 · «unchanged» · wait (step 6) · turn-ended (step 118) · scheduled_wakes (step 118) · null (step 4)",
+"  line 316 · «unchanged» · wait (step 6) · last (Test Commands)",
+"  line 375 · «byte-for-byte» · contract_fake_agent_drift (Test Commands)",
+"  a claim on a name no other step, Files to modify or Test Commands names is not listed — P5's read",
+"check 4 (4) · criterion evidence paths the plan names nowhere else: 0 of 0",
+"hits: 0 — resolved by its check (validation.md 2 · 5 · 9 · 4 (4), (5), (13)–(16), (18)–(19) · 12 (c)); 0 is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "none",
+"ci_reads": 1,
+"operator": 1,
+"hit": false
+},
+"harness": {
+"slot": "none",
+"live": 0,
+"hit": false
+},
+"atom": {
+"atomed": 2,
+"bare": []
+},
+"tool": {
+"operator": 1,
+"hand": []
+},
+"log": [],
+"base": {
+"operator": 3,
+"reads": []
+},
+"count": {
+"hits": [],
+"unsplit": []
+},
+"newfiles": {
+"operator": 3,
+"guards": 0,
+"hits": [],
+"abstain": []
+},
+"retired": [],
+"absence": {
+"probes": 0,
+"hits": []
+},
+"wrap": {
+"asserting": 17,
+"listed": []
+},
+"check2": {
+"entries": 20,
+"tokens": 0,
+"hits": []
+},
+"check5": {
+"hits": []
+},
+"steps": {
+"steps": 13,
+"refs": 2,
+"hits": []
+},
+"claims": {
+"read": 13,
+"listed": [
+12,
+50,
+64,
+91,
+93,
+95,
+99,
+112,
+303,
+306,
+316,
+375
+]
+},
+"c44": {
+"paths": 0,
+"hits": [],
+"skipped": []
+},
+"hits": 0
+}
+}
+]

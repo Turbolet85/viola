@@ -126,5 +126,37 @@
 ],
 "before": null,
 "after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "f06103f9",
+"ts": "2026-11-16T18:51:42Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-16T18-15-08-wrap",
+"--marker",
+"2026-11-16-granular-api-error-cause"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 2112 · 2026-11-16T17-06-56-2026-11-16-granular-api-error-cause.ndjson",
+"ts 2026-11-16T18:51:36Z · clock 2026-11-16T18:51:42Z · bound 2026-11-16T18:47:13Z (line 3285)",
+"ids 2026-11-16T18:51:36Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-16T17-06-56-2026-11-16-granular-api-error-cause.ndjson"
+],
+"before": null,
+"after": null
 }
 ]

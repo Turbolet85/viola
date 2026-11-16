@@ -115,7 +115,12 @@ impl EventKind {
         match self {
             Self::SessionStart => &["cause", "agent_session_id"],
             Self::PromptSubmitted => &["text", "origin"],
-            Self::TurnEnded => &["last_assistant_message", "background_tasks", "cause"],
+            Self::TurnEnded => &[
+                "last_assistant_message",
+                "background_tasks",
+                "scheduled_wakes",
+                "cause",
+            ],
             Self::SessionEnd => &[],
             Self::Activity => &["tool"],
             Self::Wheel => &["holder", "cause"],
@@ -567,7 +572,12 @@ mod tests {
         (
             EventKind::TurnEnded,
             "turn-ended",
-            &["last_assistant_message", "background_tasks", "cause"],
+            &[
+                "last_assistant_message",
+                "background_tasks",
+                "scheduled_wakes",
+                "cause",
+            ],
         ),
         (EventKind::SessionEnd, "session-end", &[]),
         (EventKind::Activity, "activity", &["tool"]),

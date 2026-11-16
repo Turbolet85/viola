@@ -313,6 +313,28 @@ fn handlers_wait_carries_a_turn_end_cause_word_unchanged() {
     assert_eq!(result.structured_content, Some(ok));
 }
 
+/// A `turn-ended` carrying a scheduled-wake count reaches `structuredContent` as the wrapper's
+/// `ok` payload, unchanged.
+#[test]
+fn handlers_wait_carries_a_scheduled_wake_count_unchanged() {
+    let ok = json!({
+        "event": {
+            "v": 1,
+            "ts": "2026-11-16T12:00:00.000Z",
+            "instance": "builder",
+            "kind": "turn-ended",
+            "source": "hook",
+            "data": {"last_assistant_message": "Back later.", "background_tasks": 0, "scheduled_wakes": 2},
+        },
+        "cursor": 418,
+    });
+    let wrapper = booted("wait-wakes", vec![("wait", Ok(json!({"ok": ok.clone()})))]);
+    let tools = wrapper.tools(None);
+    let result = call(&tools, "wait", json!({"target": "builder"})).expect("a result");
+    assert_eq!(result.is_error, Some(false));
+    assert_eq!(result.structured_content, Some(ok));
+}
+
 #[test]
 fn handlers_last_and_answer_map_their_replies() {
     let wrapper = booted(

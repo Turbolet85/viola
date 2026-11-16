@@ -1,0 +1,15 @@
+[[control]]
+id = 'wake-content'
+entry = 10
+guard = "forces the content on: Known.session_crons typed as a whole Value and the Stop arm writing it whole"
+case = 'hook_a_stop_holding_scheduled_wakes_carries_their_count_and_no_content'
+
+[[control.edit]]
+path = 'crates/viola-agent-claude/src/hook.rs'
+old = '''    session_crons: Option<Vec<IgnoredAny>>,'''
+new = '''    session_crons: Option<serde_json::Value>,'''
+
+[[control.edit]]
+path = 'crates/viola-agent-claude/src/hook.rs'
+old = '''            "scheduled_wakes": known.session_crons.map(|crons| crons.len()),'''
+new = '''            "scheduled_wakes": known.session_crons,'''

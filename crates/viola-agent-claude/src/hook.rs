@@ -101,7 +101,8 @@ pub struct Normalised {
 }
 
 /// The payload fields viola reads; every other field is skipped. All are strings on the CLI build
-/// the ledger names save `background_tasks`, an array whose elements are counted and never read.
+/// the ledger names save `background_tasks` and `session_crons`, arrays whose elements are counted
+/// and never read.
 /// The prompt and the assistant's message are content: their `Debug` is redacted.
 #[derive(Default, Deserialize, Redact)]
 struct Known {
@@ -117,6 +118,8 @@ struct Known {
     last_assistant_message: Option<String>,
     #[serde(default)]
     background_tasks: Option<Vec<IgnoredAny>>,
+    #[serde(default)]
+    session_crons: Option<Vec<IgnoredAny>>,
     #[serde(default)]
     tool_name: Option<String>,
     /// StopFailure's error word: read only to classify, never copied.
@@ -177,7 +180,7 @@ fn known_fields(payload: &mut Value) -> (Known, Vec<Value>) {
         if removed.is_none() {
             return (Known::default(), drift);
         }
-        let expected = if path == "background_tasks" {
+        let expected = if path == "background_tasks" || path == "session_crons" {
             "array"
         } else {
             "string"
@@ -203,6 +206,8 @@ fn data_of(event: HookEvent, known: Known) -> Value {
         HookEvent::Stop => json!({
             "last_assistant_message": known.last_assistant_message,
             "background_tasks": known.background_tasks.map(|tasks| tasks.len()),
+            // The one place the CLI's `session_crons` meets viola's own name for it.
+            "scheduled_wakes": known.session_crons.map(|crons| crons.len()),
         }),
         // The payload's `last_assistant_message` is the API error's text here, and
         // `error_details` is never declared: neither crosses (security-plan, upstream text is
@@ -210,6 +215,7 @@ fn data_of(event: HookEvent, known: Known) -> Value {
         HookEvent::StopFailure => json!({
             "last_assistant_message": null,
             "background_tasks": null,
+            "scheduled_wakes": null,
             "cause": api_error_cause(known.error.as_deref()).0.as_str(),
         }),
         HookEvent::SessionEnd | HookEvent::PreToolUse | HookEvent::PermissionRequest => json!({}),
@@ -520,7 +526,7 @@ mod tests {
         assert_eq!(got.kind, EventKind::TurnEnded);
         assert_eq!(
             got.data,
-            json!({"last_assistant_message": null, "background_tasks": null, "cause": cause})
+            json!({"last_assistant_message": null, "background_tasks": null, "scheduled_wakes": null, "cause": cause})
         );
         assert_eq!(got.drift, drift);
         assert_eq!(got.unknown_value, unknown_value);
@@ -700,7 +706,7 @@ mod tests {
         );
         assert_eq!(
             got.data,
-            json!({"last_assistant_message": null, "background_tasks": null})
+            json!({"last_assistant_message": null, "background_tasks": null, "scheduled_wakes": null})
         );
         assert_eq!(
             got.drift,
@@ -722,12 +728,12 @@ mod tests {
         assert_eq!(got.kind, EventKind::TurnEnded);
         assert_eq!(
             got.data,
-            json!({"last_assistant_message": "done", "background_tasks": null})
+            json!({"last_assistant_message": "done", "background_tasks": null, "scheduled_wakes": null})
         );
         let got = read(HookEvent::Stop, &json!({"last_assistant_message": null}));
         assert_eq!(
             got.data,
-            json!({"last_assistant_message": null, "background_tasks": null})
+            json!({"last_assistant_message": null, "background_tasks": null, "scheduled_wakes": null})
         );
     }
 
@@ -745,7 +751,7 @@ mod tests {
         );
         assert_eq!(
             got.data,
-            json!({"last_assistant_message": "done", "background_tasks": count})
+            json!({"last_assistant_message": "done", "background_tasks": count, "scheduled_wakes": null})
         );
         assert!(got.drift.is_empty());
         assert!(!got.data.to_string().contains("canary-chain-value-5c1e"));
@@ -768,7 +774,7 @@ mod tests {
         let got = read(HookEvent::Stop, &payload);
         assert_eq!(
             got.data,
-            json!({"last_assistant_message": "done", "background_tasks": null})
+            json!({"last_assistant_message": "done", "background_tasks": null, "scheduled_wakes": null})
         );
         let drift: &[Value] = if drifts {
             &[json!({"path": "background_tasks", "expected": "array"})]
@@ -776,6 +782,57 @@ mod tests {
             &[]
         };
         assert_eq!(got.drift, drift);
+    }
+
+    #[rstest]
+    #[case::empty(json!([]), 0)]
+    #[case::two(json!([
+        {"id": "canary-chain-value-5c1e", "schedule": "canary-chain-value-5c1e", "prompt": "canary-chain-value-5c1e", "recurring": false},
+        {"id": "w-2"},
+    ]), 2)]
+    #[case::not_objects(json!([1, "x", null]), 3)]
+    fn turn_ended_scheduled_wakes_counts_the_session_crons_array(
+        #[case] crons: Value,
+        #[case] count: u64,
+    ) {
+        let got = read(
+            HookEvent::Stop,
+            &json!({"last_assistant_message": "done", "session_crons": crons}),
+        );
+        assert_eq!(
+            got.data,
+            json!({"last_assistant_message": "done", "background_tasks": null, "scheduled_wakes": count})
+        );
+        assert!(got.drift.is_empty());
+        assert!(!got.data.to_string().contains("canary-chain-value-5c1e"));
+    }
+
+    #[rstest]
+    #[case::absent(None, false)]
+    #[case::null(Some(Value::Null), false)]
+    #[case::string(Some(json!("canary-chain-value-5c1e")), true)]
+    #[case::object(Some(json!({"n": 1})), true)]
+    #[case::number(Some(json!(2)), true)]
+    fn turn_ended_scheduled_wakes_is_null_when_absent_or_not_an_array(
+        #[case] crons: Option<Value>,
+        #[case] drifts: bool,
+    ) {
+        let mut payload = json!({"last_assistant_message": "done"});
+        if let Some(crons) = crons {
+            payload["session_crons"] = crons;
+        }
+        let got = read(HookEvent::Stop, &payload);
+        assert_eq!(
+            got.data,
+            json!({"last_assistant_message": "done", "background_tasks": null, "scheduled_wakes": null})
+        );
+        let drift: &[Value] = if drifts {
+            &[json!({"path": "session_crons", "expected": "array"})]
+        } else {
+            &[]
+        };
+        assert_eq!(got.drift, drift);
+        assert!(!got.data.to_string().contains("canary-chain-value-5c1e"));
     }
 
     #[test]

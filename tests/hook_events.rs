@@ -214,11 +214,20 @@ fn hook_every_registered_event_lands_as_one_line_of_its_kind() {
             ),
             (
                 "turn-ended".to_owned(),
-                set(&["background_tasks", "cause", "last_assistant_message"])
+                set(&[
+                    "background_tasks",
+                    "cause",
+                    "last_assistant_message",
+                    "scheduled_wakes"
+                ])
             ),
             (
                 "turn-ended".to_owned(),
-                set(&["background_tasks", "last_assistant_message"])
+                set(&[
+                    "background_tasks",
+                    "last_assistant_message",
+                    "scheduled_wakes"
+                ])
             ),
         ]
     );
@@ -246,9 +255,8 @@ fn hook_every_registered_event_lands_as_one_line_of_its_kind() {
         .filter(|l| l["kind"] == "turn-ended")
         .map(|l| &l["data"])
         .collect();
-    let stop = json!({"last_assistant_message": CANARY, "background_tasks": null});
-    let failure =
-        json!({"last_assistant_message": null, "background_tasks": null, "cause": "server-error"});
+    let stop = json!({"last_assistant_message": CANARY, "background_tasks": null, "scheduled_wakes": null});
+    let failure = json!({"last_assistant_message": null, "background_tasks": null, "scheduled_wakes": null, "cause": "server-error"});
     assert_eq!(ended, [&stop, &failure]);
     let tools: BTreeSet<&str> = hooked
         .iter()
@@ -320,7 +328,80 @@ fn hook_stop_failure_error_text_reaches_no_event_line_or_snapshot() {
     assert_eq!(ended[0]["source"], "hook");
     assert_eq!(
         ended[0]["data"],
-        json!({"last_assistant_message": null, "background_tasks": null, "cause": "server-error"})
+        json!({"last_assistant_message": null, "background_tasks": null, "scheduled_wakes": null, "cause": "server-error"})
+    );
+    let (stopped, stamped) = wrapper.stop_keep();
+    assert_eq!(stopped.code(), Some(0));
+    let home = stamped.home.path();
+    let mut files = Vec::new();
+    files_under(home, &mut files);
+    let names: BTreeSet<String> = files
+        .iter()
+        .filter_map(|f| f.file_name()?.to_str().map(str::to_owned))
+        .collect();
+    for name in ["events.ndjson", "snapshot.json", "hook-builder.ndjson"] {
+        assert!(names.contains(name), "{name} not written");
+    }
+    for file in &files {
+        let text = String::from_utf8_lossy(&fs::read(file).expect("read")).into_owned();
+        let place = file.strip_prefix(home).expect("under the home").display();
+        let hit = support::events::error_body_hit(&Value::String(text), home, &[PLANTED]);
+        assert_ne!(hit, Some("planted"), "{place}");
+    }
+    assert_hook_logs_valid(home);
+}
+
+/// A Stop holding scheduled wakes crosses as their count alone: one `turn-ended` with
+/// `scheduled_wakes` 2, and the text planted in the wakes in no file under the home.
+#[test]
+fn hook_a_stop_holding_scheduled_wakes_carries_their_count_and_no_content() {
+    const PLANTED: &str = "planted-wake-text-4d2a";
+    let stamped = stamped();
+    let scratch = stamped.home.scratch().to_path_buf();
+    let fx = fixtures(
+        &scratch,
+        &[
+            (
+                "SessionStart",
+                "default",
+                json!({"hook_event_name": "SessionStart", "session_id": "s-1", "source": "startup"}),
+            ),
+            (
+                "UserPromptSubmit",
+                "default",
+                json!({"hook_event_name": "UserPromptSubmit", "session_id": "s-1", "prompt": CANARY}),
+            ),
+            (
+                "Stop",
+                "default",
+                json!({"hook_event_name": "Stop", "session_id": "s-1",
+                "last_assistant_message": "back in an hour", "background_tasks": [],
+                "session_crons": [
+                    {"id": PLANTED, "schedule": PLANTED, "prompt": PLANTED, "recurring": false},
+                    {"id": PLANTED, "schedule": PLANTED, "prompt": PLANTED, "recurring": true},
+                ]}),
+            ),
+        ],
+    );
+    let steps = script(
+        &scratch,
+        &[("UserPromptSubmit", "default"), ("Stop", "default")],
+    );
+    let wrapper = Wrapper::boot(
+        stamped,
+        "builder",
+        None,
+        &["--fixtures", path_str(&fx), "--script", path_str(&steps)],
+    );
+    let lines = wait_events(&wrapper.instance_dir(), "the turn end", |l| {
+        l.iter().any(|e| e["kind"] == "turn-ended")
+    });
+    let ended: Vec<&Value> = lines.iter().filter(|l| l["kind"] == "turn-ended").collect();
+    assert_eq!(ended.len(), 1);
+    assert_eq!(ended[0]["source"], "hook");
+    assert_eq!(
+        ended[0]["data"],
+        json!({"last_assistant_message": "back in an hour", "background_tasks": 0, "scheduled_wakes": 2})
     );
     let (stopped, stamped) = wrapper.stop_keep();
     assert_eq!(stopped.code(), Some(0));
@@ -491,14 +572,20 @@ fn hook_a_recorded_stop_carries_its_background_task_count() {
         .as_array()
         .expect("the recorded array")
         .len();
+    let wakes = recorded("Stop.default.json")["session_crons"]
+        .as_array()
+        .expect("the recorded array")
+        .len();
     let ended = recorded_line("Stop", "default", "turn-ended");
     assert_eq!(ended["source"], "hook");
     assert_eq!(ended["data"]["background_tasks"], json!(tasks));
+    assert_eq!(ended["data"]["scheduled_wakes"], json!(wakes));
     assert_eq!(
         keys(&ended["data"]),
         BTreeSet::from([
             "background_tasks".to_owned(),
-            "last_assistant_message".to_owned()
+            "last_assistant_message".to_owned(),
+            "scheduled_wakes".to_owned()
         ])
     );
 }

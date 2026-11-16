@@ -308,3 +308,24 @@ fn state_events_background_tasks_and_option_details_are_known_keys() {
     );
     assert_eq!(skipped, NONE_SKIPPED);
 }
+
+/// A `turn-ended` line with its scheduled-wake count, a number or null, beside a cause: each is
+/// returned whole, and no key is counted as outside the contract.
+#[test]
+fn state_events_scheduled_wakes_is_a_known_key() {
+    let tmp = tempfile::tempdir().expect("tempdir");
+    let written = [
+        json!({"last_assistant_message": "done", "background_tasks": 0, "scheduled_wakes": 2}),
+        json!({"last_assistant_message": null, "background_tasks": null, "scheduled_wakes": null}),
+        json!({"last_assistant_message": null, "background_tasks": null, "scheduled_wakes": null, "cause": "rate-limited"}),
+    ];
+    for data in &written {
+        append(tmp.path(), EventKind::TurnEnded, data.clone());
+    }
+    let (lines, skipped) = read(tmp.path(), 0);
+    assert_eq!(kinds(&lines), ["turn-ended", "turn-ended", "turn-ended"]);
+    let read_back: Vec<&Value> = lines.iter().map(|l| &l.value["data"]).collect();
+    assert_eq!(read_back, written.iter().collect::<Vec<_>>());
+    assert_eq!(skipped.unknown_fields, 0);
+    assert_eq!(skipped, NONE_SKIPPED);
+}
