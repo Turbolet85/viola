@@ -1,0 +1,24 @@
+# Phase 1 site sweep — one pattern per moved fact the report names (Counts / qualifiers moved, Expected amendments).
+
+[[pattern]]
+id = 'ignore-list'
+regex = 'RUSTSEC-2026-0462|RUSTSEC-2026-0543|ignore list holds exactly|ignores exactly|three advisor|advisory ignore'
+ignore_case = true
+
+[[pattern]]
+id = 'fuzz-warnings'
+regex = 'advisory-not-detected'
+
+[[pattern]]
+id = 'verify-signal'
+regex = 'parent-death|tie_to_caller|PR_SET_PDEATHSIG|stamping (viola )?verify'
+ignore_case = true
+
+[[pattern]]
+id = 'advisory-rule'
+regex = 'no-advisory-ignored|no-ignored-advisories|rmcp-advisory-ignores|unmaintained|Critical CVE response|widen an ignore'
+ignore_case = true
+
+[[pattern]]
+id = 'kill-line'
+regex = 'verify-driven-tests-20s-kill|20 s kill|slow-timeout'

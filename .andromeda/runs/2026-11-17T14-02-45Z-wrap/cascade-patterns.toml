@@ -1,0 +1,13 @@
+# Main's own cascade patterns — the amended claims' old wording, beside rows-land's per-call file.
+
+[[pattern]]
+id = 'tied-verify-kill'
+regex = 'stamping (`)?viola verify(`)? to the test thread by a parent-death kill'
+
+[[pattern]]
+id = 'one-ignore'
+regex = 'the one admitted ignore|Never widen an ignore'
+
+[[pattern]]
+id = 'rmcp-ground-only'
+regex = 'sits only in an rmcp feature|standing until rmcp leaves'

@@ -1,0 +1,11 @@
+--- a/.andromeda/security-plan.md
++++ b/.andromeda/security-plan.md
+@@ -409,2 +409,4 @@
+ decision/actions-pinned-by-sha · GitHub Actions pinned by full commit SHA — Every GitHub Action is referenced by a full commit SHA with a version comment, never by @stable, @v2 or any mutable ref, and actions/checkout runs with persist-credentials: false.
++decision/advisory-ignore-grounds · Advisory ignores admitted on two grounds only — An advisory ignore stands on one of two grounds: the Critical CVE response to an advisory confined to a disabled feature, or an unmaintained advisory with no safe upgrade whose crate an upstream dependency brings into the graph; each carries its reason beside it. · why: The second ground widens the Critical CVE response; each unmaintained-upstream ignore is re-read at every epoch boundary, its only control.
++decision/advisory-ignore-list · Closed advisory ignore list — cargo-deny treats unmaintained and unsound advisories as failures, denies yanked crates and ignores exactly RUSTSEC-2026-0457, RUSTSEC-2026-0461 and RUSTSEC-2026-0462, each in an rmcp feature banned or off in the release graph, and RUSTSEC-2026-0543, chrono unmaintained with no safe upgrade. · why: The rmcp ids stand under the Critical CVE response until rmcp leaves its below-3.5 range; the chrono id stands on the unmaintained-upstream ground, re-read at each epoch boundary.
+ decision/bytes-advisory-floor · bytes version floor — The lockfile must resolve bytes >=1.11.1. · why: RUSTSEC-2026-0007
+@@ -445,3 +447,2 @@
+ decision/release-cache-poisoning-addressed · Cache-poisoning findings addressed before release — A v1.x release requires zizmor's cache-poisoning findings to be addressed.
+-decision/rmcp-advisory-ignores · Reasoned advisory ignores for disabled rmcp features — cargo-deny treats unmaintained and unsound advisories as failures, denies yanked crates and ignores exactly RUSTSEC-2026-0457, RUSTSEC-2026-0461 and RUSTSEC-2026-0462, each in an rmcp feature banned or off in the release graph, its reason naming it, standing until rmcp leaves its below-3.5 range. · why: Ratified, under the Critical CVE response for an advisory confined to a disabled feature.
+ decision/rmcp-http-server-and-auth-banned · rmcp HTTP server and auth features banned — cargo-deny denies the rmcp features transport-streamable-http-server and auth.

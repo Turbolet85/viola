@@ -1,2 +1,0 @@
-@none
-reason: the chunk ties the test-spawned viola children and the in-test harness supervisor to their test and rebuilds a hollow verify stamp; the report adds no interactive UI element and touches no CLI output, refusal, SGR, TUI boundary or a11y/obs schema (a11y n/a on every new surface, fct-tlwubjmh), and the picked stale rows naming std::process::Command drivers stay true since the tied spawn is still a std::process::Command (fct-y7jldnao), so no a11y-plan row is false or incomplete and the task carries no fact

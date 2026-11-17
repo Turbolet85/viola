@@ -1,2 +1,0 @@
-@none
-reason: The chunk changes only test support, test binaries, the test harness boot and the nextest CI profile (tying spawned viola children to their test, counting a stamp by its completion file); it adds no dependency, no telemetry, no log field, event, span or metric and no logging of user data (fct-xsoblpmo, fct-y7jldnao, fct-tlwubjmh instrumentation n/a · PII n/a), so every obs-plan row it touches stands true; the supply-chain cargo deny red on chrono is not this chunk's and its remedy is routed to route-resolve (fct-vnx3pil2), changing no decision a row states.
