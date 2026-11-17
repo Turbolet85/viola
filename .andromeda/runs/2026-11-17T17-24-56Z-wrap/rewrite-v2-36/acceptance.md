@@ -1,1 +1,0 @@
-Under viola run, a scheduled wake that fires leaves the wheel with its holder: the driver's next send is confirmed and the next question dialog is held for the driver, while a prompt the human types still takes the wheel.
