@@ -4,7 +4,9 @@
 use std::path::Path;
 use std::time::{Duration, Instant};
 
-use viola_e2e::harness::boot::{AgentsMode, BootOptions, DEFAULT_CLI_VERSION, InstanceSpec, boot};
+use viola_e2e::harness::boot::{
+    AgentsMode, BootOptions, DEFAULT_CLI_VERSION, INSTANCE_DEADLINE, InstanceSpec, boot,
+};
 use viola_e2e::harness::cleanup::{Target, cleanup};
 use viola_e2e::harness::logs::{Filter, logs};
 use viola_e2e::harness::status::status;
@@ -26,6 +28,7 @@ fn options(session: &str, names: &[&str], bin_dir: &Path) -> BootOptions {
         stamp: true,
         agents_mode: AgentsMode::Recorded,
         tied: true,
+        ready_deadline: INSTANCE_DEADLINE,
     }
 }
 
@@ -328,12 +331,19 @@ fn boot_that_never_gets_ready_times_out_and_stops_its_supervisor() {
     }
     let opts = BootOptions {
         stamp: false,
+        ready_deadline: Duration::from_secs(2),
         ..options(&session, &["builder"], fake_bins.path())
     };
     let ws = opts.ws.clone();
+    let began = Instant::now();
     let out = boot(&opts);
+    let wall = began.elapsed();
     assert_eq!(out.code, 1, "{}", out.doc);
     assert_eq!(out.doc["reason"], "readiness-timeout");
+    assert!(
+        wall < Duration::from_secs(10),
+        "the boot waited its own 2 s deadline, not the 20 s default: {wall:?}"
+    );
     assert_eq!(
         out.doc["missing"],
         serde_json::json!(["builder:run-process-start", "builder:child-process-start"])

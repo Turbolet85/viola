@@ -1,0 +1,10 @@
+[[control]]
+id = 'wake-capture'
+entry = 4
+guard = 'the capture sign in wake.rs: a capture line past send 1 mark tells the fired wake'
+case = 'rig_rehearsal_r3_reads_a_capture_line_past_send_one_as_the_fired_wake'
+
+[[control.edit]]
+path = 'crates/viola-e2e/src/rig/wake.rs'
+old = '''        if wrapped.capture_lines().len() > mark {'''
+new = '''        if false {'''

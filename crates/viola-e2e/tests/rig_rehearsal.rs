@@ -600,12 +600,208 @@ fn rig_reads_the_user_config_before_and_after() {
     let out = finished(rig);
     assert_eq!(
         word(&out, "user-config").as_deref(),
-        Some("changed"),
+        Some("changed-by-others"),
         "{}",
         stdout(&out)
     );
+    assert_eq!(word(&out, "needles").as_deref(), Some("1"));
     assert!(!stdout(&out).contains("rewritten"));
     assert!(!stdout(&out).contains(USER_CONFIG_TOKEN));
+}
+
+#[test]
+fn rig_reads_its_own_scratch_path_in_the_user_config_as_changed_by_rig() {
+    let case = Case::new();
+    let child = case.child(true, &[]);
+    let mut rig = case.rig("hold", &[], &child).spawn().expect("spawn");
+    case.await_first_frame(&mut rig);
+    let start_root = fs::read_dir(case.scratch())
+        .expect("scratch base")
+        .filter_map(Result::ok)
+        .map(|e| e.path())
+        .next()
+        .expect("the start's scratch root");
+    let start_root = fs::canonicalize(start_root).expect("canonical root");
+    let doc = serde_json::json!({
+        "projects": { start_root.join("cwd").display().to_string(): {"seen": true} }
+    });
+    fs::write(case.user_config(), doc.to_string()).expect("rewrite");
+    signal(&rig, libc::SIGINT);
+    let out = finished(rig);
+    let summary = stdout(&out);
+    assert_eq!(
+        word(&out, "user-config").as_deref(),
+        Some("changed-by-rig"),
+        "{summary}"
+    );
+    assert_eq!(word(&out, "needles").as_deref(), Some("1"));
+    assert_eq!(out.status.code(), Some(1), "{summary}");
+    assert!(!summary.contains(&start_root.display().to_string()));
+    assert!(!summary.contains(&case.root.path().display().to_string()));
+    assert!(!summary.contains("seen"));
+}
+
+fn viola() -> PathBuf {
+    bin_dir_from_exe(&std::env::current_exe().expect("test exe")).join("viola")
+}
+
+/// `cmd` rebuilt with `option`'s value replaced by `value`.
+fn with_option(cmd: &Command, option: &str, value: &str) -> Command {
+    let mut out = Command::new(cmd.get_program());
+    let mut it = cmd.get_args();
+    while let Some(a) = it.next() {
+        out.arg(a);
+        if a == option {
+            it.next();
+            out.arg(value);
+        }
+    }
+    out.env_remove("CI")
+        .stdin(Stdio::null())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped());
+    out
+}
+
+/// A wrapped wake rehearsal: `viola run` over the fake agent, its turns ended by `--turn-stop`.
+fn wake_rig(case: &Case, arm: &str, extra: &[&str]) -> Command {
+    let viola = viola().display().to_string();
+    let mut args = vec!["--viola", viola.as_str()];
+    args.extend_from_slice(extra);
+    let child = case.child(true, &["--turn-stop"]);
+    let cmd = case.rig(arm, &args, &child);
+    with_option(&cmd, "--settle", "6")
+}
+
+/// The teardown every rehearsal reads whole.
+fn assert_torn_down(out: &Output, case: &Case) {
+    let summary = stdout(out);
+    assert_eq!(word(out, "census").as_deref(), Some("0"), "{summary}");
+    assert_eq!(word(out, "credentials").as_deref(), Some("removed"));
+    assert_eq!(word(out, "scratch").as_deref(), Some("absent"));
+    assert_eq!(word(out, "user-config").as_deref(), Some("unchanged"));
+    assert!(case.scratch_empty(), "the scratch root stands");
+    assert!(
+        case.live_processes().is_empty(),
+        "a process the rig started outlived it"
+    );
+}
+
+#[test]
+fn rig_rehearsal_r3b_reads_no_wake_request_from_the_fake() {
+    let case = Case::new();
+    let out = run(wake_rig(&case, "r3b", &[]));
+    let summary = stdout(&out);
+    assert_eq!(out.status.code(), Some(0), "{summary}");
+    assert_eq!(word(&out, "session-start").as_deref(), Some("seen"));
+    assert_eq!(
+        word(&out, "send-1-reply").as_deref(),
+        Some("ok"),
+        "{summary}"
+    );
+    assert_eq!(
+        word(&out, "send-2-reply").as_deref(),
+        Some("ok"),
+        "{summary}"
+    );
+    assert_eq!(word(&out, "send-1-turn"), None, "{summary}");
+    assert_eq!(word(&out, "send-2-turn"), None, "{summary}");
+    // The recorded Stop the fake replays carries an empty `session_crons`: a count of 0.
+    assert_eq!(word(&out, "send-1-wakes").as_deref(), Some("0"));
+    assert_eq!(word(&out, "send-2-wakes").as_deref(), Some("0"));
+    assert_eq!(word(&out, "wake-request").as_deref(), Some("none"));
+    assert_eq!(word(&out, "send-1-capture").as_deref(), Some("0"));
+    assert_eq!(word(&out, "send-1-source").as_deref(), Some("none"));
+    assert_eq!(word(&out, "keys").as_deref(), Some("none"));
+    // The fake's recorded SessionStart id has the session-id shape: the id needle stands.
+    assert_eq!(word(&out, "needles").as_deref(), Some("2"), "{summary}");
+    assert_torn_down(&out, &case);
+}
+
+#[test]
+fn rig_rehearsal_r3_stands_to_its_bound_and_reads_the_wake_unfired() {
+    let case = Case::new();
+    let out = run(wake_rig(&case, "r3", &["--stand", "3"]));
+    let summary = stdout(&out);
+    assert_eq!(out.status.code(), Some(0), "{summary}");
+    assert_eq!(
+        word(&out, "send-1-reply").as_deref(),
+        Some("ok"),
+        "{summary}"
+    );
+    assert_eq!(word(&out, "wake").as_deref(), Some("unfired"));
+    assert_eq!(word(&out, "wake-sign").as_deref(), Some("none"));
+    assert_eq!(word(&out, "wake-origin").as_deref(), Some("absent"));
+    assert_eq!(word(&out, "capture-lines").as_deref(), Some("0"));
+    assert_eq!(word(&out, "capture-source").as_deref(), Some("unread"));
+    assert_eq!(word(&out, "capture-keys").as_deref(), Some("unread"));
+    assert_eq!(word(&out, "latency-ms").as_deref(), Some("unmeasured"));
+    assert_eq!(word(&out, "screen-ms").as_deref(), Some("unmeasured"));
+    assert_eq!(word(&out, "send-1-wakes").as_deref(), Some("0"));
+    assert_eq!(word(&out, "needles").as_deref(), Some("2"), "{summary}");
+    assert_torn_down(&out, &case);
+}
+
+#[test]
+fn rig_rehearsal_r3_reads_a_capture_line_past_send_one_as_the_fired_wake() {
+    let case = Case::new();
+    let cmd = wake_rig(&case, "r3", &["--stand", "6"]);
+    let mut rig = with_option(&cmd, "--deadline", "10")
+        .spawn()
+        .expect("spawn the rig");
+    let until = Instant::now() + WITHIN;
+    let root = loop {
+        let mark = fs::read_dir(case.scratch())
+            .ok()
+            .and_then(|mut d| d.next())
+            .and_then(Result::ok)
+            .map(|e| e.path())
+            .filter(|root| root.join("send-1.mark").is_file());
+        if let Some(root) = mark {
+            break root;
+        }
+        if Instant::now() >= until || rig.try_wait().expect("try_wait").is_some() {
+            let _ = rig.kill();
+            let _ = rig.wait();
+            panic!("the rig wrote no send-1 mark within {WITHIN:?}");
+        }
+        std::thread::sleep(Duration::from_millis(20));
+    };
+    let line = format!(
+        "{{\"keys\":[\"prompt\",\"source\"],\"other_keys\":0,\"source\":\"loop_wakeup\",\"ms\":{}}}\n",
+        now_ms()
+    );
+    let mut file = fs::OpenOptions::new()
+        .append(true)
+        .create(true)
+        .open(root.join("capture.ndjson"))
+        .expect("capture file");
+    std::io::Write::write_all(&mut file, line.as_bytes()).expect("capture line");
+    drop(file);
+    let out = finished(rig);
+    let summary = stdout(&out);
+    assert_eq!(word(&out, "wake").as_deref(), Some("fired"), "{summary}");
+    assert_eq!(word(&out, "wake-sign").as_deref(), Some("capture"));
+    assert_eq!(word(&out, "capture-source").as_deref(), Some("loop_wakeup"));
+    assert_eq!(word(&out, "capture-keys").as_deref(), Some("prompt,source"));
+    assert_eq!(word(&out, "send-1-capture").as_deref(), Some("0"));
+    assert_eq!(word(&out, "capture-lines").as_deref(), Some("1"));
+    assert_torn_down(&out, &case);
+}
+
+#[test]
+fn rig_rehearsal_im_reads_its_first_frame_and_stops_with_no_key() {
+    let case = Case::new();
+    let child = case.child(true, &[]);
+    let out = run(case.rig("im", &[], &child));
+    let summary = stdout(&out);
+    assert_eq!(out.status.code(), Some(0), "{summary}");
+    assert_eq!(word(&out, "modal").as_deref(), Some("none"));
+    assert_eq!(word(&out, "box").as_deref(), Some("up"));
+    assert_eq!(word(&out, "keys").as_deref(), Some("none"));
+    assert_eq!(word(&out, "stop").as_deref(), Some("killed-no-key"));
+    assert!(case.keys().is_empty(), "no key: {:?}", case.keys());
+    assert_torn_down(&out, &case);
 }
 
 #[test]

@@ -10,7 +10,8 @@ use std::process::Command;
 use serde_json::{Value, json};
 
 use super::super::boot::{
-    AgentsMode, BootOptions, DEFAULT_CLI_VERSION, InstanceSpec, boot, instance_dir,
+    AgentsMode, BootOptions, DEFAULT_CLI_VERSION, INSTANCE_DEADLINE, InstanceSpec, boot,
+    instance_dir,
 };
 use super::super::cleanup::{Target, cleanup};
 use super::super::{Outcome, Workspace};
@@ -180,6 +181,7 @@ pub(super) fn perf(
         stamp: false,
         agents_mode: AgentsMode::Recorded,
         tied: false,
+        ready_deadline: INSTANCE_DEADLINE,
     });
     let home = match booted_home(&booted.doc) {
         Ok(home) => home,

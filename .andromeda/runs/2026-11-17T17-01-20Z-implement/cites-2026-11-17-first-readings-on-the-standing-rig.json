@@ -1,0 +1,53 @@
+[
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "b0fc77d6",
+"ts": "2026-11-17T17:10:13Z",
+"argv": [
+"added",
+"--out",
+".andromeda/runs/2026-11-17T17-01-20Z-implement/new-text.md",
+"--run-dir",
+".andromeda/runs/2026-11-17T17-01-20Z-implement",
+"--marker",
+"2026-11-17-first-readings-on-the-standing-rig"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: 88e310ba — no pre-CI commit",
+".config/nextest.toml — added 4 line(s) in 2 range(s)",
+"crates/viola-e2e/src/bin/viola-live-rig.rs — added 27 line(s) in 9 range(s)",
+"crates/viola-e2e/src/harness/boot.rs — added 11 line(s) in 8 range(s)",
+"crates/viola-e2e/src/harness/run/perf.rs — added 3 line(s) in 2 range(s)",
+"crates/viola-e2e/src/rig/capture.rs — new file · 138 line(s)",
+"crates/viola-e2e/src/rig/isolate.rs — added 233 line(s) in 5 range(s)",
+"crates/viola-e2e/src/rig/mod.rs — added 157 line(s) in 35 range(s)",
+"crates/viola-e2e/src/rig/wake.rs — new file · 515 line(s)",
+"crates/viola-e2e/tests/cli.rs — added 4 line(s) in 2 range(s)",
+"crates/viola-e2e/tests/harness_lifecycle.rs — added 11 line(s) in 6 range(s)",
+"crates/viola-e2e/tests/rig_rehearsal.rs — added 197 line(s) in 3 range(s)",
+"new text: 11 file(s) · 2 new · 74 added range(s) · 1300 line(s) · 136 block(s) → .andromeda/runs/2026-11-17T17-01-20Z-implement/new-text.md (163 lines) · written"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-17T17-01-20Z-implement/new-text.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"base": "88e310babd39dc2f59204a1efe4699eac26762ca",
+"counts": {
+"files": 11,
+"new": 2,
+"ranges": 74,
+"lines": 1300,
+"blocks": 136
+},
+"out": ".andromeda/runs/2026-11-17T17-01-20Z-implement/new-text.md",
+"state": "written",
+"lines": 163
+}
+}
+]

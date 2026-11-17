@@ -3,11 +3,13 @@
 //! granted keys, keeps its frames under the gitignored `target/live-rig/`, and owns its isolation
 //! and its processes.
 //!
-//! - `rehearse <r1|r2|hold> --program <fake agent> [-- <child args>]`: one start over the fake
+//! - `rehearse <r1|r2|hold|r3b|r3|im> --program <fake agent> [-- <child args>]`: one start over the fake
 //!   agent (CI runs these).
-//! - `live <R1|R2|R1-2|R2-2> --cli <version> --cap <n> --spare <n> --ledger <file>`: one live start
+//! - `live <R1|R2|R3B|R3|IM|…-2|R3-326|R3D> --cli <version> --cap <n> --spare <n> --ledger <file>`: one live start
 //!   of the stamped `claude`, refused under `CI`.
 //! - `census [--kill]`: the processes an earlier, dead rig left, and their kill.
+//! - `capture --out <file>` (hidden): a wake start's UserPromptSubmit hook, one closed-word line
+//!   per payload.
 //!
 //! Exit: 0 a whole start · 1 a start that read red · 2 usage · 3 refused before the ledger line.
 
@@ -18,7 +20,8 @@ use std::time::Duration;
 use clap::{Args, Parser, Subcommand};
 use viola_e2e::rig::keys::Grant;
 use viola_e2e::rig::procs::{self, Scope};
-use viola_e2e::rig::{self, Arm, Plan, isolate};
+use viola_e2e::rig::wake::Wake;
+use viola_e2e::rig::{self, Arm, Plan, capture, isolate};
 
 #[derive(Parser)]
 #[command(name = "viola-live-rig")]
@@ -51,6 +54,11 @@ enum Verb {
         #[arg(long)]
         kill: bool,
     },
+    #[command(hide = true)]
+    Capture {
+        #[arg(long)]
+        out: PathBuf,
+    },
 }
 
 #[derive(Args)]
@@ -77,6 +85,12 @@ struct Common {
     /// Seconds one settle waits at most.
     #[arg(long, default_value_t = 60)]
     settle: u64,
+    /// R3: the wake form its send asks for, `interval` or `dynamic`.
+    #[arg(long, default_value = "interval")]
+    wake: String,
+    /// R3: seconds the start stands after its send for the wake to fire.
+    #[arg(long, default_value_t = 180)]
+    stand: u64,
 }
 
 fn user_home() -> PathBuf {
@@ -118,6 +132,11 @@ fn plan_of(label: String, arm: Arm, live: bool, common: Common) -> Option<Plan> 
             .unwrap_or_else(|| repo_root().join("target/live-rig")),
         deadline: Duration::from_secs(common.deadline),
         settle: Duration::from_secs(common.settle),
+        wake: Wake::parse(&common.wake)?,
+        stand: Duration::from_secs(common.stand),
+        rig: std::env::current_exe()
+            .ok()
+            .and_then(|exe| std::fs::canonicalize(exe).ok()),
     })
 }
 
@@ -139,6 +158,10 @@ fn main() -> ExitCode {
                 return ExitCode::from(u8::from(left > 0));
             }
             println!("census: {}", procs::census(Scope::Orphans).len());
+            return ExitCode::SUCCESS;
+        }
+        Verb::Capture { out } => {
+            capture::run(std::io::stdin().lock(), &out);
             return ExitCode::SUCCESS;
         }
         Verb::Rehearse {
@@ -170,7 +193,7 @@ fn main() -> ExitCode {
                 .join(".local/share/mise/installs/claude")
                 .join(&cli);
             plan.program = dir.join("claude");
-            if arm == Arm::R2 {
+            if arm.wrapped().is_some() {
                 plan.child_args = vec!["--model".to_owned(), "haiku".to_owned()];
                 plan.viola = std::env::current_exe()
                     .ok()

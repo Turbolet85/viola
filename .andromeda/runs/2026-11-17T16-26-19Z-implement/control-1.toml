@@ -1,0 +1,21 @@
+[[control]]
+id = 'capture-keys'
+entry = 3
+guard = 'the key-name filter in capture.rs: an off-pattern name is counted in other_keys, never listed'
+case = 'a_line_lists_only_patterned_key_names_and_no_value'
+
+[[control.edit]]
+path = 'crates/viola-e2e/src/rig/capture.rs'
+old = '''        .filter(|k| listed(k))'''
+new = '''        .filter(|_| true)'''
+
+[[control]]
+id = 'capture-source'
+entry = 3
+guard = 'the closed source words: a string outside the two wake words reads other'
+case = 'each_source_reads_its_closed_word'
+
+[[control.edit]]
+path = 'crates/viola-e2e/src/rig/capture.rs'
+old = '''        "source": source_word(&payload),'''
+new = '''        "source": payload.get("source").and_then(Value::as_str).map_or_else(|| source_word(&payload).to_owned(), str::to_owned),'''

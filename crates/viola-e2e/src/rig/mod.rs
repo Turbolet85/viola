@@ -7,15 +7,18 @@
 //! credentials copy → the spawn → the arm → the stop → the teardown (census, credentials, root) →
 //! the user config read again → the summary. Every refusal before the ledger line is uncounted.
 
+pub mod capture;
 pub mod isolate;
 pub mod keys;
 pub mod ledger;
 pub mod procs;
 pub mod screen;
+pub mod wake;
 
 use std::ffi::OsString;
 use std::fs::{self, File};
 use std::io::{Read as _, Seek as _, SeekFrom, Write};
+use std::os::unix::ffi::OsStrExt as _;
 use std::path::{Path, PathBuf};
 use std::process::{Command, Output, Stdio};
 use std::sync::mpsc::{Receiver, RecvTimeoutError, channel};
@@ -57,6 +60,12 @@ pub enum Arm {
     R2,
     /// The child held until it exits or the stop comes (the exit-path rehearsals).
     Hold,
+    /// Wrapped, two sends asking for a scheduled wake; `turn-ended`'s `scheduled_wakes` read.
+    R3B,
+    /// Wrapped, one send asking for a short wake, then standing until it fires; no key.
+    R3,
+    /// Unwrapped in a cwd whose `CLAUDE.md` imports a file outside it; stopped with no key.
+    IM,
 }
 
 impl Arm {
@@ -65,15 +74,22 @@ impl Arm {
             "r1" => Some(Self::R1),
             "r2" => Some(Self::R2),
             "hold" => Some(Self::Hold),
+            "r3b" => Some(Self::R3B),
+            "r3" => Some(Self::R3),
+            "im" => Some(Self::IM),
             _ => None,
         }
     }
 
-    /// A live label's arm: `R1` / `R1-2` and `R2` / `R2-2`.
+    /// A live label's arm: `R1` / `R1-2`, `R2` / `R2-2`, `R3B` / `R3B-2`, `R3` / `R3-2` / `R3-326`
+    /// / `R3D` and `IM` / `IM-2`.
     pub fn of_label(label: &str) -> Option<Self> {
         match label {
             "R1" | "R1-2" => Some(Self::R1),
             "R2" | "R2-2" => Some(Self::R2),
+            "R3B" | "R3B-2" => Some(Self::R3B),
+            "R3" | "R3-2" | "R3-326" | "R3D" => Some(Self::R3),
+            "IM" | "IM-2" => Some(Self::IM),
             _ => None,
         }
     }
@@ -83,7 +99,24 @@ impl Arm {
             Self::R1 => "r1",
             Self::R2 => "r2",
             Self::Hold => "hold",
+            Self::R3B => "r3b",
+            Self::R3 => "r3",
+            Self::IM => "im",
         }
+    }
+
+    /// The wrapped instance's name, for an arm that starts `viola run`.
+    pub const fn wrapped(self) -> Option<&'static str> {
+        match self {
+            Self::R2 => Some(R2_NAME),
+            Self::R3B | Self::R3 => Some(wake::WAKE_NAME),
+            Self::R1 | Self::Hold | Self::IM => None,
+        }
+    }
+
+    /// Whether the start's cwd is trusted in its private config.
+    const fn trusted(self) -> bool {
+        matches!(self, Self::R2 | Self::R3B | Self::R3 | Self::IM)
     }
 }
 
@@ -111,6 +144,12 @@ pub struct Plan {
     pub out: PathBuf,
     pub deadline: Duration,
     pub settle: Duration,
+    /// R3: the wake form its one send asks for.
+    pub wake: wake::Wake,
+    /// R3: how long the start stands after send 1 for the wake to fire.
+    pub stand: Duration,
+    /// The rig's own binary, which a wake start's capture hook runs.
+    pub rig: Option<PathBuf>,
 }
 
 /// The summary, `key: word` pairs in the order they were read.
@@ -186,23 +225,46 @@ pub fn start(plan: &Plan) -> u8 {
     }
     let run = procs::run_id();
     procs::watchdog(plan.deadline);
-    let mut scratch = match Scratch::create(&plan.scratch_base, &run, plan.arm == Arm::R2) {
+    let mut needles = vec![plan.scratch_base.join(&run).as_os_str().as_bytes().to_vec()];
+    let mut scratch = match Scratch::create(&plan.scratch_base, &run, plan.arm.wrapped().is_some())
+    {
         Ok(scratch) => scratch,
         Err(_) => {
             summary.put("refused", "scratch");
-            return finish(plan, ledger.as_ref(), summary, &before, None);
+            return finish(plan, ledger.as_ref(), summary, &before, None, &needles);
         }
     };
+    // The path needle: the canonical scratch root, under which every path the child names lies.
+    if let Ok(root) = fs::canonicalize(&scratch.root) {
+        needles[0] = root.as_os_str().as_bytes().to_vec();
+    }
     let placed = scratch.place_credentials(&credentials).is_ok()
-        && scratch.seed_config(plan.arm == Arm::R2).is_ok();
+        && scratch.seed_config(plan.arm.trusted()).is_ok();
     drop(credentials);
-    if placed {
-        run_child(plan, &run, &scratch, &mut summary);
-    } else {
+    let seeded = match plan.arm {
+        Arm::R3B | Arm::R3 => plan
+            .rig
+            .as_deref()
+            .is_some_and(|rig| scratch.seed_capture(rig).is_ok()),
+        Arm::IM => scratch.seed_imports().is_ok(),
+        Arm::R1 | Arm::R2 | Arm::Hold => true,
+    };
+    if !placed {
         summary.put("refused", "credentials");
+    } else if !seeded {
+        summary.put("refused", "seed");
+    } else if let Some(id) = run_child(plan, &run, &scratch, &mut summary) {
+        needles.push(id.into_bytes());
     }
     let teardown = scratch.teardown();
-    finish(plan, ledger.as_ref(), summary, &before, Some(teardown))
+    finish(
+        plan,
+        ledger.as_ref(),
+        summary,
+        &before,
+        Some(teardown),
+        &needles,
+    )
 }
 
 /// The teardown's words, the user config's second read and the summary; the exit code.
@@ -212,16 +274,24 @@ fn finish(
     mut summary: Summary,
     before: &isolate::Stamp,
     teardown: Option<isolate::Teardown>,
+    needles: &[Vec<u8>],
 ) -> u8 {
     if let Some(t) = &teardown {
         summary.put("census", t.census.clone());
         summary.put("credentials", t.credentials);
         summary.put("scratch", t.scratch);
     }
-    summary.put(
-        "user-config",
-        isolate::compare(before, &isolate::stamp(&plan.user_config)),
-    );
+    let after = isolate::stamp(&plan.user_config);
+    let read = (isolate::compare(before, &after) == "changed").then(|| {
+        let home = std::env::var_os("HOME")
+            .map(PathBuf::from)
+            .unwrap_or_default();
+        isolate::read_moved(&plan.user_config, &home)
+    });
+    let marks: Vec<&[u8]> = needles.iter().map(Vec::as_slice).collect();
+    let user_config = isolate::witness(before, &after, read.flatten().as_deref(), &marks);
+    summary.put("user-config", user_config);
+    summary.put("needles", needles.len().to_string());
     ledger::print_summary(&summary.0);
     if let Some(ledger) = ledger {
         let _ = ledger.summary(&plan.label, &summary.0);
@@ -230,6 +300,7 @@ fn finish(
         .is_some_and(|t| t.census == "0" && t.credentials == "removed" && t.scratch == "absent")
         && summary.get("refused").is_none()
         && summary.get("stopped-by").is_none()
+        && user_config != "changed-by-rig"
         && summary
             .get("child")
             .is_none_or(|c| c == "stopped" || c == "exit 0");
@@ -295,6 +366,8 @@ struct Session {
     exit: Option<u32>,
     frames: Option<Frames>,
     settles: Vec<u128>,
+    /// The child's session id, from a wrapped arm's first `session-start`, of the session-id shape.
+    session_id: Option<String>,
 }
 
 impl Session {
@@ -320,6 +393,7 @@ impl Session {
             exit: None,
             frames: None,
             settles: Vec::new(),
+            session_id: None,
         })
     }
 
@@ -409,20 +483,48 @@ impl Session {
             },
         );
     }
+
+    /// Keeps a `session-start`'s `agent_session_id` when it has the session-id shape.
+    fn learn_id(&mut self, data: &Value) {
+        if let Some(id) = data["agent_session_id"]
+            .as_str()
+            .filter(|id| viola_agent_claude::is_session_id(id))
+        {
+            self.session_id = Some(id.to_owned());
+        }
+    }
+
+    /// No byte typed: the child's group SIGKILLed and the pty killed, its exit waited 2 s.
+    fn stop_no_key(&mut self, summary: &mut Summary) {
+        if self.exit.is_some() {
+            summary.put("stop", "none");
+            return;
+        }
+        if let Some(pid) = self.pty.child_pid() {
+            procs::kill_group(pid);
+        }
+        let _ = self.pty.kill();
+        let until = Instant::now() + Duration::from_secs(2);
+        while self.exit.is_none() && Instant::now() < until {
+            self.pump(Duration::from_millis(50));
+        }
+        summary.put("stop", "killed-no-key");
+    }
 }
 
-fn run_child(plan: &Plan, run: &str, scratch: &Scratch, summary: &mut Summary) {
+/// Runs the child and its arm; the child's session id when a wrapped arm learned one.
+fn run_child(plan: &Plan, run: &str, scratch: &Scratch, summary: &mut Summary) -> Option<String> {
     let env = isolate::child_env(plan.cli_dir.as_deref(), &scratch.config, run);
     let child_args: Vec<OsString> = plan
         .child_args
         .iter()
         .map(|a| OsString::from(a.replace("{cwd}", &scratch.cwd.to_string_lossy())))
         .collect();
-    let (program, args) = match (plan.arm, &scratch.vhome) {
-        (Arm::R2, Some(vhome)) => {
+    let (program, args) = match (plan.arm.wrapped(), &scratch.vhome) {
+        (Some(name), Some(vhome)) => {
             let Some(viola) = &plan.viola else {
                 summary.put("refused", "viola");
-                return;
+                return None;
             };
             summary.put(
                 "viola-build",
@@ -432,7 +534,7 @@ fn run_child(plan: &Plan, run: &str, scratch: &Scratch, summary: &mut Summary) {
                 "--home".into(),
                 vhome.into(),
                 "run".into(),
-                R2_NAME.into(),
+                name.into(),
                 "--".into(),
                 plan.program.clone().into(),
             ];
@@ -454,19 +556,26 @@ fn run_child(plan: &Plan, run: &str, scratch: &Scratch, summary: &mut Summary) {
     };
     let Some(mut session) = Session::spawn(&spec) else {
         summary.put("refused", "spawn");
-        return;
+        return None;
     };
     session.frames = Frames::open(&plan.out, run).ok();
     match plan.arm {
         Arm::R1 => arm_r1(plan, &mut session, summary),
         Arm::R2 => arm_r2(plan, scratch, &env, &mut session, summary),
         Arm::Hold => arm_hold(plan, &mut session),
+        Arm::R3B => wake::arm_r3b(plan, scratch, &env, &mut session, summary),
+        Arm::R3 => wake::arm_r3(plan, scratch, &env, &mut session, summary),
+        Arm::IM => arm_im(plan, &mut session, summary),
     }
     if let Some(reason) = procs::stop_requested() {
         summary.put("stopped-by", reason);
     }
     let exited_alone = session.exit;
-    session.stop(summary);
+    if plan.arm == Arm::IM {
+        session.stop_no_key(summary);
+    } else {
+        session.stop(summary);
+    }
     session.keep("final");
     summary.put(
         "child",
@@ -490,6 +599,7 @@ fn run_child(plan: &Plan, run: &str, scratch: &Scratch, summary: &mut Summary) {
     );
     drop(session.writer);
     session.pty.close();
+    session.session_id
 }
 
 /// The first frame: a dialog, the box, or anything else that stood quiet.
@@ -587,6 +697,13 @@ fn r1_keys(
         summary.put("box-text", session.reading().box_text);
     }
     Ok(())
+}
+
+/// The imports arm: the first frame's reading alone; the stop types no key.
+fn arm_im(plan: &Plan, session: &mut Session, summary: &mut Summary) {
+    let first = first_frame(plan, session);
+    record_reading(summary, &first);
+    summary.put("keys", "none");
 }
 
 fn arm_hold(plan: &Plan, session: &mut Session) {
@@ -704,10 +821,12 @@ fn arm_r2(
     };
     let events = vhome.join("instances").join(R2_NAME).join("events.ndjson");
     let mut offset = 0;
-    if await_kind(&events, &mut offset, "session-start", plan.settle, session).is_none() {
+    let Some(started) = await_kind(&events, &mut offset, "session-start", plan.settle, session)
+    else {
         summary.put("refused", "no-session-start");
         return;
-    }
+    };
+    session.learn_id(&started);
     let texts = scratch.root.join("texts");
     if viola_state::fs::create_private_dir(&texts).is_err() {
         summary.put("refused", "texts");
@@ -782,7 +901,23 @@ mod tests {
         assert_eq!(Arm::parse("r1"), Some(Arm::R1));
         assert_eq!(Arm::parse("live"), None);
         assert_eq!(Arm::of_label("R2-2"), Some(Arm::R2));
-        assert_eq!(Arm::of_label("R3"), None);
+        assert_eq!(Arm::parse("r3b"), Some(Arm::R3B));
+        assert_eq!(Arm::parse("r3"), Some(Arm::R3));
+        assert_eq!(Arm::parse("im"), Some(Arm::IM));
+        for (label, arm) in [
+            ("R3B", Arm::R3B),
+            ("R3B-2", Arm::R3B),
+            ("R3", Arm::R3),
+            ("R3-2", Arm::R3),
+            ("R3-326", Arm::R3),
+            ("R3D", Arm::R3),
+            ("IM", Arm::IM),
+            ("IM-2", Arm::IM),
+        ] {
+            assert_eq!(Arm::of_label(label), Some(arm), "{label}");
+        }
+        assert_eq!(Arm::of_label("R4"), None);
+        assert_eq!(Arm::of_label("R3-3"), None);
     }
 
     #[test]

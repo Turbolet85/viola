@@ -1,0 +1,303 @@
+[
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "a387b943",
+"ts": "2026-11-17T14:55:47Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-17-first-readings-on-the-standing-rig",
+"--source",
+"~/dev/projects/additional/viola-overseer/phase-first-readings-directive.md",
+"--kind",
+"relay",
+"--why",
+"the overseer phase directive: scope as the entry and its six carries at 88e310ba, the CLI binaries measured, size-first block at P3 end, the nextest fork decided at phase",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-11-17T14-54-57Z-phase",
+"--marker",
+"2026-11-17-first-readings-on-the-standing-rig"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy no-repo · ../additional/viola-overseer/phase-first-readings-directive.md",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-phase-first-readings-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/phase-first-readings-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "06ce58800b32099a7ea0cb840196677bcea7c7cf7e35b4d4899236fffe35ee94",
+"copy": "I1-phase-first-readings-directive.md.txt",
+"link": false,
+"read_at": "2026-11-17T14:55:47Z",
+"step": "phase:P1",
+"why": "the overseer phase directive: scope as the entry and its six carries at 88e310ba, the CLI binaries measured, size-first block at P3 end, the nextest fork decided at phase"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "a387b943",
+"ts": "2026-11-17T16:05:40Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-17-first-readings-on-the-standing-rig",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-first-readings-p3.md",
+"--kind",
+"relay",
+"--why",
+"the founder answers to the P3 size block: R4 to The 2.1.325 recorded fixture set, cap 4 starts + 3 spares, rig capture ratified, no key; the overseer technical answers: no-key group kill, shortened wait, start order",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-11-17T14-54-57Z-phase",
+"--marker",
+"2026-11-17-first-readings-on-the-standing-rig"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy no-repo · ../additional/viola-overseer/relay-first-readings-p3.md",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-first-readings-p3.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-first-readings-p3.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "1966ed08cdcd76de57da5cba87cda57fdf437c8731c16c3147cee72e747c96bb",
+"copy": "I2-relay-first-readings-p3.md.txt",
+"link": false,
+"read_at": "2026-11-17T16:05:39Z",
+"step": "phase:P4",
+"why": "the founder answers to the P3 size block: R4 to The 2.1.325 recorded fixture set, cap 4 starts + 3 spares, rig capture ratified, no key; the overseer technical answers: no-key group kill, shortened wait, start order"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "a387b943",
+"ts": "2026-11-17T16:17:20Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-17-first-readings-on-the-standing-rig",
+"--run-dir",
+".andromeda/runs/2026-11-17T14-54-57Z-phase",
+"--marker",
+"2026-11-17-first-readings-on-the-standing-rig"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-first-readings-directive.md",
+"I1 cited scope.md:11 · scope.md:58 · research.md:7 · plan.md:26 · plan.md:348",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-first-readings-p3.md",
+"I2 cited research.md:43 · plan.md:19 · plan.md:20 · plan.md:23 · plan.md:24 · plan.md:57 · plan.md:118 · plan.md:119 · plan.md:124 · plan.md:126 · plan.md:260 (in fence) · plan.md:282 (in fence) · plan.md:293 (in fence) · plan.md:331 · plan.md:332 · plan.md:338 · plan.md:348 · plan.md:351 · plan.md:353 · plan.md:355 · plan.md:358 · plan.md:370",
+"inputs: 2 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "a387b943",
+"ts": "2026-11-17T16:20:49Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-17-first-readings-on-the-standing-rig",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-first-readings-p5-review.md",
+"--kind",
+"relay",
+"--why",
+"the overseer P5 review of p5-card-1: R3-326 on a transport-only wrapper read from the code, send 1 capture lines marked, headroom of at least 60 s under the watchdog",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-11-17T14-54-57Z-phase",
+"--marker",
+"2026-11-17-first-readings-on-the-standing-rig"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy no-repo · ../additional/viola-overseer/relay-first-readings-p5-review.md",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-first-readings-p5-review.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-first-readings-p5-review.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "f0b611c9acbd56a9ae742b80a818be18ab2c648c338af979cdfa3e2fa3c4be01",
+"copy": "I3-relay-first-readings-p5-review.md.txt",
+"link": false,
+"read_at": "2026-11-17T16:20:48Z",
+"step": "phase:P5",
+"why": "the overseer P5 review of p5-card-1: R3-326 on a transport-only wrapper read from the code, send 1 capture lines marked, headroom of at least 60 s under the watchdog"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "a387b943",
+"ts": "2026-11-17T16:24:19Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-17-first-readings-on-the-standing-rig",
+"--run-dir",
+".andromeda/runs/2026-11-17T14-54-57Z-phase",
+"--marker",
+"2026-11-17-first-readings-on-the-standing-rig"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-first-readings-directive.md",
+"I1 cited scope.md:11 · scope.md:58 · research.md:7 · plan.md:26 · plan.md:385",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-first-readings-p3.md",
+"I2 cited scope.md:25 · research.md:46 · plan.md:19 · plan.md:20 · plan.md:23 · plan.md:24 · plan.md:57 · plan.md:143 · plan.md:144 · plan.md:149 · plan.md:151 · plan.md:296 (in fence) · plan.md:318 (in fence) · plan.md:329 (in fence) · plan.md:367 · plan.md:368 · plan.md:375 · plan.md:385 · plan.md:388 · plan.md:390 · plan.md:392 · plan.md:395 · plan.md:407",
+"I3 unchanged · copy no-repo · ../additional/viola-overseer/relay-first-readings-p5-review.md",
+"I3 cited research.md:18 · plan.md:80 · plan.md:90 · plan.md:372 · plan.md:373 · plan.md:400",
+"inputs: 3 entries — unchanged 3 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 3,
+"counts": {
+"unchanged": 3,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "a387b943",
+"ts": "2026-11-17T16:25:23Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-17-first-readings-on-the-standing-rig",
+"--message-file",
+".andromeda/runs/2026-11-17T14-54-57Z-phase/relay-1.md",
+"--origin",
+"operator (this session, own word)",
+"--kind",
+"relay",
+"--why",
+"the P5 word yes on .andromeda/runs/2026-11-17T14-54-57Z-phase/p5-card-2.md, the operator own word, approving its Beyond the plan rows (R4 and the placeholder-hint question to The 2.1.325 recorded fixture set)",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-11-17T14-54-57Z-phase",
+"--marker",
+"2026-11-17-first-readings-on-the-standing-rig"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy message · message: operator (this session, own word)",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "relay",
+"repo": null,
+"path": "message: operator (this session, own word)",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "6f52efdbe5205eb562a8252ca431af3408f2a8510416ab8d3cd695f126263e60",
+"copy": "I4-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-17T16:25:22Z",
+"step": "phase:P5",
+"why": "the P5 word yes on .andromeda/runs/2026-11-17T14-54-57Z-phase/p5-card-2.md, the operator own word, approving its Beyond the plan rows (R4 and the placeholder-hint question to The 2.1.325 recorded fixture set)"
+}
+}
+]

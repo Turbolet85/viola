@@ -1,0 +1,206 @@
+[
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T16:52:32Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"scope",
+"--owner",
+"chk:2026-11-17-first-readings-on-the-standing-rig",
+"--file",
+".andromeda/cache/docs/2026-11-17-first-readings-on-the-standing-rig/scope.md",
+"--expect-rev",
+"4",
+"--run-dir",
+".andromeda/runs/2026-11-17T16-50-56Z-phase",
+"--marker",
+"2026-11-17-first-readings-on-the-standing-rig"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-17-first-readings-on-the-standing-rig/scope rev 5 · 2 new · 1 revised · 0 retired · 18 kept · tx 2401"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T14-55-42-2026-11-17-first-readings-on-the-standing-rig.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T16:56:16Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"plan",
+"--owner",
+"chk:2026-11-17-first-readings-on-the-standing-rig",
+"--file",
+".andromeda/cache/docs/2026-11-17-first-readings-on-the-standing-rig/plan.md",
+"--expect-rev",
+"4",
+"--run-dir",
+".andromeda/runs/2026-11-17T16-50-56Z-phase",
+"--marker",
+"2026-11-17-first-readings-on-the-standing-rig"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-17-first-readings-on-the-standing-rig/plan rev 5 · 22 new · 26 revised · 2 retired · 64 kept · tx 2403"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T14-55-42-2026-11-17-first-readings-on-the-standing-rig.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T16:56:35Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"plan",
+"--owner",
+"chk:2026-11-17-first-readings-on-the-standing-rig",
+"--file",
+".andromeda/cache/docs/2026-11-17-first-readings-on-the-standing-rig/plan.md",
+"--expect-rev",
+"5",
+"--run-dir",
+".andromeda/runs/2026-11-17T16-50-56Z-phase",
+"--marker",
+"2026-11-17-first-readings-on-the-standing-rig"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-17-first-readings-on-the-standing-rig/plan rev 6 · 0 new · 1 revised · 0 retired · 111 kept · tx 2404"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T14-55-42-2026-11-17-first-readings-on-the-standing-rig.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T16:56:44Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"plan",
+"--owner",
+"chk:2026-11-17-first-readings-on-the-standing-rig",
+"--file",
+".andromeda/cache/docs/2026-11-17-first-readings-on-the-standing-rig/plan.md",
+"--expect-rev",
+"6",
+"--run-dir",
+".andromeda/runs/2026-11-17T16-50-56Z-phase",
+"--marker",
+"2026-11-17-first-readings-on-the-standing-rig"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-17-first-readings-on-the-standing-rig/plan rev 7 · 0 new · 1 revised · 0 retired · 111 kept · tx 2405"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T14-55-42-2026-11-17-first-readings-on-the-standing-rig.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T16:57:18Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"research",
+"--owner",
+"chk:2026-11-17-first-readings-on-the-standing-rig",
+"--file",
+".andromeda/cache/docs/2026-11-17-first-readings-on-the-standing-rig/research.md",
+"--expect-rev",
+"3",
+"--run-dir",
+".andromeda/runs/2026-11-17T16-50-56Z-phase",
+"--marker",
+"2026-11-17-first-readings-on-the-standing-rig"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-17-first-readings-on-the-standing-rig/research rev 4 · 4 new · 2 revised · 2 retired · 45 kept · tx 2407"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T14-55-42-2026-11-17-first-readings-on-the-standing-rig.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T16:59:03Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"plan",
+"--owner",
+"chk:2026-11-17-first-readings-on-the-standing-rig",
+"--file",
+".andromeda/cache/docs/2026-11-17-first-readings-on-the-standing-rig/plan.md",
+"--expect-rev",
+"7",
+"--run-dir",
+".andromeda/runs/2026-11-17T16-50-56Z-phase",
+"--marker",
+"2026-11-17-first-readings-on-the-standing-rig"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-17-first-readings-on-the-standing-rig/plan rev 8 · 0 new · 1 revised · 0 retired · 111 kept · tx 2408"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T14-55-42-2026-11-17-first-readings-on-the-standing-rig.ndjson"
+],
+"before": null,
+"after": null
+}
+]

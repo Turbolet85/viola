@@ -22,7 +22,8 @@ use super::{
 };
 
 pub const DEFAULT_CLI_VERSION: &str = "2.1.287";
-const INSTANCE_DEADLINE: Duration = Duration::from_secs(20);
+/// Each instance's readiness deadline after the build, unless a boot's options carry another.
+pub const INSTANCE_DEADLINE: Duration = Duration::from_secs(20);
 const ABORT_DEADLINE: Duration = Duration::from_secs(20);
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -97,6 +98,9 @@ pub struct BootOptions {
     /// takes `SIGKILL`; the verify takes `SIGTERM`, so its own stop removes its own dirs. The CLI
     /// `boot`'s supervisor is an ordinary child that outlives `boot`.
     pub tied: bool,
+    /// How long `start` waits for each instance to read ready ([`INSTANCE_DEADLINE`] but where a
+    /// test shortens its own wait).
+    pub ready_deadline: Duration,
 }
 
 impl BootOptions {
@@ -119,6 +123,7 @@ impl BootOptions {
             stamp,
             agents_mode,
             tied: true,
+            ready_deadline: INSTANCE_DEADLINE,
         }
     }
 
@@ -141,6 +146,7 @@ impl BootOptions {
             stamp,
             agents_mode,
             tied: false,
+            ready_deadline: INSTANCE_DEADLINE,
         }
     }
 }
@@ -264,7 +270,7 @@ fn start(opts: &BootOptions) -> Result<Outcome, HarnessError> {
 
     let mut instances = Vec::new();
     for inst in &opts.instances {
-        match wait_ready(&home, inst, Instant::now() + INSTANCE_DEADLINE) {
+        match wait_ready(&home, inst, Instant::now() + opts.ready_deadline) {
             Ok(record) => instances.push(record),
             Err(failed) => {
                 let _ = fs::write(session_dir.join("stop.request"), b"");
@@ -886,6 +892,7 @@ mod tests {
                 stamp: true,
                 agents_mode: AgentsMode::Recorded,
                 tied: false,
+                ready_deadline: INSTANCE_DEADLINE,
             };
             let got = stamp(&opts, &tmp.path().join("home"), tmp.path());
             assert_eq!(got, want, "exit {code}, last line {last:?}");
@@ -957,6 +964,7 @@ mod tests {
             build: false,
             agents_mode: AgentsMode::Recorded,
             tied: false,
+            ready_deadline: INSTANCE_DEADLINE,
         };
         let out = boot(&opts);
         assert_eq!(out.code, 2);
@@ -978,6 +986,7 @@ mod tests {
             build: true,
             agents_mode: AgentsMode::Recorded,
             tied: false,
+            ready_deadline: INSTANCE_DEADLINE,
         };
         let out = boot(&opts);
         assert_eq!(out.code, 1);

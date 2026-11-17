@@ -82,6 +82,53 @@ pub fn compare(before: &Stamp, after: &Stamp) -> &'static str {
     }
 }
 
+/// The user config's word: `unchanged` / `absent` while the stamp held; past a moved stamp,
+/// `unread` with no bytes read, `changed-by-rig` when the read holds one of the rig's own needles,
+/// else `changed-by-others`. The bytes are searched and nothing of them is kept.
+pub fn witness(
+    before: &Stamp,
+    after: &Stamp,
+    read: Option<&[u8]>,
+    needles: &[&[u8]],
+) -> &'static str {
+    let held = compare(before, after);
+    if held != "changed" {
+        return held;
+    }
+    let Some(bytes) = read else {
+        return "unread";
+    };
+    if needles.iter().any(|needle| holds(bytes, needle)) {
+        "changed-by-rig"
+    } else {
+        "changed-by-others"
+    }
+}
+
+fn holds(bytes: &[u8], needle: &[u8]) -> bool {
+    !needle.is_empty() && bytes.windows(needle.len()).any(|w| w == needle)
+}
+
+/// The user config read once after a moved stamp, through `MAX_FRAME`: `None` when absent,
+/// unreadable, over the bound, or a symbolic link whose target lies outside `home`.
+pub fn read_moved(path: &Path, home: &Path) -> Option<Vec<u8>> {
+    if fs::symlink_metadata(path).ok()?.file_type().is_symlink() {
+        let target = fs::canonicalize(path).ok()?;
+        if !target.starts_with(fs::canonicalize(home).ok()?) {
+            return None;
+        }
+    }
+    let mut bytes = Vec::new();
+    File::open(path)
+        .ok()?
+        .take(MAX_FRAME + 1)
+        .read_to_end(&mut bytes)
+        .ok()?;
+    u64::try_from(bytes.len())
+        .is_ok_and(|n| n <= MAX_FRAME)
+        .then_some(bytes)
+}
+
 /// The child's environment, built from nothing: the kept host names, `TERM`, the private config
 /// dir and the run marker; `cli_dir` first on `PATH`.
 pub fn child_env(cli_dir: Option<&Path>, config: &Path, run: &str) -> Vec<(OsString, OsString)> {
@@ -184,6 +231,44 @@ impl Scratch {
         write_private(&self.config.join(".claude.json"), &seed)
     }
 
+    /// The capture file a wake start's hook appends to.
+    pub fn capture_file(&self) -> PathBuf {
+        self.root.join("capture.ndjson")
+    }
+
+    /// The private config's `settings.json`: one UserPromptSubmit hook running `rig capture --out
+    /// <root>/capture.ndjson`. Both paths are absolute and hold no shell metacharacter, else nothing
+    /// is written and the seed fails.
+    pub fn seed_capture(&self, rig: &Path) -> io::Result<()> {
+        let out = self.capture_file();
+        if !shell_plain(rig) || !shell_plain(&out) {
+            return Err(io::Error::other("capture hook path refused"));
+        }
+        let command = format!("{} capture --out {}", rig.display(), out.display());
+        let settings = json!({
+            "hooks": {
+                "UserPromptSubmit": [
+                    {"hooks": [{"type": "command", "command": command}]}
+                ]
+            }
+        });
+        write_private(&self.config.join("settings.json"), &settings)
+    }
+
+    /// The imports seed: a file under `<root>/outside/` (outside the cwd, inside the scratch root)
+    /// and the cwd's `CLAUDE.md` whose one line imports it.
+    pub fn seed_imports(&self) -> io::Result<()> {
+        let outside = self.root.join("outside");
+        create_private_dir(&outside)?;
+        let outside = fs::canonicalize(outside)?;
+        let imported = outside.join("imported.md");
+        replace_private(&imported, b"Reply tersely.\n", FILE_MODE)
+            .map_err(|_| io::Error::other("imports seed failed"))?;
+        let line = format!("@{}\n", imported.display());
+        replace_private(&self.cwd.join("CLAUDE.md"), line.as_bytes(), FILE_MODE)
+            .map_err(|_| io::Error::other("imports seed failed"))
+    }
+
     /// Census → the credentials copy removed → the scratch root removed → read absent.
     pub fn teardown(&mut self) -> Teardown {
         if let Some(done) = &self.torn_down {
@@ -229,6 +314,15 @@ impl Drop for Scratch {
     fn drop(&mut self) {
         self.teardown();
     }
+}
+
+/// An absolute path a hook command may name unquoted: `[A-Za-z0-9/._-]` only.
+fn shell_plain(path: &Path) -> bool {
+    path.is_absolute()
+        && path.to_str().is_some_and(|s| {
+            s.bytes()
+                .all(|b| b.is_ascii_alphanumeric() || matches!(b, b'/' | b'.' | b'_' | b'-'))
+        })
 }
 
 fn write_private(path: &Path, doc: &Value) -> io::Result<()> {
@@ -290,6 +384,52 @@ mod tests {
     }
 
     #[test]
+    fn a_hook_path_is_plain_only_when_absolute_and_metacharacter_free() {
+        assert!(shell_plain(Path::new(
+            "/tmp/viola-rig-1000/12-34/capture.ndjson"
+        )));
+        assert!(!shell_plain(Path::new("rel/capture.ndjson")));
+        assert!(!shell_plain(Path::new("/tmp/a b")));
+        assert!(!shell_plain(Path::new("/tmp/a;rm")));
+        assert!(!shell_plain(Path::new("/tmp/$HOME")));
+    }
+
+    #[test]
+    fn the_capture_seed_registers_one_prompt_hook_in_the_private_config() {
+        let base = tempfile::tempdir().expect("tempdir");
+        let scratch = Scratch::create(base.path(), "1-2", true).expect("scratch");
+        scratch
+            .seed_capture(Path::new("/opt/rig/viola-live-rig"))
+            .expect("seed");
+        let settings: Value = serde_json::from_slice(
+            &fs::read(scratch.config.join("settings.json")).expect("settings"),
+        )
+        .expect("json");
+        let hooks = &settings["hooks"]["UserPromptSubmit"];
+        assert_eq!(hooks.as_array().map(Vec::len), Some(1));
+        assert_eq!(
+            hooks[0]["hooks"][0]["command"],
+            format!(
+                "/opt/rig/viola-live-rig capture --out {}",
+                scratch.capture_file().display()
+            )
+        );
+        assert!(scratch.seed_capture(Path::new("/opt/a b/rig")).is_err());
+    }
+
+    #[test]
+    fn the_imports_seed_imports_a_file_outside_the_cwd() {
+        let base = tempfile::tempdir().expect("tempdir");
+        let scratch = Scratch::create(base.path(), "1-2", false).expect("scratch");
+        scratch.seed_imports().expect("seed");
+        let line = fs::read_to_string(scratch.cwd.join("CLAUDE.md")).expect("CLAUDE.md");
+        let imported = PathBuf::from(line.trim().trim_start_matches('@'));
+        assert!(imported.is_file());
+        assert!(!imported.starts_with(&scratch.cwd));
+        assert!(imported.starts_with(fs::canonicalize(&scratch.root).expect("root")));
+    }
+
+    #[test]
     fn the_stamps_compare_to_their_three_words() {
         let t = SystemTime::UNIX_EPOCH;
         let a = Some(("a".to_owned(), t));
@@ -298,5 +438,98 @@ mod tests {
         assert_eq!(compare(&a, &a.clone()), "unchanged");
         assert_eq!(compare(&a, &b), "changed");
         assert_eq!(compare(&a, &None), "changed");
+    }
+
+    const ROOT: &[u8] = b"/tmp/viola-rig-1000/12-34";
+    const ID: &[u8] = b"0b4e8f1c-2d3a-4b5c-9d6e-7f8091a2b3c4";
+
+    fn moved() -> (Stamp, Stamp) {
+        let t = SystemTime::UNIX_EPOCH;
+        (Some(("a".to_owned(), t)), Some(("b".to_owned(), t)))
+    }
+
+    #[test]
+    fn a_held_stamp_reads_unchanged_whatever_the_file_holds() {
+        let t = SystemTime::UNIX_EPOCH;
+        let a = Some(("a".to_owned(), t));
+        let read: &[u8] = br#"{"projects":{"/tmp/viola-rig-1000/12-34/cwd":{}}}"#;
+        assert_eq!(witness(&a, &a.clone(), Some(read), &[ROOT]), "unchanged");
+        assert_eq!(witness(&None, &None, None, &[ROOT]), "absent");
+    }
+
+    #[test]
+    fn a_moved_stamp_with_no_mark_reads_changed_by_others() {
+        let (before, after) = moved();
+        let read: &[u8] = br#"{"numStartups":7}"#;
+        assert_eq!(
+            witness(&before, &after, Some(read), &[ROOT, ID]),
+            "changed-by-others"
+        );
+    }
+
+    #[test]
+    fn a_moved_stamp_with_the_path_mark_reads_changed_by_rig() {
+        let (before, after) = moved();
+        let read: &[u8] = br#"{"projects":{"/tmp/viola-rig-1000/12-34/cwd":{"x":1}}}"#;
+        assert_eq!(
+            witness(&before, &after, Some(read), &[ROOT]),
+            "changed-by-rig"
+        );
+    }
+
+    #[test]
+    fn a_moved_stamp_with_the_id_mark_reads_changed_by_rig() {
+        let (before, after) = moved();
+        let read: &[u8] = br#"{"lastSessionId":"0b4e8f1c-2d3a-4b5c-9d6e-7f8091a2b3c4"}"#;
+        assert_eq!(
+            witness(&before, &after, Some(read), &[ROOT, ID]),
+            "changed-by-rig"
+        );
+    }
+
+    #[test]
+    fn an_id_shaped_text_with_no_id_needle_reads_changed_by_others() {
+        let (before, after) = moved();
+        let read: &[u8] = br#"{"lastSessionId":"0b4e8f1c-2d3a-4b5c-9d6e-7f8091a2b3c4"}"#;
+        assert_eq!(
+            witness(&before, &after, Some(read), &[ROOT]),
+            "changed-by-others"
+        );
+    }
+
+    #[test]
+    fn a_moved_stamp_over_an_absent_or_unreadable_file_reads_unread() {
+        let (before, after) = moved();
+        assert_eq!(witness(&before, &after, None, &[ROOT, ID]), "unread");
+        let base = tempfile::tempdir().expect("tempdir");
+        assert_eq!(
+            read_moved(&base.path().join("gone.json"), base.path()),
+            None
+        );
+        assert_eq!(read_moved(base.path(), base.path()), None, "a directory");
+    }
+
+    #[test]
+    fn a_link_out_of_the_home_is_not_read() {
+        let home = tempfile::tempdir().expect("home");
+        let away = tempfile::tempdir().expect("away");
+        let outside = away.path().join("cfg.json");
+        fs::write(&outside, b"{}").expect("outside");
+        let inside = home.path().join("inner.json");
+        fs::write(&inside, b"{\"in\":1}").expect("inside");
+        let out_link = home.path().join("out.json");
+        let in_link = home.path().join("in.json");
+        std::os::unix::fs::symlink(&outside, &out_link).expect("link out");
+        std::os::unix::fs::symlink(&inside, &in_link).expect("link in");
+        assert_eq!(read_moved(&out_link, home.path()), None);
+        assert_eq!(
+            read_moved(&in_link, home.path()).as_deref(),
+            Some(&b"{\"in\":1}"[..])
+        );
+        assert_eq!(
+            read_moved(&outside, home.path()).as_deref(),
+            Some(&b"{}"[..]),
+            "a regular file is read where it stands"
+        );
     }
 }

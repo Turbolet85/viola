@@ -59,3 +59,6 @@
 - **Host:** python `yaml` absent; read `df -h /tmp` before a stamped-home gate. claude 2.1.325 stamped (pre-22nd-row);
   `mise ls claude` reads 2.1.326 as `latest` (not used). Hyprland 0.56.2.
 - **Last failed command:** none.
+
+## Session End Status
+Completed normally at 2026-11-17 18:01:06

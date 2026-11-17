@@ -4,7 +4,9 @@
 use std::process::{Command, Output};
 
 use serde_json::Value;
-use viola_e2e::harness::boot::{AgentsMode, BootOptions, DEFAULT_CLI_VERSION, InstanceSpec, boot};
+use viola_e2e::harness::boot::{
+    AgentsMode, BootOptions, DEFAULT_CLI_VERSION, INSTANCE_DEADLINE, InstanceSpec, boot,
+};
 use viola_e2e::harness::cleanup::{Target, cleanup};
 use viola_e2e::harness::{SessionRecord, Workspace, bin_dir_from_exe, read_json};
 
@@ -174,6 +176,7 @@ fn booted(label: &str) -> (Booted, SessionRecord) {
         stamp: true,
         agents_mode: AgentsMode::Recorded,
         tied: true,
+        ready_deadline: INSTANCE_DEADLINE,
     };
     let guard = Booted { ws, session };
     let out = boot(&opts);
