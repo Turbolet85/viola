@@ -1,0 +1,130 @@
+[
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "19976d15",
+"ts": "2026-11-17T11:38:21Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"3",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-17T11-28-51Z-implement",
+"--marker",
+"2026-11-17-booted-wrapper-does-not-outlive-its-test"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 3 record(s) in the store · tx 2289 · 2026-11-17T09-01-02-2026-11-17-booted-wrapper-does-not-outlive-its-test.ndjson",
+"ts 2026-11-17T11:38:08Z · clock 2026-11-17T11:38:21Z · bound 2026-11-17T09:56:24Z (line 3349)",
+"ids 2026-11-17T11:38:08Z-a … 2026-11-17T11:38:08Z-c (3)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T09-01-02-2026-11-17-booted-wrapper-does-not-outlive-its-test.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "19976d15",
+"ts": "2026-11-17T11:42:54Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-17T11-28-51Z-implement",
+"--marker",
+"2026-11-17-booted-wrapper-does-not-outlive-its-test"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 2291 · 2026-11-17T09-01-02-2026-11-17-booted-wrapper-does-not-outlive-its-test.ndjson",
+"ts 2026-11-17T11:42:47Z · clock 2026-11-17T11:42:54Z · bound 2026-11-17T11:38:08Z (line 3352)",
+"ids 2026-11-17T11:42:47Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T09-01-02-2026-11-17-booted-wrapper-does-not-outlive-its-test.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "19976d15",
+"ts": "2026-11-17T11:43:45Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"/tmp/claude-1000/~-dev-projects-viola/39bbf25c-8063-438a-9e31-0a788007aaf1/scratchpad/smoke-evolve.ndjson",
+"--run-dir",
+".andromeda/runs/2026-11-17T11-28-51Z-implement",
+"--marker",
+"2026-11-17-booted-wrapper-does-not-outlive-its-test"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 2292 · 2026-11-17T09-01-02-2026-11-17-booted-wrapper-does-not-outlive-its-test.ndjson",
+"ts 2026-11-17T11:43:44Z · clock 2026-11-17T11:43:45Z · bound 2026-11-17T11:42:47Z (line 3353)",
+"ids 2026-11-17T11:43:44Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T09-01-02-2026-11-17-booted-wrapper-does-not-outlive-its-test.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "19976d15",
+"ts": "2026-11-17T11:46:01Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"/tmp/claude-1000/~-dev-projects-viola/39bbf25c-8063-438a-9e31-0a788007aaf1/scratchpad/report-evolve.ndjson",
+"--run-dir",
+".andromeda/runs/2026-11-17T11-28-51Z-implement",
+"--marker",
+"2026-11-17-booted-wrapper-does-not-outlive-its-test"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 2294 · 2026-11-17T09-01-02-2026-11-17-booted-wrapper-does-not-outlive-its-test.ndjson",
+"ts 2026-11-17T11:46:01Z · clock 2026-11-17T11:46:01Z · bound 2026-11-17T11:43:44Z (line 3354)",
+"ids 2026-11-17T11:46:01Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T09-01-02-2026-11-17-booted-wrapper-does-not-outlive-its-test.ndjson"
+],
+"before": null,
+"after": null
+}
+]

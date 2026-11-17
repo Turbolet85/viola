@@ -5,7 +5,7 @@
 use std::ffi::OsString;
 use std::io::Read;
 use std::path::{Path, PathBuf};
-use std::process::{Child, Command, Stdio};
+use std::process::{Child, Stdio};
 use std::sync::mpsc;
 use std::time::{Duration, Instant};
 
@@ -13,7 +13,7 @@ use serde_json::{Value, json};
 
 use super::cli::Running;
 use super::fake::{FAKE, write_fixture};
-use super::home::{VIOLA, workspace_path};
+use super::home::workspace_path;
 use super::watch::{WITHIN, Watch};
 
 /// The input-box literal and the two modal literals, as the recorded screens show them: test
@@ -370,7 +370,7 @@ fn spawn_viola(
     stdin: Option<Vec<u8>>,
     within: Option<Duration>,
 ) -> Ran {
-    let mut cmd = Command::new(VIOLA);
+    let mut cmd = super::tied::viola();
     cmd.args(args)
         .env_remove("VIOLA_NAME")
         .env_remove("VIOLA_DIR")
@@ -505,7 +505,7 @@ pub fn verify_started(
     args.push("--receipt".into());
     args.push(receipt.clone().into());
     args.extend(after.iter().map(OsString::from));
-    let child = Command::new(VIOLA)
+    let child = super::tied::viola()
         .args(&args)
         .current_dir(cwd)
         .env_remove("VIOLA_DIR")

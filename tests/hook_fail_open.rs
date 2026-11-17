@@ -19,7 +19,7 @@ use std::time::{Duration, Instant};
 
 use rstest::rstest;
 use serde_json::{Value, json};
-use support::home::{SocketRoot, StampedHome, TestHome, VIOLA, Wrapper, workspace_path};
+use support::home::{SocketRoot, StampedHome, TestHome, Wrapper, workspace_path};
 use support::hygiene::load_schema;
 
 /// test-plan §10's provisional spine gate, asserted at unit speed on one process.
@@ -36,7 +36,7 @@ struct Hooked {
 /// `viola <args>` with `env` over an environment that never carries this process's own
 /// `VIOLA_NAME` / `VIOLA_DIR`, `stdin` written from a thread (the hook may stop reading early).
 fn run_hook(args: &[&str], env: &[(&str, OsString)], stdin: Vec<u8>) -> Hooked {
-    let mut cmd = Command::new(VIOLA);
+    let mut cmd = support::tied::viola();
     cmd.args(args)
         .env_remove("VIOLA_NAME")
         .env_remove("VIOLA_DIR")
@@ -673,7 +673,7 @@ fn hook_forced_panic_fails_open_with_one_role_line_and_one_detail_line() {
 /// `viola --help` lists no `hook` verb (layout-templates §Surface: cli › `viola --help`).
 #[test]
 fn hook_verb_is_hidden_from_the_help() {
-    let out = Command::new(VIOLA)
+    let out = support::tied::viola()
         .arg("--help")
         .env_remove("VIOLA_NAME")
         .env_remove("VIOLA_DIR")
@@ -700,7 +700,7 @@ fn hook_processes_append_whole_lines_side_by_side() {
     let payload = json!({"session_id": 7, "source": "startup", "transcript_path": CANARY});
     let children: Vec<_> = (0..N)
         .map(|_| {
-            let mut cmd = Command::new(VIOLA);
+            let mut cmd = support::tied::viola();
             cmd.args(["hook", "session-start"])
                 .env_remove("VIOLA_NAME")
                 .env_remove("VIOLA_DIR")
@@ -773,7 +773,7 @@ fn hook_panics_append_whole_lines_over_4_kib_side_by_side() {
     let payload = stdin_bytes(Stdin::Payload);
     let children: Vec<_> = (0..N)
         .map(|_| {
-            let mut cmd = Command::new(VIOLA);
+            let mut cmd = support::tied::viola();
             cmd.args(["hook", "session-start"])
                 .env_remove("VIOLA_NAME")
                 .env_remove("VIOLA_DIR")

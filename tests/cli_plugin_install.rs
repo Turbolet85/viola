@@ -41,7 +41,7 @@ fn install(home: &Path, json: bool, from: Option<&str>) -> Ran {
 /// `viola --home <home> plugin install [--json]` with `VIOLA_*` and the colour facts removed, then
 /// `env` set.
 fn install_with(home: &Path, json: bool, env: &[(&str, &str)]) -> Ran {
-    let mut command = Command::new(VIOLA);
+    let mut command = support::tied::viola();
     command.arg("--home").arg(home).args(["plugin", "install"]);
     if json {
         command.arg("--json");

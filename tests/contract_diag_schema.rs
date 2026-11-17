@@ -5,13 +5,12 @@
 mod support;
 
 use std::path::Path;
-use std::process::Command;
 use std::time::Instant;
 
 use rstest::rstest;
 use serde_json::{Value, json};
 use support::fake::FAKE;
-use support::home::{TestHome, VIOLA, home, workspace_path};
+use support::home::{TestHome, home, workspace_path};
 use support::hygiene::load_schema;
 use support::piped::Piped;
 use support::watch::{WITHIN, Watch};
@@ -268,7 +267,7 @@ fn run_lines(home: &Path, program: &str, config: Option<&str>) -> Vec<Value> {
     // The receipt sits outside the home, which stays viola's to create.
     let receipts = tempfile::tempdir().expect("receipt dir");
     let receipt = receipts.path().join("r.ndjson");
-    let mut cmd = Command::new(VIOLA);
+    let mut cmd = support::tied::viola();
     cmd.arg("--home")
         .arg(home)
         .args(["run", "builder", "--", program]);

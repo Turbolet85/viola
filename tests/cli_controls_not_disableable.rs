@@ -15,7 +15,7 @@ mod support;
 use std::ffi::OsString;
 use std::io::Write as _;
 use std::path::{Path, PathBuf};
-use std::process::{Command, Stdio};
+use std::process::Stdio;
 use std::time::Instant;
 
 use rstest::rstest;
@@ -75,7 +75,7 @@ fn assert_control_holds(control: Control, setting: (&str, &str)) {
     let home = tmp.path().to_path_buf();
     let dir = home.join("instances").join("builder");
     crate::support::home::private_dir(&dir, "the instance dir");
-    let mut child = Command::new(VIOLA)
+    let mut child = support::tied::viola()
         .args(["hook", "stop"])
         .env("VIOLA_NAME", "builder")
         .env("VIOLA_DIR", dir.as_os_str())
@@ -130,7 +130,7 @@ fn setting_does_not_disable_the_hook_path_controls(
 /// `not-delivered / control-character` (exit 13) before any frame, whatever the setting.
 fn assert_send_paste_control_holds(setting: Option<(&str, &str)>) {
     let tmp = TestHome::new();
-    let mut command = Command::new(VIOLA);
+    let mut command = support::tied::viola();
     command
         .arg("--home")
         .arg(tmp.path())
@@ -196,7 +196,7 @@ fn setting_does_not_disable_the_send_paste_control(#[case] setting: Option<(&str
 /// `viola answer` against a live wrapper on an unstamped home, with `setting` over its environment
 /// or none: refused `unverified-cli` (exit 12), whatever the setting.
 fn assert_answer_unstamped_control_holds(wrapper: &Wrapper, setting: Option<(&str, &str)>) {
-    let mut command = Command::new(VIOLA);
+    let mut command = support::tied::viola();
     command
         .arg("--home")
         .arg(wrapper.home())
@@ -254,7 +254,7 @@ fn assert_send_control_holds(
     code: i32,
     refused: &str,
 ) {
-    let mut command = Command::new(VIOLA);
+    let mut command = support::tied::viola();
     command
         .arg("--home")
         .arg(wrapper.home())
@@ -285,7 +285,7 @@ fn setting_does_not_disable_the_send_human_wheel_control() {
         None,
         &[],
     );
-    let paused = Command::new(VIOLA)
+    let paused = support::tied::viola()
         .arg("--home")
         .arg(wrapper.home())
         .args(["pause", "builder", "--json"])
@@ -467,7 +467,7 @@ fn product_variables() -> Vec<String> {
 /// left out of the table, so none goes untried against a control.
 #[test]
 fn every_flag_variable_and_config_key_is_a_row_of_the_table() {
-    let help = Command::new(VIOLA)
+    let help = support::tied::viola()
         .arg("--help")
         .env_remove("VIOLA_NAME")
         .output()
@@ -513,7 +513,7 @@ fn viola_dir_does_not_disable_the_home_scan() {
     }
     std::fs::set_permissions(&home, std::fs::Permissions::from_mode(0o770)).expect("chmod");
     let empty = support::fake::empty_bin(tmp.scratch());
-    let out = Command::new(VIOLA)
+    let out = support::tied::viola()
         .args(["list", "--json"])
         .env("VIOLA_NAME", "builder")
         .env("VIOLA_DIR", &dir)
@@ -548,7 +548,7 @@ fn setting_does_not_disable_the_home_check() {
         let home = tmp.path().to_path_buf();
         let dir = home.join("instances").join("builder");
         crate::support::home::private_dir(&dir, "the instance dir");
-        let mut command = Command::new(VIOLA);
+        let mut command = support::tied::viola();
         command
             .arg("--home")
             .arg(&home)
@@ -619,7 +619,7 @@ fn setting_does_not_disable_the_socket_dir_check() {
         let socket_dir = root.dir();
         std::fs::set_permissions(&socket_dir, std::fs::Permissions::from_mode(0o755))
             .expect("chmod");
-        let mut command = Command::new(VIOLA);
+        let mut command = support::tied::viola();
         command
             .arg("--home")
             .arg(&home)

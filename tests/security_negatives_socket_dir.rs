@@ -14,7 +14,7 @@ use std::fs;
 use std::io::Write as _;
 use std::os::unix::fs::PermissionsExt as _;
 use std::path::{Path, PathBuf};
-use std::process::{Command, Stdio};
+use std::process::Stdio;
 use std::time::{Duration, Instant};
 
 use rstest::rstest;
@@ -23,7 +23,7 @@ use support::cli::{Ran, Running, viola};
 use support::digits::digit_runs;
 use support::fake::FAKE;
 use support::home::{
-    SOCKET_ROOT_VAR, SocketRoot, StampedHome, TestHome, UNWRAPPED, VIOLA, Wrapper, first_life_on,
+    SOCKET_ROOT_VAR, SocketRoot, StampedHome, TestHome, UNWRAPPED, Wrapper, first_life_on,
     snapshot_data,
 };
 use support::ndjson::read_lines;
@@ -176,7 +176,7 @@ fn booted(root: &SocketRoot) -> Wrapper {
 
 /// `viola run builder -- <fake>` under `root`, bounded by `Running`.
 fn run_on(home: &Path, root: &Path) -> Ran {
-    let mut command = Command::new(VIOLA);
+    let mut command = support::tied::viola();
     command
         .arg("--home")
         .arg(home)
@@ -311,7 +311,7 @@ fn run_hook(
     stdin: Vec<u8>,
 ) -> (Option<i32>, Vec<u8>, Vec<u8>, Duration) {
     let started = Instant::now();
-    let mut child = Command::new(VIOLA)
+    let mut child = support::tied::viola()
         .args(["hook", event])
         .env("VIOLA_NAME", "builder")
         .env("VIOLA_DIR", OsString::from(instance))

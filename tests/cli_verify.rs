@@ -606,3 +606,85 @@ fn stamped_home_reuses_one_stamp_for_every_home(
     let doc: Value = serde_json::from_str(&in_a).expect("stamps document");
     assert!(doc["written_at"].is_string(), "one written_at");
 }
+
+/// The stamp key the hollow-stamp cases use on their own base.
+const HOLLOW_KEY: &str = "0123456789abcdef";
+
+/// A private base under the test's own scratch dir, holding `viola-stamp-<key>/` as rust-cache
+/// restores it: `home/ledger/`, `home/bin/` and `home/plugin/`, directories with no file.
+fn hollow_base(scratch: &Path) -> PathBuf {
+    let base = scratch.join("base");
+    support::home::private_dir(&base, "stamp base");
+    for dir in ["ledger", "bin", "plugin"] {
+        let path = base.join(format!("viola-stamp-{HOLLOW_KEY}/home/{dir}"));
+        support::home::private_dir(&path, "hollow stamp dir");
+    }
+    base
+}
+
+/// Every entry under `root`, files and directories, by its path under it.
+fn tree_entries(root: &Path) -> BTreeSet<PathBuf> {
+    let mut entries = BTreeSet::new();
+    let mut dirs = vec![root.to_path_buf()];
+    while let Some(dir) = dirs.pop() {
+        for entry in fs::read_dir(&dir).expect("read dir") {
+            let path = entry.expect("entry").path();
+            if fs::symlink_metadata(&path).expect("meta").is_dir() {
+                dirs.push(path.clone());
+            }
+            entries.insert(path.strip_prefix(root).expect("under root").to_path_buf());
+        }
+    }
+    entries
+}
+
+/// A stamp restored with its directories and none of its files is never trusted: the core stamps
+/// the next generation, once, and leaves the restored tree exactly as found.
+#[rstest]
+fn stamped_home_rebuilds_a_stamp_restored_without_its_files(home: TestHome) {
+    let base = hollow_base(home.scratch());
+    let planted = base.join(format!("viola-stamp-{HOLLOW_KEY}"));
+    let before = tree_entries(&planted);
+    let mut stamped = 0;
+    let (stamp, lock) = support::home::stamp_dir_in(&base, HOLLOW_KEY, |h| {
+        stamped += 1;
+        support::home::take_stamp(h);
+    });
+    drop(lock);
+    assert!(
+        stamp.join("ledger/stamps.json").is_file(),
+        "the returned stamp holds its stamps"
+    );
+    assert_eq!(stamped, 1, "the stamper ran once");
+    assert_eq!(
+        stamp,
+        base.join(format!("viola-stamp-{HOLLOW_KEY}-g1/home")),
+        "the next generation"
+    );
+    assert_eq!(tree_entries(&planted), before, "the restored tree moved");
+}
+
+/// A generation stamped once is reused: a later lookup on the same base returns it and stamps
+/// nothing.
+#[rstest]
+fn stamped_home_reuses_a_rebuilt_generation_without_stamping_again(home: TestHome) {
+    let base = hollow_base(home.scratch());
+    let mut stamped = 0;
+    let (first, lock) = support::home::stamp_dir_in(&base, HOLLOW_KEY, |h| {
+        stamped += 1;
+        support::home::take_stamp(h);
+    });
+    drop(lock);
+    let (again, lock) = support::home::stamp_dir_in(&base, HOLLOW_KEY, |h| {
+        stamped += 1;
+        support::home::take_stamp(h);
+    });
+    drop(lock);
+    assert_eq!(again, first, "the same generation");
+    assert_eq!(
+        again,
+        base.join(format!("viola-stamp-{HOLLOW_KEY}-g1/home")),
+        "the next generation"
+    );
+    assert_eq!(stamped, 1, "stamped once");
+}

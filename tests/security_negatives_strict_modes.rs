@@ -153,7 +153,7 @@ fn hook_payload(event: &str) -> Vec<u8> {
 
 /// `viola hook <event>` as the wrapped session `builder` would run it.
 fn hook(dir: &Path, event: &str, payload: Vec<u8>) -> Option<i32> {
-    let mut child = Command::new(VIOLA)
+    let mut child = support::tied::viola()
         .args(["hook", event])
         .env_remove("VIOLA_BIN")
         .env("VIOLA_NAME", "builder")
@@ -175,7 +175,7 @@ fn hook(dir: &Path, event: &str, payload: Vec<u8>) -> Option<i32> {
 /// `viola mcp` with no name of its own: the handshake, then each frame tool and `list` against
 /// `builder`, read until every call has its answer. The answers, by id.
 fn mcp_calls(home: &Path, bin: &Path) -> Vec<Value> {
-    let mut command = Command::new(VIOLA);
+    let mut command = support::tied::viola();
     command
         .arg("--home")
         .arg(home)
@@ -379,7 +379,7 @@ fn a_home_another_user_may_read_refuses_run(#[from(support::home::home)] tmp: Te
     let home = tmp.path().to_path_buf();
     crate::support::home::private_dir(&home, "the home");
     grant_read(&home);
-    let mut command = Command::new(VIOLA);
+    let mut command = support::tied::viola();
     command
         .arg("--home")
         .arg(&home)

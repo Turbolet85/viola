@@ -25,6 +25,7 @@ fn options(session: &str, names: &[&str], bin_dir: &Path) -> BootOptions {
         build: false,
         stamp: true,
         agents_mode: AgentsMode::Recorded,
+        tied: false,
     }
 }
 

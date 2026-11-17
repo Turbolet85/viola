@@ -14,9 +14,7 @@ use viola_core::ViolaName;
 use super::cli::{Ran, Running};
 use super::events::wait_events;
 use super::fake::{self, FAKE, of_kind};
-use super::home::{
-    StampedHome, TestHome, VIOLA, Wrapper, claude_dir, revive_command, workspace_path,
-};
+use super::home::{StampedHome, TestHome, Wrapper, claude_dir, revive_command, workspace_path};
 use super::piped::Piped;
 use super::watch::{WITHIN, Watch};
 
@@ -40,7 +38,7 @@ pub fn child_starts(home: &Path) -> usize {
 /// Ctrl-C at once, so the call still ends.
 pub fn run_refused(home: &Path) -> Output {
     let piped = Piped::spawn(
-        Command::new(VIOLA)
+        super::tied::viola()
             .arg("--home")
             .arg(home)
             .args(["run", "builder", "--", FAKE]),

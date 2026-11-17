@@ -9,7 +9,6 @@ mod support;
 
 use std::ffi::OsString;
 use std::path::Path;
-use std::process::Command;
 use std::time::Instant;
 
 use rstest::rstest;
@@ -206,7 +205,7 @@ fn run_piped(
     ready: impl Fn() -> bool,
 ) -> (Vec<u8>, Vec<u8>) {
     let mut piped = Piped::spawn(
-        Command::new(VIOLA)
+        support::tied::viola()
             .arg("--home")
             .arg(home)
             .args(["run", "builder", "--", program])

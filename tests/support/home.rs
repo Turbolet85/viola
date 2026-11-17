@@ -388,26 +388,61 @@ pub fn stamped_home(home: TestHome, fake_agent_path: PathBuf) -> StampedHome {
     }
 }
 
-/// `target/e2e-home/viola-stamp-<key16>/home`, stamped by `viola verify` the first time a test of
-/// this build asks, with the exclusive lock on `viola-stamp-<key16>.lock` held: the lookup, the
-/// stamp and the caller's copy all run under it. The stamp dir carries no owner record, so the
-/// owner sweep never takes it.
+/// `target/e2e-home/viola-stamp-<key16>/home` (or a later generation's), stamped by `viola verify`
+/// the first time a test of this build asks, with the exclusive lock on `viola-stamp-<key16>.lock`
+/// held: the lookup, the stamp and the caller's copy all run under it. The stamp dir carries no
+/// owner record, so the owner sweep never takes it.
 pub fn stamp_dir() -> (PathBuf, fs::File) {
     let base = workspace_path("target/e2e-home");
     prepare_home_base(&base);
-    let key = stamp_key();
+    stamp_dir_in(&base, &stamp_key(), take_stamp)
+}
+
+/// The file a finished stamp holds beside its `home/`, written after the stamper returns.
+const STAMPED: &str = "stamped";
+
+/// Whether the stamp dir `stamp` counts: its completion file and its stamps file stand. A cache
+/// restore that keeps a tree's directories and none of its files (rust-cache's save) leaves a stamp
+/// that does not.
+fn stamp_counts(stamp: &Path) -> bool {
+    stamp.join(STAMPED).is_file() && stamp.join("home/ledger/stamps.json").is_file()
+}
+
+/// [`stamp_dir`]'s core over `base`, the stamp `key` and the `stamper` that stamps a home. The
+/// candidates are `viola-stamp-<key>`, then `viola-stamp-<key>-g<n>` for n = 1, 2, …: the first that
+/// counts is returned; one that stands and does not count is left as found; with none counting, the
+/// stamp is made at the first name where nothing stands.
+pub fn stamp_dir_in(base: &Path, key: &str, stamper: impl FnOnce(&Path)) -> (PathBuf, fs::File) {
     let lock = fs::File::create(base.join(format!("viola-stamp-{key}.lock"))).expect("stamp lock");
     lock.lock().expect("stamp lock");
-    let stamp = base.join(format!("viola-stamp-{key}"));
-    if !stamp.is_dir() {
-        // Under the lock no other process stamps this key: a tmp dir standing is a dead one's.
-        remove_stamp_dirs(&base, &format!("viola-stamp-{key}.tmp-"));
-        let tmp = base.join(format!("viola-stamp-{key}.tmp-{}", std::process::id()));
-        private_dir(&tmp, "stamp tmp dir");
-        take_stamp(&tmp.join("home"));
-        fs::rename(&tmp, &stamp).expect("stamp into place");
-        sweep_other_stamps(&base, &key);
+    let mut stamp = base.join(format!("viola-stamp-{key}"));
+    let mut generation = 0u32;
+    loop {
+        if stamp_counts(&stamp) {
+            return (stamp.join("home"), lock);
+        }
+        if fs::symlink_metadata(&stamp).is_err() {
+            break;
+        }
+        generation += 1;
+        stamp = base.join(format!("viola-stamp-{key}-g{generation}"));
     }
+    // Under the lock no other process stamps this key: a tmp dir standing is a dead one's.
+    remove_stamp_dirs(base, &format!("viola-stamp-{key}.tmp-"));
+    let tmp = base.join(format!("viola-stamp-{key}.tmp-{}", std::process::id()));
+    private_dir(&tmp, "stamp tmp dir");
+    stamper(&tmp.join("home"));
+    {
+        use std::os::unix::fs::OpenOptionsExt as _;
+        fs::OpenOptions::new()
+            .write(true)
+            .create_new(true)
+            .mode(0o600)
+            .open(tmp.join(STAMPED))
+            .expect("stamp completion file");
+    }
+    fs::rename(&tmp, &stamp).expect("stamp into place");
+    sweep_other_stamps(base, key);
     (stamp.join("home"), lock)
 }
 
@@ -497,7 +532,7 @@ pub fn copy_tree(src: &Path, dst: &Path) {
 
 /// `stamped` reads only the verb's result: exit 0 and a last line `stamped <recorded>  <n> pass
 /// 0 fail`, the count left to the literal-oracle tests since rows land with later chunks.
-fn take_stamp(home: &Path) {
+pub fn take_stamp(home: &Path) {
     let ran = super::verify::verify(
         home,
         &workspace_path("fixtures/claude"),
@@ -1002,7 +1037,7 @@ pub fn revived_agent_flags(home: &Path, name: &str, trusted_root: &Path) -> Vec<
 /// `viola --home <home> revive <args…>` outside any terminal, typed in `dir`, both streams piped
 /// and the fake agent as `claude` first on its `PATH`. The caller starts it and reads its exit.
 pub fn revive_command(home: &TestHome, dir: &Path, args: &[&str]) -> std::process::Command {
-    let mut command = std::process::Command::new(VIOLA);
+    let mut command = super::tied::viola();
     command
         .arg("--home")
         .arg(home.path())

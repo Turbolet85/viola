@@ -6,11 +6,11 @@
 #[allow(dead_code)]
 mod support;
 
-use std::process::{Command, Stdio};
+use std::process::Stdio;
 use std::time::Instant;
 
 use serde_json::Value;
-use support::home::{StampedHome, TestHome, VIOLA, Wrapper, snapshot_data, workspace_path};
+use support::home::{StampedHome, TestHome, Wrapper, snapshot_data, workspace_path};
 use support::start::kill_wrapper;
 use support::watch::{WITHIN, Watch};
 
@@ -32,7 +32,7 @@ fn chaos_wait_parked_wrapper_killed_exits_21() {
         .as_u64()
         .and_then(|p| u32::try_from(p).ok())
         .expect("pid");
-    let mut parked = Command::new(VIOLA)
+    let mut parked = support::tied::viola()
         .arg("--home")
         .arg(&home)
         .args(["wait", "builder", "--json"])

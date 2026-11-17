@@ -17,7 +17,7 @@ mod support;
 use std::ffi::OsString;
 use std::io::Write as _;
 use std::path::{Path, PathBuf};
-use std::process::{Command, Stdio};
+use std::process::Stdio;
 
 use serde_json::Value;
 use support::cli::{Ran, Running};
@@ -62,7 +62,7 @@ fn viola_in(
     env: &[(&str, OsString)],
     bin: &Path,
 ) -> Ran {
-    let mut command = Command::new(VIOLA);
+    let mut command = support::tied::viola();
     if let Some(home) = home {
         command.arg("--home").arg(home);
     }

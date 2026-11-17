@@ -10,7 +10,7 @@ mod support;
 use std::fs;
 use std::io::Write as _;
 use std::path::Path;
-use std::process::{Command, Stdio};
+use std::process::Stdio;
 
 use rstest::rstest;
 use serde_json::{Value, json};
@@ -19,7 +19,7 @@ use support::events::{assert_error_body_clean, error_body_hit};
 use support::fake::empty_bin;
 #[cfg(unix)]
 use support::home::{SOCKET_ROOT_VAR, SocketRoot, first_life_on, revive_command};
-use support::home::{StampedHome, TestHome, UNWRAPPED, VIOLA, stamped_home, unwiden, widen};
+use support::home::{StampedHome, TestHome, UNWRAPPED, stamped_home, unwiden, widen};
 
 const STRIPPED_NAME: &str = "CLAUDE_VIOLA_TEST_NEW_X";
 const STRIPPED_VALUE: &str = "canary-newname-value-e2f8";
@@ -69,7 +69,7 @@ fn fed(
 /// The verb under `--json` with the planted value on its child and `PATH` an empty bin dir, read
 /// whole. The check comes first: an assertion that fails prints what it read.
 fn assert_row(home: &Path, bin: &Path, row: &Row) {
-    let mut command = Command::new(VIOLA);
+    let mut command = support::tied::viola();
     command
         .arg("--home")
         .arg(home)

@@ -10,7 +10,7 @@
 mod support;
 
 use std::path::Path;
-use std::process::{Command, Stdio};
+use std::process::Stdio;
 use std::time::{Duration, SystemTime};
 
 use rstest::rstest;
@@ -18,7 +18,7 @@ use serde_json::Value;
 use support::cli::viola;
 use support::fake::FAKE;
 use support::home::{
-    StampedHome, UNWRAPPED, VIOLA, Wrapper, beat_age, snapshot_data, stamped_home, workspace_path,
+    StampedHome, UNWRAPPED, Wrapper, beat_age, snapshot_data, stamped_home, workspace_path,
 };
 
 /// The liveness bound, written out here (the oracle is a literal).
@@ -121,7 +121,7 @@ fn a_start_over_a_replayed_snapshot_and_a_fresh_beat_refuses_already_live(
     let dir = home.join("instances").join("builder");
     fault(&dir, "cut");
     assert!(age_beat(&dir, Duration::ZERO) <= STALE_AFTER);
-    let mut command = Command::new(VIOLA);
+    let mut command = support::tied::viola();
     command
         .arg("--home")
         .arg(&home)

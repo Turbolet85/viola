@@ -11,14 +11,14 @@ mod support;
 
 use std::io::Write as _;
 use std::path::Path;
-use std::process::{Child, Command, Stdio};
+use std::process::{Child, Stdio};
 use std::time::Instant;
 
 use rstest::rstest;
 use serde_json::{Value, json};
 use support::events::{events, wait_events};
 use support::fake::{self, of_kind};
-use support::home::{StampedHome, TestHome, VIOLA, Wrapper, stamped_home, workspace_path};
+use support::home::{StampedHome, TestHome, Wrapper, stamped_home, workspace_path};
 use support::watch::{WITHIN, Watch};
 use viola_state::events::{LoggedLine, Skipped, read_from};
 
@@ -73,7 +73,7 @@ fn records_after(instance_dir: &Path, from: u64) -> Vec<Value> {
 
 /// `viola --home <home> send <args…>` with its stdin piped and nothing written yet.
 fn start_send(home: &Path, args: &[&str]) -> Child {
-    Command::new(VIOLA)
+    support::tied::viola()
         .arg("--home")
         .arg(home)
         .arg("send")

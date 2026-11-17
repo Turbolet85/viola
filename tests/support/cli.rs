@@ -7,10 +7,9 @@
 
 use std::io::Write as _;
 use std::path::Path;
-use std::process::{Child, Command, Stdio};
+use std::process::{Child, Stdio};
 use std::time::Instant;
 
-use super::home::VIOLA;
 use super::watch::{WITHIN, Watch};
 
 pub struct Ran {
@@ -105,7 +104,7 @@ fn start(
     from: Option<&str>,
     bin: Option<&Path>,
 ) -> Running {
-    let mut command = Command::new(VIOLA);
+    let mut command = super::tied::viola();
     command
         .arg("--home")
         .arg(home)

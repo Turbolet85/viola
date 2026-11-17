@@ -458,7 +458,7 @@ fn a_loosened_socket_directory_on_a_start_is_socket_dir_refused(#[case] json: bo
             .env(SOCKET_ROOT_VAR, root.path())
             .spawn()
     } else {
-        std::process::Command::new(support::home::VIOLA)
+        support::tied::viola()
             .arg("--home")
             .arg(home.path())
             .args(["run", "builder", "--", FAKE])

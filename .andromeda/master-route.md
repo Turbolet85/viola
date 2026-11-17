@@ -111,3 +111,4 @@
 2026-11-16-granular-api-error-cause · complete · an API-error turn end names its cause from a closed list of nine words; the error text still crosses nothing (v2-34) · → chk:2026-11-16-granular-api-error-cause
 2026-11-16-scheduled-wake-count · complete · a turn end carries the session's scheduled-wake count beside its background tasks — one number, no content · → chk:2026-11-16-scheduled-wake-count
 2026-11-17-standing-live-rig · complete · one reusable live rig — screen model, kept screens, trust and modal dialogs read, isolation and process hygiene owned · → chk:2026-11-17-standing-live-rig
+2026-11-17-booted-wrapper-does-not-outlive-its-test · pending · a booted wrapper and its fake agent end with their test, killed or not; the shared stamp is rebuilt when its home is gone · → chk:2026-11-17-booted-wrapper-does-not-outlive-its-test

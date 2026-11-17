@@ -17,7 +17,7 @@ use rstest::rstest;
 use serde_json::{Value, json};
 use support::fake::{self, FAKE, of_kind, unhex};
 use support::home::{
-    StampedHome, TestHome, VIOLA, Wrapper, home, keep_decision, stamped_home, workspace_path,
+    StampedHome, TestHome, Wrapper, home, keep_decision, stamped_home, workspace_path,
 };
 use support::outer_pty::{EXIT_WITHIN, OuterPty};
 use support::piped::Piped;
@@ -846,7 +846,7 @@ fn fake_agent_rejects_an_unreadable_script(#[case] body: &str) {
 fn run_and_watch_stdout(tmp: &TestHome, fake_args: &[&str]) -> (ExitStatus, bool, Arc<AtomicBool>) {
     let receipt = tmp.scratch().join("watch.receipt.ndjson");
     let mut piped = Piped::spawn(
-        Command::new(VIOLA)
+        support::tied::viola()
             .arg("--home")
             .arg(tmp.path())
             .args(["run", "builder", "--", FAKE])

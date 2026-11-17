@@ -21,9 +21,10 @@ pub struct Piped {
 }
 
 impl Piped {
-    /// `cmd` with all three streams piped, stdout and stderr drained as they come.
+    /// `cmd` with all three streams piped, stdout and stderr drained as they come, tied to the
+    /// calling thread (`tied::tie`).
     pub fn spawn(cmd: &mut Command) -> Self {
-        let mut child = cmd
+        let mut child = super::tied::tie(cmd)
             .stdin(Stdio::piped())
             .stdout(Stdio::piped())
             .stderr(Stdio::piped())

@@ -158,5 +158,37 @@
 ],
 "before": null,
 "after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "f06103f9",
+"ts": "2026-11-17T08:47:00Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-17T07-48-22Z-wrap",
+"--marker",
+"2026-11-17-standing-live-rig"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 2267 · 2026-11-17T05-54-58-2026-11-17-standing-live-rig.ndjson",
+"ts 2026-11-17T08:46:54Z · clock 2026-11-17T08:46:59Z · bound 2026-11-17T08:36:38Z (line 3340)",
+"ids 2026-11-17T08:46:54Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T05-54-58-2026-11-17-standing-live-rig.ndjson"
+],
+"before": null,
+"after": null
 }
 ]

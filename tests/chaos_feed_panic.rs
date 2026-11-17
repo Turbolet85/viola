@@ -11,12 +11,12 @@ mod support;
 
 use std::io::Write as _;
 use std::path::Path;
-use std::process::{Command, Stdio};
+use std::process::Stdio;
 use std::time::Instant;
 
 use serde_json::{Value, json};
 use support::fake::{self, of_kind};
-use support::home::{StampedHome, TestHome, VIOLA, Wrapper, workspace_path};
+use support::home::{StampedHome, TestHome, Wrapper, workspace_path};
 use support::watch::{WITHIN, Watch};
 use viola_pty::Size;
 
@@ -68,7 +68,7 @@ fn chaos_feed_panic_refuses_send_and_keeps_passthrough() {
         "the panic hook's line is witnessed, not hidden"
     );
 
-    let mut child = Command::new(VIOLA)
+    let mut child = support::tied::viola()
         .arg("--home")
         .arg(&home)
         .args(["send", "builder", "--json"])

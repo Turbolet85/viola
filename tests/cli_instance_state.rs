@@ -8,7 +8,7 @@ mod support;
 
 use std::fs;
 use std::path::{Path, PathBuf};
-use std::process::{Command, Stdio};
+use std::process::Stdio;
 use std::time::Duration;
 
 use rstest::rstest;
@@ -453,7 +453,7 @@ fn fixture_sweep_removes_only_homes_whose_owner_is_gone(#[from(home)] tmp: TestH
     let live = dir("live-sibling");
     write_owner(&live);
 
-    let mut child = Command::new(VIOLA)
+    let mut child = support::tied::viola()
         .arg("--version")
         .stdout(Stdio::null())
         .spawn()

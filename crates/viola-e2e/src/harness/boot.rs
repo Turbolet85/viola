@@ -92,6 +92,77 @@ pub struct BootOptions {
     /// Boot step 4: stamp the home through `viola verify`; `--unstamped` clears it.
     pub stamp: bool,
     pub agents_mode: AgentsMode,
+    /// The supervisor and the stamping `viola verify` tied to the calling thread by the kernel's
+    /// parent-death signal: an in-test session's die with the test, killed or not. The CLI
+    /// `boot`'s supervisor is an ordinary child that outlives `boot`.
+    pub tied: bool,
+}
+
+impl BootOptions {
+    /// An in-test session's options (`harness_session`): no build, its supervisor tied.
+    pub fn for_session(
+        ws: Workspace,
+        bin_dir: PathBuf,
+        session: String,
+        instances: Vec<InstanceSpec>,
+        stamp: bool,
+        agents_mode: AgentsMode,
+    ) -> Self {
+        Self {
+            ws,
+            bin_dir,
+            session,
+            instances,
+            cli_version: DEFAULT_CLI_VERSION.to_owned(),
+            build: false,
+            stamp,
+            agents_mode,
+            tied: true,
+        }
+    }
+
+    /// The CLI `boot`'s options: built first into the harness bins, its supervisor untied.
+    pub fn for_cli(
+        ws: Workspace,
+        session: String,
+        instances: Vec<InstanceSpec>,
+        cli_version: String,
+        stamp: bool,
+        agents_mode: AgentsMode,
+    ) -> Self {
+        Self {
+            bin_dir: ws.harness_bins(),
+            ws,
+            session,
+            instances,
+            cli_version,
+            build: true,
+            stamp,
+            agents_mode,
+            tied: false,
+        }
+    }
+}
+
+/// `cmd`'s child gets `SIGKILL` when the calling thread ends, and exits at once when its parent is
+/// already gone between the fork and the tie.
+fn tie_to_caller(cmd: &mut Command) -> &mut Command {
+    use std::os::unix::process::CommandExt as _;
+    let parent = libc::pid_t::try_from(std::process::id()).expect("a pid fits pid_t");
+    // SAFETY: the hook runs in the forked child before exec and calls only async-signal-safe
+    // functions (`prctl`, `getppid`, `_exit`) with plain integer arguments; it allocates nothing
+    // and takes no lock.
+    unsafe {
+        cmd.pre_exec(move || {
+            if libc::prctl(libc::PR_SET_PDEATHSIG, libc::SIGKILL) != 0 {
+                return Err(std::io::Error::last_os_error());
+            }
+            if libc::getppid() != parent {
+                libc::_exit(1);
+            }
+            Ok(())
+        })
+    }
 }
 
 fn failure(
@@ -186,7 +257,7 @@ fn start(opts: &BootOptions) -> Result<Outcome, HarnessError> {
         agents_mode: opts.agents_mode,
     };
     write_json(&session_dir.join("supervise.json"), &spec)?;
-    let supervisor = spawn_supervisor(&opts.bin_dir, &opts.session)?;
+    let supervisor = spawn_supervisor(&opts.bin_dir, &opts.session, opts.tied)?;
 
     let mut instances = Vec::new();
     for inst in &opts.instances {
@@ -226,7 +297,11 @@ fn start(opts: &BootOptions) -> Result<Outcome, HarnessError> {
 /// agent replays the recorded dialogs and framing shapes. Its stdout is read for the verdict line only, never copied into
 /// the document; the exit code on failure.
 fn stamp(opts: &BootOptions, home: &Path, session_bin: &Path) -> Result<(), Option<i32>> {
-    let out = Command::new(exe(&opts.bin_dir, "viola"))
+    let mut verify = Command::new(exe(&opts.bin_dir, "viola"));
+    if opts.tied {
+        tie_to_caller(&mut verify);
+    }
+    let out = verify
         .arg("--home")
         .arg(home)
         .args(["verify", "--"])
@@ -275,10 +350,14 @@ pub fn stamped_line(stdout: &str) -> bool {
         && passed.bytes().all(|b| b.is_ascii_digit())
 }
 
-/// The supervisor is an ordinary child: it outlives `boot` and is stopped only through
-/// `stop.request`.
-fn spawn_supervisor(bin_dir: &Path, session: &str) -> Result<ProcessId, HarnessError> {
-    let child = Command::new(exe(bin_dir, "viola-harness"))
+/// The supervisor outlives `boot` and is stopped only through `stop.request`; a `tied` one also
+/// dies with the calling thread, and its death hangs up every wrapper's outer PTY.
+fn spawn_supervisor(bin_dir: &Path, session: &str, tied: bool) -> Result<ProcessId, HarnessError> {
+    let mut supervisor = Command::new(exe(bin_dir, "viola-harness"));
+    if tied {
+        tie_to_caller(&mut supervisor);
+    }
+    let child = supervisor
         .args(["supervise", "--session", session])
         .stdin(Stdio::null())
         .stdout(Stdio::null())
@@ -803,6 +882,7 @@ mod tests {
                 build: false,
                 stamp: true,
                 agents_mode: AgentsMode::Recorded,
+                tied: false,
             };
             let got = stamp(&opts, &tmp.path().join("home"), tmp.path());
             assert_eq!(got, want, "exit {code}, last line {last:?}");
@@ -838,6 +918,31 @@ mod tests {
     }
 
     #[test]
+    fn boot_ties_its_supervisor_only_when_asked() {
+        let ws = Workspace::from_build();
+        let session = BootOptions::for_session(
+            ws.clone(),
+            PathBuf::from("bins"),
+            "s".to_owned(),
+            vec![],
+            true,
+            AgentsMode::Recorded,
+        );
+        assert!(session.tied, "an in-test session's supervisor is tied");
+        assert!(!session.build, "an in-test session builds nothing");
+        let cli = BootOptions::for_cli(
+            ws,
+            "s".to_owned(),
+            vec![],
+            DEFAULT_CLI_VERSION.to_owned(),
+            true,
+            AgentsMode::Recorded,
+        );
+        assert!(!cli.tied, "the CLI boot's supervisor outlives boot");
+        assert!(cli.build, "the CLI boot builds first");
+    }
+
+    #[test]
     fn boot_refuses_an_invalid_session_id() {
         let opts = BootOptions {
             ws: Workspace::from_build(),
@@ -848,6 +953,7 @@ mod tests {
             stamp: false,
             build: false,
             agents_mode: AgentsMode::Recorded,
+            tied: false,
         };
         let out = boot(&opts);
         assert_eq!(out.code, 2);
@@ -868,6 +974,7 @@ mod tests {
             stamp: false,
             build: true,
             agents_mode: AgentsMode::Recorded,
+            tied: false,
         };
         let out = boot(&opts);
         assert_eq!(out.code, 1);

@@ -6,7 +6,7 @@
 use std::env::VarError;
 use std::path::{Path, PathBuf};
 
-use super::boot::{AgentsMode, BootOptions, DEFAULT_CLI_VERSION, InstanceSpec, boot, instance_dir};
+use super::boot::{AgentsMode, BootOptions, InstanceSpec, boot, instance_dir};
 use super::cleanup::{Target, cleanup};
 use super::{Outcome, Workspace, bin_dir_from_exe, read_json, session_record_path};
 
@@ -66,16 +66,14 @@ pub fn harness_session(test: &str, label: &str, opts: SessionOptions) -> Harness
         .iter()
         .map(|name| InstanceSpec::parse(name).expect("valid instance name"))
         .collect();
-    let booted = boot(&BootOptions {
-        ws: ws.clone(),
-        bin_dir: bin_dir.clone(),
-        session: session.clone(),
+    let booted = boot(&BootOptions::for_session(
+        ws.clone(),
+        bin_dir.clone(),
+        session.clone(),
         instances,
-        cli_version: DEFAULT_CLI_VERSION.to_owned(),
-        build: false,
-        stamp: !opts.unstamped,
-        agents_mode: opts.agents_mode,
-    });
+        !opts.unstamped,
+        opts.agents_mode,
+    ));
     assert_eq!(booted.code, 0, "harness_session boot: {}", booted.doc);
     let record: super::SessionRecord =
         read_json(&session_record_path(&ws, &session)).expect("session record");

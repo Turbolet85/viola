@@ -179,6 +179,7 @@ pub(super) fn perf(
         // spine rows' hook path reads no stamps.
         stamp: false,
         agents_mode: AgentsMode::Recorded,
+        tied: false,
     });
     let home = match booted_home(&booted.doc) {
         Ok(home) => home,

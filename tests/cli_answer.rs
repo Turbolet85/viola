@@ -16,7 +16,7 @@ mod support;
 
 use std::io::Write as _;
 use std::path::{Path, PathBuf};
-use std::process::{Command, Stdio};
+use std::process::Stdio;
 use std::time::Instant;
 
 use rstest::rstest;
@@ -24,7 +24,7 @@ use serde_json::{Value, json};
 use support::cli::{Ran, Running, spawn};
 use support::events::{events, raise, wait_events};
 use support::fake::{self, of_kind};
-use support::home::{StampedHome, TestHome, VIOLA, Wrapper, stamped_home, workspace_path};
+use support::home::{StampedHome, TestHome, Wrapper, stamped_home, workspace_path};
 use support::hygiene::load_schema;
 use support::watch::{WITHIN, Watch};
 use viola_state::events::{LoggedLine, Skipped, read_from};
@@ -608,7 +608,7 @@ fn hook_env(wrapper: &Wrapper) -> [(&'static str, PathBuf); 1] {
 
 /// `viola hook <event>` run by the test, as the child would run it, with `payload` on stdin.
 fn run_hook(wrapper: &Wrapper, event: &str, payload: &Value) -> Ran {
-    let mut command = Command::new(VIOLA);
+    let mut command = support::tied::viola();
     command
         .args(["hook", event])
         .env("VIOLA_NAME", "builder")
@@ -629,7 +629,7 @@ fn run_hook(wrapper: &Wrapper, event: &str, payload: &Value) -> Ran {
 /// `viola hook <event>` started by the test with `payload` on stdin, left running: a dialog hook
 /// waits for its answer.
 fn spawn_hook(wrapper: &Wrapper, event: &str, payload: &Value) -> Running {
-    let mut command = Command::new(VIOLA);
+    let mut command = support::tied::viola();
     command
         .args(["hook", event])
         .env("VIOLA_NAME", "builder")

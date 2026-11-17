@@ -7,7 +7,7 @@
 mod support;
 
 use std::path::Path;
-use std::process::{Command, Output};
+use std::process::Output;
 
 use support::home::VIOLA;
 use support::outer_pty::{EXIT_WITHIN, OuterPty};
@@ -19,7 +19,7 @@ const ESC: u8 = 0x1B;
 
 /// `viola <args>` with stdout and stderr piped and every colour-forcing variable set.
 fn forced_into_a_pipe(args: &[&str]) -> Output {
-    Command::new(VIOLA)
+    support::tied::viola()
         .args(args)
         .env_remove("VIOLA_NAME")
         .env_remove("VIOLA_DIR")

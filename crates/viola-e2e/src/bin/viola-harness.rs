@@ -150,16 +150,14 @@ fn boot_options(
         .iter()
         .map(|r| InstanceSpec::parse(r))
         .collect::<Option<_>>()?;
-    Some(BootOptions {
-        bin_dir: ws.harness_bins(),
+    Some(BootOptions::for_cli(
         ws,
         session,
         instances,
-        cli_version: flags.cli_version,
-        build: true,
-        stamp: !flags.unstamped,
-        agents_mode: flags.agents_mode,
-    })
+        flags.cli_version,
+        !flags.unstamped,
+        flags.agents_mode,
+    ))
 }
 
 fn boot_cmd(ws: Workspace, session: String, instances: Vec<String>, flags: BootFlags) -> ExitCode {

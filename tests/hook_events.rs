@@ -12,12 +12,12 @@ use std::ffi::OsString;
 use std::fs;
 use std::io::Write as _;
 use std::path::{Path, PathBuf};
-use std::process::{Command, Stdio};
+use std::process::Stdio;
 
 use serde_json::{Value, json};
 use support::events::{events, wait_events};
 use support::fake::{self, of_kind};
-use support::home::{StampedHome, TestHome, VIOLA, Wrapper, workspace_path};
+use support::home::{StampedHome, TestHome, Wrapper, workspace_path};
 use support::hygiene::load_schema;
 
 const CANARY: &str = "canary-chain-value-5c1e";
@@ -699,7 +699,7 @@ fn hook_prompts_arrive_normalised_with_their_origin() {
 }
 
 fn session_end(instance_dir: &Path) -> std::process::Output {
-    let mut child = Command::new(VIOLA)
+    let mut child = support::tied::viola()
         .args(["hook", "session-end"])
         .env("VIOLA_NAME", "builder")
         .env("VIOLA_DIR", OsString::from(instance_dir))

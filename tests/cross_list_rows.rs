@@ -10,7 +10,6 @@ mod support;
 
 use std::ffi::OsString;
 use std::path::Path;
-use std::process::Command;
 
 use rstest::rstest;
 use serde_json::{Value, json};
@@ -56,7 +55,7 @@ fn assert_board(board: &str) {
 
 /// `viola --home <home> list` piped, `PATH` the bin dir alone, with `env` set.
 fn piped(bin: &Path, home: &Path, env: &[(&str, &str)]) -> (Option<i32>, String) {
-    let out = Command::new(VIOLA)
+    let out = support::tied::viola()
         .arg("--home")
         .arg(home)
         .arg("list")
@@ -169,7 +168,7 @@ fn piped_with(
     extra: &[&str],
     env: &[(&str, &str)],
 ) -> (Option<i32>, Vec<u8>, Vec<u8>) {
-    let mut command = Command::new(VIOLA);
+    let mut command = support::tied::viola();
     command.arg("--home").arg(home).arg("list").args(extra);
     for name in INHERITED {
         command.env_remove(name);

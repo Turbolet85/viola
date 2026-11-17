@@ -217,7 +217,7 @@ fn write_config(home: &Path, text: &str) {
 fn run_captured(home: &Path, program: &str, env: &[(&str, &str)]) -> std::process::Output {
     let (dir, fake_args) = receipt_args(program);
     let mut piped = Piped::spawn(
-        Command::new(VIOLA)
+        support::tied::viola()
             .arg("--home")
             .arg(home)
             .args(["run", "builder", "--", program])
@@ -244,7 +244,7 @@ fn run_self_exit_carries_duration_ms(#[from(home)] tmp: TestHome, #[from(home)] 
     let home = tmp.path().to_path_buf();
     let (dir, fake_args) = receipt_args(FAKE);
     let mut piped = Piped::spawn(
-        Command::new(VIOLA)
+        support::tied::viola()
             .arg("--home")
             .arg(&home)
             .args(["run", "builder", "--", FAKE])
@@ -504,7 +504,7 @@ fn run_never_writes_a_claude_canary_anywhere(
 
 #[test]
 fn viola_without_a_verb_is_usage() {
-    let status = Command::new(VIOLA)
+    let status = support::tied::viola()
         .stdout(Stdio::null())
         .stderr(Stdio::null())
         .status()
@@ -627,7 +627,7 @@ fn run_refuses_a_widened_home_tree_before_its_log(
     let (dir, fake_args) = receipt_args(FAKE);
     // Bounded: a start that is not refused would run until its child ends, so the run must exit
     // within `WITHIN` or the case fails there, and the guard kills what it started.
-    let child = Command::new(VIOLA)
+    let child = support::tied::viola()
         .arg("--home")
         .arg(&home)
         .args(["run", "builder", "--", FAKE])
