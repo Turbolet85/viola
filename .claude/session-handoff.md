@@ -2,7 +2,7 @@
 
 **Last Updated:** 2026-11-17T08:34:05Z
 **Branch:** build/viola-0.2.0 · 0 ahead of origin/build/viola-0.2.0 as read at this wrap's Setup (this wrap's push lands its commit)
-**Status:** clean (once the wrap's commit lands)
+**Status:** clean tree · CI RED OPEN on the wrap commit 668854a6 (ci#44048204364, cause not found — pinned, see Notes)
 **Last Commit:** 2026-11-17-standing-live-rig — feat: one standing live rig, its rehearsals in CI and its live starts by hand
 
 ## Position
@@ -29,6 +29,10 @@
   gate only», the a11y screen-content ban); the register names `viola-live-rig` and `AGENT_RUN_RIG`.
 
 ## Notes
+- **CI red, open:** ci#44048204364 on 668854a6 (source equal to 1b22388f, green as ci#44040049854): 26 of 3484 in
+  the `test` job's coverage run, every one reading the shared stamped fixture home as absent; `cli_answer` 9/9
+  locally. Cause not found; not re-run. Pinned `cry-n25qin7l` on «A booted wrapper does not outlive its test»
+  (`.andromeda/runs/2026-11-17T07-48-22Z-wrap/ci-red-after-commit.md`).
 - **Provisional, owed the founder's word:** the two new carries on «First readings on the standing rig»
   (`cry-eqwt2idi`, `cry-2g725mk2`); the answer card's confirm (the delegate's — the ratification is his answers,
   inputs#I2); `HYPRCTL_DEADLINE` (on «`viola open`»); `cry-x5wbcckc` on «Version done-check»; the compact window and

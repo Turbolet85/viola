@@ -1094,5 +1094,61 @@
 "wrote": [],
 "before": null,
 "after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-17T08:45:52Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-17T07-48-22Z-wrap/route-batch-2.txt",
+"--run-dir",
+".andromeda/runs/2026-11-17T07-48-22Z-wrap",
+"--marker",
+"2026-11-17-standing-live-rig",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 1 record(s) · 1 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-17T08:45:57Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-17T07-48-22Z-wrap/route-batch-2.txt",
+"--run-dir",
+".andromeda/runs/2026-11-17T07-48-22Z-wrap",
+"--marker",
+"2026-11-17-standing-live-rig"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 1 edge(s) · tx 2266 · cry-n25qin7l … cry-n25qin7l"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T05-54-58-2026-11-17-standing-live-rig.ndjson",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
 }
 ]
