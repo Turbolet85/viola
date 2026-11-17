@@ -1,0 +1,214 @@
+[
+{
+"tool": "gate",
+"v": "1.36",
+"sha8": "7c3533d4",
+"ts": "2026-11-17T07:14:19Z",
+"argv": [
+"scope",
+"--sync",
+"--chunk",
+"2026-11-17-standing-live-rig",
+"--run-dir",
+".andromeda/runs/2026-11-17T07-09-35Z-phase"
+],
+"cwd": ".",
+"exit": 2,
+"stdout": [],
+"stderr": "--run-dir 2026-11-17T07-09-35Z-phase: not a `{ISO}-phase` run dir — the sync reads a revision's own run dir",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "gate",
+"v": "1.36",
+"sha8": "7c3533d4",
+"ts": "2026-11-17T07:17:13Z",
+"argv": [
+"scope",
+"--lists-only",
+"--chunk",
+"2026-11-17-standing-live-rig",
+"--run-dir",
+".andromeda/runs/2026-11-17T07-09-35Z-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 7 items (new 3 · modify 4 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 7,
+"unparsed": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.36",
+"sha8": "7c3533d4",
+"ts": "2026-11-17T07:18:21Z",
+"argv": [
+"baseline",
+"--chunk",
+"2026-11-17-standing-live-rig",
+"--run-dir",
+".andromeda/runs/2026-11-17T07-09-35Z-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · marker 2026-11-17-standing-live-rig · entries 17",
+"previous 2026-11-16-scheduled-wake-count · trails 384 run dirs · firings 47 (green 41) · other root 0 · unreadable 0",
+"  1 lint        seen green 2026-11-16T23:27:50Z #1 (wrap) · cargo fmt --all --check",
+"  2 lint        seen green 2026-11-16T23:27:50Z #2 (wrap) · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 unit        new (key) · cargo nextest run -p viola-e2e --lib -E 'test(/^rig::/)' ",
+"  4 integration new (key) · bash scripts/agent-run.sh run --integration --filter 'bina… (77 chars)",
+"  5 integration new (key) · bash scripts/agent-run.sh run --integration --filter 'bina… (78 chars)",
+"  6 e2e         new (key) · bash scripts/agent-run.sh run --e2e --filter 'binary(contr… (81 chars)",
+"  7 probe       new (key) · bash scripts/release-check.sh",
+"  8 probe       new (key) · cargo deny check",
+"  9 probe       new (key) · git ls-files -z -- . ':!.andromeda' | xargs -0 grep -l AGE… (135 chars)",
+" 10 probe       leg round — exempt · test -x \"$HOME/.local/share/mise/installs/claude/2.1.325/c… (134 chars)",
+" 11 e2e         leg live — exempt · cargo run -q -p viola-e2e --bin viola-live-rig -- live R1 … (197 chars)",
+" 12 build       leg round — exempt · cargo build -q --bin viola && sha256sum target/debug/viola… (71 chars)",
+" 13 e2e         leg live — exempt · cargo run -q -p viola-e2e --bin viola-live-rig -- live R2 … (179 chars)",
+" 14 probe       leg operator — exempt · bash scripts/agent-run.sh pre-push",
+" 15 probe       leg operator — exempt · python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ga… (71 chars)",
+" 16 probe       leg operator — exempt · git diff --quiet && git diff --cached --quiet && git push",
+" 17 probe       leg operator — exempt · python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ci… (95 chars)",
+"entries 17 · seen green 2 · not seen 0 · new (key) 7 · leg 8"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-11-17-standing-live-rig",
+"plan": "doc:2026-11-17-standing-live-rig/plan",
+"root": ".",
+"previous": "2026-11-16-scheduled-wake-count",
+"unreadable": 0,
+"rows": [
+{
+"n": 1,
+"row": "seen green 2026-11-16T23:27:50Z #1 (wrap)",
+"run_sha8": "2d009b4c"
+},
+{
+"n": 2,
+"row": "seen green 2026-11-16T23:27:50Z #2 (wrap)",
+"run_sha8": "84426f9a"
+},
+{
+"n": 3,
+"row": "new (key)",
+"run_sha8": "3cc233e1"
+},
+{
+"n": 4,
+"row": "new (key)",
+"run_sha8": "07a7254c"
+},
+{
+"n": 5,
+"row": "new (key)",
+"run_sha8": "9b0c6996"
+},
+{
+"n": 6,
+"row": "new (key)",
+"run_sha8": "ac3f7656"
+},
+{
+"n": 7,
+"row": "new (key)",
+"run_sha8": "3405b7ab"
+},
+{
+"n": 8,
+"row": "new (key)",
+"run_sha8": "2708b9d9"
+},
+{
+"n": 9,
+"row": "new (key)",
+"run_sha8": "09734920"
+},
+{
+"n": 10,
+"row": "leg round — exempt",
+"run_sha8": "6b1efe9f"
+},
+{
+"n": 11,
+"row": "leg live — exempt",
+"run_sha8": "14002b4f"
+},
+{
+"n": 12,
+"row": "leg round — exempt",
+"run_sha8": "14c8f2a2"
+},
+{
+"n": 13,
+"row": "leg live — exempt",
+"run_sha8": "b503a489"
+},
+{
+"n": 14,
+"row": "leg operator — exempt",
+"run_sha8": "4da4c5c8"
+},
+{
+"n": 15,
+"row": "leg operator — exempt",
+"run_sha8": "3c62df70"
+},
+{
+"n": 16,
+"row": "leg operator — exempt",
+"run_sha8": "7eca65b6"
+},
+{
+"n": 17,
+"row": "leg operator — exempt",
+"run_sha8": "20f114b9"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.36",
+"sha8": "7c3533d4",
+"ts": "2026-11-17T07:18:37Z",
+"argv": [
+"scope",
+"--lists-only",
+"--chunk",
+"2026-11-17-standing-live-rig",
+"--run-dir",
+".andromeda/runs/2026-11-17T07-09-35Z-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 7 items (new 3 · modify 4 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 7,
+"unparsed": 0
+}
+}
+]

@@ -1867,6 +1867,7 @@ dependencies = [
  "viola-hyprland",
  "viola-pty",
  "viola-state",
+ "vt100",
 ]
 
 [[package]]

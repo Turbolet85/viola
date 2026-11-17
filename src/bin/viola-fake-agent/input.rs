@@ -25,6 +25,11 @@ impl Input {
         }
     }
 
+    /// What the prompt holds now, as the input box would draw it.
+    pub(super) fn prompt(&self) -> &[u8] {
+        &self.prompt
+    }
+
     pub(super) fn feed(&mut self, byte: u8) -> Vec<Action> {
         if self.in_paste {
             self.prompt.push(byte);
@@ -64,6 +69,19 @@ impl Input {
                     actions.push(Action::Submit(std::mem::take(&mut self.prompt)));
                 }
                 actions
+            }
+            // DEL erases the prompt's last character, as the live CLI's input box does.
+            0x7f => {
+                let keep = String::from_utf8_lossy(&self.prompt)
+                    .char_indices()
+                    .last()
+                    .map_or(0, |(i, _)| i);
+                if std::str::from_utf8(&self.prompt).is_ok() {
+                    self.prompt.truncate(keep);
+                } else {
+                    self.prompt.pop();
+                }
+                vec![Action::Key(byte)]
             }
             _ => {
                 self.prompt.push(byte);

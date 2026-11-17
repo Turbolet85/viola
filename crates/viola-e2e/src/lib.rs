@@ -3,3 +3,4 @@
 //! exit; the `viola-harness` bin only parses, prints and exits.
 
 pub mod harness;
+pub mod rig;

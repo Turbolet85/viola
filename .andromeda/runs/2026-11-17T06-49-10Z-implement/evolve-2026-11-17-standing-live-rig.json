@@ -1,0 +1,66 @@
+[
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "f06103f9",
+"ts": "2026-11-17T07:03:28Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"3",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-17T06-49-10Z-implement",
+"--marker",
+"2026-11-17-standing-live-rig"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 3 record(s) in the store · tx 2207 · 2026-11-17T05-54-58-2026-11-17-standing-live-rig.ndjson",
+"ts 2026-11-17T07:03:14Z · clock 2026-11-17T07:03:28Z · bound 2026-11-17T06:48:38Z (line 3314)",
+"ids 2026-11-17T07:03:14Z-a … 2026-11-17T07:03:14Z-c (3)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T05-54-58-2026-11-17-standing-live-rig.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "f06103f9",
+"ts": "2026-11-17T07:07:31Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"3",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-17T06-49-10Z-implement",
+"--marker",
+"2026-11-17-standing-live-rig"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 3 record(s) in the store · tx 2209 · 2026-11-17T05-54-58-2026-11-17-standing-live-rig.ndjson",
+"ts 2026-11-17T07:07:19Z · clock 2026-11-17T07:07:30Z · bound 2026-11-17T07:03:14Z (line 3317)",
+"ids 2026-11-17T07:07:19Z-a … 2026-11-17T07:07:19Z-c (3)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T05-54-58-2026-11-17-standing-live-rig.ndjson"
+],
+"before": null,
+"after": null
+}
+]

@@ -1,0 +1,74 @@
+[[control]]
+id = 'rig-census'
+entry = 4
+guard = 'the census kill-and-recount removed: the teardown reads 0 without looking'
+case = 'rig_ends_what_it_starts_on_every_exit_path'
+
+[[control.edit]]
+path = 'crates/viola-e2e/src/rig/procs.rs'
+old = '''pub fn sweep(scope: Scope<'_>) -> (usize, usize) {
+    let found = census(scope);'''
+new = '''pub fn sweep(scope: Scope<'_>) -> (usize, usize) {
+    if true {
+        return (0, 0);
+    }
+    let found = census(scope);'''
+
+[[control]]
+id = 'rig-cred-rm'
+entry = 4
+guard = 'the credentials copy removal in teardown removed'
+case = 'rig_leaves_no_credentials_copy_on_any_exit_path'
+
+[[control.edit]]
+path = 'crates/viola-e2e/src/rig/isolate.rs'
+old = '''                let _ = fs::remove_file(path);'''
+new = '''                let _ = path;'''
+
+[[control]]
+id = 'rig-token'
+entry = 4
+guard = 'the 20-minute token-window comparison removed'
+case = 'rig_refuses_a_start_under_twenty_minutes_of_token'
+
+[[control.edit]]
+path = 'crates/viola-e2e/src/rig/isolate.rs'
+old = '''    u128::from(expires) >= now_ms + TOKEN_FLOOR.as_millis()'''
+new = '''    let _ = (expires, now_ms);
+    true'''
+
+[[control]]
+id = 'rig-keygrant'
+entry = 4
+guard = 'the key grant check removed'
+case = 'rig_types_no_key_outside_its_grant'
+
+[[control.edit]]
+path = 'crates/viola-e2e/src/rig/keys.rs'
+old = '''        if !self.granted(key) {
+            return Err(Refusal::NotGranted);
+        }'''
+new = '''        let _ = self.granted(key);'''
+
+[[control]]
+id = 'fake-del'
+entry = 4
+guard = 'the fake agent 0x7f arm removed'
+case = 'rig_rehearsal_reads_the_box_empty_after_x_and_del'
+
+[[control.edit]]
+path = 'src/bin/viola-fake-agent/input.rs'
+old = '''            0x7f => {
+                let keep = String::from_utf8_lossy(&self.prompt)
+                    .char_indices()
+                    .last()
+                    .map_or(0, |(i, _)| i);
+                if std::str::from_utf8(&self.prompt).is_ok() {
+                    self.prompt.truncate(keep);
+                } else {
+                    self.prompt.pop();
+                }
+                vec![Action::Key(byte)]
+            }
+'''
+new = ''

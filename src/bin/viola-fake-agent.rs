@@ -910,15 +910,165 @@ fn ignore_hangup() {
     let _ = unsafe { libc::signal(libc::SIGHUP, libc::SIG_IGN) };
 }
 
-/// Reads stdin byte by byte until EOF or `\x03`.
-fn read_stdin(agent: &Agent) -> ExitCode {
+/// The trust dialog's option rows under `--screens`, as claude 2.1.325 draws them: unnumbered, the
+/// selector first on the refusing row above the trust row.
+const TRUST_OPTIONS: [&str; 2] = ["No, exit", "Yes, I trust this folder"];
+/// The trust option's index among `TRUST_OPTIONS`.
+const TRUST_OPTION: usize = 1;
+/// The trust row when the set records no modal screen; the box's rule and prompt rows.
+const TRUST_ROW: usize = 16;
+const BOX_RULE_ROW: usize = 21;
+const BOX_PROMPT_ROW: usize = 22;
+const SCREEN_ROWS: usize = 24;
+const SCREEN_COLS: usize = 80;
+
+/// The trust dialog with the selector glyph on option `selected`, drawn over the set's recorded
+/// `Screen.modal`: its trust row stays as recorded until the selector stands on it, and the
+/// refusing row goes directly above it at the same text column, so `viola verify --record` still
+/// keeps the recorded trust row.
+fn draw_trust(opts: &Opts, selected: usize) {
+    let mut rows = opts
+        .screen("modal")
+        .unwrap_or_else(|| vec![String::new(); SCREEN_ROWS]);
+    let trust = rows
+        .iter()
+        .position(|r| r.contains(TRUST_OPTIONS[TRUST_OPTION]))
+        .filter(|&t| t > 0)
+        .unwrap_or_else(|| {
+            rows[TRUST_ROW] = format!("  {}", TRUST_OPTIONS[TRUST_OPTION]);
+            TRUST_ROW
+        });
+    let column = rows[trust].chars().take_while(|&c| c == ' ').count().max(2);
+    let line = |option: usize| {
+        if option == selected {
+            format!("{}❯ {}", " ".repeat(column - 2), TRUST_OPTIONS[option])
+        } else {
+            format!("{}{}", " ".repeat(column), TRUST_OPTIONS[option])
+        }
+    };
+    rows[trust - 1] = line(0);
+    if selected == TRUST_OPTION {
+        rows[trust] = line(TRUST_OPTION);
+    }
+    draw(&rows);
+}
+
+/// The input box's rule and prompt rows, the prompt's printable characters in it.
+fn draw_box(prompt: &[u8]) {
+    let text: String = String::from_utf8_lossy(prompt)
+        .chars()
+        .filter(|c| !c.is_control())
+        .collect();
+    let mut out = std::io::stdout().lock();
+    let _ = write!(
+        out,
+        "\x1b[{};1H{}\x1b[K\x1b[{};1H❯ {text}\x1b[K",
+        BOX_RULE_ROW + 1,
+        "─".repeat(SCREEN_COLS),
+        BOX_PROMPT_ROW + 1,
+    )
+    .and_then(|()| out.flush());
+}
+
+/// What the trust dialog does with one byte: a down or up arrow moves the selector, Enter takes
+/// the option it stands on, `\x03` ends the process; every other byte does nothing.
+enum TrustStep {
+    Wait,
+    Move,
+    Take(usize),
+    Exit,
+}
+
+struct Trust {
+    selected: usize,
+    esc: Vec<u8>,
+}
+
+impl Trust {
+    fn feed(&mut self, byte: u8) -> TrustStep {
+        if byte == 0x1b || !self.esc.is_empty() {
+            self.esc.push(byte);
+            let step = match self.esc.as_slice() {
+                b"\x1b" | b"\x1b[" => return TrustStep::Wait,
+                b"\x1b[B" => {
+                    self.selected = (self.selected + 1).min(TRUST_OPTIONS.len() - 1);
+                    TrustStep::Move
+                }
+                b"\x1b[A" => {
+                    self.selected = self.selected.saturating_sub(1);
+                    TrustStep::Move
+                }
+                _ => TrustStep::Wait,
+            };
+            self.esc.clear();
+            return step;
+        }
+        match byte {
+            b'\r' => TrustStep::Take(self.selected),
+            0x03 => TrustStep::Exit,
+            _ => TrustStep::Wait,
+        }
+    }
+}
+
+/// The launch an untrusted start makes only once trusted: the registry row, then SessionStart.
+fn launch(agent: &Agent) {
+    // The row first: whoever reads the session-start line already finds the session listed.
+    let registered = exe_dir()
+        .zip(agent.launch_session())
+        .and_then(|(dir, (id, cwd))| Registry::open(&dir, &id, &cwd));
+    if let Some(registry) = registered {
+        let _ = agent.registry.set(registry);
+    }
+    agent.fire(
+        "SessionStart",
+        agent.launch_variant(),
+        &agent.opts.resume_fields(),
+    );
+}
+
+/// Reads stdin byte by byte until EOF or `\x03`. With `trust` the trust dialog stands first, and
+/// only its keys are read until an option is taken.
+fn read_stdin(agent: &Agent, mut trust: Option<Trust>) -> ExitCode {
     let mut input = Input::new();
     let mut stdin = viola_pty::host_stdin();
     let mut byte = [0u8; 1];
     while let Ok(1) = stdin.read(&mut byte) {
+        if let Some(dialog) = &mut trust {
+            // `\x03` ends the process, as in the input box: no key line.
+            if byte[0] != 0x03 {
+                agent.receipt.write("key", json!({"hex": hex(&byte)}));
+            }
+            match dialog.feed(byte[0]) {
+                TrustStep::Wait => {}
+                TrustStep::Move => draw_trust(&agent.opts, dialog.selected),
+                TrustStep::Take(TRUST_OPTION) => {
+                    trust = None;
+                    write_screen(&agent.opts, "ready");
+                    launch(agent);
+                }
+                TrustStep::Take(_) => {
+                    ignore_hangup();
+                    return ExitCode::from(1);
+                }
+                TrustStep::Exit => {
+                    ignore_hangup();
+                    if agent.opts.exit_no_eof {
+                        hold_inherited_stdout(agent.opts.receipt.as_deref());
+                    }
+                    return ExitCode::SUCCESS;
+                }
+            }
+            continue;
+        }
         for action in input.feed(byte[0]) {
             match action {
-                Action::Key(b) => agent.receipt.write("key", json!({"hex": hex(&[b])})),
+                Action::Key(b) => {
+                    agent.receipt.write("key", json!({"hex": hex(&[b])}));
+                    if agent.opts.screens && b != b'\r' {
+                        draw_box(input.prompt());
+                    }
+                }
                 Action::Submit(bytes) => agent.submit(&bytes, "human"),
                 Action::Exit => {
                     ignore_hangup();
@@ -984,28 +1134,25 @@ fn main() -> ExitCode {
     // before trust.
     let trusted = !agent.opts.screens || agent.opts.trusted();
     if agent.opts.screens {
-        write_screen(&agent.opts, if trusted { "ready" } else { "modal" });
+        if trusted {
+            write_screen(&agent.opts, "ready");
+        } else {
+            draw_trust(&agent.opts, 0);
+        }
     }
     // The real CLI fires SessionStart at launch; with no registered hook or no fixture, nothing runs.
     if trusted {
-        // The row first: whoever reads the session-start line already finds the session listed.
-        let registered = exe_dir()
-            .zip(agent.launch_session())
-            .and_then(|(dir, (id, cwd))| Registry::open(&dir, &id, &cwd));
-        if let Some(registry) = registered {
-            let _ = agent.registry.set(registry);
-        }
-        agent.fire(
-            "SessionStart",
-            agent.launch_variant(),
-            &agent.opts.resume_fields(),
-        );
+        launch(&agent);
     }
     if !steps.is_empty() {
         let runner = Arc::clone(&agent);
         std::thread::spawn(move || runner.run_steps(&steps));
     }
-    let code = read_stdin(&agent);
+    let trust = (!trusted).then_some(Trust {
+        selected: 0,
+        esc: Vec::new(),
+    });
+    let code = read_stdin(&agent, trust);
     if let Some(registry) = agent.registry.get() {
         registry.remove();
     }

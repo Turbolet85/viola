@@ -25,6 +25,11 @@ path = "src/bin/viola-mcp-tap.rs"
 name = "viola-hypr-tap"
 path = "src/bin/viola-hypr-tap.rs"
 
+# The standing live rig: hosts a child on its own pty, reads its screen, keeps its frames locally.
+[[bin]]
+name = "viola-live-rig"
+path = "src/bin/viola-live-rig.rs"
+
 [dependencies]
 viola-core = { path = "../viola-core" }
 viola-pty = { path = "../viola-pty" }
@@ -47,6 +52,8 @@ syn.workspace = true
 sysinfo.workspace = true
 tempfile.workspace = true
 thiserror.workspace = true
+# The live rig's own screen model, the pin the product's readiness gate already takes.
+vt100.workspace = true
 # The stdio MCP E2E (`tests/mcp_tools.rs`): an rmcp client over a `viola mcp` child the test owns.
 rmcp = { workspace = true, features = ["client"] }
 tokio = { workspace = true, features = ["rt", "process"] }
