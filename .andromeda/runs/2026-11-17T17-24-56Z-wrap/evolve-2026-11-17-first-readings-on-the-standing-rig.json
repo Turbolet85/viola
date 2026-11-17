@@ -1,0 +1,130 @@
+[
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "19976d15",
+"ts": "2026-11-17T17:27:31Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-17T17-24-56Z-wrap",
+"--marker",
+"2026-11-17-first-readings-on-the-standing-rig"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 2422 · 2026-11-17T14-55-42-2026-11-17-first-readings-on-the-standing-rig.ndjson",
+"ts 2026-11-17T17:27:17Z · clock 2026-11-17T17:27:31Z · bound 2026-11-17T17:12:05Z (line 3409)",
+"ids 2026-11-17T17:27:17Z-a … 2026-11-17T17:27:17Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T14-55-42-2026-11-17-first-readings-on-the-standing-rig.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "19976d15",
+"ts": "2026-11-17T17:57:30Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"4",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-17T17-24-56Z-wrap",
+"--marker",
+"2026-11-17-first-readings-on-the-standing-rig"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 4 record(s) in the store · tx 2432 · 2026-11-17T14-55-42-2026-11-17-first-readings-on-the-standing-rig.ndjson",
+"ts 2026-11-17T17:57:00Z · clock 2026-11-17T17:57:29Z · bound 2026-11-17T17:27:17Z (line 3411)",
+"ids 2026-11-17T17:57:00Z-a … 2026-11-17T17:57:00Z-d (4)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T14-55-42-2026-11-17-first-readings-on-the-standing-rig.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "19976d15",
+"ts": "2026-11-17T17:59:13Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-17T17-24-56Z-wrap",
+"--marker",
+"2026-11-17-first-readings-on-the-standing-rig"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 2434 · 2026-11-17T14-55-42-2026-11-17-first-readings-on-the-standing-rig.ndjson",
+"ts 2026-11-17T17:59:05Z · clock 2026-11-17T17:59:13Z · bound 2026-11-17T17:57:00Z (line 3415)",
+"ids 2026-11-17T17:59:05Z-a … 2026-11-17T17:59:05Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T14-55-42-2026-11-17-first-readings-on-the-standing-rig.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "19976d15",
+"ts": "2026-11-17T18:01:45Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-17T17-24-56Z-wrap",
+"--marker",
+"2026-11-17-first-readings-on-the-standing-rig"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 2438 · 2026-11-17T14-55-42-2026-11-17-first-readings-on-the-standing-rig.ndjson",
+"ts 2026-11-17T18:01:37Z · clock 2026-11-17T18:01:45Z · bound 2026-11-17T17:59:05Z (line 3417)",
+"ids 2026-11-17T18:01:37Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T14-55-42-2026-11-17-first-readings-on-the-standing-rig.ndjson"
+],
+"before": null,
+"after": null
+}
+]

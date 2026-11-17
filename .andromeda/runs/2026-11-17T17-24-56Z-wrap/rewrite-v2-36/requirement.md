@@ -1,0 +1,1 @@
+a prompt a CLI-scheduled wake submits is told from a prompt the human typed, so a fired wake does not take the wheel, refuse the driver's sends or route the next question dialog to the human; what tells them apart is its claiming phase's to find, since the CLI's prompt-submit payload carries no field that marks the wake

@@ -1,0 +1,2 @@
+@none
+reason: the chunk is test-only (viola-e2e standing live rig, harness boot deadline, the ci profile's 20 s kill-line filter) with no product file, no interactive UI element, no CLI or TUI output change and no a11y or obs log schema change (fct-ytssg4vn, fct-yjotitsw, fct-pmfixyq6 a11y n/a); every a11y-plan row it touches, picker-marked ones included, stays true, and the task brings no fact for a11y-plan.

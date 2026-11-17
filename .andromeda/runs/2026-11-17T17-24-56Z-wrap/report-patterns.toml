@@ -1,0 +1,39 @@
+[[pattern]]
+id = 'ci-line'
+regex = '''20 ?s kill|kill line|kill-line|binary\(harness_lifecycle\)|binary\(cli\)|binary\(harness_tied\)|20s-kill|ci-stamped-home-kill-line'''
+
+[[pattern]]
+id = 'never-ready'
+regex = '''20\.644|never-ready|never gets ready|boot_that_never_gets_ready'''
+
+[[pattern]]
+id = 'boot-deadline'
+regex = '''ready_deadline|INSTANCE_DEADLINE|harness-boot|readiness deadline'''
+
+[[pattern]]
+id = 'rig-units'
+regex = '''rig::|rig unit cases'''
+
+[[pattern]]
+id = 'rehearsal'
+regex = '''rig_rehearsal|rig rehearsal'''
+
+[[pattern]]
+id = 'wake-source'
+regex = '''loop_wakeup|schedule_wakeup|source` field|source field|source key|`source`'''
+
+[[pattern]]
+id = 'user-config'
+regex = '''user-config|\.claude\.json|live-rig-isolated-child|whole-file stamp|changed-by-rig|changed-by-others'''
+
+[[pattern]]
+id = 'live-rig'
+regex = '''standing-live-rig|viola-live-rig|standing rig|stop_no_key|imports arm|wake arm'''
+
+[[pattern]]
+id = 'rig-capture'
+regex = '''UserPromptSubmit|capture --out|rig's own capture'''
+
+[[pattern]]
+id = 'rig-keys'
+regex = '''live-round-rig-keys-own-pty|Ctrl-C is its stop|group kill|no key'''

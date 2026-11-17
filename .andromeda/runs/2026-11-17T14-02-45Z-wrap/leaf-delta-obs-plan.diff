@@ -1,7 +1,0 @@
---- a/.andromeda/obs-plan.md
-+++ b/.andromeda/obs-plan.md
-@@ -947,3 +947,3 @@
- decision/diag-schema-matches-event-enum · Diagnostic line schema matches the event enum — A hand-maintained JSON Schema of the process-log line is committed, and its event enum must equal the ObsEvent variants, asserted by a tests-owned check.
--decision/direct-chrono-dependency · Direct chrono dependency for timestamps — The root binary takes chrono directly, without default features, to produce the millisecond UTC timestamp. · why: tracing-subscriber's chrono feature does not re-export chrono
-+decision/direct-chrono-dependency · Direct chrono dependency for timestamps — The root binary takes chrono directly, without default features, for the millisecond UTC timestamp, and keeps it though unmaintained: RUSTSEC-2026-0543 stands in the cargo deny ignore list on the unmaintained-upstream ground, re-read at each epoch boundary; jiff and time are not adopted. · why: tracing-subscriber's chrono feature does not re-export chrono
- decision/fixed-error-display · Fixed error Display text — Typed errors have fixed Display text that carries no interpolated content.

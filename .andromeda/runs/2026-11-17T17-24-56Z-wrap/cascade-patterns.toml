@@ -1,0 +1,7 @@
+[[pattern]]
+id = 'main-keys-stop'
+regex = '''stop's alone|anew for each chunk|anew per chunk|Ctrl-C is its stop'''
+
+[[pattern]]
+id = 'main-stamp'
+regex = '''prefix and mtime|sha256 prefix|before and after each start|stamp-only'''

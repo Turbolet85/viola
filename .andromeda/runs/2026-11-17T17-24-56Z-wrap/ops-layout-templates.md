@@ -1,0 +1,2 @@
+@none
+reason: The chunk is test-only (viola-e2e rig, harness deadline, nextest ci line); fct-ytssg4vn says no product file changed, fct-sqi7nisv says no CLI or UI surface changed, and fct-rzepkgc4 says the live verify --record left the chunk. So no CLI wording or user-facing surface moved (D-design-cli-wording, D-layout-surface), the four picked rows stay true as written, and the task carries no fact.

@@ -1,2 +1,0 @@
-old: - **R4 — the live `viola verify --record`** (the entry's head) with the record-home rule's live half
-new: - **R4 — LEAVES this chunk** on the founder's own answer to the P3 size block (inputs#I2 item 1): R4 and the record-home rule's live half ride «The 2.1.325 recorded fixture set» as a carry, the re-pin the wrap's route-resolve; no start of this chunk takes it. As folded: **R4 — the live `viola verify --record`** (the entry's head) with the record-home rule's live half
