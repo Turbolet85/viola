@@ -1,0 +1,19 @@
+[[pattern]]
+id = 'live-layer'
+regex = '''(?i)live-readings-not-a-test-layer|live readings? (are|is) not a test layer|standing (live )?rig|viola-live-rig'''
+
+[[pattern]]
+id = 'rig-resources'
+regex = '''viola-live-rig|AGENT_RUN_RIG|AGENT_RUN_[A-Z_]+'''
+
+[[pattern]]
+id = 'rig-keys'
+regex = '''(?i)live-round-rig-keys-own-pty|rig keys|keys? (its|the rig's) own pty'''
+
+[[pattern]]
+id = 'fake-trust-del'
+regex = '''(?i)fake[- ]agent[^.\n]{0,160}(trust|erase|\bDEL\b|0x7f|selector)|(trust (dialog|selector|row)|\bDEL\b|0x7f)[^.\n]{0,160}fake[- ]agent'''
+
+[[pattern]]
+id = 'send-trim'
+regex = '''(?i)delivery-confirmation-trailing-tolerance|either end|leading (trim|trimming|run)|trailing run of ASCII space'''

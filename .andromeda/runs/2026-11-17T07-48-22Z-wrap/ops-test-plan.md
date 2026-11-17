@@ -1,0 +1,233 @@
+@row_retire n=1 row=decision/live-readings-not-a-test-layer seen=1 heir=decision/standing-live-rig detector=none
+why: The ratified widening makes live readings run on one committed test-only rig whose rehearsals run in CI, so a row naming live readings no test layer and never in CI no longer stands.
+basis: fct-onwod2ys, fct-sjq6de27, fct-wm5rpfb2
+because: The chunk built the standing live rig the founder ratified, and the row's name and rule both say the opposite, so it is replaced by its heir.
+@row_add n=1 row=decision/standing-live-rig area=6-e2e-test-strategy fact=F1 detector=none
+name: One standing committed live rig
+rule: Live rounds against the real claude reuse one committed test-only rig, viola-live-rig in viola-e2e: its rehearsals over the fake agent run in CI, its live starts run by hand under the founder's start cap for each chunk, each ledgered with its clock time first, and its live arm refuses under CI.
+why: Ratified as the one rig every later live round reuses.
+guard: rig_rehearsal
+basis: fct-sjq6de27, fct-onwod2ys, fct-lsdylfnt, fct-wv4f6rkv
+because: The chunk adds the standing rig every later live round reuses, and the test plan must carry it as the heir of the retired live-readings row.
+@row_add n=2 row=decision/live-rig-key-grant area=6-e2e-test-strategy fact=F3 detector=none
+name: Live rig key grant
+rule: The live rig is the one site that types into a live child's PTY, only under a grant from argv: at most 2 down-arrows and Enter on a read trust row, one x and one DEL; a key outside the grant or not ready writes nothing and the start reads a refusal word.
+why: Ratified.
+guard: rig_types_no_key_outside_its_grant
+except: Ctrl-C belongs to the rig's stop alone.
+basis: fct-yubkirys, fct-onwod2ys, fct-wv4f6rkv
+because: The chunk makes the rig the one typing site under a ratified grant, a rule every later live round must respect.
+@row_add n=3 row=decision/live-rig-isolates-each-start area=6-e2e-test-strategy fact=F4 detector=none
+name: Live rig isolates each start
+rule: Each live rig child runs under a private CLAUDE_CONFIG_DIR in a scratch removed at teardown, with a 0600 credentials copy removed on every exit path; a start below 20 minutes of token window is refused; the user's claude config is read only as a sha256 prefix and mtime that must read unchanged.
+guard: rig_leaves_no_credentials_copy_on_any_exit_path, rig_reads_the_user_config_before_and_after
+basis: fct-yubkirys, fct-nwy7zwl7, fct-seoizoiu
+because: The chunk sets how a live start is kept apart from the user's own claude, which later live rounds rely on.
+@row_add n=4 row=decision/live-rig-reaches-only-its-own area=pid-file fact=F5 detector=none
+name: Live rig reaches only its own processes
+rule: The live rig marks its child with AGENT_RUN_RIG, its pid and start time; its census reaches only marked processes or ones under its scratch cwd, verified by pid and start time, census --kill only a dead rig's leftovers, and its stop presses Ctrl-C every 500 ms up to 10 s before the group's SIGKILL.
+guard: rig_ends_what_it_starts_on_every_exit_path
+basis: fct-yubkirys, fct-onwod2ys, fct-nwy7zwl7, fct-zlx5oko5
+because: The chunk adds a process census and kill that must never reach the host's other sessions, a bound later rounds rely on.
+@row_add n=5 row=contract/live-rig-exit-codes/0 area=6-e2e-test-strategy fact=F6 detector=none
+boundary: viola-live-rig exit codes
+item: 0
+promise: A whole start.
+basis: fct-yubkirys
+because: The chunk adds the rig's exit codes, a contract every later live round reads.
+@row_add n=6 row=contract/live-rig-exit-codes/1 area=6-e2e-test-strategy fact=F6 detector=none
+boundary: viola-live-rig exit codes
+item: 1
+promise: A start read red.
+basis: fct-yubkirys
+because: The chunk adds the rig's exit codes, a contract every later live round reads.
+@row_add n=7 row=contract/live-rig-exit-codes/2 area=6-e2e-test-strategy fact=F6 detector=none
+boundary: viola-live-rig exit codes
+item: 2
+promise: A usage error.
+basis: fct-yubkirys
+because: The chunk adds the rig's exit codes, a contract every later live round reads.
+@row_add n=8 row=contract/live-rig-exit-codes/3 area=6-e2e-test-strategy fact=F6 detector=none
+boundary: viola-live-rig exit codes
+item: 3
+promise: A start refused before its ledger line.
+basis: fct-yubkirys
+because: The chunk adds the rig's exit codes, a contract every later live round reads.
+@row_add n=9 row=contract/live-rig-refusal/ci area=6-e2e-test-strategy fact=F6 detector=none
+boundary: viola-live-rig refusal words
+item: ci
+promise: A closed refusal word of the rig's summary: a live start under CI.
+basis: fct-yubkirys
+because: The chunk adds a closed list of refusal words the rig prints, a contract later live rounds read.
+@row_add n=10 row=contract/live-rig-refusal/spent area=6-e2e-test-strategy fact=F6 detector=none
+boundary: viola-live-rig refusal words
+item: spent
+promise: A closed refusal word of the rig's summary.
+basis: fct-yubkirys
+because: The chunk adds a closed list of refusal words the rig prints, a contract later live rounds read.
+@row_add n=11 row=contract/live-rig-refusal/cap area=6-e2e-test-strategy fact=F6 detector=none
+boundary: viola-live-rig refusal words
+item: cap
+promise: A closed refusal word of the rig's summary.
+basis: fct-yubkirys
+because: The chunk adds a closed list of refusal words the rig prints, a contract later live rounds read.
+@row_add n=12 row=contract/live-rig-refusal/version area=6-e2e-test-strategy fact=F6 detector=none
+boundary: viola-live-rig refusal words
+item: version
+promise: A closed refusal word of the rig's summary.
+basis: fct-yubkirys
+because: The chunk adds a closed list of refusal words the rig prints, a contract later live rounds read.
+@row_add n=13 row=contract/live-rig-refusal/token-window area=6-e2e-test-strategy fact=F6 detector=none
+boundary: viola-live-rig refusal words
+item: token-window
+promise: A closed refusal word of the rig's summary.
+basis: fct-yubkirys
+because: The chunk adds a closed list of refusal words the rig prints, a contract later live rounds read.
+@row_add n=14 row=contract/live-rig-refusal/leftover area=6-e2e-test-strategy fact=F6 detector=none
+boundary: viola-live-rig refusal words
+item: leftover
+promise: A closed refusal word of the rig's summary.
+basis: fct-yubkirys
+because: The chunk adds a closed list of refusal words the rig prints, a contract later live rounds read.
+@row_add n=15 row=contract/live-rig-refusal/ledger area=6-e2e-test-strategy fact=F6 detector=none
+boundary: viola-live-rig refusal words
+item: ledger
+promise: A closed refusal word of the rig's summary.
+basis: fct-yubkirys
+because: The chunk adds a closed list of refusal words the rig prints, a contract later live rounds read.
+@row_add n=16 row=contract/live-rig-refusal/scratch area=6-e2e-test-strategy fact=F6 detector=none
+boundary: viola-live-rig refusal words
+item: scratch
+promise: A closed refusal word of the rig's summary.
+basis: fct-yubkirys
+because: The chunk adds a closed list of refusal words the rig prints, a contract later live rounds read.
+@row_add n=17 row=contract/live-rig-refusal/credentials area=6-e2e-test-strategy fact=F6 detector=none
+boundary: viola-live-rig refusal words
+item: credentials
+promise: A closed refusal word of the rig's summary.
+basis: fct-yubkirys
+because: The chunk adds a closed list of refusal words the rig prints, a contract later live rounds read.
+@row_add n=18 row=contract/live-rig-refusal/spawn area=6-e2e-test-strategy fact=F6 detector=none
+boundary: viola-live-rig refusal words
+item: spawn
+promise: A closed refusal word of the rig's summary.
+basis: fct-yubkirys
+because: The chunk adds a closed list of refusal words the rig prints, a contract later live rounds read.
+@row_add n=19 row=contract/live-rig-refusal/viola area=6-e2e-test-strategy fact=F6 detector=none
+boundary: viola-live-rig refusal words
+item: viola
+promise: A closed refusal word of the rig's summary.
+basis: fct-yubkirys
+because: The chunk adds a closed list of refusal words the rig prints, a contract later live rounds read.
+@row_add n=20 row=contract/live-rig-refusal/shape area=6-e2e-test-strategy fact=F6 detector=none
+boundary: viola-live-rig refusal words
+item: shape
+promise: A closed refusal word of the rig's summary.
+basis: fct-yubkirys
+because: The chunk adds a closed list of refusal words the rig prints, a contract later live rounds read.
+@row_add n=21 row=contract/live-rig-refusal/no-session-start area=6-e2e-test-strategy fact=F6 detector=none
+boundary: viola-live-rig refusal words
+item: no-session-start
+promise: A closed refusal word of the rig's summary.
+basis: fct-yubkirys
+because: The chunk adds a closed list of refusal words the rig prints, a contract later live rounds read.
+@row_add n=22 row=contract/live-rig-refusal/texts area=6-e2e-test-strategy fact=F6 detector=none
+boundary: viola-live-rig refusal words
+item: texts
+promise: A closed refusal word of the rig's summary.
+basis: fct-yubkirys
+because: The chunk adds a closed list of refusal words the rig prints, a contract later live rounds read.
+@row_add n=23 row=contract/live-rig-refusal/key-not-granted area=6-e2e-test-strategy fact=F6 detector=none
+boundary: viola-live-rig refusal words
+item: key-not-granted
+promise: A closed refusal word of the rig's summary: a key outside the grant, nothing written.
+basis: fct-yubkirys
+because: The chunk adds a closed list of refusal words the rig prints, a contract later live rounds read.
+@row_add n=24 row=contract/live-rig-refusal/key-not-ready area=6-e2e-test-strategy fact=F6 detector=none
+boundary: viola-live-rig refusal words
+item: key-not-ready
+promise: A closed refusal word of the rig's summary: a granted key whose screen is not ready, nothing written.
+basis: fct-yubkirys
+because: The chunk adds a closed list of refusal words the rig prints, a contract later live rounds read.
+@row_add n=25 row=contract/live-rig-refusal/key-write-failed area=6-e2e-test-strategy fact=F6 detector=none
+boundary: viola-live-rig refusal words
+item: key-write-failed
+promise: A closed refusal word of the rig's summary.
+basis: fct-yubkirys
+because: The chunk adds a closed list of refusal words the rig prints, a contract later live rounds read.
+@row_add n=26 row=contract/live-rig-refusal/trust-unpassed area=6-e2e-test-strategy fact=F6 detector=none
+boundary: viola-live-rig refusal words
+item: trust-unpassed
+promise: A closed refusal word of the rig's summary: the trust dialog was not passed.
+basis: fct-yubkirys, fct-nqt53gli
+because: The chunk adds a closed list of refusal words the rig prints, a contract later live rounds read.
+@row_add n=27 row=contract/live-rig-trust-moves/count area=6-e2e-test-strategy fact=F6 detector=none
+boundary: viola-live-rig trust-moves reading
+item: <k>
+promise: The count of down-arrows from the selector to the read trust row, at most 2.
+basis: fct-yubkirys, fct-ixcp7ve3
+because: The chunk adds a closed reading of the trust moves, a word later live rounds read.
+@row_add n=28 row=contract/live-rig-trust-moves/needs-up area=6-e2e-test-strategy fact=F6 detector=none
+boundary: viola-live-rig trust-moves reading
+item: needs-up
+promise: The trust row stands above the selector; no key is typed.
+basis: fct-yubkirys
+because: The chunk adds a closed reading of the trust moves, a word later live rounds read.
+@row_add n=29 row=contract/live-rig-trust-moves/needs-third-move area=6-e2e-test-strategy fact=F6 detector=none
+boundary: viola-live-rig trust-moves reading
+item: needs-third-move
+promise: The trust row stands more than two moves down; no key is typed.
+basis: fct-yubkirys
+because: The chunk adds a closed reading of the trust moves, a word later live rounds read.
+@row_add n=30 row=contract/live-rig-trust-moves/unread area=6-e2e-test-strategy fact=F6 detector=none
+boundary: viola-live-rig trust-moves reading
+item: unread
+promise: A trust frame with no selector row or no trust row; no key is typed and the start reads trust-unpassed.
+basis: fct-nqt53gli
+because: The chunk adds a fourth closed trust-moves word, a word later live rounds read.
+@row_add n=31 row=contract/fake-agent-screens/trust-dialog area=7-test-data-fixtures fact=F7 detector=none
+boundary: viola-fake-agent screens
+item: trust dialog
+promise: Under --screens with an untrusted cwd the fake agent draws claude 2.1.325's unnumbered trust form over the set's recorded modal, the selector first on No, exit directly above the recorded trust row (row 16 with no recorded modal); arrows move the selector, and Enter on No exits 1.
+basis: fct-yubkirys, fct-mhawmasl
+because: The chunk gives the fake agent the live CLI's trust form, a behaviour the rig's rehearsals rely on.
+@row_set n=1 row=decision/no-screen-parsing cell=except seen=1 fact=F2 detector=none
+value: The test-only live rig reads the child's screen through a vt100 model of 45 rows by 210 columns, by compiled literals only, into closed words its rehearsal asserts on.
+basis: fct-yubkirys, fct-napzko4u, fct-nwy7zwl7
+because: The rig's rehearsal now asserts on words read from the child's screen, so the rule needs its one exception named.
+@row_set n=2 row=decision/never-parse-rendered-child-screen cell=except seen=1 detector=none
+value: The test-only live rig reads the child's screen by compiled literals only into closed words, which its rehearsal asserts on.
+basis: fct-yubkirys, fct-napzko4u
+because: The rig's rehearsal now asserts on words read from the child's screen, so the rule needs that exception named.
+@row_set n=3 row=decision/no-child-screen-assertions cell=except seen=1 detector=none
+value: The forced vt100 panic case is checked by a byte search of the outer terminal; the test-only live rig reads the child's screen by compiled literals into closed words its rehearsal asserts on.
+basis: fct-yubkirys, fct-napzko4u
+because: The rig's rehearsal now asserts on words read from the child's screen, so the exception cell must name it beside the panic case.
+@row_set n=4 row=decision/discipline-at-every-layer cell=except seen=1 detector=none
+value: The test-only live rig reads the child's screen by compiled literals into closed words, and passes a read trust dialog under its key grant.
+basis: fct-yubkirys, fct-j653w2rr
+because: The rig's rehearsal reads the child's screen and passes the trust dialog, so the every-layer rule needs that exception named.
+@row_set n=5 row=decision/no-blanket-approval-tests cell=except seen=1 detector=none
+value: The live rig passes a read trust dialog under its key grant, in its rehearsals and its live starts.
+basis: fct-yubkirys, fct-j653w2rr
+because: The rig's rehearsal now passes the fake agent's trust dialog, so the ban needs that granted exception named.
+@row_set n=6 row=decision/real-claude-local-only cell=rule seen=1 detector=none
+value: Claude-facing behaviour is tested against the fake agent and recorded fixtures; the real claude CLI and Anthropic backend are mocked at unit level and reached only locally, through viola verify and the standing live rig's live starts, never in CI.
+basis: fct-sjq6de27, fct-onwod2ys
+because: Live measurement of the real CLI now goes through the committed rig rather than a route entry's own launcher, so the row must name it.
+@row_set n=7 row=contract/fake-agent-events/session-start cell=promise seen=1 detector=none
+value: After start_receipts the fake agent fires SessionStart (variant default) once, silent without a registered hook or a fixture, like every fire; under --screens with an untrusted cwd only after Enter on the trust row, which draws the ready screen.
+basis: fct-yubkirys
+because: The fake agent now holds its launch SessionStart behind the trust form, so the promise of when it fires must follow.
+@row_set n=8 row=contract/fake-agent-exit/exit-triggers cell=promise seen=1 detector=none
+value: The fake agent exits on \x03 or at stdin EOF, and exits 1 on Enter on the trust form's No; before it exits it waits for a hook still running and starts no other.
+basis: fct-yubkirys
+because: The fake agent gains an exit on the trust form's No, so its exit triggers must name it.
+@row_set n=9 row=contract/fake-agent-input/keystroke cell=promise seen=1 fact=F8 detector=none
+value: Every byte typed outside a paste is a keystroke that draws a box rule and a prompt row; a DEL erases the prompt's last character, UTF-8 aware, and a CR submits what was typed.
+basis: fct-yubkirys
+because: The fake agent now draws its box on typed keys and erases on DEL, so the keystroke promise must carry both.
+@row_set n=10 row=decision/send-confirmation-trailing-trim-match cell=why seen=2 fact=F9 detector=none
+value: The CLI trims a prompt at submit, so a send ending in whitespace went unclaimed; read live, it removes a trailing run of spaces and TAB and keeps a leading run, an inner run and an inner LF.
+basis: fct-seoizoiu, fct-wv4f6rkv, fct-wm5rpfb2
+because: R2 read the trim set live, so the why that calls it an assumption no longer stands.

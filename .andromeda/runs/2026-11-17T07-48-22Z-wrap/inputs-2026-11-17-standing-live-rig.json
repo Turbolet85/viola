@@ -1,0 +1,107 @@
+[
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "ca32c8df",
+"ts": "2026-11-17T07:49:01Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-17-standing-live-rig",
+"--source",
+"~/dev/projects/additional/viola-overseer/wrap-live-rig-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the overseer's wrap directive for this chunk: two ratified widenings, two route entries, carries, R2 discharge, departures, last-card block",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-17T07-48-22Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I9 · copy no-repo · ../additional/viola-overseer/wrap-live-rig-directive.md",
+"cite: inputs#I9"
+],
+"stderr": null,
+"wrote": [
+"inputs/I9-wrap-live-rig-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I9",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/wrap-live-rig-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "5b21cd3977cbe7809a4d5e3e30fb46790341840af8e99c0a9f5e84d651c131a9",
+"copy": "I9-wrap-live-rig-directive.md.txt",
+"link": false,
+"read_at": "2026-11-17T07:49:01Z",
+"step": "wrap",
+"why": "the overseer's wrap directive for this chunk: two ratified widenings, two route entries, carries, R2 discharge, departures, last-card block"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "ca32c8df",
+"ts": "2026-11-17T07:49:02Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-17-standing-live-rig",
+"--run-dir",
+".andromeda/runs/2026-11-17T07-48-22Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-live-rig-directive.md",
+"I1 cited scope.md:28 · scope.md:33 · scope.md:79 · scope.md:85 · research.md:7 · plan.md:20 · plan.md:175 · plan.md:344 · plan.md:358 · plan.md:387 · report.md:60",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-live-rig-p3.md",
+"I2 cited scope.md:76 · plan.md:18 · plan.md:20 · plan.md:26 · plan.md:27 · plan.md:29 · plan.md:106 · plan.md:171 · plan.md:257 (in fence) · plan.md:352 · plan.md:387 · plan.md:402 · plan.md:403 · plan.md:429 · plan.md:435 · plan.md:442 · report.md:61 · report.md:73 · report.md:74",
+"I3 n/a — a message has no live source · copy message · message: the operator, relaying the Viola overseer as delegate",
+"I3 cited report.md:66",
+"I4 n/a — a message has no live source · copy message · message: the operator",
+"I4 cited report.md:66",
+"I5 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase invocation, 2026-11-17T07:09Z",
+"I5 cited scope.md:95 · scope.md:116 · research.md:64 · plan.md:9 · plan.md:387 · report.md:63",
+"I6 unchanged · copy no-repo · ../additional/viola-overseer/relay-live-rig-revision1.md",
+"I6 cited scope.md:95 · scope.md:100 · scope.md:104 · scope.md:106 · scope.md:109 · scope.md:114 · scope.md:116 · research.md:64 · research.md:66 · plan.md:9 · plan.md:67 · plan.md:94 · plan.md:101 · plan.md:110 · plan.md:114 · plan.md:153 · plan.md:174 · plan.md:284 (in fence) · plan.md:377 · plan.md:388 · plan.md:426 · report.md:55 · report.md:64 · report.md:85",
+"I7 n/a — a message has no live source · copy message · message: the Viola overseer, delegate, 2026-11-17",
+"I7 cited research.md:64 · plan.md:388 · report.md:65",
+"I8 n/a — a message has no live source · copy message · message: the operator in the session, carrying the Viola overseer word as delegate (inputs#I6: the word on the card is the overseer), 2026-11-17",
+"I8 cited report.md:66 · report.md:67",
+"I9 unchanged · copy no-repo · ../additional/viola-overseer/wrap-live-rig-directive.md",
+"I9 UNCITED",
+"inputs: 9 entries — unchanged 4 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 5 · uncited 1 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 9,
+"counts": {
+"unchanged": 4,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 5
+},
+"uncited": 1,
+"unparsed": 0
+}
+}
+]

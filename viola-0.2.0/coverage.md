@@ -1,15 +1,12 @@
 # Coverage — viola-0.2.0
 
-verified 14/36 · deferred 2 · planned 19 · implemented 1 · unclaimed 19
+verified 15/37 · deferred 2 · planned 20 · implemented 0 · unclaimed 20
 
 ## deferred (2)
 - v2-21 · A key answering the CLI's session-feedback survey keeps the wheel
 - v2-22 · Product-owned session settings
 
-## implemented (1)
-- v2-32 · A standing live rig with a screen model · 2026-11-17-standing-live-rig
-
-## planned, unclaimed (19)
+## planned, unclaimed (20)
 - v2-07 · Launch a session into the fleet
 - v2-08 · The launch authority bounded
 - v2-09 · The lineage registry
@@ -29,8 +26,9 @@ verified 14/36 · deferred 2 · planned 19 · implemented 1 · unclaimed 19
 - v2-31 · Switch a session's model and effort
 - v2-33 · A session's folder trusted by viola
 - v2-36 · A fired scheduled wake keeps the wheel
+- v2-37 · A booted wrapper does not outlive its test
 
-## verified (14)
+## verified (15)
 - v2-01 · Epoch 8 cleanup · 2026-11-13-epoch-8-cleanup
 - v2-02 · The dialog-hold ceiling read live · 2026-11-15-live-round-on-the-trimmed-product
 - v2-03 · `viola run` wraps the unmodified CLI on Linux, proved · 2026-11-15-live-round-on-the-trimmed-product
@@ -43,5 +41,6 @@ verified 14/36 · deferred 2 · planned 19 · implemented 1 · unclaimed 19
 - v2-19 · The readiness-gate send race closed · 2026-11-16-send-confirmation
 - v2-23 · A local command's own echo is its delivery · 2026-11-16-local-command-delivery
 - v2-29 · Verify waits on the input box, not the footer · 2026-11-13-verify-readiness-on-the-input-box
+- v2-32 · A standing live rig with a screen model · 2026-11-17-standing-live-rig
 - v2-34 · A turn end's API-error cause named from a closed list · 2026-11-16-granular-api-error-cause
 - v2-35 · A scheduled wake counted on a turn end · 2026-11-16-scheduled-wake-count

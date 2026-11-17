@@ -1,0 +1,1 @@
+- **{id}** · A booted wrapper does not outlive its test — a wrapper a test boots, and the agent under it, end when that test ends, whether the test passes, fails, times out or is killed, so no booted wrapper or fake agent is left running after a test run (per the operator's ruling 2026-11-17)
