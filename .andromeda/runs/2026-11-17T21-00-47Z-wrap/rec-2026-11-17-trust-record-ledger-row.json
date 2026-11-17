@@ -1,0 +1,1583 @@
+[
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:03:27Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-17-trust-record-ledger-row",
+"--section-file",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/after-implement.md",
+"--heading",
+"## After implement",
+"--before",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-17-trust-record-ledger-row/report rev 2 · 10 new · 0 revised · 0 retired · 36 kept · tx 2497"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T19-20-55-2026-11-17-trust-record-ledger-row.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:03:27Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-17-trust-record-ledger-row",
+"--section-file",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/new-text.md",
+"--heading",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-17-trust-record-ledger-row/report rev 3 · 91 new · 0 revised · 0 retired · 46 kept · tx 2498"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T19-20-55-2026-11-17-trust-record-ledger-row.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:03:39Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-17-trust-record-ledger-row",
+"--section-file",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/after-implement.md",
+"--heading",
+"## After implement",
+"--before",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-17-trust-record-ledger-row/report rev 4 · 0 new · 1 revised · 0 retired · 136 kept · tx 2499"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T19-20-55-2026-11-17-trust-record-ledger-row.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:04:01Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/cites-land-2026-11-17-trust-record-ledger-row.ndjson",
+"--base",
+"c2310c28e56e82a2a75e47a4b584ec303cc9d5ec",
+"--run-dir",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 0 fact(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:04:06Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/cites-land-2026-11-17-trust-record-ledger-row.ndjson",
+"--base",
+"c2310c28e56e82a2a75e47a4b584ec303cc9d5ec",
+"--run-dir",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 0 fact(s) · 0 edge(s) · tx 2501"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T19-20-55-2026-11-17-trust-record-ledger-row.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:06:22Z",
+"argv": [
+"rows-packs",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 948 · packs 10 · pack 100 · 266588 B",
+"security-plan: rows 608 · packs 7 · pack 100 · 178973 B",
+"design-system: rows 315 · packs 4 · pack 100 · 75724 B",
+"layout-templates: rows 222 · packs 3 · pack 100 · 52492 B",
+"test-plan: rows 1338 · packs 14 · pack 100 · 357685 B",
+"obs-plan: rows 1024 · packs 11 · pack 100 · 280895 B",
+"a11y-plan: rows 235 · packs 3 · pack 100 · 65732 B",
+"rows-packs: 7 master(s) · 4690 row(s) · 52 pack(s) · 2 draw(s) a pack · pin 2501"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/rows-packs.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:24:47Z",
+"argv": [
+"rows-union",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 948 · packs 10 · picked 58 (40 by every draw) · standing 0 · 232820 B",
+"security-plan: rows 608 · packs 7 · picked 46 (37 by every draw) · standing 0 · 138380 B",
+"design-system: rows 315 · packs 4 · picked 14 (10 by every draw) · standing 0 · 59716 B",
+"layout-templates: rows 222 · packs 3 · picked 17 (12 by every draw) · standing 0 · 46724 B",
+"test-plan: rows 1338 · packs 14 · picked 78 (41 by every draw) · standing 0 · 275417 B",
+"obs-plan: rows 1024 · packs 11 · picked 34 (24 by every draw) · standing 0 · 223204 B",
+"a11y-plan: rows 235 · packs 3 · picked 28 (12 by every draw) · standing 0 · 50715 B",
+"rows-union: 7 master(s) · picked 275 of 4690 · rule any"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/arch-rows.md",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/arch-standing.md",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/arch-pick-counts.md",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/security-rows.md",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/security-standing.md",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/security-pick-counts.md",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/design-rows.md",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/design-standing.md",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/design-pick-counts.md",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/layouts-rows.md",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/layouts-standing.md",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/layouts-pick-counts.md",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/tests-rows.md",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/tests-standing.md",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/tests-pick-counts.md",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/obs-rows.md",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/obs-standing.md",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/obs-pick-counts.md",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/a11y-rows.md",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/a11y-standing.md",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/a11y-pick-counts.md",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:33:44Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/env-var-viola-prefix · rejected",
+"contract/ledger-stamps/measured · rejected",
+"decision/trust-writer-takes-config-lock · rejected",
+"fit: fits 29 · not_master 0 · stands 0",
+"## 2026-11-17-trust-record-ledger-row — Established Decisions: 4 row(s)\n**Section:** Established Decisions\n**Change:** ~ decision/verify-child-set · rule: was «viola verify makes one print-mode probe, five interactive PTY runs under the R8 strip at a fixed 80×24, and one agents --json read inside Run B, pasting only compiled texts.»; now «viola verify makes one print-mode probe, six interactive PTY runs under the R8 strip at a fixed 80×24, and one agents --json read inside Run B, pasting only compiled texts.»\n~ decision/claude-first-no-adapter-trait · except: was «The test-only live rig in viola-e2e reads the key names and the source word of its own captured UserPromptSubmit payload, never a value.»; now «Test-only: the live rig reads the key names and source word of its own captured UserPromptSubmit payload, never a value; the fake agent and the rig read a Claude config file's trust record.»\n+ decision/verify-own-trust-record — Verify writes and removes its own trust record\n+ decision/trust-record-ledger-row — Trust-record ledger row and its probe\n**Why:** decision/verify-child-set: Run F, the trust-record run, makes verify's interactive runs six, a ruled widening of the child set, so the row's count of five is false. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-17: «Confirmed by the overseer at 2026-11-17T21:33:27Z … each lies inside R1–R4, and none amends the product's write in.»\ndecision/claude-first-no-adapter-trait: The test-only fake agent and live rig now read the trust record of a Claude config file outside viola-agent-claude, so the named exception must include them. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-17: «Confirmed by the overseer at 2026-11-17T21:33:27Z … each lies inside R1–R4, and none amends the product's write in.»\ndecision/verify-own-trust-record: verify now writes into the Claude config file, a ruled exception no row states, and the planner of run's and revive's owed write must see its bound. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-17: «Confirmed by the overseer at 2026-11-17T21:33:27Z … each lies inside R1–R4, and none amends the product's write in.»\ndecision/trust-record-ledger-row: A 23rd relied ledger row now stands, a CLI behaviour viola relies on, with its own probe and check that no row states. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-17: «Confirmed by the overseer at 2026-11-17T21:33:27Z … each lies inside R1–R4, and none amends the product's write in.»\n**Ref:** .andromeda/runs/2026-11-17T21-00-47Z-wrap/",
+"## 2026-11-17-trust-record-ledger-row — Occupied Resources: 4 row(s) (1 of 2)\n**Section:** Occupied Resources\n**Change:** ~ decision/verify-run-e-resumes-run-b-first-session · why: was «The resume ledger row checks Run E's first SessionStart for source resume and that same id, and the five runs execute in order A to E.»; now «The resume ledger row checks Run E's first SessionStart for source resume and that same id, and the six runs execute in order A to F.»\n~ decision/verify-removes-only-own-dirs · rule: was «viola verify removes its probe folders whole when it passes, fails or is stopped by Ctrl-C or TERM, and only the folders that run created, never by a pattern or a listing.»; now «viola verify removes its probe folders whole, and its own trust record from the Claude config file, when it passes, fails or is stopped by Ctrl-C or TERM, only what that run created, never by a pattern or a listing.»\n~ decision/env-strip-names-only · except: was «»; now «viola verify reads the value of CLAUDE_CONFIG_DIR, only when claude_env_keep keeps that name, to locate the Claude config file.»\n~ decision/env-strip-reads-names-only · except: was «»; now «viola verify reads the value of CLAUDE_CONFIG_DIR, only when claude_env_keep keeps that name, to locate the Claude config file.»\n**Why:** decision/verify-run-e-resumes-run-b-first-session: Run F now runs last after Run E, so the runs are six in order A to F.\ndecision/verify-removes-only-own-dirs: Run F's record guard removes verify's own trust record after a pass, a fail and a TERM stop, so the cleanup decision now covers that record too. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-17: «Confirmed by the overseer at 2026-11-17T21:33:27Z … each lies inside R1–R4, and none amends the product's write in.»\ndecision/env-strip-names-only: verify now reads one environment value beside the names-only strip, so the names-only rule needs that one exception named. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-17: «Confirmed by the overseer at 2026-11-17T21:33:27Z … each lies inside R1–R4, and none amends the product's write in.»\ndecision/env-strip-reads-names-only: verify now reads one environment value beside the names-only strip, so the names-only rule needs that one exception named. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-17: «Confirmed by the overseer at 2026-11-17T21:33:27Z … each lies inside R1–R4, and none amends the product's write in.»\n**Ref:** .andromeda/runs/2026-11-17T21-00-47Z-wrap/",
+"## 2026-11-17-trust-record-ledger-row — Occupied Resources: 1 row(s) (2 of 2)\n**Section:** Occupied Resources\n**Change:** ~ contract/config-json/claude-env-keep · promise: was «The R8 pass-list of CLAUDE* names, an array of at most 32 names each matching ^CLAUDE[A-Z0-9_]*$, default empty; a bad value is rejected whole, and an identity-floor name in it has no effect.»; now «The R8 pass-list of CLAUDE* names, an array of at most 32 names each matching ^CLAUDE[A-Z0-9_]*$, default empty; a bad value is rejected whole, and an identity-floor name in it has no effect. Keeping CLAUDE_CONFIG_DIR makes viola verify read its value to locate the Claude config file.»\n**Why:** contract/config-json/claude-env-keep: claude_env_keep now also decides whether verify reads CLAUDE_CONFIG_DIR's value, a promise of the key outward. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-17: «Confirmed by the overseer at 2026-11-17T21:33:27Z … each lies inside R1–R4, and none amends the product's write in.»\n**Ref:** .andromeda/runs/2026-11-17T21-00-47Z-wrap/",
+"## 2026-11-17-trust-record-ledger-row — Infrastructure Patterns: 1 row(s)\n**Section:** Infrastructure Patterns\n**Change:** ~ decision/claude-shapes-in-one-crate · except: was «The test-only live rig in viola-e2e reads the key names and the source word of its own captured UserPromptSubmit payload, never a value.»; now «Test-only: the live rig reads the key names and source word of its own captured UserPromptSubmit payload, never a value; the fake agent and the rig read a Claude config file's trust record.»\n**Why:** decision/claude-shapes-in-one-crate: The test-only fake agent and live rig now read the trust record of a Claude config file outside viola-agent-claude, so the named exception must include them. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-17: «Confirmed by the overseer at 2026-11-17T21:33:27Z … each lies inside R1–R4, and none amends the product's write in.»\n**Ref:** .andromeda/runs/2026-11-17T21-00-47Z-wrap/",
+"## 2026-11-17-trust-record-ledger-row — Inherited Defaults: 1 row(s)\n**Section:** Inherited Defaults\n**Change:** ~ decision/claude-shapes-isolated · except: was «»; now «Test-only: the live rig reads its own captured UserPromptSubmit payload's key names and source word; the fake agent and the rig read a Claude config file's trust record.»\n**Why:** decision/claude-shapes-isolated: Test-only code outside viola-agent-claude now reads the Claude config's trust-record shape, which the row's unqualified «only» contradicts. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-17: «Confirmed by the overseer at 2026-11-17T21:33:27Z … each lies inside R1–R4, and none amends the product's write in.»\n**Ref:** .andromeda/runs/2026-11-17T21-00-47Z-wrap/",
+"## 2026-11-17-trust-record-ledger-row — Cross-cutting Patterns: 1 row(s)\n**Section:** Cross-cutting Patterns\n**Change:** ~ decision/no-environment-configuration · except: was «NO_COLOR, TERM and COLORTERM for list's human-mode colour; XDG_RUNTIME_DIR for the socket dir; PATH for program lookup; two fake-agent test seams compiled only under the fake-agent feature.»; now «NO_COLOR, TERM, COLORTERM for list's colour; XDG_RUNTIME_DIR for the socket dir; PATH for program lookup; two fake-agent-only test seams; CLAUDE_CONFIG_DIR's value, read by verify only when kept.»\n**Why:** decision/no-environment-configuration: verify's choice of the Claude config file now follows CLAUDE_CONFIG_DIR's value when claude_env_keep keeps it, an environment read the exception list must name. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-17: «Confirmed by the overseer at 2026-11-17T21:33:27Z … each lies inside R1–R4, and none amends the product's write in.»\n**Ref:** .andromeda/runs/2026-11-17T21-00-47Z-wrap/",
+"## 2026-11-17-trust-record-ledger-row — Standard Contracts: 9 row(s) (1 of 2)\n**Section:** Standard Contracts\n**Change:** ~ contract/ledger-stamps/rows · promise: was «Maps each ledger row id to \"pass\" or \"fail\".»; now «Maps each ledger row id to \"pass\" or \"fail\"; trust-record holds the trust writer's code word instead when no record was written.»\n~ contract/ledger-stamps/content · promise: was «Per CLI version, the envelope holds each ledger row's `pass` or `fail` and the probe's measured values, of which `run` reads none.»; now «Per CLI version, the envelope holds each ledger row's `pass` or `fail`, or for trust-record the trust writer's word when no record was written, and the probe's measured values, of which `run` reads none.»\n+ contract/trust-writer-words/written — Trust writer code words · written\n+ contract/trust-writer-words/removed — Trust writer code words · removed\n+ contract/trust-writer-words/config-absent — Trust writer code words · config-absent\n+ contract/trust-writer-words/config-unreadable — Trust writer code words · config-unreadable\n+ contract/trust-writer-words/config-link — Trust writer code words · config-link\n+ contract/trust-writer-words/config-not-regular — Trust writer code words · config-not-regular\n+ contract/trust-writer-words/config-foreign — Trust writer code words · config-foreign\n**Why:** contract/ledger-stamps/rows: A stamp's trust-record value may now be the writer's word, so «pass or fail» alone is false.\ncontract/ledger-stamps/content: A stamp's trust-record value may now be the writer's word, so the envelope's content promise must say so.\ncontract/trust-writer-words/written: The trust writer answers in a closed set of code words that reach the stamps, a new closed contract no row states.\ncontract/trust-writer-words/removed: The trust writer answers in a closed set of code words that reach the stamps, a new closed contract no row states.\ncontract/trust-writer-words/config-absent: The trust writer answers in a closed set of code words that reach the stamps, a new closed contract no row states.\ncontract/trust-writer-words/config-unreadable: The trust writer answers in a closed set of code words that reach the stamps, a new closed contract no row states.\ncontract/trust-writer-words/config-link: The trust writer answers in a closed set of code words that reach the stamps, a new closed contract no row states.\ncontract/trust-writer-words/config-not-regular: The trust writer answers in a closed set of code words that reach the stamps, a new closed contract no row states.\ncontract/trust-writer-words/config-foreign: The trust writer answers in a closed set of code words that reach the stamps, a new closed contract no row states.\n**Ref:** .andromeda/runs/2026-11-17T21-00-47Z-wrap/",
+"## 2026-11-17-trust-record-ledger-row — Standard Contracts: 7 row(s) (2 of 2)\n**Section:** Standard Contracts\n**Change:** + contract/trust-writer-words/config-oversize — Trust writer code words · config-oversize\n+ contract/trust-writer-words/config-malformed — Trust writer code words · config-malformed\n+ contract/trust-writer-words/config-dir-unusable — Trust writer code words · config-dir-unusable\n+ contract/trust-writer-words/home-unknown — Trust writer code words · home-unknown\n+ contract/trust-writer-words/key-present — Trust writer code words · key-present\n+ contract/trust-writer-words/lock-held — Trust writer code words · lock-held\n+ contract/trust-writer-words/lost — Trust writer code words · lost\n**Why:** contract/trust-writer-words/config-oversize: The trust writer answers in a closed set of code words that reach the stamps, a new closed contract no row states.\ncontract/trust-writer-words/config-malformed: The trust writer answers in a closed set of code words that reach the stamps, a new closed contract no row states.\ncontract/trust-writer-words/config-dir-unusable: The trust writer answers in a closed set of code words that reach the stamps, a new closed contract no row states.\ncontract/trust-writer-words/home-unknown: The trust writer answers in a closed set of code words that reach the stamps, a new closed contract no row states.\ncontract/trust-writer-words/key-present: The trust writer answers in a closed set of code words that reach the stamps, a new closed contract no row states.\ncontract/trust-writer-words/lock-held: The trust writer answers in a closed set of code words that reach the stamps, a new closed contract no row states.\ncontract/trust-writer-words/lost: The trust writer answers in a closed set of code words that reach the stamps, a new closed contract no row states.\n**Ref:** .andromeda/runs/2026-11-17T21-00-47Z-wrap/",
+"patterns: 2 in cascade-patterns-architecture-1.toml",
+"dry-run · would land 28 operation(s) · 8 entries · landed before: 1 (tx 1193)"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/cascade-patterns-architecture-1.toml"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:33:56Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/env-var-viola-prefix · rejected",
+"contract/ledger-stamps/measured · rejected",
+"decision/trust-writer-takes-config-lock · rejected",
+"fit: fits 29 · not_master 0 · stands 0",
+"landed tx 2503 · 28 operation(s) · 8 entries · landed before: 1 (tx 1193)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T19-20-55-2026-11-17-trust-record-ledger-row.ndjson",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:34:00Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/ops-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/test-verify-under-test-home · rejected",
+"fit: fits 10 · not_master 0 · stands 0",
+"## 2026-11-17-trust-record-ledger-row — Data Protection: 3 row(s)\n**Section:** Data Protection\n**Change:** ~ decision/no-writes-under-claude-home · except: was «»; now «viola verify writes a trust record for its own fresh temp folder into the Claude config its child reads and removes only that record after; a SIGKILL leaves it. Not a rule for run or revive.»\n~ decision/viola-writes-nothing-in-claude-dir · except: was «»; now «viola verify writes a trust record for its own fresh temp folder into the Claude config its child reads and removes only that record after; a SIGKILL leaves it.»\n+ decision/trust-record-writer-guarded — Trust record writer guarded\n**Why:** decision/no-writes-under-claude-home: The ruled widening lets verify write and remove its own trust record in the Claude config, the one bounded exception to this row, while the product's write for run and revive stays unruled. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-17: «Confirmed by the overseer at 2026-11-17T21:33:27Z … each lies inside R1–R4, and none amends the product's write in.»\ndecision/viola-writes-nothing-in-claude-dir: verify now writes and removes its own trust record in the Claude global config file, the bounded exception the ruling names against this row. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-17: «Confirmed by the overseer at 2026-11-17T21:33:27Z … each lies inside R1–R4, and none amends the product's write in.»\ndecision/trust-record-writer-guarded: A new writer into Claude's config file binds what any later write there, the product's included, must respect. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-17: «Confirmed by the overseer at 2026-11-17T21:33:27Z … each lies inside R1–R4, and none amends the product's write in.»\n**Ref:** .andromeda/runs/2026-11-17T21-00-47Z-wrap/",
+"## 2026-11-17-trust-record-ledger-row — Threat Model Summary: 1 row(s)\n**Section:** Threat Model Summary\n**Change:** ~ decision/nothing-written-under-claude-home · except: was «»; now «viola verify writes a trust record for its own fresh temp folder into the Claude config its child reads and removes only that record after; a SIGKILL leaves it.»\n**Why:** decision/nothing-written-under-claude-home: verify now writes its own trust record into the Claude config, which may stand under the kept Claude config directory, the bounded exception the ruling names. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-17: «Confirmed by the overseer at 2026-11-17T21:33:27Z … each lies inside R1–R4, and none amends the product's write in.»\n**Ref:** .andromeda/runs/2026-11-17T21-00-47Z-wrap/",
+"## 2026-11-17-trust-record-ledger-row — Authentication & Authorization: 1 row(s)\n**Section:** Authentication & Authorization\n**Change:** ~ decision/explicit-mode-before-write · except: was «»; now «The trust record writer replaces Claude's config file keeping that file's own mode.»\n**Why:** decision/explicit-mode-before-write: The trust record writer replaces Claude's config with the file's own mode, a mode carried over from the replaced file, which the row otherwise forbids.\n**Ref:** .andromeda/runs/2026-11-17T21-00-47Z-wrap/",
+"## 2026-11-17-trust-record-ledger-row — Secret Management: 4 row(s)\n**Section:** Secret Management\n**Change:** ~ decision/r8-claude-env-strip · except: was «»; now «viola verify reads the value of CLAUDE_CONFIG_DIR, only when claude_env_keep keeps that name, to choose the Claude config holding its trust record; else it uses the user HOME's .claude.json.»\n~ decision/credential-strip-by-name-only · except: was «»; now «viola verify reads the value of CLAUDE_CONFIG_DIR, only when claude_env_keep keeps that name, to choose the Claude config holding its trust record.»\n~ decision/env-not-config-channel · except: was «»; now «viola verify reads CLAUDE_CONFIG_DIR's value, only when claude_env_keep keeps that name, to choose the Claude config holding its trust record.»\n~ decision/no-stored-secrets · except: was «the test-only seams compiled out of release builds, the terminal colour facts read by viola list's human mode, and XDG_RUNTIME_DIR read by the channel endpoint to place the socket directory»; now «the test-only seams compiled out of release builds, list's terminal colour facts, XDG_RUNTIME_DIR for the socket directory, and verify's CLAUDE_CONFIG_DIR value when claude_env_keep keeps it»\n**Why:** decision/r8-claude-env-strip: verify now reads one CLAUDE value to place its trust record, so the row's names-only rule holds one bounded exception. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-17: «Confirmed by the overseer at 2026-11-17T21:33:27Z … each lies inside R1–R4, and none amends the product's write in.»\ndecision/credential-strip-by-name-only: verify now reads the value of one kept CLAUDE name, so the claim that no variable's value is read holds one bounded exception. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-17: «Confirmed by the overseer at 2026-11-17T21:33:27Z … each lies inside R1–R4, and none amends the product's write in.»\ndecision/env-not-config-channel: An environment value now chooses which config file verify writes its trust record into, an exception the row does not name. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-17: «Confirmed by the overseer at 2026-11-17T21:33:27Z … each lies inside R1–R4, and none amends the product's write in.»\ndecision/no-stored-secrets: The row's list of environment reads lacks verify's new read of CLAUDE_CONFIG_DIR's value. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-17: «Confirmed by the overseer at 2026-11-17T21:33:27Z … each lies inside R1–R4, and none amends the product's write in.»\n**Ref:** .andromeda/runs/2026-11-17T21-00-47Z-wrap/",
+"## 2026-11-17-trust-record-ledger-row — Input Validation: 1 row(s)\n**Section:** Input Validation\n**Change:** + decision/trust-record-closed-words — Trust record outcomes are closed code words\n**Why:** decision/trust-record-closed-words: The trust record writer's outcome crosses into the stamps only as a closed word, a closed set future readers rely on.\n**Ref:** .andromeda/runs/2026-11-17T21-00-47Z-wrap/",
+"patterns: none: 8 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 10 operation(s) · 5 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:34:00Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 6 · not_master 0 · stands 0",
+"## 2026-11-17-trust-record-ledger-row — 5. Integration Test Strategy: 2 row(s)\n**Section:** 5. Integration Test Strategy\n**Change:** ~ contract/verify-stop/signal · promise: was «Removes only its own run dirs, stdout empty, stderr exactly unable: verify was stopped before it finished / hint: run viola verify again to stamp this CLI, exit 1, no stamps.json, role log ending process-exit detail interrupted.»; now «Removes only its own run dirs and its own trust record, stdout empty, stderr exactly unable: verify was stopped before it finished / hint: run viola verify again to stamp this CLI, exit 1, no stamps.json, role log ending process-exit detail interrupted.»\n+ decision/no-verify-start-outside-test-home — Every test verify start tied to a test-owned home\n**Why:** contract/verify-stop/signal: verify now writes a trust record for its own temp dir in Run F and a SIGTERM stop removes that record too, so the stop promise of removing only its own run dirs is incomplete.\ndecision/no-verify-start-outside-test-home: a new census binary holds the test-owned-home rule for verify starts, a gate no standing census row states.\n**Ref:** .andromeda/runs/2026-11-17T21-00-47Z-wrap/",
+"## 2026-11-17-trust-record-ledger-row — 3. Test Harness Contract: 1 row(s)\n**Section:** 3. Test Harness Contract\n**Change:** + decision/verify-under-test-owned-user-home — Test verifies run under a test-owned user home\n**Why:** decision/verify-under-test-owned-user-home: verify now writes a trust record into the config its child reads, so every test-started verify must point that write at a test-owned file, a convention no standing row states.\n**Ref:** .andromeda/runs/2026-11-17T21-00-47Z-wrap/",
+"## 2026-11-17-trust-record-ledger-row — 7. Test Data & Fixtures: 2 row(s)\n**Section:** 7. Test Data & Fixtures\n**Change:** + contract/fake-agent-cli/trust-config — viola-fake-agent command line · --trust-config\n+ contract/fake-agent-cli/trust-record-blank — viola-fake-agent command line · --trust-record-blank\n**Why:** contract/fake-agent-cli/trust-config: the fake agent gains an argv option whose record read decides its trust screen, a promise of its command line that no standing row holds.\ncontract/fake-agent-cli/trust-record-blank: the fake agent gains a test-only hold option on its command line that no standing row holds.\n**Ref:** .andromeda/runs/2026-11-17T21-00-47Z-wrap/",
+"## 2026-11-17-trust-record-ledger-row — 6. E2E Test Strategy: 1 row(s)\n**Section:** 6. E2E Test Strategy\n**Change:** + decision/live-failing-reading-not-verification — Live reading recorded as read, never as verification\n**Why:** decision/live-failing-reading-not-verification: the wrap directive rules how a failing or confounded live reading is recorded, a rule of the live tier no standing row states.\n**Ref:** .andromeda/runs/2026-11-17T21-00-47Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 6 operation(s) · 4 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:34:00Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/ops-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 8 · not_master 0 · stands 0",
+"## 2026-11-17-trust-record-ledger-row — 4. Span / Trace Coverage: 1 row(s)\n**Section:** 4. Span / Trace Coverage\n**Change:** ~ contract/verify-spawn-subject/verify-pty-probe · promise: was «Each of verify's five interactive PTY runs is logged as one process-start / process-exit pair with subject verify-pty-probe.»; now «Each of verify's six interactive PTY runs is logged as one process-start / process-exit pair with subject verify-pty-probe.»\n**Why:** contract/verify-spawn-subject/verify-pty-probe: verify's interactive runs went from five to six (A to F, Run F the trust-record run), so the run count the promise holds moved.\n**Ref:** .andromeda/runs/2026-11-17T21-00-47Z-wrap/",
+"## 2026-11-17-trust-record-ledger-row — 6. Log Coverage: 2 row(s)\n**Section:** 6. Log Coverage\n**Change:** ~ contract/diag-subject/verify-pty-probe · promise: was «Subject of the process-start and process-exit pair of each of the five interactive PTY runs of viola verify, Run A to Run E.»; now «Subject of the process-start and process-exit pair of each of the six interactive PTY runs of viola verify, Run A to Run F.»\n~ contract/verify-process-exit/child-exit-status-and-duration · promise: was «Each of the eight verify spawn pairs' process-exit carries child_exit_status and duration_ms, including a child of an interactive PTY run killed at a Ctrl-C or TERM stop; a stopped run writes only the pairs it started.»; now «Each of the nine verify spawn pairs' process-exit carries child_exit_status and duration_ms, including a child of an interactive PTY run killed at a Ctrl-C or TERM stop; a stopped run writes only the pairs it started.»\n**Why:** contract/diag-subject/verify-pty-probe: verify gained Run F, logged with the existing verify-pty-probe pair, so the count and the run span the subject covers moved.\ncontract/verify-process-exit/child-exit-status-and-duration: verify's spawn pairs went from eight to nine, so the count the promise holds moved.\n**Ref:** .andromeda/runs/2026-11-17T21-00-47Z-wrap/",
+"## 2026-11-17-trust-record-ledger-row — 1. Obs Scope Summary: 2 row(s)\n**Section:** 1. Obs Scope Summary\n**Change:** ~ decision/claude-internals-not-a-contract · except: was «A local command's stdout tag in the session transcript, counted past the end recorded before the paste, is read as that send's echo confirmation; no transcript byte is kept.»; now «A send's echo confirmation counts its local command's stdout tag in the session transcript, keeping no byte; viola verify writes and removes its own temp folder's trust record in the claude config.»\n~ decision/refusal-telemetry · except: was «The send's transcript echo read refuses a symlinked, non-regular or foreign transcript with no line of its own; the outcome shows only on the send's own lines.»; now «The send's transcript echo read and verify's trust-record write refuse a symlinked, non-regular or foreign file with no line of their own; the outcome shows only on the send's lines or the stamps.»\n**Why:** decision/claude-internals-not-a-contract: verify now writes and removes its own temp folder's trust record in the claude config file its child reads, a ruled bounded exception the row must name. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-17: «Confirmed by the overseer at 2026-11-17T21:33:27Z … each lies inside R1–R4, and none amends the product's write in.»\ndecision/refusal-telemetry: the trust-record writer refuses a link, a non-regular or a foreign config file with no log line, its outcome riding the stamp only, a second exception to refusal telemetry.\n**Ref:** .andromeda/runs/2026-11-17T21-00-47Z-wrap/",
+"## 2026-11-17-trust-record-ledger-row — 1. Obs Scope Summary: 1 row(s)\n**Section:** 1. Obs Scope Summary\n**Change:** ~ decision/r8-strip-logged-as-names-only · rule: was «The R8 environment strip is logged as a count and lists of stripped and kept variable names, values never read, and environment maps never pass to a span or event.»; now «The R8 environment strip is logged as a count and lists of stripped and kept variable names, and environment maps never pass to a span or event; no value is read, bar the kept CLAUDE_CONFIG_DIR value viola verify reads, and no value is logged.»\n**Why:** decision/r8-strip-logged-as-names-only: viola verify now reads CLAUDE_CONFIG_DIR's value when the strip keeps that name, so the row's «values never read» no longer holds whole. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-17: «Confirmed by the overseer at 2026-11-17T21:33:27Z … each lies inside R1–R4, and none amends the product's write in.»\n**Ref:** .andromeda/runs/2026-11-17T21-00-47Z-wrap/",
+"## 2026-11-17-trust-record-ledger-row — 3. Observability Harness Contract: 1 row(s)\n**Section:** 3. Observability Harness Contract\n**Change:** ~ decision/env-vars-not-configuration · rule: was «Environment variables are not a configuration channel: service identity has no env-var source or fallback.»; now «Environment variables are not a configuration channel: service identity has no env-var source or fallback, and the one CLAUDE_CONFIG_DIR value viola verify reads, only when the strip keeps that name, locates the claude config file its child reads, is never logged and configures nothing of viola.»\n**Why:** decision/env-vars-not-configuration: verify reads one environment value to find its child's config file, and the row that says env vars configure nothing must name that bounded read. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-17: «Confirmed by the overseer at 2026-11-17T21:33:27Z … each lies inside R1–R4, and none amends the product's write in.»\n**Ref:** .andromeda/runs/2026-11-17T21-00-47Z-wrap/",
+"## 2026-11-17-trust-record-ledger-row — 4. Span / Trace Coverage: 1 row(s)\n**Section:** 4. Span / Trace Coverage\n**Change:** + decision/trust-record-write-uninstrumented — Trust-record write and removal uninstrumented\n**Why:** decision/trust-record-write-uninstrumented: the chunk adds a config-file writer whose outcome is deliberately carried by the stamps alone, a rule future instrumentation and redaction work must respect.\n**Ref:** .andromeda/runs/2026-11-17T21-00-47Z-wrap/",
+"patterns: none: 7 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 8 operation(s) · 6 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:34:01Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/ops-design-system.md",
+"--results",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/session-folder-trusted-word-on-pass · rejected",
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-17-trust-record-ledger-row — Surface: cli: 1 row(s)\n**Section:** Surface: cli\n**Change:** + contract/viola-verify-output/trust-record-names-nothing — viola verify output · trust-record row\n**Why:** contract/viola-verify-output/trust-record-names-nothing: verify gained a row that writes and removes a trust record in the Claude config file, and the surface promises that none of its output names that file, key or value.\n**Ref:** .andromeda/runs/2026-11-17T21-00-47Z-wrap/",
+"patterns: none — the call sets and retires no row",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:34:11Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/ops-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/test-verify-under-test-home · rejected",
+"fit: fits 10 · not_master 0 · stands 0",
+"landed tx 2504 · 10 operation(s) · 5 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T19-20-55-2026-11-17-trust-record-ledger-row.ndjson",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:34:13Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 6 · not_master 0 · stands 0",
+"landed tx 2505 · 6 operation(s) · 4 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T19-20-55-2026-11-17-trust-record-ledger-row.ndjson",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:34:17Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/ops-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 8 · not_master 0 · stands 0",
+"landed tx 2506 · 8 operation(s) · 6 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T19-20-55-2026-11-17-trust-record-ledger-row.ndjson",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:34:22Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/ops-design-system.md",
+"--results",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/session-folder-trusted-word-on-pass · rejected",
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 2507 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T19-20-55-2026-11-17-trust-record-ledger-row.ndjson",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:34:23Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/ops-main-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 2 · not_master 0 · stands 0",
+"## 2026-11-17-trust-record-ledger-row — Data Protection: 2 row(s)\n**Section:** Data Protection\n**Change:** ~ decision/verify-probe-dirs-cleanup · except: was «SIGKILL, a crash or a failed handler install leave the directories to be removed by hand.»; now «SIGKILL, a crash or a failed handler install leave the directories, and verify's own trust record in the Claude config, to be removed by hand.»\n~ decision/probe-artifacts-cleanup · except: was «a kill or a crash leaves them to be removed by hand»; now «a kill or a crash leaves them, and verify's own trust record in the Claude config, to be removed by hand»\n**Why:** decision/verify-probe-dirs-cleanup: verify's Run F now writes its own trust record and its guard removes it on the same exits as the probe directories, so what a SIGKILL leaves now includes that record. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-17: «Confirmed by the overseer at 2026-11-17T21:33:27Z … each lies inside R1–R4, and none amends the product's write in.»\ndecision/probe-artifacts-cleanup: verify's own trust record is now a probe artifact removed on pass, fail and stop, and a kill leaves it like the rest. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-17: «Confirmed by the overseer at 2026-11-17T21:33:27Z … each lies inside R1–R4, and none amends the product's write in.»\n**Ref:** .andromeda/runs/2026-11-17T21-00-47Z-wrap/",
+"patterns: none: 2 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 2 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:34:23Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/ops-main-architecture.md",
+"--results",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-17-trust-record-ledger-row — Conventions: 1 row(s)\n**Section:** Conventions\n**Change:** ~ decision/env-var-viola-prefix · except: was «Ratified: test seams `FAKE_AGENT_PUMP_DELAY_MS`, `FAKE_AGENT_HOOK_PANIC`; `NO_COLOR`, `TERM`, `COLORTERM`, read only for SGR bytes; `PATH`, read and set for the child; `XDG_RUNTIME_DIR`, read only.»; now «Test seams `FAKE_AGENT_PUMP_DELAY_MS`, `FAKE_AGENT_HOOK_PANIC`; `NO_COLOR`, `TERM`, `COLORTERM` for SGR; `PATH`, read and set for the child; `XDG_RUNTIME_DIR`; verify's kept `CLAUDE_CONFIG_DIR`»\n**Why:** decision/env-var-viola-prefix: verify now reads CLAUDE_CONFIG_DIR's value when claude_env_keep keeps it, a variable without the VIOLA_ prefix, and the proposer's shorter value dropped PATH being read. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-17: «Confirmed by the overseer at 2026-11-17T21:33:27Z … each lies inside R1–R4, and none amends the product's write in.»\n**Ref:** .andromeda/runs/2026-11-17T21-00-47Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:34:29Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/ops-main-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 2 · not_master 0 · stands 0",
+"landed tx 2508 · 2 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T19-20-55-2026-11-17-trust-record-ledger-row.ndjson",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:34:31Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/ops-main-architecture.md",
+"--results",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 2509 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T19-20-55-2026-11-17-trust-record-ledger-row.ndjson",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:35:18Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/ops-main-architecture.2.md",
+"--results",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-17-trust-record-ledger-row — Established Decisions: 1 row(s)\n**Section:** Established Decisions\n**Change:** ~ decision/trust-record-ledger-row · rule: was «The trust-record relied ledger row, a trust record written for an untrusted folder opens it with no modal, is probed by verify's Run F after Run E and passes only when the record was written, Run A showed the trust modal, and Run F's start shows no modal literal and the input box.»; now «The trust-record relied ledger row asks, per CLI version, whether a trust record written for an untrusted folder opens it with no modal; verify's Run F, after Run E, passes it only when the record was written, Run A showed the trust modal, and Run F's start shows no modal and the input box.»\n**Why:** decision/trust-record-ledger-row: The row's appositive read the CLI's honouring of a record as a stated fact, while it is what the probe measures per version and the one live reading on 2.1.325 read fail; the delegate's confirm set this condition.\n**Ref:** .andromeda/runs/2026-11-17T21-00-47Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:35:25Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/ops-main-architecture.2.md",
+"--results",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 2510 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T19-20-55-2026-11-17-trust-record-ledger-row.ndjson",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:37:27Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/ops-main-architecture.3.md",
+"--results",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"patterns: none — the call sets and retires no row",
+"dry-run · would land 0 operation(s) · 0 entries · landed before: 1 (tx 1193)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:38:08Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/ops-main-architecture.3.md",
+"--results",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-17-trust-record-ledger-row — Established Decisions: 1 row(s)\n**Section:** Established Decisions\n**Change:** ~ decision/permission-request-question-stays-null · why: was «A PermissionRequest allow with updatedInput would satisfy it, but that body has no ledger row; adding one needs a 22nd row, its viola verify probe and a re-stamp of every stamped version.»; now «A PermissionRequest allow with updatedInput would satisfy it, but that body has no ledger row; adding one needs a further relied row, its viola verify probe and a re-stamp of every stamped version.»\n**Why:** decision/permission-request-question-stays-null: The relied ledger rows moved from 22 to 23, so the row's «22nd» names a row that now stands; the cell says a further row, with no count to go stale; the proposer's identical set was read «landed before» at tx 1193 and did not land, the row still reading «22nd».\n**Ref:** .andromeda/runs/2026-11-17T21-00-47Z-wrap/",
+"patterns: 1 in cascade-patterns-architecture-2.toml",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/cascade-patterns-architecture-2.toml"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:38:12Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/ops-main-architecture.3.md",
+"--results",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 2511 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T19-20-55-2026-11-17-trust-record-ledger-row.ndjson",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:41:06Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/conventions.md",
+"--file",
+"./.andromeda/runs/2026-11-17T21-00-47Z-wrap/staged-leaf-.claude__docs__conventions.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/conventions.md rev 13 · 0 new · 3 revised · 0 retired · tx 2512"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T19-20-55-2026-11-17-trust-record-ledger-row.ndjson",
+"./.claude/docs/conventions.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:41:15Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola-agent-claude.md",
+"--file",
+"./.andromeda/runs/2026-11-17T21-00-47Z-wrap/staged-leaf-.claude__docs__services__viola-agent-claude.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola-agent-claude.md rev 18 · 0 new · 4 revised · 0 retired · tx 2513"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T19-20-55-2026-11-17-trust-record-ledger-row.ndjson",
+"./.claude/docs/services/viola-agent-claude.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:41:22Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola-pty.md",
+"--file",
+"./.andromeda/runs/2026-11-17T21-00-47Z-wrap/staged-leaf-.claude__docs__services__viola-pty.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola-pty.md rev 6 · 0 new · 1 revised · 0 retired · tx 2514"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T19-20-55-2026-11-17-trust-record-ledger-row.ndjson",
+"./.claude/docs/services/viola-pty.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:41:28Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola.md",
+"--file",
+"./.andromeda/runs/2026-11-17T21-00-47Z-wrap/staged-leaf-.claude__docs__services__viola.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola.md rev 12 · 0 new · 2 revised · 0 retired · tx 2515"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T19-20-55-2026-11-17-trust-record-ledger-row.ndjson",
+"./.claude/docs/services/viola.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:41:41Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/stack.md",
+"--file",
+"./.andromeda/runs/2026-11-17T21-00-47Z-wrap/staged-leaf-.claude__docs__stack.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/stack.md rev 11 · 0 new · 1 revised · 0 retired · tx 2516"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T19-20-55-2026-11-17-trust-record-ledger-row.ndjson",
+"./.claude/docs/stack.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:41:51Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/workflow.md",
+"--file",
+"./.andromeda/runs/2026-11-17T21-00-47Z-wrap/staged-leaf-.claude__docs__workflow.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/workflow.md rev 8 · 0 new · 1 revised · 0 retired · tx 2517"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T19-20-55-2026-11-17-trust-record-ledger-row.ndjson",
+"./.claude/docs/workflow.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:41:54Z",
+"argv": [
+"harness",
+"land",
+"CLAUDE.md",
+"--file",
+"./.andromeda/runs/2026-11-17T21-00-47Z-wrap/staged-leaf-CLAUDE.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed CLAUDE.md rev 18 · 0 new · 3 revised · 0 retired · tx 2518"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T19-20-55-2026-11-17-trust-record-ledger-row.ndjson",
+"./CLAUDE.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:41:55Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/commands.md",
+"--file",
+"./.andromeda/runs/2026-11-17T21-00-47Z-wrap/staged-leaf-.claude__docs__commands.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/commands.md rev 14 · 0 new · 2 revised · 0 retired · tx 2519"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T19-20-55-2026-11-17-trust-record-ledger-row.ndjson",
+"./.claude/docs/commands.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:41:56Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/design-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-17T21-00-47Z-wrap/staged-leaf-.claude__docs__design-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/design-summary.md rev 13 · 0 new · 1 revised · 0 retired · tx 2520"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T19-20-55-2026-11-17-trust-record-ledger-row.ndjson",
+"./.claude/docs/design-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:41:56Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/security-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-17T21-00-47Z-wrap/staged-leaf-.claude__docs__security-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/security-summary.md rev 20 · 0 new · 3 revised · 0 retired · tx 2521"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T19-20-55-2026-11-17-trust-record-ledger-row.ndjson",
+"./.claude/docs/security-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:41:57Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/security.md",
+"--file",
+"./.andromeda/runs/2026-11-17T21-00-47Z-wrap/staged-leaf-.claude__rules__security.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/security.md rev 23 · 0 new · 4 revised · 0 retired · tx 2522"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T19-20-55-2026-11-17-trust-record-ledger-row.ndjson",
+"./.claude/rules/security.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:41:58Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/tests-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-17T21-00-47Z-wrap/staged-leaf-.claude__docs__tests-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/tests-summary.md rev 20 · 0 new · 1 revised · 0 retired · tx 2523"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T19-20-55-2026-11-17-trust-record-ledger-row.ndjson",
+"./.claude/docs/tests-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:41:58Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/testing.md",
+"--file",
+"./.andromeda/runs/2026-11-17T21-00-47Z-wrap/staged-leaf-.claude__rules__testing.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/testing.md rev 34 · 0 new · 1 revised · 0 retired · tx 2524"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T19-20-55-2026-11-17-trust-record-ledger-row.ndjson",
+"./.claude/rules/testing.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:41:59Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/verification-harness.md",
+"--file",
+"./.andromeda/runs/2026-11-17T21-00-47Z-wrap/staged-leaf-.claude__rules__verification-harness.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/verification-harness.md rev 24 · 0 new · 3 revised · 0 retired · tx 2525"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T19-20-55-2026-11-17-trust-record-ledger-row.ndjson",
+"./.claude/rules/verification-harness.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:41:59Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/observability.md",
+"--file",
+"./.andromeda/runs/2026-11-17T21-00-47Z-wrap/staged-leaf-.claude__rules__observability.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/observability.md rev 11 · 0 new · 1 revised · 0 retired · tx 2526"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T19-20-55-2026-11-17-trust-record-ledger-row.ndjson",
+"./.claude/rules/observability.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:46:05Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/route-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 3 record(s) · 3 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:46:22Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/route-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 3 record(s) · 3 edge(s) · tx 2535 · cry-nuv7yj2y … cry-bb5cy7aq"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T19-20-55-2026-11-17-trust-record-ledger-row.ndjson",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:46:47Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/run-node.txt",
+"--run-dir",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 0 edge(s) · tx 2537 · run-3y4yz6nf … run-3y4yz6nf"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T19-20-55-2026-11-17-trust-record-ledger-row.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:50:58Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-17-trust-record-ledger-row",
+"--section-file",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/after-implement.md",
+"--heading",
+"## After implement",
+"--before",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-17-trust-record-ledger-row/report rev 5 · 0 new · 1 revised · 0 retired · 136 kept · tx 2538"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T19-20-55-2026-11-17-trust-record-ledger-row.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.52",
+"sha8": "cca31503",
+"ts": "2026-11-17T21:51:04Z",
+"argv": [
+"land",
+"--root",
+".",
+"--chunk",
+"2026-11-17-trust-record-ledger-row",
+"--run-dir",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"unchanged · 10 file(s) of 2026-11-17-trust-record-ledger-row"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

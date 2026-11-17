@@ -1,42 +1,51 @@
 # Session Handoff
 
-**Last Updated:** 2026-11-17T19:06:45Z
+**Last Updated:** 2026-11-17T21:47:00Z
 **Branch:** build/viola-0.2.0 · 0 ahead of origin/build/viola-0.2.0 as read at this wrap's Setup (this wrap's push lands its commit)
 **Status:** clean
-**Last Commit:** chore(route): operator-requested adaptation — 0-pending wrap (the split of «Session folder trusted by viola»)
+**Last Commit:** feat(2026-11-17-trust-record-ledger-row): the 23rd relied ledger row, built and proven on the fake agent, unverified on the real CLI
 
 ## Position
-- Done: 2026-11-17-first-readings-on-the-standing-rig (last complete); 0 pending. The take-up of
-  2026-11-17-session-folder-trusted-by-viola was cancelled at its P3 (tx 2460); its run 2026-11-17T18-20-22Z-phase is
-  sealed by this wrap.
-- Next: `/andromeda-phase` on «Trust-record ledger row» (chk-mjhurken), the new head of Epoch 4's tail;
-  «Session folder trusted by viola» (chk-dhecc45p) is taken up second.
+- Done: 2026-11-17-trust-record-ledger-row (last complete); 0 pending.
+- Next: `/andromeda-phase` on «Session folder trusted by viola» (chk-dhecc45p). Its P3 sizes FIRST the owed live
+  re-read of the trust-record row (its carry `cry-nuv7yj2y`): steps (i) and (iii) before any start, the live re-read
+  only under the founder's cap; if it does not fit beside the product write, the P3 block names a new entry ahead and
+  the founder places it with the cap in one dialog.
 
 ## Work done
-- 0-pending wrap `2026-11-17T19-03-40Z-wrap`, route only (tx 2463), on the founder's R1–R4 relayed by the overseer
-  (inputs#I1) and the overseer's card answer (inputs#I2): minted «Trust-record ledger row» ahead of «Session folder
-  trusted by viola» with 4 carries (R1 placement · R4 with the S0 cap: one live `viola verify` on 2.1.325, spare S0-2,
-  no keys · the four corrected premises · the owed `rootOnly` reading); added 3 carries on «Session folder trusted by
-  viola» (the measurement done · R2 the write's bound · R3 the race, the S1/S2 cap asked at take-up). (A) claims no
-  capability; v2-33 stays (B)'s. Record: `.andromeda/runs/2026-11-17T19-03-40Z-wrap/adaptation-record.md`.
+- Wrap `2026-11-17T21-00-47Z-wrap` of «Trust-record ledger row» on the overseer's directive (inputs#I2): the report
+  closed from artifacts; 55 row operations landed over five masters (TX 2503–2511), 25 of them on one answer card
+  inside the founder's R1–R4 (inputs#I4), confirmed by the overseer as delegate — PROVISIONAL; the cascade re-derived
+  15 leaves (49 comparer findings, 6 hand writes, TX 2527–2532); three route carries (TX 2535).
+- The row `trust-record` stands BUILT and proven on the fake agent and UNVERIFIED on the real CLI: the one live
+  reading S0 (2.1.325) read verify-exit 1, pass-count 7/23, trust-record fail; its cause is not measured.
 
 ## Drift resolved
-- None — no master touched (R2–R4 land as rows in the wraps of the chunks that build them).
+- architecture · security-plan · test-plan · obs-plan · design-system: verify's six runs, verify's own bounded
+  trust-record write and removal (the exception to «viola writes nothing into ~/.claude.json»; the product's write is
+  NOT amended in), the one `CLAUDE_CONFIG_DIR` value read, the writer's 14 closed words, the test-owned user home for
+  every test-started verify, the fake agent's `--trust-config` / `--trust-record-blank`. Record:
+  `.andromeda/runs/2026-11-17T21-00-47Z-wrap/fanout-results.md`, `cascade-dispositions.md`.
 
 ## Notes
-- **Owed at the takes-up:** (A)'s chunk lands the 23rd relied row, the sixth verify run (a widening of the ratified
-  five, R4) and the fake agent's record read; (B)'s chunk amends the two security rows that say viola writes nothing
-  into `~/.claude.json` (R2) and asks the S1/S2 live cap.
-- **Provisional, owed the founder's word:** the 17:24 wrap's answer card confirm (the four Q1 rows, delegate
-  overseer); the placeholder-hint carry on «The 2.1.325 recorded fixture set»; earlier: `HYPRCTL_DEADLINE` (on
-  «`viola open`»); `cry-x5wbcckc` on «Version done-check»; the compact window and dialog-hold bounds.
-- **Unmeasured, named:** whether cargo-deny keeps ignoring RUSTSEC-2026-0543 once a safe upgrade exists (the
-  founder's re-read at the Epoch 4 boundary); the CLI's 13 StopFailure `error` words (on «The 2.1.325 recorded
-  fixture set»); whether the placeholder hint is told apart by a cell attribute (same entry); the CLI's `rootOnly`
-  trust branch (on «Trust-record ledger row»).
-- **Live re-stamp OWED:** every stamp predating the 22nd relied row reads unverified until a live `viola verify`
-  under the founder's cap (R4 of the readings chunk, on «The 2.1.325 recorded fixture set»).
-- **Stale leaf count:** CARRY `cry-2snj2igc` on «Version done-check» («all twenty-four»; the code 22).
+- **Provisional, owed the founder's word:** this wrap's answer card Q1 (25 rows, delegate overseer 21:33:27Z) and its
+  three route carries (delegate overseer 21:45:49Z); the 17:24 wrap's answer card confirm; the placeholder-hint carry
+  on «The 2.1.325 recorded fixture set»; earlier: `HYPRCTL_DEADLINE` (on «`viola open`»); `cry-x5wbcckc` on
+  «Version done-check»; the compact window and dialog-hold bounds.
+- **Unmeasured, named:** why S0's interactive runs never reached the input box (the re-read carry on «Session folder
+  trusted by viola»); the CLI's `rootOnly` trust branch (the same carry's git-initialised root reads it); whether
+  cargo-deny keeps ignoring RUSTSEC-2026-0543 once a safe upgrade exists (the Epoch 4 boundary); the CLI's 13
+  StopFailure `error` words and the placeholder hint's cell attribute (on «The 2.1.325 recorded fixture set»).
+- **Stamps:** from 95792f71 on every 22-row stamp reads unverified to a binary built from the tree (the live home's
+  2.1.296 · .302 · .312 · .319 · .323 · .325, every rig and scratch home); the pinned product the overseer drives with
+  is not rebuilt and keeps its 22-row reading. The live re-stamp (23 rows) rides «The 2.1.325 recorded fixture set»
+  (`cry-bb5cy7aq`) and verifies only once the trust-record row passes live.
+- **Near-bound:** `cli_verify runs::verify_window_without_screens_fails_every_interactive_row` 52.2–52.3 s of its 60 s
+  kill — carry `cry-fl52zn4o` on «Session folder trusted by viola».
+- **Stale leaf count:** CARRY `cry-2snj2igc` on «Version done-check» — the earlier stamp-history counts in
+  `docs/commands.md:24` and `docs/services/viola-agent-claude.md:26` stand as history; the relied count now reads 23.
+- **Tool defects seen (friction family):** `rec.py rows-land` read a never-landed set «landed before (tx 1193)»; the
+  leaf comparers missed six stale counts and moved a stale «twenty-four» to «twenty-five».
 - The operator's desk list (no route entry): `~/.cache/viola-ctl-ready-deadline-20261117T163750Z`;
   `~/dev/projects/viola-mutants-scratch/cold-*` (two) and `…/hang-mhCgsY`;
   `target/e2e-home/viola-live-20261115T083805Z/`; `target/live-round-screens/`; the two `projects[…]` trust entries in
@@ -44,16 +53,15 @@
   `~/.viola/statusline-source.json`; the unpin of `vb.sh`'s 2.1.296 shim; `target/live-stopfailure-20261115/` and
   `-s2/`; `~/.cache/viola-path1-measure` (13 GB); `target/class-wall/` and the `target/e2e-home/viola-stamp-*` dirs on
   the tmpfs; the rig's kept frames under `target/live-rig/`.
-- **Disk:** /home 191 GB free, `target/` 216 GB — run the clean cadence before a full rebuild.
-- **Deferred learnings:** `recurrence-despite-learning: testing.md 2026-11-13 «A gate.py control clone holds no build
-  output, and a package-scoped entry … builds no root-package binary …»`; `recurrence-despite-learning: CLAUDE.md «A
-  timestamp written into any record … is read from date -u»`; `recurrence-despite-learning: testing.md 2026-11-15 «A
-  removal sweeps every test that reads the removed field, row or mode …»`; «Never chain `rec.py land` onto a `gate.py
-  hygiene` call», 0.7. Review with `/andromeda-wrap-session --review`.
-- **Host:** python `yaml` absent; read `df -h /tmp` before a stamped-home gate. claude 2.1.325 stamped (pre-22nd-row);
+- **Disk:** read `df -h /home` and `target/` before a full rebuild; run the clean cadence first.
+- **Deferred learnings:** `recurrence-despite-learning: CLAUDE.md «A builder session sets no scheduled wake, timer or
+  reminder of its own»` (the implement window's `ScheduleWakeup` `stop: true`, refused by the classifier
+  2026-11-17T20:31:41Z); `recurrence-despite-learning: testing.md 2026-11-13 «A gate.py control clone holds no build
+  output …»`; `recurrence-despite-learning: CLAUDE.md «A timestamp written into any record … is read from date -u»`;
+  `recurrence-despite-learning: testing.md 2026-11-15 «A removal sweeps every test that reads the removed field, row
+  or mode …»`; «Never chain `rec.py land` onto a `gate.py hygiene` call», 0.7. Review with
+  `/andromeda-wrap-session --review`.
+- **Host:** python `yaml` absent; read `df -h /tmp` before a stamped-home gate. claude 2.1.325 (stamps pre-23rd-row);
   `mise ls claude` reads 2.1.326 as `latest` (not used). Hyprland 0.56.2. The host's own Claude sessions rewrite
   `~/.claude.json` about once a minute.
 - **Last failed command:** none.
-
-## Session End Status
-Completed normally at 2026-11-17 21:10:14

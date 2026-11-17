@@ -1,0 +1,226 @@
+[
+{
+"tool": "cascade",
+"v": "1.35",
+"sha8": "363967fd",
+"ts": "2026-11-17T21:01:59Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/report-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [
+"baseline 95792f71 (pre-pass — HEAD)",
+"stepctr22 · control UNFIRED over the seven masters (bodies and sets) at 95792f71",
+"stamped22 · control UNFIRED over the seven masters (bodies and sets) at 95792f71",
+"fakestarts6 · control UNFIRED over the seven masters (bodies and sets) at 95792f71",
+"receipts6 · control UNFIRED over the seven masters (bodies and sets) at 95792f71",
+"ledgerrows · control UNFIRED over the seven masters (bodies and sets) at 95792f71"
+],
+"stderr": "control: stepctr22, stamped22, fakestarts6, receipts6, ledgerrows never fired over the seven masters' pre-pass text, bodies and sets (95792f71) — no master holds them: re-fire with --pattern rows22 --pattern runs5 --pattern pairs8 --pattern claudejson --pattern cfgdir --pattern claudehome --pattern fakeargv --pattern stamphome --pattern claudeint; this refusal, the trail's record, is the basis of each named pattern's master zero",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "cascade",
+"v": "1.35",
+"sha8": "363967fd",
+"ts": "2026-11-17T21:02:09Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/report-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap",
+"--marker",
+"2026-11-17-trust-record-ledger-row",
+"--pattern",
+"rows22",
+"--pattern",
+"runs5",
+"--pattern",
+"pairs8",
+"--pattern",
+"claudejson",
+"--pattern",
+"cfgdir",
+"--pattern",
+"claudehome",
+"--pattern",
+"fakeargv",
+"--pattern",
+"stamphome",
+"--pattern",
+"claudeint"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline 95792f71 (pre-pass — HEAD)",
+"architecture · 3 rows over 1 files · new 0 · standing 3 · 2 patterns",
+"security-plan · 6 rows over 1 files · new 0 · standing 6 · 3 patterns",
+"test-plan · 4 rows over 1 files · new 0 · standing 4 · 2 patterns",
+"obs-plan · 4 rows over 1 files · new 0 · standing 4 · 3 patterns",
+"by line · 0 lines · 0 offsets",
+"total (9 patterns) · 41 rows over 17 files",
+"per class · new 0/0 · standing 17/4 · leaf 21/11 · curation 3/2 · base 0/0",
+"rows 1/1 · .andromeda/runs/2026-11-17T21-00-47Z-wrap/sweep-pre-pass-1.1.txt · 61 lines · 6529 B"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/sweep-pre-pass-1.1.txt"
+],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "95792f71eb0c05ddd0a85b26d0411532a7046e52",
+"how": "pre-pass — HEAD",
+"counts": {
+"rows22": {
+"new": 0,
+"standing": 1,
+"leaf": 3,
+"curation": 0,
+"base": 0
+},
+"runs5": {
+"new": 0,
+"standing": 4,
+"leaf": 12,
+"curation": 0,
+"base": 0
+},
+"pairs8": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"claudejson": {
+"new": 0,
+"standing": 2,
+"leaf": 1,
+"curation": 3,
+"base": 0
+},
+"cfgdir": {
+"new": 0,
+"standing": 1,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"claudehome": {
+"new": 0,
+"standing": 3,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"fakeargv": {
+"new": 0,
+"standing": 3,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"stamphome": {
+"new": 0,
+"standing": 1,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"claudeint": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+},
+"bare": [],
+"masters": {
+"architecture": {
+"rows": 3,
+"files": 1,
+"new": 0,
+"standing": 3,
+"patterns": 2
+},
+"security-plan": {
+"rows": 6,
+"files": 1,
+"new": 0,
+"standing": 6,
+"patterns": 3
+},
+"test-plan": {
+"rows": 4,
+"files": 1,
+"new": 0,
+"standing": 4,
+"patterns": 2
+},
+"obs-plan": {
+"rows": 4,
+"files": 1,
+"new": 0,
+"standing": 4,
+"patterns": 3
+}
+},
+"per_master": {
+"rows22": {
+"architecture": 1
+},
+"runs5": {
+"architecture": 2,
+"obs-plan": 2
+},
+"pairs8": {
+"obs-plan": 1
+},
+"claudejson": {
+"security-plan": 2
+},
+"cfgdir": {
+"security-plan": 1
+},
+"claudehome": {
+"security-plan": 3
+},
+"fakeargv": {
+"test-plan": 3
+},
+"stamphome": {
+"test-plan": 1
+},
+"claudeint": {
+"obs-plan": 1
+}
+},
+"forms": {
+"rows22": [
+{
+"form": "twenty-two",
+"from": "22"
+}
+]
+},
+"parts": [
+"sweep-pre-pass-1.1.txt"
+]
+}
+}
+]

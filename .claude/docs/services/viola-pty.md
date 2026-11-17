@@ -11,7 +11,7 @@ viola's own PTY seam over portable-pty `=0.9.0`: spawn · read · write · resiz
 portable-pty `=0.9.0`; tracing (the `pty.spawn` span); libc `=0.2.189` (termios raw mode, terminal size). No thiserror: `PtyError` is hand-written with fixed messages.
 
 ### Publishes to
-The root bin's `run` pump (`src/run/`), `viola verify`'s five interactive PTY runs (`src/cmd/verify/typed/`), `viola list`'s board width (`viola_pty::host_size()`) and the tests' outer-PTY driver (`tests/support/outer_pty.rs`, `viola-harness supervise`).
+The root bin's `run` pump (`src/run/`), `viola verify`'s six interactive PTY runs (`src/cmd/verify/typed/`), `viola list`'s board width (`viola_pty::host_size()`) and the tests' outer-PTY driver (`tests/support/outer_pty.rs`, `viola-harness supervise`).
 
 ### Dependencies
 No viola crate. Tokio banned in its graph.

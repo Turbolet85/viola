@@ -1,0 +1,197 @@
+[
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "a387b943",
+"ts": "2026-11-17T21:01:26Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-17-trust-record-ledger-row",
+"--source",
+"~/dev/projects/additional/viola-overseer/wrap-trust-row-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the overseer wrap directive: S0 recorded as read, not verifying the row; the answer card; the route-resolve dialog; the last card",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy no-repo · ../additional/viola-overseer/wrap-trust-row-directive.md",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-wrap-trust-row-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/wrap-trust-row-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "08f73bffd9c87eb9df73731f2e2897a45163b271bff7b30be11f25a205e78af6",
+"copy": "I2-wrap-trust-row-directive.md.txt",
+"link": false,
+"read_at": "2026-11-17T21:01:26Z",
+"step": "wrap",
+"why": "the overseer wrap directive: S0 recorded as read, not verifying the row; the answer card; the route-resolve dialog; the last card"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "a387b943",
+"ts": "2026-11-17T21:01:27Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-17-trust-record-ledger-row",
+"--run-dir",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-trust-row-directive.md",
+"I1 cited scope.md:15 · scope.md:38 · scope.md:52 · scope.md:58 · research.md:7 · plan.md:14 · plan.md:19 · plan.md:24 · plan.md:35 · plan.md:44 · plan.md:220 · plan.md:417 · plan.md:420 · plan.md:424 · plan.md:427 · plan.md:437 · plan.md:478 · plan.md:499 · plan.md:521 · report.md:60",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/wrap-trust-row-directive.md",
+"I2 UNCITED",
+"inputs: 2 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 1 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 1,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "a387b943",
+"ts": "2026-11-17T21:02:41Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-17-trust-record-ledger-row",
+"--message-file",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap/relay-1.md",
+"--origin",
+"the wrap, extracted from the implement window session log d922876c",
+"--kind",
+"relay",
+"--why",
+"the implement window ScheduleWakeup call (stop: true) and its classifier refusal at 2026-11-17T20:31:41Z",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy message · message: the wrap, extracted from the implement window session log d922876c",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "message: the wrap, extracted from the implement window session log d922876c",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "85da3fa05847b05799b98df48f325bd148d4f4f8e0266e7540197f98676cbad9",
+"copy": "I3-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-17T21:02:40Z",
+"step": "wrap",
+"why": "the implement window ScheduleWakeup call (stop: true) and its classifier refusal at 2026-11-17T20:31:41Z"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "a387b943",
+"ts": "2026-11-17T21:06:46Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-17-trust-record-ledger-row",
+"--source",
+"~/dev/projects/additional/viola-overseer/split-trust-route-adaptation.md",
+"--kind",
+"relay",
+"--why",
+"the founder answers R1-R4 read 2026-11-17T18:59:41Z, his option labels verbatim: R4 the sixth run and its removed record, R2 the write bound and the one env value",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-17T21-00-47Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy no-repo · ../additional/viola-overseer/split-trust-route-adaptation.md",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-split-trust-route-adaptation.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/split-trust-route-adaptation.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "277829b2bd1f762d78179b9b9f76072c8fd297c3b95217611e3b5791d3e2e67f",
+"copy": "I4-split-trust-route-adaptation.md.txt",
+"link": false,
+"read_at": "2026-11-17T21:06:45Z",
+"step": "wrap",
+"why": "the founder answers R1-R4 read 2026-11-17T18:59:41Z, his option labels verbatim: R4 the sixth run and its removed record, R2 the write bound and the one env value"
+}
+}
+]
