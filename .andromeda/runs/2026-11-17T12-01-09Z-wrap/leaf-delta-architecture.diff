@@ -1,0 +1,10 @@
+--- a/.andromeda/architecture.md
++++ b/.andromeda/architecture.md
+@@ -872,2 +872,3 @@
+ name/other/fake-agent-pump-delay-ms — FAKE_AGENT_PUMP_DELAY_MS
++name/other/harness-tied-test-child — HARNESS_TIED_TEST_CHILD
+ name/other/hook-notification — hook notification
+@@ -888,2 +889,3 @@
+ name/other/mcp-tool-wait — wait
++name/other/root-tied-test-child — ROOT_TIED_TEST_CHILD
+ name/other/viola — viola

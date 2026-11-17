@@ -1,0 +1,148 @@
+[
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "a387b943",
+"ts": "2026-11-17T12:02:00Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-17-booted-wrapper-does-not-outlive-its-test",
+"--source",
+"~/dev/projects/additional/viola-overseer/wrap-booted-wrapper-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the overseer's wrap directive: CARRY cry-n25qin7l discharged by ci#44077346281's test job; supply-chain red RUSTSEC-2026-0543 not mended here, its remedy asked of the overseer at route-resolve; v2-37 verified only as far as the tests prove",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-17T12-01-09Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy no-repo · ../additional/viola-overseer/wrap-booted-wrapper-directive.md",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-wrap-booted-wrapper-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/wrap-booted-wrapper-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "46d0b4d416e23a362e861a8bc115cfa43f2dbdc7224ac3f2ab468776530183a5",
+"copy": "I4-wrap-booted-wrapper-directive.md.txt",
+"link": false,
+"read_at": "2026-11-17T12:02:00Z",
+"step": "wrap",
+"why": "the overseer's wrap directive: CARRY cry-n25qin7l discharged by ci#44077346281's test job; supply-chain red RUSTSEC-2026-0543 not mended here, its remedy asked of the overseer at route-resolve; v2-37 verified only as far as the tests prove"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "a387b943",
+"ts": "2026-11-17T12:02:01Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-17-booted-wrapper-does-not-outlive-its-test",
+"--run-dir",
+".andromeda/runs/2026-11-17T12-01-09Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-booted-wrapper-directive.md",
+"I1 cited scope.md:59 · scope.md:75 · research.md:7 · plan.md:10 · plan.md:35 · plan.md:164 · plan.md:166 · plan.md:294 (in fence) · plan.md:301 · plan.md:326 · plan.md:348 · report.md:59",
+"I2 n/a — a message has no live source · copy message · message: the delegate overseer",
+"I2 cited plan.md:16 · plan.md:326 · plan.md:346 · plan.md:373 · report.md:59",
+"I3 unchanged · copy no-repo · ../additional/viola-overseer/relay-ci-rerun-reading.md",
+"I3 cited plan.md:18 · plan.md:166 · plan.md:277 (in fence) · plan.md:294 (in fence) · plan.md:302 · plan.md:326 · plan.md:351 · report.md:60",
+"I4 unchanged · copy no-repo · ../additional/viola-overseer/wrap-booted-wrapper-directive.md",
+"I4 UNCITED",
+"inputs: 4 entries — unchanged 3 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 1 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 4,
+"counts": {
+"unchanged": 3,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 1,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "a387b943",
+"ts": "2026-11-17T12:32:24Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-17-booted-wrapper-does-not-outlive-its-test",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-booted-wrapper-route-answers.md",
+"--kind",
+"relay",
+"--why",
+"the founder's own answers to the wrap's route-resolve dialog: one new head entry holding the supply-chain red and v2-37's untied tail; the advisory rule widened for an upstream-brought unmaintained advisory with no safe upgrade",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-17T12-01-09Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I5 · copy no-repo · ../additional/viola-overseer/relay-booted-wrapper-route-answers.md",
+"cite: inputs#I5"
+],
+"stderr": null,
+"wrote": [
+"inputs/I5-relay-booted-wrapper-route-answers.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I5",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-booted-wrapper-route-answers.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "ea3c50123450c81aa0328e986245f263144267f53e6172b85e940aa96e08a275",
+"copy": "I5-relay-booted-wrapper-route-answers.md.txt",
+"link": false,
+"read_at": "2026-11-17T12:32:23Z",
+"step": "wrap",
+"why": "the founder's own answers to the wrap's route-resolve dialog: one new head entry holding the supply-chain red and v2-37's untied tail; the advisory rule widened for an upstream-brought unmaintained advisory with no safe upgrade"
+}
+}
+]

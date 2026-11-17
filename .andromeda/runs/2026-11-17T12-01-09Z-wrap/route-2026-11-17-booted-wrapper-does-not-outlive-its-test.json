@@ -1,0 +1,69 @@
+[
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "d48d2bf9",
+"ts": "2026-11-17T12:36:39Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-17-booted-wrapper-does-not-outlive-its-test",
+"--date",
+"2026-11-17",
+"--run-dir",
+".andromeda/runs/2026-11-17T12-01-09Z-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-sbsol2ni strip CARRY: 775ch \"CARRY: the founder's own word «Отдельная\"",
+"pin cry-n25qin7l strip CARRY: 743ch \"CARRY: a CI red with no cause found, rea\"",
+"pin next markerless chk-raukczx5 holds CARRY:×2",
+"2026-11-17-booted-wrapper-does-not-outlive-its-test · strip 2 block(s) · spent in the spine",
+"dry-run · would flip 2026-11-17-booted-wrapper-does-not-outlive-its-test pending -> complete"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "d48d2bf9",
+"ts": "2026-11-17T12:36:44Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-17-booted-wrapper-does-not-outlive-its-test",
+"--date",
+"2026-11-17",
+"--run-dir",
+".andromeda/runs/2026-11-17T12-01-09Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-sbsol2ni strip CARRY: 775ch \"CARRY: the founder's own word «Отдельная\"",
+"pin cry-n25qin7l strip CARRY: 743ch \"CARRY: a CI red with no cause found, rea\"",
+"pin next markerless chk-raukczx5 holds CARRY:×2",
+"flip 2026-11-17-booted-wrapper-does-not-outlive-its-test pending -> complete · tx 2319",
+"compacted 1 complete line(s) — their freight spent in the spine, no archive (U61)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T09-01-02-2026-11-17-booted-wrapper-does-not-outlive-its-test.ndjson",
+"./.andromeda/master-route.md",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]

@@ -1,63 +1,57 @@
 # Session Handoff
 
-**Last Updated:** 2026-11-17T08:34:05Z
+**Last Updated:** 2026-11-17T12:33:33Z
 **Branch:** build/viola-0.2.0 · 0 ahead of origin/build/viola-0.2.0 as read at this wrap's Setup (this wrap's push lands its commit)
-**Status:** clean tree · CI RED OPEN on the wrap commit 668854a6 (ci#44048204364, cause not found — pinned, see Notes)
-**Last Commit:** 2026-11-17-standing-live-rig — feat: one standing live rig, its rehearsals in CI and its live starts by hand
+**Status:** clean · CI `supply-chain` RED OPEN, not this chunk's (RUSTSEC-2026-0543, owned by the new head entry)
+**Last Commit:** 2026-11-17-booted-wrapper-does-not-outlive-its-test — feat: a booted wrapper and its fake agent end with their test, killed or not
 
 ## Position
-- Done: 2026-11-17-standing-live-rig — `viola-live-rig` (test-only, `viola-e2e`): a vt100 screen model, kept frames,
-  trust pass under the founder's grant, isolation and its own process hygiene; R1 and R2 read live on claude 2.1.325
-  (2 of 2 starts, spare unspent); v2-32 verified.
-- Next: `/andromeda-phase` on «A booted wrapper does not outlive its test» (v2-37, minted second in Epoch 4 by this wrap).
+- Done: 2026-11-17-booted-wrapper-does-not-outlive-its-test — every root test's viola child tied to its test thread by
+  a parent-death kill (census over every spelling of the constant, 45 sites); an in-test harness session's supervisor
+  and stamping verify tied; a hollow stamp rebuilt as a next generation. v2-37 verified for its named witnesses (dated note).
+- Next: `/andromeda-phase` on «The supply-chain gate green again, and every booted test process ends with its test»
+  (chk-raukczx5, minted at the head of Epoch 4's tail by the founder's own answers).
 
 ## Work done
-- Reconcile (wrap `2026-11-17T07-48-22Z-wrap`): 24 row operations over architecture, security-plan, test-plan and
-  a11y-plan. Two widenings land standing on the founder's own answers (inputs#I2) through ONE answer card (the
-  delegate overseer's confirm): the standing rig replaces `decision/live-readings-not-a-test-layer`, and the rig's
-  key grant per chunk. 16 leaf findings re-derived over 8 leaves.
-- Route: «A booted wrapper does not outlive its test» (v2-37, requirement by the overseer's answer) and «First
-  readings on the standing rig» (R3 · R4, three carries re-pinned whole there, plus two PROVISIONAL carries: the
-  external-imports modal read live, R2's unexplained `box-text: holds-text`).
+- Reconcile (wrap `2026-11-17T12-01-09Z-wrap`): 6 row operations — architecture names `ROOT_TIED_TEST_CHILD`,
+  `HARNESS_TIED_TEST_CHILD`; test-plan `wrapper-drop-guard` and `supervisor-ordinary-child` set, `no-untied-viola-spawn`
+  and `tied-child-spawn-thread` added. 4 leaf findings in testing.md and verification-harness.md.
+- Route: one entry at the head holding the chrono red (the founder's widened advisory rule as its premise) and the
+  rest of v2-37 (viola-e2e's `harness_lifecycle.rs` / `cli.rs` in-test boots, a kill witness for the tied stamping verify).
 
 ## Drift resolved
-- R2 measured the CLI's submit trim (leading run kept, trailing spaces and TAB removed, inner run and LF kept): the
-  carry «either end waits for this reading» (`cry-vdpx2jqz`) is discharged. Two `why` cells still calling the trim set
-  unmeasured were set (architecture `decision/submitted-form-prompt-match`, test-plan
-  `decision/send-confirmation-trailing-trim-match`).
-- Rows the rig made false gained their exceptions (screen-parsing and blanket-approval anti-patterns, vt100 «readiness
-  gate only», the a11y screen-content ban); the register names `viola-live-rig` and `AGENT_RUN_RIG`.
+- CARRY `cry-n25qin7l` (26 stamped-home reds of ci#44048204364) discharged: ci#44077346281's `test` job green on the
+  exact restore of `v0-rust-test-Linux-x64-41224fa4-058865c8`; a hollow restored stamp no longer counts.
+- The plan's «44 hits in 24 files» was one short (`tests/cross_exit_causes.rs:461`); the census now matches any path
+  ending in the constant, a test-plan row.
 
 ## Notes
-- **CI red, open:** ci#44048204364 on 668854a6 (source equal to 1b22388f, green as ci#44040049854): 26 of 3484 in
-  the `test` job's coverage run, every one reading the shared stamped fixture home as absent; `cli_answer` 9/9
-  locally. Cause not found; not re-run. Pinned `cry-n25qin7l` on «A booted wrapper does not outlive its test»
-  (`.andromeda/runs/2026-11-17T07-48-22Z-wrap/ci-red-after-commit.md`).
-- **Provisional, owed the founder's word:** the two new carries on «First readings on the standing rig»
-  (`cry-eqwt2idi`, `cry-2g725mk2`); the answer card's confirm (the delegate's — the ratification is his answers,
-  inputs#I2); `HYPRCTL_DEADLINE` (on «`viola open`»); `cry-x5wbcckc` on «Version done-check»; the compact window and
-  dialog-hold bounds.
-- **Unmeasured, named:** «a real wake reads 1», the fired wake's `source` field and the hook-latency window — now on
-  «First readings on the standing rig»; the CLI's 13 StopFailure `error` words (CARRY on «The 2.1.325 recorded fixture
-  set»).
-- **Live re-stamp OWED:** every stamp predating the 22nd relied row reads unverified until a live `viola verify` under
-  the founder's cap (R4 on «First readings on the standing rig»).
+- **CI red, open, not this chunk's:** `supply-chain` on ci#44077346281 (0651903c): RUSTSEC-2026-0543 «chrono is
+  unmaintained», no safe upgrade; chrono via `viola`, `viola-state`, `rmcp 3.4.1`, `schemars 1.2.2`. Two-sided basis
+  (no manifest/lock/deny/workflow delta; green on 2dc9b58d at 08:47Z). No ignore, no re-run. Owner: CARRY `cry-ruy43o5t`
+  on chk-raukczx5, which lands the ignore line and, at its wrap, the widened security-plan rule as a standing row
+  citing the founder's words (`chunks/2026-11-17-booted-wrapper-does-not-outlive-its-test/inputs/I5-relay-booted-wrapper-route-answers.md.txt`).
+- **Provisional, owed the founder's word:** the two carries on «First readings on the standing rig» (`cry-eqwt2idi`,
+  `cry-2g725mk2`); the prior answer card's confirm (delegate's); `HYPRCTL_DEADLINE` (on «`viola open`»);
+  `cry-x5wbcckc` on «Version done-check»; the compact window and dialog-hold bounds.
+- **Unmeasured, named:** «a real wake reads 1», the fired wake's `source` field and the hook-latency window (on
+  «First readings on the standing rig»); the CLI's 13 StopFailure `error` words (on «The 2.1.325 recorded fixture set»).
+- **Live re-stamp OWED:** every stamp predating the 22nd relied row reads unverified until a live `viola verify`
+  under the founder's cap (R4 on «First readings on the standing rig»).
 - **Stale leaf count:** CARRY `cry-2snj2igc` on «Version done-check» («all twenty-four»; the code 22).
 - The operator's desk list (no route entry), unchanged: `~/dev/projects/viola-mutants-scratch/cold-*` (two) and
   `…/hang-mhCgsY`; `target/e2e-home/viola-live-20261115T083805Z/`; `target/live-round-screens/`; the two
   `projects[…]` trust entries in `~/.claude.json`; the live home's stale `~/.viola/budget.json`,
   `~/.viola/instances/*/settings.json` and any `~/.viola/statusline-source.json`; the unpin of `vb.sh`'s 2.1.296 shim;
   `target/live-stopfailure-20261115/` and `-s2/`; `~/.cache/viola-path1-measure` (13 GB); `target/class-wall/` and the
-  `target/e2e-home/viola-stamp-*` dirs on the tmpfs; now also the rig's kept frames under `target/live-rig/`.
-- **Disk:** `target/` 207G against 208G free on /home — run the clean cadence before a full rebuild.
-- **Deferred learnings:** `recurrence-despite-learning: CLAUDE.md «A timestamp written into any record … is read from
-  date -u»` (implement's evolve append estimated its `ts`). Earlier, still open: `recurrence-despite-learning:
-  testing.md 2026-11-15 «A removal sweeps every test that reads the removed field, row or mode …»`; «Never chain
-  `rec.py land` onto a `gate.py hygiene` call», 0.7. Review with `/andromeda-wrap-session --review`.
+  `target/e2e-home/viola-stamp-*` dirs on the tmpfs (now possibly `-g<n>` generations too); the rig's kept frames
+  under `target/live-rig/`.
+- **Disk:** `target/` near the free space on /home — run the clean cadence before a full rebuild.
+- **Deferred learnings:** earlier, still open: `recurrence-despite-learning: CLAUDE.md «A timestamp written into any
+  record … is read from date -u»`; `recurrence-despite-learning: testing.md 2026-11-15 «A removal sweeps every test
+  that reads the removed field, row or mode …»`; «Never chain `rec.py land` onto a `gate.py hygiene` call», 0.7.
+  This wrap: the spelling-sweep candidate scored 0.6 (rejected, its fact a test-plan row). Review with
+  `/andromeda-wrap-session --review`.
 - **Host:** python `yaml` absent; read `df -h /tmp` before a stamped-home gate. claude 2.1.325 stamped (pre-22nd-row);
-  `mise ls claude` reads 2.1.326 as `latest` (installed 2026-11-17, not used — a newer install moves a proof only on
-  the operator's word). Hyprland 0.56.2.
+  `mise ls claude` reads 2.1.326 as `latest` (not used). Hyprland 0.56.2.
 - **Last failed command:** none.
-
-## Session End Status
-Completed normally at 2026-11-17 12:28:31

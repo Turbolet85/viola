@@ -1,0 +1,146 @@
+[
+{
+"tool": "matrix",
+"v": "1.13",
+"sha8": "14a58d10",
+"ts": "2026-11-17T12:35:26Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.2.0",
+"--chunk",
+"2026-11-17-booted-wrapper-does-not-outlive-its-test",
+"--run-dir",
+".andromeda/runs/2026-11-17T12-01-09Z-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-11-17-booted-wrapper-does-not-outlive-its-test: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v2-37 → verified — After a test process that booted a wrapper on pipes, by a direct spawn, under an… (824 chars)",
+"dry-run: nothing written",
+"version: verified 16/37"
+],
+"stderr": null,
+"wrote": [],
+"before": [
+{
+"id": "v2-37",
+"chunk": "2026-11-17-booted-wrapper-does-not-outlive-its-test",
+"status": "implemented",
+"method": "integration",
+"ref": "tests/cross_killed_test.rs::killed_test_leaves_no_piped_wrapper · ::killed_test_leaves_no_direct_wrapper · ::killed_test… (368 chars)",
+"acceptance": "After a test process that booted a wrapper on pipes, by a direct spawn, under an outer PTY, frozen under an outer PTY, o… (824 chars)",
+"notes_chars": 0
+}
+],
+"after": [
+{
+"id": "v2-37",
+"chunk": "2026-11-17-booted-wrapper-does-not-outlive-its-test",
+"status": "verified",
+"method": "integration",
+"ref": "tests/cross_killed_test.rs::killed_test_leaves_no_piped_wrapper · ::killed_test_leaves_no_direct_wrapper · ::killed_test… (368 chars)",
+"acceptance": "After a test process that booted a wrapper on pipes, by a direct spawn, under an outer PTY, frozen under an outer PTY, o… (824 chars)",
+"notes_chars": 0
+}
+]
+},
+{
+"tool": "matrix",
+"v": "1.13",
+"sha8": "14a58d10",
+"ts": "2026-11-17T12:35:31Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.2.0",
+"--chunk",
+"2026-11-17-booted-wrapper-does-not-outlive-its-test",
+"--run-dir",
+".andromeda/runs/2026-11-17T12-01-09Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-11-17-booted-wrapper-does-not-outlive-its-test: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v2-37 → verified — After a test process that booted a wrapper on pipes, by a direct spawn, under an… (824 chars)",
+"landed, rendered ./.andromeda/db/log/2026-11-17T09-01-02-2026-11-17-booted-wrapper-does-not-outlive-its-test.ndjson · 1 entry changed",
+"version: verified 16/37"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T09-01-02-2026-11-17-booted-wrapper-does-not-outlive-its-test.ndjson"
+],
+"before": [
+{
+"id": "v2-37",
+"chunk": "2026-11-17-booted-wrapper-does-not-outlive-its-test",
+"status": "implemented",
+"method": "integration",
+"ref": "tests/cross_killed_test.rs::killed_test_leaves_no_piped_wrapper · ::killed_test_leaves_no_direct_wrapper · ::killed_test… (368 chars)",
+"acceptance": "After a test process that booted a wrapper on pipes, by a direct spawn, under an outer PTY, frozen under an outer PTY, o… (824 chars)",
+"notes_chars": 0
+}
+],
+"after": [
+{
+"id": "v2-37",
+"chunk": "2026-11-17-booted-wrapper-does-not-outlive-its-test",
+"status": "verified",
+"method": "integration",
+"ref": "tests/cross_killed_test.rs::killed_test_leaves_no_piped_wrapper · ::killed_test_leaves_no_direct_wrapper · ::killed_test… (368 chars)",
+"acceptance": "After a test process that booted a wrapper on pipes, by a direct spawn, under an outer PTY, frozen under an outer PTY, o… (824 chars)",
+"notes_chars": 0
+}
+]
+},
+{
+"tool": "matrix",
+"v": "1.13",
+"sha8": "14a58d10",
+"ts": "2026-11-17T12:35:32Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.2.0",
+"--id",
+"v2-37",
+"--text-file",
+".andromeda/runs/2026-11-17T12-01-09Z-wrap/note-v2-37.md",
+"--run-dir",
+".andromeda/runs/2026-11-17T12-01-09Z-wrap",
+"--marker",
+"2026-11-17-booted-wrapper-does-not-outlive-its-test"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v2-37: +764 chars (total 764) · status verified · ref/acceptance untouched",
+"landed, rendered ./.andromeda/db/log/2026-11-17T09-01-02-2026-11-17-booted-wrapper-does-not-outlive-its-test.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T09-01-02-2026-11-17-booted-wrapper-does-not-outlive-its-test.ndjson"
+],
+"before": {
+"id": "v2-37",
+"chunk": "2026-11-17-booted-wrapper-does-not-outlive-its-test",
+"status": "verified",
+"method": "integration",
+"ref": "tests/cross_killed_test.rs::killed_test_leaves_no_piped_wrapper · ::killed_test_leaves_no_direct_wrapper · ::killed_test… (368 chars)",
+"acceptance": "After a test process that booted a wrapper on pipes, by a direct spawn, under an outer PTY, frozen under an outer PTY, o… (824 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v2-37",
+"chunk": "2026-11-17-booted-wrapper-does-not-outlive-its-test",
+"status": "verified",
+"method": "integration",
+"ref": "tests/cross_killed_test.rs::killed_test_leaves_no_piped_wrapper · ::killed_test_leaves_no_direct_wrapper · ::killed_test… (368 chars)",
+"acceptance": "After a test process that booted a wrapper on pipes, by a direct spawn, under an outer PTY, frozen under an outer PTY, o… (824 chars)",
+"notes_chars": 764
+}
+}
+]

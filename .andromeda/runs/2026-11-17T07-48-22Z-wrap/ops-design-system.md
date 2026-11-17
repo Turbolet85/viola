@@ -1,2 +1,0 @@
-@none
-reason: the chunk adds no product surface (fct-hiwekelv: the product binary is unchanged, the rig and the fake agent are test-only; fct-yubkirys: every symbol test-only), so no viola CLI wording, colour token or output rule moves; the four picker-marked rows (clap-without-colour-feature, refusal-hints human-typing, not-delivered-input-not-ready, not-delivered-unknown-dialog) concern the `viola` binary's own output, which the report leaves true, the sweep's one design-system send-trim row reads no change (fct-wm5rpfb2), and the task carries no fact for this master.
