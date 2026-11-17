@@ -1,0 +1,136 @@
+[
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "a387b943",
+"ts": "2026-11-17T19:21:05Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-17-trust-record-ledger-row",
+"--source",
+"~/dev/projects/additional/viola-overseer/phase-trust-row-directive.md",
+"--kind",
+"relay",
+"--why",
+"the overseer's phase directive for this take-up: scope at f9d75214, the measured ground, the founder's R2-R4 bound, the probe's fail arm, stale stamps, the S0 cap, gate rules",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-11-17T19-19-54Z-phase",
+"--marker",
+"2026-11-17-trust-record-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy no-repo · ../additional/viola-overseer/phase-trust-row-directive.md",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-phase-trust-row-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/phase-trust-row-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "41271579784f10fc7279cac550f7e93b4effc7b7bdf0794f7e1db76a3b8f7d5c",
+"copy": "I1-phase-trust-row-directive.md.txt",
+"link": false,
+"read_at": "2026-11-17T19:21:04Z",
+"step": "phase:P1",
+"why": "the overseer's phase directive for this take-up: scope at f9d75214, the measured ground, the founder's R2-R4 bound, the probe's fail arm, stale stamps, the S0 cap, gate rules"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "a387b943",
+"ts": "2026-11-17T20:05:06Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-17-trust-record-ledger-row",
+"--run-dir",
+".andromeda/runs/2026-11-17T19-19-54Z-phase",
+"--marker",
+"2026-11-17-trust-record-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-trust-row-directive.md",
+"I1 cited scope.md:15 · scope.md:38 · scope.md:52 · scope.md:58 · research.md:7 · plan.md:14 · plan.md:19 · plan.md:24 · plan.md:35 · plan.md:44 · plan.md:218 · plan.md:408 · plan.md:411 · plan.md:415 · plan.md:418 · plan.md:428 · plan.md:469 · plan.md:490 · plan.md:512",
+"inputs: 1 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 1,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "a387b943",
+"ts": "2026-11-17T20:07:50Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-17-trust-record-ledger-row",
+"--run-dir",
+".andromeda/runs/2026-11-17T19-19-54Z-phase",
+"--marker",
+"2026-11-17-trust-record-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-trust-row-directive.md",
+"I1 cited scope.md:15 · scope.md:38 · scope.md:52 · scope.md:58 · research.md:7 · plan.md:14 · plan.md:19 · plan.md:24 · plan.md:35 · plan.md:44 · plan.md:220 · plan.md:417 · plan.md:420 · plan.md:424 · plan.md:427 · plan.md:437 · plan.md:478 · plan.md:499 · plan.md:521",
+"inputs: 1 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 1,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+}
+]

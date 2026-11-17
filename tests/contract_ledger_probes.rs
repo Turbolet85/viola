@@ -1,6 +1,6 @@
 //! The capability-ledger probes over the committed fixture sets (test-plan §5 CLI): `viola verify`
 //! against the fake agent at each stamped `fixtures/claude/<version>/` passes every relied row
-//! (all twenty-four), each literal row id once. Every recorded set is on exactly one literal list: stamped, or kept for the byte-drift
+//! (all twenty-three), each literal row id once. Every recorded set is on exactly one literal list: stamped, or kept for the byte-drift
 //! contract only. The recorded sets are walked at run time, not by `#[files]`, and an empty walk
 //! fails.
 //! andromeda:walks-tree — it reads every set under `fixtures/claude/`, named or not.
@@ -13,7 +13,7 @@ use std::path::Path;
 use support::home::{TestHome, workspace_path};
 use support::verify::verify;
 
-const ROW_IDS: [&str; 22] = [
+const ROW_IDS: [&str; 23] = [
     "shim-resolution",
     "spine-hooks",
     "session-start-fields",
@@ -36,6 +36,7 @@ const ROW_IDS: [&str; 22] = [
     "agents-join",
     "local-command-compact",
     "local-command-echo",
+    "trust-record",
 ];
 /// The sets recorded whole (spine, screens, dialog, framing and resume variants): each
 /// stamps every relied row.
@@ -105,7 +106,7 @@ fn contract_ledger_probes_pass_over_every_stamped_set() {
                 "{version}: {id} did not pass"
             );
         }
-        assert_eq!(*last, format!("stamped {version}  22 pass  0 fail"));
+        assert_eq!(*last, format!("stamped {version}  23 pass  0 fail"));
     });
 }
 

@@ -318,7 +318,7 @@ fn tool_arms(
 }
 
 /// The capability-ledger rows `viola verify` prints, as literals: the live run checks each once.
-const LEDGER_ROWS: [&str; 22] = [
+const LEDGER_ROWS: [&str; 23] = [
     "shim-resolution",
     "spine-hooks",
     "session-start-fields",
@@ -341,6 +341,7 @@ const LEDGER_ROWS: [&str; 22] = [
     "agents-join",
     "local-command-compact",
     "local-command-echo",
+    "trust-record",
 ];
 
 /// Suite `local-live`: the harness build, then one `viola verify` against the real `claude` (the
@@ -969,29 +970,30 @@ mod tests {
         assert_eq!(suite(&out.doc, "doctest")["failed"], 1);
     }
 
-    const LIVE_PASS: &str = "[01/22] shim-resolution claude resolves  pass\n\
-        [02/22] spine-hooks spine hooks fire  pass\n\
-        [03/22] session-start-fields fields  pass\n\
-        [04/22] prompt-verbatim prompt  pass\n\
-        [05/22] stop-message message  pass\n\
-        [06/22] largest-hook-payload payload  pass\n\
-        [07/22] modal-signature modal  pass\n\
-        [08/22] input-box-signature input box  pass\n\
-        [09/22] quiet-period quiet  pass\n\
-        [10/22] confirm-window window  pass\n\
-        [11/22] question-answer question  pass\n\
-        [12/22] plan-approve-revise plan  pass\n\
-        [13/22] question-notes notes  pass\n\
-        [14/22] dialog-concurrency concurrency  pass\n\
-        [15/22] long-paste-wrapper wrapper  pass\n\
-        [16/22] tag-escaping escaping  pass\n\
-        [17/22] local-command-clear clear  pass\n\
-        [18/22] paste-newline newline  pass\n\
-        [19/22] resume-session resume  pass\n\
-        [20/22] agents-join join  pass\n\
-        [21/22] local-command-compact compact  pass\n\
-        [22/22] local-command-echo echo  pass\n\
-        stamped 2.1.287  22 pass  0 fail\n";
+    const LIVE_PASS: &str = "[01/23] shim-resolution claude resolves  pass\n\
+        [02/23] spine-hooks spine hooks fire  pass\n\
+        [03/23] session-start-fields fields  pass\n\
+        [04/23] prompt-verbatim prompt  pass\n\
+        [05/23] stop-message message  pass\n\
+        [06/23] largest-hook-payload payload  pass\n\
+        [07/23] modal-signature modal  pass\n\
+        [08/23] input-box-signature input box  pass\n\
+        [09/23] quiet-period quiet  pass\n\
+        [10/23] confirm-window window  pass\n\
+        [11/23] question-answer question  pass\n\
+        [12/23] plan-approve-revise plan  pass\n\
+        [13/23] question-notes notes  pass\n\
+        [14/23] dialog-concurrency concurrency  pass\n\
+        [15/23] long-paste-wrapper wrapper  pass\n\
+        [16/23] tag-escaping escaping  pass\n\
+        [17/23] local-command-clear clear  pass\n\
+        [18/23] paste-newline newline  pass\n\
+        [19/23] resume-session resume  pass\n\
+        [20/23] agents-join join  pass\n\
+        [21/23] local-command-compact compact  pass\n\
+        [22/23] local-command-echo echo  pass\n\
+        [23/23] trust-record trust  pass\n\
+        stamped 2.1.287  23 pass  0 fail\n";
 
     /// `LIVE_PASS` without the step line of `row`.
     fn without(row: &str) -> String {
@@ -1034,16 +1036,17 @@ mod tests {
         (out, calls)
     }
 
-    /// The live proof reads every relied row, all twenty-two, the echo row last, after the
-    /// resume, agents and compact rows.
+    /// The live proof reads every relied row, all twenty-three, the trust-record row last, after
+    /// the resume, agents, compact and echo rows.
     #[test]
     fn run_local_live_reads_the_relied_rows() {
-        assert_eq!(LEDGER_ROWS.len(), 22);
+        assert_eq!(LEDGER_ROWS.len(), 23);
         assert_eq!(LEDGER_ROWS[17], "paste-newline");
-        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 4], "resume-session");
-        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 3], "agents-join");
-        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 2], "local-command-compact");
-        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 1], "local-command-echo");
+        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 5], "resume-session");
+        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 4], "agents-join");
+        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 3], "local-command-compact");
+        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 2], "local-command-echo");
+        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 1], "trust-record");
         assert_eq!(LIVE_PASS.lines().count(), LEDGER_ROWS.len() + 1);
         assert!(live_rows_pass(LIVE_PASS));
         assert!(!live_rows_pass(&without(

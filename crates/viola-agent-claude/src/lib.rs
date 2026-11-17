@@ -7,6 +7,7 @@ pub mod hook;
 pub mod ledger;
 pub mod marketplace;
 pub mod screen;
+pub mod trust;
 
 use std::ffi::{OsStr, OsString};
 use std::path::{Path, PathBuf};

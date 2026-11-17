@@ -14,6 +14,7 @@ use crate::AgentError;
 use crate::dialog::{Permit, Response, Verdict, decision_body};
 use crate::hook::{HookEvent, prompt_text};
 use crate::screen::{COMPACT_CONFIRM_WINDOW, CONFIRM_WINDOW_FALLBACK, GATE_MAX_WAIT, SIGNATURES};
+use crate::trust::TrustWord;
 
 /// One measured behaviour, in the order `viola verify` checks and prints it.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -40,10 +41,11 @@ pub enum LedgerRow {
     AgentsJoin,
     LocalCommandCompact,
     LocalCommandEcho,
+    TrustRecord,
 }
 
 impl LedgerRow {
-    pub const ALL: [Self; 22] = [
+    pub const ALL: [Self; 23] = [
         Self::ShimResolution,
         Self::SpineHooks,
         Self::SessionStartFields,
@@ -66,6 +68,7 @@ impl LedgerRow {
         Self::AgentsJoin,
         Self::LocalCommandCompact,
         Self::LocalCommandEcho,
+        Self::TrustRecord,
     ];
 
     /// The kebab-case id, the key under a stamped version's `rows`.
@@ -93,6 +96,7 @@ impl LedgerRow {
             Self::AgentsJoin => "agents-join",
             Self::LocalCommandCompact => "local-command-compact",
             Self::LocalCommandEcho => "local-command-echo",
+            Self::TrustRecord => "trust-record",
         }
     }
 
@@ -124,6 +128,9 @@ impl LedgerRow {
             Self::LocalCommandCompact => "/compact keeps the session id and submits no prompt",
             Self::LocalCommandEcho => {
                 "/mcp writes its stdout tag to the transcript and submits no prompt"
+            }
+            Self::TrustRecord => {
+                "a trust record written for an untrusted folder opens it with no modal"
             }
         }
     }
@@ -613,6 +620,12 @@ pub struct TypedRun {
     /// How many of Run B's paste guards read the input box up on the box's own rows, with no
     /// footer literal on any row.
     pub box_only_guards: Option<u32>,
+    /// Run F's first settled screen: the untrusted folder started with its trust record written.
+    pub trust_frame: Option<Vec<String>>,
+    /// What writing Run F's trust record did; `None` when Run F never wrote.
+    pub trust_write: Option<TrustWord>,
+    /// What removing Run F's trust record did; `None` when nothing was written to remove.
+    pub trust_remove: Option<TrustWord>,
 }
 
 /// The captures of the two dialog runs, each in claim order: Run C's and Run D's.
@@ -996,6 +1009,26 @@ pub fn check(row: LedgerRow, probes: &Probes) -> bool {
             pasted(&probes.trusted, PROBE_ECHO_COMMAND).is_none()
                 && within(typed.echo_latency_ms, CONFIRM_WINDOW_FALLBACK)
         }
+        LedgerRow::TrustRecord => trust_record_opened(typed),
+    }
+}
+
+/// Run F's record was written, Run A (its untrusted twin) showed a modal literal, and Run F's first
+/// settled screen holds no modal literal and the input box up: the record alone opened the folder.
+fn trust_record_opened(typed: &TypedRun) -> bool {
+    typed.trust_write == Some(TrustWord::Written)
+        && any_row(typed.modal.as_ref(), SIGNATURES.modals)
+        && !any_row(typed.trust_frame.as_ref(), SIGNATURES.modals)
+        && input_box_ready(typed.trust_frame.as_ref())
+}
+
+/// A row's stamped word: `pass`, or `fail`; the trust-record row that wrote nothing reads the
+/// writer's own closed word instead, never `pass`.
+fn row_word(row: LedgerRow, pass: bool, typed: &TypedRun) -> &'static str {
+    match (row, pass, typed.trust_write) {
+        (_, true, _) => "pass",
+        (LedgerRow::TrustRecord, false, Some(word)) if word != TrustWord::Written => word.as_str(),
+        _ => "fail",
     }
 }
 
@@ -1055,12 +1088,7 @@ pub fn merge_stamp(
     };
     let rows: Map<String, Value> = results
         .iter()
-        .map(|(row, pass)| {
-            (
-                row.id().to_owned(),
-                json!(if *pass { "pass" } else { "fail" }),
-            )
-        })
+        .map(|(row, pass)| (row.id().to_owned(), json!(row_word(*row, *pass, typed))))
         .collect();
     let measured: Map<String, Value> = largest
         .iter()
@@ -1082,6 +1110,10 @@ pub fn merge_stamp(
             },
             "dialog_probe": {
                 "parallel_both_before_first_post": parallel_both_before_first_post,
+            },
+            "trust_probe": {
+                "write": typed.trust_write.map(TrustWord::as_str),
+                "remove": typed.trust_remove.map(TrustWord::as_str),
             },
         },
     });

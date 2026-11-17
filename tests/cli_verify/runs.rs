@@ -109,7 +109,7 @@ fn verify_record_refuses_a_dirty_kept_row(
     assert!(ran.stdout_text().ends_with(&format!("{STAMPED_PASS}\n")));
 }
 
-/// Run A's dir is a fresh `viola-verify-*` dir under the OS temp dir, Run B's is
+/// Run A's and Run F's dirs are each a fresh `viola-verify-*` dir under the OS temp dir, Run B's is
 /// `<cwd>/.viola-verify-<pid>/`, and Run C's, Run D's and Run E's carry `-dialogs`, `-plan` and
 /// `-resume`; after a passing run and after a failing one, none is left. The failing run's Run B
 /// starts at the trust dialog and captures no SessionStart, so no Run E starts.
@@ -141,21 +141,22 @@ fn verify_leaves_neither_run_dir_behind(#[from(home)] home: TestHome, #[case] fa
         ran.stdout_text()
     );
     let cwds = cwds(&receipt);
-    assert_eq!(cwds.len(), if failing { 5 } else { 6 });
+    assert_eq!(cwds.len(), if failing { 6 } else { 7 });
     for cwd in &cwds {
         assert!(!cwd.exists(), "{} outlived the run", cwd.display());
     }
-    let untrusted = &cwds[1];
-    assert!(
-        untrusted
-            .file_name()
-            .and_then(|n| n.to_str())
-            .is_some_and(|n| n.starts_with("viola-verify-"))
-    );
-    assert_eq!(
-        canonical(untrusted.parent().expect("parent")),
-        canonical(&tmp)
-    );
+    // Run A's dir and Run F's, the last start: each a fresh dir under the OS temp dir.
+    let (untrusted, recorded) = (&cwds[1], cwds.last().expect("Run F"));
+    for dir in [untrusted, recorded] {
+        assert!(
+            dir.file_name()
+                .and_then(|n| n.to_str())
+                .is_some_and(|n| n.starts_with("viola-verify-"))
+        );
+        assert_eq!(canonical(dir.parent().expect("parent")), canonical(&tmp));
+    }
+    assert_ne!(untrusted, recorded);
+    let cwds = &cwds[..cwds.len() - 1];
     let trusted = &cwds[2];
     let name = |p: &Path| {
         p.file_name()
@@ -196,11 +197,12 @@ fn verify_help_names_the_trusted_folder_and_the_external_import_blocker() {
     assert!(!flat.contains("/home/") && !flat.contains(":\\"));
 }
 
-/// Without `--screens` the fake agent shows nothing: each of the five interactive runs waits out the
+/// Without `--screens` the fake agent shows nothing: each of the six interactive runs waits out the
 /// gate's 8.5 s maximum, and the twelve rows the first four measure fail while the six print-mode
 /// rows pass; the resume row passes on Run E's SessionStart, captured before its wait; the agents
 /// row fails, as Run B's turn never settles on a literal and no read is made, and so do the compact
-/// and echo rows, as no framing paste is made.
+/// and echo rows, as no framing paste is made, and the trust-record row, as Run A showed no modal
+/// and Run F no input box.
 #[rstest]
 fn verify_window_without_screens_fails_every_interactive_row(#[from(home)] home: TestHome) {
     write_spine_set(&fixtures(&home), "2.1.0", None);
@@ -209,7 +211,7 @@ fn verify_window_without_screens_fails_every_interactive_row(#[from(home)] home:
     let stdout = ran.stdout_text();
     let lines: Vec<&str> = stdout.lines().collect();
     let mut expected = steps_failing(|i| i >= 6 && ROW_IDS[i] != "resume-session");
-    expected.push("stamped 2.1.0  7 pass  15 fail".to_owned());
+    expected.push("stamped 2.1.0  7 pass  16 fail".to_owned());
     assert_eq!(lines, expected);
     let rows = &stamps(home.path())["data"]["versions"]["2.1.0"]["rows"];
     for id in ROW_IDS[6..].iter().filter(|id| **id != "resume-session") {
@@ -261,7 +263,7 @@ fn verify_without_the_dialog_replay_fails_the_four_dialog_rows(#[from(home)] hom
     assert_eq!(ran.code, Some(1));
     assert!(ran.stderr.is_empty(), "stderr {}", ran.stderr_text());
     let mut expected = steps_failing(|i| (10..14).contains(&i));
-    expected.push("stamped 2.1.0  18 pass  4 fail".to_owned());
+    expected.push("stamped 2.1.0  19 pass  4 fail".to_owned());
     let stdout = ran.stdout_text();
     assert_eq!(stdout.lines().collect::<Vec<_>>(), expected);
     assert_plain(&ran.stdout);
@@ -298,7 +300,7 @@ fn verify_without_framing_fails_the_clear_and_compact_rows(#[from(home)] home: T
         id == "local-command-clear" || id == "local-command-compact" || id == "local-command-echo"
     };
     let mut expected = steps_failing(|i| local(ROW_IDS[i]));
-    expected.push("stamped 2.1.0  19 pass  3 fail".to_owned());
+    expected.push("stamped 2.1.0  20 pass  3 fail".to_owned());
     let stdout = ran.stdout_text();
     assert_eq!(stdout.lines().collect::<Vec<_>>(), expected);
     assert_plain(&ran.stdout);
@@ -373,7 +375,7 @@ fn verify_pastes_no_local_command_once_the_tag_turn_screen_shows_a_modal(
     ];
     let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &after, &[]);
     assert_eq!(ran.code, Some(1), "stdout {}", ran.stdout_text());
-    let summary = "stamped 2.1.0  18 pass  4 fail\n";
+    let summary = "stamped 2.1.0  19 pass  4 fail\n";
     assert!(
         ran.stdout_text().ends_with(summary),
         "stdout {}",
@@ -429,7 +431,7 @@ fn verify_pastes_nothing_more_once_the_long_turn_screen_shows_a_modal(
         "local-command-echo",
     ];
     let mut expected = steps_failing(|i| red.contains(&ROW_IDS[i]));
-    expected.push("stamped 2.1.0  16 pass  6 fail".to_owned());
+    expected.push("stamped 2.1.0  17 pass  6 fail".to_owned());
     let stdout = ran.stdout_text();
     assert_eq!(
         stdout.lines().collect::<Vec<_>>(),

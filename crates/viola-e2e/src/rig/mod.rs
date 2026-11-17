@@ -66,6 +66,8 @@ pub enum Arm {
     R3,
     /// Unwrapped in a cwd whose `CLAUDE.md` imports a file outside it; stopped with no key.
     IM,
+    /// `viola verify` over the child under the start's own viola home, held to its exit; no key.
+    V,
 }
 
 impl Arm {
@@ -77,12 +79,13 @@ impl Arm {
             "r3b" => Some(Self::R3B),
             "r3" => Some(Self::R3),
             "im" => Some(Self::IM),
+            "v" => Some(Self::V),
             _ => None,
         }
     }
 
     /// A live label's arm: `R1` / `R1-2`, `R2` / `R2-2`, `R3B` / `R3B-2`, `R3` / `R3-2` / `R3-326`
-    /// / `R3D` and `IM` / `IM-2`.
+    /// / `R3D`, `IM` / `IM-2` and `S0` / `S0-2`.
     pub fn of_label(label: &str) -> Option<Self> {
         match label {
             "R1" | "R1-2" => Some(Self::R1),
@@ -90,8 +93,14 @@ impl Arm {
             "R3B" | "R3B-2" => Some(Self::R3B),
             "R3" | "R3-2" | "R3-326" | "R3D" => Some(Self::R3),
             "IM" | "IM-2" => Some(Self::IM),
+            "S0" | "S0-2" => Some(Self::V),
             _ => None,
         }
+    }
+
+    /// Whether the start makes a viola home of its own: every wrapped arm, and the verify arm.
+    pub fn has_vhome(self) -> bool {
+        self.wrapped().is_some() || self == Self::V
     }
 
     const fn word(self) -> &'static str {
@@ -102,6 +111,7 @@ impl Arm {
             Self::R3B => "r3b",
             Self::R3 => "r3",
             Self::IM => "im",
+            Self::V => "v",
         }
     }
 
@@ -110,13 +120,13 @@ impl Arm {
         match self {
             Self::R2 => Some(R2_NAME),
             Self::R3B | Self::R3 => Some(wake::WAKE_NAME),
-            Self::R1 | Self::Hold | Self::IM => None,
+            Self::R1 | Self::Hold | Self::IM | Self::V => None,
         }
     }
 
     /// Whether the start's cwd is trusted in its private config.
     const fn trusted(self) -> bool {
-        matches!(self, Self::R2 | Self::R3B | Self::R3 | Self::IM)
+        matches!(self, Self::R2 | Self::R3B | Self::R3 | Self::IM | Self::V)
     }
 }
 
@@ -226,8 +236,7 @@ pub fn start(plan: &Plan) -> u8 {
     let run = procs::run_id();
     procs::watchdog(plan.deadline);
     let mut needles = vec![plan.scratch_base.join(&run).as_os_str().as_bytes().to_vec()];
-    let mut scratch = match Scratch::create(&plan.scratch_base, &run, plan.arm.wrapped().is_some())
-    {
+    let mut scratch = match Scratch::create(&plan.scratch_base, &run, plan.arm.has_vhome()) {
         Ok(scratch) => scratch,
         Err(_) => {
             summary.put("refused", "scratch");
@@ -247,7 +256,7 @@ pub fn start(plan: &Plan) -> u8 {
             .as_deref()
             .is_some_and(|rig| scratch.seed_capture(rig).is_ok()),
         Arm::IM => scratch.seed_imports().is_ok(),
-        Arm::R1 | Arm::R2 | Arm::Hold => true,
+        Arm::R1 | Arm::R2 | Arm::Hold | Arm::V => true,
     };
     if !placed {
         summary.put("refused", "credentials");
@@ -255,6 +264,12 @@ pub fn start(plan: &Plan) -> u8 {
         summary.put("refused", "seed");
     } else if let Some(id) = run_child(plan, &run, &scratch, &mut summary) {
         needles.push(id.into_bytes());
+    }
+    if plan.arm == Arm::V {
+        summary.put(
+            "record-left",
+            scratch.record_left(&isolate::child_temp_root()),
+        );
     }
     let teardown = scratch.teardown();
     finish(
@@ -301,9 +316,9 @@ fn finish(
         && summary.get("refused").is_none()
         && summary.get("stopped-by").is_none()
         && user_config != "changed-by-rig"
-        && summary
-            .get("child")
-            .is_none_or(|c| c == "stopped" || c == "exit 0");
+        && summary.get("child").is_none_or(|c| {
+            c == "stopped" || c == "exit 0" || (plan.arm == Arm::V && c == "exit 1")
+        });
     if whole { 0 } else { 1 }
 }
 
@@ -518,9 +533,33 @@ fn run_child(plan: &Plan, run: &str, scratch: &Scratch, summary: &mut Summary) -
     let child_args: Vec<OsString> = plan
         .child_args
         .iter()
-        .map(|a| OsString::from(a.replace("{cwd}", &scratch.cwd.to_string_lossy())))
+        .map(|a| {
+            OsString::from(
+                a.replace("{cwd}", &scratch.cwd.to_string_lossy())
+                    .replace("{config}", &scratch.config.to_string_lossy()),
+            )
+        })
         .collect();
     let (program, args) = match (plan.arm.wrapped(), &scratch.vhome) {
+        (None, Some(vhome)) if plan.arm == Arm::V => {
+            let Some(viola) = &plan.viola else {
+                summary.put("refused", "viola");
+                return None;
+            };
+            summary.put(
+                "viola-build",
+                fs::read(viola).map_or_else(|_| "unread".to_owned(), |b| content_key(&b)),
+            );
+            let mut args: Vec<OsString> = vec![
+                "--home".into(),
+                vhome.into(),
+                "verify".into(),
+                "--".into(),
+                plan.program.clone().into(),
+            ];
+            args.extend(child_args);
+            (viola.clone(), args)
+        }
         (Some(name), Some(vhome)) => {
             let Some(viola) = &plan.viola else {
                 summary.put("refused", "viola");
@@ -566,6 +605,7 @@ fn run_child(plan: &Plan, run: &str, scratch: &Scratch, summary: &mut Summary) -
         Arm::R3B => wake::arm_r3b(plan, scratch, &env, &mut session, summary),
         Arm::R3 => wake::arm_r3(plan, scratch, &env, &mut session, summary),
         Arm::IM => arm_im(plan, &mut session, summary),
+        Arm::V => arm_v(plan, scratch, &mut session, summary),
     }
     if let Some(reason) = procs::stop_requested() {
         summary.put("stopped-by", reason);
@@ -704,6 +744,71 @@ fn arm_im(plan: &Plan, session: &mut Session, summary: &mut Summary) {
     let first = first_frame(plan, session);
     record_reading(summary, &first);
     summary.put("keys", "none");
+}
+
+/// The verify arm: `viola verify` held until it exits or the stop comes, no key typed into
+/// anything; then its exit code, and from its stamps the trust-record row's word and the pass count.
+fn arm_v(plan: &Plan, scratch: &Scratch, session: &mut Session, summary: &mut Summary) {
+    summary.put("keys", "none");
+    while session.exit.is_none() && procs::stop_requested().is_none() {
+        session.pump(Duration::from_millis(50));
+    }
+    session.keep("verify");
+    summary.put(
+        "verify-exit",
+        session
+            .exit
+            .map_or_else(|| "none".to_owned(), |c| c.to_string()),
+    );
+    let stamps = scratch
+        .vhome
+        .as_ref()
+        .map(|vhome| vhome.join("ledger").join("stamps.json"));
+    let (word, passes) = stamps.as_deref().map_or_else(
+        || ("unread".to_owned(), "unread".to_owned()),
+        |path| stamp_reading(path, plan.cli_version.as_deref()),
+    );
+    summary.put("trust-record", word);
+    summary.put("pass-count", passes);
+}
+
+/// The stamped version's `rows.trust-record` as a closed word and `<passed>/<rows>`: the version
+/// named, or the one version a fresh home holds. `unread` for a stamp that is absent or not read.
+fn stamp_reading(path: &Path, version: Option<&str>) -> (String, String) {
+    let unread = || ("unread".to_owned(), "unread".to_owned());
+    let mut bytes = Vec::new();
+    let Ok(file) = File::open(path) else {
+        return unread();
+    };
+    if file
+        .take(viola_core::MAX_FRAME)
+        .read_to_end(&mut bytes)
+        .is_err()
+    {
+        return unread();
+    }
+    let Ok(doc) = serde_json::from_slice::<Value>(&bytes) else {
+        return unread();
+    };
+    let Some(versions) = doc["data"]["versions"].as_object() else {
+        return unread();
+    };
+    let entry = match version {
+        Some(version) => versions.get(version),
+        None if versions.len() == 1 => versions.values().next(),
+        None => None,
+    };
+    let Some(rows) = entry.and_then(|e| e["rows"].as_object()) else {
+        return unread();
+    };
+    let word = rows
+        .get("trust-record")
+        .and_then(Value::as_str)
+        .filter(|w| viola_core::is_code_word(w))
+        .unwrap_or("absent")
+        .to_owned();
+    let passed = rows.values().filter(|v| *v == "pass").count();
+    (word, format!("{passed}/{}", rows.len()))
 }
 
 fn arm_hold(plan: &Plan, session: &mut Session) {
@@ -918,6 +1023,39 @@ mod tests {
         }
         assert_eq!(Arm::of_label("R4"), None);
         assert_eq!(Arm::of_label("R3-3"), None);
+        assert_eq!(Arm::parse("v"), Some(Arm::V));
+        assert_eq!(Arm::of_label("S0"), Some(Arm::V));
+        assert_eq!(Arm::of_label("S0-2"), Some(Arm::V));
+        assert_eq!(Arm::of_label("S0-3"), None);
+        assert!(Arm::V.has_vhome() && Arm::V.wrapped().is_none());
+        assert!(Arm::R2.has_vhome() && !Arm::IM.has_vhome());
+    }
+
+    #[test]
+    fn a_stamp_reads_the_trust_record_word_and_the_pass_count() {
+        let base = tempfile::tempdir().expect("tempdir");
+        let path = base.path().join("stamps.json");
+        fs::write(
+            &path,
+            r#"{"v":1,"data":{"versions":{"2.1.325":{"rows":{"a":"pass","trust-record":"config-absent"}}}}}"#,
+        )
+        .expect("stamps");
+        assert_eq!(
+            stamp_reading(&path, Some("2.1.325")),
+            ("config-absent".to_owned(), "1/2".to_owned())
+        );
+        assert_eq!(
+            stamp_reading(&path, None),
+            ("config-absent".to_owned(), "1/2".to_owned())
+        );
+        assert_eq!(stamp_reading(&path, Some("9.9.9")).0, "unread");
+        fs::write(
+            &path,
+            r#"{"v":1,"data":{"versions":{"1.0.0":{"rows":{"trust-record":"/a/path"}}}}}"#,
+        )
+        .expect("stamps");
+        assert_eq!(stamp_reading(&path, None).0, "absent", "no code word");
+        assert_eq!(stamp_reading(&base.path().join("gone"), None).0, "unread");
     }
 
     #[test]

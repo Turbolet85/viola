@@ -400,8 +400,77 @@ fn spawn_viola(
     }
 }
 
+/// The test-owned user home a test-started `viola verify` runs under (`HOME`): `<home's
+/// parent>/user/`, so no test writes the user's real `~/.claude.json`. Run F writes its trust
+/// record into `.claude.json` there, and the fake agent is told that file (`--trust-config`).
+pub fn user_home_of(home: &Path) -> PathBuf {
+    home.parent().expect("home has a parent").join("user")
+}
+
+/// The config file Run F writes into under the test-owned user home.
+pub fn trust_config_of(home: &Path) -> PathBuf {
+    user_home_of(home).join(".claude.json")
+}
+
+/// Makes the test-owned user home (0700) with `.claude.json` holding `seed` (0600), or with no
+/// config file for `None`. A test that seeds its own calls this before `verify`; otherwise the
+/// first verify seeds `{}`.
+pub fn seed_user_home(home: &Path, seed: Option<&Value>) {
+    let user = user_home_of(home);
+    super::home::private_dir(&user, "the test-owned user home");
+    if let Some(seed) = seed {
+        viola_state::fs::replace_private(
+            &trust_config_of(home),
+            seed.to_string().as_bytes(),
+            0o600,
+        )
+        .expect("the seeded .claude.json");
+    }
+}
+
+/// The test-owned user home made and seeded `{}` unless a test made it already; a home whose parent
+/// is no directory (a refusal case) gets none.
+fn ensure_user_home(home: &Path) {
+    let parent_is_dir = home.parent().is_some_and(Path::is_dir);
+    if parent_is_dir && !user_home_of(home).exists() {
+        seed_user_home(home, Some(&json!({})));
+    }
+}
+
+/// `home`'s `config.json` keeping `CLAUDE_CONFIG_DIR` for the child (the home made 0700 when
+/// absent): Run F then writes into `<CLAUDE_CONFIG_DIR>/.claude.json`.
+pub fn keep_config_dir(home: &Path) {
+    super::home::private_dir(home, "the viola home");
+    viola_state::fs::replace_private(
+        &home.join("config.json"),
+        br#"{"v":1,"claude_env_keep":["CLAUDE_CONFIG_DIR"]}"#,
+        0o600,
+    )
+    .expect("config.json");
+}
+
+/// The environment and the fake agent's arguments that tie a test-started verify to its test-owned
+/// user home. A `--record` run keeps the real `HOME`, which its scrub rewrites to `~`, and instead
+/// keeps `CLAUDE_CONFIG_DIR` naming the test-owned user home: Run F writes there all the same.
+fn user_tie(home: &Path, before: &[&str]) -> (Vec<(&'static str, OsString)>, Vec<OsString>) {
+    ensure_user_home(home);
+    let user = user_home_of(home).into_os_string();
+    let env = if before.contains(&"--record") {
+        keep_config_dir(home);
+        vec![("CLAUDE_CONFIG_DIR", user)]
+    } else {
+        vec![("HOME", user)]
+    };
+    let fake = vec![
+        "--trust-config".into(),
+        trust_config_of(home).into_os_string(),
+    ];
+    (env, fake)
+}
+
 /// `viola --home <home> verify <before> -- <fake> --cli-version <version> --fixtures <fixtures>
-/// --screens --turn-stop --dialogs --framing --trusted-root <workspace root> <after>`: the fake agent
+/// --screens --turn-stop --dialogs --framing --trusted-root <workspace root> --trust-config
+/// <test-owned user home>/.claude.json <after>`, under that user home (`HOME`): the fake agent
 /// replays the recorded screens, dialogs and framing shapes, and verify's trusted runs start under
 /// the cwd, the workspace root. Every verify-driven test is in the `verify_window_` class: verify's four interactive runs
 /// make a designed floor (ten 300 ms settles since chunk
@@ -461,8 +530,11 @@ fn verify_with(
     args.extend(replays.iter().map(OsString::from));
     args.push("--trusted-root".into());
     args.push(workspace_path("").into());
+    let (mut tied, fake) = user_tie(home, before);
+    args.extend(fake);
     args.extend(after.iter().map(OsString::from));
-    viola_unbounded(&args, env)
+    tied.extend(env.iter().cloned());
+    viola_unbounded(&args, &tied)
 }
 
 /// A `verify` the test started and has not waited, its pid, and the fake agent's receipt.
@@ -504,8 +576,14 @@ pub fn verify_started(
     args.push(cwd.into());
     args.push("--receipt".into());
     args.push(receipt.clone().into());
+    let (tied, fake) = user_tie(home, &[]);
+    args.extend(fake);
     args.extend(after.iter().map(OsString::from));
-    let child = super::tied::viola()
+    let mut command = super::tied::viola();
+    for (key, value) in tied {
+        command.env(key, value);
+    }
+    let child = command
         .args(&args)
         .current_dir(cwd)
         .env_remove("VIOLA_DIR")
@@ -529,7 +607,24 @@ pub fn verify_started(
 /// 8.5 s maximum (about 35 s in all), so, like a `send_window_` test, it has no test-side bound and the
 /// nextest `verify_window_` override is its kill.
 pub fn verify_without_screens(home: &Path, fixtures: &Path, version: &str, before: &[&str]) -> Ran {
-    viola_unbounded(&verify_args(home, fixtures, version, before), &[])
+    let mut args = verify_args(home, fixtures, version, before);
+    let (tied, fake) = user_tie(home, before);
+    args.extend(fake);
+    viola_unbounded(&args, &tied)
+}
+
+/// `viola --home <home> verify -- <program>` under the test-owned user home: a program verify
+/// refuses or cannot find, so no run starts.
+pub fn verify_program(home: &Path, program: &Path) -> Ran {
+    let args: Vec<OsString> = vec![
+        "--home".into(),
+        home.into(),
+        "verify".into(),
+        "--".into(),
+        program.into(),
+    ];
+    let user: Vec<(&str, OsString)> = vec![("HOME", user_home_of(home).into_os_string())];
+    viola(&args, &user)
 }
 
 fn verify_args(home: &Path, fixtures: &Path, version: &str, before: &[&str]) -> Vec<OsString> {

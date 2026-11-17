@@ -1,8 +1,10 @@
 //! `viola verify [--record <dir>] [-- <program> [args…]]`: measures the capability ledger against
 //! the local `claude` (or the program after `--`) with one print-mode probe through a capture
-//! plugin and five interactive PTY runs (`typed`: untrusted, trusted, dialogs, plan — those two
-//! answered by their own capture hook — and resume) with one `claude agents --json` read while the
-//! trusted run's session is live, prints one step line per row and the `stamped`
+//! plugin and six interactive PTY runs (`typed`: untrusted, trusted, dialogs, plan — those two
+//! answered by their own capture hook — resume, and trust-record, which writes the trust record for
+//! its own temp dir into the config file its child reads and removes that one record) with one
+//! `claude agents --json` read while the trusted run's session is live, prints one step line per
+//! row and the `stamped`
 //! summary on stdout, and writes the stamps as their only writer (security-plan §Data Protection;
 //! architecture [CLI Version Compatibility]). With `--record`, a clean run's payloads become
 //! scrubbed fixtures and its screens signature-only `Screen.<phase>.json` fixtures. Stopped by
@@ -27,6 +29,7 @@ use viola_agent_claude::ledger::{
     self, Capture, DialogRun, DialogRuns, LedgerRow, PROBE_ANSWERS, PROBE_PROMPT, ProbePlugin,
     ProbeRun, Probes, TypedRun,
 };
+use viola_agent_claude::trust::{self, TrustWord};
 use viola_agent_claude::{AgentError, PLUGIN_DIR_FLAG, PROGRAM, StripPlan};
 use viola_core::obs::{ObsEvent, ObsProcess};
 use viola_core::{Clock, MAX_FRAME, SystemClock, ViolaName, obs_event};
@@ -219,6 +222,7 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<Ended> {
         version_answered: true,
         captures: read_captures(&probe.captures()),
     };
+    let trust_config = trust_config_file(&strip);
     let clock: Arc<dyn Clock> = Arc::new(SystemClock);
     let [trusted, questions, plan, resume] = [
         probe.typed(),
@@ -239,6 +243,7 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<Ended> {
             questions: dirs(&questions),
             plan: dirs(&plan),
             resume: dirs(&resume),
+            trust_config: trust_config.as_deref().map_err(|word| *word),
         },
     )?;
     let Some((typed, agents)) = typed else {
@@ -295,6 +300,19 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<Ended> {
         Some(dir) => record(dir, &version, &probes),
         None => Ok(Ended::Exit(0)),
     }
+}
+
+/// The config file the child reads, for Run F's trust record: `<CLAUDE_CONFIG_DIR>/.claude.json`
+/// when the strip keeps that name, its one value read here and nowhere else; else
+/// `<user home>/.claude.json`.
+fn trust_config_file(strip: &StripPlan) -> Result<PathBuf, TrustWord> {
+    let kept = strip
+        .kept
+        .iter()
+        .any(|name| name == trust::CONFIG_DIR_VAR)
+        .then(|| std::env::var_os(trust::CONFIG_DIR_VAR))
+        .flatten();
+    trust::config_file(kept.as_deref(), std::env::home_dir().as_deref())
 }
 
 /// `<home>/ledger/probes/<pid>/` (0700) with the capture plugin in `plugin/` and an empty
@@ -622,7 +640,7 @@ mod tests {
         );
     }
 
-    /// The counter's total is the relied count: twenty-two rows.
+    /// The counter's total is the relied count: twenty-three rows.
     #[test]
     fn step_lines_count_to_the_relied_total() {
         let probes = Probes {
@@ -637,22 +655,26 @@ mod tests {
             agents: None,
         };
         let results = check_rows(&probes);
-        assert_eq!(results.len(), 22);
+        assert_eq!(results.len(), 23);
         assert_eq!(
-            step_line(19, 22, LedgerRow::ResumeSession, false),
-            "[19/22] resume-session --resume <id> reopens the session under that id  fail"
+            step_line(19, 23, LedgerRow::ResumeSession, false),
+            "[19/23] resume-session --resume <id> reopens the session under that id  fail"
         );
         assert_eq!(
-            step_line(20, 22, LedgerRow::AgentsJoin, false),
-            "[20/22] agents-join claude agents --json names the live session by pid and session id  fail"
+            step_line(20, 23, LedgerRow::AgentsJoin, false),
+            "[20/23] agents-join claude agents --json names the live session by pid and session id  fail"
         );
         assert_eq!(
-            step_line(21, 22, LedgerRow::LocalCommandCompact, false),
-            "[21/22] local-command-compact /compact keeps the session id and submits no prompt  fail"
+            step_line(21, 23, LedgerRow::LocalCommandCompact, false),
+            "[21/23] local-command-compact /compact keeps the session id and submits no prompt  fail"
         );
         assert_eq!(
-            step_line(22, 22, LedgerRow::LocalCommandEcho, false),
-            "[22/22] local-command-echo /mcp writes its stdout tag to the transcript and submits no prompt  fail"
+            step_line(22, 23, LedgerRow::LocalCommandEcho, false),
+            "[22/23] local-command-echo /mcp writes its stdout tag to the transcript and submits no prompt  fail"
+        );
+        assert_eq!(
+            step_line(23, 23, LedgerRow::TrustRecord, true),
+            "[23/23] trust-record a trust record written for an untrusted folder opens it with no modal  pass"
         );
         let rows: Vec<LedgerRow> = results.iter().map(|(row, _)| *row).collect();
         assert_eq!(rows, LedgerRow::relied());

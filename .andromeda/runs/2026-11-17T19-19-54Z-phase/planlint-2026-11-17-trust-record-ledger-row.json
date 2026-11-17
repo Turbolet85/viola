@@ -1,0 +1,391 @@
+[
+{
+"tool": "planlint",
+"v": "1.24",
+"sha8": "7c01df62",
+"ts": "2026-11-17T20:00:29Z",
+"argv": [
+"check",
+"--chunk",
+"2026-11-17-trust-record-ledger-row",
+"--run-dir",
+".andromeda/runs/2026-11-17T19-19-54Z-phase",
+"--marker",
+"2026-11-17-trust-record-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fence: 18 entries · plan: doc:2026-11-17-trust-record-ledger-row/plan · research: doc:2026-11-17-trust-record-ledger-ro…",
+"check 9 · CI-outcome reads: 1 · leg operator exempt: 1 · Platform issues consulted: none · `none — no runner-only bull…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 1 · Harness rules consulted: filled · ``.claude/rules/verification-harness.md` — i…`",
+"check 4 (5) · leg entries with a content atom: 7 · note without `atom from`: 3 → HIT",
+"  gate 10 · leg round · contains 2.1.325 · note: the install read by path before S0 (verification-harness.md 2026-10-10…",
+"  gate 14 · leg round · last line census: 0 · note: after S0",
+"  gate 15 · leg operator · contains \"ok\":true · note: (none)",
+"check 4 (13) · operator CI-outcome reads: 1 · not ci.py conclusion: 0",
+"check 4 (13) · job-log reads by pattern: 0",
+"check 4 (14) · base-less git change reads outside the operator and round legs: 0",
+"check 4 (15) · grep → wc -l counts asserting exit 0 and last line 0: 0",
+"check 4 (16) · guards whose exclusions leave a new file in: 0 of 0 with an exclusion",
+"check 4 (18) · entries reading a master's or a base's path the store now holds: 0",
+"check 4 (19) · absence probes against the test names their own plan adds: 0 · probes read 0",
+"check 4 (17) · entries reading a path the wrap writes: 0 of 10 asserting — listed, P5's read",
+"check 4 (17) · a path the wrap writes, read from inside a program an entry runs (a suite, the ledger's tool): not read",
+"check 2 · ledger-note entries (matrix#): 0",
+"check 5 · placeholders outside code: 0",
+"check 12 (c) · step references the plan's steps lack: 0 of 4",
+"check 12 (d) · «unchanged» claims on a name another part of the plan names: 7 of 11 — listed, P5's read",
+"  line 83 · «unchanged» · TypedRun (Files to modify) · rows.trust-record (step 10) · pass (step 4) · fail (step 4)",
+"  line 85 · «unchanged» · pass (step 4)",
+"  line 102 · «unchanged» · src/cmd/verify.rs (step 4) · /23 (step 9)",
+"  line 144 · «byte-equal» · <dir>/.claude.json (step 1) · pass (step 3) · HOME (step 7)",
+"  line 146 · «byte-equal» · verify_stopped_during_the_trust_record_run_removes_its_record_and_exits_1 (Test Commands)",
+"  line 385 · «byte-equal» · viola-verify- (step 4)",
+"  line 389 · «byte-equal» · <CLAUDE_CONFIG_DIR>/.claude.json (step 1) · HOME (step 7)",
+"      verify_trust_record_goes_to_the_kept_config_dir (step 10)",
+"  a claim on a name no other step, Files to modify or Test Commands names is not listed — P5's read",
+"check 4 (4) · criterion evidence paths the plan names nowhere else: 0 of 0",
+"hits: 3 — resolved by its check (validation.md 2 · 5 · 9 · 4 (4), (5), (13)–(16), (18)–(19) · 12 (c)); 0 is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "none",
+"ci_reads": 1,
+"operator": 1,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 1,
+"hit": false
+},
+"atom": {
+"atomed": 7,
+"bare": [
+10,
+14,
+15
+]
+},
+"tool": {
+"operator": 1,
+"hand": []
+},
+"log": [],
+"base": {
+"operator": 4,
+"reads": []
+},
+"count": {
+"hits": [],
+"unsplit": []
+},
+"newfiles": {
+"operator": 4,
+"guards": 0,
+"hits": [],
+"abstain": []
+},
+"retired": [],
+"absence": {
+"probes": 0,
+"hits": []
+},
+"wrap": {
+"asserting": 10,
+"listed": []
+},
+"check2": {
+"entries": 21,
+"tokens": 0,
+"hits": []
+},
+"check5": {
+"hits": []
+},
+"steps": {
+"steps": 14,
+"refs": 4,
+"hits": []
+},
+"claims": {
+"read": 11,
+"listed": [
+83,
+85,
+102,
+144,
+146,
+385,
+389
+]
+},
+"c44": {
+"paths": 0,
+"hits": [],
+"skipped": []
+},
+"hits": 3
+}
+},
+{
+"tool": "planlint",
+"v": "1.24",
+"sha8": "7c01df62",
+"ts": "2026-11-17T20:01:09Z",
+"argv": [
+"check",
+"--chunk",
+"2026-11-17-trust-record-ledger-row",
+"--run-dir",
+".andromeda/runs/2026-11-17T19-19-54Z-phase",
+"--marker",
+"2026-11-17-trust-record-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fence: 18 entries · plan: doc:2026-11-17-trust-record-ledger-row/plan · research: doc:2026-11-17-trust-record-ledger-ro…",
+"check 9 · CI-outcome reads: 1 · leg operator exempt: 1 · Platform issues consulted: none · `none — no runner-only bull…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 1 · Harness rules consulted: filled · ``.claude/rules/verification-harness.md` — i…`",
+"check 4 (5) · leg entries with a content atom: 7 · note without `atom from`: 0",
+"check 4 (13) · operator CI-outcome reads: 1 · not ci.py conclusion: 0",
+"check 4 (13) · job-log reads by pattern: 0",
+"check 4 (14) · base-less git change reads outside the operator and round legs: 0",
+"check 4 (15) · grep → wc -l counts asserting exit 0 and last line 0: 0",
+"check 4 (16) · guards whose exclusions leave a new file in: 0 of 0 with an exclusion",
+"check 4 (18) · entries reading a master's or a base's path the store now holds: 0",
+"check 4 (19) · absence probes against the test names their own plan adds: 0 · probes read 0",
+"check 4 (17) · entries reading a path the wrap writes: 0 of 10 asserting — listed, P5's read",
+"check 4 (17) · a path the wrap writes, read from inside a program an entry runs (a suite, the ledger's tool): not read",
+"check 2 · ledger-note entries (matrix#): 0",
+"check 5 · placeholders outside code: 0",
+"check 12 (c) · step references the plan's steps lack: 0 of 4",
+"check 12 (d) · «unchanged» claims on a name another part of the plan names: 7 of 11 — listed, P5's read",
+"  line 83 · «unchanged» · TypedRun (Files to modify) · rows.trust-record (step 10) · pass (step 4) · fail (step 4)",
+"  line 85 · «unchanged» · pass (step 4)",
+"  line 102 · «unchanged» · src/cmd/verify.rs (step 4) · /23 (step 9)",
+"  line 144 · «byte-equal» · <dir>/.claude.json (step 1) · pass (step 3) · HOME (step 7)",
+"  line 146 · «byte-equal» · verify_stopped_during_the_trust_record_run_removes_its_record_and_exits_1 (Test Commands)",
+"  line 386 · «byte-equal» · viola-verify- (step 4)",
+"  line 390 · «byte-equal» · <CLAUDE_CONFIG_DIR>/.claude.json (step 1) · HOME (step 7)",
+"      verify_trust_record_goes_to_the_kept_config_dir (step 10)",
+"  a claim on a name no other step, Files to modify or Test Commands names is not listed — P5's read",
+"check 4 (4) · criterion evidence paths the plan names nowhere else: 0 of 0",
+"hits: 0 — resolved by its check (validation.md 2 · 5 · 9 · 4 (4), (5), (13)–(16), (18)–(19) · 12 (c)); 0 is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "none",
+"ci_reads": 1,
+"operator": 1,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 1,
+"hit": false
+},
+"atom": {
+"atomed": 7,
+"bare": []
+},
+"tool": {
+"operator": 1,
+"hand": []
+},
+"log": [],
+"base": {
+"operator": 4,
+"reads": []
+},
+"count": {
+"hits": [],
+"unsplit": []
+},
+"newfiles": {
+"operator": 4,
+"guards": 0,
+"hits": [],
+"abstain": []
+},
+"retired": [],
+"absence": {
+"probes": 0,
+"hits": []
+},
+"wrap": {
+"asserting": 10,
+"listed": []
+},
+"check2": {
+"entries": 21,
+"tokens": 0,
+"hits": []
+},
+"check5": {
+"hits": []
+},
+"steps": {
+"steps": 14,
+"refs": 4,
+"hits": []
+},
+"claims": {
+"read": 11,
+"listed": [
+83,
+85,
+102,
+144,
+146,
+386,
+390
+]
+},
+"c44": {
+"paths": 0,
+"hits": [],
+"skipped": []
+},
+"hits": 0
+}
+},
+{
+"tool": "planlint",
+"v": "1.24",
+"sha8": "7c01df62",
+"ts": "2026-11-17T20:06:41Z",
+"argv": [
+"check",
+"--chunk",
+"2026-11-17-trust-record-ledger-row",
+"--run-dir",
+".andromeda/runs/2026-11-17T19-19-54Z-phase",
+"--marker",
+"2026-11-17-trust-record-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fence: 21 entries · plan: doc:2026-11-17-trust-record-ledger-row/plan · research: doc:2026-11-17-trust-record-ledger-ro…",
+"check 9 · CI-outcome reads: 1 · leg operator exempt: 1 · Platform issues consulted: none · `none — no runner-only bull…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 1 · Harness rules consulted: filled · ``.claude/rules/verification-harness.md` — i…`",
+"check 4 (5) · leg entries with a content atom: 9 · note without `atom from`: 0",
+"check 4 (13) · operator CI-outcome reads: 1 · not ci.py conclusion: 0",
+"check 4 (13) · job-log reads by pattern: 0",
+"check 4 (14) · base-less git change reads outside the operator and round legs: 0",
+"check 4 (15) · grep → wc -l counts asserting exit 0 and last line 0: 0",
+"check 4 (16) · guards whose exclusions leave a new file in: 0 of 0 with an exclusion",
+"check 4 (18) · entries reading a master's or a base's path the store now holds: 0",
+"check 4 (19) · absence probes against the test names their own plan adds: 0 · probes read 0",
+"check 4 (17) · entries reading a path the wrap writes: 0 of 10 asserting — listed, P5's read",
+"check 4 (17) · a path the wrap writes, read from inside a program an entry runs (a suite, the ledger's tool): not read",
+"check 2 · ledger-note entries (matrix#): 0",
+"check 5 · placeholders outside code: 0",
+"check 12 (c) · step references the plan's steps lack: 0 of 5",
+"check 12 (d) · «unchanged» claims on a name another part of the plan names: 6 of 9 — listed, P5's read",
+"  line 85 · «unchanged» · TypedRun (Files to modify) · rows.trust-record (step 10) · pass (step 4) · fail (step 4)",
+"  line 87 · «unchanged» · pass (step 4)",
+"  line 104 · «unchanged» · src/cmd/verify.rs (step 4) · /23 (step 9)",
+"  line 146 · «byte-equal» · <dir>/.claude.json (step 1) · pass (step 3) · HOME (step 7)",
+"  line 148 · «byte-equal» · verify_stopped_during_the_trust_record_run_removes_its_record_and_exits_1 (Test Commands)",
+"  line 426 · «byte-equal» · <CLAUDE_CONFIG_DIR>/.claude.json (step 1) · HOME (step 7)",
+"      verify_trust_record_goes_to_the_kept_config_dir (step 10)",
+"  a claim on a name no other step, Files to modify or Test Commands names is not listed — P5's read",
+"check 4 (4) · criterion evidence paths the plan names nowhere else: 0 of 0",
+"hits: 0 — resolved by its check (validation.md 2 · 5 · 9 · 4 (4), (5), (13)–(16), (18)–(19) · 12 (c)); 0 is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "none",
+"ci_reads": 1,
+"operator": 1,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 1,
+"hit": false
+},
+"atom": {
+"atomed": 9,
+"bare": []
+},
+"tool": {
+"operator": 1,
+"hand": []
+},
+"log": [],
+"base": {
+"operator": 7,
+"reads": []
+},
+"count": {
+"hits": [],
+"unsplit": []
+},
+"newfiles": {
+"operator": 7,
+"guards": 0,
+"hits": [],
+"abstain": []
+},
+"retired": [],
+"absence": {
+"probes": 0,
+"hits": []
+},
+"wrap": {
+"asserting": 10,
+"listed": []
+},
+"check2": {
+"entries": 21,
+"tokens": 0,
+"hits": []
+},
+"check5": {
+"hits": []
+},
+"steps": {
+"steps": 14,
+"refs": 5,
+"hits": []
+},
+"claims": {
+"read": 9,
+"listed": [
+85,
+87,
+104,
+146,
+148,
+426
+]
+},
+"c44": {
+"paths": 0,
+"hits": [],
+"skipped": []
+},
+"hits": 0
+}
+}
+]

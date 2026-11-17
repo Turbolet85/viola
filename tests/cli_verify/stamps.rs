@@ -93,7 +93,8 @@ fn verify_refuses_a_widened_ledger_before_any_step(#[from(home)] home: TestHome)
 /// trust dialog and are killed with no key, which fails the three rows a turn measures, the four
 /// dialog rows, the three framing rows, the newline row, the resume row (Run B captured no
 /// SessionStart, so no Run E starts), the agents row (Run B never reached its turn, so no read is
-/// made) and the compact row.
+/// made) and the compact row. The trust-record run reads its own record, not the trust root, so
+/// its row still passes.
 #[rstest]
 fn verify_a_set_without_stop_fails_its_rows_and_still_stamps(#[from(home)] home: TestHome) {
     write_spine_set(&fixtures(&home), "2.1.0", Some("Stop"));
@@ -103,8 +104,8 @@ fn verify_a_set_without_stop_fails_its_rows_and_still_stamps(#[from(home)] home:
     assert_eq!(ran.code, Some(1));
     let stdout = ran.stdout_text();
     let lines: Vec<&str> = stdout.lines().collect();
-    let mut expected = steps_failing(|i| ![0, 2, 3, 5, 6].contains(&i));
-    expected.push("stamped 2.1.0  5 pass  17 fail".to_owned());
+    let mut expected = steps_failing(|i| ![0, 2, 3, 5, 6, 22].contains(&i));
+    expected.push("stamped 2.1.0  6 pass  17 fail".to_owned());
     assert_eq!(lines, expected);
     assert!(ran.stderr.is_empty());
     let rows = &stamps(home.path())["data"]["versions"]["2.1.0"]["rows"];
@@ -189,14 +190,7 @@ fn verify_window_a_widened_stamps_file_refuses_with_its_code(#[from(home)] home:
 #[rstest]
 fn verify_a_missing_program_refuses(#[from(home)] home: TestHome) {
     let absent = home.scratch().join("no-such-claude");
-    let args: Vec<OsString> = vec![
-        "--home".into(),
-        home.path().into(),
-        "verify".into(),
-        "--".into(),
-        absent.into(),
-    ];
-    let ran = viola(&args, &[]);
+    let ran = support::verify::verify_program(home.path(), &absent);
     assert_eq!(ran.code, Some(1));
     assert!(ran.stdout.is_empty());
     assert_eq!(
@@ -209,13 +203,13 @@ fn verify_a_missing_program_refuses(#[from(home)] home: TestHome) {
     );
 }
 
-/// Every child runs under the R8 strip: no `env` receipt (the print-mode child and the five
+/// Every child runs under the R8 strip: no `env` receipt (the print-mode child and the six
 /// interactive runs) lists a stripped name, and every hook fired ran and exited 0: the print turn's
 /// four, the trusted run's twelve (SessionStart, UserPromptSubmit and Stop, the three paste turns'
 /// UserPromptSubmit and Stop each, `/compact`'s SessionStart, then the local command's SessionEnd
 /// and SessionStart), the dialog run's fifteen (SessionStart, then per prompt UserPromptSubmit, its
 /// dialog events and Stop), the plan run's seven and the resume run's one SessionStart; the
-/// untrusted run fires none: thirty-nine.
+/// untrusted and trust-record runs, which take no plugin, fire none: thirty-nine.
 /// The dialog, plan and resume runs are killed only once the screen settled after their last
 /// awaited hook, so every hook is receipted.
 #[rstest]
@@ -232,7 +226,7 @@ fn verify_runs_the_probe_under_the_identity_strip(#[from(home)] home: TestHome) 
     assert_eq!(ran.code, Some(0));
     let lines = fake::receipt(&receipt);
     let envs = of_kind(&lines, "env");
-    assert_eq!(envs.len(), 6);
+    assert_eq!(envs.len(), 7);
     for env in envs {
         let names: Vec<&str> = env["names"]
             .as_array()
@@ -338,6 +332,8 @@ fn verify_dispatch_error_keeps_the_chain_in_the_detail_file(#[from(record_home)]
             ("process-exit", "verify-pty-probe", ""),
             ("process-start", "verify-pty-probe", ""),
             ("process-exit", "verify-pty-probe", ""),
+            ("process-start", "verify-pty-probe", ""),
+            ("process-exit", "verify-pty-probe", ""),
             ("process-exit", "self", "internal-error"),
         ]
     );
@@ -381,11 +377,11 @@ fn verify_with_an_instance_logs_its_start_and_exit(#[from(home)] home: TestHome)
 }
 
 /// Each spawn `verify` makes is logged as a pair (obs-plan §6 Child / shell spawns): the `--version`
-/// read as `version-probe`, the print-mode probe as `verify-probe`, each of the five interactive
+/// read as `version-probe`, the print-mode probe as `verify-probe`, each of the six interactive
 /// runs as `verify-pty-probe`, between its own start and exit, and inside Run B's pair the agents
-/// read as `agents-probe`: eight pairs.
+/// read as `agents-probe`: nine pairs.
 #[rstest]
-fn verify_with_an_instance_logs_its_eight_spawn_pairs(#[from(home)] home: TestHome) {
+fn verify_with_an_instance_logs_its_nine_spawn_pairs(#[from(home)] home: TestHome) {
     write_spine_set(&fixtures(&home), "2.1.0", None);
     let env = [("VIOLA_NAME", OsString::from("verifier"))];
     let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &[], &env);
@@ -423,6 +419,8 @@ fn verify_with_an_instance_logs_its_eight_spawn_pairs(#[from(home)] home: TestHo
             ("process-exit", "verify-pty-probe"),
             ("process-start", "verify-pty-probe"),
             ("process-exit", "verify-pty-probe"),
+            ("process-start", "verify-pty-probe"),
+            ("process-exit", "verify-pty-probe"),
             ("process-exit", "self"),
         ]
     );
@@ -430,7 +428,7 @@ fn verify_with_an_instance_logs_its_eight_spawn_pairs(#[from(home)] home: TestHo
         assert_eq!(exit["child_exit_status"], 0);
         assert!(exit["duration_ms"].is_u64());
     }
-    for killed in [&role[6], &role[12], &role[14], &role[16]] {
+    for killed in [&role[6], &role[12], &role[14], &role[16], &role[18]] {
         assert!(killed["duration_ms"].is_u64(), "a killed run's exit");
     }
     let validator =

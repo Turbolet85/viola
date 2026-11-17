@@ -301,11 +301,13 @@ fn start(opts: &BootOptions) -> Result<Outcome, HarnessError> {
 }
 
 /// Boot step 4: `viola verify -- <session claude> --cli-version <v> --fixtures <recorded set>
-/// --screens --turn-stop --dialogs --framing --trusted-root <ws root>`, the one way a home is stamped:
+/// --screens --turn-stop --dialogs --framing --transcript --trusted-root <ws root> --trust-config
+/// <session user>/.claude.json` under the session's own user home (`HOME`), the one way a home is stamped:
 /// verify's trusted interactive runs start under the harness's cwd, the workspace root, and the fake
 /// agent replays the recorded dialogs and framing shapes. Its stdout is read for the verdict line only, never copied into
 /// the document; the exit code on failure.
 fn stamp(opts: &BootOptions, home: &Path, session_bin: &Path) -> Result<(), Option<i32>> {
+    let user = session_user(home).map_err(|_| None)?;
     let mut verify = Command::new(exe(&opts.bin_dir, "viola"));
     if opts.tied {
         tie_to_caller(&mut verify, libc::SIGTERM);
@@ -326,7 +328,10 @@ fn stamp(opts: &BootOptions, home: &Path, session_bin: &Path) -> Result<(), Opti
             "--trusted-root",
         ])
         .arg(&opts.ws.root)
+        .arg("--trust-config")
+        .arg(user.join(CLAUDE_CONFIG))
         .env("PATH", session_path(session_bin))
+        .env("HOME", &user)
         .stdin(Stdio::null())
         .stderr(Stdio::null())
         .output()
@@ -336,6 +341,22 @@ fn stamp(opts: &BootOptions, home: &Path, session_bin: &Path) -> Result<(), Opti
     } else {
         Err(out.status.code())
     }
+}
+
+/// The config file verify's trust-record run writes into, under the session's own user home.
+const CLAUDE_CONFIG: &str = ".claude.json";
+
+/// The session's own user home, `<home's parent>/user/` (0700) holding `.claude.json` seeded `{}`
+/// (0600): the stamping verify runs under it (`HOME`), so its trust-record run never writes the
+/// user's real `~/.claude.json`.
+fn session_user(home: &Path) -> std::io::Result<PathBuf> {
+    let user = home
+        .parent()
+        .ok_or_else(|| std::io::Error::other("a home has a parent"))?
+        .join("user");
+    viola_state::fs::create_private_dir(&user)?;
+    replace_private(&user.join(CLAUDE_CONFIG), b"{}", 0o600).map_err(std::io::Error::other)?;
+    Ok(user)
 }
 
 /// `verify`'s last line reads `stamped <version>  <n> pass  0 fail` (test-plan §3 `boot` step 4).

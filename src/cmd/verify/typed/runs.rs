@@ -1,4 +1,4 @@
-//! The five runs, each with its own arguments and its own dir.
+//! The six runs, each with its own arguments and its own dir.
 
 use std::ffi::OsString;
 use std::io;
@@ -11,6 +11,7 @@ use viola_agent_claude::ledger::{
     self, AgentsCapture, DIALOG_PROMPT_PARALLEL, DIALOG_PROMPT_PERMISSION, DIALOG_PROMPT_QUESTIONS,
     DIALOG_SETTINGS, PLAN_PROMPT, TypedRun,
 };
+use viola_agent_claude::trust::{self, TrustWord};
 use viola_agent_claude::{PLUGIN_DIR_FLAG, SETTINGS_FLAG};
 use viola_core::Clock;
 use viola_state::fs::create_private_dir;
@@ -21,6 +22,7 @@ use super::run::Run;
 use super::turns::{
     agents_read, count_of, framing_turns, guard, ms, probe_until, turn, wait_capture, wait_for,
 };
+use crate::trust_record;
 
 /// Run A: the first settled screen in a fresh dir under the OS temp dir, then a kill.
 pub(super) fn untrusted_run(
@@ -205,6 +207,74 @@ pub(super) fn resume_run(
     run.end_by_kill();
     drop(dir);
     Ok(())
+}
+
+/// Run F: Run A's start in a fresh dir under the OS temp dir with the trust record for that dir
+/// written first into the config file the child reads, its first settled screen, then a kill; the
+/// record is removed on every exit path the process reaches. A record not written starts no child.
+pub(super) fn trust_record_run(
+    clock: &Arc<dyn Clock>,
+    inputs: &Inputs<'_>,
+    args: &[OsString],
+    typed: &mut TypedRun,
+) -> anyhow::Result<()> {
+    let untrusted = tempfile::Builder::new().prefix("viola-verify-").tempdir()?;
+    let file = match inputs.trust_config {
+        Ok(file) => file,
+        Err(word) => {
+            typed.trust_write = Some(word);
+            return Ok(());
+        }
+    };
+    let dir = std::fs::canonicalize(untrusted.path())?;
+    let key = trust::record_key(&dir, trust_record::git_root(&dir).as_deref());
+    let guard = RecordGuard::write(file, key);
+    typed.trust_write = Some(guard.written);
+    if guard.written == TrustWord::Written {
+        let run = Run::spawn(clock, inputs, args, &dir, Box::new(io::empty()))?;
+        typed.trust_frame = run.settle(run.spawned_at).and_then(|s| s.rows);
+        run.end_by_kill();
+        typed.trust_remove = Some(guard.remove());
+    }
+    drop(untrusted);
+    Ok(())
+}
+
+/// Run F's own record in the config file, removed when dropped (an error return, a panic's unwind)
+/// unless [`RecordGuard::remove`] already removed it; never another run's record.
+struct RecordGuard {
+    file: PathBuf,
+    key: String,
+    written: TrustWord,
+}
+
+impl RecordGuard {
+    fn write(file: &Path, key: String) -> Self {
+        let written = trust_record::write_record(file, &key);
+        Self {
+            file: file.to_path_buf(),
+            key,
+            written,
+        }
+    }
+
+    fn remove(mut self) -> TrustWord {
+        let word = self.removed();
+        self.written = TrustWord::Removed;
+        word
+    }
+
+    fn removed(&self) -> TrustWord {
+        trust_record::remove_record(&self.file, &self.key)
+    }
+}
+
+impl Drop for RecordGuard {
+    fn drop(&mut self) {
+        if self.written == TrustWord::Written {
+            self.removed();
+        }
+    }
 }
 
 /// `<cwd>/.viola-verify-<pid><suffix>/` (0700), removed whole when dropped, on every exit path.

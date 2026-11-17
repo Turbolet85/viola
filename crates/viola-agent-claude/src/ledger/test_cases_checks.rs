@@ -97,15 +97,16 @@ fn check_typed_rows_fail_without_a_measurement() {
         LedgerRow::ConfirmWindow,
         LedgerRow::LocalCommandCompact,
         LedgerRow::LocalCommandEcho,
+        LedgerRow::TrustRecord,
     ] {
         assert!(!typed_check(row, TypedRun::default()), "{}", row.id());
     }
-    let six = verdicts_with(TypedRun::default());
+    let seven = verdicts_with(TypedRun::default());
     assert_eq!(
-        six,
+        seven,
         [
             true, true, true, true, true, true, false, false, false, false, true, true, true, true,
-            true, true, true, true, true, true, false, false
+            true, true, true, true, true, true, false, false, false
         ]
     );
 }
@@ -607,4 +608,76 @@ fn check_agents_join_fails_on_each_broken_post_condition() {
         !check(LedgerRow::AgentsJoin, &cleared),
         "the id after the local command is not Run B's first"
     );
+}
+
+/// The trust-record row passes only when the record was written, Run A (its untrusted twin) showed
+/// a modal literal, and Run F's first settled screen shows the input box and no modal literal.
+#[test]
+fn check_trust_record_needs_the_written_record_the_control_modal_and_an_open_box() {
+    let trust = |typed: TypedRun| {
+        check(
+            LedgerRow::TrustRecord,
+            &Probes {
+                typed,
+                ..probes(&clean_run())
+            },
+        )
+    };
+    assert!(trust(clean_typed()));
+    let modal = rows(&["", " ❯ No, exit", "   Yes, I trust this folder"]);
+    let boxed = rows(&["❯ Try it", "  ⏸ manual mode on · ← for agents"]);
+    let cases: [(&str, TypedRun); 7] = [
+        (
+            "the record not written",
+            TypedRun {
+                trust_write: Some(TrustWord::ConfigAbsent),
+                ..clean_typed()
+            },
+        ),
+        (
+            "no write at all",
+            TypedRun {
+                trust_write: None,
+                ..clean_typed()
+            },
+        ),
+        (
+            "Run A showed no modal: the control cannot fail",
+            TypedRun {
+                modal: Some(boxed.clone()),
+                ..clean_typed()
+            },
+        ),
+        (
+            "Run A never settled",
+            TypedRun {
+                modal: None,
+                ..clean_typed()
+            },
+        ),
+        (
+            "Run F settled on the trust dialog",
+            TypedRun {
+                trust_frame: Some(modal.clone()),
+                ..clean_typed()
+            },
+        ),
+        (
+            "Run F shows the box and a modal",
+            TypedRun {
+                trust_frame: Some(modal.iter().chain(boxed.iter().skip(1)).cloned().collect()),
+                ..clean_typed()
+            },
+        ),
+        (
+            "Run F never settled",
+            TypedRun {
+                trust_frame: None,
+                ..clean_typed()
+            },
+        ),
+    ];
+    for (label, typed) in cases {
+        assert!(!trust(typed), "{label}");
+    }
 }

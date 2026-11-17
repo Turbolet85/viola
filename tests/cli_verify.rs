@@ -1,7 +1,7 @@
 //! `viola verify` against the fake agent (test-plan §5 CLI, §7 Fake agent; design-system §Surface:
 //! cli Component Patterns 5; layout-templates §Output structure `viola verify`): the relied step
-//! lines (twenty-four) and the `stamped` summary, the stamps it alone writes, the refusals, the `cli` catch-site line,
-//! the five interactive runs and their dirs, `--record`'s scrub, screens, dialog and framing
+//! lines (twenty-three) and the `stamped` summary, the stamps it alone writes, the refusals, the `cli` catch-site line,
+//! the six interactive runs and their dirs, Run F's trust record written and removed, `--record`'s scrub, screens, dialog and framing
 //! variants, the dialog tier's and the local-command row's failure without a replay, the help text, and the
 //! hook verb's capture arm. Every oracle is a literal.
 
@@ -27,31 +27,32 @@ use support::verify::{
     write_screen_set, write_spine_set,
 };
 
-const STEPS_PASS: [&str; 22] = [
-    "[01/22] shim-resolution claude resolves to a real executable  pass",
-    "[02/22] spine-hooks spine hooks fire through the plugin dir  pass",
-    "[03/22] session-start-fields SessionStart carries session_id and source  pass",
-    "[04/22] prompt-verbatim UserPromptSubmit carries the prompt as sent  pass",
-    "[05/22] stop-message Stop carries last_assistant_message  pass",
-    "[06/22] largest-hook-payload every hook payload fits the frame cap  pass",
-    "[07/22] modal-signature an untrusted start shows a compiled modal literal  pass",
-    "[08/22] input-box-signature a trusted start shows a compiled input-box literal and no modal  pass",
-    "[09/22] quiet-period the screen settles within the gate's maximum wait  pass",
-    "[10/22] confirm-window the typed prompt reaches UserPromptSubmit within the window  pass",
-    "[11/22] question-answer a question answered through PreToolUse takes effect  pass",
-    "[12/22] plan-approve-revise a plan revise and approve each take effect  pass",
-    "[13/22] question-notes free text and notes reach the question  pass",
-    "[14/22] dialog-concurrency two parallel questions each raise a dialog  pass",
-    "[15/22] long-paste-wrapper a long paste unwraps to the text as pasted  pass",
-    "[16/22] tag-escaping tag-like text un-escapes to the text as pasted  pass",
-    "[17/22] local-command-clear /clear starts a new session and submits no prompt  pass",
-    "[18/22] paste-newline an LF inside a paste stays inside the one prompt submitted  pass",
-    "[19/22] resume-session --resume <id> reopens the session under that id  pass",
-    "[20/22] agents-join claude agents --json names the live session by pid and session id  pass",
-    "[21/22] local-command-compact /compact keeps the session id and submits no prompt  pass",
-    "[22/22] local-command-echo /mcp writes its stdout tag to the transcript and submits no prompt  pass",
+const STEPS_PASS: [&str; 23] = [
+    "[01/23] shim-resolution claude resolves to a real executable  pass",
+    "[02/23] spine-hooks spine hooks fire through the plugin dir  pass",
+    "[03/23] session-start-fields SessionStart carries session_id and source  pass",
+    "[04/23] prompt-verbatim UserPromptSubmit carries the prompt as sent  pass",
+    "[05/23] stop-message Stop carries last_assistant_message  pass",
+    "[06/23] largest-hook-payload every hook payload fits the frame cap  pass",
+    "[07/23] modal-signature an untrusted start shows a compiled modal literal  pass",
+    "[08/23] input-box-signature a trusted start shows a compiled input-box literal and no modal  pass",
+    "[09/23] quiet-period the screen settles within the gate's maximum wait  pass",
+    "[10/23] confirm-window the typed prompt reaches UserPromptSubmit within the window  pass",
+    "[11/23] question-answer a question answered through PreToolUse takes effect  pass",
+    "[12/23] plan-approve-revise a plan revise and approve each take effect  pass",
+    "[13/23] question-notes free text and notes reach the question  pass",
+    "[14/23] dialog-concurrency two parallel questions each raise a dialog  pass",
+    "[15/23] long-paste-wrapper a long paste unwraps to the text as pasted  pass",
+    "[16/23] tag-escaping tag-like text un-escapes to the text as pasted  pass",
+    "[17/23] local-command-clear /clear starts a new session and submits no prompt  pass",
+    "[18/23] paste-newline an LF inside a paste stays inside the one prompt submitted  pass",
+    "[19/23] resume-session --resume <id> reopens the session under that id  pass",
+    "[20/23] agents-join claude agents --json names the live session by pid and session id  pass",
+    "[21/23] local-command-compact /compact keeps the session id and submits no prompt  pass",
+    "[22/23] local-command-echo /mcp writes its stdout tag to the transcript and submits no prompt  pass",
+    "[23/23] trust-record a trust record written for an untrusted folder opens it with no modal  pass",
 ];
-const ROW_IDS: [&str; 22] = [
+const ROW_IDS: [&str; 23] = [
     "shim-resolution",
     "spine-hooks",
     "session-start-fields",
@@ -74,9 +75,10 @@ const ROW_IDS: [&str; 22] = [
     "agents-join",
     "local-command-compact",
     "local-command-echo",
+    "trust-record",
 ];
 /// The summary of a run whose every relied row passed.
-const STAMPED_PASS: &str = "stamped 2.1.0  22 pass  0 fail";
+const STAMPED_PASS: &str = "stamped 2.1.0  23 pass  0 fail";
 const SCREENS: [&str; 3] = ["Screen.modal.json", "Screen.ready.json", "Screen.turn.json"];
 const INTERNAL_ERROR: &str = "error: internal error\n";
 
@@ -497,7 +499,7 @@ fn record_home_names_no_path_component_home() {
 }
 
 /// The texts the trusted run typed, in order, read from the fake agent's receipt: of `verify`'s
-/// six starts the trusted run is the third, and its prompts are the lines up to the fourth.
+/// seven starts the trusted run is the third, and its prompts are the lines up to the fourth.
 fn trusted_run_typed(receipt: &Path) -> Vec<String> {
     let lines = fake::receipt(receipt);
     let starts: Vec<usize> = lines
@@ -506,7 +508,7 @@ fn trusted_run_typed(receipt: &Path) -> Vec<String> {
         .filter(|(_, l)| l["kind"] == "start")
         .map(|(i, _)| i)
         .collect();
-    assert_eq!(starts.len(), 6);
+    assert_eq!(starts.len(), 7);
     lines[starts[2]..starts[3]]
         .iter()
         .filter(|l| l["kind"] == "prompt")
@@ -605,6 +607,237 @@ fn stamped_home_reuses_one_stamp_for_every_home(
     assert_eq!(read(&stamp_home_dir()), in_a);
     let doc: Value = serde_json::from_str(&in_a).expect("stamps document");
     assert!(doc["written_at"].is_string(), "one written_at");
+}
+
+/// The seeded config every trust case starts from: one entry of another folder and one other key.
+fn sentinel() -> Value {
+    json!({"numStartups": 3, "projects": {"/sentinel-5c1e": {"hasTrustDialogAccepted": true, "kept": [1]}}})
+}
+
+/// The receipt lines of the last fake-agent start (Run F's when it started), from its `start` on.
+fn last_start(receipt: &Path) -> (usize, Vec<Value>) {
+    let lines = fake::receipt(receipt);
+    let starts: Vec<usize> = lines
+        .iter()
+        .enumerate()
+        .filter(|(_, l)| l["kind"] == "start")
+        .map(|(i, _)| i)
+        .collect();
+    let from = *starts.last().expect("a start");
+    (starts.len(), lines[from..].to_vec())
+}
+
+/// `TMPDIR`, `TMP` and `TEMP` all naming `tmp`.
+fn temp_env(tmp: &Path) -> Vec<(&'static str, OsString)> {
+    ["TMPDIR", "TMP", "TEMP"]
+        .into_iter()
+        .map(|key| (key, tmp.as_os_str().to_owned()))
+        .collect()
+}
+
+fn mode_of(path: &Path) -> u32 {
+    use std::os::unix::fs::PermissionsExt as _;
+    fs::metadata(path).expect("meta").permissions().mode() & 0o777
+}
+
+/// The 23rd row: Run F writes the trust record for its own fresh dir under the OS temp dir into the
+/// config file its child reads, the fake agent reads it under its own key rule and opens on the
+/// input box, the row passes, and after verify the config is the seeded document again, its mode
+/// kept: the record gone, the sentinel entry and every other key value-equal.
+#[rstest]
+fn verify_trust_record_row_passes_when_the_fake_reads_the_written_record(
+    #[from(home)] home: TestHome,
+) {
+    write_spine_set(&fixtures(&home), "2.1.0", None);
+    support::verify::seed_user_home(home.path(), Some(&sentinel()));
+    let config = support::verify::trust_config_of(home.path());
+    let isolated = tempfile::tempdir().expect("an isolated temp dir");
+    let tmp = canonical(isolated.path());
+    let receipt = home.scratch().join("receipt.ndjson");
+    let receipt_arg = receipt.to_str().expect("utf-8").to_owned();
+    let after = ["--receipt", receipt_arg.as_str()];
+    let ran = verify(
+        home.path(),
+        &fixtures(&home),
+        "2.1.0",
+        &[],
+        &after,
+        &temp_env(&tmp),
+    );
+    assert_eq!(ran.code, Some(0), "stdout {}", ran.stdout_text());
+    assert_eq!(ran.stdout_text(), all_pass_stdout());
+    assert!(ran.stdout_text().contains(
+        "[23/23] trust-record a trust record written for an untrusted folder opens it with no modal  pass\n\
+         stamped 2.1.0  23 pass  0 fail\n"
+    ));
+    let entry = &stamps(home.path())["data"]["versions"]["2.1.0"];
+    assert_eq!(entry["rows"]["trust-record"], "pass");
+    assert_eq!(
+        entry["measured"]["trust_probe"],
+        json!({"write": "written", "remove": "removed"})
+    );
+    let (starts, run_f) = last_start(&receipt);
+    assert_eq!(starts, 7, "the print probe and Runs A to F");
+    let cwd = PathBuf::from(of_kind(&run_f, "cwd")[0]["cwd"].as_str().expect("a cwd"));
+    assert_eq!(cwd.parent(), Some(tmp.as_path()));
+    assert!(
+        cwd.file_name()
+            .and_then(|n| n.to_str())
+            .is_some_and(|n| n.starts_with("viola-verify-"))
+    );
+    assert!(of_kind(&run_f, "key").is_empty(), "no key into Run F");
+    let after_doc: Value =
+        serde_json::from_slice(&fs::read(&config).expect("config")).expect("json");
+    assert_eq!(
+        after_doc,
+        sentinel(),
+        "the record removed, nothing else moved"
+    );
+    assert_eq!(mode_of(&config), 0o600);
+    assert_eq!(fs::read_dir(&tmp).expect("temp dir").count(), 0);
+}
+
+/// The probe can fail: the fake agent told ANOTHER config file never reads the record verify wrote,
+/// so Run F settles on the trust dialog and is killed with no key; the row fails, verify exits 1,
+/// and the record is still removed.
+#[rstest]
+fn verify_trust_record_row_fails_when_the_record_is_not_read(#[from(home)] home: TestHome) {
+    write_spine_set(&fixtures(&home), "2.1.0", None);
+    support::verify::seed_user_home(home.path(), Some(&sentinel()));
+    let elsewhere = home.scratch().join("elsewhere.json");
+    fs::write(&elsewhere, b"{}").expect("another config");
+    let receipt = home.scratch().join("receipt.ndjson");
+    let receipt_arg = receipt.to_str().expect("utf-8").to_owned();
+    let elsewhere_arg = elsewhere.to_str().expect("utf-8").to_owned();
+    let after = [
+        "--receipt",
+        receipt_arg.as_str(),
+        "--trust-config",
+        elsewhere_arg.as_str(),
+    ];
+    let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &after, &[]);
+    assert_eq!(ran.code, Some(1), "stdout {}", ran.stdout_text());
+    let mut expected = steps_failing(|i| ROW_IDS[i] == "trust-record");
+    expected.push("stamped 2.1.0  22 pass  1 fail".to_owned());
+    assert_eq!(ran.stdout_text().lines().collect::<Vec<_>>(), expected);
+    assert!(ran.stderr.is_empty(), "stderr {}", ran.stderr_text());
+    let entry = &stamps(home.path())["data"]["versions"]["2.1.0"];
+    assert_eq!(entry["rows"]["trust-record"], "fail");
+    assert_eq!(
+        entry["measured"]["trust_probe"],
+        json!({"write": "written", "remove": "removed"})
+    );
+    let (starts, run_f) = last_start(&receipt);
+    assert_eq!(starts, 7);
+    assert!(of_kind(&run_f, "key").is_empty(), "no key into the dialog");
+    let config = support::verify::trust_config_of(home.path());
+    let after_doc: Value =
+        serde_json::from_slice(&fs::read(&config).expect("config")).expect("json");
+    assert_eq!(after_doc, sentinel());
+    assert_eq!(fs::read(&elsewhere).expect("the other file"), b"{}");
+}
+
+/// A user home with no `.claude.json`: the writer creates nothing, no Run F child starts, and the
+/// row reads the writer's closed word, `config-absent`, in the stamp; `fail` on the step line.
+#[rstest]
+fn verify_trust_record_row_reads_config_absent_and_writes_nothing(#[from(home)] home: TestHome) {
+    write_spine_set(&fixtures(&home), "2.1.0", None);
+    support::verify::seed_user_home(home.path(), None);
+    let receipt = home.scratch().join("receipt.ndjson");
+    let receipt_arg = receipt.to_str().expect("utf-8").to_owned();
+    let after = ["--receipt", receipt_arg.as_str()];
+    let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &after, &[]);
+    assert_eq!(ran.code, Some(1), "stdout {}", ran.stdout_text());
+    let mut expected = steps_failing(|i| ROW_IDS[i] == "trust-record");
+    expected.push("stamped 2.1.0  22 pass  1 fail".to_owned());
+    assert_eq!(ran.stdout_text().lines().collect::<Vec<_>>(), expected);
+    let entry = &stamps(home.path())["data"]["versions"]["2.1.0"];
+    assert_eq!(entry["rows"]["trust-record"], "config-absent");
+    assert_eq!(
+        entry["measured"]["trust_probe"],
+        json!({"write": "config-absent", "remove": null})
+    );
+    let (starts, _) = last_start(&receipt);
+    assert_eq!(starts, 6, "the print probe and Runs A to E: no Run F");
+    let user = support::verify::user_home_of(home.path());
+    assert_eq!(fs::read_dir(&user).expect("the user home").count(), 0);
+}
+
+/// A home whose `config.json` keeps `CLAUDE_CONFIG_DIR`: the record goes to
+/// `<CLAUDE_CONFIG_DIR>/.claude.json`, the file the child reads (the fake agent told that file
+/// passes), and the `HOME` file stays byte for byte.
+#[rstest]
+fn verify_trust_record_goes_to_the_kept_config_dir(#[from(home)] home: TestHome) {
+    write_spine_set(&fixtures(&home), "2.1.0", None);
+    support::verify::seed_user_home(home.path(), Some(&sentinel()));
+    let home_file = support::verify::trust_config_of(home.path());
+    let home_bytes = fs::read(&home_file).expect("the HOME file");
+    support::verify::keep_config_dir(home.path());
+    let config_dir = home.scratch().join("config-dir");
+    support::home::private_dir(&config_dir, "the config dir");
+    let kept = config_dir.join(".claude.json");
+    fs::write(&kept, br#"{"b":1}"#).expect("the kept config");
+    let kept_arg = kept.to_str().expect("utf-8").to_owned();
+    let after = ["--trust-config", kept_arg.as_str()];
+    let env = [("CLAUDE_CONFIG_DIR", config_dir.clone().into_os_string())];
+    let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &after, &env);
+    assert_eq!(ran.code, Some(0), "stdout {}", ran.stdout_text());
+    assert_eq!(ran.stdout_text(), all_pass_stdout());
+    assert_eq!(
+        stamps(home.path())["data"]["versions"]["2.1.0"]["measured"]["trust_probe"],
+        json!({"write": "written", "remove": "removed"})
+    );
+    let kept_doc: Value = serde_json::from_slice(&fs::read(&kept).expect("kept")).expect("json");
+    assert_eq!(kept_doc, json!({"b": 1}));
+    assert_eq!(fs::read(&home_file).expect("the HOME file"), home_bytes);
+}
+
+/// Stopped by TERM once Run F's child has started (its receipt line; the fake agent draws nothing
+/// for a start its trust record alone opens, a hold forced open), `verify` ends Run F's child with
+/// no key, removes its record and its dir, writes no stamp and no step line, and exits 1 with the
+/// interrupted pair.
+#[rstest]
+fn verify_stopped_during_the_trust_record_run_removes_its_record_and_exits_1(
+    #[from(home)] home: TestHome,
+) {
+    write_spine_set(&fixtures(&home), "2.1.0", None);
+    support::verify::seed_user_home(home.path(), Some(&sentinel()));
+    let owned_cwd = tempfile::tempdir().expect("a cwd");
+    let cwd = canonical(owned_cwd.path());
+    let owned_tmp = tempfile::tempdir().expect("a temp root");
+    let tmp = canonical(owned_tmp.path());
+    let started = support::verify::verify_started(
+        home.path(),
+        &fixtures(&home),
+        "2.1.0",
+        &cwd,
+        &tmp,
+        "verifier",
+        &["--turn-stop", "--trust-record-blank"],
+    );
+    let lines = fake::wait_for(&started.receipt, "Run F's start", |l| {
+        of_kind(l, "cwd").len() >= 7
+    });
+    let pid = libc::pid_t::try_from(started.pid).expect("a pid");
+    // SAFETY: kill only sends a signal, to the `viola` this case started and has not waited.
+    assert_eq!(unsafe { libc::kill(pid, libc::SIGTERM) }, 0);
+    let ran = started.running.finish();
+
+    assert_eq!(ran.code, Some(1), "stderr {}", ran.stderr);
+    assert_eq!(ran.stdout, "", "no step line and no stamped line");
+    assert_eq!(
+        ran.stderr,
+        "unable: verify was stopped before it finished\nhint: run viola verify again to stamp this CLI\n"
+    );
+    let run_f = PathBuf::from(of_kind(&lines, "cwd")[6]["cwd"].as_str().expect("a cwd"));
+    assert_eq!(run_f.parent(), Some(tmp.as_path()));
+    assert!(!run_f.exists(), "Run F's dir outlived the stopped run");
+    assert_eq!(fs::read_dir(&tmp).expect("temp dir").count(), 0);
+    assert!(!ledger(home.path()).join("stamps.json").exists());
+    let config = support::verify::trust_config_of(home.path());
+    let after_doc: Value =
+        serde_json::from_slice(&fs::read(&config).expect("config")).expect("json");
+    assert_eq!(after_doc, sentinel(), "the stop removed the record");
 }
 
 /// The stamp key the hollow-stamp cases use on their own base.

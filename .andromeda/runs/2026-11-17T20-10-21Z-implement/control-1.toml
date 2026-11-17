@@ -1,0 +1,45 @@
+[[control]]
+id = 'trust-nowrite'
+entry = 5
+guard = "write_record's replace removed: nothing written, the word still written"
+case = 'verify_trust_record_row_passes_when_the_fake_reads_the_written_record'
+
+[[control.edit]]
+path = 'src/trust_record.rs'
+old = '''pub(crate) fn write_record(file: &Path, key: &str) -> TrustWord {
+    change(file, key, Change::Write, effective_uid(), &mut |_| {})
+}'''
+new = '''pub(crate) fn write_record(file: &Path, key: &str) -> TrustWord {
+    let _ = (file, key);
+    TrustWord::Written
+}'''
+
+[[control]]
+id = 'trust-noremove'
+entry = 5
+guard = "the RecordGuard's remove_record call removed: the record stays on every path"
+case = [
+    'verify_trust_record_row_passes_when_the_fake_reads_the_written_record',
+    'verify_stopped_during_the_trust_record_run_removes_its_record_and_exits_1',
+]
+
+[[control.edit]]
+path = 'src/cmd/verify/typed/runs.rs'
+old = '''    fn removed(&self) -> TrustWord {
+        trust_record::remove_record(&self.file, &self.key)
+    }'''
+new = '''    fn removed(&self) -> TrustWord {
+        let _ = (&self.file, &self.key);
+        TrustWord::Removed
+    }'''
+
+[[control]]
+id = 'trust-cfgdir'
+entry = 5
+guard = "the kept CLAUDE_CONFIG_DIR branch removed: the user home's file always"
+case = 'verify_trust_record_goes_to_the_kept_config_dir'
+
+[[control.edit]]
+path = 'src/cmd/verify.rs'
+old = '''        .any(|name| name == trust::CONFIG_DIR_VAR)'''
+new = '''        .any(|name| name == trust::CONFIG_DIR_VAR && false)'''

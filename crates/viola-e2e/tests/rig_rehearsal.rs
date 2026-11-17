@@ -804,6 +804,47 @@ fn rig_rehearsal_im_reads_its_first_frame_and_stops_with_no_key() {
     assert_torn_down(&out, &case);
 }
 
+/// The verify arm over the fake agent: `viola verify` under the start's own viola home, which keeps
+/// `CLAUDE_CONFIG_DIR`, so Run F writes its record into the private config the fake is told; the rig
+/// types no key, reads verify's exit and its stamp's trust-record row, and reads the private config
+/// before the teardown with no verify record left in it.
+#[test]
+fn rig_rehearsal_v_reads_the_trust_record_row_and_no_record_left() {
+    let case = Case::new();
+    let child = case.child(
+        true,
+        &[
+            "--trust-config",
+            "{config}/.claude.json",
+            "--turn-stop",
+            "--dialogs",
+            "--framing",
+            "--transcript",
+        ],
+    );
+    let viola = viola().display().to_string();
+    let out = run(case.rig("v", &["--viola", viola.as_str()], &child));
+    let summary = stdout(&out);
+    assert_eq!(out.status.code(), Some(0), "{summary}");
+    assert_eq!(word(&out, "verify-exit").as_deref(), Some("0"), "{summary}");
+    assert_eq!(
+        word(&out, "trust-record").as_deref(),
+        Some("pass"),
+        "{summary}"
+    );
+    assert_eq!(
+        word(&out, "pass-count").as_deref(),
+        Some("23/23"),
+        "{summary}"
+    );
+    assert_eq!(word(&out, "record-left").as_deref(), Some("absent"));
+    assert_eq!(word(&out, "keys").as_deref(), Some("none"));
+    assert_eq!(word(&out, "stop").as_deref(), Some("none"));
+    assert_eq!(word(&out, "child").as_deref(), Some("exit 0"));
+    assert!(word(&out, "viola-build").is_some_and(|b| b != "unread"));
+    assert_torn_down(&out, &case);
+}
+
 #[test]
 fn rig_live_arm_refuses_under_ci() {
     let case = Case::new();

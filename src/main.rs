@@ -3,6 +3,7 @@ mod human;
 mod obs;
 mod panic_frames;
 mod run;
+mod trust_record;
 
 use std::ffi::OsString;
 use std::fs::File;

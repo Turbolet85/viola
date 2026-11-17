@@ -100,6 +100,8 @@ struct Opts {
     vt100_panic_bytes: bool,
     hold_stdout: bool,
     trusted_root: Option<PathBuf>,
+    trust_config: Option<PathBuf>,
+    trust_record_blank: bool,
     screens: bool,
     turn_stop: bool,
     dialogs: bool,
@@ -137,6 +139,8 @@ impl Opts {
                 "--exit-no-eof" => o.exit_no_eof = true,
                 "--vt100-panic-bytes" => o.vt100_panic_bytes = true,
                 "--trusted-root" => o.trusted_root = value().map(PathBuf::from),
+                "--trust-config" => o.trust_config = value().map(PathBuf::from),
+                "--trust-record-blank" => o.trust_record_blank = true,
                 "--screens" => o.screens = true,
                 "--turn-stop" => o.turn_stop = true,
                 "--dialogs" => o.dialogs = true,
@@ -177,12 +181,32 @@ impl Opts {
     }
 
     /// The cwd is trusted when it or an ancestor is `--trusted-root`, the way the real CLI walks up
-    /// to a trusted project; without the option every cwd is untrusted.
+    /// to a trusted project, or when the `--trust-config` file holds the trust record for it;
+    /// without either option every cwd is untrusted.
     fn trusted(&self) -> bool {
+        self.trusted_by_root() || self.trusted_by_record()
+    }
+
+    fn trusted_by_root(&self) -> bool {
         let cwd = std::env::current_dir().unwrap_or_default();
         self.trusted_root
             .as_deref()
             .is_some_and(|root| under_root(&cwd, root))
+    }
+
+    /// The `--trust-config` file holds `projects[<key>].hasTrustDialogAccepted == true` for the cwd,
+    /// the key read by this agent's own rule ([`record_key`]), never the product's.
+    fn trusted_by_record(&self) -> bool {
+        let (Some(file), Ok(cwd)) = (self.trust_config.as_deref(), std::env::current_dir()) else {
+            return false;
+        };
+        record_trusts(file, &cwd)
+    }
+
+    /// Under `--trust-record-blank` a start the trust record alone trusts draws no screen, so the
+    /// run that reads it waits out the gate's maximum: a test-only hold, forced open.
+    fn blank_start(&self) -> bool {
+        self.trust_record_blank && !self.trusted_by_root() && self.trusted_by_record()
     }
 
     /// What `--resume <id>` sets on the SessionStart fired at launch (the set's recorded `resume-1`,
@@ -230,6 +254,32 @@ fn under_root(cwd: &Path, root: &Path) -> bool {
         (Ok(cwd), Ok(root)) => cwd.ancestors().any(|a| a == root),
         _ => false,
     }
+}
+
+/// The key this agent reads a folder's trust record under: the nearest ancestor of the canonical
+/// `cwd` holding a `.git` entry, else the canonical `cwd` itself. Its own rule, written here.
+fn record_key(cwd: &Path) -> Option<String> {
+    let cwd = fs::canonicalize(cwd).ok()?;
+    let root = cwd
+        .ancestors()
+        .find(|dir| fs::symlink_metadata(dir.join(".git")).is_ok())
+        .unwrap_or(&cwd);
+    root.to_str().map(str::to_owned)
+}
+
+/// `file`, read through the frame cap, holds `projects[<key of cwd>].hasTrustDialogAccepted ==
+/// true`; any failure reads untrusted.
+fn record_trusts(file: &Path, cwd: &Path) -> bool {
+    let Some(key) = record_key(cwd) else {
+        return false;
+    };
+    let mut bytes = Vec::new();
+    let read = File::open(file).and_then(|f| f.take(MAX_FRAME + 1).read_to_end(&mut bytes));
+    if read.is_err() || u64::try_from(bytes.len()).is_ok_and(|n| n > MAX_FRAME) {
+        return false;
+    }
+    serde_json::from_slice::<Value>(&bytes)
+        .is_ok_and(|doc| doc["projects"][key.as_str()]["hasTrustDialogAccepted"] == json!(true))
 }
 
 /// A recorded screen as a terminal shows it: a clear, then the rows joined by CRLF.
@@ -1135,7 +1185,9 @@ fn main() -> ExitCode {
     let trusted = !agent.opts.screens || agent.opts.trusted();
     if agent.opts.screens {
         if trusted {
-            write_screen(&agent.opts, "ready");
+            if !agent.opts.blank_start() {
+                write_screen(&agent.opts, "ready");
+            }
         } else {
             draw_trust(&agent.opts, 0);
         }

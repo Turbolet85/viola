@@ -152,6 +152,37 @@ pub fn child_env(cli_dir: Option<&Path>, config: &Path, run: &str) -> Vec<(OsStr
     env
 }
 
+/// The OS temp dir a child of [`child_env`] makes its temp dirs under: its environment names no
+/// `TMPDIR`, so `/tmp`, canonical.
+pub fn child_temp_root() -> PathBuf {
+    fs::canonicalize("/tmp").unwrap_or_else(|_| PathBuf::from("/tmp"))
+}
+
+/// Whether `config` (a `.claude.json`, read through `MAX_FRAME`) holds a `projects` key naming a
+/// `viola-verify-` dir directly under `temp_root`: `present` · `absent` · `unread`. The bytes are
+/// searched and nothing of them is kept.
+pub fn verify_record_left(config: &Path, temp_root: &Path) -> &'static str {
+    let mut bytes = Vec::new();
+    let read = File::open(config).and_then(|f| f.take(MAX_FRAME + 1).read_to_end(&mut bytes));
+    if read.is_err() || u64::try_from(bytes.len()).is_ok_and(|n| n > MAX_FRAME) {
+        return "unread";
+    }
+    let Ok(doc) = serde_json::from_slice::<Value>(&bytes) else {
+        return "unread";
+    };
+    let left = doc["projects"].as_object().is_some_and(|projects| {
+        projects.keys().any(|key| {
+            let key = Path::new(key);
+            key.parent() == Some(temp_root)
+                && key
+                    .file_name()
+                    .and_then(|n| n.to_str())
+                    .is_some_and(|n| n.starts_with("viola-verify-"))
+        })
+    });
+    if left { "present" } else { "absent" }
+}
+
 /// Every host name the child must not inherit (the pty seam starts from the rig's own env).
 pub fn removed_names(env: &[(OsString, OsString)]) -> Vec<OsString> {
     std::env::vars_os()
@@ -229,6 +260,12 @@ impl Scratch {
             seed["projects"] = Value::Object(projects);
         }
         write_private(&self.config.join(".claude.json"), &seed)
+    }
+
+    /// Whether a `viola verify` run left its trust record in the private config: read before the
+    /// teardown removes it.
+    pub fn record_left(&self, temp_root: &Path) -> &'static str {
+        verify_record_left(&self.config.join(".claude.json"), temp_root)
     }
 
     /// The capture file a wake start's hook appends to.
@@ -427,6 +464,45 @@ mod tests {
         assert!(imported.is_file());
         assert!(!imported.starts_with(&scratch.cwd));
         assert!(imported.starts_with(fs::canonicalize(&scratch.root).expect("root")));
+    }
+
+    #[test]
+    fn a_verify_record_left_under_the_temp_root_reads_present() {
+        let base = tempfile::tempdir().expect("tempdir");
+        let file = base.path().join(".claude.json");
+        let root = Path::new("/tmp");
+        let cases = [
+            (
+                "a verify dir's record",
+                r#"{"projects":{"/tmp/viola-verify-a1":{"hasTrustDialogAccepted":true}}}"#,
+                "present",
+            ),
+            (
+                "the cwd's record alone",
+                r#"{"projects":{"/tmp/viola-rig-1/12-34/cwd":{"hasTrustDialogAccepted":true}}}"#,
+                "absent",
+            ),
+            (
+                "a verify-named dir elsewhere",
+                r#"{"projects":{"/srv/viola-verify-a1":{}}}"#,
+                "absent",
+            ),
+            (
+                "no projects",
+                r#"{"hasCompletedOnboarding":true}"#,
+                "absent",
+            ),
+            ("not json", "{", "unread"),
+        ];
+        for (label, body, word) in cases {
+            fs::write(&file, body).expect("config");
+            assert_eq!(verify_record_left(&file, root), word, "{label}");
+        }
+        assert_eq!(
+            verify_record_left(&base.path().join("gone.json"), root),
+            "unread"
+        );
+        assert!(child_temp_root().is_absolute());
     }
 
     #[test]
