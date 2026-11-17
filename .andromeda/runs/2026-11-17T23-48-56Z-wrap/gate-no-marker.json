@@ -1,0 +1,93 @@
+[
+{
+"tool": "gate",
+"v": "1.37",
+"sha8": "534f7838",
+"ts": "2026-11-17T23:51:53Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-11-17T23-48-56Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust · base HEAD (no --marker)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust — each fired on its synthetic known positive",
+"P1 .andromeda/runs/2026-11-17T22-05-41Z-phase/p3-block.md:192 ×1 · tmp",
+"hygiene: refused 1 files — P1 1 · P2 0 · P3 0 · read 220 (runs 220 · evidence 0 · inputs 0) · trails 11 not read · copies 2 not read by P1 — 0 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust"
+],
+"rows": [
+"P1 .andromeda/runs/2026-11-17T22-05-41Z-phase/p3-block.md:192 ×1 · tmp"
+],
+"counts": {
+"P1": 1,
+"P2": 0,
+"P3": 0,
+"runs": 220,
+"evidence": 0,
+"inputs": 0,
+"trails": 11,
+"copies": 2,
+"kept": 0,
+"binary": 0,
+"in_root": 0
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.37",
+"sha8": "534f7838",
+"ts": "2026-11-17T23:51:59Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-11-17T23-48-56Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust · base HEAD (no --marker)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust — each fired on its synthetic known positive",
+"hygiene: clean — read 221 (runs 221 · evidence 0 · inputs 0) · trails 12 not read · copies 2 not read by P1 — 0 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 221,
+"evidence": 0,
+"inputs": 0,
+"trails": 12,
+"copies": 2,
+"kept": 0,
+"binary": 0,
+"in_root": 0
+},
+"indeterminate": 0
+}
+}
+]

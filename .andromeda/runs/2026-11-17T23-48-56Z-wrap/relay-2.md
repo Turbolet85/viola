@@ -1,0 +1,1 @@
+Q1: a — approve as written; the title, the place and the five carries rest on the founder answers of 23:06:58Z (the placement and the cap are his own words, not a delegate pin). Q2: a — move both whole; the two spent clauses stay as history beside carry 3. Q3: a — approve as written. Land the batch, then commit, push and read CI.

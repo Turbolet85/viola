@@ -1,0 +1,38 @@
+[
+  {
+    "id": "I1",
+    "kind": "relay",
+    "repo": null,
+    "path": "../additional/viola-overseer/split-reread-route-adaptation.md",
+    "form": "copy",
+    "state": "no-repo",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "f4e412e94e7f1b7140267c46b0ae4b67e48aae5a84735c99f7b57ce2e92adeb9",
+    "copy": "I1-split-reread-route-adaptation.md.txt",
+    "link": false,
+    "read_at": "2026-11-17T23:49:19Z",
+    "step": "wrap",
+    "why": "the route adaptation relay: the founder answers R5 (the split) and R6 (the new entry live cap) read 2026-11-17T23:06:58Z, and items (A) (B) for disposition"
+  },
+  {
+    "id": "I2",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: viola-overseer",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "f66f4f1219cfda0ab0721f0610d622c79fdffbe2173333fc491a0733462d23a4",
+    "copy": "I2-relay-2.md.txt",
+    "link": false,
+    "read_at": "2026-11-17T23:51:04Z",
+    "step": "wrap",
+    "why": "the overseer answer to this wrap trajectory card: Q1 a, Q2 a, Q3 a; land, commit, push, read CI"
+  }
+]

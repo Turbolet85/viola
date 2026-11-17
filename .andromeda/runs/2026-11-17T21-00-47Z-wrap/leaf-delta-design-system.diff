@@ -1,6 +1,0 @@
---- a/.andromeda/design-system.md
-+++ b/.andromeda/design-system.md
-@@ -183,2 +183,3 @@
- contract/viola-verify-output/summary · viola verify output · summary — A summary line `stamped <ver>  <n> pass  <m> fail` follows, n + m being the relied count.
-+contract/viola-verify-output/trust-record-names-nothing · viola verify output · trust-record row — The trust-record row prints its step line ending `pass` or `fail` like every relied row, and no step line, summary or refusal of `viola verify` names the config file, the trust record's key or its value.
- contract/viola-wait-output/dialog-form · viola wait output · dialog form — `question`, `permission`, `plan` and `dialog-expired` print `<kind>  <name>  dialog <id>  cursor <n>` on stdout, uncoloured, with `dialog unknown` when the event carries no `dialog_id`.
