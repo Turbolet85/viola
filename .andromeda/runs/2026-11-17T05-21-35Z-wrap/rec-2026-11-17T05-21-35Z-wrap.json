@@ -1,0 +1,74 @@
+[
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-17T05:26:37Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-17T05-21-35Z-wrap/ops-main-design-system.md",
+"--results",
+".andromeda/runs/2026-11-17T05-21-35Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-17T05-21-35Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-17T05-21-35Z-wrap",
+"--marker",
+"2026-11-17T05-21-35Z-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 0 · not_master 0 · stands 0",
+"## 2026-11-17T05-21-35Z-wrap — Surface: cli: 1 row(s)\n**Section:** Surface: cli\n**Change:** ~ decision/api-error-turn-end-shown-as-turn-end · state: was «provisional»; now «standing»\n**Why:** decision/api-error-turn-end-shown-as-turn-end: The founder ratified the row as it stands, so its provisional mark ends.\n**Ref:** .andromeda/runs/2026-11-17T05-21-35Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.51",
+"sha8": "5602718f",
+"ts": "2026-11-17T05:26:44Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-17T05-21-35Z-wrap/ops-main-design-system.md",
+"--results",
+".andromeda/runs/2026-11-17T05-21-35Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-17T05-21-35Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-17T05-21-35Z-wrap",
+"--marker",
+"2026-11-17T05-21-35Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 0 · not_master 0 · stands 0",
+"landed tx 2173 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T05-26-44-2026-11-17T05-21-35Z-wrap.ndjson",
+".andromeda/runs/2026-11-17T05-21-35Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+}
+]

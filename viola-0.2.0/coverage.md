@@ -1,12 +1,12 @@
 # Coverage — viola-0.2.0
 
-verified 14/35 · deferred 2 · planned 19 · implemented 0 · unclaimed 19
+verified 14/36 · deferred 2 · planned 20 · implemented 0 · unclaimed 20
 
 ## deferred (2)
 - v2-21 · A key answering the CLI's session-feedback survey keeps the wheel
 - v2-22 · Product-owned session settings
 
-## planned, unclaimed (19)
+## planned, unclaimed (20)
 - v2-07 · Launch a session into the fleet
 - v2-08 · The launch authority bounded
 - v2-09 · The lineage registry
@@ -26,6 +26,7 @@ verified 14/35 · deferred 2 · planned 19 · implemented 0 · unclaimed 19
 - v2-31 · Switch a session's model and effort
 - v2-32 · A standing live rig with a screen model
 - v2-33 · A session's folder trusted by viola
+- v2-36 · A fired scheduled wake keeps the wheel
 
 ## verified (14)
 - v2-01 · Epoch 8 cleanup · 2026-11-13-epoch-8-cleanup

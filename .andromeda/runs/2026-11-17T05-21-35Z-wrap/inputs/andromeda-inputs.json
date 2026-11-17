@@ -1,0 +1,38 @@
+[
+  {
+    "id": "I1",
+    "kind": "relay",
+    "repo": null,
+    "path": "../additional/viola-overseer/e3-boundary-route-adaptation.md",
+    "form": "copy",
+    "state": "no-repo",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "34f8be89544eac98660d42b07b595677a00240ecdf2728972ad97980c64c05ab",
+    "copy": "I1-e3-boundary-route-adaptation.md.txt",
+    "link": false,
+    "read_at": "2026-11-17T05:22:48Z",
+    "step": "wrap",
+    "why": "the founder rulings of 2026-11-17 for the Epoch 3 boundary route adaptation of viola-0.2.0, relayed by the Viola overseer"
+  },
+  {
+    "id": "I2",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: the Viola overseer, 2026-11-17T05:24:00Z",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "1f442b7fda3d483169fb82164a907c102d1b835951db36985e2e46e4af7c9543",
+    "copy": "I2-relay-1.md.txt",
+    "link": false,
+    "read_at": "2026-11-17T05:24:09Z",
+    "step": "wrap",
+    "why": "the overseer answers to the v2-36 requirement card and entry A placement"
+  }
+]

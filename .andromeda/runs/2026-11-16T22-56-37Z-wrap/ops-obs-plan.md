@@ -1,2 +1,0 @@
-@row_none n=1 fact=F1 type=4
-relied: The turn-ended scheduled_wakes value is the length of the hook's session_crons alone, no element read or kept, null when absent, not an array or on an API-error end; its non-array drift entry rides the existing instance detail path that decision/drift-reports-detail-only and decision/content-only-in-detail-file already hold, and the event-data contract and its count-only input rule stand in architecture and security-plan, not in a logging row.

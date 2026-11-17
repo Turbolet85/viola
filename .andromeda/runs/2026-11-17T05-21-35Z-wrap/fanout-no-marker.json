@@ -1,0 +1,80 @@
+[
+{
+"tool": "fanout",
+"v": "47",
+"sha8": "aa36cb77",
+"ts": "2026-11-17T05:27:28Z",
+"argv": [
+"render",
+"--batch",
+"leaf",
+"--side",
+"wrap",
+"--skill-dir",
+"~/.claude/skills/andromeda-wrap-session",
+"--run-dir",
+".andromeda/runs/2026-11-17T05-21-35Z-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"VERDICT: rendered 1 (leaf 1) · batch leaf · script ./.andromeda/runs/2026-11-17T05-21-35Z-wrap/prompts/leaf.workflow.js"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/runs/2026-11-17T05-21-35Z-wrap/prompts/leaf-design-system.md",
+"./.andromeda/runs/2026-11-17T05-21-35Z-wrap/prompts/leaf.workflow.js",
+"./.andromeda/runs/2026-11-17T05-21-35Z-wrap/prompts/leaf.manifest.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "fanout",
+"v": "47",
+"sha8": "aa36cb77",
+"ts": "2026-11-17T05:28:11Z",
+"argv": [
+"check",
+"--manifest",
+".andromeda/runs/2026-11-17T05-21-35Z-wrap/prompts/leaf.manifest.json",
+"--before",
+"tree 60f7498a051363a121c26272b7360f7a5edf6f24 index dc608d67554e045f7c4359519870f68121f74a3a head 48232fbd4a474bd129089f9a6706aca50c8402b6",
+"--after",
+"tree 83d9bfeaa331d6e75c616b539c3b9d762c82b11c index dc608d67554e045f7c4359519870f68121f74a3a head 48232fbd4a474bd129089f9a6706aca50c8402b6",
+"--run-dir",
+".andromeda/runs/2026-11-17T05-21-35Z-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"batch leaf · 1 agents · 1 with every named path · trails: none",
+"[PATH_CHECK] PASS · index and head unchanged",
+"leaf: 1 agents · 1 pass",
+"VERDICT: 1 of 1 pass · failed: none"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"sub": "check",
+"batch": "leaf",
+"agents": {
+"leaf-design-system": {
+"failed": {},
+"yes": null
+}
+},
+"stray": [],
+"closing_tags": [],
+"trails": [],
+"harness": [],
+"notes": []
+}
+}
+]

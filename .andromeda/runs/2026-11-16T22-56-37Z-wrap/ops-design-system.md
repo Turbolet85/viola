@@ -1,2 +1,0 @@
-@none
-reason: The chunk adds one `scheduled_wakes` count to `turn-ended` event data on the JSON and MCP hops only, and changes no human output, printed word or `unable:`/`hint:` pair (fct-5zoszjnq: no human output changes; fct-cp6xiw3d: tokens n/a). No design-system row states the turn-ended data key set. The picked row `decision/api-error-turn-end-shown-as-turn-end` stays true: a null `scheduled_wakes` on an API-error end also appears on a Stop without the key, so it marks nothing, and the cause word is still the only trace (fct-wkxfnidr).

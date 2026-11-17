@@ -1,0 +1,1 @@
+@tally side=wrap doc=design-system entities=- yes=- groups=- carried=- not_carried=- false_yes=- sampled=no held=- lost_classify=- lost_strong=- no_fit=- facts=- placed=0 by_pass=- no_home=0 beside_fact=- standing=- listed=- draws=- one_draw_yes=- draws_dead=- batches_on_one=- arm=- pack=- prefix=design marker=2026-11-17T05-21-35Z-wrap

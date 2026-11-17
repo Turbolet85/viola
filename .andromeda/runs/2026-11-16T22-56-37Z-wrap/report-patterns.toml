@@ -1,4 +1,0 @@
-[[pattern]]
-id = 'tekeys'
-regex = '''background_tasks|background[- ]task count|scheduled[-_ ]wakes?|scheduled-wake count|session_crons'''
-ignore_case = true

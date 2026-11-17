@@ -1,9 +1,0 @@
-[[pattern]]
-id = 'm-nowake'
-regex = '''no scheduled-wake count|cannot learn from the turn end|wake (is )?scheduled'''
-ignore_case = true
-
-[[pattern]]
-id = 'm-threekeys'
-regex = '''background_tasks,? (and )?cause|background_tasks` null and `cause|null last_assistant_message and background_tasks'''
-ignore_case = true
