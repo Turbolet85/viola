@@ -1,0 +1,44 @@
+[
+{
+"tool": "ci",
+"v": "1.3",
+"sha8": "bfae08cc",
+"ts": "2026-11-17T12:50:47Z",
+"argv": [
+"conclusion",
+"--sha",
+"4ef8f4b90d46e4be5de6afb9826a385dbda51b3e",
+"--run-dir",
+".andromeda/runs/2026-11-17T12-50-42Z-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"repo Turbolet85/viola (the push remote `origin`)",
+"4ef8f4b90d46 verdict: red · checks 7/7 · first-fail +28 s supply-chain · wall 492 s · runs ci#44084919060 completed/fai…",
+"runs: ci#44084919060 push completed/failure",
+"failed 1: supply-chain (failure)",
+"log: gh api --allow-escape-sequences repos/Turbolet85/viola/actions/jobs/134044722633/logs",
+"run failed: ci#44084919060 failure"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"repo": "Turbolet85/viola",
+"host": "github.com",
+"repo_source": "the push remote `origin`",
+"names": [],
+"shas": [
+{
+"sha": "4ef8f4b90d46e4be5de6afb9826a385dbda51b3e",
+"word": "red",
+"polls": [
+"red"
+]
+}
+]
+}
+}
+]

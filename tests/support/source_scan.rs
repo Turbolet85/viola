@@ -127,40 +127,97 @@ fn char_literal_len(rest: &[u8]) -> Option<usize> {
 #[cfg(test)]
 mod tests {
     use super::{Mask, masked};
-    use rstest::rstest;
 
-    #[rstest]
-    #[case::line_comment("a // b\nc", Mask::Comments, "a     \nc")]
-    #[case::nested_block_comment("a /* b /* c */ d */ e", Mask::Comments, "a                   e")]
-    #[case::block_comment_keeps_newlines("a /* b\nc */ d", Mask::Comments, "a     \n     d")]
-    #[case::string_kept_by_comments("x = \"// no\";", Mask::Comments, "x = \"// no\";")]
-    #[case::string_masked("x = \"s\";", Mask::CommentsAndLiterals, "x =    ;")]
-    #[case::escaped_quote("\"a\\\"b\" c", Mask::CommentsAndLiterals, "       c")]
-    #[case::raw_string_with_hashes(
-        "r##\"a \"# b\"## c",
-        Mask::CommentsAndLiterals,
-        "              c"
-    )]
-    #[case::raw_string_kept_by_comments("r#\"/* x */\"#", Mask::Comments, "r#\"/* x */\"#")]
-    #[case::byte_raw_string("br\"x\" y", Mask::CommentsAndLiterals, "      y")]
-    #[case::identifier_ending_in_r("fr\"x\"", Mask::CommentsAndLiterals, "fr   ")]
-    #[case::char_literal("c = 'x';", Mask::CommentsAndLiterals, "c =    ;")]
-    #[case::escaped_char_literal("c = '\\'';", Mask::CommentsAndLiterals, "c =     ;")]
-    #[case::lifetime_kept(
-        "fn f<'a>(x: &'a u8)",
-        Mask::CommentsAndLiterals,
-        "fn f<'a>(x: &'a u8)"
-    )]
-    #[case::comment_in_literal_mode(
-        "a // 'x' \"y\"\nb",
-        Mask::CommentsAndLiterals,
-        "a           \nb"
-    )]
-    fn masked_blanks_what_its_mode_names(
-        #[case] text: &str,
-        #[case] mask: Mask,
-        #[case] expected: &str,
-    ) {
-        assert_eq!(String::from_utf8(masked(text, mask)).unwrap(), expected);
+    /// A labelled case table, not rstest: viola-e2e's census, a crate without rstest, takes this
+    /// file too.
+    #[test]
+    fn masked_blanks_what_its_mode_names() {
+        for (label, text, mask, expected) in [
+            ("line_comment", "a // b\nc", Mask::Comments, "a     \nc"),
+            (
+                "nested_block_comment",
+                "a /* b /* c */ d */ e",
+                Mask::Comments,
+                "a                   e",
+            ),
+            (
+                "block_comment_keeps_newlines",
+                "a /* b\nc */ d",
+                Mask::Comments,
+                "a     \n     d",
+            ),
+            (
+                "string_kept_by_comments",
+                "x = \"// no\";",
+                Mask::Comments,
+                "x = \"// no\";",
+            ),
+            (
+                "string_masked",
+                "x = \"s\";",
+                Mask::CommentsAndLiterals,
+                "x =    ;",
+            ),
+            (
+                "escaped_quote",
+                "\"a\\\"b\" c",
+                Mask::CommentsAndLiterals,
+                "       c",
+            ),
+            (
+                "raw_string_with_hashes",
+                "r##\"a \"# b\"## c",
+                Mask::CommentsAndLiterals,
+                "              c",
+            ),
+            (
+                "raw_string_kept_by_comments",
+                "r#\"/* x */\"#",
+                Mask::Comments,
+                "r#\"/* x */\"#",
+            ),
+            (
+                "byte_raw_string",
+                "br\"x\" y",
+                Mask::CommentsAndLiterals,
+                "      y",
+            ),
+            (
+                "identifier_ending_in_r",
+                "fr\"x\"",
+                Mask::CommentsAndLiterals,
+                "fr   ",
+            ),
+            (
+                "char_literal",
+                "c = 'x';",
+                Mask::CommentsAndLiterals,
+                "c =    ;",
+            ),
+            (
+                "escaped_char_literal",
+                "c = '\\'';",
+                Mask::CommentsAndLiterals,
+                "c =     ;",
+            ),
+            (
+                "lifetime_kept",
+                "fn f<'a>(x: &'a u8)",
+                Mask::CommentsAndLiterals,
+                "fn f<'a>(x: &'a u8)",
+            ),
+            (
+                "comment_in_literal_mode",
+                "a // 'x' \"y\"\nb",
+                Mask::CommentsAndLiterals,
+                "a           \nb",
+            ),
+        ] {
+            assert_eq!(
+                String::from_utf8(masked(text, mask)).unwrap(),
+                expected,
+                "{label}"
+            );
+        }
     }
 }

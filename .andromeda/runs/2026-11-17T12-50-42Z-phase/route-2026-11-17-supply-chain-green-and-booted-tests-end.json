@@ -1,0 +1,37 @@
+[
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "d48d2bf9",
+"ts": "2026-11-17T12:51:30Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-11-17-supply-chain-green-and-booted-tests-end",
+"--id",
+"chk-raukczx5",
+"--desc-file",
+".andromeda/runs/2026-11-17T12-50-42Z-phase/master-desc.txt",
+"--scope-file",
+".andromeda/cache/docs/2026-11-17-supply-chain-green-and-booted-tests-end/scope.md",
+"--run-dir",
+".andromeda/runs/2026-11-17T12-50-42Z-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"promoted 2026-11-17-supply-chain-green-and-booted-tests-end · chk-raukczx5 · The supply-chain gate green again, and every booted test process ends with its test · tx 2322"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-17T12-51-30-2026-11-17-supply-chain-green-and-booted-tests-end.ndjson",
+"./.andromeda/master-route.md",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]

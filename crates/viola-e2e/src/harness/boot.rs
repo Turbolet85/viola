@@ -93,7 +93,8 @@ pub struct BootOptions {
     pub stamp: bool,
     pub agents_mode: AgentsMode,
     /// The supervisor and the stamping `viola verify` tied to the calling thread by the kernel's
-    /// parent-death signal: an in-test session's die with the test, killed or not. The CLI
+    /// parent-death signal: an in-test session's die with the test, killed or not. The supervisor
+    /// takes `SIGKILL`; the verify takes `SIGTERM`, so its own stop removes its own dirs. The CLI
     /// `boot`'s supervisor is an ordinary child that outlives `boot`.
     pub tied: bool,
 }
@@ -144,9 +145,11 @@ impl BootOptions {
     }
 }
 
-/// `cmd`'s child gets `SIGKILL` when the calling thread ends, and exits at once when its parent is
-/// already gone between the fork and the tie.
-fn tie_to_caller(cmd: &mut Command) -> &mut Command {
+/// `cmd`'s child gets `signal` when the calling thread ends, and exits at once when its parent is
+/// already gone between the fork and the tie. The stamping `viola verify` takes `SIGTERM`: its own
+/// stop ends its children and removes its own run and probe dirs, which a `SIGKILL` never would.
+/// The supervisor takes `SIGKILL`.
+fn tie_to_caller(cmd: &mut Command, signal: libc::c_int) -> &mut Command {
     use std::os::unix::process::CommandExt as _;
     let parent = libc::pid_t::try_from(std::process::id()).expect("a pid fits pid_t");
     // SAFETY: the hook runs in the forked child before exec and calls only async-signal-safe
@@ -154,7 +157,7 @@ fn tie_to_caller(cmd: &mut Command) -> &mut Command {
     // and takes no lock.
     unsafe {
         cmd.pre_exec(move || {
-            if libc::prctl(libc::PR_SET_PDEATHSIG, libc::SIGKILL) != 0 {
+            if libc::prctl(libc::PR_SET_PDEATHSIG, signal) != 0 {
                 return Err(std::io::Error::last_os_error());
             }
             if libc::getppid() != parent {
@@ -299,7 +302,7 @@ fn start(opts: &BootOptions) -> Result<Outcome, HarnessError> {
 fn stamp(opts: &BootOptions, home: &Path, session_bin: &Path) -> Result<(), Option<i32>> {
     let mut verify = Command::new(exe(&opts.bin_dir, "viola"));
     if opts.tied {
-        tie_to_caller(&mut verify);
+        tie_to_caller(&mut verify, libc::SIGTERM);
     }
     let out = verify
         .arg("--home")
@@ -351,11 +354,11 @@ pub fn stamped_line(stdout: &str) -> bool {
 }
 
 /// The supervisor outlives `boot` and is stopped only through `stop.request`; a `tied` one also
-/// dies with the calling thread, and its death hangs up every wrapper's outer PTY.
+/// dies with the calling thread by `SIGKILL`, and its death hangs up every wrapper's outer PTY.
 fn spawn_supervisor(bin_dir: &Path, session: &str, tied: bool) -> Result<ProcessId, HarnessError> {
     let mut supervisor = Command::new(exe(bin_dir, "viola-harness"));
     if tied {
-        tie_to_caller(&mut supervisor);
+        tie_to_caller(&mut supervisor, libc::SIGKILL);
     }
     let child = supervisor
         .args(["supervise", "--session", session])

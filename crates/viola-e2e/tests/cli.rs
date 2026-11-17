@@ -173,7 +173,7 @@ fn booted(label: &str) -> (Booted, SessionRecord) {
         build: false,
         stamp: true,
         agents_mode: AgentsMode::Recorded,
-        tied: false,
+        tied: true,
     };
     let guard = Booted { ws, session };
     let out = boot(&opts);
