@@ -18,11 +18,17 @@ use viola_state::fs::create_private_dir;
 
 use super::Inputs;
 use super::pty::KeyPipe;
-use super::run::Run;
+use super::run::{First, Run};
 use super::turns::{
     agents_read, count_of, framing_turns, guard, ms, probe_until, turn, wait_capture, wait_for,
 };
 use crate::trust_record;
+
+/// Run `i`'s first-screen reading and its settle's rows into `typed`.
+pub(super) fn keep(typed: &mut TypedRun, i: usize, first: First) {
+    typed.first[i] = first.reading;
+    typed.first_rows[i] = first.rows;
+}
 
 /// Run A: the first settled screen in a fresh dir under the OS temp dir, then a kill.
 pub(super) fn untrusted_run(
@@ -33,8 +39,8 @@ pub(super) fn untrusted_run(
 ) -> anyhow::Result<()> {
     let untrusted = tempfile::Builder::new().prefix("viola-verify-").tempdir()?;
     let run = Run::spawn(clock, inputs, args, untrusted.path(), Box::new(io::empty()))?;
-    typed.modal = run.settle(run.spawned_at).and_then(|s| s.rows);
-    run.end_by_kill();
+    typed.modal = run.first_settle().and_then(|s| s.rows);
+    keep(typed, 0, run.end_by_kill());
     drop(untrusted);
     Ok(())
 }
@@ -57,7 +63,7 @@ pub(super) fn trusted_run(
         &trusted.0,
         Box::new(KeyPipe::new(pipe)),
     )?;
-    let ready = run.settle(run.spawned_at);
+    let ready = run.first_settle();
     typed.ready_settle_ms = ready
         .as_ref()
         .map(|s| ms(s.at.saturating_duration_since(run.spawned_at)));
@@ -66,7 +72,7 @@ pub(super) fn trusted_run(
     let up = guard(typed.ready.as_deref(), &mut box_only);
     typed.box_only_guards = Some(box_only);
     if !up {
-        run.end_by_kill();
+        keep(typed, 1, run.end_by_kill());
         return Ok(None);
     }
     // A stop during the turn, the pastes or the agents read ends the run by a kill inside
@@ -86,7 +92,7 @@ pub(super) fn trusted_run(
         &mut typed.echo_latency_ms,
     );
     typed.box_only_guards = Some(box_only);
-    run.end_by_ctrl_c(&keys);
+    keep(typed, 1, run.end_by_ctrl_c(&keys));
     drop(keys);
     drop(trusted);
     Ok(agents)
@@ -102,12 +108,12 @@ fn trusted_args(args: &[OsString], inputs: &Inputs<'_>) -> Vec<OsString> {
 
 /// Run C: the three dialog prompts, each pasted once the previous turn's Stop is captured, under the
 /// session `ask` rule; once the last Stop is captured the screen settles (as Run B's turn does), so
-/// the kill never hangs up a Stop hook still exiting.
+/// the kill never hangs up a Stop hook still exiting. Returns its first-screen reading and rows.
 pub(super) fn dialog_run(
     clock: &Arc<dyn Clock>,
     inputs: &Inputs<'_>,
     args: &[OsString],
-) -> anyhow::Result<()> {
+) -> anyhow::Result<First> {
     let dir = TrustedDir::create(inputs.cwd, "-dialogs")?;
     let mut args = args.to_vec();
     args.extend([SETTINGS_FLAG, DIALOG_SETTINGS, PLUGIN_DIR_FLAG].map(OsString::from));
@@ -137,20 +143,20 @@ pub(super) fn dialog_run(
             }
         }
     }
-    run.end_by_kill();
+    let first = run.end_by_kill();
     drop(keys);
     drop(dir);
-    Ok(())
+    Ok(first)
 }
 
 /// Run D: plan mode, the plan prompt, until the turn's Stop is captured (after the plan's
 /// PostToolUse, which the rows read) and the screen settles after it; the CLI's plan file goes into
-/// the run's own `plans/`; ended by a kill.
+/// the run's own `plans/`; ended by a kill. Returns its first-screen reading and rows.
 pub(super) fn plan_run(
     clock: &Arc<dyn Clock>,
     inputs: &Inputs<'_>,
     args: &[OsString],
-) -> anyhow::Result<()> {
+) -> anyhow::Result<First> {
     let dir = TrustedDir::create(inputs.cwd, "-plan")?;
     let plans = dir.0.join("plans");
     create_private_dir(&plans)?;
@@ -170,23 +176,24 @@ pub(super) fn plan_run(
             run.settle(stopped);
         }
     }
-    run.end_by_kill();
+    let first = run.end_by_kill();
     drop(keys);
     drop(dir);
-    Ok(())
+    Ok(first)
 }
 
 /// Run E: Run B's first session resumed by its id (`ledger::resume_target`; none, and no child
 /// starts) in its own dir, until one SessionStart is captured and the screen settles after it; ended
-/// by a kill with no key typed.
+/// by a kill with no key typed. Its first-screen reading is that settle, or with no SessionStart by
+/// the deadline the screen as it stands then; `None` when no child started.
 pub(super) fn resume_run(
     clock: &Arc<dyn Clock>,
     inputs: &Inputs<'_>,
     args: &[OsString],
-) -> anyhow::Result<()> {
+) -> anyhow::Result<First> {
     let trusted = super::super::read_captures(inputs.trusted.captures);
     let Some(id) = ledger::resume_target(&trusted) else {
-        return Ok(());
+        return Ok(First::default());
     };
     let dir = TrustedDir::create(inputs.cwd, "-resume")?;
     let mut args = args.to_vec();
@@ -201,12 +208,18 @@ pub(super) fn resume_run(
         probe_until(clock.as_ref()),
         run.stop,
     );
-    if let Some(started) = started {
-        run.settle(started);
+    match started {
+        Some(started) => {
+            if let Some(settled) = run.settle(started) {
+                run.keep_first(&settled);
+            }
+        }
+        None if !(run.stop)() => run.keep_first_now(),
+        None => {}
     }
-    run.end_by_kill();
+    let first = run.end_by_kill();
     drop(dir);
-    Ok(())
+    Ok(first)
 }
 
 /// Run F: Run A's start in a fresh dir under the OS temp dir with the trust record for that dir
@@ -232,8 +245,8 @@ pub(super) fn trust_record_run(
     typed.trust_write = Some(guard.written);
     if guard.written == TrustWord::Written {
         let run = Run::spawn(clock, inputs, args, &dir, Box::new(io::empty()))?;
-        typed.trust_frame = run.settle(run.spawned_at).and_then(|s| s.rows);
-        run.end_by_kill();
+        typed.trust_frame = run.first_settle().and_then(|s| s.rows);
+        keep(typed, 5, run.end_by_kill());
         typed.trust_remove = Some(guard.remove());
     }
     drop(untrusted);

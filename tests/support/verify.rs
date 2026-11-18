@@ -537,6 +537,14 @@ fn verify_with(
     viola_unbounded(&args, &tied)
 }
 
+/// Where a started `verify` runs: its cwd, its OS temp dir and its `VIOLA_NAME`.
+#[derive(Clone, Copy)]
+pub struct Place<'a> {
+    pub cwd: &'a Path,
+    pub tmp: &'a Path,
+    pub name: &'a str,
+}
+
 /// A `verify` the test started and has not waited, its pid, and the fake agent's receipt.
 pub struct StartedVerify {
     pub running: Running,
@@ -546,23 +554,23 @@ pub struct StartedVerify {
 
 /// `verify` as `verify_with` builds it but without `--turn-stop`, started and not waited: Run B
 /// pastes its prompt and waits for a Stop that never comes, unless `after` (the fake agent's last
-/// arguments) gives `--turn-stop`. It runs in `cwd`, the fake agent's trusted root, with `tmp` as
-/// the OS temp dir (`TMPDIR`, `TMP`, `TEMP`) and `name` as `VIOLA_NAME`; the receipt is
+/// arguments) gives `--turn-stop`; `before` goes after `verify`, ahead of `--`. It runs in `place.cwd`, the fake agent's trusted root, with
+/// `place.tmp` as the OS temp dir (`TMPDIR`, `TMP`, `TEMP`) and `place.name` as `VIOLA_NAME`; the receipt is
 /// `<home's parent>/stop.receipt.ndjson`.
 pub fn verify_started(
     home: &Path,
     fixtures: &Path,
     version: &str,
-    cwd: &Path,
-    tmp: &Path,
-    name: &str,
+    before: &[&str],
+    place: &Place<'_>,
     after: &[&str],
 ) -> StartedVerify {
+    let Place { cwd, tmp, name } = *place;
     let receipt = home
         .parent()
         .expect("home has a parent")
         .join("stop.receipt.ndjson");
-    let mut args = verify_args(home, fixtures, version, &[]);
+    let mut args = verify_args(home, fixtures, version, before);
     args.extend(
         [
             "--screens",
@@ -576,7 +584,7 @@ pub fn verify_started(
     args.push(cwd.into());
     args.push("--receipt".into());
     args.push(receipt.clone().into());
-    let (tied, fake) = user_tie(home, &[]);
+    let (tied, fake) = user_tie(home, before);
     args.extend(fake);
     args.extend(after.iter().map(OsString::from));
     let mut command = super::tied::viola();

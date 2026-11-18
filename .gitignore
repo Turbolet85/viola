@@ -18,6 +18,9 @@ target/
 # viola verify's trusted probe dir in its cwd, left behind only when a verify is killed mid-run
 /.viola-verify-*/
 
+# viola verify's rig-only first screens of a failed run (--record-first-screens), kept local, never committed
+fixtures/claude/*/FirstScreen.*.json
+
 # rustfmt backups
 **/*.rs.bk
 

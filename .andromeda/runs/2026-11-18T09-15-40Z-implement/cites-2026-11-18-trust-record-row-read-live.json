@@ -1,0 +1,120 @@
+[
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "ebdfae9c",
+"ts": "2026-11-18T09:24:03Z",
+"argv": [
+"added",
+"--out",
+".andromeda/runs/2026-11-18T09-15-40Z-implement/new-text.md",
+"--run-dir",
+".andromeda/runs/2026-11-18T09-15-40Z-implement",
+"--marker",
+"2026-11-18-trust-record-row-read-live"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: f862f193 — no pre-CI commit",
+".config/nextest.toml — added 12 line(s) in 4 range(s)",
+".gitignore — added 3 line(s) in 1 range(s)",
+"crates/viola-agent-claude/src/ledger.rs — added 81 line(s) in 4 range(s)",
+"crates/viola-agent-claude/src/ledger/test_cases.rs — added 2 line(s) in 1 range(s)",
+"crates/viola-agent-claude/src/ledger/test_cases_stamps.rs — added 129 line(s) in 3 range(s)",
+"crates/viola-agent-claude/src/screen.rs — added 231 line(s) in 2 range(s)",
+"crates/viola-e2e/src/bin/viola-live-rig.rs — added 6 line(s) in 3 range(s)",
+"crates/viola-e2e/src/rig/isolate.rs — added 198 line(s) in 4 range(s)",
+"crates/viola-e2e/src/rig/ledger.rs — added 18 line(s) in 3 range(s)",
+"crates/viola-e2e/src/rig/mod.rs — added 411 line(s) in 43 range(s)",
+"crates/viola-e2e/src/rig/screen.rs — added 20 line(s) in 6 range(s)",
+"crates/viola-e2e/tests/rig_rehearsal.rs — added 144 line(s) in 3 range(s)",
+"src/cmd/verify.rs — added 182 line(s) in 5 range(s)",
+"src/cmd/verify/typed.rs — added 21 line(s) in 3 range(s)",
+"src/cmd/verify/typed/run.rs — added 199 line(s) in 13 range(s)",
+"src/cmd/verify/typed/runs.rs — added 36 line(s) in 21 range(s)",
+"tests/cli_verify.rs — added 168 line(s) in 4 range(s)",
+"tests/cli_verify/runs.rs — added 99 line(s) in 2 range(s)",
+"tests/support/verify.rs — added 15 line(s) in 6 range(s)",
+"new text: 19 file(s) · 0 new · 131 added range(s) · 1975 line(s) · 129 block(s) → .andromeda/runs/2026-11-18T09-15-40Z-implement/new-text.md (176 lines) · written"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-18T09-15-40Z-implement/new-text.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"base": "f862f193695be33baf79a0796c0fe9ad44ee6482",
+"counts": {
+"files": 19,
+"new": 0,
+"ranges": 131,
+"lines": 1975,
+"blocks": 129
+},
+"out": ".andromeda/runs/2026-11-18T09-15-40Z-implement/new-text.md",
+"state": "written",
+"lines": 176
+}
+},
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "ebdfae9c",
+"ts": "2026-11-18T09:34:41Z",
+"argv": [
+"added",
+"--out",
+".andromeda/runs/2026-11-18T09-15-40Z-implement/new-text-2.md",
+"--run-dir",
+".andromeda/runs/2026-11-18T09-15-40Z-implement",
+"--marker",
+"2026-11-18-trust-record-row-read-live"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: f862f193 — no pre-CI commit",
+".config/nextest.toml — added 12 line(s) in 4 range(s)",
+".gitignore — added 3 line(s) in 1 range(s)",
+"crates/viola-agent-claude/src/ledger.rs — added 81 line(s) in 4 range(s)",
+"crates/viola-agent-claude/src/ledger/test_cases.rs — added 2 line(s) in 1 range(s)",
+"crates/viola-agent-claude/src/ledger/test_cases_stamps.rs — added 129 line(s) in 3 range(s)",
+"crates/viola-agent-claude/src/screen.rs — added 231 line(s) in 2 range(s)",
+"crates/viola-e2e/src/bin/viola-live-rig.rs — added 6 line(s) in 3 range(s)",
+"crates/viola-e2e/src/rig/isolate.rs — added 198 line(s) in 4 range(s)",
+"crates/viola-e2e/src/rig/ledger.rs — added 18 line(s) in 3 range(s)",
+"crates/viola-e2e/src/rig/mod.rs — added 419 line(s) in 46 range(s)",
+"crates/viola-e2e/src/rig/screen.rs — added 20 line(s) in 6 range(s)",
+"crates/viola-e2e/tests/rig_rehearsal.rs — added 144 line(s) in 3 range(s)",
+"src/cmd/verify.rs — added 182 line(s) in 5 range(s)",
+"src/cmd/verify/typed.rs — added 21 line(s) in 3 range(s)",
+"src/cmd/verify/typed/run.rs — added 199 line(s) in 13 range(s)",
+"src/cmd/verify/typed/runs.rs — added 36 line(s) in 21 range(s)",
+"tests/cli_verify.rs — added 168 line(s) in 4 range(s)",
+"tests/cli_verify/runs.rs — added 99 line(s) in 2 range(s)",
+"tests/support/verify.rs — added 15 line(s) in 6 range(s)",
+"new text: 19 file(s) · 0 new · 134 added range(s) · 1983 line(s) · 130 block(s) → .andromeda/runs/2026-11-18T09-15-40Z-implement/new-text-2.md (177 lines) · written"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-18T09-15-40Z-implement/new-text-2.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"base": "f862f193695be33baf79a0796c0fe9ad44ee6482",
+"counts": {
+"files": 19,
+"new": 0,
+"ranges": 134,
+"lines": 1983,
+"blocks": 130
+},
+"out": ".andromeda/runs/2026-11-18T09-15-40Z-implement/new-text-2.md",
+"state": "written",
+"lines": 177
+}
+}
+]

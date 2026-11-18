@@ -1,0 +1,3 @@
+# Relay 1 — the operator's word for this revision (the /andromeda-phase invocation, verbatim)
+
+Proceed. Revise the plan of the pending chunk 2026-11-18-trust-record-row-read-live a fourth time: implement stopped before the operator pass after S0R-3 named the screen (its outcome and founder-forks.md are in the newest implement run dir). Read ~/dev/projects/additional/viola-overseer/relay-trust-read-revision4.md whole first — the founder answered: the rig alone hides the browser-tools prompt in this chunk, the prompt becomes its own route entry at the wrap, and a NEW cap of one live verify + one spare reads the row again. Call no scheduled-wake or timer tool.

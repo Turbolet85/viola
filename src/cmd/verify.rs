@@ -29,6 +29,7 @@ use viola_agent_claude::ledger::{
     self, Capture, DialogRun, DialogRuns, LedgerRow, PROBE_ANSWERS, PROBE_PROMPT, ProbePlugin,
     ProbeRun, Probes, TypedRun,
 };
+use viola_agent_claude::screen::FirstScreen;
 use viola_agent_claude::trust::{self, TrustWord};
 use viola_agent_claude::{AgentError, PLUGIN_DIR_FLAG, PROGRAM, StripPlan};
 use viola_core::obs::{ObsEvent, ObsProcess};
@@ -49,6 +50,14 @@ pub(crate) struct VerifyArgs {
     /// Record the probe's hook payloads, scrubbed, under <DIR>/<cli version>/
     #[arg(long, value_name = "DIR")]
     record: Option<PathBuf>,
+    // Hidden, passed only by the live rig's `V` arm, and nothing without `--record`: on a failed
+    // verify it also writes the first settled screen of each interactive run that did not reach
+    // the box (Run A's trust dialog excepted), its rows whole through the scrub and the check, into
+    // the record dir. The founder's own answers «Verify с записью экрана» and «Строки целиком,
+    // только для рига» (2026-11-18): a rig-only exception to signature-only screens
+    // (security-plan `decision/verify-signature-only`).
+    #[arg(long, hide = true)]
+    record_first_screens: bool,
     /// The CLI to verify and its arguments, after `--` (default: claude)
     #[arg(last = true)]
     program: Vec<OsString>,
@@ -294,6 +303,11 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<Ended> {
         results.len() - failed
     ));
     if failed > 0 {
+        if let (Some(dir), true) = (&args.record, args.record_first_screens)
+            && let Some(refused) = record_first_screens(dir, &version, &probes.typed)?
+        {
+            return Ok(refused);
+        }
         return Ok(Ended::Exit(1));
     }
     match &args.record {
@@ -588,6 +602,76 @@ fn refuse_recording(named: &str) -> Ended {
     Ended::Refused("unclean-fixture")
 }
 
+/// The user's home and name as `record` scrubs them.
+fn home_and_user() -> (String, String) {
+    let user_home = std::env::home_dir().unwrap_or_default();
+    let user = user_home
+        .file_name()
+        .map(|n| n.to_string_lossy().into_owned())
+        .unwrap_or_default();
+    (user_home.to_string_lossy().into_owned(), user)
+}
+
+/// A failed verify's first screens (`first_screen_files`) under `<dir>/<version>/` through the
+/// passing path's writer; `Some` with the refusal when one is not clean, nothing written then. No
+/// such run writes nothing and creates no dir.
+fn record_first_screens(
+    dir: &Path,
+    version: &str,
+    typed: &TypedRun,
+) -> anyhow::Result<Option<Ended>> {
+    let (home, user) = home_and_user();
+    match first_screen_files(typed, &home, &user) {
+        Ok(files) if files.is_empty() => Ok(None),
+        Ok(files) => {
+            write_recording(&dir.join(version), files)?;
+            Ok(None)
+        }
+        Err(named) => Ok(Some(refuse_recording(&named))),
+    }
+}
+
+/// `FirstScreen.<x>.json` for each run whose first reading was kept and whose word is not `box`
+/// (nor, for Run A, `trust`): its rows whole through the scrub, then every row and every seam with
+/// its neighbour checked; `Err` names the first file with a fault, its row and its check code.
+fn first_screen_files(typed: &TypedRun, home: &str, user: &str) -> Result<Vec<Recorded>, String> {
+    let mut files = Vec::new();
+    for (i, letter) in ledger::RUN_LETTERS.iter().enumerate() {
+        let Some(reading) = typed.first[i] else {
+            continue;
+        };
+        if reading.screen == FirstScreen::Box || (i == 0 && reading.screen == FirstScreen::Trust) {
+            continue;
+        }
+        let name = format!("FirstScreen.{letter}.json");
+        let rows = typed.first_rows[i].as_deref().map(|rows| {
+            rows.iter()
+                .map(
+                    |row| match ledger::scrub(&serde_json::json!(row), home, user) {
+                        serde_json::Value::String(s) => s,
+                        _ => String::new(),
+                    },
+                )
+                .collect::<Vec<String>>()
+        });
+        if let Some(rows) = &rows
+            && let Some(fault) = ledger::screen_fault(rows, rows, home, user)
+        {
+            let at = if fault.seam { " seam" } else { "" };
+            return Err(format!("{name} row {}{at} {}", fault.row, fault.why.code()));
+        }
+        let screen = serde_json::json!({
+            "v": 1,
+            "run": letter,
+            "screen": reading.screen.as_str(),
+            "cols": 80,
+            "rows": rows,
+        });
+        files.push((name, screen));
+    }
+    Ok(files)
+}
+
 /// The recorded screens by phase; a phase the run never reached is absent.
 fn screens(typed: &TypedRun) -> Vec<(&'static str, &[String])> {
     [
@@ -753,6 +837,104 @@ mod tests {
         assert_eq!(probe.plan(), dir.join("plan"));
         assert_eq!(probe.plugin(), dir.join("plugin"));
         assert_eq!(probe.captures(), dir.join("captures"));
+    }
+
+    fn reading(screen: FirstScreen) -> ledger::FirstReading {
+        ledger::FirstReading {
+            screen,
+            settle_ms: 8_500,
+            bytes: 1_241,
+            alive: true,
+            exit: None,
+            rows: Some(1),
+            box_any: false,
+            last_byte_ms: Some(400),
+            literals: [None; 4],
+            rule_above_prompt: false,
+            first_row: None,
+            last_col: None,
+        }
+    }
+
+    fn typed_with(run: usize, screen: FirstScreen, rows: Option<&[&str]>) -> TypedRun {
+        let mut typed = TypedRun::default();
+        typed.first[run] = Some(reading(screen));
+        typed.first_rows[run] = rows.map(|r| r.iter().map(|s| (*s).to_owned()).collect());
+        typed
+    }
+
+    fn names(files: &[Recorded]) -> Vec<&str> {
+        files.iter().map(|(name, _)| name.as_str()).collect()
+    }
+
+    #[rstest::rstest]
+    #[case::b_none(1, Some(FirstScreen::None), &["FirstScreen.b.json"])]
+    #[case::b_box(1, Some(FirstScreen::Box), &[])]
+    #[case::a_trust(0, Some(FirstScreen::Trust), &[])]
+    #[case::a_none(0, Some(FirstScreen::None), &["FirstScreen.a.json"])]
+    #[case::f_trust(5, Some(FirstScreen::Trust), &["FirstScreen.f.json"])]
+    #[case::e_exited(4, Some(FirstScreen::Exited), &["FirstScreen.e.json"])]
+    #[case::c_no_reading(2, None, &[])]
+    fn first_screen_files_take_each_failed_run_and_no_box(
+        #[case] run: usize,
+        #[case] screen: Option<FirstScreen>,
+        #[case] expected: &[&str],
+    ) {
+        let typed = match screen {
+            Some(screen) => typed_with(run, screen, Some(&["  Some dialog", "  1. One"])),
+            None => TypedRun::default(),
+        };
+        let files = first_screen_files(&typed, "/data/alice", "alice").expect("clean");
+        assert_eq!(names(&files), expected);
+        if let Some((_, doc)) = files.first() {
+            assert_eq!(doc["v"], 1);
+            assert_eq!(doc["run"], ledger::RUN_LETTERS[run]);
+            assert_eq!(doc["screen"], screen.expect("a word").as_str());
+            assert_eq!(doc["cols"], 80);
+            assert_eq!(doc["rows"], json!(["  Some dialog", "  1. One"]));
+        }
+    }
+
+    #[test]
+    fn first_screen_files_write_a_poisoned_runs_rows_null() {
+        let typed = typed_with(3, FirstScreen::None, None);
+        let files = first_screen_files(&typed, "/data/alice", "alice").expect("clean");
+        assert_eq!(names(&files), ["FirstScreen.d.json"]);
+        assert_eq!(files[0].1["rows"], serde_json::Value::Null);
+    }
+
+    #[test]
+    fn first_screen_scrub_keeps_a_temp_path_and_rewrites_the_home() {
+        let typed = typed_with(
+            1,
+            FirstScreen::None,
+            Some(&[
+                " Trust /data/alice/x/.viola-verify-1 ?",
+                " for alice in /tmp/viola-rig-1000/r/cwd",
+            ]),
+        );
+        let files = first_screen_files(&typed, "/data/alice", "alice").expect("clean");
+        assert_eq!(
+            files[0].1["rows"],
+            json!([
+                " Trust ~/x/.viola-verify-1 ?",
+                " for <user> in /tmp/viola-rig-1000/r/cwd"
+            ])
+        );
+        let split = typed_with(5, FirstScreen::None, Some(&[" in /data/al", "ice/x ?"]));
+        assert_eq!(
+            first_screen_files(&split, "/data/alice", "alice"),
+            Err("FirstScreen.f.json row 0 seam home-path".to_owned())
+        );
+    }
+
+    #[test]
+    fn verify_help_names_no_first_screens_option() {
+        use clap::{Args as _, Command};
+        let mut command = VerifyArgs::augment_args(Command::new("verify"));
+        let help = command.render_long_help().to_string();
+        assert!(help.contains("--record"));
+        assert!(!help.contains("record-first-screens"));
     }
 
     #[test]

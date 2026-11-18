@@ -26,6 +26,7 @@ use std::time::{Duration, Instant};
 
 use serde_json::Value;
 use viola_agent_claude::hook::typed_text;
+use viola_agent_claude::screen::{BOX_LITERAL_IDS, RowFamily, SIGNATURES};
 use viola_pty::{PortablePty, Pty as _, Size, SpawnSpec};
 use viola_state::pin::content_key;
 
@@ -68,6 +69,9 @@ pub enum Arm {
     IM,
     /// `viola verify` over the child under the start's own viola home, held to its exit; no key.
     V,
+    /// Unwrapped at verify's 80×24 under the verify arm's seed: its first frame read into verify's
+    /// first-screen word and facts; stopped with no key.
+    VC,
 }
 
 impl Arm {
@@ -80,12 +84,14 @@ impl Arm {
             "r3" => Some(Self::R3),
             "im" => Some(Self::IM),
             "v" => Some(Self::V),
+            "vc" => Some(Self::VC),
             _ => None,
         }
     }
 
     /// A live label's arm: `R1` / `R1-2`, `R2` / `R2-2`, `R3B` / `R3B-2`, `R3` / `R3-2` / `R3-326`
-    /// / `R3D`, `IM` / `IM-2` and `S0` / `S0-2`.
+    /// / `R3D`, `IM` / `IM-2`, `S0` / `S0-2`, `S0R` with its two spares `S0R-2` / `S0R-3`, `S0B`
+    /// with its spare `S0B-2`, and `S0C` alone (no spare).
     pub fn of_label(label: &str) -> Option<Self> {
         match label {
             "R1" | "R1-2" => Some(Self::R1),
@@ -93,7 +99,8 @@ impl Arm {
             "R3B" | "R3B-2" => Some(Self::R3B),
             "R3" | "R3-2" | "R3-326" | "R3D" => Some(Self::R3),
             "IM" | "IM-2" => Some(Self::IM),
-            "S0" | "S0-2" => Some(Self::V),
+            "S0" | "S0-2" | "S0R" | "S0R-2" | "S0R-3" | "S0B" | "S0B-2" => Some(Self::V),
+            "S0C" => Some(Self::VC),
             _ => None,
         }
     }
@@ -112,7 +119,13 @@ impl Arm {
             Self::R3 => "r3",
             Self::IM => "im",
             Self::V => "v",
+            Self::VC => "vc",
         }
+    }
+
+    /// Whether the start takes the verify arm's seed: the cwd a git root, the used-config markers.
+    fn verify_seed(self) -> bool {
+        matches!(self, Self::V | Self::VC)
     }
 
     /// The wrapped instance's name, for an arm that starts `viola run`.
@@ -120,13 +133,28 @@ impl Arm {
         match self {
             Self::R2 => Some(R2_NAME),
             Self::R3B | Self::R3 => Some(wake::WAKE_NAME),
-            Self::R1 | Self::Hold | Self::IM | Self::V => None,
+            Self::R1 | Self::Hold | Self::IM | Self::V | Self::VC => None,
         }
     }
 
     /// Whether the start's cwd is trusted in its private config.
     const fn trusted(self) -> bool {
-        matches!(self, Self::R2 | Self::R3B | Self::R3 | Self::IM | Self::V)
+        matches!(
+            self,
+            Self::R2 | Self::R3B | Self::R3 | Self::IM | Self::V | Self::VC
+        )
+    }
+
+    /// The child's pty: verify's own 80×24 for `VC`, the rig's size for every other arm.
+    fn pty_size(self) -> Size {
+        if self == Self::VC {
+            Size::DEFAULT
+        } else {
+            Size {
+                cols: screen::COLS,
+                rows: screen::ROWS,
+            }
+        }
     }
 }
 
@@ -209,7 +237,7 @@ pub fn start(plan: &Plan) -> u8 {
         let Some(dir) = &plan.cli_dir else {
             return refused("version");
         };
-        match cli_version(&dir.join("claude"))
+        match cli_version(&dir.join("claude"), None)
             .as_deref()
             .and_then(version_token)
         {
@@ -247,17 +275,43 @@ pub fn start(plan: &Plan) -> u8 {
     if let Ok(root) = fs::canonicalize(&scratch.root) {
         needles[0] = root.as_os_str().as_bytes().to_vec();
     }
+    // The verify arm's cwd stands as a git root, seeded at its key (the cwd's canonical spelling):
+    // Runs B to E read the repository key rule, Run F outside any repository the other. `VC`
+    // takes the same seed, so its child meets what verify's children met.
+    let rooted = !plan.arm.verify_seed() || scratch.make_git_root().is_ok();
+    if plan.arm.verify_seed() {
+        summary.put("git-root", scratch.git_root_word());
+    }
     let placed = scratch.place_credentials(&credentials).is_ok()
         && scratch.seed_config(plan.arm.trusted()).is_ok();
     drop(credentials);
-    let seeded = match plan.arm {
-        Arm::R3B | Arm::R3 => plan
-            .rig
+    // The verify arm's private config takes a used config's markers and the browser-tools key
+    // (`claudeInChromeDefaultEnabled` off, so no browser-tools prompt is raised), at the version
+    // the child program answers by path; every other arm keeps meeting its first-run screens.
+    let marked = !plan.arm.verify_seed() || !placed || {
+        let version = cli_version(&plan.program, Some(&scratch.root))
             .as_deref()
-            .is_some_and(|rig| scratch.seed_capture(rig).is_ok()),
-        Arm::IM => scratch.seed_imports().is_ok(),
-        Arm::R1 | Arm::R2 | Arm::Hold | Arm::V => true,
+            .and_then(version_token)
+            .map(str::to_owned);
+        let written = version
+            .as_deref()
+            .is_some_and(|v| scratch.seed_used_markers(v).is_ok());
+        summary.put(
+            "seed-markers",
+            scratch.seed_markers_word(version.as_deref()),
+        );
+        written
     };
+    let seeded = rooted
+        && marked
+        && match plan.arm {
+            Arm::R3B | Arm::R3 => plan
+                .rig
+                .as_deref()
+                .is_some_and(|rig| scratch.seed_capture(rig).is_ok()),
+            Arm::IM => scratch.seed_imports().is_ok(),
+            Arm::R1 | Arm::R2 | Arm::Hold | Arm::V | Arm::VC => true,
+        };
     if !placed {
         summary.put("refused", "credentials");
     } else if !seeded {
@@ -266,6 +320,9 @@ pub fn start(plan: &Plan) -> u8 {
         needles.push(id.into_bytes());
     }
     if plan.arm == Arm::V {
+        // A failed verify's first screens, copied into the run's kept folder beside its frames
+        // before the teardown removes the scratch; their content reaches no summary line.
+        summary.put("kept", scratch.keep_first_screens(&plan.out.join(&run)));
         summary.put(
             "record-left",
             scratch.record_left(&isolate::child_temp_root()),
@@ -322,14 +379,19 @@ fn finish(
     if whole { 0 } else { 1 }
 }
 
-/// `claude --version` read by path, bounded, under an empty environment but `PATH`.
-fn cli_version(program: &Path) -> Option<String> {
+/// `claude --version` read by path, bounded, under an empty environment but `PATH`, in `cwd`
+/// when given: a child an instrumented build left with no profile path writes its profile into
+/// its cwd, so a probe of a test's program runs inside the scratch the teardown removes.
+fn cli_version(program: &Path, cwd: Option<&Path>) -> Option<String> {
     let mut command = Command::new(program);
     command
         .arg("--version")
         .env_clear()
         .env("PATH", "/usr/bin:/bin")
         .stdin(Stdio::null());
+    if let Some(cwd) = cwd {
+        command.current_dir(cwd);
+    }
     let output = bounded(command, Duration::from_secs(20))?;
     output
         .status
@@ -377,7 +439,10 @@ struct Session {
     writer: Box<dyn Write + Send>,
     rx: Receiver<Vec<u8>>,
     model: Model,
+    spawned: Instant,
     last_byte: Instant,
+    /// The bytes fed into the model since the spawn.
+    bytes: u64,
     exit: Option<u32>,
     frames: Option<Frames>,
     settles: Vec<u128>,
@@ -399,12 +464,15 @@ impl Session {
                 }
             }
         });
+        let spawned = Instant::now();
         Some(Self {
             pty,
             writer,
             rx,
-            model: Model::new(),
-            last_byte: Instant::now(),
+            model: Model::sized(spec.size.rows, spec.size.cols),
+            spawned,
+            last_byte: spawned,
+            bytes: 0,
             exit: None,
             frames: None,
             settles: Vec::new(),
@@ -417,10 +485,12 @@ impl Session {
         match self.rx.recv_timeout(wait) {
             Ok(bytes) => {
                 self.model.feed(&bytes);
-                self.last_byte = Instant::now();
+                self.bytes += bytes.len() as u64;
                 while let Ok(more) = self.rx.try_recv() {
                     self.model.feed(&more);
+                    self.bytes += more.len() as u64;
                 }
+                self.last_byte = Instant::now();
             }
             Err(RecvTimeoutError::Timeout | RecvTimeoutError::Disconnected) => {}
         }
@@ -550,10 +620,15 @@ fn run_child(plan: &Plan, run: &str, scratch: &Scratch, summary: &mut Summary) -
                 "viola-build",
                 fs::read(viola).map_or_else(|_| "unread".to_owned(), |b| content_key(&b)),
             );
+            // `--record` into the scratch with the hidden option: a failed verify keeps each
+            // first screen that did not reach the box, the rig alone passing it.
             let mut args: Vec<OsString> = vec![
                 "--home".into(),
                 vhome.into(),
                 "verify".into(),
+                "--record".into(),
+                scratch.record_dir().into(),
+                "--record-first-screens".into(),
                 "--".into(),
                 plan.program.clone().into(),
             ];
@@ -588,15 +663,13 @@ fn run_child(plan: &Plan, run: &str, scratch: &Scratch, summary: &mut Summary) -
         cwd: scratch.cwd.clone(),
         env_remove: isolate::removed_names(&env),
         env_set: env.clone(),
-        size: Size {
-            cols: screen::COLS,
-            rows: screen::ROWS,
-        },
+        size: plan.arm.pty_size(),
     };
     let Some(mut session) = Session::spawn(&spec) else {
         summary.put("refused", "spawn");
         return None;
     };
+    summary.put("pty", format!("{}x{}", spec.size.cols, spec.size.rows));
     session.frames = Frames::open(&plan.out, run).ok();
     match plan.arm {
         Arm::R1 => arm_r1(plan, &mut session, summary),
@@ -606,12 +679,13 @@ fn run_child(plan: &Plan, run: &str, scratch: &Scratch, summary: &mut Summary) -
         Arm::R3 => wake::arm_r3(plan, scratch, &env, &mut session, summary),
         Arm::IM => arm_im(plan, &mut session, summary),
         Arm::V => arm_v(plan, scratch, &mut session, summary),
+        Arm::VC => arm_vc(plan, &mut session, summary),
     }
     if let Some(reason) = procs::stop_requested() {
         summary.put("stopped-by", reason);
     }
     let exited_alone = session.exit;
-    if plan.arm == Arm::IM {
+    if matches!(plan.arm, Arm::IM | Arm::VC) {
         session.stop_no_key(summary);
     } else {
         session.stop(summary);
@@ -746,6 +820,44 @@ fn arm_im(plan: &Plan, session: &mut Session, summary: &mut Summary) {
     summary.put("keys", "none");
 }
 
+/// The naming arm: the first frame's reading, then verify's own first-screen word and its fact row
+/// in the stamp's `first_facts` shape, built from what the session holds at that read; the stop
+/// types no key.
+fn arm_vc(plan: &Plan, session: &mut Session, summary: &mut Summary) {
+    let first = first_frame(plan, session);
+    record_reading(summary, &first);
+    let rows = session.model.rows();
+    let alive = session.exit.is_none();
+    summary.put(
+        "screen",
+        SIGNATURES.first_screen(rows.as_deref(), !alive).as_str(),
+    );
+    let facts = SIGNATURES.first_facts(rows.as_deref());
+    let literals: serde_json::Map<String, Value> = BOX_LITERAL_IDS
+        .iter()
+        .zip(facts.literals)
+        .map(|(id, row)| ((*id).to_owned(), serde_json::json!(row)))
+        .collect();
+    let exit = session.exit.filter(|_| !alive);
+    let last_byte_ms = (session.bytes > 0)
+        .then(|| u64::try_from((session.last_byte - session.spawned).as_millis()).ok())
+        .flatten();
+    let row = serde_json::json!({
+        "bytes": session.bytes,
+        "alive": alive,
+        "exit": exit,
+        "rows": facts.rows,
+        "box_any": facts.box_any,
+        "last_byte_ms": last_byte_ms,
+        "literals": literals,
+        "rule_above_prompt": facts.rule_above_prompt,
+        "first_row": facts.first_row.map(RowFamily::as_str),
+        "last_col": facts.last_col,
+    });
+    summary.put("facts", facts_line(&row));
+    summary.put("keys", "none");
+}
+
 /// The verify arm: `viola verify` held until it exits or the stop comes, no key typed into
 /// anything; then its exit code, and from its stamps the trust-record row's word and the pass count.
 fn arm_v(plan: &Plan, scratch: &Scratch, session: &mut Session, summary: &mut Summary) {
@@ -764,42 +876,64 @@ fn arm_v(plan: &Plan, scratch: &Scratch, session: &mut Session, summary: &mut Su
         .vhome
         .as_ref()
         .map(|vhome| vhome.join("ledger").join("stamps.json"));
-    let (word, passes) = stamps.as_deref().map_or_else(
-        || ("unread".to_owned(), "unread".to_owned()),
+    let lines = stamps.as_deref().map_or_else(
+        || stamp_lines(None),
         |path| stamp_reading(path, plan.cli_version.as_deref()),
     );
-    summary.put("trust-record", word);
-    summary.put("pass-count", passes);
+    for (key, value) in lines {
+        summary.put(&key, value);
+    }
 }
 
-/// The stamped version's `rows.trust-record` as a closed word and `<passed>/<rows>`: the version
-/// named, or the one version a fresh home holds. `unread` for a stamp that is absent or not read.
-fn stamp_reading(path: &Path, version: Option<&str>) -> (String, String) {
-    let unread = || ("unread".to_owned(), "unread".to_owned());
+/// The interactive runs as the stamp's `measured` first-screen maps key them.
+const RUN_LETTERS: [&str; 6] = ["a", "b", "c", "d", "e", "f"];
+
+/// The stamped version's reading as summary lines: `trust-record` (a closed word), `pass-count`
+/// (`<passed>/<rows>`), `rows` (the row ids the entry holds), `failing` (the ids not `pass`, in the
+/// stamp's order, or `none`), then per run `screen-<x>`, `settle-<x>` and `facts-<x>` from
+/// `measured`. The version named, or the one version a fresh home holds; every line `unread` for a
+/// stamp or entry that is absent or not read. Closed words, ids and whole numbers only.
+fn stamp_reading(path: &Path, version: Option<&str>) -> Vec<(String, String)> {
     let mut bytes = Vec::new();
     let Ok(file) = File::open(path) else {
-        return unread();
+        return stamp_lines(None);
     };
     if file
         .take(viola_core::MAX_FRAME)
         .read_to_end(&mut bytes)
         .is_err()
     {
-        return unread();
+        return stamp_lines(None);
     }
     let Ok(doc) = serde_json::from_slice::<Value>(&bytes) else {
-        return unread();
+        return stamp_lines(None);
     };
     let Some(versions) = doc["data"]["versions"].as_object() else {
-        return unread();
+        return stamp_lines(None);
     };
     let entry = match version {
         Some(version) => versions.get(version),
         None if versions.len() == 1 => versions.values().next(),
         None => None,
     };
-    let Some(rows) = entry.and_then(|e| e["rows"].as_object()) else {
-        return unread();
+    stamp_lines(entry.filter(|e| e["rows"].is_object()))
+}
+
+/// [`stamp_reading`]'s lines over one version entry, or all `unread` for none.
+fn stamp_lines(entry: Option<&Value>) -> Vec<(String, String)> {
+    let line = |k: &str, v: String| (k.to_owned(), v);
+    let rows = entry.and_then(|e| e["rows"].as_object());
+    let Some((entry, rows)) = entry.zip(rows) else {
+        let mut lines: Vec<(String, String)> = ["trust-record", "pass-count", "rows", "failing"]
+            .iter()
+            .map(|k| line(k, "unread".to_owned()))
+            .collect();
+        for x in RUN_LETTERS {
+            for k in ["screen", "settle", "facts"] {
+                lines.push(line(&format!("{k}-{x}"), "unread".to_owned()));
+            }
+        }
+        return lines;
     };
     let word = rows
         .get("trust-record")
@@ -808,7 +942,118 @@ fn stamp_reading(path: &Path, version: Option<&str>) -> (String, String) {
         .unwrap_or("absent")
         .to_owned();
     let passed = rows.values().filter(|v| *v == "pass").count();
-    (word, format!("{passed}/{}", rows.len()))
+    let failing: Vec<&str> = rows
+        .iter()
+        .filter(|(id, v)| *v != "pass" && viola_core::is_code_word(id))
+        .map(|(id, _)| id.as_str())
+        .collect();
+    let mut lines = vec![
+        line("trust-record", word),
+        line("pass-count", format!("{passed}/{}", rows.len())),
+        line("rows", rows.len().to_string()),
+        line(
+            "failing",
+            if failing.is_empty() {
+                "none".to_owned()
+            } else {
+                failing.join(",")
+            },
+        ),
+    ];
+    let measured = &entry["measured"];
+    for x in RUN_LETTERS {
+        lines.push(line(
+            &format!("screen-{x}"),
+            code_or_null(&measured["first_screen"][x]),
+        ));
+        lines.push(line(
+            &format!("settle-{x}"),
+            number_or_null(&measured["first_settle_ms"][x]),
+        ));
+        lines.push(line(
+            &format!("facts-{x}"),
+            facts_line(&measured["first_facts"][x]),
+        ));
+    }
+    lines
+}
+
+/// A code word as itself, `null` as `null`, anything else `unread`.
+fn code_or_null(value: &Value) -> String {
+    match value {
+        Value::Null => "null".to_owned(),
+        Value::String(w) if viola_core::is_code_word(w) => w.clone(),
+        _ => "unread".to_owned(),
+    }
+}
+
+/// A whole number as itself, `null` as `null`, anything else `unread`.
+fn number_or_null(value: &Value) -> String {
+    match value {
+        Value::Null => "null".to_owned(),
+        v => v
+            .as_u64()
+            .map_or_else(|| "unread".to_owned(), |n| n.to_string()),
+    }
+}
+
+/// A bool as `yes` / `no`, anything else `unread`.
+fn yes_no(value: &Value) -> &'static str {
+    match value.as_bool() {
+        Some(true) => "yes",
+        Some(false) => "no",
+        None => "unread",
+    }
+}
+
+/// The closed ids of the stamp's `first_facts` `literals`, in their order.
+const LITERAL_IDS: [&str; 4] = ["footer-agents", "footer-cycle", "rule", "prompt"];
+
+/// The literals that stood, `<id>@<row>` comma-joined in [`LITERAL_IDS`]' order, `none` when none
+/// stood, `unread` for a map of another shape.
+fn literals_word(literals: &Value) -> String {
+    let Some(map) = literals.as_object() else {
+        return "unread".to_owned();
+    };
+    let mut stood = Vec::new();
+    for id in LITERAL_IDS {
+        match map.get(id) {
+            Some(Value::Null) => {}
+            Some(row) => match row.as_u64() {
+                Some(n) => stood.push(format!("{id}@{n}")),
+                None => return "unread".to_owned(),
+            },
+            None => return "unread".to_owned(),
+        }
+    }
+    if stood.is_empty() {
+        "none".to_owned()
+    } else {
+        stood.join(",")
+    }
+}
+
+/// One run's fact row: `bytes=<n> alive=<yes|no> exit=<n|null> rows=<n|null> box=<yes|no>
+/// last=<ms|null> lit=<id@row,…|none> adj=<yes|no> first=<word|null> col=<n|null>`; a run `null`
+/// reads `null`, a value of another shape `unread`.
+fn facts_line(facts: &Value) -> String {
+    match facts {
+        Value::Null => "null".to_owned(),
+        Value::Object(_) => format!(
+            "bytes={} alive={} exit={} rows={} box={} last={} lit={} adj={} first={} col={}",
+            number_or_null(&facts["bytes"]),
+            yes_no(&facts["alive"]),
+            number_or_null(&facts["exit"]),
+            number_or_null(&facts["rows"]),
+            yes_no(&facts["box_any"]),
+            number_or_null(&facts["last_byte_ms"]),
+            literals_word(&facts["literals"]),
+            yes_no(&facts["rule_above_prompt"]),
+            code_or_null(&facts["first_row"]),
+            number_or_null(&facts["last_col"]),
+        ),
+        _ => "unread".to_owned(),
+    }
 }
 
 fn arm_hold(plan: &Plan, session: &mut Session) {
@@ -983,6 +1228,8 @@ fn arm_r2(
 
 #[cfg(test)]
 mod tests {
+    use serde_json::json;
+
     use super::*;
 
     #[test]
@@ -1027,8 +1274,30 @@ mod tests {
         assert_eq!(Arm::of_label("S0"), Some(Arm::V));
         assert_eq!(Arm::of_label("S0-2"), Some(Arm::V));
         assert_eq!(Arm::of_label("S0-3"), None);
+        for label in ["S0R", "S0R-2", "S0R-3"] {
+            assert_eq!(Arm::of_label(label), Some(Arm::V), "{label}");
+        }
+        assert_eq!(Arm::of_label("S0R-4"), None);
+        for label in ["S0B", "S0B-2"] {
+            assert_eq!(Arm::of_label(label), Some(Arm::V), "{label}");
+        }
+        assert_eq!(Arm::of_label("S0B-3"), None);
+        assert_eq!(Arm::parse("vc"), Some(Arm::VC));
+        assert_eq!(Arm::of_label("S0C"), Some(Arm::VC));
+        assert_eq!(Arm::of_label("S0C-2"), None);
+        assert!(!Arm::VC.has_vhome() && Arm::VC.wrapped().is_none() && Arm::VC.trusted());
+        assert_eq!(Arm::VC.pty_size(), Size::DEFAULT);
+        assert_eq!(Arm::V.pty_size().cols, screen::COLS);
         assert!(Arm::V.has_vhome() && Arm::V.wrapped().is_none());
         assert!(Arm::R2.has_vhome() && !Arm::IM.has_vhome());
+    }
+
+    /// The value of `key` among a stamp reading's lines.
+    fn value_of<'a>(lines: &'a [(String, String)], key: &str) -> &'a str {
+        lines
+            .iter()
+            .find(|(k, _)| k == key)
+            .map_or("missing", |(_, v)| v.as_str())
     }
 
     #[test]
@@ -1040,22 +1309,127 @@ mod tests {
             r#"{"v":1,"data":{"versions":{"2.1.325":{"rows":{"a":"pass","trust-record":"config-absent"}}}}}"#,
         )
         .expect("stamps");
+        for version in [Some("2.1.325"), None] {
+            let lines = stamp_reading(&path, version);
+            assert_eq!(value_of(&lines, "trust-record"), "config-absent");
+            assert_eq!(value_of(&lines, "pass-count"), "1/2");
+            assert_eq!(value_of(&lines, "rows"), "2");
+            assert_eq!(value_of(&lines, "failing"), "trust-record");
+        }
         assert_eq!(
-            stamp_reading(&path, Some("2.1.325")),
-            ("config-absent".to_owned(), "1/2".to_owned())
+            value_of(&stamp_reading(&path, Some("9.9.9")), "trust-record"),
+            "unread"
         );
-        assert_eq!(
-            stamp_reading(&path, None),
-            ("config-absent".to_owned(), "1/2".to_owned())
-        );
-        assert_eq!(stamp_reading(&path, Some("9.9.9")).0, "unread");
         fs::write(
             &path,
             r#"{"v":1,"data":{"versions":{"1.0.0":{"rows":{"trust-record":"/a/path"}}}}}"#,
         )
         .expect("stamps");
-        assert_eq!(stamp_reading(&path, None).0, "absent", "no code word");
-        assert_eq!(stamp_reading(&base.path().join("gone"), None).0, "unread");
+        let lines = stamp_reading(&path, None);
+        assert_eq!(value_of(&lines, "trust-record"), "absent", "no code word");
+        assert_eq!(
+            value_of(
+                &stamp_reading(&base.path().join("gone"), None),
+                "trust-record"
+            ),
+            "unread"
+        );
+    }
+
+    #[test]
+    fn stamp_reading_reads_unread_for_an_absent_version() {
+        let base = tempfile::tempdir().expect("tempdir");
+        let path = base.path().join("stamps.json");
+        fs::write(
+            &path,
+            r#"{"v":1,"data":{"versions":{"2.1.325":{"rows":{"a":"pass"}}}}}"#,
+        )
+        .expect("stamps");
+        let lines = stamp_reading(&path, Some("2.1.326"));
+        for key in [
+            "failing",
+            "rows",
+            "trust-record",
+            "pass-count",
+            "screen-a",
+            "facts-f",
+        ] {
+            assert_eq!(value_of(&lines, key), "unread", "{key}");
+        }
+        assert_eq!(lines.len(), 4 + 18);
+    }
+
+    #[test]
+    fn stamp_reading_puts_each_runs_screen_settle_and_facts_and_the_failing_ids() {
+        let base = tempfile::tempdir().expect("tempdir");
+        let path = base.path().join("stamps.json");
+        let doc = json!({"v": 1, "data": {"versions": {"2.1.325": {
+            "rows": {"z-row": "fail", "a-row": "pass", "trust-record": "pass", "m-row": "fail"},
+            "measured": {
+                "first_screen": {"a": "trust", "b": "none", "c": "/a/path", "d": null, "e": "exited", "f": "box"},
+                "first_settle_ms": {"a": 940, "b": 8500, "c": -1, "d": null, "e": 120, "f": "x"},
+                "first_facts": {
+                    "a": {"bytes": 77, "alive": true, "exit": null, "rows": 9, "box_any": true, "last_byte_ms": 640,
+                          "literals": {"footer-agents": null, "footer-cycle": 12, "rule": 3, "prompt": 4},
+                          "rule_above_prompt": true, "first_row": "banner", "last_col": 80},
+                    "b": {"bytes": 0, "alive": true, "exit": null, "rows": 0, "box_any": false, "last_byte_ms": null,
+                          "literals": {"footer-agents": null, "footer-cycle": null, "rule": null, "prompt": null},
+                          "rule_above_prompt": false, "first_row": null, "last_col": null},
+                    "c": "text",
+                    "d": null,
+                    "e": {"bytes": 5, "alive": false, "exit": 1, "rows": null, "box_any": true, "last_byte_ms": 100,
+                          "literals": {"rule": "/a/path"}, "rule_above_prompt": "x", "first_row": "/a/path", "last_col": -2},
+                },
+            },
+        }}}});
+        fs::write(&path, doc.to_string()).expect("stamps");
+        let lines = stamp_reading(&path, Some("2.1.325"));
+        assert_eq!(value_of(&lines, "rows"), "4");
+        assert_eq!(
+            value_of(&lines, "failing"),
+            "z-row,m-row",
+            "the stamp's order"
+        );
+        let want = [
+            ("screen-a", "trust"),
+            ("settle-a", "940"),
+            (
+                "facts-a",
+                "bytes=77 alive=yes exit=null rows=9 box=yes last=640 \
+                 lit=footer-cycle@12,rule@3,prompt@4 adj=yes first=banner col=80",
+            ),
+            ("screen-b", "none"),
+            ("settle-b", "8500"),
+            (
+                "facts-b",
+                "bytes=0 alive=yes exit=null rows=0 box=no last=null \
+                 lit=none adj=no first=null col=null",
+            ),
+            ("screen-c", "unread"),
+            ("settle-c", "unread"),
+            ("facts-c", "unread"),
+            ("screen-d", "null"),
+            ("settle-d", "null"),
+            ("facts-d", "null"),
+            ("screen-e", "exited"),
+            ("settle-e", "120"),
+            (
+                "facts-e",
+                "bytes=5 alive=no exit=1 rows=null box=yes last=100 \
+                 lit=unread adj=unread first=unread col=unread",
+            ),
+            ("screen-f", "box"),
+            ("settle-f", "unread"),
+            ("facts-f", "null"),
+        ];
+        for (key, value) in want {
+            assert_eq!(value_of(&lines, key), value, "{key}");
+        }
+        let all_pass = json!({"v": 1, "data": {"versions": {"2.1.325": {"rows": {"a": "pass"}}}}});
+        fs::write(&path, all_pass.to_string()).expect("stamps");
+        let lines = stamp_reading(&path, None);
+        assert_eq!(value_of(&lines, "failing"), "none");
+        assert_eq!(value_of(&lines, "screen-a"), "null", "no measured map");
     }
 
     #[test]

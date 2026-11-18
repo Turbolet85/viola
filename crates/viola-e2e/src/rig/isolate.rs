@@ -248,6 +248,27 @@ impl Scratch {
             .map_err(|_| io::Error::other("credentials copy failed"))
     }
 
+    /// The cwd made a git root by git's own minimal layout written as files — a `.git/` directory
+    /// holding `HEAD` and empty `objects/` and `refs/` — with no `git` process spawned: the CLI's
+    /// root walk stops at a folder holding a `.git` directory, and reads none of its content.
+    pub fn make_git_root(&self) -> io::Result<()> {
+        let git = self.cwd.join(".git");
+        create_private_dir(&git)?;
+        create_private_dir(&git.join("objects"))?;
+        create_private_dir(&git.join("refs"))?;
+        replace_private(&git.join("HEAD"), b"ref: refs/heads/main\n", FILE_MODE)
+            .map_err(|_| io::Error::other("git layout failed"))
+    }
+
+    /// `written` when the cwd holds a `.git` directory with a regular `HEAD`, read from the disk;
+    /// else `absent`.
+    pub fn git_root_word(&self) -> &'static str {
+        let git = self.cwd.join(".git");
+        let dir = fs::symlink_metadata(&git).is_ok_and(|m| m.is_dir());
+        let head = fs::symlink_metadata(git.join("HEAD")).is_ok_and(|m| m.is_file());
+        if dir && head { "written" } else { "absent" }
+    }
+
     /// The private config: onboarding complete, and the start's cwd trusted when asked.
     pub fn seed_config(&self, trusted: bool) -> io::Result<()> {
         let mut seed = json!({"hasCompletedOnboarding": true});
@@ -260,6 +281,33 @@ impl Scratch {
             seed["projects"] = Value::Object(projects);
         }
         write_private(&self.config.join(".claude.json"), &seed)
+    }
+
+    /// The used-config markers merged into the private config `seed_config` wrote, every key
+    /// it holds kept; `version` is the running CLI's, read from the child program by path.
+    pub fn seed_used_markers(&self, version: &str) -> io::Result<()> {
+        let path = self.config.join(".claude.json");
+        let Some(Value::Object(mut seed)) = read_json(&path) else {
+            return Err(io::Error::other("seed unread"));
+        };
+        for (key, marker) in USED_MARKERS {
+            seed.insert(key.to_owned(), marker.value(version));
+        }
+        write_private(&path, &Value::Object(seed))
+    }
+
+    /// `written` when the private config on the disk holds all the used-config markers at their written
+    /// values for `version`; else `absent`.
+    pub fn seed_markers_word(&self, version: Option<&str>) -> &'static str {
+        let Some(version) = version else {
+            return "absent";
+        };
+        let held = read_json(&self.config.join(".claude.json")).is_some_and(|doc| {
+            USED_MARKERS
+                .iter()
+                .all(|(key, marker)| doc.get(key) == Some(&marker.value(version)))
+        });
+        if held { "written" } else { "absent" }
     }
 
     /// Whether a `viola verify` run left its trust record in the private config: read before the
@@ -362,6 +410,109 @@ fn shell_plain(path: &Path) -> bool {
         })
 }
 
+/// The form a used-config marker takes, as the CLI's bundle writes it.
+#[derive(Clone, Copy)]
+enum Marker {
+    /// `true`.
+    Seen,
+    /// The running CLI's version.
+    Version,
+    /// The bundle's own migration constant.
+    Migration(u64),
+    /// `false`.
+    Off,
+}
+
+impl Marker {
+    fn value(self, version: &str) -> Value {
+        match self {
+            Self::Seen => Value::Bool(true),
+            Self::Off => Value::Bool(false),
+            Self::Version => Value::String(version.to_owned()),
+            Self::Migration(n) => Value::from(n),
+        }
+    }
+}
+
+/// The used-config markers, read from the claude 2.1.325 bundle, each value the form the bundle
+/// writes: `hasSeenAutoDefaultNotice` gates the auto-mode-default notice at an interactive start;
+/// `lastReleaseNotesSeen` is read against the running version by the startup update summary;
+/// `lastClawdEntranceVersion` stops the entrance animation, which otherwise moves verify's quiet
+/// settle; `migrationVersion` at `Ge=15` skips the startup migrations that rewrite the config;
+/// `claudeInChromeDefaultEnabled` `false` is what the bundle writes on the browser-tools prompt's
+/// «keep browser tools off» answer, and a config holding it closes both that prompt's arming gate
+/// and its offer step.
+const USED_MARKERS: [(&str, Marker); 5] = [
+    ("hasSeenAutoDefaultNotice", Marker::Seen),
+    ("lastReleaseNotesSeen", Marker::Version),
+    ("lastClawdEntranceVersion", Marker::Version),
+    ("migrationVersion", Marker::Migration(15)),
+    ("claudeInChromeDefaultEnabled", Marker::Off),
+];
+
+/// The run letters of `viola verify`'s interactive runs, in run order.
+const RUN_LETTERS: [&str; 6] = ["a", "b", "c", "d", "e", "f"];
+
+impl Scratch {
+    /// Where the `V` arm's `viola verify --record` writes: inside the scratch, removed with it.
+    pub fn record_dir(&self) -> PathBuf {
+        self.root.join("record")
+    }
+
+    /// Copies each `FirstScreen.<x>.json` a failed verify wrote under the record dir's version dir
+    /// into `kept` (0600, never printed), and names the runs copied: `b,c,…` in run order, `none`
+    /// when there is no record dir or no such file, `unread` when the record dir or a file in it
+    /// cannot be read, parsed or copied.
+    pub fn keep_first_screens(&self, kept: &Path) -> String {
+        let record = self.record_dir();
+        if !record.exists() {
+            return "none".to_owned();
+        }
+        let Ok(entries) = fs::read_dir(&record) else {
+            return "unread".to_owned();
+        };
+        let mut versions: Vec<PathBuf> = entries.flatten().map(|e| e.path()).collect();
+        versions.sort();
+        let mut letters = Vec::new();
+        for version in versions {
+            for letter in RUN_LETTERS {
+                let name = format!("FirstScreen.{letter}.json");
+                let path = version.join(&name);
+                if !path.exists() {
+                    continue;
+                }
+                let copied = read_json(&path).is_some_and(|doc| {
+                    create_private_dir(kept).is_ok()
+                        && write_private(&kept.join(&name), &doc).is_ok()
+                });
+                if !copied {
+                    return "unread".to_owned();
+                }
+                letters.push(letter);
+            }
+        }
+        if letters.is_empty() {
+            "none".to_owned()
+        } else {
+            letters.join(",")
+        }
+    }
+}
+
+/// A JSON document read through `MAX_FRAME`; `None` when absent, over the bound or malformed.
+fn read_json(path: &Path) -> Option<Value> {
+    let mut bytes = Vec::new();
+    File::open(path)
+        .ok()?
+        .take(MAX_FRAME + 1)
+        .read_to_end(&mut bytes)
+        .ok()?;
+    if u64::try_from(bytes.len()).is_ok_and(|n| n > MAX_FRAME) {
+        return None;
+    }
+    serde_json::from_slice(&bytes).ok()
+}
+
 fn write_private(path: &Path, doc: &Value) -> io::Result<()> {
     replace_private(path, doc.to_string().as_bytes(), FILE_MODE)
         .map_err(|_| io::Error::other("private write failed"))
@@ -452,6 +603,53 @@ mod tests {
             )
         );
         assert!(scratch.seed_capture(Path::new("/opt/a b/rig")).is_err());
+    }
+
+    #[test]
+    fn seed_used_markers_writes_the_bundle_markers_and_keeps_the_seed() {
+        let base = tempfile::tempdir().expect("tempdir");
+        let scratch = Scratch::create(base.path(), "1-2", true).expect("scratch");
+        scratch.seed_config(true).expect("seed");
+        assert_eq!(scratch.seed_markers_word(Some("2.1.325")), "absent");
+        scratch.seed_used_markers("2.1.325").expect("markers");
+        let config: Value =
+            serde_json::from_slice(&fs::read(scratch.config.join(".claude.json")).expect("config"))
+                .expect("json");
+        let mut keys: Vec<&str> = config
+            .as_object()
+            .expect("object")
+            .keys()
+            .map(String::as_str)
+            .collect();
+        keys.sort_unstable();
+        assert_eq!(
+            keys,
+            [
+                "claudeInChromeDefaultEnabled",
+                "hasCompletedOnboarding",
+                "hasSeenAutoDefaultNotice",
+                "lastClawdEntranceVersion",
+                "lastReleaseNotesSeen",
+                "migrationVersion",
+                "projects",
+            ]
+        );
+        assert_eq!(config["claudeInChromeDefaultEnabled"], false);
+        assert_eq!(config["hasCompletedOnboarding"], true);
+        assert_eq!(config["hasSeenAutoDefaultNotice"], true);
+        assert_eq!(config.get("hasSeenAutoModeEntryWarning"), None);
+        assert_eq!(config.get("lastOnboardingVersion"), None);
+        assert_eq!(config["lastReleaseNotesSeen"], "2.1.325");
+        assert_eq!(config["lastClawdEntranceVersion"], "2.1.325");
+        assert_eq!(config["migrationVersion"], 15);
+        let cwd = scratch.cwd.to_string_lossy().into_owned();
+        assert_eq!(
+            config["projects"],
+            json!({ cwd: {"hasTrustDialogAccepted": true} })
+        );
+        assert_eq!(scratch.seed_markers_word(Some("2.1.325")), "written");
+        assert_eq!(scratch.seed_markers_word(Some("2.1.326")), "absent");
+        assert_eq!(scratch.seed_markers_word(None), "absent");
     }
 
     #[test]

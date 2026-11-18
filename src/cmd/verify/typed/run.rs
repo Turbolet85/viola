@@ -1,5 +1,6 @@
 //! One child under the PTY, its pump on its own thread, and the two ways a run ends it.
 
+use std::cell::{Cell, RefCell};
 use std::ffi::OsString;
 use std::io::Read;
 use std::path::Path;
@@ -8,7 +9,8 @@ use std::sync::{Arc, Mutex, MutexGuard, PoisonError};
 use std::thread::JoinHandle;
 use std::time::{Duration, Instant};
 
-use viola_agent_claude::screen::Screen;
+use viola_agent_claude::ledger::FirstReading;
+use viola_agent_claude::screen::{SIGNATURES, Screen};
 use viola_core::obs::ObsEvent;
 use viola_core::{Clock, obs_event};
 use viola_pty::{PasteHandle, PortablePty, Pty, PumpEnd, Size, SpawnSpec};
@@ -67,6 +69,51 @@ pub(super) struct Run {
     pub(super) spawned_at: Instant,
     started: Instant,
     pub(super) stop: fn() -> bool,
+    first: Cell<Option<FirstReading>>,
+    first_rows: RefCell<Option<Vec<String>>>,
+}
+
+/// A run's first-screen reading and the rows of the settle it was taken at, as the run ends.
+#[derive(Debug, Default)]
+pub(super) struct First {
+    pub(super) reading: Option<FirstReading>,
+    pub(super) rows: Option<Vec<String>>,
+}
+
+/// The first-screen reading of a settle at `settled_at` over `rows`, from what the run holds at
+/// that instant: the feed's byte count and last output, and whether the child had ended.
+fn reading_of(
+    feed: &Feed,
+    spawned_at: Instant,
+    settled_at: Instant,
+    rows: Option<&[String]>,
+    alive: bool,
+) -> FirstReading {
+    let facts = SIGNATURES.first_facts(rows);
+    FirstReading {
+        screen: SIGNATURES.first_screen(rows, !alive),
+        settle_ms: ms(settled_at.saturating_duration_since(spawned_at)),
+        bytes: feed.total,
+        alive,
+        exit: None,
+        rows: facts.rows,
+        box_any: facts.box_any,
+        last_byte_ms: (!feed.chunks.is_empty())
+            .then(|| ms(feed.last_fed.saturating_duration_since(spawned_at))),
+        literals: facts.literals,
+        rule_above_prompt: facts.rule_above_prompt,
+        first_row: facts.first_row,
+        last_col: facts.last_col,
+    }
+}
+
+/// The reading with the child's exit status, kept only when the child had ended by the read: a
+/// kill's status is never the start's exit.
+fn with_exit(reading: Option<FirstReading>, status: Option<u32>) -> Option<FirstReading> {
+    reading.map(|r| FirstReading {
+        exit: if r.alive { None } else { status },
+        ..r
+    })
 }
 
 impl Run {
@@ -121,6 +168,8 @@ impl Run {
             spawned_at,
             started,
             stop: inputs.stop,
+            first: Cell::new(None),
+            first_rows: RefCell::new(None),
         })
     }
 
@@ -156,9 +205,42 @@ impl Run {
         .and_then(|done| done.rows)
     }
 
+    /// Keeps `settled` as the run's first-screen reading, and its rows beside it, unless one is
+    /// already kept.
+    pub(super) fn keep_first(&self, settled: &Settled) {
+        if self.first.get().is_none() {
+            let alive = !self.pump.is_finished();
+            let reading = reading_of(
+                &self.feed(),
+                self.spawned_at,
+                settled.at,
+                settled.rows.as_deref(),
+                alive,
+            );
+            self.first.set(Some(reading));
+            *self.first_rows.borrow_mut() = settled.rows.clone();
+        }
+    }
+
+    /// The screen as it stands now kept as the first-screen reading, with no wait.
+    pub(super) fn keep_first_now(&self) {
+        let now = self.clock.now();
+        let rows = self.feed().screen.rows();
+        self.keep_first(&Settled { at: now, rows });
+    }
+
+    /// [`Self::settle`] from the spawn, kept as the first-screen reading.
+    pub(super) fn first_settle(&self) -> Option<Settled> {
+        let settled = self.settle(self.spawned_at);
+        if let Some(s) = &settled {
+            self.keep_first(s);
+        }
+        settled
+    }
+
     /// Whether the start settles on the input box with no modal: the only screen pasted into.
     pub(super) fn input_box_settles(&self) -> bool {
-        let ready = self.settle(self.spawned_at);
+        let ready = self.first_settle();
         input_box_up(ready.and_then(|s| s.rows).as_deref())
     }
 
@@ -177,15 +259,15 @@ impl Run {
             .kill();
     }
 
-    /// Ends the child with no key.
-    pub(super) fn end_by_kill(self) {
+    /// Ends the child with no key; its first-screen reading and rows, if one was kept.
+    pub(super) fn end_by_kill(self) -> First {
         self.kill();
-        self.finish();
+        self.finish()
     }
 
     /// Ctrl-C, again after `CTRL_C_AGAIN` while the child runs, then a kill at `PROBE_DEADLINE`; at
     /// the stop, the kill with no Ctrl-C.
-    pub(super) fn end_by_ctrl_c(self, keys: &Sender<Vec<u8>>) {
+    pub(super) fn end_by_ctrl_c(self, keys: &Sender<Vec<u8>>) -> First {
         let clock = self.clock.as_ref();
         ctrl_c_ending(
             clock,
@@ -201,13 +283,14 @@ impl Run {
             },
             || self.kill(),
         );
-        self.finish();
+        self.finish()
     }
 
     /// The pump's end, logged as the run's `process-exit`; a pump still running after the kill's
     /// wait is left to end on its own. The wait does not observe the stop: a run's dir is removed
-    /// only once its child has stopped writing into it.
-    fn finish(self) {
+    /// only once its child has stopped writing into it. Returns the first-screen reading with the
+    /// child's exit status when it had ended by the read, and the rows of its settle.
+    fn finish(self) -> First {
         let clock = self.clock.as_ref();
         let ended = ended_by(clock, probe_until(clock), || self.pump.is_finished());
         let status = if ended {
@@ -224,6 +307,10 @@ impl Run {
             child_exit_status = status,
             duration_ms = ms(self.started.elapsed()),
         );
+        First {
+            reading: with_exit(self.first.get(), status),
+            rows: self.first_rows.take(),
+        }
     }
 }
 
@@ -307,6 +394,109 @@ mod tests {
         };
         assert!(ended_by(&FixedClock(t), t + ms_(1000), finished));
         assert_eq!(calls.get(), 3);
+    }
+
+    fn reading(alive: bool) -> FirstReading {
+        FirstReading {
+            screen: viola_agent_claude::screen::FirstScreen::None,
+            settle_ms: 8500,
+            bytes: 10,
+            alive,
+            exit: None,
+            rows: Some(1),
+            box_any: false,
+            last_byte_ms: Some(40),
+            literals: [None; 4],
+            rule_above_prompt: false,
+            first_row: None,
+            last_col: None,
+        }
+    }
+
+    #[rstest]
+    #[case::alive_keeps_no_status(true, Some(0), None)]
+    #[case::ended_keeps_its_status(false, Some(1), Some(1))]
+    #[case::ended_without_a_status(false, None, None)]
+    fn with_exit_keeps_the_status_only_for_a_child_ended_by_the_read(
+        #[case] alive: bool,
+        #[case] status: Option<u32>,
+        #[case] expected: Option<u32>,
+    ) {
+        assert_eq!(
+            with_exit(Some(reading(alive)), status).map(|r| r.exit),
+            Some(expected)
+        );
+        assert_eq!(with_exit(None, Some(1)), None);
+    }
+
+    #[test]
+    fn reading_of_reads_the_feed_and_the_rows_at_the_settle() {
+        let t = Instant::now();
+        let mut feed = Feed {
+            screen: Screen::new(24, 80, t),
+            last_fed: t,
+            total: 0,
+            chunks: Vec::new(),
+        };
+        let none = reading_of(&feed, t, t + ms_(8500), Some(&[String::new()]), true);
+        assert_eq!(
+            (none.screen.as_str(), none.settle_ms, none.bytes),
+            ("none", 8500, 0)
+        );
+        assert_eq!(
+            (none.rows, none.box_any, none.last_byte_ms),
+            (Some(0), false, None)
+        );
+        let trust = ["   Yes, I trust this folder".to_owned()];
+        feed.total = 77;
+        feed.last_fed = t + ms_(640);
+        feed.chunks.push(feed.last_fed);
+        let got = reading_of(&feed, t, t + ms_(940), Some(&trust), true);
+        assert_eq!(
+            got,
+            FirstReading {
+                screen: viola_agent_claude::screen::FirstScreen::Trust,
+                settle_ms: 940,
+                bytes: 77,
+                alive: true,
+                exit: None,
+                rows: Some(1),
+                box_any: false,
+                last_byte_ms: Some(640),
+                literals: [None; 4],
+                rule_above_prompt: false,
+                first_row: Some(viola_agent_claude::screen::RowFamily::Text),
+                last_col: Some(27),
+            }
+        );
+        let boxed = [
+            "─".repeat(80),
+            "❯ ".to_owned(),
+            "─".repeat(80),
+            "  ⏵⏵ auto mode on (shift+tab to cycle)".to_owned(),
+        ];
+        let got = reading_of(&feed, t, t + ms_(940), Some(&boxed), true);
+        assert_eq!(
+            (got.screen.as_str(), got.literals, got.rule_above_prompt),
+            ("box", [None, Some(3), Some(0), Some(1)], true)
+        );
+        assert_eq!(
+            (got.first_row.map(|f| f.as_str()), got.last_col),
+            (Some("rule"), Some(80))
+        );
+        let ended = reading_of(&feed, t, t + ms_(940), Some(&[String::new()]), false);
+        assert_eq!((ended.screen.as_str(), ended.alive), ("exited", false));
+        let poisoned = reading_of(&feed, t, t + ms_(940), None, true);
+        assert_eq!((poisoned.screen.as_str(), poisoned.rows), ("none", None));
+        assert_eq!(
+            (
+                poisoned.literals,
+                poisoned.rule_above_prompt,
+                poisoned.first_row,
+                poisoned.last_col
+            ),
+            ([None; 4], false, None, None)
+        );
     }
 
     #[rstest]

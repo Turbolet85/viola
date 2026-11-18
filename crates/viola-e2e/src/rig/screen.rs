@@ -65,6 +65,7 @@ impl Reading {
 
 pub struct Model {
     parser: Option<vt100::Parser>,
+    cols: u16,
 }
 
 impl Default for Model {
@@ -74,9 +75,16 @@ impl Default for Model {
 }
 
 impl Model {
+    /// The model at the rig's own size.
     pub fn new() -> Self {
+        Self::sized(ROWS, COLS)
+    }
+
+    /// The model at the size its child's pty was spawned with.
+    pub fn sized(rows: u16, cols: u16) -> Self {
         Self {
-            parser: Some(vt100::Parser::new(ROWS, COLS, 0)),
+            parser: Some(vt100::Parser::new(rows, cols, 0)),
+            cols,
         }
     }
 
@@ -98,7 +106,7 @@ impl Model {
     pub fn rows(&self) -> Option<Vec<String>> {
         self.parser
             .as_ref()
-            .map(|p| p.screen().rows(0, COLS).collect())
+            .map(|p| p.screen().rows(0, self.cols).collect())
     }
 
     pub fn reading(&self) -> Reading {
@@ -328,6 +336,16 @@ mod tests {
         m.feed("\x1b[2J\x1b[H ❯ 1. Yes, I trust this folder\r\n   2. No, exit".as_bytes());
         assert_eq!(m.reading().selected, "trust-yes");
         assert!(!m.is_poisoned());
+    }
+
+    #[test]
+    fn a_sized_model_reads_its_rows_at_its_own_width() {
+        let mut m = Model::sized(24, 80);
+        m.feed("x".repeat(100).as_bytes());
+        let rows = m.rows().expect("rows");
+        assert_eq!(rows.len(), 24);
+        assert_eq!(rows[0].chars().count(), 80);
+        assert_eq!(rows[1].chars().count(), 20);
     }
 
     #[test]

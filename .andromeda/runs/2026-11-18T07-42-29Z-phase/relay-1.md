@@ -1,0 +1,3 @@
+# Relay 1 — the operator's word for this revision (the /andromeda-phase invocation, verbatim)
+
+Proceed. Revise the plan of the pending chunk 2026-11-18-trust-record-row-read-live a third time: implement stopped before the operator pass after S0C (its outcome file is in the newest implement run dir). Read ~/dev/projects/additional/viola-overseer/relay-trust-read-revision3.md whole first — the founder answered: the last live verify S0R-3, with the first screen of a failed run written through --record and kept locally; a widening he ratified, its bound in the relay. Call no scheduled-wake or timer tool.

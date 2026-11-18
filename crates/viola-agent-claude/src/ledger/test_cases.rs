@@ -125,6 +125,8 @@ fn clean_typed() -> TypedRun {
         trust_frame: Some(rows(&["❯ Try it", "  ⏸ manual mode on · ← for agents"])),
         trust_write: Some(TrustWord::Written),
         trust_remove: Some(TrustWord::Removed),
+        first: [None; 6],
+        first_rows: Default::default(),
     }
 }
 

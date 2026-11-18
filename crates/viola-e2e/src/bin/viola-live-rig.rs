@@ -3,11 +3,12 @@
 //! granted keys, keeps its frames under the gitignored `target/live-rig/`, and owns its isolation
 //! and its processes.
 //!
-//! - `rehearse <r1|r2|hold|r3b|r3|im|v> --program <fake agent> [-- <child args>]`: one start over the fake
+//! - `rehearse <r1|r2|hold|r3b|r3|im|v|vc> --program <fake agent> [-- <child args>]`: one start over the fake
 //!   agent (CI runs these); `{cwd}` and `{config}` in a child argument stand for the start's cwd and
 //!   private config dir.
-//! - `live <R1|R2|R3B|R3|IM|S0|…-2|R3-326|R3D> --cli <version> --cap <n> --spare <n> --ledger <file>`: one live start
-//!   of the stamped `claude`, refused under `CI`; `S0` / `S0-2` run `viola verify` over it.
+//! - `live <R1|R2|R3B|R3|IM|S0|S0R|S0B|S0C|…-2|R3-326|R3D> --cli <version> --cap <n> --spare <n> --ledger <file>`: one live start
+//!   of the stamped `claude`, refused under `CI`; `S0` / `S0R` / `S0B` run `viola verify` over it, `S0C`
+//!   reads its first frame at 80×24 and stops it with no key.
 //! - `census [--kill]`: the processes an earlier, dead rig left, and their kill.
 //! - `capture --out <file>` (hidden): a wake start's UserPromptSubmit hook, one closed-word line
 //!   per payload.
@@ -194,7 +195,8 @@ fn main() -> ExitCode {
                 .join(".local/share/mise/installs/claude")
                 .join(&cli);
             plan.program = dir.join("claude");
-            if arm.wrapped().is_some() {
+            // Run F's argv for `VC`: the program and `--model haiku` alone.
+            if arm.wrapped().is_some() || arm == Arm::VC {
                 plan.child_args = vec!["--model".to_owned(), "haiku".to_owned()];
             }
             if arm.has_vhome() {

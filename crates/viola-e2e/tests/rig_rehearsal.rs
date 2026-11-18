@@ -804,6 +804,51 @@ fn rig_rehearsal_im_reads_its_first_frame_and_stops_with_no_key() {
     assert_torn_down(&out, &case);
 }
 
+/// The naming arm over the fake agent: the child at verify's 80×24 under the verify arm's seed, its
+/// first frame read into verify's first-screen word and fact row, stopped with no key.
+#[test]
+fn rig_rehearsal_vc_reads_its_first_frame_at_80x24_and_stops_with_no_key() {
+    let case = Case::new();
+    let child = case.child(true, &["--trust-config", "{config}/.claude.json"]);
+    let out = run(case.rig("vc", &[], &child));
+    let summary = stdout(&out);
+    assert_eq!(out.status.code(), Some(0), "{summary}");
+    assert_eq!(word(&out, "pty").as_deref(), Some("80x24"), "{summary}");
+    let sizes: Vec<Value> = case
+        .receipt_lines()
+        .into_iter()
+        .filter(|l| l["kind"] == "size")
+        .collect();
+    assert!(
+        sizes
+            .first()
+            .is_some_and(|s| s["cols"] == 80 && s["rows"] == 24),
+        "{sizes:?}"
+    );
+    assert_eq!(word(&out, "git-root").as_deref(), Some("written"));
+    assert_eq!(word(&out, "seed-markers").as_deref(), Some("written"));
+    assert_eq!(word(&out, "box").as_deref(), Some("up"), "{summary}");
+    assert_eq!(word(&out, "modal").as_deref(), Some("none"));
+    assert_eq!(word(&out, "screen").as_deref(), Some("box"), "{summary}");
+    let facts = word(&out, "facts");
+    assert!(
+        facts
+            .as_deref()
+            .is_some_and(|f| f.starts_with("bytes=") && f.contains(" alive=yes ")),
+        "{summary}"
+    );
+    assert!(
+        facts
+            .as_deref()
+            .is_some_and(|f| f.ends_with(" lit=footer-agents@23 adj=no first=text col=33")),
+        "{summary}"
+    );
+    assert_eq!(word(&out, "keys").as_deref(), Some("none"));
+    assert_eq!(word(&out, "stop").as_deref(), Some("killed-no-key"));
+    assert!(case.keys().is_empty(), "no key: {:?}", case.keys());
+    assert_torn_down(&out, &case);
+}
+
 /// The verify arm over the fake agent: `viola verify` under the start's own viola home, which keeps
 /// `CLAUDE_CONFIG_DIR`, so Run F writes its record into the private config the fake is told; the rig
 /// types no key, reads verify's exit and its stamp's trust-record row, and reads the private config
@@ -838,10 +883,109 @@ fn rig_rehearsal_v_reads_the_trust_record_row_and_no_record_left() {
         "{summary}"
     );
     assert_eq!(word(&out, "record-left").as_deref(), Some("absent"));
+    assert_eq!(word(&out, "kept").as_deref(), Some("none"), "{summary}");
     assert_eq!(word(&out, "keys").as_deref(), Some("none"));
     assert_eq!(word(&out, "stop").as_deref(), Some("none"));
     assert_eq!(word(&out, "child").as_deref(), Some("exit 0"));
     assert!(word(&out, "viola-build").is_some_and(|b| b != "unread"));
+    assert_eq!(
+        word(&out, "git-root").as_deref(),
+        Some("written"),
+        "{summary}"
+    );
+    assert_eq!(word(&out, "rows").as_deref(), Some("23"), "{summary}");
+    assert_eq!(word(&out, "failing").as_deref(), Some("none"), "{summary}");
+    for (run, screen) in [
+        ("a", "trust"),
+        ("b", "box"),
+        ("c", "box"),
+        ("d", "box"),
+        ("e", "box"),
+        ("f", "box"),
+    ] {
+        let key = format!("screen-{run}");
+        assert_eq!(word(&out, &key).as_deref(), Some(screen), "{summary}");
+        let settle = word(&out, &format!("settle-{run}"));
+        assert!(
+            settle.as_deref().is_some_and(|s| s.parse::<u64>().is_ok()),
+            "settle-{run} {summary}"
+        );
+        let facts = word(&out, &format!("facts-{run}"));
+        assert!(
+            facts
+                .as_deref()
+                .is_some_and(|f| f.starts_with("bytes=") && f.contains(" alive=yes ")),
+            "facts-{run} {summary}"
+        );
+        // The fake's trust form draws no box literal, its ready screen the first footer literal
+        // alone on the last row: read on the first run.
+        let finer = if run == "a" {
+            " lit=none adj=no first=text col=27"
+        } else {
+            " lit=footer-agents@23 adj=no first=text col=33"
+        };
+        assert!(
+            facts.as_deref().is_some_and(|f| f.ends_with(finer)),
+            "facts-{run} {summary}"
+        );
+    }
+    assert_eq!(
+        word(&out, "seed-markers").as_deref(),
+        Some("written"),
+        "{summary}"
+    );
+    assert_torn_down(&out, &case);
+}
+
+/// The verify arm over a fake agent told a config file verify never writes: Run F settles on its
+/// trust dialog, `trust-record` fails, and the failed run's first screen, written by verify under
+/// the rig's hidden option, is copied into the run's kept folder before the scratch is removed.
+#[test]
+fn rig_rehearsal_v_keeps_a_failed_runs_first_screen_locally() {
+    let case = Case::new();
+    let child = case.child(
+        true,
+        &[
+            "--trust-config",
+            "{config}/elsewhere.json",
+            "--turn-stop",
+            "--dialogs",
+            "--framing",
+            "--transcript",
+        ],
+    );
+    let viola = viola().display().to_string();
+    let out = run(case.rig("v", &["--viola", viola.as_str()], &child));
+    let summary = stdout(&out);
+    assert_eq!(out.status.code(), Some(0), "{summary}");
+    assert_eq!(word(&out, "verify-exit").as_deref(), Some("1"), "{summary}");
+    assert_eq!(word(&out, "trust-record").as_deref(), Some("fail"));
+    assert_eq!(word(&out, "failing").as_deref(), Some("trust-record"));
+    assert_eq!(word(&out, "kept").as_deref(), Some("f"), "{summary}");
+    assert_eq!(word(&out, "record-left").as_deref(), Some("absent"));
+    assert_eq!(word(&out, "keys").as_deref(), Some("none"));
+    let runs: Vec<PathBuf> = fs::read_dir(case.out())
+        .expect("the out dir")
+        .map(|e| e.expect("an entry").path())
+        .collect();
+    assert_eq!(runs.len(), 1, "{runs:?}");
+    let firsts: Vec<String> = fs::read_dir(&runs[0])
+        .expect("the run's kept folder")
+        .map(|e| {
+            e.expect("an entry")
+                .file_name()
+                .to_string_lossy()
+                .into_owned()
+        })
+        .filter(|n| n.starts_with("FirstScreen."))
+        .collect();
+    assert_eq!(firsts, ["FirstScreen.f.json"]);
+    let doc: Value = serde_json::from_slice(
+        &fs::read(runs[0].join("FirstScreen.f.json")).expect("the kept screen"),
+    )
+    .expect("json");
+    assert_eq!(doc["run"], "f");
+    assert_eq!(doc["screen"], "trust");
     assert_torn_down(&out, &case);
 }
 

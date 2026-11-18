@@ -1,0 +1,266 @@
+[
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "823570d9",
+"ts": "2026-11-18T01:31:19Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-18-trust-record-row-read-live",
+"--message-file",
+".andromeda/runs/2026-11-18T01-31-02Z-phase/relay-1.md",
+"--origin",
+"the operator (the /andromeda-phase invocation)",
+"--kind",
+"relay",
+"--why",
+"the operator word: implement stopped before the operator pass on S0R red; revise per the overseer relay; founder away",
+"--step",
+"phase:P3",
+"--run-dir",
+".andromeda/runs/2026-11-18T01-31-02Z-phase",
+"--marker",
+"2026-11-18-trust-record-row-read-live"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy message · message: the operator (the /andromeda-phase invocation)",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator (the /andromeda-phase invocation)",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "8127fca1ac43a493ebedddbeac96c8c7fb7c70bebef55b722165816cb3054f22",
+"copy": "I3-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-18T01:31:19Z",
+"step": "phase:P3",
+"why": "the operator word: implement stopped before the operator pass on S0R red; revise per the overseer relay; founder away"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "823570d9",
+"ts": "2026-11-18T01:31:20Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-18-trust-record-row-read-live",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-trust-read-revision1.md",
+"--kind",
+"relay",
+"--why",
+"the overseer revision relay: cause = the rig first-run config, mend = V-arm seed markers, finer closed facts, S0R-2 only, F2 product finding, no row read",
+"--step",
+"phase:P3",
+"--run-dir",
+".andromeda/runs/2026-11-18T01-31-02Z-phase",
+"--marker",
+"2026-11-18-trust-record-row-read-live"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy no-repo · ../additional/viola-overseer/relay-trust-read-revision1.md",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-relay-trust-read-revision1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-trust-read-revision1.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "bb78b99854d7d1a5d3d9c1ea77ff21ba11486fad30889cac2635504a77b65bc1",
+"copy": "I4-relay-trust-read-revision1.md.txt",
+"link": false,
+"read_at": "2026-11-18T01:31:19Z",
+"step": "phase:P3",
+"why": "the overseer revision relay: cause = the rig first-run config, mend = V-arm seed markers, finer closed facts, S0R-2 only, F2 product finding, no row read"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "823570d9",
+"ts": "2026-11-18T01:31:25Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-18-trust-record-row-read-live",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-trust-read-s0r-analysis.md",
+"--kind",
+"relay",
+"--why",
+"the overseer no-start analysis request after S0R whose five measured answers ground the revision cause",
+"--step",
+"phase:P3",
+"--run-dir",
+".andromeda/runs/2026-11-18T01-31-02Z-phase",
+"--marker",
+"2026-11-18-trust-record-row-read-live"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I5 · copy no-repo · ../additional/viola-overseer/relay-trust-read-s0r-analysis.md",
+"cite: inputs#I5"
+],
+"stderr": null,
+"wrote": [
+"inputs/I5-relay-trust-read-s0r-analysis.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I5",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-trust-read-s0r-analysis.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "b0cb62e6dfed1fdced8121b5b86b6bb5908468574e4029a095abc2aa79837e0c",
+"copy": "I5-relay-trust-read-s0r-analysis.md.txt",
+"link": false,
+"read_at": "2026-11-18T01:31:24Z",
+"step": "phase:P3",
+"why": "the overseer no-start analysis request after S0R whose five measured answers ground the revision cause"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "823570d9",
+"ts": "2026-11-18T01:37:40Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-18-trust-record-row-read-live",
+"--run-dir",
+".andromeda/runs/2026-11-18T01-31-02Z-phase",
+"--marker",
+"2026-11-18-trust-record-row-read-live"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-trust-read-directive.md",
+"I1 cited scope.md:15 · research.md:12 · plan.md:27 · plan.md:85 · plan.md:220 · plan.md:362 · plan.md:632 · plan.md:642",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-trust-read-p5-review.md",
+"I2 cited plan.md:8 · plan.md:22 · plan.md:29 · plan.md:85 · plan.md:110 · plan.md:131 · plan.md:227 · plan.md:232 · plan.md:632 · plan.md:651",
+"I3 n/a — a message has no live source · copy message · message: the operator (the /andromeda-phase invocation)",
+"I3 cited research.md:155 · plan.md:9 · plan.md:632",
+"I4 unchanged · copy no-repo · ../additional/viola-overseer/relay-trust-read-revision1.md",
+"I4 cited scope.md:42 · scope.md:50 · scope.md:54 · scope.md:57 · research.md:155 · plan.md:10 · plan.md:50 · plan.md:81 · plan.md:262 · plan.md:294 · plan.md:316 · plan.md:486 (in fence) · plan.md:633 · plan.md:654 · plan.md:657 · plan.md:658",
+"I5 unchanged · copy no-repo · ../additional/viola-overseer/relay-trust-read-s0r-analysis.md",
+"I5 cited scope.md:42 · plan.md:10 · plan.md:64 · plan.md:633",
+"inputs: 5 entries — unchanged 4 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 5,
+"counts": {
+"unchanged": 4,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "823570d9",
+"ts": "2026-11-18T01:38:48Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-18-trust-record-row-read-live",
+"--message-file",
+".andromeda/runs/2026-11-18T01-31-02Z-phase/relay-2.md",
+"--origin",
+"the operator (P5 word)",
+"--kind",
+"relay",
+"--why",
+"the operator own P5 word yes on card .andromeda/runs/2026-11-18T01-31-02Z-phase/p5-card-1.md (Revision 1), authority: the operator",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-11-18T01-31-02Z-phase",
+"--marker",
+"2026-11-18-trust-record-row-read-live"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I6 · copy message · message: the operator (P5 word)",
+"cite: inputs#I6"
+],
+"stderr": null,
+"wrote": [
+"inputs/I6-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I6",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator (P5 word)",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "f96f73ed7c8d661c18df9a0d7ee6a8b7ba688a4d2e52b9caebf58eb3a2c62227",
+"copy": "I6-relay-2.md.txt",
+"link": false,
+"read_at": "2026-11-18T01:38:48Z",
+"step": "phase:P5",
+"why": "the operator own P5 word yes on card .andromeda/runs/2026-11-18T01-31-02Z-phase/p5-card-1.md (Revision 1), authority: the operator"
+}
+}
+]

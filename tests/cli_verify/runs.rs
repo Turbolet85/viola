@@ -202,7 +202,9 @@ fn verify_help_names_the_trusted_folder_and_the_external_import_blocker() {
 /// rows pass; the resume row passes on Run E's SessionStart, captured before its wait; the agents
 /// row fails, as Run B's turn never settles on a literal and no read is made, and so do the compact
 /// and echo rows, as no framing paste is made, and the trust-record row, as Run A showed no modal
-/// and Run F no input box.
+/// and Run F no input box. Each run's first screen reads `none` on a live child that drew nothing
+/// (no byte, no row, no box literal), settled at or past the 8.5 s maximum. Five such waits make the
+/// case's floor (51.6-52.3 s measured), under the class's 80 s kill (`.config/nextest.toml`).
 #[rstest]
 fn verify_window_without_screens_fails_every_interactive_row(#[from(home)] home: TestHome) {
     write_spine_set(&fixtures(&home), "2.1.0", None);
@@ -219,6 +221,102 @@ fn verify_window_without_screens_fails_every_interactive_row(#[from(home)] home:
     }
     assert_eq!(rows["resume-session"], "pass");
     assert_eq!(probes_left(home.path()), 0);
+    let measured = &stamps(home.path())["data"]["versions"]["2.1.0"]["measured"];
+    for run in RUNS {
+        assert_eq!(measured["first_screen"][run], "none", "{run}");
+        let settle = measured["first_settle_ms"][run].as_u64().expect("a settle");
+        assert!(settle >= 8_500, "{run} settled at {settle}");
+        let facts = &measured["first_facts"][run];
+        assert_eq!(
+            (
+                &facts["alive"],
+                &facts["exit"],
+                &facts["rows"],
+                &facts["box_any"]
+            ),
+            (&json!(true), &Value::Null, &json!(0), &json!(false)),
+            "{run}"
+        );
+        assert_eq!(facts["bytes"], 0, "{run}");
+        assert_eq!(facts["last_byte_ms"], Value::Null, "{run}");
+        assert_eq!(
+            facts["literals"],
+            json!({"footer-agents": null, "footer-cycle": null, "rule": null, "prompt": null}),
+            "{run}"
+        );
+        assert_eq!(
+            (
+                &facts["rule_above_prompt"],
+                &facts["first_row"],
+                &facts["last_col"]
+            ),
+            (&json!(false), &Value::Null, &Value::Null),
+            "{run}"
+        );
+    }
+}
+
+/// The six interactive runs in order, as `measured`'s first-screen maps key them.
+const RUNS: [&str; 6] = ["a", "b", "c", "d", "e", "f"];
+
+/// Over the recorded screens each interactive run keeps its first screen in the stamp's `measured`:
+/// Run A the trust modal, Runs B to F the input box, each settled well before the gate's 8.5 s
+/// maximum on a live child that had drawn rows; closed words and numbers only.
+#[rstest]
+fn verify_first_screens_read_trust_then_box_on_the_fake(#[from(home)] home: TestHome) {
+    write_spine_set(&fixtures(&home), "2.1.0", None);
+    let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &[], &[]);
+    assert_eq!(ran.code, Some(0), "stdout {}", ran.stdout_text());
+    let measured = &stamps(home.path())["data"]["versions"]["2.1.0"]["measured"];
+    assert_eq!(
+        measured["first_screen"],
+        json!({"a": "trust", "b": "box", "c": "box", "d": "box", "e": "box", "f": "box"})
+    );
+    for run in RUNS {
+        let settle = measured["first_settle_ms"][run].as_u64().expect("a settle");
+        assert!(settle < 8_500, "{run} settled at {settle}");
+        let facts = &measured["first_facts"][run];
+        assert!(
+            facts["bytes"].as_u64().is_some_and(|b| b > 0),
+            "{run} {facts}"
+        );
+        assert!(
+            facts["rows"].as_u64().is_some_and(|r| r > 0),
+            "{run} {facts}"
+        );
+        assert_eq!(
+            (&facts["alive"], &facts["exit"], &facts["box_any"]),
+            (&json!(true), &Value::Null, &json!(run != "a")),
+            "{run}"
+        );
+        assert!(
+            facts["last_byte_ms"].as_u64().is_some_and(|l| l <= settle),
+            "{run} {facts}"
+        );
+        // The fake's trust form draws no box literal, and its ready screen the first footer
+        // literal alone on the last row (no rule, no prompt row): read on the first run.
+        let (literals, last_col) = if run == "a" {
+            (
+                json!({"footer-agents": null, "footer-cycle": null, "rule": null, "prompt": null}),
+                27,
+            )
+        } else {
+            (
+                json!({"footer-agents": 23, "footer-cycle": null, "rule": null, "prompt": null}),
+                33,
+            )
+        };
+        assert_eq!(
+            (
+                &facts["literals"],
+                &facts["rule_above_prompt"],
+                &facts["first_row"],
+                &facts["last_col"]
+            ),
+            (&literals, &json!(false), &json!("text"), &json!(last_col)),
+            "{run} {facts}"
+        );
+    }
 }
 
 /// Run C and Run D are killed only once their last Stop hook has returned (the screen settled after

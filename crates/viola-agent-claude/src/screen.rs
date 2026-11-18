@@ -92,6 +92,142 @@ impl Signatures {
         !rows.iter().any(|r| self.holds_modal(r))
             && (self.holds_footer(rows) || self.holds_box(rows))
     }
+
+    /// Whether any input-box-family literal stands anywhere: a footer literal, a rule row or a row
+    /// opening `box_prompt`, whether or not they make the box `input_box_up` accepts.
+    pub fn box_any(&self, rows: &[String]) -> bool {
+        self.holds_footer(rows)
+            || rows
+                .iter()
+                .any(|r| self.is_box_rule(r) || r.starts_with(self.box_prompt))
+    }
+
+    /// A settled first screen's closed word: a modal before the box (never ready while a modal
+    /// literal stands), then the box, then whether the child had ended by the read. `rows` is
+    /// `None` for a poisoned screen.
+    pub fn first_screen(&self, rows: Option<&[String]>, ended: bool) -> FirstScreen {
+        let holds = |literal: &str| rows.is_some_and(|rs| rs.iter().any(|r| r.contains(literal)));
+        if self.modals.first().is_some_and(|m| holds(m)) {
+            FirstScreen::Trust
+        } else if self.modals.get(1).is_some_and(|m| holds(m)) {
+            FirstScreen::Imports
+        } else if rows.is_some_and(|rs| self.input_box_up(rs)) {
+            FirstScreen::Box
+        } else if ended {
+            FirstScreen::Exited
+        } else {
+            FirstScreen::None
+        }
+    }
+
+    /// The row facts of a settled first screen: the count of non-empty rows (`None` for a
+    /// poisoned screen), [`Self::box_any`], each box-family literal's first row, the box's own
+    /// rule-above-prompt adjacency, the first non-empty row's family and the widest row's last
+    /// column. Numbers, bools and closed words only, no row text.
+    pub fn first_facts(&self, rows: Option<&[String]>) -> RowFacts {
+        let rs = rows.unwrap_or_default();
+        let first_where = |hit: &dyn Fn(&str) -> bool| rows?.iter().position(|r| hit(r));
+        let footer = |n: usize| {
+            self.input_box
+                .get(n)
+                .and_then(|lit| first_where(&|r: &str| r.contains(lit)))
+        };
+        RowFacts {
+            rows: rows.map(|rs| rs.iter().filter(|r| !r.trim().is_empty()).count()),
+            box_any: self.box_any(rs),
+            literals: [
+                footer(0),
+                footer(1),
+                first_where(&|r: &str| self.is_box_rule(r)),
+                first_where(&|r: &str| r.starts_with(self.box_prompt)),
+            ],
+            rule_above_prompt: self.holds_box(rs),
+            first_row: rs
+                .iter()
+                .find(|r| !r.trim().is_empty())
+                .map(|r| self.row_family(r)),
+            last_col: rs
+                .iter()
+                .map(|r| r.trim_end().chars().count())
+                .max()
+                .filter(|&n| n > 0),
+        }
+    }
+
+    /// A non-empty row's family: the box's rule, a banner row (its first non-space character a
+    /// Unicode block element, the CLI's logo glyphs), else text.
+    fn row_family(&self, row: &str) -> RowFamily {
+        if self.is_box_rule(row) {
+            RowFamily::Rule
+        } else if row
+            .trim_start()
+            .chars()
+            .next()
+            .is_some_and(|c| ('\u{2580}'..='\u{259F}').contains(&c))
+        {
+            RowFamily::Banner
+        } else {
+            RowFamily::Text
+        }
+    }
+}
+
+/// The closed ids of [`RowFacts::literals`], in its order: the first and second `input_box`
+/// literals, the box's rule row and a row opening the box's prompt.
+pub const BOX_LITERAL_IDS: [&str; 4] = ["footer-agents", "footer-cycle", "rule", "prompt"];
+
+/// The family of a first screen's first non-empty row.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum RowFamily {
+    Rule,
+    Banner,
+    Text,
+}
+
+impl RowFamily {
+    pub const fn as_str(self) -> &'static str {
+        match self {
+            Self::Rule => "rule",
+            Self::Banner => "banner",
+            Self::Text => "text",
+        }
+    }
+}
+
+/// The closed first-screen word of one `viola verify` interactive run, kept in its stamp's
+/// `measured` (architecture `contract/ledger-stamps/measured`).
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum FirstScreen {
+    Trust,
+    Imports,
+    Box,
+    None,
+    Exited,
+}
+
+impl FirstScreen {
+    pub const fn as_str(self) -> &'static str {
+        match self {
+            Self::Trust => "trust",
+            Self::Imports => "imports",
+            Self::Box => "box",
+            Self::None => "none",
+            Self::Exited => "exited",
+        }
+    }
+}
+
+/// [`Signatures::first_facts`]'s reading.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct RowFacts {
+    pub rows: Option<usize>,
+    pub box_any: bool,
+    /// Per [`BOX_LITERAL_IDS`], the first row (0-based) the literal stands on.
+    pub literals: [Option<usize>; 4],
+    pub rule_above_prompt: bool,
+    pub first_row: Option<RowFamily>,
+    /// The widest row's last non-blank column, in characters.
+    pub last_col: Option<usize>,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -602,6 +738,101 @@ mod tests {
         let footer = vec![FOOTER.to_owned()];
         assert!(SIGNATURES.holds_footer(&footer));
         assert!(!SIGNATURES.holds_box(&footer));
+    }
+
+    const IMPORTS: &str = "   Yes, allow external imports";
+
+    #[rstest]
+    #[case::trust(Some(vec![TRUST.to_owned()]), false, "trust")]
+    #[case::imports(Some(vec![IMPORTS.to_owned()]), false, "imports")]
+    #[case::box_up(Some(screen_rows("x", "❯ ", NOTICE)), false, "box")]
+    #[case::footer_up(Some(vec![FOOTER.to_owned()]), false, "box")]
+    #[case::nothing(Some(vec!["x".to_owned()]), false, "none")]
+    #[case::ended(Some(vec!["x".to_owned()]), true, "exited")]
+    #[case::trust_over_the_box(Some(screen_rows(TRUST, "❯ ", FOOTER)), false, "trust")]
+    #[case::trust_over_imports(Some(vec![IMPORTS.to_owned(), TRUST.to_owned()]), false, "trust")]
+    #[case::box_after_the_child_ended(Some(vec![FOOTER.to_owned()]), true, "box")]
+    #[case::absent_rows(None, false, "none")]
+    #[case::absent_rows_ended(None, true, "exited")]
+    fn first_screen_reads_each_literal_then_the_exit(
+        #[case] rows: Option<Vec<String>>,
+        #[case] ended: bool,
+        #[case] expected: &str,
+    ) {
+        assert_eq!(
+            SIGNATURES.first_screen(rows.as_deref(), ended).as_str(),
+            expected
+        );
+    }
+
+    #[test]
+    fn first_screen_words_are_kebab_case() {
+        let words = [
+            FirstScreen::Trust,
+            FirstScreen::Imports,
+            FirstScreen::Box,
+            FirstScreen::None,
+            FirstScreen::Exited,
+        ]
+        .map(FirstScreen::as_str);
+        assert_eq!(words, ["trust", "imports", "box", "none", "exited"]);
+    }
+
+    #[rstest]
+    #[case::footer_alone(Some(vec![String::new(), FOOTER.to_owned()]), Some(1), true)]
+    #[case::rule_alone(Some(vec![rule(80), String::new(), "x".to_owned()]), Some(2), true)]
+    #[case::prompt_row_alone(Some(vec!["❯ ".to_owned(), "   ".to_owned()]), Some(1), true)]
+    #[case::short_rule_is_none(Some(vec![rule(BOX_RULE_MIN - 1)]), Some(1), false)]
+    #[case::none(Some(vec![NOTICE.to_owned(), "x".to_owned(), String::new()]), Some(2), false)]
+    #[case::empty_screen(Some(vec![String::new(); 24]), Some(0), false)]
+    #[case::absent_rows(None, None, false)]
+    fn first_screen_facts_count_rows_and_any_box_literal(
+        #[case] rows: Option<Vec<String>>,
+        #[case] count: Option<usize>,
+        #[case] box_any: bool,
+    ) {
+        let facts = SIGNATURES.first_facts(rows.as_deref());
+        assert_eq!((facts.rows, facts.box_any), (count, box_any));
+    }
+
+    const AGENTS: &str = "  ? for shortcuts · @ for agents";
+    const BANNER: &str = " ▐▛███▜▌   Claude Code v2.1.325";
+
+    #[rstest]
+    #[case::footer_agents_alone(Some(vec!["x".to_owned(), AGENTS.to_owned()]), [Some(1), None, None, None], false, Some("text"), Some(32))]
+    #[case::footer_cycle_alone(Some(vec![FOOTER.to_owned()]), [None, Some(0), None, None], false, Some("text"), Some(38))]
+    #[case::rule_alone(Some(vec![String::new(), rule(80)]), [None, None, Some(1), None], false, Some("rule"), Some(80))]
+    #[case::prompt_alone(Some(vec!["❯ hi".to_owned()]), [None, None, None, Some(0)], false, Some("text"), Some(4))]
+    #[case::rule_above_prompt(Some(screen_rows(BANNER, "❯ ", FOOTER)), [None, Some(4), Some(1), Some(2)], true, Some("banner"), Some(80))]
+    #[case::rule_not_above_prompt(Some(vec![rule(80), "x".to_owned(), "❯ ".to_owned()]), [None, None, Some(0), Some(2)], false, Some("rule"), Some(80))]
+    #[case::banner_first(Some(vec![String::new(), BANNER.to_owned()]), [None; 4], false, Some("banner"), Some(31))]
+    #[case::text_first(Some(vec!["   x".to_owned(), BANNER.to_owned()]), [None; 4], false, Some("text"), Some(31))]
+    #[case::empty_screen(Some(vec![String::new(); 24]), [None; 4], false, None, None)]
+    #[case::absent_rows(None, [None; 4], false, None, None)]
+    #[case::last_col_at_80(Some(vec!["x".repeat(80), "y".repeat(12)]), [None; 4], false, Some("text"), Some(80))]
+    #[case::last_col_at_40(Some(vec![format!("{}   ", "x".repeat(40)), "y".to_owned()]), [None; 4], false, Some("text"), Some(40))]
+    fn first_screen_facts_name_each_literal_its_row_and_the_first_family(
+        #[case] rows: Option<Vec<String>>,
+        #[case] literals: [Option<usize>; 4],
+        #[case] adjacent: bool,
+        #[case] first: Option<&str>,
+        #[case] last_col: Option<usize>,
+    ) {
+        let facts = SIGNATURES.first_facts(rows.as_deref());
+        assert_eq!(facts.literals, literals, "literals");
+        assert_eq!(facts.rule_above_prompt, adjacent, "adjacency");
+        assert_eq!(facts.first_row.map(RowFamily::as_str), first, "first row");
+        assert_eq!(facts.last_col, last_col, "last column");
+    }
+
+    #[test]
+    fn box_literal_ids_and_row_families_are_kebab_case() {
+        assert_eq!(
+            BOX_LITERAL_IDS,
+            ["footer-agents", "footer-cycle", "rule", "prompt"]
+        );
+        let families = [RowFamily::Rule, RowFamily::Banner, RowFamily::Text].map(RowFamily::as_str);
+        assert_eq!(families, ["rule", "banner", "text"]);
     }
 
     /// A verified screen whose footer a notice displaced and whose box stands, fed as bytes: ready

@@ -12,11 +12,15 @@ path = "junit.xml"
 # 2026-10-06-local-command-and-paste-framing-rows. The kill was sized when they were seven (about
 # 2.1 s median on the ubuntu coverage leg, measured) from that floor plus a 3x runner tail; the
 # longest verify-driven test read 9.98 s under it in ci#37534758441.
-# The first matching override wins: a `verify_window_` test waits out the gate's 8.5 s maximum four
-# times by design (about 35 s), so it comes first, under a 60 s kill.
+# The first matching override wins: a `verify_window_` test waits out the gate's 8.5 s maximum five
+# times by design (A, B, C, D and Run F's own designed settle), so it comes first, under an 80 s
+# kill: the no-screen case read 52.2-52.3 s over three implement runs of chunk
+# 2026-11-17-trust-record-ledger-row, against the 42.9-43.7 s the 60 s kill was sized for; the
+# growth is Run F's 8.5 s settle, a floor by design (testing.md 2026-10-05), moved with a
+# planted-hang pair recorded in chunk 2026-11-18-trust-record-row-read-live's evidence.
 [[profile.ci.overrides]]
 filter = 'test(/verify_window_/)'
-slow-timeout = { period = "20s", terminate-after = 3 }
+slow-timeout = { period = "20s", terminate-after = 4 }
 
 # Every binary that drives verify, directly or through the stamped-home fixture (its longest other
 # test, a `send_window_` one, read 11.25 s on the slowest measured run): a 20 s kill. The fixture
@@ -41,15 +45,15 @@ slow-timeout = { period = "10s", terminate-after = 2 }
 fail-fast = { max-fail = 1, terminate = "wait" }
 slow-timeout = { period = "5s", terminate-after = 3 }
 
-# A `verify_window_` test waits out the gate's 8.5 s maximum wait four times by design (no screen
-# replayed: the untrusted, trusted, dialog and plan runs) plus Run E: measured 43.078 s on ubuntu
-# under `ci` (ci#39383206773) and 42.952 s alone on the Linux dev host, so it takes the class's `ci`
-# kill, 60 s (a 45 s kill left it 1.3 s).
+# A `verify_window_` test waits out the gate's 8.5 s maximum wait five times by design (no screen
+# replayed: the untrusted, trusted, dialog, plan and trust-record runs) plus Run E: measured 43.078 s
+# on ubuntu under `ci` (ci#39383206773) before Run F, then 52.2-52.3 s on the Linux dev host with
+# Run F's settle, so it takes the class's `ci` kill, 80 s (the 60 s kill left it under 8 s).
 # It stands first because the first matching override wins: a harness test of the class also
 # matches `package(viola-e2e)` below, and would otherwise take that 30 s kill, under its own wait.
 [[profile.mutants.overrides]]
 filter = 'test(/verify_window_/)'
-slow-timeout = { period = "20s", terminate-after = 3 }
+slow-timeout = { period = "20s", terminate-after = 4 }
 
 # The harness's own tests wait out its 20 s boot deadline by design. When a diff touches the harness,
 # its baseline runs past 20 s, so cargo-mutants' auto timeout scales well above this 30 s kill.

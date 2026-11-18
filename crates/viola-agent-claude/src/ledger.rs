@@ -13,7 +13,10 @@ use viola_core::MAX_FRAME;
 use crate::AgentError;
 use crate::dialog::{Permit, Response, Verdict, decision_body};
 use crate::hook::{HookEvent, prompt_text};
-use crate::screen::{COMPACT_CONFIRM_WINDOW, CONFIRM_WINDOW_FALLBACK, GATE_MAX_WAIT, SIGNATURES};
+use crate::screen::{
+    BOX_LITERAL_IDS, COMPACT_CONFIRM_WINDOW, CONFIRM_WINDOW_FALLBACK, FirstScreen, GATE_MAX_WAIT,
+    RowFamily, SIGNATURES,
+};
 use crate::trust::TrustWord;
 
 /// One measured behaviour, in the order `viola verify` checks and prints it.
@@ -626,6 +629,79 @@ pub struct TypedRun {
     pub trust_write: Option<TrustWord>,
     /// What removing Run F's trust record did; `None` when nothing was written to remove.
     pub trust_remove: Option<TrustWord>,
+    /// Each interactive run's first settled screen, in run order A–F; `None` for a run that never
+    /// started (or was stopped before its settle).
+    pub first: [Option<FirstReading>; 6],
+    /// The rows of the settle each `first` reading was taken at, in run order A–F; `None` where no
+    /// reading was kept or the screen was poisoned. Held in memory for `verify`'s rig-only
+    /// first-screen recording alone: no stamp key and no row reads them.
+    pub first_rows: [Option<Vec<String>>; 6],
+}
+
+/// One interactive run's first settled screen: its closed word and the closed facts the run held
+/// at that settle — numbers and closed words only, no screen text.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct FirstReading {
+    pub screen: FirstScreen,
+    /// From the spawn to the settle.
+    pub settle_ms: u64,
+    /// Every byte the child's terminal produced by the settle.
+    pub bytes: u64,
+    /// The child had not ended at the read.
+    pub alive: bool,
+    /// The child's exit status, only when it had ended by the read.
+    pub exit: Option<u32>,
+    /// Non-empty rows; `None` for a poisoned screen.
+    pub rows: Option<usize>,
+    pub box_any: bool,
+    /// From the spawn to the last byte fed before the read; `None` when nothing was fed.
+    pub last_byte_ms: Option<u64>,
+    /// Per `BOX_LITERAL_IDS`, the first row the literal stands on.
+    pub literals: [Option<usize>; 4],
+    pub rule_above_prompt: bool,
+    pub first_row: Option<RowFamily>,
+    pub last_col: Option<usize>,
+}
+
+/// The run letters `measured`'s first-screen maps are keyed by, in run order.
+pub const RUN_LETTERS: [&str; 6] = ["a", "b", "c", "d", "e", "f"];
+
+fn first_maps(first: &[Option<FirstReading>; 6]) -> (Value, Value, Value) {
+    let mut screens = Map::new();
+    let mut settles = Map::new();
+    let mut facts = Map::new();
+    for (letter, reading) in RUN_LETTERS.iter().zip(first) {
+        let key = (*letter).to_owned();
+        screens.insert(key.clone(), json!(reading.map(|r| r.screen.as_str())));
+        settles.insert(key.clone(), json!(reading.map(|r| r.settle_ms)));
+        facts.insert(
+            key,
+            reading.map_or(Value::Null, |r| {
+                let literals: Map<String, Value> = BOX_LITERAL_IDS
+                    .iter()
+                    .zip(r.literals)
+                    .map(|(id, row)| ((*id).to_owned(), json!(row)))
+                    .collect();
+                json!({
+                    "bytes": r.bytes,
+                    "alive": r.alive,
+                    "exit": r.exit,
+                    "rows": r.rows,
+                    "box_any": r.box_any,
+                    "last_byte_ms": r.last_byte_ms,
+                    "literals": literals,
+                    "rule_above_prompt": r.rule_above_prompt,
+                    "first_row": r.first_row.map(RowFamily::as_str),
+                    "last_col": r.last_col,
+                })
+            }),
+        );
+    }
+    (
+        Value::Object(screens),
+        Value::Object(settles),
+        Value::Object(facts),
+    )
 }
 
 /// The captures of the two dialog runs, each in claim order: Run C's and Run D's.
@@ -1094,6 +1170,7 @@ pub fn merge_stamp(
         .iter()
         .map(|(event, bytes)| (event_name(*event).to_owned(), json!(bytes)))
         .collect();
+    let (first_screen, first_settle_ms, first_facts) = first_maps(&typed.first);
     let entry = json!({
         "verified_at": written_at,
         "rows": rows,
@@ -1115,6 +1192,9 @@ pub fn merge_stamp(
                 "write": typed.trust_write.map(TrustWord::as_str),
                 "remove": typed.trust_remove.map(TrustWord::as_str),
             },
+            "first_screen": first_screen,
+            "first_settle_ms": first_settle_ms,
+            "first_facts": first_facts,
         },
     });
     doc.insert("v".to_owned(), json!(1));

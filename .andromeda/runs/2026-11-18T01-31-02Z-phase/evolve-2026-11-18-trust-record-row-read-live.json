@@ -1,0 +1,98 @@
+[
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "273d82d5",
+"ts": "2026-11-18T01:33:14Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-18T01-31-02Z-phase",
+"--marker",
+"2026-11-18-trust-record-row-read-live"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 2587 · 2026-11-18T00-07-24-2026-11-18-trust-record-row-read-live.ndjson",
+"ts 2026-11-18T01:33:08Z · clock 2026-11-18T01:33:14Z · bound 2026-11-18T01:25:11Z (line 3477)",
+"ids 2026-11-18T01:33:08Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T00-07-24-2026-11-18-trust-record-row-read-live.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "273d82d5",
+"ts": "2026-11-18T01:35:50Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-18T01-31-02Z-phase",
+"--marker",
+"2026-11-18-trust-record-row-read-live"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 2589 · 2026-11-18T00-07-24-2026-11-18-trust-record-row-read-live.ndjson",
+"ts 2026-11-18T01:35:45Z · clock 2026-11-18T01:35:50Z · bound 2026-11-18T01:33:08Z (line 3478)",
+"ids 2026-11-18T01:35:45Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T00-07-24-2026-11-18-trust-record-row-read-live.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "273d82d5",
+"ts": "2026-11-18T01:39:03Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-18T01-31-02Z-phase",
+"--marker",
+"2026-11-18-trust-record-row-read-live"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 2592 · 2026-11-18T00-07-24-2026-11-18-trust-record-row-read-live.ndjson",
+"ts 2026-11-18T01:38:56Z · clock 2026-11-18T01:39:03Z · bound 2026-11-18T01:35:45Z (line 3479)",
+"ids 2026-11-18T01:38:56Z-a … 2026-11-18T01:38:56Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T00-07-24-2026-11-18-trust-record-row-read-live.ndjson"
+],
+"before": null,
+"after": null
+}
+]

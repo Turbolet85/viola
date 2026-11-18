@@ -18,6 +18,14 @@
 //! are pasted. Every wait
 //! but the pump's after a kill ends at the stop; a stopped run is ended by a kill, pastes nothing
 //! more, and no later run starts.
+//!
+//! Each run also keeps one first-screen reading (`TypedRun::first`, A–F) over a settle it already
+//! makes — Run A's modal, Run B's ready, C's and D's input-box settle, E's settle after its
+//! SessionStart (or, with none by its deadline, the screen as it then stands), F's trust frame —
+//! from state it already holds: the closed word, the settle's wall, the bytes fed, whether the child
+//! was alive, its exit status if not, the non-empty rows, whether any input-box literal stood, and
+//! the wall of the last byte. No wait, key or paste is added for it. The rows of that settle are
+//! held beside it (`TypedRun::first_rows`), in memory only, for the rig-only first-screen recording.
 
 use std::cell::RefCell;
 use std::ffi::OsString;
@@ -35,7 +43,7 @@ mod run;
 mod runs;
 mod turns;
 
-use runs::{dialog_run, plan_run, resume_run, trust_record_run, trusted_run, untrusted_run};
+use runs::{dialog_run, keep, plan_run, resume_run, trust_record_run, trusted_run, untrusted_run};
 
 const POLL: Duration = Duration::from_millis(5);
 
@@ -82,9 +90,18 @@ pub(super) fn measure(
             *agents.borrow_mut() = trusted_run(clock, inputs, &args, typed)?;
             Ok(())
         },
-        &|_| dialog_run(clock, inputs, &args),
-        &|_| plan_run(clock, inputs, &args),
-        &|_| resume_run(clock, inputs, &args),
+        &|typed| {
+            keep(typed, 2, dialog_run(clock, inputs, &args)?);
+            Ok(())
+        },
+        &|typed| {
+            keep(typed, 3, plan_run(clock, inputs, &args)?);
+            Ok(())
+        },
+        &|typed| {
+            keep(typed, 4, resume_run(clock, inputs, &args)?);
+            Ok(())
+        },
         &|typed| trust_record_run(clock, inputs, &args, typed),
     ];
     for run in runs {

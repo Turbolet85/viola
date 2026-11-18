@@ -346,6 +346,9 @@ fn merge_stamp_writes_the_envelope_for_a_first_version() {
                     },
                     "dialog_probe": {"parallel_both_before_first_post": false},
                     "trust_probe": {"write": "written", "remove": "removed"},
+                    "first_screen": {"a": null, "b": null, "c": null, "d": null, "e": null, "f": null},
+                    "first_settle_ms": {"a": null, "b": null, "c": null, "d": null, "e": null, "f": null},
+                    "first_facts": {"a": null, "b": null, "c": null, "d": null, "e": null, "f": null},
                 },
             }}},
         })
@@ -392,7 +395,10 @@ fn merge_stamp_keeps_unknown_versions_and_fields_and_replaces_its_own() {
                 "compact_latency_ms": null, "echo_latency_ms": null,
                 "box_only_guards": null,
             }, "dialog_probe": {"parallel_both_before_first_post": null},
-            "trust_probe": {"write": null, "remove": null}})
+            "trust_probe": {"write": null, "remove": null},
+            "first_screen": {"a": null, "b": null, "c": null, "d": null, "e": null, "f": null},
+            "first_settle_ms": {"a": null, "b": null, "c": null, "d": null, "e": null, "f": null},
+            "first_facts": {"a": null, "b": null, "c": null, "d": null, "e": null, "f": null}})
     );
     assert_eq!(verified(&bytes, "2.1.0"), Ok(false));
 }
@@ -583,6 +589,128 @@ fn merge_stamp_writes_the_trust_writer_word_for_a_record_never_written() {
         row(&results, &absent).0,
         json!("pass"),
         "a passing check reads pass"
+    );
+}
+
+/// Each interactive run's first screen lands in `measured` under its run letter: the word, the
+/// settle wall and the fact row; a run that never started reads `null` in all three, and an exited
+/// run keeps its exit status.
+#[test]
+fn merge_stamp_writes_the_six_first_screens_their_settles_and_facts() {
+    let reading = |screen, settle_ms, alive, exit, rows, box_any, last| FirstReading {
+        screen,
+        settle_ms,
+        bytes: 4096,
+        alive,
+        exit,
+        rows,
+        box_any,
+        last_byte_ms: last,
+        literals: [None; 4],
+        rule_above_prompt: false,
+        first_row: None,
+        last_col: None,
+    };
+    let boxed = FirstReading {
+        literals: [None, Some(4), Some(1), Some(2)],
+        rule_above_prompt: true,
+        first_row: Some(RowFamily::Banner),
+        last_col: Some(80),
+        ..reading(FirstScreen::Box, 1200, true, None, Some(6), true, Some(900))
+    };
+    let trust = FirstReading {
+        literals: [None, None, Some(3), None],
+        first_row: Some(RowFamily::Text),
+        last_col: Some(57),
+        ..reading(
+            FirstScreen::Trust,
+            1002,
+            true,
+            None,
+            Some(9),
+            false,
+            Some(700),
+        )
+    };
+    let typed = TypedRun {
+        first: [
+            Some(trust),
+            Some(reading(
+                FirstScreen::Imports,
+                980,
+                true,
+                None,
+                Some(8),
+                true,
+                Some(650),
+            )),
+            Some(boxed),
+            Some(reading(
+                FirstScreen::None,
+                8500,
+                true,
+                None,
+                None,
+                false,
+                None,
+            )),
+            Some(reading(
+                FirstScreen::Exited,
+                450,
+                false,
+                Some(1),
+                Some(0),
+                false,
+                Some(120),
+            )),
+            None,
+        ],
+        ..clean_typed()
+    };
+    let d = doc(&merge_stamp(
+        None,
+        "2.1.0",
+        &all_pass(),
+        &[],
+        &typed,
+        None,
+        "t",
+    ));
+    let measured = &d["data"]["versions"]["2.1.0"]["measured"];
+    let none = json!({"footer-agents": null, "footer-cycle": null, "rule": null, "prompt": null});
+    assert_eq!(
+        measured["first_screen"],
+        json!({"a": "trust", "b": "imports", "c": "box", "d": "none", "e": "exited", "f": null})
+    );
+    assert_eq!(
+        measured["first_settle_ms"],
+        json!({"a": 1002, "b": 980, "c": 1200, "d": 8500, "e": 450, "f": null})
+    );
+    assert_eq!(
+        measured["first_facts"],
+        json!({
+            "a": {"bytes": 4096, "alive": true, "exit": null, "rows": 9, "box_any": false, "last_byte_ms": 700,
+                  "literals": {"footer-agents": null, "footer-cycle": null, "rule": 3, "prompt": null},
+                  "rule_above_prompt": false, "first_row": "text", "last_col": 57},
+            "b": {"bytes": 4096, "alive": true, "exit": null, "rows": 8, "box_any": true, "last_byte_ms": 650,
+                  "literals": none, "rule_above_prompt": false, "first_row": null, "last_col": null},
+            "c": {"bytes": 4096, "alive": true, "exit": null, "rows": 6, "box_any": true, "last_byte_ms": 900,
+                  "literals": {"footer-agents": null, "footer-cycle": 4, "rule": 1, "prompt": 2},
+                  "rule_above_prompt": true, "first_row": "banner", "last_col": 80},
+            "d": {"bytes": 4096, "alive": true, "exit": null, "rows": null, "box_any": false, "last_byte_ms": null,
+                  "literals": none, "rule_above_prompt": false, "first_row": null, "last_col": null},
+            "e": {"bytes": 4096, "alive": false, "exit": 1, "rows": 0, "box_any": false, "last_byte_ms": 120,
+                  "literals": none, "rule_above_prompt": false, "first_row": null, "last_col": null},
+            "f": null,
+        })
+    );
+    assert_eq!(
+        verified(
+            &merge_stamp(None, "2.1.0", &all_pass(), &[], &typed, None, "t"),
+            "2.1.0"
+        ),
+        Ok(true),
+        "no row reads the first-screen maps"
     );
 }
 

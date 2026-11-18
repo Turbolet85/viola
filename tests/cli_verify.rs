@@ -271,9 +271,12 @@ fn verify_stopped_by_a_signal_removes_only_its_own_dirs_and_exits_1(
         home.path(),
         &fixtures(&home),
         "2.1.0",
-        &cwd,
-        &tmp,
-        "verifier",
+        &[],
+        &support::verify::Place {
+            cwd: &cwd,
+            tmp: &tmp,
+            name: "verifier",
+        },
         &[],
     );
     let lines = fake::wait_for(&started.receipt, "Run B's pasted prompt", |l| {
@@ -386,9 +389,12 @@ fn verify_stopped_during_the_resume_run_removes_its_dir_and_exits_1(
         home.path(),
         &fixtures(&home),
         "2.1.0",
-        &cwd,
-        &tmp,
-        "verifier",
+        &[],
+        &support::verify::Place {
+            cwd: &cwd,
+            tmp: &tmp,
+            name: "verifier",
+        },
         &["--turn-stop"],
     );
     let lines = fake::wait_for(&started.receipt, "Run E's start", |l| {
@@ -792,6 +798,156 @@ fn verify_trust_record_goes_to_the_kept_config_dir(#[from(home)] home: TestHome)
     assert_eq!(fs::read(&home_file).expect("the HOME file"), home_bytes);
 }
 
+/// A `--record` verify keeps the real `HOME` (its scrub reads it) and a kept `CLAUDE_CONFIG_DIR`
+/// naming the test-owned user home: Run F's trust record goes into that file alone, the fake agent
+/// told only that file reads it and the row passes, and afterwards the file holds no `viola-verify-`
+/// key and its sentinel value-equal. The user's real config is shared with the host's own sessions,
+/// so nothing is asserted of it.
+#[rstest]
+fn verify_record_writes_its_trust_record_to_the_kept_config_dir_only(
+    #[from(record_home)] home: TestHome,
+) {
+    write_spine_set(&fixtures(&home), "2.1.0", None);
+    support::verify::seed_user_home(home.path(), Some(&sentinel()));
+    let config = support::verify::trust_config_of(home.path());
+    let record = home.scratch().join("rec");
+    let record_arg = record.to_str().expect("utf-8").to_owned();
+    let ran = verify(
+        home.path(),
+        &fixtures(&home),
+        "2.1.0",
+        &["--record", &record_arg],
+        &[],
+        &[],
+    );
+    assert_eq!(ran.code, Some(0), "stderr {}", ran.stderr_text());
+    let entry = &stamps(home.path())["data"]["versions"]["2.1.0"];
+    assert_eq!(entry["rows"]["trust-record"], "pass");
+    assert_eq!(
+        entry["measured"]["trust_probe"],
+        json!({"write": "written", "remove": "removed"})
+    );
+    let after_doc: Value =
+        serde_json::from_slice(&fs::read(&config).expect("config")).expect("json");
+    let keys: Vec<&String> = after_doc["projects"]
+        .as_object()
+        .expect("projects")
+        .keys()
+        .collect();
+    assert!(
+        keys.iter().all(|k| !k.contains("viola-verify-")),
+        "{keys:?}"
+    );
+    assert_eq!(after_doc, sentinel());
+    assert!(
+        names(&record.join("2.1.0"))
+            .iter()
+            .all(|n| !n.starts_with("FirstScreen.")),
+        "a passing verify writes no first screen"
+    );
+}
+
+/// A `--record` verify whose fake agent reads ANOTHER config file, so Run F settles on its trust
+/// dialog and the row fails: `(exit code, stdout, the record dir)` after the run, `rig` adding the
+/// hidden `--record-first-screens`.
+fn failed_record_verify(home: &TestHome, rig: bool) -> (Option<i32>, String, PathBuf) {
+    write_spine_set(&fixtures(home), "2.1.0", None);
+    support::verify::seed_user_home(home.path(), Some(&sentinel()));
+    let elsewhere = home.scratch().join("elsewhere.json");
+    fs::write(&elsewhere, b"{}").expect("another config");
+    let elsewhere_arg = elsewhere.to_str().expect("utf-8").to_owned();
+    let record = home.scratch().join("rec");
+    let record_arg = record.to_str().expect("utf-8").to_owned();
+    let mut before = vec!["--record", record_arg.as_str()];
+    if rig {
+        before.push("--record-first-screens");
+    }
+    let after = ["--trust-config", elsewhere_arg.as_str()];
+    let ran = verify(home.path(), &fixtures(home), "2.1.0", &before, &after, &[]);
+    (ran.code, ran.stdout_text(), record)
+}
+
+/// A plain `--record` on a failed verify writes no screen and creates no record dir, as before the
+/// rig's option existed.
+#[rstest]
+fn verify_record_on_a_failed_run_writes_no_screen_without_the_rig_option(
+    #[from(record_home)] home: TestHome,
+) {
+    let (code, stdout, record) = failed_record_verify(&home, false);
+    assert_eq!(code, Some(1), "stdout {stdout}");
+    assert!(
+        stdout.ends_with("stamped 2.1.0  22 pass  1 fail\n"),
+        "{stdout}"
+    );
+    assert!(!record.exists(), "a failed plain --record wrote its dir");
+}
+
+/// With the rig's hidden option a failed `--record` verify writes the first screen of each run
+/// that did not reach the box, Run A's trust dialog excepted: here Run F's trust dialog alone.
+#[rstest]
+fn verify_record_first_screens_on_a_failed_run_writes_its_first_screen_only(
+    #[from(record_home)] home: TestHome,
+) {
+    let (code, stdout, record) = failed_record_verify(&home, true);
+    assert_eq!(code, Some(1), "stdout {stdout}");
+    assert!(
+        stdout.ends_with("stamped 2.1.0  22 pass  1 fail\n"),
+        "{stdout}"
+    );
+    let dir = record.join("2.1.0");
+    assert_eq!(names(&dir), ["FirstScreen.f.json"]);
+    let doc: Value =
+        serde_json::from_slice(&fs::read(dir.join("FirstScreen.f.json")).expect("the file"))
+            .expect("json");
+    assert_eq!(doc["v"], 1);
+    assert_eq!(doc["run"], "f");
+    assert_eq!(doc["screen"], "trust");
+    assert_eq!(doc["cols"], 80);
+    let mut rows = vec![""; 24];
+    rows[8] = " ❯ No, exit";
+    rows[9] = "   Yes, I trust this folder";
+    assert_eq!(doc["rows"], json!(rows), "the fake's trust form, whole");
+}
+
+/// Stopped by TERM during Run F with `--record <dir> --record-first-screens`: the interrupted pair,
+/// exit 1, and no record dir.
+#[rstest]
+fn verify_stopped_with_record_writes_no_first_screen(#[from(record_home)] home: TestHome) {
+    write_spine_set(&fixtures(&home), "2.1.0", None);
+    support::verify::seed_user_home(home.path(), Some(&sentinel()));
+    let record = home.scratch().join("rec");
+    let record_arg = record.to_str().expect("utf-8").to_owned();
+    let owned_cwd = tempfile::tempdir().expect("a cwd");
+    let cwd = canonical(owned_cwd.path());
+    let owned_tmp = tempfile::tempdir().expect("a temp root");
+    let tmp = canonical(owned_tmp.path());
+    let started = support::verify::verify_started(
+        home.path(),
+        &fixtures(&home),
+        "2.1.0",
+        &["--record", &record_arg, "--record-first-screens"],
+        &support::verify::Place {
+            cwd: &cwd,
+            tmp: &tmp,
+            name: "verifier",
+        },
+        &["--turn-stop", "--trust-record-blank"],
+    );
+    fake::wait_for(&started.receipt, "Run F's start", |l| {
+        of_kind(l, "cwd").len() >= 7
+    });
+    let pid = libc::pid_t::try_from(started.pid).expect("a pid");
+    // SAFETY: kill only sends a signal, to the `viola` this case started and has not waited.
+    assert_eq!(unsafe { libc::kill(pid, libc::SIGTERM) }, 0);
+    let ran = started.running.finish();
+    assert_eq!(ran.code, Some(1), "stderr {}", ran.stderr);
+    assert_eq!(
+        ran.stderr,
+        "unable: verify was stopped before it finished\nhint: run viola verify again to stamp this CLI\n"
+    );
+    assert!(!record.exists(), "a stopped verify wrote its record dir");
+}
+
 /// Stopped by TERM once Run F's child has started (its receipt line; the fake agent draws nothing
 /// for a start its trust record alone opens, a hold forced open), `verify` ends Run F's child with
 /// no key, removes its record and its dir, writes no stamp and no step line, and exits 1 with the
@@ -810,9 +966,12 @@ fn verify_stopped_during_the_trust_record_run_removes_its_record_and_exits_1(
         home.path(),
         &fixtures(&home),
         "2.1.0",
-        &cwd,
-        &tmp,
-        "verifier",
+        &[],
+        &support::verify::Place {
+            cwd: &cwd,
+            tmp: &tmp,
+            name: "verifier",
+        },
         &["--turn-stop", "--trust-record-blank"],
     );
     let lines = fake::wait_for(&started.receipt, "Run F's start", |l| {

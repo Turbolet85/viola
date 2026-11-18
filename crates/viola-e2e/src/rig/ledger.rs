@@ -77,7 +77,7 @@ impl Ledger {
 }
 
 /// Whether `label` may start: a base label (`R1`, `R2`) while fewer than `cap` base starts are
-/// ledgered, a spare (`R1-2`, `R2-2`) while fewer than `spare` spares are; a label already
+/// ledgered, a spare (`R1-2`, `S0R-3`) while fewer than `spare` spares are; a label already
 /// ledgered is `spent`.
 pub fn admit(
     ledgered: &[String],
@@ -88,7 +88,7 @@ pub fn admit(
     if ledgered.iter().any(|l| l == label) {
         return Err("spent");
     }
-    let is_spare = |l: &str| l.ends_with("-2");
+    let is_spare = |l: &str| l.ends_with("-2") || l.ends_with("-3");
     let (used, allowed) = if is_spare(label) {
         (ledgered.iter().filter(|l| is_spare(l)).count(), spare)
     } else {
@@ -187,6 +187,22 @@ mod tests {
             Err("cap")
         );
         assert_eq!(admit(&labels(&["R1", "R2"]), "R1-2", 2, 0), Err("cap"));
+    }
+
+    #[test]
+    fn admit_counts_a_dash_three_label_as_a_spare() {
+        assert_eq!(admit(&labels(&["S0R", "S0R-2"]), "S0R-3", 1, 2), Ok(()));
+        assert_eq!(admit(&labels(&["S0R", "S0R-2"]), "S0R-3", 1, 1), Err("cap"));
+        assert_eq!(
+            admit(&labels(&["S0R", "S0R-2", "S0R-3"]), "S0R-4", 1, 2),
+            Err("cap"),
+            "a base label past the cap"
+        );
+        assert_eq!(
+            admit(&labels(&["S0R"]), "R3-326", 1, 2),
+            Err("cap"),
+            "a -326 label is a base label"
+        );
     }
 
     #[test]
