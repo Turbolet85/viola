@@ -1,0 +1,53 @@
+[
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "823570d9",
+"ts": "2026-11-18T19:45:24Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-18-the-2-1-325-recorded-fixture-set",
+"--source",
+"~/dev/projects/additional/viola-overseer/implement-fixture-set-directive.md",
+"--kind",
+"relay",
+"--why",
+"the overseer implement directive: the live cap R4 then R4M on one ledger plus one spare R4-2, no byte into any CLI dialog, nothing written under the real home, and the stops (a red live entry or a red drift suite before the operator pass)",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-11-18T19-33-40Z-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy no-repo · ../additional/viola-overseer/implement-fixture-set-directive.md",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-implement-fixture-set-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/implement-fixture-set-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "f29d4af2e5cf25e24e64c6a4249a26837cee25a5d18df55992f71ca881803afd",
+"copy": "I3-implement-fixture-set-directive.md.txt",
+"link": false,
+"read_at": "2026-11-18T19:45:23Z",
+"step": "implement",
+"why": "the overseer implement directive: the live cap R4 then R4M on one ledger plus one spare R4-2, no byte into any CLI dialog, nothing written under the real home, and the stops (a red live entry or a red drift suite before the operator pass)"
+}
+}
+]

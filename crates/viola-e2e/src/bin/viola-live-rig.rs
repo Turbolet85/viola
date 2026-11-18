@@ -3,10 +3,10 @@
 //! granted keys, keeps its frames under the gitignored `target/live-rig/`, and owns its isolation
 //! and its processes.
 //!
-//! - `rehearse <r1|r2|hold|r3b|r3|im|v|vc|ts|tc> --program <fake agent> [-- <child args>]`: one start over the fake
-//!   agent (CI runs these); `{cwd}` and `{config}` in a child argument stand for the start's cwd and
-//!   private config dir.
-//! - `live <R1|R2|R3B|R3|IM|S0|S0R|S0B|S0C|S1|S2|…-2|R3-326|R3D> --cli <version> --cap <n> --spare <n> --ledger <file>`: one live start
+//! - `rehearse <r1|r2|hold|r3b|r3|im|v|vc|ts|tc|vr|mt> --program <fake agent> [--viola <exe>]
+//!   [--tap <exe>] [-- <child args>]`: one start over the fake agent (CI runs these); `{cwd}` and
+//!   `{config}` in a child argument stand for the start's cwd and private config dir.
+//! - `live <R1|R2|R3B|R3|IM|S0|S0R|S0B|S0C|S1|S2|BP|BK|R4|R4M|…-2|R3-326|R3D> --cli <version> --cap <n> --spare <n> --ledger <file>`: one live start
 //!   of the stamped `claude`, refused under `CI`; `S0` / `S0R` / `S0B` run `viola verify` over it, `S0C`
 //!   reads its first frame at 80×24 and stops it with no key; `S1` runs `viola verify` in a trusted
 //!   git folder, then `viola run` in a fresh untrusted one, and `S2` a plain `claude` in one, each
@@ -42,6 +42,9 @@ enum Verb {
         program: PathBuf,
         #[arg(long)]
         viola: Option<PathBuf>,
+        /// `mt`: the `viola-mcp-tap` its MCP server runs.
+        #[arg(long)]
+        tap: Option<PathBuf>,
         #[command(flatten)]
         common: Common,
         #[arg(last = true)]
@@ -117,6 +120,7 @@ fn plan_of(label: String, arm: Arm, live: bool, common: Common) -> Option<Plan> 
         child_args: Vec::new(),
         run_args: Vec::new(),
         viola: None,
+        tap: None,
         cli_dir: None,
         cli_version: None,
         grant: Grant::parse(common.grant.as_deref())?,
@@ -173,6 +177,7 @@ fn main() -> ExitCode {
             arm,
             program,
             viola,
+            tap,
             common,
             child_args,
         } => {
@@ -185,6 +190,7 @@ fn main() -> ExitCode {
             plan.program = program;
             plan.child_args = child_args;
             plan.viola = viola;
+            plan.tap = tap;
             plan
         }
         Verb::Live { label, cli, common } => {
@@ -206,10 +212,16 @@ fn main() -> ExitCode {
             if arm == Arm::TS {
                 plan.run_args = vec!["--model".to_owned(), "haiku".to_owned()];
             }
-            if arm.has_vhome() {
-                plan.viola = std::env::current_exe()
+            let sibling = |name: &str| {
+                std::env::current_exe()
                     .ok()
-                    .and_then(|exe| exe.parent().map(|d| d.join("viola")));
+                    .and_then(|exe| exe.parent().map(|d| d.join(name)))
+            };
+            if arm.has_vhome() {
+                plan.viola = sibling("viola");
+            }
+            if arm == Arm::MT {
+                plan.tap = sibling("viola-mcp-tap");
             }
             plan.cli_dir = Some(dir);
             plan.cli_version = Some(cli);

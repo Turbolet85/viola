@@ -1,0 +1,223 @@
+[
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "823570d9",
+"ts": "2026-11-18T18:36:01Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-18-the-2-1-325-recorded-fixture-set",
+"--source",
+"~/dev/projects/additional/viola-overseer/phase-fixture-set-directive.md",
+"--kind",
+"relay",
+"--why",
+"the overseer directive binding this phase: scope as at bb204f14, stop at P3 end with one founder-forks block on size, split, live-start shapes, re-pin and StopFailure",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-11-18T18-34-48Z-phase",
+"--marker",
+"2026-11-18-the-2-1-325-recorded-fixture-set"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy no-repo · ../additional/viola-overseer/phase-fixture-set-directive.md",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-phase-fixture-set-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/phase-fixture-set-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "11475319990471dbc3703d5a9866289d557d2dea594df5fc4f8a3119afb6f8a1",
+"copy": "I1-phase-fixture-set-directive.md.txt",
+"link": false,
+"read_at": "2026-11-18T18:36:00Z",
+"step": "phase:P1",
+"why": "the overseer directive binding this phase: scope as at bb204f14, stop at P3 end with one founder-forks block on size, split, live-start shapes, re-pin and StopFailure"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "823570d9",
+"ts": "2026-11-18T19:18:04Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-18-the-2-1-325-recorded-fixture-set",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-fixture-set-p3.md",
+"--kind",
+"relay",
+"--why",
+"the founder's answers to founder-forks.md (split into two new entries, cap R4 + MCP re-record + spare R4-2, StopFailure its own entry, browser-tools prompt the human's) and the overseer's technical answers 5-12",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-11-18T18-34-48Z-phase",
+"--marker",
+"2026-11-18-the-2-1-325-recorded-fixture-set"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy no-repo · ../additional/viola-overseer/relay-fixture-set-p3.md",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-fixture-set-p3.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-fixture-set-p3.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "1ed7f8d74a521a5258423bbd4e86649756580472a4acb4866c9a45215c1b6a74",
+"copy": "I2-relay-fixture-set-p3.md.txt",
+"link": false,
+"read_at": "2026-11-18T19:18:03Z",
+"step": "phase:P4",
+"why": "the founder's answers to founder-forks.md (split into two new entries, cap R4 + MCP re-record + spare R4-2, StopFailure its own entry, browser-tools prompt the human's) and the overseer's technical answers 5-12"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "823570d9",
+"ts": "2026-11-18T19:28:34Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-18-the-2-1-325-recorded-fixture-set",
+"--run-dir",
+".andromeda/runs/2026-11-18T18-34-48Z-phase",
+"--marker",
+"2026-11-18-the-2-1-325-recorded-fixture-set"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-fixture-set-directive.md",
+"I1 cited scope.md:85 · scope.md:106 · research.md:7 · plan.md:9 · plan.md:45 · plan.md:201 · plan.md:569 · plan.md:586",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-fixture-set-p3.md",
+"I2 cited plan.md:9 · plan.md:38 · plan.md:42 · plan.md:45 · plan.md:54 · plan.md:57 · plan.md:74 · plan.md:94 · plan.md:99 · plan.md:119 · plan.md:198 · plan.md:216 · plan.md:221 · plan.md:230 · plan.md:369 (in fence) · plan.md:388 (in fence) · plan.md:403 (in fence) · plan.md:439 (in fence) · plan.md:494 · plan.md:569 · plan.md:577 · plan.md:580 · plan.md:584 · plan.md:587 · plan.md:590 · plan.md:624",
+"inputs: 2 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "823570d9",
+"ts": "2026-11-18T19:30:51Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-18-the-2-1-325-recorded-fixture-set",
+"--run-dir",
+".andromeda/runs/2026-11-18T18-34-48Z-phase",
+"--marker",
+"2026-11-18-the-2-1-325-recorded-fixture-set"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-fixture-set-directive.md",
+"I1 cited scope.md:85 · scope.md:106 · research.md:7 · plan.md:9 · plan.md:45 · plan.md:201 · plan.md:577 · plan.md:594",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-fixture-set-p3.md",
+"I2 cited scope.md:109 · scope.md:111 · scope.md:114 · scope.md:115 · scope.md:117 · plan.md:9 · plan.md:38 · plan.md:42 · plan.md:45 · plan.md:54 · plan.md:57 · plan.md:74 · plan.md:94 · plan.md:99 · plan.md:119 · plan.md:198 · plan.md:216 · plan.md:221 · plan.md:230 · plan.md:371 (in fence) · plan.md:390 (in fence) · plan.md:406 (in fence) · plan.md:447 (in fence) · plan.md:502 · plan.md:577 · plan.md:585 · plan.md:588 · plan.md:592 · plan.md:595 · plan.md:598 · plan.md:632",
+"inputs: 2 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "823570d9",
+"ts": "2026-11-18T19:32:47Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-18-the-2-1-325-recorded-fixture-set",
+"--source",
+".andromeda/runs/2026-11-18T18-34-48Z-phase/p5-word-1.md",
+"--kind",
+"relay",
+"--why",
+"the P5 word on .andromeda/runs/2026-11-18T18-34-48Z-phase/p5-card-1.md: yes, the three Beyond-the-plan rows stand as written (row 3 C7 on A live StopFailure payload); authority the session user, delegate overseer unless shown the founder's own",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-11-18T18-34-48Z-phase",
+"--marker",
+"2026-11-18-the-2-1-325-recorded-fixture-set"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [],
+"stderr": "--source lies in this project's own repository, under `.andromeda/` — the pipeline's own tree; phase reads it directly, it is not an external input",
+"wrote": [],
+"before": null,
+"after": null
+}
+]

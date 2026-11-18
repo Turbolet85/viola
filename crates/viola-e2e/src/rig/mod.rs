@@ -111,6 +111,11 @@ pub enum Arm {
     /// A plain child in a fresh untrusted folder of `TS`'s shape: its first frame read; stopped
     /// with no key.
     TC,
+    /// `V` whose record is kept, byte for byte, beside its frames before the teardown.
+    VR,
+    /// One print-mode child, no pty, whose one MCP server is `viola-mcp-tap record` in front of
+    /// `viola mcp`; the tap's `fixture` verb writes the exchange into the kept record.
+    MT,
 }
 
 impl Arm {
@@ -128,6 +133,8 @@ impl Arm {
             "vc" => Some(Self::VC),
             "ts" => Some(Self::TS),
             "tc" => Some(Self::TC),
+            "vr" => Some(Self::VR),
+            "mt" => Some(Self::MT),
             _ => None,
         }
     }
@@ -135,7 +142,8 @@ impl Arm {
     /// A live label's arm: `R1` / `R1-2`, `R2` / `R2-2`, `R3B` / `R3B-2`, `R3` / `R3-2` / `R3-326`
     /// / `R3D`, `IM` / `IM-2`, `S0` / `S0-2`, `S0R` with its two spares `S0R-2` / `S0R-3`, `S0B`
     /// with its spare `S0B-2`, `S0C` alone (no spare), `S1` with its spare `S1-2`, `S2` alone,
-    /// `BP` with its spare `BP-2`, and `BK` alone.
+    /// `BP` with its spare `BP-2`, `BK` alone, the recording `R4` with its spare `R4-2`, and the
+    /// MCP re-record `R4M` alone.
     pub fn of_label(label: &str) -> Option<Self> {
         match label {
             "R1" | "R1-2" => Some(Self::R1),
@@ -149,18 +157,21 @@ impl Arm {
             "S2" => Some(Self::TC),
             "BP" | "BP-2" => Some(Self::VP),
             "BK" => Some(Self::VK),
+            "R4" | "R4-2" => Some(Self::VR),
+            "R4M" => Some(Self::MT),
             _ => None,
         }
     }
 
-    /// Whether the start makes a viola home of its own: every wrapped arm, and the verify arms.
+    /// Whether the start makes a viola home of its own: every wrapped arm, the verify arms, and
+    /// `MT`, whose `viola mcp` takes it.
     pub fn has_vhome(self) -> bool {
-        self.wrapped().is_some() || self.verifies() || self == Self::TS
+        self.wrapped().is_some() || self.verifies() || matches!(self, Self::TS | Self::MT)
     }
 
-    /// The `viola verify` arms: `V` and its two browser-tools twins.
+    /// The `viola verify` arms: `V`, its two browser-tools twins and its recording `VR`.
     const fn verifies(self) -> bool {
-        matches!(self, Self::V | Self::VP | Self::VK)
+        matches!(self, Self::V | Self::VP | Self::VK | Self::VR)
     }
 
     /// Whether the seed holds the browser-tools key: every marker-seeded arm but `VP`.
@@ -182,12 +193,14 @@ impl Arm {
             Self::VC => "vc",
             Self::TS => "ts",
             Self::TC => "tc",
+            Self::VR => "vr",
+            Self::MT => "mt",
         }
     }
 
     /// Whether the start's cwd is made a git root, as the verify arm's.
     fn verify_seed(self) -> bool {
-        self.verifies() || matches!(self, Self::VC | Self::TS)
+        self.verifies() || matches!(self, Self::VC | Self::TS | Self::MT)
     }
 
     /// Whether the private config takes the used-config markers and the browser-tools key.
@@ -213,7 +226,9 @@ impl Arm {
             | Self::VK
             | Self::VC
             | Self::TS
-            | Self::TC => None,
+            | Self::TC
+            | Self::VR
+            | Self::MT => None,
         }
     }
 
@@ -230,6 +245,7 @@ impl Arm {
                 | Self::VK
                 | Self::VC
                 | Self::TS
+                | Self::VR
         )
     }
 
@@ -259,6 +275,8 @@ pub struct Plan {
     /// `TS`'s step 2 only: arguments after `child_args` for the wrapped child.
     pub run_args: Vec<String>,
     pub viola: Option<PathBuf>,
+    /// `MT`: the `viola-mcp-tap` its MCP server runs.
+    pub tap: Option<PathBuf>,
     /// The stamped CLI's install dir (live): its `claude` is read by path, and it leads `PATH`.
     pub cli_dir: Option<PathBuf>,
     pub cli_version: Option<String>,
@@ -334,6 +352,13 @@ pub fn start(plan: &Plan) -> u8 {
             Some(read) if read == want => summary.put("cli", read),
             _ => return refused("version"),
         }
+    }
+    if plan.arm == Arm::VR
+        && (isolate::names_home_component(&plan.scratch_base)
+            || fs::canonicalize(&plan.scratch_base)
+                .is_ok_and(|base| isolate::names_home_component(&base)))
+    {
+        return refused("record-home");
     }
     let Ok(credentials) = isolate::read_credentials(&plan.credentials) else {
         return refused("token-window");
@@ -414,7 +439,9 @@ pub fn start(plan: &Plan) -> u8 {
             | Arm::VK
             | Arm::VC
             | Arm::TS
-            | Arm::TC => true,
+            | Arm::TC
+            | Arm::VR
+            | Arm::MT => true,
         };
     if !placed {
         summary.put("refused", "credentials");
@@ -436,6 +463,14 @@ pub fn start(plan: &Plan) -> u8 {
         // A failed verify's first screens, copied into the run's kept folder beside its frames
         // before the teardown removes the scratch; their content reaches no summary line.
         summary.put("kept", scratch.keep_first_screens(&plan.out.join(&run)));
+        if plan.arm == Arm::VR {
+            // The record kept whole, its bytes as the recorder wrote them, local and gitignored
+            // with the frames; the landing copies it into the tree by hand.
+            summary.put(
+                "record",
+                scratch.keep_record(&plan.out.join(&plan.label).join("record")),
+            );
+        }
         summary.put(
             "record-left",
             scratch.record_left(&isolate::child_temp_root()),
@@ -487,6 +522,7 @@ fn finish(
         && summary.get("stopped-by").is_none()
         && summary.get("step2") != Some("not-started")
         && user_config != "changed-by-rig"
+        && summary.get("mcp-child").is_none_or(|c| c == "exit 0")
         && summary.get("child").is_none_or(|c| {
             c == "stopped" || c == "exit 0" || (plan.arm.verifies() && c == "exit 1")
         });
@@ -720,6 +756,10 @@ fn run_child(
     summary: &mut Summary,
 ) -> Option<String> {
     let env = isolate::child_env(plan.cli_dir.as_deref(), &scratch.config, run);
+    if plan.arm == Arm::MT {
+        arm_mt(plan, run, scratch, &env, summary);
+        return None;
+    }
     let child_args = substituted(&plan.child_args, scratch);
     let (program, args) = match (plan.arm.wrapped(), &scratch.vhome) {
         (None, Some(vhome)) if plan.arm.verifies() => {
@@ -789,11 +829,12 @@ fn run_child(
         Arm::R3B => wake::arm_r3b(plan, scratch, &env, &mut session, summary),
         Arm::R3 => wake::arm_r3(plan, scratch, &env, &mut session, summary),
         Arm::IM => arm_im(plan, &mut session, summary),
-        Arm::V | Arm::VP | Arm::VK => arm_v(plan, scratch, &mut session, summary),
+        Arm::V | Arm::VP | Arm::VK | Arm::VR => arm_v(plan, scratch, &mut session, summary),
         Arm::VC => arm_vc(plan, &mut session, summary),
         Arm::TC => arm_tc(plan, scratch, sentinel, &mut session, summary),
-        // `TS` takes its own two starts (`run_ts`); a start that reaches here holds the child alone.
-        Arm::TS => arm_hold(plan, &mut session),
+        // `TS` takes its own two starts (`run_ts`) and `MT` no pty (`arm_mt`); a start that
+        // reaches here holds the child alone.
+        Arm::TS | Arm::MT => arm_hold(plan, &mut session),
     }
     let no_key = matches!(plan.arm, Arm::IM | Arm::VP | Arm::VK | Arm::VC | Arm::TC);
     end_session(session, summary, no_key)
@@ -1165,6 +1206,195 @@ fn arm_v(plan: &Plan, scratch: &Scratch, session: &mut Session, summary: &mut Su
     );
     for (key, value) in lines {
         summary.put(&key, value);
+    }
+}
+
+/// `MT`'s one prompt, 2.1.302's own, given on stdin: `--mcp-config` is variadic, so nothing
+/// positional follows it (verification-harness.md 2026-10-20).
+const MT_PROMPT: &str = "reply with the single word ok";
+/// How long `MT` waits, after its child exits, for the tap and `viola mcp` to leave by themselves.
+const MCP_LEAVE: Duration = Duration::from_secs(5);
+/// The bound on the tap's `fixture` verb.
+const TAP_BOUND: Duration = Duration::from_secs(20);
+/// The exchange the tap's `fixture` verb writes into the kept record.
+const MCP_FIXTURE: &str = "Mcp.tools-list-1.json";
+
+/// `MT`'s `--mcp-config` document: its one server the tap recording `viola mcp` on the vhome.
+fn mcp_config_doc(tap: &Path, capture: &Path, viola: &Path, vhome: &Path) -> Value {
+    let text = |p: &Path| p.to_string_lossy().into_owned();
+    serde_json::json!({"mcpServers": {"viola": {
+        "type": "stdio",
+        "command": text(tap),
+        "args": ["record", text(capture), text(viola), "--home", text(vhome), "mcp"],
+        "env": {},
+    }}})
+}
+
+/// A child's pipe read through `MAX_FRAME` on a thread of its own.
+fn drain(pipe: Option<impl std::io::Read + Send + 'static>) -> std::thread::JoinHandle<Vec<u8>> {
+    std::thread::spawn(move || {
+        let mut bytes = Vec::new();
+        if let Some(pipe) = pipe {
+            let _ = pipe.take(viola_core::MAX_FRAME).read_to_end(&mut bytes);
+        }
+        bytes
+    })
+}
+
+/// `MT`: one print-mode child, no pty and no key, its one MCP server the tap in front of `viola
+/// mcp`; bounded by the deadline and the stop, its group killed past them. Then the tap's
+/// `fixture` verb over the capture into the kept record. Closed words and counts only: the
+/// stdout is counted and dropped, the stderr counted and hashed.
+fn arm_mt(
+    plan: &Plan,
+    run: &str,
+    scratch: &Scratch,
+    env: &[(OsString, OsString)],
+    summary: &mut Summary,
+) {
+    use std::os::unix::process::CommandExt as _;
+    summary.put("keys", "none");
+    let (Some(viola), Some(tap), Some(vhome)) = (&plan.viola, &plan.tap, &scratch.vhome) else {
+        summary.put("refused", "viola");
+        return;
+    };
+    let Ok(root) = fs::canonicalize(&scratch.root) else {
+        summary.put("refused", "scratch");
+        return;
+    };
+    let capture = root.join("capture.ndjson");
+    let config = root.join("mcp.json");
+    let doc = mcp_config_doc(tap, &capture, viola, vhome);
+    if viola_state::fs::replace_private(
+        &config,
+        doc.to_string().as_bytes(),
+        viola_state::fs::FILE_MODE,
+    )
+    .is_err()
+    {
+        summary.put("refused", "seed");
+        return;
+    }
+    let mut command = Command::new(&plan.program);
+    command
+        .args(["-p", "--strict-mcp-config", "--mcp-config"])
+        .arg(&config)
+        .current_dir(&scratch.cwd)
+        .env_clear()
+        .envs(env.iter().map(|(k, v)| (k, v)))
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .process_group(0);
+    let Ok(mut child) = command.spawn() else {
+        summary.put("refused", "spawn");
+        return;
+    };
+    if let Some(mut stdin) = child.stdin.take() {
+        let _ = stdin.write_all(MT_PROMPT.as_bytes());
+    }
+    let out = drain(child.stdout.take());
+    let err = drain(child.stderr.take());
+    let exit = loop {
+        match child.try_wait() {
+            Ok(Some(status)) => break status.code(),
+            Ok(None) if procs::stop_requested().is_none() => {
+                std::thread::sleep(Duration::from_millis(50));
+            }
+            _ => {
+                procs::kill_group(child.id());
+                let _ = child.kill();
+                let _ = child.wait();
+                break None;
+            }
+        }
+    };
+    if let Some(reason) = procs::stop_requested() {
+        summary.put("stopped-by", reason);
+    }
+    let until = Instant::now() + MCP_LEAVE;
+    let scope = Scope::Run {
+        run,
+        root: &scratch.root,
+    };
+    while !procs::census(scope).is_empty() && Instant::now() < until {
+        std::thread::sleep(Duration::from_millis(50));
+    }
+    let stdout = out.join().unwrap_or_default();
+    let stderr = err.join().unwrap_or_default();
+    summary.put(
+        "mcp-child",
+        exit.map_or_else(|| "killed".to_owned(), |c| format!("exit {c}")),
+    );
+    summary.put("stdout-bytes", stdout.len().to_string());
+    summary.put("stderr-bytes", stderr.len().to_string());
+    summary.put("stderr-sha", content_key(&stderr));
+    let lines = capture_lines(&capture);
+    summary.put("capture-lines", lines.to_string());
+    let version = plan.cli_version.clone().or_else(|| {
+        cli_version(&plan.program, Some(&scratch.root))
+            .as_deref()
+            .and_then(version_token)
+            .map(str::to_owned)
+    });
+    let word = match version {
+        _ if lines == 0 => "none",
+        None => "unread",
+        Some(version) => tap_fixture(
+            tap,
+            &capture,
+            &plan
+                .out
+                .join(&plan.label)
+                .join("record")
+                .join(version)
+                .join(MCP_FIXTURE),
+            &root,
+        ),
+    };
+    summary.put("tap-fixture", word);
+}
+
+/// The capture's complete lines, 0 when it is absent or unread.
+fn capture_lines(capture: &Path) -> usize {
+    let mut bytes = Vec::new();
+    let read =
+        File::open(capture).and_then(|f| f.take(viola_core::MAX_FRAME).read_to_end(&mut bytes));
+    if read.is_err() {
+        return 0;
+    }
+    bytes.iter().filter(|&&b| b == b'\n').count()
+}
+
+/// The tap's `fixture` verb, a direct bounded spawn: `written` · `refused` (its exit, the code not
+/// echoed) · `exists` (the file stands; nothing run) · `unread` (no spawn, or killed).
+fn tap_fixture(tap: &Path, capture: &Path, out: &Path, cwd: &Path) -> &'static str {
+    if out.symlink_metadata().is_ok() {
+        return "exists";
+    }
+    if out
+        .parent()
+        .is_none_or(|dir| viola_state::fs::create_private_dir(dir).is_err())
+    {
+        return "unread";
+    }
+    let mut command = Command::new(tap);
+    command
+        .arg("fixture")
+        .arg(capture)
+        .arg(out)
+        .current_dir(cwd)
+        .env_clear()
+        .env("PATH", "/usr/bin:/bin")
+        .stdin(Stdio::null());
+    // The scrub rewrites the user's own home to `~`, read from `HOME`.
+    if let Some(home) = std::env::var_os("HOME") {
+        command.env("HOME", home);
+    }
+    match bounded(command, TAP_BOUND) {
+        None => "unread",
+        Some(output) if output.status.success() && out.is_file() => "written",
+        Some(_) => "refused",
     }
 }
 
@@ -1563,7 +1793,6 @@ mod tests {
         ] {
             assert_eq!(Arm::of_label(label), Some(arm), "{label}");
         }
-        assert_eq!(Arm::of_label("R4"), None);
         assert_eq!(Arm::of_label("R3-3"), None);
         assert_eq!(Arm::parse("v"), Some(Arm::V));
         assert_eq!(Arm::of_label("S0"), Some(Arm::V));
@@ -1610,6 +1839,65 @@ mod tests {
             assert!(arm.browser_tools_seed(), "{}", arm.word());
         }
         assert!(Arm::V.verifies() && !Arm::VC.verifies() && !Arm::TS.verifies());
+    }
+
+    /// `R4` and its spare `R4-2` start the recording arm, `R4M` alone the MCP re-record.
+    #[test]
+    fn the_recording_labels_take_their_arms_and_properties() {
+        for (label, arm) in [
+            ("R4", Some(Arm::VR)),
+            ("R4-2", Some(Arm::VR)),
+            ("R4M", Some(Arm::MT)),
+            ("R4-3", None),
+            ("R4M-2", None),
+        ] {
+            assert_eq!(Arm::of_label(label), arm, "{label}");
+        }
+        for (label, word, arm) in [("vr", "vr", Arm::VR), ("mt", "mt", Arm::MT)] {
+            assert_eq!(Arm::parse(word), Some(arm), "{label}");
+            assert_eq!(arm.word(), word, "{label}");
+        }
+        for (label, arm, vhome, verify_seed, marker_seed, trusted, verifies) in [
+            ("vr", Arm::VR, true, true, true, true, true),
+            ("mt", Arm::MT, true, true, false, false, false),
+        ] {
+            assert_eq!(arm.has_vhome(), vhome, "{label} vhome");
+            assert_eq!(arm.verify_seed(), verify_seed, "{label} verify seed");
+            assert_eq!(arm.marker_seed(), marker_seed, "{label} marker seed");
+            assert_eq!(arm.trusted(), trusted, "{label} trusted");
+            assert_eq!(arm.verifies(), verifies, "{label} verifies");
+            assert_eq!(arm.wrapped(), None, "{label} wrapped");
+        }
+        assert!(
+            Arm::VR.browser_tools_seed(),
+            "the browser-tools key seeded off"
+        );
+    }
+
+    #[test]
+    fn the_mcp_config_names_the_tap_in_front_of_viola_mcp() {
+        let doc = mcp_config_doc(
+            Path::new("/r/target/debug/viola-mcp-tap"),
+            Path::new("/tmp/viola-rig-1000/1-2/capture.ndjson"),
+            Path::new("/r/target/debug/viola"),
+            Path::new("/tmp/viola-rig-1000/1-2/vhome"),
+        );
+        assert_eq!(
+            doc,
+            json!({"mcpServers": {"viola": {
+                "type": "stdio",
+                "command": "/r/target/debug/viola-mcp-tap",
+                "args": [
+                    "record",
+                    "/tmp/viola-rig-1000/1-2/capture.ndjson",
+                    "/r/target/debug/viola",
+                    "--home",
+                    "/tmp/viola-rig-1000/1-2/vhome",
+                    "mcp"
+                ],
+                "env": {}
+            }}})
+        );
     }
 
     /// The 24th row's line in its three words, and `pass-count` / `failing` reading it through

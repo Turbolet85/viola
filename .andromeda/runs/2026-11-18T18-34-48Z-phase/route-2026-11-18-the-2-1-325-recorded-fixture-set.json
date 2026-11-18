@@ -1,0 +1,37 @@
+[
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "a5501032",
+"ts": "2026-11-18T18:35:54Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-11-18-the-2-1-325-recorded-fixture-set",
+"--id",
+"chk-p5g2qxoz",
+"--desc-file",
+".andromeda/runs/2026-11-18T18-34-48Z-phase/master-desc.txt",
+"--scope-file",
+".andromeda/cache/docs/2026-11-18-the-2-1-325-recorded-fixture-set/scope.md",
+"--run-dir",
+".andromeda/runs/2026-11-18T18-34-48Z-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"promoted 2026-11-18-the-2-1-325-recorded-fixture-set · chk-p5g2qxoz · The 2.1.325 recorded fixture set · tx 2845"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T18-35-54-2026-11-18-the-2-1-325-recorded-fixture-set.ndjson",
+"./.andromeda/master-route.md",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]

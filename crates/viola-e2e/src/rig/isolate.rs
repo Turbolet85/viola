@@ -610,6 +610,82 @@ impl Scratch {
             letters.join(",")
         }
     }
+
+    /// Copies every regular file of the record dir's version dirs into `kept/<version>/`, the
+    /// bytes as read (0600, never re-serialised, never printed), leaving out the first screens:
+    /// the count of files copied, `none` when there is no record dir or no file in it, `exists`
+    /// when `kept` already stands (nothing written), `unread` when a read or a write failed.
+    pub fn keep_record(&self, kept: &Path) -> String {
+        if kept.symlink_metadata().is_ok() {
+            return "exists".to_owned();
+        }
+        let record = self.record_dir();
+        if !record.exists() {
+            return "none".to_owned();
+        }
+        let Ok(entries) = fs::read_dir(&record) else {
+            return "unread".to_owned();
+        };
+        let mut versions: Vec<PathBuf> = entries
+            .flatten()
+            .map(|e| e.path())
+            .filter(|p| p.symlink_metadata().is_ok_and(|m| m.is_dir()))
+            .collect();
+        versions.sort();
+        let mut copied = 0usize;
+        for version in versions {
+            let (Some(name), Ok(files)) = (version.file_name(), fs::read_dir(&version)) else {
+                return "unread".to_owned();
+            };
+            let into = kept.join(name);
+            let mut paths: Vec<PathBuf> = files.flatten().map(|e| e.path()).collect();
+            paths.sort();
+            for path in paths {
+                let Some(file) = path.file_name().and_then(|n| n.to_str()) else {
+                    return "unread".to_owned();
+                };
+                if !path.symlink_metadata().is_ok_and(|m| m.is_file())
+                    || (file.starts_with("FirstScreen.") && file.ends_with(".json"))
+                {
+                    continue;
+                }
+                let Some(bytes) = read_bounded(&path) else {
+                    return "unread".to_owned();
+                };
+                if create_private_dir(&into).is_err()
+                    || replace_private(&into.join(file), &bytes, FILE_MODE).is_err()
+                {
+                    return "unread".to_owned();
+                }
+                copied += 1;
+            }
+        }
+        if copied == 0 {
+            "none".to_owned()
+        } else {
+            copied.to_string()
+        }
+    }
+}
+
+/// Whether any normal component of `path` is exactly `home`: a recording's scratch must name
+/// none, or the recorder refuses its print probe's cwd as a home path (testing.md 2026-10-05).
+pub fn names_home_component(path: &Path) -> bool {
+    path.components()
+        .any(|c| matches!(c, std::path::Component::Normal(n) if n == "home"))
+}
+
+/// A file's bytes read through `MAX_FRAME`; `None` when unreadable or over the bound.
+fn read_bounded(path: &Path) -> Option<Vec<u8>> {
+    let mut bytes = Vec::new();
+    File::open(path)
+        .ok()?
+        .take(MAX_FRAME + 1)
+        .read_to_end(&mut bytes)
+        .ok()?;
+    u64::try_from(bytes.len())
+        .is_ok_and(|n| n <= MAX_FRAME)
+        .then_some(bytes)
 }
 
 /// A JSON document read through `MAX_FRAME`; `None` when absent, over the bound or malformed.
@@ -876,6 +952,51 @@ mod tests {
             "unread"
         );
         assert!(child_temp_root().is_absolute());
+    }
+
+    #[test]
+    fn keep_record_copies_the_set_byte_for_byte_and_never_overwrites() {
+        use std::os::unix::fs::PermissionsExt as _;
+        let base = tempfile::tempdir().expect("tempdir");
+        let scratch = Scratch::create(base.path(), "1-2", true).expect("scratch");
+        let kept = base.path().join("kept").join("R4").join("record");
+        assert_eq!(scratch.keep_record(&kept), "none", "no record dir");
+        assert!(!kept.exists(), "none writes nothing");
+        let version = scratch.record_dir().join("2.1.325");
+        fs::create_dir_all(&version).expect("version dir");
+        let spaced: &[u8] = b"{ \"a\" :  1,\n  \"b\": [ 2 ] }\n";
+        let other: &[u8] = b"{\"hook_event_name\":\"Stop\"}";
+        fs::write(version.join("Stop.default.json"), spaced).expect("set file");
+        fs::write(version.join("Screen.ready.json"), other).expect("set file");
+        fs::write(version.join("FirstScreen.b.json"), b"{}").expect("first screen");
+        assert_eq!(scratch.keep_record(&kept), "2");
+        let into = kept.join("2.1.325");
+        for (name, bytes) in [("Stop.default.json", spaced), ("Screen.ready.json", other)] {
+            let path = into.join(name);
+            assert_eq!(fs::read(&path).expect("kept file"), bytes, "{name}");
+            let mode = fs::metadata(&path).expect("meta").permissions().mode() & 0o777;
+            assert_eq!(mode, 0o600, "{name}");
+        }
+        assert!(!into.join("FirstScreen.b.json").exists(), "no first screen");
+        assert_eq!(scratch.keep_record(&kept), "exists");
+        assert_eq!(
+            fs::read(into.join("Stop.default.json")).expect("kept file"),
+            spaced,
+            "left as found"
+        );
+    }
+
+    #[test]
+    fn a_path_names_a_home_component_only_for_the_exact_word() {
+        for (label, path, named) in [
+            ("the rig's base", "/tmp/viola-rig-1000", false),
+            ("an inner home", "/x/home/y", true),
+            ("the root home", "/home", true),
+            ("a plural", "/x/homes", false),
+            ("the vhome", "/x/vhome", false),
+        ] {
+            assert_eq!(names_home_component(Path::new(path)), named, "{label}");
+        }
     }
 
     #[test]

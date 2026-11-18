@@ -1,0 +1,75 @@
+[
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "ebdfae9c",
+"ts": "2026-11-18T19:45:11Z",
+"argv": [
+"added",
+"--out",
+".andromeda/runs/2026-11-18T19-33-40Z-implement/new-text.md",
+"--run-dir",
+".andromeda/runs/2026-11-18T19-33-40Z-implement",
+"--marker",
+"2026-11-18-the-2-1-325-recorded-fixture-set"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: bb204f14 — no pre-CI commit",
+"crates/viola-e2e/src/bin/viola-live-rig.rs — added 19 line(s) in 7 range(s)",
+"crates/viola-e2e/src/rig/isolate.rs — added 121 line(s) in 2 range(s)",
+"crates/viola-e2e/src/rig/mod.rs — added 300 line(s) in 22 range(s)",
+"crates/viola-e2e/tests/rig_rehearsal.rs — added 111 line(s) in 1 range(s)",
+"fixtures/claude/2.1.325/Agents.recorded-1.json — new file · 1 line(s)",
+"fixtures/claude/2.1.325/Mcp.tools-list-1.json — new file · 205 line(s)",
+"fixtures/claude/2.1.325/PermissionRequest.permission-1.json — new file · 1 line(s)",
+"fixtures/claude/2.1.325/PermissionRequest.plan-1.json — new file · 1 line(s)",
+"fixtures/claude/2.1.325/PostToolUse.parallel-1.json — new file · 1 line(s)",
+"fixtures/claude/2.1.325/PostToolUse.parallel-2.json — new file · 1 line(s)",
+"fixtures/claude/2.1.325/PostToolUse.permission-1.json — new file · 1 line(s)",
+"fixtures/claude/2.1.325/PostToolUse.plan-2.json — new file · 1 line(s)",
+"fixtures/claude/2.1.325/PostToolUse.questions-1.json — new file · 1 line(s)",
+"fixtures/claude/2.1.325/PreToolUse.parallel-1.json — new file · 1 line(s)",
+"fixtures/claude/2.1.325/PreToolUse.parallel-2.json — new file · 1 line(s)",
+"fixtures/claude/2.1.325/PreToolUse.plan-1.json — new file · 1 line(s)",
+"fixtures/claude/2.1.325/PreToolUse.plan-2.json — new file · 1 line(s)",
+"fixtures/claude/2.1.325/PreToolUse.questions-1.json — new file · 1 line(s)",
+"fixtures/claude/2.1.325/Screen.modal.json — new file · 1 line(s)",
+"fixtures/claude/2.1.325/Screen.ready.json — new file · 1 line(s)",
+"fixtures/claude/2.1.325/Screen.turn.json — new file · 1 line(s)",
+"fixtures/claude/2.1.325/SessionEnd.clear-1.json — new file · 1 line(s)",
+"fixtures/claude/2.1.325/SessionEnd.default.json — new file · 1 line(s)",
+"fixtures/claude/2.1.325/SessionStart.clear-1.json — new file · 1 line(s)",
+"fixtures/claude/2.1.325/SessionStart.compact-1.json — new file · 1 line(s)",
+"fixtures/claude/2.1.325/SessionStart.default.json — new file · 1 line(s)",
+"fixtures/claude/2.1.325/SessionStart.resume-1.json — new file · 1 line(s)",
+"fixtures/claude/2.1.325/Stop.default.json — new file · 1 line(s)",
+"fixtures/claude/2.1.325/UserPromptSubmit.default.json — new file · 1 line(s)",
+"fixtures/claude/2.1.325/UserPromptSubmit.paste-1.json — new file · 1 line(s)",
+"fixtures/claude/2.1.325/UserPromptSubmit.paste-2.json — new file · 1 line(s)",
+"fixtures/claude/2.1.325/UserPromptSubmit.paste-3.json — new file · 1 line(s)",
+"tests/contract_ledger_probes.rs — added 1 line(s) in 1 range(s)",
+"new text: 33 file(s) · 28 new · 61 added range(s) · 784 line(s) · 57 block(s) → .andromeda/runs/2026-11-18T19-33-40Z-implement/new-text.md (101 lines) · written"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-18T19-33-40Z-implement/new-text.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"base": "bb204f147f8fc7116e0c774b92b768502bddcdb2",
+"counts": {
+"files": 33,
+"new": 28,
+"ranges": 61,
+"lines": 784,
+"blocks": 57
+},
+"out": ".andromeda/runs/2026-11-18T19-33-40Z-implement/new-text.md",
+"state": "written",
+"lines": 101
+}
+}
+]

@@ -41,7 +41,7 @@ const ROW_IDS: [&str; 24] = [
 ];
 /// The sets recorded whole (spine, screens, dialog, framing and resume variants): each
 /// stamps every relied row as counting.
-const STAMPED: [&str; 2] = ["2.1.287", "2.1.302"];
+const STAMPED: [&str; 3] = ["2.1.287", "2.1.302", "2.1.325"];
 /// The sets kept only for the byte-drift contract, never stamped: 2.1.283 carries no screen, and
 /// 2.1.288 none of the framing variants.
 const DRIFT_ONLY: [&str; 2] = ["2.1.283", "2.1.288"];

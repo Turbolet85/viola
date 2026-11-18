@@ -1234,6 +1234,117 @@ fn rig_rehearsal_tc_reads_the_trust_form_and_kills_with_no_key() {
     assert_torn_down(&out, &case);
 }
 
+/// The recording arm over the fake agent: a clean verify, and its record kept whole under the
+/// case's `--out` beside the frames, the first screens left out, before the scratch is removed.
+#[test]
+fn rig_rehearsal_vr_keeps_the_clean_record_beside_its_frames() {
+    let case = Case::new();
+    let child = case.child(
+        true,
+        &[
+            "--trust-config",
+            "{config}/.claude.json",
+            "--turn-stop",
+            "--dialogs",
+            "--framing",
+            "--transcript",
+        ],
+    );
+    let viola = viola().display().to_string();
+    let out = run(case.rig("vr", &["--viola", viola.as_str()], &child));
+    let summary = stdout(&out);
+    assert_eq!(out.status.code(), Some(0), "{summary}");
+    assert_eq!(word(&out, "verify-exit").as_deref(), Some("0"), "{summary}");
+    assert_eq!(word(&out, "failing").as_deref(), Some("none"), "{summary}");
+    let count: usize = word(&out, "record")
+        .and_then(|w| w.parse().ok())
+        .unwrap_or_else(|| panic!("record: a count {summary}"));
+    assert!(count > 0, "{summary}");
+    let kept = case.out().join("rehearse-VR").join("record");
+    let versions: Vec<PathBuf> = fs::read_dir(&kept)
+        .expect("the kept record")
+        .map(|e| e.expect("entry").path())
+        .collect();
+    assert_eq!(versions.len(), 1, "one version dir: {versions:?}");
+    let names: Vec<String> = fs::read_dir(&versions[0])
+        .expect("the version dir")
+        .map(|e| e.expect("entry").file_name().to_string_lossy().into_owned())
+        .collect();
+    assert_eq!(names.len(), count, "{names:?}");
+    assert!(
+        !names.iter().any(|n| n.starts_with("FirstScreen.")),
+        "{names:?}"
+    );
+    assert_eq!(word(&out, "kept").as_deref(), Some("none"), "{summary}");
+    assert_eq!(word(&out, "keys").as_deref(), Some("none"));
+    assert_eq!(word(&out, "record-left").as_deref(), Some("absent"));
+    assert_torn_down(&out, &case);
+}
+
+/// A scratch base holding a component named `home` is refused before the ledger line, uncounted.
+#[test]
+fn rig_rehearsal_vr_refuses_a_scratch_base_with_a_home_component() {
+    let case = Case::new();
+    let base = case.path("home").join("base");
+    let viola = viola().display().to_string();
+    let ledger = case.ledger().display().to_string();
+    let cmd = case.rig(
+        "vr",
+        &["--viola", viola.as_str(), "--ledger", ledger.as_str()],
+        &case.child(true, &[]),
+    );
+    let out = run(with_option(
+        &cmd,
+        "--scratch-base",
+        &base.display().to_string(),
+    ));
+    let summary = stdout(&out);
+    assert_eq!(out.status.code(), Some(3), "{summary}");
+    assert_eq!(
+        word(&out, "refused").as_deref(),
+        Some("record-home"),
+        "{summary}"
+    );
+    let ledger = fs::read_to_string(case.ledger()).unwrap_or_default();
+    assert!(!ledger.contains("\"start\""), "no start line: {ledger}");
+    assert!(!base.exists(), "no scratch made");
+    assert!(!case.receipt().exists(), "no child");
+}
+
+/// The MCP re-record arm over the fake agent, which starts no MCP server: its config written, the
+/// one print-mode child run and torn down, no capture and so no fixture.
+#[test]
+fn rig_rehearsal_mt_writes_its_mcp_config_and_tears_down() {
+    let case = Case::new();
+    let viola = viola().display().to_string();
+    let tap = env!("CARGO_BIN_EXE_viola-mcp-tap");
+    let out = run(case.rig(
+        "mt",
+        &["--viola", viola.as_str(), "--tap", tap],
+        &case.child(false, &[]),
+    ));
+    let summary = stdout(&out);
+    assert_eq!(out.status.code(), Some(0), "{summary}");
+    assert_eq!(word(&out, "keys").as_deref(), Some("none"));
+    assert_eq!(
+        word(&out, "mcp-child").as_deref(),
+        Some("exit 0"),
+        "{summary}"
+    );
+    assert_eq!(
+        word(&out, "capture-lines").as_deref(),
+        Some("0"),
+        "{summary}"
+    );
+    assert_eq!(
+        word(&out, "tap-fixture").as_deref(),
+        Some("none"),
+        "{summary}"
+    );
+    assert!(!case.out().join("rehearse-MT").exists(), "no record kept");
+    assert_torn_down(&out, &case);
+}
+
 #[test]
 fn rig_live_arm_refuses_under_ci() {
     let case = Case::new();
