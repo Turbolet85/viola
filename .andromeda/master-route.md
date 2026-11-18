@@ -117,4 +117,4 @@
 2026-11-17-trust-record-ledger-row · complete · the 23rd relied ledger row — the CLI honours a trust record another process wrote — with verify's sixth run, the fake agent reading the record, and one live verify S0 · → chk:2026-11-17-trust-record-ledger-row
 2026-11-18-trust-record-row-read-live · complete · the relied trust-record row read live on 2.1.325, each interactive verify run's first screen named · → chk:2026-11-18-trust-record-row-read-live
 2026-11-18-session-folder-trusted-by-viola · complete · viola writes the CLI's trust record for an untrusted session folder at a wrapped start, so no trust dialog stands and no key is typed (v2-33) · → chk:2026-11-18-session-folder-trusted-by-viola
-2026-11-18-browser-tools-prompt-modal · pending · the CLI's browser-tools prompt a compiled modal literal with its 24th ledger row and verify probe; run's gate never types into it · → chk:2026-11-18-browser-tools-prompt-modal
+2026-11-18-browser-tools-prompt-modal · complete · the CLI's browser-tools prompt a compiled modal literal with its 24th ledger row and verify probe; run's gate never types into it · → chk:2026-11-18-browser-tools-prompt-modal

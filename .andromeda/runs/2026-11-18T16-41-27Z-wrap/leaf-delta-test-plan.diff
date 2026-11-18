@@ -1,0 +1,28 @@
+--- a/.andromeda/test-plan.md
++++ b/.andromeda/test-plan.md
+@@ -28,3 +28,3 @@
+ decision/leading-slash-never-a-prompt · Leading-slash argument never a prompt — A leading-slash argument in the target or text position of send or answer is never taken as a prompt: it is a usage error, exit 2, and nothing is delivered. · guard: send_leading_slash_argument_is_a_usage_error
+-decision/ledger-row-verify-probe · Every ledger row has a verify probe — Every ledger row has a viola verify probe with a post-condition, run locally, reporting an exit code and a stamped/pass/fail line.
++decision/ledger-row-verify-probe · Every ledger row has a verify probe — Every ledger row has a viola verify probe with a post-condition, run locally, reporting an exit code, a pass, absent or fail step line and a stamped line.
+ decision/linux-only · Linux only — The product is Linux only: the core on any current distribution, the full workspace and fake-agent E2E on ubuntu-latest, the window features on Hyprland; a test gate whose predicate names windows or macos is a fault even when a row names it. · guard: contract_os_gated_tests
+@@ -378,3 +378,3 @@
+ decision/unknown-refusal-word-stays-visible · Unknown refusal word stays visible — A refusal code word outside the closed refusal list stays visible in the JSON document and in the human refused line, with the unknown refusal's exit. · guard: reply_of_reads_the_three_shapes
+-decision/version-gate-needs-all-relied-rows · Version gate needs every relied row — A CLI version reads verified only when its stamp holds every relied ledger row as pass, a retired row it also holds changing nothing; a stamp of only older row ids reads unverified. · guard: stamps_verdict_needs_the_dialog_rows
++decision/version-gate-needs-all-relied-rows · Version gate needs every relied row — A CLI version reads verified only when its stamp holds every relied ledger row as counting, pass or, on the browser-tools-prompt row alone, absent; a retired row it also holds changes nothing, and a stamp of only older row ids reads unverified. · guard: stamps_verdict_needs_the_dialog_rows
+ decision/vt100-feed-panic-safe · Screen feed panic-safe — The vt100 feed runs under catch_unwind, and a panic in it gives input-not-ready.
+@@ -525,4 +525,4 @@
+ contract/verify-exit-detail/version-unreadable · viola verify process-exit detail · version-unreadable — Written on verify's process-exit under a parsed VIOLA_NAME when the CLI version cannot be read.
+-contract/verify-output/step-line · viola verify output · step line — One [NN/MM] <row id> <row words>  pass|fail line per relied ledger row, MM the relied count.
+-contract/verify-output/summary-line · viola verify output · summary line — The last stdout line is stamped <ver>  <n> pass  <m> fail.
++contract/verify-output/step-line · viola verify output · step line — One [NN/MM] <row id> <row words>  pass|absent|fail line per relied ledger row, MM the relied count; absent is read on the browser-tools-prompt row alone.
++contract/verify-output/summary-line · viola verify output · summary line — The last stdout line is stamped <ver>  <n> pass  <m> fail, n counting every relied row that counts toward verified, an absent browser-tools-prompt row among them.
+ contract/verify-stop/signal · viola verify interrupted · SIGINT or SIGTERM — Removes only its own run dirs and its own trust record, stdout empty, stderr exactly unable: verify was stopped before it finished / hint: run viola verify again to stamp this CLI, exit 1, no stamps.json, role log ending process-exit detail interrupted.
+@@ -840,2 +840,3 @@
+ contract/fake-agent-cli/settings · viola-fake-agent command line · --settings — --settings <file> is accepted, its value consumed and ignored.
++contract/fake-agent-cli/start-screen · viola-fake-agent command line · --start-screen — Under --screens, a trusted start given --start-screen <phase> draws Screen.<phase> in place of its ready screen and keeps it standing; each stdin byte is one key receipt line, Ctrl-C ends it with no key line, and no byte reaches the input box.
+ contract/fake-agent-cli/transcript · viola-fake-agent command line · --transcript — The argv-only --transcript creates <exe dir>/transcripts/ at 0700 at start and gives the launch SessionStart a transcript_path to a seeded 0600 file named by its session id; replayed framing variants are not rewritten.
+@@ -1235,3 +1236,3 @@
+ contract/local-live-suite/failure-codes · the local-live suite · failure codes — A failure carries one code: build, verify-exit-<n>, verify-exit-none or row-missing.
+-contract/local-live-suite/pass · the local-live suite · pass — Passes when verify exits 0, each relied ledger row id names exactly one pass line, and the last line reads stamped with zero fail; it claims no live measurement beyond that.
++contract/local-live-suite/pass · the local-live suite · pass — Passes when verify exits 0, each relied ledger row id names exactly one pass line, or one absent line on the browser-tools-prompt row alone, and the last line reads stamped with zero fail; it claims no live measurement beyond that.
+ contract/mutants-verdict/scoped · run --mutants verdict · scoped — The run was scoped by --file.

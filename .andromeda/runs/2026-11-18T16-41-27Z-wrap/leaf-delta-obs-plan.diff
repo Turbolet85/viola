@@ -1,0 +1,18 @@
+--- a/.andromeda/obs-plan.md
++++ b/.andromeda/obs-plan.md
+@@ -359,2 +359,3 @@
+ ## obs-plan · 4-span-trace-coverage · twin span-trace-coverage
++decision/browser-tools-prompt-reading-uninstrumented · Browser-tools prompt reading uninstrumented — The reading of the CLI's browser-tools prompt as a modal adds no log line, span, event or detail code of its own; verify's reading of it reaches only the ledger stamp and verify's stdout.
+ decision/capture-arms-uninstrumented · Hidden capture arms uninstrumented — The hidden capture arm of verify / plugin install is uninstrumented by design.
+@@ -552,3 +553,3 @@
+ contract/state-recovered/torn-line-healed · state-recovered line · torn-line-healed — state-recovered{detail:"torn-line-healed", file:"events.ndjson", offset} at WARN with no corr, by the process whose append healed, offset the log's length before the append; one line per heal.
+-contract/verify-exit-codes/0 · verify exit codes · 0 — Every relied ledger row passed.
++contract/verify-exit-codes/0 · verify exit codes · 0 — Every relied ledger row counted: each passed, or the browser-tools-prompt row read absent.
+ contract/verify-exit-codes/1 · verify exit codes · 1 — A row failed, verify refused, or verify was stopped.
+@@ -560,4 +561,4 @@
+ contract/verify-spawn-subject/version-probe · verify child spawn subjects · version-probe — The --version read of the agent CLI is logged as one process-start / process-exit pair with subject version-probe.
+-contract/verify-stdout/step-line · verify stdout · step line — One "[NN/MM] <row id> <row words>  pass|fail" line is printed for each relied ledger row, MM being the relied row count.
+-contract/verify-stdout/summary-line · verify stdout · summary line — The last stdout line is "stamped <version>  N pass  N fail", the two counts summing to MM.
++contract/verify-stdout/step-line · verify stdout · step line — One "[NN/MM] <row id> <row words>  pass|absent|fail" line is printed for each relied ledger row, MM being the relied row count; absent is the browser-tools-prompt row's word when no run met the prompt.
++contract/verify-stdout/summary-line · verify stdout · summary line — The last stdout line is "stamped <version>  N pass  N fail", the two counts summing to MM; the pass count holds every row that counts, an absent browser-tools-prompt row among them.
+ contract/verify-stop-stderr/unable-hint-pair · verify stderr on a stop · the stop pair — A stopped verify prints exactly "unable: verify was stopped before it finished" and "hint: run viola verify again to stamp this CLI" on stderr, with empty stdout and no stamp written.

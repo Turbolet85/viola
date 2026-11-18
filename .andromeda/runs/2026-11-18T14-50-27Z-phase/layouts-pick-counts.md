@@ -1,9 +1,0 @@
-@pack_count n=1 doc=layout-templates pack=1 draw=1 rows=100 yes=15 no=85 standing=3 file=layouts-pick-p1.md of=736e00519f3f4b32 rule=any
-@pack_count n=2 doc=layout-templates pack=1 draw=2 rows=100 yes=18 no=82 standing=0 file=layouts-pick-p1.d2.md of=2dd099ae3fd84cea rule=any
-@pack_count n=3 doc=layout-templates pack=1 draw=3 rows=100 yes=14 no=86 standing=5 file=layouts-pick-p1.d3.md of=f547d333838ddcc9 rule=any
-@pack_count n=4 doc=layout-templates pack=2 draw=1 rows=98 yes=4 no=94 standing=2 file=layouts-pick-p2.md of=f8f1e243f6bc5203 rule=any
-@pack_count n=5 doc=layout-templates pack=2 draw=2 rows=98 yes=5 no=93 standing=1 file=layouts-pick-p2.d2.md of=db359e4e6f2d032f rule=any
-@pack_count n=6 doc=layout-templates pack=2 draw=3 rows=98 yes=6 no=92 standing=1 file=layouts-pick-p2.d3.md of=697c4c525b1f55e3 rule=any
-@pack_count n=7 doc=layout-templates pack=3 draw=1 rows=24 yes=14 no=10 standing=0 file=layouts-pick-p3.md of=a9429d383274cc18 rule=any
-@pack_count n=8 doc=layout-templates pack=3 draw=2 rows=24 yes=14 no=10 standing=0 file=layouts-pick-p3.d2.md of=b59abe92542da797 rule=any
-@pack_count n=9 doc=layout-templates pack=3 draw=3 rows=24 yes=14 no=10 standing=0 file=layouts-pick-p3.d3.md of=87425185861d6756 rule=any

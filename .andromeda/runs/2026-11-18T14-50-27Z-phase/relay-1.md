@@ -1,1 +1,0 @@
-Proceed. Take up «Browser-tools prompt read as a modal» per ~/dev/projects/additional/viola-overseer/phase-browser-tools-directive.md: the operator is away, no dialog for him; stop at the END of P3, before P4, with the one block on size and live starts written to founder-forks.md (item 5). Call no scheduled-wake or timer tool.

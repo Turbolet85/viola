@@ -1,0 +1,13 @@
+[[pattern]]
+id = 'everypass'
+regex = 'every relied (ledger )?rows? (reads? |as )?`?pass|every relied (ledger )?row passe|holds every relied (ledger )?row'
+ignore_case = true
+
+[[pattern]]
+id = 'passfail'
+regex = 'pass\|fail|`pass` or `fail`|pass or fail|"pass" or "fail"'
+ignore_case = true
+
+[[pattern]]
+id = 'firstwords'
+regex = 'trust, imports, box'

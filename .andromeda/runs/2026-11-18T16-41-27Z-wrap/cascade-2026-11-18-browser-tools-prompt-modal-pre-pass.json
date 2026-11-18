@@ -1,0 +1,236 @@
+[
+{
+"tool": "cascade",
+"v": "1.36",
+"sha8": "2aaa7a60",
+"ts": "2026-11-18T16:42:45Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-18T16-41-27Z-wrap/report-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-11-18T16-41-27Z-wrap",
+"--marker",
+"2026-11-18-browser-tools-prompt-modal"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [
+"baseline 04890aeb (pre-pass — HEAD)",
+"rows24 · control UNFIRED over the seven masters (bodies and sets) at 04890aeb"
+],
+"stderr": "control: rows24 never fired over the seven masters' pre-pass text, bodies and sets (04890aeb) — no master holds them: re-fire with --pattern modals3 --pattern firstscreen --pattern verifiedrule --pattern summary --pattern startscreen --pattern cachea --pattern rigarms; this refusal, the trail's record, is the basis of each named pattern's master zero",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "cascade",
+"v": "1.36",
+"sha8": "2aaa7a60",
+"ts": "2026-11-18T16:43:07Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-18T16-41-27Z-wrap/report-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-11-18T16-41-27Z-wrap",
+"--marker",
+"2026-11-18-browser-tools-prompt-modal",
+"--pattern",
+"modals3",
+"--pattern",
+"firstscreen",
+"--pattern",
+"verifiedrule",
+"--pattern",
+"summary",
+"--pattern",
+"startscreen",
+"--pattern",
+"cachea",
+"--pattern",
+"rigarms"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline 04890aeb (pre-pass — HEAD)",
+"architecture · 19 rows over 1 files · new 0 · standing 19 · 5 patterns",
+"security-plan · 9 rows over 1 files · new 0 · standing 9 · 4 patterns",
+"design-system · 8 rows over 1 files · new 0 · standing 8 · 2 patterns",
+"layout-templates · 4 rows over 1 files · new 0 · standing 4 · 2 patterns",
+"test-plan · 26 rows over 1 files · new 0 · standing 26 · 6 patterns",
+"obs-plan · 3 rows over 1 files · new 0 · standing 3 · 1 pattern",
+"a11y-plan · 4 rows over 1 files · new 0 · standing 4 · 2 patterns",
+"by line · 0 lines · 0 offsets",
+"total (7 patterns) · 101 rows over 23 files",
+"per class · new 0/0 · standing 73/7 · leaf 24/13 · curation 3/2 · base 1/1",
+"rows 1/1 · .andromeda/runs/2026-11-18T16-41-27Z-wrap/sweep-pre-pass-1.1.txt · 118 lines · 14094 B"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-18T16-41-27Z-wrap/sweep-pre-pass-1.1.txt"
+],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "04890aeb97981d89e0d54f5a632748ebe574c8b7",
+"how": "pre-pass — HEAD",
+"counts": {
+"modals3": {
+"new": 0,
+"standing": 8,
+"leaf": 4,
+"curation": 0,
+"base": 0
+},
+"firstscreen": {
+"new": 0,
+"standing": 11,
+"leaf": 3,
+"curation": 0,
+"base": 0
+},
+"verifiedrule": {
+"new": 0,
+"standing": 5,
+"leaf": 6,
+"curation": 0,
+"base": 0
+},
+"summary": {
+"new": 0,
+"standing": 43,
+"leaf": 9,
+"curation": 3,
+"base": 1
+},
+"startscreen": {
+"new": 0,
+"standing": 3,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"cachea": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"rigarms": {
+"new": 0,
+"standing": 2,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+},
+"bare": [],
+"masters": {
+"architecture": {
+"rows": 19,
+"files": 1,
+"new": 0,
+"standing": 19,
+"patterns": 5
+},
+"security-plan": {
+"rows": 9,
+"files": 1,
+"new": 0,
+"standing": 9,
+"patterns": 4
+},
+"design-system": {
+"rows": 8,
+"files": 1,
+"new": 0,
+"standing": 8,
+"patterns": 2
+},
+"layout-templates": {
+"rows": 4,
+"files": 1,
+"new": 0,
+"standing": 4,
+"patterns": 2
+},
+"test-plan": {
+"rows": 26,
+"files": 1,
+"new": 0,
+"standing": 26,
+"patterns": 6
+},
+"obs-plan": {
+"rows": 3,
+"files": 1,
+"new": 0,
+"standing": 3,
+"patterns": 1
+},
+"a11y-plan": {
+"rows": 4,
+"files": 1,
+"new": 0,
+"standing": 4,
+"patterns": 2
+}
+},
+"per_master": {
+"modals3": {
+"architecture": 4,
+"security-plan": 2,
+"test-plan": 1,
+"a11y-plan": 1
+},
+"firstscreen": {
+"architecture": 6,
+"security-plan": 4,
+"test-plan": 1
+},
+"verifiedrule": {
+"architecture": 2,
+"design-system": 1,
+"layout-templates": 1,
+"test-plan": 1
+},
+"summary": {
+"architecture": 6,
+"security-plan": 2,
+"design-system": 7,
+"layout-templates": 3,
+"test-plan": 19,
+"obs-plan": 3,
+"a11y-plan": 3
+},
+"startscreen": {
+"test-plan": 3
+},
+"cachea": {
+"architecture": 1
+},
+"rigarms": {
+"security-plan": 1,
+"test-plan": 1
+}
+},
+"forms": {
+"summary": [
+{
+"form": "zero fail",
+"from": "0"
+}
+]
+},
+"parts": [
+"sweep-pre-pass-1.1.txt"
+]
+}
+}
+]

@@ -1,0 +1,1 @@
+Proceed. Wrap the pending chunk 2026-11-18-browser-tools-prompt-modal whole, per ~/dev/projects/additional/viola-overseer/wrap-browser-tools-directive.md: the operator is away, forks come to the overseer as a dialog, the answer card cites the founder own recorded answers (the three words, the cache-a widening). Push, read CI after it, call no scheduled-wake or timer tool.

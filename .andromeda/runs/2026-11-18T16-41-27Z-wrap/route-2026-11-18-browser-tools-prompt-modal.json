@@ -1,0 +1,71 @@
+[
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "a5501032",
+"ts": "2026-11-18T17:25:53Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-18-browser-tools-prompt-modal",
+"--date",
+"2026-11-18",
+"--run-dir",
+".andromeda/runs/2026-11-18T16-41-27Z-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-vlr2pc4f strip CARRY: 490ch \"CARRY: placed after «Session folder trus\"",
+"pin cry-mfxnxzub strip CARRY: 921ch \"CARRY: the measured gap (chunk 2026-11-1\"",
+"pin cry-idxm4ycw strip CARRY: 444ch \"CARRY: unmeasured, to read at this entry\"",
+"pin next markerless chk-p5g2qxoz holds CARRY:×11",
+"2026-11-18-browser-tools-prompt-modal · strip 3 block(s) · spent in the spine",
+"dry-run · would flip 2026-11-18-browser-tools-prompt-modal pending -> complete"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "a5501032",
+"ts": "2026-11-18T17:25:58Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-18-browser-tools-prompt-modal",
+"--date",
+"2026-11-18",
+"--run-dir",
+".andromeda/runs/2026-11-18T16-41-27Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-vlr2pc4f strip CARRY: 490ch \"CARRY: placed after «Session folder trus\"",
+"pin cry-mfxnxzub strip CARRY: 921ch \"CARRY: the measured gap (chunk 2026-11-1\"",
+"pin cry-idxm4ycw strip CARRY: 444ch \"CARRY: unmeasured, to read at this entry\"",
+"pin next markerless chk-p5g2qxoz holds CARRY:×11",
+"flip 2026-11-18-browser-tools-prompt-modal pending -> complete · tx 2842",
+"compacted 1 complete line(s) — their freight spent in the spine, no archive (U61)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T14-51-35-2026-11-18-browser-tools-prompt-modal.ndjson",
+"./.andromeda/master-route.md",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]

@@ -1,0 +1,130 @@
+[
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "273d82d5",
+"ts": "2026-11-18T16:44:44Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-18T16-41-27Z-wrap",
+"--marker",
+"2026-11-18-browser-tools-prompt-modal"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 2805 · 2026-11-18T14-51-35-2026-11-18-browser-tools-prompt-modal.ndjson",
+"ts 2026-11-18T16:44:36Z · clock 2026-11-18T16:44:44Z · bound 2026-11-18T16:25:41Z (line 3556)",
+"ids 2026-11-18T16:44:36Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T14-51-35-2026-11-18-browser-tools-prompt-modal.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "273d82d5",
+"ts": "2026-11-18T17:17:18Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"6",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-18T16-41-27Z-wrap",
+"--marker",
+"2026-11-18-browser-tools-prompt-modal"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 6 record(s) in the store · tx 2831 · 2026-11-18T14-51-35-2026-11-18-browser-tools-prompt-modal.ndjson",
+"ts 2026-11-18T17:16:47Z · clock 2026-11-18T17:17:18Z · bound 2026-11-18T16:44:36Z (line 3557)",
+"ids 2026-11-18T17:16:47Z-a … 2026-11-18T17:16:47Z-f (6)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T14-51-35-2026-11-18-browser-tools-prompt-modal.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "273d82d5",
+"ts": "2026-11-18T17:18:54Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"4",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-18T16-41-27Z-wrap",
+"--marker",
+"2026-11-18-browser-tools-prompt-modal"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 4 record(s) in the store · tx 2832 · 2026-11-18T14-51-35-2026-11-18-browser-tools-prompt-modal.ndjson",
+"ts 2026-11-18T17:18:43Z · clock 2026-11-18T17:18:54Z · bound 2026-11-18T17:16:47Z (line 3563)",
+"ids 2026-11-18T17:18:43Z-a … 2026-11-18T17:18:43Z-d (4)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T14-51-35-2026-11-18-browser-tools-prompt-modal.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "273d82d5",
+"ts": "2026-11-18T17:21:34Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-18T16-41-27Z-wrap",
+"--marker",
+"2026-11-18-browser-tools-prompt-modal"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 2836 · 2026-11-18T14-51-35-2026-11-18-browser-tools-prompt-modal.ndjson",
+"ts 2026-11-18T17:21:24Z · clock 2026-11-18T17:21:33Z · bound 2026-11-18T17:18:43Z (line 3567)",
+"ids 2026-11-18T17:21:24Z-a … 2026-11-18T17:21:24Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T14-51-35-2026-11-18-browser-tools-prompt-modal.ndjson"
+],
+"before": null,
+"after": null
+}
+]
