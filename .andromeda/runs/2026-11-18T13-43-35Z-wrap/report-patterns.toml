@@ -1,0 +1,51 @@
+[[pattern]]
+id = 'evset'
+regex = '\b15 (closed |normalised |obs |event )?(events|kinds)\b|ObsEvent::ALL|LOG_FORMAT_EVENTS'
+
+[[pattern]]
+id = 'roleline'
+regex = 'diag_lines_from_real_runs_validate|start (and exit )?lines?\b|role[- ]lines?\b'
+
+[[pattern]]
+id = 'startword'
+regex = 'StartWord|start words?\b|trust_for_start'
+
+[[pattern]]
+id = 'ownrecord'
+regex = '''verify-own-trust-record|verify's own trust record|(run|revive)[^.\n]{0,80}no trust record'''
+
+[[pattern]]
+id = 'rootrec'
+regex = '''only the root's record|record_key|record_trusts_reads_its_own_key'''
+
+[[pattern]]
+id = 'trustwriter'
+regex = 'trust record writer|trust_config_file|trust-record row'
+
+[[pattern]]
+id = 'ccdir'
+regex = 'CLAUDE_CONFIG_DIR'
+
+[[pattern]]
+id = 'runorder'
+regex = 'run-start-order|bind_endpoint'
+
+[[pattern]]
+id = 'keypresent'
+regex = 'key-present'
+
+[[pattern]]
+id = 'snapcwd'
+regex = 'instance-snapshot/cwd|recorded .?cwd'
+
+[[pattern]]
+id = 'trustevent'
+regex = 'trust-record\{|trust-record. (event|line)|ObsEvent::TrustRecord'
+
+[[pattern]]
+id = 'fakewalk'
+regex = 'fake agent[^.\n]{0,120}trust|record_trusts_walks'
+
+[[pattern]]
+id = 'lockpause'
+regex = 'lock[^.\n]{0,60}(pause|wait)|100 ?ms'

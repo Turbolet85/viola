@@ -1,0 +1,11 @@
+@fit n=1 row=decision/verify-own-trust-record sha=16dd6aed9401 v=fits type=1
+@fit n=2 row=decision/run-start-order sha=36f3a38a404e v=fits type=1
+@fit n=3 row=contract/instance-snapshot/cwd sha=33009ed14dca v=fits type=3
+@fit n=4 row=decision/spawn-directory-confined-to-snapshot sha=c963d5cd7c5d v=fits type=1
+@fit n=5 row=contract/trust-writer-words/key-present sha=adf79766c451 v=fits type=3
+@fit n=6 row=contract/trust-writer-words/removed sha=b4c9efaac869 v=fits type=3
+@fit n=7 row=decision/env-strip-names-only sha=d94ba642f1a0 v=fits type=2
+@fit n=8 row=decision/env-strip-reads-names-only sha=c409fc625fc6 v=fits type=2
+@fit n=9 row=decision/no-environment-configuration sha=e57774ddfe94 v=fits type=2
+@fit n=10 row=decision/env-var-viola-prefix sha=c4416810154a v=fits type=2
+@fit n=11 row=contract/config-json/claude-env-keep sha=ca38482972a4 v=fits type=3

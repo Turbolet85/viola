@@ -1,0 +1,103 @@
+[
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "823570d9",
+"ts": "2026-11-18T13:44:22Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-18-session-folder-trusted-by-viola",
+"--source",
+"~/dev/projects/additional/viola-overseer/wrap-session-folder-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the overseer wrap directive for this chunk: the operator away, forks to the overseer as a dialog, the answer card citing the founder recorded answers (R2, R3, F-T1), the route-resolve dialog, the needles:1 question, push and read CI",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-18T13-43-35Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I7 · copy no-repo · ../additional/viola-overseer/wrap-session-folder-directive.md",
+"cite: inputs#I7"
+],
+"stderr": null,
+"wrote": [
+"inputs/I7-wrap-session-folder-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I7",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/wrap-session-folder-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "e138704a62878ee80b0c8313eaf0fb73f487893898be37bd4d205bde1823f15a",
+"copy": "I7-wrap-session-folder-directive.md.txt",
+"link": false,
+"read_at": "2026-11-18T13:44:21Z",
+"step": "wrap",
+"why": "the overseer wrap directive for this chunk: the operator away, forks to the overseer as a dialog, the answer card citing the founder recorded answers (R2, R3, F-T1), the route-resolve dialog, the needles:1 question, push and read CI"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "823570d9",
+"ts": "2026-11-18T13:44:27Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-18-session-folder-trusted-by-viola",
+"--run-dir",
+".andromeda/runs/2026-11-18T13-43-35Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-session-folder-directive-3.md",
+"I1 cited scope.md:17 · research.md:10 · plan.md:479 · report.md:62",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-session-folder-p3.md",
+"I2 cited plan.md:39 · plan.md:45 · plan.md:46 · plan.md:47 · plan.md:75 · plan.md:167 · plan.md:171 · plan.md:187 · plan.md:457 · plan.md:479 · plan.md:489 · plan.md:492 · plan.md:496 · plan.md:500 · plan.md:507 · plan.md:511 · plan.md:514 · plan.md:546 · report.md:62",
+"I3 unchanged · copy no-repo · ../additional/viola-overseer/implement-session-folder-directive.md",
+"I3 cited report.md:63 · report.md:135",
+"I4 n/a — a message has no live source · copy message · message: the operator (the /andromeda-phase invocation)",
+"I4 cited scope.md:108 · research.md:137 · plan.md:15 · report.md:64 · report.md:132 · report.md:138",
+"I5 unchanged · copy no-repo · ../additional/viola-overseer/relay-session-folder-revision1.md",
+"I5 cited scope.md:108 · scope.md:115 · research.md:137 · plan.md:15 · plan.md:26 · plan.md:189 · plan.md:510 · report.md:64 · report.md:132 · report.md:138",
+"I6 unchanged · copy no-repo · ../additional/viola-overseer/implement-session-folder-directive.md",
+"I6 cited report.md:63 · report.md:135",
+"I7 unchanged · copy no-repo · ../additional/viola-overseer/wrap-session-folder-directive.md",
+"I7 UNCITED",
+"inputs: 7 entries — unchanged 6 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 1 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 7,
+"counts": {
+"unchanged": 6,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 1,
+"unparsed": 0
+}
+}
+]

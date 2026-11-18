@@ -1,3 +1,0 @@
-# Relay 1 — the operator's word for this revision (the /andromeda-phase invocation, verbatim)
-
-Proceed. Revise the plan of the pending chunk 2026-11-18-session-folder-trusted-by-viola: implement stopped before the operator pass because S2 was refused on the cap before its ledger line (its outcome file is in the run 2026-11-18T12-36-09Z-implement; S1 is green and is not run again). Follow ~/dev/projects/additional/viola-overseer/relay-session-folder-revision1.md: entry 14 alone to --cap 2 --spare 0 on the same ledger, the cap unchanged, the ten test-home files into the file list. Call no scheduled-wake or timer tool.

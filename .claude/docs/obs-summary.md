@@ -39,7 +39,7 @@ The obs harness is **bound** to the test harness: tests owns the grepped fields 
 
 ## Event vocabulary (closed)
 
-`channel-request` · `channel-response` (corr = JSON-RPC id; `detail` only on a `-32602`, on both sides: `unsupported-version|invalid-params|release-from-driver`, closed by `schemas/diag-line.v1.json`; a refusal's own `detail` stays on `send-refused`, and the word `release-from-driver` here does not replace the event) · `dialog-raised` · `dialog-answered` (corr = dialog_id) · `hook-invoked` · `hook-decision` · `send-issued` · `send-confirmed` · `send-refused` (corr = send cursor; wrapper lines add `conn` + `rpc_id`) · `release-from-driver` · `process-start` · `process-exit` · `panic` · `state-recovered` · `parse-rejected`. 
+`channel-request` · `channel-response` (corr = JSON-RPC id; `detail` only on a `-32602`, on both sides: `unsupported-version|invalid-params|release-from-driver`, closed by `schemas/diag-line.v1.json`; a refusal's own `detail` stays on `send-refused`, and the word `release-from-driver` here does not replace the event) · `dialog-raised` · `dialog-answered` (corr = dialog_id) · `hook-invoked` · `hook-decision` · `send-issued` · `send-confirmed` · `send-refused` (corr = send cursor; wrapper lines add `conn` + `rpc_id`) · `release-from-driver` · `process-start` · `process-exit` · `panic` · `state-recovered` · `parse-rejected` · `trust-record` (one INFO line per wrapped `viola run` / `viola revive` start on a verified CLI, in the run role file, its required `detail` one of 16 closed start words, no path, project key or config value; it never refuses the start). 
 
 ## PII scrubbing wire
 

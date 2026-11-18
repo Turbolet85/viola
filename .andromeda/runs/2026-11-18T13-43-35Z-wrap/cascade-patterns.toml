@@ -1,0 +1,11 @@
+[[pattern]]
+id = 'ccverify'
+regex = '''read by .?viola verify.? only|viola verify.? reads .?CLAUDE_CONFIG_DIR|verify's (kept )?.?CLAUDE_CONFIG_DIR'''
+
+[[pattern]]
+id = 'norecord'
+regex = '''write no trust record|save .?(viola )?verify.?'s own trust record|verify's own trust record'''
+
+[[pattern]]
+id = 'nearest'
+fixed = 'nearest ancestor holding a git entry'

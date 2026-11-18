@@ -1,0 +1,130 @@
+[
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "273d82d5",
+"ts": "2026-11-18T13:47:31Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-18T13-43-35Z-wrap",
+"--marker",
+"2026-11-18-session-folder-trusted-by-viola"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 2732 · 2026-11-18T10-59-34-2026-11-18-session-folder-trusted-by-viola.ndjson",
+"ts 2026-11-18T13:47:21Z · clock 2026-11-18T13:47:31Z · bound 2026-11-18T13:28:11Z (line 3533)",
+"ids 2026-11-18T13:47:21Z-a … 2026-11-18T13:47:21Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T10-59-34-2026-11-18-session-folder-trusted-by-viola.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "273d82d5",
+"ts": "2026-11-18T14:24:02Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-18T13-43-35Z-wrap",
+"--marker",
+"2026-11-18-session-folder-trusted-by-viola"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 2757 · 2026-11-18T10-59-34-2026-11-18-session-folder-trusted-by-viola.ndjson",
+"ts 2026-11-18T14:23:43Z · clock 2026-11-18T14:24:02Z · bound 2026-11-18T13:47:21Z (line 3535)",
+"ids 2026-11-18T14:23:43Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T10-59-34-2026-11-18-session-folder-trusted-by-viola.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "273d82d5",
+"ts": "2026-11-18T14:26:17Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-18T13-43-35Z-wrap",
+"--marker",
+"2026-11-18-session-folder-trusted-by-viola"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 2759 · 2026-11-18T10-59-34-2026-11-18-session-folder-trusted-by-viola.ndjson",
+"ts 2026-11-18T14:26:17Z · clock 2026-11-18T14:26:17Z · bound 2026-11-18T14:23:43Z (line 3536)",
+"ids 2026-11-18T14:26:17Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T10-59-34-2026-11-18-session-folder-trusted-by-viola.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "273d82d5",
+"ts": "2026-11-18T14:29:11Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-18T13-43-35Z-wrap",
+"--marker",
+"2026-11-18-session-folder-trusted-by-viola"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 2761 · 2026-11-18T10-59-34-2026-11-18-session-folder-trusted-by-viola.ndjson",
+"ts 2026-11-18T14:29:10Z · clock 2026-11-18T14:29:10Z · bound 2026-11-18T14:26:17Z (line 3537)",
+"ids 2026-11-18T14:29:10Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T10-59-34-2026-11-18-session-folder-trusted-by-viola.ndjson"
+],
+"before": null,
+"after": null
+}
+]

@@ -1,0 +1,19 @@
+--- a/.andromeda/test-plan.md
++++ b/.andromeda/test-plan.md
+@@ -834,2 +834,3 @@
+ decision/time-as-argument · pure time decisions take their instant — A pure time decision takes its instant as an argument instead of reading a clock.
++decision/trust-start-folders-outside-repository · Trust-start test folders outside any repository — Trust-start test folders sit under /tmp, outside any repository, an exception to test homes under target/e2e-home. · why: A folder inside the workspace keys at its git root.
+ contract/fake-agent-cli/argv-only-options · viola-fake-agent command line · modes and options — The fake agent's modes and options are taken from argv only, never from the environment; standing as hyprctl, its mode is read from a file beside its exe.
+@@ -840,3 +841,3 @@
+ contract/fake-agent-cli/transcript · viola-fake-agent command line · --transcript — The argv-only --transcript creates <exe dir>/transcripts/ at 0700 at start and gives the launch SessionStart a transcript_path to a seeded 0600 file named by its session id; replayed framing variants are not rewritten.
+-contract/fake-agent-cli/trust-config · viola-fake-agent command line · --trust-config — The fake agent reads a trust record from the named config file by its own key rule, the nearest ancestor holding a git entry else the canonical cwd, through a bounded read; any failure reads untrusted.
++contract/fake-agent-cli/trust-config · viola-fake-agent command line · --trust-config — The fake agent reads trust from the named config file by the CLI's walk, the canonical cwd's exact key then each parent up to the git root, so inside a repository the cwd's own record counts, through a bounded read; any failure reads untrusted.
+ contract/fake-agent-cli/trust-record-blank · viola-fake-agent command line · --trust-record-blank — The test-only hold --trust-record-blank makes a start trusted by the trust record alone draw no screen, holding verify's Run F window open for a stop case.
+@@ -1368,2 +1369,3 @@
+ decision/fake-agent-replay-for-stamps · Fake-agent replay for stamps — Tests replay recorded Claude CLI fixtures per CLI version through the fake agent, and run viola verify against it for stamps.
++decision/harness-wrappers-under-session-user-home · Harness wrappers under a session user home — The harness's supervised wrappers of a stamped session run under a session user home seeded with an empty config. · why: The start writes into the user's Claude config.
+ decision/keep-failed-home-opt-in · Failed test homes kept only on request — A failing root test keeps its home only when AGENT_RUN_KEEP_FAILED=1. · why: So that logs can inspect the home.
+@@ -1373,2 +1375,3 @@
+ decision/rstest-fixture-chain · rstest fixture chain — Test homes are built by the rstest 0.27.0 fixture chain home, fake_agent_path, stamped_home, booted_wrapper.
++decision/run-under-test-owned-user-home · Test runs and revives under a test-owned user home — Every test-started viola run and viola revive runs under a test-owned user home, never the runner's real HOME. · why: The start writes into the user's Claude config.
+ decision/stamping-verify-passes-transcript · Stamping verifies give the fake agent a transcript — Every stamping viola verify against the fake agent, in the harness boot and the stamped-home helpers, passes the fake agent --transcript beside --framing. · why: Without a transcript Run B's echo probe is skipped and the local-command-echo row fails. · except: The framing-free verify helper passes no --transcript.

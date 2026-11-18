@@ -1,0 +1,269 @@
+[
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "ebdfae9c",
+"ts": "2026-11-18T13:44:27Z",
+"argv": [
+"added",
+"--out",
+".andromeda/runs/2026-11-18T13-43-35Z-wrap/new-text.md",
+"--run-dir",
+".andromeda/runs/2026-11-18T13-43-35Z-wrap",
+"--marker",
+"2026-11-18-session-folder-trusted-by-viola"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: 2cbaa752 — the parent of the oldest pre-CI commit f19b5cd5",
+"crates/viola-agent-claude/src/trust.rs — added 326 line(s) in 2 range(s)",
+"crates/viola-core/src/obs.rs — added 6 line(s) in 6 range(s)",
+"crates/viola-e2e/src/bin/viola-live-rig.rs — added 12 line(s) in 6 range(s)",
+"crates/viola-e2e/src/harness/boot.rs — added 9 line(s) in 2 range(s)",
+"crates/viola-e2e/src/harness/supervise.rs — added 5 line(s) in 2 range(s)",
+"crates/viola-e2e/src/rig/isolate.rs — added 87 line(s) in 2 range(s)",
+"crates/viola-e2e/src/rig/mod.rs — added 263 line(s) in 29 range(s)",
+"crates/viola-e2e/tests/rig_rehearsal.rs — added 71 line(s) in 1 range(s)",
+"schemas/diag-detail.v1.json — added 1 line(s) in 1 range(s)",
+"schemas/diag-line.v1.json — added 5 line(s) in 3 range(s)",
+"src/bin/viola-fake-agent.rs — added 22 line(s) in 4 range(s)",
+"src/bin/viola-fake-agent/test_cases_opts.rs — added 25 line(s) in 10 range(s)",
+"src/cmd/run.rs — added 41 line(s) in 6 range(s)",
+"src/cmd/verify.rs — added 1 line(s) in 1 range(s)",
+"src/trust_record.rs — added 331 line(s) in 25 range(s)",
+"tests/channel_error_bodies.rs — added 6 line(s) in 2 range(s)",
+"tests/chaos_snapshot_replay.rs — added 4 line(s) in 1 range(s)",
+"tests/cli_controls_not_disableable.rs — added 4 line(s) in 1 range(s)",
+"tests/cli_fake_agent.rs — added 4 line(s) in 1 range(s)",
+"tests/cli_revive.rs — added 52 line(s) in 2 range(s)",
+"tests/cli_version_gate.rs — added 4 line(s) in 1 range(s)",
+"tests/contract_bounded_readers.rs — added 2 line(s) in 1 range(s)",
+"tests/contract_diag_schema.rs — added 10 line(s) in 4 range(s)",
+"tests/cross_exit_causes.rs — added 4 line(s) in 1 range(s)",
+"tests/cross_killed_test.rs — added 5 line(s) in 1 range(s)",
+"tests/run_cli.rs — added 395 line(s) in 14 range(s)",
+"tests/support/cli.rs — added 6 line(s) in 1 range(s)",
+"tests/support/home.rs — added 70 line(s) in 9 range(s)",
+"tests/tui_passthrough.rs — added 83 line(s) in 2 range(s)",
+"new text: 29 file(s) · 0 new · 141 added range(s) · 1854 line(s) · 160 block(s) → .andromeda/runs/2026-11-18T13-43-35Z-wrap/new-text.md (226 lines) · written"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-18T13-43-35Z-wrap/new-text.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"base": "2cbaa75229853e7132007daf5498a4ed5d899075",
+"counts": {
+"files": 29,
+"new": 0,
+"ranges": 141,
+"lines": 1854,
+"blocks": 160
+},
+"out": ".andromeda/runs/2026-11-18T13-43-35Z-wrap/new-text.md",
+"state": "written",
+"lines": 226
+}
+},
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "ebdfae9c",
+"ts": "2026-11-18T13:47:48Z",
+"argv": [
+"apply",
+"--dry-run",
+"--run-dir",
+".andromeda/runs/2026-11-18T13-43-35Z-wrap",
+"--marker",
+"2026-11-18-session-folder-trusted-by-viola"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: 2cbaa752 — the previous sweep (2026-11-18T09-48-02Z-wrap)",
+"masters: rows — a row holds no citation",
+"sites 1 (bare \":digits\" 98) over 59 file(s) · unmoved 0 · moved 0 · stretched 0 · changed 0",
+"out-of-range 0 · unresolved 0 · new 1 · repointed 0 · hand 0 · held 0 · INDETERMINATE 0 · listed, not written 0",
+"rows: 0 owed a read — the cites batch reads them from this call's trail record",
+"dry-run · would land 0 fact(s) · 0 edge(s)",
+"dry-run: 0 citation(s) in 0 file(s) — nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"mode": "sweep",
+"base": "2cbaa75229853e7132007daf5498a4ed5d899075",
+"counts": {
+"unmoved": 0,
+"moved": 0,
+"stretched": 0,
+"changed": 0,
+"out-of-range": 0,
+"unresolved": 0,
+"new": 1,
+"repointed": 0,
+"hand": 0,
+"INDETERMINATE": 0,
+"held": 0,
+"listed": 0
+},
+"rows": [],
+"applied": false,
+"owed": []
+}
+},
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "ebdfae9c",
+"ts": "2026-11-18T13:47:54Z",
+"argv": [
+"apply",
+"--run-dir",
+".andromeda/runs/2026-11-18T13-43-35Z-wrap",
+"--marker",
+"2026-11-18-session-folder-trusted-by-viola"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: 2cbaa752 — the previous sweep (2026-11-18T09-48-02Z-wrap)",
+"masters: rows — a row holds no citation",
+"sites 1 (bare \":digits\" 98) over 59 file(s) · unmoved 0 · moved 0 · stretched 0 · changed 0",
+"out-of-range 0 · unresolved 0 · new 1 · repointed 0 · hand 0 · held 0 · INDETERMINATE 0 · listed, not written 0",
+"rows: 0 owed a read — the cites batch reads them from this call's trail record",
+"landed 0 fact(s) · 0 edge(s) · tx 2733",
+"re-pointed 0 citation(s) in 0 file(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"mode": "sweep",
+"base": "2cbaa75229853e7132007daf5498a4ed5d899075",
+"counts": {
+"unmoved": 0,
+"moved": 0,
+"stretched": 0,
+"changed": 0,
+"out-of-range": 0,
+"unresolved": 0,
+"new": 1,
+"repointed": 0,
+"hand": 0,
+"INDETERMINATE": 0,
+"held": 0,
+"listed": 0
+},
+"rows": [],
+"applied": true,
+"owed": []
+}
+},
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "ebdfae9c",
+"ts": "2026-11-18T13:47:54Z",
+"argv": [
+"dispositions",
+"--write",
+"--run-dir",
+".andromeda/runs/2026-11-18T13-43-35Z-wrap",
+"--marker",
+"2026-11-18-session-folder-trusted-by-viola"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dispositions: 0 row(s) · ",
+".andromeda/runs/2026-11-18T13-43-35Z-wrap/citation-dispositions.md (1 lines) · written",
+"hand re-points: 0 written in 0 file(s) · 0 already written"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-18T13-43-35Z-wrap/citation-dispositions.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"rows": 0,
+"tally": {},
+"state": "written"
+}
+},
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "ebdfae9c",
+"ts": "2026-11-18T14:30:00Z",
+"argv": [
+"added",
+"--out",
+".andromeda/runs/2026-11-18T13-43-35Z-wrap/new-text.md",
+"--run-dir",
+".andromeda/runs/2026-11-18T13-43-35Z-wrap",
+"--marker",
+"2026-11-18-session-folder-trusted-by-viola"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: 2cbaa752 — the parent of the oldest pre-CI commit f19b5cd5",
+"crates/viola-agent-claude/src/trust.rs — added 326 line(s) in 2 range(s)",
+"crates/viola-core/src/obs.rs — added 6 line(s) in 6 range(s)",
+"crates/viola-e2e/src/bin/viola-live-rig.rs — added 12 line(s) in 6 range(s)",
+"crates/viola-e2e/src/harness/boot.rs — added 9 line(s) in 2 range(s)",
+"crates/viola-e2e/src/harness/supervise.rs — added 5 line(s) in 2 range(s)",
+"crates/viola-e2e/src/rig/isolate.rs — added 87 line(s) in 2 range(s)",
+"crates/viola-e2e/src/rig/mod.rs — added 263 line(s) in 29 range(s)",
+"crates/viola-e2e/tests/rig_rehearsal.rs — added 71 line(s) in 1 range(s)",
+"schemas/diag-detail.v1.json — added 1 line(s) in 1 range(s)",
+"schemas/diag-line.v1.json — added 5 line(s) in 3 range(s)",
+"src/bin/viola-fake-agent.rs — added 22 line(s) in 4 range(s)",
+"src/bin/viola-fake-agent/test_cases_opts.rs — added 25 line(s) in 10 range(s)",
+"src/cmd/run.rs — added 41 line(s) in 6 range(s)",
+"src/cmd/verify.rs — added 1 line(s) in 1 range(s)",
+"src/trust_record.rs — added 331 line(s) in 25 range(s)",
+"tests/channel_error_bodies.rs — added 6 line(s) in 2 range(s)",
+"tests/chaos_snapshot_replay.rs — added 4 line(s) in 1 range(s)",
+"tests/cli_controls_not_disableable.rs — added 4 line(s) in 1 range(s)",
+"tests/cli_fake_agent.rs — added 4 line(s) in 1 range(s)",
+"tests/cli_revive.rs — added 52 line(s) in 2 range(s)",
+"tests/cli_version_gate.rs — added 4 line(s) in 1 range(s)",
+"tests/contract_bounded_readers.rs — added 2 line(s) in 1 range(s)",
+"tests/contract_diag_schema.rs — added 10 line(s) in 4 range(s)",
+"tests/cross_exit_causes.rs — added 4 line(s) in 1 range(s)",
+"tests/cross_killed_test.rs — added 5 line(s) in 1 range(s)",
+"tests/run_cli.rs — added 395 line(s) in 14 range(s)",
+"tests/support/cli.rs — added 6 line(s) in 1 range(s)",
+"tests/support/home.rs — added 70 line(s) in 9 range(s)",
+"tests/tui_passthrough.rs — added 83 line(s) in 2 range(s)",
+"new text: 29 file(s) · 0 new · 141 added range(s) · 1854 line(s) · 160 block(s) → .andromeda/runs/2026-11-18T13-43-35Z-wrap/new-text.md (226 lines) · unchanged"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"base": "2cbaa75229853e7132007daf5498a4ed5d899075",
+"counts": {
+"files": 29,
+"new": 0,
+"ranges": 141,
+"lines": 1854,
+"blocks": 160
+},
+"out": ".andromeda/runs/2026-11-18T13-43-35Z-wrap/new-text.md",
+"state": "unchanged",
+"lines": 226
+}
+}
+]

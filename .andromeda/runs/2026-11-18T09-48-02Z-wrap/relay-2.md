@@ -1,3 +1,0 @@
-Q1 answer card (.andromeda/runs/2026-11-18T09-48-02Z-wrap/answer-card.md): "Confirm (Recommended)"
-
-notes: Confirmed by the overseer at 2026-11-18T10:18:02Z, the card's 9 lines read against his two answers (07:41:36Z, 08:06:08Z): each is the same one record — hidden, passed by the rig alone, a failed `--record` verify only, whole scrubbed rows, local, never committed. One condition on `architecture · decision/run-never-reads-screen-content`: its text must still say that `run` reads no screen content — the row-text exit feeds verify's rig-only record and nothing of `run`; if the landed wording could be read as `run` reading rows, set it before the land.

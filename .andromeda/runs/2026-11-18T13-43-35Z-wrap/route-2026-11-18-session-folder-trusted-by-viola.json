@@ -1,0 +1,75 @@
+[
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "caf9f120",
+"ts": "2026-11-18T14:34:19Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-18-session-folder-trusted-by-viola",
+"--date",
+"2026-11-18",
+"--run-dir",
+".andromeda/runs/2026-11-18T13-43-35Z-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-2tyakc3h strip CARRY: 938ch \"CARRY: the founder's product direction, \"",
+"pin cry-igkupsjr strip CARRY: 537ch \"CARRY: the measurement is DONE (the canc\"",
+"pin cry-hstbfhw4 strip CARRY: 1240ch \"CARRY: the founder's answer R2 «Файл реб\"",
+"pin cry-ewlpwxae strip CARRY: 620ch \"CARRY: the founder's answer R3 «Блокиров\"",
+"pin cry-3iuydqyx strip CARRY: 675ch \"CARRY: the product write reads trust the\"",
+"pin next markerless chk-p6udcdf3 holds CARRY:×3",
+"2026-11-18-session-folder-trusted-by-viola · strip 5 block(s) · spent in the spine",
+"dry-run · would flip 2026-11-18-session-folder-trusted-by-viola pending -> complete"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "caf9f120",
+"ts": "2026-11-18T14:34:30Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-18-session-folder-trusted-by-viola",
+"--date",
+"2026-11-18",
+"--run-dir",
+".andromeda/runs/2026-11-18T13-43-35Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-2tyakc3h strip CARRY: 938ch \"CARRY: the founder's product direction, \"",
+"pin cry-igkupsjr strip CARRY: 537ch \"CARRY: the measurement is DONE (the canc\"",
+"pin cry-hstbfhw4 strip CARRY: 1240ch \"CARRY: the founder's answer R2 «Файл реб\"",
+"pin cry-ewlpwxae strip CARRY: 620ch \"CARRY: the founder's answer R3 «Блокиров\"",
+"pin cry-3iuydqyx strip CARRY: 675ch \"CARRY: the product write reads trust the\"",
+"pin next markerless chk-p6udcdf3 holds CARRY:×3",
+"flip 2026-11-18-session-folder-trusted-by-viola pending -> complete · tx 2770",
+"compacted 1 complete line(s) — their freight spent in the spine, no archive (U61)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T10-59-34-2026-11-18-session-folder-trusted-by-viola.ndjson",
+"./.andromeda/master-route.md",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]
