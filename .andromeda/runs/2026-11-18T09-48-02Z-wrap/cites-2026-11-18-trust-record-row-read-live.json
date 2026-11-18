@@ -1,0 +1,249 @@
+[
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "ebdfae9c",
+"ts": "2026-11-18T09:49:14Z",
+"argv": [
+"added",
+"--out",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/new-text.md",
+"--run-dir",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--marker",
+"2026-11-18-trust-record-row-read-live"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: f862f193 — the parent of the oldest pre-CI commit 75217d7e",
+".config/nextest.toml — added 12 line(s) in 4 range(s)",
+".gitignore — added 3 line(s) in 1 range(s)",
+"crates/viola-agent-claude/src/ledger.rs — added 81 line(s) in 4 range(s)",
+"crates/viola-agent-claude/src/ledger/test_cases.rs — added 2 line(s) in 1 range(s)",
+"crates/viola-agent-claude/src/ledger/test_cases_stamps.rs — added 129 line(s) in 3 range(s)",
+"crates/viola-agent-claude/src/screen.rs — added 231 line(s) in 2 range(s)",
+"crates/viola-e2e/src/bin/viola-live-rig.rs — added 6 line(s) in 3 range(s)",
+"crates/viola-e2e/src/rig/isolate.rs — added 198 line(s) in 4 range(s)",
+"crates/viola-e2e/src/rig/ledger.rs — added 18 line(s) in 3 range(s)",
+"crates/viola-e2e/src/rig/mod.rs — added 419 line(s) in 46 range(s)",
+"crates/viola-e2e/src/rig/screen.rs — added 20 line(s) in 6 range(s)",
+"crates/viola-e2e/tests/rig_rehearsal.rs — added 144 line(s) in 3 range(s)",
+"src/cmd/verify.rs — added 182 line(s) in 5 range(s)",
+"src/cmd/verify/typed.rs — added 21 line(s) in 3 range(s)",
+"src/cmd/verify/typed/run.rs — added 199 line(s) in 13 range(s)",
+"src/cmd/verify/typed/runs.rs — added 36 line(s) in 21 range(s)",
+"tests/cli_verify.rs — added 168 line(s) in 4 range(s)",
+"tests/cli_verify/runs.rs — added 99 line(s) in 2 range(s)",
+"tests/support/verify.rs — added 15 line(s) in 6 range(s)",
+"new text: 19 file(s) · 0 new · 134 added range(s) · 1983 line(s) · 130 block(s) → .andromeda/runs/2026-11-18T09-48-02Z-wrap/new-text.md (177 lines) · written"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/new-text.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"base": "f862f193695be33baf79a0796c0fe9ad44ee6482",
+"counts": {
+"files": 19,
+"new": 0,
+"ranges": 134,
+"lines": 1983,
+"blocks": 130
+},
+"out": ".andromeda/runs/2026-11-18T09-48-02Z-wrap/new-text.md",
+"state": "written",
+"lines": 177
+}
+},
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "ebdfae9c",
+"ts": "2026-11-18T09:51:37Z",
+"argv": [
+"apply",
+"--dry-run",
+"--run-dir",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--marker",
+"2026-11-18-trust-record-row-read-live"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: 0f3822b2 — the previous sweep (2026-11-17T21-00-47Z-wrap)",
+"masters: rows — a row holds no citation",
+"sites 2 (bare \":digits\" 101) over 62 file(s) · unmoved 0 · moved 0 · stretched 0 · changed 0",
+"out-of-range 0 · unresolved 0 · new 2 · repointed 0 · hand 0 · held 0 · INDETERMINATE 0 · listed, not written 0",
+"rows: 0 owed a read — the cites batch reads them from this call's trail record",
+"dry-run · would land 0 fact(s) · 0 edge(s)",
+"dry-run: 0 citation(s) in 0 file(s) — nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"mode": "sweep",
+"base": "0f3822b29f472c0e0bb5d79be7c627ec28d974ab",
+"counts": {
+"unmoved": 0,
+"moved": 0,
+"stretched": 0,
+"changed": 0,
+"out-of-range": 0,
+"unresolved": 0,
+"new": 2,
+"repointed": 0,
+"hand": 0,
+"INDETERMINATE": 0,
+"held": 0,
+"listed": 0
+},
+"rows": [],
+"applied": false,
+"owed": []
+}
+},
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "ebdfae9c",
+"ts": "2026-11-18T09:51:43Z",
+"argv": [
+"apply",
+"--run-dir",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--marker",
+"2026-11-18-trust-record-row-read-live"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: 0f3822b2 — the previous sweep (2026-11-17T21-00-47Z-wrap)",
+"masters: rows — a row holds no citation",
+"sites 2 (bare \":digits\" 101) over 62 file(s) · unmoved 0 · moved 0 · stretched 0 · changed 0",
+"out-of-range 0 · unresolved 0 · new 2 · repointed 0 · hand 0 · held 0 · INDETERMINATE 0 · listed, not written 0",
+"rows: 0 owed a read — the cites batch reads them from this call's trail record",
+"landed 0 fact(s) · 0 edge(s) · tx 2654",
+"re-pointed 0 citation(s) in 0 file(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"mode": "sweep",
+"base": "0f3822b29f472c0e0bb5d79be7c627ec28d974ab",
+"counts": {
+"unmoved": 0,
+"moved": 0,
+"stretched": 0,
+"changed": 0,
+"out-of-range": 0,
+"unresolved": 0,
+"new": 2,
+"repointed": 0,
+"hand": 0,
+"INDETERMINATE": 0,
+"held": 0,
+"listed": 0
+},
+"rows": [],
+"applied": true,
+"owed": []
+}
+},
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "ebdfae9c",
+"ts": "2026-11-18T09:51:44Z",
+"argv": [
+"dispositions",
+"--write",
+"--run-dir",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--marker",
+"2026-11-18-trust-record-row-read-live"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dispositions: 0 row(s) · ",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/citation-dispositions.md (1 lines) · written",
+"hand re-points: 0 written in 0 file(s) · 0 already written"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/citation-dispositions.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"rows": 0,
+"tally": {},
+"state": "written"
+}
+},
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "ebdfae9c",
+"ts": "2026-11-18T10:39:13Z",
+"argv": [
+"added",
+"--out",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/new-text.md",
+"--run-dir",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--marker",
+"2026-11-18-trust-record-row-read-live"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: f862f193 — the parent of the oldest pre-CI commit 75217d7e",
+".config/nextest.toml — added 12 line(s) in 4 range(s)",
+".gitignore — added 3 line(s) in 1 range(s)",
+"crates/viola-agent-claude/src/ledger.rs — added 81 line(s) in 4 range(s)",
+"crates/viola-agent-claude/src/ledger/test_cases.rs — added 2 line(s) in 1 range(s)",
+"crates/viola-agent-claude/src/ledger/test_cases_stamps.rs — added 129 line(s) in 3 range(s)",
+"crates/viola-agent-claude/src/screen.rs — added 231 line(s) in 2 range(s)",
+"crates/viola-e2e/src/bin/viola-live-rig.rs — added 6 line(s) in 3 range(s)",
+"crates/viola-e2e/src/rig/isolate.rs — added 198 line(s) in 4 range(s)",
+"crates/viola-e2e/src/rig/ledger.rs — added 18 line(s) in 3 range(s)",
+"crates/viola-e2e/src/rig/mod.rs — added 419 line(s) in 46 range(s)",
+"crates/viola-e2e/src/rig/screen.rs — added 20 line(s) in 6 range(s)",
+"crates/viola-e2e/tests/rig_rehearsal.rs — added 144 line(s) in 3 range(s)",
+"src/cmd/verify.rs — added 182 line(s) in 5 range(s)",
+"src/cmd/verify/typed.rs — added 21 line(s) in 3 range(s)",
+"src/cmd/verify/typed/run.rs — added 199 line(s) in 13 range(s)",
+"src/cmd/verify/typed/runs.rs — added 36 line(s) in 21 range(s)",
+"tests/cli_verify.rs — added 168 line(s) in 4 range(s)",
+"tests/cli_verify/runs.rs — added 99 line(s) in 2 range(s)",
+"tests/support/verify.rs — added 15 line(s) in 6 range(s)",
+"new text: 19 file(s) · 0 new · 134 added range(s) · 1983 line(s) · 130 block(s) → .andromeda/runs/2026-11-18T09-48-02Z-wrap/new-text.md (177 lines) · unchanged"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"base": "f862f193695be33baf79a0796c0fe9ad44ee6482",
+"counts": {
+"files": 19,
+"new": 0,
+"ranges": 134,
+"lines": 1983,
+"blocks": 130
+},
+"out": ".andromeda/runs/2026-11-18T09-48-02Z-wrap/new-text.md",
+"state": "unchanged",
+"lines": 177
+}
+}
+]

@@ -1,0 +1,178 @@
+[
+{
+"tool": "cascade",
+"v": "1.36",
+"sha8": "2aaa7a60",
+"ts": "2026-11-18T09:49:43Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/report-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--marker",
+"2026-11-18-trust-record-row-read-live"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [
+"baseline 75217d7e (pre-pass — HEAD)",
+"seed-markers · control UNFIRED over the seven masters (bodies and sets) at 75217d7e",
+"first-screen · control UNFIRED over the seven masters (bodies and sets) at 75217d7e",
+"browser-tools · control UNFIRED over the seven masters (bodies and sets) at 75217d7e",
+"first-run-cfg · control UNFIRED over the seven masters (bodies and sets) at 75217d7e"
+],
+"stderr": "control: seed-markers, first-screen, browser-tools, first-run-cfg never fired over the seven masters' pre-pass text, bodies and sets (75217d7e) — no master holds them: re-fire with --pattern window-kill --pattern trust-unverified --pattern live-rig --pattern screen-scrub; this refusal, the trail's record, is the basis of each named pattern's master zero",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "cascade",
+"v": "1.36",
+"sha8": "2aaa7a60",
+"ts": "2026-11-18T09:49:52Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/report-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--marker",
+"2026-11-18-trust-record-row-read-live",
+"--pattern",
+"window-kill",
+"--pattern",
+"trust-unverified",
+"--pattern",
+"live-rig",
+"--pattern",
+"screen-scrub"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline 75217d7e (pre-pass — HEAD)",
+"architecture · 12 rows over 1 files · new 0 · standing 12 · 2 patterns",
+"security-plan · 15 rows over 1 files · new 0 · standing 15 · 3 patterns",
+"design-system · 1 rows over 1 files · new 0 · standing 1 · 1 pattern",
+"test-plan · 6 rows over 1 files · new 0 · standing 6 · 3 patterns",
+"obs-plan · 3 rows over 1 files · new 0 · standing 3 · 1 pattern",
+"by line · 0 lines · 0 offsets",
+"total (4 patterns) · 63 rows over 20 files",
+"per class · new 0/0 · standing 37/5 · leaf 25/14 · curation 1/1 · base 0/0",
+"rows 1/1 · .andromeda/runs/2026-11-18T09-48-02Z-wrap/sweep-pre-pass-1.1.txt · 74 lines · 8739 B"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/sweep-pre-pass-1.1.txt"
+],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "75217d7e7fbe67606b296fd4bfb4f19ae74c5c23",
+"how": "pre-pass — HEAD",
+"counts": {
+"window-kill": {
+"new": 0,
+"standing": 2,
+"leaf": 1,
+"curation": 1,
+"base": 0
+},
+"trust-unverified": {
+"new": 0,
+"standing": 28,
+"leaf": 20,
+"curation": 0,
+"base": 0
+},
+"live-rig": {
+"new": 0,
+"standing": 4,
+"leaf": 4,
+"curation": 0,
+"base": 0
+},
+"screen-scrub": {
+"new": 0,
+"standing": 3,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+},
+"bare": [],
+"masters": {
+"architecture": {
+"rows": 12,
+"files": 1,
+"new": 0,
+"standing": 12,
+"patterns": 2
+},
+"security-plan": {
+"rows": 15,
+"files": 1,
+"new": 0,
+"standing": 15,
+"patterns": 3
+},
+"design-system": {
+"rows": 1,
+"files": 1,
+"new": 0,
+"standing": 1,
+"patterns": 1
+},
+"test-plan": {
+"rows": 6,
+"files": 1,
+"new": 0,
+"standing": 6,
+"patterns": 3
+},
+"obs-plan": {
+"rows": 3,
+"files": 1,
+"new": 0,
+"standing": 3,
+"patterns": 1
+}
+},
+"per_master": {
+"window-kill": {
+"test-plan": 2
+},
+"trust-unverified": {
+"architecture": 10,
+"security-plan": 11,
+"design-system": 1,
+"test-plan": 3,
+"obs-plan": 3
+},
+"live-rig": {
+"architecture": 2,
+"security-plan": 1,
+"test-plan": 1
+},
+"screen-scrub": {
+"security-plan": 3
+}
+},
+"forms": {
+"window-kill": [
+{
+"form": "sixty",
+"from": "60"
+}
+]
+},
+"parts": [
+"sweep-pre-pass-1.1.txt"
+]
+}
+}
+]

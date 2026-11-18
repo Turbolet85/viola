@@ -1,3 +1,0 @@
-# Relay 1 — the operator's word for this revision (the /andromeda-phase invocation, verbatim)
-
-Proceed. Revise the plan of the pending chunk 2026-11-18-trust-record-row-read-live a second time: implement stopped before the operator pass on S0R-2 red (its outcome file is in the newest implement run dir; founder-forks.md is in the run 2026-11-18T01-02-09Z-implement). Read ~/dev/projects/additional/viola-overseer/relay-trust-read-revision2.md whole first — the founder answered F1: ONE start of the rig own child at 80x24 to name the dialog, no spare, S0R-3 untouched. Call no scheduled-wake or timer tool.

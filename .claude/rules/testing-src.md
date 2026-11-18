@@ -36,3 +36,4 @@ A `#[cfg(test)]` module in product code is bound by `.claude/rules/testing.md`, 
 _Owned by `/wrap-session`; kept on a setup re-run._
 - 2026-10-10: a kill only at a process the test started (`testing.md`, the entry of that date).
 - 2026-10-26: an OS-gated test module's two stacked gates (`testing.md`, the entry of that date). [retired 2026-11-08, census C-448 of doc:viola-0.2.0/census: history]
+- 2026-11-18: an instrumented child spawned under `env_clear()` from `src/` (`testing.md`, the entry of that date).

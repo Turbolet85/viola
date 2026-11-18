@@ -1,0 +1,79 @@
+[
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "caf9f120",
+"ts": "2026-11-18T10:42:59Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-18-trust-record-row-read-live",
+"--date",
+"2026-11-18",
+"--run-dir",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-ufpnw7gv strip CARRY: 610ch \"CARRY: placed ahead of «Session folder t\"",
+"pin cry-r6ctt6nh strip CARRY: 1062ch \"CARRY: the founder's answer R6 «1 + 2 за\"",
+"pin cry-qddbztwe strip CARRY: 720ch \"CARRY: the measured ground (p3-block.md \"",
+"pin cry-nuv2dovv strip CARRY: 568ch \"CARRY: what this entry builds (the same \"",
+"pin cry-bwoewtqg strip CARRY: 378ch \"CARRY: the predicate: this entry reads R\"",
+"pin cry-nuv7yj2y strip CARRY: 1725ch \"CARRY: FIRST, sized at this entry's P3 b\"",
+"pin cry-fl52zn4o strip CARRY: 512ch \"CARRY: cli_verify runs::verify_window_wi\"",
+"pin next markerless chk-dhecc45p holds CARRY:×5",
+"2026-11-18-trust-record-row-read-live · strip 7 block(s) · spent in the spine",
+"dry-run · would flip 2026-11-18-trust-record-row-read-live pending -> complete"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "caf9f120",
+"ts": "2026-11-18T10:43:04Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-18-trust-record-row-read-live",
+"--date",
+"2026-11-18",
+"--run-dir",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-ufpnw7gv strip CARRY: 610ch \"CARRY: placed ahead of «Session folder t\"",
+"pin cry-r6ctt6nh strip CARRY: 1062ch \"CARRY: the founder's answer R6 «1 + 2 за\"",
+"pin cry-qddbztwe strip CARRY: 720ch \"CARRY: the measured ground (p3-block.md \"",
+"pin cry-nuv2dovv strip CARRY: 568ch \"CARRY: what this entry builds (the same \"",
+"pin cry-bwoewtqg strip CARRY: 378ch \"CARRY: the predicate: this entry reads R\"",
+"pin cry-nuv7yj2y strip CARRY: 1725ch \"CARRY: FIRST, sized at this entry's P3 b\"",
+"pin cry-fl52zn4o strip CARRY: 512ch \"CARRY: cli_verify runs::verify_window_wi\"",
+"pin next markerless chk-dhecc45p holds CARRY:×5",
+"flip 2026-11-18-trust-record-row-read-live pending -> complete · tx 2686",
+"compacted 1 complete line(s) — their freight spent in the spine, no archive (U61)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T00-07-24-2026-11-18-trust-record-row-read-live.ndjson",
+"./.andromeda/master-route.md",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]

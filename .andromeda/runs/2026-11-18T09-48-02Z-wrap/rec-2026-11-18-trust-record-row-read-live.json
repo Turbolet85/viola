@@ -1,0 +1,999 @@
+[
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "9904b8bc",
+"ts": "2026-11-18T09:51:05Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-18-trust-record-row-read-live",
+"--section-file",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/after-implement.md",
+"--heading",
+"## After implement",
+"--before",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--marker",
+"2026-11-18-trust-record-row-read-live"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-18-trust-record-row-read-live/report rev 3 · 10 new · 0 revised · 0 retired · 32 kept · tx 2651"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T00-07-24-2026-11-18-trust-record-row-read-live.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "9904b8bc",
+"ts": "2026-11-18T09:51:06Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-18-trust-record-row-read-live",
+"--section-file",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/new-text.md",
+"--heading",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--marker",
+"2026-11-18-trust-record-row-read-live"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-18-trust-record-row-read-live/report rev 4 · 50 new · 0 revised · 0 retired · 42 kept · tx 2652"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T00-07-24-2026-11-18-trust-record-row-read-live.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "9904b8bc",
+"ts": "2026-11-18T09:51:37Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/cites-land-2026-11-18-trust-record-row-read-live.ndjson",
+"--base",
+"0f3822b29f472c0e0bb5d79be7c627ec28d974ab",
+"--run-dir",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--marker",
+"2026-11-18-trust-record-row-read-live",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 0 fact(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "9904b8bc",
+"ts": "2026-11-18T09:51:43Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/cites-land-2026-11-18-trust-record-row-read-live.ndjson",
+"--base",
+"0f3822b29f472c0e0bb5d79be7c627ec28d974ab",
+"--run-dir",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--marker",
+"2026-11-18-trust-record-row-read-live"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 0 fact(s) · 0 edge(s) · tx 2654"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T00-07-24-2026-11-18-trust-record-row-read-live.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "9904b8bc",
+"ts": "2026-11-18T09:53:52Z",
+"argv": [
+"rows-packs",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-18-trust-record-row-read-live"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 964 · packs 10 · pack 100 · 271393 B",
+"security-plan: rows 610 · packs 7 · pack 100 · 180946 B",
+"design-system: rows 316 · packs 4 · pack 100 · 76065 B",
+"layout-templates: rows 222 · packs 3 · pack 100 · 52492 B",
+"test-plan: rows 1343 · packs 14 · pack 100 · 359731 B",
+"obs-plan: rows 1025 · packs 11 · pack 100 · 281646 B",
+"a11y-plan: rows 235 · packs 3 · pack 100 · 65732 B",
+"rows-packs: 7 master(s) · 4715 row(s) · 52 pack(s) · 2 draw(s) a pack · pin 2654"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/rows-packs.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "9904b8bc",
+"ts": "2026-11-18T10:11:39Z",
+"argv": [
+"rows-union",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-18-trust-record-row-read-live"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 964 · packs 10 · picked 31 (19 by every draw) · standing 0 · 224915 B",
+"security-plan: rows 610 · packs 7 · picked 53 (31 by every draw) · standing 0 · 120545 B",
+"design-system: rows 316 · packs 4 · picked 7 (7 by every draw) · standing 0 · 59926 B",
+"layout-templates: rows 222 · packs 3 · picked 9 (6 by every draw) · standing 0 · 46647 B",
+"test-plan: rows 1343 · packs 14 · picked 76 (35 by every draw) · standing 0 · 276106 B",
+"obs-plan: rows 1025 · packs 11 · picked 30 (9 by every draw) · standing 0 · 190917 B",
+"a11y-plan: rows 235 · packs 3 · picked 5 (3 by every draw) · standing 0 · 31291 B",
+"rows-union: 7 master(s) · picked 211 of 4715 · rule any"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/arch-rows.md",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/arch-standing.md",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/arch-pick-counts.md",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/security-rows.md",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/security-standing.md",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/security-pick-counts.md",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/design-rows.md",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/design-standing.md",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/design-pick-counts.md",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/layouts-rows.md",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/layouts-standing.md",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/layouts-pick-counts.md",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/tests-rows.md",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/tests-standing.md",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/tests-pick-counts.md",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/obs-rows.md",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/obs-standing.md",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/obs-pick-counts.md",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/a11y-rows.md",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/a11y-standing.md",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/a11y-pick-counts.md",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "9904b8bc",
+"ts": "2026-11-18T10:17:27Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--marker",
+"2026-11-18-trust-record-row-read-live",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [
+"decision/verify-record-only-clean: escalated to Q1 and not resolved — the halt's answer is written on its line, `· resolved: apply | reject (Q1)`",
+"decision/recorded-fixtures-scrubbed: escalated to Q1 and not resolved — the halt's answer is written on its line, `· resolved: apply | reject (Q1)`",
+"decision/screen-fixtures-signature-rows-only: escalated to Q1 and not resolved — the halt's answer is written on its line, `· resolved: apply | reject (Q1)`",
+"contract/viola-cli-arguments/verify: escalated to Q1 and not resolved — the halt's answer is written on its line, `· resolved: apply | reject (Q1)`",
+"decision/run-never-reads-screen-content: escalated to Q1 and not resolved — the halt's answer is written on its line, `· resolved: apply | reject (Q1)`"
+],
+"stderr": "rows-land: 5 disposition problem(s) under ops-architecture.md — nothing written",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "9904b8bc",
+"ts": "2026-11-18T10:18:26Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--marker",
+"2026-11-18-trust-record-row-read-live",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/ledger-stamps/measured · rejected",
+"contract/ledger-stamps/first-facts · rejected by fit: not_master type 4 — The basis only retells how the first-facts reading is built, symbol by symbol, with no promise or reason stated, so the code holds it.",
+"fit: fits 10 · not_master 1 · stands 0",
+"## 2026-11-18-trust-record-row-read-live — Established Decisions: 2 row(s)\n**Section:** Established Decisions\n**Change:** ~ decision/verify-record-only-clean · except: was «»; now «The hidden rig-only --record-first-screens writes, on a failed --record verify, a scrubbed whole-row first screen per run short of input box, Run A's trust excepted.»\n~ decision/claude-first-no-adapter-trait · except: was «Test-only: the live rig reads the key names and source word of its own captured UserPromptSubmit payload, never a value; the fake agent and the rig read a Claude config file's trust record.»; now «Test-only: the rig reads its captured UserPromptSubmit payload's key names and source word, never a value, and seeds its private Claude config; the fake agent and the rig read a config's trust record.»\n**Why:** decision/verify-record-only-clean: The hidden first-screen record writes files from a failed verify, the one exception to fixtures recorded only from a clean verify. — resolved (Q1), PROVISIONAL: delegate the overseer, 2026-11-18, inputs#I22: «Confirm» — inside the founder's own answers inputs#I11 item 1 and inputs#I13\ndecision/claude-first-no-adapter-trait: The live rig now seeds its private Claude config with bundle keys, a Claude-specific shape outside viola-agent-claude that the test-only exception must name.\n**Ref:** .andromeda/runs/2026-11-18T09-48-02Z-wrap/",
+"## 2026-11-18-trust-record-row-read-live — Occupied Resources: 3 row(s)\n**Section:** Occupied Resources\n**Change:** ~ decision/recorded-fixtures-scrubbed · except: was «»; now «The hidden rig-only --record-first-screens writes, on a failed --record verify, a scrubbed whole-row first screen per run short of input box, Run A's trust excepted.»\n~ decision/screen-fixtures-signature-rows-only · except: was «»; now «The hidden rig-only --record-first-screens keeps a failed verify's first screens as whole scrubbed rows, kept locally only.»\n~ contract/viola-cli-arguments/verify · promise: was «viola verify takes [--record <DIR>] [-- <program> [args…]], the program defaulting to claude.»; now «viola verify takes [--record <DIR>] [-- <program> [args…]], the program defaulting to claude; a hidden --record-first-screens, absent from --help, is passed only by the live rig.»\n**Why:** decision/recorded-fixtures-scrubbed: The row says fixtures are written only when no row fails, and the hidden first-screen record now writes scrubbed, whole-set-refused files from a failed verify. — resolved (Q1), PROVISIONAL: delegate the overseer, 2026-11-18, inputs#I22: «Confirm» — inside the founder's own answers inputs#I11 item 1 and inputs#I13\ndecision/screen-fixtures-signature-rows-only: The first-screen record keeps whole scrubbed rows, the one exception to signature-rows-only screen fixtures. — resolved (Q1), PROVISIONAL: delegate the overseer, 2026-11-18, inputs#I22: «Confirm» — inside the founder's own answers inputs#I11 item 1 and inputs#I13\ncontract/viola-cli-arguments/verify: verify gains one hidden option passed only by the live rig, which the arguments contract must register. — resolved (Q1), PROVISIONAL: delegate the overseer, 2026-11-18, inputs#I22: «Confirm» — inside the founder's own answers inputs#I11 item 1 and inputs#I13\n**Ref:** .andromeda/runs/2026-11-18T09-48-02Z-wrap/",
+"## 2026-11-18-trust-record-row-read-live — Stack and Technologies: 1 row(s)\n**Section:** Stack and Technologies\n**Change:** ~ decision/run-never-reads-screen-content · rule: was «run never reads screen content; the only row-text exit of the screen is read by verify alone, for its signature-only recorded screen fixtures.»; now «run never reads screen content; the only row-text exit of the screen is read by verify alone, for its signature-only recorded screen fixtures and the rig-only first-screen record of whole scrubbed rows.»\n**Why:** decision/run-never-reads-screen-content: verify now also takes whole scrubbed rows out of the screen for the rig-only first-screen record, so the row's one stated use is incomplete. — resolved (Q1), PROVISIONAL: delegate the overseer, 2026-11-18, inputs#I22: «Confirm» — inside the founder's own answers inputs#I11 item 1 and inputs#I13\n**Ref:** .andromeda/runs/2026-11-18T09-48-02Z-wrap/",
+"## 2026-11-18-trust-record-row-read-live — Infrastructure Patterns: 1 row(s)\n**Section:** Infrastructure Patterns\n**Change:** ~ decision/claude-shapes-in-one-crate · except: was «Test-only: the live rig reads the key names and source word of its own captured UserPromptSubmit payload, never a value; the fake agent and the rig read a Claude config file's trust record.»; now «Test-only: the rig reads its captured UserPromptSubmit payload's key names and source word, never a value, and seeds its private Claude config; the fake agent and the rig read a config's trust record.»\n**Why:** decision/claude-shapes-in-one-crate: The live rig now seeds its private Claude config with bundle keys, a Claude-specific shape outside viola-agent-claude that the test-only exception must name.\n**Ref:** .andromeda/runs/2026-11-18T09-48-02Z-wrap/",
+"## 2026-11-18-trust-record-row-read-live — Inherited Defaults: 1 row(s)\n**Section:** Inherited Defaults\n**Change:** ~ decision/claude-shapes-isolated · except: was «Test-only: the live rig reads its own captured UserPromptSubmit payload's key names and source word; the fake agent and the rig read a Claude config file's trust record.»; now «Test-only: the rig reads its captured UserPromptSubmit payload's key names and source word, never a value, and seeds its private Claude config; the fake agent and the rig read a config's trust record.»\n**Why:** decision/claude-shapes-isolated: The live rig now seeds its private Claude config with bundle keys, a Claude-specific shape outside viola-agent-claude that the test-only exception must name.\n**Ref:** .andromeda/runs/2026-11-18T09-48-02Z-wrap/",
+"## 2026-11-18-trust-record-row-read-live — Standard Contracts: 2 row(s)\n**Section:** Standard Contracts\n**Change:** + contract/ledger-stamps/first-screen — ledger stamps envelope · measured.first_screen\n+ contract/ledger-stamps/first-settle-ms — ledger stamps envelope · measured.first_settle_ms\n**Why:** contract/ledger-stamps/first-screen: The stamp's measured block gains first_screen as a closed word per run, a format others read.\ncontract/ledger-stamps/first-settle-ms: The stamp's measured block gains first_settle_ms as a whole number per run, a format others read.\n**Ref:** .andromeda/runs/2026-11-18T09-48-02Z-wrap/",
+"patterns: none: 8 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 10 operation(s) · 6 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "9904b8bc",
+"ts": "2026-11-18T10:18:34Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--marker",
+"2026-11-18-trust-record-row-read-live"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/ledger-stamps/measured · rejected",
+"contract/ledger-stamps/first-facts · rejected",
+"fit: fits 10 · not_master 0 · stands 0",
+"landed tx 2656 · 10 operation(s) · 6 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T00-07-24-2026-11-18-trust-record-row-read-live.ndjson",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "9904b8bc",
+"ts": "2026-11-18T10:18:35Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/ops-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--marker",
+"2026-11-18-trust-record-row-read-live",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 5 · not_master 0 · stands 0",
+"## 2026-11-18-trust-record-row-read-live — Data Protection: 1 row(s)\n**Section:** Data Protection\n**Change:** ~ decision/screen-fixture-signature-rows-only · except: was «»; now «On a failed recording verify, a hidden rig-only option writes one first-screen file of whole scrubbed rows per run short of the input box, kept local and git-ignored; an unclean set is refused whole.»\n**Why:** decision/screen-fixture-signature-rows-only: The hidden rig-only --record-first-screens record now keeps whole scrubbed rows of each run that did not reach the box, so the signature-rows-only rule must name it as its exception. — resolved (Q1), PROVISIONAL: delegate the overseer, 2026-11-18, inputs#I22: «Confirm» — inside the founder's own answers inputs#I11 item 1 and inputs#I13\n**Ref:** .andromeda/runs/2026-11-18T09-48-02Z-wrap/",
+"## 2026-11-18-trust-record-row-read-live — Threat Model Summary: 2 row(s)\n**Section:** Threat Model Summary\n**Change:** ~ decision/verify-signature-only · except: was «»; now «On a failed recording verify, a hidden rig-only option writes one first-screen file of whole scrubbed rows per run short of the input box, kept local and git-ignored; an unclean set is refused whole.»\n~ decision/verify-screen-read-against-literals · except: was «»; now «On a failed recording verify, a hidden rig-only option writes one first-screen file of whole scrubbed rows per run short of the input box, kept local and git-ignored; an unclean set is refused whole.»\n**Why:** decision/verify-signature-only: Row text now also leaves the process as the rig-only first-screen record of whole scrubbed rows, so the signature-only rule is incomplete without that exception. — resolved (Q1), PROVISIONAL: delegate the overseer, 2026-11-18, inputs#I22: «Confirm» — inside the founder's own answers inputs#I11 item 1 and inputs#I13\ndecision/verify-screen-read-against-literals: Row text now also leaves the process as the rig-only first-screen record of whole scrubbed rows, so the rule that it leaves only as signature-only fixtures must carry that exception. — resolved (Q1), PROVISIONAL: delegate the overseer, 2026-11-18, inputs#I22: «Confirm» — inside the founder's own answers inputs#I11 item 1 and inputs#I13\n**Ref:** .andromeda/runs/2026-11-18T09-48-02Z-wrap/",
+"## 2026-11-18-trust-record-row-read-live — Input Validation: 1 row(s)\n**Section:** Input Validation\n**Change:** + decision/verify-stamp-first-screen-closed-words — Verify stamp's first screen in closed words\n**Why:** decision/verify-stamp-first-screen-closed-words: The stamp's measured part gains first_screen, first_settle_ms and first_facts held to closed words, whole numbers and literal ids, a new stamped surface no row yet bounds.\n**Ref:** .andromeda/runs/2026-11-18T09-48-02Z-wrap/",
+"## 2026-11-18-trust-record-row-read-live — Secret Management: 1 row(s)\n**Section:** Secret Management\n**Change:** + decision/live-rig-seed-from-bundle-logic — Live rig's child config seeded from bundle logic only\n**Why:** decision/live-rig-seed-from-bundle-logic: The rig now writes a seed into its child's private config, and the row of its isolation says nothing of where the seeded values may come from.\n**Ref:** .andromeda/runs/2026-11-18T09-48-02Z-wrap/",
+"patterns: none: 3 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 5 operation(s) · 4 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "9904b8bc",
+"ts": "2026-11-18T10:18:35Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--marker",
+"2026-11-18-trust-record-row-read-live",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/instrumented-probe-runs-in-scratch-cwd · rejected",
+"fit: fits 2 · not_master 0 · stands 0",
+"## 2026-11-18-trust-record-row-read-live — 7. Test Data & Fixtures: 1 row(s)\n**Section:** 7. Test Data & Fixtures\n**Change:** ~ decision/record-only-at-zero-failing-rows · except: was «»; now «A failed recording verify by the live rig alone writes a first-screen file of whole scrubbed rows per run short of the input box (Run A's trust excepted), refused whole when unclean, never committed.»\n**Why:** decision/record-only-at-zero-failing-rows: The hidden rig-only --record-first-screens option now writes files on a FAILED recording verify, so the zero-failing-rows rule must name that one exception. — resolved (Q1), PROVISIONAL: delegate the overseer, 2026-11-18, inputs#I22: «Confirm» — inside the founder's own answers inputs#I11 item 1 and inputs#I13\n**Ref:** .andromeda/runs/2026-11-18T09-48-02Z-wrap/",
+"## 2026-11-18-trust-record-row-read-live — 3. Test Harness Contract: 2 row(s)\n**Section:** 3. Test Harness Contract\n**Change:** − decision/verify-window-60s-kill → decision/verify-window-80s-kill: The verify_window_ class kill is no longer 60 s; it moved to 80 s in both the ci and mutants profiles.\n+ decision/verify-window-80s-kill — 80 s kill for the verify_window_ class\n**Why:** decision/verify-window-60s-kill: The row's name and rule state the retired 60 s literal, and its key is made from that value, so the row is replaced by its 80 s heir.\ndecision/verify-window-80s-kill: The verify_window_ nextest kill moved 60 s to 80 s in ci and mutants, and the heir carries the standing rule at its new bound.\n**Ref:** .andromeda/runs/2026-11-18T09-48-02Z-wrap/",
+"patterns: 1 in cascade-patterns-test-plan-1.toml",
+"dry-run · would land 3 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/cascade-patterns-test-plan-1.toml"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "9904b8bc",
+"ts": "2026-11-18T10:18:41Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/ops-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--marker",
+"2026-11-18-trust-record-row-read-live"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 5 · not_master 0 · stands 0",
+"landed tx 2657 · 5 operation(s) · 4 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T00-07-24-2026-11-18-trust-record-row-read-live.ndjson",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "9904b8bc",
+"ts": "2026-11-18T10:18:41Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--marker",
+"2026-11-18-trust-record-row-read-live"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/instrumented-probe-runs-in-scratch-cwd · rejected",
+"fit: fits 2 · not_master 0 · stands 0",
+"landed tx 2658 · 3 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T00-07-24-2026-11-18-trust-record-row-read-live.ndjson",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "9904b8bc",
+"ts": "2026-11-18T10:18:42Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/ops-main-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--marker",
+"2026-11-18-trust-record-row-read-live",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/live-rig-git-root-as-files · rejected",
+"fit: fits 0 · not_master 0 · stands 0",
+"patterns: none — the call sets and retires no row",
+"dry-run · would land 0 operation(s) · 0 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "9904b8bc",
+"ts": "2026-11-18T10:18:42Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/ops-design-system.md",
+"--results",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--marker",
+"2026-11-18-trust-record-row-read-live",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/verify-hidden-first-screen-record · rejected",
+"fit: fits 0 · not_master 0 · stands 0",
+"patterns: none — the call sets and retires no row",
+"dry-run · would land 0 operation(s) · 0 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "9904b8bc",
+"ts": "2026-11-18T10:18:42Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"layout-templates",
+"--file",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/ops-layout-templates.md",
+"--results",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--marker",
+"2026-11-18-trust-record-row-read-live",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/viola-verify-output/record-first-screens · rejected",
+"fit: fits 0 · not_master 0 · stands 0",
+"patterns: none — the call sets and retires no row",
+"dry-run · would land 0 operation(s) · 0 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "9904b8bc",
+"ts": "2026-11-18T10:18:42Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/ops-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--marker",
+"2026-11-18-trust-record-row-read-live",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/fixtures-not-telemetry · rejected",
+"decision/ledger-contents-never-logged · rejected",
+"fit: fits 0 · not_master 0 · stands 0",
+"patterns: none — the call sets and retires no row",
+"dry-run · would land 0 operation(s) · 0 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "9904b8bc",
+"ts": "2026-11-18T10:18:42Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"a11y-plan",
+"--file",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/ops-a11y-plan.md",
+"--results",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--marker",
+"2026-11-18-trust-record-row-read-live",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/no-screen-content-parsing · rejected",
+"contract/cli-help/served-verbs-only · rejected",
+"fit: fits 0 · not_master 0 · stands 0",
+"patterns: none — the call sets and retires no row",
+"dry-run · would land 0 operation(s) · 0 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "9904b8bc",
+"ts": "2026-11-18T10:21:48Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/conventions.md",
+"--file",
+"./.andromeda/runs/2026-11-18T09-48-02Z-wrap/staged-leaf-.claude__docs__conventions.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--marker",
+"2026-11-18-trust-record-row-read-live"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/conventions.md rev 14 · 0 new · 1 revised · 0 retired · tx 2659"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T00-07-24-2026-11-18-trust-record-row-read-live.ndjson",
+"./.claude/docs/conventions.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "9904b8bc",
+"ts": "2026-11-18T10:21:49Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola-agent-claude.md",
+"--file",
+"./.andromeda/runs/2026-11-18T09-48-02Z-wrap/staged-leaf-.claude__docs__services__viola-agent-claude.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--marker",
+"2026-11-18-trust-record-row-read-live"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola-agent-claude.md rev 19 · 0 new · 1 revised · 0 retired · tx 2660"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T00-07-24-2026-11-18-trust-record-row-read-live.ndjson",
+"./.claude/docs/services/viola-agent-claude.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "9904b8bc",
+"ts": "2026-11-18T10:21:49Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/stack.md",
+"--file",
+"./.andromeda/runs/2026-11-18T09-48-02Z-wrap/staged-leaf-.claude__docs__stack.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--marker",
+"2026-11-18-trust-record-row-read-live"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/stack.md rev 12 · 0 new · 1 revised · 0 retired · tx 2661"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T00-07-24-2026-11-18-trust-record-row-read-live.ndjson",
+"./.claude/docs/stack.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "9904b8bc",
+"ts": "2026-11-18T10:21:50Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/gotchas.md",
+"--file",
+"./.andromeda/runs/2026-11-18T09-48-02Z-wrap/staged-leaf-.claude__docs__gotchas.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--marker",
+"2026-11-18-trust-record-row-read-live"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/gotchas.md rev 13 · 0 new · 1 revised · 0 retired · tx 2662"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T00-07-24-2026-11-18-trust-record-row-read-live.ndjson",
+"./.claude/docs/gotchas.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "9904b8bc",
+"ts": "2026-11-18T10:21:50Z",
+"argv": [
+"harness",
+"land",
+"CLAUDE.md",
+"--file",
+"./.andromeda/runs/2026-11-18T09-48-02Z-wrap/staged-leaf-CLAUDE.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--marker",
+"2026-11-18-trust-record-row-read-live"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed CLAUDE.md rev 19 · 0 new · 2 revised · 0 retired · tx 2663"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T00-07-24-2026-11-18-trust-record-row-read-live.ndjson",
+"./CLAUDE.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "9904b8bc",
+"ts": "2026-11-18T10:21:51Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/commands.md",
+"--file",
+"./.andromeda/runs/2026-11-18T09-48-02Z-wrap/staged-leaf-.claude__docs__commands.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--marker",
+"2026-11-18-trust-record-row-read-live"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/commands.md rev 16 · 0 new · 1 revised · 0 retired · tx 2664"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T00-07-24-2026-11-18-trust-record-row-read-live.ndjson",
+"./.claude/docs/commands.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "9904b8bc",
+"ts": "2026-11-18T10:21:52Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/security-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-18T09-48-02Z-wrap/staged-leaf-.claude__docs__security-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--marker",
+"2026-11-18-trust-record-row-read-live"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/security-summary.md rev 22 · 0 new · 2 revised · 0 retired · tx 2665"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T00-07-24-2026-11-18-trust-record-row-read-live.ndjson",
+"./.claude/docs/security-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "9904b8bc",
+"ts": "2026-11-18T10:37:53Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/route-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--marker",
+"2026-11-18-trust-record-row-read-live",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 7 record(s) · 5 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "9904b8bc",
+"ts": "2026-11-18T10:38:06Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/route-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--marker",
+"2026-11-18-trust-record-row-read-live"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 7 record(s) · 5 edge(s) · tx 2671 · chk-p6udcdf3 … cry-bb5cy7aq"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T00-07-24-2026-11-18-trust-record-row-read-live.ndjson",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "9904b8bc",
+"ts": "2026-11-18T10:38:42Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap/run-node.txt",
+"--run-dir",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--marker",
+"2026-11-18-trust-record-row-read-live"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 0 edge(s) · tx 2673 · run-oy5cn4yd … run-oy5cn4yd"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T00-07-24-2026-11-18-trust-record-row-read-live.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "9904b8bc",
+"ts": "2026-11-18T10:42:00Z",
+"argv": [
+"land",
+"--root",
+".",
+"--chunk",
+"2026-11-18-trust-record-row-read-live",
+"--run-dir",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"unchanged · 41 file(s) of 2026-11-18-trust-record-row-read-live"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

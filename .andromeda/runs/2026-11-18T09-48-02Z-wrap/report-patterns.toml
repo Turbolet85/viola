@@ -1,0 +1,31 @@
+[[pattern]]
+id = 'seed-markers'
+regex = '''USED_MARKERS|seed_used_markers|seed-markers|six (bundle |used-config )?markers|used-config marker|hasSeenAutoModeEntryWarning|lastOnboardingVersion'''
+
+[[pattern]]
+id = 'window-kill'
+regex = '''verify_window_|verify-window-60s-kill|60 s kill|60-second kill'''
+
+[[pattern]]
+id = 'first-screen'
+regex = '''first_screen|first_settle_ms|first_facts|record-first-screens|FirstScreen'''
+
+[[pattern]]
+id = 'trust-unverified'
+regex = '''trust-record|trust record'''
+
+[[pattern]]
+id = 'browser-tools'
+regex = '''browser-tools|ChromeAutoEnable|claudeInChrome'''
+
+[[pattern]]
+id = 'live-rig'
+regex = '''standing-live-rig|live-rig-isolated-child|viola-live-rig'''
+
+[[pattern]]
+id = 'screen-scrub'
+regex = '''verify-signature-only|verify-screen-read-against-literals|fixture-scrub-and-refusal'''
+
+[[pattern]]
+id = 'first-run-cfg'
+regex = '''first-run config'''

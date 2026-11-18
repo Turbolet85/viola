@@ -1,0 +1,130 @@
+[
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "273d82d5",
+"ts": "2026-11-18T09:51:25Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--marker",
+"2026-11-18-trust-record-row-read-live"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 2653 · 2026-11-18T00-07-24-2026-11-18-trust-record-row-read-live.ndjson",
+"ts 2026-11-18T09:51:09Z · clock 2026-11-18T09:51:24Z · bound 2026-11-18T09:26:40Z (line 3507)",
+"ids 2026-11-18T09:51:09Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T00-07-24-2026-11-18-trust-record-row-read-live.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "273d82d5",
+"ts": "2026-11-18T10:22:28Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--marker",
+"2026-11-18-trust-record-row-read-live"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 2666 · 2026-11-18T00-07-24-2026-11-18-trust-record-row-read-live.ndjson",
+"ts 2026-11-18T10:22:10Z · clock 2026-11-18T10:22:28Z · bound 2026-11-18T09:51:09Z (line 3508)",
+"ids 2026-11-18T10:22:10Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T00-07-24-2026-11-18-trust-record-row-read-live.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "273d82d5",
+"ts": "2026-11-18T10:25:13Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"3",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--marker",
+"2026-11-18-trust-record-row-read-live"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 3 record(s) in the store · tx 2669 · 2026-11-18T00-07-24-2026-11-18-trust-record-row-read-live.ndjson",
+"ts 2026-11-18T10:25:02Z · clock 2026-11-18T10:25:13Z · bound 2026-11-18T10:22:10Z (line 3509)",
+"ids 2026-11-18T10:25:02Z-a … 2026-11-18T10:25:02Z-c (3)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T00-07-24-2026-11-18-trust-record-row-read-live.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "273d82d5",
+"ts": "2026-11-18T10:38:29Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--marker",
+"2026-11-18-trust-record-row-read-live"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 2672 · 2026-11-18T00-07-24-2026-11-18-trust-record-row-read-live.ndjson",
+"ts 2026-11-18T10:38:12Z · clock 2026-11-18T10:38:20Z · bound 2026-11-18T10:25:02Z (line 3512)",
+"ids 2026-11-18T10:38:12Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T00-07-24-2026-11-18-trust-record-row-read-live.ndjson"
+],
+"before": null,
+"after": null
+}
+]
