@@ -301,6 +301,24 @@ mod tests {
         assert!(got.rows.is_some());
     }
 
+    /// The browser-tools offer is a modal literal: a screen holding it settles at the first quiet
+    /// instant, never by waiting out `GATE_MAX_WAIT`, even with the box's own rows beside it.
+    #[test]
+    fn settled_on_the_browser_tools_prompt_settles_at_the_quiet_instant() {
+        let t = Instant::now();
+        let rule = "─".repeat(80);
+        let bytes = format!(
+            "\x1b[2J\x1b[H Claude in Chrome extension detected\r\n ❯ No, keep browser tools off\r\n   Yes, use my browser\r\n{rule}\r\n❯ \r\n{rule}"
+        );
+        let f = feed(bytes.as_bytes(), t + ms_(100));
+        assert!(settled(&f, t, t + ms_(399)).is_none());
+        let got = settled(&f, t, t + ms_(400)).expect("settled");
+        assert_eq!(got.at, t + ms_(400));
+        let rows = got.rows.expect("rows");
+        assert!(signed(&rows));
+        assert!(!SIGNATURES.input_box_up(&rows));
+    }
+
     #[test]
     fn signed_reads_the_box_the_footer_or_a_modal() {
         let rule = "─".repeat(80);
@@ -308,6 +326,7 @@ mod tests {
         assert!(signed(&rows(&[&rule, "❯ "])));
         assert!(signed(&rows(&["  ← for agents"])));
         assert!(signed(&rows(&["   Yes, I trust this folder"])));
+        assert!(signed(&rows(&["   Yes, use my browser"])));
         assert!(!signed(&rows(&["❯ ", &rule])));
         assert!(!signed(&rows(&["thinking"])));
     }

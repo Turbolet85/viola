@@ -318,7 +318,7 @@ fn tool_arms(
 }
 
 /// The capability-ledger rows `viola verify` prints, as literals: the live run checks each once.
-const LEDGER_ROWS: [&str; 23] = [
+const LEDGER_ROWS: [&str; 24] = [
     "shim-resolution",
     "spine-hooks",
     "session-start-fields",
@@ -342,7 +342,11 @@ const LEDGER_ROWS: [&str; 23] = [
     "local-command-compact",
     "local-command-echo",
     "trust-record",
+    "browser-tools-prompt",
 ];
+
+/// The one row whose stamped word `absent` counts too: no interactive start met the prompt.
+const ABSENT_COUNTS: &str = "browser-tools-prompt";
 
 /// Suite `local-live`: the harness build, then one `viola verify` against the real `claude` (the
 /// program default, no `--`) into a fresh `target/e2e-home/viola-live-<pid>/home`. Passed when it
@@ -401,7 +405,8 @@ fn live_rows_pass(stdout: &str) -> bool {
             .lines()
             .filter(|l| l.split(' ').nth(1) == Some(*row))
             .collect();
-        matches!(lines.as_slice(), [line] if line.ends_with("  pass"))
+        matches!(lines.as_slice(), [line] if line.ends_with("  pass")
+            || (*row == ABSENT_COUNTS && line.ends_with("  absent")))
     }) && super::boot::stamped_line(stdout)
 }
 
@@ -970,30 +975,31 @@ mod tests {
         assert_eq!(suite(&out.doc, "doctest")["failed"], 1);
     }
 
-    const LIVE_PASS: &str = "[01/23] shim-resolution claude resolves  pass\n\
-        [02/23] spine-hooks spine hooks fire  pass\n\
-        [03/23] session-start-fields fields  pass\n\
-        [04/23] prompt-verbatim prompt  pass\n\
-        [05/23] stop-message message  pass\n\
-        [06/23] largest-hook-payload payload  pass\n\
-        [07/23] modal-signature modal  pass\n\
-        [08/23] input-box-signature input box  pass\n\
-        [09/23] quiet-period quiet  pass\n\
-        [10/23] confirm-window window  pass\n\
-        [11/23] question-answer question  pass\n\
-        [12/23] plan-approve-revise plan  pass\n\
-        [13/23] question-notes notes  pass\n\
-        [14/23] dialog-concurrency concurrency  pass\n\
-        [15/23] long-paste-wrapper wrapper  pass\n\
-        [16/23] tag-escaping escaping  pass\n\
-        [17/23] local-command-clear clear  pass\n\
-        [18/23] paste-newline newline  pass\n\
-        [19/23] resume-session resume  pass\n\
-        [20/23] agents-join join  pass\n\
-        [21/23] local-command-compact compact  pass\n\
-        [22/23] local-command-echo echo  pass\n\
-        [23/23] trust-record trust  pass\n\
-        stamped 2.1.287  23 pass  0 fail\n";
+    const LIVE_PASS: &str = "[01/24] shim-resolution claude resolves  pass\n\
+        [02/24] spine-hooks spine hooks fire  pass\n\
+        [03/24] session-start-fields fields  pass\n\
+        [04/24] prompt-verbatim prompt  pass\n\
+        [05/24] stop-message message  pass\n\
+        [06/24] largest-hook-payload payload  pass\n\
+        [07/24] modal-signature modal  pass\n\
+        [08/24] input-box-signature input box  pass\n\
+        [09/24] quiet-period quiet  pass\n\
+        [10/24] confirm-window window  pass\n\
+        [11/24] question-answer question  pass\n\
+        [12/24] plan-approve-revise plan  pass\n\
+        [13/24] question-notes notes  pass\n\
+        [14/24] dialog-concurrency concurrency  pass\n\
+        [15/24] long-paste-wrapper wrapper  pass\n\
+        [16/24] tag-escaping escaping  pass\n\
+        [17/24] local-command-clear clear  pass\n\
+        [18/24] paste-newline newline  pass\n\
+        [19/24] resume-session resume  pass\n\
+        [20/24] agents-join join  pass\n\
+        [21/24] local-command-compact compact  pass\n\
+        [22/24] local-command-echo echo  pass\n\
+        [23/24] trust-record trust  pass\n\
+        [24/24] browser-tools-prompt browser tools  absent\n\
+        stamped 2.1.287  24 pass  0 fail\n";
 
     /// `LIVE_PASS` without the step line of `row`.
     fn without(row: &str) -> String {
@@ -1036,21 +1042,35 @@ mod tests {
         (out, calls)
     }
 
-    /// The live proof reads every relied row, all twenty-three, the trust-record row last, after
-    /// the resume, agents, compact and echo rows.
+    /// The live proof reads every relied row, all twenty-four, the browser-tools row last, after
+    /// the resume, agents, compact, echo and trust-record rows; it counts `absent` on that row
+    /// alone.
     #[test]
     fn run_local_live_reads_the_relied_rows() {
-        assert_eq!(LEDGER_ROWS.len(), 23);
+        assert_eq!(LEDGER_ROWS.len(), 24);
         assert_eq!(LEDGER_ROWS[17], "paste-newline");
-        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 5], "resume-session");
-        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 4], "agents-join");
-        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 3], "local-command-compact");
-        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 2], "local-command-echo");
-        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 1], "trust-record");
+        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 6], "resume-session");
+        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 5], "agents-join");
+        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 4], "local-command-compact");
+        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 3], "local-command-echo");
+        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 2], "trust-record");
+        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 1], "browser-tools-prompt");
         assert_eq!(LIVE_PASS.lines().count(), LEDGER_ROWS.len() + 1);
         assert!(live_rows_pass(LIVE_PASS));
         assert!(!live_rows_pass(&without(
             LEDGER_ROWS[LEDGER_ROWS.len() - 1]
+        )));
+        assert!(live_rows_pass(&LIVE_PASS.replace(
+            "browser-tools-prompt browser tools  absent",
+            "browser-tools-prompt browser tools  pass"
+        )));
+        assert!(!live_rows_pass(&LIVE_PASS.replace(
+            "browser-tools-prompt browser tools  absent",
+            "browser-tools-prompt browser tools  fail"
+        )));
+        assert!(!live_rows_pass(&LIVE_PASS.replace(
+            "trust-record trust  pass",
+            "trust-record trust  absent"
         )));
     }
 

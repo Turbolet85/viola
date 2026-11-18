@@ -1,7 +1,7 @@
 use super::*;
 
 #[test]
-fn ledger_rows_are_the_twenty_three_measured_behaviours_in_order() {
+fn ledger_rows_are_the_twenty_four_measured_behaviours_in_order() {
     let ids: Vec<&str> = LedgerRow::ALL.iter().map(|r| r.id()).collect();
     assert_eq!(
         ids,
@@ -29,6 +29,7 @@ fn ledger_rows_are_the_twenty_three_measured_behaviours_in_order() {
             "local-command-compact",
             "local-command-echo",
             "trust-record",
+            "browser-tools-prompt",
         ]
     );
     let words: Vec<&str> = LedgerRow::ALL.iter().map(|r| r.words()).collect();
@@ -58,6 +59,7 @@ fn ledger_rows_are_the_twenty_three_measured_behaviours_in_order() {
             "/compact keeps the session id and submits no prompt",
             "/mcp writes its stdout tag to the transcript and submits no prompt",
             "a trust record written for an untrusted folder opens it with no modal",
+            "an interactive start's browser-tools prompt reads as a modal, nothing typed",
         ]
     );
     assert!(words.iter().all(|w| w.is_ascii()));
@@ -67,9 +69,9 @@ fn ledger_rows_are_the_twenty_three_measured_behaviours_in_order() {
 fn relied_rows_are_every_row_in_order() {
     let here: Vec<&str> = LedgerRow::relied().into_iter().map(LedgerRow::id).collect();
     let all: Vec<&str> = LedgerRow::ALL.into_iter().map(LedgerRow::id).collect();
-    assert_eq!(here.len(), 23);
+    assert_eq!(here.len(), 24);
     assert_eq!(here, all);
-    assert_eq!(here.last(), Some(&"trust-record"));
+    assert_eq!(here.last(), Some(&"browser-tools-prompt"));
 }
 
 #[test]
@@ -190,7 +192,7 @@ fn capture_read_keeps_the_size_and_a_parsed_payload() {
 
 #[test]
 fn check_passes_every_row_on_a_clean_probe() {
-    assert_eq!(verdicts(&clean_run()), [true; 23]);
+    assert_eq!(verdicts(&clean_run()), [true; 24]);
 }
 
 #[test]
@@ -334,6 +336,7 @@ fn merge_stamp_writes_the_envelope_for_a_first_version() {
                     "resume-session": "pass",
                     "agents-join": "pass", "local-command-compact": "pass",
                     "local-command-echo": "pass", "trust-record": "pass",
+                    "browser-tools-prompt": "absent",
                 },
                 "measured": {
                     "largest_hook_payload": {"SessionStart": 120, "Stop": 90},
@@ -534,6 +537,12 @@ fn verified_reads_a_fourteen_row_stamp_as_unverified() {
         "the twenty-two rows before the trust-record row"
     );
     stamp["data"]["versions"]["2.1.0"]["rows"]["trust-record"] = json!("pass");
+    assert_eq!(
+        verified(stamp.to_string().as_bytes(), "2.1.0"),
+        Ok(false),
+        "the twenty-three rows before the browser-tools row"
+    );
+    stamp["data"]["versions"]["2.1.0"]["rows"]["browser-tools-prompt"] = json!("pass");
     assert_eq!(verified(stamp.to_string().as_bytes(), "2.1.0"), Ok(true));
 }
 
@@ -729,7 +738,7 @@ fn verified_reads_a_stamp_holding_the_retired_row_on_the_relied_rows_alone() {
         .map(|row| (row.id().to_owned(), json!("pass")))
         .collect();
     rows.insert(retired.to_owned(), json!("fail"));
-    assert_eq!(rows.len(), 24);
+    assert_eq!(rows.len(), 25);
     let stamp = json!({"v": 1, "data": {"versions": {"2.1.0": {"rows": rows}}}});
     assert_eq!(verified(stamp.to_string().as_bytes(), "2.1.0"), Ok(true));
 }
@@ -766,7 +775,7 @@ fn verified_reads_a_stamp_holding_the_two_retired_rows_on_the_relied_rows_alone(
     for id in &retired {
         rows.insert(id.clone(), json!("fail"));
     }
-    assert_eq!(rows.len(), 25);
+    assert_eq!(rows.len(), 26);
     let stamp = json!({"v": 1, "data": {"versions": {"2.1.0": {"rows": rows}}}});
     assert_eq!(verified(stamp.to_string().as_bytes(), "2.1.0"), Ok(true));
 }
@@ -775,7 +784,7 @@ fn verified_reads_a_stamp_holding_the_two_retired_rows_on_the_relied_rows_alone(
 fn relied_rows_hold_no_retired_row() {
     let retired = retired_rows_of_the_fixture();
     let relied: Vec<&str> = LedgerRow::relied().into_iter().map(LedgerRow::id).collect();
-    assert_eq!(relied.len(), 23);
+    assert_eq!(relied.len(), 24);
     assert!(relied.iter().all(|id| !retired.iter().any(|r| r == id)));
 }
 
@@ -797,4 +806,110 @@ fn verified_reads_an_envelope_without_data_as_unverified() {
         AgentError::StampsMalformed.to_string(),
         "the capability stamps are malformed"
     );
+}
+
+/// A stamp of every relied row, each `pass` but `edits`, written by `merge_stamp`.
+fn stamp_with(typed: &TypedRun, edits: &[(LedgerRow, bool)]) -> Vec<u8> {
+    let results: Vec<(LedgerRow, bool)> = LedgerRow::ALL
+        .iter()
+        .map(|r| {
+            let pass = edits.iter().find(|(e, _)| e == r).is_none_or(|(_, p)| *p);
+            (*r, pass)
+        })
+        .collect();
+    merge_stamp(None, "2.1.0", &results, &[], typed, None, "t")
+}
+
+#[test]
+fn verified_reads_the_browser_tools_row_absent_as_counting() {
+    let bytes = stamp_with(&clean_typed(), &[]);
+    assert_eq!(
+        doc(&bytes)["data"]["versions"]["2.1.0"]["rows"]["browser-tools-prompt"],
+        json!("absent")
+    );
+    assert_eq!(verified(&bytes, "2.1.0"), Ok(true));
+    let failed = stamp_with(&clean_typed(), &[(LedgerRow::BrowserToolsPrompt, false)]);
+    assert_eq!(
+        doc(&failed)["data"]["versions"]["2.1.0"]["rows"]["browser-tools-prompt"],
+        json!("fail")
+    );
+    assert_eq!(verified(&failed, "2.1.0"), Ok(false));
+}
+
+#[rstest]
+#[case::trust_record("trust-record")]
+#[case::modal_signature("modal-signature")]
+fn verified_reads_absent_on_another_row_as_unverified(#[case] id: &str) {
+    let mut stamp = doc(&stamp_with(&clean_typed(), &[]));
+    stamp["data"]["versions"]["2.1.0"]["rows"][id] = json!("absent");
+    assert_eq!(verified(stamp.to_string().as_bytes(), "2.1.0"), Ok(false));
+}
+
+#[test]
+fn verified_reads_a_stamp_of_the_23_pre_chunk_ids_as_unverified() {
+    let results: Vec<(LedgerRow, bool)> = LedgerRow::ALL
+        .iter()
+        .filter(|r| **r != LedgerRow::BrowserToolsPrompt)
+        .map(|r| (*r, true))
+        .collect();
+    assert_eq!(results.len(), 23);
+    let bytes = merge_stamp(None, "2.1.0", &results, &[], &clean_typed(), None, "t");
+    let rows = &doc(&bytes)["data"]["versions"]["2.1.0"]["rows"];
+    assert!(
+        rows.as_object()
+            .is_some_and(|r| r.values().all(|w| w == "pass"))
+    );
+    assert_eq!(verified(&bytes, "2.1.0"), Ok(false));
+}
+
+#[test]
+fn merge_stamp_writes_the_browser_tools_row_and_its_first_screen() {
+    let reading = |screen| FirstReading {
+        screen,
+        settle_ms: 1100,
+        bytes: 4096,
+        alive: true,
+        exit: None,
+        rows: Some(5),
+        box_any: false,
+        last_byte_ms: Some(800),
+        literals: [None; 4],
+        rule_above_prompt: false,
+        first_row: None,
+        last_col: None,
+    };
+    let typed = TypedRun {
+        first: [
+            Some(reading(FirstScreen::Trust)),
+            Some(reading(FirstScreen::BrowserTools)),
+            None,
+            None,
+            None,
+            None,
+        ],
+        ..clean_typed()
+    };
+    let bytes = stamp_with(&typed, &[]);
+    let entry = &doc(&bytes)["data"]["versions"]["2.1.0"];
+    assert_eq!(entry["rows"]["browser-tools-prompt"], json!("pass"));
+    assert_eq!(
+        entry["measured"]["first_screen"],
+        json!({"a": "trust", "b": "browser-tools", "c": null, "d": null, "e": null, "f": null})
+    );
+    assert_eq!(verified(&bytes, "2.1.0"), Ok(true));
+}
+
+#[rstest]
+#[case::pass(LedgerRow::BrowserToolsPrompt, "pass", true)]
+#[case::absent(LedgerRow::BrowserToolsPrompt, "absent", true)]
+#[case::fail(LedgerRow::BrowserToolsPrompt, "fail", false)]
+#[case::other_pass(LedgerRow::TrustRecord, "pass", true)]
+#[case::other_absent(LedgerRow::TrustRecord, "absent", false)]
+#[case::other_word(LedgerRow::TrustRecord, "config-absent", false)]
+fn counts_reads_pass_and_absent_on_the_browser_tools_row_alone(
+    #[case] row: LedgerRow,
+    #[case] word: &str,
+    #[case] expected: bool,
+) {
+    assert_eq!(counts(row, word), expected);
 }

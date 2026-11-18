@@ -299,7 +299,11 @@ mod tests {
         assert!(input_box_up(Some(&rows(&["x", "  ← for agents"]))));
         assert!(!input_box_up(Some(&rows(&["x"]))));
         assert!(!input_box_up(None));
-        for modal in ["Yes, I trust this folder", "Yes, allow external imports"] {
+        for modal in [
+            "Yes, I trust this folder",
+            "Yes, allow external imports",
+            "  Yes, use my browser",
+        ] {
             assert!(
                 !input_box_up(Some(&rows(&[modal, "  ← for agents"]))),
                 "{modal}"
@@ -322,6 +326,7 @@ mod tests {
     fn input_box_up_reads_the_box_alone() {
         assert!(input_box_up(Some(&boxed("  Update available!"))));
         assert!(!input_box_up(Some(&boxed("Yes, I trust this folder"))));
+        assert!(!input_box_up(Some(&boxed("   Yes, use my browser"))));
     }
 
     #[rstest]

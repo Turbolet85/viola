@@ -1,0 +1,10 @@
+[[control]]
+id = 'bt-literal'
+entry = 4
+guard = 'the browser-tools literal removed from SIGNATURES.modals'
+case = 'verdict_refuses_at_once_on_the_browser_tools_prompt'
+
+[[control.edit]]
+path = 'crates/viola-agent-claude/src/screen.rs'
+old = '''    modals: &[TRUST_LITERAL, IMPORTS_LITERAL, BROWSER_TOOLS_LITERAL],'''
+new = '''    modals: &[TRUST_LITERAL, IMPORTS_LITERAL],'''

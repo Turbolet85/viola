@@ -42,16 +42,30 @@ pub struct Signatures {
     pub modals: &'static [&'static str],
 }
 
+/// The workspace trust dialog's confirm label.
+pub const TRUST_LITERAL: &str = "Yes, I trust this folder";
+
+/// The external CLAUDE.md imports dialog's confirm label.
+pub const IMPORTS_LITERAL: &str = "Yes, allow external imports";
+
+/// The browser-tools offer's confirm label (2.1.325's «Claude in Chrome extension detected»
+/// dialog), read from the install's bundle and the rig's kept first screens.
+pub const BROWSER_TOOLS_LITERAL: &str = "Yes, use my browser";
+
+/// The modal literals an untrusted start shows before its input box: trust, then imports.
+pub const UNTRUSTED_START_MODALS: &[&str] = &[TRUST_LITERAL, IMPORTS_LITERAL];
+
 /// The measured literals (`viola verify`'s screen probe): the input box's footer hints, the box's
-/// own rule and prompt glyph, and the confirm labels of the workspace trust dialog and the
-/// external CLAUDE.md imports dialog. The second input-box literal is the resting footer 2.1.302
-/// keeps once it hides the first; its parentheses keep it off the CLI's tip text and its dialogs'
-/// own "to cycle" hints. The box's rows stand where a transient footer notice displaces both hints.
+/// own rule and prompt glyph, and the confirm labels of the workspace trust dialog, the external
+/// CLAUDE.md imports dialog and the browser-tools offer. The second input-box literal is the
+/// resting footer 2.1.302 keeps once it hides the first; its parentheses keep it off the CLI's tip
+/// text and its dialogs' own "to cycle" hints. The box's rows stand where a transient footer
+/// notice displaces both hints.
 pub const SIGNATURES: Signatures = Signatures {
     input_box: &["for agents", "(shift+tab to cycle)"],
     box_rule: '─',
     box_prompt: '❯',
-    modals: &["Yes, I trust this folder", "Yes, allow external imports"],
+    modals: &[TRUST_LITERAL, IMPORTS_LITERAL, BROWSER_TOOLS_LITERAL],
 };
 
 impl Signatures {
@@ -107,10 +121,13 @@ impl Signatures {
     /// `None` for a poisoned screen.
     pub fn first_screen(&self, rows: Option<&[String]>, ended: bool) -> FirstScreen {
         let holds = |literal: &str| rows.is_some_and(|rs| rs.iter().any(|r| r.contains(literal)));
-        if self.modals.first().is_some_and(|m| holds(m)) {
+        let modal = |literal: &str| self.modals.contains(&literal) && holds(literal);
+        if modal(TRUST_LITERAL) {
             FirstScreen::Trust
-        } else if self.modals.get(1).is_some_and(|m| holds(m)) {
+        } else if modal(IMPORTS_LITERAL) {
             FirstScreen::Imports
+        } else if modal(BROWSER_TOOLS_LITERAL) {
+            FirstScreen::BrowserTools
         } else if rows.is_some_and(|rs| self.input_box_up(rs)) {
             FirstScreen::Box
         } else if ended {
@@ -200,6 +217,7 @@ impl RowFamily {
 pub enum FirstScreen {
     Trust,
     Imports,
+    BrowserTools,
     Box,
     None,
     Exited,
@@ -210,6 +228,7 @@ impl FirstScreen {
         match self {
             Self::Trust => "trust",
             Self::Imports => "imports",
+            Self::BrowserTools => "browser-tools",
             Self::Box => "box",
             Self::None => "none",
             Self::Exited => "exited",
@@ -596,6 +615,14 @@ mod tests {
         assert_eq!(BOX_RULE_MIN, 40);
         assert_eq!(
             SIGNATURES.modals,
+            [
+                "Yes, I trust this folder",
+                "Yes, allow external imports",
+                "Yes, use my browser"
+            ]
+        );
+        assert_eq!(
+            UNTRUSTED_START_MODALS,
             ["Yes, I trust this folder", "Yes, allow external imports"]
         );
     }
@@ -604,6 +631,7 @@ mod tests {
     #[case::input_box("  ⏸ manual mode on · ← for agents", true)]
     #[case::trust("   Yes, I trust this folder", true)]
     #[case::imports("   Yes, allow external imports", true)]
+    #[case::browser_tools("  Yes, use my browser", true)]
     #[case::cancel("❯ No, exit", false)]
     #[case::empty("", false)]
     fn holds_any_reads_both_lists(#[case] row: &str, #[case] expected: bool) {
@@ -752,6 +780,22 @@ mod tests {
     #[case::trust_over_the_box(Some(screen_rows(TRUST, "❯ ", FOOTER)), false, "trust")]
     #[case::trust_over_imports(Some(vec![IMPORTS.to_owned(), TRUST.to_owned()]), false, "trust")]
     #[case::box_after_the_child_ended(Some(vec![FOOTER.to_owned()]), true, "box")]
+    #[case::browser_tools(Some(browser_tools_rows()), false, "browser-tools")]
+    #[case::browser_tools_over_the_footer(
+        Some([browser_tools_rows(), vec![FOOTER.to_owned()]].concat()),
+        false,
+        "browser-tools"
+    )]
+    #[case::browser_tools_over_the_box(
+        Some([browser_tools_rows(), screen_rows("x", "❯ ", NOTICE)].concat()),
+        false,
+        "browser-tools"
+    )]
+    #[case::trust_over_browser_tools(
+        Some([browser_tools_rows(), vec![TRUST.to_owned()]].concat()),
+        false,
+        "trust"
+    )]
     #[case::absent_rows(None, false, "none")]
     #[case::absent_rows_ended(None, true, "exited")]
     fn first_screen_reads_each_literal_then_the_exit(
@@ -770,12 +814,42 @@ mod tests {
         let words = [
             FirstScreen::Trust,
             FirstScreen::Imports,
+            FirstScreen::BrowserTools,
             FirstScreen::Box,
             FirstScreen::None,
             FirstScreen::Exited,
         ]
         .map(FirstScreen::as_str);
-        assert_eq!(words, ["trust", "imports", "box", "none", "exited"]);
+        assert_eq!(
+            words,
+            ["trust", "imports", "browser-tools", "box", "none", "exited"]
+        );
+    }
+
+    /// The browser-tools offer's rows as 2.1.325 draws them (the title, the selected cancel row,
+    /// the confirm row and the footer hint), synthetic.
+    fn browser_tools_rows() -> Vec<String> {
+        [
+            " Claude in Chrome extension detected",
+            " ❯ No, keep browser tools off",
+            "   Yes, use my browser",
+            " Enter to confirm · Esc to keep browser tools off",
+        ]
+        .map(str::to_owned)
+        .to_vec()
+    }
+
+    #[test]
+    fn browser_tools_rows_hold_a_modal_and_keep_the_box_down() {
+        let rows = [browser_tools_rows(), screen_rows("x", "❯ ", FOOTER)].concat();
+        assert!(SIGNATURES.holds_modal("   Yes, use my browser"));
+        assert!(!SIGNATURES.holds_modal(" ❯ No, keep browser tools off"));
+        assert!(!SIGNATURES.input_box_up(&rows));
+        assert!(SIGNATURES.input_box_up(&rows[4..]));
+        assert_eq!(
+            verdict_over(&rows),
+            GateStep::Done(Readiness::InputNotReady)
+        );
     }
 
     #[rstest]

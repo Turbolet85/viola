@@ -553,6 +553,49 @@ mod tests {
         );
     }
 
+    /// The browser-tools offer above the box's own rows: its first verdict, read once at the first
+    /// quiet instant with the clock fixed there, with `sigs` given and with none.
+    fn first_browser_tools_verdict(sigs: Option<&'static Signatures>) -> GateStep {
+        let base = Instant::now();
+        let rule = "─".repeat(80);
+        let rows = [
+            " Claude in Chrome extension detected",
+            " ❯ No, keep browser tools off",
+            "   Yes, use my browser",
+            rule.as_str(),
+            "❯ ",
+            rule.as_str(),
+        ];
+        let (feeder, gate, thread) = start(FixedClock(base), Size::DEFAULT, sigs);
+        feeder
+            .tx
+            .send(Feed::Bytes(rows.join("\r\n").into_bytes()))
+            .expect("feed thread alive");
+        drop(feeder);
+        thread.join().expect("the feed thread never panics");
+        let model = gate.shared.model();
+        model
+            .screen
+            .verdict(gate.shared.sigs, base, base + Duration::from_millis(300))
+    }
+
+    #[test]
+    fn verdict_refuses_at_once_on_the_browser_tools_prompt() {
+        assert_eq!(
+            first_browser_tools_verdict(Some(&viola_agent_claude::screen::SIGNATURES)),
+            GateStep::Done(Readiness::InputNotReady)
+        );
+    }
+
+    /// On an unverified CLI the gate is partial: the same quiet screen is `Ready`, no row read.
+    #[test]
+    fn verdict_without_signatures_reads_the_browser_tools_prompt_ready() {
+        assert_eq!(
+            first_browser_tools_verdict(None),
+            GateStep::Done(Readiness::Ready)
+        );
+    }
+
     #[test]
     fn wait_ready_verified_over_the_input_box_is_ready() {
         let base = Instant::now();

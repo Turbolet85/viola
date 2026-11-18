@@ -16,7 +16,13 @@ fn verify_a_complete_set_prints_every_relied_step_and_stamps_every_row(
     assert_eq!(doc["writer"], "verify");
     let entry = &doc["data"]["versions"]["2.1.0"];
     for id in ROW_IDS {
-        assert_eq!(entry["rows"][id], "pass", "{id}");
+        // No run met the browser-tools offer: its row is stamped `absent`, which counts.
+        let word = if id == "browser-tools-prompt" {
+            "absent"
+        } else {
+            "pass"
+        };
+        assert_eq!(entry["rows"][id], word, "{id}");
     }
     let stamped_rows = entry["rows"].as_object().expect("rows").len();
     assert_eq!(
@@ -104,8 +110,8 @@ fn verify_a_set_without_stop_fails_its_rows_and_still_stamps(#[from(home)] home:
     assert_eq!(ran.code, Some(1));
     let stdout = ran.stdout_text();
     let lines: Vec<&str> = stdout.lines().collect();
-    let mut expected = steps_failing(|i| ![0, 2, 3, 5, 6, 22].contains(&i));
-    expected.push("stamped 2.1.0  6 pass  17 fail".to_owned());
+    let mut expected = steps_failing(|i| ![0, 2, 3, 5, 6, 22, 23].contains(&i));
+    expected.push("stamped 2.1.0  7 pass  17 fail".to_owned());
     assert_eq!(lines, expected);
     assert!(ran.stderr.is_empty());
     let rows = &stamps(home.path())["data"]["versions"]["2.1.0"]["rows"];

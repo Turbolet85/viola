@@ -1,0 +1,37 @@
+[
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "a5501032",
+"ts": "2026-11-18T14:51:35Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-11-18-browser-tools-prompt-modal",
+"--id",
+"chk-p6udcdf3",
+"--desc-file",
+".andromeda/runs/2026-11-18T14-50-27Z-phase/master-desc.txt",
+"--scope-file",
+".andromeda/cache/docs/2026-11-18-browser-tools-prompt-modal/scope.md",
+"--run-dir",
+".andromeda/runs/2026-11-18T14-50-27Z-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"promoted 2026-11-18-browser-tools-prompt-modal · chk-p6udcdf3 · Browser-tools prompt read as a modal · tx 2773"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T14-51-35-2026-11-18-browser-tools-prompt-modal.ndjson",
+"./.andromeda/master-route.md",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]

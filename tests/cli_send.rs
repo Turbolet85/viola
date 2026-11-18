@@ -18,7 +18,7 @@ use rstest::rstest;
 use serde_json::{Value, json};
 use support::events::{events, wait_events};
 use support::fake::{self, of_kind};
-use support::home::{StampedHome, TestHome, Wrapper, stamped_home, workspace_path};
+use support::home::{StampedHome, TestHome, Wrapper, copy_tree, stamped_home, workspace_path};
 use support::watch::{WITHIN, Watch};
 use viola_state::events::{LoggedLine, Skipped, read_from};
 
@@ -1222,6 +1222,70 @@ fn send_on_a_verified_cli_refuses_while_the_trust_dialog_is_up(stamped_home: Sta
     assert!(of_kind(&receipt, "prompt").is_empty());
     assert!(of_kind(&receipt, "key").is_empty(), "nothing was typed");
     assert!(of_kind(&receipt, "hook").is_empty(), "no hook before trust");
+    wrapper.stop();
+}
+
+/// The browser-tools offer's rows, synthetic: the title, the selected cancel row, the confirm row,
+/// the footer hint, and the box's own rule and prompt rows under them.
+fn browser_tools_screen() -> Value {
+    let rule = "─".repeat(80);
+    json!({"rows": [
+        " Claude in Chrome extension detected",
+        "",
+        "❯ No, keep browser tools off",
+        "  Yes, use my browser",
+        "",
+        " Enter to confirm · Esc to keep browser tools off",
+        rule,
+        "❯ ",
+        rule,
+    ]})
+}
+
+/// On a verified CLI the gate reads the browser-tools offer as a modal: the send refuses
+/// `input-not-ready` and the fake agent standing on the offer reads no byte at all.
+#[rstest]
+fn send_on_a_verified_cli_refuses_while_the_browser_tools_prompt_is_up(stamped_home: StampedHome) {
+    let scratch = TestHome::new();
+    let fixtures = scratch.scratch().join("fixtures");
+    copy_tree(&workspace_path("fixtures/claude"), &fixtures);
+    std::fs::write(
+        fixtures
+            .join(fake::RECORDED_CLI_VERSION)
+            .join("Screen.browser-tools.json"),
+        browser_tools_screen().to_string(),
+    )
+    .expect("the browser-tools screen");
+    let fixtures = fixtures.to_str().expect("utf-8 path");
+    let wrapper = Wrapper::boot(
+        stamped_home,
+        "builder",
+        None,
+        &["--fixtures", fixtures, "--start-screen", "browser-tools"],
+    );
+    wait_events(&wrapper.instance_dir(), "the session-start record", |l| {
+        l.iter().any(|e| e["kind"] == "session-start")
+    });
+    let sent = send(wrapper.home(), &["builder", "--json"], CANARY);
+    assert_eq!(sent.code, Some(13));
+    assert_eq!(
+        serde_json::from_str::<Value>(&sent.stdout).expect("one JSON document"),
+        json!({"v": 1, "refusal": "not-delivered", "detail": "input-not-ready"})
+    );
+    let events = events(&wrapper.instance_dir());
+    assert!(!events.iter().any(|e| e["kind"] == "send-issued"));
+    let refused: Vec<&Value> = events
+        .iter()
+        .filter(|e| e["kind"] == "send-refused")
+        .collect();
+    assert_eq!(refused.len(), 1);
+    assert_eq!(
+        refused[0]["data"],
+        json!({"refusal": "not-delivered", "detail": "input-not-ready"})
+    );
+    let receipt = fake::receipt(&wrapper.receipt());
+    assert!(of_kind(&receipt, "prompt").is_empty());
+    assert!(of_kind(&receipt, "key").is_empty(), "nothing was typed");
     wrapper.stop();
 }
 

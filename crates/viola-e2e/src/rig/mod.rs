@@ -26,6 +26,7 @@ use std::time::{Duration, Instant};
 
 use serde_json::Value;
 use viola_agent_claude::hook::typed_text;
+use viola_agent_claude::ledger::{LedgerRow, counts};
 use viola_agent_claude::screen::{BOX_LITERAL_IDS, RowFamily, SIGNATURES};
 use viola_pty::{PortablePty, Pty as _, Size, SpawnSpec};
 use viola_state::pin::content_key;
@@ -95,6 +96,11 @@ pub enum Arm {
     IM,
     /// `viola verify` over the child under the start's own viola home, held to its exit; no key.
     V,
+    /// `V` with the browser-tools key left out of the seed, so the CLI's prompt can stand; the
+    /// stop the no-key group kill, `cache-a` read at verify's end.
+    VP,
+    /// `V`'s seed with the browser-tools key off: `VP`'s control, its stop the no-key group kill.
+    VK,
     /// Unwrapped at verify's 80×24 under the verify arm's seed: its first frame read into verify's
     /// first-screen word and facts; stopped with no key.
     VC,
@@ -117,6 +123,8 @@ impl Arm {
             "r3" => Some(Self::R3),
             "im" => Some(Self::IM),
             "v" => Some(Self::V),
+            "vp" => Some(Self::VP),
+            "vk" => Some(Self::VK),
             "vc" => Some(Self::VC),
             "ts" => Some(Self::TS),
             "tc" => Some(Self::TC),
@@ -126,7 +134,8 @@ impl Arm {
 
     /// A live label's arm: `R1` / `R1-2`, `R2` / `R2-2`, `R3B` / `R3B-2`, `R3` / `R3-2` / `R3-326`
     /// / `R3D`, `IM` / `IM-2`, `S0` / `S0-2`, `S0R` with its two spares `S0R-2` / `S0R-3`, `S0B`
-    /// with its spare `S0B-2`, `S0C` alone (no spare), `S1` with its spare `S1-2`, and `S2` alone.
+    /// with its spare `S0B-2`, `S0C` alone (no spare), `S1` with its spare `S1-2`, `S2` alone,
+    /// `BP` with its spare `BP-2`, and `BK` alone.
     pub fn of_label(label: &str) -> Option<Self> {
         match label {
             "R1" | "R1-2" => Some(Self::R1),
@@ -138,13 +147,25 @@ impl Arm {
             "S0C" => Some(Self::VC),
             "S1" | "S1-2" => Some(Self::TS),
             "S2" => Some(Self::TC),
+            "BP" | "BP-2" => Some(Self::VP),
+            "BK" => Some(Self::VK),
             _ => None,
         }
     }
 
-    /// Whether the start makes a viola home of its own: every wrapped arm, and the verify arm.
+    /// Whether the start makes a viola home of its own: every wrapped arm, and the verify arms.
     pub fn has_vhome(self) -> bool {
-        self.wrapped().is_some() || matches!(self, Self::V | Self::TS)
+        self.wrapped().is_some() || self.verifies() || self == Self::TS
+    }
+
+    /// The `viola verify` arms: `V` and its two browser-tools twins.
+    const fn verifies(self) -> bool {
+        matches!(self, Self::V | Self::VP | Self::VK)
+    }
+
+    /// Whether the seed holds the browser-tools key: every marker-seeded arm but `VP`.
+    fn browser_tools_seed(self) -> bool {
+        self != Self::VP
     }
 
     const fn word(self) -> &'static str {
@@ -156,6 +177,8 @@ impl Arm {
             Self::R3 => "r3",
             Self::IM => "im",
             Self::V => "v",
+            Self::VP => "vp",
+            Self::VK => "vk",
             Self::VC => "vc",
             Self::TS => "ts",
             Self::TC => "tc",
@@ -164,12 +187,12 @@ impl Arm {
 
     /// Whether the start's cwd is made a git root, as the verify arm's.
     fn verify_seed(self) -> bool {
-        matches!(self, Self::V | Self::VC | Self::TS)
+        self.verifies() || matches!(self, Self::VC | Self::TS)
     }
 
     /// Whether the private config takes the used-config markers and the browser-tools key.
     fn marker_seed(self) -> bool {
-        matches!(self, Self::V | Self::VC | Self::TS | Self::TC)
+        self.verifies() || matches!(self, Self::VC | Self::TS | Self::TC)
     }
 
     /// Whether the private config takes another folder's sentinel entry.
@@ -182,7 +205,15 @@ impl Arm {
         match self {
             Self::R2 => Some(R2_NAME),
             Self::R3B | Self::R3 => Some(wake::WAKE_NAME),
-            Self::R1 | Self::Hold | Self::IM | Self::V | Self::VC | Self::TS | Self::TC => None,
+            Self::R1
+            | Self::Hold
+            | Self::IM
+            | Self::V
+            | Self::VP
+            | Self::VK
+            | Self::VC
+            | Self::TS
+            | Self::TC => None,
         }
     }
 
@@ -190,7 +221,15 @@ impl Arm {
     const fn trusted(self) -> bool {
         matches!(
             self,
-            Self::R2 | Self::R3B | Self::R3 | Self::IM | Self::V | Self::VC | Self::TS
+            Self::R2
+                | Self::R3B
+                | Self::R3
+                | Self::IM
+                | Self::V
+                | Self::VP
+                | Self::VK
+                | Self::VC
+                | Self::TS
         )
     }
 
@@ -344,12 +383,14 @@ pub fn start(plan: &Plan) -> u8 {
             .as_deref()
             .and_then(version_token)
             .map(str::to_owned);
-        let written = version
-            .as_deref()
-            .is_some_and(|v| scratch.seed_used_markers(v).is_ok());
+        let written = version.as_deref().is_some_and(|v| {
+            scratch
+                .seed_used_markers(v, plan.arm.browser_tools_seed())
+                .is_ok()
+        });
         summary.put(
             "seed-markers",
-            scratch.seed_markers_word(version.as_deref()),
+            scratch.seed_markers_word(version.as_deref(), plan.arm.browser_tools_seed()),
         );
         written
     };
@@ -365,7 +406,15 @@ pub fn start(plan: &Plan) -> u8 {
                 .as_deref()
                 .is_some_and(|rig| scratch.seed_capture(rig).is_ok()),
             Arm::IM => scratch.seed_imports().is_ok(),
-            Arm::R1 | Arm::R2 | Arm::Hold | Arm::V | Arm::VC | Arm::TS | Arm::TC => true,
+            Arm::R1
+            | Arm::R2
+            | Arm::Hold
+            | Arm::V
+            | Arm::VP
+            | Arm::VK
+            | Arm::VC
+            | Arm::TS
+            | Arm::TC => true,
         };
     if !placed {
         summary.put("refused", "credentials");
@@ -378,7 +427,12 @@ pub fn start(plan: &Plan) -> u8 {
     } else if let Some(id) = run_child(plan, &run, &scratch, sentinel.as_ref(), &mut summary) {
         needles.push(id.into_bytes());
     }
-    if matches!(plan.arm, Arm::V | Arm::TS) {
+    if matches!(plan.arm, Arm::VP | Arm::VK) {
+        // Read at verify's end, before the teardown: whether the CLI's own extension cache stands
+        // in the private config, by its key name alone.
+        summary.put("cache-a", scratch.cache_word());
+    }
+    if plan.arm.verifies() || plan.arm == Arm::TS {
         // A failed verify's first screens, copied into the run's kept folder beside its frames
         // before the teardown removes the scratch; their content reaches no summary line.
         summary.put("kept", scratch.keep_first_screens(&plan.out.join(&run)));
@@ -434,7 +488,7 @@ fn finish(
         && summary.get("step2") != Some("not-started")
         && user_config != "changed-by-rig"
         && summary.get("child").is_none_or(|c| {
-            c == "stopped" || c == "exit 0" || (plan.arm == Arm::V && c == "exit 1")
+            c == "stopped" || c == "exit 0" || (plan.arm.verifies() && c == "exit 1")
         });
     if whole { 0 } else { 1 }
 }
@@ -668,7 +722,7 @@ fn run_child(
     let env = isolate::child_env(plan.cli_dir.as_deref(), &scratch.config, run);
     let child_args = substituted(&plan.child_args, scratch);
     let (program, args) = match (plan.arm.wrapped(), &scratch.vhome) {
-        (None, Some(vhome)) if plan.arm == Arm::V => {
+        (None, Some(vhome)) if plan.arm.verifies() => {
             let Some(viola) = &plan.viola else {
                 summary.put("refused", "viola");
                 return None;
@@ -735,13 +789,13 @@ fn run_child(
         Arm::R3B => wake::arm_r3b(plan, scratch, &env, &mut session, summary),
         Arm::R3 => wake::arm_r3(plan, scratch, &env, &mut session, summary),
         Arm::IM => arm_im(plan, &mut session, summary),
-        Arm::V => arm_v(plan, scratch, &mut session, summary),
+        Arm::V | Arm::VP | Arm::VK => arm_v(plan, scratch, &mut session, summary),
         Arm::VC => arm_vc(plan, &mut session, summary),
         Arm::TC => arm_tc(plan, scratch, sentinel, &mut session, summary),
         // `TS` takes its own two starts (`run_ts`); a start that reaches here holds the child alone.
         Arm::TS => arm_hold(plan, &mut session),
     }
-    let no_key = matches!(plan.arm, Arm::IM | Arm::VC | Arm::TC);
+    let no_key = matches!(plan.arm, Arm::IM | Arm::VP | Arm::VK | Arm::VC | Arm::TC);
     end_session(session, summary, no_key)
 }
 
@@ -1117,9 +1171,9 @@ fn arm_v(plan: &Plan, scratch: &Scratch, session: &mut Session, summary: &mut Su
 /// The interactive runs as the stamp's `measured` first-screen maps key them.
 const RUN_LETTERS: [&str; 6] = ["a", "b", "c", "d", "e", "f"];
 
-/// The stamped version's reading as summary lines: `trust-record` (a closed word), `pass-count`
-/// (`<passed>/<rows>`), `rows` (the row ids the entry holds), `failing` (the ids not `pass`, in the
-/// stamp's order, or `none`), then per run `screen-<x>`, `settle-<x>` and `facts-<x>` from
+/// The stamped version's reading as summary lines: `trust-record` and `browser-tools-prompt`
+/// (closed words), `pass-count` (`<counting>/<rows>`), `rows` (the row ids the entry holds),
+/// `failing` (the ids that do not count, in the stamp's order, or `none`), then per run `screen-<x>`, `settle-<x>` and `facts-<x>` from
 /// `measured`. The version named, or the one version a fresh home holds; every line `unread` for a
 /// stamp or entry that is absent or not read. Closed words, ids and whole numbers only.
 fn stamp_reading(path: &Path, version: Option<&str>) -> Vec<(String, String)> {
@@ -1150,10 +1204,16 @@ fn stamp_lines(entry: Option<&Value>) -> Vec<(String, String)> {
     let line = |k: &str, v: String| (k.to_owned(), v);
     let rows = entry.and_then(|e| e["rows"].as_object());
     let Some((entry, rows)) = entry.zip(rows) else {
-        let mut lines: Vec<(String, String)> = ["trust-record", "pass-count", "rows", "failing"]
-            .iter()
-            .map(|k| line(k, "unread".to_owned()))
-            .collect();
+        let mut lines: Vec<(String, String)> = [
+            "trust-record",
+            "browser-tools-prompt",
+            "pass-count",
+            "rows",
+            "failing",
+        ]
+        .iter()
+        .map(|k| line(k, "unread".to_owned()))
+        .collect();
         for x in RUN_LETTERS {
             for k in ["screen", "settle", "facts"] {
                 lines.push(line(&format!("{k}-{x}"), "unread".to_owned()));
@@ -1161,20 +1221,29 @@ fn stamp_lines(entry: Option<&Value>) -> Vec<(String, String)> {
         }
         return lines;
     };
-    let word = rows
-        .get("trust-record")
-        .and_then(Value::as_str)
-        .filter(|w| viola_core::is_code_word(w))
-        .unwrap_or("absent")
-        .to_owned();
-    let passed = rows.values().filter(|v| *v == "pass").count();
+    let word_of = |id: &str| {
+        rows.get(id)
+            .and_then(Value::as_str)
+            .filter(|w| viola_core::is_code_word(w))
+            .unwrap_or("absent")
+            .to_owned()
+    };
+    let counting = |id: &str, v: &Value| {
+        let word = v.as_str().unwrap_or_default();
+        LedgerRow::ALL
+            .iter()
+            .find(|row| row.id() == id)
+            .map_or(word == "pass", |row| counts(*row, word))
+    };
+    let passed = rows.iter().filter(|(id, v)| counting(id, v)).count();
     let failing: Vec<&str> = rows
         .iter()
-        .filter(|(id, v)| *v != "pass" && viola_core::is_code_word(id))
+        .filter(|(id, v)| !counting(id, v) && viola_core::is_code_word(id))
         .map(|(id, _)| id.as_str())
         .collect();
     let mut lines = vec![
-        line("trust-record", word),
+        line("trust-record", word_of("trust-record")),
+        line("browser-tools-prompt", word_of("browser-tools-prompt")),
         line("pass-count", format!("{passed}/{}", rows.len())),
         line("rows", rows.len().to_string()),
         line(
@@ -1518,6 +1587,65 @@ mod tests {
         assert!(Arm::R2.has_vhome() && !Arm::IM.has_vhome());
     }
 
+    /// `BP` and its spare `BP-2` start the arm whose seed leaves the browser-tools key out, `BK` its
+    /// control; both are verify arms, and only `VP`'s seed drops the key.
+    #[test]
+    fn browser_tools_arms_parse_and_take_their_labels() {
+        assert_eq!(Arm::parse("vp"), Some(Arm::VP));
+        assert_eq!(Arm::parse("vk"), Some(Arm::VK));
+        for (label, arm) in [("BP", Arm::VP), ("BP-2", Arm::VP), ("BK", Arm::VK)] {
+            assert_eq!(Arm::of_label(label), Some(arm), "{label}");
+        }
+        for label in ["BP-3", "BK-2", "BPK"] {
+            assert_eq!(Arm::of_label(label), None, "{label}");
+        }
+        for arm in [Arm::VP, Arm::VK] {
+            assert!(arm.verifies() && arm.has_vhome() && arm.wrapped().is_none());
+            assert!(arm.trusted() && arm.verify_seed() && arm.marker_seed());
+            assert_eq!(arm.pty_size().cols, screen::COLS);
+            assert_eq!(Arm::parse(arm.word()), Some(arm));
+        }
+        assert!(!Arm::VP.browser_tools_seed());
+        for arm in [Arm::V, Arm::VK, Arm::VC, Arm::TS, Arm::TC] {
+            assert!(arm.browser_tools_seed(), "{}", arm.word());
+        }
+        assert!(Arm::V.verifies() && !Arm::VC.verifies() && !Arm::TS.verifies());
+    }
+
+    /// The 24th row's line in its three words, and `pass-count` / `failing` reading it through
+    /// `counts`: `absent` counts on that row alone, `fail` does not.
+    #[test]
+    fn stamp_lines_read_the_browser_tools_row_in_each_word() {
+        for (word, count, failing) in [
+            ("pass", "3/3", "none"),
+            ("absent", "3/3", "none"),
+            ("fail", "2/3", "browser-tools-prompt"),
+        ] {
+            let entry = json!({"rows": {
+                "trust-record": "pass",
+                "modal-signature": "pass",
+                "browser-tools-prompt": word,
+            }});
+            let lines = stamp_lines(Some(&entry));
+            assert_eq!(value_of(&lines, "browser-tools-prompt"), word, "{word}");
+            assert_eq!(value_of(&lines, "pass-count"), count, "{word}");
+            assert_eq!(value_of(&lines, "failing"), failing, "{word}");
+        }
+        let other = json!({"rows": {"trust-record": "absent", "a-row": "absent"}});
+        let lines = stamp_lines(Some(&other));
+        assert_eq!(
+            value_of(&lines, "browser-tools-prompt"),
+            "absent",
+            "no entry"
+        );
+        assert_eq!(value_of(&lines, "pass-count"), "0/2");
+        assert_eq!(value_of(&lines, "failing"), "trust-record,a-row");
+        assert_eq!(
+            value_of(&stamp_lines(None), "browser-tools-prompt"),
+            "unread"
+        );
+    }
+
     /// The value of `key` among a stamp reading's lines.
     fn value_of<'a>(lines: &'a [(String, String)], key: &str) -> &'a str {
         lines
@@ -1576,13 +1704,14 @@ mod tests {
             "failing",
             "rows",
             "trust-record",
+            "browser-tools-prompt",
             "pass-count",
             "screen-a",
             "facts-f",
         ] {
             assert_eq!(value_of(&lines, key), "unread", "{key}");
         }
-        assert_eq!(lines.len(), 4 + 18);
+        assert_eq!(lines.len(), 5 + 18);
     }
 
     #[test]

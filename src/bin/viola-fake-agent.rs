@@ -110,6 +110,9 @@ struct Opts {
     paste_hint: Option<Duration>,
     tag_turn_screen: Option<String>,
     long_turn_screen: Option<String>,
+    /// `--start-screen <phase>` (argv only): a trusted start under `--screens` draws the set's
+    /// `Screen.<phase>` and keeps it standing, answering no byte (the browser-tools offer's case).
+    start_screen: Option<String>,
     resume: Option<String>,
     fork_session: bool,
     transcript: bool,
@@ -157,6 +160,7 @@ impl Opts {
                 }
                 "--tag-turn-screen" => o.tag_turn_screen = value(),
                 "--long-turn-screen" => o.long_turn_screen = value(),
+                "--start-screen" => o.start_screen = value(),
                 "--resume" => o.resume = value(),
                 "--fork-session" => o.fork_session = true,
                 "--transcript" => o.transcript = true,
@@ -222,6 +226,16 @@ impl Opts {
             id
         };
         vec![("source", "resume"), ("session_id", id)]
+    }
+
+    /// Under `--screens`, the `--start-screen <phase>` rows a trusted start draws in place of its
+    /// ready screen and keeps standing until it is killed; an untrusted start, an absent or an
+    /// unparsed screen gives none.
+    fn start_screen(&self) -> Option<Vec<String>> {
+        let phase = self.start_screen.as_deref()?;
+        (self.screens && self.trusted())
+            .then(|| self.screen(phase))
+            .flatten()
     }
 
     /// `<fixtures>/<cli version>/Screen.<phase>.json`'s rows, when it exists and parses.
@@ -1082,12 +1096,20 @@ fn launch(agent: &Agent) {
 }
 
 /// Reads stdin byte by byte until EOF or `\x03`. With `trust` the trust dialog stands first, and
-/// only its keys are read until an option is taken.
-fn read_stdin(agent: &Agent, mut trust: Option<Trust>) -> ExitCode {
+/// only its keys are read until an option is taken. With `standing` the `--start-screen` stands
+/// for the process's life: each byte is one `key` line, answers nothing and reaches no input box.
+fn read_stdin(agent: &Agent, mut trust: Option<Trust>, standing: bool) -> ExitCode {
     let mut input = Input::new();
     let mut stdin = viola_pty::host_stdin();
     let mut byte = [0u8; 1];
     while let Ok(1) = stdin.read(&mut byte) {
+        if standing {
+            if byte[0] == 0x03 {
+                break;
+            }
+            agent.receipt.write("key", json!({"hex": hex(&byte)}));
+            continue;
+        }
         if let Some(dialog) = &mut trust {
             // `\x03` ends the process, as in the input box: no key line.
             if byte[0] != 0x03 {
@@ -1187,8 +1209,11 @@ fn main() -> ExitCode {
     // With `--screens` an untrusted cwd shows the trust dialog, and the real CLI fires no hook
     // before trust.
     let trusted = !agent.opts.screens || agent.opts.trusted();
+    let standing = agent.opts.start_screen();
     if agent.opts.screens {
-        if trusted {
+        if let Some(rows) = &standing {
+            draw(rows);
+        } else if trusted {
             if !agent.opts.blank_start() {
                 write_screen(&agent.opts, "ready");
             }
@@ -1208,7 +1233,7 @@ fn main() -> ExitCode {
         selected: 0,
         esc: Vec::new(),
     });
-    let code = read_stdin(&agent, trust);
+    let code = read_stdin(&agent, trust, standing.is_some());
     if let Some(registry) = agent.registry.get() {
         registry.remove();
     }

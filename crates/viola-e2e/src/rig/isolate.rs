@@ -291,30 +291,43 @@ impl Scratch {
     }
 
     /// The used-config markers merged into the private config `seed_config` wrote, every key
-    /// it holds kept; `version` is the running CLI's, read from the child program by path.
-    pub fn seed_used_markers(&self, version: &str) -> io::Result<()> {
+    /// it holds kept; `version` is the running CLI's, read from the child program by path. With
+    /// `browser_tools` false the browser-tools key is left out, so the CLI's prompt can stand.
+    pub fn seed_used_markers(&self, version: &str, browser_tools: bool) -> io::Result<()> {
         let path = self.config.join(".claude.json");
         let Some(Value::Object(mut seed)) = read_json(&path) else {
             return Err(io::Error::other("seed unread"));
         };
-        for (key, marker) in USED_MARKERS {
+        for (key, marker) in seeded_markers(browser_tools) {
             seed.insert(key.to_owned(), marker.value(version));
         }
         write_private(&path, &Value::Object(seed))
     }
 
-    /// `written` when the private config on the disk holds all the used-config markers at their written
-    /// values for `version`; else `absent`.
-    pub fn seed_markers_word(&self, version: Option<&str>) -> &'static str {
+    /// `written` when the private config on the disk holds the markers `seed_used_markers` writes
+    /// for `version` and `browser_tools` at their values, and with `browser_tools` false no
+    /// browser-tools key at all; else `absent`.
+    pub fn seed_markers_word(&self, version: Option<&str>, browser_tools: bool) -> &'static str {
         let Some(version) = version else {
             return "absent";
         };
         let held = read_json(&self.config.join(".claude.json")).is_some_and(|doc| {
-            USED_MARKERS
-                .iter()
+            seeded_markers(browser_tools)
                 .all(|(key, marker)| doc.get(key) == Some(&marker.value(version)))
+                && (browser_tools || doc.get(BROWSER_TOOLS_KEY).is_none())
         });
         if held { "written" } else { "absent" }
+    }
+
+    /// `cache-a`: `written` when the key NAME `cachedChromeExtensionInstalled` stands in the
+    /// private config, `absent` when it does not, `unread` for a config not read. Presence only:
+    /// no value is read out.
+    pub fn cache_word(&self) -> &'static str {
+        match read_json(&self.config.join(".claude.json")) {
+            Some(doc) if doc.get(EXTENSION_CACHE_KEY).is_some() => "written",
+            Some(_) => "absent",
+            None => "unread",
+        }
     }
 
     /// Whether a `viola verify` run left its trust record in the private config: read before the
@@ -537,6 +550,19 @@ const USED_MARKERS: [(&str, Marker); 5] = [
     ("claudeInChromeDefaultEnabled", Marker::Off),
 ];
 
+/// The browser-tools key among the used markers, left out of the `VP` arm's seed.
+const BROWSER_TOOLS_KEY: &str = "claudeInChromeDefaultEnabled";
+
+/// The CLI's own extension-detected cache key, read by name alone (`cache-a`).
+const EXTENSION_CACHE_KEY: &str = "cachedChromeExtensionInstalled";
+
+/// The used markers a seed writes: all five, or without the browser-tools key.
+fn seeded_markers(browser_tools: bool) -> impl Iterator<Item = (&'static str, Marker)> {
+    USED_MARKERS
+        .into_iter()
+        .filter(move |(key, _)| browser_tools || *key != BROWSER_TOOLS_KEY)
+}
+
 /// The run letters of `viola verify`'s interactive runs, in run order.
 const RUN_LETTERS: [&str; 6] = ["a", "b", "c", "d", "e", "f"];
 
@@ -697,8 +723,8 @@ mod tests {
         let base = tempfile::tempdir().expect("tempdir");
         let scratch = Scratch::create(base.path(), "1-2", true).expect("scratch");
         scratch.seed_config(true).expect("seed");
-        assert_eq!(scratch.seed_markers_word(Some("2.1.325")), "absent");
-        scratch.seed_used_markers("2.1.325").expect("markers");
+        assert_eq!(scratch.seed_markers_word(Some("2.1.325"), true), "absent");
+        scratch.seed_used_markers("2.1.325", true).expect("markers");
         let config: Value =
             serde_json::from_slice(&fs::read(scratch.config.join(".claude.json")).expect("config"))
                 .expect("json");
@@ -734,9 +760,71 @@ mod tests {
             config["projects"],
             json!({ cwd: {"hasTrustDialogAccepted": true} })
         );
-        assert_eq!(scratch.seed_markers_word(Some("2.1.325")), "written");
-        assert_eq!(scratch.seed_markers_word(Some("2.1.326")), "absent");
-        assert_eq!(scratch.seed_markers_word(None), "absent");
+        assert_eq!(scratch.seed_markers_word(Some("2.1.325"), true), "written");
+        assert_eq!(
+            scratch.seed_markers_word(Some("2.1.325"), false),
+            "absent",
+            "the browser-tools key stands"
+        );
+        assert_eq!(scratch.seed_markers_word(Some("2.1.326"), true), "absent");
+        assert_eq!(scratch.seed_markers_word(None, true), "absent");
+    }
+
+    #[test]
+    fn seed_used_markers_leaves_the_browser_tools_key_out_for_vp() {
+        let base = tempfile::tempdir().expect("tempdir");
+        let scratch = Scratch::create(base.path(), "1-2", true).expect("scratch");
+        scratch.seed_config(true).expect("seed");
+        scratch
+            .seed_used_markers("2.1.325", false)
+            .expect("markers");
+        let config: Value =
+            serde_json::from_slice(&fs::read(scratch.config.join(".claude.json")).expect("config"))
+                .expect("json");
+        let mut keys: Vec<&str> = config
+            .as_object()
+            .expect("object")
+            .keys()
+            .map(String::as_str)
+            .collect();
+        keys.sort_unstable();
+        assert_eq!(
+            keys,
+            [
+                "hasCompletedOnboarding",
+                "hasSeenAutoDefaultNotice",
+                "lastClawdEntranceVersion",
+                "lastReleaseNotesSeen",
+                "migrationVersion",
+                "projects",
+            ]
+        );
+        assert_eq!(scratch.seed_markers_word(Some("2.1.325"), false), "written");
+        assert_eq!(
+            scratch.seed_markers_word(Some("2.1.325"), true),
+            "absent",
+            "the browser-tools key is out"
+        );
+        assert_eq!(scratch.seed_markers_word(Some("2.1.326"), false), "absent");
+    }
+
+    #[test]
+    fn cache_word_reads_the_key_name_only() {
+        let base = tempfile::tempdir().expect("tempdir");
+        let scratch = Scratch::create(base.path(), "1-2", true).expect("scratch");
+        assert_eq!(scratch.cache_word(), "unread", "no config yet");
+        scratch.seed_config(true).expect("seed");
+        assert_eq!(scratch.cache_word(), "absent");
+        let path = scratch.config.join(".claude.json");
+        for planted in [json!(true), json!(false)] {
+            let mut doc: Value =
+                serde_json::from_slice(&fs::read(&path).expect("config")).expect("json");
+            doc["cachedChromeExtensionInstalled"] = planted.clone();
+            write_private(&path, &doc).expect("plant");
+            assert_eq!(scratch.cache_word(), "written", "{planted}");
+        }
+        fs::write(&path, b"not json").expect("garble");
+        assert_eq!(scratch.cache_word(), "unread");
     }
 
     #[test]

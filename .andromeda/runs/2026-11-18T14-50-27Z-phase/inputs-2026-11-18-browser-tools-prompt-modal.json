@@ -1,0 +1,311 @@
+[
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "823570d9",
+"ts": "2026-11-18T14:51:48Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-18-browser-tools-prompt-modal",
+"--source",
+"~/dev/projects/additional/viola-overseer/phase-browser-tools-directive.md",
+"--kind",
+"relay",
+"--why",
+"the overseer phase directive: scope as at 7e6b7fd4, ground read not re-derived, carries unmeasured items named, 24th row, size and live-start fork at P3 end, items 6-12",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-11-18T14-50-27Z-phase",
+"--marker",
+"2026-11-18-browser-tools-prompt-modal"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy no-repo · ../additional/viola-overseer/phase-browser-tools-directive.md",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-phase-browser-tools-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/phase-browser-tools-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "5ea4b1e670b6bc5d4fe8ed78fa15135e355ac49854720349ab53302db2add9f6",
+"copy": "I1-phase-browser-tools-directive.md.txt",
+"link": false,
+"read_at": "2026-11-18T14:51:47Z",
+"step": "phase:P1",
+"why": "the overseer phase directive: scope as at 7e6b7fd4, ground read not re-derived, carries unmeasured items named, 24th row, size and live-start fork at P3 end, items 6-12"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "823570d9",
+"ts": "2026-11-18T14:51:48Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-18-browser-tools-prompt-modal",
+"--message-file",
+".andromeda/runs/2026-11-18T14-50-27Z-phase/relay-1.md",
+"--origin",
+"the Viola overseer, invoking /andromeda-phase, 2026-11-18",
+"--kind",
+"relay",
+"--why",
+"the invocation: take up per the directive, operator away, no dialog, stop at P3 end with the founder-forks block, no wake or timer tool",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-11-18T14-50-27Z-phase",
+"--marker",
+"2026-11-18-browser-tools-prompt-modal"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy message · message: the Viola overseer, invoking /andromeda-phase, 2026-11-18",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "message: the Viola overseer, invoking /andromeda-phase, 2026-11-18",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "c9fdb70982e01f1cc8e02a17b65cfe9b4bc8ebec95f976aaec6cadb7e99470c1",
+"copy": "I2-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-18T14:51:48Z",
+"step": "phase:P1",
+"why": "the invocation: take up per the directive, operator away, no dialog, stop at P3 end with the founder-forks block, no wake or timer tool"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "823570d9",
+"ts": "2026-11-18T15:43:00Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-18-browser-tools-prompt-modal",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-browser-tools-p3.md",
+"--kind",
+"relay",
+"--why",
+"the founder's P3 answers (Q0 three words pass/absent/fail, cap BP+BK+spare BP-2, keys none, no-key group-kill stop) and the overseer's technical answers 4-10",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-11-18T14-50-27Z-phase",
+"--marker",
+"2026-11-18-browser-tools-prompt-modal"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy no-repo · ../additional/viola-overseer/relay-browser-tools-p3.md",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-browser-tools-p3.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-browser-tools-p3.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "c455fc8a0596c4aa58e2b7055eff3ef866501a83213b7c747f92f28d1aaa9bed",
+"copy": "I3-relay-browser-tools-p3.md.txt",
+"link": false,
+"read_at": "2026-11-18T15:42:59Z",
+"step": "phase:P4",
+"why": "the founder's P3 answers (Q0 three words pass/absent/fail, cap BP+BK+spare BP-2, keys none, no-key group-kill stop) and the overseer's technical answers 4-10"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "823570d9",
+"ts": "2026-11-18T15:43:00Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-18-browser-tools-prompt-modal",
+"--message-file",
+".andromeda/runs/2026-11-18T14-50-27Z-phase/relay-2.md",
+"--origin",
+"the Viola overseer, invoking /andromeda-phase to resume at P4, 2026-11-18",
+"--kind",
+"relay",
+"--why",
+"the resume invocation: P4 in this run dir, answers in the P3 relay, operator away, no dialog, no wake or timer tool",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-11-18T14-50-27Z-phase",
+"--marker",
+"2026-11-18-browser-tools-prompt-modal"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy message · message: the Viola overseer, invoking /andromeda-phase to resume at P4, 2026-11-18",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "relay",
+"repo": null,
+"path": "message: the Viola overseer, invoking /andromeda-phase to resume at P4, 2026-11-18",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "c9c4d4b4f1b424daee575fa204625d6f84c74285dada5acdb90607623b011014",
+"copy": "I4-relay-2.md.txt",
+"link": false,
+"read_at": "2026-11-18T15:43:00Z",
+"step": "phase:P4",
+"why": "the resume invocation: P4 in this run dir, answers in the P3 relay, operator away, no dialog, no wake or timer tool"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "823570d9",
+"ts": "2026-11-18T15:54:36Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-18-browser-tools-prompt-modal",
+"--run-dir",
+".andromeda/runs/2026-11-18T14-50-27Z-phase",
+"--marker",
+"2026-11-18-browser-tools-prompt-modal"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-browser-tools-directive.md",
+"I1 cited scope.md:69 · research.md:7 · plan.md:10 · plan.md:300 · plan.md:521 · plan.md:580 · plan.md:587",
+"I2 n/a — a message has no live source · copy message · message: the Viola overseer, invoking /andromeda-phase, 2026-11-18",
+"I2 cited scope.md:69 · research.md:7 · plan.md:580",
+"I3 unchanged · copy no-repo · ../additional/viola-overseer/relay-browser-tools-p3.md",
+"I3 cited plan.md:10 · plan.md:11 · plan.md:24 · plan.md:33 · plan.md:36 · plan.md:186 · plan.md:198 · plan.md:201 · plan.md:239 · plan.md:417 (in fence) · plan.md:436 (in fence) · plan.md:510 · plan.md:536 · plan.md:580 · plan.md:585 · plan.md:593 · plan.md:599 · plan.md:630 · plan.md:649",
+"I4 n/a — a message has no live source · copy message · message: the Viola overseer, invoking /andromeda-phase to resume at P4, 2026-11-18",
+"I4 cited plan.md:10 · plan.md:581",
+"inputs: 4 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 4,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "823570d9",
+"ts": "2026-11-18T15:56:57Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-18-browser-tools-prompt-modal",
+"--run-dir",
+".andromeda/runs/2026-11-18T14-50-27Z-phase",
+"--marker",
+"2026-11-18-browser-tools-prompt-modal"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-browser-tools-directive.md",
+"I1 cited scope.md:69 · research.md:7 · plan.md:10 · plan.md:302 · plan.md:528 · plan.md:587 · plan.md:594",
+"I2 n/a — a message has no live source · copy message · message: the Viola overseer, invoking /andromeda-phase, 2026-11-18",
+"I2 cited scope.md:69 · research.md:7 · plan.md:587",
+"I3 unchanged · copy no-repo · ../additional/viola-overseer/relay-browser-tools-p3.md",
+"I3 cited plan.md:10 · plan.md:11 · plan.md:24 · plan.md:33 · plan.md:36 · plan.md:188 · plan.md:200 · plan.md:203 · plan.md:241 · plan.md:424 (in fence) · plan.md:443 (in fence) · plan.md:517 · plan.md:543 · plan.md:587 · plan.md:592 · plan.md:600 · plan.md:606 · plan.md:637 · plan.md:656",
+"I4 n/a — a message has no live source · copy message · message: the Viola overseer, invoking /andromeda-phase to resume at P4, 2026-11-18",
+"I4 cited plan.md:10 · plan.md:588",
+"inputs: 4 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 4,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 0,
+"unparsed": 0
+}
+}
+]

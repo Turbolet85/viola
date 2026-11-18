@@ -279,12 +279,13 @@ mod tests {
     }
 
     /// The verdict needs the dialog rows (R2 closed), the framing rows, the newline row, the resume
-    /// row, the agents row, the compact row, the echo row and the trust-record row: a stamp written
-    /// before any of them landed (the ten spine and screen rows, those and the four dialog rows,
-    /// every row but the newline one, the eighteen before the resume row, the nineteen before the
-    /// agents row, the twenty before the compact row, the twenty-one before the echo row, or the
-    /// twenty-two before the trust-record row) and one whose relied row failed all leave the version
-    /// unverified; all twenty-three relied rows passing verify it.
+    /// row, the agents row, the compact row, the echo row, the trust-record row and the
+    /// browser-tools row: a stamp written before any of them landed (the ten spine and screen rows,
+    /// those and the four dialog rows, every row but the newline one, the eighteen before the resume
+    /// row, the nineteen before the agents row, the twenty before the compact row, the twenty-one
+    /// before the echo row, the twenty-two before the trust-record row, or the twenty-three before
+    /// the browser-tools row) and one whose relied row failed all leave the version unverified; all
+    /// twenty-four relied rows counting verify it.
     #[test]
     fn stamps_verdict_needs_the_dialog_rows() {
         let ten = [
@@ -361,6 +362,12 @@ mod tests {
         all.push((LedgerRow::TrustRecord, true));
         assert_eq!(
             stamps_verdict(Ok(Some(stamp_of(&all))), "2.1.0"),
+            (false, None),
+            "the twenty-three rows of an older stamp, every one pass"
+        );
+        all.push((LedgerRow::BrowserToolsPrompt, true));
+        assert_eq!(
+            stamps_verdict(Ok(Some(stamp_of(&all))), "2.1.0"),
             (true, None)
         );
         for failing in dialogs.into_iter().chain(framing).chain([
@@ -370,6 +377,7 @@ mod tests {
             LedgerRow::LocalCommandCompact,
             LedgerRow::LocalCommandEcho,
             LedgerRow::TrustRecord,
+            LedgerRow::BrowserToolsPrompt,
         ]) {
             let rows: Vec<(LedgerRow, bool)> =
                 all.iter().map(|(r, p)| (*r, *p && *r != failing)).collect();
@@ -380,6 +388,31 @@ mod tests {
                 failing.id()
             );
         }
+    }
+
+    /// The browser-tools row stamped `absent` (no run met the prompt) counts toward verified; stamped
+    /// `fail` it does not. Both stamps are `merge_stamp`'s own bytes.
+    #[test]
+    fn stamps_verdict_reads_the_browser_tools_row_absent_verified_and_fail_unverified() {
+        let all: Vec<(LedgerRow, bool)> = LedgerRow::ALL.iter().map(|r| (*r, true)).collect();
+        let absent = stamp_of(&all);
+        let doc: serde_json::Value = serde_json::from_slice(&absent).expect("json");
+        assert_eq!(
+            doc["data"]["versions"]["2.1.0"]["rows"]["browser-tools-prompt"],
+            "absent"
+        );
+        assert_eq!(stamps_verdict(Ok(Some(absent)), "2.1.0"), (true, None));
+        let failed: Vec<(LedgerRow, bool)> = all
+            .iter()
+            .map(|(r, p)| (*r, *p && *r != LedgerRow::BrowserToolsPrompt))
+            .collect();
+        let failed = stamp_of(&failed);
+        let doc: serde_json::Value = serde_json::from_slice(&failed).expect("json");
+        assert_eq!(
+            doc["data"]["versions"]["2.1.0"]["rows"]["browser-tools-prompt"],
+            "fail"
+        );
+        assert_eq!(stamps_verdict(Ok(Some(failed)), "2.1.0"), (false, None));
     }
 
     /// The test binary lists its tests and exits: its stdout comes back whole.

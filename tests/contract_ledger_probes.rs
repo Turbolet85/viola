@@ -1,6 +1,6 @@
 //! The capability-ledger probes over the committed fixture sets (test-plan §5 CLI): `viola verify`
 //! against the fake agent at each stamped `fixtures/claude/<version>/` passes every relied row
-//! (all twenty-three), each literal row id once. Every recorded set is on exactly one literal list: stamped, or kept for the byte-drift
+//! (all twenty-four), each literal row id once. Every recorded set is on exactly one literal list: stamped, or kept for the byte-drift
 //! contract only. The recorded sets are walked at run time, not by `#[files]`, and an empty walk
 //! fails.
 //! andromeda:walks-tree — it reads every set under `fixtures/claude/`, named or not.
@@ -13,7 +13,7 @@ use std::path::Path;
 use support::home::{TestHome, workspace_path};
 use support::verify::verify;
 
-const ROW_IDS: [&str; 23] = [
+const ROW_IDS: [&str; 24] = [
     "shim-resolution",
     "spine-hooks",
     "session-start-fields",
@@ -37,9 +37,10 @@ const ROW_IDS: [&str; 23] = [
     "local-command-compact",
     "local-command-echo",
     "trust-record",
+    "browser-tools-prompt",
 ];
 /// The sets recorded whole (spine, screens, dialog, framing and resume variants): each
-/// stamps every relied row.
+/// stamps every relied row as counting.
 const STAMPED: [&str; 2] = ["2.1.287", "2.1.302"];
 /// The sets kept only for the byte-drift contract, never stamped: 2.1.283 carries no screen, and
 /// 2.1.288 none of the framing variants.
@@ -101,12 +102,15 @@ fn contract_ledger_probes_pass_over_every_stamped_set() {
                 "{version}: {id} named {} times",
                 naming.len()
             );
-            assert!(
-                naming[0].ends_with("  pass"),
-                "{version}: {id} did not pass"
-            );
+            // No recorded set draws the browser-tools offer, so its row reads `absent`, which counts.
+            let word = if id == "browser-tools-prompt" {
+                "  absent"
+            } else {
+                "  pass"
+            };
+            assert!(naming[0].ends_with(word), "{version}: {id} did not count");
         }
-        assert_eq!(*last, format!("stamped {version}  23 pass  0 fail"));
+        assert_eq!(*last, format!("stamped {version}  24 pass  0 fail"));
     });
 }
 

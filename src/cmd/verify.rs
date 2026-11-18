@@ -446,13 +446,24 @@ fn check_rows(probes: &Probes) -> Vec<(LedgerRow, bool)> {
 #[instrument(skip_all, name = "cli.verify_step", fields(row = row.id()))]
 fn check_step(n: usize, total: usize, row: LedgerRow, probes: &Probes) -> bool {
     let pass = ledger::check(row, probes);
-    human::result(&step_line(n, total, row, pass));
+    let word = ledger::row_word(row, pass, &probes.typed);
+    human::result(&step_line(n, total, row, step_word(word)));
     pass
 }
 
-/// `[NN/NN] <row id> <row words>  pass|fail` (design-system §Surface: cli, the step counter).
-fn step_line(n: usize, total: usize, row: LedgerRow, pass: bool) -> String {
-    let verdict = if pass { "pass" } else { "fail" };
+/// The step line's verdict word: the stamped word where it is `pass` or `absent`, else `fail`
+/// (a trust-record writer's own word is the stamp's alone).
+fn step_word(word: &str) -> &'static str {
+    match word {
+        "pass" => "pass",
+        "absent" => "absent",
+        _ => "fail",
+    }
+}
+
+/// `[NN/NN] <row id> <row words>  pass|fail|absent` (design-system §Surface: cli, the step
+/// counter); `absent` only on `browser-tools-prompt`.
+fn step_line(n: usize, total: usize, row: LedgerRow, verdict: &str) -> String {
     format!(
         "[{n:02}/{total:02}] {} {}  {verdict}",
         row.id(),
@@ -679,38 +690,38 @@ mod tests {
     #[test]
     fn step_line_is_the_counter_the_row_and_the_verdict() {
         assert_eq!(
-            step_line(1, 18, LedgerRow::ShimResolution, true),
+            step_line(1, 18, LedgerRow::ShimResolution, "pass"),
             "[01/18] shim-resolution claude resolves to a real executable  pass"
         );
         assert_eq!(
-            step_line(6, 18, LedgerRow::LargestHookPayload, false),
+            step_line(6, 18, LedgerRow::LargestHookPayload, "fail"),
             "[06/18] largest-hook-payload every hook payload fits the frame cap  fail"
         );
         assert_eq!(
-            step_line(12, 18, LedgerRow::PlanApproveRevise, false),
+            step_line(12, 18, LedgerRow::PlanApproveRevise, "fail"),
             "[12/18] plan-approve-revise a plan revise and approve each take effect  fail"
         );
         assert_eq!(
-            step_line(14, 18, LedgerRow::DialogConcurrency, true),
+            step_line(14, 18, LedgerRow::DialogConcurrency, "pass"),
             "[14/18] dialog-concurrency two parallel questions each raise a dialog  pass"
         );
         assert_eq!(
-            step_line(15, 18, LedgerRow::LongPasteWrapper, true),
+            step_line(15, 18, LedgerRow::LongPasteWrapper, "pass"),
             "[15/18] long-paste-wrapper a long paste unwraps to the text as pasted  pass"
         );
         assert_eq!(
-            step_line(16, 18, LedgerRow::TagEscaping, false),
+            step_line(16, 18, LedgerRow::TagEscaping, "fail"),
             "[16/18] tag-escaping tag-like text un-escapes to the text as pasted  fail"
         );
-        let clear = step_line(17, 18, LedgerRow::LocalCommandClear, true);
+        let clear = step_line(17, 18, LedgerRow::LocalCommandClear, "pass");
         assert!(clear.starts_with("[17/18] local-command-clear ") && clear.ends_with("  pass"));
         assert_eq!(
-            step_line(18, 18, LedgerRow::PasteNewline, true),
+            step_line(18, 18, LedgerRow::PasteNewline, "pass"),
             "[18/18] paste-newline an LF inside a paste stays inside the one prompt submitted  pass"
         );
     }
 
-    /// The counter's total is the relied count: twenty-three rows.
+    /// The counter's total is the relied count: twenty-four rows.
     #[test]
     fn step_lines_count_to_the_relied_total() {
         let probes = Probes {
@@ -725,36 +736,47 @@ mod tests {
             agents: None,
         };
         let results = check_rows(&probes);
-        assert_eq!(results.len(), 23);
+        assert_eq!(results.len(), 24);
         assert_eq!(
-            step_line(19, 23, LedgerRow::ResumeSession, false),
-            "[19/23] resume-session --resume <id> reopens the session under that id  fail"
+            step_line(19, 24, LedgerRow::ResumeSession, "fail"),
+            "[19/24] resume-session --resume <id> reopens the session under that id  fail"
         );
         assert_eq!(
-            step_line(20, 23, LedgerRow::AgentsJoin, false),
-            "[20/23] agents-join claude agents --json names the live session by pid and session id  fail"
+            step_line(20, 24, LedgerRow::AgentsJoin, "fail"),
+            "[20/24] agents-join claude agents --json names the live session by pid and session id  fail"
         );
         assert_eq!(
-            step_line(21, 23, LedgerRow::LocalCommandCompact, false),
-            "[21/23] local-command-compact /compact keeps the session id and submits no prompt  fail"
+            step_line(21, 24, LedgerRow::LocalCommandCompact, "fail"),
+            "[21/24] local-command-compact /compact keeps the session id and submits no prompt  fail"
         );
         assert_eq!(
-            step_line(22, 23, LedgerRow::LocalCommandEcho, false),
-            "[22/23] local-command-echo /mcp writes its stdout tag to the transcript and submits no prompt  fail"
+            step_line(22, 24, LedgerRow::LocalCommandEcho, "fail"),
+            "[22/24] local-command-echo /mcp writes its stdout tag to the transcript and submits no prompt  fail"
         );
         assert_eq!(
-            step_line(23, 23, LedgerRow::TrustRecord, true),
-            "[23/23] trust-record a trust record written for an untrusted folder opens it with no modal  pass"
+            step_line(23, 24, LedgerRow::TrustRecord, "pass"),
+            "[23/24] trust-record a trust record written for an untrusted folder opens it with no modal  pass"
         );
+        assert_eq!(
+            step_line(24, 24, LedgerRow::BrowserToolsPrompt, "absent"),
+            "[24/24] browser-tools-prompt an interactive start's browser-tools prompt reads as a modal, nothing typed  absent"
+        );
+        assert_eq!(step_word("absent"), "absent");
+        assert_eq!(step_word("pass"), "pass");
+        assert_eq!(step_word("config-absent"), "fail");
         let rows: Vec<LedgerRow> = results.iter().map(|(row, _)| *row).collect();
         assert_eq!(rows, LedgerRow::relied());
-        // No capture is over the frame cap, so only the largest-payload row passes an empty probe.
+        // No capture is over the frame cap and no run met the browser-tools prompt, so only those
+        // two rows count on an empty probe.
         let passed: Vec<LedgerRow> = results
             .iter()
             .filter(|(_, pass)| *pass)
             .map(|(row, _)| *row)
             .collect();
-        assert_eq!(passed, [LedgerRow::LargestHookPayload]);
+        assert_eq!(
+            passed,
+            [LedgerRow::LargestHookPayload, LedgerRow::BrowserToolsPrompt]
+        );
     }
 
     #[test]

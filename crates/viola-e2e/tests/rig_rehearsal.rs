@@ -879,7 +879,7 @@ fn rig_rehearsal_v_reads_the_trust_record_row_and_no_record_left() {
     );
     assert_eq!(
         word(&out, "pass-count").as_deref(),
-        Some("23/23"),
+        Some("24/24"),
         "{summary}"
     );
     assert_eq!(word(&out, "record-left").as_deref(), Some("absent"));
@@ -893,7 +893,12 @@ fn rig_rehearsal_v_reads_the_trust_record_row_and_no_record_left() {
         Some("written"),
         "{summary}"
     );
-    assert_eq!(word(&out, "rows").as_deref(), Some("23"), "{summary}");
+    assert_eq!(word(&out, "rows").as_deref(), Some("24"), "{summary}");
+    assert_eq!(
+        word(&out, "browser-tools-prompt").as_deref(),
+        Some("absent"),
+        "{summary}"
+    );
     assert_eq!(word(&out, "failing").as_deref(), Some("none"), "{summary}");
     for (run, screen) in [
         ("a", "trust"),
@@ -986,6 +991,175 @@ fn rig_rehearsal_v_keeps_a_failed_runs_first_screen_locally() {
     .expect("json");
     assert_eq!(doc["run"], "f");
     assert_eq!(doc["screen"], "trust");
+    assert_torn_down(&out, &case);
+}
+
+/// A copy of the committed fixtures under the case's root, with a test-written browser-tools
+/// screen beside the fake's default set: synthetic rows, the confirm row the compiled literal.
+fn fixtures_with_the_browser_tools_screen(case: &Case) -> PathBuf {
+    fn copy(src: &Path, dst: &Path) {
+        fs::create_dir_all(dst).expect("a fixtures dir");
+        for entry in fs::read_dir(src).expect("fixtures") {
+            let entry = entry.expect("an entry");
+            let to = dst.join(entry.file_name());
+            if entry.file_type().expect("a type").is_dir() {
+                copy(&entry.path(), &to);
+            } else {
+                fs::copy(entry.path(), &to).expect("a fixture copy");
+            }
+        }
+    }
+    let root = case.path("fixtures");
+    copy(&fixtures(), &root);
+    let rows = [
+        " Claude in Chrome extension detected",
+        "",
+        "❯ No, keep browser tools off",
+        "  Yes, use my browser",
+        "",
+        " Enter to confirm · Esc to keep browser tools off",
+    ];
+    fs::write(
+        root.join("2.1.287").join("Screen.browser-tools.json"),
+        serde_json::json!({ "rows": rows }).to_string(),
+    )
+    .expect("the browser-tools screen");
+    root
+}
+
+/// The fake agent's arguments over `fixtures` in place of the committed root.
+fn child_over(case: &Case, fixtures: &Path, extra: &[&str]) -> Vec<String> {
+    let committed = self::fixtures().display().to_string();
+    case.child(true, extra)
+        .into_iter()
+        .map(|a| {
+            if a == committed {
+                fixtures.display().to_string()
+            } else {
+                a
+            }
+        })
+        .collect()
+}
+
+/// `vp` over the fake standing on the browser-tools offer at every trusted start: verify reads it
+/// as a modal (`browser-tools-prompt: pass`), the rig types no key and stops with no Ctrl-C, the
+/// seed holds the four kept markers and no browser-tools key, and `cache-a` reads `absent` (the
+/// fake writes no extension cache).
+#[test]
+fn rig_rehearsal_vp_reads_the_browser_tools_prompt_and_types_nothing() {
+    let case = Case::new();
+    let fixtures = fixtures_with_the_browser_tools_screen(&case);
+    let child = child_over(
+        &case,
+        &fixtures,
+        &[
+            "--trust-config",
+            "{config}/.claude.json",
+            "--turn-stop",
+            "--dialogs",
+            "--framing",
+            "--transcript",
+            "--start-screen",
+            "browser-tools",
+        ],
+    );
+    let viola = viola().display().to_string();
+    let out = run(case.rig("vp", &["--viola", viola.as_str()], &child));
+    let summary = stdout(&out);
+    assert_eq!(out.status.code(), Some(0), "{summary}");
+    assert_eq!(word(&out, "arm").as_deref(), Some("vp"), "{summary}");
+    assert_eq!(word(&out, "verify-exit").as_deref(), Some("1"), "{summary}");
+    assert_eq!(
+        word(&out, "browser-tools-prompt").as_deref(),
+        Some("pass"),
+        "{summary}"
+    );
+    assert_eq!(word(&out, "rows").as_deref(), Some("24"), "{summary}");
+    assert_eq!(
+        word(&out, "screen-a").as_deref(),
+        Some("trust"),
+        "{summary}"
+    );
+    for run in ["b", "f"] {
+        assert_eq!(
+            word(&out, &format!("screen-{run}")).as_deref(),
+            Some("browser-tools"),
+            "{summary}"
+        );
+    }
+    assert_eq!(
+        word(&out, "seed-markers").as_deref(),
+        Some("written"),
+        "{summary}"
+    );
+    assert_eq!(word(&out, "keys").as_deref(), Some("none"), "{summary}");
+    let stop = word(&out, "stop").expect("a stop line");
+    assert!(!stop.starts_with("ctrl-c"), "{summary}");
+    assert_eq!(
+        word(&out, "cache-a").as_deref(),
+        Some("absent"),
+        "{summary}"
+    );
+    assert_eq!(word(&out, "record-left").as_deref(), Some("absent"));
+    assert!(case.keys().is_empty(), "a byte reached the fake: {summary}");
+    assert_torn_down(&out, &case);
+}
+
+/// `vk`, `vp`'s control, over the plain fake: the seed holds the browser-tools key off, every run
+/// after Run A opens on the box, and the stamp reads 24 rows, all counting, the 24th `absent`.
+#[test]
+fn rig_rehearsal_vk_reads_24_rows_with_the_browser_tools_row_absent() {
+    let case = Case::new();
+    let child = case.child(
+        true,
+        &[
+            "--trust-config",
+            "{config}/.claude.json",
+            "--turn-stop",
+            "--dialogs",
+            "--framing",
+            "--transcript",
+        ],
+    );
+    let viola = viola().display().to_string();
+    let out = run(case.rig("vk", &["--viola", viola.as_str()], &child));
+    let summary = stdout(&out);
+    assert_eq!(out.status.code(), Some(0), "{summary}");
+    assert_eq!(word(&out, "arm").as_deref(), Some("vk"), "{summary}");
+    assert_eq!(word(&out, "verify-exit").as_deref(), Some("0"), "{summary}");
+    assert_eq!(word(&out, "rows").as_deref(), Some("24"), "{summary}");
+    assert_eq!(
+        word(&out, "pass-count").as_deref(),
+        Some("24/24"),
+        "{summary}"
+    );
+    assert_eq!(word(&out, "failing").as_deref(), Some("none"), "{summary}");
+    assert_eq!(
+        word(&out, "browser-tools-prompt").as_deref(),
+        Some("absent"),
+        "{summary}"
+    );
+    for run in ["b", "c", "d", "e", "f"] {
+        assert_eq!(
+            word(&out, &format!("screen-{run}")).as_deref(),
+            Some("box"),
+            "{summary}"
+        );
+    }
+    assert_eq!(
+        word(&out, "seed-markers").as_deref(),
+        Some("written"),
+        "{summary}"
+    );
+    assert_eq!(word(&out, "keys").as_deref(), Some("none"), "{summary}");
+    let stop = word(&out, "stop").expect("a stop line");
+    assert!(!stop.starts_with("ctrl-c"), "{summary}");
+    assert_eq!(
+        word(&out, "cache-a").as_deref(),
+        Some("absent"),
+        "{summary}"
+    );
     assert_torn_down(&out, &case);
 }
 

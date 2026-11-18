@@ -106,7 +106,7 @@ fn check_typed_rows_fail_without_a_measurement() {
         seven,
         [
             true, true, true, true, true, true, false, false, false, false, true, true, true, true,
-            true, true, true, true, true, true, false, false, false
+            true, true, true, true, true, true, false, false, false, true
         ]
     );
 }
@@ -680,4 +680,36 @@ fn check_trust_record_needs_the_written_record_the_control_modal_and_an_open_box
     for (label, typed) in cases {
         assert!(!trust(typed), "{label}");
     }
+}
+
+/// The browser-tools offer's rows as 2.1.325 draws them, synthetic.
+fn browser_tools_screen() -> Vec<String> {
+    rows(&[
+        " Claude in Chrome extension detected",
+        " ❯ No, keep browser tools off",
+        "   Yes, use my browser",
+    ])
+}
+
+/// `modal-signature` asks what an untrusted start shows: the browser-tools offer at Run A is not
+/// the trust or imports dialog, so the row fails.
+#[test]
+fn modal_signature_fails_on_a_browser_tools_screen_at_run_a() {
+    let typed = TypedRun {
+        modal: Some(browser_tools_screen()),
+        ..clean_typed()
+    };
+    assert!(!typed_check(LedgerRow::ModalSignature, typed));
+}
+
+/// Run F opening on the browser-tools offer is a modal standing: the trust record did not open
+/// the folder to the box, so the row fails.
+#[test]
+fn trust_record_fails_when_run_f_opens_on_the_browser_tools_prompt() {
+    let boxed = rows(&["❯ Try it", "  ⏸ manual mode on · ← for agents"]);
+    let typed = TypedRun {
+        trust_frame: Some(browser_tools_screen().into_iter().chain(boxed).collect()),
+        ..clean_typed()
+    };
+    assert!(!typed_check(LedgerRow::TrustRecord, typed));
 }

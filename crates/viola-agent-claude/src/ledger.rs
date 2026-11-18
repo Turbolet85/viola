@@ -15,7 +15,7 @@ use crate::dialog::{Permit, Response, Verdict, decision_body};
 use crate::hook::{HookEvent, prompt_text};
 use crate::screen::{
     BOX_LITERAL_IDS, COMPACT_CONFIRM_WINDOW, CONFIRM_WINDOW_FALLBACK, FirstScreen, GATE_MAX_WAIT,
-    RowFamily, SIGNATURES,
+    RowFamily, SIGNATURES, UNTRUSTED_START_MODALS,
 };
 use crate::trust::TrustWord;
 
@@ -45,10 +45,11 @@ pub enum LedgerRow {
     LocalCommandCompact,
     LocalCommandEcho,
     TrustRecord,
+    BrowserToolsPrompt,
 }
 
 impl LedgerRow {
-    pub const ALL: [Self; 23] = [
+    pub const ALL: [Self; 24] = [
         Self::ShimResolution,
         Self::SpineHooks,
         Self::SessionStartFields,
@@ -72,6 +73,7 @@ impl LedgerRow {
         Self::LocalCommandCompact,
         Self::LocalCommandEcho,
         Self::TrustRecord,
+        Self::BrowserToolsPrompt,
     ];
 
     /// The kebab-case id, the key under a stamped version's `rows`.
@@ -100,6 +102,7 @@ impl LedgerRow {
             Self::LocalCommandCompact => "local-command-compact",
             Self::LocalCommandEcho => "local-command-echo",
             Self::TrustRecord => "trust-record",
+            Self::BrowserToolsPrompt => "browser-tools-prompt",
         }
     }
 
@@ -134,6 +137,9 @@ impl LedgerRow {
             }
             Self::TrustRecord => {
                 "a trust record written for an untrusted folder opens it with no modal"
+            }
+            Self::BrowserToolsPrompt => {
+                "an interactive start's browser-tools prompt reads as a modal, nothing typed"
             }
         }
     }
@@ -1058,7 +1064,7 @@ pub fn check(row: LedgerRow, probes: &Probes) -> bool {
             .first(HookEvent::Stop)
             .is_some_and(|p| p["last_assistant_message"].is_string()),
         LedgerRow::LargestHookPayload => run.captures.iter().all(|c| fits_frame(c.bytes)),
-        LedgerRow::ModalSignature => any_row(typed.modal.as_ref(), SIGNATURES.modals),
+        LedgerRow::ModalSignature => any_row(typed.modal.as_ref(), UNTRUSTED_START_MODALS),
         LedgerRow::InputBoxSignature => {
             input_box_ready(typed.ready.as_ref())
                 && input_box_ready(typed.turn.as_ref())
@@ -1086,22 +1092,39 @@ pub fn check(row: LedgerRow, probes: &Probes) -> bool {
                 && within(typed.echo_latency_ms, CONFIRM_WINDOW_FALLBACK)
         }
         LedgerRow::TrustRecord => trust_record_opened(typed),
+        LedgerRow::BrowserToolsPrompt => browser_tools_met(typed).is_some(),
     }
+}
+
+/// Whether some interactive run's first screen was the browser-tools prompt; `None` when any run's
+/// first screen read `none` (an unknown screen, a reworded prompt among them), which never reads
+/// as the prompt being absent. A run with no reading is skipped. Nothing was typed into the
+/// prompt by construction: verify types only into a screen `input_box_up` accepts.
+fn browser_tools_met(typed: &TypedRun) -> Option<bool> {
+    let screens = || typed.first.iter().flatten().map(|r| r.screen);
+    if screens().any(|s| s == FirstScreen::None) {
+        return None;
+    }
+    Some(screens().any(|s| s == FirstScreen::BrowserTools))
 }
 
 /// Run F's record was written, Run A (its untrusted twin) showed a modal literal, and Run F's first
 /// settled screen holds no modal literal and the input box up: the record alone opened the folder.
 fn trust_record_opened(typed: &TypedRun) -> bool {
     typed.trust_write == Some(TrustWord::Written)
-        && any_row(typed.modal.as_ref(), SIGNATURES.modals)
+        && any_row(typed.modal.as_ref(), UNTRUSTED_START_MODALS)
         && !any_row(typed.trust_frame.as_ref(), SIGNATURES.modals)
         && input_box_ready(typed.trust_frame.as_ref())
 }
 
-/// A row's stamped word: `pass`, or `fail`; the trust-record row that wrote nothing reads the
-/// writer's own closed word instead, never `pass`.
-fn row_word(row: LedgerRow, pass: bool, typed: &TypedRun) -> &'static str {
+/// A row's stamped word, the one source of it for the stamp and verify's step line: `pass`, or
+/// `fail`; the browser-tools row that holds reads `absent` when no run met the prompt, and the
+/// trust-record row that wrote nothing reads the writer's own closed word instead, never `pass`.
+pub fn row_word(row: LedgerRow, pass: bool, typed: &TypedRun) -> &'static str {
     match (row, pass, typed.trust_write) {
+        (LedgerRow::BrowserToolsPrompt, true, _) if browser_tools_met(typed) == Some(false) => {
+            "absent"
+        }
         (_, true, _) => "pass",
         (LedgerRow::TrustRecord, false, Some(word)) if word != TrustWord::Written => word.as_str(),
         _ => "fail",
@@ -1267,8 +1290,13 @@ pub fn dialog_variants(dialogs: &DialogRuns) -> Vec<(String, &Capture)> {
     out
 }
 
-/// `true` only when every row relied on ([`LedgerRow::relied`]) reads `"pass"` under
-/// `version`. Bytes that are not a `v:1`
+/// Whether a stamped `word` counts toward verified: `pass`, or `absent` on the browser-tools row
+/// alone.
+pub fn counts(row: LedgerRow, word: &str) -> bool {
+    word == "pass" || (row == LedgerRow::BrowserToolsPrompt && word == "absent")
+}
+
+/// `true` only when every row relied on ([`LedgerRow::relied`]) [`counts`] under `version`. Bytes that are not a `v:1`
 /// envelope of the documented shape are `StampsMalformed`; an absent version is simply unverified.
 pub fn verified(stamps: &[u8], version: &str) -> Result<bool, AgentError> {
     let doc: Value = serde_json::from_slice(stamps).map_err(|_| AgentError::StampsMalformed)?;
@@ -1281,7 +1309,7 @@ pub fn verified(stamps: &[u8], version: &str) -> Result<bool, AgentError> {
     let rows = &doc["data"]["versions"][version]["rows"];
     Ok(LedgerRow::relied()
         .iter()
-        .all(|row| rows[row.id()] == "pass"))
+        .all(|row| rows[row.id()].as_str().is_some_and(|w| counts(*row, w))))
 }
 
 /// A recorded payload with the home rewritten to `~` (both separator spellings) and `user` as a

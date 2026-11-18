@@ -536,3 +536,87 @@ mod runs;
 
 #[path = "test_cases_framing.rs"]
 mod framing;
+
+/// A first reading of `screen`, its facts left at rest.
+fn first_of(screen: FirstScreen) -> FirstReading {
+    FirstReading {
+        screen,
+        settle_ms: 1200,
+        bytes: 4096,
+        alive: true,
+        exit: None,
+        rows: Some(6),
+        box_any: false,
+        last_byte_ms: Some(900),
+        literals: [None; 4],
+        rule_above_prompt: false,
+        first_row: None,
+        last_col: None,
+    }
+}
+
+/// A typed run whose six first screens are `screens`, in run order A–F.
+fn typed_first(screens: [Option<FirstScreen>; 6]) -> TypedRun {
+    TypedRun {
+        first: screens.map(|s| s.map(first_of)),
+        ..clean_typed()
+    }
+}
+
+/// The browser-tools row's stamped word over `typed`, through its own check.
+fn browser_tools_word(typed: &TypedRun) -> &'static str {
+    let pass = typed_check(LedgerRow::BrowserToolsPrompt, typed.clone());
+    row_word(LedgerRow::BrowserToolsPrompt, pass, typed)
+}
+
+#[test]
+fn browser_tools_row_reads_pass_when_a_first_screen_is_the_prompt() {
+    use FirstScreen::{Box, BrowserTools, Trust};
+    let typed = typed_first([
+        Some(Trust),
+        Some(BrowserTools),
+        Some(BrowserTools),
+        Some(BrowserTools),
+        None,
+        Some(BrowserTools),
+    ]);
+    assert!(typed_check(LedgerRow::BrowserToolsPrompt, typed.clone()));
+    assert_eq!(browser_tools_word(&typed), "pass");
+    let one = typed_first([Some(Trust), Some(Box), Some(BrowserTools), None, None, None]);
+    assert_eq!(browser_tools_word(&one), "pass");
+}
+
+#[test]
+fn browser_tools_row_reads_absent_when_no_run_met_it() {
+    use FirstScreen::{Box, Exited, Trust};
+    let typed = typed_first([
+        Some(Trust),
+        Some(Box),
+        Some(Box),
+        Some(Box),
+        Some(Exited),
+        Some(Box),
+    ]);
+    assert!(typed_check(LedgerRow::BrowserToolsPrompt, typed.clone()));
+    assert_eq!(browser_tools_word(&typed), "absent");
+    assert_eq!(browser_tools_word(&typed_first([None; 6])), "absent");
+}
+
+#[test]
+fn browser_tools_row_reads_fail_when_a_first_screen_reads_none() {
+    use FirstScreen::{Box, BrowserTools, None as Unknown, Trust};
+    for typed in [
+        typed_first([Some(Trust), Some(Unknown), Some(Box), None, None, None]),
+        typed_first([
+            Some(Trust),
+            Some(BrowserTools),
+            Some(Unknown),
+            None,
+            None,
+            None,
+        ]),
+    ] {
+        assert!(!typed_check(LedgerRow::BrowserToolsPrompt, typed.clone()));
+        assert_eq!(browser_tools_word(&typed), "fail");
+    }
+}

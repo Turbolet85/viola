@@ -213,7 +213,7 @@ fn verify_window_without_screens_fails_every_interactive_row(#[from(home)] home:
     let stdout = ran.stdout_text();
     let lines: Vec<&str> = stdout.lines().collect();
     let mut expected = steps_failing(|i| i >= 6 && ROW_IDS[i] != "resume-session");
-    expected.push("stamped 2.1.0  7 pass  16 fail".to_owned());
+    expected.push("stamped 2.1.0  7 pass  17 fail".to_owned());
     assert_eq!(lines, expected);
     let rows = &stamps(home.path())["data"]["versions"]["2.1.0"]["rows"];
     for id in ROW_IDS[6..].iter().filter(|id| **id != "resume-session") {
@@ -361,7 +361,7 @@ fn verify_without_the_dialog_replay_fails_the_four_dialog_rows(#[from(home)] hom
     assert_eq!(ran.code, Some(1));
     assert!(ran.stderr.is_empty(), "stderr {}", ran.stderr_text());
     let mut expected = steps_failing(|i| (10..14).contains(&i));
-    expected.push("stamped 2.1.0  19 pass  4 fail".to_owned());
+    expected.push("stamped 2.1.0  20 pass  4 fail".to_owned());
     let stdout = ran.stdout_text();
     assert_eq!(stdout.lines().collect::<Vec<_>>(), expected);
     assert_plain(&ran.stdout);
@@ -372,9 +372,10 @@ fn verify_without_the_dialog_replay_fails_the_four_dialog_rows(#[from(home)] hom
     for id in &ROW_IDS[10..14] {
         assert_eq!(rows[*id], "fail", "{id}");
     }
-    for id in &ROW_IDS[14..] {
+    for id in &ROW_IDS[14..23] {
         assert_eq!(rows[*id], "pass", "{id}");
     }
+    assert_eq!(rows["browser-tools-prompt"], "absent");
     let entry = &stamps(home.path())["data"]["versions"]["2.1.0"];
     assert!(entry["measured"]["dialog_probe"]["parallel_both_before_first_post"].is_null());
     assert_eq!(probes_left(home.path()), 0);
@@ -398,14 +399,18 @@ fn verify_without_framing_fails_the_clear_and_compact_rows(#[from(home)] home: T
         id == "local-command-clear" || id == "local-command-compact" || id == "local-command-echo"
     };
     let mut expected = steps_failing(|i| local(ROW_IDS[i]));
-    expected.push("stamped 2.1.0  20 pass  3 fail".to_owned());
+    expected.push("stamped 2.1.0  21 pass  3 fail".to_owned());
     let stdout = ran.stdout_text();
     assert_eq!(stdout.lines().collect::<Vec<_>>(), expected);
     assert_plain(&ran.stdout);
     let rows = &stamps(home.path())["data"]["versions"]["2.1.0"]["rows"];
-    for id in ROW_IDS.iter().filter(|id| !local(id)) {
+    for id in ROW_IDS
+        .iter()
+        .filter(|id| !local(id) && **id != "browser-tools-prompt")
+    {
         assert_eq!(rows[*id], "pass", "{id}");
     }
+    assert_eq!(rows["browser-tools-prompt"], "absent");
     assert_eq!(rows["local-command-clear"], "fail");
     assert_eq!(rows["local-command-compact"], "fail");
     assert_eq!(rows["local-command-echo"], "fail");
@@ -473,7 +478,7 @@ fn verify_pastes_no_local_command_once_the_tag_turn_screen_shows_a_modal(
     ];
     let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &after, &[]);
     assert_eq!(ran.code, Some(1), "stdout {}", ran.stdout_text());
-    let summary = "stamped 2.1.0  19 pass  4 fail\n";
+    let summary = "stamped 2.1.0  20 pass  4 fail\n";
     assert!(
         ran.stdout_text().ends_with(summary),
         "stdout {}",
@@ -494,6 +499,56 @@ fn verify_pastes_no_local_command_once_the_tag_turn_screen_shows_a_modal(
             support::verify::long_paste().as_str(),
             support::verify::TAG_PASTE,
         ]
+    );
+    assert_eq!(probes_left(home.path()), 0);
+}
+
+/// The browser-tools offer standing at every trusted start reads as a modal: each such run settles
+/// on it at once and nothing is typed into it, Run A's trust dialog still holds `modal-signature`,
+/// and the 24th row stamps `pass`.
+#[rstest]
+fn verify_reads_the_browser_tools_prompt_as_a_modal_and_pastes_nothing(
+    #[from(home)] home: TestHome,
+) {
+    write_spine_set(&fixtures(&home), "2.1.0", None);
+    let offer = screen_rows(&[
+        (2, " Claude in Chrome extension detected"),
+        (11, "❯ No, keep browser tools off"),
+        (12, "  Yes, use my browser"),
+        (14, " Enter to confirm · Esc to keep browser tools off"),
+        (23, INPUT_BOX_ROW),
+    ]);
+    write_screen(&fixtures(&home), "2.1.0", "browser-tools", &offer);
+    let receipt = home.scratch().join("receipt.ndjson");
+    let receipt_arg = receipt.to_str().expect("utf-8").to_owned();
+    let after = [
+        "--receipt",
+        receipt_arg.as_str(),
+        "--start-screen",
+        "browser-tools",
+    ];
+    let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &after, &[]);
+    assert_eq!(ran.code, Some(1), "stdout {}", ran.stdout_text());
+    let summary = "stamped 2.1.0  9 pass  15 fail\n";
+    assert!(
+        ran.stdout_text().ends_with(summary),
+        "stdout {}",
+        ran.stdout_text()
+    );
+    let entry = &stamps(home.path())["data"]["versions"]["2.1.0"];
+    assert_eq!(entry["rows"]["browser-tools-prompt"], "pass");
+    assert_eq!(entry["rows"]["modal-signature"], "pass");
+    let first = &entry["measured"]["first_screen"];
+    assert_eq!(first["a"], "trust");
+    for run in &RUNS[1..] {
+        if !first[run].is_null() {
+            assert_eq!(first[run], "browser-tools", "{run}");
+        }
+    }
+    assert!(trusted_run_typed(&receipt).is_empty(), "nothing pasted");
+    assert!(
+        of_kind(&fake::receipt(&receipt), "key").is_empty(),
+        "no key reached any run"
     );
     assert_eq!(probes_left(home.path()), 0);
 }
@@ -529,7 +584,7 @@ fn verify_pastes_nothing_more_once_the_long_turn_screen_shows_a_modal(
         "local-command-echo",
     ];
     let mut expected = steps_failing(|i| red.contains(&ROW_IDS[i]));
-    expected.push("stamped 2.1.0  17 pass  6 fail".to_owned());
+    expected.push("stamped 2.1.0  18 pass  6 fail".to_owned());
     let stdout = ran.stdout_text();
     assert_eq!(
         stdout.lines().collect::<Vec<_>>(),
@@ -540,9 +595,13 @@ fn verify_pastes_nothing_more_once_the_long_turn_screen_shows_a_modal(
     for id in red {
         assert_eq!(rows[id], "fail", "{id}");
     }
-    for id in ROW_IDS.iter().filter(|id| !red.contains(id)) {
+    for id in ROW_IDS
+        .iter()
+        .filter(|id| !red.contains(id) && **id != "browser-tools-prompt")
+    {
         assert_eq!(rows[*id], "pass", "{id}");
     }
+    assert_eq!(rows["browser-tools-prompt"], "absent");
     let typed = trusted_run_typed(&receipt);
     assert_eq!(
         typed,
