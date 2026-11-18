@@ -1,9 +1,0 @@
-@fit n=1 row=decision/version-verified-all-relied-rows sha=ab21bef70cc1 v=fits type=1
-@fit n=2 row=contract/ledger-stamps/verified-version sha=deaf5c6874f9 v=fits type=3
-@fit n=3 row=decision/capability-ledger sha=64a2d9f96f82 v=fits type=1
-@fit n=4 row=decision/cli-capability-ledger sha=4a89ae05691d v=fits type=1
-@fit n=5 row=contract/ledger-stamps/rows sha=f8440ad7ea56 v=fits type=3
-@fit n=6 row=contract/ledger-stamps/content sha=42e7f5822199 v=fits type=3
-@fit n=7 row=contract/ledger-stamps/first-screen sha=9f8516a7ff6b v=fits type=3
-@fit n=8 row=contract/viola-verify-output/step-line sha=353d1f8ebbe9 v=fits type=3
-@fit n=9 row=contract/viola-verify-output/summary-line sha=a11e085164cb v=fits type=3

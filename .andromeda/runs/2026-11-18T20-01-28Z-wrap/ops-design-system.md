@@ -1,0 +1,2 @@
+@none
+reason: The chunk changed only the test-only crate viola-e2e, the STAMPED list and the new recorded fixture set (fct-yb3mepr7, fct-yu26cnvz, fct-z2izcdit). No product CLI output wording, verb, refusal, colour token or help text was added or changed (fct-x6z2ebbk, fct-xacnmfep), and every new surface reads tokens n/a (fct-tmoxbnwg), so every picked design-system row, the stale-marked mcp, verify and fixture-refusal rows included, still holds as it stands.

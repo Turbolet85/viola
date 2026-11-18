@@ -1,7 +1,0 @@
---- a/.andromeda/a11y-plan.md
-+++ b/.andromeda/a11y-plan.md
-@@ -39,3 +39,3 @@
- contract/viola-revive-json/start-refusal · viola revive --json output · start refusal — Every refusal of the start that revive shares with run prints one exit-1 document, pinned-hash-mismatch and squatted-name among them, and a program not found as internal-error.
--contract/viola-verify/step-line · viola verify output · step line — Each verify step prints a line [NN/NN] … pass|fail.
-+contract/viola-verify/step-line · viola verify output · step line — Each verify step prints a line [NN/NN] … pass|absent|fail; absent is printed only on the browser-tools-prompt row, when no run met the prompt.
- contract/viola-wait/waiting-line · viola wait output · waiting: <name> — The waiting line is written once on stderr, on a TTY only.

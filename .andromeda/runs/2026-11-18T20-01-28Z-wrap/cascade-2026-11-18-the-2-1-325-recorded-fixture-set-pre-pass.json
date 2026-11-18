@@ -1,0 +1,139 @@
+[
+{
+"tool": "cascade",
+"v": "1.36",
+"sha8": "2aaa7a60",
+"ts": "2026-11-18T20:02:41Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-18T20-01-28Z-wrap/report-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-11-18T20-01-28Z-wrap",
+"--marker",
+"2026-11-18-the-2-1-325-recorded-fixture-set"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline 06f5f6e5 (pre-pass — HEAD)",
+"architecture · 4 rows over 1 files · new 0 · standing 4 · 2 patterns",
+"security-plan · 2 rows over 1 files · new 0 · standing 2 · 2 patterns",
+"test-plan · 13 rows over 1 files · new 0 · standing 13 · 5 patterns",
+"by line · 0 lines · 0 offsets",
+"total (5 patterns) · 44 rows over 14 files",
+"per class · new 0/0 · standing 19/3 · leaf 25/11 · curation 0/0 · base 0/0",
+"rows 1/1 · .andromeda/runs/2026-11-18T20-01-28Z-wrap/sweep-pre-pass-1.1.txt · 57 lines · 6404 B"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-18T20-01-28Z-wrap/sweep-pre-pass-1.1.txt"
+],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "06f5f6e5cca4ace5073d3a2306fdca9b88fc3f20",
+"how": "pre-pass — HEAD",
+"counts": {
+"stamped": {
+"new": 0,
+"standing": 1,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"recsets": {
+"new": 0,
+"standing": 7,
+"leaf": 7,
+"curation": 0,
+"base": 0
+},
+"riglabels": {
+"new": 0,
+"standing": 3,
+"leaf": 5,
+"curation": 0,
+"base": 0
+},
+"recordhome": {
+"new": 0,
+"standing": 1,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"mcptap": {
+"new": 0,
+"standing": 7,
+"leaf": 11,
+"curation": 0,
+"base": 0
+}
+},
+"bare": [],
+"masters": {
+"architecture": {
+"rows": 4,
+"files": 1,
+"new": 0,
+"standing": 4,
+"patterns": 2
+},
+"security-plan": {
+"rows": 2,
+"files": 1,
+"new": 0,
+"standing": 2,
+"patterns": 2
+},
+"test-plan": {
+"rows": 13,
+"files": 1,
+"new": 0,
+"standing": 13,
+"patterns": 5
+}
+},
+"per_master": {
+"stamped": {
+"test-plan": 1
+},
+"recsets": {
+"security-plan": 1,
+"test-plan": 6
+},
+"riglabels": {
+"architecture": 2,
+"test-plan": 1
+},
+"recordhome": {
+"test-plan": 1
+},
+"mcptap": {
+"architecture": 2,
+"security-plan": 1,
+"test-plan": 4
+}
+},
+"forms": {
+"stamped": [
+{
+"form": "two stamped",
+"from": "2"
+}
+],
+"recsets": [
+{
+"form": "4 recorded",
+"from": "four"
+}
+]
+},
+"parts": [
+"sweep-pre-pass-1.1.txt"
+]
+}
+}
+]
