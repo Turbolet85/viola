@@ -350,13 +350,18 @@ const CLAUDE_CONFIG: &str = ".claude.json";
 /// (0600): the stamping verify runs under it (`HOME`), so its trust-record run never writes the
 /// user's real `~/.claude.json`.
 fn session_user(home: &Path) -> std::io::Result<PathBuf> {
-    let user = home
-        .parent()
-        .ok_or_else(|| std::io::Error::other("a home has a parent"))?
-        .join("user");
+    let user =
+        session_user_home(home).ok_or_else(|| std::io::Error::other("a home has a parent"))?;
     viola_state::fs::create_private_dir(&user)?;
     replace_private(&user.join(CLAUDE_CONFIG), b"{}", 0o600).map_err(std::io::Error::other)?;
     Ok(user)
+}
+
+/// The session's own user home's path, made by [`session_user`] only for a stamped session: the
+/// supervised wrappers run under it too (`HOME`), so a start's trust step never reads the user's
+/// real `~/.claude.json` (an unstamped session's is never made: `config-absent`).
+pub fn session_user_home(home: &Path) -> Option<PathBuf> {
+    home.parent().map(|parent| parent.join("user"))
 }
 
 /// `verify`'s last line reads `stamped <version>  <n> pass  0 fail` (test-plan §3 `boot` step 4).

@@ -462,6 +462,10 @@ fn a_loosened_socket_directory_on_a_start_is_socket_dir_refused(#[case] json: bo
             .arg("--home")
             .arg(home.path())
             .args(["run", "builder", "--", FAKE])
+            .env(
+                support::home::USER_HOME_VAR,
+                support::home::unmade_user_home(home.path()),
+            )
             .env(SOCKET_ROOT_VAR, root.path())
             .env_remove("VIOLA_NAME")
             .env_remove("VIOLA_DIR")

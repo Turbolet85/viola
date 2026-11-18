@@ -1,0 +1,66 @@
+[[control]]
+id = 'trust-nocall'
+entry = 5
+guard = "the start's trust step removed: no file read, no trust-record line"
+case = 'run_in_an_untrusted_folder_writes_the_record_and_types_no_key'
+[[control.edit]]
+path = 'src/cmd/run.rs'
+old = '''    let word = trust_word(cli_verified, strip, spawn_dir);
+    obs_event!(INFO, ObsEvent::TrustRecord, detail = word.as_str());
+}'''
+new = '''    let _ = (cli_verified, strip, spawn_dir, trust_word);
+}'''
+
+[[control]]
+id = 'trust-gate'
+entry = 5
+guard = "the cli_verified arm removed: the write made on an unverified CLI"
+case = 'run_on_an_unverified_home_writes_nothing'
+[[control.edit]]
+path = 'src/cmd/run.rs'
+old = '''    if !cli_verified {
+        return StartWord::UnverifiedCli;
+    }'''
+new = '''    let _ = cli_verified;'''
+
+[[control]]
+id = 'trust-walk'
+entry = 3
+guard = "the CLI's walk cut to the exact key"
+case = 'trust_walk_reads_the_exact_key_then_each_parent'
+[[control.edit]]
+path = 'crates/viola-agent-claude/src/trust.rs'
+old = '''    for folder in canonical_cwd.ancestors() {'''
+new = '''    for folder in [Path::new(key.as_str())] {'''
+
+[[control]]
+id = 'trust-flagonly'
+entry = 3
+guard = "the flag-only set replaced by a whole-entry insert"
+case = 'flag_only_set_keeps_every_other_key'
+[[control.edit]]
+path = 'crates/viola-agent-claude/src/trust.rs'
+old = '''    match projects.get_mut(key) {'''
+new = '''    match projects.get_mut(key).filter(|_| false) {'''
+
+[[control]]
+id = 'trust-exact'
+entry = 4
+guard = "the start's read-back cut to the flag alone"
+case = 'trust_start_read_back_with_an_added_key_is_lost'
+[[control.edit]]
+path = 'src/trust_record.rs'
+old = '''        Change::Trust { .. } => trust::same_entry(&changed, &bytes, key),'''
+new = '''        Change::Trust { .. } => trust::holds_record(&bytes, key),'''
+
+[[control]]
+id = 'trust-home'
+entry = 4
+guard = "the home-folder rule removed"
+case = 'trust_start_home_folder_opens_nothing'
+[[control.edit]]
+path = 'src/trust_record.rs'
+old = '''    if user_home.is_some_and(|home| home.to_string_lossy() == key) {
+        return StartWord::HomeFolder;
+    }'''
+new = '''    let _ = user_home;'''

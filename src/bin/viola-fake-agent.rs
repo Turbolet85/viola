@@ -194,8 +194,8 @@ impl Opts {
             .is_some_and(|root| under_root(&cwd, root))
     }
 
-    /// The `--trust-config` file holds `projects[<key>].hasTrustDialogAccepted == true` for the cwd,
-    /// the key read by this agent's own rule ([`record_key`]), never the product's.
+    /// The `--trust-config` file trusts the cwd or a folder above it by this agent's own walk
+    /// ([`record_trusts`]), never the product's.
     fn trusted_by_record(&self) -> bool {
         let (Some(file), Ok(cwd)) = (self.trust_config.as_deref(), std::env::current_dir()) else {
             return false;
@@ -256,21 +256,12 @@ fn under_root(cwd: &Path, root: &Path) -> bool {
     }
 }
 
-/// The key this agent reads a folder's trust record under: the nearest ancestor of the canonical
-/// `cwd` holding a `.git` entry, else the canonical `cwd` itself. Its own rule, written here.
-fn record_key(cwd: &Path) -> Option<String> {
-    let cwd = fs::canonicalize(cwd).ok()?;
-    let root = cwd
-        .ancestors()
-        .find(|dir| fs::symlink_metadata(dir.join(".git")).is_ok())
-        .unwrap_or(&cwd);
-    root.to_str().map(str::to_owned)
-}
-
-/// `file`, read through the frame cap, holds `projects[<key of cwd>].hasTrustDialogAccepted ==
-/// true`; any failure reads untrusted.
+/// `file`, read through the frame cap, holds `projects[<folder>].hasTrustDialogAccepted == true`
+/// for the canonical `cwd` or a folder above it, the walk ending at the nearest `.git` ancestor
+/// (included) and else at `/`, so a record above that root never counts; any failure reads
+/// untrusted. Its own walk, written here.
 fn record_trusts(file: &Path, cwd: &Path) -> bool {
-    let Some(key) = record_key(cwd) else {
+    let Ok(cwd) = fs::canonicalize(cwd) else {
         return false;
     };
     let mut bytes = Vec::new();
@@ -278,8 +269,21 @@ fn record_trusts(file: &Path, cwd: &Path) -> bool {
     if read.is_err() || u64::try_from(bytes.len()).is_ok_and(|n| n > MAX_FRAME) {
         return false;
     }
-    serde_json::from_slice::<Value>(&bytes)
-        .is_ok_and(|doc| doc["projects"][key.as_str()]["hasTrustDialogAccepted"] == json!(true))
+    let Ok(doc) = serde_json::from_slice::<Value>(&bytes) else {
+        return false;
+    };
+    for folder in cwd.ancestors() {
+        let Some(key) = folder.to_str() else {
+            return false;
+        };
+        if doc["projects"][key]["hasTrustDialogAccepted"] == json!(true) {
+            return true;
+        }
+        if fs::symlink_metadata(folder.join(".git")).is_ok() {
+            return false;
+        }
+    }
+    false
 }
 
 /// A recorded screen as a terminal shows it: a clear, then the rows joined by CRLF.

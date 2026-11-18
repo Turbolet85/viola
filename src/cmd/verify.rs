@@ -30,7 +30,6 @@ use viola_agent_claude::ledger::{
     ProbeRun, Probes, TypedRun,
 };
 use viola_agent_claude::screen::FirstScreen;
-use viola_agent_claude::trust::{self, TrustWord};
 use viola_agent_claude::{AgentError, PLUGIN_DIR_FLAG, PROGRAM, StripPlan};
 use viola_core::obs::{ObsEvent, ObsProcess};
 use viola_core::{Clock, MAX_FRAME, SystemClock, ViolaName, obs_event};
@@ -231,7 +230,7 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<Ended> {
         version_answered: true,
         captures: read_captures(&probe.captures()),
     };
-    let trust_config = trust_config_file(&strip);
+    let trust_config = crate::trust_record::trust_config_file(&strip);
     let clock: Arc<dyn Clock> = Arc::new(SystemClock);
     let [trusted, questions, plan, resume] = [
         probe.typed(),
@@ -314,19 +313,6 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<Ended> {
         Some(dir) => record(dir, &version, &probes),
         None => Ok(Ended::Exit(0)),
     }
-}
-
-/// The config file the child reads, for Run F's trust record: `<CLAUDE_CONFIG_DIR>/.claude.json`
-/// when the strip keeps that name, its one value read here and nowhere else; else
-/// `<user home>/.claude.json`.
-fn trust_config_file(strip: &StripPlan) -> Result<PathBuf, TrustWord> {
-    let kept = strip
-        .kept
-        .iter()
-        .any(|name| name == trust::CONFIG_DIR_VAR)
-        .then(|| std::env::var_os(trust::CONFIG_DIR_VAR))
-        .flatten();
-    trust::config_file(kept.as_deref(), std::env::home_dir().as_deref())
 }
 
 /// `<home>/ledger/probes/<pid>/` (0700) with the capture plugin in `plugin/` and an empty

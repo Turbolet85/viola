@@ -1,0 +1,193 @@
+[
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "823570d9",
+"ts": "2026-11-18T10:59:40Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-18-session-folder-trusted-by-viola",
+"--source",
+"~/dev/projects/additional/viola-overseer/phase-session-folder-directive-3.md",
+"--kind",
+"relay",
+"--why",
+"the overseer phase directive binding this take-up: scope at 2cbaa752, the founder bound, the P3-end block of item 5",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-11-18T10-58-21Z-phase",
+"--marker",
+"2026-11-18-session-folder-trusted-by-viola"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy no-repo · ../additional/viola-overseer/phase-session-folder-directive-3.md",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-phase-session-folder-directive-3.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/phase-session-folder-directive-3.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "9ed581b39d0732e68f032d74375b686769d202cb3f293a0c652c199104d23de6",
+"copy": "I1-phase-session-folder-directive-3.md.txt",
+"link": false,
+"read_at": "2026-11-18T10:59:39Z",
+"step": "phase:P1",
+"why": "the overseer phase directive binding this take-up: scope at 2cbaa752, the founder bound, the P3-end block of item 5"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "823570d9",
+"ts": "2026-11-18T11:39:43Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-18-session-folder-trusted-by-viola",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-session-folder-p3.md",
+"--kind",
+"relay",
+"--why",
+"the founder answers to the P3 block (cap S1 1+1, S2 1; keys none; no split; F-T1 flag only) and the overseer technical answers (F-T2 event, read-back predicate, phase ends at P5)",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-11-18T10-58-21Z-phase",
+"--marker",
+"2026-11-18-session-folder-trusted-by-viola"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy no-repo · ../additional/viola-overseer/relay-session-folder-p3.md",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-session-folder-p3.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-session-folder-p3.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "e521930115ccf3cd7b5acb57148de3f1e73b2ff10ea42da0a9cc637b8d60f5e2",
+"copy": "I2-relay-session-folder-p3.md.txt",
+"link": false,
+"read_at": "2026-11-18T11:39:43Z",
+"step": "phase:P4",
+"why": "the founder answers to the P3 block (cap S1 1+1, S2 1; keys none; no split; F-T1 flag only) and the overseer technical answers (F-T2 event, read-back predicate, phase ends at P5)"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "823570d9",
+"ts": "2026-11-18T11:47:20Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-18-session-folder-trusted-by-viola",
+"--run-dir",
+".andromeda/runs/2026-11-18T10-58-21Z-phase",
+"--marker",
+"2026-11-18-session-folder-trusted-by-viola"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-session-folder-directive-3.md",
+"I1 cited scope.md:17 · research.md:10 · plan.md:434",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-session-folder-p3.md",
+"I2 cited plan.md:20 · plan.md:26 · plan.md:27 · plan.md:28 · plan.md:56 · plan.md:140 · plan.md:144 · plan.md:160 · plan.md:412 · plan.md:434 · plan.md:444 · plan.md:447 · plan.md:451 · plan.md:455 · plan.md:462 · plan.md:464 · plan.md:467 · plan.md:499",
+"inputs: 2 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "823570d9",
+"ts": "2026-11-18T11:50:10Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-18-session-folder-trusted-by-viola",
+"--run-dir",
+".andromeda/runs/2026-11-18T10-58-21Z-phase",
+"--marker",
+"2026-11-18-session-folder-trusted-by-viola"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-session-folder-directive-3.md",
+"I1 cited scope.md:17 · research.md:10 · plan.md:440",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-session-folder-p3.md",
+"I2 cited plan.md:20 · plan.md:26 · plan.md:27 · plan.md:28 · plan.md:56 · plan.md:140 · plan.md:144 · plan.md:160 · plan.md:418 · plan.md:440 · plan.md:450 · plan.md:453 · plan.md:457 · plan.md:461 · plan.md:468 · plan.md:470 · plan.md:473 · plan.md:505",
+"inputs: 2 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+}
+]

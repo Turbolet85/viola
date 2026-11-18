@@ -16,7 +16,7 @@ use support::piped::Piped;
 use support::watch::{WITHIN, Watch};
 
 /// test-plan §3 Log format + obs-plan D-01…D-05; `a11y-violation` is a harness-only row.
-const LOG_FORMAT_EVENTS: [&str; 15] = [
+const LOG_FORMAT_EVENTS: [&str; 16] = [
     "channel-request",
     "channel-response",
     "dialog-raised",
@@ -32,6 +32,7 @@ const LOG_FORMAT_EVENTS: [&str; 15] = [
     "panic",
     "state-recovered",
     "parse-rejected",
+    "trust-record",
 ];
 
 fn line_schema() -> Value {
@@ -270,7 +271,11 @@ fn run_lines(home: &Path, program: &str, config: Option<&str>) -> Vec<Value> {
     let mut cmd = support::tied::viola();
     cmd.arg("--home")
         .arg(home)
-        .args(["run", "builder", "--", program]);
+        .args(["run", "builder", "--", program])
+        .env(
+            support::home::USER_HOME_VAR,
+            support::home::unmade_user_home(home),
+        );
     if program == FAKE {
         cmd.arg("--receipt").arg(&receipt);
     }
@@ -337,6 +342,7 @@ fn diag_lines_from_real_runs_validate(
         seen += lines.len();
         assert_eq!(violations(&schema, label, lines), Vec::<String>::new());
     }
-    // Each run's four, two and five lines plus its version-probe start and exit.
-    assert_eq!(seen, 6 + 4 + 7);
+    // Each run's four, two and five lines plus its version-probe start and exit and its
+    // trust-record line.
+    assert_eq!(seen, 7 + 5 + 8);
 }

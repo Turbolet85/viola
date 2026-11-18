@@ -1,0 +1,98 @@
+[
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "273d82d5",
+"ts": "2026-11-18T13:19:25Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-18T13-18-04Z-phase",
+"--marker",
+"2026-11-18-session-folder-trusted-by-viola"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 2716 · 2026-11-18T10-59-34-2026-11-18-session-folder-trusted-by-viola.ndjson",
+"ts 2026-11-18T13:19:19Z · clock 2026-11-18T13:19:25Z · bound 2026-11-18T13:15:06Z (line 3525)",
+"ids 2026-11-18T13:19:19Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T10-59-34-2026-11-18-session-folder-trusted-by-viola.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "273d82d5",
+"ts": "2026-11-18T13:21:07Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-18T13-18-04Z-phase",
+"--marker",
+"2026-11-18-session-folder-trusted-by-viola"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 2719 · 2026-11-18T10-59-34-2026-11-18-session-folder-trusted-by-viola.ndjson",
+"ts 2026-11-18T13:20:59Z · clock 2026-11-18T13:21:07Z · bound 2026-11-18T13:19:19Z (line 3526)",
+"ids 2026-11-18T13:20:59Z-a … 2026-11-18T13:20:59Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T10-59-34-2026-11-18-session-folder-trusted-by-viola.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "273d82d5",
+"ts": "2026-11-18T13:23:41Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-18T13-18-04Z-phase",
+"--marker",
+"2026-11-18-session-folder-trusted-by-viola"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 2720 · 2026-11-18T10-59-34-2026-11-18-session-folder-trusted-by-viola.ndjson",
+"ts 2026-11-18T13:23:36Z · clock 2026-11-18T13:23:41Z · bound 2026-11-18T13:20:59Z (line 3528)",
+"ids 2026-11-18T13:23:36Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T10-59-34-2026-11-18-session-folder-trusted-by-viola.ndjson"
+],
+"before": null,
+"after": null
+}
+]

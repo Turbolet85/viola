@@ -21,7 +21,8 @@ use support::cli::{Ran, Running};
 use support::events::{events, wait_events};
 use support::fake::{self, of_kind};
 use support::home::{
-    StampedHome, TestHome, Wrapper, booted_wrapper, revive_command, stamped_home, workspace_path,
+    StampedHome, TestHome, Wrapper, booted_wrapper, private_dir, revive_command, stamped_home,
+    workspace_path,
 };
 use support::hygiene::load_schema;
 use support::start::{
@@ -709,4 +710,54 @@ fn revive_list_under_a_name_logs_its_start_and_exit(stamped_home: StampedHome) {
         before,
         "--list wrote a run line"
     );
+}
+
+/// A revived start writes the trust record for the directory the first life recorded, the child's
+/// own folder, never the directory the revive was typed in: both outside any repository, so each
+/// is its own key.
+#[rstest]
+fn revive_writes_the_record_for_its_recorded_cwd(stamped_home: StampedHome) {
+    use std::os::unix::fs::OpenOptionsExt as _;
+    let root = tempfile::Builder::new()
+        .prefix("vt-")
+        .tempdir_in("/tmp")
+        .expect("the case root");
+    let base = fs::canonicalize(root.path()).expect("canonical");
+    let [recorded, typed_in, user] = ["recorded", "typed-in", "user"].map(|name| {
+        let dir = base.join(name);
+        private_dir(&dir, name);
+        dir
+    });
+    let config = user.join(".claude.json");
+    OpenOptions::new()
+        .write(true)
+        .create_new(true)
+        .mode(0o600)
+        .open(&config)
+        .and_then(|mut f| std::io::Write::write_all(&mut f, br#"{"projects":{}}"#))
+        .expect("the seeded config");
+    let (stopped, stamped) = first_life(stamped_home, &recorded).stop_keep();
+    assert_eq!(stopped.code(), Some(0));
+    let second = Wrapper::revive_as_user(stamped, "builder", &typed_in, &recorded, &[], &user);
+    let words: Vec<Value> = role_lines(second.home())
+        .into_iter()
+        .filter(|l| l["event"] == "trust-record")
+        .map(|l| l["detail"].clone())
+        .collect();
+    assert_eq!(
+        words,
+        [Value::from("config-absent"), Value::from("written")],
+        "the first life under no user home, the revive under the seeded one"
+    );
+    let doc: Value = serde_json::from_slice(&fs::read(&config).expect("read")).expect("json");
+    let key = |dir: &Path| dir.to_str().expect("utf-8").to_owned();
+    assert_eq!(
+        doc["projects"][key(&recorded).as_str()],
+        serde_json::json!({"hasTrustDialogAccepted": true})
+    );
+    assert!(
+        doc["projects"].get(key(&typed_in)).is_none(),
+        "the typed-in directory"
+    );
+    assert_eq!(second.stop().code(), Some(0));
 }

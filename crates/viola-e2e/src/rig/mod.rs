@@ -52,6 +52,32 @@ const R2_TEXTS: [&str; 3] = [
 const SEND_BOUND: Duration = Duration::from_secs(90);
 const SUBMIT_BOUND: Duration = Duration::from_secs(20);
 const TURN_BOUND: Duration = Duration::from_secs(180);
+/// The wrapped instance `TS`'s step 2 starts.
+const S1_NAME: &str = "rig-s1";
+/// The relied rows of verify's floor: every relied row but `trust-record` and `local-command-echo`.
+const FLOOR_ROWS: [&str; 21] = [
+    "shim-resolution",
+    "spine-hooks",
+    "session-start-fields",
+    "prompt-verbatim",
+    "stop-message",
+    "largest-hook-payload",
+    "modal-signature",
+    "input-box-signature",
+    "quiet-period",
+    "confirm-window",
+    "question-answer",
+    "plan-approve-revise",
+    "question-notes",
+    "dialog-concurrency",
+    "long-paste-wrapper",
+    "tag-escaping",
+    "local-command-clear",
+    "paste-newline",
+    "resume-session",
+    "agents-join",
+    "local-command-compact",
+];
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Arm {
@@ -72,6 +98,13 @@ pub enum Arm {
     /// Unwrapped at verify's 80×24 under the verify arm's seed: its first frame read into verify's
     /// first-screen word and facts; stopped with no key.
     VC,
+    /// Step 1 `viola verify` in the trusted git cwd; on a fully verified stamp step 2 `viola run`
+    /// in a fresh untrusted folder, its first frame, the start's trust word and the config's entries
+    /// read; no key, the stop Ctrl-C only with the box read.
+    TS,
+    /// A plain child in a fresh untrusted folder of `TS`'s shape: its first frame read; stopped
+    /// with no key.
+    TC,
 }
 
 impl Arm {
@@ -85,13 +118,15 @@ impl Arm {
             "im" => Some(Self::IM),
             "v" => Some(Self::V),
             "vc" => Some(Self::VC),
+            "ts" => Some(Self::TS),
+            "tc" => Some(Self::TC),
             _ => None,
         }
     }
 
     /// A live label's arm: `R1` / `R1-2`, `R2` / `R2-2`, `R3B` / `R3B-2`, `R3` / `R3-2` / `R3-326`
     /// / `R3D`, `IM` / `IM-2`, `S0` / `S0-2`, `S0R` with its two spares `S0R-2` / `S0R-3`, `S0B`
-    /// with its spare `S0B-2`, and `S0C` alone (no spare).
+    /// with its spare `S0B-2`, `S0C` alone (no spare), `S1` with its spare `S1-2`, and `S2` alone.
     pub fn of_label(label: &str) -> Option<Self> {
         match label {
             "R1" | "R1-2" => Some(Self::R1),
@@ -101,13 +136,15 @@ impl Arm {
             "IM" | "IM-2" => Some(Self::IM),
             "S0" | "S0-2" | "S0R" | "S0R-2" | "S0R-3" | "S0B" | "S0B-2" => Some(Self::V),
             "S0C" => Some(Self::VC),
+            "S1" | "S1-2" => Some(Self::TS),
+            "S2" => Some(Self::TC),
             _ => None,
         }
     }
 
     /// Whether the start makes a viola home of its own: every wrapped arm, and the verify arm.
     pub fn has_vhome(self) -> bool {
-        self.wrapped().is_some() || self == Self::V
+        self.wrapped().is_some() || matches!(self, Self::V | Self::TS)
     }
 
     const fn word(self) -> &'static str {
@@ -120,12 +157,24 @@ impl Arm {
             Self::IM => "im",
             Self::V => "v",
             Self::VC => "vc",
+            Self::TS => "ts",
+            Self::TC => "tc",
         }
     }
 
-    /// Whether the start takes the verify arm's seed: the cwd a git root, the used-config markers.
+    /// Whether the start's cwd is made a git root, as the verify arm's.
     fn verify_seed(self) -> bool {
-        matches!(self, Self::V | Self::VC)
+        matches!(self, Self::V | Self::VC | Self::TS)
+    }
+
+    /// Whether the private config takes the used-config markers and the browser-tools key.
+    fn marker_seed(self) -> bool {
+        matches!(self, Self::V | Self::VC | Self::TS | Self::TC)
+    }
+
+    /// Whether the private config takes another folder's sentinel entry.
+    fn sentinel_seed(self) -> bool {
+        matches!(self, Self::TS | Self::TC)
     }
 
     /// The wrapped instance's name, for an arm that starts `viola run`.
@@ -133,7 +182,7 @@ impl Arm {
         match self {
             Self::R2 => Some(R2_NAME),
             Self::R3B | Self::R3 => Some(wake::WAKE_NAME),
-            Self::R1 | Self::Hold | Self::IM | Self::V | Self::VC => None,
+            Self::R1 | Self::Hold | Self::IM | Self::V | Self::VC | Self::TS | Self::TC => None,
         }
     }
 
@@ -141,7 +190,7 @@ impl Arm {
     const fn trusted(self) -> bool {
         matches!(
             self,
-            Self::R2 | Self::R3B | Self::R3 | Self::IM | Self::V | Self::VC
+            Self::R2 | Self::R3B | Self::R3 | Self::IM | Self::V | Self::VC | Self::TS
         )
     }
 
@@ -168,6 +217,8 @@ pub struct Plan {
     pub program: PathBuf,
     /// The child's arguments; `{cwd}` stands for the start's scratch cwd.
     pub child_args: Vec<String>,
+    /// `TS`'s step 2 only: arguments after `child_args` for the wrapped child.
+    pub run_args: Vec<String>,
     pub viola: Option<PathBuf>,
     /// The stamped CLI's install dir (live): its `claude` is read by path, and it leads `PATH`.
     pub cli_dir: Option<PathBuf>,
@@ -288,7 +339,7 @@ pub fn start(plan: &Plan) -> u8 {
     // The verify arm's private config takes a used config's markers and the browser-tools key
     // (`claudeInChromeDefaultEnabled` off, so no browser-tools prompt is raised), at the version
     // the child program answers by path; every other arm keeps meeting its first-run screens.
-    let marked = !plan.arm.verify_seed() || !placed || {
+    let marked = !plan.arm.marker_seed() || !placed || {
         let version = cli_version(&plan.program, Some(&scratch.root))
             .as_deref()
             .and_then(version_token)
@@ -302,24 +353,32 @@ pub fn start(plan: &Plan) -> u8 {
         );
         written
     };
+    let sentinel = (plan.arm.sentinel_seed() && placed && marked)
+        .then(|| scratch.seed_sentinel().ok())
+        .flatten();
     let seeded = rooted
         && marked
+        && (!plan.arm.sentinel_seed() || sentinel.is_some())
         && match plan.arm {
             Arm::R3B | Arm::R3 => plan
                 .rig
                 .as_deref()
                 .is_some_and(|rig| scratch.seed_capture(rig).is_ok()),
             Arm::IM => scratch.seed_imports().is_ok(),
-            Arm::R1 | Arm::R2 | Arm::Hold | Arm::V | Arm::VC => true,
+            Arm::R1 | Arm::R2 | Arm::Hold | Arm::V | Arm::VC | Arm::TS | Arm::TC => true,
         };
     if !placed {
         summary.put("refused", "credentials");
     } else if !seeded {
         summary.put("refused", "seed");
-    } else if let Some(id) = run_child(plan, &run, &scratch, &mut summary) {
+    } else if let (Arm::TS, Some(sentinel)) = (plan.arm, &sentinel) {
+        if let Some(id) = run_ts(plan, &run, &scratch, sentinel, &mut summary) {
+            needles.push(id.into_bytes());
+        }
+    } else if let Some(id) = run_child(plan, &run, &scratch, sentinel.as_ref(), &mut summary) {
         needles.push(id.into_bytes());
     }
-    if plan.arm == Arm::V {
+    if matches!(plan.arm, Arm::V | Arm::TS) {
         // A failed verify's first screens, copied into the run's kept folder beside its frames
         // before the teardown removes the scratch; their content reaches no summary line.
         summary.put("kept", scratch.keep_first_screens(&plan.out.join(&run)));
@@ -372,6 +431,7 @@ fn finish(
         .is_some_and(|t| t.census == "0" && t.credentials == "removed" && t.scratch == "absent")
         && summary.get("refused").is_none()
         && summary.get("stopped-by").is_none()
+        && summary.get("step2") != Some("not-started")
         && user_config != "changed-by-rig"
         && summary.get("child").is_none_or(|c| {
             c == "stopped" || c == "exit 0" || (plan.arm == Arm::V && c == "exit 1")
@@ -598,18 +658,15 @@ impl Session {
 }
 
 /// Runs the child and its arm; the child's session id when a wrapped arm learned one.
-fn run_child(plan: &Plan, run: &str, scratch: &Scratch, summary: &mut Summary) -> Option<String> {
+fn run_child(
+    plan: &Plan,
+    run: &str,
+    scratch: &Scratch,
+    sentinel: Option<&isolate::Sentinel>,
+    summary: &mut Summary,
+) -> Option<String> {
     let env = isolate::child_env(plan.cli_dir.as_deref(), &scratch.config, run);
-    let child_args: Vec<OsString> = plan
-        .child_args
-        .iter()
-        .map(|a| {
-            OsString::from(
-                a.replace("{cwd}", &scratch.cwd.to_string_lossy())
-                    .replace("{config}", &scratch.config.to_string_lossy()),
-            )
-        })
-        .collect();
+    let child_args = substituted(&plan.child_args, scratch);
     let (program, args) = match (plan.arm.wrapped(), &scratch.vhome) {
         (None, Some(vhome)) if plan.arm == Arm::V => {
             let Some(viola) = &plan.viola else {
@@ -680,12 +737,34 @@ fn run_child(plan: &Plan, run: &str, scratch: &Scratch, summary: &mut Summary) -
         Arm::IM => arm_im(plan, &mut session, summary),
         Arm::V => arm_v(plan, scratch, &mut session, summary),
         Arm::VC => arm_vc(plan, &mut session, summary),
+        Arm::TC => arm_tc(plan, scratch, sentinel, &mut session, summary),
+        // `TS` takes its own two starts (`run_ts`); a start that reaches here holds the child alone.
+        Arm::TS => arm_hold(plan, &mut session),
     }
+    let no_key = matches!(plan.arm, Arm::IM | Arm::VC | Arm::TC);
+    end_session(session, summary, no_key)
+}
+
+/// `args` with `{cwd}` and `{config}` standing for the scratch cwd and the private config dir.
+fn substituted(args: &[String], scratch: &Scratch) -> Vec<OsString> {
+    args.iter()
+        .map(|a| {
+            OsString::from(
+                a.replace("{cwd}", &scratch.cwd.to_string_lossy())
+                    .replace("{config}", &scratch.config.to_string_lossy()),
+            )
+        })
+        .collect()
+}
+
+/// A session's end after its arm: the stop (no key, or the Ctrl-C stop), the last frame, and the
+/// child, settle and frame words; the child's session id when a wrapped arm learned one.
+fn end_session(mut session: Session, summary: &mut Summary, no_key: bool) -> Option<String> {
     if let Some(reason) = procs::stop_requested() {
         summary.put("stopped-by", reason);
     }
     let exited_alone = session.exit;
-    if matches!(plan.arm, Arm::IM | Arm::VC) {
+    if no_key {
         session.stop_no_key(summary);
     } else {
         session.stop(summary);
@@ -714,6 +793,156 @@ fn run_child(plan: &Plan, run: &str, scratch: &Scratch, summary: &mut Summary) -
     drop(session.writer);
     session.pty.close();
     session.session_id
+}
+
+/// `TS`: step 1 `viola verify` over the program in the trusted git cwd, held to its exit with no
+/// key; then, only on a stamp whose every relied row reads `pass`, step 2 `viola run` in a fresh
+/// untrusted folder: its first frame's verify word, the run log's trust word and the private
+/// config's entries read at that frame; the stop Ctrl-C only with the box read, else no key.
+fn run_ts(
+    plan: &Plan,
+    run: &str,
+    scratch: &Scratch,
+    sentinel: &isolate::Sentinel,
+    summary: &mut Summary,
+) -> Option<String> {
+    let (Some(viola), Some(vhome)) = (&plan.viola, &scratch.vhome) else {
+        summary.put("refused", "viola");
+        return None;
+    };
+    summary.put(
+        "viola-build",
+        fs::read(viola).map_or_else(|_| "unread".to_owned(), |b| content_key(&b)),
+    );
+    let env = isolate::child_env(plan.cli_dir.as_deref(), &scratch.config, run);
+    let child_args = substituted(&plan.child_args, scratch);
+    let mut args: Vec<OsString> = vec![
+        "--home".into(),
+        vhome.into(),
+        "verify".into(),
+        "--record".into(),
+        scratch.record_dir().into(),
+        "--record-first-screens".into(),
+        "--".into(),
+        plan.program.clone().into(),
+    ];
+    args.extend(child_args.iter().cloned());
+    let verify = SpawnSpec {
+        program: viola.clone(),
+        args,
+        cwd: scratch.cwd.clone(),
+        env_remove: isolate::removed_names(&env),
+        env_set: env.clone(),
+        size: plan.arm.pty_size(),
+    };
+    let Some(mut session) = Session::spawn(&verify) else {
+        summary.put("refused", "spawn");
+        return None;
+    };
+    summary.put("pty", format!("{}x{}", verify.size.cols, verify.size.rows));
+    session.frames = Frames::open(&plan.out, run).ok();
+    arm_v(plan, scratch, &mut session, summary);
+    let stamps = vhome.join("ledger").join("stamps.json");
+    let entry = stamp_entry(&stamps, plan.cli_version.as_deref());
+    summary.put("step1-floor", floor_word(entry.as_ref()));
+    let verified =
+        summary.get("failing") == Some("none") && summary.get("trust-record") == Some("pass");
+    summary.put("step1-verified", if verified { "yes" } else { "no" });
+    let frames = session.frames.take();
+    if session.exit.is_none() {
+        session.stop_no_key(summary);
+    }
+    drop(session.writer);
+    session.pty.close();
+    if !verified || procs::stop_requested().is_some() {
+        summary.put("step2", "not-started");
+        if let Some(reason) = procs::stop_requested() {
+            summary.put("stopped-by", reason);
+        }
+        return None;
+    }
+    let Ok(cwd) = scratch.fresh_cwd() else {
+        summary.put("refused", "seed");
+        return None;
+    };
+    let mut args: Vec<OsString> = vec![
+        "--home".into(),
+        vhome.into(),
+        "run".into(),
+        S1_NAME.into(),
+        "--".into(),
+        plan.program.clone().into(),
+    ];
+    args.extend(child_args);
+    args.extend(plan.run_args.iter().map(OsString::from));
+    let wrapped = SpawnSpec {
+        program: viola.clone(),
+        args,
+        cwd: cwd.clone(),
+        env_remove: isolate::removed_names(&env),
+        env_set: env,
+        size: plan.arm.pty_size(),
+    };
+    let Some(mut session) = Session::spawn(&wrapped) else {
+        summary.put("refused", "spawn");
+        return None;
+    };
+    session.frames = frames;
+    summary.put("step2", "started");
+    let screen = first_screen_word(plan, &mut session, summary);
+    summary.put("run-trust", scratch.run_trust_word(S1_NAME));
+    let (flag, same) = scratch.entry_words(&cwd, sentinel);
+    summary.put("entry-flag", flag);
+    summary.put("sentinel", same);
+    summary.put("keys", "none");
+    end_session(session, summary, screen != "box")
+}
+
+/// `TC`: the plain child's first frame read into verify's first-screen word, and the sentinel's
+/// entry read at that frame; no key.
+fn arm_tc(
+    plan: &Plan,
+    scratch: &Scratch,
+    sentinel: Option<&isolate::Sentinel>,
+    session: &mut Session,
+    summary: &mut Summary,
+) {
+    first_screen_word(plan, session, summary);
+    if let Some(sentinel) = sentinel {
+        let (flag, same) = scratch.entry_words(&scratch.cwd, sentinel);
+        summary.put("entry-flag", flag);
+        summary.put("sentinel", same);
+    }
+    summary.put("keys", "none");
+}
+
+/// The first frame read and put as `first-screen`: verify's own word (`trust` · `imports` · `box` ·
+/// `none`).
+fn first_screen_word(plan: &Plan, session: &mut Session, summary: &mut Summary) -> &'static str {
+    let first = first_frame(plan, session);
+    record_reading(summary, &first);
+    let rows = session.model.rows();
+    let word = SIGNATURES
+        .first_screen(rows.as_deref(), session.exit.is_some())
+        .as_str();
+    summary.put("first-screen", word);
+    word
+}
+
+/// `held` when each of the 21 floor rows reads `pass` in the version entry, `broken` when one does
+/// not or is absent, `unread` for no entry.
+fn floor_word(entry: Option<&Value>) -> &'static str {
+    match entry.and_then(|e| e["rows"].as_object()) {
+        None => "unread",
+        Some(rows)
+            if FLOOR_ROWS
+                .iter()
+                .all(|id| rows.get(*id) == Some(&Value::from("pass"))) =>
+        {
+            "held"
+        }
+        Some(_) => "broken",
+    }
 }
 
 /// The first frame: a dialog, the box, or anything else that stood quiet.
@@ -894,29 +1123,26 @@ const RUN_LETTERS: [&str; 6] = ["a", "b", "c", "d", "e", "f"];
 /// `measured`. The version named, or the one version a fresh home holds; every line `unread` for a
 /// stamp or entry that is absent or not read. Closed words, ids and whole numbers only.
 fn stamp_reading(path: &Path, version: Option<&str>) -> Vec<(String, String)> {
+    stamp_lines(stamp_entry(path, version).as_ref())
+}
+
+/// The stamp's version entry holding a `rows` object: the version named, or the one version a
+/// fresh home holds; `None` for a stamp or entry absent or not read.
+fn stamp_entry(path: &Path, version: Option<&str>) -> Option<Value> {
     let mut bytes = Vec::new();
-    let Ok(file) = File::open(path) else {
-        return stamp_lines(None);
-    };
-    if file
+    File::open(path)
+        .ok()?
         .take(viola_core::MAX_FRAME)
         .read_to_end(&mut bytes)
-        .is_err()
-    {
-        return stamp_lines(None);
-    }
-    let Ok(doc) = serde_json::from_slice::<Value>(&bytes) else {
-        return stamp_lines(None);
-    };
-    let Some(versions) = doc["data"]["versions"].as_object() else {
-        return stamp_lines(None);
-    };
+        .ok()?;
+    let doc = serde_json::from_slice::<Value>(&bytes).ok()?;
+    let versions = doc["data"]["versions"].as_object()?;
     let entry = match version {
         Some(version) => versions.get(version),
         None if versions.len() == 1 => versions.values().next(),
         None => None,
     };
-    stamp_lines(entry.filter(|e| e["rows"].is_object()))
+    entry.filter(|e| e["rows"].is_object()).cloned()
 }
 
 /// [`stamp_reading`]'s lines over one version entry, or all `unread` for none.

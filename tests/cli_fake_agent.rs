@@ -850,6 +850,10 @@ fn run_and_watch_stdout(tmp: &TestHome, fake_args: &[&str]) -> (ExitStatus, bool
             .arg("--home")
             .arg(tmp.path())
             .args(["run", "builder", "--", FAKE])
+            .env(
+                support::home::USER_HOME_VAR,
+                support::home::unmade_user_home(tmp.path()),
+            )
             .args(fake_args)
             .arg("--receipt")
             .arg(&receipt),

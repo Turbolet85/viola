@@ -168,6 +168,164 @@ pub fn holds_entry(bytes: &[u8], key: &str) -> bool {
     serde_json::from_slice::<Value>(bytes).is_ok_and(|doc| doc[PROJECTS_KEY].get(key).is_some())
 }
 
+/// What the CLI's own trust read finds for a folder.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Walk {
+    /// A record at the key viola would write ([`record_key`]).
+    AtKey,
+    /// A record at another folder on the walk.
+    Parent,
+    Untrusted,
+}
+
+/// The CLI's trust read (2.1.325): from the folder up, a folder counts when
+/// `projects[<folder>].hasTrustDialogAccepted` is the boolean `true`; inside a repository the walk
+/// stops after its git root, outside one after `/`, so a folder above the git root never counts.
+/// A document that does not parse trusts nothing.
+pub fn trust_walk(bytes: &[u8], canonical_cwd: &Path, git_root: Option<&Path>) -> Walk {
+    let Ok(doc) = serde_json::from_slice::<Value>(bytes) else {
+        return Walk::Untrusted;
+    };
+    let key = record_key(canonical_cwd, git_root);
+    for folder in canonical_cwd.ancestors() {
+        let spelled = folder.to_string_lossy();
+        if doc[PROJECTS_KEY][spelled.as_ref()][ACCEPTED_KEY] == Value::Bool(true) {
+            return if spelled == key {
+                Walk::AtKey
+            } else {
+                Walk::Parent
+            };
+        }
+        if git_root == Some(folder) {
+            break;
+        }
+    }
+    Walk::Untrusted
+}
+
+/// `bytes` with `projects[key].hasTrustDialogAccepted` set to `true` and nothing else changed: no
+/// entry at `key` takes `{"hasTrustDialogAccepted": true}`; an object entry takes only that field,
+/// its other keys kept in place and value. An entry that is not an object, or whose flag is neither
+/// absent nor a boolean, is `config-malformed`.
+pub fn with_flag(bytes: &[u8], key: &str) -> Result<Vec<u8>, TrustWord> {
+    let mut doc = document(bytes)?;
+    let projects = doc
+        .entry(PROJECTS_KEY)
+        .or_insert_with(|| Value::Object(Map::new()));
+    let Value::Object(projects) = projects else {
+        return Err(TrustWord::ConfigMalformed);
+    };
+    match projects.get_mut(key) {
+        None => {
+            let mut record = Map::new();
+            record.insert(ACCEPTED_KEY.to_owned(), Value::Bool(true));
+            projects.insert(key.to_owned(), Value::Object(record));
+        }
+        Some(Value::Object(entry)) => match entry.get_mut(ACCEPTED_KEY) {
+            None => {
+                entry.insert(ACCEPTED_KEY.to_owned(), Value::Bool(true));
+            }
+            Some(flag @ Value::Bool(_)) => *flag = Value::Bool(true),
+            Some(_) => return Err(TrustWord::ConfigMalformed),
+        },
+        Some(_) => return Err(TrustWord::ConfigMalformed),
+    }
+    Ok(written(doc))
+}
+
+/// The exact read-back: the entry at `projects[key]` in `read` equals, value for value, the entry
+/// in `written`, the document this call wrote (a key a racing writer added fails it).
+pub fn same_entry(written: &[u8], read: &[u8], key: &str) -> bool {
+    let entry = |bytes: &[u8]| {
+        serde_json::from_slice::<Value>(bytes)
+            .ok()
+            .and_then(|doc| doc.get(PROJECTS_KEY)?.get(key).cloned())
+    };
+    entry(written).is_some_and(|ours| entry(read).is_some_and(|theirs| ours == theirs))
+}
+
+/// What a wrapped start's trust step did, one closed code word each.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum StartWord {
+    Written,
+    AlreadyTrusted,
+    ParentTrusted,
+    UnverifiedCli,
+    HomeFolder,
+    ConfigAbsent,
+    ConfigUnreadable,
+    ConfigLink,
+    ConfigNotRegular,
+    ConfigForeign,
+    ConfigOversize,
+    ConfigMalformed,
+    ConfigDirUnusable,
+    HomeUnknown,
+    LockHeld,
+    Lost,
+}
+
+impl StartWord {
+    pub const ALL: [Self; 16] = [
+        Self::Written,
+        Self::AlreadyTrusted,
+        Self::ParentTrusted,
+        Self::UnverifiedCli,
+        Self::HomeFolder,
+        Self::ConfigAbsent,
+        Self::ConfigUnreadable,
+        Self::ConfigLink,
+        Self::ConfigNotRegular,
+        Self::ConfigForeign,
+        Self::ConfigOversize,
+        Self::ConfigMalformed,
+        Self::ConfigDirUnusable,
+        Self::HomeUnknown,
+        Self::LockHeld,
+        Self::Lost,
+    ];
+
+    pub const fn as_str(self) -> &'static str {
+        match self {
+            Self::Written => "written",
+            Self::AlreadyTrusted => "already-trusted",
+            Self::ParentTrusted => "parent-trusted",
+            Self::UnverifiedCli => "unverified-cli",
+            Self::HomeFolder => "home-folder",
+            Self::ConfigAbsent => "config-absent",
+            Self::ConfigUnreadable => "config-unreadable",
+            Self::ConfigLink => "config-link",
+            Self::ConfigNotRegular => "config-not-regular",
+            Self::ConfigForeign => "config-foreign",
+            Self::ConfigOversize => "config-oversize",
+            Self::ConfigMalformed => "config-malformed",
+            Self::ConfigDirUnusable => "config-dir-unusable",
+            Self::HomeUnknown => "home-unknown",
+            Self::LockHeld => "lock-held",
+            Self::Lost => "lost",
+        }
+    }
+
+    /// The writer's word as the start's. `removed` and `key-present` are verify's alone: the start's
+    /// change neither removes nor refuses a present key, so they read `lost`, a record not standing.
+    pub const fn of(word: TrustWord) -> Self {
+        match word {
+            TrustWord::Written => Self::Written,
+            TrustWord::ConfigAbsent => Self::ConfigAbsent,
+            TrustWord::ConfigUnreadable => Self::ConfigUnreadable,
+            TrustWord::ConfigLink => Self::ConfigLink,
+            TrustWord::ConfigNotRegular => Self::ConfigNotRegular,
+            TrustWord::ConfigForeign => Self::ConfigForeign,
+            TrustWord::ConfigOversize => Self::ConfigOversize,
+            TrustWord::ConfigMalformed => Self::ConfigMalformed,
+            TrustWord::ConfigDirUnusable => Self::ConfigDirUnusable,
+            TrustWord::HomeUnknown => Self::HomeUnknown,
+            TrustWord::LockHeld => Self::LockHeld,
+            TrustWord::Removed | TrustWord::KeyPresent | TrustWord::Lost => Self::Lost,
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -360,6 +518,174 @@ mod tests {
             serde_json::from_slice::<Value>(&restored).expect("json"),
             json!({"b": 1, "z": [2]})
         );
+    }
+
+    /// A label, the document, the cwd, the git root and the reading.
+    type WalkCase<'a> = (&'a str, Value, &'a str, Option<&'a str>, Walk);
+
+    #[test]
+    fn trust_walk_reads_the_exact_key_then_each_parent() {
+        let on = |key: &str| json!({"projects": {key: {"hasTrustDialogAccepted": true}}});
+        let cases: [WalkCase<'_>; 9] = [
+            ("the exact key", on("/a/b/c"), "/a/b/c", None, Walk::AtKey),
+            (
+                "a parent outside a repository",
+                on("/a"),
+                "/a/b/c",
+                None,
+                Walk::Parent,
+            ),
+            (
+                "the root outside a repository",
+                on("/"),
+                "/a/b/c",
+                None,
+                Walk::Parent,
+            ),
+            (
+                "the git root's key",
+                on("/a/r"),
+                "/a/r/s",
+                Some("/a/r"),
+                Walk::AtKey,
+            ),
+            (
+                "a folder under the root",
+                on("/a/r/s"),
+                "/a/r/s/t",
+                Some("/a/r"),
+                Walk::Parent,
+            ),
+            (
+                "above the git root",
+                on("/a"),
+                "/a/r/s",
+                Some("/a/r"),
+                Walk::Untrusted,
+            ),
+            (
+                "the flag false",
+                json!({"projects": {"/a/b/c": {"hasTrustDialogAccepted": false}}}),
+                "/a/b/c",
+                None,
+                Walk::Untrusted,
+            ),
+            (
+                "the flag a string",
+                json!({"projects": {"/a/b/c": {"hasTrustDialogAccepted": "true"}}}),
+                "/a/b/c",
+                None,
+                Walk::Untrusted,
+            ),
+            ("another folder", on("/x"), "/a/b/c", None, Walk::Untrusted),
+        ];
+        for (label, doc, cwd, root, expected) in cases {
+            assert_eq!(
+                trust_walk(
+                    doc.to_string().as_bytes(),
+                    Path::new(cwd),
+                    root.map(Path::new)
+                ),
+                expected,
+                "{label}"
+            );
+        }
+        assert_eq!(
+            trust_walk(b"{", Path::new("/a"), None),
+            Walk::Untrusted,
+            "not json"
+        );
+    }
+
+    #[test]
+    fn flag_only_set_keeps_every_other_key() {
+        let entry_after = |seed: Value| -> Result<Value, TrustWord> {
+            let bytes = json!({"z": 1, "projects": {"/o": {"k": 2}, "/t": seed}}).to_string();
+            let after = with_flag(bytes.as_bytes(), "/t")?;
+            let doc: Value = serde_json::from_slice(&after).expect("json");
+            assert_eq!(doc["z"], json!(1));
+            assert_eq!(doc["projects"]["/o"], json!({"k": 2}));
+            Ok(doc["projects"]["/t"].clone())
+        };
+        let absent = with_flag(br#"{"projects":{"/o":{"k":2}}}"#, "/t").expect("inserted");
+        let absent: Value = serde_json::from_slice(&absent).expect("json");
+        assert_eq!(
+            absent,
+            json!({"projects": {"/o": {"k": 2}, "/t": {"hasTrustDialogAccepted": true}}}),
+            "absent entry"
+        );
+        let flag_absent = entry_after(json!({"allowedTools": ["x"], "k": 1})).expect("set");
+        assert_eq!(
+            flag_absent,
+            json!({"allowedTools": ["x"], "k": 1, "hasTrustDialogAccepted": true}),
+            "flag absent"
+        );
+        let flag_false =
+            entry_after(json!({"a": 0, "hasTrustDialogAccepted": false, "k": 1})).expect("set");
+        assert_eq!(
+            flag_false,
+            json!({"a": 0, "hasTrustDialogAccepted": true, "k": 1}),
+            "flag false"
+        );
+        let keys: Vec<&String> = flag_false.as_object().expect("object").keys().collect();
+        assert_eq!(keys, ["a", "hasTrustDialogAccepted", "k"], "kept in place");
+        assert_eq!(
+            entry_after(json!([1])),
+            Err(TrustWord::ConfigMalformed),
+            "non-object entry"
+        );
+        assert_eq!(
+            entry_after(json!({"hasTrustDialogAccepted": "yes"})),
+            Err(TrustWord::ConfigMalformed),
+            "non-boolean flag"
+        );
+        assert_eq!(
+            with_flag(br#"{"projects":[]}"#, "/t"),
+            Err(TrustWord::ConfigMalformed)
+        );
+    }
+
+    #[test]
+    fn exact_read_back_refuses_an_added_key() {
+        let written = with_flag(br#"{"projects":{}}"#, "/t").expect("written");
+        assert!(same_entry(&written, &written, "/t"));
+        let raced = br#"{"projects":{"/t":{"hasTrustDialogAccepted":true,"added":1}}}"#;
+        assert!(!same_entry(&written, raced, "/t"), "an added key");
+        assert!(!same_entry(&written, br#"{"projects":{}}"#, "/t"), "gone");
+        assert!(!same_entry(&written, b"{", "/t"), "not json");
+        assert!(!same_entry(b"{}", b"{}", "/t"), "no entry written");
+    }
+
+    #[test]
+    fn start_trust_words_are_each_a_code_word() {
+        let words: Vec<&str> = StartWord::ALL.iter().map(|w| w.as_str()).collect();
+        assert_eq!(
+            words,
+            [
+                "written",
+                "already-trusted",
+                "parent-trusted",
+                "unverified-cli",
+                "home-folder",
+                "config-absent",
+                "config-unreadable",
+                "config-link",
+                "config-not-regular",
+                "config-foreign",
+                "config-oversize",
+                "config-malformed",
+                "config-dir-unusable",
+                "home-unknown",
+                "lock-held",
+                "lost",
+            ]
+        );
+        for word in StartWord::ALL {
+            assert!(viola_core::is_code_word(word.as_str()), "{word:?}");
+        }
+        assert_eq!(StartWord::of(TrustWord::Written), StartWord::Written);
+        assert_eq!(StartWord::of(TrustWord::LockHeld), StartWord::LockHeld);
+        assert_eq!(StartWord::of(TrustWord::KeyPresent), StartWord::Lost);
     }
 
     #[test]

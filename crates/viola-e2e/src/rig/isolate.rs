@@ -191,6 +191,13 @@ pub fn removed_names(env: &[(OsString, OsString)]) -> Vec<OsString> {
         .collect()
 }
 
+/// The sentinel entry's key and its serialised bytes, held in memory only.
+#[derive(Debug, Clone)]
+pub struct Sentinel {
+    pub key: String,
+    pub bytes: Vec<u8>,
+}
+
 /// What the teardown read, each a closed word.
 #[derive(Debug, Clone)]
 pub struct Teardown {
@@ -352,6 +359,86 @@ impl Scratch {
         let line = format!("@{}\n", imported.display());
         replace_private(&self.cwd.join("CLAUDE.md"), line.as_bytes(), FILE_MODE)
             .map_err(|_| io::Error::other("imports seed failed"))
+    }
+
+    /// Another folder's entry in the private config, `<root>/sentinel/` made for it: the entry
+    /// `{"hasTrustDialogAccepted": true, "allowedTools": []}` merged in, every key kept; its key
+    /// and its serialised bytes are held in memory for [`Scratch::entry_words`].
+    pub fn seed_sentinel(&self) -> io::Result<Sentinel> {
+        let folder = self.root.join("sentinel");
+        create_private_dir(&folder)?;
+        let key = fs::canonicalize(folder)?.to_string_lossy().into_owned();
+        let path = self.config.join(".claude.json");
+        let Some(Value::Object(mut seed)) = read_json(&path) else {
+            return Err(io::Error::other("seed unread"));
+        };
+        let entry = json!({"hasTrustDialogAccepted": true, "allowedTools": []});
+        let bytes = serde_json::to_vec(&entry).map_err(io::Error::other)?;
+        let projects = seed
+            .entry("projects")
+            .or_insert_with(|| Value::Object(serde_json::Map::new()));
+        let Value::Object(projects) = projects else {
+            return Err(io::Error::other("seed projects"));
+        };
+        projects.insert(key.clone(), entry);
+        write_private(&path, &Value::Object(seed))?;
+        Ok(Sentinel { key, bytes })
+    }
+
+    /// A fresh `<root>/run-cwd/`, canonical: outside the cwd, in no repository, trusted by no record.
+    pub fn fresh_cwd(&self) -> io::Result<PathBuf> {
+        let cwd = self.root.join("run-cwd");
+        create_private_dir(&cwd)?;
+        fs::canonicalize(cwd)
+    }
+
+    /// The private config read again: `cwd`'s `hasTrustDialogAccepted` (`true` · `false` · `absent` ·
+    /// `other`) and whether the sentinel's entry serialises to its seeded bytes (`equal` ·
+    /// `differs`); both `unread` for a config not read.
+    pub fn entry_words(&self, cwd: &Path, sentinel: &Sentinel) -> (&'static str, &'static str) {
+        let Some(doc) = read_json(&self.config.join(".claude.json")) else {
+            return ("unread", "unread");
+        };
+        let flag =
+            match doc["projects"][cwd.to_string_lossy().as_ref()].get("hasTrustDialogAccepted") {
+                Some(Value::Bool(true)) => "true",
+                Some(Value::Bool(false)) => "false",
+                None => "absent",
+                Some(_) => "other",
+            };
+        let same = serde_json::to_vec(&doc["projects"][sentinel.key.as_str()])
+            .is_ok_and(|bytes| bytes == sentinel.bytes);
+        (flag, if same { "equal" } else { "differs" })
+    }
+
+    /// The last `trust-record` word of `<vhome>/diagnostics/run-<name>.ndjson`, a code word; `absent`
+    /// with no such line, `unread` for a log not read.
+    pub fn run_trust_word(&self, name: &str) -> String {
+        let Some(vhome) = &self.vhome else {
+            return "unread".to_owned();
+        };
+        let log = vhome.join("diagnostics").join(format!("run-{name}.ndjson"));
+        let mut bytes = Vec::new();
+        let read = File::open(log).and_then(|f| f.take(MAX_FRAME).read_to_end(&mut bytes));
+        if read.is_err() {
+            return "unread".to_owned();
+        }
+        String::from_utf8_lossy(&bytes)
+            .lines()
+            .rev()
+            .filter_map(|l| serde_json::from_str::<Value>(l).ok())
+            .filter(|l| l["event"] == "trust-record")
+            .find_map(|l| l["detail"].as_str().map(str::to_owned))
+            .map_or_else(
+                || "absent".to_owned(),
+                |w| {
+                    if viola_core::is_code_word(&w) {
+                        w
+                    } else {
+                        "unread".to_owned()
+                    }
+                },
+            )
     }
 
     /// Census → the credentials copy removed → the scratch root removed → read absent.

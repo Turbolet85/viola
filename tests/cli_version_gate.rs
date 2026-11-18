@@ -210,6 +210,10 @@ fn run_piped(
             .arg(home)
             .args(["run", "builder", "--", program])
             .args(args)
+            .env(
+                support::home::USER_HOME_VAR,
+                support::home::unmade_user_home(home),
+            )
             .env_remove("VIOLA_NAME")
             .env_remove("VIOLA_DIR"),
     );

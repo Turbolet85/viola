@@ -140,7 +140,11 @@ fn snapshot_pids(instance: &Path, running: &mut dyn FnMut() -> bool) -> (u32, u3
 fn run_args(cmd: &mut Command, home: &Path) {
     cmd.arg("--home")
         .arg(home)
-        .args(["run", "builder", "--", FAKE]);
+        .args(["run", "builder", "--", FAKE])
+        .env(
+            support::home::USER_HOME_VAR,
+            support::home::unmade_user_home(home),
+        );
     for name in UNWRAPPED {
         cmd.env_remove(name);
     }

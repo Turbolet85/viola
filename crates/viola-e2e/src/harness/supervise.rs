@@ -12,7 +12,7 @@ use std::time::{Duration, Instant};
 use serde_json::json;
 use viola_pty::{PortablePty, Pty as _, Size, SpawnSpec};
 
-use super::boot::{SuperviseSpec, load_supervise_spec, session_path};
+use super::boot::{SuperviseSpec, load_supervise_spec, session_path, session_user_home};
 use super::{Outcome, POLL, Workspace, exe, expired, valid_session_id, write_json};
 
 const STOP_DEADLINE: Duration = Duration::from_secs(10);
@@ -69,7 +69,10 @@ fn spawn_wrapper(
             .into(),
     );
     args.extend(fake_args.iter().map(OsString::from));
-    let env = vec![("PATH".into(), session_path(&spec.session_bin))];
+    let mut env = vec![("PATH".into(), session_path(&spec.session_bin))];
+    if let Some(user) = session_user_home(&spec.home) {
+        env.push(("HOME".into(), user.into()));
+    }
     let (pty, input) = spawn_in_pty(&exe(&spec.bin_dir, "viola"), args, env)?;
     Ok(Wrapper {
         name: name.to_owned(),

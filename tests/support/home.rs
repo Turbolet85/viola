@@ -609,7 +609,16 @@ pub struct Wrapper {
 }
 
 /// The variable `std::env::home_dir` reads.
-const USER_HOME_VAR: &str = "HOME";
+pub const USER_HOME_VAR: &str = "HOME";
+
+/// The user home a test's `viola run` or `viola revive` is given when its case names none: a path
+/// beside `home` that is never made, so the start's trust step reads `config-absent` and the test
+/// runner's own `~/.claude.json` is never locked, read or written.
+pub fn unmade_user_home(home: &Path) -> PathBuf {
+    home.parent()
+        .expect("a test home has a parent")
+        .join("no-user-home")
+}
 
 /// The variable that places a child's per-user socket directory (its `socket_dir` rule).
 pub const SOCKET_ROOT_VAR: &str = "XDG_RUNTIME_DIR";
@@ -659,6 +668,8 @@ struct Host<'a> {
     socket_root: Option<&'a Path>,
     /// The wrapper starts under `umask 000`, through `/bin/sh`.
     open_umask: bool,
+    /// Further variables set on the wrapper alone.
+    env: &'a [(&'a str, &'a str)],
 }
 
 /// The wrapper's exit code once it stopped.
@@ -697,6 +708,26 @@ impl Wrapper {
     ) -> Self {
         let host = Host::default();
         Self::boot_with(stamped, name, script, extra, Size::DEFAULT, false, host)
+    }
+
+    /// `boot_untrusted` as the user whose home directory is `user_home` (`HOME` on the wrapper
+    /// alone), typed in `dir`, the fake agent's untrusted cwd, with `env` also set on the wrapper.
+    /// The case seeds that user's config file and tells the fake agent of it (`--trust-config`).
+    pub fn boot_untrusted_as_user(
+        stamped: StampedHome,
+        name: &str,
+        user_home: &Path,
+        dir: &Path,
+        env: &[(&str, &str)],
+        extra: &[&str],
+    ) -> Self {
+        let host = Host {
+            dir: Some(dir),
+            user_home: Some(user_home),
+            env,
+            ..Host::default()
+        };
+        Self::boot_with(stamped, name, None, extra, Size::DEFAULT, false, host)
     }
 
     /// `boot` typed in `dir`, which is the fake agent's cwd and its trusted root.
@@ -759,6 +790,29 @@ impl Wrapper {
         recorded: &Path,
         flags: &[&str],
     ) -> Self {
+        Self::revive_with(stamped, name, dir, recorded, flags, None)
+    }
+
+    /// `revive` as the user whose home directory is `user_home` (`HOME` on the wrapper alone).
+    pub fn revive_as_user(
+        stamped: StampedHome,
+        name: &str,
+        dir: &Path,
+        recorded: &Path,
+        flags: &[&str],
+        user_home: &Path,
+    ) -> Self {
+        Self::revive_with(stamped, name, dir, recorded, flags, Some(user_home))
+    }
+
+    fn revive_with(
+        stamped: StampedHome,
+        name: &str,
+        dir: &Path,
+        recorded: &Path,
+        flags: &[&str],
+        user_home: Option<&Path>,
+    ) -> Self {
         let home = stamped.home.path().to_path_buf();
         let scratch = stamped.home.scratch().to_path_buf();
         let mut args: Vec<OsString> = vec!["--home".into(), home.clone().into()];
@@ -768,10 +822,15 @@ impl Wrapper {
         args.extend(revived_agent_flags(&home, name, recorded));
         let path = path_with(&claude_dir(&scratch));
         let before = Starts::read(&home, name);
+        let unmade = unmade_user_home(&home);
+        let user = user_home
+            .unwrap_or(&unmade)
+            .to_str()
+            .expect("utf-8 user home");
         let pty = OuterPty::spawn_in(
             Path::new(VIOLA),
             &args,
-            &[("PATH", &path)],
+            &[("PATH", &path), (USER_HOME_VAR, user)],
             Size::DEFAULT,
             dir,
         );
@@ -821,9 +880,13 @@ impl Wrapper {
         }
         args.extend(extra.iter().map(OsString::from));
         let before = Starts::read(&home, name);
-        let user_home = host
-            .user_home
-            .map(|dir| dir.to_str().expect("utf-8 user home"));
+        let unmade = unmade_user_home(&home);
+        let user_home = Some(
+            host.user_home
+                .unwrap_or(&unmade)
+                .to_str()
+                .expect("utf-8 user home"),
+        );
         let socket_root = host
             .socket_root
             .map(|dir| dir.to_str().expect("utf-8 socket root"));
@@ -831,6 +894,7 @@ impl Wrapper {
             .iter()
             .map(|dir| (USER_HOME_VAR, *dir))
             .chain(socket_root.iter().map(|dir| (SOCKET_ROOT_VAR, *dir)))
+            .chain(host.env.iter().copied())
             .collect();
         let (program, args) = if host.open_umask {
             let mut shell: Vec<OsString> = vec![
@@ -1048,6 +1112,7 @@ pub fn revive_command(home: &TestHome, dir: &Path, args: &[&str]) -> std::proces
         .env_remove(UNWRAPPED[1])
         .env_remove(UNWRAPPED[2])
         .env("PATH", path_with(&claude_dir(home.scratch())))
+        .env(USER_HOME_VAR, unmade_user_home(home.path()))
         .stdin(std::process::Stdio::null())
         .stdout(std::process::Stdio::piped())
         .stderr(std::process::Stdio::piped());

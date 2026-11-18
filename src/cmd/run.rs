@@ -11,9 +11,10 @@ use serde_json::{Value, json};
 use tracing::instrument;
 use viola_agent_claude::StripPlan;
 use viola_agent_claude::ledger::transcript_path_ok;
+use viola_agent_claude::trust::StartWord;
 use viola_channel::{Call, ChannelError, Dispatch, ProtocolError, Server, Serving};
-use viola_core::obs::ObsProcess;
-use viola_core::{EventKind, SystemClock, TurnEndCause, ViolaName, WheelCause};
+use viola_core::obs::{ObsEvent, ObsProcess};
+use viola_core::{EventKind, SystemClock, TurnEndCause, ViolaName, WheelCause, obs_event};
 use viola_pty::{HostTerminal, PasteHandle, PortablePty, PumpEnd, Size, SpawnSpec};
 use viola_state::events::{EventLine, Source, append_event};
 use viola_state::fs::{FILE_MODE, create_private_dir, replace_private_shared};
@@ -34,7 +35,7 @@ use crate::run::snapshot::Snapshots;
 use crate::run::version_gate::{Gate, version_gate};
 use crate::run::wait::WaitFeed;
 use crate::run::wheel::{Observed, Recorder, WheelSlot};
-use crate::{human, obs, run};
+use crate::{human, obs, run, trust_record};
 
 #[derive(clap::Args)]
 pub(crate) struct RunArgs {
@@ -288,6 +289,7 @@ pub(super) fn start(
     let strip = viola_agent_claude::plan_strip(std::env::vars_os().map(|(k, _)| k), persistent);
     let gate = version_gate(&home, &program, &cwd, &strip);
     let cli_verified = gate.cli_verified;
+    trust_folder(cli_verified, &strip, &launch.spawn_dir);
     let (endpoint, server) = match bind_endpoint(name, &home)? {
         Bound::Serving(endpoint, server) => (endpoint, server),
         Bound::Taken => {
@@ -388,6 +390,30 @@ pub(super) fn start(
         _beat: beat,
         _serving: serving,
     })))
+}
+
+/// The child's folder trusted for the CLI before its spawn, on a verified CLI only: one
+/// `trust-record` line with the step's closed word, no path, key or value. The word never refuses
+/// the start; a folder left untrusted is the human's dialog.
+fn trust_folder(cli_verified: bool, strip: &StripPlan, spawn_dir: &Path) {
+    let word = trust_word(cli_verified, strip, spawn_dir);
+    obs_event!(INFO, ObsEvent::TrustRecord, detail = word.as_str());
+}
+
+fn trust_word(cli_verified: bool, strip: &StripPlan, spawn_dir: &Path) -> StartWord {
+    if !cli_verified {
+        return StartWord::UnverifiedCli;
+    }
+    let file = match trust_record::trust_config_file(strip) {
+        Ok(file) => file,
+        Err(word) => return StartWord::of(word),
+    };
+    let Ok(cwd) = std::fs::canonicalize(spawn_dir) else {
+        return StartWord::ConfigUnreadable;
+    };
+    let git_root = trust_record::git_root(&cwd);
+    let user_home = std::env::home_dir().and_then(|home| std::fs::canonicalize(home).ok());
+    trust_record::trust_for_start(&file, &cwd, git_root.as_deref(), user_home.as_deref())
 }
 
 pub(super) fn refused(detail: &'static str) -> Started {
@@ -674,6 +700,18 @@ mod tests {
     use tracing_subscriber::registry::LookupSpan;
     use viola_channel::test_support::JsonFields as Fields;
     use viola_pty::Pty as _;
+
+    #[test]
+    fn trust_word_on_an_unverified_cli_reads_no_file() {
+        let strip = viola_agent_claude::plan_strip(std::iter::empty(), &[]);
+        let gone = Path::new("/nonexistent/viola-trust-step");
+        assert_eq!(trust_word(false, &strip, gone), StartWord::UnverifiedCli);
+        assert_eq!(
+            trust_word(true, &strip, gone),
+            StartWord::ConfigUnreadable,
+            "the verified arm reaches the folder"
+        );
+    }
 
     /// Every span the calling thread opens, in order: `{name, parent, fields}`, with values
     /// recorded after creation merged in.

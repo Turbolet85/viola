@@ -51,10 +51,15 @@ fn booted_with_the_value(stamped: &StampedHome) -> OuterPty {
     args.push(cwd.clone().into());
     args.push("--fixtures".into());
     args.push(workspace_path("fixtures/claude").into());
+    let unmade = support::home::unmade_user_home(home);
+    let unmade = unmade.to_str().expect("utf-8 user home");
     let pty = OuterPty::spawn_without(
         Path::new(VIOLA),
         &args,
-        &[(STRIPPED_NAME, STRIPPED_VALUE)],
+        &[
+            (STRIPPED_NAME, STRIPPED_VALUE),
+            (support::home::USER_HOME_VAR, unmade),
+        ],
         &UNWRAPPED,
         Size::DEFAULT,
         &cwd,

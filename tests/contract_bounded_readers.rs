@@ -335,8 +335,8 @@ const BOUNDARIES: &[Boundary] = &[
         needle: "File::open(file).and_then(|f| f.take(MAX_FRAME + 1).read_to_end(&mut bytes));\n    if read.is_err() || u64::try_from(bytes.len()).is_ok_and(|n| n > MAX_FRAME) {\n        return false;",
         cap: "MAX_FRAME + 1",
         depth: DEFAULT_DEPTH,
-        types: "projects[<its own key>].hasTrustDialogAccepted == true, else untrusted",
-        witness: "record_trusts_reads_its_own_key_in_the_named_file",
+        types: "projects[<the cwd or a folder above it, to the git root>].hasTrustDialogAccepted == true, else untrusted",
+        witness: "record_trusts_walks_from_the_cwd_to_the_git_root",
     },
     Boundary {
         boundary: "the colour facts NO_COLOR, TERM, COLORTERM",

@@ -13,7 +13,7 @@ use std::time::{Duration, Instant};
 use rstest::rstest;
 use serde_json::{Value, json};
 use support::fake::{self, FAKE, of_kind};
-use support::home::{TestHome, VIOLA, home};
+use support::home::{StampedHome, TestHome, USER_HOME_VAR, VIOLA, home, private_dir, stamped_home};
 use support::outer_pty::{EXIT_WITHIN, OuterPty};
 use viola_pty::Size;
 
@@ -276,4 +276,86 @@ fn tui_child_output_passes_through_without_viola_bytes(#[from(home)] wrapped: Te
             "wrapped and unwrapped streams differ"
         );
     }
+}
+
+/// a11y-plan §4 P4 tui case (1) over a start that writes the trust record (a verified CLI, a folder
+/// outside any repository no record trusts, a seeded user config): the outer stream carries no
+/// viola-originated byte and equals an unwrapped run's in the same folder.
+#[rstest]
+fn passthrough_of_a_trust_writing_start_adds_no_viola_bytes(stamped_home: StampedHome) {
+    use std::io::Write as _;
+    use std::os::unix::fs::OpenOptionsExt as _;
+    let scratch = stamped_home.home.scratch().to_path_buf();
+    let fixtures = scratch.join("fixtures");
+    for event in ["SessionStart", "UserPromptSubmit"] {
+        fake::write_fixture(
+            &fixtures,
+            fake::RECORDED_CLI_VERSION,
+            event,
+            "default",
+            &json!({"hook_event_name": event, "session_id": "s-5", "source": "startup",
+                    "prompt": "canary-chain-value-5c1e"}),
+        );
+    }
+    let root = tempfile::Builder::new()
+        .prefix("vt-")
+        .tempdir_in("/tmp")
+        .expect("the case root");
+    let base = std::fs::canonicalize(root.path()).expect("canonical");
+    let (user, cwd) = (base.join("user"), base.join("cwd"));
+    private_dir(&user, "the user home");
+    private_dir(&cwd, "the session folder");
+    let config = user.join(".claude.json");
+    OpenOptions::new()
+        .write(true)
+        .create_new(true)
+        .mode(0o600)
+        .open(&config)
+        .and_then(|mut f| f.write_all(br#"{"projects":{}}"#))
+        .expect("the seeded config");
+    let (fixtures, config) = (
+        fixtures.to_str().expect("utf-8").to_owned(),
+        config.to_str().expect("utf-8").to_owned(),
+    );
+    let agent = [
+        "--cli-version",
+        fake::RECORDED_CLI_VERSION,
+        "--fixtures",
+        &fixtures,
+        "--trust-config",
+        &config,
+    ];
+    let receipt = scratch.join("trust.receipt.ndjson");
+    let home = stamped_home.home.path().to_path_buf();
+    let user = user.to_str().expect("utf-8").to_owned();
+    let pty = OuterPty::spawn_in(
+        Path::new(VIOLA),
+        &run_args(&home, Some(&receipt), &agent),
+        &[(USER_HOME_VAR, &user)],
+        Size::DEFAULT,
+        &cwd,
+    );
+    let stream = prompt_and_finish(pty, &receipt, 2);
+    let words: Vec<Value> = role_lines(&home)
+        .into_iter()
+        .filter(|l| l["event"] == "trust-record")
+        .map(|l| l["detail"].clone())
+        .collect();
+    assert_eq!(words, [Value::from("written")]);
+    assert_no_viola_bytes(&stream);
+    let direct_receipt = scratch.join("trust-direct.receipt.ndjson");
+    let mut args: Vec<OsString> = vec!["--receipt".into(), direct_receipt.clone().into()];
+    args.extend(agent.iter().map(OsString::from));
+    let direct = OuterPty::spawn_in(
+        Path::new(FAKE),
+        &args,
+        &[(USER_HOME_VAR, &user)],
+        Size::DEFAULT,
+        &cwd,
+    );
+    assert_eq!(
+        stream,
+        prompt_and_finish(direct, &direct_receipt, 0),
+        "wrapped and unwrapped streams differ"
+    );
 }

@@ -1,0 +1,49 @@
+[
+{
+"tool": "matrix",
+"v": "1.13",
+"sha8": "8813f655",
+"ts": "2026-11-18T13:25:42Z",
+"argv": [
+"implement",
+"--dir",
+"viola-0.2.0",
+"--chunk",
+"2026-11-18-session-folder-trusted-by-viola",
+"--id",
+"v2-33",
+"--ref-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-18T13-24-03Z-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"implement v2-33 · status planned → implemented · ref tests/run_cli.rs::run_in_an_untrusted_folder_writes_the_record_and_types_no_key … (392 chars)",
+"landed, rendered ./.andromeda/db/log/2026-11-18T10-59-34-2026-11-18-session-folder-trusted-by-viola.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T10-59-34-2026-11-18-session-folder-trusted-by-viola.ndjson"
+],
+"before": {
+"id": "v2-33",
+"chunk": "2026-11-18-session-folder-trusted-by-viola",
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "A session viola starts — `viola run`, or a `viola revive` whose preflight passed — in a folder the CLI has never trusted… (759 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v2-33",
+"chunk": "2026-11-18-session-folder-trusted-by-viola",
+"status": "implemented",
+"method": "e2e",
+"ref": "tests/run_cli.rs::run_in_an_untrusted_folder_writes_the_record_and_types_no_key + tests/cli_revive.rs::revive_writes_the… (392 chars)",
+"acceptance": "A session viola starts — `viola run`, or a `viola revive` whose preflight passed — in a folder the CLI has never trusted… (759 chars)",
+"notes_chars": 0
+}
+}
+]

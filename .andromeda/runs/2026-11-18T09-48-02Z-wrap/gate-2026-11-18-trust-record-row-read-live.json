@@ -1566,5 +1566,58 @@
 "unparsed": 0,
 "widening_without_word": 0
 }
+},
+{
+"tool": "gate",
+"v": "1.37",
+"sha8": "534f7838",
+"ts": "2026-11-18T10:54:16Z",
+"argv": [
+"census",
+"--comm",
+"viola-live-rig",
+"--comm",
+"viola-fake-agent",
+"--comm",
+"viola-harness",
+"--comm",
+"cargo-nextest",
+"--comm",
+"cargo",
+"--args",
+"projects/viola/target/debug/viola",
+"--args",
+"andromeda-control",
+"--run-dir",
+".andromeda/runs/2026-11-18T09-48-02Z-wrap",
+"--marker",
+"2026-11-18-trust-record-row-read-live"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"census · ps · comm viola-live-rig, viola-fake-agent, viola-harness, cargo-nextest, cargo · args projects/viola/target/debug/viola, andromeda-control · own tree excluded: 8",
+"census: none running"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"census": {
+"comm": [
+"viola-live-rig",
+"viola-fake-agent",
+"viola-harness",
+"cargo-nextest",
+"cargo"
+],
+"args": [
+"projects/viola/target/debug/viola",
+"andromeda-control"
+],
+"running": []
+}
+}
 }
 ]

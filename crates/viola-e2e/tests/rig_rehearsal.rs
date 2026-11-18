@@ -989,6 +989,77 @@ fn rig_rehearsal_v_keeps_a_failed_runs_first_screen_locally() {
     assert_torn_down(&out, &case);
 }
 
+/// `TS` over the fake agent: step 1 `viola verify` in the trusted git cwd stamps every relied row
+/// `pass`; step 2 `viola run` in a fresh untrusted folder, where the fake is trusted only by a record
+/// in the private config, opens at its box because the start wrote that record: the run log reads
+/// `written`, the entry's flag `true`, the sentinel's entry its seeded bytes; no key, and the stop the
+/// Ctrl-C into the rig's own pty with the box read.
+#[test]
+fn rig_rehearsal_ts_verifies_then_runs_and_reads_the_written_record() {
+    let case = Case::new();
+    let child = case.child(
+        true,
+        &[
+            "--trust-config",
+            "{config}/.claude.json",
+            "--turn-stop",
+            "--dialogs",
+            "--framing",
+            "--transcript",
+        ],
+    );
+    let viola = viola().display().to_string();
+    let out = run(case.rig("ts", &["--viola", viola.as_str()], &child));
+    let summary = stdout(&out);
+    assert_eq!(out.status.code(), Some(0), "{summary}");
+    assert_eq!(word(&out, "verify-exit").as_deref(), Some("0"), "{summary}");
+    assert_eq!(word(&out, "trust-record").as_deref(), Some("pass"));
+    assert_eq!(word(&out, "step1-floor").as_deref(), Some("held"));
+    assert_eq!(word(&out, "step1-verified").as_deref(), Some("yes"));
+    assert_eq!(word(&out, "step2").as_deref(), Some("started"));
+    assert_eq!(
+        word(&out, "first-screen").as_deref(),
+        Some("box"),
+        "{summary}"
+    );
+    assert_eq!(word(&out, "run-trust").as_deref(), Some("written"));
+    assert_eq!(word(&out, "entry-flag").as_deref(), Some("true"));
+    assert_eq!(word(&out, "sentinel").as_deref(), Some("equal"));
+    assert_eq!(word(&out, "keys").as_deref(), Some("none"));
+    assert!(
+        word(&out, "stop").is_some_and(|s| s.starts_with("ctrl-c ")),
+        "{summary}"
+    );
+    assert_eq!(word(&out, "child").as_deref(), Some("stopped"));
+    assert!(word(&out, "viola-build").is_some_and(|b| b != "unread"));
+    assert_eq!(word(&out, "seed-markers").as_deref(), Some("written"));
+    assert_torn_down(&out, &case);
+}
+
+/// `TC` over the fake agent: a plain child in a fresh untrusted folder reads verify's `trust` word
+/// at its first frame, no record is written for it, the sentinel's entry stands as seeded, and the
+/// stop types no key.
+#[test]
+fn rig_rehearsal_tc_reads_the_trust_form_and_kills_with_no_key() {
+    let case = Case::new();
+    let child = case.child(false, &["--trust-config", "{config}/.claude.json"]);
+    let out = run(case.rig("tc", &[], &child));
+    let summary = stdout(&out);
+    assert_eq!(out.status.code(), Some(0), "{summary}");
+    assert_eq!(
+        word(&out, "first-screen").as_deref(),
+        Some("trust"),
+        "{summary}"
+    );
+    assert_eq!(word(&out, "entry-flag").as_deref(), Some("absent"));
+    assert_eq!(word(&out, "sentinel").as_deref(), Some("equal"));
+    assert_eq!(word(&out, "seed-markers").as_deref(), Some("written"));
+    assert_eq!(word(&out, "keys").as_deref(), Some("none"));
+    assert_eq!(word(&out, "stop").as_deref(), Some("killed-no-key"));
+    assert!(case.keys().is_empty(), "no key: {:?}", case.keys());
+    assert_torn_down(&out, &case);
+}
+
 #[test]
 fn rig_live_arm_refuses_under_ci() {
     let case = Case::new();

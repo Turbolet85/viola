@@ -125,6 +125,12 @@ fn start(
     if let Some(bin) = bin {
         command.env("PATH", bin);
     }
+    if matches!(args.first(), Some(&("run" | "revive"))) {
+        command.env(
+            super::home::USER_HOME_VAR,
+            super::home::unmade_user_home(home),
+        );
+    }
     let mut child = command.spawn().expect("viola");
     if let Some(text) = stdin {
         let mut pipe = child.stdin.take().expect("stdin");

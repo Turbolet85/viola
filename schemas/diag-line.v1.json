@@ -30,6 +30,7 @@
     { "if": { "properties": { "event": { "const": "panic" } } }, "then": { "properties": { "message": { "const": "panic" } } } },
     { "if": { "properties": { "event": { "const": "state-recovered" } } }, "then": { "properties": { "message": { "const": "state-recovered" } } } },
     { "if": { "properties": { "event": { "const": "parse-rejected" } } }, "then": { "properties": { "message": { "const": "parse-rejected" } } } },
+    { "if": { "properties": { "event": { "const": "trust-record" } } }, "then": { "properties": { "message": { "const": "trust-record" } } } },
 
     { "if": { "properties": { "event": { "const": "channel-request" } } }, "then": { "properties": {
       "corr": { "$ref": "#/$defs/corr" }, "method": { "type": "string" }, "conn": { "type": "string" },
@@ -85,6 +86,9 @@
       "parser": { "enum": ["claude-agents-json", "vt100-feed", "config-json", "ledger-stamps", "hook-stdin", "channel-frame", "mcp-stdin", "prompt-submitted", "paste-text", "state-entry", "hyprctl-json"] },
       "detail": { "enum": ["malformed", "unreadable", "oversize", "unknown-keys", "panicked", "control-character", "symlink-ignored", "strict-modes-failed", "unknown-value"] },
       "count": { "$ref": "#/$defs/count" } } } },
+    { "if": { "properties": { "event": { "const": "trust-record" } } }, "then": { "properties": {
+      "detail": { "enum": ["written", "already-trusted", "parent-trusted", "unverified-cli", "home-folder", "config-absent", "config-unreadable", "config-link", "config-not-regular", "config-foreign", "config-oversize", "config-malformed", "config-dir-unusable", "home-unknown", "lock-held", "lost"] } },
+      "required": ["detail"] } },
 
     { "$comment": "corr is required wherever obs-plan §3 always defines it: dialog_id, the release request id.",
       "if": { "properties": { "event": { "enum": ["dialog-raised", "dialog-answered", "release-from-driver"] } } },
@@ -105,7 +109,7 @@
   "unevaluatedProperties": false,
   "$defs": {
     "event": {
-      "enum": ["channel-request", "channel-response", "dialog-raised", "dialog-answered", "hook-invoked", "hook-decision", "send-issued", "send-confirmed", "send-refused", "release-from-driver", "process-start", "process-exit", "panic", "state-recovered", "parse-rejected"]
+      "enum": ["channel-request", "channel-response", "dialog-raised", "dialog-answered", "hook-invoked", "hook-decision", "send-issued", "send-confirmed", "send-refused", "release-from-driver", "process-start", "process-exit", "panic", "state-recovered", "parse-rejected", "trust-record"]
     },
     "corr": { "type": ["number", "string"] },
     "count": { "type": "integer", "minimum": 0 },

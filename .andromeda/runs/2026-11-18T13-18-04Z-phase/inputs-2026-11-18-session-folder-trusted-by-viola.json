@@ -1,0 +1,154 @@
+[
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "823570d9",
+"ts": "2026-11-18T13:18:18Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-18-session-folder-trusted-by-viola",
+"--message-file",
+".andromeda/runs/2026-11-18T13-18-04Z-phase/relay-1.md",
+"--origin",
+"the operator (the /andromeda-phase invocation)",
+"--kind",
+"relay",
+"--why",
+"implement stopped on this plan: S2 refused on the cap before its ledger line; revise entry 14 alone to --cap 2 --spare 0 on the same ledger, the cap unchanged, the ten test-home files into the file list",
+"--step",
+"phase:P3",
+"--run-dir",
+".andromeda/runs/2026-11-18T13-18-04Z-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy message · message: the operator (the /andromeda-phase invocation)",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator (the /andromeda-phase invocation)",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "3c008f8506627567d51635710b1a6b02a3eb6529d14a127f98f2e4c6ff2ff97a",
+"copy": "I4-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-18T13:18:18Z",
+"step": "phase:P3",
+"why": "implement stopped on this plan: S2 refused on the cap before its ledger line; revise entry 14 alone to --cap 2 --spare 0 on the same ledger, the cap unchanged, the ten test-home files into the file list"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "823570d9",
+"ts": "2026-11-18T13:18:18Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-18-session-folder-trusted-by-viola",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-session-folder-revision1.md",
+"--kind",
+"relay",
+"--why",
+"the overseer revision relay: entry 14 alone to --cap 2 --spare 0 on the shared ledger, --cap the count of base starts in the ledger file, the S2 cap unchanged, the ten test-home files into the file list, no research beyond the list sync and rig/ledger.rs admit",
+"--step",
+"phase:P3",
+"--run-dir",
+".andromeda/runs/2026-11-18T13-18-04Z-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I5 · copy no-repo · ../additional/viola-overseer/relay-session-folder-revision1.md",
+"cite: inputs#I5"
+],
+"stderr": null,
+"wrote": [
+"inputs/I5-relay-session-folder-revision1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I5",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-session-folder-revision1.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "74d9264d0524707d4cbe3d85649ed5903e6a9f0031c47fc6930ed27c4407c022",
+"copy": "I5-relay-session-folder-revision1.md.txt",
+"link": false,
+"read_at": "2026-11-18T13:18:18Z",
+"step": "phase:P3",
+"why": "the overseer revision relay: entry 14 alone to --cap 2 --spare 0 on the shared ledger, --cap the count of base starts in the ledger file, the S2 cap unchanged, the ten test-home files into the file list, no research beyond the list sync and rig/ledger.rs admit"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "823570d9",
+"ts": "2026-11-18T13:22:30Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-18-session-folder-trusted-by-viola",
+"--run-dir",
+".andromeda/runs/2026-11-18T13-18-04Z-phase",
+"--marker",
+"2026-11-18-session-folder-trusted-by-viola"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-session-folder-directive-3.md",
+"I1 cited scope.md:17 · research.md:10 · plan.md:479",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-session-folder-p3.md",
+"I2 cited plan.md:39 · plan.md:45 · plan.md:46 · plan.md:47 · plan.md:75 · plan.md:167 · plan.md:171 · plan.md:187 · plan.md:457 · plan.md:479 · plan.md:489 · plan.md:492 · plan.md:496 · plan.md:500 · plan.md:507 · plan.md:511 · plan.md:514 · plan.md:546",
+"I3 unchanged · copy no-repo · ../additional/viola-overseer/implement-session-folder-directive.md",
+"I3 UNCITED",
+"I4 n/a — a message has no live source · copy message · message: the operator (the /andromeda-phase invocation)",
+"I4 cited scope.md:108 · research.md:137 · plan.md:15",
+"I5 unchanged · copy no-repo · ../additional/viola-overseer/relay-session-folder-revision1.md",
+"I5 cited scope.md:108 · scope.md:115 · research.md:137 · plan.md:15 · plan.md:26 · plan.md:189 · plan.md:510",
+"inputs: 5 entries — unchanged 4 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 1 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 5,
+"counts": {
+"unchanged": 4,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 1,
+"unparsed": 0
+}
+}
+]

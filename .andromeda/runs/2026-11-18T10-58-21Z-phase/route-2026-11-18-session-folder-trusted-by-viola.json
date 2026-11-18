@@ -1,0 +1,37 @@
+[
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "caf9f120",
+"ts": "2026-11-18T10:59:34Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-11-18-session-folder-trusted-by-viola",
+"--id",
+"chk-dhecc45p",
+"--desc-file",
+".andromeda/runs/2026-11-18T10-58-21Z-phase/master-desc.txt",
+"--scope-file",
+".andromeda/cache/docs/2026-11-18-session-folder-trusted-by-viola/scope.md",
+"--run-dir",
+".andromeda/runs/2026-11-18T10-58-21Z-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"promoted 2026-11-18-session-folder-trusted-by-viola · chk-dhecc45p · Session folder trusted by viola · tx 2689"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T10-59-34-2026-11-18-session-folder-trusted-by-viola.ndjson",
+"./.andromeda/master-route.md",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]

@@ -25,10 +25,11 @@ pub enum ObsEvent {
     Panic,
     StateRecovered,
     ParseRejected,
+    TrustRecord,
 }
 
 impl ObsEvent {
-    pub const ALL: [Self; 15] = [
+    pub const ALL: [Self; 16] = [
         Self::ChannelRequest,
         Self::ChannelResponse,
         Self::DialogRaised,
@@ -44,6 +45,7 @@ impl ObsEvent {
         Self::Panic,
         Self::StateRecovered,
         Self::ParseRejected,
+        Self::TrustRecord,
     ];
 
     pub const fn as_str(self) -> &'static str {
@@ -63,6 +65,7 @@ impl ObsEvent {
             Self::Panic => "panic",
             Self::StateRecovered => "state-recovered",
             Self::ParseRejected => "parse-rejected",
+            Self::TrustRecord => "trust-record",
         }
     }
 }
@@ -158,7 +161,7 @@ mod tests {
     use super::*;
 
     /// test-plan §3 Log format + obs-plan D-01…D-05, written out as the oracle.
-    const LOG_FORMAT_EVENTS: [&str; 15] = [
+    const LOG_FORMAT_EVENTS: [&str; 16] = [
         "channel-request",
         "channel-response",
         "dialog-raised",
@@ -174,6 +177,7 @@ mod tests {
         "panic",
         "state-recovered",
         "parse-rejected",
+        "trust-record",
     ];
 
     #[test]

@@ -624,6 +624,10 @@ fn setting_does_not_disable_the_socket_dir_check() {
             .arg("--home")
             .arg(&home)
             .args(["run", "builder", "--", support::fake::FAKE])
+            .env(
+                support::home::USER_HOME_VAR,
+                support::home::unmade_user_home(&home),
+            )
             .env(SOCKET_ROOT_VAR, root.path())
             .env_remove("VIOLA_NAME")
             .env_remove("VIOLA_DIR")

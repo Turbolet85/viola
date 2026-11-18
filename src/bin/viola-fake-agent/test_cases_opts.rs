@@ -174,30 +174,38 @@ fn opts_parse_reads_the_trust_config_and_the_blank_hold() {
     assert_eq!(Opts::parse(&args(&["--trust-config"])).trust_config, None);
 }
 
-/// The agent's own key rule: the nearest ancestor with a `.git` entry, else the folder itself, both
-/// canonical; a record under any other key, in any other shape, or in a file it cannot read whole
-/// trusts nothing.
+/// `--trust-config`'s walk: the canonical cwd's record or a record of a folder above it trusts,
+/// up to the nearest `.git` ancestor and else to `/`; a record above that root, a flag that is not
+/// `true`, another folder's record or a file it cannot read whole trusts nothing.
 #[test]
-fn record_trusts_reads_its_own_key_in_the_named_file() {
+fn record_trusts_walks_from_the_cwd_to_the_git_root() {
     let tmp = tempfile::tempdir().expect("tempdir");
     let root = fs::canonicalize(tmp.path()).expect("canonical");
     let cwd = root.join("w").join("x");
     fs::create_dir_all(&cwd).expect("dirs");
     let file = root.join("config.json");
-    let key = record_key(&cwd).expect("a key");
-    assert_eq!(Path::new(&key), cwd.as_path());
+    let at = |dir: &Path| dir.to_str().expect("utf-8").to_owned();
     let write = |doc: Value| fs::write(&file, doc.to_string()).expect("config");
-    write(json!({"projects": {key.as_str(): {"hasTrustDialogAccepted": true}}}));
-    assert!(record_trusts(&file, &cwd));
+    let trust = |key: &str| json!({"projects": {key: {"hasTrustDialogAccepted": true}}});
+    write(trust(&at(&cwd)));
+    assert!(record_trusts(&file, &cwd), "the cwd's own record");
+    write(trust(&at(&root.join("w"))));
+    assert!(record_trusts(&file, &cwd), "a parent outside a repository");
+    write(trust(&at(&root)));
+    assert!(
+        record_trusts(&file, &cwd),
+        "a further parent outside a repository"
+    );
     for (label, doc) in [
         (
             "false",
-            json!({"projects": {key.as_str(): {"hasTrustDialogAccepted": false}}}),
+            json!({"projects": {at(&cwd): {"hasTrustDialogAccepted": false}}}),
         ),
         (
-            "another key",
-            json!({"projects": {"/elsewhere": {"hasTrustDialogAccepted": true}}}),
+            "a string",
+            json!({"projects": {at(&cwd): {"hasTrustDialogAccepted": "true"}}}),
         ),
+        ("another key", trust("/elsewhere")),
         ("no projects", json!({})),
     ] {
         write(doc);
@@ -209,15 +217,15 @@ fn record_trusts_reads_its_own_key_in_the_named_file() {
     assert!(!record_trusts(&file, &cwd), "oversize");
 
     fs::create_dir(root.join("w").join(".git")).expect("a .git dir");
-    let repo = root.join("w").to_str().expect("utf-8").to_owned();
-    assert_eq!(record_key(&cwd), Some(repo.clone()));
-    write(json!({"projects": {key.as_str(): {"hasTrustDialogAccepted": true}}}));
+    write(trust(&at(&root)));
     assert!(
         !record_trusts(&file, &cwd),
-        "inside a repository only the root's record counts"
+        "a record above the git root does not count"
     );
-    write(json!({"projects": {repo.as_str(): {"hasTrustDialogAccepted": true}}}));
-    assert!(record_trusts(&file, &cwd));
+    write(trust(&at(&root.join("w"))));
+    assert!(record_trusts(&file, &cwd), "the git root's record");
+    write(trust(&at(&cwd)));
+    assert!(record_trusts(&file, &cwd), "a folder under the root");
 }
 
 #[test]

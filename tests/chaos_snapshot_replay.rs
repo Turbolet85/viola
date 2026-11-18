@@ -126,6 +126,10 @@ fn a_start_over_a_replayed_snapshot_and_a_fresh_beat_refuses_already_live(
         .arg("--home")
         .arg(&home)
         .args(["run", "builder", "--", FAKE])
+        .env(
+            support::home::USER_HOME_VAR,
+            support::home::unmade_user_home(&home),
+        )
         .stdin(Stdio::null())
         .stdout(Stdio::piped())
         .stderr(Stdio::piped());

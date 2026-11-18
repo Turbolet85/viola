@@ -10,9 +10,12 @@ use std::process::{Command, Output, Stdio};
 use std::time::Instant;
 
 use rstest::rstest;
-use serde_json::Value;
-use support::fake::FAKE;
-use support::home::{TestHome, VIOLA, home};
+use serde_json::{Value, json};
+use support::events::wait_events;
+use support::fake::{self, FAKE, of_kind};
+use support::home::{
+    StampedHome, TestHome, VIOLA, Wrapper, home, private_dir, stamped_home, workspace_path,
+};
 use support::outer_pty::{EXIT_WITHIN, OuterPty};
 use support::piped::Piped;
 use support::watch::{WITHIN, Watch};
@@ -119,6 +122,7 @@ fn run_with_fake_agent_writes_start_and_exit_lines(#[from(home)] tmp: TestHome) 
             ("process-start", "self"),
             ("process-start", "version-probe"),
             ("process-exit", "version-probe"),
+            ("trust-record", ""),
             ("process-start", "claude-child"),
             ("process-exit", "claude-child"),
             ("process-exit", "self"),
@@ -143,21 +147,21 @@ fn run_with_fake_agent_writes_start_and_exit_lines(#[from(home)] tmp: TestHome) 
     assert_eq!(lines[0]["version"], "0.1.0");
     assert_eq!(lines[0]["os"], std::env::consts::OS);
     assert!(lines[0]["pid"].as_u64().is_some());
-    assert!(lines[3]["child_pid"].as_u64().is_some());
-    assert_eq!(lines[3]["pty_backend"], "openpty");
+    assert!(lines[4]["child_pid"].as_u64().is_some());
+    assert_eq!(lines[4]["pty_backend"], "openpty");
     assert!(
-        lines[3]["env_stripped_count"]
+        lines[4]["env_stripped_count"]
             .as_u64()
             .is_some_and(|n| n >= 1)
     );
     assert!(
-        lines[3]["env_stripped_known"]
+        lines[4]["env_stripped_known"]
             .as_str()
             .is_some_and(|names| names.split(',').any(|n| n == "CLAUDE_CODE_MESSAGING_TOKEN"))
     );
-    assert_eq!(lines[4]["child_exit_status"], 0);
-    assert_eq!(lines[4]["exit_source"], "handle-wait");
-    assert_eq!(lines[5]["exit_code"], 0);
+    assert_eq!(lines[5]["child_exit_status"], 0);
+    assert_eq!(lines[5]["exit_source"], "handle-wait");
+    assert_eq!(lines[6]["exit_code"], 0);
     assert!(!text.contains("canary-token-value-7f3a"));
     assert!(!text.contains("argv-sentinel-q1"));
     assert!(!text.contains("9.9.9"));
@@ -169,8 +173,8 @@ fn run_child_exit_status_is_recorded(#[from(home)] tmp: TestHome) {
     let status = run_viola(&home, "builder", FAKE, &["--version"]);
     assert_eq!(status, Some(0));
     let (_, lines) = role_lines(&home, "builder");
-    assert_eq!(lines[4]["child_exit_status"], 0);
-    assert_eq!(lines.len(), 6);
+    assert_eq!(lines[5]["child_exit_status"], 0);
+    assert_eq!(lines.len(), 7);
 }
 
 #[rstest]
@@ -190,12 +194,14 @@ fn run_with_a_missing_program_exits_1_with_internal_error(#[from(home)] tmp: Tes
     let status = run_viola(&home, "builder", missing.to_str().expect("utf-8"), &[]);
     assert_eq!(status, Some(1));
     let (text, lines) = role_lines(&home, "builder");
-    assert_eq!(lines.len(), 4);
-    assert_eq!(lines[3]["event"], "process-exit");
-    assert_eq!(lines[3]["subject"], "self");
-    assert_eq!(lines[3]["level"], "ERROR");
-    assert_eq!(lines[3]["exit_code"], 1);
-    assert_eq!(lines[3]["detail"], "internal-error");
+    assert_eq!(lines.len(), 5);
+    assert_eq!(lines[3]["event"], "trust-record");
+    assert_eq!(lines[3]["detail"], "unverified-cli");
+    assert_eq!(lines[4]["event"], "process-exit");
+    assert_eq!(lines[4]["subject"], "self");
+    assert_eq!(lines[4]["level"], "ERROR");
+    assert_eq!(lines[4]["exit_code"], 1);
+    assert_eq!(lines[4]["detail"], "internal-error");
     assert!(!text.contains("no-such-program"));
 }
 
@@ -205,7 +211,7 @@ fn run_appends_to_an_existing_role_file(#[from(home)] tmp: TestHome) {
     run_viola(&home, "builder", FAKE, &[]);
     run_viola(&home, "builder", FAKE, &[]);
     let (_, lines) = role_lines(&home, "builder");
-    assert_eq!(lines.len(), 12);
+    assert_eq!(lines.len(), 14);
 }
 
 fn write_config(home: &Path, text: &str) {
@@ -277,9 +283,9 @@ fn run_self_exit_carries_duration_ms(#[from(home)] tmp: TestHome, #[from(home)] 
     ctrl_c_when_raw(&mut piped, &dir);
     assert_eq!(piped.finish().status.code(), Some(0));
     let (_, lines) = role_lines(&home, "builder");
-    assert_eq!(lines[5]["subject"], "self");
-    assert!(lines[5]["duration_ms"].as_u64().is_some_and(|ms| ms >= 60));
-    assert!(lines[4].get("duration_ms").is_none());
+    assert_eq!(lines[6]["subject"], "self");
+    assert!(lines[6]["duration_ms"].as_u64().is_some_and(|ms| ms >= 60));
+    assert!(lines[5].get("duration_ms").is_none());
 
     let absent = missing.scratch().join("no-such-program");
     run_viola(
@@ -289,7 +295,7 @@ fn run_self_exit_carries_duration_ms(#[from(home)] tmp: TestHome, #[from(home)] 
         &[],
     );
     let (_, lines) = role_lines(missing.path(), "builder");
-    assert!(lines[3]["duration_ms"].as_u64().is_some());
+    assert!(lines[4]["duration_ms"].as_u64().is_some());
 }
 
 #[rstest]
@@ -303,7 +309,7 @@ fn run_config_debug_level_keeps_the_key_set(
     assert!(run_captured(debug.path(), FAKE, &[]).status.success());
     let (_, info_lines) = role_lines(info.path(), "builder");
     let (_, debug_lines) = role_lines(debug.path(), "builder");
-    assert_eq!(info_lines.len(), 6);
+    assert_eq!(info_lines.len(), 7);
     assert_eq!(key_sets(&debug_lines), key_sets(&info_lines));
 }
 
@@ -312,7 +318,7 @@ fn run_config_malformed_emits_parse_rejected(#[from(home)] tmp: TestHome) {
     write_config(tmp.path(), r#"{"v":1,"diagnostics_level":"loud","x":1}"#);
     assert!(run_captured(tmp.path(), FAKE, &[]).status.success());
     let (_, lines) = role_lines(tmp.path(), "builder");
-    assert_eq!(lines.len(), 7);
+    assert_eq!(lines.len(), 8);
     assert_eq!(lines[0]["event"], "process-start");
     assert_eq!(lines[1]["event"], "parse-rejected");
     assert_eq!(lines[1]["level"], "WARN");
@@ -684,4 +690,368 @@ fn run_child_ends_when_its_wrapper_is_terminated(
         std::thread::yield_now();
     }
     drop(wrapper);
+}
+
+/// Another folder's entry every trust case seeds, serialised the same before and after.
+const SENTINEL_KEY: &str = "/viola-trust-sentinel";
+
+fn sentinel() -> Value {
+    json!({"hasTrustDialogAccepted": true, "allowedTools": []})
+}
+
+/// A trust case's folders, outside any repository so the CLI's key is the folder itself: `user/`
+/// (the test-owned user home, its config file seeded by the case) and `cwd/` (the untrusted folder
+/// the session starts in).
+struct TrustFolders {
+    _root: tempfile::TempDir,
+    base: PathBuf,
+    user: PathBuf,
+    cwd: PathBuf,
+}
+
+impl TrustFolders {
+    fn new() -> Self {
+        let root = tempfile::Builder::new()
+            .prefix("vt-")
+            .tempdir_in("/tmp")
+            .expect("the case root");
+        let base = std::fs::canonicalize(root.path()).expect("canonical");
+        let user = base.join("user");
+        private_dir(&user, "the user home");
+        let cwd = base.join("cwd");
+        private_dir(&cwd, "the session folder");
+        Self {
+            _root: root,
+            base,
+            user,
+            cwd,
+        }
+    }
+
+    fn config(&self) -> PathBuf {
+        self.user.join(".claude.json")
+    }
+}
+
+/// `doc` written to `file` owner-only, its bytes returned.
+fn seed_config(file: &Path, doc: &Value) -> Vec<u8> {
+    use std::os::unix::fs::OpenOptionsExt as _;
+    let bytes = doc.to_string().into_bytes();
+    std::fs::OpenOptions::new()
+        .write(true)
+        .create(true)
+        .truncate(true)
+        .mode(0o600)
+        .open(file)
+        .and_then(|mut f| f.write_all(&bytes))
+        .expect("the seeded config");
+    bytes
+}
+
+fn with_sentinel(projects: Value) -> Value {
+    let mut doc = json!({"numStartups": 1, "projects": {SENTINEL_KEY: sentinel()}});
+    if let Value::Object(more) = projects {
+        doc["projects"]
+            .as_object_mut()
+            .expect("projects")
+            .extend(more);
+    }
+    doc
+}
+
+/// `viola run builder` typed in `cwd` as the folders' user, the fake agent untrusted there but for
+/// the record it reads in `trust_config`.
+fn trust_boot(
+    stamped: StampedHome,
+    folders: &TrustFolders,
+    cwd: &Path,
+    trust_config: &Path,
+    env: &[(&str, &str)],
+) -> Wrapper {
+    let fixtures = workspace_path("fixtures/claude");
+    let extra = [
+        "--fixtures",
+        fixtures.to_str().expect("utf-8"),
+        "--trust-config",
+        trust_config.to_str().expect("utf-8"),
+    ];
+    Wrapper::boot_untrusted_as_user(stamped, "builder", &folders.user, cwd, env, &extra)
+}
+
+/// Every `trust-record` line's `detail` on the run log.
+fn trust_words(home: &Path) -> Vec<String> {
+    let (_, lines) = role_lines(home, "builder");
+    lines
+        .iter()
+        .filter(|l| l["event"] == "trust-record")
+        .map(|l| l["detail"].as_str().unwrap_or("not-a-string").to_owned())
+        .collect()
+}
+
+fn read_doc(file: &Path) -> Value {
+    serde_json::from_slice(&std::fs::read(file).expect("the config")).expect("json")
+}
+
+/// Every name in `dir`, sorted: a lock or a temp sibling left shows here.
+fn names_in(dir: &Path) -> Vec<String> {
+    let mut names: Vec<String> = std::fs::read_dir(dir)
+        .expect("dir")
+        .map(|e| e.expect("entry").file_name().to_string_lossy().into_owned())
+        .collect();
+    names.sort();
+    names
+}
+
+fn wait_session_start(wrapper: &Wrapper) -> Vec<Value> {
+    wait_events(
+        &wrapper.instance_dir(),
+        "the session-start record",
+        |lines| lines.iter().any(|e| e["kind"] == "session-start"),
+    )
+}
+
+/// The fake agent fired no hook: its dialog still stands.
+fn no_hook_fired(wrapper: &Wrapper) {
+    let receipt = fake::receipt(&wrapper.receipt());
+    assert!(of_kind(&receipt, "hook").is_empty(), "the dialog stands");
+    assert!(of_kind(&receipt, "key").is_empty(), "nothing was typed");
+}
+
+fn key_of(folder: &Path) -> String {
+    folder.to_str().expect("utf-8").to_owned()
+}
+
+#[rstest]
+fn run_in_an_untrusted_folder_writes_the_record_and_types_no_key(stamped_home: StampedHome) {
+    let folders = TrustFolders::new();
+    seed_config(&folders.config(), &with_sentinel(json!({})));
+    let wrapper = trust_boot(stamped_home, &folders, &folders.cwd, &folders.config(), &[]);
+    let lines = wait_session_start(&wrapper);
+    assert_eq!(trust_words(wrapper.home()), ["written"]);
+    let start: Vec<&Value> = lines
+        .iter()
+        .filter(|e| e["kind"] == "wheel" || e["kind"] == "session-start")
+        .collect();
+    assert_eq!(start[0]["kind"], "wheel");
+    assert_eq!(start[0]["data"]["cause"], "start");
+    assert_eq!(start[1]["kind"], "session-start");
+    assert!(
+        !lines
+            .iter()
+            .any(|e| e["kind"] == "wheel" && e["data"]["cause"] == "human-input"),
+        "no human key took the wheel"
+    );
+    let receipt = fake::wait_for(&wrapper.receipt(), "the SessionStart hook", |lines| {
+        lines
+            .iter()
+            .any(|l| l["kind"] == "hook" && l["event"] == "SessionStart")
+    });
+    let session = receipt
+        .iter()
+        .position(|l| l["kind"] == "hook" && l["event"] == "SessionStart")
+        .expect("the SessionStart hook ran");
+    assert!(
+        receipt[..session].iter().all(|l| l["kind"] != "key"),
+        "no key before the SessionStart"
+    );
+    let doc = read_doc(&folders.config());
+    assert_eq!(
+        doc["projects"][key_of(&folders.cwd).as_str()],
+        json!({"hasTrustDialogAccepted": true})
+    );
+    assert_eq!(
+        serde_json::to_vec(&doc["projects"][SENTINEL_KEY]).expect("bytes"),
+        serde_json::to_vec(&sentinel()).expect("bytes"),
+        "the other folder's entry"
+    );
+    assert_eq!(doc["numStartups"], json!(1));
+    assert_eq!(
+        names_in(&folders.user),
+        [".claude.json"],
+        "no lock, no temp sibling"
+    );
+    wrapper.stop();
+}
+
+#[rstest]
+fn run_with_the_entry_flag_false_sets_only_the_flag(stamped_home: StampedHome) {
+    let folders = TrustFolders::new();
+    let entry = json!({"hasTrustDialogAccepted": false, "allowedTools": ["x"], "k": 1});
+    seed_config(
+        &folders.config(),
+        &with_sentinel(json!({key_of(&folders.cwd): entry})),
+    );
+    let wrapper = trust_boot(stamped_home, &folders, &folders.cwd, &folders.config(), &[]);
+    wait_session_start(&wrapper);
+    assert_eq!(trust_words(wrapper.home()), ["written"]);
+    let doc = read_doc(&folders.config());
+    assert_eq!(
+        doc["projects"][key_of(&folders.cwd).as_str()],
+        json!({"hasTrustDialogAccepted": true, "allowedTools": ["x"], "k": 1})
+    );
+    assert_eq!(doc["projects"][SENTINEL_KEY], sentinel());
+    wrapper.stop();
+}
+
+#[rstest]
+fn run_with_the_flag_already_true_writes_nothing(stamped_home: StampedHome) {
+    let folders = TrustFolders::new();
+    let seeded = seed_config(
+        &folders.config(),
+        &with_sentinel(json!({key_of(&folders.cwd): {"hasTrustDialogAccepted": true}})),
+    );
+    let wrapper = trust_boot(stamped_home, &folders, &folders.cwd, &folders.config(), &[]);
+    wait_session_start(&wrapper);
+    assert_eq!(trust_words(wrapper.home()), ["already-trusted"]);
+    assert_eq!(std::fs::read(folders.config()).expect("read"), seeded);
+    wrapper.stop();
+}
+
+#[rstest]
+fn run_under_a_trusted_parent_writes_nothing(stamped_home: StampedHome) {
+    let folders = TrustFolders::new();
+    let sub = folders.cwd.join("sub");
+    private_dir(&sub, "the subfolder");
+    let seeded = seed_config(
+        &folders.config(),
+        &with_sentinel(json!({key_of(&folders.cwd): {"hasTrustDialogAccepted": true}})),
+    );
+    let wrapper = trust_boot(stamped_home, &folders, &sub, &folders.config(), &[]);
+    wait_session_start(&wrapper);
+    assert_eq!(trust_words(wrapper.home()), ["parent-trusted"]);
+    assert_eq!(std::fs::read(folders.config()).expect("read"), seeded);
+    wrapper.stop();
+}
+
+#[rstest]
+fn run_on_an_unverified_home_writes_nothing(#[from(home)] tmp: TestHome) {
+    let folders = TrustFolders::new();
+    let seeded = seed_config(&folders.config(), &with_sentinel(json!({})));
+    let wrapper = trust_boot(
+        StampedHome::unstamped(tmp),
+        &folders,
+        &folders.cwd,
+        &folders.config(),
+        &[],
+    );
+    assert_eq!(trust_words(wrapper.home()), ["unverified-cli"]);
+    assert_eq!(std::fs::read(folders.config()).expect("read"), seeded);
+    no_hook_fired(&wrapper);
+    wrapper.stop();
+}
+
+#[rstest]
+fn run_in_the_user_home_writes_nothing(stamped_home: StampedHome) {
+    let folders = TrustFolders::new();
+    let seeded = seed_config(&folders.config(), &with_sentinel(json!({})));
+    let wrapper = trust_boot(
+        stamped_home,
+        &folders,
+        &folders.user,
+        &folders.config(),
+        &[],
+    );
+    assert_eq!(trust_words(wrapper.home()), ["home-folder"]);
+    assert_eq!(std::fs::read(folders.config()).expect("read"), seeded);
+    no_hook_fired(&wrapper);
+    wrapper.stop();
+}
+
+#[rstest]
+fn run_with_the_config_dir_kept_writes_that_file(stamped_home: StampedHome) {
+    let folders = TrustFolders::new();
+    let in_home = seed_config(&folders.config(), &with_sentinel(json!({})));
+    let config_dir = folders.base.join("config");
+    private_dir(&config_dir, "the config dir");
+    let kept = config_dir.join(".claude.json");
+    seed_config(&kept, &with_sentinel(json!({})));
+    let viola_config = stamped_home.home.path().join("config.json");
+    let mut settings: Value = std::fs::read(&viola_config)
+        .ok()
+        .and_then(|b| serde_json::from_slice(&b).ok())
+        .unwrap_or_else(|| json!({}));
+    settings["v"] = json!(1);
+    settings["claude_env_keep"] = json!(["CLAUDE_CONFIG_DIR"]);
+    seed_config(&viola_config, &settings);
+    let dir = config_dir.to_str().expect("utf-8");
+    let wrapper = trust_boot(
+        stamped_home,
+        &folders,
+        &folders.cwd,
+        &kept,
+        &[("CLAUDE_CONFIG_DIR", dir)],
+    );
+    assert_eq!(trust_words(wrapper.home()), ["written"]);
+    wait_session_start(&wrapper);
+    assert_eq!(
+        read_doc(&kept)["projects"][key_of(&folders.cwd).as_str()],
+        json!({"hasTrustDialogAccepted": true})
+    );
+    assert_eq!(
+        std::fs::read(folders.config()).expect("read"),
+        in_home,
+        "the HOME file untouched"
+    );
+    wrapper.stop();
+}
+
+/// What stood at the config path, read without following a link.
+fn as_found(file: &Path) -> Option<(bool, Vec<u8>)> {
+    let meta = std::fs::symlink_metadata(file).ok()?;
+    let bytes = if meta.file_type().is_file() {
+        std::fs::read(file).expect("read")
+    } else {
+        Vec::new()
+    };
+    Some((meta.file_type().is_symlink(), bytes))
+}
+
+#[rstest]
+#[case::absent("absent", "config-absent")]
+#[case::link("link", "config-link")]
+#[case::not_regular("not-regular", "config-not-regular")]
+#[case::malformed("malformed", "config-malformed")]
+#[case::oversize("oversize", "config-oversize")]
+#[case::lock_held("lock-held", "lock-held")]
+fn run_trust_refusals_write_nothing(
+    stamped_home: StampedHome,
+    #[case] form: &str,
+    #[case] word: &str,
+) {
+    let folders = TrustFolders::new();
+    let file = folders.config();
+    let lock = folders.user.join(".claude.json.lock");
+    match form {
+        "absent" => {}
+        "link" => {
+            let target = folders.base.join("target.json");
+            seed_config(&target, &with_sentinel(json!({})));
+            std::os::unix::fs::symlink(&target, &file).expect("link");
+        }
+        "not-regular" => private_dir(&file, "a directory at the config path"),
+        "malformed" => {
+            seed_config(&file, &json!([1]));
+        }
+        "oversize" => {
+            let size = usize::try_from(viola_core::MAX_FRAME + 1).expect("fits");
+            std::fs::write(&file, vec![b' '; size]).expect("big");
+        }
+        "lock-held" => {
+            seed_config(&file, &with_sentinel(json!({})));
+            private_dir(&lock, "a lock another process holds");
+            std::fs::write(lock.join("held"), b"x").expect("its content");
+        }
+        other => panic!("no form {other}"),
+    }
+    let before = as_found(&file);
+    let wrapper = trust_boot(stamped_home, &folders, &folders.cwd, &file, &[]);
+    assert_eq!(trust_words(wrapper.home()), [word], "{form}");
+    assert_eq!(as_found(&file), before, "{form}: the path as found");
+    if form == "lock-held" {
+        assert_eq!(std::fs::read(lock.join("held")).expect("held"), b"x");
+    } else {
+        assert!(!lock.exists(), "{form}: no lock left");
+    }
+    no_hook_fired(&wrapper);
+    wrapper.stop();
 }

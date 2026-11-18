@@ -3,12 +3,14 @@
 //! granted keys, keeps its frames under the gitignored `target/live-rig/`, and owns its isolation
 //! and its processes.
 //!
-//! - `rehearse <r1|r2|hold|r3b|r3|im|v|vc> --program <fake agent> [-- <child args>]`: one start over the fake
+//! - `rehearse <r1|r2|hold|r3b|r3|im|v|vc|ts|tc> --program <fake agent> [-- <child args>]`: one start over the fake
 //!   agent (CI runs these); `{cwd}` and `{config}` in a child argument stand for the start's cwd and
 //!   private config dir.
-//! - `live <R1|R2|R3B|R3|IM|S0|S0R|S0B|S0C|…-2|R3-326|R3D> --cli <version> --cap <n> --spare <n> --ledger <file>`: one live start
+//! - `live <R1|R2|R3B|R3|IM|S0|S0R|S0B|S0C|S1|S2|…-2|R3-326|R3D> --cli <version> --cap <n> --spare <n> --ledger <file>`: one live start
 //!   of the stamped `claude`, refused under `CI`; `S0` / `S0R` / `S0B` run `viola verify` over it, `S0C`
-//!   reads its first frame at 80×24 and stops it with no key.
+//!   reads its first frame at 80×24 and stops it with no key; `S1` runs `viola verify` in a trusted
+//!   git folder, then `viola run` in a fresh untrusted one, and `S2` a plain `claude` in one, each
+//!   first frame read.
 //! - `census [--kill]`: the processes an earlier, dead rig left, and their kill.
 //! - `capture --out <file>` (hidden): a wake start's UserPromptSubmit hook, one closed-word line
 //!   per payload.
@@ -113,6 +115,7 @@ fn plan_of(label: String, arm: Arm, live: bool, common: Common) -> Option<Plan> 
         live,
         program: PathBuf::new(),
         child_args: Vec::new(),
+        run_args: Vec::new(),
         viola: None,
         cli_dir: None,
         cli_version: None,
@@ -195,9 +198,13 @@ fn main() -> ExitCode {
                 .join(".local/share/mise/installs/claude")
                 .join(&cli);
             plan.program = dir.join("claude");
-            // Run F's argv for `VC`: the program and `--model haiku` alone.
-            if arm.wrapped().is_some() || arm == Arm::VC {
+            // Run F's argv for `VC`: the program and `--model haiku` alone; `S1`'s verify takes
+            // none and its `viola run` step that pair; `S2` the pair.
+            if arm.wrapped().is_some() || matches!(arm, Arm::VC | Arm::TC) {
                 plan.child_args = vec!["--model".to_owned(), "haiku".to_owned()];
+            }
+            if arm == Arm::TS {
+                plan.run_args = vec!["--model".to_owned(), "haiku".to_owned()];
             }
             if arm.has_vhome() {
                 plan.viola = std::env::current_exe()

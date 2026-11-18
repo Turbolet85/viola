@@ -59,3 +59,6 @@
 - **Host:** python `yaml` absent; claude 2.1.325 by path, `mise ls claude` reads 2.1.327 as `latest` (not used).
   Hyprland 0.56.2. The host's own Claude sessions rewrite `~/.claude.json` about once a minute.
 - **Last failed command:** none.
+
+## Session End Status
+Completed normally at 2026-11-18 14:23:52
