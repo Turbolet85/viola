@@ -1,0 +1,76 @@
+[
+{
+"sql": "SELECT caller_name, callee_name, file, line FROM calls WHERE callee_kind = 'fn' AND callee_name IN ('browser_tools_met','child_env','arm_v','run_child','finish','measure') AND (callee_file LIKE '%ledger.rs' OR callee_file LIKE '%rig/%' OR callee_file LIKE '%cmd/verify.rs') ORDER BY callee_name, file, line",
+"rows": 11,
+"result": [
+{
+"caller_name": "run_child",
+"callee_name": "arm_v",
+"file": "crates/viola-e2e/src/rig/mod.rs",
+"line": 831
+},
+{
+"caller_name": "run_ts",
+"callee_name": "arm_v",
+"file": "crates/viola-e2e/src/rig/mod.rs",
+"line": 938
+},
+{
+"caller_name": "check",
+"callee_name": "browser_tools_met",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1094
+},
+{
+"caller_name": "row_word",
+"callee_name": "browser_tools_met",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1124
+},
+{
+"caller_name": "the_child_env_keeps_only_the_named_hosts_names_and_adds_its_own",
+"callee_name": "child_env",
+"file": "crates/viola-e2e/src/rig/isolate.rs",
+"line": 739
+},
+{
+"caller_name": "run_child",
+"callee_name": "child_env",
+"file": "crates/viola-e2e/src/rig/mod.rs",
+"line": 757
+},
+{
+"caller_name": "run_ts",
+"callee_name": "child_env",
+"file": "crates/viola-e2e/src/rig/mod.rs",
+"line": 911
+},
+{
+"caller_name": "start",
+"callee_name": "finish",
+"file": "crates/viola-e2e/src/rig/mod.rs",
+"line": 385
+},
+{
+"caller_name": "start",
+"callee_name": "finish",
+"file": "crates/viola-e2e/src/rig/mod.rs",
+"line": 479
+},
+{
+"caller_name": "verify",
+"callee_name": "measure",
+"file": "src/cmd/verify.rs",
+"line": 88
+},
+{
+"caller_name": "start",
+"callee_name": "run_child",
+"file": "crates/viola-e2e/src/rig/mod.rs",
+"line": 453
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

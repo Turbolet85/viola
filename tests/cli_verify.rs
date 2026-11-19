@@ -707,6 +707,46 @@ fn verify_trust_record_row_passes_when_the_fake_reads_the_written_record(
     assert_eq!(fs::read_dir(&tmp).expect("temp dir").count(), 0);
 }
 
+/// A run that met the browser-tools prompt makes verify say so on stdout, once, just before the
+/// summary, which stays the last line; the stamp reads the prompt as a modal and stderr is clean.
+#[rstest]
+fn verify_meeting_the_browser_tools_prompt_says_so_before_the_summary(
+    #[from(home)] home: TestHome,
+) {
+    const STOOD: &str = "the browser-tools prompt stood at start; viola never answers it: answer it once in claude, then run viola verify again";
+    write_spine_set(&fixtures(&home), "2.1.0", None);
+    support::verify::seed_user_home(home.path(), Some(&sentinel()));
+    fs::write(
+        fixtures(&home)
+            .join("2.1.0")
+            .join("Screen.browser-tools.json"),
+        fake::browser_tools_screen().to_string(),
+    )
+    .expect("the browser-tools screen");
+    let ran = verify(
+        home.path(),
+        &fixtures(&home),
+        "2.1.0",
+        &[],
+        &["--start-screen", "browser-tools"],
+        &[],
+    );
+    let stdout = ran.stdout_text();
+    let lines: Vec<&str> = stdout.lines().collect();
+    assert_eq!(ran.code, Some(1), "stdout {stdout}");
+    assert_eq!(
+        lines.last().copied(),
+        Some("stamped 2.1.0  9 pass  15 fail")
+    );
+    assert_eq!(lines[lines.len() - 2], STOOD);
+    assert_eq!(lines.iter().filter(|l| **l == STOOD).count(), 1);
+    assert_eq!(
+        stamps(home.path())["data"]["versions"]["2.1.0"]["rows"]["browser-tools-prompt"],
+        "pass"
+    );
+    assert!(!ran.stderr_text().contains(STOOD));
+}
+
 /// The probe can fail: the fake agent told ANOTHER config file never reads the record verify wrote,
 /// so Run F settles on the trust dialog and is killed with no key; the row fails, verify exits 1,
 /// and the record is still removed.

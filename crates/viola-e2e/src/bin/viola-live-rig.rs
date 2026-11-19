@@ -3,10 +3,12 @@
 //! granted keys, keeps its frames under the gitignored `target/live-rig/`, and owns its isolation
 //! and its processes.
 //!
-//! - `rehearse <r1|r2|hold|r3b|r3|im|v|vc|ts|tc|vr|mt> --program <fake agent> [--viola <exe>]
-//!   [--tap <exe>] [-- <child args>]`: one start over the fake agent (CI runs these); `{cwd}` and
-//!   `{config}` in a child argument stand for the start's cwd and private config dir.
-//! - `live <R1|R2|R3B|R3|IM|S0|S0R|S0B|S0C|S1|S2|BP|BK|R4|R4M|…-2|R3-326|R3D> --cli <version> --cap <n> --spare <n> --ledger <file>`: one live start
+//! - `rehearse <r1|r2|hold|r3b|r3|im|v|vc|ts|tc|vr|mt|vh|cx> --program <fake agent> [--viola <exe>]
+//!   [--tap <exe>] [--target-home <dir> --claude-dir <dir> --user-config <file>] [-- <child args>]`:
+//!   one start over the fake agent (CI runs these); `vh` refuses `usage` without all three of its
+//!   paths; `{cwd}` and `{config}` in a child argument stand for the start's cwd and private config
+//!   dir.
+//! - `live <R1|R2|R3B|R3|IM|S0|S0R|S0B|S0C|S1|S2|BP|BK|R4|R4M|L1|L2|…-2|R3-326|R3D> --cli <version> --cap <n> --spare <n> --ledger <file>`: one live start
 //!   of the stamped `claude`, refused under `CI`; `S0` / `S0R` / `S0B` run `viola verify` over it, `S0C`
 //!   reads its first frame at 80×24 and stops it with no key; `S1` runs `viola verify` in a trusted
 //!   git folder, then `viola run` in a fresh untrusted one, and `S2` a plain `claude` in one, each
@@ -45,6 +47,12 @@ enum Verb {
         /// `mt`: the `viola-mcp-tap` its MCP server runs.
         #[arg(long)]
         tap: Option<PathBuf>,
+        /// `vh`: the viola home verify stamps; required, so a rehearsal never reaches a real one.
+        #[arg(long)]
+        target_home: Option<PathBuf>,
+        /// `vh`: the Claude dir whose `settings*.json` are read by key names; required.
+        #[arg(long)]
+        claude_dir: Option<PathBuf>,
         #[command(flatten)]
         common: Common,
         #[arg(last = true)]
@@ -146,7 +154,17 @@ fn plan_of(label: String, arm: Arm, live: bool, common: Common) -> Option<Plan> 
         rig: std::env::current_exe()
             .ok()
             .and_then(|exe| std::fs::canonicalize(exe).ok()),
+        target_home: None,
+        claude_dir: None,
+        cwd: None,
     })
+}
+
+/// The rig's current directory, canonical: `VH`'s verify cwd.
+fn current_dir() -> Option<PathBuf> {
+    std::env::current_dir()
+        .ok()
+        .and_then(|d| std::fs::canonicalize(d).ok())
 }
 
 fn usage() -> ExitCode {
@@ -178,12 +196,19 @@ fn main() -> ExitCode {
             program,
             viola,
             tap,
+            target_home,
+            claude_dir,
             common,
             child_args,
         } => {
             let Some(arm) = Arm::parse(&arm) else {
                 return usage();
             };
+            if arm == Arm::VH
+                && (target_home.is_none() || claude_dir.is_none() || common.user_config.is_none())
+            {
+                return usage();
+            }
             let Some(mut plan) = plan_of(format!("rehearse-{arm:?}"), arm, false, common) else {
                 return usage();
             };
@@ -191,6 +216,11 @@ fn main() -> ExitCode {
             plan.child_args = child_args;
             plan.viola = viola;
             plan.tap = tap;
+            if arm == Arm::VH {
+                plan.target_home = target_home;
+                plan.claude_dir = claude_dir;
+                plan.cwd = current_dir();
+            }
             plan
         }
         Verb::Live { label, cli, common } => {
@@ -222,6 +252,13 @@ fn main() -> ExitCode {
             }
             if arm == Arm::MT {
                 plan.tap = sibling("viola-mcp-tap");
+            }
+            if arm == Arm::VH {
+                // The real home's verify runs the release build of the tree, from its root.
+                plan.viola = Some(repo_root().join("target/release/viola"));
+                plan.target_home = Some(user_home().join(".viola"));
+                plan.claude_dir = Some(user_home().join(".claude"));
+                plan.cwd = current_dir();
             }
             plan.cli_dir = Some(dir);
             plan.cli_version = Some(cli);

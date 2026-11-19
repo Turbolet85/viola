@@ -44,6 +44,9 @@ use crate::{human, obs, run};
 /// The bound on the print-mode probe: one short Haiku turn.
 const PROBE_DEADLINE: Duration = Duration::from_secs(120);
 
+/// Printed just before the summary when a run's first screen was the browser-tools prompt.
+const BROWSER_TOOLS_STOOD: &str = "the browser-tools prompt stood at start; viola never answers it: answer it once in claude, then run viola verify again";
+
 #[derive(clap::Args)]
 pub(crate) struct VerifyArgs {
     /// Record the probe's hook payloads, scrubbed, under <DIR>/<cli version>/
@@ -297,6 +300,9 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<Ended> {
         Err(error) => return Err(error.into()),
     }
     let failed = results.iter().filter(|(_, pass)| !pass).count();
+    if ledger::browser_tools_stood(&probes.typed) {
+        human::result(BROWSER_TOOLS_STOOD);
+    }
     human::result(&format!(
         "stamped {version}  {} pass  {failed} fail",
         results.len() - failed

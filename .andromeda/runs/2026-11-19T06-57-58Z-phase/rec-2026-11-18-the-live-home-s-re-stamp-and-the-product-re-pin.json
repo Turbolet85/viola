@@ -1,0 +1,130 @@
+[
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "0834810a",
+"ts": "2026-11-19T07:00:46Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"scope",
+"--owner",
+"chk:2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin",
+"--file",
+".andromeda/cache/docs/2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin/scope.md",
+"--expect-rev",
+"6",
+"--run-dir",
+".andromeda/runs/2026-11-19T06-57-58Z-phase",
+"--marker",
+"2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin/scope rev 7 · 3 new · 0 revised · 0 retired · 42 kept · tx 2955"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T22-00-42-2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "0834810a",
+"ts": "2026-11-19T07:02:31Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"plan",
+"--owner",
+"chk:2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin",
+"--file",
+".andromeda/cache/docs/2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin/plan.md",
+"--expect-rev",
+"12",
+"--run-dir",
+".andromeda/runs/2026-11-19T06-57-58Z-phase",
+"--marker",
+"2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin/plan rev 13 · 8 new · 12 revised · 0 retired · 147 kept · tx 2956"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T22-00-42-2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "0834810a",
+"ts": "2026-11-19T07:02:55Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"research",
+"--owner",
+"chk:2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin",
+"--file",
+".andromeda/cache/docs/2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin/research.md",
+"--expect-rev",
+"4",
+"--run-dir",
+".andromeda/runs/2026-11-19T06-57-58Z-phase",
+"--marker",
+"2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin/research rev 5 · 3 new · 1 revised · 0 retired · 44 kept · tx 2957"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T22-00-42-2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "0834810a",
+"ts": "2026-11-19T07:06:03Z",
+"argv": [
+"query",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-19T06-57-58Z-phase",
+"--marker",
+"2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin",
+"select line from coverage_line where version = 'viola-0.2.0'"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"verified 17/37 · deferred 2 · planned 18 · implemented 0 · unclaimed 18",
+"1 row(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

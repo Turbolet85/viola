@@ -837,6 +837,17 @@ fn verified_reads_the_browser_tools_row_absent_as_counting() {
 }
 
 #[rstest]
+#[case::a_run_met_the_prompt([Some(FirstScreen::Box), Some(FirstScreen::BrowserTools), Some(FirstScreen::Box), None, None, None], true)]
+#[case::every_run_on_the_box([Some(FirstScreen::Box); 6], false)]
+#[case::no_first_screen([None; 6], false)]
+fn browser_tools_stood_reads_true_only_when_a_run_met_the_prompt(
+    #[case] screens: [Option<FirstScreen>; 6],
+    #[case] stood: bool,
+) {
+    assert_eq!(browser_tools_stood(&typed_first(screens)), stood);
+}
+
+#[rstest]
 #[case::trust_record("trust-record")]
 #[case::modal_signature("modal-signature")]
 fn verified_reads_absent_on_another_row_as_unverified(#[case] id: &str) {

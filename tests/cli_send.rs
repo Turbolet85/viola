@@ -1225,23 +1225,6 @@ fn send_on_a_verified_cli_refuses_while_the_trust_dialog_is_up(stamped_home: Sta
     wrapper.stop();
 }
 
-/// The browser-tools offer's rows, synthetic: the title, the selected cancel row, the confirm row,
-/// the footer hint, and the box's own rule and prompt rows under them.
-fn browser_tools_screen() -> Value {
-    let rule = "─".repeat(80);
-    json!({"rows": [
-        " Claude in Chrome extension detected",
-        "",
-        "❯ No, keep browser tools off",
-        "  Yes, use my browser",
-        "",
-        " Enter to confirm · Esc to keep browser tools off",
-        rule,
-        "❯ ",
-        rule,
-    ]})
-}
-
 /// On a verified CLI the gate reads the browser-tools offer as a modal: the send refuses
 /// `input-not-ready` and the fake agent standing on the offer reads no byte at all.
 #[rstest]
@@ -1253,7 +1236,7 @@ fn send_on_a_verified_cli_refuses_while_the_browser_tools_prompt_is_up(stamped_h
         fixtures
             .join(fake::RECORDED_CLI_VERSION)
             .join("Screen.browser-tools.json"),
-        browser_tools_screen().to_string(),
+        fake::browser_tools_screen().to_string(),
     )
     .expect("the browser-tools screen");
     let fixtures = fixtures.to_str().expect("utf-8 path");

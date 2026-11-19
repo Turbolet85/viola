@@ -3,6 +3,7 @@
 //! credentials copy placed only inside a token window and removed on every exit path; the user's
 //! `~/.claude.json` stamped before and after; a child environment built from nothing.
 
+use std::collections::{BTreeMap, BTreeSet};
 use std::ffi::OsString;
 use std::fs::{self, File};
 use std::io::{self, Read as _};
@@ -150,6 +151,140 @@ pub fn child_env(cli_dir: Option<&Path>, config: &Path, run: &str) -> Vec<(OsStr
     env.push(("CLAUDE_CONFIG_DIR".into(), config.into()));
     env.push((MARKER.into(), run.into()));
     env
+}
+
+/// `VH`'s child environment: [`child_env`] with no `CLAUDE_CONFIG_DIR`, so the child reads the
+/// user's own Claude config under the user's own home.
+pub fn child_env_real(cli_dir: Option<&Path>, run: &str) -> Vec<(OsString, OsString)> {
+    let mut env = child_env(cli_dir, Path::new(""), run);
+    env.retain(|(k, _)| k != "CLAUDE_CONFIG_DIR");
+    env
+}
+
+/// A directory's entry names, sorted; `None` when it cannot be listed.
+pub fn entry_names(dir: &Path) -> Option<Vec<String>> {
+    let mut names: Vec<String> = fs::read_dir(dir)
+        .ok()?
+        .filter_map(|e| e.ok().map(|e| e.file_name().to_string_lossy().into_owned()))
+        .collect();
+    names.sort();
+    Some(names)
+}
+
+/// Entry names as one word: comma-joined, `none` when empty, `unread` when not listed.
+pub fn names_word(names: Option<&[String]>) -> String {
+    match names {
+        None => "unread".to_owned(),
+        Some([]) => "none".to_owned(),
+        Some(names) => names.join(","),
+    }
+}
+
+/// A JSON document's top-level key names, read through `MAX_FRAME`; no value kept.
+pub fn key_names(path: &Path) -> Option<BTreeSet<String>> {
+    read_json(path)?
+        .as_object()
+        .map(|doc| doc.keys().cloned().collect())
+}
+
+/// A Claude config's `projects`: each entry's key and the key names inside it, held in memory
+/// only (the keys are host paths); no value kept.
+pub fn project_entries(path: &Path) -> Option<BTreeMap<String, BTreeSet<String>>> {
+    let doc = read_json(path)?;
+    let projects = doc.get("projects").and_then(Value::as_object);
+    Some(projects.map_or_else(BTreeMap::new, |projects| {
+        projects
+            .iter()
+            .map(|(key, entry)| {
+                let names = entry
+                    .as_object()
+                    .map(|e| e.keys().cloned().collect())
+                    .unwrap_or_default();
+                (key.clone(), names)
+            })
+            .collect()
+    }))
+}
+
+/// Whether `needle` stands in a file read through `MAX_FRAME`: `present` · `absent` · `unread`.
+/// The bytes are searched and nothing of them is kept.
+pub fn needle_word(path: &Path, needle: &str) -> &'static str {
+    match read_bounded(path) {
+        Some(bytes) if holds(&bytes, needle.as_bytes()) => "present",
+        Some(_) => "absent",
+        None => "unread",
+    }
+}
+
+/// Two key-name sets as one word: `same`, or `+<added>` then `-<removed>`, comma-joined.
+pub fn key_delta(before: &BTreeSet<String>, after: &BTreeSet<String>) -> String {
+    let moved: Vec<String> = after
+        .difference(before)
+        .map(|k| format!("+{k}"))
+        .chain(before.difference(after).map(|k| format!("-{k}")))
+        .collect();
+    if moved.is_empty() {
+        "same".to_owned()
+    } else {
+        moved.join(",")
+    }
+}
+
+/// The `projects` entries present after and not before.
+pub fn new_projects(
+    before: &BTreeMap<String, BTreeSet<String>>,
+    after: &BTreeMap<String, BTreeSet<String>>,
+) -> BTreeMap<String, BTreeSet<String>> {
+    after
+        .iter()
+        .filter(|(key, _)| !before.contains_key(*key))
+        .map(|(key, names)| (key.clone(), names.clone()))
+        .collect()
+}
+
+/// `disabled-mcp`: among the new entries keyed under `<cwd>/.viola-verify-` (Run B's own),
+/// `written` when one holds `disabledMcpServers`, `none` when none does, `unread` when there is
+/// no such entry.
+pub fn disabled_mcp_word(new: &BTreeMap<String, BTreeSet<String>>, cwd: &Path) -> &'static str {
+    let prefix = format!("{}/.viola-verify-", cwd.to_string_lossy());
+    let mut runs = new
+        .iter()
+        .filter(|(key, _)| key.starts_with(&prefix))
+        .peekable();
+    if runs.peek().is_none() {
+        return "unread";
+    }
+    if runs.any(|(_, names)| names.contains("disabledMcpServers")) {
+        "written"
+    } else {
+        "none"
+    }
+}
+
+/// The stamps document's version entries other than `version`, held in memory.
+pub fn stamp_others(path: &Path, version: Option<&str>) -> Option<BTreeMap<String, Value>> {
+    let doc = read_json(path)?;
+    let versions = doc["data"]["versions"].as_object()?;
+    Some(
+        versions
+            .iter()
+            .filter(|(v, _)| Some(v.as_str()) != version)
+            .map(|(v, entry)| (v.clone(), entry.clone()))
+            .collect(),
+    )
+}
+
+/// `stamp-others`: `kept` when every other version's entry is value-equal before and after,
+/// `changed` otherwise, `unread` when either side was not read.
+pub fn others_word(
+    before: Option<&BTreeMap<String, Value>>,
+    after: Option<&BTreeMap<String, Value>>,
+) -> &'static str {
+    match (before, after) {
+        (Some(b), Some(a)) if a == b => "kept",
+        (Some(_), Some(_)) => "changed",
+        _ => "unread",
+    }
 }
 
 /// The OS temp dir a child of [`child_env`] makes its temp dirs under: its environment names no
@@ -758,6 +893,121 @@ mod tests {
             "the CLI dir first"
         );
         assert!(!names.iter().any(|n| n.starts_with("VIOLA_")));
+    }
+
+    #[test]
+    fn the_real_home_child_env_holds_no_config_dir_and_leads_with_the_cli() {
+        let env = child_env_real(Some(Path::new("/cli")), "3-4");
+        let get = |n: &str| env.iter().find(|(k, _)| k == n).map(|(_, v)| v.clone());
+        assert_eq!(get("CLAUDE_CONFIG_DIR"), None);
+        assert_eq!(get(MARKER), Some("3-4".into()));
+        assert!(
+            get("PATH").is_some_and(|p| p.to_string_lossy().starts_with("/cli")),
+            "the CLI dir first"
+        );
+    }
+
+    #[test]
+    fn a_key_delta_names_added_then_removed_keys() {
+        let set = |keys: &[&str]| {
+            keys.iter()
+                .map(|k| (*k).to_owned())
+                .collect::<BTreeSet<_>>()
+        };
+        for (label, before, after, word) in [
+            ("same", set(&["a", "b"]), set(&["b", "a"]), "same"),
+            ("one each", set(&["a", "b"]), set(&["a", "c"]), "+c,-b"),
+        ] {
+            assert_eq!(key_delta(&before, &after), word, "{label}");
+        }
+    }
+
+    /// Run B's project entry, read by key names over planted configs.
+    #[test]
+    fn the_disabled_mcp_word_reads_the_new_verify_entries_by_key_name() {
+        let base = tempfile::tempdir().expect("tempdir");
+        let config = base.path().join(".claude.json");
+        let cwd = Path::new("/r/repo");
+        let before_doc = json!({"projects": {"/r/repo": {"hasTrustDialogAccepted": true}}});
+        fs::write(&config, before_doc.to_string()).expect("config");
+        let before = project_entries(&config).expect("before");
+        for (label, entry, word) in [
+            (
+                "written",
+                json!({"disabledMcpServers": ["x"], "allowedTools": []}),
+                "written",
+            ),
+            ("other keys", json!({"allowedTools": []}), "none"),
+        ] {
+            let mut doc = before_doc.clone();
+            doc["projects"]["/r/repo/.viola-verify-12-b"] = entry;
+            fs::write(&config, doc.to_string()).expect("config");
+            let new = new_projects(&before, &project_entries(&config).expect("after"));
+            assert_eq!(new.len(), 1, "{label}");
+            assert_eq!(disabled_mcp_word(&new, cwd), word, "{label}");
+        }
+        let mut doc = before_doc.clone();
+        doc["projects"]["/tmp/viola-verify-12"] = json!({"disabledMcpServers": ["x"]});
+        fs::write(&config, doc.to_string()).expect("config");
+        let new = new_projects(&before, &project_entries(&config).expect("after"));
+        assert_eq!(
+            disabled_mcp_word(&new, cwd),
+            "unread",
+            "no new entry under the cwd"
+        );
+        assert_eq!(project_entries(&base.path().join("gone")), None);
+    }
+
+    #[test]
+    fn the_needle_word_reads_present_absent_and_unread() {
+        let base = tempfile::tempdir().expect("tempdir");
+        let path = base.path().join("settings.json");
+        for (label, body, word) in [
+            ("present", r#"{"a":"viola-probe-absent"}"#, "present"),
+            ("absent", r#"{"a":"b"}"#, "absent"),
+        ] {
+            fs::write(&path, body).expect("file");
+            assert_eq!(needle_word(&path, "viola-probe-absent"), word, "{label}");
+        }
+        assert_eq!(
+            needle_word(&base.path().join("gone"), "viola-probe-absent"),
+            "unread"
+        );
+    }
+
+    /// The other versions' entries, compared in memory: no stamps file is written here.
+    #[test]
+    fn the_other_stamps_read_kept_changed_or_unread() {
+        let others = |v: &str| BTreeMap::from([("2.1.325".to_owned(), json!({"rows": {"a": v}}))]);
+        for (label, before, after, word) in [
+            ("kept", Some(others("pass")), Some(others("pass")), "kept"),
+            (
+                "changed",
+                Some(others("pass")),
+                Some(others("fail")),
+                "changed",
+            ),
+            ("absent before", None, Some(others("pass")), "unread"),
+        ] {
+            assert_eq!(
+                others_word(before.as_ref(), after.as_ref()),
+                word,
+                "{label}"
+            );
+        }
+    }
+
+    #[test]
+    fn entry_names_are_sorted_and_read_as_one_word() {
+        let base = tempfile::tempdir().expect("tempdir");
+        assert_eq!(names_word(entry_names(base.path()).as_deref()), "none");
+        fs::write(base.path().join("b"), b"").expect("b");
+        fs::write(base.path().join("a"), b"").expect("a");
+        assert_eq!(names_word(entry_names(base.path()).as_deref()), "a,b");
+        assert_eq!(
+            names_word(entry_names(&base.path().join("gone")).as_deref()),
+            "unread"
+        );
     }
 
     #[test]

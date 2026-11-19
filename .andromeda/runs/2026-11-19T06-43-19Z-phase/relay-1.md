@@ -1,0 +1,3 @@
+# Relay 1 — the operator's word opening this revision (verbatim, the `/andromeda-phase` invocation, 2026-11-19)
+
+Proceed. Revise the plan of the pending chunk 2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin: implement stopped before the live round (run 2026-11-19T06-21-00Z-implement, its outcome file: the R1 fold read no red in 30 runs). Follow ~/dev/projects/additional/viola-overseer/relay-restamp-revision-fold.md, the only file of that folder you read or snap: the fold leaves the gates and becomes a carry proposal, step 18a stays, the live round goes on unchanged. No live start in this phase. Call no scheduled-wake or timer tool.

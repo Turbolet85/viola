@@ -1,0 +1,3 @@
+# Relay 1 — the operator's word opening this revision (verbatim, the `/andromeda-phase` invocation, 2026-11-19)
+
+Proceed. Revise the plan of the pending chunk 2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin: implement stopped before the operator pass on entry 14 (run 2026-11-19T06-49-43Z-implement, its outcome file: L1 read verify 24/24 green and one red atom, disabled-mcp: unread). Follow ~/dev/projects/additional/viola-overseer/relay-restamp-revision-l1.md, the only file of that folder you read or snap: L1 is not run again, the spare is not spent, entry 14 expect is mended to read the needle words, implement re-enters at L2. No live start and no read of the real config in this phase. Call no scheduled-wake or timer tool.

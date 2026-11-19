@@ -233,6 +233,23 @@ fn word(out: &Output, key: &str) -> Option<String> {
         .find_map(|l| l.strip_prefix(&format!("{key}: ")).map(str::to_owned))
 }
 
+/// The text of the rig's kept frame named `label` under the case's `--out`, or why there is none.
+fn kept_frame(case: &Case, label: &str) -> String {
+    let suffix = format!("-{label}.txt");
+    fs::read_dir(case.out())
+        .into_iter()
+        .flatten()
+        .filter_map(Result::ok)
+        .filter_map(|run| fs::read_dir(run.path().join("screens")).ok())
+        .flatten()
+        .filter_map(Result::ok)
+        .find(|f| f.file_name().to_string_lossy().ends_with(&suffix))
+        .map_or_else(
+            || format!("(no {label} frame kept)"),
+            |f| fs::read_to_string(f.path()).unwrap_or_else(|_| "(unreadable)".to_owned()),
+        )
+}
+
 fn signal(rig: &Child, sig: libc::c_int) {
     let pid = libc::pid_t::try_from(rig.id()).expect("pid");
     // SAFETY: a signal at the rig this case spawned and has not reaped.
@@ -388,7 +405,15 @@ fn rig_rehearsal_reads_the_box_empty_after_x_and_del() {
         stdout(&out)
     );
     assert_eq!(word(&out, "box").as_deref(), Some("up"));
-    assert_eq!(word(&out, "box-text").as_deref(), Some("empty"));
+    // A red keeps nothing once the case's root drops, so its message carries the summary and the
+    // rig's own kept `after-del` frame.
+    assert_eq!(
+        word(&out, "box-text").as_deref(),
+        Some("empty"),
+        "summary:\n{}\nafter-del frame:\n{}",
+        stdout(&out),
+        kept_frame(&case, "after-del")
+    );
     assert_eq!(word(&out, "keys").as_deref(), Some("x 1, del 1"));
     assert_eq!(case.keys(), ["78", "7f"]);
     assert!(
@@ -940,6 +965,188 @@ fn rig_rehearsal_v_reads_the_trust_record_row_and_no_record_left() {
         "{summary}"
     );
     assert_torn_down(&out, &case);
+}
+
+/// `VH`'s case dirs: a user dir holding `.claude.json` seeded `{}` and a `.claude/` dir, the
+/// target home `<user>/.viola` made 0700, and a repository dir made a git root.
+struct RealHome {
+    user: PathBuf,
+    target: PathBuf,
+    repo: PathBuf,
+}
+
+impl RealHome {
+    fn plant(case: &Case) -> Self {
+        let user = case.path("user");
+        let repo = case.path("repo");
+        for dir in [&user, &user.join(".claude"), &repo, &repo.join(".git")] {
+            viola_state::fs::create_private_dir(dir).expect("a case dir");
+        }
+        fs::write(repo.join(".git").join("HEAD"), b"ref: refs/heads/main\n").expect("HEAD");
+        viola_state::fs::replace_private(
+            &user.join(".claude.json"),
+            b"{}",
+            viola_state::fs::FILE_MODE,
+        )
+        .expect("the user config");
+        let target = user.join(".viola");
+        viola_state::fs::create_private_dir(&target).expect("the target home");
+        Self { user, target, repo }
+    }
+
+    /// The rig's `vh` rehearsal: `HOME` the user dir, cwd the repository, the three paths given
+    /// (`with` false leaves `--target-home` out); the credentials past their expiry.
+    fn rig(&self, case: &Case, with: bool) -> Command {
+        let expired = now_ms() - 60 * MIN;
+        fs::write(
+            case.credentials(),
+            format!(r#"{{"claudeAiOauth":{{"accessToken":"{CANARY}","expiresAt":{expired}}}}}"#),
+        )
+        .expect("expired credentials");
+        let viola = viola().display().to_string();
+        let target = self.target.display().to_string();
+        let claude_dir = self.user.join(".claude").display().to_string();
+        let ledger = case.ledger().display().to_string();
+        let mut extra = vec![
+            "--viola",
+            viola.as_str(),
+            "--claude-dir",
+            claude_dir.as_str(),
+            "--ledger",
+            ledger.as_str(),
+        ];
+        if with {
+            extra.extend(["--target-home", target.as_str()]);
+        }
+        let config = self.user.join(".claude.json");
+        let repo = self.repo.display().to_string();
+        let child = case.child(
+            false,
+            &[
+                "--trusted-root",
+                repo.as_str(),
+                "--trust-config",
+                &config.display().to_string(),
+                "--turn-stop",
+                "--dialogs",
+                "--framing",
+                "--transcript",
+            ],
+        );
+        let cmd = case.rig("vh", &extra, &child);
+        let mut cmd = with_option(&cmd, "--user-config", &config.display().to_string());
+        cmd.env("HOME", &self.user).current_dir(&self.repo);
+        cmd
+    }
+
+    /// Every file under the user dir with its bytes, sorted by path.
+    fn tree(&self) -> Vec<(PathBuf, Vec<u8>)> {
+        fn walk(dir: &Path, out: &mut Vec<(PathBuf, Vec<u8>)>) {
+            for entry in fs::read_dir(dir).into_iter().flatten().flatten() {
+                let path = entry.path();
+                if path.is_dir() {
+                    walk(&path, out);
+                } else {
+                    out.push((path.clone(), fs::read(&path).unwrap_or_default()));
+                }
+            }
+        }
+        let mut out = Vec::new();
+        walk(&self.user, &mut out);
+        out.sort();
+        out
+    }
+}
+
+/// `vh` over the fake agent: verify stamps the given home under the case's user home, from the
+/// repository root; no credentials file read (one past its expiry refuses no start and stands
+/// byte-equal), the user config read by key names alone.
+#[test]
+fn rig_rehearsal_vh_verifies_the_given_home_and_reads_names_only() {
+    let case = Case::new();
+    let home = RealHome::plant(&case);
+    let out = run(home.rig(&case, true));
+    let creds = fs::read(case.credentials()).expect("credentials");
+    let summary = stdout(&out);
+    for (key, value) in [
+        ("arm", "vh"),
+        ("token-window", "not-read"),
+        ("keys", "none"),
+        ("rows", "24"),
+        ("cwd-verify-after", "0"),
+        ("user-config", "names-only"),
+        ("credentials", "none"),
+        ("census", "0"),
+        ("scratch", "absent"),
+        ("verify-exit", "0"),
+        ("bin-new", "1"),
+        ("projects-new", "0"),
+        ("disabled-mcp", "unread"),
+        ("needle-claude-json", "absent/absent"),
+        ("needle-settings", "absent/absent"),
+    ] {
+        assert_eq!(word(&out, key).as_deref(), Some(value), "{key}\n{summary}");
+    }
+    assert!(
+        word(&out, "ledger-after").is_some_and(|l| l.split(',').any(|n| n == "stamps.json")),
+        "{summary}"
+    );
+    assert_eq!(out.status.code(), Some(0), "{summary}");
+    assert_eq!(fs::read(case.credentials()).expect("credentials"), creds);
+    assert!(home.target.join("ledger").join("stamps.json").is_file());
+}
+
+/// `vh` with no `--target-home` is refused `usage` before anything is read or ledgered.
+#[test]
+fn rig_rehearsal_vh_refuses_a_rehearsal_without_an_explicit_home() {
+    let case = Case::new();
+    let home = RealHome::plant(&case);
+    let before = home.tree();
+    let out = run(home.rig(&case, false));
+    assert_eq!(out.status.code(), Some(2), "{}", stdout(&out));
+    assert_eq!(stdout(&out).trim(), "refused: usage");
+    assert!(
+        fs::read_to_string(case.ledger())
+            .unwrap_or_default()
+            .lines()
+            .all(|l| !l.contains("start")),
+        "no start line"
+    );
+    assert_eq!(home.tree(), before, "nothing under the user dir moved");
+}
+
+/// `cx` over the fake agent: one send of `/context`, its post-condition read, a whole teardown.
+#[test]
+fn rig_rehearsal_cx_sends_context_once_and_reads_its_post_condition() {
+    let case = Case::new();
+    let viola = viola().display().to_string();
+    let child = case.child(true, &["--transcript"]);
+    let out = run(case.rig("cx", &["--viola", viola.as_str()], &child));
+    let summary = stdout(&out);
+    assert_eq!(word(&out, "keys").as_deref(), Some("none"), "{summary}");
+    assert_eq!(
+        summary
+            .lines()
+            .filter(|l| l.starts_with("send-1-reply: "))
+            .count(),
+        1,
+        "{summary}"
+    );
+    assert_eq!(
+        word(&out, "send-1-reply").as_deref(),
+        Some("ok"),
+        "{summary}"
+    );
+    assert_eq!(
+        word(&out, "context-post").as_deref(),
+        Some("prompt-submitted"),
+        "{summary}"
+    );
+    assert_eq!(word(&out, "census").as_deref(), Some("0"), "{summary}");
+    assert_eq!(word(&out, "credentials").as_deref(), Some("removed"));
+    assert_eq!(word(&out, "scratch").as_deref(), Some("absent"));
+    assert_ne!(word(&out, "user-config").as_deref(), Some("changed-by-rig"));
+    assert!(case.scratch_empty(), "the scratch root stands");
 }
 
 /// The verify arm over a fake agent told a config file verify never writes: Run F settles on its

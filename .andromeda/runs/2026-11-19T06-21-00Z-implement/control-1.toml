@@ -1,0 +1,14 @@
+[[control]]
+id = 'bt-line'
+entry = 5
+guard = 'the statement in src/cmd/verify.rs measure that writes BROWSER_TOOLS_STOOD before the summary'
+case = 'verify_meeting_the_browser_tools_prompt_says_so_before_the_summary'
+
+[[control.edit]]
+path = 'src/cmd/verify.rs'
+old = '''    if ledger::browser_tools_stood(&probes.typed) {
+        human::result(BROWSER_TOOLS_STOOD);
+    }
+'''
+new = '''    let _ = (ledger::browser_tools_stood(&probes.typed), BROWSER_TOOLS_STOOD);
+'''

@@ -1108,6 +1108,12 @@ fn browser_tools_met(typed: &TypedRun) -> Option<bool> {
     Some(screens().any(|s| s == FirstScreen::BrowserTools))
 }
 
+/// Whether an interactive run's first screen was the browser-tools prompt: verify then says so
+/// before its summary. False on every other reading, an unreadable first screen included.
+pub fn browser_tools_stood(typed: &TypedRun) -> bool {
+    browser_tools_met(typed) == Some(true)
+}
+
 /// Run F's record was written, Run A (its untrusted twin) showed a modal literal, and Run F's first
 /// settled screen holds no modal literal and the input box up: the record alone opened the folder.
 fn trust_record_opened(typed: &TypedRun) -> bool {

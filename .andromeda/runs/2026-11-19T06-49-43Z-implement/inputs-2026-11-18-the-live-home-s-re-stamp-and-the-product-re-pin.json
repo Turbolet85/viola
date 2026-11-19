@@ -1,0 +1,106 @@
+[
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "823570d9",
+"ts": "2026-11-19T06:49:49Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin",
+"--source",
+"~/dev/projects/additional/viola-overseer/implement-restamp-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the overseer's implement directive for the resume: the live cap (L1, L2 on 2.1.328, one spare L1-2), the stops, the host read before the round",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-11-19T06-49-43Z-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I12 · copy no-repo · ../additional/viola-overseer/implement-restamp-directive.md",
+"cite: inputs#I12"
+],
+"stderr": null,
+"wrote": [
+"inputs/I12-implement-restamp-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I12",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/implement-restamp-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "1057232f9c126cedbd74945a229c37f2970591aa721fdd4c6c4226859bb7390d",
+"copy": "I12-implement-restamp-directive.md.txt",
+"link": false,
+"read_at": "2026-11-19T06:49:48Z",
+"step": "implement",
+"why": "the overseer's implement directive for the resume: the live cap (L1, L2 on 2.1.328, one spare L1-2), the stops, the host read before the round"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "823570d9",
+"ts": "2026-11-19T06:54:02Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin",
+"--message-file",
+".andromeda/runs/2026-11-19T06-49-43Z-implement/relay-1.md",
+"--origin",
+"the operator",
+"--kind",
+"relay",
+"--why",
+"the operator's word after the CONTENDED host read: re-read the host, fire the round on QUIET, stop and quote on CONTENDED",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-11-19T06-49-43Z-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I13 · copy message · message: the operator",
+"cite: inputs#I13"
+],
+"stderr": null,
+"wrote": [
+"inputs/I13-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I13",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "19d1347978d23e2bfe976a274c70abf7dba49f2971335037d5f53f327cd1dbae",
+"copy": "I13-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-19T06:54:02Z",
+"step": "implement",
+"why": "the operator's word after the CONTENDED host read: re-read the host, fire the round on QUIET, stop and quote on CONTENDED"
+}
+}
+]

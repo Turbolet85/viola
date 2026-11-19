@@ -160,6 +160,23 @@ pub fn write_fixture(fixtures: &Path, version: &str, event: &str, variant: &str,
     .expect("fixture");
 }
 
+/// The browser-tools offer's rows, synthetic: the title, the selected cancel row, the confirm row,
+/// the footer hint, and the box's own rule and prompt rows under them.
+pub fn browser_tools_screen() -> Value {
+    let rule = "─".repeat(80);
+    json!({"rows": [
+        " Claude in Chrome extension detected",
+        "",
+        "❯ No, keep browser tools off",
+        "  Yes, use my browser",
+        "",
+        " Enter to confirm · Esc to keep browser tools off",
+        rule,
+        "❯ ",
+        rule,
+    ]})
+}
+
 pub fn unhex(hex: &str) -> Vec<u8> {
     (0..hex.len())
         .step_by(2)

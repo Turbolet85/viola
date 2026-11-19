@@ -1,0 +1,141 @@
+[
+{
+"tool": "planlint",
+"v": "1.24",
+"sha8": "9a3713a6",
+"ts": "2026-11-19T07:04:25Z",
+"argv": [
+"check",
+"--chunk",
+"2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin",
+"--run-dir",
+".andromeda/runs/2026-11-19T06-57-58Z-phase",
+"--marker",
+"2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fence: 27 entries · plan: doc:2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin/plan · research: doc:2026-11-1…",
+"check 9 · CI-outcome reads: 1 · leg operator exempt: 1 · Platform issues consulted: none · `none — no runner-only bull…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 2 · Harness rules consulted: filled · ``.claude/rules/verification-harness.md` — r…`",
+"check 4 (5) · leg entries with a content atom: 14 · note without `atom from`: 0",
+"check 4 (13) · operator CI-outcome reads: 1 · not ci.py conclusion: 0",
+"check 4 (13) · job-log reads by pattern: 0",
+"check 4 (14) · base-less git change reads outside the operator and round legs: 0",
+"check 4 (15) · grep → wc -l counts asserting exit 0 and last line 0: 0",
+"check 4 (16) · guards whose exclusions leave a new file in: 0 of 0 with an exclusion",
+"check 4 (18) · entries reading a master's or a base's path the store now holds: 0",
+"check 4 (19) · absence probes against the test names their own plan adds: 0 · probes read 0",
+"check 4 (17) · entries reading a path the wrap writes: 0 of 10 asserting — listed, P5's read",
+"check 4 (17) · a path the wrap writes, read from inside a program an entry runs (a suite, the ledger's tool): not read",
+"check 2 · ledger-note entries (matrix#): 0",
+"check 5 · placeholders outside code: 0",
+"check 12 (c) · step references the plan's steps lack: 0 of 34",
+"check 12 (d) · «unchanged» claims on a name another part of the plan names: 12 of 16 — listed, P5's read",
+"  line 11 · «unchanged» · inputs#I6 (step 21)",
+"  line 52 · «unchanged» · inputs#I2 (step 4) · inputs#I6 (step 21)",
+"  line 83 · «not touched» · L1 (step 5) · inputs#I6 (step 21)",
+"  line 237 · «byte-equal» · verify-exit (Test Commands) · bin-new (step 9) · projects-new (step 9)",
+"      disabled-mcp (step 9)",
+"  line 298 · «unchanged» · run (step 1) · expect (step 19)",
+"  line 313 · «untouched» · L1-2 (step 5)",
+"  line 331 · «untouched» · viola.<sha8> (Test Commands) · viola (step 4) · viola.2026-10-19 (Test Commands)",
+"  line 365 · «unchanged» · scratch.vhome (step 8) · child_env (step 11) · run_child (step 8) · mod.rs (step 5)",
+"      run_ts (Files to modify) · isolate.rs (step 7) · child_env_real (step 8) · finish (step 7) · start (step 7)",
+"  line 652 · «byte-equal» · vh (step 5)",
+"  line 674 · «byte-equal» · viola.2026-11-15 (step 24)",
+"  line 675 · «byte-equal» · viola.2026-11-15 (step 24) · viola.<sha8> (step 24) · viola (step 4)",
+"  line 676 · «unchanged» · viola.<sha8> (step 24) · viola (step 4) · viola.2026-10-19 (step 24)",
+"  a claim on a name no other step, Files to modify or Test Commands names is not listed — P5's read",
+"check 4 (4) · criterion evidence paths the plan names nowhere else: 0 of 1",
+"hits: 0 — resolved by its check (validation.md 2 · 5 · 9 · 4 (4), (5), (13)–(16), (18)–(19) · 12 (c)); 0 is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "none",
+"ci_reads": 1,
+"operator": 1,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 2,
+"hit": false
+},
+"atom": {
+"atomed": 14,
+"bare": []
+},
+"tool": {
+"operator": 1,
+"hand": []
+},
+"log": [],
+"base": {
+"operator": 10,
+"reads": []
+},
+"count": {
+"hits": [],
+"unsplit": []
+},
+"newfiles": {
+"operator": 10,
+"guards": 0,
+"hits": [],
+"abstain": []
+},
+"retired": [],
+"absence": {
+"probes": 0,
+"hits": []
+},
+"wrap": {
+"asserting": 10,
+"listed": []
+},
+"check2": {
+"entries": 19,
+"tokens": 0,
+"hits": []
+},
+"check5": {
+"hits": []
+},
+"steps": {
+"steps": 24,
+"refs": 34,
+"hits": []
+},
+"claims": {
+"read": 16,
+"listed": [
+11,
+52,
+83,
+237,
+298,
+313,
+331,
+365,
+652,
+674,
+675,
+676
+]
+},
+"c44": {
+"paths": 1,
+"hits": [],
+"skipped": []
+},
+"hits": 0
+}
+}
+]

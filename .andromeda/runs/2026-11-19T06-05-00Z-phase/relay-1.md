@@ -1,0 +1,3 @@
+# Relay 1 — the operator's word opening this revision (verbatim, the `/andromeda-phase` invocation, 2026-11-19)
+
+Proceed. Revise the approved plan of the pending chunk 2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin (no implement run exists; its phase run is 2026-11-18T21-59-43Z-phase): the founder moved the chunk to claude 2.1.328. Follow ~/dev/projects/additional/viola-overseer/relay-restamp-revision-328.md, the only file of that folder you read or snap: L1 verifies 2.1.328 by path, the cap unchanged, the bundle readings re-read on 2.1.328 with no start. No live start in this phase. Call no scheduled-wake or timer tool.

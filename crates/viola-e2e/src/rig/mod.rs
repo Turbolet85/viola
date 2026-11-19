@@ -15,6 +15,7 @@ pub mod procs;
 pub mod screen;
 pub mod wake;
 
+use std::collections::{BTreeMap, BTreeSet};
 use std::ffi::OsString;
 use std::fs::{self, File};
 use std::io::{Read as _, Seek as _, SeekFrom, Write};
@@ -55,6 +56,13 @@ const SUBMIT_BOUND: Duration = Duration::from_secs(20);
 const TURN_BOUND: Duration = Duration::from_secs(180);
 /// The wrapped instance `TS`'s step 2 starts.
 const S1_NAME: &str = "rig-s1";
+/// The wrapped instance `CX` starts, and the one text it sends.
+const CX_NAME: &str = "rig-cx";
+const CX_TEXT: &str = "/context";
+/// The opening of the CLI's local-command stdout tag in a session transcript.
+const STDOUT_TAG: &[u8] = b"<local-command-stdout>";
+/// The needle `VH` reads around its start: verify's echo probe's absent server name.
+const PROBE_NEEDLE: &str = "viola-probe-absent";
 /// The relied rows of verify's floor: every relied row but `trust-record` and `local-command-echo`.
 const FLOOR_ROWS: [&str; 21] = [
     "shim-resolution",
@@ -116,6 +124,11 @@ pub enum Arm {
     /// One print-mode child, no pty, whose one MCP server is `viola-mcp-tap record` in front of
     /// `viola mcp`; the tap's `fixture` verb writes the exchange into the kept record.
     MT,
+    /// `viola verify` of a given viola home under the user's own home and Claude config, from the
+    /// rig's current directory; no credentials read, the user config read by key names alone.
+    VH,
+    /// Wrapped, one send of `/context`; its `prompt-submitted` and transcript tag read; no key.
+    CX,
 }
 
 impl Arm {
@@ -135,6 +148,8 @@ impl Arm {
             "tc" => Some(Self::TC),
             "vr" => Some(Self::VR),
             "mt" => Some(Self::MT),
+            "vh" => Some(Self::VH),
+            "cx" => Some(Self::CX),
             _ => None,
         }
     }
@@ -143,7 +158,8 @@ impl Arm {
     /// / `R3D`, `IM` / `IM-2`, `S0` / `S0-2`, `S0R` with its two spares `S0R-2` / `S0R-3`, `S0B`
     /// with its spare `S0B-2`, `S0C` alone (no spare), `S1` with its spare `S1-2`, `S2` alone,
     /// `BP` with its spare `BP-2`, `BK` alone, the recording `R4` with its spare `R4-2`, and the
-    /// MCP re-record `R4M` alone.
+    /// MCP re-record `R4M` alone, the real-home verify `L1` with its spare `L1-2`, and the
+    /// `/context` reading `L2` alone.
     pub fn of_label(label: &str) -> Option<Self> {
         match label {
             "R1" | "R1-2" => Some(Self::R1),
@@ -159,6 +175,8 @@ impl Arm {
             "BK" => Some(Self::VK),
             "R4" | "R4-2" => Some(Self::VR),
             "R4M" => Some(Self::MT),
+            "L1" | "L1-2" => Some(Self::VH),
+            "L2" => Some(Self::CX),
             _ => None,
         }
     }
@@ -195,6 +213,8 @@ impl Arm {
             Self::TC => "tc",
             Self::VR => "vr",
             Self::MT => "mt",
+            Self::VH => "vh",
+            Self::CX => "cx",
         }
     }
 
@@ -205,7 +225,7 @@ impl Arm {
 
     /// Whether the private config takes the used-config markers and the browser-tools key.
     fn marker_seed(self) -> bool {
-        self.verifies() || matches!(self, Self::VC | Self::TS | Self::TC)
+        self.verifies() || matches!(self, Self::VC | Self::TS | Self::TC | Self::CX)
     }
 
     /// Whether the private config takes another folder's sentinel entry.
@@ -218,6 +238,7 @@ impl Arm {
         match self {
             Self::R2 => Some(R2_NAME),
             Self::R3B | Self::R3 => Some(wake::WAKE_NAME),
+            Self::CX => Some(CX_NAME),
             Self::R1
             | Self::Hold
             | Self::IM
@@ -228,7 +249,8 @@ impl Arm {
             | Self::TS
             | Self::TC
             | Self::VR
-            | Self::MT => None,
+            | Self::MT
+            | Self::VH => None,
         }
     }
 
@@ -246,6 +268,7 @@ impl Arm {
                 | Self::VC
                 | Self::TS
                 | Self::VR
+                | Self::CX
         )
     }
 
@@ -296,6 +319,12 @@ pub struct Plan {
     pub stand: Duration,
     /// The rig's own binary, which a wake start's capture hook runs.
     pub rig: Option<PathBuf>,
+    /// `VH`: the viola home verify stamps, given whole, never a scratch one.
+    pub target_home: Option<PathBuf>,
+    /// `VH`: the Claude dir whose `settings*.json` are read by key names.
+    pub claude_dir: Option<PathBuf>,
+    /// `VH`: verify's cwd, the rig's current directory, a git root.
+    pub cwd: Option<PathBuf>,
 }
 
 /// The summary, `key: word` pairs in the order they were read.
@@ -360,21 +389,48 @@ pub fn start(plan: &Plan) -> u8 {
     {
         return refused("record-home");
     }
-    let Ok(credentials) = isolate::read_credentials(&plan.credentials) else {
-        return refused("token-window");
+    let real_home = plan.arm == Arm::VH;
+    // `VH` reads no credentials and checks no token window: its child holds the user's own login
+    // file, refreshed by the CLI as in any of the user's sessions, never a copy.
+    let credentials = if real_home {
+        summary.put("token-window", "not-read");
+        Vec::new()
+    } else {
+        let Ok(credentials) = isolate::read_credentials(&plan.credentials) else {
+            return refused("token-window");
+        };
+        if !isolate::token_window_open(&credentials, isolate::now_ms()) {
+            return refused("token-window");
+        }
+        credentials
     };
-    if !isolate::token_window_open(&credentials, isolate::now_ms()) {
-        return refused("token-window");
+    if real_home {
+        if !plan.target_home.as_deref().is_some_and(Path::is_dir) {
+            return refused("home");
+        }
+        if !plan.cwd.as_deref().is_some_and(|c| c.join(".git").exists()) {
+            return refused("cwd");
+        }
     }
     if !procs::census(Scope::Orphans).is_empty() {
         return refused("leftover");
     }
-    let before = isolate::stamp(&plan.user_config);
+    // `VH` takes no whole-file stamp of the user config: its hash reads values, and only key
+    // names are read there.
+    let before = if real_home {
+        None
+    } else {
+        isolate::stamp(&plan.user_config)
+    };
     if let Some(ledger) = &ledger {
         match ledger.start(&plan.label) {
             Ok(ts) => summary.put("ledgered", ts),
             Err(_) => return refused("ledger"),
         }
+    }
+    let home_before = real_home.then(|| HomeNames::read(plan));
+    if let Some(names) = &home_before {
+        names.put_before(&mut summary);
     }
     let run = procs::run_id();
     procs::watchdog(plan.deadline);
@@ -397,8 +453,9 @@ pub fn start(plan: &Plan) -> u8 {
     if plan.arm.verify_seed() {
         summary.put("git-root", scratch.git_root_word());
     }
-    let placed = scratch.place_credentials(&credentials).is_ok()
-        && scratch.seed_config(plan.arm.trusted()).is_ok();
+    let placed = real_home
+        || (scratch.place_credentials(&credentials).is_ok()
+            && scratch.seed_config(plan.arm.trusted()).is_ok());
     drop(credentials);
     // The verify arm's private config takes a used config's markers and the browser-tools key
     // (`claudeInChromeDefaultEnabled` off, so no browser-tools prompt is raised), at the version
@@ -441,7 +498,9 @@ pub fn start(plan: &Plan) -> u8 {
             | Arm::TS
             | Arm::TC
             | Arm::VR
-            | Arm::MT => true,
+            | Arm::MT
+            | Arm::VH
+            | Arm::CX => true,
         };
     if !placed {
         summary.put("refused", "credentials");
@@ -476,6 +535,9 @@ pub fn start(plan: &Plan) -> u8 {
             scratch.record_left(&isolate::child_temp_root()),
         );
     }
+    if let Some(before) = &home_before {
+        HomeNames::read(plan).put_after(before, plan, &mut summary);
+    }
     let teardown = scratch.teardown();
     finish(
         plan,
@@ -501,30 +563,36 @@ fn finish(
         summary.put("credentials", t.credentials);
         summary.put("scratch", t.scratch);
     }
-    let after = isolate::stamp(&plan.user_config);
-    let read = (isolate::compare(before, &after) == "changed").then(|| {
-        let home = std::env::var_os("HOME")
-            .map(PathBuf::from)
-            .unwrap_or_default();
-        isolate::read_moved(&plan.user_config, &home)
-    });
-    let marks: Vec<&[u8]> = needles.iter().map(Vec::as_slice).collect();
-    let user_config = isolate::witness(before, &after, read.flatten().as_deref(), &marks);
+    let real_home = plan.arm == Arm::VH;
+    let user_config = if real_home {
+        "names-only"
+    } else {
+        let after = isolate::stamp(&plan.user_config);
+        let read = (isolate::compare(before, &after) == "changed").then(|| {
+            let home = std::env::var_os("HOME")
+                .map(PathBuf::from)
+                .unwrap_or_default();
+            isolate::read_moved(&plan.user_config, &home)
+        });
+        let marks: Vec<&[u8]> = needles.iter().map(Vec::as_slice).collect();
+        isolate::witness(before, &after, read.flatten().as_deref(), &marks)
+    };
     summary.put("user-config", user_config);
     summary.put("needles", needles.len().to_string());
     ledger::print_summary(&summary.0);
     if let Some(ledger) = ledger {
         let _ = ledger.summary(&plan.label, &summary.0);
     }
-    let whole = teardown
-        .is_some_and(|t| t.census == "0" && t.credentials == "removed" && t.scratch == "absent")
-        && summary.get("refused").is_none()
+    let credentials_whole = if real_home { "none" } else { "removed" };
+    let whole = teardown.is_some_and(|t| {
+        t.census == "0" && t.credentials == credentials_whole && t.scratch == "absent"
+    }) && summary.get("refused").is_none()
         && summary.get("stopped-by").is_none()
         && summary.get("step2") != Some("not-started")
         && user_config != "changed-by-rig"
         && summary.get("mcp-child").is_none_or(|c| c == "exit 0")
         && summary.get("child").is_none_or(|c| {
-            c == "stopped" || c == "exit 0" || (plan.arm.verifies() && c == "exit 1")
+            c == "stopped" || c == "exit 0" || ((plan.arm.verifies() || real_home) && c == "exit 1")
         });
     if whole { 0 } else { 1 }
 }
@@ -755,13 +823,36 @@ fn run_child(
     sentinel: Option<&isolate::Sentinel>,
     summary: &mut Summary,
 ) -> Option<String> {
-    let env = isolate::child_env(plan.cli_dir.as_deref(), &scratch.config, run);
+    let env = if plan.arm == Arm::VH {
+        isolate::child_env_real(plan.cli_dir.as_deref(), run)
+    } else {
+        isolate::child_env(plan.cli_dir.as_deref(), &scratch.config, run)
+    };
     if plan.arm == Arm::MT {
         arm_mt(plan, run, scratch, &env, summary);
         return None;
     }
     let child_args = substituted(&plan.child_args, scratch);
     let (program, args) = match (plan.arm.wrapped(), &scratch.vhome) {
+        (None, _) if plan.arm == Arm::VH => {
+            let (Some(viola), Some(home)) = (&plan.viola, &plan.target_home) else {
+                summary.put("refused", "viola");
+                return None;
+            };
+            summary.put(
+                "viola-build",
+                fs::read(viola).map_or_else(|_| "unread".to_owned(), |b| content_key(&b)),
+            );
+            let mut args: Vec<OsString> = vec![
+                "--home".into(),
+                home.into(),
+                "verify".into(),
+                "--".into(),
+                plan.program.clone().into(),
+            ];
+            args.extend(child_args);
+            (viola.clone(), args)
+        }
         (None, Some(vhome)) if plan.arm.verifies() => {
             let Some(viola) = &plan.viola else {
                 summary.put("refused", "viola");
@@ -808,10 +899,14 @@ fn run_child(
         }
         _ => (plan.program.clone(), child_args),
     };
+    let cwd = match (plan.arm, &plan.cwd) {
+        (Arm::VH, Some(cwd)) => cwd.clone(),
+        _ => scratch.cwd.clone(),
+    };
     let spec = SpawnSpec {
         program,
         args,
-        cwd: scratch.cwd.clone(),
+        cwd,
         env_remove: isolate::removed_names(&env),
         env_set: env.clone(),
         size: plan.arm.pty_size(),
@@ -829,7 +924,10 @@ fn run_child(
         Arm::R3B => wake::arm_r3b(plan, scratch, &env, &mut session, summary),
         Arm::R3 => wake::arm_r3(plan, scratch, &env, &mut session, summary),
         Arm::IM => arm_im(plan, &mut session, summary),
-        Arm::V | Arm::VP | Arm::VK | Arm::VR => arm_v(plan, scratch, &mut session, summary),
+        Arm::V | Arm::VP | Arm::VK | Arm::VR | Arm::VH => {
+            arm_v(plan, scratch, &mut session, summary);
+        }
+        Arm::CX => arm_cx(plan, scratch, &env, &mut session, summary),
         Arm::VC => arm_vc(plan, &mut session, summary),
         Arm::TC => arm_tc(plan, scratch, sentinel, &mut session, summary),
         // `TS` takes its own two starts (`run_ts`) and `MT` no pty (`arm_mt`); a start that
@@ -1196,10 +1294,12 @@ fn arm_v(plan: &Plan, scratch: &Scratch, session: &mut Session, summary: &mut Su
             .exit
             .map_or_else(|| "none".to_owned(), |c| c.to_string()),
     );
-    let stamps = scratch
-        .vhome
-        .as_ref()
-        .map(|vhome| vhome.join("ledger").join("stamps.json"));
+    let home = if plan.arm == Arm::VH {
+        plan.target_home.as_ref()
+    } else {
+        scratch.vhome.as_ref()
+    };
+    let stamps = home.map(|home| home.join("ledger").join("stamps.json"));
     let lines = stamps.as_deref().map_or_else(
         || stamp_lines(None),
         |path| stamp_reading(path, plan.cli_version.as_deref()),
@@ -1207,6 +1307,318 @@ fn arm_v(plan: &Plan, scratch: &Scratch, session: &mut Session, summary: &mut Su
     for (key, value) in lines {
         summary.put(&key, value);
     }
+}
+
+/// `VH`'s reads under the given home, the user config and the Claude dir: names, counts and the
+/// needle's word only, every value dropped; the `projects` keys (host paths) held in memory.
+struct HomeNames {
+    ledger: Option<Vec<String>>,
+    bin: Option<Vec<String>>,
+    cwd_verify: Option<usize>,
+    keys: Option<BTreeSet<String>>,
+    projects: Option<BTreeMap<String, BTreeSet<String>>>,
+    needle_config: &'static str,
+    settings: Option<BTreeMap<String, Option<BTreeSet<String>>>>,
+    needle_settings: &'static str,
+    others: Option<BTreeMap<String, Value>>,
+}
+
+impl HomeNames {
+    fn read(plan: &Plan) -> Self {
+        let home = plan.target_home.as_deref();
+        let names = |sub: &str| home.and_then(|h| isolate::entry_names(&h.join(sub)));
+        let cwd_verify = plan.cwd.as_deref().and_then(isolate::entry_names).map(|n| {
+            n.iter()
+                .filter(|name| name.starts_with(".viola-verify-"))
+                .count()
+        });
+        let settings_files: Option<Vec<PathBuf>> = plan.claude_dir.as_deref().and_then(|dir| {
+            isolate::entry_names(dir).map(|names| {
+                names
+                    .into_iter()
+                    .filter(|n| n.starts_with("settings") && n.ends_with(".json"))
+                    .map(|n| dir.join(n))
+                    .collect()
+            })
+        });
+        let settings = settings_files.as_ref().map(|files| {
+            files
+                .iter()
+                .map(|f| {
+                    let name = f
+                        .file_name()
+                        .map(|n| n.to_string_lossy().into_owned())
+                        .unwrap_or_default();
+                    (name, isolate::key_names(f))
+                })
+                .collect()
+        });
+        let needle_settings = settings_files.as_ref().map_or("unread", |files| {
+            let words: Vec<&str> = files
+                .iter()
+                .map(|f| isolate::needle_word(f, PROBE_NEEDLE))
+                .collect();
+            if words.contains(&"present") {
+                "present"
+            } else if words.contains(&"unread") {
+                "unread"
+            } else {
+                "absent"
+            }
+        });
+        Self {
+            ledger: names("ledger"),
+            bin: names("bin"),
+            cwd_verify,
+            keys: isolate::key_names(&plan.user_config),
+            projects: isolate::project_entries(&plan.user_config),
+            needle_config: isolate::needle_word(&plan.user_config, PROBE_NEEDLE),
+            settings,
+            needle_settings,
+            others: home.and_then(|h| {
+                isolate::stamp_others(
+                    &h.join("ledger").join("stamps.json"),
+                    plan.cli_version.as_deref(),
+                )
+            }),
+        }
+    }
+
+    fn cwd_word(&self) -> String {
+        self.cwd_verify
+            .map_or_else(|| "unread".to_owned(), |n| n.to_string())
+    }
+
+    fn put_before(&self, summary: &mut Summary) {
+        summary.put("ledger-before", isolate::names_word(self.ledger.as_deref()));
+        summary.put("bin-before", isolate::names_word(self.bin.as_deref()));
+        summary.put("cwd-verify-before", self.cwd_word());
+    }
+
+    fn put_after(&self, before: &Self, plan: &Plan, summary: &mut Summary) {
+        summary.put("ledger-after", isolate::names_word(self.ledger.as_deref()));
+        summary.put("bin-after", isolate::names_word(self.bin.as_deref()));
+        let bin_new = self.bin.as_ref().map_or(0, |after| {
+            let before = before.bin.as_deref().unwrap_or_default();
+            after.iter().filter(|n| !before.contains(n)).count()
+        });
+        summary.put("bin-new", bin_new.to_string());
+        summary.put("cwd-verify-after", self.cwd_word());
+        summary.put(
+            "claude-json-keys",
+            match (&before.keys, &self.keys) {
+                (Some(b), Some(a)) => isolate::key_delta(b, a),
+                _ => "unread".to_owned(),
+            },
+        );
+        match (&before.projects, &self.projects) {
+            (Some(b), Some(a)) => {
+                let new = isolate::new_projects(b, a);
+                summary.put("projects-new", new.len().to_string());
+                let names: BTreeSet<&String> = new.values().flatten().collect();
+                summary.put(
+                    "projects-new-keys",
+                    if names.is_empty() {
+                        "none".to_owned()
+                    } else {
+                        names.into_iter().cloned().collect::<Vec<_>>().join(",")
+                    },
+                );
+                let cwd = plan.cwd.clone().unwrap_or_default();
+                summary.put("disabled-mcp", isolate::disabled_mcp_word(&new, &cwd));
+            }
+            _ => {
+                summary.put("projects-new", "unread");
+                summary.put("projects-new-keys", "unread");
+                summary.put("disabled-mcp", "unread");
+            }
+        }
+        summary.put(
+            "needle-claude-json",
+            format!("{}/{}", before.needle_config, self.needle_config),
+        );
+        summary.put(
+            "needle-settings",
+            format!("{}/{}", before.needle_settings, self.needle_settings),
+        );
+        summary.put(
+            "settings-keys",
+            settings_delta(&before.settings, &self.settings),
+        );
+        summary.put(
+            "stamp-others",
+            isolate::others_word(before.others.as_ref(), self.others.as_ref()),
+        );
+    }
+}
+
+/// `settings-keys`: `same`, or per settings file its key-name delta, `<file>:new` / `<file>:gone`
+/// for a file that came or went; file names and key names only.
+fn settings_delta(
+    before: &Option<BTreeMap<String, Option<BTreeSet<String>>>>,
+    after: &Option<BTreeMap<String, Option<BTreeSet<String>>>>,
+) -> String {
+    let (Some(before), Some(after)) = (before, after) else {
+        return "unread".to_owned();
+    };
+    let files: BTreeSet<&String> = before.keys().chain(after.keys()).collect();
+    let moved: Vec<String> = files
+        .into_iter()
+        .filter_map(|file| match (before.get(file), after.get(file)) {
+            (Some(Some(b)), Some(Some(a))) => {
+                let delta = isolate::key_delta(b, a);
+                (delta != "same").then(|| format!("{file}:{delta}"))
+            }
+            (Some(_), None) => Some(format!("{file}:gone")),
+            (None, Some(_)) => Some(format!("{file}:new")),
+            (Some(None), Some(None)) => None,
+            _ => Some(format!("{file}:unread")),
+        })
+        .collect();
+    if moved.is_empty() {
+        "same".to_owned()
+    } else {
+        moved.join(";")
+    }
+}
+
+/// The count of local-command stdout tags in a transcript past `offset`, through `MAX_FRAME`;
+/// `None` when unread. No byte is kept.
+fn tags_past(path: &Path, offset: u64) -> Option<usize> {
+    let mut file = File::open(path).ok()?;
+    file.seek(SeekFrom::Start(offset)).ok()?;
+    let mut bytes = Vec::new();
+    file.take(viola_core::MAX_FRAME)
+        .read_to_end(&mut bytes)
+        .ok()?;
+    Some(
+        bytes
+            .windows(STDOUT_TAG.len())
+            .filter(|w| *w == STDOUT_TAG)
+            .count(),
+    )
+}
+
+/// The session's transcript under the private config: `projects/*/<id>.jsonl`, one level.
+fn session_transcript(config: &Path, id: &str) -> Option<PathBuf> {
+    let file = format!("{id}.jsonl");
+    fs::read_dir(config.join("projects"))
+        .ok()?
+        .filter_map(Result::ok)
+        .map(|dir| dir.path().join(&file))
+        .find(|path| fs::symlink_metadata(path).is_ok_and(|m| m.is_file()))
+}
+
+/// `context-post` from its two readings.
+fn context_post(submitted: bool, tags: Option<usize>) -> &'static str {
+    match (submitted, tags.is_some_and(|n| n > 0)) {
+        (true, true) => "both",
+        (true, false) => "prompt-submitted",
+        (false, true) => "tag",
+        (false, false) => "none",
+    }
+}
+
+/// `CX`: the box read with no trust form, `session-start` awaited, one `viola send` of
+/// `/context`, then whether it was submitted and whether its stdout tag landed in the session's
+/// transcript; no key, the stop the rig's own.
+fn arm_cx(
+    plan: &Plan,
+    scratch: &Scratch,
+    env: &[(OsString, OsString)],
+    session: &mut Session,
+    summary: &mut Summary,
+) {
+    let first = first_frame(plan, session);
+    record_reading(summary, &first);
+    summary.put("keys", "none");
+    if first.trust_shown() || !first.is_box_up() {
+        summary.put("refused", "shape");
+        return;
+    }
+    let (Some(vhome), Some(viola)) = (&scratch.vhome, &plan.viola) else {
+        return;
+    };
+    let events = vhome.join("instances").join(CX_NAME).join("events.ndjson");
+    let mut offset = 0;
+    let Some(started) = await_kind(&events, &mut offset, "session-start", plan.settle, session)
+    else {
+        summary.put("refused", "no-session-start");
+        return;
+    };
+    session.learn_id(&started);
+    let transcript = session
+        .session_id
+        .as_deref()
+        .and_then(|id| session_transcript(&scratch.config, id));
+    let kept_len = transcript
+        .as_deref()
+        .and_then(|t| fs::metadata(t).ok())
+        .map(|m| m.len());
+    summary.put(
+        "context-transcript",
+        match (&transcript, kept_len) {
+            (Some(_), Some(_)) => "read",
+            (None, _) => "absent",
+            (Some(_), None) => "unread",
+        },
+    );
+    let texts = scratch.root.join("texts");
+    let file = texts.join("1.txt");
+    if viola_state::fs::create_private_dir(&texts).is_err()
+        || viola_state::fs::replace_private(&file, CX_TEXT.as_bytes(), viola_state::fs::FILE_MODE)
+            .is_err()
+    {
+        summary.put("refused", "texts");
+        return;
+    }
+    let mut command = Command::new(viola);
+    command
+        .arg("--home")
+        .arg(vhome)
+        .args(["send", CX_NAME, "--json", "--file"])
+        .arg(&file)
+        .current_dir(&scratch.cwd)
+        .env_clear()
+        .envs(env.iter().map(|(k, v)| (k, v)))
+        .stdin(Stdio::null());
+    let reply = bounded(command, SEND_BOUND);
+    summary.put("send-1-reply", send_word(reply.as_ref()));
+    let until = Instant::now() + SUBMIT_BOUND;
+    let mut submitted = false;
+    while !submitted && Instant::now() < until && procs::stop_requested().is_none() {
+        match await_kind(
+            &events,
+            &mut offset,
+            "prompt-submitted",
+            until.saturating_duration_since(Instant::now()),
+            session,
+        ) {
+            Some(data) => submitted = data["text"] == CX_TEXT,
+            None => break,
+        }
+    }
+    let read_tags = || {
+        transcript
+            .as_deref()
+            .zip(kept_len)
+            .and_then(|(t, len)| tags_past(t, len))
+    };
+    let mut tags = read_tags();
+    while tags.is_some_and(|n| n == 0)
+        && Instant::now() < until
+        && procs::stop_requested().is_none()
+    {
+        session.pump(Duration::from_millis(100));
+        tags = read_tags();
+    }
+    session.keep("send-1");
+    summary.put("context-submitted", if submitted { "yes" } else { "no" });
+    summary.put(
+        "context-tags",
+        tags.map_or_else(|| "unread".to_owned(), |n| n.to_string()),
+    );
+    summary.put("context-post", context_post(submitted, tags));
 }
 
 /// `MT`'s one prompt, 2.1.302's own, given on stdin: `--mcp-config` is variadic, so nothing
@@ -1872,6 +2284,93 @@ mod tests {
             Arm::VR.browser_tools_seed(),
             "the browser-tools key seeded off"
         );
+    }
+
+    /// `L1` and its spare `L1-2` start the real-home verify, `L2` alone the `/context` reading.
+    #[test]
+    fn the_real_home_and_context_labels_take_their_arms_and_properties() {
+        for (label, arm) in [
+            ("L1", Some(Arm::VH)),
+            ("L1-2", Some(Arm::VH)),
+            ("L2", Some(Arm::CX)),
+            ("L1-3", None),
+            ("L2-2", None),
+        ] {
+            assert_eq!(Arm::of_label(label), arm, "{label}");
+        }
+        for (label, word, arm) in [("vh", "vh", Arm::VH), ("cx", "cx", Arm::CX)] {
+            assert_eq!(Arm::parse(word), Some(arm), "{label}");
+            assert_eq!(arm.word(), word, "{label}");
+        }
+        for (label, arm, vhome, wrapped, verifies, verify_seed, marker_seed, trusted) in [
+            ("vh", Arm::VH, false, None, false, false, false, false),
+            (
+                "cx",
+                Arm::CX,
+                true,
+                Some("rig-cx"),
+                false,
+                false,
+                true,
+                true,
+            ),
+        ] {
+            assert_eq!(arm.has_vhome(), vhome, "{label} vhome");
+            assert_eq!(arm.wrapped(), wrapped, "{label} wrapped");
+            assert_eq!(arm.verifies(), verifies, "{label} verifies");
+            assert_eq!(arm.verify_seed(), verify_seed, "{label} verify seed");
+            assert_eq!(arm.marker_seed(), marker_seed, "{label} marker seed");
+            assert_eq!(arm.trusted(), trusted, "{label} trusted");
+            assert!(!arm.sentinel_seed(), "{label} sentinel seed");
+        }
+        assert!(Arm::CX.browser_tools_seed(), "the browser-tools key off");
+    }
+
+    /// A transcript's stdout tags count only past the kept length; an absent file reads none.
+    #[test]
+    fn the_context_tag_counts_only_past_the_kept_length() {
+        let base = tempfile::tempdir().expect("tempdir");
+        let path = base.path().join("s.jsonl");
+        let before = "{\"m\":\"<local-command-stdout>old</local-command-stdout>\"}\n";
+        let after = "{\"m\":\"<local-command-stdout>new</local-command-stdout>\"}\n";
+        fs::write(&path, format!("{before}{after}")).expect("transcript");
+        for (label, offset, count) in [
+            ("from the start", 0, Some(2)),
+            ("past the first line", before.len() as u64, Some(1)),
+            ("past both", (before.len() + after.len()) as u64, Some(0)),
+        ] {
+            assert_eq!(tags_past(&path, offset), count, "{label}");
+        }
+        assert_eq!(tags_past(&base.path().join("gone"), 0), None, "absent");
+        for (label, submitted, tags, word) in [
+            ("both", true, Some(1), "both"),
+            ("submitted", true, Some(0), "prompt-submitted"),
+            ("tag", false, Some(2), "tag"),
+            ("none", false, None, "none"),
+        ] {
+            assert_eq!(context_post(submitted, tags), word, "{label}");
+        }
+    }
+
+    /// The settings files' key-name delta names files and keys only.
+    #[test]
+    fn the_settings_delta_names_each_moved_file() {
+        let set = |keys: &[&str]| Some(keys.iter().map(|k| (*k).to_owned()).collect());
+        let before = Some(BTreeMap::from([
+            ("settings.json".to_owned(), set(&["a", "b"])),
+            ("settings.old.json".to_owned(), set(&["x"])),
+        ]));
+        let same = before.clone();
+        assert_eq!(settings_delta(&before, &same), "same");
+        let after = Some(BTreeMap::from([
+            ("settings.json".to_owned(), set(&["a", "c"])),
+            ("settings.local.json".to_owned(), set(&["y"])),
+        ]));
+        assert_eq!(
+            settings_delta(&before, &after),
+            "settings.json:+c,-b;settings.local.json:new;settings.old.json:gone"
+        );
+        assert_eq!(settings_delta(&None, &after), "unread");
     }
 
     #[test]

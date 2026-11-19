@@ -1,0 +1,110 @@
+[
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "823570d9",
+"ts": "2026-11-19T06:04:57Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin",
+"--message-file",
+".andromeda/runs/2026-11-19T06-05-00Z-phase/relay-1.md",
+"--kind",
+"relay",
+"--origin",
+"the operator, in this session (the /andromeda-phase invocation)",
+"--why",
+"the operator word opening the revision: the founder moved the chunk to claude 2.1.328; follow the 328 relay; no live start in this phase",
+"--step",
+"phase:P3",
+"--run-dir",
+".andromeda/runs/2026-11-19T06-05-00Z-phase",
+"--marker",
+"2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I5 · copy message · message: the operator, in this session (the /andromeda-phase invocation)",
+"cite: inputs#I5"
+],
+"stderr": null,
+"wrote": [
+"inputs/I5-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I5",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, in this session (the /andromeda-phase invocation)",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "06cefc6cda98e6908012ced453a088e12811af04ea098195ebce565e428c89c3",
+"copy": "I5-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-19T06:04:56Z",
+"step": "phase:P3",
+"why": "the operator word opening the revision: the founder moved the chunk to claude 2.1.328; follow the 328 relay; no live start in this phase"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "823570d9",
+"ts": "2026-11-19T06:04:57Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-restamp-revision-328.md",
+"--kind",
+"relay",
+"--why",
+"the overseer relay of the 2.1.328 revision: host measured on 2.1.328, the founder answer (L1 the 24-row verify of 2.1.328 by path through VH, cap L1+L2+L1-2 unchanged, bundle readings re-read with no start), the overseer technical items 4-8",
+"--step",
+"phase:P3",
+"--run-dir",
+".andromeda/runs/2026-11-19T06-05-00Z-phase",
+"--marker",
+"2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I6 · copy no-repo · ../additional/viola-overseer/relay-restamp-revision-328.md",
+"cite: inputs#I6"
+],
+"stderr": null,
+"wrote": [
+"inputs/I6-relay-restamp-revision-328.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I6",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-restamp-revision-328.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "e01d4347bde9b6bd410c0bd2f7ae525b74d0b5a9fec50441b88426e85157fa78",
+"copy": "I6-relay-restamp-revision-328.md.txt",
+"link": false,
+"read_at": "2026-11-19T06:04:57Z",
+"step": "phase:P3",
+"why": "the overseer relay of the 2.1.328 revision: host measured on 2.1.328, the founder answer (L1 the 24-row verify of 2.1.328 by path through VH, cap L1+L2+L1-2 unchanged, bundle readings re-read with no start), the overseer technical items 4-8"
+}
+}
+]

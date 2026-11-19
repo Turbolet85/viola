@@ -1,0 +1,223 @@
+[
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "823570d9",
+"ts": "2026-11-19T06:43:35Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin",
+"--message-file",
+".andromeda/runs/2026-11-19T06-43-19Z-phase/relay-1.md",
+"--kind",
+"relay",
+"--origin",
+"the operator, in this session (the /andromeda-phase invocation)",
+"--why",
+"the operator word opening revision 2: implement 2026-11-19T06-21-00Z stopped before the live round, the R1 fold read no red in 30 runs; follow the fold relay; no live start in this phase",
+"--step",
+"phase:P3",
+"--run-dir",
+".andromeda/runs/2026-11-19T06-43-19Z-phase",
+"--marker",
+"2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I9 · copy message · message: the operator, in this session (the /andromeda-phase invocation)",
+"cite: inputs#I9"
+],
+"stderr": null,
+"wrote": [
+"inputs/I9-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I9",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, in this session (the /andromeda-phase invocation)",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "5c18a304651b4608e541383aef1a7bb870d754e806d68ab5ea20fabef7d50826",
+"copy": "I9-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-19T06:43:35Z",
+"step": "phase:P3",
+"why": "the operator word opening revision 2: implement 2026-11-19T06-21-00Z stopped before the live round, the R1 fold read no red in 30 runs; follow the fold relay; no live start in this phase"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "823570d9",
+"ts": "2026-11-19T06:43:36Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-restamp-revision-fold.md",
+"--kind",
+"relay",
+"--why",
+"the overseer relay of revision 2: the fold leaves the gates (18b-18d and entry 7 go, 18a stays), the intermittent red becomes a wrap carry proposal, the live round unchanged, the founder-forks.md:72 respell, research none beyond the list sync",
+"--step",
+"phase:P3",
+"--run-dir",
+".andromeda/runs/2026-11-19T06-43-19Z-phase",
+"--marker",
+"2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I10 · copy no-repo · ../additional/viola-overseer/relay-restamp-revision-fold.md",
+"cite: inputs#I10"
+],
+"stderr": null,
+"wrote": [
+"inputs/I10-relay-restamp-revision-fold.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I10",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-restamp-revision-fold.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "f393f87d82c44b85486be79a66770294399f7a7565df0aaea5ec1b28eb8b8634",
+"copy": "I10-relay-restamp-revision-fold.md.txt",
+"link": false,
+"read_at": "2026-11-19T06:43:35Z",
+"step": "phase:P3",
+"why": "the overseer relay of revision 2: the fold leaves the gates (18b-18d and entry 7 go, 18a stays), the intermittent red becomes a wrap carry proposal, the live round unchanged, the founder-forks.md:72 respell, research none beyond the list sync"
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "823570d9",
+"ts": "2026-11-19T06:47:41Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin",
+"--run-dir",
+".andromeda/runs/2026-11-19T06-43-19Z-phase",
+"--marker",
+"2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-restamp-directive-2.md",
+"I1 cited scope.md:14 · scope.md:98 · scope.md:122 · research.md:7 · plan.md:24 · plan.md:60 · plan.md:260 · plan.md:572 (in fence) · plan.md:656",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-restamp-p3.md",
+"I2 cited research.md:40 · research.md:45 · research.md:55 · plan.md:24 · plan.md:37 · plan.md:42 · plan.md:43 · plan.md:47 · plan.md:55 · plan.md:62 · plan.md:65 · plan.md:71 · plan.md:114 · plan.md:124 · plan.md:130 · plan.md:138 · plan.md:163 · plan.md:188 · plan.md:203 · plan.md:257 · plan.md:260 · plan.md:263 · plan.md:272 · plan.md:278 · plan.md:463 (in fence) · plan.md:471 (in fence) · plan.md:481 (in fence) · plan.md:506 (in fence) · plan.md:555 (in fence) · plan.md:564 (in fence) · plan.md:572 (in fence) · plan.md:580 (in fence) · plan.md:596 · plan.md:618 · plan.md:656 · plan.md:666 · plan.md:667 · plan.md:670 · plan.md:671 · plan.md:679 · plan.md:680 · plan.md:739 · plan.md:755",
+"I3 unchanged · copy no-repo · ../additional/viola-overseer/relay-restamp-p5-review.md",
+"I3 cited plan.md:25 · plan.md:226 · plan.md:657 · plan.md:683 · plan.md:690 · plan.md:706 · plan.md:743 · plan.md:755",
+"I4 unchanged · copy no-repo · ../additional/viola-overseer/relay-restamp-vh-word.md",
+"I4 cited plan.md:25 · plan.md:657 · plan.md:754",
+"I5 n/a — a message has no live source · copy message · message: the operator, in this session (the /andromeda-phase invocation)",
+"I5 cited scope.md:126 · research.md:61 · plan.md:9 · plan.md:26 · plan.md:657 · plan.md:717",
+"I6 unchanged · copy no-repo · ../additional/viola-overseer/relay-restamp-revision-328.md",
+"I6 cited scope.md:3 · scope.md:23 · scope.md:86 · scope.md:126 · scope.md:128 · scope.md:132 · scope.md:135 · scope.md:146 · scope.md:152 · scope.md:155 · scope.md:159 · research.md:61 · plan.md:10 · plan.md:26 · plan.md:33 · plan.md:37 · plan.md:39 · plan.md:67 · plan.md:265 · plan.md:282 · plan.md:341 · plan.md:481 (in fence) · plan.md:506 (in fence) · plan.md:613 · plan.md:658 · plan.md:717 · plan.md:725 · plan.md:733",
+"I7 n/a — a message has no live source · copy message · message: the operator, in this session (the /andromeda-phase invocation)",
+"I7 cited scope.md:161 · research.md:61 · plan.md:14 · plan.md:27 · plan.md:658",
+"I8 n/a — a message has no live source · copy message · message: the operator, in this session (the P5 review)",
+"I8 cited plan.md:28",
+"I9 n/a — a message has no live source · copy message · message: the operator, in this session (the /andromeda-phase invocation)",
+"I9 cited scope.md:168 · scope.md:169 · research.md:74 · plan.md:16 · plan.md:28",
+"I10 unchanged · copy no-repo · ../additional/viola-overseer/relay-restamp-revision-fold.md",
+"I10 cited scope.md:168 · scope.md:169 · scope.md:175 · scope.md:181 · research.md:74 · plan.md:17 · plan.md:29 · plan.md:226 · plan.md:237 · plan.md:326 · plan.md:606 · plan.md:684 · plan.md:685 · plan.md:687 · plan.md:706 · plan.md:708 · plan.md:712 · plan.md:716",
+"inputs: 10 entries — unchanged 6 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 4 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 10,
+"counts": {
+"unchanged": 6,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 4
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.7",
+"sha8": "823570d9",
+"ts": "2026-11-19T06:49:01Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin",
+"--message-file",
+".andromeda/runs/2026-11-19T06-43-19Z-phase/p5-word.md",
+"--kind",
+"relay",
+"--origin",
+"the operator, in this session (the P5 review)",
+"--why",
+"the P5 word on .andromeda/runs/2026-11-19T06-43-19Z-phase/p5-card-1.md: yes, plan rev 12, its Beyond-the-plan rows (switch, C5, 2.1.328 fixture-set carry standing; the R1 carry proposal and the vrig-hand desk-list row new); the respell of the stopped run's outcome file line 66; authority the operator's own word",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-11-19T06-43-19Z-phase",
+"--marker",
+"2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I11 · copy message · message: the operator, in this session (the P5 review)",
+"cite: inputs#I11"
+],
+"stderr": null,
+"wrote": [
+"inputs/I11-p5-word.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I11",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, in this session (the P5 review)",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "24b241bf8238d82eedacd8d12774ba8d334da27013e03e1cc9ffbcf44318c06b",
+"copy": "I11-p5-word.md.txt",
+"link": false,
+"read_at": "2026-11-19T06:49:01Z",
+"step": "phase:P5",
+"why": "the P5 word on .andromeda/runs/2026-11-19T06-43-19Z-phase/p5-card-1.md: yes, plan rev 12, its Beyond-the-plan rows (switch, C5, 2.1.328 fixture-set carry standing; the R1 carry proposal and the vrig-hand desk-list row new); the respell of the stopped run's outcome file line 66; authority the operator's own word"
+}
+}
+]
