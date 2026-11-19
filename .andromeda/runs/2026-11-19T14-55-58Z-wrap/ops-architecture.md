@@ -1,0 +1,2 @@
+@none
+reason: The chunk adds a recorded fixture set, one stamped-set test literal and a test-only rig re-lookup with a new closed summary word; it lands no crate, dependency, IPC method, env var or product resource (fct-yprbzmnj, fct-yo4545b3, fct-y32r5gjc), and every architecture row it touches, the stale-marked ones included, stays true as written: no row names a member or count of the stamped or recorded sets (fct-wrvgvz6y), and the task brings no new fact.

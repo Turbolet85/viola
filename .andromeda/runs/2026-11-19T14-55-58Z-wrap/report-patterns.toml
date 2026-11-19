@@ -1,0 +1,18 @@
+[[pattern]]
+id = 'stamped-sets'
+regex = '\bSTAMPED\b|stamped (recorded )?(fixture )?sets?|stamped at every relied row|contract_ledger_probes'
+ignore_case = true
+
+[[pattern]]
+id = 'recorded-sets'
+regex = 'fixtures/claude|recorded (CLI )?(fixture )?sets?|fixture sets?'
+ignore_case = true
+
+[[pattern]]
+id = 'newest-set'
+regex = '2\.1\.32[58]'
+
+[[pattern]]
+id = 'cx-after-send'
+regex = 'live-rig-context-arm-keeps-no-transcript|past the kept length|context-transcript|transcript_after_send'
+ignore_case = true

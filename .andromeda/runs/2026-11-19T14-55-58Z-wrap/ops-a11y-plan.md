@@ -1,0 +1,2 @@
+@none
+reason: The chunk adds a recorded fixture set, a fourth stamped version and a test-only live-rig transcript summary word (fct-zkalzada, fct-y32r5gjc, fct-sdzfwmar: a11y n/a), with no product crate, UI surface, refusal, output or violation/log schema touched (fct-yprbzmnj, fct-wnt7isvg); every a11y-plan row read, the picker-marked stale ones included, stays true, and neither D-a11y-surface nor D-a11y-obs-schema fires.

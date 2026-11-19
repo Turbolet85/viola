@@ -1,0 +1,156 @@
+[
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "c80a1428",
+"ts": "2026-11-19T14:58:10Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap",
+"--marker",
+"2026-11-19-the-2-1-328-recorded-fixture-set"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 3057 · 2026-11-19T09-29-00-2026-11-19-the-2-1-328-recorded-fixture-set.ndjson",
+"ts 2026-11-19T14:58:04Z · clock 2026-11-19T14:58:10Z · bound 2026-11-19T14:28:31Z (line 3661)",
+"ids 2026-11-19T14:58:04Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T09-29-00-2026-11-19-the-2-1-328-recorded-fixture-set.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "c80a1428",
+"ts": "2026-11-19T15:16:27Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap",
+"--marker",
+"2026-11-19-the-2-1-328-recorded-fixture-set"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 3059 · 2026-11-19T09-29-00-2026-11-19-the-2-1-328-recorded-fixture-set.ndjson",
+"ts 2026-11-19T15:16:20Z · clock 2026-11-19T15:16:27Z · bound 2026-11-19T14:58:04Z (line 3662)",
+"ids 2026-11-19T15:16:20Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T09-29-00-2026-11-19-the-2-1-328-recorded-fixture-set.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "c80a1428",
+"ts": "2026-11-19T15:22:22Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap",
+"--marker",
+"2026-11-19-the-2-1-328-recorded-fixture-set"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 3072 · 2026-11-19T09-29-00-2026-11-19-the-2-1-328-recorded-fixture-set.ndjson",
+"ts 2026-11-19T15:22:17Z · clock 2026-11-19T15:22:22Z · bound 2026-11-19T15:16:20Z (line 3663)",
+"ids 2026-11-19T15:22:17Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T09-29-00-2026-11-19-the-2-1-328-recorded-fixture-set.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "c80a1428",
+"ts": "2026-11-19T15:24:24Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap",
+"--marker",
+"2026-11-19-the-2-1-328-recorded-fixture-set"
+],
+"cwd": ".",
+"exit": 2,
+"stdout": [],
+"stderr": "--records-file: no records — nothing written",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "c80a1428",
+"ts": "2026-11-19T15:24:30Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap",
+"--marker",
+"2026-11-19-the-2-1-328-recorded-fixture-set"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 3075 · 2026-11-19T09-29-00-2026-11-19-the-2-1-328-recorded-fixture-set.ndjson",
+"ts 2026-11-19T15:24:24Z · clock 2026-11-19T15:24:30Z · bound 2026-11-19T15:22:17Z (line 3664)",
+"ids 2026-11-19T15:24:24Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T09-29-00-2026-11-19-the-2-1-328-recorded-fixture-set.ndjson"
+],
+"before": null,
+"after": null
+}
+]

@@ -1,3 +1,0 @@
-# Relay 1 — the /andromeda-implement invocation's arguments (verbatim, read 2026-11-19T14:19:31Z)
-
-2026-11-19-the-2-1-328-recorded-fixture-set. A RE-ENTRY on plan rev 5 at the rename step. Read the directive file ~/dev/projects/additional/viola-overseer/implement-fixture-328-directive.md FIRST (changed since its earlier snap: read it whole) and follow it: R4 is spent red and never re-fired; what remains is the one spare R4-2, then R4M, then L2, claude 2.1.328 by path, the rig private config, nothing written under the real home. The host is quiet for you now and the token window is fresh; still read hostwatch before each start. Run the operator pass with the ci.py conclusion read (leg=operator) as usual.

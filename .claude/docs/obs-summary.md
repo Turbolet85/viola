@@ -6,13 +6,13 @@ _Distilled from `.andromeda/obs-plan.md` by `/andromeda-setup-project`. wrap-ses
 
 **Tier:** Standard (1), with Minimal-tier exporter carve-outs
 
-**Justification (one sentence):** four process roles, six instrumentable crates and six must-trace paths make it Standard-class, but upstream bans egress, new listeners, stdout on three roles and Tokio/C crates in the sync graph — so there is no exporter and no reporter, only local JSON files.
+**Justification (one sentence):** four process roles, the instrumentable crates and six must-trace paths make it Standard-class, but upstream bans egress, new listeners, stdout on three roles and Tokio/C crates in the sync graph — so there is no exporter and no reporter, only local JSON files.
 
 ## Harness contract (§3)
 
 The obs harness is **bound** to the test harness: tests owns the grepped fields and the `logs` wrapper; obs may add fields, never rename them or remove one the product still emits. See `.claude/rules/observability.md` and `.claude/rules/verification-harness.md`.
 
-- **Logger / library:** tracing 0.1.44 facade + tracing-subscriber 0.3.23 `fmt().json().flatten_event(true).with_current_span(false)` (+ `with_span_list(false)`, `with_ansi(false)`, `log_internal_errors(false)`, `MillisUtc`, explicit writer)
+- **Logger / library:** tracing facade + tracing-subscriber 0.3.23 `fmt().json().flatten_event(true).with_current_span(false)` (+ `with_span_list(false)`, `with_ansi(false)`, `log_internal_errors(false)`, `MillisUtc`, explicit writer)
 - **OTel SDK:** none in v1 (opentelemetry 0.33 / tracing-opentelemetry 0.34 deferred; any future Resource uses `builder_empty()`)
 - **Log sink path:** codes-only role files `<home>/diagnostics/{run-<name>,hook-<name>,mcp,cli-<name>}.ndjson` (`mcp` always writes `mcp.ndjson`, its home and `diagnostics/` checked by strict-modes before the sink opens; no stderr fallback: a file that cannot be opened exits 1 printing nothing); every role or detail file opens only past `check_diagnostics` on the existing `diagnostics/` folder and the file (a symlink, or a folder or file another user may read, is refused as a failed open: the role writer a sink, the detail line dropped); content-bearing detail `<home>/instances/<name>/diagnostics/detail-<process>.ndjson`; 0600 in 0700
 - **Log format:** JSON Lines — required `timestamp` (RFC 3339 ms Z), `level`, `target`, `message` (= event name), `event` (closed kebab enum), `corr`, `process` (`run|hook|mcp|cli`), `instance`; null = key absence
@@ -28,7 +28,7 @@ The obs harness is **bound** to the test harness: tests owns the grepped fields 
 | Unlogged panics | 0 — every panic after init step 4 = exactly one `event:"panic"` line; `hook` still exits 0 | G2 over home-level role files |
 | Secret-scan hits | 0 (`CLAUDE*` values, the content canary, mode 0600 and an unreadable file, over every `diagnostics/` file; a `Cookie` header line is no class and no hit) | `secret-scan` step before any diagnostics-bearing upload (the admissible-by-content unscanned uploads are listed in obs-plan §8 item 5) |
 | Schema-conformance failures | 0 | G4 |
-| Hook latency | hyperfine `max` < 1.0 s (SessionEnd; spine provisional) — logger init = 1 open + appends, after the hook's instance strict-modes check and `check_diagnostics`' metadata reads, all inside the gate (the timed instance must pass that check, else the gate passes vacuously); the socket-directory check, the peer-euid decision and the server check (the connected endpoint's peer pid and its OS start time against the one `snapshot.json` read) on the hook `connect` sit in that timed path too | the `perf` job: `run --perf` with `VIOLA_NAME` / `VIOLA_DIR` set, `gate --require perf` over five `perf-<hook>.json` rows (`pre-tool-use` included, on an unstamped perf session) |
+| Hook latency | hyperfine `max` < 1.0 s (SessionEnd; spine provisional) — logger init = 1 open + appends, after the hook's instance strict-modes check and `check_diagnostics`' metadata reads, all inside the gate (the timed instance must pass that check, else the gate passes vacuously); the socket-directory check, the peer-euid decision and the server check (the connected endpoint's peer pid and its OS start time against the one `snapshot.json` read) on the hook `connect` sit in that timed path too | the `perf` job: `run --perf` with `VIOLA_NAME` / `VIOLA_DIR` set, `gate --require perf` over the `perf-<hook>.json` rows (`pre-tool-use` included, on an unstamped perf session) |
 | Heartbeat flip | same process: 4.9 s live / 5.1 s stale or gone; pid or start-time mismatch → gone at any age | `viola_state::liveness::classify` unit test (injected age) |
 
 ## Service identity tagging

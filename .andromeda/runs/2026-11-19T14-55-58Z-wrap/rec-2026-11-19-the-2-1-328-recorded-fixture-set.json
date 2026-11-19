@@ -1,0 +1,401 @@
+[
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T14:57:57Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-19-the-2-1-328-recorded-fixture-set",
+"--section-file",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap/after-implement.md",
+"--heading",
+"## After implement",
+"--before",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap",
+"--marker",
+"2026-11-19-the-2-1-328-recorded-fixture-set"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-19-the-2-1-328-recorded-fixture-set/report rev 2 · 10 new · 0 revised · 0 retired · 80 kept · tx 3055"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T09-29-00-2026-11-19-the-2-1-328-recorded-fixture-set.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T14:57:58Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-19-the-2-1-328-recorded-fixture-set",
+"--section-file",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap/new-text.md",
+"--heading",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap",
+"--marker",
+"2026-11-19-the-2-1-328-recorded-fixture-set"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-19-the-2-1-328-recorded-fixture-set/report rev 3 · 7 new · 0 revised · 0 retired · 90 kept · tx 3056"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T09-29-00-2026-11-19-the-2-1-328-recorded-fixture-set.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T14:58:20Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap/cites-land-2026-11-19-the-2-1-328-recorded-fixture-set.ndjson",
+"--base",
+"1e19a4360b09e27b15ffe112c2d8fe6e5bc6c8da",
+"--run-dir",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap",
+"--marker",
+"2026-11-19-the-2-1-328-recorded-fixture-set",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 0 fact(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T14:58:25Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap/cites-land-2026-11-19-the-2-1-328-recorded-fixture-set.ndjson",
+"--base",
+"1e19a4360b09e27b15ffe112c2d8fe6e5bc6c8da",
+"--run-dir",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap",
+"--marker",
+"2026-11-19-the-2-1-328-recorded-fixture-set"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 0 fact(s) · 0 edge(s) · tx 3058"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T09-29-00-2026-11-19-the-2-1-328-recorded-fixture-set.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T14:59:54Z",
+"argv": [
+"rows-packs",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-19-the-2-1-328-recorded-fixture-set"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 967 · packs 10 · pack 100 · 273785 B",
+"security-plan: rows 617 · packs 7 · pack 100 · 185530 B",
+"design-system: rows 317 · packs 4 · pack 100 · 76771 B",
+"layout-templates: rows 222 · packs 3 · pack 100 · 53035 B",
+"test-plan: rows 1347 · packs 14 · pack 100 · 361815 B",
+"obs-plan: rows 1028 · packs 11 · pack 100 · 283116 B",
+"a11y-plan: rows 235 · packs 3 · pack 100 · 66255 B",
+"rows-packs: 7 master(s) · 4733 row(s) · 52 pack(s) · 2 draw(s) a pack · pin 3058"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-19T14-55-58Z-wrap/rows-packs.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T15:13:12Z",
+"argv": [
+"rows-union",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-19-the-2-1-328-recorded-fixture-set"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 967 · packs 10 · picked 8 (5 by every draw) · standing 0 · 166963 B",
+"security-plan: rows 617 · packs 7 · picked 35 (2 by every draw) · standing 0 · 142790 B",
+"design-system: rows 317 · packs 4 · picked 1 (0 by every draw) · standing 0 · 53479 B",
+"layout-templates: rows 222 · packs 3 · picked 0 (0 by every draw) · standing 0 · no proposer",
+"test-plan: rows 1347 · packs 14 · picked 23 (7 by every draw) · standing 0 · 184095 B",
+"obs-plan: rows 1028 · packs 11 · picked 3 (1 by every draw) · standing 0 · 78056 B",
+"a11y-plan: rows 235 · packs 3 · picked 15 (10 by every draw) · standing 0 · 49664 B",
+"rows-union: 7 master(s) · picked 85 of 4733 · rule any"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-19T14-55-58Z-wrap/arch-rows.md",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap/arch-standing.md",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap/arch-pick-counts.md",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap/security-rows.md",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap/security-standing.md",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap/security-pick-counts.md",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap/design-rows.md",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap/design-standing.md",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap/design-pick-counts.md",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap/layouts-standing.md",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap/layouts-pick-counts.md",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap/tests-rows.md",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap/tests-standing.md",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap/tests-pick-counts.md",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap/obs-rows.md",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap/obs-standing.md",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap/obs-pick-counts.md",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap/a11y-rows.md",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap/a11y-standing.md",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap/a11y-pick-counts.md",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T15:14:48Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap/ops-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap",
+"--marker",
+"2026-11-19-the-2-1-328-recorded-fixture-set",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/live-rig-context-arm-keeps-no-transcript · rejected by fit: not_master type 4 — The added clause on where counting starts for a transcript first found after the send retells how the tag count is built, with no reason stated, and the code holds it.",
+"fit: fits 0 · not_master 1 · stands 0",
+"patterns: none — the call sets and retires no row",
+"dry-run · would land 0 operation(s) · 0 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T15:14:59Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap/ops-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap",
+"--marker",
+"2026-11-19-the-2-1-328-recorded-fixture-set",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/live-rig-context-arm-keeps-no-transcript · rejected",
+"fit: fits 0 · not_master 0 · stands 0",
+"patterns: none — the call sets and retires no row",
+"dry-run · would land 0 operation(s) · 0 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T15:24:03Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap/route-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap",
+"--marker",
+"2026-11-19-the-2-1-328-recorded-fixture-set",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 5 record(s) · 5 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T15:24:08Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap/route-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap",
+"--marker",
+"2026-11-19-the-2-1-328-recorded-fixture-set"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 5 record(s) · 5 edge(s) · tx 3074 · chk-vomrfsfb … cry-bnty4kyh"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T09-29-00-2026-11-19-the-2-1-328-recorded-fixture-set.ndjson",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T15:24:40Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap/run-node.txt",
+"--run-dir",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap",
+"--marker",
+"2026-11-19-the-2-1-328-recorded-fixture-set"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 0 edge(s) · tx 3076 · run-iez5bhpo … run-iez5bhpo"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T09-29-00-2026-11-19-the-2-1-328-recorded-fixture-set.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T15:28:26Z",
+"argv": [
+"land",
+"--root",
+".",
+"--chunk",
+"2026-11-19-the-2-1-328-recorded-fixture-set",
+"--run-dir",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"unchanged · 25 file(s) of 2026-11-19-the-2-1-328-recorded-fixture-set"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]
