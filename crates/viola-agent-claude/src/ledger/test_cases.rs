@@ -121,6 +121,7 @@ fn clean_typed() -> TypedRun {
         max_turn_gap_ms: Some(224),
         compact_latency_ms: Some(18_779),
         echo_latency_ms: Some(1_200),
+        context_latency_ms: Some(900),
         box_only_guards: Some(2),
         trust_frame: Some(rows(&["❯ Try it", "  ⏸ manual mode on · ← for agents"])),
         trust_write: Some(TrustWord::Written),

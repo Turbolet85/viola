@@ -368,3 +368,47 @@ fn check_local_command_echo_needs_a_tag_within_the_window_and_no_prompt() {
         "the command as a prompt"
     );
 }
+
+fn context_check(trusted: Vec<Capture>, context_latency_ms: Option<u64>) -> bool {
+    check(
+        LedgerRow::LocalCommandContext,
+        &Probes {
+            print: clean_run(),
+            typed: TypedRun {
+                context_latency_ms,
+                ..clean_typed()
+            },
+            trusted,
+            dialogs: clean_dialogs(),
+            resumed: clean_resumed(),
+            agents: Some(clean_agents()),
+        },
+    )
+}
+
+/// The context row passes on a tag read within the send's 10 s window with no prompt carrying
+/// `/context`; a tag past the window, none read, or `/context` submitted as a prompt fails it,
+/// and a failing row reads `fail`, never `absent`.
+#[test]
+fn check_local_command_context_needs_a_tag_within_the_window_and_no_prompt() {
+    assert!(context_check(clean_trusted(), Some(900)));
+    assert!(context_check(clean_trusted(), Some(10_000)), "at the bound");
+    assert!(
+        !context_check(clean_trusted(), Some(10_001)),
+        "past the bound"
+    );
+    assert!(!context_check(clean_trusted(), None), "no tag read");
+    let submitted = with_trusted(|t| t.insert(9, prompted(PROBE_CONTEXT_COMMAND)));
+    assert!(
+        !context_check(submitted, Some(900)),
+        "the command as a prompt"
+    );
+    assert_eq!(
+        row_word(LedgerRow::LocalCommandContext, false, &TypedRun::default()),
+        "fail"
+    );
+    assert_eq!(
+        row_word(LedgerRow::LocalCommandContext, true, &TypedRun::default()),
+        "pass"
+    );
+}

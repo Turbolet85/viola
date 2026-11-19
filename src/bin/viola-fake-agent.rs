@@ -16,8 +16,9 @@ use std::time::Duration;
 
 use serde_json::{Value, json};
 use viola_agent_claude::ledger::{
-    ECHO_TAG, PROBE_COMPACT_COMMAND, PROBE_ECHO_COMMAND, PROBE_LOCAL_COMMAND, PROBE_LONG_PASTE,
-    PROBE_TAG_PASTE, PostCondition, dialog_stem, framing_stem, local_command_of,
+    ECHO_TAG, PROBE_COMPACT_COMMAND, PROBE_CONTEXT_COMMAND, PROBE_ECHO_COMMAND,
+    PROBE_LOCAL_COMMAND, PROBE_LONG_PASTE, PROBE_TAG_PASTE, PostCondition, dialog_stem,
+    framing_stem, local_command_of,
 };
 use viola_core::MAX_FRAME;
 use viola_state::liveness::{process_start_time, start_times};
@@ -762,7 +763,8 @@ impl Agent {
     /// recorded prompt, not the typed text), `/compact` fires its recorded SessionStart with
     /// `session_id` set to the last SessionStart's (the recorded id belongs to the recorded session),
     /// and the probed local command fires its recorded SessionEnd and SessionStart; neither command
-    /// fires a UserPromptSubmit. A set without a variant fires nothing for it. With `--paste-hint-ms` beside it, the long text's turn ends on a cleared screen and the
+    /// fires a UserPromptSubmit. The exact echo probe command and the exact `/context` probe
+    /// literal each append one stdout tag and fire no hook. A set without a variant fires nothing for it. With `--paste-hint-ms` beside it, the long text's turn ends on a cleared screen and the
     /// `turn` screen is drawn only after the hold: the real CLI shows a paste hint in the input-box
     /// literal's place for seconds after a long paste. With `--tag-turn-screen <phase>` beside it,
     /// the tag-like text's turn, and no other, ends on that phase's screen in place of `turn`, and
@@ -781,7 +783,8 @@ impl Agent {
                 self.echo();
             }
             "local-command"
-        } else if self.opts.framing && text == PROBE_ECHO_COMMAND {
+        } else if self.opts.framing && (text == PROBE_ECHO_COMMAND || text == PROBE_CONTEXT_COMMAND)
+        {
             self.echo();
             "local-command"
         } else if let Some(stem) = compact {

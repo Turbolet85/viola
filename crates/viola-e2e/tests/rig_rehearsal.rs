@@ -11,6 +11,7 @@ use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 
 use serde_json::Value;
 use viola_e2e::harness::bin_dir_from_exe;
+use viola_state::pin::content_key;
 
 const RIG: &str = env!("CARGO_BIN_EXE_viola-live-rig");
 /// The canary token the planted credentials carry: no record and no tracked file but this one may
@@ -904,7 +905,7 @@ fn rig_rehearsal_v_reads_the_trust_record_row_and_no_record_left() {
     );
     assert_eq!(
         word(&out, "pass-count").as_deref(),
-        Some("24/24"),
+        Some("25/25"),
         "{summary}"
     );
     assert_eq!(word(&out, "record-left").as_deref(), Some("absent"));
@@ -918,7 +919,7 @@ fn rig_rehearsal_v_reads_the_trust_record_row_and_no_record_left() {
         Some("written"),
         "{summary}"
     );
-    assert_eq!(word(&out, "rows").as_deref(), Some("24"), "{summary}");
+    assert_eq!(word(&out, "rows").as_deref(), Some("25"), "{summary}");
     assert_eq!(
         word(&out, "browser-tools-prompt").as_deref(),
         Some("absent"),
@@ -1072,7 +1073,7 @@ fn rig_rehearsal_vh_verifies_the_given_home_and_reads_names_only() {
         ("arm", "vh"),
         ("token-window", "not-read"),
         ("keys", "none"),
-        ("rows", "24"),
+        ("rows", "25"),
         ("cwd-verify-after", "0"),
         ("user-config", "names-only"),
         ("credentials", "none"),
@@ -1115,12 +1116,15 @@ fn rig_rehearsal_vh_refuses_a_rehearsal_without_an_explicit_home() {
     assert_eq!(home.tree(), before, "nothing under the user dir moved");
 }
 
-/// `cx` over the fake agent: one send of `/context`, its post-condition read, a whole teardown.
+/// `cx` over the fake agent: one send of `/context`, a listed local command, which the fake
+/// echoes and submits no prompt for; with no stamp the CLI is unverified, so the send reads
+/// `unconfirmable`, and the rig's own tag read finds no transcript under the config. A whole
+/// teardown.
 #[test]
 fn rig_rehearsal_cx_sends_context_once_and_reads_its_post_condition() {
     let case = Case::new();
     let viola = viola().display().to_string();
-    let child = case.child(true, &["--transcript"]);
+    let child = case.child(true, &["--local-command-mode", "--transcript"]);
     let out = run(case.rig("cx", &["--viola", viola.as_str()], &child));
     let summary = stdout(&out);
     assert_eq!(word(&out, "keys").as_deref(), Some("none"), "{summary}");
@@ -1134,12 +1138,17 @@ fn rig_rehearsal_cx_sends_context_once_and_reads_its_post_condition() {
     );
     assert_eq!(
         word(&out, "send-1-reply").as_deref(),
-        Some("ok"),
+        Some("unconfirmable"),
+        "{summary}"
+    );
+    assert_eq!(
+        word(&out, "context-submitted").as_deref(),
+        Some("no"),
         "{summary}"
     );
     assert_eq!(
         word(&out, "context-post").as_deref(),
-        Some("prompt-submitted"),
+        Some("none"),
         "{summary}"
     );
     assert_eq!(
@@ -1161,6 +1170,163 @@ fn rig_rehearsal_cx_sends_context_once_and_reads_its_post_condition() {
     assert_eq!(word(&out, "scratch").as_deref(), Some("absent"));
     assert_ne!(word(&out, "user-config").as_deref(), Some("changed-by-rig"));
     assert!(case.scratch_empty(), "the scratch root stands");
+}
+
+/// The `cs` rehearsal's fake agent: the verify arm's child, its own cwd trusted.
+fn cs_child(case: &Case) -> Vec<String> {
+    case.child(
+        true,
+        &[
+            "--trust-config",
+            "{config}/.claude.json",
+            "--turn-stop",
+            "--dialogs",
+            "--framing",
+            "--transcript",
+        ],
+    )
+}
+
+/// The kept stamp a `cs` start writes under the case's out dir.
+fn kept_stamp(case: &Case) -> PathBuf {
+    case.out().join("context-stamp.json")
+}
+
+/// `cs` over the fake agent: `viola verify` stamps every relied row, the context row among them,
+/// and the stamp is kept byte for byte beside the frames; the private config's top level is read
+/// by names and counts. A second `cs` into the same out dir never replaces the kept stamp.
+#[test]
+fn rig_rehearsal_cs_keeps_the_stamp_and_reads_the_config_top_level() {
+    let case = Case::new();
+    let viola = viola().display().to_string();
+    let out = run(case.rig("cs", &["--viola", viola.as_str()], &cs_child(&case)));
+    let summary = stdout(&out);
+    assert_eq!(out.status.code(), Some(0), "{summary}");
+    assert_eq!(word(&out, "arm").as_deref(), Some("v"), "{summary}");
+    assert_eq!(word(&out, "verify-exit").as_deref(), Some("0"), "{summary}");
+    assert_eq!(
+        word(&out, "local-command-context").as_deref(),
+        Some("pass"),
+        "{summary}"
+    );
+    assert_eq!(
+        word(&out, "pass-count").as_deref(),
+        Some("25/25"),
+        "{summary}"
+    );
+    assert_eq!(word(&out, "failing").as_deref(), Some("none"), "{summary}");
+    assert_eq!(
+        word(&out, "kept-stamp").as_deref(),
+        Some("written"),
+        "{summary}"
+    );
+    let top = word(&out, "config-top").expect("a config-top line");
+    assert!(!top.contains('/'), "{top}");
+    assert_eq!(word(&out, "keys").as_deref(), Some("none"));
+    assert_torn_down(&out, &case);
+    let first = fs::read(kept_stamp(&case)).expect("the kept stamp");
+    let stamp: Value = serde_json::from_slice(&first).expect("the kept stamp is JSON");
+    assert!(
+        stamp["data"]["versions"]
+            .as_object()
+            .is_some_and(|v| v.len() == 1),
+        "the kept stamp holds the one stamped version"
+    );
+
+    let again = run(case.rig("cs", &["--viola", viola.as_str()], &cs_child(&case)));
+    let summary = stdout(&again);
+    assert_eq!(
+        word(&again, "kept-stamp").as_deref(),
+        Some("exists"),
+        "{summary}"
+    );
+    assert_eq!(
+        content_key(&fs::read(kept_stamp(&case)).expect("the kept stamp")),
+        content_key(&first),
+        "the first kept stamp unchanged"
+    );
+    assert_torn_down(&again, &case);
+}
+
+/// `cs` then `cc` over the fake agent in one out dir: `cc` seeds the kept stamp into its own viola
+/// home before `viola run`, so the CLI reads verified; send 1 the compiled prompt reads back, send 2
+/// `/context` is confirmed by the fake's stdout tag with no prompt submitted; then the hint is read
+/// and one `x` and one DEL typed under the box grant. A whole teardown.
+#[test]
+fn rig_rehearsal_cc_confirms_context_under_the_kept_stamp() {
+    let case = Case::new();
+    let viola = viola().display().to_string();
+    let stamped = run(case.rig("cs", &["--viola", viola.as_str()], &cs_child(&case)));
+    assert_eq!(
+        word(&stamped, "kept-stamp").as_deref(),
+        Some("written"),
+        "{}",
+        stdout(&stamped)
+    );
+    let child = case.child(
+        true,
+        &["--local-command-mode", "--transcript", "--turn-stop"],
+    );
+    let out = run(case.rig("cc", &["--viola", viola.as_str(), "--grant", "box"], &child));
+    let summary = stdout(&out);
+    assert_eq!(out.status.code(), Some(0), "{summary}");
+    assert_eq!(word(&out, "arm").as_deref(), Some("cx"), "{summary}");
+    for (key, want) in [
+        ("stamp-seeded", "yes"),
+        ("send-1-reply", "ok"),
+        ("send-1-turn", "ended"),
+        ("send-2-reply", "ok"),
+        ("context-submitted", "no"),
+        ("keys", "x 1, del 1"),
+    ] {
+        assert_eq!(word(&out, key).as_deref(), Some(want), "{key}: {summary}");
+    }
+    // The fake writes its transcript beside its own exe, never under the config's `projects/`.
+    assert_eq!(
+        word(&out, "context-transcript-after").as_deref(),
+        Some("absent"),
+        "{summary}"
+    );
+    for key in [
+        "hint-cells",
+        "hint-cells-attr",
+        "typed-attr",
+        "hint-told-apart",
+    ] {
+        assert!(word(&out, key).is_some(), "{key}: {summary}");
+    }
+    assert_torn_down(&out, &case);
+}
+
+/// `cc` with no kept stamp in its out dir refuses before its ledger line: uncounted, no scratch.
+#[test]
+fn rig_rehearsal_cc_without_a_kept_stamp_refuses_before_its_ledger_line() {
+    let case = Case::new();
+    let viola = viola().display().to_string();
+    let ledger = case.ledger().display().to_string();
+    let out = run(case.rig(
+        "cc",
+        &[
+            "--viola",
+            viola.as_str(),
+            "--grant",
+            "box",
+            "--ledger",
+            ledger.as_str(),
+            "--cap",
+            "2",
+            "--spare",
+            "1",
+        ],
+        &case.child(
+            true,
+            &["--local-command-mode", "--transcript", "--turn-stop"],
+        ),
+    ));
+    assert_eq!(out.status.code(), Some(3), "{}", stdout(&out));
+    assert_eq!(stdout(&out).trim(), "refused: stamp");
+    assert!(!case.ledger().exists(), "no ledger line");
+    assert!(case.scratch_empty(), "no scratch made");
 }
 
 /// The recorded 2.1.328 set copied under the case's root with a synthetic
@@ -1518,7 +1684,7 @@ fn rig_rehearsal_vp_reads_the_browser_tools_prompt_and_types_nothing() {
         Some("pass"),
         "{summary}"
     );
-    assert_eq!(word(&out, "rows").as_deref(), Some("24"), "{summary}");
+    assert_eq!(word(&out, "rows").as_deref(), Some("25"), "{summary}");
     assert_eq!(
         word(&out, "screen-a").as_deref(),
         Some("trust"),
@@ -1571,10 +1737,10 @@ fn rig_rehearsal_vk_reads_24_rows_with_the_browser_tools_row_absent() {
     assert_eq!(out.status.code(), Some(0), "{summary}");
     assert_eq!(word(&out, "arm").as_deref(), Some("vk"), "{summary}");
     assert_eq!(word(&out, "verify-exit").as_deref(), Some("0"), "{summary}");
-    assert_eq!(word(&out, "rows").as_deref(), Some("24"), "{summary}");
+    assert_eq!(word(&out, "rows").as_deref(), Some("25"), "{summary}");
     assert_eq!(
         word(&out, "pass-count").as_deref(),
-        Some("24/24"),
+        Some("25/25"),
         "{summary}"
     );
     assert_eq!(word(&out, "failing").as_deref(), Some("none"), "{summary}");

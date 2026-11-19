@@ -531,7 +531,7 @@ mod tests {
         );
     }
 
-    use viola_agent_claude::ledger::{ECHO_TAG, PROBE_ECHO_COMMAND};
+    use viola_agent_claude::ledger::{ECHO_TAG, PROBE_CONTEXT_COMMAND, PROBE_ECHO_COMMAND};
 
     /// One transcript line holding the echo tag.
     fn tag_line() -> String {
@@ -541,6 +541,7 @@ mod tests {
     fn append(path: &Path, text: &str) {
         let mut file = std::fs::OpenOptions::new()
             .append(true)
+            .create(true)
             .open(path)
             .expect("transcript");
         std::io::Write::write_all(&mut file, text.as_bytes()).expect("appended");
@@ -560,9 +561,23 @@ mod tests {
     /// `remembered`) holding `before` already; once the text is typed, `after` is appended to it and
     /// the clock starts jumping, so a send nothing confirmed expires and never parks the case.
     fn echoed(text: &str, verified: bool, remembered: bool, before: &str, after: &str) -> Echoed {
+        echoed_in(text, verified, remembered, Some(before), after)
+    }
+
+    /// As [`echoed`], the transcript declared but created only by the `after` append when
+    /// `before` is `None`: a send made before the CLI wrote its transcript.
+    fn echoed_in(
+        text: &str,
+        verified: bool,
+        remembered: bool,
+        before: Option<&str>,
+        after: &str,
+    ) -> Echoed {
         let tmp = tempfile::tempdir().expect("tempdir");
         let transcript = tmp.path().join("transcript.jsonl");
-        std::fs::write(&transcript, before).expect("transcript");
+        if let Some(before) = before {
+            std::fs::write(&transcript, before).expect("transcript");
+        }
         let base = Instant::now();
         let (clock, jumping) = SwitchClock::at(base);
         let slot = SendSlot::new(clock, verified, Arc::default());
@@ -688,6 +703,47 @@ mod tests {
             json!({"ok": {"confirmed": false, "detail": "unconfirmable", "cursor": got.cursor}})
         );
         assert_eq!(got.pastes, [PROBE_ECHO_COMMAND]);
+    }
+
+    /// `/context` is a listed local command confirmed by one more stdout tag on a verified CLI.
+    #[test]
+    fn send_local_command_context_is_confirmed_by_a_new_stdout_tag() {
+        let got = echoed(PROBE_CONTEXT_COMMAND, true, true, "", &tag_line());
+        assert_eq!(got.pastes, [PROBE_CONTEXT_COMMAND]);
+        assert_eq!(
+            got.kinds,
+            ["session-start", "send-issued", "send-confirmed"]
+        );
+        assert_eq!(got.last, json!({"cursor": got.cursor}));
+        assert!(got.reply["ok"]["submitted_at"].is_string());
+    }
+
+    #[test]
+    fn send_local_command_context_on_an_unverified_cli_is_unconfirmable() {
+        let got = echoed(PROBE_CONTEXT_COMMAND, false, true, "", &tag_line());
+        assert_eq!(
+            got.reply,
+            json!({"ok": {"confirmed": false, "detail": "unconfirmable", "cursor": got.cursor}})
+        );
+        assert_eq!(got.pastes, [PROBE_CONTEXT_COMMAND]);
+    }
+
+    /// A `/context` sent before its declared transcript stands on disk has no pre-paste end to
+    /// count from, so it is `unconfirmable` at once, even when the CLI then writes the file with
+    /// its tag.
+    #[test]
+    fn send_local_command_context_before_its_transcript_exists_is_unconfirmable() {
+        let got = echoed_in(PROBE_CONTEXT_COMMAND, true, true, None, &tag_line());
+        assert_eq!(
+            got.reply,
+            json!({"ok": {"confirmed": false, "detail": "unconfirmable", "cursor": got.cursor}})
+        );
+        assert_eq!(
+            got.kinds,
+            ["session-start", "send-issued", "send-confirmed"]
+        );
+        assert_eq!(got.last, json!({"cursor": got.cursor, "confirmed": false}));
+        assert_eq!(got.pastes, [PROBE_CONTEXT_COMMAND]);
     }
 
     /// A later `session-start` with no transcript clears the remembered one.

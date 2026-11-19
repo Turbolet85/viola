@@ -975,6 +975,78 @@ fn send_local_command_echo_on_an_unstamped_home_is_unconfirmable() {
     wrapper.stop();
 }
 
+/// `/context` on a verified CLI is confirmed by its own stdout tag: the fake agent under
+/// `--local-command-mode --transcript` appends one tag for the listed command and fires no hook.
+#[rstest]
+fn send_local_command_context_is_read_back_on_a_verified_cli(stamped_home: StampedHome) {
+    let wrapper = boot_on(
+        stamped_home,
+        None,
+        &["--local-command-mode", "--transcript"],
+    );
+    let dir = wrapper.instance_dir();
+    let l = end_offset(&dir);
+    let sent = send(wrapper.home(), &["builder", "--json"], "/context");
+    assert_eq!(
+        sent.code,
+        Some(0),
+        "stdout {} stderr {}",
+        sent.stdout,
+        sent.stderr
+    );
+    let doc: Value = serde_json::from_str(&sent.stdout).expect("one JSON document");
+    assert_eq!(doc["ok"]["cursor"], l);
+    assert!(doc["ok"]["submitted_at"].is_string(), "{doc}");
+    assert_eq!(doc["ok"].as_object().map(serde_json::Map::len), Some(2));
+    let records = records_after(&dir, l);
+    let kinds: Vec<&Value> = records.iter().map(|r| &r["kind"]).collect();
+    assert_eq!(kinds, ["send-issued", "send-confirmed"]);
+    assert_eq!(records[1]["data"], json!({"cursor": l}));
+    let typed = prompts_at_least(&wrapper.receipt(), 1);
+    assert_eq!(typed.len(), 1, "typed once");
+    assert_eq!(typed[0]["text"], "/context");
+    assert_eq!(typed[0]["submit"], "local-command");
+    wrapper.stop();
+}
+
+/// A `/context` sent before its declared transcript stands on disk has no pre-paste end, so it
+/// is `unconfirmable` at once on a verified CLI. The fake runs from a copy in a directory of
+/// this test's own, so the transcript it declared beside that copy is this test's to remove.
+#[rstest]
+fn send_local_command_context_before_its_transcript_exists_is_unconfirmable(
+    mut stamped_home: StampedHome,
+) {
+    let scratch = tempfile::tempdir().expect("scratch");
+    let bin = fake::claude_bin(scratch.path(), "bin", None, None);
+    stamped_home.fake = fake::claude_in(&bin);
+    let wrapper = boot_on(
+        stamped_home,
+        None,
+        &["--local-command-mode", "--transcript"],
+    );
+    let dir = wrapper.instance_dir();
+    let transcripts = bin.join("transcripts");
+    let declared: Vec<std::path::PathBuf> = std::fs::read_dir(&transcripts)
+        .expect("the fake's transcripts dir")
+        .map(|e| e.expect("an entry").path())
+        .collect();
+    assert_eq!(declared.len(), 1, "one declared transcript");
+    std::fs::remove_file(&declared[0]).expect("the declared transcript removed");
+    let l = end_offset(&dir);
+    let sent = send(wrapper.home(), &["builder", "--json"], "/context");
+    assert_eq!(sent.code, Some(0), "stderr: {}", sent.stderr);
+    assert!(sent.stderr.is_empty(), "{}", sent.stderr);
+    assert_eq!(
+        serde_json::from_str::<Value>(&sent.stdout).expect("one JSON document"),
+        json!({"v": 1, "ok": {"confirmed": false, "detail": "unconfirmable", "cursor": l}})
+    );
+    let records = records_after(&dir, l);
+    let kinds: Vec<&Value> = records.iter().map(|r| &r["kind"]).collect();
+    assert_eq!(kinds, ["send-issued", "send-confirmed"]);
+    assert_eq!(records[1]["data"], json!({"cursor": l, "confirmed": false}));
+    wrapper.stop();
+}
+
 /// The decision reads the compiled list, never a leading slash: a slash text that is not on it is
 /// an ordinary send, and with no prompt reported it is `not-delivered` once the window expires.
 #[test]

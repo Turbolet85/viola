@@ -109,7 +109,7 @@ fn framing_texts_are_fixed_ascii_each_with_its_stem() {
 }
 
 #[test]
-fn local_commands_are_the_six_known_ones_and_clear_compact_and_mcp_are_probed() {
+fn local_commands_are_the_seven_known_ones_and_clear_compact_mcp_and_context_are_probed() {
     assert_eq!(
         LOCAL_COMMANDS,
         [
@@ -119,20 +119,27 @@ fn local_commands_are_the_six_known_ones_and_clear_compact_and_mcp_are_probed() 
             ("/mcp", Some(PostCondition::CommandStdout)),
             ("/cost", None),
             ("/usage", None),
+            ("/context", Some(PostCondition::CommandStdout)),
         ]
     );
     assert_eq!(PROBE_LOCAL_COMMAND, "/clear");
     assert_eq!(PROBE_COMPACT_COMMAND, "/compact");
     assert_eq!(PROBE_ECHO_COMMAND, "/mcp disable viola-probe-absent");
+    assert_eq!(PROBE_CONTEXT_COMMAND, "/context");
+    assert_eq!(PROBE_CONTEXT_COMMAND, LOCAL_COMMANDS[6].0);
     assert_eq!(ECHO_TAG, "<local-command-stdout>");
     let probed: Vec<&str> = LOCAL_COMMANDS
         .iter()
         .filter(|(_, post)| post.is_some())
         .map(|(command, _)| *command)
         .collect();
-    assert_eq!(probed, ["/clear", "/compact", "/mcp"]);
+    assert_eq!(probed, ["/clear", "/compact", "/mcp", "/context"]);
     assert_eq!(
         local_command_of(PROBE_ECHO_COMMAND).map(|c| c.1),
+        Some(Some(PostCondition::CommandStdout))
+    );
+    assert_eq!(
+        local_command_of(PROBE_CONTEXT_COMMAND).map(|c| c.1),
         Some(Some(PostCondition::CommandStdout))
     );
 }
@@ -146,6 +153,9 @@ fn local_commands_are_the_six_known_ones_and_clear_compact_and_mcp_are_probed() 
 #[case::cost("/cost", Some("/cost"))]
 #[case::usage("/usage", Some("/usage"))]
 #[case::remote_control("/remote-control", Some("/remote-control"))]
+#[case::context("/context", Some("/context"))]
+#[case::context_with_arguments("/context all", Some("/context"))]
+#[case::a_longer_context_word("/contexts", None)]
 #[case::bare_slash("/", None)]
 #[case::a_longer_word("/mcpx", None)]
 #[case::a_longer_word_with_arguments("/mcpx disable", None)]

@@ -279,13 +279,13 @@ mod tests {
     }
 
     /// The verdict needs the dialog rows (R2 closed), the framing rows, the newline row, the resume
-    /// row, the agents row, the compact row, the echo row, the trust-record row and the
-    /// browser-tools row: a stamp written before any of them landed (the ten spine and screen rows,
+    /// row, the agents row, the compact row, the echo row, the trust-record row, the
+    /// browser-tools row and the context row: a stamp written before any of them landed (the ten spine and screen rows,
     /// those and the four dialog rows, every row but the newline one, the eighteen before the resume
     /// row, the nineteen before the agents row, the twenty before the compact row, the twenty-one
-    /// before the echo row, the twenty-two before the trust-record row, or the twenty-three before
-    /// the browser-tools row) and one whose relied row failed all leave the version unverified; all
-    /// twenty-four relied rows counting verify it.
+    /// before the echo row, the twenty-two before the trust-record row, the twenty-three before
+    /// the browser-tools row, or the twenty-four before the context row) and one whose relied row
+    /// failed all leave the version unverified; all twenty-five relied rows counting verify it.
     #[test]
     fn stamps_verdict_needs_the_dialog_rows() {
         let ten = [
@@ -368,6 +368,12 @@ mod tests {
         all.push((LedgerRow::BrowserToolsPrompt, true));
         assert_eq!(
             stamps_verdict(Ok(Some(stamp_of(&all))), "2.1.0"),
+            (false, None),
+            "the twenty-four rows of an older stamp, every one pass"
+        );
+        all.push((LedgerRow::LocalCommandContext, true));
+        assert_eq!(
+            stamps_verdict(Ok(Some(stamp_of(&all))), "2.1.0"),
             (true, None)
         );
         for failing in dialogs.into_iter().chain(framing).chain([
@@ -378,6 +384,7 @@ mod tests {
             LedgerRow::LocalCommandEcho,
             LedgerRow::TrustRecord,
             LedgerRow::BrowserToolsPrompt,
+            LedgerRow::LocalCommandContext,
         ]) {
             let rows: Vec<(LedgerRow, bool)> =
                 all.iter().map(|(r, p)| (*r, *p && *r != failing)).collect();

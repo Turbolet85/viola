@@ -178,6 +178,32 @@ impl Model {
             |col| self.cell_attr(row, col),
         )
     }
+
+    /// The hint's drawn cells on the prompt row past the cursor's cell (the first drawn cell past
+    /// the glyph, [`Model::box_attr`]'s): each one's [`Model::cell_attr`] word, in column order.
+    /// `Err` with the reason: `poisoned`, `no-box`, or `no-cell` when nothing is drawn past that
+    /// first cell. Only whether a cell is blank is read, never what it holds.
+    pub fn hint_cells(&self) -> Result<Vec<String>, &'static str> {
+        let rows = self.rows().ok_or("poisoned")?;
+        let row = prompt_row(&rows).ok_or("no-box")?;
+        let parser = self.parser.as_ref().ok_or("poisoned")?;
+        let screen = parser.screen();
+        let row = u16::try_from(row).map_err(|_| "no-box")?;
+        let cells: Vec<String> = (1..self.cols)
+            .filter(|&col| {
+                screen
+                    .cell(row, col)
+                    .is_some_and(|c| c.has_contents() && !c.contents().trim().is_empty())
+            })
+            .skip(1)
+            .map(|col| self.cell_attr(row, col))
+            .collect();
+        if cells.is_empty() {
+            Err("no-cell")
+        } else {
+            Ok(cells)
+        }
+    }
 }
 
 /// The input box's prompt row: a row opening the prompt glyph directly below the box's rule.
@@ -436,6 +462,41 @@ mod tests {
         empty.feed(format!("\x1b[H{rule}\r\n❯ \r\n{rule}").as_bytes());
         assert_eq!(empty.box_attr(), "unread (no-cell)");
         assert_eq!(Model::sized(6, 80).box_attr(), "unread (no-box)");
+    }
+
+    #[test]
+    fn the_hint_cells_read_every_drawn_cell_past_the_cursor_cell_as_attribute_words() {
+        let rule = rule();
+        let mut m = Model::sized(6, 80);
+        m.feed(
+            format!("\x1b[H{rule}\r\n❯ \x1b[7mT\x1b[0m\x1b[2mry it\x1b[0m\r\n{rule}").as_bytes(),
+        );
+        assert_eq!(m.box_attr(), "inverse");
+        assert_eq!(
+            m.hint_cells(),
+            Ok(vec!["dim".to_owned(); 4]),
+            "cells 2..N: r, y, i, t"
+        );
+        let mut mixed = Model::sized(6, 80);
+        mixed.feed(format!("\x1b[H{rule}\r\n❯ ab\x1b[1mc\x1b[0m\r\n{rule}").as_bytes());
+        assert_eq!(
+            mixed.hint_cells(),
+            Ok(vec!["plain".to_owned(), "bold".to_owned()])
+        );
+        let mut one = Model::sized(6, 80);
+        one.feed(format!("\x1b[H{rule}\r\n❯ \x1b[7m \x1b[0mx\r\n{rule}").as_bytes());
+        assert_eq!(
+            one.hint_cells(),
+            Err("no-cell"),
+            "the first drawn cell alone"
+        );
+        let mut empty = Model::sized(6, 80);
+        empty.feed(format!("\x1b[H{rule}\r\n❯ \r\n{rule}").as_bytes());
+        assert_eq!(empty.hint_cells(), Err("no-cell"));
+        assert_eq!(Model::sized(6, 80).hint_cells(), Err("no-box"));
+        let mut poisoned = Model::new();
+        poisoned.parser = None;
+        assert_eq!(poisoned.hint_cells(), Err("poisoned"));
     }
 
     #[test]

@@ -7,8 +7,9 @@ use std::time::{Duration, Instant};
 
 use viola_agent_claude::hook::HookEvent;
 use viola_agent_claude::ledger::{
-    self, AgentsCapture, PROBE_COMPACT_COMMAND, PROBE_ECHO_COMMAND, PROBE_LOCAL_COMMAND,
-    PROBE_LONG_PASTE, PROBE_NEWLINE_PASTE, PROBE_PROMPT, PROBE_TAG_PASTE, TypedRun,
+    self, AgentsCapture, PROBE_COMPACT_COMMAND, PROBE_CONTEXT_COMMAND, PROBE_ECHO_COMMAND,
+    PROBE_LOCAL_COMMAND, PROBE_LONG_PASTE, PROBE_NEWLINE_PASTE, PROBE_PROMPT, PROBE_TAG_PASTE,
+    TypedRun,
 };
 use viola_agent_claude::screen::SIGNATURES;
 use viola_core::{Clock, MAX_FRAME};
@@ -124,13 +125,14 @@ pub(super) fn agents_read(run: &Run, inputs: &Inputs<'_>, dir: &Path) -> Option<
     })
 }
 
-/// Run B's six added pastes, each only into the settled input box the turn before it left
+/// Run B's seven added pastes, each only into the settled input box the turn before it left
 /// (`rows`, first the `turn` screen): the long, the tag-like and the newline texts, each until one more
 /// UserPromptSubmit and one more Stop are captured and the input box is back (`Run::box_wait`),
 /// then the echo command until one more stdout tag stands in Run B's transcript past its end
 /// before the paste, or one more UserPromptSubmit is captured, and the input box is back (its ms
-/// to `echo`, only for a tag read with no prompt; with no readable transcript of the session-id
-/// shape it is not pasted), then `/compact` until a new SessionStart or a new UserPromptSubmit is captured and the input box
+/// to `echo`, only for a tag read with no prompt), then, as Run B's eighth paste, `/context` the
+/// same way, its tags counted past the transcript's end read right before it (its ms to
+/// `context`); with no readable transcript of the session-id shape neither is pasted. Then `/compact` until a new SessionStart or a new UserPromptSubmit is captured and the input box
 /// is back, then the probed local command until the same and the screen settles. The first wait
 /// that fails ends them. The rows the input box settled on after the long paste's turn go to
 /// `long_turn`. The ms from the `/compact` paste to the instant its answer was read, once it was.
@@ -142,6 +144,7 @@ pub(super) fn framing_turns(
     long_turn: &mut Option<Vec<String>>,
     box_only: &mut u32,
     echo: &mut Option<u64>,
+    context: &mut Option<u64>,
 ) -> Option<u64> {
     let clock = run.clock.as_ref();
     let count = |event| count_of(captures, event);
@@ -182,6 +185,27 @@ pub(super) fn framing_turns(
             *echo = Some(ms(answered.saturating_duration_since(pasted)));
         }
         rows = run.box_wait(answered);
+        if let Some(from_context) = crate::run::send::echo::end_of(&transcript) {
+            if !guard(rows.as_deref(), box_only) {
+                return None;
+            }
+            let prompts = count(HookEvent::UserPromptSubmit);
+            let pasted = clock.now();
+            if !run.paste_text(PROBE_CONTEXT_COMMAND) {
+                return None;
+            }
+            let tagged = || {
+                crate::run::send::echo::tags_since(&transcript, from_context)
+                    .is_some_and(|n| n >= 1)
+            };
+            let answered = wait_for(clock, probe_until(clock), run.stop, || {
+                tagged() || count(HookEvent::UserPromptSubmit) > prompts
+            })?;
+            if tagged() && count(HookEvent::UserPromptSubmit) == prompts {
+                *context = Some(ms(answered.saturating_duration_since(pasted)));
+            }
+            rows = run.box_wait(answered);
+        }
     }
     if !guard(rows.as_deref(), box_only) {
         return None;

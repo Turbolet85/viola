@@ -98,15 +98,16 @@ fn check_typed_rows_fail_without_a_measurement() {
         LedgerRow::LocalCommandCompact,
         LedgerRow::LocalCommandEcho,
         LedgerRow::TrustRecord,
+        LedgerRow::LocalCommandContext,
     ] {
         assert!(!typed_check(row, TypedRun::default()), "{}", row.id());
     }
-    let seven = verdicts_with(TypedRun::default());
+    let eight = verdicts_with(TypedRun::default());
     assert_eq!(
-        seven,
+        eight,
         [
             true, true, true, true, true, true, false, false, false, false, true, true, true, true,
-            true, true, true, true, true, true, false, false, false, true
+            true, true, true, true, true, true, false, false, false, true, false
         ]
     );
 }

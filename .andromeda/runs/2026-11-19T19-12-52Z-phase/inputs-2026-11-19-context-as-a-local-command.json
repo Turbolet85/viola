@@ -1,0 +1,290 @@
+[
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "eae40850",
+"ts": "2026-11-19T19:13:46Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-19-context-as-a-local-command",
+"--source",
+"~/dev/projects/additional/viola-overseer/phase-context-directive.md",
+"--kind",
+"relay",
+"--why",
+"the overseer phase directive: scope at afa8699c, no live start, stop at P3 end with one founder-forks block",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-11-19T19-12-52Z-phase",
+"--marker",
+"2026-11-19-context-as-a-local-command"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy no-repo · ../additional/viola-overseer/phase-context-directive.md",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-phase-context-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/phase-context-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "c5c328d035cc6b9da9466db96ace13bd457f9d73b2200aeba83e9c22ff68c3a2",
+"copy": "I1-phase-context-directive.md.txt",
+"link": false,
+"read_at": "2026-11-19T19:13:46Z",
+"step": "phase:P1",
+"why": "the overseer phase directive: scope at afa8699c, no live start, stop at P3 end with one founder-forks block"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "eae40850",
+"ts": "2026-11-19T19:50:38Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-19-context-as-a-local-command",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-context-p3.md",
+"--kind",
+"relay",
+"--why",
+"the founder's answers F1 F3 F4 F5 F6 and the overseer's technical answers F2 and 6-11 to the P3 block",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-11-19T19-12-52Z-phase",
+"--marker",
+"2026-11-19-context-as-a-local-command"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy no-repo · ../additional/viola-overseer/relay-context-p3.md",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-context-p3.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-context-p3.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "617f084bef0f535bd9c5f3efef1aa94cea498389f9cd1a041f656a75873d3543",
+"copy": "I2-relay-context-p3.md.txt",
+"link": false,
+"read_at": "2026-11-19T19:50:37Z",
+"step": "phase:P4",
+"why": "the founder's answers F1 F3 F4 F5 F6 and the overseer's technical answers F2 and 6-11 to the P3 block"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "eae40850",
+"ts": "2026-11-19T19:57:19Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-19-context-as-a-local-command",
+"--run-dir",
+".andromeda/runs/2026-11-19T19-12-52Z-phase",
+"--marker",
+"2026-11-19-context-as-a-local-command"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-context-directive.md",
+"I1 cited scope.md:38 · scope.md:81 · research.md:13 · plan.md:10 · plan.md:262 · plan.md:372 (in fence) · plan.md:380 (in fence) · plan.md:476 (in fence) · plan.md:580",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-context-p3.md",
+"I2 cited plan.md:8 · plan.md:21 · plan.md:27 · plan.md:29 · plan.md:56 · plan.md:84 · plan.md:101 · plan.md:136 · plan.md:156 · plan.md:209 · plan.md:211 · plan.md:272 · plan.md:328 (in fence) · plan.md:349 (in fence) · plan.md:396 (in fence) · plan.md:406 (in fence) · plan.md:422 (in fence) · plan.md:440 (in fence) · plan.md:458 (in fence) · plan.md:484 (in fence) · plan.md:539 · plan.md:543 · plan.md:547 · plan.md:580 · plan.md:587 · plan.md:588 · plan.md:602 · plan.md:610 · plan.md:615",
+"inputs: 2 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "eae40850",
+"ts": "2026-11-19T20:00:39Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-19-context-as-a-local-command",
+"--run-dir",
+".andromeda/runs/2026-11-19T19-12-52Z-phase",
+"--marker",
+"2026-11-19-context-as-a-local-command"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-context-directive.md",
+"I1 cited scope.md:38 · scope.md:81 · research.md:13 · plan.md:10 · plan.md:264 · plan.md:380 (in fence) · plan.md:388 (in fence) · plan.md:484 (in fence) · plan.md:588",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-context-p3.md",
+"I2 cited plan.md:8 · plan.md:21 · plan.md:27 · plan.md:29 · plan.md:56 · plan.md:84 · plan.md:101 · plan.md:136 · plan.md:156 · plan.md:209 · plan.md:211 · plan.md:274 · plan.md:336 (in fence) · plan.md:357 (in fence) · plan.md:404 (in fence) · plan.md:414 (in fence) · plan.md:430 (in fence) · plan.md:448 (in fence) · plan.md:466 (in fence) · plan.md:492 (in fence) · plan.md:547 · plan.md:551 · plan.md:555 · plan.md:588 · plan.md:595 · plan.md:596 · plan.md:610 · plan.md:618 · plan.md:623",
+"inputs: 2 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "eae40850",
+"ts": "2026-11-19T20:01:54Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-19-context-as-a-local-command",
+"--run-dir",
+".andromeda/runs/2026-11-19T19-12-52Z-phase",
+"--marker",
+"2026-11-19-context-as-a-local-command"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-context-directive.md",
+"I1 cited scope.md:38 · scope.md:81 · research.md:13 · plan.md:10 · plan.md:271 · plan.md:387 (in fence) · plan.md:395 (in fence) · plan.md:491 (in fence) · plan.md:595",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-context-p3.md",
+"I2 cited plan.md:8 · plan.md:21 · plan.md:27 · plan.md:29 · plan.md:56 · plan.md:84 · plan.md:101 · plan.md:136 · plan.md:156 · plan.md:216 · plan.md:218 · plan.md:281 · plan.md:343 (in fence) · plan.md:364 (in fence) · plan.md:411 (in fence) · plan.md:421 (in fence) · plan.md:437 (in fence) · plan.md:455 (in fence) · plan.md:473 (in fence) · plan.md:499 (in fence) · plan.md:554 · plan.md:558 · plan.md:562 · plan.md:595 · plan.md:602 · plan.md:603 · plan.md:617 · plan.md:625 · plan.md:630",
+"inputs: 2 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "eae40850",
+"ts": "2026-11-19T20:03:57Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-19-context-as-a-local-command",
+"--message-file",
+".andromeda/runs/2026-11-19T19-12-52Z-phase/relay-1.md",
+"--origin",
+"the operator, in this session",
+"--kind",
+"relay",
+"--why",
+"the P5 word yes on .andromeda/runs/2026-11-19T19-12-52Z-phase/p5-card-2.md, the operator's own, approving plan rev 5 and its two Beyond-the-plan rows",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-11-19T19-12-52Z-phase",
+"--marker",
+"2026-11-19-context-as-a-local-command"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy message · message: the operator, in this session",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, in this session",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "355762c9fe8bebee237b9963beb4c1a2e2ec90312d0fb1ef7d986e4df261af4b",
+"copy": "I3-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-19T20:03:56Z",
+"step": "phase:P5",
+"why": "the P5 word yes on .andromeda/runs/2026-11-19T19-12-52Z-phase/p5-card-2.md, the operator's own, approving plan rev 5 and its two Beyond-the-plan rows"
+}
+}
+]

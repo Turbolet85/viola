@@ -318,7 +318,7 @@ fn tool_arms(
 }
 
 /// The capability-ledger rows `viola verify` prints, as literals: the live run checks each once.
-const LEDGER_ROWS: [&str; 24] = [
+const LEDGER_ROWS: [&str; 25] = [
     "shim-resolution",
     "spine-hooks",
     "session-start-fields",
@@ -343,6 +343,7 @@ const LEDGER_ROWS: [&str; 24] = [
     "local-command-echo",
     "trust-record",
     "browser-tools-prompt",
+    "local-command-context",
 ];
 
 /// The one row whose stamped word `absent` counts too: no interactive start met the prompt.
@@ -975,31 +976,32 @@ mod tests {
         assert_eq!(suite(&out.doc, "doctest")["failed"], 1);
     }
 
-    const LIVE_PASS: &str = "[01/24] shim-resolution claude resolves  pass\n\
-        [02/24] spine-hooks spine hooks fire  pass\n\
-        [03/24] session-start-fields fields  pass\n\
-        [04/24] prompt-verbatim prompt  pass\n\
-        [05/24] stop-message message  pass\n\
-        [06/24] largest-hook-payload payload  pass\n\
-        [07/24] modal-signature modal  pass\n\
-        [08/24] input-box-signature input box  pass\n\
-        [09/24] quiet-period quiet  pass\n\
-        [10/24] confirm-window window  pass\n\
-        [11/24] question-answer question  pass\n\
-        [12/24] plan-approve-revise plan  pass\n\
-        [13/24] question-notes notes  pass\n\
-        [14/24] dialog-concurrency concurrency  pass\n\
-        [15/24] long-paste-wrapper wrapper  pass\n\
-        [16/24] tag-escaping escaping  pass\n\
-        [17/24] local-command-clear clear  pass\n\
-        [18/24] paste-newline newline  pass\n\
-        [19/24] resume-session resume  pass\n\
-        [20/24] agents-join join  pass\n\
-        [21/24] local-command-compact compact  pass\n\
-        [22/24] local-command-echo echo  pass\n\
-        [23/24] trust-record trust  pass\n\
-        [24/24] browser-tools-prompt browser tools  absent\n\
-        stamped 2.1.287  24 pass  0 fail\n";
+    const LIVE_PASS: &str = "[01/25] shim-resolution claude resolves  pass\n\
+        [02/25] spine-hooks spine hooks fire  pass\n\
+        [03/25] session-start-fields fields  pass\n\
+        [04/25] prompt-verbatim prompt  pass\n\
+        [05/25] stop-message message  pass\n\
+        [06/25] largest-hook-payload payload  pass\n\
+        [07/25] modal-signature modal  pass\n\
+        [08/25] input-box-signature input box  pass\n\
+        [09/25] quiet-period quiet  pass\n\
+        [10/25] confirm-window window  pass\n\
+        [11/25] question-answer question  pass\n\
+        [12/25] plan-approve-revise plan  pass\n\
+        [13/25] question-notes notes  pass\n\
+        [14/25] dialog-concurrency concurrency  pass\n\
+        [15/25] long-paste-wrapper wrapper  pass\n\
+        [16/25] tag-escaping escaping  pass\n\
+        [17/25] local-command-clear clear  pass\n\
+        [18/25] paste-newline newline  pass\n\
+        [19/25] resume-session resume  pass\n\
+        [20/25] agents-join join  pass\n\
+        [21/25] local-command-compact compact  pass\n\
+        [22/25] local-command-echo echo  pass\n\
+        [23/25] trust-record trust  pass\n\
+        [24/25] browser-tools-prompt browser tools  absent\n\
+        [25/25] local-command-context context  pass\n\
+        stamped 2.1.287  25 pass  0 fail\n";
 
     /// `LIVE_PASS` without the step line of `row`.
     fn without(row: &str) -> String {
@@ -1042,23 +1044,31 @@ mod tests {
         (out, calls)
     }
 
-    /// The live proof reads every relied row, all twenty-four, the browser-tools row last, after
-    /// the resume, agents, compact, echo and trust-record rows; it counts `absent` on that row
-    /// alone.
+    /// The live proof reads every relied row, all twenty-five, the context row last, after the
+    /// resume, agents, compact, echo, trust-record and browser-tools rows; it counts `absent` on
+    /// the browser-tools row alone.
     #[test]
     fn run_local_live_reads_the_relied_rows() {
-        assert_eq!(LEDGER_ROWS.len(), 24);
+        assert_eq!(LEDGER_ROWS.len(), 25);
         assert_eq!(LEDGER_ROWS[17], "paste-newline");
-        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 6], "resume-session");
-        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 5], "agents-join");
-        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 4], "local-command-compact");
-        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 3], "local-command-echo");
-        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 2], "trust-record");
-        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 1], "browser-tools-prompt");
+        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 7], "resume-session");
+        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 6], "agents-join");
+        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 5], "local-command-compact");
+        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 4], "local-command-echo");
+        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 3], "trust-record");
+        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 2], "browser-tools-prompt");
+        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 1], "local-command-context");
         assert_eq!(LIVE_PASS.lines().count(), LEDGER_ROWS.len() + 1);
         assert!(live_rows_pass(LIVE_PASS));
         assert!(!live_rows_pass(&without(
             LEDGER_ROWS[LEDGER_ROWS.len() - 1]
+        )));
+        assert!(!live_rows_pass(&without(
+            LEDGER_ROWS[LEDGER_ROWS.len() - 2]
+        )));
+        assert!(!live_rows_pass(&LIVE_PASS.replace(
+            "local-command-context context  pass",
+            "local-command-context context  fail"
         )));
         assert!(live_rows_pass(&LIVE_PASS.replace(
             "browser-tools-prompt browser tools  absent",

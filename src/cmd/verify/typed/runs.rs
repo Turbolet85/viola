@@ -90,6 +90,7 @@ pub(super) fn trusted_run(
         &mut typed.long_turn,
         &mut box_only,
         &mut typed.echo_latency_ms,
+        &mut typed.context_latency_ms,
     );
     typed.box_only_guards = Some(box_only);
     keep(typed, 1, run.end_by_ctrl_c(&keys));

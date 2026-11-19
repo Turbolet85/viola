@@ -213,7 +213,7 @@ fn verify_window_without_screens_fails_every_interactive_row(#[from(home)] home:
     let stdout = ran.stdout_text();
     let lines: Vec<&str> = stdout.lines().collect();
     let mut expected = steps_failing(|i| i >= 6 && ROW_IDS[i] != "resume-session");
-    expected.push("stamped 2.1.0  7 pass  17 fail".to_owned());
+    expected.push("stamped 2.1.0  7 pass  18 fail".to_owned());
     assert_eq!(lines, expected);
     let rows = &stamps(home.path())["data"]["versions"]["2.1.0"]["rows"];
     for id in ROW_IDS[6..].iter().filter(|id| **id != "resume-session") {
@@ -361,7 +361,7 @@ fn verify_without_the_dialog_replay_fails_the_four_dialog_rows(#[from(home)] hom
     assert_eq!(ran.code, Some(1));
     assert!(ran.stderr.is_empty(), "stderr {}", ran.stderr_text());
     let mut expected = steps_failing(|i| (10..14).contains(&i));
-    expected.push("stamped 2.1.0  20 pass  4 fail".to_owned());
+    expected.push("stamped 2.1.0  21 pass  4 fail".to_owned());
     let stdout = ran.stdout_text();
     assert_eq!(stdout.lines().collect::<Vec<_>>(), expected);
     assert_plain(&ran.stdout);
@@ -376,6 +376,7 @@ fn verify_without_the_dialog_replay_fails_the_four_dialog_rows(#[from(home)] hom
         assert_eq!(rows[*id], "pass", "{id}");
     }
     assert_eq!(rows["browser-tools-prompt"], "absent");
+    assert_eq!(rows["local-command-context"], "pass");
     let entry = &stamps(home.path())["data"]["versions"]["2.1.0"];
     assert!(entry["measured"]["dialog_probe"]["parallel_both_before_first_post"].is_null());
     assert_eq!(probes_left(home.path()), 0);
@@ -396,10 +397,13 @@ fn verify_without_framing_fails_the_clear_and_compact_rows(#[from(home)] home: T
     assert_eq!(ran.code, Some(1), "stdout {}", ran.stdout_text());
     assert!(ran.stderr.is_empty(), "stderr {}", ran.stderr_text());
     let local = |id: &str| {
-        id == "local-command-clear" || id == "local-command-compact" || id == "local-command-echo"
+        id == "local-command-clear"
+            || id == "local-command-compact"
+            || id == "local-command-echo"
+            || id == "local-command-context"
     };
     let mut expected = steps_failing(|i| local(ROW_IDS[i]));
-    expected.push("stamped 2.1.0  21 pass  3 fail".to_owned());
+    expected.push("stamped 2.1.0  21 pass  4 fail".to_owned());
     let stdout = ran.stdout_text();
     assert_eq!(stdout.lines().collect::<Vec<_>>(), expected);
     assert_plain(&ran.stdout);
@@ -414,6 +418,7 @@ fn verify_without_framing_fails_the_clear_and_compact_rows(#[from(home)] home: T
     assert_eq!(rows["local-command-clear"], "fail");
     assert_eq!(rows["local-command-compact"], "fail");
     assert_eq!(rows["local-command-echo"], "fail");
+    assert_eq!(rows["local-command-context"], "fail");
     // The trusted run is the third start; its prompts are the probe prompt and the five pastes.
     let typed = trusted_run_typed(&receipt);
     assert_eq!(
@@ -452,6 +457,7 @@ fn verify_pastes_nothing_more_once_the_turn_screen_shows_a_modal(#[from(home)] h
     }
     assert_eq!(rows["local-command-compact"], "fail");
     assert_eq!(rows["local-command-echo"], "fail");
+    assert_eq!(rows["local-command-context"], "fail");
     assert_eq!(rows["input-box-signature"], "fail");
     let typed = trusted_run_typed(&receipt);
     assert_eq!(typed, ["viola verify probe: reply with the single word ok"]);
@@ -478,7 +484,7 @@ fn verify_pastes_no_local_command_once_the_tag_turn_screen_shows_a_modal(
     ];
     let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &after, &[]);
     assert_eq!(ran.code, Some(1), "stdout {}", ran.stdout_text());
-    let summary = "stamped 2.1.0  20 pass  4 fail\n";
+    let summary = "stamped 2.1.0  20 pass  5 fail\n";
     assert!(
         ran.stdout_text().ends_with(summary),
         "stdout {}",
@@ -491,6 +497,7 @@ fn verify_pastes_no_local_command_once_the_tag_turn_screen_shows_a_modal(
     assert_eq!(rows["paste-newline"], "fail");
     assert_eq!(rows["local-command-compact"], "fail");
     assert_eq!(rows["local-command-echo"], "fail");
+    assert_eq!(rows["local-command-context"], "fail");
     let typed = trusted_run_typed(&receipt);
     assert_eq!(
         typed,
@@ -529,7 +536,7 @@ fn verify_reads_the_browser_tools_prompt_as_a_modal_and_pastes_nothing(
     ];
     let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &after, &[]);
     assert_eq!(ran.code, Some(1), "stdout {}", ran.stdout_text());
-    let summary = "stamped 2.1.0  9 pass  15 fail\n";
+    let summary = "stamped 2.1.0  9 pass  16 fail\n";
     assert!(
         ran.stdout_text().ends_with(summary),
         "stdout {}",
@@ -582,9 +589,10 @@ fn verify_pastes_nothing_more_once_the_long_turn_screen_shows_a_modal(
         "paste-newline",
         "local-command-compact",
         "local-command-echo",
+        "local-command-context",
     ];
     let mut expected = steps_failing(|i| red.contains(&ROW_IDS[i]));
-    expected.push("stamped 2.1.0  18 pass  6 fail".to_owned());
+    expected.push("stamped 2.1.0  18 pass  7 fail".to_owned());
     let stdout = ran.stdout_text();
     assert_eq!(
         stdout.lines().collect::<Vec<_>>(),
@@ -637,6 +645,7 @@ fn verify_window_paste_hint_past_the_gate_maximum_still_stamps(#[from(home)] hom
             support::verify::TAG_PASTE,
             support::verify::NEWLINE_PASTE,
             "/mcp disable viola-probe-absent",
+            "/context",
             "/compact",
             "/clear",
         ]

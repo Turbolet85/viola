@@ -1,0 +1,106 @@
+[
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "eae40850",
+"ts": "2026-11-19T20:30:30Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-19-context-as-a-local-command",
+"--message-file",
+".andromeda/runs/2026-11-19T20-04-40Z-implement/relay-1.md",
+"--origin",
+"the operator (user message, relaying the overseer)",
+"--kind",
+"relay",
+"--why",
+"the word to go on with the live round: CS then CC, hostwatch before each start, cap unchanged",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-11-19T20-04-40Z-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy message · message: the operator (user message, relaying the overseer)",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator (user message, relaying the overseer)",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "5928bc516c98bce4bd60f7a9877ac18030ca7b8a669e733870e68e0feaf73638",
+"copy": "I4-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-19T20:30:29Z",
+"step": "implement",
+"why": "the word to go on with the live round: CS then CC, hostwatch before each start, cap unchanged"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "eae40850",
+"ts": "2026-11-19T20:30:35Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-19-context-as-a-local-command",
+"--source",
+"~/dev/projects/additional/viola-overseer/implement-context-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the overseer implement directive: build, rehearse, controls, stop before the live round; the live cap CS, CC and one spare",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-11-19T20-04-40Z-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I5 · copy no-repo · ../additional/viola-overseer/implement-context-directive.md",
+"cite: inputs#I5"
+],
+"stderr": null,
+"wrote": [
+"inputs/I5-implement-context-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I5",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/implement-context-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "b9e1948271d25c221b815ab914f5f37db71c63bbff84759a7afda5b90b3df58f",
+"copy": "I5-implement-context-directive.md.txt",
+"link": false,
+"read_at": "2026-11-19T20:30:35Z",
+"step": "implement",
+"why": "the overseer implement directive: build, rehearse, controls, stop before the live round; the live cap CS, CC and one spare"
+}
+}
+]

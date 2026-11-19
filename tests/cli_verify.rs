@@ -1,6 +1,6 @@
 //! `viola verify` against the fake agent (test-plan §5 CLI, §7 Fake agent; design-system §Surface:
 //! cli Component Patterns 5; layout-templates §Output structure `viola verify`): the relied step
-//! lines (twenty-four) and the `stamped` summary, the stamps it alone writes, the refusals, the `cli` catch-site line,
+//! lines (twenty-five) and the `stamped` summary, the stamps it alone writes, the refusals, the `cli` catch-site line,
 //! the six interactive runs and their dirs, Run F's trust record written and removed, `--record`'s scrub, screens, dialog and framing
 //! variants, the dialog tier's and the local-command row's failure without a replay, the help text, and the
 //! hook verb's capture arm. Every oracle is a literal.
@@ -27,33 +27,34 @@ use support::verify::{
     write_screen_set, write_spine_set,
 };
 
-const STEPS_PASS: [&str; 24] = [
-    "[01/24] shim-resolution claude resolves to a real executable  pass",
-    "[02/24] spine-hooks spine hooks fire through the plugin dir  pass",
-    "[03/24] session-start-fields SessionStart carries session_id and source  pass",
-    "[04/24] prompt-verbatim UserPromptSubmit carries the prompt as sent  pass",
-    "[05/24] stop-message Stop carries last_assistant_message  pass",
-    "[06/24] largest-hook-payload every hook payload fits the frame cap  pass",
-    "[07/24] modal-signature an untrusted start shows a compiled modal literal  pass",
-    "[08/24] input-box-signature a trusted start shows a compiled input-box literal and no modal  pass",
-    "[09/24] quiet-period the screen settles within the gate's maximum wait  pass",
-    "[10/24] confirm-window the typed prompt reaches UserPromptSubmit within the window  pass",
-    "[11/24] question-answer a question answered through PreToolUse takes effect  pass",
-    "[12/24] plan-approve-revise a plan revise and approve each take effect  pass",
-    "[13/24] question-notes free text and notes reach the question  pass",
-    "[14/24] dialog-concurrency two parallel questions each raise a dialog  pass",
-    "[15/24] long-paste-wrapper a long paste unwraps to the text as pasted  pass",
-    "[16/24] tag-escaping tag-like text un-escapes to the text as pasted  pass",
-    "[17/24] local-command-clear /clear starts a new session and submits no prompt  pass",
-    "[18/24] paste-newline an LF inside a paste stays inside the one prompt submitted  pass",
-    "[19/24] resume-session --resume <id> reopens the session under that id  pass",
-    "[20/24] agents-join claude agents --json names the live session by pid and session id  pass",
-    "[21/24] local-command-compact /compact keeps the session id and submits no prompt  pass",
-    "[22/24] local-command-echo /mcp writes its stdout tag to the transcript and submits no prompt  pass",
-    "[23/24] trust-record a trust record written for an untrusted folder opens it with no modal  pass",
-    "[24/24] browser-tools-prompt an interactive start's browser-tools prompt reads as a modal, nothing typed  absent",
+const STEPS_PASS: [&str; 25] = [
+    "[01/25] shim-resolution claude resolves to a real executable  pass",
+    "[02/25] spine-hooks spine hooks fire through the plugin dir  pass",
+    "[03/25] session-start-fields SessionStart carries session_id and source  pass",
+    "[04/25] prompt-verbatim UserPromptSubmit carries the prompt as sent  pass",
+    "[05/25] stop-message Stop carries last_assistant_message  pass",
+    "[06/25] largest-hook-payload every hook payload fits the frame cap  pass",
+    "[07/25] modal-signature an untrusted start shows a compiled modal literal  pass",
+    "[08/25] input-box-signature a trusted start shows a compiled input-box literal and no modal  pass",
+    "[09/25] quiet-period the screen settles within the gate's maximum wait  pass",
+    "[10/25] confirm-window the typed prompt reaches UserPromptSubmit within the window  pass",
+    "[11/25] question-answer a question answered through PreToolUse takes effect  pass",
+    "[12/25] plan-approve-revise a plan revise and approve each take effect  pass",
+    "[13/25] question-notes free text and notes reach the question  pass",
+    "[14/25] dialog-concurrency two parallel questions each raise a dialog  pass",
+    "[15/25] long-paste-wrapper a long paste unwraps to the text as pasted  pass",
+    "[16/25] tag-escaping tag-like text un-escapes to the text as pasted  pass",
+    "[17/25] local-command-clear /clear starts a new session and submits no prompt  pass",
+    "[18/25] paste-newline an LF inside a paste stays inside the one prompt submitted  pass",
+    "[19/25] resume-session --resume <id> reopens the session under that id  pass",
+    "[20/25] agents-join claude agents --json names the live session by pid and session id  pass",
+    "[21/25] local-command-compact /compact keeps the session id and submits no prompt  pass",
+    "[22/25] local-command-echo /mcp writes its stdout tag to the transcript and submits no prompt  pass",
+    "[23/25] trust-record a trust record written for an untrusted folder opens it with no modal  pass",
+    "[24/25] browser-tools-prompt an interactive start's browser-tools prompt reads as a modal, nothing typed  absent",
+    "[25/25] local-command-context /context writes its stdout tag to the transcript and submits no prompt  pass",
 ];
-const ROW_IDS: [&str; 24] = [
+const ROW_IDS: [&str; 25] = [
     "shim-resolution",
     "spine-hooks",
     "session-start-fields",
@@ -78,9 +79,10 @@ const ROW_IDS: [&str; 24] = [
     "local-command-echo",
     "trust-record",
     "browser-tools-prompt",
+    "local-command-context",
 ];
 /// The summary of a run whose every relied row passed.
-const STAMPED_PASS: &str = "stamped 2.1.0  24 pass  0 fail";
+const STAMPED_PASS: &str = "stamped 2.1.0  25 pass  0 fail";
 const SCREENS: [&str; 3] = ["Screen.modal.json", "Screen.ready.json", "Screen.turn.json"];
 const INTERNAL_ERROR: &str = "error: internal error\n";
 
@@ -676,9 +678,10 @@ fn verify_trust_record_row_passes_when_the_fake_reads_the_written_record(
     assert_eq!(ran.code, Some(0), "stdout {}", ran.stdout_text());
     assert_eq!(ran.stdout_text(), all_pass_stdout());
     assert!(ran.stdout_text().contains(
-        "[23/24] trust-record a trust record written for an untrusted folder opens it with no modal  pass\n\
-         [24/24] browser-tools-prompt an interactive start's browser-tools prompt reads as a modal, nothing typed  absent\n\
-         stamped 2.1.0  24 pass  0 fail\n"
+        "[23/25] trust-record a trust record written for an untrusted folder opens it with no modal  pass\n\
+         [24/25] browser-tools-prompt an interactive start's browser-tools prompt reads as a modal, nothing typed  absent\n\
+         [25/25] local-command-context /context writes its stdout tag to the transcript and submits no prompt  pass\n\
+         stamped 2.1.0  25 pass  0 fail\n"
     ));
     let entry = &stamps(home.path())["data"]["versions"]["2.1.0"];
     assert_eq!(entry["rows"]["trust-record"], "pass");
@@ -736,7 +739,7 @@ fn verify_meeting_the_browser_tools_prompt_says_so_before_the_summary(
     assert_eq!(ran.code, Some(1), "stdout {stdout}");
     assert_eq!(
         lines.last().copied(),
-        Some("stamped 2.1.0  9 pass  15 fail")
+        Some("stamped 2.1.0  9 pass  16 fail")
     );
     assert_eq!(lines[lines.len() - 2], STOOD);
     assert_eq!(lines.iter().filter(|l| **l == STOOD).count(), 1);
@@ -768,7 +771,7 @@ fn verify_trust_record_row_fails_when_the_record_is_not_read(#[from(home)] home:
     let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &after, &[]);
     assert_eq!(ran.code, Some(1), "stdout {}", ran.stdout_text());
     let mut expected = steps_failing(|i| ROW_IDS[i] == "trust-record");
-    expected.push("stamped 2.1.0  23 pass  1 fail".to_owned());
+    expected.push("stamped 2.1.0  24 pass  1 fail".to_owned());
     assert_eq!(ran.stdout_text().lines().collect::<Vec<_>>(), expected);
     assert!(ran.stderr.is_empty(), "stderr {}", ran.stderr_text());
     let entry = &stamps(home.path())["data"]["versions"]["2.1.0"];
@@ -799,7 +802,7 @@ fn verify_trust_record_row_reads_config_absent_and_writes_nothing(#[from(home)] 
     let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &after, &[]);
     assert_eq!(ran.code, Some(1), "stdout {}", ran.stdout_text());
     let mut expected = steps_failing(|i| ROW_IDS[i] == "trust-record");
-    expected.push("stamped 2.1.0  23 pass  1 fail".to_owned());
+    expected.push("stamped 2.1.0  24 pass  1 fail".to_owned());
     assert_eq!(ran.stdout_text().lines().collect::<Vec<_>>(), expected);
     let entry = &stamps(home.path())["data"]["versions"]["2.1.0"];
     assert_eq!(entry["rows"]["trust-record"], "config-absent");
@@ -920,7 +923,7 @@ fn verify_record_on_a_failed_run_writes_no_screen_without_the_rig_option(
     let (code, stdout, record) = failed_record_verify(&home, false);
     assert_eq!(code, Some(1), "stdout {stdout}");
     assert!(
-        stdout.ends_with("stamped 2.1.0  23 pass  1 fail\n"),
+        stdout.ends_with("stamped 2.1.0  24 pass  1 fail\n"),
         "{stdout}"
     );
     assert!(!record.exists(), "a failed plain --record wrote its dir");
@@ -935,7 +938,7 @@ fn verify_record_first_screens_on_a_failed_run_writes_its_first_screen_only(
     let (code, stdout, record) = failed_record_verify(&home, true);
     assert_eq!(code, Some(1), "stdout {stdout}");
     assert!(
-        stdout.ends_with("stamped 2.1.0  23 pass  1 fail\n"),
+        stdout.ends_with("stamped 2.1.0  24 pass  1 fail\n"),
         "{stdout}"
     );
     let dir = record.join("2.1.0");

@@ -70,7 +70,9 @@ const SF_CAPTURE_BOUND: Duration = Duration::from_secs(10);
 const STDOUT_TAG: &[u8] = b"<local-command-stdout>";
 /// The needle `VH` reads around its start: verify's echo probe's absent server name.
 const PROBE_NEEDLE: &str = "viola-probe-absent";
-/// The relied rows of verify's floor: every relied row but `trust-record` and `local-command-echo`.
+/// The relied rows of verify's floor: every relied row but `trust-record`, `browser-tools-prompt`,
+/// `local-command-echo` and `local-command-context`, the last two needing a readable transcript a
+/// floor read does not assume.
 const FLOOR_ROWS: [&str; 21] = [
     "shim-resolution",
     "spine-hooks",
@@ -171,8 +173,9 @@ impl Arm {
     /// with its spare `S0B-2`, `S0C` alone (no spare), `S1` with its spare `S1-2`, `S2` alone,
     /// `BP` with its spare `BP-2`, `BK` alone, the recording `R4` with its spare `R4-2`, and the
     /// MCP re-record `R4M` alone, the real-home verify `L1` with its spare `L1-2`, the
-    /// `/context` reading `L2` alone, and the contained StopFailure reading `SF` with its spare
-    /// `SF-2`.
+    /// `/context` reading `L2` alone, the contained StopFailure reading `SF` with its spare
+    /// `SF-2`, the context stamp `CS` with its spare `CS-2` and the context send `CC` with its
+    /// spare `CC-2`.
     pub fn of_label(label: &str) -> Option<Self> {
         match label {
             "R1" | "R1-2" => Some(Self::R1),
@@ -180,7 +183,9 @@ impl Arm {
             "R3B" | "R3B-2" => Some(Self::R3B),
             "R3" | "R3-2" | "R3-326" | "R3D" => Some(Self::R3),
             "IM" | "IM-2" => Some(Self::IM),
-            "S0" | "S0-2" | "S0R" | "S0R-2" | "S0R-3" | "S0B" | "S0B-2" => Some(Self::V),
+            "S0" | "S0-2" | "S0R" | "S0R-2" | "S0R-3" | "S0B" | "S0B-2" | "CS" | "CS-2" => {
+                Some(Self::V)
+            }
             "S0C" => Some(Self::VC),
             "S1" | "S1-2" => Some(Self::TS),
             "S2" => Some(Self::TC),
@@ -189,7 +194,7 @@ impl Arm {
             "R4" | "R4-2" => Some(Self::VR),
             "R4M" => Some(Self::MT),
             "L1" | "L1-2" => Some(Self::VH),
-            "L2" => Some(Self::CX),
+            "L2" | "CC" | "CC-2" => Some(Self::CX),
             "SF" | "SF-2" => Some(Self::SF),
             _ => None,
         }
@@ -302,6 +307,31 @@ impl Arm {
     }
 }
 
+/// The context round's two shapes, by label: `CS` keeps its stamp and reads its config's top
+/// level, `CC` seeds that kept stamp and sends a prompt, then `/context`, then reads the hint.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum ContextShape {
+    Stamp,
+    Send,
+}
+
+impl ContextShape {
+    /// The shape a label takes: the live labels and their spares, and the two rehearsal labels.
+    fn of(label: &str) -> Option<Self> {
+        match label {
+            "CS" | "CS-2" | REHEARSE_CS => Some(Self::Stamp),
+            "CC" | "CC-2" | REHEARSE_CC => Some(Self::Send),
+            _ => None,
+        }
+    }
+}
+
+/// The labels a `cs` and a `cc` rehearsal take.
+pub const REHEARSE_CS: &str = "rehearse-CS";
+pub const REHEARSE_CC: &str = "rehearse-CC";
+/// The file `CS` keeps its stamp in, under the out dir, and `CC` seeds from.
+const CONTEXT_STAMP: &str = "context-stamp.json";
+
 /// One start, as the entry parsed it.
 #[derive(Debug, Clone)]
 pub struct Plan {
@@ -379,6 +409,11 @@ pub fn start(plan: &Plan) -> u8 {
     procs::install_stop_handlers();
     if plan.live && std::env::var_os("CI").is_some() {
         return refused("ci");
+    }
+    if ContextShape::of(&plan.label) == Some(ContextShape::Send)
+        && !fs::symlink_metadata(plan.out.join(CONTEXT_STAMP)).is_ok_and(|m| m.is_file())
+    {
+        return refused("stamp");
     }
     let ledger = plan.ledger.clone().map(Ledger::new);
     if let (Some(ledger), Some(cap)) = (&ledger, plan.cap)
@@ -563,6 +598,10 @@ pub fn start(plan: &Plan) -> u8 {
         // Read at verify's end, before the teardown: whether the CLI's own extension cache stands
         // in the private config, by its key name alone.
         summary.put("cache-a", scratch.cache_word());
+    }
+    if ContextShape::of(&plan.label) == Some(ContextShape::Stamp) {
+        summary.put("kept-stamp", keep_stamp(&scratch, &plan.out));
+        summary.put("config-top", config_top(&scratch.config));
     }
     if plan.arm.verifies() || plan.arm == Arm::TS {
         // A failed verify's first screens, copied into the run's kept folder beside its frames
@@ -955,6 +994,14 @@ fn run_child(
         }
         _ => (plan.program.clone(), child_args),
     };
+    if ContextShape::of(&plan.label) == Some(ContextShape::Send) {
+        let word = seed_stamp(&plan.out, scratch.vhome.as_deref());
+        summary.put("stamp-seeded", word);
+        if word != "yes" {
+            summary.put("refused", "stamp");
+            return None;
+        }
+    }
     let cwd = match (plan.arm, &plan.cwd) {
         (Arm::VH, Some(cwd)) => cwd.clone(),
         _ => scratch.cwd.clone(),
@@ -982,6 +1029,9 @@ fn run_child(
         Arm::IM => arm_im(plan, &mut session, summary),
         Arm::V | Arm::VP | Arm::VK | Arm::VR | Arm::VH => {
             arm_v(plan, scratch, &mut session, summary);
+        }
+        Arm::CX if ContextShape::of(&plan.label) == Some(ContextShape::Send) => {
+            arm_cc(plan, scratch, &env, &mut session, summary);
         }
         Arm::CX => arm_cx(plan, scratch, &env, &mut session, summary),
         Arm::SF => arm_sf(plan, scratch, &env, &mut session, summary),
@@ -1366,6 +1416,121 @@ fn arm_v(plan: &Plan, scratch: &Scratch, session: &mut Session, summary: &mut Su
     }
 }
 
+/// A regular file's bytes through `MAX_FRAME`, never through a link; `None` when absent or unread.
+fn read_regular(path: &Path) -> Option<Vec<u8>> {
+    if !fs::symlink_metadata(path).is_ok_and(|m| m.is_file()) {
+        return None;
+    }
+    let mut bytes = Vec::new();
+    File::open(path)
+        .ok()?
+        .take(viola_core::MAX_FRAME)
+        .read_to_end(&mut bytes)
+        .ok()?;
+    Some(bytes)
+}
+
+/// `CS`: the scratch viola home's `ledger/stamps.json` copied byte for byte to
+/// `<out>/context-stamp.json`, never over a standing file: `written`, `exists`, `absent` (no stamp
+/// to keep) or `refused`.
+fn keep_stamp(scratch: &Scratch, out: &Path) -> &'static str {
+    let Some(bytes) = scratch
+        .vhome
+        .as_ref()
+        .and_then(|home| read_regular(&home.join("ledger").join("stamps.json")))
+    else {
+        return "absent";
+    };
+    if viola_state::fs::create_private_dir(out).is_err() {
+        return "refused";
+    }
+    match viola_state::fs::place_private_new(
+        &out.join(CONTEXT_STAMP),
+        &bytes,
+        viola_state::fs::FILE_MODE,
+    ) {
+        Ok(viola_state::fs::Placed::Written) => "written",
+        Ok(viola_state::fs::Placed::Present) => "exists",
+        Err(_) => "refused",
+    }
+}
+
+/// `CC`: `<out>/context-stamp.json` copied byte for byte into the scratch viola home as
+/// `ledger/stamps.json` (the dir 0700, the file 0600) before `viola run`: `yes`, `absent` or
+/// `refused`.
+fn seed_stamp(out: &Path, vhome: Option<&Path>) -> &'static str {
+    let Some(bytes) = read_regular(&out.join(CONTEXT_STAMP)) else {
+        return "absent";
+    };
+    let Some(ledger) = vhome.map(|home| home.join("ledger")) else {
+        return "refused";
+    };
+    let placed = viola_state::fs::create_private_dir(&ledger).is_ok()
+        && viola_state::fs::replace_private(
+            &ledger.join("stamps.json"),
+            &bytes,
+            viola_state::fs::FILE_MODE,
+        )
+        .is_ok();
+    if placed { "yes" } else { "refused" }
+}
+
+/// A top-level name as read: a plain `[A-Za-z0-9._-]{1,40}` word, else `other`.
+fn plain_name(name: &std::ffi::OsStr) -> &str {
+    name.to_str()
+        .filter(|n| {
+            (1..=40).contains(&n.len())
+                && n.bytes()
+                    .all(|b| b.is_ascii_alphanumeric() || matches!(b, b'.' | b'_' | b'-'))
+        })
+        .unwrap_or("other")
+}
+
+/// The count of regular files at or below `path`, never through a link, to a bounded depth.
+fn regular_files(path: &Path, depth: usize) -> usize {
+    let Ok(meta) = fs::symlink_metadata(path) else {
+        return 0;
+    };
+    if meta.is_file() {
+        return 1;
+    }
+    if !meta.is_dir() || depth == 0 {
+        return 0;
+    }
+    fs::read_dir(path).map_or(0, |entries| {
+        entries
+            .filter_map(Result::ok)
+            .map(|e| regular_files(&e.path(), depth - 1))
+            .sum()
+    })
+}
+
+/// `CS`'s residual reading of its private Claude config: each top-level entry's name (or `other`)
+/// with its count of regular files, `<name>(<n>)`, `,`-joined in name order; `none` for an empty
+/// dir, `unread` for one not read. No deeper name, no value, no byte.
+fn config_top(config: &Path) -> String {
+    let Ok(entries) = fs::read_dir(config) else {
+        return "unread".to_owned();
+    };
+    let mut top: Vec<(String, usize)> = entries
+        .filter_map(Result::ok)
+        .map(|e| {
+            (
+                plain_name(&e.file_name()).to_owned(),
+                regular_files(&e.path(), 16),
+            )
+        })
+        .collect();
+    top.sort();
+    if top.is_empty() {
+        return "none".to_owned();
+    }
+    top.iter()
+        .map(|(name, n)| format!("{name}({n})"))
+        .collect::<Vec<_>>()
+        .join(",")
+}
+
 /// `VH`'s reads under the given home, the user config and the Claude dir: names, counts and the
 /// needle's word only, every value dropped; the `projects` keys (host paths) held in memory.
 struct HomeNames {
@@ -1610,24 +1775,103 @@ fn arm_cx(
     session: &mut Session,
     summary: &mut Summary,
 ) {
+    let Some((vhome, viola, events, mut offset)) = context_start(plan, scratch, session, summary)
+    else {
+        return;
+    };
+    let (transcript, kept_len) = context_transcript(scratch, session, summary);
+    let Ok(reply) = send_text(viola, vhome, scratch, env, "1.txt", CX_TEXT) else {
+        summary.put("refused", "texts");
+        return;
+    };
+    summary.put("send-1-reply", send_word(reply.as_ref()));
+    context_reading(
+        plan.settle,
+        scratch,
+        session,
+        summary,
+        (&events, &mut offset),
+        transcript.map(|t| (t, kept_len)),
+    );
+}
+
+/// `CC`: under `CS`'s kept stamp, seeded before `viola run`, the box read with no trust form,
+/// `session-start` awaited, send 1 the compiled prompt and its `turn-ended` awaited, then send 2
+/// `/context` read as `CX` reads it; only then the hint's drawn cells past the cursor's cell as
+/// attribute words, one `x` and one DEL. No key moves before send 2's reading.
+fn arm_cc(
+    plan: &Plan,
+    scratch: &Scratch,
+    env: &[(OsString, OsString)],
+    session: &mut Session,
+    summary: &mut Summary,
+) {
+    let Some((vhome, viola, events, mut offset)) = context_start(plan, scratch, session, summary)
+    else {
+        return;
+    };
+    let Ok(reply) = send_text(viola, vhome, scratch, env, "1.txt", MT_PROMPT) else {
+        summary.put("refused", "texts");
+        return;
+    };
+    summary.put("send-1-reply", send_word(reply.as_ref()));
+    let ended = await_kind(&events, &mut offset, "turn-ended", plan.settle, session).is_some();
+    summary.put("send-1-turn", if ended { "ended" } else { "unended" });
+    let (transcript, kept_len) = context_transcript(scratch, session, summary);
+    session.settle(Reading::is_box_up, plan.settle);
+    let Ok(reply) = send_text(viola, vhome, scratch, env, "2.txt", CX_TEXT) else {
+        summary.put("refused", "texts");
+        return;
+    };
+    summary.put("send-2-reply", send_word(reply.as_ref()));
+    context_reading(
+        plan.settle,
+        scratch,
+        session,
+        summary,
+        (&events, &mut offset),
+        transcript.map(|t| (t, kept_len)),
+    );
+    hint_cell_attrs(plan, session, summary);
+}
+
+/// The first frame read and the box up with no trust form, then `session-start` awaited: the
+/// viola home, the viola exe, the events log and its offset past that line. `None` once a
+/// refusal is put.
+fn context_start<'a>(
+    plan: &'a Plan,
+    scratch: &'a Scratch,
+    session: &mut Session,
+    summary: &mut Summary,
+) -> Option<(&'a Path, &'a Path, PathBuf, u64)> {
     let first = first_frame(plan, session);
     record_reading(summary, &first);
     summary.put("keys", "none");
     if first.trust_shown() || !first.is_box_up() {
         summary.put("refused", "shape");
-        return;
+        return None;
     }
     let (Some(vhome), Some(viola)) = (&scratch.vhome, &plan.viola) else {
-        return;
+        return None;
     };
     let events = vhome.join("instances").join(CX_NAME).join("events.ndjson");
     let mut offset = 0;
     let Some(started) = await_kind(&events, &mut offset, "session-start", plan.settle, session)
     else {
         summary.put("refused", "no-session-start");
-        return;
+        return None;
     };
     session.learn_id(&started);
+    Some((vhome.as_path(), viola.as_path(), events, offset))
+}
+
+/// The session's transcript under the private config and its length before the `/context` send,
+/// `context-transcript` put.
+fn context_transcript(
+    scratch: &Scratch,
+    session: &Session,
+    summary: &mut Summary,
+) -> (Option<PathBuf>, Option<u64>) {
     let transcript = session
         .session_id
         .as_deref()
@@ -1640,14 +1884,26 @@ fn arm_cx(
         "context-transcript",
         transcript_word(transcript.as_deref(), kept_len),
     );
+    (transcript, kept_len)
+}
+
+/// `text` written to `<scratch>/texts/<file>` and sent through `viola send --file`, bounded; `Err`
+/// when the file cannot be written.
+fn send_text(
+    viola: &Path,
+    vhome: &Path,
+    scratch: &Scratch,
+    env: &[(OsString, OsString)],
+    file: &str,
+    text: &str,
+) -> Result<Option<Output>, ()> {
     let texts = scratch.root.join("texts");
-    let file = texts.join("1.txt");
+    let file = texts.join(file);
     if viola_state::fs::create_private_dir(&texts).is_err()
-        || viola_state::fs::replace_private(&file, CX_TEXT.as_bytes(), viola_state::fs::FILE_MODE)
+        || viola_state::fs::replace_private(&file, text.as_bytes(), viola_state::fs::FILE_MODE)
             .is_err()
     {
-        summary.put("refused", "texts");
-        return;
+        return Err(());
     }
     let mut command = Command::new(viola);
     command
@@ -1659,14 +1915,27 @@ fn arm_cx(
         .env_clear()
         .envs(env.iter().map(|(k, v)| (k, v)))
         .stdin(Stdio::null());
-    let reply = bounded(command, SEND_BOUND);
-    summary.put("send-1-reply", send_word(reply.as_ref()));
-    let until = Instant::now() + SUBMIT_BOUND;
+    Ok(bounded(command, SEND_BOUND))
+}
+
+/// After a `/context` send, each wait bounded by `SUBMIT_BOUND` or the start's settle, the
+/// shorter: whether it was submitted, and its stdout tags in the session's
+/// transcript past the length held before the send (or the transcript found after it, from its
+/// start), as `context-transcript-after`, `context-submitted`, `context-tags` and `context-post`.
+fn context_reading(
+    settle: Duration,
+    scratch: &Scratch,
+    session: &mut Session,
+    summary: &mut Summary,
+    (events, offset): (&Path, &mut u64),
+    held: Option<(PathBuf, Option<u64>)>,
+) {
+    let until = Instant::now() + SUBMIT_BOUND.min(settle);
     let mut submitted = false;
     while !submitted && Instant::now() < until && procs::stop_requested().is_none() {
         match await_kind(
-            &events,
-            &mut offset,
+            events,
+            offset,
             "prompt-submitted",
             until.saturating_duration_since(Instant::now()),
             session,
@@ -1675,11 +1944,7 @@ fn arm_cx(
             None => break,
         }
     }
-    let after = transcript_after_send(
-        &scratch.config,
-        session.session_id.as_deref(),
-        transcript.map(|t| (t, kept_len)),
-    );
+    let after = transcript_after_send(&scratch.config, session.session_id.as_deref(), held);
     let after_len = after.as_ref().and_then(|(t, _)| fs::metadata(t).ok());
     summary.put(
         "context-transcript-after",
@@ -1708,6 +1973,72 @@ fn arm_cx(
         tags.map_or_else(|| "unread".to_owned(), |n| n.to_string()),
     );
     summary.put("context-post", context_post(submitted, tags));
+}
+
+/// C3's reading on `CC`, after send 2's reading and with the box settled: the count of the hint's
+/// drawn cells past the cursor's cell and each distinct attribute word among them with its count,
+/// then one `x` (its cell's word) and one DEL, each frame kept. A box not up, no drawn hint cell or
+/// a key the grant refuses reads `unread` with its reason. Readings, never text.
+fn hint_cell_attrs(plan: &Plan, session: &mut Session, summary: &mut Summary) {
+    let mut keys = Keys::new(plan.grant);
+    session.settle(Reading::is_box_up, plan.settle);
+    let hints = session.model.hint_cells();
+    match &hints {
+        Ok(cells) => {
+            summary.put("hint-cells", cells.len().to_string());
+            summary.put("hint-cells-attr", attr_counts(cells));
+        }
+        Err(reason) => {
+            summary.put("hint-cells", format!("unread ({reason})"));
+            summary.put("hint-cells-attr", format!("unread ({reason})"));
+        }
+    }
+    let typed = match keys.type_key(Key::X, &session.reading(), &mut session.writer) {
+        Err(refusal) => format!("unread ({})", refusal.word()),
+        Ok(()) => {
+            session.settle(|_| true, plan.settle);
+            session.keep("after-x");
+            let typed = session.model.box_attr();
+            match keys.type_key(Key::Del, &session.reading(), &mut session.writer) {
+                Ok(()) => {
+                    session.settle(|_| true, plan.settle);
+                    session.keep("after-del");
+                }
+                Err(refusal) => summary.put("del", format!("unread ({})", refusal.word())),
+            }
+            typed
+        }
+    };
+    summary.put("typed-attr", typed.clone());
+    summary.put("hint-told-apart", hints_told_apart(&hints, &typed));
+    summary.put("keys", keys.summary());
+}
+
+/// Each distinct attribute word with its count, in first-seen order: `<word>(<n>)`, `,`-joined.
+fn attr_counts(cells: &[String]) -> String {
+    let mut counts: Vec<(&str, usize)> = Vec::new();
+    for cell in cells {
+        match counts.iter_mut().find(|(w, _)| *w == cell.as_str()) {
+            Some((_, n)) => *n += 1,
+            None => counts.push((cell.as_str(), 1)),
+        }
+    }
+    counts
+        .iter()
+        .map(|(w, n)| format!("{w}({n})"))
+        .collect::<Vec<_>>()
+        .join(",")
+}
+
+/// `yes` when no hint cell's word equals the typed cell's, `no` when one does, `unread` when
+/// either reading is unread.
+fn hints_told_apart(hints: &Result<Vec<String>, &'static str>, typed: &str) -> &'static str {
+    match hints {
+        Err(_) => "unread",
+        Ok(_) if typed.starts_with("unread") => "unread",
+        Ok(cells) if cells.iter().any(|c| c == typed) => "no",
+        Ok(_) => "yes",
+    }
 }
 
 /// `bwrap` resolved on `path` (the rig's own `PATH`) and one bounded no-op child run through it
@@ -2247,6 +2578,7 @@ fn stamp_lines(entry: Option<&Value>) -> Vec<(String, String)> {
         let mut lines: Vec<(String, String)> = [
             "trust-record",
             "browser-tools-prompt",
+            "local-command-context",
             "pass-count",
             "rows",
             "failing",
@@ -2284,6 +2616,7 @@ fn stamp_lines(entry: Option<&Value>) -> Vec<(String, String)> {
     let mut lines = vec![
         line("trust-record", word_of("trust-record")),
         line("browser-tools-prompt", word_of("browser-tools-prompt")),
+        line("local-command-context", word_of("local-command-context")),
         line("pass-count", format!("{passed}/{}", rows.len())),
         line("rows", rows.len().to_string()),
         line(
@@ -2464,14 +2797,23 @@ fn compare_texts(typed: &str, submitted: &str) -> &'static str {
     }
 }
 
-/// The send's reply as one word: `ok`, or `<refusal>:<detail>` of closed code words.
+/// The send's reply as one word: `ok` for an `ok` read back (it holds `submitted_at`),
+/// `unconfirmable` for an `ok` holding `"confirmed": false`, or `<refusal>:<detail>` of closed code
+/// words.
 fn send_word(output: Option<&Output>) -> String {
     let Some(output) = output else {
         return "send-unfinished".to_owned();
     };
     let doc: Value = serde_json::from_slice(&output.stdout).unwrap_or(Value::Null);
-    if doc.get("ok").is_some() {
-        return "ok".to_owned();
+    if let Some(ok) = doc.get("ok") {
+        return if ok.get("submitted_at").is_some() {
+            "ok"
+        } else if ok["confirmed"] == Value::Bool(false) {
+            "unconfirmable"
+        } else {
+            "unknown"
+        }
+        .to_owned();
     }
     let word = |v: &Value| {
         v.as_str()
@@ -2809,6 +3151,87 @@ mod tests {
         assert!(Arm::CX.browser_tools_seed(), "the browser-tools key off");
     }
 
+    #[test]
+    fn the_context_round_labels_take_their_arms_and_shapes() {
+        for (label, arm, shape) in [
+            ("CS", Some(Arm::V), Some(ContextShape::Stamp)),
+            ("CS-2", Some(Arm::V), Some(ContextShape::Stamp)),
+            ("CC", Some(Arm::CX), Some(ContextShape::Send)),
+            ("CC-2", Some(Arm::CX), Some(ContextShape::Send)),
+            ("L2", Some(Arm::CX), None),
+            ("S0", Some(Arm::V), None),
+            ("CS-3", None, None),
+            ("CC-3", None, None),
+        ] {
+            assert_eq!(Arm::of_label(label), arm, "{label}");
+            assert_eq!(ContextShape::of(label), shape, "{label}");
+        }
+        assert_eq!(
+            ContextShape::of(REHEARSE_CS),
+            Some(ContextShape::Stamp),
+            "rehearse cs"
+        );
+        assert_eq!(
+            ContextShape::of(REHEARSE_CC),
+            Some(ContextShape::Send),
+            "rehearse cc"
+        );
+        assert_eq!(ContextShape::of("rehearse-CX"), None, "the cx rehearsal");
+    }
+
+    #[test]
+    fn the_floor_rows_are_every_relied_row_but_four() {
+        let floor: Vec<&str> = FLOOR_ROWS.to_vec();
+        let rest: Vec<&str> = LedgerRow::relied()
+            .into_iter()
+            .map(LedgerRow::id)
+            .filter(|id| !floor.contains(id))
+            .collect();
+        assert_eq!(
+            rest,
+            [
+                "local-command-echo",
+                "trust-record",
+                "browser-tools-prompt",
+                "local-command-context"
+            ]
+        );
+    }
+
+    #[test]
+    fn config_top_reads_plain_names_and_their_file_counts_only() {
+        let base = tempfile::tempdir().expect("tempdir");
+        let config = base.path().join("config");
+        fs::create_dir_all(config.join("projects").join("-tmp-x")).expect("dirs");
+        fs::write(config.join("projects").join("-tmp-x").join("a.jsonl"), "{}").expect("a");
+        fs::write(config.join("projects").join("-tmp-x").join("b.jsonl"), "{}").expect("b");
+        fs::write(config.join(".claude.json"), "{}").expect("config");
+        fs::create_dir_all(config.join("has space")).expect("other");
+        fs::create_dir_all(config.join("empty")).expect("empty");
+        let top = config_top(&config);
+        assert_eq!(top, ".claude.json(1),empty(0),other(0),projects(2)");
+        assert!(!top.contains('/'), "{top}");
+        let empty = base.path().join("none");
+        fs::create_dir_all(&empty).expect("empty config");
+        assert_eq!(config_top(&empty), "none");
+        assert_eq!(config_top(&base.path().join("absent")), "unread");
+        assert_eq!(plain_name(std::ffi::OsStr::new(&"a".repeat(41))), "other");
+        assert_eq!(plain_name(std::ffi::OsStr::new("a.b_c-1")), "a.b_c-1");
+    }
+
+    #[test]
+    fn the_hint_attr_counts_and_their_telling_apart() {
+        let cells = vec!["dim".to_owned(), "dim".to_owned(), "bold".to_owned()];
+        assert_eq!(attr_counts(&cells), "dim(2),bold(1)");
+        assert_eq!(hints_told_apart(&Ok(cells.clone()), "plain"), "yes");
+        assert_eq!(hints_told_apart(&Ok(cells), "dim"), "no");
+        assert_eq!(hints_told_apart(&Err("no-cell"), "plain"), "unread");
+        assert_eq!(
+            hints_told_apart(&Ok(vec!["dim".to_owned()]), "unread (not-granted)"),
+            "unread"
+        );
+    }
+
     /// A transcript's stdout tags count only past the kept length; an absent file reads none.
     #[test]
     fn the_context_tag_counts_only_past_the_kept_length() {
@@ -3029,13 +3452,14 @@ mod tests {
             "rows",
             "trust-record",
             "browser-tools-prompt",
+            "local-command-context",
             "pass-count",
             "screen-a",
             "facts-f",
         ] {
             assert_eq!(value_of(&lines, key), "unread", "{key}");
         }
-        assert_eq!(lines.len(), 5 + 18);
+        assert_eq!(lines.len(), 6 + 18);
     }
 
     #[test]
@@ -3118,7 +3542,19 @@ mod tests {
             stdout: s.as_bytes().to_vec(),
             stderr: Vec::new(),
         };
-        assert_eq!(send_word(Some(&out(r#"{"v":1,"ok":{}}"#))), "ok");
+        assert_eq!(
+            send_word(Some(&out(
+                r#"{"v":1,"ok":{"submitted_at":"2026-11-19T20:00:00.000Z","cursor":7}}"#
+            ))),
+            "ok"
+        );
+        assert_eq!(
+            send_word(Some(&out(
+                r#"{"v":1,"ok":{"confirmed":false,"detail":"unconfirmable","cursor":7}}"#
+            ))),
+            "unconfirmable"
+        );
+        assert_eq!(send_word(Some(&out(r#"{"v":1,"ok":{}}"#))), "unknown");
         assert_eq!(
             send_word(Some(&out(
                 r#"{"v":1,"refusal":"not-delivered","detail":"no-prompt-submitted"}"#

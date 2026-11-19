@@ -1,7 +1,7 @@
 use super::*;
 
 #[test]
-fn ledger_rows_are_the_twenty_four_measured_behaviours_in_order() {
+fn ledger_rows_are_the_twenty_five_measured_behaviours_in_order() {
     let ids: Vec<&str> = LedgerRow::ALL.iter().map(|r| r.id()).collect();
     assert_eq!(
         ids,
@@ -30,6 +30,7 @@ fn ledger_rows_are_the_twenty_four_measured_behaviours_in_order() {
             "local-command-echo",
             "trust-record",
             "browser-tools-prompt",
+            "local-command-context",
         ]
     );
     let words: Vec<&str> = LedgerRow::ALL.iter().map(|r| r.words()).collect();
@@ -60,6 +61,7 @@ fn ledger_rows_are_the_twenty_four_measured_behaviours_in_order() {
             "/mcp writes its stdout tag to the transcript and submits no prompt",
             "a trust record written for an untrusted folder opens it with no modal",
             "an interactive start's browser-tools prompt reads as a modal, nothing typed",
+            "/context writes its stdout tag to the transcript and submits no prompt",
         ]
     );
     assert!(words.iter().all(|w| w.is_ascii()));
@@ -69,9 +71,9 @@ fn ledger_rows_are_the_twenty_four_measured_behaviours_in_order() {
 fn relied_rows_are_every_row_in_order() {
     let here: Vec<&str> = LedgerRow::relied().into_iter().map(LedgerRow::id).collect();
     let all: Vec<&str> = LedgerRow::ALL.into_iter().map(LedgerRow::id).collect();
-    assert_eq!(here.len(), 24);
+    assert_eq!(here.len(), 25);
     assert_eq!(here, all);
-    assert_eq!(here.last(), Some(&"browser-tools-prompt"));
+    assert_eq!(here.last(), Some(&"local-command-context"));
 }
 
 #[test]
@@ -192,7 +194,7 @@ fn capture_read_keeps_the_size_and_a_parsed_payload() {
 
 #[test]
 fn check_passes_every_row_on_a_clean_probe() {
-    assert_eq!(verdicts(&clean_run()), [true; 24]);
+    assert_eq!(verdicts(&clean_run()), [true; 25]);
 }
 
 #[test]
@@ -337,6 +339,7 @@ fn merge_stamp_writes_the_envelope_for_a_first_version() {
                     "agents-join": "pass", "local-command-compact": "pass",
                     "local-command-echo": "pass", "trust-record": "pass",
                     "browser-tools-prompt": "absent",
+                    "local-command-context": "pass",
                 },
                 "measured": {
                     "largest_hook_payload": {"SessionStart": 120, "Stop": 90},
@@ -345,6 +348,7 @@ fn merge_stamp_writes_the_envelope_for_a_first_version() {
                         "prompt_latency_ms": 31, "max_turn_gap_ms": 224,
                         "compact_latency_ms": 18_779,
                         "echo_latency_ms": 1_200,
+                        "context_latency_ms": 900,
                         "box_only_guards": 2,
                     },
                     "dialog_probe": {"parallel_both_before_first_post": false},
@@ -396,6 +400,7 @@ fn merge_stamp_keeps_unknown_versions_and_fields_and_replaces_its_own() {
                 "ready_settle_ms": null, "turn_settle_ms": null,
                 "prompt_latency_ms": null, "max_turn_gap_ms": null,
                 "compact_latency_ms": null, "echo_latency_ms": null,
+                "context_latency_ms": null,
                 "box_only_guards": null,
             }, "dialog_probe": {"parallel_both_before_first_post": null},
             "trust_probe": {"write": null, "remove": null},
@@ -543,6 +548,18 @@ fn verified_reads_a_fourteen_row_stamp_as_unverified() {
         "the twenty-three rows before the browser-tools row"
     );
     stamp["data"]["versions"]["2.1.0"]["rows"]["browser-tools-prompt"] = json!("pass");
+    assert_eq!(
+        verified(stamp.to_string().as_bytes(), "2.1.0"),
+        Ok(false),
+        "the twenty-four rows before the context row"
+    );
+    stamp["data"]["versions"]["2.1.0"]["rows"]["local-command-context"] = json!("fail");
+    assert_eq!(
+        verified(stamp.to_string().as_bytes(), "2.1.0"),
+        Ok(false),
+        "the context row failing"
+    );
+    stamp["data"]["versions"]["2.1.0"]["rows"]["local-command-context"] = json!("pass");
     assert_eq!(verified(stamp.to_string().as_bytes(), "2.1.0"), Ok(true));
 }
 
@@ -738,7 +755,7 @@ fn verified_reads_a_stamp_holding_the_retired_row_on_the_relied_rows_alone() {
         .map(|row| (row.id().to_owned(), json!("pass")))
         .collect();
     rows.insert(retired.to_owned(), json!("fail"));
-    assert_eq!(rows.len(), 25);
+    assert_eq!(rows.len(), 26);
     let stamp = json!({"v": 1, "data": {"versions": {"2.1.0": {"rows": rows}}}});
     assert_eq!(verified(stamp.to_string().as_bytes(), "2.1.0"), Ok(true));
 }
@@ -775,7 +792,7 @@ fn verified_reads_a_stamp_holding_the_two_retired_rows_on_the_relied_rows_alone(
     for id in &retired {
         rows.insert(id.clone(), json!("fail"));
     }
-    assert_eq!(rows.len(), 26);
+    assert_eq!(rows.len(), 27);
     let stamp = json!({"v": 1, "data": {"versions": {"2.1.0": {"rows": rows}}}});
     assert_eq!(verified(stamp.to_string().as_bytes(), "2.1.0"), Ok(true));
 }
@@ -784,7 +801,7 @@ fn verified_reads_a_stamp_holding_the_two_retired_rows_on_the_relied_rows_alone(
 fn relied_rows_hold_no_retired_row() {
     let retired = retired_rows_of_the_fixture();
     let relied: Vec<&str> = LedgerRow::relied().into_iter().map(LedgerRow::id).collect();
-    assert_eq!(relied.len(), 24);
+    assert_eq!(relied.len(), 25);
     assert!(relied.iter().all(|id| !retired.iter().any(|r| r == id)));
 }
 
@@ -860,7 +877,12 @@ fn verified_reads_absent_on_another_row_as_unverified(#[case] id: &str) {
 fn verified_reads_a_stamp_of_the_23_pre_chunk_ids_as_unverified() {
     let results: Vec<(LedgerRow, bool)> = LedgerRow::ALL
         .iter()
-        .filter(|r| **r != LedgerRow::BrowserToolsPrompt)
+        .filter(|r| {
+            !matches!(
+                r,
+                LedgerRow::BrowserToolsPrompt | LedgerRow::LocalCommandContext
+            )
+        })
         .map(|r| (*r, true))
         .collect();
     assert_eq!(results.len(), 23);

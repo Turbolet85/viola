@@ -1,0 +1,37 @@
+[
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "d074c3cc",
+"ts": "2026-11-19T19:13:41Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-11-19-context-as-a-local-command",
+"--id",
+"chk-vomrfsfb",
+"--desc-file",
+".andromeda/runs/2026-11-19T19-12-52Z-phase/master-desc.txt",
+"--scope-file",
+".andromeda/cache/docs/2026-11-19-context-as-a-local-command/scope.md",
+"--run-dir",
+".andromeda/runs/2026-11-19T19-12-52Z-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"promoted 2026-11-19-context-as-a-local-command · chk-vomrfsfb · `/context` as a local command · tx 3153"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T19-13-41-2026-11-19-context-as-a-local-command.ndjson",
+"./.andromeda/master-route.md",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]

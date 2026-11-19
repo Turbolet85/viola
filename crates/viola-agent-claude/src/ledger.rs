@@ -46,10 +46,13 @@ pub enum LedgerRow {
     LocalCommandEcho,
     TrustRecord,
     BrowserToolsPrompt,
+    /// `/context`'s stdout tag. A CLI version whose `/context` writes no tag stamps this row
+    /// `fail`, never `absent`, and reads unverified whole.
+    LocalCommandContext,
 }
 
 impl LedgerRow {
-    pub const ALL: [Self; 24] = [
+    pub const ALL: [Self; 25] = [
         Self::ShimResolution,
         Self::SpineHooks,
         Self::SessionStartFields,
@@ -74,6 +77,7 @@ impl LedgerRow {
         Self::LocalCommandEcho,
         Self::TrustRecord,
         Self::BrowserToolsPrompt,
+        Self::LocalCommandContext,
     ];
 
     /// The kebab-case id, the key under a stamped version's `rows`.
@@ -103,6 +107,7 @@ impl LedgerRow {
             Self::LocalCommandEcho => "local-command-echo",
             Self::TrustRecord => "trust-record",
             Self::BrowserToolsPrompt => "browser-tools-prompt",
+            Self::LocalCommandContext => "local-command-context",
         }
     }
 
@@ -140,6 +145,9 @@ impl LedgerRow {
             }
             Self::BrowserToolsPrompt => {
                 "an interactive start's browser-tools prompt reads as a modal, nothing typed"
+            }
+            Self::LocalCommandContext => {
+                "/context writes its stdout tag to the transcript and submits no prompt"
             }
         }
     }
@@ -198,13 +206,14 @@ pub enum PostCondition {
 
 /// The known built-in local commands by name, which fire no UserPromptSubmit, each with its
 /// delivery post-condition or none (architecture [Delivery Confirmation]).
-pub const LOCAL_COMMANDS: [(&str, Option<PostCondition>); 6] = [
+pub const LOCAL_COMMANDS: [(&str, Option<PostCondition>); 7] = [
     ("/clear", Some(PostCondition::NewSession)),
     ("/remote-control", None),
     ("/compact", Some(PostCondition::CompactedSession)),
     ("/mcp", Some(PostCondition::CommandStdout)),
     ("/cost", None),
     ("/usage", None),
+    ("/context", Some(PostCondition::CommandStdout)),
 ];
 /// The local command Run B pastes last: the list's `/clear` entry.
 pub const PROBE_LOCAL_COMMAND: &str = LOCAL_COMMANDS[0].0;
@@ -213,6 +222,9 @@ pub const PROBE_COMPACT_COMMAND: &str = LOCAL_COMMANDS[2].0;
 /// The local command Run B pastes after the newline paste and before `/compact`: a `/mcp` call
 /// naming a server no config holds, which writes one [`ECHO_TAG`] and changes nothing.
 pub const PROBE_ECHO_COMMAND: &str = "/mcp disable viola-probe-absent";
+/// Run B's eighth paste, right after [`PROBE_ECHO_COMMAND`]: the list's `/context` entry, which
+/// writes one [`ECHO_TAG`] and changes nothing.
+pub const PROBE_CONTEXT_COMMAND: &str = "/context";
 /// The transcript tag a local command's own output is written under.
 pub const ECHO_TAG: &str = "<local-command-stdout>";
 
@@ -626,6 +638,8 @@ pub struct TypedRun {
     pub compact_latency_ms: Option<u64>,
     /// From Run B's `/mcp` paste to the instant one more stdout tag was read in its transcript.
     pub echo_latency_ms: Option<u64>,
+    /// From Run B's `/context` paste to the instant one more stdout tag was read in its transcript.
+    pub context_latency_ms: Option<u64>,
     /// How many of Run B's paste guards read the input box up on the box's own rows, with no
     /// footer literal on any row.
     pub box_only_guards: Option<u32>,
@@ -1093,6 +1107,10 @@ pub fn check(row: LedgerRow, probes: &Probes) -> bool {
         }
         LedgerRow::TrustRecord => trust_record_opened(typed),
         LedgerRow::BrowserToolsPrompt => browser_tools_met(typed).is_some(),
+        LedgerRow::LocalCommandContext => {
+            pasted(&probes.trusted, PROBE_CONTEXT_COMMAND).is_none()
+                && within(typed.context_latency_ms, CONFIRM_WINDOW_FALLBACK)
+        }
     }
 }
 
@@ -1212,6 +1230,7 @@ pub fn merge_stamp(
                 "max_turn_gap_ms": typed.max_turn_gap_ms,
                 "compact_latency_ms": typed.compact_latency_ms,
                 "echo_latency_ms": typed.echo_latency_ms,
+                "context_latency_ms": typed.context_latency_ms,
                 "box_only_guards": typed.box_only_guards,
             },
             "dialog_probe": {

@@ -1,0 +1,43 @@
+[
+{
+"tool": "ci",
+"v": "1.3",
+"sha8": "e2c1d30a",
+"ts": "2026-11-19T19:12:57Z",
+"argv": [
+"conclusion",
+"--sha",
+"afa8699c3a92dafc8fd1970aafec49410c419b56",
+"--run-dir",
+".andromeda/runs/2026-11-19T19-12-52Z-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"repo Turbolet85/viola (the push remote `origin`)",
+"afa8699c3a92 verdict: green · checks 7/7 · wall 637 s · runs ci#44587878866 completed/success",
+"runs: ci#44587878866 push completed/success",
+"checks: fuzz-replay · lint (ubuntu-latest) · msrv · perf (ubuntu-latest) · release (ubuntu-latest) · supply-chain",
+"  test (ubuntu-latest)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"repo": "Turbolet85/viola",
+"host": "github.com",
+"repo_source": "the push remote `origin`",
+"names": [],
+"shas": [
+{
+"sha": "afa8699c3a92dafc8fd1970aafec49410c419b56",
+"word": "green",
+"polls": [
+"green"
+]
+}
+]
+}
+}
+]
