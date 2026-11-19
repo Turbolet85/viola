@@ -1,2 +1,0 @@
-@none
-reason: the chunk changes only the test-only crate viola-e2e (fct-yb3mepr7) and adds the 2.1.325 recorded fixture set; it adds no interactive UI element (Coverage of new surfaces: a11y n/a, fct-tmoxbnwg), changes no viola format, a11y violation schema or obs log schema (fct-xacnmfep), edits no spec master (fct-x6z2ebbk), and leaves every a11y-plan row, the picker-marked stale ones included, true as it stands; the task names no new fact.

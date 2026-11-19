@@ -1,0 +1,130 @@
+[
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "273d82d5",
+"ts": "2026-11-19T07:29:59Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-19T07-27-27Z-wrap",
+"--marker",
+"2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 2974 · 2026-11-18T22-00-42-2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin.ndjson",
+"ts 2026-11-19T07:29:52Z · clock 2026-11-19T07:29:59Z · bound 2026-11-19T07:13:38Z (line 3627)",
+"ids 2026-11-19T07:29:52Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T22-00-42-2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "273d82d5",
+"ts": "2026-11-19T08:02:56Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"3",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-19T07-27-27Z-wrap",
+"--marker",
+"2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 3 record(s) in the store · tx 2988 · 2026-11-18T22-00-42-2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin.ndjson",
+"ts 2026-11-19T08:02:34Z · clock 2026-11-19T08:02:55Z · bound 2026-11-19T07:29:52Z (line 3628)",
+"ids 2026-11-19T08:02:34Z-a … 2026-11-19T08:02:34Z-c (3)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T22-00-42-2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "273d82d5",
+"ts": "2026-11-19T08:05:28Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-19T07-27-27Z-wrap",
+"--marker",
+"2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 2991 · 2026-11-18T22-00-42-2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin.ndjson",
+"ts 2026-11-19T08:05:20Z · clock 2026-11-19T08:05:28Z · bound 2026-11-19T08:02:34Z (line 3631)",
+"ids 2026-11-19T08:05:20Z-a … 2026-11-19T08:05:20Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T22-00-42-2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "273d82d5",
+"ts": "2026-11-19T08:08:15Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"3",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-19T07-27-27Z-wrap",
+"--marker",
+"2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 3 record(s) in the store · tx 2994 · 2026-11-18T22-00-42-2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin.ndjson",
+"ts 2026-11-19T08:08:04Z · clock 2026-11-19T08:08:15Z · bound 2026-11-19T08:05:20Z (line 3633)",
+"ids 2026-11-19T08:08:04Z-a … 2026-11-19T08:08:04Z-c (3)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T22-00-42-2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin.ndjson"
+],
+"before": null,
+"after": null
+}
+]

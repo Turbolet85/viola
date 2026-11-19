@@ -1,7 +1,0 @@
---- a/.andromeda/test-plan.md
-+++ b/.andromeda/test-plan.md
-@@ -879,3 +879,3 @@
- decision/proptest-for-randomized-data · proptest for randomized data — Randomized test data comes from proptest strategies, with seeds persisted in committed regression files.
--decision/record-home-names-no-home · Record homes never named home — A home a test gives to viola verify --record comes from the shared record-home helper and fixture, and no component of its path is named home. · guard: record_home_names_no_path_component_home
-+decision/record-home-names-no-home · Record homes never named home — A home a test gives to viola verify --record comes from the shared record-home helper and fixture with no path component named home, and the live rig's record arm refuses record-home, exit 3, uncounted, a scratch base or its canonical form naming home, before any credentials read or ledger line. · guard: record_home_names_no_path_component_home
- decision/retired-words-as-fixtures · Retired words kept as committed fixtures — The 0.1.0 own-format shapes and the retired words are committed fixtures in a viola-0.1.0 fixture directory outside the identifier-probed paths, read by the cases that must spell an old word, and walked by the fixture hygiene check. · why: A removal's identifier probe and a case that must spell the removed word cannot share a tree.

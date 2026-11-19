@@ -1,0 +1,7 @@
+--- a/.andromeda/obs-plan.md
++++ b/.andromeda/obs-plan.md
+@@ -359,3 +359,3 @@
+ ## obs-plan · 4-span-trace-coverage · twin span-trace-coverage
+-decision/browser-tools-prompt-reading-uninstrumented · Browser-tools prompt reading uninstrumented — The reading of the CLI's browser-tools prompt as a modal adds no log line, span, event or detail code of its own; verify's reading of it reaches only the ledger stamp and verify's stdout.
++decision/browser-tools-prompt-reading-uninstrumented · Browser-tools prompt reading uninstrumented — The reading of the CLI's browser-tools prompt as a modal adds no log line, span, event or detail code of its own; verify's reading of it reaches only the ledger stamp and verify's stdout, whose one fixed line on a met prompt is the only record that the prompt stood at start.
+ decision/capture-arms-uninstrumented · Hidden capture arms uninstrumented — The hidden capture arm of verify / plugin install is uninstrumented by design.

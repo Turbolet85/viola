@@ -1,1 +1,0 @@
-Operator word: re-read the host now; if it reads QUIET, fire the live round (L1, then L2) under the cap as the plan and the directive order, then on green the report and the operator pass. That one stall was this repository own gates, no neighbour. If it still reads CONTENDED, stop and quote it.

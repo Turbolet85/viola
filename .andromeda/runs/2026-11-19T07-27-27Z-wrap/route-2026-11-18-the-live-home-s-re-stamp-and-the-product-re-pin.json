@@ -1,0 +1,117 @@
+[
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "a5501032",
+"ts": "2026-11-19T08:13:16Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin",
+"--date",
+"2026-11-19",
+"--run-dir",
+".andromeda/runs/2026-11-19T07-27-27Z-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-rbyf5oln strip PREREQ: 339ch \"PREREQ: the CLI's browser-tools prompt a\"",
+"pin cry-mtva4oxz strip CARRY: 451ch \"CARRY: (the founder's own words «Остаётс\"",
+"pin cry-hkqw5udv strip CARRY: 686ch \"CARRY: (re-pinned whole from «The 2.1.32\"",
+"pin cry-beoeptqf strip CARRY: 1228ch \"CARRY: (re-pinned whole from «The 2.1.32\"",
+"pin cry-alm4w5ln strip CARRY: 1152ch \"CARRY: (re-pinned whole from «The 2.1.32\"",
+"pin cry-75soejh4 strip CARRY: 733ch \"CARRY: (re-pinned whole from «The 2.1.32\"",
+"pin next markerless chk-oenagugy holds CARRY:×7",
+"2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin · strip 6 block(s) · spent in the spine",
+"dry-run · would flip 2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin pending -> complete"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "a5501032",
+"ts": "2026-11-19T08:13:23Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin",
+"--date",
+"2026-11-19",
+"--run-dir",
+".andromeda/runs/2026-11-19T07-27-27Z-wrap",
+"--desc-file",
+".andromeda/runs/2026-11-19T07-27-27Z-wrap/master-desc.txt",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-rbyf5oln strip PREREQ: 339ch \"PREREQ: the CLI's browser-tools prompt a\"",
+"pin cry-mtva4oxz strip CARRY: 451ch \"CARRY: (the founder's own words «Остаётс\"",
+"pin cry-hkqw5udv strip CARRY: 686ch \"CARRY: (re-pinned whole from «The 2.1.32\"",
+"pin cry-beoeptqf strip CARRY: 1228ch \"CARRY: (re-pinned whole from «The 2.1.32\"",
+"pin cry-alm4w5ln strip CARRY: 1152ch \"CARRY: (re-pinned whole from «The 2.1.32\"",
+"pin cry-75soejh4 strip CARRY: 733ch \"CARRY: (re-pinned whole from «The 2.1.32\"",
+"pin next markerless chk-oenagugy holds CARRY:×7",
+"2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin · strip 6 block(s) · spent in the spine",
+"dry-run · would flip 2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin pending -> complete"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "a5501032",
+"ts": "2026-11-19T08:13:30Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin",
+"--date",
+"2026-11-19",
+"--run-dir",
+".andromeda/runs/2026-11-19T07-27-27Z-wrap",
+"--desc-file",
+".andromeda/runs/2026-11-19T07-27-27Z-wrap/master-desc.txt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-rbyf5oln strip PREREQ: 339ch \"PREREQ: the CLI's browser-tools prompt a\"",
+"pin cry-mtva4oxz strip CARRY: 451ch \"CARRY: (the founder's own words «Остаётс\"",
+"pin cry-hkqw5udv strip CARRY: 686ch \"CARRY: (re-pinned whole from «The 2.1.32\"",
+"pin cry-beoeptqf strip CARRY: 1228ch \"CARRY: (re-pinned whole from «The 2.1.32\"",
+"pin cry-alm4w5ln strip CARRY: 1152ch \"CARRY: (re-pinned whole from «The 2.1.32\"",
+"pin cry-75soejh4 strip CARRY: 733ch \"CARRY: (re-pinned whole from «The 2.1.32\"",
+"pin next markerless chk-oenagugy holds CARRY:×7",
+"flip 2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin pending -> complete - desc REWRITTEN from --desc-file · tx 3007",
+"compacted 1 complete line(s) — their freight spent in the spine, no archive (U61)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-18T22-00-42-2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin.ndjson",
+"./.andromeda/master-route.md",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]

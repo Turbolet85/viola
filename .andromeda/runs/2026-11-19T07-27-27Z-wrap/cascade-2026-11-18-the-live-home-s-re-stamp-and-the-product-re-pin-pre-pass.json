@@ -1,0 +1,146 @@
+[
+{
+"tool": "cascade",
+"v": "1.36",
+"sha8": "2aaa7a60",
+"ts": "2026-11-19T07:28:36Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-19T07-27-27Z-wrap/report-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-11-19T07-27-27Z-wrap",
+"--marker",
+"2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [
+"baseline a59da9da (pre-pass — HEAD)",
+"F1-bt-line · control UNFIRED over the seven masters (bodies and sets) at a59da9da",
+"F2-rig-arms · control UNFIRED over the seven masters (bodies and sets) at a59da9da",
+"F3-328-stamp · control UNFIRED over the seven masters (bodies and sets) at a59da9da"
+],
+"stderr": "control: F1-bt-line, F2-rig-arms, F3-328-stamp never fired over the seven masters' pre-pass text, bodies and sets (a59da9da) — no master holds them: re-fire with --pattern F5-context --pattern F6-mcp-disable --pattern F7-real-home; this refusal, the trail's record, is the basis of each named pattern's master zero",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "cascade",
+"v": "1.36",
+"sha8": "2aaa7a60",
+"ts": "2026-11-19T07:28:43Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-19T07-27-27Z-wrap/report-patterns.toml",
+"--pattern",
+"F5-context",
+"--pattern",
+"F6-mcp-disable",
+"--pattern",
+"F7-real-home",
+"--run-dir",
+".andromeda/runs/2026-11-19T07-27-27Z-wrap",
+"--marker",
+"2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline a59da9da (pre-pass — HEAD)",
+"architecture · 1 rows over 1 files · new 0 · standing 1 · 1 pattern",
+"security-plan · 2 rows over 1 files · new 0 · standing 2 · 2 patterns",
+"design-system · 1 rows over 1 files · new 0 · standing 1 · 1 pattern",
+"test-plan · 2 rows over 1 files · new 0 · standing 2 · 1 pattern",
+"by line · 0 lines · 0 offsets",
+"total (3 patterns) · 17 rows over 13 files",
+"per class · new 0/0 · standing 6/4 · leaf 11/9 · curation 0/0 · base 0/0",
+"rows 1/1 · .andromeda/runs/2026-11-19T07-27-27Z-wrap/sweep-pre-pass-1.1.txt · 24 lines · 2669 B"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-19T07-27-27Z-wrap/sweep-pre-pass-1.1.txt"
+],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "a59da9da41def530c6698acf49e63ef38ae4a37e",
+"how": "pre-pass — HEAD",
+"counts": {
+"F5-context": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"F6-mcp-disable": {
+"new": 0,
+"standing": 2,
+"leaf": 6,
+"curation": 0,
+"base": 0
+},
+"F7-real-home": {
+"new": 0,
+"standing": 3,
+"leaf": 5,
+"curation": 0,
+"base": 0
+}
+},
+"bare": [],
+"masters": {
+"architecture": {
+"rows": 1,
+"files": 1,
+"new": 0,
+"standing": 1,
+"patterns": 1
+},
+"security-plan": {
+"rows": 2,
+"files": 1,
+"new": 0,
+"standing": 2,
+"patterns": 2
+},
+"design-system": {
+"rows": 1,
+"files": 1,
+"new": 0,
+"standing": 1,
+"patterns": 1
+},
+"test-plan": {
+"rows": 2,
+"files": 1,
+"new": 0,
+"standing": 2,
+"patterns": 1
+}
+},
+"per_master": {
+"F5-context": {
+"design-system": 1
+},
+"F6-mcp-disable": {
+"architecture": 1,
+"security-plan": 1
+},
+"F7-real-home": {
+"security-plan": 1,
+"test-plan": 2
+}
+},
+"forms": {},
+"parts": [
+"sweep-pre-pass-1.1.txt"
+]
+}
+}
+]

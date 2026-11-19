@@ -1,2 +1,0 @@
-@none
-reason: The chunk changed only the test-only viola-e2e rig and added a recorded fixture set, with no product crate, dependency, log field, event or schema touched (fct-yu26cnvz, fct-yb3mepr7, fct-xiezegej, fct-xacnmfep), and every new surface reads instrumentation n/a and PII n/a with the fixtures scrubbed by the recorders (fct-tmoxbnwg); every obs-plan row it touches, the stale-marked ones included, stays true as written.

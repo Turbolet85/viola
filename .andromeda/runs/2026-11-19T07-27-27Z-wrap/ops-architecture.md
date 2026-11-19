@@ -1,0 +1,55 @@
+@row_set n=1 row=decision/claude-first-no-adapter-trait cell=except seen=5 detector=none
+value: Test-only, no value: rig seeds private config, reads its UserPromptSubmit key names, source word, cachedChromeExtensionInstalled name; VH real-config key names, needle; fake agent, rig: trust records.
+basis: fct-xiw3vi2f
+because: The rig now reads the real Claude config's key names, projects entry key names and a closed needle word under the vh arm, so the test-only exception no longer names all the Claude shapes the rig reads.
+@row_set n=2 row=decision/claude-shapes-in-one-crate cell=except seen=5 detector=none
+value: Test-only, no value: rig seeds private config, reads its UserPromptSubmit key names, source word, cachedChromeExtensionInstalled name; VH real-config key names, needle; fake agent, rig: trust records.
+basis: fct-xiw3vi2f
+because: The rig now reads the real Claude config's key names, projects entry key names and a closed needle word under the vh arm, so the test-only exception no longer names all the Claude shapes the rig reads.
+@row_set n=3 row=decision/claude-shapes-isolated cell=except seen=4 detector=none
+value: Test-only, no value: rig seeds private config, reads its UserPromptSubmit key names, source word, cachedChromeExtensionInstalled name; VH real-config key names, needle; fake agent, rig: trust records.
+basis: fct-xiw3vi2f
+because: The rig now reads the real Claude config's key names, projects entry key names and a closed needle word under the vh arm, so the test-only exception no longer names all the Claude shapes the rig reads.
+@row_set n=4 row=decision/test-isolated-viola-home cell=except seen=2 detector=none
+value: The test-only live rig's vh arm, a live start and no test, runs under the user's real home and real Claude config.
+basis: fct-xiw3vi2f
+because: The vh arm is the one deliberate real-home start, so the own-home rule now has a named exception.
+@row_add n=1 row=name/other/viola-live-rig-vh area=occupied-resources fact=F1 detector=D-arch-resources
+class: other
+name: viola-live-rig vh
+basis: fct-qjydchhw
+because: The test-only rig gains the arm vh, an occupied name the register must hold.
+@row_add n=2 row=name/other/viola-live-rig-cx area=occupied-resources fact=F1 detector=D-arch-resources
+class: other
+name: viola-live-rig cx
+basis: fct-qjydchhw
+because: The test-only rig gains the arm cx, an occupied name the register must hold.
+@row_add n=3 row=name/other/viola-live-rig-rehearse-target-home area=occupied-resources fact=F1 detector=D-arch-resources
+class: other
+name: viola-live-rig rehearse --target-home
+basis: fct-qjydchhw
+because: The rig's rehearse subcommand gains the flag --target-home, an occupied name the register must hold.
+@row_add n=4 row=name/other/viola-live-rig-rehearse-claude-dir area=occupied-resources fact=F1 detector=D-arch-resources
+class: other
+name: viola-live-rig rehearse --claude-dir
+basis: fct-qjydchhw
+because: The rig's rehearse subcommand gains the flag --claude-dir, an occupied name the register must hold.
+@row_add n=5 row=contract/viola-live-rig-rehearse/vh-without-explicit-home area=occupied-resources fact=F1 detector=D-arch-resources
+boundary: viola-live-rig rehearse
+item: vh without an explicit home
+promise: A vh rehearsal not given all three of --target-home, --claude-dir and --user-config is refused as usage with exit 2.
+basis: fct-xiw3vi2f
+because: The rig refuses a vh rehearsal that names no explicit home, claude dir and user config, a promise at the rig's command line.
+@row_add n=6 row=decision/live-rig-real-home-arm area=occupied-resources fact=F2 detector=none
+name: Live rig real-home arm
+rule: The test-only live rig's vh arm is the one live start under the user's real home and real Claude config: its child environment carries no CLAUDE_CONFIG_DIR, it reads no credentials, only key names and one closed needle word, each read bounded by MAX_FRAME, and keeps or prints no value.
+basis: fct-jyarsz4g
+because: The chunk lands the vh arm as a bounded exception to the rig's isolation, a decision later rig work must respect.
+@row_add n=7 row=contract/viola-verify-output/browser-tools-line area=established-decisions fact=F3 detector=none
+boundary: viola verify stdout
+item: browser-tools line
+promise: When a probe run met the browser-tools prompt, one fixed line before the summary says the prompt stood, viola never answers it, and to answer it once in claude and run verify again; the summary stays last, stdout without the prompt is unchanged, and the line adds no log line, span or event.
+basis: fct-sfqjrkq4
+because: Verify's stdout gains a fixed line on a met browser-tools prompt, a new promise on the verify stdout boundary.
+@row_none n=1 fact=F4 type=9
+@row_none n=2 fact=F5 type=9
