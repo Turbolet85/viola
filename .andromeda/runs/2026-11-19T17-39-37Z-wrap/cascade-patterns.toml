@@ -1,0 +1,15 @@
+[[pattern]]
+id = 'main-owner'
+regex = 'owned by the entry A live StopFailure|A live StopFailure payload'
+
+[[pattern]]
+id = 'main-novalue'
+regex = 'Test-only, no value|never a value|no value:'
+
+[[pattern]]
+id = 'main-capture'
+regex = 'captured UserPromptSubmit|UserPromptSubmit capture|its own UserPromptSubmit'
+
+[[pattern]]
+id = 'main-screen'
+regex = 'by compiled literals (only )?into closed words|closed words only, its raw frames'

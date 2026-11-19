@@ -1,2 +1,0 @@
-@none
-reason: The chunk changes only the test-only rig, its rehearsal, the 2.1.328 recorded fixture set and the STAMPED list (fct-zkalzada, fct-yprbzmnj); it adds or changes no CLI output wording and no UI (fct-y32r5gjc, fct-sdzfwmar tokens n/a), and the picked row contract/refusal-hints/not-delivered-input-not-ready keeps its wording true: the quoted-modal-literal refusal is a carry proposal, not mended and no hint changed (fct-v4rlg6dp).

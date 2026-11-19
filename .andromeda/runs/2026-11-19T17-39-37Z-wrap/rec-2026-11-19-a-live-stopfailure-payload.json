@@ -1,0 +1,1337 @@
+[
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T17:42:18Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-19-a-live-stopfailure-payload",
+"--section-file",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/after-implement.md",
+"--heading",
+"## After implement",
+"--before",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--marker",
+"2026-11-19-a-live-stopfailure-payload"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-19-a-live-stopfailure-payload/report rev 3 · 10 new · 0 revised · 0 retired · 61 kept · tx 3115"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T15-50-13-2026-11-19-a-live-stopfailure-payload.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T17:42:22Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-19-a-live-stopfailure-payload",
+"--section-file",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/new-text.md",
+"--heading",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--marker",
+"2026-11-19-a-live-stopfailure-payload"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-19-a-live-stopfailure-payload/report rev 4 · 35 new · 0 revised · 0 retired · 71 kept · tx 3116"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T15-50-13-2026-11-19-a-live-stopfailure-payload.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T17:42:45Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/cites-land-2026-11-19-a-live-stopfailure-payload.ndjson",
+"--base",
+"d894cb1dcd54ad2e15ed86493a3995356080a643",
+"--run-dir",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--marker",
+"2026-11-19-a-live-stopfailure-payload",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 0 fact(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T17:42:50Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/cites-land-2026-11-19-a-live-stopfailure-payload.ndjson",
+"--base",
+"d894cb1dcd54ad2e15ed86493a3995356080a643",
+"--run-dir",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--marker",
+"2026-11-19-a-live-stopfailure-payload"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 0 fact(s) · 0 edge(s) · tx 3118"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T15-50-13-2026-11-19-a-live-stopfailure-payload.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T17:44:37Z",
+"argv": [
+"rows-packs",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-19-a-live-stopfailure-payload"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 967 · packs 10 · pack 100 · 273785 B",
+"security-plan: rows 617 · packs 7 · pack 100 · 185530 B",
+"design-system: rows 317 · packs 4 · pack 100 · 76771 B",
+"layout-templates: rows 222 · packs 3 · pack 100 · 53035 B",
+"test-plan: rows 1347 · packs 14 · pack 100 · 361815 B",
+"obs-plan: rows 1028 · packs 11 · pack 100 · 283116 B",
+"a11y-plan: rows 235 · packs 3 · pack 100 · 66255 B",
+"rows-packs: 7 master(s) · 4733 row(s) · 52 pack(s) · 2 draw(s) a pack · pin 3118"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/rows-packs.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T18:03:03Z",
+"argv": [
+"rows-union",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-19-a-live-stopfailure-payload"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 967 · packs 10 · picked 18 (9 by every draw) · standing 0 · 149346 B",
+"security-plan: rows 617 · packs 7 · picked 47 (31 by every draw) · standing 0 · 158810 B",
+"design-system: rows 317 · packs 4 · picked 5 (0 by every draw) · standing 0 · 64621 B",
+"layout-templates: rows 222 · packs 3 · picked 0 (0 by every draw) · standing 0 · no proposer",
+"test-plan: rows 1347 · packs 14 · picked 70 (27 by every draw) · standing 0 · 293023 B",
+"obs-plan: rows 1028 · packs 11 · picked 8 (4 by every draw) · standing 0 · 61206 B",
+"a11y-plan: rows 235 · packs 3 · picked 10 (7 by every draw) · standing 0 · 38438 B",
+"rows-union: 7 master(s) · picked 158 of 4733 · rule any"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/arch-rows.md",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/arch-standing.md",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/arch-pick-counts.md",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/security-rows.md",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/security-standing.md",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/security-pick-counts.md",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/design-rows.md",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/design-standing.md",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/design-pick-counts.md",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/layouts-standing.md",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/layouts-pick-counts.md",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/tests-rows.md",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/tests-standing.md",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/tests-pick-counts.md",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/obs-rows.md",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/obs-standing.md",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/obs-pick-counts.md",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/a11y-rows.md",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/a11y-standing.md",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/a11y-pick-counts.md",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T18:12:24Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--marker",
+"2026-11-19-a-live-stopfailure-payload",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/capability-ledger · rejected",
+"decision/cli-capability-ledger · rejected",
+"decision/capability-ledger-gate · rejected",
+"decision/claude-first-no-adapter-trait · rejected (Q1)",
+"decision/claude-shapes-in-one-crate · rejected (Q1)",
+"decision/claude-shapes-isolated · rejected (Q1)",
+"decision/bwrap-test-only-rig-dependency · rejected",
+"decision/live-rig-contained-arm-sandbox · rejected",
+"fit: fits 0 · not_master 0 · stands 0",
+"patterns: none — the call sets and retires no row",
+"dry-run · would land 0 operation(s) · 0 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T18:12:24Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/ops-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--marker",
+"2026-11-19-a-live-stopfailure-payload",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/live-rig-prompt-capture-closed · rejected",
+"decision/unverified-cli-gate · rejected",
+"decision/live-rig-sandbox-runtime-dir · rejected",
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-19-a-live-stopfailure-payload — Secret Management: 1 row(s)\n**Section:** Secret Management\n**Change:** + decision/live-rig-sf-arm-network-closed — Live rig's SF arm network-closed\n**Why:** decision/live-rig-sf-arm-network-closed: The chunk adds a contained live arm whose sandbox refusal precedes any credentials read, a containment decision no standing row of the rig's isolation states.\n**Ref:** .andromeda/runs/2026-11-19T17-39-37Z-wrap/",
+"patterns: none — the call sets and retires no row",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T18:12:24Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--marker",
+"2026-11-19-a-live-stopfailure-payload",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/hook-payloads-recorded-by-verify · rejected",
+"decision/live-rig-sf-arm-sandboxed · rejected",
+"decision/live-rig-stop-failure-capture-closed · rejected",
+"fit: fits 7 · not_master 0 · stands 0",
+"## 2026-11-19-a-live-stopfailure-payload — 6. E2E Test Strategy: 1 row(s)\n**Section:** 6. E2E Test Strategy\n**Change:** ~ decision/standing-live-rig · except: was «»; now «The SF arm's rehearsals run unwrapped in CI; its contained rehearsal is a local entry that skips by its printed sandbox probe where the sandbox or the runtime dir cannot serve it.»\n**Why:** decision/standing-live-rig: The rig gained the SF arm whose contained rehearsal is local only, an exception to its rehearsals running in CI, which the plan's expected amendment owes to this row.\n**Ref:** .andromeda/runs/2026-11-19T17-39-37Z-wrap/",
+"## 2026-11-19-a-live-stopfailure-payload — 1. Test Scope Summary: 1 row(s)\n**Section:** 1. Test Scope Summary\n**Change:** ~ decision/no-child-screen-assertions · except: was «The forced vt100 panic case is checked by a byte search of the outer terminal; the test-only live rig reads the child's screen by compiled literals into closed words its rehearsal asserts on.»; now «The forced vt100 panic case byte-searches the outer terminal; the test-only live rig reads the child's screen into closed words, by compiled literals and the box row's cell attributes, never text.»\n**Why:** decision/no-child-screen-assertions: The live rig now also reads the box row's cell attributes as closed words, never text, so an except naming compiled literals alone is incomplete. — resolved by the operator (Q2): relayed verbatim by the overseer, 2026-11-19, inputs#I3: «Сложить в SF (Recommended)»; inputs#I4: «После конца хода (Recommended)»; the card confirmed by the overseer, inputs#I7\n**Ref:** .andromeda/runs/2026-11-19T17-39-37Z-wrap/",
+"## 2026-11-19-a-live-stopfailure-payload — 1. Test Scope Summary: 1 row(s)\n**Section:** 1. Test Scope Summary\n**Change:** ~ decision/never-parse-rendered-child-screen · except: was «The test-only live rig reads the child's screen by compiled literals only into closed words, which its rehearsal asserts on.»; now «The test-only live rig reads the child's screen only into closed words, by compiled literals and the box row's cell attributes, never text, which its rehearsal asserts on.»\n**Why:** decision/never-parse-rendered-child-screen: The live rig now also reads the box row's cell attributes as closed words, never text, so an except naming compiled literals alone is incomplete. — resolved by the operator (Q2): relayed verbatim by the overseer, 2026-11-19, inputs#I3: «Сложить в SF (Recommended)»; inputs#I4: «После конца хода (Recommended)»; the card confirmed by the overseer, inputs#I7\n**Ref:** .andromeda/runs/2026-11-19T17-39-37Z-wrap/",
+"## 2026-11-19-a-live-stopfailure-payload — 11. Test Anti-Patterns (NEVER do these): 1 row(s)\n**Section:** 11. Test Anti-Patterns (NEVER do these)\n**Change:** ~ decision/no-screen-parsing · except: was «The test-only live rig reads its child's screen by compiled literals only into closed words its rehearsal asserts on.»; now «The test-only live rig reads the child's screen only into closed words, by compiled literals and the box row's cell attributes, never text, which its rehearsal asserts on.»\n**Why:** decision/no-screen-parsing: The live rig now also reads the box row's cell attributes as closed words, never text, so an except naming compiled literals alone is incomplete. — resolved by the operator (Q2): relayed verbatim by the overseer, 2026-11-19, inputs#I3: «Сложить в SF (Recommended)»; inputs#I4: «После конца хода (Recommended)»; the card confirmed by the overseer, inputs#I7\n**Ref:** .andromeda/runs/2026-11-19T17-39-37Z-wrap/",
+"## 2026-11-19-a-live-stopfailure-payload — 2. Test Strategy: 1 row(s)\n**Section:** 2. Test Strategy\n**Change:** ~ decision/discipline-at-every-layer · except: was «The test-only live rig reads the child's screen by compiled literals into closed words, and passes a read trust dialog under its key grant.»; now «The test-only live rig reads the child's screen into closed words, by compiled literals and the box row's cell attributes, never text, and passes a read trust dialog under its key grant.»\n**Why:** decision/discipline-at-every-layer: The live rig now also reads the box row's cell attributes as closed words, never text, so an except naming compiled literals alone is incomplete. — resolved by the operator (Q2): relayed verbatim by the overseer, 2026-11-19, inputs#I3: «Сложить в SF (Recommended)»; inputs#I4: «После конца хода (Recommended)»; the card confirmed by the overseer, inputs#I7\n**Ref:** .andromeda/runs/2026-11-19T17-39-37Z-wrap/",
+"## 2026-11-19-a-live-stopfailure-payload — 7. Test Data & Fixtures: 2 row(s)\n**Section:** 7. Test Data & Fixtures\n**Change:** + contract/fake-agent-cli/turn-fail — viola-fake-agent command line · --turn-fail\n+ contract/fake-agent-cli/settings-hooks — viola-fake-agent command line · --settings-hooks\n**Why:** contract/fake-agent-cli/turn-fail: The fake agent's command line gained a new option, an item of its contract no row names.\ncontract/fake-agent-cli/settings-hooks: The fake agent's command line gained a new option, an item of its contract no row names.\n**Ref:** .andromeda/runs/2026-11-19T17-39-37Z-wrap/",
+"patterns: none: 5 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 7 operation(s) · 6 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T18:12:25Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"a11y-plan",
+"--file",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/ops-a11y-plan.md",
+"--results",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--marker",
+"2026-11-19-a-live-stopfailure-payload",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-19-a-live-stopfailure-payload — 11. A11y Anti-Patterns (NEVER do these): 1 row(s)\n**Section:** 11. A11y Anti-Patterns (NEVER do these)\n**Change:** ~ decision/no-screen-content-parsing · except: was «the test-only standing live rig reads the trust selector's place, the input box as empty, holds-text or absent, and modal dialogs, as closed words only, its raw frames kept local and gitignored»; now «the test-only live rig reads the trust selector's place, the input box as empty, holds-text or absent, modal dialogs and, after a turn end, the box row's cell attributes, as closed words, never text»\n**Why:** decision/no-screen-content-parsing: The rig now reads the box row's cell attributes as closed words, never its text, after the turn end (the founder's answer, fct-usi3wfxj), so the exception to the screen-parsing ban must name that reading. — resolved by the operator (Q2): relayed verbatim by the overseer, 2026-11-19, inputs#I3: «Сложить в SF (Recommended)»; inputs#I4: «После конца хода (Recommended)»; the card confirmed by the overseer, inputs#I7\n**Ref:** .andromeda/runs/2026-11-19T17-39-37Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T18:12:25Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/ops-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--marker",
+"2026-11-19-a-live-stopfailure-payload",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/live-rig-stopfailure-capture-not-telemetry · rejected",
+"fit: fits 0 · not_master 0 · stands 0",
+"patterns: none — the call sets and retires no row",
+"dry-run · would land 0 operation(s) · 0 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T18:12:39Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/ops-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--marker",
+"2026-11-19-a-live-stopfailure-payload"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/live-rig-prompt-capture-closed · rejected",
+"decision/unverified-cli-gate · rejected",
+"decision/live-rig-sandbox-runtime-dir · rejected",
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 3120 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T15-50-13-2026-11-19-a-live-stopfailure-payload.ndjson",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T18:12:39Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--marker",
+"2026-11-19-a-live-stopfailure-payload"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/hook-payloads-recorded-by-verify · rejected",
+"decision/live-rig-sf-arm-sandboxed · rejected",
+"decision/live-rig-stop-failure-capture-closed · rejected",
+"fit: fits 7 · not_master 0 · stands 0",
+"landed tx 3121 · 7 operation(s) · 6 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T15-50-13-2026-11-19-a-live-stopfailure-payload.ndjson",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T18:12:40Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"a11y-plan",
+"--file",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/ops-a11y-plan.md",
+"--results",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--marker",
+"2026-11-19-a-live-stopfailure-payload"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 3122 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T15-50-13-2026-11-19-a-live-stopfailure-payload.ndjson",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T18:12:44Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/ops-main-architecture.md",
+"--results",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--marker",
+"2026-11-19-a-live-stopfailure-payload",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/capability-ledger · rejected (Q3)",
+"decision/cli-capability-ledger · rejected (Q3)",
+"decision/capability-ledger-gate · rejected (Q3)",
+"fit: fits 0 · not_master 0 · stands 0",
+"patterns: none — the call sets and retires no row",
+"dry-run · would land 0 operation(s) · 0 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T18:12:44Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/ops-main-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--marker",
+"2026-11-19-a-live-stopfailure-payload",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/unverified-cli-gate · rejected (Q3)",
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-19-a-live-stopfailure-payload — Input Validation: 1 row(s)\n**Section:** Input Validation\n**Change:** ~ decision/live-rig-prompt-capture-closed · rule: was «The live rig's own UserPromptSubmit capture reads the hook payload under MAX_FRAME with the default JSON depth and writes one owner-only line of key names matching [a-z_]{1,40}, others counted, and one closed source word, never a value; a non-object or over-long payload writes unread.»; now «The rig's hook capture reads a payload under MAX_FRAME, default JSON depth, and writes one owner-only line: key names matching [a-z_]{1,40}, others counted; a UserPromptSubmit source word or a StopFailure error word of the CLI's 13 else other, two text lengths, never a text; a bad payload: unread»\n**Why:** decision/live-rig-prompt-capture-closed: The ratified widening extends the rig's capture to StopFailure payloads in exactly that width, and the row keeps its standing clause that a non-object or over-long payload writes unread. — resolved by the operator (Q1): relayed verbatim by the overseer, 2026-11-19, inputs#I4: «Назвать чтение (Recommended)»; the card confirmed by the overseer, inputs#I7\n**Ref:** .andromeda/runs/2026-11-19T17-39-37Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T18:12:44Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/ops-main-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--marker",
+"2026-11-19-a-live-stopfailure-payload",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/hook-payloads-recorded-by-verify · rejected (Q3)",
+"fit: fits 0 · not_master 0 · stands 0",
+"patterns: none — the call sets and retires no row",
+"dry-run · would land 0 operation(s) · 0 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T18:12:45Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/ops-main-architecture.2.md",
+"--results",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--marker",
+"2026-11-19-a-live-stopfailure-payload",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 3 · not_master 0 · stands 0",
+"## 2026-11-19-a-live-stopfailure-payload — Established Decisions: 1 row(s)\n**Section:** Established Decisions\n**Change:** ~ decision/claude-first-no-adapter-trait · except: was «Test-only, no value: rig seeds private config, reads its UserPromptSubmit key names, source word, cachedChromeExtensionInstalled name; VH real-config key names, needle; fake agent, rig: trust records.»; now «Test-only rig seeds config; UserPromptSubmit/StopFailure key names, source word, error word 13|other, 2 lengths, cachedChromeExtensionInstalled name; VH key names, needle; fake agent/rig trust records»\n**Why:** decision/claude-first-no-adapter-trait: The rig's StopFailure capture keeps key names, the error word of the CLI's 13 (else other) and two text lengths, the one widening the founder named (F1); every standing member is kept, its name readings still called names. — resolved by the operator (Q1): relayed verbatim by the overseer, 2026-11-19, inputs#I4: «Назвать чтение (Recommended)»; the card and its wording confirmed by the overseer, inputs#I7\n**Ref:** .andromeda/runs/2026-11-19T17-39-37Z-wrap/",
+"## 2026-11-19-a-live-stopfailure-payload — Infrastructure Patterns: 1 row(s)\n**Section:** Infrastructure Patterns\n**Change:** ~ decision/claude-shapes-in-one-crate · except: was «Test-only, no value: rig seeds private config, reads its UserPromptSubmit key names, source word, cachedChromeExtensionInstalled name; VH real-config key names, needle; fake agent, rig: trust records.»; now «Test-only rig seeds config; UserPromptSubmit/StopFailure key names, source word, error word 13|other, 2 lengths, cachedChromeExtensionInstalled name; VH key names, needle; fake agent/rig trust records»\n**Why:** decision/claude-shapes-in-one-crate: The rig's StopFailure capture keeps key names, the error word of the CLI's 13 (else other) and two text lengths, the one widening the founder named (F1); every standing member is kept, its name readings still called names. — resolved by the operator (Q1): relayed verbatim by the overseer, 2026-11-19, inputs#I4: «Назвать чтение (Recommended)»; the card and its wording confirmed by the overseer, inputs#I7\n**Ref:** .andromeda/runs/2026-11-19T17-39-37Z-wrap/",
+"## 2026-11-19-a-live-stopfailure-payload — Inherited Defaults: 1 row(s)\n**Section:** Inherited Defaults\n**Change:** ~ decision/claude-shapes-isolated · except: was «Test-only, no value: rig seeds private config, reads its UserPromptSubmit key names, source word, cachedChromeExtensionInstalled name; VH real-config key names, needle; fake agent, rig: trust records.»; now «Test-only rig seeds config; UserPromptSubmit/StopFailure key names, source word, error word 13|other, 2 lengths, cachedChromeExtensionInstalled name; VH key names, needle; fake agent/rig trust records»\n**Why:** decision/claude-shapes-isolated: The rig's StopFailure capture keeps key names, the error word of the CLI's 13 (else other) and two text lengths, the one widening the founder named (F1); every standing member is kept, its name readings still called names. — resolved by the operator (Q1): relayed verbatim by the overseer, 2026-11-19, inputs#I4: «Назвать чтение (Recommended)»; the card and its wording confirmed by the overseer, inputs#I7\n**Ref:** .andromeda/runs/2026-11-19T17-39-37Z-wrap/",
+"patterns: 3 in cascade-patterns-architecture-1.toml",
+"dry-run · would land 3 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/cascade-patterns-architecture-1.toml"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T18:12:45Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/ops-main-security-plan.2.md",
+"--results",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--marker",
+"2026-11-19-a-live-stopfailure-payload",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-19-a-live-stopfailure-payload — Authentication & Authorization: 1 row(s)\n**Section:** Authentication & Authorization\n**Change:** ~ decision/unverified-cli-gate · except: was «StopFailure is registered with no capability ledger row and no verify probe, owned by the entry A live StopFailure payload.»; now «StopFailure is registered with no capability ledger row and no verify probe.»\n**Why:** decision/unverified-cli-gate: The entry A live StopFailure payload that owned the exception is spent by this chunk, so «owned by» it is false; the exception stands on the founder's word, which the sidecar records with the reading.\n**Ref:** .andromeda/runs/2026-11-19T17-39-37Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T18:12:50Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/ops-main-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--marker",
+"2026-11-19-a-live-stopfailure-payload"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/unverified-cli-gate · rejected (Q3)",
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 3123 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T15-50-13-2026-11-19-a-live-stopfailure-payload.ndjson",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T18:12:51Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/ops-main-architecture.2.md",
+"--results",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--marker",
+"2026-11-19-a-live-stopfailure-payload"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 3 · not_master 0 · stands 0",
+"landed tx 3124 · 3 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T15-50-13-2026-11-19-a-live-stopfailure-payload.ndjson",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T18:12:51Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/ops-main-security-plan.2.md",
+"--results",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--marker",
+"2026-11-19-a-live-stopfailure-payload"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 3125 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T15-50-13-2026-11-19-a-live-stopfailure-payload.ndjson",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T18:13:48Z",
+"argv": [
+"amend",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/architecture-entries.md",
+"--run-dir",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--marker",
+"2026-11-19-a-live-stopfailure-payload",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"2026-11-19-a-live-stopfailure-payload — the StopFailure exception settled on the live read · on-form · 1442 B · amd-r77dbwk3",
+"2026-11-19-a-live-stopfailure-payload — the StopFailure exception settled on the live read · on-form · 1423 B · amd-ftwsapxe",
+"2026-11-19-a-live-stopfailure-payload — the StopFailure exception settled on the live read · on-form · 1483 B · amd-bch2i5yw",
+"dry-run · would land 3 entr(ies) · 9 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T18:13:48Z",
+"argv": [
+"amend",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/security-plan-entries.md",
+"--run-dir",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--marker",
+"2026-11-19-a-live-stopfailure-payload",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"2026-11-19-a-live-stopfailure-payload — the StopFailure exception settled on the live read · on-form · 1527 B · amd-ksutdiua",
+"dry-run · would land 1 entr(ies) · 3 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T18:13:48Z",
+"argv": [
+"amend",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/test-plan-entries.md",
+"--run-dir",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--marker",
+"2026-11-19-a-live-stopfailure-payload",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"2026-11-19-a-live-stopfailure-payload — the StopFailure exception settled on the live read · on-form · 1585 B · amd-gu6o2vmu",
+"dry-run · would land 1 entr(ies) · 3 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T18:13:51Z",
+"argv": [
+"amend",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/architecture-entries.md",
+"--run-dir",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--marker",
+"2026-11-19-a-live-stopfailure-payload"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"2026-11-19-a-live-stopfailure-payload — the StopFailure exception settled on the live read · on-form · 1442 B · amd-x3ttt7xx",
+"2026-11-19-a-live-stopfailure-payload — the StopFailure exception settled on the live read · on-form · 1423 B · amd-wkbaf6h4",
+"2026-11-19-a-live-stopfailure-payload — the StopFailure exception settled on the live read · on-form · 1483 B · amd-ntoqev6u",
+"landed 3 entr(ies) · 9 edge(s) · tx 3126"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T15-50-13-2026-11-19-a-live-stopfailure-payload.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T18:13:52Z",
+"argv": [
+"amend",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/security-plan-entries.md",
+"--run-dir",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--marker",
+"2026-11-19-a-live-stopfailure-payload"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"2026-11-19-a-live-stopfailure-payload — the StopFailure exception settled on the live read · on-form · 1527 B · amd-irbphoes",
+"landed 1 entr(ies) · 3 edge(s) · tx 3127"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T15-50-13-2026-11-19-a-live-stopfailure-payload.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T18:13:52Z",
+"argv": [
+"amend",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/test-plan-entries.md",
+"--run-dir",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--marker",
+"2026-11-19-a-live-stopfailure-payload"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"2026-11-19-a-live-stopfailure-payload — the StopFailure exception settled on the live read · on-form · 1585 B · amd-szz4zp4x",
+"landed 1 entr(ies) · 3 edge(s) · tx 3128"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T15-50-13-2026-11-19-a-live-stopfailure-payload.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T18:17:30Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/a11y-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-19T17-39-37Z-wrap/staged-leaf-.claude__docs__a11y-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--marker",
+"2026-11-19-a-live-stopfailure-payload"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/a11y-summary.md rev 12 · 0 new · 1 revised · 0 retired · tx 3129"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T15-50-13-2026-11-19-a-live-stopfailure-payload.ndjson",
+"./.claude/docs/a11y-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T18:17:31Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/security.md",
+"--file",
+"./.andromeda/runs/2026-11-19T17-39-37Z-wrap/staged-leaf-.claude__rules__security.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--marker",
+"2026-11-19-a-live-stopfailure-payload"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/security.md rev 30 · 0 new · 1 revised · 0 retired · tx 3130"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T15-50-13-2026-11-19-a-live-stopfailure-payload.ndjson",
+"./.claude/rules/security.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T18:17:31Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/security-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-19T17-39-37Z-wrap/staged-leaf-.claude__docs__security-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--marker",
+"2026-11-19-a-live-stopfailure-payload"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/security-summary.md rev 28 · 0 new · 1 revised · 0 retired · tx 3131"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T15-50-13-2026-11-19-a-live-stopfailure-payload.ndjson",
+"./.claude/docs/security-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T18:17:32Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/tests-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-19T17-39-37Z-wrap/staged-leaf-.claude__docs__tests-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--marker",
+"2026-11-19-a-live-stopfailure-payload"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/tests-summary.md rev 26 · 0 new · 2 revised · 0 retired · tx 3132"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T15-50-13-2026-11-19-a-live-stopfailure-payload.ndjson",
+"./.claude/docs/tests-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T18:17:33Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/testing.md",
+"--file",
+"./.andromeda/runs/2026-11-19T17-39-37Z-wrap/staged-leaf-.claude__rules__testing.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--marker",
+"2026-11-19-a-live-stopfailure-payload"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/testing.md rev 40 · 0 new · 1 revised · 0 retired · tx 3133"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T15-50-13-2026-11-19-a-live-stopfailure-payload.ndjson",
+"./.claude/rules/testing.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T18:17:33Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/verification-harness.md",
+"--file",
+"./.andromeda/runs/2026-11-19T17-39-37Z-wrap/staged-leaf-.claude__rules__verification-harness.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--marker",
+"2026-11-19-a-live-stopfailure-payload"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/verification-harness.md rev 32 · 0 new · 2 revised · 0 retired · tx 3134"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T15-50-13-2026-11-19-a-live-stopfailure-payload.ndjson",
+"./.claude/rules/verification-harness.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T18:22:09Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/route-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--marker",
+"2026-11-19-a-live-stopfailure-payload",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 2 record(s) · 2 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T18:22:16Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/route-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--marker",
+"2026-11-19-a-live-stopfailure-payload",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 2 record(s) · 2 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T18:22:16Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/route-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--marker",
+"2026-11-19-a-live-stopfailure-payload"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) · 2 edge(s) · tx 3143 · cry-kutofxml … cry-4olcx4il"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T15-50-13-2026-11-19-a-live-stopfailure-payload.ndjson",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T18:22:43Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap/run-node.txt",
+"--run-dir",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap",
+"--marker",
+"2026-11-19-a-live-stopfailure-payload"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 0 edge(s) · tx 3145 · run-4i7cn5x4 … run-4i7cn5x4"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T15-50-13-2026-11-19-a-live-stopfailure-payload.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "20814d45",
+"ts": "2026-11-19T18:25:18Z",
+"argv": [
+"land",
+"--root",
+".",
+"--chunk",
+"2026-11-19-a-live-stopfailure-payload",
+"--run-dir",
+".andromeda/runs/2026-11-19T17-39-37Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"unchanged · 19 file(s) of 2026-11-19-a-live-stopfailure-payload"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]
