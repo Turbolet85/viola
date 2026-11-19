@@ -1,0 +1,53 @@
+[
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "c4dc235f",
+"ts": "2026-11-19T11:02:50Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-19-the-2-1-328-recorded-fixture-set",
+"--source",
+"~/dev/projects/additional/viola-overseer/implement-fixture-328-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the overseer implement directive: live cap 3 base starts + 1 spare, hostwatch read before each start, stops on red live entries",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-11-19T10-57-42Z-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy no-repo · ../additional/viola-overseer/implement-fixture-328-directive.md",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-implement-fixture-328-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/implement-fixture-328-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "91b5a37a134f9d28b27d74372372bacd587c2b556836733cb55eb854fd734235",
+"copy": "I4-implement-fixture-328-directive.md.txt",
+"link": false,
+"read_at": "2026-11-19T11:02:49Z",
+"step": "implement",
+"why": "the overseer implement directive: live cap 3 base starts + 1 spare, hostwatch read before each start, stops on red live entries"
+}
+}
+]

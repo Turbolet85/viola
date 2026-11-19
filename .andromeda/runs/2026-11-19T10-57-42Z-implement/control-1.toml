@@ -1,0 +1,10 @@
+[[control]]
+id = 'cx-relook'
+entry = 3
+guard = 'transcript_after_send loses its second session_transcript lookup in the none-held arm'
+case = 'rig::tests::transcript_after_send_reads_one_written_after_the_send_from_its_start'
+
+[[control.edit]]
+path = 'crates/viola-e2e/src/rig/mod.rs'
+old = '''    let found = id.and_then(|id| session_transcript(config, id));'''
+new = '''    let found: Option<PathBuf> = id.and(config.to_str()).and(None);'''

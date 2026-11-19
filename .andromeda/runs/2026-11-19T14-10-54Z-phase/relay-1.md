@@ -1,0 +1,3 @@
+# Relay 1 — the operator's word for this revision (verbatim, the /andromeda-phase invocation, read 2026-11-19T14:10:54Z)
+
+Proceed. A REVISION of the planned chunk 2026-11-19-the-2-1-328-recorded-fixture-set after its stopped implement run 2026-11-19T10-57-42Z-implement (R4 red on its record word): the rename step, the absence entries, the spare R4-2 and the re-entry as relay-fixture-328-revision-r4.md says, already read; no row read beyond the list sync, no codebase research, no live start. The operator is away: no question dialog; a fork that is his goes to founder-forks.md and stops. Show the P5 card short, the changed lines only.

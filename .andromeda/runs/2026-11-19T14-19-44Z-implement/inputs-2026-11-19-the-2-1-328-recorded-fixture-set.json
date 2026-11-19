@@ -1,0 +1,106 @@
+[
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "c4dc235f",
+"ts": "2026-11-19T14:20:08Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-19-the-2-1-328-recorded-fixture-set",
+"--source",
+"~/dev/projects/additional/viola-overseer/implement-fixture-328-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the overseer implement directive at plan rev 5: R4 spent red, the spare R4-2 then R4M then L2, hostwatch before each start, stops",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-11-19T14-19-44Z-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I8 · copy no-repo · ../additional/viola-overseer/implement-fixture-328-directive.md",
+"cite: inputs#I8"
+],
+"stderr": null,
+"wrote": [
+"inputs/I8-implement-fixture-328-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I8",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/implement-fixture-328-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "669360cdc3617666065e612c3f17b8913fcefc46d25e901608e79c6931e05e4e",
+"copy": "I8-implement-fixture-328-directive.md.txt",
+"link": false,
+"read_at": "2026-11-19T14:20:07Z",
+"step": "implement",
+"why": "the overseer implement directive at plan rev 5: R4 spent red, the spare R4-2 then R4M then L2, hostwatch before each start, stops"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "c4dc235f",
+"ts": "2026-11-19T14:20:09Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-19-the-2-1-328-recorded-fixture-set",
+"--message-file",
+".andromeda/runs/2026-11-19T14-19-44Z-implement/relay-1.md",
+"--origin",
+"the overseer, via the /andromeda-implement invocation",
+"--kind",
+"relay",
+"--why",
+"the re-entry word: rename step, R4-2 then R4M then L2, host quiet, operator pass with ci.py",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-11-19T14-19-44Z-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I9 · copy message · message: the overseer, via the /andromeda-implement invocation",
+"cite: inputs#I9"
+],
+"stderr": null,
+"wrote": [
+"inputs/I9-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I9",
+"kind": "relay",
+"repo": null,
+"path": "message: the overseer, via the /andromeda-implement invocation",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "59e6b4936e88ff261c0c58ce8592fadd6afc67e330c77086bcc4bf00ae2edd9a",
+"copy": "I9-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-19T14:20:08Z",
+"step": "implement",
+"why": "the re-entry word: rename step, R4-2 then R4M then L2, host quiet, operator pass with ci.py"
+}
+}
+]

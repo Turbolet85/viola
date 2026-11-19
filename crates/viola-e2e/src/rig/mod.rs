@@ -1509,6 +1509,30 @@ fn session_transcript(config: &Path, id: &str) -> Option<PathBuf> {
         .find(|path| fs::symlink_metadata(path).is_ok_and(|m| m.is_file()))
 }
 
+/// The transcript a `CX` send's tags are counted in, with the offset they count from: the one
+/// held before the send at its kept length, else the session's looked up again after the send,
+/// counted from its start (the CLI can write it only once the session has a turn).
+fn transcript_after_send(
+    config: &Path,
+    id: Option<&str>,
+    held: Option<(PathBuf, Option<u64>)>,
+) -> Option<(PathBuf, Option<u64>)> {
+    if held.is_some() {
+        return held;
+    }
+    let found = id.and_then(|id| session_transcript(config, id));
+    found.map(|path| (path, Some(0)))
+}
+
+/// The closed word for a transcript reading: `read`, `absent`, or `unread` (metadata failed).
+fn transcript_word(transcript: Option<&Path>, len: Option<u64>) -> &'static str {
+    match (transcript, len) {
+        (Some(_), Some(_)) => "read",
+        (None, _) => "absent",
+        (Some(_), None) => "unread",
+    }
+}
+
 /// `context-post` from its two readings.
 fn context_post(submitted: bool, tags: Option<usize>) -> &'static str {
     match (submitted, tags.is_some_and(|n| n > 0)) {
@@ -1557,11 +1581,7 @@ fn arm_cx(
         .map(|m| m.len());
     summary.put(
         "context-transcript",
-        match (&transcript, kept_len) {
-            (Some(_), Some(_)) => "read",
-            (None, _) => "absent",
-            (Some(_), None) => "unread",
-        },
+        transcript_word(transcript.as_deref(), kept_len),
     );
     let texts = scratch.root.join("texts");
     let file = texts.join("1.txt");
@@ -1598,11 +1618,23 @@ fn arm_cx(
             None => break,
         }
     }
+    let after = transcript_after_send(
+        &scratch.config,
+        session.session_id.as_deref(),
+        transcript.map(|t| (t, kept_len)),
+    );
+    let after_len = after.as_ref().and_then(|(t, _)| fs::metadata(t).ok());
+    summary.put(
+        "context-transcript-after",
+        transcript_word(
+            after.as_ref().map(|(t, _)| t.as_path()),
+            after_len.map(|m| m.len()),
+        ),
+    );
     let read_tags = || {
-        transcript
-            .as_deref()
-            .zip(kept_len)
-            .and_then(|(t, len)| tags_past(t, len))
+        after
+            .as_ref()
+            .and_then(|(t, len)| len.and_then(|len| tags_past(t, len)))
     };
     let mut tags = read_tags();
     while tags.is_some_and(|n| n == 0)
@@ -2350,6 +2382,60 @@ mod tests {
         ] {
             assert_eq!(context_post(submitted, tags), word, "{label}");
         }
+    }
+
+    const CX_ID: &str = "0b6f3c5e-1d2a-4c8e-9f7a-2b3c4d5e6f70";
+
+    /// A config whose `projects/<dir>/<id>.jsonl` holds one stdout tag line.
+    fn planted_transcript(config: &Path, dir: &str) -> PathBuf {
+        let projects = config.join("projects").join(dir);
+        fs::create_dir_all(&projects).expect("projects dir");
+        let path = projects.join(format!("{CX_ID}.jsonl"));
+        fs::write(
+            &path,
+            "{\"m\":\"<local-command-stdout>ctx</local-command-stdout>\"}\n",
+        )
+        .expect("transcript");
+        path
+    }
+
+    /// With none held before the send, the transcript written after it is found and counted from
+    /// its start.
+    #[test]
+    fn transcript_after_send_reads_one_written_after_the_send_from_its_start() {
+        let config = tempfile::tempdir().expect("tempdir");
+        assert_eq!(
+            transcript_after_send(config.path(), Some(CX_ID), None),
+            None,
+            "nothing written yet"
+        );
+        let path = planted_transcript(config.path(), "p");
+        let found = transcript_after_send(config.path(), Some(CX_ID), None);
+        assert_eq!(found, Some((path.clone(), Some(0))), "found from its start");
+        assert_eq!(tags_past(&path, 0), Some(1), "its one tag");
+        assert_eq!(
+            transcript_after_send(config.path(), None, None),
+            None,
+            "no session id"
+        );
+    }
+
+    /// A transcript held before the send is kept with its kept length, whatever else stands.
+    #[test]
+    fn transcript_after_send_keeps_the_one_held_before_the_send() {
+        let config = tempfile::tempdir().expect("tempdir");
+        let held = planted_transcript(config.path(), "a");
+        planted_transcript(config.path(), "b");
+        for (label, len) in [("kept length", Some(42)), ("metadata unread", None)] {
+            assert_eq!(
+                transcript_after_send(config.path(), Some(CX_ID), Some((held.clone(), len))),
+                Some((held.clone(), len)),
+                "{label}"
+            );
+        }
+        assert_eq!(transcript_word(Some(&held), Some(1)), "read");
+        assert_eq!(transcript_word(None, None), "absent");
+        assert_eq!(transcript_word(Some(&held), None), "unread");
     }
 
     /// The settings files' key-name delta names files and keys only.

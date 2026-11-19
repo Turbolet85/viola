@@ -1142,6 +1142,20 @@ fn rig_rehearsal_cx_sends_context_once_and_reads_its_post_condition() {
         Some("prompt-submitted"),
         "{summary}"
     );
+    assert_eq!(
+        summary
+            .lines()
+            .filter(|l| l.starts_with("context-transcript-after: "))
+            .count(),
+        1,
+        "{summary}"
+    );
+    // The fake writes its transcript beside its own exe, never under the config's `projects/`.
+    assert_eq!(
+        word(&out, "context-transcript-after").as_deref(),
+        Some("absent"),
+        "{summary}"
+    );
     assert_eq!(word(&out, "census").as_deref(), Some("0"), "{summary}");
     assert_eq!(word(&out, "credentials").as_deref(), Some("removed"));
     assert_eq!(word(&out, "scratch").as_deref(), Some("absent"));

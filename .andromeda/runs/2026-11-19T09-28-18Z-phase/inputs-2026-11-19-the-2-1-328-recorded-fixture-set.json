@@ -1,0 +1,320 @@
+[
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "c4dc235f",
+"ts": "2026-11-19T09:29:10Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-19-the-2-1-328-recorded-fixture-set",
+"--source",
+"~/dev/projects/additional/viola-overseer/phase-fixture-328-directive.md",
+"--kind",
+"relay",
+"--why",
+"the overseer phase directive: scope, the measured 2.1.328 facts, P3-end founder-forks block, no live start in this phase",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-11-19T09-28-18Z-phase",
+"--marker",
+"2026-11-19-the-2-1-328-recorded-fixture-set"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy no-repo · ../additional/viola-overseer/phase-fixture-328-directive.md",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-phase-fixture-328-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/phase-fixture-328-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "9655d8fd63eedee34108c389184a6d904f3fc836e163eab9018cc77a16e84caf",
+"copy": "I1-phase-fixture-328-directive.md.txt",
+"link": false,
+"read_at": "2026-11-19T09:29:09Z",
+"step": "phase:P1",
+"why": "the overseer phase directive: scope, the measured 2.1.328 facts, P3-end founder-forks block, no live start in this phase"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "c4dc235f",
+"ts": "2026-11-19T10:11:27Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-19-the-2-1-328-recorded-fixture-set",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-fixture-328-p3.md",
+"--kind",
+"relay",
+"--why",
+"the founder cap R4+R4M+L2 base and spare R4-2, F2 option A, and the overseer technical answers 3-8 to the P3 block",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-11-19T09-28-18Z-phase",
+"--marker",
+"2026-11-19-the-2-1-328-recorded-fixture-set"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy no-repo · ../additional/viola-overseer/relay-fixture-328-p3.md",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-fixture-328-p3.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-fixture-328-p3.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "b99ee45340c31b1ae2ec39ebace4e91e9b559db7254d241a0b5f6c65ddc9d3c3",
+"copy": "I2-relay-fixture-328-p3.md.txt",
+"link": false,
+"read_at": "2026-11-19T10:11:26Z",
+"step": "phase:P4",
+"why": "the founder cap R4+R4M+L2 base and spare R4-2, F2 option A, and the overseer technical answers 3-8 to the P3 block"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "c4dc235f",
+"ts": "2026-11-19T10:18:46Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-19-the-2-1-328-recorded-fixture-set",
+"--run-dir",
+".andromeda/runs/2026-11-19T09-28-18Z-phase",
+"--marker",
+"2026-11-19-the-2-1-328-recorded-fixture-set"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-fixture-328-directive.md",
+"I1 cited scope.md:35 · scope.md:51 · scope.md:56 · scope.md:59 · scope.md:74 · scope.md:75 · scope.md:78 · scope.md:89 · research.md:13 · research.md:77 · plan.md:8 · plan.md:130 · plan.md:171 · plan.md:339 (in fence) · plan.md:434 · plan.md:441",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-fixture-328-p3.md",
+"I2 cited plan.md:8 · plan.md:23 · plan.md:26 · plan.md:29 · plan.md:30 · plan.md:74 · plan.md:87 · plan.md:89 · plan.md:90 · plan.md:98 · plan.md:100 · plan.md:258 (in fence) · plan.md:277 (in fence) · plan.md:295 (in fence) · plan.md:303 (in fence) · plan.md:404 · plan.md:407 · plan.md:435 · plan.md:437 · plan.md:440 · plan.md:441 · plan.md:444 · plan.md:471",
+"inputs: 2 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "c4dc235f",
+"ts": "2026-11-19T10:20:30Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-19-the-2-1-328-recorded-fixture-set",
+"--run-dir",
+".andromeda/runs/2026-11-19T09-28-18Z-phase",
+"--marker",
+"2026-11-19-the-2-1-328-recorded-fixture-set"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-fixture-328-directive.md",
+"I1 cited scope.md:35 · scope.md:51 · scope.md:56 · scope.md:59 · scope.md:74 · scope.md:75 · scope.md:78 · scope.md:89 · research.md:13 · research.md:77 · plan.md:8 · plan.md:130 · plan.md:171 · plan.md:346 (in fence) · plan.md:441 · plan.md:448",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-fixture-328-p3.md",
+"I2 cited plan.md:8 · plan.md:23 · plan.md:26 · plan.md:29 · plan.md:30 · plan.md:74 · plan.md:87 · plan.md:89 · plan.md:90 · plan.md:98 · plan.md:100 · plan.md:260 (in fence) · plan.md:279 (in fence) · plan.md:297 (in fence) · plan.md:305 (in fence) · plan.md:411 · plan.md:414 · plan.md:442 · plan.md:444 · plan.md:447 · plan.md:448 · plan.md:451 · plan.md:478",
+"inputs: 2 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "c4dc235f",
+"ts": "2026-11-19T10:28:45Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-19-the-2-1-328-recorded-fixture-set",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-fixture-328-p5-review.md",
+"--kind",
+"relay",
+"--why",
+"the overseer P5 review of .andromeda/runs/2026-11-19T09-28-18Z-phase/p5-card-1.md (word: review, relayed by the overseer): context-transcript-after is a reading of L2, not a failing atom; the quoted-literal gate reading is a wrap carry proposal",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-11-19T09-28-18Z-phase",
+"--marker",
+"2026-11-19-the-2-1-328-recorded-fixture-set"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy no-repo · ../additional/viola-overseer/relay-fixture-328-p5-review.md",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-fixture-328-p5-review.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-fixture-328-p5-review.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "2f2161f0a575c5e51422e83a38c47c548c46e32c560c749c0fad1d9d3ec451b3",
+"copy": "I3-relay-fixture-328-p5-review.md.txt",
+"link": false,
+"read_at": "2026-11-19T10:28:41Z",
+"step": "phase:P5",
+"why": "the overseer P5 review of .andromeda/runs/2026-11-19T09-28-18Z-phase/p5-card-1.md (word: review, relayed by the overseer): context-transcript-after is a reading of L2, not a failing atom; the quoted-literal gate reading is a wrap carry proposal"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "c4dc235f",
+"ts": "2026-11-19T10:30:43Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-19-the-2-1-328-recorded-fixture-set",
+"--run-dir",
+".andromeda/runs/2026-11-19T09-28-18Z-phase",
+"--marker",
+"2026-11-19-the-2-1-328-recorded-fixture-set"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-fixture-328-directive.md",
+"I1 cited scope.md:35 · scope.md:51 · scope.md:56 · scope.md:59 · scope.md:74 · scope.md:75 · scope.md:78 · scope.md:89 · research.md:13 · research.md:77 · plan.md:8 · plan.md:134 · plan.md:175 · plan.md:350 (in fence) · plan.md:449 · plan.md:456",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-fixture-328-p3.md",
+"I2 cited plan.md:8 · plan.md:23 · plan.md:26 · plan.md:29 · plan.md:30 · plan.md:74 · plan.md:87 · plan.md:89 · plan.md:90 · plan.md:98 · plan.md:264 (in fence) · plan.md:283 (in fence) · plan.md:301 (in fence) · plan.md:309 (in fence) · plan.md:415 · plan.md:422 · plan.md:450 · plan.md:452 · plan.md:455 · plan.md:456 · plan.md:459 · plan.md:486",
+"I3 unchanged · copy no-repo · ../additional/viola-overseer/relay-fixture-328-p5-review.md",
+"I3 cited plan.md:99 · plan.md:301 (in fence) · plan.md:422 · plan.md:490 · plan.md:501",
+"inputs: 3 entries — unchanged 3 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 3,
+"counts": {
+"unchanged": 3,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "c4dc235f",
+"ts": "2026-11-19T10:31:26Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-19-the-2-1-328-recorded-fixture-set",
+"--source",
+".andromeda/runs/2026-11-19T09-28-18Z-phase/p5-word-2.md",
+"--kind",
+"relay",
+"--why",
+"the operator's word yes on .andromeda/runs/2026-11-19T09-28-18Z-phase/p5-card-2.md (authority: operator), approving plan rev 3 and the card's three Beyond-the-plan rows; the phase ends, nothing else starts",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-11-19T09-28-18Z-phase",
+"--marker",
+"2026-11-19-the-2-1-328-recorded-fixture-set"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [],
+"stderr": "--source lies in this project's own repository, under `.andromeda/` — the pipeline's own tree; phase reads it directly, it is not an external input",
+"wrote": [],
+"before": null,
+"after": null
+}
+]
