@@ -1,6 +1,0 @@
---- a/.andromeda/design-system.md
-+++ b/.andromeda/design-system.md
-@@ -179,2 +179,3 @@
- contract/viola-send-mirror/unconfirmable · viola send readback mirror · unconfirmable — `[  ] unconfirmable  <name>  local command, no measured post-condition` prints on stdout with exit 0.
-+contract/viola-verify-output/browser-tools-line · viola verify output · browser-tools line — After a successful `stamps.json` update and before the summary, a run that met the browser-tools prompt prints one plain ASCII stdout line, no SGR: `the browser-tools prompt stood at start; viola never answers it: answer it once in claude, then run viola verify again`.
- contract/viola-verify-output/stamps-refused · viola verify output · stamps.json update refused — A `stamps.json` update refused by its strict-modes check prints the home-state `unable:` / `hint:` pair.

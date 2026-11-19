@@ -1,3 +1,0 @@
-# obs · standing conventions
-
-- (none)

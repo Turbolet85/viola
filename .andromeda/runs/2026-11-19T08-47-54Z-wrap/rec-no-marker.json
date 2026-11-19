@@ -1,0 +1,159 @@
+[
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "0834810a",
+"ts": "2026-11-19T08:48:23Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-19T08-47-54Z-wrap/route-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-19T08-47-54Z-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 4 record(s) · 4 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "0834810a",
+"ts": "2026-11-19T08:48:50Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-19T08-47-54Z-wrap/route-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-19T08-47-54Z-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 4 record(s) · 4 edge(s) · tx 3009 · chk-rxufjaid … cry-c4wdkgov"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "0834810a",
+"ts": "2026-11-19T08:48:51Z",
+"argv": [
+"retire",
+"--root",
+".",
+"cry-zedwfeqx,cry-ugiiqjkq,cry-vkiyfvj4",
+"--run-dir",
+".andromeda/runs/2026-11-19T08-47-54Z-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"retired 3 node(s) · 3 edge(s) · tx 3010"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "0834810a",
+"ts": "2026-11-19T08:49:11Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-19T08-47-54Z-wrap/run-node.txt",
+"--run-dir",
+".andromeda/runs/2026-11-19T08-47-54Z-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 0 edge(s) · tx 3011 · run-3llevgd4 … run-3llevgd4"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "0834810a",
+"ts": "2026-11-19T08:49:36Z",
+"argv": [
+"outputs",
+"land",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-19T08-47-54Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"outputs land: no field payload in the run — nothing to land"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "0834810a",
+"ts": "2026-11-19T08:49:37Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-19T08-47-54Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"sealed 2026-11-19T07-27-27Z-wrap · 193 file(s) · 2026-11-19T07-27-27Z-wrap.parquet · tx 3012 · 193 removed · 259 set aside",
+"seal · 1 run(s) · own 2026-11-19T08-47-54Z-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]
