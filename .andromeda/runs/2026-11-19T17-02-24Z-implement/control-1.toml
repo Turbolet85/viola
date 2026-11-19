@@ -1,0 +1,25 @@
+[[control]]
+id = 'keep-version'
+entry = 4
+guard = "keep_record's per-version refusal: the `if standing { return \"exists\" }` return before any write"
+case = 'rig::isolate::tests::keep_record_refuses_a_standing_version_and_writes_nothing'
+
+[[control.edit]]
+path = 'crates/viola-e2e/src/rig/isolate.rs'
+old = '''        if standing {
+            return "exists".to_owned();
+        }
+        let mut copied = 0usize;'''
+new = '''        let _ = standing;
+        let mut copied = 0usize;'''
+
+[[control]]
+id = 'sandbox-refusal'
+entry = 5
+guard = "the refused: sandbox return before the ledger line, a failed sandbox probe taken as no sandbox"
+case = 'rig_rehearsal_sf_refuses_contain_without_the_sandbox_before_its_ledger_line'
+
+[[control.edit]]
+path = 'crates/viola-e2e/src/rig/mod.rs'
+old = '''            Err(_) => return refused("sandbox"),'''
+new = '''            Err(_) => None,'''

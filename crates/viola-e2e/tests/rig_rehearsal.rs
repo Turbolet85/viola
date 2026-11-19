@@ -1163,6 +1163,228 @@ fn rig_rehearsal_cx_sends_context_once_and_reads_its_post_condition() {
     assert!(case.scratch_empty(), "the scratch root stands");
 }
 
+/// The recorded 2.1.328 set copied under the case's root with a synthetic
+/// `StopFailure.default.json` beside it: the set's own `Stop.default` with the StopFailure event
+/// name, `error` and two texts set; the texts embed the canary and `needle`.
+fn stop_failure_fixtures(case: &Case, error: &str, needle: &str) -> PathBuf {
+    let root = case.path("fx");
+    let set = root.join("2.1.328");
+    fs::create_dir_all(&set).expect("fixtures copy");
+    for entry in fs::read_dir(fixtures().join("2.1.328")).expect("recorded set") {
+        let entry = entry.expect("entry");
+        fs::copy(entry.path(), set.join(entry.file_name())).expect("copy");
+    }
+    let mut payload: Value =
+        serde_json::from_slice(&fs::read(set.join("Stop.default.json")).expect("Stop"))
+            .expect("Stop json");
+    payload["hook_event_name"] = Value::from("StopFailure");
+    payload["error"] = Value::from(error);
+    payload["error_details"] = Value::from(format!("{CANARY} {needle} details"));
+    payload["last_assistant_message"] = Value::from(format!("{CANARY} {needle} message"));
+    fs::write(set.join("StopFailure.default.json"), payload.to_string()).expect("plant");
+    root
+}
+
+/// The `sf` rehearsal's fake agent: the copied set, its turn ending in the planted StopFailure,
+/// the private config's settings hooks run beside the plugin's.
+fn sf_child(case: &Case, fixtures_root: &Path) -> Vec<String> {
+    let root = fixtures_root.display().to_string();
+    case.child(
+        true,
+        &[
+            "--fixtures",
+            root.as_str(),
+            "--cli-version",
+            "2.1.328",
+            "--turn-stop",
+            "--turn-fail",
+            "default",
+            "--settings-hooks",
+            "{config}/settings.json",
+        ],
+    )
+}
+
+/// Every file under `dir`, recursively.
+fn files_under(dir: &Path) -> Vec<PathBuf> {
+    let mut files = Vec::new();
+    let mut dirs = vec![dir.to_path_buf()];
+    while let Some(d) = dirs.pop() {
+        for entry in fs::read_dir(&d).into_iter().flatten().flatten() {
+            let path = entry.path();
+            if path.is_dir() {
+                dirs.push(path);
+            } else {
+                files.push(path);
+            }
+        }
+    }
+    files
+}
+
+/// `sf` over the fake agent, unwrapped: one send, the planted StopFailure turn end read with its
+/// cause, the rig's capture word and the unknown-value count; C3's keys typed after the turn end.
+#[test]
+fn rig_rehearsal_sf_reads_a_stop_failure_turn_end_and_its_cause() {
+    let case = Case::new();
+    let viola = viola().display().to_string();
+    let fx = stop_failure_fixtures(&case, "server_error", "plain-zq");
+    let out = run(case.rig(
+        "sf",
+        &["--viola", viola.as_str(), "--grant", "box"],
+        &sf_child(&case, &fx),
+    ));
+    let summary = stdout(&out);
+    for (key, want) in [
+        ("send-1-reply", "ok"),
+        ("turn-end", "stop-failure"),
+        ("cause", "server-error"),
+        ("captured-word", "server_error"),
+        ("cause-matches", "yes"),
+        ("unknown-value-lines", "0"),
+        ("net-ns", "shared"),
+        ("keys", "x 1, del 1"),
+        ("census", "0"),
+        ("credentials", "removed"),
+        ("scratch", "absent"),
+    ] {
+        assert_eq!(word(&out, key).as_deref(), Some(want), "{key}\n{summary}");
+    }
+    for key in ["hint-attr", "typed-attr", "hint-told-apart"] {
+        assert!(word(&out, key).is_some(), "{key}\n{summary}");
+    }
+    assert_ne!(word(&out, "user-config").as_deref(), Some("changed-by-rig"));
+    assert!(case.scratch_empty(), "the scratch root stands");
+    // The keys came after the turn: the receipt's key lines past its prompt line are x and DEL.
+    let lines = case.receipt_lines();
+    let prompt = lines
+        .iter()
+        .position(|l| l["kind"] == "prompt")
+        .expect("a prompt line");
+    let after: Vec<&str> = lines[prompt..]
+        .iter()
+        .filter(|l| l["kind"] == "key")
+        .filter_map(|l| l["hex"].as_str())
+        .collect();
+    assert_eq!(after.get(..2), Some(&["78", "7f"][..]), "{after:?}");
+}
+
+/// `sf` over a StopFailure whose error word lies outside the CLI's 13: the cause `api-error`, one
+/// unknown-value line, the capture's `other`; the needles reach no output and no kept file.
+#[test]
+fn rig_rehearsal_sf_reads_an_unknown_error_word_as_api_error_and_keeps_no_needle() {
+    let case = Case::new();
+    let viola = viola().display().to_string();
+    let needle = "needle-word-zq7";
+    let fx = stop_failure_fixtures(&case, "needle_error_zq7", needle);
+    let ledger = case.ledger().display().to_string();
+    let out = run(case.rig(
+        "sf",
+        &[
+            "--viola",
+            viola.as_str(),
+            "--grant",
+            "box",
+            "--ledger",
+            ledger.as_str(),
+        ],
+        &sf_child(&case, &fx),
+    ));
+    let summary = stdout(&out);
+    for (key, want) in [
+        ("turn-end", "stop-failure"),
+        ("cause", "api-error"),
+        ("captured-word", "other"),
+        ("cause-matches", "yes"),
+        ("unknown-value-lines", "1"),
+        ("scratch", "absent"),
+    ] {
+        assert_eq!(word(&out, key).as_deref(), Some(want), "{key}\n{summary}");
+    }
+    let mut kept = files_under(&case.out());
+    kept.push(case.ledger());
+    for needle in [needle, "needle_error_zq7", CANARY] {
+        assert!(!summary.contains(needle), "{needle} on stdout");
+        for file in &kept {
+            let bytes = fs::read(file).unwrap_or_default();
+            assert!(
+                !String::from_utf8_lossy(&bytes).contains(needle),
+                "{needle} in {}",
+                file.display()
+            );
+        }
+    }
+}
+
+/// `sf --contain` over the fake agent inside the sandbox: the network namespace its own, the
+/// recorded Stop turn read through viola's hook and socket across it. Skipped only by its printed
+/// probe, where the host cannot make the sandbox.
+#[test]
+fn rig_rehearsal_sf_contained_reads_its_own_network_namespace() {
+    let probe = viola_e2e::rig::sandbox_probe(
+        std::env::var_os("PATH").as_deref(),
+        std::env::var_os("XDG_RUNTIME_DIR").as_deref(),
+    );
+    match probe {
+        Ok(_) => println!("sandbox-probe: own"),
+        Err(reason) => {
+            println!("sandbox-probe: unavailable ({reason})");
+            return;
+        }
+    }
+    let case = Case::new();
+    let viola = viola().display().to_string();
+    let child = case.child(true, &["--turn-stop"]);
+    let out = run(case.rig(
+        "sf",
+        &["--viola", viola.as_str(), "--grant", "box", "--contain"],
+        &child,
+    ));
+    let summary = stdout(&out);
+    for (key, want) in [
+        ("sandbox-probe", "own"),
+        ("net-ns", "own"),
+        ("box", "up"),
+        ("send-1-reply", "ok"),
+        ("turn-end", "stop"),
+        ("census", "0"),
+        ("scratch", "absent"),
+    ] {
+        assert_eq!(word(&out, key).as_deref(), Some(want), "{key}\n{summary}");
+    }
+    assert!(case.scratch_empty(), "the scratch root stands");
+}
+
+/// `sf --contain` with no `bwrap` on the rig's `PATH`: refused `sandbox`, exit 3, before any
+/// ledger line.
+#[test]
+fn rig_rehearsal_sf_refuses_contain_without_the_sandbox_before_its_ledger_line() {
+    let case = Case::new();
+    let viola = viola().display().to_string();
+    let ledger = case.ledger().display().to_string();
+    let empty = case.path("empty-bin");
+    fs::create_dir_all(&empty).expect("empty bin");
+    let mut cmd = case.rig(
+        "sf",
+        &[
+            "--viola",
+            viola.as_str(),
+            "--contain",
+            "--ledger",
+            ledger.as_str(),
+            "--cap",
+            "1",
+        ],
+        &case.child(true, &["--turn-stop"]),
+    );
+    cmd.env("PATH", &empty);
+    let out = run(cmd);
+    assert_eq!(out.status.code(), Some(3), "{}", stdout(&out));
+    assert_eq!(stdout(&out).trim(), "refused: sandbox");
+    assert!(!case.ledger().exists(), "no ledger line");
+    assert!(case.scratch_empty(), "no scratch made");
+}
+
 /// The verify arm over a fake agent told a config file verify never writes: Run F settles on its
 /// trust dialog, `trust-record` fails, and the failed run's first screen, written by verify under
 /// the rig's hidden option, is copied into the run's kept folder before the scratch is removed.

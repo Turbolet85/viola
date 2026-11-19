@@ -117,6 +117,67 @@ impl Model {
         self.rows()
             .map_or(TrustPlace::Unread, |rows| trust_place(&rows))
     }
+
+    /// One cell's vt100 attributes as one closed word: `dim`, `italic`, `bold`, `inverse`,
+    /// `fg-<n>` (`fg-rgb` for a true colour), `+`-joined in that order, `plain` with none;
+    /// `unread (poisoned)` or `unread (past-screen)`. The cell's text is never read.
+    pub fn cell_attr(&self, row: u16, col: u16) -> String {
+        let Some(parser) = self.parser.as_ref() else {
+            return "unread (poisoned)".to_owned();
+        };
+        let Some(cell) = parser.screen().cell(row, col) else {
+            return "unread (past-screen)".to_owned();
+        };
+        let mut words = Vec::new();
+        for (on, word) in [
+            (cell.dim(), "dim"),
+            (cell.italic(), "italic"),
+            (cell.bold(), "bold"),
+            (cell.inverse(), "inverse"),
+        ] {
+            if on {
+                words.push(word.to_owned());
+            }
+        }
+        match cell.fgcolor() {
+            vt100::Color::Default => {}
+            vt100::Color::Idx(n) => words.push(format!("fg-{n}")),
+            vt100::Color::Rgb(..) => words.push("fg-rgb".to_owned()),
+        }
+        if words.is_empty() {
+            "plain".to_owned()
+        } else {
+            words.join("+")
+        }
+    }
+
+    /// The input box's prompt row read for attributes alone: the first drawn cell past the glyph,
+    /// its [`Model::cell_attr`] word; `unread (no-box)` with no prompt row, `unread (no-cell)` with
+    /// nothing drawn past the glyph. Only whether a cell is blank is read, never what it holds.
+    pub fn box_attr(&self) -> String {
+        let Some(rows) = self.rows() else {
+            return "unread (poisoned)".to_owned();
+        };
+        let Some(row) = prompt_row(&rows) else {
+            return "unread (no-box)".to_owned();
+        };
+        let Some(parser) = self.parser.as_ref() else {
+            return "unread (poisoned)".to_owned();
+        };
+        let screen = parser.screen();
+        let Ok(row) = u16::try_from(row) else {
+            return "unread (past-screen)".to_owned();
+        };
+        let drawn = (1..self.cols).find(|&col| {
+            screen
+                .cell(row, col)
+                .is_some_and(|c| c.has_contents() && !c.contents().trim().is_empty())
+        });
+        drawn.map_or_else(
+            || "unread (no-cell)".to_owned(),
+            |col| self.cell_attr(row, col),
+        )
+    }
 }
 
 /// The input box's prompt row: a row opening the prompt glyph directly below the box's rule.
@@ -349,11 +410,41 @@ mod tests {
     }
 
     #[test]
+    fn a_cell_reads_its_attributes_never_its_text() {
+        for (label, sgr, word) in [
+            ("dim", "\x1b[2m", "dim"),
+            ("italic", "\x1b[3m", "italic"),
+            ("coloured", "\x1b[38;5;244m", "fg-244"),
+            ("dim and coloured", "\x1b[2;31m", "dim+fg-1"),
+            ("plain", "", "plain"),
+        ] {
+            let mut m = Model::sized(4, 20);
+            m.feed(format!("\x1b[H{sgr}hint\x1b[0m").as_bytes());
+            assert_eq!(m.cell_attr(0, 0), word, "{label}");
+        }
+        let m = Model::sized(4, 20);
+        assert_eq!(m.cell_attr(9, 0), "unread (past-screen)");
+    }
+
+    #[test]
+    fn the_box_attr_reads_the_first_drawn_cell_past_the_glyph() {
+        let mut m = Model::sized(6, 80);
+        let rule = rule();
+        m.feed(format!("\x1b[H{rule}\r\n❯ \x1b[2mTry something\x1b[0m\r\n{rule}").as_bytes());
+        assert_eq!(m.box_attr(), "dim");
+        let mut empty = Model::sized(6, 80);
+        empty.feed(format!("\x1b[H{rule}\r\n❯ \r\n{rule}").as_bytes());
+        assert_eq!(empty.box_attr(), "unread (no-cell)");
+        assert_eq!(Model::sized(6, 80).box_attr(), "unread (no-box)");
+    }
+
+    #[test]
     fn a_poisoned_model_reads_poisoned() {
         let mut m = Model::new();
         m.parser = None;
         m.feed(b"anything");
         assert_eq!(m.reading(), Reading::POISONED);
+        assert_eq!(m.box_attr(), "unread (poisoned)");
         assert!(m.rows().is_none());
     }
 }

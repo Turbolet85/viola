@@ -2,8 +2,8 @@
 //! agent) on a pty the rig owns, read through its own screen model into closed words, its keys
 //! only those granted, its frames kept locally, its isolation and its processes its own.
 //!
-//! A start's order: `ci` (live) → the cap (`spent` · `cap`) → the CLI version by path → the token
-//! window → `leftover` (an earlier rig's orphans) → the ledger line → the scratch root and the
+//! A start's order: `ci` (live) → the cap (`spent` · `cap`) → the CLI version by path → a
+//! contained start's sandbox probe (`sandbox`) → the token window → `leftover` (an earlier rig's orphans) → the ledger line → the scratch root and the
 //! credentials copy → the spawn → the arm → the stop → the teardown (census, credentials, root) →
 //! the user config read again → the summary. Every refusal before the ledger line is uncounted.
 
@@ -59,6 +59,13 @@ const S1_NAME: &str = "rig-s1";
 /// The wrapped instance `CX` starts, and the one text it sends.
 const CX_NAME: &str = "rig-cx";
 const CX_TEXT: &str = "/context";
+/// The `SF` arm's wrapped instance.
+const SF_NAME: &str = "sf-probe";
+/// How long `SF` waits past its send for the turn's end: the CLI's retries on a lost connection
+/// (one to three minutes expected on 2.1.328, read statically, never measured) with room.
+const SF_TURN_BOUND: Duration = Duration::from_secs(480);
+/// How long `SF` waits past the turn's end for the capture hook's line.
+const SF_CAPTURE_BOUND: Duration = Duration::from_secs(10);
 /// The opening of the CLI's local-command stdout tag in a session transcript.
 const STDOUT_TAG: &[u8] = b"<local-command-stdout>";
 /// The needle `VH` reads around its start: verify's echo probe's absent server name.
@@ -129,6 +136,10 @@ pub enum Arm {
     VH,
     /// Wrapped, one send of `/context`; its `prompt-submitted` and transcript tag read; no key.
     CX,
+    /// Wrapped inside a network-closed `bwrap` sandbox (every live start; a rehearsal under
+    /// `--contain`), one send of a compiled prompt: the StopFailure turn end, its cause and the
+    /// rig's capture read, then the box row's cell attributes around one `x` and one DEL.
+    SF,
 }
 
 impl Arm {
@@ -150,6 +161,7 @@ impl Arm {
             "mt" => Some(Self::MT),
             "vh" => Some(Self::VH),
             "cx" => Some(Self::CX),
+            "sf" => Some(Self::SF),
             _ => None,
         }
     }
@@ -158,8 +170,9 @@ impl Arm {
     /// / `R3D`, `IM` / `IM-2`, `S0` / `S0-2`, `S0R` with its two spares `S0R-2` / `S0R-3`, `S0B`
     /// with its spare `S0B-2`, `S0C` alone (no spare), `S1` with its spare `S1-2`, `S2` alone,
     /// `BP` with its spare `BP-2`, `BK` alone, the recording `R4` with its spare `R4-2`, and the
-    /// MCP re-record `R4M` alone, the real-home verify `L1` with its spare `L1-2`, and the
-    /// `/context` reading `L2` alone.
+    /// MCP re-record `R4M` alone, the real-home verify `L1` with its spare `L1-2`, the
+    /// `/context` reading `L2` alone, and the contained StopFailure reading `SF` with its spare
+    /// `SF-2`.
     pub fn of_label(label: &str) -> Option<Self> {
         match label {
             "R1" | "R1-2" => Some(Self::R1),
@@ -177,6 +190,7 @@ impl Arm {
             "R4M" => Some(Self::MT),
             "L1" | "L1-2" => Some(Self::VH),
             "L2" => Some(Self::CX),
+            "SF" | "SF-2" => Some(Self::SF),
             _ => None,
         }
     }
@@ -215,6 +229,7 @@ impl Arm {
             Self::MT => "mt",
             Self::VH => "vh",
             Self::CX => "cx",
+            Self::SF => "sf",
         }
     }
 
@@ -225,7 +240,7 @@ impl Arm {
 
     /// Whether the private config takes the used-config markers and the browser-tools key.
     fn marker_seed(self) -> bool {
-        self.verifies() || matches!(self, Self::VC | Self::TS | Self::TC | Self::CX)
+        self.verifies() || matches!(self, Self::VC | Self::TS | Self::TC | Self::CX | Self::SF)
     }
 
     /// Whether the private config takes another folder's sentinel entry.
@@ -239,6 +254,7 @@ impl Arm {
             Self::R2 => Some(R2_NAME),
             Self::R3B | Self::R3 => Some(wake::WAKE_NAME),
             Self::CX => Some(CX_NAME),
+            Self::SF => Some(SF_NAME),
             Self::R1
             | Self::Hold
             | Self::IM
@@ -269,6 +285,7 @@ impl Arm {
                 | Self::TS
                 | Self::VR
                 | Self::CX
+                | Self::SF
         )
     }
 
@@ -325,6 +342,8 @@ pub struct Plan {
     pub claude_dir: Option<PathBuf>,
     /// `VH`: verify's cwd, the rig's current directory, a git root.
     pub cwd: Option<PathBuf>,
+    /// `SF`: the child runs inside the network-closed sandbox (every live start).
+    pub contain: bool,
 }
 
 /// The summary, `key: word` pairs in the order they were read.
@@ -382,6 +401,22 @@ pub fn start(plan: &Plan) -> u8 {
             _ => return refused("version"),
         }
     }
+    // A contained start makes its sandbox's probe first: refused, uncounted, before any read of
+    // the credentials or the ledger line.
+    let sandbox = if plan.arm == Arm::SF && plan.contain {
+        match sandbox_probe(
+            std::env::var_os("PATH").as_deref(),
+            std::env::var_os("XDG_RUNTIME_DIR").as_deref(),
+        ) {
+            Ok(bwrap) => {
+                summary.put("sandbox-probe", "own");
+                Some(bwrap)
+            }
+            Err(_) => return refused("sandbox"),
+        }
+    } else {
+        None
+    };
     if plan.arm == Arm::VR
         && (isolate::names_home_component(&plan.scratch_base)
             || fs::canonicalize(&plan.scratch_base)
@@ -488,6 +523,10 @@ pub fn start(plan: &Plan) -> u8 {
                 .as_deref()
                 .is_some_and(|rig| scratch.seed_capture(rig).is_ok()),
             Arm::IM => scratch.seed_imports().is_ok(),
+            Arm::SF => plan
+                .rig
+                .as_deref()
+                .is_some_and(|rig| scratch.seed_stop_failure_capture(rig).is_ok()),
             Arm::R1
             | Arm::R2
             | Arm::Hold
@@ -510,7 +549,14 @@ pub fn start(plan: &Plan) -> u8 {
         if let Some(id) = run_ts(plan, &run, &scratch, sentinel, &mut summary) {
             needles.push(id.into_bytes());
         }
-    } else if let Some(id) = run_child(plan, &run, &scratch, sentinel.as_ref(), &mut summary) {
+    } else if let Some(id) = run_child(
+        plan,
+        &run,
+        &scratch,
+        sentinel.as_ref(),
+        sandbox.as_deref(),
+        &mut summary,
+    ) {
         needles.push(id.into_bytes());
     }
     if matches!(plan.arm, Arm::VP | Arm::VK) {
@@ -821,6 +867,7 @@ fn run_child(
     run: &str,
     scratch: &Scratch,
     sentinel: Option<&isolate::Sentinel>,
+    sandbox: Option<&Path>,
     summary: &mut Summary,
 ) -> Option<String> {
     let env = if plan.arm == Arm::VH {
@@ -895,7 +942,16 @@ fn run_child(
                 plan.program.clone().into(),
             ];
             args.extend(child_args);
-            (viola.clone(), args)
+            match sandbox {
+                Some(bwrap) => {
+                    let root = fs::canonicalize(&scratch.root).unwrap_or(scratch.root.clone());
+                    let mut contained = isolate::sandbox_args(&root);
+                    contained.push(viola.clone().into());
+                    contained.extend(args);
+                    (bwrap.to_path_buf(), contained)
+                }
+                None => (viola.clone(), args),
+            }
         }
         _ => (plan.program.clone(), child_args),
     };
@@ -928,6 +984,7 @@ fn run_child(
             arm_v(plan, scratch, &mut session, summary);
         }
         Arm::CX => arm_cx(plan, scratch, &env, &mut session, summary),
+        Arm::SF => arm_sf(plan, scratch, &env, &mut session, summary),
         Arm::VC => arm_vc(plan, &mut session, summary),
         Arm::TC => arm_tc(plan, scratch, sentinel, &mut session, summary),
         // `TS` takes its own two starts (`run_ts`) and `MT` no pty (`arm_mt`); a start that
@@ -1653,6 +1710,315 @@ fn arm_cx(
     summary.put("context-post", context_post(submitted, tags));
 }
 
+/// `bwrap` resolved on `path` (the rig's own `PATH`) and one bounded no-op child run through it
+/// with the sandbox's own options, its network namespace read inside against the rig's: the
+/// absolute `bwrap` when the namespace is its own; else `absent`, `no-runtime-dir` (viola's socket
+/// directory would fall under the sandbox's private `/tmp`, out of `viola send`'s reach), `failed`
+/// or `shared`.
+pub fn sandbox_probe(
+    path: Option<&std::ffi::OsStr>,
+    runtime_dir: Option<&std::ffi::OsStr>,
+) -> Result<PathBuf, &'static str> {
+    let bwrap = path
+        .and_then(|path| isolate::on_path("bwrap", path))
+        .ok_or("absent")?;
+    if !isolate::runtime_dir_crosses(runtime_dir.map(Path::new)) {
+        return Err("no-runtime-dir");
+    }
+    let mut command = Command::new(&bwrap);
+    command
+        .args(isolate::sandbox_probe_args())
+        .args(["readlink", "/proc/self/ns/net"])
+        .env_clear()
+        .env("PATH", "/usr/bin:/bin")
+        .stdin(Stdio::null());
+    let output = bounded(command, Duration::from_secs(10)).ok_or("failed")?;
+    if !output.status.success() {
+        return Err("failed");
+    }
+    let inside = String::from_utf8_lossy(&output.stdout).trim().to_owned();
+    let own = net_ns_of("self");
+    match net_ns_word(own.as_deref(), Some(&inside), Some(&inside)) {
+        "own" => Ok(bwrap),
+        _ => Err("shared"),
+    }
+}
+
+/// `/proc/<pid>/ns/net`'s link text, `None` when it cannot be read.
+fn net_ns_of(pid: &str) -> Option<String> {
+    fs::read_link(format!("/proc/{pid}/ns/net"))
+        .ok()
+        .map(|link| link.to_string_lossy().into_owned())
+}
+
+/// `own` when both processes' network namespaces are read and differ from the rig's, `shared`
+/// when either equals it, `unread` otherwise.
+fn net_ns_word(rig: Option<&str>, wrapper: Option<&str>, child: Option<&str>) -> &'static str {
+    let Some(rig) = rig else {
+        return "unread";
+    };
+    if wrapper == Some(rig) || child == Some(rig) {
+        return "shared";
+    }
+    if wrapper.is_some() && child.is_some() {
+        "own"
+    } else {
+        "unread"
+    }
+}
+
+/// A `turn-ended` line's data as `(turn-end, cause)`: `stop-failure` with its cause word when it
+/// carries one, `stop` (`none`) when it carries none, `none` (`none`) for no line.
+fn turn_end_words(data: Option<&Value>) -> (&'static str, String) {
+    match data {
+        None => ("none", "none".to_owned()),
+        Some(data) => match data["cause"].as_str() {
+            Some(cause) if viola_core::is_code_word(cause) => ("stop-failure", cause.to_owned()),
+            Some(_) => ("stop-failure", "unread".to_owned()),
+            None => ("stop", "none".to_owned()),
+        },
+    }
+}
+
+/// The complete `parse-rejected` lines of a role file whose `detail` is `unknown-value`, read
+/// through `MAX_FRAME`; `None` when the file cannot be read.
+fn unknown_value_lines(role_file: &Path) -> Option<usize> {
+    let mut bytes = Vec::new();
+    File::open(role_file)
+        .and_then(|f| f.take(viola_core::MAX_FRAME).read_to_end(&mut bytes))
+        .ok()?;
+    let complete = bytes
+        .iter()
+        .rposition(|&b| b == b'\n')
+        .map_or(&bytes[..0], |end| &bytes[..=end]);
+    Some(
+        complete
+            .split(|&b| b == b'\n')
+            .filter_map(|line| serde_json::from_slice::<Value>(line).ok())
+            .filter(|line| line["event"] == "parse-rejected" && line["detail"] == "unknown-value")
+            .count(),
+    )
+}
+
+/// The snapshot's `data.pid` and `data.child_pid`, read through `MAX_FRAME`.
+fn snapshot_pids(snapshot: &Path) -> (Option<u64>, Option<u64>) {
+    let mut bytes = Vec::new();
+    let read =
+        File::open(snapshot).and_then(|f| f.take(viola_core::MAX_FRAME).read_to_end(&mut bytes));
+    let doc: Value = if read.is_ok() {
+        serde_json::from_slice(&bytes).unwrap_or(Value::Null)
+    } else {
+        Value::Null
+    };
+    (
+        doc["data"]["pid"].as_u64(),
+        doc["data"]["child_pid"].as_u64(),
+    )
+}
+
+/// The capture's last StopFailure line's error word, waited for up to `bound`: `unread` with none.
+fn captured_word(capture: &Path, bound: Duration, session: &mut Session) -> String {
+    let until = Instant::now() + bound;
+    loop {
+        let word = new_lines(capture, 0)
+            .into_iter()
+            .rev()
+            .find(|(line, _)| line["event"] == "stop-failure")
+            .and_then(|(line, _)| line["error"].as_str().map(str::to_owned));
+        if let Some(word) = word {
+            let closed = word == "other"
+                || word == "absent"
+                || capture::ERROR_WORDS.contains(&word.as_str());
+            return if closed { word } else { "unread".to_owned() };
+        }
+        if Instant::now() >= until || procs::stop_requested().is_some() {
+            return "unread".to_owned();
+        }
+        session.pump(Duration::from_millis(100));
+    }
+}
+
+/// Whether the captured word maps, through the adapter's own map, to the cause the turn end read.
+fn cause_matches(captured: &str, cause: &str) -> &'static str {
+    let mapped = match captured {
+        "unread" => return "unread",
+        "absent" => viola_agent_claude::hook::api_error_cause(None).0,
+        word => viola_agent_claude::hook::api_error_cause(Some(word)).0,
+    };
+    if mapped.as_str() == cause {
+        "yes"
+    } else {
+        "no"
+    }
+}
+
+/// Two attribute words told apart: `unread` when either is unread, else `yes` / `no`.
+fn told_apart(hint: &str, typed: &str) -> &'static str {
+    if hint.starts_with("unread") || typed.starts_with("unread") {
+        "unread"
+    } else if hint == typed {
+        "no"
+    } else {
+        "yes"
+    }
+}
+
+/// `SF`: the first frame (no trust form, the box up), `session-start` awaited, the network
+/// namespace read, one `viola send` of the compiled prompt, the turn's end and its cause, the
+/// hook role file's unknown-value lines and the capture's word; after a StopFailure turn end the
+/// box row's attributes around one `x` and one DEL; the stop the rig's own.
+fn arm_sf(
+    plan: &Plan,
+    scratch: &Scratch,
+    env: &[(OsString, OsString)],
+    session: &mut Session,
+    summary: &mut Summary,
+) {
+    let first = first_frame(plan, session);
+    record_reading(summary, &first);
+    if first.trust_shown() || !first.is_box_up() {
+        summary.put("keys", "none");
+        summary.put("refused", "shape");
+        return;
+    }
+    let (Some(vhome), Some(viola)) = (&scratch.vhome, &plan.viola) else {
+        return;
+    };
+    let instance = vhome.join("instances").join(SF_NAME);
+    let events = instance.join("events.ndjson");
+    let mut offset = 0;
+    let Some(started) = await_kind(&events, &mut offset, "session-start", plan.settle, session)
+    else {
+        summary.put("keys", "none");
+        summary.put("refused", "no-session-start");
+        return;
+    };
+    session.learn_id(&started);
+    let (pid, child_pid) = snapshot_pids(&instance.join("snapshot.json"));
+    summary.put(
+        "net-ns",
+        net_ns_word(
+            net_ns_of("self").as_deref(),
+            pid.and_then(|p| net_ns_of(&p.to_string())).as_deref(),
+            child_pid.and_then(|p| net_ns_of(&p.to_string())).as_deref(),
+        ),
+    );
+    let texts = scratch.root.join("texts");
+    let file = texts.join("1.txt");
+    if viola_state::fs::create_private_dir(&texts).is_err()
+        || viola_state::fs::replace_private(&file, MT_PROMPT.as_bytes(), viola_state::fs::FILE_MODE)
+            .is_err()
+    {
+        summary.put("keys", "none");
+        summary.put("refused", "texts");
+        return;
+    }
+    let mut command = Command::new(viola);
+    command
+        .arg("--home")
+        .arg(vhome)
+        .args(["send", SF_NAME, "--json", "--file"])
+        .arg(&file)
+        .current_dir(&scratch.cwd)
+        .env_clear()
+        .envs(env.iter().map(|(k, v)| (k, v)))
+        .stdin(Stdio::null());
+    let reply = bounded(command, SEND_BOUND);
+    let replied = Instant::now();
+    let sent = send_word(reply.as_ref());
+    summary.put("send-1-reply", sent.clone());
+    let submitted = await_kind(
+        &events,
+        &mut offset,
+        "prompt-submitted",
+        SUBMIT_BOUND,
+        session,
+    );
+    summary.put(
+        "send-1",
+        match submitted.as_ref().and_then(|d| d["text"].as_str()) {
+            Some(got) => compare_texts(&typed_text(MT_PROMPT), got).to_owned(),
+            None => format!("not-delivered:{sent}"),
+        },
+    );
+    let ended = submitted
+        .is_some()
+        .then(|| await_kind(&events, &mut offset, "turn-ended", SF_TURN_BOUND, session))
+        .flatten();
+    let (turn_end, cause) = turn_end_words(ended.as_ref());
+    summary.put("turn-end", turn_end);
+    summary.put("cause", cause.clone());
+    summary.put(
+        "turn-end-after-s",
+        if ended.is_some() {
+            replied.elapsed().as_secs().to_string()
+        } else {
+            "none".to_owned()
+        },
+    );
+    session.keep("send-1");
+    summary.put(
+        "unknown-value-lines",
+        unknown_value_lines(
+            &vhome
+                .join("diagnostics")
+                .join(format!("hook-{SF_NAME}.ndjson")),
+        )
+        .map_or_else(|| "unread".to_owned(), |n| n.to_string()),
+    );
+    let captured = if turn_end == "stop-failure" {
+        captured_word(&scratch.capture_file(), SF_CAPTURE_BOUND, session)
+    } else {
+        "unread".to_owned()
+    };
+    summary.put("captured-word", captured.clone());
+    summary.put(
+        "cause-matches",
+        if turn_end == "stop-failure" {
+            cause_matches(&captured, &cause)
+        } else {
+            "unread"
+        },
+    );
+    if turn_end != "stop-failure" {
+        summary.put("hint-attr", "unread (no-stop-failure)");
+        summary.put("typed-attr", "unread (no-stop-failure)");
+        summary.put("hint-told-apart", "unread");
+        summary.put("keys", "none");
+        return;
+    }
+    sf_cell_attrs(plan, session, summary);
+}
+
+/// C3's reading after the StopFailure turn end: the box row's attribute word, one `x`, its
+/// word, one DEL. A box not up or a key the grant refuses reads `unread` with its reason.
+fn sf_cell_attrs(plan: &Plan, session: &mut Session, summary: &mut Summary) {
+    let mut keys = Keys::new(plan.grant);
+    session.settle(Reading::is_box_up, plan.settle);
+    let hint = session.model.box_attr();
+    summary.put("hint-attr", hint.clone());
+    let typed = match keys.type_key(Key::X, &session.reading(), &mut session.writer) {
+        Err(refusal) => format!("unread ({})", refusal.word()),
+        Ok(()) => {
+            session.settle(|_| true, plan.settle);
+            session.keep("after-x");
+            let typed = session.model.box_attr();
+            match keys.type_key(Key::Del, &session.reading(), &mut session.writer) {
+                Ok(()) => {
+                    session.settle(|_| true, plan.settle);
+                    session.keep("after-del");
+                    summary.put("box-text", session.reading().box_text);
+                }
+                Err(refusal) => summary.put("del", format!("unread ({})", refusal.word())),
+            }
+            typed
+        }
+    };
+    summary.put("typed-attr", typed.clone());
+    summary.put("hint-told-apart", told_apart(&hint, &typed));
+    summary.put("keys", keys.summary());
+}
+
 /// `MT`'s one prompt, 2.1.302's own, given on stdin: `--mcp-config` is variadic, so nothing
 /// positional follows it (verification-harness.md 2026-10-20).
 const MT_PROMPT: &str = "reply with the single word ok";
@@ -2316,6 +2682,91 @@ mod tests {
             Arm::VR.browser_tools_seed(),
             "the browser-tools key seeded off"
         );
+    }
+
+    /// `SF` and its spare `SF-2` start the contained StopFailure reading, wrapped as `CX` is.
+    #[test]
+    fn the_stop_failure_labels_take_their_arm_and_properties() {
+        for (label, arm) in [
+            ("SF", Some(Arm::SF)),
+            ("SF-2", Some(Arm::SF)),
+            ("SF-3", None),
+        ] {
+            assert_eq!(Arm::of_label(label), arm, "{label}");
+        }
+        assert_eq!(Arm::parse("sf"), Some(Arm::SF));
+        assert_eq!(Arm::SF.word(), "sf");
+        assert_eq!(Arm::SF.wrapped(), Some("sf-probe"));
+        assert!(Arm::SF.has_vhome() && Arm::SF.trusted() && Arm::SF.marker_seed());
+        assert!(!Arm::SF.verifies() && !Arm::SF.verify_seed() && !Arm::SF.sentinel_seed());
+    }
+
+    #[test]
+    fn the_net_ns_word_reads_own_shared_or_unread() {
+        let rig = Some("net:[1]");
+        for (label, rig, wrapper, child, word) in [
+            ("both own", rig, Some("net:[2]"), Some("net:[2]"), "own"),
+            (
+                "the child shared",
+                rig,
+                Some("net:[2]"),
+                Some("net:[1]"),
+                "shared",
+            ),
+            ("the wrapper shared", rig, Some("net:[1]"), None, "shared"),
+            ("one unread", rig, Some("net:[2]"), None, "unread"),
+            (
+                "the rig unread",
+                None,
+                Some("net:[2]"),
+                Some("net:[2]"),
+                "unread",
+            ),
+        ] {
+            assert_eq!(net_ns_word(rig, wrapper, child), word, "{label}");
+        }
+    }
+
+    #[test]
+    fn the_turn_end_words_read_a_cause_its_absence_and_no_line() {
+        let failed = json!({"cause": "server-error", "last_assistant_message": null});
+        assert_eq!(
+            turn_end_words(Some(&failed)),
+            ("stop-failure", "server-error".to_owned())
+        );
+        let stopped = json!({"last_assistant_message": "hi", "background_tasks": null});
+        assert_eq!(turn_end_words(Some(&stopped)), ("stop", "none".to_owned()));
+        assert_eq!(turn_end_words(None), ("none", "none".to_owned()));
+    }
+
+    #[test]
+    fn the_unknown_value_lines_count_complete_matching_lines_alone() {
+        let dir = tempfile::tempdir().expect("tempdir");
+        let file = dir.path().join("hook-sf-probe.ndjson");
+        let lines = [
+            json!({"event": "parse-rejected", "detail": "unknown-value", "count": 1}).to_string(),
+            json!({"event": "parse-rejected", "detail": "oversize"}).to_string(),
+        ];
+        let torn = r#"{"event":"parse-rejected","detail":"unknown-value""#;
+        fs::write(&file, format!("{}\n{}\n{torn}", lines[0], lines[1])).expect("role file");
+        assert_eq!(unknown_value_lines(&file), Some(1));
+        assert_eq!(unknown_value_lines(&dir.path().join("gone")), None);
+    }
+
+    #[test]
+    fn the_captured_word_maps_to_the_cause_through_the_adapter() {
+        for (label, captured, cause, word) in [
+            ("a word of the 13", "server_error", "server-error", "yes"),
+            ("another cause", "server_error", "rate-limited", "no"),
+            ("other", "other", "api-error", "yes"),
+            ("absent", "absent", "api-error", "yes"),
+            ("unread", "unread", "api-error", "unread"),
+        ] {
+            assert_eq!(cause_matches(captured, cause), word, "{label}");
+        }
+        assert_eq!(told_apart("dim", "plain"), "yes");
+        assert_eq!(told_apart("plain", "plain"), "no");
+        assert_eq!(told_apart("unread (no-cell)", "plain"), "unread");
     }
 
     /// `L1` and its spare `L1-2` start the real-home verify, `L2` alone the `/context` reading.

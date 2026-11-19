@@ -38,6 +38,59 @@ pub fn default_scratch_base() -> PathBuf {
     PathBuf::from(format!("/tmp/viola-rig-{uid}"))
 }
 
+/// The sandbox's own options, the scratch root aside: a network namespace of its own, the
+/// child gone with the rig, the host's whole filesystem as it is but the resolver's socket dir
+/// hidden and a private `/tmp`.
+const SANDBOX: [&str; 9] = [
+    "--unshare-net",
+    "--die-with-parent",
+    "--dev-bind",
+    "/",
+    "/",
+    "--tmpfs",
+    "/run/systemd/resolve",
+    "--tmpfs",
+    "/tmp",
+];
+
+/// The probe's `bwrap` options: the sandbox's own, with no scratch root to rebind.
+pub fn sandbox_probe_args() -> Vec<OsString> {
+    SANDBOX.iter().map(OsString::from).collect()
+}
+
+/// A contained child's `bwrap` options up to and with `--`: the sandbox's own, then the scratch
+/// root (canonical) bound over the private `/tmp` at its own path, so the start's files land
+/// where its teardown removes them.
+pub fn sandbox_args(root: &Path) -> Vec<OsString> {
+    let mut args = sandbox_probe_args();
+    args.extend([
+        OsString::from("--bind"),
+        root.as_os_str().to_owned(),
+        root.as_os_str().to_owned(),
+        OsString::from("--"),
+    ]);
+    args
+}
+
+/// Whether viola's socket directory crosses the sandbox: `XDG_RUNTIME_DIR` absolute and outside
+/// `/tmp`. Without it viola places its socket directory under `/tmp`, which the sandbox replaces
+/// with a private one, so a `viola send` outside cannot reach the wrapper inside.
+pub fn runtime_dir_crosses(dir: Option<&Path>) -> bool {
+    dir.is_some_and(|d| d.is_absolute() && !d.starts_with("/tmp"))
+}
+
+/// `name` resolved on a `PATH` value: the first absolute directory holding it as an executable
+/// regular file.
+pub fn on_path(name: &str, path: &std::ffi::OsStr) -> Option<PathBuf> {
+    use std::os::unix::fs::PermissionsExt as _;
+    std::env::split_paths(path)
+        .filter(|dir| dir.is_absolute())
+        .map(|dir| dir.join(name))
+        .find(|file| {
+            fs::metadata(file).is_ok_and(|m| m.is_file() && m.permissions().mode() & 0o111 != 0)
+        })
+}
+
 /// The credentials file read through `MAX_FRAME`.
 pub fn read_credentials(path: &Path) -> io::Result<Vec<u8>> {
     let mut bytes = Vec::new();
@@ -480,18 +533,26 @@ impl Scratch {
     /// <root>/capture.ndjson`. Both paths are absolute and hold no shell metacharacter, else nothing
     /// is written and the seed fails.
     pub fn seed_capture(&self, rig: &Path) -> io::Result<()> {
+        self.seed_capture_on(rig, "UserPromptSubmit")
+    }
+
+    /// `SF`'s private `settings.json`: [`Scratch::seed_capture`]'s hook on StopFailure instead.
+    pub fn seed_stop_failure_capture(&self, rig: &Path) -> io::Result<()> {
+        self.seed_capture_on(rig, "StopFailure")
+    }
+
+    fn seed_capture_on(&self, rig: &Path, event: &str) -> io::Result<()> {
         let out = self.capture_file();
         if !shell_plain(rig) || !shell_plain(&out) {
             return Err(io::Error::other("capture hook path refused"));
         }
         let command = format!("{} capture --out {}", rig.display(), out.display());
-        let settings = json!({
-            "hooks": {
-                "UserPromptSubmit": [
-                    {"hooks": [{"type": "command", "command": command}]}
-                ]
-            }
-        });
+        let mut hooks = serde_json::Map::new();
+        hooks.insert(
+            event.to_owned(),
+            json!([{"hooks": [{"type": "command", "command": command}]}]),
+        );
+        let settings = json!({ "hooks": hooks });
         write_private(&self.config.join("settings.json"), &settings)
     }
 
@@ -749,11 +810,10 @@ impl Scratch {
     /// Copies every regular file of the record dir's version dirs into `kept/<version>/`, the
     /// bytes as read (0600, never re-serialised, never printed), leaving out the first screens:
     /// the count of files copied, `none` when there is no record dir or no file in it, `exists`
-    /// when `kept` already stands (nothing written), `unread` when a read or a write failed.
+    /// when `kept/<version>` already stands for any version the record holds (nothing written;
+    /// other versions' sets under `kept` are left as found and kept beside), `unread` when a read
+    /// or a write failed.
     pub fn keep_record(&self, kept: &Path) -> String {
-        if kept.symlink_metadata().is_ok() {
-            return "exists".to_owned();
-        }
         let record = self.record_dir();
         if !record.exists() {
             return "none".to_owned();
@@ -767,6 +827,14 @@ impl Scratch {
             .filter(|p| p.symlink_metadata().is_ok_and(|m| m.is_dir()))
             .collect();
         versions.sort();
+        let standing = versions.iter().any(|version| {
+            version
+                .file_name()
+                .is_some_and(|name| kept.join(name).symlink_metadata().is_ok())
+        });
+        if standing {
+            return "exists".to_owned();
+        }
         let mut copied = 0usize;
         for version in versions {
             let (Some(name), Ok(files)) = (version.file_name(), fs::read_dir(&version)) else {
@@ -1232,6 +1300,122 @@ mod tests {
         assert_eq!(
             fs::read(into.join("Stop.default.json")).expect("kept file"),
             spaced,
+            "left as found"
+        );
+    }
+
+    #[test]
+    fn the_sandbox_argv_is_the_closed_list_with_the_root_rebound() {
+        let args = sandbox_args(Path::new("/tmp/viola-rig-1000/12-34"));
+        let words: Vec<&str> = args.iter().map(|a| a.to_str().expect("utf-8")).collect();
+        assert_eq!(
+            words,
+            [
+                "--unshare-net",
+                "--die-with-parent",
+                "--dev-bind",
+                "/",
+                "/",
+                "--tmpfs",
+                "/run/systemd/resolve",
+                "--tmpfs",
+                "/tmp",
+                "--bind",
+                "/tmp/viola-rig-1000/12-34",
+                "/tmp/viola-rig-1000/12-34",
+                "--",
+            ]
+        );
+        assert_eq!(sandbox_probe_args().len(), 9);
+    }
+
+    #[test]
+    fn the_runtime_dir_crosses_the_sandbox_only_when_absolute_and_outside_tmp() {
+        for (label, dir, crosses) in [
+            ("the user runtime dir", Some("/run/user/1000"), true),
+            ("unset", None, false),
+            ("relative", Some("run/user/1000"), false),
+            ("under tmp", Some("/tmp/runtime-1000"), false),
+            ("tmp itself", Some("/tmp"), false),
+            ("a tmp-prefixed name", Some("/tmpfs/run"), true),
+        ] {
+            assert_eq!(runtime_dir_crosses(dir.map(Path::new)), crosses, "{label}");
+        }
+    }
+
+    #[test]
+    fn a_program_resolves_only_on_an_absolute_dir_as_an_executable() {
+        use std::os::unix::fs::PermissionsExt as _;
+        let base = tempfile::tempdir().expect("tempdir");
+        let plain = base.path().join("plain");
+        let exec = base.path().join("exec");
+        fs::create_dir_all(&plain).expect("plain");
+        fs::create_dir_all(&exec).expect("exec");
+        fs::write(plain.join("bwrap"), b"").expect("not executable");
+        fs::write(exec.join("bwrap"), b"").expect("executable");
+        fs::set_permissions(exec.join("bwrap"), fs::Permissions::from_mode(0o700)).expect("mode");
+        let path = std::env::join_paths([
+            "rel",
+            plain.to_str().expect("utf-8"),
+            exec.to_str().expect("utf-8"),
+        ])
+        .expect("join");
+        assert_eq!(on_path("bwrap", &path), Some(exec.join("bwrap")));
+        let none = std::env::join_paths([plain.to_str().expect("utf-8")]).expect("join");
+        assert_eq!(on_path("bwrap", &none), None);
+    }
+
+    #[test]
+    fn keep_record_keeps_a_later_version_beside_an_earlier_one() {
+        let base = tempfile::tempdir().expect("tempdir");
+        let scratch = Scratch::create(base.path(), "1-2", true).expect("scratch");
+        let kept = base.path().join("kept").join("R4").join("record");
+        let earlier = kept.join("2.1.325");
+        fs::create_dir_all(&earlier).expect("earlier set");
+        let earlier_bytes: &[u8] = b"{\"earlier\":true}";
+        fs::write(earlier.join("Stop.default.json"), earlier_bytes).expect("earlier file");
+        let version = scratch.record_dir().join("2.1.328");
+        fs::create_dir_all(&version).expect("version dir");
+        fs::write(version.join("Stop.default.json"), b"{\"later\":1}").expect("set file");
+        fs::write(version.join("Screen.ready.json"), b"{}").expect("set file");
+        assert_eq!(scratch.keep_record(&kept), "2");
+        assert_eq!(
+            names_word(entry_names(&kept).as_deref()),
+            "2.1.325,2.1.328",
+            "both version dirs stand"
+        );
+        assert_eq!(
+            fs::read(earlier.join("Stop.default.json")).expect("earlier kept"),
+            earlier_bytes,
+            "the earlier set left as found"
+        );
+        assert_eq!(
+            names_word(entry_names(&earlier).as_deref()),
+            "Stop.default.json"
+        );
+    }
+
+    #[test]
+    fn keep_record_refuses_a_standing_version_and_writes_nothing() {
+        let base = tempfile::tempdir().expect("tempdir");
+        let scratch = Scratch::create(base.path(), "1-2", true).expect("scratch");
+        let kept = base.path().join("kept").join("R4").join("record");
+        fs::create_dir_all(&kept).expect("kept dir");
+        fs::write(kept.join("2.1.328"), b"standing").expect("a file at the version");
+        for v in ["2.1.327", "2.1.328"] {
+            let version = scratch.record_dir().join(v);
+            fs::create_dir_all(&version).expect("version dir");
+            fs::write(version.join("Stop.default.json"), b"{}").expect("set file");
+        }
+        assert_eq!(scratch.keep_record(&kept), "exists");
+        assert_eq!(
+            names_word(entry_names(&kept).as_deref()),
+            "2.1.328",
+            "no other version dir written"
+        );
+        assert_eq!(
+            fs::read(kept.join("2.1.328")).expect("standing file"),
+            b"standing",
             "left as found"
         );
     }

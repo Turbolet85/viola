@@ -1,7 +1,9 @@
 //! The rig's own prompt-submit capture, the hidden `capture --out <file>` verb a wake start's
 //! private config registers as its UserPromptSubmit hook: one payload read from stdin, one line
 //! appended holding only key names, a closed `source` word and the capture's own clock. No value of
-//! any key, no prompt text and no path is written.
+//! any key, no prompt text and no path is written. A StopFailure payload (the `SF` arm's hook)
+//! reads to its key names, its `error` word only when it is one of the CLI's 13 (else `other`) and
+//! the byte lengths of its two texts.
 
 use std::io::{Read, Write as _};
 use std::path::Path;
@@ -28,6 +30,45 @@ fn source_word(payload: &Map<String, Value>) -> &'static str {
     }
 }
 
+/// The CLI's 13 StopFailure error words, as `viola_agent_claude::hook::api_error_cause` maps them.
+pub const ERROR_WORDS: [&str; 13] = [
+    "rate_limit",
+    "overloaded",
+    "authentication_failed",
+    "oauth_org_not_allowed",
+    "account_on_hold",
+    "verification_required",
+    "cloud_credential_error",
+    "billing_error",
+    "invalid_request",
+    "model_not_found",
+    "server_error",
+    "max_output_tokens",
+    "unknown",
+];
+
+/// The payload's `error` as one closed word: itself when one of [`ERROR_WORDS`], `absent` when
+/// missing, else `other`.
+fn error_word(payload: &Map<String, Value>) -> &'static str {
+    match payload.get("error") {
+        None => "absent",
+        Some(Value::String(word)) => ERROR_WORDS
+            .iter()
+            .find(|w| **w == word.as_str())
+            .copied()
+            .unwrap_or("other"),
+        Some(_) => "other",
+    }
+}
+
+/// A text key's byte length; `null` when absent or not a string.
+fn text_len(payload: &Map<String, Value>, key: &str) -> Value {
+    payload
+        .get(key)
+        .and_then(Value::as_str)
+        .map_or(Value::Null, |text| json!(text.len()))
+}
+
 /// The one line a payload's bytes read to, stamped `ms`.
 pub fn line_of(bytes: &[u8], ms: u128) -> Value {
     if u64::try_from(bytes.len()).map_or(true, |n| n > MAX_FRAME) {
@@ -43,6 +84,17 @@ pub fn line_of(bytes: &[u8], ms: u128) -> Value {
         .collect();
     keys.sort_unstable();
     let other_keys = payload.len() - keys.len();
+    if payload.get("hook_event_name").and_then(Value::as_str) == Some("StopFailure") {
+        return json!({
+            "event": "stop-failure",
+            "keys": keys,
+            "other_keys": other_keys,
+            "error": error_word(&payload),
+            "error_details_len": text_len(&payload, "error_details"),
+            "last_assistant_message_len": text_len(&payload, "last_assistant_message"),
+            "ms": ms,
+        });
+    }
     json!({
         "keys": keys,
         "other_keys": other_keys,
@@ -115,6 +167,71 @@ mod tests {
             line_of(&big, 5),
             json!({"unread": true, "oversize": true, "ms": 5})
         );
+    }
+
+    #[test]
+    fn the_error_words_are_the_thirteen_the_adapter_maps_unmarked() {
+        assert_eq!(ERROR_WORDS.len(), 13);
+        for word in ERROR_WORDS {
+            let (_, marked) = viola_agent_claude::hook::api_error_cause(Some(word));
+            assert!(!marked, "{word}");
+        }
+        let (_, marked) = viola_agent_claude::hook::api_error_cause(Some("other"));
+        assert!(marked);
+    }
+
+    #[test]
+    fn a_stop_failure_line_keeps_a_known_word_and_lengths_only() {
+        let dir = tempfile::tempdir().expect("tempdir");
+        let out = dir.path().join("capture.ndjson");
+        let needle_word = "needle_word_zq";
+        let detail = "needle detail text zq";
+        let message = "needle message text zq";
+        let payload = |error: Value| {
+            json!({
+                "hook_event_name": "StopFailure",
+                "session_id": "abc",
+                "error": error,
+                "error_details": detail,
+                "last_assistant_message": message,
+            })
+            .to_string()
+        };
+        for (label, error, word) in [
+            ("one of the 13", json!("server_error"), "server_error"),
+            ("unknown word", json!(needle_word), "other"),
+            ("a number", json!(7), "other"),
+        ] {
+            let body = payload(error);
+            let line = line_of(body.as_bytes(), 3);
+            assert_eq!(line["event"], "stop-failure", "{label}");
+            assert_eq!(line["error"], word, "{label}");
+            assert_eq!(line["error_details_len"], detail.len(), "{label}");
+            assert_eq!(line["last_assistant_message_len"], message.len(), "{label}");
+            assert_eq!(
+                line["keys"],
+                json!([
+                    "error",
+                    "error_details",
+                    "hook_event_name",
+                    "last_assistant_message",
+                    "session_id"
+                ]),
+                "{label}"
+            );
+            run(body.as_bytes(), &out);
+        }
+        run(&b"[\"StopFailure\"]"[..], &out);
+        let text = std::fs::read_to_string(&out).expect("capture");
+        assert_eq!(text.lines().count(), 4);
+        assert!(
+            text.lines()
+                .last()
+                .is_some_and(|l| l.contains("\"unread\":true"))
+        );
+        for needle in [needle_word, detail, message, "abc"] {
+            assert!(!text.contains(needle), "{needle} kept");
+        }
     }
 
     #[test]

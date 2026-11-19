@@ -1,0 +1,310 @@
+[
+{
+"sql": "SELECT caller_name, callee_name, file, line FROM calls WHERE callee_name IN ('keep_record','arm_cx','run_child','api_error_cause','of_label','child_env','first_frame','await_kind') AND callee_kind = 'fn' ORDER BY callee_name, file, line",
+"rows": 50,
+"result": [
+{
+"caller_name": "normalise",
+"callee_name": "api_error_cause",
+"file": "crates/viola-agent-claude/src/hook.rs",
+"line": 158
+},
+{
+"caller_name": "data_of",
+"callee_name": "api_error_cause",
+"file": "crates/viola-agent-claude/src/hook.rs",
+"line": 218
+},
+{
+"caller_name": "api_error_cause_maps_every_cli_error_word",
+"callee_name": "api_error_cause",
+"file": "crates/viola-agent-claude/src/hook.rs",
+"line": 556
+},
+{
+"caller_name": "run_child",
+"callee_name": "arm_cx",
+"file": "crates/viola-e2e/src/rig/mod.rs",
+"line": 929
+},
+{
+"caller_name": "arm_cx",
+"callee_name": "await_kind",
+"file": "crates/viola-e2e/src/rig/mod.rs",
+"line": 1567
+},
+{
+"caller_name": "arm_cx",
+"callee_name": "await_kind",
+"file": "crates/viola-e2e/src/rig/mod.rs",
+"line": 1609
+},
+{
+"caller_name": "arm_r2",
+"callee_name": "await_kind",
+"file": "crates/viola-e2e/src/rig/mod.rs",
+"line": 2142
+},
+{
+"caller_name": "arm_r2",
+"callee_name": "await_kind",
+"file": "crates/viola-e2e/src/rig/mod.rs",
+"line": 2175
+},
+{
+"caller_name": "arm_r2",
+"callee_name": "await_kind",
+"file": "crates/viola-e2e/src/rig/mod.rs",
+"line": 2189
+},
+{
+"caller_name": "wake",
+"callee_name": "await_kind",
+"file": "crates/viola-e2e/src/rig/wake.rs",
+"line": 14
+},
+{
+"caller_name": "send",
+"callee_name": "await_kind",
+"file": "crates/viola-e2e/src/rig/wake.rs",
+"line": 102
+},
+{
+"caller_name": "send",
+"callee_name": "await_kind",
+"file": "crates/viola-e2e/src/rig/wake.rs",
+"line": 109
+},
+{
+"caller_name": "open",
+"callee_name": "await_kind",
+"file": "crates/viola-e2e/src/rig/wake.rs",
+"line": 233
+},
+{
+"caller_name": "arm_r3",
+"callee_name": "await_kind",
+"file": "crates/viola-e2e/src/rig/wake.rs",
+"line": 367
+},
+{
+"caller_name": "arm_r3",
+"callee_name": "await_kind",
+"file": "crates/viola-e2e/src/rig/wake.rs",
+"line": 379
+},
+{
+"caller_name": "child_env_real",
+"callee_name": "child_env",
+"file": "crates/viola-e2e/src/rig/isolate.rs",
+"line": 158
+},
+{
+"caller_name": "the_child_env_keeps_only_the_named_hosts_names_and_adds_its_own",
+"callee_name": "child_env",
+"file": "crates/viola-e2e/src/rig/isolate.rs",
+"line": 874
+},
+{
+"caller_name": "run_child",
+"callee_name": "child_env",
+"file": "crates/viola-e2e/src/rig/mod.rs",
+"line": 828
+},
+{
+"caller_name": "run_ts",
+"callee_name": "child_env",
+"file": "crates/viola-e2e/src/rig/mod.rs",
+"line": 1009
+},
+{
+"caller_name": "first_screen_word",
+"callee_name": "first_frame",
+"file": "crates/viola-e2e/src/rig/mod.rs",
+"line": 1114
+},
+{
+"caller_name": "arm_r1",
+"callee_name": "first_frame",
+"file": "crates/viola-e2e/src/rig/mod.rs",
+"line": 1158
+},
+{
+"caller_name": "arm_im",
+"callee_name": "first_frame",
+"file": "crates/viola-e2e/src/rig/mod.rs",
+"line": 1239
+},
+{
+"caller_name": "arm_vc",
+"callee_name": "first_frame",
+"file": "crates/viola-e2e/src/rig/mod.rs",
+"line": 1248
+},
+{
+"caller_name": "arm_cx",
+"callee_name": "first_frame",
+"file": "crates/viola-e2e/src/rig/mod.rs",
+"line": 1555
+},
+{
+"caller_name": "arm_hold",
+"callee_name": "first_frame",
+"file": "crates/viola-e2e/src/rig/mod.rs",
+"line": 2028
+},
+{
+"caller_name": "arm_r2",
+"callee_name": "first_frame",
+"file": "crates/viola-e2e/src/rig/mod.rs",
+"line": 2130
+},
+{
+"caller_name": "wake",
+"callee_name": "first_frame",
+"file": "crates/viola-e2e/src/rig/wake.rs",
+"line": 14
+},
+{
+"caller_name": "open",
+"callee_name": "first_frame",
+"file": "crates/viola-e2e/src/rig/wake.rs",
+"line": 208
+},
+{
+"caller_name": "keep_record_copies_the_set_byte_for_byte_and_never_overwrites",
+"callee_name": "keep_record",
+"file": "crates/viola-e2e/src/rig/isolate.rs",
+"line": 1212
+},
+{
+"caller_name": "keep_record_copies_the_set_byte_for_byte_and_never_overwrites",
+"callee_name": "keep_record",
+"file": "crates/viola-e2e/src/rig/isolate.rs",
+"line": 1221
+},
+{
+"caller_name": "keep_record_copies_the_set_byte_for_byte_and_never_overwrites",
+"callee_name": "keep_record",
+"file": "crates/viola-e2e/src/rig/isolate.rs",
+"line": 1230
+},
+{
+"caller_name": "start",
+"callee_name": "keep_record",
+"file": "crates/viola-e2e/src/rig/mod.rs",
+"line": 529
+},
+{
+"caller_name": "main",
+"callee_name": "of_label",
+"file": "crates/viola-e2e/src/bin/viola-live-rig.rs",
+"line": 226
+},
+{
+"caller_name": "the_arm_words_and_labels_parse",
+"callee_name": "of_label",
+"file": "crates/viola-e2e/src/rig/mod.rs",
+"line": 2223
+},
+{
+"caller_name": "the_arm_words_and_labels_parse",
+"callee_name": "of_label",
+"file": "crates/viola-e2e/src/rig/mod.rs",
+"line": 2237
+},
+{
+"caller_name": "the_arm_words_and_labels_parse",
+"callee_name": "of_label",
+"file": "crates/viola-e2e/src/rig/mod.rs",
+"line": 2239
+},
+{
+"caller_name": "the_arm_words_and_labels_parse",
+"callee_name": "of_label",
+"file": "crates/viola-e2e/src/rig/mod.rs",
+"line": 2241
+},
+{
+"caller_name": "the_arm_words_and_labels_parse",
+"callee_name": "of_label",
+"file": "crates/viola-e2e/src/rig/mod.rs",
+"line": 2242
+},
+{
+"caller_name": "the_arm_words_and_labels_parse",
+"callee_name": "of_label",
+"file": "crates/viola-e2e/src/rig/mod.rs",
+"line": 2243
+},
+{
+"caller_name": "the_arm_words_and_labels_parse",
+"callee_name": "of_label",
+"file": "crates/viola-e2e/src/rig/mod.rs",
+"line": 2245
+},
+{
+"caller_name": "the_arm_words_and_labels_parse",
+"callee_name": "of_label",
+"file": "crates/viola-e2e/src/rig/mod.rs",
+"line": 2247
+},
+{
+"caller_name": "the_arm_words_and_labels_parse",
+"callee_name": "of_label",
+"file": "crates/viola-e2e/src/rig/mod.rs",
+"line": 2249
+},
+{
+"caller_name": "the_arm_words_and_labels_parse",
+"callee_name": "of_label",
+"file": "crates/viola-e2e/src/rig/mod.rs",
+"line": 2251
+},
+{
+"caller_name": "the_arm_words_and_labels_parse",
+"callee_name": "of_label",
+"file": "crates/viola-e2e/src/rig/mod.rs",
+"line": 2253
+},
+{
+"caller_name": "the_arm_words_and_labels_parse",
+"callee_name": "of_label",
+"file": "crates/viola-e2e/src/rig/mod.rs",
+"line": 2254
+},
+{
+"caller_name": "browser_tools_arms_parse_and_take_their_labels",
+"callee_name": "of_label",
+"file": "crates/viola-e2e/src/rig/mod.rs",
+"line": 2269
+},
+{
+"caller_name": "browser_tools_arms_parse_and_take_their_labels",
+"callee_name": "of_label",
+"file": "crates/viola-e2e/src/rig/mod.rs",
+"line": 2272
+},
+{
+"caller_name": "the_recording_labels_take_their_arms_and_properties",
+"callee_name": "of_label",
+"file": "crates/viola-e2e/src/rig/mod.rs",
+"line": 2297
+},
+{
+"caller_name": "the_real_home_and_context_labels_take_their_arms_and_properties",
+"callee_name": "of_label",
+"file": "crates/viola-e2e/src/rig/mod.rs",
+"line": 2330
+},
+{
+"caller_name": "start",
+"callee_name": "run_child",
+"file": "crates/viola-e2e/src/rig/mod.rs",
+"line": 512
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

@@ -3,19 +3,21 @@
 //! granted keys, keeps its frames under the gitignored `target/live-rig/`, and owns its isolation
 //! and its processes.
 //!
-//! - `rehearse <r1|r2|hold|r3b|r3|im|v|vc|ts|tc|vr|mt|vh|cx> --program <fake agent> [--viola <exe>]
-//!   [--tap <exe>] [--target-home <dir> --claude-dir <dir> --user-config <file>] [-- <child args>]`:
-//!   one start over the fake agent (CI runs these); `vh` refuses `usage` without all three of its
-//!   paths; `{cwd}` and `{config}` in a child argument stand for the start's cwd and private config
+//! - `rehearse <r1|r2|hold|r3b|r3|im|v|vc|ts|tc|vr|mt|vh|cx|sf> --program <fake agent> [--viola <exe>]
+//!   [--tap <exe>] [--target-home <dir> --claude-dir <dir> --user-config <file>] [--contain]
+//!   [-- <child args>]`: one start over the fake agent (CI runs these); `vh` refuses `usage` without
+//!   all three of its paths; `--contain` (`sf` alone, else `usage`) runs the child inside the
+//!   network-closed `bwrap` sandbox every live `SF` start runs in; `{cwd}` and `{config}` in a child argument stand for the start's cwd and private config
 //!   dir.
-//! - `live <R1|R2|R3B|R3|IM|S0|S0R|S0B|S0C|S1|S2|BP|BK|R4|R4M|L1|L2|…-2|R3-326|R3D> --cli <version> --cap <n> --spare <n> --ledger <file>`: one live start
+//! - `live <R1|R2|R3B|R3|IM|S0|S0R|S0B|S0C|S1|S2|BP|BK|R4|R4M|L1|L2|SF|…-2|R3-326|R3D> --cli <version> --cap <n> --spare <n> --ledger <file>`: one live start
 //!   of the stamped `claude`, refused under `CI`; `S0` / `S0R` / `S0B` run `viola verify` over it, `S0C`
 //!   reads its first frame at 80×24 and stops it with no key; `S1` runs `viola verify` in a trusted
 //!   git folder, then `viola run` in a fresh untrusted one, and `S2` a plain `claude` in one, each
-//!   first frame read.
+//!   first frame read; `SF` runs `viola run` inside the network-closed sandbox, refused
+//!   `sandbox` before its ledger line where the sandbox cannot be made.
 //! - `census [--kill]`: the processes an earlier, dead rig left, and their kill.
-//! - `capture --out <file>` (hidden): a wake start's UserPromptSubmit hook, one closed-word line
-//!   per payload.
+//! - `capture --out <file>` (hidden): a wake start's UserPromptSubmit hook and `SF`'s StopFailure
+//!   hook, one closed-word line per payload.
 //!
 //! Exit: 0 a whole start · 1 a start that read red · 2 usage · 3 refused before the ledger line.
 
@@ -53,6 +55,9 @@ enum Verb {
         /// `vh`: the Claude dir whose `settings*.json` are read by key names; required.
         #[arg(long)]
         claude_dir: Option<PathBuf>,
+        /// `sf`: the child inside the network-closed sandbox.
+        #[arg(long)]
+        contain: bool,
         #[command(flatten)]
         common: Common,
         #[arg(last = true)]
@@ -157,6 +162,7 @@ fn plan_of(label: String, arm: Arm, live: bool, common: Common) -> Option<Plan> 
         target_home: None,
         claude_dir: None,
         cwd: None,
+        contain: false,
     })
 }
 
@@ -198,12 +204,16 @@ fn main() -> ExitCode {
             tap,
             target_home,
             claude_dir,
+            contain,
             common,
             child_args,
         } => {
             let Some(arm) = Arm::parse(&arm) else {
                 return usage();
             };
+            if contain && arm != Arm::SF {
+                return usage();
+            }
             if arm == Arm::VH
                 && (target_home.is_none() || claude_dir.is_none() || common.user_config.is_none())
             {
@@ -216,6 +226,7 @@ fn main() -> ExitCode {
             plan.child_args = child_args;
             plan.viola = viola;
             plan.tap = tap;
+            plan.contain = contain;
             if arm == Arm::VH {
                 plan.target_home = target_home;
                 plan.claude_dir = claude_dir;
@@ -260,6 +271,8 @@ fn main() -> ExitCode {
                 plan.claude_dir = Some(user_home().join(".claude"));
                 plan.cwd = current_dir();
             }
+            // Every live `SF` start is contained, never by an option.
+            plan.contain = arm == Arm::SF;
             plan.cli_dir = Some(dir);
             plan.cli_version = Some(cli);
             plan

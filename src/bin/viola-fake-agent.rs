@@ -110,6 +110,12 @@ struct Opts {
     paste_hint: Option<Duration>,
     tag_turn_screen: Option<String>,
     long_turn_screen: Option<String>,
+    /// `--turn-fail <variant>` (argv only, read beside `--turn-stop`): a submitted turn ends with
+    /// the set's `StopFailure.<variant>` in place of `Stop.default`.
+    turn_fail: Option<String>,
+    /// `--settings-hooks <file>` (argv only): a Claude `settings.json` whose hooks run beside the
+    /// plugin's, a command string with no `args` split on spaces (no shell; the rig's capture seed).
+    settings_hooks: Option<PathBuf>,
     /// `--start-screen <phase>` (argv only): a trusted start under `--screens` draws the set's
     /// `Screen.<phase>` and keeps it standing, answering no byte (the browser-tools offer's case).
     start_screen: Option<String>,
@@ -160,6 +166,8 @@ impl Opts {
                 }
                 "--tag-turn-screen" => o.tag_turn_screen = value(),
                 "--long-turn-screen" => o.long_turn_screen = value(),
+                "--turn-fail" => o.turn_fail = value(),
+                "--settings-hooks" => o.settings_hooks = value().map(PathBuf::from),
                 "--start-screen" => o.start_screen = value(),
                 "--resume" => o.resume = value(),
                 "--fork-session" => o.fork_session = true,
@@ -423,6 +431,20 @@ fn hook_commands(hooks_json: &str, event: &str, tool: Option<&str>) -> Vec<(Stri
         .collect()
 }
 
+/// A settings hook's command: its `args` kept as given, or with none a command string split on
+/// ASCII spaces into its program and arguments; `None` for an empty command.
+fn split_plain((command, args): (String, Vec<String>)) -> Option<(String, Vec<String>)> {
+    if !args.is_empty() {
+        return Some((command, args));
+    }
+    let mut words = command
+        .split(' ')
+        .filter(|w| !w.is_empty())
+        .map(str::to_owned);
+    let program = words.next()?;
+    Some((program, words.collect()))
+}
+
 /// The fixture with the fields its caller names set: the documented `prompt` for
 /// `UserPromptSubmit`, `source` and `session_id` for a resumed SessionStart. Nothing else is built,
 /// and with no field named the fixture is returned as recorded. The fixture's trailing newline
@@ -553,17 +575,31 @@ impl Agent {
             .opts
             .plugin_dir
             .as_ref()
-            .and_then(|d| fs::read_to_string(d.join("hooks").join("hooks.json")).ok());
-        let Some(hooks) = hooks.filter(|h| !hook_commands(h, event, None).is_empty()) else {
+            .and_then(|d| fs::read_to_string(d.join("hooks").join("hooks.json")).ok())
+            .unwrap_or_default();
+        let settings = self
+            .opts
+            .settings_hooks
+            .as_ref()
+            .and_then(|f| fs::read_to_string(f).ok())
+            .unwrap_or_default();
+        if hook_commands(&hooks, event, None).is_empty()
+            && hook_commands(&settings, event, None).is_empty()
+        {
             return Fired::NoHooks;
-        };
+        }
         let Some(fixture) = self.fixture(event, variant) else {
             return Fired::NoFixture;
         };
         let tool = serde_json::from_slice::<Value>(&fixture)
             .ok()
             .and_then(|v| v["tool_name"].as_str().map(str::to_owned));
-        let commands = hook_commands(&hooks, event, tool.as_deref());
+        let mut commands = hook_commands(&hooks, event, tool.as_deref());
+        commands.extend(
+            hook_commands(&settings, event, tool.as_deref())
+                .into_iter()
+                .filter_map(split_plain),
+        );
         let body = self.with_transcript(event, variant, payload(fixture, set));
         let mut answered = false;
         for (command, args) in commands {
@@ -795,12 +831,16 @@ impl Agent {
         );
     }
 
-    /// The end of a submitted turn under `--turn-stop`: the Stop hook, the `--paste-hint-ms` hold on
+    /// The end of a submitted turn under `--turn-stop`: the Stop hook (`--turn-fail`'s StopFailure in
+    /// its place), the `--paste-hint-ms` hold on
     /// a cleared screen after the long paste, then the turn's screen (`--long-turn-screen`'s after the
     /// long paste alone, `--tag-turn-screen`'s after the tag-like paste alone). `framing` is the
     /// turn's framing stem, when it replayed one.
     fn end_turn(&self, framing: Option<&str>) {
-        self.fire("Stop", "default", &[]);
+        match self.opts.turn_fail.as_deref() {
+            Some(variant) => self.fire("StopFailure", variant, &[]),
+            None => self.fire("Stop", "default", &[]),
+        };
         // `framing_stem(PROBE_LONG_PASTE)` is a compiled text's stem, always `Some`, so the equality
         // alone says this turn replayed the long paste.
         let long = framing == framing_stem(PROBE_LONG_PASTE);

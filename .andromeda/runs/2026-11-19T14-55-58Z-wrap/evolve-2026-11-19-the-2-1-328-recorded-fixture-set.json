@@ -152,5 +152,37 @@
 ],
 "before": null,
 "after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "c80a1428",
+"ts": "2026-11-19T15:30:54Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-19T14-55-58Z-wrap",
+"--marker",
+"2026-11-19-the-2-1-328-recorded-fixture-set"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 3084 · 2026-11-19T09-29-00-2026-11-19-the-2-1-328-recorded-fixture-set.ndjson",
+"ts 2026-11-19T15:30:47Z · clock 2026-11-19T15:30:53Z · bound 2026-11-19T15:24:24Z (line 3665)",
+"ids 2026-11-19T15:30:47Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T09-29-00-2026-11-19-the-2-1-328-recorded-fixture-set.ndjson"
+],
+"before": null,
+"after": null
 }
 ]
