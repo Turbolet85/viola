@@ -1,0 +1,3 @@
+The overseer's answer to the wrap's reconcile halt (AskUserQuestion, answer card Q1, 6 row operations), as given:
+
+Q (answer card Q1): "Confirm all 6 (Recommended)" — notes: The overseer's confirm, 2026-11-19T21:36:12Z: each of the 6 rows lies inside the founder's own answers of 2026-11-19T19:50:29Z in their width — the config-top reading is the measurement his «Разрешить пробу» was given with («measured and named»), of the rig's PRIVATE config alone, names and counts. The shown except texts land as written: «private» restored with every member kept; the a11y clause stays homed in security-plan..

@@ -1,0 +1,18 @@
+--- a/.andromeda/design-system.md
++++ b/.andromeda/design-system.md
+@@ -19,4 +19,4 @@
+ decision/turn-ended-never-fills-readback · Turn-ended never fills the readback box — A `turn-ended` event never fills a readback box.
+-contract/cli-verification/unverified-cli · CLI verification state · unverified-cli — An unstamped CLI build runs transport only, shown as `unverified-cli`.
+-contract/cli-verification/verified · CLI verification state · verified — A CLI version stamped by `viola verify` prints `verified`.
++contract/cli-verification/unverified-cli · CLI verification state · unverified-cli — A CLI build with no stamp reading every relied row `pass` runs transport only, shown as `unverified-cli`.
++contract/cli-verification/verified · CLI verification state · verified — A CLI version whose `viola verify` stamp reads every relied row `pass` prints `verified`; a stamp lacking a relied row, or reading one `fail`, does not.
+ contract/flight-progress-strip/cli · Flight-progress strip · CLI — CLI is the sixth and last of the six fixed fields.
+@@ -33,2 +33,3 @@
+ contract/send-readback/compact · Send readback · /compact — On a verified CLI a `/compact` send counts only once a `session-start` of cause `compact` carrying the session's own id is observed.
++contract/send-readback/context · Send readback · /context — On a verified CLI a `/context` send counts, and reads back, only once one new local-command stdout tag appears in the session transcript with no prompt submitted; on an unverified CLI or before its transcript exists it reads `unconfirmable`, exit 0.
+ contract/send-readback/mcp · Send readback · /mcp — On a verified CLI a `/mcp` send counts, and reads back, only once a new local-command stdout tag appears in the session transcript after the send; it prints no new word.
+@@ -36,3 +37,3 @@
+ contract/send-readback/unable · Send readback · unable — A send not read back is reported as `unable` plus a typed reason.
+-contract/send-readback/unconfirmable · Send readback · unconfirmable — A local command with no post-condition (`/remote-control`, `/cost`, `/usage`) stays `unconfirmable`; so does a `/compact` send on an unverified CLI, and a `/mcp` send on an unverified CLI or in a session that declared no transcript.
++contract/send-readback/unconfirmable · Send readback · unconfirmable — A local command with no post-condition (`/remote-control`, `/cost`, `/usage`) stays `unconfirmable`; so do a `/compact` send on an unverified CLI, a `/mcp` send on an unverified CLI or with no declared transcript, and a `/context` send on an unverified CLI or before its transcript exists.
+ overview/brand-identity — The direction the CLI carries, and the terminal fleet console inherits, is a control-tower strip bay after dark: buff paper strips in anthracite holder boots on ruled aluminium racks. Every session holds the same slot for its whole life, and the only warm light is the one arrival holder cocked out of line when a session needs the human.

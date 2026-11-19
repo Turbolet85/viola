@@ -1,0 +1,207 @@
+[
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "eae40850",
+"ts": "2026-11-19T21:08:17Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-19-context-as-a-local-command",
+"--source",
+"~/dev/projects/additional/viola-overseer/wrap-context-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the overseer wrap directive: the two live starts as ledgered, the paste residual, the C3 hint carry, the credentials-read correction, the answer card on the founder four answers, the owed except wording, route-resolve in one dialog",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-19T21-07-39Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I6 · copy no-repo · ../additional/viola-overseer/wrap-context-directive.md",
+"cite: inputs#I6"
+],
+"stderr": null,
+"wrote": [
+"inputs/I6-wrap-context-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I6",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/wrap-context-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "39f9345f325f3f495af4324926085fde8a951cde69f430886b71d892651e2b3f",
+"copy": "I6-wrap-context-directive.md.txt",
+"link": false,
+"read_at": "2026-11-19T21:08:16Z",
+"step": "wrap",
+"why": "the overseer wrap directive: the two live starts as ledgered, the paste residual, the C3 hint carry, the credentials-read correction, the answer card on the founder four answers, the owed except wording, route-resolve in one dialog"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "eae40850",
+"ts": "2026-11-19T21:08:21Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-19-context-as-a-local-command",
+"--run-dir",
+".andromeda/runs/2026-11-19T21-07-39Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-context-directive.md",
+"I1 cited scope.md:38 · scope.md:81 · research.md:13 · plan.md:10 · plan.md:271 · plan.md:387 (in fence) · plan.md:395 (in fence) · plan.md:491 (in fence) · plan.md:595 · report.md:72",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-context-p3.md",
+"I2 cited plan.md:8 · plan.md:21 · plan.md:27 · plan.md:29 · plan.md:56 · plan.md:84 · plan.md:101 · plan.md:136 · plan.md:156 · plan.md:216 · plan.md:218 · plan.md:281 · plan.md:343 (in fence) · plan.md:364 (in fence) · plan.md:411 (in fence) · plan.md:421 (in fence) · plan.md:437 (in fence) · plan.md:455 (in fence) · plan.md:473 (in fence) · plan.md:499 (in fence) · plan.md:554 · plan.md:558 · plan.md:562 · plan.md:595 · plan.md:602 · plan.md:603 · plan.md:617 · plan.md:625 · plan.md:630 · report.md:72",
+"I3 n/a — a message has no live source · copy message · message: the operator, in this session",
+"I3 cited report.md:73",
+"I4 n/a — a message has no live source · copy message · message: the operator (user message, relaying the overseer)",
+"I4 cited report.md:80 · report.md:136",
+"I5 unchanged · copy no-repo · ../additional/viola-overseer/implement-context-directive.md",
+"I5 cited report.md:82",
+"I6 unchanged · copy no-repo · ../additional/viola-overseer/wrap-context-directive.md",
+"I6 UNCITED",
+"inputs: 6 entries — unchanged 4 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 1 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 6,
+"counts": {
+"unchanged": 4,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 1,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "eae40850",
+"ts": "2026-11-19T21:36:22Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-19-context-as-a-local-command",
+"--message-file",
+".andromeda/runs/2026-11-19T21-07-39Z-wrap/relay-1.md",
+"--origin",
+"the overseer (AskUserQuestion answer at the wrap reconcile halt)",
+"--kind",
+"relay",
+"--why",
+"the overseer confirm of answer card Q1: 6 rows inside the founder four answers, the shown except texts land as written",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-19T21-07-39Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I7 · copy message · message: the overseer (AskUserQuestion answer at the wrap reconcile halt)",
+"cite: inputs#I7"
+],
+"stderr": null,
+"wrote": [
+"inputs/I7-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I7",
+"kind": "relay",
+"repo": null,
+"path": "message: the overseer (AskUserQuestion answer at the wrap reconcile halt)",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "81eb646e61a8750f387a7062883402d6cd8bccd447f43e841f8cb887398ff3a0",
+"copy": "I7-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-19T21:36:21Z",
+"step": "wrap",
+"why": "the overseer confirm of answer card Q1: 6 rows inside the founder four answers, the shown except texts land as written"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "eae40850",
+"ts": "2026-11-19T21:45:52Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-19-context-as-a-local-command",
+"--message-file",
+".andromeda/runs/2026-11-19T21-07-39Z-wrap/relay-2.md",
+"--origin",
+"the overseer (AskUserQuestion answers at the wrap route-resolve dialog)",
+"--kind",
+"relay",
+"--why",
+"the overseer route-resolve answers: C4 re-pinned whole, the re-stamp CARRY on Version done-check, C3 re-pinned PROVISIONAL, no residual reading owed, next entry confirmed",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-19T21-07-39Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I8 · copy message · message: the overseer (AskUserQuestion answers at the wrap route-resolve dialog)",
+"cite: inputs#I8"
+],
+"stderr": null,
+"wrote": [
+"inputs/I8-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I8",
+"kind": "relay",
+"repo": null,
+"path": "message: the overseer (AskUserQuestion answers at the wrap route-resolve dialog)",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "8a1762d4e8a9743a9ad2800a91af3b5b4db27f5a10639dcf64e26f1c84bbab67",
+"copy": "I8-relay-2.md.txt",
+"link": false,
+"read_at": "2026-11-19T21:45:51Z",
+"step": "wrap",
+"why": "the overseer route-resolve answers: C4 re-pinned whole, the re-stamp CARRY on Version done-check, C3 re-pinned PROVISIONAL, no residual reading owed, next entry confirmed"
+}
+}
+]

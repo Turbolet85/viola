@@ -1,0 +1,22 @@
+--- a/.andromeda/security-plan.md
++++ b/.andromeda/security-plan.md
+@@ -88,3 +88,3 @@
+ contract/wrapper-channel-methods/release · wrapper channel methods · release — A method of the wrapper channel, JSON-RPC 2.0 over ndjson.
+-contract/wrapper-channel-methods/send · wrapper channel methods · send — Types a prompt into the driven Claude session.
++contract/wrapper-channel-methods/send · wrapper channel methods · send — Types a prompt into the driven Claude session; a listed local command sent before its transcript exists, or on an unverified CLI, answers ok with confirmed false (unconfirmable), never a confirmation.
+ contract/wrapper-channel-methods/unlink · wrapper channel methods · unlink — Removes a driver link, whose effect is an unlink line in the event log and the snapshot's links only; the self-reported from is not read.
+@@ -356,3 +356,5 @@
+ decision/live-plugin-install-round · Live plugin install round — A live plugin install round runs the CLI's four plugin commands at local scope outside the work tree, passing folder trust by keys into its own pty only, never a desktop key. · why: accepted residual
++decision/live-rig-config-top-names-only · Live rig's config-top reading keeps names and counts only — The live rig's config-top reading keeps only the top-level names of its private claude config and their regular-file counts; a name outside [A-Za-z0-9._-]{1,40} reads as other, and no file content is read.
+ decision/live-rig-context-arm-keeps-no-transcript · Live rig's context arm keeps no transcript byte — The live rig's CX arm reads the session transcript through MAX_FRAME, counting only tags past the kept length and keeping no byte of it, and sends only through viola send under the rig's private config.
++decision/live-rig-kept-stamp-owner-only · Live rig's kept stamp owner-only, seeded to its own home — The live rig keeps a stamp from its CS scratch home owner-only and no-clobber, and seeds it only into its own CC scratch home; CC with no kept stamp refuses before its ledger line and before any scratch.
+ decision/live-rig-mcp-arm-keeps-no-output · Live rig's MCP arm keeps no CLI output — The live rig's MCP recording arm keeps no CLI output, stdout drained and dropped and stderr kept only as a byte count and a SHA, and its MCP config is a private 0600 file inside the scratch, removed with it.
+@@ -387,2 +389,3 @@
+ decision/two-keys-per-tree-accepted · One tree may key two pinned folders — Clean release builds of one tree may key two bin and plugin folders; this is accepted with no action, the pinned binary's re-hash staying the guard.
++decision/verify-context-probe-residual · Verify's /context probe residual accepted as measured — verify's Run B pastes /context eighth as the probe of the local-command-context relied row; its residual is accepted only as measured, the names and file counts of a private claude config after a whole verify, with the share of the /context paste alone not separated. · why: An accepted residual of a ratified widening of the verify child set.
+ decision/verify-echo-probe-residuals · Verify's echo probe residuals accepted — verify's Run B pastes /mcp disable viola-probe-absent seventh as the probe of the local-command-echo relied row; whether it writes to the user's real Claude config stays unmeasured and it adds one input-history line. · why: Accepted residuals of a ratified widening.
+@@ -634,3 +637,3 @@
+ decision/socket-mode-not-sole-control · Socket file mode is not the only control — The socket file's 0600 mode is never the only Unix access control. · why: unix(7) says socket permissions may be ignored.
+-decision/stamps-written-only-by-verify · Only viola verify writes the stamps file — No process other than viola verify ever writes ledger/stamps.json; viola verify writes it under its lock, with 0600. · why: a stamp is what switches on dialog answering, PermissionRequest allow included
++decision/stamps-written-only-by-verify · Only viola verify writes the stamps file — No process other than viola verify ever writes ledger/stamps.json; viola verify writes it under its lock, with 0600. · why: a stamp is what switches on dialog answering, PermissionRequest allow included · except: The test-only live rig seeds a stamp kept from its own verify scratch home into its own CC scratch home only.
+ decision/tracing-subscriber-version-floor · tracing-subscriber version floor — tracing-subscriber below 0.3.20 is never used, if obs selects it.

@@ -1,0 +1,39 @@
+[[pattern]]
+id = 'relied-rows'
+regex = '\b24 relied\b|\b25 relied\b|relied rows?|relied set|LedgerRow::ALL|local-command-context|25th relied'
+
+[[pattern]]
+id = 'local-cmds'
+regex = 'LOCAL_COMMANDS|local-command list|listed local command|ledger-listed local command|`/context`|post-conditioned local'
+
+[[pattern]]
+id = 'pastes'
+regex = 'compiled literals|seventh `/mcp|Run B.s (six|seven|eight) |PROBE_CONTEXT_COMMAND|eighth paste'
+
+[[pattern]]
+id = 'step-lines'
+regex = '\[n/24\]|\[n/25\]|24 pass  0 fail|25 pass  0 fail|step_line'
+
+[[pattern]]
+id = 'floor-rows'
+regex = 'FLOOR_ROWS|floor rows|LEDGER_ROWS'
+
+[[pattern]]
+id = 'fake-transcript'
+regex = 'transcript_of_session|--transcript|--framing|framing echo'
+
+[[pattern]]
+id = 'hint-cell'
+regex = 'hint cells?|hint_cell|cursor.s cell|placeholder hint|cell attributes?'
+
+[[pattern]]
+id = 'rig-labels'
+regex = 'kept stamp|config-top|config_top|scratch home|rig.s scratch|arm_cc|\bCS-2\b|\bCC-2\b'
+
+[[pattern]]
+id = 'except-private'
+regex = 'rig seeds (private )?config|Test-only rig seeds|no-screen-content-parsing|raw frames kept local|live-session-screens-kept-local'
+
+[[pattern]]
+id = 'residual'
+regex = 'input-history line|accepted residuals?|config-top'

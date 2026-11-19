@@ -1,0 +1,236 @@
+[
+{
+"tool": "cascade",
+"v": "1.36",
+"sha8": "c325893a",
+"ts": "2026-11-19T21:08:57Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-19T21-07-39Z-wrap/report-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-11-19T21-07-39Z-wrap",
+"--marker",
+"2026-11-19-context-as-a-local-command"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [
+"baseline 495bb905 (pre-pass — HEAD)",
+"step-lines · control UNFIRED over the seven masters (bodies and sets) at 495bb905",
+"floor-rows · control UNFIRED over the seven masters (bodies and sets) at 495bb905",
+"rig-labels · control UNFIRED over the seven masters (bodies and sets) at 495bb905"
+],
+"stderr": "control: step-lines, floor-rows, rig-labels never fired over the seven masters' pre-pass text, bodies and sets (495bb905) — no master holds them: re-fire with --pattern relied-rows --pattern local-cmds --pattern pastes --pattern fake-transcript --pattern hint-cell --pattern except-private --pattern residual; this refusal, the trail's record, is the basis of each named pattern's master zero",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "cascade",
+"v": "1.36",
+"sha8": "c325893a",
+"ts": "2026-11-19T21:09:07Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-19T21-07-39Z-wrap/report-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-11-19T21-07-39Z-wrap",
+"--marker",
+"2026-11-19-context-as-a-local-command",
+"--pattern",
+"relied-rows",
+"--pattern",
+"local-cmds",
+"--pattern",
+"pastes",
+"--pattern",
+"fake-transcript",
+"--pattern",
+"hint-cell",
+"--pattern",
+"except-private",
+"--pattern",
+"residual"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline 495bb905 (pre-pass — HEAD)",
+"architecture · 17 rows over 1 files · new 0 · standing 17 · 5 patterns",
+"security-plan · 9 rows over 1 files · new 0 · standing 9 · 4 patterns",
+"layout-templates · 1 rows over 1 files · new 0 · standing 1 · 1 pattern",
+"test-plan · 23 rows over 1 files · new 0 · standing 23 · 5 patterns",
+"obs-plan · 1 rows over 1 files · new 0 · standing 1 · 1 pattern",
+"a11y-plan · 2 rows over 1 files · new 0 · standing 2 · 2 patterns",
+"by line · 0 lines · 0 offsets",
+"total (7 patterns) · 94 rows over 22 files",
+"per class · new 0/0 · standing 53/6 · leaf 38/14 · curation 2/1 · base 1/1",
+"rows 1/1 · .andromeda/runs/2026-11-19T21-07-39Z-wrap/sweep-pre-pass-1.1.txt · 113 lines · 13388 B"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-19T21-07-39Z-wrap/sweep-pre-pass-1.1.txt"
+],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "495bb905ec450c09c1bd905e15a2bba1553e668c",
+"how": "pre-pass — HEAD",
+"counts": {
+"relied-rows": {
+"new": 0,
+"standing": 12,
+"leaf": 12,
+"curation": 2,
+"base": 1
+},
+"local-cmds": {
+"new": 0,
+"standing": 8,
+"leaf": 7,
+"curation": 0,
+"base": 0
+},
+"pastes": {
+"new": 0,
+"standing": 11,
+"leaf": 6,
+"curation": 0,
+"base": 0
+},
+"fake-transcript": {
+"new": 0,
+"standing": 8,
+"leaf": 7,
+"curation": 0,
+"base": 0
+},
+"hint-cell": {
+"new": 0,
+"standing": 5,
+"leaf": 4,
+"curation": 0,
+"base": 0
+},
+"except-private": {
+"new": 0,
+"standing": 5,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"residual": {
+"new": 0,
+"standing": 4,
+"leaf": 2,
+"curation": 0,
+"base": 0
+}
+},
+"bare": [],
+"masters": {
+"architecture": {
+"rows": 17,
+"files": 1,
+"new": 0,
+"standing": 17,
+"patterns": 5
+},
+"security-plan": {
+"rows": 9,
+"files": 1,
+"new": 0,
+"standing": 9,
+"patterns": 4
+},
+"layout-templates": {
+"rows": 1,
+"files": 1,
+"new": 0,
+"standing": 1,
+"patterns": 1
+},
+"test-plan": {
+"rows": 23,
+"files": 1,
+"new": 0,
+"standing": 23,
+"patterns": 5
+},
+"obs-plan": {
+"rows": 1,
+"files": 1,
+"new": 0,
+"standing": 1,
+"patterns": 1
+},
+"a11y-plan": {
+"rows": 2,
+"files": 1,
+"new": 0,
+"standing": 2,
+"patterns": 2
+}
+},
+"per_master": {
+"relied-rows": {
+"architecture": 7,
+"security-plan": 1,
+"layout-templates": 1,
+"test-plan": 2,
+"obs-plan": 1
+},
+"local-cmds": {
+"architecture": 5,
+"test-plan": 3
+},
+"pastes": {
+"architecture": 1,
+"security-plan": 4,
+"test-plan": 6
+},
+"fake-transcript": {
+"test-plan": 8
+},
+"hint-cell": {
+"test-plan": 4,
+"a11y-plan": 1
+},
+"except-private": {
+"architecture": 3,
+"security-plan": 1,
+"a11y-plan": 1
+},
+"residual": {
+"architecture": 1,
+"security-plan": 3
+}
+},
+"forms": {
+"relied-rows": [
+{
+"form": "twenty-four",
+"from": "24"
+},
+{
+"form": "twenty-five",
+"from": "25"
+}
+],
+"pastes": [
+{
+"form": "Run B.s (6|7|8) ",
+"from": "six · seven · eight"
+}
+]
+},
+"parts": [
+"sweep-pre-pass-1.1.txt"
+]
+}
+}
+]
