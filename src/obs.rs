@@ -30,7 +30,13 @@ const VIOLA_TARGETS: [&str; 8] = [
     "viola_hyprland",
 ];
 
-const CONFIG_KEYS: [&str; 4] = ["v", "diagnostics_level", "claude_env_keep", "dialog_hold_s"];
+const CONFIG_KEYS: [&str; 5] = [
+    "v",
+    "diagnostics_level",
+    "claude_env_keep",
+    "dialog_hold_s",
+    "verify_new_cli",
+];
 
 static STARTED: OnceLock<Instant> = OnceLock::new();
 
@@ -465,7 +471,9 @@ mod tests {
         Some(ConfigRejection::UnknownKeys(2))
     )]
     #[case::every_known_key(
-        Some(r#"{"v":1,"diagnostics_level":"debug","claude_env_keep":[],"dialog_hold_s":60}"#),
+        Some(
+            r#"{"v":1,"diagnostics_level":"debug","claude_env_keep":[],"dialog_hold_s":60,"verify_new_cli":true}"#
+        ),
         Level::DEBUG,
         None
     )]

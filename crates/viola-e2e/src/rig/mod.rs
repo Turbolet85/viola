@@ -59,6 +59,8 @@ const S1_NAME: &str = "rig-s1";
 /// The wrapped instance `CX` starts, and the one text it sends.
 const CX_NAME: &str = "rig-cx";
 const CX_TEXT: &str = "/context";
+/// The wrapped instance `AV` starts.
+const AV_NAME: &str = "rig-av";
 /// The `SF` arm's wrapped instance.
 const SF_NAME: &str = "sf-probe";
 /// How long `SF` waits past its send for the turn's end: the CLI's retries on a lost connection
@@ -146,6 +148,9 @@ pub enum Arm {
     SF,
     /// Unwrapped, no send: the fresh box's drawn hint cells read, then one `x` and one DEL.
     HB,
+    /// Wrapped, the scratch home's `config.json` keyed `verify_new_cli: true` and no stamp; the
+    /// start's own verify, then the session; no send, no key; the stop TERM.
+    AV,
 }
 
 impl Arm {
@@ -169,6 +174,7 @@ impl Arm {
             "cx" => Some(Self::CX),
             "sf" => Some(Self::SF),
             "hb" => Some(Self::HB),
+            "av" => Some(Self::AV),
             _ => None,
         }
     }
@@ -182,7 +188,8 @@ impl Arm {
     /// `SF-2`, the context stamp `CS` with its spare `CS-2` and the context send `CC` with its
     /// spare `CC-2`, the wake stamp `WS` alone, the fresh-box hint reading `HB` with its spare
     /// `HB-2`, the fired wake under the kept stamp `R3W` with its spare `R3W-2`, and the
-    /// permission-question recording `PQ` with its spare `PQ-2`.
+    /// permission-question recording `PQ` with its spare `PQ-2`, and the start's own verify `AV`
+    /// with its spare `AV-2`.
     pub fn of_label(label: &str) -> Option<Self> {
         match label {
             "R1" | "R1-2" => Some(Self::R1),
@@ -204,6 +211,7 @@ impl Arm {
             "L2" | "CC" | "CC-2" => Some(Self::CX),
             "SF" | "SF-2" => Some(Self::SF),
             "HB" | "HB-2" => Some(Self::HB),
+            "AV" | "AV-2" => Some(Self::AV),
             _ => None,
         }
     }
@@ -244,12 +252,14 @@ impl Arm {
             Self::CX => "cx",
             Self::SF => "sf",
             Self::HB => "hb",
+            Self::AV => "av",
         }
     }
 
-    /// Whether the start's cwd is made a git root, as the verify arm's.
+    /// Whether the start's cwd is made a git root, as the verify arm's: `AV`'s start runs verify
+    /// there.
     fn verify_seed(self) -> bool {
-        self.verifies() || matches!(self, Self::VC | Self::TS | Self::MT)
+        self.verifies() || matches!(self, Self::VC | Self::TS | Self::MT | Self::AV)
     }
 
     /// Whether the private config takes the used-config markers and the browser-tools key.
@@ -257,7 +267,7 @@ impl Arm {
         self.verifies()
             || matches!(
                 self,
-                Self::VC | Self::TS | Self::TC | Self::CX | Self::SF | Self::HB
+                Self::VC | Self::TS | Self::TC | Self::CX | Self::SF | Self::HB | Self::AV
             )
     }
 
@@ -273,6 +283,7 @@ impl Arm {
             Self::R3B | Self::R3 => Some(wake::WAKE_NAME),
             Self::CX => Some(CX_NAME),
             Self::SF => Some(SF_NAME),
+            Self::AV => Some(AV_NAME),
             Self::R1
             | Self::Hold
             | Self::IM
@@ -306,6 +317,7 @@ impl Arm {
                 | Self::CX
                 | Self::SF
                 | Self::HB
+                | Self::AV
         )
     }
 
@@ -609,6 +621,7 @@ pub fn start(plan: &Plan) -> u8 {
                 .rig
                 .as_deref()
                 .is_some_and(|rig| scratch.seed_stop_failure_capture(rig).is_ok()),
+            Arm::AV => scratch.key_verify_new_cli().is_ok(),
             Arm::R1
             | Arm::R2
             | Arm::Hold
@@ -650,6 +663,13 @@ pub fn start(plan: &Plan) -> u8 {
     if let Some(file) = StampShape::keeps(&plan.label) {
         summary.put("kept-stamp", keep_stamp(&scratch, &plan.out, file));
         summary.put("config-top", config_top(&scratch.config));
+    }
+    if plan.arm == Arm::AV {
+        // The start's own verify writes and removes a trust record inside its Run F, as `V`'s.
+        summary.put(
+            "record-left",
+            scratch.record_left(&isolate::child_temp_root()),
+        );
     }
     if plan.arm.verifies() || plan.arm == Arm::TS {
         // A failed verify's first screens, copied into the run's kept folder beside its frames
@@ -930,6 +950,41 @@ impl Session {
         }
     }
 
+    /// No byte typed: TERM to the pty's child (a wrapped arm's `viola run`), its exit awaited to
+    /// `STOP_KILL_AFTER`, then its group SIGKILLed.
+    fn stop_term(&mut self, summary: &mut Summary) {
+        if self.exit.is_some() {
+            summary.put("stop", "none");
+            return;
+        }
+        if let Some(pid) = self
+            .pty
+            .child_pid()
+            .and_then(|p| libc::pid_t::try_from(p).ok())
+        {
+            // SAFETY: a plain signal to the rig's own pty child, not yet reaped.
+            unsafe {
+                libc::kill(pid, libc::SIGTERM);
+            }
+        }
+        let began = Instant::now();
+        while self.exit.is_none() && began.elapsed() < STOP_KILL_AFTER {
+            self.pump(Duration::from_millis(50));
+        }
+        let killed = self.exit.is_none();
+        if killed {
+            if let Some(pid) = self.pty.child_pid() {
+                procs::kill_group(pid);
+            }
+            let _ = self.pty.kill();
+            let until = Instant::now() + Duration::from_secs(2);
+            while self.exit.is_none() && Instant::now() < until {
+                self.pump(Duration::from_millis(50));
+            }
+        }
+        summary.put("stop", if killed { "term, killed" } else { "term" });
+    }
+
     /// No byte typed: the child's group SIGKILLed and the pty killed, its exit waited 2 s.
     fn stop_no_key(&mut self, summary: &mut Summary) {
         if self.exit.is_some() {
@@ -1084,14 +1139,30 @@ fn run_child(
         Arm::CX => arm_cx(plan, scratch, &env, &mut session, summary),
         Arm::SF => arm_sf(plan, scratch, &env, &mut session, summary),
         Arm::HB => arm_hb(plan, &mut session, summary),
+        Arm::AV => arm_av(plan, scratch, &mut session, summary),
         Arm::VC => arm_vc(plan, &mut session, summary),
         Arm::TC => arm_tc(plan, scratch, sentinel, &mut session, summary),
         // `TS` takes its own two starts (`run_ts`) and `MT` no pty (`arm_mt`); a start that
         // reaches here holds the child alone.
         Arm::TS | Arm::MT => arm_hold(plan, &mut session),
     }
-    let no_key = matches!(plan.arm, Arm::IM | Arm::VP | Arm::VK | Arm::VC | Arm::TC);
-    end_session(session, summary, no_key)
+    let stop = match plan.arm {
+        Arm::IM | Arm::VP | Arm::VK | Arm::VC | Arm::TC => Stop::NoKey,
+        Arm::AV => Stop::Term,
+        _ => Stop::CtrlC,
+    };
+    end_session(session, summary, stop)
+}
+
+/// How a session is stopped once its arm is done.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum Stop {
+    /// Ctrl-C presses, the group killed past `STOP_KILL_AFTER`.
+    CtrlC,
+    /// No byte typed: the group killed.
+    NoKey,
+    /// TERM to the pty's child, the group killed past `STOP_KILL_AFTER`.
+    Term,
 }
 
 /// `args` with `{cwd}` and `{config}` standing for the scratch cwd and the private config dir.
@@ -1108,15 +1179,15 @@ fn substituted(args: &[String], scratch: &Scratch) -> Vec<OsString> {
 
 /// A session's end after its arm: the stop (no key, or the Ctrl-C stop), the last frame, and the
 /// child, settle and frame words; the child's session id when a wrapped arm learned one.
-fn end_session(mut session: Session, summary: &mut Summary, no_key: bool) -> Option<String> {
+fn end_session(mut session: Session, summary: &mut Summary, stop: Stop) -> Option<String> {
     if let Some(reason) = procs::stop_requested() {
         summary.put("stopped-by", reason);
     }
     let exited_alone = session.exit;
-    if no_key {
-        session.stop_no_key(summary);
-    } else {
-        session.stop(summary);
+    match stop {
+        Stop::NoKey => session.stop_no_key(summary),
+        Stop::CtrlC => session.stop(summary),
+        Stop::Term => session.stop_term(summary),
     }
     session.keep("final");
     summary.put(
@@ -1244,7 +1315,12 @@ fn run_ts(
     summary.put("entry-flag", flag);
     summary.put("sentinel", same);
     summary.put("keys", "none");
-    end_session(session, summary, screen != "box")
+    let stop = if screen == "box" {
+        Stop::CtrlC
+    } else {
+        Stop::NoKey
+    };
+    end_session(session, summary, stop)
 }
 
 /// `TC`: the plain child's first frame read into verify's first-screen word, and the sentinel's
@@ -1838,6 +1914,106 @@ fn arm_cx(
         (&events, &mut offset),
         transcript.map(|t| (t, kept_len)),
     );
+}
+
+/// `AV`: no key and no send; the session's snapshot awaited (the start's own verify runs first,
+/// bounded by itself), then the scratch run log's `auto-verify` starts, the `--cli` version's
+/// stamp entry against the relied rows and the snapshot's verdict read into summary lines.
+fn arm_av(plan: &Plan, scratch: &Scratch, session: &mut Session, summary: &mut Summary) {
+    summary.put("keys", "none");
+    let Some(vhome) = &scratch.vhome else {
+        return;
+    };
+    let key = read_regular(&vhome.join("config.json"))
+        .and_then(|b| serde_json::from_slice::<Value>(&b).ok())
+        .is_some_and(|c| c["verify_new_cli"] == Value::Bool(true));
+    summary.put("av-key", if key { "on" } else { "off" });
+    let snapshot_path = vhome.join("instances").join(AV_NAME).join("snapshot.json");
+    let read_snapshot = || {
+        read_regular(&snapshot_path)
+            .and_then(|b| serde_json::from_slice::<Value>(&b).ok())
+            .filter(|s| s["data"]["child_pid"].is_u64())
+    };
+    let mut snapshot = read_snapshot();
+    while snapshot.is_none() && session.exit.is_none() && procs::stop_requested().is_none() {
+        session.pump(Duration::from_millis(50));
+        snapshot = read_snapshot();
+    }
+    session.keep("session");
+    let log = vhome
+        .join("diagnostics")
+        .join(format!("run-{AV_NAME}.ndjson"));
+    let pairs = read_regular(&log).map_or(0, |b| auto_verify_starts(&b));
+    let stamps = vhome.join("ledger").join("stamps.json");
+    let entry = stamp_entry(&stamps, plan.cli_version.as_deref());
+    let verdict = snapshot
+        .as_ref()
+        .and_then(|s| s["data"]["cli_verified"].as_bool());
+    for (key, value) in av_lines(entry.as_ref(), pairs, verdict) {
+        summary.put(&key, value);
+    }
+}
+
+/// The `process-start` lines of subject `auto-verify` in a run log's bytes.
+fn auto_verify_starts(log: &[u8]) -> usize {
+    log.split(|b| *b == b'\n')
+        .filter_map(|line| serde_json::from_slice::<Value>(line).ok())
+        .filter(|l| l["event"] == "process-start" && l["subject"] == "auto-verify")
+        .count()
+}
+
+/// `AV`'s summary lines: `auto-verify-pairs`, `stamp-ids` (`all` · `short` · `absent`, the entry
+/// against the relied rows), `stamp-verdict` and `failing` (READINGS), `verdict-match` (the
+/// snapshot's verdict against the entry's) and `snapshot` (`read` · `unread`).
+fn av_lines(entry: Option<&Value>, pairs: usize, snapshot: Option<bool>) -> Vec<(String, String)> {
+    let rows = entry.and_then(|e| e["rows"].as_object());
+    let relied = LedgerRow::relied();
+    let ids = match rows {
+        None => "absent",
+        Some(rows) if relied.iter().all(|r| rows.contains_key(r.id())) => "all",
+        Some(_) => "short",
+    };
+    let failing: Vec<&str> = relied
+        .iter()
+        .filter(|r| {
+            !rows
+                .and_then(|rows| rows.get(r.id()))
+                .and_then(Value::as_str)
+                .is_some_and(|w| counts(**r, w))
+        })
+        .map(|r| r.id())
+        .collect();
+    let verified = rows.is_some() && failing.is_empty();
+    let line = |k: &str, v: String| (k.to_owned(), v);
+    vec![
+        line("auto-verify-pairs", pairs.to_string()),
+        line("stamp-ids", ids.to_owned()),
+        line(
+            "stamp-verdict",
+            if verified { "verified" } else { "unverified" }.to_owned(),
+        ),
+        line(
+            "failing",
+            if failing.is_empty() {
+                "none".to_owned()
+            } else {
+                failing.join(",")
+            },
+        ),
+        line(
+            "verdict-match",
+            if snapshot == Some(verified) {
+                "yes"
+            } else {
+                "no"
+            }
+            .to_owned(),
+        ),
+        line(
+            "snapshot",
+            if snapshot.is_some() { "read" } else { "unread" }.to_owned(),
+        ),
+    ]
 }
 
 /// `CC`: under `CS`'s kept stamp, seeded before `viola run`, the box read with no trust form,
@@ -3267,6 +3443,121 @@ mod tests {
         assert_eq!(StampShape::keeps("R3W"), None);
         assert_eq!(StampShape::seeds("R3W"), Some("wake-stamp.json"));
         assert!(seeds_stamp("CC") && seeds_stamp("R3W") && !seeds_stamp("WS"));
+    }
+
+    /// `AV` and its spare `AV-2` start the start's-own-verify arm: wrapped, trusted, seeded as
+    /// the verify arm's cwd and config, keeping and seeding no stamp; it runs no verify itself.
+    #[test]
+    fn the_av_labels_take_their_arm_and_properties() {
+        for (label, arm, shape) in [
+            ("AV", Some(Arm::AV), None),
+            ("AV-2", Some(Arm::AV), None),
+            ("AV-3", None, None),
+        ] {
+            assert_eq!(Arm::of_label(label), arm, "{label}");
+            assert_eq!(StampShape::of(label), shape, "{label}");
+        }
+        assert_eq!(Arm::parse("av"), Some(Arm::AV));
+        assert_eq!(Arm::AV.word(), "av");
+        assert_eq!(Arm::AV.wrapped(), Some(AV_NAME));
+        assert!(Arm::AV.has_vhome() && Arm::AV.trusted());
+        assert!(Arm::AV.verify_seed() && Arm::AV.marker_seed());
+        assert!(Arm::AV.browser_tools_seed());
+        assert!(!Arm::AV.verifies() && !Arm::AV.sentinel_seed());
+    }
+
+    fn av_entry(words: &[(LedgerRow, &str)]) -> Value {
+        let rows: serde_json::Map<String, Value> = words
+            .iter()
+            .map(|(row, word)| (row.id().to_owned(), json!(word)))
+            .collect();
+        json!({"rows": rows})
+    }
+
+    /// Each `AV` line reads apart from the others: a red entry still reads `stamp-ids: all` and
+    /// `verdict-match: yes` against an unverified snapshot.
+    #[test]
+    fn the_av_lines_read_every_atom_apart() {
+        let relied = LedgerRow::relied();
+        let words = |fail: Option<LedgerRow>| -> Vec<(LedgerRow, &str)> {
+            relied
+                .iter()
+                .map(|r| {
+                    let word = if Some(*r) == fail {
+                        "fail"
+                    } else if *r == LedgerRow::BrowserToolsPrompt {
+                        "absent"
+                    } else {
+                        "pass"
+                    };
+                    (*r, word)
+                })
+                .collect()
+        };
+        let read = |lines: Vec<(String, String)>| -> Vec<String> {
+            lines
+                .into_iter()
+                .map(|(k, v)| format!("{k}: {v}"))
+                .collect()
+        };
+        let green = av_entry(&words(None));
+        assert_eq!(
+            read(av_lines(Some(&green), 1, Some(true))),
+            [
+                "auto-verify-pairs: 1",
+                "stamp-ids: all",
+                "stamp-verdict: verified",
+                "failing: none",
+                "verdict-match: yes",
+                "snapshot: read",
+            ]
+        );
+        let red = av_entry(&words(Some(LedgerRow::LocalCommandEcho)));
+        assert_eq!(
+            read(av_lines(Some(&red), 1, Some(false))),
+            [
+                "auto-verify-pairs: 1",
+                "stamp-ids: all",
+                "stamp-verdict: unverified",
+                "failing: local-command-echo",
+                "verdict-match: yes",
+                "snapshot: read",
+            ]
+        );
+        assert!(
+            read(av_lines(Some(&red), 1, Some(true))).contains(&"verdict-match: no".to_owned())
+        );
+        let mut short = words(None);
+        short.pop();
+        let short = av_entry(&short);
+        let lines = read(av_lines(Some(&short), 2, None));
+        for want in [
+            "auto-verify-pairs: 2",
+            "stamp-ids: short",
+            "stamp-verdict: unverified",
+            "verdict-match: no",
+            "snapshot: unread",
+        ] {
+            assert!(lines.contains(&want.to_owned()), "{want} in {lines:?}");
+        }
+        let absent = read(av_lines(None, 0, Some(false)));
+        assert!(absent.contains(&"stamp-ids: absent".to_owned()));
+        assert!(absent.contains(&"verdict-match: yes".to_owned()));
+    }
+
+    #[test]
+    fn auto_verify_starts_count_the_start_lines_of_that_subject_alone() {
+        let log = concat!(
+            r#"{"event":"process-start","subject":"self"}"#,
+            "\n",
+            r#"{"event":"process-start","subject":"auto-verify"}"#,
+            "\n",
+            r#"{"event":"process-exit","subject":"auto-verify"}"#,
+            "\n",
+            "torn",
+        );
+        assert_eq!(auto_verify_starts(log.as_bytes()), 1);
+        assert_eq!(auto_verify_starts(b""), 0);
     }
 
     #[test]

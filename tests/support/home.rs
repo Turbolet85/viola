@@ -855,6 +855,28 @@ impl Wrapper {
         trusted: bool,
         host: Host<'_>,
     ) -> Self {
+        Self::spawn_with(stamped, name, script, extra, size, trusted, host).ready()
+    }
+
+    /// `boot_as_user`'s start, not yet waited ready: its own `viola verify` may run first, which
+    /// the case waits on by its log lines before [`Starting::ready`].
+    pub fn start_as_user(stamped: StampedHome, name: &str, user_home: &Path) -> Starting {
+        let host = Host {
+            user_home: Some(user_home),
+            ..Host::default()
+        };
+        Self::spawn_with(stamped, name, None, &[], Size::DEFAULT, true, host)
+    }
+
+    fn spawn_with(
+        stamped: StampedHome,
+        name: &str,
+        script: Option<&str>,
+        extra: &[&str],
+        size: Size,
+        trusted: bool,
+        host: Host<'_>,
+    ) -> Starting {
         let cwd = host
             .dir
             .map_or_else(|| std::env::current_dir().expect("cwd"), Path::to_path_buf);
@@ -911,13 +933,12 @@ impl Wrapper {
         // A start with no `--home` would take a wrapped session's home from these, the test
         // runner's own when it runs inside one.
         let pty = OuterPty::spawn_without(program, &args, &env, &UNWRAPPED, size, &cwd);
-        let mut wrapper = Self {
+        let wrapper = Self {
             stamped,
             name: name.to_owned(),
             pty,
         };
-        wrapper.wait_ready(&before);
-        wrapper
+        Starting { wrapper, before }
     }
 
     /// Readiness (test-plan §3 boot): `process-start` for `self` and `claude-child` and the fake
@@ -1162,6 +1183,56 @@ fn wait_endpoint(
 }
 
 /// How many starts the role file and the receipt hold so far.
+/// A wrapper spawned and not yet ready.
+pub struct Starting {
+    wrapper: Wrapper,
+    before: Starts,
+}
+
+impl Starting {
+    /// Waits ready as a boot does.
+    pub fn ready(mut self) -> Wrapper {
+        self.wrapper.wait_ready(&self.before);
+        self.wrapper
+    }
+
+    /// The wrapper's pid: the outer PTY's own child.
+    pub fn pid(&self) -> Option<u32> {
+        self.wrapper.pty.child_pid()
+    }
+
+    /// The wrapper's exit, when it has exited.
+    pub fn exited(&mut self) -> Option<u32> {
+        self.wrapper.pty.try_wait()
+    }
+
+    /// What the outer terminal has shown so far: the wrapper's stderr among it.
+    pub fn shown(&self) -> Vec<u8> {
+        self.wrapper.pty.shown()
+    }
+
+    pub fn home(&self) -> &Path {
+        self.wrapper.home()
+    }
+
+    pub fn instance_dir(&self) -> PathBuf {
+        self.wrapper.instance_dir()
+    }
+
+    /// The wrapper's exit within the recorder's bound, what the terminal showed by then, and the
+    /// home back.
+    pub fn ended(self) -> (u32, Vec<u8>, StampedHome) {
+        let Starting {
+            wrapper: Wrapper {
+                stamped, mut pty, ..
+            },
+            ..
+        } = self;
+        let code = pty.wait_exit(EXIT_WITHIN);
+        (code, pty.finish(), stamped)
+    }
+}
+
 struct Starts {
     wrapper: usize,
     child: usize,

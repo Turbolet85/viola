@@ -5,6 +5,7 @@
 
 use std::io::{self, Write};
 
+mod auto_verify;
 mod board;
 mod escape;
 mod hints;
@@ -13,6 +14,7 @@ mod style;
 mod verbs;
 mod wait;
 
+pub(crate) use auto_verify::{AutoLine, NoStamp, write_auto_line};
 pub(crate) use board::{home_state_pair, instance_state_pair, write_board};
 pub(crate) use escape::escape_message;
 pub(crate) use hints::{answer_hint, send_hint};

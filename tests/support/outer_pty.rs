@@ -119,6 +119,11 @@ impl OuterPty {
         self.output.lock().expect("output").clone()
     }
 
+    /// The pid of the program this PTY spawned.
+    pub fn child_pid(&self) -> Option<u32> {
+        self.pty.child_pid()
+    }
+
     pub fn try_wait(&mut self) -> Option<u32> {
         if self.exit.is_none() {
             self.exit = self.pty.try_wait().expect("try_wait");

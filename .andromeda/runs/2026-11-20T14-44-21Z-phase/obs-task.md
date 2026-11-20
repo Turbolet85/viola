@@ -1,0 +1,73 @@
+@task_prose part=chunk
+A `viola run` (and the start of `viola revive` where it shares the version gate) that meets a `claude` CLI version with no `viola verify` stamp gets that version stamped automatically, with no human running `viola verify`, then goes on verified.
+The form of the automatic verify (before the session, beside it, a separate verb or flag, a config key turning it on or off) is the founder's at P3; P4 plans only the form he answers.
+A red verify of a new version does not loop: the failed attempt is recorded so it is not repeated, the failed rows are said, the session is left to the human, and what clears the record is named.
+The consent and spend (the user's model turns, a stamp written in the real viola home) are told or asked as the founder decides at P3; `viola verify`'s own probes and dialog answers stay as they are unless the chosen form needs them.
+Proved over the fake agent only; any live start is a scratch viola home under the rig, never the live home.
+@task_file n=1 path=src/run/ mark=edits
+what: viola run's start and its version gate (run.version_gate), shared with the viola revive start — edits: the version gate
+@task_file n=2 path=src/cmd/verify* mark=edits
+what: viola verify, the only stamps writer, as the process the automatic form starts — edits: its start where the founder's form needs it
+@task_item n=1 part=needs
+The run start's version gate: on an unstamped claude version it starts the automatic verify once and then reads the version verified; the run log line's cli_version and cli_verified fields, the version-probe line and the run.version_gate span attributes carry the outcome.
+@task_item n=2 part=needs
+viola revive start shares the version gate and logs as run; the same automatic verify reaches its start where the gate is shared.
+@task_item n=3 part=needs
+The stamp stays written only by verify: the automatic form must write through verify's stamp writer under the stamps lock, never a second writer in run; verify's stamp-write and home-tree refusals still apply to it.
+@task_item n=4 part=needs
+The driver-side send and answer refusal unverified-cli, the dialog log line unverified-cli and the version rejections counted by detail: once the stamp lands for that version these no longer fire for it; an unreadable capability ledger still counts as unverified.
+@task_item n=5 part=needs
+What viola run may spawn: the verify process and its child spawn subjects (version-probe, verify-probe, verify-pty-probe, agents-probe) join run's child and probe lifecycle lines; any new subject is a word added to the closed diag-line subject enum.
+@task_item n=6 part=needs
+verify's own output when run by the automatic form: its stdout step and summary lines, its exit codes 0 and 1, its process-exit details (interrupted, strict-modes-failed), and its lines carrying no content; verify logs only inside an instance.
+@task_item n=7 part=needs
+A red automatic verify: a recorded failed attempt for that version that stops a verify on every start, a statement of which rows failed, and a named clearing action; any new event, detail word or state for it is a closed code with no path or pid, a distinct detail code per cause.
+@task_item n=8 part=needs
+No retry policies: the one automatic verify per new version is not a retry, and a failed attempt is never re-run on the next start; no retry-once and no sleep-based waits on the stamp landing.
+@task_item n=9 part=needs
+viola run stays silent on the terminal apart from its start refusal pair: whatever the product tells the user of an automatic verify (consent, spend, red rows) goes through fixed stderr strings and the start-refusal output, never interpolated content.
+@task_item n=10 part=needs
+config.json's closed known-key set and its v: if a consent or on/off key is the founder's form it is a new known key, with an unknown key still a parse-rejected config-json line; environment variables are never a configuration channel to turn the form on or off.
+@task_item n=11 part=needs
+Capability ledger path and stamps never logged: the automatic form's lines name the version outcome as codes, never the ledger contents, the stamp file's path or the probes' typed bytes and dialog text.
+@task_item n=12 part=needs
+The home strict-modes and home-tree checks run before the automatic verify writes a stamp, and a refused home writes no line, as for verify by hand.
+@task_item n=13 part=needs
+Any new span on the automatic verify path is a manual span with a static name, skipping all arguments, carrying no endpoint, binary path or env values.
+@task_item n=14 part=needs
+Proof over the fake agent only: CI verify runs against the fake agent and a real-CLI verify never runs in CI; a live start, if the founder allows one, uses a scratch viola home under the rig.
+@task_item n=15 part=needs
+Exit causes the automatic form can end a start with (including exit 12 where the gate refuses) keep distinct detail codes on the run start process-exit line, with fixed messages and typed errors of fixed Display.
+@task_standing n=1
+convention: every new log line is emitted through the single obs_event macro with a closed event value, never a raw tracing macro or print macro
+home: ci-integration
+@task_standing n=2
+convention: every new diagnostic field or event word is additive to the diag-line schema, and every emitted line is schema-checked in the integration and E2E tests
+home: log-coverage
+@task_standing n=3
+convention: every new integration test home lives under the one scanned test-home root and is kept until the gate steps run
+home: ci-integration
+@task_standing n=4
+convention: every new test waits on a log or event line by condition, never by sleep, and adds no retry rule
+home: slo-invariants-telemetry-budgets
+@task_standing n=5
+convention: every new span uses instrument with skip all and an explicit field allow-list
+home: 11-obs-anti-patterns-never-do-these
+@task_item n=1 part=not_needed
+viola mcp stdio server tools, MCP frames and their isError results: the chunk changes no MCP surface.
+@task_item n=2 part=not_needed
+The channel JSON-RPC lines, conn and corr propagation across the channel, and peer-credential server checks: the automatic verify is not a channel call.
+@task_item n=3 part=not_needed
+Hook stdout, hook fail-open and the hook latency and session-end perf budgets: no hook behaviour changes.
+@task_item n=4 part=not_needed
+Confirmed-send spans, the confirm window and send-refused details other than unverified-cli: the send path itself is not changed.
+@task_item n=5 part=not_needed
+Link and unlink, the events log link records and implicit links: untouched.
+@task_item n=6 part=not_needed
+Heartbeat liveness, list liveness and the agent-run status and logs harness views: untouched.
+@task_item n=7 part=not_needed
+The future error reporter rows (opt-in, ureq and rustls, egress entry) and OTel or Sentry adoption: no reporter or exporter is added.
+@task_item n=8 part=not_needed
+Snapshot replay and state-recovered lines, torn-line healing: the chunk does not touch the snapshot or events stream recovery.
+@task_item n=9 part=not_needed
+CI artifact upload, secret-scan hit report and fuzz or mutation artifact upload rules: the chunk adds no upload.

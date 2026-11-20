@@ -15,6 +15,7 @@ use crate::strict::{self, Refused};
 
 pub(crate) const STAMPS: &str = "stamps.json";
 const STAMPS_LOCK: &str = "stamps.json.lock";
+const VERIFY_LOCK: &str = "verify.lock";
 
 /// `<home>/ledger`, which also holds `viola verify`'s probe dirs.
 pub fn ledger_dir(home: &Path) -> PathBuf {
@@ -68,6 +69,28 @@ pub fn update_stamps(
     let current = read_capped(&path)?.filter(|(_, over)| !over);
     let bytes = update(current.as_ref().map(|(b, _)| b.as_slice()));
     Ok(replace_private(&path, &bytes, FILE_MODE)?)
+}
+
+/// The attempt lock `ledger/verify.lock`, held while a start's own `viola verify` runs; freed on
+/// drop. It is never `stamps.json.lock`, which that verify's [`update_stamps`] takes.
+#[derive(Debug)]
+pub struct VerifyLock {
+    _file: File,
+}
+
+/// Takes the attempt lock without blocking: `Ok(None)` while another process holds it. `ledger/`
+/// and the stamps file are checked before the folder is made or narrowed: a path another user
+/// could write is refused with nothing made.
+pub fn try_verify_lock(home: &Path) -> Result<Option<VerifyLock>, StampsError> {
+    strict::check_stamps(home).map_err(StampsError::StrictModes)?;
+    let dir = ledger_dir(home);
+    create_private_dir(&dir)?;
+    let file = open_private_lock(&dir.join(VERIFY_LOCK))?;
+    match file.try_lock() {
+        Ok(()) => Ok(Some(VerifyLock { _file: file })),
+        Err(std::fs::TryLockError::WouldBlock) => Ok(None),
+        Err(std::fs::TryLockError::Error(e)) => Err(e.into()),
+    }
 }
 
 /// The stamps as they stand, `None` when absent; no lock is taken. More than `MAX_FRAME` bytes is
@@ -309,6 +332,67 @@ mod tests {
             let restore = if path == dir { 0o700 } else { 0o600 };
             fs::set_permissions(&path, fs::Permissions::from_mode(restore)).expect("chmod");
         }
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn try_verify_lock_takes_a_free_lock() {
+        use std::os::unix::fs::PermissionsExt as _;
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let home = tmp.path().join("home");
+        let lock = try_verify_lock(&home).expect("checked");
+        assert!(lock.is_some(), "a free lock is taken");
+        let dir = home.join("ledger");
+        let mode = |p: &Path| fs::metadata(p).expect("meta").permissions().mode() & 0o777;
+        assert_eq!(mode(&dir), 0o700);
+        assert_eq!(mode(&dir.join("verify.lock")), 0o600);
+        assert!(
+            !dir.join("stamps.json.lock").exists(),
+            "never the stamps lock"
+        );
+        assert!(!dir.join("stamps.json").exists(), "nothing stamped");
+    }
+
+    #[test]
+    fn try_verify_lock_reads_a_held_lock_as_none() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let held = try_verify_lock(tmp.path()).expect("checked");
+        assert!(held.is_some());
+        assert!(
+            try_verify_lock(tmp.path()).expect("checked").is_none(),
+            "a held lock reads as none"
+        );
+    }
+
+    #[test]
+    fn try_verify_lock_frees_on_drop() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let first = try_verify_lock(tmp.path()).expect("checked");
+        assert!(first.is_some());
+        drop(first);
+        assert!(
+            try_verify_lock(tmp.path()).expect("checked").is_some(),
+            "free once the holder dropped it"
+        );
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn try_verify_lock_refuses_a_widened_ledger_and_leaves_it() {
+        use std::os::unix::fs::PermissionsExt as _;
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let dir = tmp.path().join("ledger");
+        fs::create_dir(&dir).expect("ledger");
+        fs::set_permissions(&dir, fs::Permissions::from_mode(0o777)).expect("chmod");
+        let got = try_verify_lock(tmp.path());
+        assert!(
+            matches!(got, Err(StampsError::StrictModes(Refused::Writable))),
+            "{got:?}"
+        );
+        let mode = fs::metadata(&dir).expect("meta").permissions().mode() & 0o777;
+        assert_eq!(mode, 0o777, "left as found");
+        assert!(!dir.join("verify.lock").exists(), "nothing made");
+        fs::set_permissions(&dir, fs::Permissions::from_mode(0o700)).expect("chmod");
     }
 
     #[test]

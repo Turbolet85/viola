@@ -1,0 +1,25 @@
+[[control]]
+id = 'attempted-arm'
+entry = 6
+guard = "decide's EarlierRed arm: an attempted unverified entry reads Verify"
+case = 'verify_window_run_whose_verify_goes_red_records_it_and_the_next_start_runs_none'
+
+[[control.edit]]
+path = 'src/run/auto_verify.rs'
+old = '''        Entry::Attempted => Step::EarlierRed,'''
+new = '''        Entry::Attempted => Step::Verify,'''
+
+[[control]]
+id = 'verify-lock'
+entry = 7
+guard = "the Ok(None) arm of the attempt lock's match: a held lock goes on to verify as if taken"
+case = 'verify_window_two_starts_at_once_run_one_verify'
+
+[[control.edit]]
+path = 'src/run/auto_verify.rs'
+old = '''        Ok(Some(lock)) => lock,
+        Ok(None) => {
+            voice.say(AutoLine::Elsewhere(version));
+            return Outcome::Gate(gate);
+        }'''
+new = '''        Ok(lock) => lock,'''

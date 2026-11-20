@@ -1,0 +1,55 @@
+[
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "363241ce",
+"ts": "2026-11-20T16:48:46Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-20-a-new-cli-version-stamped-automatically",
+"--message-file",
+".andromeda/runs/2026-11-20T15-57-52Z-implement/relay-1.md",
+"--origin",
+"the operator, relaying the overseer",
+"--kind",
+"relay",
+"--why",
+"the word to go on with the live round after the neighbour stopped, and the host-read window since 2026-11-20T16:48:26Z",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-11-20T15-57-52Z-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy message · message: the operator, relaying the overseer",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, relaying the overseer",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "5aed3abe183f7c398dd309411d1219536a1abf1712bdbe318a270db4ac7cc14a",
+"copy": "I4-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-20T16:48:45Z",
+"step": "implement",
+"why": "the word to go on with the live round after the neighbour stopped, and the host-read window since 2026-11-20T16:48:26Z"
+}
+}
+]

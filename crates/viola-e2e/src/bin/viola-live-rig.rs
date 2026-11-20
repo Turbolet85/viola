@@ -3,7 +3,7 @@
 //! granted keys, keeps its frames under the gitignored `target/live-rig/`, and owns its isolation
 //! and its processes.
 //!
-//! - `rehearse <r1|r2|hold|r3b|r3|im|v|vc|ts|tc|vr|mt|vh|cx|sf|hb|cs|cc|ws|r3w> --program <fake agent> [--viola <exe>]
+//! - `rehearse <r1|r2|hold|r3b|r3|im|v|vc|ts|tc|vr|mt|vh|cx|sf|hb|av|cs|cc|ws|r3w> --program <fake agent> [--viola <exe>]
 //!   [--tap <exe>] [--target-home <dir> --claude-dir <dir> --user-config <file>] [--contain]
 //!   [-- <child args>]`: one start over the fake agent (CI runs these); `vh` refuses `usage` without
 //!   all three of its paths; `--contain` (`sf` alone, else `usage`) runs the child inside the
@@ -13,8 +13,9 @@
 //!   `/context`, then reading the hint's cells around one `x` and one DEL; `ws` is `v` keeping its
 //!   stamp in `<out>/wake-stamp.json`, `r3w` is `r3` seeding that kept stamp and reading viola's own
 //!   `wheel` lines after the fired wake, then sending again; `hb` reads a fresh box's hint cells
-//!   around one `x` and one DEL, unwrapped, with no send.
-//! - `live <R1|R2|R3B|R3|IM|S0|S0R|S0B|S0C|S1|S2|BP|BK|R4|R4M|L1|L2|SF|CS|CC|WS|HB|R3W|…-2|R3-326|R3D> --cli <version> --cap <n> --spare <n> --ledger <file>`: one live start
+//!   around one `x` and one DEL, unwrapped, with no send; `av` runs `viola run` in a home keyed
+//!   `verify_new_cli` with no stamp, so the start runs its own verify before the session.
+//! - `live <R1|R2|R3B|R3|IM|S0|S0R|S0B|S0C|S1|S2|BP|BK|R4|R4M|L1|L2|SF|CS|CC|WS|HB|R3W|AV|…-2|R3-326|R3D> --cli <version> --cap <n> --spare <n> --ledger <file>`: one live start
 //!   of the stamped `claude`, refused under `CI`; `S0` / `S0R` / `S0B` run `viola verify` over it, `S0C`
 //!   reads its first frame at 80×24 and stops it with no key; `S1` runs `viola verify` in a trusted
 //!   git folder, then `viola run` in a fresh untrusted one, and `S2` a plain `claude` in one, each
@@ -23,7 +24,9 @@
 //!   and keeps its stamp, and `CC` runs `viola run` under that kept stamp, refused `stamp` before
 //!   its ledger line where none stands; `WS` runs `viola verify` and keeps its stamp, `R3W` runs
 //!   `viola run` under that kept stamp, refused `stamp` before its ledger line where none stands,
-//!   and `HB` a plain `claude` whose fresh box it reads, no send.
+//!   and `HB` a plain `claude` whose fresh box it reads, no send; `AV` runs `viola run` in a
+//!   scratch home keyed `verify_new_cli` with no stamp, reads the stamp its own verify left
+//!   against the snapshot's verdict, and stops it by TERM.
 //! - `census [--kill]`: the processes an earlier, dead rig left, and their kill.
 //! - `capture --out <file>` (hidden): a wake start's UserPromptSubmit hook and `SF`'s StopFailure
 //!   hook, one closed-word line per payload.

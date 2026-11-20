@@ -11,7 +11,8 @@
       "maxItems": 32,
       "items": { "type": "string", "pattern": "^CLAUDE[A-Z0-9_]*$" }
     },
-    "dialog_hold_s": { "type": "integer", "minimum": 60, "maximum": 3600 }
+    "dialog_hold_s": { "type": "integer", "minimum": 60, "maximum": 3600 },
+    "verify_new_cli": { "type": "boolean" }
   },
   "additionalProperties": true
 }

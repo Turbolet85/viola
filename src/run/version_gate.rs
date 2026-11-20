@@ -13,7 +13,7 @@ use std::time::{Duration, Instant};
 use tracing::field::Empty;
 use tracing::instrument;
 use viola_agent_claude::StripPlan;
-use viola_agent_claude::ledger::{parse_version, verified};
+use viola_agent_claude::ledger::{attempted, parse_version, verified};
 use viola_core::obs::ObsEvent;
 use viola_core::{MAX_FRAME, obs_event};
 use viola_state::stamps::{StampsReadError, read_stamps_strict};
@@ -131,11 +131,25 @@ fn drain(pipe: Option<impl Read + Send + 'static>, cap: u64) -> Drained {
     }))
 }
 
+/// What the gate read of the stamps for the version: a ledger it could not use is never read as a
+/// missing stamp.
+#[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
+pub(crate) enum Entry {
+    /// No version parsed, or the read refused, unreadable or malformed.
+    #[default]
+    Unusable,
+    /// No stamps file, no entry, or an entry short of a relied row id.
+    Unattempted,
+    /// An entry holding every relied row id, whatever each word reads.
+    Attempted,
+}
+
 /// What the gate measured for the snapshot and the `claude-child` start line.
 #[derive(Debug, Default, Clone, PartialEq, Eq)]
 pub(crate) struct Gate {
     pub(crate) cli_version: Option<String>,
     pub(crate) cli_verified: bool,
+    pub(crate) entry: Entry,
 }
 
 /// `program --version` (no user arguments), then the stamps read for the version it names.
@@ -168,19 +182,11 @@ pub(crate) fn version_gate(home: &Path, program: &Path, cwd: &Path, strip: &Stri
         duration_ms = u64::try_from(started.elapsed().as_millis()).unwrap_or(u64::MAX),
     );
     let cli_version = answer.ok().and_then(|a| parse_version(&a.stdout));
-    let cli_verified = cli_version.as_deref().is_some_and(|version| {
-        let (verified, detail) = stamps_verdict(read_stamps_strict(home), version);
-        if let Some(detail) = detail {
-            obs_event!(
-                WARN,
-                ObsEvent::ParseRejected,
-                parser = "ledger-stamps",
-                detail = detail,
-                count = 1u64,
-            );
-        }
-        verified
-    });
+    let (cli_verified, entry) = cli_version
+        .as_deref()
+        .map_or((false, Entry::Unusable), |version| {
+            stamps_reading(home, version)
+        });
     let span = tracing::Span::current();
     if let Some(version) = &cli_version {
         span.record("cli_version", version.as_str());
@@ -189,6 +195,38 @@ pub(crate) fn version_gate(home: &Path, program: &Path, cwd: &Path, strip: &Stri
     Gate {
         cli_version,
         cli_verified,
+        entry,
+    }
+}
+
+/// The strict stamps read for `version`: its verdict and what it read of the entry, with one
+/// `parse-rejected{ledger-stamps}` line when the file could not be used.
+pub(crate) fn stamps_reading(home: &Path, version: &str) -> (bool, Entry) {
+    let read = read_stamps_strict(home);
+    let entry = entry_of(&read, version);
+    let (verified, detail) = stamps_verdict(read, version);
+    if let Some(detail) = detail {
+        obs_event!(
+            WARN,
+            ObsEvent::ParseRejected,
+            parser = "ledger-stamps",
+            detail = detail,
+            count = 1u64,
+        );
+    }
+    (verified, entry)
+}
+
+/// What a stamps read holds for `version`'s entry.
+pub(crate) fn entry_of(read: &Result<Option<Vec<u8>>, StampsReadError>, version: &str) -> Entry {
+    match read {
+        Ok(None) => Entry::Unattempted,
+        Err(_) => Entry::Unusable,
+        Ok(Some(bytes)) => match attempted(bytes, version) {
+            Ok(true) => Entry::Attempted,
+            Ok(false) => Entry::Unattempted,
+            Err(_) => Entry::Unusable,
+        },
     }
 }
 
@@ -264,6 +302,48 @@ mod tests {
             stamps_verdict(Ok(Some(stamp("2.1.0", false))), "2.1.0"),
             (false, None)
         );
+    }
+
+    #[test]
+    fn gate_entry_reads_every_arm() {
+        assert_eq!(
+            entry_of(&Ok(None), "2.1.0"),
+            Entry::Unattempted,
+            "absent file"
+        );
+        assert_eq!(
+            entry_of(&Ok(Some(stamp("3.0.0", true))), "2.1.0"),
+            Entry::Unattempted,
+            "no entry"
+        );
+        let last = *LedgerRow::relied().last().expect("a relied row");
+        let short: Vec<(LedgerRow, bool)> = LedgerRow::ALL
+            .iter()
+            .filter(|r| **r != last)
+            .map(|r| (*r, true))
+            .collect();
+        assert_eq!(
+            entry_of(&Ok(Some(stamp_of(&short))), "2.1.0"),
+            Entry::Unattempted,
+            "short entry"
+        );
+        assert_eq!(
+            entry_of(&Ok(Some(stamp("2.1.0", true))), "2.1.0"),
+            Entry::Attempted,
+            "attempted green"
+        );
+        assert_eq!(
+            entry_of(&Ok(Some(stamp("2.1.0", false))), "2.1.0"),
+            Entry::Attempted,
+            "attempted red"
+        );
+        assert_eq!(
+            entry_of(&Ok(Some(b"{not json".to_vec())), "2.1.0"),
+            Entry::Unusable,
+            "malformed"
+        );
+        let refused = StampsReadError::StrictModes(viola_state::strict::Refused::Writable);
+        assert_eq!(entry_of(&Err(refused), "2.1.0"), Entry::Unusable, "refused");
     }
 
     fn stamp_of(results: &[(LedgerRow, bool)]) -> Vec<u8> {
@@ -530,7 +610,8 @@ mod tests {
             gate,
             Gate {
                 cli_version: None,
-                cli_verified: false
+                cli_verified: false,
+                entry: Entry::Unusable,
             }
         );
         assert!(!tmp.path().join("ledger").exists());

@@ -27,6 +27,7 @@ use viola_state::strict::check_endpoint_dir;
 use viola_state::strict::{TreeRefused, check_home_tree};
 
 use crate::run::ChildLaunch;
+use crate::run::auto_verify::{self, Attempt, Outcome, auto_verify};
 use crate::run::dialog::DialogSlot;
 use crate::run::gate::{self, Tee};
 use crate::run::links::LinkSet;
@@ -255,8 +256,9 @@ pub(super) enum Started {
 }
 
 /// The documented start order (architecture §Established Decisions [Session Liveness]): program
-/// resolution, collision check, pinned copy + plugin folder, the version gate, endpoint bind, first
-/// snapshot + heartbeat, start events, then the spawn.
+/// resolution, collision check, pinned copy + plugin folder, the version gate, endpoint bind, the
+/// automatic verify (`verify_new_cli`), the trust step on the final verdict, first snapshot +
+/// heartbeat, start events, then the spawn.
 #[instrument(skip_all, name = "run.start", fields(instance = name_str(&launch.name)))]
 pub(super) fn start(
     home: &Path,
@@ -288,8 +290,6 @@ pub(super) fn start(
     };
     let strip = viola_agent_claude::plan_strip(std::env::vars_os().map(|(k, _)| k), persistent);
     let gate = version_gate(&home, &program, &cwd, &strip);
-    let cli_verified = gate.cli_verified;
-    trust_folder(cli_verified, &strip, &launch.spawn_dir);
     let (endpoint, server) = match bind_endpoint(name, &home)? {
         Bound::Serving(endpoint, server) => (endpoint, server),
         Bound::Taken => {
@@ -303,6 +303,26 @@ pub(super) fn start(
             }));
         }
     };
+    // After the bind, so a refused socket directory still refuses before any child; the endpoint
+    // is not served and no snapshot names it while the verify runs.
+    let attempt = Attempt {
+        home: &home,
+        pinned: &pinned.path,
+        program: &program,
+        cwd: &cwd,
+        strip: &strip,
+        json: launch.json,
+    };
+    let gate = match auto_verify(&attempt, gate) {
+        Outcome::Gate(gate) => gate,
+        Outcome::Stopped(signal) => {
+            drop(server);
+            auto_verify::end_by(signal);
+            return Ok(Started::Refused(ExitCode::from(1)));
+        }
+    };
+    let cli_verified = gate.cli_verified;
+    trust_folder(cli_verified, &strip, &launch.spawn_dir);
     let wheel = Arc::new(WheelSlot::default());
     let snapshots = Arc::new(Snapshots::new(instance_dir.clone()));
     let (hold, rejections) = run::dialog::read_hold(&home);
@@ -1231,10 +1251,7 @@ mod tests {
             path: PathBuf::from("bin").join("k").join("viola"),
             path_fwd: "bin/k/viola".to_owned(),
         };
-        let gate = Gate {
-            cli_version: None,
-            cli_verified: false,
-        };
+        let gate = Gate::default();
         let snapshots = Arc::new(Snapshots::new(instance_dir.to_path_buf()));
         let links = LinkSet::new(
             name.clone(),

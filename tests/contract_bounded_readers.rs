@@ -78,6 +78,15 @@ const BOUNDARIES: &[Boundary] = &[
         witness: "read_hold_keeps_no_key_past_the_frame_cap",
     },
     Boundary {
+        boundary: "config.json verify_new_cli",
+        file: "src/run/auto_verify.rs",
+        needle: "Ok(file) => match file.take(MAX_FRAME).read_to_end(&mut bytes) {\n            Ok(_) => parse_key(&bytes),",
+        cap: "MAX_FRAME",
+        depth: DEFAULT_DEPTH,
+        types: "a JSON boolean",
+        witness: "read_verify_new_cli_keeps_no_key_past_the_frame_cap",
+    },
+    Boundary {
         boundary: "config.json claude_env_keep",
         file: "src/run/env.rs",
         needle: "Ok(file) => match file.take(MAX_FRAME).read_to_end(&mut bytes) {\n            Ok(_) => parse_env_keep(&bytes),",

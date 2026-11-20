@@ -987,3 +987,62 @@ fn verified_reads_the_26_earlier_ids_unverified_and_the_27_verified() {
     );
     assert_eq!(verified(&all, "2.1.0"), Ok(true));
 }
+
+/// The stamps the writer would leave, then altered as `shape` names (a reader's own cases may):
+/// `attempted` reads the entry by the relied ids alone, whatever each word reads.
+fn attempt_bytes(shape: &str) -> Vec<u8> {
+    if shape == "malformed" {
+        return b"not json".to_vec();
+    }
+    let mut results = all_pass();
+    if shape == "every_id_one_fail" {
+        results[0].1 = false;
+    }
+    let bytes = merge_stamp(
+        None,
+        "2.1.0",
+        &results,
+        &[],
+        &TypedRun::default(),
+        None,
+        "t",
+    );
+    let mut d = doc(&bytes);
+    let rows = d["data"]["versions"]["2.1.0"]["rows"]
+        .as_object_mut()
+        .expect("rows");
+    match shape {
+        "entry_short_of_one_relied_id" => {
+            let last = *LedgerRow::relied().last().expect("a relied row");
+            rows.remove(last.id());
+        }
+        "a_retired_id_beside_every_relied_id" => {
+            rows.insert("retired-row".to_owned(), json!("fail"));
+        }
+        _ => {}
+    }
+    d.to_string().into_bytes()
+}
+
+#[rstest]
+#[case::no_entry_for_the_version("every_id_pass", "3.0.0", Ok(false))]
+#[case::entry_short_of_one_relied_id("entry_short_of_one_relied_id", "2.1.0", Ok(false))]
+#[case::every_id_pass("every_id_pass", "2.1.0", Ok(true))]
+#[case::every_id_one_fail("every_id_one_fail", "2.1.0", Ok(true))]
+#[case::a_retired_id_beside_every_relied_id(
+    "a_retired_id_beside_every_relied_id",
+    "2.1.0",
+    Ok(true)
+)]
+#[case::malformed("malformed", "2.1.0", Err(AgentError::StampsMalformed))]
+fn attempted_reads_the_entry_by_its_relied_ids(
+    #[case] shape: &str,
+    #[case] version: &str,
+    #[case] expected: Result<bool, AgentError>,
+) {
+    let bytes = attempt_bytes(shape);
+    assert_eq!(attempted(&bytes, version), expected);
+    if shape == "every_id_one_fail" {
+        assert_eq!(verified(&bytes, version), Ok(false), "attempted yet red");
+    }
+}

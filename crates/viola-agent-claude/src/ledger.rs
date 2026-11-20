@@ -1421,6 +1421,24 @@ pub fn verified(stamps: &[u8], version: &str) -> Result<bool, AgentError> {
         .all(|row| rows[row.id()].as_str().is_some_and(|w| counts(*row, w))))
 }
 
+/// `true` when `version`'s entry holds every row relied on ([`LedgerRow::relied`]), whatever each
+/// word reads: the row set was tried on that version. An id no longer relied on changes nothing.
+/// Bytes that are not a `v:1` envelope of the documented shape are `StampsMalformed`, as in
+/// [`verified`].
+pub fn attempted(stamps: &[u8], version: &str) -> Result<bool, AgentError> {
+    let doc: Value = serde_json::from_slice(stamps).map_err(|_| AgentError::StampsMalformed)?;
+    let shaped = doc
+        .as_object()
+        .is_some_and(|d| d.get("v").and_then(Value::as_u64) == Some(1) && stamp_shape_ok(d));
+    if !shaped {
+        return Err(AgentError::StampsMalformed);
+    }
+    let rows = &doc["data"]["versions"][version]["rows"];
+    Ok(LedgerRow::relied()
+        .iter()
+        .all(|row| rows[row.id()].as_str().is_some()))
+}
+
 /// A recorded payload with the home rewritten to `~` (both separator spellings) and `user` as a
 /// whole word rewritten to `<user>`, in every string and key.
 pub fn scrub(value: &Value, home: &str, user: &str) -> Value {

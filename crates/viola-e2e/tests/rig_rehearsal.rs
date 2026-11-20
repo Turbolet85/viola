@@ -2178,3 +2178,115 @@ fn rig_live_arm_refuses_under_ci() {
     assert!(case.scratch_empty(), "no scratch root");
     assert!(!case.receipt().exists(), "no child");
 }
+
+/// A private copy of the fake agent as `claude` with `fake-args` beside it: the start's own verify
+/// passes its child no argument, so its stamping flags come from there. Runs B to E are trusted
+/// by the case's scratch base, Run A's temp folder outside it is not, and Run F reads its trust
+/// record through `<case>/cfg`, a link the case points at the start's private config once the rig
+/// has made it. `transcript` false leaves the echo row to fail.
+fn av_program(case: &Case, transcript: bool) -> PathBuf {
+    let dir = case.path("av-bin");
+    fs::create_dir(&dir).expect("the bin dir");
+    let claude = dir.join("claude");
+    fs::copy(fake(), &claude).expect("the fake copy");
+    let mut args = vec![
+        "--screens".to_owned(),
+        "--fixtures".to_owned(),
+        fixtures().display().to_string(),
+        "--trusted-root".to_owned(),
+        case.scratch().display().to_string(),
+        "--trust-config".to_owned(),
+        case.path("cfg").join(".claude.json").display().to_string(),
+        "--turn-stop".to_owned(),
+        "--dialogs".to_owned(),
+        "--framing".to_owned(),
+    ];
+    if transcript {
+        args.push("--transcript".to_owned());
+    }
+    fs::write(dir.join("fake-args"), args.join("\n") + "\n").expect("the fake args");
+    claude
+}
+
+/// `av` over `program`: the case links `<case>/cfg` to the start's private config as soon as the
+/// rig has made it, before the start's verify reaches Run F, then waits the rig out.
+fn av_rehearsal(case: &Case, program: &Path) -> Output {
+    let viola = viola().display().to_string();
+    let cmd = case.rig("av", &["--viola", viola.as_str()], &case.child(true, &[]));
+    let mut cmd = with_option(&cmd, "--program", &program.display().to_string());
+    let mut rig = cmd.spawn().expect("spawn the rig");
+    let until = Instant::now() + WITHIN;
+    let config = loop {
+        let made = fs::read_dir(case.scratch())
+            .ok()
+            .and_then(|mut d| d.next())
+            .and_then(Result::ok)
+            .map(|run| run.path().join("config"))
+            .filter(|c| c.is_dir());
+        if let Some(config) = made {
+            break config;
+        }
+        if Instant::now() >= until || rig.try_wait().expect("try_wait").is_some() {
+            let _ = rig.kill();
+            let _ = rig.wait();
+            panic!("the rig made no scratch config within {WITHIN:?}");
+        }
+        std::thread::sleep(Duration::from_millis(5));
+    };
+    std::os::unix::fs::symlink(&config, case.path("cfg")).expect("the config link");
+    finished(rig)
+}
+
+/// `av` over a stamping fake: the start's own verify runs once, stamps every relied row, and the
+/// snapshot's verdict matches the entry; no key, the stop TERM, the teardown whole.
+#[test]
+fn verify_window_rig_rehearsal_av_verifies_once_and_reads_the_stamp() {
+    let case = Case::new();
+    let program = av_program(&case, true);
+    let out = av_rehearsal(&case, &program);
+    let summary = stdout(&out);
+    assert_eq!(out.status.code(), Some(0), "{summary}");
+    for (key, value) in [
+        ("av-key", "on"),
+        ("auto-verify-pairs", "1"),
+        ("stamp-ids", "all"),
+        ("stamp-verdict", "verified"),
+        ("failing", "none"),
+        ("verdict-match", "yes"),
+        ("snapshot", "read"),
+        ("keys", "none"),
+        ("stop", "term"),
+        ("child", "stopped"),
+        ("record-left", "absent"),
+    ] {
+        assert_eq!(word(&out, key).as_deref(), Some(value), "{key}: {summary}");
+    }
+    assert!(word(&out, "viola-build").is_some_and(|b| b != "unread"));
+    assert_torn_down(&out, &case);
+}
+
+/// `av` over a fake whose verify goes red: the reading reads `unverified` and the atoms still
+/// read whole, the snapshot's verdict matching the red entry; the rig exits 0 on both readings.
+#[test]
+fn verify_window_rig_rehearsal_av_reads_a_red_stamp_as_a_matching_unverified_reading() {
+    let case = Case::new();
+    let program = av_program(&case, false);
+    let out = av_rehearsal(&case, &program);
+    let summary = stdout(&out);
+    assert_eq!(out.status.code(), Some(0), "{summary}");
+    for (key, value) in [
+        ("auto-verify-pairs", "1"),
+        ("stamp-ids", "all"),
+        ("stamp-verdict", "unverified"),
+        ("verdict-match", "yes"),
+        ("snapshot", "read"),
+        ("keys", "none"),
+    ] {
+        assert_eq!(word(&out, key).as_deref(), Some(value), "{key}: {summary}");
+    }
+    assert!(
+        word(&out, "failing").is_some_and(|f| f.split(',').any(|id| id == "local-command-echo")),
+        "{summary}"
+    );
+    assert_torn_down(&out, &case);
+}

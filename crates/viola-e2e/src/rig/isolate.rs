@@ -422,9 +422,7 @@ impl Scratch {
         create_private_dir(&scratch.config)?;
         if let Some(vhome) = scratch.vhome.clone() {
             create_private_dir(&vhome)?;
-            // `viola run` strips every CLAUDE* name from its child unless the home keeps it.
-            let config = json!({"v": 1, "claude_env_keep": ["CLAUDE_CONFIG_DIR"]});
-            write_private(&vhome.join("config.json"), &config)?;
+            write_private(&vhome.join("config.json"), &vhome_config(false))?;
         }
         scratch.cwd = fs::canonicalize(&scratch.cwd)?;
         scratch.config = fs::canonicalize(&scratch.config)?;
@@ -432,6 +430,15 @@ impl Scratch {
             scratch.vhome = Some(fs::canonicalize(vhome)?);
         }
         Ok(scratch)
+    }
+
+    /// `AV`'s viola home: its `config.json` keyed `verify_new_cli: true`, so the start runs its
+    /// own verify.
+    pub fn key_verify_new_cli(&self) -> io::Result<()> {
+        match &self.vhome {
+            Some(vhome) => write_private(&vhome.join("config.json"), &vhome_config(true)),
+            None => Err(io::Error::from(io::ErrorKind::NotFound)),
+        }
     }
 
     /// The credentials bytes placed 0600, mode first; never read again.
@@ -905,6 +912,16 @@ fn read_json(path: &Path) -> Option<Value> {
     serde_json::from_slice(&bytes).ok()
 }
 
+/// The scratch viola home's `config.json`: `viola run` strips every CLAUDE* name from its child
+/// unless the home keeps it; `AV`'s also turns the start's own verify on.
+fn vhome_config(verify_new_cli: bool) -> Value {
+    if verify_new_cli {
+        json!({"v": 1, "claude_env_keep": ["CLAUDE_CONFIG_DIR"], "verify_new_cli": true})
+    } else {
+        json!({"v": 1, "claude_env_keep": ["CLAUDE_CONFIG_DIR"]})
+    }
+}
+
 fn write_private(path: &Path, doc: &Value) -> io::Result<()> {
     replace_private(path, doc.to_string().as_bytes(), FILE_MODE)
         .map_err(|_| io::Error::other("private write failed"))
@@ -1219,6 +1236,30 @@ mod tests {
         }
         fs::write(&path, b"not json").expect("garble");
         assert_eq!(scratch.cache_word(), "unread");
+    }
+
+    #[test]
+    fn the_vhome_seed_keys_verify_new_cli_for_av_alone() {
+        let base = tempfile::tempdir().expect("tempdir");
+        let scratch = Scratch::create(base.path(), "1-2", true).expect("scratch");
+        let vhome = scratch.vhome.clone().expect("a vhome");
+        let read = || -> Value {
+            serde_json::from_slice(&fs::read(vhome.join("config.json")).expect("config"))
+                .expect("json")
+        };
+        assert_eq!(
+            read(),
+            json!({"v": 1, "claude_env_keep": ["CLAUDE_CONFIG_DIR"]}),
+            "every other wrapped arm"
+        );
+        scratch.key_verify_new_cli().expect("keyed");
+        assert_eq!(
+            read(),
+            json!({"v": 1, "claude_env_keep": ["CLAUDE_CONFIG_DIR"], "verify_new_cli": true}),
+            "AV"
+        );
+        let plain = Scratch::create(base.path(), "1-3", false).expect("scratch");
+        assert!(plain.key_verify_new_cli().is_err(), "no vhome to key");
     }
 
     #[test]

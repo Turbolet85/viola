@@ -491,3 +491,31 @@ fn fake_resume_absent_leaves_the_recorded_bytes() {
         assert_eq!(payload(fixture.clone(), &opts.resume_fields()), fixture);
     }
 }
+
+#[test]
+fn fake_args_beside_the_exe_prepend_and_argv_wins() {
+    let text = Some("--cli-version\n2.1.0\n\n--transcript\n".to_owned());
+    let merged = with_fake_args(text, args(&["--cli-version", "3.0.0"]));
+    assert_eq!(
+        merged,
+        args(&[
+            "--cli-version",
+            "2.1.0",
+            "--transcript",
+            "--cli-version",
+            "3.0.0"
+        ])
+    );
+    let o = Opts::parse(&merged);
+    assert_eq!(
+        o.cli_version.as_deref(),
+        Some("3.0.0"),
+        "argv's own value wins"
+    );
+    assert!(o.transcript, "a file flag argv does not give is kept");
+    assert_eq!(
+        with_fake_args(None, args(&["--version"])),
+        args(&["--version"]),
+        "an absent file changes nothing"
+    );
+}

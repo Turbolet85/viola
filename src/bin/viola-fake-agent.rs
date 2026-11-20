@@ -66,6 +66,9 @@ const AGENTS: &str = "agents";
 /// Beside the executable: `recorded` (the default, also for an absent file), `oversize` or
 /// `malformed`.
 const AGENTS_MODE: &str = "agents-mode";
+/// Beside the executable: one argument per line, put ahead of argv, so argv's own value wins.
+/// How a start's argument-less `viola verify` reaches the stamping flags in a test.
+const FAKE_ARGS: &str = "fake-args";
 /// Beside the executable: rows `recorded` lists ahead of the live sessions, as one JSON array.
 const AGENTS_ROWS: &str = "agents-rows.json";
 /// Beside the executable: one `<pid>.json` row per live interactive fake agent.
@@ -1294,6 +1297,26 @@ fn read_stdin(agent: &Agent, mut trust: Option<Trust>, standing: bool) -> ExitCo
     ExitCode::SUCCESS
 }
 
+/// The `fake-args` file beside the executable, through the frame cap; `None` when absent.
+fn fake_args_text() -> Option<String> {
+    let file = File::open(exe_dir()?.join(FAKE_ARGS)).ok()?;
+    let mut text = String::new();
+    file.take(MAX_FRAME).read_to_string(&mut text).ok()?;
+    Some(text)
+}
+
+/// Each non-empty line of `text` as one argument ahead of `argv`.
+fn with_fake_args(text: Option<String>, argv: Vec<String>) -> Vec<String> {
+    let Some(text) = text else {
+        return argv;
+    };
+    text.lines()
+        .filter(|line| !line.is_empty())
+        .map(str::to_owned)
+        .chain(argv)
+        .collect()
+}
+
 fn main() -> ExitCode {
     let args: Vec<String> = std::env::args().skip(1).collect();
     if is_hyprctl() {
@@ -1302,6 +1325,7 @@ fn main() -> ExitCode {
     if args.first().is_some_and(|mode| mode == AGENTS) {
         return agents();
     }
+    let args = with_fake_args(fake_args_text(), args);
     let opts = Opts::parse(&args);
     if opts.hold_stdout {
         Receipt::open(opts.receipt.as_deref()).write("hold", json!({"pid": std::process::id()}));

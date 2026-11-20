@@ -2,6 +2,7 @@
 //! R8 strip, where the child's program is looked up, the version gate, and the wheel.
 
 pub(crate) mod agents;
+pub(crate) mod auto_verify;
 pub(crate) mod dialog;
 mod env;
 pub(crate) mod gate;

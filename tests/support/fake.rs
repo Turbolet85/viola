@@ -49,6 +49,14 @@ pub fn claude_bin(scratch: &Path, name: &str, mode: Option<&str>, rows: Option<&
     dir
 }
 
+/// `fake-args` beside a bin dir's `claude`: one argument per line, put ahead of argv by the fake,
+/// so a start's argument-less `viola verify` reaches the stamping flags.
+pub fn write_fake_args(dir: &Path, args: &[&str]) {
+    let mut text = args.join("\n");
+    text.push('\n');
+    fs::write(dir.join("fake-args"), text).expect("the fake args");
+}
+
 /// The `claude` executable inside a bin dir.
 pub fn claude_in(dir: &Path) -> PathBuf {
     dir.join("claude")

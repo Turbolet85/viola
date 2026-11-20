@@ -383,9 +383,57 @@ fn setting_does_not_unbound_the_dialog_hold(stamped_home: StampedHome, #[case] c
     wrapper.stop();
 }
 
+/// No value of `verify_new_cli` but a JSON `true` turns the start's own verify on, and none lifts
+/// the unverified gate: on an unstamped home the start runs no verify, the snapshot reads
+/// `cli_verified: false`, `answer` is refused `unverified-cli` (exit 12), and the document gives one
+/// `parse-rejected{parser:"config-json", detail:"malformed"}` line: the key's own for a value that
+/// is no JSON boolean, the diagnostics-level read's for a `v` of 2, whose key the start never reads.
+/// The key's `true` is `cli_version_gate`'s
+/// `verify_window_run_with_the_key_on_and_no_stamp_verifies_once_and_starts_verified`.
+#[rstest]
+#[case::a_string(r#"{"v":1,"verify_new_cli":"true"}"#)]
+#[case::a_number(r#"{"v":1,"verify_new_cli":1}"#)]
+#[case::null(r#"{"v":1,"verify_new_cli":null}"#)]
+#[case::v_two(r#"{"v":2,"verify_new_cli":true}"#)]
+fn setting_verify_new_cli_does_not_lift_the_unverified_gate(#[case] config: &str) {
+    let home = TestHome::new();
+    support::home::private_dir(home.path(), "the viola home");
+    std::fs::write(home.path().join("config.json"), config).expect("config.json");
+    let fixtures = workspace_path("fixtures/claude");
+    let fixtures = fixtures.to_str().expect("utf-8 path");
+    let wrapper = Wrapper::boot(
+        StampedHome::unstamped(home),
+        "builder",
+        None,
+        &["--fixtures", fixtures],
+    );
+    let lines = support::ndjson::read_lines(
+        &wrapper
+            .home()
+            .join("diagnostics")
+            .join("run-builder.ndjson"),
+    );
+    assert!(
+        !lines.iter().any(|l: &Value| l["subject"] == "auto-verify"),
+        "a start's verify ran"
+    );
+    let rejected: Vec<&Value> = lines
+        .iter()
+        .filter(|l| l["event"] == "parse-rejected")
+        .collect();
+    assert_eq!(rejected.len(), 1, "{rejected:?}");
+    assert_eq!(rejected[0]["parser"], "config-json");
+    assert_eq!(rejected[0]["detail"], "malformed");
+    let snapshot = support::home::snapshot_data(&wrapper.instance_dir()).expect("the snapshot");
+    assert_eq!(snapshot["cli_verified"], false);
+    assert!(!wrapper.home().join("ledger").join("stamps.json").exists());
+    assert_answer_unstamped_control_holds(&wrapper, None);
+    wrapper.stop();
+}
+
 /// Every setting a run can carry, beside the case that tries it against a control. A literal
 /// table: the completeness case below fails on a flag, variable or key it does not name.
-const SETTINGS: [(&str, &str); 8] = [
+const SETTINGS: [(&str, &str); 9] = [
     ("--home", "setting_does_not_disable_the_home_check"),
     (
         "VIOLA_NAME",
@@ -406,6 +454,10 @@ const SETTINGS: [(&str, &str); 8] = [
         "config_key_does_not_disable_the_identity_strip",
     ),
     ("dialog_hold_s", "setting_does_not_unbound_the_dialog_hold"),
+    (
+        "verify_new_cli",
+        "setting_verify_new_cli_does_not_lift_the_unverified_gate",
+    ),
 ];
 
 /// clap's own flags, which carry no setting.
