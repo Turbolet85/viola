@@ -1,0 +1,7 @@
+# Phase 1 site sweep — one pattern per moved fact of the report.
+# readiness: the input-box readiness predicate's modal refusal moved from «any row holds a modal literal» to
+# `standing_modal` (option-shaped, or no input-box row below it); its wording, its verbs and its name tokens.
+[[pattern]]
+id = 'readiness'
+regex = '''modal literal|modal signature|modal label|standing modal|modal (?:is|stands) (?:up|standing)|no modal|input_box_up|standing_modal|option_shaped|box_below|input-box readiness|input box (?:is )?(?:up|ready)'''
+ignore_case = true

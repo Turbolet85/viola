@@ -1,0 +1,1 @@
+/andromeda-wrap-session 2026-11-20-a-quoted-modal-never-blocks-a-send. First read ~/dev/projects/additional/viola-overseer/wrap-modal-directive.md whole: it binds this run. Run the wrap whole in this window; a fork comes to the overseer as a dialog; push and read CI after it.

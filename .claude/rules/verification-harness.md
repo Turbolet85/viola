@@ -10,7 +10,7 @@ paths:
 
 # Verification Harness Rules
 
-Path-scoped rules for the agent-driven harness driver: the `scripts/agent-run.*` shims, `viola-harness`, the rstest fixture chains and the fake agent, and the one standing test-only live rig `viola-live-rig` in viola-e2e (its rehearsals over the fake agent run in CI (the SF arm's unwrapped; its contained rehearsal is a local entry that skips by its printed sandbox probe where the sandbox or the runtime dir cannot serve it); its live starts run by hand under the founder's start cap per chunk, each ledgered with its clock time first; its live arm refuses under CI; it reads the child's screen only into closed words, by compiled literals and the box row's cell attributes, never text, which its rehearsal asserts on, and passes a read trust dialog under its key grant).
+Path-scoped rules for the agent-driven harness driver: the `scripts/agent-run.*` shims, `viola-harness`, the rstest fixture chains and the fake agent, and the one standing test-only live rig `viola-live-rig` in viola-e2e (its rehearsals over the fake agent run in CI (the SF arm's unwrapped; its contained rehearsal is a local entry that skips by its printed sandbox probe where the sandbox or the runtime dir cannot serve it); its live starts run by hand under the founder's start cap per chunk, each ledgered with its clock time first; its live arm refuses under CI; it reads its child's screen only as closed words, by compiled literals, their compiled shapes and box-row cell attributes, never text, which its rehearsal asserts on, and passes a read trust dialog under its key grant).
 
 **Authoritative sources (bound):**
 - `.andromeda/test-plan.md` §3 — the 5-command contract, status shape, log format, session record, test data bootstrap

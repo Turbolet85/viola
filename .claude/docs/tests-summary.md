@@ -47,7 +47,7 @@ The harness is the agent-driven verification surface. `scripts/agent-run.sh` (PO
 ## Universal anti-patterns
 
 - NEVER use `sleep(N)` for synchronization, a retry budget, or `#[ignore]` as a parking place.
-- NEVER parse the rendered child screen; verdicts come from hook events, `events.ndjson`, channel payloads and the fake-agent receipt (the one exception: the test-only live rig reads its child's screen only into closed words, by compiled literals and the box row's cell attributes, never text, which its rehearsal asserts on).
+- NEVER parse the rendered child screen; verdicts come from hook events, `events.ndjson`, channel payloads and the fake-agent receipt (the one exception: the test-only live rig reads its child's screen only as closed words, by compiled literals, their compiled shapes and box-row cell attributes, never text, which its rehearsal asserts on).
 - NEVER run the real `claude`, the real `hyprctl` or real-CLI `viola verify` in CI; NEVER treat a green fake-agent run as proof of real-CLI behaviour.
 - NEVER hand-write stamps or snapshots in a booted-wrapper test (a reader's own unit cases may plant a malformed state file only by altering the writer's own bytes); NEVER use `std::env::set_var`.
 - NEVER write a test that auto-approves a dialog (the one exception: the live rig passes a read trust dialog under its key grant, in its rehearsals and its live starts).

@@ -1,0 +1,93 @@
+[
+{
+"tool": "cascade",
+"v": "1.36",
+"sha8": "664bb4c5",
+"ts": "2026-11-20T10:17:58Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-20T10-16-54Z-wrap/report-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-11-20T10-16-54Z-wrap",
+"--marker",
+"2026-11-20-a-quoted-modal-never-blocks-a-send"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline 103ebc92 (pre-pass — HEAD)",
+"architecture · 7 rows over 1 files · new 0 · standing 7 · 1 pattern",
+"security-plan · 2 rows over 1 files · new 0 · standing 2 · 1 pattern",
+"test-plan · 1 rows over 1 files · new 0 · standing 1 · 1 pattern",
+"a11y-plan · 1 rows over 1 files · new 0 · standing 1 · 1 pattern",
+"by line · 0 lines · 0 offsets",
+"total (1 pattern) · 19 rows over 11 files",
+"per class · new 0/0 · standing 11/4 · leaf 8/7 · curation 0/0 · base 0/0",
+"rows 1/1 · .andromeda/runs/2026-11-20T10-16-54Z-wrap/sweep-pre-pass-1.1.txt · 22 lines · 2613 B"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-20T10-16-54Z-wrap/sweep-pre-pass-1.1.txt"
+],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "103ebc9254e8fbdc397c5b2fe0a852e0571f8c40",
+"how": "pre-pass — HEAD",
+"counts": {
+"readiness": {
+"new": 0,
+"standing": 11,
+"leaf": 8,
+"curation": 0,
+"base": 0
+}
+},
+"bare": [],
+"masters": {
+"architecture": {
+"rows": 7,
+"files": 1,
+"new": 0,
+"standing": 7,
+"patterns": 1
+},
+"security-plan": {
+"rows": 2,
+"files": 1,
+"new": 0,
+"standing": 2,
+"patterns": 1
+},
+"test-plan": {
+"rows": 1,
+"files": 1,
+"new": 0,
+"standing": 1,
+"patterns": 1
+},
+"a11y-plan": {
+"rows": 1,
+"files": 1,
+"new": 0,
+"standing": 1,
+"patterns": 1
+}
+},
+"per_master": {
+"readiness": {
+"architecture": 7,
+"security-plan": 2,
+"test-plan": 1,
+"a11y-plan": 1
+}
+},
+"forms": {},
+"parts": [
+"sweep-pre-pass-1.1.txt"
+]
+}
+}
+]

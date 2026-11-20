@@ -43,7 +43,7 @@ The a11y harness checks cli and tui output discipline with `std::process::Comman
 - NEVER use manual screen-reader / keyboard / contrast passes as the only method — they are supplemental to automated checks.
 - NEVER claim WCAG conformance for the cli or the `viola run` TUI, whether `viola run` or a passed `viola revive` started it.
 - NEVER add a `suite` value (such as `a11y`) or a separate a11y driver outside `scripts/agent-run.* run`.
-- NEVER parse the rendered `claude` TUI beyond its compiled signatures (footer literals, the input box's rule and prompt rows, modal literals), the prompt row only for its opening char and never the text after it, or take screenshots as a11y evidence (R7); except the test-only rig, which reads as closed words, never text: the trust selector's place, the input box as empty, holds-text or absent, modal dialogs, and the box row's cell attributes after a turn end or send or before any send.
+- NEVER parse the rendered `claude` TUI beyond its compiled signatures (footer literals, the input box's rule and prompt rows, modal literals, the compiled shapes over them), the prompt row only for its opening char and never the text after it, or take screenshots as a11y evidence (R7); except the test-only rig, which reads as closed words, never text: the trust selector's place, the input box as empty, holds-text or absent, modal dialogs, and the box row's cell attributes after a turn end or send or before any send.
 - NEVER block, refuse or delay a human keystroke in `viola run`, or in a start a passed `viola revive` made, past the current atomic paste, and never count focus / mouse / resize sequences or terminal replies as editing (P4).
 
 ## Critical decisions

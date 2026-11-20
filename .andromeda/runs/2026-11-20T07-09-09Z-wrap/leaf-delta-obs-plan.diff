@@ -1,6 +1,0 @@
---- a/.andromeda/obs-plan.md
-+++ b/.andromeda/obs-plan.md
-@@ -461,2 +461,3 @@
- decision/verify-sole-stamps-writer · verify is the only stamps writer — verify is the only writer of the capability ledger's stamps file.
-+decision/wheel-typed-mark-uninstrumented · Wheel typed mark and wakes count uninstrumented — The stdin typed mark and the held scheduled-wakes count are in-memory wrapper state that open no span and write no line of their own, and carry no key and no prompt text.
- contract/answer-link-record/failure · wrapper answer handling · failed link record — A link record that fails answers -32603: the answer is not taken, the dialog stays held and no dialog-answered line is written.

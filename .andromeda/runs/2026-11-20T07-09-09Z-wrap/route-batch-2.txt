@@ -1,2 +1,0 @@
-@carry in=chk-5afcnsoh
-WATCH: `stop_presses_ctrl_c_again_when_the_first_is_lost` (viola-e2e harness::supervise) red once in CI ci#44698471269 on a code tree read green in ci#44691332735 — the stopped fake agent's exit code read 1, 0 asserted (supervise.rs:277); cause unread, no re-run fired — .andromeda/runs/2026-11-20T07-09-09Z-wrap/ci-red.md (since 2026-11-19-a-fired-scheduled-wake-keeps-the-wheel; retires: a recurrence, or 3 green runs — 0 so far)
