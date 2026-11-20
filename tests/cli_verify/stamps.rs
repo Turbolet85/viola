@@ -111,7 +111,7 @@ fn verify_a_set_without_stop_fails_its_rows_and_still_stamps(#[from(home)] home:
     let stdout = ran.stdout_text();
     let lines: Vec<&str> = stdout.lines().collect();
     let mut expected = steps_failing(|i| ![0, 2, 3, 5, 6, 22, 23].contains(&i));
-    expected.push("stamped 2.1.0  7 pass  18 fail".to_owned());
+    expected.push("stamped 2.1.0  7 pass  19 fail".to_owned());
     assert_eq!(lines, expected);
     assert!(ran.stderr.is_empty());
     let rows = &stamps(home.path())["data"]["versions"]["2.1.0"]["rows"];

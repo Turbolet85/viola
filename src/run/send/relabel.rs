@@ -254,6 +254,61 @@ mod tests {
         assert_eq!(slot.wheel.human_typing(), Some(None));
     }
 
+    /// A keyless human-filed prompt after a turn end that counted a scheduled wake, on a verified
+    /// CLI, is the wake's fire: appended `harness`, the wheel left with the driver. A key since the
+    /// last human-filed prompt, no wake counted, a null count or an unverified CLI: `human`, as
+    /// typed.
+    #[rstest]
+    #[case::a_fired_wake(false, Some(1), true, "harness", Wheel::Driver)]
+    #[case::a_key_before_it(true, Some(1), true, "human", Wheel::Human)]
+    #[case::no_wake_counted(false, Some(0), true, "human", Wheel::Human)]
+    #[case::a_null_count(false, None, true, "human", Wheel::Human)]
+    #[case::an_unverified_cli(false, Some(1), false, "human", Wheel::Human)]
+    fn send_a_keyless_human_prompt_after_a_counted_wake_is_told_by_the_rule(
+        #[case] typed: bool,
+        #[case] wakes: Option<u64>,
+        #[case] verified: bool,
+        #[case] origin: &str,
+        #[case] holder: Wheel,
+    ) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let slot = SendSlot::new(FixedClock(Instant::now()), verified, Arc::default());
+        let ended = json!({
+            "last_assistant_message": null,
+            "background_tasks": null,
+            "scheduled_wakes": wakes,
+        });
+        append_hook_event(
+            &slot,
+            &feed(),
+            tmp.path(),
+            hook_line(EventKind::TurnEnded, ended),
+            None,
+        )
+        .expect("turn end");
+        if typed {
+            slot.wheel.human_key();
+            assert_eq!(
+                slot.wheel.release(&call(&json!({"v": 1}), 1)),
+                Ok(json!({"ok": {"wheel": "driver"}}))
+            );
+        }
+        append_hook_event(
+            &slot,
+            &feed(),
+            tmp.path(),
+            prompt("Check the build.", "human"),
+            None,
+        )
+        .expect("prompt");
+        assert_eq!(events(tmp.path())[1]["data"]["origin"], origin);
+        assert_eq!(slot.wheel.holder(), holder);
+        assert!(
+            !slot.wheel.take_typed(),
+            "the human-filed prompt took the mark"
+        );
+    }
+
     #[test]
     fn send_no_prompt_while_nothing_is_in_flight_is_appended_unchanged() {
         let tmp = tempfile::tempdir().expect("tempdir");

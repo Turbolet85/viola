@@ -286,3 +286,132 @@ fn tui_ctrl_z_reaches_the_child_and_later_keys_still_do(stamped_home: StampedHom
     });
     wrapper.stop();
 }
+
+/// A wrapper whose fake agent counts one scheduled wake at every turn end (synthetic) and runs the
+/// gated `steps`: a scripted `UserPromptSubmit` is keyless, the stand-in for a fired wake.
+fn boot_waking(stamped: StampedHome, steps: &Value) -> Wrapper {
+    let script = stamped.home.scratch().join("wake.script.json");
+    std::fs::write(&script, json!({"v": 1, "steps": steps}).to_string()).expect("script");
+    boot(
+        stamped,
+        None,
+        &[
+            "--stop-crons",
+            "1",
+            "--script",
+            script.to_str().expect("utf-8 path"),
+        ],
+    )
+}
+
+fn step(event: &str) -> Value {
+    json!({"event": event, "variant": "default", "gate": true})
+}
+
+fn count_kind(lines: &[Value], kind: &str) -> usize {
+    lines.iter().filter(|e| e["kind"] == kind).count()
+}
+
+/// Releases the scripted Stop and waits for its turn end, one wake counted.
+fn end_turn_with_a_wake(wrapper: &Wrapper, dir: &Path, ends: usize) {
+    wrapper.release();
+    let lines = wait_events(dir, "the turn end", |l| count_kind(l, "turn-ended") >= ends);
+    let end = lines
+        .iter()
+        .rfind(|e| e["kind"] == "turn-ended")
+        .expect("a turn end");
+    assert_eq!(end["data"]["scheduled_wakes"], 1, "{end}");
+}
+
+/// Releases the scripted keyless prompt; the `n`th `prompt-submitted` line once it landed.
+fn fire_keyless(wrapper: &Wrapper, dir: &Path, n: usize) -> Value {
+    wrapper.release();
+    let lines = wait_events(dir, "the keyless prompt", |l| {
+        count_kind(l, "prompt-submitted") >= n
+    });
+    lines
+        .iter()
+        .filter(|e| e["kind"] == "prompt-submitted")
+        .nth(n - 1)
+        .cloned()
+        .expect("the prompt")
+}
+
+fn release_json(home: &Path) {
+    let released = viola(home, &["release", "builder", "--json"], Some(""), None);
+    assert_eq!(released.code, Some(0), "stderr: {}", released.stderr);
+    assert_eq!(released.stdout, "{\"v\":1,\"ok\":{\"wheel\":\"driver\"}}\n");
+}
+
+/// Waits for the `n`th `wheel` record and returns them all.
+fn wheel_records_at_least(dir: &Path, n: usize) -> Vec<Value> {
+    wait_events(dir, "the wheel records", |l| count_kind(l, "wheel") >= n);
+    wheel_records(dir)
+}
+
+/// A human key, then `viola release`, then a turn end that counted one scheduled wake, then a
+/// keyless prompt: the key since the last human-filed prompt says a human made it, so it is filed
+/// `human` and takes the wheel again, a release notwithstanding.
+#[rstest]
+fn tui_a_human_key_before_a_fired_wake_takes_the_wheel(stamped_home: StampedHome) {
+    let mut wrapper = boot_waking(
+        stamped_home,
+        &json!([step("Stop"), step("UserPromptSubmit")]),
+    );
+    let home = wrapper.home().to_path_buf();
+    let dir = wrapper.instance_dir();
+    let taken = json!({"holder": "human", "cause": "human-input"});
+    let released = json!({"holder": "driver", "cause": "release"});
+
+    wrapper.send(b"x");
+    wheel_records_at_least(&dir, 2);
+    release_json(&home);
+    end_turn_with_a_wake(&wrapper, &dir, 1);
+    let prompt = fire_keyless(&wrapper, &dir, 1);
+    assert_eq!(prompt["data"]["origin"], "human", "{prompt}");
+    assert_eq!(
+        wheel_records_at_least(&dir, 4),
+        [start_record(), taken.clone(), released, taken]
+    );
+    wrapper.stop();
+}
+
+/// The overseer's false-positive rehearsal: a human byte typed while a turn runs (a message the
+/// CLI queues), the turn ending with one wake counted, then the queued message submitted with no
+/// key after the turn end. The mark survives the turn end, so it reads `human`, the wheel the
+/// human's.
+#[rstest]
+fn tui_a_message_queued_during_a_turn_reads_human_after_that_turn_ends(stamped_home: StampedHome) {
+    queued_message_reads_human(stamped_home, false);
+}
+
+/// The same with a `viola release` between the turn end and the submit: a release clears no mark,
+/// so the queued message still reads `human` and takes the wheel back.
+#[rstest]
+fn tui_a_message_queued_during_a_turn_reads_human_after_that_turn_ends_and_a_release_between(
+    stamped_home: StampedHome,
+) {
+    queued_message_reads_human(stamped_home, true);
+}
+
+fn queued_message_reads_human(stamped: StampedHome, release_between: bool) {
+    let mut wrapper = boot_waking(stamped, &json!([step("Stop"), step("UserPromptSubmit")]));
+    let home = wrapper.home().to_path_buf();
+    let dir = wrapper.instance_dir();
+    let taken = json!({"holder": "human", "cause": "human-input"});
+
+    let sent = send_json(&home);
+    assert_eq!(sent.code, Some(0), "{} {}", sent.stdout, sent.stderr);
+    wrapper.send(b"q");
+    wheel_records_at_least(&dir, 2);
+    end_turn_with_a_wake(&wrapper, &dir, 1);
+    let mut want = vec![start_record(), taken.clone()];
+    if release_between {
+        release_json(&home);
+        want.extend([json!({"holder": "driver", "cause": "release"}), taken]);
+    }
+    let prompt = fire_keyless(&wrapper, &dir, 2);
+    assert_eq!(prompt["data"]["origin"], "human", "{prompt}");
+    assert_eq!(wheel_records_at_least(&dir, want.len()), want);
+    wrapper.stop();
+}

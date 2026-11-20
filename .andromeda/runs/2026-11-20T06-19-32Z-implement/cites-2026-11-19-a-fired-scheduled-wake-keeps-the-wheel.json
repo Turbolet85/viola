@@ -1,0 +1,64 @@
+[
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "1c59b360",
+"ts": "2026-11-20T06:51:57Z",
+"argv": [
+"added",
+"--out",
+".andromeda/runs/2026-11-20T06-19-32Z-implement/new-text.md",
+"--run-dir",
+".andromeda/runs/2026-11-20T06-19-32Z-implement",
+"--marker",
+"2026-11-19-a-fired-scheduled-wake-keeps-the-wheel"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: 33321186 — no pre-CI commit",
+"crates/viola-agent-claude/src/ledger.rs — added 9 line(s) in 6 range(s)",
+"crates/viola-agent-claude/src/ledger/test_cases.rs — added 1 line(s) in 1 range(s)",
+"crates/viola-agent-claude/src/ledger/test_cases_checks.rs — added 29 line(s) in 2 range(s)",
+"crates/viola-agent-claude/src/ledger/test_cases_stamps.rs — added 39 line(s) in 13 range(s)",
+"crates/viola-e2e/src/bin/viola-live-rig.rs — added 11 line(s) in 4 range(s)",
+"crates/viola-e2e/src/harness/run.rs — added 40 line(s) in 6 range(s)",
+"crates/viola-e2e/src/rig/mod.rs — added 144 line(s) in 42 range(s)",
+"crates/viola-e2e/src/rig/wake.rs — added 76 line(s) in 8 range(s)",
+"crates/viola-e2e/tests/rig_rehearsal.rs — added 161 line(s) in 8 range(s)",
+"src/bin/viola-fake-agent.rs — added 96 line(s) in 11 range(s)",
+"src/cmd/verify.rs — added 20 line(s) in 9 range(s)",
+"src/run/send/relabel.rs — added 55 line(s) in 1 range(s)",
+"src/run/send/slot.rs — added 27 line(s) in 5 range(s)",
+"src/run/version_gate.rs — added 11 line(s) in 4 range(s)",
+"src/run/wheel.rs — added 79 line(s) in 7 range(s)",
+"tests/cli_verify.rs — added 41 line(s) in 11 range(s)",
+"tests/cli_verify/runs.rs — added 17 line(s) in 9 range(s)",
+"tests/cli_verify/stamps.rs — added 1 line(s) in 1 range(s)",
+"tests/cli_wheel.rs — added 218 line(s) in 2 range(s)",
+"tests/contract_ledger_probes.rs — added 4 line(s) in 4 range(s)",
+"tests/support/verify.rs — added 4 line(s) in 1 range(s)",
+"tests/tui_wheel.rs — added 129 line(s) in 1 range(s)",
+"new text: 22 file(s) · 0 new · 156 added range(s) · 1212 line(s) · 104 block(s) → .andromeda/runs/2026-11-20T06-19-32Z-implement/new-text.md (156 lines) · written"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-20T06-19-32Z-implement/new-text.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"base": "3332118600f1d07b8459de227f5a2220c2c374f1",
+"counts": {
+"files": 22,
+"new": 0,
+"ranges": 156,
+"lines": 1212,
+"blocks": 104
+},
+"out": ".andromeda/runs/2026-11-20T06-19-32Z-implement/new-text.md",
+"state": "written",
+"lines": 156
+}
+}
+]

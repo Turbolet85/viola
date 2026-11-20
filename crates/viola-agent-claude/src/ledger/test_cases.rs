@@ -92,7 +92,7 @@ fn clean_captures() -> Vec<Capture> {
         ),
         capture(
             HookEvent::Stop,
-            json!({"hook_event_name": "Stop", "last_assistant_message": "ok"}),
+            json!({"hook_event_name": "Stop", "last_assistant_message": "ok", "session_crons": []}),
         ),
         capture(
             HookEvent::SessionEnd,

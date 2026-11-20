@@ -205,9 +205,14 @@ impl SendSlot {
 /// Appends a hook's event through the wait feed, which signals the parked `wait`s. The in-flight send's
 /// own prompt, whatever origin the hook filed, is the driver's: the match keys on the normalised
 /// text, never on the hook's origin, and the waiting send settles only once the relabelled line is
-/// on disk. Any other prompt the hook filed `human` was typed by the human, who then holds the wheel;
-/// a `harness` prompt never moves it. A prompt of any origin starts a turn; `turn-ended`,
-/// `session-start` and `session-end` end it. A `session-start` that is the in-flight send's
+/// on disk. Any other prompt the hook filed `human` was typed by the human, who then holds the wheel,
+/// save one told as a scheduled wake's fire: no human editing byte crossed stdin since the previous
+/// human-filed prompt, the last turn end counted at least one scheduled wake, and the CLI is
+/// verified. That prompt is relabelled `harness` and moves no wheel. Every human-filed prompt clears
+/// the stdin mark; a turn end, a `release` and a driver or harness prompt leave it. A `harness`
+/// prompt never moves the wheel. A prompt of any origin starts a turn; `turn-ended`,
+/// `session-start` and `session-end` end it, a turn end recording its wake count and a session
+/// edge clearing it. A `session-start` that is the in-flight send's
 /// post-condition is claimed and settled the same way, its line appended unchanged. A
 /// `session-start` whose `agent_session_id` is a string has the snapshot record that id before the
 /// line can be read, so whoever reads the line finds the snapshot already written. A
@@ -241,15 +246,26 @@ pub(crate) fn append_hook_event(
         // `release` between the two still clears it.
         match line.kind {
             EventKind::PromptSubmitted => slot.wheel.turn_started(),
-            EventKind::TurnEnded | EventKind::SessionStart | EventKind::SessionEnd => {
+            EventKind::TurnEnded => {
                 slot.wheel.turn_ended();
+                slot.wheel
+                    .count_wakes(line.data["scheduled_wakes"].as_u64());
+            }
+            EventKind::SessionStart | EventKind::SessionEnd => {
+                slot.wheel.turn_ended();
+                slot.wheel.count_wakes(None);
             }
             _ => {}
         }
         // Moved before the line can be read: whoever sees the human's prompt on disk already sees
         // the human's wheel, so a `release` made after it is never undone by it.
         if line.kind == EventKind::PromptSubmitted && line.data["origin"] == "human" {
-            slot.wheel.human_input();
+            let typed = slot.wheel.take_typed();
+            if told_as_wake(typed, slot.wheel.wakes(), slot.cli_verified) {
+                line.data["origin"] = json!("harness");
+            } else {
+                slot.wheel.human_input();
+            }
         }
         claimed
     };
@@ -264,6 +280,12 @@ pub(crate) fn append_hook_event(
         slot.settle(appended.is_ok().then(|| line.ts.clone()));
     }
     appended
+}
+
+/// A keyless human-filed prompt after a turn end that counted a scheduled wake, on a verified CLI,
+/// is the wake's own fire: no human byte produced it.
+fn told_as_wake(typed: bool, wakes: Option<u64>, cli_verified: bool) -> bool {
+    !typed && wakes.is_some_and(|n| n >= 1) && cli_verified
 }
 
 fn close(flight: &mut Option<InFlight>) {

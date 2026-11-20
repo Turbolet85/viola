@@ -1,7 +1,8 @@
 //! The wake arms: one wrapped start that asks its own session for a scheduled wake through
 //! `viola send`, reads `turn-ended`'s `scheduled_wakes` (R3B), or stands until the wake fires and
-//! reads the fired turn's capture line and hook-latency window (R3). Every reading is a closed
-//! word, a count or `unmeasured`; no key is typed.
+//! reads the fired turn's capture line and hook-latency window (R3). Under a seeded kept stamp
+//! (`R3W`) R3 also reads viola's own `wheel` lines past send 1's prompt and makes a second send
+//! after the fired turn. Every reading is a closed word, a count or `unmeasured`; no key is typed.
 
 use std::ffi::OsString;
 use std::path::{Path, PathBuf};
@@ -13,7 +14,7 @@ use serde_json::Value;
 use super::isolate::{Scratch, now_ms};
 use super::{
     Plan, SEND_BOUND, SUBMIT_BOUND, Session, Summary, await_kind, bounded, first_frame, new_lines,
-    procs, record_reading, send_word,
+    procs, record_reading, seeds_stamp, send_word,
 };
 
 /// One wake-arm turn's bound: a short Haiku turn.
@@ -71,6 +72,8 @@ struct Wrapped<'a> {
     offset: u64,
     capture: PathBuf,
     sent: usize,
+    /// The events offset just past send 1's own `prompt-submitted` line, once read.
+    prompt_past: Option<u64>,
 }
 
 impl Wrapped<'_> {
@@ -100,13 +103,16 @@ impl Wrapped<'_> {
             };
         summary.put(&format!("{key}-reply"), reply);
         // The send's own prompt line is passed first, so a later one is never taken for it.
-        let _ = await_kind(
+        let prompt = await_kind(
             &self.events,
             &mut self.offset,
             "prompt-submitted",
             SUBMIT_BOUND,
             session,
         );
+        if self.sent == 1 && prompt.is_some() {
+            self.prompt_past = Some(self.offset);
+        }
         let ended = await_kind(
             &self.events,
             &mut self.offset,
@@ -229,6 +235,7 @@ fn open<'a>(
         offset: 0,
         capture: scratch.root.join("capture.ndjson"),
         sent: 0,
+        prompt_past: None,
     };
     // A transport-only wrapper may forward no hook: the start goes on and records what it read.
     let started = await_kind(
@@ -439,6 +446,40 @@ pub(super) fn arm_r3(
             _ => "unmeasured".to_owned(),
         },
     );
+    if seeds_stamp(&plan.label) {
+        summary.put(
+            "wheel-after-fire",
+            wheel_after_fire(&wrapped.events, wrapped.prompt_past),
+        );
+        if fired && procs::stop_requested().is_none() {
+            session.settle(super::screen::Reading::is_box_up, plan.settle);
+            wrapped.send(PLAIN_TEXT, session, summary);
+        }
+    }
+}
+
+/// viola's own `wheel` lines in the events log past `from` (send 1's prompt): `kept` for none,
+/// `human` when one hands the wheel to the human, `other` for any other, `unread` for no offset or
+/// no log.
+fn wheel_after_fire(events: &Path, from: Option<u64>) -> &'static str {
+    let Some(from) = from else {
+        return "unread";
+    };
+    if !std::fs::symlink_metadata(events).is_ok_and(|m| m.is_file()) {
+        return "unread";
+    }
+    let wheels: Vec<Value> = new_lines(events, from)
+        .into_iter()
+        .map(|(line, _)| line)
+        .filter(|line| line["kind"] == "wheel")
+        .collect();
+    if wheels.is_empty() {
+        "kept"
+    } else if wheels.iter().any(|w| w["data"]["holder"] == "human") {
+        "human"
+    } else {
+        "other"
+    }
 }
 
 /// Both signs seen in one poll: the earlier by their own clocks, the capture on a tie or a missing
@@ -501,6 +542,37 @@ mod tests {
         assert_eq!(wakes_word(None), "null");
         assert!(!wakes_at_least_one(Some(&json!({"scheduled_wakes": 0}))));
         assert!(wakes_at_least_one(Some(&json!({"scheduled_wakes": 2}))));
+    }
+
+    /// The four words over a fed events file, each fed line's literal copied from what was fed.
+    #[test]
+    fn wheel_after_fire_reads_kept_human_other_or_unread() {
+        let dir = tempfile::tempdir().expect("tempdir");
+        let events = dir.path().join("events.ndjson");
+        assert_eq!(wheel_after_fire(&events, Some(0)), "unread", "no log");
+        let prompt = "{\"kind\":\"prompt-submitted\",\"data\":{\"origin\":\"driver\"}}\n";
+        let start = "{\"kind\":\"wheel\",\"data\":{\"holder\":\"driver\",\"cause\":\"start\"}}\n";
+        std::fs::write(&events, format!("{start}{prompt}")).expect("events");
+        let past = u64::try_from(start.len() + prompt.len()).expect("len");
+        assert_eq!(wheel_after_fire(&events, None), "unread", "no offset");
+        assert_eq!(wheel_after_fire(&events, Some(past)), "kept");
+        let fired = "{\"kind\":\"prompt-submitted\",\"data\":{\"origin\":\"harness\"}}\n";
+        let ended = "{\"kind\":\"turn-ended\",\"data\":{\"scheduled_wakes\":1}}\n";
+        std::fs::write(&events, format!("{start}{prompt}{fired}{ended}")).expect("events");
+        assert_eq!(
+            wheel_after_fire(&events, Some(past)),
+            "kept",
+            "no wheel line"
+        );
+        assert_eq!(
+            wheel_after_fire(&events, Some(0)),
+            "other",
+            "the start record"
+        );
+        let taken =
+            "{\"kind\":\"wheel\",\"data\":{\"holder\":\"human\",\"cause\":\"human-input\"}}\n";
+        std::fs::write(&events, format!("{start}{prompt}{taken}{fired}")).expect("events");
+        assert_eq!(wheel_after_fire(&events, Some(past)), "human");
     }
 
     #[test]

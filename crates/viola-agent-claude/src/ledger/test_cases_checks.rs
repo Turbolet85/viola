@@ -107,7 +107,7 @@ fn check_typed_rows_fail_without_a_measurement() {
         eight,
         [
             true, true, true, true, true, true, false, false, false, false, true, true, true, true,
-            true, true, true, true, true, true, false, false, false, true, false
+            true, true, true, true, true, true, false, false, false, true, false, true
         ]
     );
 }
@@ -713,4 +713,32 @@ fn trust_record_fails_when_run_f_opens_on_the_browser_tools_prompt() {
         ..clean_typed()
     };
     assert!(!typed_check(LedgerRow::TrustRecord, typed));
+}
+
+/// The 26th row reads the first Stop capture's `session_crons` as an array, empty included; no
+/// element is read.
+#[test]
+fn checks_stop_session_crons_with_an_array_passes() {
+    for crons in [json!([]), json!([{"id": 1}])] {
+        let mut run = clean_run();
+        run.captures[2] = capture(HookEvent::Stop, json!({"session_crons": crons}));
+        assert!(check(LedgerRow::StopSessionCrons, &probes(&run)), "{crons}");
+    }
+}
+
+#[rstest]
+#[case::absent(json!({"last_assistant_message": "ok"}))]
+#[case::null(json!({"session_crons": null}))]
+#[case::a_string(json!({"session_crons": "[]"}))]
+#[case::an_object(json!({"session_crons": {}}))]
+fn checks_stop_session_crons_without_an_array_fails(#[case] payload: Value) {
+    let mut run = clean_run();
+    run.captures[2] = capture(HookEvent::Stop, payload);
+    assert!(!check(LedgerRow::StopSessionCrons, &probes(&run)));
+    assert_eq!(
+        row_word(LedgerRow::StopSessionCrons, false, &clean_typed()),
+        "fail"
+    );
+    run.captures.remove(2);
+    assert!(!check(LedgerRow::StopSessionCrons, &probes(&run)));
 }

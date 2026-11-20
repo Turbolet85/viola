@@ -1,0 +1,118 @@
+[
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T06:51:43Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"scope-record",
+"--owner",
+"chk:2026-11-19-a-fired-scheduled-wake-keeps-the-wheel",
+"--file",
+".andromeda/cache/docs/2026-11-19-a-fired-scheduled-wake-keeps-the-wheel/scope-record.md",
+"--run-dir",
+".andromeda/runs/2026-11-20T06-19-32Z-implement",
+"--marker",
+"2026-11-19-a-fired-scheduled-wake-keeps-the-wheel"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-19-a-fired-scheduled-wake-keeps-the-wheel/scope-record rev 1 · 1 new · 0 revised · 0 retired · 0 kept · tx 3255"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T22-49-08-2026-11-19-a-fired-scheduled-wake-keeps-the-wheel.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T06:53:38Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-19-a-fired-scheduled-wake-keeps-the-wheel",
+"--file",
+".andromeda/cache/docs/2026-11-19-a-fired-scheduled-wake-keeps-the-wheel/report.md",
+"--run-dir",
+".andromeda/runs/2026-11-20T06-19-32Z-implement",
+"--marker",
+"2026-11-19-a-fired-scheduled-wake-keeps-the-wheel"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-19-a-fired-scheduled-wake-keeps-the-wheel/report rev 1 · 34 new · 0 revised · 0 retired · 0 kept · tx 3256"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T22-49-08-2026-11-19-a-fired-scheduled-wake-keeps-the-wheel.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T06:54:07Z",
+"argv": [
+"land",
+"--root",
+".",
+"--chunk",
+"2026-11-19-a-fired-scheduled-wake-keeps-the-wheel",
+"--run-dir",
+".andromeda/runs/2026-11-20T06-19-32Z-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-19-a-fired-scheduled-wake-keeps-the-wheel · 7 new · 0 changed · 0 gone · 7 kept · tx 3258"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T22-49-08-2026-11-19-a-fired-scheduled-wake-keeps-the-wheel.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T06:56:03Z",
+"argv": [
+"land",
+"--root",
+".",
+"--chunk",
+"2026-11-19-a-fired-scheduled-wake-keeps-the-wheel",
+"--run-dir",
+".andromeda/runs/2026-11-20T06-19-32Z-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-19-a-fired-scheduled-wake-keeps-the-wheel · 1 new · 0 changed · 0 gone · 14 kept · tx 3259"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T22-49-08-2026-11-19-a-fired-scheduled-wake-keeps-the-wheel.ndjson"
+],
+"before": null,
+"after": null
+}
+]

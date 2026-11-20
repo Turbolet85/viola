@@ -32,7 +32,10 @@ pub fn spine_payload(event: &str) -> Value {
     match event {
         "SessionStart" => body["source"] = json!("startup"),
         "UserPromptSubmit" => body["prompt"] = json!("replaced by the fake agent"),
-        "Stop" => body["last_assistant_message"] = json!("ok"),
+        "Stop" => {
+            body["last_assistant_message"] = json!("ok");
+            body["session_crons"] = json!([]);
+        }
         _ => {}
     }
     body

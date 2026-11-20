@@ -905,7 +905,7 @@ fn rig_rehearsal_v_reads_the_trust_record_row_and_no_record_left() {
     );
     assert_eq!(
         word(&out, "pass-count").as_deref(),
-        Some("25/25"),
+        Some("26/26"),
         "{summary}"
     );
     assert_eq!(word(&out, "record-left").as_deref(), Some("absent"));
@@ -919,7 +919,7 @@ fn rig_rehearsal_v_reads_the_trust_record_row_and_no_record_left() {
         Some("written"),
         "{summary}"
     );
-    assert_eq!(word(&out, "rows").as_deref(), Some("25"), "{summary}");
+    assert_eq!(word(&out, "rows").as_deref(), Some("26"), "{summary}");
     assert_eq!(
         word(&out, "browser-tools-prompt").as_deref(),
         Some("absent"),
@@ -1073,7 +1073,7 @@ fn rig_rehearsal_vh_verifies_the_given_home_and_reads_names_only() {
         ("arm", "vh"),
         ("token-window", "not-read"),
         ("keys", "none"),
-        ("rows", "25"),
+        ("rows", "26"),
         ("cwd-verify-after", "0"),
         ("user-config", "names-only"),
         ("credentials", "none"),
@@ -1211,7 +1211,7 @@ fn rig_rehearsal_cs_keeps_the_stamp_and_reads_the_config_top_level() {
     );
     assert_eq!(
         word(&out, "pass-count").as_deref(),
-        Some("25/25"),
+        Some("26/26"),
         "{summary}"
     );
     assert_eq!(word(&out, "failing").as_deref(), Some("none"), "{summary}");
@@ -1322,6 +1322,160 @@ fn rig_rehearsal_cc_without_a_kept_stamp_refuses_before_its_ledger_line() {
             true,
             &["--local-command-mode", "--transcript", "--turn-stop"],
         ),
+    ));
+    assert_eq!(out.status.code(), Some(3), "{}", stdout(&out));
+    assert_eq!(stdout(&out).trim(), "refused: stamp");
+    assert!(!case.ledger().exists(), "no ledger line");
+    assert!(case.scratch_empty(), "no scratch made");
+}
+
+/// The kept stamp a `ws` start writes under the case's out dir.
+fn wake_stamp(case: &Case) -> PathBuf {
+    case.out().join("wake-stamp.json")
+}
+
+/// `ws` over the fake agent: `viola verify` stamps all 26 relied rows, `stop-session-crons` among
+/// them, and the stamp is kept byte for byte as `wake-stamp.json`; a second `ws` into the same out
+/// dir reads `exists` and leaves the kept stamp unchanged.
+#[test]
+fn rig_rehearsal_ws_keeps_the_wake_stamp_at_26_rows() {
+    let case = Case::new();
+    let viola = viola().display().to_string();
+    let out = run(case.rig("ws", &["--viola", viola.as_str()], &cs_child(&case)));
+    let summary = stdout(&out);
+    assert_eq!(out.status.code(), Some(0), "{summary}");
+    for (key, want) in [
+        ("arm", "v"),
+        ("verify-exit", "0"),
+        ("pass-count", "26/26"),
+        ("stop-session-crons", "pass"),
+        ("failing", "none"),
+        ("kept-stamp", "written"),
+        ("keys", "none"),
+    ] {
+        assert_eq!(word(&out, key).as_deref(), Some(want), "{key}: {summary}");
+    }
+    assert!(!kept_stamp(&case).exists(), "the context stamp untouched");
+    assert_torn_down(&out, &case);
+    let first = fs::read(wake_stamp(&case)).expect("the kept wake stamp");
+
+    let again = run(case.rig("ws", &["--viola", viola.as_str()], &cs_child(&case)));
+    let summary = stdout(&again);
+    assert_eq!(
+        word(&again, "kept-stamp").as_deref(),
+        Some("exists"),
+        "{summary}"
+    );
+    assert_eq!(
+        content_key(&fs::read(wake_stamp(&case)).expect("the kept wake stamp")),
+        content_key(&first),
+        "the first kept stamp unchanged"
+    );
+    assert_torn_down(&again, &case);
+}
+
+/// `hb` over the fake agent under the box grant: unwrapped, its first frame's box up, the fresh
+/// box's hint cells read, then one `x` and one DEL and no send at all.
+#[test]
+fn rig_rehearsal_hb_reads_the_fresh_box_then_x_and_del_with_no_send() {
+    let case = Case::new();
+    let out = run(case.rig("hb", &["--grant", "box"], &case.child(true, &[])));
+    let summary = stdout(&out);
+    assert_eq!(out.status.code(), Some(0), "{summary}");
+    assert_eq!(word(&out, "arm").as_deref(), Some("hb"), "{summary}");
+    assert_eq!(word(&out, "box").as_deref(), Some("up"), "{summary}");
+    assert_eq!(word(&out, "modal").as_deref(), Some("none"), "{summary}");
+    assert_eq!(
+        word(&out, "keys").as_deref(),
+        Some("x 1, del 1"),
+        "{summary}"
+    );
+    for key in [
+        "hint-cells",
+        "hint-cells-attr",
+        "typed-attr",
+        "hint-told-apart",
+    ] {
+        assert!(word(&out, key).is_some(), "{key}: {summary}");
+    }
+    assert!(
+        !summary.lines().any(|l| l.starts_with("send-")),
+        "no send: {summary}"
+    );
+    assert_eq!(case.keys(), ["78", "7f"]);
+    assert!(
+        case.receipt_lines().iter().all(|l| l["kind"] != "prompt"),
+        "no prompt submitted"
+    );
+    assert_torn_down(&out, &case);
+}
+
+/// `ws` then `r3w` over the fake agent in one out dir: `r3w` seeds the kept wake stamp, its send 1
+/// asks for the interval wake, the fake counts one scheduled wake at the turn's end and fires a
+/// keyless prompt a second later (its stand-in for the CLI's fire); viola files it `harness`, no
+/// `wheel` line follows send 1's prompt, and send 2 after the fired turn is confirmed.
+#[test]
+fn rig_rehearsal_r3w_reads_the_wheel_kept_after_a_fired_wake() {
+    let case = Case::new();
+    let viola = viola().display().to_string();
+    let stamped = run(case.rig("ws", &["--viola", viola.as_str()], &cs_child(&case)));
+    assert_eq!(
+        word(&stamped, "kept-stamp").as_deref(),
+        Some("written"),
+        "{}",
+        stdout(&stamped)
+    );
+    let child = case.child(
+        true,
+        &[
+            "--turn-stop",
+            "--stop-crons",
+            "1",
+            "--wake-after-ms",
+            "1000",
+        ],
+    );
+    let cmd = case.rig("r3w", &["--viola", viola.as_str(), "--stand", "6"], &child);
+    let out = run(with_option(&cmd, "--settle", "6"));
+    let summary = stdout(&out);
+    assert_eq!(out.status.code(), Some(0), "{summary}");
+    for (key, want) in [
+        ("arm", "r3"),
+        ("stamp-seeded", "yes"),
+        ("session-start", "seen"),
+        ("send-1-reply", "ok"),
+        ("send-1-wakes", "1"),
+        ("wake", "fired"),
+        ("wake-origin", "harness"),
+        ("wheel-after-fire", "kept"),
+        ("send-2-reply", "ok"),
+        ("keys", "none"),
+    ] {
+        assert_eq!(word(&out, key).as_deref(), Some(want), "{key}: {summary}");
+    }
+    assert_torn_down(&out, &case);
+}
+
+/// `r3w` with no kept wake stamp in its out dir refuses before its ledger line: uncounted, no
+/// scratch.
+#[test]
+fn rig_rehearsal_r3w_without_a_kept_stamp_refuses_before_its_ledger_line() {
+    let case = Case::new();
+    let viola = viola().display().to_string();
+    let ledger = case.ledger().display().to_string();
+    let out = run(case.rig(
+        "r3w",
+        &[
+            "--viola",
+            viola.as_str(),
+            "--ledger",
+            ledger.as_str(),
+            "--cap",
+            "3",
+            "--spare",
+            "1",
+        ],
+        &case.child(true, &["--turn-stop", "--stop-crons", "1"]),
     ));
     assert_eq!(out.status.code(), Some(3), "{}", stdout(&out));
     assert_eq!(stdout(&out).trim(), "refused: stamp");
@@ -1684,7 +1838,7 @@ fn rig_rehearsal_vp_reads_the_browser_tools_prompt_and_types_nothing() {
         Some("pass"),
         "{summary}"
     );
-    assert_eq!(word(&out, "rows").as_deref(), Some("25"), "{summary}");
+    assert_eq!(word(&out, "rows").as_deref(), Some("26"), "{summary}");
     assert_eq!(
         word(&out, "screen-a").as_deref(),
         Some("trust"),
@@ -1737,10 +1891,10 @@ fn rig_rehearsal_vk_reads_24_rows_with_the_browser_tools_row_absent() {
     assert_eq!(out.status.code(), Some(0), "{summary}");
     assert_eq!(word(&out, "arm").as_deref(), Some("vk"), "{summary}");
     assert_eq!(word(&out, "verify-exit").as_deref(), Some("0"), "{summary}");
-    assert_eq!(word(&out, "rows").as_deref(), Some("25"), "{summary}");
+    assert_eq!(word(&out, "rows").as_deref(), Some("26"), "{summary}");
     assert_eq!(
         word(&out, "pass-count").as_deref(),
-        Some("25/25"),
+        Some("26/26"),
         "{summary}"
     );
     assert_eq!(word(&out, "failing").as_deref(), Some("none"), "{summary}");

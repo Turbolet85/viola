@@ -198,9 +198,9 @@ fn verify_help_names_the_trusted_folder_and_the_external_import_blocker() {
 }
 
 /// Without `--screens` the fake agent shows nothing: each of the six interactive runs waits out the
-/// gate's 8.5 s maximum, and the twelve rows the first four measure fail while the six print-mode
-/// rows pass; the resume row passes on Run E's SessionStart, captured before its wait; the agents
-/// row fails, as Run B's turn never settles on a literal and no read is made, and so do the compact
+/// gate's 8.5 s maximum, and the twelve rows the first four measure fail while the print-mode
+/// rows pass, the session-crons row among them; the resume row passes on Run E's SessionStart,
+/// captured before its wait; the agents row fails, as Run B's turn never settles on a literal and no read is made, and so do the compact
 /// and echo rows, as no framing paste is made, and the trust-record row, as Run A showed no modal
 /// and Run F no input box. Each run's first screen reads `none` on a live child that drew nothing
 /// (no byte, no row, no box literal), settled at or past the 8.5 s maximum. Five such waits make the
@@ -212,14 +212,20 @@ fn verify_window_without_screens_fails_every_interactive_row(#[from(home)] home:
     assert_eq!(ran.code, Some(1));
     let stdout = ran.stdout_text();
     let lines: Vec<&str> = stdout.lines().collect();
-    let mut expected = steps_failing(|i| i >= 6 && ROW_IDS[i] != "resume-session");
-    expected.push("stamped 2.1.0  7 pass  18 fail".to_owned());
+    let mut expected = steps_failing(|i| {
+        i >= 6 && ROW_IDS[i] != "resume-session" && ROW_IDS[i] != "stop-session-crons"
+    });
+    expected.push("stamped 2.1.0  8 pass  18 fail".to_owned());
     assert_eq!(lines, expected);
     let rows = &stamps(home.path())["data"]["versions"]["2.1.0"]["rows"];
-    for id in ROW_IDS[6..].iter().filter(|id| **id != "resume-session") {
+    for id in ROW_IDS[6..]
+        .iter()
+        .filter(|id| **id != "resume-session" && **id != "stop-session-crons")
+    {
         assert_eq!(rows[*id], "fail", "{id}");
     }
     assert_eq!(rows["resume-session"], "pass");
+    assert_eq!(rows["stop-session-crons"], "pass");
     assert_eq!(probes_left(home.path()), 0);
     let measured = &stamps(home.path())["data"]["versions"]["2.1.0"]["measured"];
     for run in RUNS {
@@ -361,7 +367,7 @@ fn verify_without_the_dialog_replay_fails_the_four_dialog_rows(#[from(home)] hom
     assert_eq!(ran.code, Some(1));
     assert!(ran.stderr.is_empty(), "stderr {}", ran.stderr_text());
     let mut expected = steps_failing(|i| (10..14).contains(&i));
-    expected.push("stamped 2.1.0  21 pass  4 fail".to_owned());
+    expected.push("stamped 2.1.0  22 pass  4 fail".to_owned());
     let stdout = ran.stdout_text();
     assert_eq!(stdout.lines().collect::<Vec<_>>(), expected);
     assert_plain(&ran.stdout);
@@ -403,7 +409,7 @@ fn verify_without_framing_fails_the_clear_and_compact_rows(#[from(home)] home: T
             || id == "local-command-context"
     };
     let mut expected = steps_failing(|i| local(ROW_IDS[i]));
-    expected.push("stamped 2.1.0  21 pass  4 fail".to_owned());
+    expected.push("stamped 2.1.0  22 pass  4 fail".to_owned());
     let stdout = ran.stdout_text();
     assert_eq!(stdout.lines().collect::<Vec<_>>(), expected);
     assert_plain(&ran.stdout);
@@ -484,7 +490,7 @@ fn verify_pastes_no_local_command_once_the_tag_turn_screen_shows_a_modal(
     ];
     let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &after, &[]);
     assert_eq!(ran.code, Some(1), "stdout {}", ran.stdout_text());
-    let summary = "stamped 2.1.0  20 pass  5 fail\n";
+    let summary = "stamped 2.1.0  21 pass  5 fail\n";
     assert!(
         ran.stdout_text().ends_with(summary),
         "stdout {}",
@@ -536,7 +542,7 @@ fn verify_reads_the_browser_tools_prompt_as_a_modal_and_pastes_nothing(
     ];
     let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &after, &[]);
     assert_eq!(ran.code, Some(1), "stdout {}", ran.stdout_text());
-    let summary = "stamped 2.1.0  9 pass  16 fail\n";
+    let summary = "stamped 2.1.0  10 pass  16 fail\n";
     assert!(
         ran.stdout_text().ends_with(summary),
         "stdout {}",
@@ -592,7 +598,7 @@ fn verify_pastes_nothing_more_once_the_long_turn_screen_shows_a_modal(
         "local-command-context",
     ];
     let mut expected = steps_failing(|i| red.contains(&ROW_IDS[i]));
-    expected.push("stamped 2.1.0  18 pass  7 fail".to_owned());
+    expected.push("stamped 2.1.0  19 pass  7 fail".to_owned());
     let stdout = ran.stdout_text();
     assert_eq!(
         stdout.lines().collect::<Vec<_>>(),

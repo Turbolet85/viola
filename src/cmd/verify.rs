@@ -727,7 +727,7 @@ mod tests {
         );
     }
 
-    /// The counter's total is the relied count: twenty-five rows.
+    /// The counter's total is the relied count: twenty-six rows.
     #[test]
     fn step_lines_count_to_the_relied_total() {
         let probes = Probes {
@@ -742,34 +742,38 @@ mod tests {
             agents: None,
         };
         let results = check_rows(&probes);
-        assert_eq!(results.len(), 25);
+        assert_eq!(results.len(), 26);
         assert_eq!(
-            step_line(19, 25, LedgerRow::ResumeSession, "fail"),
-            "[19/25] resume-session --resume <id> reopens the session under that id  fail"
+            step_line(19, 26, LedgerRow::ResumeSession, "fail"),
+            "[19/26] resume-session --resume <id> reopens the session under that id  fail"
         );
         assert_eq!(
-            step_line(20, 25, LedgerRow::AgentsJoin, "fail"),
-            "[20/25] agents-join claude agents --json names the live session by pid and session id  fail"
+            step_line(20, 26, LedgerRow::AgentsJoin, "fail"),
+            "[20/26] agents-join claude agents --json names the live session by pid and session id  fail"
         );
         assert_eq!(
-            step_line(21, 25, LedgerRow::LocalCommandCompact, "fail"),
-            "[21/25] local-command-compact /compact keeps the session id and submits no prompt  fail"
+            step_line(21, 26, LedgerRow::LocalCommandCompact, "fail"),
+            "[21/26] local-command-compact /compact keeps the session id and submits no prompt  fail"
         );
         assert_eq!(
-            step_line(22, 25, LedgerRow::LocalCommandEcho, "fail"),
-            "[22/25] local-command-echo /mcp writes its stdout tag to the transcript and submits no prompt  fail"
+            step_line(22, 26, LedgerRow::LocalCommandEcho, "fail"),
+            "[22/26] local-command-echo /mcp writes its stdout tag to the transcript and submits no prompt  fail"
         );
         assert_eq!(
-            step_line(23, 25, LedgerRow::TrustRecord, "pass"),
-            "[23/25] trust-record a trust record written for an untrusted folder opens it with no modal  pass"
+            step_line(23, 26, LedgerRow::TrustRecord, "pass"),
+            "[23/26] trust-record a trust record written for an untrusted folder opens it with no modal  pass"
         );
         assert_eq!(
-            step_line(24, 25, LedgerRow::BrowserToolsPrompt, "absent"),
-            "[24/25] browser-tools-prompt an interactive start's browser-tools prompt reads as a modal, nothing typed  absent"
+            step_line(24, 26, LedgerRow::BrowserToolsPrompt, "absent"),
+            "[24/26] browser-tools-prompt an interactive start's browser-tools prompt reads as a modal, nothing typed  absent"
         );
         assert_eq!(
-            step_line(25, 25, LedgerRow::LocalCommandContext, "pass"),
-            "[25/25] local-command-context /context writes its stdout tag to the transcript and submits no prompt  pass"
+            step_line(25, 26, LedgerRow::LocalCommandContext, "pass"),
+            "[25/26] local-command-context /context writes its stdout tag to the transcript and submits no prompt  pass"
+        );
+        assert_eq!(
+            step_line(26, 26, LedgerRow::StopSessionCrons, "fail"),
+            "[26/26] stop-session-crons Stop carries session_crons as an array  fail"
         );
         assert_eq!(step_word("absent"), "absent");
         assert_eq!(step_word("pass"), "pass");

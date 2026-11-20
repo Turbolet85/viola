@@ -72,8 +72,8 @@ const STDOUT_TAG: &[u8] = b"<local-command-stdout>";
 const PROBE_NEEDLE: &str = "viola-probe-absent";
 /// The relied rows of verify's floor: every relied row but `trust-record`, `browser-tools-prompt`,
 /// `local-command-echo` and `local-command-context`, the last two needing a readable transcript a
-/// floor read does not assume.
-const FLOOR_ROWS: [&str; 21] = [
+/// floor read does not assume; `stop-session-crons` reads the same Stop capture `stop-message` does.
+const FLOOR_ROWS: [&str; 22] = [
     "shim-resolution",
     "spine-hooks",
     "session-start-fields",
@@ -95,6 +95,7 @@ const FLOOR_ROWS: [&str; 21] = [
     "resume-session",
     "agents-join",
     "local-command-compact",
+    "stop-session-crons",
 ];
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -142,6 +143,8 @@ pub enum Arm {
     /// `--contain`), one send of a compiled prompt: the StopFailure turn end, its cause and the
     /// rig's capture read, then the box row's cell attributes around one `x` and one DEL.
     SF,
+    /// Unwrapped, no send: the fresh box's drawn hint cells read, then one `x` and one DEL.
+    HB,
 }
 
 impl Arm {
@@ -164,6 +167,7 @@ impl Arm {
             "vh" => Some(Self::VH),
             "cx" => Some(Self::CX),
             "sf" => Some(Self::SF),
+            "hb" => Some(Self::HB),
             _ => None,
         }
     }
@@ -175,15 +179,16 @@ impl Arm {
     /// MCP re-record `R4M` alone, the real-home verify `L1` with its spare `L1-2`, the
     /// `/context` reading `L2` alone, the contained StopFailure reading `SF` with its spare
     /// `SF-2`, the context stamp `CS` with its spare `CS-2` and the context send `CC` with its
-    /// spare `CC-2`.
+    /// spare `CC-2`, the wake stamp `WS` alone, the fresh-box hint reading `HB` with its spare
+    /// `HB-2` and the fired wake under the kept stamp `R3W` with its spare `R3W-2`.
     pub fn of_label(label: &str) -> Option<Self> {
         match label {
             "R1" | "R1-2" => Some(Self::R1),
             "R2" | "R2-2" => Some(Self::R2),
             "R3B" | "R3B-2" => Some(Self::R3B),
-            "R3" | "R3-2" | "R3-326" | "R3D" => Some(Self::R3),
+            "R3" | "R3-2" | "R3-326" | "R3D" | "R3W" | "R3W-2" => Some(Self::R3),
             "IM" | "IM-2" => Some(Self::IM),
-            "S0" | "S0-2" | "S0R" | "S0R-2" | "S0R-3" | "S0B" | "S0B-2" | "CS" | "CS-2" => {
+            "S0" | "S0-2" | "S0R" | "S0R-2" | "S0R-3" | "S0B" | "S0B-2" | "CS" | "CS-2" | "WS" => {
                 Some(Self::V)
             }
             "S0C" => Some(Self::VC),
@@ -196,6 +201,7 @@ impl Arm {
             "L1" | "L1-2" => Some(Self::VH),
             "L2" | "CC" | "CC-2" => Some(Self::CX),
             "SF" | "SF-2" => Some(Self::SF),
+            "HB" | "HB-2" => Some(Self::HB),
             _ => None,
         }
     }
@@ -235,6 +241,7 @@ impl Arm {
             Self::VH => "vh",
             Self::CX => "cx",
             Self::SF => "sf",
+            Self::HB => "hb",
         }
     }
 
@@ -245,7 +252,11 @@ impl Arm {
 
     /// Whether the private config takes the used-config markers and the browser-tools key.
     fn marker_seed(self) -> bool {
-        self.verifies() || matches!(self, Self::VC | Self::TS | Self::TC | Self::CX | Self::SF)
+        self.verifies()
+            || matches!(
+                self,
+                Self::VC | Self::TS | Self::TC | Self::CX | Self::SF | Self::HB
+            )
     }
 
     /// Whether the private config takes another folder's sentinel entry.
@@ -271,7 +282,8 @@ impl Arm {
             | Self::TC
             | Self::VR
             | Self::MT
-            | Self::VH => None,
+            | Self::VH
+            | Self::HB => None,
         }
     }
 
@@ -291,6 +303,7 @@ impl Arm {
                 | Self::VR
                 | Self::CX
                 | Self::SF
+                | Self::HB
         )
     }
 
@@ -307,30 +320,59 @@ impl Arm {
     }
 }
 
-/// The context round's two shapes, by label: `CS` keeps its stamp and reads its config's top
-/// level, `CC` seeds that kept stamp and sends a prompt, then `/context`, then reads the hint.
+/// The kept-stamp shape, by label, with the file under the out dir it carries: `CS` and `WS` keep
+/// their verify's stamp (`CS` also reads its config's top level); `CC` seeds `CS`'s kept stamp and
+/// sends a prompt, then `/context`, then reads the hint; `R3W` seeds `WS`'s and reads its fired
+/// wake.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-enum ContextShape {
-    Stamp,
-    Send,
+enum StampShape {
+    Keep(&'static str),
+    Seed(&'static str),
 }
 
-impl ContextShape {
-    /// The shape a label takes: the live labels and their spares, and the two rehearsal labels.
+impl StampShape {
+    /// The shape a label takes: the live labels and their spares, and the rehearsal labels.
     fn of(label: &str) -> Option<Self> {
         match label {
-            "CS" | "CS-2" | REHEARSE_CS => Some(Self::Stamp),
-            "CC" | "CC-2" | REHEARSE_CC => Some(Self::Send),
+            "CS" | "CS-2" | REHEARSE_CS => Some(Self::Keep(CONTEXT_STAMP)),
+            "CC" | "CC-2" | REHEARSE_CC => Some(Self::Seed(CONTEXT_STAMP)),
+            "WS" | REHEARSE_WS => Some(Self::Keep(WAKE_STAMP)),
+            "R3W" | "R3W-2" | REHEARSE_R3W => Some(Self::Seed(WAKE_STAMP)),
+            _ => None,
+        }
+    }
+
+    /// The file a label's start keeps its stamp in.
+    fn keeps(label: &str) -> Option<&'static str> {
+        match Self::of(label) {
+            Some(Self::Keep(file)) => Some(file),
+            _ => None,
+        }
+    }
+
+    /// The file a label's start seeds its viola home's stamp from.
+    fn seeds(label: &str) -> Option<&'static str> {
+        match Self::of(label) {
+            Some(Self::Seed(file)) => Some(file),
             _ => None,
         }
     }
 }
 
-/// The labels a `cs` and a `cc` rehearsal take.
+/// Whether a label's start seeds a kept stamp: `CC` and `R3W`.
+pub(super) fn seeds_stamp(label: &str) -> bool {
+    StampShape::seeds(label).is_some()
+}
+
+/// The labels a `cs`, `cc`, `ws` and `r3w` rehearsal take.
 pub const REHEARSE_CS: &str = "rehearse-CS";
 pub const REHEARSE_CC: &str = "rehearse-CC";
+pub const REHEARSE_WS: &str = "rehearse-WS";
+pub const REHEARSE_R3W: &str = "rehearse-R3W";
 /// The file `CS` keeps its stamp in, under the out dir, and `CC` seeds from.
 const CONTEXT_STAMP: &str = "context-stamp.json";
+/// The file `WS` keeps its stamp in, under the out dir, and `R3W` seeds from.
+const WAKE_STAMP: &str = "wake-stamp.json";
 
 /// One start, as the entry parsed it.
 #[derive(Debug, Clone)]
@@ -410,8 +452,8 @@ pub fn start(plan: &Plan) -> u8 {
     if plan.live && std::env::var_os("CI").is_some() {
         return refused("ci");
     }
-    if ContextShape::of(&plan.label) == Some(ContextShape::Send)
-        && !fs::symlink_metadata(plan.out.join(CONTEXT_STAMP)).is_ok_and(|m| m.is_file())
+    if let Some(file) = StampShape::seeds(&plan.label)
+        && !fs::symlink_metadata(plan.out.join(file)).is_ok_and(|m| m.is_file())
     {
         return refused("stamp");
     }
@@ -574,7 +616,8 @@ pub fn start(plan: &Plan) -> u8 {
             | Arm::VR
             | Arm::MT
             | Arm::VH
-            | Arm::CX => true,
+            | Arm::CX
+            | Arm::HB => true,
         };
     if !placed {
         summary.put("refused", "credentials");
@@ -599,8 +642,8 @@ pub fn start(plan: &Plan) -> u8 {
         // in the private config, by its key name alone.
         summary.put("cache-a", scratch.cache_word());
     }
-    if ContextShape::of(&plan.label) == Some(ContextShape::Stamp) {
-        summary.put("kept-stamp", keep_stamp(&scratch, &plan.out));
+    if let Some(file) = StampShape::keeps(&plan.label) {
+        summary.put("kept-stamp", keep_stamp(&scratch, &plan.out, file));
         summary.put("config-top", config_top(&scratch.config));
     }
     if plan.arm.verifies() || plan.arm == Arm::TS {
@@ -994,8 +1037,8 @@ fn run_child(
         }
         _ => (plan.program.clone(), child_args),
     };
-    if ContextShape::of(&plan.label) == Some(ContextShape::Send) {
-        let word = seed_stamp(&plan.out, scratch.vhome.as_deref());
+    if let Some(file) = StampShape::seeds(&plan.label) {
+        let word = seed_stamp(&plan.out, file, scratch.vhome.as_deref());
         summary.put("stamp-seeded", word);
         if word != "yes" {
             summary.put("refused", "stamp");
@@ -1030,11 +1073,12 @@ fn run_child(
         Arm::V | Arm::VP | Arm::VK | Arm::VR | Arm::VH => {
             arm_v(plan, scratch, &mut session, summary);
         }
-        Arm::CX if ContextShape::of(&plan.label) == Some(ContextShape::Send) => {
+        Arm::CX if StampShape::seeds(&plan.label).is_some() => {
             arm_cc(plan, scratch, &env, &mut session, summary);
         }
         Arm::CX => arm_cx(plan, scratch, &env, &mut session, summary),
         Arm::SF => arm_sf(plan, scratch, &env, &mut session, summary),
+        Arm::HB => arm_hb(plan, &mut session, summary),
         Arm::VC => arm_vc(plan, &mut session, summary),
         Arm::TC => arm_tc(plan, scratch, sentinel, &mut session, summary),
         // `TS` takes its own two starts (`run_ts`) and `MT` no pty (`arm_mt`); a start that
@@ -1430,10 +1474,10 @@ fn read_regular(path: &Path) -> Option<Vec<u8>> {
     Some(bytes)
 }
 
-/// `CS`: the scratch viola home's `ledger/stamps.json` copied byte for byte to
-/// `<out>/context-stamp.json`, never over a standing file: `written`, `exists`, `absent` (no stamp
-/// to keep) or `refused`.
-fn keep_stamp(scratch: &Scratch, out: &Path) -> &'static str {
+/// `CS` and `WS`: the scratch viola home's `ledger/stamps.json` copied byte for byte to
+/// `<out>/<file>`, never over a standing file: `written`, `exists`, `absent` (no stamp to keep) or
+/// `refused`.
+fn keep_stamp(scratch: &Scratch, out: &Path, file: &str) -> &'static str {
     let Some(bytes) = scratch
         .vhome
         .as_ref()
@@ -1444,22 +1488,18 @@ fn keep_stamp(scratch: &Scratch, out: &Path) -> &'static str {
     if viola_state::fs::create_private_dir(out).is_err() {
         return "refused";
     }
-    match viola_state::fs::place_private_new(
-        &out.join(CONTEXT_STAMP),
-        &bytes,
-        viola_state::fs::FILE_MODE,
-    ) {
+    match viola_state::fs::place_private_new(&out.join(file), &bytes, viola_state::fs::FILE_MODE) {
         Ok(viola_state::fs::Placed::Written) => "written",
         Ok(viola_state::fs::Placed::Present) => "exists",
         Err(_) => "refused",
     }
 }
 
-/// `CC`: `<out>/context-stamp.json` copied byte for byte into the scratch viola home as
+/// `CC` and `R3W`: `<out>/<file>` copied byte for byte into the scratch viola home as
 /// `ledger/stamps.json` (the dir 0700, the file 0600) before `viola run`: `yes`, `absent` or
 /// `refused`.
-fn seed_stamp(out: &Path, vhome: Option<&Path>) -> &'static str {
-    let Some(bytes) = read_regular(&out.join(CONTEXT_STAMP)) else {
+fn seed_stamp(out: &Path, file: &str, vhome: Option<&Path>) -> &'static str {
+    let Some(bytes) = read_regular(&out.join(file)) else {
         return "absent";
     };
     let Some(ledger) = vhome.map(|home| home.join("ledger")) else {
@@ -1975,7 +2015,21 @@ fn context_reading(
     summary.put("context-post", context_post(submitted, tags));
 }
 
-/// C3's reading on `CC`, after send 2's reading and with the box settled: the count of the hint's
+/// `HB`: the first frame with the box up (else `refused: shape`), then the fresh box's hint cells
+/// and one `x` and one DEL as `CC` reads them after its sends; no send, no wheel (unwrapped).
+fn arm_hb(plan: &Plan, session: &mut Session, summary: &mut Summary) {
+    let first = first_frame(plan, session);
+    record_reading(summary, &first);
+    if first.trust_shown() || !first.is_box_up() {
+        summary.put("keys", "none");
+        summary.put("refused", "shape");
+        return;
+    }
+    hint_cell_attrs(plan, session, summary);
+}
+
+/// C3's reading on `CC`, after send 2's reading and with the box settled, and on `HB` in a fresh
+/// box before any send: the count of the hint's
 /// drawn cells past the cursor's cell and each distinct attribute word among them with its count,
 /// then one `x` (its cell's word) and one DEL, each frame kept. A box not up, no drawn hint cell or
 /// a key the grant refuses reads `unread` with its reason. Readings, never text.
@@ -2579,6 +2633,7 @@ fn stamp_lines(entry: Option<&Value>) -> Vec<(String, String)> {
             "trust-record",
             "browser-tools-prompt",
             "local-command-context",
+            "stop-session-crons",
             "pass-count",
             "rows",
             "failing",
@@ -2617,6 +2672,7 @@ fn stamp_lines(entry: Option<&Value>) -> Vec<(String, String)> {
         line("trust-record", word_of("trust-record")),
         line("browser-tools-prompt", word_of("browser-tools-prompt")),
         line("local-command-context", word_of("local-command-context")),
+        line("stop-session-crons", word_of("stop-session-crons")),
         line("pass-count", format!("{passed}/{}", rows.len())),
         line("rows", rows.len().to_string()),
         line(
@@ -3152,35 +3208,66 @@ mod tests {
     }
 
     #[test]
-    fn the_context_round_labels_take_their_arms_and_shapes() {
+    fn the_kept_stamp_labels_take_their_arms_shapes_and_files() {
+        let keep = |f| Some(StampShape::Keep(f));
+        let seed = |f| Some(StampShape::Seed(f));
         for (label, arm, shape) in [
-            ("CS", Some(Arm::V), Some(ContextShape::Stamp)),
-            ("CS-2", Some(Arm::V), Some(ContextShape::Stamp)),
-            ("CC", Some(Arm::CX), Some(ContextShape::Send)),
-            ("CC-2", Some(Arm::CX), Some(ContextShape::Send)),
+            ("CS", Some(Arm::V), keep("context-stamp.json")),
+            ("CS-2", Some(Arm::V), keep("context-stamp.json")),
+            ("CC", Some(Arm::CX), seed("context-stamp.json")),
+            ("CC-2", Some(Arm::CX), seed("context-stamp.json")),
+            ("WS", Some(Arm::V), keep("wake-stamp.json")),
+            ("R3W", Some(Arm::R3), seed("wake-stamp.json")),
+            ("R3W-2", Some(Arm::R3), seed("wake-stamp.json")),
+            ("HB", Some(Arm::HB), None),
+            ("HB-2", Some(Arm::HB), None),
             ("L2", Some(Arm::CX), None),
             ("S0", Some(Arm::V), None),
+            ("R3", Some(Arm::R3), None),
             ("CS-3", None, None),
             ("CC-3", None, None),
+            ("WS-2", None, None),
+            ("HB-3", None, None),
+            ("R3W-3", None, None),
         ] {
             assert_eq!(Arm::of_label(label), arm, "{label}");
-            assert_eq!(ContextShape::of(label), shape, "{label}");
+            assert_eq!(StampShape::of(label), shape, "{label}");
         }
-        assert_eq!(
-            ContextShape::of(REHEARSE_CS),
-            Some(ContextShape::Stamp),
-            "rehearse cs"
-        );
-        assert_eq!(
-            ContextShape::of(REHEARSE_CC),
-            Some(ContextShape::Send),
-            "rehearse cc"
-        );
-        assert_eq!(ContextShape::of("rehearse-CX"), None, "the cx rehearsal");
+        for (label, shape) in [
+            (REHEARSE_CS, keep("context-stamp.json")),
+            (REHEARSE_CC, seed("context-stamp.json")),
+            (REHEARSE_WS, keep("wake-stamp.json")),
+            (REHEARSE_R3W, seed("wake-stamp.json")),
+            ("rehearse-CX", None),
+            ("rehearse-R3", None),
+            ("rehearse-HB", None),
+        ] {
+            assert_eq!(StampShape::of(label), shape, "{label}");
+        }
+        assert_eq!(StampShape::keeps("WS"), Some("wake-stamp.json"));
+        assert_eq!(StampShape::keeps("R3W"), None);
+        assert_eq!(StampShape::seeds("R3W"), Some("wake-stamp.json"));
+        assert!(seeds_stamp("CC") && seeds_stamp("R3W") && !seeds_stamp("WS"));
     }
 
     #[test]
+    fn the_hb_arm_is_unwrapped_trusted_and_marker_seeded_with_no_viola_home() {
+        assert_eq!(Arm::parse("hb"), Some(Arm::HB));
+        assert_eq!(Arm::HB.word(), "hb");
+        assert_eq!(Arm::HB.wrapped(), None);
+        assert!(!Arm::HB.has_vhome());
+        assert!(Arm::HB.trusted());
+        assert!(Arm::HB.marker_seed());
+        assert!(!Arm::HB.verify_seed());
+        assert!(!Arm::HB.sentinel_seed());
+    }
+
+    /// The floor's doc pin: 22 rows, `stop-session-crons` beside `stop-message`, which read the same
+    /// Stop capture.
+    #[test]
     fn the_floor_rows_are_every_relied_row_but_four() {
+        assert_eq!(FLOOR_ROWS.len(), 22);
+        assert!(FLOOR_ROWS.contains(&"stop-message") && FLOOR_ROWS.contains(&"stop-session-crons"));
         let floor: Vec<&str> = FLOOR_ROWS.to_vec();
         let rest: Vec<&str> = LedgerRow::relied()
             .into_iter()
@@ -3453,13 +3540,14 @@ mod tests {
             "trust-record",
             "browser-tools-prompt",
             "local-command-context",
+            "stop-session-crons",
             "pass-count",
             "screen-a",
             "facts-f",
         ] {
             assert_eq!(value_of(&lines, key), "unread", "{key}");
         }
-        assert_eq!(lines.len(), 6 + 18);
+        assert_eq!(lines.len(), 7 + 18);
     }
 
     #[test]

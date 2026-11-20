@@ -49,10 +49,12 @@ pub enum LedgerRow {
     /// `/context`'s stdout tag. A CLI version whose `/context` writes no tag stamps this row
     /// `fail`, never `absent`, and reads unverified whole.
     LocalCommandContext,
+    /// The Stop's `session_crons` as an array: the scheduled-wake count the wheel rule reads.
+    StopSessionCrons,
 }
 
 impl LedgerRow {
-    pub const ALL: [Self; 25] = [
+    pub const ALL: [Self; 26] = [
         Self::ShimResolution,
         Self::SpineHooks,
         Self::SessionStartFields,
@@ -78,6 +80,7 @@ impl LedgerRow {
         Self::TrustRecord,
         Self::BrowserToolsPrompt,
         Self::LocalCommandContext,
+        Self::StopSessionCrons,
     ];
 
     /// The kebab-case id, the key under a stamped version's `rows`.
@@ -108,6 +111,7 @@ impl LedgerRow {
             Self::TrustRecord => "trust-record",
             Self::BrowserToolsPrompt => "browser-tools-prompt",
             Self::LocalCommandContext => "local-command-context",
+            Self::StopSessionCrons => "stop-session-crons",
         }
     }
 
@@ -149,6 +153,7 @@ impl LedgerRow {
             Self::LocalCommandContext => {
                 "/context writes its stdout tag to the transcript and submits no prompt"
             }
+            Self::StopSessionCrons => "Stop carries session_crons as an array",
         }
     }
 
@@ -1111,6 +1116,9 @@ pub fn check(row: LedgerRow, probes: &Probes) -> bool {
             pasted(&probes.trusted, PROBE_CONTEXT_COMMAND).is_none()
                 && within(typed.context_latency_ms, CONFIRM_WINDOW_FALLBACK)
         }
+        LedgerRow::StopSessionCrons => run
+            .first(HookEvent::Stop)
+            .is_some_and(|p| p["session_crons"].is_array()),
     }
 }
 

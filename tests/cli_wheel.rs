@@ -15,7 +15,7 @@ use serde_json::{Value, json};
 use support::cli::viola;
 use support::events::{events, wait_events};
 use support::fake::{self, of_kind};
-use support::home::{StampedHome, Wrapper, snapshot_data, stamped_home, workspace_path};
+use support::home::{StampedHome, TestHome, Wrapper, snapshot_data, stamped_home, workspace_path};
 use support::hygiene::load_schema;
 use support::watch::{WITHIN, Watch};
 
@@ -427,5 +427,222 @@ fn path4_a_dialog_pending_at_a_pause_is_handed_back_to_the_human(stamped_home: S
         "the dialog is logged once"
     );
     assert_logs_clean(&home);
+    wrapper.stop();
+}
+
+/// A wrapper whose fake agent ends every turn with `crons` scheduled wakes counted (synthetic: no
+/// recorded set holds a non-empty `session_crons`) and runs the gated `steps` after it.
+fn boot_waking(stamped: StampedHome, crons: &str, steps: &Value) -> Wrapper {
+    let script = stamped.home.scratch().join("wake.script.json");
+    std::fs::write(&script, json!({"v": 1, "steps": steps}).to_string()).expect("script");
+    support::events::boot(
+        stamped,
+        None,
+        &[
+            "--turn-stop",
+            "--stop-crons",
+            crons,
+            "--script",
+            script.to_str().expect("utf-8 path"),
+        ],
+    )
+}
+
+fn step(event: &str, variant: &str) -> Value {
+    json!({"event": event, "variant": variant, "gate": true})
+}
+
+fn count_kind(lines: &[Value], kind: &str) -> usize {
+    lines.iter().filter(|e| e["kind"] == kind).count()
+}
+
+/// The `n`th `prompt-submitted` line's `origin`, once it landed.
+fn prompt_origin(dir: &Path, n: usize) -> Value {
+    let lines = wait_events(dir, "the prompt-submitted", |l| {
+        count_kind(l, "prompt-submitted") >= n
+    });
+    lines
+        .iter()
+        .filter(|e| e["kind"] == "prompt-submitted")
+        .nth(n - 1)
+        .map(|e| e["data"]["origin"].clone())
+        .expect("the prompt")
+}
+
+/// test-plan §6 Path 5, a fired wake: a driver send whose turn ends with one scheduled wake
+/// counted, then a keyless prompt (the CLI's own fire, no byte typed). It is appended `harness`
+/// and moves no wheel; after its turn ends the driver's next send is confirmed and the next
+/// question dialog is held for the driver and answered.
+#[rstest]
+fn path5_a_fired_wake_keeps_the_driver_wheel_its_next_send_and_its_dialog(
+    stamped_home: StampedHome,
+) {
+    let steps = json!([
+        step("UserPromptSubmit", "default"),
+        step("Stop", "default"),
+        step("PreToolUse", "ask-user-question"),
+    ]);
+    let wrapper = boot_waking(stamped_home, "1", &steps);
+    let home = wrapper.home().to_path_buf();
+    let dir = wrapper.instance_dir();
+
+    let first = viola(
+        &home,
+        &["send", "builder", "--json"],
+        Some(&format!("{CANARY} one")),
+        None,
+    );
+    assert_eq!(first.code, Some(0), "{} {}", first.stdout, first.stderr);
+    let ended = wait_events(&dir, "the first turn end", |l| {
+        count_kind(l, "turn-ended") >= 1
+    });
+    let wakes = ended
+        .iter()
+        .find(|e| e["kind"] == "turn-ended")
+        .map(|e| e["data"]["scheduled_wakes"].clone());
+    assert_eq!(wakes, Some(json!(1)));
+
+    wrapper.release();
+    assert_eq!(prompt_origin(&dir, 2), "harness");
+    wrapper.release();
+    wait_events(&dir, "the fired turn's end", |l| {
+        count_kind(l, "turn-ended") >= 2
+    });
+
+    let second = viola(
+        &home,
+        &["send", "builder", "--json"],
+        Some(&format!("{CANARY} two")),
+        None,
+    );
+    assert_eq!(second.code, Some(0), "{} {}", second.stdout, second.stderr);
+    let doc: Value = serde_json::from_str(&second.stdout).expect("one document");
+    assert!(doc["ok"].is_object(), "{doc}");
+    wait_events(&dir, "the second send's turn end", |l| {
+        count_kind(l, "turn-ended") >= 3
+    });
+
+    wrapper.release();
+    let lines = wait_events(&dir, "the question", |l| count_kind(l, "question") >= 1);
+    let id = lines
+        .iter()
+        .find(|e| e["kind"] == "question")
+        .and_then(|e| e["data"]["dialog_id"].as_u64())
+        .expect("a dialog_id");
+    let watch = Watch::start("pending");
+    let deadline = Instant::now() + WITHIN;
+    while snapshot_data(&dir).is_none_or(|d| d["pending_dialog"]["dialog_id"] != id) {
+        watch.note("not pending yet");
+        watch.deadline_check(deadline, "the question was never held for the driver");
+        std::thread::yield_now();
+    }
+    let response = json!({"answers": {"q": CANARY}}).to_string();
+    let answered = viola(
+        &home,
+        &["answer", "builder", &id.to_string(), "--json"],
+        Some(&response),
+        None,
+    );
+    assert_eq!(
+        answered.code,
+        Some(0),
+        "{} {}",
+        answered.stdout,
+        answered.stderr
+    );
+
+    assert_eq!(
+        wheel_records(&dir),
+        [json!({"holder": "driver", "cause": "start"})]
+    );
+    assert_eq!(snapshot_data(&dir).expect("snapshot")["wheel"], "driver");
+    assert_logs_clean(&home);
+    wrapper.stop();
+}
+
+/// The same keyless prompt after a turn end that counted no scheduled wake reads as typed: it is
+/// filed `human`, the human takes the wheel, and the driver's next send is refused `human-typing`.
+#[rstest]
+fn path5_a_keyless_prompt_with_no_wake_counted_takes_the_wheel(stamped_home: StampedHome) {
+    let steps = json!([step("UserPromptSubmit", "default")]);
+    let wrapper = boot_waking(stamped_home, "0", &steps);
+    let home = wrapper.home().to_path_buf();
+    let dir = wrapper.instance_dir();
+
+    let first = viola(
+        &home,
+        &["send", "builder", "--json"],
+        Some(&format!("{CANARY} one")),
+        None,
+    );
+    assert_eq!(first.code, Some(0), "{} {}", first.stdout, first.stderr);
+    let ended = wait_events(&dir, "the first turn end", |l| {
+        count_kind(l, "turn-ended") >= 1
+    });
+    let wakes = ended
+        .iter()
+        .find(|e| e["kind"] == "turn-ended")
+        .map(|e| e["data"]["scheduled_wakes"].clone());
+    assert_eq!(wakes, Some(json!(0)));
+
+    wrapper.release();
+    assert_eq!(prompt_origin(&dir, 2), "human");
+    let refused = viola(
+        &home,
+        &["send", "builder", "--json"],
+        Some(&format!("{CANARY} two")),
+        None,
+    );
+    assert_eq!(
+        refused.code,
+        Some(10),
+        "{} {}",
+        refused.stdout,
+        refused.stderr
+    );
+    wait_events(&dir, "the human's wheel record", |l| {
+        count_kind(l, "wheel") >= 2
+    });
+    assert_eq!(
+        wheel_records(&dir),
+        [
+            json!({"holder": "driver", "cause": "start"}),
+            json!({"holder": "human", "cause": "human-input"}),
+        ]
+    );
+    wrapper.stop();
+}
+
+/// On an unverified CLI the rule tells nothing apart: a keyless prompt after a turn end that
+/// counted one scheduled wake is filed `human` and the human takes the wheel.
+#[rstest]
+fn path5_a_fired_wake_on_an_unverified_cli_takes_the_wheel() {
+    let steps = json!([step("Stop", "default"), step("UserPromptSubmit", "default")]);
+    let wrapper = boot_waking(StampedHome::unstamped(TestHome::new()), "1", &steps);
+    let dir = wrapper.instance_dir();
+
+    wrapper.release();
+    let ended = wait_events(&dir, "the turn end", |l| count_kind(l, "turn-ended") >= 1);
+    let wakes = ended
+        .iter()
+        .find(|e| e["kind"] == "turn-ended")
+        .map(|e| e["data"]["scheduled_wakes"].clone());
+    assert_eq!(wakes, Some(json!(1)));
+    wrapper.release();
+    assert_eq!(prompt_origin(&dir, 1), "human");
+    let watch = Watch::start("wheel");
+    let deadline = Instant::now() + WITHIN;
+    while snapshot_data(&dir).is_none_or(|d| d["wheel"] != "human") {
+        watch.note("the wheel is not the human's yet");
+        watch.deadline_check(deadline, "the keyless prompt never took the wheel");
+        std::thread::yield_now();
+    }
+    assert_eq!(
+        wheel_records(&dir),
+        [
+            json!({"holder": "driver", "cause": "start"}),
+            json!({"holder": "human", "cause": "human-input"}),
+        ]
+    );
     wrapper.stop();
 }

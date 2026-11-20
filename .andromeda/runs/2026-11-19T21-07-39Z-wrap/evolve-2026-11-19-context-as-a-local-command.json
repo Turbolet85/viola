@@ -126,5 +126,37 @@
 ],
 "before": null,
 "after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "90aabc67",
+"ts": "2026-11-19T22:07:15Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-19T21-07-39Z-wrap",
+"--marker",
+"2026-11-19-context-as-a-local-command"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 3228 · 2026-11-19T19-13-41-2026-11-19-context-as-a-local-command.ndjson",
+"ts 2026-11-19T22:07:14Z · clock 2026-11-19T22:07:15Z · bound 2026-11-19T21:46:28Z (line 3715)",
+"ids 2026-11-19T22:07:14Z-a … 2026-11-19T22:07:14Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T19-13-41-2026-11-19-context-as-a-local-command.ndjson"
+],
+"before": null,
+"after": null
 }
 ]

@@ -3,22 +3,27 @@
 //! granted keys, keeps its frames under the gitignored `target/live-rig/`, and owns its isolation
 //! and its processes.
 //!
-//! - `rehearse <r1|r2|hold|r3b|r3|im|v|vc|ts|tc|vr|mt|vh|cx|sf|cs|cc> --program <fake agent> [--viola <exe>]
+//! - `rehearse <r1|r2|hold|r3b|r3|im|v|vc|ts|tc|vr|mt|vh|cx|sf|hb|cs|cc|ws|r3w> --program <fake agent> [--viola <exe>]
 //!   [--tap <exe>] [--target-home <dir> --claude-dir <dir> --user-config <file>] [--contain]
 //!   [-- <child args>]`: one start over the fake agent (CI runs these); `vh` refuses `usage` without
 //!   all three of its paths; `--contain` (`sf` alone, else `usage`) runs the child inside the
 //!   network-closed `bwrap` sandbox every live `SF` start runs in; `{cwd}` and `{config}` in a child argument stand for the start's cwd and private config
 //!   dir; `cs` is `v` keeping its stamp in `<out>/context-stamp.json` and reading its private
 //!   config's top level, `cc` is `cx` seeding that kept stamp, then sending a prompt, then
-//!   `/context`, then reading the hint's cells around one `x` and one DEL.
-//! - `live <R1|R2|R3B|R3|IM|S0|S0R|S0B|S0C|S1|S2|BP|BK|R4|R4M|L1|L2|SF|CS|CC|…-2|R3-326|R3D> --cli <version> --cap <n> --spare <n> --ledger <file>`: one live start
+//!   `/context`, then reading the hint's cells around one `x` and one DEL; `ws` is `v` keeping its
+//!   stamp in `<out>/wake-stamp.json`, `r3w` is `r3` seeding that kept stamp and reading viola's own
+//!   `wheel` lines after the fired wake, then sending again; `hb` reads a fresh box's hint cells
+//!   around one `x` and one DEL, unwrapped, with no send.
+//! - `live <R1|R2|R3B|R3|IM|S0|S0R|S0B|S0C|S1|S2|BP|BK|R4|R4M|L1|L2|SF|CS|CC|WS|HB|R3W|…-2|R3-326|R3D> --cli <version> --cap <n> --spare <n> --ledger <file>`: one live start
 //!   of the stamped `claude`, refused under `CI`; `S0` / `S0R` / `S0B` run `viola verify` over it, `S0C`
 //!   reads its first frame at 80×24 and stops it with no key; `S1` runs `viola verify` in a trusted
 //!   git folder, then `viola run` in a fresh untrusted one, and `S2` a plain `claude` in one, each
 //!   first frame read; `SF` runs `viola run` inside the network-closed sandbox, refused
 //!   `sandbox` before its ledger line where the sandbox cannot be made; `CS` runs `viola verify`
 //!   and keeps its stamp, and `CC` runs `viola run` under that kept stamp, refused `stamp` before
-//!   its ledger line where none stands.
+//!   its ledger line where none stands; `WS` runs `viola verify` and keeps its stamp, `R3W` runs
+//!   `viola run` under that kept stamp, refused `stamp` before its ledger line where none stands,
+//!   and `HB` a plain `claude` whose fresh box it reads, no send.
 //! - `census [--kill]`: the processes an earlier, dead rig left, and their kill.
 //! - `capture --out <file>` (hidden): a wake start's UserPromptSubmit hook and `SF`'s StopFailure
 //!   hook, one closed-word line per payload.
@@ -215,6 +220,8 @@ fn main() -> ExitCode {
             let (arm, label) = match arm.as_str() {
                 "cs" => (Arm::V, rig::REHEARSE_CS.to_owned()),
                 "cc" => (Arm::CX, rig::REHEARSE_CC.to_owned()),
+                "ws" => (Arm::V, rig::REHEARSE_WS.to_owned()),
+                "r3w" => (Arm::R3, rig::REHEARSE_R3W.to_owned()),
                 word => match Arm::parse(word) {
                     Some(arm) => (arm, format!("rehearse-{arm:?}")),
                     None => return usage(),

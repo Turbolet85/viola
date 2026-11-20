@@ -75,6 +75,10 @@ struct Held {
     holder: Wheel,
     cause: WheelCause,
     turn: Turn,
+    /// A human editing byte crossed stdin since the last human-filed prompt was taken.
+    typed: bool,
+    /// The last turn end's scheduled-wake count; `None` when it was null or a session began.
+    wakes: Option<u64>,
 }
 
 /// One instance's wheel, starting with the driver and no turn running.
@@ -90,6 +94,8 @@ impl Default for WheelSlot {
                 holder: Wheel::Driver,
                 cause: WheelCause::Start,
                 turn: Turn::Idle,
+                typed: false,
+                wakes: None,
             }),
             moves: OnceLock::new(),
         }
@@ -122,9 +128,35 @@ impl WheelSlot {
         }
     }
 
-    /// A human editing key, or an unsent human prompt.
+    /// An unsent human prompt: moves the wheel and sets no mark.
     pub(crate) fn human_input(&self) {
         self.apply(Input::Human, false);
+    }
+
+    /// A human editing key read from stdin: marks it typed, then moves the wheel, under one lock.
+    pub(crate) fn human_key(&self) {
+        let held = self.mark_typed();
+        self.apply_held(held, Input::Human, false);
+    }
+
+    fn mark_typed(&self) -> MutexGuard<'_, Held> {
+        let mut held = self.held();
+        held.typed = true;
+        held
+    }
+
+    /// Whether a human editing key crossed stdin since the last call; the mark is cleared.
+    pub(crate) fn take_typed(&self) -> bool {
+        std::mem::take(&mut self.held().typed)
+    }
+
+    /// The scheduled-wake count of the last turn end, `None` for a null count or a new session.
+    pub(crate) fn count_wakes(&self, wakes: Option<u64>) {
+        self.held().wakes = wakes;
+    }
+
+    pub(crate) fn wakes(&self) -> Option<u64> {
+        self.held().wakes
     }
 
     /// A `prompt-submitted` of any origin.
@@ -146,7 +178,15 @@ impl WheelSlot {
     /// The `release` that returns the wheel also clears the running turn: a user interrupt ends a
     /// turn with no `turn-ended`.
     fn apply(&self, input: Input, wait: bool) -> Option<Receiver<bool>> {
-        let mut held = self.held();
+        self.apply_held(self.held(), input, wait)
+    }
+
+    fn apply_held(
+        &self,
+        mut held: MutexGuard<'_, Held>,
+        input: Input,
+        wait: bool,
+    ) -> Option<Receiver<bool>> {
         let (to, cause) = next(held.holder, held.cause, input)?;
         let from = held.holder;
         held.holder = to;
@@ -306,7 +346,7 @@ impl<R: Read> Read for Observed<R> {
     fn read(&mut self, buf: &mut [u8]) -> io::Result<usize> {
         let n = self.inner.read(buf)?;
         if self.keys.feed(&buf[..n]) {
-            self.wheel.human_input();
+            self.wheel.human_key();
         }
         Ok(n)
     }
@@ -740,6 +780,42 @@ mod tests {
         assert!(wheel.turn_running(), "neither a key nor a pause ends it");
         wheel.turn_ended();
         assert!(!wheel.turn_running());
+    }
+
+    #[test]
+    fn wheel_a_key_marks_typed_and_a_hook_human_move_does_not() {
+        let hooked = WheelSlot::default();
+        hooked.human_input();
+        assert_eq!(hooked.holder(), Wheel::Human);
+        assert!(!hooked.take_typed(), "the hook's move sets no mark");
+
+        let keyed = WheelSlot::default();
+        keyed.human_key();
+        assert_eq!(keyed.holder(), Wheel::Human);
+        assert!(keyed.take_typed(), "a key sets the mark");
+        assert!(!keyed.take_typed(), "taking it clears it");
+    }
+
+    #[test]
+    fn wheel_the_typed_mark_survives_a_turn_end_and_a_release_and_clears_only_when_taken() {
+        let wheel = WheelSlot::default();
+        wheel.turn_started();
+        wheel.human_key();
+        wheel.turn_ended();
+        wheel.count_wakes(Some(1));
+        assert_eq!(
+            wheel.release(&call(&json!({"v": 1}))),
+            Ok(json!({"ok": {"wheel": "driver"}}))
+        );
+        wheel.count_wakes(None);
+        assert_eq!(wheel.wakes(), None);
+        wheel.count_wakes(Some(2));
+        assert_eq!(wheel.wakes(), Some(2));
+        assert!(
+            wheel.take_typed(),
+            "the mark outlived the turn end and the release"
+        );
+        assert!(!wheel.take_typed());
     }
 
     /// Hands out one chunk per read.

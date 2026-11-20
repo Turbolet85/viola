@@ -1,0 +1,69 @@
+[[control]]
+id = 'wake-keeps-wheel'
+entry = 5
+guard = 'the told-wake branch: every human-filed prompt moves the wheel'
+case = 'path5_a_fired_wake_keeps_the_driver_wheel_its_next_send_and_its_dialog'
+
+[[control.edit]]
+path = 'src/run/send/slot.rs'
+old = '            if told_as_wake(typed, slot.wheel.wakes(), slot.cli_verified) {'
+new = '            if false && told_as_wake(typed, slot.wheel.wakes(), slot.cli_verified) {'
+
+[[control]]
+id = 'wake-count-gate'
+entry = 5
+guard = 'the wakes() >= 1 term of the told-wake condition'
+case = 'path5_a_keyless_prompt_with_no_wake_counted_takes_the_wheel'
+
+[[control.edit]]
+path = 'src/run/send/slot.rs'
+old = '    !typed && wakes.is_some_and(|n| n >= 1) && cli_verified'
+new = '''    let _ = wakes;
+    !typed && cli_verified'''
+
+[[control]]
+id = 'verified-gate'
+entry = 5
+guard = 'the cli_verified term of the told-wake condition'
+case = 'path5_a_fired_wake_on_an_unverified_cli_takes_the_wheel'
+
+[[control.edit]]
+path = 'src/run/send/slot.rs'
+old = '    !typed && wakes.is_some_and(|n| n >= 1) && cli_verified'
+new = '''    let _ = cli_verified;
+    !typed && wakes.is_some_and(|n| n >= 1)'''
+
+[[control]]
+id = 'key-marks-typed'
+entry = 6
+guard = 'human_key sets no typed mark'
+case = 'tui_a_human_key_before_a_fired_wake_takes_the_wheel'
+
+[[control.edit]]
+path = 'src/run/wheel.rs'
+old = '        held.typed = true;'
+new = '        let _ = &mut held;'
+
+[[control]]
+id = 'mark-survives-turn-end'
+entry = 6
+guard = 'forced on: count_wakes clears the typed mark at a turn end'
+case = 'tui_a_message_queued_during_a_turn_reads_human_after_that_turn_ends'
+
+[[control.edit]]
+path = 'src/run/wheel.rs'
+old = '        self.held().wakes = wakes;'
+new = '''        let mut held = self.held();
+        held.wakes = wakes;
+        held.typed = false;'''
+
+[[control]]
+id = 'crons-row-shape'
+entry = 3
+guard = 'the is_array() test of the stop-session-crons check: it always passes'
+case = 'checks_stop_session_crons_without_an_array_fails'
+
+[[control.edit]]
+path = 'crates/viola-agent-claude/src/ledger.rs'
+old = '            .is_some_and(|p| p["session_crons"].is_array()),'
+new = '            .is_some_and(|p| p.is_object()),'

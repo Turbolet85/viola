@@ -11,6 +11,7 @@ use std::io::{Read as _, Write as _};
 use std::os::unix::fs::{DirBuilderExt as _, OpenOptionsExt as _};
 use std::path::{Path, PathBuf};
 use std::process::{Command, ExitCode, Stdio};
+use std::sync::mpsc::{self, Receiver, Sender};
 use std::sync::{Arc, Mutex, OnceLock, PoisonError};
 use std::time::Duration;
 
@@ -51,6 +52,10 @@ const STOP_RECEIPT_HOLD_CAP_MS: u64 = 1000;
 /// `--paste-hint-ms` is capped: a test-only hold that forces the window after a long paste open.
 /// The cap sits above the gate's 8.5 s maximum wait, which `viola verify`'s hint case holds past.
 const PASTE_HINT_CAP_MS: u64 = 10_000;
+/// `--stop-crons` is capped: at most this many synthetic elements.
+const STOP_CRONS_CAP: usize = 4;
+/// `--wake-after-ms` is capped: the synthetic wake fires within this after its Stop.
+const WAKE_AFTER_CAP_MS: u64 = 5_000;
 /// The session a `--resume` with `--fork-session` reports: an id no recorded fixture holds.
 const FORK_SESSION_ID: &str = "0f0e0d0c-0b0a-4908-8706-050403020100";
 /// The recorded SessionStart a `--resume` launch fires, where the set holds it.
@@ -123,6 +128,13 @@ struct Opts {
     resume: Option<String>,
     fork_session: bool,
     transcript: bool,
+    /// `--stop-crons <n>` (argv only, 0-4): every Stop fired carries `session_crons` as an array of
+    /// `n` synthetic elements, each `{"synthetic":true}`; no recorded set holds a non-empty one.
+    stop_crons: Option<usize>,
+    /// `--wake-after-ms <ms>` (argv only, capped): once, that long after the first Stop that carried a
+    /// non-empty `session_crons`, a keyless `UserPromptSubmit` of the recorded prompt (and under
+    /// `--turn-stop` its Stop): a synthetic stand-in for the CLI's own scheduled wake.
+    wake_after: Option<Duration>,
 }
 
 impl Opts {
@@ -173,6 +185,16 @@ impl Opts {
                 "--resume" => o.resume = value(),
                 "--fork-session" => o.fork_session = true,
                 "--transcript" => o.transcript = true,
+                "--stop-crons" => {
+                    o.stop_crons = value()
+                        .and_then(|v| v.parse::<usize>().ok())
+                        .filter(|n| *n <= STOP_CRONS_CAP);
+                }
+                "--wake-after-ms" => {
+                    o.wake_after = value()
+                        .and_then(|v| v.parse::<u64>().ok())
+                        .map(|ms| Duration::from_millis(ms.min(WAKE_AFTER_CAP_MS)));
+                }
                 // `viola verify`'s dialog runs hand over their probe settings; nothing reads them.
                 "--settings" => {
                     value();
@@ -485,6 +507,8 @@ struct Agent {
     registry: OnceLock<Registry>,
     /// The `session_id` of the last SessionStart fired: the launch one, or a replayed clear's.
     session: Mutex<Option<String>>,
+    /// Under `--wake-after-ms`, the waker's trigger, taken by the first Stop with a cron.
+    wake: Mutex<Option<Sender<()>>>,
 }
 
 impl Agent {
@@ -495,6 +519,7 @@ impl Agent {
             hooks: Mutex::new(false),
             registry: OnceLock::new(),
             session: Mutex::new(None),
+            wake: Mutex::new(None),
         }
     }
 
@@ -601,12 +626,60 @@ impl Agent {
                 .into_iter()
                 .filter_map(split_plain),
         );
-        let body = self.with_transcript(event, variant, payload(fixture, set));
+        let body = self.with_crons(
+            event,
+            self.with_transcript(event, variant, payload(fixture, set)),
+        );
         let mut answered = false;
         for (command, args) in commands {
             answered |= self.run_hook(event, &command, &args, &body);
         }
+        if event == "Stop" && has_crons(&body) {
+            self.trigger_wake();
+        }
         Fired::Ran { answered }
+    }
+
+    /// Under `--stop-crons <n>`, a Stop's `session_crons` replaced by `n` synthetic elements; every
+    /// other payload, and every Stop without the option, as it came.
+    fn with_crons(&self, event: &str, body: Vec<u8>) -> Vec<u8> {
+        let Some(n) = self.opts.stop_crons.filter(|_| event == "Stop") else {
+            return body;
+        };
+        match serde_json::from_slice::<Value>(&body) {
+            Ok(Value::Object(mut obj)) => {
+                obj.insert(
+                    "session_crons".to_owned(),
+                    Value::Array(vec![json!({"synthetic": true}); n]),
+                );
+                let mut bytes = Value::Object(obj).to_string().into_bytes();
+                if body.ends_with(b"\n") {
+                    bytes.push(b'\n');
+                }
+                bytes
+            }
+            _ => body,
+        }
+    }
+
+    /// The waker's one trigger: the first call takes it, every later one finds none.
+    fn trigger_wake(&self) {
+        let trigger = self
+            .wake
+            .lock()
+            .unwrap_or_else(PoisonError::into_inner)
+            .take();
+        if let Some(trigger) = trigger {
+            let _ = trigger.send(());
+        }
+    }
+
+    /// The synthetic wake: no byte read, the recorded prompt submitted, then its turn's end.
+    fn fire_wake(&self) {
+        self.fire("UserPromptSubmit", "default", &[]);
+        if self.opts.turn_stop {
+            self.end_turn(None);
+        }
     }
 
     /// Under `--transcript`, the launch SessionStart (`default` or the resume variant) with
@@ -894,6 +967,22 @@ impl Agent {
                 self.fire(&step.event, &step.variant, &[]);
             }
         }
+    }
+}
+
+/// A Stop payload whose `session_crons` is a non-empty array.
+fn has_crons(body: &[u8]) -> bool {
+    serde_json::from_slice::<Value>(body)
+        .ok()
+        .and_then(|doc| doc["session_crons"].as_array().map(|a| !a.is_empty()))
+        .unwrap_or(false)
+}
+
+/// The waker thread: on its one trigger, `after` later, the synthetic wake.
+fn wake_after(agent: &Agent, fired: &Receiver<()>, after: Duration) {
+    if fired.recv().is_ok() {
+        std::thread::sleep(after);
+        agent.fire_wake();
     }
 }
 
@@ -1267,6 +1356,12 @@ fn main() -> ExitCode {
     // The real CLI fires SessionStart at launch; with no registered hook or no fixture, nothing runs.
     if trusted {
         launch(&agent);
+    }
+    if let Some(after) = agent.opts.wake_after {
+        let (trigger, fired) = mpsc::channel();
+        *agent.wake.lock().unwrap_or_else(PoisonError::into_inner) = Some(trigger);
+        let waker = Arc::clone(&agent);
+        std::thread::spawn(move || wake_after(&waker, &fired, after));
     }
     if !steps.is_empty() {
         let runner = Arc::clone(&agent);
