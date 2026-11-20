@@ -18,7 +18,10 @@
 - **The driver's rule «set no scheduled wake» stays binding**: the running product is the pinned one, which lacks
   this chunk's mend. Only the product re-pin step can lift it (CLAUDE.md's entry, extended this wrap).
 - Next: `/andromeda-phase` on «A quoted modal never blocks a send» (its placement still PROVISIONAL). It now also
-  carries the intermittent rehearsal red cry-yx2svady, re-pinned whole.
+  carries the intermittent rehearsal red cry-yx2svady, re-pinned whole. It also has a new WATCH (0/3),
+  cry-ekw6oxvp, on `stop_presses_ctrl_c_again_when_the_first_is_lost`. That test went red once in CI
+  ci#44698471269 on the wrap commit `6935e0f0` (exit code 1 where 0 is asserted). The code tree is the one read green
+  in ci#44691332735; the cause is unread and no re-run was fired. Details: `.andromeda/runs/2026-11-20T07-09-09Z-wrap/ci-red.md`.
 
 ## Work done
 - Wrap `2026-11-20T07-09-09Z-wrap`: the report closed (tx 3263–3264, re-landed 3267). Reconcile landed 18 row
