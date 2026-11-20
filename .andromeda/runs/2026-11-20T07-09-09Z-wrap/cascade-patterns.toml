@@ -1,0 +1,23 @@
+[[pattern]]
+id = 'm-relabel-only'
+regex = '(set only by the wrapper|only by the wrapper.s relabel|wrapper.s relabel of the in-flight)'
+
+[[pattern]]
+id = 'm-human-moves'
+regex = '(filed as .?human.? moves the wheel|human-filed prompt[^.]{0,40}(takes|moves) the wheel|every .?human.? prompt[^.]{0,30}wheel)'
+
+[[pattern]]
+id = 'm-cc-seed'
+regex = '(own CC scratch home|seeds it only into)'
+
+[[pattern]]
+id = 'm-second-send'
+regex = 'after the second send'
+
+[[pattern]]
+id = 'm-turn-cell-attr'
+regex = '(after a turn end or send the box row|box row.s cell attributes)'
+
+[[pattern]]
+id = 'm-recorded-bytes'
+regex = '(builds no payload|compact replay.s session_id)'

@@ -1,0 +1,211 @@
+[
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "363241ce",
+"ts": "2026-11-20T07:09:42Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-19-a-fired-scheduled-wake-keeps-the-wheel",
+"--source",
+"~/dev/projects/additional/viola-overseer/wrap-wake-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the wrap directive: the live readings as ledgered, the flip basis, the answer card rows, the carries, the route-resolve dialog",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-20T07-09-09Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I7 · copy no-repo · ../additional/viola-overseer/wrap-wake-directive.md",
+"cite: inputs#I7"
+],
+"stderr": null,
+"wrote": [
+"inputs/I7-wrap-wake-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I7",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/wrap-wake-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "a6ad75eb27b252bf23cdb89aba27b7ef78f843729dcc9754875a83559be272f0",
+"copy": "I7-wrap-wake-directive.md.txt",
+"link": false,
+"read_at": "2026-11-20T07:09:42Z",
+"step": "wrap",
+"why": "the wrap directive: the live readings as ledgered, the flip basis, the answer card rows, the carries, the route-resolve dialog"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "363241ce",
+"ts": "2026-11-20T07:09:43Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-19-a-fired-scheduled-wake-keeps-the-wheel",
+"--message-file",
+".andromeda/runs/2026-11-20T07-09-09Z-wrap/relay-1.md",
+"--origin",
+"the overseer (wrap invocation)",
+"--kind",
+"relay",
+"--why",
+"the wrap invocation: proceed whole per the directive, operator away, push and read CI",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-20T07-09-09Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I8 · copy message · message: the overseer (wrap invocation)",
+"cite: inputs#I8"
+],
+"stderr": null,
+"wrote": [
+"inputs/I8-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I8",
+"kind": "relay",
+"repo": null,
+"path": "message: the overseer (wrap invocation)",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "72f5b841fd30784543a293a977c4a53032ebe6b2791819d3d01a97e841a4a0de",
+"copy": "I8-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-20T07:09:42Z",
+"step": "wrap",
+"why": "the wrap invocation: proceed whole per the directive, operator away, push and read CI"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "363241ce",
+"ts": "2026-11-20T07:09:46Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-19-a-fired-scheduled-wake-keeps-the-wheel",
+"--run-dir",
+".andromeda/runs/2026-11-20T07-09-09Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-wake-directive.md",
+"I1 cited scope.md:90 · scope.md:91 · scope.md:95 · research.md:7 · plan.md:10 · plan.md:297 · plan.md:578 (in fence) · plan.md:697 · report.md:62",
+"I2 n/a — a message has no live source · copy message · message: the Viola overseer, the phase invocation sent into this session",
+"I2 cited scope.md:90 · research.md:7 · plan.md:10 · plan.md:697 · report.md:62",
+"I3 unchanged · copy no-repo · ../additional/viola-overseer/relay-wake-p3.md",
+"I3 cited plan.md:8 · plan.md:23 · plan.md:31 · plan.md:36 · plan.md:39 · plan.md:78 · plan.md:86 · plan.md:124 · plan.md:161 · plan.md:204 · plan.md:225 · plan.md:310 · plan.md:370 (in fence) · plan.md:393 (in fence) · plan.md:416 (in fence) · plan.md:424 (in fence) · plan.md:440 (in fence) · plan.md:450 (in fence) · plan.md:474 (in fence) · plan.md:490 (in fence) · plan.md:500 (in fence) · plan.md:516 (in fence) · plan.md:532 (in fence) · plan.md:542 (in fence) · plan.md:560 (in fence) · plan.md:652 · plan.md:655 · plan.md:658 · plan.md:660 · plan.md:697 · plan.md:705 · plan.md:712 · plan.md:720 · plan.md:724 · plan.md:727 · plan.md:745 · plan.md:751 · report.md:62 · report.md:69",
+"I4 n/a — a message has no live source · copy message · message: the Viola overseer, the P5 word relayed into this session",
+"I4 cited report.md:65",
+"I5 n/a — a message has no live source · copy message · message: the Viola overseer",
+"I5 cited report.md:63 · report.md:124",
+"I6 unchanged · copy no-repo · ../additional/viola-overseer/implement-wake-directive.md",
+"I6 cited report.md:64",
+"I7 unchanged · copy no-repo · ../additional/viola-overseer/wrap-wake-directive.md",
+"I7 UNCITED",
+"I8 n/a — a message has no live source · copy message · message: the overseer (wrap invocation)",
+"I8 UNCITED",
+"inputs: 8 entries — unchanged 4 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 4 · uncited 2 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 8,
+"counts": {
+"unchanged": 4,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 4
+},
+"uncited": 2,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "363241ce",
+"ts": "2026-11-20T07:48:41Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-19-a-fired-scheduled-wake-keeps-the-wheel",
+"--message-file",
+".andromeda/runs/2026-11-20T07-09-09Z-wrap/relay-2.md",
+"--origin",
+"the overseer (route-resolve dialog)",
+"--kind",
+"relay",
+"--why",
+"the route-resolve answers: carries (a)-(e), the two residuals pinned to Version done-check, the next entry",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-20T07-09-09Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I9 · copy message · message: the overseer (route-resolve dialog)",
+"cite: inputs#I9"
+],
+"stderr": null,
+"wrote": [
+"inputs/I9-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I9",
+"kind": "relay",
+"repo": null,
+"path": "message: the overseer (route-resolve dialog)",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "7c025a61f5678ec5754de32ee94a1888409f0f1ae7757a1c45bf0140631fa647",
+"copy": "I9-relay-2.md.txt",
+"link": false,
+"read_at": "2026-11-20T07:48:41Z",
+"step": "wrap",
+"why": "the route-resolve answers: carries (a)-(e), the two residuals pinned to Version done-check, the next entry"
+}
+}
+]

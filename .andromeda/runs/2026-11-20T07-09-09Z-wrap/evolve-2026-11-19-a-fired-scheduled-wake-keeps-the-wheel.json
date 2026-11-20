@@ -1,0 +1,130 @@
+[
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "e17c47db",
+"ts": "2026-11-20T07:11:18Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-20T07-09-09Z-wrap",
+"--marker",
+"2026-11-19-a-fired-scheduled-wake-keeps-the-wheel"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 3265 · 2026-11-19T22-49-08-2026-11-19-a-fired-scheduled-wake-keeps-the-wheel.ndjson",
+"ts 2026-11-20T07:11:10Z · clock 2026-11-20T07:11:18Z · bound 2026-11-20T06:53:38Z (line 3731)",
+"ids 2026-11-20T07:11:10Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T22-49-08-2026-11-19-a-fired-scheduled-wake-keeps-the-wheel.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "e17c47db",
+"ts": "2026-11-20T07:45:09Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-20T07-09-09Z-wrap",
+"--marker",
+"2026-11-19-a-fired-scheduled-wake-keeps-the-wheel"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 3284 · 2026-11-19T22-49-08-2026-11-19-a-fired-scheduled-wake-keeps-the-wheel.ndjson",
+"ts 2026-11-20T07:44:50Z · clock 2026-11-20T07:45:09Z · bound 2026-11-20T07:11:10Z (line 3732)",
+"ids 2026-11-20T07:44:50Z-a … 2026-11-20T07:44:50Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T22-49-08-2026-11-19-a-fired-scheduled-wake-keeps-the-wheel.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "e17c47db",
+"ts": "2026-11-20T07:47:25Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-20T07-09-09Z-wrap",
+"--marker",
+"2026-11-19-a-fired-scheduled-wake-keeps-the-wheel"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 3288 · 2026-11-19T22-49-08-2026-11-19-a-fired-scheduled-wake-keeps-the-wheel.ndjson",
+"ts 2026-11-20T07:47:25Z · clock 2026-11-20T07:47:25Z · bound 2026-11-20T07:44:50Z (line 3734)",
+"ids 2026-11-20T07:47:25Z-a … 2026-11-20T07:47:25Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T22-49-08-2026-11-19-a-fired-scheduled-wake-keeps-the-wheel.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.4",
+"sha8": "e17c47db",
+"ts": "2026-11-20T07:49:29Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-20T07-09-09Z-wrap",
+"--marker",
+"2026-11-19-a-fired-scheduled-wake-keeps-the-wheel"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 3291 · 2026-11-19T22-49-08-2026-11-19-a-fired-scheduled-wake-keeps-the-wheel.ndjson",
+"ts 2026-11-20T07:49:29Z · clock 2026-11-20T07:49:29Z · bound 2026-11-20T07:47:25Z (line 3736)",
+"ids 2026-11-20T07:49:29Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T22-49-08-2026-11-19-a-fired-scheduled-wake-keeps-the-wheel.ndjson"
+],
+"before": null,
+"after": null
+}
+]

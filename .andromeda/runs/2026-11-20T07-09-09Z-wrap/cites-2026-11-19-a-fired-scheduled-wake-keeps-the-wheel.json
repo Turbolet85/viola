@@ -1,0 +1,255 @@
+[
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "1c59b360",
+"ts": "2026-11-20T07:09:46Z",
+"argv": [
+"added",
+"--out",
+".andromeda/runs/2026-11-20T07-09-09Z-wrap/new-text.md",
+"--run-dir",
+".andromeda/runs/2026-11-20T07-09-09Z-wrap",
+"--marker",
+"2026-11-19-a-fired-scheduled-wake-keeps-the-wheel"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: 33321186 — the parent of the oldest pre-CI commit fa113635",
+"crates/viola-agent-claude/src/ledger.rs — added 9 line(s) in 6 range(s)",
+"crates/viola-agent-claude/src/ledger/test_cases.rs — added 1 line(s) in 1 range(s)",
+"crates/viola-agent-claude/src/ledger/test_cases_checks.rs — added 29 line(s) in 2 range(s)",
+"crates/viola-agent-claude/src/ledger/test_cases_stamps.rs — added 39 line(s) in 13 range(s)",
+"crates/viola-e2e/src/bin/viola-live-rig.rs — added 11 line(s) in 4 range(s)",
+"crates/viola-e2e/src/harness/run.rs — added 40 line(s) in 6 range(s)",
+"crates/viola-e2e/src/rig/mod.rs — added 144 line(s) in 42 range(s)",
+"crates/viola-e2e/src/rig/wake.rs — added 76 line(s) in 8 range(s)",
+"crates/viola-e2e/tests/rig_rehearsal.rs — added 161 line(s) in 8 range(s)",
+"src/bin/viola-fake-agent.rs — added 96 line(s) in 11 range(s)",
+"src/cmd/verify.rs — added 20 line(s) in 9 range(s)",
+"src/run/send/relabel.rs — added 55 line(s) in 1 range(s)",
+"src/run/send/slot.rs — added 27 line(s) in 5 range(s)",
+"src/run/version_gate.rs — added 11 line(s) in 4 range(s)",
+"src/run/wheel.rs — added 79 line(s) in 7 range(s)",
+"tests/cli_verify.rs — added 41 line(s) in 11 range(s)",
+"tests/cli_verify/runs.rs — added 17 line(s) in 9 range(s)",
+"tests/cli_verify/stamps.rs — added 1 line(s) in 1 range(s)",
+"tests/cli_wheel.rs — added 218 line(s) in 2 range(s)",
+"tests/contract_ledger_probes.rs — added 4 line(s) in 4 range(s)",
+"tests/support/verify.rs — added 4 line(s) in 1 range(s)",
+"tests/tui_wheel.rs — added 129 line(s) in 1 range(s)",
+"new text: 22 file(s) · 0 new · 156 added range(s) · 1212 line(s) · 104 block(s) → .andromeda/runs/2026-11-20T07-09-09Z-wrap/new-text.md (156 lines) · written"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-20T07-09-09Z-wrap/new-text.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"base": "3332118600f1d07b8459de227f5a2220c2c374f1",
+"counts": {
+"files": 22,
+"new": 0,
+"ranges": 156,
+"lines": 1212,
+"blocks": 104
+},
+"out": ".andromeda/runs/2026-11-20T07-09-09Z-wrap/new-text.md",
+"state": "written",
+"lines": 156
+}
+},
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "1c59b360",
+"ts": "2026-11-20T07:11:29Z",
+"argv": [
+"apply",
+"--dry-run",
+"--run-dir",
+".andromeda/runs/2026-11-20T07-09-09Z-wrap",
+"--marker",
+"2026-11-19-a-fired-scheduled-wake-keeps-the-wheel"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: 33321186 — the previous sweep (2026-11-19T21-07-39Z-wrap)",
+"masters: rows — a row holds no citation",
+"sites 1 (bare \":digits\" 103) over 51 file(s) · unmoved 0 · moved 0 · stretched 0 · changed 0",
+"out-of-range 0 · unresolved 0 · new 1 · repointed 0 · hand 0 · held 0 · INDETERMINATE 0 · listed, not written 0",
+"rows: 0 owed a read — the cites batch reads them from this call's trail record",
+"dry-run · would land 0 fact(s) · 0 edge(s)",
+"dry-run: 0 citation(s) in 0 file(s) — nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"mode": "sweep",
+"base": "3332118600f1d07b8459de227f5a2220c2c374f1",
+"counts": {
+"unmoved": 0,
+"moved": 0,
+"stretched": 0,
+"changed": 0,
+"out-of-range": 0,
+"unresolved": 0,
+"new": 1,
+"repointed": 0,
+"hand": 0,
+"INDETERMINATE": 0,
+"held": 0,
+"listed": 0
+},
+"rows": [],
+"applied": false,
+"owed": []
+}
+},
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "1c59b360",
+"ts": "2026-11-20T07:11:34Z",
+"argv": [
+"apply",
+"--run-dir",
+".andromeda/runs/2026-11-20T07-09-09Z-wrap",
+"--marker",
+"2026-11-19-a-fired-scheduled-wake-keeps-the-wheel"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: 33321186 — the previous sweep (2026-11-19T21-07-39Z-wrap)",
+"masters: rows — a row holds no citation",
+"sites 1 (bare \":digits\" 103) over 51 file(s) · unmoved 0 · moved 0 · stretched 0 · changed 0",
+"out-of-range 0 · unresolved 0 · new 1 · repointed 0 · hand 0 · held 0 · INDETERMINATE 0 · listed, not written 0",
+"rows: 0 owed a read — the cites batch reads them from this call's trail record",
+"landed 0 fact(s) · 0 edge(s) · tx 3266",
+"re-pointed 0 citation(s) in 0 file(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"mode": "sweep",
+"base": "3332118600f1d07b8459de227f5a2220c2c374f1",
+"counts": {
+"unmoved": 0,
+"moved": 0,
+"stretched": 0,
+"changed": 0,
+"out-of-range": 0,
+"unresolved": 0,
+"new": 1,
+"repointed": 0,
+"hand": 0,
+"INDETERMINATE": 0,
+"held": 0,
+"listed": 0
+},
+"rows": [],
+"applied": true,
+"owed": []
+}
+},
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "1c59b360",
+"ts": "2026-11-20T07:11:35Z",
+"argv": [
+"dispositions",
+"--write",
+"--run-dir",
+".andromeda/runs/2026-11-20T07-09-09Z-wrap",
+"--marker",
+"2026-11-19-a-fired-scheduled-wake-keeps-the-wheel"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dispositions: 0 row(s) · ",
+".andromeda/runs/2026-11-20T07-09-09Z-wrap/citation-dispositions.md (1 lines) · written",
+"hand re-points: 0 written in 0 file(s) · 0 already written"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-20T07-09-09Z-wrap/citation-dispositions.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"rows": 0,
+"tally": {},
+"state": "written"
+}
+},
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "1c59b360",
+"ts": "2026-11-20T07:50:01Z",
+"argv": [
+"added",
+"--out",
+".andromeda/runs/2026-11-20T07-09-09Z-wrap/new-text.md",
+"--run-dir",
+".andromeda/runs/2026-11-20T07-09-09Z-wrap",
+"--marker",
+"2026-11-19-a-fired-scheduled-wake-keeps-the-wheel"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: 33321186 — the parent of the oldest pre-CI commit fa113635",
+"crates/viola-agent-claude/src/ledger.rs — added 9 line(s) in 6 range(s)",
+"crates/viola-agent-claude/src/ledger/test_cases.rs — added 1 line(s) in 1 range(s)",
+"crates/viola-agent-claude/src/ledger/test_cases_checks.rs — added 29 line(s) in 2 range(s)",
+"crates/viola-agent-claude/src/ledger/test_cases_stamps.rs — added 39 line(s) in 13 range(s)",
+"crates/viola-e2e/src/bin/viola-live-rig.rs — added 11 line(s) in 4 range(s)",
+"crates/viola-e2e/src/harness/run.rs — added 40 line(s) in 6 range(s)",
+"crates/viola-e2e/src/rig/mod.rs — added 144 line(s) in 42 range(s)",
+"crates/viola-e2e/src/rig/wake.rs — added 76 line(s) in 8 range(s)",
+"crates/viola-e2e/tests/rig_rehearsal.rs — added 161 line(s) in 8 range(s)",
+"src/bin/viola-fake-agent.rs — added 96 line(s) in 11 range(s)",
+"src/cmd/verify.rs — added 20 line(s) in 9 range(s)",
+"src/run/send/relabel.rs — added 55 line(s) in 1 range(s)",
+"src/run/send/slot.rs — added 27 line(s) in 5 range(s)",
+"src/run/version_gate.rs — added 11 line(s) in 4 range(s)",
+"src/run/wheel.rs — added 79 line(s) in 7 range(s)",
+"tests/cli_verify.rs — added 41 line(s) in 11 range(s)",
+"tests/cli_verify/runs.rs — added 17 line(s) in 9 range(s)",
+"tests/cli_verify/stamps.rs — added 1 line(s) in 1 range(s)",
+"tests/cli_wheel.rs — added 218 line(s) in 2 range(s)",
+"tests/contract_ledger_probes.rs — added 4 line(s) in 4 range(s)",
+"tests/support/verify.rs — added 4 line(s) in 1 range(s)",
+"tests/tui_wheel.rs — added 129 line(s) in 1 range(s)",
+"new text: 22 file(s) · 0 new · 156 added range(s) · 1212 line(s) · 104 block(s) → .andromeda/runs/2026-11-20T07-09-09Z-wrap/new-text.md (156 lines) · unchanged"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"base": "3332118600f1d07b8459de227f5a2220c2c374f1",
+"counts": {
+"files": 22,
+"new": 0,
+"ranges": 156,
+"lines": 1212,
+"blocks": 104
+},
+"out": ".andromeda/runs/2026-11-20T07-09-09Z-wrap/new-text.md",
+"state": "unchanged",
+"lines": 156
+}
+}
+]

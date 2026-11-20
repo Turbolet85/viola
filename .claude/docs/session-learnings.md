@@ -8,6 +8,11 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
+## 2026-11-20 — Clippy 1.98 refuses a filtered last or next_back on a slice iterator
+Under the pinned toolchain the lint gate (`-D warnings`) refuses `.filter(..).last()` as `double_ended_iterator_last`, and its first rewrite `.filter(..).next_back()` as `filter_next`. Write `.rfind(..)` from the start: it is the form both lints accept, and it reads the same.
+
+---
+
 ## 2026-11-16 — Shape a live probe of a transient CLI screen before its starts are counted
 A live probe that waits for a screen the CLI shows only for a moment (the forced session-feedback survey on 2.1.325)
 spends capped starts on its own shape unless three things are known first: what makes the screen appear and when, what

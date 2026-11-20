@@ -1,0 +1,192 @@
+[
+{
+"tool": "matrix",
+"v": "1.13",
+"sha8": "bd105b74",
+"ts": "2026-11-20T07:52:55Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.2.0",
+"--chunk",
+"2026-11-19-a-fired-scheduled-wake-keeps-the-wheel",
+"--run-dir",
+".andromeda/runs/2026-11-20T07-09-09Z-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-11-19-a-fired-scheduled-wake-keeps-the-wheel: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v2-36 → verified — Under viola run on a CLI whose stamp counts every relied row, a prompt the hook … (575 chars)",
+"dry-run: nothing written",
+"version: verified 18/37"
+],
+"stderr": null,
+"wrote": [],
+"before": [
+{
+"id": "v2-36",
+"chunk": "2026-11-19-a-fired-scheduled-wake-keeps-the-wheel",
+"status": "implemented",
+"method": "e2e",
+"ref": "tests/cli_wheel.rs::path5_a_fired_wake_keeps_the_driver_wheel_its_next_send_and_its_dialog · tests/cli_wheel.rs::path5_a… (629 chars)",
+"acceptance": "Under viola run on a CLI whose stamp counts every relied row, a prompt the hook files human with no human editing byte o… (575 chars)",
+"notes_chars": 1204
+}
+],
+"after": [
+{
+"id": "v2-36",
+"chunk": "2026-11-19-a-fired-scheduled-wake-keeps-the-wheel",
+"status": "verified",
+"method": "e2e",
+"ref": "tests/cli_wheel.rs::path5_a_fired_wake_keeps_the_driver_wheel_its_next_send_and_its_dialog · tests/cli_wheel.rs::path5_a… (629 chars)",
+"acceptance": "Under viola run on a CLI whose stamp counts every relied row, a prompt the hook files human with no human editing byte o… (575 chars)",
+"notes_chars": 1204
+}
+]
+},
+{
+"tool": "matrix",
+"v": "1.13",
+"sha8": "bd105b74",
+"ts": "2026-11-20T07:52:59Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.2.0",
+"--chunk",
+"2026-11-19-a-fired-scheduled-wake-keeps-the-wheel",
+"--run-dir",
+".andromeda/runs/2026-11-20T07-09-09Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-11-19-a-fired-scheduled-wake-keeps-the-wheel: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v2-36 → verified — Under viola run on a CLI whose stamp counts every relied row, a prompt the hook … (575 chars)",
+"landed, rendered ./.andromeda/db/log/2026-11-19T22-49-08-2026-11-19-a-fired-scheduled-wake-keeps-the-wheel.ndjson · 1 entry changed",
+"version: verified 18/37"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T22-49-08-2026-11-19-a-fired-scheduled-wake-keeps-the-wheel.ndjson"
+],
+"before": [
+{
+"id": "v2-36",
+"chunk": "2026-11-19-a-fired-scheduled-wake-keeps-the-wheel",
+"status": "implemented",
+"method": "e2e",
+"ref": "tests/cli_wheel.rs::path5_a_fired_wake_keeps_the_driver_wheel_its_next_send_and_its_dialog · tests/cli_wheel.rs::path5_a… (629 chars)",
+"acceptance": "Under viola run on a CLI whose stamp counts every relied row, a prompt the hook files human with no human editing byte o… (575 chars)",
+"notes_chars": 1204
+}
+],
+"after": [
+{
+"id": "v2-36",
+"chunk": "2026-11-19-a-fired-scheduled-wake-keeps-the-wheel",
+"status": "verified",
+"method": "e2e",
+"ref": "tests/cli_wheel.rs::path5_a_fired_wake_keeps_the_driver_wheel_its_next_send_and_its_dialog · tests/cli_wheel.rs::path5_a… (629 chars)",
+"acceptance": "Under viola run on a CLI whose stamp counts every relied row, a prompt the hook files human with no human editing byte o… (575 chars)",
+"notes_chars": 1204
+}
+]
+},
+{
+"tool": "matrix",
+"v": "1.13",
+"sha8": "bd105b74",
+"ts": "2026-11-20T07:53:09Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.2.0",
+"--id",
+"v2-36",
+"--text-file",
+".andromeda/runs/2026-11-20T07-09-09Z-wrap/note-v2-36.md",
+"--run-dir",
+".andromeda/runs/2026-11-20T07-09-09Z-wrap",
+"--marker",
+"2026-11-19-a-fired-scheduled-wake-keeps-the-wheel",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v2-36: +1498 chars (total 2704) · status verified · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v2-36",
+"chunk": "2026-11-19-a-fired-scheduled-wake-keeps-the-wheel",
+"status": "verified",
+"method": "e2e",
+"ref": "tests/cli_wheel.rs::path5_a_fired_wake_keeps_the_driver_wheel_its_next_send_and_its_dialog · tests/cli_wheel.rs::path5_a… (629 chars)",
+"acceptance": "Under viola run on a CLI whose stamp counts every relied row, a prompt the hook files human with no human editing byte o… (575 chars)",
+"notes_chars": 1204
+},
+"after": {
+"id": "v2-36",
+"chunk": "2026-11-19-a-fired-scheduled-wake-keeps-the-wheel",
+"status": "verified",
+"method": "e2e",
+"ref": "tests/cli_wheel.rs::path5_a_fired_wake_keeps_the_driver_wheel_its_next_send_and_its_dialog · tests/cli_wheel.rs::path5_a… (629 chars)",
+"acceptance": "Under viola run on a CLI whose stamp counts every relied row, a prompt the hook files human with no human editing byte o… (575 chars)",
+"notes_chars": 2704
+}
+},
+{
+"tool": "matrix",
+"v": "1.13",
+"sha8": "bd105b74",
+"ts": "2026-11-20T07:53:13Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.2.0",
+"--id",
+"v2-36",
+"--text-file",
+".andromeda/runs/2026-11-20T07-09-09Z-wrap/note-v2-36.md",
+"--run-dir",
+".andromeda/runs/2026-11-20T07-09-09Z-wrap",
+"--marker",
+"2026-11-19-a-fired-scheduled-wake-keeps-the-wheel"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v2-36: +1498 chars (total 2704) · status verified · ref/acceptance untouched",
+"landed, rendered ./.andromeda/db/log/2026-11-19T22-49-08-2026-11-19-a-fired-scheduled-wake-keeps-the-wheel.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T22-49-08-2026-11-19-a-fired-scheduled-wake-keeps-the-wheel.ndjson"
+],
+"before": {
+"id": "v2-36",
+"chunk": "2026-11-19-a-fired-scheduled-wake-keeps-the-wheel",
+"status": "verified",
+"method": "e2e",
+"ref": "tests/cli_wheel.rs::path5_a_fired_wake_keeps_the_driver_wheel_its_next_send_and_its_dialog · tests/cli_wheel.rs::path5_a… (629 chars)",
+"acceptance": "Under viola run on a CLI whose stamp counts every relied row, a prompt the hook files human with no human editing byte o… (575 chars)",
+"notes_chars": 1204
+},
+"after": {
+"id": "v2-36",
+"chunk": "2026-11-19-a-fired-scheduled-wake-keeps-the-wheel",
+"status": "verified",
+"method": "e2e",
+"ref": "tests/cli_wheel.rs::path5_a_fired_wake_keeps_the_driver_wheel_its_next_send_and_its_dialog · tests/cli_wheel.rs::path5_a… (629 chars)",
+"acceptance": "Under viola run on a CLI whose stamp counts every relied row, a prompt the hook files human with no human editing byte o… (575 chars)",
+"notes_chars": 2704
+}
+}
+]

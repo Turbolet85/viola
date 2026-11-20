@@ -1,0 +1,75 @@
+[
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "7b0d7906",
+"ts": "2026-11-20T07:54:34Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-19-a-fired-scheduled-wake-keeps-the-wheel",
+"--date",
+"2026-11-20",
+"--run-dir",
+".andromeda/runs/2026-11-20T07-09-09Z-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-umbkmr7p strip CARRY: 1099ch \"CARRY: the founder's own word (2026-11-1\"",
+"pin cry-4tpqeixz strip CARRY: 1005ch \"CARRY: the founder's own word (2026-11-1\"",
+"pin cry-yx2svady strip CARRY: 916ch \"CARRY: (re-pinned whole from «`/context`\"",
+"pin cry-iuatjqkx strip CARRY: 934ch \"CARRY: PROVISIONAL (delegate overseer, 2\"",
+"pin cry-b3gskjj3 strip WATCH: 472ch 0/3 since 2026-11-19-context-as-a-local-command \"WATCH: `boot_that_never_gets_ready…",
+"pin next markerless chk-5afcnsoh holds CARRY:×2",
+"2026-11-19-a-fired-scheduled-wake-keeps-the-wheel · strip 5 block(s) · spent in the spine",
+"dry-run · would flip 2026-11-19-a-fired-scheduled-wake-keeps-the-wheel pending -> complete"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "7b0d7906",
+"ts": "2026-11-20T07:54:41Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-19-a-fired-scheduled-wake-keeps-the-wheel",
+"--date",
+"2026-11-20",
+"--run-dir",
+".andromeda/runs/2026-11-20T07-09-09Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-umbkmr7p strip CARRY: 1099ch \"CARRY: the founder's own word (2026-11-1\"",
+"pin cry-4tpqeixz strip CARRY: 1005ch \"CARRY: the founder's own word (2026-11-1\"",
+"pin cry-yx2svady strip CARRY: 916ch \"CARRY: (re-pinned whole from «`/context`\"",
+"pin cry-iuatjqkx strip CARRY: 934ch \"CARRY: PROVISIONAL (delegate overseer, 2\"",
+"pin cry-b3gskjj3 strip WATCH: 472ch 0/3 since 2026-11-19-context-as-a-local-command \"WATCH: `boot_that_never_gets_ready…",
+"pin next markerless chk-5afcnsoh holds CARRY:×2",
+"flip 2026-11-19-a-fired-scheduled-wake-keeps-the-wheel pending -> complete · tx 3299",
+"compacted 1 complete line(s) — their freight spent in the spine, no archive (U61)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-19T22-49-08-2026-11-19-a-fired-scheduled-wake-keeps-the-wheel.ndjson",
+"./.andromeda/master-route.md",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]
