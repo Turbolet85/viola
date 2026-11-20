@@ -1,0 +1,17 @@
+--- a/.andromeda/architecture.md
++++ b/.andromeda/architecture.md
+@@ -154,3 +154,3 @@
+ decision/peer-euid-admission · Peer admitted only on a matching euid — A channel peer is admitted only when its euid is read and equals the own user's; an unreadable euid is refused, and the wrapper drops a refused stream before any frame, writing nothing, with no env, flag or feature seam.
+-decision/permission-request-question-stays-null · A question first raised by PermissionRequest stays null — A question first raised by PermissionRequest stays null to the human. · why: A PermissionRequest allow with updatedInput would satisfy it, but that body has no ledger row; adding one needs a further relied row, its viola verify probe and a re-stamp of every stamped version.
++decision/permission-request-question-answered · A question first raised by PermissionRequest is answered — A question first raised by PermissionRequest with no matching armed dialog is held for the driver; the answer returns as PermissionRequest allow with updatedInput, the tool input plus answers and annotations; a human key, an expired hold or an unverified CLI leave it to the human. · why: Ratified to end the rule that left such a question null; the body now has its own relied ledger row and verify probe. · except: Unmeasured: a user argument to viola run selecting the CLI's strict session kind, which refuses a changed input; the human then sees a denied tool call and no dialog.
+ decision/personal-v1-no-accounts · Personal v1 without accounts — v1 runs on the founder's own subscription with no accounts, and its on-disk state is parsed defensively. · why: The later public version for individual Claude Code subscribers must not need a rewrite.
+@@ -496,3 +496,3 @@
+ contract/agents-listing/unwrapped-sessions · agents listing · unwrapped sessions — Unwrapped sessions are listed as read-only rows; a row matching a wrapped instance's `child_pid` or `agent_session_id` is merged into that instance's row, never listed separately.
+-contract/answer-refusals/unknown-dialog · answer refusals · `unknown-dialog` — A late `answer` to a `question` first raised by PermissionRequest with no matching armed dialog is refused `unknown-dialog`.
++contract/answer-refusals/unknown-dialog · answer refusals · `unknown-dialog` — A late `answer`, to a dialog already answered or after its hold expired, is refused `unknown-dialog`.
+ contract/answer-response/permission · answer response · permission — A `permission` response is `{behavior:"allow"|"deny", message?}`, with no suggestion slot.
+@@ -590,3 +590,3 @@
+ contract/hook-contract/no-decision · hook contract · no decision — No decision is exit 0 with an empty stdout.
+-contract/hook-contract/permission-request · hook contract · PermissionRequest — PermissionRequest returns `{"hookSpecificOutput":{"hookEventName":"PermissionRequest","decision":{"behavior":"allow|deny","message":"…"}}}`.
++contract/hook-contract/permission-request · hook contract · PermissionRequest — PermissionRequest returns `{"hookSpecificOutput":{"hookEventName":"PermissionRequest","decision":{"behavior":"allow|deny","message":"…"}}}`; for a question the decision is `{"behavior":"allow","updatedInput":<the tool's input plus answers and annotations>}`.
+ contract/hook-contract/pre-tool-use · hook contract · PreToolUse — PreToolUse returns `{"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"allow","updatedInput":{…}}}`.

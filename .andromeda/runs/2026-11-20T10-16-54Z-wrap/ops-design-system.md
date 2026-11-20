@@ -1,2 +1,0 @@
-@none
-reason: The chunk moves only the readiness predicate's modal refusal (standing_modal) and changes no refusal word, detail, exit code, hint or output wording (fct-wpw4xln7; fct-pn22p663 notes the input-not-ready hint text is unchanged), renders no UI (tokens n/a, fct-ph5bkvoz), and brings no task fact, so the picker-marked contract/refusal-hints/not-delivered-input-not-ready row and every other design-system row stay true.

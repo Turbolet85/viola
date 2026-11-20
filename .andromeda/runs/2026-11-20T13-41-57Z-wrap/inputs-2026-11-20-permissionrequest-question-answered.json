@@ -1,0 +1,270 @@
+[
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "363241ce",
+"ts": "2026-11-20T13:42:50Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-20-permissionrequest-question-answered",
+"--source",
+"~/dev/projects/additional/viola-overseer/wrap-permreq-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the overseer wrap directive binding this wrap: the answer card limits, the CI red pin, the carries, the new route entry, the last card",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-20T13-41-57Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I11 · copy no-repo · ../additional/viola-overseer/wrap-permreq-directive.md",
+"cite: inputs#I11"
+],
+"stderr": null,
+"wrote": [
+"inputs/I11-wrap-permreq-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I11",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/wrap-permreq-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "57f0a837b759978d2e0db3f914b9e9c809994ef2a5f24b8d3260b0d1bc0a7b63",
+"copy": "I11-wrap-permreq-directive.md.txt",
+"link": false,
+"read_at": "2026-11-20T13:42:50Z",
+"step": "wrap",
+"why": "the overseer wrap directive binding this wrap: the answer card limits, the CI red pin, the carries, the new route entry, the last card"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "363241ce",
+"ts": "2026-11-20T13:42:53Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-20-permissionrequest-question-answered",
+"--run-dir",
+".andromeda/runs/2026-11-20T13-41-57Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-permreq-directive.md",
+"I1 cited scope.md:28 · scope.md:30 · scope.md:68 · research.md:7 · plan.md:9 · plan.md:260 · plan.md:281 · plan.md:496 · plan.md:510 · plan.md:625 (in fence) · plan.md:652 (in fence) · plan.md:660 (in fence) · plan.md:875 · plan.md:880 · plan.md:915",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-permreq-p3-ask.md",
+"I2 cited plan.md:10",
+"I3 unchanged · copy no-repo · ../additional/viola-overseer/relay-permreq-p3.md",
+"I3 cited plan.md:11 · plan.md:21 · plan.md:30 · plan.md:37 · plan.md:43 · plan.md:48 · plan.md:63 · plan.md:64 · plan.md:206 · plan.md:244 · plan.md:255 · plan.md:304 · plan.md:316 · plan.md:347 · plan.md:362 · plan.md:633 (in fence) · plan.md:652 (in fence) · plan.md:668 (in fence) · plan.md:677 (in fence) · plan.md:685 (in fence) · plan.md:709 (in fence) · plan.md:862 · plan.md:867 · plan.md:868 · plan.md:870 · plan.md:879 · plan.md:896 · plan.md:903 · plan.md:929 · plan.md:931 · plan.md:932 · plan.md:933 · plan.md:947 · report.md:77",
+"I4 n/a — a message has no live source · copy message · message: the founder via the overseer's dialogs, 2026-11-20T12:01:52Z",
+"I4 cited plan.md:12 · plan.md:933",
+"I5 unchanged · copy no-repo · ../additional/viola-overseer/relay-permreq-p5.md",
+"I5 cited plan.md:13 · plan.md:70 · plan.md:262 · plan.md:358 · plan.md:514 · plan.md:902 · plan.md:910",
+"I6 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase invocation",
+"I6 cited scope.md:55 · research.md:7 · research.md:87 · plan.md:15 · plan.md:883",
+"I7 unchanged · copy no-repo · ../additional/viola-overseer/relay-permreq-revision.md",
+"I7 cited scope.md:46 · scope.md:54 · scope.md:65 · research.md:7 · research.md:87 · plan.md:17 · plan.md:20 · plan.md:76 · plan.md:197 · plan.md:262 · plan.md:641 (in fence) · plan.md:883 · plan.md:891",
+"I8 n/a — a message has no live source · copy message · message: the overseer, delegate for the operator",
+"I8 cited report.md:72",
+"I9 unchanged · copy no-repo · ../additional/viola-overseer/implement-permreq-directive.md",
+"I9 cited report.md:68 · report.md:145",
+"I10 n/a — a message has no live source · copy message · message: the operator, the /andromeda-implement invocation",
+"I10 cited report.md:70",
+"I11 unchanged · copy no-repo · ../additional/viola-overseer/wrap-permreq-directive.md",
+"I11 UNCITED",
+"inputs: 11 entries — unchanged 7 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 4 · uncited 1 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 11,
+"counts": {
+"unchanged": 7,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 4
+},
+"uncited": 1,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "363241ce",
+"ts": "2026-11-20T14:13:53Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-20-permissionrequest-question-answered",
+"--message-file",
+".andromeda/runs/2026-11-20T13-41-57Z-wrap/answer-card.md",
+"--kind",
+"relay",
+"--origin",
+"the overseer, delegate for the operator, the answer-card dialog, 2026-11-20T14:13:47Z",
+"--why",
+"the delegate confirm of the wrap answer card Q1, PROVISIONAL until the founder own word",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-20T13-41-57Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I12 · copy message · message: the overseer, delegate for the operator, the answer-card dialog, 2026-11-20T14:13:47Z",
+"cite: inputs#I12"
+],
+"stderr": null,
+"wrote": [
+"inputs/I12-answer-card.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I12",
+"kind": "relay",
+"repo": null,
+"path": "message: the overseer, delegate for the operator, the answer-card dialog, 2026-11-20T14:13:47Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "2ce354bd2003b949b8f24033ff1457e5387a23ab26f6109c003a73fdbd9386c5",
+"copy": "I12-answer-card.md.txt",
+"link": false,
+"read_at": "2026-11-20T14:13:53Z",
+"step": "wrap",
+"why": "the delegate confirm of the wrap answer card Q1, PROVISIONAL until the founder own word"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "363241ce",
+"ts": "2026-11-20T14:22:42Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-20-permissionrequest-question-answered",
+"--message-file",
+".andromeda/runs/2026-11-20T13-41-57Z-wrap/relay-1.md",
+"--kind",
+"relay",
+"--origin",
+"the overseer, the route-resolve dialog, 2026-11-20T14:22:32Z",
+"--why",
+"route-resolve answers: the CI red WATCH, the three carries, the new entry mint, the next entry",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-20T13-41-57Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I13 · copy message · message: the overseer, the route-resolve dialog, 2026-11-20T14:22:32Z",
+"cite: inputs#I13"
+],
+"stderr": null,
+"wrote": [
+"inputs/I13-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I13",
+"kind": "relay",
+"repo": null,
+"path": "message: the overseer, the route-resolve dialog, 2026-11-20T14:22:32Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "292dec3112c2dd5c5b5bfde1890df9cc1051bea7df7f931ff8ce5a4c62a06ba6",
+"copy": "I13-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-20T14:22:42Z",
+"step": "wrap",
+"why": "route-resolve answers: the CI red WATCH, the three carries, the new entry mint, the next entry"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "363241ce",
+"ts": "2026-11-20T14:27:54Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-20-permissionrequest-question-answered",
+"--message-file",
+".andromeda/runs/2026-11-20T13-41-57Z-wrap/relay-2.md",
+"--kind",
+"relay",
+"--origin",
+"the overseer, the light gate dialog, 2026-11-20T14:27:47Z",
+"--why",
+"gate entries 22 and 23 recorded red by the plan wording against plan step 22 landing",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-20T13-41-57Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I14 · copy message · message: the overseer, the light gate dialog, 2026-11-20T14:27:47Z",
+"cite: inputs#I14"
+],
+"stderr": null,
+"wrote": [
+"inputs/I14-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I14",
+"kind": "relay",
+"repo": null,
+"path": "message: the overseer, the light gate dialog, 2026-11-20T14:27:47Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "15c5300961c8ec6d590f80d00785d626fc09f855b81152af3af4a52f581b3d28",
+"copy": "I14-relay-2.md.txt",
+"link": false,
+"read_at": "2026-11-20T14:27:53Z",
+"step": "wrap",
+"why": "gate entries 22 and 23 recorded red by the plan wording against plan step 22 landing"
+}
+}
+]

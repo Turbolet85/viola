@@ -1,0 +1,7 @@
+[[pattern]]
+id = 'main-stays-null'
+regex = 'stays null|left to the human|unanswerable|first raised by PermissionRequest|first raised through PermissionRequest|question-stays-null'
+
+[[pattern]]
+id = 'main-pq-stamp'
+regex = 'CS or WS'

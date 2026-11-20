@@ -1,0 +1,55 @@
+[[pattern]]
+id = 'relied-rows'
+regex = '26 (relied |ledger |relied ledger )?rows|26 pass|/26\]|relied ledger rows?|permission-request-question|PermissionRequestQuestion'
+
+[[pattern]]
+id = 'probe-ids'
+regex = '5 (closed )?probe ids?|closed probe ids?|ProbeAnswer|permission-question-first-option|capture-answers-closed-probe-ids'
+
+[[pattern]]
+id = 'probe-tables'
+regex = 'PROBE_ANSWERS|DIALOG_TURNS'
+
+[[pattern]]
+id = 'stamped-sets'
+regex = 'STAMPED|DRIFT_ONLY|drift-only|stamped sets?|ledger-probe-contract-suite|contract_ledger_probes'
+
+[[pattern]]
+id = 'dialog-variants'
+regex = '12 dialog|dialog variants?|question-permission'
+
+[[pattern]]
+id = 'floor-rows'
+regex = 'FLOOR_ROWS|floor rows?|step1-floor|every relied row but four'
+
+[[pattern]]
+id = 'dialog-rows'
+regex = 'DIALOG_ROWS'
+
+[[pattern]]
+id = 'cli-version'
+regex = 'DEFAULT_CLI_VERSION|RECORDED_CLI_VERSION|2\.1\.287|2\.1\.328'
+
+[[pattern]]
+id = 'prq-null'
+regex = 'permission-request-question-stays-null|unanswerable|question first raised by PermissionRequest|PermissionRequest question'
+
+[[pattern]]
+id = 'unknown-dialog'
+regex = 'unknown-dialog'
+
+[[pattern]]
+id = 'updated-input'
+regex = 'updatedInput'
+
+[[pattern]]
+id = 'answer-mapping'
+regex = 'dialog-answer-mapping|hook-decision-body|decision_body'
+
+[[pattern]]
+id = 'kept-stamp'
+regex = 'live-rig-kept-stamp-owner-only|kept stamp|question-stamp'
+
+[[pattern]]
+id = 'driver-policy'
+regex = 'driver-permission-policy-outside-viola'

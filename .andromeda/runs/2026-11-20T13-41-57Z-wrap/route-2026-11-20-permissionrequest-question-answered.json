@@ -1,0 +1,102 @@
+[
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "7b0d7906",
+"ts": "2026-11-20T14:29:30Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-20-permissionrequest-question-answered",
+"--date",
+"2026-11-20",
+"--run-dir",
+".andromeda/runs/2026-11-20T13-41-57Z-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-3qv2r3iy strip CARRY: 1662ch \"CARRY: (re-pinned whole from «A quoted m\"",
+"pin next markerless chk-h74j3hvq holds CARRY:×2 · WATCH:×1",
+"2026-11-20-permissionrequest-question-answered · strip 1 block(s) · spent in the spine",
+"dry-run · would flip 2026-11-20-permissionrequest-question-answered pending -> complete"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "7b0d7906",
+"ts": "2026-11-20T14:29:36Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-20-permissionrequest-question-answered",
+"--date",
+"2026-11-20",
+"--run-dir",
+".andromeda/runs/2026-11-20T13-41-57Z-wrap",
+"--desc-file",
+".andromeda/runs/2026-11-20T13-41-57Z-wrap/master-desc.txt",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-3qv2r3iy strip CARRY: 1662ch \"CARRY: (re-pinned whole from «A quoted m\"",
+"pin next markerless chk-h74j3hvq holds CARRY:×2 · WATCH:×1",
+"2026-11-20-permissionrequest-question-answered · strip 1 block(s) · spent in the spine",
+"dry-run · would flip 2026-11-20-permissionrequest-question-answered pending -> complete"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "7b0d7906",
+"ts": "2026-11-20T14:29:40Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-20-permissionrequest-question-answered",
+"--date",
+"2026-11-20",
+"--run-dir",
+".andromeda/runs/2026-11-20T13-41-57Z-wrap",
+"--desc-file",
+".andromeda/runs/2026-11-20T13-41-57Z-wrap/master-desc.txt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-3qv2r3iy strip CARRY: 1662ch \"CARRY: (re-pinned whole from «A quoted m\"",
+"pin next markerless chk-h74j3hvq holds CARRY:×2 · WATCH:×1",
+"flip 2026-11-20-permissionrequest-question-answered pending -> complete - desc REWRITTEN from --desc-file · tx 3459",
+"compacted 1 complete line(s) — their freight spent in the spine, no archive (U61)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-20T11-11-24-2026-11-20-permissionrequest-question-answered.ndjson",
+"./.andromeda/master-route.md",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]

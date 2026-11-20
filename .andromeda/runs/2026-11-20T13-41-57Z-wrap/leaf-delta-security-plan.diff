@@ -1,0 +1,7 @@
+--- a/.andromeda/security-plan.md
++++ b/.andromeda/security-plan.md
+@@ -359,3 +359,3 @@
+ decision/live-rig-context-arm-keeps-no-transcript · Live rig's context arm keeps no transcript byte — The live rig's CX arm reads the session transcript through MAX_FRAME, counting only tags past the kept length and keeping no byte of it, and sends only through viola send under the rig's private config.
+-decision/live-rig-kept-stamp-owner-only · Live rig's kept stamp owner-only, seeded to its own home — The live rig keeps a stamp from its CS or WS scratch home owner-only and no-clobber, and seeds it only into its own CC or R3W scratch home; CC with no kept stamp refuses before its ledger line and before any scratch, R3W before its ledger line.
++decision/live-rig-kept-stamp-owner-only · Live rig's kept stamp owner-only, seeded to its own home — The live rig keeps a stamp from its CS, WS or PQ scratch home owner-only and no-clobber, and seeds it only into its own CC or R3W scratch home; CC with no kept stamp refuses before its ledger line and before any scratch, R3W before its ledger line.
+ decision/live-rig-mcp-arm-keeps-no-output · Live rig's MCP arm keeps no CLI output — The live rig's MCP recording arm keeps no CLI output, stdout drained and dropped and stderr kept only as a byte count and a SHA, and its MCP config is a private 0600 file inside the scratch, removed with it.
