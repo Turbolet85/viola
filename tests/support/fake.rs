@@ -177,6 +177,23 @@ pub fn browser_tools_screen() -> Value {
     ]})
 }
 
+/// An idle session's screen, synthetic: a transcript row quoting the trust label mid-sentence
+/// (the shape measured on a driven session), then the box's own rows and a footer as the 2.1.328
+/// recorded ready screen holds them, rows 20 to 23.
+pub fn quoting_screen() -> Value {
+    use viola_agent_claude::screen::{SIGNATURES, TRUST_LITERAL};
+    let rule = "─".repeat(80);
+    let mut rows = vec![String::new(); 24];
+    rows[2] = "● The review card is ready.".to_owned();
+    rows[3] = format!("  its one line reads:\"{TRUST_LITERAL}\" in a code span");
+    rows[4] = "  and nothing else stands.".to_owned();
+    rows[20] = rule.clone();
+    rows[21] = "❯ ".to_owned();
+    rows[22] = rule;
+    rows[23] = format!("  {}", SIGNATURES.input_box[0]);
+    json!({ "rows": rows })
+}
+
 pub fn unhex(hex: &str) -> Vec<u8> {
     (0..hex.len())
         .step_by(2)

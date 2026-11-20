@@ -1344,6 +1344,49 @@ fn send_on_a_verified_cli_refuses_while_the_browser_tools_prompt_is_up(stamped_h
     wrapper.stop();
 }
 
+/// On a verified CLI a transcript row quoting a modal label, with the box's own rows below it, is
+/// no standing modal: an idle session's send goes past the gate and is read back as the driver's.
+#[rstest]
+fn send_on_a_verified_cli_goes_past_a_quoted_modal_label(stamped_home: StampedHome) {
+    let scratch = TestHome::new();
+    let fixtures = scratch.scratch().join("fixtures");
+    copy_tree(&workspace_path("fixtures/claude"), &fixtures);
+    std::fs::write(
+        fixtures
+            .join(fake::RECORDED_CLI_VERSION)
+            .join("Screen.ready.json"),
+        fake::quoting_screen().to_string(),
+    )
+    .expect("the quoting screen");
+    let fixtures = fixtures.to_str().expect("utf-8 path");
+    let wrapper = Wrapper::boot(stamped_home, "builder", None, &["--fixtures", fixtures]);
+    let dir = wrapper.instance_dir();
+    wait_events(&dir, "the session-start record", |l| {
+        l.iter().any(|e| e["kind"] == "session-start")
+    });
+    let l = end_offset(&dir);
+
+    let sent = send(wrapper.home(), &["builder", "--json"], CANARY);
+    assert_eq!(sent.code, Some(0), "stderr: {}", sent.stderr);
+    let doc: Value = serde_json::from_str(&sent.stdout).expect("one JSON document");
+    assert_eq!(doc["ok"]["cursor"], l);
+
+    let records = records_after(&dir, l);
+    let kinds: Vec<&Value> = records.iter().map(|r| &r["kind"]).collect();
+    assert_eq!(kinds, ["send-issued", "prompt-submitted", "send-confirmed"]);
+    assert_eq!(
+        records[1]["data"],
+        json!({"text": CANARY, "origin": "driver"})
+    );
+    assert!(!events(&dir).iter().any(|e| e["kind"] == "send-refused"));
+
+    let typed = prompts_at_least(&wrapper.receipt(), 1);
+    assert_eq!(typed.len(), 1, "exactly one prompt typed");
+    assert_eq!(typed[0]["text"], CANARY);
+    assert_eq!(typed[0]["submit"], "fired");
+    wrapper.stop();
+}
+
 /// The CLI wraps a long paste in its own pair and frames it with newlines (measured on 2.1.287, the
 /// recorded `paste-1` variant). With `--framing` the fake agent answers the sent long text with that
 /// recorded prompt, its bytes unchanged, and the send is still confirmed: the wrapper's normalised

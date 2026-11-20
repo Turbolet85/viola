@@ -1,0 +1,46 @@
+[
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "1c59b360",
+"ts": "2026-11-20T10:01:00Z",
+"argv": [
+"added",
+"--out",
+".andromeda/runs/2026-11-20T09-51-47Z-implement/new-text.md",
+"--run-dir",
+".andromeda/runs/2026-11-20T09-51-47Z-implement",
+"--marker",
+"2026-11-20-a-quoted-modal-never-blocks-a-send"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: 9e2b7e7d — no pre-CI commit",
+"crates/viola-agent-claude/src/screen.rs — added 147 line(s) in 6 range(s)",
+"src/run/gate.rs — added 31 line(s) in 1 range(s)",
+"tests/cli_send.rs — added 43 line(s) in 1 range(s)",
+"tests/support/fake.rs — added 17 line(s) in 1 range(s)",
+"new text: 4 file(s) · 0 new · 9 added range(s) · 238 line(s) · 16 block(s) → .andromeda/runs/2026-11-20T09-51-47Z-implement/new-text.md (29 lines) · written"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-20T09-51-47Z-implement/new-text.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"base": "9e2b7e7d51adae0d2881fc9b4de124118d475129",
+"counts": {
+"files": 4,
+"new": 0,
+"ranges": 9,
+"lines": 238,
+"blocks": 16
+},
+"out": ".andromeda/runs/2026-11-20T09-51-47Z-implement/new-text.md",
+"state": "written",
+"lines": 29
+}
+}
+]

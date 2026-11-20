@@ -623,6 +623,37 @@ mod tests {
         assert_eq!(gate.wait_ready(&clock, base), (Readiness::Ready, false));
     }
 
+    /// The box's own rows below `top`, as an idle session draws them.
+    fn verified_gate_over_the_box(base: Instant, top: &str) -> Gate {
+        let rule = "─".repeat(80);
+        verified_gate_at(base, &["● ok", top, &rule, "❯ ", &rule, "  ← for agents"])
+    }
+
+    /// A transcript row quoting the trust label mid-sentence, the measured shape, is no modal.
+    #[test]
+    fn wait_ready_verified_past_a_quoted_label_above_the_box_is_ready() {
+        let base = Instant::now();
+        let quoted = format!(
+            "  the card reads:\"{}\" and then it ends",
+            viola_agent_claude::screen::TRUST_LITERAL
+        );
+        let gate = verified_gate_over_the_box(base, &quoted);
+        let clock = FixedClock(base + Duration::from_millis(300));
+        assert_eq!(gate.wait_ready(&clock, base), (Readiness::Ready, false));
+    }
+
+    #[test]
+    fn wait_ready_verified_over_an_option_shaped_label_above_the_box_is_input_not_ready() {
+        let base = Instant::now();
+        let shaped = format!("   {}", viola_agent_claude::screen::TRUST_LITERAL);
+        let gate = verified_gate_over_the_box(base, &shaped);
+        let clock = FixedClock(base + Duration::from_millis(300));
+        assert_eq!(
+            gate.wait_ready(&clock, base),
+            (Readiness::InputNotReady, false)
+        );
+    }
+
     /// A verified gate reads the rows, where the partial gate would be ready: with no input box it
     /// waits out the maximum, refused at the first one-second step at or past 8.5 s.
     #[test]

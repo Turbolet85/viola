@@ -1,0 +1,53 @@
+[
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "363241ce",
+"ts": "2026-11-20T10:01:11Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-20-a-quoted-modal-never-blocks-a-send",
+"--source",
+"~/dev/projects/additional/viola-overseer/implement-modal-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the implement directive: no live start, the four controls as part of green, the stops, the operator pass with the ci.py read then stop",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-11-20T09-51-47Z-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I12 · copy no-repo · ../additional/viola-overseer/implement-modal-directive.md",
+"cite: inputs#I12"
+],
+"stderr": null,
+"wrote": [
+"inputs/I12-implement-modal-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I12",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/implement-modal-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "f18025f44e0d570c8f5dec3169e0a9e39d8f1e647f448d03572e264b77228f97",
+"copy": "I12-implement-modal-directive.md.txt",
+"link": false,
+"read_at": "2026-11-20T10:01:11Z",
+"step": "implement",
+"why": "the implement directive: no live start, the four controls as part of green, the stops, the operator pass with the ci.py read then stop"
+}
+}
+]

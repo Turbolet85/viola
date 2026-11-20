@@ -33,7 +33,8 @@ pub const BOX_RULE_MIN: usize = 40;
 
 /// Compiled screen signatures, never built from screen or upstream text: a ready screen has a row
 /// holding one `input_box` literal, or the box's own rows (a row of `box_rule` alone directly above
-/// a row opening `box_prompt`), and no row holding any `modals` literal.
+/// a row opening `box_prompt`), and no standing modal row: a row holding a `modals` literal that is
+/// option-shaped ([`Signatures::option_shaped`]) or has no box rows below it.
 #[derive(Debug, Clone, Copy)]
 pub struct Signatures {
     pub input_box: &'static [&'static str],
@@ -101,10 +102,46 @@ impl Signatures {
             .any(|w| self.is_box_rule(&w[0]) && w[1].starts_with(self.box_prompt))
     }
 
-    /// The input box is up: a footer literal or the box's own rows stand, and no modal row does.
+    /// Whether `row` reads as a dialog's option: any indent, an optional selector (the
+    /// `box_prompt` glyph, which the dialogs draw too, then any spaces), an optional numbering
+    /// (ASCII digits, a `.`, then any spaces), then a `modals` literal ending the row but for
+    /// spaces. A compiled shape over the compiled literals; no text is kept or returned.
+    pub fn option_shaped(&self, row: &str) -> bool {
+        let ends_on_label = |s: &str| {
+            self.modals.iter().any(|m| {
+                s.strip_prefix(m)
+                    .is_some_and(|t| t.chars().all(|c| c == ' '))
+            })
+        };
+        let indented = row.trim_start_matches(' ');
+        let selected = indented
+            .strip_prefix(self.box_prompt)
+            .map_or(indented, |s| s.trim_start_matches(' '));
+        let digitless = selected.trim_start_matches(|c: char| c.is_ascii_digit());
+        let numbered = (digitless.len() < selected.len())
+            .then(|| digitless.strip_prefix('.'))
+            .flatten()
+            .map(|s| s.trim_start_matches(' '));
+        ends_on_label(selected) || numbered.is_some_and(ends_on_label)
+    }
+
+    /// Whether the box's own rows stand strictly below row `i`; a footer literal never counts.
+    fn box_below(&self, rows: &[String], i: usize) -> bool {
+        rows.get(i + 1..).is_some_and(|below| self.holds_box(below))
+    }
+
+    /// Whether a modal stands: some row holds a modal literal and is option-shaped or has no box
+    /// rows below it. A label row that is neither reads as a quote in the transcript.
+    pub fn standing_modal(&self, rows: &[String]) -> bool {
+        rows.iter().enumerate().any(|(i, row)| {
+            self.holds_modal(row) && (self.option_shaped(row) || !self.box_below(rows, i))
+        })
+    }
+
+    /// The input box is up: a footer literal or the box's own rows stand, and no standing modal
+    /// row does ([`Self::standing_modal`]).
     pub fn input_box_up(&self, rows: &[String]) -> bool {
-        !rows.iter().any(|r| self.holds_modal(r))
-            && (self.holds_footer(rows) || self.holds_box(rows))
+        !self.standing_modal(rows) && (self.holds_footer(rows) || self.holds_box(rows))
     }
 
     /// Whether any input-box-family literal stands anywhere: a footer literal, a rule row or a row
@@ -325,8 +362,8 @@ impl Screen {
 
     /// With `sigs` `None` (no compiled signature row) the gate is partial: a poisoned model and a
     /// screen not quiet within the maximum wait still refuse, and a quiet screen is `Ready` without
-    /// any row read, so delivery confirmation decides the rest. With signatures a modal row refuses
-    /// at once, and a quiet screen with no input-box row waits for one until the maximum wait.
+    /// any row read, so delivery confirmation decides the rest. With signatures a standing modal row
+    /// refuses at once, and a quiet screen with no input-box row waits for one until the maximum wait.
     pub fn verdict(
         &self,
         sigs: Option<&Signatures>,
@@ -346,7 +383,7 @@ impl Screen {
             return GateStep::Done(Readiness::Ready);
         };
         let rows: Vec<String> = parser.screen().rows(0, self.cols).collect();
-        if rows.iter().any(|row| sigs.holds_modal(row)) {
+        if sigs.standing_modal(&rows) {
             return GateStep::Done(Readiness::InputNotReady);
         }
         if sigs.input_box_up(&rows) {
@@ -1017,6 +1054,109 @@ mod tests {
             GateStep::Done(Readiness::InputNotReady)
         );
         assert_eq!(verdict_over(&rows[3..]), GateStep::Done(Readiness::Ready));
+    }
+
+    #[rstest]
+    #[case::indent_column_0(TRUST_LITERAL.to_owned(), true)]
+    #[case::indent_column_2(format!("  {TRUST_LITERAL}"), true)]
+    #[case::indent_column_3(format!("   {TRUST_LITERAL}"), true)]
+    #[case::indent_column_4(format!("    {TRUST_LITERAL}"), true)]
+    #[case::a_letter_before(format!("  x{TRUST_LITERAL}"), false)]
+    #[case::a_quote_before(format!("  \"{TRUST_LITERAL}"), false)]
+    #[case::a_bullet_before(format!("● {TRUST_LITERAL}"), false)]
+    #[case::selector_then_a_space(format!(" ❯ {TRUST_LITERAL}"), true)]
+    #[case::selector_directly_before(format!("❯{TRUST_LITERAL}"), true)]
+    #[case::another_glyph_as_selector(format!(" > {TRUST_LITERAL}"), false)]
+    #[case::numbered(format!("  1. {TRUST_LITERAL}"), true)]
+    #[case::numbered_with_no_space(format!("  12.{TRUST_LITERAL}"), true)]
+    #[case::selector_then_numbered(format!(" ❯ 2. {TRUST_LITERAL}"), true)]
+    #[case::numbered_with_a_parenthesis(format!("  1) {TRUST_LITERAL}"), false)]
+    #[case::trailing_spaces(format!("   {TRUST_LITERAL}    "), true)]
+    #[case::a_quote_after(format!("   {TRUST_LITERAL}\""), false)]
+    #[case::a_word_after(format!("   {TRUST_LITERAL} now"), false)]
+    #[case::imports_at_column_3(format!("   {IMPORTS_LITERAL}"), true)]
+    #[case::browser_tools_at_column_3(format!("   {BROWSER_TOOLS_LITERAL}"), true)]
+    fn option_shape_reads_each_clause_boundary(#[case] row: String, #[case] expected: bool) {
+        assert_eq!(SIGNATURES.option_shaped(&row), expected);
+    }
+
+    /// The shaped forms the product knows: column 3 (the recorded trust row), the fake agent's
+    /// selected form, column 4 (the rig's browser-tools frames), column 2 (the suite's synthetic
+    /// browser-tools row) and a numbered form.
+    #[rstest]
+    fn option_shape_a_shaped_label_with_the_box_below_still_refuses(
+        #[values(TRUST_LITERAL, IMPORTS_LITERAL, BROWSER_TOOLS_LITERAL)] label: &str,
+        #[values("   ", " ❯ ", "    ", "  ", "  1. ")] form: &str,
+    ) {
+        let rows = [
+            vec![format!("{form}{label}")],
+            screen_rows("x", "❯ ", FOOTER),
+        ]
+        .concat();
+        assert!(SIGNATURES.standing_modal(&rows));
+        assert!(!SIGNATURES.input_box_up(&rows));
+        assert_eq!(
+            verdict_over(&rows),
+            GateStep::Done(Readiness::InputNotReady)
+        );
+    }
+
+    /// Where the rows below a quoted label row stand.
+    #[derive(Debug, Clone, Copy)]
+    enum Below {
+        Nothing,
+        FooterOnly,
+        BoxAboveOnly,
+        RuleWithNoPrompt,
+    }
+
+    #[rstest]
+    fn box_below_a_quoted_label_without_the_box_below_still_refuses(
+        #[values(TRUST_LITERAL, IMPORTS_LITERAL, BROWSER_TOOLS_LITERAL)] label: &str,
+        #[values(
+            Below::Nothing,
+            Below::FooterOnly,
+            Below::BoxAboveOnly,
+            Below::RuleWithNoPrompt
+        )]
+        below: Below,
+    ) {
+        let quoted = format!("  it said \"{label}\" then");
+        assert!(!SIGNATURES.option_shaped(&quoted));
+        let rows = match below {
+            Below::Nothing => vec![quoted],
+            Below::FooterOnly => vec![quoted, FOOTER.to_owned()],
+            Below::BoxAboveOnly => [screen_rows("x", "❯ ", FOOTER), vec![quoted]].concat(),
+            Below::RuleWithNoPrompt => vec![quoted, rule(80), "x".to_owned()],
+        };
+        assert!(SIGNATURES.standing_modal(&rows));
+        assert_eq!(
+            verdict_over(&rows),
+            GateStep::Done(Readiness::InputNotReady)
+        );
+    }
+
+    /// The quoting shapes: the measured assistant continuation row, a row ending on the label and
+    /// its closing quote, a row opening on the quoted label, a first transcript row.
+    #[rstest]
+    fn quoted_label_with_the_box_below_reads_ready(
+        #[values(TRUST_LITERAL, IMPORTS_LITERAL, BROWSER_TOOLS_LITERAL)] label: &str,
+        #[values(
+            "  the card reads:\"{}\" and then it ends",
+            "  the card reads \"{}\"",
+            "  \"{}\" is what it said",
+            "● {} was quoted"
+        )]
+        shape: &str,
+    ) {
+        let rows = [
+            vec![shape.replace("{}", label)],
+            screen_rows("x", "❯ ", FOOTER),
+        ]
+        .concat();
+        assert!(!SIGNATURES.standing_modal(&rows));
+        assert!(SIGNATURES.input_box_up(&rows));
+        assert_eq!(verdict_over(&rows), GateStep::Done(Readiness::Ready));
     }
 
     #[derive(Debug, Clone)]
