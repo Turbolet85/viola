@@ -1,0 +1,37 @@
+--- a/.andromeda/architecture.md
++++ b/.andromeda/architecture.md
+@@ -137,2 +137,3 @@
+ decision/ndjson-logs-and-atomic-snapshots · ndjson append logs plus atomic JSON snapshots — State is kept in ndjson append logs and atomic JSON snapshots, with std `File::lock` on separate `.lock` files; the log stays the source of truth. · why: The trail stays human-readable and `tail`-able, with no C in the build and no daemon; SQLite and redb were rejected.
++decision/no-automatic-reverify-of-red · No automatic verify of an earlier red version — An automatic verify runs only for a version whose stamps entry is short of a relied row; an entry holding every relied row that did not verify is never verified again automatically. · why: So a red version does not loop.
+ decision/no-cargo-pup · cargo_pup not taken — Module boundaries are enforced by crate separation, not by cargo_pup. · why: cargo_pup needs nightly and was rejected.
+@@ -180,3 +181,3 @@
+ decision/run-refuses-held-name · A start refuses a held name — viola run and viola revive refuse a name that is live or stale, or whose endpoint answers, with exit 1 and a message naming the instance.
+-decision/run-start-order · Child spawned last in the start order — A start resolves the program, checks collision, pins the copy and plugin, gates the version, on a verified CLI writes the trust record of an untrusted spawn folder, binds the endpoint, writes the first snapshot, heartbeat and start events, and only then spawns the child. · why: So the child's first SessionStart hook finds a listening endpoint and a recorded snapshot.
++decision/run-start-order · Child spawned last in the start order — A start resolves the program, checks collision, pins the copy and plugin, gates the version, binds the endpoint, runs any automatic verify, on a verified verdict writes an untrusted spawn folder's trust record, writes the first snapshot, heartbeat and start events, and only then spawns the child. · why: So the child's first SessionStart hook finds a listening endpoint and a recorded snapshot.
+ decision/screen-rows-read-only-by-verify · Screen row text read only by verify — The screen model has one row-text exit, and only viola verify reads it.
+@@ -201,2 +202,3 @@
+ decision/start-pins-the-bytes-it-checked · Start pins the very bytes it checked — A start reads its own exe once, keys the home-tree check by those bytes and pins those same bytes, so the copy it runs is the copy whose folders it checked. · why: The strict-modes check of the pinned copy's bin and plugin folders and the pinned-hash-mismatch refusal both assume no second read of the exe.
++decision/start-verifies-new-cli-version · Start verifies a new CLI version when keyed — With config.json verify_new_cli on, a viola run or revive start meeting a claude version with no attempted stamps entry runs viola verify once as a child after the endpoint bind, before the trust record and the claude child, and gates on the final verdict; the key is off by default.
+ decision/submitted-form-prompt-match · Prompt match in the submitted form after agent normalisation — The typed text matches prompt-submitted's text, whatever its origin, after the agent crate removes the long-paste wrapper and frame and reverses tag escaping, when equal or when non-empty and equal to the typed text less its trailing run of ASCII space, TAB, CR and LF. · why: The CLI trims only a trailing run at submit: it keeps a leading run of spaces, removes a trailing run of spaces and TAB, and keeps an inner run of spaces and an inner LF.
+@@ -335,3 +337,3 @@
+ decision/nutype-errors-not-folded · nutype validation errors stay out of crate enums — A nutype validation error is never folded into a crate error enum: the caller drops it, refusing the input (a usage error, invalid params, a closed field word) or treating it as absent (a config default with a rejection, no instance).
+-decision/on-disk-file-naming · On-disk file naming — On-disk files are lower-case, `.ndjson` for logs, `.json` for snapshots and `.lock` for lock files, one lock file per guarded file named `<name>.lock`.
++decision/on-disk-file-naming · On-disk file naming — On-disk files are lower-case, `.ndjson` for logs, `.json` for snapshots and `.lock` for lock files, one lock file per guarded file named `<name>.lock`. · except: ledger/verify.lock, the automatic verify's attempt lock, guards no file of its own name and stands apart from stamps.json.lock.
+ decision/one-error-enum-per-crate · One error enum per crate — Each crate has one error enum named `<Crate>Error`, each a `thiserror` enum except `PtyError`, whose `Display` and `Error` are hand-written with fixed messages. · except: Ratified exceptions: `ServeError` beside `McpError`, `StampsError` beside `StateError`, `PinError`, `StampsReadError` and `Refused`.
+@@ -607,3 +609,3 @@
+ contract/instance-snapshot/child-pid · instance snapshot · child_pid — `child_pid` is the pid of the spawned agent child and exists only to join `claude agents --json` rows to this instance.
+-contract/instance-snapshot/cli-verified · instance snapshot · cli_verified — `cli_verified` comes from `run`'s version gate.
++contract/instance-snapshot/cli-verified · instance snapshot · cli_verified — `cli_verified` is the start's final verdict: run's version gate, its stamps read again after the start's automatic verify where one ran.
+ contract/instance-snapshot/cli-version · instance snapshot · cli_version — `cli_version` comes from `run`'s version gate.
+@@ -681,2 +683,3 @@
+ ## architecture · occupied-resources
++decision/automatic-verify-attempt-lock · Automatic verify under its own attempt lock — A start verifies only holding ledger/verify.lock, owner-only, try-locked after the stamps strict-modes check, never the stamps lock; a held lock means no verify and an unverified start. Under it the start takes another start's verdict only when the entry changed after its own gate read it. · guard: verify_window_two_starts_at_once_run_one_verify
+ decision/board-refused-whole · Whole board refused on one failed check — viola list checks the home, instances/ and every instance before opening any file, and the first failure refuses the whole board with exit 21, no log and no line. · why: Ratified as the founder's own answer.
+@@ -781,2 +784,3 @@
+ contract/config-json/v · config.json · v — config.json carries v, which must be 1; the file is read with a MAX_FRAME cap.
++contract/config-json/verify-new-cli · config.json · verify_new_cli — A JSON boolean, default false, turning on the start's automatic verify; any other value reads false with one parse-rejected config-json malformed line, and v must be 1.
+ contract/diag-line/format · diagnostics line · format — Owned by obs and fixed by schemas/diag-line.v1.json; one line per write; folder 0700, files 0600.
+@@ -903,2 +907,3 @@
+ name/other/hook-user-prompt-submit — hook user-prompt-submit
++name/other/ledger-verify-lock — ledger/verify.lock
+ name/other/mcp-serve-test-child — MCP_SERVE_TEST_CHILD

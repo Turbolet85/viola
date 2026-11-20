@@ -1,0 +1,43 @@
+[[pattern]]
+id = 'CK'
+regex = 'CONFIG_KEYS|verify_new_cli|known `?config\.json`? keys|four (known )?keys'
+
+[[pattern]]
+id = 'DS'
+regex = 'auto-verify|diag-subject|spawn subjects?|closed subjects?'
+
+[[pattern]]
+id = 'ST'
+regex = 'SETTINGS|controls table|controls-not-switchable'
+
+[[pattern]]
+id = 'RL'
+regex = 'AV-2|`AV`|rig-av|live labels?|rehearse words?'
+
+[[pattern]]
+id = 'SO'
+regex = 'run-start-order|trust_folder|bind_endpoint|after the (endpoint )?bind|before the bind'
+
+[[pattern]]
+id = 'D1'
+regex = 'verify\.lock|attempt lock|stamps\.json\.lock|under (its|the) lock'
+
+[[pattern]]
+id = 'D2'
+regex = 'parser.{0,4}config-json|config-json'
+
+[[pattern]]
+id = 'EW'
+regex = 'only `?viola verify`? writes|sole (stamps )?writer|stamps-single-writer|verify-sole-stamps-writer|verify-child-set|ledger-stamps/writer'
+
+[[pattern]]
+id = 'EG'
+regex = 'unverified-cli-transport-only|partial-gate-on-unverified-cli|version-gate-strict-stamps-read|unverified-cli-gate|dialog-answers-need-verify-stamp|read_stamps_strict|cli_verified'
+
+[[pattern]]
+id = 'EV'
+regex = 'verify-probe-dirs-cleanup|probe-artifacts-cleanup|viola-verify-output|verify-stop|stamp-write-refused|state-files-never-hand-written|start-writes-trust-record-flag-only'
+
+[[pattern]]
+id = 'EP'
+regex = 'on-disk-file-naming|human-keystrokes-never-blocked|human-keystrokes|viola-terminal-bytes|start-output|run-terminal-child-only|real-claude-local-only|no-live-claude-in-ci|driver-permission-policy-outside-viola|config-tolerant-parse'

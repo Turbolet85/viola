@@ -1,0 +1,1532 @@
+[
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:09:59Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-20-a-new-cli-version-stamped-automatically",
+"--section-file",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/after-implement.md",
+"--heading",
+"## After implement",
+"--before",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-20-a-new-cli-version-stamped-automatically/report rev 2 · 10 new · 0 revised · 0 retired · 78 kept · tx 3493"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-20T14-45-00-2026-11-20-a-new-cli-version-stamped-automatically.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:10:03Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-20-a-new-cli-version-stamped-automatically",
+"--section-file",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/new-text.md",
+"--heading",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-20-a-new-cli-version-stamped-automatically/report rev 3 · 93 new · 0 revised · 0 retired · 88 kept · tx 3494"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-20T14-45-00-2026-11-20-a-new-cli-version-stamped-automatically.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:10:25Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/cites-land-2026-11-20-a-new-cli-version-stamped-automatically.ndjson",
+"--base",
+"816f9a7785f8458842e030e7bae4481445c465b4",
+"--run-dir",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 0 fact(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:10:29Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/cites-land-2026-11-20-a-new-cli-version-stamped-automatically.ndjson",
+"--base",
+"816f9a7785f8458842e030e7bae4481445c465b4",
+"--run-dir",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 0 fact(s) · 0 edge(s) · tx 3496"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-20T14-45-00-2026-11-20-a-new-cli-version-stamped-automatically.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:12:25Z",
+"argv": [
+"rows-packs",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 968 · packs 10 · pack 100 · 275185 B",
+"security-plan: rows 623 · packs 7 · pack 100 · 188711 B",
+"design-system: rows 318 · packs 4 · pack 100 · 77310 B",
+"layout-templates: rows 223 · packs 3 · pack 100 · 53414 B",
+"test-plan: rows 1355 · packs 14 · pack 100 · 365407 B",
+"obs-plan: rows 1030 · packs 11 · pack 100 · 283806 B",
+"a11y-plan: rows 235 · packs 3 · pack 100 · 66292 B",
+"rows-packs: 7 master(s) · 4752 row(s) · 52 pack(s) · 2 draw(s) a pack · pin 3496"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/rows-packs.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:35:14Z",
+"argv": [
+"rows-union",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 968 · packs 10 · picked 67 (40 by every draw) · standing 0 · 235847 B",
+"security-plan: rows 623 · packs 7 · picked 57 (29 by every draw) · standing 0 · 161929 B",
+"design-system: rows 318 · packs 4 · picked 32 (28 by every draw) · standing 0 · 65578 B",
+"layout-templates: rows 223 · packs 3 · picked 26 (15 by every draw) · standing 0 · 47816 B",
+"test-plan: rows 1355 · packs 14 · picked 119 (72 by every draw) · standing 0 · 296729 B",
+"obs-plan: rows 1030 · packs 11 · picked 78 (42 by every draw) · standing 0 · 226423 B",
+"a11y-plan: rows 235 · packs 3 · picked 25 (18 by every draw) · standing 0 · 52112 B",
+"rows-union: 7 master(s) · picked 404 of 4752 · rule any"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/arch-rows.md",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/arch-standing.md",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/arch-pick-counts.md",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/security-rows.md",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/security-standing.md",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/security-pick-counts.md",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/design-rows.md",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/design-standing.md",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/design-pick-counts.md",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/layouts-rows.md",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/layouts-standing.md",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/layouts-pick-counts.md",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/tests-rows.md",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/tests-standing.md",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/tests-pick-counts.md",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/obs-rows.md",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/obs-standing.md",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/obs-pick-counts.md",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/a11y-rows.md",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/a11y-standing.md",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/a11y-pick-counts.md",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:42:39Z",
+"argv": [
+"rows-check",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/ops-main-architecture.md",
+"--run-dir",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [
+"rows-check · standing · doc:architecture",
+"decision/run-start-order · over — rule: 308 chars, 300 at the most",
+"REFUSED · standing · 1 row(s) of 3 operation(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:42:39Z",
+"argv": [
+"rows-check",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/ops-main-security-plan.md",
+"--run-dir",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [
+"rows-check · standing · doc:security-plan",
+"decision/start-writes-trust-record-flag-only · over — rule: 337 chars, 300 at the most",
+"REFUSED · standing · 1 row(s) of 1 operation(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:42:40Z",
+"argv": [
+"rows-check",
+"--root",
+".",
+"--doc",
+"a11y-plan",
+"--file",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/ops-main-a11y-plan.md",
+"--run-dir",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"rows-check · standing · doc:a11y-plan",
+"PASS · standing · 1 operation(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:43:01Z",
+"argv": [
+"rows-check",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/ops-main-architecture.md",
+"--run-dir",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"rows-check · standing · doc:architecture",
+"PASS · standing · 3 operation(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:46:51Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/run-start-order · rejected",
+"decision/run-terminal-child-only · rejected",
+"decision/viola-home-resolution · rejected",
+"decision/stop-during-start-verify · rejected",
+"decision/automatic-verify-attempt-lock · rejected",
+"contract/diag-spawn-subjects/auto-verify · rejected",
+"fit: fits 6 · not_master 0 · stands 0",
+"## 2026-11-20-a-new-cli-version-stamped-automatically — Conventions: 1 row(s)\n**Section:** Conventions\n**Change:** ~ decision/on-disk-file-naming · except: was «»; now «ledger/verify.lock, the automatic verify's attempt lock, guards no file of its own name and stands apart from stamps.json.lock.»\n**Why:** decision/on-disk-file-naming: The chunk lands ledger/verify.lock, a lock file named for no guarded file, so the naming rule gains it as its named exception. — resolved (Q1), PROVISIONAL: delegate the overseer, 2026-11-20: «Confirm all 23 (Recommended)», PROVISIONAL until the founder's own word\n**Ref:** .andromeda/runs/2026-11-20T17-07-44Z-wrap/",
+"## 2026-11-20-a-new-cli-version-stamped-automatically — Standard Contracts: 1 row(s)\n**Section:** Standard Contracts\n**Change:** ~ contract/instance-snapshot/cli-verified · promise: was «`cli_verified` comes from `run`'s version gate.»; now «`cli_verified` is the start's final verdict: run's version gate, its stamps read again after the start's automatic verify where one ran.»\n**Why:** contract/instance-snapshot/cli-verified: The start now records the verdict read after its automatic verify, not the gate's first reading alone. — resolved (Q1), PROVISIONAL: delegate the overseer, 2026-11-20: «Confirm all 23 (Recommended)», PROVISIONAL until the founder's own word\n**Ref:** .andromeda/runs/2026-11-20T17-07-44Z-wrap/",
+"## 2026-11-20-a-new-cli-version-stamped-automatically — Established Decisions: 2 row(s)\n**Section:** Established Decisions\n**Change:** + decision/start-verifies-new-cli-version — Start verifies a new CLI version when keyed\n+ decision/no-automatic-reverify-of-red — No automatic verify of an earlier red version\n**Why:** decision/start-verifies-new-cli-version: The chunk adds the start's automatic verify, a decision future start work must respect. — resolved (Q1), PROVISIONAL: delegate the overseer, 2026-11-20: «Confirm all 23 (Recommended)», PROVISIONAL until the founder's own word\ndecision/no-automatic-reverify-of-red: The chunk decides that a red stamp is never retried by a start, a rule the automatic verify keeps. — resolved (Q1), PROVISIONAL: delegate the overseer, 2026-11-20: «Confirm all 23 (Recommended)», PROVISIONAL until the founder's own word\n**Ref:** .andromeda/runs/2026-11-20T17-07-44Z-wrap/",
+"## 2026-11-20-a-new-cli-version-stamped-automatically — Occupied Resources: 2 row(s)\n**Section:** Occupied Resources\n**Change:** + name/other/ledger-verify-lock — ledger/verify.lock\n+ contract/config-json/verify-new-cli — config.json · verify_new_cli\n**Why:** name/other/ledger-verify-lock: ledger/verify.lock is a new occupied on-disk name. — resolved (Q1), PROVISIONAL: delegate the overseer, 2026-11-20: «Confirm all 23 (Recommended)», PROVISIONAL until the founder's own word\ncontract/config-json/verify-new-cli: The chunk adds a config.json key, a new contract item the registry must list beside the other keys. — resolved (Q1), PROVISIONAL: delegate the overseer, 2026-11-20: «Confirm all 23 (Recommended)», PROVISIONAL until the founder's own word\n**Ref:** .andromeda/runs/2026-11-20T17-07-44Z-wrap/",
+"patterns: none: 2 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 6 operation(s) · 4 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:46:57Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/run-start-order · rejected",
+"decision/run-terminal-child-only · rejected",
+"decision/viola-home-resolution · rejected",
+"decision/stop-during-start-verify · rejected",
+"decision/automatic-verify-attempt-lock · rejected",
+"contract/diag-spawn-subjects/auto-verify · rejected",
+"fit: fits 6 · not_master 0 · stands 0",
+"landed tx 3497 · 6 operation(s) · 4 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-20T14-45-00-2026-11-20-a-new-cli-version-stamped-automatically.ndjson",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:46:57Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/ops-main-architecture.md",
+"--results",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/stop-during-start-verify · rejected",
+"fit: fits 2 · not_master 0 · stands 0",
+"## 2026-11-20-a-new-cli-version-stamped-automatically — Established Decisions: 1 row(s)\n**Section:** Established Decisions\n**Change:** ~ decision/run-start-order · rule: was «A start resolves the program, checks collision, pins the copy and plugin, gates the version, on a verified CLI writes the trust record of an untrusted spawn folder, binds the endpoint, writes the first snapshot, heartbeat and start events, and only then spawns the child.»; now «A start resolves the program, checks collision, pins the copy and plugin, gates the version, binds the endpoint, runs any automatic verify, on a verified verdict writes an untrusted spawn folder's trust record, writes the first snapshot, heartbeat and start events, and only then spawns the child.»\n**Why:** decision/run-start-order: The start now runs its automatic verify after the endpoint bind and writes the trust record after it on the final verdict, so the order the row states no longer holds; the set keeps the row's «only then». — resolved (Q1), PROVISIONAL: delegate the overseer, 2026-11-20: «Confirm all 23 (Recommended)», PROVISIONAL until the founder's own word\n**Ref:** .andromeda/runs/2026-11-20T17-07-44Z-wrap/",
+"## 2026-11-20-a-new-cli-version-stamped-automatically — Occupied Resources: 1 row(s)\n**Section:** Occupied Resources\n**Change:** + decision/automatic-verify-attempt-lock — Automatic verify under its own attempt lock\n**Why:** decision/automatic-verify-attempt-lock: The chunk lands the attempt lock that keeps two starts from both verifying, with the under-lock re-read narrowed as built (report Deviations 1), a resource and rule the registry must hold. — resolved (Q1), PROVISIONAL: delegate the overseer, 2026-11-20: «Confirm all 23 (Recommended)», PROVISIONAL until the founder's own word\n**Ref:** .andromeda/runs/2026-11-20T17-07-44Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 2 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:47:02Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/ops-main-architecture.md",
+"--results",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/stop-during-start-verify · rejected",
+"fit: fits 2 · not_master 0 · stands 0",
+"landed tx 3498 · 2 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-20T14-45-00-2026-11-20-a-new-cli-version-stamped-automatically.ndjson",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:47:02Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/ops-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/start-writes-trust-record-flag-only · rejected",
+"decision/config-cannot-disable-controls · rejected",
+"contract/config-json/verify-new-cli · rejected",
+"decision/start-verifies-new-cli-once · rejected",
+"decision/verify-attempt-lock · rejected",
+"decision/start-verify-child-isolated · rejected",
+"decision/start-verify-stop-leaves-nothing · rejected",
+"decision/start-verify-lines-closed-words · rejected",
+"fit: fits 0 · not_master 0 · stands 0",
+"patterns: none — the call sets and retires no row",
+"dry-run · would land 0 operation(s) · 0 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:47:02Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/ops-design-system.md",
+"--results",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/verify-new-cli-key · rejected",
+"decision/auto-verify-never-loops · rejected",
+"decision/start-verify-uses-start-terminal · rejected",
+"decision/stop-during-start-verify-ends-start · rejected",
+"fit: fits 6 · not_master 0 · stands 0",
+"## 2026-11-20-a-new-cli-version-stamped-automatically — Surface: cli: 6 row(s)\n**Section:** Surface: cli\n**Change:** + contract/auto-verify-line/verifying — viola run and revive automatic-verify line · verifying\n+ contract/auto-verify-line/did-not-verify — viola run and revive automatic-verify line · did not verify\n+ contract/auto-verify-line/earlier-red — viola run and revive automatic-verify line · earlier red\n+ contract/auto-verify-line/verifying-elsewhere — viola run and revive automatic-verify line · verifying elsewhere\n+ contract/auto-verify-line/no-stamp — viola run and revive automatic-verify line · no stamp\n+ contract/auto-verify-line/line-form — viola run and revive automatic-verify line · line form\n**Why:** contract/auto-verify-line/verifying: The chunk adds a fixed stderr line a start prints as it begins its automatic verify, a new printed wording the masters do not state. — resolved (Q1), PROVISIONAL: delegate the overseer, 2026-11-20: «Confirm all 23 (Recommended)», PROVISIONAL until the founder's own word\ncontract/auto-verify-line/did-not-verify: The chunk adds a fixed stderr line for a start's verify that ran red, a new printed wording the masters do not state. — resolved (Q1), PROVISIONAL: delegate the overseer, 2026-11-20: «Confirm all 23 (Recommended)», PROVISIONAL until the founder's own word\ncontract/auto-verify-line/earlier-red: The chunk adds a fixed stderr line for a version an earlier verify left red, a new printed wording the masters do not state. — resolved (Q1), PROVISIONAL: delegate the overseer, 2026-11-20: «Confirm all 23 (Recommended)», PROVISIONAL until the founder's own word\ncontract/auto-verify-line/verifying-elsewhere: The chunk adds a fixed stderr line for a second start meeting a verify already under way, a new printed wording the masters do not state. — resolved (Q1), PROVISIONAL: delegate the overseer, 2026-11-20: «Confirm all 23 (Recommended)», PROVISIONAL until the founder's own word\ncontract/auto-verify-line/no-stamp: The chunk adds a fixed stderr line with a closed set of three words for a verify that wrote no stamp, a new printed wording the masters do not state. — resolved (Q1), PROVISIONAL: delegate the overseer, 2026-11-20: «Confirm all 23 (Recommended)», PROVISIONAL until the founder's own word\ncontract/auto-verify-line/line-form: The chunk fixes the form of the five new start lines and their silence under --json, which no row of the surface states. — resolved (Q1), PROVISIONAL: delegate the overseer, 2026-11-20: «Confirm all 23 (Recommended)», PROVISIONAL until the founder's own word\n**Ref:** .andromeda/runs/2026-11-20T17-07-44Z-wrap/",
+"patterns: none — the call sets and retires no row",
+"dry-run · would land 6 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:47:03Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"layout-templates",
+"--file",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/ops-layout-templates.md",
+"--results",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/viola-revive/start-output · rejected",
+"contract/run-revive-start/automatic-verify · rejected",
+"contract/run-revive-start/automatic-verify-line · rejected",
+"contract/run-revive-start/automatic-verify-stop · rejected",
+"decision/automatic-verify-once-per-version · rejected",
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-20-a-new-cli-version-stamped-automatically — Surface: cli: 1 row(s)\n**Section:** Surface: cli\n**Change:** ~ contract/viola-run/start-output · promise: was «`viola run` prints nothing of its own, and the start's trust step adds no refusal, exit code, hint, `--json` code or terminal byte; the terminal belongs to the wrapped claude TUI until it exits.»; now «Before the child, only a key-on start's automatic verify line and verify's own output reach the terminal (discarded under `revive --json`); the trust step adds no refusal, exit code, hint, `--json` code or terminal byte; then the terminal belongs to the wrapped claude TUI until it exits.»\n**Why:** contract/viola-run/start-output: The start now runs viola verify after the bind with its output inherited and writes one fixed stderr line, so `viola run` no longer prints nothing of its own before the child. — resolved (Q1), PROVISIONAL: delegate the overseer, 2026-11-20: «Confirm all 23 (Recommended)», PROVISIONAL until the founder's own word\n**Ref:** .andromeda/runs/2026-11-20T17-07-44Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:47:03Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/human-never-blocked · rejected",
+"decision/run-checks-before-child-spawn · rejected",
+"contract/fake-agent-cli/argv-only-options · rejected",
+"decision/fake-agent-argv-only · rejected",
+"contract/config-json/verify-new-cli · rejected",
+"decision/one-verify-across-concurrent-starts · rejected",
+"decision/attempted-version-not-reverified · rejected",
+"contract/run-start-verify-stop/signal · rejected",
+"contract/diag-subject/auto-verify · rejected",
+"contract/start-verify-lines/format · rejected",
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-20-a-new-cli-version-stamped-automatically — 6. E2E Test Strategy: 1 row(s)\n**Section:** 6. E2E Test Strategy\n**Change:** ~ decision/single-writer-state-files · rule: was «Only the wrapper writes snapshot.json and only verify writes stamps.json; every other writer-capable entry point leaves both byte-identical.»; now «Only the wrapper writes snapshot.json and only verify writes stamps.json, the verify a keyed start runs included; every other writer-capable entry point leaves both byte-identical.»\n**Why:** decision/single-writer-state-files: A keyed viola run start now starts verify, which stays the one stamps writer, so the row must say a start's own verify is that writer. — resolved (Q1), PROVISIONAL: delegate the overseer, 2026-11-20: «Confirm all 23 (Recommended)», PROVISIONAL until the founder's own word\n**Ref:** .andromeda/runs/2026-11-20T17-07-44Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:47:03Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/ops-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/run-terminal-output/child-output · rejected",
+"contract/config-json/verify-new-cli · rejected",
+"contract/run-terminal-output/auto-verify-line · rejected",
+"decision/auto-verify-on-run-start-span · rejected",
+"decision/auto-verify-lock-writes-no-line · rejected",
+"decision/attempted-cli-never-auto-verified · rejected",
+"fit: fits 4 · not_master 0 · stands 0",
+"## 2026-11-20-a-new-cli-version-stamped-automatically — 3. Observability Harness Contract: 1 row(s)\n**Section:** 3. Observability Harness Contract\n**Change:** ~ contract/config-json/known-keys · promise: was «config.json has four known keys: v, diagnostics_level, claude_env_keep, dialog_hold_s; any other key, a retired five_hour or seven_day included, is counted as skipped in one parse-rejected config-json unknown-keys line at its process's start, and nothing refuses.»; now «config.json has five known keys: v, diagnostics_level, claude_env_keep, dialog_hold_s, verify_new_cli; any other key, a retired five_hour or seven_day included, is counted as skipped in one parse-rejected config-json unknown-keys line at its process's start, and nothing refuses.»\n**Why:** contract/config-json/known-keys: The known config.json keys moved from four to five with verify_new_cli, so the row's count and key list must follow. — resolved (Q1), PROVISIONAL: delegate the overseer, 2026-11-20: «Confirm all 23 (Recommended)», PROVISIONAL until the founder's own word\n**Ref:** .andromeda/runs/2026-11-20T17-07-44Z-wrap/",
+"## 2026-11-20-a-new-cli-version-stamped-automatically — 6. Log Coverage: 2 row(s)\n**Section:** 6. Log Coverage\n**Change:** ~ contract/diag-line-fields/process-start · promise: was «subject (self, claude-child, version-probe, verify-probe, verify-pty-probe, agents-probe, hyprctl-probe), service_name, version, os, pid, child_pid, endpoint_kind, pty_backend, cli_version, cli_verified, env_stripped_count, env_stripped_known, env_kept (names only).»; now «subject (self, claude-child, version-probe, verify-probe, verify-pty-probe, agents-probe, hyprctl-probe, auto-verify), service_name, version, os, pid, child_pid, endpoint_kind, pty_backend, cli_version, cli_verified, env_stripped_count, env_stripped_known, env_kept (names only).»\n+ contract/diag-subject/auto-verify — diag-line subject enum · auto-verify\n**Why:** contract/diag-line-fields/process-start: The diag-line subject enum gained auto-verify, so the row's closed subject list must name it. — resolved (Q1), PROVISIONAL: delegate the overseer, 2026-11-20: «Confirm all 23 (Recommended)», PROVISIONAL until the founder's own word\ncontract/diag-subject/auto-verify: The closed subject enum of the diag-line schema gained auto-verify for the start's verify child, a contract item no row names yet. — resolved (Q1), PROVISIONAL: delegate the overseer, 2026-11-20: «Confirm all 23 (Recommended)», PROVISIONAL until the founder's own word\n**Ref:** .andromeda/runs/2026-11-20T17-07-44Z-wrap/",
+"## 2026-11-20-a-new-cli-version-stamped-automatically — 4. Span / Trace Coverage: 1 row(s)\n**Section:** 4. Span / Trace Coverage\n**Change:** + contract/run-process-log/auto-verify-stop — run process log · stop during the automatic verify\n**Why:** contract/run-process-log/auto-verify-stop: A stop in the start's verify window now ends the start by the signal with no process-exit of its own, an exception to the run log's self exit line that no row states. — resolved (Q1), PROVISIONAL: delegate the overseer, 2026-11-20: «Confirm all 23 (Recommended)», PROVISIONAL until the founder's own word\n**Ref:** .andromeda/runs/2026-11-20T17-07-44Z-wrap/",
+"patterns: none: 2 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 4 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:47:03Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"a11y-plan",
+"--file",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/ops-a11y-plan.md",
+"--results",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/viola-run-auto-verify/stderr-lines · rejected",
+"contract/config-json/verify-new-cli · rejected",
+"decision/human-keystrokes-never-blocked · rejected",
+"contract/tui-passthrough/own-bytes · rejected",
+"decision/zero-viola-bytes-on-the-terminal · rejected",
+"decision/wheel-ignores-terminal-events · rejected",
+"decision/portable-pty-outer-pty-driver · rejected",
+"decision/time-bounds-fall-on-the-driver · rejected",
+"decision/time-bounds-never-on-human · rejected",
+"fit: fits 2 · not_master 0 · stands 0",
+"## 2026-11-20-a-new-cli-version-stamped-automatically — 1. A11y Scope Summary: 2 row(s)\n**Section:** 1. A11y Scope Summary\n**Change:** ~ contract/tui-passthrough/human-keystrokes · promise: was «Human keystrokes are never blocked, refused or delayed past the current atomic paste.»; now «Human keystrokes are never blocked, refused or delayed past the current atomic paste once the wrapped child holds the terminal; the one exception is a start's automatic verify window, before the child starts.»\n~ contract/tui-passthrough/viola-terminal-bytes · promise: was «viola writes zero bytes of its own to the terminal; only the child's output reaches it.»; now «Once the wrapped child holds the terminal viola writes zero bytes of its own to it; only a start's automatic verify lines L1 to L5 and verify's own output precede the child's bytes.»\n**Why:** contract/tui-passthrough/human-keystrokes: The start's automatic verify runs before the wrapped child exists with null stdin, so the never-blocked promise holds from the child's start, not across that window. — resolved (Q1), PROVISIONAL: delegate the overseer, 2026-11-20: «Confirm all 23 (Recommended)», PROVISIONAL until the founder's own word\ncontract/tui-passthrough/viola-terminal-bytes: A start's automatic verify now writes its lines and verify's output to the terminal before the child's bytes, so zero viola bytes holds only from the child's start. — resolved (Q1), PROVISIONAL: delegate the overseer, 2026-11-20: «Confirm all 23 (Recommended)», PROVISIONAL until the founder's own word\n**Ref:** .andromeda/runs/2026-11-20T17-07-44Z-wrap/",
+"patterns: none: 2 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 2 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:47:04Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"a11y-plan",
+"--file",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/ops-main-a11y-plan.md",
+"--results",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-20-a-new-cli-version-stamped-automatically — 2. A11y Strategy: 1 row(s)\n**Section:** 2. A11y Strategy\n**Change:** ~ decision/human-keystrokes-never-blocked · except: was «»; now «The start's automatic verify window, before any child exists: a key typed then waits in the terminal's own buffer until the child starts.»\n**Why:** decision/human-keystrokes-never-blocked: A keyed start runs viola verify before any child exists, and the founder's P4-F3 answer names that window as the row's one exception. — resolved (Q1), PROVISIONAL: delegate the overseer, 2026-11-20: «Confirm all 23 (Recommended)», PROVISIONAL until the founder's own word\n**Ref:** .andromeda/runs/2026-11-20T17-07-44Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:47:08Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/ops-design-system.md",
+"--results",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/verify-new-cli-key · rejected",
+"decision/auto-verify-never-loops · rejected",
+"decision/start-verify-uses-start-terminal · rejected",
+"decision/stop-during-start-verify-ends-start · rejected",
+"fit: fits 6 · not_master 0 · stands 0",
+"landed tx 3499 · 6 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-20T14-45-00-2026-11-20-a-new-cli-version-stamped-automatically.ndjson",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:47:09Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"layout-templates",
+"--file",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/ops-layout-templates.md",
+"--results",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/viola-revive/start-output · rejected",
+"contract/run-revive-start/automatic-verify · rejected",
+"contract/run-revive-start/automatic-verify-line · rejected",
+"contract/run-revive-start/automatic-verify-stop · rejected",
+"decision/automatic-verify-once-per-version · rejected",
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 3500 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-20T14-45-00-2026-11-20-a-new-cli-version-stamped-automatically.ndjson",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:47:09Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/human-never-blocked · rejected",
+"decision/run-checks-before-child-spawn · rejected",
+"contract/fake-agent-cli/argv-only-options · rejected",
+"decision/fake-agent-argv-only · rejected",
+"contract/config-json/verify-new-cli · rejected",
+"decision/one-verify-across-concurrent-starts · rejected",
+"decision/attempted-version-not-reverified · rejected",
+"contract/run-start-verify-stop/signal · rejected",
+"contract/diag-subject/auto-verify · rejected",
+"contract/start-verify-lines/format · rejected",
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 3501 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-20T14-45-00-2026-11-20-a-new-cli-version-stamped-automatically.ndjson",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:47:10Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/ops-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/run-terminal-output/child-output · rejected",
+"contract/config-json/verify-new-cli · rejected",
+"contract/run-terminal-output/auto-verify-line · rejected",
+"decision/auto-verify-on-run-start-span · rejected",
+"decision/auto-verify-lock-writes-no-line · rejected",
+"decision/attempted-cli-never-auto-verified · rejected",
+"fit: fits 4 · not_master 0 · stands 0",
+"landed tx 3502 · 4 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-20T14-45-00-2026-11-20-a-new-cli-version-stamped-automatically.ndjson",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:47:10Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"a11y-plan",
+"--file",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/ops-a11y-plan.md",
+"--results",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/viola-run-auto-verify/stderr-lines · rejected",
+"contract/config-json/verify-new-cli · rejected",
+"decision/human-keystrokes-never-blocked · rejected",
+"contract/tui-passthrough/own-bytes · rejected",
+"decision/zero-viola-bytes-on-the-terminal · rejected",
+"decision/wheel-ignores-terminal-events · rejected",
+"decision/portable-pty-outer-pty-driver · rejected",
+"decision/time-bounds-fall-on-the-driver · rejected",
+"decision/time-bounds-never-on-human · rejected",
+"fit: fits 2 · not_master 0 · stands 0",
+"landed tx 3503 · 2 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-20T14-45-00-2026-11-20-a-new-cli-version-stamped-automatically.ndjson",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:47:10Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"a11y-plan",
+"--file",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/ops-main-a11y-plan.md",
+"--results",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 3504 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-20T14-45-00-2026-11-20-a-new-cli-version-stamped-automatically.ndjson",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:50:41Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/a11y-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-20T17-07-44Z-wrap/staged-leaf-.claude__docs__a11y-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/a11y-summary.md rev 16 · 0 new · 1 revised · 0 retired · tx 3505"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-20T14-45-00-2026-11-20-a-new-cli-version-stamped-automatically.ndjson",
+"./.claude/docs/a11y-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:50:42Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/a11y.md",
+"--file",
+"./.andromeda/runs/2026-11-20T17-07-44Z-wrap/staged-leaf-.claude__rules__a11y.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/a11y.md rev 8 · 0 new · 1 revised · 0 retired · tx 3506"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-20T14-45-00-2026-11-20-a-new-cli-version-stamped-automatically.ndjson",
+"./.claude/rules/a11y.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:50:43Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/conventions.md",
+"--file",
+"./.andromeda/runs/2026-11-20T17-07-44Z-wrap/staged-leaf-.claude__docs__conventions.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/conventions.md rev 20 · 0 new · 2 revised · 0 retired · tx 3507"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-20T14-45-00-2026-11-20-a-new-cli-version-stamped-automatically.ndjson",
+"./.claude/docs/conventions.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:50:43Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola-agent-claude.md",
+"--file",
+"./.andromeda/runs/2026-11-20T17-07-44Z-wrap/staged-leaf-.claude__docs__services__viola-agent-claude.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola-agent-claude.md rev 30 · 0 new · 1 revised · 0 retired · tx 3508"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-20T14-45-00-2026-11-20-a-new-cli-version-stamped-automatically.ndjson",
+"./.claude/docs/services/viola-agent-claude.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:50:44Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola.md",
+"--file",
+"./.andromeda/runs/2026-11-20T17-07-44Z-wrap/staged-leaf-.claude__docs__services__viola.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola.md rev 20 · 0 new · 1 revised · 0 retired · tx 3509"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-20T14-45-00-2026-11-20-a-new-cli-version-stamped-automatically.ndjson",
+"./.claude/docs/services/viola.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:50:44Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola-state.md",
+"--file",
+"./.andromeda/runs/2026-11-20T17-07-44Z-wrap/staged-leaf-.claude__docs__services__viola-state.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola-state.md rev 9 · 0 new · 1 revised · 0 retired · tx 3510"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-20T14-45-00-2026-11-20-a-new-cli-version-stamped-automatically.ndjson",
+"./.claude/docs/services/viola-state.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:50:45Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/events.md",
+"--file",
+"./.andromeda/runs/2026-11-20T17-07-44Z-wrap/staged-leaf-.claude__rules__events.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/events.md rev 17 · 0 new · 1 revised · 0 retired · tx 3511"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-20T14-45-00-2026-11-20-a-new-cli-version-stamped-automatically.ndjson",
+"./.claude/rules/events.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:50:45Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/frontend.md",
+"--file",
+"./.andromeda/runs/2026-11-20T17-07-44Z-wrap/staged-leaf-.claude__rules__frontend.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/frontend.md rev 11 · 0 new · 1 revised · 0 retired · tx 3512"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-20T14-45-00-2026-11-20-a-new-cli-version-stamped-automatically.ndjson",
+"./.claude/rules/frontend.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:50:46Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/commands.md",
+"--file",
+"./.andromeda/runs/2026-11-20T17-07-44Z-wrap/staged-leaf-.claude__docs__commands.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/commands.md rev 22 · 0 new · 1 revised · 0 retired · tx 3513"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-20T14-45-00-2026-11-20-a-new-cli-version-stamped-automatically.ndjson",
+"./.claude/docs/commands.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:50:47Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/obs-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-20T17-07-44Z-wrap/staged-leaf-.claude__docs__obs-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/obs-summary.md rev 14 · 0 new · 1 revised · 0 retired · tx 3514"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-20T14-45-00-2026-11-20-a-new-cli-version-stamped-automatically.ndjson",
+"./.claude/docs/obs-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:50:47Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/observability.md",
+"--file",
+"./.andromeda/runs/2026-11-20T17-07-44Z-wrap/staged-leaf-.claude__rules__observability.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/observability.md rev 17 · 0 new · 2 revised · 0 retired · tx 3515"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-20T14-45-00-2026-11-20-a-new-cli-version-stamped-automatically.ndjson",
+"./.claude/rules/observability.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:56:44Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/route-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 3 record(s) · 2 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:56:48Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/route-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 3 record(s) · 2 edge(s) · tx 3524 · cry-ttj3ml2l … cry-fqwjpnqt"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-20T14-45-00-2026-11-20-a-new-cli-version-stamped-automatically.ndjson",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T17:57:05Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/run-node.txt",
+"--run-dir",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 0 edge(s) · tx 3526 · run-lb3xp5wn … run-lb3xp5wn"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-20T14-45-00-2026-11-20-a-new-cli-version-stamped-automatically.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T18:00:01Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-20-a-new-cli-version-stamped-automatically",
+"--section-file",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap/after-implement.md",
+"--heading",
+"## After implement",
+"--before",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap",
+"--marker",
+"2026-11-20-a-new-cli-version-stamped-automatically"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-20-a-new-cli-version-stamped-automatically/report rev 4 · 1 new · 0 revised · 0 retired · 181 kept · tx 3527"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-20T14-45-00-2026-11-20-a-new-cli-version-stamped-automatically.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-20T18:00:07Z",
+"argv": [
+"land",
+"--root",
+".",
+"--chunk",
+"2026-11-20-a-new-cli-version-stamped-automatically",
+"--run-dir",
+".andromeda/runs/2026-11-20T17-07-44Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"unchanged · 18 file(s) of 2026-11-20-a-new-cli-version-stamped-automatically"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

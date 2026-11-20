@@ -126,4 +126,4 @@
 2026-11-19-a-fired-scheduled-wake-keeps-the-wheel · complete · a CLI-scheduled wake's prompt told from a typed one under viola run, so the driver keeps its sends and dialogs (v2-36) · → chk:2026-11-19-a-fired-scheduled-wake-keeps-the-wheel
 2026-11-20-a-quoted-modal-never-blocks-a-send · complete · A quoted modal literal in a transcript row no longer refuses a send on an idle session; a standing modal still does · → chk:2026-11-20-a-quoted-modal-never-blocks-a-send
 2026-11-20-permissionrequest-question-answered · complete · a PermissionRequest question answered allow with updatedInput, the 27th relied row and its probe; 2.1.328 alone re-stamped, three sets drift-only · → chk:2026-11-20-permissionrequest-question-answered
-2026-11-20-a-new-cli-version-stamped-automatically · pending · a `viola run` meeting an unstamped `claude` version gets it stamped without a hand-run verify · → chk:2026-11-20-a-new-cli-version-stamped-automatically
+2026-11-20-a-new-cli-version-stamped-automatically · complete · a `viola run` meeting an unstamped `claude` version gets it stamped without a hand-run verify · → chk:2026-11-20-a-new-cli-version-stamped-automatically

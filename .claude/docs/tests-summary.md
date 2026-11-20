@@ -55,7 +55,7 @@ The harness is the agent-driven verification surface. `scripts/agent-run.sh` (PO
 ## Critical decisions
 
 - `crates/viola-e2e` (test-only, `publish = false`) hosts `viola-harness` and the Tokio clients, keeping the sync root package tokio-free.
-- Stamps conflict resolved: `viola verify` against the fake agent is the only writer of `ledger/stamps.json` in tests and CI.
+- Stamps conflict resolved: `viola verify` against the fake agent (the verify a keyed start runs included) is the only writer of `ledger/stamps.json` in tests and CI; every other writer-capable entry point leaves it byte-identical.
 - Branch coverage is enforced as LLVM region coverage; mutation testing covers branch strength.
 - hyperfine is the perf gate (criterion does not exit non-zero on regression).
 - The spine deadline is `viola_core::SPINE_DEADLINE`; the confirmation window is the compiled `CONFIRM_WINDOW_FALLBACK` = 10 s for every confirmed send but `/compact` on a verified CLI, which waits its own `COMPACT_CONFIRM_WINDOW` (40 s, PROVISIONAL), validated per CLI version by the `confirm-window` ledger row.
