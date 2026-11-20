@@ -1,0 +1,162 @@
+[
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "667bc5fa",
+"ts": "2026-11-20T11:11:45Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-20T11-10-34Z-phase",
+"--marker",
+"2026-11-20-permissionrequest-question-answered"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 3383 · 2026-11-20T11-11-24-2026-11-20-permissionrequest-question-answered.ndjson",
+"ts 2026-11-20T11:11:40Z · clock 2026-11-20T11:11:45Z · the builders' bound 2026-11-20T11:09:56Z (line 3775)",
+"ids 2026-11-20T11:11:40Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-20T11-11-24-2026-11-20-permissionrequest-question-answered.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "667bc5fa",
+"ts": "2026-11-20T11:41:46Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-20T11-10-34Z-phase",
+"--marker",
+"2026-11-20-permissionrequest-question-answered"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 3384 · 2026-11-20T11-11-24-2026-11-20-permissionrequest-question-answered.ndjson",
+"ts 2026-11-20T11:41:37Z · clock 2026-11-20T11:41:46Z · the builders' bound 2026-11-20T11:11:40Z (line 3776)",
+"ids 2026-11-20T11:41:37Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-20T11-11-24-2026-11-20-permissionrequest-question-answered.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "667bc5fa",
+"ts": "2026-11-20T11:45:34Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-20T11-10-34Z-phase",
+"--marker",
+"2026-11-20-permissionrequest-question-answered"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 3387 · 2026-11-20T11-11-24-2026-11-20-permissionrequest-question-answered.ndjson",
+"ts 2026-11-20T11:45:22Z · clock 2026-11-20T11:45:34Z · the builders' bound 2026-11-20T11:41:37Z (line 3777)",
+"ids 2026-11-20T11:45:22Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-20T11-11-24-2026-11-20-permissionrequest-question-answered.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "667bc5fa",
+"ts": "2026-11-20T12:16:20Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"3",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-20T11-10-34Z-phase",
+"--marker",
+"2026-11-20-permissionrequest-question-answered"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 3 record(s) in the store · tx 3393 · 2026-11-20T11-11-24-2026-11-20-permissionrequest-question-answered.ndjson",
+"ts 2026-11-20T12:16:03Z · clock 2026-11-20T12:16:20Z · the builders' bound 2026-11-20T11:45:22Z (line 3778)",
+"ids 2026-11-20T12:16:03Z-a … 2026-11-20T12:16:03Z-c (3)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-20T11-11-24-2026-11-20-permissionrequest-question-answered.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "667bc5fa",
+"ts": "2026-11-20T12:22:39Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-20T11-10-34Z-phase",
+"--marker",
+"2026-11-20-permissionrequest-question-answered"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 3399 · 2026-11-20T11-11-24-2026-11-20-permissionrequest-question-answered.ndjson",
+"ts 2026-11-20T12:22:17Z · clock 2026-11-20T12:22:39Z · the builders' bound 2026-11-20T12:16:03Z (line 3781)",
+"ids 2026-11-20T12:22:17Z-a … 2026-11-20T12:22:17Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-20T11-11-24-2026-11-20-permissionrequest-question-answered.ndjson"
+],
+"before": null,
+"after": null
+}
+]

@@ -194,7 +194,42 @@ fn fake_agent_print_turn_matches_every_recorded_set() {
 /// The dialog-tier hook events, as test literals.
 const DIALOG_EVENTS: [&str; 3] = ["PreToolUse", "PermissionRequest", "PostToolUse"];
 /// The dialog prompts' variant stems in paste order, as test literals.
-const DIALOG_STEMS: [&str; 4] = ["questions", "parallel", "permission", "plan"];
+const DIALOG_STEMS: [&str; 5] = [
+    "questions",
+    "parallel",
+    "permission",
+    "question-permission",
+    "plan",
+];
+
+/// The one step line a set recorded before the `question-permission` variants fails on.
+const QUESTION_ROW_FAILS: &str = "[27/27] permission-request-question a question raised by PermissionRequest takes the allow body  fail";
+
+/// Whether `set` holds the `question-permission` variants the 27th row's probe replays.
+fn holds_question_permission(set: &Path) -> bool {
+    set.join("PermissionRequest.question-permission-1.json")
+        .exists()
+}
+
+/// A framed set's verify exit: 0 on a set holding the `question-permission` variants; on any
+/// other, exit 1 with the 27th row's step line the one failing line and the summary `1 fail`.
+fn assert_framed_exit(set: &Path, version: &str, ran: &support::verify::Ran) {
+    let stdout = ran.stdout_text();
+    if holds_question_permission(set) {
+        assert_eq!(ran.code, Some(0), "{version}: verify exit\n{stdout}");
+        return;
+    }
+    assert_eq!(ran.code, Some(1), "{version}: verify exit\n{stdout}");
+    let failing: Vec<&str> = stdout
+        .lines()
+        .filter(|l| l.starts_with('[') && l.ends_with("  fail"))
+        .collect();
+    assert_eq!(failing, [QUESTION_ROW_FAILS], "{version}: failing steps");
+    assert!(
+        stdout.lines().any(|l| l.ends_with("26 pass  1 fail")),
+        "{version}: summary\n{stdout}"
+    );
+}
 
 /// A set's recorded dialog variants in replay order: per stem, per call `n`, its PreToolUse,
 /// PermissionRequest and PostToolUse fixtures as recorded; a call with neither of the first two
@@ -260,12 +295,16 @@ fn fake_agent_dialog_replay_matches_every_recorded_dialog_set() {
         // echoed: its local-command row fails, so verify exits 1 with the dialog tier still replayed.
         let framed = !framing_replay(&root.join(version)).is_empty();
         let (lines, ran) = verify_receipt(&root, version, framed);
-        assert_eq!(
-            ran.code,
-            Some(if framed { 0 } else { 1 }),
-            "{version}: verify exit\n{}",
-            ran.stdout_text()
-        );
+        if framed {
+            assert_framed_exit(&root.join(version), version, &ran);
+        } else {
+            assert_eq!(
+                ran.code,
+                Some(1),
+                "{version}: verify exit\n{}",
+                ran.stdout_text()
+            );
+        }
         assert_eq!(
             dialog_drift(&root.join(version), &lines),
             Vec::<String>::new(),
@@ -357,12 +396,7 @@ fn fake_agent_framing_replay_matches_every_recorded_framing_set() {
             "{version}: a partial framing set"
         );
         let (lines, ran) = verify_receipt(&root, version, true);
-        assert_eq!(
-            ran.code,
-            Some(0),
-            "{version}: verify exit\n{}",
-            ran.stdout_text()
-        );
+        assert_framed_exit(&set, version, &ran);
         assert_eq!(
             framing_drift(&set, &lines),
             Vec::<String>::new(),
@@ -671,6 +705,9 @@ fn dialog_replay_reads_each_call_s_events_in_order() {
             "PostToolUse.parallel-2",
             "PermissionRequest.permission-1",
             "PostToolUse.permission-1",
+            "PreToolUse.question-permission-1",
+            "PermissionRequest.question-permission-1",
+            "PostToolUse.question-permission-1",
             "PreToolUse.plan-1",
             "PermissionRequest.plan-1",
             "PreToolUse.plan-2",

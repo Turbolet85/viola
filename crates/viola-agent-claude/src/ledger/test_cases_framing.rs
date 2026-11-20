@@ -213,9 +213,22 @@ fn check_question_answer_needs_the_label_its_own_post_and_no_permission_request(
     });
     assert!(!dialog_check(LedgerRow::QuestionAnswer, other_id));
     let raised = with_questions(|q| {
-        q.push(tool(PR, "AskUserQuestion", None, json!({})));
+        q.insert(4, tool(PR, "AskUserQuestion", None, json!({})));
     });
     assert!(!dialog_check(LedgerRow::QuestionAnswer, raised));
+    let elsewhere = with_questions(|q| {
+        q.push(tool(PR, "AskUserQuestion", None, json!({})));
+    });
+    assert!(
+        dialog_check(LedgerRow::QuestionAnswer, elsewhere),
+        "a question PermissionRequest in another turn"
+    );
+    assert!(
+        clean_dialogs()
+            .questions
+            .iter()
+            .any(|c| c.is(PR, "AskUserQuestion"))
+    );
     let first_option_only = with_questions(|q| {
         q[3] = post_response(json!({"Probe color?": "red"}), json!({}));
     });
@@ -359,6 +372,9 @@ fn dialog_variants_name_each_call_of_each_turn() {
             "PostToolUse.parallel-2",
             "PermissionRequest.permission-1",
             "PostToolUse.permission-1",
+            "PreToolUse.question-permission-1",
+            "PermissionRequest.question-permission-1",
+            "PostToolUse.question-permission-1",
             "PreToolUse.plan-1",
             "PermissionRequest.plan-1",
             "PreToolUse.plan-2",
@@ -372,7 +388,14 @@ fn dialog_variants_name_each_call_of_each_turn() {
         .collect();
     assert_eq!(
         posts,
-        [Some("q1"), Some("p1"), Some("p2"), Some("b1"), Some("e2")]
+        [
+            Some("q1"),
+            Some("p1"),
+            Some("p2"),
+            Some("b1"),
+            Some("qp"),
+            Some("e2")
+        ]
     );
     assert!(dialog_variants(&DialogRuns::default()).is_empty());
 }
@@ -427,7 +450,16 @@ fn dialog_prompts_are_fixed_ascii_without_tags_each_with_its_stem() {
         assert_eq!(run == DialogRun::Plan, stem == "plan");
     }
     let stems: Vec<&str> = DIALOG_TURNS.iter().map(|t| t.2).collect();
-    assert_eq!(stems, ["questions", "parallel", "permission", "plan"]);
+    assert_eq!(
+        stems,
+        [
+            "questions",
+            "parallel",
+            "permission",
+            "question-permission",
+            "plan"
+        ]
+    );
     assert!(DIALOG_PROMPT_PERMISSION.contains("touch viola-probe-permission"));
     assert_eq!(dialog_stem(PROBE_PROMPT), None);
     assert_eq!(dialog_stem(""), None);
@@ -458,7 +490,8 @@ fn probe_answers_are_the_compiled_table() {
             "question-first-option",
             "plan-revise",
             "plan-approve",
-            "permit-allow"
+            "permit-allow",
+            "permission-question-first-option"
         ]
     );
     for answer in ProbeAnswer::ALL {
@@ -483,6 +516,7 @@ fn probe_answers_are_the_compiled_table() {
             "Questions PreToolUse.2 question-first-option 2",
             "Questions PreToolUse.3 question-first-option 3",
             "Questions PermissionRequest.1 permit-allow 1",
+            "Questions PermissionRequest.2 permission-question-first-option 2",
             "Plan PermissionRequest.1 plan-revise 1",
             "Plan PreToolUse.2 plan-approve 2",
         ]
@@ -529,6 +563,27 @@ fn probe_body_builds_each_answer_through_the_product_mapping() {
     assert_eq!(
         allow["hookSpecificOutput"]["decision"],
         json!({"behavior": "allow"})
+    );
+}
+
+#[test]
+fn probe_body_answers_the_permission_question_with_the_allow_body() {
+    let asked = json!({"tool_name": "AskUserQuestion", "tool_input": two_questions()});
+    let got = body_of(PR, &asked, ProbeAnswer::PermissionQuestionFirstOption).expect("a body");
+    assert_eq!(
+        got,
+        json!({"hookSpecificOutput": {"hookEventName": "PermissionRequest",
+            "decision": {"behavior": "allow", "updatedInput": {
+                "questions": two_questions()["questions"],
+                "answers": {"Probe color?": "red", "Probe size?": "small"}}}}})
+    );
+    assert_eq!(
+        probe_body(
+            PR,
+            asked.to_string().as_bytes(),
+            ProbeAnswer::PermissionQuestionFirstOption
+        ),
+        Some(got.to_string())
     );
 }
 

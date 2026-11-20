@@ -4,7 +4,7 @@
     { "event": "PermissionRequest", "variant": "permission-1", "gate": true },
     { "event": "PostToolUse", "variant": "permission-1", "gate": true },
     { "event": "PermissionRequest", "variant": "permission-1", "gate": true },
-    { "event": "PermissionRequest", "variant": "ask-user-question", "gate": true },
+    { "event": "PermissionRequest", "variant": "question-permission-1", "gate": true },
     { "event": "Stop", "variant": "default", "gate": true }
   ]
 }

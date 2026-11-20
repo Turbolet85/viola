@@ -73,7 +73,7 @@ const PROBE_NEEDLE: &str = "viola-probe-absent";
 /// The relied rows of verify's floor: every relied row but `trust-record`, `browser-tools-prompt`,
 /// `local-command-echo` and `local-command-context`, the last two needing a readable transcript a
 /// floor read does not assume; `stop-session-crons` reads the same Stop capture `stop-message` does.
-const FLOOR_ROWS: [&str; 22] = [
+const FLOOR_ROWS: [&str; 23] = [
     "shim-resolution",
     "spine-hooks",
     "session-start-fields",
@@ -96,6 +96,7 @@ const FLOOR_ROWS: [&str; 22] = [
     "agents-join",
     "local-command-compact",
     "stop-session-crons",
+    "permission-request-question",
 ];
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -180,7 +181,8 @@ impl Arm {
     /// `/context` reading `L2` alone, the contained StopFailure reading `SF` with its spare
     /// `SF-2`, the context stamp `CS` with its spare `CS-2` and the context send `CC` with its
     /// spare `CC-2`, the wake stamp `WS` alone, the fresh-box hint reading `HB` with its spare
-    /// `HB-2` and the fired wake under the kept stamp `R3W` with its spare `R3W-2`.
+    /// `HB-2`, the fired wake under the kept stamp `R3W` with its spare `R3W-2`, and the
+    /// permission-question recording `PQ` with its spare `PQ-2`.
     pub fn of_label(label: &str) -> Option<Self> {
         match label {
             "R1" | "R1-2" => Some(Self::R1),
@@ -196,7 +198,7 @@ impl Arm {
             "S2" => Some(Self::TC),
             "BP" | "BP-2" => Some(Self::VP),
             "BK" => Some(Self::VK),
-            "R4" | "R4-2" => Some(Self::VR),
+            "R4" | "R4-2" | "PQ" | "PQ-2" => Some(Self::VR),
             "R4M" => Some(Self::MT),
             "L1" | "L1-2" => Some(Self::VH),
             "L2" | "CC" | "CC-2" => Some(Self::CX),
@@ -320,8 +322,8 @@ impl Arm {
     }
 }
 
-/// The kept-stamp shape, by label, with the file under the out dir it carries: `CS` and `WS` keep
-/// their verify's stamp (`CS` also reads its config's top level); `CC` seeds `CS`'s kept stamp and
+/// The kept-stamp shape, by label, with the file under the out dir it carries: `CS`, `WS` and `PQ`
+/// keep their verify's stamp (`CS` also reads its config's top level); `CC` seeds `CS`'s kept stamp and
 /// sends a prompt, then `/context`, then reads the hint; `R3W` seeds `WS`'s and reads its fired
 /// wake.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -337,6 +339,7 @@ impl StampShape {
             "CS" | "CS-2" | REHEARSE_CS => Some(Self::Keep(CONTEXT_STAMP)),
             "CC" | "CC-2" | REHEARSE_CC => Some(Self::Seed(CONTEXT_STAMP)),
             "WS" | REHEARSE_WS => Some(Self::Keep(WAKE_STAMP)),
+            "PQ" | "PQ-2" => Some(Self::Keep(QUESTION_STAMP)),
             "R3W" | "R3W-2" | REHEARSE_R3W => Some(Self::Seed(WAKE_STAMP)),
             _ => None,
         }
@@ -373,6 +376,8 @@ pub const REHEARSE_R3W: &str = "rehearse-R3W";
 const CONTEXT_STAMP: &str = "context-stamp.json";
 /// The file `WS` keeps its stamp in, under the out dir, and `R3W` seeds from.
 const WAKE_STAMP: &str = "wake-stamp.json";
+/// The file `PQ` keeps its stamp in, under the out dir.
+const QUESTION_STAMP: &str = "question-stamp.json";
 
 /// One start, as the entry parsed it.
 #[derive(Debug, Clone)]
@@ -1273,7 +1278,7 @@ fn first_screen_word(plan: &Plan, session: &mut Session, summary: &mut Summary) 
     word
 }
 
-/// `held` when each of the 21 floor rows reads `pass` in the version entry, `broken` when one does
+/// `held` when each of the floor rows reads `pass` in the version entry, `broken` when one does
 /// not or is absent, `unread` for no entry.
 fn floor_word(entry: Option<&Value>) -> &'static str {
     match entry.and_then(|e| e["rows"].as_object()) {
@@ -2634,6 +2639,7 @@ fn stamp_lines(entry: Option<&Value>) -> Vec<(String, String)> {
             "browser-tools-prompt",
             "local-command-context",
             "stop-session-crons",
+            "permission-request-question",
             "pass-count",
             "rows",
             "failing",
@@ -2673,6 +2679,10 @@ fn stamp_lines(entry: Option<&Value>) -> Vec<(String, String)> {
         line("browser-tools-prompt", word_of("browser-tools-prompt")),
         line("local-command-context", word_of("local-command-context")),
         line("stop-session-crons", word_of("stop-session-crons")),
+        line(
+            "permission-request-question",
+            word_of("permission-request-question"),
+        ),
         line("pass-count", format!("{passed}/{}", rows.len())),
         line("rows", rows.len().to_string()),
         line(
@@ -3049,12 +3059,15 @@ mod tests {
         assert!(Arm::V.verifies() && !Arm::VC.verifies() && !Arm::TS.verifies());
     }
 
-    /// `R4` and its spare `R4-2` start the recording arm, `R4M` alone the MCP re-record.
+    /// `R4` and its spare `R4-2`, and `PQ` and its spare `PQ-2`, start the recording arm, `R4M`
+    /// alone the MCP re-record.
     #[test]
     fn the_recording_labels_take_their_arms_and_properties() {
         for (label, arm) in [
             ("R4", Some(Arm::VR)),
             ("R4-2", Some(Arm::VR)),
+            ("PQ", Some(Arm::VR)),
+            ("PQ-2", Some(Arm::VR)),
             ("R4M", Some(Arm::MT)),
             ("R4-3", None),
             ("R4M-2", None),
@@ -3217,6 +3230,9 @@ mod tests {
             ("CC", Some(Arm::CX), seed("context-stamp.json")),
             ("CC-2", Some(Arm::CX), seed("context-stamp.json")),
             ("WS", Some(Arm::V), keep("wake-stamp.json")),
+            ("PQ", Some(Arm::VR), keep("question-stamp.json")),
+            ("PQ-2", Some(Arm::VR), keep("question-stamp.json")),
+            ("R4", Some(Arm::VR), None),
             ("R3W", Some(Arm::R3), seed("wake-stamp.json")),
             ("R3W-2", Some(Arm::R3), seed("wake-stamp.json")),
             ("HB", Some(Arm::HB), None),
@@ -3229,6 +3245,7 @@ mod tests {
             ("WS-2", None, None),
             ("HB-3", None, None),
             ("R3W-3", None, None),
+            ("PQ-3", None, None),
         ] {
             assert_eq!(Arm::of_label(label), arm, "{label}");
             assert_eq!(StampShape::of(label), shape, "{label}");
@@ -3245,6 +3262,8 @@ mod tests {
             assert_eq!(StampShape::of(label), shape, "{label}");
         }
         assert_eq!(StampShape::keeps("WS"), Some("wake-stamp.json"));
+        assert_eq!(StampShape::keeps("PQ"), Some("question-stamp.json"));
+        assert!(!seeds_stamp("PQ"));
         assert_eq!(StampShape::keeps("R3W"), None);
         assert_eq!(StampShape::seeds("R3W"), Some("wake-stamp.json"));
         assert!(seeds_stamp("CC") && seeds_stamp("R3W") && !seeds_stamp("WS"));
@@ -3262,11 +3281,11 @@ mod tests {
         assert!(!Arm::HB.sentinel_seed());
     }
 
-    /// The floor's doc pin: 22 rows, `stop-session-crons` beside `stop-message`, which read the same
-    /// Stop capture.
+    /// The floor's doc pin: 23 rows, `stop-session-crons` beside `stop-message`, which read the same
+    /// Stop capture, and `permission-request-question` beside the question rows of Run C.
     #[test]
     fn the_floor_rows_are_every_relied_row_but_four() {
-        assert_eq!(FLOOR_ROWS.len(), 22);
+        assert_eq!(FLOOR_ROWS.len(), 23);
         assert!(FLOOR_ROWS.contains(&"stop-message") && FLOOR_ROWS.contains(&"stop-session-crons"));
         let floor: Vec<&str> = FLOOR_ROWS.to_vec();
         let rest: Vec<&str> = LedgerRow::relied()
@@ -3541,13 +3560,14 @@ mod tests {
             "browser-tools-prompt",
             "local-command-context",
             "stop-session-crons",
+            "permission-request-question",
             "pass-count",
             "screen-a",
             "facts-f",
         ] {
             assert_eq!(value_of(&lines, key), "unread", "{key}");
         }
-        assert_eq!(lines.len(), 7 + 18);
+        assert_eq!(lines.len(), 8 + 18);
     }
 
     #[test]

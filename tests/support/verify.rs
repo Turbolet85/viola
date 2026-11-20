@@ -148,8 +148,12 @@ pub fn tool_payload(event: &str, tool: &str, id: Option<&str>, extra: Value) -> 
     body
 }
 
-/// The twelve dialog variants a clean dialog run and plan run record, the shapes of the live
-/// 2.1.288 probe: `questions-1`, `parallel-1`, `parallel-2`, `permission-1`, `plan-1`, `plan-2`.
+/// The fifteen dialog variants a clean dialog run and plan run record. Twelve are the shapes of
+/// the live 2.1.288 probe: `questions-1`, `parallel-1`, `parallel-2`, `permission-1`, `plan-1`,
+/// `plan-2`. The three `question-permission-1` ones are SYNTHETIC, built from the compiled fourth
+/// prompt's question with no recording behind them, in this test-owned set committed nowhere:
+/// the last question turn's unanswered PreToolUse, its PermissionRequest with the same input, and
+/// the PostToolUse carrying the first label.
 pub fn dialog_set() -> Vec<(&'static str, &'static str, Value)> {
     let ask = "AskUserQuestion";
     let plan = "ExitPlanMode";
@@ -161,6 +165,10 @@ pub fn dialog_set() -> Vec<(&'static str, &'static str, Value)> {
     let reply =
         |q: &str| json!({"tool_input": one_question(q), "tool_response": {"answers": {q: "yes"}}});
     let bash = json!({"tool_input": {"command": "touch viola-probe-permission"}});
+    // Synthetic: no recording stands behind the `question-permission-1` shapes.
+    let shape = json!({"questions": [
+        {"question": "Probe shape?", "options": [{"label": "round"}, {"label": "square"}]},
+    ]});
     vec![
         (
             "PreToolUse",
@@ -216,6 +224,40 @@ pub fn dialog_set() -> Vec<(&'static str, &'static str, Value)> {
             "PostToolUse",
             "permission-1",
             tool_payload("PostToolUse", "Bash", Some("toolu_b1"), bash),
+        ),
+        // Synthetic.
+        (
+            "PreToolUse",
+            "question-permission-1",
+            tool_payload(
+                "PreToolUse",
+                ask,
+                Some("toolu_qp"),
+                json!({"tool_input": shape.clone()}),
+            ),
+        ),
+        // Synthetic.
+        (
+            "PermissionRequest",
+            "question-permission-1",
+            tool_payload(
+                "PermissionRequest",
+                ask,
+                None,
+                json!({"tool_input": shape.clone()}),
+            ),
+        ),
+        // Synthetic.
+        (
+            "PostToolUse",
+            "question-permission-1",
+            tool_payload(
+                "PostToolUse",
+                ask,
+                Some("toolu_qp"),
+                json!({"tool_input": shape,
+                    "tool_response": {"answers": {"Probe shape?": "round"}}}),
+            ),
         ),
         (
             "PreToolUse",

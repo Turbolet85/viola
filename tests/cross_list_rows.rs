@@ -24,7 +24,7 @@ const PLANTED: &str = r#"[{"cwd":"~/a","kind":"interactive","name":"t","pid":429
 
 const BOARD: &str = "BAY  skipped 0 - 0 - 0\n\
      NAME     LIVE   STATUS   WHEEL                    DIALOG             CLI\n\
-     builder  live   unknown  driver                   none               2.1.287 verified\n\
+     builder  live   unknown  driver                   none               2.1.328 verified\n\
      -- UNWRAPPED - READ-ONLY --\n\
      a\\x0Ab   live   idle     n/a                      n/a                n/a\n\
      c\\x09d   live   unknown  n/a                      n/a                n/a\n\

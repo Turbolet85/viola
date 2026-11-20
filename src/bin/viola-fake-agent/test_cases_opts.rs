@@ -113,7 +113,7 @@ fn opts_parse_reads_the_trim_prompt_end_flag() {
 fn opts_default_to_the_default_cli_version() {
     let o = Opts::parse(&[]);
     assert_eq!(o.cli_version(), DEFAULT_CLI_VERSION);
-    assert_eq!(o.version_answer(), "2.1.287 (Claude Code)");
+    assert_eq!(o.version_answer(), "2.1.328 (Claude Code)");
     assert!(!o.version && !o.exit_no_eof && !o.suppress_prompt_submit);
     assert!(!o.vt100_panic_bytes);
     assert!(o.print.is_none());
@@ -412,7 +412,7 @@ fn fake_resume_sets_the_source_and_the_given_id_on_the_recorded_session_start() 
     assert_eq!(out.iter().filter(|b| **b == b'\n').count(), 1);
     let mut want: Value = serde_json::from_slice(&fixture).expect("the fixture");
     assert_eq!(want["source"], "startup");
-    assert_eq!(want["session_id"], "c0f0cc23-690b-45dd-bbfb-06d6cfd44942");
+    assert_eq!(want["session_id"], "fc611e35-7640-4de0-b572-91e8f0670277");
     want["source"] = json!("resume");
     want["session_id"] = json!(id);
     let got: Value = serde_json::from_slice(&out).expect("json");

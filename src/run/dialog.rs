@@ -245,13 +245,9 @@ impl DialogSlot {
         {
             return Ok(answer);
         }
-        // A question first raised by PermissionRequest: its `allow` + `updatedInput` body is read only
-        // statically (2.1.288, 2.1.287) and has no ledger row, so the human answers it.
-        let unanswerable = raise.continuation && raise.kind == DialogKind::Question;
-        let hold = self.cli_verified
-            && state.pending.is_none()
-            && !unanswerable
-            && self.wheel.holder() == Wheel::Driver;
+        // A question no arm matches is held and answered like any dialog.
+        let hold =
+            self.cli_verified && state.pending.is_none() && self.wheel.holder() == Wheel::Driver;
         let dialog_id = self.register(&mut state, &raise, hold)?;
         if raise.hook == HookEvent::PreToolUse
             && let Some(tool) = raise.tool
@@ -1087,18 +1083,81 @@ mod tests {
         assert_eq!(millis(Duration::MAX), u64::MAX);
     }
 
-    /// A question first raised by PermissionRequest is logged and left to the human, even on a
-    /// stamped CLI: its body has no ledger row (read only statically on 2.1.288 / 2.1.287).
+    /// A question first raised by PermissionRequest, no arm matching it, is held on a verified CLI
+    /// with the driver's wheel, and an `answer` by its id is the reply the hook maps.
     #[test]
-    fn continuation_raised_as_a_question_is_null_at_once() {
+    fn continuation_raised_as_a_question_is_held_and_answered() {
         let tmp = tempfile::tempdir().expect("tempdir");
         let slot = slot(tmp.path(), FixedClock(Instant::now()), true);
-        assert_eq!(
-            slot.hook_dialog(&question("permission-request", true)),
-            Ok(json!({"ok": {"dialog_id": 1, "response": null}}))
+        let response = json!({"answers": {"Which color?": "red"},
+            "annotations": {"Which color?": {"notes": "n"}}});
+        let (raised, answered, held) = raise_and_answer(
+            &slot,
+            tmp.path(),
+            &question("permission-request", true),
+            response.clone(),
         );
+        assert_eq!(answered, json!({"ok": {}}));
+        assert_eq!(
+            raised,
+            json!({"ok": {"dialog_id": 1, "response": response}})
+        );
+        assert_eq!(
+            held,
+            Some(PendingDialog {
+                dialog_id: 1,
+                kind: "question".to_owned()
+            })
+        );
+        assert_eq!(kinds(tmp.path()), ["question"]);
         assert!(slot.state().pending.is_none());
-        assert_eq!(events(tmp.path())[0]["kind"], "question");
+    }
+
+    /// A human wheel, an unverified CLI or another held dialog: the arm-less question is logged
+    /// with its own id and left to the human at once, nothing held.
+    #[rstest]
+    #[case::human_wheel("human_wheel")]
+    #[case::unverified_cli("unverified_cli")]
+    #[case::another_dialog_pending("another_dialog_pending")]
+    fn continuation_raised_as_a_question_is_left_to_the_human_when(#[case] condition: &str) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let wheel = Arc::new(WheelSlot::default());
+        if condition == "human_wheel" {
+            wheel.human_input();
+        }
+        let slot = slot_on(
+            tmp.path(),
+            FixedClock(Instant::now()),
+            condition != "unverified_cli",
+            wheel,
+            seeded_snapshots(tmp.path()),
+        );
+        let raise = question("permission-request", true);
+        if condition == "another_dialog_pending" {
+            std::thread::scope(|s| {
+                let first = s.spawn(|| slot.hook_dialog(&permission()));
+                while slot.state().pending.is_none() {
+                    std::thread::yield_now();
+                }
+                assert_eq!(
+                    slot.hook_dialog(&raise),
+                    Ok(json!({"ok": {"dialog_id": 2, "response": null}}))
+                );
+                assert_eq!(slot.state().pending.as_ref().map(|p| p.dialog_id), Some(1));
+                let answer = json!({"v": 1, "dialog_id": 1, "response": {"behavior": "allow"}});
+                slot.answer(&call(&answer)).expect("answered");
+                first.join().expect("thread").expect("replied");
+            });
+            assert_eq!(kinds(tmp.path()), ["permission", "question"]);
+        } else {
+            assert_eq!(
+                slot.hook_dialog(&raise),
+                Ok(json!({"ok": {"dialog_id": 1, "response": null}}))
+            );
+            assert!(slot.state().pending.is_none(), "{condition}");
+            assert_eq!(pending_on_disk(tmp.path()), None, "{condition}");
+            assert_eq!(kinds(tmp.path()), ["question"]);
+        }
     }
 
     #[test]

@@ -41,7 +41,7 @@ fn boot_on(stamped: StampedHome, script: Option<&str>, extra: &[&str]) -> Wrappe
 /// two newlines, the open tag, a newline; then a newline, the close tag repeating the id, a newline.
 fn recorded_long_paste() -> (Vec<u8>, String) {
     let recorded = std::fs::read(workspace_path(
-        "fixtures/claude/2.1.287/UserPromptSubmit.paste-1.json",
+        "fixtures/claude/2.1.328/UserPromptSubmit.paste-1.json",
     ))
     .expect("the recorded paste-1 variant");
     let payload: Value = serde_json::from_slice(&recorded).expect("the variant is JSON");
@@ -876,7 +876,7 @@ fn send_clear_on_a_verified_cli_is_confirmed_by_its_new_session(stamped_home: St
     );
     assert_eq!(
         records[2]["data"],
-        json!({"cause": "clear", "agent_session_id": "d5d38bc2-fcb5-44d3-b336-6a62b90b7c39"})
+        json!({"cause": "clear", "agent_session_id": "16e6d6ce-3913-4a62-aedc-9d053ae3646a"})
     );
     assert_eq!(records[3]["data"], json!({"cursor": l}));
     let typed = prompts_at_least(&wrapper.receipt(), 1);

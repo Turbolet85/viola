@@ -1412,7 +1412,7 @@ mod tests {
     #[case::wrong_event_for_the_answer(
         HookEvent::PermissionRequest,
         "PermissionRequest.1",
-        "question-first-option",
+        "plan-approve",
         TWO_QUESTIONS
     )]
     #[case::spine_event(HookEvent::Stop, "Stop.1", "permit-allow", TWO_QUESTIONS)]

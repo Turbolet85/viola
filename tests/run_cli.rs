@@ -534,7 +534,7 @@ fn fake_agent_answers_version_in_the_cli_format() {
         .expect("fake agent");
     assert_eq!(
         String::from_utf8_lossy(&default.stdout),
-        "2.1.287 (Claude Code)\n"
+        "2.1.328 (Claude Code)\n"
     );
 }
 

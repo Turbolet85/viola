@@ -354,8 +354,8 @@ fn strings<'a>(value: &'a Value, out: &mut Vec<&'a str>) {
 ///   decision (S7);
 /// - plan revise on PermissionRequest → `deny` + `message`; on PreToolUse no decision (S7);
 /// - permission on PermissionRequest → `allow` / `deny` + `message`;
-/// - a question on PermissionRequest → no decision: 2.1.288 and 2.1.287 would take an `allow` with
-///   `updatedInput` there (read statically), but that body has no ledger row, so the human answers.
+/// - a question on PermissionRequest → `allow` + `updatedInput` = the input plus `answers` and any
+///   `annotations`, relied on through the `permission-request-question` row.
 pub fn decision_body(hook: HookEvent, input: &Value, response: &Response) -> Option<String> {
     let body = match (hook, response) {
         (
@@ -364,14 +364,18 @@ pub fn decision_body(hook: HookEvent, input: &Value, response: &Response) -> Opt
                 answers,
                 annotations,
             },
-        ) => {
-            let mut updated = input.as_object().cloned().unwrap_or_default();
-            updated.insert("answers".to_owned(), json!(answers));
-            if let Some(annotations) = annotations {
-                updated.insert("annotations".to_owned(), Value::Object(annotations.clone()));
-            }
-            pre_tool_use_allow(Some(Value::Object(updated)))
-        }
+        ) => pre_tool_use_allow(Some(answered_input(input, answers, annotations.as_ref()))),
+        (
+            HookEvent::PermissionRequest,
+            Response::Question {
+                answers,
+                annotations,
+            },
+        ) => permission_decision(
+            "allow",
+            None,
+            Some(answered_input(input, answers, annotations.as_ref())),
+        ),
         (
             HookEvent::PreToolUse,
             Response::Plan {
@@ -387,17 +391,30 @@ pub fn decision_body(hook: HookEvent, input: &Value, response: &Response) -> Opt
                 behavior: Verdict::Revise,
                 message,
             },
-        ) => permission_decision("deny", message.as_deref()),
+        ) => permission_decision("deny", message.as_deref(), None),
         (HookEvent::PermissionRequest, Response::Permission { behavior, message }) => {
             let behavior = match behavior {
                 Permit::Allow => "allow",
                 Permit::Deny => "deny",
             };
-            permission_decision(behavior, message.as_deref())
+            permission_decision(behavior, message.as_deref(), None)
         }
         _ => return None,
     };
     Some(body.to_string())
+}
+
+fn answered_input(
+    input: &Value,
+    answers: &BTreeMap<String, String>,
+    annotations: Option<&Map<String, Value>>,
+) -> Value {
+    let mut updated = input.as_object().cloned().unwrap_or_default();
+    updated.insert("answers".to_owned(), json!(answers));
+    if let Some(annotations) = annotations {
+        updated.insert("annotations".to_owned(), Value::Object(annotations.clone()));
+    }
+    Value::Object(updated)
 }
 
 fn pre_tool_use_allow(updated: Option<Value>) -> Value {
@@ -408,10 +425,13 @@ fn pre_tool_use_allow(updated: Option<Value>) -> Value {
     json!({"hookSpecificOutput": output})
 }
 
-fn permission_decision(behavior: &str, message: Option<&str>) -> Value {
+fn permission_decision(behavior: &str, message: Option<&str>, updated: Option<Value>) -> Value {
     let mut decision = json!({"behavior": behavior});
     if let Some(message) = message {
         decision["message"] = json!(message);
+    }
+    if let Some(updated) = updated {
+        decision["updatedInput"] = updated;
     }
     json!({"hookSpecificOutput": {"hookEventName": "PermissionRequest", "decision": decision}})
 }
@@ -768,11 +788,40 @@ mod tests {
     }
 
     #[test]
-    fn decision_body_question_on_permission_request_is_no_decision() {
-        let input = json!({"questions": []});
+    fn decision_body_question_on_permission_request_is_allow_with_updated_input() {
+        let input = json!({"questions": [{"question": "Which color?"}]});
+        insta::assert_snapshot!(
+            "question_answered_on_permission_request",
+            decision_body(HookEvent::PermissionRequest, &input, &question(None)).expect("a body")
+        );
         assert_eq!(
-            decision_body(HookEvent::PermissionRequest, &input, &question(None)),
-            None
+            body(HookEvent::PermissionRequest, &input, &question(None)),
+            Some(
+                json!({"hookSpecificOutput": {"hookEventName": "PermissionRequest",
+                "decision": {"behavior": "allow", "updatedInput": {
+                    "questions": [{"question": "Which color?"}],
+                    "answers": {"Which color?": format!("{CANARY} red")}}}}})
+            )
+        );
+    }
+
+    #[test]
+    fn decision_body_question_on_permission_request_carries_annotations() {
+        let input = json!({"questions": [{"question": "Which color?"}]});
+        let annotations = json!({"Which color?": {"notes": format!("{CANARY} note")}});
+        assert_eq!(
+            body(
+                HookEvent::PermissionRequest,
+                &input,
+                &question(Some(annotations.clone()))
+            ),
+            Some(
+                json!({"hookSpecificOutput": {"hookEventName": "PermissionRequest",
+                "decision": {"behavior": "allow", "updatedInput": {
+                    "questions": [{"question": "Which color?"}],
+                    "answers": {"Which color?": format!("{CANARY} red")},
+                    "annotations": annotations}}}})
+            )
         );
     }
 

@@ -8,8 +8,9 @@ use std::sync::mpsc;
 
 use viola_agent_claude::hook::HookEvent;
 use viola_agent_claude::ledger::{
-    self, AgentsCapture, DIALOG_PROMPT_PARALLEL, DIALOG_PROMPT_PERMISSION, DIALOG_PROMPT_QUESTIONS,
-    DIALOG_SETTINGS, PLAN_PROMPT, TypedRun,
+    self, AgentsCapture, DIALOG_PROMPT_PARALLEL, DIALOG_PROMPT_PERMISSION,
+    DIALOG_PROMPT_PERMISSION_QUESTION, DIALOG_PROMPT_QUESTIONS, DIALOG_SETTINGS, PLAN_PROMPT,
+    TypedRun,
 };
 use viola_agent_claude::trust::{self, TrustWord};
 use viola_agent_claude::{PLUGIN_DIR_FLAG, SETTINGS_FLAG};
@@ -107,9 +108,10 @@ fn trusted_args(args: &[OsString], inputs: &Inputs<'_>) -> Vec<OsString> {
     args
 }
 
-/// Run C: the three dialog prompts, each pasted once the previous turn's Stop is captured, under the
-/// session `ask` rule; once the last Stop is captured the screen settles (as Run B's turn does), so
-/// the kill never hangs up a Stop hook still exiting. Returns its first-screen reading and rows.
+/// Run C: the four dialog prompts, each pasted once the previous turn's Stop is captured, under the
+/// session `ask` rule; the permission turn's screen settles before the last paste, and once the last
+/// Stop is captured the screen settles (as Run B's turn does), so the kill never hangs up a Stop
+/// hook still exiting. Returns its first-screen reading and rows.
 pub(super) fn dialog_run(
     clock: &Arc<dyn Clock>,
     inputs: &Inputs<'_>,
@@ -127,6 +129,7 @@ pub(super) fn dialog_run(
             DIALOG_PROMPT_QUESTIONS,
             DIALOG_PROMPT_PARALLEL,
             DIALOG_PROMPT_PERMISSION,
+            DIALOG_PROMPT_PERMISSION_QUESTION,
         ] {
             let stops = count_of(captures, HookEvent::Stop);
             if !run.paste_text(prompt) {
@@ -139,7 +142,7 @@ pub(super) fn dialog_run(
             let Some(stopped) = stopped else {
                 break;
             };
-            if prompt == DIALOG_PROMPT_PERMISSION {
+            if prompt == DIALOG_PROMPT_PERMISSION || prompt == DIALOG_PROMPT_PERMISSION_QUESTION {
                 run.settle(stopped);
             }
         }

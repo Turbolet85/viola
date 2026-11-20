@@ -558,16 +558,17 @@ pub fn take_stamp(home: &Path) {
     );
 }
 
-/// The four rows a stamp with no dialog replay fails.
-const DIALOG_ROWS: [LedgerRow; 4] = [
+/// The five rows a stamp with no dialog replay fails.
+const DIALOG_ROWS: [LedgerRow; 5] = [
     LedgerRow::QuestionAnswer,
     LedgerRow::PlanApproveRevise,
     LedgerRow::QuestionNotes,
     LedgerRow::DialogConcurrency,
+    LedgerRow::PermissionRequestQuestion,
 ];
 
 /// A home whose stamp fails the dialog rows: `viola verify` against the fake agent over the
-/// committed set with no dialog replay, so every other row relied on this OS passes and the four
+/// committed set with no dialog replay, so every other row relied on this OS passes and the five
 /// dialog rows fail (exit 1). The counts come from the relied set, so a row added to it moves this
 /// precondition with it; the oracle stays the literal in `cli_verify`. `stamped` stays false: the
 /// version is not verified.

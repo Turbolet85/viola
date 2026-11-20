@@ -111,7 +111,7 @@ fn verify_a_set_without_stop_fails_its_rows_and_still_stamps(#[from(home)] home:
     let stdout = ran.stdout_text();
     let lines: Vec<&str> = stdout.lines().collect();
     let mut expected = steps_failing(|i| ![0, 2, 3, 5, 6, 22, 23].contains(&i));
-    expected.push("stamped 2.1.0  7 pass  19 fail".to_owned());
+    expected.push("stamped 2.1.0  7 pass  20 fail".to_owned());
     assert_eq!(lines, expected);
     assert!(ran.stderr.is_empty());
     let rows = &stamps(home.path())["data"]["versions"]["2.1.0"]["rows"];
@@ -213,9 +213,9 @@ fn verify_a_missing_program_refuses(#[from(home)] home: TestHome) {
 /// interactive runs) lists a stripped name, and every hook fired ran and exited 0: the print turn's
 /// four, the trusted run's twelve (SessionStart, UserPromptSubmit and Stop, the three paste turns'
 /// UserPromptSubmit and Stop each, `/compact`'s SessionStart, then the local command's SessionEnd
-/// and SessionStart), the dialog run's fifteen (SessionStart, then per prompt UserPromptSubmit, its
+/// and SessionStart), the dialog run's twenty (SessionStart, then per prompt UserPromptSubmit, its
 /// dialog events and Stop), the plan run's seven and the resume run's one SessionStart; the
-/// untrusted and trust-record runs, which take no plugin, fire none: thirty-nine.
+/// untrusted and trust-record runs, which take no plugin, fire none: forty-four.
 /// The dialog, plan and resume runs are killed only once the screen settled after their last
 /// awaited hook, so every hook is receipted.
 #[rstest]
@@ -247,7 +247,7 @@ fn verify_runs_the_probe_under_the_identity_strip(#[from(home)] home: TestHome) 
         );
     }
     let hooks = of_kind(&lines, "hook");
-    assert_eq!(hooks.len(), 39);
+    assert_eq!(hooks.len(), 44);
     assert!(
         hooks
             .iter()
@@ -470,15 +470,18 @@ fn verify_record_writes_the_scrubbed_spine_variants_and_screens(
         "Agents.recorded-1.json",
         "PermissionRequest.permission-1.json",
         "PermissionRequest.plan-1.json",
+        "PermissionRequest.question-permission-1.json",
         "PostToolUse.parallel-1.json",
         "PostToolUse.parallel-2.json",
         "PostToolUse.permission-1.json",
         "PostToolUse.plan-2.json",
+        "PostToolUse.question-permission-1.json",
         "PostToolUse.questions-1.json",
         "PreToolUse.parallel-1.json",
         "PreToolUse.parallel-2.json",
         "PreToolUse.plan-1.json",
         "PreToolUse.plan-2.json",
+        "PreToolUse.question-permission-1.json",
         "PreToolUse.questions-1.json",
         "Screen.modal.json",
         "Screen.ready.json",

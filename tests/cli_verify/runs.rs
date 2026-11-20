@@ -215,7 +215,7 @@ fn verify_window_without_screens_fails_every_interactive_row(#[from(home)] home:
     let mut expected = steps_failing(|i| {
         i >= 6 && ROW_IDS[i] != "resume-session" && ROW_IDS[i] != "stop-session-crons"
     });
-    expected.push("stamped 2.1.0  8 pass  18 fail".to_owned());
+    expected.push("stamped 2.1.0  8 pass  19 fail".to_owned());
     assert_eq!(lines, expected);
     let rows = &stamps(home.path())["data"]["versions"]["2.1.0"]["rows"];
     for id in ROW_IDS[6..]
@@ -351,23 +351,24 @@ fn verify_kills_the_dialog_and_plan_runs_only_after_their_last_stop_hook(
         .filter(|h| h["event"] == "Stop")
         .count();
     assert_eq!(
-        stops, 9,
-        "the print turn's, Run B's four, Run C's three and Run D's Stop hooks"
+        stops, 10,
+        "the print turn's, Run B's four, Run C's four and Run D's Stop hooks"
     );
 }
 
 /// Without the dialog replay the dialog and plan runs see turns that raise no dialog: the ten spine
 /// and screen rows, the three framing rows, the newline row, the resume row, the agents row, the
-/// compact and echo rows pass, the four dialog rows fail, the stamp is written and verify exits 1 with nothing
+/// compact and echo rows pass, the four dialog rows and the permission-question row fail, the stamp is written and verify exits 1 with nothing
 /// on stderr. The version is then unverified (R2).
 #[rstest]
-fn verify_without_the_dialog_replay_fails_the_four_dialog_rows(#[from(home)] home: TestHome) {
+fn verify_without_the_dialog_replay_fails_the_five_dialog_rows(#[from(home)] home: TestHome) {
     write_spine_set(&fixtures(&home), "2.1.0", None);
     let ran = support::verify::verify_without_dialogs(home.path(), &fixtures(&home), "2.1.0");
     assert_eq!(ran.code, Some(1));
     assert!(ran.stderr.is_empty(), "stderr {}", ran.stderr_text());
-    let mut expected = steps_failing(|i| (10..14).contains(&i));
-    expected.push("stamped 2.1.0  22 pass  4 fail".to_owned());
+    let mut expected =
+        steps_failing(|i| (10..14).contains(&i) || ROW_IDS[i] == "permission-request-question");
+    expected.push("stamped 2.1.0  22 pass  5 fail".to_owned());
     let stdout = ran.stdout_text();
     assert_eq!(stdout.lines().collect::<Vec<_>>(), expected);
     assert_plain(&ran.stdout);
@@ -383,6 +384,7 @@ fn verify_without_the_dialog_replay_fails_the_four_dialog_rows(#[from(home)] hom
     }
     assert_eq!(rows["browser-tools-prompt"], "absent");
     assert_eq!(rows["local-command-context"], "pass");
+    assert_eq!(rows["permission-request-question"], "fail");
     let entry = &stamps(home.path())["data"]["versions"]["2.1.0"];
     assert!(entry["measured"]["dialog_probe"]["parallel_both_before_first_post"].is_null());
     assert_eq!(probes_left(home.path()), 0);
@@ -409,7 +411,7 @@ fn verify_without_framing_fails_the_clear_and_compact_rows(#[from(home)] home: T
             || id == "local-command-context"
     };
     let mut expected = steps_failing(|i| local(ROW_IDS[i]));
-    expected.push("stamped 2.1.0  22 pass  4 fail".to_owned());
+    expected.push("stamped 2.1.0  23 pass  4 fail".to_owned());
     let stdout = ran.stdout_text();
     assert_eq!(stdout.lines().collect::<Vec<_>>(), expected);
     assert_plain(&ran.stdout);
@@ -490,7 +492,7 @@ fn verify_pastes_no_local_command_once_the_tag_turn_screen_shows_a_modal(
     ];
     let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &after, &[]);
     assert_eq!(ran.code, Some(1), "stdout {}", ran.stdout_text());
-    let summary = "stamped 2.1.0  21 pass  5 fail\n";
+    let summary = "stamped 2.1.0  22 pass  5 fail\n";
     assert!(
         ran.stdout_text().ends_with(summary),
         "stdout {}",
@@ -542,7 +544,7 @@ fn verify_reads_the_browser_tools_prompt_as_a_modal_and_pastes_nothing(
     ];
     let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &after, &[]);
     assert_eq!(ran.code, Some(1), "stdout {}", ran.stdout_text());
-    let summary = "stamped 2.1.0  10 pass  16 fail\n";
+    let summary = "stamped 2.1.0  10 pass  17 fail\n";
     assert!(
         ran.stdout_text().ends_with(summary),
         "stdout {}",
@@ -598,7 +600,7 @@ fn verify_pastes_nothing_more_once_the_long_turn_screen_shows_a_modal(
         "local-command-context",
     ];
     let mut expected = steps_failing(|i| red.contains(&ROW_IDS[i]));
-    expected.push("stamped 2.1.0  19 pass  7 fail".to_owned());
+    expected.push("stamped 2.1.0  20 pass  7 fail".to_owned());
     let stdout = ran.stdout_text();
     assert_eq!(
         stdout.lines().collect::<Vec<_>>(),

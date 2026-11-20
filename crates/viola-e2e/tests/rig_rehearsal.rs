@@ -864,9 +864,9 @@ fn rig_rehearsal_vc_reads_its_first_frame_at_80x24_and_stops_with_no_key() {
         "{summary}"
     );
     assert!(
-        facts
-            .as_deref()
-            .is_some_and(|f| f.ends_with(" lit=footer-agents@23 adj=no first=text col=33")),
+        facts.as_deref().is_some_and(|f| f.ends_with(
+            " lit=footer-agents@23,footer-cycle@23,rule@20,prompt@21 adj=yes first=rule col=80"
+        )),
         "{summary}"
     );
     assert_eq!(word(&out, "keys").as_deref(), Some("none"));
@@ -905,7 +905,7 @@ fn rig_rehearsal_v_reads_the_trust_record_row_and_no_record_left() {
     );
     assert_eq!(
         word(&out, "pass-count").as_deref(),
-        Some("26/26"),
+        Some("27/27"),
         "{summary}"
     );
     assert_eq!(word(&out, "record-left").as_deref(), Some("absent"));
@@ -919,7 +919,7 @@ fn rig_rehearsal_v_reads_the_trust_record_row_and_no_record_left() {
         Some("written"),
         "{summary}"
     );
-    assert_eq!(word(&out, "rows").as_deref(), Some("26"), "{summary}");
+    assert_eq!(word(&out, "rows").as_deref(), Some("27"), "{summary}");
     assert_eq!(
         word(&out, "browser-tools-prompt").as_deref(),
         Some("absent"),
@@ -948,12 +948,12 @@ fn rig_rehearsal_v_reads_the_trust_record_row_and_no_record_left() {
                 .is_some_and(|f| f.starts_with("bytes=") && f.contains(" alive=yes ")),
             "facts-{run} {summary}"
         );
-        // The fake's trust form draws no box literal, its ready screen the first footer literal
-        // alone on the last row: read on the first run.
+        // The fake's trust form over the default set's recorded modal draws its rule row alone,
+        // its ready screen the whole input box above both footer literals: read on the first run.
         let finer = if run == "a" {
-            " lit=none adj=no first=text col=27"
+            " lit=rule@1 adj=no first=rule col=80"
         } else {
-            " lit=footer-agents@23 adj=no first=text col=33"
+            " lit=footer-agents@23,footer-cycle@23,rule@20,prompt@21 adj=yes first=rule col=80"
         };
         assert!(
             facts.as_deref().is_some_and(|f| f.ends_with(finer)),
@@ -1073,7 +1073,7 @@ fn rig_rehearsal_vh_verifies_the_given_home_and_reads_names_only() {
         ("arm", "vh"),
         ("token-window", "not-read"),
         ("keys", "none"),
-        ("rows", "26"),
+        ("rows", "27"),
         ("cwd-verify-after", "0"),
         ("user-config", "names-only"),
         ("credentials", "none"),
@@ -1211,7 +1211,7 @@ fn rig_rehearsal_cs_keeps_the_stamp_and_reads_the_config_top_level() {
     );
     assert_eq!(
         word(&out, "pass-count").as_deref(),
-        Some("26/26"),
+        Some("27/27"),
         "{summary}"
     );
     assert_eq!(word(&out, "failing").as_deref(), Some("none"), "{summary}");
@@ -1347,7 +1347,7 @@ fn rig_rehearsal_ws_keeps_the_wake_stamp_at_26_rows() {
     for (key, want) in [
         ("arm", "v"),
         ("verify-exit", "0"),
-        ("pass-count", "26/26"),
+        ("pass-count", "27/27"),
         ("stop-session-crons", "pass"),
         ("failing", "none"),
         ("kept-stamp", "written"),
@@ -1783,7 +1783,7 @@ fn fixtures_with_the_browser_tools_screen(case: &Case) -> PathBuf {
         " Enter to confirm · Esc to keep browser tools off",
     ];
     fs::write(
-        root.join("2.1.287").join("Screen.browser-tools.json"),
+        root.join("2.1.328").join("Screen.browser-tools.json"),
         serde_json::json!({ "rows": rows }).to_string(),
     )
     .expect("the browser-tools screen");
@@ -1838,7 +1838,7 @@ fn rig_rehearsal_vp_reads_the_browser_tools_prompt_and_types_nothing() {
         Some("pass"),
         "{summary}"
     );
-    assert_eq!(word(&out, "rows").as_deref(), Some("26"), "{summary}");
+    assert_eq!(word(&out, "rows").as_deref(), Some("27"), "{summary}");
     assert_eq!(
         word(&out, "screen-a").as_deref(),
         Some("trust"),
@@ -1891,10 +1891,10 @@ fn rig_rehearsal_vk_reads_24_rows_with_the_browser_tools_row_absent() {
     assert_eq!(out.status.code(), Some(0), "{summary}");
     assert_eq!(word(&out, "arm").as_deref(), Some("vk"), "{summary}");
     assert_eq!(word(&out, "verify-exit").as_deref(), Some("0"), "{summary}");
-    assert_eq!(word(&out, "rows").as_deref(), Some("26"), "{summary}");
+    assert_eq!(word(&out, "rows").as_deref(), Some("27"), "{summary}");
     assert_eq!(
         word(&out, "pass-count").as_deref(),
-        Some("26/26"),
+        Some("27/27"),
         "{summary}"
     );
     assert_eq!(word(&out, "failing").as_deref(), Some("none"), "{summary}");

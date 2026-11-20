@@ -26,7 +26,7 @@ use support::hygiene::load_schema;
 const BAY: &str = "BAY  skipped 0 - 0 - 0";
 const CAPTION: &str = "NAME     LIVE   STATUS   WHEEL                    DIALOG             CLI";
 const ROW: &str =
-    "builder  live   unknown  driver                   none               2.1.287 verified";
+    "builder  live   unknown  driver                   none               2.1.328 verified";
 const EMPTY_CAPTION: &str = "NAME  LIVE   STATUS   WHEEL                    DIALOG             CLI";
 const EMPTY: &str = "no wrapped sessions  start one: viola run <name> -- claude";
 const UNREACHABLE: &str =
@@ -96,7 +96,7 @@ fn path1_list_shows_a_booted_wrapper(stamped_home: StampedHome) {
             "items": [{
                 "name": "builder", "wrapped": true, "liveness": "live", "status": "unknown",
                 "wheel": "driver", "dialog_pending": false,
-                "cli_version": "2.1.287", "cli_verified": true,
+                "cli_version": "2.1.328", "cli_verified": true,
             }],
             "skipped": {"unknown_kinds": 0, "unknown_fields": 0, "torn_lines": 0},
         }})
@@ -133,7 +133,7 @@ fn list_after_a_pause_reads_the_human_wheel(stamped_home: StampedHome) {
     assert_eq!(
         human.stdout.lines().nth(2),
         Some(
-            "builder  live   unknown  human                    none               2.1.287 verified"
+            "builder  live   unknown  human                    none               2.1.328 verified"
         )
     );
     wrapper.stop();
@@ -298,7 +298,7 @@ fn list_status_of_a_joined_wrapper_is_idle_then_busy(stamped_home: StampedHome) 
         human.stdout,
         format!(
             "{BAY}\n{CAPTION}\n\
-             builder  live   busy     driver                   none               2.1.287 verified\n"
+             builder  live   busy     driver                   none               2.1.328 verified\n"
         )
     );
     wrapper.stop();
@@ -390,7 +390,7 @@ fn list_prints_planted_rows_as_unwrapped_rows(stamped_home: StampedHome) {
         format!(
             "{BAY}\n\
              NAME                                  LIVE   STATUS   WHEEL                    DIALOG             CLI\n\
-             builder                               live   unknown  driver                   none               2.1.287 verified\n\
+             builder                               live   unknown  driver                   none               2.1.328 verified\n\
              -- UNWRAPPED - READ-ONLY --\n\
              0b7c9f4e-1d2a-4c3b-8e5f-6a7b8c9d0e1f  live   idle     n/a                      n/a                n/a\n\
              stranger                              live   busy     n/a                      n/a                n/a\n"
@@ -404,7 +404,7 @@ fn list_prints_planted_rows_as_unwrapped_rows(stamped_home: StampedHome) {
             {
                 "name": "builder", "wrapped": true, "liveness": "live", "status": "unknown",
                 "wheel": "driver", "dialog_pending": false,
-                "cli_version": "2.1.287", "cli_verified": true,
+                "cli_version": "2.1.328", "cli_verified": true,
             },
             {
                 "name": "0b7c9f4e-1d2a-4c3b-8e5f-6a7b8c9d0e1f", "wrapped": false,

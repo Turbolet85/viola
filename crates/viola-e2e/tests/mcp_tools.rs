@@ -818,7 +818,7 @@ fn mcp_tools_a_line_past_max_frame_ends_the_session_with_one_line() {
 /// unreachable.
 #[test]
 fn mcp_tools_path2_path3_send_wait_last_match_the_cli() {
-    // A turn of one tool's activity, then its end, both recorded 2.1.287 payloads.
+    // A turn of one tool's activity, then its end, both recorded 2.1.328 payloads.
     let steps = json!([
         {"event": "PostToolUse", "variant": "parallel-1", "gate": true},
         {"event": "Stop", "variant": "default", "gate": true},
@@ -1003,7 +1003,7 @@ fn mcp_tools_path4_path5_answer_by_id_and_a_paused_send() {
 
     let fixture = ws
         .root
-        .join("fixtures/claude/2.1.287/PreToolUse.ask-user-question.json");
+        .join("fixtures/claude/2.1.328/PreToolUse.question-permission-1.json");
     let fixture: Value =
         serde_json::from_slice(&std::fs::read(fixture).expect("fixture")).expect("json");
     let asked = fixture["tool_input"]["questions"][0]["question"]

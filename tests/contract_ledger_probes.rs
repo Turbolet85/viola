@@ -1,6 +1,6 @@
 //! The capability-ledger probes over the committed fixture sets (test-plan §5 CLI): `viola verify`
 //! against the fake agent at each stamped `fixtures/claude/<version>/` passes every relied row
-//! (all twenty-six), each literal row id once. Every recorded set is on exactly one literal list: stamped, or kept for the byte-drift
+//! (all twenty-seven), each literal row id once. Every recorded set is on exactly one literal list: stamped, or kept for the byte-drift
 //! contract only. The recorded sets are walked at run time, not by `#[files]`, and an empty walk
 //! fails.
 //! andromeda:walks-tree — it reads every set under `fixtures/claude/`, named or not.
@@ -13,7 +13,7 @@ use std::path::Path;
 use support::home::{TestHome, workspace_path};
 use support::verify::verify;
 
-const ROW_IDS: [&str; 26] = [
+const ROW_IDS: [&str; 27] = [
     "shim-resolution",
     "spine-hooks",
     "session-start-fields",
@@ -40,13 +40,15 @@ const ROW_IDS: [&str; 26] = [
     "browser-tools-prompt",
     "local-command-context",
     "stop-session-crons",
+    "permission-request-question",
 ];
-/// The sets recorded whole (spine, screens, dialog, framing and resume variants): each
-/// stamps every relied row as counting.
-const STAMPED: [&str; 4] = ["2.1.287", "2.1.302", "2.1.325", "2.1.328"];
-/// The sets kept only for the byte-drift contract, never stamped: 2.1.283 carries no screen, and
-/// 2.1.288 none of the framing variants.
-const DRIFT_ONLY: [&str; 2] = ["2.1.283", "2.1.288"];
+/// The sets recorded whole (spine, screens, dialog, framing, resume and question-permission
+/// variants): each stamps every relied row as counting.
+const STAMPED: [&str; 1] = ["2.1.328"];
+/// The sets kept only for the byte-drift contract, never stamped: 2.1.283 carries no screen,
+/// 2.1.288 none of the framing variants, and 2.1.287, 2.1.302 and 2.1.325 none of the
+/// question-permission variants.
+const DRIFT_ONLY: [&str; 5] = ["2.1.283", "2.1.287", "2.1.288", "2.1.302", "2.1.325"];
 
 /// The recorded CLI versions under `root`, sorted: one dir per version.
 fn recorded_versions(root: &Path) -> Vec<String> {
@@ -112,7 +114,7 @@ fn contract_ledger_probes_pass_over_every_stamped_set() {
             };
             assert!(naming[0].ends_with(word), "{version}: {id} did not count");
         }
-        assert_eq!(*last, format!("stamped {version}  26 pass  0 fail"));
+        assert_eq!(*last, format!("stamped {version}  27 pass  0 fail"));
     });
 }
 

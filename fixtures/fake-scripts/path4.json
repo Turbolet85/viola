@@ -1,11 +1,11 @@
 {
   "v": 1,
   "steps": [
-    { "event": "PreToolUse", "variant": "ask-user-question", "gate": true },
-    { "event": "PermissionRequest", "variant": "ask-user-question", "gate": true },
-    { "event": "PreToolUse", "variant": "exit-plan-mode", "gate": true },
-    { "event": "PermissionRequest", "variant": "exit-plan-mode", "gate": true },
-    { "event": "PreToolUse", "variant": "exit-plan-mode", "gate": true },
+    { "event": "PreToolUse", "variant": "question-permission-1", "gate": true },
+    { "event": "PermissionRequest", "variant": "question-permission-1", "gate": true },
+    { "event": "PreToolUse", "variant": "plan-1", "gate": true },
+    { "event": "PermissionRequest", "variant": "plan-1", "gate": true },
+    { "event": "PreToolUse", "variant": "plan-2", "gate": true },
     { "event": "Stop", "variant": "default", "gate": true }
   ]
 }

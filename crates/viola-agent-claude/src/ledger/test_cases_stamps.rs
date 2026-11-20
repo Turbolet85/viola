@@ -1,7 +1,7 @@
 use super::*;
 
 #[test]
-fn ledger_rows_are_the_twenty_six_measured_behaviours_in_order() {
+fn ledger_rows_are_the_twenty_seven_measured_behaviours_in_order() {
     let ids: Vec<&str> = LedgerRow::ALL.iter().map(|r| r.id()).collect();
     assert_eq!(
         ids,
@@ -32,6 +32,7 @@ fn ledger_rows_are_the_twenty_six_measured_behaviours_in_order() {
             "browser-tools-prompt",
             "local-command-context",
             "stop-session-crons",
+            "permission-request-question",
         ]
     );
     let words: Vec<&str> = LedgerRow::ALL.iter().map(|r| r.words()).collect();
@@ -64,6 +65,7 @@ fn ledger_rows_are_the_twenty_six_measured_behaviours_in_order() {
             "an interactive start's browser-tools prompt reads as a modal, nothing typed",
             "/context writes its stdout tag to the transcript and submits no prompt",
             "Stop carries session_crons as an array",
+            "a question raised by PermissionRequest takes the allow body",
         ]
     );
     assert!(words.iter().all(|w| w.is_ascii()));
@@ -73,9 +75,9 @@ fn ledger_rows_are_the_twenty_six_measured_behaviours_in_order() {
 fn relied_rows_are_every_row_in_order() {
     let here: Vec<&str> = LedgerRow::relied().into_iter().map(LedgerRow::id).collect();
     let all: Vec<&str> = LedgerRow::ALL.into_iter().map(LedgerRow::id).collect();
-    assert_eq!(here.len(), 26);
+    assert_eq!(here.len(), 27);
     assert_eq!(here, all);
-    assert_eq!(here.last(), Some(&"stop-session-crons"));
+    assert_eq!(here.last(), Some(&"permission-request-question"));
 }
 
 #[test]
@@ -196,7 +198,7 @@ fn capture_read_keeps_the_size_and_a_parsed_payload() {
 
 #[test]
 fn check_passes_every_row_on_a_clean_probe() {
-    assert_eq!(verdicts(&clean_run()), [true; 26]);
+    assert_eq!(verdicts(&clean_run()), [true; 27]);
 }
 
 #[test]
@@ -343,6 +345,7 @@ fn merge_stamp_writes_the_envelope_for_a_first_version() {
                     "browser-tools-prompt": "absent",
                     "local-command-context": "pass",
                     "stop-session-crons": "pass",
+                    "permission-request-question": "pass",
                 },
                 "measured": {
                     "largest_hook_payload": {"SessionStart": 120, "Stop": 90},
@@ -569,6 +572,12 @@ fn verified_reads_a_fourteen_row_stamp_as_unverified() {
         "the twenty-five rows before the session-crons row"
     );
     stamp["data"]["versions"]["2.1.0"]["rows"]["stop-session-crons"] = json!("pass");
+    assert_eq!(
+        verified(stamp.to_string().as_bytes(), "2.1.0"),
+        Ok(false),
+        "the twenty-six rows before the permission-request-question row"
+    );
+    stamp["data"]["versions"]["2.1.0"]["rows"]["permission-request-question"] = json!("pass");
     assert_eq!(verified(stamp.to_string().as_bytes(), "2.1.0"), Ok(true));
 }
 
@@ -764,7 +773,7 @@ fn verified_reads_a_stamp_holding_the_retired_row_on_the_relied_rows_alone() {
         .map(|row| (row.id().to_owned(), json!("pass")))
         .collect();
     rows.insert(retired.to_owned(), json!("fail"));
-    assert_eq!(rows.len(), 27);
+    assert_eq!(rows.len(), 28);
     let stamp = json!({"v": 1, "data": {"versions": {"2.1.0": {"rows": rows}}}});
     assert_eq!(verified(stamp.to_string().as_bytes(), "2.1.0"), Ok(true));
 }
@@ -801,7 +810,7 @@ fn verified_reads_a_stamp_holding_the_two_retired_rows_on_the_relied_rows_alone(
     for id in &retired {
         rows.insert(id.clone(), json!("fail"));
     }
-    assert_eq!(rows.len(), 28);
+    assert_eq!(rows.len(), 29);
     let stamp = json!({"v": 1, "data": {"versions": {"2.1.0": {"rows": rows}}}});
     assert_eq!(verified(stamp.to_string().as_bytes(), "2.1.0"), Ok(true));
 }
@@ -810,7 +819,7 @@ fn verified_reads_a_stamp_holding_the_two_retired_rows_on_the_relied_rows_alone(
 fn relied_rows_hold_no_retired_row() {
     let retired = retired_rows_of_the_fixture();
     let relied: Vec<&str> = LedgerRow::relied().into_iter().map(LedgerRow::id).collect();
-    assert_eq!(relied.len(), 26);
+    assert_eq!(relied.len(), 27);
     assert!(relied.iter().all(|id| !retired.iter().any(|r| r == id)));
 }
 
@@ -892,6 +901,7 @@ fn verified_reads_a_stamp_of_the_23_pre_chunk_ids_as_unverified() {
                 LedgerRow::BrowserToolsPrompt
                     | LedgerRow::LocalCommandContext
                     | LedgerRow::StopSessionCrons
+                    | LedgerRow::PermissionRequestQuestion
             )
         })
         .map(|r| (*r, true))
@@ -959,13 +969,13 @@ fn counts_reads_pass_and_absent_on_the_browser_tools_row_alone(
 }
 
 #[test]
-fn verified_reads_the_25_earlier_ids_unverified_and_the_26_verified() {
+fn verified_reads_the_26_earlier_ids_unverified_and_the_27_verified() {
     let earlier: Vec<(LedgerRow, bool)> = LedgerRow::ALL
         .iter()
-        .filter(|r| **r != LedgerRow::StopSessionCrons)
+        .filter(|r| **r != LedgerRow::PermissionRequestQuestion)
         .map(|r| (*r, true))
         .collect();
-    assert_eq!(earlier.len(), 25);
+    assert_eq!(earlier.len(), 26);
     let bytes = merge_stamp(None, "2.1.0", &earlier, &[], &clean_typed(), None, "t");
     assert_eq!(verified(&bytes, "2.1.0"), Ok(false));
     let all = stamp_with(&clean_typed(), &[]);
@@ -973,7 +983,7 @@ fn verified_reads_the_25_earlier_ids_unverified_and_the_26_verified() {
         doc(&all)["data"]["versions"]["2.1.0"]["rows"]
             .as_object()
             .map(serde_json::Map::len),
-        Some(26)
+        Some(27)
     );
     assert_eq!(verified(&all, "2.1.0"), Ok(true));
 }

@@ -107,7 +107,7 @@ fn check_typed_rows_fail_without_a_measurement() {
         eight,
         [
             true, true, true, true, true, true, false, false, false, false, true, true, true, true,
-            true, true, true, true, true, true, false, false, false, true, false, true
+            true, true, true, true, true, true, false, false, false, true, false, true, true
         ]
     );
 }
@@ -523,7 +523,7 @@ fn check_dialog_rows_pass_on_the_recorded_shape() {
     }
 }
 
-/// Absence is never a pass: no run, or runs whose turns raised no dialog, fail all four.
+/// Absence is never a pass: no run, or runs whose turns raised no dialog, fail all five.
 #[test]
 fn check_dialog_rows_fail_when_no_dialog_was_raised() {
     let stop = || capture(HookEvent::Stop, json!({}));
@@ -534,6 +534,8 @@ fn check_dialog_rows_fail_when_no_dialog_was_raised() {
             prompted(DIALOG_PROMPT_PARALLEL),
             stop(),
             prompted(DIALOG_PROMPT_PERMISSION),
+            stop(),
+            prompted(DIALOG_PROMPT_PERMISSION_QUESTION),
             stop(),
         ],
         plan: vec![prompted(PLAN_PROMPT), stop()],
@@ -741,4 +743,79 @@ fn checks_stop_session_crons_without_an_array_fails(#[case] payload: Value) {
     );
     run.captures.remove(2);
     assert!(!check(LedgerRow::StopSessionCrons, &probes(&run)));
+}
+
+/// The 27th row passes on the last question turn as recorded: a PreToolUse, a PermissionRequest
+/// with the same `tool_input`, and the PostToolUse of the call carrying the first label.
+#[test]
+fn check_permission_request_question_passes_on_the_recorded_shape() {
+    let dialogs = clean_dialogs();
+    let last = turn(&dialogs.questions, DIALOG_PROMPT_PERMISSION_QUESTION);
+    let events: Vec<HookEvent> = last.iter().map(|c| c.event).collect();
+    assert_eq!(events, [PRE, PR, POST, HookEvent::Stop]);
+    assert!(dialog_check(LedgerRow::PermissionRequestQuestion, dialogs));
+    assert_eq!(
+        row_word(LedgerRow::PermissionRequestQuestion, true, &clean_typed()),
+        "pass"
+    );
+    assert_eq!(
+        row_word(LedgerRow::PermissionRequestQuestion, false, &clean_typed()),
+        "fail"
+    );
+    assert!(!counts(LedgerRow::PermissionRequestQuestion, "absent"));
+}
+
+#[rstest]
+#[case::no_permission_request("no_permission_request")]
+#[case::unequal_tool_input("unequal_tool_input")]
+#[case::no_post_tool_use("no_post_tool_use")]
+#[case::answers_differ("answers_differ")]
+#[case::question_turn_only("question_turn_only")]
+fn check_permission_request_question_fails_when(#[case] fault: &str) {
+    let at = |q: &[Capture], event: HookEvent| {
+        let start = q
+            .iter()
+            .position(|c| c.field("prompt") == Some(DIALOG_PROMPT_PERMISSION_QUESTION))
+            .expect("the last question turn");
+        start
+            + q[start..]
+                .iter()
+                .position(|c| c.event == event)
+                .expect("an event")
+    };
+    let dialogs = with_questions(|q| match fault {
+        "no_permission_request" => {
+            q.remove(at(q, PR));
+        }
+        "unequal_tool_input" => {
+            let i = at(q, PR);
+            q[i] = tool(
+                PR,
+                "AskUserQuestion",
+                None,
+                json!({"tool_input": one_question("Probe shape?")}),
+            );
+        }
+        "no_post_tool_use" => {
+            q.remove(at(q, POST));
+        }
+        "answers_differ" => {
+            let i = at(q, POST);
+            q[i] = tool(
+                POST,
+                "AskUserQuestion",
+                Some("qp"),
+                json!({"tool_response": {"answers": {"Probe shape?": "square"}}}),
+            );
+        }
+        "question_turn_only" => {
+            let moved = q.remove(at(q, PR));
+            q.insert(4, moved);
+        }
+        _ => unreachable!("{fault}"),
+    });
+    assert!(
+        !dialog_check(LedgerRow::PermissionRequestQuestion, dialogs),
+        "{fault}"
+    );
 }

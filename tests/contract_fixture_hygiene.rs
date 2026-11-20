@@ -785,8 +785,9 @@ fn planted_dialog_payload_with_a_nested_path_is_rejected() {
     );
 }
 
-/// Every set recorded with its dialog tier holds the twelve variants, each walked by
-/// `claude_fixtures_pass_hygiene`: the walk reaches the dialog classes.
+/// Every set recorded with its dialog tier holds the twelve variants, and a set recorded with the
+/// `question-permission` turn the three more, each walked by `claude_fixtures_pass_hygiene`: the
+/// walk reaches the dialog classes.
 #[test]
 fn claude_dialog_variants_are_walked_for_every_dialog_set() {
     let walked: Vec<PathBuf> = claude_fixtures(&workspace_path("fixtures/claude"));
@@ -795,12 +796,38 @@ fn claude_dialog_variants_are_walked_for_every_dialog_set() {
         p.file_name().and_then(|n| n.to_str()).is_some_and(|n| {
             let middle = n.split('.').nth(1).unwrap_or_default();
             middle.rsplit_once('-').is_some_and(|(stem, k)| {
-                ["questions", "parallel", "permission", "plan"].contains(&stem)
+                [
+                    "questions",
+                    "parallel",
+                    "permission",
+                    "question-permission",
+                    "plan",
+                ]
+                .contains(&stem)
                     && !k.is_empty()
                     && k.bytes().all(|b| b.is_ascii_digit())
             })
         })
     };
+    let twelve = [
+        "PermissionRequest.permission-1.json",
+        "PermissionRequest.plan-1.json",
+        "PostToolUse.parallel-1.json",
+        "PostToolUse.parallel-2.json",
+        "PostToolUse.permission-1.json",
+        "PostToolUse.plan-2.json",
+        "PostToolUse.questions-1.json",
+        "PreToolUse.parallel-1.json",
+        "PreToolUse.parallel-2.json",
+        "PreToolUse.plan-1.json",
+        "PreToolUse.plan-2.json",
+        "PreToolUse.questions-1.json",
+    ];
+    let question_permission = [
+        "PermissionRequest.question-permission-1.json",
+        "PostToolUse.question-permission-1.json",
+        "PreToolUse.question-permission-1.json",
+    ];
     let mut sets: Vec<&Path> = walked
         .iter()
         .filter(|p| variant(p))
@@ -815,25 +842,12 @@ fn claude_dialog_variants_are_walked_for_every_dialog_set() {
             .filter_map(|p| p.file_name()?.to_str().map(str::to_owned))
             .collect();
         names.sort();
-        assert_eq!(
-            names,
-            [
-                "PermissionRequest.permission-1.json",
-                "PermissionRequest.plan-1.json",
-                "PostToolUse.parallel-1.json",
-                "PostToolUse.parallel-2.json",
-                "PostToolUse.permission-1.json",
-                "PostToolUse.plan-2.json",
-                "PostToolUse.questions-1.json",
-                "PreToolUse.parallel-1.json",
-                "PreToolUse.parallel-2.json",
-                "PreToolUse.plan-1.json",
-                "PreToolUse.plan-2.json",
-                "PreToolUse.questions-1.json",
-            ],
-            "{}",
-            set.display()
-        );
+        let mut expected: Vec<&str> = twelve.to_vec();
+        if names.iter().any(|n| n.contains(".question-permission-")) {
+            expected.extend(question_permission);
+        }
+        expected.sort_unstable();
+        assert_eq!(names, expected, "{}", set.display());
     }
 }
 

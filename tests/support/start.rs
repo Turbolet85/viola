@@ -18,8 +18,8 @@ use super::home::{StampedHome, TestHome, Wrapper, claude_dir, revive_command, wo
 use super::piped::Piped;
 use super::watch::{WITHIN, Watch};
 
-/// The session id the committed 2.1.287 `SessionStart.default` payload carries.
-pub const FIXTURE_SESSION: &str = "c0f0cc23-690b-45dd-bbfb-06d6cfd44942";
+/// The session id the committed 2.1.328 `SessionStart.default` payload carries.
+pub const FIXTURE_SESSION: &str = "fc611e35-7640-4de0-b572-91e8f0670277";
 
 /// The complete lines of `builder`'s run role file.
 pub fn role_lines(home: &Path) -> Vec<Value> {

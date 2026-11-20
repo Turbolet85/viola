@@ -38,7 +38,7 @@ use agents::{Registry, agents, exe_dir};
 use hyprctl::{hyprctl, is_hyprctl};
 use input::{Action, Input};
 
-const DEFAULT_CLI_VERSION: &str = "2.1.287";
+const DEFAULT_CLI_VERSION: &str = "2.1.328";
 const PASTE_START: &[u8] = b"\x1b[200~";
 const PASTE_END: &[u8] = b"\x1b[201~";
 const WIDE_CHAR: &[u8] = b"\xe4\xb8\xad";

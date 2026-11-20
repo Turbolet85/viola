@@ -1,0 +1,445 @@
+[
+{
+"tool": "gate",
+"v": "1.38",
+"sha8": "c4d66f32",
+"ts": "2026-11-20T12:48:19Z",
+"argv": [
+"scope",
+"--sync",
+"--chunk",
+"2026-11-20-permissionrequest-question-answered",
+"--run-dir",
+".andromeda/runs/2026-11-20T12-41-23Z-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"control: plan · runs · predicate · past — each fired on its known positive",
+"base: tx 3399 — before 2026-11-20T12-23-17Z-implement · plan rev 4 → 5 · research rev 1 → 1 · derived rev 1 (take-up)",
+"revision: 1",
+"added `src/cmd/hook.rs` — research's lists name it nowhere",
+"added `src/run/version_gate.rs` — research's lists name it nowhere",
+"added `tests/support/verify.rs` — research's lists name it nowhere",
+"scope sync: FAIL 3 · delta +3 −0 · research rev 1 · derived rev 1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"base_tx": 3399,
+"revision": 1,
+"research_rev": 1,
+"derived_rev": 1,
+"verdict": "FAIL",
+"added": 3,
+"dropped": 0,
+"rows": 3,
+"kept": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.38",
+"sha8": "c4d66f32",
+"ts": "2026-11-20T12:49:07Z",
+"argv": [
+"scope",
+"--sync",
+"--chunk",
+"2026-11-20-permissionrequest-question-answered",
+"--run-dir",
+".andromeda/runs/2026-11-20T12-41-23Z-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"control: plan · runs · predicate · past — each fired on its known positive",
+"base: tx 3399 — before 2026-11-20T12-23-17Z-implement · plan rev 4 → 5 · research rev 1 → 2 · derived rev 1 (take-up)",
+"revision: 1",
+"added `src/cmd/hook.rs` — listed (line 65)",
+"added `src/run/version_gate.rs` — listed (line 66)",
+"added `tests/support/verify.rs` — listed (line 67)",
+"scope sync: PASS · delta +3 −0 · research rev 2 · derived rev 1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"base_tx": 3399,
+"revision": 1,
+"research_rev": 2,
+"derived_rev": 1,
+"verdict": "PASS",
+"added": 3,
+"dropped": 0,
+"rows": 0,
+"kept": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.38",
+"sha8": "c4d66f32",
+"ts": "2026-11-20T12:49:07Z",
+"argv": [
+"scope",
+"--lists-only",
+"--chunk",
+"2026-11-20-permissionrequest-question-answered",
+"--run-dir",
+".andromeda/runs/2026-11-20T12-41-23Z-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 17 items (new 2 · modify 15 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 17,
+"unparsed": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.38",
+"sha8": "c4d66f32",
+"ts": "2026-11-20T12:51:04Z",
+"argv": [
+"baseline",
+"--chunk",
+"2026-11-20-permissionrequest-question-answered",
+"--run-dir",
+".andromeda/runs/2026-11-20T12-41-23Z-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · marker 2026-11-20-permissionrequest-question-answered · entries 35",
+"previous 2026-11-20-a-quoted-modal-never-blocks-a-send · trails 456 run dirs · firings 35 (green 32) · other root 0 · unreadable 0",
+"  1 lint        seen green 2026-11-20T10:53:33Z #1 (wrap) · cargo fmt --all --check",
+"  2 lint        seen green 2026-11-20T10:53:33Z #2 (wrap) · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 unit        seen green 2026-11-20T10:53:33Z #3 (wrap) · cargo nextest run -p viola-agent-claude --no-fail-fast",
+"  4 unit        seen green 2026-11-20T10:53:33Z #6 (wrap) · bash scripts/agent-run.sh run --unit",
+"  5 integration seen green 2026-11-20T10:53:33Z #13 (wrap) · bash scripts/agent-run.sh run --integration",
+"  6 e2e         seen green 2026-11-20T10:53:33Z #14 (wrap) · bash scripts/agent-run.sh run --e2e",
+"  7 lint        seen green 2026-11-20T10:53:33Z #1 (wrap) · cargo fmt --all --check",
+"  8 lint        seen green 2026-11-20T10:53:33Z #2 (wrap) · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  9 unit        seen green 2026-11-20T10:53:33Z #3 (wrap) · cargo nextest run -p viola-agent-claude --no-fail-fast",
+" 10 unit        new (key) · cargo nextest run -p viola-e2e --lib --no-fail-fast -E 'te… (72 chars)",
+" 11 unit        new (key) · cargo nextest run -p viola --bin viola --no-fail-fast",
+" 12 probe       leg round — exempt · test -x \"$HOME/.local/share/mise/installs/claude/2.1.328/c… (134 chars)",
+" 13 probe       leg round — exempt · cargo run -q -p viola-e2e --bin viola-live-rig -- census",
+" 14 build       leg round — exempt · cargo build -q --bin viola && cargo build -q -p viola-e2e … (123 chars)",
+" 15 probe       leg round — exempt · test ! -e target/live-rig/PQ/record && test ! -L target/li… (172 chars)",
+" 16 probe       leg round — exempt · f=.andromeda/cache/chunks/2026-11-20-permissionrequest-que… (227 chars)",
+" 17 probe       leg round — exempt · d=\"${XDG_RUNTIME_DIR:-}\"; test -n \"$d\" && test -d \"$d\" && … (181 chars)",
+" 18 e2e         leg live — exempt · cargo run -q -p viola-e2e --bin viola-live-rig -- live PQ … (217 chars)",
+" 19 probe       leg operator — exempt · cargo run -q -p viola-e2e --bin viola-live-rig -- census",
+" 20 probe       new (key) · python3 -c 'import json;r=json.load(open(\"target/live-rig/… (313 chars)",
+" 21 probe       new (key) · test \"$(sha256sum \"$HOME/.viola/ledger/stamps.json\" | cut … (206 chars)",
+" 22 probe       new (key) · diff <(ls target/live-rig/PQ/record/2.1.328) <(ls fixtures… (74 chars)",
+" 23 probe       new (key) · diff <(ls target/live-rig/PQ/record/2.1.328) <(ls fixtures… (93 chars)",
+" 24 probe       new (key) · diff -r -x Mcp.tools-list-1.json target/live-rig/PQ/record… (90 chars)",
+" 25 probe       new (key) · python3 -c 'import json;print(\"permission_mode:\",json.load… (162 chars)",
+" 26 unit        seen green 2026-11-20T10:53:33Z #6 (wrap) · bash scripts/agent-run.sh run --unit",
+" 27 integration seen green 2026-11-20T10:53:33Z #13 (wrap) · bash scripts/agent-run.sh run --integration",
+" 28 e2e         seen green 2026-11-20T10:53:33Z #14 (wrap) · bash scripts/agent-run.sh run --e2e",
+" 29 smoke       leg operator — exempt · bash scripts/agent-run.sh boot --session question-smoke",
+" 30 smoke       leg operator — exempt · bash scripts/agent-run.sh status --session question-smoke",
+" 31 probe       leg operator — exempt · bash scripts/agent-run.sh cleanup --session question-smoke",
+" 32 probe       leg operator — exempt · bash scripts/agent-run.sh pre-push",
+" 33 probe       leg operator — exempt · python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ga… (71 chars)",
+" 34 probe       leg operator — exempt · git diff --quiet && git diff --cached --quiet && git push",
+" 35 probe       leg operator — exempt · python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ci… (95 chars)",
+"entries 35 · seen green 12 · not seen 0 · new (key) 8 · leg 15"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-11-20-permissionrequest-question-answered",
+"plan": "doc:2026-11-20-permissionrequest-question-answered/plan",
+"root": ".",
+"previous": "2026-11-20-a-quoted-modal-never-blocks-a-send",
+"unreadable": 0,
+"rows": [
+{
+"n": 1,
+"row": "seen green 2026-11-20T10:53:33Z #1 (wrap)",
+"run_sha8": "2d009b4c"
+},
+{
+"n": 2,
+"row": "seen green 2026-11-20T10:53:33Z #2 (wrap)",
+"run_sha8": "84426f9a"
+},
+{
+"n": 3,
+"row": "seen green 2026-11-20T10:53:33Z #3 (wrap)",
+"run_sha8": "d6acd57f"
+},
+{
+"n": 4,
+"row": "seen green 2026-11-20T10:53:33Z #6 (wrap)",
+"run_sha8": "c5d2a008"
+},
+{
+"n": 5,
+"row": "seen green 2026-11-20T10:53:33Z #13 (wrap)",
+"run_sha8": "03525807"
+},
+{
+"n": 6,
+"row": "seen green 2026-11-20T10:53:33Z #14 (wrap)",
+"run_sha8": "55ff1d5e"
+},
+{
+"n": 7,
+"row": "seen green 2026-11-20T10:53:33Z #1 (wrap)",
+"run_sha8": "2d009b4c"
+},
+{
+"n": 8,
+"row": "seen green 2026-11-20T10:53:33Z #2 (wrap)",
+"run_sha8": "84426f9a"
+},
+{
+"n": 9,
+"row": "seen green 2026-11-20T10:53:33Z #3 (wrap)",
+"run_sha8": "d6acd57f"
+},
+{
+"n": 10,
+"row": "new (key)",
+"run_sha8": "8493c2d1"
+},
+{
+"n": 11,
+"row": "new (key)",
+"run_sha8": "214bd7f4"
+},
+{
+"n": 12,
+"row": "leg round — exempt",
+"run_sha8": "a4214e4a"
+},
+{
+"n": 13,
+"row": "leg round — exempt",
+"run_sha8": "2a6c71a8"
+},
+{
+"n": 14,
+"row": "leg round — exempt",
+"run_sha8": "e135c874"
+},
+{
+"n": 15,
+"row": "leg round — exempt",
+"run_sha8": "14b07a17"
+},
+{
+"n": 16,
+"row": "leg round — exempt",
+"run_sha8": "6b335f9c"
+},
+{
+"n": 17,
+"row": "leg round — exempt",
+"run_sha8": "bca4614d"
+},
+{
+"n": 18,
+"row": "leg live — exempt",
+"run_sha8": "b49de16e"
+},
+{
+"n": 19,
+"row": "leg operator — exempt",
+"run_sha8": "2a6c71a8"
+},
+{
+"n": 20,
+"row": "new (key)",
+"run_sha8": "bd8b5afe"
+},
+{
+"n": 21,
+"row": "new (key)",
+"run_sha8": "a8bc539f"
+},
+{
+"n": 22,
+"row": "new (key)",
+"run_sha8": "19ad73eb"
+},
+{
+"n": 23,
+"row": "new (key)",
+"run_sha8": "7f06ec87"
+},
+{
+"n": 24,
+"row": "new (key)",
+"run_sha8": "bcc3b90f"
+},
+{
+"n": 25,
+"row": "new (key)",
+"run_sha8": "c3379676"
+},
+{
+"n": 26,
+"row": "seen green 2026-11-20T10:53:33Z #6 (wrap)",
+"run_sha8": "c5d2a008"
+},
+{
+"n": 27,
+"row": "seen green 2026-11-20T10:53:33Z #13 (wrap)",
+"run_sha8": "03525807"
+},
+{
+"n": 28,
+"row": "seen green 2026-11-20T10:53:33Z #14 (wrap)",
+"run_sha8": "55ff1d5e"
+},
+{
+"n": 29,
+"row": "leg operator — exempt",
+"run_sha8": "346204c6"
+},
+{
+"n": 30,
+"row": "leg operator — exempt",
+"run_sha8": "4c82a9ce"
+},
+{
+"n": 31,
+"row": "leg operator — exempt",
+"run_sha8": "44dd63cc"
+},
+{
+"n": 32,
+"row": "leg operator — exempt",
+"run_sha8": "4da4c5c8"
+},
+{
+"n": 33,
+"row": "leg operator — exempt",
+"run_sha8": "3c62df70"
+},
+{
+"n": 34,
+"row": "leg operator — exempt",
+"run_sha8": "7eca65b6"
+},
+{
+"n": 35,
+"row": "leg operator — exempt",
+"run_sha8": "20f114b9"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.38",
+"sha8": "c4d66f32",
+"ts": "2026-11-20T12:52:16Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-11-20T12-41-23Z-phase",
+"--marker",
+"2026-11-20-permissionrequest-question-answered"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust · base HEAD (no pre-CI commit)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust — each fired on its synthetic known positive",
+"hygiene: clean — read 237 (runs 225 · evidence 3 · inputs 9) · trails 18 not read · copies 7 not read by P1 — 0 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 225,
+"evidence": 3,
+"inputs": 9,
+"trails": 18,
+"copies": 7,
+"kept": 0,
+"binary": 0,
+"in_root": 0
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.38",
+"sha8": "c4d66f32",
+"ts": "2026-11-20T12:53:07Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-11-20T12-41-23Z-phase",
+"--marker",
+"2026-11-20-permissionrequest-question-answered"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust · base HEAD (no pre-CI commit)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust — each fired on its synthetic known positive",
+"hygiene: clean — read 238 (runs 226 · evidence 3 · inputs 9) · trails 18 not read · copies 7 not read by P1 — 0 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 226,
+"evidence": 3,
+"inputs": 9,
+"trails": 18,
+"copies": 7,
+"kept": 0,
+"binary": 0,
+"in_root": 0
+},
+"indeterminate": 0
+}
+}
+]

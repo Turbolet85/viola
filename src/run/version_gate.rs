@@ -280,13 +280,13 @@ mod tests {
 
     /// The verdict needs the dialog rows (R2 closed), the framing rows, the newline row, the resume
     /// row, the agents row, the compact row, the echo row, the trust-record row, the
-    /// browser-tools row, the context row and the session-crons row: a stamp written before any of them landed (the ten spine and screen rows,
+    /// browser-tools row, the context row, the session-crons row and the permission-question row: a stamp written before any of them landed (the ten spine and screen rows,
     /// those and the four dialog rows, every row but the newline one, the eighteen before the resume
     /// row, the nineteen before the agents row, the twenty before the compact row, the twenty-one
     /// before the echo row, the twenty-two before the trust-record row, the twenty-three before
-    /// the browser-tools row, the twenty-four before the context row, or the twenty-five before the
-    /// session-crons row) and one whose relied row failed all leave the version unverified; all
-    /// twenty-six relied rows counting verify it.
+    /// the browser-tools row, the twenty-four before the context row, the twenty-five before the
+    /// session-crons row, or the twenty-six before the permission-question row) and one whose relied
+    /// row failed all leave the version unverified; all twenty-seven relied rows counting verify it.
     #[test]
     fn stamps_verdict_needs_the_dialog_rows() {
         let ten = [
@@ -381,6 +381,12 @@ mod tests {
         all.push((LedgerRow::StopSessionCrons, true));
         assert_eq!(
             stamps_verdict(Ok(Some(stamp_of(&all))), "2.1.0"),
+            (false, None),
+            "the twenty-six rows of an older stamp, every one pass"
+        );
+        all.push((LedgerRow::PermissionRequestQuestion, true));
+        assert_eq!(
+            stamps_verdict(Ok(Some(stamp_of(&all))), "2.1.0"),
             (true, None)
         );
         for failing in dialogs.into_iter().chain(framing).chain([
@@ -393,6 +399,7 @@ mod tests {
             LedgerRow::BrowserToolsPrompt,
             LedgerRow::LocalCommandContext,
             LedgerRow::StopSessionCrons,
+            LedgerRow::PermissionRequestQuestion,
         ]) {
             let rows: Vec<(LedgerRow, bool)> =
                 all.iter().map(|(r, p)| (*r, *p && *r != failing)).collect();

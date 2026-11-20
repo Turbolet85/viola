@@ -593,8 +593,8 @@ fn hook_a_recorded_stop_carries_its_background_task_count() {
 /// The recorded AskUserQuestion lands as `question` carrying each option's description and preview.
 #[test]
 fn hook_a_recorded_question_carries_its_option_details() {
-    let input = recorded("PreToolUse.ask-user-question.json")["tool_input"].clone();
-    let question = recorded_line("PreToolUse", "ask-user-question", "question");
+    let input = recorded("PreToolUse.questions-1.json")["tool_input"].clone();
+    let question = recorded_line("PreToolUse", "questions-1", "question");
     assert_eq!(question["source"], "hook");
     let asked = input["questions"].as_array().expect("questions");
     let carried = question["data"]["questions"].as_array().expect("questions");

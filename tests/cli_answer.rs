@@ -4,9 +4,10 @@
 //! `viola wait`, and are answered by id with `viola answer`; the hook prints the decision body the
 //! answer maps to (S3 / S7 / S8). The PermissionRequest that repeats a PreToolUse is the same
 //! dialog: it logs nothing and carries only a plan's revise. A second concurrent dialog, an unknown
-//! id, an unverified CLI and a question first raised by PermissionRequest are each left to the
-//! human. The `question` / `plan` cases replay the relayed 2.1.287 captures
-//! (`fixtures/claude/2.1.287/RELAYED.md`, superseded but kept); the `permission` cases replay the
+//! id and an unverified CLI are each left to the human; a question first raised by
+//! PermissionRequest is held and answered by its id. The `question` cases replay `viola verify`'s
+//! Run C `question-permission-1` recordings and the `plan` cases its Run D `plan-1` / `plan-2`
+//! ones; the `permission` cases replay the
 //! `viola verify` Run C recordings `PermissionRequest.permission-1.json` /
 //! `PostToolUse.permission-1.json` ("Permission end to end", working-route `:88`). The canary rides
 //! only the answers and the driver's text.
@@ -195,7 +196,7 @@ fn path4_dialogs_are_logged_once_woken_and_answered_by_id(stamped_home: StampedH
     assert_eq!(doc["ok"]["cursor"], end);
 
     // The question is answered with free text and a note (S3, S8).
-    let tool_input = fixture("PreToolUse.ask-user-question.json")["tool_input"].clone();
+    let tool_input = fixture("PreToolUse.question-permission-1.json")["tool_input"].clone();
     let asked = tool_input["questions"][0]["question"]
         .as_str()
         .expect("a question")
@@ -272,7 +273,7 @@ fn path4_dialogs_are_logged_once_woken_and_answered_by_id(stamped_home: StampedH
     let hooks = hooks_at_least(&receipt, 6);
     assert_eq!(hooks[5]["event"], "PreToolUse");
     let body: Value = serde_json::from_str(&clean_stdout(&hooks[5])).expect("one JSON body");
-    let plan_input = fixture("PreToolUse.exit-plan-mode.json")["tool_input"].clone();
+    let plan_input = fixture("PreToolUse.plan-2.json")["tool_input"].clone();
     assert_eq!(
         body,
         json!({"hookSpecificOutput": {"hookEventName": "PreToolUse",
@@ -363,8 +364,9 @@ fn path4_dialogs_are_logged_once_woken_and_answered_by_id(stamped_home: StampedH
 
 /// test-plan §6 Path 4, the `permission` kind: an ordinary-tool PermissionRequest answered `allow`
 /// (its suggestion fields never reach the CLI, `v1-16`) and `deny` + `message`; the PostToolUse
-/// `activity` line wakes no `wait`; a question first raised by PermissionRequest is left to the
-/// human. The `v1-30` dialog-kind wait witness for `permission`.
+/// `activity` line wakes no `wait`; a question first raised by PermissionRequest is held and
+/// answered by its id, `allow` + `updatedInput`. The `v1-30` dialog-kind wait witness for
+/// `permission`.
 #[rstest]
 fn path4_permission_is_logged_once_woken_and_answered_by_id(stamped_home: StampedHome) {
     let wrapper = boot_over(stamped_home, PATH4_PERMISSION);
@@ -459,18 +461,67 @@ fn path4_permission_is_logged_once_woken_and_answered_by_id(stamped_home: Stampe
         )
     );
 
-    // A question first raised by PermissionRequest is logged once and answered `null` at once:
-    // the hook prints nothing and a late answer finds no pending dialog.
+    // A question first raised by PermissionRequest, no arm matching it, is logged once, wakes a
+    // parked `wait` and is held: an `answer` by its id carrying `answers` and `annotations` makes
+    // the hook print the PermissionRequest `allow` + `updatedInput` body, and a second answer finds
+    // no pending dialog.
+    let parked = spawn(
+        &home,
+        &["wait", "builder", "--after", &end.to_string()],
+        None,
+        None,
+    );
+    wait_request_logged(&home, "wait", 4);
     let question_id = raise(&wrapper, "question", 1);
-    let hooks = hooks_at_least(&receipt, 5);
-    assert_eq!(hooks[4]["event"], "PermissionRequest");
-    assert_eq!(clean_stdout(&hooks[4]), "");
-    let asked = &fixture("PermissionRequest.ask-user-question.json")["tool_input"]["questions"][0]
-        ["question"];
+    let woken = parked.finish();
+    assert_eq!(woken.code, Some(0), "stderr: {}", woken.stderr);
+    let question_end = line_end_of(&dir, question_id);
+    assert_eq!(
+        woken.stdout,
+        format!("question  builder  dialog {question_id}  cursor {question_end}\n")
+    );
+    let tool_input = fixture("PermissionRequest.question-permission-1.json")["tool_input"].clone();
+    let asked = &tool_input["questions"][0]["question"];
     let lines = events(&dir);
     let questions = of_event_kind(&lines, "question");
     assert_eq!(questions.len(), 1);
     assert_eq!(&questions[0]["data"]["questions"][0]["question"], asked);
+    let mut answers = serde_json::Map::new();
+    for question in tool_input["questions"].as_array().expect("questions") {
+        answers.insert(
+            question["question"]
+                .as_str()
+                .expect("a question")
+                .to_owned(),
+            question["options"][0]["label"].clone(),
+        );
+    }
+    let note = format!("{CANARY} note");
+    let annotations = json!({asked.as_str().expect("a question"): {"notes": note}});
+    let reply = answer(
+        &home,
+        question_id,
+        &json!({"answers": answers, "annotations": annotations}),
+    );
+    assert_eq!(reply.code, Some(0), "stderr: {}", reply.stderr);
+    assert_eq!(
+        reply.stdout,
+        format!("answered  builder  dialog {question_id}\n")
+    );
+    assert!(reply.stderr.is_empty());
+    let hooks = hooks_at_least(&receipt, 5);
+    assert_eq!(hooks[4]["event"], "PermissionRequest");
+    let mut updated = tool_input.as_object().expect("an object").clone();
+    updated.insert("answers".to_owned(), Value::Object(answers));
+    updated.insert("annotations".to_owned(), annotations);
+    let updated = Value::Object(updated).to_string();
+    assert_eq!(
+        clean_stdout(&hooks[4]),
+        format!(
+            "{{\"hookSpecificOutput\":{{\"hookEventName\":\"PermissionRequest\",\
+             \"decision\":{{\"behavior\":\"allow\",\"updatedInput\":{updated}}}}}}}"
+        )
+    );
     let late = spawn(
         &home,
         &["answer", "builder", &question_id.to_string(), "--json"],
@@ -502,7 +553,7 @@ fn path4_permission_is_logged_once_woken_and_answered_by_id(stamped_home: Stampe
     assert_eq!(of_event_kind(&lines, "activity").len(), 1);
 
     // The logs: one `dialog-raised` per dialog, one `dialog-answered` per answer, every wait woken
-    // by a permission, the hook's pair joined on the same `corr`.
+    // by its dialog, the hook's pair joined on the same `corr`.
     let run = diagnostics(&home, "run-builder.ndjson");
     let raised: Vec<&Value> = run
         .iter()
@@ -523,7 +574,7 @@ fn path4_permission_is_logged_once_woken_and_answered_by_id(stamped_home: Stampe
         .filter(|l| l["event"] == "dialog-answered")
         .collect();
     let answered_ids: Vec<u64> = answered.iter().filter_map(|l| l["corr"].as_u64()).collect();
-    assert_eq!(answered_ids, [allowed_id, denied_id]);
+    assert_eq!(answered_ids, [allowed_id, denied_id, question_id]);
     for line in &answered {
         assert_eq!(line["from"], "overseer");
         assert_eq!(line["from_trust"], "self-reported");
@@ -532,7 +583,8 @@ fn path4_permission_is_logged_once_woken_and_answered_by_id(stamped_home: Stampe
         .iter()
         .filter(|l| l["event"] == "channel-request" && l["method"] == "wait")
         .collect();
-    assert_eq!(waits.len(), 3);
+    assert_eq!(waits.len(), 4);
+    let mut outcomes = Vec::new();
     for request in waits {
         let response = run
             .iter()
@@ -542,8 +594,12 @@ fn path4_permission_is_logged_once_woken_and_answered_by_id(stamped_home: Stampe
                     && l["corr"] == request["corr"]
             })
             .expect("a joined wait response");
-        assert_eq!(response["outcome"], "permission");
+        outcomes.push(response["outcome"].clone());
     }
+    assert_eq!(
+        outcomes,
+        ["permission", "permission", "permission", "question"]
+    );
     let hook_lines = diagnostics(&home, "hook-builder.ndjson");
     for id in [allowed_id, denied_id, question_id] {
         for event in ["hook-invoked", "hook-decision"] {
@@ -555,7 +611,7 @@ fn path4_permission_is_logged_once_woken_and_answered_by_id(stamped_home: Stampe
             );
         }
     }
-    for (id, emitted) in [(allowed_id, true), (denied_id, true), (question_id, false)] {
+    for (id, emitted) in [(allowed_id, true), (denied_id, true), (question_id, true)] {
         let decision = hook_lines
             .iter()
             .find(|l| l["event"] == "hook-decision" && l["corr"] == id)
@@ -667,7 +723,7 @@ fn path4_a_plan_first_raised_by_permission_request_is_answered_as_a_plan(
             .expect("a dialog_id")
     };
 
-    let raised = fixture("PermissionRequest.exit-plan-mode.json");
+    let raised = fixture("PermissionRequest.plan-1.json");
     let hook = spawn_hook(&wrapper, "permission-request", &raised);
     let approved = plan_id(1);
     let reply = answer(&home, approved, &json!({"behavior": "approve"}));
@@ -718,11 +774,7 @@ fn path4_second_concurrent_dialog_is_left_to_the_human(stamped_home: StampedHome
     let wrapper = boot(stamped_home);
     let home = wrapper.home().to_path_buf();
     let first = raise(&wrapper, "question", 1);
-    let second = run_hook(
-        &wrapper,
-        "pre-tool-use",
-        &fixture("PreToolUse.exit-plan-mode.json"),
-    );
+    let second = run_hook(&wrapper, "pre-tool-use", &fixture("PreToolUse.plan-1.json"));
     assert_eq!(second.code, Some(0));
     assert!(second.stdout.is_empty());
     assert!(second.stderr.is_empty());
@@ -739,7 +791,7 @@ fn path4_second_concurrent_dialog_is_left_to_the_human(stamped_home: StampedHome
     .finish();
     assert_eq!(late.code, Some(13));
     // The held one still takes its answer.
-    let tool_input = fixture("PreToolUse.ask-user-question.json")["tool_input"].clone();
+    let tool_input = fixture("PreToolUse.question-permission-1.json")["tool_input"].clone();
     let asked = tool_input["questions"][0]["question"].as_str().expect("q");
     let reply = answer(&home, first, &json!({"answers": {asked: CANARY}}));
     assert_eq!(reply.code, Some(0), "stderr: {}", reply.stderr);

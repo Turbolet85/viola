@@ -51,10 +51,13 @@ pub enum LedgerRow {
     LocalCommandContext,
     /// The Stop's `session_crons` as an array: the scheduled-wake count the wheel rule reads.
     StopSessionCrons,
+    /// A question first raised by PermissionRequest takes the `allow` + `updatedInput` body. It
+    /// reads `pass` or `fail`, never `absent`.
+    PermissionRequestQuestion,
 }
 
 impl LedgerRow {
-    pub const ALL: [Self; 26] = [
+    pub const ALL: [Self; 27] = [
         Self::ShimResolution,
         Self::SpineHooks,
         Self::SessionStartFields,
@@ -81,6 +84,7 @@ impl LedgerRow {
         Self::BrowserToolsPrompt,
         Self::LocalCommandContext,
         Self::StopSessionCrons,
+        Self::PermissionRequestQuestion,
     ];
 
     /// The kebab-case id, the key under a stamped version's `rows`.
@@ -112,6 +116,7 @@ impl LedgerRow {
             Self::BrowserToolsPrompt => "browser-tools-prompt",
             Self::LocalCommandContext => "local-command-context",
             Self::StopSessionCrons => "stop-session-crons",
+            Self::PermissionRequestQuestion => "permission-request-question",
         }
     }
 
@@ -154,6 +159,9 @@ impl LedgerRow {
                 "/context writes its stdout tag to the transcript and submits no prompt"
             }
             Self::StopSessionCrons => "Stop carries session_crons as an array",
+            Self::PermissionRequestQuestion => {
+                "a question raised by PermissionRequest takes the allow body"
+            }
         }
     }
 
@@ -292,6 +300,11 @@ pub const DIALOG_PROMPT_PARALLEL: &str = "viola verify probe: in one single mess
 /// The dialog run's third prompt: one ordinary tool call the session's `ask` rule holds.
 pub const DIALOG_PROMPT_PERMISSION: &str = "viola verify probe: run exactly this shell command with \
      the Bash tool, nothing else: touch viola-probe-permission. Then reply with the single word ok.";
+/// The dialog run's fourth prompt, pasted last: one AskUserQuestion call whose PreToolUse is left
+/// unanswered, so the CLI raises its PermissionRequest.
+pub const DIALOG_PROMPT_PERMISSION_QUESTION: &str = "viola verify probe: call the AskUserQuestion \
+     tool exactly once, with one question. The question is Probe shape? with the options round and \
+     square. After the answer comes back, reply with the single word ok.";
 /// The plan run's prompt, in plan mode.
 pub const PLAN_PROMPT: &str = "viola verify probe: make a plan only, do not run anything. The plan \
      has one step: reply with the word done. Present the plan with the ExitPlanMode tool. If the plan \
@@ -320,10 +333,15 @@ pub enum DialogRun {
 }
 
 /// Each dialog prompt, its run and the stem its recorded variants carry, in paste order.
-pub const DIALOG_TURNS: [(DialogRun, &str, &str); 4] = [
+pub const DIALOG_TURNS: [(DialogRun, &str, &str); 5] = [
     (DialogRun::Questions, DIALOG_PROMPT_QUESTIONS, "questions"),
     (DialogRun::Questions, DIALOG_PROMPT_PARALLEL, "parallel"),
     (DialogRun::Questions, DIALOG_PROMPT_PERMISSION, "permission"),
+    (
+        DialogRun::Questions,
+        DIALOG_PROMPT_PERMISSION_QUESTION,
+        "question-permission",
+    ),
     (DialogRun::Plan, PLAN_PROMPT, "plan"),
 ];
 
@@ -343,15 +361,17 @@ pub enum ProbeAnswer {
     PlanRevise,
     PlanApprove,
     PermitAllow,
+    PermissionQuestionFirstOption,
 }
 
 impl ProbeAnswer {
-    pub const ALL: [Self; 5] = [
+    pub const ALL: [Self; 6] = [
         Self::QuestionsFirstAndFreeText,
         Self::QuestionFirstOption,
         Self::PlanRevise,
         Self::PlanApprove,
         Self::PermitAllow,
+        Self::PermissionQuestionFirstOption,
     ];
 
     pub const fn id(self) -> &'static str {
@@ -361,6 +381,7 @@ impl ProbeAnswer {
             Self::PlanRevise => "plan-revise",
             Self::PlanApprove => "plan-approve",
             Self::PermitAllow => "permit-allow",
+            Self::PermissionQuestionFirstOption => "permission-question-first-option",
         }
     }
 
@@ -370,8 +391,9 @@ impl ProbeAnswer {
 }
 
 /// Which answer goes to which dialog event: (run, event, ordinal of that event in the run). Run D's
-/// first PreToolUse is left unanswered, so the CLI raises the plan's PermissionRequest.
-pub const PROBE_ANSWERS: [(DialogRun, HookEvent, u32, ProbeAnswer); 6] = [
+/// first PreToolUse is left unanswered, so the CLI raises the plan's PermissionRequest; so is Run
+/// C's fourth PreToolUse, so the CLI raises the last question's PermissionRequest.
+pub const PROBE_ANSWERS: [(DialogRun, HookEvent, u32, ProbeAnswer); 7] = [
     (
         DialogRun::Questions,
         HookEvent::PreToolUse,
@@ -395,6 +417,12 @@ pub const PROBE_ANSWERS: [(DialogRun, HookEvent, u32, ProbeAnswer); 6] = [
         HookEvent::PermissionRequest,
         1,
         ProbeAnswer::PermitAllow,
+    ),
+    (
+        DialogRun::Questions,
+        HookEvent::PermissionRequest,
+        2,
+        ProbeAnswer::PermissionQuestionFirstOption,
     ),
     (
         DialogRun::Plan,
@@ -422,7 +450,9 @@ pub fn probe_body(event: HookEvent, payload: &[u8], answer: ProbeAnswer) -> Opti
     let payload: Value = serde_json::from_slice(payload).ok()?;
     let input = payload.get("tool_input")?;
     let response = match answer {
-        ProbeAnswer::QuestionsFirstAndFreeText | ProbeAnswer::QuestionFirstOption => {
+        ProbeAnswer::QuestionsFirstAndFreeText
+        | ProbeAnswer::QuestionFirstOption
+        | ProbeAnswer::PermissionQuestionFirstOption => {
             question_response(input, answer == ProbeAnswer::QuestionsFirstAndFreeText)?
         }
         ProbeAnswer::PlanRevise => Response::Plan {
@@ -790,7 +820,7 @@ fn answered_question(questions: &[Capture]) -> Option<(&Value, &Value)> {
 }
 
 /// The answered question's first label took effect, and no AskUserQuestion reached a
-/// PermissionRequest anywhere in the run.
+/// PermissionRequest in its own turn.
 fn question_answered(questions: &[Capture]) -> bool {
     let took = answered_question(questions).is_some_and(|(input, response)| {
         let first = &input["questions"][0];
@@ -799,9 +829,52 @@ fn question_answered(questions: &[Capture]) -> bool {
         text.zip(label)
             .is_some_and(|(text, label)| response["answers"][text] == label)
     });
-    took && !questions
+    took && !turn(questions, DIALOG_PROMPT_QUESTIONS)
         .iter()
         .any(|c| c.is(HookEvent::PermissionRequest, ASK))
+}
+
+/// The last question turn: an AskUserQuestion PreToolUse, after it a PermissionRequest with the
+/// same `tool_input`, the PostToolUse of the PreToolUse's `tool_use_id`, and in it every question's
+/// first option label as its answer.
+fn question_permission_answered(questions: &[Capture]) -> bool {
+    let turn = turn(questions, DIALOG_PROMPT_PERMISSION_QUESTION);
+    let Some(at) = turn.iter().position(|c| c.is(HookEvent::PreToolUse, ASK)) else {
+        return false;
+    };
+    let pre = &turn[at];
+    let (Some(input), Some(id)) = (
+        pre.payload.as_ref().map(|p| &p["tool_input"]),
+        pre.field("tool_use_id"),
+    ) else {
+        return false;
+    };
+    let raised = turn[at + 1..].iter().any(|c| {
+        c.is(HookEvent::PermissionRequest, ASK)
+            && c.payload
+                .as_ref()
+                .is_some_and(|p| p["tool_input"] == *input)
+    });
+    let post = turn
+        .iter()
+        .find(|c| c.is(HookEvent::PostToolUse, ASK) && c.field("tool_use_id") == Some(id));
+    let answered = post
+        .and_then(|c| c.payload.as_ref())
+        .is_some_and(|p| first_labels_answered(input, &p["tool_response"]["answers"]));
+    raised && answered
+}
+
+/// Every question of `input` answered with its first option label in `answers`.
+fn first_labels_answered(input: &Value, answers: &Value) -> bool {
+    input["questions"].as_array().is_some_and(|questions| {
+        !questions.is_empty()
+            && questions.iter().all(|q| {
+                let text = q["question"].as_str();
+                let label = q["options"][0]["label"].as_str();
+                text.zip(label)
+                    .is_some_and(|(text, label)| answers[text] == label)
+            })
+    })
 }
 
 /// The second question's answer is the free text and the first question carries the note.
@@ -1119,6 +1192,9 @@ pub fn check(row: LedgerRow, probes: &Probes) -> bool {
         LedgerRow::StopSessionCrons => run
             .first(HookEvent::Stop)
             .is_some_and(|p| p["session_crons"].is_array()),
+        LedgerRow::PermissionRequestQuestion => {
+            question_permission_answered(&probes.dialogs.questions)
+        }
     }
 }
 

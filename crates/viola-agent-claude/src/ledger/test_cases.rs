@@ -235,6 +235,13 @@ fn two_questions() -> Value {
     ]})
 }
 
+/// The last question turn's one question, as the fourth prompt asks it.
+fn shape_question() -> Value {
+    json!({"questions": [
+        {"question": "Probe shape?", "options": [{"label": "round"}, {"label": "square"}]},
+    ]})
+}
+
 fn one_question(text: &str) -> Value {
     json!({"questions": [{"question": text, "options": [{"label": "yes"}, {"label": "no"}]}]})
 }
@@ -292,6 +299,26 @@ fn clean_dialogs() -> DialogRuns {
                 json!({"tool_input": {"command": "touch viola-probe-permission"}}),
             ),
             tool(POST, "Bash", Some("b1"), json!({})),
+            stop.clone(),
+            prompted(DIALOG_PROMPT_PERMISSION_QUESTION),
+            tool(
+                PRE,
+                "AskUserQuestion",
+                Some("qp"),
+                json!({"tool_input": shape_question()}),
+            ),
+            tool(
+                PR,
+                "AskUserQuestion",
+                None,
+                json!({"tool_input": shape_question()}),
+            ),
+            tool(
+                POST,
+                "AskUserQuestion",
+                Some("qp"),
+                json!({"tool_response": {"answers": {"Probe shape?": "round"}}}),
+            ),
             stop,
         ],
         plan: vec![
@@ -321,11 +348,12 @@ fn clean_dialogs() -> DialogRuns {
     }
 }
 
-const DIALOG_ROWS: [LedgerRow; 4] = [
+const DIALOG_ROWS: [LedgerRow; 5] = [
     LedgerRow::QuestionAnswer,
     LedgerRow::PlanApproveRevise,
     LedgerRow::QuestionNotes,
     LedgerRow::DialogConcurrency,
+    LedgerRow::PermissionRequestQuestion,
 ];
 
 fn dialog_check(row: LedgerRow, dialogs: DialogRuns) -> bool {

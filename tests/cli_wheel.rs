@@ -480,7 +480,7 @@ fn path5_a_fired_wake_keeps_the_driver_wheel_its_next_send_and_its_dialog(
     let steps = json!([
         step("UserPromptSubmit", "default"),
         step("Stop", "default"),
-        step("PreToolUse", "ask-user-question"),
+        step("PreToolUse", "questions-1"),
     ]);
     let wrapper = boot_waking(stamped_home, "1", &steps);
     let home = wrapper.home().to_path_buf();
