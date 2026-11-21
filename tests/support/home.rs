@@ -607,6 +607,8 @@ pub struct Wrapper {
     pub stamped: StampedHome,
     pub name: String,
     pty: OuterPty,
+    /// The socket root the wrapper was given when the start made one, kept for its life.
+    runtime: Option<SocketRoot>,
 }
 
 /// The variable `std::env::home_dir` reads.
@@ -839,6 +841,7 @@ impl Wrapper {
             stamped,
             name: name.to_owned(),
             pty,
+            runtime: None,
         };
         wrapper.wait_ready(&before);
         wrapper
@@ -860,12 +863,18 @@ impl Wrapper {
 
     /// `boot_as_user`'s start, not yet waited ready: its own `viola verify` may run first, which
     /// the case waits on by its log lines before [`Starting::ready`].
+    /// It runs under a test-owned socket root (`XDG_RUNTIME_DIR`), so the start's own verify
+    /// composes Run B's socket address alike under `pre-push`'s `env -i`, where none is set.
     pub fn start_as_user(stamped: StampedHome, name: &str, user_home: &Path) -> Starting {
+        let root = SocketRoot::new();
         let host = Host {
             user_home: Some(user_home),
+            socket_root: Some(root.path()),
             ..Host::default()
         };
-        Self::spawn_with(stamped, name, None, &[], Size::DEFAULT, true, host)
+        let mut starting = Self::spawn_with(stamped, name, None, &[], Size::DEFAULT, true, host);
+        starting.wrapper.runtime = Some(root);
+        starting
     }
 
     fn spawn_with(
@@ -937,6 +946,7 @@ impl Wrapper {
             stamped,
             name: name.to_owned(),
             pty,
+            runtime: None,
         };
         Starting { wrapper, before }
     }

@@ -3,8 +3,10 @@
 //! first settled screen (`modal`) and is ended by a kill. The trusted run (B) starts in
 //! `<cwd>/.viola-verify-<pid>/`, records its settled input box (`ready`), types the probe prompt as
 //! one bracketed paste, times the turn and records its end (`turn`), reads `claude agents --json`
-//! once while its session is live, then pastes the long text, the tag-like text, the newline text,
-//! `/compact` and the probed local command, each into the settled input box.
+//! once while its session is live, then pastes the long text, the tag-like text, the newline text
+//! and `/compact`, each into the settled input box, lets a print-mode sender send one compiled
+//! message into its session (Run B started under the compiled cross-session accept settings), and
+//! pastes the probed local command only when the input box is up after it.
 //! The dialog run (C, in
 //! `<cwd>/.viola-verify-<pid>-dialogs/`) pastes the three dialog prompts, each after the previous
 //! turn's Stop; the plan run (D, in `<cwd>/.viola-verify-<pid>-plan/`, plan mode) pastes the plan
@@ -28,7 +30,7 @@
 //! held beside it (`TypedRun::first_rows`), in memory only, for the rig-only first-screen recording.
 
 use std::cell::RefCell;
-use std::ffi::OsString;
+use std::ffi::{OsStr, OsString};
 use std::path::Path;
 use std::sync::Arc;
 use std::time::Duration;
@@ -66,6 +68,15 @@ pub(super) struct Inputs<'a> {
     pub(super) questions: RunDirs<'a>,
     pub(super) plan: RunDirs<'a>,
     pub(super) resume: RunDirs<'a>,
+    /// The print-mode sender's cwd (the print probe's dir) and its names-only plugin and captures.
+    pub(super) sender_cwd: &'a Path,
+    pub(super) sender: RunDirs<'a>,
+    /// The runtime dir's name, read once from `XDG_RUNTIME_DIR` at verify's start and held in
+    /// memory: only Run B's socket address is composed from it (`ledger::uds_address`), which
+    /// reaches the sender's argv alone, never a line, stamp, fixture or error. The operator's own
+    /// ratification, fork X1 (a) of chunk 2026-11-21-cross-session-prefix-ledger-row (inputs#I8
+    /// item 1, inputs#I9); `None` when unset, and then no sender is spawned.
+    pub(super) runtime_dir: Option<&'a OsStr>,
     pub(super) trust_config: Result<&'a Path, TrustWord>,
 }
 

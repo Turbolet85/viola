@@ -13,7 +13,7 @@ use std::path::Path;
 use support::home::{TestHome, workspace_path};
 use support::verify::verify;
 
-const ROW_IDS: [&str; 28] = [
+const ROW_IDS: [&str; 29] = [
     "shim-resolution",
     "spine-hooks",
     "session-start-fields",
@@ -42,6 +42,7 @@ const ROW_IDS: [&str; 28] = [
     "stop-session-crons",
     "permission-request-question",
     "identity-floor",
+    "cross-session-prefix",
 ];
 /// The sets recorded whole (spine, screens, dialog, framing, resume and question-permission
 /// variants): each stamps every relied row as counting.
@@ -115,7 +116,7 @@ fn contract_ledger_probes_pass_over_every_stamped_set() {
             };
             assert!(naming[0].ends_with(word), "{version}: {id} did not count");
         }
-        assert_eq!(*last, format!("stamped {version}  28 pass  0 fail"));
+        assert_eq!(*last, format!("stamped {version}  29 pass  0 fail"));
     });
 }
 

@@ -12,7 +12,7 @@ use viola_core::MAX_FRAME;
 
 use crate::AgentError;
 use crate::dialog::{Permit, Response, Verdict, decision_body};
-use crate::hook::{HookEvent, prompt_text};
+use crate::hook::{HookEvent, harness_prefix, prompt_text};
 use crate::screen::{
     BOX_LITERAL_IDS, COMPACT_CONFIRM_WINDOW, CONFIRM_WINDOW_FALLBACK, FirstScreen, GATE_MAX_WAIT,
     RowFamily, SIGNATURES, UNTRUSTED_START_MODALS,
@@ -57,10 +57,13 @@ pub enum LedgerRow {
     /// Every `CLAUDE*` name the CLI adds to a hook child is on the identity floor or on the
     /// compiled non-identity hook names. It reads `pass` or `fail`, never `absent`.
     IdentityFloor,
+    /// A message another session sends in arrives as a UserPromptSubmit whose raw start is a
+    /// compiled harness literal. It reads `pass` or `fail`, never `absent`.
+    CrossSessionPrefix,
 }
 
 impl LedgerRow {
-    pub const ALL: [Self; 28] = [
+    pub const ALL: [Self; 29] = [
         Self::ShimResolution,
         Self::SpineHooks,
         Self::SessionStartFields,
@@ -89,6 +92,7 @@ impl LedgerRow {
         Self::StopSessionCrons,
         Self::PermissionRequestQuestion,
         Self::IdentityFloor,
+        Self::CrossSessionPrefix,
     ];
 
     /// The kebab-case id, the key under a stamped version's `rows`.
@@ -122,6 +126,7 @@ impl LedgerRow {
             Self::StopSessionCrons => "stop-session-crons",
             Self::PermissionRequestQuestion => "permission-request-question",
             Self::IdentityFloor => "identity-floor",
+            Self::CrossSessionPrefix => "cross-session-prefix",
         }
     }
 
@@ -168,6 +173,9 @@ impl LedgerRow {
                 "a question raised by PermissionRequest takes the allow body"
             }
             Self::IdentityFloor => "every CLAUDE name the CLI adds to a hook is a known name",
+            Self::CrossSessionPrefix => {
+                "a message another session sends in opens with a harness prefix"
+            }
         }
     }
 
@@ -319,6 +327,57 @@ pub const PLAN_PROMPT: &str = "viola verify probe: make a plan only, do not run 
 /// The dialog run's `--settings`: a session-scoped `ask` rule, which outranks a user `allow`.
 pub const DIALOG_SETTINGS: &str =
     r#"{"permissions":{"ask":["Bash(touch viola-probe-permission)"]}}"#;
+
+/// Run B's `--settings`: a message another session sends in is accepted at once, never held.
+pub const CROSS_SESSION_SETTINGS: &str = r#"{"crossSessionInbound":"accept"}"#;
+
+/// The message verify's print-mode sender sends into Run B: synthetic ASCII saying what it is.
+pub const CROSS_SESSION_TEXT: &str = "viola verify probe: a synthetic cross-session message sent by viola verify; reply with the single word ok";
+/// The sender's prompt up to the target socket address.
+pub const CROSS_SESSION_SENDER_HEAD: &str = "viola verify probe: call the SendMessage tool exactly once, with to set to exactly this address: ";
+/// The sender's prompt after the target socket address.
+pub const CROSS_SESSION_SENDER_TAIL: &str = " and message set to exactly this text: viola verify probe: a synthetic cross-session message sent by viola verify; reply with the single word ok. Then reply with the single word ok.";
+
+/// Whether `path` is absolute, holds only `[A-Za-z0-9/._-]` and no `.` or `..` component: no C0,
+/// C1, DEL or space can reach a prompt through it, and nothing is stripped.
+fn socket_path_shaped(path: &[u8]) -> bool {
+    path.first() == Some(&b'/')
+        && path
+            .iter()
+            .all(|b| b.is_ascii_alphanumeric() || matches!(b, b'/' | b'.' | b'_' | b'-'))
+        && !path
+            .split(|b| *b == b'/')
+            .any(|part| part == b"." || part == b"..")
+}
+
+/// The socket address of the CLI session of `pid` whose runtime dir is `runtime`:
+/// `uds:<runtime>/cc-socks/<pid>.sock`, the form 2.1.328 names its own inbox socket. One trailing
+/// `/` of `runtime` is dropped, as the CLI's path join does. `None` when `runtime` is not absolute,
+/// holds a `.` or `..` component or a byte outside `[A-Za-z0-9/._-]`, or when the composed path is
+/// over the CLI's own bound. Composed only: nothing at the path is read.
+pub fn uds_address(runtime: &std::ffi::OsStr, pid: u32) -> Option<String> {
+    use std::os::unix::ffi::OsStrExt;
+    let bytes = runtime.as_bytes();
+    let dir = bytes.strip_suffix(b"/").unwrap_or(bytes);
+    if !socket_path_shaped(dir) {
+        return None;
+    }
+    let dir = std::str::from_utf8(dir).ok()?;
+    let path = format!(
+        "{dir}/{}/{pid}{}",
+        crate::CLI_SOCKET_DIR,
+        crate::CLI_SOCKET_SUFFIX
+    );
+    (path.len() <= crate::CLI_SOCKET_PATH_MAX).then(|| format!("{}{path}", crate::UDS_SCHEME))
+}
+
+/// The sender's prompt for the socket `address`; `None` when it does not open with `uds:` or its
+/// path is not of `uds_address`'s shape and bound.
+pub fn sender_prompt(address: &str) -> Option<String> {
+    let path = address.strip_prefix(crate::UDS_SCHEME)?;
+    (socket_path_shaped(path.as_bytes()) && path.len() <= crate::CLI_SOCKET_PATH_MAX)
+        .then(|| format!("{CROSS_SESSION_SENDER_HEAD}{address}{CROSS_SESSION_SENDER_TAIL}"))
+}
 
 /// The plan run's `--settings`: the CLI's plan file goes into `plans_dir`, inside the run's own dir.
 pub fn plan_settings(plans_dir: &str) -> String {
@@ -548,7 +607,37 @@ pub const DIALOG_MATCHER: &str = "AskUserQuestion|ExitPlanMode";
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ProbePlugin<'a> {
     Spine,
-    Dialog { answers_dir_fwd: &'a str },
+    Dialog {
+        answers_dir_fwd: &'a str,
+    },
+    /// The print-mode sender's: PreToolUse with no matcher and PostToolUse on the send tool, each
+    /// in the names-only mode; no spine event.
+    Sender,
+}
+
+/// The names-only flag the sender plugin's hooks carry beside `--capture`.
+pub const NAMES_ONLY_FLAG: &str = "--names-only";
+
+/// The sender plugin's `hooks` map: two groups, each `hook <event> --capture <dir> --names-only`.
+fn sender_hooks(pinned_bin_fwd: &str, capture_dir_fwd: &str) -> Map<String, Value> {
+    let mut hooks = Map::new();
+    for (event, matcher) in [
+        (HookEvent::PreToolUse, None),
+        (HookEvent::PostToolUse, Some(SEND_TOOL)),
+    ] {
+        let hook = json!({
+            "type": "command",
+            "command": pinned_bin_fwd,
+            "args": ["hook", event.as_str(), "--capture", capture_dir_fwd, NAMES_ONLY_FLAG],
+            "timeout": 5,
+        });
+        let group = match matcher {
+            Some(matcher) => json!({"matcher": matcher, "hooks": [hook]}),
+            None => json!({"hooks": [hook]}),
+        };
+        hooks.insert(event_name(event).to_owned(), json!([group]));
+    }
+    hooks
 }
 
 /// The probe's plugin folder, each file as `(relative path, content)`: every registered event runs
@@ -564,6 +653,15 @@ pub fn capture_plugin_files(
         "version": crate::VERSION,
         "description": "viola verify: records the probe's raw hook payloads",
     });
+    if kind == ProbePlugin::Sender {
+        return [
+            (".claude-plugin/plugin.json", pretty(&plugin)),
+            (
+                "hooks/hooks.json",
+                pretty(&json!({"hooks": sender_hooks(pinned_bin_fwd, capture_dir_fwd)})),
+            ),
+        ];
+    }
     let mut hooks = Map::new();
     let dialog = [
         HookEvent::PreToolUse,
@@ -571,7 +669,7 @@ pub fn capture_plugin_files(
         HookEvent::PostToolUse,
     ];
     let events = match kind {
-        ProbePlugin::Spine => &dialog[..0],
+        ProbePlugin::Spine | ProbePlugin::Sender => &dialog[..0],
         ProbePlugin::Dialog { .. } => &dialog[..],
     };
     for event in CAPTURE_EVENTS.iter().chain(events).copied() {
@@ -644,6 +742,133 @@ pub fn env_capture_document(names: impl IntoIterator<Item = std::ffi::OsString>)
     })
     .to_string()
     .into_bytes()
+}
+
+/// The CLI's own cross-session send tool, read in the 2.1.328 bundle; a `viola verify` reading.
+pub const SEND_TOOL: &str = "SendMessage";
+/// The CLI's tool that fetches a deferred tool, read in the 2.1.328 bundle.
+pub const SEARCH_TOOL: &str = "ToolSearch";
+/// The CLI's tool that lists the sessions a send can reach, read in the 2.1.328 bundle.
+pub const LIST_TOOL: &str = "ListAgents";
+
+/// The closed word of a tool a print-mode sender called: one of the three compiled tool names, or
+/// `other`.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum ToolWord {
+    Send,
+    Search,
+    List,
+    Other,
+}
+
+impl ToolWord {
+    pub const ALL: [Self; 4] = [Self::Send, Self::Search, Self::List, Self::Other];
+
+    pub const fn as_str(self) -> &'static str {
+        match self {
+            Self::Send => "send",
+            Self::Search => "search",
+            Self::List => "list",
+            Self::Other => "other",
+        }
+    }
+
+    pub fn from_word(word: &str) -> Option<Self> {
+        Self::ALL.into_iter().find(|w| w.as_str() == word)
+    }
+}
+
+/// The closed word of the send tool's result: its own boolean read `true` or `false`, or any other
+/// shape `unread`.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum ResultWord {
+    Delivered,
+    Refused,
+    Unread,
+}
+
+impl ResultWord {
+    pub const ALL: [Self; 3] = [Self::Delivered, Self::Refused, Self::Unread];
+
+    pub const fn as_str(self) -> &'static str {
+        match self {
+            Self::Delivered => "delivered",
+            Self::Refused => "refused",
+            Self::Unread => "unread",
+        }
+    }
+
+    pub fn from_word(word: &str) -> Option<Self> {
+        Self::ALL.into_iter().find(|w| w.as_str() == word)
+    }
+}
+
+/// The word of a tool hook payload's `tool_name`, read as a string and kept as nothing else.
+pub fn tool_word(payload: &[u8]) -> ToolWord {
+    let name = serde_json::from_slice::<Value>(payload)
+        .ok()
+        .and_then(|p| p.get("tool_name")?.as_str().map(str::to_owned));
+    match name.as_deref() {
+        Some(SEND_TOOL) => ToolWord::Send,
+        Some(SEARCH_TOOL) => ToolWord::Search,
+        Some(LIST_TOOL) => ToolWord::List,
+        _ => ToolWord::Other,
+    }
+}
+
+/// The send's result from a PostToolUse payload: only a JSON boolean `success` at
+/// `tool_response.success` or `tool_response.data.success`, the two shapes the tool's own code
+/// states. No text is matched; any other shape reads `unread`, never `refused`.
+pub fn send_result_word(payload: &[u8]) -> ResultWord {
+    let Ok(payload) = serde_json::from_slice::<Value>(payload) else {
+        return ResultWord::Unread;
+    };
+    let response = &payload["tool_response"];
+    let success = response["success"]
+        .as_bool()
+        .or_else(|| response["data"]["success"].as_bool());
+    match success {
+        Some(true) => ResultWord::Delivered,
+        Some(false) => ResultWord::Refused,
+        None => ResultWord::Unread,
+    }
+}
+
+/// The names-only capture's document: the event's side, the tool's word and, on a PostToolUse,
+/// the result's word. Closed words only.
+pub fn tool_capture_document(
+    event: HookEvent,
+    tool: ToolWord,
+    result: Option<ResultWord>,
+) -> Vec<u8> {
+    let side = if event == HookEvent::PostToolUse {
+        "post"
+    } else {
+        "pre"
+    };
+    json!({
+        "v": 1,
+        "event": side,
+        "tool": tool.as_str(),
+        "result": result.map(ResultWord::as_str),
+    })
+    .to_string()
+    .into_bytes()
+}
+
+/// `Tool.<k>.json`: a names-only capture's file. `Tool` is no hook event, so
+/// [`parse_capture_file_name`] reads no such name.
+pub fn tool_file_name(k: u32) -> String {
+    format!("Tool.{k}.json")
+}
+
+/// A `Tool.<k>.json` name's `k`.
+pub fn parse_tool_file_name(name: &str) -> Option<u32> {
+    name.strip_prefix("Tool.")?
+        .strip_suffix(".json")?
+        .parse()
+        .ok()
+        .filter(|k| *k > 0)
 }
 
 pub fn parse_capture_file_name(name: &str) -> Option<(HookEvent, u32)> {
@@ -733,6 +958,94 @@ pub struct TypedRun {
     /// reading was kept or the screen was poisoned. Held in memory for `verify`'s rig-only
     /// first-screen recording alone: no stamp key and no row reads them.
     pub first_rows: [Option<Vec<String>>; 6],
+    /// Run B's cross-session turn; `None` when the sender never started.
+    pub cross_session: Option<CrossSessionRun>,
+}
+
+/// How the print-mode sender ended.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum SenderEnd {
+    Exited,
+    Failed,
+    Deadline,
+}
+
+/// What Run B's cross-session turn measured: the UserPromptSubmit captures standing before the
+/// sender started, how the sender ended, the ms from the sender's start to one more
+/// UserPromptSubmit read, and the sender's own closed words: the tools it called (first-seen
+/// order, once each; empty when no file stood) and the send's result (`None` when no post file
+/// stood).
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct CrossSessionRun {
+    pub prompts_before: usize,
+    pub sender: SenderEnd,
+    pub latency_ms: Option<u64>,
+    pub sender_tools: Vec<ToolWord>,
+    pub send_result: Option<ResultWord>,
+}
+
+/// The sender's `Tool.<k>.json` documents in `k` order, read as closed words: the `pre` words in
+/// first-seen order, once each, and the first `post` file's result word. A document of another
+/// shape is skipped.
+pub fn sender_words(documents: &[Value]) -> (Vec<ToolWord>, Option<ResultWord>) {
+    let mut tools = Vec::new();
+    let mut result = None;
+    for doc in documents {
+        match doc["event"].as_str() {
+            Some("pre") => {
+                if let Some(word) = doc["tool"].as_str().and_then(ToolWord::from_word)
+                    && !tools.contains(&word)
+                {
+                    tools.push(word);
+                }
+            }
+            Some("post") if result.is_none() => {
+                result = doc["result"].as_str().and_then(ResultWord::from_word);
+            }
+            _ => {}
+        }
+    }
+    (tools, result)
+}
+
+/// The cross-session row's reading: its outcome word and, on `harness`, the matched literal's id.
+/// `not-run` · `sender-failed` · `sender-deadline` · `no-prompt` (no UserPromptSubmit past the
+/// ones standing before the sender) · `unprefixed` · `harness`.
+pub fn cross_session_reading(
+    trusted: &[Capture],
+    typed: &TypedRun,
+) -> (&'static str, Option<&'static str>) {
+    let Some(run) = &typed.cross_session else {
+        return ("not-run", None);
+    };
+    match run.sender {
+        SenderEnd::Failed => return ("sender-failed", None),
+        SenderEnd::Deadline => return ("sender-deadline", None),
+        SenderEnd::Exited => {}
+    }
+    let arrived = trusted
+        .iter()
+        .filter(|c| c.event == HookEvent::UserPromptSubmit)
+        .nth(run.prompts_before);
+    let Some(arrived) = arrived else {
+        return ("no-prompt", None);
+    };
+    match arrived.field("prompt").and_then(harness_prefix) {
+        Some(prefix) => ("harness", Some(prefix)),
+        None => ("unprefixed", None),
+    }
+}
+
+/// The first UserPromptSubmit whose raw start is a cross-session literal: the arrival `--record`
+/// keeps as `cross-session-1`.
+fn cross_session_arrival(trusted: &[Capture]) -> Option<&Capture> {
+    trusted.iter().find(|c| {
+        c.event == HookEvent::UserPromptSubmit
+            && matches!(
+                c.field("prompt").and_then(harness_prefix),
+                Some("cross-session" | "cross-session-escaped")
+            )
+    })
 }
 
 /// One interactive run's first settled screen: its closed word and the closed facts the run held
@@ -891,11 +1204,23 @@ pub fn env_variant(env: &EnvReading) -> Option<Value> {
 }
 
 /// What a stamp's `measured` holds beyond the typed run's timings: whether the two parallel
-/// questions were both open before either was answered, and the env reading.
-#[derive(Debug, Clone, Default, PartialEq, Eq)]
+/// questions were both open before either was answered, the env reading, and the cross-session
+/// row's outcome word and prefix id.
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Readings {
     pub parallel_both_before_first_post: Option<bool>,
     pub env: EnvReading,
+    pub cross_session: (&'static str, Option<&'static str>),
+}
+
+impl Default for Readings {
+    fn default() -> Self {
+        Self {
+            parallel_both_before_first_post: None,
+            env: EnvReading::default(),
+            cross_session: ("not-run", None),
+        }
+    }
 }
 
 impl Readings {
@@ -905,8 +1230,35 @@ impl Readings {
                 &probes.dialogs.questions,
             ),
             env: probes.env.clone(),
+            cross_session: cross_session_reading(&probes.trusted, &probes.typed),
         }
     }
+}
+
+/// The stamp's `cross_session_probe`: closed words and one number. `sender_tools` and
+/// `send_result` read `none` where no file stood, and are null where the sender never started.
+fn cross_session_block(reading: (&str, Option<&str>), typed: &TypedRun) -> Value {
+    let run = typed.cross_session.as_ref();
+    let tools = run.map(|r| {
+        if r.sender_tools.is_empty() {
+            json!("none")
+        } else {
+            json!(
+                r.sender_tools
+                    .iter()
+                    .map(|w| w.as_str())
+                    .collect::<Vec<_>>()
+            )
+        }
+    });
+    let result = run.map(|r| r.send_result.map_or("none", ResultWord::as_str));
+    json!({
+        "outcome": reading.0,
+        "prefix": reading.1,
+        "latency_ms": run.and_then(|r| r.latency_ms),
+        "sender_tools": tools,
+        "send_result": result,
+    })
 }
 
 const ASK: &str = "AskUserQuestion";
@@ -1138,9 +1490,12 @@ fn local_command_compacted(trusted: &[Capture], typed: &TypedRun) -> bool {
         && within(typed.compact_latency_ms, COMPACT_CONFIRM_WINDOW)
 }
 
+/// The stem the cross-session arrival's recorded variant carries.
+pub const CROSS_SESSION_STEM: &str = "cross-session-1";
+
 /// Run B's captures named for `--record`: the long, the tag-like and the newline prompts as
 /// `paste-1`, `paste-2` and `paste-3`, as `compact-1` the SessionStart the probed `/compact` fired,
-/// and as `clear-1` the hooks the probed local command fired, the SessionEnd captured directly
+/// as `cross-session-1` the first UserPromptSubmit opening a cross-session literal, and as `clear-1` the hooks the probed local command fired, the SessionEnd captured directly
 /// before its SessionStart and that SessionStart. The exit's SessionEnd, captured after it, is not
 /// one of them.
 pub fn framing_variants(trusted: &[Capture]) -> Vec<(&'static str, &Capture)> {
@@ -1159,6 +1514,9 @@ pub fn framing_variants(trusted: &[Capture]) -> Vec<(&'static str, &Capture)> {
     }
     if let Some(at) = compact_start(trusted) {
         out.push((compact_stem, &trusted[at]));
+    }
+    if let Some(arrival) = cross_session_arrival(trusted) {
+        out.push((CROSS_SESSION_STEM, arrival));
     }
     // The tag-like turn's prompt precedes it, so `at` is never 0.
     if let Some(at) = clear_start(trusted) {
@@ -1322,6 +1680,9 @@ pub fn check(row: LedgerRow, probes: &Probes) -> bool {
             let env = &probes.env;
             env.read && env.unknown.is_empty() && env.unshaped == 0
         }
+        LedgerRow::CrossSessionPrefix => {
+            cross_session_reading(&probes.trusted, typed).0 == "harness"
+        }
     }
 }
 
@@ -1461,6 +1822,7 @@ pub fn merge_stamp(
                 "other_count": readings.env.other_count,
                 "unshaped": readings.env.unshaped,
             },
+            "cross_session_probe": cross_session_block(readings.cross_session, typed),
         },
     });
     doc.insert("v".to_owned(), json!(1));

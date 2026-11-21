@@ -17,8 +17,8 @@ use rstest::rstest;
 use serde_json::{Value, json};
 use support::fake::{self, of_kind};
 use support::home::{
-    StampedHome, TestHome, file_sha256, home, names_a_home_component, record_home, resolved,
-    stamp_dir, stamped_home, unwiden, widen, workspace_path,
+    SOCKET_ROOT_VAR, StampedHome, TestHome, file_sha256, home, names_a_home_component, record_home,
+    resolved, stamp_dir, stamped_home, unwiden, widen, workspace_path,
 };
 use support::hygiene::{check, has_username, load_schema};
 use support::verify::{
@@ -27,37 +27,38 @@ use support::verify::{
     write_screen_set, write_spine_set,
 };
 
-const STEPS_PASS: [&str; 28] = [
-    "[01/28] shim-resolution claude resolves to a real executable  pass",
-    "[02/28] spine-hooks spine hooks fire through the plugin dir  pass",
-    "[03/28] session-start-fields SessionStart carries session_id and source  pass",
-    "[04/28] prompt-verbatim UserPromptSubmit carries the prompt as sent  pass",
-    "[05/28] stop-message Stop carries last_assistant_message  pass",
-    "[06/28] largest-hook-payload every hook payload fits the frame cap  pass",
-    "[07/28] modal-signature an untrusted start shows a compiled modal literal  pass",
-    "[08/28] input-box-signature a trusted start shows a compiled input-box literal and no modal  pass",
-    "[09/28] quiet-period the screen settles within the gate's maximum wait  pass",
-    "[10/28] confirm-window the typed prompt reaches UserPromptSubmit within the window  pass",
-    "[11/28] question-answer a question answered through PreToolUse takes effect  pass",
-    "[12/28] plan-approve-revise a plan revise and approve each take effect  pass",
-    "[13/28] question-notes free text and notes reach the question  pass",
-    "[14/28] dialog-concurrency two parallel questions each raise a dialog  pass",
-    "[15/28] long-paste-wrapper a long paste unwraps to the text as pasted  pass",
-    "[16/28] tag-escaping tag-like text un-escapes to the text as pasted  pass",
-    "[17/28] local-command-clear /clear starts a new session and submits no prompt  pass",
-    "[18/28] paste-newline an LF inside a paste stays inside the one prompt submitted  pass",
-    "[19/28] resume-session --resume <id> reopens the session under that id  pass",
-    "[20/28] agents-join claude agents --json names the live session by pid and session id  pass",
-    "[21/28] local-command-compact /compact keeps the session id and submits no prompt  pass",
-    "[22/28] local-command-echo /mcp writes its stdout tag to the transcript and submits no prompt  pass",
-    "[23/28] trust-record a trust record written for an untrusted folder opens it with no modal  pass",
-    "[24/28] browser-tools-prompt an interactive start's browser-tools prompt reads as a modal, nothing typed  absent",
-    "[25/28] local-command-context /context writes its stdout tag to the transcript and submits no prompt  pass",
-    "[26/28] stop-session-crons Stop carries session_crons as an array  pass",
-    "[27/28] permission-request-question a question raised by PermissionRequest takes the allow body  pass",
-    "[28/28] identity-floor every CLAUDE name the CLI adds to a hook is a known name  pass",
+const STEPS_PASS: [&str; 29] = [
+    "[01/29] shim-resolution claude resolves to a real executable  pass",
+    "[02/29] spine-hooks spine hooks fire through the plugin dir  pass",
+    "[03/29] session-start-fields SessionStart carries session_id and source  pass",
+    "[04/29] prompt-verbatim UserPromptSubmit carries the prompt as sent  pass",
+    "[05/29] stop-message Stop carries last_assistant_message  pass",
+    "[06/29] largest-hook-payload every hook payload fits the frame cap  pass",
+    "[07/29] modal-signature an untrusted start shows a compiled modal literal  pass",
+    "[08/29] input-box-signature a trusted start shows a compiled input-box literal and no modal  pass",
+    "[09/29] quiet-period the screen settles within the gate's maximum wait  pass",
+    "[10/29] confirm-window the typed prompt reaches UserPromptSubmit within the window  pass",
+    "[11/29] question-answer a question answered through PreToolUse takes effect  pass",
+    "[12/29] plan-approve-revise a plan revise and approve each take effect  pass",
+    "[13/29] question-notes free text and notes reach the question  pass",
+    "[14/29] dialog-concurrency two parallel questions each raise a dialog  pass",
+    "[15/29] long-paste-wrapper a long paste unwraps to the text as pasted  pass",
+    "[16/29] tag-escaping tag-like text un-escapes to the text as pasted  pass",
+    "[17/29] local-command-clear /clear starts a new session and submits no prompt  pass",
+    "[18/29] paste-newline an LF inside a paste stays inside the one prompt submitted  pass",
+    "[19/29] resume-session --resume <id> reopens the session under that id  pass",
+    "[20/29] agents-join claude agents --json names the live session by pid and session id  pass",
+    "[21/29] local-command-compact /compact keeps the session id and submits no prompt  pass",
+    "[22/29] local-command-echo /mcp writes its stdout tag to the transcript and submits no prompt  pass",
+    "[23/29] trust-record a trust record written for an untrusted folder opens it with no modal  pass",
+    "[24/29] browser-tools-prompt an interactive start's browser-tools prompt reads as a modal, nothing typed  absent",
+    "[25/29] local-command-context /context writes its stdout tag to the transcript and submits no prompt  pass",
+    "[26/29] stop-session-crons Stop carries session_crons as an array  pass",
+    "[27/29] permission-request-question a question raised by PermissionRequest takes the allow body  pass",
+    "[28/29] identity-floor every CLAUDE name the CLI adds to a hook is a known name  pass",
+    "[29/29] cross-session-prefix a message another session sends in opens with a harness prefix  pass",
 ];
-const ROW_IDS: [&str; 28] = [
+const ROW_IDS: [&str; 29] = [
     "shim-resolution",
     "spine-hooks",
     "session-start-fields",
@@ -86,9 +87,10 @@ const ROW_IDS: [&str; 28] = [
     "stop-session-crons",
     "permission-request-question",
     "identity-floor",
+    "cross-session-prefix",
 ];
 /// The summary of a run whose every relied row passed.
-const STAMPED_PASS: &str = "stamped 2.1.0  28 pass  0 fail";
+const STAMPED_PASS: &str = "stamped 2.1.0  29 pass  0 fail";
 const SCREENS: [&str; 3] = ["Screen.modal.json", "Screen.ready.json", "Screen.turn.json"];
 const INTERNAL_ERROR: &str = "error: internal error\n";
 
@@ -409,7 +411,7 @@ fn verify_stopped_during_the_resume_run_removes_its_dir_and_exits_1(
         &["--turn-stop"],
     );
     let lines = fake::wait_for(&started.receipt, "Run E's start", |l| {
-        of_kind(l, "cwd").len() >= 6
+        of_kind(l, "cwd").len() >= 7
     });
     let pid = libc::pid_t::try_from(started.pid).expect("a pid");
     // SAFETY: kill only sends a signal, to the `viola` this case started and has not waited.
@@ -426,8 +428,12 @@ fn verify_stopped_during_the_resume_run_removes_its_dir_and_exits_1(
         .iter()
         .map(|l| PathBuf::from(l["cwd"].as_str().expect("a cwd")))
         .collect();
-    assert_eq!(cwds.len(), 6, "the print probe and Runs A to E");
-    let resumed = cwds[5].file_name().and_then(|n| n.to_str()).unwrap_or("");
+    assert_eq!(
+        cwds.len(),
+        7,
+        "the print probe, Runs A and B, the print-mode sender, and Runs C to E"
+    );
+    let resumed = cwds[6].file_name().and_then(|n| n.to_str()).unwrap_or("");
     assert!(
         resumed.starts_with(".viola-verify-") && resumed.ends_with("-resume"),
         "{resumed}"
@@ -470,6 +476,8 @@ fn verify_stopped_during_the_resume_run_removes_its_dir_and_exits_1(
         ("process-start", "verify-pty-probe"),
         ("process-start", "agents-probe"),
         ("process-exit", "agents-probe"),
+        ("process-start", "verify-sender"),
+        ("process-exit", "verify-sender"),
         ("process-exit", "verify-pty-probe"),
     ]);
     for _ in 0..3 {
@@ -477,9 +485,9 @@ fn verify_stopped_during_the_resume_run_removes_its_dir_and_exits_1(
     }
     expected.push(("process-exit", "self"));
     assert_eq!(shape, expected);
-    assert!(role[16]["duration_ms"].is_u64(), "Run E's exit");
-    assert_eq!(role[17]["exit_code"], 1);
-    assert_eq!(role[17]["detail"], "interrupted");
+    assert!(role[18]["duration_ms"].is_u64(), "Run E's exit");
+    assert_eq!(role[19]["exit_code"], 1);
+    assert_eq!(role[19]["detail"], "interrupted");
 }
 
 /// A home given to `--record` holds no path component named `home` outside the user's own home,
@@ -516,17 +524,18 @@ fn record_home_names_no_path_component_home() {
 }
 
 /// The texts the trusted run typed, in order, read from the fake agent's receipt: of `verify`'s
-/// seven starts the trusted run is the third, and its prompts are the lines up to the fourth.
+/// six interactive starts (the print-mode probe and the print-mode sender aside) the trusted run is
+/// the second, and its prompts are the lines up to the third.
 fn trusted_run_typed(receipt: &Path) -> Vec<String> {
     let lines = fake::receipt(receipt);
     let starts: Vec<usize> = lines
         .iter()
         .enumerate()
-        .filter(|(_, l)| l["kind"] == "start")
+        .filter(|(_, l)| l["kind"] == "start" && l["print"] == false)
         .map(|(i, _)| i)
         .collect();
-    assert_eq!(starts.len(), 7);
-    lines[starts[2]..starts[3]]
+    assert_eq!(starts.len(), 6);
+    lines[starts[1]..starts[2]]
         .iter()
         .filter(|l| l["kind"] == "prompt")
         .filter_map(|l| l["text"].as_str().map(str::to_owned))
@@ -684,13 +693,14 @@ fn verify_trust_record_row_passes_when_the_fake_reads_the_written_record(
     assert_eq!(ran.code, Some(0), "stdout {}", ran.stdout_text());
     assert_eq!(ran.stdout_text(), all_pass_stdout());
     assert!(ran.stdout_text().contains(
-        "[23/28] trust-record a trust record written for an untrusted folder opens it with no modal  pass\n\
-         [24/28] browser-tools-prompt an interactive start's browser-tools prompt reads as a modal, nothing typed  absent\n\
-         [25/28] local-command-context /context writes its stdout tag to the transcript and submits no prompt  pass\n\
-         [26/28] stop-session-crons Stop carries session_crons as an array  pass\n\
-         [27/28] permission-request-question a question raised by PermissionRequest takes the allow body  pass\n\
-         [28/28] identity-floor every CLAUDE name the CLI adds to a hook is a known name  pass\n\
-         stamped 2.1.0  28 pass  0 fail\n"
+        "[23/29] trust-record a trust record written for an untrusted folder opens it with no modal  pass\n\
+         [24/29] browser-tools-prompt an interactive start's browser-tools prompt reads as a modal, nothing typed  absent\n\
+         [25/29] local-command-context /context writes its stdout tag to the transcript and submits no prompt  pass\n\
+         [26/29] stop-session-crons Stop carries session_crons as an array  pass\n\
+         [27/29] permission-request-question a question raised by PermissionRequest takes the allow body  pass\n\
+         [28/29] identity-floor every CLAUDE name the CLI adds to a hook is a known name  pass\n\
+         [29/29] cross-session-prefix a message another session sends in opens with a harness prefix  pass\n\
+         stamped 2.1.0  29 pass  0 fail\n"
     ));
     let entry = &stamps(home.path())["data"]["versions"]["2.1.0"];
     assert_eq!(entry["rows"]["trust-record"], "pass");
@@ -699,7 +709,10 @@ fn verify_trust_record_row_passes_when_the_fake_reads_the_written_record(
         json!({"write": "written", "remove": "removed"})
     );
     let (starts, run_f) = last_start(&receipt);
-    assert_eq!(starts, 7, "the print probe and Runs A to F");
+    assert_eq!(
+        starts, 8,
+        "the print probe, Runs A to F and the print-mode sender"
+    );
     let cwd = PathBuf::from(of_kind(&run_f, "cwd")[0]["cwd"].as_str().expect("a cwd"));
     assert_eq!(cwd.parent(), Some(tmp.as_path()));
     assert!(
@@ -748,7 +761,7 @@ fn verify_meeting_the_browser_tools_prompt_says_so_before_the_summary(
     assert_eq!(ran.code, Some(1), "stdout {stdout}");
     assert_eq!(
         lines.last().copied(),
-        Some("stamped 2.1.0  11 pass  17 fail")
+        Some("stamped 2.1.0  11 pass  18 fail")
     );
     assert_eq!(lines[lines.len() - 2], STOOD);
     assert_eq!(lines.iter().filter(|l| **l == STOOD).count(), 1);
@@ -780,7 +793,7 @@ fn verify_trust_record_row_fails_when_the_record_is_not_read(#[from(home)] home:
     let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &after, &[]);
     assert_eq!(ran.code, Some(1), "stdout {}", ran.stdout_text());
     let mut expected = steps_failing(|i| ROW_IDS[i] == "trust-record");
-    expected.push("stamped 2.1.0  27 pass  1 fail".to_owned());
+    expected.push("stamped 2.1.0  28 pass  1 fail".to_owned());
     assert_eq!(ran.stdout_text().lines().collect::<Vec<_>>(), expected);
     assert!(ran.stderr.is_empty(), "stderr {}", ran.stderr_text());
     let entry = &stamps(home.path())["data"]["versions"]["2.1.0"];
@@ -790,7 +803,7 @@ fn verify_trust_record_row_fails_when_the_record_is_not_read(#[from(home)] home:
         json!({"write": "written", "remove": "removed"})
     );
     let (starts, run_f) = last_start(&receipt);
-    assert_eq!(starts, 7);
+    assert_eq!(starts, 8);
     assert!(of_kind(&run_f, "key").is_empty(), "no key into the dialog");
     let config = support::verify::trust_config_of(home.path());
     let after_doc: Value =
@@ -811,7 +824,7 @@ fn verify_trust_record_row_reads_config_absent_and_writes_nothing(#[from(home)] 
     let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &after, &[]);
     assert_eq!(ran.code, Some(1), "stdout {}", ran.stdout_text());
     let mut expected = steps_failing(|i| ROW_IDS[i] == "trust-record");
-    expected.push("stamped 2.1.0  27 pass  1 fail".to_owned());
+    expected.push("stamped 2.1.0  28 pass  1 fail".to_owned());
     assert_eq!(ran.stdout_text().lines().collect::<Vec<_>>(), expected);
     let entry = &stamps(home.path())["data"]["versions"]["2.1.0"];
     assert_eq!(entry["rows"]["trust-record"], "config-absent");
@@ -820,7 +833,10 @@ fn verify_trust_record_row_reads_config_absent_and_writes_nothing(#[from(home)] 
         json!({"write": "config-absent", "remove": null})
     );
     let (starts, _) = last_start(&receipt);
-    assert_eq!(starts, 6, "the print probe and Runs A to E: no Run F");
+    assert_eq!(
+        starts, 7,
+        "the print probe, Runs A to E and the print-mode sender: no Run F"
+    );
     let user = support::verify::user_home_of(home.path());
     assert_eq!(fs::read_dir(&user).expect("the user home").count(), 0);
 }
@@ -932,7 +948,7 @@ fn verify_record_on_a_failed_run_writes_no_screen_without_the_rig_option(
     let (code, stdout, record) = failed_record_verify(&home, false);
     assert_eq!(code, Some(1), "stdout {stdout}");
     assert!(
-        stdout.ends_with("stamped 2.1.0  27 pass  1 fail\n"),
+        stdout.ends_with("stamped 2.1.0  28 pass  1 fail\n"),
         "{stdout}"
     );
     assert!(!record.exists(), "a failed plain --record wrote its dir");
@@ -947,7 +963,7 @@ fn verify_record_first_screens_on_a_failed_run_writes_its_first_screen_only(
     let (code, stdout, record) = failed_record_verify(&home, true);
     assert_eq!(code, Some(1), "stdout {stdout}");
     assert!(
-        stdout.ends_with("stamped 2.1.0  27 pass  1 fail\n"),
+        stdout.ends_with("stamped 2.1.0  28 pass  1 fail\n"),
         "{stdout}"
     );
     let dir = record.join("2.1.0");
@@ -990,7 +1006,7 @@ fn verify_stopped_with_record_writes_no_first_screen(#[from(record_home)] home: 
         &["--turn-stop", "--trust-record-blank"],
     );
     fake::wait_for(&started.receipt, "Run F's start", |l| {
-        of_kind(l, "cwd").len() >= 7
+        of_kind(l, "cwd").len() >= 8
     });
     let pid = libc::pid_t::try_from(started.pid).expect("a pid");
     // SAFETY: kill only sends a signal, to the `viola` this case started and has not waited.
@@ -1031,7 +1047,7 @@ fn verify_stopped_during_the_trust_record_run_removes_its_record_and_exits_1(
         &["--turn-stop", "--trust-record-blank"],
     );
     let lines = fake::wait_for(&started.receipt, "Run F's start", |l| {
-        of_kind(l, "cwd").len() >= 7
+        of_kind(l, "cwd").len() >= 8
     });
     let pid = libc::pid_t::try_from(started.pid).expect("a pid");
     // SAFETY: kill only sends a signal, to the `viola` this case started and has not waited.
@@ -1044,7 +1060,7 @@ fn verify_stopped_during_the_trust_record_run_removes_its_record_and_exits_1(
         ran.stderr,
         "unable: verify was stopped before it finished\nhint: run viola verify again to stamp this CLI\n"
     );
-    let run_f = PathBuf::from(of_kind(&lines, "cwd")[6]["cwd"].as_str().expect("a cwd"));
+    let run_f = PathBuf::from(of_kind(&lines, "cwd")[7]["cwd"].as_str().expect("a cwd"));
     assert_eq!(run_f.parent(), Some(tmp.as_path()));
     assert!(!run_f.exists(), "Run F's dir outlived the stopped run");
     assert_eq!(fs::read_dir(&tmp).expect("temp dir").count(), 0);
@@ -1139,11 +1155,24 @@ fn stamped_home_reuses_a_rebuilt_generation_without_stamping_again(home: TestHom
 
 /// The identity row's step line, reading pass.
 const FLOOR_PASS: &str =
-    "[28/28] identity-floor every CLAUDE name the CLI adds to a hook is a known name  pass";
+    "[28/29] identity-floor every CLAUDE name the CLI adds to a hook is a known name  pass";
 
 /// A verify over the synthetic set with the receipt kept and `VIOLA_NAME` set; `edit` changes the
 /// set first, `extra` goes to the fake agent last.
 fn floor_verify(home: &TestHome, edit: impl Fn(&Path), extra: &[&str]) -> (Ran, Vec<Value>) {
+    floor_verify_by(home, edit, extra, |after, env| {
+        verify(home.path(), &fixtures(home), "2.1.0", &[], after, env)
+    })
+}
+
+/// `floor_verify` with the verify call `run` makes over the fake agent's last arguments and the
+/// environment it is given.
+fn floor_verify_by(
+    home: &TestHome,
+    edit: impl Fn(&Path),
+    extra: &[&str],
+    run: impl FnOnce(&[&str], &[(&str, OsString)]) -> Ran,
+) -> (Ran, Vec<Value>) {
     write_spine_set(&fixtures(home), "2.1.0", None);
     edit(&fixtures(home).join("2.1.0"));
     let receipt = home.scratch().join("receipt.ndjson");
@@ -1151,9 +1180,13 @@ fn floor_verify(home: &TestHome, edit: impl Fn(&Path), extra: &[&str]) -> (Ran, 
     let mut after = vec!["--receipt", receipt_arg.as_str()];
     after.extend(extra);
     let env = [("VIOLA_NAME", OsString::from("verifier"))];
-    let ran = verify(home.path(), &fixtures(home), "2.1.0", &[], &after, &env);
+    let ran = run(&after, &env);
     (ran, fake::receipt(&receipt))
 }
+
+/// The sender's compiled prompt around its address: test literals, never the product's.
+const SENDER_HEAD: &str = "viola verify probe: call the SendMessage tool exactly once, with to set to exactly this address: ";
+const SENDER_TAIL: &str = " and message set to exactly this text: viola verify probe: a synthetic cross-session message sent by viola verify; reply with the single word ok. Then reply with the single word ok.";
 
 #[rstest]
 fn identity_floor_reads_pass_over_the_recorded_env_names(#[from(home)] home: TestHome) {
@@ -1195,9 +1228,227 @@ fn identity_floor_reads_fail_on_an_unknown_name(#[from(home)] home: TestHome) {
     assert_eq!(ran.code, Some(1), "stdout {stdout}");
     assert!(
         stdout.lines().any(|l| l
-            == "[28/28] identity-floor every CLAUDE name the CLI adds to a hook is a known name  fail"),
+            == "[28/29] identity-floor every CLAUDE name the CLI adds to a hook is a known name  fail"),
         "{stdout}"
     );
     let env = &stamps(home.path())["data"]["versions"]["2.1.0"]["measured"]["env_probe"];
     assert_eq!(env["unknown"], json!(["CLAUDE_VIOLA_TEST_NEW_X"]));
+}
+
+/// Run B's accept settings, as the CLI is handed them.
+const ACCEPT_SETTINGS: &str = r#"{"crossSessionInbound":"accept"}"#;
+
+/// The cross-session row's step line reading `word`.
+fn cross_step(word: &str) -> String {
+    format!(
+        "[29/29] cross-session-prefix a message another session sends in opens with a harness prefix  {word}"
+    )
+}
+
+/// Every `start` receipt line, in order.
+fn start_lines(receipt: &[Value]) -> Vec<Value> {
+    of_kind(receipt, "start").into_iter().cloned().collect()
+}
+
+/// The receipt's interactive starts (the print-mode probe and sender aside); Run B is the second.
+fn interactive_starts(receipt: &[Value]) -> Vec<Value> {
+    start_lines(receipt)
+        .into_iter()
+        .filter(|l| l["print"] == false)
+        .collect()
+}
+
+/// The print-mode sender's start: a print-mode start with a plugin dir under `sender/`.
+fn sender_starts(receipt: &[Value]) -> Vec<Value> {
+    start_lines(receipt)
+        .into_iter()
+        .filter(|l| {
+            l["print"] == true
+                && l["plugin_dir"]
+                    .as_str()
+                    .is_some_and(|d| d.contains("/sender/"))
+        })
+        .collect()
+}
+
+/// The receipt's prompt texts, in order.
+fn prompt_texts(receipt: &[Value]) -> Vec<String> {
+    of_kind(receipt, "prompt")
+        .iter()
+        .filter_map(|l| l["text"].as_str().map(str::to_owned))
+        .collect()
+}
+
+/// The fake sender delivers into Run B's session: the row reads pass on the arrival's plain tag, the
+/// stamp's block holds the sender's closed words, one `verify-sender` pair is logged inside Run B's,
+/// Run B starts with the accept settings and the sender with its names-only plugin and none, and
+/// `/clear` is pasted after the turn.
+#[rstest]
+fn cross_session_prefix_reads_pass_over_the_fake_sender(#[from(home)] home: TestHome) {
+    let runtime = support::verify::runtime_dir();
+    let (ran, receipt) = floor_verify_by(
+        &home,
+        |_| {},
+        &[],
+        |after, env| {
+            let mut env = env.to_vec();
+            env.push((SOCKET_ROOT_VAR, runtime.path().into()));
+            verify(home.path(), &fixtures(&home), "2.1.0", &[], after, &env)
+        },
+    );
+    let stdout = ran.stdout_text();
+    assert_eq!(ran.code, Some(0), "stdout {stdout}");
+    assert!(stdout.lines().any(|l| l == cross_step("pass")), "{stdout}");
+    let entry = &stamps(home.path())["data"]["versions"]["2.1.0"];
+    assert_eq!(entry["rows"]["cross-session-prefix"], "pass");
+    let block = &entry["measured"]["cross_session_probe"];
+    assert_eq!(block["outcome"], "harness");
+    assert_eq!(block["prefix"], "cross-session");
+    assert_eq!(block["sender_tools"], json!(["send"]));
+    assert_eq!(block["send_result"], "delivered");
+    assert!(block["latency_ms"].is_u64(), "{block}");
+    let role =
+        support::ndjson::read_lines(&home.path().join("diagnostics").join("cli-verifier.ndjson"));
+    let sender: Vec<&str> = role
+        .iter()
+        .filter(|l| l["subject"] == "verify-sender")
+        .filter_map(|l| l["event"].as_str())
+        .collect();
+    assert_eq!(sender, ["process-start", "process-exit"]);
+    let run_b = &interactive_starts(&receipt)[1];
+    assert_eq!(run_b["settings"], ACCEPT_SETTINGS);
+    let senders = sender_starts(&receipt);
+    assert_eq!(senders.len(), 1);
+    assert!(
+        senders[0]["settings"].is_null(),
+        "no --settings on the sender"
+    );
+    let run_b_pid = run_b["pid"].as_u64().expect("Run B's pid");
+    let runtime_name = runtime.path().to_str().expect("utf-8 runtime dir");
+    assert_eq!(
+        senders[0]["prompt"].as_str(),
+        Some(
+            format!("{SENDER_HEAD}uds:{runtime_name}/cc-socks/{run_b_pid}.sock{SENDER_TAIL}")
+                .as_str()
+        ),
+        "the sender's prompt holds Run B's composed address and no session id"
+    );
+    assert!(
+        !senders[0]["prompt"]
+            .as_str()
+            .is_some_and(|p| p.contains(support::verify::SESSION_ID)),
+        "no session id in the sender's prompt"
+    );
+    let sender_at = receipt
+        .iter()
+        .position(|l| l == &senders[0])
+        .expect("the sender's start");
+    let cleared = receipt
+        .iter()
+        .rposition(|l| l["kind"] == "prompt" && l["text"] == "/clear");
+    assert!(
+        cleared.is_some_and(|at| at > sender_at),
+        "/clear pasted after the cross-session turn"
+    );
+}
+
+/// With `XDG_RUNTIME_DIR` removed, verify composes no address for Run B: no sender starts, the
+/// block reads `not-run` with both sender words null, the row fails and verify exits 1.
+#[rstest]
+fn cross_session_prefix_reads_not_run_without_a_runtime_dir(#[from(home)] home: TestHome) {
+    let (ran, receipt) = floor_verify_by(
+        &home,
+        |_| {},
+        &[],
+        |after, env| {
+            support::verify::verify_without_runtime_dir(
+                home.path(),
+                &fixtures(&home),
+                "2.1.0",
+                after,
+                env,
+            )
+        },
+    );
+    let stdout = ran.stdout_text();
+    assert_eq!(ran.code, Some(1), "stdout {stdout}");
+    assert!(stdout.lines().any(|l| l == cross_step("fail")), "{stdout}");
+    assert!(sender_starts(&receipt).is_empty(), "no sender receipt line");
+    let role =
+        support::ndjson::read_lines(&home.path().join("diagnostics").join("cli-verifier.ndjson"));
+    assert!(
+        !role.iter().any(|l| l["subject"] == "verify-sender"),
+        "no verify-sender process pair"
+    );
+    let entry = &stamps(home.path())["data"]["versions"]["2.1.0"];
+    assert_eq!(entry["rows"]["cross-session-prefix"], "fail");
+    let block = &entry["measured"]["cross_session_probe"];
+    assert_eq!(block["outcome"], "not-run");
+    assert!(block["sender_tools"].is_null(), "{block}");
+    assert!(block["send_result"].is_null(), "{block}");
+}
+
+/// Under the accept settings the row keeps its red: a set with no cross-session arrival makes the
+/// fake sender exit 1 (`sender-failed`), and an arrival that opens with plain text reads
+/// `unprefixed`. Each fails the row and verify exits 1, Run B started with the literal.
+#[rstest]
+#[case::no_prompt_arrives("sender-failed")]
+#[case::arrives_unprefixed("unprefixed")]
+fn cross_session_prefix_keeps_its_red_under_the_accept_settings(
+    #[from(home)] home: TestHome,
+    #[case] outcome: &str,
+) {
+    let edit = |set: &Path| {
+        let arrival = set.join("UserPromptSubmit.cross-session-1.json");
+        if outcome == "sender-failed" {
+            fs::remove_file(&arrival).expect("the arrival removed");
+        } else {
+            let mut doc: Value =
+                serde_json::from_slice(&fs::read(&arrival).expect("the arrival")).expect("json");
+            doc["prompt"] = json!("synthetic cross-session text with no tag");
+            fs::write(&arrival, doc.to_string()).expect("the plain arrival");
+        }
+    };
+    let (ran, receipt) = floor_verify(&home, edit, &[]);
+    let stdout = ran.stdout_text();
+    assert_eq!(ran.code, Some(1), "stdout {stdout}");
+    assert!(stdout.lines().any(|l| l == cross_step("fail")), "{stdout}");
+    let entry = &stamps(home.path())["data"]["versions"]["2.1.0"];
+    assert_eq!(entry["rows"]["cross-session-prefix"], "fail");
+    let block = &entry["measured"]["cross_session_probe"];
+    assert_eq!(block["outcome"], outcome);
+    assert!(block["prefix"].is_null());
+    assert_eq!(interactive_starts(&receipt)[1]["settings"], ACCEPT_SETTINGS);
+}
+
+/// A cross-session turn that ends on a screen with no input box up (here a modal literal beside
+/// the box) is never answered with a key: no `/clear` is pasted and Run B is ended by a kill, so
+/// its child's exit is not the Ctrl-C ending's clean one.
+#[rstest]
+fn cross_session_prefix_ends_run_b_by_kill_when_the_box_is_not_up(#[from(home)] home: TestHome) {
+    let modal = screen_rows(&[(9, TRUST_ROW), (23, INPUT_BOX_ROW)]);
+    let edit = |set: &Path| {
+        let fixtures = set.parent().expect("the fixtures root");
+        write_screen(fixtures, "2.1.0", "cross-modal", &modal);
+    };
+    let (ran, receipt) = floor_verify(&home, edit, &["--cross-session-turn-screen", "cross-modal"]);
+    let stdout = ran.stdout_text();
+    assert_eq!(ran.code, Some(1), "stdout {stdout}");
+    assert!(stdout.lines().any(|l| l == cross_step("pass")), "{stdout}");
+    assert!(
+        !prompt_texts(&receipt).iter().any(|t| t == "/clear"),
+        "no /clear after the turn"
+    );
+    let entry = &stamps(home.path())["data"]["versions"]["2.1.0"];
+    assert_eq!(entry["rows"]["local-command-clear"], "fail");
+    let role =
+        support::ndjson::read_lines(&home.path().join("diagnostics").join("cli-verifier.ndjson"));
+    let pty_exits: Vec<&Value> = role
+        .iter()
+        .filter(|l| l["event"] == "process-exit" && l["subject"] == "verify-pty-probe")
+        .collect();
+    assert_ne!(
+        pty_exits[1]["child_exit_status"], 0,
+        "Run B was killed, not ended by Ctrl-C"
+    );
 }

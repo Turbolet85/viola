@@ -44,6 +44,12 @@ use crate::{human, obs, run};
 /// The bound on the print-mode probe: one short Haiku turn.
 const PROBE_DEADLINE: Duration = Duration::from_secs(120);
 
+/// The bound on the print-mode sender: one short Haiku turn making one tool call.
+const SENDER_DEADLINE: Duration = Duration::from_secs(120);
+
+/// How long Run B waits past the sender's exit 0 for the message to arrive as a prompt.
+const CROSS_SESSION_WINDOW: Duration = Duration::from_secs(30);
+
 /// Printed just before the summary when a run's first screen was the browser-tools prompt.
 const BROWSER_TOOLS_STOOD: &str = "the browser-tools prompt stood at start; viola never answers it: answer it once in claude, then run viola verify again";
 
@@ -159,6 +165,9 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<Ended> {
         None => (OsString::from(PROGRAM), Vec::new()),
     };
     let cwd = std::env::current_dir()?;
+    // The runtime dir's name, read once and held in memory: Run B's socket address is composed
+    // from it and reaches the sender's argv alone (fork X1 (a), the operator's own word, inputs#I9).
+    let runtime_dir = std::env::var_os("XDG_RUNTIME_DIR");
     // A given path resolves as given, so its existence is checked here.
     let resolved = run::resolve_program(&program, &cwd).and_then(|p| {
         if p.is_file() {
@@ -235,11 +244,12 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<Ended> {
     };
     let trust_config = crate::trust_record::trust_config_file(&strip);
     let clock: Arc<dyn Clock> = Arc::new(SystemClock);
-    let [trusted, questions, plan, resume] = [
+    let [trusted, questions, plan, resume, sender] = [
         probe.typed(),
         probe.questions(),
         probe.plan(),
         probe.resume(),
+        probe.sender(),
     ]
     .map(|root| (root.join("plugin"), root.join("captures")));
     let typed = typed::measure(
@@ -254,6 +264,9 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<Ended> {
             questions: dirs(&questions),
             plan: dirs(&plan),
             resume: dirs(&resume),
+            sender_cwd: &probe.dir,
+            sender: dirs(&sender),
+            runtime_dir: runtime_dir.as_deref(),
             trust_config: trust_config.as_deref().map_err(|word| *word),
         },
     )?;
@@ -324,8 +337,9 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<Ended> {
 
 /// `<home>/ledger/probes/<pid>/` (0700) with the capture plugin in `plugin/` and an empty
 /// `captures/`, the same pair under `typed/` for the trusted interactive run, under `questions/` and `plan/` a dialog plugin, its captures and its `answers/` (written from the
-/// compiled answer table) for the dialog and plan runs, and under `resume/` the capture plugin and
-/// its captures for the resume run; removed whole when dropped, on every exit path.
+/// compiled answer table) for the dialog and plan runs, under `resume/` the capture plugin and
+/// its captures for the resume run, and under `sender/` the print-mode sender's names-only plugin
+/// and its captures; removed whole when dropped, on every exit path.
 struct ProbeDir {
     dir: PathBuf,
 }
@@ -348,8 +362,9 @@ impl ProbeDir {
         let _ = std::fs::remove_dir_all(&dir);
         let probe = Self { dir };
         for root in [probe.dir.clone(), probe.typed(), probe.resume()] {
-            write_plugin(&root, pinned_bin_fwd, None)?;
+            write_plugin(&root, pinned_bin_fwd, ProbePlugin::Spine)?;
         }
+        write_plugin(&probe.sender(), pinned_bin_fwd, ProbePlugin::Sender)?;
         for (root, run) in [
             (probe.questions(), DialogRun::Questions),
             (probe.plan(), DialogRun::Plan),
@@ -360,7 +375,14 @@ impl ProbeDir {
                 let path = answers.join(ledger::answer_file_name(*event, *ordinal));
                 replace_private(&path, answer.id().as_bytes(), FILE_MODE)?;
             }
-            write_plugin(&root, pinned_bin_fwd, Some(&fwd(&answers)))?;
+            let answers_dir_fwd = fwd(&answers);
+            write_plugin(
+                &root,
+                pinned_bin_fwd,
+                ProbePlugin::Dialog {
+                    answers_dir_fwd: &answers_dir_fwd,
+                },
+            )?;
         }
         Ok(probe)
     }
@@ -381,6 +403,10 @@ impl ProbeDir {
         self.dir.join("resume")
     }
 
+    fn sender(&self) -> PathBuf {
+        self.dir.join("sender")
+    }
+
     fn plugin(&self) -> PathBuf {
         self.dir.join("plugin")
     }
@@ -396,14 +422,10 @@ impl Drop for ProbeDir {
     }
 }
 
-/// `<root>/captures/` and `<root>/plugin/`: a spine plugin, or with `answers` a dialog plugin.
-fn write_plugin(root: &Path, pinned_bin_fwd: &str, answers: Option<&str>) -> anyhow::Result<()> {
+/// `<root>/captures/` and `<root>/plugin/`, a plugin of `kind`.
+fn write_plugin(root: &Path, pinned_bin_fwd: &str, kind: ProbePlugin<'_>) -> anyhow::Result<()> {
     let captures = root.join("captures");
     create_private_dir(&captures)?;
-    let kind = match answers {
-        Some(answers_dir_fwd) => ProbePlugin::Dialog { answers_dir_fwd },
-        None => ProbePlugin::Spine,
-    };
     for (rel, content) in ledger::capture_plugin_files(pinned_bin_fwd, &fwd(&captures), kind) {
         let path = root.join("plugin").join(rel);
         create_private_dir(path.parent().unwrap_or(root))?;
@@ -790,7 +812,7 @@ mod tests {
         );
     }
 
-    /// The counter's total is the relied count: twenty-eight rows.
+    /// The counter's total is the relied count: twenty-nine rows.
     #[test]
     fn step_lines_count_to_the_relied_total() {
         let probes = Probes {
@@ -806,42 +828,46 @@ mod tests {
             env: ledger::EnvReading::default(),
         };
         let results = check_rows(&probes);
-        assert_eq!(results.len(), 28);
+        assert_eq!(results.len(), 29);
         assert_eq!(
-            step_line(19, 28, LedgerRow::ResumeSession, "fail"),
-            "[19/28] resume-session --resume <id> reopens the session under that id  fail"
+            step_line(19, 29, LedgerRow::ResumeSession, "fail"),
+            "[19/29] resume-session --resume <id> reopens the session under that id  fail"
         );
         assert_eq!(
-            step_line(20, 28, LedgerRow::AgentsJoin, "fail"),
-            "[20/28] agents-join claude agents --json names the live session by pid and session id  fail"
+            step_line(20, 29, LedgerRow::AgentsJoin, "fail"),
+            "[20/29] agents-join claude agents --json names the live session by pid and session id  fail"
         );
         assert_eq!(
-            step_line(21, 28, LedgerRow::LocalCommandCompact, "fail"),
-            "[21/28] local-command-compact /compact keeps the session id and submits no prompt  fail"
+            step_line(21, 29, LedgerRow::LocalCommandCompact, "fail"),
+            "[21/29] local-command-compact /compact keeps the session id and submits no prompt  fail"
         );
         assert_eq!(
-            step_line(22, 28, LedgerRow::LocalCommandEcho, "fail"),
-            "[22/28] local-command-echo /mcp writes its stdout tag to the transcript and submits no prompt  fail"
+            step_line(22, 29, LedgerRow::LocalCommandEcho, "fail"),
+            "[22/29] local-command-echo /mcp writes its stdout tag to the transcript and submits no prompt  fail"
         );
         assert_eq!(
-            step_line(23, 28, LedgerRow::TrustRecord, "pass"),
-            "[23/28] trust-record a trust record written for an untrusted folder opens it with no modal  pass"
+            step_line(23, 29, LedgerRow::TrustRecord, "pass"),
+            "[23/29] trust-record a trust record written for an untrusted folder opens it with no modal  pass"
         );
         assert_eq!(
-            step_line(24, 28, LedgerRow::BrowserToolsPrompt, "absent"),
-            "[24/28] browser-tools-prompt an interactive start's browser-tools prompt reads as a modal, nothing typed  absent"
+            step_line(24, 29, LedgerRow::BrowserToolsPrompt, "absent"),
+            "[24/29] browser-tools-prompt an interactive start's browser-tools prompt reads as a modal, nothing typed  absent"
         );
         assert_eq!(
-            step_line(25, 28, LedgerRow::LocalCommandContext, "pass"),
-            "[25/28] local-command-context /context writes its stdout tag to the transcript and submits no prompt  pass"
+            step_line(25, 29, LedgerRow::LocalCommandContext, "pass"),
+            "[25/29] local-command-context /context writes its stdout tag to the transcript and submits no prompt  pass"
         );
         assert_eq!(
-            step_line(26, 28, LedgerRow::StopSessionCrons, "fail"),
-            "[26/28] stop-session-crons Stop carries session_crons as an array  fail"
+            step_line(26, 29, LedgerRow::StopSessionCrons, "fail"),
+            "[26/29] stop-session-crons Stop carries session_crons as an array  fail"
         );
         assert_eq!(
-            step_line(27, 28, LedgerRow::PermissionRequestQuestion, "fail"),
-            "[27/28] permission-request-question a question raised by PermissionRequest takes the allow body  fail"
+            step_line(27, 29, LedgerRow::PermissionRequestQuestion, "fail"),
+            "[27/29] permission-request-question a question raised by PermissionRequest takes the allow body  fail"
+        );
+        assert_eq!(
+            step_line(29, 29, LedgerRow::CrossSessionPrefix, "fail"),
+            "[29/29] cross-session-prefix a message another session sends in opens with a harness prefix  fail"
         );
         assert_eq!(step_word("absent"), "absent");
         assert_eq!(step_word("pass"), "pass");
@@ -860,8 +886,8 @@ mod tests {
             [LedgerRow::LargestHookPayload, LedgerRow::BrowserToolsPrompt]
         );
         assert_eq!(
-            step_line(28, 28, LedgerRow::IdentityFloor, "fail"),
-            "[28/28] identity-floor every CLAUDE name the CLI adds to a hook is a known name  fail"
+            step_line(28, 29, LedgerRow::IdentityFloor, "fail"),
+            "[28/29] identity-floor every CLAUDE name the CLI adds to a hook is a known name  fail"
         );
     }
 

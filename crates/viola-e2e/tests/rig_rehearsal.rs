@@ -115,7 +115,26 @@ impl Case {
             .stdin(Stdio::null())
             .stdout(Stdio::piped())
             .stderr(Stdio::piped());
+        // Verify composes Run B's socket address from the runtime dir's name: where the host sets
+        // none (`pre-push`'s `env -i`), the case's own short owner-only dir stands in, so the
+        // stamp reads alike. Nothing binds in it: the fake sender resolves by the address alone.
+        if std::env::var_os("XDG_RUNTIME_DIR").is_none() {
+            cmd.env("XDG_RUNTIME_DIR", self.runtime_dir());
+        }
         cmd
+    }
+
+    /// The case's own runtime dir, made owner-only on first use.
+    fn runtime_dir(&self) -> PathBuf {
+        use std::os::unix::fs::DirBuilderExt as _;
+        let dir = self.path("rt");
+        if !dir.is_dir() {
+            fs::DirBuilder::new()
+                .mode(0o700)
+                .create(&dir)
+                .expect("the case's runtime dir");
+        }
+        dir
     }
 
     /// The fake agent's arguments: screens over the committed fixtures, its receipt; `trusted`
@@ -682,6 +701,13 @@ fn with_option(cmd: &Command, option: &str, value: &str) -> Command {
             out.arg(value);
         }
     }
+    // The env the case set (its runtime dir where the host has none) rides over.
+    for (name, set) in cmd.get_envs() {
+        match set {
+            Some(value) => out.env(name, value),
+            None => out.env_remove(name),
+        };
+    }
     out.env_remove("CI")
         .stdin(Stdio::null())
         .stdout(Stdio::piped())
@@ -905,7 +931,7 @@ fn rig_rehearsal_v_reads_the_trust_record_row_and_no_record_left() {
     );
     assert_eq!(
         word(&out, "pass-count").as_deref(),
-        Some("28/28"),
+        Some("29/29"),
         "{summary}"
     );
     assert_eq!(word(&out, "record-left").as_deref(), Some("absent"));
@@ -919,7 +945,7 @@ fn rig_rehearsal_v_reads_the_trust_record_row_and_no_record_left() {
         Some("written"),
         "{summary}"
     );
-    assert_eq!(word(&out, "rows").as_deref(), Some("28"), "{summary}");
+    assert_eq!(word(&out, "rows").as_deref(), Some("29"), "{summary}");
     assert_eq!(
         word(&out, "browser-tools-prompt").as_deref(),
         Some("absent"),
@@ -1073,7 +1099,7 @@ fn rig_rehearsal_vh_verifies_the_given_home_and_reads_names_only() {
         ("arm", "vh"),
         ("token-window", "not-read"),
         ("keys", "none"),
-        ("rows", "28"),
+        ("rows", "29"),
         ("cwd-verify-after", "0"),
         ("user-config", "names-only"),
         ("credentials", "none"),
@@ -1211,7 +1237,7 @@ fn rig_rehearsal_cs_keeps_the_stamp_and_reads_the_config_top_level() {
     );
     assert_eq!(
         word(&out, "pass-count").as_deref(),
-        Some("28/28"),
+        Some("29/29"),
         "{summary}"
     );
     assert_eq!(word(&out, "failing").as_deref(), Some("none"), "{summary}");
@@ -1347,7 +1373,7 @@ fn rig_rehearsal_ws_keeps_the_wake_stamp_at_26_rows() {
     for (key, want) in [
         ("arm", "v"),
         ("verify-exit", "0"),
-        ("pass-count", "28/28"),
+        ("pass-count", "29/29"),
         ("stop-session-crons", "pass"),
         ("failing", "none"),
         ("kept-stamp", "written"),
@@ -1838,7 +1864,7 @@ fn rig_rehearsal_vp_reads_the_browser_tools_prompt_and_types_nothing() {
         Some("pass"),
         "{summary}"
     );
-    assert_eq!(word(&out, "rows").as_deref(), Some("28"), "{summary}");
+    assert_eq!(word(&out, "rows").as_deref(), Some("29"), "{summary}");
     assert_eq!(
         word(&out, "screen-a").as_deref(),
         Some("trust"),
@@ -1891,10 +1917,10 @@ fn rig_rehearsal_vk_reads_24_rows_with_the_browser_tools_row_absent() {
     assert_eq!(out.status.code(), Some(0), "{summary}");
     assert_eq!(word(&out, "arm").as_deref(), Some("vk"), "{summary}");
     assert_eq!(word(&out, "verify-exit").as_deref(), Some("0"), "{summary}");
-    assert_eq!(word(&out, "rows").as_deref(), Some("28"), "{summary}");
+    assert_eq!(word(&out, "rows").as_deref(), Some("29"), "{summary}");
     assert_eq!(
         word(&out, "pass-count").as_deref(),
-        Some("28/28"),
+        Some("29/29"),
         "{summary}"
     );
     assert_eq!(word(&out, "failing").as_deref(), Some("none"), "{summary}");

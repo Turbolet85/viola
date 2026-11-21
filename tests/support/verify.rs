@@ -13,7 +13,7 @@ use serde_json::{Value, json};
 
 use super::cli::Running;
 use super::fake::{FAKE, write_fixture};
-use super::home::workspace_path;
+use super::home::{SOCKET_ROOT_VAR, SocketRoot, workspace_path};
 use super::watch::{WITHIN, Watch};
 
 /// The input-box literal and the two modal literals, as the recorded screens show them: test
@@ -83,10 +83,14 @@ pub fn wrapped(text: &str) -> String {
     format!("\n\n<pasted_content id=\"7ccf\">\n{text}\n</pasted_content id=\"7ccf\">\n")
 }
 
-/// The six framing variants a clean trusted run records, the shapes of the live 2.1.287 probe:
+/// SYNTHETIC, committed nowhere: the cross-session arrival's prompt opening the plain tag, the
+/// sender named by a placeholder, the body a synthetic text.
+pub const CROSS_ARRIVAL: &str = "<cross-session-message from=\"synthetic\" from-name=\"synthetic\">\nsynthetic cross-session text\n</cross-session-message>";
+
+/// The seven framing variants a clean trusted run records, the shapes of the live 2.1.287 probe:
 /// the wrapped long prompt, the escaped tag-like prompt, the newline prompt, the SessionStart
-/// `/compact` fired under the set's first session id, and the two hooks the local command fired; and
-/// its status line's payload.
+/// `/compact` fired under the set's first session id, and the two hooks the local command fired;
+/// and the SYNTHETIC cross-session arrival ([`CROSS_ARRIVAL`]), no recorded shape.
 pub fn framing_set() -> Vec<(&'static str, &'static str, Value)> {
     let mut long = spine_payload("UserPromptSubmit");
     long["prompt"] = json!(wrapped(&long_paste()));
@@ -102,6 +106,8 @@ pub fn framing_set() -> Vec<(&'static str, &'static str, Value)> {
     let mut started = spine_payload("SessionStart");
     started["source"] = json!("clear");
     started["session_id"] = json!("s-verify-2");
+    let mut arrived = spine_payload("UserPromptSubmit");
+    arrived["prompt"] = json!(CROSS_ARRIVAL);
     vec![
         ("UserPromptSubmit", "paste-1", long),
         ("UserPromptSubmit", "paste-2", tag),
@@ -109,6 +115,7 @@ pub fn framing_set() -> Vec<(&'static str, &'static str, Value)> {
         ("SessionStart", "compact-1", compacted),
         ("SessionEnd", "clear-1", ended),
         ("SessionStart", "clear-1", started),
+        ("UserPromptSubmit", "cross-session-1", arrived),
     ]
 }
 
@@ -434,7 +441,21 @@ fn spawn_viola(
     stdin: Option<Vec<u8>>,
     within: Option<Duration>,
 ) -> Ran {
+    spawn_viola_without(args, env, &[], stdin, within)
+}
+
+/// `spawn_viola` with each name of `removed` taken out of the child's environment.
+fn spawn_viola_without(
+    args: &[OsString],
+    env: &[(&str, OsString)],
+    removed: &[&str],
+    stdin: Option<Vec<u8>>,
+    within: Option<Duration>,
+) -> Ran {
     let mut cmd = super::tied::viola();
+    for name in removed {
+        cmd.env_remove(name);
+    }
     cmd.args(args)
         .env_remove("VIOLA_NAME")
         .env_remove("VIOLA_DIR")
@@ -593,6 +614,49 @@ fn verify_with(
     env: &[(&str, OsString)],
     replays: &[&str],
 ) -> Ran {
+    verify_runtime(home, fixtures, version, before, after, env, replays, true)
+}
+
+/// `verify` with `XDG_RUNTIME_DIR` removed from its environment: verify composes no socket address
+/// for Run B, so no sender is spawned.
+pub fn verify_without_runtime_dir(
+    home: &Path,
+    fixtures: &Path,
+    version: &str,
+    after: &[&str],
+    env: &[(&str, OsString)],
+) -> Ran {
+    verify_runtime(
+        home,
+        fixtures,
+        version,
+        &[],
+        after,
+        env,
+        &["--dialogs", "--framing", "--transcript"],
+        false,
+    )
+}
+
+/// The runtime dir a test-started verify composes Run B's socket address from: a short,
+/// owner-only directory under `/tmp` the test owns for the verify's life (the socket root's form),
+/// so the stamp reads alike under `pre-push`'s `env -i`, where no runtime dir is set. Nothing binds
+/// in it: the fake sender resolves its target by the address alone.
+pub fn runtime_dir() -> SocketRoot {
+    SocketRoot::new()
+}
+
+#[allow(clippy::too_many_arguments)]
+fn verify_runtime(
+    home: &Path,
+    fixtures: &Path,
+    version: &str,
+    before: &[&str],
+    after: &[&str],
+    env: &[(&str, OsString)],
+    replays: &[&str],
+    with_runtime: bool,
+) -> Ran {
     let mut args = verify_args(home, fixtures, version, before);
     args.extend(["--screens", "--turn-stop"].map(OsString::from));
     args.extend(replays.iter().map(OsString::from));
@@ -601,8 +665,19 @@ fn verify_with(
     let (mut tied, fake) = user_tie(home, before);
     args.extend(fake);
     args.extend(after.iter().map(OsString::from));
+    let runtime = runtime_dir();
+    if with_runtime {
+        tied.push((SOCKET_ROOT_VAR, runtime.path().into()));
+    }
     tied.extend(env.iter().cloned());
-    viola_unbounded(&args, &tied)
+    let removed: &[&str] = if with_runtime {
+        &[]
+    } else {
+        &[SOCKET_ROOT_VAR]
+    };
+    let ran = spawn_viola_without(&args, &tied, removed, None, None);
+    drop(runtime);
+    ran
 }
 
 /// Where a started `verify` runs: its cwd, its OS temp dir and its `VIOLA_NAME`.
@@ -618,6 +693,8 @@ pub struct StartedVerify {
     pub running: Running,
     pub pid: u32,
     pub receipt: PathBuf,
+    /// The runtime dir the verify was given, kept for its life.
+    pub runtime: SocketRoot,
 }
 
 /// `verify` as `verify_with` builds it but without `--turn-stop`, started and not waited: Run B
@@ -655,10 +732,12 @@ pub fn verify_started(
     let (tied, fake) = user_tie(home, before);
     args.extend(fake);
     args.extend(after.iter().map(OsString::from));
+    let runtime = runtime_dir();
     let mut command = super::tied::viola();
     for (key, value) in tied {
         command.env(key, value);
     }
+    command.env(SOCKET_ROOT_VAR, runtime.path());
     let child = command
         .args(&args)
         .current_dir(cwd)
@@ -676,6 +755,7 @@ pub fn verify_started(
         pid: child.id(),
         running: Running::over(child),
         receipt,
+        runtime,
     }
 }
 
@@ -684,9 +764,13 @@ pub fn verify_started(
 /// nextest `verify_window_` override is its kill.
 pub fn verify_without_screens(home: &Path, fixtures: &Path, version: &str, before: &[&str]) -> Ran {
     let mut args = verify_args(home, fixtures, version, before);
-    let (tied, fake) = user_tie(home, before);
+    let (mut tied, fake) = user_tie(home, before);
     args.extend(fake);
-    viola_unbounded(&args, &tied)
+    let runtime = runtime_dir();
+    tied.push((SOCKET_ROOT_VAR, runtime.path().into()));
+    let ran = viola_unbounded(&args, &tied);
+    drop(runtime);
+    ran
 }
 
 /// `viola --home <home> verify -- <program>` under the test-owned user home: a program verify

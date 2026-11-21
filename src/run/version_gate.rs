@@ -473,6 +473,12 @@ mod tests {
         all.push((LedgerRow::IdentityFloor, true));
         assert_eq!(
             stamps_verdict(Ok(Some(stamp_of(&all))), "2.1.0"),
+            (false, None),
+            "the twenty-eight rows of an older stamp, every one pass"
+        );
+        all.push((LedgerRow::CrossSessionPrefix, true));
+        assert_eq!(
+            stamps_verdict(Ok(Some(stamp_of(&all))), "2.1.0"),
             (true, None)
         );
         for failing in dialogs.into_iter().chain(framing).chain([
@@ -487,6 +493,7 @@ mod tests {
             LedgerRow::StopSessionCrons,
             LedgerRow::PermissionRequestQuestion,
             LedgerRow::IdentityFloor,
+            LedgerRow::CrossSessionPrefix,
         ]) {
             let rows: Vec<(LedgerRow, bool)> =
                 all.iter().map(|(r, p)| (*r, *p && *r != failing)).collect();

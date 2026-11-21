@@ -1,20 +1,22 @@
 //! Run B's turns and the waits every run makes: each polls a capture dir or a screen until its
 //! answer, its deadline or the stop.
 
+use std::ffi::OsString;
 use std::io::Read as _;
 use std::path::Path;
 use std::time::{Duration, Instant};
 
 use viola_agent_claude::hook::HookEvent;
 use viola_agent_claude::ledger::{
-    self, AgentsCapture, PROBE_COMPACT_COMMAND, PROBE_CONTEXT_COMMAND, PROBE_ECHO_COMMAND,
-    PROBE_LOCAL_COMMAND, PROBE_LONG_PASTE, PROBE_NEWLINE_PASTE, PROBE_PROMPT, PROBE_TAG_PASTE,
-    TypedRun,
+    self, AgentsCapture, CrossSessionRun, PROBE_COMPACT_COMMAND, PROBE_CONTEXT_COMMAND,
+    PROBE_ECHO_COMMAND, PROBE_LOCAL_COMMAND, PROBE_LONG_PASTE, PROBE_NEWLINE_PASTE, PROBE_PROMPT,
+    PROBE_TAG_PASTE, SenderEnd, TypedRun,
 };
 use viola_agent_claude::screen::SIGNATURES;
+use viola_agent_claude::{ALLOWED_TOOLS_FLAG, PLUGIN_DIR_FLAG};
 use viola_core::{Clock, MAX_FRAME};
 
-use super::super::PROBE_DEADLINE;
+use super::super::{CROSS_SESSION_WINDOW, PROBE_DEADLINE, SENDER_DEADLINE};
 use super::run::Run;
 use super::{Inputs, POLL};
 
@@ -125,108 +127,139 @@ pub(super) fn agents_read(run: &Run, inputs: &Inputs<'_>, dir: &Path) -> Option<
     })
 }
 
-/// Run B's seven added pastes, each only into the settled input box the turn before it left
-/// (`rows`, first the `turn` screen): the long, the tag-like and the newline texts, each until one more
+/// How Run B ends once its pastes are done: by Ctrl-C as before, or, when its cross-session turn
+/// left no input box up, by a kill with no key.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(super) enum RunBEnd {
+    CtrlC,
+    Kill,
+}
+
+/// Run B's added pastes, each only into the settled input box the turn before it left (first the
+/// `turn` screen): the long, the tag-like and the newline texts, each until one more
 /// UserPromptSubmit and one more Stop are captured and the input box is back (`Run::box_wait`),
 /// then the echo command until one more stdout tag stands in Run B's transcript past its end
 /// before the paste, or one more UserPromptSubmit is captured, and the input box is back (its ms
-/// to `echo`, only for a tag read with no prompt), then, as Run B's eighth paste, `/context` the
-/// same way, its tags counted past the transcript's end read right before it (its ms to
-/// `context`); with no readable transcript of the session-id shape neither is pasted. Then `/compact` until a new SessionStart or a new UserPromptSubmit is captured and the input box
-/// is back, then the probed local command until the same and the screen settles. The first wait
-/// that fails ends them. The rows the input box settled on after the long paste's turn go to
-/// `long_turn`. The ms from the `/compact` paste to the instant its answer was read, once it was.
-/// Each guard passed on the box alone adds one to `box_only`.
+/// to `echo_latency_ms`, only for a tag read with no prompt), then, as Run B's eighth paste,
+/// `/context` the same way, its tags counted past the transcript's end read right before it (its
+/// ms to `context_latency_ms`); with no readable transcript of the session-id shape neither is
+/// pasted. Then `/compact` until a new SessionStart or a new UserPromptSubmit is captured and the
+/// input box is back (its ms to `compact_latency_ms`), then, with the box up and Run B's socket
+/// address composed from its live child pid and the runtime dir's name, the cross-session turn ([`cross_session_turn`]), then the probed local
+/// command until the same and the screen settles. The first wait that fails ends them. The rows
+/// the input box settled on after the long paste's turn go to `long_turn`. Each guard passed on
+/// the box alone adds one to `box_only`.
 pub(super) fn framing_turns(
     run: &Run,
-    captures: &Path,
-    mut rows: Option<Vec<String>>,
-    long_turn: &mut Option<Vec<String>>,
+    inputs: &Inputs<'_>,
+    typed: &mut TypedRun,
     box_only: &mut u32,
-    echo: &mut Option<u64>,
-    context: &mut Option<u64>,
-) -> Option<u64> {
+) -> RunBEnd {
+    let captures = inputs.trusted.captures;
     let clock = run.clock.as_ref();
     let count = |event| count_of(captures, event);
+    let mut rows = typed.turn.clone();
     for text in [PROBE_LONG_PASTE, PROBE_TAG_PASTE, PROBE_NEWLINE_PASTE] {
         if !guard(rows.as_deref(), box_only) {
-            return None;
+            return RunBEnd::CtrlC;
         }
         let prompts = count(HookEvent::UserPromptSubmit);
         let stops = count(HookEvent::Stop);
         if !run.paste_text(text) {
-            return None;
+            return RunBEnd::CtrlC;
         }
-        let stopped = wait_for(clock, probe_until(clock), run.stop, || {
+        let Some(stopped) = wait_for(clock, probe_until(clock), run.stop, || {
             added_turn_ended(captures, prompts, stops)
-        })?;
+        }) else {
+            return RunBEnd::CtrlC;
+        };
         rows = run.box_wait(stopped);
         if text == PROBE_LONG_PASTE {
-            long_turn.clone_from(&rows);
+            typed.long_turn.clone_from(&rows);
         }
     }
     let echo_from = transcript_of(captures)
         .and_then(|path| crate::run::send::echo::end_of(&path).map(|end| (path, end)));
     if let Some((transcript, from)) = echo_from {
         if !guard(rows.as_deref(), box_only) {
-            return None;
+            return RunBEnd::CtrlC;
         }
         let prompts = count(HookEvent::UserPromptSubmit);
         let pasted = clock.now();
         if !run.paste_text(PROBE_ECHO_COMMAND) {
-            return None;
+            return RunBEnd::CtrlC;
         }
         let tagged =
             || crate::run::send::echo::tags_since(&transcript, from).is_some_and(|n| n >= 1);
-        let answered = wait_for(clock, probe_until(clock), run.stop, || {
+        let Some(answered) = wait_for(clock, probe_until(clock), run.stop, || {
             tagged() || count(HookEvent::UserPromptSubmit) > prompts
-        })?;
+        }) else {
+            return RunBEnd::CtrlC;
+        };
         if tagged() && count(HookEvent::UserPromptSubmit) == prompts {
-            *echo = Some(ms(answered.saturating_duration_since(pasted)));
+            typed.echo_latency_ms = Some(ms(answered.saturating_duration_since(pasted)));
         }
         rows = run.box_wait(answered);
         if let Some(from_context) = crate::run::send::echo::end_of(&transcript) {
             if !guard(rows.as_deref(), box_only) {
-                return None;
+                return RunBEnd::CtrlC;
             }
             let prompts = count(HookEvent::UserPromptSubmit);
             let pasted = clock.now();
             if !run.paste_text(PROBE_CONTEXT_COMMAND) {
-                return None;
+                return RunBEnd::CtrlC;
             }
             let tagged = || {
                 crate::run::send::echo::tags_since(&transcript, from_context)
                     .is_some_and(|n| n >= 1)
             };
-            let answered = wait_for(clock, probe_until(clock), run.stop, || {
+            let Some(answered) = wait_for(clock, probe_until(clock), run.stop, || {
                 tagged() || count(HookEvent::UserPromptSubmit) > prompts
-            })?;
+            }) else {
+                return RunBEnd::CtrlC;
+            };
             if tagged() && count(HookEvent::UserPromptSubmit) == prompts {
-                *context = Some(ms(answered.saturating_duration_since(pasted)));
+                typed.context_latency_ms = Some(ms(answered.saturating_duration_since(pasted)));
             }
             rows = run.box_wait(answered);
         }
     }
     if !guard(rows.as_deref(), box_only) {
-        return None;
+        return RunBEnd::CtrlC;
     }
     let starts = count(HookEvent::SessionStart);
     let prompts = count(HookEvent::UserPromptSubmit);
     let pasted = clock.now();
     if !run.paste_text(PROBE_COMPACT_COMMAND) {
-        return None;
+        return RunBEnd::CtrlC;
     }
-    let compacted = wait_for(clock, probe_until(clock), run.stop, || {
+    let Some(compacted) = wait_for(clock, probe_until(clock), run.stop, || {
         local_command_answered(captures, starts, prompts)
-    })?;
-    let latency = Some(ms(compacted.saturating_duration_since(pasted)));
-    if !guard(run.box_wait(compacted).as_deref(), box_only) {
-        return latency;
+    }) else {
+        return RunBEnd::CtrlC;
+    };
+    typed.compact_latency_ms = Some(ms(compacted.saturating_duration_since(pasted)));
+    let mut rows = run.box_wait(compacted);
+    if !guard(rows.as_deref(), box_only) {
+        return RunBEnd::CtrlC;
+    }
+    let address = run
+        .child_pid()
+        .zip(inputs.runtime_dir)
+        .and_then(|(pid, runtime)| ledger::uds_address(runtime, pid));
+    if let Some(address) = address {
+        let Some(after) = cross_session_turn(run, inputs, &address, typed) else {
+            return RunBEnd::CtrlC;
+        };
+        rows = after;
+        if !guard(rows.as_deref(), box_only) {
+            return RunBEnd::Kill;
+        }
     }
     let starts = count(HookEvent::SessionStart);
     let prompts = count(HookEvent::UserPromptSubmit);
     if !run.paste_text(PROBE_LOCAL_COMMAND) {
-        return latency;
+        return RunBEnd::CtrlC;
     }
     let answered = wait_for(clock, probe_until(clock), run.stop, || {
         local_command_answered(captures, starts, prompts)
@@ -234,7 +267,114 @@ pub(super) fn framing_turns(
     if let Some(answered) = answered {
         run.settle(answered);
     }
-    latency
+    RunBEnd::CtrlC
+}
+
+/// Run B's cross-session turn: the print-mode sender (`verify-sender`) sends one compiled message
+/// to Run B's socket `address` (composed, never probed: nothing at the path is read), bounded by `SENDER_DEADLINE`; on its exit 0, one more UserPromptSubmit up to
+/// `CROSS_SESSION_WINDOW`, then its turn's end up to the probe deadline, and the rows the screen
+/// then stands on. A non-zero exit or the deadline waits for nothing; no retry. What it measured
+/// goes to `typed.cross_session`. `None` at the stop or on a failed spawn.
+fn cross_session_turn(
+    run: &Run,
+    inputs: &Inputs<'_>,
+    address: &str,
+    typed: &mut TypedRun,
+) -> Option<Option<Vec<String>>> {
+    let captures = inputs.trusted.captures;
+    let clock = run.clock.as_ref();
+    let prompt = ledger::sender_prompt(address)?;
+    let prompts = count_of(captures, HookEvent::UserPromptSubmit);
+    let stops = count_of(captures, HookEvent::Stop);
+    let mut args = inputs.program_args.to_vec();
+    args.extend(["-p".into(), prompt.into()]);
+    args.extend(
+        [
+            "--model",
+            "haiku",
+            "--no-session-persistence",
+            ALLOWED_TOOLS_FLAG,
+            ledger::SEND_TOOL,
+            PLUGIN_DIR_FLAG,
+        ]
+        .map(OsString::from),
+    );
+    args.push(inputs.sender.plugin.as_os_str().to_owned());
+    let started = clock.now();
+    let ran = super::super::run_logged(
+        "verify-sender",
+        inputs.program,
+        &args,
+        inputs.sender_cwd,
+        inputs.strip,
+        SENDER_DEADLINE,
+    )
+    .ok()?;
+    if ran.stopped {
+        return None;
+    }
+    let sender = match ran.status {
+        Some(status) if status.success() => SenderEnd::Exited,
+        Some(_) => SenderEnd::Failed,
+        None => SenderEnd::Deadline,
+    };
+    let (sender_tools, send_result) =
+        ledger::sender_words(&read_tool_files(inputs.sender.captures));
+    let mut latency_ms = None;
+    let mut rows = None;
+    if sender == SenderEnd::Exited {
+        let arrived = wait_for(clock, clock.now() + CROSS_SESSION_WINDOW, run.stop, || {
+            count_of(captures, HookEvent::UserPromptSubmit) > prompts
+        });
+        if let Some(arrived) = arrived {
+            latency_ms = Some(ms(arrived.saturating_duration_since(started)));
+            let ended = wait_for(clock, probe_until(clock), run.stop, || {
+                count_of(captures, HookEvent::Stop) > stops
+            });
+            if let Some(ended) = ended {
+                rows = run.settle(ended).and_then(|s| s.rows);
+            }
+        }
+    }
+    if (run.stop)() {
+        return None;
+    }
+    if rows.is_none() {
+        rows = run.settle(clock.now()).and_then(|s| s.rows);
+    }
+    typed.cross_session = Some(CrossSessionRun {
+        prompts_before: prompts,
+        sender,
+        latency_ms,
+        sender_tools,
+        send_result,
+    });
+    Some(rows)
+}
+
+/// The sender's `Tool.<k>.json` documents in `k` order, each read through the frame cap; other
+/// names, and a document that does not parse, are skipped.
+fn read_tool_files(dir: &Path) -> Vec<serde_json::Value> {
+    let mut found: Vec<(u32, std::path::PathBuf)> = std::fs::read_dir(dir)
+        .into_iter()
+        .flatten()
+        .flatten()
+        .filter_map(|entry| {
+            let k = ledger::parse_tool_file_name(entry.file_name().to_str()?)?;
+            Some((k, entry.path()))
+        })
+        .collect();
+    found.sort_by_key(|(k, _)| *k);
+    found
+        .into_iter()
+        .filter_map(|(_, path)| {
+            let mut bytes = Vec::new();
+            std::io::Read::take(std::fs::File::open(path).ok()?, MAX_FRAME)
+                .read_to_end(&mut bytes)
+                .ok()?;
+            serde_json::from_slice(&bytes).ok()
+        })
+        .collect()
 }
 
 /// The transcript Run B's first SessionStart capture declared, when it has the shape

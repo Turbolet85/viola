@@ -168,6 +168,66 @@ fn capture_arm_writes_no_env_file_for_other_events(#[from(home)] tmp: TestHome) 
     assert!(envs.is_empty(), "{envs:?}");
 }
 
+/// The canary the names-only payloads carry in every content field.
+const SEND_CANARY: &str = "canary-send-content-6e1d";
+
+/// `viola hook <event> --capture <dir> --names-only` with `stdin`: the exit code, stdout and
+/// stderr.
+fn captured_names_only(event: &str, dir: &Path, stdin: &[u8]) -> (Option<i32>, Vec<u8>, Vec<u8>) {
+    let mut cmd = support::tied::viola();
+    cmd.arg("hook")
+        .arg(event)
+        .arg("--capture")
+        .arg(dir)
+        .arg("--names-only")
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped());
+    let mut child = cmd.spawn().expect("viola hook");
+    child
+        .stdin
+        .take()
+        .expect("stdin")
+        .write_all(stdin)
+        .expect("payload");
+    let out = child.wait_with_output().expect("exit");
+    (out.status.code(), out.stdout, out.stderr)
+}
+
+#[rstest]
+fn names_only_capture_keeps_no_canary_byte(#[from(home)] tmp: TestHome) {
+    let dir = tmp.scratch().join("captures");
+    std::fs::create_dir(&dir).expect("captures");
+    let pre = format!(
+        r#"{{"hook_event_name":"PreToolUse","tool_name":"SendMessage","tool_input":{{"to":"00000000-0000-4000-8000-000000000001","message":"{SEND_CANARY}"}}}}"#
+    );
+    let post = format!(
+        r#"{{"hook_event_name":"PostToolUse","tool_name":"SendMessage","tool_input":{{"message":"{SEND_CANARY}"}},"tool_response":{{"success":true,"message":"{SEND_CANARY}","data":{{"text":"{SEND_CANARY}"}}}},"last_assistant_message":"{SEND_CANARY}"}}"#
+    );
+    for (event, payload) in [("pre-tool-use", &pre), ("post-tool-use", &post)] {
+        let (code, stdout, stderr) = captured_names_only(event, &dir, payload.as_bytes());
+        assert_eq!(code, Some(0), "{event}");
+        assert!(stdout.is_empty(), "{event} stdout");
+        assert!(
+            stderr.is_empty(),
+            "{event} stderr: {}",
+            String::from_utf8_lossy(&stderr)
+        );
+    }
+    let mut names: Vec<String> = files_under(&dir)
+        .iter()
+        .filter_map(|f| f.file_name().map(|n| n.to_string_lossy().into_owned()))
+        .collect();
+    names.sort();
+    assert_eq!(names, ["Tool.1.json", "Tool.2.json"]);
+    let hits = canary_hits(&dir, &[("send", SEND_CANARY)]);
+    assert!(hits.is_empty(), "canary found: {hits:?}");
+    assert_eq!(
+        std::fs::read_to_string(dir.join("Tool.2.json")).expect("post"),
+        r#"{"v":1,"event":"post","tool":"send","result":"delivered"}"#
+    );
+}
+
 /// A name `config.json` keeps, with its canary value.
 const KEPT: (&str, &str) = ("CLAUDE_VIOLA_TEST_KEPT", "canary-kept-value-1d6c");
 
@@ -241,7 +301,7 @@ fn env_name_with_the_user_word_reads_fail_and_records_nothing(#[from(record_home
     assert_eq!(ran.code, Some(1), "stdout {}", ran.stdout_text());
     assert!(
         ran.stdout_text().lines().any(|l| l
-            == "[28/28] identity-floor every CLAUDE name the CLI adds to a hook is a known name  fail"),
+            == "[28/29] identity-floor every CLAUDE name the CLI adds to a hook is a known name  fail"),
         "{}",
         ran.stdout_text()
     );

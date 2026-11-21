@@ -128,8 +128,27 @@ fn clean_typed() -> TypedRun {
         trust_remove: Some(TrustWord::Removed),
         first: [None; 6],
         first_rows: Default::default(),
+        cross_session: Some(clean_cross_session()),
     }
 }
+
+/// Run B's four prompts before the sender started: the probe prompt and the three pastes.
+const PROMPTS_BEFORE_SENDER: usize = 4;
+
+/// A sender that exited after one send its tool read delivered, the message read 4.1 s after its
+/// start.
+fn clean_cross_session() -> CrossSessionRun {
+    CrossSessionRun {
+        prompts_before: PROMPTS_BEFORE_SENDER,
+        sender: SenderEnd::Exited,
+        latency_ms: Some(4_100),
+        sender_tools: vec![ToolWord::Send],
+        send_result: Some(ResultWord::Delivered),
+    }
+}
+
+/// The cross-session arrival as the CLI files it: the escaped tag, a sender name, the message.
+const CROSS_ARRIVAL: &str = "<\\cross-session-message from=\"uds:/run/x.sock\" from-name=\"probe\">\nviola verify probe: a synthetic cross-session message sent by viola verify; reply with the single word ok\n</cross-session-message>";
 
 /// Run B's first SessionStart hook child's names read, the floor and the project dir.
 fn clean_env() -> EnvReading {
@@ -425,10 +444,13 @@ fn clean_trusted() -> Vec<Capture> {
         prompted(TAG_PROMPT),
         stop.clone(),
         prompted(NEWLINE_PROMPT),
-        stop,
+        stop.clone(),
         session_start("compact", RUN_B_ID),
         session_end("clear"),
         session_start("clear", "s-2"),
+        // The arrival's place among the captures reads nothing: only the prompts before it count.
+        prompted(CROSS_ARRIVAL),
+        stop,
         session_end("prompt_input_exit"),
     ]
 }
@@ -705,4 +727,115 @@ fn env_capture_document_keeps_claude_names_and_counts_the_rest(
 fn env_file_name_is_no_capture_file_name() {
     assert_eq!(env_file_name(3), "Env.3.json");
     assert_eq!(parse_capture_file_name(&env_file_name(3)), None);
+}
+
+#[rstest]
+#[case::send(
+    br#"{"tool_name":"SendMessage","tool_input":{"to":"x"}}"#,
+    ToolWord::Send
+)]
+#[case::search(br#"{"tool_name":"ToolSearch"}"#, ToolWord::Search)]
+#[case::list(br#"{"tool_name":"ListAgents"}"#, ToolWord::List)]
+#[case::unknown_name(br#"{"tool_name":"Bash"}"#, ToolWord::Other)]
+#[case::name_not_a_string(br#"{"tool_name":7}"#, ToolWord::Other)]
+#[case::unparseable(b"not json", ToolWord::Other)]
+fn tool_word_names_the_four_classes(#[case] payload: &[u8], #[case] word: ToolWord) {
+    assert_eq!(tool_word(payload), word);
+}
+
+#[rstest]
+#[case::success_true(br#"{"tool_response":{"success":true}}"#, "delivered")]
+#[case::success_false(br#"{"tool_response":{"success":false}}"#, "refused")]
+#[case::data_success_true(br#"{"tool_response":{"data":{"success":true}}}"#, "delivered")]
+#[case::data_success_false(br#"{"tool_response":{"data":{"success":false}}}"#, "refused")]
+#[case::success_a_string(br#"{"tool_response":{"success":"false"}}"#, "unread")]
+#[case::no_tool_response(br#"{"tool_name":"SendMessage"}"#, "unread")]
+#[case::text_only_response(
+    br#"{"tool_response":"synthetic text: messaging is not available"}"#,
+    "unread"
+)]
+fn send_result_word_reads_only_the_boolean(#[case] payload: &[u8], #[case] word: &str) {
+    assert_eq!(send_result_word(payload).as_str(), word);
+}
+
+#[test]
+fn tool_capture_document_holds_closed_words_only() {
+    let pre = tool_capture_document(HookEvent::PreToolUse, ToolWord::Search, None);
+    assert_eq!(
+        String::from_utf8(pre).expect("utf-8"),
+        r#"{"v":1,"event":"pre","tool":"search","result":null}"#
+    );
+    let post = tool_capture_document(
+        HookEvent::PostToolUse,
+        ToolWord::Send,
+        Some(ResultWord::Delivered),
+    );
+    assert_eq!(
+        String::from_utf8(post).expect("utf-8"),
+        r#"{"v":1,"event":"post","tool":"send","result":"delivered"}"#
+    );
+}
+
+#[test]
+fn tool_file_name_is_no_capture_file_name() {
+    assert_eq!(tool_file_name(2), "Tool.2.json");
+    assert_eq!(parse_capture_file_name(&tool_file_name(2)), None);
+    assert_eq!(parse_tool_file_name("Tool.2.json"), Some(2));
+    assert_eq!(parse_tool_file_name("Tool.0.json"), None);
+    assert_eq!(parse_tool_file_name("PreToolUse.2.json"), None);
+}
+
+/// The rendered sender plugin's hooks, written out as the oracle.
+const SENDER_HOOKS_JSON: &str = r#"{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/h/bin/0.1.0-0123456789abcdef/viola",
+            "args": [
+              "hook",
+              "pre-tool-use",
+              "--capture",
+              "/h/ledger/probes/7/sender/captures",
+              "--names-only"
+            ],
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "SendMessage",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/h/bin/0.1.0-0123456789abcdef/viola",
+            "args": [
+              "hook",
+              "post-tool-use",
+              "--capture",
+              "/h/ledger/probes/7/sender/captures",
+              "--names-only"
+            ],
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}
+"#;
+
+#[test]
+fn sender_plugin_hooks_capture_names_only() {
+    let files = capture_plugin_files(
+        "/h/bin/0.1.0-0123456789abcdef/viola",
+        "/h/ledger/probes/7/sender/captures",
+        ProbePlugin::Sender,
+    );
+    assert_eq!(files[0].0, ".claude-plugin/plugin.json");
+    assert_eq!(files[1], ("hooks/hooks.json", SENDER_HOOKS_JSON.to_owned()));
 }

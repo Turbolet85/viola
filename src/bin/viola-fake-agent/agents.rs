@@ -119,3 +119,29 @@ pub(super) fn live_sessions(dir: &Path) -> Vec<Value> {
         })
         .collect()
 }
+
+/// The pid a uds `address` names, `uds:<absolute dir>/cc-socks/<pid>.sock`, when that process is
+/// live and its parent is this process's parent: a sibling of the same verify, never another
+/// test's agent. Any other shape names no pid.
+pub(super) fn sibling_by_address(address: &str) -> Option<u32> {
+    let path = address.strip_prefix(viola_agent_claude::UDS_SCHEME)?;
+    let (dir, file) = path.rsplit_once('/')?;
+    let parent = dir.strip_suffix(viola_agent_claude::CLI_SOCKET_DIR)?;
+    let parent = parent.strip_suffix('/')?;
+    if !parent.starts_with('/') {
+        return None;
+    }
+    let digits = file.strip_suffix(viola_agent_claude::CLI_SOCKET_SUFFIX)?;
+    if digits.is_empty() || !digits.bytes().all(|b| b.is_ascii_digit()) {
+        return None;
+    }
+    let pid: u32 = digits.parse().ok()?;
+    (parent_of(pid) == Some(std::os::unix::process::parent_id())).then_some(pid)
+}
+
+/// A process's parent pid, read from `/proc/<pid>/stat` past the command name's closing paren.
+pub(super) fn parent_of(pid: u32) -> Option<u32> {
+    let stat = fs::read_to_string(format!("/proc/{pid}/stat")).ok()?;
+    let (_, rest) = stat.rsplit_once(')')?;
+    rest.split_whitespace().nth(1)?.parse().ok()
+}

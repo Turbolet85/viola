@@ -138,6 +138,23 @@ const HARNESS_PREFIXES: [&str; 4] = [
     "<\\cross-session-message",
     "<cross-session-message",
 ];
+/// The closed id of each [`HARNESS_PREFIXES`] literal, in the same order.
+pub const HARNESS_PREFIX_IDS: [&str; 4] = [
+    "agent-message",
+    "task-notification",
+    "cross-session-escaped",
+    "cross-session",
+];
+
+/// The closed id of the harness literal `raw`'s own start matches, untrimmed; `None` for any
+/// other prompt.
+pub fn harness_prefix(raw: &str) -> Option<&'static str> {
+    HARNESS_PREFIXES
+        .iter()
+        .zip(HARNESS_PREFIX_IDS)
+        .find(|(literal, _)| raw.starts_with(*literal))
+        .map(|(_, id)| id)
+}
 
 /// Reads `bytes` as `event`'s payload. A payload that is not one JSON object is refused, and so is
 /// a dialog-tier event, which never becomes a `hook.event`.
@@ -263,7 +280,7 @@ pub fn api_error_cause(error: Option<&str>) -> (TurnEndCause, bool) {
 /// 2026-09-29) stays a prefix, so a human who types that tag at a prompt's start is filed harness
 /// too.
 fn prompt_origin(raw: &str) -> &'static str {
-    if HARNESS_PREFIXES.iter().any(|p| raw.starts_with(p)) {
+    if harness_prefix(raw).is_some() {
         "harness"
     } else {
         "human"
@@ -857,6 +874,24 @@ mod tests {
         assert_eq!(got.kind, EventKind::Activity);
         assert_eq!(got.data, json!({"tool": "Bash"}));
         assert_eq!(read(event, &json!({"message": "m"})).data, json!({}));
+    }
+
+    #[rstest]
+    #[case::agent_message("<agent-message from=\"a\">hi", Some("agent-message"))]
+    #[case::task_notification("<task-notification>done", Some("task-notification"))]
+    #[case::cross_escaped(
+        "<\\cross-session-message from=\"uds:x\">\nhi",
+        Some("cross-session-escaped")
+    )]
+    #[case::cross_plain("<cross-session-message from=\"uds:x\">\nhi", Some("cross-session"))]
+    #[case::escaped_task_tag("<\\task-notification>x", None)]
+    #[case::leading_space(" <cross-session-message from=\"uds:x\">", None)]
+    #[case::plain("viola verify probe: plain text", None)]
+    fn harness_prefix_names_the_literal_the_raw_start_matches(
+        #[case] prompt: &str,
+        #[case] id: Option<&str>,
+    ) {
+        assert_eq!(harness_prefix(prompt), id);
     }
 
     #[rstest]

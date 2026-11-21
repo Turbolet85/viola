@@ -101,6 +101,23 @@ pub const PLUGIN_DIR_FLAG: &str = "--plugin-dir";
 /// and D) pass their probe settings through it.
 pub const SETTINGS_FLAG: &str = "--settings";
 
+/// The flag that hands `viola verify`'s print-mode sender its one allowed tool.
+pub const ALLOWED_TOOLS_FLAG: &str = "--allowedTools";
+
+/// The scheme of a socket address the CLI's send tool takes as its `to` (read in the 2.1.328
+/// bundle; a premise the cross-session row's own probe measures).
+pub const UDS_SCHEME: &str = "uds:";
+
+/// The dir under the runtime dir where the CLI keeps its inbox socket (read in the 2.1.328 bundle).
+pub const CLI_SOCKET_DIR: &str = "cc-socks";
+
+/// The suffix of the CLI's inbox socket after its pid (read in the 2.1.328 bundle).
+pub const CLI_SOCKET_SUFFIX: &str = ".sock";
+
+/// The longest inbox socket path the CLI names under the runtime dir; past it the CLI names its
+/// socket elsewhere (read in the 2.1.328 bundle).
+pub const CLI_SOCKET_PATH_MAX: usize = 103;
+
 /// The program a revived instance runs, looked up by name when it is revived.
 pub const PROGRAM: &str = "claude";
 

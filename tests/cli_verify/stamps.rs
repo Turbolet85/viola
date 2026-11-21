@@ -112,7 +112,7 @@ fn verify_a_set_without_stop_fails_its_rows_and_still_stamps(#[from(home)] home:
     let stdout = ran.stdout_text();
     let lines: Vec<&str> = stdout.lines().collect();
     let mut expected = steps_failing(|i| ![0, 2, 3, 5, 6, 22, 23].contains(&i));
-    expected.push("stamped 2.1.0  7 pass  21 fail".to_owned());
+    expected.push("stamped 2.1.0  7 pass  22 fail".to_owned());
     assert_eq!(lines, expected);
     assert!(ran.stderr.is_empty());
     let rows = &stamps(home.path())["data"]["versions"]["2.1.0"]["rows"];
@@ -233,7 +233,11 @@ fn verify_runs_the_probe_under_the_identity_strip(#[from(home)] home: TestHome) 
     assert_eq!(ran.code, Some(0));
     let lines = fake::receipt(&receipt);
     let envs = of_kind(&lines, "env");
-    assert_eq!(envs.len(), 7);
+    assert_eq!(
+        envs.len(),
+        8,
+        "the print probe, Runs A to F and the print-mode sender"
+    );
     for env in envs {
         let names: Vec<&str> = env["names"]
             .as_array()
@@ -248,7 +252,9 @@ fn verify_runs_the_probe_under_the_identity_strip(#[from(home)] home: TestHome) 
         );
     }
     let hooks = of_kind(&lines, "hook");
-    assert_eq!(hooks.len(), 44);
+    // The print-mode sender's PreToolUse and PostToolUse, and Run B's cross-session prompt and
+    // its Stop, are four of them.
+    assert_eq!(hooks.len(), 48);
     assert!(
         hooks
             .iter()
@@ -332,6 +338,8 @@ fn verify_dispatch_error_keeps_the_chain_in_the_detail_file(#[from(record_home)]
             ("process-start", "verify-pty-probe", ""),
             ("process-start", "agents-probe", ""),
             ("process-exit", "agents-probe", ""),
+            ("process-start", "verify-sender", ""),
+            ("process-exit", "verify-sender", ""),
             ("process-exit", "verify-pty-probe", ""),
             ("process-start", "verify-pty-probe", ""),
             ("process-exit", "verify-pty-probe", ""),
@@ -386,9 +394,9 @@ fn verify_with_an_instance_logs_its_start_and_exit(#[from(home)] home: TestHome)
 /// Each spawn `verify` makes is logged as a pair (obs-plan §6 Child / shell spawns): the `--version`
 /// read as `version-probe`, the print-mode probe as `verify-probe`, each of the six interactive
 /// runs as `verify-pty-probe`, between its own start and exit, and inside Run B's pair the agents
-/// read as `agents-probe`: nine pairs.
+/// read as `agents-probe` and the print-mode sender as `verify-sender`: ten pairs.
 #[rstest]
-fn verify_with_an_instance_logs_its_nine_spawn_pairs(#[from(home)] home: TestHome) {
+fn verify_with_an_instance_logs_its_ten_spawn_pairs(#[from(home)] home: TestHome) {
     write_spine_set(&fixtures(&home), "2.1.0", None);
     let env = [("VIOLA_NAME", OsString::from("verifier"))];
     let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &[], &env);
@@ -419,6 +427,8 @@ fn verify_with_an_instance_logs_its_nine_spawn_pairs(#[from(home)] home: TestHom
             ("process-start", "verify-pty-probe"),
             ("process-start", "agents-probe"),
             ("process-exit", "agents-probe"),
+            ("process-start", "verify-sender"),
+            ("process-exit", "verify-sender"),
             ("process-exit", "verify-pty-probe"),
             ("process-start", "verify-pty-probe"),
             ("process-exit", "verify-pty-probe"),
@@ -431,11 +441,11 @@ fn verify_with_an_instance_logs_its_nine_spawn_pairs(#[from(home)] home: TestHom
             ("process-exit", "self"),
         ]
     );
-    for exit in [&role[2], &role[4], &role[9], &role[10]] {
+    for exit in [&role[2], &role[4], &role[9], &role[11], &role[12]] {
         assert_eq!(exit["child_exit_status"], 0);
         assert!(exit["duration_ms"].is_u64());
     }
-    for killed in [&role[6], &role[12], &role[14], &role[16], &role[18]] {
+    for killed in [&role[6], &role[14], &role[16], &role[18], &role[20]] {
         assert!(killed["duration_ms"].is_u64(), "a killed run's exit");
     }
     let validator =
@@ -495,6 +505,7 @@ fn verify_record_writes_the_scrubbed_spine_variants_and_screens(
         "SessionStart.default.json",
         "SessionStart.resume-1.json",
         "Stop.default.json",
+        "UserPromptSubmit.cross-session-1.json",
         "UserPromptSubmit.default.json",
         "UserPromptSubmit.paste-1.json",
         "UserPromptSubmit.paste-2.json",

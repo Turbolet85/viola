@@ -3,7 +3,8 @@
 //! one `hook.dialog` whose answer it prints as the decision body. It fails open on every path: exit
 //! 0, nothing on stdout or stderr but a decision, and outside a wrapped session nothing written
 //! anywhere (architecture [Hook Contract]; obs-plan §4 E1). With `--capture <dir>` (the `viola
-//! verify` probe plugin) it only files the raw payload.
+//! verify` probe plugin) it only files the raw payload; with `--names-only` beside it (the
+//! print-mode sender's plugin) only the closed words of a tool event.
 
 use std::io::{Read, Write};
 use std::path::{Path, PathBuf};
@@ -17,7 +18,8 @@ use viola_agent_claude::dialog::{Dialog, Response, classify, decision_body};
 use viola_agent_claude::hook::{HookEvent, Normalised};
 use viola_agent_claude::ledger::{
     ProbeAnswer, answer_file_name, capture_file_name, env_capture_document, env_file_name,
-    parse_capture_file_name, probe_body,
+    parse_capture_file_name, parse_tool_file_name, probe_body, send_result_word,
+    tool_capture_document, tool_file_name, tool_word,
 };
 use viola_channel::{ChannelError, Client, peer_admitted};
 use viola_core::obs::{ObsEvent, ObsProcess};
@@ -43,6 +45,9 @@ pub(crate) struct HookArgs {
     /// With --capture: print this dialog event's compiled answer, read from this directory
     #[arg(long, hide = true, value_name = "DIR")]
     answers: Option<PathBuf>,
+    /// With --capture: file only the closed words of a tool event, never the payload
+    #[arg(long, hide = true, requires = "capture")]
+    names_only: bool,
 }
 
 /// The hook's whole budget from its start, kept below `viola_core::SPINE_DEADLINE`, the bound the
@@ -81,6 +86,10 @@ pub(crate) fn hook(args: &HookArgs) -> Result<ExitCode, Failure> {
         return Ok(ExitCode::SUCCESS);
     };
     if let Some(dir) = &args.capture {
+        if args.names_only {
+            capture_names_only(event, dir, &mut std::io::stdin().lock());
+            return Ok(ExitCode::SUCCESS);
+        }
         let filed = capture(event, dir, &mut std::io::stdin().lock());
         if let (Some(filed), Some(answers)) = (filed, &args.answers) {
             answer(event, dir, answers, &filed, &mut std::io::stdout().lock());
@@ -415,6 +424,41 @@ fn capture(event: HookEvent, dir: &Path, stdin: &mut dyn Read) -> Option<Filed> 
             file_env_names(dir, filed.k, std::env::vars_os().map(|(name, _)| name));
         }
     })
+}
+
+/// The names-only capture (the operator's ratification of the sender's capture mode, 2026-11-21):
+/// the payload read in memory, and only `<dir>/Tool.<k>.json` filed, the closed words of
+/// [`tool_capture_document`] — never the payload itself, never a payload file. Every inert rule of
+/// [`capture`] holds; any failure writes nothing.
+fn capture_names_only(event: HookEvent, dir: &Path, stdin: &mut dyn Read) -> Option<u32> {
+    if !dir.is_absolute() || !dir.is_dir() {
+        return None;
+    }
+    if !matches!(event, HookEvent::PreToolUse | HookEvent::PostToolUse) {
+        return None;
+    }
+    let mut bytes = Vec::new();
+    stdin.take(MAX_FRAME + 1).read_to_end(&mut bytes).ok()?;
+    let result = (event == HookEvent::PostToolUse).then(|| send_result_word(&bytes));
+    let document = tool_capture_document(event, tool_word(&bytes), result);
+    drop(bytes);
+    let taken: Vec<u32> = std::fs::read_dir(dir)
+        .ok()?
+        .flatten()
+        .filter_map(|e| parse_tool_file_name(e.file_name().to_str()?))
+        .collect();
+    let n = u32::try_from(taken.len()).ok()?;
+    let mut k = (1..=n + 1).find(|k| !taken.contains(k))?;
+    let path = loop {
+        let path = dir.join(tool_file_name(k));
+        match create_private_new(&path) {
+            Ok(_) => break path,
+            Err(e) if e.kind() == std::io::ErrorKind::AlreadyExists => k = k.checked_add(1)?,
+            Err(_) => return None,
+        }
+    };
+    replace_private(&path, &document, FILE_MODE).ok()?;
+    Some(k)
 }
 
 /// The env-names document of `names` into `<dir>/Env.<k>.json`, created by this call alone and
@@ -1320,6 +1364,79 @@ mod tests {
             b"second"
         );
         assert_eq!(second.bytes, b"second");
+    }
+
+    /// The names-only arm files a PreToolUse and a PostToolUse as `Tool.1.json` and `Tool.2.json`,
+    /// each owner-only and each a closed-word document, and no payload file of either event.
+    #[test]
+    fn names_only_capture_files_closed_words_and_no_payload() {
+        use std::os::unix::fs::PermissionsExt;
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let pre = br#"{"tool_name":"SendMessage","tool_input":{"to":"x","message":"m"}}"#;
+        let post = br#"{"tool_name":"SendMessage","tool_response":{"success":true}}"#;
+        assert_eq!(
+            capture_names_only(HookEvent::PreToolUse, tmp.path(), &mut &pre[..]),
+            Some(1)
+        );
+        assert_eq!(
+            capture_names_only(HookEvent::PostToolUse, tmp.path(), &mut &post[..]),
+            Some(2)
+        );
+        let mut names: Vec<String> = fs::read_dir(tmp.path())
+            .expect("dir")
+            .flatten()
+            .map(|e| e.file_name().to_string_lossy().into_owned())
+            .collect();
+        names.sort();
+        assert_eq!(names, ["Tool.1.json", "Tool.2.json"]);
+        for (name, text) in [
+            (
+                "Tool.1.json",
+                r#"{"v":1,"event":"pre","tool":"send","result":null}"#,
+            ),
+            (
+                "Tool.2.json",
+                r#"{"v":1,"event":"post","tool":"send","result":"delivered"}"#,
+            ),
+        ] {
+            let path = tmp.path().join(name);
+            assert_eq!(fs::read_to_string(&path).expect("file"), text);
+            let mode = fs::metadata(&path).expect("meta").permissions().mode();
+            assert_eq!(mode & 0o777, 0o600, "{name}");
+        }
+    }
+
+    #[test]
+    fn names_only_capture_reads_unread_on_an_unknown_shape() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let post = br#"{"tool_name":"SendMessage","tool_response":"synthetic text"}"#;
+        assert_eq!(
+            capture_names_only(HookEvent::PostToolUse, tmp.path(), &mut &post[..]),
+            Some(1)
+        );
+        assert_eq!(
+            fs::read_to_string(tmp.path().join("Tool.1.json")).expect("file"),
+            r#"{"v":1,"event":"post","tool":"send","result":"unread"}"#
+        );
+    }
+
+    #[test]
+    fn names_only_capture_files_nothing_for_a_spine_event_or_a_relative_dir() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let payload = br#"{"session_id":"s"}"#;
+        assert_eq!(
+            capture_names_only(HookEvent::SessionStart, tmp.path(), &mut &payload[..]),
+            None
+        );
+        assert_eq!(
+            capture_names_only(
+                HookEvent::PreToolUse,
+                Path::new("relative"),
+                &mut &payload[..]
+            ),
+            None
+        );
+        assert_eq!(fs::read_dir(tmp.path()).expect("dir").count(), 0);
     }
 
     const TWO_QUESTIONS: &str = r#"{"tool_name":"AskUserQuestion","tool_input":{"questions":[{"question":"Probe color?","options":[{"label":"red"},{"label":"blue"}]},{"question":"Probe size?","options":[{"label":"small"}]}]}}"#;

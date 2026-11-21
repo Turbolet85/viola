@@ -350,3 +350,221 @@ fn session_start_hook_carries_the_recorded_env_names() {
     )));
     assert!(bare.recorded_env_names().is_empty(), "no variant, no name");
 }
+
+/// A synthetic session id of the session-id shape.
+/// A synthetic session id: no longer an address the fake sender takes.
+const SENDER_TARGET: &str = "0a1b2c3d-4e5f-4a6b-8c7d-9e0f1a2b3c4d";
+
+/// The uds address of the process `pid` under a synthetic runtime dir.
+fn address_of(pid: u32) -> String {
+    format!("uds:/run/user/1000/cc-socks/{pid}.sock")
+}
+
+/// The sender plugin as `viola verify` writes it, its two hooks running `whoami`.
+fn sender_plugin(tmp: &Path) -> PathBuf {
+    let plugin = tmp.join("plugin");
+    fs::create_dir_all(plugin.join("hooks")).expect("hooks dir");
+    let hook = json!({"type": "command", "command": "/usr/bin/whoami", "args": []});
+    let hooks = json!({"hooks": {
+        "PreToolUse": [{"hooks": [hook.clone()]}],
+        "PostToolUse": [{"matcher": "SendMessage", "hooks": [hook]}],
+    }});
+    fs::write(plugin.join("hooks").join("hooks.json"), hooks.to_string()).expect("hooks.json");
+    plugin
+}
+
+/// A print-mode agent over a set holding a SYNTHETIC cross-session arrival, with the sender plugin.
+fn sender_agent(tmp: &Path, arrival: bool) -> Agent {
+    let files: &[(&str, &str)] = if arrival {
+        &[("UserPromptSubmit.cross-session-1.json", "{}")]
+    } else {
+        &[]
+    };
+    let plugin = sender_plugin(tmp);
+    let plugin = plugin.to_str().expect("utf-8");
+    Agent::new(Opts::parse(&over_set(
+        tmp,
+        files,
+        &["--plugin-dir", plugin],
+    )))
+}
+
+fn sender_prompt() -> String {
+    prompt_to(&address_of(std::process::id()))
+}
+
+fn prompt_to(to: &str) -> String {
+    format!("{CROSS_SESSION_SENDER_HEAD}{to}{CROSS_SESSION_SENDER_TAIL}")
+}
+
+/// `<dir>/inbox/<pid>.listening`, as a receiving agent leaves it.
+fn listen(dir: &Path, pid: u32) {
+    fs::create_dir_all(dir.join(INBOX)).expect("inbox");
+    fs::write(dir.join(INBOX).join(format!("{pid}.{LISTENING}")), b"").expect("marker");
+}
+
+#[test]
+fn sender_delivers_only_to_its_siblings_session() {
+    let tmp = tempfile::tempdir().expect("tempdir");
+    let dir = tmp.path().join("bin");
+    let own = std::process::id();
+    // This process shares its own parent, so its pid is a sibling's; pid 1 (init) is not.
+    assert_eq!(agents::sibling_by_address(&address_of(own)), Some(own));
+    assert_eq!(agents::sibling_by_address(&address_of(1)), None);
+    // A non-sibling pid, even listening: exit 1, no hook, nothing delivered.
+    listen(&dir, 1);
+    let agent = sender_agent(tmp.path(), true);
+    assert_eq!(
+        send_cross_session(&agent, &prompt_to(&address_of(1)), &dir),
+        ExitCode::from(1)
+    );
+    assert!(!dir.join(INBOX).join("1").exists());
+    // No receiver listening, then no arrival in the set: exit 1, no hook, nothing delivered.
+    let agent = sender_agent(tmp.path(), true);
+    assert_eq!(
+        send_cross_session(&agent, &sender_prompt(), &dir),
+        ExitCode::from(1)
+    );
+    listen(&dir, own);
+    let bare = tempfile::tempdir().expect("tempdir");
+    assert_eq!(
+        send_cross_session(&sender_agent(bare.path(), false), &sender_prompt(), &dir),
+        ExitCode::from(1)
+    );
+    assert!(receipted(tmp.path(), "hook").is_empty());
+    assert!(!dir.join(INBOX).join(own.to_string()).exists());
+}
+
+#[test]
+fn sender_runs_its_plugin_hooks_names_only() {
+    use std::os::unix::fs::PermissionsExt as _;
+    let tmp = tempfile::tempdir().expect("tempdir");
+    let dir = tmp.path().join("bin");
+    let own = std::process::id();
+    listen(&dir, own);
+    let agent = sender_agent(tmp.path(), true);
+    assert_eq!(
+        send_cross_session(&agent, &sender_prompt(), &dir),
+        ExitCode::SUCCESS
+    );
+    let hooks = receipted(tmp.path(), "hook");
+    let events: Vec<&str> = hooks.iter().filter_map(|h| h["event"].as_str()).collect();
+    assert_eq!(events, ["PreToolUse", "PostToolUse"]);
+    let bodies: Vec<Value> = hooks
+        .iter()
+        .map(|h| {
+            let hex = h["stdin_hex"].as_str().expect("stdin");
+            let bytes: Vec<u8> = (0..hex.len())
+                .step_by(2)
+                .map(|i| u8::from_str_radix(&hex[i..i + 2], 16).expect("hex"))
+                .collect();
+            serde_json::from_slice(&bytes).expect("a payload")
+        })
+        .collect();
+    assert!(bodies.iter().all(|b| b["tool_name"] == "SendMessage"));
+    assert_eq!(bodies[1]["tool_response"], json!({"success": true}));
+    let delivered = dir.join(INBOX).join(own.to_string());
+    assert_eq!(fs::read(&delivered).expect("delivered"), b"");
+    let mode = fs::metadata(&delivered).expect("meta").permissions().mode();
+    assert_eq!(mode & 0o777, 0o600);
+}
+
+#[rstest::rstest]
+#[case::a_bare_session_id(SENDER_TARGET.to_owned())]
+#[case::a_relative_dir(format!("uds:run/user/1000/cc-socks/{}.sock", std::process::id()))]
+#[case::no_sock_suffix(format!("uds:/run/user/1000/cc-socks/{}", std::process::id()))]
+fn sender_refuses_an_address_not_of_the_uds_shape(#[case] to: String) {
+    let tmp = tempfile::tempdir().expect("tempdir");
+    let dir = tmp.path().join("bin");
+    let own = std::process::id();
+    listen(&dir, own);
+    let agent = sender_agent(tmp.path(), true);
+    assert_eq!(
+        send_cross_session(&agent, &prompt_to(&to), &dir),
+        ExitCode::from(1)
+    );
+    assert!(receipted(tmp.path(), "hook").is_empty());
+    assert!(!dir.join(INBOX).join(own.to_string()).exists());
+}
+
+#[test]
+fn receiver_fires_the_cross_session_variant_once() {
+    let tmp = tempfile::tempdir().expect("tempdir");
+    let plugin = tmp.path().join("plugin");
+    fs::create_dir_all(plugin.join("hooks")).expect("hooks dir");
+    let hook = json!({"type": "command", "command": "/usr/bin/whoami", "args": []});
+    let hooks = json!({"hooks": {"UserPromptSubmit": [{"hooks": [hook]}]}});
+    fs::write(plugin.join("hooks").join("hooks.json"), hooks.to_string()).expect("hooks.json");
+    let plugin = plugin.to_str().expect("utf-8").to_owned();
+    let list = over_set(
+        tmp.path(),
+        &[(
+            "UserPromptSubmit.cross-session-1.json",
+            "{\"prompt\":\"synthetic\"}\n",
+        )],
+        &[
+            "--framing",
+            "--settings",
+            CROSS_SESSION_SETTINGS,
+            "--plugin-dir",
+            &plugin,
+        ],
+    );
+    let agent = Arc::new(Agent::new(Opts::parse(&list)));
+    let inbox = tmp.path().join(INBOX);
+    let own = std::process::id();
+    let (done, finished) = mpsc::channel();
+    let receiver = Arc::clone(&agent);
+    let polled = inbox.clone();
+    std::thread::spawn(move || {
+        receive_cross_session(&receiver, &polled);
+        let _ = done.send(());
+    });
+    let marker = inbox.join(format!("{own}.{LISTENING}"));
+    let until = Instant::now() + Duration::from_secs(5);
+    while !marker.exists() {
+        assert!(Instant::now() < until, "the receiver never listened");
+        std::thread::sleep(CONTROL_POLL);
+    }
+    fs::write(inbox.join(own.to_string()), b"").expect("a delivery");
+    finished
+        .recv_timeout(Duration::from_secs(5))
+        .expect("the receiver returned after one arrival");
+    let fired: Vec<Value> = receipted(tmp.path(), "hook");
+    assert_eq!(fired.len(), 1, "{fired:?}");
+    assert_eq!(fired[0]["event"], "UserPromptSubmit");
+    assert!(!inbox.join(own.to_string()).exists(), "the delivery taken");
+    assert!(!marker.exists(), "no longer listening");
+}
+
+#[test]
+fn receiver_reads_no_inbox_without_the_accept_settings() {
+    for (label, list, receives) in [
+        (
+            "framing and the literal",
+            vec!["--framing", "--settings", CROSS_SESSION_SETTINGS],
+            true,
+        ),
+        (
+            "the literal alone",
+            vec!["--settings", CROSS_SESSION_SETTINGS],
+            false,
+        ),
+        ("framing alone", vec!["--framing"], false),
+        (
+            "another settings document",
+            vec![
+                "--framing",
+                "--settings",
+                r#"{"crossSessionInbound":"hold"}"#,
+            ],
+            false,
+        ),
+    ] {
+        assert_eq!(
+            Opts::parse(&args(&list)).receives_cross_session(),
+            receives,
+            "{label}"
+        );
+    }
+}

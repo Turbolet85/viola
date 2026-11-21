@@ -1,0 +1,10 @@
+[[control]]
+id = 'no-payload'
+entry = 17
+guard = 'the names-only arm no longer stops before file_from: it also files the raw payload (forced on inside capture_names_only, which the case calls directly)'
+case = 'names_only_capture_files_closed_words_and_no_payload'
+
+[[control.edit]]
+path = 'src/cmd/hook.rs'
+old = '''    drop(bytes);'''
+new = '''    let _ = file_from(event, dir, bytes, 1);'''

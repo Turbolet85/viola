@@ -22,7 +22,7 @@ use support::watch::{WITHIN, Watch};
 use viola_state::events::read_from;
 
 /// The session id the committed 2.1.328 `SessionStart.default` payload carries.
-const FIXTURE_SESSION: &str = "be8c67ee-c51d-4774-9266-72cb13f79c80";
+const FIXTURE_SESSION: &str = "4e678ce3-c94d-472b-92ab-9734c27f57dc";
 
 /// The log's records that start at or after `offset`, through the product reader.
 fn past(instance_dir: &Path, offset: u64) -> Vec<Value> {

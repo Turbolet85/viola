@@ -197,6 +197,7 @@ fn diag_line_schema_confines_corr_to_its_events() {
 /// own; a subject outside the catalog is still refused.
 #[rstest]
 #[case::verify_probe("verify-probe", true)]
+#[case::verify_sender("verify-sender", true)]
 #[case::verify_pty_probe("verify-pty-probe", true)]
 #[case::version_probe("version-probe", true)]
 #[case::unknown("probe", false)]

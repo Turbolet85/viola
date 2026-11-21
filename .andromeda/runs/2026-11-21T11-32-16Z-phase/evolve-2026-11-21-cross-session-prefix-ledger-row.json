@@ -1,0 +1,162 @@
+[
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "667bc5fa",
+"ts": "2026-11-21T11:33:27Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-21T11-32-16Z-phase",
+"--marker",
+"2026-11-21-cross-session-prefix-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 3640 · 2026-11-21T11-33-00-2026-11-21-cross-session-prefix-ledger-row.ndjson",
+"ts 2026-11-21T11:33:20Z · clock 2026-11-21T11:33:27Z · the builders' bound 2026-11-21T11:31:32Z (line 3901)",
+"ids 2026-11-21T11:33:20Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T11-33-00-2026-11-21-cross-session-prefix-ledger-row.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "667bc5fa",
+"ts": "2026-11-21T12:02:36Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-21T11-32-16Z-phase",
+"--marker",
+"2026-11-21-cross-session-prefix-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 3641 · 2026-11-21T11-33-00-2026-11-21-cross-session-prefix-ledger-row.ndjson",
+"ts 2026-11-21T12:02:24Z · clock 2026-11-21T12:02:36Z · the builders' bound 2026-11-21T11:33:20Z (line 3902)",
+"ids 2026-11-21T12:02:24Z-a … 2026-11-21T12:02:24Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T11-33-00-2026-11-21-cross-session-prefix-ledger-row.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "667bc5fa",
+"ts": "2026-11-21T12:08:15Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"3",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-21T11-32-16Z-phase",
+"--marker",
+"2026-11-21-cross-session-prefix-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 3 record(s) in the store · tx 3644 · 2026-11-21T11-33-00-2026-11-21-cross-session-prefix-ledger-row.ndjson",
+"ts 2026-11-21T12:08:03Z · clock 2026-11-21T12:08:15Z · the builders' bound 2026-11-21T12:02:24Z (line 3904)",
+"ids 2026-11-21T12:08:03Z-a … 2026-11-21T12:08:03Z-c (3)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T11-33-00-2026-11-21-cross-session-prefix-ledger-row.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "667bc5fa",
+"ts": "2026-11-21T12:17:06Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-21T11-32-16Z-phase",
+"--marker",
+"2026-11-21-cross-session-prefix-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 3648 · 2026-11-21T11-33-00-2026-11-21-cross-session-prefix-ledger-row.ndjson",
+"ts 2026-11-21T12:16:57Z · clock 2026-11-21T12:17:06Z · the builders' bound 2026-11-21T12:08:03Z (line 3907)",
+"ids 2026-11-21T12:16:57Z-a … 2026-11-21T12:16:57Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T11-33-00-2026-11-21-cross-session-prefix-ledger-row.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "667bc5fa",
+"ts": "2026-11-21T12:30:45Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"4",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-21T11-32-16Z-phase",
+"--marker",
+"2026-11-21-cross-session-prefix-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 4 record(s) in the store · tx 3656 · 2026-11-21T11-33-00-2026-11-21-cross-session-prefix-ledger-row.ndjson",
+"ts 2026-11-21T12:30:31Z · clock 2026-11-21T12:30:44Z · the builders' bound 2026-11-21T12:16:57Z (line 3909)",
+"ids 2026-11-21T12:30:31Z-a … 2026-11-21T12:30:31Z-d (4)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T11-33-00-2026-11-21-cross-session-prefix-ledger-row.ndjson"
+],
+"before": null,
+"after": null
+}
+]

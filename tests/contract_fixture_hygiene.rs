@@ -954,8 +954,9 @@ fn claude_dialog_variants_are_walked_for_every_dialog_set() {
     }
 }
 
-/// Every set recorded with its framing variants holds the six, each walked by
-/// `claude_fixtures_pass_hygiene`: the walk reaches the paste, compact and local-command classes.
+/// Every set recorded with its framing variants holds the six, and a set recorded with the
+/// cross-session row its arrival beside them, each walked by `claude_fixtures_pass_hygiene`: the
+/// walk reaches the paste, compact, local-command and cross-session classes.
 #[test]
 fn claude_framing_variants_are_walked_for_every_framing_set() {
     let walked: Vec<PathBuf> = claude_fixtures(&workspace_path("fixtures/claude"));
@@ -964,7 +965,7 @@ fn claude_framing_variants_are_walked_for_every_framing_set() {
         p.file_name().and_then(|n| n.to_str()).is_some_and(|n| {
             let middle = n.split('.').nth(1).unwrap_or_default();
             middle.rsplit_once('-').is_some_and(|(stem, k)| {
-                ["paste", "compact", "clear"].contains(&stem)
+                ["paste", "compact", "clear", "cross-session"].contains(&stem)
                     && !k.is_empty()
                     && k.bytes().all(|b| b.is_ascii_digit())
             })
@@ -984,20 +985,38 @@ fn claude_framing_variants_are_walked_for_every_framing_set() {
             .filter_map(|p| p.file_name()?.to_str().map(str::to_owned))
             .collect();
         names.sort();
-        assert_eq!(
-            names,
-            [
-                "SessionEnd.clear-1.json",
-                "SessionStart.clear-1.json",
-                "SessionStart.compact-1.json",
-                "UserPromptSubmit.paste-1.json",
-                "UserPromptSubmit.paste-2.json",
-                "UserPromptSubmit.paste-3.json",
-            ],
-            "{}",
-            set.display()
-        );
+        let mut expected = vec![
+            "SessionEnd.clear-1.json",
+            "SessionStart.clear-1.json",
+            "SessionStart.compact-1.json",
+            "UserPromptSubmit.paste-1.json",
+            "UserPromptSubmit.paste-2.json",
+            "UserPromptSubmit.paste-3.json",
+        ];
+        if set.join("UserPromptSubmit.cross-session-1.json").exists() {
+            expected.insert(3, "UserPromptSubmit.cross-session-1.json");
+        }
+        assert_eq!(names, expected, "{}", set.display());
     }
+}
+
+/// The set stamped at the cross-session row holds its recorded arrival, walked by
+/// `claude_fixtures_pass_hygiene`, and no other cross-session variant.
+#[test]
+fn claude_cross_session_variant_is_walked_for_the_stamped_set() {
+    let walked: Vec<PathBuf> = claude_fixtures(&workspace_path("fixtures/claude"));
+    let crossed: Vec<String> = walked
+        .iter()
+        .filter(|p| p.parent().and_then(Path::file_name) == Some("2.1.328".as_ref()))
+        .filter_map(|p| p.file_name()?.to_str().map(str::to_owned))
+        .filter(|n| {
+            n.split('.')
+                .nth(1)
+                .unwrap_or_default()
+                .starts_with("cross-session")
+        })
+        .collect();
+    assert_eq!(crossed, ["UserPromptSubmit.cross-session-1.json"]);
 }
 
 /// Every set recorded with a resume variant holds the one Run E records, walked by

@@ -1,0 +1,10 @@
+[[control]]
+id = 'prefix-match'
+entry = 16
+guard = 'cross_session_reading no longer reads unprefixed when harness_prefix is None (an unprefixed arrival reads harness)'
+case = 'cross_session_prefix_fails_when::case_2_no_prefix'
+
+[[control.edit]]
+path = 'crates/viola-agent-claude/src/ledger.rs'
+old = '''None => ("unprefixed", None),'''
+new = '''None => ("harness", None),'''

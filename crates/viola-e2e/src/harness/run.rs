@@ -318,7 +318,7 @@ fn tool_arms(
 }
 
 /// The capability-ledger rows `viola verify` prints, as literals: the live run checks each once.
-const LEDGER_ROWS: [&str; 28] = [
+const LEDGER_ROWS: [&str; 29] = [
     "shim-resolution",
     "spine-hooks",
     "session-start-fields",
@@ -347,6 +347,7 @@ const LEDGER_ROWS: [&str; 28] = [
     "stop-session-crons",
     "permission-request-question",
     "identity-floor",
+    "cross-session-prefix",
 ];
 
 /// The one row whose stamped word `absent` counts too: no interactive start met the prompt.
@@ -979,35 +980,36 @@ mod tests {
         assert_eq!(suite(&out.doc, "doctest")["failed"], 1);
     }
 
-    const LIVE_PASS: &str = "[01/28] shim-resolution claude resolves  pass\n\
-        [02/28] spine-hooks spine hooks fire  pass\n\
-        [03/28] session-start-fields fields  pass\n\
-        [04/28] prompt-verbatim prompt  pass\n\
-        [05/28] stop-message message  pass\n\
-        [06/28] largest-hook-payload payload  pass\n\
-        [07/28] modal-signature modal  pass\n\
-        [08/28] input-box-signature input box  pass\n\
-        [09/28] quiet-period quiet  pass\n\
-        [10/28] confirm-window window  pass\n\
-        [11/28] question-answer question  pass\n\
-        [12/28] plan-approve-revise plan  pass\n\
-        [13/28] question-notes notes  pass\n\
-        [14/28] dialog-concurrency concurrency  pass\n\
-        [15/28] long-paste-wrapper wrapper  pass\n\
-        [16/28] tag-escaping escaping  pass\n\
-        [17/28] local-command-clear clear  pass\n\
-        [18/28] paste-newline newline  pass\n\
-        [19/28] resume-session resume  pass\n\
-        [20/28] agents-join join  pass\n\
-        [21/28] local-command-compact compact  pass\n\
-        [22/28] local-command-echo echo  pass\n\
-        [23/28] trust-record trust  pass\n\
-        [24/28] browser-tools-prompt browser tools  absent\n\
-        [25/28] local-command-context context  pass\n\
-        [26/28] stop-session-crons crons  pass\n\
-        [27/28] permission-request-question question permission  pass\n\
-        [28/28] identity-floor identity floor  pass\n\
-        stamped 2.1.287  28 pass  0 fail\n";
+    const LIVE_PASS: &str = "[01/29] shim-resolution claude resolves  pass\n\
+        [02/29] spine-hooks spine hooks fire  pass\n\
+        [03/29] session-start-fields fields  pass\n\
+        [04/29] prompt-verbatim prompt  pass\n\
+        [05/29] stop-message message  pass\n\
+        [06/29] largest-hook-payload payload  pass\n\
+        [07/29] modal-signature modal  pass\n\
+        [08/29] input-box-signature input box  pass\n\
+        [09/29] quiet-period quiet  pass\n\
+        [10/29] confirm-window window  pass\n\
+        [11/29] question-answer question  pass\n\
+        [12/29] plan-approve-revise plan  pass\n\
+        [13/29] question-notes notes  pass\n\
+        [14/29] dialog-concurrency concurrency  pass\n\
+        [15/29] long-paste-wrapper wrapper  pass\n\
+        [16/29] tag-escaping escaping  pass\n\
+        [17/29] local-command-clear clear  pass\n\
+        [18/29] paste-newline newline  pass\n\
+        [19/29] resume-session resume  pass\n\
+        [20/29] agents-join join  pass\n\
+        [21/29] local-command-compact compact  pass\n\
+        [22/29] local-command-echo echo  pass\n\
+        [23/29] trust-record trust  pass\n\
+        [24/29] browser-tools-prompt browser tools  absent\n\
+        [25/29] local-command-context context  pass\n\
+        [26/29] stop-session-crons crons  pass\n\
+        [27/29] permission-request-question question permission  pass\n\
+        [28/29] identity-floor identity floor  pass\n\
+        [29/29] cross-session-prefix cross session  pass\n\
+        stamped 2.1.287  29 pass  0 fail\n";
 
     /// `LIVE_PASS` without the step line of `row`.
     fn without(row: &str) -> String {
@@ -1050,26 +1052,28 @@ mod tests {
         (out, calls)
     }
 
-    /// The live proof reads every relied row, all twenty-eight, the identity-floor row last, after
-    /// the resume, agents, compact, echo, trust-record, browser-tools, context, session-crons and
-    /// permission-question rows; it counts `absent` on the browser-tools row alone.
+    /// The live proof reads every relied row, all twenty-nine, the cross-session-prefix row last,
+    /// after the resume, agents, compact, echo, trust-record, browser-tools, context,
+    /// session-crons, permission-question and identity-floor rows; it counts `absent` on the
+    /// browser-tools row alone.
     #[test]
     fn run_local_live_reads_the_relied_rows() {
-        assert_eq!(LEDGER_ROWS.len(), 28);
+        assert_eq!(LEDGER_ROWS.len(), 29);
         assert_eq!(LEDGER_ROWS[17], "paste-newline");
-        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 10], "resume-session");
-        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 9], "agents-join");
-        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 8], "local-command-compact");
-        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 7], "local-command-echo");
-        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 6], "trust-record");
-        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 5], "browser-tools-prompt");
-        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 4], "local-command-context");
-        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 3], "stop-session-crons");
+        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 11], "resume-session");
+        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 10], "agents-join");
+        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 9], "local-command-compact");
+        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 8], "local-command-echo");
+        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 7], "trust-record");
+        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 6], "browser-tools-prompt");
+        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 5], "local-command-context");
+        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 4], "stop-session-crons");
         assert_eq!(
-            LEDGER_ROWS[LEDGER_ROWS.len() - 2],
+            LEDGER_ROWS[LEDGER_ROWS.len() - 3],
             "permission-request-question"
         );
-        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 1], "identity-floor");
+        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 2], "identity-floor");
+        assert_eq!(LEDGER_ROWS[LEDGER_ROWS.len() - 1], "cross-session-prefix");
         assert_eq!(LIVE_PASS.lines().count(), LEDGER_ROWS.len() + 1);
         assert!(live_rows_pass(LIVE_PASS));
         assert!(!live_rows_pass(&without(

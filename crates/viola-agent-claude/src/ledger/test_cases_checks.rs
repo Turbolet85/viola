@@ -99,6 +99,7 @@ fn check_typed_rows_fail_without_a_measurement() {
         LedgerRow::LocalCommandEcho,
         LedgerRow::TrustRecord,
         LedgerRow::LocalCommandContext,
+        LedgerRow::CrossSessionPrefix,
     ] {
         assert!(!typed_check(row, TypedRun::default()), "{}", row.id());
     }
@@ -107,7 +108,8 @@ fn check_typed_rows_fail_without_a_measurement() {
         eight,
         [
             true, true, true, true, true, true, false, false, false, false, true, true, true, true,
-            true, true, true, true, true, true, false, false, false, true, false, true, true, true
+            true, true, true, true, true, true, false, false, false, true, false, true, true, true,
+            false
         ]
     );
 }
@@ -893,4 +895,145 @@ fn env_reading_of_another_shape_reads_unread(#[case] doc: Value) {
     let reading = env_reading(Some(&doc), &[]);
     assert_eq!(reading, EnvReading::default());
     assert_eq!(env_variant(&reading), None);
+}
+
+/// The cross-session row's check over Run B's captures and a typed run whose cross-session turn
+/// is `run`.
+fn cross_check(trusted: Vec<Capture>, run: Option<CrossSessionRun>) -> bool {
+    let probes = Probes {
+        typed: TypedRun {
+            cross_session: run,
+            ..clean_typed()
+        },
+        trusted,
+        ..probes(&clean_run())
+    };
+    check(LedgerRow::CrossSessionPrefix, &probes)
+}
+
+#[test]
+fn cross_session_prefix_passes_on_a_prefixed_arrival() {
+    assert!(cross_check(clean_trusted(), Some(clean_cross_session())));
+    let plain = with_trusted(|t| {
+        t[12] = prompted(&CROSS_ARRIVAL.replacen("<\\cross", "<cross", 1));
+    });
+    assert!(
+        cross_check(plain, Some(clean_cross_session())),
+        "the unescaped tag"
+    );
+    let probes = probes(&clean_run());
+    assert_eq!(
+        cross_session_reading(&probes.trusted, &probes.typed),
+        ("harness", Some("cross-session-escaped"))
+    );
+}
+
+#[rstest]
+#[case::not_run(clean_trusted(), None, "not-run")]
+#[case::no_prefix(
+    with_trusted(|t| t[12] = prompted(CROSS_SESSION_TEXT)),
+    Some(clean_cross_session()),
+    "unprefixed"
+)]
+#[case::no_prompt(
+    with_trusted(|t| { t.remove(12); }),
+    Some(clean_cross_session()),
+    "no-prompt"
+)]
+#[case::sender_failed(
+    clean_trusted(),
+    Some(CrossSessionRun { sender: SenderEnd::Failed, ..clean_cross_session() }),
+    "sender-failed"
+)]
+#[case::sender_deadline(
+    clean_trusted(),
+    Some(CrossSessionRun { sender: SenderEnd::Deadline, ..clean_cross_session() }),
+    "sender-deadline"
+)]
+fn cross_session_prefix_fails_when(
+    #[case] trusted: Vec<Capture>,
+    #[case] run: Option<CrossSessionRun>,
+    #[case] outcome: &str,
+) {
+    let typed = TypedRun {
+        cross_session: run.clone(),
+        ..clean_typed()
+    };
+    assert_eq!(cross_session_reading(&trusted, &typed), (outcome, None));
+    assert!(!cross_check(trusted, run));
+}
+
+/// The sender's words decide nothing: a send its tool read refused still passes on a prefixed
+/// arrival, and a delivered one still fails on none.
+#[test]
+fn cross_session_prefix_reads_the_arrival_never_the_sender_words() {
+    let refused = CrossSessionRun {
+        sender_tools: vec![ToolWord::Search],
+        send_result: Some(ResultWord::Refused),
+        ..clean_cross_session()
+    };
+    assert!(cross_check(clean_trusted(), Some(refused)));
+    let none = with_trusted(|t| {
+        t.remove(12);
+    });
+    assert!(!cross_check(none, Some(clean_cross_session())));
+}
+
+#[test]
+fn sender_words_read_the_pre_words_once_each_and_the_first_post_result() {
+    let docs = [
+        json!({"v": 1, "event": "pre", "tool": "search", "result": null}),
+        json!({"v": 1, "event": "pre", "tool": "send", "result": null}),
+        json!({"v": 1, "event": "pre", "tool": "search", "result": null}),
+        json!({"v": 1, "event": "post", "tool": "send", "result": "refused"}),
+        json!({"v": 1, "event": "post", "tool": "send", "result": "delivered"}),
+        json!({"v": 1, "event": "pre", "tool": "a-new-word", "result": null}),
+        json!("not an object"),
+    ];
+    assert_eq!(
+        sender_words(&docs),
+        (
+            vec![ToolWord::Search, ToolWord::Send],
+            Some(ResultWord::Refused)
+        )
+    );
+    assert_eq!(sender_words(&[]), (Vec::new(), None));
+}
+
+#[rstest]
+#[case::runtime_dir("/run/user/1000".to_owned(), Some("uds:/run/user/1000/cc-socks/4242.sock".to_owned()))]
+#[case::trailing_slash("/run/user/1000/".to_owned(), Some("uds:/run/user/1000/cc-socks/4242.sock".to_owned()))]
+#[case::relative("run/user/1000".to_owned(), None)]
+#[case::a_space("/run/user/a b".to_owned(), None)]
+#[case::a_parent_component("/run/user/../x".to_owned(), None)]
+#[case::a_control_byte("/run/a\nb".to_owned(), None)]
+#[case::at_the_cli_bound(
+    format!("/{}", "a".repeat(83)),
+    Some(format!("uds:/{}/cc-socks/4242.sock", "a".repeat(83)))
+)]
+#[case::over_the_cli_bound(format!("/{}", "a".repeat(84)), None)]
+fn uds_address_composes_the_cli_socket_name(
+    #[case] runtime: String,
+    #[case] expected: Option<String>,
+) {
+    assert_eq!(uds_address(std::ffi::OsStr::new(&runtime), 4242), expected);
+}
+
+#[test]
+fn sender_prompt_holds_the_address_between_its_compiled_parts() {
+    let address = "uds:/run/user/1000/cc-socks/4242.sock";
+    let prompt = sender_prompt(address).expect("a socket address");
+    assert_eq!(
+        prompt,
+        format!("{CROSS_SESSION_SENDER_HEAD}{address}{CROSS_SESSION_SENDER_TAIL}")
+    );
+    assert!(prompt.contains(CROSS_SESSION_TEXT));
+    assert!(prompt.is_ascii() && !prompt.contains('<') && !prompt.contains('>'));
+    assert_eq!(sender_prompt("3f2b9c1e-7a4d-4e8b-9c0f-1d2e3a4b5c6d"), None);
+    assert_eq!(sender_prompt("/run/user/1000/cc-socks/4242.sock"), None);
+    assert_eq!(sender_prompt("uds:/run/user/a b/cc-socks/4242.sock"), None);
+    assert_eq!(
+        CROSS_SESSION_SETTINGS,
+        r#"{"crossSessionInbound":"accept"}"#
+    );
 }

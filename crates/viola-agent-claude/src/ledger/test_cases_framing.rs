@@ -1,7 +1,7 @@
 use super::*;
 
 #[test]
-fn framing_variants_name_the_three_prompts_and_the_hooks_the_local_command_fired() {
+fn framing_variants_name_the_three_prompts_the_arrival_and_the_hooks_the_local_command_fired() {
     let trusted = clean_trusted();
     let named: Vec<(&str, &Capture)> = framing_variants(&trusted);
     let at: Vec<(&str, usize)> = named
@@ -21,10 +21,12 @@ fn framing_variants_name_the_three_prompts_and_the_hooks_the_local_command_fired
             ("paste-2", 5),
             ("paste-3", 7),
             ("compact-1", 9),
+            ("cross-session-1", 12),
             ("clear-1", 10),
             ("clear-1", 11)
         ]
     );
+    assert_eq!(trusted[12].event, HookEvent::UserPromptSubmit);
     assert_eq!(trusted[9].event, HookEvent::SessionStart);
     assert_eq!(trusted[10].event, HookEvent::SessionEnd);
     assert_eq!(trusted[11].event, HookEvent::SessionStart);
@@ -33,7 +35,14 @@ fn framing_variants_name_the_three_prompts_and_the_hooks_the_local_command_fired
     let stems: Vec<&str> = framing_variants(&no_end).iter().map(|v| v.0).collect();
     assert_eq!(
         stems,
-        ["paste-1", "paste-2", "paste-3", "compact-1", "clear-1"]
+        [
+            "paste-1",
+            "paste-2",
+            "paste-3",
+            "compact-1",
+            "cross-session-1",
+            "clear-1"
+        ]
     );
     let no_compact = with_trusted(|t| {
         t.remove(9);
@@ -41,7 +50,14 @@ fn framing_variants_name_the_three_prompts_and_the_hooks_the_local_command_fired
     let stems: Vec<&str> = framing_variants(&no_compact).iter().map(|v| v.0).collect();
     assert_eq!(
         stems,
-        ["paste-1", "paste-2", "paste-3", "clear-1", "clear-1"]
+        [
+            "paste-1",
+            "paste-2",
+            "paste-3",
+            "cross-session-1",
+            "clear-1",
+            "clear-1"
+        ]
     );
     let echoed = vec![
         session_start("startup", "s-1"),
@@ -60,8 +76,20 @@ fn framing_variants_name_the_three_prompts_and_the_hooks_the_local_command_fired
         .iter()
         .map(|v| v.0)
         .collect();
-    assert_eq!(stems, ["paste-1", "paste-2", "clear-1", "clear-1"]);
+    assert_eq!(
+        stems,
+        [
+            "paste-1",
+            "paste-2",
+            "cross-session-1",
+            "clear-1",
+            "clear-1"
+        ]
+    );
     assert!(framing_variants(&[]).is_empty());
+    let unprefixed = with_trusted(|t| t[12] = prompted(CROSS_SESSION_TEXT));
+    let stems: Vec<&str> = framing_variants(&unprefixed).iter().map(|v| v.0).collect();
+    assert!(!stems.contains(&"cross-session-1"), "{stems:?}");
 }
 
 /// The paste texts are the bytes the live probe pasted, rebuilt here from their parts.

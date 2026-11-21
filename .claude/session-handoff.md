@@ -46,3 +46,6 @@
 - **Host:** python `yaml` absent; PATH's claude 2.1.329 (mise), 2.1.328 by path, the live home also stamped 2.1.330;
   `bwrap` 0.13.1; Hyprland 0.56.2. The host's own Claude sessions rewrite `~/.claude.json` about once a minute.
 - **Last failed command:** none.
+
+## Session End Status
+Completed normally at 2026-11-21 18:28:56

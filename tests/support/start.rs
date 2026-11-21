@@ -19,7 +19,7 @@ use super::piped::Piped;
 use super::watch::{WITHIN, Watch};
 
 /// The session id the committed 2.1.328 `SessionStart.default` payload carries.
-pub const FIXTURE_SESSION: &str = "be8c67ee-c51d-4774-9266-72cb13f79c80";
+pub const FIXTURE_SESSION: &str = "4e678ce3-c94d-472b-92ab-9734c27f57dc";
 
 /// The complete lines of `builder`'s run role file.
 pub fn role_lines(home: &Path) -> Vec<Value> {

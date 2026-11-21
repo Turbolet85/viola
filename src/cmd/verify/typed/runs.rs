@@ -8,7 +8,7 @@ use std::sync::mpsc;
 
 use viola_agent_claude::hook::HookEvent;
 use viola_agent_claude::ledger::{
-    self, AgentsCapture, DIALOG_PROMPT_PARALLEL, DIALOG_PROMPT_PERMISSION,
+    self, AgentsCapture, CROSS_SESSION_SETTINGS, DIALOG_PROMPT_PARALLEL, DIALOG_PROMPT_PERMISSION,
     DIALOG_PROMPT_PERMISSION_QUESTION, DIALOG_PROMPT_QUESTIONS, DIALOG_SETTINGS, PLAN_PROMPT,
     TypedRun,
 };
@@ -21,7 +21,8 @@ use super::Inputs;
 use super::pty::KeyPipe;
 use super::run::{First, Run};
 use super::turns::{
-    agents_read, count_of, framing_turns, guard, ms, probe_until, turn, wait_capture, wait_for,
+    RunBEnd, agents_read, count_of, framing_turns, guard, ms, probe_until, turn, wait_capture,
+    wait_for,
 };
 use crate::trust_record;
 
@@ -46,8 +47,9 @@ pub(super) fn untrusted_run(
     Ok(())
 }
 
-/// Run B: the settled input box, one typed turn, the agents read once that turn settled, the six
-/// framing pastes, then Ctrl-C.
+/// Run B: the settled input box, one typed turn, the agents read once that turn settled, the
+/// framing pastes and the cross-session turn, then Ctrl-C (a kill with no key when the
+/// cross-session turn left no input box up).
 pub(super) fn trusted_run(
     clock: &Arc<dyn Clock>,
     inputs: &Inputs<'_>,
@@ -84,25 +86,24 @@ pub(super) fn trusted_run(
         .is_some()
         .then(|| agents_read(&run, inputs, &trusted.0))
         .flatten();
-    typed.compact_latency_ms = framing_turns(
-        &run,
-        inputs.trusted.captures,
-        typed.turn.clone(),
-        &mut typed.long_turn,
-        &mut box_only,
-        &mut typed.echo_latency_ms,
-        &mut typed.context_latency_ms,
-    );
+    let end = framing_turns(&run, inputs, typed, &mut box_only);
     typed.box_only_guards = Some(box_only);
-    keep(typed, 1, run.end_by_ctrl_c(&keys));
+    // A cross-session turn that left no input box up is never answered with a key: a held message's
+    // approval may stand there.
+    let first = match end {
+        RunBEnd::CtrlC => run.end_by_ctrl_c(&keys),
+        RunBEnd::Kill => run.end_by_kill(),
+    };
+    keep(typed, 1, first);
     drop(keys);
     drop(trusted);
     Ok(agents)
 }
 
-/// Run B's arguments: the run's own, then its plugin dir.
+/// Run B's arguments: the run's own, its one settings document, then its plugin dir.
 fn trusted_args(args: &[OsString], inputs: &Inputs<'_>) -> Vec<OsString> {
     let mut args = args.to_vec();
+    args.extend([SETTINGS_FLAG, CROSS_SESSION_SETTINGS].map(OsString::from));
     args.push(PLUGIN_DIR_FLAG.into());
     args.push(inputs.trusted.plugin.as_os_str().to_owned());
     args

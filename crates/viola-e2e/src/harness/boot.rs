@@ -308,6 +308,13 @@ fn start(opts: &BootOptions) -> Result<Outcome, HarnessError> {
 /// the document; the exit code on failure.
 fn stamp(opts: &BootOptions, home: &Path, session_bin: &Path) -> Result<(), Option<i32>> {
     let user = session_user(home).map_err(|_| None)?;
+    // The runtime dir verify composes Run B's socket address from: a short owner-only dir the
+    // stamp owns for its life, so the stamp reads alike under `pre-push`'s `env -i`, where none is
+    // set. Nothing binds in it: the fake sender resolves its target by the address alone.
+    let runtime = tempfile::Builder::new()
+        .prefix("vr-")
+        .tempdir_in("/tmp")
+        .map_err(|_| None)?;
     let mut verify = Command::new(exe(&opts.bin_dir, "viola"));
     if opts.tied {
         tie_to_caller(&mut verify, libc::SIGTERM);
@@ -332,6 +339,7 @@ fn stamp(opts: &BootOptions, home: &Path, session_bin: &Path) -> Result<(), Opti
         .arg(user.join(CLAUDE_CONFIG))
         .env("PATH", session_path(session_bin))
         .env("HOME", &user)
+        .env("XDG_RUNTIME_DIR", runtime.path())
         .stdin(Stdio::null())
         .stderr(Stdio::null())
         .output()

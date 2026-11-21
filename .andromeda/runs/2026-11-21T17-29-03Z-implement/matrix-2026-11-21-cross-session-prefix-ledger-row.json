@@ -1,0 +1,49 @@
+[
+{
+"tool": "matrix",
+"v": "1.13",
+"sha8": "bd105b74",
+"ts": "2026-11-21T17:45:00Z",
+"argv": [
+"implement",
+"--dir",
+"viola-0.2.0",
+"--chunk",
+"2026-11-21-cross-session-prefix-ledger-row",
+"--id",
+"v2-25",
+"--ref-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-21T17-29-03Z-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"implement v2-25 · status planned → implemented · ref live XS-2 (viola-live-rig live XS-2 --cli 2.1.328 --cap 2 --spare 1; evidence/li… (394 chars)",
+"landed, rendered ./.andromeda/db/log/2026-11-21T11-33-00-2026-11-21-cross-session-prefix-ledger-row.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T11-33-00-2026-11-21-cross-session-prefix-ledger-row.ndjson"
+],
+"before": {
+"id": "v2-25",
+"chunk": "2026-11-21-cross-session-prefix-ledger-row",
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "verify's relied ledger row `cross-session-prefix` reads `pass` on claude 2.1.328 live in the rig's scratch home: `XS-2` … (1058 chars)",
+"notes_chars": 1156
+},
+"after": {
+"id": "v2-25",
+"chunk": "2026-11-21-cross-session-prefix-ledger-row",
+"status": "implemented",
+"method": "e2e",
+"ref": "live XS-2 (viola-live-rig live XS-2 --cli 2.1.328 --cap 2 --spare 1; evidence/live-round.md, kept stamp target/live-rig/… (394 chars)",
+"acceptance": "verify's relied ledger row `cross-session-prefix` reads `pass` on claude 2.1.328 live in the rig's scratch home: `XS-2` … (1058 chars)",
+"notes_chars": 1156
+}
+}
+]

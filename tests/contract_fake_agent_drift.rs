@@ -203,7 +203,10 @@ const DIALOG_STEMS: [&str; 5] = [
 ];
 
 /// The one step line a set recorded before the `question-permission` variants fails on.
-const QUESTION_ROW_FAILS: &str = "[27/28] permission-request-question a question raised by PermissionRequest takes the allow body  fail";
+const QUESTION_ROW_FAILS: &str = "[27/29] permission-request-question a question raised by PermissionRequest takes the allow body  fail";
+
+/// The one step line a set recorded before the cross-session arrival fails on.
+const CROSS_ROW_FAILS: &str = "[29/29] cross-session-prefix a message another session sends in opens with a harness prefix  fail";
 
 /// Whether `set` holds the `question-permission` variants the 27th row's probe replays.
 fn holds_question_permission(set: &Path) -> bool {
@@ -211,11 +214,24 @@ fn holds_question_permission(set: &Path) -> bool {
         .exists()
 }
 
-/// A framed set's verify exit: 0 on a set holding the `question-permission` variants; on any
-/// other, exit 1 with the 27th row's step line the one failing line and the summary `1 fail`.
+/// Whether `set` holds the cross-session arrival the 29th row's probe replays.
+fn holds_cross_session(set: &Path) -> bool {
+    set.join("UserPromptSubmit.cross-session-1.json").exists()
+}
+
+/// A framed set's verify exit: 0 on a set holding both the `question-permission` variants and the
+/// cross-session arrival; on any other, exit 1 with exactly the step lines of the rows the set
+/// lacks failing, and the summary's fail count that number.
 fn assert_framed_exit(set: &Path, version: &str, ran: &support::verify::Ran) {
     let stdout = ran.stdout_text();
-    if holds_question_permission(set) {
+    let mut lacking = Vec::new();
+    if !holds_question_permission(set) {
+        lacking.push(QUESTION_ROW_FAILS);
+    }
+    if !holds_cross_session(set) {
+        lacking.push(CROSS_ROW_FAILS);
+    }
+    if lacking.is_empty() {
         assert_eq!(ran.code, Some(0), "{version}: verify exit\n{stdout}");
         return;
     }
@@ -224,9 +240,10 @@ fn assert_framed_exit(set: &Path, version: &str, ran: &support::verify::Ran) {
         .lines()
         .filter(|l| l.starts_with('[') && l.ends_with("  fail"))
         .collect();
-    assert_eq!(failing, [QUESTION_ROW_FAILS], "{version}: failing steps");
+    assert_eq!(failing, lacking, "{version}: failing steps");
+    let summary = format!("{} pass  {} fail", 29 - lacking.len(), lacking.len());
     assert!(
-        stdout.lines().any(|l| l.ends_with("27 pass  1 fail")),
+        stdout.lines().any(|l| l.ends_with(&summary)),
         "{version}: summary\n{stdout}"
     );
 }
@@ -253,7 +270,9 @@ fn dialog_replay(set: &Path) -> Vec<(String, Vec<u8>)> {
 }
 
 /// What drifted between a receipt's dialog-tier `hook` lines and the set's recorded replay: each
-/// position whose event or stdin bytes differ, then `count` when the lengths differ.
+/// position whose event or stdin bytes differ, then `count` when the lengths differ. The print-mode
+/// sender's two synthetic hooks (Run B's cross-session turn, before the dialog runs) are no part of
+/// the dialog tier: a hook whose payload names the send tool is left out.
 fn dialog_drift(set: &Path, receipt: &[Value]) -> Vec<String> {
     let expected = dialog_replay(set);
     let sent: Vec<(String, Vec<u8>)> = of_kind(receipt, "hook")
@@ -266,6 +285,7 @@ fn dialog_drift(set: &Path, receipt: &[Value]) -> Vec<String> {
                 h["stdin_hex"].as_str().map(unhex).unwrap_or_default(),
             )
         })
+        .filter(|(_, bytes)| !names_the_send_tool(bytes))
         .collect();
     let mut drifted: Vec<String> = expected
         .iter()
@@ -279,6 +299,11 @@ fn dialog_drift(set: &Path, receipt: &[Value]) -> Vec<String> {
         drifted.push("count".to_owned());
     }
     drifted
+}
+
+/// Whether a hook payload's `tool_name` is the send tool (a test literal): the fake sender's own.
+fn names_the_send_tool(bytes: &[u8]) -> bool {
+    serde_json::from_slice::<Value>(bytes).is_ok_and(|v| v["tool_name"] == "SendMessage")
 }
 
 /// Every set recorded with its dialog tier replays it byte for byte: `viola verify` against the

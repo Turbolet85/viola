@@ -17,9 +17,10 @@ use std::time::Duration;
 
 use serde_json::{Value, json};
 use viola_agent_claude::ledger::{
-    ECHO_TAG, ENV_RECORDED, PROBE_COMPACT_COMMAND, PROBE_CONTEXT_COMMAND, PROBE_ECHO_COMMAND,
-    PROBE_LOCAL_COMMAND, PROBE_LONG_PASTE, PROBE_TAG_PASTE, PostCondition, dialog_stem,
-    framing_stem, local_command_of,
+    CROSS_SESSION_SENDER_HEAD, CROSS_SESSION_SENDER_TAIL, CROSS_SESSION_SETTINGS,
+    CROSS_SESSION_STEM, ECHO_TAG, ENV_RECORDED, PROBE_COMPACT_COMMAND, PROBE_CONTEXT_COMMAND,
+    PROBE_ECHO_COMMAND, PROBE_LOCAL_COMMAND, PROBE_LONG_PASTE, PROBE_TAG_PASTE, PostCondition,
+    SEND_TOOL, dialog_stem, framing_stem, local_command_of,
 };
 use viola_core::MAX_FRAME;
 use viola_state::liveness::{process_start_time, start_times};
@@ -73,6 +74,12 @@ const FAKE_ARGS: &str = "fake-args";
 const AGENTS_ROWS: &str = "agents-rows.json";
 /// Beside the executable: one `<pid>.json` row per live interactive fake agent.
 const SESSIONS: &str = "sessions";
+/// Beside the executable: one empty `<pid>` per cross-session message the fake sender delivered
+/// to the interactive fake agent of that pid, and one empty `<pid>.listening` per agent whose
+/// receiver polls for it.
+const INBOX: &str = "inbox";
+/// The suffix of a receiving agent's marker in [`INBOX`].
+const LISTENING: &str = "listening";
 /// Beside the executable, under `--transcript`: one `<session_id>.jsonl` per session it started.
 const TRANSCRIPTS: &str = "transcripts";
 /// The value a SessionStart hook child is given for each name the set's recorded env variant
@@ -122,6 +129,11 @@ struct Opts {
     paste_hint: Option<Duration>,
     tag_turn_screen: Option<String>,
     long_turn_screen: Option<String>,
+    /// `--cross-session-turn-screen <phase>` (argv only): the cross-session turn ends on that
+    /// phase's screen in place of `turn`.
+    cross_session_turn_screen: Option<String>,
+    /// `--settings <document>`: read only to tell `CROSS_SESSION_SETTINGS` apart.
+    settings: Option<String>,
     /// `--turn-fail <variant>` (argv only, read beside `--turn-stop`): a submitted turn ends with
     /// the set's `StopFailure.<variant>` in place of `Stop.default`.
     turn_fail: Option<String>,
@@ -184,6 +196,7 @@ impl Opts {
                         .map(|ms| Duration::from_millis(ms.min(PASTE_HINT_CAP_MS)));
                 }
                 "--tag-turn-screen" => o.tag_turn_screen = value(),
+                "--cross-session-turn-screen" => o.cross_session_turn_screen = value(),
                 "--long-turn-screen" => o.long_turn_screen = value(),
                 "--turn-fail" => o.turn_fail = value(),
                 "--settings-hooks" => o.settings_hooks = value().map(PathBuf::from),
@@ -201,15 +214,19 @@ impl Opts {
                         .and_then(|v| v.parse::<u64>().ok())
                         .map(|ms| Duration::from_millis(ms.min(WAKE_AFTER_CAP_MS)));
                 }
-                // `viola verify`'s dialog runs hand over their probe settings; nothing reads them.
-                "--settings" => {
-                    value();
-                }
+                // `viola verify`'s runs hand over their probe settings; only Run B's accept literal
+                // is read, to start the inbox receiver.
+                "--settings" => o.settings = value(),
                 HOLD_STDOUT => o.hold_stdout = true,
                 _ => {}
             }
         }
         o
+    }
+
+    /// Whether the inbox receiver runs: `--framing` with Run B's accept settings, and nothing else.
+    fn receives_cross_session(&self) -> bool {
+        self.framing && self.settings.as_deref() == Some(CROSS_SESSION_SETTINGS)
     }
 
     fn cli_version(&self) -> &str {
@@ -1031,6 +1048,10 @@ fn start_receipts(agent: &Agent) {
             "cli_version": agent.opts.cli_version(),
             "started_at": started_at,
             "plugin_dir": plugin_dir,
+            "settings": agent.opts.settings,
+            "print": agent.opts.print.is_some(),
+            "pid": std::process::id(),
+            "prompt": agent.opts.print,
         }),
     );
     let cwd = std::env::current_dir().map(|d| d.to_string_lossy().into_owned());
@@ -1122,6 +1143,116 @@ fn print_turn(agent: &Agent, prompt: &str) {
     agent.fire("Stop", "default", &[]);
     agent.fire("SessionEnd", "default", &[]);
     println!("ok");
+}
+
+/// The fake print-mode sender (`-p` opening `CROSS_SESSION_SENDER_HEAD`): resolves its target by
+/// the uds address it is given (`uds:<absolute dir>/cc-socks/<pid>.sock`, the pid a live process
+/// sharing this one's parent), runs its plugin's PreToolUse then PostToolUse hooks for the send tool
+/// with SYNTHETIC compiled payloads, leaves one empty owner-only `<exe dir>/inbox/<that pid>` and
+/// exits 0. It reads no environment variable. An address of another shape, a pid that is no
+/// sibling, a target with no receiver listening (`<pid>.listening`), or a set holding no
+/// `UserPromptSubmit.cross-session-1.json`: exit 1, nothing written, no hook run.
+fn send_cross_session(agent: &Agent, prompt: &str, dir: &Path) -> ExitCode {
+    let address = prompt
+        .strip_prefix(CROSS_SESSION_SENDER_HEAD)
+        .and_then(|rest| rest.strip_suffix(CROSS_SESSION_SENDER_TAIL));
+    let target = address.and_then(|address| {
+        agent.fixture("UserPromptSubmit", CROSS_SESSION_STEM)?;
+        let pid = agents::sibling_by_address(address)?;
+        dir.join(INBOX)
+            .join(format!("{pid}.{LISTENING}"))
+            .is_file()
+            .then_some((address, pid))
+    });
+    let Some((id, pid)) = target else {
+        return ExitCode::from(1);
+    };
+    let hooks = agent
+        .opts
+        .plugin_dir
+        .as_ref()
+        .and_then(|d| fs::read_to_string(d.join("hooks").join("hooks.json")).ok())
+        .unwrap_or_default();
+    let pre = json!({
+        "hook_event_name": "PreToolUse",
+        "tool_name": SEND_TOOL,
+        "tool_input": {"to": id, "message": "synthetic fake-agent send"},
+    });
+    let post = json!({
+        "hook_event_name": "PostToolUse",
+        "tool_name": SEND_TOOL,
+        "tool_input": {"to": id, "message": "synthetic fake-agent send"},
+        "tool_response": {"success": true},
+    });
+    for (event, body) in [("PreToolUse", pre), ("PostToolUse", post)] {
+        let body = body.to_string().into_bytes();
+        for (command, args) in hook_commands(&hooks, event, Some(SEND_TOOL)) {
+            agent.run_hook(event, &command, &args, &body);
+        }
+    }
+    let inbox = dir.join(INBOX);
+    let delivered = fs::DirBuilder::new()
+        .recursive(true)
+        .mode(0o700)
+        .create(&inbox)
+        .and_then(|()| {
+            OpenOptions::new()
+                .write(true)
+                .create(true)
+                .truncate(true)
+                .mode(0o600)
+                .open(inbox.join(pid.to_string()))
+        });
+    if delivered.is_err() {
+        return ExitCode::from(1);
+    }
+    println!("ok");
+    ExitCode::SUCCESS
+}
+
+/// Under `--framing` and Run B's accept settings ([`Opts::receives_cross_session`]): marks
+/// `<inbox>/<own pid>.listening`, polls `<inbox>/<own pid>` until the fake sender leaves it,
+/// removes both, fires the set's `UserPromptSubmit.cross-session-1` as recorded and, under
+/// `--turn-stop`, ends the turn on `--cross-session-turn-screen`'s phase (else `turn`). Once only;
+/// it stops when the agent starts exiting.
+fn receive_cross_session(agent: &Agent, inbox: &Path) {
+    let pid = std::process::id();
+    let (path, listening) = (
+        inbox.join(pid.to_string()),
+        inbox.join(format!("{pid}.{LISTENING}")),
+    );
+    let listens = fs::DirBuilder::new()
+        .recursive(true)
+        .mode(0o700)
+        .create(inbox)
+        .and_then(|()| {
+            OpenOptions::new()
+                .write(true)
+                .create(true)
+                .truncate(true)
+                .mode(0o600)
+                .open(&listening)
+        });
+    if listens.is_err() {
+        return;
+    }
+    loop {
+        if *agent.hooks.lock().unwrap_or_else(PoisonError::into_inner) {
+            let _ = fs::remove_file(&listening);
+            return;
+        }
+        if fs::remove_file(&path).is_ok() {
+            let _ = fs::remove_file(&listening);
+            agent.fire("UserPromptSubmit", CROSS_SESSION_STEM, &[]);
+            if agent.opts.turn_stop {
+                agent.fire("Stop", "default", &[]);
+                let phase = agent.opts.cross_session_turn_screen.as_deref();
+                write_screen(&agent.opts, phase.unwrap_or("turn"));
+            }
+            return;
+        }
+        std::thread::sleep(CONTROL_POLL);
+    }
 }
 
 /// U+4E2D, a wide character, once on the terminal: at one column vt100 panics on it (the measured
@@ -1367,6 +1498,13 @@ fn main() -> ExitCode {
     }
     if let Some(prompt) = opts.print.clone() {
         let agent = Agent::new(opts);
+        if prompt.starts_with(CROSS_SESSION_SENDER_HEAD) {
+            start_receipts(&agent);
+            return match exe_dir() {
+                Some(dir) => send_cross_session(&agent, &prompt, &dir),
+                None => ExitCode::from(1),
+            };
+        }
         print_turn(&agent, &prompt);
         return ExitCode::SUCCESS;
     }
@@ -1409,6 +1547,13 @@ fn main() -> ExitCode {
     // The real CLI fires SessionStart at launch; with no registered hook or no fixture, nothing runs.
     if trusted {
         launch(&agent);
+    }
+    if let Some(inbox) = exe_dir()
+        .map(|dir| dir.join(INBOX))
+        .filter(|_| agent.opts.receives_cross_session())
+    {
+        let receiver = Arc::clone(&agent);
+        std::thread::spawn(move || receive_cross_session(&receiver, &inbox));
     }
     if let Some(after) = agent.opts.wake_after {
         let (trigger, fired) = mpsc::channel();

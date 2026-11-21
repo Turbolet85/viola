@@ -205,7 +205,17 @@ fn fake_agent_receipt_env_holds_names_never_values() {
         .collect();
     assert_eq!(
         keys,
-        ["v", "kind", "cli_version", "started_at", "plugin_dir"]
+        [
+            "v",
+            "kind",
+            "cli_version",
+            "started_at",
+            "plugin_dir",
+            "settings",
+            "print",
+            "pid",
+            "prompt"
+        ]
     );
     assert_eq!(start["cli_version"], fake::RECORDED_CLI_VERSION);
     assert!(

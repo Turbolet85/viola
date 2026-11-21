@@ -1,7 +1,7 @@
 use super::*;
 
 #[test]
-fn ledger_rows_are_the_twenty_eight_measured_behaviours_in_order() {
+fn ledger_rows_are_the_twenty_nine_measured_behaviours_in_order() {
     let ids: Vec<&str> = LedgerRow::ALL.iter().map(|r| r.id()).collect();
     assert_eq!(
         ids,
@@ -34,6 +34,7 @@ fn ledger_rows_are_the_twenty_eight_measured_behaviours_in_order() {
             "stop-session-crons",
             "permission-request-question",
             "identity-floor",
+            "cross-session-prefix",
         ]
     );
     let words: Vec<&str> = LedgerRow::ALL.iter().map(|r| r.words()).collect();
@@ -68,6 +69,7 @@ fn ledger_rows_are_the_twenty_eight_measured_behaviours_in_order() {
             "Stop carries session_crons as an array",
             "a question raised by PermissionRequest takes the allow body",
             "every CLAUDE name the CLI adds to a hook is a known name",
+            "a message another session sends in opens with a harness prefix",
         ]
     );
     assert!(words.iter().all(|w| w.is_ascii()));
@@ -77,9 +79,9 @@ fn ledger_rows_are_the_twenty_eight_measured_behaviours_in_order() {
 fn relied_rows_are_every_row_in_order() {
     let here: Vec<&str> = LedgerRow::relied().into_iter().map(LedgerRow::id).collect();
     let all: Vec<&str> = LedgerRow::ALL.into_iter().map(LedgerRow::id).collect();
-    assert_eq!(here.len(), 28);
+    assert_eq!(here.len(), 29);
     assert_eq!(here, all);
-    assert_eq!(here.last(), Some(&"identity-floor"));
+    assert_eq!(here.last(), Some(&"cross-session-prefix"));
 }
 
 #[test]
@@ -200,7 +202,7 @@ fn capture_read_keeps_the_size_and_a_parsed_payload() {
 
 #[test]
 fn check_passes_every_row_on_a_clean_probe() {
-    assert_eq!(verdicts(&clean_run()), [true; 28]);
+    assert_eq!(verdicts(&clean_run()), [true; 29]);
 }
 
 #[test]
@@ -322,6 +324,7 @@ fn merge_stamp_writes_the_envelope_for_a_first_version() {
         &clean_typed(),
         &Readings {
             parallel_both_before_first_post: Some(false),
+            cross_session: ("harness", Some("cross-session")),
             ..Readings::default()
         },
         "2026-09-28T10:00:00.000Z",
@@ -352,6 +355,7 @@ fn merge_stamp_writes_the_envelope_for_a_first_version() {
                     "stop-session-crons": "pass",
                     "permission-request-question": "pass",
                     "identity-floor": "pass",
+                    "cross-session-prefix": "pass",
                 },
                 "measured": {
                     "largest_hook_payload": {"SessionStart": 120, "Stop": 90},
@@ -370,6 +374,10 @@ fn merge_stamp_writes_the_envelope_for_a_first_version() {
                     "first_facts": {"a": null, "b": null, "c": null, "d": null, "e": null, "f": null},
                     "env_probe": {
                         "read": false, "added": [], "unknown": [], "other_count": null, "unshaped": 0,
+                    },
+                    "cross_session_probe": {
+                        "outcome": "harness", "prefix": "cross-session", "latency_ms": 4100,
+                        "sender_tools": ["send"], "send_result": "delivered",
                     },
                 },
             }}},
@@ -424,6 +432,10 @@ fn merge_stamp_keeps_unknown_versions_and_fields_and_replaces_its_own() {
         "first_facts": {"a": null, "b": null, "c": null, "d": null, "e": null, "f": null},
         "env_probe": {
             "read": false, "added": [], "unknown": [], "other_count": null, "unshaped": 0,
+        },
+        "cross_session_probe": {
+            "outcome": "not-run", "prefix": null, "latency_ms": null,
+            "sender_tools": null, "send_result": null,
         }})
     );
     assert_eq!(verified(&bytes, "2.1.0"), Ok(false));
@@ -492,6 +504,50 @@ fn verified_needs_every_row_pass_under_that_version() {
         "t",
     );
     assert_eq!(verified(&short, "2.1.0"), Ok(false), "a missing row");
+}
+
+/// The cross-session block holds closed words and one number: a sender that left no file reads
+/// `none` for both words, and nothing else of the run reaches it.
+#[test]
+fn merge_stamp_writes_the_cross_session_block() {
+    let typed = TypedRun {
+        cross_session: Some(CrossSessionRun {
+            prompts_before: 4,
+            sender: SenderEnd::Exited,
+            latency_ms: None,
+            sender_tools: Vec::new(),
+            send_result: None,
+        }),
+        ..TypedRun::default()
+    };
+    let readings = Readings {
+        cross_session: ("no-prompt", None),
+        ..Readings::default()
+    };
+    let bytes = merge_stamp(None, "2.1.0", &all_pass(), &[], &typed, &readings, "t");
+    assert_eq!(
+        doc(&bytes)["data"]["versions"]["2.1.0"]["measured"]["cross_session_probe"],
+        json!({
+            "outcome": "no-prompt", "prefix": null, "latency_ms": null,
+            "sender_tools": "none", "send_result": "none",
+        })
+    );
+    let searched = TypedRun {
+        cross_session: Some(CrossSessionRun {
+            sender_tools: vec![ToolWord::Search, ToolWord::Send],
+            send_result: Some(ResultWord::Unread),
+            ..clean_cross_session()
+        }),
+        ..TypedRun::default()
+    };
+    let bytes = merge_stamp(None, "2.1.0", &all_pass(), &[], &searched, &readings, "t");
+    assert_eq!(
+        doc(&bytes)["data"]["versions"]["2.1.0"]["measured"]["cross_session_probe"],
+        json!({
+            "outcome": "no-prompt", "prefix": null, "latency_ms": 4100,
+            "sender_tools": ["search", "send"], "send_result": "unread",
+        })
+    );
 }
 
 /// A stamp written before the three framing rows holds the fourteen older ids alone, one written
@@ -596,6 +652,12 @@ fn verified_reads_a_fourteen_row_stamp_as_unverified() {
         "the twenty-seven rows before the identity-floor row"
     );
     stamp["data"]["versions"]["2.1.0"]["rows"]["identity-floor"] = json!("pass");
+    assert_eq!(
+        verified(stamp.to_string().as_bytes(), "2.1.0"),
+        Ok(false),
+        "the twenty-eight rows before the cross-session-prefix row"
+    );
+    stamp["data"]["versions"]["2.1.0"]["rows"]["cross-session-prefix"] = json!("pass");
     assert_eq!(verified(stamp.to_string().as_bytes(), "2.1.0"), Ok(true));
 }
 
@@ -807,7 +869,7 @@ fn verified_reads_a_stamp_holding_the_retired_row_on_the_relied_rows_alone() {
         .map(|row| (row.id().to_owned(), json!("pass")))
         .collect();
     rows.insert(retired.to_owned(), json!("fail"));
-    assert_eq!(rows.len(), 29);
+    assert_eq!(rows.len(), 30);
     let stamp = json!({"v": 1, "data": {"versions": {"2.1.0": {"rows": rows}}}});
     assert_eq!(verified(stamp.to_string().as_bytes(), "2.1.0"), Ok(true));
 }
@@ -844,7 +906,7 @@ fn verified_reads_a_stamp_holding_the_two_retired_rows_on_the_relied_rows_alone(
     for id in &retired {
         rows.insert(id.clone(), json!("fail"));
     }
-    assert_eq!(rows.len(), 30);
+    assert_eq!(rows.len(), 31);
     let stamp = json!({"v": 1, "data": {"versions": {"2.1.0": {"rows": rows}}}});
     assert_eq!(verified(stamp.to_string().as_bytes(), "2.1.0"), Ok(true));
 }
@@ -853,7 +915,7 @@ fn verified_reads_a_stamp_holding_the_two_retired_rows_on_the_relied_rows_alone(
 fn relied_rows_hold_no_retired_row() {
     let retired = retired_rows_of_the_fixture();
     let relied: Vec<&str> = LedgerRow::relied().into_iter().map(LedgerRow::id).collect();
-    assert_eq!(relied.len(), 28);
+    assert_eq!(relied.len(), 29);
     assert!(relied.iter().all(|id| !retired.iter().any(|r| r == id)));
 }
 
@@ -945,6 +1007,7 @@ fn verified_reads_a_stamp_of_the_23_pre_chunk_ids_as_unverified() {
                     | LedgerRow::StopSessionCrons
                     | LedgerRow::PermissionRequestQuestion
                     | LedgerRow::IdentityFloor
+                    | LedgerRow::CrossSessionPrefix
             )
         })
         .map(|r| (*r, true))
@@ -1020,13 +1083,13 @@ fn counts_reads_pass_and_absent_on_the_browser_tools_row_alone(
 }
 
 #[test]
-fn verified_reads_the_27_earlier_ids_unverified_and_the_28_verified() {
+fn verified_reads_the_28_earlier_ids_unverified_and_the_29_verified() {
     let earlier: Vec<(LedgerRow, bool)> = LedgerRow::ALL
         .iter()
-        .filter(|r| **r != LedgerRow::IdentityFloor)
+        .filter(|r| **r != LedgerRow::CrossSessionPrefix)
         .map(|r| (*r, true))
         .collect();
-    assert_eq!(earlier.len(), 27);
+    assert_eq!(earlier.len(), 28);
     let bytes = merge_stamp(
         None,
         "2.1.0",
@@ -1042,7 +1105,7 @@ fn verified_reads_the_27_earlier_ids_unverified_and_the_28_verified() {
         doc(&all)["data"]["versions"]["2.1.0"]["rows"]
             .as_object()
             .map(serde_json::Map::len),
-        Some(28)
+        Some(29)
     );
     assert_eq!(verified(&all, "2.1.0"), Ok(true));
 }

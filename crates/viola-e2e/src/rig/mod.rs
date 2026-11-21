@@ -75,7 +75,7 @@ const PROBE_NEEDLE: &str = "viola-probe-absent";
 /// The relied rows of verify's floor: every relied row but `trust-record`, `browser-tools-prompt`,
 /// `local-command-echo` and `local-command-context`, the last two needing a readable transcript a
 /// floor read does not assume; `stop-session-crons` reads the same Stop capture `stop-message` does.
-const FLOOR_ROWS: [&str; 24] = [
+const FLOOR_ROWS: [&str; 25] = [
     "shim-resolution",
     "spine-hooks",
     "session-start-fields",
@@ -100,6 +100,7 @@ const FLOOR_ROWS: [&str; 24] = [
     "stop-session-crons",
     "permission-request-question",
     "identity-floor",
+    "cross-session-prefix",
 ];
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -190,8 +191,8 @@ impl Arm {
     /// spare `CC-2`, the wake stamp `WS` alone, the fresh-box hint reading `HB` with its spare
     /// `HB-2`, the fired wake under the kept stamp `R3W` with its spare `R3W-2`, and the
     /// permission-question recording `PQ` with its spare `PQ-2`, the floor recording `HF` with its
-    /// spare `HF-2` and its conditional second base start `HG`, and the start's own verify `AV`
-    /// with its spare `AV-2`.
+    /// spare `HF-2` and its conditional second base start `HG`, the cross-session recording `XS`
+    /// with its second base start `XS-2`, and the start's own verify `AV` with its spare `AV-2`.
     pub fn of_label(label: &str) -> Option<Self> {
         match label {
             "R1" | "R1-2" => Some(Self::R1),
@@ -207,7 +208,7 @@ impl Arm {
             "S2" => Some(Self::TC),
             "BP" | "BP-2" => Some(Self::VP),
             "BK" => Some(Self::VK),
-            "R4" | "R4-2" | "PQ" | "PQ-2" | "HF" | "HF-2" | "HG" => Some(Self::VR),
+            "R4" | "R4-2" | "PQ" | "PQ-2" | "HF" | "HF-2" | "HG" | "XS" | "XS-2" => Some(Self::VR),
             "R4M" => Some(Self::MT),
             "L1" | "L1-2" => Some(Self::VH),
             "L2" | "CC" | "CC-2" => Some(Self::CX),
@@ -337,7 +338,7 @@ impl Arm {
 }
 
 /// The kept-stamp shape, by label, with the file under the out dir it carries: `CS`, `WS`, `PQ`,
-/// `HF` (its spare `HF-2` the same file) and `HG` (a file of its own) keep their verify's stamp (`CS` also reads its config's top level); `CC` seeds `CS`'s kept stamp and
+/// `HF` (its spare `HF-2` the same file), `HG`, `XS` and `XS-2` (each a file of its own) keep their verify's stamp (`CS` also reads its config's top level); `CC` seeds `CS`'s kept stamp and
 /// sends a prompt, then `/context`, then reads the hint; `R3W` seeds `WS`'s and reads its fired
 /// wake.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -356,6 +357,8 @@ impl StampShape {
             "PQ" | "PQ-2" => Some(Self::Keep(QUESTION_STAMP)),
             "HF" | "HF-2" => Some(Self::Keep(FLOOR_STAMP)),
             "HG" => Some(Self::Keep(FLOOR_STAMP_2)),
+            "XS" => Some(Self::Keep(CROSS_STAMP)),
+            "XS-2" => Some(Self::Keep(CROSS_STAMP_2)),
             "R3W" | "R3W-2" | REHEARSE_R3W => Some(Self::Seed(WAKE_STAMP)),
             _ => None,
         }
@@ -398,6 +401,10 @@ const QUESTION_STAMP: &str = "question-stamp.json";
 const FLOOR_STAMP: &str = "floor-stamp.json";
 /// The file `HG`, the floor's second base start, keeps its stamp in, under the out dir.
 const FLOOR_STAMP_2: &str = "floor-stamp-2.json";
+/// The file `XS` keeps its stamp in, under the out dir.
+const CROSS_STAMP: &str = "cross-stamp.json";
+/// The file `XS-2`, `XS`'s second base start, keeps its stamp in: never `XS`'s file.
+const CROSS_STAMP_2: &str = "cross-stamp-2.json";
 
 /// One start, as the entry parsed it.
 #[derive(Debug, Clone)]
@@ -2826,6 +2833,10 @@ fn stamp_lines(entry: Option<&Value>) -> Vec<(String, String)> {
             "permission-request-question",
             "identity-floor",
             "env-unknown",
+            "cross-session-prefix",
+            "cross-session",
+            "sender-tools",
+            "send-result",
             "pass-count",
             "rows",
             "failing",
@@ -2860,6 +2871,17 @@ fn stamp_lines(entry: Option<&Value>) -> Vec<(String, String)> {
         .filter(|(id, v)| !counting(id, v) && viola_core::is_code_word(id))
         .map(|(id, _)| id.as_str())
         .collect();
+    let cross = &entry["measured"]["cross_session_probe"];
+    let sender_tools = match &cross["sender_tools"] {
+        Value::Array(words) => {
+            let words: Option<Vec<&str>> = words
+                .iter()
+                .map(|w| w.as_str().filter(|w| viola_core::is_code_word(w)))
+                .collect();
+            words.map_or_else(|| "unread".to_owned(), |w| w.join(" "))
+        }
+        other => code_or_null(other),
+    };
     let mut lines = vec![
         line("trust-record", word_of("trust-record")),
         line("browser-tools-prompt", word_of("browser-tools-prompt")),
@@ -2876,6 +2898,10 @@ fn stamp_lines(entry: Option<&Value>) -> Vec<(String, String)> {
                 .as_array()
                 .map_or_else(|| "unread".to_owned(), |u| u.len().to_string()),
         ),
+        line("cross-session-prefix", word_of("cross-session-prefix")),
+        line("cross-session", code_or_null(&cross["outcome"])),
+        line("sender-tools", sender_tools),
+        line("send-result", code_or_null(&cross["send_result"])),
         line("pass-count", format!("{passed}/{}", rows.len())),
         line("rows", rows.len().to_string()),
         line(
@@ -3264,6 +3290,9 @@ mod tests {
             ("HF", Some(Arm::VR)),
             ("HF-2", Some(Arm::VR)),
             ("HG", Some(Arm::VR)),
+            ("XS", Some(Arm::VR)),
+            ("XS-2", Some(Arm::VR)),
+            ("XS-3", None),
             ("HF-3", None),
             ("HG-2", None),
             ("R4M", Some(Arm::MT)),
@@ -3433,6 +3462,9 @@ mod tests {
             ("HF", Some(Arm::VR), keep("floor-stamp.json")),
             ("HF-2", Some(Arm::VR), keep("floor-stamp.json")),
             ("HG", Some(Arm::VR), keep("floor-stamp-2.json")),
+            ("XS", Some(Arm::VR), keep("cross-stamp.json")),
+            ("XS-2", Some(Arm::VR), keep("cross-stamp-2.json")),
+            ("XS-3", None, None),
             ("HF-3", None, None),
             ("R4", Some(Arm::VR), None),
             ("R3W", Some(Arm::R3), seed("wake-stamp.json")),
@@ -3603,8 +3635,9 @@ mod tests {
     /// identity-floor row of Run B.
     #[test]
     fn the_floor_rows_are_every_relied_row_but_four() {
-        assert_eq!(FLOOR_ROWS.len(), 24);
+        assert_eq!(FLOOR_ROWS.len(), 25);
         assert!(FLOOR_ROWS.contains(&"identity-floor"));
+        assert!(FLOOR_ROWS.contains(&"cross-session-prefix"));
         assert!(FLOOR_ROWS.contains(&"stop-message") && FLOOR_ROWS.contains(&"stop-session-crons"));
         let floor: Vec<&str> = FLOOR_ROWS.to_vec();
         let rest: Vec<&str> = LedgerRow::relied()
@@ -3840,6 +3873,51 @@ mod tests {
         }
     }
 
+    /// The four lines of the cross-session row: its word, its outcome, the sender's tools
+    /// space-joined (or `none`) and the send's result; `unread` with no entry.
+    #[test]
+    fn stamp_lines_read_the_cross_session_row_and_its_sender_words() {
+        let cases = [
+            (
+                "harness",
+                json!({"outcome": "harness", "prefix": "cross-session", "latency_ms": 4100,
+                       "sender_tools": ["search", "send"], "send_result": "delivered"}),
+                ["pass", "harness", "search send", "delivered"],
+            ),
+            (
+                "no file",
+                json!({"outcome": "no-prompt", "prefix": null, "latency_ms": null,
+                       "sender_tools": "none", "send_result": "none"}),
+                ["fail", "no-prompt", "none", "none"],
+            ),
+            (
+                "not run",
+                json!({"outcome": "not-run", "prefix": null, "latency_ms": null,
+                       "sender_tools": null, "send_result": null}),
+                ["fail", "not-run", "null", "null"],
+            ),
+        ];
+        for (label, block, [row, outcome, tools, result]) in cases {
+            let entry = json!({
+                "rows": {"cross-session-prefix": row},
+                "measured": {"cross_session_probe": block},
+            });
+            let lines = stamp_lines(Some(&entry));
+            assert_eq!(value_of(&lines, "cross-session-prefix"), row, "{label}");
+            assert_eq!(value_of(&lines, "cross-session"), outcome, "{label}");
+            assert_eq!(value_of(&lines, "sender-tools"), tools, "{label}");
+            assert_eq!(value_of(&lines, "send-result"), result, "{label}");
+        }
+        for key in [
+            "cross-session-prefix",
+            "cross-session",
+            "sender-tools",
+            "send-result",
+        ] {
+            assert_eq!(value_of(&stamp_lines(None), key), "unread", "{key}");
+        }
+    }
+
     /// The value of `key` among a stamp reading's lines.
     fn value_of<'a>(lines: &'a [(String, String)], key: &str) -> &'a str {
         lines
@@ -3904,13 +3982,17 @@ mod tests {
             "permission-request-question",
             "identity-floor",
             "env-unknown",
+            "cross-session-prefix",
+            "cross-session",
+            "sender-tools",
+            "send-result",
             "pass-count",
             "screen-a",
             "facts-f",
         ] {
             assert_eq!(value_of(&lines, key), "unread", "{key}");
         }
-        assert_eq!(lines.len(), 10 + 18);
+        assert_eq!(lines.len(), 14 + 18);
     }
 
     #[test]
