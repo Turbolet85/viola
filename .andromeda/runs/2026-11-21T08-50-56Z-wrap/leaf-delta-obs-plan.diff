@@ -1,0 +1,12 @@
+--- a/.andromeda/obs-plan.md
++++ b/.andromeda/obs-plan.md
+@@ -369,3 +369,3 @@
+ decision/dialog-content-never-logged · Dialog content never logged — Dialog questions, answers, plan text and tool input never appear in a home-level process-log line; dialog events carry codes only, and the text reaches an instance detail file only inside a chain or drift report.
+-decision/env-names-only · Environment names only, never values — The strip and every log record environment variable names only, never values, and no env map is passed to a span or event. · guard: E2
++decision/env-names-only · Environment names only, never values — The strip, every log, the hook capture arm's env-names file and the verify stamp and record carry environment variable names only, never values, and no env map is passed to a span or event. · guard: E2
+ decision/ledger-contents-never-logged · Capability ledger path and stamps never logged — The capability ledger's path and its stamp contents never appear in a log line.
+@@ -424,3 +424,3 @@
+ decision/hook-refused-instance-silent · Refused instance makes the hook silent — On the event and dialog paths the instance check runs before the diagnostics level and log init; a refused or unresolved instance exits 0 at once with no config read, no role file, no stdin read, no line, no frame and no SessionEnd append.
+-decision/identity-floor-always-stripped · Identity floor always stripped — The 11 names of the identity floor are always removed whatever the persistent set says; beyond the floor there is no compile-time list of known names.
++decision/identity-floor-always-stripped · Identity floor always stripped — Every identity-floor name is always removed whatever the persistent set says; beside the floor stands a compile-time list of known non-identity hook names, which the floor never strips.
+ decision/implicit-link-on-send-and-answer · Implicit link recorded by send and answer — An issued send or a taken answer whose from names an instance other than the wrapper records the link, one link product line for a new pair; a refused call, one with no from, or one under the wrapper's own name records nothing.

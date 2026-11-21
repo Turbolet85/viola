@@ -1,0 +1,29 @@
+--- a/.andromeda/test-plan.md
++++ b/.andromeda/test-plan.md
+@@ -51,3 +51,3 @@
+ decision/property-fuzz-for-parsers · Property and fuzz tests for parsers — Property and fuzz generators cover the parser surfaces.
+-decision/r8-claude-env-strip · R8 CLAUDE* environment strip — Every inherited CLAUDE* environment name, CLAUDE_CODE_MESSAGING_TOKEN and _SOCKET among them, is stripped from the child, always including the 11-name identity floor. · except: Persistent-environment names listed in config.json claude_env_keep are kept.
++decision/r8-claude-env-strip · R8 CLAUDE* environment strip — Every inherited CLAUDE* environment name, CLAUDE_CODE_MESSAGING_TOKEN and _SOCKET among them, is stripped from the child, always including every identity-floor name. · except: Persistent-environment names listed in config.json claude_env_keep are kept.
+ decision/readiness-gate-tested-by-refusals · Readiness gate tested by its refusals — The readiness gate of viola run is tested through its refusal outputs.
+@@ -294,2 +294,3 @@
+ decision/socket-directory-refusal · Loosened socket directory refused — A socket directory at 0755 or a symlink to a 0700 directory refuses a start, every CLI frame verb and the hook, each left as found.
++decision/strip-control-oracle-keeps-guarded-names · Strip control oracle keeps the guarded names — A remove-the-guard control over the CLAUDE env strip uses an oracle that keeps the guarded identity-floor names, so removing the floor guard is seen. · why: The strip removes any unkept CLAUDE name anyway, so an oracle keeping none cannot see the floor. · guard: tui_env_strip
+ decision/supply-chain-ci-gates · Supply chain held by CI gates — The supply chain is held by CI gates: a sync-crate check, an orphans check, cargo deny including the fuzz lockfile, the sole-root tokio ban with ban probes, zizmor, a release check and weekly advisories on both lockfiles.
+@@ -346,3 +347,3 @@
+ decision/bounded-readers-keep-the-cap · Bounded readers keep the frame cap — The version gate drain, the hyprctl reader and the dialog hold and env-keep readers keep no more than the frame cap of what they read; a command the cut ends is a failed command. · guard: the BOUNDARIES rows of contract_bounded_readers
+-decision/claude-env-strip · Agent identity environment stripped — Every inherited CLAUDE-prefixed variable is removed by exact name unless in the persistent keep set, and the eleven-name identity floor is removed whatever the keep set says; the floor stays eleven names. · guard: an R8 test against a literal copy of the floor, never imported from the product
++decision/claude-env-strip · Agent identity environment stripped — Every inherited CLAUDE-prefixed variable is removed by exact name unless in the persistent keep set, and every identity-floor name is removed whatever the keep set says. · guard: an R8 test against a literal copy of the floor, never imported from the product
+ decision/clear-confirmed-by-new-session · /clear confirmed by a new session — /clear on a verified CLI is confirmed only by a session-start with cause clear and a new session id, never by a prompt-submitted or another session-start; its window expiry gives no-prompt-submitted with the cursor. · guard: …_clear_is_confirmed_by_a_new_session
+@@ -838,2 +839,3 @@
+ decision/trust-start-folders-outside-repository · Trust-start test folders outside any repository — Trust-start test folders sit under /tmp, outside any repository, an exception to test homes under target/e2e-home. · why: A folder inside the workspace keys at its git root.
++contract/claude-fixtures/env-names · Recorded Claude fixtures · env names — The recorded env-names fixture Env.recorded-1.json holds names only, never a value, in the shape v 1 plus added; it is recorded by viola verify through the record scrub and checked by its own hygiene class.
+ contract/fake-agent-cli/argv-only-options · viola-fake-agent command line · modes and options — The fake agent's modes and options are taken from argv only, never from the environment; standing as hyprctl, its mode is read from a file beside its exe.
+@@ -897,2 +899,3 @@
+ contract/claude-fixtures/payload-path · Recorded Claude fixtures · payload path — A recorded hook payload is checked in as fixtures/claude/<cli-version>/<Event>.<variant>.json, and the fake agent reads it from that path.
++contract/fake-agent-hooks/session-start-env · viola-fake-agent hook execution · SessionStart env — The fake agent gives every SessionStart hook child each name of its set's recorded env names, always with the fixed value fake-agent.
+ contract/fake-agent-receipt/cwd · Fake-agent receipt · cwd — Carries cwd.
+@@ -1077,3 +1080,3 @@
+ decision/harness-output-json-and-exit-code · Harness commands always give JSON and exit code — Every harness command prints its JSON document and exit code, never a human-only message alone.
+-decision/literal-test-oracles · Test oracles written as literals — Tests never import the product's own identity floor, ledger rows or refusal ordering as the oracle; expected values such as the 11 identity-floor names, the refusal order and exit codes are written as literals in the test.
++decision/literal-test-oracles · Test oracles written as literals — Tests never import the product's own identity floor, ledger rows or refusal ordering as the oracle; expected values such as the identity-floor names, the refusal order and exit codes are written as literals in the test.
+ decision/no-blanket-approval-tests · No blanket-approval tests — No test auto-approves a dialog. · except: The live rig passes a read trust dialog under its key grant, in its rehearsals and its live starts.

@@ -90,8 +90,8 @@ Rendered by `/andromeda-setup-project` on the first run and kept current by wrap
 **References:** arch Ledger rows; test-plan Path 2 step 3.
 
 ## The parent session's identity leaks into the child
-**What breaks:** started from inside a Claude session, the child inherits `CLAUDECODE`, `CLAUDE_CODE_SESSION_ID`, the Remote Control bridge and the messaging socket/token (11 names measured on the Windows host).
-**How to avoid:** the R8 rule: `viola-agent-claude::plan_strip` removes every inherited `CLAUDE*` name matched exactly, except a name in `config.json` `claude_env_keep`, and always the 11-name `IDENTITY_FLOOR`; log names only (`env_stripped_count` / `env_stripped_known` / `env_kept`), never values.
+**What breaks:** started from inside a Claude session, the child inherits `CLAUDECODE`, `CLAUDE_CODE_SESSION_ID`, the Remote Control bridge and the messaging socket/token (the identity-floor names).
+**How to avoid:** the R8 rule: `viola-agent-claude::plan_strip` removes every inherited `CLAUDE*` name matched exactly, except a name in `config.json` `claude_env_keep`, and always every `IDENTITY_FLOOR` name (beside the floor stands a compiled list of known non-identity hook names, which the floor never strips); log names only (`env_stripped_count` / `env_stripped_known` / `env_kept`), never values.
 **References:** brief §4.1 S6; arch Occupied Resources → Environment variables; security Decisions Log 2026-09-25; obs D-34.
 
 ## The docs lag the installed CLI

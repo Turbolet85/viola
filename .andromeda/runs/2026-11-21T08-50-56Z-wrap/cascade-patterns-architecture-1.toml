@@ -1,0 +1,7 @@
+# rows-land · doc:architecture · operations 949cfd38606aa14e
+# a pattern each set and retire: the distinctive terms the old cell held and the new one lacks, digits alone never one; its control the row's previous revision
+
+[[pattern]]
+id = "arch1-1"
+regex = "CLAUDE_CODE_BRIDGE_SESSION_ID|CLAUDE_CODE_CHILD_SESSION|CLAUDE_CODE_ENTRYPOINT|CLAUDE_CODE_EXECPATH|CLAUDE_CODE_MESSAGING_SOCKET|CLAUDE_CODE_MESSAGING_TOKEN|CLAUDE_CODE_SESSION_ATTENDED|CLAUDE_CODE_SESSION_ID|CLAUDE_EFFORT|CLAUDE_PID"
+# control: decision/identity-floor-eleven-names r1
