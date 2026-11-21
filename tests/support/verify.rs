@@ -112,6 +112,25 @@ pub fn framing_set() -> Vec<(&'static str, &'static str, Value)> {
     ]
 }
 
+/// The names [`write_env_set`] writes by default: three floor names and the project dir's.
+pub const ENV_NAMES: [&str; 4] = [
+    "CLAUDECODE",
+    "CLAUDE_CODE_ENTRYPOINT",
+    "CLAUDE_PID",
+    "CLAUDE_PROJECT_DIR",
+];
+
+/// SYNTHETIC: `<fixtures>/<version>/Env.recorded-1.json` naming `names` (`{"v":1,"added":…}`),
+/// written by the test, committed nowhere: the fake agent hands each name to every SessionStart
+/// hook child.
+pub fn write_env_set(fixtures: &Path, version: &str, names: &[&str]) {
+    let dir = fixtures.join(version);
+    std::fs::create_dir_all(&dir).expect("the set dir");
+    let mut text = json!({"v": 1, "added": names}).to_string();
+    text.push('\n');
+    std::fs::write(dir.join("Env.recorded-1.json"), text).expect("the env set");
+}
+
 /// `<fixtures>/<version>/<Event>.<variant>.json` for every [`framing_set`] entry.
 pub fn write_framing_set(fixtures: &Path, version: &str) {
     for (event, variant, body) in framing_set() {
@@ -483,9 +502,13 @@ fn ensure_user_home(home: &Path) {
 }
 
 /// `home`'s `config.json` keeping `CLAUDE_CONFIG_DIR` for the child (the home made 0700 when
-/// absent): Run F then writes into `<CLAUDE_CONFIG_DIR>/.claude.json`.
+/// absent): Run F then writes into `<CLAUDE_CONFIG_DIR>/.claude.json`. A `config.json` the test
+/// wrote first stands as written, and its keep list must name `CLAUDE_CONFIG_DIR` itself.
 pub fn keep_config_dir(home: &Path) {
     super::home::private_dir(home, "the viola home");
+    if home.join("config.json").exists() {
+        return;
+    }
     viola_state::fs::replace_private(
         &home.join("config.json"),
         br#"{"v":1,"claude_env_keep":["CLAUDE_CONFIG_DIR"]}"#,

@@ -350,6 +350,7 @@ fn echo_check(trusted: Vec<Capture>, echo_latency_ms: Option<u64>) -> bool {
             dialogs: clean_dialogs(),
             resumed: clean_resumed(),
             agents: Some(clean_agents()),
+            env: clean_env(),
         },
     )
 }
@@ -382,6 +383,7 @@ fn context_check(trusted: Vec<Capture>, context_latency_ms: Option<u64>) -> bool
             dialogs: clean_dialogs(),
             resumed: clean_resumed(),
             agents: Some(clean_agents()),
+            env: clean_env(),
         },
     )
 }

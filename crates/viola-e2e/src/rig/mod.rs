@@ -75,7 +75,7 @@ const PROBE_NEEDLE: &str = "viola-probe-absent";
 /// The relied rows of verify's floor: every relied row but `trust-record`, `browser-tools-prompt`,
 /// `local-command-echo` and `local-command-context`, the last two needing a readable transcript a
 /// floor read does not assume; `stop-session-crons` reads the same Stop capture `stop-message` does.
-const FLOOR_ROWS: [&str; 23] = [
+const FLOOR_ROWS: [&str; 24] = [
     "shim-resolution",
     "spine-hooks",
     "session-start-fields",
@@ -99,6 +99,7 @@ const FLOOR_ROWS: [&str; 23] = [
     "local-command-compact",
     "stop-session-crons",
     "permission-request-question",
+    "identity-floor",
 ];
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -188,7 +189,8 @@ impl Arm {
     /// `SF-2`, the context stamp `CS` with its spare `CS-2` and the context send `CC` with its
     /// spare `CC-2`, the wake stamp `WS` alone, the fresh-box hint reading `HB` with its spare
     /// `HB-2`, the fired wake under the kept stamp `R3W` with its spare `R3W-2`, and the
-    /// permission-question recording `PQ` with its spare `PQ-2`, and the start's own verify `AV`
+    /// permission-question recording `PQ` with its spare `PQ-2`, the floor recording `HF` with its
+    /// spare `HF-2` and its conditional second base start `HG`, and the start's own verify `AV`
     /// with its spare `AV-2`.
     pub fn of_label(label: &str) -> Option<Self> {
         match label {
@@ -205,7 +207,7 @@ impl Arm {
             "S2" => Some(Self::TC),
             "BP" | "BP-2" => Some(Self::VP),
             "BK" => Some(Self::VK),
-            "R4" | "R4-2" | "PQ" | "PQ-2" => Some(Self::VR),
+            "R4" | "R4-2" | "PQ" | "PQ-2" | "HF" | "HF-2" | "HG" => Some(Self::VR),
             "R4M" => Some(Self::MT),
             "L1" | "L1-2" => Some(Self::VH),
             "L2" | "CC" | "CC-2" => Some(Self::CX),
@@ -334,8 +336,8 @@ impl Arm {
     }
 }
 
-/// The kept-stamp shape, by label, with the file under the out dir it carries: `CS`, `WS` and `PQ`
-/// keep their verify's stamp (`CS` also reads its config's top level); `CC` seeds `CS`'s kept stamp and
+/// The kept-stamp shape, by label, with the file under the out dir it carries: `CS`, `WS`, `PQ`,
+/// `HF` (its spare `HF-2` the same file) and `HG` (a file of its own) keep their verify's stamp (`CS` also reads its config's top level); `CC` seeds `CS`'s kept stamp and
 /// sends a prompt, then `/context`, then reads the hint; `R3W` seeds `WS`'s and reads its fired
 /// wake.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -352,6 +354,8 @@ impl StampShape {
             "CC" | "CC-2" | REHEARSE_CC => Some(Self::Seed(CONTEXT_STAMP)),
             "WS" | REHEARSE_WS => Some(Self::Keep(WAKE_STAMP)),
             "PQ" | "PQ-2" => Some(Self::Keep(QUESTION_STAMP)),
+            "HF" | "HF-2" => Some(Self::Keep(FLOOR_STAMP)),
+            "HG" => Some(Self::Keep(FLOOR_STAMP_2)),
             "R3W" | "R3W-2" | REHEARSE_R3W => Some(Self::Seed(WAKE_STAMP)),
             _ => None,
         }
@@ -390,6 +394,10 @@ const CONTEXT_STAMP: &str = "context-stamp.json";
 const WAKE_STAMP: &str = "wake-stamp.json";
 /// The file `PQ` keeps its stamp in, under the out dir.
 const QUESTION_STAMP: &str = "question-stamp.json";
+/// The file `HF` (and its spare `HF-2`) keeps its stamp in, under the out dir.
+const FLOOR_STAMP: &str = "floor-stamp.json";
+/// The file `HG`, the floor's second base start, keeps its stamp in, under the out dir.
+const FLOOR_STAMP_2: &str = "floor-stamp-2.json";
 
 /// One start, as the entry parsed it.
 #[derive(Debug, Clone)]
@@ -2816,6 +2824,8 @@ fn stamp_lines(entry: Option<&Value>) -> Vec<(String, String)> {
             "local-command-context",
             "stop-session-crons",
             "permission-request-question",
+            "identity-floor",
+            "env-unknown",
             "pass-count",
             "rows",
             "failing",
@@ -2858,6 +2868,13 @@ fn stamp_lines(entry: Option<&Value>) -> Vec<(String, String)> {
         line(
             "permission-request-question",
             word_of("permission-request-question"),
+        ),
+        line("identity-floor", word_of("identity-floor")),
+        line(
+            "env-unknown",
+            entry["measured"]["env_probe"]["unknown"]
+                .as_array()
+                .map_or_else(|| "unread".to_owned(), |u| u.len().to_string()),
         ),
         line("pass-count", format!("{passed}/{}", rows.len())),
         line("rows", rows.len().to_string()),
@@ -3244,6 +3261,11 @@ mod tests {
             ("R4-2", Some(Arm::VR)),
             ("PQ", Some(Arm::VR)),
             ("PQ-2", Some(Arm::VR)),
+            ("HF", Some(Arm::VR)),
+            ("HF-2", Some(Arm::VR)),
+            ("HG", Some(Arm::VR)),
+            ("HF-3", None),
+            ("HG-2", None),
             ("R4M", Some(Arm::MT)),
             ("R4-3", None),
             ("R4M-2", None),
@@ -3408,6 +3430,10 @@ mod tests {
             ("WS", Some(Arm::V), keep("wake-stamp.json")),
             ("PQ", Some(Arm::VR), keep("question-stamp.json")),
             ("PQ-2", Some(Arm::VR), keep("question-stamp.json")),
+            ("HF", Some(Arm::VR), keep("floor-stamp.json")),
+            ("HF-2", Some(Arm::VR), keep("floor-stamp.json")),
+            ("HG", Some(Arm::VR), keep("floor-stamp-2.json")),
+            ("HF-3", None, None),
             ("R4", Some(Arm::VR), None),
             ("R3W", Some(Arm::R3), seed("wake-stamp.json")),
             ("R3W-2", Some(Arm::R3), seed("wake-stamp.json")),
@@ -3572,11 +3598,13 @@ mod tests {
         assert!(!Arm::HB.sentinel_seed());
     }
 
-    /// The floor's doc pin: 23 rows, `stop-session-crons` beside `stop-message`, which read the same
-    /// Stop capture, and `permission-request-question` beside the question rows of Run C.
+    /// The floor's doc pin: 24 rows, `stop-session-crons` beside `stop-message`, which read the same
+    /// Stop capture, `permission-request-question` beside the question rows of Run C, and the
+    /// identity-floor row of Run B.
     #[test]
     fn the_floor_rows_are_every_relied_row_but_four() {
-        assert_eq!(FLOOR_ROWS.len(), 23);
+        assert_eq!(FLOOR_ROWS.len(), 24);
+        assert!(FLOOR_ROWS.contains(&"identity-floor"));
         assert!(FLOOR_ROWS.contains(&"stop-message") && FLOOR_ROWS.contains(&"stop-session-crons"));
         let floor: Vec<&str> = FLOOR_ROWS.to_vec();
         let rest: Vec<&str> = LedgerRow::relied()
@@ -3790,6 +3818,28 @@ mod tests {
         );
     }
 
+    /// The two lines of the identity row: its word and the count of unknown env names; `unread`
+    /// with no entry or no such block.
+    #[test]
+    fn stamp_lines_read_the_identity_row_and_its_measure() {
+        let entry = json!({
+            "rows": {"identity-floor": "fail"},
+            "measured": {
+                "env_probe": {"unknown": ["CLAUDE_VIOLA_TEST_NEW_X"], "added": []},
+            },
+        });
+        let lines = stamp_lines(Some(&entry));
+        assert_eq!(value_of(&lines, "identity-floor"), "fail");
+        assert_eq!(value_of(&lines, "env-unknown"), "1");
+        let bare = json!({"rows": {"a-row": "pass"}, "measured": {}});
+        let lines = stamp_lines(Some(&bare));
+        assert_eq!(value_of(&lines, "identity-floor"), "absent");
+        assert_eq!(value_of(&lines, "env-unknown"), "unread");
+        for key in ["identity-floor", "env-unknown"] {
+            assert_eq!(value_of(&stamp_lines(None), key), "unread", "{key}");
+        }
+    }
+
     /// The value of `key` among a stamp reading's lines.
     fn value_of<'a>(lines: &'a [(String, String)], key: &str) -> &'a str {
         lines
@@ -3852,13 +3902,15 @@ mod tests {
             "local-command-context",
             "stop-session-crons",
             "permission-request-question",
+            "identity-floor",
+            "env-unknown",
             "pass-count",
             "screen-a",
             "facts-f",
         ] {
             assert_eq!(value_of(&lines, key), "unread", "{key}");
         }
-        assert_eq!(lines.len(), 8 + 18);
+        assert_eq!(lines.len(), 10 + 18);
     }
 
     #[test]

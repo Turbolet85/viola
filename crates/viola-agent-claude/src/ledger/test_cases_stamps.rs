@@ -1,7 +1,7 @@
 use super::*;
 
 #[test]
-fn ledger_rows_are_the_twenty_seven_measured_behaviours_in_order() {
+fn ledger_rows_are_the_twenty_eight_measured_behaviours_in_order() {
     let ids: Vec<&str> = LedgerRow::ALL.iter().map(|r| r.id()).collect();
     assert_eq!(
         ids,
@@ -33,6 +33,7 @@ fn ledger_rows_are_the_twenty_seven_measured_behaviours_in_order() {
             "local-command-context",
             "stop-session-crons",
             "permission-request-question",
+            "identity-floor",
         ]
     );
     let words: Vec<&str> = LedgerRow::ALL.iter().map(|r| r.words()).collect();
@@ -66,6 +67,7 @@ fn ledger_rows_are_the_twenty_seven_measured_behaviours_in_order() {
             "/context writes its stdout tag to the transcript and submits no prompt",
             "Stop carries session_crons as an array",
             "a question raised by PermissionRequest takes the allow body",
+            "every CLAUDE name the CLI adds to a hook is a known name",
         ]
     );
     assert!(words.iter().all(|w| w.is_ascii()));
@@ -75,9 +77,9 @@ fn ledger_rows_are_the_twenty_seven_measured_behaviours_in_order() {
 fn relied_rows_are_every_row_in_order() {
     let here: Vec<&str> = LedgerRow::relied().into_iter().map(LedgerRow::id).collect();
     let all: Vec<&str> = LedgerRow::ALL.into_iter().map(LedgerRow::id).collect();
-    assert_eq!(here.len(), 27);
+    assert_eq!(here.len(), 28);
     assert_eq!(here, all);
-    assert_eq!(here.last(), Some(&"permission-request-question"));
+    assert_eq!(here.last(), Some(&"identity-floor"));
 }
 
 #[test]
@@ -198,7 +200,7 @@ fn capture_read_keeps_the_size_and_a_parsed_payload() {
 
 #[test]
 fn check_passes_every_row_on_a_clean_probe() {
-    assert_eq!(verdicts(&clean_run()), [true; 27]);
+    assert_eq!(verdicts(&clean_run()), [true; 28]);
 }
 
 #[test]
@@ -318,7 +320,10 @@ fn merge_stamp_writes_the_envelope_for_a_first_version() {
         &all_pass(),
         &[(HookEvent::SessionStart, 120), (HookEvent::Stop, 90)],
         &clean_typed(),
-        Some(false),
+        &Readings {
+            parallel_both_before_first_post: Some(false),
+            ..Readings::default()
+        },
         "2026-09-28T10:00:00.000Z",
     );
     assert_eq!(
@@ -346,6 +351,7 @@ fn merge_stamp_writes_the_envelope_for_a_first_version() {
                     "local-command-context": "pass",
                     "stop-session-crons": "pass",
                     "permission-request-question": "pass",
+                    "identity-floor": "pass",
                 },
                 "measured": {
                     "largest_hook_payload": {"SessionStart": 120, "Stop": 90},
@@ -362,6 +368,9 @@ fn merge_stamp_writes_the_envelope_for_a_first_version() {
                     "first_screen": {"a": null, "b": null, "c": null, "d": null, "e": null, "f": null},
                     "first_settle_ms": {"a": null, "b": null, "c": null, "d": null, "e": null, "f": null},
                     "first_facts": {"a": null, "b": null, "c": null, "d": null, "e": null, "f": null},
+                    "env_probe": {
+                        "read": false, "added": [], "unknown": [], "other_count": null, "unshaped": 0,
+                    },
                 },
             }}},
         })
@@ -387,7 +396,7 @@ fn merge_stamp_keeps_unknown_versions_and_fields_and_replaces_its_own() {
         &results,
         &[],
         &TypedRun::default(),
-        None,
+        &Readings::default(),
         "new",
     );
     let d = doc(&bytes);
@@ -403,16 +412,19 @@ fn merge_stamp_keeps_unknown_versions_and_fields_and_replaces_its_own() {
     assert_eq!(
         own["measured"],
         json!({"largest_hook_payload": {}, "typed_probe": {
-                "ready_settle_ms": null, "turn_settle_ms": null,
-                "prompt_latency_ms": null, "max_turn_gap_ms": null,
-                "compact_latency_ms": null, "echo_latency_ms": null,
-                "context_latency_ms": null,
-                "box_only_guards": null,
-            }, "dialog_probe": {"parallel_both_before_first_post": null},
-            "trust_probe": {"write": null, "remove": null},
-            "first_screen": {"a": null, "b": null, "c": null, "d": null, "e": null, "f": null},
-            "first_settle_ms": {"a": null, "b": null, "c": null, "d": null, "e": null, "f": null},
-            "first_facts": {"a": null, "b": null, "c": null, "d": null, "e": null, "f": null}})
+            "ready_settle_ms": null, "turn_settle_ms": null,
+            "prompt_latency_ms": null, "max_turn_gap_ms": null,
+            "compact_latency_ms": null, "echo_latency_ms": null,
+            "context_latency_ms": null,
+            "box_only_guards": null,
+        }, "dialog_probe": {"parallel_both_before_first_post": null},
+        "trust_probe": {"write": null, "remove": null},
+        "first_screen": {"a": null, "b": null, "c": null, "d": null, "e": null, "f": null},
+        "first_settle_ms": {"a": null, "b": null, "c": null, "d": null, "e": null, "f": null},
+        "first_facts": {"a": null, "b": null, "c": null, "d": null, "e": null, "f": null},
+        "env_probe": {
+            "read": false, "added": [], "unknown": [], "other_count": null, "unshaped": 0,
+        }})
     );
     assert_eq!(verified(&bytes, "2.1.0"), Ok(false));
 }
@@ -429,7 +441,7 @@ fn merge_stamp_replaces_bytes_of_the_wrong_shape_whole(#[case] existing: &[u8]) 
         &all_pass(),
         &[],
         &TypedRun::default(),
-        None,
+        &Readings::default(),
         "t",
     );
     let d = doc(&bytes);
@@ -446,7 +458,7 @@ fn merge_stamp_fills_a_data_object_without_versions() {
         &all_pass(),
         &[],
         &TypedRun::default(),
-        None,
+        &Readings::default(),
         "t",
     );
     let d = doc(&bytes);
@@ -463,7 +475,7 @@ fn verified_needs_every_row_pass_under_that_version() {
         &results,
         &[],
         &TypedRun::default(),
-        None,
+        &Readings::default(),
         "t",
     );
     assert_eq!(verified(&full, "2.1.0"), Ok(true));
@@ -476,7 +488,7 @@ fn verified_needs_every_row_pass_under_that_version() {
         &results,
         &[],
         &TypedRun::default(),
-        None,
+        &Readings::default(),
         "t",
     );
     assert_eq!(verified(&short, "2.1.0"), Ok(false), "a missing row");
@@ -578,6 +590,12 @@ fn verified_reads_a_fourteen_row_stamp_as_unverified() {
         "the twenty-six rows before the permission-request-question row"
     );
     stamp["data"]["versions"]["2.1.0"]["rows"]["permission-request-question"] = json!("pass");
+    assert_eq!(
+        verified(stamp.to_string().as_bytes(), "2.1.0"),
+        Ok(false),
+        "the twenty-seven rows before the identity-floor row"
+    );
+    stamp["data"]["versions"]["2.1.0"]["rows"]["identity-floor"] = json!("pass");
     assert_eq!(verified(stamp.to_string().as_bytes(), "2.1.0"), Ok(true));
 }
 
@@ -594,7 +612,15 @@ fn merge_stamp_writes_the_trust_writer_word_for_a_record_never_written() {
     results[at].1 = false;
     results[0].1 = false;
     let row = |results: &[(LedgerRow, bool)], typed: &TypedRun| -> (Value, Value, Value) {
-        let d = doc(&merge_stamp(None, "2.1.0", results, &[], typed, None, "t"));
+        let d = doc(&merge_stamp(
+            None,
+            "2.1.0",
+            results,
+            &[],
+            typed,
+            &Readings::default(),
+            "t",
+        ));
         let own = &d["data"]["versions"]["2.1.0"];
         (
             own["rows"]["trust-record"].clone(),
@@ -717,7 +743,7 @@ fn merge_stamp_writes_the_six_first_screens_their_settles_and_facts() {
         &all_pass(),
         &[],
         &typed,
-        None,
+        &Readings::default(),
         "t",
     ));
     let measured = &d["data"]["versions"]["2.1.0"]["measured"];
@@ -750,7 +776,15 @@ fn merge_stamp_writes_the_six_first_screens_their_settles_and_facts() {
     );
     assert_eq!(
         verified(
-            &merge_stamp(None, "2.1.0", &all_pass(), &[], &typed, None, "t"),
+            &merge_stamp(
+                None,
+                "2.1.0",
+                &all_pass(),
+                &[],
+                &typed,
+                &Readings::default(),
+                "t"
+            ),
             "2.1.0"
         ),
         Ok(true),
@@ -773,7 +807,7 @@ fn verified_reads_a_stamp_holding_the_retired_row_on_the_relied_rows_alone() {
         .map(|row| (row.id().to_owned(), json!("pass")))
         .collect();
     rows.insert(retired.to_owned(), json!("fail"));
-    assert_eq!(rows.len(), 28);
+    assert_eq!(rows.len(), 29);
     let stamp = json!({"v": 1, "data": {"versions": {"2.1.0": {"rows": rows}}}});
     assert_eq!(verified(stamp.to_string().as_bytes(), "2.1.0"), Ok(true));
 }
@@ -810,7 +844,7 @@ fn verified_reads_a_stamp_holding_the_two_retired_rows_on_the_relied_rows_alone(
     for id in &retired {
         rows.insert(id.clone(), json!("fail"));
     }
-    assert_eq!(rows.len(), 29);
+    assert_eq!(rows.len(), 30);
     let stamp = json!({"v": 1, "data": {"versions": {"2.1.0": {"rows": rows}}}});
     assert_eq!(verified(stamp.to_string().as_bytes(), "2.1.0"), Ok(true));
 }
@@ -819,7 +853,7 @@ fn verified_reads_a_stamp_holding_the_two_retired_rows_on_the_relied_rows_alone(
 fn relied_rows_hold_no_retired_row() {
     let retired = retired_rows_of_the_fixture();
     let relied: Vec<&str> = LedgerRow::relied().into_iter().map(LedgerRow::id).collect();
-    assert_eq!(relied.len(), 27);
+    assert_eq!(relied.len(), 28);
     assert!(relied.iter().all(|id| !retired.iter().any(|r| r == id)));
 }
 
@@ -852,7 +886,15 @@ fn stamp_with(typed: &TypedRun, edits: &[(LedgerRow, bool)]) -> Vec<u8> {
             (*r, pass)
         })
         .collect();
-    merge_stamp(None, "2.1.0", &results, &[], typed, None, "t")
+    merge_stamp(
+        None,
+        "2.1.0",
+        &results,
+        &[],
+        typed,
+        &Readings::default(),
+        "t",
+    )
 }
 
 #[test]
@@ -902,12 +944,21 @@ fn verified_reads_a_stamp_of_the_23_pre_chunk_ids_as_unverified() {
                     | LedgerRow::LocalCommandContext
                     | LedgerRow::StopSessionCrons
                     | LedgerRow::PermissionRequestQuestion
+                    | LedgerRow::IdentityFloor
             )
         })
         .map(|r| (*r, true))
         .collect();
     assert_eq!(results.len(), 23);
-    let bytes = merge_stamp(None, "2.1.0", &results, &[], &clean_typed(), None, "t");
+    let bytes = merge_stamp(
+        None,
+        "2.1.0",
+        &results,
+        &[],
+        &clean_typed(),
+        &Readings::default(),
+        "t",
+    );
     let rows = &doc(&bytes)["data"]["versions"]["2.1.0"]["rows"];
     assert!(
         rows.as_object()
@@ -969,21 +1020,29 @@ fn counts_reads_pass_and_absent_on_the_browser_tools_row_alone(
 }
 
 #[test]
-fn verified_reads_the_26_earlier_ids_unverified_and_the_27_verified() {
+fn verified_reads_the_27_earlier_ids_unverified_and_the_28_verified() {
     let earlier: Vec<(LedgerRow, bool)> = LedgerRow::ALL
         .iter()
-        .filter(|r| **r != LedgerRow::PermissionRequestQuestion)
+        .filter(|r| **r != LedgerRow::IdentityFloor)
         .map(|r| (*r, true))
         .collect();
-    assert_eq!(earlier.len(), 26);
-    let bytes = merge_stamp(None, "2.1.0", &earlier, &[], &clean_typed(), None, "t");
+    assert_eq!(earlier.len(), 27);
+    let bytes = merge_stamp(
+        None,
+        "2.1.0",
+        &earlier,
+        &[],
+        &clean_typed(),
+        &Readings::default(),
+        "t",
+    );
     assert_eq!(verified(&bytes, "2.1.0"), Ok(false));
     let all = stamp_with(&clean_typed(), &[]);
     assert_eq!(
         doc(&all)["data"]["versions"]["2.1.0"]["rows"]
             .as_object()
             .map(serde_json::Map::len),
-        Some(27)
+        Some(28)
     );
     assert_eq!(verified(&all, "2.1.0"), Ok(true));
 }
@@ -1004,7 +1063,7 @@ fn attempt_bytes(shape: &str) -> Vec<u8> {
         &results,
         &[],
         &TypedRun::default(),
-        None,
+        &Readings::default(),
         "t",
     );
     let mut d = doc(&bytes);
@@ -1045,4 +1104,42 @@ fn attempted_reads_the_entry_by_its_relied_ids(
     if shape == "every_id_one_fail" {
         assert_eq!(verified(&bytes, version), Ok(false), "attempted yet red");
     }
+}
+
+/// The block the identity row adds to `measured`: names and counts only.
+#[test]
+fn merge_stamp_writes_the_env_block() {
+    let probes = Probes {
+        env: env_reading(
+            Some(&json!({
+                "v": 1,
+                "claude_names": ["CLAUDE_PID", "CLAUDE_VIOLA_TEST_NEW_X", "CLAUDE_VIOLA_TEST_KEPT"],
+                "claude_unshaped": 1,
+                "other_count": 33,
+            })),
+            &["CLAUDE_VIOLA_TEST_KEPT".to_owned()],
+        ),
+        ..probes(&clean_run())
+    };
+    let bytes = merge_stamp(
+        None,
+        "2.1.0",
+        &all_pass(),
+        &[],
+        &clean_typed(),
+        &Readings::of(&probes),
+        "t",
+    );
+    let measured = &doc(&bytes)["data"]["versions"]["2.1.0"]["measured"];
+    assert_eq!(
+        measured["env_probe"],
+        json!({
+            "read": true,
+            "added": ["CLAUDE_PID", "CLAUDE_VIOLA_TEST_NEW_X"],
+            "unknown": ["CLAUDE_VIOLA_TEST_NEW_X"],
+            "other_count": 33,
+            "unshaped": 1,
+        })
+    );
+    assert!(!String::from_utf8_lossy(&bytes).contains("CLAUDE_VIOLA_TEST_KEPT"));
 }

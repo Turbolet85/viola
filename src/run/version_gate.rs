@@ -268,7 +268,7 @@ mod tests {
             &results,
             &[],
             &TypedRun::default(),
-            None,
+            &viola_agent_claude::ledger::Readings::default(),
             "2026-09-28T10:00:00.000Z",
         )
     }
@@ -353,7 +353,7 @@ mod tests {
             results,
             &[],
             &TypedRun::default(),
-            None,
+            &viola_agent_claude::ledger::Readings::default(),
             "2026-10-05T12:00:00.000Z",
         )
     }
@@ -467,6 +467,12 @@ mod tests {
         all.push((LedgerRow::PermissionRequestQuestion, true));
         assert_eq!(
             stamps_verdict(Ok(Some(stamp_of(&all))), "2.1.0"),
+            (false, None),
+            "the twenty-seven rows of an older stamp, every one pass"
+        );
+        all.push((LedgerRow::IdentityFloor, true));
+        assert_eq!(
+            stamps_verdict(Ok(Some(stamp_of(&all))), "2.1.0"),
             (true, None)
         );
         for failing in dialogs.into_iter().chain(framing).chain([
@@ -480,6 +486,7 @@ mod tests {
             LedgerRow::LocalCommandContext,
             LedgerRow::StopSessionCrons,
             LedgerRow::PermissionRequestQuestion,
+            LedgerRow::IdentityFloor,
         ]) {
             let rows: Vec<(LedgerRow, bool)> =
                 all.iter().map(|(r, p)| (*r, *p && *r != failing)).collect();

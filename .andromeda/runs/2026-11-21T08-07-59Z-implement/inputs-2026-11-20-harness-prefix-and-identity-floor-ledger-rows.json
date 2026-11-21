@@ -1,0 +1,53 @@
+[
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "363241ce",
+"ts": "2026-11-21T08:29:54Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-20-harness-prefix-and-identity-floor-ledger-rows",
+"--source",
+"~/dev/projects/additional/viola-overseer/implement-harness-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the implement directive binding this re-entry: re-enter at R1, ONE base start HG (--cap 2 --spare 1) on 2.1.328 by path, the stops, the operator pass with the ci.py read on green",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-11-21T08-07-59Z-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I13 · copy no-repo · ../additional/viola-overseer/implement-harness-directive.md",
+"cite: inputs#I13"
+],
+"stderr": null,
+"wrote": [
+"inputs/I13-implement-harness-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I13",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/implement-harness-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "fb579df554dd8a16cfdbd4a5a6a747fcab0aac8109b85bce8094932c30a325e4",
+"copy": "I13-implement-harness-directive.md.txt",
+"link": false,
+"read_at": "2026-11-21T08:29:54Z",
+"step": "implement",
+"why": "the implement directive binding this re-entry: re-enter at R1, ONE base start HG (--cap 2 --spare 1) on 2.1.328 by path, the stops, the operator pass with the ci.py read on green"
+}
+}
+]

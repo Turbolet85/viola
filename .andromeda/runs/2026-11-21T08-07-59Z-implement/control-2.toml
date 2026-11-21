@@ -1,0 +1,24 @@
+[[control]]
+id = "floor-grows"
+entry = 10
+guard = "the two names F1 adds to IDENTITY_FLOOR, the array back to eleven"
+case = "tui_env_strip_removes_identity_and_unknown_claude_names"
+
+[[control.edit]]
+path = "crates/viola-agent-claude/src/lib.rs"
+old = '''pub const IDENTITY_FLOOR: [&str; 13] = [
+    "CLAUDECODE",
+    "CLAUDE_CODE_BRIDGE_SESSION_ID",
+    "CLAUDE_CODE_CHILD_NOTES_DIR",
+    "CLAUDE_CODE_CHILD_SESSION",
+    "CLAUDE_CODE_ENTRYPOINT",
+    "CLAUDE_CODE_EXECPATH",
+    "CLAUDE_CODE_LAUNCHED_BY_SESSION_IDS",
+    "CLAUDE_CODE_MESSAGING_SOCKET",'''
+new = '''pub const IDENTITY_FLOOR: [&str; 11] = [
+    "CLAUDECODE",
+    "CLAUDE_CODE_BRIDGE_SESSION_ID",
+    "CLAUDE_CODE_CHILD_SESSION",
+    "CLAUDE_CODE_ENTRYPOINT",
+    "CLAUDE_CODE_EXECPATH",
+    "CLAUDE_CODE_MESSAGING_SOCKET",'''

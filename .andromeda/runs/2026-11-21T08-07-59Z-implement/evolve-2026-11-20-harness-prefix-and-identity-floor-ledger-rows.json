@@ -1,0 +1,130 @@
+[
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "667bc5fa",
+"ts": "2026-11-21T08:14:58Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-21T08-07-59Z-implement",
+"--marker",
+"2026-11-20-harness-prefix-and-identity-floor-ledger-rows"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 3583 · 2026-11-20T18-18-18-2026-11-20-harness-prefix-and-identity-floor-ledger-rows.ndjson",
+"ts 2026-11-21T08:14:48Z · clock 2026-11-21T08:14:58Z · the builders' bound 2026-11-21T08:07:07Z (line 3876)",
+"ids 2026-11-21T08:14:48Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-20T18-18-18-2026-11-20-harness-prefix-and-identity-floor-ledger-rows.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "667bc5fa",
+"ts": "2026-11-21T08:29:24Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"5",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-21T08-07-59Z-implement",
+"--marker",
+"2026-11-20-harness-prefix-and-identity-floor-ledger-rows"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 5 record(s) in the store · tx 3586 · 2026-11-20T18-18-18-2026-11-20-harness-prefix-and-identity-floor-ledger-rows.ndjson",
+"ts 2026-11-21T08:29:08Z · clock 2026-11-21T08:29:23Z · the builders' bound 2026-11-21T08:14:48Z (line 3877)",
+"ids 2026-11-21T08:29:08Z-a … 2026-11-21T08:29:08Z-e (5)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-20T18-18-18-2026-11-20-harness-prefix-and-identity-floor-ledger-rows.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "667bc5fa",
+"ts": "2026-11-21T08:29:32Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-21T08-07-59Z-implement",
+"--marker",
+"2026-11-20-harness-prefix-and-identity-floor-ledger-rows"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 3587 · 2026-11-20T18-18-18-2026-11-20-harness-prefix-and-identity-floor-ledger-rows.ndjson",
+"ts 2026-11-21T08:29:27Z · clock 2026-11-21T08:29:31Z · the builders' bound 2026-11-21T08:29:08Z (line 3882)",
+"ids 2026-11-21T08:29:27Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-20T18-18-18-2026-11-20-harness-prefix-and-identity-floor-ledger-rows.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "667bc5fa",
+"ts": "2026-11-21T08:32:07Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-21T08-07-59Z-implement",
+"--marker",
+"2026-11-20-harness-prefix-and-identity-floor-ledger-rows"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 3590 · 2026-11-20T18-18-18-2026-11-20-harness-prefix-and-identity-floor-ledger-rows.ndjson",
+"ts 2026-11-21T08:31:59Z · clock 2026-11-21T08:32:07Z · the builders' bound 2026-11-21T08:29:27Z (line 3883)",
+"ids 2026-11-21T08:31:59Z-a … 2026-11-21T08:31:59Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-20T18-18-18-2026-11-20-harness-prefix-and-identity-floor-ledger-rows.ndjson"
+],
+"before": null,
+"after": null
+}
+]

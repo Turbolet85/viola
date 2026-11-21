@@ -14,14 +14,19 @@ use support::fake::{self, FAKE, of_kind};
 use support::home::{TestHome, VIOLA, home};
 use support::outer_pty::{EXIT_WITHIN, OuterPty};
 
-/// The oracle, written out here (never the product's list): the identity names measured on a
-/// wrapped host plus one name no list knows.
-const STRIPPED: [(&str, &str); 12] = [
+/// The oracle, written out here (never the product's list): the thirteen identity-floor names plus
+/// one name no list knows.
+const STRIPPED: [(&str, &str); 14] = [
     ("CLAUDECODE", "canary-claudecode-value-3c07"),
     ("CLAUDE_CODE_BRIDGE_SESSION_ID", "canary-bridge-value-91d2"),
+    ("CLAUDE_CODE_CHILD_NOTES_DIR", "canary-notes-value-3a71"),
     ("CLAUDE_CODE_CHILD_SESSION", "canary-child-value-4e6b"),
     ("CLAUDE_CODE_ENTRYPOINT", "canary-entrypoint-value-8e41"),
     ("CLAUDE_CODE_EXECPATH", "canary-execpath-value-a813"),
+    (
+        "CLAUDE_CODE_LAUNCHED_BY_SESSION_IDS",
+        "canary-launched-value-c58e",
+    ),
     ("CLAUDE_CODE_MESSAGING_SOCKET", "canary-socket-value-2b9d"),
     ("CLAUDE_CODE_MESSAGING_TOKEN", "canary-token-value-7f3a"),
     ("CLAUDE_CODE_SESSION_ATTENDED", "canary-attended-value-5f29"),
@@ -82,17 +87,31 @@ fn wrapped_env(tmp: &TestHome, env: &[(&str, &str)]) -> (Vec<String>, Value, Vec
     (names, start, pty.finish())
 }
 
+/// Every floor name is listed in `claude_env_keep`, so only the floor itself strips it; the
+/// unknown name is listed nowhere.
 #[rstest]
 fn tui_env_strip_removes_identity_and_unknown_claude_names(#[from(home)] tmp: TestHome) {
+    crate::support::home::private_dir(tmp.path(), "home");
+    let floor: Vec<&str> = STRIPPED
+        .iter()
+        .map(|(name, _)| *name)
+        .filter(|name| *name != "CLAUDE_VIOLA_TEST_NEW_X")
+        .collect();
+    let config = serde_json::json!({"v": 1, "claude_env_keep": floor});
+    std::fs::write(tmp.path().join("config.json"), config.to_string()).expect("config");
     let (names, start, stream) = wrapped_env(&tmp, &STRIPPED);
     for (name, _) in STRIPPED {
         assert!(!names.iter().any(|n| n == name), "{name} reached the child");
+    }
+    let kept = start["env_kept"].as_str().unwrap_or_default();
+    for (name, _) in STRIPPED {
+        assert!(!kept.split(',').any(|k| k == name), "{name} kept");
     }
     assert!(names.iter().any(|n| n.eq_ignore_ascii_case("PATH")));
     assert!(
         start["env_stripped_count"]
             .as_u64()
-            .is_some_and(|n| n >= 12)
+            .is_some_and(|n| n >= 14)
     );
     let known: Vec<&str> = start["env_stripped_known"]
         .as_str()
@@ -103,7 +122,7 @@ fn tui_env_strip_removes_identity_and_unknown_claude_names(#[from(home)] tmp: Te
         assert!(known.contains(&name), "{name} not named");
     }
     // The pinned copy under `bin/` is byte-for-byte the built binary: nothing written at run
-    // time is in it, and scanning its megabytes twelve times would dominate the test.
+    // time is in it, and scanning its megabytes fourteen times would dominate the test.
     let viola = std::fs::read(VIOLA).expect("viola binary");
     let written: Vec<(std::path::PathBuf, Vec<u8>)> = files_under(tmp.path())
         .into_iter()

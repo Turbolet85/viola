@@ -203,7 +203,7 @@ const DIALOG_STEMS: [&str; 5] = [
 ];
 
 /// The one step line a set recorded before the `question-permission` variants fails on.
-const QUESTION_ROW_FAILS: &str = "[27/27] permission-request-question a question raised by PermissionRequest takes the allow body  fail";
+const QUESTION_ROW_FAILS: &str = "[27/28] permission-request-question a question raised by PermissionRequest takes the allow body  fail";
 
 /// Whether `set` holds the `question-permission` variants the 27th row's probe replays.
 fn holds_question_permission(set: &Path) -> bool {
@@ -226,7 +226,7 @@ fn assert_framed_exit(set: &Path, version: &str, ran: &support::verify::Ran) {
         .collect();
     assert_eq!(failing, [QUESTION_ROW_FAILS], "{version}: failing steps");
     assert!(
-        stdout.lines().any(|l| l.ends_with("26 pass  1 fail")),
+        stdout.lines().any(|l| l.ends_with("27 pass  1 fail")),
         "{version}: summary\n{stdout}"
     );
 }

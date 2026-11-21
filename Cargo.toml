@@ -129,6 +129,11 @@ path = "tests/cli_verify.rs"
 required-features = ["fake-agent"]
 
 [[test]]
+name = "security_negatives_env_capture"
+path = "tests/security_negatives_env_capture.rs"
+required-features = ["fake-agent"]
+
+[[test]]
 name = "cli_version_gate"
 path = "tests/cli_version_gate.rs"
 required-features = ["fake-agent"]

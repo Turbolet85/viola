@@ -107,7 +107,7 @@ fn check_typed_rows_fail_without_a_measurement() {
         eight,
         [
             true, true, true, true, true, true, false, false, false, false, true, true, true, true,
-            true, true, true, true, true, true, false, false, false, true, false, true, true
+            true, true, true, true, true, true, false, false, false, true, false, true, true, true
         ]
     );
 }
@@ -362,7 +362,15 @@ fn merge_stamp_writes_the_box_only_guards() {
             box_only_guards: count,
             ..clean_typed()
         };
-        let bytes = merge_stamp(None, "2.1.0", &all_pass(), &[], &typed, None, "t");
+        let bytes = merge_stamp(
+            None,
+            "2.1.0",
+            &all_pass(),
+            &[],
+            &typed,
+            &Readings::default(),
+            "t",
+        );
         assert_eq!(
             doc(&bytes)["data"]["versions"]["2.1.0"]["measured"]["typed_probe"]["box_only_guards"],
             expected
@@ -818,4 +826,71 @@ fn check_permission_request_question_fails_when(#[case] fault: &str) {
         !dialog_check(LedgerRow::PermissionRequestQuestion, dialogs),
         "{fault}"
     );
+}
+
+/// The row's check over the clean probes with Run B's env-names document replaced.
+fn floor_check(env: Option<Value>, kept: &[String]) -> bool {
+    check(
+        LedgerRow::IdentityFloor,
+        &Probes {
+            env: env_reading(env.as_ref(), kept),
+            ..probes(&clean_run())
+        },
+    )
+}
+
+fn env_doc(names: &[&str], unshaped: u64) -> Value {
+    json!({"v": 1, "claude_names": names, "claude_unshaped": unshaped, "other_count": 12})
+}
+
+#[test]
+fn identity_floor_passes_on_floor_and_hook_names() {
+    let names = [
+        "CLAUDECODE",
+        "CLAUDE_PID",
+        "CLAUDE_PLUGIN_ROOT",
+        "CLAUDE_PROJECT_DIR",
+        "CLAUDE_ENV_FILE",
+    ];
+    assert!(floor_check(Some(env_doc(&names, 0)), &[]));
+    assert!(
+        floor_check(Some(env_doc(&[], 0)), &[]),
+        "no CLAUDE name at all"
+    );
+    let reading = env_reading(Some(&env_doc(&names, 0)), &[]);
+    assert_eq!(reading.added, names);
+    assert!(reading.unknown.is_empty());
+    assert_eq!(reading.other_count, Some(12));
+}
+
+#[rstest]
+#[case::unread(None)]
+#[case::unknown_name(Some(env_doc(&["CLAUDE_PID", "CLAUDE_VIOLA_TEST_NEW_X"], 0)))]
+#[case::unshaped_name(Some(env_doc(&["CLAUDE_PID"], 1)))]
+fn identity_floor_fails_when(#[case] env: Option<Value>) {
+    assert!(!floor_check(env, &[]));
+}
+
+#[test]
+fn identity_floor_drops_kept_names_before_the_check() {
+    let kept = vec!["CLAUDE_VIOLA_TEST_KEPT".to_owned()];
+    let doc = env_doc(&["CLAUDE_PID", "CLAUDE_VIOLA_TEST_KEPT"], 0);
+    assert!(floor_check(Some(doc.clone()), &kept));
+    let reading = env_reading(Some(&doc), &kept);
+    assert_eq!(reading.added, ["CLAUDE_PID"]);
+    assert_eq!(
+        env_variant(&reading),
+        Some(json!({"v": 1, "added": ["CLAUDE_PID"]}))
+    );
+    assert!(!floor_check(Some(doc), &[]), "the same name, not kept");
+}
+
+#[rstest]
+#[case::names_not_strings(json!({"v": 1, "claude_names": [1], "claude_unshaped": 0, "other_count": 1}))]
+#[case::no_other_count(json!({"v": 1, "claude_names": [], "claude_unshaped": 0}))]
+#[case::no_unshaped(json!({"v": 1, "claude_names": [], "other_count": 1}))]
+fn env_reading_of_another_shape_reads_unread(#[case] doc: Value) {
+    let reading = env_reading(Some(&doc), &[]);
+    assert_eq!(reading, EnvReading::default());
+    assert_eq!(env_variant(&reading), None);
 }

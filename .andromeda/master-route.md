@@ -127,3 +127,4 @@
 2026-11-20-a-quoted-modal-never-blocks-a-send · complete · A quoted modal literal in a transcript row no longer refuses a send on an idle session; a standing modal still does · → chk:2026-11-20-a-quoted-modal-never-blocks-a-send
 2026-11-20-permissionrequest-question-answered · complete · a PermissionRequest question answered allow with updatedInput, the 27th relied row and its probe; 2.1.328 alone re-stamped, three sets drift-only · → chk:2026-11-20-permissionrequest-question-answered
 2026-11-20-a-new-cli-version-stamped-automatically · complete · a `viola run` meeting an unstamped `claude` version gets it stamped without a hand-run verify · → chk:2026-11-20-a-new-cli-version-stamped-automatically
+2026-11-20-harness-prefix-and-identity-floor-ledger-rows · pending · the harness prompt prefixes and the R8 identity floor as relied ledger rows, each with a viola verify probe, stamped live · → chk:2026-11-20-harness-prefix-and-identity-floor-ledger-rows

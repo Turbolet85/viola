@@ -58,13 +58,116 @@ fn is_mcp(path: &Path) -> bool {
     named(path, "Mcp.")
 }
 
-/// `<root>/*/*.json` but the screens, the agents reads and the MCP exchanges, sorted: the recorded
-/// hook payloads.
+fn is_env(path: &Path) -> bool {
+    named(path, "Env.")
+}
+
+/// `<root>/*/*.json` but the screens, the agents reads, the MCP exchanges and the env-name
+/// records, sorted: the recorded hook payloads.
 fn claude_fixtures(root: &Path) -> Vec<PathBuf> {
     recorded(root)
         .into_iter()
-        .filter(|p| !is_screen(p) && !is_agents(p) && !is_mcp(p))
+        .filter(|p| !is_screen(p) && !is_agents(p) && !is_mcp(p) && !is_env(p))
         .collect()
+}
+
+/// `<root>/*/Env.*.json`, sorted: the recorded env-name records.
+fn env_fixtures(root: &Path) -> Vec<PathBuf> {
+    recorded(root).into_iter().filter(|p| is_env(p)).collect()
+}
+
+/// The env class: exactly `v` 1 and `added`, an array of names of the `CLAUDE*` name shape
+/// (`^CLAUDE[A-Z0-9_]*$`), none holding the user word, then the shared checks.
+fn check_env(bytes: &[u8], user: Option<&str>) -> Result<(), Violation> {
+    let doc: Value = serde_json::from_slice(bytes).map_err(|_| Violation::Schema)?;
+    let keys: Vec<&str> = doc
+        .as_object()
+        .map(|o| o.keys().map(String::as_str).collect())
+        .unwrap_or_default();
+    let names = doc["added"].as_array().ok_or(Violation::Schema)?;
+    let shaped = |n: &Value| {
+        n.as_str().is_some_and(|n| {
+            n.starts_with("CLAUDE")
+                && n.bytes()
+                    .all(|b| b.is_ascii_uppercase() || b.is_ascii_digit() || b == b'_')
+        })
+    };
+    if doc["v"] != 1 || keys != ["v", "added"] || !names.iter().all(shaped) {
+        return Err(Violation::Schema);
+    }
+    if let Some(user) = user.filter(|u| !u.is_empty()) {
+        let word = format!("_{}_", user.to_uppercase());
+        if names
+            .iter()
+            .filter_map(Value::as_str)
+            .any(|n| format!("_{n}_").contains(&word))
+        {
+            return Err(Violation::Username);
+        }
+    }
+    let text = String::from_utf8_lossy(bytes);
+    if has_absolute_path(&text) {
+        return Err(Violation::AbsolutePath);
+    }
+    if has_email(&text) {
+        return Err(Violation::Email);
+    }
+    Ok(())
+}
+
+#[test]
+fn env_fixtures_pass_hygiene() {
+    let user = host_user();
+    let walked = env_fixtures(&workspace_path("fixtures/claude"));
+    assert!(!walked.is_empty(), "no env record walked");
+    for path in walked {
+        let bytes = std::fs::read(&path).expect("fixture");
+        assert_eq!(
+            check_env(&bytes, user.as_deref()),
+            Ok(()),
+            "{}",
+            path.display()
+        );
+    }
+}
+
+#[test]
+fn planted_clean_env_record_passes() {
+    let doc = json!({"v": 1, "added": ["CLAUDE_PID", "CLAUDE_PROJECT_DIR"]});
+    assert_eq!(
+        check_env(doc.to_string().as_bytes(), Some("plantuser")),
+        Ok(())
+    );
+    assert_eq!(check_env(br#"{"v":1,"added":[]}"#, None), Ok(()));
+}
+
+#[rstest]
+#[case::not_json(json!("not an object"))]
+#[case::another_version(json!({"v": 2, "added": []}))]
+#[case::an_extra_key(json!({"v": 1, "added": [], "values": ["x"]}))]
+#[case::added_not_an_array(json!({"v": 1, "added": "CLAUDE_PID"}))]
+#[case::a_lowercase_name(json!({"v": 1, "added": ["CLAUDE_x"]}))]
+#[case::a_name_with_a_value(json!({"v": 1, "added": ["CLAUDE_PID=4242"]}))]
+#[case::another_prefix(json!({"v": 1, "added": ["PATH"]}))]
+fn planted_env_schema_violation_is_rejected(#[case] doc: Value) {
+    assert_eq!(
+        check_env(doc.to_string().as_bytes(), None),
+        Err(Violation::Schema)
+    );
+}
+
+#[test]
+fn planted_env_username_is_rejected() {
+    let doc = json!({"v": 1, "added": ["CLAUDE_PLANTUSER_X"]});
+    assert_eq!(
+        check_env(doc.to_string().as_bytes(), Some("plantuser")),
+        Err(Violation::Username)
+    );
+    let longer = json!({"v": 1, "added": ["CLAUDE_PLANTUSERS_X"]});
+    assert_eq!(
+        check_env(longer.to_string().as_bytes(), Some("plantuser")),
+        Ok(())
+    );
 }
 
 /// `<root>/*/Mcp.*.json`, sorted: the recorded MCP exchanges.

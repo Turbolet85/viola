@@ -54,10 +54,13 @@ pub enum LedgerRow {
     /// A question first raised by PermissionRequest takes the `allow` + `updatedInput` body. It
     /// reads `pass` or `fail`, never `absent`.
     PermissionRequestQuestion,
+    /// Every `CLAUDE*` name the CLI adds to a hook child is on the identity floor or on the
+    /// compiled non-identity hook names. It reads `pass` or `fail`, never `absent`.
+    IdentityFloor,
 }
 
 impl LedgerRow {
-    pub const ALL: [Self; 27] = [
+    pub const ALL: [Self; 28] = [
         Self::ShimResolution,
         Self::SpineHooks,
         Self::SessionStartFields,
@@ -85,6 +88,7 @@ impl LedgerRow {
         Self::LocalCommandContext,
         Self::StopSessionCrons,
         Self::PermissionRequestQuestion,
+        Self::IdentityFloor,
     ];
 
     /// The kebab-case id, the key under a stamped version's `rows`.
@@ -117,6 +121,7 @@ impl LedgerRow {
             Self::LocalCommandContext => "local-command-context",
             Self::StopSessionCrons => "stop-session-crons",
             Self::PermissionRequestQuestion => "permission-request-question",
+            Self::IdentityFloor => "identity-floor",
         }
     }
 
@@ -162,6 +167,7 @@ impl LedgerRow {
             Self::PermissionRequestQuestion => {
                 "a question raised by PermissionRequest takes the allow body"
             }
+            Self::IdentityFloor => "every CLAUDE name the CLI adds to a hook is a known name",
         }
     }
 
@@ -604,6 +610,42 @@ pub fn capture_file_name(event: HookEvent, k: u32) -> String {
     format!("{}.{k}.json", event_name(event))
 }
 
+/// `Env.<k>.json`: the env-names file the capture arm writes beside a SessionStart's `<k>`. `Env`
+/// is no hook event, so [`parse_capture_file_name`] reads no such name.
+pub fn env_file_name(k: u32) -> String {
+    format!("Env.{k}.json")
+}
+
+/// The env-names document of one hook child, over NAMES alone: never a value. A name whose text
+/// opens `CLAUDE` and is ASCII `[A-Z0-9_]` only is kept in `claude_names` (sorted, once each); any
+/// other `CLAUDE`-prefixed name is counted in `claude_unshaped`, and every other name in
+/// `other_count`, unnamed.
+pub fn env_capture_document(names: impl IntoIterator<Item = std::ffi::OsString>) -> Vec<u8> {
+    let mut claude = std::collections::BTreeSet::new();
+    let (mut unshaped, mut other) = (0u64, 0u64);
+    for name in names {
+        let text = name.to_string_lossy();
+        if !text.starts_with("CLAUDE") {
+            other += 1;
+        } else if text
+            .bytes()
+            .all(|b| b.is_ascii_uppercase() || b.is_ascii_digit() || b == b'_')
+        {
+            claude.insert(text.into_owned());
+        } else {
+            unshaped += 1;
+        }
+    }
+    json!({
+        "v": 1,
+        "claude_names": claude,
+        "claude_unshaped": unshaped,
+        "other_count": other,
+    })
+    .to_string()
+    .into_bytes()
+}
+
 pub fn parse_capture_file_name(name: &str) -> Option<(HookEvent, u32)> {
     let (stem, k) = name.strip_suffix(".json")?.rsplit_once('.')?;
     let event = HookEvent::ALL
@@ -784,6 +826,87 @@ pub struct Probes {
     pub dialogs: DialogRuns,
     pub resumed: Vec<Capture>,
     pub agents: Option<AgentsCapture>,
+    /// Run B's first SessionStart hook child's env names, kept names already gone.
+    pub env: EnvReading,
+}
+
+/// The identity-floor reading of one hook child's env-names document: whether it was read,
+/// the `CLAUDE*` names it carried less every name the config keeps (`added`), those of `added`
+/// on neither the floor nor the non-identity hook names (`unknown`), and its two counts. Names
+/// and counts only.
+#[derive(Debug, Clone, Default, PartialEq, Eq)]
+pub struct EnvReading {
+    pub read: bool,
+    pub added: Vec<String>,
+    pub unknown: Vec<String>,
+    pub other_count: Option<u64>,
+    pub unshaped: u64,
+}
+
+/// The reading of `env` (the capture arm's `Env.<k>.json`, parsed): `kept` (the config's
+/// `claude_env_keep`) is removed from its names first, so a kept name reaches nothing after this.
+/// A document of another shape reads unread.
+pub fn env_reading(env: Option<&Value>, kept: &[String]) -> EnvReading {
+    let Some(env) = env else {
+        return EnvReading::default();
+    };
+    let names: Option<Vec<&str>> = env["claude_names"]
+        .as_array()
+        .and_then(|names| names.iter().map(Value::as_str).collect());
+    let (Some(names), Some(other_count), Some(unshaped)) = (
+        names,
+        env["other_count"].as_u64(),
+        env["claude_unshaped"].as_u64(),
+    ) else {
+        return EnvReading::default();
+    };
+    let added: Vec<String> = names
+        .into_iter()
+        .filter(|name| !kept.iter().any(|k| k == name))
+        .map(str::to_owned)
+        .collect();
+    let unknown = added
+        .iter()
+        .filter(|name| {
+            !crate::IDENTITY_FLOOR.contains(&name.as_str())
+                && !crate::NON_IDENTITY_HOOK_NAMES.contains(&name.as_str())
+        })
+        .cloned()
+        .collect();
+    EnvReading {
+        read: true,
+        added,
+        unknown,
+        other_count: Some(other_count),
+        unshaped,
+    }
+}
+
+/// The recorded env variant's file name.
+pub const ENV_RECORDED: &str = "Env.recorded-1.json";
+
+/// The env reading as `--record` keeps it: the added names alone.
+pub fn env_variant(env: &EnvReading) -> Option<Value> {
+    env.read.then(|| json!({"v": 1, "added": env.added}))
+}
+
+/// What a stamp's `measured` holds beyond the typed run's timings: whether the two parallel
+/// questions were both open before either was answered, and the env reading.
+#[derive(Debug, Clone, Default, PartialEq, Eq)]
+pub struct Readings {
+    pub parallel_both_before_first_post: Option<bool>,
+    pub env: EnvReading,
+}
+
+impl Readings {
+    pub fn of(probes: &Probes) -> Self {
+        Self {
+            parallel_both_before_first_post: parallel_both_before_first_post(
+                &probes.dialogs.questions,
+            ),
+            env: probes.env.clone(),
+        }
+    }
 }
 
 const ASK: &str = "AskUserQuestion";
@@ -1195,6 +1318,10 @@ pub fn check(row: LedgerRow, probes: &Probes) -> bool {
         LedgerRow::PermissionRequestQuestion => {
             question_permission_answered(&probes.dialogs.questions)
         }
+        LedgerRow::IdentityFloor => {
+            let env = &probes.env;
+            env.read && env.unknown.is_empty() && env.unshaped == 0
+        }
     }
 }
 
@@ -1286,7 +1413,7 @@ pub fn merge_stamp(
     results: &[(LedgerRow, bool)],
     largest: &[(HookEvent, usize)],
     typed: &TypedRun,
-    parallel_both_before_first_post: Option<bool>,
+    readings: &Readings,
     written_at: &str,
 ) -> Vec<u8> {
     let mut doc = match existing.and_then(|b| serde_json::from_slice(b).ok()) {
@@ -1318,7 +1445,7 @@ pub fn merge_stamp(
                 "box_only_guards": typed.box_only_guards,
             },
             "dialog_probe": {
-                "parallel_both_before_first_post": parallel_both_before_first_post,
+                "parallel_both_before_first_post": readings.parallel_both_before_first_post,
             },
             "trust_probe": {
                 "write": typed.trust_write.map(TrustWord::as_str),
@@ -1327,6 +1454,13 @@ pub fn merge_stamp(
             "first_screen": first_screen,
             "first_settle_ms": first_settle_ms,
             "first_facts": first_facts,
+            "env_probe": {
+                "read": readings.env.read,
+                "added": readings.env.added,
+                "unknown": readings.env.unknown,
+                "other_count": readings.env.other_count,
+                "unshaped": readings.env.unshaped,
+            },
         },
     });
     doc.insert("v".to_owned(), json!(1));
@@ -1518,6 +1652,22 @@ pub fn unclean(value: &Value, user: &str) -> Option<Unclean> {
     let mut texts = Vec::new();
     strings(value, &mut texts);
     texts.iter().find_map(|s| text_fault(s, user))
+}
+
+/// An env-names document's first name holding `user` as one of its `_`-joined parts, case folded:
+/// [`unclean`] reads a word with `_` on either side as no whole word, and a `CLAUDE_*` name joins
+/// every part so.
+pub fn env_names_fault(value: &Value, user: &str) -> Option<Unclean> {
+    if user.is_empty() || user == "<user>" {
+        return None;
+    }
+    let user = user.to_lowercase();
+    let names = value["added"].as_array()?;
+    names
+        .iter()
+        .filter_map(Value::as_str)
+        .any(|name| format!("_{}_", name.to_lowercase()).contains(&format!("_{user}_")))
+        .then_some(Unclean::Username)
 }
 
 /// No string or key of `value` is [`unclean`].

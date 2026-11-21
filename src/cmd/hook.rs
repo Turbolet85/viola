@@ -16,7 +16,8 @@ use tracing::instrument;
 use viola_agent_claude::dialog::{Dialog, Response, classify, decision_body};
 use viola_agent_claude::hook::{HookEvent, Normalised};
 use viola_agent_claude::ledger::{
-    ProbeAnswer, answer_file_name, capture_file_name, parse_capture_file_name, probe_body,
+    ProbeAnswer, answer_file_name, capture_file_name, env_capture_document, env_file_name,
+    parse_capture_file_name, probe_body,
 };
 use viola_channel::{ChannelError, Client, peer_admitted};
 use viola_core::obs::{ObsEvent, ObsProcess};
@@ -400,14 +401,29 @@ struct Filed {
 
 /// The raw payload into the first free `<dir>/<Event>.<k>.json`, and nothing else: no `VIOLA_*`
 /// read, no log, no channel. `dir` must be an absolute, existing directory; every failure writes
-/// nothing.
+/// nothing. A SessionStart also files `<dir>/Env.<k>.json`: this process's environment NAMES,
+/// never a value, read for verify's identity-floor probe (the founder's E1, ratified 2026-11-21;
+/// security-plan, the capture arm's env-names read).
 fn capture(event: HookEvent, dir: &Path, stdin: &mut dyn Read) -> Option<Filed> {
     if !dir.is_absolute() || !dir.is_dir() {
         return None;
     }
     let mut bytes = Vec::new();
     stdin.take(MAX_FRAME + 1).read_to_end(&mut bytes).ok()?;
-    file_from(event, dir, bytes, free_k(dir)?)
+    file_from(event, dir, bytes, free_k(dir)?).inspect(|filed| {
+        if event == HookEvent::SessionStart {
+            file_env_names(dir, filed.k, std::env::vars_os().map(|(name, _)| name));
+        }
+    })
+}
+
+/// The env-names document of `names` into `<dir>/Env.<k>.json`, created by this call alone and
+/// owner-only before any byte; a name standing there or a failed write leaves it as found.
+fn file_env_names(dir: &Path, k: u32, names: impl IntoIterator<Item = std::ffi::OsString>) {
+    let path = dir.join(env_file_name(k));
+    if create_private_new(&path).is_ok() {
+        let _ = replace_private(&path, &env_capture_document(names), FILE_MODE);
+    }
 }
 
 /// `bytes` filed under the first `<dir>/<Event>.<k>.json` from `start` on that this call creates
@@ -1517,6 +1533,56 @@ mod tests {
         );
         let third = capture(HookEvent::Stop, tmp.path(), &mut &b""[..]).expect("filed");
         assert_eq!(third.k, 4);
+        assert!(
+            tmp.path().join("Env.1.json").is_file(),
+            "the SessionStart's env file"
+        );
+        assert!(!tmp.path().join("Env.2.json").exists());
+        assert!(!tmp.path().join("Env.4.json").exists());
+    }
+
+    #[test]
+    fn capture_files_the_env_names_owner_only_beside_a_session_start_alone() {
+        use std::os::unix::fs::PermissionsExt;
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let filed = capture(HookEvent::SessionStart, tmp.path(), &mut &b"{}"[..]).expect("filed");
+        let env = tmp.path().join(env_file_name(filed.k));
+        let meta = fs::metadata(&env).expect("env file");
+        assert_eq!(meta.permissions().mode() & 0o777, 0o600);
+        let doc: Value = serde_json::from_slice(&fs::read(&env).expect("read")).expect("json");
+        assert_eq!(doc["v"], 1);
+        assert!(doc["claude_names"].is_array());
+        assert!(doc["other_count"].is_u64());
+        for event in [
+            HookEvent::UserPromptSubmit,
+            HookEvent::Stop,
+            HookEvent::SessionEnd,
+        ] {
+            let filed = capture(event, tmp.path(), &mut &b"{}"[..]).expect("filed");
+            assert!(!tmp.path().join(env_file_name(filed.k)).exists());
+        }
+        let envs = fs::read_dir(tmp.path())
+            .expect("dir")
+            .flatten()
+            .filter(|e| e.file_name().to_string_lossy().starts_with("Env."))
+            .count();
+        assert_eq!(envs, 1);
+    }
+
+    #[test]
+    fn file_env_names_leaves_a_standing_name_as_found() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        fs::write(tmp.path().join("Env.1.json"), b"standing").expect("standing");
+        file_env_names(tmp.path(), 1, [std::ffi::OsString::from("CLAUDE_PID")]);
+        assert_eq!(
+            fs::read(tmp.path().join("Env.1.json")).expect("read"),
+            b"standing"
+        );
+        file_env_names(tmp.path(), 2, [std::ffi::OsString::from("CLAUDE_PID")]);
+        assert_eq!(
+            fs::read(tmp.path().join("Env.2.json")).expect("read"),
+            br#"{"v":1,"claude_names":["CLAUDE_PID"],"claude_unshaped":0,"other_count":0}"#
+        );
     }
 
     #[test]

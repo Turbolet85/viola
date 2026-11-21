@@ -17,7 +17,7 @@ use std::time::Duration;
 
 use serde_json::{Value, json};
 use viola_agent_claude::ledger::{
-    ECHO_TAG, PROBE_COMPACT_COMMAND, PROBE_CONTEXT_COMMAND, PROBE_ECHO_COMMAND,
+    ECHO_TAG, ENV_RECORDED, PROBE_COMPACT_COMMAND, PROBE_CONTEXT_COMMAND, PROBE_ECHO_COMMAND,
     PROBE_LOCAL_COMMAND, PROBE_LONG_PASTE, PROBE_TAG_PASTE, PostCondition, dialog_stem,
     framing_stem, local_command_of,
 };
@@ -75,6 +75,9 @@ const AGENTS_ROWS: &str = "agents-rows.json";
 const SESSIONS: &str = "sessions";
 /// Beside the executable, under `--transcript`: one `<session_id>.jsonl` per session it started.
 const TRANSCRIPTS: &str = "transcripts";
+/// The value a SessionStart hook child is given for each name the set's recorded env variant
+/// lists: a compiled placeholder, never a recorded value (none is recorded).
+const FAKE_AGENT_ENV_VALUE: &str = "fake-agent";
 /// The title a registry row carries: synthetic, never user text.
 const SESSION_NAME: &str = "viola fake agent session";
 const REGISTERED_EVENTS: [&str; 10] = [
@@ -665,6 +668,27 @@ impl Agent {
         }
     }
 
+    /// The names the set's recorded env variant lists (`added`), each of the `CLAUDE*` name shape;
+    /// none without the variant.
+    fn recorded_env_names(&self) -> Vec<String> {
+        let doc = self
+            .set_file(ENV_RECORDED)
+            .and_then(|bytes| serde_json::from_slice::<Value>(&bytes).ok());
+        doc.as_ref()
+            .and_then(|d| d["added"].as_array())
+            .into_iter()
+            .flatten()
+            .filter_map(Value::as_str)
+            .filter(|name| {
+                name.starts_with("CLAUDE")
+                    && name
+                        .bytes()
+                        .all(|b| b.is_ascii_uppercase() || b.is_ascii_digit() || b == b'_')
+            })
+            .map(str::to_owned)
+            .collect()
+    }
+
     /// The waker's one trigger: the first call takes it, every later one finds none.
     fn trigger_wake(&self) {
         let trigger = self
@@ -796,6 +820,11 @@ impl Agent {
             return false;
         }
         let mut cmd = Command::new(command);
+        if event == Some("SessionStart") {
+            for name in self.recorded_env_names() {
+                cmd.env(name, FAKE_AGENT_ENV_VALUE);
+            }
+        }
         cmd.args(args)
             .stdin(Stdio::piped())
             .stdout(Stdio::piped())

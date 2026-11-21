@@ -271,6 +271,7 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<Ended> {
         dialogs,
         resumed: read_captures(&resume.1),
         agents,
+        env: ledger::env_reading(read_env(&trusted.1).as_ref(), &persistent),
     };
     drop(probe);
     if stop::stopped() {
@@ -287,7 +288,7 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<Ended> {
             &results,
             &largest,
             &probes.typed,
-            ledger::parallel_both_before_first_post(&probes.dialogs.questions),
+            &ledger::Readings::of(&probes),
             &written_at,
         )
     });
@@ -438,6 +439,27 @@ fn read_captures(dir: &Path) -> Vec<Capture> {
         .collect()
 }
 
+/// The env-names document of the first SessionStart filed in `dir` (its smallest `k`), read
+/// through the frame cap; `None` when there is none or it does not parse.
+fn read_env(dir: &Path) -> Option<serde_json::Value> {
+    let k = std::fs::read_dir(dir)
+        .into_iter()
+        .flatten()
+        .flatten()
+        .filter_map(|entry| {
+            let (event, k) = ledger::parse_capture_file_name(entry.file_name().to_str()?)?;
+            (event == HookEvent::SessionStart).then_some(k)
+        })
+        .min()?;
+    let mut bytes = Vec::new();
+    File::open(dir.join(ledger::env_file_name(k)))
+        .ok()?
+        .take(MAX_FRAME)
+        .read_to_end(&mut bytes)
+        .ok()?;
+    serde_json::from_slice(&bytes).ok()
+}
+
 /// Every row relied on this OS checked in order, its step line printed as it is checked.
 fn check_rows(probes: &Probes) -> Vec<(LedgerRow, bool)> {
     let relied = LedgerRow::relied();
@@ -544,6 +566,10 @@ fn named_payloads(probes: &Probes) -> Vec<(String, serde_json::Value)> {
             ledger::agents_variant(agents),
         ));
     }
+    payloads.push((
+        ledger::ENV_RECORDED.to_owned(),
+        ledger::env_variant(&probes.env),
+    ));
     payloads
         .into_iter()
         .filter_map(|(name, payload)| Some((name, payload?)))
@@ -559,7 +585,10 @@ fn scrubbed_payloads(
     let mut files = Vec::new();
     for (name, payload) in payloads {
         let scrubbed = ledger::scrub(&payload, home, user);
-        if let Some(why) = ledger::unclean(&scrubbed, user) {
+        let env_fault = (name == ledger::ENV_RECORDED)
+            .then(|| ledger::env_names_fault(&scrubbed, user))
+            .flatten();
+        if let Some(why) = env_fault.or_else(|| ledger::unclean(&scrubbed, user)) {
             return Err(format!("{name} {}", why.code()));
         }
         files.push((name, scrubbed));
@@ -727,7 +756,41 @@ mod tests {
         );
     }
 
-    /// The counter's total is the relied count: twenty-seven rows.
+    /// An env name holding the user word as one of its `_`-joined parts refuses the recording by
+    /// the file and `username`, never the name; the same set with a clean name records.
+    #[test]
+    fn record_refuses_an_env_name_carrying_the_user_word() {
+        let env = |name: &str| {
+            vec![(
+                ledger::ENV_RECORDED.to_owned(),
+                json!({"v": 1, "added": ["CLAUDE_PID", name]}),
+            )]
+        };
+        assert_eq!(
+            scrubbed_payloads(env("CLAUDE_PLANTUSER_X"), "/home/plantuser", "plantuser"),
+            Err("Env.recorded-1.json username".to_owned())
+        );
+        assert_eq!(
+            scrubbed_payloads(env("CLAUDE_X_PLANTUSER"), "/home/plantuser", "plantuser"),
+            Err("Env.recorded-1.json username".to_owned())
+        );
+        let clean = scrubbed_payloads(env("CLAUDE_PLANTUSERS_X"), "/home/plantuser", "plantuser");
+        assert_eq!(
+            clean.map(|files| files.len()),
+            Ok(1),
+            "a longer word is not the user's"
+        );
+        let other = vec![(
+            "UserPromptSubmit.paste-2.json".to_owned(),
+            json!({"hook_event_name": "UserPromptSubmit", "prompt": "CLAUDE_PLANTUSER_X"}),
+        )];
+        assert!(
+            scrubbed_payloads(other, "/home/plantuser", "plantuser").is_ok(),
+            "the env check reads the env file alone"
+        );
+    }
+
+    /// The counter's total is the relied count: twenty-eight rows.
     #[test]
     fn step_lines_count_to_the_relied_total() {
         let probes = Probes {
@@ -740,44 +803,45 @@ mod tests {
             dialogs: DialogRuns::default(),
             resumed: Vec::new(),
             agents: None,
+            env: ledger::EnvReading::default(),
         };
         let results = check_rows(&probes);
-        assert_eq!(results.len(), 27);
+        assert_eq!(results.len(), 28);
         assert_eq!(
-            step_line(19, 27, LedgerRow::ResumeSession, "fail"),
-            "[19/27] resume-session --resume <id> reopens the session under that id  fail"
+            step_line(19, 28, LedgerRow::ResumeSession, "fail"),
+            "[19/28] resume-session --resume <id> reopens the session under that id  fail"
         );
         assert_eq!(
-            step_line(20, 27, LedgerRow::AgentsJoin, "fail"),
-            "[20/27] agents-join claude agents --json names the live session by pid and session id  fail"
+            step_line(20, 28, LedgerRow::AgentsJoin, "fail"),
+            "[20/28] agents-join claude agents --json names the live session by pid and session id  fail"
         );
         assert_eq!(
-            step_line(21, 27, LedgerRow::LocalCommandCompact, "fail"),
-            "[21/27] local-command-compact /compact keeps the session id and submits no prompt  fail"
+            step_line(21, 28, LedgerRow::LocalCommandCompact, "fail"),
+            "[21/28] local-command-compact /compact keeps the session id and submits no prompt  fail"
         );
         assert_eq!(
-            step_line(22, 27, LedgerRow::LocalCommandEcho, "fail"),
-            "[22/27] local-command-echo /mcp writes its stdout tag to the transcript and submits no prompt  fail"
+            step_line(22, 28, LedgerRow::LocalCommandEcho, "fail"),
+            "[22/28] local-command-echo /mcp writes its stdout tag to the transcript and submits no prompt  fail"
         );
         assert_eq!(
-            step_line(23, 27, LedgerRow::TrustRecord, "pass"),
-            "[23/27] trust-record a trust record written for an untrusted folder opens it with no modal  pass"
+            step_line(23, 28, LedgerRow::TrustRecord, "pass"),
+            "[23/28] trust-record a trust record written for an untrusted folder opens it with no modal  pass"
         );
         assert_eq!(
-            step_line(24, 27, LedgerRow::BrowserToolsPrompt, "absent"),
-            "[24/27] browser-tools-prompt an interactive start's browser-tools prompt reads as a modal, nothing typed  absent"
+            step_line(24, 28, LedgerRow::BrowserToolsPrompt, "absent"),
+            "[24/28] browser-tools-prompt an interactive start's browser-tools prompt reads as a modal, nothing typed  absent"
         );
         assert_eq!(
-            step_line(25, 27, LedgerRow::LocalCommandContext, "pass"),
-            "[25/27] local-command-context /context writes its stdout tag to the transcript and submits no prompt  pass"
+            step_line(25, 28, LedgerRow::LocalCommandContext, "pass"),
+            "[25/28] local-command-context /context writes its stdout tag to the transcript and submits no prompt  pass"
         );
         assert_eq!(
-            step_line(26, 27, LedgerRow::StopSessionCrons, "fail"),
-            "[26/27] stop-session-crons Stop carries session_crons as an array  fail"
+            step_line(26, 28, LedgerRow::StopSessionCrons, "fail"),
+            "[26/28] stop-session-crons Stop carries session_crons as an array  fail"
         );
         assert_eq!(
-            step_line(27, 27, LedgerRow::PermissionRequestQuestion, "fail"),
-            "[27/27] permission-request-question a question raised by PermissionRequest takes the allow body  fail"
+            step_line(27, 28, LedgerRow::PermissionRequestQuestion, "fail"),
+            "[27/28] permission-request-question a question raised by PermissionRequest takes the allow body  fail"
         );
         assert_eq!(step_word("absent"), "absent");
         assert_eq!(step_word("pass"), "pass");
@@ -794,6 +858,10 @@ mod tests {
         assert_eq!(
             passed,
             [LedgerRow::LargestHookPayload, LedgerRow::BrowserToolsPrompt]
+        );
+        assert_eq!(
+            step_line(28, 28, LedgerRow::IdentityFloor, "fail"),
+            "[28/28] identity-floor every CLAUDE name the CLI adds to a hook is a known name  fail"
         );
     }
 

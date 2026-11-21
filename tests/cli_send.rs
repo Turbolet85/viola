@@ -876,7 +876,7 @@ fn send_clear_on_a_verified_cli_is_confirmed_by_its_new_session(stamped_home: St
     );
     assert_eq!(
         records[2]["data"],
-        json!({"cause": "clear", "agent_session_id": "16e6d6ce-3913-4a62-aedc-9d053ae3646a"})
+        json!({"cause": "clear", "agent_session_id": "95caed5c-38c1-42b7-8ae0-691eb9f85070"})
     );
     assert_eq!(records[3]["data"], json!({"cursor": l}));
     let typed = prompts_at_least(&wrapper.receipt(), 1);

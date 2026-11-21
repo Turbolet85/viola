@@ -289,3 +289,64 @@ fn hyprctl_output_replays_the_recorded_fixture_for_its_argv_and_each_mode_its_by
     assert_eq!(hyprctl_output(None, None, &clients_argv), (Vec::new(), 1));
     assert_eq!(HYPRCTL, "hyprctl");
 }
+
+/// A fixtures root holding `<version>/<name>` for each of `files`, and the agent's arguments over
+/// it: `--cli-version 3.0.0 --fixtures <root> --receipt <tmp>/receipt.ndjson` and `extra`.
+fn over_set(tmp: &Path, files: &[(&str, &str)], extra: &[&str]) -> Vec<String> {
+    let set = tmp.join("fixtures").join("3.0.0");
+    fs::create_dir_all(&set).expect("set");
+    for (name, body) in files {
+        fs::write(set.join(name), body).expect("fixture");
+    }
+    let utf8 = |p: PathBuf| p.to_str().expect("utf-8").to_owned();
+    let mut list = vec![
+        "--cli-version".to_owned(),
+        "3.0.0".to_owned(),
+        "--fixtures".to_owned(),
+        utf8(tmp.join("fixtures")),
+        "--receipt".to_owned(),
+        utf8(tmp.join("receipt.ndjson")),
+    ];
+    list.extend(args(extra));
+    list
+}
+
+/// The receipt's lines of `kind`.
+fn receipted(tmp: &Path, kind: &str) -> Vec<Value> {
+    fs::read_to_string(tmp.join("receipt.ndjson"))
+        .unwrap_or_default()
+        .lines()
+        .filter_map(|l| serde_json::from_str::<Value>(l).ok())
+        .filter(|l| l["kind"] == kind)
+        .collect()
+}
+
+#[test]
+fn session_start_hook_carries_the_recorded_env_names() {
+    let tmp = tempfile::tempdir().expect("tempdir");
+    let env =
+        "{\"v\":1,\"added\":[\"CLAUDE_PROJECT_DIR\",\"CLAUDE_VIOLA_TEST_NEW_X\",\"not-a-name\"]}\n";
+    let list = over_set(tmp.path(), &[(ENV_RECORDED, env)], &[]);
+    let agent = Agent::new(Opts::parse(&list));
+    assert_eq!(
+        agent.recorded_env_names(),
+        ["CLAUDE_PROJECT_DIR", "CLAUDE_VIOLA_TEST_NEW_X"]
+    );
+    let printenv = "/usr/bin/printenv".to_owned();
+    assert!(agent.run_hook(
+        "SessionStart",
+        &printenv,
+        &args(&["CLAUDE_VIOLA_TEST_NEW_X"]),
+        b""
+    ));
+    assert!(!agent.run_hook("Stop", &printenv, &args(&["CLAUDE_VIOLA_TEST_NEW_X"]), b""));
+    let hooks = receipted(tmp.path(), "hook");
+    assert_eq!(hooks[0]["stdout_hex"], hex(b"fake-agent\n"));
+    assert_eq!(hooks[1]["stdout_hex"], "");
+    let bare = Agent::new(Opts::parse(&over_set(
+        tempfile::tempdir().expect("t").path(),
+        &[],
+        &[],
+    )));
+    assert!(bare.recorded_env_names().is_empty(), "no variant, no name");
+}

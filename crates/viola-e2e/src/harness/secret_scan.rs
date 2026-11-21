@@ -13,7 +13,7 @@ use super::{Outcome, Workspace, write_json};
 
 /// NEVER-log values: forbidden in every scanned file, detail files included (obs-plan §8). The
 /// stripped `CLAUDE*` ones are the fixed canaries the root tests plant through the environment.
-pub const CRITICAL: [(&str, &str); 12] = [
+pub const CRITICAL: [(&str, &str); 16] = [
     ("claude-stripped", "canary-token-value-7f3a"),
     ("claude-stripped", "canary-socket-value-2b9d"),
     ("claude-stripped", "canary-entrypoint-value-8e41"),
@@ -26,6 +26,10 @@ pub const CRITICAL: [(&str, &str); 12] = [
     ("claude-stripped", "canary-effort-value-0b7e"),
     ("claude-stripped", "canary-pid-value-6c35"),
     ("claude-stripped", "canary-newname-value-e2f8"),
+    ("claude-stripped", "canary-kept-value-1d6c"),
+    ("claude-stripped", "canary-other-value-9a4f"),
+    ("claude-stripped", "canary-notes-value-3a71"),
+    ("claude-stripped", "canary-launched-value-c58e"),
 ];
 
 /// Content canaries: allowed in detail files and the harness capture, never in a home-level role

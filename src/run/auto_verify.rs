@@ -390,7 +390,15 @@ mod tests {
             .filter(|r| **r != last)
             .map(|r| (*r, true))
             .collect();
-        let bytes = merge_stamp(None, "2.1.0", &short, &[], &TypedRun::default(), None, "t");
+        let bytes = merge_stamp(
+            None,
+            "2.1.0",
+            &short,
+            &[],
+            &TypedRun::default(),
+            &viola_agent_claude::ledger::Readings::default(),
+            "t",
+        );
         let entry = crate::run::version_gate::entry_of(&Ok(Some(bytes)), "2.1.0");
         assert_eq!(
             decide(true, &gate(Some("2.1.0"), false, entry)),

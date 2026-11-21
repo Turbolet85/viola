@@ -12,20 +12,35 @@ pub mod trust;
 use std::ffi::{OsStr, OsString};
 use std::path::{Path, PathBuf};
 
-/// Parent-session identity measured on a wrapped host; always stripped, whatever the persistent
-/// environment says (security-plan §Secret Management → Storage).
-pub const IDENTITY_FLOOR: [&str; 11] = [
+/// Parent-session identity; always stripped, whatever the persistent environment says
+/// (security-plan §Secret Management → Storage). Eleven names were measured on a wrapped host;
+/// `CLAUDE_CODE_CHILD_NOTES_DIR` and `CLAUDE_CODE_LAUNCHED_BY_SESSION_IDS` were read from the
+/// 2.1.328 bundle as names the CLI sets beside the session's identity for its children, the
+/// second unmeasured live.
+pub const IDENTITY_FLOOR: [&str; 13] = [
     "CLAUDECODE",
     "CLAUDE_CODE_BRIDGE_SESSION_ID",
+    "CLAUDE_CODE_CHILD_NOTES_DIR",
     "CLAUDE_CODE_CHILD_SESSION",
     "CLAUDE_CODE_ENTRYPOINT",
     "CLAUDE_CODE_EXECPATH",
+    "CLAUDE_CODE_LAUNCHED_BY_SESSION_IDS",
     "CLAUDE_CODE_MESSAGING_SOCKET",
     "CLAUDE_CODE_MESSAGING_TOKEN",
     "CLAUDE_CODE_SESSION_ATTENDED",
     "CLAUDE_CODE_SESSION_ID",
     "CLAUDE_EFFORT",
     "CLAUDE_PID",
+];
+
+/// The `CLAUDE*` names the CLI hands a hook child that name no identity: the plugin, project,
+/// env-file and plugin-data names. Read only by `viola verify`'s identity-floor probe, never by
+/// the strip.
+pub const NON_IDENTITY_HOOK_NAMES: [&str; 4] = [
+    "CLAUDE_PLUGIN_ROOT",
+    "CLAUDE_PROJECT_DIR",
+    "CLAUDE_ENV_FILE",
+    "CLAUDE_PLUGIN_DATA",
 ];
 
 #[derive(Debug, Default, Clone, PartialEq, Eq)]
@@ -294,10 +309,55 @@ mod tests {
     }
 
     #[test]
+    fn plan_strip_strips_a_kept_child_notes_dir_all_the_same() {
+        let plan = plan_strip(
+            names(&["CLAUDE_CODE_CHILD_NOTES_DIR"]),
+            &["CLAUDE_CODE_CHILD_NOTES_DIR".to_owned()],
+        );
+        assert_eq!(plan.remove, names(&["CLAUDE_CODE_CHILD_NOTES_DIR"]));
+        assert!(plan.kept.is_empty());
+    }
+
+    /// The literal copy: never the product's own constant.
+    #[test]
     fn identity_floor_is_the_measured_list() {
-        assert_eq!(IDENTITY_FLOOR.len(), 11);
-        assert!(IDENTITY_FLOOR.iter().all(|n| n.starts_with("CLAUDE")));
-        assert!(IDENTITY_FLOOR.contains(&"CLAUDE_CODE_MESSAGING_SOCKET"));
+        assert_eq!(
+            IDENTITY_FLOOR,
+            [
+                "CLAUDECODE",
+                "CLAUDE_CODE_BRIDGE_SESSION_ID",
+                "CLAUDE_CODE_CHILD_NOTES_DIR",
+                "CLAUDE_CODE_CHILD_SESSION",
+                "CLAUDE_CODE_ENTRYPOINT",
+                "CLAUDE_CODE_EXECPATH",
+                "CLAUDE_CODE_LAUNCHED_BY_SESSION_IDS",
+                "CLAUDE_CODE_MESSAGING_SOCKET",
+                "CLAUDE_CODE_MESSAGING_TOKEN",
+                "CLAUDE_CODE_SESSION_ATTENDED",
+                "CLAUDE_CODE_SESSION_ID",
+                "CLAUDE_EFFORT",
+                "CLAUDE_PID",
+            ]
+        );
+    }
+
+    /// The literal copy (the founder's list): never the product's own constant.
+    #[test]
+    fn non_identity_hook_names_are_the_four_named_and_none_is_on_the_floor() {
+        assert_eq!(
+            NON_IDENTITY_HOOK_NAMES,
+            [
+                "CLAUDE_PLUGIN_ROOT",
+                "CLAUDE_PROJECT_DIR",
+                "CLAUDE_ENV_FILE",
+                "CLAUDE_PLUGIN_DATA",
+            ]
+        );
+        assert!(
+            NON_IDENTITY_HOOK_NAMES
+                .iter()
+                .all(|n| !IDENTITY_FLOOR.contains(n))
+        );
     }
 
     fn touch(path: &Path) {

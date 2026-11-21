@@ -99,8 +99,9 @@ fn verify_refuses_a_widened_ledger_before_any_step(#[from(home)] home: TestHome)
 /// trust dialog and are killed with no key, which fails the three rows a turn measures, the four
 /// dialog rows, the three framing rows, the newline row, the resume row (Run B captured no
 /// SessionStart, so no Run E starts), the agents row (Run B never reached its turn, so no read is
-/// made) and the compact row. The trust-record run reads its own record, not the trust root, so
-/// its row still passes.
+/// made), the compact row and the identity-floor row (Run B's hook child never ran, so no env
+/// names were read). The trust-record run reads its own record, not the trust root, so its row
+/// still passes.
 #[rstest]
 fn verify_a_set_without_stop_fails_its_rows_and_still_stamps(#[from(home)] home: TestHome) {
     write_spine_set(&fixtures(&home), "2.1.0", Some("Stop"));
@@ -111,7 +112,7 @@ fn verify_a_set_without_stop_fails_its_rows_and_still_stamps(#[from(home)] home:
     let stdout = ran.stdout_text();
     let lines: Vec<&str> = stdout.lines().collect();
     let mut expected = steps_failing(|i| ![0, 2, 3, 5, 6, 22, 23].contains(&i));
-    expected.push("stamped 2.1.0  7 pass  20 fail".to_owned());
+    expected.push("stamped 2.1.0  7 pass  21 fail".to_owned());
     assert_eq!(lines, expected);
     assert!(ran.stderr.is_empty());
     let rows = &stamps(home.path())["data"]["versions"]["2.1.0"]["rows"];
@@ -468,6 +469,7 @@ fn verify_record_writes_the_scrubbed_spine_variants_and_screens(
     names.sort();
     let expected = vec![
         "Agents.recorded-1.json",
+        "Env.recorded-1.json",
         "PermissionRequest.permission-1.json",
         "PermissionRequest.plan-1.json",
         "PermissionRequest.question-permission-1.json",
@@ -499,6 +501,12 @@ fn verify_record_writes_the_scrubbed_spine_variants_and_screens(
         "UserPromptSubmit.paste-3.json",
     ];
     assert_eq!(names, expected);
+    // The kept name (`CLAUDE_CONFIG_DIR`, the record's tie) is gone before the record is written,
+    // and the set holds no recorded env variant: nothing is added.
+    assert_eq!(
+        fs::read_to_string(dir.join("Env.recorded-1.json")).expect("the env names"),
+        "{\"v\":1,\"added\":[]}\n"
+    );
     let schema = load_schema(&workspace_path("schemas/claude-fixture.v1.json"));
     let agents_schema = load_schema(&workspace_path("schemas/claude-agents-fixture.v1.json"));
     let agents = fs::read(dir.join("Agents.recorded-1.json")).expect("the agents read");
@@ -512,10 +520,9 @@ fn verify_record_writes_the_scrubbed_spine_variants_and_screens(
     assert_eq!(rows[0]["kind"], "interactive");
     assert_eq!(rows[0]["status"], "idle");
     assert!(!has_username(&agents_text, &user));
-    for name in names
-        .iter()
-        .filter(|n| !n.starts_with("Screen.") && !n.starts_with("Agents."))
-    {
+    for name in names.iter().filter(|n| {
+        !n.starts_with("Screen.") && !n.starts_with("Agents.") && !n.starts_with("Env.")
+    }) {
         let bytes = fs::read(dir.join(name)).expect("fixture");
         assert_eq!(check(&bytes, &schema, Some(&user)), Ok(()), "{name}");
         let text = String::from_utf8(bytes).expect("utf-8");

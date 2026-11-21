@@ -131,6 +131,19 @@ fn clean_typed() -> TypedRun {
     }
 }
 
+/// Run B's first SessionStart hook child's names read, the floor and the project dir.
+fn clean_env() -> EnvReading {
+    env_reading(
+        Some(&json!({
+            "v": 1,
+            "claude_names": ["CLAUDE_PID", "CLAUDE_PROJECT_DIR"],
+            "claude_unshaped": 0,
+            "other_count": 40,
+        })),
+        &[],
+    )
+}
+
 fn rows(list: &[&str]) -> Vec<String> {
     list.iter().map(|r| (*r).to_owned()).collect()
 }
@@ -143,6 +156,7 @@ fn probes(run: &ProbeRun) -> Probes {
         dialogs: clean_dialogs(),
         resumed: clean_resumed(),
         agents: Some(clean_agents()),
+        env: clean_env(),
     }
 }
 
@@ -171,6 +185,7 @@ fn typed_check(row: LedgerRow, typed: TypedRun) -> bool {
             dialogs: clean_dialogs(),
             resumed: clean_resumed(),
             agents: Some(clean_agents()),
+            env: clean_env(),
         },
     )
 }
@@ -366,6 +381,7 @@ fn dialog_check(row: LedgerRow, dialogs: DialogRuns) -> bool {
             dialogs,
             resumed: clean_resumed(),
             agents: Some(clean_agents()),
+            env: clean_env(),
         },
     )
 }
@@ -482,6 +498,7 @@ fn resume_check(trusted: Vec<Capture>, resumed: Vec<Capture>) -> bool {
             dialogs: clean_dialogs(),
             resumed,
             agents: Some(clean_agents()),
+            env: clean_env(),
         },
     )
 }
@@ -504,6 +521,7 @@ fn framing_check(row: LedgerRow, trusted: Vec<Capture>) -> bool {
             dialogs: clean_dialogs(),
             resumed: clean_resumed(),
             agents: Some(clean_agents()),
+            env: clean_env(),
         },
     )
 }
@@ -524,6 +542,7 @@ fn compact_check(trusted: Vec<Capture>, typed: TypedRun) -> bool {
             dialogs: clean_dialogs(),
             resumed: clean_resumed(),
             agents: Some(clean_agents()),
+            env: clean_env(),
         },
     )
 }
@@ -648,4 +667,42 @@ fn browser_tools_row_reads_fail_when_a_first_screen_reads_none() {
         assert!(!typed_check(LedgerRow::BrowserToolsPrompt, typed.clone()));
         assert_eq!(browser_tools_word(&typed), "fail");
     }
+}
+
+#[rstest]
+#[case::floor_names_only(
+    &["CLAUDE_PID", "CLAUDECODE"],
+    r#"{"v":1,"claude_names":["CLAUDECODE","CLAUDE_PID"],"claude_unshaped":0,"other_count":0}"#
+)]
+#[case::one_unknown_name(
+    &["CLAUDE_PID", "CLAUDE_VIOLA_TEST_NEW_X"],
+    r#"{"v":1,"claude_names":["CLAUDE_PID","CLAUDE_VIOLA_TEST_NEW_X"],"claude_unshaped":0,"other_count":0}"#
+)]
+#[case::lowercase_counted_unshaped(
+    &["CLAUDE_x", "CLAUDE_PID"],
+    r#"{"v":1,"claude_names":["CLAUDE_PID"],"claude_unshaped":1,"other_count":0}"#
+)]
+#[case::other_names_counted_only(
+    &["PATH", "HOME", "XCLAUDE"],
+    r#"{"v":1,"claude_names":[],"claude_unshaped":0,"other_count":3}"#
+)]
+#[case::duplicates_once(
+    &["CLAUDE_PID", "CLAUDE_PID", "PATH"],
+    r#"{"v":1,"claude_names":["CLAUDE_PID"],"claude_unshaped":0,"other_count":1}"#
+)]
+fn env_capture_document_keeps_claude_names_and_counts_the_rest(
+    #[case] names: &[&str],
+    #[case] expected: &str,
+) {
+    let names = names.iter().map(std::ffi::OsString::from);
+    assert_eq!(
+        String::from_utf8(env_capture_document(names)).expect("utf-8"),
+        expected
+    );
+}
+
+#[test]
+fn env_file_name_is_no_capture_file_name() {
+    assert_eq!(env_file_name(3), "Env.3.json");
+    assert_eq!(parse_capture_file_name(&env_file_name(3)), None);
 }

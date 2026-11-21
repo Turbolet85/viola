@@ -1,0 +1,49 @@
+[
+{
+"tool": "matrix",
+"v": "1.13",
+"sha8": "bd105b74",
+"ts": "2026-11-21T08:29:03Z",
+"argv": [
+"implement",
+"--dir",
+"viola-0.2.0",
+"--chunk",
+"2026-11-20-harness-prefix-and-identity-floor-ledger-rows",
+"--id",
+"v2-26",
+"--ref-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-21T08-07-59Z-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"implement v2-26 · status planned → implemented · ref live HG (evidence/live-round.md: identity-floor: pass, env-unknown: 0, pass-coun… (322 chars)",
+"landed, rendered ./.andromeda/db/log/2026-11-20T18-18-18-2026-11-20-harness-prefix-and-identity-floor-ledger-rows.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-20T18-18-18-2026-11-20-harness-prefix-and-identity-floor-ledger-rows.ndjson"
+],
+"before": {
+"id": "v2-26",
+"chunk": "2026-11-20-harness-prefix-and-identity-floor-ledger-rows",
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "verify's relied ledger row `identity-floor` reads `pass` on claude 2.1.328 live in the rig's scratch home: `HG` (base li… (999 chars)",
+"notes_chars": 492
+},
+"after": {
+"id": "v2-26",
+"chunk": "2026-11-20-harness-prefix-and-identity-floor-ledger-rows",
+"status": "implemented",
+"method": "e2e",
+"ref": "live HG (evidence/live-round.md: identity-floor: pass, env-unknown: 0, pass-count: 28/28, kept stamp 28 ok) · tests/secu… (322 chars)",
+"acceptance": "verify's relied ledger row `identity-floor` reads `pass` on claude 2.1.328 live in the rig's scratch home: `HG` (base li… (999 chars)",
+"notes_chars": 492
+}
+}
+]

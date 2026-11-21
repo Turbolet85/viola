@@ -412,7 +412,7 @@ fn fake_resume_sets_the_source_and_the_given_id_on_the_recorded_session_start() 
     assert_eq!(out.iter().filter(|b| **b == b'\n').count(), 1);
     let mut want: Value = serde_json::from_slice(&fixture).expect("the fixture");
     assert_eq!(want["source"], "startup");
-    assert_eq!(want["session_id"], "fc611e35-7640-4de0-b572-91e8f0670277");
+    assert_eq!(want["session_id"], "be8c67ee-c51d-4774-9266-72cb13f79c80");
     want["source"] = json!("resume");
     want["session_id"] = json!(id);
     let got: Value = serde_json::from_slice(&out).expect("json");
