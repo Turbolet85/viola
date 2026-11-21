@@ -1,2 +1,0 @@
-@none
-reason: the chunk adds the identity-floor relied ledger row, its verify step line in the standing `[NN/NN] … pass|absent|fail` form, and a hidden capture arm's env-names file, with no interactive UI element, no change to the CLI/TUI output discipline, the suites, the gate, or the a11y violation or obs log schema (fct-yw2wvymn, fct-y2ah5a4y, fct-v4enyx24, fct-pu7enr4k a11y n/a); every picked row, stale or contradict marks included, still reads true.

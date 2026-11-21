@@ -1,0 +1,25 @@
+--- a/.andromeda/obs-plan.md
++++ b/.andromeda/obs-plan.md
+@@ -264,3 +264,3 @@
+ contract/process-log-corr/send-refused · Process log corr by event · send-refused — corr is the send cursor.
+-contract/process-log/child-and-probe-lifecycle · Process log · child and probe lifecycle — process-start and process-exit are logged for the claude child and for the claude agents --json and --version probes.
++contract/process-log/child-and-probe-lifecycle · Process log · child and probe lifecycle — process-start and process-exit are logged for the claude child, for the claude agents --json and --version probes, and for verify's print-mode sender.
+ contract/process-log/corr · Process log line · corr — Copied unchanged as a JSON number or string, never renamed.
+@@ -563,2 +563,3 @@
+ contract/verify-spawn-subject/verify-pty-probe · verify child spawn subjects · verify-pty-probe — Each of verify's six interactive PTY runs is logged as one process-start / process-exit pair with subject verify-pty-probe.
++contract/verify-spawn-subject/verify-sender · verify child spawn subjects · verify-sender — The print-mode claude sender of Run B's cross-session turn is logged as one process-start / process-exit pair with subject verify-sender; its prompt and the composed socket address appear in no line.
+ contract/verify-spawn-subject/version-probe · verify child spawn subjects · version-probe — The --version read of the agent CLI is logged as one process-start / process-exit pair with subject version-probe.
+@@ -636,3 +637,3 @@
+ contract/diag-line-fields/process-exit · diagnostic line additive fields · process-exit — subject, exit_code (self), child_exit_status, exit_source (handle-wait or kill-fallback), detail, during (connect or call), duration_ms.
+-contract/diag-line-fields/process-start · diagnostic line additive fields · process-start — subject (self, claude-child, version-probe, verify-probe, verify-pty-probe, agents-probe, hyprctl-probe, auto-verify), service_name, version, os, pid, child_pid, endpoint_kind, pty_backend, cli_version, cli_verified, env_stripped_count, env_stripped_known, env_kept (names only).
++contract/diag-line-fields/process-start · diagnostic line additive fields · process-start — subject (one word of the diag-line subject enum), service_name, version, os, pid, child_pid, endpoint_kind, pty_backend, cli_version, cli_verified, env_stripped_count, env_stripped_known, env_kept (names only).
+ contract/diag-line-fields/release-from-driver · diagnostic line additive fields · release-from-driver — conn, from (only when a valid ViolaName), from_trust (self-reported).
+@@ -648,2 +649,3 @@
+ contract/diag-subject/verify-pty-probe · diag-line subject enum · verify-pty-probe — Subject of the process-start and process-exit pair of each of the six interactive PTY runs of viola verify, Run A to Run F.
++contract/diag-subject/verify-sender · diag-line subject enum · verify-sender — Subject of the process-start and process-exit pair of the print-mode sender that viola verify's Run B cross-session turn spawns.
+ contract/diag-subject/version-probe · diag-line subject enum · version-probe — Subject of the process-start and process-exit pair of a version probe spawn.
+@@ -673,3 +675,3 @@
+ contract/send-refused-detail/refusal-reason-words · send-refused detail · RefusalReason detail words — Refusal details are the arch RefusalReason details verbatim: manual-pause, input-not-ready, no-prompt-submitted, turn-running, unknown-dialog, control-character, empty-text.
+-contract/verify-process-exit/child-exit-status-and-duration · viola verify spawn process-exit lines · child_exit_status and duration_ms — Each of the nine verify spawn pairs' process-exit carries child_exit_status and duration_ms, including a child of an interactive PTY run killed at a Ctrl-C or TERM stop; a stopped run writes only the pairs it started.
++contract/verify-process-exit/child-exit-status-and-duration · viola verify spawn process-exit lines · child_exit_status and duration_ms — Each verify spawn pair's process-exit carries child_exit_status and duration_ms, including a child of an interactive PTY run killed at a Ctrl-C or TERM stop; a stopped run writes only the pairs it started.
+ ## obs-plan · 7-error-capture-reporting · twin error-capture-reporting

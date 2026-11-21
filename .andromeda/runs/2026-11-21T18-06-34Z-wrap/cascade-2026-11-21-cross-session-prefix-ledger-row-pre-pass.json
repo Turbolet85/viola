@@ -1,0 +1,404 @@
+[
+{
+"tool": "cascade",
+"v": "1.36",
+"sha8": "664bb4c5",
+"ts": "2026-11-21T18:08:05Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-21T18-06-34Z-wrap/report-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-11-21T18-06-34Z-wrap",
+"--marker",
+"2026-11-21-cross-session-prefix-ledger-row"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [
+"baseline fe9dcbb3 (pre-pass — HEAD)",
+"FLOOR · control UNFIRED over the seven masters (bodies and sets) at fe9dcbb3",
+"SENDER · control UNFIRED over the seven masters (bodies and sets) at fe9dcbb3",
+"NAMESONLY · control UNFIRED over the seven masters (bodies and sets) at fe9dcbb3",
+"UDS · control UNFIRED over the seven masters (bodies and sets) at fe9dcbb3"
+],
+"stderr": "control: FLOOR, SENDER, NAMESONLY, UDS never fired over the seven masters' pre-pass text, bodies and sets (fe9dcbb3) — no master holds them: re-fire with --pattern RELIED --pattern FIXSET --pattern XSESS --pattern XDG --pattern STAMPS --pattern CAPTURE --pattern DIRSPAWN --pattern RUNB --pattern RESIDUAL --pattern KEPTSTAMP --pattern SYNTH --pattern ENVLOG --pattern SUBJECT --pattern FAKEREPLAY --pattern AUTOVERIFY --pattern TRANSCR --pattern SCRUB; this refusal, the trail's record, is the basis of each named pattern's master zero",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "cascade",
+"v": "1.36",
+"sha8": "664bb4c5",
+"ts": "2026-11-21T18:08:19Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-21T18-06-34Z-wrap/report-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-11-21T18-06-34Z-wrap",
+"--marker",
+"2026-11-21-cross-session-prefix-ledger-row",
+"--pattern",
+"RELIED",
+"--pattern",
+"FIXSET",
+"--pattern",
+"XSESS",
+"--pattern",
+"XDG",
+"--pattern",
+"STAMPS",
+"--pattern",
+"CAPTURE",
+"--pattern",
+"DIRSPAWN",
+"--pattern",
+"RUNB",
+"--pattern",
+"RESIDUAL",
+"--pattern",
+"KEPTSTAMP",
+"--pattern",
+"SYNTH",
+"--pattern",
+"ENVLOG",
+"--pattern",
+"SUBJECT",
+"--pattern",
+"FAKEREPLAY",
+"--pattern",
+"AUTOVERIFY",
+"--pattern",
+"TRANSCR",
+"--pattern",
+"SCRUB"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline fe9dcbb3 (pre-pass — HEAD)",
+"architecture · 85 rows over 1 files · new 0 · standing 85 · 15 patterns",
+"security-plan · 80 rows over 1 files · new 0 · standing 80 · 15 patterns",
+"design-system · 8 rows over 1 files · new 0 · standing 8 · 3 patterns",
+"layout-templates · 4 rows over 1 files · new 0 · standing 4 · 3 patterns",
+"test-plan · 171 rows over 1 files · new 0 · standing 171 · 13 patterns",
+"obs-plan · 59 rows over 1 files · new 0 · standing 59 · 9 patterns",
+"a11y-plan · 4 rows over 1 files · new 0 · standing 4 · 2 patterns",
+"by line · 0 lines · 0 offsets",
+"total (17 patterns) · 657 rows over 36 files",
+"per class · new 0/0 · standing 411/7 · leaf 219/25 · curation 23/5 · base 4/2",
+"rows 1/2 · .andromeda/runs/2026-11-21T18-06-34Z-wrap/sweep-pre-pass-1.1.txt · 410 lines · 49953 B",
+"rows 2/2 · .andromeda/runs/2026-11-21T18-06-34Z-wrap/sweep-pre-pass-1.2.txt · 289 lines · 35923 B"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-21T18-06-34Z-wrap/sweep-pre-pass-1.1.txt",
+".andromeda/runs/2026-11-21T18-06-34Z-wrap/sweep-pre-pass-1.2.txt"
+],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "fe9dcbb3f9e6455c29fb5cc4fd99b807253c6cb1",
+"how": "pre-pass — HEAD",
+"counts": {
+"RELIED": {
+"new": 0,
+"standing": 33,
+"leaf": 15,
+"curation": 0,
+"base": 1
+},
+"FIXSET": {
+"new": 0,
+"standing": 6,
+"leaf": 4,
+"curation": 0,
+"base": 0
+},
+"XSESS": {
+"new": 0,
+"standing": 4,
+"leaf": 3,
+"curation": 0,
+"base": 0
+},
+"XDG": {
+"new": 0,
+"standing": 8,
+"leaf": 12,
+"curation": 1,
+"base": 0
+},
+"STAMPS": {
+"new": 0,
+"standing": 13,
+"leaf": 12,
+"curation": 0,
+"base": 0
+},
+"CAPTURE": {
+"new": 0,
+"standing": 13,
+"leaf": 10,
+"curation": 0,
+"base": 0
+},
+"DIRSPAWN": {
+"new": 0,
+"standing": 7,
+"leaf": 3,
+"curation": 0,
+"base": 0
+},
+"RUNB": {
+"new": 0,
+"standing": 11,
+"leaf": 14,
+"curation": 0,
+"base": 0
+},
+"RESIDUAL": {
+"new": 0,
+"standing": 6,
+"leaf": 3,
+"curation": 2,
+"base": 2
+},
+"KEPTSTAMP": {
+"new": 0,
+"standing": 28,
+"leaf": 17,
+"curation": 3,
+"base": 0
+},
+"SYNTH": {
+"new": 0,
+"standing": 13,
+"leaf": 9,
+"curation": 0,
+"base": 0
+},
+"ENVLOG": {
+"new": 0,
+"standing": 28,
+"leaf": 16,
+"curation": 0,
+"base": 0
+},
+"SUBJECT": {
+"new": 0,
+"standing": 22,
+"leaf": 9,
+"curation": 1,
+"base": 0
+},
+"FAKEREPLAY": {
+"new": 0,
+"standing": 154,
+"leaf": 66,
+"curation": 14,
+"base": 0
+},
+"AUTOVERIFY": {
+"new": 0,
+"standing": 14,
+"leaf": 10,
+"curation": 0,
+"base": 0
+},
+"TRANSCR": {
+"new": 0,
+"standing": 6,
+"leaf": 3,
+"curation": 0,
+"base": 0
+},
+"SCRUB": {
+"new": 0,
+"standing": 45,
+"leaf": 13,
+"curation": 2,
+"base": 1
+}
+},
+"bare": [],
+"masters": {
+"architecture": {
+"rows": 85,
+"files": 1,
+"new": 0,
+"standing": 85,
+"patterns": 15
+},
+"security-plan": {
+"rows": 80,
+"files": 1,
+"new": 0,
+"standing": 80,
+"patterns": 15
+},
+"design-system": {
+"rows": 8,
+"files": 1,
+"new": 0,
+"standing": 8,
+"patterns": 3
+},
+"layout-templates": {
+"rows": 4,
+"files": 1,
+"new": 0,
+"standing": 4,
+"patterns": 3
+},
+"test-plan": {
+"rows": 171,
+"files": 1,
+"new": 0,
+"standing": 171,
+"patterns": 13
+},
+"obs-plan": {
+"rows": 59,
+"files": 1,
+"new": 0,
+"standing": 59,
+"patterns": 9
+},
+"a11y-plan": {
+"rows": 4,
+"files": 1,
+"new": 0,
+"standing": 4,
+"patterns": 2
+}
+},
+"per_master": {
+"RELIED": {
+"architecture": 15,
+"security-plan": 5,
+"design-system": 4,
+"layout-templates": 2,
+"test-plan": 5,
+"obs-plan": 2
+},
+"FIXSET": {
+"test-plan": 6
+},
+"XSESS": {
+"architecture": 1,
+"security-plan": 1,
+"test-plan": 2
+},
+"XDG": {
+"architecture": 3,
+"security-plan": 3,
+"test-plan": 2
+},
+"STAMPS": {
+"architecture": 5,
+"security-plan": 4,
+"test-plan": 3,
+"obs-plan": 1
+},
+"CAPTURE": {
+"architecture": 6,
+"security-plan": 1,
+"test-plan": 1,
+"obs-plan": 5
+},
+"DIRSPAWN": {
+"architecture": 2,
+"security-plan": 5
+},
+"RUNB": {
+"architecture": 4,
+"security-plan": 3,
+"test-plan": 2,
+"obs-plan": 2
+},
+"RESIDUAL": {
+"architecture": 1,
+"security-plan": 5
+},
+"KEPTSTAMP": {
+"architecture": 3,
+"security-plan": 14,
+"test-plan": 11
+},
+"SYNTH": {
+"architecture": 1,
+"security-plan": 5,
+"test-plan": 7
+},
+"ENVLOG": {
+"security-plan": 10,
+"test-plan": 6,
+"obs-plan": 11,
+"a11y-plan": 1
+},
+"SUBJECT": {
+"architecture": 4,
+"security-plan": 1,
+"test-plan": 1,
+"obs-plan": 16
+},
+"FAKEREPLAY": {
+"architecture": 28,
+"security-plan": 7,
+"test-plan": 110,
+"obs-plan": 9
+},
+"AUTOVERIFY": {
+"architecture": 6,
+"design-system": 3,
+"layout-templates": 1,
+"obs-plan": 1,
+"a11y-plan": 3
+},
+"TRANSCR": {
+"architecture": 1,
+"security-plan": 5
+},
+"SCRUB": {
+"architecture": 5,
+"security-plan": 11,
+"design-system": 1,
+"layout-templates": 1,
+"test-plan": 15,
+"obs-plan": 12
+}
+},
+"forms": {
+"RELIED": [
+{
+"form": "twenty-eight",
+"from": "28"
+},
+{
+"form": "twenty-nine",
+"from": "29"
+}
+],
+"FIXSET": [
+{
+"form": "thirty-two",
+"from": "32"
+},
+{
+"form": "thirty-three",
+"from": "33"
+}
+]
+},
+"parts": [
+"sweep-pre-pass-1.1.txt",
+"sweep-pre-pass-1.2.txt"
+]
+}
+}
+]

@@ -1,0 +1,2 @@
+@none
+reason: The chunk adds a relied ledger row, verify's sender child, a hidden names-only capture arm and a `verify-sender` diag subject; it adds no interactive UI element (D-a11y-surface), changes no a11y violation schema and its one diag-line enum value leaves the obs schema consistent (D-a11y-obs-schema), and every picked row (step line by rule, time bounds on viola's own children, refusal layouts, hook fail-open calls, interrupted verify, plugin/IPC not assertable, static linear output) stays true against fct-zjeenbpz, fct-wvhiwmit and fct-wptdpxyn.

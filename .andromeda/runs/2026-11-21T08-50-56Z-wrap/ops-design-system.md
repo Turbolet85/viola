@@ -1,2 +1,0 @@
-@none
-reason: The chunk adds the identity-floor relied row, its step line and the capture arm's env-names file (fct-yw2wvymn); design-system's verify rows state «every relied row» and the relied count `MM` with no figure, which the sweep reads no-change (fct-wqdvpir3), the new scrub refusal reuses the standing `<file> username` code of the unclean-fixture contract, no new UI or token surface is rendered (fct-pu7enr4k tokens n/a), and no other picked row (ASCII, separators, auto-verify lines, hook exit, progress pattern) is touched by any report fact.

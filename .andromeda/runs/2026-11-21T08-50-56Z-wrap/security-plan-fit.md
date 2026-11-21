@@ -1,8 +1,0 @@
-@fit n=1 row=decision/capture-arms-isolated sha=bdc056a48fcc v=fits type=1
-@fit n=2 row=decision/identity-floor-ledger-row sha=9778c5f16edd v=fits type=1
-@fit n=3 row=decision/env-fixture-names-only sha=0380c0c78393 v=fits type=1
-@fit n=4 row=decision/env-probe-names-and-counts-only sha=68e7608b4512 v=fits type=1
-@fit n=5 row=decision/non-identity-hook-names sha=53a5e93c17b2 v=fits type=1
-@fit n=6 row=decision/live-rig-kept-stamp-owner-only sha=e2d5912aaf78 v=fits type=1
-@fit n=7 row=contract/artifact-canary-scan-classes/claude-stripped sha=d68a49a5355a v=not_master type=5
-why: The value lengthens the promise with a list of the test canary needles, an inventory the scan's own code and its test oracle hold.

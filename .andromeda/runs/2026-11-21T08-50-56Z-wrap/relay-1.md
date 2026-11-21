@@ -1,3 +1,0 @@
-Q1 (the answer card, answer-card.md): «Confirm (Recommended)» — notes: «Overseer's delegate confirm, read at 2026-11-21T09:21:10Z against answer-card.md and the founder's recorded answers; the member-list row stays his (founder-forks item 1). PROVISIONAL until his own word.»
-Q2 (identity-floor ledger row offered twice): «Architecture keeps it (Recommended)» — notes: «Overseer's technical answer, 2026-11-21T09:21:10Z: architecture keeps it, with the unread/off-shape fail.»
-Q3 (F-R1, three test-plan rows): «Confirm, PROVISIONAL (Recommended)» — notes: «Overseer's delegate confirm, 2026-11-21T09:21:10Z: inside the floor answer; PROVISIONAL until his own word.»
