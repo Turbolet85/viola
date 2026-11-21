@@ -1,0 +1,21 @@
+# Main's cascade patterns — the OLD wording and mechanism of each amended claim, over the whole masters.
+
+[[pattern]]
+id = 'OLDWAIT'
+regex = 'stdio tool-call default|smallest default|times out on the client first'
+
+[[pattern]]
+id = 'OLDSEND'
+regex = 'total stays below|tool-call timeout'
+
+[[pattern]]
+id = 'OLDTOK'
+regex = 'runs no tokio timer|no paused test clock|no tokio timer'
+
+[[pattern]]
+id = 'OLDSET'
+regex = 'closed cause set|cause set \(|written by both clients'
+
+[[pattern]]
+id = 'OLDLIST'
+regex = 'or socket-dir-refused|server-verify-failed, socket-dir-refused\b|an unverified server or a refused socket'

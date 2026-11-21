@@ -8,6 +8,16 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
+## 2026-11-21 — A leaf names a time bound by its constant, never its figure
+A rule file or a docs leaf that states one of viola's compiled bounds names the constant (`WAIT_CAP`,
+`MCP_CALL_DEADLINE`, `GATE_MAX_WAIT`), never its value: the code holds the figure, no master row restates it, and a
+figure copied into a leaf goes stale silently the day the constant moves. A comparer's or curator's draft that
+carries the number is corrected to the name before it lands. The same holds for a reading of the claude CLI's
+own bounds (its MCP tool-call limits): a leaf says it is a per-version reading of the bundle's strings and gives
+no number.
+
+---
+
 ## 2026-11-20 — Clippy 1.98 refuses a filtered last or next_back on a slice iterator
 Under the pinned toolchain the lint gate (`-D warnings`) refuses `.filter(..).last()` as `double_ended_iterator_last`, and its first rewrite `.filter(..).next_back()` as `filter_next`. Write `.rfind(..)` from the start: it is the form both lints accept, and it reads the same.
 

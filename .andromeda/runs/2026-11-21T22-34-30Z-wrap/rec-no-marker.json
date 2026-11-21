@@ -1,0 +1,522 @@
+[
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:05:44Z",
+"argv": [
+"harness",
+"land",
+"--root",
+".",
+".claude/docs/a11y-summary.md",
+"--file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/draft-.claude-docs-a11y-summary.md",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land .claude/docs/a11y-summary.md rev 18 · 2 node(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:05:44Z",
+"argv": [
+"harness",
+"land",
+"--root",
+".",
+".claude/docs/services/viola-mcp.md",
+"--file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/draft-.claude-docs-services-viola-mcp.md",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land .claude/docs/services/viola-mcp.md rev 6 · 3 node(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:05:44Z",
+"argv": [
+"harness",
+"land",
+"--root",
+".",
+".claude/rules/api.md",
+"--file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/draft-.claude-rules-api.md",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land .claude/rules/api.md rev 13 · 2 node(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:05:45Z",
+"argv": [
+"harness",
+"land",
+"--root",
+".",
+".claude/rules/testing.md",
+"--file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/draft-.claude-rules-testing.md",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land .claude/rules/testing.md rev 52 · 2 node(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:05:45Z",
+"argv": [
+"harness",
+"land",
+"--root",
+".",
+".claude/docs/tests-summary.md",
+"--file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/draft-.claude-docs-tests-summary.md",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land .claude/docs/tests-summary.md rev 35 · 2 node(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:05:45Z",
+"argv": [
+"harness",
+"land",
+"--root",
+".",
+".claude/rules/observability.md",
+"--file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/draft-.claude-rules-observability.md",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land .claude/rules/observability.md rev 20 · 2 node(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:05:49Z",
+"argv": [
+"harness",
+"land",
+"--root",
+".",
+".claude/docs/a11y-summary.md",
+"--file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/draft-.claude-docs-a11y-summary.md",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/a11y-summary.md rev 18 · 0 new · 1 revised · 0 retired · tx 3792"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T23-05-49-2026-11-21T22-34-30Z-wrap.ndjson",
+"./.claude/docs/a11y-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:05:50Z",
+"argv": [
+"harness",
+"land",
+"--root",
+".",
+".claude/docs/services/viola-mcp.md",
+"--file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/draft-.claude-docs-services-viola-mcp.md",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola-mcp.md rev 6 · 0 new · 2 revised · 0 retired · tx 3793"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T23-05-49-2026-11-21T22-34-30Z-wrap.ndjson",
+"./.claude/docs/services/viola-mcp.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:05:50Z",
+"argv": [
+"harness",
+"land",
+"--root",
+".",
+".claude/rules/api.md",
+"--file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/draft-.claude-rules-api.md",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/api.md rev 13 · 0 new · 1 revised · 0 retired · tx 3794"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T23-05-49-2026-11-21T22-34-30Z-wrap.ndjson",
+"./.claude/rules/api.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:05:51Z",
+"argv": [
+"harness",
+"land",
+"--root",
+".",
+".claude/rules/testing.md",
+"--file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/draft-.claude-rules-testing.md",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/testing.md rev 52 · 0 new · 1 revised · 0 retired · tx 3795"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T23-05-49-2026-11-21T22-34-30Z-wrap.ndjson",
+"./.claude/rules/testing.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:05:51Z",
+"argv": [
+"harness",
+"land",
+"--root",
+".",
+".claude/docs/tests-summary.md",
+"--file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/draft-.claude-docs-tests-summary.md",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/tests-summary.md rev 35 · 0 new · 1 revised · 0 retired · tx 3796"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T23-05-49-2026-11-21T22-34-30Z-wrap.ndjson",
+"./.claude/docs/tests-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:05:52Z",
+"argv": [
+"harness",
+"land",
+"--root",
+".",
+".claude/rules/observability.md",
+"--file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/draft-.claude-rules-observability.md",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/observability.md rev 20 · 0 new · 1 revised · 0 retired · tx 3797"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T23-05-49-2026-11-21T22-34-30Z-wrap.ndjson",
+"./.claude/rules/observability.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:07:10Z",
+"argv": [
+"harness",
+"land",
+"--root",
+".",
+".claude/docs/session-learnings.md",
+"--file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/draft-.claude-docs-session-learnings.md",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land .claude/docs/session-learnings.md rev 14 · 3 node(s) · 2 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:07:13Z",
+"argv": [
+"harness",
+"land",
+"--root",
+".",
+".claude/docs/session-learnings.md",
+"--file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/draft-.claude-docs-session-learnings.md",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/session-learnings.md rev 14 · 1 new · 0 revised · 0 retired · tx 3799"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T23-05-49-2026-11-21T22-34-30Z-wrap.ndjson",
+"./.claude/docs/session-learnings.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:07:19Z",
+"argv": [
+"harness",
+"land",
+"--root",
+".",
+".claude/docs/session-learnings.md",
+"--file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/draft-.claude-docs-session-learnings.md",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/session-learnings.md rev 15 · 1 new · 0 revised · 0 retired · tx 3800"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T23-05-49-2026-11-21T22-34-30Z-wrap.ndjson",
+"./.claude/docs/session-learnings.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:10:21Z",
+"argv": [
+"query",
+"--root",
+".",
+"select * from block where carry_id = 'cry-ujze4atl'",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"chunk_id\tcarry_id\ttext",
+"chk-kzzyfhrh\tcry-ujze4atl\tCARRY: (re-pinned whole from «Cross-session prefix ledger row», its carry cry-5swgr2h3, not met there: PASS in implement's two integration firings, in both pre-push firings and in CI ci#44932448545; the overseer's technical answer, 2026-11-21T18:53:27Z, the route dialog of the 2026-11-21T18-06-34Z wrap, chunks/2026-11-21-cross-session-prefix-ledger-row/inputs/I13-relay-1.md.txt P5 Carries) (re-pinned whole from «Harness-prefix and identity-floor ledger rows», its carry cry-sutjgyh6, not met there: PASS in the after-landing integration firing, in pre-push and in CI ci#44885516138, 3891 of 3891 passed; the overseer's technical answer, 2026-11-21T09:30:30Z, the route dialog of the 2026-11-21T08-50-56Z wrap, chunks/2026-11-20-harness-prefix-and-identity-floor-ledger-rows/inputs/I16-relay-2.md.txt Q2) (re-pinned whole from «A new CLI version stamped automatically», not met there: PASS in implement's two integration firings, in pre-push and in CI ci#44778216842, its own PASS line read; the overseer's technical answer, 2026-11-20T17:55:53Z, the route dialog of the 2026-11-20T17-07-44Z wrap, chunks/2026-11-20-a-new-cli-version-stamped-automatically/inputs/I6-relay-1.md.txt Q3) (re-pinned whole from «PermissionRequest question answered», its carry cry-3qv2r3iy, not met there: PASS in both after-landing firings, in pre-push and in CI ci#44742437715 attempt 2; the two rig rehearsal reds after the landing were the default version move's screen-fact literals, not this case; the overseer's technical answer, 2026-11-20T14:22:32Z, the route dialog of the 2026-11-20T13-41-57Z wrap, chunks/2026-11-20-permissionrequest-question-answered/inputs/I13-relay-1.md.txt Q Carries) (re-pinned whole from «A quoted modal never blocks a send», its carry cry-zbogma7z, not met there: green in implement's rig entry and in CI ci#44716168589, its own PASS line read; the overseer's technical answer, 2026-11-20T10:49:35Z, the route dialog of the 2026-11-20T10-16-54Z wrap, chunks/2026-11-20-a-quoted-modal-never-blocks-a-send/inputs/I16-relay-3.md.txt Q Carries) (re-pinned whole from «A fired scheduled wake keeps the wheel», its carry cry-yx2svady, not met there: 6 green firings in implement, pre-push and CI ci#44691332735 green; the overseer's technical answer, 2026-11-20T07:48:28Z, the route dialog of the 2026-11-20T07-09-09Z wrap, chunks/2026-11-19-a-fired-scheduled-wake-keeps-the-wheel/inputs/I9-relay-2.md.txt Q Carries) (re-pinned whole from «`/context` as a local command», its carry cry-4olcx4il, not met there: 7 green runs in implement, pre-push and CI ci#44613613553 green; the overseer's technical answer, 2026-11-19T21:45:43Z, the route dialog of the 2026-11-19T21-07-39Z wrap, chunks/2026-11-19-context-as-a-local-command/inputs/I8-relay-2.md.txt Q Carries) PROVISIONAL (delegate overseer, 2026-11-19, route-record.md Q2) the intermittent `rig_rehearsal_reads_the_box_empty_after_x_and_del` red (red 2026-11-18T22:56Z and 2026-11-18T23:12Z; none in 30 runs on 2026-11-19, green in CI since) stays open with its cause unread: at its next red read the printed rig summary and the kept `after-del` frame (the rehearsal's own print), name the cause, and only then mend the wait — no retry rule, no loosened entry — chunks/2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin/inputs/I19-wrap-restamp-directive.md.txt (6)",
+"1 row(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:10:33Z",
+"argv": [
+"query",
+"--root",
+".",
+"select text from block where carry_id = 'cry-ujze4atl'",
+"--run-dir",
+"./.andromeda/runs/2026-11-21T22-34-30Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"CARRY: (re-pinned whole from «Cross-session prefix ledger row», its carry cry-5swgr2h3, not met there: PASS in implement's two integration firings, in both pre-push firings and in CI ci#44932448545; the overseer's technical answer, 2026-11-21T18:53:27Z, the route dialog of the 2026-11-21T18-06-34Z wrap, chunks/2026-11-21-cross-session-prefix-ledger-row/inputs/I13-relay-1.md.txt P5 Carries) (re-pinned whole from «Harness-prefix and identity-floor ledger rows», its carry cry-sutjgyh6, not met there: PASS in the after-landing integration firing, in pre-push and in CI ci#44885516138, 3891 of 3891 passed; the overseer's technical answer, 2026-11-21T09:30:30Z, the route dialog of the 2026-11-21T08-50-56Z wrap, chunks/2026-11-20-harness-prefix-and-identity-floor-ledger-rows/inputs/I16-relay-2.md.txt Q2) (re-pinned whole from «A new CLI version stamped automatically», not met there: PASS in implement's two integration firings, in pre-push and in CI ci#44778216842, its own PASS line read; the overseer's technical answer, 2026-11-20T17:55:53Z, the route dialog of the 2026-11-20T17-07-44Z wrap, chunks/2026-11-20-a-new-cli-version-stamped-automatically/inputs/I6-relay-1.md.txt Q3) (re-pinned whole from «PermissionRequest question answered», its carry cry-3qv2r3iy, not met there: PASS in both after-landing firings, in pre-push and in CI ci#44742437715 attempt 2; the two rig rehearsal reds after the landing were the default version move's screen-fact literals, not this case; the overseer's technical answer, 2026-11-20T14:22:32Z, the route dialog of the 2026-11-20T13-41-57Z wrap, chunks/2026-11-20-permissionrequest-question-answered/inputs/I13-relay-1.md.txt Q Carries) (re-pinned whole from «A quoted modal never blocks a send», its carry cry-zbogma7z, not met there: green in implement's rig entry and in CI ci#44716168589, its own PASS line read; the overseer's technical answer, 2026-11-20T10:49:35Z, the route dialog of the 2026-11-20T10-16-54Z wrap, chunks/2026-11-20-a-quoted-modal-never-blocks-a-send/inputs/I16-relay-3.md.txt Q Carries) (re-pinned whole from «A fired scheduled wake keeps the wheel», its carry cry-yx2svady, not met there: 6 green firings in implement, pre-push and CI ci#44691332735 green; the overseer's technical answer, 2026-11-20T07:48:28Z, the route dialog of the 2026-11-20T07-09-09Z wrap, chunks/2026-11-19-a-fired-scheduled-wake-keeps-the-wheel/inputs/I9-relay-2.md.txt Q Carries) (re-pinned whole from «`/context` as a local command», its carry cry-4olcx4il, not met there: 7 green runs in implement, pre-push and CI ci#44613613553 green; the overseer's technical answer, 2026-11-19T21:45:43Z, the route dialog of the 2026-11-19T21-07-39Z wrap, chunks/2026-11-19-context-as-a-local-command/inputs/I8-relay-2.md.txt Q Carries) PROVISIONAL (delegate overseer, 2026-11-19, route-record.md Q2) the intermittent `rig_rehearsal_reads_the_box_empty_after_x_and_del` red (red 2026-11-18T22:56Z and 2026-11-18T23:12Z; none in 30 runs on 2026-11-19, green in CI since) stays open with its cause unread: at its next red read the printed rig summary and the kept `after-del` frame (the rehearsal's own print), name the cause, and only then mend the wait — no retry rule, no loosened entry — chunks/2026-11-18-the-live-home-s-re-stamp-and-the-product-re-pin/inputs/I19-wrap-restamp-directive.md.txt (6)",
+"1 row(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:13:23Z",
+"argv": [
+"outputs",
+"land",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed tx 3808 · 908 record(s) of 150 payload(s)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T23-05-49-2026-11-21T22-34-30Z-wrap.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:13:26Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"sealed 2026-11-21T18-06-34Z-wrap · 209 file(s) · 2026-11-21T18-06-34Z-wrap.parquet · tx 3809 · 209 removed · 279 set aside",
+"sealed 2026-11-21T19-17-43Z-phase · 212 file(s) · 2026-11-21T19-17-43Z-phase.parquet · tx 3810 · 212 removed · 336 set aside",
+"sealed 2026-11-21T21-51-10Z-implement · 10 file(s) · 2026-11-21T21-51-10Z-implement.parquet · tx 3811 · 10 removed · 0 set aside",
+"seal · 3 run(s) · own 2026-11-21T22-34-30Z-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

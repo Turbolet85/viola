@@ -1,0 +1,1357 @@
+[
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T22:36:39Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-21-mcp-calls-bounded",
+"--section-file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/after-implement.md",
+"--heading",
+"## After implement",
+"--before",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--marker",
+"2026-11-21-mcp-calls-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-21-mcp-calls-bounded/report rev 2 · 10 new · 0 revised · 0 retired · 65 kept · tx 3769"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T19-18-22-2026-11-21-mcp-calls-bounded.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T22:36:42Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-21-mcp-calls-bounded",
+"--section-file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/new-text.md",
+"--heading",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--marker",
+"2026-11-21-mcp-calls-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-21-mcp-calls-bounded/report rev 3 · 38 new · 0 revised · 0 retired · 75 kept · tx 3770"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T19-18-22-2026-11-21-mcp-calls-bounded.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T22:37:00Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/cites-land-2026-11-21-mcp-calls-bounded.ndjson",
+"--base",
+"53669b686cddc1c7dad8f5fec58b3701956fcb58",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--marker",
+"2026-11-21-mcp-calls-bounded",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 0 fact(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T22:37:04Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/cites-land-2026-11-21-mcp-calls-bounded.ndjson",
+"--base",
+"53669b686cddc1c7dad8f5fec58b3701956fcb58",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--marker",
+"2026-11-21-mcp-calls-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 0 fact(s) · 0 edge(s) · tx 3772"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T19-18-22-2026-11-21-mcp-calls-bounded.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T22:38:58Z",
+"argv": [
+"rows-packs",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-21-mcp-calls-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 978 · packs 10 · pack 100 · 279230 B",
+"security-plan: rows 628 · packs 7 · pack 100 · 191733 B",
+"design-system: rows 324 · packs 4 · pack 100 · 79091 B",
+"layout-templates: rows 223 · packs 3 · pack 100 · 53508 B",
+"test-plan: rows 1360 · packs 14 · pack 100 · 368334 B",
+"obs-plan: rows 1034 · packs 11 · pack 100 · 285205 B",
+"a11y-plan: rows 235 · packs 3 · pack 100 · 66658 B",
+"rows-packs: 7 master(s) · 4782 row(s) · 52 pack(s) · 2 draw(s) a pack · pin 3772"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/rows-packs.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T22:54:20Z",
+"argv": [
+"rows-union",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-21-mcp-calls-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 978 · packs 10 · picked 42 (29 by every draw) · standing 0 · 244105 B",
+"security-plan: rows 628 · packs 7 · picked 37 (21 by every draw) · standing 0 · 128142 B",
+"design-system: rows 324 · packs 4 · picked 29 (6 by every draw) · standing 0 · 59577 B",
+"layout-templates: rows 223 · packs 3 · picked 13 (11 by every draw) · standing 0 · 47691 B",
+"test-plan: rows 1360 · packs 14 · picked 51 (38 by every draw) · standing 0 · 275259 B",
+"obs-plan: rows 1034 · packs 11 · picked 51 (23 by every draw) · standing 0 · 194624 B",
+"a11y-plan: rows 235 · packs 3 · picked 28 (12 by every draw) · standing 0 · 51951 B",
+"rows-union: 7 master(s) · picked 251 of 4782 · rule any"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/arch-rows.md",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/arch-standing.md",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/arch-pick-counts.md",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/security-rows.md",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/security-standing.md",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/security-pick-counts.md",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/design-rows.md",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/design-standing.md",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/design-pick-counts.md",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/layouts-rows.md",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/layouts-standing.md",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/layouts-pick-counts.md",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/tests-rows.md",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/tests-standing.md",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/tests-pick-counts.md",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/obs-rows.md",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/obs-standing.md",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/obs-pick-counts.md",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/a11y-rows.md",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/a11y-standing.md",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/a11y-pick-counts.md",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:01:04Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--marker",
+"2026-11-21-mcp-calls-bounded",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/send-time-bound · rejected",
+"decision/mcp-wait-cap · rejected",
+"contract/unreachable-cause/cause-set · rejected",
+"contract/mcp-tool-results/instance-unreachable · rejected",
+"decision/mcp-deadline-injected-seam · rejected",
+"fit: fits 2 · not_master 0 · stands 0",
+"## 2026-11-21-mcp-calls-bounded — Established Decisions: 2 row(s)\n**Section:** Established Decisions\n**Change:** ~ decision/mcp-unreachable-result-for-every-cause · rule: was «Every unreachable cause an MCP frame tool meets surfaces as the instance-unreachable result with the cause in detail and no line of its own; every cause but endpoint-lost is found before any frame is sent.»; now «Every unreachable cause an MCP frame tool meets surfaces as the instance-unreachable result with the cause in detail and no line of its own; every cause but endpoint-lost and call-deadline is found before any frame is sent.»\n+ decision/mcp-call-deadline — MCP call deadline of 55 s\n**Why:** decision/mcp-unreachable-result-for-every-cause: The MCP frame tools now also end a call at the call deadline, which can fall after the frame is sent, so the row's claim that only endpoint-lost comes after a frame no longer holds.\ndecision/mcp-call-deadline: The chunk lands a compiled MCP call deadline over the four frame tools with its own closed result word, a decision no standing row states. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-21: «Confirm all four (Recommended)», answer-card.md, PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-21T22-34-30Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 2 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:01:09Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--marker",
+"2026-11-21-mcp-calls-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/send-time-bound · rejected",
+"decision/mcp-wait-cap · rejected",
+"contract/unreachable-cause/cause-set · rejected",
+"contract/mcp-tool-results/instance-unreachable · rejected",
+"decision/mcp-deadline-injected-seam · rejected",
+"fit: fits 2 · not_master 0 · stands 0",
+"landed tx 3773 · 2 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T19-18-22-2026-11-21-mcp-calls-bounded.ndjson",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:01:09Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/ops-main-architecture.md",
+"--results",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--marker",
+"2026-11-21-mcp-calls-bounded",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/mcp-wait-cap · rejected",
+"fit: fits 2 · not_master 0 · stands 0",
+"## 2026-11-21-mcp-calls-bounded — Conventions: 2 row(s)\n**Section:** Conventions\n**Change:** ~ contract/unreachable-cause/cause-set · promise: was «Exit 21 has a closed cause set (StrictModes, InstanceDead, UnwrappedName, EndpointLost, ServerVerify, SocketDir as socket-dir-refused) written by both clients, with no serde path; it is no RefusalReason.»; now «UnreachableCause is a closed set of seven (StrictModes, InstanceDead, UnwrappedName, EndpointLost, ServerVerify, SocketDir as socket-dir-refused, CallDeadline as call-deadline), no serde path, no RefusalReason; the six exit 21's, written by both clients, call-deadline by the MCP frame tools alone.»\n~ contract/mcp-tool-results/instance-unreachable · promise: was «An unreachable instance is an isError true result whose structuredContent is {\"error\":\"instance-unreachable\",\"detail\":cause}, as CLI --json, the cause one of strict-modes-failed, instance-dead, unwrapped-name, endpoint-lost, server-verify-failed, socket-dir-refused.»; now «An unreachable instance is an isError true result whose structuredContent is {\"error\":\"instance-unreachable\",\"detail\":cause}, as CLI --json, the cause one of strict-modes-failed, instance-dead, unwrapped-name, endpoint-lost, server-verify-failed, socket-dir-refused, or call-deadline, MCP's alone.»\n**Why:** contract/unreachable-cause/cause-set: CallDeadline joins the closed set as one named member written by the MCP client alone (P4-F1), and the row keeps every member and qualifier it stated, «written by both clients» kept for the six. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-21: «Confirm all four (Recommended)», answer-card.md, PROVISIONAL\ncontract/mcp-tool-results/instance-unreachable: The MCP instance-unreachable detail set gained call-deadline, which the CLI never writes, so the list names it as MCP's alone.\n**Ref:** .andromeda/runs/2026-11-21T22-34-30Z-wrap/",
+"patterns: none: 2 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 2 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:01:13Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/ops-main-architecture.md",
+"--results",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--marker",
+"2026-11-21-mcp-calls-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/mcp-wait-cap · rejected",
+"fit: fits 2 · not_master 0 · stands 0",
+"landed tx 3774 · 2 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T19-18-22-2026-11-21-mcp-calls-bounded.ndjson",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:01:14Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/ops-main-architecture.2.md",
+"--results",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--marker",
+"2026-11-21-mcp-calls-bounded",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 2 · not_master 0 · stands 0",
+"## 2026-11-21-mcp-calls-bounded — Established Decisions: 2 row(s)\n**Section:** Established Decisions\n**Change:** ~ decision/mcp-wait-cap · why: was «The cap sits below the Claude CLI's stdio tool-call default, so the tool call never times out on the client first.»; now «The cap sits below the 55 s MCP call deadline, itself below the client's tool-call bound, so a wait returns before either cuts the call.»\n~ decision/send-time-bound · rule: was «send blocks at most the readiness gate's maximum wait plus the paste plus the window, and on the MCP surface that total stays below the MCP client's tool-call timeout.»; now «send blocks at most the readiness gate's maximum wait plus the paste plus the window; on the MCP surface the MCP call deadline bounds the driver's wait, never the send itself.»\n**Why:** decision/mcp-wait-cap: The standing why rests on the 2.1.287 stdio default, which 2.1.328 and 2.1.330 no longer show; the cap's reason is now the compiled call deadline above it (the readings and the measurement stay in the report and the sidecar, fit's not_master on the longer set).\ndecision/send-time-bound: The standing clause «that total stays below the MCP client's tool-call timeout» is false while the paste write has no time bound; the deadline bounds the driver's wait only (the paste's gap is the route's CARRY, fit's not_master on the longer set).\n**Ref:** .andromeda/runs/2026-11-21T22-34-30Z-wrap/",
+"patterns: none: 2 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 2 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:01:23Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/ops-main-architecture.2.md",
+"--results",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--marker",
+"2026-11-21-mcp-calls-bounded",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 2 · not_master 0 · stands 0",
+"## 2026-11-21-mcp-calls-bounded — Established Decisions: 2 row(s)\n**Section:** Established Decisions\n**Change:** ~ decision/mcp-wait-cap · why: was «The cap sits below the Claude CLI's stdio tool-call default, so the tool call never times out on the client first.»; now «The cap sits below the 55 s MCP call deadline, itself below the client's tool-call bound, so a wait returns before either cuts the call.»\n~ decision/send-time-bound · rule: was «send blocks at most the readiness gate's maximum wait plus the paste plus the window, and on the MCP surface that total stays below the MCP client's tool-call timeout.»; now «send blocks at most the readiness gate's maximum wait plus the paste plus the window; on the MCP surface the MCP call deadline bounds the driver's wait, never the send itself.»\n**Why:** decision/mcp-wait-cap: The standing why rests on the 2.1.287 stdio default, which 2.1.328 and 2.1.330 no longer show — their strings read a 1e8 ms hard limit, a 30 min stdio idle limit and a 120 s auto-background, the one 60 s figure flooring the HTTP transports only (readings, never measured); measured live: a 50 s wait returned whole on both (MB, MB8) and a 5000 ms server timeout cut a call on 2.1.330 (MC); the cap's reason is now the compiled call deadline above it.\ndecision/send-time-bound: The standing clause «that total stays below the MCP client's tool-call timeout» is false while the paste write has no time bound; the deadline bounds the driver's wait only (the paste's gap is the route's CARRY, fit's not_master on the longer set).\n**Ref:** .andromeda/runs/2026-11-21T22-34-30Z-wrap/",
+"patterns: none: 2 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 2 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:01:27Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/ops-main-architecture.2.md",
+"--results",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--marker",
+"2026-11-21-mcp-calls-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 2 · not_master 0 · stands 0",
+"landed tx 3775 · 2 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T19-18-22-2026-11-21-mcp-calls-bounded.ndjson",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:01:27Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/ops-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--marker",
+"2026-11-21-mcp-calls-bounded",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/mcp-call-deadline · rejected",
+"decision/live-rig-mb-arm-keeps-no-output · rejected",
+"fit: fits 2 · not_master 0 · stands 0",
+"## 2026-11-21-mcp-calls-bounded — Error Handling: 2 row(s)\n**Section:** Error Handling\n**Change:** ~ contract/mcp-iserror/instance-unreachable · promise: was «An unreachable instance reads error instance-unreachable with detail one of its closed causes.»; now «An unreachable instance, or a frame tool call reaching its call deadline, reads error instance-unreachable with detail one of its closed causes, call-deadline among them on MCP alone.»\n+ contract/instance-unreachable-cause/call-deadline — instance-unreachable detail causes · call-deadline\n**Why:** contract/mcp-iserror/instance-unreachable: The MCP instance-unreachable result now also ends a frame tool call at its deadline with detail call-deadline, so the promise must name that cause beside the instance's own.\ncontract/instance-unreachable-cause/call-deadline: The closed unreachable-cause set grows from six to seven with call-deadline, and each member of the set stands as its own row beside the six.\n**Ref:** .andromeda/runs/2026-11-21T22-34-30Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 2 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:01:27Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--marker",
+"2026-11-21-mcp-calls-bounded",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/cli-mcp-identical-payloads · rejected",
+"decision/live-rig-mb-long-call-verdict · rejected",
+"decision/claude-mcp-default-bound-is-a-reading · rejected",
+"fit: fits 6 · not_master 0 · stands 0",
+"## 2026-11-21-mcp-calls-bounded — 8. Mocking & Stubbing Discipline: 1 row(s)\n**Section:** 8. Mocking & Stubbing Discipline\n**Change:** ~ decision/time-faked-through-seams · rule: was «Time is faked only through the injected viola_core Clock, with no mock_instant; the MCP adapter runs no tokio timer, so no paused test clock, and a pure decision takes its instant as an argument.»; now «Time is faked only through injected seams, with no mock_instant and no paused Tokio clock: the viola_core Clock, the MCP adapter's injected deadline provider, which tests fire by a signal and never by waiting out the 55 s MCP call deadline, and a pure decision takes its instant as an argument.»\n**Why:** decision/time-faked-through-seams: viola-mcp now runs a Tokio timer for its production call deadline, so the row's claim that the MCP adapter runs no tokio timer is false; the deadline is an injected seam the tests fire by a signal. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-21: «Confirm all four (Recommended)», answer-card.md, PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-21T22-34-30Z-wrap/",
+"## 2026-11-21-mcp-calls-bounded — 6. E2E Test Strategy: 2 row(s)\n**Section:** 6. E2E Test Strategy\n**Change:** ~ contract/mcp-tools/result-body · promise: was «Each MCP tool's result and refusal equal the CLI's --json document less v.»; now «Each MCP tool's result and refusal equal the CLI's --json document less v, save instance-unreachable with detail call-deadline, which the MCP frame tools alone write and which has no CLI document.»\n~ contract/mcp-tools/instance-unreachable · promise: was «is_error:true with the CLI document less v, text refused: instance-unreachable.»; now «is_error:true with the CLI document less v, text refused: instance-unreachable; detail call-deadline, written by the MCP frame tools alone, has no CLI document.»\n**Why:** contract/mcp-tools/result-body: The MCP instance-unreachable cause set gained call-deadline while the CLI exit-21 set stays six, so not every MCP refusal equals a CLI document.\ncontract/mcp-tools/instance-unreachable: call-deadline is an MCP-only cause with no CLI exit-21 counterpart, so the row's equality with the CLI document no longer holds for every detail.\n**Ref:** .andromeda/runs/2026-11-21T22-34-30Z-wrap/",
+"## 2026-11-21-mcp-calls-bounded — 1. Test Scope Summary: 2 row(s)\n**Section:** 1. Test Scope Summary\n**Change:** ~ contract/mcp-tool-result/instance-unreachable · promise: was «isError true with {\"error\":\"instance-unreachable\",\"detail\":\"<cause>\"}, the CLI exit-21 document less v, text refused: <code>.»; now «isError true with {\"error\":\"instance-unreachable\",\"detail\":\"<cause>\"}, text refused: <code>; the body equals the CLI exit-21 document less v for every cause but call-deadline, which the CLI never writes.»\n+ contract/instance-unreachable-cause/call-deadline — instance-unreachable causes · call-deadline\n**Why:** contract/mcp-tool-result/instance-unreachable: The MCP detail set is seven with call-deadline while the CLI exit-21 set stays six, so the body is the CLI document less v only for the shared causes.\ncontract/instance-unreachable-cause/call-deadline: The closed unreachable-cause set moved from six to seven members with call-deadline, and the per-member rows owe a call-deadline row beside them.\n**Ref:** .andromeda/runs/2026-11-21T22-34-30Z-wrap/",
+"## 2026-11-21-mcp-calls-bounded — 5. Integration Test Strategy: 1 row(s)\n**Section:** 5. Integration Test Strategy\n**Change:** + contract/mcp-unreachable-detail/call-deadline — MCP frame tools instance-unreachable detail · call-deadline\n**Why:** contract/mcp-unreachable-detail/call-deadline: The MCP frame tools now race every frame call against the call deadline, a new detail the integration suite holds per tool beside the other detail rows.\n**Ref:** .andromeda/runs/2026-11-21T22-34-30Z-wrap/",
+"patterns: none: 4 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 6 operation(s) · 4 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:01:27Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/ops-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--marker",
+"2026-11-21-mcp-calls-bounded",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/mcp-call-deadline · rejected",
+"contract/unreachable-cause/call-deadline · rejected",
+"fit: fits 4 · not_master 0 · stands 0",
+"## 2026-11-21-mcp-calls-bounded — 1. Obs Scope Summary: 1 row(s)\n**Section:** 1. Obs Scope Summary\n**Change:** ~ contract/mcp-iserror/instance-unreachable · promise: was «The instance-unreachable detail is one closed cause: strict-modes-failed, instance-dead, unwrapped-name, endpoint-lost, server-verify-failed or socket-dir-refused; the CLI's document less v, its text `refused: instance-unreachable`.»; now «The instance-unreachable detail is one closed cause: strict-modes-failed, instance-dead, unwrapped-name, endpoint-lost, server-verify-failed, socket-dir-refused or call-deadline, the last written by the frame tools alone; the CLI's document less v, its text `refused: instance-unreachable`.»\n**Why:** contract/mcp-iserror/instance-unreachable: The unreachable-cause set and the MCP instance-unreachable detail set grew from six to seven with call-deadline, so the row's closed list must name it.\n**Ref:** .andromeda/runs/2026-11-21T22-34-30Z-wrap/",
+"## 2026-11-21-mcp-calls-bounded — 7. Error Capture & Reporting: 1 row(s)\n**Section:** 7. Error Capture & Reporting\n**Change:** ~ decision/mcp-unreachable-carries-one-cause-word · rule: was «Each MCP unreachable outcome (a refused check, a dead or unwrapped instance, a lost endpoint, an unverified server or a refused socket directory) carries exactly one UnreachableCause word as its detail.»; now «Each MCP unreachable outcome (a refused check, a dead or unwrapped instance, a lost endpoint, an unverified server, a refused socket directory or a frame call past the MCP call deadline) carries exactly one UnreachableCause word as its detail.»\n**Why:** decision/mcp-unreachable-carries-one-cause-word: A frame tool call that reaches the MCP call deadline now returns instance-unreachable with the cause word call-deadline, an outcome the row's list did not name.\n**Ref:** .andromeda/runs/2026-11-21T22-34-30Z-wrap/",
+"## 2026-11-21-mcp-calls-bounded — 7. Error Capture & Reporting: 1 row(s)\n**Section:** 7. Error Capture & Reporting\n**Change:** ~ decision/instance-unreachable-not-logged · rule: was «An MCP instance-unreachable reject, from any instance, liveness, socket-directory, euid or server-verification check, is logged by no line; the isError code is its only record.»; now «An MCP instance-unreachable reject, from any instance, liveness, socket-directory, euid or server-verification check or from the MCP call deadline, is logged by no line; the isError code is its only record.»\n**Why:** decision/instance-unreachable-not-logged: The frame tools under the MCP call deadline return instance-unreachable and, by this rule, write no line, so the row's list of sources must include the deadline.\n**Ref:** .andromeda/runs/2026-11-21T22-34-30Z-wrap/",
+"## 2026-11-21-mcp-calls-bounded — 1. Obs Scope Summary: 1 row(s)\n**Section:** 1. Obs Scope Summary\n**Change:** ~ decision/claude-internals-not-a-contract · rule: was «The wrapped claude CLI is a third-party binary run unmodified and instrumented at its boundary only (spawn and exit, paste writes, the vt100 readiness-gate outcome); its internal state and transcripts are never read as a contract.»; now «The wrapped claude CLI is a third-party binary run unmodified and instrumented at its boundary only (spawn and exit, paste writes, the vt100 readiness-gate outcome); its internal state, transcripts and bundle strings, the MCP client's tool-call bound among them, are never read as a contract.»\n**Why:** decision/claude-internals-not-a-contract: The claude MCP client's tool-call bound is now a per-version reading of its bundle strings, never a contract, which the row already says less of for the CLI's internals.\n**Ref:** .andromeda/runs/2026-11-21T22-34-30Z-wrap/",
+"patterns: none: 4 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 4 operation(s) · 4 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:01:28Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"a11y-plan",
+"--file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/ops-a11y-plan.md",
+"--results",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--marker",
+"2026-11-21-mcp-calls-bounded",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 3 · not_master 0 · stands 0",
+"## 2026-11-21-mcp-calls-bounded — 8. Cognitive Accessibility: 2 row(s)\n**Section:** 8. Cognitive Accessibility\n**Change:** ~ decision/time-bounds-fall-on-the-driver · rule: was «Every time bound (MCP wait cap, dialog hold, readiness gate, confirm windows, agents read, the start's Claude config lock wait) falls on the driver, viola's own child or viola's own start, never blocking, refusing or delaying a human key and never moving the wheel.»; now «Every time bound (MCP wait cap, MCP call deadline, dialog hold, readiness gate, confirm windows, agents read, the start's Claude config lock wait) falls on the driver, viola's own child or viola's own start, never blocking, refusing or delaying a human key and never moving the wheel.»\n+ contract/instance-unreachable-detail/call-deadline — instance-unreachable detail · call-deadline\n**Why:** decision/time-bounds-fall-on-the-driver: The chunk adds the MCP call deadline, a time bound on each MCP frame tool call that ends the driver's call, so the row's list of time bounds must name it.\ncontract/instance-unreachable-detail/call-deadline: The closed unreachable-cause set gains call-deadline as its seventh member on the MCP instance-unreachable result, and the area keeps one contract row a detail member.\n**Ref:** .andromeda/runs/2026-11-21T22-34-30Z-wrap/",
+"## 2026-11-21-mcp-calls-bounded — 8. Cognitive Accessibility: 1 row(s)\n**Section:** 8. Cognitive Accessibility\n**Change:** ~ decision/time-bounds-never-on-human · rule: was «Every time bound viola holds (wait timeout and cap, dialog hold, send readiness gate, confirmation windows, agents read, the start's Claude config lock wait) falls on the driver, viola's child or viola's own start; no key is blocked, refused or delayed by it.»; now «Every time bound viola holds (wait timeout and cap, MCP call deadline, dialog hold, send readiness gate, confirmation windows, agents read, the start's Claude config lock wait) falls on the driver, viola's child or viola's own start; no key is blocked, refused or delayed by it.»\n**Why:** decision/time-bounds-never-on-human: The MCP call deadline is a new time bound viola holds and it falls on the driver's MCP call, so the row's list of time bounds must name it.\n**Ref:** .andromeda/runs/2026-11-21T22-34-30Z-wrap/",
+"patterns: none: 2 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 3 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:01:32Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/ops-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--marker",
+"2026-11-21-mcp-calls-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/mcp-call-deadline · rejected",
+"decision/live-rig-mb-arm-keeps-no-output · rejected",
+"fit: fits 2 · not_master 0 · stands 0",
+"landed tx 3776 · 2 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T19-18-22-2026-11-21-mcp-calls-bounded.ndjson",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:01:33Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--marker",
+"2026-11-21-mcp-calls-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/cli-mcp-identical-payloads · rejected",
+"decision/live-rig-mb-long-call-verdict · rejected",
+"decision/claude-mcp-default-bound-is-a-reading · rejected",
+"fit: fits 6 · not_master 0 · stands 0",
+"landed tx 3777 · 6 operation(s) · 4 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T19-18-22-2026-11-21-mcp-calls-bounded.ndjson",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:01:33Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/ops-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--marker",
+"2026-11-21-mcp-calls-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/mcp-call-deadline · rejected",
+"contract/unreachable-cause/call-deadline · rejected",
+"fit: fits 4 · not_master 0 · stands 0",
+"landed tx 3778 · 4 operation(s) · 4 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T19-18-22-2026-11-21-mcp-calls-bounded.ndjson",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:01:33Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"a11y-plan",
+"--file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/ops-a11y-plan.md",
+"--results",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--marker",
+"2026-11-21-mcp-calls-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 3 · not_master 0 · stands 0",
+"landed tx 3779 · 3 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T19-18-22-2026-11-21-mcp-calls-bounded.ndjson",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:01:34Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/ops-main-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--marker",
+"2026-11-21-mcp-calls-bounded",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-21-mcp-calls-bounded — Data Protection: 1 row(s)\n**Section:** Data Protection\n**Change:** + decision/live-rig-mb-arm-keeps-no-output — Live rig's MB arm keeps only closed words of the client\n**Why:** decision/live-rig-mb-arm-keeps-no-output: The MB arm is owed a row of its own beside the recording arm's (P4-F2), carrying the shape ratified in «3 базовых + 1 запасной» and the long-call predicate the directive names (inputs#I7 item 6). — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-21: «Confirm all four (Recommended)», answer-card.md, PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-21T22-34-30Z-wrap/",
+"patterns: none — the call sets and retires no row",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:01:34Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/ops-main-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--marker",
+"2026-11-21-mcp-calls-bounded",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-21-mcp-calls-bounded — 1. Test Scope Summary: 1 row(s)\n**Section:** 1. Test Scope Summary\n**Change:** ~ decision/cli-mcp-identical-payloads · except: was «»; now «call-deadline, written by the MCP frame tools alone, has no CLI document.»\n**Why:** decision/cli-mcp-identical-payloads: The standing rule is false for the one MCP-only cause word; the exception names that member, without the member counts fit read as an inventory.\n**Ref:** .andromeda/runs/2026-11-21T22-34-30Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:01:38Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/ops-main-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--marker",
+"2026-11-21-mcp-calls-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 3780 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T19-18-22-2026-11-21-mcp-calls-bounded.ndjson",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:01:38Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/ops-main-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--marker",
+"2026-11-21-mcp-calls-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 3781 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T19-18-22-2026-11-21-mcp-calls-bounded.ndjson",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:05:13Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/a11y-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-21T22-34-30Z-wrap/staged-leaf-.claude__docs__a11y-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--marker",
+"2026-11-21-mcp-calls-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/a11y-summary.md rev 17 · 0 new · 1 revised · 0 retired · tx 3782"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T19-18-22-2026-11-21-mcp-calls-bounded.ndjson",
+"./.claude/docs/a11y-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:05:14Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola-core.md",
+"--file",
+"./.andromeda/runs/2026-11-21T22-34-30Z-wrap/staged-leaf-.claude__docs__services__viola-core.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--marker",
+"2026-11-21-mcp-calls-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola-core.md rev 8 · 0 new · 1 revised · 0 retired · tx 3783"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T19-18-22-2026-11-21-mcp-calls-bounded.ndjson",
+"./.claude/docs/services/viola-core.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:05:14Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola-mcp.md",
+"--file",
+"./.andromeda/runs/2026-11-21T22-34-30Z-wrap/staged-leaf-.claude__docs__services__viola-mcp.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--marker",
+"2026-11-21-mcp-calls-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola-mcp.md rev 5 · 0 new · 2 revised · 0 retired · tx 3784"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T19-18-22-2026-11-21-mcp-calls-bounded.ndjson",
+"./.claude/docs/services/viola-mcp.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:05:15Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/conventions.md",
+"--file",
+"./.andromeda/runs/2026-11-21T22-34-30Z-wrap/staged-leaf-.claude__docs__conventions.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--marker",
+"2026-11-21-mcp-calls-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/conventions.md rev 21 · 0 new · 1 revised · 0 retired · tx 3785"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T19-18-22-2026-11-21-mcp-calls-bounded.ndjson",
+"./.claude/docs/conventions.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:05:16Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/api.md",
+"--file",
+"./.andromeda/runs/2026-11-21T22-34-30Z-wrap/staged-leaf-.claude__rules__api.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--marker",
+"2026-11-21-mcp-calls-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/api.md rev 12 · 0 new · 2 revised · 0 retired · tx 3786"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T19-18-22-2026-11-21-mcp-calls-bounded.ndjson",
+"./.claude/rules/api.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:05:16Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/security.md",
+"--file",
+"./.andromeda/runs/2026-11-21T22-34-30Z-wrap/staged-leaf-.claude__rules__security.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--marker",
+"2026-11-21-mcp-calls-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/security.md rev 39 · 0 new · 1 revised · 0 retired · tx 3787"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T19-18-22-2026-11-21-mcp-calls-bounded.ndjson",
+"./.claude/rules/security.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:05:17Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/security-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-21T22-34-30Z-wrap/staged-leaf-.claude__docs__security-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--marker",
+"2026-11-21-mcp-calls-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/security-summary.md rev 37 · 0 new · 1 revised · 0 retired · tx 3788"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T19-18-22-2026-11-21-mcp-calls-bounded.ndjson",
+"./.claude/docs/security-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:05:17Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/testing.md",
+"--file",
+"./.andromeda/runs/2026-11-21T22-34-30Z-wrap/staged-leaf-.claude__rules__testing.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--marker",
+"2026-11-21-mcp-calls-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/testing.md rev 51 · 0 new · 1 revised · 0 retired · tx 3789"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T19-18-22-2026-11-21-mcp-calls-bounded.ndjson",
+"./.claude/rules/testing.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:05:18Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/tests-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-21T22-34-30Z-wrap/staged-leaf-.claude__docs__tests-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--marker",
+"2026-11-21-mcp-calls-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/tests-summary.md rev 34 · 0 new · 1 revised · 0 retired · tx 3790"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T19-18-22-2026-11-21-mcp-calls-bounded.ndjson",
+"./.claude/docs/tests-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:05:18Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/observability.md",
+"--file",
+"./.andromeda/runs/2026-11-21T22-34-30Z-wrap/staged-leaf-.claude__rules__observability.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--marker",
+"2026-11-21-mcp-calls-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/observability.md rev 19 · 0 new · 1 revised · 0 retired · tx 3791"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T19-18-22-2026-11-21-mcp-calls-bounded.ndjson",
+"./.claude/rules/observability.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:10:33Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/route-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--marker",
+"2026-11-21-mcp-calls-bounded",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 2 record(s) · 2 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:10:36Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/route-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--marker",
+"2026-11-21-mcp-calls-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) · 2 edge(s) · tx 3803 · cry-7mgt7ybs … cry-234cbfoa"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T19-18-22-2026-11-21-mcp-calls-bounded.ndjson",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:10:56Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap/run-node.txt",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--marker",
+"2026-11-21-mcp-calls-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 0 edge(s) · tx 3805 · run-6ax3qxb5 … run-6ax3qxb5"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T19-18-22-2026-11-21-mcp-calls-bounded.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-21T23:13:19Z",
+"argv": [
+"land",
+"--root",
+".",
+"--chunk",
+"2026-11-21-mcp-calls-bounded",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"unchanged · 17 file(s) of 2026-11-21-mcp-calls-bounded"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

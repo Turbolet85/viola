@@ -1,0 +1,16 @@
+--- a/.andromeda/a11y-plan.md
++++ b/.andromeda/a11y-plan.md
+@@ -153,3 +153,3 @@
+ decision/refusal-layout-literal-pins · Refusal layout held by literal pins — Each refusal's `unable <reason> <detail>` plus final `hint:` layout, its typed exit code and a hint-free `--json` are held by literal asserts in CI on ubuntu-latest. · guard: literal pins over std::process::Command on ubuntu-latest
+-decision/time-bounds-never-on-human · Time bounds never fall on the human — Every time bound viola holds (wait timeout and cap, dialog hold, send readiness gate, confirmation windows, agents read, the start's Claude config lock wait) falls on the driver, viola's child or viola's own start; no key is blocked, refused or delayed by it.
++decision/time-bounds-never-on-human · Time bounds never fall on the human — Every time bound viola holds (wait timeout and cap, MCP call deadline, dialog hold, send readiness gate, confirmation windows, agents read, the start's Claude config lock wait) falls on the driver, viola's child or viola's own start; no key is blocked, refused or delayed by it.
+ contract/cli-refusal/exit-code · CLI refusal output · exit code — Every refusal ends with a typed exit code.
+@@ -179,3 +179,3 @@
+ decision/thiserror-messages-interpolate-nothing · thiserror messages interpolate nothing — No thiserror message interpolates a value. · guard: thiserror_messages_interpolate_nothing
+-decision/time-bounds-fall-on-the-driver · Time bounds fall on the driver only — Every time bound (MCP wait cap, dialog hold, readiness gate, confirm windows, agents read, the start's Claude config lock wait) falls on the driver, viola's own child or viola's own start, never blocking, refusing or delaying a human key and never moving the wheel.
++decision/time-bounds-fall-on-the-driver · Time bounds fall on the driver only — Every time bound (MCP wait cap, MCP call deadline, dialog hold, readiness gate, confirm windows, agents read, the start's Claude config lock wait) falls on the driver, viola's own child or viola's own start, never blocking, refusing or delaying a human key and never moving the wheel.
+ decision/unknown-refusal-has-no-hint · unknown refusal carries no hint — The unknown refusal prints no hint. · why: its detail is a code word or nothing, opaque to a reader, so no hint is printed rather than a guess
+@@ -196,2 +196,3 @@
+ contract/human-fault-line/wrapper-fault · human fault line · wrapper fault — error: wrapper fault  <code>.
++contract/instance-unreachable-detail/call-deadline · instance-unreachable detail · call-deadline — An MCP frame tool call (send, wait, last, answer) outlived the MCP call deadline (55 s) and ended; the outcome of a send is unknown. Written by the MCP frame tools alone, never by the CLI, whose exit-21 cause set stays six.
+ contract/instance-unreachable-detail/endpoint-lost · instance-unreachable detail · endpoint-lost — The wrapper was lost with the call open.

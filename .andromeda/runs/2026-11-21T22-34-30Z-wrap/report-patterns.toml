@@ -1,0 +1,38 @@
+# The close's site sweep — one pattern per moved fact (implement's Counts / qualifiers moved, Expected amendments,
+# and the directive's item 4 re-base, inputs#I7).
+
+[[pattern]]
+id = 'CAUSESET'
+regex = 'UnreachableCause|unreachable-cause|unreachable cause|endpoint-lost|call-deadline'
+
+[[pattern]]
+id = 'TOKTIMER'
+regex = '[Tt]okio timer|paused Tokio clock|paused clock|time-faked-through-seams|DeadlineProvider'
+
+[[pattern]]
+id = 'MBARM'
+regex = 'live-rig-mcp-arm|MCP recording arm|\bAV\b|Arm::MB|\bMB arm'
+
+[[pattern]]
+id = 'WAITCAP'
+regex = 'WAIT_CAP|mcp-wait-cap|wait cap|smallest default'
+
+[[pattern]]
+id = 'CLI287'
+regex = '2\.1\.287'
+
+[[pattern]]
+id = 'SENDBOUND'
+regex = 'send-time-bound|pump\.rs|write_all'
+
+[[pattern]]
+id = 'DEADLINE'
+regex = 'MCP_CALL_DEADLINE|call deadline|tool-call timeout|tool-call default'
+
+[[pattern]]
+id = 'TIMEBOUNDS'
+regex = 'time-bounds-fall-on-the-driver|time-bounds-never-on-human'
+
+[[pattern]]
+id = 'MCPISERR'
+regex = 'mcp-iserror|mcp-unreachable-carries-one-cause-word|instance-unreachable-cause'

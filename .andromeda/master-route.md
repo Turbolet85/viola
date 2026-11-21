@@ -129,4 +129,4 @@
 2026-11-20-a-new-cli-version-stamped-automatically · complete · a `viola run` meeting an unstamped `claude` version gets it stamped without a hand-run verify · → chk:2026-11-20-a-new-cli-version-stamped-automatically
 2026-11-20-harness-prefix-and-identity-floor-ledger-rows · complete · the harness prompt prefixes and the R8 identity floor as relied ledger rows, each with a viola verify probe, stamped live · → chk:2026-11-20-harness-prefix-and-identity-floor-ledger-rows
 2026-11-21-cross-session-prefix-ledger-row · complete · Cross-session prefix ledger row: the no-prompt cause settled first, then the 29th relied row stamped live (v2-25) · → chk:2026-11-21-cross-session-prefix-ledger-row
-2026-11-21-mcp-calls-bounded · pending · every MCP tool call completes below the client's tool-call timeout · → chk:2026-11-21-mcp-calls-bounded
+2026-11-21-mcp-calls-bounded · complete · every MCP tool call completes below the client's tool-call timeout · → chk:2026-11-21-mcp-calls-bounded

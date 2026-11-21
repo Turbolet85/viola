@@ -1,9 +1,0 @@
-@fit n=1 row=contract/fake-agent-receipt/start sha=25ca4a232559 v=fits type=3
-@fit n=2 row=contract/fake-agent-cli/settings sha=ce0d5070e132 v=fits type=3
-@fit n=3 row=decision/fake-agent-replays-recorded-bytes sha=5321c7211890 v=fits type=2
-@fit n=4 row=contract/fake-agent-hooks/stdin-payload sha=4cfc85b777f1 v=fits type=3
-@fit n=5 row=decision/stamping-verify-test-owned-runtime-dir sha=5782f1fa5ba9 v=fits type=1
-@fit n=6 row=decision/fixture-drift-byte-compare sha=b6aa7ba28711 v=fits type=2
-@fit n=7 row=decision/fake-agent-matches-recordings sha=f5bce494be02 v=fits type=2
-@fit n=8 row=decision/fixture-hygiene-walk sha=4df486c26159 v=fits type=1
-@fit n=9 row=decision/fake-agent-cross-session-by-uds-address sha=fe32d9fc3b31 v=fits type=4

@@ -1,0 +1,67 @@
+[
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "7b0d7906",
+"ts": "2026-11-21T23:14:33Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-21-mcp-calls-bounded",
+"--date",
+"2026-11-21",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-ujze4atl strip CARRY: 3338ch \"CARRY: (re-pinned whole from «Cross-sess\"",
+"pin next markerless chk-hzxz2gl4 holds CARRY:×5",
+"2026-11-21-mcp-calls-bounded · strip 1 block(s) · spent in the spine",
+"dry-run · would flip 2026-11-21-mcp-calls-bounded pending -> complete"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "7b0d7906",
+"ts": "2026-11-21T23:14:38Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-21-mcp-calls-bounded",
+"--date",
+"2026-11-21",
+"--run-dir",
+".andromeda/runs/2026-11-21T22-34-30Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-ujze4atl strip CARRY: 3338ch \"CARRY: (re-pinned whole from «Cross-sess\"",
+"pin next markerless chk-hzxz2gl4 holds CARRY:×5",
+"flip 2026-11-21-mcp-calls-bounded pending -> complete · tx 3812",
+"compacted 1 complete line(s) — their freight spent in the spine, no archive (U61)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T19-18-22-2026-11-21-mcp-calls-bounded.ndjson",
+"./.andromeda/master-route.md",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]
