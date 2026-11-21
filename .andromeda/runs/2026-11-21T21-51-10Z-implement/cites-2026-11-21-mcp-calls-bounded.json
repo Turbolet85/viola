@@ -1,0 +1,54 @@
+[
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "1c59b360",
+"ts": "2026-11-21T22:18:25Z",
+"argv": [
+"added",
+"--out",
+".andromeda/runs/2026-11-21T21-51-10Z-implement/new-text.md",
+"--run-dir",
+".andromeda/runs/2026-11-21T21-51-10Z-implement",
+"--marker",
+"2026-11-21-mcp-calls-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: 53669b68 — no pre-CI commit",
+"crates/viola-agent-claude/src/lib.rs — added 6 line(s) in 1 range(s)",
+"crates/viola-core/src/lib.rs — added 5 line(s) in 3 range(s)",
+"crates/viola-e2e/src/bin/viola-live-rig.rs — added 28 line(s) in 12 range(s)",
+"crates/viola-e2e/src/rig/mcpcall.rs — new file · 357 line(s)",
+"crates/viola-e2e/src/rig/mod.rs — added 366 line(s) in 19 range(s)",
+"crates/viola-e2e/tests/rig_rehearsal.rs — added 75 line(s) in 1 range(s)",
+"crates/viola-mcp/Cargo.toml — added 1 line(s) in 1 range(s)",
+"crates/viola-mcp/src/lib.rs — added 19 line(s) in 6 range(s)",
+"crates/viola-mcp/src/result.rs — added 1 line(s) in 1 range(s)",
+"crates/viola-mcp/src/tools.rs — added 95 line(s) in 15 range(s)",
+"crates/viola-mcp/tests/handlers.rs — added 160 line(s) in 9 range(s)",
+"tests/contract_error_bodies.rs — added 1 line(s) in 1 range(s)",
+"new text: 12 file(s) · 1 new · 70 added range(s) · 1114 line(s) · 88 block(s) → .andromeda/runs/2026-11-21T21-51-10Z-implement/new-text.md (117 lines) · written"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-21T21-51-10Z-implement/new-text.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"base": "53669b686cddc1c7dad8f5fec58b3701956fcb58",
+"counts": {
+"files": 12,
+"new": 1,
+"ranges": 70,
+"lines": 1114,
+"blocks": 88
+},
+"out": ".andromeda/runs/2026-11-21T21-51-10Z-implement/new-text.md",
+"state": "written",
+"lines": 117
+}
+}
+]

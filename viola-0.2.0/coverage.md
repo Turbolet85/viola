@@ -1,12 +1,15 @@
 # Coverage — viola-0.2.0
 
-verified 21/37 · deferred 2 · planned 14 · implemented 0 · unclaimed 14
+verified 21/37 · deferred 2 · planned 13 · implemented 1 · unclaimed 13
 
 ## deferred (2)
 - v2-21 · A key answering the CLI's session-feedback survey keeps the wheel
 - v2-22 · Product-owned session settings
 
-## planned, unclaimed (14)
+## implemented (1)
+- v2-24 · Every MCP call bounded below the client's timeout · 2026-11-21-mcp-calls-bounded
+
+## planned, unclaimed (13)
 - v2-07 · Launch a session into the fleet
 - v2-08 · The launch authority bounded
 - v2-09 · The lineage registry
@@ -16,7 +19,6 @@ verified 21/37 · deferred 2 · planned 14 · implemented 0 · unclaimed 14
 - v2-13 · Adopt a plain session into the fleet
 - v2-14 · The fleet console
 - v2-15 · Every verb from the console
-- v2-24 · Every MCP call bounded below the client's timeout
 - v2-27 · A key typed right after a resize
 - v2-28 · The fleet run by viola
 - v2-30 · Model and effort named at launch

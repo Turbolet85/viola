@@ -4,21 +4,56 @@
 //! sides. The test wrapper counts every frame it is sent. An impostor's snapshot records another
 //! live process, a child of this test binary, while this process serves the endpoint.
 
+use std::future::Future;
 use std::path::Path;
-use std::sync::{Arc, Mutex};
+use std::pin::Pin;
+use std::sync::{Arc, Condvar, Mutex};
+use std::task::{Context, Poll, Waker};
+use std::time::Duration;
 
 use rmcp::model::{CallToolResult, JsonObject};
+use rstest::rstest;
 use serde_json::{Value, json};
 use viola_channel::{Dispatch, ProtocolError, Server, Serving};
 use viola_core::ViolaName;
-use viola_mcp::Tools;
+use viola_mcp::{DeadlineProvider, Tools};
 use viola_state::snapshot::{InstanceSnapshot, Wheel, write_snapshot};
 
-/// Every frame the test wrapper was sent, and its canned reply per method.
+/// The held reply's backstop: a hang bound, never a timing oracle.
+const HOLD_BACKSTOP: Duration = Duration::from_secs(5);
+
+/// Every frame the test wrapper was sent, and its canned reply per method. While `held` is set,
+/// each reply is withheld until the test releases it or the backstop passes.
 #[derive(Default)]
 struct TestWrapper {
     frames: Mutex<Vec<(String, Value)>>,
     replies: Mutex<Vec<(String, Result<Value, ProtocolError>)>>,
+    held: Mutex<bool>,
+    sent: Condvar,
+    released: Condvar,
+}
+
+impl TestWrapper {
+    fn hold(&self) {
+        *self.held.lock().expect("held") = true;
+    }
+
+    fn release(&self) {
+        *self.held.lock().expect("held") = false;
+        self.released.notify_all();
+    }
+
+    /// Waits until a frame of `method` was sent, under the backstop.
+    fn holds_a_frame(&self, method: &str) -> bool {
+        let frames = self.frames.lock().expect("frames");
+        let (frames, _) = self
+            .sent
+            .wait_timeout_while(frames, HOLD_BACKSTOP, |frames| {
+                !frames.iter().any(|(m, _)| m == method)
+            })
+            .expect("frames");
+        frames.iter().any(|(m, _)| m == method)
+    }
 }
 
 impl Dispatch for TestWrapper {
@@ -27,6 +62,13 @@ impl Dispatch for TestWrapper {
             .lock()
             .expect("frames")
             .push((method.to_owned(), params.clone()));
+        self.sent.notify_all();
+        let held = self.held.lock().expect("held");
+        drop(
+            self.released
+                .wait_timeout_while(held, HOLD_BACKSTOP, |held| *held)
+                .expect("held"),
+        );
         self.replies
             .lock()
             .expect("replies")
@@ -120,6 +162,73 @@ impl Booted {
 
     fn frames(&self) -> Vec<(String, Value)> {
         self.wrapper.frames.lock().expect("frames").clone()
+    }
+
+    /// The tools with no name of their own, their deadline the test's `signal`.
+    fn tools_until(&self, signal: &Signal) -> Tools {
+        Tools::with_deadline(
+            self.home.clone(),
+            None,
+            Arc::new(|| json!({"v": 1, "ok": {}})),
+            signal.provider(),
+        )
+    }
+}
+
+/// A deadline the test fires by hand: every future the provider gives ends once it is fired.
+#[derive(Clone, Default)]
+struct Signal(Arc<Mutex<(bool, Vec<Waker>)>>);
+
+impl Signal {
+    fn fire(&self) {
+        let wakers = {
+            let mut state = self.0.lock().expect("signal");
+            state.0 = true;
+            std::mem::take(&mut state.1)
+        };
+        wakers.into_iter().for_each(Waker::wake);
+    }
+
+    fn provider(&self) -> DeadlineProvider {
+        let signal = self.clone();
+        Arc::new(move || Box::pin(Fired(signal.clone())))
+    }
+}
+
+struct Fired(Signal);
+
+impl Future for Fired {
+    type Output = ();
+
+    fn poll(self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<()> {
+        let mut state = (self.0).0.lock().expect("signal");
+        if state.0 {
+            return Poll::Ready(());
+        }
+        state.1.push(cx.waker().clone());
+        Poll::Pending
+    }
+}
+
+/// Each frame tool's arguments and the canned reply of its method.
+fn frame_case(tool: &str) -> (Value, Value) {
+    match tool {
+        "send" => (
+            json!({"target": "builder", "text": "hello"}),
+            json!({"ok": {"submitted_at": "2026-10-17T00:00:00.000Z", "cursor": 812}}),
+        ),
+        "wait" => (
+            json!({"target": "builder"}),
+            json!({"ok": {"timed_out": true}}),
+        ),
+        "last" => (
+            json!({"target": "builder"}),
+            json!({"ok": {"last_assistant_message": "done", "ts": "t"}}),
+        ),
+        _ => (
+            json!({"target": "builder", "dialog_id": 4, "response": {"behavior": "allow"}}),
+            json!({"ok": {}}),
+        ),
     }
 }
 
@@ -605,4 +714,52 @@ fn handlers_frame_tools_name_the_cause_of_an_unreachable_instance() {
     );
     assert_cause(&tools, "unserved", "instance-dead");
     assert!(wrapper.frames().is_empty(), "{:?}", wrapper.frames());
+}
+
+/// A frame tool whose reply the wrapper holds ends at the call deadline: `instance-unreachable`
+/// with `call-deadline`, codes only.
+#[rstest]
+#[case::send("send")]
+#[case::wait("wait")]
+#[case::last("last")]
+#[case::answer("answer")]
+fn handlers_frame_tools_end_at_the_call_deadline(#[case] tool: &str) {
+    let (args, reply) = frame_case(tool);
+    let wrapper = booted(&format!("deadline-{tool}"), vec![(tool, Ok(reply))]);
+    wrapper.wrapper.hold();
+    let signal = Signal::default();
+    let tools = wrapper.tools_until(&signal);
+    let held = Arc::clone(&wrapper.wrapper);
+    let method = tool.to_owned();
+    let firing = signal.clone();
+    let fired = std::thread::spawn(move || {
+        let holds = held.holds_a_frame(&method);
+        firing.fire();
+        holds
+    });
+    let result = call(&tools, tool, args).expect("a result");
+    wrapper.wrapper.release();
+    assert!(
+        fired.join().expect("the firing thread"),
+        "{tool}: no frame held"
+    );
+    assert_eq!(result.is_error, Some(true), "{tool}");
+    assert_eq!(
+        result.structured_content,
+        Some(json!({"error": "instance-unreachable", "detail": "call-deadline"})),
+        "{tool}"
+    );
+    assert_eq!(text(&result), "refused: instance-unreachable", "{tool}");
+}
+
+/// A reply that comes before the deadline is the reply; the deadline never fired.
+#[test]
+fn handlers_a_reply_before_the_deadline_is_the_reply() {
+    let (args, reply) = frame_case("wait");
+    let wrapper = booted("deadline-unfired", vec![("wait", Ok(reply))]);
+    let signal = Signal::default();
+    let result = call(&wrapper.tools_until(&signal), "wait", args).expect("a result");
+    assert_eq!(result.is_error, Some(false));
+    assert_eq!(result.structured_content, Some(json!({"timed_out": true})));
+    assert!(!signal.0.lock().expect("signal").0, "the deadline fired");
 }

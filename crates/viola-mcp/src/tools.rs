@@ -7,8 +7,12 @@
 //! verification).
 
 use std::borrow::Cow;
+use std::future::Future;
 use std::path::PathBuf;
+use std::pin::pin;
 use std::sync::Arc;
+use std::task::Poll;
+use std::time::Duration;
 
 use rmcp::model::{
     CacheScope, CallToolRequestParams, CallToolResponse, CallToolResult, ErrorCode, ErrorData,
@@ -32,15 +36,25 @@ use viola_state::liveness::{
 };
 use viola_state::strict::{check_endpoint_dir, check_instance};
 
-use crate::{ListProvider, McpError, result};
+use crate::{DeadlineProvider, ListProvider, McpError, result};
 
 /// The tool list, in order: no wheel and no link tool (architecture §Established Decisions [MCP]).
 pub const TOOL_NAMES: [&str; 5] = ["send", "wait", "last", "answer", "list"];
 
-/// A `wait`'s bound in ms, its default and its cap: below the client's smallest tool-call default
-/// read in the 2.1.287 bundle (60 s) and above `send`'s own bound (architecture [Delivery
-/// Confirmation]). The wrapper's own deadline ends the call, so no timer of this crate's exists.
+/// A `wait`'s bound in ms, its default and its cap: above `send`'s own bound (architecture
+/// [Delivery Confirmation]), below [`MCP_CALL_DEADLINE`] and so below the client's bound read from
+/// the 2.1.328 and 2.1.330 bundles. The wrapper's own deadline ends the call.
 pub const WAIT_CAP: u64 = 50_000;
+
+/// The longest any frame tool's call runs before it returns `instance-unreachable` /
+/// `call-deadline`: above the wrapper's own longest blocks (`send`'s gate plus its `/compact`
+/// window, `wait`'s cap), below the client's bound read from the CLI's bundles.
+pub const MCP_CALL_DEADLINE: Duration = Duration::from_secs(55);
+
+/// The production deadline: Tokio's timer over [`MCP_CALL_DEADLINE`].
+pub(crate) fn production_deadline() -> DeadlineProvider {
+    Arc::new(|| Box::pin(tokio::time::sleep(MCP_CALL_DEADLINE)))
+}
 
 /// The `timeout_ms` a `wait` sends: the given one under the cap, else the cap.
 pub fn wait_timeout(given: Option<u64>) -> u64 {
@@ -172,11 +186,13 @@ pub(crate) fn tools_result() -> ListToolsResult {
         .with_cache_scope(CacheScope::Private)
 }
 
-/// What a call reads: the home, the server's own instance name (sent as `from`) and the board.
+/// What a call reads: the home, the server's own instance name (sent as `from`), the board and
+/// the frame tools' deadline.
 struct Ctx {
     home: PathBuf,
     from: Option<ViolaName>,
     list: ListProvider,
+    deadline: DeadlineProvider,
 }
 
 #[derive(Clone)]
@@ -185,9 +201,19 @@ pub(crate) struct Server {
 }
 
 impl Server {
-    pub(crate) fn new(home: PathBuf, from: Option<ViolaName>, list: ListProvider) -> Self {
+    pub(crate) fn new(
+        home: PathBuf,
+        from: Option<ViolaName>,
+        list: ListProvider,
+        deadline: DeadlineProvider,
+    ) -> Self {
         Self {
-            ctx: Arc::new(Ctx { home, from, list }),
+            ctx: Arc::new(Ctx {
+                home,
+                from,
+                list,
+                deadline,
+            }),
         }
     }
 }
@@ -325,11 +351,48 @@ fn params_from(ctx: &Ctx, mut params: Map<String, Value>) -> Map<String, Value> 
     params
 }
 
+/// [`frame_unbounded`] under the call deadline: whichever ends first decides, and at the deadline
+/// the frame is dropped (its connection closes; the wrapper's own work goes on) and the call is
+/// `instance-unreachable` / `call-deadline`.
+async fn frame(
+    ctx: &Ctx,
+    target: &ViolaName,
+    method: &'static str,
+    params: Map<String, Value>,
+    refusable: bool,
+) -> Result<CallToolResult, McpError> {
+    let work = frame_unbounded(ctx, target, method, params, refusable);
+    match first_of(work, (ctx.deadline)()).await {
+        Some(done) => done,
+        None => Ok(result::unreachable(UnreachableCause::CallDeadline)),
+    }
+}
+
+/// `work`'s output, or `None` when `deadline` ends first; `work` is polled first, so an output
+/// ready at the deadline is still the output.
+async fn first_of<T>(
+    work: impl Future<Output = T>,
+    deadline: impl Future<Output = ()>,
+) -> Option<T> {
+    let mut work = pin!(work);
+    let mut deadline = pin!(deadline);
+    std::future::poll_fn(|cx| {
+        if let Poll::Ready(done) = work.as_mut().poll(cx) {
+            return Poll::Ready(Some(done));
+        }
+        if deadline.as_mut().poll(cx).is_ready() {
+            return Poll::Ready(None);
+        }
+        Poll::Pending
+    })
+    .await
+}
+
 /// One request to `target`'s wrapper after the strict-modes check of the home and the instance's
 /// state files, the liveness pre-check and the socket directory's check, over a connection whose
 /// server is the owning user's and the recorded wrapper; a refused check, a dead instance or a server
 /// that fails its check is `instance-unreachable`, no frame and no line written.
-async fn frame(
+async fn frame_unbounded(
     ctx: &Ctx,
     target: &ViolaName,
     method: &'static str,
@@ -492,6 +555,7 @@ mod tests {
             home,
             from: None,
             list: Arc::new(|| json!({"v": 1, "ok": {"items": []}})),
+            deadline: production_deadline(),
         };
         (dir, ctx)
     }
@@ -591,6 +655,28 @@ mod tests {
         assert_eq!(wait_timeout(given), sent);
     }
 
+    #[test]
+    fn mcp_call_deadline_sits_between_the_wrapper_bounds_and_the_client_read() {
+        use viola_agent_claude::MCP_CLIENT_BOUND_READ;
+        use viola_agent_claude::screen::{
+            COMPACT_CONFIRM_WINDOW, CONFIRM_WINDOW_FALLBACK, GATE_MAX_WAIT,
+        };
+        assert_eq!(MCP_CALL_DEADLINE, Duration::from_secs(55));
+        assert_eq!(MCP_CLIENT_BOUND_READ, Duration::from_secs(120));
+        assert_eq!(
+            GATE_MAX_WAIT + COMPACT_CONFIRM_WINDOW,
+            Duration::from_millis(48_500)
+        );
+        assert!(GATE_MAX_WAIT + COMPACT_CONFIRM_WINDOW < MCP_CALL_DEADLINE);
+        assert_eq!(
+            GATE_MAX_WAIT + CONFIRM_WINDOW_FALLBACK,
+            Duration::from_millis(18_500)
+        );
+        assert!(GATE_MAX_WAIT + CONFIRM_WINDOW_FALLBACK < MCP_CALL_DEADLINE);
+        assert!(Duration::from_millis(WAIT_CAP) < MCP_CALL_DEADLINE);
+        assert!(MCP_CALL_DEADLINE < MCP_CLIENT_BOUND_READ);
+    }
+
     /// Every refused input, before any frame: an `invalid-params` naming its field, or the
     /// `not-delivered` pair of a text.
     #[rstest]
@@ -662,6 +748,7 @@ mod tests {
             home: home.path().to_path_buf(),
             from: None,
             list: Arc::new(|| panic!("provider")),
+            deadline: production_deadline(),
         };
         let got = runtime().block_on(call(&ctx, ToolName::List, JsonObject::new()));
         assert!(matches!(got, Err(McpError::Internal)));

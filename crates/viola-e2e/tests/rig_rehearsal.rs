@@ -2134,6 +2134,81 @@ fn rig_rehearsal_mt_writes_its_mcp_config_and_tears_down() {
     assert_torn_down(&out, &case);
 }
 
+/// `mb` over the fake agent as both halves: `viola run` wraps it and its first `session-start`
+/// stands, then the print-mode half starts no MCP server, so no call is read.
+#[test]
+fn rig_rehearsal_mb_starts_the_wrapped_fake_and_tears_down() {
+    let case = Case::new();
+    let viola = viola().display().to_string();
+    let out = run(case.rig("mb", &["--viola", viola.as_str()], &case.child(false, &[])));
+    let summary = stdout(&out);
+    assert_eq!(out.status.code(), Some(0), "{summary}");
+    for (key, want) in [
+        ("arm", "mb"),
+        ("keys", "none"),
+        ("wrapped", "ready"),
+        ("mcp-timeout", "none"),
+        ("client", "exit 0"),
+        ("call-error", "unread"),
+        ("timed-out", "unread"),
+        ("elapsed-band", "unread"),
+        ("cut-word", "none"),
+    ] {
+        assert_eq!(word(&out, key).as_deref(), Some(want), "{key}: {summary}");
+    }
+    assert_eq!(word(&out, "outlived"), None, "{summary}");
+    assert!(word(&out, "viola-build").is_some(), "{summary}");
+    assert_torn_down(&out, &case);
+}
+
+/// `mc`: the cut call's rehearsal label writes the private config's `timeout`.
+#[test]
+fn rig_rehearsal_mb_cut_label_takes_the_server_timeout() {
+    let case = Case::new();
+    let viola = viola().display().to_string();
+    let fake = fake().display().to_string();
+    let out = run(case.rig(
+        "mc",
+        &["--viola", viola.as_str(), "--fake", fake.as_str()],
+        &case.child(false, &[]),
+    ));
+    let summary = stdout(&out);
+    assert_eq!(out.status.code(), Some(0), "{summary}");
+    assert_eq!(word(&out, "label").as_deref(), Some("rehearse-MC"));
+    assert_eq!(word(&out, "arm").as_deref(), Some("mb"));
+    assert_eq!(word(&out, "mcp-timeout").as_deref(), Some("5000"));
+    assert_eq!(word(&out, "client").as_deref(), Some("exit 0"));
+    assert_eq!(word(&out, "outlived").as_deref(), Some("unread"));
+    assert_torn_down(&out, &case);
+}
+
+/// A live `MB` start with no fake agent given is refused before its ledger line.
+#[test]
+fn rig_rehearsal_mb_live_without_a_fake_refuses_before_its_ledger_line() {
+    let case = Case::new();
+    let mut cmd = Command::new(RIG);
+    cmd.args(["live", "MB", "--cli", "0.0.0", "--cap", "1", "--spare", "1"])
+        .arg("--ledger")
+        .arg(case.ledger())
+        .arg("--credentials")
+        .arg(case.credentials())
+        .arg("--user-config")
+        .arg(case.user_config())
+        .arg("--scratch-base")
+        .arg(case.scratch())
+        .arg("--out")
+        .arg(case.out())
+        .env_remove("CI")
+        .stdin(Stdio::null())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped());
+    let out = run(cmd);
+    assert_eq!(out.status.code(), Some(3), "{}", stdout(&out));
+    assert_eq!(word(&out, "refused").as_deref(), Some("fake"));
+    assert!(!case.ledger().exists(), "no ledger line");
+    assert!(case.scratch_empty(), "no scratch root");
+}
+
 #[test]
 fn rig_live_arm_refuses_under_ci() {
     let case = Case::new();

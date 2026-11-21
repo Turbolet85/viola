@@ -3,8 +3,8 @@
 //! granted keys, keeps its frames under the gitignored `target/live-rig/`, and owns its isolation
 //! and its processes.
 //!
-//! - `rehearse <r1|r2|hold|r3b|r3|im|v|vc|ts|tc|vr|mt|vh|cx|sf|hb|av|cs|cc|ws|r3w> --program <fake agent> [--viola <exe>]
-//!   [--tap <exe>] [--target-home <dir> --claude-dir <dir> --user-config <file>] [--contain]
+//! - `rehearse <r1|r2|hold|r3b|r3|im|v|vc|ts|tc|vr|mt|vh|cx|sf|hb|av|mb|mc|cs|cc|ws|r3w> --program <fake agent> [--viola <exe>]
+//!   [--tap <exe>] [--fake <exe>] [--target-home <dir> --claude-dir <dir> --user-config <file>] [--contain]
 //!   [-- <child args>]`: one start over the fake agent (CI runs these); `vh` refuses `usage` without
 //!   all three of its paths; `--contain` (`sf` alone, else `usage`) runs the child inside the
 //!   network-closed `bwrap` sandbox every live `SF` start runs in; `{cwd}` and `{config}` in a child argument stand for the start's cwd and private config
@@ -14,8 +14,10 @@
 //!   stamp in `<out>/wake-stamp.json`, `r3w` is `r3` seeding that kept stamp and reading viola's own
 //!   `wheel` lines after the fired wake, then sending again; `hb` reads a fresh box's hint cells
 //!   around one `x` and one DEL, unwrapped, with no send; `av` runs `viola run` in a home keyed
-//!   `verify_new_cli` with no stamp, so the start runs its own verify before the session.
-//! - `live <R1|R2|R3B|R3|IM|S0|S0R|S0B|S0C|S1|S2|BP|BK|R4|R4M|L1|L2|SF|CS|CC|WS|HB|R3W|AV|…-2|R3-326|R3D> --cli <version> --cap <n> --spare <n> --ledger <file>`: one live start
+//!   `verify_new_cli` with no stamp, so the start runs its own verify before the session; `mb`
+//!   wraps the fake agent (`--fake`, else `--program`) with `viola run` and starts `--program` as
+//!   `viola mcp`'s print-mode MCP client, `mc` the same with the cut call's private `timeout`.
+//! - `live <R1|R2|R3B|R3|IM|S0|S0R|S0B|S0C|S1|S2|BP|BK|R4|R4M|L1|L2|SF|CS|CC|WS|HB|R3W|AV|MB|MB8|MC|…-2|R3-326|R3D> --cli <version> [--fake <exe>] --cap <n> --spare <n> --ledger <file>`: one live start
 //!   of the stamped `claude`, refused under `CI`; `S0` / `S0R` / `S0B` run `viola verify` over it, `S0C`
 //!   reads its first frame at 80×24 and stops it with no key; `S1` runs `viola verify` in a trusted
 //!   git folder, then `viola run` in a fresh untrusted one, and `S2` a plain `claude` in one, each
@@ -26,7 +28,10 @@
 //!   `viola run` under that kept stamp, refused `stamp` before its ledger line where none stands,
 //!   and `HB` a plain `claude` whose fresh box it reads, no send; `AV` runs `viola run` in a
 //!   scratch home keyed `verify_new_cli` with no stamp, reads the stamp its own verify left
-//!   against the snapshot's verdict, and stops it by TERM.
+//!   against the snapshot's verdict, and stops it by TERM; `MB` and `MB8` (the long call) and `MC`
+//!   (the cut call, its server's `timeout` 5000 ms) run `viola run` over the fake agent given by
+//!   `--fake`, refused `fake` before their ledger line without it, and the stamped `claude` as
+//!   `viola mcp`'s print-mode client, one `wait` read into closed words.
 //! - `census [--kill]`: the processes an earlier, dead rig left, and their kill.
 //! - `capture --out <file>` (hidden): a wake start's UserPromptSubmit hook and `SF`'s StopFailure
 //!   hook, one closed-word line per payload.
@@ -70,6 +75,9 @@ enum Verb {
         /// `sf`: the child inside the network-closed sandbox.
         #[arg(long)]
         contain: bool,
+        /// `mb` / `mc`: the fake agent `viola run` wraps; `--program` when absent.
+        #[arg(long)]
+        fake: Option<PathBuf>,
         #[command(flatten)]
         common: Common,
         #[arg(last = true)]
@@ -79,6 +87,9 @@ enum Verb {
         label: String,
         #[arg(long)]
         cli: String,
+        /// `MB` / `MB8` / `MC`: the fake agent `viola run` wraps.
+        #[arg(long)]
+        fake: Option<PathBuf>,
         #[command(flatten)]
         common: Common,
     },
@@ -175,6 +186,7 @@ fn plan_of(label: String, arm: Arm, live: bool, common: Common) -> Option<Plan> 
         claude_dir: None,
         cwd: None,
         contain: false,
+        fake: None,
     })
 }
 
@@ -217,10 +229,12 @@ fn main() -> ExitCode {
             target_home,
             claude_dir,
             contain,
+            fake,
             common,
             child_args,
         } => {
             let (arm, label) = match arm.as_str() {
+                "mc" => (Arm::MB, rig::REHEARSE_MC.to_owned()),
                 "cs" => (Arm::V, rig::REHEARSE_CS.to_owned()),
                 "cc" => (Arm::CX, rig::REHEARSE_CC.to_owned()),
                 "ws" => (Arm::V, rig::REHEARSE_WS.to_owned()),
@@ -246,6 +260,7 @@ fn main() -> ExitCode {
             plan.viola = viola;
             plan.tap = tap;
             plan.contain = contain;
+            plan.fake = fake;
             if arm == Arm::VH {
                 plan.target_home = target_home;
                 plan.claude_dir = claude_dir;
@@ -253,7 +268,12 @@ fn main() -> ExitCode {
             }
             plan
         }
-        Verb::Live { label, cli, common } => {
+        Verb::Live {
+            label,
+            cli,
+            fake,
+            common,
+        } => {
             let Some(arm) = Arm::of_label(&label) else {
                 return usage();
             };
@@ -266,7 +286,7 @@ fn main() -> ExitCode {
             plan.program = dir.join("claude");
             // Run F's argv for `VC`: the program and `--model haiku` alone; `S1`'s verify takes
             // none and its `viola run` step that pair; `S2` the pair.
-            if arm.wrapped().is_some() || matches!(arm, Arm::VC | Arm::TC) {
+            if (arm.wrapped().is_some() && arm != Arm::MB) || matches!(arm, Arm::VC | Arm::TC) {
                 plan.child_args = vec!["--model".to_owned(), "haiku".to_owned()];
             }
             if arm == Arm::TS {
@@ -292,6 +312,7 @@ fn main() -> ExitCode {
             }
             // Every live `SF` start is contained, never by an option.
             plan.contain = arm == Arm::SF;
+            plan.fake = fake;
             plan.cli_dir = Some(dir);
             plan.cli_version = Some(cli);
             plan

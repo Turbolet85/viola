@@ -1,0 +1,301 @@
+[
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "363241ce",
+"ts": "2026-11-21T19:18:31Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-21-mcp-calls-bounded",
+"--source",
+"~/dev/projects/additional/viola-overseer/phase-mcp-directive.md",
+"--kind",
+"relay",
+"--why",
+"the overseer phase directive for MCP calls bounded: no live start, strings-first reading, stop at P3 end with one founder-forks block; its four measured facts",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-11-21T19-17-43Z-phase",
+"--marker",
+"2026-11-21-mcp-calls-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy no-repo · ../additional/viola-overseer/phase-mcp-directive.md",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-phase-mcp-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/phase-mcp-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "42f100a1dff8b0d415e7af0be2d9dc98c36cefc313ac3c7ecbe99eb43068b872",
+"copy": "I1-phase-mcp-directive.md.txt",
+"link": false,
+"read_at": "2026-11-21T19:18:30Z",
+"step": "phase:P1",
+"why": "the overseer phase directive for MCP calls bounded: no live start, strings-first reading, stop at P3 end with one founder-forks block; its four measured facts"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "363241ce",
+"ts": "2026-11-21T21:34:50Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-21-mcp-calls-bounded",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-mcp-p3.md",
+"--kind",
+"relay",
+"--why",
+"the operator answers to the P3 block (compiled 55 s MCP deadline; 3 base live starts + 1 spare: two long-call, one cut) and the overseer technical answers 4-11",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-11-21T19-17-43Z-phase",
+"--marker",
+"2026-11-21-mcp-calls-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy no-repo · ../additional/viola-overseer/relay-mcp-p3.md",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-mcp-p3.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-mcp-p3.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "9fe2b9be0b7e09c47233a8ae3a8ca05d5adc0b6da363ce2d0a55bf182939fec0",
+"copy": "I2-relay-mcp-p3.md.txt",
+"link": false,
+"read_at": "2026-11-21T21:34:50Z",
+"step": "phase:P4",
+"why": "the operator answers to the P3 block (compiled 55 s MCP deadline; 3 base live starts + 1 spare: two long-call, one cut) and the overseer technical answers 4-11"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "363241ce",
+"ts": "2026-11-21T21:45:26Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-21-mcp-calls-bounded",
+"--run-dir",
+".andromeda/runs/2026-11-21T19-17-43Z-phase",
+"--marker",
+"2026-11-21-mcp-calls-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-mcp-directive.md",
+"I1 cited scope.md:31 · scope.md:51 · research.md:11 · plan.md:8 · plan.md:164 · plan.md:271 (in fence) · plan.md:494",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-mcp-p3.md",
+"I2 cited research.md:12 · research.md:122 · research.md:143 · plan.md:8 · plan.md:20 · plan.md:23 · plan.md:29 · plan.md:33 · plan.md:111 · plan.md:127 · plan.md:135 · plan.md:162 · plan.md:295 (in fence) · plan.md:318 (in fence) · plan.md:326 (in fence) · plan.md:336 (in fence) · plan.md:356 (in fence) · plan.md:364 (in fence) · plan.md:465 · plan.md:494 · plan.md:497 · plan.md:498 · plan.md:505 · plan.md:508 · plan.md:520 · plan.md:528 · plan.md:538 · plan.md:542",
+"inputs: 2 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "363241ce",
+"ts": "2026-11-21T21:48:14Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-21-mcp-calls-bounded",
+"--run-dir",
+".andromeda/runs/2026-11-21T19-17-43Z-phase",
+"--marker",
+"2026-11-21-mcp-calls-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-mcp-directive.md",
+"I1 cited scope.md:36 · scope.md:56 · research.md:11 · plan.md:8 · plan.md:164 · plan.md:292 (in fence) · plan.md:516",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-mcp-p3.md",
+"I2 cited scope.md:29 · research.md:12 · research.md:122 · research.md:143 · plan.md:8 · plan.md:20 · plan.md:23 · plan.md:29 · plan.md:33 · plan.md:111 · plan.md:127 · plan.md:135 · plan.md:162 · plan.md:191 · plan.md:316 (in fence) · plan.md:339 (in fence) · plan.md:347 (in fence) · plan.md:357 (in fence) · plan.md:377 (in fence) · plan.md:385 (in fence) · plan.md:487 · plan.md:516 · plan.md:519 · plan.md:520 · plan.md:527 · plan.md:530 · plan.md:542 · plan.md:550 · plan.md:560 · plan.md:564",
+"inputs: 2 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "363241ce",
+"ts": "2026-11-21T21:50:01Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-21-mcp-calls-bounded",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-mcp-p5.md",
+"--kind",
+"relay",
+"--why",
+"P4-F1 and P4-F2 each option (1), a delegate overseer confirm inside the operator own answers, PROVISIONAL; the paste route entry not answered",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-11-21T19-17-43Z-phase",
+"--marker",
+"2026-11-21-mcp-calls-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy no-repo · ../additional/viola-overseer/relay-mcp-p5.md",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-mcp-p5.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-mcp-p5.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "892952c37377f839db98e189ebee4e5ce27fc2e83fe0eaa4dda88c5f38248276",
+"copy": "I3-relay-mcp-p5.md.txt",
+"link": false,
+"read_at": "2026-11-21T21:50:00Z",
+"step": "phase:P5",
+"why": "P4-F1 and P4-F2 each option (1), a delegate overseer confirm inside the operator own answers, PROVISIONAL; the paste route entry not answered"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "363241ce",
+"ts": "2026-11-21T21:50:02Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-21-mcp-calls-bounded",
+"--message-file",
+".andromeda/runs/2026-11-21T19-17-43Z-phase/relay-1.md",
+"--origin",
+"the overseer (delegate, the operator away)",
+"--kind",
+"relay",
+"--why",
+"the word yes on .andromeda/runs/2026-11-21T19-17-43Z-phase/p5-card-1.md, delegate overseer inside the operator own answers; Beyond-the-plan row 1 not answered",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-11-21T19-17-43Z-phase",
+"--marker",
+"2026-11-21-mcp-calls-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy message · message: the overseer (delegate, the operator away)",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "relay",
+"repo": null,
+"path": "message: the overseer (delegate, the operator away)",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "a9c02686cfecbe274d9fcab14603c79c7ef3a45dc5cfa65137fac0a271e4bff7",
+"copy": "I4-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-21T21:50:01Z",
+"step": "phase:P5",
+"why": "the word yes on .andromeda/runs/2026-11-21T19-17-43Z-phase/p5-card-1.md, delegate overseer inside the operator own answers; Beyond-the-plan row 1 not answered"
+}
+}
+]

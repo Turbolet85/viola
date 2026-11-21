@@ -1,0 +1,49 @@
+[
+{
+"tool": "matrix",
+"v": "1.13",
+"sha8": "bd105b74",
+"ts": "2026-11-21T22:17:57Z",
+"argv": [
+"implement",
+"--dir",
+"viola-0.2.0",
+"--chunk",
+"2026-11-21-mcp-calls-bounded",
+"--id",
+"v2-24",
+"--ref-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-21T21-51-10Z-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"implement v2-24 · status planned → implemented · ref crates/viola-mcp/src/tools.rs::tests::mcp_call_deadline_sits_between_the_wrapper… (339 chars)",
+"landed, rendered ./.andromeda/db/log/2026-11-21T19-18-22-2026-11-21-mcp-calls-bounded.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T19-18-22-2026-11-21-mcp-calls-bounded.ndjson"
+],
+"before": {
+"id": "v2-24",
+"chunk": "2026-11-21-mcp-calls-bounded",
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "On claude 2.1.330 and 2.1.328 a real print-mode client's call of viola's longest tool call (an MCP `wait` with no `timeo… (979 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v2-24",
+"chunk": "2026-11-21-mcp-calls-bounded",
+"status": "implemented",
+"method": "integration",
+"ref": "crates/viola-mcp/src/tools.rs::tests::mcp_call_deadline_sits_between_the_wrapper_bounds_and_the_client_read · crates/vio… (339 chars)",
+"acceptance": "On claude 2.1.330 and 2.1.328 a real print-mode client's call of viola's longest tool call (an MCP `wait` with no `timeo… (979 chars)",
+"notes_chars": 0
+}
+}
+]

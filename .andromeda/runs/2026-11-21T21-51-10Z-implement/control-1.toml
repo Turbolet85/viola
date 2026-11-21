@@ -1,0 +1,19 @@
+[[control]]
+id = "call-deadline"
+entry = 6
+guard = "the deadline over frame(): the frame awaited alone, the seam's future never polled"
+case = "handlers_frame_tools_end_at_the_call_deadline::case_1_send"
+
+[[control.edit]]
+path = "crates/viola-mcp/src/tools.rs"
+old = '''
+    let work = frame_unbounded(ctx, target, method, params, refusable);
+    match first_of(work, (ctx.deadline)()).await {
+        Some(done) => done,
+        None => Ok(result::unreachable(UnreachableCause::CallDeadline)),
+    }
+'''
+new = '''
+    let _ = &ctx.deadline;
+    frame_unbounded(ctx, target, method, params, refusable).await
+'''

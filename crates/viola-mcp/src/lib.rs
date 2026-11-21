@@ -8,8 +8,10 @@ mod result;
 mod stdin;
 mod tools;
 
+use std::future::Future;
 use std::io;
 use std::path::PathBuf;
+use std::pin::Pin;
 use std::sync::Arc;
 use std::sync::atomic::Ordering;
 
@@ -19,11 +21,15 @@ use serde_json::Value;
 use viola_core::obs::ObsEvent;
 use viola_core::{MAX_FRAME, ViolaName, obs_event};
 
-pub use tools::{TOOL_NAMES, WAIT_CAP, wait_timeout};
+pub use tools::{MCP_CALL_DEADLINE, TOOL_NAMES, WAIT_CAP, wait_timeout};
 
 /// The board as CLI `list --json` prints it: `{"v":1,"ok":{…}}`, or its refusal document. Called on
 /// a blocking thread, once per `list` call.
 pub type ListProvider = Arc<dyn Fn() -> Value + Send + Sync>;
+
+/// The frame tools' deadline: each call takes one future, which ends when the call's time is up.
+/// In production Tokio's timer over [`MCP_CALL_DEADLINE`]; a test hands in a signal it fires.
+pub type DeadlineProvider = Arc<dyn Fn() -> Pin<Box<dyn Future<Output = ()> + Send>> + Send + Sync>;
 
 /// A fault of an MCP call itself, never of the wrapper it reached: rmcp answers it as the JSON-RPC
 /// error `-32603` `internal error` with `data` null. Its message is fixed (security-plan §Error
@@ -50,7 +56,17 @@ pub struct Tools(tools::Server);
 
 impl Tools {
     pub fn new(home: PathBuf, own_name: Option<ViolaName>, list: ListProvider) -> Self {
-        Self(tools::Server::new(home, own_name, list))
+        Self::with_deadline(home, own_name, list, tools::production_deadline())
+    }
+
+    /// As [`Tools::new`], the frame tools' deadline taken from `deadline`.
+    pub fn with_deadline(
+        home: PathBuf,
+        own_name: Option<ViolaName>,
+        list: ListProvider,
+        deadline: DeadlineProvider,
+    ) -> Self {
+        Self(tools::Server::new(home, own_name, list, deadline))
     }
 
     /// Runs inside a Tokio runtime. An unknown tool is the JSON-RPC `-32602`, an internal fault
@@ -72,7 +88,7 @@ pub fn serve(
         .build()
         .map_err(ServeError::Runtime)?;
     runtime.block_on(async move {
-        let server = tools::Server::new(home, own_name, list);
+        let server = tools::Server::new(home, own_name, list, tools::production_deadline());
         let (stdin, stdout) = rmcp::transport::stdio();
         let stdin = stdin::CappedLines::new(stdin, MAX_FRAME);
         let cut = stdin.cut_flag();

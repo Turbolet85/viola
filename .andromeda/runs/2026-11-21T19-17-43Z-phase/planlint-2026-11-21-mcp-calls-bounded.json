@@ -1,0 +1,358 @@
+[
+{
+"tool": "planlint",
+"v": "1.24",
+"sha8": "c73c0d7c",
+"ts": "2026-11-21T21:43:17Z",
+"argv": [
+"check",
+"--chunk",
+"2026-11-21-mcp-calls-bounded",
+"--run-dir",
+".andromeda/runs/2026-11-21T19-17-43Z-phase",
+"--marker",
+"2026-11-21-mcp-calls-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fence: 36 entries · plan: doc:2026-11-21-mcp-calls-bounded/plan · research: doc:2026-11-21-mcp-calls-bounded/research",
+"check 9 · CI-outcome reads: 1 · leg operator exempt: 1 · Platform issues consulted: none · `none — no runner-only bull…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 3 · Harness rules consulted: filled · ``.claude/rules/verification-harness.md` — r…`",
+"check 4 (5) · leg entries with a content atom: 14 · note without `atom from`: 2 → HIT",
+"  gate 23 · leg live · contains cli: 2.1.328 · note: MB8 = base start 2 of 3: MB shape on claude 2.1.328 by path; --cap…",
+"  gate 24 · leg live · contains cli: 2.1.330 · note: MC = base start 3 of 3 (inputs#I2 item 2, the overseer addition): …",
+"check 4 (13) · operator CI-outcome reads: 1 · not ci.py conclusion: 0",
+"check 4 (13) · job-log reads by pattern: 0",
+"check 4 (14) · base-less git change reads outside the operator and round legs: 0",
+"check 4 (15) · grep → wc -l counts asserting exit 0 and last line 0: 0",
+"check 4 (16) · guards whose exclusions leave a new file in: 0 of 0 with an exclusion",
+"check 4 (18) · entries reading a master's or a base's path the store now holds: 0",
+"check 4 (19) · absence probes against the test names their own plan adds: 0 · probes read 0",
+"check 4 (17) · entries reading a path the wrap writes: 0 of 17 asserting — listed, P5's read",
+"check 4 (17) · a path the wrap writes, read from inside a program an entry runs (a suite, the ledger's tool): not read",
+"check 2 · ledger-note entries (matrix#): 0",
+"check 5 · placeholders outside code: 0",
+"check 12 (c) · step references the plan's steps lack: 0 of 0",
+"check 12 (d) · «unchanged» claims on a name another part of the plan names: 2 of 3 — listed, P5's read",
+"  line 55 · «unchanged» · MCP_CALL_DEADLINE (step 6) · list (step 7)",
+"  line 182 · «untouched» · timeout (step 10)",
+"  a claim on a name no other step, Files to modify or Test Commands names is not listed — P5's read",
+"check 4 (4) · criterion evidence paths the plan names nowhere else: 0 of 0",
+"hits: 2 — resolved by its check (validation.md 2 · 5 · 9 · 4 (4), (5), (13)–(16), (18)–(19) · 12 (c)); 0 is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "none",
+"ci_reads": 1,
+"operator": 1,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 3,
+"hit": false
+},
+"atom": {
+"atomed": 14,
+"bare": [
+23,
+24
+]
+},
+"tool": {
+"operator": 1,
+"hand": []
+},
+"log": [],
+"base": {
+"operator": 8,
+"reads": []
+},
+"count": {
+"hits": [],
+"unsplit": []
+},
+"newfiles": {
+"operator": 8,
+"guards": 0,
+"hits": [],
+"abstain": []
+},
+"retired": [],
+"absence": {
+"probes": 0,
+"hits": []
+},
+"wrap": {
+"asserting": 17,
+"listed": []
+},
+"check2": {
+"entries": 18,
+"tokens": 0,
+"hits": []
+},
+"check5": {
+"hits": []
+},
+"steps": {
+"steps": 15,
+"refs": 0,
+"hits": []
+},
+"claims": {
+"read": 3,
+"listed": [
+55,
+182
+]
+},
+"c44": {
+"paths": 0,
+"hits": [],
+"skipped": []
+},
+"hits": 2
+}
+},
+{
+"tool": "planlint",
+"v": "1.24",
+"sha8": "c73c0d7c",
+"ts": "2026-11-21T21:43:27Z",
+"argv": [
+"check",
+"--chunk",
+"2026-11-21-mcp-calls-bounded",
+"--run-dir",
+".andromeda/runs/2026-11-21T19-17-43Z-phase",
+"--marker",
+"2026-11-21-mcp-calls-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fence: 36 entries · plan: doc:2026-11-21-mcp-calls-bounded/plan · research: doc:2026-11-21-mcp-calls-bounded/research",
+"check 9 · CI-outcome reads: 1 · leg operator exempt: 1 · Platform issues consulted: none · `none — no runner-only bull…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 3 · Harness rules consulted: filled · ``.claude/rules/verification-harness.md` — r…`",
+"check 4 (5) · leg entries with a content atom: 14 · note without `atom from`: 0",
+"check 4 (13) · operator CI-outcome reads: 1 · not ci.py conclusion: 0",
+"check 4 (13) · job-log reads by pattern: 0",
+"check 4 (14) · base-less git change reads outside the operator and round legs: 0",
+"check 4 (15) · grep → wc -l counts asserting exit 0 and last line 0: 0",
+"check 4 (16) · guards whose exclusions leave a new file in: 0 of 0 with an exclusion",
+"check 4 (18) · entries reading a master's or a base's path the store now holds: 0",
+"check 4 (19) · absence probes against the test names their own plan adds: 0 · probes read 0",
+"check 4 (17) · entries reading a path the wrap writes: 0 of 17 asserting — listed, P5's read",
+"check 4 (17) · a path the wrap writes, read from inside a program an entry runs (a suite, the ledger's tool): not read",
+"check 2 · ledger-note entries (matrix#): 0",
+"check 5 · placeholders outside code: 0",
+"check 12 (c) · step references the plan's steps lack: 0 of 0",
+"check 12 (d) · «unchanged» claims on a name another part of the plan names: 2 of 3 — listed, P5's read",
+"  line 55 · «unchanged» · MCP_CALL_DEADLINE (step 6) · list (step 7)",
+"  line 182 · «untouched» · timeout (step 10)",
+"  a claim on a name no other step, Files to modify or Test Commands names is not listed — P5's read",
+"check 4 (4) · criterion evidence paths the plan names nowhere else: 0 of 0",
+"hits: 0 — resolved by its check (validation.md 2 · 5 · 9 · 4 (4), (5), (13)–(16), (18)–(19) · 12 (c)); 0 is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "none",
+"ci_reads": 1,
+"operator": 1,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 3,
+"hit": false
+},
+"atom": {
+"atomed": 14,
+"bare": []
+},
+"tool": {
+"operator": 1,
+"hand": []
+},
+"log": [],
+"base": {
+"operator": 8,
+"reads": []
+},
+"count": {
+"hits": [],
+"unsplit": []
+},
+"newfiles": {
+"operator": 8,
+"guards": 0,
+"hits": [],
+"abstain": []
+},
+"retired": [],
+"absence": {
+"probes": 0,
+"hits": []
+},
+"wrap": {
+"asserting": 17,
+"listed": []
+},
+"check2": {
+"entries": 18,
+"tokens": 0,
+"hits": []
+},
+"check5": {
+"hits": []
+},
+"steps": {
+"steps": 15,
+"refs": 0,
+"hits": []
+},
+"claims": {
+"read": 3,
+"listed": [
+55,
+182
+]
+},
+"c44": {
+"paths": 0,
+"hits": [],
+"skipped": []
+},
+"hits": 0
+}
+},
+{
+"tool": "planlint",
+"v": "1.24",
+"sha8": "c73c0d7c",
+"ts": "2026-11-21T21:48:13Z",
+"argv": [
+"check",
+"--chunk",
+"2026-11-21-mcp-calls-bounded",
+"--run-dir",
+".andromeda/runs/2026-11-21T19-17-43Z-phase",
+"--marker",
+"2026-11-21-mcp-calls-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fence: 36 entries · plan: doc:2026-11-21-mcp-calls-bounded/plan · research: doc:2026-11-21-mcp-calls-bounded/research",
+"check 9 · CI-outcome reads: 1 · leg operator exempt: 1 · Platform issues consulted: none · `none — no runner-only bull…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 3 · Harness rules consulted: filled · ``.claude/rules/verification-harness.md` — r…`",
+"check 4 (5) · leg entries with a content atom: 14 · note without `atom from`: 0",
+"check 4 (13) · operator CI-outcome reads: 1 · not ci.py conclusion: 0",
+"check 4 (13) · job-log reads by pattern: 0",
+"check 4 (14) · base-less git change reads outside the operator and round legs: 0",
+"check 4 (15) · grep → wc -l counts asserting exit 0 and last line 0: 0",
+"check 4 (16) · guards whose exclusions leave a new file in: 0 of 0 with an exclusion",
+"check 4 (18) · entries reading a master's or a base's path the store now holds: 0",
+"check 4 (19) · absence probes against the test names their own plan adds: 0 · probes read 0",
+"check 4 (17) · entries reading a path the wrap writes: 0 of 17 asserting — listed, P5's read",
+"check 4 (17) · a path the wrap writes, read from inside a program an entry runs (a suite, the ledger's tool): not read",
+"check 2 · ledger-note entries (matrix#): 0",
+"check 5 · placeholders outside code: 0",
+"check 12 (c) · step references the plan's steps lack: 0 of 3",
+"check 12 (d) · «unchanged» claims on a name another part of the plan names: 2 of 3 — listed, P5's read",
+"  line 55 · «unchanged» · MCP_CALL_DEADLINE (step 6) · list (step 7)",
+"  line 182 · «untouched» · timeout (step 10)",
+"  a claim on a name no other step, Files to modify or Test Commands names is not listed — P5's read",
+"check 4 (4) · criterion evidence paths the plan names nowhere else: 0 of 0",
+"hits: 0 — resolved by its check (validation.md 2 · 5 · 9 · 4 (4), (5), (13)–(16), (18)–(19) · 12 (c)); 0 is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "none",
+"ci_reads": 1,
+"operator": 1,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 3,
+"hit": false
+},
+"atom": {
+"atomed": 14,
+"bare": []
+},
+"tool": {
+"operator": 1,
+"hand": []
+},
+"log": [],
+"base": {
+"operator": 8,
+"reads": []
+},
+"count": {
+"hits": [],
+"unsplit": []
+},
+"newfiles": {
+"operator": 8,
+"guards": 0,
+"hits": [],
+"abstain": []
+},
+"retired": [],
+"absence": {
+"probes": 0,
+"hits": []
+},
+"wrap": {
+"asserting": 17,
+"listed": []
+},
+"check2": {
+"entries": 18,
+"tokens": 0,
+"hits": []
+},
+"check5": {
+"hits": []
+},
+"steps": {
+"steps": 15,
+"refs": 3,
+"hits": []
+},
+"claims": {
+"read": 3,
+"listed": [
+55,
+182
+]
+},
+"c44": {
+"paths": 0,
+"hits": [],
+"skipped": []
+},
+"hits": 0
+}
+}
+]

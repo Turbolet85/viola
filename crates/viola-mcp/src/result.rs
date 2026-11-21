@@ -263,6 +263,7 @@ mod tests {
             (UnreachableCause::UnwrappedName, "unwrapped-name"),
             (UnreachableCause::EndpointLost, "endpoint-lost"),
             (UnreachableCause::ServerVerify, "server-verify-failed"),
+            (UnreachableCause::CallDeadline, "call-deadline"),
         ] {
             assert_eq!(keys(unreachable(cause)), ["error", "detail"]);
             assert_eq!(

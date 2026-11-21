@@ -6,11 +6,14 @@
 //! contained start's sandbox probe (`sandbox`) → the token window → `leftover` (an earlier rig's orphans) → the ledger line → the scratch root and the
 //! credentials copy → the spawn → the arm → the stop → the teardown (census, credentials, root) →
 //! the user config read again → the summary. Every refusal before the ledger line is uncounted.
+//! `MB` wraps the fake agent with `viola run` and starts a print-mode `claude` as `viola mcp`'s
+//! MCP client: one `wait` call, read from its stream-json into closed words by [`mcpcall`].
 
 pub mod capture;
 pub mod isolate;
 pub mod keys;
 pub mod ledger;
+pub mod mcpcall;
 pub mod procs;
 pub mod screen;
 pub mod wake;
@@ -61,6 +64,8 @@ const CX_NAME: &str = "rig-cx";
 const CX_TEXT: &str = "/context";
 /// The wrapped instance `AV` starts.
 const AV_NAME: &str = "rig-av";
+
+const MB_NAME: &str = "rig-mb";
 /// The `SF` arm's wrapped instance.
 const SF_NAME: &str = "sf-probe";
 /// How long `SF` waits past its send for the turn's end: the CLI's retries on a lost connection
@@ -153,6 +158,9 @@ pub enum Arm {
     /// Wrapped, the scratch home's `config.json` keyed `verify_new_cli: true` and no stamp; the
     /// start's own verify, then the session; no send, no key; the stop TERM.
     AV,
+    /// Wrapped over the fake agent, then a print-mode child whose one MCP server is `viola mcp` on
+    /// the scratch home: one `wait` read from its stream-json; no key, no dialog.
+    MB,
 }
 
 impl Arm {
@@ -177,6 +185,7 @@ impl Arm {
             "sf" => Some(Self::SF),
             "hb" => Some(Self::HB),
             "av" => Some(Self::AV),
+            "mb" => Some(Self::MB),
             _ => None,
         }
     }
@@ -192,7 +201,9 @@ impl Arm {
     /// `HB-2`, the fired wake under the kept stamp `R3W` with its spare `R3W-2`, and the
     /// permission-question recording `PQ` with its spare `PQ-2`, the floor recording `HF` with its
     /// spare `HF-2` and its conditional second base start `HG`, the cross-session recording `XS`
-    /// with its second base start `XS-2`, and the start's own verify `AV` with its spare `AV-2`.
+    /// with its second base start `XS-2`, the start's own verify `AV` with its spare `AV-2`, and the
+    /// MCP client's bound, the long calls `MB` and `MB8` and the cut call `MC`, each with its spare
+    /// (`MB-2`, `MB8-2`, `MC-2`).
     pub fn of_label(label: &str) -> Option<Self> {
         match label {
             "R1" | "R1-2" => Some(Self::R1),
@@ -215,6 +226,7 @@ impl Arm {
             "SF" | "SF-2" => Some(Self::SF),
             "HB" | "HB-2" => Some(Self::HB),
             "AV" | "AV-2" => Some(Self::AV),
+            "MB" | "MB-2" | "MB8" | "MB8-2" | "MC" | "MC-2" => Some(Self::MB),
             _ => None,
         }
     }
@@ -256,6 +268,7 @@ impl Arm {
             Self::SF => "sf",
             Self::HB => "hb",
             Self::AV => "av",
+            Self::MB => "mb",
         }
     }
 
@@ -287,6 +300,7 @@ impl Arm {
             Self::CX => Some(CX_NAME),
             Self::SF => Some(SF_NAME),
             Self::AV => Some(AV_NAME),
+            Self::MB => Some(MB_NAME),
             Self::R1
             | Self::Hold
             | Self::IM
@@ -321,6 +335,7 @@ impl Arm {
                 | Self::SF
                 | Self::HB
                 | Self::AV
+                | Self::MB
         )
     }
 
@@ -391,6 +406,9 @@ pub const REHEARSE_CS: &str = "rehearse-CS";
 pub const REHEARSE_CC: &str = "rehearse-CC";
 pub const REHEARSE_WS: &str = "rehearse-WS";
 pub const REHEARSE_R3W: &str = "rehearse-R3W";
+/// The labels an `mb` and an `mc` rehearsal take: `MB`'s long shape and `MC`'s cut shape.
+pub const REHEARSE_MB: &str = "rehearse-MB";
+pub const REHEARSE_MC: &str = "rehearse-MC";
 /// The file `CS` keeps its stamp in, under the out dir, and `CC` seeds from.
 const CONTEXT_STAMP: &str = "context-stamp.json";
 /// The file `WS` keeps its stamp in, under the out dir, and `R3W` seeds from.
@@ -448,6 +466,8 @@ pub struct Plan {
     pub cwd: Option<PathBuf>,
     /// `SF`: the child runs inside the network-closed sandbox (every live start).
     pub contain: bool,
+    /// `MB`: the fake agent its `viola run` wraps (a live start requires it).
+    pub fake: Option<PathBuf>,
 }
 
 /// The summary, `key: word` pairs in the order they were read.
@@ -488,6 +508,9 @@ pub fn start(plan: &Plan) -> u8 {
         && !fs::symlink_metadata(plan.out.join(file)).is_ok_and(|m| m.is_file())
     {
         return refused("stamp");
+    }
+    if plan.arm == Arm::MB && plan.live && !plan.fake.as_deref().is_some_and(Path::is_file) {
+        return refused("fake");
     }
     let ledger = plan.ledger.clone().map(Ledger::new);
     if let (Some(ledger), Some(cap)) = (&ledger, plan.cap)
@@ -650,7 +673,8 @@ pub fn start(plan: &Plan) -> u8 {
             | Arm::MT
             | Arm::VH
             | Arm::CX
-            | Arm::HB => true,
+            | Arm::HB
+            | Arm::MB => true,
         };
     if !placed {
         summary.put("refused", "credentials");
@@ -759,6 +783,7 @@ fn finish(
         && summary.get("step2") != Some("not-started")
         && user_config != "changed-by-rig"
         && summary.get("mcp-child").is_none_or(|c| c == "exit 0")
+        && summary.get("client").is_none_or(|c| c == "exit 0")
         && summary.get("child").is_none_or(|c| {
             c == "stopped" || c == "exit 0" || ((plan.arm.verifies() || real_home) && c == "exit 1")
         });
@@ -1036,6 +1061,9 @@ fn run_child(
         arm_mt(plan, run, scratch, &env, summary);
         return None;
     }
+    if plan.arm == Arm::MB {
+        return arm_mb(plan, run, scratch, &env, summary);
+    }
     let child_args = substituted(&plan.child_args, scratch);
     let (program, args) = match (plan.arm.wrapped(), &scratch.vhome) {
         (None, _) if plan.arm == Arm::VH => {
@@ -1157,9 +1185,9 @@ fn run_child(
         Arm::AV => arm_av(plan, scratch, &mut session, summary),
         Arm::VC => arm_vc(plan, &mut session, summary),
         Arm::TC => arm_tc(plan, scratch, sentinel, &mut session, summary),
-        // `TS` takes its own two starts (`run_ts`) and `MT` no pty (`arm_mt`); a start that
-        // reaches here holds the child alone.
-        Arm::TS | Arm::MT => arm_hold(plan, &mut session),
+        // `TS` takes its own two starts (`run_ts`), `MT` no pty (`arm_mt`) and `MB` its own
+        // (`arm_mb`); a start that reaches here holds the child alone.
+        Arm::TS | Arm::MT | Arm::MB => arm_hold(plan, &mut session),
     }
     let stop = match plan.arm {
         Arm::IM | Arm::VP | Arm::VK | Arm::VC | Arm::TC => Stop::NoKey,
@@ -2789,6 +2817,278 @@ fn tap_fixture(tap: &Path, capture: &Path, out: &Path, cwd: &Path) -> &'static s
     }
 }
 
+/// `MB`'s one prompt, given on stdin: `--mcp-config` and `--allowedTools` are variadic, so nothing
+/// positional follows them (verification-harness.md 2026-10-20).
+const MB_PROMPT: &str = "Call the tool mcp__viola__wait once, with target rig-mb and no other argument. Then reply with the single word done.";
+/// How long `MB` waits for the wrapped instance's first `session-start`.
+const MB_WRAPPED_BOUND: Duration = Duration::from_secs(20);
+/// The per-server `timeout` the cut start's private MCP config gives viola's server, in ms.
+const MB_CUT_TIMEOUT_MS: u64 = 5000;
+
+/// The band a label's call is read against: `MC`, its spare and its rehearsal the cut call.
+fn mb_shape(label: &str) -> mcpcall::Shape {
+    if matches!(label, "MC" | "MC-2" | REHEARSE_MC) {
+        mcpcall::Shape::Cut
+    } else {
+        mcpcall::Shape::Long
+    }
+}
+
+/// `MB`'s `--mcp-config` document: its one server `viola mcp` on the scratch home; the cut start's
+/// server also takes the per-server `timeout`.
+fn mb_config_doc(viola: &Path, vhome: &Path, cut: bool) -> Value {
+    let text = |p: &Path| p.to_string_lossy().into_owned();
+    let mut server = serde_json::json!({
+        "type": "stdio",
+        "command": text(viola),
+        "args": ["--home", text(vhome), "mcp"],
+        "env": {},
+    });
+    if cut {
+        server["timeout"] = Value::from(MB_CUT_TIMEOUT_MS);
+    }
+    serde_json::json!({"mcpServers": {"viola": server}})
+}
+
+/// The repository's committed fixture sets, which the wrapped fake agent replays.
+fn repository_fixtures() -> Option<PathBuf> {
+    fs::canonicalize(Path::new(env!("CARGO_MANIFEST_DIR")).join("../../fixtures/claude")).ok()
+}
+
+/// The `viola mcp` processes of this start: its run's census, `viola` by exe with `mcp` an argument.
+fn mcp_servers(run: &str, root: &Path, viola: &Path) -> usize {
+    let viola = fs::canonicalize(viola).unwrap_or_else(|_| viola.to_path_buf());
+    procs::census(Scope::Run { run, root })
+        .into_iter()
+        .filter(|(pid, _)| {
+            let exe = fs::read_link(format!("/proc/{pid}/exe")).ok();
+            let is_viola = exe.as_deref().is_some_and(|e| {
+                let e = e.as_os_str().as_bytes();
+                let e = e.strip_suffix(b" (deleted)").unwrap_or(e);
+                e == viola.as_os_str().as_bytes()
+            });
+            let args = fs::read(format!("/proc/{pid}/cmdline")).unwrap_or_default();
+            is_viola && args.split(|&b| b == 0).any(|a| a == b"mcp")
+        })
+        .count()
+}
+
+/// A child's stdout read line by line through `MAX_FRAME`, each line sent with its arrival instant.
+fn stamped_lines(
+    pipe: Option<impl std::io::Read + Send + 'static>,
+) -> (std::thread::JoinHandle<()>, Receiver<(Vec<u8>, Instant)>) {
+    use std::io::BufRead as _;
+    let (tx, rx) = channel();
+    let thread = std::thread::spawn(move || {
+        let Some(pipe) = pipe else {
+            return;
+        };
+        let mut lines = std::io::BufReader::new(pipe.take(viola_core::MAX_FRAME));
+        loop {
+            let mut line = Vec::new();
+            match lines.read_until(b'\n', &mut line) {
+                Ok(0) | Err(_) => break,
+                Ok(_) => {
+                    let at = Instant::now();
+                    if line.last() == Some(&b'\n') {
+                        line.pop();
+                    }
+                    if tx.send((line, at)).is_err() {
+                        break;
+                    }
+                }
+            }
+        }
+    });
+    (thread, rx)
+}
+
+/// `MB`: `viola run` over the fake agent on the rig's pty, then one print-mode child, no pty and no
+/// key, whose one MCP server is `viola mcp` on the scratch home; its stream-json read line by line
+/// into the call's closed words, each line dropped once read; bounded by the deadline and the stop,
+/// its group killed past them; then the wrapped instance stopped by Ctrl-C. The stderr counted
+/// and hashed.
+fn arm_mb(
+    plan: &Plan,
+    run: &str,
+    scratch: &Scratch,
+    env: &[(OsString, OsString)],
+    summary: &mut Summary,
+) -> Option<String> {
+    use std::os::unix::process::CommandExt as _;
+    summary.put("keys", "none");
+    let (Some(viola), Some(vhome)) = (&plan.viola, &scratch.vhome) else {
+        summary.put("refused", "viola");
+        return None;
+    };
+    summary.put(
+        "viola-build",
+        fs::read(viola).map_or_else(|_| "unread".to_owned(), |b| content_key(&b)),
+    );
+    let (Ok(root), Some(fixtures)) = (fs::canonicalize(&scratch.root), repository_fixtures())
+    else {
+        summary.put("refused", "scratch");
+        return None;
+    };
+    // The wrapped child is named from the scratch cwd, so a relative path is made absolute here.
+    let Ok(fake) = fs::canonicalize(plan.fake.as_deref().unwrap_or(&plan.program)) else {
+        summary.put("refused", "fake");
+        return None;
+    };
+    let args: Vec<OsString> = vec![
+        "--home".into(),
+        vhome.into(),
+        "run".into(),
+        MB_NAME.into(),
+        "--".into(),
+        fake.into(),
+        "--fixtures".into(),
+        fixtures.into(),
+    ];
+    let spec = SpawnSpec {
+        program: viola.clone(),
+        args,
+        cwd: scratch.cwd.clone(),
+        env_remove: isolate::removed_names(env),
+        env_set: env.to_vec(),
+        size: plan.arm.pty_size(),
+    };
+    let Some(mut session) = Session::spawn(&spec) else {
+        summary.put("refused", "spawn");
+        return None;
+    };
+    summary.put("pty", format!("{}x{}", spec.size.cols, spec.size.rows));
+    session.frames = Frames::open(&plan.out, run).ok();
+    let events = vhome.join("instances").join(MB_NAME).join("events.ndjson");
+    let mut offset = 0;
+    match await_kind(
+        &events,
+        &mut offset,
+        "session-start",
+        MB_WRAPPED_BOUND,
+        &mut session,
+    ) {
+        Some(started) => {
+            session.learn_id(&started);
+            summary.put("wrapped", "ready");
+        }
+        None => {
+            summary.put("wrapped", "not-ready");
+            summary.put("refused", "wrapped");
+            return end_session(session, summary, Stop::CtrlC);
+        }
+    }
+    let shape = mb_shape(&plan.label);
+    let cut = shape == mcpcall::Shape::Cut;
+    summary.put(
+        "mcp-timeout",
+        if cut {
+            MB_CUT_TIMEOUT_MS.to_string()
+        } else {
+            "none".to_owned()
+        },
+    );
+    let config = root.join("mcp.json");
+    let doc = mb_config_doc(viola, vhome, cut);
+    if viola_state::fs::replace_private(
+        &config,
+        doc.to_string().as_bytes(),
+        viola_state::fs::FILE_MODE,
+    )
+    .is_err()
+    {
+        summary.put("refused", "seed");
+        return end_session(session, summary, Stop::CtrlC);
+    }
+    let mut command = Command::new(&plan.program);
+    command
+        .args([
+            "-p",
+            "--model",
+            "haiku",
+            "--no-session-persistence",
+            "--output-format",
+            "stream-json",
+            "--verbose",
+            "--strict-mcp-config",
+            "--mcp-config",
+        ])
+        .arg(&config)
+        .args([viola_agent_claude::ALLOWED_TOOLS_FLAG, mcpcall::WAIT_TOOL])
+        .current_dir(&scratch.cwd)
+        .env_clear()
+        .envs(env.iter().map(|(k, v)| (k, v)))
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .process_group(0);
+    let Ok(mut child) = command.spawn() else {
+        summary.put("refused", "spawn");
+        return end_session(session, summary, Stop::CtrlC);
+    };
+    if let Some(mut stdin) = child.stdin.take() {
+        let _ = stdin.write_all(MB_PROMPT.as_bytes());
+    }
+    let (out, lines) = stamped_lines(child.stdout.take());
+    let err = drain(child.stderr.take());
+    let mut reader = mcpcall::CallReader::default();
+    let mut outlived = "unread";
+    let mut feed = |line: &[u8], at: Instant, reader: &mut mcpcall::CallReader| {
+        if reader.feed(line, at) && cut {
+            outlived = if mcp_servers(run, &scratch.root, viola) > 0 {
+                "yes"
+            } else {
+                "no"
+            };
+        }
+    };
+    let exit = loop {
+        if let Ok((line, at)) = lines.recv_timeout(Duration::from_millis(50)) {
+            feed(&line, at, &mut reader);
+        }
+        session.pump(Duration::ZERO);
+        match child.try_wait() {
+            Ok(Some(status)) => break status.code(),
+            Ok(None) if procs::stop_requested().is_none() => {}
+            _ => {
+                procs::kill_group(child.id());
+                let _ = child.kill();
+                let _ = child.wait();
+                break None;
+            }
+        }
+    };
+    let until = Instant::now() + MCP_LEAVE;
+    while let Ok((line, at)) = lines.recv_timeout(until.saturating_duration_since(Instant::now())) {
+        feed(&line, at, &mut reader);
+    }
+    if let Some(reason) = procs::stop_requested() {
+        summary.put("stopped-by", reason);
+    }
+    while mcp_servers(run, &scratch.root, viola) > 0 && Instant::now() < until {
+        session.pump(Duration::from_millis(50));
+    }
+    let _ = out.join();
+    let stderr = err.join().unwrap_or_default();
+    let words = reader.words(shape);
+    summary.put(
+        "client",
+        exit.map_or_else(|| "killed".to_owned(), |c| format!("exit {c}")),
+    );
+    summary.put("call-error", words.call_error);
+    summary.put("timed-out", words.timed_out);
+    summary.put("elapsed-s", words.elapsed_s);
+    summary.put("elapsed-band", words.elapsed_band);
+    summary.put("cut-word", words.cut_word);
+    if cut {
+        summary.put("outlived", outlived);
+    }
+    summary.put("stdout-lines", reader.lines().to_string());
+    summary.put("stdout-skipped", reader.skipped().to_string());
+    summary.put("stderr-bytes", stderr.len().to_string());
+    summary.put("stderr-sha", content_key(&stderr));
+    end_session(session, summary, Stop::CtrlC)
+}
 /// The interactive runs as the stamp's `measured` first-screen maps key them.
 const RUN_LETTERS: [&str; 6] = ["a", "b", "c", "d", "e", "f"];
 
@@ -3337,6 +3637,67 @@ mod tests {
         assert_eq!(Arm::SF.wrapped(), Some("sf-probe"));
         assert!(Arm::SF.has_vhome() && Arm::SF.trusted() && Arm::SF.marker_seed());
         assert!(!Arm::SF.verifies() && !Arm::SF.verify_seed() && !Arm::SF.sentinel_seed());
+    }
+
+    /// `MB` and `MB8` (the long call) and `MC` (the cut call) start the MCP bound arm, one spare
+    /// each; the arm wraps `rig-mb` in a trusted cwd with no verify or marker seed.
+    #[test]
+    fn the_mcp_bound_labels_take_their_arm_and_properties() {
+        for (label, arm) in [
+            ("MB", Some(Arm::MB)),
+            ("MB-2", Some(Arm::MB)),
+            ("MB8", Some(Arm::MB)),
+            ("MB8-2", Some(Arm::MB)),
+            ("MC", Some(Arm::MB)),
+            ("MC-2", Some(Arm::MB)),
+            ("MB-3", None),
+            ("MC-3", None),
+            ("MB8-3", None),
+        ] {
+            assert_eq!(Arm::of_label(label), arm, "{label}");
+        }
+        assert_eq!(Arm::parse("mb"), Some(Arm::MB));
+        assert_eq!(Arm::MB.word(), "mb");
+        assert_eq!(Arm::MB.wrapped(), Some("rig-mb"));
+        assert!(Arm::MB.has_vhome() && Arm::MB.trusted());
+        assert!(!Arm::MB.verifies() && !Arm::MB.verify_seed() && !Arm::MB.marker_seed());
+        assert!(!Arm::MB.sentinel_seed());
+        for (label, shape) in [
+            ("MB", mcpcall::Shape::Long),
+            ("MB-2", mcpcall::Shape::Long),
+            ("MB8", mcpcall::Shape::Long),
+            ("MB8-2", mcpcall::Shape::Long),
+            ("rehearse-MB", mcpcall::Shape::Long),
+            ("MC", mcpcall::Shape::Cut),
+            ("MC-2", mcpcall::Shape::Cut),
+            ("rehearse-MC", mcpcall::Shape::Cut),
+        ] {
+            assert_eq!(mb_shape(label), shape, "{label}");
+        }
+    }
+
+    /// The private MCP config: one stdio server `viola`, `viola mcp` on the home, an empty env, and
+    /// the per-server `timeout` 5000 on the cut call alone.
+    #[test]
+    fn the_mcp_bound_config_takes_its_timeout_on_the_cut_call_alone() {
+        let viola = Path::new("/v/viola");
+        let vhome = Path::new("/s/vhome");
+        let long = mb_config_doc(viola, vhome, false);
+        assert_eq!(
+            long,
+            json!({"mcpServers": {"viola": {
+                "type": "stdio",
+                "command": "/v/viola",
+                "args": ["--home", "/s/vhome", "mcp"],
+                "env": {},
+            }}})
+        );
+        let cut = mb_config_doc(viola, vhome, true);
+        assert_eq!(cut["mcpServers"]["viola"]["timeout"], json!(5000));
+        assert_eq!(
+            cut["mcpServers"]["viola"]["args"],
+            long["mcpServers"]["viola"]["args"]
+        );
     }
 
     #[test]

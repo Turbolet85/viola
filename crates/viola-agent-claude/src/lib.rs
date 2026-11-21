@@ -127,6 +127,12 @@ pub const RESUME_FLAG: &str = "--resume";
 /// Beside [`RESUME_FLAG`]: the resumed session continues under a new id.
 pub const FORK_SESSION_FLAG: &str = "--fork-session";
 
+/// The tightest bound the CLI's MCP client puts on one tool call of a stdio server at its
+/// defaults: the 120 000 ms auto-background, READ from the 2.1.328 and 2.1.330 bundles' strings,
+/// never measured. Read beside it: the hard per-call limit 1e8 ms and the stdio idle limit
+/// 1 800 000 ms, both moved by a server's `timeout` key.
+pub const MCP_CLIENT_BOUND_READ: std::time::Duration = std::time::Duration::from_secs(120);
+
 /// Whether `id` has a session id's shape: 36 characters, a hyphen at offsets 8, 13, 18 and 23, an
 /// ASCII hex digit of either case everywhere else. Nothing else reaches the child's arguments.
 pub fn is_session_id(id: &str) -> bool {

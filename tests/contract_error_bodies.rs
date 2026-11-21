@@ -239,7 +239,7 @@ const TOOLS: &str = "crates/viola-mcp/src/tools.rs";
 const MCP_RESULTS: &[Body] = &[
     Body {
         code: "instance-unreachable",
-        detail: "strict-modes-failed, instance-dead, unwrapped-name, endpoint-lost, server-verify-failed, socket-dir-refused",
+        detail: "strict-modes-failed, instance-dead, unwrapped-name, endpoint-lost, server-verify-failed, socket-dir-refused, call-deadline",
         exit: None,
         file: RESULT,
         needle: r#"error("instance-unreachable", Value::from(cause.as_str()))"#,

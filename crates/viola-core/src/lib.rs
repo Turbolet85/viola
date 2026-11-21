@@ -188,6 +188,9 @@ pub enum UnreachableCause {
     EndpointLost,
     ServerVerify,
     SocketDir,
+    /// The MCP client's own call deadline passed before the frame's reply; written by the MCP
+    /// frame tools alone, never by a CLI path.
+    CallDeadline,
 }
 
 impl UnreachableCause {
@@ -199,6 +202,7 @@ impl UnreachableCause {
             Self::EndpointLost => "endpoint-lost",
             Self::ServerVerify => "server-verify-failed",
             Self::SocketDir => "socket-dir-refused",
+            Self::CallDeadline => "call-deadline",
         }
     }
 }
@@ -689,6 +693,7 @@ mod tests {
             (UnreachableCause::EndpointLost, "endpoint-lost"),
             (UnreachableCause::ServerVerify, "server-verify-failed"),
             (UnreachableCause::SocketDir, "socket-dir-refused"),
+            (UnreachableCause::CallDeadline, "call-deadline"),
         ] {
             assert_eq!(cause.as_str(), word);
             assert!(is_code_word(word), "{word}");
