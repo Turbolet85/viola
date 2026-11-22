@@ -1,0 +1,297 @@
+[
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "1c59b360",
+"ts": "2026-11-22T13:03:35Z",
+"argv": [
+"added",
+"--out",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/new-text.md",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: 66eb718c — the parent of the oldest pre-CI commit eb656971",
+"crates/viola-agent-claude/src/screen.rs — added 6 line(s) in 2 range(s)",
+"crates/viola-core/src/lib.rs — added 4 line(s) in 4 range(s)",
+"crates/viola-mcp/src/tools.rs — added 10 line(s) in 2 range(s)",
+"crates/viola-pty/src/lib.rs — added 10 line(s) in 5 range(s)",
+"crates/viola-pty/src/pump.rs — added 512 line(s) in 52 range(s)",
+"src/bin/viola-fake-agent.rs — added 7 line(s) in 3 range(s)",
+"src/bin/viola-fake-agent/input.rs — added 8 line(s) in 1 range(s)",
+"src/bin/viola-fake-agent/test_cases_opts.rs — added 10 line(s) in 1 range(s)",
+"src/cmd/run.rs — added 2 line(s) in 2 range(s)",
+"src/cmd/verify/typed/run.rs — added 2 line(s) in 2 range(s)",
+"src/human/hints.rs — added 8 line(s) in 3 range(s)",
+"src/human/mirror.rs — added 11 line(s) in 1 range(s)",
+"src/run/send.rs — added 249 line(s) in 11 range(s)",
+"src/run/send/slot.rs — added 9 line(s) in 2 range(s)",
+"src/run/wheel.rs — added 27 line(s) in 5 range(s)",
+"tests/cli_send.rs — added 196 line(s) in 1 range(s)",
+"new text: 16 file(s) · 0 new · 97 added range(s) · 1071 line(s) · 73 block(s) → .andromeda/runs/2026-11-22T13-02-53Z-wrap/new-text.md (114 lines) · written"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/new-text.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"base": "66eb718cf8313307681903d2d3d1b8db0408d58c",
+"counts": {
+"files": 16,
+"new": 0,
+"ranges": 97,
+"lines": 1071,
+"blocks": 73
+},
+"out": ".andromeda/runs/2026-11-22T13-02-53Z-wrap/new-text.md",
+"state": "written",
+"lines": 114
+}
+},
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "1c59b360",
+"ts": "2026-11-22T13:06:54Z",
+"argv": [
+"apply",
+"--dry-run",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: 66eb718c — the previous sweep (2026-11-22T09-39-36Z-wrap)",
+"masters: rows — a row holds no citation",
+"sites 2 (bare \":digits\" 123) over 47 file(s) · unmoved 0 · moved 0 · stretched 0 · changed 0",
+"out-of-range 0 · unresolved 0 · new 2 · repointed 0 · hand 0 · held 0 · INDETERMINATE 0 · listed, not written 0",
+"rows: 0 owed a read — the cites batch reads them from this call's trail record",
+"dry-run · would land 0 fact(s) · 0 edge(s)",
+"dry-run: 0 citation(s) in 0 file(s) — nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"mode": "sweep",
+"base": "66eb718cf8313307681903d2d3d1b8db0408d58c",
+"counts": {
+"unmoved": 0,
+"moved": 0,
+"stretched": 0,
+"changed": 0,
+"out-of-range": 0,
+"unresolved": 0,
+"new": 2,
+"repointed": 0,
+"hand": 0,
+"INDETERMINATE": 0,
+"held": 0,
+"listed": 0
+},
+"rows": [],
+"applied": false,
+"owed": []
+}
+},
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "1c59b360",
+"ts": "2026-11-22T13:07:01Z",
+"argv": [
+"apply",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: 66eb718c — the previous sweep (2026-11-22T09-39-36Z-wrap)",
+"masters: rows — a row holds no citation",
+"sites 2 (bare \":digits\" 123) over 47 file(s) · unmoved 0 · moved 0 · stretched 0 · changed 0",
+"out-of-range 0 · unresolved 0 · new 2 · repointed 0 · hand 0 · held 0 · INDETERMINATE 0 · listed, not written 0",
+"rows: 0 owed a read — the cites batch reads them from this call's trail record",
+"landed 0 fact(s) · 0 edge(s) · tx 3936",
+"re-pointed 0 citation(s) in 0 file(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"mode": "sweep",
+"base": "66eb718cf8313307681903d2d3d1b8db0408d58c",
+"counts": {
+"unmoved": 0,
+"moved": 0,
+"stretched": 0,
+"changed": 0,
+"out-of-range": 0,
+"unresolved": 0,
+"new": 2,
+"repointed": 0,
+"hand": 0,
+"INDETERMINATE": 0,
+"held": 0,
+"listed": 0
+},
+"rows": [],
+"applied": true,
+"owed": []
+}
+},
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "1c59b360",
+"ts": "2026-11-22T13:07:02Z",
+"argv": [
+"dispositions",
+"--write",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dispositions: 0 row(s) · ",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/citation-dispositions.md (1 lines) · written",
+"hand re-points: 0 written in 0 file(s) · 0 already written"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/citation-dispositions.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"rows": 0,
+"tally": {},
+"state": "written"
+}
+},
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "1c59b360",
+"ts": "2026-11-22T13:53:53Z",
+"argv": [
+"added",
+"--out",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/new-text.md",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: 66eb718c — the parent of the oldest pre-CI commit eb656971",
+"crates/viola-agent-claude/src/screen.rs — added 6 line(s) in 2 range(s)",
+"crates/viola-core/src/lib.rs — added 4 line(s) in 4 range(s)",
+"crates/viola-mcp/src/tools.rs — added 10 line(s) in 2 range(s)",
+"crates/viola-pty/src/lib.rs — added 10 line(s) in 5 range(s)",
+"crates/viola-pty/src/pump.rs — added 512 line(s) in 52 range(s)",
+"src/bin/viola-fake-agent.rs — added 7 line(s) in 3 range(s)",
+"src/bin/viola-fake-agent/input.rs — added 8 line(s) in 1 range(s)",
+"src/bin/viola-fake-agent/test_cases_opts.rs — added 10 line(s) in 1 range(s)",
+"src/cmd/run.rs — added 2 line(s) in 2 range(s)",
+"src/cmd/verify/typed/run.rs — added 2 line(s) in 2 range(s)",
+"src/human/hints.rs — added 8 line(s) in 3 range(s)",
+"src/human/mirror.rs — added 11 line(s) in 1 range(s)",
+"src/run/send.rs — added 249 line(s) in 11 range(s)",
+"src/run/send/slot.rs — added 9 line(s) in 2 range(s)",
+"src/run/wheel.rs — added 27 line(s) in 5 range(s)",
+"tests/cli_send.rs — added 196 line(s) in 1 range(s)",
+"new text: 16 file(s) · 0 new · 97 added range(s) · 1071 line(s) · 73 block(s) → .andromeda/runs/2026-11-22T13-02-53Z-wrap/new-text.md (114 lines) · unchanged"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"base": "66eb718cf8313307681903d2d3d1b8db0408d58c",
+"counts": {
+"files": 16,
+"new": 0,
+"ranges": 97,
+"lines": 1071,
+"blocks": 73
+},
+"out": ".andromeda/runs/2026-11-22T13-02-53Z-wrap/new-text.md",
+"state": "unchanged",
+"lines": 114
+}
+},
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "1c59b360",
+"ts": "2026-11-22T15:40:16Z",
+"argv": [
+"added",
+"--out",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/new-text.md",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: 66eb718c — the parent of the oldest pre-CI commit eb656971",
+"crates/viola-agent-claude/src/screen.rs — added 6 line(s) in 2 range(s)",
+"crates/viola-core/src/lib.rs — added 4 line(s) in 4 range(s)",
+"crates/viola-mcp/src/tools.rs — added 10 line(s) in 2 range(s)",
+"crates/viola-pty/src/lib.rs — added 10 line(s) in 5 range(s)",
+"crates/viola-pty/src/pump.rs — added 512 line(s) in 52 range(s)",
+"src/bin/viola-fake-agent.rs — added 7 line(s) in 3 range(s)",
+"src/bin/viola-fake-agent/input.rs — added 8 line(s) in 1 range(s)",
+"src/bin/viola-fake-agent/test_cases_opts.rs — added 10 line(s) in 1 range(s)",
+"src/cmd/run.rs — added 2 line(s) in 2 range(s)",
+"src/cmd/verify/typed/run.rs — added 2 line(s) in 2 range(s)",
+"src/human/hints.rs — added 8 line(s) in 3 range(s)",
+"src/human/mirror.rs — added 11 line(s) in 1 range(s)",
+"src/run/send.rs — added 249 line(s) in 11 range(s)",
+"src/run/send/slot.rs — added 9 line(s) in 2 range(s)",
+"src/run/wheel.rs — added 27 line(s) in 5 range(s)",
+"tests/cli_send.rs — added 196 line(s) in 1 range(s)",
+"new text: 16 file(s) · 0 new · 97 added range(s) · 1071 line(s) · 73 block(s) → .andromeda/runs/2026-11-22T13-02-53Z-wrap/new-text.md (114 lines) · unchanged"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"base": "66eb718cf8313307681903d2d3d1b8db0408d58c",
+"counts": {
+"files": 16,
+"new": 0,
+"ranges": 97,
+"lines": 1071,
+"blocks": 73
+},
+"out": ".andromeda/runs/2026-11-22T13-02-53Z-wrap/new-text.md",
+"state": "unchanged",
+"lines": 114
+}
+}
+]

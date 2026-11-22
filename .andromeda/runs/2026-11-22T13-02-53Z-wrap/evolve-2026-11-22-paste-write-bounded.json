@@ -1,0 +1,162 @@
+[
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "667bc5fa",
+"ts": "2026-11-22T13:06:41Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 3935 · 2026-11-22T10-37-33-2026-11-22-paste-write-bounded.ndjson",
+"ts 2026-11-22T13:06:32Z · clock 2026-11-22T13:06:40Z · the builders' bound 2026-11-22T12:44:48Z (line 4016)",
+"ids 2026-11-22T13:06:32Z-a … 2026-11-22T13:06:32Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T10-37-33-2026-11-22-paste-write-bounded.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "667bc5fa",
+"ts": "2026-11-22T13:47:08Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"4",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 4 record(s) in the store · tx 3964 · 2026-11-22T10-37-33-2026-11-22-paste-write-bounded.ndjson",
+"ts 2026-11-22T13:46:48Z · clock 2026-11-22T13:47:07Z · the builders' bound 2026-11-22T13:06:32Z (line 4018)",
+"ids 2026-11-22T13:46:48Z-a … 2026-11-22T13:46:48Z-d (4)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T10-37-33-2026-11-22-paste-write-bounded.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "667bc5fa",
+"ts": "2026-11-22T13:50:27Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 3966 · 2026-11-22T10-37-33-2026-11-22-paste-write-bounded.ndjson",
+"ts 2026-11-22T13:50:18Z · clock 2026-11-22T13:50:25Z · the builders' bound 2026-11-22T13:46:48Z (line 4022)",
+"ids 2026-11-22T13:50:18Z-a … 2026-11-22T13:50:18Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T10-37-33-2026-11-22-paste-write-bounded.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "667bc5fa",
+"ts": "2026-11-22T13:53:10Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 3969 · 2026-11-22T10-37-33-2026-11-22-paste-write-bounded.ndjson",
+"ts 2026-11-22T13:53:01Z · clock 2026-11-22T13:53:08Z · the builders' bound 2026-11-22T13:50:18Z (line 4024)",
+"ids 2026-11-22T13:53:01Z-a … 2026-11-22T13:53:01Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T10-37-33-2026-11-22-paste-write-bounded.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "667bc5fa",
+"ts": "2026-11-22T13:58:09Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 3971 · 2026-11-22T10-37-33-2026-11-22-paste-write-bounded.ndjson",
+"ts 2026-11-22T13:57:55Z · clock 2026-11-22T13:58:04Z · the builders' bound 2026-11-22T13:53:01Z (line 4026)",
+"ids 2026-11-22T13:57:55Z-a … 2026-11-22T13:57:55Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T10-37-33-2026-11-22-paste-write-bounded.ndjson"
+],
+"before": null,
+"after": null
+}
+]

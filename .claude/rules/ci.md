@@ -9,7 +9,7 @@ Path-scoped rules for the workflows directory and for the operator pass that tak
 
 **Authoritative sources (bound):**
 - `.andromeda/security-plan.md` §Dependency Security, read whole by `rec.py render --section "Dependency Security"` — every action pinned by full commit SHA with a version comment, the permissions, the audits and what no workflow may do
-- `.andromeda/obs-plan.md` §9 CI Integration, read whole by `rec.py render --section "CI Integration"` — the gates and their conditions (each fails closed; G2, G4 and the secret scan run even after a failed step; every upload only when the job's secret scan succeeded), kept true in `ci.yml`
+- `.andromeda/obs-plan.md` §9 CI Integration, read whole by `rec.py render --section "CI Integration"` — the gates and their conditions (each fails closed; G2, G4 and the secret scan run even after a failed step; every artifact upload only when the job's secret scan succeeded, save the perf job's scan output, uploaded only when that scan fails), kept true in `ci.yml`
 - `.andromeda/test-plan.md` §9 CI Integration — the jobs, the gates and the uploads
 
 A workflow edit keeps all three true. A change to a pin, a permission, a step's order or a job's gate is an amendment of its master, made at the wrap, never an edit of the workflow alone.

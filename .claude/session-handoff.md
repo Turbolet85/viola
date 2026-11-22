@@ -1,57 +1,48 @@
 # Session Handoff
 
-**Last Updated:** 2026-11-22T10:13:41Z
-**Branch:** build/viola-0.2.0 · 0 ahead of origin/build/viola-0.2.0 as read at this wrap's Setup (this wrap's push lands its commit)
-**Status:** clean
-**Last Commit:** 2026-11-21-key-after-a-resize — real claude on Linux kept a key typed right after a resize: F0, no product change (session 153)
+**Last Updated:** 2026-11-22T15:42:51Z
+**Branch:** build/viola-0.2.0 · 0 ahead of origin/build/viola-0.2.0 as read before this wrap's commit (this wrap's push lands its commit)
+**Status:** clean — 2026-11-22-paste-write-bounded wrapped (resumed after the P7.1 halt), the chunk `complete`
+**Last Commit:** the wrap's own `feat(2026-11-22-paste-write-bounded)` commit (on top of eb656971)
 
 ## Position
-- Done: 2026-11-21-key-after-a-resize — the rig's new unwrapped `KR` arm (test crate only, no product file): `KR`
-  2.1.330 and the spare `KR8-2` 2.1.328 each read `kr-reading: kept` (12 rounds, every delay); `KR8` 2.1.328 cut at
-  round 8 (`dirty-box`, `unverified`), its cause a READING the mended settle agrees with, not measured. Said exactly:
-  no loss at the delays measured on those versions, never «never loses»; of the CLI unwrapped, not of viola's poll lag
-  or the driver's paste. F0 holds — no product change. v2-27 verified at this wrap. CI ci#45007525548 on `1f1c5993`
-  green 7/7.
-- **Minted, on the operator's own word:** «Paste write bounded» heads Epoch 4's tail; `cry-7mgt7ybs` folded into it;
-  `cry-m267ghbx`, `cry-234cbfoa` (with its labelled HYPOTHESIS: the red may share the settle mechanism mended for `KR`
-  alone) and `cry-teayoana` (the Epoch 4 boundary, now behind this entry) re-pinned whole on it; `cry-lqe3bfwx`
-  retired as met in `1b22388f`.
-- **The pinned product holds none of the mends** (the earlier list stands) until the product re-pin step (no route
-  entry; CARRY `cry-fqwjpnqt` on «Version done-check», unchanged). The driver's rules «set no scheduled wake» and
-  «never print a compiled screen literal in a chat message» stay binding.
-- Next: `/andromeda-phase` on «Paste write bounded».
+- Done: 2026-11-22-paste-write-bounded — one PTY writer thread with a bounded job queue; a paste cut at `PASTE_BOUND`
+  closes its bracket with no CR and ends the send `paste-cut` with its cursor; a cut mark refuses the next sends until a
+  human key or a prompt / session edge. Measured with a TEST child that stops reading (no live start). Unmeasured: a
+  real `claude` on a large paste, a closed-but-unsubmitted bracket, the MCP path end to end. No capability claimed: a
+  dated note on v2-24 (landed). Coverage `verified 23/37 · deferred 2`.
+- **Epoch 4 is closed** by this chunk (22 entries). The epoch boundary stands next: the diagnosis, the audit and the
+  operator's batch (`founder-forks.md` of `.andromeda/runs/2026-11-22T13-02-53Z-wrap/`, with `cry-teayoana` DUE).
+- **The pinned product holds none of the mends** (the earlier list stands, this chunk's added) until the product
+  re-pin step (no route entry; CARRY `cry-fqwjpnqt` on «Version done-check»). The driver's rules «set no scheduled
+  wake» and «never print a compiled screen literal in a chat message» stay binding.
+- Next: the Epoch 4 boundary; then `/andromeda-phase` on «Lineage registry» (Epoch 5's first) — named, not started.
 
 ## Work done
-- Wrap `2026-11-22T09-39-36Z-wrap`: report closed (tx 3860–3861); 10 row operations in 4 masters (tx 3864–3869), 3 on
-  one answer card, 2 on the operator's own word; 17 leaf findings landed by the tool and 4 hand-written with the
-  reading in closed words (tx 3881–3883, the whole mode); curation none; route tx 3886.
+- Wrap `2026-11-22T13-02-53Z-wrap`: report closed (tx 3933–3934); 35 row operations in 7 masters (tx 3938–3949), 19 on
+  one answer card; 20 leaf findings in the whole mode (tx 3950–3963); curation T3 1 (tx 3965); route tx 3968.
+- Resume (this window): the light gate re-fired whole on a QUIET host — `green 17 · red 0 · recorded 1 · not-run 7`,
+  entry 17 green in 68.47 s; the earlier timeout routed as a WATCH (`cry-kyoy7e6j`, tx 3972); v2-24 note; 3b
+  consolidation: every sidecar's set 0 and prunable 0 — nothing re-worded; flip tx 3978, 1 line compacted.
 
 ## Drift resolved
-- Q1 answer card (the `KR` arm's security row with its grant counts; test-plan key-after-resize except; a11y
-  no-screen-content-parsing except): inside the operator's K3 «Да, как описано», confirmed by the overseer as delegate,
-  PROVISIONAL.
-- On his own word (`inputs#I11`): the kept-stamp row now names no labels; the cross-session fixture's runtime-dir path
-  and pids an accepted residual (a new security-plan row); the four short `except` cells stand.
-- Rejected: 3 proposer operations as wrong (a dropped qualifier and two stop members; a seeded-arm clause misread; a
-  residual row that dropped what it keeps); 4 offered twice in a second master or superseded by main's own.
-- Retired architecture decision/no-key-held-behind-resize (its halves stand in human-key-never-held and test-plan).
+- Q1 answer card (the `paste-cut` word, the bound, the refusal until a human acts — 19 rows): inside the operator's
+  answers of 2026-11-22, confirmed by the overseer as delegate, PROVISIONAL.
+- Rejected: 9 adds as one fact twice; 4 proposer sets that dropped a qualifying word or member; 6 by fit `not_master`
+  (the two a11y bound lists → founder-forks item 1).
 
 ## Notes
-- **Provisional, owed the founder's word (the epoch batch):** this wrap's Q1 card (`answer-card.md`) and
-  `founder-forks.md` of `.andromeda/runs/2026-11-22T09-39-36Z-wrap/`: item 1 security-plan keys-own-pty (rule at
-  299/300, cannot name `KR`'s grant — the row stands, the grant in the `KR` row); item 2 test-plan
-  no-child-screen-assertions (except at 198/200 — stands); item 3 the kept-stamp row read to CC and R3W too. The
-  earlier wraps' lists stand as the last handoffs named them.
-- **Route:** Epoch 4 has 21 taken-up entries and 1 markerless («Paste write bounded»); unsplit on the founder's
-  standing word.
-- **Unmeasured, named:** `KR8`'s cut cause; any version but 2.1.330 / 2.1.328 for the key-after-resize reading; the
-  earlier list stands.
-- The operator's desk list (no route entry) stands as the last handoff named it.
+- **Provisional, owed the founder's word (the epoch batch):** this wrap's `answer-card.md` and `founder-forks.md` items
+  1–5; the earlier wraps' lists stand.
+- **Route:** «Lineage registry» holds `cry-teayoana` and the new WATCH `cry-kyoy7e6j` (the harness boot-timeout test,
+  timed out at its 20 s bound under escher's IO stall, green on a quiet host; 0/3). «Version done-check» holds
+  `cry-234cbfoa` and the agents-read finding (backstop owner).
+- **Sidecars:** UNRESOLVED supersedes — architecture 2, security-plan 3, test-plan 1 (read by `sidecar.py summary`).
+- **Desk (no route entry):** `target/pwb-xdg-3`, `-4`, `-5` and the scratchpad runs `run1`–`run5` stand for removal by
+  hand; the earlier desk list stands.
+- **Deferred learnings:** recurrence-despite-learning: «A leaf names a time bound by its constant, never its figure»;
+  the earlier list stands — review with `/andromeda-wrap-session --review`.
 - **Disk:** read `df -h /home` and `target/` before a full rebuild.
-- **Deferred learnings:** the earlier list stands — review with `/andromeda-wrap-session --review`.
-- **Host:** python `yaml` absent; PATH's claude 2.1.330 (mise latest), 2.1.328 by path; `bwrap` 0.13.1; Hyprland
-  0.56.2. The host's own Claude sessions rewrite `~/.claude.json` about once a minute.
-- **Last failed command:** none.
-
-## Session End Status
-Completed normally at 2026-11-22 13:03:10
+- **Host:** another project (escher) runs a mutation tier on this host — read `hostwatch.py read --from/--to` over a
+  gate's own window before reading any stall red (a `--last 15` read reaches back before the gate). python `yaml`
+  absent; PATH's claude 2.1.330, 2.1.328 by path.

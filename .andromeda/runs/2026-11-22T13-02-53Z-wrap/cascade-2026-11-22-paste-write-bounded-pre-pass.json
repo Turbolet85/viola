@@ -1,0 +1,325 @@
+[
+{
+"tool": "cascade",
+"v": "1.36",
+"sha8": "664bb4c5",
+"ts": "2026-11-22T13:04:28Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/report-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [
+"baseline eb656971 (pre-pass — HEAD)",
+"C6-child-within · control UNFIRED over the seven masters (bodies and sets) at eb656971",
+"E3-cut-mark · control UNFIRED over the seven masters (bodies and sets) at eb656971"
+],
+"stderr": "control: C6-child-within, E3-cut-mark never fired over the seven masters' pre-pass text, bodies and sets (eb656971) — no master holds them: re-fire with --pattern C1-detail-set --pattern C2-pty-threads --pattern C3-fake-opts --pattern C4-refusal-order --pattern C5-send-total --pattern E1-paste-bound --pattern E2-bracketed --pattern E4-after-issue --pattern E5-exit13 --pattern E6-send-framing --pattern E7-time-bounds --pattern E8-hints --pattern E9-detail-words --pattern D1-never-queued; this refusal, the trail's record, is the basis of each named pattern's master zero",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "cascade",
+"v": "1.36",
+"sha8": "664bb4c5",
+"ts": "2026-11-22T13:04:46Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/report-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded",
+"--pattern",
+"C1-detail-set",
+"--pattern",
+"C2-pty-threads",
+"--pattern",
+"C3-fake-opts",
+"--pattern",
+"C4-refusal-order",
+"--pattern",
+"C5-send-total",
+"--pattern",
+"E1-paste-bound",
+"--pattern",
+"E2-bracketed",
+"--pattern",
+"E4-after-issue",
+"--pattern",
+"E5-exit13",
+"--pattern",
+"E6-send-framing",
+"--pattern",
+"E7-time-bounds",
+"--pattern",
+"E8-hints",
+"--pattern",
+"E9-detail-words",
+"--pattern",
+"D1-never-queued"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline eb656971 (pre-pass — HEAD)",
+"architecture · 18 rows over 1 files · new 0 · standing 18 · 8 patterns",
+"security-plan · 16 rows over 1 files · new 0 · standing 16 · 6 patterns",
+"design-system · 18 rows over 1 files · new 0 · standing 18 · 3 patterns",
+"layout-templates · 9 rows over 1 files · new 0 · standing 9 · 2 patterns",
+"test-plan · 40 rows over 1 files · new 0 · standing 40 · 7 patterns",
+"obs-plan · 24 rows over 1 files · new 0 · standing 24 · 5 patterns",
+"a11y-plan · 4 rows over 1 files · new 0 · standing 4 · 2 patterns",
+"by line · 0 lines · 0 offsets",
+"total (14 patterns) · 162 rows over 22 files",
+"per class · new 0/0 · standing 129/7 · leaf 32/14 · curation 1/1 · base 0/0",
+"rows 1/1 · .andromeda/runs/2026-11-22T13-02-53Z-wrap/sweep-pre-pass-1.1.txt · 194 lines · 22926 B"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/sweep-pre-pass-1.1.txt"
+],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "eb65697153c11aefbb786bc6c74ddc5023a92850",
+"how": "pre-pass — HEAD",
+"counts": {
+"C1-detail-set": {
+"new": 0,
+"standing": 28,
+"leaf": 7,
+"curation": 0,
+"base": 0
+},
+"C2-pty-threads": {
+"new": 0,
+"standing": 13,
+"leaf": 5,
+"curation": 0,
+"base": 0
+},
+"C3-fake-opts": {
+"new": 0,
+"standing": 14,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"C4-refusal-order": {
+"new": 0,
+"standing": 12,
+"leaf": 4,
+"curation": 0,
+"base": 0
+},
+"C5-send-total": {
+"new": 0,
+"standing": 1,
+"leaf": 7,
+"curation": 1,
+"base": 0
+},
+"E1-paste-bound": {
+"new": 0,
+"standing": 5,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"E2-bracketed": {
+"new": 0,
+"standing": 10,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"E4-after-issue": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"E5-exit13": {
+"new": 0,
+"standing": 20,
+"leaf": 7,
+"curation": 0,
+"base": 0
+},
+"E6-send-framing": {
+"new": 0,
+"standing": 3,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"E7-time-bounds": {
+"new": 0,
+"standing": 2,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"E8-hints": {
+"new": 0,
+"standing": 14,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"E9-detail-words": {
+"new": 0,
+"standing": 5,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"D1-never-queued": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+},
+"bare": [],
+"masters": {
+"architecture": {
+"rows": 18,
+"files": 1,
+"new": 0,
+"standing": 18,
+"patterns": 8
+},
+"security-plan": {
+"rows": 16,
+"files": 1,
+"new": 0,
+"standing": 16,
+"patterns": 6
+},
+"design-system": {
+"rows": 18,
+"files": 1,
+"new": 0,
+"standing": 18,
+"patterns": 3
+},
+"layout-templates": {
+"rows": 9,
+"files": 1,
+"new": 0,
+"standing": 9,
+"patterns": 2
+},
+"test-plan": {
+"rows": 40,
+"files": 1,
+"new": 0,
+"standing": 40,
+"patterns": 7
+},
+"obs-plan": {
+"rows": 24,
+"files": 1,
+"new": 0,
+"standing": 24,
+"patterns": 5
+},
+"a11y-plan": {
+"rows": 4,
+"files": 1,
+"new": 0,
+"standing": 4,
+"patterns": 2
+}
+},
+"per_master": {
+"C1-detail-set": {
+"architecture": 6,
+"security-plan": 4,
+"design-system": 2,
+"layout-templates": 4,
+"test-plan": 7,
+"obs-plan": 5
+},
+"C2-pty-threads": {
+"security-plan": 2,
+"test-plan": 1,
+"obs-plan": 10
+},
+"C3-fake-opts": {
+"test-plan": 14
+},
+"C4-refusal-order": {
+"architecture": 4,
+"security-plan": 2,
+"test-plan": 6
+},
+"C5-send-total": {
+"architecture": 1
+},
+"E1-paste-bound": {
+"architecture": 2,
+"security-plan": 1,
+"obs-plan": 2
+},
+"E2-bracketed": {
+"architecture": 1,
+"security-plan": 4,
+"test-plan": 5
+},
+"E4-after-issue": {
+"architecture": 1
+},
+"E5-exit13": {
+"architecture": 2,
+"security-plan": 3,
+"design-system": 2,
+"layout-templates": 5,
+"test-plan": 4,
+"obs-plan": 2,
+"a11y-plan": 2
+},
+"E6-send-framing": {
+"test-plan": 3
+},
+"E7-time-bounds": {
+"a11y-plan": 2
+},
+"E8-hints": {
+"design-system": 14
+},
+"E9-detail-words": {
+"obs-plan": 5
+},
+"D1-never-queued": {
+"architecture": 1
+}
+},
+"forms": {
+"E5-exit13": [
+{
+"form": "exit thirteen",
+"from": "13"
+}
+]
+},
+"parts": [
+"sweep-pre-pass-1.1.txt"
+]
+}
+}
+]

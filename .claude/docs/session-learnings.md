@@ -8,6 +8,11 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
+## 2026-11-22 — An evidence script finds the repository from its own location
+A script a chunk keeps among its evidence (a measuring harness, a probe) names the repository by a path it computes from its own file's location, never by an absolute path written into it. The hygiene read refuses a host path in an evidence file, and `gate.py respell` rewrites only a path spelled as git spells the root, so an absolute repository path written by hand halts the land until the line is rewritten by hand on the operator's word.
+
+---
+
 ## 2026-11-21 — A leaf names a time bound by its constant, never its figure
 A rule file or a docs leaf that states one of viola's compiled bounds names the constant (`WAIT_CAP`,
 `MCP_CALL_DEADLINE`, `GATE_MAX_WAIT`), never its value: the code holds the figure, no master row restates it, and a

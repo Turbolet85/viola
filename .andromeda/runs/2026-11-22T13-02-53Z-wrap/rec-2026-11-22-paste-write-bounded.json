@@ -1,0 +1,1639 @@
+[
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:06:18Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-22-paste-write-bounded",
+"--section-file",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/after-implement.md",
+"--heading",
+"## After implement",
+"--before",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-22-paste-write-bounded/report rev 2 · 10 new · 0 revised · 0 retired · 56 kept · tx 3933"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T10-37-33-2026-11-22-paste-write-bounded.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:06:24Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-22-paste-write-bounded",
+"--section-file",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/new-text.md",
+"--heading",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-22-paste-write-bounded/report rev 3 · 37 new · 0 revised · 0 retired · 66 kept · tx 3934"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T10-37-33-2026-11-22-paste-write-bounded.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:06:54Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/cites-land-2026-11-22-paste-write-bounded.ndjson",
+"--base",
+"66eb718cf8313307681903d2d3d1b8db0408d58c",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 0 fact(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:07:00Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/cites-land-2026-11-22-paste-write-bounded.ndjson",
+"--base",
+"66eb718cf8313307681903d2d3d1b8db0408d58c",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 0 fact(s) · 0 edge(s) · tx 3936"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T10-37-33-2026-11-22-paste-write-bounded.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:08:57Z",
+"argv": [
+"rows-packs",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 978 · packs 10 · pack 100 · 279880 B",
+"security-plan: rows 632 · packs 7 · pack 100 · 193764 B",
+"design-system: rows 324 · packs 4 · pack 100 · 79091 B",
+"layout-templates: rows 223 · packs 3 · pack 100 · 53508 B",
+"test-plan: rows 1366 · packs 14 · pack 100 · 371668 B",
+"obs-plan: rows 1034 · packs 11 · pack 100 · 285396 B",
+"a11y-plan: rows 236 · packs 3 · pack 100 · 67083 B",
+"rows-packs: 7 master(s) · 4793 row(s) · 52 pack(s) · 2 draw(s) a pack · pin 3936"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/rows-packs.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:25:44Z",
+"argv": [
+"rows-union",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 978 · packs 10 · picked 51 (30 by every draw) · standing 0 · 219657 B · Established Decisions: by boundary, the rest under `also here:`",
+"security-plan: rows 632 · packs 7 · picked 39 (25 by every draw) · standing 0 · 133414 B",
+"design-system: rows 324 · packs 4 · picked 30 (22 by every draw) · standing 0 · 64585 B",
+"layout-templates: rows 223 · packs 3 · picked 27 (20 by every draw) · standing 0 · 47875 B",
+"test-plan: rows 1366 · packs 14 · picked 67 (32 by every draw) · standing 0 · 278387 B",
+"obs-plan: rows 1034 · packs 11 · picked 45 (24 by every draw) · standing 0 · 211757 B",
+"a11y-plan: rows 236 · packs 3 · picked 30 (18 by every draw) · standing 0 · 52312 B",
+"rows-union: 7 master(s) · picked 289 of 4793 · rule any"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/arch-rows.md",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/arch-standing.md",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/arch-pick-counts.md",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/security-rows.md",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/security-standing.md",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/security-pick-counts.md",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/design-rows.md",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/design-standing.md",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/design-pick-counts.md",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/layouts-rows.md",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/layouts-standing.md",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/layouts-pick-counts.md",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/tests-rows.md",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/tests-standing.md",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/tests-pick-counts.md",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/obs-rows.md",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/obs-standing.md",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/obs-pick-counts.md",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/a11y-rows.md",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/a11y-standing.md",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/a11y-pick-counts.md",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:35:16Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/one-pty-writer-thread · rejected",
+"fit: fits 10 · not_master 0 · stands 0",
+"## 2026-11-22-paste-write-bounded — Established Decisions: 6 row(s) (1 of 2)\n**Section:** Established Decisions\n**Change:** ~ decision/send-time-bound · rule: was «send blocks at most the readiness gate's maximum wait plus the paste plus the window; on the MCP surface the MCP call deadline bounds the driver's wait, never the send itself.»; now «send blocks at most the readiness gate's maximum wait plus the compiled 5 s paste bound plus the window; on the MCP surface the MCP call deadline bounds the driver's wait, never the send itself.»\n~ decision/atomic-bracketed-send · except: was «»; now «A paste not finished within the compiled paste bound is cut: the writer stops after its in-flight chunk and writes the closing paste marker with no CR.»\n~ contract/send-refusal/order · promise: was «`control-character` → `empty-text` → `human-typing` → `turn-running` → the readiness gate's wait.»; now «`control-character` → `empty-text` → `human-typing` → `turn-running` → the readiness gate's wait → `human-typing` and `turn-running` again → `paste-cut` of a standing cut mark → `paste-cut` of a paste cut at its bound.»\n+ decision/paste-bound — Paste cut at a compiled paste bound\n+ decision/paste-cut-mark — Cut mark refuses sends until the human acts\n+ contract/not-delivered-details/paste-cut — not-delivered refusal details · paste-cut\n**Why:** decision/send-time-bound: The paste is now bounded by the compiled PASTE_BOUND of 5 s, so the send's bound names it instead of an unbounded paste. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-22, inputs#I8: «Confirm all 19 (Recommended)», PROVISIONAL\ndecision/atomic-bracketed-send: A cut paste closes the bracket without the CR, an exception the row's rule of one bracketed paste plus CR no longer covers.\ncontract/send-refusal/order: The send refusal order gained two paste-cut rungs after the gate, which the row's order does not show. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-22, inputs#I8: «Confirm all 19 (Recommended)», PROVISIONAL\ndecision/paste-bound: The chunk bounds the paste into the child's PTY by a compiled bound and cuts a paste that cannot finish, a decision no row holds. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-22, inputs#I8: «Confirm all 19 (Recommended)», PROVISIONAL\ndecision/paste-cut-mark: The chunk adds an in-memory cut mark with its set and clears, a refusal rule no row of the area states. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-22, inputs#I8: «Confirm all 19 (Recommended)», PROVISIONAL\ncontract/not-delivered-details/paste-cut: The closed not-delivered detail set gained paste-cut, a new item of the boundary whose other details stand as rows. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-22, inputs#I8: «Confirm all 19 (Recommended)», PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-22T13-02-53Z-wrap/",
+"## 2026-11-22-paste-write-bounded — Established Decisions: 1 row(s) (2 of 2)\n**Section:** Established Decisions\n**Change:** + contract/human-hint-lines/paste-cut — Human hint lines · paste-cut\n**Why:** contract/human-hint-lines/paste-cut: The paste-cut refusal gained its own human hint line, beside the input-not-ready hint row. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-22, inputs#I8: «Confirm all 19 (Recommended)», PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-22T13-02-53Z-wrap/",
+"## 2026-11-22-paste-write-bounded — Conventions: 3 row(s)\n**Section:** Conventions\n**Change:** ~ contract/refusal-reason/not-delivered · promise: was «Serialised kebab-case; its detail is one of input-not-ready, no-prompt-submitted, turn-running, unknown-dialog, control-character, empty-text.»; now «Serialised kebab-case; its detail is one of input-not-ready, no-prompt-submitted, turn-running, unknown-dialog, control-character, empty-text, paste-cut.»\n~ contract/refusal-order/send · promise: was «control-character, empty-text, human-typing, turn-running, the readiness gate (input-not-ready), human-typing and turn-running read again after the gate, then no-prompt-submitted.»; now «control-character, empty-text, human-typing, turn-running, the readiness gate (input-not-ready), human-typing and turn-running read again after the gate, paste-cut of a standing cut mark, paste-cut of a paste cut at its bound, then no-prompt-submitted.»\n~ contract/send/paste-failure-after-issue · promise: was «A paste that fails after send-issued is refused as input-not-ready with that send's cursor.»; now «A paste that fails after send-issued is refused as input-not-ready with that send's cursor, except a paste cut at its bound, refused as paste-cut with that send's cursor.»\n**Why:** contract/refusal-reason/not-delivered: The closed not-delivered detail set gained paste-cut, so the row's closed list is incomplete. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-22, inputs#I8: «Confirm all 19 (Recommended)», PROVISIONAL\ncontract/refusal-order/send: The send refusal order gained two paste-cut rungs, the mark after the second reads and the cut after the paste. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-22, inputs#I8: «Confirm all 19 (Recommended)», PROVISIONAL\ncontract/send/paste-failure-after-issue: A cut paste after send-issued is now refused paste-cut rather than input-not-ready, so the row's promise is false for it. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-22, inputs#I8: «Confirm all 19 (Recommended)», PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-22T13-02-53Z-wrap/",
+"patterns: none: 6 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 10 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:35:23Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/one-pty-writer-thread · rejected",
+"fit: fits 10 · not_master 0 · stands 0",
+"landed tx 3938 · 10 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T10-37-33-2026-11-22-paste-write-bounded.ndjson",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:35:23Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/ops-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/paste-write-bounded · rejected",
+"decision/paste-cut-mark · rejected",
+"fit: fits 3 · not_master 0 · stands 0",
+"## 2026-11-22-paste-write-bounded — Threat Model Summary: 2 row(s)\n**Section:** Threat Model Summary\n**Change:** ~ decision/bridge-send-one-bracketed-paste · except: was «»; now «A paste not finished within its compiled bound is cut: the bracket is closed with no CR and the send is refused not-delivered paste-cut.»\n~ decision/send-text-is-one-bracketed-paste · except: was «»; now «A paste not finished within its compiled bound is cut: the bracket is closed with no Enter and the send is refused not-delivered paste-cut.»\n**Why:** decision/bridge-send-one-bracketed-paste: The paste write is now bounded and a cut paste closes the bracket without the CR, so the one-paste-plus-CR rule no longer holds for a cut send.\ndecision/send-text-is-one-bracketed-paste: A cut paste now ends the bracket with no Enter, an exception the row's paste-then-Enter rule must name.\n**Ref:** .andromeda/runs/2026-11-22T13-02-53Z-wrap/",
+"## 2026-11-22-paste-write-bounded — Error Handling: 1 row(s)\n**Section:** Error Handling\n**Change:** + contract/channel-refusal/paste-cut — channel result.refusal · not-delivered/paste-cut\n**Why:** contract/channel-refusal/paste-cut: The closed not-delivered detail set gains paste-cut, appended last, and the channel refusal list holds one row an item. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-22, inputs#I8: «Confirm all 19 (Recommended)», PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-22T13-02-53Z-wrap/",
+"patterns: none: 2 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 3 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:35:25Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/send-refusal-order · rejected",
+"decision/human-never-blocked · rejected",
+"decision/send-refused-after-a-paste-cut · rejected",
+"fit: fits 6 · not_master 0 · stands 0",
+"## 2026-11-22-paste-write-bounded — 1. Test Scope Summary: 1 row(s)\n**Section:** 1. Test Scope Summary\n**Change:** ~ contract/driver-send/typed-text · promise: was «The typed text is written as one bracketed paste plus Enter, with CR LF and CR turned to LF and trailing CR and LF dropped.»; now «The typed text is written as one bracketed paste plus Enter, with CR LF and CR turned to LF and trailing CR and LF dropped; a paste cut at its bound closes the bracket with no Enter.»\n**Why:** contract/driver-send/typed-text: A paste cut at the compiled paste bound now closes the bracket and types no Enter, an exception the typed-text promise must carry.\n**Ref:** .andromeda/runs/2026-11-22T13-02-53Z-wrap/",
+"## 2026-11-22-paste-write-bounded — 6. E2E Test Strategy: 1 row(s)\n**Section:** 6. E2E Test Strategy\n**Change:** ~ contract/viola-send/paste-framing · promise: was «A sent text is typed as one bracketed paste followed by one CR, its newlines kept inside.»; now «A sent text is typed as one bracketed paste followed by one CR, its newlines kept inside; a paste cut at its bound closes the bracket and types no CR.»\n**Why:** contract/viola-send/paste-framing: The framing promise of one paste plus one CR no longer holds for a paste cut at its bound, which ends with the closing marker and no CR.\n**Ref:** .andromeda/runs/2026-11-22T13-02-53Z-wrap/",
+"## 2026-11-22-paste-write-bounded — 1. Test Scope Summary: 1 row(s)\n**Section:** 1. Test Scope Summary\n**Change:** ~ contract/send-event-log/send-issued · promise: was «An accepted driver send logs send-issued with its cursor and from before one bracketed paste plus Enter is written.»; now «An accepted driver send logs send-issued with its cursor and from before one bracketed paste plus Enter is written; a paste cut at its bound writes no Enter, and the send is refused paste-cut with that cursor.»\n**Why:** contract/send-event-log/send-issued: After send-issued a cut paste types no Enter and ends the send refused paste-cut with its cursor, so the row's paste-plus-Enter promise takes that exception. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-22, inputs#I8: «Confirm all 19 (Recommended)», PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-22T13-02-53Z-wrap/",
+"## 2026-11-22-paste-write-bounded — 7. Test Data & Fixtures: 1 row(s)\n**Section:** 7. Test Data & Fixtures\n**Change:** + contract/fake-agent-cli/stop-reading — viola-fake-agent command line · --stop-reading\n**Why:** contract/fake-agent-cli/stop-reading: The fake agent gains an argv option the cross-process suite relies on, and each fake-agent option stands as its own contract row.\n**Ref:** .andromeda/runs/2026-11-22T13-02-53Z-wrap/",
+"## 2026-11-22-paste-write-bounded — 6. E2E Test Strategy: 2 row(s)\n**Section:** 6. E2E Test Strategy\n**Change:** + contract/viola-send/paste-cut — viola send · paste-cut\n+ contract/viola-send/during-a-blocked-paste — viola send · during a blocked paste\n**Why:** contract/viola-send/paste-cut: viola send gains a new not-delivered outcome at its CLI boundary, and the e2e area holds one row a viola send outcome. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-22, inputs#I8: «Confirm all 19 (Recommended)», PROVISIONAL\ncontract/viola-send/during-a-blocked-paste: A blocked paste now holds a second send and a hook record for at most the compiled bound, a promise at the send boundary no standing row states.\n**Ref:** .andromeda/runs/2026-11-22T13-02-53Z-wrap/",
+"patterns: none: 3 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 6 operation(s) · 5 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:35:27Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/ops-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/send-path-log-events/event-order · rejected",
+"fit: fits 7 · not_master 0 · stands 0",
+"## 2026-11-22-paste-write-bounded — 7. Error Capture & Reporting: 1 row(s)\n**Section:** 7. Error Capture & Reporting\n**Change:** ~ decision/run-threads-inside-catch-unwind · rule: was «The two run PTY pump threads each run inside catch_unwind, and the child's exit is polled inline on run's main thread under main's catch_unwind; a worker panic that leaves main running with no process-exit is forbidden.»; now «The three run PTY threads, the two pump copy threads and the paste writer thread, each run inside catch_unwind, and the child's exit is polled inline on run's main thread under main's catch_unwind; a worker panic that leaves main running with no process-exit is forbidden.»\n**Why:** decision/run-threads-inside-catch-unwind: The paste writer thread joins the two copy threads under catch_unwind, so the run PTY threads under catch_unwind move from two to three and the count the rule holds must follow.\n**Ref:** .andromeda/runs/2026-11-22T13-02-53Z-wrap/",
+"## 2026-11-22-paste-write-bounded — 7. Error Capture & Reporting: 1 row(s)\n**Section:** 7. Error Capture & Reporting\n**Change:** ~ decision/run-worker-panic-ends-run · rule: was «A panic in either PTY pump thread is sent to main, which kills the child and takes run's exit path, exit 1 internal-error; the child's exit is polled on main, not on a handle-wait thread; a worker panic leaving main running with no process-exit is forbidden.»; now «A panic in any of the three PTY threads (two copy threads, the paste writer) is sent to main, which kills the child and takes run's exit path, exit 1 internal-error; the child's exit is polled on main, not a handle-wait thread; a worker panic leaving main running with no process-exit is forbidden.»\n**Why:** decision/run-worker-panic-ends-run: The paste writer thread is started through spawn_worker inside catch_unwind and its panic is Worker::Panicked with the child killed, so the row's two-thread wording no longer covers every PTY worker.\n**Ref:** .andromeda/runs/2026-11-22T13-02-53Z-wrap/",
+"## 2026-11-22-paste-write-bounded — 2. Telemetry Strategy: 1 row(s)\n**Section:** 2. Telemetry Strategy\n**Change:** ~ decision/panic-caught-at-every-role · rule: was «A hand-written panic hook plus catch_unwind at every role's main-thread catch site (covering hook dispatch and run's inline handle-wait), the two run PTY pump threads and the vt100 feed turn a panic into one record.»; now «A hand-written panic hook plus catch_unwind at every role's main-thread catch site (covering hook dispatch and run's inline handle-wait), the three run PTY threads (the two pump copy threads and the paste writer thread) and the vt100 feed turn a panic into one record.»\n**Why:** decision/panic-caught-at-every-role: The rule names the count of run PTY threads under catch_unwind, which moved from two to three with the paste writer thread.\n**Ref:** .andromeda/runs/2026-11-22T13-02-53Z-wrap/",
+"## 2026-11-22-paste-write-bounded — 6. Log Coverage: 1 row(s)\n**Section:** 6. Log Coverage\n**Change:** ~ contract/send-refused-detail/refusal-reason-words · promise: was «Refusal details are the arch RefusalReason details verbatim: manual-pause, input-not-ready, no-prompt-submitted, turn-running, unknown-dialog, control-character, empty-text.»; now «Refusal details are the arch RefusalReason details verbatim: manual-pause, input-not-ready, no-prompt-submitted, turn-running, unknown-dialog, control-character, empty-text, paste-cut.»\n**Why:** contract/send-refused-detail/refusal-reason-words: The closed not-delivered detail set gains paste-cut, so the enumerated list of refusal detail words must carry it. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-22, inputs#I8: «Confirm all 19 (Recommended)», PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-22T13-02-53Z-wrap/",
+"## 2026-11-22-paste-write-bounded — 1. Obs Scope Summary: 1 row(s)\n**Section:** 1. Obs Scope Summary\n**Change:** ~ contract/send-log-line/detail · promise: was «The send detail is one of input-not-ready, no-prompt-submitted, control-character, empty-text or turn-running.»; now «The send detail is one of input-not-ready, no-prompt-submitted, control-character, empty-text, turn-running or paste-cut.»\n**Why:** contract/send-log-line/detail: The wrapper's send now refuses not-delivered with detail paste-cut, so the closed list of send details must name it. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-22, inputs#I8: «Confirm all 19 (Recommended)», PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-22T13-02-53Z-wrap/",
+"## 2026-11-22-paste-write-bounded — 4. Span / Trace Coverage: 2 row(s)\n**Section:** 4. Span / Trace Coverage\n**Change:** + decision/send-cut-mark-uninstrumented — Send cut mark uninstrumented\n+ contract/send-refused-detail/paste-cut — wrapper send-refused detail · paste-cut\n**Why:** decision/send-cut-mark-uninstrumented: The chunk adds the cut mark as a new wrapper state, and the plan carried a new row saying it opens no span and writes no line of its own.\ncontract/send-refused-detail/paste-cut: The wrapper's send-refused gains the closed detail paste-cut with two placements, a contract item its sibling detail rows do not hold. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-22, inputs#I8: «Confirm all 19 (Recommended)», PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-22T13-02-53Z-wrap/",
+"patterns: none: 5 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 7 operation(s) · 6 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:35:27Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"a11y-plan",
+"--file",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/ops-a11y-plan.md",
+"--results",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/time-bounds-never-on-human · rejected",
+"decision/time-bounds-fall-on-the-driver · rejected",
+"decision/human-keystrokes-never-blocked · rejected",
+"decision/paste-cut-mark-holds-sends · rejected",
+"decision/cut-paste-never-submitted · rejected",
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-22-paste-write-bounded — 1. A11y Scope Summary: 1 row(s)\n**Section:** 1. A11y Scope Summary\n**Change:** ~ contract/tui-passthrough/human-keystrokes · promise: was «Human keystrokes are never blocked, refused or delayed past the current atomic paste once the wrapped child holds the terminal; the one exception is a start's automatic verify window, before the child starts.»; now «Human keystrokes are never blocked, refused or dropped once the wrapped child holds the terminal: queued with the paste in arrival order, they wait behind at most its in-flight chunk and closing marker; the one exception is a start's automatic verify window, before the child starts.»\n**Why:** contract/tui-passthrough/human-keystrokes: The paste is no longer one atomic write under a shared lock but chunks on one queued writer thread, so the promise's bound on a key's delay is the in-flight chunk and the closing marker, not the current atomic paste.\n**Ref:** .andromeda/runs/2026-11-22T13-02-53Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:35:28Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/ops-design-system.md",
+"--results",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/paste-cut-refuses-until-human · rejected",
+"decision/cut-paste-closes-bracket-no-enter · rejected",
+"fit: fits 2 · not_master 0 · stands 0",
+"## 2026-11-22-paste-write-bounded — Surface: cli: 2 row(s)\n**Section:** Surface: cli\n**Change:** ~ contract/cli-exit-codes/13 · promise: was «`unable  not-delivered` with `input-not-ready`, `no-prompt-submitted`, `turn-running`, `unknown-dialog`, `control-character` or `empty-text`; under `--json` the refusal object.»; now «`unable  not-delivered` with `input-not-ready`, `no-prompt-submitted`, `turn-running`, `unknown-dialog`, `control-character`, `empty-text` or `paste-cut`; under `--json` the refusal object.»\n+ contract/refusal-hints/not-delivered-paste-cut — refusal hints · not-delivered · paste-cut\n**Why:** contract/cli-exit-codes/13: The closed `not-delivered` detail set gained `paste-cut`, refused with exit 13, so the row enumerating exit 13's details must name it. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-22, inputs#I8: «Confirm all 19 (Recommended)», PROVISIONAL\ncontract/refusal-hints/not-delivered-paste-cut: The chunk adds a new hint literal for the `paste-cut` detail, and every refusal hint stands as its own row in the refusal-hints contract. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-22, inputs#I8: «Confirm all 19 (Recommended)», PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-22T13-02-53Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 2 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:35:29Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"layout-templates",
+"--file",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/ops-layout-templates.md",
+"--results",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/cli-exit-codes/13 · rejected",
+"contract/viola-send-output/after-a-paste-cut · rejected",
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-22-paste-write-bounded — Surface: cli: 1 row(s)\n**Section:** Surface: cli\n**Change:** + contract/viola-send-output/paste-cut-hint — viola send output · paste-cut hint\n**Why:** contract/viola-send-output/paste-cut-hint: The chunk adds a new send hint wording, and the masters must state it as the input-not-ready hint is stated. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-22, inputs#I8: «Confirm all 19 (Recommended)», PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-22T13-02-53Z-wrap/",
+"patterns: none — the call sets and retires no row",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:35:37Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/ops-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/paste-write-bounded · rejected",
+"decision/paste-cut-mark · rejected",
+"fit: fits 3 · not_master 0 · stands 0",
+"landed tx 3939 · 3 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T10-37-33-2026-11-22-paste-write-bounded.ndjson",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:35:42Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/send-refusal-order · rejected",
+"decision/human-never-blocked · rejected",
+"decision/send-refused-after-a-paste-cut · rejected",
+"fit: fits 6 · not_master 0 · stands 0",
+"landed tx 3940 · 6 operation(s) · 5 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T10-37-33-2026-11-22-paste-write-bounded.ndjson",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:35:44Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/ops-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/send-path-log-events/event-order · rejected",
+"fit: fits 7 · not_master 0 · stands 0",
+"landed tx 3941 · 7 operation(s) · 6 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T10-37-33-2026-11-22-paste-write-bounded.ndjson",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:35:45Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"a11y-plan",
+"--file",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/ops-a11y-plan.md",
+"--results",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/time-bounds-never-on-human · rejected",
+"decision/time-bounds-fall-on-the-driver · rejected",
+"decision/human-keystrokes-never-blocked · rejected",
+"decision/paste-cut-mark-holds-sends · rejected",
+"decision/cut-paste-never-submitted · rejected",
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 3942 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T10-37-33-2026-11-22-paste-write-bounded.ndjson",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:35:49Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/ops-design-system.md",
+"--results",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/paste-cut-refuses-until-human · rejected",
+"decision/cut-paste-closes-bracket-no-enter · rejected",
+"fit: fits 2 · not_master 0 · stands 0",
+"landed tx 3943 · 2 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T10-37-33-2026-11-22-paste-write-bounded.ndjson",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:35:52Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"layout-templates",
+"--file",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/ops-layout-templates.md",
+"--results",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/cli-exit-codes/13 · rejected",
+"contract/viola-send-output/after-a-paste-cut · rejected",
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 3944 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T10-37-33-2026-11-22-paste-write-bounded.ndjson",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:35:53Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"a11y-plan",
+"--file",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/ops-main-a11y-plan.md",
+"--results",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/time-bounds-never-on-human · rejected",
+"decision/time-bounds-fall-on-the-driver · rejected",
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-22-paste-write-bounded — 2. A11y Strategy: 1 row(s)\n**Section:** 2. A11y Strategy\n**Change:** ~ decision/human-keystrokes-never-blocked · rule: was «A human keystroke in `viola run`, or in a start a passed `viola revive` made, is never blocked, refused or delayed past the current atomic paste.»; now «A human keystroke in `viola run`, or in a start a passed `viola revive` made, is never blocked, refused or delayed past the current paste's in-flight chunk and closing marker.»\n**Why:** decision/human-keystrokes-never-blocked: The standing «delayed past the current atomic paste» is false since the paste became chunks on one writer thread; the bound now named is the in-flight chunk and the closing marker, nothing longer.\n**Ref:** .andromeda/runs/2026-11-22T13-02-53Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:35:53Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/ops-main-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-22-paste-write-bounded — 1. Obs Scope Summary: 1 row(s)\n**Section:** 1. Obs Scope Summary\n**Change:** ~ contract/send-path-log-events/event-order · promise: was «A send logs channel-request, then send-issued, then hook-invoked (UserPromptSubmit, or SessionStart for a confirmed /clear or /compact; none awaited for an unconfirmable send or a local command confirmed by its transcript echo), then send-confirmed or send-refused, then channel-response.»; now «A send logs channel-request, then send-issued, then hook-invoked (UserPromptSubmit, or SessionStart for a confirmed /clear or /compact; none awaited for an unconfirmable send, a cut paste or a local command its transcript echo confirms), then send-confirmed or send-refused, then channel-response.»\n**Why:** contract/send-path-log-events/event-order: A paste cut at its bound is refused paste-cut after send-issued with no hook awaited, a path the stated order did not name; every word of the standing exceptions is kept.\n**Ref:** .andromeda/runs/2026-11-22T13-02-53Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:35:54Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/ops-main-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-22-paste-write-bounded — 4. Unit Test Strategy: 1 row(s)\n**Section:** 4. Unit Test Strategy\n**Change:** ~ decision/send-refusal-order · rule: was «send refuses in the order control-character, empty-text, human-typing, turn-running, input-not-ready, no-prompt-submitted, and after the gate is ready reads human-typing and turn-running again before anything is issued or typed.»; now «send refuses in the order control-character, empty-text, human-typing, turn-running, input-not-ready; once the gate is ready, human-typing and turn-running again and a standing cut mark's paste-cut, before anything is issued or typed; then a cut paste's paste-cut, then no-prompt-submitted.»\n**Why:** decision/send-refusal-order: The send refusal order gained two paste-cut rungs, the mark after the second reads and the cut after the paste, and the re-read after the gate keeps its «again». — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-22, inputs#I8: «Confirm all 19 (Recommended)», PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-22T13-02-53Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:36:05Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"a11y-plan",
+"--file",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/ops-main-a11y-plan.md",
+"--results",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/time-bounds-never-on-human · rejected",
+"decision/time-bounds-fall-on-the-driver · rejected",
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 3945 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T10-37-33-2026-11-22-paste-write-bounded.ndjson",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:36:12Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/ops-main-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 3946 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T10-37-33-2026-11-22-paste-write-bounded.ndjson",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:36:13Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/ops-main-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 3947 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T10-37-33-2026-11-22-paste-write-bounded.ndjson",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:39:07Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/ops-main-obs-plan.2.md",
+"--results",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-22-paste-write-bounded — 7. Error Capture & Reporting: 1 row(s)\n**Section:** 7. Error Capture & Reporting\n**Change:** ~ decision/run-worker-panic-ends-run · why: was «the session cannot continue without either thread»; now «the session cannot continue without any one of these threads»\n**Why:** decision/run-worker-panic-ends-run: The rule now names three run PTY threads, so the why's «either thread», written for two, is stale beside it.\n**Ref:** .andromeda/runs/2026-11-22T13-02-53Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:39:14Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/ops-main-obs-plan.2.md",
+"--results",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 3948 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T10-37-33-2026-11-22-paste-write-bounded.ndjson",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:41:40Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/ops-main-architecture.md",
+"--results",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-22-paste-write-bounded — Design Philosophy: 1 row(s)\n**Section:** Design Philosophy\n**Change:** ~ decision/human-always-wins-wheel · rule: was «Human keystrokes are never blocked, refused or delayed past the current atomic paste; automation is refused with a typed reason instead of competing with the human.»; now «Human keystrokes are never blocked, refused or delayed past the current paste's in-flight chunk and closing marker; automation is refused with a typed reason instead of competing with the human.»\n**Why:** decision/human-always-wins-wheel: The cascade's sweep of the retired mechanism found «the current atomic paste», false since the paste became chunks on one writer thread; the bound a key now waits is the in-flight chunk and the closing marker.\n**Ref:** .andromeda/runs/2026-11-22T13-02-53Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:41:51Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/ops-main-architecture.md",
+"--results",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 3949 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T10-37-33-2026-11-22-paste-write-bounded.ndjson",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:45:03Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/a11y-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-22T13-02-53Z-wrap/staged-leaf-.claude__docs__a11y-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/a11y-summary.md rev 20 · 0 new · 1 revised · 0 retired · tx 3950"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T10-37-33-2026-11-22-paste-write-bounded.ndjson",
+"./.claude/docs/a11y-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:45:05Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/a11y.md",
+"--file",
+"./.andromeda/runs/2026-11-22T13-02-53Z-wrap/staged-leaf-.claude__rules__a11y.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/a11y.md rev 9 · 0 new · 1 revised · 0 retired · tx 3951"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T10-37-33-2026-11-22-paste-write-bounded.ndjson",
+"./.claude/rules/a11y.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:45:08Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola-core.md",
+"--file",
+"./.andromeda/runs/2026-11-22T13-02-53Z-wrap/staged-leaf-.claude__docs__services__viola-core.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola-core.md rev 9 · 0 new · 1 revised · 0 retired · tx 3952"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T10-37-33-2026-11-22-paste-write-bounded.ndjson",
+"./.claude/docs/services/viola-core.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:45:10Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola.md",
+"--file",
+"./.andromeda/runs/2026-11-22T13-02-53Z-wrap/staged-leaf-.claude__docs__services__viola.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola.md rev 24 · 0 new · 1 revised · 0 retired · tx 3953"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T10-37-33-2026-11-22-paste-write-bounded.ndjson",
+"./.claude/docs/services/viola.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:45:16Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/api.md",
+"--file",
+"./.andromeda/runs/2026-11-22T13-02-53Z-wrap/staged-leaf-.claude__rules__api.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/api.md rev 14 · 0 new · 1 revised · 0 retired · tx 3954"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T10-37-33-2026-11-22-paste-write-bounded.ndjson",
+"./.claude/rules/api.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:45:18Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/security-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-22T13-02-53Z-wrap/staged-leaf-.claude__docs__security-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/security-summary.md rev 39 · 0 new · 1 revised · 0 retired · tx 3955"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T10-37-33-2026-11-22-paste-write-bounded.ndjson",
+"./.claude/docs/security-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:45:20Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/security.md",
+"--file",
+"./.andromeda/runs/2026-11-22T13-02-53Z-wrap/staged-leaf-.claude__rules__security.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/security.md rev 41 · 0 new · 2 revised · 0 retired · tx 3956"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T10-37-33-2026-11-22-paste-write-bounded.ndjson",
+"./.claude/rules/security.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:45:23Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/ci.md",
+"--file",
+"./.andromeda/runs/2026-11-22T13-02-53Z-wrap/staged-leaf-.claude__rules__ci.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/ci.md rev 7 · 0 new · 1 revised · 0 retired · tx 3957"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T10-37-33-2026-11-22-paste-write-bounded.ndjson",
+"./.claude/rules/ci.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:45:26Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/tests-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-22T13-02-53Z-wrap/staged-leaf-.claude__docs__tests-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/tests-summary.md rev 37 · 0 new · 2 revised · 0 retired · tx 3958"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T10-37-33-2026-11-22-paste-write-bounded.ndjson",
+"./.claude/docs/tests-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:45:30Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/verification-harness.md",
+"--file",
+"./.andromeda/runs/2026-11-22T13-02-53Z-wrap/staged-leaf-.claude__rules__verification-harness.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/verification-harness.md rev 42 · 0 new · 1 revised · 0 retired · tx 3959"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T10-37-33-2026-11-22-paste-write-bounded.ndjson",
+"./.claude/rules/verification-harness.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:45:36Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/observability.md",
+"--file",
+"./.andromeda/runs/2026-11-22T13-02-53Z-wrap/staged-leaf-.claude__rules__observability.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/observability.md rev 22 · 0 new · 2 revised · 0 retired · tx 3960"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T10-37-33-2026-11-22-paste-write-bounded.ndjson",
+"./.claude/rules/observability.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:52:29Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/route-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 3 record(s) · 3 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:52:36Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/route-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 3 record(s) · 3 edge(s) · tx 3968 · cry-pwsitilr … cry-4szd7uli"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T10-37-33-2026-11-22-paste-write-bounded.ndjson",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T13:53:23Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/run-node.txt",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 0 edge(s) · tx 3970 · run-zwiu5ayi … run-zwiu5ayi"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T10-37-33-2026-11-22-paste-write-bounded.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T15:39:54Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/route-batch-2.txt",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 1 record(s) · 1 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T15:39:57Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap/route-batch-2.txt",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap",
+"--marker",
+"2026-11-22-paste-write-bounded"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 1 edge(s) · tx 3972 · cry-kyoy7e6j … cry-kyoy7e6j"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T10-37-33-2026-11-22-paste-write-bounded.ndjson",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "b3f88735",
+"ts": "2026-11-22T15:41:13Z",
+"argv": [
+"land",
+"--root",
+".",
+"--chunk",
+"2026-11-22-paste-write-bounded",
+"--run-dir",
+".andromeda/runs/2026-11-22T13-02-53Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"unchanged · 20 file(s) of 2026-11-22-paste-write-bounded"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]
