@@ -28,7 +28,7 @@ No viola crate. Tokio banned in its graph.
 - The caller passes an absolute program path (viola resolves it itself: a given path as given, a bare name searched on `PATH`) and an explicit cwd.
 - `HostTerminal` switches the host terminal to termios raw mode for the run and restores it on Drop.
 - Keep the input writer until the child exits (the pump holds it for its life).
-- OPEN — whether the real `claude` on Linux loses a key typed right after a resize · owner: the measurement of the route entry «Key after a resize» (0.2.0, Epoch 4).
+- Key after a resize: the real `claude` on Linux, run unwrapped in the live rig's own pty (its `KR` arm) on two versions, read `kr-reading: kept`: no key typed right after a resize at the delays the arm measures was lost — no loss at those delays on those versions, never «never loses»; the reading is of the CLI unwrapped, not of viola's own poll lag or the driver's paste; viola adds no wait (route entry «Key after a resize», 0.2.0, Epoch 4).
 - `PtyError` is hand-written with fixed messages, the one ratified exception to the thiserror rule ([Error Handling]).
 - The real-PTY test rig (`mod tests`): the child streams `<temp dir>/viola-pty-watch/<test>.<pid>.report` (`<pid>` the test process's id, so two test processes running the same test never share a report file; `start`, `size` from its watcher thread, `byte`, `restored`) and the test streams `<test>.<pid>.test.report` (`resize-returned`, `key-written`, `key-flushed`, `dsr-cpr {n}` — the drain's count of `ESC [ 6 n`); both are kept on a panic or kill, removed on a pass. Waits are keyed on the exact line asserted, never on a line index. Child modes ride `PTY_SEAM_TEST_MODE` (`run` · `hold` · `block` · `watch`), read only by the test child.
 

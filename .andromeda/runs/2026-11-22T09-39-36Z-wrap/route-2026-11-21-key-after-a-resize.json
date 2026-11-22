@@ -1,0 +1,75 @@
+[
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "7b0d7906",
+"ts": "2026-11-22T10:19:32Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-21-key-after-a-resize",
+"--date",
+"2026-11-22",
+"--run-dir",
+".andromeda/runs/2026-11-22T09-39-36Z-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-lqe3bfwx strip CARRY: 683ch \"CARRY: chunk 2026-11-15-live-round-on-th\"",
+"pin cry-m267ghbx strip CARRY: 433ch \"CARRY: chunk 2026-11-15-mutation-and-cov\"",
+"pin cry-teayoana strip CARRY: 653ch \"CARRY: at the Epoch 4 boundary, the foun\"",
+"pin cry-7mgt7ybs strip CARRY: 799ch \"CARRY: (the overseer's technical answer,\"",
+"pin cry-234cbfoa strip CARRY: 3672ch \"CARRY: (re-pinned whole from «MCP calls \"",
+"pin next markerless chk-aoz46xqg holds CARRY:×4 · WATCH:×1",
+"2026-11-21-key-after-a-resize · strip 5 block(s) · spent in the spine",
+"dry-run · would flip 2026-11-21-key-after-a-resize pending -> complete"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "7b0d7906",
+"ts": "2026-11-22T10:19:38Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-21-key-after-a-resize",
+"--date",
+"2026-11-22",
+"--run-dir",
+".andromeda/runs/2026-11-22T09-39-36Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-lqe3bfwx strip CARRY: 683ch \"CARRY: chunk 2026-11-15-live-round-on-th\"",
+"pin cry-m267ghbx strip CARRY: 433ch \"CARRY: chunk 2026-11-15-mutation-and-cov\"",
+"pin cry-teayoana strip CARRY: 653ch \"CARRY: at the Epoch 4 boundary, the foun\"",
+"pin cry-7mgt7ybs strip CARRY: 799ch \"CARRY: (the overseer's technical answer,\"",
+"pin cry-234cbfoa strip CARRY: 3672ch \"CARRY: (re-pinned whole from «MCP calls \"",
+"pin next markerless chk-aoz46xqg holds CARRY:×4 · WATCH:×1",
+"flip 2026-11-21-key-after-a-resize pending -> complete · tx 3898",
+"compacted 1 complete line(s) — their freight spent in the spine, no archive (U61)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-21T23-33-28-2026-11-21-key-after-a-resize.ndjson",
+"./.andromeda/master-route.md",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]

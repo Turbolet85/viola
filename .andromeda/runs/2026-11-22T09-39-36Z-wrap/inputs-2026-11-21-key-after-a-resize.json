@@ -1,0 +1,111 @@
+[
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "363241ce",
+"ts": "2026-11-22T09:40:15Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-21-key-after-a-resize",
+"--source",
+"~/dev/projects/additional/viola-overseer/wrap-resize-directive.md",
+"--kind",
+"relay",
+"--why",
+"the overseer's wrap directive: the live work as ledgered, the answer card rows, four more answers of the operator (route entry «Paste write bounded», the cross-session fixture residual, the four excepts stand, the kept-stamp row without labels), the carries, the last card",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T09-39-36Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I11 · copy no-repo · ../additional/viola-overseer/wrap-resize-directive.md",
+"cite: inputs#I11"
+],
+"stderr": null,
+"wrote": [
+"inputs/I11-wrap-resize-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I11",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/wrap-resize-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "fa4646845c2b2d7b45c1526b38a47334044a54ec548d3e9feb00e2dafafb0ddd",
+"copy": "I11-wrap-resize-directive.md.txt",
+"link": false,
+"read_at": "2026-11-22T09:40:14Z",
+"step": "wrap",
+"why": "the overseer's wrap directive: the live work as ledgered, the answer card rows, four more answers of the operator (route entry «Paste write bounded», the cross-session fixture residual, the four excepts stand, the kept-stamp row without labels), the carries, the last card"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "363241ce",
+"ts": "2026-11-22T09:40:23Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-21-key-after-a-resize",
+"--run-dir",
+".andromeda/runs/2026-11-22T09-39-36Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-resize-directive.md",
+"I1 cited scope.md:43 · scope.md:47 · scope.md:68 · research.md:7 · plan.md:9 · plan.md:181 · plan.md:214 · plan.md:295 (in fence) · plan.md:521 · report.md:45",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-resize-p3.md",
+"I2 cited plan.md:9 · plan.md:24 · plan.md:47 · plan.md:188 · plan.md:400 (in fence) · plan.md:416 (in fence) · plan.md:464 (in fence) · plan.md:512 · plan.md:521 · plan.md:544 · plan.md:550 · plan.md:552 · plan.md:566 · plan.md:567 · plan.md:570 · plan.md:577 · plan.md:596 · plan.md:602 · report.md:46 · report.md:58 · report.md:86",
+"I3 n/a — a message has no live source · copy message · message: the overseer as delegate, in this session, 2026-11-22T08:18:32Z",
+"I3 cited report.md:46 · report.md:53",
+"I4 unchanged · copy no-repo · ../additional/viola-overseer/implement-resize-directive.md",
+"I4 cited report.md:47",
+"I5 n/a — a message has no live source · copy message · message: the overseer",
+"I5 cited report.md:47",
+"I6 unchanged · copy no-repo · ../additional/viola-overseer/relay-resize-revision.md",
+"I6 cited scope.md:101 · scope.md:109 · scope.md:110 · scope.md:117 · research.md:71 · plan.md:13 · plan.md:42 · plan.md:50 · plan.md:74 · plan.md:118 · plan.md:119 · plan.md:152 · plan.md:161 · plan.md:180 · plan.md:208 · plan.md:219 · plan.md:229 · plan.md:280 (in fence) · plan.md:311 (in fence) · plan.md:334 (in fence) · plan.md:342 (in fence) · plan.md:350 (in fence) · plan.md:360 (in fence) · plan.md:392 (in fence) · plan.md:522 · plan.md:558 · plan.md:560 · plan.md:562 · plan.md:563 · plan.md:611 · report.md:47 · report.md:66 · report.md:117",
+"I7 n/a — a message has no live source · copy message · message: the overseer, this session's prompt, 2026-11-22T08:32Z",
+"I7 cited scope.md:101 · plan.md:14 · plan.md:522 · report.md:48",
+"I8 n/a — a message has no live source · copy message · message: the overseer as delegate, this session's prompt, 2026-11-22T08:48:33Z",
+"I8 cited report.md:48 · report.md:52",
+"I9 unchanged · copy no-repo · ../additional/viola-overseer/implement-resize-directive-2.md",
+"I9 cited report.md:49 · report.md:118",
+"I10 n/a — a message has no live source · copy message · message: the overseer",
+"I10 cited report.md:49 · report.md:120",
+"I11 unchanged · copy no-repo · ../additional/viola-overseer/wrap-resize-directive.md",
+"I11 UNCITED",
+"inputs: 11 entries — unchanged 6 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 5 · uncited 1 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 11,
+"counts": {
+"unchanged": 6,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 5
+},
+"uncited": 1,
+"unparsed": 0
+}
+}
+]

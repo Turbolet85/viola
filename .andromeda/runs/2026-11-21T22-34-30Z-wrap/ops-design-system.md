@@ -1,2 +1,0 @@
-@row_none n=1 fact=F1 type=3
-what: the call-deadline cause is a contract of the MCP instance-unreachable result, held by the masters that own the MCP surface (architecture cause-set, security-plan, test-plan, obs-plan); the CLI exit-21 cause set stays six and its design-system rows (closed causes, hints, --json detail) stand true unchanged (fct-xh2b6pyo CAUSESET: CLI exit-21 rows no change; fct-vjs7vhbz)

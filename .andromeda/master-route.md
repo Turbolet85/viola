@@ -130,4 +130,4 @@
 2026-11-20-harness-prefix-and-identity-floor-ledger-rows · complete · the harness prompt prefixes and the R8 identity floor as relied ledger rows, each with a viola verify probe, stamped live · → chk:2026-11-20-harness-prefix-and-identity-floor-ledger-rows
 2026-11-21-cross-session-prefix-ledger-row · complete · Cross-session prefix ledger row: the no-prompt cause settled first, then the 29th relied row stamped live (v2-25) · → chk:2026-11-21-cross-session-prefix-ledger-row
 2026-11-21-mcp-calls-bounded · complete · every MCP tool call completes below the client's tool-call timeout · → chk:2026-11-21-mcp-calls-bounded
-2026-11-21-key-after-a-resize · pending · whether real claude on Linux loses a key typed right after a resize, read with no start first, measured on the operator's cap, fixed if it does · → chk:2026-11-21-key-after-a-resize
+2026-11-21-key-after-a-resize · complete · whether real claude on Linux loses a key typed right after a resize, read with no start first, measured on the operator's cap, fixed if it does · → chk:2026-11-21-key-after-a-resize
