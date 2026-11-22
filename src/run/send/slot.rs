@@ -281,8 +281,15 @@ pub(crate) fn append_hook_event(
     let session = (line.kind == EventKind::SessionStart)
         .then(|| line.data["agent_session_id"].as_str())
         .flatten();
-    if let (Some(id), Some(snapshots)) = (session, slot.snapshots.get()) {
-        snapshots.update(|snapshot| snapshot.agent_session_id = Some(id.to_owned()))?;
+    if let (Some(id), Some(snapshots)) = (session, slot.snapshots.get())
+        && let Err(e) = snapshots.update(|snapshot| snapshot.agent_session_id = Some(id.to_owned()))
+    {
+        // The line is never appended, so no later settle comes: back to `Waiting`, where
+        // `confirm`'s deadline closes it.
+        if claimed {
+            slot.settle(None);
+        }
+        return Err(e);
     }
     let appended = feed.appending(&line, || append_event(instance_dir, &line));
     if claimed {
@@ -536,6 +543,50 @@ mod tests {
         let after = std::fs::read(tmp.path().join("snapshot.json")).expect("bytes");
         assert_eq!(after, written, "nothing written");
         assert_eq!(kinds(tmp.path()).len(), 5);
+    }
+
+    /// A claimed `session-start` whose snapshot write fails is never appended, so its settle never
+    /// comes from the append: the line goes back to waiting and the send closes at its window.
+    #[test]
+    fn send_a_claimed_session_start_whose_snapshot_write_fails_ends_unconfirmed() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let gone = tempfile::tempdir().expect("snapshot dir");
+        let opened = Instant::now();
+        let slot = SendSlot::new(
+            FixedClock(opened + Duration::from_secs(60)),
+            true,
+            Arc::default(),
+        );
+        let snapshots = Arc::new(Snapshots::new(gone.path().to_path_buf()));
+        snapshots.init(snapshot_of(gone.path())).expect("init");
+        slot.snapshots_with(Arc::clone(&snapshots));
+        gone.close().expect("snapshot dir removed");
+        slot.flight().send = Some(InFlight {
+            text: "/clear".to_owned(),
+            confirms: classify("/clear", true),
+            state: Match::Waiting,
+            echo: None,
+        });
+        let line = hook_line(
+            EventKind::SessionStart,
+            json!({"cause": "clear", "agent_session_id": "s-2"}),
+        );
+        assert!(append_hook_event(&slot, &feed(), tmp.path(), line, None).is_err());
+        assert!(events(tmp.path()).is_empty(), "no line written");
+        let (tx, rx) = std::sync::mpsc::channel();
+        let confirmed = std::thread::scope(|s| {
+            s.spawn(|| tx.send(slot.confirm(opened)).expect("receiver"));
+            let got = rx.recv_timeout(Duration::from_secs(2));
+            if got.is_err() {
+                slot.settle(None);
+            }
+            got
+        });
+        assert_eq!(confirmed, Ok(None), "the window closed the send");
+        assert!(matches!(
+            slot.flight().send.as_ref().map(|f| &f.state),
+            Some(Match::Closed)
+        ));
     }
 
     /// Without the snapshot handle the line is still appended.

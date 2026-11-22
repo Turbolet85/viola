@@ -1,0 +1,53 @@
+[
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "363241ce",
+"ts": "2026-11-22T19:04:07Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-22-epoch-4-cleanup",
+"--source",
+"~/dev/projects/additional/viola-overseer/implement-cleanup-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the overseer implement directive for Epoch 4 cleanup: no live start, no mutation run, hostwatch read before the three whole layers and pre-push, each survivor case shown to kill its mutant by hand, the operator pass on green",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-03-55Z-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy no-repo · ../additional/viola-overseer/implement-cleanup-directive.md",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-implement-cleanup-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/implement-cleanup-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "ccbd5b7c41c8cdb3ae54879ea37ee934a81860d0941796abf3e363cefb8c6ad8",
+"copy": "I4-implement-cleanup-directive.md.txt",
+"link": false,
+"read_at": "2026-11-22T19:04:06Z",
+"step": "implement",
+"why": "the overseer implement directive for Epoch 4 cleanup: no live start, no mutation run, hostwatch read before the three whole layers and pre-push, each survivor case shown to kill its mutant by hand, the operator pass on green"
+}
+}
+]

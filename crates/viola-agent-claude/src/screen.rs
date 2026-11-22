@@ -1086,6 +1086,16 @@ mod tests {
         assert_eq!(SIGNATURES.option_shaped(&row), expected);
     }
 
+    /// A numbering needs a digit before its dot: a dot-led row is no option, the same row with a
+    /// digit is one.
+    #[rstest]
+    #[case::dot_led(format!("  . {TRUST_LITERAL}"), false)]
+    #[case::dot_led_at_column_0(format!(".{TRUST_LITERAL}"), false)]
+    #[case::digit_then_dot(format!("  3. {TRUST_LITERAL}"), true)]
+    fn option_shaped_reads_a_dot_led_row_unnumbered(#[case] row: String, #[case] expected: bool) {
+        assert_eq!(SIGNATURES.option_shaped(&row), expected);
+    }
+
     /// The shaped forms the product knows: column 3 (the recorded trust row), the fake agent's
     /// selected form, column 4 (the rig's browser-tools frames), column 2 (the suite's synthetic
     /// browser-tools row) and a numbered form.

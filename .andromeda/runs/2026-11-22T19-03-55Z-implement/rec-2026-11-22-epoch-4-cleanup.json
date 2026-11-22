@@ -1,0 +1,225 @@
+[
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T19:04:20Z",
+"argv": [
+"files",
+"--root",
+".",
+"2026-11-22-epoch-4-cleanup",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-03-55Z-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"6 file(s) of 2026-11-22-epoch-4-cleanup · 0 written · ./.andromeda/cache/chunks/2026-11-22-epoch-4-cleanup"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T19:07:51Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/testing.md",
+"--root",
+".",
+"--file",
+"/tmp/claude-1000/~-dev-projects-viola/c55e582f-01ed-4ce1-9f44-4a11a7d8f4ea/scratchpad/testing.md",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-03-55Z-implement",
+"--marker",
+"2026-11-22-epoch-4-cleanup",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land .claude/rules/testing.md rev 54 · 2 node(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T19:07:56Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/testing.md",
+"--root",
+".",
+"--file",
+"/tmp/claude-1000/~-dev-projects-viola/c55e582f-01ed-4ce1-9f44-4a11a7d8f4ea/scratchpad/testing.md",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-03-55Z-implement",
+"--marker",
+"2026-11-22-epoch-4-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/testing.md rev 54 · 0 new · 1 revised · 0 retired · tx 4037"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T18-01-20-2026-11-22-epoch-4-cleanup.ndjson",
+"./.claude/rules/testing.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T19:13:11Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"scope-record",
+"--owner",
+"chk:2026-11-22-epoch-4-cleanup",
+"--file",
+".andromeda/cache/docs/2026-11-22-epoch-4-cleanup/scope-record.md",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-03-55Z-implement",
+"--marker",
+"2026-11-22-epoch-4-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-22-epoch-4-cleanup/scope-record rev 1 · 2 new · 0 revised · 0 retired · 0 kept · tx 4039"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T18-01-20-2026-11-22-epoch-4-cleanup.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T19:19:27Z",
+"argv": [
+"land",
+"--root",
+".",
+"--chunk",
+"2026-11-22-epoch-4-cleanup",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-03-55Z-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-22-epoch-4-cleanup · 2 new · 0 changed · 0 gone · 5 kept · tx 4040"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T18-01-20-2026-11-22-epoch-4-cleanup.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T19:23:14Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-22-epoch-4-cleanup",
+"--file",
+".andromeda/cache/docs/2026-11-22-epoch-4-cleanup/report.md",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-03-55Z-implement",
+"--marker",
+"2026-11-22-epoch-4-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-22-epoch-4-cleanup/report rev 1 · 66 new · 0 revised · 0 retired · 0 kept · tx 4043"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T18-01-20-2026-11-22-epoch-4-cleanup.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T19:23:30Z",
+"argv": [
+"land",
+"--root",
+".",
+"--chunk",
+"2026-11-22-epoch-4-cleanup",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-03-55Z-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"unchanged · 7 file(s) of 2026-11-22-epoch-4-cleanup"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T19:26:17Z",
+"argv": [
+"land",
+"--root",
+".",
+"--chunk",
+"2026-11-22-epoch-4-cleanup",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-03-55Z-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-22-epoch-4-cleanup · 1 new · 0 changed · 0 gone · 7 kept · tx 4045"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T18-01-20-2026-11-22-epoch-4-cleanup.ndjson"
+],
+"before": null,
+"after": null
+}
+]

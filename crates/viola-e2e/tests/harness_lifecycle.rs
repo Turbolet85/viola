@@ -320,14 +320,18 @@ fn boot_without_the_fake_agent_binary_is_build_failed() {
 #[test]
 fn boot_that_never_gets_ready_times_out_and_stops_its_supervisor() {
     let session = session_id("stuck");
-    let fake_bins = tempfile::tempdir().expect("tempdir");
     let real = bins();
+    // Beside the build directory, on its filesystem: a hard link cannot cross into a tmpfs.
+    let fake_bins = tempfile::Builder::new()
+        .prefix("boot-stuck-")
+        .tempdir_in(real.parent().expect("build dir parent"))
+        .expect("tempdir");
     for (from, to) in [
         ("viola-harness", "viola-harness"),
         ("viola-fake-agent", "viola-fake-agent"),
         ("viola-fake-agent", "viola"),
     ] {
-        std::fs::copy(exe(&real, from), exe(fake_bins.path(), to)).expect("copy");
+        std::fs::hard_link(exe(&real, from), exe(fake_bins.path(), to)).expect("hard link");
     }
     let opts = BootOptions {
         stamp: false,

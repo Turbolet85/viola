@@ -1169,6 +1169,15 @@ fn attempted_reads_the_entry_by_its_relied_ids(
     }
 }
 
+/// A `v: 1` envelope is not enough: its `data` must be of the documented shape too.
+#[rstest]
+#[case::data_not_an_object(json!({"v": 1, "data": 5}))]
+#[case::versions_not_an_object(json!({"v": 1, "data": {"versions": []}}))]
+fn attempted_refuses_a_v1_document_of_a_failing_shape(#[case] doc: Value) {
+    let bytes = serde_json::to_vec(&doc).expect("bytes");
+    assert_eq!(attempted(&bytes, "2.1.0"), Err(AgentError::StampsMalformed));
+}
+
 /// The block the identity row adds to `measured`: names and counts only.
 #[test]
 fn merge_stamp_writes_the_env_block() {

@@ -1,0 +1,244 @@
+[
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "363241ce",
+"ts": "2026-11-22T18:01:27Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-22-epoch-4-cleanup",
+"--source",
+"~/dev/projects/additional/viola-overseer/phase-cleanup-directive.md",
+"--kind",
+"relay",
+"--why",
+"the overseer phase directive for Epoch 4 cleanup: measurements first at P3, one founder-forks block at P3 end, no live start, no mutation run, its measured facts of 2026-11-22T18:00Z",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-11-22T18-00-22Z-phase",
+"--marker",
+"2026-11-22-epoch-4-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy no-repo · ../additional/viola-overseer/phase-cleanup-directive.md",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-phase-cleanup-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/phase-cleanup-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "4efbfbb8e8030e7bb5729333c836dfeec9f69f68c21ca0279598d0f9165be0ed",
+"copy": "I1-phase-cleanup-directive.md.txt",
+"link": false,
+"read_at": "2026-11-22T18:01:24Z",
+"step": "phase:P1",
+"why": "the overseer phase directive for Epoch 4 cleanup: measurements first at P3, one founder-forks block at P3 end, no live start, no mutation run, its measured facts of 2026-11-22T18:00Z"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "363241ce",
+"ts": "2026-11-22T18:55:44Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-22-epoch-4-cleanup",
+"--run-dir",
+".andromeda/runs/2026-11-22T18-00-22Z-phase",
+"--marker",
+"2026-11-22-epoch-4-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-cleanup-directive.md",
+"I1 cited scope.md:94 · scope.md:108 · research.md:5 · research.md:7 · plan.md:8 · plan.md:26 · plan.md:131 · plan.md:240 (in fence) · plan.md:360",
+"inputs: 1 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 1,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "363241ce",
+"ts": "2026-11-22T18:57:49Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-22-epoch-4-cleanup",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-cleanup-p5.md",
+"--kind",
+"relay",
+"--why",
+"the overseer review of card 1: five technical points folded at P4 (item 4 worded as unmended and kept a carry; a no-claude IO-throttle feasibility probe; the reasons of seven provisional rows; the two equivalents argued; card 2)",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-11-22T18-00-22Z-phase",
+"--marker",
+"2026-11-22-epoch-4-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy no-repo · ../additional/viola-overseer/relay-cleanup-p5.md",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-cleanup-p5.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-cleanup-p5.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "95a5769c3591a4a3db1054cbb95430c0fbfe5283aeee4f46959685a4eb7ab027",
+"copy": "I2-relay-cleanup-p5.md.txt",
+"link": false,
+"read_at": "2026-11-22T18:57:48Z",
+"step": "phase:P4",
+"why": "the overseer review of card 1: five technical points folded at P4 (item 4 worded as unmended and kept a carry; a no-claude IO-throttle feasibility probe; the reasons of seven provisional rows; the two equivalents argued; card 2)"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "363241ce",
+"ts": "2026-11-22T19:01:42Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-22-epoch-4-cleanup",
+"--run-dir",
+".andromeda/runs/2026-11-22T18-00-22Z-phase",
+"--marker",
+"2026-11-22-epoch-4-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-cleanup-directive.md",
+"I1 cited scope.md:99 · scope.md:113 · research.md:5 · research.md:7 · plan.md:8 · plan.md:28 · plan.md:134 · plan.md:243 (in fence) · plan.md:365",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-cleanup-p5.md",
+"I2 cited scope.md:33 · research.md:54 · research.md:83 · plan.md:19 · plan.md:373 · plan.md:399",
+"inputs: 2 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "363241ce",
+"ts": "2026-11-22T19:03:03Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-22-epoch-4-cleanup",
+"--message-file",
+".andromeda/runs/2026-11-22T18-00-22Z-phase/relay-1.md",
+"--origin",
+"the operator, in the phase session, 2026-11-22T19:02:56Z",
+"--kind",
+"relay",
+"--why",
+"the operator own word yes on .andromeda/runs/2026-11-22T18-00-22Z-phase/p5-card-2.md, approving the plan rev 4 and its Beyond the plan rows 1-7",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-11-22T18-00-22Z-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy message · message: the operator, in the phase session, 2026-11-22T19:02:56Z",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, in the phase session, 2026-11-22T19:02:56Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "14f510d35a7461b7a9c608fbef0dfba5ef7917dedf1f4ee9e1c1137684ec8e63",
+"copy": "I3-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-22T19:03:03Z",
+"step": "phase:P5",
+"why": "the operator own word yes on .andromeda/runs/2026-11-22T18-00-22Z-phase/p5-card-2.md, approving the plan rev 4 and its Beyond the plan rows 1-7"
+}
+}
+]

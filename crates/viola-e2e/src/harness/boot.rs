@@ -24,7 +24,10 @@ use super::{
 pub const DEFAULT_CLI_VERSION: &str = "2.1.328";
 /// Each instance's readiness deadline after the build, unless a boot's options carry another.
 pub const INSTANCE_DEADLINE: Duration = Duration::from_secs(20);
-const ABORT_DEADLINE: Duration = Duration::from_secs(20);
+/// How long a failed boot waits for its supervisor to go. Strictly below the 20 s `ci` kill of
+/// `binary(harness_lifecycle)` with the 2 s readiness deadline its stuck-boot test gives (17 s at
+/// worst), so the test's own failure is read before the runner's kill.
+const ABORT_DEADLINE: Duration = Duration::from_secs(15);
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct InstanceSpec {

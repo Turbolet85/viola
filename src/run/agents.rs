@@ -1,19 +1,23 @@
 //! The one `claude agents --json` read `viola list`, `viola revive` and `viola verify` make
 //! (architecture §Standard Contracts → Session liveness): the program resolved by `run`'s rule,
 //! spawned directly under the R8 strip with stdin null, its stdout read through one byte past the
-//! frame cap, killed and reaped at the version probe's bound. A failed read is never an error: the
+//! frame cap, killed and reaped at [`AGENTS_READ_DEADLINE`]. A failed read is never an error: the
 //! callers carry on without it.
 
 use std::ffi::{OsStr, OsString};
 use std::path::Path;
-use std::time::Instant;
+use std::time::{Duration, Instant};
 
 use viola_agent_claude::agents::{self, AgentsFailure, AgentsList};
 use viola_agent_claude::{PROGRAM, StripPlan};
 use viola_core::obs::ObsEvent;
 use viola_core::{MAX_FRAME, obs_event};
 
-use super::version_gate::{VERSION_DEADLINE, run_capped};
+use super::version_gate::run_capped;
+
+/// The agents read's own kill bound. Its value is the version probe's, kept: it was not measured
+/// against the real CLI's agents read.
+pub(crate) const AGENTS_READ_DEADLINE: Duration = Duration::from_secs(5);
 
 /// Why a read gave no rows: the output was over the frame cap, was not one JSON array, or never
 /// came (the program not found or refused, a failed spawn, the deadline, a non-zero exit).
@@ -50,7 +54,7 @@ pub(crate) fn read_logged(
         &args,
         cwd,
         strip,
-        VERSION_DEADLINE,
+        AGENTS_READ_DEADLINE,
         stopped,
         MAX_FRAME + 1,
     );
@@ -155,6 +159,30 @@ mod tests {
         let got = read_logged(&exe, &cwd, &StripPlan::default(), || true);
         assert_eq!(got.list, Err(ReadFailure::Unreadable));
         assert!(got.stopped);
+    }
+
+    #[test]
+    fn agents_read_deadline_is_five_seconds() {
+        assert_eq!(AGENTS_READ_DEADLINE, Duration::from_secs(5));
+    }
+
+    /// A program still running at the bound is killed there: an unread list, not a stop.
+    #[cfg(unix)]
+    #[test]
+    fn read_logged_kills_a_program_that_outlives_its_bound() {
+        use std::os::unix::fs::PermissionsExt;
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let script = tmp.path().join("slow-agents");
+        std::fs::write(&script, "#!/bin/sh\nexec /bin/sleep 30\n").expect("script written");
+        std::fs::set_permissions(&script, std::fs::Permissions::from_mode(0o700))
+            .expect("script mode");
+        let started = Instant::now();
+        let got = read_logged(&script, tmp.path(), &StripPlan::default(), || false);
+        let took = started.elapsed();
+        assert_eq!(got.list, Err(ReadFailure::Unreadable));
+        assert!(!got.stopped);
+        assert!(took >= Duration::from_secs(5), "killed early: {took:?}");
+        assert!(took < Duration::from_secs(8), "killed late: {took:?}");
     }
 
     /// `sh` given `agents` opens no such script and exits non-zero: a failed read, never a parse.

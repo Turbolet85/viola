@@ -1,0 +1,148 @@
+[[control]]
+id = "claimed-settle"
+entry = 6
+guard = "step 1's settle of a claimed line on the failed snapshot update"
+case = "send_a_claimed_session_start_whose_snapshot_write_fails_ends_unconfirmed"
+[[control.edit]]
+path = "src/run/send/slot.rs"
+old = '''
+        if claimed {
+            slot.settle(None);
+        }
+        return Err(e);
+'''
+new = '''
+        return Err(e);
+'''
+
+[[control]]
+id = "agents-bound"
+entry = 6
+guard = "the agents read's bound: the constant raised to 60 s"
+case = "read_logged_kills_a_program_that_outlives_its_bound"
+[[control.edit]]
+path = "src/run/agents.rs"
+old = 'pub(crate) const AGENTS_READ_DEADLINE: Duration = Duration::from_secs(5);'
+new = 'pub(crate) const AGENTS_READ_DEADLINE: Duration = Duration::from_secs(60);'
+
+[[control]]
+id = "env-user"
+entry = 7
+guard = "env_names_fault's body made None (the -> None mutant)"
+case = "env_names_fault_reads_the_user_word_as_a_name_part"
+[[control.edit]]
+path = "crates/viola-agent-claude/src/ledger.rs"
+old = '''
+pub fn env_names_fault(value: &Value, user: &str) -> Option<Unclean> {
+    if user.is_empty() || user == "<user>" {
+'''
+new = '''
+pub fn env_names_fault(value: &Value, user: &str) -> Option<Unclean> {
+    let _ = (value, user);
+    return None;
+    if user.is_empty() || user == "<user>" {
+'''
+
+[[control]]
+id = "env-ne"
+entry = 7
+guard = "env_names_fault's placeholder test == swapped for != (the == -> != mutant)"
+case = "env_names_fault_reads_the_user_word_as_a_name_part"
+[[control.edit]]
+path = "crates/viola-agent-claude/src/ledger.rs"
+old = '''
+pub fn env_names_fault(value: &Value, user: &str) -> Option<Unclean> {
+    if user.is_empty() || user == "<user>" {
+'''
+new = '''
+pub fn env_names_fault(value: &Value, user: &str) -> Option<Unclean> {
+    if user.is_empty() || user != "<user>" {
+'''
+
+[[control]]
+id = "env-empty"
+entry = 7
+guard = "env_names_fault's guard || swapped for && (the || -> && mutant)"
+case = "env_names_fault_with_no_user_word_reads_nothing"
+[[control.edit]]
+path = "crates/viola-agent-claude/src/ledger.rs"
+old = '''
+pub fn env_names_fault(value: &Value, user: &str) -> Option<Unclean> {
+    if user.is_empty() || user == "<user>" {
+'''
+new = '''
+pub fn env_names_fault(value: &Value, user: &str) -> Option<Unclean> {
+    if user.is_empty() && user == "<user>" {
+'''
+
+[[control]]
+id = "stamp-shape"
+entry = 7
+guard = "attempted's shape check && swapped for ||"
+case = "attempted_refuses_a_v1_document_of_a_failing_shape"
+[[control.edit]]
+path = "crates/viola-agent-claude/src/ledger.rs"
+old = '''
+pub fn attempted(stamps: &[u8], version: &str) -> Result<bool, AgentError> {
+    let doc: Value = serde_json::from_slice(stamps).map_err(|_| AgentError::StampsMalformed)?;
+    let shaped = doc
+        .as_object()
+        .is_some_and(|d| d.get("v").and_then(Value::as_u64) == Some(1) && stamp_shape_ok(d));
+'''
+new = '''
+pub fn attempted(stamps: &[u8], version: &str) -> Result<bool, AgentError> {
+    let doc: Value = serde_json::from_slice(stamps).map_err(|_| AgentError::StampsMalformed)?;
+    let shaped = doc
+        .as_object()
+        .is_some_and(|d| d.get("v").and_then(Value::as_u64) == Some(1) || stamp_shape_ok(d));
+'''
+
+[[control]]
+id = "dot-led"
+entry = 7
+guard = "option_shaped's numbering test < swapped for <="
+case = "option_shaped_reads_a_dot_led_row_unnumbered"
+[[control.edit]]
+path = "crates/viola-agent-claude/src/screen.rs"
+old = 'let numbered = (digitless.len() < selected.len())'
+new = 'let numbered = (digitless.len() <= selected.len())'
+
+[[control]]
+id = "enqueue-wait"
+entry = 8
+guard = "enqueue's deadline test >= swapped for <"
+case = "enqueue_waits_for_room_until_its_deadline"
+[[control.edit]]
+path = "crates/viola-pty/src/pump.rs"
+old = '''
+                if Instant::now() >= deadline {
+                    return Err(PtyError::PasteCut);
+                }
+                job = back;
+'''
+new = '''
+                if Instant::now() < deadline {
+                    return Err(PtyError::PasteCut);
+                }
+                job = back;
+'''
+
+[[control]]
+id = "writer-wait"
+entry = 8
+guard = "end_writer's bounded wait: the ! deleted"
+case = "end_writer_returns_within_its_wait_for_a_writer_that_never_ends"
+[[control.edit]]
+path = "crates/viola-pty/src/pump.rs"
+old = 'while !writing.is_finished() {'
+new = 'while writing.is_finished() {'
+
+[[control]]
+id = "exit-drain"
+entry = 8
+guard = "pump_open's exit drain: the ! deleted"
+case = "pump_drains_the_output_after_an_exit"
+[[control.edit]]
+path = "crates/viola-pty/src/pump.rs"
+old = 'if !output_done {'
+new = 'if output_done {'

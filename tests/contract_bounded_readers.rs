@@ -188,7 +188,7 @@ const BOUNDARIES: &[Boundary] = &[
     Boundary {
         boundary: "claude agents --json output",
         file: "src/run/agents.rs",
-        needle: "VERSION_DEADLINE,\n        stopped,\n        MAX_FRAME + 1,",
+        needle: "AGENTS_READ_DEADLINE,\n        stopped,\n        MAX_FRAME + 1,",
         cap: "MAX_FRAME + 1",
         depth: DEFAULT_DEPTH,
         types: "rows or the closed AgentsFailure",

@@ -127,7 +127,7 @@ const MUTANTS_FLOOR_SECS: u64 = 20;
 
 const MUTANTS_OVERRIDES: &str = "[profile.mutants.overrides]";
 const E2E_FILTER: &str = "filter = 'package(viola-e2e)'";
-const VERIFY_WINDOW_FILTER: &str = "filter = 'test(/verify_window_/)'";
+const VERIFY_WINDOW_FILTER: &str = "filter = 'test(/verify_window_/) | test(/fake_agent_(dialog|framing)_replay_matches_every_recorded_/)'";
 const PASTE_HINT_FILTER: &str = "filter = 'test(/send_under_the_paste_hint_/)'";
 
 /// `period` × `terminate-after` of a table's
@@ -293,9 +293,8 @@ fn mutants_verify_window_override_stands_before_the_harness_package_override() {
         "{overrides:?}"
     );
 
-    let swapped =
-        "[[o]]\nfilter = 'package(viola-e2e)'\n[[o]]\nfilter = 'test(/verify_window_/)'\n";
-    let swapped = tables(swapped, "[o]");
+    let swapped = format!("[[o]]\n{E2E_FILTER}\n[[o]]\n{VERIFY_WINDOW_FILTER}\n");
+    let swapped = tables(&swapped, "[o]");
     assert_eq!(override_at(&swapped, E2E_FILTER), Some(0));
     assert_eq!(override_at(&swapped, VERIFY_WINDOW_FILTER), Some(1));
     assert_eq!(override_at(&swapped, "filter = 'none'"), None);

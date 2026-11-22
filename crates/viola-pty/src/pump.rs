@@ -706,6 +706,153 @@ mod tests {
         assert_eq!(out.lock().expect("lock").as_slice(), b"screen bytes");
     }
 
+    /// The child's output held until the pump has seen the exit, then released when the writer
+    /// is dropped or after a hold well inside `DRAIN_WITHIN`, whichever comes first: a pump that
+    /// returns without draining drops the writer first.
+    struct HeldOutput {
+        exited: Receiver<()>,
+        writer_dropped: Receiver<()>,
+        sent: bool,
+    }
+
+    impl Read for HeldOutput {
+        fn read(&mut self, buf: &mut [u8]) -> io::Result<usize> {
+            if self.sent {
+                return Ok(0);
+            }
+            let _ = self.exited.recv_timeout(Duration::from_secs(2));
+            let _ = self.writer_dropped.recv_timeout(DRAIN_WITHIN / 5);
+            self.sent = true;
+            let bytes = b"last bytes";
+            buf[..bytes.len()].copy_from_slice(bytes);
+            Ok(bytes.len())
+        }
+    }
+
+    struct SignalsDrop(Arc<AtomicBool>, Sender<()>);
+
+    impl Write for SignalsDrop {
+        fn write(&mut self, b: &[u8]) -> io::Result<usize> {
+            Ok(b.len())
+        }
+        fn flush(&mut self) -> io::Result<()> {
+            Ok(())
+        }
+    }
+
+    impl Drop for SignalsDrop {
+        fn drop(&mut self) {
+            self.0.store(true, Ordering::SeqCst);
+            let _ = self.1.send(());
+        }
+    }
+
+    /// Records each write and whether the child's input writer was already gone at it.
+    struct Recorded {
+        out: Arc<Mutex<Vec<u8>>>,
+        writer_gone: Arc<AtomicBool>,
+        late: Arc<AtomicBool>,
+    }
+
+    impl Write for Recorded {
+        fn write(&mut self, b: &[u8]) -> io::Result<usize> {
+            if self.writer_gone.load(Ordering::SeqCst) {
+                self.late.store(true, Ordering::SeqCst);
+            }
+            self.out.lock().expect("lock").extend_from_slice(b);
+            Ok(b.len())
+        }
+        fn flush(&mut self) -> io::Result<()> {
+            Ok(())
+        }
+    }
+
+    #[test]
+    fn pump_drains_the_output_after_an_exit() {
+        let (exit_tx, exited) = mpsc::channel();
+        let (drop_tx, writer_dropped) = mpsc::channel();
+        let writer_gone = Arc::new(AtomicBool::new(false));
+        let mut pty = MockPty::new();
+        pty.expect_reader().times(1).return_once(move || {
+            Ok(Box::new(HeldOutput {
+                exited,
+                writer_dropped,
+                sent: false,
+            }))
+        });
+        let gone = Arc::clone(&writer_gone);
+        pty.expect_writer()
+            .times(1)
+            .return_once(move || Ok(Box::new(SignalsDrop(gone, drop_tx))));
+        pty.expect_try_wait().returning(move || {
+            let _ = exit_tx.send(());
+            Ok(Some(0))
+        });
+        pty.expect_close().return_const(());
+        let out = Arc::new(Mutex::new(Vec::new()));
+        let late = Arc::new(AtomicBool::new(false));
+        let sink = Recorded {
+            out: Arc::clone(&out),
+            writer_gone,
+            late: Arc::clone(&late),
+        };
+        pump(
+            &mut pty,
+            Box::new(io::empty()),
+            Box::new(sink),
+            Size::DEFAULT,
+            &mut no_size,
+        )
+        .expect("pump");
+        assert_eq!(out.lock().expect("lock").as_slice(), b"last bytes");
+        assert!(
+            !late.load(Ordering::SeqCst),
+            "the output reached the sink after the pump let go of the child"
+        );
+    }
+
+    /// A full queue is waited on until the deadline: room made before it takes the job.
+    #[test]
+    fn enqueue_waits_for_room_until_its_deadline() {
+        let (jobs, queued) = mpsc::sync_channel(1);
+        jobs.try_send(Job::Human(b"first".to_vec()))
+            .expect("queue filled");
+        let (_hold, held) = mpsc::channel::<()>();
+        let freeing = std::thread::spawn(move || {
+            let _ = held.recv_timeout(Duration::from_millis(100));
+            let first = queued.recv_timeout(Duration::from_secs(2)).is_ok();
+            let next = queued.recv_timeout(Duration::from_secs(2));
+            (first, matches!(next, Ok(Job::Human(b)) if b == b"next"))
+        });
+        let got = enqueue(
+            &jobs,
+            Job::Human(b"next".to_vec()),
+            Instant::now() + Duration::from_secs(1),
+        );
+        let (first, next) = freeing.join().expect("freeing thread");
+        assert!(got.is_ok(), "cut before its deadline");
+        assert!(first);
+        assert!(next, "the job arrived");
+    }
+
+    /// A writer that never ends is left detached once the wait runs out.
+    #[test]
+    fn end_writer_returns_within_its_wait_for_a_writer_that_never_ends() {
+        let (release, released) = mpsc::channel::<()>();
+        let writing = std::thread::spawn(move || {
+            let _ = released.recv();
+        });
+        let (ended_tx, ended) = mpsc::channel();
+        let helper = std::thread::spawn(move || {
+            end_writer(&PasteHandle::default(), &AtomicBool::new(false), writing);
+            let _ = ended_tx.send(());
+        });
+        let returned = ended.recv_timeout(KILL_WAIT + Duration::from_secs(1));
+        release.send(()).expect("writer released");
+        helper.join().expect("helper thread");
+        assert!(returned.is_ok(), "end_writer waited past KILL_WAIT");
+    }
+
     struct DropFlag(Arc<AtomicBool>);
 
     impl Write for DropFlag {

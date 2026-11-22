@@ -314,6 +314,30 @@ fn signature_rows_keep_a_box_row_as_its_literal_alone() {
     );
 }
 
+#[rstest]
+#[case::middle_part("CLAUDE_PLANTUSER_X")]
+#[case::case_folded("CLAUDE_X_PlantUser")]
+fn env_names_fault_reads_the_user_word_as_a_name_part(#[case] name: &str) {
+    let doc = json!({"v": 1, "added": ["CLAUDE_PID", name]});
+    assert_eq!(env_names_fault(&doc, "plantuser"), Some(Unclean::Username));
+}
+
+#[test]
+fn env_names_fault_reads_a_user_word_inside_a_part_as_no_name_part() {
+    let doc = json!({"v": 1, "added": ["CLAUDE_PLANTUSERS_X"]});
+    assert_eq!(env_names_fault(&doc, "plantuser"), None);
+}
+
+/// With no user word, or the scrub's placeholder, nothing is a finding: an empty part and a
+/// `<user>` part alike.
+#[rstest]
+#[case::empty_user("")]
+#[case::placeholder("<user>")]
+fn env_names_fault_with_no_user_word_reads_nothing(#[case] user: &str) {
+    let doc = json!({"v": 1, "added": ["CLAUDE__X", "CLAUDE_<USER>_X"]});
+    assert_eq!(env_names_fault(&doc, user), None);
+}
+
 #[test]
 fn screen_fault_reads_a_recorded_box_row_with_no_finding() {
     let live = vec![

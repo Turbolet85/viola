@@ -36,3 +36,6 @@
 - **Disk:** read `df -h /home` and `target/` before a full rebuild.
 - **Host:** another project (escher) runs a mutation tier on this host — read `hostwatch.py read --from/--to` over a
   gate's own window before reading any stall red. python `yaml` absent; PATH's claude 2.1.330, 2.1.328 by path.
+
+## Session End Status
+Completed normally at 2026-11-22 20:03:42

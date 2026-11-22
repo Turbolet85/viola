@@ -7,6 +7,8 @@ paths:
   - "fuzz/**"
   - "**/proptest-regressions/**"
   - ".config/nextest.toml"
+  - "src/**/test_*.rs"
+  - "crates/*/src/**/test_*.rs"
 ---
 
 # Testing Rules

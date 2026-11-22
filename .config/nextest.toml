@@ -18,8 +18,10 @@ path = "junit.xml"
 # 2026-11-17-trust-record-ledger-row, against the 42.9-43.7 s the 60 s kill was sized for; the
 # growth is Run F's 8.5 s settle, a floor by design (testing.md 2026-10-05), moved with a
 # planted-hang pair recorded in chunk 2026-11-18-trust-record-row-read-live's evidence.
+# The two drift replay tests are of the class by what they run, a whole `viola verify` per recorded
+# set (`tests/support/verify.rs`'s class note), so they are taken by name beside its prefix.
 [[profile.ci.overrides]]
-filter = 'test(/verify_window_/)'
+filter = 'test(/verify_window_/) | test(/fake_agent_(dialog|framing)_replay_matches_every_recorded_/)'
 slow-timeout = { period = "20s", terminate-after = 4 }
 
 # Every binary that drives verify, directly or through the stamped-home fixture (its longest other
@@ -51,8 +53,10 @@ slow-timeout = { period = "5s", terminate-after = 3 }
 # Run F's settle, so it takes the class's `ci` kill, 80 s (the 60 s kill left it under 8 s).
 # It stands first because the first matching override wins: a harness test of the class also
 # matches `package(viola-e2e)` below, and would otherwise take that 30 s kill, under its own wait.
+# The two drift replay tests each run a whole `viola verify` per recorded set, the class's own work,
+# so they are taken by name beside its prefix rather than under the 15 s default.
 [[profile.mutants.overrides]]
-filter = 'test(/verify_window_/)'
+filter = 'test(/verify_window_/) | test(/fake_agent_(dialog|framing)_replay_matches_every_recorded_/)'
 slow-timeout = { period = "20s", terminate-after = 4 }
 
 # The harness's own tests wait out its 20 s boot deadline by design. When a diff touches the harness,
