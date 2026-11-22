@@ -1,0 +1,15 @@
+[[pattern]]
+id = 'pcprov'
+regex = '''wording is provisional|provisional wording'''
+
+[[pattern]]
+id = 'permreq'
+regex = '''PermissionRequest[^.;]{0,160}(AskUserQuestion|`question`)'''
+
+[[pattern]]
+id = 'vwin2'
+regex = '''verify_window_'''
+
+[[pattern]]
+id = 'sigtrust'
+regex = '''SIGKILL[^.;]{0,160}(trust record|folders)'''

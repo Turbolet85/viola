@@ -1,0 +1,2 @@
+@none
+reason: The report leaves every security-plan row true: the claude agents read keeps its 5 s kill bound under its own named constant (fct-ybqmyx4p, fct-wfpy6ugd), so decision/claude-agents-read-fail-open's «killed at 5 s» stands and a constant's name is no cell's matter; no new external input (fct-r56yemn7), no dependency (fct-x4yxvrk3), no auth or secret change; the pump and screen changes are tests only, and the boot test's own tempdir stays within test-side removal of its own dirs (fct-ybqmyx4p); the task brings no fact.

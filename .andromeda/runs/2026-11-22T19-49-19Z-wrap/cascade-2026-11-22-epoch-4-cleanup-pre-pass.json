@@ -1,0 +1,219 @@
+[
+{
+"tool": "cascade",
+"v": "1.37",
+"sha8": "76d971b8",
+"ts": "2026-11-22T19:50:45Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/report-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--marker",
+"2026-11-22-epoch-4-cleanup"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [
+"baseline b29f9caf (pre-pass — HEAD)",
+"abort · control UNFIRED over the seven masters (bodies and sets) at b29f9caf"
+],
+"stderr": "control: abort never fired over the seven masters' pre-pass text, bodies and sets (b29f9caf) — no master holds them: re-fire with --pattern vwin --pattern agents --pattern confirm --pattern advisory --pattern sigkill --pattern survivor; this refusal, the trail's record, is the basis of each named pattern's master zero",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "cascade",
+"v": "1.37",
+"sha8": "76d971b8",
+"ts": "2026-11-22T19:51:03Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/report-patterns.toml",
+"--pattern",
+"vwin",
+"--pattern",
+"agents",
+"--pattern",
+"confirm",
+"--pattern",
+"advisory",
+"--pattern",
+"sigkill",
+"--pattern",
+"survivor",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--marker",
+"2026-11-22-epoch-4-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline b29f9caf (pre-pass — HEAD)",
+"architecture · 8 rows over 1 files · new 0 · standing 8 · 3 patterns",
+"security-plan · 8 rows over 1 files · new 0 · standing 8 · 4 patterns",
+"design-system · 3 rows over 1 files · new 0 · standing 3 · 1 pattern",
+"layout-templates · 1 rows over 1 files · new 0 · standing 1 · 1 pattern",
+"test-plan · 7 rows over 1 files · new 0 · standing 7 · 3 patterns",
+"obs-plan · 10 rows over 1 files · new 0 · standing 10 · 3 patterns",
+"a11y-plan · 3 rows over 1 files · new 0 · standing 3 · 1 pattern",
+"by line · 0 lines · 0 offsets",
+"total (6 patterns) · 81 rows over 24 files",
+"per class · new 0/0 · standing 40/7 · leaf 36/14 · curation 5/4 · base 0/0",
+"rows 1/1 · .andromeda/runs/2026-11-22T19-49-19Z-wrap/sweep-pre-pass-1.1.txt · 96 lines · 11302 B"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/sweep-pre-pass-1.1.txt"
+],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "b29f9cafc4055ced75de458dfc07c8c2e818074e",
+"how": "pre-pass — HEAD",
+"counts": {
+"vwin": {
+"new": 0,
+"standing": 2,
+"leaf": 1,
+"curation": 1,
+"base": 0
+},
+"agents": {
+"new": 0,
+"standing": 15,
+"leaf": 5,
+"curation": 0,
+"base": 0
+},
+"confirm": {
+"new": 0,
+"standing": 12,
+"leaf": 6,
+"curation": 0,
+"base": 0
+},
+"advisory": {
+"new": 0,
+"standing": 2,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"sigkill": {
+"new": 0,
+"standing": 4,
+"leaf": 3,
+"curation": 0,
+"base": 0
+},
+"survivor": {
+"new": 0,
+"standing": 5,
+"leaf": 20,
+"curation": 4,
+"base": 0
+}
+},
+"bare": [],
+"masters": {
+"architecture": {
+"rows": 8,
+"files": 1,
+"new": 0,
+"standing": 8,
+"patterns": 3
+},
+"security-plan": {
+"rows": 8,
+"files": 1,
+"new": 0,
+"standing": 8,
+"patterns": 4
+},
+"design-system": {
+"rows": 3,
+"files": 1,
+"new": 0,
+"standing": 3,
+"patterns": 1
+},
+"layout-templates": {
+"rows": 1,
+"files": 1,
+"new": 0,
+"standing": 1,
+"patterns": 1
+},
+"test-plan": {
+"rows": 7,
+"files": 1,
+"new": 0,
+"standing": 7,
+"patterns": 3
+},
+"obs-plan": {
+"rows": 10,
+"files": 1,
+"new": 0,
+"standing": 10,
+"patterns": 3
+},
+"a11y-plan": {
+"rows": 3,
+"files": 1,
+"new": 0,
+"standing": 3,
+"patterns": 1
+}
+},
+"per_master": {
+"vwin": {
+"architecture": 1,
+"test-plan": 1
+},
+"agents": {
+"architecture": 3,
+"security-plan": 2,
+"design-system": 3,
+"layout-templates": 1,
+"test-plan": 1,
+"obs-plan": 2,
+"a11y-plan": 3
+},
+"confirm": {
+"architecture": 4,
+"security-plan": 1,
+"obs-plan": 7
+},
+"advisory": {
+"security-plan": 1,
+"obs-plan": 1
+},
+"sigkill": {
+"security-plan": 4
+},
+"survivor": {
+"test-plan": 5
+}
+},
+"forms": {
+"agents": [
+{
+"form": "killed at five s",
+"from": "5"
+}
+]
+},
+"parts": [
+"sweep-pre-pass-1.1.txt"
+]
+}
+}
+]

@@ -1,0 +1,1270 @@
+[
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T19:52:36Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-22-epoch-4-cleanup",
+"--section-file",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/after-implement.md",
+"--heading",
+"## After implement",
+"--before",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--marker",
+"2026-11-22-epoch-4-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-22-epoch-4-cleanup/report rev 2 · 10 new · 0 revised · 0 retired · 66 kept · tx 4048"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T18-01-20-2026-11-22-epoch-4-cleanup.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T19:52:43Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-22-epoch-4-cleanup",
+"--section-file",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/new-text.md",
+"--heading",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--marker",
+"2026-11-22-epoch-4-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-22-epoch-4-cleanup/report rev 3 · 16 new · 0 revised · 0 retired · 76 kept · tx 4049"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T18-01-20-2026-11-22-epoch-4-cleanup.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T19:53:15Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/cites-land-2026-11-22-epoch-4-cleanup.ndjson",
+"--base",
+"15a566e8cdd012854dd93149fc2a425adc7bf9bc",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--marker",
+"2026-11-22-epoch-4-cleanup",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 0 fact(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T19:53:23Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/cites-land-2026-11-22-epoch-4-cleanup.ndjson",
+"--base",
+"15a566e8cdd012854dd93149fc2a425adc7bf9bc",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--marker",
+"2026-11-22-epoch-4-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 0 fact(s) · 0 edge(s) · tx 4052"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T18-01-20-2026-11-22-epoch-4-cleanup.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T19:55:19Z",
+"argv": [
+"rows-packs",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-22-epoch-4-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 983 · packs 10 · pack 100 · 282466 B",
+"security-plan: rows 633 · packs 7 · pack 100 · 194771 B",
+"design-system: rows 326 · packs 4 · pack 100 · 79714 B",
+"layout-templates: rows 225 · packs 3 · pack 100 · 54282 B",
+"test-plan: rows 1371 · packs 14 · pack 100 · 374009 B",
+"obs-plan: rows 1037 · packs 11 · pack 100 · 286837 B",
+"a11y-plan: rows 237 · packs 3 · pack 100 · 68129 B",
+"rows-packs: 7 master(s) · 4812 row(s) · 52 pack(s) · 2 draw(s) a pack · pin 4052"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/rows-packs.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T20:09:06Z",
+"argv": [
+"rows-union",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-22-epoch-4-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 983 · packs 10 · picked 25 (12 by every draw) · standing 0 · 170350 B · Established Decisions: by boundary, the rest under `also here:`",
+"security-plan: rows 633 · packs 7 · picked 5 (2 by every draw) · standing 0 · 60478 B",
+"design-system: rows 326 · packs 4 · picked 5 (1 by every draw) · standing 0 · 67305 B",
+"layout-templates: rows 225 · packs 3 · picked 1 (0 by every draw) · standing 0 · 48207 B",
+"test-plan: rows 1371 · packs 14 · picked 51 (31 by every draw) · standing 0 · 295346 B",
+"obs-plan: rows 1037 · packs 11 · picked 15 (10 by every draw) · standing 0 · 166317 B",
+"a11y-plan: rows 237 · packs 3 · picked 16 (0 by every draw) · standing 0 · 50377 B",
+"rows-union: 7 master(s) · picked 118 of 4812 · rule any"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/arch-rows.md",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/arch-standing.md",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/arch-pick-counts.md",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/security-rows.md",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/security-standing.md",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/security-pick-counts.md",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/design-rows.md",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/design-standing.md",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/design-pick-counts.md",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/layouts-rows.md",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/layouts-standing.md",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/layouts-pick-counts.md",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/tests-rows.md",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/tests-standing.md",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/tests-pick-counts.md",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/obs-rows.md",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/obs-standing.md",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/obs-pick-counts.md",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/a11y-rows.md",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/a11y-standing.md",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/a11y-pick-counts.md",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T20:13:25Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--marker",
+"2026-11-22-epoch-4-cleanup",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 2 · not_master 0 · stands 0",
+"## 2026-11-22-epoch-4-cleanup — Occupied Resources: 1 row(s)\n**Section:** Occupied Resources\n**Change:** ~ decision/verify-removes-only-own-dirs · except: was «SIGKILL, a crash or a failed handler install leave the folders to be removed by hand.»; now «SIGKILL, a crash or a failed handler install leave the folders to be removed by hand; a SIGKILL also leaves verify's own one-key trust record.»\n**Why:** decision/verify-removes-only-own-dirs: The report names the measured SIGKILL residual as verify's own one-key trust record left in the Claude config, which the row's exception, naming only the folders, leaves out.\n**Ref:** .andromeda/runs/2026-11-22T19-49-19Z-wrap/",
+"## 2026-11-22-epoch-4-cleanup — Established Decisions: 1 row(s)\n**Section:** Established Decisions\n**Change:** ~ decision/verify-own-trust-record · except: was «»; now «A SIGKILLed verify leaves its own one-key trust record, to be removed by hand.»\n**Why:** decision/verify-own-trust-record: The report names a SIGKILLed verify leaving its own one-key trust record, so the row's unqualified promise to remove that record after needs its named exception.\n**Ref:** .andromeda/runs/2026-11-22T19-49-19Z-wrap/",
+"patterns: none: 2 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 2 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T20:13:25Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/ops-main-architecture.md",
+"--results",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--marker",
+"2026-11-22-epoch-4-cleanup",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 2 · not_master 0 · stands 0",
+"## 2026-11-22-epoch-4-cleanup — Conventions: 1 row(s)\n**Section:** Conventions\n**Change:** ~ contract/hook-to-kind-map/permissionrequest · promise: was «PermissionRequest maps to `permission`, or to `question` for an AskUserQuestion call with no matching armed dialog, except one that repeats the armed `question` / `plan` dialog's tool with an equal `tool_input`: that is the dialog's continuation and raises no event.»; now «PermissionRequest maps to `permission`, to `question` for an AskUserQuestion call with no matching armed dialog, or to `plan` for such an ExitPlanMode call (unmeasured live), except one repeating the armed `question` / `plan` dialog's tool with an equal `tool_input`: a continuation, no event.»\n**Why:** contract/hook-to-kind-map/permissionrequest: The built map also raises an ExitPlanMode PermissionRequest with no matching armed dialog as its own plan dialog, and the operator's word names that arm beside the question arm, marked unmeasured live, with no behaviour change.\n**Ref:** .andromeda/runs/2026-11-22T19-49-19Z-wrap/",
+"## 2026-11-22-epoch-4-cleanup — Established Decisions: 1 row(s)\n**Section:** Established Decisions\n**Change:** ~ contract/human-hint-lines/paste-cut · promise: was «Reads \"<name> did not take the whole text in time; a human must look at the session before the next send\"; the wording is provisional.»; now «Reads \"<name> did not take the whole text in time; a human must look at the session before the next send\".»\n**Why:** contract/human-hint-lines/paste-cut: The operator's word lifts the provisional clause from the paste-cut hint promises; the built words stand unchanged.\n**Ref:** .andromeda/runs/2026-11-22T19-49-19Z-wrap/",
+"patterns: none: 2 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 2 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T20:13:25Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--marker",
+"2026-11-22-epoch-4-cleanup",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/claimed-start-failed-snapshot-unconfirmed · rejected",
+"fit: fits 2 · not_master 0 · stands 0",
+"## 2026-11-22-epoch-4-cleanup — 3. Test Harness Contract: 1 row(s)\n**Section:** 3. Test Harness Contract\n**Change:** ~ decision/verify-window-80s-kill · rule: was «Tests named verify_window_ take an 80 s per-test kill, in both the ci and mutants profiles, through an override that stands first.»; now «Tests named verify_window_, and the fake agent dialog and framing replay tests over every recorded set, take an 80 s per-test kill, in both the ci and mutants profiles, through an override that stands first.»\n**Why:** decision/verify-window-80s-kill: The verify_window_ override of both the ci and mutants profiles now also matches the two fake_agent dialog and framing replay tests, so the class the 80 s kill covers is no longer the verify_window_ names alone.\n**Ref:** .andromeda/runs/2026-11-22T19-49-19Z-wrap/",
+"## 2026-11-22-epoch-4-cleanup — 3. Test Harness Contract: 1 row(s)\n**Section:** 3. Test Harness Contract\n**Change:** + decision/harness-abort-wait-below-ci-kill — Harness abort wait below the ci kill\n**Why:** decision/harness-abort-wait-below-ci-kill: The abort wait after a failed readiness moved from 20 s to 15 s so a stuck boot ends below the harness lifecycle binary's ci kill, a bound no harness row states.\n**Ref:** .andromeda/runs/2026-11-22T19-49-19Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 2 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T20:13:26Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/ops-main-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--marker",
+"2026-11-22-epoch-4-cleanup",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-22-epoch-4-cleanup — 10. Quality Gates & Coverage Targets: 1 row(s)\n**Section:** 10. Quality Gates & Coverage Targets\n**Change:** + decision/equivalent-survivors-known-limit — Two equivalent survivors are a known limit\n**Why:** decision/equivalent-survivors-known-limit: The chunk named two survivors equivalent and left them as code, which the plan places beside the peer admission known limit for the next boundary's audit to read.\n**Ref:** .andromeda/runs/2026-11-22T19-49-19Z-wrap/",
+"patterns: none — the call sets and retires no row",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T20:13:26Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/ops-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--marker",
+"2026-11-22-epoch-4-cleanup",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-22-epoch-4-cleanup — 4. Span / Trace Coverage: 1 row(s)\n**Section:** 4. Span / Trace Coverage\n**Change:** + contract/confirm-window-close/failed-snapshot-write — run.confirm_window close · claimed session-start whose snapshot write fails\n**Why:** contract/confirm-window-close/failed-snapshot-write: The chunk made a claimed session-start whose snapshot write fails settle the slot unclaimed, so such a send now ends by the window's deadline as no-prompt-submitted, a close the /clear and /compact rows do not state and the /compact row has no room left to hold.\n**Ref:** .andromeda/runs/2026-11-22T19-49-19Z-wrap/",
+"patterns: none — the call sets and retires no row",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T20:13:33Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--marker",
+"2026-11-22-epoch-4-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 2 · not_master 0 · stands 0",
+"landed tx 4053 · 2 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T18-01-20-2026-11-22-epoch-4-cleanup.ndjson",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T20:13:33Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/ops-main-architecture.md",
+"--results",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--marker",
+"2026-11-22-epoch-4-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 2 · not_master 0 · stands 0",
+"landed tx 4054 · 2 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T18-01-20-2026-11-22-epoch-4-cleanup.ndjson",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T20:13:34Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--marker",
+"2026-11-22-epoch-4-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/claimed-start-failed-snapshot-unconfirmed · rejected",
+"fit: fits 2 · not_master 0 · stands 0",
+"landed tx 4055 · 2 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T18-01-20-2026-11-22-epoch-4-cleanup.ndjson",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T20:13:34Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/ops-main-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--marker",
+"2026-11-22-epoch-4-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 4056 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T18-01-20-2026-11-22-epoch-4-cleanup.ndjson",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T20:13:34Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/ops-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--marker",
+"2026-11-22-epoch-4-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 4057 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T18-01-20-2026-11-22-epoch-4-cleanup.ndjson",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T20:13:34Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/ops-main-design-system.md",
+"--results",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--marker",
+"2026-11-22-epoch-4-cleanup",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-22-epoch-4-cleanup — Surface: cli: 1 row(s)\n**Section:** Surface: cli\n**Change:** ~ contract/refusal-hints/not-delivered-paste-cut · promise: was «`<name> did not take the whole text in time; a human must look at the session before the next send`, printed in human mode only; the wording is provisional.»; now «`<name> did not take the whole text in time; a human must look at the session before the next send`, printed in human mode only.»\n**Why:** contract/refusal-hints/not-delivered-paste-cut: The operator's word lifts the provisional clause from the paste-cut hint promises; the built words stand unchanged.\n**Ref:** .andromeda/runs/2026-11-22T19-49-19Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T20:13:35Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"layout-templates",
+"--file",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/ops-main-layout-templates.md",
+"--results",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--marker",
+"2026-11-22-epoch-4-cleanup",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-22-epoch-4-cleanup — Surface: cli: 1 row(s)\n**Section:** Surface: cli\n**Change:** ~ contract/viola-send-output/paste-cut-hint · promise: was «An unable not-delivered paste-cut outcome, on its own struck mirror line, ends stderr with `hint: <name> did not take the whole text in time; a human must look at the session before the next send`, a provisional wording; the answer hints are unchanged.»; now «An unable not-delivered paste-cut outcome, on its own struck mirror line, ends stderr with `hint: <name> did not take the whole text in time; a human must look at the session before the next send`; the answer hints are unchanged.»\n**Why:** contract/viola-send-output/paste-cut-hint: The operator's word lifts the provisional clause from the paste-cut hint promises; the built words stand unchanged.\n**Ref:** .andromeda/runs/2026-11-22T19-49-19Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T20:13:35Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"a11y-plan",
+"--file",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/ops-main-a11y-plan.md",
+"--results",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--marker",
+"2026-11-22-epoch-4-cleanup",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-22-epoch-4-cleanup — 8. Cognitive Accessibility: 1 row(s)\n**Section:** 8. Cognitive Accessibility\n**Change:** + decision/start-verify-stop-grace-off-the-human — Start's verify stop grace never falls on the human\n**Why:** decision/start-verify-stop-grace-off-the-human: The two time-bound lists are full at their bound, and the operator's ruling for full lists lands a new time bound as a row of its own beside them, the start's verify stop grace so, over a stands verdict.\n**Ref:** .andromeda/runs/2026-11-22T19-49-19Z-wrap/",
+"patterns: none — the call sets and retires no row",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T20:13:39Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/ops-main-design-system.md",
+"--results",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--marker",
+"2026-11-22-epoch-4-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 4058 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T18-01-20-2026-11-22-epoch-4-cleanup.ndjson",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T20:13:39Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"layout-templates",
+"--file",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/ops-main-layout-templates.md",
+"--results",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--marker",
+"2026-11-22-epoch-4-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 4059 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T18-01-20-2026-11-22-epoch-4-cleanup.ndjson",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T20:13:39Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"a11y-plan",
+"--file",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/ops-main-a11y-plan.md",
+"--results",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--marker",
+"2026-11-22-epoch-4-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 4060 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T18-01-20-2026-11-22-epoch-4-cleanup.ndjson",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T20:17:13Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/a11y-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-22T19-49-19Z-wrap/staged-leaf-.claude__docs__a11y-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--marker",
+"2026-11-22-epoch-4-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/a11y-summary.md rev 22 · 0 new · 1 revised · 0 retired · tx 4061"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T18-01-20-2026-11-22-epoch-4-cleanup.ndjson",
+"./.claude/docs/a11y-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T20:17:13Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/security-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-22T19-49-19Z-wrap/staged-leaf-.claude__docs__security-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--marker",
+"2026-11-22-epoch-4-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/security-summary.md rev 40 · 0 new · 1 revised · 0 retired · tx 4062"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T18-01-20-2026-11-22-epoch-4-cleanup.ndjson",
+"./.claude/docs/security-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T20:17:14Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/security.md",
+"--file",
+"./.andromeda/runs/2026-11-22T19-49-19Z-wrap/staged-leaf-.claude__rules__security.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--marker",
+"2026-11-22-epoch-4-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/security.md rev 43 · 0 new · 1 revised · 0 retired · tx 4063"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T18-01-20-2026-11-22-epoch-4-cleanup.ndjson",
+"./.claude/rules/security.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T20:17:15Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola.md",
+"--file",
+"./.andromeda/runs/2026-11-22T19-49-19Z-wrap/staged-leaf-.claude__docs__services__viola.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--marker",
+"2026-11-22-epoch-4-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola.md rev 27 · 0 new · 1 revised · 0 retired · tx 4064"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T18-01-20-2026-11-22-epoch-4-cleanup.ndjson",
+"./.claude/docs/services/viola.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T20:17:15Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/events.md",
+"--file",
+"./.andromeda/runs/2026-11-22T19-49-19Z-wrap/staged-leaf-.claude__rules__events.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--marker",
+"2026-11-22-epoch-4-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/events.md rev 20 · 0 new · 1 revised · 0 retired · tx 4065"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T18-01-20-2026-11-22-epoch-4-cleanup.ndjson",
+"./.claude/rules/events.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T20:17:16Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/commands.md",
+"--file",
+"./.andromeda/runs/2026-11-22T19-49-19Z-wrap/staged-leaf-.claude__docs__commands.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--marker",
+"2026-11-22-epoch-4-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/commands.md rev 28 · 0 new · 1 revised · 0 retired · tx 4066"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T18-01-20-2026-11-22-epoch-4-cleanup.ndjson",
+"./.claude/docs/commands.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T20:17:16Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/tests-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-22T19-49-19Z-wrap/staged-leaf-.claude__docs__tests-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--marker",
+"2026-11-22-epoch-4-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/tests-summary.md rev 40 · 0 new · 1 revised · 0 retired · tx 4067"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T18-01-20-2026-11-22-epoch-4-cleanup.ndjson",
+"./.claude/docs/tests-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T20:17:17Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/testing.md",
+"--file",
+"./.andromeda/runs/2026-11-22T19-49-19Z-wrap/staged-leaf-.claude__rules__testing.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--marker",
+"2026-11-22-epoch-4-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/testing.md rev 55 · 0 new · 1 revised · 0 retired · tx 4068"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T18-01-20-2026-11-22-epoch-4-cleanup.ndjson",
+"./.claude/rules/testing.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T20:23:42Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/route-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--marker",
+"2026-11-22-epoch-4-cleanup",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 4 record(s) · 4 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T20:23:46Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/route-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--marker",
+"2026-11-22-epoch-4-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 4 record(s) · 4 edge(s) · tx 4075 · cry-knh33qy4 … cry-boujwuyr"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T18-01-20-2026-11-22-epoch-4-cleanup.ndjson",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T20:23:53Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/route-batch-2.txt",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--marker",
+"2026-11-22-epoch-4-cleanup",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 1 record(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T20:23:53Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/route-batch-2.txt",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--marker",
+"2026-11-22-epoch-4-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 0 edge(s) · tx 4076 · cry-knh33qy4 … cry-knh33qy4"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T18-01-20-2026-11-22-epoch-4-cleanup.ndjson",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T20:24:05Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/bases-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--marker",
+"2026-11-22-epoch-4-cleanup",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 1 record(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T20:24:08Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/bases-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--marker",
+"2026-11-22-epoch-4-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 0 edge(s) · tx 4077 · det-7rvkqgyn … det-7rvkqgyn"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T18-01-20-2026-11-22-epoch-4-cleanup.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T20:24:36Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap/run-node.txt",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap",
+"--marker",
+"2026-11-22-epoch-4-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 0 edge(s) · tx 4079 · run-hmu4phae … run-hmu4phae"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T18-01-20-2026-11-22-epoch-4-cleanup.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.53",
+"sha8": "6138bd27",
+"ts": "2026-11-22T20:28:31Z",
+"argv": [
+"land",
+"--root",
+".",
+"--chunk",
+"2026-11-22-epoch-4-cleanup",
+"--run-dir",
+".andromeda/runs/2026-11-22T19-49-19Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"unchanged · 10 file(s) of 2026-11-22-epoch-4-cleanup"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

@@ -1,0 +1,7 @@
+--- a/.andromeda/design-system.md
++++ b/.andromeda/design-system.md
+@@ -265,3 +265,3 @@
+ contract/refusal-hints/not-delivered-no-prompt-submitted · refusal hints · not-delivered · no-prompt-submitted — `<name> did not submit the prompt; check it, then send again`
+-contract/refusal-hints/not-delivered-paste-cut · refusal hints · not-delivered · paste-cut — `<name> did not take the whole text in time; a human must look at the session before the next send`, printed in human mode only; the wording is provisional.
++contract/refusal-hints/not-delivered-paste-cut · refusal hints · not-delivered · paste-cut — `<name> did not take the whole text in time; a human must look at the session before the next send`, printed in human mode only.
+ contract/refusal-hints/not-delivered-turn-running · refusal hints · not-delivered · turn-running — `a turn is running; viola wait <name> first`

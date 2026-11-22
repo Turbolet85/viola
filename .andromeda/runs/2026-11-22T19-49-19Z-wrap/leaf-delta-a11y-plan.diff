@@ -1,0 +1,6 @@
+--- a/.andromeda/a11y-plan.md
++++ b/.andromeda/a11y-plan.md
+@@ -177,2 +177,3 @@
+ decision/socket-dir-refusal-before-any-frame · Socket-directory refusal before any frame — A refused socket directory stops the verb before any frame, snapshot, child or bind and leaves the directory as found: exit 21 for the frame verbs, exit 1 for the run and revive start.
++decision/start-verify-stop-grace-off-the-human · Start's verify stop grace never falls on the human — The start's verify stop grace, the wait before a stopped start's verify child is killed, falls on viola's own child, never blocking, refusing or delaying a human key and never moving the wheel.
+ decision/strict-modes-refusal-before-any-write · Strict-modes refusal before any write — A home or instance failing the strict-modes check is refused first, before any log opens, frame is sent or child starts, with no line written: exit 21 for frame verbs and link/unlink, exit 1 for run, revive's start and verify.
